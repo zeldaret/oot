@@ -366,7 +366,7 @@ venv:
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(BASEROM_SEGMENTS_DIR) --dma-start `cat $(BASEROM_DIR)/dma_start.txt` --dma-names $(BASEROM_DIR)/dma_names.txt
+	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(BASEROM_SEGMENTS_DIR) --dmadata-start `cat $(BASEROM_DIR)/dmadata_start.txt` --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
 # TODO: for now, we only extract assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
 	$(PYTHON) extract_assets.py -j$(N_THREADS)
@@ -390,7 +390,7 @@ $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
-	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dma-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt

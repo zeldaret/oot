@@ -27,7 +27,7 @@ def main():
         help="Output directory for segments",
     )
     parser.add_argument(
-        "--dma-start",
+        "--dmadata-start",
         type=lambda s: int(s, 16),
         required=True,
         help=(
@@ -35,7 +35,7 @@ def main():
         ),
     )
     parser.add_argument(
-        "--dma-names",
+        "--dmadata-names",
         type=Path,
         required=True,
         help="Path to file containing segment names",
@@ -45,8 +45,8 @@ def main():
 
     rom_data = memoryview(args.rom.read_bytes())
 
-    dma_names = args.dma_names.read_text().splitlines()
-    dma_entries = dmadata.read_dmadata(rom_data, args.dma_start)
+    dma_names = args.dmadata_names.read_text().splitlines()
+    dma_entries = dmadata.read_dmadata(rom_data, args.dmadata_start)
     if len(dma_names) != len(dma_entries):
         print(
             f"Error: expected {len(dma_names)} DMA entries but found {len(dma_entries)} in ROM",
