@@ -58,6 +58,9 @@ class DmaEntry:
     def is_compressed(self) -> bool:
         return self.rom_end != 0
 
+    def is_unset(self) -> bool:
+        return self.rom_start == 0xFFFFFFFF and self.rom_end == 0xFFFFFFFF
+
 
 DMA_ENTRY_END = DmaEntry(0, 0, 0, 0)
 

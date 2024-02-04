@@ -8,7 +8,6 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import dataclasses
-import struct
 import time
 import multiprocessing
 import multiprocessing.pool
@@ -28,6 +27,7 @@ class RomSegment:
     vrom_start: int
     vrom_end: int
     is_compressed: bool
+    is_unset: bool
     data: memoryview | None
     data_async: multiprocessing.pool.AsyncResult | None
 
@@ -59,7 +59,6 @@ def compress_rom(
 
     # Segments of the compressed rom (not all are compressed)
     compressed_rom_segments: list[RomSegment] = []
-
     dma_entries = dmadata.read_dmadata(rom_data, dmadata_offset)
     # We sort the DMA entries by ROM start because `compress_entries_indices`
     # refers to indices in ROM order, but the uncompressed dmadata might not be
@@ -92,6 +91,7 @@ def compress_rom(
                     dma_entry.vrom_start,
                     dma_entry.vrom_end,
                     is_compressed,
+                    dma_entry.is_unset(),
                     segment_data,
                     segment_data_async,
                 )
@@ -171,8 +171,12 @@ def compress_rom(
             dmadata.DmaEntry(
                 segment.vrom_start,
                 segment.vrom_end,
-                segment_rom_start,
-                segment_rom_end if segment.is_compressed else 0,
+                segment_rom_start if not segment.is_unset else 0xFFFFFFFF,
+                (
+                    segment_rom_end
+                    if segment.is_compressed
+                    else 0 if not segment.is_unset else 0xFFFFFFFF
+                ),
             )
         )
 

@@ -5,11 +5,12 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import io
-import struct
 from pathlib import Path
-import argparse
+import struct
+import sys
 
 import crunch64
 import ipl3checksum
@@ -37,11 +38,6 @@ def decompress(data: bytes, is_zlib_compressed: bool) -> bytes:
 FILE_TABLE_OFFSET = {
     "gc-eu-mq": 0x07170,
     "gc-eu-mq-dbg": 0x12F70,
-}
-
-VERSIONS_MD5S = {
-    "gc-eu-mq": "1a438f4235f8038856971c14a798122a",
-    "gc-eu-mq-dbg": "f0b7f35375f9cc8ca1b2d59d78e35405",
 }
 
 
@@ -78,7 +74,7 @@ def decompress_rom(
         v_end = dma_entry.vrom_end
         p_start = dma_entry.rom_start
         p_end = dma_entry.rom_end
-        if p_start == 0xFFFFFFFF and p_end == 0xFFFFFFFF:
+        if dma_entry.is_unset():
             new_dmadata.append(dma_entry)
             continue
         if dma_entry.is_compressed():
@@ -171,23 +167,30 @@ def find_baserom(version: str) -> Path | None:
 
 
 def main():
-    description = "Convert a rom that uses dmadata to an uncompressed one."
-
-    parser = argparse.ArgumentParser(description=description)
+    parser = argparse.ArgumentParser(
+        description="Convert a rom that uses dmadata to an uncompressed one."
+    )
     parser.add_argument(
         "version",
         help="Version of the game to decompress.",
-        choices=list(VERSIONS_MD5S.keys()),
+        choices=list(FILE_TABLE_OFFSET.keys()),
     )
 
     args = parser.parse_args()
 
     version = args.version
 
-    uncompressed_path = Path(f"baseroms/{version}/baserom-decompressed.z64")
+    baserom_dir = Path(f"baseroms/{version}")
+    if not baserom_dir.exists():
+        print(f"Error: Unknown version '{version}'.", file=sys.stderr)
+        exit(1)
+
+    uncompressed_path = baserom_dir / "baserom-decompressed.z64"
+
+    with open(baserom_dir / "checksum.md5", "r") as f:
+        correct_str_hash = f.read().split()[0]
 
     dmadata_offset = FILE_TABLE_OFFSET[version]
-    correct_str_hash = VERSIONS_MD5S[version]
 
     if check_existing_rom(uncompressed_path, correct_str_hash):
         print("Found valid baserom - exiting early")
@@ -200,7 +203,7 @@ def main():
             f"baseroms/{version}/baserom.{rom_file_ext}"
             for rom_file_ext in ROM_FILE_EXTENSIONS
         ]
-        print(f"Error: Could not find {','.join(path_list)}.")
+        print(f"Error: Could not find {','.join(path_list)}.", file=sys.stderr)
         exit(1)
 
     # Read in the original ROM
@@ -240,19 +243,21 @@ def main():
     str_hash = get_str_hash(file_content)
     if str_hash != correct_str_hash:
         print(
-            f"Error: Expected a hash of {correct_str_hash} but got {str_hash}. The baserom has probably been tampered, find a new one"
+            f"Error: Expected a hash of {correct_str_hash} but got {str_hash}. The baserom has probably been tampered, find a new one",
+            file=sys.stderr,
         )
 
         if version == "gc-eu-mq-dbg":
             if str_hash == "32fe2770c0f9b1a9cd2a4d449348c1cb":
                 print(
-                    "The provided baserom is a rom which has been edited with ZeldaEdit and is not suitable for use with decomp. Find a new one."
+                    "The provided baserom is a rom which has been edited with ZeldaEdit and is not suitable for use with decomp. Find a new one.",
+                    file=sys.stderr,
                 )
 
         exit(1)
 
     # Write out our new ROM
-    print(f"Writing new ROM {uncompressed_path}.")
+    print(f"Writing new ROM {uncompressed_path}...")
     uncompressed_path.write_bytes(file_content)
 
     print("Done!")

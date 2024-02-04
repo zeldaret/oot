@@ -1570,9 +1570,14 @@ def ExtractFunc(i):
     physStart = read_uint32_be(entryOffset + 8)
     physEnd   = read_uint32_be(entryOffset + 12)
 
-    if physEnd == 0:  # uncompressed
+    if physStart == 0xFFFFFFFF and physEnd == 0xFFFFFFFF:  # unset
+        if (virtEnd - virtStart) == 0:
+            return
+        physStart = virtStart
         size = virtEnd - virtStart
-    else:             # compressed
+    elif physEnd == 0:  # uncompressed
+        size = virtEnd - virtStart
+    else:  # compressed
         size = physEnd - physStart
 
     print(f'extracting {filename} (0x{virtStart:08X}, 0x{virtEnd:08X})')
