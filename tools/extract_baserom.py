@@ -59,7 +59,13 @@ def main():
         if dma_entry.is_compressed():
             print(f"Error: segment {dma_name} is compressed", file=sys.stderr)
             exit(1)
-        segment_data = rom_data[dma_entry.vrom_start : dma_entry.vrom_end]
+
+        segment_rom_start = dma_entry.rom_start
+        segment_rom_end = dma_entry.rom_start + (
+            dma_entry.vrom_end - dma_entry.vrom_start
+        )
+
+        segment_data = rom_data[segment_rom_start:segment_rom_end]
         segment_path = args.output_dir / dma_name
         segment_path.write_bytes(segment_data)
 
