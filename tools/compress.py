@@ -208,6 +208,7 @@ def main():
     )
     parser.add_argument(
         "--dmadata-start",
+        dest="dmadata_start",
         type=lambda s: int(s, 16),
         required=True,
         help=(
