@@ -187,8 +187,7 @@ def main():
 
     uncompressed_path = baserom_dir / "baserom-decompressed.z64"
 
-    with open(baserom_dir / "checksum.md5", "r") as f:
-        correct_str_hash = f.read().split()[0]
+    correct_str_hash = (baserom_dir / "checksum.md5").read_text().split()[0]
 
     dmadata_offset = FILE_TABLE_OFFSET[version]
 

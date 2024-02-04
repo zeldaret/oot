@@ -85,6 +85,8 @@ static bool parse_flags(char *str, unsigned int *flags)
             f |= FLAG_RAW;
         else if (strcmp(str, "NOLOAD") == 0)
             f |= FLAG_NOLOAD;
+        else if (strcmp(str, "UNSET") == 0)
+            f |= FLAG_NOLOAD;
         else
             return false;
 
