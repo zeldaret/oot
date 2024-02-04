@@ -78,9 +78,11 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 f32 func_809A9818(f32 arg0, f32 arg1) {
     f32 temp_f2;
 
+#if OOT_DEBUG
     if (arg1 < 0.0f) {
         PRINTF("範囲がマイナス！！(randomD_sectionUniformity)\n");
     }
+#endif
 
     temp_f2 = Rand_ZeroOne() * arg1;
     return ((temp_f2 * 2.0f) - arg1) + arg0;

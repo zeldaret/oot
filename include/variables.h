@@ -85,7 +85,7 @@ extern u32 gGsFlagsMasks[4];
 extern u32 gGsFlagsShifts[4];
 extern void* gItemIcons[0x82];
 extern u8 gItemSlots[56];
-extern void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*);
+extern SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX];
 extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
 extern RomFile gObjectTable[OBJECT_ID_MAX];
@@ -103,7 +103,9 @@ extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern Mtx gMtxClear;
 extern MtxF gMtxFClear;
+#if OOT_DEBUG
 extern u32 gIsCtrlr2Valid;
+#endif
 extern s16* gWaveSamples[9];
 extern f32 gBendPitchOneOctaveFrequencies[256];
 extern f32 gBendPitchTwoSemitonesFrequencies[256];

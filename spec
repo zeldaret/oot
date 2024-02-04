@@ -596,6 +596,7 @@ endseg
 
 beginseg
     name "buffers"
+    flags NOLOAD
     align 0x40
     include "$(BUILD_DIR)/src/buffers/zbuffer.o"
     include "$(BUILD_DIR)/src/buffers/gfxbuffers.o"
@@ -9685,6 +9686,7 @@ beginseg
     number 3
 endseg
 
+#if OOT_DEBUG
 beginseg
     name "syotes_scene"
     romalign 0x1000
@@ -9726,6 +9728,7 @@ beginseg
     include "$(BUILD_DIR)/assets/scenes/test_levels/depth_test/depth_test_room_0.o"
     number 3
 endseg
+#endif
 
 beginseg
     name "spot00_scene"
@@ -10207,6 +10210,7 @@ beginseg
     number 3
 endseg
 
+#if OOT_DEBUG
 beginseg
     name "testroom_scene"
     romalign 0x1000
@@ -10248,6 +10252,7 @@ beginseg
     include "$(BUILD_DIR)/assets/scenes/test_levels/testroom/testroom_room_4.o"
     number 3
 endseg
+#endif
 
 beginseg
     name "kenjyanoma_scene"
@@ -10289,6 +10294,7 @@ beginseg
     number 3
 endseg
 
+#if OOT_DEBUG
 beginseg
     name "sutaru_scene"
     romalign 0x1000
@@ -10302,6 +10308,7 @@ beginseg
     include "$(BUILD_DIR)/assets/scenes/test_levels/sutaru/sutaru_room_0.o"
     number 3
 endseg
+#endif
 
 beginseg
     name "link_home_scene"
@@ -10575,6 +10582,7 @@ beginseg
     number 3
 endseg
 
+#if OOT_DEBUG
 beginseg
     name "sasatest_scene"
     romalign 0x1000
@@ -10588,6 +10596,7 @@ beginseg
     include "$(BUILD_DIR)/assets/scenes/test_levels/sasatest/sasatest_room_0.o"
     number 3
 endseg
+#endif
 
 beginseg
     name "market_alley_scene"
@@ -11325,6 +11334,7 @@ beginseg
     number 3
 endseg
 
+#if OOT_DEBUG
 beginseg
     name "hairal_niwa2_scene"
     romalign 0x1000
@@ -11338,6 +11348,7 @@ beginseg
     include "$(BUILD_DIR)/assets/scenes/indoors/hairal_niwa2/hairal_niwa2_room_0.o"
     number 3
 endseg
+#endif
 
 beginseg
     name "hakasitarelay_scene"
@@ -11811,6 +11822,7 @@ beginseg
     number 3
 endseg
 
+#if OOT_DEBUG
 beginseg
     name "besitu_scene"
     romalign 0x1000
@@ -11824,6 +11836,7 @@ beginseg
     include "$(BUILD_DIR)/assets/scenes/test_levels/besitu/besitu_room_0.o"
     number 3
 endseg
+#endif
 
 beginseg
     name "face_shop_scene"
@@ -11881,6 +11894,7 @@ beginseg
     number 3
 endseg
 
+#if OOT_DEBUG
 beginseg
     name "test01_scene"
     romalign 0x1000
@@ -11894,6 +11908,7 @@ beginseg
     include "$(BUILD_DIR)/assets/scenes/test_levels/test01/test01_room_0.o"
     number 3
 endseg
+#endif
 
 beginseg
     name "bump_texture_static"

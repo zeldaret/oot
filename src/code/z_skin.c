@@ -7,13 +7,14 @@ static s32 sUnused;
 void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos) {
     Vtx* vtx;
     SkinVertex* vertexEntry;
-    f32 xwTemp;
-    f32 ywTemp;
-    f32 zwTemp;
-    Vec3f normal;
-    Vec3f sp64;
 
     for (vertexEntry = skinVertices; vertexEntry < &skinVertices[modifEntry->vtxCount]; vertexEntry++) {
+        f32 xwTemp;
+        f32 ywTemp;
+        f32 zwTemp;
+        Vec3f normal;
+        Vec3f sp64;
+
         vtx = &vtxBuf[vertexEntry->index];
 
         vtx->n.ob[0] = pos->x;
@@ -94,12 +95,13 @@ void Skin_ApplyLimbModifications(GraphicsContext* gfxCtx, Skin* skin, s32 limbIn
             SkinMatrix_Vec3fMtxFMultXYZ(&gSkinLimbMatrices[transformationEntry->limbIndex], &spA0, &vtxPoint);
         } else {
             Vec3f phi_f20;
-            Vec3f sp88;
 
             phi_f20.x = phi_f20.y = phi_f20.z = 0.0f;
 
             for (transformationEntry = &limbTransformations[0];
                  transformationEntry < &limbTransformations[transformCount]; transformationEntry++) {
+                Vec3f sp88;
+
                 scale = transformationEntry->scale * 0.01f;
 
                 sp88.x = transformationEntry->x;
@@ -191,7 +193,7 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
     s32 segmentType;
     SkinLimb** skeleton;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    s32 pad;
+    Mtx* mtx;
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 471);
 
@@ -202,8 +204,6 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
 
     if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_MATRIX)) {
-        Mtx* mtx;
-
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &skin->mtx);
 

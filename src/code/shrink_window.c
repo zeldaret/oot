@@ -86,7 +86,7 @@ void Letterbox_Update(s32 updateRate) {
         sLetterboxState = LETTERBOX_STATE_IDLE;
     }
 
-    if (R_HREG_MODE == HREG_MODE_LETTERBOX) {
+    if (OOT_DEBUG && (R_HREG_MODE == HREG_MODE_LETTERBOX)) {
         if (R_LETTERBOX_INIT != HREG_MODE_LETTERBOX) {
             R_LETTERBOX_INIT = HREG_MODE_LETTERBOX;
             R_LETTERBOX_ENABLE_LOGS = 0;

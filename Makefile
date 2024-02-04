@@ -21,6 +21,8 @@ COMPILER := ido
 VERSION := gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS := $(shell nproc)
+# Check code syntax with host compiler
+RUN_CC_CHECK := 1
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -173,7 +175,7 @@ ifeq ($(COMPILER),ido)
     CC_CHECK += -m32
   endif
 else
-  CC_CHECK  = @:
+  RUN_CC_CHECK := 0
 endif
 
 OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
@@ -185,9 +187,11 @@ DISASM_FLAGS += --config-dir $(DISASM_DATA_DIR) --symbol-addrs $(DISASM_DATA_DIR
 #### Files ####
 
 # ROM image
-ROMC := oot-$(VERSION)-compressed.z64
-ROM := oot-$(VERSION).z64
-ELF := $(ROM:.z64=.elf)
+ROM      := $(BUILD_DIR)/oot-$(VERSION).z64
+ROMC     := $(ROM:.z64=-compressed.z64)
+ELF      := $(ROM:.z64=.elf)
+MAP      := $(ROM:.z64=.map)
+LDSCRIPT := $(ROM:.z64=.ld)
 # description of ROM segments
 SPEC := spec
 
@@ -340,7 +344,7 @@ ifneq ($(COMPARE),0)
 endif
 
 clean:
-	$(RM) -r $(ROMC) $(ROM) $(ELF) $(BUILD_DIR)
+	$(RM) -r $(BUILD_DIR)
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
@@ -386,12 +390,11 @@ $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
-# note: $(BUILD_DIR)/compress_ranges.txt should only be used for nonmatching builds. it works by chance for matching builds too though
-	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dma-range `./tools/dmadata_range.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dma-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(BUILD_DIR)/ldscript.txt $(BUILD_DIR)/undefined_syms.txt
-	$(LD) -T $(BUILD_DIR)/undefined_syms.txt -T $(BUILD_DIR)/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(BUILD_DIR)/z64.map -o $@
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
+	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
 
 ## Order-only prerequisites
 # These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
@@ -408,7 +411,7 @@ $(O_FILES): | asset_files
 $(BUILD_DIR)/$(SPEC): $(SPEC)
 	$(CPP) $(CPPFLAGS) $< | $(SPEC_REPLACE_VARS) > $@
 
-$(BUILD_DIR)/ldscript.txt: $(BUILD_DIR)/$(SPEC)
+$(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
 	$(MKLDSCRIPT) $< $@
 
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
@@ -456,18 +459,24 @@ $(BUILD_DIR)/src/code/z_game_dlftbls.o: include/tables/gamestate_table.h
 $(BUILD_DIR)/src/code/z_scene_table.o: include/tables/scene_table.h include/tables/entrance_table.h
 
 $(BUILD_DIR)/src/%.o: src/%.c
+ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
+ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
+ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)

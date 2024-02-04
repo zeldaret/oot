@@ -127,16 +127,16 @@ Make sure your path to the project is not too long, otherwise this process may e
 make
 ```
 
-If all goes well, a new ROM called "oot-gc-eu-mq-dbg.z64" should be built and the following text should be printed:
+If all goes well, a new ROM should be built at `build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.z64`, and the following text printed:
 
 ```bash
-oot-gc-eu-mq-dbg.z64: OK
+build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.z64: OK
 ```
 
 If you instead see the following:
 
 ```bash
-oot-gc-eu-mq-dbg.z64: FAILED
+build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.z64: FAILED
 md5sum: WARNING: 1 computed checksum did NOT match
 ```
 
