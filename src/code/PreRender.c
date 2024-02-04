@@ -803,11 +803,11 @@ void PreRender_ApplyFilters(PreRender* this) {
             }
         }
 
-    #if OOT_DEBUG
+#if OOT_DEBUG
         if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
             // Apply divot filter
             PreRender_DivotFilter(this);
         }
-    #endif
+#endif
     }
 }
