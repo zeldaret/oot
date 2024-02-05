@@ -13634,6 +13634,19 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
 /**
  * Updates the "Noclip" debug feature, which allows the player to
  * fly around anywhere in the world and clip through any collision.
+ * It can be enabled with two seperate button combos:
+ * A + L + R held down and then B
+ * or
+ * L held down and then D-pad right
+ *
+ * To control Noclip mode:
+ * - Move horizontally with the 4 D-pad directions
+ * - Move up with B
+ * - Move down with A
+ * - Hold R to move faster
+ *
+ * With Noclip enabled, another button combination can be pressed to set all "temp clear" flags
+ * in the current room. To do so Hold L and press D-pad right.
  *
  * @return  true if Noclip is disabled, false if enabled
  */
