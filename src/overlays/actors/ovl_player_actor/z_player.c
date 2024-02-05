@@ -11352,14 +11352,15 @@ void Player_Update(Actor* thisx, PlayState* play) {
 
     Player_UpdateCommon(this, play, &sp44);
 
-skip_update : {
-    s32 pad;
+skip_update:;
+    {
+        s32 pad;
 
-    MREG(52) = this->actor.world.pos.x;
-    MREG(53) = this->actor.world.pos.y;
-    MREG(54) = this->actor.world.pos.z;
-    MREG(55) = this->actor.world.rot.y;
-}
+        MREG(52) = this->actor.world.pos.x;
+        MREG(53) = this->actor.world.pos.y;
+        MREG(54) = this->actor.world.pos.z;
+        MREG(55) = this->actor.world.rot.y;
+    }
 }
 
 typedef struct {
