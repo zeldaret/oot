@@ -146,14 +146,14 @@ void VisMono_Draw(VisMono* this, Gfx** gfxP) {
     if (this->tlut) {
         tlut = this->tlut;
     } else {
-        tlut = Graph_DlistAlloc(&gfx, 256 * G_IM_SIZ_16b_BYTES);
+        tlut = Gfx_Alloc(&gfx, 256 * G_IM_SIZ_16b_BYTES);
         VisMono_DesaturateTLUT(this, tlut);
     }
 
     if (this->dList) {
         dList = this->dList;
     } else {
-        dList = Graph_DlistAlloc(&gfx, VISMONO_DLSIZE * sizeof(Gfx));
+        dList = Gfx_Alloc(&gfx, VISMONO_DLSIZE * sizeof(Gfx));
         dListEnd = VisMono_DesaturateDList(this, dList);
 
         if (!(dListEnd <= dList + VISMONO_DLSIZE)) {

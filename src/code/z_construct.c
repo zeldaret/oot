@@ -17,8 +17,9 @@ void Interface_Init(PlayState* play) {
 
     View_Init(&interfaceCtx->view, play->state.gfxCtx);
 
-    interfaceCtx->unk_1FA = interfaceCtx->unk_261 = interfaceCtx->unk_1FC = 0;
     interfaceCtx->unk_1EC = interfaceCtx->unk_1EE = interfaceCtx->unk_1F0 = 0;
+    interfaceCtx->unk_1FA = interfaceCtx->unk_261 = interfaceCtx->unk_1FC = 0;
+
     interfaceCtx->unk_22E = 0;
     interfaceCtx->lensMagicConsumptionTimer = 16;
     interfaceCtx->unk_1F4 = 0.0f;
