@@ -11301,23 +11301,24 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     Collider_ResetQuadAT(play, &this->shieldQuad.base);
 }
 
-static Vec3f D_80854838 = { 0.0f, 0.0f, -30.0f };
-
 void Player_Update(Actor* thisx, PlayState* play) {
+    static Vec3f sDogSpawnOffset = { 0.0f, 0.0f, -30.0f };
     static Vec3f sDogSpawnPos;
     Player* this = (Player*)thisx;
     s32 dogParams;
     s32 pad;
     Input sp44;
-    Actor* dog;
-
+    
+#if OOT_DEBUG
     if (func_8084FCAC(this, play)) {
+#endif
         if (gSaveContext.dogParams < 0) {
             if (Object_GetSlot(&play->objectCtx, OBJECT_DOG) < 0) {
                 gSaveContext.dogParams = 0;
             } else {
+                Actor* dog;
                 gSaveContext.dogParams &= 0x7FFF;
-                Player_GetRelativePosition(this, &this->actor.world.pos, &D_80854838, &sDogSpawnPos);
+                Player_GetRelativePosition(this, &this->actor.world.pos, &sDogSpawnOffset, &sDogSpawnPos);
                 dogParams = gSaveContext.dogParams;
 
                 dog = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y, sDogSpawnPos.z,
@@ -11347,12 +11348,19 @@ void Player_Update(Actor* thisx, PlayState* play) {
         }
 
         Player_UpdateCommon(this, play, &sp44);
+        
+#if OOT_DEBUG
     }
+#endif
 
-    MREG(52) = this->actor.world.pos.x;
-    MREG(53) = this->actor.world.pos.y;
-    MREG(54) = this->actor.world.pos.z;
-    MREG(55) = this->actor.world.rot.y;
+    {
+        s32 pad;
+
+        MREG(52) = this->actor.world.pos.x;
+        MREG(53) = this->actor.world.pos.y;
+        MREG(54) = this->actor.world.pos.z;
+        MREG(55) = this->actor.world.rot.y;
+    }
 }
 
 typedef struct {
