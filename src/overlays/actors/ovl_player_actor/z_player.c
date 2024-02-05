@@ -11323,6 +11323,7 @@ void Player_Update(Actor* thisx, PlayState* play) {
             gSaveContext.dogParams = 0;
         } else {
             Actor* dog;
+            
             gSaveContext.dogParams &= 0x7FFF;
             Player_GetRelativePosition(this, &this->actor.world.pos, &sDogSpawnOffset, &sDogSpawnPos);
             dogParams = gSaveContext.dogParams;
