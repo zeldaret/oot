@@ -493,7 +493,7 @@ static PlayerAgeProperties sAgeProperties[] = {
     },
 };
 
-static u32 D_808535D0 = false;
+static u32 sNoclipEnabled = false;
 static f32 sControlStickMagnitude = 0.0f;
 static s16 sControlStickAngle = 0;
 static s16 D_808535DC = 0;
@@ -11308,59 +11308,58 @@ void Player_Update(Actor* thisx, PlayState* play) {
     s32 dogParams;
     s32 pad;
     Input sp44;
-    
+
 #if OOT_DEBUG
-    if (func_8084FCAC(this, play)) {
+    if (!func_8084FCAC(this, play)) {
+        goto skip_update;
+    }
 #endif
-        if (gSaveContext.dogParams < 0) {
-            if (Object_GetSlot(&play->objectCtx, OBJECT_DOG) < 0) {
-                gSaveContext.dogParams = 0;
-            } else {
-                Actor* dog;
-                gSaveContext.dogParams &= 0x7FFF;
-                Player_GetRelativePosition(this, &this->actor.world.pos, &sDogSpawnOffset, &sDogSpawnPos);
-                dogParams = gSaveContext.dogParams;
 
-                dog = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y, sDogSpawnPos.z,
-                                  0, this->actor.shape.rot.y, 0, dogParams | 0x8000);
-                if (dog != NULL) {
-                    dog->room = 0;
-                }
-            }
-        }
-
-        if ((this->interactRangeActor != NULL) && (this->interactRangeActor->update == NULL)) {
-            this->interactRangeActor = NULL;
-        }
-
-        if ((this->heldActor != NULL) && (this->heldActor->update == NULL)) {
-            Player_DetachHeldActor(play, this);
-        }
-
-        if (this->stateFlags1 & (PLAYER_STATE1_5 | PLAYER_STATE1_29)) {
-            bzero(&sp44, sizeof(sp44));
+    if (gSaveContext.dogParams < 0) {
+        if (Object_GetSlot(&play->objectCtx, OBJECT_DOG) < 0) {
+            gSaveContext.dogParams = 0;
         } else {
-            sp44 = play->state.input[0];
-            if (this->unk_88E != 0) {
-                sp44.cur.button &= ~(BTN_A | BTN_B | BTN_CUP);
-                sp44.press.button &= ~(BTN_A | BTN_B | BTN_CUP);
+            Actor* dog;
+            gSaveContext.dogParams &= 0x7FFF;
+            Player_GetRelativePosition(this, &this->actor.world.pos, &sDogSpawnOffset, &sDogSpawnPos);
+            dogParams = gSaveContext.dogParams;
+
+            dog = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y, sDogSpawnPos.z, 0,
+                              this->actor.shape.rot.y, 0, dogParams | 0x8000);
+            if (dog != NULL) {
+                dog->room = 0;
             }
         }
-
-        Player_UpdateCommon(this, play, &sp44);
-        
-#if OOT_DEBUG
     }
-#endif
 
-    {
-        s32 pad;
-
-        MREG(52) = this->actor.world.pos.x;
-        MREG(53) = this->actor.world.pos.y;
-        MREG(54) = this->actor.world.pos.z;
-        MREG(55) = this->actor.world.rot.y;
+    if ((this->interactRangeActor != NULL) && (this->interactRangeActor->update == NULL)) {
+        this->interactRangeActor = NULL;
     }
+
+    if ((this->heldActor != NULL) && (this->heldActor->update == NULL)) {
+        Player_DetachHeldActor(play, this);
+    }
+
+    if (this->stateFlags1 & (PLAYER_STATE1_5 | PLAYER_STATE1_29)) {
+        bzero(&sp44, sizeof(sp44));
+    } else {
+        sp44 = play->state.input[0];
+        if (this->unk_88E != 0) {
+            sp44.cur.button &= ~(BTN_A | BTN_B | BTN_CUP);
+            sp44.press.button &= ~(BTN_A | BTN_B | BTN_CUP);
+        }
+    }
+
+    Player_UpdateCommon(this, play, &sp44);
+
+skip_update : {
+    s32 pad;
+
+    MREG(52) = this->actor.world.pos.x;
+    MREG(53) = this->actor.world.pos.y;
+    MREG(54) = this->actor.world.pos.z;
+    MREG(55) = this->actor.world.rot.y;
+}
 }
 
 typedef struct {
@@ -13633,14 +13632,14 @@ s32 func_8084FCAC(Player* this, PlayState* play) {
          CHECK_BTN_ALL(sControlInput->press.button, BTN_B)) ||
         (CHECK_BTN_ALL(sControlInput->cur.button, BTN_L) && CHECK_BTN_ALL(sControlInput->press.button, BTN_DRIGHT))) {
 
-        D_808535D0 ^= 1;
+        sNoclipEnabled ^= 1;
 
-        if (D_808535D0) {
+        if (sNoclipEnabled) {
             Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_AIM);
         }
     }
 
-    if (D_808535D0) {
+    if (sNoclipEnabled) {
         f32 speed;
 
         if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
