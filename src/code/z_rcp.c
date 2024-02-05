@@ -1482,7 +1482,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     if ((R_PAUSE_BG_PRERENDER_STATE <= PAUSE_BG_PRERENDER_SETUP) && (gTransitionTileState <= TRANS_TILE_SETUP)) {
         s32 letterboxSize = Letterbox_GetSize();
 
-        #if OOT_DEBUG
+#if OOT_DEBUG
         if (R_HREG_MODE == HREG_MODE_SETUP_FRAME) {
             if (R_SETUP_FRAME_INIT != HREG_MODE_SETUP_FRAME) {
                 R_SETUP_FRAME_GET = (SETUP_FRAME_LETTERBOX_SIZE_FLAG | SETUP_FRAME_BASE_COLOR_FLAG);
@@ -1525,7 +1525,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
                 b = R_SETUP_FRAME_BASE_COLOR_B;
             }
         }
-        #endif
+#endif
 
         // Set the whole z buffer to maximum depth
         // Don't bother with pixels that are being covered by the letterbox
