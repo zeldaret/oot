@@ -438,7 +438,7 @@ typedef enum {
 #define EVENTCHKINF_4C 0x4C
 #define EVENTCHKINF_4D 0x4D
 #define EVENTCHKINF_4E 0x4E
-#define EVENTCHKINF_4F 0x4F
+#define EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS 0x4F // Cutscene in Temple of Time as adult after pulling the Master Sword for the first time
 #define EVENTCHKINF_50 0x50
 #define EVENTCHKINF_51 0x51
 #define EVENTCHKINF_52 0x52

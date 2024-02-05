@@ -94,9 +94,11 @@ void ObjHsblock_Init(Actor* thisx, PlayState* play) {
             }
     }
 
+#if OOT_DEBUG
     mREG(13) = 255;
     mREG(14) = 255;
     mREG(15) = 255;
+#endif
 }
 
 void ObjHsblock_Destroy(Actor* thisx, PlayState* play) {
@@ -158,9 +160,16 @@ void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
     if (play->sceneId == SCENE_FIRE_TEMPLE) {
         color = &sFireTempleColor;
     } else {
+#if OOT_DEBUG
         defaultColor.r = mREG(13);
         defaultColor.g = mREG(14);
         defaultColor.b = mREG(15);
+#else
+        defaultColor.r = 255;
+        defaultColor.g = 255;
+        defaultColor.b = 255;
+#endif
+
         color = &defaultColor;
     }
 

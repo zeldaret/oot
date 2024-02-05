@@ -3013,19 +3013,19 @@ void Message_Draw(PlayState* play) {
     watchVar = gSaveContext.save.info.scarecrowLongSongSet;
     Message_DrawDebugVariableChanged(&watchVar, play->state.gfxCtx);
     if (BREG(0) != 0 && play->msgCtx.textId != 0) {
-        plusOne = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+        plusOne = Gfx_Open(polyOpaP = POLY_OPA_DISP);
         gSPDisplayList(OVERLAY_DISP++, plusOne);
         Message_DrawDebugText(play, &plusOne);
         gSPEndDisplayList(plusOne++);
-        Graph_BranchDlist(polyOpaP, plusOne);
+        Gfx_Close(polyOpaP, plusOne);
         POLY_OPA_DISP = plusOne;
     }
     if (1) {}
-    plusOne = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+    plusOne = Gfx_Open(polyOpaP = POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, plusOne);
     Message_DrawMain(play, &plusOne);
     gSPEndDisplayList(plusOne++);
-    Graph_BranchDlist(polyOpaP, plusOne);
+    Gfx_Close(polyOpaP, plusOne);
     POLY_OPA_DISP = plusOne;
     CLOSE_DISPS(play->state.gfxCtx, "../z_message_PAL.c", 3582);
 }
