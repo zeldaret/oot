@@ -860,6 +860,8 @@ void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
                            (u8)(255 * this->effects[0].amplitude), 255 - (u8)(255 * this->effects[0].amplitude),
                            this->effects[0].alpha);
 
+            if (1) {}
+
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_object_kankyo.c", 1416), G_MTX_LOAD);
 
