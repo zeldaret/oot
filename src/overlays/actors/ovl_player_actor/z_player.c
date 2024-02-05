@@ -13634,7 +13634,7 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
 
 #if OOT_DEBUG
 /**
- * Updates the "Noclip" debug feature, which allows the player to fly around anywhere 
+ * Updates the "Noclip" debug feature, which allows the player to fly around anywhere
  * in the world and clip through any collision.
  *
  * Noclip can be enabled with two different button combos:
