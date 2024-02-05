@@ -13620,7 +13620,6 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
     func_8002F8F0(&this->actor, NA_SE_VO_LI_TAKEN_AWAY - SFX_FLAG + this->ageProperties->unk_92);
 }
 
-#if OOT_DEBUG
 s32 func_8084FCAC(Player* this, PlayState* play) {
     sControlInput = &play->state.input[0];
 
@@ -13690,7 +13689,6 @@ s32 func_8084FCAC(Player* this, PlayState* play) {
 
     return 1;
 }
-#endif
 
 void func_8084FF7C(Player* this) {
     this->unk_858 += this->unk_85C;
