@@ -364,7 +364,6 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
     EnSkj* this = (EnSkj*)thisx;
     PlayState* play = play2;
     s32 pad;
-    Player* player;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     switch (type) {
@@ -445,13 +444,17 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             this->actor.gravity = -1.0f;
             EnSkj_CalculateCenter(this);
 
-            player = GET_PLAYER(play);
-            PRINTF("Player_X : %f\n", player->actor.world.pos.x);
-            PRINTF("Player_Z : %f\n", player->actor.world.pos.z);
-            PRINTF("World_X  : %f\n", this->actor.world.pos.x);
-            PRINTF("World_Z  : %f\n", this->actor.world.pos.z);
-            PRINTF("Center_X : %f\n", this->center.x);
-            PRINTF("Center_Z : %f\n\n", this->center.z);
+#if OOT_DEBUG
+            {
+                Player* player = GET_PLAYER(play);
+                PRINTF("Player_X : %f\n", player->actor.world.pos.x);
+                PRINTF("Player_Z : %f\n", player->actor.world.pos.z);
+                PRINTF("World_X  : %f\n", this->actor.world.pos.x);
+                PRINTF("World_Z  : %f\n", this->actor.world.pos.z);
+                PRINTF("Center_X : %f\n", this->center.x);
+                PRINTF("Center_Z : %f\n\n", this->center.z);
+            }
+#endif
 
             break;
     }
@@ -1345,11 +1348,13 @@ void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, PlayState* play) {
 
     D_80B01EA0 = Actor_TalkOfferAccepted(&this->actor, play);
 
+#if OOT_DEBUG
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
     }
+#endif
 }
 
 void EnSkj_TurnPlayer(EnSkj* this, Player* player) {
@@ -1502,15 +1507,14 @@ void EnSkj_OfferNextRound(EnSkj* this, PlayState* play) {
 }
 
 void EnSkj_WaitForOfferResponse(EnSkj* this, PlayState* play) {
-    Player* player;
-
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
-            case 0: // yes
-                player = GET_PLAYER(play);
+            case 0: { // yes
+                Player* player = GET_PLAYER(play);
                 player->stateFlags3 |= PLAYER_STATE3_5; // makes player take ocarina out right away after closing box
                 this->actionFunc = EnSkj_SetupWaitForOcarina;
                 break;
+            }
             case 1: // no
                 this->actionFunc = EnSkj_CleanupOcarinaGame;
                 break;
@@ -1587,11 +1591,13 @@ void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, PlayState* play) {
     this->actor.focus.pos.y = -90.0f;
     this->actor.focus.pos.z = 450.0f;
 
+#if OOT_DEBUG
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
     }
+#endif
 
     this->actionFunc(this, play);
 

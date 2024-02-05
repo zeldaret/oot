@@ -126,9 +126,9 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
     this->scale = 0.04f;
 
     if (this->type != LEEVER_TYPE_SMALL) {
+        this->scale *= 1.5f;
         this->collider.dim.radius = 35;
         this->collider.dim.height = 45;
-        this->scale *= 1.5f;
         // "Reeba Boss Appears %f"
         PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
@@ -406,30 +406,33 @@ void EnReeba_Stunned(EnReeba* this, PlayState* play) {
         if (this->actor.speed < 0.0f) {
             this->actor.speed += 1.0f;
         }
-    } else {
-        this->actor.speed = 0.0f;
+        return;
+    }
 
-        if ((this->stunType == LEEVER_STUN_OTHER) || (this->actor.colChkInfo.health != 0)) {
-            if (this->stunType == LEEVER_STUN_ICE) {
-                pos.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
-                pos.y = this->actor.world.pos.y + Rand_CenteredFloat(20.0f);
-                pos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
-                scale = 3.0f;
+    this->actor.speed = 0.0f;
 
-                if (this->type != LEEVER_TYPE_SMALL) {
-                    scale = 6.0f;
-                }
+    if ((this->stunType == LEEVER_STUN_OTHER) || (this->actor.colChkInfo.health != 0)) {
+        if (this->stunType == LEEVER_STUN_ICE) {
+            pos.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
+            pos.y = this->actor.world.pos.y + Rand_CenteredFloat(20.0f);
+            pos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
+            scale = 3.0f;
 
-                EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255, scale);
+            if (this->type != LEEVER_TYPE_SMALL) {
+                scale = 6.0f;
             }
 
-            this->waitTimer = 66;
-            this->actionfunc = EnReeba_StunRecover;
-        } else {
-            this->waitTimer = 30;
-            this->actionfunc = EnReeba_StunDie;
+            EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255, scale);
         }
+
+        this->waitTimer = 66;
+        this->actionfunc = EnReeba_StunRecover;
+        return;
     }
+
+setup_stun_die:
+    this->waitTimer = 30;
+    this->actionfunc = EnReeba_StunDie;
 }
 
 void EnReeba_StunDie(EnReeba* this, PlayState* play) {
@@ -693,7 +696,8 @@ void EnReeba_Draw(Actor* thisx, PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_reeba.c", 1088);
 
-    if (BREG(0)) {
+#if OOT_DEBUG
+    if (BREG(0) != 0) {
         Vec3f debugPos;
 
         debugPos.x = (Math_SinS(this->actor.world.rot.y) * 30.0f) + this->actor.world.pos.x;
@@ -702,4 +706,5 @@ void EnReeba_Draw(Actor* thisx, PlayState* play) {
         DebugDisplay_AddObject(debugPos.x, debugPos.y, debugPos.z, this->actor.world.rot.x, this->actor.world.rot.y,
                                this->actor.world.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
     }
+#endif
 }

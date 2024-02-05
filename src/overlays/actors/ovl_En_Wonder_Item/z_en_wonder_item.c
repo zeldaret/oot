@@ -206,15 +206,18 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
 
 void EnWonderItem_MultitagFree(EnWonderItem* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 prevTagFlags = this->tagFlags;
+    s16 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
+    f32 dx;
+    f32 dy;
+    f32 dz;
 
     for (i = 0, mask = 1; i < this->numTagPoints; i++, mask <<= 1) {
         if (!(prevTagFlags & mask)) {
-            f32 dx = player->actor.world.pos.x - sTagPointsFree[i].x;
-            f32 dy = player->actor.world.pos.y - sTagPointsFree[i].y;
-            f32 dz = player->actor.world.pos.z - sTagPointsFree[i].z;
+            dx = player->actor.world.pos.x - sTagPointsFree[i].x;
+            dy = player->actor.world.pos.y - sTagPointsFree[i].y;
+            dz = player->actor.world.pos.z - sTagPointsFree[i].z;
 
             if (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 50.0f) {
                 this->tagFlags |= mask;
@@ -222,11 +225,14 @@ void EnWonderItem_MultitagFree(EnWonderItem* this, PlayState* play) {
                 this->timer = this->timerMod + 81;
                 return;
             }
+
+#if OOT_DEBUG
             if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsFree[i].x, sTagPointsFree[i].y, sTagPointsFree[i].z,
                                        this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
                                        1.0f, 1.0f, 0, 255, 0, 255, 4, play->state.gfxCtx);
             }
+#endif
         }
     }
     if (this->timer == 1) {
@@ -269,15 +275,18 @@ void EnWonderItem_ProximitySwitch(EnWonderItem* this, PlayState* play) {
 
 void EnWonderItem_MultitagOrdered(EnWonderItem* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 prevTagFlags = this->tagFlags;
+    s16 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
+    f32 dx;
+    f32 dy;
+    f32 dz;
 
     for (i = 0, mask = 1; i < this->numTagPoints; i++, mask <<= 1) {
         if (!(prevTagFlags & mask)) {
-            f32 dx = player->actor.world.pos.x - sTagPointsOrdered[i].x;
-            f32 dy = player->actor.world.pos.y - sTagPointsOrdered[i].y;
-            f32 dz = player->actor.world.pos.z - sTagPointsOrdered[i].z;
+            dx = player->actor.world.pos.x - sTagPointsOrdered[i].x;
+            dy = player->actor.world.pos.y - sTagPointsOrdered[i].y;
+            dz = player->actor.world.pos.z - sTagPointsOrdered[i].z;
 
             if (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 50.0f) {
                 if (prevTagFlags & mask) {
@@ -292,11 +301,15 @@ void EnWonderItem_MultitagOrdered(EnWonderItem* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-            } else if (BREG(0) != 0) {
+            }
+
+#if OOT_DEBUG
+            if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsOrdered[i].x, sTagPointsOrdered[i].y, sTagPointsOrdered[i].z,
                                        this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
                                        1.0f, 1.0f, 0, 0, 255, 255, 4, play->state.gfxCtx);
             }
+#endif
         }
     }
     if (this->timer == 1) {
@@ -358,10 +371,13 @@ void EnWonderItem_Update(Actor* thisx, PlayState* play) {
     if (this->wonderMode > 12) {
         colorIndex = 0;
     }
+
+#if OOT_DEBUG
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, debugArrowColors[colorIndex], debugArrowColors[colorIndex + 1],
                                debugArrowColors[colorIndex + 2], 255, 4, play->state.gfxCtx);
     }
+#endif
 }

@@ -51,6 +51,8 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
     spawnRange = 120.0f + (40.0f * this->actor.world.rot.z);
     this->spawnRange = spawnRange;
 
+    if (1) {}
+
     PRINTF("\n\n");
     // "It's an enemy spawner!"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
@@ -322,6 +324,7 @@ void EnEncount1_Update(Actor* thisx, PlayState* play) {
 
     this->updateFunc(this, play);
 
+#if OOT_DEBUG
     if (BREG(0) != 0) {
         if (this->outOfRangeTimer != 0) {
             if ((this->outOfRangeTimer & 1) == 0) {
@@ -335,4 +338,5 @@ void EnEncount1_Update(Actor* thisx, PlayState* play) {
                                    1.0f, 1.0f, 255, 0, 255, 255, 4, play->state.gfxCtx);
         }
     }
+#endif
 }

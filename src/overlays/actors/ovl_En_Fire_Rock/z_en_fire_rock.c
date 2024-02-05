@@ -283,11 +283,14 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, PlayState* play) {
     } else {
         this->playerNearby = 0;
     }
+
+#if OOT_DEBUG
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 255, 0, 255, 4, play->state.gfxCtx);
     }
+#endif
 }
 
 void FireRock_WaitOnFloor(EnFireRock* this, PlayState* play) {
@@ -309,6 +312,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
     s16 setCollision;
     Player* player = GET_PLAYER(play);
     Actor* playerActor = &GET_PLAYER(play)->actor;
+    f32 temp;
 
     if (this->timer2 != 0) {
         this->timer2--;
@@ -319,8 +323,6 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->type != FIRE_ROCK_CEILING_SPOT_SPAWNER) {
-        f32 temp;
-
         this->rockRotation.x += this->angularVelocity.x;
         this->rockRotation.y += this->angularVelocity.y;
         this->rockRotation.z += this->angularVelocity.z;

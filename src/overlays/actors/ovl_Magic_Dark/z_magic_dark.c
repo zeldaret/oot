@@ -76,8 +76,6 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
     s16 nayrusLoveTimer = gSaveContext.nayrusLoveTimer;
     s32 msgMode = play->msgCtx.msgMode;
 
-    if (1) {}
-
     // See `ACTOROVL_ALLOC_ABSOLUTE`
     //! @bug This condition is too broad, the actor will also be killed by warp songs. But warp songs do not use an
     //! actor which uses `ACTOROVL_ALLOC_ABSOLUTE`. There is no reason to kill the actor in this case.
@@ -90,6 +88,8 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
     }
 
     if (nayrusLoveTimer >= 1200) {
+        if (1) {}
+
         player->invincibilityTimer = 0;
         gSaveContext.nayrusLoveTimer = 0;
         Actor_Kill(thisx);

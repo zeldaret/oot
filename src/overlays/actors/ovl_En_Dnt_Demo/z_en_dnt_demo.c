@@ -185,8 +185,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                 case PLAYER_MASK_ZORA:
                 case PLAYER_MASK_GERUDO:
                     rand9 = Rand_ZeroFloat(8.99f);
-                    maskIdx = Player_GetMask(play);
-                    maskIdx--;
+                    maskIdx = (s16)Player_GetMask(play) - 1;
                     if (rand9 == 8) {
                         ignore = true;
                         delay = 8;
@@ -265,6 +264,9 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
 
 void EnDntDemo_Results(EnDntDemo* this, PlayState* play) {
     s32 i;
+    s16 offsetAngle;
+    Vec3f leaderPos;
+    f32 offsetDist;
 
     if (this->leaderSignal != DNT_SIGNAL_NONE) {
         for (i = 0; i < 9; i++) {
@@ -284,9 +286,8 @@ void EnDntDemo_Results(EnDntDemo* this, PlayState* play) {
         this->actionFunc = EnDntDemo_Prize;
     } else if (this->prize == DNT_PRIZE_STICK) {
         for (i = 0; i < 9; i++) {
-            s16 offsetAngle = -this->leader->actor.shape.rot.y;
-            Vec3f leaderPos = this->leader->actor.world.pos;
-            f32 offsetDist;
+            offsetAngle = -this->leader->actor.shape.rot.y;
+            leaderPos = this->leader->actor.world.pos;
 
             if (!(i & 1)) {
                 offsetAngle -= 0x59D8;
@@ -324,7 +325,9 @@ void EnDntDemo_Update(Actor* thisx, PlayState* play) {
         this->unkTimer1--;
     }
     this->actionFunc(this, play);
-    if (BREG(0)) {
+
+#if OOT_DEBUG
+    if (BREG(0) != 0) {
         if (this->debugArrowTimer != 0) {
             if (!(this->debugArrowTimer & 1)) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
@@ -337,4 +340,5 @@ void EnDntDemo_Update(Actor* thisx, PlayState* play) {
                                    1.0f, 1.0f, 255, 255, 255, 255, 4, play->state.gfxCtx);
         }
     }
+#endif
 }
