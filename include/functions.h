@@ -1155,10 +1155,10 @@ void Sram_WriteSramHeader(SramContext* sramCtx);
 void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
 void Sram_Init(PlayState* play, SramContext* sramCtx);
-void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
+void SsSram_Init(s32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
                  u8 handlePulse, u32 handleSpeed);
 void SsSram_Dma(void* dramAddr, size_t size, s32 direction);
-void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction);
+void SsSram_ReadWrite(s32 addr, void* dramAddr, size_t size, s32 direction);
 View* View_New(GraphicsContext* gfxCtx);
 void View_Free(View* view);
 void View_Init(View*, GraphicsContext*);
