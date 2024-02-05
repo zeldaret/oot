@@ -364,12 +364,10 @@ void EnWonderItem_Update(Actor* thisx, PlayState* play) {
         colorIndex = 0;
     }
 
-#if OOT_DEBUG
-    if (BREG(0) != 0) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, debugArrowColors[colorIndex], debugArrowColors[colorIndex + 1],
                                debugArrowColors[colorIndex + 2], 255, 4, play->state.gfxCtx);
     }
-#endif
 }

@@ -446,13 +446,11 @@ void EnGSwitch_Update(Actor* thisx, PlayState* play) {
         }
     }
 
-#if OOT_DEBUG
-    if (BREG(0) != 0 && (this->type == ENGSWITCH_SILVER_TRACKER)) {
+    if (OOT_DEBUG && BREG(0) != 0 && (this->type == ENGSWITCH_SILVER_TRACKER)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
     }
-#endif
 }
 
 void EnGSwitch_DrawPot(Actor* thisx, PlayState* play) {

@@ -182,7 +182,7 @@ void EnHeishi1_Walk(EnHeishi1* this, PlayState* play) {
 
         Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale, this->headTurnSpeedMax);
 
-        if ((this->path == BREG(1)) && (BREG(0) != 0)) {
+        if (OOT_DEBUG && (this->path == BREG(1)) && (BREG(0) != 0)) {
             PRINTF(VT_FGCOL(RED) " 種類  %d\n" VT_RST, this->path);
             PRINTF(VT_FGCOL(RED) " ぱす  %d\n" VT_RST, this->waypoint);
             PRINTF(VT_FGCOL(RED) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
@@ -300,15 +300,13 @@ void EnHeishi1_Wait(EnHeishi1* this, PlayState* play) {
         Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale,
                        this->headTurnSpeedMax + this->headTurnSpeedMax);
 
-#if OOT_DEBUG
-        if ((this->path == BREG(1)) && (BREG(0) != 0)) {
+        if (OOT_DEBUG && (this->path == BREG(1)) && (BREG(0) != 0)) {
             PRINTF(VT_FGCOL(GREEN) " 種類  %d\n" VT_RST, this->path);
             PRINTF(VT_FGCOL(GREEN) " ぱす  %d\n" VT_RST, this->waypoint);
             PRINTF(VT_FGCOL(GREEN) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
             PRINTF(VT_FGCOL(GREEN) " 時間  %d\n" VT_RST, this->waypointTimer);
             PRINTF("\n\n");
         }
-#endif
     }
 }
 
@@ -492,11 +490,9 @@ void EnHeishi1_Draw(Actor* thisx, PlayState* play) {
                       this);
     func_80033C30(&this->actor.world.pos, &matrixScale, 0xFF, play);
 
-#if OOT_DEBUG
-    if ((this->path == BREG(1)) && (BREG(0) != 0)) {
+    if (OOT_DEBUG && (this->path == BREG(1)) && (BREG(0) != 0)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y + 100.0f, this->actor.world.pos.z,
                                17000, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0,
                                255, 4, play->state.gfxCtx);
     }
-#endif
 }
