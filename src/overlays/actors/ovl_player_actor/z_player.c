@@ -179,7 +179,6 @@ void func_80846978(PlayState* play, Player* this);
 void func_808469BC(PlayState* play, Player* this);
 void func_80846A68(PlayState* play, Player* this);
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input);
-s32 func_8084FCAC(Player* this, PlayState* play);
 void func_8084FF7C(Player* this);
 void Player_UpdateBunnyEars(Player* this);
 void func_80851008(PlayState* play, Player* this, void* anim);
@@ -493,7 +492,7 @@ static PlayerAgeProperties sAgeProperties[] = {
     },
 };
 
-static u32 D_808535D0 = false;
+static u32 sNoclipEnabled = false;
 static f32 sControlStickMagnitude = 0.0f;
 static s16 sControlStickAngle = 0;
 static s16 D_808535DC = 0;
@@ -1605,7 +1604,6 @@ static LinkAnimationHeader* D_808543D4[] = {
     &gPlayerAnim_link_hook_wait,
 };
 
-// return type can't be void due to regalloc in func_8084FCAC
 BAD_RETURN(s32) Player_ZeroSpeedXZ(Player* this) {
     this->actor.speed = 0.0f;
     this->speedXZ = 0.0f;
@@ -11301,58 +11299,74 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     Collider_ResetQuadAT(play, &this->shieldQuad.base);
 }
 
-static Vec3f D_80854838 = { 0.0f, 0.0f, -30.0f };
+#if OOT_DEBUG
+s32 Player_UpdateNoclip(Player* this, PlayState* play);
+#endif
 
 void Player_Update(Actor* thisx, PlayState* play) {
-    static Vec3f sDogSpawnPos;
     Player* this = (Player*)thisx;
     s32 dogParams;
     s32 pad;
-    Input sp44;
-    Actor* dog;
+    Input input;
 
-    if (func_8084FCAC(this, play)) {
-        if (gSaveContext.dogParams < 0) {
-            if (Object_GetSlot(&play->objectCtx, OBJECT_DOG) < 0) {
-                gSaveContext.dogParams = 0;
-            } else {
-                gSaveContext.dogParams &= 0x7FFF;
-                Player_GetRelativePosition(this, &this->actor.world.pos, &D_80854838, &sDogSpawnPos);
-                dogParams = gSaveContext.dogParams;
+#if OOT_DEBUG
+    if (!Player_UpdateNoclip(this, play)) {
+        goto skip_update;
+    }
+#endif
 
-                dog = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y, sDogSpawnPos.z,
-                                  0, this->actor.shape.rot.y, 0, dogParams | 0x8000);
-                if (dog != NULL) {
-                    dog->room = 0;
-                }
-            }
-        }
+    if (gSaveContext.dogParams < 0) {
+        static Vec3f sDogSpawnOffset = { 0.0f, 0.0f, -30.0f };
+        static Vec3f sDogSpawnPos;
 
-        if ((this->interactRangeActor != NULL) && (this->interactRangeActor->update == NULL)) {
-            this->interactRangeActor = NULL;
-        }
-
-        if ((this->heldActor != NULL) && (this->heldActor->update == NULL)) {
-            Player_DetachHeldActor(play, this);
-        }
-
-        if (this->stateFlags1 & (PLAYER_STATE1_5 | PLAYER_STATE1_29)) {
-            bzero(&sp44, sizeof(sp44));
+        if (Object_GetSlot(&play->objectCtx, OBJECT_DOG) < 0) {
+            gSaveContext.dogParams = 0;
         } else {
-            sp44 = play->state.input[0];
-            if (this->unk_88E != 0) {
-                sp44.cur.button &= ~(BTN_A | BTN_B | BTN_CUP);
-                sp44.press.button &= ~(BTN_A | BTN_B | BTN_CUP);
+            Actor* dog;
+
+            gSaveContext.dogParams &= 0x7FFF;
+            Player_GetRelativePosition(this, &this->actor.world.pos, &sDogSpawnOffset, &sDogSpawnPos);
+            dogParams = gSaveContext.dogParams;
+
+            dog = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y, sDogSpawnPos.z, 0,
+                              this->actor.shape.rot.y, 0, dogParams | 0x8000);
+            if (dog != NULL) {
+                dog->room = 0;
             }
         }
-
-        Player_UpdateCommon(this, play, &sp44);
     }
 
-    MREG(52) = this->actor.world.pos.x;
-    MREG(53) = this->actor.world.pos.y;
-    MREG(54) = this->actor.world.pos.z;
-    MREG(55) = this->actor.world.rot.y;
+    if ((this->interactRangeActor != NULL) && (this->interactRangeActor->update == NULL)) {
+        this->interactRangeActor = NULL;
+    }
+
+    if ((this->heldActor != NULL) && (this->heldActor->update == NULL)) {
+        Player_DetachHeldActor(play, this);
+    }
+
+    if (this->stateFlags1 & (PLAYER_STATE1_5 | PLAYER_STATE1_29)) {
+        bzero(&input, sizeof(input));
+    } else {
+        input = play->state.input[0];
+
+        if (this->unk_88E != 0) {
+            input.cur.button &= ~(BTN_A | BTN_B | BTN_CUP);
+            input.press.button &= ~(BTN_A | BTN_B | BTN_CUP);
+        }
+    }
+
+    Player_UpdateCommon(this, play, &input);
+
+skip_update:;
+    {
+        s32 pad;
+
+        MREG(52) = this->actor.world.pos.x;
+        MREG(53) = this->actor.world.pos.y;
+        MREG(54) = this->actor.world.pos.z;
+
+        MREG(55) = this->actor.world.rot.y;
+    }
 }
 
 typedef struct {
@@ -13618,21 +13632,42 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
     func_8002F8F0(&this->actor, NA_SE_VO_LI_TAKEN_AWAY - SFX_FLAG + this->ageProperties->unk_92);
 }
 
-s32 func_8084FCAC(Player* this, PlayState* play) {
+#if OOT_DEBUG
+/**
+ * Updates the "Noclip" debug feature, which allows the player to fly around anywhere
+ * in the world and clip through any collision.
+ *
+ * Noclip can be toggled on and off with two different button combos:
+ * Hold L + R + A and press B
+ * or
+ * Hold L and press D-pad right
+ *
+ * To control Noclip mode:
+ * - Move horizontally with the 4 D-pad directions
+ * - Move up with B
+ * - Move down with A
+ * - Hold R to move faster
+ *
+ * With Noclip enabled, another button combination can be pressed to set all "temp clear" flags
+ * in the current room. To do so hold L and press D-pad left.
+ *
+ * @return  true if Noclip is disabled, false if enabled
+ */
+s32 Player_UpdateNoclip(Player* this, PlayState* play) {
     sControlInput = &play->state.input[0];
 
-    if ((CHECK_BTN_ALL(sControlInput->cur.button, BTN_A | BTN_L | BTN_R) &&
+    if ((CHECK_BTN_ALL(sControlInput->cur.button, BTN_L | BTN_R | BTN_A) &&
          CHECK_BTN_ALL(sControlInput->press.button, BTN_B)) ||
         (CHECK_BTN_ALL(sControlInput->cur.button, BTN_L) && CHECK_BTN_ALL(sControlInput->press.button, BTN_DRIGHT))) {
 
-        D_808535D0 ^= 1;
+        sNoclipEnabled ^= 1;
 
-        if (D_808535D0) {
+        if (sNoclipEnabled) {
             Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_AIM);
         }
     }
 
-    if (D_808535D0) {
+    if (sNoclipEnabled) {
         f32 speed;
 
         if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
@@ -13672,9 +13707,7 @@ s32 func_8084FCAC(Player* this, PlayState* play) {
         Player_ZeroSpeedXZ(this);
 
         this->actor.gravity = 0.0f;
-        this->actor.velocity.z = 0.0f;
-        this->actor.velocity.y = 0.0f;
-        this->actor.velocity.x = 0.0f;
+        this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
 
         if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_L) && CHECK_BTN_ALL(sControlInput->press.button, BTN_DLEFT)) {
             Flags_SetTempClear(play, play->roomCtx.curRoom.num);
@@ -13682,11 +13715,12 @@ s32 func_8084FCAC(Player* this, PlayState* play) {
 
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
 
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
+#endif
 
 void func_8084FF7C(Player* this) {
     this->unk_858 += this->unk_85C;
