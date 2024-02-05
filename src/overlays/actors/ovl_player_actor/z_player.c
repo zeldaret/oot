@@ -11893,9 +11893,7 @@ void Player_Action_8084B9E4(Player* this, PlayState* play) {
             if (LinkAnimation_OnFrame(&this->skelAnime, 11.0f)) {
                 func_80832698(this, NA_SE_VO_LI_PUSH);
             }
-#if !OOT_DEBUG
-            if (1) {}
-#endif
+            if (!OOT_DEBUG) {}
         } else {
             Player_ProcessAnimSfxList(this, D_80854878);
         }
