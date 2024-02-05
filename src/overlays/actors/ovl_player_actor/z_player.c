@@ -13637,8 +13637,8 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
  * Updates the "Noclip" debug feature, which allows the player to fly around anywhere
  * in the world and clip through any collision.
  *
- * Noclip can be enabled with two different button combos:
- * Hold A + L + R and press B
+ * Noclip can be toggled on and off with two different button combos:
+ * Hold L + R + A and press B
  * or
  * Hold L and press D-pad right
  *
