@@ -8416,8 +8416,8 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                     sp68.y = this->meleeWeaponInfo[0].posA.y + (baseToTip.y * phi_f2);
                     sp68.z = this->meleeWeaponInfo[0].posA.z + (baseToTip.z * phi_f2);
 
-                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].posA, &sp5C, &groundPoly,
-                                                true, false, false, true, &bgId) &&
+                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].posA, &sp5C,
+                                                &groundPoly, true, false, false, true, &bgId) &&
                         !SurfaceType_IsIgnoredByEntities(&play->colCtx, groundPoly, bgId) &&
                         (SurfaceType_GetFloorType(&play->colCtx, groundPoly, bgId) != FLOOR_TYPE_6) &&
                         (func_8002F9EC(play, &this->actor, groundPoly, bgId, &sp5C) == 0)) {
