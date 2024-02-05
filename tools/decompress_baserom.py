@@ -74,7 +74,7 @@ def decompress_rom(
         v_end = dma_entry.vrom_end
         p_start = dma_entry.rom_start
         p_end = dma_entry.rom_end
-        if dma_entry.is_unset():
+        if dma_entry.is_syms():
             new_dmadata.append(dma_entry)
             continue
         if dma_entry.is_compressed():
