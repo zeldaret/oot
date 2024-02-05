@@ -16,3 +16,4 @@ toml
 # tools
 mapfile-parser>=1.2.1,<2.0.0
 rabbitizer>=1.0.0,<2.0.0
+spimdisasm>=1.20.0,<2.0.0

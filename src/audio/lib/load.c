@@ -1126,7 +1126,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     void* ramAddr;
     s32 i;
 
-    D_801755D0 = NULL;
+    gAudioCustomUpdateFunction = NULL;
     gAudioCtx.resetTimer = 0;
 
     {
@@ -1138,25 +1138,26 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
         }
     }
 
+    // 1000 is a conversion from seconds to milliseconds
     switch (osTvType) {
         case OS_TV_PAL:
-            gAudioCtx.unk_2960 = 20.03042f;
-            gAudioCtx.refreshRate = 50;
+            gAudioCtx.maxTempoTvTypeFactors = 1000 * REFRESH_RATE_DEVIATION_PAL / REFRESH_RATE_PAL;
+            gAudioCtx.refreshRate = REFRESH_RATE_PAL;
             break;
 
         case OS_TV_MPAL:
-            gAudioCtx.unk_2960 = 16.546f;
-            gAudioCtx.refreshRate = 60;
+            gAudioCtx.maxTempoTvTypeFactors = 1000 * REFRESH_RATE_DEVIATION_MPAL / REFRESH_RATE_MPAL;
+            gAudioCtx.refreshRate = REFRESH_RATE_MPAL;
             break;
 
         case OS_TV_NTSC:
         default:
-            gAudioCtx.unk_2960 = 16.713f;
-            gAudioCtx.refreshRate = 60;
+            gAudioCtx.maxTempoTvTypeFactors = 1000 * REFRESH_RATE_DEVIATION_NTSC / REFRESH_RATE_NTSC;
+            gAudioCtx.refreshRate = REFRESH_RATE_NTSC;
             break;
     }
 
-    Audio_InitMesgQueues();
+    AudioThread_InitMesgQueues();
 
     for (i = 0; i < 3; i++) {
         gAudioCtx.aiBufLengths[i] = 0xA0;
@@ -1209,7 +1210,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     gAudioCtx.numSequences = gAudioCtx.sequenceTable->numEntries;
 
-    gAudioCtx.audioResetSpecIdToLoad = 0;
+    gAudioCtx.specId = 0;
     gAudioCtx.resetStatus = 1; // Set reset to immediately initialize the audio heap
 
     AudioHeap_ResetStep();

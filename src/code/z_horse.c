@@ -130,6 +130,16 @@ typedef struct {
 } struct_8011F9B8;
 
 void func_8006D684(PlayState* play, Player* player) {
+    static struct_8011F9B8 D_8011F9B8[] = {
+        { SCENE_GERUDOS_FORTRESS, 0xFFF0, { 3600, 1413, 360 }, 0x8001, 8 },
+        { SCENE_LON_LON_RANCH, 0xFFF0, { -250, 1, -1580 }, 0x4000, 6 },
+        { SCENE_LON_LON_RANCH, 0xFFF1, { 0, 0, 0 }, 0x0000, 5 },
+        { SCENE_LON_LON_RANCH, 0xFFF5, { 0, 0, 0 }, 0x0000, 7 },
+        { SCENE_HYRULE_FIELD, 0xFFF3, { -2961, 313, 7700 }, 0x0000, 7 },
+        { SCENE_HYRULE_FIELD, 0xFFF4, { -1900, 313, 7015 }, 0x0000, 7 },
+        { SCENE_HYRULE_FIELD, 0xFFF5, { -4043, 313, 6933 }, 0x0000, 7 },
+        { SCENE_HYRULE_FIELD, 0xFFF6, { -4043, 313, 6933 }, 0x0000, 7 },
+    };
     s32 pad;
     s32 i;
     Vec3s spawnPos;
@@ -177,17 +187,6 @@ void func_8006D684(PlayState* play, Player* player) {
             player->rideActor->room = -1;
         }
     } else {
-        static struct_8011F9B8 D_8011F9B8[] = {
-            { SCENE_GERUDOS_FORTRESS, 0xFFF0, { 3600, 1413, 360 }, 0x8001, 8 },
-            { SCENE_LON_LON_RANCH, 0xFFF0, { -250, 1, -1580 }, 0x4000, 6 },
-            { SCENE_LON_LON_RANCH, 0xFFF1, { 0, 0, 0 }, 0x0000, 5 },
-            { SCENE_LON_LON_RANCH, 0xFFF5, { 0, 0, 0 }, 0x0000, 7 },
-            { SCENE_HYRULE_FIELD, 0xFFF3, { -2961, 313, 7700 }, 0x0000, 7 },
-            { SCENE_HYRULE_FIELD, 0xFFF4, { -1900, 313, 7015 }, 0x0000, 7 },
-            { SCENE_HYRULE_FIELD, 0xFFF5, { -4043, 313, 6933 }, 0x0000, 7 },
-            { SCENE_HYRULE_FIELD, 0xFFF6, { -4043, 313, 6933 }, 0x0000, 7 },
-        };
-
         for (i = 0; i < ARRAY_COUNT(D_8011F9B8); i++) {
             if ((play->sceneId == D_8011F9B8[i].sceneId) &&
                 (((void)0, gSaveContext.save.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {

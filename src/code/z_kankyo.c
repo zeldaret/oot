@@ -958,11 +958,11 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1682);
 
             prevDisplayList = POLY_OPA_DISP;
-            displayList = Graph_GfxPlusOne(POLY_OPA_DISP);
+            displayList = Gfx_Open(POLY_OPA_DISP);
             gSPDisplayList(OVERLAY_DISP++, displayList);
             Environment_PrintDebugInfo(play, &displayList);
             gSPEndDisplayList(displayList++);
-            Graph_BranchDlist(prevDisplayList, displayList);
+            Gfx_Close(prevDisplayList, displayList);
             POLY_OPA_DISP = displayList;
             if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1690);

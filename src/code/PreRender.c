@@ -95,8 +95,8 @@ void PreRender_CopyImage(PreRender* this, Gfx** gfxP, void* img, void* imgDst) {
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, lrs << 2, lrt << 2, G_TX_RENDERTILE, uls << 5, ult << 5, 4 << 10,
                             1 << 10);
 
-        rowsRemaining -= nRows;
         curRow += nRows;
+        rowsRemaining -= nRows;
     }
 
     gDPPipeSync(gfx++);
@@ -140,7 +140,9 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
         s32 uly;
 
         // Make sure that we don't load past the end of the source image
-        nRows = MIN(rowsRemaining, nRows);
+        if (nRows > rowsRemaining) {
+            nRows = rowsRemaining;
+        }
 
         // Determine the upper and lower bounds of the rect to draw
         ult = this->ulySave + curRow;
@@ -156,8 +158,8 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
         gSPTextureRectangle(gfx++, this->ulx << 2, uly << 2, this->lrx << 2, (uly + nRows - 1) << 2, G_TX_RENDERTILE,
                             this->ulxSave << 5, ult << 5, 4 << 10, 1 << 10);
 
-        rowsRemaining -= nRows;
         curRow += nRows;
+        rowsRemaining -= nRows;
     }
 
     // Reset the color image and scissor
@@ -226,8 +228,8 @@ void func_800C170C(PreRender* this, Gfx** gfxP, void* buf, void* bufSave, u32 r,
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
-        rowsRemaining -= nRows;
         curRow += nRows;
+        rowsRemaining -= nRows;
     }
 
     gDPPipeSync(gfx++);
@@ -287,7 +289,9 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
         s32 lrt;
 
         // Make sure that we don't load past the end of the source image
-        nRows = MIN(rowsRemaining, nRows);
+        if (nRows > rowsRemaining) {
+            nRows = rowsRemaining;
+        }
 
         // Determine the upper and lower bounds of the rect to draw
         ult = curRow;
@@ -319,8 +323,8 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
                             ult << 5, 1 << 10, 1 << 10);
 
         // Update the number of rows remaining and index of the row being drawn
-        rowsRemaining -= nRows;
         curRow += nRows;
+        rowsRemaining -= nRows;
     }
 
     // Reset the color image to the current framebuffer
@@ -477,8 +481,8 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
             gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                                 ult << 5, 1 << 10, 1 << 10);
 
-            rowsRemaining -= nRows;
             curRow += nRows;
+            rowsRemaining -= nRows;
         }
 
         gDPPipeSync(gfx++);
@@ -545,7 +549,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
     s32 buffB[5 * 3];
     s32 xi;
     s32 yi;
-    s32 pad;
+    s32 invCvg;
     s32 pmaxR;
     s32 pmaxG;
     s32 pmaxB;
@@ -583,10 +587,12 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
         buffCvg[i] = this->cvgSave[xi + yi * this->width] >> 5;
     }
 
+#if OOT_DEBUG
     if (buffCvg[7] == 7) {
         PRINTF("Error, should not be in here \n");
         return;
     }
+#endif
 
     pmaxR = pminR = buffR[7];
     pmaxG = pminG = buffG[7];
@@ -658,9 +664,10 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
     //      BackGround = (pMax + pMin) - (ForeGround) * 2
 
     // OutputColor = cvg * ForeGround + (1.0 - cvg) * BackGround
-    outR = buffR[7] + ((s32)((7 - buffCvg[7]) * (pmaxR + pminR - (buffR[7] * 2)) + 4) >> 3);
-    outG = buffG[7] + ((s32)((7 - buffCvg[7]) * (pmaxG + pminG - (buffG[7] * 2)) + 4) >> 3);
-    outB = buffB[7] + ((s32)((7 - buffCvg[7]) * (pmaxB + pminB - (buffB[7] * 2)) + 4) >> 3);
+    invCvg = 7 - buffCvg[7];
+    outR = buffR[7] + ((s32)(invCvg * (pmaxR + pminR - (buffR[7] * 2)) + 4) >> 3);
+    outG = buffG[7] + ((s32)(invCvg * (pmaxG + pminG - (buffG[7] * 2)) + 4) >> 3);
+    outB = buffB[7] + ((s32)(invCvg * (pmaxB + pminB - (buffB[7] * 2)) + 4) >> 3);
 
     pxOut.r = outR >> 3;
     pxOut.g = outG >> 3;
@@ -796,9 +803,11 @@ void PreRender_ApplyFilters(PreRender* this) {
             }
         }
 
+#if OOT_DEBUG
         if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
             // Apply divot filter
             PreRender_DivotFilter(this);
         }
+#endif
     }
 }
