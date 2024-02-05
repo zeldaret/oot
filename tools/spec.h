@@ -27,6 +27,7 @@ enum {
     FLAG_BOOT = (1 << 0),
     FLAG_OBJECT = (1 << 1),
     FLAG_RAW = (1 << 2),
+    FLAG_NOLOAD = (1 << 3),
 };
 
 struct Include {

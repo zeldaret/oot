@@ -26,13 +26,11 @@ EffectSsInit Effect_Ss_Extra_InitVars = {
 u32 EffectSsExtra_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
     s32 pad;
-    s32 objectSlot;
-    uintptr_t oldSeg6;
-
-    objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_YABUSAME_POINT);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_YABUSAME_POINT);
 
     if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
-        oldSeg6 = gSegments[6];
+        uintptr_t oldSeg6 = gSegments[6];
+
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;

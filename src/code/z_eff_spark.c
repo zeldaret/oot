@@ -5,7 +5,6 @@
 void EffectSpark_Init(void* thisx, void* initParamsx) {
     EffectSpark* this = (EffectSpark*)thisx;
     EffectSparkInit* initParams = (EffectSparkInit*)initParamsx;
-    EffectSparkElement* elem;
     f32 velocityNorm;
     s32 i;
 
@@ -61,7 +60,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
         }
 
         for (i = 0; i < this->numElements; i++) {
-            elem = &this->elements[i];
+            EffectSparkElement* elem = &this->elements[i];
 
             elem->position.x = this->position.x;
             elem->position.y = this->position.y;

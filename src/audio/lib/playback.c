@@ -100,8 +100,8 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
 
     sub->gain = attrs->gain;
     sub->filter = attrs->filter;
-    sub->unk_07 = attrs->unk_14;
-    sub->unk_0E = attrs->unk_16;
+    sub->combFilterSize = attrs->combFilterSize;
+    sub->combFilterGain = attrs->combFilterGain;
     sub->reverbVol = reverbVol;
 }
 
@@ -174,7 +174,7 @@ void Audio_ProcessNotes(void) {
 
             if (note != playbackState->parentLayer->note && playbackState->unk_04 == 0) {
                 playbackState->adsr.action.s.release = true;
-                playbackState->adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
+                playbackState->adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
                 playbackState->priority = 1;
                 playbackState->unk_04 = 2;
                 goto out;
@@ -256,8 +256,8 @@ void Audio_ProcessNotes(void) {
                 subAttrs.stereo = attrs->stereo;
                 subAttrs.gain = attrs->gain;
                 subAttrs.filter = attrs->filter;
-                subAttrs.unk_14 = attrs->unk_4;
-                subAttrs.unk_16 = attrs->unk_6;
+                subAttrs.combFilterSize = attrs->combFilterSize;
+                subAttrs.combFilterGain = attrs->combFilterGain;
                 bookOffset = noteSubEu->bitField1.bookOffset;
             } else {
                 SequenceLayer* layer = playbackState->parentLayer;
@@ -271,11 +271,11 @@ void Audio_ProcessNotes(void) {
                 } else {
                     subAttrs.stereo = layer->stereo;
                 }
-                subAttrs.reverbVol = channel->reverb;
+                subAttrs.reverbVol = channel->targetReverbVol;
                 subAttrs.gain = channel->gain;
                 subAttrs.filter = channel->filter;
-                subAttrs.unk_14 = channel->unk_0F;
-                subAttrs.unk_16 = channel->unk_20;
+                subAttrs.combFilterSize = channel->combFilterSize;
+                subAttrs.combFilterGain = channel->combFilterGain;
                 bookOffset = channel->bookOffset & 0x7;
 
                 if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_3)) {
@@ -433,7 +433,7 @@ s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* val
 void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
     Note* note;
     NoteAttributes* attrs;
-    SequenceChannel* chan;
+    SequenceChannel* channel;
     s32 i;
 
     if (layer == NO_LAYER) {
@@ -456,7 +456,7 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
     if (note->playbackState.parentLayer != layer) {
         if (note->playbackState.parentLayer == NO_LAYER && note->playbackState.wantedParentLayer == NO_LAYER &&
             note->playbackState.prevParentLayer == layer && target != ADSR_STATE_DECAY) {
-            note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
+            note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
             note->playbackState.adsr.action.s.release = true;
         }
         return;
@@ -468,10 +468,10 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
         attrs->pan = layer->notePan;
 
         if (layer->channel != NULL) {
-            chan = layer->channel;
-            attrs->reverb = chan->reverb;
-            attrs->gain = chan->gain;
-            attrs->filter = chan->filter;
+            channel = layer->channel;
+            attrs->reverb = channel->targetReverbVol;
+            attrs->gain = channel->gain;
+            attrs->filter = channel->filter;
 
             if (attrs->filter != NULL) {
                 for (i = 0; i < 8; i++) {
@@ -480,18 +480,18 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
                 attrs->filter = attrs->filterBuf;
             }
 
-            attrs->unk_6 = chan->unk_20;
-            attrs->unk_4 = chan->unk_0F;
-            if (chan->seqPlayer->muted && (chan->muteBehavior & MUTE_BEHAVIOR_3)) {
+            attrs->combFilterGain = channel->combFilterGain;
+            attrs->combFilterSize = channel->combFilterSize;
+            if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_3)) {
                 note->noteSubEu.bitField0.finished = true;
             }
 
             if (layer->stereo.asByte == 0) {
-                attrs->stereo = chan->stereo;
+                attrs->stereo = channel->stereo;
             } else {
                 attrs->stereo = layer->stereo;
             }
-            note->playbackState.priority = chan->someOtherPriority;
+            note->playbackState.priority = channel->someOtherPriority;
         } else {
             attrs->stereo = layer->stereo;
             note->playbackState.priority = 1;
@@ -500,7 +500,7 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
         note->playbackState.prevParentLayer = note->playbackState.parentLayer;
         note->playbackState.parentLayer = NO_LAYER;
         if (target == ADSR_STATE_RELEASE) {
-            note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
+            note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
             note->playbackState.adsr.action.s.release = true;
             note->playbackState.unk_04 = 2;
         } else {
@@ -805,7 +805,7 @@ void Audio_NoteReleaseAndTakeOwnership(Note* note, SequenceLayer* layer) {
     note->playbackState.wantedParentLayer = layer;
     note->playbackState.priority = layer->channel->notePriority;
 
-    note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
+    note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
     note->playbackState.adsr.action.s.release = true;
 }
 

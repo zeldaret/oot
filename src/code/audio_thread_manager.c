@@ -51,7 +51,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
         // Skip update, no rsp task produced
         rspTask = NULL;
     } else {
-        rspTask = func_800E4FE0();
+        rspTask = AudioThread_Update();
     }
 
     gAudioThreadUpdateTimeAcc += osGetTime() - gAudioThreadUpdateTimeStart;

@@ -13,11 +13,19 @@ void SysCfb_Init(s32 n64dd) {
         tmpFbEnd = 0x8044BE80;
         if (n64dd == 1) {
             PRINTF("RAM 8M mode (N64DD対応)\n"); // "RAM 8M mode (N64DD compatible)"
+#if OOT_DEBUG
             sSysCfbEnd = 0x805FB000;
+#else
+            sSysCfbEnd = 0x80600000;
+#endif
         } else {
             // "The margin for this version is %dK bytes"
             PRINTF("このバージョンのマージンは %dK バイトです\n", (0x4BC00 / 1024));
+#if OOT_DEBUG
             sSysCfbEnd = tmpFbEnd;
+#else
+            sSysCfbEnd = 0x80400000;
+#endif
         }
     } else if (osMemSize >= 0x400000) {
         PRINTF("RAM4M mode\n");
@@ -28,6 +36,9 @@ void SysCfb_Init(s32 n64dd) {
 
     screenSize = SCREEN_WIDTH * SCREEN_HEIGHT;
     sSysCfbEnd &= ~0x3F;
+
+    if (1) {}
+
     // "The final address used by the system is %08x"
     PRINTF("システムが使用する最終アドレスは %08x です\n", sSysCfbEnd);
     sSysCfbFbPtr[0] = sSysCfbEnd - (screenSize * 4);
