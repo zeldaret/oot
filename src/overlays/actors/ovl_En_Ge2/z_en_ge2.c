@@ -554,8 +554,8 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     if ((this->stateFlags & GE2_STATE_KO) || (this->stateFlags & GE2_STATE_CAPTURING)) {
         this->actionFunc(this, play);
     } else if (this->collider.base.acFlags & AC_HIT) {
-        if ((this->collider.info.acHitInfo != NULL) &&
-            (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
+        if ((this->collider.elem.acHitElem != NULL) &&
+            (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
             //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the colorfilter.
             //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
@@ -573,13 +573,13 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
 
         if (Ge2_DetectPlayerInUpdate(play, this, &this->actor.focus.pos, this->actor.shape.rot.y, this->yDetectRange)) {
             // "Discovered!"
-            osSyncPrintf(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
             EnGe2_SetupCapturePlayer(this, play);
         }
 
         if (((this->actor.params & 0xFF) == GE2_TYPE_STATIONARY) && (this->actor.xzDistToPlayer < 100.0f)) {
             // "Discovered!"
-            osSyncPrintf(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
             EnGe2_SetupCapturePlayer(this, play);
         }
     }
@@ -606,8 +606,8 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-    if ((this->collider.base.acFlags & AC_HIT) && ((this->collider.info.acHitInfo == NULL) ||
-                                                   !(this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT))) {
+    if ((this->collider.base.acFlags & AC_HIT) && ((this->collider.elem.acHitElem == NULL) ||
+                                                   !(this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT))) {
         this->actor.colorFilterTimer = 0;
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;

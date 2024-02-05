@@ -118,7 +118,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnFirefly_Extinguish(EnFirefly* this) {
     this->actor.params += 2;
-    this->collider.elements[0].info.toucher.effect = 0; // None
+    this->collider.elements[0].base.toucher.effect = 0; // None
     this->auraType = KEESE_AURA_NONE;
     this->onFire = false;
     this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
@@ -130,7 +130,7 @@ void EnFirefly_Ignite(EnFirefly* this) {
     } else {
         this->actor.params -= 2;
     }
-    this->collider.elements[0].info.toucher.effect = 1; // Fire
+    this->collider.elements[0].base.toucher.effect = 1; // Fire
     this->auraType = KEESE_AURA_FIRE;
     this->onFire = true;
     this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
@@ -147,7 +147,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     if ((this->actor.params & 0x8000) != 0) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
         if (1) {}
         this->actor.draw = EnFirefly_DrawInvisible;
         this->actor.params &= 0x7FFF;
@@ -174,10 +174,10 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         }
 
         if (this->actor.params == KEESE_ICE_FLY) {
-            this->collider.elements[0].info.toucher.effect = 2; // Ice
+            this->collider.elements[0].base.toucher.effect = 2; // Ice
             this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
-            this->collider.elements[0].info.toucher.effect = 0; // Nothing
+            this->collider.elements[0].base.toucher.effect = 0; // Nothing
             this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
 
@@ -620,7 +620,7 @@ void EnFirefly_UpdateDamage(EnFirefly* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {

@@ -72,8 +72,8 @@ s32 ObjMure_SetCullingImpl(Actor* thisx, PlayState* play) {
             break;
         default:
             // "Error : Culling is not set.(%s %d)(arg_data 0x%04x)"
-            osSyncPrintf("Error : カリングの設定がされていません。(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 204,
-                         this->actor.params);
+            PRINTF("Error : カリングの設定がされていません。(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 204,
+                   this->actor.params);
             return false;
     }
     return result;
@@ -95,11 +95,11 @@ void ObjMure_Init(Actor* thisx, PlayState* play) {
     this->type = thisx->params & 0x1F;
 
     if (this->ptn >= 4) {
-        osSyncPrintf("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 237, thisx->params);
+        PRINTF("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 237, thisx->params);
         Actor_Kill(&this->actor);
         return;
     } else if (this->type >= 5) {
-        osSyncPrintf("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 245, thisx->params);
+        PRINTF("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 245, thisx->params);
         Actor_Kill(&this->actor);
         return;
     } else if (!ObjMure_SetCulling(thisx, play)) {
@@ -107,12 +107,14 @@ void ObjMure_Init(Actor* thisx, PlayState* play) {
         return;
     }
     this->actionFunc = ObjMure_InitialAction;
-    osSyncPrintf("群れな敵 (arg_data 0x%04x)(chNum(%d) ptn(%d) svNum(%d) type(%d))\n", thisx->params, this->chNum,
-                 this->ptn, this->svNum, this->type);
+    PRINTF("群れな敵 (arg_data 0x%04x)(chNum(%d) ptn(%d) svNum(%d) type(%d))\n", thisx->params, this->chNum, this->ptn,
+           this->svNum, this->type);
+
+#if OOT_DEBUG
     if (ObjMure_GetMaxChildSpawns(this) <= 0) {
-        osSyncPrintf("Warning : 個体数が設定されていません(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 268,
-                     thisx->params);
+        PRINTF("Warning : 個体数が設定されていません(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 268, thisx->params);
     }
+#endif
 }
 
 void ObjMure_Destroy(Actor* thisx, PlayState* play) {
@@ -126,79 +128,84 @@ s32 ObjMure_GetMaxChildSpawns(ObjMure* this) {
 }
 
 void ObjMure_GetSpawnPos(Vec3f* outPos, Vec3f* inPos, s32 ptn, s32 idx) {
+#if OOT_DEBUG
     if (ptn >= 4) {
-        osSyncPrintf("おかしなの (%s %d)\n", "../z_obj_mure.c", 307);
+        PRINTF("おかしなの (%s %d)\n", "../z_obj_mure.c", 307);
     }
+#endif
+
     *outPos = *inPos;
 }
 
 void ObjMure_SpawnActors0(ObjMure* this, PlayState* play) {
-    ActorContext* ac;
+    Actor* actor = &this->actor;
     s32 i;
     Vec3f pos;
     s32 pad;
     s32 maxChildren = ObjMure_GetMaxChildSpawns(this);
 
     for (i = 0; i < maxChildren; i++) {
+#if OOT_DEBUG
         if (this->children[i] != NULL) {
             // "Error: I already have a child(%s %d)(arg_data 0x%04x)"
-            osSyncPrintf("Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 333,
-                         this->actor.params);
+            PRINTF("Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 333, actor->params);
         }
+#endif
+
         switch (this->childrenStates[i]) {
             case OBJMURE_CHILD_STATE_1:
                 break;
             case OBJMURE_CHILD_STATE_2:
-                ac = &play->actorCtx;
-                ObjMure_GetSpawnPos(&pos, &this->actor.world.pos, this->ptn, i);
+                ObjMure_GetSpawnPos(&pos, &actor->world.pos, this->ptn, i);
                 this->children[i] =
-                    Actor_Spawn(ac, play, sSpawnActorIds[this->type], pos.x, pos.y, pos.z, this->actor.world.rot.x,
-                                this->actor.world.rot.y, this->actor.world.rot.z, sSpawnParams[this->type]);
+                    Actor_Spawn(&play->actorCtx, play, sSpawnActorIds[this->type], pos.x, pos.y, pos.z,
+                                actor->world.rot.x, actor->world.rot.y, actor->world.rot.z, sSpawnParams[this->type]);
                 if (this->children[i] != NULL) {
                     this->children[i]->flags |= ACTOR_FLAG_ENKUSA_CUT;
-                    this->children[i]->room = this->actor.room;
+                    this->children[i]->room = actor->room;
                 } else {
-                    osSyncPrintf("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 359);
+                    PRINTF("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 359);
                 }
                 break;
             default:
-                ac = &play->actorCtx;
-                ObjMure_GetSpawnPos(&pos, &this->actor.world.pos, this->ptn, i);
+                ObjMure_GetSpawnPos(&pos, &actor->world.pos, this->ptn, i);
                 this->children[i] =
-                    Actor_Spawn(ac, play, sSpawnActorIds[this->type], pos.x, pos.y, pos.z, this->actor.world.rot.x,
-                                this->actor.world.rot.y, this->actor.world.rot.z, sSpawnParams[this->type]);
+                    Actor_Spawn(&play->actorCtx, play, sSpawnActorIds[this->type], pos.x, pos.y, pos.z,
+                                actor->world.rot.x, actor->world.rot.y, actor->world.rot.z, sSpawnParams[this->type]);
                 if (this->children[i] != NULL) {
-                    this->children[i]->room = this->actor.room;
+                    this->children[i]->room = actor->room;
                 } else {
-                    osSyncPrintf("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 382);
+                    PRINTF("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 382);
                 }
                 break;
         }
     }
 }
 
-void ObjMure_SpawnActors1(ObjMure* this, PlayState* play) {
-    ActorContext* ac = (ActorContext*)play; // fake match
+void ObjMure_SpawnActors1(ObjMure* this, PlayState* play2) {
+    PlayState* play = play2;
     Actor* actor = &this->actor;
     Vec3f spawnPos;
     s32 maxChildren = ObjMure_GetMaxChildSpawns(this);
     s32 i;
 
     for (i = 0; i < maxChildren; i++) {
+#if OOT_DEBUG
         if (this->children[i] != NULL) {
-            osSyncPrintf("Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 407, actor->params);
+            PRINTF("Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 407, actor->params);
         }
-        ac = &play->actorCtx;
+#endif
+
         ObjMure_GetSpawnPos(&spawnPos, &actor->world.pos, this->ptn, i);
-        this->children[i] = Actor_Spawn(ac, play, sSpawnActorIds[this->type], spawnPos.x, spawnPos.y, spawnPos.z,
-                                        actor->world.rot.x, actor->world.rot.y, actor->world.rot.z,
+        this->children[i] = Actor_Spawn(&play2->actorCtx, play, sSpawnActorIds[this->type], spawnPos.x, spawnPos.y,
+                                        spawnPos.z, actor->world.rot.x, actor->world.rot.y, actor->world.rot.z,
                                         (this->type == 4 && i == 0) ? 1 : sSpawnParams[this->type]);
         if (this->children[i] != NULL) {
             this->childrenStates[i] = OBJMURE_CHILD_STATE_0;
             this->children[i]->room = actor->room;
         } else {
             this->childrenStates[i] = OBJMURE_CHILD_STATE_1;
-            osSyncPrintf("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 438);
+            PRINTF("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 438);
         }
     }
 }

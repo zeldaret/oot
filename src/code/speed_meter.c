@@ -2,8 +2,8 @@
 #include "terminal.h"
 
 /**
- * How much time the audio update on the audio thread (`func_800E4FE0`) took in total, between scheduling the last two
- * graphics tasks.
+ * How much time the audio update on the audio thread (`AudioThread_Update`) took in total, between scheduling the last
+ * two graphics tasks.
  */
 volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
 
@@ -92,7 +92,7 @@ typedef struct {
     gDPPipeSync(gfx)
 
 void SpeedMeter_InitImpl(SpeedMeter* this, u32 x, u32 y) {
-    LogUtils_CheckNullPointer("this", this, "../speed_meter.c", 181);
+    LOG_UTILS_CHECK_NULL_POINTER("this", this, "../speed_meter.c", 181);
     this->x = x;
     this->y = y;
 }
@@ -182,9 +182,9 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
     Gfx* gfx;
 
     if (this->maxval == 0) {
-        osSyncPrintf(VT_FGCOL(RED));
+        PRINTF(VT_FGCOL(RED));
         LOG_NUM("this->maxval", this->maxval, "../speed_meter.c", 313);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_RST);
     } else {
         OPEN_DISPS(gfxCtx, "../speed_meter.c", 318);
 

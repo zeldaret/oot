@@ -74,39 +74,37 @@ void ObjWarp2block_Spawn(ObjWarp2block* this, PlayState* play) {
 }
 
 s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
-    s32 pad;
-    Actor* temp_a3;
-    Player* player;
-    Vec3f sp20;
-    f32 temp_f2;
-
     if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         return 0;
-    }
-
-    temp_a3 = this->dyna.actor.child;
-    player = GET_PLAYER(play);
-    if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
-        (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
-
-        func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
-        temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
-
-        if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
-            return 0;
-        }
-
-        func_8002DBD0(temp_a3, &sp20, &player->actor.world.pos);
-        temp_f2 = (temp_a3->scale.x * 50.0f) + 6.0f;
-
-        if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
-            return 0;
-        }
     } else {
-        return 0;
-    }
+        s32 pad;
+        Actor* temp_a3 = this->dyna.actor.child;
+        Player* player = GET_PLAYER(play);
+        Vec3f sp20;
+        f32 temp_f2;
 
-    return 1;
+        if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
+            (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
+
+            func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
+            temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
+
+            if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
+                return 0;
+            }
+
+            func_8002DBD0(temp_a3, &sp20, &player->actor.world.pos);
+            temp_f2 = (temp_a3->scale.x * 50.0f) + 6.0f;
+
+            if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+
+        return 1;
+    }
 }
 
 void ObjWarp2block_SwapWithChild(ObjWarp2block* this, PlayState* play) {
@@ -219,8 +217,8 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
         ObjWarp2block_SetInactive(this);
     }
 
-    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", this->dyna.actor.params & 0xFFFF,
-                 this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 0xB) & 7);
+    PRINTF("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", this->dyna.actor.params & 0xFFFF,
+           this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 0xB) & 7);
 }
 
 void ObjWarp2block_Destroy(Actor* thisx, PlayState* play) {
@@ -262,9 +260,9 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play) {
 
     this->unk_174++;
     if (this->unk_174 > 60) {
-        osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("Error : 時のブロック(ワープ２)が対でセットされていません(%s %d)\n", "../z_obj_warp2block.c", 505);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_COL(RED, WHITE));
+        PRINTF("Error : 時のブロック(ワープ２)が対でセットされていません(%s %d)\n", "../z_obj_warp2block.c", 505);
+        PRINTF(VT_RST);
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -309,7 +307,7 @@ void ObjWarp2block_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_warp2block.c", 584);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_warp2block.c", 588),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_warp2block.c", 588),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sp44->r, sp44->g, sp44->b, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSongOfTimeBlockDL);

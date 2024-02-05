@@ -97,7 +97,7 @@ char sRegGroupChars[REG_GROUPS] = {
 void Regs_Init(void) {
     s32 i;
 
-    gRegEditor = SystemArena_MallocDebug(sizeof(RegEditor), "../z_debug.c", 260);
+    gRegEditor = SYSTEM_ARENA_MALLOC(sizeof(RegEditor), "../z_debug.c", 260);
     gRegEditor->regPage = 0;
     gRegEditor->regGroup = 0;
     gRegEditor->regCur = 0;
@@ -153,6 +153,7 @@ void DebugCamera_DrawScreenText(GfxPrint* printer) {
     }
 }
 
+#if OOT_DEBUG
 /**
  * Updates the state of the Reg Editor according to user input.
  * Also contains a controller rumble test that can be interfaced with via related REGs.
@@ -269,6 +270,7 @@ void Regs_DrawEditor(GfxPrint* printer) {
         }
     }
 }
+#endif
 
 /**
  * Draws the Reg Editor and Debug Camera text on screen
@@ -283,7 +285,7 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
 
     GfxPrint_Init(&printer);
     opaStart = POLY_OPA_DISP;
-    gfx = Graph_GfxPlusOne(POLY_OPA_DISP);
+    gfx = Gfx_Open(POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, gfx);
     GfxPrint_Open(&printer, gfx);
 
@@ -291,15 +293,17 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
         DebugCamera_DrawScreenText(&printer);
     }
 
+#if OOT_DEBUG
     if (gRegEditor->regPage != 0) {
         Regs_DrawEditor(&printer);
     }
+#endif
 
     sDebugCamTextEntryCount = 0;
 
     gfx = GfxPrint_Close(&printer);
     gSPEndDisplayList(gfx++);
-    Graph_BranchDlist(opaStart, gfx);
+    Gfx_Close(opaStart, gfx);
     POLY_OPA_DISP = gfx;
 
     if (1) {}

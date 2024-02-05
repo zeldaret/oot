@@ -26,13 +26,11 @@ EffectSsInit Effect_Ss_Extra_InitVars = {
 u32 EffectSsExtra_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
     s32 pad;
-    s32 objectSlot;
-    uintptr_t oldSeg6;
-
-    objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_YABUSAME_POINT);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_YABUSAME_POINT);
 
     if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
-        oldSeg6 = gSegments[6];
+        uintptr_t oldSeg6 = gSegments[6];
+
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
@@ -71,7 +69,7 @@ void EffectSsExtra_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_ReplaceRotation(&play->billboardMtxF);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_eff_ss_extra.c", 186),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_eff_ss_extra.c", 186),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rScoreIdx]));
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_yabusame_point_DL_000DC0));

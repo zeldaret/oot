@@ -38,6 +38,7 @@
 #include "z64view.h"
 #include "z64vis.h"
 #include "alignment.h"
+#include "audiothread_cmd.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
@@ -272,6 +273,8 @@ typedef struct {
     /* 0x70 */ OSMesg loadMsg;
     /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
+
+#define SAC_ENABLE (1 << 0)
 
 typedef struct {
     /* 0x000 */ s16 colATCount;
@@ -693,8 +696,7 @@ typedef struct {
     /* 0x04 */ u32 decSize;
     /* 0x08 */ u32 compInfoOffset; // only used in mio0
     /* 0x0C */ u32 uncompDataOffset; // only used in mio0
-    /* 0x10 */ u8 data[1];
-} Yaz0Header; // size = 0x10 ("data" is not part of the header)
+} Yaz0Header; // size = 0x10
 
 struct ArenaNode;
 
@@ -702,7 +704,7 @@ typedef struct Arena {
     /* 0x00 */ struct ArenaNode* head;
     /* 0x04 */ void* start;
     /* 0x08 */ OSMesgQueue lockQueue;
-    /* 0x20 */ u8 unk_20;
+    /* 0x20 */ u8 allocFailures; // only used in non-debug builds
     /* 0x21 */ u8 isInit;
     /* 0x22 */ u8 flag;
 } Arena; // size = 0x24
@@ -713,12 +715,14 @@ typedef struct ArenaNode {
     /* 0x04 */ u32 size;
     /* 0x08 */ struct ArenaNode* next;
     /* 0x0C */ struct ArenaNode* prev;
+#if OOT_DEBUG // TODO: This debug info is also present in N64 retail builds
     /* 0x10 */ const char* filename;
     /* 0x14 */ s32 line;
     /* 0x18 */ OSId threadId;
     /* 0x1C */ Arena* arena;
     /* 0x20 */ OSTime time;
     /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
+#endif
 } ArenaNode; // size = 0x30
 
 /* Relocation entry field getters */

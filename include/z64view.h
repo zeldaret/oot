@@ -49,4 +49,10 @@ typedef struct {
 #define VIEW_FORCE_PROJECTION_PERSPECTIVE (VIEW_PROJECTION_PERSPECTIVE << 4)
 #define VIEW_FORCE_PROJECTION_ORTHO (VIEW_PROJECTION_ORTHO << 4)
 
+#if OOT_DEBUG
+#define VIEW_ERROR_CHECK_EYE_POS(x, y, z) View_ErrorCheckEyePosition((x), (y), (z))
+#else
+#define VIEW_ERROR_CHECK_EYE_POS(x, y, z) (void)0
+#endif
+
 #endif

@@ -90,7 +90,7 @@ void BgZg_Update(Actor* thisx, PlayState* play) {
 
     if (((action < 0) || (1 < action)) || (sActionFuncs[action] == NULL)) {
         // "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[action](this, play);
     }
@@ -125,7 +125,7 @@ void func_808C0EEC(BgZg* this, PlayState* play) {
     OPEN_DISPS(localGfxCtx, "../z_bg_zg.c", 311);
 
     Gfx_SetupDL_25Opa(localGfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(localGfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseBarsDL);
 
@@ -138,7 +138,7 @@ void BgZg_Draw(Actor* thisx, PlayState* play) {
 
     if (((drawConfig < 0) || (drawConfig > 0)) || sDrawFuncs[drawConfig] == NULL) {
         // "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[drawConfig](this, play);
     }

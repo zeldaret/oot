@@ -20,8 +20,11 @@ Vec3f OnePointCutscene_AddVecGeoToVec3f(Vec3f* a, VecGeo* geo) {
     return sum;
 }
 
-s16 OnePointCutscene_Vec3fYaw(Vec3f* vec1, Vec3f* vec2) {
-    return CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(vec2->x - vec1->x, vec2->z - vec1->z)));
+/**
+ * @see Math_Vec3f_Yaw
+ */
+s16 OnePointCutscene_Vec3fYaw(Vec3f* origin, Vec3f* point) {
+    return CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(point->x - origin->x, point->z - origin->z)));
 }
 
 void OnePointCutscene_Vec3sToVec3f(Vec3f* src, Vec3s* dst) {
@@ -258,8 +261,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 D_801211D4[0].atTargetInit.y = actor->focus.pos.y - 5.0f;
                 D_801211D4[0].atTargetInit.z = actor->focus.pos.z;
                 spC0 = ((EnSw*)actor)->unk_364;
-                osSyncPrintf("%s(%d): xyz_t: %s (%f %f %f)\n", "../z_onepointdemo.c", 1671, "&cp", spC0.x, spC0.y,
-                             spC0.z);
+                PRINTF("%s(%d): xyz_t: %s (%f %f %f)\n", "../z_onepointdemo.c", 1671, "&cp", spC0.x, spC0.y, spC0.z);
                 D_801211D4[0].eyeTargetInit.x = (actor->focus.pos.x + (120.0f * spC0.x)) - (Rand_ZeroOne() * 20.0f);
                 D_801211D4[0].eyeTargetInit.y = actor->focus.pos.y + (120.0f * spC0.y) + 20.0f;
                 D_801211D4[0].eyeTargetInit.z = (actor->focus.pos.z + (120.0f * spC0.z)) - (Rand_ZeroOne() * 20.0f);
@@ -1192,7 +1194,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         default:
-            osSyncPrintf(VT_COL(RED, WHITE) "onepointdemo camera: demo number not found !! (%d)\n" VT_RST, csId);
+            PRINTF(VT_COL(RED, WHITE) "onepointdemo camera: demo number not found !! (%d)\n" VT_RST, csId);
             break;
     }
     return 0;
@@ -1250,7 +1252,7 @@ s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s1
     }
     subCamId = Play_CreateSubCamera(play);
     if (subCamId == CAM_ID_NONE) {
-        osSyncPrintf(VT_COL(RED, WHITE) "onepoint demo: error: too many cameras ... give up! type=%d\n" VT_RST, csId);
+        PRINTF(VT_COL(RED, WHITE) "onepoint demo: error: too many cameras ... give up! type=%d\n" VT_RST, csId);
         return CAM_ID_NONE;
     }
 
@@ -1294,8 +1296,8 @@ s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s1
         s16 thisCsId = play->cameraPtrs[subCamId]->csId;
 
         if ((nextCsId / 100) < (thisCsId / 100)) {
-            osSyncPrintf(VT_COL(YELLOW, BLACK) "onepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n" VT_RST,
-                         vNextCamId, nextCsId, thisCsId);
+            PRINTF(VT_COL(YELLOW, BLACK) "onepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n" VT_RST,
+                   vNextCamId, nextCsId, thisCsId);
             if (play->cameraPtrs[vNextCamId]->csId != 5010) {
                 if ((vNextCamId = OnePointCutscene_RemoveCamera(play, vNextCamId)) != CAM_ID_NONE) {
                     Play_ChangeCameraStatus(play, vNextCamId, CAM_STAT_ACTIVE);
@@ -1320,8 +1322,8 @@ s16 OnePointCutscene_EndCutscene(PlayState* play, s16 subCamId) {
         subCamId = play->activeCamId;
     }
     if (play->cameraPtrs[subCamId] != NULL) {
-        osSyncPrintf("onepointdemo camera[%d]: delete timer=%d next=%d\n", subCamId, play->cameraPtrs[subCamId]->timer,
-                     play->cameraPtrs[subCamId]->parentCamId);
+        PRINTF("onepointdemo camera[%d]: delete timer=%d next=%d\n", subCamId, play->cameraPtrs[subCamId]->timer,
+               play->cameraPtrs[subCamId]->parentCamId);
         if (play->cameraPtrs[subCamId]->csId == 5010) {
             play->cameraPtrs[subCamId]->timer = 5;
         } else {
@@ -1346,14 +1348,14 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
     s32 timer;
 
     if (sDisableAttention) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: canceled by other camera\n" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) "actor attention demo camera: canceled by other camera\n" VT_RST);
         return CAM_ID_NONE;
     }
     sUnused = -1;
 
     parentCam = play->cameraPtrs[CAM_ID_MAIN];
     if (parentCam->mode == CAM_MODE_FOLLOW_BOOMERANG) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: change mode BOOKEEPON -> NORMAL\n" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) "actor attention demo camera: change mode BOOKEEPON -> NORMAL\n" VT_RST);
         Camera_RequestMode(parentCam, CAM_MODE_NORMAL);
     }
 
@@ -1401,23 +1403,23 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
         case ACTORCAT_MISC:
         case ACTORCAT_BOSS:
         default:
-            osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: %d: unkown part of actor %d\n" VT_RST,
-                         play->state.frames, actor->category);
+            PRINTF(VT_COL(YELLOW, BLACK) "actor attention demo camera: %d: unkown part of actor %d\n" VT_RST,
+                   play->state.frames, actor->category);
             timer = 30;
             break;
     }
-    osSyncPrintf(VT_FGCOL(CYAN) "%06u:" VT_RST " actor attention demo camera: request %d ", play->state.frames,
-                 actor->category);
+    PRINTF(VT_FGCOL(CYAN) "%06u:" VT_RST " actor attention demo camera: request %d ", play->state.frames,
+           actor->category);
 
     // If the previous attention cutscene has an actor in the same category, skip this actor.
     if (actor->category == vLastHigherCat) {
-        osSyncPrintf("→ " VT_FGCOL(MAGENTA) "×" VT_RST " (%d)\n", actor->id);
+        PRINTF("→ " VT_FGCOL(MAGENTA) "×" VT_RST " (%d)\n", actor->id);
         return CAM_ID_NONE;
     }
-    osSyncPrintf("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);
+    PRINTF("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);
     vSubCamId = OnePointCutscene_Init(play, 5010, timer, actor, vParentCamId);
     if (vSubCamId == CAM_ID_NONE) {
-        osSyncPrintf(VT_COL(RED, WHITE) "actor attention demo: give up! \n" VT_RST, actor->id);
+        PRINTF(VT_COL(RED, WHITE) "actor attention demo: give up! \n" VT_RST, actor->id);
         return CAM_ID_NONE;
     } else {
         s32* data = (s32*)&play->cameraPtrs[vSubCamId]->data1;

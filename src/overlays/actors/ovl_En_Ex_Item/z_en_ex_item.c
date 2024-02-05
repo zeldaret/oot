@@ -54,11 +54,11 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->type = this->actor.params & 0xFF;
     this->unusedParam = (this->actor.params >> 8) & 0xFF;
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "What will come out?"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->type);
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->type);
     // "What will come out?"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->unusedParam);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->unusedParam);
     this->initPos = this->actor.world.pos;
     this->getItemObjectId = -1;
     switch (this->type) {
@@ -108,9 +108,9 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
         if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
             // "What?"
-            osSyncPrintf("なにみの？ %d\n", this->actor.params);
+            PRINTF("なにみの？ %d\n", this->actor.params);
             // "bank is funny"
-            osSyncPrintf(VT_FGCOL(MAGENTA) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+            PRINTF(VT_FGCOL(MAGENTA) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
         }
         this->actionFunc = EnExItem_WaitForObject;
@@ -122,11 +122,11 @@ void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         // "End of transfer"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = EnExItem_Draw;
         this->stopRotate = false;
@@ -301,13 +301,13 @@ void EnExItem_BowlPrize(EnExItem* this, PlayState* play) {
         }
     } else {
         // "parent"
-        osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 母親ー？     ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent);
+        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 母親ー？     ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent);
         // "Can it move?"
-        osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent->update);
+        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent->update);
         if ((this->actor.parent != NULL) && (this->actor.parent->update != NULL)) {
             ((EnBomBowlPit*)this->actor.parent)->exItemDone = 1;
             // "It can't move!"
-            osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n" VT_RST);
         }
         Actor_Kill(&this->actor);
     }
@@ -413,7 +413,7 @@ void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play) {
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         // "Successful completion"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         SET_ITEMGETINF(ITEMGETINF_1D);
         Actor_Kill(&this->actor);
     }
@@ -503,7 +503,7 @@ void EnExItem_DrawKey(EnExItem* this, PlayState* play, s32 index) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ex_item.c", 880);
 
     Gfx_SetupDL_41Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ex_item.c", 887),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ex_item.c", 887),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(keySegments[index]));
     gSPDisplayList(POLY_OPA_DISP++, gItemDropDL);

@@ -119,7 +119,7 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
     }
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mjin.c", 285),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, dlist);
 

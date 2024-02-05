@@ -39,7 +39,7 @@ void FileSelect_SetKeyboardVtx(GameState* thisx) {
     s16 phi_t1;
     s16 phi_s2;
 
-    this->keyboardVtx = Graph_Alloc(this->state.gfxCtx, sizeof(Vtx) * 4 * 5 * 13);
+    this->keyboardVtx = GRAPH_ALLOC(this->state.gfxCtx, sizeof(Vtx) * 4 * 5 * 13);
 
     phi_s1 = 0x26;
 
@@ -117,6 +117,8 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     u8 temp;
     s16 phi_v0;
 
+    if (1) {}
+
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 205);
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -141,7 +143,7 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
         gSP1Quadrangle(POLY_OPA_DISP++, phi_s0, phi_s0 + 2, phi_s0 + 3, phi_s0 + 1, 0);
     }
 
-    this->nameEntryVtx = Graph_Alloc(this->state.gfxCtx, 44 * sizeof(Vtx));
+    this->nameEntryVtx = GRAPH_ALLOC(this->state.gfxCtx, 44 * sizeof(Vtx));
 
     for (phi_s0 = 0, phi_t1 = 0; phi_t1 < 44; phi_t1 += 4, phi_s0++) {
         if ((phi_s0 > 0) && (phi_s0 < 9)) {
@@ -230,9 +232,11 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
 void FileSelect_DrawKeyboard(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     Font* font = &this->font;
-    s16 i = 0;
+    s16 i;
     s16 tmp;
-    s16 vtx = 0;
+    s16 vtx;
+
+    i = vtx = 0;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 324);
 
@@ -283,7 +287,7 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
     if ((this->kbdButton == FS_KBD_BTN_HIRA) || (this->kbdButton == FS_KBD_BTN_KATA) ||
         (this->kbdButton == FS_KBD_BTN_END)) {
         if (this->kbdX != this->kbdButton) {
-            osSyncPrintf("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
+            PRINTF("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
         this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[0] - 4;
         this->nameEntryVtx[41].v.ob[0] = this->nameEntryVtx[43].v.ob[0] = this->nameEntryVtx[40].v.ob[0] + 52;
@@ -291,15 +295,15 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
 
     } else if ((this->kbdButton == FS_KBD_BTN_ENG) || (this->kbdButton == FS_KBD_BTN_BACKSPACE)) {
         if (this->kbdX != this->kbdButton) {
-            osSyncPrintf("23 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
+            PRINTF("23 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
         this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[0] - 4;
         this->nameEntryVtx[41].v.ob[0] = this->nameEntryVtx[43].v.ob[0] = this->nameEntryVtx[40].v.ob[0] + 40;
         this->nameEntryVtx[40].v.ob[1] = this->nameEntryVtx[41].v.ob[1] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[1] + 4;
     } else {
         if (this->charIndex >= 65) {
-            osSyncPrintf("mjp=%d  xpos=%d  ypos=%d  name_contents=%d\n", this->charIndex, this->kbdX, this->kbdY,
-                         this->kbdButton);
+            PRINTF("mjp=%d  xpos=%d  ypos=%d  name_contents=%d\n", this->charIndex, this->kbdX, this->kbdY,
+                   this->kbdButton);
         }
 
         this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] =
@@ -672,17 +676,17 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         this->configMode = CM_OPTIONS_TO_MAIN;
         sramCtx->readBuff[0] = gSaveContext.audioSetting;
         sramCtx->readBuff[1] = gSaveContext.zTargetSetting;
-        osSyncPrintf("ＳＡＶＥ");
+        PRINTF("ＳＡＶＥ");
         Sram_WriteSramHeader(sramCtx);
-        osSyncPrintf(VT_FGCOL(YELLOW));
-        osSyncPrintf("sram->read_buff[2] = J_N = %x\n", sramCtx->readBuff[2]);
-        osSyncPrintf("sram->read_buff[2] = J_N = %x\n", &sramCtx->readBuff[2]);
-        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF("sram->read_buff[2] = J_N = %x\n", sramCtx->readBuff[2]);
+        PRINTF("sram->read_buff[2] = J_N = %x\n", &sramCtx->readBuff[2]);
+        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        PRINTF(VT_RST);
         func_800F6700(gSaveContext.audioSetting);
-        osSyncPrintf("終了\n");
+        PRINTF("終了\n");
         return;
     }
 
@@ -983,7 +987,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.1f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1009),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1009),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPVertex(POLY_OPA_DISP++, gOptionsDividerTopVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
@@ -991,7 +995,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.2f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1021),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1021),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPVertex(POLY_OPA_DISP++, gOptionsDividerMiddleVtx, 4, 0);
@@ -1000,7 +1004,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.4f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1033),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1033),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPVertex(POLY_OPA_DISP++, gOptionsDividerBottomVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);

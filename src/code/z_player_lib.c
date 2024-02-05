@@ -1107,9 +1107,13 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
                 Matrix_RotateZ(BINANG_TO_RAD(this->unk_6C0), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
+            s32 pad;
+
             func_8008F87C(play, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,
                           PLAYER_LIMB_L_FOOT);
         } else if (limbIndex == PLAYER_LIMB_R_THIGH) {
+            s32 pad;
+
             func_8008F87C(play, this, &this->skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN,
                           PLAYER_LIMB_R_FOOT);
         } else {
@@ -1382,7 +1386,7 @@ void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
         Matrix_Translate(sp74.x, sp74.y, sp74.z, MTXMODE_NEW);
         Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
 
-        gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_player_lib.c", 2587),
+        gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2587),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(OVERLAY_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         gSPDisplayList(OVERLAY_DISP++, gLinkAdultHookshotReticleDL);
@@ -1421,42 +1425,6 @@ Color_RGB8 sBottleColors[] = {
     { 80, 80, 255 },   // Fairy
 };
 
-Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
-
-BowSlingshotStringData sBowSlingshotStringData[] = {
-    { gLinkAdultBowStringDL, { 0.0f, -360.4f, 0.0f } },        // Bow
-    { gLinkChildSlingshotStringDL, { 606.0f, 236.0f, 0.0f } }, // Slingshot
-};
-
-// Coordinates of the shield quad collider vertices, in the right hand limb's own model space.
-Vec3f sRightHandLimbModelShieldQuadVertices[] = {
-    { -4500.0f, -3000.0f, -600.0f },
-    { 1500.0f, -3000.0f, -600.0f },
-    { -4500.0f, 3000.0f, -600.0f },
-    { 1500.0f, 3000.0f, -600.0f },
-};
-
-Vec3f D_80126184 = { 100.0f, 1500.0f, 0.0f };
-Vec3f D_80126190 = { 100.0f, 1640.0f, 0.0f };
-
-// Coordinates of the shield quad collider vertices, in the sheath limb's own model space.
-Vec3f sSheathLimbModelShieldQuadVertices[] = {
-    { -3000.0f, -3000.0f, -900.0f },
-    { 3000.0f, -3000.0f, -900.0f },
-    { -3000.0f, 3000.0f, -900.0f },
-    { 3000.0f, 3000.0f, -900.0f },
-};
-
-// Position and rotation of the shield on Link's back, in the sheath limb's own model space.
-Vec3f sSheathLimbModelShieldOnBackPos = { 630.0f, 100.0f, -30.0f };
-Vec3s sSheathLimbModelShieldOnBackZyxRot = { 0, 0, 0x7FFF };
-
-// Position of Link's foot, in the foot limb's own model space.
-Vec3f sLeftRightFootLimbModelFootPos[] = {
-    { 200.0f, 300.0f, 0.0f },
-    { 200.0f, 200.0f, 0.0f },
-};
-
 void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Player* this = (Player*)thisx;
 
@@ -1489,7 +1457,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_RotateZYX(-0x8000, 0, 0x4000, MTXMODE_APPLY);
             Matrix_Scale(1.0f, this->unk_85C, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_player_lib.c", 2653),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2653),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildLinkDekuStickDL);
 
@@ -1510,7 +1478,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2710);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_player_lib.c", 2712),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2712),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetEnvColor(POLY_XLU_DISP++, bottleColor->r, bottleColor->g, bottleColor->b, 0);
             gSPDisplayList(POLY_XLU_DISP++, sBottleDLists[((void)0, gSaveContext.save.linkAge)]);
@@ -1521,6 +1489,8 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         if (this->actor.scale.y >= 0.0f) {
             if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & PLAYER_STATE1_9) {
+                    static Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
+
                     Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
                     Matrix_RotateZYX(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&sp14C);
@@ -1550,6 +1520,10 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_Get(&this->shieldMf);
         } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT) ||
                    (this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT_2)) {
+            static BowSlingshotStringData sBowSlingshotStringData[] = {
+                { gLinkAdultBowStringDL, { 0.0f, -360.4f, 0.0f } },        // Bow
+                { gLinkChildSlingshotStringDL, { 606.0f, 236.0f, 0.0f } }, // Slingshot
+            };
             BowSlingshotStringData* stringData = &sBowSlingshotStringData[gSaveContext.save.linkAge];
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2783);
@@ -1583,7 +1557,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 Matrix_RotateZ(this->unk_858 * -0.2f, MTXMODE_APPLY);
             }
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_player_lib.c", 2804),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2804),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, stringData->dList);
 
@@ -1591,15 +1565,26 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2809);
         } else if ((this->actor.scale.y >= 0.0f) && (this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD)) {
+            // Coordinates of the shield quad collider vertices, in the right hand limb's own model space.
+            static Vec3f sRightHandLimbModelShieldQuadVertices[] = {
+                { -4500.0f, -3000.0f, -600.0f },
+                { 1500.0f, -3000.0f, -600.0f },
+                { -4500.0f, 3000.0f, -600.0f },
+                { 1500.0f, 3000.0f, -600.0f },
+            };
+
             Matrix_Get(&this->shieldMf);
             Player_UpdateShieldCollider(play, this, &this->shieldQuad, sRightHandLimbModelShieldQuadVertices);
         }
 
         if (this->actor.scale.y >= 0.0f) {
             if ((this->heldItemAction == PLAYER_IA_HOOKSHOT) || (this->heldItemAction == PLAYER_IA_LONGSHOT)) {
+                static Vec3f D_80126184 = { 100.0f, 1500.0f, 0.0f };
+
                 Matrix_MultVec3f(&D_80126184, &this->unk_3C8);
 
                 if (heldActor != NULL) {
+                    static Vec3f D_80126190 = { 100.0f, 1640.0f, 0.0f };
                     MtxF sp44;
                     s32 pad;
 
@@ -1636,6 +1621,17 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         if (limbIndex == PLAYER_LIMB_SHEATH) {
             if ((this->rightHandType != PLAYER_MODELTYPE_RH_SHIELD) &&
                 (this->rightHandType != PLAYER_MODELTYPE_RH_FF)) {
+                // Coordinates of the shield quad collider vertices, in the sheath limb's own model space.
+                static Vec3f sSheathLimbModelShieldQuadVertices[] = {
+                    { -3000.0f, -3000.0f, -900.0f },
+                    { 3000.0f, -3000.0f, -900.0f },
+                    { -3000.0f, 3000.0f, -900.0f },
+                    { 3000.0f, 3000.0f, -900.0f },
+                };
+                // Position and rotation of the shield on Link's back, in the sheath limb's own model space.
+                static Vec3f sSheathLimbModelShieldOnBackPos = { 630.0f, 100.0f, -30.0f };
+                static Vec3s sSheathLimbModelShieldOnBackZyxRot = { 0, 0, 0x7FFF };
+
                 if (Player_IsChildWithHylianShield(this)) {
                     Player_UpdateShieldCollider(play, this, &this->shieldQuad, sSheathLimbModelShieldQuadVertices);
                 }
@@ -1646,6 +1642,11 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
             Matrix_MultVec3f(&sPlayerFocusHeadLimbModelPos, &this->actor.focus.pos);
         } else {
+            // Position of Link's foot, in the foot limb's own model space.
+            static Vec3f sLeftRightFootLimbModelFootPos[] = {
+                { 200.0f, 300.0f, 0.0f },
+                { 200.0f, 200.0f, 0.0f },
+            };
             Vec3f* footPos = &sLeftRightFootLimbModelFootPos[((void)0, gSaveContext.save.linkAge)];
 
             // The same model position is used for both feet,
@@ -1662,11 +1663,11 @@ u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime)
 
     size = gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart;
     ptr = segment + PAUSE_EQUIP_BUFFER_SIZE;
-    DmaMgr_RequestSyncDebug(ptr, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, size, "../z_player_lib.c", 2982);
+    DMA_REQUEST_SYNC(ptr, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, size, "../z_player_lib.c", 2982);
 
     size = gObjectTable[linkObjectId].vromEnd - gObjectTable[linkObjectId].vromStart;
     ptr = segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE;
-    DmaMgr_RequestSyncDebug(ptr, gObjectTable[linkObjectId].vromStart, size, "../z_player_lib.c", 2988);
+    DMA_REQUEST_SYNC(ptr, gObjectTable[linkObjectId].vromStart, size, "../z_player_lib.c", 2988);
 
     ptr = (void*)ALIGN16((uintptr_t)ptr + size);
 
@@ -1742,12 +1743,10 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
     Gfx* opaRef;
     Gfx* xluRef;
     u16 perspNorm;
-    Mtx* perspMtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx));
-    Mtx* lookAtMtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx));
+    Mtx* perspMtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx));
+    Mtx* lookAtMtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 3129);
-
-    { s32 pad[2]; }
 
     opaRef = POLY_OPA_DISP;
     POLY_OPA_DISP++;
@@ -1757,6 +1756,8 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
 
     gSPDisplayList(WORK_DISP++, POLY_OPA_DISP);
     gSPDisplayList(WORK_DISP++, POLY_XLU_DISP);
+
+    { s32 pad[2]; }
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
 

@@ -124,13 +124,13 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
                       PRIMITIVE, 0);
 
     gfxRef = POLY_OPA_DISP;
-    gfx = Graph_GfxPlusOne(gfxRef);
+    gfx = Gfx_Open(gfxRef);
     gSPDisplayList(OVERLAY_DISP++, gfx);
 
     KaleidoScope_DrawDebugEditorText(&gfx);
 
     gSPEndDisplayList(gfx++);
-    Graph_BranchDlist(gfxRef, gfx);
+    Gfx_Close(gfxRef, gfx);
     POLY_OPA_DISP = gfx;
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -533,7 +533,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
                             }
                         } else {
                             j = sSlotItems[i];
-                            osSyncPrintf("i=%d  j=%d\n", i, j);
+                            PRINTF("i=%d  j=%d\n", i, j);
                             if (gSaveContext.save.info.inventory.items[i] == ITEM_NONE) {
                                 gSaveContext.save.info.inventory.items[i] = j;
                             } else {

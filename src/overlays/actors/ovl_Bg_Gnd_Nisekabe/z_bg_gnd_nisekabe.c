@@ -40,9 +40,9 @@ void BgGndNisekabe_Update(Actor* thisx, PlayState* play) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
 
     if (play->actorCtx.lensActive) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_7;
+        this->actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
@@ -55,7 +55,7 @@ void BgGndNisekabe_Draw(Actor* thisx, PlayState* play) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
     u32 index = this->actor.params & 0xFF;
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, dLists[index]);
     } else {
         Gfx_DrawDListOpa(play, dLists[index]);

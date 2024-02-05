@@ -59,9 +59,9 @@ u32 sIrqMgrRetraceCount = 0;
 void IrqMgr_AddClient(IrqMgr* irqMgr, IrqMgrClient* client, OSMesgQueue* msgQueue) {
     OSIntMask prevInt;
 
-    LogUtils_CheckNullPointer("this", irqMgr, "../irqmgr.c", 96);
-    LogUtils_CheckNullPointer("c", client, "../irqmgr.c", 97);
-    LogUtils_CheckNullPointer("msgQ", msgQueue, "../irqmgr.c", 98);
+    LOG_UTILS_CHECK_NULL_POINTER("this", irqMgr, "../irqmgr.c", 96);
+    LOG_UTILS_CHECK_NULL_POINTER("c", client, "../irqmgr.c", 97);
+    LOG_UTILS_CHECK_NULL_POINTER("msgQ", msgQueue, "../irqmgr.c", 98);
 
     prevInt = osSetIntMask(OS_IM_NONE);
 
@@ -85,8 +85,8 @@ void IrqMgr_RemoveClient(IrqMgr* irqMgr, IrqMgrClient* client) {
     IrqMgrClient* lastClient = NULL;
     OSIntMask prevInt;
 
-    LogUtils_CheckNullPointer("this", irqMgr, "../irqmgr.c", 129);
-    LogUtils_CheckNullPointer("c", client, "../irqmgr.c", 130);
+    LOG_UTILS_CHECK_NULL_POINTER("this", irqMgr, "../irqmgr.c", 129);
+    LOG_UTILS_CHECK_NULL_POINTER("c", client, "../irqmgr.c", 130);
 
     // Disable interrupts to prevent a thread context switch while the linked list is modified
     prevInt = osSetIntMask(OS_IM_NONE);
@@ -118,7 +118,7 @@ void IrqMgr_SendMesgToClients(IrqMgr* irqMgr, OSMesg msg) {
     for (client = irqMgr->clients; client != NULL; client = client->prev) {
         if (MQ_IS_FULL(client->queue)) {
             // "irqmgr_SendMesgForClient: Message queue is overflowing mq=%08x cnt=%d"
-            osSyncPrintf(
+            PRINTF(
                 VT_COL(RED, WHITE) "irqmgr_SendMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n" VT_RST,
                 client->queue, MQ_GET_COUNT(client->queue));
         } else {
@@ -141,7 +141,7 @@ void IrqMgr_JamMesgToClients(IrqMgr* irqMgr, OSMesg msg) {
     for (client = irqMgr->clients; client != NULL; client = client->prev) {
         if (MQ_IS_FULL(client->queue)) {
             // "irqmgr_JamMesgForClient: Message queue is overflowing mq=%08x cnt=%d"
-            osSyncPrintf(
+            PRINTF(
                 VT_COL(RED, WHITE) "irqmgr_JamMesgForClient:メッセージキューがあふれています mq=%08x cnt=%d\n" VT_RST,
                 client->queue, MQ_GET_COUNT(client->queue));
         } else {
@@ -171,19 +171,19 @@ void IrqMgr_HandlePreNMI(IrqMgr* irqMgr) {
 
 void IrqMgr_CheckStacks(void) {
     // "0.5 seconds after PRENMI"
-    osSyncPrintf("irqmgr.c: PRENMIから0.5秒経過\n");
+    PRINTF("irqmgr.c: PRENMIから0.5秒経過\n");
 
     if (StackCheck_Check(NULL) == STACK_STATUS_OK) {
         // "The stack looks ok"
-        osSyncPrintf("スタックは大丈夫みたいです\n");
+        PRINTF("スタックは大丈夫みたいです\n");
     } else {
-        osSyncPrintf("%c", BEL);
-        osSyncPrintf(VT_FGCOL(RED));
+        PRINTF("%c", BEL);
+        PRINTF(VT_FGCOL(RED));
         // "Stack overflow or dangerous"
-        osSyncPrintf("スタックがオーバーフローしたか危険な状態です\n");
+        PRINTF("スタックがオーバーフローしたか危険な状態です\n");
         // "Increase stack size early or don't consume stack"
-        osSyncPrintf("早々にスタックサイズを増やすか、スタックを消費しないようにしてください\n");
-        osSyncPrintf(VT_RST);
+        PRINTF("早々にスタックサイズを増やすか、スタックを消費しないようにしてください\n");
+        PRINTF(VT_RST);
     }
 }
 
@@ -208,7 +208,7 @@ void IrqMgr_HandlePreNMI480(IrqMgr* irqMgr) {
     result = osAfterPreNMI();
     if (result != 0) {
         // "osAfterPreNMI returned %d !?"
-        osSyncPrintf("osAfterPreNMIが %d を返しました！？\n", result);
+        PRINTF("osAfterPreNMIが %d を返しました！？\n", result);
         // osAfterPreNMI failed, try again in 1ms
         //! @bug setting the same timer for a second time without letting the first one complete breaks
         //! the timer linked list
@@ -244,7 +244,7 @@ void IrqMgr_ThreadEntry(void* arg) {
     u8 exit;
 
     // "Start IRQ manager thread execution"
-    osSyncPrintf("ＩＲＱマネージャスレッド実行開始\n");
+    PRINTF("ＩＲＱマネージャスレッド実行開始\n");
     exit = false;
 
     while (!exit) {
@@ -253,45 +253,50 @@ void IrqMgr_ThreadEntry(void* arg) {
             case IRQ_RETRACE_MSG:
                 IrqMgr_HandleRetrace(irqMgr);
                 break;
+
             case IRQ_PRENMI_MSG:
-                osSyncPrintf("PRE_NMI_MSG\n");
+                PRINTF("PRE_NMI_MSG\n");
                 // "Scheduler: Receives PRE_NMI message"
-                osSyncPrintf("スケジューラ：PRE_NMIメッセージを受信\n");
+                PRINTF("スケジューラ：PRE_NMIメッセージを受信\n");
                 IrqMgr_HandlePreNMI(irqMgr);
                 break;
+
             case IRQ_PRENMI450_MSG:
-                osSyncPrintf("PRENMI450_MSG\n");
+                PRINTF("PRENMI450_MSG\n");
                 // "Scheduler: Receives PRENMI450 message"
-                osSyncPrintf("スケジューラ：PRENMI450メッセージを受信\n");
+                PRINTF("スケジューラ：PRENMI450メッセージを受信\n");
                 IrqMgr_HandlePreNMI450(irqMgr);
                 break;
+
             case IRQ_PRENMI480_MSG:
-                osSyncPrintf("PRENMI480_MSG\n");
+                PRINTF("PRENMI480_MSG\n");
                 // "Scheduler: Receives PRENMI480 message"
-                osSyncPrintf("スケジューラ：PRENMI480メッセージを受信\n");
+                PRINTF("スケジューラ：PRENMI480メッセージを受信\n");
                 IrqMgr_HandlePreNMI480(irqMgr);
                 break;
+
             case IRQ_PRENMI500_MSG:
-                osSyncPrintf("PRENMI500_MSG\n");
+                PRINTF("PRENMI500_MSG\n");
                 // "Scheduler: Receives PRENMI500 message"
-                osSyncPrintf("スケジューラ：PRENMI500メッセージを受信\n");
-                exit = true;
+                PRINTF("スケジューラ：PRENMI500メッセージを受信\n");
                 IrqMgr_HandlePreNMI500(irqMgr);
+                exit = true;
                 break;
+
             default:
                 // "Unexpected message received"
-                osSyncPrintf("irqmgr.c:予期しないメッセージを受け取りました(%08x)\n", msg);
+                PRINTF("irqmgr.c:予期しないメッセージを受け取りました(%08x)\n", msg);
                 break;
         }
     }
 
     // "End of IRQ manager thread execution"
-    osSyncPrintf("ＩＲＱマネージャスレッド実行終了\n");
+    PRINTF("ＩＲＱマネージャスレッド実行終了\n");
 }
 
 void IrqMgr_Init(IrqMgr* irqMgr, void* stack, OSPri pri, u8 retraceCount) {
-    LogUtils_CheckNullPointer("this", irqMgr, "../irqmgr.c", 346);
-    LogUtils_CheckNullPointer("stack", stack, "../irqmgr.c", 347);
+    LOG_UTILS_CHECK_NULL_POINTER("this", irqMgr, "../irqmgr.c", 346);
+    LOG_UTILS_CHECK_NULL_POINTER("stack", stack, "../irqmgr.c", 347);
 
     irqMgr->clients = NULL;
     // Messages to send to each client message queue on each interrupt event

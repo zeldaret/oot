@@ -58,7 +58,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnMs_SetOfferText(EnMs* this, PlayState* play) {
-    this->actor.textId = Text_GetFaceReaction(play, 0x1B);
+    this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MAGIC_BEAN_SALESMAN);
     if (this->actor.textId == 0) {
         if (BEANS_BOUGHT >= 10) {
             this->actor.textId = 0x406B;
@@ -171,7 +171,7 @@ void EnMs_Update(Actor* thisx, PlayState* play) {
     if (gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_0 &&
         gSaveContext.sceneLayer == 8) { // ride carpet if in credits
         Actor_MoveXZGravity(&this->actor);
-        osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
+        PRINTF("OOOHHHHHH %f\n", this->actor.velocity.y);
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);

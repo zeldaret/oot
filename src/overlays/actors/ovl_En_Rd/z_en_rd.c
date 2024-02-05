@@ -181,7 +181,7 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.params == REDEAD_TYPE_INVISIBLE) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
@@ -801,7 +801,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
         this->damageEffect = this->actor.colChkInfo.damageEffect;
 
         if (this->action != REDEAD_ACTION_RISE_FROM_COFFIN) {
-            Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+            Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }

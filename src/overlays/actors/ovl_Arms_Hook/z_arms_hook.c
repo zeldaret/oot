@@ -169,10 +169,10 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
     ArmsHook_CheckForCancel(this);
 
     if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
-        (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
+        (this->collider.elem.atHitElem->elemType != ELEMTYPE_UNK4)) {
         touchedActor = this->collider.base.at;
         if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
-            if (this->collider.info.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
+            if (this->collider.elem.atHitElem->bumperFlags & BUMP_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);
                 if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_10)) {
                     func_80865044(this);
@@ -321,7 +321,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
 
         Player_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_arms_hook.c", 895),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_arms_hook.c", 895),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotTipDL);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
@@ -331,7 +331,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
         Matrix_RotateY(Math_FAtan2F(sp78.x, sp78.z), MTXMODE_APPLY);
         Matrix_RotateX(Math_FAtan2F(-sp78.y, sp5C), MTXMODE_APPLY);
         Matrix_Scale(0.015f, 0.015f, sqrtf(SQ(sp78.y) + sp58) * 0.01f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_arms_hook.c", 910),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_arms_hook.c", 910),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotChainDL);
 
