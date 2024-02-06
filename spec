@@ -383,7 +383,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_sram.o"
     include "$(BUILD_DIR)/src/code/z_ss_sram.o"
     include "$(BUILD_DIR)/src/code/z_rumble.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/data/z_text.data.o"
+#endif
     include "$(BUILD_DIR)/data/unk_8012ABC0.data.o"
     include "$(BUILD_DIR)/src/code/z_view.o"
     include "$(BUILD_DIR)/src/code/z_vimode.o"
