@@ -399,40 +399,39 @@ void EnReeba_SetupStunned(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_Stunned(EnReeba* this, PlayState* play) {
-    Vec3f pos;
-    f32 scale;
-
     if (this->waitTimer != 0) {
         if (this->actor.speed < 0.0f) {
             this->actor.speed += 1.0f;
         }
         return;
-    }
+    } else {
+        this->actor.speed = 0.0f;
 
-    this->actor.speed = 0.0f;
+        if ((this->stunType == LEEVER_STUN_OTHER) || (this->actor.colChkInfo.health != 0)) {
+            Vec3f pos;
+            f32 scale;
 
-    if ((this->stunType == LEEVER_STUN_OTHER) || (this->actor.colChkInfo.health != 0)) {
-        if (this->stunType == LEEVER_STUN_ICE) {
-            pos.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
-            pos.y = this->actor.world.pos.y + Rand_CenteredFloat(20.0f);
-            pos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
-            scale = 3.0f;
+            if (this->stunType == LEEVER_STUN_ICE) {
+                pos.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
+                pos.y = this->actor.world.pos.y + Rand_CenteredFloat(20.0f);
+                pos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
+                scale = 3.0f;
 
-            if (this->type != LEEVER_TYPE_SMALL) {
-                scale = 6.0f;
+                if (this->type != LEEVER_TYPE_SMALL) {
+                    scale = 6.0f;
+                }
+
+                EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255, scale);
             }
 
-            EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255, scale);
+            this->waitTimer = 66;
+            this->actionfunc = EnReeba_StunRecover;
+            return;
         }
 
-        this->waitTimer = 66;
-        this->actionfunc = EnReeba_StunRecover;
-        return;
+        this->waitTimer = 30;
+        this->actionfunc = EnReeba_StunDie;
     }
-
-setup_stun_die:
-    this->waitTimer = 30;
-    this->actionfunc = EnReeba_StunDie;
 }
 
 void EnReeba_StunDie(EnReeba* this, PlayState* play) {
