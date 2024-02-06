@@ -431,18 +431,20 @@ def main():
         parser.error("No output file requested")
 
     version = args.oot_version
-    if version == "gc-eu-mq":
-        nes_message_entry_table_addr = 0x00B7E8F0
-        ger_message_entry_table_addr = 0x00B82B18
-        fra_message_entry_table_addr = 0x00B84C28
-        staff_message_entry_table_addr = 0x00B86D38
-        staff_message_entry_table_addr_end = 0x00B86EC0
-    elif version == "gc-eu-mq-dbg":
+    if version == "gc-eu-mq-dbg":
         nes_message_entry_table_addr = 0x00BC24C0
         ger_message_entry_table_addr = 0x00BC66E8
         fra_message_entry_table_addr = 0x00BC87F8
         staff_message_entry_table_addr = 0x00BCA908
         staff_message_entry_table_addr_end = 0x00BCAA90
+    elif version == "gc-eu-mq":
+        nes_message_entry_table_addr = 0x00B7E8F0
+        ger_message_entry_table_addr = 0x00B82B18
+        fra_message_entry_table_addr = 0x00B84C28
+        staff_message_entry_table_addr = 0x00B86D38
+        staff_message_entry_table_addr_end = 0x00B86EC0
+    else:
+        parser.error("Unsupported OOT version")
 
     extract_all_text(args.text_out, args.staff_text_out)
 
