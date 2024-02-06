@@ -260,7 +260,7 @@ textbox_ypos = {
 }
 
 # Global variables for baserom version and message entry table vrom addresses,
-# set via command line arguments in main()
+# set based on command line arguments in main()
 version = None
 nes_message_entry_table_addr = None
 ger_message_entry_table_addr = None
