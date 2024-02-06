@@ -5,6 +5,7 @@
 
 import re, struct
 from os import path
+import argparse
 
 # ===================================================
 #   Util
@@ -407,9 +408,9 @@ def extract_all_text(text_out, staff_text_out):
 
 
 def main():
-    from argparse import ArgumentParser
-
-    parser = ArgumentParser(description="Extract text from the baserom into .h files")
+    parser = argparse.ArgumentParser(
+        description="Extract text from the baserom into .h files"
+    )
     parser.add_argument("--text-out", help="Path to output .h file for text")
     parser.add_argument(
         "--staff-text-out", help="Path to output .h file for staff text"
