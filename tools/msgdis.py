@@ -259,14 +259,14 @@ textbox_ypos = {
     3: "TEXTBOX_POS_BOTTOM",
 }
 
-version = "gc-eu-mq-dbg"
-
-# message entry tables vrom addresses
-nes_message_entry_table_addr = 0x00BC24C0
-ger_message_entry_table_addr = 0x00BC66E8
-fra_message_entry_table_addr = 0x00BC87F8
-staff_message_entry_table_addr = 0x00BCA908
-staff_message_entry_table_addr_end = 0x00BCAA90
+# Global variables for baserom version and message entry table vrom addresses,
+# set via command line arguments in main()
+version = None
+nes_message_entry_table_addr = None
+ger_message_entry_table_addr = None
+fra_message_entry_table_addr = None
+staff_message_entry_table_addr = None
+staff_message_entry_table_addr_end = None
 
 nes_message_entry_table = []
 ger_message_entry_table = []
@@ -430,14 +430,19 @@ def main():
     if not (args.text_out or args.staff_text_out):
         parser.error("No output file requested")
 
-    if args.oot_version == "gc-eu-mq":
-        # Yikes
-        version = "gc-eu-mq"
-        nes_message_entry_table_addr = 0xB7E8F0
-        ger_message_entry_table_addr = 0xB82B18
-        fra_message_entry_table_addr = 0xB84C28
-        staff_message_entry_table_addr = 0xB86D38
-        staff_message_entry_table_addr_end = 0xB86EC0
+    version = args.oot_version
+    if version == "gc-eu-mq":
+        nes_message_entry_table_addr = 0x00B7E8F0
+        ger_message_entry_table_addr = 0x00B82B18
+        fra_message_entry_table_addr = 0x00B84C28
+        staff_message_entry_table_addr = 0x00B86D38
+        staff_message_entry_table_addr_end = 0x00B86EC0
+    elif version == "gc-eu-mq-dbg":
+        nes_message_entry_table_addr = 0x00BC24C0
+        ger_message_entry_table_addr = 0x00BC66E8
+        fra_message_entry_table_addr = 0x00BC87F8
+        staff_message_entry_table_addr = 0x00BCA908
+        staff_message_entry_table_addr_end = 0x00BCAA90
 
     extract_all_text(args.text_out, args.staff_text_out)
 
