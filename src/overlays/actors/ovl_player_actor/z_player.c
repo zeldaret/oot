@@ -13020,6 +13020,7 @@ void Player_Action_8084E3C4(Player* this, PlayState* play) {
         gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = sWarpSongEntrances[play->msgCtx.lastPlayedSong];
         gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
         gSaveContext.respawn[RESPAWN_MODE_RETURN].data = play->msgCtx.lastPlayedSong;
+
         this->csAction = PLAYER_CSACTION_NONE;
         this->stateFlags1 &= ~PLAYER_STATE1_29;
 
