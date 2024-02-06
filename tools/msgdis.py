@@ -404,3 +404,23 @@ def extract_all_text(text_out, staff_text_out):
 
         with open(staff_text_out, "w", encoding="utf8") as outfile:
             outfile.write(out.strip() + "\n")
+
+
+def main():
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser(description="Extract text from the baserom into .h files")
+    parser.add_argument("--text-out", help="Path to output .h file for text")
+    parser.add_argument(
+        "--staff-text-out", help="Path to output .h file for staff text"
+    )
+
+    args = parser.parse_args()
+    if not (args.text_out or args.staff_text_out):
+        parser.error("No output file requested")
+
+    extract_all_text(args.text_out, args.staff_text_out)
+
+
+if __name__ == "__main__":
+    main()

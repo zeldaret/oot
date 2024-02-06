@@ -370,6 +370,7 @@ setup: venv
 # TODO: for now, we only extract assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
 	$(PYTHON) extract_assets.py -j$(N_THREADS)
+	$(PYTHON) tools/msgdis.py --text-out assets/text/message_data.h --staff-text-out assets/text/message_data_staff.h
 endif
 
 disasm: $(DISASM_O_FILES)
