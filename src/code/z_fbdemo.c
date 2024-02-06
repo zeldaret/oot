@@ -40,6 +40,22 @@ Gfx sTransTileSetupDL[] = {
     gsSPEndDisplayList(),
 };
 
+#define SET_VERTEX(vtx, ob0, ob1, ob2, f, tc0, tc1, n0, n1, n2, alpha) \
+    {                                                                  \
+        Vtx_tn* vtxn = &(vtx)->n;                                      \
+        vtxn->ob[0] = (ob0);                                           \
+        vtxn->ob[1] = (ob1);                                           \
+        vtxn->ob[2] = (ob2);                                           \
+        vtxn->flag = (f);                                              \
+        vtxn->tc[0] = (tc0);                                           \
+        vtxn->tc[1] = (tc1);                                           \
+        vtxn->n[0] = (n0);                                             \
+        vtxn->n[1] = (n1);                                             \
+        vtxn->n[2] = (n2);                                             \
+        vtxn->a = (alpha);                                             \
+    }                                                                  \
+    (void)0
+
 void TransitionTile_InitGraphics(TransitionTile* this) {
     s32 frame;
     s32 col;
@@ -61,20 +77,7 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
         for (row = 0; row < this->rows + 1; row++) {
             colTex = 0;
             for (col = 0; col < this->cols + 1; col++) {
-                Vtx_tn* vtxn = &vtx->n;
-
-                vtx++;
-                vtxn->tc[0] = colTex << 6;
-                vtxn->ob[0] = col * 0x20;
-                vtxn->ob[1] = row * 0x20;
-                vtxn->ob[2] = -5;
-                vtxn->flag = 0;
-                vtxn->tc[1] = rowTex << 6;
-                vtxn->n[0] = 0;
-                vtxn->n[1] = 0;
-                vtxn->n[2] = 120;
-                vtxn->a = 255;
-
+                SET_VERTEX(vtx++, col * 0x20, row * 0x20, -5, 0, colTex << 6, rowTex << 6, 0, 0, 120, 255);
                 colTex += 0x20;
             }
 
