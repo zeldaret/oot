@@ -7845,7 +7845,6 @@ void Player_Action_808414F8(Player* this, PlayState* play) {
     f32 speedTarget;
     s16 yawTarget;
     s32 sp2C;
-    s16 sp2A;
 
     func_80841138(this, play);
 
@@ -7869,7 +7868,7 @@ void Player_Action_808414F8(Player* this, PlayState* play) {
                 }
             }
         } else {
-            sp2A = yawTarget - this->yaw;
+            s16 sp2A = yawTarget - this->yaw;
 
             Math_AsymStepToF(&this->speedXZ, speedTarget * 1.5f, 1.5f, 2.0f);
             Math_ScaledStepToS(&this->yaw, yawTarget, sp2A * 0.1f);
@@ -8481,15 +8480,6 @@ s32 func_80842DF4(PlayState* play, Player* this) {
 }
 
 void Player_Action_80843188(Player* this, PlayState* play) {
-    f32 sp54;
-    f32 sp50;
-    s16 sp4E;
-    s16 sp4C;
-    s16 sp4A;
-    s16 sp48;
-    s16 sp46;
-    f32 sp40;
-
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (!Player_IsChildWithHylianShield(this)) {
             Player_AnimPlayLoop(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense_wait, this->modelAnimType));
@@ -8507,6 +8497,15 @@ void Player_Action_80843188(Player* this, PlayState* play) {
     func_8083721C(this);
 
     if (this->av2.actionVar2 != 0) {
+        f32 sp54;
+        f32 sp50;
+        s16 sp4E;
+        s16 sp4C;
+        s16 sp4A;
+        s16 sp48;
+        s16 sp46;
+        f32 sp40;
+
         sp54 = sControlInput->rel.stick_y * 100;
         sp50 = sControlInput->rel.stick_x * -120;
         sp4E = this->actor.shape.rot.y - Camera_GetInputDirYaw(GET_ACTIVE_CAM(play));
