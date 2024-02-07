@@ -376,11 +376,9 @@ def extract_all_text(text_out, staff_text_out):
     if text_out is not None:
         out = ""
         for message in dump_all_text():
-            if message[0] == 0xFFFF:
+            if message[0] in {0xFFFC, 0xFFFD, 0xFFFF}:
                 continue
 
-            if message[0] == 0xFFFC:
-                out += "#ifdef DEFINE_MESSAGE_FFFC\n"
             out += f"DEFINE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
             out += "\n"
             out += f"{message[3]}" + ("\n" if message[3] != "" else "") + ","
@@ -388,8 +386,6 @@ def extract_all_text(text_out, staff_text_out):
             out += f"{message[4]}" + ("\n" if message[4] != "" else "") + ","
             out += "\n" if message[4] != "" else ""
             out += f"{message[5]}\n)"
-            if message[0] == 0xFFFC:
-                out += "\n#endif"
             out += "\n\n"
 
         with open(text_out, "w", encoding="utf8") as outfile:

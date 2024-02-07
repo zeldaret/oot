@@ -49,6 +49,9 @@ typedef struct {
 
 #include "assets/text/message_data.h"
 extern const char _message_0xFFFC_nes[];
+extern const char _message_0xFFFD_nes[];
+extern const char _message_0xFFFD_ger[];
+extern const char _message_0xFFFD_fra[];
 
 #undef DEFINE_MESSAGE
 

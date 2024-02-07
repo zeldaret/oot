@@ -52,7 +52,8 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
                 "src",
                 "build/gc-eu-mq-dbg",
                 "include",
-                "include/libc"
+                "include/libc",
+                "assets/_extracted/gc-eu-mq-dbg"
             ],
             "defines": [
                 "_LANGUAGE_C", // For gbi.h

@@ -30,9 +30,9 @@ u16 sOcarinaSongBitFlags = 0; // ocarina bit flags
 MessageTableEntry sNesMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
     { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_nes },
-#define DEFINE_MESSAGE_FFFC
 #include "assets/text/message_data.h"
-#undef DEFINE_MESSAGE_FFFC
+    DEFINE_MESSAGE(0xFFFC, 0, 0, "", "", "") //
+    DEFINE_MESSAGE(0xFFFD, 0, 0, "", "", "") //
 #undef DEFINE_MESSAGE
     { 0xFFFF, 0, NULL },
 };
@@ -40,6 +40,7 @@ MessageTableEntry sNesMessageEntryTable[] = {
 const char* sGerMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_ger,
 #include "assets/text/message_data.h"
+    DEFINE_MESSAGE(0xFFFD, 0, 0, "", "", "") //
 #undef DEFINE_MESSAGE
     NULL,
 };
@@ -47,6 +48,7 @@ const char* sGerMessageEntryTable[] = {
 const char* sFraMessageEntryTable[] = {
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_fra,
 #include "assets/text/message_data.h"
+    DEFINE_MESSAGE(0xFFFD, 0, 0, "", "", "") //
 #undef DEFINE_MESSAGE
     NULL,
 };

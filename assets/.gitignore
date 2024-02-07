@@ -2,6 +2,8 @@
 *.c
 !text/*.c
 *.h
+!text/*.h
 *.cfg
 *.vtx.inc
 *.dlist.inc
+_extracted

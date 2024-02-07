@@ -6,3 +6,5 @@
     const char _message_##textId##_fra[sizeof(fraMessage)] = { fraMessage END };
 
 #include "assets/text/message_data.enc.h"
+
+DEFINE_MESSAGE(0xFFFD, 0, 0, "", "", "")

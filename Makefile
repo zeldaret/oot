@@ -66,6 +66,7 @@ PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
 EXPECTED_DIR := expected/$(BUILD_DIR)
 BASEROM_DIR := baseroms/$(VERSION)
+ASSETS_EXTRACTED_DIR := assets/_extracted/$(VERSION)
 VENV := .venv
 
 MAKE = make
@@ -130,7 +131,7 @@ NM      := $(MIPS_BINUTILS_PREFIX)nm
 
 N64_EMULATOR ?= 
 
-INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I.
+INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(ASSETS_EXTRACTED_DIR)
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
@@ -239,7 +240,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),$(BUILD_DIR)/$
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),$(BUILD_DIR)/$f) \
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/baserom $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/baserom $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
@@ -348,7 +349,7 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
-	$(RM) -r assets/text/*.h
+	$(RM) -r $(ASSETS_EXTRACTED_DIR)
 	$(RM) -r $(BUILD_DIR)/assets
 	$(RM) -r .extracted-assets.json
 
@@ -370,7 +371,8 @@ setup: venv
 # TODO: for now, we only extract assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
 	$(PYTHON) extract_assets.py -j$(N_THREADS)
-	$(PYTHON) tools/msgdis.py --text-out assets/text/message_data.h --staff-text-out assets/text/message_data_staff.h
+	mkdir -p $(ASSETS_EXTRACTED_DIR)/version_assets/text
+	$(PYTHON) tools/msgdis.py --text-out $(ASSETS_EXTRACTED_DIR)/version_assets/text/message_data.h --staff-text-out $(ASSETS_EXTRACTED_DIR)/version_assets/text/message_data_staff.h
 endif
 
 disasm: $(DISASM_O_FILES)
@@ -424,8 +426,9 @@ $(BUILD_DIR)/baserom/%.o: $(BASEROM_SEGMENTS_DIR)/%
 $(BUILD_DIR)/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
-$(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
-	$(PYTHON) tools/msgenc.py assets/text/charmap.txt $< $@
+$(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h $(ASSETS_EXTRACTED_DIR)/version_assets/text/%.h assets/text/charmap.txt
+	mkdir -p $(BUILD_DIR)/assets/text
+	$(CPP) $(CPPFLAGS) -I$(ASSETS_EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py assets/text/charmap.txt > $@
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
