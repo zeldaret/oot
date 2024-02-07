@@ -284,13 +284,11 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, PlayState* play) {
         this->playerNearby = 0;
     }
 
-#if OOT_DEBUG
-    if (BREG(0) != 0) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 255, 0, 255, 4, play->state.gfxCtx);
     }
-#endif
 }
 
 void FireRock_WaitOnFloor(EnFireRock* this, PlayState* play) {
