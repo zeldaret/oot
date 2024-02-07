@@ -3,6 +3,8 @@
 # SPDX-FileCopyrightText: © 2024 ZeldaRET
 # SPDX-License-Identifier: CC0-1.0
 
+from __future__ import annotations
+
 import argparse
 from pathlib import Path
 from typing import BinaryIO
