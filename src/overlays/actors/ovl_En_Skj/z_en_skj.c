@@ -1348,9 +1348,13 @@ void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, PlayState* play) {
 
     D_80B01EA0 = Actor_TalkOfferAccepted(&this->actor, play);
 
-    DEBUG_DISPLAY_ADD_OBJECT(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                             this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
-                             1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
+#if OOT_DEBUG
+    if (BREG(0) != 0) {
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
+                               1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
+    }
+#endif
 }
 
 void EnSkj_TurnPlayer(EnSkj* this, Player* player) {
@@ -1587,9 +1591,13 @@ void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, PlayState* play) {
     this->actor.focus.pos.y = -90.0f;
     this->actor.focus.pos.z = 450.0f;
 
-    DEBUG_DISPLAY_ADD_OBJECT(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                             this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
-                             1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
+#if OOT_DEBUG
+    if (BREG(0) != 0) {
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
+                               1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
+    }
+#endif
 
     this->actionFunc(this, play);
 

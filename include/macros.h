@@ -187,22 +187,6 @@ extern struct GraphicsContext* __gfxCtx;
     }                                                   \
     (void)0
 
-#else
-
-#define OPEN_DISPS(gfxCtx, file, line)      \
-    {                                       \
-        GraphicsContext* __gfxCtx = gfxCtx; \
-        s32 __dispPad
-
-#define CLOSE_DISPS(gfxCtx, file, line) \
-    (void)0;                            \
-    }                                   \
-    (void)0
-
-#endif
-
-#if OOT_DEBUG
-
 #define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
 #define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx, file, line)
 #define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx, file, line)
@@ -226,6 +210,16 @@ extern struct GraphicsContext* __gfxCtx;
 
 #else
 
+#define OPEN_DISPS(gfxCtx, file, line)      \
+    {                                       \
+        GraphicsContext* __gfxCtx = gfxCtx; \
+        s32 __dispPad
+
+#define CLOSE_DISPS(gfxCtx, file, line) \
+    (void)0;                            \
+    }                                   \
+    (void)0
+
 #define GRAPH_ALLOC(gfxCtx, size) ((void*)((gfxCtx)->polyOpa.d = (Gfx*)((u8*)(gfxCtx)->polyOpa.d - ALIGN16(size))))
 #define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx)
 #define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx)
@@ -247,18 +241,7 @@ extern struct GraphicsContext* __gfxCtx;
 #define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)
 #define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_Malloc(alloc, size)
 
-#endif
-
-#if OOT_DEBUG
-#define DEBUG_DISPLAY_ADD_OBJECT(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ,    \
-                                 red, green, blue, alpha, type, gfxCtx)                         \
-    if (BREG(0) != 0)                                                                           \
-        DebugDisplay_AddObject(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ,      \
-                               red, green, blue, alpha, type, gfxCtx)
-#else
-#define DEBUG_DISPLAY_ADD_OBJECT(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ,    \
-                                 red, green, blue, alpha, type, gfxCtx) (void)0
-#endif
+#endif /* OOT_DEBUG */
 
 /**
  * `x` vertex x

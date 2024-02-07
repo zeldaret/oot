@@ -1029,9 +1029,14 @@ void EnFr_SetIdle(EnFr* this, PlayState* play) {
 void EnFr_UpdateIdle(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
 
-    DEBUG_DISPLAY_ADD_OBJECT(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                             this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
-                             1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
+#if OOT_DEBUG
+    if (BREG(0) != 0) {
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
+                               1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
+    }
+#endif
+
     this->jumpCounter++;
     this->actionFunc(this, play);
 }

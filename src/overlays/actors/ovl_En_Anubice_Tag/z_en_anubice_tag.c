@@ -99,7 +99,11 @@ void EnAnubiceTag_Update(Actor* thisx, PlayState* play) {
 void EnAnubiceTag_Draw(Actor* thisx, PlayState* play) {
     EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
-    DEBUG_DISPLAY_ADD_OBJECT(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                             this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
-                             1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
+#if OOT_DEBUG
+    if (BREG(0) != 0) {
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
+                               1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
+    }
+#endif
 }
