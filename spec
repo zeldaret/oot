@@ -356,7 +356,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_lights.o"
     include "$(BUILD_DIR)/src/code/z_malloc.o"
     include "$(BUILD_DIR)/src/code/z_map_mark.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/z_moji.o"
+#endif
     include "$(BUILD_DIR)/src/code/z_prenmi_buff.o"
     include "$(BUILD_DIR)/src/code/z_nulltask.o"
     include "$(BUILD_DIR)/src/code/z_olib.o"
