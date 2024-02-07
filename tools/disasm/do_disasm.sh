@@ -27,7 +27,7 @@ $cmd || (
 )
 echo Disassembling done.
 
-echo Assembling...
+echo Assembling sections individually...
 for s_file in `find $DISASM_DIR/data $DISASM_DIR/src -name '*.s'`
 do
     printf '%s    \r' "$s_file"
@@ -44,28 +44,29 @@ do
     )
 done
 echo
-echo Assembling done.
+echo Assembling sections done.
 
-echo Linking text,data,rodata,bss together for each file...
-for filebase in `find $DISASM_DIR -name '*.o' | sed -E -n 's/\.(text|data|rodata|bss)\.o$//p' | sort | uniq`
+echo Assembling text,data,rodata,bss sections together for each file...
+for filebase in `find $DISASM_DIR -name '*.s' | sed -E -n 's/\.(text|data|rodata|bss)\.s$//p' | sort | uniq`
 do
     printf '%s    \r' "$filebase"
     files=
     for section in text data rodata bss
     do
-        file="$filebase.$section.o"
+        file="$filebase.$section.s"
         if [ -e $file ]
         then
             files="$files $file"
         fi
     done
-    cmd="$LD -r $files -o $filebase.o"
-    $cmd || (
+    iconv_cmd="iconv -f utf-8 -t euc-jp $files"
+    asfile_cmd="$AS_CMD -o $filebase.o --"
+    ( $iconv_cmd | $asfile_cmd ) || (
         echo
-        echo Error on linking:
+        echo Error on assembling:
         echo "$filebase"
         echo Command line:
-        echo "$cmd"
+        echo "$iconv_cmd | $asfile_cmd"
         false
     )
 done
