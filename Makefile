@@ -181,10 +181,6 @@ endif
 
 OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
 
-DISASM_DATA_DIR := tools/disasm/$(VERSION)
-DISASM_FLAGS += --custom-suffix _unknown --sequential-label-names --no-use-fpccsr --no-cop0-named-registers
-DISASM_FLAGS += --config-dir $(DISASM_DATA_DIR) --symbol-addrs $(DISASM_DATA_DIR)/functions.txt --symbol-addrs $(DISASM_DATA_DIR)/variables.txt
-
 #### Files ####
 
 # ROM image
@@ -222,11 +218,6 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BASEROM_BIN_FILES),$(BUILD_DIR)/baserom/$(notdir $f).o)
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
-
-DISASM_BASEROM := $(BASEROM_DIR)/baserom-decompressed.z64
-DISASM_DATA_FILES := $(wildcard $(DISASM_DATA_DIR)/*.csv) $(wildcard $(DISASM_DATA_DIR)/*.txt)
-DISASM_S_FILES := $(shell test -e $(PYTHON) && $(PYTHON) tools/disasm/list_generated_files.py -o $(EXPECTED_DIR) --config-dir $(DISASM_DATA_DIR))
-DISASM_O_FILES := $(DISASM_S_FILES:.s=.o)
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
@@ -373,7 +364,9 @@ ifeq ($(VERSION),gc-eu-mq-dbg)
 	$(PYTHON) tools/msgdis.py --text-out assets/text/message_data.h --staff-text-out assets/text/message_data_staff.h
 endif
 
-disasm: $(DISASM_O_FILES)
+disasm:
+	$(RM) -r $(EXPECTED_DIR)
+	VERSION=$(VERSION) DISASM_BASEROM=$(BASEROM_DIR)/baserom-decompressed.z64 DISASM_DIR=$(EXPECTED_DIR) PYTHON=$(PYTHON) AS_CMD='$(AS) $(ASFLAGS)' LD=$(LD) ./tools/disasm/do_disasm.sh
 
 run: $(ROM)
 ifeq ($(N64_EMULATOR),)
@@ -494,13 +487,6 @@ $(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
-
-$(EXPECTED_DIR)/.disasm: $(DISASM_DATA_FILES)
-	$(PYTHON) tools/disasm/disasm.py $(DISASM_FLAGS) $(DISASM_BASEROM) -o $(EXPECTED_DIR) --split-functions $(EXPECTED_DIR)/functions
-	touch $@
-
-$(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/.disasm
-	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 -include $(DEP_FILES)
 

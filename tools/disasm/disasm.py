@@ -4,12 +4,10 @@
 # SPDX-License-Identifier: CC0-1.0
 
 import argparse
-import collections
 from pathlib import Path
 from typing import BinaryIO
 
 import spimdisasm
-from spimdisasm import frontendCommon as fec
 
 from file_addresses import DmaFile, parse_file_addresses, get_z_name_for_overlay
 
@@ -23,18 +21,18 @@ def load_file_splits(
     # Assume that we're reading from a decompressed ROM where the DMA file is
     # now located at the same ROM offset as the VROM start
     f.seek(dma_file.vrom_start)
-    data = bytearray(f.read(dma_file.vrom_end - dma_file.vrom_start))
+    data = f.read(dma_file.vrom_end - dma_file.vrom_start)
 
     file_splits_path = config_dir / f"files_{dma_file.name}.csv"
     if file_splits_path.exists():
-        default_filename = ""
+        default_filename = dma_file.name
         splits_data = spimdisasm.common.FileSplitFormat()
         splits_data.readCsvFile(file_splits_path)
         reloc_section = None
     elif dma_file.overlay_dir is not None:
         z_name = get_z_name_for_overlay(dma_file.name)
         default_filename = (
-            f"src/overlays/{dma_file.overlay_dir}/{dma_file.name}/{z_name}.s"
+            f"src/overlays/{dma_file.overlay_dir}/{dma_file.name}/{z_name}"
         )
         splits_data = None
         reloc_section = spimdisasm.mips.sections.SectionRelocZ64(
@@ -42,7 +40,7 @@ def load_file_splits(
             vromStart=0,
             vromEnd=len(data),
             vram=dma_file.vram_start,
-            filename=default_filename,
+            filename=f"src/overlays/{dma_file.overlay_dir}/{dma_file.name}/{dma_file.name}",
             array_of_bytes=data,
             segmentVromStart=0,
             overlayCategory=None,
@@ -94,62 +92,84 @@ def main():
     spimdisasm.mips.InstructionConfig.parseArgs(args)
     spimdisasm.common.GlobalConfig.parseArgs(args)
 
-    spimdisasm.common.GlobalConfig.ASM_USE_PRELUDE = False
     spimdisasm.common.GlobalConfig.PRODUCE_SYMBOLS_PLUS_OFFSET = True
     spimdisasm.common.GlobalConfig.TRUST_USER_FUNCTIONS = True
 
     dma_files = parse_file_addresses(args.config_dir / "file_addresses.csv")
 
-    output_files = collections.defaultdict(list)
+    print("Loading disasm info...")
+    all_file_splits: list[spimdisasm.mips.FileSplits] = []
     with open(args.rom, "rb") as f:
         for dma_file in dma_files:
             file_splits = load_file_splits(context, args.config_dir, dma_file, f)
+            all_file_splits.append(file_splits)
 
-            for section_type, files in file_splits.sectionsDict.items():
-                # TODO: disassemble overlay reloc sections?
-                if section_type == spimdisasm.common.FileSectionType.Reloc:
-                    continue
+    print("Analyzing...")
+    for i, file_splits in enumerate(all_file_splits):
+        f = i / len(all_file_splits)
+        spimdisasm.common.Utils.printQuietless(
+            f"{f*100:3.0f}%", "Analyzing", file_splits.name, end="    \r"
+        )
+        file_splits.analyze()
+    print()
+    print("Analyzing done.")
 
-                for path, section in files.items():
-                    output_files[path].append(section)
+    print("Writing disassembled sections...")
+    output_dir: Path = args.output_dir
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for i, file_splits in enumerate(all_file_splits):
+        f = i / len(all_file_splits)
+        spimdisasm.common.Utils.printQuietless(
+            f"{f*100:3.0f}%", "Writing", file_splits.name, end="    \r"
+        )
+        for sectDict in file_splits.sectionsDict.values():
+            for name, section in sectDict.items():
+                basepath = output_dir / name
+                basepath.parent.mkdir(parents=True, exist_ok=True)
+                if section.sectionType == spimdisasm.common.FileSectionType.Reloc:
+                    # basepath is like
+                    # .../ovl_Overlay_Name/z_overlay_name
+                    # and we want to write relocs to
+                    # .../ovl_Overlay_Name/ovl_Overlay_Name_reloc.s
+                    path = basepath.parent / f"{basepath.parent.name}_reloc.s"
+                    with path.open("w", encoding="utf-8") as f:
+                        section.disassembleToFile(f)
+                else:
+                    section.saveToFile(str(basepath))
+    print()
+    print("Writing sections done.")
 
-    for path, sections in sorted(output_files.items()):
-        spimdisasm.common.Utils.printQuietless(f"Analyzing {path} ...")
-        for section in sections:
-            section.analyze()
+    if args.split_functions is not None:
+        print("Writing disassembled functions individually...")
+        for i, file_splits in enumerate(all_file_splits):
+            f = i / len(all_file_splits)
+            spimdisasm.common.Utils.printQuietless(
+                f"{f*100:3.0f}%", "Writing", file_splits.name, end="    \r"
+            )
 
-    for path, sections in sorted(output_files.items()):
-        spimdisasm.common.Utils.printQuietless(f"Writing {path} ...")
-        output_path = args.output_dir / path
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(output_path, "w") as f:
-            f.write('.include "macro.inc"\n')
-            f.write("\n")
-            f.write(".set noat\n")
-            f.write(".set noreorder\n")
-            f.write(".set gp=64\n")
-            for section in sections:
-                f.write("\n")
-                f.write(f".section {section.sectionType.toStr()}\n")
-                f.write("\n")
-                f.write(f".align 4\n")
-                f.write("\n")
-                section.disassembleToFile(f)
-
-        if args.split_functions is not None:
-            rodata_list = []
-            for section in sections:
-                if section.sectionType == spimdisasm.common.FileSectionType.Rodata:
-                    rodata_list.append(section)
-
-            for section in sections:
-                if section.sectionType != spimdisasm.common.FileSectionType.Text:
-                    continue
-                output_dir = (args.split_functions / section.name).with_suffix("")
-                for func in section.symbolList:
-                    spimdisasm.mips.FilesHandlers.writeSplitedFunction(
-                        output_dir, func, rodata_list
+            for section_name, text_section in file_splits.sectionsDict[
+                spimdisasm.common.FileSectionType.Text
+            ].items():
+                rodata_section = file_splits.sectionsDict[
+                    spimdisasm.common.FileSectionType.Rodata
+                ].get(section_name)
+                # FunctionRodataEntry represents a function,
+                # plus any associated rodata (strings, floats, jump tables...)
+                # It can also be rodata that hasn't been associated to any function
+                for (
+                    func_rodata_entry
+                ) in spimdisasm.mips.FunctionRodataEntry.getAllEntriesFromSections(
+                    text_section, rodata_section
+                ):
+                    output_dir = (
+                        args.split_functions
+                        / section_name
+                        / f"{func_rodata_entry.getName()}.s"
                     )
+                    output_dir.parent.mkdir(parents=True, exist_ok=True)
+                    with output_dir.open("w", encoding="utf-8") as f:
+                        func_rodata_entry.writeToFile(f, writeFunction=True)
+        print("Writing functions done.")
 
 
 if __name__ == "__main__":
