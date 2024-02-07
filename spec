@@ -2973,7 +2973,7 @@ beginseg
     name "ovl_En_Mb"
     compress
     include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Mb/z_en_mb.o"
-	include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Mb/ovl_En_Mb_reloc.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Mb/ovl_En_Mb_reloc.o"
 endseg
 
 beginseg
