@@ -1,5 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 set -e
+set -o pipefail
 
 if [ "$VERBOSE" ]
 then
@@ -31,13 +32,14 @@ for s_file in `find $DISASM_DIR/data $DISASM_DIR/src -name '*.s'`
 do
     printf '%s    \r' "$s_file"
     o_file=${s_file%.s}.o
-    cmd="$AS_CMD $s_file -o $o_file"
-    $cmd || (
+    iconv_cmd="iconv -f utf-8 -t euc-jp $s_file"
+    asfile_cmd="$AS_CMD -o $o_file --"
+    ( $iconv_cmd | $asfile_cmd ) || (
         echo
         echo Error on assembling:
         echo "$s_file"
         echo Command line:
-        echo "$cmd"
+        echo "$iconv_cmd | $asfile_cmd"
         false
     )
 done
