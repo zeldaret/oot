@@ -1028,7 +1028,7 @@ void AnimationContext_Update(PlayState* play, AnimationContext* animationCtx) {
         AnimationContext_LoadFrame, AnimationContext_CopyAll,   AnimationContext_Interp,
         AnimationContext_CopyTrue,  AnimationContext_CopyFalse, AnimationContext_MoveActor,
     };
-    AnimationEntry* entry = entry = animationCtx->entries;
+    AnimationEntry* entry = animationCtx->entries;
 
     for (; animationCtx->animationCount != 0; animationCtx->animationCount--) {
         animFuncs[entry->type](play, &entry->data);

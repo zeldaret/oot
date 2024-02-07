@@ -10,6 +10,7 @@ void func_8006EE50(Font* font, u16 arg1, u16 arg2) {
  */
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex) {
     u8 charTmp = character;
+
     DMA_REQUEST_SYNC(&font->charTexBuf[codePointIndex],
                      (uintptr_t)_nes_font_staticSegmentRomStart + charTmp * FONT_CHAR_TEX_SIZE, FONT_CHAR_TEX_SIZE,
                      "../z_kanfont.c", 93);
