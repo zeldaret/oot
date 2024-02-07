@@ -160,9 +160,9 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
     }
 
     if (type == RED_ICE_KING_ZORA) {
-        static Vec3f kzIceScale = { 0.18f, 0.27f, 0.24f };
+        static Vec3f sKingZoraRedIceScale = { 0.18f, 0.27f, 0.24f };
 
-        Math_Vec3f_Copy(&this->dyna.actor.scale, &kzIceScale);
+        Math_Vec3f_Copy(&this->dyna.actor.scale, &sKingZoraRedIceScale);
     } else {
         Actor_SetScale(&this->dyna.actor, sRedIceScales[type]);
     }
