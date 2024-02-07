@@ -169,6 +169,7 @@ def main():
                     output_dir.parent.mkdir(parents=True, exist_ok=True)
                     with output_dir.open("w", encoding="utf-8") as f:
                         func_rodata_entry.writeToFile(f, writeFunction=True)
+        print()
         print("Writing functions done.")
 
 
