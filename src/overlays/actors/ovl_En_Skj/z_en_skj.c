@@ -447,6 +447,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
 #if OOT_DEBUG
             {
                 Player* player = GET_PLAYER(play);
+
                 PRINTF("Player_X : %f\n", player->actor.world.pos.x);
                 PRINTF("Player_Z : %f\n", player->actor.world.pos.z);
                 PRINTF("World_X  : %f\n", this->actor.world.pos.x);
@@ -1509,10 +1510,10 @@ void EnSkj_WaitForOfferResponse(EnSkj* this, PlayState* play) {
         switch (play->msgCtx.choiceIndex) {
             case 0: { // yes
                 Player* player = GET_PLAYER(play);
+
                 player->stateFlags3 |= PLAYER_STATE3_5; // makes player take ocarina out right away after closing box
                 this->actionFunc = EnSkj_SetupWaitForOcarina;
-                break;
-            }
+            } break;
             case 1: // no
                 this->actionFunc = EnSkj_CleanupOcarinaGame;
                 break;
