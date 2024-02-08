@@ -27,6 +27,14 @@ def red(s: str) -> str:
     return f"{Fore.RED}{s}{Style.RESET_ALL}"
 
 
+# Make interrupting the compression with ^C less jank
+# https://stackoverflow.com/questions/72967793/keyboardinterrupt-with-python-multiprocessing-pool
+def set_sigint_ignored():
+    import signal
+
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
+
 @dataclass
 class Inst:
     func_name: str
@@ -295,7 +303,7 @@ def print_summary(version: str, csv: bool):
 
     comparison_data_list: List[multiprocessing.pool.AsyncResult] = []
 
-    with multiprocessing.Pool() as p:
+    with multiprocessing.Pool(initializer=set_sigint_ignored) as p:
         for expected_object in expected_object_files:
             build_object = build_dir / expected_object.relative_to(expected_dir)
             comparison_data_list.append(
