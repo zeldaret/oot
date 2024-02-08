@@ -1164,14 +1164,6 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         envCtx->lightSettings.light2Dir[i] = lightSettingsList[envCtx->lightSetting].light2Dir[i];
                         envCtx->lightSettings.light2Color[i] = lightSettingsList[envCtx->lightSetting].light2Color[i];
                         envCtx->lightSettings.fogColor[i] = lightSettingsList[envCtx->lightSetting].fogColor[i];
-#if !OOT_DEBUG
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-#endif
                     }
 
                     envCtx->lightSettings.fogNear =
@@ -1240,8 +1232,6 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 #endif
             }
         }
-
-    dummy:;
 
         envCtx->lightBlendEnabled = true;
 
