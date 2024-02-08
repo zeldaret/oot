@@ -1,6 +1,5 @@
 #!/bin/bash
-set -e
-set -o pipefail
+set -eu -o pipefail
 
 if [ "$VERBOSE" ]
 then
