@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu -o pipefail
 
-if [ "$VERBOSE" ]
+if [ "${VERBOSE-}" ]
 then
 echo "$VERSION"
 echo "$DISASM_DIR"
