@@ -27,7 +27,7 @@ def red(s: str) -> str:
     return f"{Fore.RED}{s}{Style.RESET_ALL}"
 
 
-# Make interrupting the compression with ^C less jank
+# Make interrupting with ^C less jank
 # https://stackoverflow.com/questions/72967793/keyboardinterrupt-with-python-multiprocessing-pool
 def set_sigint_ignored():
     import signal
