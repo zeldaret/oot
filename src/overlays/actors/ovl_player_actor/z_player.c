@@ -5222,16 +5222,16 @@ void func_8083A5C4(PlayState* play, Player* this, CollisionPoly* arg2, f32 arg3,
 }
 
 s32 func_8083A6AC(Player* this, PlayState* play) {
-    CollisionPoly* sp84;
-    s32 sp80;
-    Vec3f sp74;
-    Vec3f sp68;
-    f32 temp1;
-
     //! @bug `floorPitch` and `floorPitchAlt` are cleared to 0 before this function is called, because the player
     //! left the ground. The angles will always be zero and therefore will always pass these checks.
     //! The intention seems to be to prevent ledge hanging or vine grabbing when walking off of a steep enough slope.
     if ((this->actor.yDistToWater < -80.0f) && (ABS(this->floorPitch) < 0xAAA) && (ABS(this->floorPitchAlt) < 0xAAA)) {
+        CollisionPoly* sp84;
+        s32 sp80;
+        Vec3f sp74;
+        Vec3f sp68;
+        f32 temp1;
+
         sp74.x = this->actor.prevPos.x - this->actor.world.pos.x;
         sp74.z = this->actor.prevPos.z - this->actor.world.pos.z;
 
@@ -7845,7 +7845,6 @@ void Player_Action_808414F8(Player* this, PlayState* play) {
     f32 speedTarget;
     s16 yawTarget;
     s32 sp2C;
-    s16 sp2A;
 
     func_80841138(this, play);
 
@@ -7869,7 +7868,7 @@ void Player_Action_808414F8(Player* this, PlayState* play) {
                 }
             }
         } else {
-            sp2A = yawTarget - this->yaw;
+            s16 sp2A = yawTarget - this->yaw;
 
             Math_AsymStepToF(&this->speedXZ, speedTarget * 1.5f, 1.5f, 2.0f);
             Math_ScaledStepToS(&this->yaw, yawTarget, sp2A * 0.1f);
@@ -8481,15 +8480,6 @@ s32 func_80842DF4(PlayState* play, Player* this) {
 }
 
 void Player_Action_80843188(Player* this, PlayState* play) {
-    f32 sp54;
-    f32 sp50;
-    s16 sp4E;
-    s16 sp4C;
-    s16 sp4A;
-    s16 sp48;
-    s16 sp46;
-    f32 sp40;
-
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (!Player_IsChildWithHylianShield(this)) {
             Player_AnimPlayLoop(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_defense_wait, this->modelAnimType));
@@ -8507,6 +8497,15 @@ void Player_Action_80843188(Player* this, PlayState* play) {
     func_8083721C(this);
 
     if (this->av2.actionVar2 != 0) {
+        f32 sp54;
+        f32 sp50;
+        s16 sp4E;
+        s16 sp4C;
+        s16 sp4A;
+        s16 sp48;
+        s16 sp46;
+        f32 sp40;
+
         sp54 = sControlInput->rel.stick_y * 100;
         sp50 = sControlInput->rel.stick_x * -120;
         sp4E = this->actor.shape.rot.y - Camera_GetInputDirYaw(GET_ACTIVE_CAM(play));
