@@ -252,6 +252,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
+    //! FAKE: (void)0 on CLOCK_TIME(18, 0)
     if (((void)0, gSaveContext.save.dayTime) > ((void)0, CLOCK_TIME(18, 0)) ||
         ((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(6, 30)) {
         ((void)0, gSaveContext.save.nightFlag = 1);
