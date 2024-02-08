@@ -1065,7 +1065,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting]
                                 .light1Color[j],
                             timeChangeBlend);
-                        *(envCtx->lightSettings.light1Color + j) = LERP(blend8[0], blend8[1], configChangeBlend);
+                        envCtx->lightSettings.light1Color[j] = LERP(blend8[0], blend8[1], configChangeBlend);
 
                         // blend light2Color
                         blend8[0] =
@@ -1080,7 +1080,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting]
                                 .light2Color[j],
                             timeChangeBlend);
-                        *(envCtx->lightSettings.light2Color + j) = LERP(blend8[0], blend8[1], configChangeBlend);
+                        envCtx->lightSettings.light2Color[j] = LERP(blend8[0], blend8[1], configChangeBlend);
                     }
 
                     // blend fogColor
@@ -1096,7 +1096,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting]
                                 .fogColor[j],
                             timeChangeBlend);
-                        *(envCtx->lightSettings.fogColor + j) = LERP(blend8[0], blend8[1], configChangeBlend);
+                        envCtx->lightSettings.fogColor[j] = LERP(blend8[0], blend8[1], configChangeBlend);
                     }
 
                     blend16[0] =
