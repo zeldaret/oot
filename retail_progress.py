@@ -5,6 +5,7 @@
 
 import argparse
 import collections
+from colorama import Fore, Style
 from dataclasses import dataclass
 import difflib
 from enum import Enum
@@ -15,6 +16,14 @@ import re
 import subprocess
 import sys
 from typing import Dict, Iterator, List, Optional, Tuple
+
+
+def green(s: str) -> str:
+    return f"{Fore.GREEN}{s}{Style.RESET_ALL}"
+
+
+def red(s: str) -> str:
+    return f"{Fore.RED}{s}{Style.RESET_ALL}"
 
 
 @dataclass
@@ -299,11 +308,20 @@ def print_summary(version: str, csv: bool):
             print(
                 f"{c_path},{len(insts1)},{len(insts2)},{text_progress:.3f},{rodata_matches},{data_size_matches},{bss_size_matches}"
             )
-        elif text_progress == 1.0:
-            print(f"   OK {c_path}")
         else:
-            # TODO: show data diffs
-            print(f"  {math.floor(text_progress * 100):>2}% {c_path}")
+            ok = green("OK")
+            diff = red("diff")
+            text_progress_str = (
+                ok
+                if text_progress == 1
+                else red(f"{math.floor(text_progress * 100):>2}%")
+            )
+            rodata_str = ok if rodata_matches else diff
+            data_size_str = ok if data_size_matches else diff
+            bss_size_str = ok if bss_size_matches else diff
+            print(
+                f"text:{text_progress_str:<13} rodata:{rodata_str:<13} data size:{data_size_str:<13} bss size:{bss_size_str:<13} {c_path}"
+            )
         sys.stdout.flush()
 
 
