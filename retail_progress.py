@@ -311,58 +311,54 @@ def print_summary(version: str, csv: bool):
         ):
             c_path = expected_object.relative_to(expected_dir).with_suffix(".c")
             data = data_async.get()
-            print_compare(csv, c_path, data)
 
+            insts1 = data.insts1
+            insts2 = data.insts2
 
-def print_compare(csv: bool, c_path: Path, data: ObjectDataForComparison):
-    if 1:
-        insts1 = data.insts1
-        insts2 = data.insts2
+            added = 0
+            removed = 0
+            changed = 0
+            for inst1, inst2 in pair_instructions(insts1, insts2):
+                if inst1 is None and inst2 is not None:
+                    added += 1
+                elif inst1 is not None and inst2 is None:
+                    removed += 1
+                elif inst1 is not None and inst2 is not None and has_diff(inst1, inst2):
+                    changed += 1
 
-        added = 0
-        removed = 0
-        changed = 0
-        for inst1, inst2 in pair_instructions(insts1, insts2):
-            if inst1 is None and inst2 is not None:
-                added += 1
-            elif inst1 is not None and inst2 is None:
-                removed += 1
-            elif inst1 is not None and inst2 is not None and has_diff(inst1, inst2):
-                changed += 1
+            if insts1:
+                text_progress = max(1.0 - (added + removed + changed) / len(insts1), 0)
+            else:
+                text_progress = 1.0
 
-        if insts1:
-            text_progress = max(1.0 - (added + removed + changed) / len(insts1), 0)
-        else:
-            text_progress = 1.0
+            sizes1 = data.sizes1
+            sizes2 = data.sizes2
+            rodata1 = data.rodata1
+            rodata2 = data.rodata2
 
-        sizes1 = data.sizes1
-        sizes2 = data.sizes2
-        rodata1 = data.rodata1
-        rodata2 = data.rodata2
+            rodata_matches = rodata1 == rodata2
+            data_size_matches = sizes1.get(".data", 0) == sizes2.get(".data", 0)
+            bss_size_matches = sizes1.get(".bss", 0) == sizes2.get(".bss", 0)
 
-        rodata_matches = rodata1 == rodata2
-        data_size_matches = sizes1.get(".data", 0) == sizes2.get(".data", 0)
-        bss_size_matches = sizes1.get(".bss", 0) == sizes2.get(".bss", 0)
-
-        if csv:
-            print(
-                f"{c_path},{len(insts1)},{len(insts2)},{text_progress:.3f},{rodata_matches},{data_size_matches},{bss_size_matches}"
-            )
-        else:
-            ok = green("OK")
-            diff = red("diff")
-            text_progress_str = (
-                ok
-                if text_progress == 1
-                else red(f"{math.floor(text_progress * 100):>2}%")
-            )
-            rodata_str = ok if rodata_matches else diff
-            data_size_str = ok if data_size_matches else diff
-            bss_size_str = ok if bss_size_matches else diff
-            print(
-                f"text:{text_progress_str:<13} rodata:{rodata_str:<13} data size:{data_size_str:<13} bss size:{bss_size_str:<13} {c_path}"
-            )
-        sys.stdout.flush()
+            if csv:
+                print(
+                    f"{c_path},{len(insts1)},{len(insts2)},{text_progress:.3f},{rodata_matches},{data_size_matches},{bss_size_matches}"
+                )
+            else:
+                ok = green("OK")
+                diff = red("diff")
+                text_progress_str = (
+                    ok
+                    if text_progress == 1
+                    else red(f"{math.floor(text_progress * 100):>2}%")
+                )
+                rodata_str = ok if rodata_matches else diff
+                data_size_str = ok if data_size_matches else diff
+                bss_size_str = ok if bss_size_matches else diff
+                print(
+                    f"text:{text_progress_str:<13} rodata:{rodata_str:<13} data size:{data_size_str:<13} bss size:{bss_size_str:<13} {c_path}"
+                )
+            sys.stdout.flush()
 
 
 if __name__ == "__main__":
