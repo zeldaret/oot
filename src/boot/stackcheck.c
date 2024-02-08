@@ -78,11 +78,6 @@ u32 StackCheck_GetState(StackEntry* entry) {
     u32 free;
     u32 ret;
 
-#if !OOT_DEBUG
-    // This string is still in .rodata for retail builds.
-    const char* name = "(null)";
-#endif
-
     for (last = entry->head; last < entry->tail; last++) {
         if (entry->initValue != *last) {
             break;
@@ -102,6 +97,11 @@ u32 StackCheck_GetState(StackEntry* entry) {
         PRINTF(VT_FGCOL(GREEN));
         ret = STACK_STATUS_OK;
     }
+
+#if !OOT_DEBUG
+    // This string is still in .rodata for retail builds
+    (void)"(null)";
+#endif
 
     PRINTF("head=%08x tail=%08x last=%08x used=%08x free=%08x [%s]\n", entry->head, entry->tail, last, used, free,
            entry->name != NULL ? entry->name : "(null)");
