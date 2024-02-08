@@ -1,6 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 
+#if OOT_DEBUG
 f32 LogUtils_CheckFloatRange(const char* exp, s32 line, const char* valueName, f32 value, const char* minName, f32 min,
                              const char* maxName, f32 max) {
     if (value < min || max < value) {
@@ -99,9 +100,12 @@ void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, s3
 void LogUtils_LogThreadId(const char* name, s32 line) {
     PRINTF("<%d %s %d>", osGetThreadId(NULL), name, line);
 }
+#endif
 
 void LogUtils_HungupThread(const char* name, s32 line) {
-    PRINTF("*** HungUp in thread %d, [%s:%d] ***\n", osGetThreadId(NULL), name, line);
+    OSId threadId = osGetThreadId(NULL);
+
+    PRINTF("*** HungUp in thread %d, [%s:%d] ***\n", threadId, name, line);
     Fault_AddHungupAndCrash(name, line);
 }
 

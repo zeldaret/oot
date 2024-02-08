@@ -33,9 +33,6 @@ void Yaz0_DecompressImpl(u8* src, u8* dst);
 void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
-u32 func_80001F48(void);
-u32 func_80001F8C(void);
-u32 Locale_IsRegionNative(void);
 #if OOT_DEBUG
 void isPrintfInit(void);
 #endif
@@ -52,16 +49,12 @@ void StackCheck_Cleanup(StackEntry* entry);
 u32 StackCheck_GetState(StackEntry* entry);
 u32 StackCheck_CheckAll(void);
 u32 StackCheck_Check(StackEntry* entry);
-f32 LogUtils_CheckFloatRange(const char* exp, s32 line, const char* valueName, f32 value, const char* minName, f32 min,
-                             const char* maxName, f32 max);
-s32 LogUtils_CheckIntRange(const char* exp, s32 line, const char* valueName, s32 value, const char* minName, s32 min,
-                           const char* maxName, s32 max);
+#if OOT_DEBUG
 void LogUtils_LogHexDump(void* ptr, s32 size0);
-void LogUtils_LogPointer(s32 value, u32 max, void* ptr, const char* name, const char* file, s32 line);
-void LogUtils_CheckBoundary(const char* name, s32 value, s32 unk, const char* file, s32 line);
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, s32 line);
 void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, s32 line);
 void LogUtils_LogThreadId(const char* name, s32 line);
+#endif
 void LogUtils_HungupThread(const char* name, s32 line);
 void LogUtils_ResetHungup(void);
 void __osPiCreateAccessQueue(void);
@@ -763,7 +756,9 @@ s32 func_800635D0(s32);
 void Regs_Init(void);
 void DebugCamera_ScreenText(u8 x, u8 y, const char* text);
 void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
+#if OOT_DEBUG
 void Regs_UpdateEditor(Input* input);
+#endif
 void Debug_DrawText(GraphicsContext* gfxCtx);
 void DebugDisplay_Init(void);
 DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, f32 scaleX,
@@ -906,22 +901,24 @@ Lights* Lights_NewAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 
 Lights* Lights_New(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB);
 void Lights_GlowCheck(PlayState* play);
 void Lights_DrawGlow(PlayState* play);
-void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* ZeldaArena_Malloc(u32 size);
-void* ZeldaArena_MallocDebug(u32 size, const char* file, s32 line);
 void* ZeldaArena_MallocR(u32 size);
-void* ZeldaArena_MallocRDebug(u32 size, const char* file, s32 line);
 void* ZeldaArena_Realloc(void* ptr, u32 newSize);
-void* ZeldaArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line);
 void ZeldaArena_Free(void* ptr);
-void ZeldaArena_FreeDebug(void* ptr, const char* file, s32 line);
 void* ZeldaArena_Calloc(u32 num, u32 size);
-void ZeldaArena_Display(void);
 void ZeldaArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void ZeldaArena_Check(void);
 void ZeldaArena_Init(void* start, u32 size);
 void ZeldaArena_Cleanup(void);
 u8 ZeldaArena_IsInitialized(void);
+#if OOT_DEBUG
+void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
+void* ZeldaArena_MallocDebug(u32 size, const char* file, s32 line);
+void* ZeldaArena_MallocRDebug(u32 size, const char* file, s32 line);
+void* ZeldaArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line);
+void ZeldaArena_FreeDebug(void* ptr, const char* file, s32 line);
+void ZeldaArena_Display(void);
+#endif
 void MapMark_Init(PlayState* play);
 void MapMark_ClearPointers(PlayState* play);
 void MapMark_Draw(PlayState* play);
@@ -1158,10 +1155,10 @@ void Sram_WriteSramHeader(SramContext* sramCtx);
 void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
 void Sram_Init(PlayState* play, SramContext* sramCtx);
-void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
+void SsSram_Init(s32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
                  u8 handlePulse, u32 handleSpeed);
 void SsSram_Dma(void* dramAddr, size_t size, s32 direction);
-void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction);
+void SsSram_ReadWrite(s32 addr, void* dramAddr, size_t size, s32 direction);
 View* View_New(GraphicsContext* gfxCtx);
 void View_Free(View* view);
 void View_Init(View*, GraphicsContext*);
@@ -1467,22 +1464,24 @@ u64* SysUcode_GetUCodeData(void);
 NORETURN void func_800D31A0(void);
 void func_800D31F0(void);
 void func_800D3210(void);
-void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* DebugArena_Malloc(u32 size);
-void* DebugArena_MallocDebug(u32 size, const char* file, s32 line);
 void* DebugArena_MallocR(u32 size);
-void* DebugArena_MallocRDebug(u32 size, const char* file, s32 line);
 void* DebugArena_Realloc(void* ptr, u32 newSize);
-void* DebugArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line);
 void DebugArena_Free(void* ptr);
-void DebugArena_FreeDebug(void* ptr, const char* file, s32 line);
 void* DebugArena_Calloc(u32 num, u32 size);
-void DebugArena_Display(void);
 void DebugArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void DebugArena_Check(void);
 void DebugArena_Init(void* start, u32 size);
 void DebugArena_Cleanup(void);
 u8 DebugArena_IsInitialized(void);
+#if OOT_DEBUG
+void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
+void* DebugArena_MallocDebug(u32 size, const char* file, s32 line);
+void* DebugArena_MallocRDebug(u32 size, const char* file, s32 line);
+void* DebugArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line);
+void DebugArena_FreeDebug(void* ptr, const char* file, s32 line);
+void DebugArena_Display(void);
+#endif
 void UCodeDisas_Init(UCodeDisas*);
 void UCodeDisas_Destroy(UCodeDisas*);
 void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
@@ -1764,22 +1763,23 @@ f32 ceilf(f32 x);
 f32 truncf(f32 x);
 f32 roundf(f32 x);
 f32 nearbyintf(f32 x);
-void SystemArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* SystemArena_Malloc(u32 size);
-void* SystemArena_MallocDebug(u32 size, const char* file, s32 line);
 void* SystemArena_MallocR(u32 size);
-void* SystemArena_MallocRDebug(u32 size, const char* file, s32 line);
 void* SystemArena_Realloc(void* ptr, u32 newSize);
-void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line);
 void SystemArena_Free(void* ptr);
-void SystemArena_FreeDebug(void* ptr, const char* file, s32 line);
 void* SystemArena_Calloc(u32 num, u32 size);
-void SystemArena_Display(void);
 void SystemArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void SystemArena_Check(void);
 void SystemArena_Init(void* start, u32 size);
 void SystemArena_Cleanup(void);
 u8 SystemArena_IsInitialized(void);
+#if OOT_DEBUG
+void* SystemArena_MallocDebug(u32 size, const char* file, s32 line);
+void* SystemArena_MallocRDebug(u32 size, const char* file, s32 line);
+void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line);
+void SystemArena_FreeDebug(void* ptr, const char* file, s32 line);
+void SystemArena_Display(void);
+#endif
 u32 Rand_Next(void);
 void Rand_Seed(u32 seed);
 f32 Rand_ZeroOne(void);
@@ -1788,45 +1788,23 @@ void Rand_Seed_Variable(u32* rndNum, u32 seed);
 u32 Rand_Next_Variable(u32* rndNum);
 f32 Rand_ZeroOne_Variable(u32* rndNum);
 f32 Rand_Centered_Variable(u32* rndNum);
-u32 ArenaImpl_GetFillAllocBlock(Arena* arena);
-u32 ArenaImpl_GetFillFreeBlock(Arena* arena);
-u32 ArenaImpl_GetCheckFreeBlock(Arena* arena);
-void ArenaImpl_SetFillAllocBlock(Arena* arena);
-void ArenaImpl_SetFillFreeBlock(Arena* arena);
-void ArenaImpl_SetCheckFreeBlock(Arena* arena);
-void ArenaImpl_UnsetFillAllocBlock(Arena* arena);
-void ArenaImpl_UnsetFillFreeBlock(Arena* arena);
-void ArenaImpl_UnsetCheckFreeBlock(Arena* arena);
-void ArenaImpl_SetDebugInfo(ArenaNode* node, const char* file, s32 line, Arena* arena);
-void ArenaImpl_LockInit(Arena* arena);
-void ArenaImpl_Lock(Arena* arena);
-void ArenaImpl_Unlock(Arena* arena);
-ArenaNode* ArenaImpl_GetNextBlock(ArenaNode* node);
-ArenaNode* ArenaImpl_GetPrevBlock(ArenaNode* node);
-ArenaNode* ArenaImpl_GetLastBlock(Arena* arena);
 void __osMallocInit(Arena* arena, void* start, u32 size);
 void __osMallocAddBlock(Arena* arena, void* start, s32 size);
-void ArenaImpl_RemoveAllBlocks(Arena* arena);
 void __osMallocCleanup(Arena* arena);
 u8 __osMallocIsInitialized(Arena* arena);
-void __osMalloc_FreeBlockTest(Arena* arena, ArenaNode* node);
-void* __osMalloc_NoLockDebug(Arena* arena, u32 size, const char* file, s32 line);
-void* __osMallocDebug(Arena* arena, u32 size, const char* file, s32 line);
-void* __osMallocRDebug(Arena* arena, u32 size, const char* file, s32 line);
-void* __osMalloc_NoLock(Arena* arena, u32 size);
 void* __osMalloc(Arena* arena, u32 size);
 void* __osMallocR(Arena* arena, u32 size);
-void __osFree_NoLock(Arena* arena, void* ptr);
 void __osFree(Arena* arena, void* ptr);
-void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line);
-void __osFreeDebug(Arena* arena, void* ptr, const char* file, s32 line);
 void* __osRealloc(Arena* arena, void* ptr, u32 newSize);
-void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, s32 line);
 void ArenaImpl_GetSizes(Arena* arena, u32* outMaxFree, u32* outFree, u32* outAlloc);
-void __osDisplayArena(Arena* arena);
-void ArenaImpl_FaultClient(Arena* arena);
 u32 __osCheckArena(Arena* arena);
-u8 func_800FF334(Arena* arena);
+#if OOT_DEBUG
+void* __osMallocDebug(Arena* arena, u32 size, const char* file, s32 line);
+void* __osMallocRDebug(Arena* arena, u32 size, const char* file, s32 line);
+void __osFreeDebug(Arena* arena, void* ptr, const char* file, s32 line);
+void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, s32 line);
+void __osDisplayArena(Arena* arena);
+#endif
 s32 PrintUtils_VPrintf(PrintCallback* pfn, const char* fmt, va_list args);
 s32 PrintUtils_Printf(PrintCallback* pfn, const char* fmt, ...);
 void Sleep_Cycles(OSTime cycles);

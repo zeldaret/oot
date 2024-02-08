@@ -139,25 +139,6 @@ void ArmsHook_AttachHookToActor(ArmsHook* this, Actor* actor) {
 
 void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Actor* touchedActor;
-    Actor* grabbed;
-    Vec3f bodyDistDiffVec;
-    Vec3f newPos;
-    f32 bodyDistDiff;
-    f32 phi_f16;
-    DynaPolyActor* dynaPolyActor;
-    f32 curGrabbedDist;
-    f32 grabbedDist;
-    s32 pad;
-    CollisionPoly* poly;
-    s32 bgId;
-    Vec3f intersectPos;
-    Vec3f prevFrameDiff;
-    Vec3f sp60;
-    f32 polyNormalX;
-    f32 polyNormalZ;
-    f32 velocity;
-    s32 pad1;
 
     if ((this->actor.parent == NULL) || (!Player_HoldsHookshot(player))) {
         ArmsHook_DetachHookFromActor(this);
@@ -170,7 +151,8 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
 
     if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
         (this->collider.elem.atHitElem->elemType != ELEMTYPE_UNK4)) {
-        touchedActor = this->collider.base.at;
+        Actor* touchedActor = this->collider.base.at;
+
         if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
             if (this->collider.elem.atHitElem->bumperFlags & BUMP_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);
@@ -182,7 +164,20 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         this->timer = 0;
         Audio_PlaySfxGeneral(NA_SE_IT_ARROW_STICK_CRE, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-    } else if (DECR(this->timer) == 0) {
+        return;
+    }
+
+    if (DECR(this->timer) == 0) {
+        Actor* grabbed;
+        Vec3f bodyDistDiffVec;
+        Vec3f newPos;
+        f32 bodyDistDiff;
+        f32 phi_f16;
+        s32 pad1;
+        f32 curGrabbedDist;
+        f32 grabbedDist;
+        f32 velocity;
+
         grabbed = this->grabbed;
         if (grabbed != NULL) {
             if ((grabbed->update == NULL) || !CHECK_FLAG_ALL(grabbed->flags, ACTOR_FLAG_13)) {
@@ -250,6 +245,12 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
             }
         }
     } else {
+        CollisionPoly* poly;
+        s32 bgId;
+        Vec3f intersectPos;
+        Vec3f prevFrameDiff;
+        Vec3f sp60;
+
         Actor_MoveXZGravity(&this->actor);
         Math_Vec3f_Diff(&this->actor.world.pos, &this->actor.prevPos, &prevFrameDiff);
         Math_Vec3f_Sum(&this->unk_1E8, &prevFrameDiff, &this->unk_1E8);
@@ -260,13 +261,17 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         if (BgCheck_EntityLineTest1(&play->colCtx, &sp60, &this->unk_1E8, &intersectPos, &poly, true, true, true, true,
                                     &bgId) &&
             !func_8002F9EC(play, &this->actor, poly, bgId, &intersectPos)) {
-            polyNormalX = COLPOLY_GET_NORMAL(poly->normal.x);
-            polyNormalZ = COLPOLY_GET_NORMAL(poly->normal.z);
+            f32 polyNormalX = COLPOLY_GET_NORMAL(poly->normal.x);
+            f32 polyNormalZ = COLPOLY_GET_NORMAL(poly->normal.z);
+            s32 pad;
+
             Math_Vec3f_Copy(&this->actor.world.pos, &intersectPos);
             this->actor.world.pos.x += 10.0f * polyNormalX;
             this->actor.world.pos.z += 10.0f * polyNormalZ;
             this->timer = 0;
             if (SurfaceType_CanHookshot(&play->colCtx, poly, bgId)) {
+                DynaPolyActor* dynaPolyActor;
+
                 if (bgId != BGCHECK_SCENE) {
                     dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
                     if (dynaPolyActor != NULL) {
@@ -307,6 +312,8 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
 
     if ((player->actor.draw != NULL) && (player->rightHandType == PLAYER_MODELTYPE_RH_HOOKSHOT)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_arms_hook.c", 850);
+
+        if (1) {}
 
         if ((ArmsHook_Shoot != this->actionFunc) || (this->timer <= 0)) {
             Matrix_MultVec3f(&D_80865B70, &this->unk_1E8);

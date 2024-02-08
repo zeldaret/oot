@@ -7048,12 +7048,16 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
             R_CAM_DATA(i) = sCamDataRegsInit[i];
         }
 
+#if OOT_DEBUG
         DebugCamera_Reset(camera, &D_8015BD80);
+#endif
         sInitRegs = false;
         PREG(88) = -1;
     }
     camera->play = D_8015BD7C = play;
+#if OOT_DEBUG
     DebugCamera_Init(&D_8015BD80, camera);
+#endif
     curUID = sNextUID;
     sNextUID++;
     while (curUID != 0) {
@@ -7722,7 +7726,9 @@ Vec3s Camera_Update(Camera* camera) {
     if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_START)) {
         gDebugCamEnabled ^= 1;
         if (gDebugCamEnabled) {
+#if OOT_DEBUG
             DebugCamera_Enable(&D_8015BD80, camera);
+#endif
         } else if (camera->play->csCtx.state != CS_STATE_IDLE) {
             Cutscene_StopManual(camera->play, &camera->play->csCtx);
         }
@@ -7731,7 +7737,9 @@ Vec3s Camera_Update(Camera* camera) {
     // Debug cam update
     if (gDebugCamEnabled) {
         camera->play->view.fovy = D_8015BD80.fov;
+#if OOT_DEBUG
         DebugCamera_Update(&D_8015BD80, camera);
+#endif
         View_LookAt(&camera->play->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DEBUG_CAM_UPDATE) {
             PRINTF("camera: debug out\n");
