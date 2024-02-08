@@ -8,13 +8,14 @@ import collections
 from colorama import Fore, Style
 from dataclasses import dataclass
 import difflib
-from enum import Enum
 import itertools
 import math
 from pathlib import Path
 import re
 import subprocess
 import sys
+import multiprocessing
+import multiprocessing.pool
 from typing import Dict, Iterator, List, Optional, Tuple
 
 
@@ -264,18 +265,59 @@ def find_data_diffs(version: str, c_path: str):
         )
 
 
+@dataclass
+class ObjectDataForComparison:
+    insts1: List[Inst]
+    insts2: List[Inst]
+    sizes1: Dict[str, int]
+    sizes2: Dict[str, int]
+    rodata1: bytes
+    rodata2: bytes
+
+
+def get_object_data_for_comparison(object1: Path, object2: Path):
+    insts1 = disassemble(object1)
+    insts2 = disassemble(object2)
+    sizes1 = get_section_sizes(object1)
+    sizes2 = get_section_sizes(object2)
+    rodata_dump1 = get_section_hex_dump(object1, ".rodata")
+    rodata_dump2 = get_section_hex_dump(object2, ".rodata")
+    rodata1 = parse_hex_dump(rodata_dump1)
+    rodata2 = parse_hex_dump(rodata_dump2)
+    return ObjectDataForComparison(insts1, insts2, sizes1, sizes2, rodata1, rodata2)
+
+
 def print_summary(version: str, csv: bool):
     expected_dir = Path("expected/build") / version
     build_dir = Path("build") / version
 
-    if csv:
-        print("path,expected,actual,.text,.rodata,.data size,.bss size")
-    for object_file in sorted(expected_dir.glob("src/**/*.o")):
-        object_path = object_file.relative_to(expected_dir)
-        c_path = object_path.with_suffix(".c")
+    expected_object_files = sorted(expected_dir.glob("src/**/*.o"))
 
-        insts1 = disassemble(expected_dir / object_path)
-        insts2 = disassemble(build_dir / object_path)
+    comparison_data_list: List[multiprocessing.pool.AsyncResult] = []
+
+    with multiprocessing.Pool() as p:
+        for expected_object in expected_object_files:
+            build_object = build_dir / expected_object.relative_to(expected_dir)
+            comparison_data_list.append(
+                p.apply_async(
+                    get_object_data_for_comparison,
+                    (expected_object, build_object),
+                )
+            )
+        if csv:
+            print("path,expected,actual,.text,.rodata,.data size,.bss size")
+        for expected_object, data_async in zip(
+            expected_object_files, comparison_data_list
+        ):
+            c_path = expected_object.relative_to(expected_dir).with_suffix(".c")
+            data = data_async.get()
+            print_compare(csv, c_path, data)
+
+
+def print_compare(csv: bool, c_path: Path, data: ObjectDataForComparison):
+    if 1:
+        insts1 = data.insts1
+        insts2 = data.insts2
 
         added = 0
         removed = 0
@@ -293,12 +335,10 @@ def print_summary(version: str, csv: bool):
         else:
             text_progress = 1.0
 
-        sizes1 = get_section_sizes(expected_dir / object_path)
-        sizes2 = get_section_sizes(build_dir / object_path)
-        rodata_dump1 = get_section_hex_dump(expected_dir / object_path, ".rodata")
-        rodata_dump2 = get_section_hex_dump(build_dir / object_path, ".rodata")
-        rodata1 = parse_hex_dump(rodata_dump1)
-        rodata2 = parse_hex_dump(rodata_dump2)
+        sizes1 = data.sizes1
+        sizes2 = data.sizes2
+        rodata1 = data.rodata1
+        rodata2 = data.rodata2
 
         rodata_matches = rodata1 == rodata2
         data_size_matches = sizes1.get(".data", 0) == sizes2.get(".data", 0)
