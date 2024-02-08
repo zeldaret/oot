@@ -295,7 +295,7 @@ def get_object_data_for_comparison(object1: Path, object2: Path):
     return ObjectDataForComparison(insts1, insts2, sizes1, sizes2, rodata1, rodata2)
 
 
-def print_summary(version: str, csv: bool):
+def print_summary(version: str, csv: bool, only_not_ok: bool):
     expected_dir = Path("expected/build") / version
     build_dir = Path("build") / version
 
@@ -348,6 +348,15 @@ def print_summary(version: str, csv: bool):
             data_size_matches = sizes1.get(".data", 0) == sizes2.get(".data", 0)
             bss_size_matches = sizes1.get(".bss", 0) == sizes2.get(".bss", 0)
 
+            if only_not_ok:
+                if (
+                    text_progress == 1
+                    and rodata_matches
+                    and data_size_matches
+                    and bss_size_matches
+                ):
+                    continue
+
             if csv:
                 print(
                     f"{c_path},{len(insts1)},{len(insts2)},{text_progress:.3f},{rodata_matches},{data_size_matches},{bss_size_matches}"
@@ -385,6 +394,12 @@ if __name__ == "__main__":
         help="diff .data size, .bss size, and .rodata contents instead of text",
         action="store_true",
     )
+    parser.add_argument(
+        "--not-ok",
+        help="only print non-OK files",
+        action="store_true",
+        dest="only_not_ok",
+    )
     parser.add_argument("--csv", help="print summary CSV", action="store_true")
     args = parser.parse_args()
 
@@ -394,4 +409,4 @@ if __name__ == "__main__":
         else:
             find_functions_with_diffs(args.version, args.file)
     else:
-        print_summary(args.version, args.csv)
+        print_summary(args.version, args.csv, args.only_not_ok)
