@@ -91,6 +91,7 @@ DB40,8001EA40,src/code/z_actor.s
 8F400,800A0300,src/code/game.s
 8FB80,800A0A80,src/code/gamealloc.s
 8FCC0,800A0BC0,src/code/graph.s
+90660,800A1560,src/code/gfxalloc.s
 906C0,800A15C0,src/code/listalloc.s
 90810,800A1710,src/code/main.s
 90B70,800A1A70,src/code/padmgr.s

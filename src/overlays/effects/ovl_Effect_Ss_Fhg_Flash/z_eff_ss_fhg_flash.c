@@ -172,21 +172,20 @@ void EffectSsFhgFlash_UpdateLightBall(PlayState* play, u32 index, EffectSs* this
 
 void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this) {
     s16 randBodyPart;
-    Player* player;
-    BossGanondrof* phantomGanon;
-    s16 rotStep;
+    s16 rotStep = Rand_ZeroOne() * 20000.0f;
 
-    rotStep = Rand_ZeroOne() * 20000.0f;
     this->rXZRot += rotStep + 0x4000;
 
     if (this->rParam == FHGFLASH_SHOCK_PLAYER) {
-        player = GET_PLAYER(play);
+        Player* player = GET_PLAYER(play);
+
         randBodyPart = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
         this->pos.x = player->bodyPartsPos[randBodyPart].x + Rand_CenteredFloat(10.0f);
         this->pos.y = player->bodyPartsPos[randBodyPart].y + Rand_CenteredFloat(15.0f);
         this->pos.z = player->bodyPartsPos[randBodyPart].z + Rand_CenteredFloat(10.0f);
     } else if (this->rParam == FHGFLASH_SHOCK_PG) {
-        phantomGanon = (BossGanondrof*)this->actor;
+        BossGanondrof* phantomGanon = (BossGanondrof*)this->actor;
+
         randBodyPart = Rand_ZeroFloat(23.9f);
         this->pos.x = phantomGanon->bodyPartsPos[randBodyPart].x + Rand_CenteredFloat(15.0f);
         this->pos.y = phantomGanon->bodyPartsPos[randBodyPart].y + Rand_CenteredFloat(20.0f);
@@ -194,6 +193,8 @@ void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (this->life < 100) {
+        s32 pad;
+
         this->rAlpha -= 50;
 
         if (this->rAlpha < 0) {

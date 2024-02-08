@@ -61,7 +61,7 @@ def IsCFile(objfile):
     srcfile = objfile.strip().replace("build/gc-eu-mq-dbg/", "").replace(".o", ".c")
     return os.path.isfile(srcfile)
 
-mapFile = ReadAllLines("build/gc-eu-mq-dbg/z64.map")
+mapFile = ReadAllLines("build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.map")
 curSegment = None
 src = 0
 code = 0

@@ -11,11 +11,7 @@
 
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;
-    {
-        GameState* state = &this->state;
-
-        SET_NEXT_GAMESTATE(state, ConsoleLogo_Init, ConsoleLogoState);
-    }
+    SET_NEXT_GAMESTATE(&this->state, ConsoleLogo_Init, ConsoleLogoState);
 }
 
 void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
@@ -45,11 +41,7 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
     gWeatherMode = WEATHER_MODE_CLEAR;
 
     this->state.running = false;
-    {
-        GameState* state = &this->state;
-
-        SET_NEXT_GAMESTATE(state, Play_Init, PlayState);
-    }
+    SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 
 // "Translation" (Actual name)

@@ -162,6 +162,8 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 279);
 
+    if (1) {}
+
     Matrix_Push();
 
     if ((overrideLimbDraw == NULL) ||

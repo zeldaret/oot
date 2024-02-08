@@ -79,10 +79,9 @@ void EffectSsSibuki_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsSibuki_Update(PlayState* play, u32 index, EffectSs* this) {
-    s32 pad[3];
-    f32 xzVelScale;
-    s16 yaw;
     Player* player = GET_PLAYER(play);
+    s32 pad[2];
+    f32 xzVelScale;
 
     if (this->pos.y <= player->actor.floorHeight) {
         this->life = 0;
@@ -92,7 +91,8 @@ void EffectSsSibuki_Update(PlayState* play, u32 index, EffectSs* this) {
         this->rMoveDelay--;
 
         if (this->rMoveDelay == 0) {
-            yaw = Camera_GetInputDirYaw(Play_GetCamera(play, CAM_ID_MAIN));
+            s16 yaw = Camera_GetInputDirYaw(Play_GetCamera(play, CAM_ID_MAIN));
+
             xzVelScale = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Rand_ZeroOne()) * (KREG(23) + 20.0f));
 
             if (this->rDirection != 0) {

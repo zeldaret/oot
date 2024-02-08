@@ -51,7 +51,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
         // Skip update, no rsp task produced
         rspTask = NULL;
     } else {
-        rspTask = func_800E4FE0();
+        rspTask = AudioThread_Update();
     }
 
     gAudioThreadUpdateTimeAcc += osGetTime() - gAudioThreadUpdateTimeStart;
@@ -105,7 +105,7 @@ void AudioMgr_ThreadEntry(void* arg) {
     IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, &audioMgr->interruptQueue);
 
     // Spin waiting for events
-    while (true) {
+    for (;;) {
         osRecvMesg(&audioMgr->interruptQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
 
         switch (*msg) {
