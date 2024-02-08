@@ -58,8 +58,7 @@ static CollisionCheckInfoInit sColChkInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
 void BgHidanFirewall_Init(Actor* thisx, PlayState* play) {
     BgHidanFirewall* this = (BgHidanFirewall*)thisx;
 
-    this->actor.scale.x = 0.12f;
-    this->actor.scale.z = 0.12f;
+    this->actor.scale.x = this->actor.scale.z = 0.12f;
     this->actor.scale.y = 0.01f;
 
     this->unk_150 = 0;
