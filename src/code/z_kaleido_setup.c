@@ -76,6 +76,7 @@ void KaleidoSetup_Init(PlayState* play) {
 
     pauseCtx->alpha = 0;
 
+    // mainState = PAUSE_MAIN_STATE_IDLE , pageIndex = PAUSE_ITEM
     pauseCtx->unk_1EA = pauseCtx->mainState = pauseCtx->mode = pauseCtx->pageIndex = 0;
 
     pauseCtx->unk_204 = -314.0f;
