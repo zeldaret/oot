@@ -993,6 +993,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         }
 
         if (envCtx->lightSettingOverride == LIGHT_SETTING_OVERRIDE_FULL_CONTROL) {
+            // Do nothing; Skip updating lights based on time or light settings
         } else if ((envCtx->lightMode == LIGHT_MODE_TIME) &&
                    (envCtx->lightSettingOverride == LIGHT_SETTING_OVERRIDE_NONE)) {
             for (i = 0; i < ARRAY_COUNT(sTimeBasedLightConfigs[envCtx->lightConfig]); i++) {
