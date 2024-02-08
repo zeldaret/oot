@@ -1035,7 +1035,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting]
                                 .ambientColor[j],
                             timeChangeBlend);
-                        *(envCtx->lightSettings.ambientColor + j) = LERP(blend8[0], blend8[1], configChangeBlend);
+                        envCtx->lightSettings.ambientColor[j] = LERP(blend8[0], blend8[1], configChangeBlend);
                     }
 
                     // set light1 direction for the sun
