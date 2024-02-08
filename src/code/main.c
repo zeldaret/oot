@@ -55,7 +55,8 @@ void Main(void* arg) {
     PRINTF("システムヒープ初期化 %08x-%08x %08x\n", systemHeapStart, fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
 
-    if (OOT_DEBUG) {
+#if OOT_DEBUG
+    {
         void* debugHeapStart;
         u32 debugHeapSize;
 
@@ -70,6 +71,7 @@ void Main(void* arg) {
         PRINTF("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
         DebugArena_Init(debugHeapStart, debugHeapSize);
     }
+#endif
 
     Regs_Init();
 

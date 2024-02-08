@@ -106,9 +106,10 @@ void func_80B9ABA0(ObjMure3* this, PlayState* play) {
 void func_80B9ACE4(ObjMure3* this, PlayState* play) {
     s16 count = sRupeeCounts[(this->actor.params >> 13) & 7];
     s32 i;
+    EnItem00** collectible;
 
     for (i = 0; i < count; i++) {
-        EnItem00** collectible = &this->unk_150[i];
+        collectible = &this->unk_150[i];
 
         if (!((this->unk_16C >> i) & 1) && (*collectible != NULL)) {
             if (Actor_HasParent(&(*collectible)->actor, play) || ((*collectible)->actor.update == NULL)) {

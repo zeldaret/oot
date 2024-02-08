@@ -199,7 +199,11 @@ void BgHakaShip_Draw(Actor* thisx, PlayState* play) {
     f32 angleTemp;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_haka_ship.c", 528);
+
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
+
+    if (1) {}
+
     if (this->dyna.actor.params == 0) {
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka_ship.c", 534),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -220,7 +224,9 @@ void BgHakaShip_Draw(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, object_haka_objects_DL_00E910);
     }
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_haka_ship.c", 568);
+
     if (this->actionFunc == BgHakaShip_CutsceneStationary || this->actionFunc == BgHakaShip_Move) {
         s32 pad;
         Vec3f sp2C;

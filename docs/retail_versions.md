@@ -52,7 +52,7 @@ code. In order to keep the code readable, we should try to minimize the amount o
     ```
 
     where `N` is the number of cores on your machine. This will build into
-    `build/gc-eu-mq` and produce `oot-gc-eu-mq.z64`.
+    `build/gc-eu-mq` and produce `build/gc-eu-mq/oot-gc-eu-mq.z64`.
 
     If you later want to delete all output files, run
 

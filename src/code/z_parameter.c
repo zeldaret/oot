@@ -3958,7 +3958,8 @@ void Interface_Update(PlayState* play) {
     s16 risingAlpha;
     u16 action;
 
-    if (OOT_DEBUG) {
+#if OOT_DEBUG
+    {
         Input* debugInput = &play->state.input[2];
 
         if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
@@ -3972,6 +3973,7 @@ void Interface_Update(PlayState* play) {
             PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
         }
     }
+#endif
 
     if (!IS_PAUSED(&play->pauseCtx)) {
         if ((gSaveContext.minigameState == 1) || !IS_CUTSCENE_LAYER ||

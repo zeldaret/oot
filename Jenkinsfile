@@ -4,10 +4,24 @@ pipeline {
     }
 
     stages {
-        stage('Check formatting') {
+        stage('Check formatting (full)') {
+            when {
+                branch 'main'
+            }
             steps {
-                echo 'Checking formatting...'
-                sh 'tools/check_format.sh'
+                echo 'Checking formatting on all files...'
+                sh 'python3 tools/check_format.py'
+            }
+        }
+        stage('Check formatting (modified)') {
+            when {
+                not {
+                    branch 'main'
+                }
+            }
+            steps {
+                echo 'Checking formatting on modified files...'
+                sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
             }
         }
         stage('Setup') {
@@ -31,7 +45,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'make -j'
+                sh 'make -j RUN_CC_CHECK=0'
             }
         }
         stage('Report Progress') {
