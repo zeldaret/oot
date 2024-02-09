@@ -5128,7 +5128,8 @@ s32 OnePointCutscene_RemoveCamera(PlayState* play, s16 subCamId) {
 #define vChildCamId temp2
 #define vSubCamStatus temp1
 #define vCurCamId temp2
-#define vNextCamId temp1
+#define vNextCamId temp3
+#define vParentCamId temp1
 
 /**
  * Creates a cutscene subcamera with the specified ID, duration, and targeted actor. The camera is placed into the
@@ -5136,10 +5137,11 @@ s32 OnePointCutscene_RemoveCamera(PlayState* play, s16 subCamId) {
  * queue.
  */
 s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s16 parentCamId) {
+    Camera* subCam;
+    s16 subCamId;
     s16 temp1;
     s16 temp2;
-    s16 subCamId;
-    Camera* subCam;
+    s16 temp3;
 
     if (parentCamId == CAM_ID_NONE) {
         parentCamId = play->activeCamId;
@@ -5186,15 +5188,12 @@ s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s1
     vNextCamId = play->cameraPtrs[subCamId]->childCamId;
 
     while (vNextCamId >= CAM_ID_SUB_FIRST) {
-        s16 nextCsId = play->cameraPtrs[vNextCamId]->csId;
-        s16 thisCsId = play->cameraPtrs[subCamId]->csId;
-
-        if ((nextCsId / 100) < (thisCsId / 100)) {
+        if ((play->cameraPtrs[vNextCamId]->csId / 100) < (play->cameraPtrs[subCamId]->csId / 100)) {
             PRINTF(VT_COL(YELLOW, BLACK) "onepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n" VT_RST,
-                   vNextCamId, nextCsId, thisCsId);
+                   vNextCamId, play->cameraPtrs[vNextCamId]->csId, play->cameraPtrs[subCamId]->csId);
             if (play->cameraPtrs[vNextCamId]->csId != 5010) {
-                if ((vNextCamId = OnePointCutscene_RemoveCamera(play, vNextCamId)) != CAM_ID_NONE) {
-                    Play_ChangeCameraStatus(play, vNextCamId, CAM_STAT_ACTIVE);
+                if ((vParentCamId = OnePointCutscene_RemoveCamera(play, vNextCamId)) != CAM_ID_NONE) {
+                    Play_ChangeCameraStatus(play, vParentCamId, CAM_STAT_ACTIVE);
                 }
             } else {
                 vCurCamId = vNextCamId;
@@ -5241,10 +5240,13 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
     s32 temp2;
     s32 timer;
 
+#if OOT_DEBUG
     if (sDisableAttention) {
         PRINTF(VT_COL(YELLOW, BLACK) "actor attention demo camera: canceled by other camera\n" VT_RST);
         return CAM_ID_NONE;
     }
+#endif
+
     sUnused = -1;
 
     parentCam = play->cameraPtrs[CAM_ID_MAIN];
