@@ -41,19 +41,18 @@
 
 #else
 
-#define DEFINE_ACTOR(name, _1, allocType, nameString) \
-    { (uintptr_t)_ovl_##name##SegmentRomStart,        \
-      (uintptr_t)_ovl_##name##SegmentRomEnd,          \
-      _ovl_##name##SegmentStart,                      \
-      _ovl_##name##SegmentEnd,                        \
-      NULL,                                           \
-      &name##_InitVars,                               \
-      NULL,                                           \
-      allocType,                                      \
+#define DEFINE_ACTOR(name, _1, allocType, _3)  \
+    { (uintptr_t)_ovl_##name##SegmentRomStart, \
+      (uintptr_t)_ovl_##name##SegmentRomEnd,   \
+      _ovl_##name##SegmentStart,               \
+      _ovl_##name##SegmentEnd,                 \
+      NULL,                                    \
+      &name##_InitVars,                        \
+      NULL,                                    \
+      allocType,                               \
       0 },
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString) \
-    { 0, 0, NULL, NULL, NULL, &name##_InitVars, NULL, allocType, 0 },
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3) { 0, 0, NULL, NULL, NULL, &name##_InitVars, NULL, allocType, 0 },
 
 #endif
 
