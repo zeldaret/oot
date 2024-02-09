@@ -17,10 +17,6 @@ FaultClient D_801614B8;
 
 s16 sTransitionFillTimer;
 
-#if OOT_DEBUG
-u64 sDebugCutsceneScriptBuf[0xA00];
-#endif
-
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
 // This macro prints the number "1" with a file and line number if R_ENABLE_PLAY_LOGS is enabled.
@@ -460,6 +456,8 @@ void Play_Init(GameState* thisx) {
 
 #if OOT_DEBUG
     if (R_USE_DEBUG_CUTSCENE) {
+        static u64 sDebugCutsceneScriptBuf[0xA00];
+
         gDebugCutsceneScript = sDebugCutsceneScriptBuf;
         PRINTF("\nkawauso_data=[%x]", gDebugCutsceneScript);
 
