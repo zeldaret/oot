@@ -41,6 +41,7 @@
 
 #else
 
+// Actor name is set to NULL in retail builds
 #define DEFINE_ACTOR(name, _1, allocType, _3)  \
     { (uintptr_t)_ovl_##name##SegmentRomStart, \
       (uintptr_t)_ovl_##name##SegmentRomEnd,   \
