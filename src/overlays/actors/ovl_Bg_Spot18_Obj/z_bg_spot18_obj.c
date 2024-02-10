@@ -111,7 +111,7 @@ s32 func_808B8910(BgSpot18Obj* this, PlayState* play) {
         case 2:
             PRINTF("Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 202,
                    this->dyna.actor.params);
-            break;
+            return 0;
         default:
             PRINTF("Error : Obj出現判定失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 210,
                    this->dyna.actor.params);
@@ -235,11 +235,9 @@ void func_808B8E7C(BgSpot18Obj* this, PlayState* play) {
 
 void func_808B8EE0(BgSpot18Obj* this) {
     this->actionFunc = func_808B8F08;
-    this->dyna.actor.world.rot.y = 0;
     this->dyna.actor.speed = 0.0f;
-    this->dyna.actor.velocity.z = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.velocity.x = 0.0f;
+    this->dyna.actor.velocity.x = this->dyna.actor.velocity.y = this->dyna.actor.velocity.z = 0.0f;
+    this->dyna.actor.world.rot.y = 0;
 }
 
 void func_808B8F08(BgSpot18Obj* this, PlayState* play) {

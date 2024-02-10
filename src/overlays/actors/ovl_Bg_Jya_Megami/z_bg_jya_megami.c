@@ -217,10 +217,11 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, PlayState* play) {
 
 void BgJyaMegami_SetupExplode(BgJyaMegami* this) {
     u32 i;
+    Vec3f* pos = &this->dyna.actor.world.pos;
 
     this->actionFunc = BgJyaMegami_Explode;
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
-        Math_Vec3f_Copy(&this->pieces[i].pos, &this->dyna.actor.world.pos);
+        Math_Vec3f_Copy(&this->pieces[i].pos, pos);
         this->pieces[i].vel.x = sPiecesInit[i].velX;
     }
     this->explosionTimer = 0;
