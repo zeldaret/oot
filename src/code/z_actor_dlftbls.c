@@ -40,7 +40,10 @@
         ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, nameString, allocType, 0, \
     },
 
-#define DEFINE_ACTOR_UNSET(_0) { 0 },
+#define DEFINE_ACTOR_UNSET(_0)                              \
+    {                                                       \
+        ROM_FILE_UNSET, NULL, NULL, NULL, NULL, '\0', 0, 0, \
+    },
 
 ActorOverlay gActorOverlayTable[] = {
 #include "tables/actor_table.h"
