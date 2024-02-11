@@ -26,25 +26,6 @@ $cmd || (
 )
 echo Disassembling done.
 
-echo Assembling sections individually...
-for s_file in `find $DISASM_DIR/data $DISASM_DIR/src -name '*.s'`
-do
-    printf '%s    \r' "$s_file"
-    o_file=${s_file%.s}.o
-    iconv_cmd="iconv -f UTF-8 -t EUC-JP $s_file"
-    asfile_cmd="$AS_CMD -o $o_file --"
-    ( $iconv_cmd | $asfile_cmd ) || (
-        echo
-        echo Error on assembling:
-        echo "$s_file"
-        echo Command line:
-        echo "$iconv_cmd | $asfile_cmd"
-        false
-    )
-done
-echo
-echo Assembling sections done.
-
 echo Assembling text,data,rodata,bss sections together for each file...
 for filebase in `find $DISASM_DIR -name '*.s' | sed -E -n 's/\.(text|data|rodata|bss)\.s$//p' | sort | uniq`
 do
