@@ -1,11 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 
-#define KALEIDO_OVERLAY(name, nameString)                                                     \
-    {                                                                                         \
-        NULL, (uintptr_t)_ovl_##name##SegmentRomStart, (uintptr_t)_ovl_##name##SegmentRomEnd, \
-            _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, 0, nameString,                \
-    }
+#define KALEIDO_OVERLAY(name, nameString) \
+    { NULL, ROM_FILE(ovl_##name), _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, 0, nameString, }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
     KALEIDO_OVERLAY(kaleido_scope, "kaleido_scope"),
@@ -20,7 +17,7 @@ void KaleidoManager_LoadOvl(KaleidoMgrOverlay* ovl) {
     LOG_UTILS_CHECK_NULL_POINTER("KaleidoArea_allocp", sKaleidoAreaPtr, "../z_kaleido_manager.c", 99);
 
     ovl->loadedRamAddr = sKaleidoAreaPtr;
-    Overlay_Load(ovl->vromStart, ovl->vromEnd, ovl->vramStart, ovl->vramEnd, ovl->loadedRamAddr);
+    Overlay_Load(ovl->file.vromStart, ovl->file.vromEnd, ovl->vramStart, ovl->vramEnd, ovl->loadedRamAddr);
 
     PRINTF(VT_FGCOL(GREEN));
     PRINTF("OVL(k):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", ovl->vramStart, ovl->vramEnd, ovl->loadedRamAddr,
