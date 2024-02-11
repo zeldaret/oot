@@ -134,7 +134,7 @@ def main():
                     # and we want to write relocs to
                     # .../ovl_Overlay_Name/ovl_Overlay_Name_reloc.s
                     path = basepath.parent / f"{basepath.parent.name}_reloc.s"
-                    with path.open("w", encoding="utf-8") as f:
+                    with path.open("w", encoding="UTF-8") as f:
                         section.disassembleToFile(f)
                 else:
                     section.saveToFile(str(basepath))
@@ -169,7 +169,7 @@ def main():
                         / f"{func_rodata_entry.getName()}.s"
                     )
                     output_dir.parent.mkdir(parents=True, exist_ok=True)
-                    with output_dir.open("w", encoding="utf-8") as f:
+                    with output_dir.open("w", encoding="UTF-8") as f:
                         func_rodata_entry.writeToFile(f, writeFunction=True)
         print()
         print("Writing functions done.")

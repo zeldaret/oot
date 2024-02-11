@@ -39,7 +39,7 @@ do
             files="$files $file"
         fi
     done
-    iconv_cmd="iconv -f utf-8 -t euc-jp $files"
+    iconv_cmd="iconv -f UTF-8 -t EUC-JP $files"
     asfile_cmd="$AS_CMD -o $filebase.o --"
     ( $iconv_cmd | $asfile_cmd ) || (
         echo
