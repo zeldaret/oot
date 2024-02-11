@@ -32,7 +32,7 @@ typedef struct {
 #define ROM_FILE_EMPTY(name) \
     { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomStart }
 #define ROM_FILE_UNSET \
-    { 0 }
+    { 0, 0 }
 
 extern DmaEntry gDmaDataTable[];
 
