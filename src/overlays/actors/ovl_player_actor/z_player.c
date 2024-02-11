@@ -7937,8 +7937,6 @@ void Player_Action_8084193C(Player* this, PlayState* play) {
     f32 speedTarget;
     s16 yawTarget;
     s32 temp1;
-    s16 temp2;
-    s32 temp3;
 
     func_80841860(play, this);
 
@@ -7958,42 +7956,37 @@ void Player_Action_8084193C(Player* this, PlayState* play) {
 
         if (temp1 > 0) {
             func_8083C858(this, play);
-            return;
-        }
-
-        if (temp1 < 0) {
+        } else if (temp1 < 0) {
             if (func_80833B2C(this)) {
                 func_8083CB2C(this, yawTarget, play);
             } else {
                 func_8083CBF0(this, yawTarget, play);
             }
-            return;
-        }
-
-        if ((this->speedXZ < 3.6f) && (speedTarget < 4.0f)) {
+        } else if ((this->speedXZ < 3.6f) && (speedTarget < 4.0f)) {
             if (!func_8008E9C4(this) && func_80833B2C(this)) {
                 func_8083CB94(this, play);
             } else {
                 func_80839F90(this, play);
             }
-            return;
-        }
+        } else {
+            s16 temp2;
+            s32 temp3;
 
-        func_80840138(this, speedTarget, yawTarget);
+            func_80840138(this, speedTarget, yawTarget);
 
-        temp2 = yawTarget - this->yaw;
-        temp3 = ABS(temp2);
+            temp2 = yawTarget - this->yaw;
+            temp3 = ABS(temp2);
 
-        if (temp3 > 0x4000) {
-            if (Math_StepToF(&this->speedXZ, 0.0f, 3.0f) != 0) {
-                this->yaw = yawTarget;
+            if (temp3 > 0x4000) {
+                if (Math_StepToF(&this->speedXZ, 0.0f, 3.0f) != 0) {
+                    this->yaw = yawTarget;
+                }
+            } else {
+                speedTarget *= 0.9f;
+                Math_AsymStepToF(&this->speedXZ, speedTarget, 2.0f, 3.0f);
+                Math_ScaledStepToS(&this->yaw, yawTarget, temp3 * 0.1f);
             }
-            return;
         }
-
-        speedTarget *= 0.9f;
-        Math_AsymStepToF(&this->speedXZ, speedTarget, 2.0f, 3.0f);
-        Math_ScaledStepToS(&this->yaw, yawTarget, temp3 * 0.1f);
     }
 }
 

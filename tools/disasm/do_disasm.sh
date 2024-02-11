@@ -31,7 +31,7 @@ for s_file in `find $DISASM_DIR/data $DISASM_DIR/src -name '*.s'`
 do
     printf '%s    \r' "$s_file"
     o_file=${s_file%.s}.o
-    iconv_cmd="iconv -f utf-8 -t euc-jp $s_file"
+    iconv_cmd="iconv -f UTF-8 -t EUC-JP $s_file"
     asfile_cmd="$AS_CMD -o $o_file --"
     ( $iconv_cmd | $asfile_cmd ) || (
         echo
