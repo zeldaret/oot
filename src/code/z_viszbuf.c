@@ -47,14 +47,18 @@ extern u16 D_0E000000[];
 void VisZBuf_Init(VisZBuf* this) {
     this->vis.type = VIS_ZBUF_TYPE_IA;
     this->vis.scissorType = VIS_NO_SETSCISSOR;
+
     this->vis.primColor.r = 255;
     this->vis.primColor.g = 255;
     this->vis.primColor.b = 255;
     this->vis.primColor.a = 255;
+
+    // clang-format off
+    this->vis.envColor.r = 0; \
+    this->vis.envColor.g = 0; \
+    this->vis.envColor.b = 0; \
     this->vis.envColor.a = 255;
-    this->vis.envColor.r = 0;
-    this->vis.envColor.g = 0;
-    this->vis.envColor.b = 0;
+    // clang-format on
 }
 
 void VisZBuf_Destroy(VisZBuf* this) {

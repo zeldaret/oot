@@ -62,7 +62,7 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
             break;
 
         case TRANS_FADE_TYPE_ONE_WAY:
-            this->timer += updateRate;
+            ((TransitionFade*)thisx)->timer += updateRate;
             if (this->timer >= gSaveContext.transFadeDuration) {
                 this->timer = gSaveContext.transFadeDuration;
                 this->isDone = true;

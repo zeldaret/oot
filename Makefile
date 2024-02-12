@@ -65,6 +65,7 @@ endif
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
 EXPECTED_DIR := expected/$(BUILD_DIR)
+BASEROM_DIR := baseroms/$(VERSION)
 VENV := .venv
 
 MAKE = make
@@ -210,8 +211,7 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
-# TODO: for now, ROM segments are still taken from the Debug ROM even when building other versions
-BASEROM_SEGMENTS_DIR := baseroms/gc-eu-mq-dbg/segments
+BASEROM_SEGMENTS_DIR := $(BASEROM_DIR)/segments
 BASEROM_BIN_FILES := $(wildcard $(BASEROM_SEGMENTS_DIR)/*)
 
 # source files
@@ -223,7 +223,7 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
 
-DISASM_BASEROM := baseroms/$(VERSION)/baserom-decompressed.z64
+DISASM_BASEROM := $(BASEROM_DIR)/baserom-decompressed.z64
 DISASM_DATA_FILES := $(wildcard $(DISASM_DATA_DIR)/*.csv) $(wildcard $(DISASM_DATA_DIR)/*.txt)
 DISASM_S_FILES := $(shell test -e $(PYTHON) && $(PYTHON) tools/disasm/list_generated_files.py -o $(EXPECTED_DIR) --config-dir $(DISASM_DATA_DIR))
 DISASM_O_FILES := $(DISASM_S_FILES:.s=.o)
@@ -334,13 +334,13 @@ all: rom compress
 rom: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
-	@md5sum -c baseroms/$(VERSION)/checksum.md5
+	@md5sum -c $(BASEROM_DIR)/checksum.md5
 endif
 
 compress: $(ROMC)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROMC)
-	@md5sum -c baseroms/$(VERSION)/checksum-compressed.md5
+	@md5sum -c $(BASEROM_DIR)/checksum-compressed.md5
 endif
 
 clean:
@@ -366,10 +366,11 @@ venv:
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-# TODO: for now, we only extract ROM segments and assets from the Debug ROM
+	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(BASEROM_SEGMENTS_DIR) --dmadata-start `cat $(BASEROM_DIR)/dmadata_start.txt` --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
+# TODO: for now, we only extract assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
-	$(PYTHON) extract_baserom.py
 	$(PYTHON) extract_assets.py -j$(N_THREADS)
+	$(PYTHON) tools/msgdis.py --text-out assets/text/message_data.h --staff-text-out assets/text/message_data_staff.h
 endif
 
 disasm: $(DISASM_O_FILES)
@@ -390,7 +391,7 @@ $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
-	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dma-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
@@ -499,7 +500,7 @@ $(EXPECTED_DIR)/.disasm: $(DISASM_DATA_FILES)
 	touch $@
 
 $(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/.disasm
-	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
+	iconv --from UTF-8 --to EUC-JP $(@:.o=.s) | $(AS) $(ASFLAGS) -o $@
 
 -include $(DEP_FILES)
 

@@ -35,12 +35,6 @@ def decompress(data: bytes, is_zlib_compressed: bool) -> bytes:
     return crunch64.yaz0.decompress(data)
 
 
-FILE_TABLE_OFFSET = {
-    "gc-eu-mq": 0x07170,
-    "gc-eu-mq-dbg": 0x12F70,
-}
-
-
 def round_up(n, shift):
     mod = 1 << shift
     return (n + mod - 1) >> shift << shift
@@ -60,7 +54,7 @@ def update_crc(decompressed: io.BytesIO) -> io.BytesIO:
 
 def decompress_rom(
     file_content: bytearray,
-    dmadata_offset: int,
+    dmadata_start: int,
     dma_entries: list[dmadata.DmaEntry],
     is_zlib_compressed: bool,
 ) -> bytearray:
@@ -89,7 +83,7 @@ def decompress_rom(
         decompressed.seek(vrom_st)
         decompressed.write(data)
     # write new dmadata
-    decompressed.seek(dmadata_offset)
+    decompressed.seek(dmadata_start)
     for dma_entry in new_dmadata:
         entry_data = bytearray(dmadata.DmaEntry.SIZE_BYTES)
         dma_entry.to_bin(entry_data)
@@ -173,7 +167,6 @@ def main():
     parser.add_argument(
         "version",
         help="Version of the game to decompress.",
-        choices=list(FILE_TABLE_OFFSET.keys()),
     )
 
     args = parser.parse_args()
@@ -182,14 +175,13 @@ def main():
 
     baserom_dir = Path(f"baseroms/{version}")
     if not baserom_dir.exists():
-        print(f"Error: Unknown version '{version}'.", file=sys.stderr)
+        print(f"Error: Unknown version '{version}'.")
         exit(1)
 
     uncompressed_path = baserom_dir / "baserom-decompressed.z64"
 
+    dmadata_start = int((baserom_dir / "dmadata_start.txt").read_text(), 16)
     correct_str_hash = (baserom_dir / "checksum.md5").read_text().split()[0]
-
-    dmadata_offset = FILE_TABLE_OFFSET[version]
 
     if check_existing_rom(uncompressed_path, correct_str_hash):
         print("Found valid baserom - exiting early")
@@ -227,13 +219,13 @@ def main():
 
     file_content = per_version_fixes(file_content, version)
 
-    dma_entries = dmadata.read_dmadata(file_content, dmadata_offset)
+    dma_entries = dmadata.read_dmadata(file_content, dmadata_start)
     # Decompress
     if any(dma_entry.is_compressed() for dma_entry in dma_entries):
         print("Decompressing rom...")
         is_zlib_compressed = version in {"ique-cn", "ique-zh"}
         file_content = decompress_rom(
-            file_content, dmadata_offset, dma_entries, is_zlib_compressed
+            file_content, dmadata_start, dma_entries, is_zlib_compressed
         )
 
     file_content = pad_rom(file_content, dma_entries)
