@@ -178,7 +178,10 @@ def compress_rom(
 
         compressed_rom_dma_entries.append(
             dmadata.DmaEntry(
-                segment.vrom_start, segment.vrom_end, segment_rom_start, segment_rom_end
+                segment.vrom_start,
+                segment.vrom_end,
+                segment_rom_start,
+                segment_rom_end,
             )
         )
 
