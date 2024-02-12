@@ -224,7 +224,10 @@ def main():
         print("Decompressing rom...")
         is_zlib_compressed = version in {"ique-cn", "ique-zh"}
         file_content = decompress_rom(
-            file_content, dmadata_start, dma_entries, is_zlib_compressed
+            file_content,
+            dmadata_start,
+            dma_entries,
+            is_zlib_compressed,
         )
 
     file_content = pad_rom(file_content, dma_entries)
