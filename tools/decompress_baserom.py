@@ -233,13 +233,13 @@ def main():
     str_hash = get_str_hash(file_content)
     if str_hash != correct_str_hash:
         print(
-            f"Error: Expected a hash of {correct_str_hash} but got {str_hash}. The baserom has probably been tampered, find a new one",
+            f"Error: Expected a hash of {correct_str_hash} but got {str_hash}. The baserom has probably been tampered, find a new one"
         )
 
         if version == "gc-eu-mq-dbg":
             if str_hash == "32fe2770c0f9b1a9cd2a4d449348c1cb":
                 print(
-                    "The provided baserom is a rom which has been edited with ZeldaEdit and is not suitable for use with decomp. Find a new one.",
+                    "The provided baserom is a rom which has been edited with ZeldaEdit and is not suitable for use with decomp. Find a new one."
                 )
 
         exit(1)
