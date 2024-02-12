@@ -10,7 +10,6 @@ import hashlib
 import io
 from pathlib import Path
 import struct
-import sys
 
 import crunch64
 import ipl3checksum
@@ -194,7 +193,7 @@ def main():
             f"baseroms/{version}/baserom.{rom_file_ext}"
             for rom_file_ext in ROM_FILE_EXTENSIONS
         ]
-        print(f"Error: Could not find {','.join(path_list)}.", file=sys.stderr)
+        print(f"Error: Could not find {','.join(path_list)}.")
         exit(1)
 
     # Read in the original ROM
@@ -235,14 +234,12 @@ def main():
     if str_hash != correct_str_hash:
         print(
             f"Error: Expected a hash of {correct_str_hash} but got {str_hash}. The baserom has probably been tampered, find a new one",
-            file=sys.stderr,
         )
 
         if version == "gc-eu-mq-dbg":
             if str_hash == "32fe2770c0f9b1a9cd2a4d449348c1cb":
                 print(
                     "The provided baserom is a rom which has been edited with ZeldaEdit and is not suitable for use with decomp. Find a new one.",
-                    file=sys.stderr,
                 )
 
         exit(1)
