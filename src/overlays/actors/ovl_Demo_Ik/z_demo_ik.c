@@ -36,8 +36,11 @@ s32 DemoIk_UpdateSkelAnime(DemoIk* this) {
 
 CsCmdActorCue* DemoIk_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
+
     return NULL;
 }
 

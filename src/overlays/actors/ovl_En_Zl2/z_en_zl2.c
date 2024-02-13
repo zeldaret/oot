@@ -212,8 +212,11 @@ s32 EnZl2_UpdateSkelAnime(EnZl2* this) {
 
 CsCmdActorCue* EnZl2_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
+
     return NULL;
 }
 

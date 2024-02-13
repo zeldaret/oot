@@ -1120,10 +1120,12 @@ s32 EnIk_UpdateSkelAnime(EnIk* this) {
 
 CsCmdActorCue* EnIk_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
-    } else {
-        return NULL;
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
+
+    return NULL;
 }
 
 void EnIk_SetStartPosRotFromCue(EnIk* this, PlayState* play, s32 cueChannel) {
