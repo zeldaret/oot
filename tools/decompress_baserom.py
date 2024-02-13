@@ -5,11 +5,11 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import io
-import struct
 from pathlib import Path
-import argparse
+import struct
 
 import crunch64
 import ipl3checksum
@@ -67,7 +67,7 @@ def decompress_rom(
         v_end = dma_entry.vrom_end
         p_start = dma_entry.rom_start
         p_end = dma_entry.rom_end
-        if p_start == 0xFFFFFFFF and p_end == 0xFFFFFFFF:
+        if dma_entry.is_syms():
             new_dmadata.append(dma_entry)
             continue
         if dma_entry.is_compressed():
@@ -160,9 +160,9 @@ def find_baserom(version: str) -> Path | None:
 
 
 def main():
-    description = "Convert a rom that uses dmadata to an uncompressed one."
-
-    parser = argparse.ArgumentParser(description=description)
+    parser = argparse.ArgumentParser(
+        description="Convert a rom that uses dmadata to an uncompressed one."
+    )
     parser.add_argument(
         "version",
         help="Version of the game to decompress.",
@@ -245,7 +245,7 @@ def main():
         exit(1)
 
     # Write out our new ROM
-    print(f"Writing new ROM {uncompressed_path}.")
+    print(f"Writing new ROM {uncompressed_path}...")
     uncompressed_path.write_bytes(file_content)
 
     print("Done!")
