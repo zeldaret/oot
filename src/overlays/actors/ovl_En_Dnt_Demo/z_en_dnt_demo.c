@@ -185,6 +185,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                 case PLAYER_MASK_ZORA:
                 case PLAYER_MASK_GERUDO:
                     rand9 = Rand_ZeroFloat(8.99f);
+                    // fake match, possible alternative is `maskIdx = Player_GetMask(play); maskIdx--;` on one line
                     maskIdx = (s16)Player_GetMask(play) - 1;
                     if (rand9 == 8) {
                         ignore = true;
