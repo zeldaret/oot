@@ -42,7 +42,7 @@
 
 #define DEFINE_ACTOR_UNSET(_0)                              \
     {                                                       \
-        ROM_FILE_UNSET, NULL, NULL, NULL, NULL, '\0', 0, 0, \
+        ROM_FILE_UNSET, NULL, NULL, NULL, NULL, NULL, 0, 0, \
     },
 
 ActorOverlay gActorOverlayTable[] = {
