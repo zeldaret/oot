@@ -32,7 +32,7 @@ typedef enum {
 } EnfHGIntroState;
 
 void EnfHG_Init(Actor* thisx, PlayState* play2);
-void EnfHG_Destroy(Actor* thisx, PlayState* play);
+void EnfHG_Destroy(Actor* thisx, PlayState* play2);
 void EnfHG_Update(Actor* thisx, PlayState* play);
 void EnfHG_Draw(Actor* thisx, PlayState* play);
 
@@ -89,8 +89,8 @@ void EnfHG_Init(Actor* thisx, PlayState* play2) {
     }
 }
 
-void EnfHG_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+void EnfHG_Destroy(Actor* thisx, PlayState* play2) {
+    PlayState* play = (PlayState*)play2;
     EnfHG* this = (EnfHG*)thisx;
 
     PRINTF("F DT1\n");
@@ -651,6 +651,7 @@ void EnfHG_Retreat(EnfHG* this, PlayState* play) {
         BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
         s16 paintingIdxReal;
         s16 paintingIdxFake;
+        Actor* child;
 
         if (this->actor.params != GND_REAL_BOSS) {
             this->killActor = true;
@@ -664,10 +665,11 @@ void EnfHG_Retreat(EnfHG* this, PlayState* play) {
             do {
                 paintingIdxFake = Rand_ZeroOne() * 5.99f;
             } while (paintingIdxFake == paintingIdxReal);
-            PRINTF("ac1 = %x `````````````````````````````````````````````````\n",
-                   Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BOSS_GANONDROF,
-                                      this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
-                                      0, paintingIdxFake + GND_FAKE_BOSS));
+
+            child = Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BOSS_GANONDROF,
+                                       this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
+                                       0, paintingIdxFake + GND_FAKE_BOSS);
+            PRINTF("ac1 = %x `````````````````````````````````````````````````\n", child);
         }
     }
 }
