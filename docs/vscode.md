@@ -48,12 +48,12 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
             ],
             "intelliSenseMode": "${default}", // Shouldn't matter
             "includePath": [ // Matches makefile's includes
-                "${workspaceFolder}/**",
-                "src",
-                "build/gc-eu-mq-dbg",
                 "include",
                 "include/libc",
-                "assets/_extracted/gc-eu-mq-dbg"
+                "src",
+                "build/gc-eu-mq-dbg",
+                ".",
+                "extracted/gc-eu-mq-dbg"
             ],
             "defines": [
                 "_LANGUAGE_C", // For gbi.h

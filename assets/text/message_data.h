@@ -1,1 +1,1 @@
-#include "version_assets/text/message_data.h"
+#include "text/message_data.h"
