@@ -80,6 +80,8 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnGSwitch* this = (EnGSwitch*)thisx;
 
+    if (play) {}
+
     this->type = (this->actor.params >> 0xC) & 0xF;
     this->switchFlag = this->actor.params & 0x3F;
     this->numEffects = EN_GSWITCH_EFFECT_COUNT;
@@ -443,7 +445,8 @@ void EnGSwitch_Update(Actor* thisx, PlayState* play) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
     }
-    if (BREG(0) && (this->type == ENGSWITCH_SILVER_TRACKER)) {
+
+    if (OOT_DEBUG && BREG(0) != 0 && (this->type == ENGSWITCH_SILVER_TRACKER)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
@@ -456,6 +459,9 @@ void EnGSwitch_DrawPot(Actor* thisx, PlayState* play) {
 
     if (!this->broken) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 918);
+
+        if (1) {}
+
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_g_switch.c", 925),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -491,12 +497,12 @@ void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
 void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colorIdx) {
     EnGSwitchEffect* effect = this->effects;
     s16 i;
+    Vec3f baseVel;
+    f32 pitch;
+    f32 yaw;
 
     for (i = 0; i < this->numEffects; i++, effect++) {
         if (!effect->flag) {
-            Vec3f baseVel;
-            f32 pitch;
-            f32 yaw;
 
             effect->pos = *pos;
             effect->scale = scale;

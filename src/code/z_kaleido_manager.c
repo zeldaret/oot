@@ -80,9 +80,10 @@ void KaleidoManager_Destroy(void) {
 void* KaleidoManager_GetRamAddr(void* vram) {
     KaleidoMgrOverlay* iter = gKaleidoMgrCurOvl;
     KaleidoMgrOverlay* ovl = iter;
-    u32 i;
 
     if (ovl == NULL) {
+        u32 i;
+
         iter = &gKaleidoMgrOverlayTable[0];
         for (i = 0; i < ARRAY_COUNT(gKaleidoMgrOverlayTable); i++) {
             if (((uintptr_t)vram >= (uintptr_t)iter->vramStart) && ((uintptr_t)iter->vramEnd >= (uintptr_t)vram)) {
