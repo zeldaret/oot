@@ -259,8 +259,8 @@ void DemoIk_Type1Action2(DemoIk* this, PlayState* play) {
 }
 
 void DemoIk_Type1PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    DemoIk* this = (DemoIk*)thisx;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
+    DemoIk* this = (DemoIk*)thisx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_ik_inArmer.c", 385);
     if (limbIndex == 1) {

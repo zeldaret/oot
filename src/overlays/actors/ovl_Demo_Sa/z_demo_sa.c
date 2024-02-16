@@ -127,6 +127,7 @@ void DemoSa_SetMouthIndex(DemoSa* this, s16 mouthIndex) {
     this->mouthIndex = mouthIndex;
 }
 
+#if OOT_DEBUG
 void func_8098E530(DemoSa* this) {
     this->action = 7;
     this->drawConfig = 0;
@@ -150,6 +151,7 @@ void func_8098E554(DemoSa* this, PlayState* play) {
         *something = 1;
     }
 }
+#endif
 
 void func_8098E5C8(DemoSa* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
@@ -441,7 +443,9 @@ void func_8098F050(DemoSa* this, PlayState* play) {
 
 void func_8098F0E8(DemoSa* this, PlayState* play) {
     func_8098EEA8(this, play);
+#if OOT_DEBUG
     func_8098E554(this, play);
+#endif
 }
 
 void func_8098F118(DemoSa* this, PlayState* play) {
@@ -449,7 +453,9 @@ void func_8098F118(DemoSa* this, PlayState* play) {
     DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098EEFC(this, play);
+#if OOT_DEBUG
     func_8098E554(this, play);
+#endif
 }
 
 void func_8098F16C(DemoSa* this, PlayState* play) {
@@ -457,7 +463,9 @@ void func_8098F16C(DemoSa* this, PlayState* play) {
     DemoSa_UpdateSkelAnime(this);
     func_8098EDB0(this);
     func_8098F050(this, play);
+#if OOT_DEBUG
     func_8098E554(this, play);
+#endif
 }
 
 void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {
