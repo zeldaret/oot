@@ -51,9 +51,21 @@ def convert_text(text, charmap):
 
 def main():
     parser = argparse.ArgumentParser(description="Encode message_data_static text headers")
-    parser.add_argument("charmap", help="path to charmap file specifying custom encoding elements")
-    parser.add_argument("--input", help="path to file to be encoded, or - for stdin", default="-")
-    parser.add_argument("--output", help="encoded file, or - for stdout", default="-")
+    parser.add_argument(
+        "input",
+        help="path to file to be encoded, or - for stdin",
+    )
+    parser.add_argument(
+        "--output",
+        "-o",
+        help="path to write encoded file, or - for stdout",
+        required=True,
+    )
+    parser.add_argument(
+        "--charmap",
+        help="path to charmap file specifying custom encoding elements",
+        required=True,
+    )
     args = parser.parse_args()
 
     charmap = read_charmap(args.charmap)

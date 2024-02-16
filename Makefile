@@ -421,7 +421,7 @@ $(BUILD_DIR)/data/%.o: data/%.s
 
 $(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h assets/text/charmap.txt
 	mkdir -p $(BUILD_DIR)/assets/text
-	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py assets/text/charmap.txt > $@
+	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py - --output $@ --charmap assets/text/charmap.txt
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
