@@ -10,7 +10,6 @@ OPEN_DISPS = "void"
 CLOSE_DISPS = "void"
 GRAPH_ALLOC = "void*"
 LOG_UTILS_CHECK_NULL_POINTER = "void"
-PRINTF = "void"
 WORK_DISP = "void*"
 POLY_OPA_DISP = "void*"
 POLY_XLU_DISP = "void*"
@@ -19,6 +18,14 @@ OVERLAY_DISP = "void*"
 ABS = "int"
 SQ = "int"
 CLAMP = "int"
+
+# If changing to not preserve these, add a check for the permuter to IDO_PRINTF_WORKAROUND,
+# so that modern CPP (used by the permuter import) does not error on the IDO-specific hack.
+# For example:
+# #define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !PERMUTER && !M2CTX)
+PRINTF = "void"
+SCHED_DEBUG_PRINTF = "void"
+ACTOR_DEBUG_PRINTF = "void"
 
 [decompme.compilers]
 "tools/ido_recomp/linux/7.1/cc" = "ido7.1"
