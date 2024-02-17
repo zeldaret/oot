@@ -24,7 +24,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play);
 void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2);
 void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play);
 void DemoEffect_DrawGetItem(Actor* thisx, PlayState* play);
-void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play2);
+void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play);
 void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play);
 void DemoEffect_DrawJewel(Actor* thisx, PlayState* play2);
 
@@ -1806,43 +1806,38 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2829);
 }
 
-void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play2) {
+void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    PlayState* play = (PlayState*)play2;
-    u8* alpha = &this->light.alpha;
+    uintptr_t dl = (uintptr_t)gEffFlash1DL;
+    s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2842);
 
-    if (1) {}
-
-    if (DemoEffect_CheckForCue(this, play, 1)) {
-        goto close_disps;
+    if (!DemoEffect_CheckForCue(this, play, 1)) {
+        if (this->light.flicker == 0) {
+            this->light.flicker = 1;
+        } else {
+            Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
+                            this->primXluColor[2], (*this).light.alpha);
+            gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
+            Matrix_Scale(((this->light.scaleFlag & 1) * 0.05f) + 1.0f, ((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
+                         ((this->light.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
+            Matrix_Push();
+            Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(this->light.rotation), MTXMODE_APPLY);
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2866),
+                      G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+            gSPDisplayList(POLY_XLU_DISP++, dl);
+            Matrix_Pop();
+            Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(-(f32)this->light.rotation), MTXMODE_APPLY);
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2874),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, dl);
+        }
     }
 
-    if (this->light.flicker == 0) {
-        this->light.flicker = 1;
-    } else {
-        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1], this->primXluColor[2],
-                        *alpha);
-        gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
-        Matrix_Scale(((this->light.scaleFlag & 1) * 0.05f) + 1.0f, ((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
-                     ((this->light.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
-        Matrix_Push();
-        Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
-        Matrix_RotateZ(DEG_TO_RAD(this->light.rotation), MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2866),
-                  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-        gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
-        Matrix_Pop();
-        Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
-        Matrix_RotateZ(DEG_TO_RAD(-(f32)this->light.rotation), MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2874),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
-    }
-
-close_disps:
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2881);
 }
 
