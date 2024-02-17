@@ -1,3 +1,6 @@
+build_system = "make"
+compiler_type = "ido"  # adjusts default weights for permuting
+
 [preserve_macros]
 "g[DS]P.*" = "void"
 "gDma.*" = "void"
@@ -28,9 +31,5 @@ SCHED_DEBUG_PRINTF = "void"
 ACTOR_DEBUG_PRINTF = "void"
 
 [decompme.compilers]
-"tools/ido_recomp/linux/7.1/cc" = "ido7.1"
-"tools/ido_recomp/macos/7.1/cc" = "ido7.1"
-"tools/ido_recomp/windows/7.1/cc" = "ido7.1"
-"tools/ido_recomp/linux/5.3/cc" = "ido5.3"
-"tools/ido_recomp/macos/5.3/cc" = "ido5.3"
-"tools/ido_recomp/windows/5.3/cc" = "ido5.3"
+"tools/ido_recomp/*/7.1/cc" = "ido7.1"
+"tools/ido_recomp/*/5.3/cc" = "ido5.3"
