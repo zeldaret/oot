@@ -102,8 +102,8 @@ cd oot
 
 #### 3. Prepare a base ROM
 
-Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder. In you are under WSL, you can
-run the command `explorer.exe .` to open the current directory in the Windows file explorer.
+Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder.
+If you are under WSL, you can run the command `explorer.exe .` to open the current directory in the Windows file explorer.
 
 Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
 
