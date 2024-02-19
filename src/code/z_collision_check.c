@@ -1408,6 +1408,7 @@ void CollisionCheck_NoBlood(PlayState* play, Collider* collider, Vec3f* v) {
  * Used by collider types HIT0 and HIT8.
  */
 void CollisionCheck_BlueBlood(PlayState* play, Collider* collider, Vec3f* v) {
+    static s32 pad;
     static EffectSparkInit sparkInit;
     s32 effectIndex;
 
