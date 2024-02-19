@@ -63,7 +63,6 @@ static void* sEyeTextures[] = {
 
 static UNK_TYPE D_80AF4118 = 0;
 
-#pragma asmproc recurse
 #include "z_en_ru2_cutscene_data.inc.c"
 
 static EnRu2ActionFunc sActionFuncs[] = {
