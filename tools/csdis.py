@@ -443,6 +443,11 @@ player_cue_ids = {
     0x4E: "PLAYER_CUEID_MAX",
 }
 
+fade_out_seq_player = {
+    0x03: "CS_FADE_OUT_FANFARE",
+    0x04: "CS_FADE_OUT_BGM_MAIN",
+}
+
 """
 Entry format:
 
@@ -470,6 +475,7 @@ Argument format:
     s : decimal
     u : decimal unsigned
     x : hex
+    x-1 : hex but write the value read minus 1
     f : float
     e : enumeration
     n : unique identifier of which enum to use
@@ -483,7 +489,7 @@ cutscene_command_macros = {
               "CS_MISC(%h2:1:e4, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
     4:
         ("CS_LIGHT_SETTING_LIST(%w1:1:s)", 2, None, 0,
-              "CS_LIGHT_SETTING(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+              "CS_LIGHT_SETTING(%h2:1:x-1, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     86:
         ("CS_START_SEQ_LIST(%w1:1:s)", 2, None, 0,
               "CS_START_SEQ(%h2:1:e3, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
@@ -492,7 +498,7 @@ cutscene_command_macros = {
               "CS_STOP_SEQ(%h2:1:e3, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     124:
         ("CS_FADE_OUT_SEQ_LIST(%w1:1:s)", 2, None, 0,
-              "CS_FADE_OUT_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+              "CS_FADE_OUT_SEQ(%h2:1:e7, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     9:
         ("CS_RUMBLE_CONTROLLER_LIST(%w1:1:s)", 2, None, 0,
               "CS_RUMBLE_CONTROLLER(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),
@@ -664,14 +670,20 @@ def format_arg(arg, words):
             result = cutscene_transition_types[unsigned_value]
         elif enum_no == 6:
             result = player_cue_ids[unsigned_value]
+        elif enum_no == 7:
+            result = fade_out_seq_player[unsigned_value]
     elif format_type == "u":
         result = str(value)
     elif format_type == "s":
         result = str(value)
     elif format_type == "x":
         result = "0x" + pad(hex(unsigned_value), pad_len).upper()
+    elif format_type == "x-1":
+        assert unsigned_value > 0
+        result = "0x" + pad(hex(unsigned_value - 1), pad_len).upper()
     elif format_type == "f":
-        result = str(get_float(value))+"f"
+        result = f"CS_FLOAT(0x{unsigned_value:X}, {get_float(value)}f)"
+        #result = f"{get_float(value)}f"
     else:
         print("Something went wrong!") # TODO more debug info
         os._exit(1)
