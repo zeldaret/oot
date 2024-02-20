@@ -1513,7 +1513,8 @@ void EnSkj_WaitForOfferResponse(EnSkj* this, PlayState* play) {
 
                 player->stateFlags3 |= PLAYER_STATE3_5; // makes player take ocarina out right away after closing box
                 this->actionFunc = EnSkj_SetupWaitForOcarina;
-            } break;
+                break;
+            }
             case 1: // no
                 this->actionFunc = EnSkj_CleanupOcarinaGame;
                 break;
