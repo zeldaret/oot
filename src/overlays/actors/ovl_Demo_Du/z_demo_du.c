@@ -88,7 +88,6 @@ void DemoDu_CsAfterGanon_CheckIfShouldReset(DemoDu* this, PlayState* play) {
                 DemoDu_CsAfterGanon_Reset(this);
             }
             D_8096CE94 = false;
-            return;
         }
     } else if (!D_8096CE94) {
         D_8096CE94 = true;
