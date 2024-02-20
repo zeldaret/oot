@@ -228,7 +228,7 @@ void func_80B3C7D4(EnXc* this, s32 action1, s32 action2, s32 action3) {
 
 #if OOT_DEBUG
 s32 EnXc_NoCutscenePlaying(PlayState* play) {
-    if (play->csCtx.state == 0) {
+    if (play->csCtx.state == CS_STATE_IDLE) {
         return true;
     }
     return false;
