@@ -292,13 +292,13 @@ void func_80B3CA38(EnXc* this, PlayState* play) {
 
 s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
     Player* player;
-    f32 z;
+    f32 playerPosZ;
 
     if (this->actor.params == SHEIK_TYPE_MINUET) {
         player = GET_PLAYER(play);
-        z = player->actor.world.pos.z;
+        playerPosZ = player->actor.world.pos.z;
 
-        if (z < -2225.0f) {
+        if (playerPosZ < -2225.0f) {
             if (!Play_InCsMode(play)) {
                 s32 pad;
 
