@@ -1808,7 +1808,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
 
 void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    uintptr_t dl = (uintptr_t)gEffFlash1DL;
+    uintptr_t flashDList = (uintptr_t)gEffFlash1DL;
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2842);
@@ -1828,13 +1828,13 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
             Matrix_RotateZ(DEG_TO_RAD(this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2866),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-            gSPDisplayList(POLY_XLU_DISP++, dl);
+            gSPDisplayList(POLY_XLU_DISP++, flashDList);
             Matrix_Pop();
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(-(f32)this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2874),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, dl);
+            gSPDisplayList(POLY_XLU_DISP++, flashDList);
         }
     }
 
