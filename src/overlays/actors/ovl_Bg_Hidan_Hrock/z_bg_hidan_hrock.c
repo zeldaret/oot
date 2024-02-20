@@ -82,6 +82,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
     s32 i;
     s32 j;
     CollisionHeader* collisionHeader = NULL;
+    Vec3f* vtx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->unk_16A = thisx->params & 0x3F;
@@ -103,7 +104,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
 
         if (1) {
             for (j = 0; j < 3; j++) {
-                Vec3f* vtx = &colliderElementInit->dim.vtx[j];
+                vtx = &colliderElementInit->dim.vtx[j];
 
                 vertices[j].x = vtx->z * sinRotY + (thisx->home.pos.x + vtx->x * cosRotY);
                 vertices[j].y = vtx->y + thisx->home.pos.y;
