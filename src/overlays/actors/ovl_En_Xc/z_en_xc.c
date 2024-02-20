@@ -349,7 +349,6 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
-    // Player is adult and has not learned Serenade and, if in debug mode, does not have iron boots
     if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && OOT_DEBUG) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
         LINK_IS_ADULT) {
         s32 pad;
