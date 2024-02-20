@@ -1818,6 +1818,8 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
             this->light.flicker = 1;
         } else {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+            // `(*this).light.alpha` indicates that `alpha` is part of an array
+            // (possibly a "workbuf" array instead of the union of structs we have now).
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
                             this->primXluColor[2], (*this).light.alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
