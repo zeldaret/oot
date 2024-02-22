@@ -121,9 +121,7 @@ void func_809BC2A4(EnBdfire* this, PlayState* play) {
 void func_809BC598(EnBdfire* this, PlayState* play) {
     s16 quarterTurn;
     Player* player = GET_PLAYER(play);
-    f32 distToBurn;
     BossDodongo* bossDodongo;
-    s16 i;
 
     bossDodongo = ((BossDodongo*)this->actor.parent);
     this->unk_158 = bossDodongo->unk_1A2;
@@ -164,8 +162,11 @@ void func_809BC598(EnBdfire* this, PlayState* play) {
             return;
         }
     } else if (!player->bodyIsBurning) {
-        distToBurn = (this->actor.scale.x * 130.0f) / 4.2000003f;
+        f32 distToBurn = (this->actor.scale.x * 130.0f) / 4.2000003f;
+
         if (this->actor.xyzDistToPlayerSq < SQ(distToBurn)) {
+            s16 i;
+
             for (i = 0; i < 18; i++) {
                 player->bodyFlameTimers[i] = Rand_S16Offset(0, 200);
             }

@@ -297,8 +297,6 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     EnAttackNiw* this = (EnAttackNiw*)thisx;
     EnNiw* cucco;
     Player* player = GET_PLAYER(play);
-    s32 pad;
-    Vec3f sp30;
     PlayState* play2 = play;
 
     this->unk_28C++;
@@ -343,6 +341,9 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     }
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actionFunc != func_809B5C18)) {
+        Vec3f sp30;
+        s32 pad;
+
         Math_Vec3f_Copy(&sp30, &this->actor.world.pos);
         sp30.y += this->actor.yDistToWater;
         EffectSsGSplash_Spawn(play, &sp30, NULL, NULL, 0, 0x190);
