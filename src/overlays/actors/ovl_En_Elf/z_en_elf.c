@@ -808,7 +808,6 @@ void func_80A03AB0(EnElf* this, PlayState* play) {
 
 void EnElf_UpdateLights(EnElf* this, PlayState* play) {
     s16 glowLightRadius;
-    Player* player;
 
     glowLightRadius = 100;
 
@@ -817,7 +816,8 @@ void EnElf_UpdateLights(EnElf* this, PlayState* play) {
     }
 
     if (this->fairyFlags & 0x20) {
-        player = GET_PLAYER(play);
+        Player* player = GET_PLAYER(play);
+
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, player->actor.world.pos.x,
                                   (s16)(player->actor.world.pos.y) + 60.0f, player->actor.world.pos.z, 255, 255, 255,
                                   200);
@@ -1379,9 +1379,15 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 
     if (player->naviTextId == 0) {
         if (player->unk_664 == NULL) {
+#if OOT_DEBUG
             if (((gSaveContext.save.info.playerData.naviTimer >= 600) &&
                  (gSaveContext.save.info.playerData.naviTimer <= 3000)) ||
-                (nREG(89) != 0)) {
+                (nREG(89) != 0))
+#else
+            if ((gSaveContext.save.info.playerData.naviTimer >= 600) &&
+                (gSaveContext.save.info.playerData.naviTimer <= 3000))
+#endif
+            {
                 player->naviTextId = QuestHint_GetNaviTextId(play);
 
                 if (player->naviTextId == 0x15F) {
@@ -1535,7 +1541,7 @@ void EnElf_Draw(Actor* thisx, PlayState* play) {
                 gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
             }
 
-            gSPEndDisplayList(dListHead++);
+            gSPEndDisplayList(dListHead);
             gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
             POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
