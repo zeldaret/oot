@@ -598,7 +598,7 @@ void DmaMgr_Init(void) {
  * @see DmaMgr_RequestAsync
  */
 s32 DmaMgr_RequestAsyncDebug(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
-                             OSMesg msg, const char* file, s32 line) {
+                             OSMesg msg, const char* file, int line) {
     req->filename = file;
     req->line = line;
     return DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg);
@@ -609,7 +609,7 @@ s32 DmaMgr_RequestAsyncDebug(DmaRequest* req, void* ram, uintptr_t vrom, size_t 
  *
  * @see DmaMgr_RequestSync
  */
-s32 DmaMgr_RequestSyncDebug(void* ram, uintptr_t vrom, size_t size, const char* file, s32 line) {
+s32 DmaMgr_RequestSyncDebug(void* ram, uintptr_t vrom, size_t size, const char* file, int line) {
     DmaRequest req;
     s32 ret;
     OSMesgQueue queue;
