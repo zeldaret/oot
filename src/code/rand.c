@@ -100,7 +100,7 @@ f32 Rand_ZeroOne(void) {
  *
  * @see Rand_ZeroOne
  *
- * Original name: fqrand2
+ * @note Original name: fqrand2
  */
 f32 Rand_Centered(void) {
     sRandInt = sRandInt * RAND_MULTIPLIER + RAND_INCREMENT;
@@ -116,7 +116,7 @@ f32 Rand_Centered(void) {
  *
  * @see Rand_Seed
  *
- * Original name: sqrand_r
+ * @note Original name: sqrand_r
  */
 void Rand_Seed_Variable(u32* rndNum, u32 seed) {
     *rndNum = seed;
@@ -127,7 +127,7 @@ void Rand_Seed_Variable(u32* rndNum, u32 seed) {
  *
  * @see Rand_Next
  *
- * Original name: qrand_r
+ * @note Original name: qrand_r
  */
 u32 Rand_Next_Variable(u32* rndNum) {
     return *rndNum = (*rndNum) * RAND_MULTIPLIER + RAND_INCREMENT;
@@ -138,7 +138,7 @@ u32 Rand_Next_Variable(u32* rndNum) {
  *
  * @see Rand_ZeroOne
  *
- * Original name: fqrand_r
+ * @note Original name: fqrand_r
  */
 f32 Rand_ZeroOne_Variable(u32* rndNum) {
     u32 next = (*rndNum) * RAND_MULTIPLIER + RAND_INCREMENT;
@@ -152,7 +152,7 @@ f32 Rand_ZeroOne_Variable(u32* rndNum) {
  *
  * @see Rand_ZeroOne, Rand_Centered
  *
- * Original name: fqrand2_r
+ * @note Original name: fqrand2_r
  */
 f32 Rand_Centered_Variable(u32* rndNum) {
     u32 next = (*rndNum) * RAND_MULTIPLIER + RAND_INCREMENT;
