@@ -88,10 +88,8 @@ static f32 sSpeeds[] = { 10.0f, 9.2f };
 
 #if OOT_DEBUG
 #define GET_EN_GOROIWA_SPEED(this) (R_EN_GOROIWA_SPEED * 0.01f)
-#define SET_EN_GOROIWA_SPEED(speed) R_EN_GOROIWA_SPEED = speed
 #else
 #define GET_EN_GOROIWA_SPEED(this) sSpeeds[(this)->isInKokiri]
-#define SET_EN_GOROIWA_SPEED(speed)
 #endif
 
 void EnGoroiwa_UpdateCollider(EnGoroiwa* this) {
@@ -137,10 +135,14 @@ s32 EnGoroiwa_Vec3fNormalize(Vec3f* ret, Vec3f* a) {
 void EnGoroiwa_SetSpeed(EnGoroiwa* this, PlayState* play) {
     if (play->sceneId == SCENE_KOKIRI_FOREST) {
         this->isInKokiri = true;
-        SET_EN_GOROIWA_SPEED(920);
+#if OOT_DEBUG
+        R_EN_GOROIWA_SPEED = 920;
+#endif
     } else {
         this->isInKokiri = false;
-        SET_EN_GOROIWA_SPEED(1000);
+#if OOT_DEBUG
+        R_EN_GOROIWA_SPEED = 1000;
+#endif
     }
 }
 
