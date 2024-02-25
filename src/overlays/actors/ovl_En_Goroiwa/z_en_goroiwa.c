@@ -87,9 +87,9 @@ static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 static f32 sSpeeds[] = { 10.0f, 9.2f };
 
 #if OOT_DEBUG
-#define GET_EN_GOROIWA_SPEED(this) (R_EN_GOROIWA_SPEED * 0.01f)
+#define EN_GOROIWA_SPEED(this) (R_EN_GOROIWA_SPEED * 0.01f)
 #else
-#define GET_EN_GOROIWA_SPEED(this) sSpeeds[(this)->isInKokiri]
+#define EN_GOROIWA_SPEED(this) sSpeeds[(this)->isInKokiri]
 #endif
 
 void EnGoroiwa_UpdateCollider(EnGoroiwa* this) {
@@ -311,7 +311,7 @@ s32 EnGoroiwa_MoveAndFall(EnGoroiwa* this, PlayState* play) {
     s32 pad;
     Vec3s* nextPointPos;
 
-    Math_StepToF(&this->actor.speed, GET_EN_GOROIWA_SPEED(this), 0.3f);
+    Math_StepToF(&this->actor.speed, EN_GOROIWA_SPEED(this), 0.3f);
     Actor_UpdateVelocityXZGravity(&this->actor);
     path = &play->pathList[this->actor.params & 0xFF];
     nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
@@ -334,7 +334,7 @@ s32 EnGoroiwa_Move(EnGoroiwa* this, PlayState* play) {
     nextPointPosF.x = nextPointPos->x;
     nextPointPosF.y = nextPointPos->y;
     nextPointPosF.z = nextPointPos->z;
-    Math_StepToF(&this->actor.speed, GET_EN_GOROIWA_SPEED(this), 0.3f);
+    Math_StepToF(&this->actor.speed, EN_GOROIWA_SPEED(this), 0.3f);
     if (Math3D_Vec3fDistSq(&nextPointPosF, &this->actor.world.pos) < SQ(5.0f)) {
         Math_Vec3f_Diff(&nextPointPosF, &this->actor.world.pos, &posDiff);
     } else {
@@ -358,7 +358,7 @@ s32 EnGoroiwa_MoveUpToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     Path* path = &play->pathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
 
-    Math_StepToF(&this->actor.velocity.y, GET_EN_GOROIWA_SPEED(this) * 0.5f, 0.18f);
+    Math_StepToF(&this->actor.velocity.y, EN_GOROIWA_SPEED(this) * 0.5f, 0.18f);
     this->actor.world.pos.x = nextPointPos->x;
     this->actor.world.pos.z = nextPointPos->z;
     return Math_StepToF(&this->actor.world.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
