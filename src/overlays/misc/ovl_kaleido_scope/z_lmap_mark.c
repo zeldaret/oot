@@ -11,26 +11,16 @@ typedef struct {
     /* 0x18 */ u32 rectHeight;
     /* 0x1C */ u32 dsdx;
     /* 0x20 */ u32 dtdy;
-} PauseMapMarkInfo; // size = 0x24
+} MapMarkInfo; // size = 0x24
 
-static PauseMapMarkInfo sMapMarkInfoTable[] = {
+#define TEST
+#include "gDPLoadTextureBlock_Runtime.inc.c"
+
+static MapMarkInfo sMapMarkInfoTable[] = {
+    // Same data as z_map_mark.c, could just be part of prev inc.c
     { gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1 << 10, 1 << 10 },
     { gMapBossIconTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1 << 10, 1 << 10 },
 };
-
-static const u32 sBaseImageSizes[] = { 0, 1, 2, 3 };
-static const u32 sLoadBlockImageSizes[] = { 2, 2, 2, 3 };
-static const u32 sIncrImageSizes[] = { 3, 1, 0, 0 };
-static const u32 sShiftImageSizes[] = { 2, 1, 0, 0 };
-static const u32 sBytesImageSizes[] = { 0, 1, 2, 4 };
-static const u32 sLineBytesImageSizes[] = { 0, 1, 2, 2 };
-
-#define G_IM_SIZ_MARK sBaseImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_LOAD_BLOCK sLoadBlockImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_INCR sIncrImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_SHIFT sShiftImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_BYTES sBytesImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_LINE_BYTES sLineBytesImageSizes[markInfo->imageSize]
 
 extern PauseMapMarksData gPauseMapMarkDataTable[];
 
@@ -47,7 +37,7 @@ void PauseMapMark_Clear(PlayState* play) {
 void PauseMapMark_DrawForDungeon(PlayState* play) {
     PauseMapMarkData* mapMarkData;
     PauseMapMarkPoint* markPoint;
-    PauseMapMarkInfo* markInfo;
+    MapMarkInfo* markInfo;
     f32 scale;
     s32 i = 0;
 
@@ -122,9 +112,10 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
                 markInfo = &sMapMarkInfoTable[mapMarkData->markType];
 
                 gDPPipeSync(POLY_OPA_DISP++);
-                gDPLoadTextureBlock(POLY_OPA_DISP++, markInfo->texture, markInfo->imageFormat, G_IM_SIZ_MARK,
-                                    markInfo->textureWidth, markInfo->textureHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_Runtime(POLY_OPA_DISP++, markInfo->texture, markInfo->imageFormat,
+                                            markInfo->imageSize, markInfo->textureWidth, markInfo->textureHeight, 0,
+                                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                 Matrix_Push();
                 Matrix_Translate(GREG(92) + markPoint->x, GREG(93) + markPoint->y, 0.0f, MTXMODE_APPLY);
