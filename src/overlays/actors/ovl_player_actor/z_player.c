@@ -8873,8 +8873,10 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
     Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+        Actor* heldActor;
+
         if (this->stateFlags1 & PLAYER_STATE1_11) {
-            Actor* heldActor = this->heldActor;
+            heldActor = this->heldActor;
 
             if (!func_80835644(play, this, heldActor) && (heldActor->id == ACTOR_EN_NIW) &&
                 CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)) {
@@ -11384,8 +11386,6 @@ static Gfx* sMaskDlists[PLAYER_MASK_MAX - 1] = {
 static Vec3s D_80854864 = { 0, 0, 0 };
 
 void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList, OverrideLimbDrawOpa overrideLimbDraw) {
-    static s32 D_8085486C = 255;
-
     OPEN_DISPS(play->state.gfxCtx, "../z_player.c", 19228);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, cullDList);
@@ -11422,15 +11422,14 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
     }
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-        !(this->stateFlags1 & PLAYER_STATE1_23) && (this->hoverBootsTimer != 0)) {
-        s32 sp5C;
-        s32 hoverBootsTimer = this->hoverBootsTimer;
+        !(this->stateFlags1 & PLAYER_STATE1_23) && ((u32)this->hoverBootsTimer != 0)) {
+        static s32 D_8085486C = 255;
 
         if (this->hoverBootsTimer < 19) {
-            if (hoverBootsTimer >= 15) {
-                D_8085486C = (19 - hoverBootsTimer) * 51.0f;
-            } else if (hoverBootsTimer < 19) {
-                sp5C = hoverBootsTimer;
+            if (this->hoverBootsTimer >= 15) {
+                D_8085486C = (19 - this->hoverBootsTimer) * 51.0f;
+            } else if (this->hoverBootsTimer < 19) {
+                s32 sp5C = this->hoverBootsTimer;
 
                 if (sp5C > 9) {
                     sp5C = 9;
@@ -13171,13 +13170,13 @@ void Player_Action_8084E9AC(Player* this, PlayState* play) {
     }
 }
 
-static u8 D_808549FC[] = {
-    0x01, 0x03, 0x02, 0x04, 0x04,
-};
-
 void Player_Action_8084EAC0(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av2.actionVar2 == 0) {
+            static u8 D_808549FC[] = {
+                0x01, 0x03, 0x02, 0x04, 0x04,
+            };
+
             if (this->itemAction == PLAYER_IA_BOTTLE_POE) {
                 s32 rand = Rand_S16Offset(-1, 3);
 
@@ -13212,11 +13211,10 @@ void Player_Action_8084EAC0(Player* this, PlayState* play) {
 
             Player_AnimPlayLoopAdjusted(play, this, &gPlayerAnim_link_bottle_drink_demo_wait);
             this->av2.actionVar2 = 1;
-            return;
+        } else {
+            func_8083C0E8(this, play);
+            Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
         }
-
-        func_8083C0E8(this, play);
-        Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
     } else if (this->av2.actionVar2 == 1) {
         if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
             Player_AnimChangeOnceMorphAdjusted(play, this, &gPlayerAnim_link_bottle_drink_demo_end);
