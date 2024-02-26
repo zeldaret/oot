@@ -4657,7 +4657,6 @@ void BossTw_UpdateEffects(PlayState* play) {
 
                     if ((SQ(off.x) + SQ(off.y) + SQ(off.z)) < SQ(60.0f)) {
                         for (j = 0; j < 50; j++) {
-
                             spF4.x = sTwinrovaPtr->actor.world.pos.x + Rand_CenteredFloat(35.0f);
                             spF4.y = sTwinrovaPtr->actor.world.pos.y + Rand_CenteredFloat(70.0f);
                             spF4.z = sTwinrovaPtr->actor.world.pos.z + Rand_CenteredFloat(35.0f);
