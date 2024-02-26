@@ -1,48 +1,48 @@
-#ifndef TEST_H
-#define TEST_H
+#ifndef GDP_LOADTEXTUREBLOCK_RUNTIME_C
+#define GDP_LOADTEXTUREBLOCK_RUNTIME_C
 
 #include "global.h"
 #include "gfx.h"
 
 // The Following arrays must be defined as const in z_lmap_mark.c to appear in rodata
 
-#ifndef TEST
-#define ZCONST static
+#ifndef GDP_LOADTEXTUREBLOCK_RUNTIME_CONST
+#define ZCONST
 #else
-#define ZCONST static const
+#define ZCONST const
 #endif
 
-ZCONST s32 sLoadTextureBlock_siz[] = {
+static ZCONST s32 sLoadTextureBlock_siz[] = {
     G_IM_SIZ_4b,
     G_IM_SIZ_8b,
     G_IM_SIZ_16b,
     G_IM_SIZ_32b,
 };
-ZCONST s32 sLoadTextureBlock_siz_LOAD_BLOCK[] = {
+static ZCONST s32 sLoadTextureBlock_siz_LOAD_BLOCK[] = {
     G_IM_SIZ_4b_LOAD_BLOCK,
     G_IM_SIZ_8b_LOAD_BLOCK,
     G_IM_SIZ_16b_LOAD_BLOCK,
     G_IM_SIZ_32b_LOAD_BLOCK,
 };
-ZCONST u32 sLoadTextureBlock_siz_INCR[] = {
+static ZCONST u32 sLoadTextureBlock_siz_INCR[] = {
     G_IM_SIZ_4b_INCR,
     G_IM_SIZ_8b_INCR,
     G_IM_SIZ_16b_INCR,
     G_IM_SIZ_32b_INCR,
 };
-ZCONST s32 sLoadTextureBlock_siz_SHIFT[] = {
+static ZCONST s32 sLoadTextureBlock_siz_SHIFT[] = {
     G_IM_SIZ_4b_SHIFT,
     G_IM_SIZ_8b_SHIFT,
     G_IM_SIZ_16b_SHIFT,
     G_IM_SIZ_32b_SHIFT,
 };
-ZCONST s32 sLoadTextureBlock_siz_BYTES[] = {
+static ZCONST s32 sLoadTextureBlock_siz_BYTES[] = {
     G_IM_SIZ_4b_BYTES,
     G_IM_SIZ_8b_BYTES,
     G_IM_SIZ_16b_BYTES,
     G_IM_SIZ_32b_BYTES,
 };
-ZCONST s32 sLoadTextureBlock_siz_LINE_BYTES[] = {
+static ZCONST s32 sLoadTextureBlock_siz_LINE_BYTES[] = {
     G_IM_SIZ_4b_LINE_BYTES,
     G_IM_SIZ_8b_LINE_BYTES,
     G_IM_SIZ_16b_LINE_BYTES,

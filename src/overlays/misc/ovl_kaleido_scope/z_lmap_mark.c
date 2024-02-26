@@ -11,13 +11,12 @@ typedef struct {
     /* 0x18 */ u32 rectHeight;
     /* 0x1C */ u32 dsdx;
     /* 0x20 */ u32 dtdy;
-} MapMarkInfo; // size = 0x24
+} PauseMapMarkInfo; // size = 0x24
 
-#define TEST
+#define GDP_LOADTEXTUREBLOCK_RUNTIME_CONST
 #include "gDPLoadTextureBlock_Runtime.inc.c"
 
-static MapMarkInfo sMapMarkInfoTable[] = {
-    // Same data as z_map_mark.c, could just be part of prev inc.c
+static PauseMapMarkInfo sMapMarkInfoTable[] = {
     { gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1 << 10, 1 << 10 },
     { gMapBossIconTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1 << 10, 1 << 10 },
 };
@@ -37,7 +36,7 @@ void PauseMapMark_Clear(PlayState* play) {
 void PauseMapMark_DrawForDungeon(PlayState* play) {
     PauseMapMarkData* mapMarkData;
     PauseMapMarkPoint* markPoint;
-    MapMarkInfo* markInfo;
+    PauseMapMarkInfo* markInfo;
     f32 scale;
     s32 i = 0;
 
