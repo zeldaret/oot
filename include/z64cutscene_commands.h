@@ -21,13 +21,10 @@
  * when sometimes only the `startFrame` matters (as documented).
  */
 
-#ifdef __GNUC__
-#define CS_FLOAT(ieee754bin, f) (f)
-#define CMD_F(a) {.f = (a)}
-#else
-#define CS_FLOAT(ieee754bin, f) (ieee754bin)
+/**
+ * TODO comment
+ */
 #define CMD_F(a) {(a)}
-#endif
 
 /**
  * Marks the beginning of a cutscene script.

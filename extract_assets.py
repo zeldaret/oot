@@ -28,7 +28,7 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
     Path(outputPath).mkdir(parents=True, exist_ok=True)
     Path(outputSourcePath).mkdir(parents=True, exist_ok=True)
 
-    execStr = f"{zapdPath} e -eh -i {xmlPath} -b baseroms/gc-eu-mq-dbg/segments -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
+    execStr = f"{zapdPath} e -eh -i {xmlPath} -b baseroms/gc-eu-mq-dbg/segments -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float hex {ZAPDArgs}"
 
     if "overlays" in xmlPath:
         execStr += " --static"
