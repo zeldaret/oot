@@ -8,15 +8,9 @@
 #define ALIGN256(val) (((val) + 0xFF) & ~0xFF)
 
 #ifdef __GNUC__
-#define ALIGNED4  __attribute__ ((aligned (4)))
-#define ALIGNED8  __attribute__ ((aligned (8)))
-#define ALIGNED16 __attribute__ ((aligned (16)))
-#define ALIGNED64 __attribute__ ((aligned (64)))
+#define ALIGNED(n)  __attribute__ ((aligned (n)))
 #else
-#define ALIGNED4
-#define ALIGNED8
-#define ALIGNED16
-#define ALIGNED64
+#define ALIGNED(n)
 #endif
 
 #ifdef __sgi /* IDO compiler */

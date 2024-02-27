@@ -760,7 +760,8 @@ typedef struct OverlayRelocationSection {
 // where 64-bit load/store instructions are emulated with 2x 32-bit load/store instructions. The alignment attribute
 // conveys that this structure will not always be 8-bytes aligned, allowing a modern compiler to generate non-crashing
 // code for accessing these. This is not an issue in the original compiler as it only output O32 ABI code.
-typedef struct ALIGNED4 {
+ALIGNED(4)
+typedef struct {
     /* 0x00 */ u32 resetting;
     /* 0x04 */ u32 resetCount;
     /* 0x08 */ OSTime duration;
