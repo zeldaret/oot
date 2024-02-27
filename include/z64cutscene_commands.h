@@ -22,7 +22,11 @@
  */
 
 /**
- * TODO comment
+ * CMD_F expects an (IEEE 754) encoded float (colloquially "in hex", such as `0x42280000`),
+ * rather than a C float literal (such as `42.0f`).
+ * Float literals cannot be used because cutscenes are arrays of union type CutsceneData, which may contain integers and floats.
+ * Regardless of CutsceneData having a float member, initializing with a float will cast the float to s32.
+ * Designated initializers (added in C99) would solve this problem but are not supported by IDO (C89 and some extensions).
  */
 #define CMD_F(a) {(a)}
 
