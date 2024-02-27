@@ -97,14 +97,14 @@ void func_808FD210(PlayState* play, Vec3f* arg1) {
 
     effects[0].type = 1;
     effects[0].position = *arg1;
-    effects[0].unk_2E = 0;
-    effects[0].unk_01 = 0;
     effects[0].velocity.x = 25.0f;
     effects[0].velocity.y = 15.0f;
     effects[0].velocity.z = 0.0f;
     effects[0].accel.x = 0.0f;
     effects[0].accel.y = -1.0f;
     effects[0].accel.z = 0.0f;
+    effects[0].unk_2E = 0;
+    effects[0].unk_01 = 0;
 }
 
 void func_808FD27C(PlayState* play, Vec3f* position, Vec3f* velocity, f32 scale) {
@@ -751,16 +751,16 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 this->subCamEye.x = effects[0].position.x + 70.0f;
                 this->subCamEye.y = effects[0].position.y - 30.0f;
                 this->subCamEye.z = effects[0].position.z + 70.0f;
+                if ((this->unk_398 & 3) == 0) {
+                    Sfx_PlaySfxCentered(NA_SE_IT_SWORD_SWING);
+                }
+                if (this->unk_398 == 25) {
+                    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_87);
+                    this->unk_39C = 25;
+                    this->unk_398 = 0;
+                }
+                break;
             }
-            if ((this->unk_398 & 3) == 0) {
-                Sfx_PlaySfxCentered(NA_SE_IT_SWORD_SWING);
-            }
-            if (this->unk_398 == 25) {
-                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_87);
-                this->unk_39C = 25;
-                this->unk_398 = 0;
-            }
-            break;
         case 25:
             SkelAnime_Update(&this->skelAnime);
             this->subCamEye.x = (player->actor.world.pos.x - 40.0f) + 80.0f;
@@ -895,7 +895,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
     if (this->subCamId != SUB_CAM_ID_DONE) {
         // fake, tricks the compiler into putting some pointers on the stack
         if (zero) {
-            PRINTF(NULL, 0, 0);
+            osSyncPrintf(NULL, 0, 0);
         }
         this->subCamAt.y += this->unk_41C;
         Play_SetCameraAtEyeUp(play, this->subCamId, &this->subCamAt, &this->subCamEye, &this->subCamUp);
@@ -1283,9 +1283,6 @@ void func_80900890(BossGanon2* this, PlayState* play) {
     Player* player;
     Camera* mainCam2;
     Camera* mainCam3;
-    s32 pad;
-    f32 temp_f12;
-    f32 temp_f2;
 
     mainCam1 = Play_GetCamera(play, CAM_ID_MAIN);
     player = GET_PLAYER(play);
@@ -1341,6 +1338,8 @@ void func_80900890(BossGanon2* this, PlayState* play) {
                 Message_StartTextbox(play, 0x70D7, NULL);
             }
             if ((this->unk_1A2[1] < 30) && (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE)) {
+                s32 pad;
+
                 mainCam2 = Play_GetCamera(play, CAM_ID_MAIN);
                 mainCam2->eye = this->subCamEye;
                 mainCam2->eyeNext = this->subCamEye;
@@ -1403,8 +1402,8 @@ void func_80900890(BossGanon2* this, PlayState* play) {
             }
 
             if ((this->unk_1A2[0] == 0) || (this->unk_334 != 0)) {
-                temp_f2 = -200.0f - player->actor.world.pos.x;
-                temp_f12 = -200.0f - player->actor.world.pos.z;
+                f32 temp_f2 = -200.0f - player->actor.world.pos.x;
+                f32 temp_f12 = -200.0f - player->actor.world.pos.z;
 
                 if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) <= 784.0f) {
                     Animation_MorphToPlayOnce(&this->skelAnime, &gGanonGetUpAnim, 0.0f);
@@ -1466,10 +1465,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
     Player* player;
     f32 temp_f14;
     f32 temp_f12;
-    Camera* mainCam;
     s16 temp_a0_2;
-    f32 phi_f0;
-    s32 phi_a1;
 
     player = GET_PLAYER(play);
     this->unk_398++;
@@ -1619,7 +1615,8 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             this->subCamAt.y = player->actor.world.pos.y + 40.0f;
             this->subCamAt.z = player->actor.world.pos.z;
             if (this->unk_398 == 166) {
-                mainCam = Play_GetCamera(play, CAM_ID_MAIN);
+                Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
+
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
@@ -1676,6 +1673,9 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
                 this->subCamAt.y = 1117.0f;
                 this->subCamAt.z = -11.0f;
             } else {
+                f32 phi_f0;
+                s32 phi_a1;
+
                 if (this->unk_398 < 30) {
                     phi_a1 = 0;
                 } else if (this->unk_398 < 43) {
@@ -1862,6 +1862,8 @@ void func_80902348(BossGanon2* this, PlayState* play) {
     }
 
     if (this->unk_324 > 0.0f) {
+        s16 pad;
+
         player = GET_PLAYER(play);
         temp_f2 = -200.0f - player->actor.world.pos.x;
         temp_f12 = -200.0f - player->actor.world.pos.z;
@@ -1962,12 +1964,6 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
     BossGanon2* this = (BossGanon2*)thisx;
     s32 pad;
     s16 i;
-    f32 phi_f2;
-    u16 i2;
-    Vec3f sp58;
-    Vec3f sp4C;
-    f32 angle;
-    f32 sp44;
 
     if ((this->unk_337 == 0) || (this->unk_337 == 2)) {
         BossGanon2_SetObjectSegment(this, play, OBJECT_GANON_ANIME3, false);
@@ -2051,6 +2047,8 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
     }
 
     for (i = 0; i < ARRAY_COUNT(this->unk_348); i++) {
+        f32 phi_f2;
+
         if (i == 0) {
             phi_f2 = 0.2f;
         } else if (i == 1) {
@@ -2175,6 +2173,12 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
         this->unk_339 = 0;
     }
     if (D_80906D78 != 0) {
+        u16 i2;
+        Vec3f sp58;
+        Vec3f sp4C;
+        f32 angle;
+        f32 sp44;
+
         D_80906D78 = 0;
 
         for (i2 = 0; i2 < 100; i2++) {
@@ -2438,10 +2442,10 @@ void func_80904108(BossGanon2* this, PlayState* play) {
 
 void func_80904340(BossGanon2* this, PlayState* play) {
     s16 i;
-    f32 rand;
-    f32 angle;
+    s32 pad;
     f32 sin;
     f32 cos;
+    f32 rand;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 5196);
     Matrix_Push();
@@ -2461,16 +2465,14 @@ void func_80904340(BossGanon2* this, PlayState* play) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->unk_328);
         BossGanon2_InitRand(this->unk_340 + 1, 0x71AC - this->unk_340, 0x263A);
-        rand = BossGanon2_RandZeroOne();
-        if (1) {}
+        rand = BossGanon2_RandZeroOne() * M_PI;
 
         for (i = 0; i < 5; i++) {
-            angle = (i * (2 * M_PI / 5)) + (rand * M_PI);
-            sin = 5000.0f * sinf(angle);
-            cos = 5000.0f * cosf(angle);
+            sin = 5000.0f * sinf((i * (2 * M_PI / 5)) + rand);
+            cos = 5000.0f * cosf((i * (2 * M_PI / 5)) + rand);
             Matrix_Translate(-200.0f + sin, 4786.0f, -200.0f + cos, MTXMODE_NEW);
             Matrix_Scale(this->unk_32C, this->unk_32C, this->unk_32C, MTXMODE_APPLY);
-            Matrix_RotateY(angle, MTXMODE_APPLY);
+            Matrix_RotateY((i * (2 * M_PI / 5)) + rand, MTXMODE_APPLY);
             Matrix_RotateZ((BossGanon2_RandZeroOne() - 0.5f) * 100.0f * 0.01f, MTXMODE_APPLY);
 
             if (BossGanon2_RandZeroOne() < 0.5f) {
@@ -2484,6 +2486,7 @@ void func_80904340(BossGanon2* this, PlayState* play) {
     }
 
     Matrix_Pop();
+    if (1) {}
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 5255);
 }
 
@@ -2609,8 +2612,8 @@ void BossGanon2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 5566);
 }
 
-void func_80904D88(BossGanon2* this, PlayState* play) {
-    s32 pad;
+void func_80904D88(BossGanon2* this, PlayState* play2) {
+    PlayState* play = (PlayState*)play2;
     s16 i;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 5575);
@@ -2628,7 +2631,7 @@ void func_80904D88(BossGanon2* this, PlayState* play) {
 
         for (i = 0; i < 15; i++) {
             Matrix_Translate(this->unk_234[i].x, this->unk_234[i].y, this->unk_234[i].z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
+            Matrix_ReplaceRotation(&play2->billboardMtxF);
             Matrix_Scale(this->unk_30C, this->unk_30C, this->unk_30C, MTXMODE_APPLY);
             Matrix_RotateZ(Rand_CenteredFloat(M_PI), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_ganon2.c", 5618),
@@ -2637,11 +2640,13 @@ void func_80904D88(BossGanon2* this, PlayState* play) {
         }
     }
 
+    if (1) {}
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 5622);
 }
 
-void func_80904FC8(BossGanon2* this, PlayState* play) {
-    s32 pad;
+void func_80904FC8(BossGanon2* this, PlayState* play2) {
+    PlayState* play = (PlayState*)play2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 5632);
 
@@ -2667,14 +2672,15 @@ void func_80904FC8(BossGanon2* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 5667);
 }
 
-void func_8090523C(BossGanon2* this, PlayState* play) {
-    Player* player;
+void func_8090523C(BossGanon2* this, PlayState* play2) {
     f32 phi_f20;
+    PlayState* play = (PlayState*)play2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 5675);
 
     if (this->unk_38C > 0.0f) {
         s8 i;
+        Player* player;
 
         player = GET_PLAYER(play);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
@@ -2692,7 +2698,7 @@ void func_8090523C(BossGanon2* this, PlayState* play) {
                 phi_f20 = 1.0f - ((i - 7) * 0.2333333f); // 7 / 30
             }
 
-            Matrix_ReplaceRotation(&play->billboardMtxF);
+            Matrix_ReplaceRotation(&play2->billboardMtxF);
             Matrix_Scale(200.0f * phi_f20, 200.0f * phi_f20, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(Rand_ZeroFloat(2.0f * M_PI), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_ganon2.c", 5721),
@@ -2829,14 +2835,15 @@ void BossGanon2_Draw(Actor* thisx, PlayState* play) {
 }
 
 void BossGanon2_UpdateEffects(BossGanon2* this, PlayState* play) {
-    s32 pad[5];
+    s32 pad[4];
     Player* player = GET_PLAYER(play);
     BossGanon2Effect* effect = play->specialEffects;
-    Vec3f sp78;
     s16 i;
 
     for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type != 0) {
+            Vec3f sp78;
+
             effect->position.x += effect->velocity.x;
             effect->position.y += effect->velocity.y;
             effect->position.z += effect->velocity.z;
@@ -2845,6 +2852,8 @@ void BossGanon2_UpdateEffects(BossGanon2* this, PlayState* play) {
             effect->velocity.y += effect->accel.y;
             effect->velocity.z += effect->accel.z;
             if (effect->type == 1) {
+                s32 pad2;
+
                 if (effect->unk_2E == 0) {
                     effect->unk_38.z += 1.0f;
                     effect->unk_38.y = (2.0f * M_PI) / 5.0f;
@@ -2908,6 +2917,7 @@ void BossGanon2_DrawEffects(PlayState* play) {
             Vec3f spA0;
             f32 temp_f0;
             f32 angle;
+            s32 pad;
 
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             spA0.x = play->envCtx.dirLight1.params.dir.x;
@@ -3058,8 +3068,8 @@ void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, PlayStat
 
 void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, PlayState* play) {
     s32 pad;
-    GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 alpha;
+    GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_boss_ganon2.c", 6430);
 
