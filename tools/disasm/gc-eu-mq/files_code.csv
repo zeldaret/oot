@@ -132,7 +132,7 @@ BCBE0,800CDAE0,src/code/padsetup
 BCD20,800CDC20,src/code/code_800FCE80
 BD230,800CE130,src/code/fp
 BD390,800CE290,src/code/system_malloc
-BD560,800CE460,src/code/code_800FD970
+BD560,800CE460,src/code/rand
 BD720,800CE620,src/code/__osMalloc
 BE4D0,800CF3D0,src/libultra/libc/sprintf
 BE5A0,800CF4A0,src/code/printutils
@@ -295,7 +295,7 @@ F0640,80101540,src/code/logseverity
 F0650,80101550,src/code/gfxprint
 F0F00,80101E00,src/code/code_800FC620
 F0F20,80101E20,src/code/fp
-F0F30,80101E30,src/code/code_800FD970
+F0F30,80101E30,src/code/rand
 F0F40,80101E40,src/code/__osMalloc
 F0F50,80101E50,src/libultra/gu/sins
 F1750,80102650,src/libultra/io/siacs
@@ -451,7 +451,7 @@ offset,vram,.bss
 119530,8012A430,src/code/gfxprint
 119540,8012A440,src/code/code_800FCE80
 119550,8012A450,src/code/system_malloc
-119580,8012A480,src/code/code_800FD970
+119580,8012A480,src/code/rand
 119590,8012A490,src/code/__osMalloc
 1195A0,8012A4A0,src/code/jpegdecoder
 1195B0,8012A4B0,src/libultra/io/sptask

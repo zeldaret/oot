@@ -216,16 +216,23 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
     f32 dz;
     Vec3f scoreAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f scoreVel = { 0.0f, 0.0f, 0.0f };
+    s32 pad;
 
-    this->targetVtx[0].x = this->targetVtx[1].x = this->targetVtx[2].x = this->targetVtx[3].x = targetX;
+    this->targetVtx[0].x = targetX;
+    this->targetVtx[0].y = targetY - 24.0f;
+    this->targetVtx[0].z = targetZ + 24.0f;
 
-    this->targetVtx[1].y = this->targetVtx[0].y = targetY - 24.0f;
+    this->targetVtx[1].x = targetX;
+    this->targetVtx[1].y = targetY - 24.0f;
+    this->targetVtx[1].z = targetZ - 24.0f;
 
-    this->targetVtx[2].z = this->targetVtx[0].z = targetZ + 24.0f;
+    this->targetVtx[2].x = targetX;
+    this->targetVtx[2].y = targetY + 24.0f;
+    this->targetVtx[2].z = targetZ + 24.0f;
 
-    this->targetVtx[3].z = this->targetVtx[1].z = targetZ - 24.0f;
-
-    this->targetVtx[3].y = this->targetVtx[2].y = targetY + 24.0f;
+    this->targetVtx[3].x = targetX;
+    this->targetVtx[3].y = targetY + 24.0f;
+    this->targetVtx[3].z = targetZ - 24.0f;
 
     SkelAnime_Update(&this->skelAnime);
     if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0)) {

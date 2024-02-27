@@ -114,7 +114,7 @@
 // argument errors instead.
 // Note some tools define __sgi but preprocess with a modern cpp implementation,
 // ensure that these do not use the IDO workaround to avoid errors.
-#define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !PERMUTER && !M2CTX)
+#define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !M2CTX)
 
 #if OOT_DEBUG
 #define PRINTF osSyncPrintf

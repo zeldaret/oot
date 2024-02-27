@@ -88,6 +88,7 @@ def main():
     context = spimdisasm.common.Context()
     context.parseArgs(args)
     context.changeGlobalSegmentRanges(0x00000000, 0x01000000, 0x8000000, 0x81000000)
+    context.addBannedSymbolRange(0x0000F000, 0x00010100)
     context.addBannedSymbolRange(0x10000000, 0x80000300)
     context.addBannedSymbolRange(0xA0000000, 0xFFFFFFFF)
 

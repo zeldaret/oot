@@ -272,5 +272,7 @@ void EnBoom_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gBoomerangRefDL);
 
+    if (1) {}
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_boom.c", 604);
 }

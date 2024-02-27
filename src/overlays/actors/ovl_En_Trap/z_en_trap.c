@@ -135,7 +135,6 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
     Vec3f colPoint;         // unused return value from function
     CollisionPoly* colPoly; // unused return value from function
     s32 bgId;               // unused return value from function
-    f32 temp_cond;
 
     touchingActor = false;
     blockedOnReturn = false;
@@ -209,7 +208,8 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                 Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
             }
         } else if (thisx->params & SPIKETRAP_MODE_CIRCULAR) {
-            temp_cond = Math_SinS(this->vAngularPos);
+            f32 temp_cond = Math_SinS(this->vAngularPos);
+
             this->vAngularPos += this->vAngularVel;
             // Every full circle make a sound:
             if ((temp_cond < 0.0f) && (Math_SinS(this->vAngularPos) >= 0.0f)) {

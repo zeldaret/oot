@@ -264,8 +264,8 @@ void func_80AA204C(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (player->stateFlags2 & PLAYER_STATE2_24) {
-        player->unk_6A8 = &this->actor;
         player->stateFlags2 |= PLAYER_STATE2_25;
+        player->unk_6A8 = &this->actor;
         Message_StartOcarina(play, OCARINA_ACTION_CHECK_EPONA);
         this->actionFunc = func_80AA20E4;
     } else if (this->actor.xzDistToPlayer < 30.0f + this->collider.dim.radius) {
