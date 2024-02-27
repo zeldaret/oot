@@ -337,7 +337,11 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
         }
 
         if (arg2 == 2) {
+            s32 pad;
+
             if ((this->action == 5) || (this->action == 30)) {
+                s32 temp_t0;
+
                 curFrame = this->skelAnime.curFrame;
                 unk_278 = this->unk_278;
                 temp_t0 = (s32)((3500.0f * curFrame) / unk_278) + phi_a0;
@@ -346,13 +350,15 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
                     phi_v0 /= -2;
                 }
             } else if ((this->action == 6) || (this->action == 31)) {
-                temp_t0 = phi_a0 + 0xDAC;
+                s32 temp_t0 = phi_a0 + 0xDAC;
+
                 if (temp_t0 >= temp_v1) {
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
             } else if (this->action == 20) {
-                temp_t0 = phi_a0 - 0x3E8;
+                s32 temp_t0 = phi_a0 - 0x3E8;
+
                 if (temp_t0 >= temp_v1) {
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
@@ -1566,9 +1572,11 @@ void func_80B52114(EnZl2* this, PlayState* play) {
         case 4:
             func_80B51D0C(this, play);
             break;
+#if OOT_DEBUG
         case 0:
             func_80B4FD90(this, play);
             break;
+#endif
         default:
             PRINTF(VT_FGCOL(RED) " En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
             func_80B4FD90(this, play);
@@ -1581,10 +1589,12 @@ void func_80B521A0(EnZl2* this, PlayState* play) {
     s32 objectSlot = Object_GetSlot(objectCtx, OBJECT_ZL2_ANIME1);
     s32 pad2;
 
+#if OOT_DEBUG
     if (objectSlot < 0) {
         PRINTF(VT_FGCOL(RED) "En_Zl2_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
         return;
     }
+#endif
 
     if (Object_IsLoaded(objectCtx, objectSlot)) {
         this->zl2Anime1ObjectSlot = objectSlot;
