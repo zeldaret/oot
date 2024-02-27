@@ -28,23 +28,11 @@
 #define VT_SGR(n) VT_ESC VT_CSI n "m"
 
 // Add more macros if necessary
-#if OOT_DEBUG
-
 #define VT_COL(back, fore) VT_SGR(VT_COLOR(BACKGROUND, back) ";" VT_COLOR(FOREGROUND, fore))
 #define VT_FGCOL(color) VT_SGR(VT_COLOR(FOREGROUND, color))
 #define VT_BGCOL(color) VT_SGR(VT_COLOR(BACKGROUND, color))
 #define VT_RST VT_SGR("")
 #define VT_CLS VT_ED(2)
-
-#else
-
-#define VT_COL(back, fore) ""
-#define VT_FGCOL(color) ""
-#define VT_BGCOL(color) ""
-#define VT_RST ""
-#define VT_CLS ""
-
-#endif
 
 // ASCII BEL character, plays an alert tone
 #define BEL '\a'

@@ -852,7 +852,11 @@ u32 __osCheckArena(Arena* arena) {
     while (iter != NULL) {
         if (iter && iter->magic == NODE_MAGIC) {
             // "Oops!! (%08x %08x)"
+#if OOT_DEBUG
             osSyncPrintf(VT_COL(RED, WHITE) "おおっと！！ (%08x %08x)\n" VT_RST, iter, iter->magic);
+#else
+            osSyncPrintf("おおっと！！ (%08x %08x)\n", iter, iter->magic);
+#endif
             error = 1;
             break;
         }
