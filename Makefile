@@ -311,7 +311,10 @@ $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 # For using asm_processor on some files:
 #$(BUILD_DIR)/.../%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
+ifeq ($(PERMUTER),0)  # permuter + reencode.sh misbehaves, permuter doesn't care about encoding ((ro)data diffs) so just don't use it in that case
+# Handle encoding (UTF-8 -> EUC-JP)
 $(BUILD_DIR)/%.o: CC := tools/reencode.sh $(CC)
+endif
 
 else
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
