@@ -1403,12 +1403,13 @@ s32 CollisionCheck_NoSharedFlags(ColliderElement* atElem, ColliderElement* acEle
 void CollisionCheck_NoBlood(PlayState* play, Collider* collider, Vec3f* v) {
 }
 
+static s32 sBssDummyNeg1;
+
 /**
  * Spawns blue blood drops.
  * Used by collider types HIT0 and HIT8.
  */
 void CollisionCheck_BlueBlood(PlayState* play, Collider* collider, Vec3f* v) {
-    static s32 pad;
     static EffectSparkInit sparkInit;
     s32 effectIndex;
 
