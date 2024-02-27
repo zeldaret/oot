@@ -604,7 +604,7 @@ beginseg
     align 0x40
     include "$(BUILD_DIR)/src/buffers/zbuffer.o"
     include "$(BUILD_DIR)/src/buffers/gfxbuffers.o"
-    include "$(BUILD_DIR)/src/buffers/heaps.o"
+    include "$(BUILD_DIR)/src/buffers/audio_heap.o"
 endseg
 
 beginseg

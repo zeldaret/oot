@@ -119,6 +119,12 @@
 #define BTN_B           0x4000
 #define BTN_A           0x8000
 
+#ifdef __GNUC__
+// Ensure data cache coherency for OSPifRam structures by aligning to the data cache line size.
+// On older compilers such as IDO this was done by placing each OSPifRam at the top of the file it is declared in,
+// however file alignment should not be relied on in general.
+__attribute__((aligned(0x10)))
+#endif
 typedef union {
     struct {
     /* 0x00 */ u32 ram[15];

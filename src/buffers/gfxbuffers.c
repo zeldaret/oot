@@ -1,13 +1,9 @@
 #include "z64.h"
 
-// 0x18000 bytes
-u64 gGfxSPTaskOutputBuffer[0x3000];
+ALIGNED16 u64 gGfxSPTaskOutputBuffer[0x3000];
 
-// 0xC00 bytes
-u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)];
+ALIGNED16 u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)];
 
-// 0x400 bytes
-u64 gGfxSPTaskStack[SP_DRAM_STACK_SIZE64];
+ALIGNED16 u64 gGfxSPTaskStack[SP_DRAM_STACK_SIZE64];
 
-// 0x12410 bytes each; 0x24820 bytes total
-GfxPool gGfxPools[2];
+ALIGNED16 GfxPool gGfxPools[2];
