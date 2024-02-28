@@ -79,6 +79,7 @@ ActorInit En_GirlA_InitVars = {
     /**/ NULL,
 };
 
+#if OOT_DEBUG
 static char* sShopItemDescriptions[] = {
     "デクの実×5   ",  // "Deku nut x5"
     "矢×30        ",  // "Arrow x30"
@@ -131,6 +132,7 @@ static char* sShopItemDescriptions[] = {
     "赤クスリ      ", // "Red medicine"
     "赤クスリ      "  // "Red medicine"
 };
+#endif
 
 static s16 sMaskShopItems[8] = {
     ITEM_MASK_KEATON, ITEM_MASK_SPOOKY, ITEM_MASK_SKULL, ITEM_MASK_BUNNY_HOOD,
@@ -895,12 +897,11 @@ void EnGirlA_Noop(EnGirlA* this, PlayState* play) {
 void EnGirlA_SetItemDescription(PlayState* play, EnGirlA* this) {
     ShopItemEntry* tmp = &shopItemEntries[this->actor.params];
     s32 params = this->actor.params;
-    s32 maskId;
-    s32 isMaskFreeToBorrow;
 
     if ((this->actor.params >= SI_KEATON_MASK) && (this->actor.params <= SI_MASK_OF_TRUTH)) {
-        maskId = this->actor.params - SI_KEATON_MASK;
-        isMaskFreeToBorrow = false;
+        s32 maskId = this->actor.params - SI_KEATON_MASK;
+        s32 isMaskFreeToBorrow = false;
+
         switch (this->actor.params) {
             case SI_KEATON_MASK:
                 if (GET_ITEMGETINF(ITEMGETINF_38)) {

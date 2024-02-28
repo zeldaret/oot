@@ -139,8 +139,8 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
         PRINTF("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
         PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         this->actor.colChkInfo.mass = 0xFF;
-        this->collider.base.colType = COLTYPE_METAL;
         this->actor.update = EnNy_UpdateUnused;
+        this->collider.base.colType = COLTYPE_METAL;
     }
 }
 
@@ -368,7 +368,6 @@ void EnNy_Update(Actor* thisx, PlayState* play) {
     EnNy* this = (EnNy*)thisx;
     f32 temp_f20;
     f32 temp_f22;
-    s32 i;
 
     this->timer++;
     temp_f20 = this->unk_1E0 - 0.25f;
@@ -391,6 +390,8 @@ void EnNy_Update(Actor* thisx, PlayState* play) {
     this->unk_1F0 = temp_f22;
     this->actor.world.pos.y += temp_f22;
     if (EnNy_CollisionCheck(this, play) != 0) {
+        s32 i;
+
         for (i = 0; i < 8; i++) {
             this->unk_1F8[i].x = (Rand_CenteredFloat(20.0f) + this->actor.world.pos.x);
             this->unk_1F8[i].y = (Rand_CenteredFloat(20.0f) + this->actor.world.pos.y);

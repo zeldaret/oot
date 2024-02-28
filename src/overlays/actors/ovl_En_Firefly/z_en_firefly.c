@@ -287,8 +287,8 @@ void EnFirefly_SetupDisturbDiveAttack(EnFirefly* this) {
     this->skelAnime.playSpeed = 3.0f;
     this->actor.shape.rot.x = 0x1554;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-    this->actor.speed = 3.0f;
     this->timer = 50;
+    this->actor.speed = 3.0f;
     this->actionFunc = EnFirefly_DisturbDiveAttack;
 }
 
