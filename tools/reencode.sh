@@ -10,8 +10,9 @@ set -e
 # The last argument, the input source file to be compiled
 srcfile="${@: -1}"
 
-# Create a temporary file
+# Create a temporary file, and remove it on script exit
 tempfile=`mktemp --tmpdir oot_XXXXXXXX.c`
+trap "rm -f $tempfile" EXIT
 
 # Re-encode from UTF-8 to EUC-JP
 iconv -f UTF-8 -t EUC-JP -o "$tempfile" "$srcfile"
@@ -20,5 +21,3 @@ iconv -f UTF-8 -t EUC-JP -o "$tempfile" "$srcfile"
 # Also include the source file's directory to have the include path as if we compiled the original source.
 # Pass the EUC-JP encoded temporary file for compilation.
 "${@:1:$# - 1}" -I `dirname $srcfile` $tempfile
-
-rm $tempfile
