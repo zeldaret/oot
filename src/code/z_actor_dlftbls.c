@@ -46,19 +46,19 @@
 
 // Actor name is set to NULL in retail builds
 #define DEFINE_ACTOR(name, _1, allocType, _3) \
-    {                                                 \
-        ROM_FILE(ovl_##name),                         \
-        _ovl_##name##SegmentStart,                    \
-        _ovl_##name##SegmentEnd,                      \
-        NULL,                                         \
-        &name##_InitVars,                             \
-        NULL,                                         \
-        allocType,                                    \
-        0,                                            \
+    {                                         \
+        ROM_FILE(ovl_##name),                 \
+        _ovl_##name##SegmentStart,            \
+        _ovl_##name##SegmentEnd,              \
+        NULL,                                 \
+        &name##_InitVars,                     \
+        NULL,                                 \
+        allocType,                            \
+        0,                                    \
     },
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                        \
-    {                                                                                 \
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                          \
+    {                                                                           \
         ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, NULL, allocType, 0, \
     },
 
