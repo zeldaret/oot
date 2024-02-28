@@ -314,8 +314,8 @@ $(BUILD_DIR)/src/overlays/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC
 
 $(BUILD_DIR)/assets/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 else
-# The / is intentionally left out to capture other directories starting with "assets"
-$(BUILD_DIR)/assets%.o: CFLAGS += -fno-zero-initialized-in-bss -fno-toplevel-reorder
+# Note that if adding additional assets directories for modding reasons these flags must also be used there
+$(BUILD_DIR)/assets/%.o: CFLAGS += -fno-zero-initialized-in-bss -fno-toplevel-reorder
 $(BUILD_DIR)/src/%.o: CFLAGS += -fexec-charset=euc-jp
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/overlays/%.o: CFLAGS += -fno-merge-constants -mno-explicit-relocs -mno-split-addresses
