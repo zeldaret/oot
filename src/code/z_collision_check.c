@@ -1403,7 +1403,7 @@ s32 CollisionCheck_NoSharedFlags(ColliderElement* atElem, ColliderElement* acEle
 void CollisionCheck_NoBlood(PlayState* play, Collider* collider, Vec3f* v) {
 }
 
-static s32 sBssDummyNeg1;
+static s32 sBssDummy0;
 
 /**
  * Spawns blue blood drops.
@@ -2244,8 +2244,8 @@ void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
-static s8 sBssDummy0;
 static s8 sBssDummy1;
+static s8 sBssDummy2;
 
 void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
