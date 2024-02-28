@@ -11,8 +11,8 @@
 // environment and there is no way to tell it otherwise.
 
 int memcmp(const void* s1, const void* s2, size_t n) {
-    const u8* m1 = (const u8*)s1;
-    const u8* m2 = (const u8*)s2;
+    const u8* m1 = s1;
+    const u8* m2 = s2;
     size_t i;
 
     for (i = 0; i < n; i++) {
@@ -27,7 +27,7 @@ int memcmp(const void* s1, const void* s2, size_t n) {
 }
 
 void* memset(void* str, int c, size_t n) {
-    u8* m = (u8*)str;
+    u8* m = str;
     size_t i;
 
     for (i = 0; i < n; i++) {
