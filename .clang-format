@@ -23,4 +23,4 @@ AllowShortEnumsOnASingleLine: false
 AlignEscapedNewlines: Left
 AlignTrailingComments: true
 SortIncludes: false
-TypenameMacros: ['BAD_RETURN']
+TypenameMacros: ['BAD_RETURN', 'ALIGNED']

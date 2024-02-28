@@ -1,6 +1,6 @@
 #include "global.h"
 
-u8 sYaz0DataBuffer[0x400];
+ALIGNED(16) u8 sYaz0DataBuffer[0x400];
 u8* sYaz0DataBufferEnd;
 uintptr_t sYaz0CurRomStart;
 size_t sYaz0CurSize;
