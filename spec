@@ -482,7 +482,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/code_800FCE80.o"
     include "$(BUILD_DIR)/src/code/fp.o"
     include "$(BUILD_DIR)/src/code/system_malloc.o"
-    include "$(BUILD_DIR)/src/code/code_800FD970.o"
+    include "$(BUILD_DIR)/src/code/rand.o"
     include "$(BUILD_DIR)/src/code/__osMalloc.o"
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/sprintf.o"
@@ -604,7 +604,7 @@ beginseg
     align 0x40
     include "$(BUILD_DIR)/src/buffers/zbuffer.o"
     include "$(BUILD_DIR)/src/buffers/gfxbuffers.o"
-    include "$(BUILD_DIR)/src/buffers/heaps.o"
+    include "$(BUILD_DIR)/src/buffers/audio_heap.o"
 endseg
 
 beginseg

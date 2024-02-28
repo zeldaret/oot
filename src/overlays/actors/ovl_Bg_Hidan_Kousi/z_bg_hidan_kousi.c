@@ -73,9 +73,12 @@ void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
            ((s32)thisx->params >> 8) & 0xFF);
 
     Actor_ProcessInitChain(thisx, sInitChain);
+
+#if OOT_DEBUG
     if (((thisx->params & 0xFF) < 0) || ((thisx->params & 0xFF) >= 3)) {
         PRINTF("arg_data おかしい 【格子】\n");
     }
+#endif
 
     CollisionHeader_GetVirtual(sMetalFencesCollisions[thisx->params & 0xFF], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);

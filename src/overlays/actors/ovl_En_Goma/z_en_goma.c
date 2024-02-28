@@ -397,13 +397,13 @@ void EnGoma_SetupDead(EnGoma* this) {
 }
 
 void EnGoma_Dead(EnGoma* this, PlayState* play) {
-    Vec3f accel;
-    Vec3f pos;
-
     SkelAnime_Update(&this->skelanime);
     Math_ApproachZeroF(&this->actor.speed, 1.0f, 2.0f);
 
     if (this->actionTimer == 2) {
+        Vec3f accel;
+        Vec3f pos;
+
         pos.x = this->actor.world.pos.x;
         pos.y = (this->actor.world.pos.y + 5.0f) - 10.0f;
         pos.z = this->actor.world.pos.z;
@@ -604,7 +604,6 @@ void EnGoma_LookAtPlayer(EnGoma* this, PlayState* play) {
 }
 
 void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
-    static Vec3f sShieldKnockbackVel = { 0.0f, 0.0f, 20.0f };
     Player* player = GET_PLAYER(play);
 
     if (this->hurtTimer != 0) {
@@ -632,6 +631,8 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
                         this->actor.velocity.y = 0.0f;
                         this->actor.speed = -5.0f;
                     } else {
+                        static Vec3f sShieldKnockbackVel = { 0.0f, 0.0f, 20.0f };
+
                         Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
                         Matrix_MultVec3f(&sShieldKnockbackVel, &this->shieldKnockbackVel);
                         this->invincibilityTimer = 5;

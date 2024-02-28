@@ -199,9 +199,9 @@ void func_80B32724(EnWeiyer* this) {
 }
 
 void func_80B327B0(EnWeiyer* this) {
-    this->actor.colorFilterParams |= 0x2000;
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
+    this->actor.colorFilterParams |= 0x2000;
     this->actionFunc = func_80B33338;
 }
 
