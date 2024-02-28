@@ -12,7 +12,7 @@
 
 void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play);
 void BgMoriRakkatenjo_Destroy(Actor* thisx, PlayState* play);
-void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play);
+void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play2);
 void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play);
 
 void BgMoriRakkatenjo_SetupWaitForMoriTex(BgMoriRakkatenjo* this);
@@ -52,6 +52,8 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
+
+#if OOT_DEBUG
     // "Forest Temple obj. Falling Ceiling"
     PRINTF("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
@@ -64,6 +66,8 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
         // "The set Angle has changed. Let's fix the program."
         PRINTF("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
     }
+#endif
+
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
         // "Forest Temple obj Falling Ceiling Bank Danger!"
@@ -197,8 +201,8 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, PlayState* play) {
     }
 }
 
-void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play2) {
+    PlayState* play = (PlayState*)play2;
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     if (this->timer > 0) {

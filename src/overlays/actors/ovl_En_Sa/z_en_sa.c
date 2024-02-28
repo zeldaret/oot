@@ -613,10 +613,12 @@ void func_80AF6448(EnSa* this, PlayState* play) {
 }
 
 void func_80AF67D0(EnSa* this, PlayState* play) {
-    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
-        this->actionFunc = func_80AF6448;
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        return;
     }
+
+    Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
+    this->actionFunc = func_80AF6448;
 }
 
 void func_80AF683C(EnSa* this, PlayState* play) {

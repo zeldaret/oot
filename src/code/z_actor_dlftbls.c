@@ -23,6 +23,8 @@
 #undef DEFINE_ACTOR_UNSET
 
 // Actor Overlay Table definition
+#if OOT_DEBUG
+
 #define DEFINE_ACTOR(name, _1, allocType, nameString) \
     {                                                 \
         ROM_FILE(ovl_##name),                         \
@@ -40,10 +42,29 @@
         ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, nameString, allocType, 0, \
     },
 
-#define DEFINE_ACTOR_UNSET(_0)                              \
-    {                                                       \
-        ROM_FILE_UNSET, NULL, NULL, NULL, NULL, NULL, 0, 0, \
+#else
+
+// Actor name is set to NULL in retail builds
+#define DEFINE_ACTOR(name, _1, allocType, _3) \
+    {                                                 \
+        ROM_FILE(ovl_##name),                         \
+        _ovl_##name##SegmentStart,                    \
+        _ovl_##name##SegmentEnd,                      \
+        NULL,                                         \
+        &name##_InitVars,                             \
+        NULL,                                         \
+        allocType,                                    \
+        0,                                            \
     },
+
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                        \
+    {                                                                                 \
+        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, NULL, allocType, 0, \
+    },
+
+#endif
+
+#define DEFINE_ACTOR_UNSET(_0) { 0 },
 
 ActorOverlay gActorOverlayTable[] = {
 #include "tables/actor_table.h"

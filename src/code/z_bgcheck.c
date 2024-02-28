@@ -83,7 +83,7 @@ u16 sSurfaceMaterialToSfxOffset[SURFACE_MATERIAL_MAX] = {
 /**
  * original name: T_BGCheck_PosErrorCheck
  */
-s32 BgCheck_PosErrorCheck(Vec3f* pos, char* file, s32 line) {
+s32 BgCheck_PosErrorCheck(Vec3f* pos, const char* file, int line) {
     if (pos->x >= BGCHECK_XYZ_ABSMAX || pos->x <= -BGCHECK_XYZ_ABSMAX || pos->y >= BGCHECK_XYZ_ABSMAX ||
         pos->y <= -BGCHECK_XYZ_ABSMAX || pos->z >= BGCHECK_XYZ_ABSMAX || pos->z <= -BGCHECK_XYZ_ABSMAX) {
         PRINTF(VT_FGCOL(RED));

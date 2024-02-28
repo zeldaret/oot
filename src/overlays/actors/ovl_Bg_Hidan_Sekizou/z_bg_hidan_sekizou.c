@@ -130,9 +130,10 @@ void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
     s32 end = start + 3;
     f32 sp30 = Math_SinS(arg2);
     f32 sp2C = Math_CosS(arg2);
+    ColliderJntSphElement* element;
 
     for (i = start; i < end; i++) {
-        ColliderJntSphElement* element = &this->collider.elements[i];
+        element = &this->collider.elements[i];
 
         element->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + (sp2C * element->dim.modelSphere.center.x) +
                                             (sp30 * element->dim.modelSphere.center.z);
@@ -301,8 +302,8 @@ Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, 
     f32 phi_f12;
 
     arg6 = (((arg6 + arg2) % 8) * 7) * (1 / 7.0f);
-    arg2++;
     gSPSegment(arg7++, 9, SEGMENTED_TO_VIRTUAL(sFireballsTexs[arg6]));
+    arg2++;
     if (arg2 != 4) {
         phi_f12 = arg2 + ((4 - this->unk_170) / 4.0f);
     } else {
