@@ -16,8 +16,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x04 */ uintptr_t vromStart;
-    /* 0x08 */ uintptr_t vromEnd;
+    /* 0x04 */ RomFile file;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
     /* 0x14 */ void* vramTable;
@@ -43,12 +42,7 @@ static MapMarkInfo sMapMarkInfoTable[] = {
 };
 
 static MapMarkDataOverlay sMapMarkDataOvl = {
-    NULL,
-    (uintptr_t)_ovl_map_mark_dataSegmentRomStart,
-    (uintptr_t)_ovl_map_mark_dataSegmentRomEnd,
-    _ovl_map_mark_dataSegmentStart,
-    _ovl_map_mark_dataSegmentEnd,
-    gMapMarkDataTable,
+    NULL, ROM_FILE(ovl_map_mark_data), _ovl_map_mark_dataSegmentStart, _ovl_map_mark_dataSegmentEnd, gMapMarkDataTable,
 };
 
 static MapMarkData** sLoadedMarkDataTable;
@@ -60,7 +54,8 @@ void MapMark_Init(PlayState* play) {
     overlay->loadedRamAddr = GAME_STATE_ALLOC(&play->state, overlaySize, "../z_map_mark.c", 235);
     LOG_UTILS_CHECK_NULL_POINTER("dlftbl->allocp", overlay->loadedRamAddr, "../z_map_mark.c", 236);
 
-    Overlay_Load(overlay->vromStart, overlay->vromEnd, overlay->vramStart, overlay->vramEnd, overlay->loadedRamAddr);
+    Overlay_Load(overlay->file.vromStart, overlay->file.vromEnd, overlay->vramStart, overlay->vramEnd,
+                 overlay->loadedRamAddr);
 
     sLoadedMarkDataTable = gMapMarkDataTable;
     sLoadedMarkDataTable =
