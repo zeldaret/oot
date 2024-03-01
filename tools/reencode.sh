@@ -11,14 +11,14 @@ set -e
 srcfile="${@: -1}"
 
 # Create a temporary file, and remove it on script exit
-tempfile=`mktemp --tmpdir oot_XXXXXXXX.c`
+tempfile=`mktemp`_oot.c
 trap "rm -f $tempfile" EXIT
 
 # Re-encode from UTF-8 to EUC-JP
 {
     printf '#line 1 "%s"\n' "$srcfile"  # linemarker
     cat "$srcfile"
-} | iconv -f UTF-8 -t EUC-JP -o "$tempfile"
+} | iconv -f UTF-8 -t EUC-JP > "$tempfile"
 
 # All arguments but the last, forming the compile command
 # Also include the source file's directory to have the include path as if we compiled the original source.
