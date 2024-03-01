@@ -376,7 +376,9 @@ def extract_all_text(text_out, staff_text_out):
     if text_out is not None:
         out = ""
         for message in dump_all_text():
-            if message[0] == 0xFFFF:
+            # Skip 0xFFFC and 0xFFFD because they are committed
+            # Skip 0xFFFF, the last entry
+            if message[0] in {0xFFFC, 0xFFFD, 0xFFFF}:
                 continue
 
             is_nes_message = message[0] == 0xFFFC
