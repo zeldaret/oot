@@ -5,12 +5,6 @@ from overlayhelpers import filemap
 import argparse, os, struct
 import math
 
-
-# mimics ZAPD's --cs-float argument
-# value may be "hex", "float", "both"
-cs_float_format = "hex"
-
-
 """
 Enumerations
 """
@@ -688,14 +682,8 @@ def format_arg(arg, words):
         assert unsigned_value > 0
         result = "0x" + pad(hex(unsigned_value - 1), pad_len).upper()
     elif format_type == "f":
-        if cs_float_format == "hex":
-            result = f"0x{unsigned_value:08X}"
-        elif cs_float_format == "float":
-            result = f"{get_float(value)}f"
-        elif cs_float_format == "both":
-            result = f"CS_FLOAT(0x{unsigned_value:X}, {get_float(value)}f)"
-        else:
-            raise NotImplementedError("Unknown cs_float_format", cs_float_format)
+        result = f"CS_FLOAT(0x{unsigned_value:X}, {get_float(value)}f)"
+        #result = f"{get_float(value)}f"
     else:
         print("Something went wrong!") # TODO more debug info
         os._exit(1)
