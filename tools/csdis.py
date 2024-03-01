@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Disassemble a cutscene script
+
 from overlayhelpers import filemap
 
 import argparse, os, struct
@@ -683,7 +685,6 @@ def format_arg(arg, words):
         result = "0x" + pad(hex(unsigned_value - 1), pad_len).upper()
     elif format_type == "f":
         result = f"CS_FLOAT(0x{unsigned_value:X}, {get_float(value)}f)"
-        #result = f"{get_float(value)}f"
     else:
         print("Something went wrong!") # TODO more debug info
         os._exit(1)

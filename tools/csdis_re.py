@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2024 zeldaret
+# SPDX-License-Identifier: CC0-1.0
+
+# Re-disassemble cutscene scripts part of the source tree,
+# using csdis.py and modifying files in-place
+
+
 import re
 from pathlib import Path
 import struct
