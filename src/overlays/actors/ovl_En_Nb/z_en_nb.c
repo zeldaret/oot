@@ -85,7 +85,6 @@ static void* sEyeTextures[] = {
 
 static s32 D_80AB4318 = 0;
 
-#pragma asmproc recurse
 #include "z_en_nb_cutscene_data.inc.c"
 
 s32 EnNb_GetPath(EnNb* this) {
@@ -193,6 +192,7 @@ void EnNb_UpdateEyes(EnNb* this) {
     }
 }
 
+#if OOT_DEBUG
 void func_80AB11EC(EnNb* this) {
     this->action = NB_ACTION_7;
     this->drawMode = NB_DRAW_NOTHING;
@@ -220,6 +220,7 @@ void func_80AB1210(EnNb* this, PlayState* play) {
         }
     }
 }
+#endif
 
 void func_80AB1284(EnNb* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_2);
@@ -231,7 +232,9 @@ s32 EnNb_UpdateSkelAnime(EnNb* this) {
 
 CsCmdActorCue* EnNb_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
 
     return NULL;
@@ -528,7 +531,9 @@ void EnNb_SetupLightOrb(EnNb* this, PlayState* play) {
 
 void EnNb_Hide(EnNb* this, PlayState* play) {
     EnNb_SetupHide(this, play);
+#if OOT_DEBUG
     func_80AB1210(this, play);
+#endif
 }
 
 void EnNb_Fade(EnNb* this, PlayState* play) {
@@ -536,7 +541,9 @@ void EnNb_Fade(EnNb* this, PlayState* play) {
     EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckToFade(this, play);
+#if OOT_DEBUG
     func_80AB1210(this, play);
+#endif
 }
 
 void EnNb_CreateLightOrb(EnNb* this, PlayState* play) {
@@ -544,7 +551,9 @@ void EnNb_CreateLightOrb(EnNb* this, PlayState* play) {
     EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupLightOrb(this, play);
+#if OOT_DEBUG
     func_80AB1210(this, play);
+#endif
 }
 
 void EnNb_DrawTransparency(EnNb* this, PlayState* play) {
@@ -1119,6 +1128,8 @@ void EnNb_CrawlspaceSpawnCheck(EnNb* this, PlayState* play) {
             this->action = NB_CROUCH_CRAWLSPACE;
             this->drawMode = NB_DRAW_DEFAULT;
         } else {
+            s32 pad;
+
             EnNb_SetCurrentAnim(this, &gNabooruStandingHandsOnHipsAnim, 0, 0.0f, 0);
             this->headTurnFlag = 1;
             this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
@@ -1208,6 +1219,8 @@ void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
 
 void func_80AB3838(EnNb* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
+        s32 pad;
+
         this->action = NB_IN_DIALOG;
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
@@ -1300,6 +1313,8 @@ void func_80AB3A7C(EnNb* this, PlayState* play, s32 animFinished) {
 
 void func_80AB3B04(EnNb* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
+        s32 pad;
+
         this->action = NB_ACTION_30;
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
@@ -1470,6 +1485,8 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (this->headTurnFlag != 0) {
         if (limbIndex == NB_LIMB_TORSO) {
+            s32 pad;
+
             rot->x += interactInfo->torsoRot.y;
             rot->y -= interactInfo->torsoRot.x;
             ret = false;

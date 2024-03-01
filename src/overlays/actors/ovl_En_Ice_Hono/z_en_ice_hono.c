@@ -356,9 +356,13 @@ void EnIceHono_Update(Actor* thisx, PlayState* play) {
         sin156 = Math_SinS(this->unk_156);
         sin154 = Math_SinS(this->unk_154);
         intensity = (Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
+
+#if OOT_DEBUG
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
             PRINTF("ありえない値(ratio = %f)\n", intensity); // "impossible value(ratio = %f)"
         }
+#endif
+
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, (s16)this->actor.world.pos.y + 10,
                                   this->actor.world.pos.z, (s32)(155.0f * intensity), (s32)(210.0f * intensity),
                                   (s32)(255.0f * intensity), 1400);

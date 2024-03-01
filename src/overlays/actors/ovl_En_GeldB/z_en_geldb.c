@@ -274,7 +274,6 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
     Actor* thisx = &this->actor;
     s16 angleToWall;
     s16 angleToLink;
-    Actor* bomb;
 
     angleToWall = thisx->wallYaw - thisx->shape.rot.y;
     angleToWall = ABS(angleToWall);
@@ -306,22 +305,29 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
             EnGeldB_SetupRollBack(this);
             return true;
         }
-    } else if ((bomb = Actor_FindNearby(play, thisx, -1, ACTORCAT_EXPLOSIVE, 80.0f)) != NULL) {
-        thisx->shape.rot.y = thisx->world.rot.y = thisx->yawTowardsPlayer;
-        if (((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall < 0x2EE0)) || (bomb->id == ACTOR_EN_BOM_CHU)) {
-            if ((bomb->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(thisx, bomb) < 80.0f) &&
-                ((s16)(thisx->shape.rot.y - (bomb->world.rot.y - 0x8000)) < 0x3E80)) {
-                EnGeldB_SetupJump(this);
-                return true;
+    } else {
+        Actor* bomb = Actor_FindNearby(play, thisx, -1, ACTORCAT_EXPLOSIVE, 80.0f);
+
+        if (bomb != NULL) {
+            thisx->shape.rot.y = thisx->world.rot.y = thisx->yawTowardsPlayer;
+            if (((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall < 0x2EE0)) ||
+                (bomb->id == ACTOR_EN_BOM_CHU)) {
+                if ((bomb->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(thisx, bomb) < 80.0f) &&
+                    ((s16)(thisx->shape.rot.y - (bomb->world.rot.y - 0x8000)) < 0x3E80)) {
+                    EnGeldB_SetupJump(this);
+                    return true;
+                } else {
+                    EnGeldB_SetupSidestep(this, play);
+                    return true;
+                }
             } else {
-                EnGeldB_SetupSidestep(this, play);
+                EnGeldB_SetupRollBack(this);
                 return true;
             }
-        } else {
-            EnGeldB_SetupRollBack(this);
-            return true;
         }
-    } else if (arg2) {
+    }
+
+    if (arg2) {
         if (angleToLink >= 0x1B58) {
             EnGeldB_SetupSidestep(this, play);
             return true;

@@ -760,8 +760,10 @@ void EnSyatekiNiw_UpdateEffects(EnSyatekiNiw* this, PlayState* play) {
 void EnSyatekiNiw_DrawEffects(EnSyatekiNiw* this, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 i;
-    EnSyatekiNiwEffect* effect = &this->effects[0];
+    EnSyatekiNiwEffect* effect;
     u8 materialFlag = 0;
+
+    effect = &this->effects[0];
 
     OPEN_DISPS(gfxCtx, "../z_en_syateki_niw.c", 1234);
 

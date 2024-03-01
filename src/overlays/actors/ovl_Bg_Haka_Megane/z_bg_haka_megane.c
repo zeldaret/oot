@@ -85,14 +85,14 @@ void BgHakaMegane_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_8087DB24(BgHakaMegane* this, PlayState* play) {
-    CollisionHeader* colHeader;
-    CollisionHeader* collision;
-
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->dyna.actor.objectSlot = this->requiredObjectSlot;
         this->dyna.actor.draw = BgHakaMegane_Draw;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         if (play->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
+            CollisionHeader* colHeader;
+            CollisionHeader* collision;
+
             this->actionFunc = func_8087DBF0;
             collision = sCollisionHeaders[this->dyna.actor.params];
             if (collision != NULL) {

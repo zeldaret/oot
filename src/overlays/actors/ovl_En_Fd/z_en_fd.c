@@ -773,11 +773,11 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
         if (1) {}
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        clampedHealth = CLAMP(thisx->colChkInfo.health - 1, 0, 23);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth / 8].r, primColors[clampedHealth / 8].g,
-                        primColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
-        gDPSetEnvColor(POLY_XLU_DISP++, envColors[clampedHealth / 8].r, envColors[clampedHealth / 8].g,
-                       envColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
+        clampedHealth = CLAMP(thisx->colChkInfo.health - 1, 0, 23) / 8;
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth].r, primColors[clampedHealth].g,
+                        primColors[clampedHealth].b, (u8)this->fadeAlpha);
+        gDPSetEnvColor(POLY_XLU_DISP++, envColors[clampedHealth].r, envColors[clampedHealth].g,
+                       envColors[clampedHealth].b, (u8)this->fadeAlpha);
         gSPSegment(POLY_XLU_DISP++, 0x8,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                     0xFF - (u8)(frames * 6), 8, 0x40));
@@ -875,9 +875,10 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
     static void* dustTextures[] = {
         gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
-    s32 materialFlag;
     s16 i;
     s16 idx;
+    s16 pad;
+    s16 materialFlag;
     EnFdEffect* eff = this->effects;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fd.c", 1969);

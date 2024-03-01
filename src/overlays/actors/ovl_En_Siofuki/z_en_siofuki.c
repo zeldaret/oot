@@ -118,8 +118,6 @@ void func_80AFBE8C(EnSiofuki* this, PlayState* play) {
     f32 dZ;
     s16 angle;
     s16 dAngle;
-    f32 dist2d;
-    f32 speedScale;
 
     dX = player->actor.world.pos.x - this->dyna.actor.world.pos.x;
     dY = player->actor.world.pos.y - this->dyna.actor.world.pos.y;
@@ -139,7 +137,8 @@ void func_80AFBE8C(EnSiofuki* this, PlayState* play) {
             this->appliedSpeed = 0.0f;
             this->targetAppliedSpeed = 0.0f;
         } else {
-            dist2d = sqrtf(SQ(dX) + SQ(dZ));
+            f32 dist2d = sqrtf(SQ(dX) + SQ(dZ));
+
             this->applySpeed = true;
             this->splashTimer = 0;
             angle = RAD_TO_BINANG(Math_FAtan2F(dX, dZ));
@@ -149,6 +148,8 @@ void func_80AFBE8C(EnSiofuki* this, PlayState* play) {
             Math_SmoothStepToF(&player->actor.world.pos.y, this->dyna.actor.world.pos.y, 0.5f, 4.0f, 1.0f);
 
             if ((dAngle < 0x4000) && (dAngle > -0x4000)) {
+                f32 speedScale;
+
                 this->appliedYaw = player->actor.world.rot.y ^ 0x8000;
                 speedScale = dist2d / (this->dyna.actor.scale.x * 40.0f * 10.0f);
                 speedScale = CLAMP_MIN(speedScale, 0.0f);
@@ -292,6 +293,9 @@ void EnSiofuki_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, x, y, 64, 64, 1, x, y, 64, 64));
     gSPDisplayList(POLY_XLU_DISP++, object_siofuki_DL_000B70);
+
+    if (1) {}
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_siofuki.c", 674);
 
     if (this->sfxFlags & 1) {

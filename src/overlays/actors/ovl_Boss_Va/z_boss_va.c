@@ -1121,7 +1121,6 @@ void BossVa_SetupBodyPhase2(BossVa* this, PlayState* play) {
 
 void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Vec3f sp48;
 
     if (this->actor.colorFilterTimer == 0) {
         sPhase2Timer++;
@@ -1166,7 +1165,8 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     }
 
     if ((sPhase2Timer > 10) && !(sPhase2Timer & 7) && (this->actor.speed == 1.0f)) {
-        sp48 = this->actor.world.pos;
+        Vec3f sp48 = this->actor.world.pos;
+
         sp48.y += 310.0f + (this->actor.shape.yOffset * this->actor.scale.y);
         sp48.x += -10.0f;
         sp48.z += 220.0f;
@@ -1918,19 +1918,6 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
     u32 sp88;
     Vec3f sp7C;
     s32 pad3;
-    f32 sp74;
-    s32 i;
-    s16 sp6E;
-    s16 sp6C;
-    f32 sp68;
-    f32 sp64;
-    f32 sp60;
-    f32 sp5C;
-    s16 sp5A;
-    s16 sp58;
-    s16 sp56;
-    s16 sp54;
-    f32 sp50;
 
     boomerang = BossVa_FindBoomerang(play);
 
@@ -1939,6 +1926,20 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
         sp7C.y += 10.0f;
         sp8E = 0x3E80;
     } else {
+        f32 sp74;
+        s32 i;
+        s16 sp6E;
+        s16 sp6C;
+        f32 sp68;
+        f32 sp64;
+        f32 sp60;
+        f32 sp5C;
+        s16 sp5A;
+        s16 sp58;
+        s16 sp56;
+        s16 sp54;
+        f32 sp50;
+
         sp74 = R_UPDATE_RATE * 0.5f;
         sp8E = 0x4650;
 
@@ -3148,6 +3149,8 @@ void BossVa_BariPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         gSPDisplayList(POLY_XLU_DISP++, *dList);
     }
 
+    if (1) {}
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4517);
 }
 
@@ -3279,10 +3282,6 @@ void BossVa_UpdateEffects(PlayState* play) {
     s16 spB6;
     s16 i;
     f32 spB0;
-    f32 spAC;
-    s16 pitch;
-    BossVa* refActor2;
-    BossVa* refActor;
 
     for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_NONE) {
@@ -3300,15 +3299,16 @@ void BossVa_UpdateEffects(PlayState* play) {
         effect->velocity.z += effect->accel.z;
 
         if ((effect->type == VA_LARGE_SPARK) || (effect->type == VA_SMALL_SPARK)) {
-            refActor = effect->parent;
+            BossVa* refActor = effect->parent;
 
             effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x2000;
             effect->rot.y += (s16)(Rand_ZeroOne() * 0x2710) + 0x2000;
 
             if ((effect->mode == SPARK_TETHER) || (effect->mode == SPARK_UNUSED)) {
-                pitch = effect->rot.x - Math_Vec3f_Pitch(&refActor->actor.world.pos, &GET_BODY(refActor)->unk_1D8);
-                spAC = Math_SinS(refActor->actor.world.rot.y);
-                effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * spAC);
+                s16 pitch = effect->rot.x - Math_Vec3f_Pitch(&refActor->actor.world.pos, &GET_BODY(refActor)->unk_1D8);
+
+                spB0 = Math_SinS(refActor->actor.world.rot.y);
+                effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * spB0);
                 spB0 = Math_CosS(refActor->actor.world.rot.y);
                 effect->pos.z = refActor->actor.world.pos.z - (effect->offset.x * spB0);
                 spB0 = Math_CosS(-pitch);
@@ -3347,13 +3347,13 @@ void BossVa_UpdateEffects(PlayState* play) {
         }
 
         if (effect->type == VA_SPARK_BALL) {
-            refActor2 = effect->parent;
+            BossVa* refActor = effect->parent;
 
             effect->rot.z += (s16)(Rand_ZeroOne() * 0x2710) + 0x24A8;
-            effect->pos.x = effect->offset.x + refActor2->actor.world.pos.x;
+            effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
             effect->pos.y =
-                refActor2->actor.world.pos.y + 310.0f + (refActor2->actor.shape.yOffset * refActor2->actor.scale.y);
-            effect->pos.z = effect->offset.z + refActor2->actor.world.pos.z;
+                refActor->actor.world.pos.y + 310.0f + (refActor->actor.shape.yOffset * refActor->actor.scale.y);
+            effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
             effect->mode = (effect->mode + 1) & 7;
 
             if (effect->timer < 100) {
@@ -3378,9 +3378,9 @@ void BossVa_UpdateEffects(PlayState* play) {
 
         if (effect->type == VA_BLOOD) {
             if (effect->mode < BLOOD_SPOT) {
+                f32 floorY;
                 Vec3f checkPos;
                 CollisionPoly* groundPoly;
-                f32 floorY;
 
                 checkPos = effect->pos;
                 checkPos.y -= effect->velocity.y + 4.0f;
@@ -3415,9 +3415,9 @@ void BossVa_UpdateEffects(PlayState* play) {
 
         if (effect->type == VA_GORE) {
             if (effect->mode == GORE_PERMANENT) {
+                f32 floorY;
                 Vec3f checkPos;
                 CollisionPoly* groundPoly;
-                f32 floorY;
 
                 checkPos = effect->pos;
                 checkPos.y -= effect->velocity.y + 4.0f;
@@ -3452,9 +3452,8 @@ void BossVa_UpdateEffects(PlayState* play) {
         }
 
         if (effect->type == VA_TUMOR) {
+            BossVa* refActor = effect->parent;
             s16 yaw;
-
-            refActor = effect->parent;
 
             effect->rot.z += 0x157C;
             effect->envColor[3] = (s16)(Math_SinS(effect->rot.z) * 50.0f) + 80;
@@ -3982,7 +3981,7 @@ void BossVa_DrawDoor(PlayState* play, s16 scale) {
 
     Matrix_Get(&doorMtx);
 
-    for (i = 0; i < 8; i++, segAngle -= M_PI / 4) {
+    for (i = 0; i < 8; i++) {
         Matrix_Put(&doorMtx);
         Matrix_RotateZ(segAngle, MTXMODE_APPLY);
         Matrix_Translate(0.0f, doorPieceLength[i] * yScale, 0.0f, MTXMODE_APPLY);
@@ -3990,6 +3989,7 @@ void BossVa_DrawDoor(PlayState* play, s16 scale) {
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_va.c", 5621),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, doorPieceDispList[i]);
+        segAngle -= M_PI / 4;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_va.c", 5629);

@@ -355,9 +355,21 @@ typedef enum {
 
 #undef DEFINE_SCENE
 
-// this define exists to preserve shiftability for an unused scene that is
-// listed in the entrance table
-#define SCENE_UNUSED_6E SCENE_ID_MAX
+// Fake enum values for scenes that are still referenced in the entrance table
+#if !OOT_DEBUG
+// Debug-only scenes
+#define SCENE_TEST01        0x65
+#define SCENE_BESITU        0x66
+#define SCENE_DEPTH_TEST    0x67
+#define SCENE_SYOTES        0x68
+#define SCENE_SYOTES2       0x69
+#define SCENE_SUTARU        0x6A
+#define SCENE_HAIRAL_NIWA2  0x6B
+#define SCENE_SASATEST      0x6C
+#define SCENE_TESTROOM      0x6D
+#endif
+// Deleted scene
+#define SCENE_UNUSED_6E     0x6E
 
 // Entrance Index Enum
 #define DEFINE_ENTRANCE(enum, _1, _2, _3, _4, _5, _6) enum,

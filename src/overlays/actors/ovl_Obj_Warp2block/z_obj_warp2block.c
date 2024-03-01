@@ -74,39 +74,37 @@ void ObjWarp2block_Spawn(ObjWarp2block* this, PlayState* play) {
 }
 
 s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
-    s32 pad;
-    Actor* temp_a3;
-    Player* player;
-    Vec3f sp20;
-    f32 temp_f2;
-
     if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         return 0;
-    }
-
-    temp_a3 = this->dyna.actor.child;
-    player = GET_PLAYER(play);
-    if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
-        (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
-
-        func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
-        temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
-
-        if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
-            return 0;
-        }
-
-        func_8002DBD0(temp_a3, &sp20, &player->actor.world.pos);
-        temp_f2 = (temp_a3->scale.x * 50.0f) + 6.0f;
-
-        if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
-            return 0;
-        }
     } else {
-        return 0;
-    }
+        s32 pad;
+        Actor* temp_a3 = this->dyna.actor.child;
+        Player* player = GET_PLAYER(play);
+        Vec3f sp20;
+        f32 temp_f2;
 
-    return 1;
+        if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
+            (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
+
+            func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
+            temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
+
+            if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
+                return 0;
+            }
+
+            func_8002DBD0(temp_a3, &sp20, &player->actor.world.pos);
+            temp_f2 = (temp_a3->scale.x * 50.0f) + 6.0f;
+
+            if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+
+        return 1;
+    }
 }
 
 void ObjWarp2block_SwapWithChild(ObjWarp2block* this, PlayState* play) {

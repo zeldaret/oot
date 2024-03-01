@@ -304,9 +304,9 @@ void EnEiyer_SetupDie(EnEiyer* this) {
 }
 
 void EnEiyer_SetupDead(EnEiyer* this) {
-    this->actor.colorFilterParams |= 0x2000;
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
+    this->actor.colorFilterParams |= 0x2000;
     this->actionFunc = EnEiyer_Dead;
 }
 

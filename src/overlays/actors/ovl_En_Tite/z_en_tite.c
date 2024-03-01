@@ -265,7 +265,6 @@ void EnTite_SetupAttack(EnTite* this) {
 void EnTite_Attack(EnTite* this, PlayState* play) {
     s16 angleToPlayer;
     s32 attackState;
-    Vec3f ripplePos;
 
     if (SkelAnime_Update(&this->skelAnime)) {
         attackState = this->vAttackState; // for deciding whether to change animation
@@ -303,7 +302,8 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                         } else {
                             this->actor.gravity = 0.0f;
                             if (this->actor.velocity.y < -8.0f) {
-                                ripplePos = this->actor.world.pos;
+                                Vec3f ripplePos = this->actor.world.pos;
+
                                 ripplePos.y += this->actor.yDistToWater;
                                 this->vAttackState++; // TEKTITE_SUBMERGED
                                 this->actor.velocity.y *= 0.75f;

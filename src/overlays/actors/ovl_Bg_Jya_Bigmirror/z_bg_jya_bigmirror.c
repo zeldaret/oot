@@ -74,10 +74,12 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                     this->puzzleFlags &= ~cobraPuzzleFlags[i];
                 }
 
+#if OOT_DEBUG
                 if (curCobraInfo->cobra->dyna.actor.update == NULL) {
                     // "Cobra deleted"
                     PRINTF("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
                 }
+#endif
             } else {
                 curCobraInfo->cobra = (BgJyaCobra*)Actor_SpawnAsChild(
                     &play->actorCtx, &this->actor, play, ACTOR_BG_JYA_COBRA, curSpawnData->pos.x, curSpawnData->pos.y,
@@ -136,17 +138,10 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
         this->lightBeams[1] = NULL;
         this->lightBeams[0] = NULL;
     } else {
-        puzzleSolved = !!(this->puzzleFlags & (BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM));
-
-        if (puzzleSolved) {
-            puzzleSolved = !!(this->puzzleFlags & BIGMIR_PUZZLE_COBRA2_SOLVED);
-
-            if (puzzleSolved) {
-                puzzleSolved = !!(this->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED);
-            }
-        }
-        lightBeamToggles[0] = puzzleSolved; // Only spawn if puzzle solved
-        if (1) {}
+        // Only spawn if puzzle solved
+        lightBeamToggles[0] = (this->puzzleFlags & (BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM)) &&
+                              (this->puzzleFlags & BIGMIR_PUZZLE_COBRA2_SOLVED) &&
+                              (this->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED);
         lightBeamToggles[1] = lightBeamToggles[2] =
             this->puzzleFlags & (BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM);
 
@@ -158,10 +153,12 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
                         Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPositions[i].x, sMirRayPositions[i].y,
                                     sMirRayPositions[i].z, 0, 0, 0, sMirRayParamsVals[i]);
 
+#if OOT_DEBUG
                     if (this->lightBeams[i] == NULL) {
                         // "Mir Ray generation failed"
                         PRINTF("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
                     }
+#endif
                 }
             } else {
                 if (this->lightBeams[i] != NULL) {

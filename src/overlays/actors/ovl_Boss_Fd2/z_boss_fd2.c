@@ -224,11 +224,10 @@ void BossFd2_SetupEmerge(BossFd2* this, PlayState* play) {
 }
 
 void BossFd2_Emerge(BossFd2* this, PlayState* play) {
-    s8 health;
+    s16 holeTime;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     Player* player = GET_PLAYER(play);
     s16 i;
-    s16 holeTime;
 
     PRINTF("UP 1    mode %d\n", this->work[FD2_ACTION_STATE]);
     SkelAnime_Update(&this->skelAnime);
@@ -239,6 +238,8 @@ void BossFd2_Emerge(BossFd2* this, PlayState* play) {
             PRINTF("PL time %x \n", player);
             PRINTF("MT time %x \n", bossFd);
             if ((this->timers[0] == 0) && (player->actor.world.pos.y > 70.0f)) {
+                s8 health;
+
                 PRINTF("UP 1.6 \n");
                 bossFd->faceExposed = 0;
                 bossFd->holePosition.x = this->actor.world.pos.x;
@@ -645,7 +646,6 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
     f32 pad3;
     f32 pad2;
     f32 pad1;
-    f32 cameraShake;
     SkelAnime* skelAnime = &this->skelAnime;
 
     SkelAnime_Update(skelAnime);
@@ -766,6 +766,8 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
             this->subCamEyeNext.y = 140.0f;
             Math_ApproachF(&this->subCamEyeNext.z, 220.0f, 0.5f, 1.15f);
             if (bossFd->work[BFD_CAM_SHAKE_TIMER] != 0) {
+                f32 cameraShake;
+
                 bossFd->work[BFD_CAM_SHAKE_TIMER]--;
                 cameraShake = bossFd->work[BFD_CAM_SHAKE_TIMER] / 0.5f;
                 if (cameraShake >= 20.0f) {
