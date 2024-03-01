@@ -222,7 +222,7 @@ def find_compiler_command_line(filename, oot_version):
     for line in make_output:
         parts = line.split()
         if "-o" in parts and str(filename) in parts:
-            asm_processor_command_line = parts
+            makefile_command_line = parts
             found += 1
 
     if found != 1:
@@ -232,22 +232,11 @@ def find_compiler_command_line(filename, oot_version):
         sys.exit(1)
 
     # Assume command line is of the form:
-    # python3 tools/asm_processor/build.py [COMPILER] -- [ASM_PROCESSOR_ARGS] -- [COMPILER_ARGS]
-    grouped = itertools.groupby(asm_processor_command_line, lambda x: x != "--")
-    result = [list(group) for equals_delim, group in grouped if equals_delim]
-    if len(result) != 3:
-        print(
-            f'Could not parse asm_processor command line: {" ".join(asm_processor_command_line)}',
-            file=sys.stderr,
-        )
-        sys.exit(1)
-
-    compiler = result[0][-1]
-    compiler_args = result[2]
-    compiler_command_line = [compiler] + compiler_args
+    # tools/reencode.sh [COMPILER] [COMPILER_ARGS]
+    compiler_command_line = makefile_command_line[1:]
 
     print(f'Command line: {" ".join(compiler_command_line)}', file=sys.stderr)
-    return [compiler] + compiler_args
+    return compiler_command_line
 
 
 def generate_symbol_table(command_line):
@@ -265,7 +254,7 @@ def generate_symbol_table(command_line):
 
     source_contents = source_file.read_text()
 
-    stem = "asm_processor_tmp"
+    stem = "reencode_tmp"
     input_file = Path(f"{stem}.c")
     symbol_table_file = Path(f"{stem}.T")
     ucode_file = Path(f"{stem}.B")
