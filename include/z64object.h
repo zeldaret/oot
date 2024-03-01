@@ -23,7 +23,7 @@ typedef struct {
 } ObjectContext; // size = 0x518
 
 #define DEFINE_OBJECT(_0, enum) enum,
-#define DEFINE_OBJECT_NULL(_0, enum) enum,
+#define DEFINE_OBJECT_EMPTY(_0, enum) enum,
 #define DEFINE_OBJECT_UNSET(enum) enum,
 
 typedef enum {
@@ -32,7 +32,7 @@ typedef enum {
 } ObjectId;
 
 #undef DEFINE_OBJECT
-#undef DEFINE_OBJECT_NULL
+#undef DEFINE_OBJECT_EMPTY
 #undef DEFINE_OBJECT_UNSET
 
 #endif

@@ -286,8 +286,8 @@ const char* DmaMgr_FindFileName(uintptr_t vrom) {
     DmaEntry* iter = gDmaDataTable;
     const char** name = sDmaMgrFileNames;
 
-    while (iter->vromEnd != 0) {
-        if (vrom >= iter->vromStart && vrom < iter->vromEnd) {
+    while (iter->file.vromEnd != 0) {
+        if (vrom >= iter->file.vromStart && vrom < iter->file.vromEnd) {
             return *name;
         }
 
@@ -343,8 +343,8 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
 
     // Iterate through the DMA data table until the region containing the vrom address for this request is found
     iter = gDmaDataTable;
-    while (iter->vromEnd != 0) {
-        if (vrom >= iter->vromStart && vrom < iter->vromEnd) {
+    while (iter->file.vromEnd != 0) {
+        if (vrom >= iter->file.vromStart && vrom < iter->file.vromEnd) {
             // Found the region this request falls into
 
             if (0) {
@@ -357,7 +357,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
                 // romEnd of 0 indicates that the file is uncompressed. Files that are stored uncompressed can have
                 // only part of their content loaded into RAM, so DMA only the requested region.
 
-                if (iter->vromEnd < vrom + size) {
+                if (iter->file.vromEnd < vrom + size) {
                     // Error, vrom + size ends up in a different file than it started in
 
                     // "DMA transfers cannot cross segment boundaries"
@@ -365,7 +365,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
                               "セグメント境界をまたがってＤＭＡ転送することはできません", "../z_std_dma.c", 726);
                 }
 
-                DmaMgr_DmaRomToRam(iter->romStart + (vrom - iter->vromStart), ram, size);
+                DmaMgr_DmaRomToRam(iter->romStart + (vrom - iter->file.vromStart), ram, size);
                 found = true;
 
                 if (0) {
@@ -377,7 +377,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
                 romStart = iter->romStart;
                 romSize = iter->romEnd - iter->romStart;
 
-                if (vrom != iter->vromStart) {
+                if (vrom != iter->file.vromStart) {
                     // Error, requested vrom is not the start of a file
 
                     // "DMA transfer cannot be performed from the middle of a compressed segment"
@@ -385,7 +385,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
                               "圧縮されたセグメントの途中からはＤＭＡ転送することはできません", "../z_std_dma.c", 746);
                 }
 
-                if (size != iter->vromEnd - iter->vromStart) {
+                if (size != iter->file.vromEnd - iter->file.vromStart) {
                     // Error, only part of the file was requested
 
                     // "It is not possible to DMA only part of a compressed segment"
@@ -557,13 +557,14 @@ void DmaMgr_Init(void) {
 
     // Check if the ROM is compressed (romEnd not 0)
     sDmaMgrIsRomCompressed = false;
-    while (iter->vromEnd != 0) {
+    while (iter->file.vromEnd != 0) {
         if (iter->romEnd != 0) {
             sDmaMgrIsRomCompressed = true;
         }
 
-        PRINTF("%3d %08x %08x %08x %08x %08x %c %s\n", idx, iter->vromStart, iter->vromEnd, iter->romStart,
-               iter->romEnd, (iter->romEnd != 0) ? iter->romEnd - iter->romStart : iter->vromEnd - iter->vromStart,
+        PRINTF("%3d %08x %08x %08x %08x %08x %c %s\n", idx, iter->file.vromStart, iter->file.vromEnd, iter->romStart,
+               iter->romEnd,
+               (iter->romEnd != 0) ? iter->romEnd - iter->romStart : iter->file.vromEnd - iter->file.vromStart,
                (((iter->romEnd != 0) ? iter->romEnd - iter->romStart : 0) > 0x10000) ? '*' : ' ', name ? *name : "");
 
         idx++;
@@ -576,9 +577,9 @@ void DmaMgr_Init(void) {
 #endif
 
     // Ensure that the boot segment always follows after the makerom segment.
-    if ((uintptr_t)_bootSegmentRomStart != gDmaDataTable[0].vromEnd) {
+    if ((uintptr_t)_bootSegmentRomStart != gDmaDataTable[0].file.vromEnd) {
         PRINTF("_bootSegmentRomStart(%08x) != dma_rom_ad[0].rom_b(%08x)\n", _bootSegmentRomStart,
-               gDmaDataTable[0].vromEnd);
+               gDmaDataTable[0].file.vromEnd);
         //! @bug The main code file where fault.c resides is not yet loaded
         Fault_AddHungupAndCrash("../z_std_dma.c", 1055);
     }
