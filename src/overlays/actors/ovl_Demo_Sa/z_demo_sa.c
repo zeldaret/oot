@@ -71,7 +71,6 @@ static void* sMouthTextures[] = {
 
 static u32 D_80990108 = 0;
 
-#pragma asmproc recurse
 #include "z_demo_sa_cutscene_data.inc.c"
 
 static DemoSaActionFunc sActionFuncs[] = {
