@@ -439,20 +439,6 @@ $(BUILD_DIR)/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
 
-# Temporary hack to handle asset differences
-ifeq ($(VERSION),gc-eu-mq)
-$(BUILD_DIR)/assets/textures/nes_font_static/nes_font_static.o:
-	$(ZAPD) e -eh -i assets/xml/textures/nes_font_static.xml -b $(BASEROM_DIR)/segments \
-		-o $(BUILD_DIR)/assets/textures/nes_font_static -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml
-	$(ZAPD) btex -eh -tt i4 \
-		-i $(BUILD_DIR)/assets/textures/nes_font_static/msg_char_81_latin_capital_letter_i_with_circumflex.i4.png \
-		-o $(BUILD_DIR)/assets/textures/nes_font_static/msg_char_81_latin_capital_letter_i_with_circumflex.i4.inc.c
-	$(ZAPD) btex -eh -tt i4 \
-		-i $(BUILD_DIR)/assets/textures/nes_font_static/msg_char_8f_latin_small_letter_sharp_s.i4.png \
-		-o $(BUILD_DIR)/assets/textures/nes_font_static/msg_char_8f_latin_small_letter_sharp_s.i4.inc.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $(BUILD_DIR)/assets/textures/nes_font_static/nes_font_static.c
-endif
-
 $(BUILD_DIR)/src/%.o: src/%.s
 	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
 
