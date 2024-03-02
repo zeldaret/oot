@@ -2204,7 +2204,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
 
 void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
     if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
-        if (OOT_DEBUG && BREG(0) != 0) {
+#if OOT_DEBUG
+        if (BREG(0) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
 
@@ -2218,8 +2219,11 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
             Gfx_Close(prevDisplayList, displayList);
             POLY_OPA_DISP = displayList;
 
+            if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_demo.c", 4108);
         }
+#endif
+
         csCtx->curFrame++;
 
         if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
