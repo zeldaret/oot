@@ -111,10 +111,11 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
             if (LINK_IS_ADULT && Flags_GetSwitch(play, this->switchFlag)) {
                 thisx->world.pos.y = thisx->home.pos.y + 120.0f;
                 this->actionFunc = BgSpot06Objects_DoNothing;
-
             } else {
                 this->actionFunc = BgSpot06Objects_GateWaitForSwitch;
             }
+
+            if (1) {}
 
             break;
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:

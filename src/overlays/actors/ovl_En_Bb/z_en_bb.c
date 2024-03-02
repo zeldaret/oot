@@ -291,9 +291,10 @@ void EnBb_SpawnFlameTrail(PlayState* play, EnBb* this, s16 startAtZero) {
 
 void EnBb_KillFlameTrail(EnBb* this) {
     Actor* actor = &this->actor;
+    Actor* nextActor;
 
     while (actor->child != NULL) {
-        Actor* nextActor = actor->child;
+        nextActor = actor->child;
 
         if (nextActor->id == ACTOR_EN_BB) {
             nextActor->parent = NULL;
@@ -408,10 +409,10 @@ void EnBb_Destroy(Actor* thisx, PlayState* play) {
 void EnBb_SetupFlameTrail(EnBb* this) {
     this->action = BB_FLAME_TRAIL;
     this->moveMode = BBMOVE_NOCLIP;
-    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.speed = 0.0f;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnBb_SetupAction(this, EnBb_FlameTrail);
 }
 

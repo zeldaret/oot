@@ -782,7 +782,6 @@ void EnAm_TransformSwordHitbox(Actor* thisx, PlayState* play) {
 
 void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
     s32 pad;
-    Vec3f sparkPos;
 
     if (this->deathTimer == 0) {
         if (this->blockCollider.base.acFlags & AC_BOUNCED) {
@@ -810,7 +809,8 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
                             this->dyna.actor.colChkInfo.health = 0;
                         }
                     } else if (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) {
-                        sparkPos = this->dyna.actor.world.pos;
+                        Vec3f sparkPos = this->dyna.actor.world.pos;
+
                         sparkPos.y += 50.0f;
                         CollisionCheck_SpawnShieldParticlesMetal(play, &sparkPos);
                     }
@@ -836,8 +836,6 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
     EnBom* bomb;
     Vec3f dustPos;
     s32 i;
-    f32 dustPosScale;
-    s32 pad1;
 
     if (this->dyna.actor.params != ARMOS_STATUE) {
         EnAm_UpdateDamage(this, play);
@@ -854,7 +852,8 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
             this->deathTimer--;
 
             if (this->deathTimer == 0) {
-                dustPosScale = play->gameplayFrames * 10;
+                f32 dustPosScale = play->gameplayFrames * 10;
+                s32 pad1;
 
                 EnAm_SpawnEffects(this, play);
                 bomb =
@@ -943,9 +942,9 @@ static Vec3f sIcePosOffsets[] = {
 };
 
 void EnAm_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
-    Vec3f sp68;
     EnAm* this = (EnAm*)thisx;
+    Vec3f sp68;
+    s32 index;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_am.c", 1580);
 
@@ -959,7 +958,6 @@ void EnAm_Draw(Actor* thisx, PlayState* play) {
         this->iceTimer--;
 
         if ((this->iceTimer % 4) == 0) {
-            s32 index;
 
             index = this->iceTimer >> 2;
 

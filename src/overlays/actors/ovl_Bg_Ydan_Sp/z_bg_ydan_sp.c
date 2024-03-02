@@ -417,6 +417,9 @@ void BgYdanSp_Draw(Actor* thisx, PlayState* play) {
     MtxF mtxF;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_sp.c", 781);
+
+    if (1) {}
+
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (thisx->params == WEB_WALL) {
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ydan_sp.c", 787),

@@ -285,7 +285,6 @@ s32 EnWf_ChangeAction(PlayState* play, EnWf* this, s16 mustChoose) {
     s32 pad;
     s16 wallYawDiff;
     s16 playerYawDiff;
-    Actor* explosive;
 
     wallYawDiff = this->actor.wallYaw - this->actor.shape.rot.y;
     wallYawDiff = ABS(wallYawDiff);
@@ -321,26 +320,27 @@ s32 EnWf_ChangeAction(PlayState* play, EnWf* this, s16 mustChoose) {
             EnWf_SetupBackflipAway(this);
             return true;
         }
-    }
+    } else {
+        Actor* explosive = Actor_FindNearby(play, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
 
-    explosive = Actor_FindNearby(play, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
+        if (explosive != NULL) {
+            this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-    if (explosive != NULL) {
-        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-
-        if (((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (wallYawDiff < 0x2EE0)) ||
-            (explosive->id == ACTOR_EN_BOM_CHU)) {
-            if ((explosive->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(&this->actor, explosive) < 80.0f) &&
-                (s16)((this->actor.shape.rot.y - explosive->world.rot.y) + 0x8000) < 0x3E80) {
-                EnWf_SetupSomersaultAndAttack(this);
-                return true;
+            if (((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (wallYawDiff < 0x2EE0)) ||
+                (explosive->id == ACTOR_EN_BOM_CHU)) {
+                if ((explosive->id == ACTOR_EN_BOM_CHU) &&
+                    (Actor_WorldDistXYZToActor(&this->actor, explosive) < 80.0f) &&
+                    (s16)((this->actor.shape.rot.y - explosive->world.rot.y) + 0x8000) < 0x3E80) {
+                    EnWf_SetupSomersaultAndAttack(this);
+                    return true;
+                } else {
+                    EnWf_SetupSidestep(this, play);
+                    return true;
+                }
             } else {
-                EnWf_SetupSidestep(this, play);
+                EnWf_SetupBackflipAway(this);
                 return true;
             }
-        } else {
-            EnWf_SetupBackflipAway(this);
-            return true;
         }
     }
 

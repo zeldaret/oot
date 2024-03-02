@@ -352,6 +352,7 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     f32 floorHeight;
     f32 yIntersect;
     s32 i;
+    s32 bgId;
 
     this->dyna.actor.velocity.y *= 1.6f;
 
@@ -366,8 +367,6 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     floorHeight = this->dyna.actor.floorHeight;
 
     for (i = 0; i < 3; i++) {
-        s32 bgId;
-
         yIntersect =
             BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &vector) -
             25.0f;

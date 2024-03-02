@@ -29,6 +29,7 @@ Color_RGBA8 sDebugCamTextColors[] = {
     { 128, 255, 32, 128 },  // DEBUG_CAM_TEXT_GREEN
 };
 
+#if OOT_DEBUG
 InputCombo sRegGroupInputCombos[REG_GROUPS] = {
     { BTN_L, BTN_CUP },        //  REG
     { BTN_L, BTN_CLEFT },      // SREG
@@ -93,6 +94,7 @@ char sRegGroupChars[REG_GROUPS] = {
     'k', // kREG
     'b', // bREG
 };
+#endif
 
 void Regs_Init(void) {
     s32 i;

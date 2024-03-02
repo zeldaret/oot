@@ -492,6 +492,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateZYX(this->unk_2A8[i].x, this->unk_2A8[i].y, this->unk_2A8[i].z, MTXMODE_APPLY);
             Matrix_Scale(this->unk_200[i].x, this->unk_200[i].y, this->unk_200[i].z, MTXMODE_APPLY);
             if ((i == 6) || (i == 13)) {
+                if (mtx) {}
                 switch (i) {
                     case 13:
                         Collider_UpdateSpheres(i, &this->collider);

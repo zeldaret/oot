@@ -416,6 +416,8 @@ void EnPeehat_Ground_SetStateRise(EnPeehat* this) {
 }
 
 void EnPeehat_Ground_StateRise(EnPeehat* this, PlayState* play) {
+    Vec3f pos;
+
     Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 50.0f, 0.0f);
     if (Math_SmoothStepToS(&this->bladeRotVel, 4000, 1, 800, 0) == 0) {
         if (this->animTimer != 0) {
@@ -433,7 +435,7 @@ void EnPeehat_Ground_StateRise(EnPeehat* this, PlayState* play) {
             this->actor.world.pos.y += 6.5f;
         }
         if (this->actor.world.pos.y - this->actor.floorHeight < 80.0f) {
-            Vec3f pos = this->actor.world.pos;
+            pos = this->actor.world.pos;
             pos.y = this->actor.floorHeight;
             func_80033480(play, &pos, 90.0f, 1, 0x96, 100, 1);
         }
@@ -457,6 +459,8 @@ void EnPeehat_Flying_SetStateRise(EnPeehat* this) {
 }
 
 void EnPeehat_Flying_StateRise(EnPeehat* this, PlayState* play) {
+    Vec3f pos;
+
     Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 50.0f, 0.0f);
     if (Math_SmoothStepToS(&this->bladeRotVel, 4000, 1, 800, 0) == 0) {
         if (this->animTimer != 0) {
@@ -476,7 +480,7 @@ void EnPeehat_Flying_StateRise(EnPeehat* this, PlayState* play) {
             this->actor.world.pos.y += 18.0f;
         }
         if (this->actor.world.pos.y - this->actor.floorHeight < 80.0f) {
-            Vec3f pos = this->actor.world.pos;
+            pos = this->actor.world.pos;
             pos.y = this->actor.floorHeight;
             func_80033480(play, &pos, 90.0f, 1, 0x96, 100, 1);
         }
@@ -854,12 +858,11 @@ void EnPeehat_SetStateExplode(EnPeehat* this) {
 }
 
 void EnPeehat_StateExplode(EnPeehat* this, PlayState* play) {
-    EnBom* bomb;
     s32 pad[2];
 
     if (this->animTimer == 5) {
-        bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
-                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0x602, 0);
+        EnBom* bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
+                                          this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0x602, 0);
         if (bomb != NULL) {
             bomb->timer = 0;
         }
@@ -919,6 +922,10 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
     EnPeehat* this = (EnPeehat*)thisx;
     s32 i;
     Player* player = GET_PLAYER(play);
+    Vec3f posResult;
+    CollisionPoly* poly;
+    s32 bgId;
+    Vec3f* posB;
 
     // If Adult Peahat
     if (thisx->params <= 0) {
@@ -978,10 +985,8 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
         // if PEAHAT_TYPE_GROUNDED
         if (thisx->params < 0 && (thisx->flags & ACTOR_FLAG_6)) {
             for (i = 1; i >= 0; i--) {
-                Vec3f posResult;
-                CollisionPoly* poly = NULL;
-                s32 bgId;
-                Vec3f* posB = &this->bladeTip[i];
+                poly = NULL;
+                posB = &this->bladeTip[i];
 
                 if (BgCheck_EntityLineTest1(&play->colCtx, &thisx->world.pos, posB, &posResult, &poly, true, true,
                                             false, true, &bgId) == true) {

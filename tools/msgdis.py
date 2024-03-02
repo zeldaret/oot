@@ -5,6 +5,7 @@
 
 import re, struct
 from os import path
+import argparse
 
 # ===================================================
 #   Util
@@ -375,20 +376,26 @@ def extract_all_text(text_out, staff_text_out):
     if text_out is not None:
         out = ""
         for message in dump_all_text():
-            if message[0] == 0xFFFF:
+            # Skip 0xFFFC and 0xFFFD because they are committed
+            # Skip 0xFFFF, the last entry
+            if message[0] in {0xFFFC, 0xFFFD, 0xFFFF}:
                 continue
 
-            if message[0] == 0xFFFC:
-                out += "#ifdef DEFINE_MESSAGE_FFFC\n"
-            out += f"DEFINE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
+            is_nes_message = message[0] == 0xFFFC
+            if not is_nes_message:
+                out += "DEFINE_MESSAGE"
+            else:
+                out += "DEFINE_MESSAGE_NES"
+            out += f"(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
             out += "\n"
-            out += f"{message[3]}" + ("\n" if message[3] != "" else "") + ","
-            out += "\n" if message[3] != "" else ""
-            out += f"{message[4]}" + ("\n" if message[4] != "" else "") + ","
-            out += "\n" if message[4] != "" else ""
-            out += f"{message[5]}\n)"
-            if message[0] == 0xFFFC:
-                out += "\n#endif"
+            out += f"{message[3]}"
+            if not is_nes_message:
+                out += ("\n" if message[3] != "" else "") + ","
+                out += "\n" if message[3] != "" else ""
+                out += f"{message[4]}" + ("\n" if message[4] != "" else "") + ","
+                out += "\n" if message[4] != "" else ""
+                out += f"{message[5]}"
+            out += "\n)"
             out += "\n\n"
 
         with open(text_out, "w", encoding="utf8") as outfile:
@@ -404,3 +411,23 @@ def extract_all_text(text_out, staff_text_out):
 
         with open(staff_text_out, "w", encoding="utf8") as outfile:
             outfile.write(out.strip() + "\n")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Extract text from the baserom into .h files"
+    )
+    parser.add_argument("--text-out", help="Path to output .h file for text")
+    parser.add_argument(
+        "--staff-text-out", help="Path to output .h file for staff text"
+    )
+
+    args = parser.parse_args()
+    if not (args.text_out or args.staff_text_out):
+        parser.error("No output file requested")
+
+    extract_all_text(args.text_out, args.staff_text_out)
+
+
+if __name__ == "__main__":
+    main()

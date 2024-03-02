@@ -672,7 +672,8 @@ void BossGoma_SetupEncounterState4(BossGoma* this, PlayState* play) {
 void BossGoma_Encounter(BossGoma* this, PlayState* play) {
     Camera* mainCam;
     Player* player = GET_PLAYER(play);
-    s32 pad[2];
+    f32 s;
+    s32 pad;
 
     Math_ApproachZeroF(&this->actor.speed, 0.5f, 2.0f);
 
@@ -761,7 +762,8 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             }
 
             if (this->frameCount >= 228) {
-                mainCam = Play_GetCamera(play, CAM_ID_MAIN);
+                Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
+
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
@@ -909,8 +911,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             this->subCamAt.z = this->actor.world.pos.z;
 
             if (this->framesUntilNextAction != 0) {
-                f32 s = sinf(this->framesUntilNextAction * 3.1415f * 0.5f);
-
+                s = sinf(this->framesUntilNextAction * 3.1415f * 0.5f);
                 this->subCamAt.y = this->framesUntilNextAction * s * 0.7f + this->actor.world.pos.y;
             } else {
                 Math_ApproachF(&this->subCamAt.y, this->actor.focus.pos.y, 0.1f, 10.0f);
@@ -2047,9 +2048,8 @@ void BossGoma_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
     static Vec3f zero = { 0.0f, 0.0f, 0.0f };
     Vec3f childPos;
     Vec3s childRot;
-    EnGoma* babyGohma;
     BossGoma* this = (BossGoma*)thisx;
-    s32 pad;
+    s32 pad[2];
     MtxF mtx;
 
     if (limbIndex == BOSSGOMA_LIMB_TAIL4) { // tail end/last part
@@ -2073,6 +2073,8 @@ void BossGoma_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
     }
 
     if (this->deadLimbsState[limbIndex] == 1) {
+        EnGoma* babyGohma;
+
         this->deadLimbsState[limbIndex] = 2;
         Matrix_MultVec3f(&zero, &childPos);
         Matrix_Get(&mtx);

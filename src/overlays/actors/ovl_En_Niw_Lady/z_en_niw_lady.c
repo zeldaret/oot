@@ -11,7 +11,7 @@ void EnNiwLady_Destroy(Actor* thisx, PlayState* play);
 void EnNiwLady_Update(Actor* thisx, PlayState* play);
 
 void func_80AB9F24(EnNiwLady* this, PlayState* play);
-void EnNiwLady_Draw(Actor* thisx, PlayState* play);
+void EnNiwLady_Draw(Actor* thisx, PlayState* play2);
 void func_80ABA21C(EnNiwLady* this, PlayState* play);
 void func_80ABAD38(EnNiwLady* this, PlayState* play);
 void func_80ABA778(EnNiwLady* this, PlayState* play);
@@ -199,6 +199,7 @@ void func_80ABA21C(EnNiwLady* this, PlayState* play) {
 
 void func_80ABA244(EnNiwLady* this, PlayState* play) {
     EnNiw* currentCucco;
+    s32 pad[2];
     s32 phi_s1;
 
     this->cuccosInPen = 0;
@@ -223,7 +224,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
         }
         currentCucco = (EnNiw*)currentCucco->actor.next;
     }
-    if (BREG(7) != 0) {
+    if (OOT_DEBUG && BREG(7) != 0) {
         this->cuccosInPen = BREG(7) - 1;
     }
     phi_s1 = this->cuccosInPen;
@@ -358,13 +359,13 @@ void func_80ABA778(EnNiwLady* this, PlayState* play) {
 
 void func_80ABA878(EnNiwLady* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s8 playerExchangeItemId;
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 11;
     }
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        playerExchangeItemId = func_8002F368(play);
+        s8 playerExchangeItemId = func_8002F368(play);
+
         if ((playerExchangeItemId == EXCH_ITEM_POCKET_CUCCO) && GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
@@ -379,9 +380,10 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
             this->unk_26E = this->unk_27A + 21;
             this->actionFunc = !this->unk_273 ? func_80ABA778 : func_80ABA9B8;
         }
-    } else {
-        Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 50.0f, EXCH_ITEM_POCKET_CUCCO);
+        return;
     }
+
+    Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 50.0f, EXCH_ITEM_POCKET_CUCCO);
 }
 
 void func_80ABA9B8(EnNiwLady* this, PlayState* play) {
@@ -573,10 +575,10 @@ s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
     return false;
 }
 
-void EnNiwLady_Draw(Actor* thisx, PlayState* play) {
+void EnNiwLady_Draw(Actor* thisx, PlayState* play2) {
     static void* sEyeTextures[] = { gCuccoLadyEyeOpenTex, gCuccoLadyEyeHalfTex, gCuccoLadyEyeClosedTex };
     EnNiwLady* this = (EnNiwLady*)thisx;
-    s32 pad;
+    PlayState* play = (PlayState*)play2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_niw_lady.c", 1347);
     if (this->unk_27E != 0) {

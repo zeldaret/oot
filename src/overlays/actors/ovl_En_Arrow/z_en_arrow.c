@@ -246,8 +246,6 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
     s32 atTouched;
     u16 sfxId;
     Actor* hitActor;
-    Vec3f sp60;
-    Vec3f sp54;
 
     if (DECR(this->timer) == 0) {
         Actor_Kill(&this->actor);
@@ -342,6 +340,9 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
 
     if (this->hitActor != NULL) {
         if (this->hitActor->update != NULL) {
+            Vec3f sp60;
+            Vec3f sp54;
+
             Math_Vec3f_Sum(&this->unk_210, &this->unk_250, &sp60);
             Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &sp54);
 

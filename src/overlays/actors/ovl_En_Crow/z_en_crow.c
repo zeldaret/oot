@@ -285,8 +285,6 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
 void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 facingPlayer;
-    Vec3f pos;
-    s16 target;
 
     SkelAnime_Update(&this->skelAnime);
     if (this->timer != 0) {
@@ -296,6 +294,9 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
     facingPlayer = Actor_IsFacingPlayer(&this->actor, 0x2800);
 
     if (facingPlayer) {
+        Vec3f pos;
+        s16 target;
+
         pos.x = player->actor.world.pos.x;
         pos.y = player->actor.world.pos.y + 20.0f;
         pos.z = player->actor.world.pos.z;

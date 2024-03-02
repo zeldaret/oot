@@ -511,8 +511,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
     gSaveContext.save.info.checksum = 0;
 
     ptr = (u16*)&gSaveContext;
-    checksum = 0;
-    j = 0;
+    checksum = j = 0;
 
     for (offset = 0; offset < CHECKSUM_SIZE; offset++) {
         if (++j == 0x20) {
@@ -612,12 +611,15 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                 bzero(&gSaveContext.save.entranceIndex, sizeof(s32));
                 bzero(&gSaveContext.save.linkAge, sizeof(s32));
                 bzero(&gSaveContext.save.cutsceneIndex, sizeof(s32));
-                // note that gSaveContext.save.dayTime is not actually the sizeof(s32)
+                //! @bug gSaveContext.save.dayTime is a u16 but is cleared as a 32-bit value. This is harmless as-is
+                //! since it is followed by nightFlag which is also reset here, but can become an issue if the save
+                //! layout is changed.
                 bzero(&gSaveContext.save.dayTime, sizeof(s32));
                 bzero(&gSaveContext.save.nightFlag, sizeof(s32));
                 bzero(&gSaveContext.save.totalDays, sizeof(s32));
                 bzero(&gSaveContext.save.bgsDayCount, sizeof(s32));
 
+#if OOT_DEBUG
                 if (!slotNum) {
                     Sram_InitDebugSave();
                     gSaveContext.save.info.playerData.newf[0] = 'Z';
@@ -633,6 +635,9 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                 } else {
                     Sram_InitNewSave();
                 }
+#else
+                Sram_InitNewSave();
+#endif
 
                 ptr = (u16*)&gSaveContext;
                 PRINTF("\n--------------------------------------------------------------\n");
@@ -718,20 +723,26 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     u16* ptr;
     u16 checksum;
 
+#if OOT_DEBUG
     if (fileSelect->buttonIndex != 0) {
         Sram_InitNewSave();
     } else {
         Sram_InitDebugSave();
     }
+#else
+    Sram_InitNewSave();
+#endif
 
     gSaveContext.save.entranceIndex = ENTR_LINKS_HOUSE_0;
     gSaveContext.save.linkAge = LINK_AGE_CHILD;
     gSaveContext.save.dayTime = CLOCK_TIME(10, 0);
     gSaveContext.save.cutsceneIndex = 0xFFF1;
 
+#if OOT_DEBUG
     if (fileSelect->buttonIndex == 0) {
         gSaveContext.save.cutsceneIndex = 0;
     }
+#endif
 
     for (offset = 0; offset < 8; offset++) {
         gSaveContext.save.info.playerData.playerName[offset] = fileSelect->fileNames[fileSelect->buttonIndex][offset];
@@ -753,10 +764,8 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     PRINTF("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
 
     ptr = (u16*)&gSaveContext;
-    j = 0;
-    checksum = 0;
 
-    for (offset = 0; offset < CHECKSUM_SIZE; offset++) {
+    for (j = 0, checksum = 0, offset = 0; offset < CHECKSUM_SIZE; offset++) {
         PRINTF("%x ", *ptr);
         checksum += *ptr++;
         if (++j == 0x20) {
@@ -893,6 +902,7 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
         Sram_WriteSramHeader(sramCtx);
     }
 
+#if OOT_DEBUG
     if (CHECK_BTN_ANY(gameState->input[2].cur.button, BTN_DRIGHT)) {
         bzero(sramCtx->readBuff, SRAM_SIZE);
         for (i = 0; i < CHECKSUM_SIZE; i++) {
@@ -901,6 +911,7 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_WRITE);
         PRINTF("ＳＲＡＭ破壊！！！！！！\n"); // "SRAM destruction! ! ! ! ! !"
     }
+#endif
 
     // "GOOD! GOOD! Size = %d + %d = %d"
     PRINTF("ＧＯＯＤ！ＧＯＯＤ！ サイズ＝%d + %d ＝ %d\n", sizeof(SaveInfo), 4, sizeof(SaveInfo) + 4);

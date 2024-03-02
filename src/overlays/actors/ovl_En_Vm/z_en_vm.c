@@ -368,15 +368,13 @@ void EnVm_SetupDie(EnVm* this) {
 }
 
 void EnVm_Die(EnVm* this, PlayState* play) {
-    EnBom* bomb;
-
     this->beamRot.x += 0x5DC;
     this->headRotY += 0x9C4;
     Actor_MoveXZGravity(&this->actor);
 
     if (--this->timer == 0) {
-        bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
-                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0x6FF, BOMB_BODY);
+        EnBom* bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
+                                          this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0x6FF, BOMB_BODY);
 
         if (bomb != NULL) {
             bomb->timer = 0;

@@ -568,12 +568,11 @@ void EnTest_SetupWalkAndBlock(EnTest* this) {
 void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
     s32 pad;
     f32 checkDist = 0.0f;
-    s32 pad1;
+    s32 absPlaySpeed;
     s32 prevFrame;
     s32 beforeCurFrame;
     f32 playSpeed;
     Player* player = GET_PLAYER(play);
-    s32 absPlaySpeed;
     s16 yawDiff;
 
     if (!EnTest_ReactToProjectile(play, this)) {
@@ -601,6 +600,8 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         }
 
         if (ABS(this->actor.speed) < 3.0f) {
+            s32 pad;
+
             Animation_Change(&this->skelAnime, &gStalfosSlowAdvanceAnim, 0.0f, this->skelAnime.curFrame,
                              Animation_GetLastFrame(&gStalfosSlowAdvanceAnim), 0, -6.0f);
             playSpeed = this->actor.speed * 10.0f;
@@ -1819,9 +1820,9 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnTest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnTest_OverrideLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnTest* this = (EnTest*)thisx;
-    s32 pad;
+    PlayState* play = (PlayState*)play2;
 
     if (limbIndex == STALFOS_LIMB_HEAD_ROOT) {
         rot->x += this->headRot.y;

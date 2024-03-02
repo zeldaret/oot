@@ -679,10 +679,11 @@ s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 curFrame, Vec3f* scale) {
 
 s32 EnOkuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnOkuta* this = (EnOkuta*)thisx;
-    f32 curFrame = this->skelAnime.curFrame;
+    f32 curFrame;
     Vec3f scale;
     s32 doScale = false;
 
+    curFrame = this->skelAnime.curFrame;
     if (this->actionFunc == EnOkuta_Die) {
         curFrame += this->timer;
     }

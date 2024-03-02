@@ -141,6 +141,7 @@ static s16 sItemShelfRot[] = { 0xEAAC, 0xEAAC, 0xEAAC, 0xEAAC, 0x1554, 0x1554, 0
 // unused values?
 static s16 D_80AC8904[] = { 0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025 };
 
+#if OOT_DEBUG
 static char* sShopkeeperPrintName[] = {
     "コキリの店  ", // "Kokiri Shop"
     "薬屋        ", // "Potion Shop"
@@ -154,6 +155,7 @@ static char* sShopkeeperPrintName[] = {
     "インゴーの店", // "Ingo Store"
     "お面屋      ", // "Mask Shop"
 };
+#endif
 
 typedef struct {
     /* 0x00 */ s16 objId;
@@ -888,6 +890,8 @@ void EnOssan_State_StartConversation(EnOssan* this, PlayState* play, Player* pla
 
     if (this->actor.params == OSSAN_TYPE_MASK && dialogState == TEXT_STATE_CHOICE) {
         if (!EnOssan_TestEndInteraction(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
+            s32 pad;
+
             switch (play->msgCtx.choiceIndex) {
                 case 0:
                     EnOssan_StartShopping(play, this);
@@ -1691,6 +1695,8 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
             selectedItem = this->shelfSlots[this->cursorIndex];
             selectedItem->updateStockedItemFunc(play, selectedItem);
             if (!EnOssan_TestEndInteraction(this, play, &play->state.input[0])) {
+                s32 pad;
+
                 switch (play->msgCtx.choiceIndex) {
                     case 0:
                         PRINTF(VT_FGCOL(YELLOW) "★★★ 続けるよ！！ ★★★" VT_RST "\n");
@@ -2275,15 +2281,17 @@ void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, r, g, b, a);
 
     w = 8.0f * z;
+    ulx = (x - w) * 4.0f;
+    lrx = (x + w) * 4.0f;
+
     h = 12.0f * z;
+    uly = (y - h) * 4.0f;
+    lry = (y + h) * 4.0f;
+
     texCoordScale = (1.0f / z) * 1024;
     dsdx = texCoordScale * dx;
     dtdy = dy * texCoordScale;
 
-    ulx = (x - w) * 4.0f;
-    uly = (y - h) * 4.0f;
-    lrx = (x + w) * 4.0f;
-    lry = (y + h) * 4.0f;
     gSPTextureRectangle(OVERLAY_DISP++, ulx, uly, lrx, lry, G_TX_RENDERTILE, s, t, dsdx, dtdy);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4242);
 }

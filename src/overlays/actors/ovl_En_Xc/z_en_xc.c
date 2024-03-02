@@ -226,8 +226,9 @@ void func_80B3C7D4(EnXc* this, s32 action1, s32 action2, s32 action3) {
     }
 }
 
+#if OOT_DEBUG
 s32 EnXc_NoCutscenePlaying(PlayState* play) {
-    if (play->csCtx.state == 0) {
+    if (play->csCtx.state == CS_STATE_IDLE) {
         return true;
     }
     return false;
@@ -244,6 +245,7 @@ void func_80B3C888(EnXc* this, PlayState* play) {
         func_80B3C820(this);
     }
 }
+#endif
 
 void func_80B3C8CC(EnXc* this, PlayState* play) {
     SkelAnime* skelAnime = &this->skelAnime;
@@ -280,6 +282,8 @@ void func_80B3C9EC(EnXc* this) {
 void func_80B3CA38(EnXc* this, PlayState* play) {
     // If Player is adult but hasn't learned Minuet of Forest
     if (!GET_EVENTCHKINF(EVENTCHKINF_50) && LINK_IS_ADULT) {
+        s32 pad;
+
         this->action = SHEIK_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
@@ -287,12 +291,17 @@ void func_80B3CA38(EnXc* this, PlayState* play) {
 }
 
 s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
-    if (this->actor.params == SHEIK_TYPE_MINUET) {
-        Player* player = GET_PLAYER(play);
-        f32 z = player->actor.world.pos.z;
+    Player* player;
+    f32 playerPosZ;
 
-        if (z < -2225.0f) {
+    if (this->actor.params == SHEIK_TYPE_MINUET) {
+        player = GET_PLAYER(play);
+        playerPosZ = player->actor.world.pos.z;
+
+        if (playerPosZ < -2225.0f) {
             if (!Play_InCsMode(play)) {
+                s32 pad;
+
                 play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_50);
@@ -308,6 +317,8 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
 void func_80B3CB58(EnXc* this, PlayState* play) {
     // If hasn't learned Bolero and Player is Adult
     if (!GET_EVENTCHKINF(EVENTCHKINF_51) && LINK_IS_ADULT) {
+        s32 pad;
+
         this->action = SHEIK_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
@@ -324,6 +335,8 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
             (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
             !Play_InCsMode(play)) {
+            s32 pad;
+
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_51);
@@ -336,9 +349,10 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
-    // Player is adult and does not have iron boots and has not learned Serenade
-    if (!CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
+    if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && OOT_DEBUG) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
         LINK_IS_ADULT) {
+        s32 pad;
+
         this->action = SHEIK_ACTION_SERENADE;
         PRINTF("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n");
     } else {
@@ -354,15 +368,18 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
 
         if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
             !(stateFlags & PLAYER_STATE1_29) && !Play_InCsMode(play)) {
+            s32 pad;
+
             Cutscene_SetScript(play, gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag
             Item_Give(play, ITEM_SONG_SERENADE);
             PRINTF("ブーツを取った!!!!!!!!!!!!!!!!!!\n");
             return true;
+        } else {
+            PRINTF("はやくブーツを取るべし!!!!!!!!!!!!!!!!!!\n");
+            return false;
         }
-        PRINTF("はやくブーツを取るべし!!!!!!!!!!!!!!!!!!\n");
-        return false;
     }
     return true;
 }
@@ -471,9 +488,10 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
                 if (D_80B41D90 != 0) {
                     f32 speed = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
 
+#if OOT_DEBUG
                     sMaxSpeed = CLAMP_MIN(sMaxSpeed, speed);
-
                     PRINTF("MAX speed = %f\n", sMaxSpeed);
+#endif
 
                     speed = CLAMP_MAX(speed, 2.0f);
                     func_800F436C(&sPos, NA_SE_EV_FLYING_AIR - SFX_FLAG, 0.6f + (0.4f * speed));
@@ -784,6 +802,8 @@ void EnXc_SetupHarpPutawayAction(EnXc* this, PlayState* play) {
         curFrame = this->skelAnime.curFrame;
         animFrameCount = this->skelAnime.endFrame;
         if (curFrame >= animFrameCount) {
+            s32 pad;
+
             Animation_Change(&this->skelAnime, &gSheikInitialHarpAnim, -1.0f,
                              Animation_GetLastFrame(&gSheikInitialHarpAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
             this->action = SHEIK_ACTION_PUT_HARP_AWAY;
@@ -873,6 +893,8 @@ void EnXc_SetupDisappear(EnXc* this, PlayState* play) {
 
             // Sheik fades away if end of Bolero CS, kill actor otherwise
             if (sceneId == SCENE_DEATH_MOUNTAIN_CRATER) {
+                s32 pad;
+
                 this->action = SHEIK_ACTION_FADE;
                 this->drawMode = SHEIK_DRAW_NOTHING;
                 this->actor.shape.shadowAlpha = 0;
@@ -1666,7 +1688,9 @@ void EnXc_ActionFunc54(EnXc* this, PlayState* play) {
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetupShowTriforceAction(this, play);
+#if OOT_DEBUG
     func_80B3C888(this, play);
+#endif
 }
 
 void EnXc_ShowTriforce(EnXc* this, PlayState* play) {
@@ -1677,7 +1701,9 @@ void EnXc_ShowTriforce(EnXc* this, PlayState* play) {
     EnXc_CalcTriforce(&this->actor, play);
     func_80B3FAE0(this);
     EnXc_SetupShowTriforceIdleAction(this, animFinished);
+#if OOT_DEBUG
     func_80B3C888(this, play);
+#endif
 }
 
 void EnXc_ShowTriforceIdle(EnXc* this, PlayState* play) {
@@ -1814,11 +1840,13 @@ void EnXc_SetupDefenseStance(Actor* thisx) {
 }
 
 void EnXc_SetupContortions(EnXc* this, PlayState* play) {
-    s32 pad;
+    s32 pad[2];
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
 
-    Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+#if OOT_DEBUG
+    Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim), ANIMMODE_LOOP,
+                     0.0f);
+#endif
     func_80B3C588(this, play, 4);
     func_80B3C964(this, play);
     Animation_Change(skelAnime, &gSheikContortionsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikContortionsAnim),
@@ -2171,6 +2199,8 @@ void EnXc_InitTempleOfTime(EnXc* this, PlayState* play) {
 
 void EnXc_SetupDialogueAction(EnXc* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
+        s32 pad;
+
         this->action = SHEIK_ACTION_IN_DIALOGUE;
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
@@ -2339,9 +2369,11 @@ void EnXc_Init(Actor* thisx, PlayState* play) {
         case SHEIK_TYPE_9:
             EnXc_InitTempleOfTime(this, play);
             break;
+#if OOT_DEBUG
         case SHEIK_TYPE_0:
             EnXc_DoNothing(this, play);
             break;
+#endif
         default:
             PRINTF(VT_FGCOL(RED) " En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
             EnXc_DoNothing(this, play);
@@ -2353,6 +2385,8 @@ s32 EnXc_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (this->unk_30C != 0) {
         if (limbIndex == 9) {
+            s32 pad;
+
             rot->x += this->interactInfo.torsoRot.y;
             rot->y -= this->interactInfo.torsoRot.x;
         } else if (limbIndex == 16) {

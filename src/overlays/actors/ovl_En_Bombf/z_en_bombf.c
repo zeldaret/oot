@@ -474,15 +474,13 @@ Gfx* EnBombf_NewMtxDList(GraphicsContext* gfxCtx, PlayState* play) {
     Matrix_ReplaceRotation(&play->billboardMtxF);
     gSPMatrix(displayListHead++, MATRIX_NEW(gfxCtx, "../z_en_bombf.c", 1021),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPEndDisplayList(displayListHead);
+    gSPEndDisplayList(displayListHead++);
     return displayList;
 }
 
 void EnBombf_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnBombf* this = (EnBombf*)thisx;
-
-    if (1) {}
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bombf.c", 1034);
 
@@ -509,6 +507,8 @@ void EnBombf_Draw(Actor* thisx, PlayState* play) {
     } else {
         Collider_UpdateSpheres(0, &this->explosionCollider);
     }
+
+    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bombf.c", 1063);
 }

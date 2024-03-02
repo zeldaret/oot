@@ -112,8 +112,8 @@ void EnGe2_ChangeAction(EnGe2* this, s32 i) {
 }
 
 void EnGe2_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     EnGe2* this = (EnGe2*)thisx;
+    s16 params = this->actor.params;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoPurpleSkel, NULL, this->jointTable, this->morphTable, 22);
@@ -133,7 +133,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.world.rot.z = 0;
     this->actor.shape.rot.z = 0;
 
-    switch (this->actor.params & 0xFF) {
+    switch (thisx->params & 0xFF) {
         case GE2_TYPE_PATROLLING:
             EnGe2_ChangeAction(this, GE2_ACTION_WALK);
             if (EnGe2_CheckCarpentersFreed()) {
@@ -156,6 +156,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
             break;
         default:
             ASSERT(0, "0", "../z_en_ge2.c", 418);
+            break;
     }
 
     this->stateFlags = 0;
@@ -165,7 +166,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     this->walkDirection = this->actor.world.rot.y;
-    this->walkDuration = ((this->actor.params & 0xFF00) >> 8) * 10;
+    this->walkDuration = ((thisx->params & 0xFF00) >> 8) * 10;
 }
 
 void EnGe2_Destroy(Actor* thisx, PlayState* play) {

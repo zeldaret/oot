@@ -47,13 +47,6 @@ static ColliderCylinderInit D_80AA0420 = {
 static u32 D_80AA044C[] = { DMG_SPIN_MASTER, DMG_SPIN_KOKIRI, DMG_SPIN_GIANT };
 static u32 D_80AA0458[] = { DMG_JUMP_MASTER, DMG_JUMP_KOKIRI, DMG_JUMP_GIANT };
 
-static u16 sSfxIds[] = {
-    NA_SE_IT_ROLLING_CUT_LV2,
-    NA_SE_IT_ROLLING_CUT_LV1,
-    NA_SE_IT_ROLLING_CUT_LV2,
-    NA_SE_IT_ROLLING_CUT_LV1,
-};
-
 // Setup action
 void func_80A9EFE0(EnMThunder* this, EnMThunderActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -207,8 +200,19 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
 
             func_80A9EFE0(this, func_80A9F9B4);
             this->unk_1C4 = 8;
-            Audio_PlaySfxGeneral(sSfxIds[this->unk_1C6], &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+
+            {
+                static u16 sSfxIds[] = {
+                    NA_SE_IT_ROLLING_CUT_LV2,
+                    NA_SE_IT_ROLLING_CUT_LV1,
+                    NA_SE_IT_ROLLING_CUT_LV2,
+                    NA_SE_IT_ROLLING_CUT_LV1,
+                };
+
+                Audio_PlaySfxGeneral(sSfxIds[this->unk_1C6], &player->actor.projectedPos, 4,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            }
+
             this->unk_1AC = 1.0f;
             return;
         }

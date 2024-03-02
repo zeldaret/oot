@@ -1293,8 +1293,8 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
     s32 pad2;
     s16 i;
     s32 pad;
-    BossGanondrof* this = (BossGanondrof*)thisx;
     EnfHG* horse;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     PRINTF("MOVE START %d\n", this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_10;
@@ -1303,8 +1303,8 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->work[GND_VARIANCE_TIMER]++;
     horse = (EnfHG*)this->actor.child;
+    this->work[GND_VARIANCE_TIMER]++;
     PRINTF("MOVE START EEEEEEEEEEEEEEEEEEEEEE%d\n", this->actor.params);
 
     this->actionFunc(this, play);
@@ -1520,6 +1520,7 @@ void BossGanondrof_Draw(Actor* thisx, PlayState* play) {
                       BossGanondrof_PostLimbDraw, this);
     PRINTF("DRAW 22\n");
     POLY_OPA_DISP = Play_SetFog(play, POLY_OPA_DISP);
+    if (1) {}
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganondrof.c", 3814);
     PRINTF("DRAW END %d\n", this->actor.params);
 }

@@ -1052,13 +1052,13 @@ void EnMb_ClubDamaged(EnMb* this, PlayState* play) {
 }
 
 void EnMb_ClubDamagedWhileKneeling(EnMb* this, PlayState* play) {
-    s32 pad;
-
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer3 != 0) {
             this->timer3--;
             if (this->timer3 == 0) {
                 if (this->timer1 == 0) {
+                    s32 pad;
+
                     Animation_Change(&this->skelAnime, &gEnMbClubStandUpAnim, 3.0f, 0.0f,
                                      Animation_GetLastFrame(&gEnMbClubStandUpAnim), ANIMMODE_ONCE_INTERP, 0.0f);
                     this->timer1 = 1;

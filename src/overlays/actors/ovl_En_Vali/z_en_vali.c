@@ -572,10 +572,10 @@ void EnVali_Update(Actor* thisx, PlayState* play) {
 
 void EnVali_PulseOutside(EnVali* this, f32 curFrame, Vec3f* scale) {
     f32 scaleChange;
+    s32 scalePhase;
 
     if (this->actionFunc == EnVali_Attacked) {
-        s32 scalePhase = 20 - (this->lightningTimer % 20);
-
+        scalePhase = 20 - (this->lightningTimer % 20);
         if (scalePhase >= 10) {
             scalePhase -= 10;
         }
@@ -607,10 +607,10 @@ void EnVali_PulseOutside(EnVali* this, f32 curFrame, Vec3f* scale) {
 
 void EnVali_PulseInsides(EnVali* this, f32 curFrame, Vec3f* scale) {
     f32 scaleChange;
+    s32 scalePhase;
 
     if (this->actionFunc == EnVali_Attacked) {
-        s32 scalePhase = 20 - (this->lightningTimer % 20);
-
+        scalePhase = 20 - (this->lightningTimer % 20);
         if (scalePhase >= 10) {
             scalePhase -= 10;
         }
