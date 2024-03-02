@@ -67,6 +67,10 @@ BUILD_DIR := build/$(VERSION)
 EXPECTED_DIR := expected/$(BUILD_DIR)
 BASEROM_DIR := baseroms/$(VERSION)
 EXTRACTED_DIR := extracted/$(VERSION)
+ifeq ($(VERSION),gc-eu-mq)
+  # TODO: for now, we only extract assets from the Debug ROM (see setup rule)
+  EXTRACTED_DIR := extracted/gc-eu-mq-dbg
+endif
 VENV := .venv
 
 MAKE = make
