@@ -349,8 +349,10 @@ assetclean:
 	$(RM) -r $(BUILD_DIR)/assets
 	$(RM) -r .extracted-assets.json
 
-distclean: clean assetclean
-	$(RM) -r $(BASEROM_SEGMENTS_DIR)
+distclean: assetclean
+	$(RM) -r baseroms/*/segments
+	$(RM) -r extracted/
+	$(RM) -r build/
 	$(MAKE) -C tools distclean
 
 venv:
