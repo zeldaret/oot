@@ -128,7 +128,8 @@ def byte_swap(file_content: bytearray) -> bytearray:
 
 def per_version_fixes(file_content: bytearray, version: str) -> bytearray:
     if version == "gc-eu-mq-dbg":
-        # Strip the overdump
+        # Strip the overdump, which consists of an area of 0xFF bytes that may
+        # be erased memory and ROM data from an unrelated game
         print("Stripping overdump...")
         file_content = file_content[0:0x035CF000]
 
