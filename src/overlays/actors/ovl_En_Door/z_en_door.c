@@ -190,11 +190,12 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
-            if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(play)->actor) > DOOR_AJAR_SLAM_RANGE) {
+            Player* player = GET_PLAYER(play);
+
+            if (Actor_WorldDistXZToActor(&this->actor, &player->actor) > DOOR_AJAR_SLAM_RANGE) {
                 this->actionFunc = EnDoor_AjarWait;
                 this->actor.world.rot.y = -0x1800;
             }
-        fake_label:;
         } else if (doorType == DOOR_CHECKABLE) {
             this->actor.textId = ENDOOR_GET_CHECKABLE_TEXT_ID(&this->actor) + 0x0200;
             if (this->actor.textId == 0x0229 && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
