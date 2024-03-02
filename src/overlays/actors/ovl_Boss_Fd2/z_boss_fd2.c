@@ -1063,7 +1063,7 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
     f32 spE8[10] = { 0.4f, 0.6f, 0.8f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
     s16 i;
     Vec3f temp_vec;
-    f32 temp_f2;
+    f32 temp_radius;
     f32 phi_f0;
     f32 temp_angleX;
     f32 temp_angleY;
@@ -1091,9 +1091,8 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
         temp_vec.x = (pos + i)->x + (pull + i)->x - (pos + i - 1)->x;
 
         phi_f0 = (pos + i)->y + (pull + i)->y - 2.0f + sp138[i];
-        temp_f2 = (pos + i - 1)->y + sp110[i];
-        if (phi_f0 > temp_f2) {
-            phi_f0 = temp_f2;
+        if (phi_f0 > (pos + i - 1)->y + sp110[i]) {
+            phi_f0 = (pos + i - 1)->y + sp110[i];
         }
         if ((head->y >= -910.0f) && (phi_f0 < 110.0f)) {
             phi_f0 = 110.0f;
@@ -1102,7 +1101,8 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
 
         temp_vec.z = (pos + i)->z + (pull + i)->z - (pos + i - 1)->z;
         temp_angleY = Math_Atan2F(temp_vec.z, temp_vec.x);
-        temp_angleX = -Math_Atan2F(sqrtf(SQ(temp_vec.x) + SQ(temp_vec.z)), temp_vec.y);
+        temp_radius = sqrtf(SQ(temp_vec.x) + SQ(temp_vec.z));
+        temp_angleX = -Math_Atan2F(temp_radius, temp_vec.y);
         (rot + i - 1)->y = temp_angleY;
         (rot + i - 1)->x = temp_angleX;
         spBC.x = 0.0f;
