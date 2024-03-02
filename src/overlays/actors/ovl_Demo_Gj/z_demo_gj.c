@@ -263,7 +263,7 @@ s32 DemoGj_InitSetIndices(DemoGj* this, PlayState* play, s32 updateMode, s32 dra
 }
 
 void DemoGj_DrawCommon(DemoGj* this, PlayState* play, Gfx* displayList) {
-    if (kREG(0) == 0) {
+    if (!OOT_DEBUG || kREG(0) == 0) {
         GraphicsContext* gfxCtx = play->state.gfxCtx;
 
         OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1163);
@@ -454,7 +454,7 @@ s32 DemoGj_IsGanondorfFloatingInAir(DemoGj* this, PlayState* play) {
 
 void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
     Actor* actor = &this->dyna.actor;
-    Player* player;
+    s32 pad;
     Vec3f* pos = &actor->world.pos;
     Vec3s* unk_172;
     f32 xDistance;
@@ -544,7 +544,8 @@ void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
         }
 
         if (xDistance == 0.0f && zDistance == 0.0f) {
-            player = GET_PLAYER(play);
+            Player* player = GET_PLAYER(play);
+
             xDistance = player->actor.world.pos.x - pos->x;
             zDistance = player->actor.world.pos.z - pos->z;
 
@@ -974,8 +975,10 @@ void DemoGj_InitDestructableRubble1(DemoGj* this, PlayState* play) {
     DemoGj_InitCylinder(this, play, &this->cylinders[2], &sCylinderInit1);
 }
 
+#if OOT_DEBUG
 void DemoGj_DoNothing1(DemoGj* this, PlayState* play) {
 }
+#endif
 
 /*
  * Moves the ColliderCylinder's relative to the actor's position.
@@ -1092,7 +1095,9 @@ void DemoGj_Update15(DemoGj* this, PlayState* play) {
 // func_8097B370
 void DemoGj_Update18(DemoGj* this, PlayState* play) {
     func_8097B22C(this, play);
+#if OOT_DEBUG
     DemoGj_DoNothing1(this, play);
+#endif
 }
 
 void DemoGj_DrawDestructableRubble1(DemoGj* this, PlayState* play) {
@@ -1107,8 +1112,10 @@ void DemoGj_InitDestructableRubble2(DemoGj* this, PlayState* play) {
     DemoGj_InitCylinder(this, play, &this->cylinders[2], &sCylinderInit2);
 }
 
+#if OOT_DEBUG
 void DemoGj_DoNothing2(DemoGj* this, PlayState* play) {
 }
+#endif
 
 // Moves the ColliderCylinder's relative to the actor's position.
 void func_8097B450(DemoGj* this, PlayState* play) {
@@ -1223,7 +1230,9 @@ void DemoGj_Update16(DemoGj* this, PlayState* play) {
 // func_8097B894
 void DemoGj_Update19(DemoGj* this, PlayState* play) {
     func_8097B750(this, play);
+#if OOT_DEBUG
     DemoGj_DoNothing2(this, play);
+#endif
 }
 
 void DemoGj_DemoGj_InitDestructableRubble2(DemoGj* this, PlayState* play) {
@@ -1236,8 +1245,10 @@ void DemoGj_InitDestructableRubbleTall(DemoGj* this, PlayState* play) {
     DemoGj_InitCylinder(this, play, &this->cylinders[0], &sCylinderInit3);
 }
 
+#if OOT_DEBUG
 void DemoGj_DoNothing3(DemoGj* this, PlayState* play) {
 }
+#endif
 
 void DemoGj_DirectedDoubleExplosion(DemoGj* this, PlayState* play, Vec3f* direction) {
     Vec3f pos;
@@ -1308,7 +1319,9 @@ void DemoGj_Update17(DemoGj* this, PlayState* play) {
 // func_8097BBA8
 void DemoGj_Update20(DemoGj* this, PlayState* play) {
     func_8097BA48(this, play);
+#if OOT_DEBUG
     DemoGj_DoNothing3(this, play);
+#endif
 }
 
 void DemoGj_DemoGj_InitDestructableRubbleTall(DemoGj* this, PlayState* play) {

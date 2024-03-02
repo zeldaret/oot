@@ -425,6 +425,8 @@ void EnBubble_Draw(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_XLU_DISP++, gBubbleDL);
     }
 
+    if (1) {}
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bubble.c", 1226);
 
     if (this->actionFunc != EnBubble_Disappear) {

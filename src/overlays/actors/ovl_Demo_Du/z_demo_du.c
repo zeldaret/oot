@@ -68,6 +68,7 @@ void DemoDu_SetMouthTexIndex(DemoDu* this, s16 mouthTexIndex) {
     this->mouthTexIndex = mouthTexIndex;
 }
 
+#if OOT_DEBUG
 // Resets all the values used in this cutscene.
 void DemoDu_CsAfterGanon_Reset(DemoDu* this) {
     this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
@@ -87,12 +88,12 @@ void DemoDu_CsAfterGanon_CheckIfShouldReset(DemoDu* this, PlayState* play) {
                 DemoDu_CsAfterGanon_Reset(this);
             }
             D_8096CE94 = false;
-            return;
         }
     } else if (!D_8096CE94) {
         D_8096CE94 = true;
     }
 }
+#endif
 
 s32 DemoDu_UpdateSkelAnime(DemoDu* this) {
     return SkelAnime_Update(&this->skelAnime);
@@ -104,8 +105,11 @@ void DemoDu_UpdateBgCheckInfo(DemoDu* this, PlayState* play) {
 
 CsCmdActorCue* DemoDu_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
+
     return NULL;
 }
 
@@ -774,7 +778,9 @@ void DemoDu_CsAfterGanon_BackTo01(DemoDu* this, PlayState* play) {
 
 void DemoDu_UpdateCs_AG_00(DemoDu* this, PlayState* play) {
     DemoDu_CsAfterGanon_AdvanceTo01(this, play);
+#if OOT_DEBUG
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
+#endif
 }
 
 void DemoDu_UpdateCs_AG_01(DemoDu* this, PlayState* play) {
@@ -782,7 +788,9 @@ void DemoDu_UpdateCs_AG_01(DemoDu* this, PlayState* play) {
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     DemoDu_CsAfterGanon_AdvanceTo02(this, play);
+#if OOT_DEBUG
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
+#endif
 }
 
 void DemoDu_UpdateCs_AG_02(DemoDu* this, PlayState* play) {
@@ -790,7 +798,9 @@ void DemoDu_UpdateCs_AG_02(DemoDu* this, PlayState* play) {
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     DemoDu_CsAfterGanon_BackTo01(this, play);
+#if OOT_DEBUG
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
+#endif
 }
 
 // Similar to DemoDu_Draw_01, but this uses POLY_XLU_DISP. Also uses this->shadowAlpha for setting the env color.

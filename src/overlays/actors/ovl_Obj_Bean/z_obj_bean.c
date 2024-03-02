@@ -135,19 +135,20 @@ void ObjBean_InitCollider(Actor* thisx, PlayState* play) {
 
 void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
-    CollisionHeader* colHeader;
-    s32 pad2;
-
-    colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_bean.c", 374,
                this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void ObjBean_FindFloor(ObjBean* this, PlayState* play) {
@@ -240,14 +241,8 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
     Path* path;
     Vec3f acell;
     Vec3f pathPointsFloat;
-    f32 speed;
-    Vec3s* nextPathPoint;
-    Vec3s* currentPoint;
-    Vec3s* sp4C;
-    Vec3f sp40;
-    Vec3f sp34;
-    f32 sp30;
     f32 mag;
+    Vec3s* nextPathPoint;
 
     Math_StepToF(&this->dyna.actor.speed, sBeanSpeeds[this->unk_1F6].velocity, sBeanSpeeds[this->unk_1F6].accel);
     path = &play->pathList[(this->dyna.actor.params >> 8) & 0x1F];
@@ -257,8 +252,13 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
 
     Math_Vec3f_Diff(&pathPointsFloat, &this->pathPoints, &acell);
     mag = Math3D_Vec3fMagnitude(&acell);
-    speed = CLAMP_MIN(this->dyna.actor.speed, 0.5f);
-    if (speed > mag) {
+    if (CLAMP_MIN(this->dyna.actor.speed, 0.5f) > mag) {
+        Vec3s* currentPoint;
+        Vec3s* sp4C;
+        Vec3f sp40;
+        Vec3f sp34;
+        f32 sp30;
+
         currentPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->currentPointIndex];
 
         Math_Vec3f_Copy(&this->pathPoints, &pathPointsFloat);

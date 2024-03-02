@@ -117,10 +117,11 @@ void func_808AAE6C(BgSpot01Idohashira* this, PlayState* play) {
 
 void func_808AAF34(BgSpot01Idohashira* this, PlayState* play) {
     s32 pad[2];
-    Vec3f dest;
-    Vec3f src;
 
     if (this->unk_170 != 0) {
+        Vec3f dest;
+        Vec3f src;
+
         src.x = kREG(20) + 1300.0f;
         src.y = kREG(21) + 200.0f;
         src.z = 0.0f;
@@ -170,13 +171,11 @@ void func_808AB18C(BgSpot01Idohashira* this) {
 f32 func_808AB1DC(f32 arg0, f32 arg1, u16 arg2, u16 arg3, u16 arg4) {
     f32 temp_f12;
     f32 regFloat;
-    f32 diff23;
-    f32 diff43;
+    f32 diff23 = arg2 - arg3;
+    f32 diff43 = arg4 - arg3;
 
-    diff23 = arg2 - arg3;
     if (diff23 != 0.0f) {
         regFloat = kREG(9) + 30.0f;
-        diff43 = arg4 - arg3;
         temp_f12 = regFloat * diff43;
         return (((((arg1 - arg0) - temp_f12) / SQ(diff23)) * diff43) * diff43) + temp_f12;
     }
