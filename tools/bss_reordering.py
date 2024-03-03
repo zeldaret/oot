@@ -173,7 +173,7 @@ def main():
                         Pointer(reloc.name, reloc.addend, base_value, build_value)
                     )
 
-    # Remove duplicates and sort by address
+    # Remove duplicates and sort by baserom address
     pointers = list({p.base_value: p for p in pointers}.values())
     pointers.sort(key=lambda p: p.base_value)
 
@@ -185,7 +185,7 @@ def main():
                 continue
 
             pointers_in_section = [
-                p for p in pointers if file.vram <= p.base_value < file.vram + file.size
+                p for p in pointers if file.vram <= p.build_value < file.vram + file.size
             ]
             if not pointers_in_section:
                 continue
