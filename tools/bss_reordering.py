@@ -57,6 +57,8 @@ def read_relocs(object_path: Path, section_name: str) -> list[Reloc]:
                     data[reloc_offset : reloc_offset + 4], "big", signed=True
                 )
                 relocs.append(Reloc(reloc_name, offset_32, None, None, addend))
+            elif reloc_type == 4:  # R_MIPS_26
+                pass
             elif reloc_type == 5:  # R_MIPS_HI16
                 offset_hi16 = reloc_offset
             elif reloc_type == 6:  # R_MIPS_LO16
@@ -71,6 +73,8 @@ def read_relocs(object_path: Path, section_name: str) -> list[Reloc]:
                 relocs.append(
                     Reloc(reloc_name, None, offset_hi16, address_lo16, addend)
                 )
+            else:
+                raise NotImplementedError(f"Unsupported relocation type: {reloc_type}")
 
         return relocs
 
