@@ -70,9 +70,7 @@ def read_relocs(object_path: Path, section_name: str) -> list[Reloc]:
                     data[offset_lo16 + 2 : offset_lo16 + 4], "big", signed=True
                 )
                 addend = (addend_hi16 << 16) + addend_lo16
-                relocs.append(
-                    Reloc(reloc_name, None, offset_hi16, offset_lo16, addend)
-                )
+                relocs.append(Reloc(reloc_name, None, offset_hi16, offset_lo16, addend))
             else:
                 raise NotImplementedError(f"Unsupported relocation type: {reloc_type}")
 
@@ -195,9 +193,15 @@ def main():
 
             print(f"{file.filepath} BSS is reordered:")
             for i, p in enumerate(pointers_in_section):
+                if p.addend > 0:
+                    addend_str = f"+0x{p.addend:X}"
+                elif p.addend < 0:
+                    addend_str = f"-0x{-p.addend:X}"
+                else:
+                    addend_str = ""
+
                 if i > 0 and p.build_value < pointers_in_section[i - 1].build_value:
                     print("  --------------------")  # BSS wraps around
-                addend_str = f"+0x{p.addend:X}" if p.addend else ""
                 print(
                     f"  {p.base_value:08X} -> {p.build_value:08X} {p.name}{addend_str}"
                 )
