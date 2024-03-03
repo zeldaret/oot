@@ -118,28 +118,27 @@ def main():
     mapfile = mapfile_parser.mapfile.MapFile()
     mapfile.readMapFile(f"build/{version}/oot-{version}.map")
 
-    mapfile_segments = []
+    reloc_mapfile_segments = []
     for mapfile_segment in mapfile:
-        if (
-            args.segment
-            and mapfile_segment.name != f"..{args.segment}"
-            and mapfile_segment.name != f"..{args.segment}.bss"
-        ):
+        if args.segment and mapfile_segment.name != f"..{args.segment}":
             continue
         if not (
-            mapfile_segment.name.startswith("..boot")
-            or mapfile_segment.name.startswith("..code")
-            or mapfile_segment.name.startswith("..ovl_")
+            mapfile_segment.name == "..boot"
+            or mapfile_segment.name == "..code"
+            or (
+                mapfile_segment.name.startswith("..ovl_")
+                and not mapfile_segment.name.endswith(".bss")
+            )
         ):
             continue
-        mapfile_segments.append(mapfile_segment)
+        reloc_mapfile_segments.append(mapfile_segment)
 
     base = open(f"baseroms/{version}/baserom-decompressed.z64", "rb")
     build = open(f"build/{version}/oot-{version}.z64", "rb")
 
     # Find all pointers with different values
     pointers = []
-    for mapfile_segment in mapfile_segments:
+    for mapfile_segment in reloc_mapfile_segments:
         for file in mapfile_segment:
             if not str(file.filepath).endswith(".o"):
                 continue
@@ -180,7 +179,7 @@ def main():
 
     # Go through BSS sections and report differences
     i = 0
-    for mapfile_segment in mapfile_segments:
+    for mapfile_segment in mapfile:
         for file in mapfile_segment:
             if not file.sectionType == ".bss":
                 continue
