@@ -150,6 +150,18 @@ def main():
                     base_value = read_u32(base, file.vrom + reloc.offset_32)
                     build_value = read_u32(build, file.vrom + reloc.offset_32)
                 elif reloc.offset_hi16 is not None and reloc.offset_lo16 is not None:
+                    if read_u16(base, file.vrom + reloc.offset_hi16) != read_u16(
+                        build, file.vrom + reloc.offset_hi16
+                    ) or read_u16(base, file.vrom + reloc.offset_hi16) != read_u16(
+                        build, file.vrom + reloc.offset_hi16
+                    ):
+                        print(
+                            f"Error: Relocation for {reloc.name} in {file.filepath} references a shifted portion of the ROM.\n"
+                            "Please ensure that the only differences between the baserom and the current build are due to BSS reordering.",
+                            file=sys.stderr,
+                        )
+                        sys.exit(1)
+
                     base_value = (
                         read_u16(base, file.vrom + reloc.offset_hi16 + 2) << 16
                     ) + read_s16(base, file.vrom + reloc.offset_lo16 + 2)
