@@ -5996,6 +5996,7 @@ s32 Camera_Demo4(Camera* camera) {
  * Sets up a OnePoint attention cutscene
  */
 s32 Camera_Demo5(Camera* camera) {
+    static s32 sDemo5PrevSfxFrame = -200;
     f32 eyeTargetDist;
     f32 sp90;
     VecGeo playerTargetGeo;
@@ -6035,6 +6036,54 @@ s32 Camera_Demo5(Camera* camera) {
     if (camera->target->category == ACTORCAT_PLAYER) {
         // camera is targeting a(the) player actor
         if (eyePlayerGeo.r > 30.0f) {
+            // target is player, far from eye
+            static OnePointCsFull D_8011D6AC[] = {
+                {
+                    // viewFlags & 0x00FF (at): 2, atTarget is view lookAt + atInit
+                    // viewFlags & 0xFF00 (eye): none
+                    // action: 15, copy at, eye, roll, fov to camera
+                    // result: eye remains in the same location, at is View's lookAt
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x0002,
+                    1,
+                    0,
+                    60.0f,
+                    1.0f,
+                    { 0.0f, 0.0f, 0.0f },
+                    { 0.0f, 0.0f, 0.0f },
+                },
+                {
+                    // viewFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
+                    // viewFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
+                    // action: interpolate eye and at.
+                    // result: eye and at's y interpolate to become +20 from their current location.
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x0303,
+                    19,
+                    0,
+                    45.0f,
+                    1.0f,
+                    { 0.0f, 20.0f, 0.0f },
+                    { 0.0f, 20.0f, 0.0f },
+                },
+                {
+                    // viewFlags & 0x00FF (at): 0 none
+                    // viewFlags & 0xFF00 (eye): 0 none
+                    // action: 18, copy this camera to default camera.
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x0000,
+                    1,
+                    0,
+                    60.0f,
+                    1.0f,
+                    { -1.0f, -1.0f, -1.0f },
+                    { -1.0f, -1.0f, -1.0f },
+                },
+            };
+
             D_8011D6AC[1].timerInit = camera->timer - 1;
             D_8011D6AC[1].atTargetInit.z = Rand_ZeroOne() * 10.0f;
             D_8011D6AC[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
@@ -6046,6 +6095,43 @@ s32 Camera_Demo5(Camera* camera) {
                 camera->timer += D_8011D6AC[2].timerInit;
             }
         } else {
+            // target is player close to current eye
+            static OnePointCsFull D_8011D724[] = {
+                {
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x2424,
+                    1,
+                    0,
+                    60.0f,
+                    1.0f,
+                    { 0.0f, 0.0f, 0.0f },
+                    { 0.0f, 10.0f, -20.0f },
+                },
+                {
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x2121,
+                    19,
+                    0,
+                    50.0f,
+                    1.0f,
+                    { 0.0f, -10.0f, 0.0f },
+                    { 0.0f, 0.0f, 60.0f },
+                },
+                {
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x0000,
+                    1,
+                    0,
+                    60.0f,
+                    1.0f,
+                    { -1.0f, -1.0f, -1.0f },
+                    { -1.0f, -1.0f, -1.0f },
+                },
+            };
+
             D_8011D724[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             D_8011D724[1].timerInit = camera->timer - 1;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D724;
@@ -6058,6 +6144,53 @@ s32 Camera_Demo5(Camera* camera) {
         }
     } else if (playerTargetGeo.r < 30.0f) {
         // distance between player and target is less than 30 units.
+        static OnePointCsFull D_8011D79C[] = {
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, true),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x0002,
+                1,
+                0,
+                60.0f,
+                1.0f,
+                { 0.0f, 0.0f, 0.0f },
+                { 0.0f, 0.0f, 0.0f },
+            },
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x0303,
+                19,
+                0,
+                45.0f,
+                1.0f,
+                { 0.0f, -20.0f, 0.0f },
+                { 0.0f, -10.0f, 5.0f },
+            },
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x0303,
+                9,
+                0,
+                60.0f,
+                1.0f,
+                { 0.0f, 10.0f, 0.0f },
+                { 0.0f, 10.0f, 0.0f },
+            },
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x0000,
+                1,
+                0,
+                60.0f,
+                1.0f,
+                { -1.0f, -1.0f, -1.0f },
+                { -1.0f, -1.0f, -1.0f },
+            },
+        };
+
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D79C;
         ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D79C);
         if ((targetScreenPosX <= 20) || (targetScreenPosX >= SCREEN_WIDTH - 20) || (targetScreenPosY <= 40) ||
@@ -6081,6 +6214,31 @@ s32 Camera_Demo5(Camera* camera) {
     } else if (eyeTargetDist < 300.0f && eyePlayerGeo.r < 30.0f) {
         // distance from the camera's current positon and the target is less than 300 units
         // and the distance fromthe camera's current position to the player is less than 30 units
+        static OnePointCsFull D_8011D83C[] = {
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x2141,
+                20,
+                0,
+                45.0f,
+                0.2f,
+                { 0.0f, 0.0f, 10.0f },
+                { 0.0f, 0.0f, 10.0f },
+            },
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x0000,
+                1,
+                0,
+                60.0f,
+                1.0f,
+                { -1.0f, -1.0f, -1.0f },
+                { -1.0f, -1.0f, -1.0f },
+            },
+        };
+
         D_8011D83C[0].timerInit = camera->timer;
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D83C;
         ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D83C);
@@ -6095,6 +6253,33 @@ s32 Camera_Demo5(Camera* camera) {
         // is less than ~76.9 degrees
         if ((targetScreenPosX > 20) && (targetScreenPosX < SCREEN_WIDTH - 20) && (targetScreenPosY > 40) &&
             (targetScreenPosY < SCREEN_HEIGHT - 40) && (eyePlayerGeo.r > 30.0f)) {
+            // The x/y coordinates of the target on screen is between (21, 41) and (300, 200),
+            // and the player is farther than 30 units of the eye
+            static OnePointCsFull D_8011D88C[] = {
+                {
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x0303,
+                    20,
+                    0,
+                    45.0f,
+                    1.0f,
+                    { 0.0f, 0.0f, 0.0f },
+                    { 0.0f, 0.0f, 0.0f },
+                },
+                {
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x0000,
+                    1,
+                    0,
+                    60.0f,
+                    1.0f,
+                    { -1.0f, -1.0f, -1.0f },
+                    { -1.0f, -1.0f, -1.0f },
+                },
+            };
+
             D_8011D88C[0].timerInit = camera->timer;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D88C;
             ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D88C);
@@ -6104,6 +6289,43 @@ s32 Camera_Demo5(Camera* camera) {
                 camera->timer += D_8011D88C[1].timerInit;
             }
         } else {
+            // same as above, but the target is NOT within the screen area.
+            static OnePointCsFull D_8011D8DC[] = {
+                {
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x0404,
+                    20,
+                    1,
+                    50.0f,
+                    1.0f,
+                    { 0.0f, 5.0f, 10.0f },
+                    { 0.0f, 10.0f, -80.0f },
+                },
+                {
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x2121,
+                    5,
+                    0,
+                    60.0f,
+                    1.0f,
+                    { 0.0f, 5.0f, 0.0f },
+                    { 5.0f, 5.0f, -200.0f },
+                },
+                {
+                    ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+                    ONEPOINT_CS_INIT_FIELD_NONE,
+                    0x0000,
+                    1,
+                    0,
+                    60.0f,
+                    1.0f,
+                    { -1.0f, -1.0f, -1.0f },
+                    { -1.0f, -1.0f, -1.0f },
+                },
+            };
+
             D_8011D8DC[0].atTargetInit.z = eyeTargetDist * 0.6f;
             D_8011D8DC[0].eyeTargetInit.z = eyeTargetDist + 50.0f;
             D_8011D8DC[0].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
@@ -6124,6 +6346,53 @@ s32 Camera_Demo5(Camera* camera) {
         }
     } else if (camera->target->category == ACTORCAT_DOOR) {
         // the target is a door.
+        static OnePointCsFull D_8011D954[] = {
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0xC1C1,
+                20,
+                0,
+                60.0f,
+                1.0f,
+                { 0.0f, 0.0f, 50.0f },
+                { 0.0f, 0.0f, 250.0f },
+            },
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x05B1,
+                5,
+                0,
+                60.0f,
+                0.1f,
+                { 0.0f, 10.0f, 50.0f },
+                { 0.0f, 10.0f, 100.0f },
+            },
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x2121,
+                5,
+                2,
+                60.0f,
+                1.0f,
+                { 0.0f, 10.0f, 0.0f },
+                { 0.0f, 20.0f, -150.0f },
+            },
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x0000,
+                1,
+                0,
+                60.0f,
+                1.0f,
+                { -1.0f, -1.0f, -1.0f },
+                { -1.0f, -1.0f, -1.0f },
+            },
+        };
+
         D_8011D954[0].timerInit = camera->timer - 5;
         sp4A = 0;
         if (!func_800C0D34(camera->play, camera->target, &sp4A)) {
@@ -6159,6 +6428,43 @@ s32 Camera_Demo5(Camera* camera) {
             camera->timer += D_8011D954[2].timerInit + D_8011D954[3].timerInit;
         }
     } else {
+        // otherwise
+        static OnePointCsFull D_8011D9F4[] = {
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x0504,
+                20,
+                2,
+                60.0f,
+                1.0f,
+                { 0.0f, 5.0f, 50.0f },
+                { 0.0f, 20.0f, 300.0f },
+            },
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x2121,
+                5,
+                2,
+                60.0f,
+                1.0f,
+                { 0.0f, 10.0f, 0.0f },
+                { 0.0f, 20.0f, -150.0f },
+            },
+            {
+                ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+                ONEPOINT_CS_INIT_FIELD_NONE,
+                0x0000,
+                1,
+                0,
+                60.0f,
+                1.0f,
+                { -1.0f, -1.0f, -1.0f },
+                { -1.0f, -1.0f, -1.0f },
+            },
+        };
+
         if (playerTargetGeo.r < 200.0f) {
             D_8011D9F4[0].eyeTargetInit.z = playerTargetGeo.r;
             D_8011D9F4[0].atTargetInit.z = playerTargetGeo.r * 0.25f;
@@ -6643,6 +6949,53 @@ s32 Camera_Special5(Camera* camera) {
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, roData->atMaxLERPScale);
     return true;
 }
+
+typedef enum {
+    /* 0 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR, // ACTOR_BG_HIDAN_ROCK
+    /* 1 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER,  // ACTOR_BG_HIDAN_FSLIFT
+    /* 2 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER,  // ACTOR_BG_HIDAN_SYOKU
+    /* 3 */ CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE   // ACTOR_BG_JYA_1FLIFT
+} CamElevatorPlatform;
+
+Vec3f sCamElevatorPlatformLowerEyePoints[] = {
+    { 3050.0f, 700.0f, 0.0f },     // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    { 1755.0f, 3415.0f, -380.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    { -3120.0f, 3160.0f, 245.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    { 0.0f, -10.0f, 240.0f },      // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
+};
+
+Vec3f sCamElevatorPlatformUpperEyePoints[] = {
+    { 3160.0f, 2150.0f, 0.0f },    // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    { 1515.0f, 4130.0f, -835.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    { -3040.0f, 4135.0f, 230.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    { -50.0f, 600.0f, -75.0f },    // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
+};
+
+// Trigger player y position to swap eye points
+f32 sCamElevatorPlatformTogglePosY[] = {
+    1570.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    3680.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    3700.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    395.0f,  // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
+};
+
+f32 sCamElevatorPlatformFovRollParam[] = {
+    320.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    320.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    320.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    0.0f,   // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
+};
+
+s16 sCamElevatorPlatformRolls[] = {
+    -2000, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
+    -1000, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
+    0,     // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
+    0      // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
+};
+
+// unused
+s32 D_8011DAF4 = 0;
+s32 D_8011DAF8 = 0;
 
 /**
  * Camera's eye is fixed at points specified at lower or upper points depending on the player's position.
@@ -7426,6 +7779,9 @@ s32 Camera_UpdateHotRoom(Camera* camera) {
 }
 
 s32 Camera_DbgChangeMode(Camera* camera) {
+    static s16 D_8011DAFC[] = {
+        CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,
+    };
     s32 changeDir = 0;
 
     if (!gDebugCamEnabled && camera->play->activeCamId == CAM_ID_MAIN) {
