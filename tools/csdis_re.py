@@ -20,7 +20,7 @@ from overlayhelpers import filemap
 SRC_ENCODING = "UTF-8"
 
 MAPFILE_P = Path("build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.map")
-BASEROM_SEGMENTS_P = Path("extracted/gc-eu-mq-dbg/segments/")
+BASEROM_SEGMENTS_P = Path("extracted/gc-eu-mq-dbg/baserom/")
 
 HARDCODED_SYM_ROM = {
     "D_8096C1A4": 0xD25834,

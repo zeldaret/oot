@@ -387,7 +387,7 @@ def GetColliderInit(address, type, num, path):
     else:
         return("ItemInit type must specify number of elements")
 
-    ovlFile = open(path + "/extracted/gc-eu-mq-dbg/segments/" + fileResult.name, "rb")
+    ovlFile = open(path + "/extracted/gc-eu-mq-dbg/baserom/" + fileResult.name, "rb")
     ovlData = bytearray(ovlFile.read())
     ovlFile.close()
 
