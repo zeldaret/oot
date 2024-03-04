@@ -1895,20 +1895,19 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
             Vec3f spF0 = { 0.0f, 0.0f, 0.0f };
             Vec3f spE4;
             Vec3s spDC;
-            f32 padD8;
+            f32 spD8;
+            f32 spD4;
 
             if (this->bodyFallApart[i] < 2) {
-                f32 spD4 = 0.1f;
+                spD8 = spD4 = 0.1f;
 
-                temp_float = 0.1f;
                 Matrix_Translate(0.0f, 0.0f, -1100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(-M_PI, MTXMODE_APPLY);
                 if (i >= 14) {
                     f32 sp84 = 1.0f - ((i - 14) * 0.2f);
 
                     Matrix_Scale(sp84, sp84, 1.0f, MTXMODE_APPLY);
-                    spD4 = 0.1f * sp84;
-                    temp_float = 0.1f * sp84;
+                    spD4 = spD8 = spD8 * sp84;
                 }
                 Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
                 gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_fd.c", 4768),
@@ -1925,7 +1924,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
                     bones = (EnVbBall*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_VB_BALL, spE4.x,
                                                           spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i + 200);
 
-                    bones->actor.scale.x = this->actor.scale.x * temp_float;
+                    bones->actor.scale.x = this->actor.scale.x * spD8;
                     bones->actor.scale.y = this->actor.scale.y * spD4;
                     bones->actor.scale.z = this->actor.scale.z * 0.1f;
                 }

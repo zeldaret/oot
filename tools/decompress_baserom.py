@@ -88,9 +88,10 @@ def decompress_rom(
         dma_entry.to_bin(entry_data)
         decompressed.write(entry_data)
     # pad to size
-    padding_end = round_up(dma_entries[-1].vrom_end, 14)
-    decompressed.seek(padding_end - 1)
-    decompressed.write(bytearray([0]))
+    padding_start = dma_entries[-1].vrom_end
+    padding_end = round_up(padding_start, 12)
+    decompressed.seek(padding_start)
+    decompressed.write(b"\x00" * (padding_end - padding_start))
     # re-calculate crc
     return bytearray(update_crc(decompressed).getbuffer())
 
@@ -127,22 +128,14 @@ def byte_swap(file_content: bytearray) -> bytearray:
 
 def per_version_fixes(file_content: bytearray, version: str) -> bytearray:
     if version == "gc-eu-mq-dbg":
-        # Strip the overdump
+        # Strip the overdump, which consists of an area of 0xFF bytes (which may
+        # be erased flash memory) and ROM data from an unrelated game
         print("Stripping overdump...")
-        file_content = file_content[0:0x3600000]
+        file_content = file_content[0:0x035CF000]
 
         # Patch the header
         print("Patching header...")
         file_content[0x3E] = 0x50
-    return file_content
-
-
-def pad_rom(file_content: bytearray, dma_entries: list[dmadata.DmaEntry]) -> bytearray:
-    padding_start = round_up(dma_entries[-1].vrom_end, 12)
-    padding_end = round_up(dma_entries[-1].vrom_end, 14)
-    print(f"Padding from {padding_start:X} to {padding_end:X}...")
-    for i in range(padding_start, padding_end):
-        file_content[i] = 0xFF
     return file_content
 
 
@@ -227,8 +220,6 @@ def main():
             file_content, dmadata_start, dma_entries, is_zlib_compressed
         )
 
-    file_content = pad_rom(file_content, dma_entries)
-
     # Check to see if the ROM is a "vanilla" ROM
     str_hash = get_str_hash(file_content)
     if str_hash != correct_str_hash:
@@ -237,7 +228,7 @@ def main():
         )
 
         if version == "gc-eu-mq-dbg":
-            if str_hash == "32fe2770c0f9b1a9cd2a4d449348c1cb":
+            if str_hash == "9fede30e3239558cf3993f12b7ed7458":
                 print(
                     "The provided baserom is a rom which has been edited with ZeldaEdit and is not suitable for use with decomp. Find a new one."
                 )

@@ -91,6 +91,7 @@ def main():
     context.addBannedSymbolRange(0x0000F000, 0x00010100)
     context.addBannedSymbolRange(0x10000000, 0x80000300)
     context.addBannedSymbolRange(0xA0000000, 0xFFFFFFFF)
+    context.addBannedSymbolRange(0x80B50000, 0x80B51000)  # Hack for z_fishing.c
 
     spimdisasm.mips.InstructionConfig.parseArgs(args)
     spimdisasm.common.GlobalConfig.parseArgs(args)
