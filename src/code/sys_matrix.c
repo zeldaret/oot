@@ -603,13 +603,13 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     return dest;
 }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 
-Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line) {
+Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line) {
     return Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(sCurrentMatrix, file, line), dest);
 }
 
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line) {
+Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, const char* file, int line) {
     return Matrix_ToMtx(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)), file, line);
 }
 
@@ -969,7 +969,8 @@ void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode) {
     }
 }
 
-MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
+#if OOT_DEBUG
+MtxF* Matrix_CheckFloats(MtxF* mf, const char* file, int line) {
     s32 i, j;
 
     for (i = 0; i < 4; i++) {
@@ -989,20 +990,21 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
 
     return mf;
 }
+#endif
 
 void Matrix_SetTranslateUniformScaleMtxF(MtxF* mf, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
+    mf->xx = scale;
     mf->yx = 0.0f;
     mf->zx = 0.0f;
     mf->wx = 0.0f;
     mf->xy = 0.0f;
+    mf->yy = scale;
     mf->zy = 0.0f;
     mf->wy = 0.0f;
     mf->xz = 0.0f;
     mf->yz = 0.0f;
-    mf->wz = 0.0f;
-    mf->xx = scale;
-    mf->yy = scale;
     mf->zz = scale;
+    mf->wz = 0.0f;
     mf->xw = translateX;
     mf->yw = translateY;
     mf->zw = translateZ;

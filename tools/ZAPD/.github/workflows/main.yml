@@ -1,0 +1,83 @@
+name: Build ZAPD
+
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: self-hosted-runner
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build ZAPD
+      run: make -j WERROR=1
+
+    - name: Checkout Repos
+      run: echo "Checkout Repos"
+
+    - name: Checkout oot
+      run: |
+        git clone https://github.com/zeldaret/oot.git
+        cd oot
+        git submodule update --init --recursive
+
+    - name: Checkout mm
+      run: |
+        git clone https://github.com/zeldaret/mm.git
+        cd mm
+
+    - name: Set up repos
+      run: echo "Set up repos"
+
+    - name: Setup OOT
+      run: |
+        cd oot
+        mkdir -p baseroms/gc-eu-mq-dbg/segments
+        cp ~/baserom_original.z64 ./baseroms/gc-eu-mq-dbg/baserom.z64
+        make venv
+        make -C tools -j
+        cp ../ZAPD.out tools/ZAPD/
+        .venv/bin/python3 tools/decompress_baserom.py gc-eu-mq-dbg
+        .venv/bin/python3 tools/extract_baserom.py baseroms/gc-eu-mq-dbg/baserom-decompressed.z64 -o baseroms/gc-eu-mq-dbg/segments --dmadata-start 0x12f70 --dmadata-names baseroms/gc-eu-mq-dbg/dmadata_names.txt
+        .venv/bin/python3 extract_assets.py -j 4
+        .venv/bin/python3 tools/msgdis.py --text-out assets/text/message_data.h --staff-text-out assets/text/message_data_staff.h
+
+    - name: Setup MM
+      run: |
+        cd mm
+        python3 -m venv .mm-env
+        source .mm-env/bin/activate 
+        python3 -m pip install -r requirements.txt
+        cp ~/baserom.mm.us.rev1.z64 ./baserom.mm.us.rev1.z64
+        make -C tools -j
+        cp ../ZAPD.out tools/ZAPD/
+        python3 tools/fixbaserom.py
+        python3 tools/extract_baserom.py
+        python3 tools/decompress_yars.py
+        python3 extract_assets.py -j $(nproc)
+
+    - name: Build Repos
+      run: echo "Build Repos"
+
+    - name: Build oot
+      run: |
+        cd oot
+        make venv
+        make -j
+
+    - name: Build mm
+      run: |
+        cd mm
+        python3 -m venv .mm-env
+        source .mm-env/bin/activate 
+        python3 -m pip install -r requirements.txt
+        make -j disasm
+        make -j
+
+    - name: Clean workspace
+      run: git clean -fdX

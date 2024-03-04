@@ -3,20 +3,6 @@
 
 #include "ultra64.h"
 
-/**
- * Special type for blocks of cutscene data, asm-processor checks
- * arrays for CutsceneData type and converts floats within the array
- * to their IEEE-754 representation. The array must close with };
- * on its own line.
- *
- * Files that contain this type that are included in other C files
- * must be preceded by a '#pragma asmproc recurse' qualifier to
- * inform asm-processor that it must recursively process that include.
- *
- * Example:
- * #pragma asmproc recurse
- * #include "file.c"
- */
 typedef union CutsceneData {
     s32 i;
     f32 f;

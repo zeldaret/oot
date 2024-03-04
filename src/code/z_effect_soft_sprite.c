@@ -8,11 +8,14 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
     EffectSs* effectSs;
     EffectSsOverlay* overlay;
 
+#if OOT_DEBUG
     for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
         overlay = &gEffectSsOverlayTable[i];
         PRINTF("effect index %3d:size=%6dbyte romsize=%6dbyte\n", i,
-               (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
+               (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart,
+               overlay->file.vromEnd - overlay->file.vromStart);
     }
+#endif
 
     sEffectSsInfo.table =
         GAME_STATE_ALLOC(&play->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
@@ -203,13 +206,13 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
                 return;
             }
 
-            Overlay_Load(overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
-                         overlayEntry->loadedRamAddr);
+            Overlay_Load(overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
+                         overlayEntry->vramEnd, overlayEntry->loadedRamAddr);
 
             PRINTF(VT_FGCOL(GREEN));
-            PRINTF("EFFECT SS OVL:SegRom %08x %08x, Seg %08x %08x, RamStart %08x, type: %d\n", overlayEntry->vromStart,
-                   overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
-                   type);
+            PRINTF("EFFECT SS OVL:SegRom %08x %08x, Seg %08x %08x, RamStart %08x, type: %d\n",
+                   overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
+                   overlayEntry->vramEnd, overlayEntry->loadedRamAddr, type);
             PRINTF(VT_RST);
         }
 

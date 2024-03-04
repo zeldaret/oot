@@ -315,6 +315,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
     f32 distToBlowUp = 50.0f;
     s16 explosionScale;
     s16 explosionScaleStep;
+    s32 pad;
 
     if (this->type == 2) {
         distToBlowUp = 30.0f;

@@ -143,12 +143,12 @@ void EnBili_SetupFloatIdle(EnBili* this) {
     this->actor.speed = 0.7f;
     this->collider.elem.bumper.effect = 1; // Shock?
     this->timer = 32;
-    this->collider.base.atFlags |= AT_ON;
-    this->collider.base.acFlags |= AC_ON;
-    this->actionFunc = EnBili_FloatIdle;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
+    this->collider.base.atFlags |= AT_ON;
+    this->collider.base.acFlags |= AC_ON;
+    this->actionFunc = EnBili_FloatIdle;
 }
 
 /**

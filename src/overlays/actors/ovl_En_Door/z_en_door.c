@@ -173,10 +173,9 @@ void EnDoor_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnDoor_SetupType(EnDoor* this, PlayState* play) {
-    s32 doorType;
-
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        doorType = ENDOOR_GET_TYPE(&this->actor);
+        s32 doorType = ENDOOR_GET_TYPE(&this->actor);
+
         this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actionFunc = EnDoor_Idle;
@@ -191,7 +190,9 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
-            if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(play)->actor) > DOOR_AJAR_SLAM_RANGE) {
+            Player* player = GET_PLAYER(play);
+
+            if (Actor_WorldDistXZToActor(&this->actor, &player->actor) > DOOR_AJAR_SLAM_RANGE) {
                 this->actionFunc = EnDoor_AjarWait;
                 this->actor.world.rot.y = -0x1800;
             }
@@ -217,7 +218,6 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 doorType;
     Vec3f playerPosRelToDoor;
-    s16 yawDiff;
 
     doorType = ENDOOR_GET_TYPE(&this->actor);
     func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
@@ -233,7 +233,8 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
     } else if (!Player_InCsMode(play)) {
         if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f &&
             fabsf(playerPosRelToDoor.z) < 50.0f) {
-            yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
+            s16 yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
+
             if (playerPosRelToDoor.z > 0.0f) {
                 yawDiff = 0x8000 - yawDiff;
             }
@@ -293,9 +294,6 @@ void EnDoor_AjarClose(EnDoor* this, PlayState* play) {
 }
 
 void EnDoor_Open(EnDoor* this, PlayState* play) {
-    s32 i;
-    s32 numEffects;
-
     if (DECR(this->lockTimer) == 0) {
         if (SkelAnime_Update(&this->skelAnime)) {
             this->actionFunc = EnDoor_Idle;
@@ -307,7 +305,9 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
                               ? NA_SE_EV_IRON_DOOR_OPEN
                               : NA_SE_OC_DOOR_OPEN);
             if (this->skelAnime.playSpeed < 1.5f) {
-                numEffects = (s32)(Rand_ZeroOne() * 30.0f) + 50;
+                s32 numEffects = (s32)(Rand_ZeroOne() * 30.0f) + 50;
+                s32 i;
+
                 for (i = 0; i < numEffects; i++) {
                     EffectSsBubble_Spawn(play, &this->actor.world.pos, 60.0f, 100.0f, 50.0f, 0.15f);
                 }
@@ -329,25 +329,22 @@ void EnDoor_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    s32 pad;
-    TransitionActorEntry* transitionEntry;
-    Gfx** doorDLists;
-    s32 pad2;
-    s16 rotDiff;
-    s32 doorDListIndex;
-    EnDoor* this = (EnDoor*)thisx;
-
     if (limbIndex == 4) {
-        doorDLists = sDoorDLists[this->dListIndex];
+        EnDoor* this = (EnDoor*)thisx;
+        TransitionActorEntry* transitionEntry;
+        Gfx** doorDLists = sDoorDLists[this->dListIndex];
+
         transitionEntry = &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
         rot->z += this->actor.world.rot.y;
         if ((play->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
             // Draw the side of the door that is visible to the camera
-            rotDiff = this->actor.shape.rot.y + this->skelAnime.jointTable[3].z + rot->z -
-                      Math_Vec3f_Yaw(&play->view.eye, &this->actor.world.pos);
+            s16 rotDiff = this->actor.shape.rot.y + this->skelAnime.jointTable[3].z + rot->z -
+                          Math_Vec3f_Yaw(&play->view.eye, &this->actor.world.pos);
+
             *dList = (ABS(rotDiff) < 0x4000) ? doorDLists[0] : doorDLists[1];
         } else {
-            doorDListIndex = this->unk_192;
+            s32 doorDListIndex = this->unk_192;
+
             if (transitionEntry->sides[0].room != this->actor.room) {
                 doorDListIndex ^= 1;
             }

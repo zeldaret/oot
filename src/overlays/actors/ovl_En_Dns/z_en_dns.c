@@ -77,6 +77,7 @@ static u16 sStartingTextIds[] = {
     0x10A0, 0x10A1, 0x10A2, 0x10CA, 0x10CB, 0x10CC, 0x10CD, 0x10CE, 0x10CF, 0x10DC, 0x10DD,
 };
 
+#if OOT_DEBUG
 static char* sItemDebugTxt[] = {
     "デクの実売り            ", // "Deku Nuts"
     "デクの棒売り            ", // "Deku Sticks"
@@ -90,6 +91,7 @@ static char* sItemDebugTxt[] = {
     "デクの棒持てる数を増やす", // "Deku Stick Upgrade"
     "デクの実持てる数を増やす", // "Deku Nut Upgrade"
 };
+#endif
 
 static DnsItemEntry sItemDekuNuts = { 20, 5, GI_DEKU_NUTS_5_2, EnDns_CanBuyDekuNuts, EnDns_PayForDekuNuts };
 static DnsItemEntry sItemDekuSticks = { 15, 1, GI_DEKU_STICKS_1, EnDns_CanBuyDekuSticks, EnDns_PayPrice };

@@ -283,6 +283,8 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
         }
         flameScale *= 0.0027f;
 
+        if (1) {}
+
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08,

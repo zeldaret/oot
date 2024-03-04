@@ -10,12 +10,14 @@ __pycache__/
 CMakeLists.txt
 cmake-build-debug
 venv/
+.venv/
 
 # Project-specific ignores
 build/
 expected/
 notes/
 baserom/
+baseroms/*/segments/
 docs/doxygen/
 *.elf
 *.sra
@@ -25,6 +27,7 @@ docs/doxygen/
 *.map
 *.dump
 out.txt
+*.ram
 
 # Tool artifacts
 tools/mipspro7.2_compiler/
@@ -48,6 +51,7 @@ graphs/
 *.fbx
 !*_custom*
 .extracted-assets.json
+extracted/
 
 # Docs
 !docs/tutorial/

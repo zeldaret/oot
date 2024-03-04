@@ -152,6 +152,7 @@ void SkelAnime_DrawFlexLimbLod(PlayState* play, s32 limbIndex, void** skeleton, 
             }
             (*mtx)++;
         } else if (limbDList != NULL) {
+            if (1) {}
             MATRIX_TO_MTX(*mtx, "../z_skelanime.c", 954);
             (*mtx)++;
         }
@@ -366,6 +367,7 @@ void SkelAnime_DrawFlexLimbOpa(PlayState* play, s32 limbIndex, void** skeleton, 
             gSPDisplayList(POLY_OPA_DISP++, newDList);
             (*limbMatrices)++;
         } else if (limbDList != NULL) {
+            if (1) {}
             MATRIX_TO_MTX(*limbMatrices, "../z_skelanime.c", 1249);
             (*limbMatrices)++;
         }
@@ -467,7 +469,7 @@ void SkelAnime_GetFrameData(AnimationHeader* animation, s32 frame, s32 limbCount
     u16 staticIndexMax = animHeader->staticIndexMax;
     s32 i;
 
-    for (i = 0; i < limbCount; i++, frameTable++, jointIndices++) {
+    for (i = 0; i < limbCount; i++) {
         if ((frameTable == NULL) || (jointIndices == NULL) || (dynamicData == NULL) || (staticData == NULL)) {
             LOG_ADDRESS("out", frameTable, "../z_skelanime.c", 1392);
             LOG_ADDRESS("ref_tbl", jointIndices, "../z_skelanime.c", 1393);
@@ -481,6 +483,8 @@ void SkelAnime_GetFrameData(AnimationHeader* animation, s32 frame, s32 limbCount
             (jointIndices->y >= staticIndexMax) ? dynamicData[jointIndices->y] : staticData[jointIndices->y];
         frameTable->z =
             (jointIndices->z >= staticIndexMax) ? dynamicData[jointIndices->z] : staticData[jointIndices->z];
+        jointIndices++;
+        frameTable++;
     }
 }
 
@@ -1024,10 +1028,11 @@ void AnimationContext_Update(PlayState* play, AnimationContext* animationCtx) {
         AnimationContext_LoadFrame, AnimationContext_CopyAll,   AnimationContext_Interp,
         AnimationContext_CopyTrue,  AnimationContext_CopyFalse, AnimationContext_MoveActor,
     };
-    AnimationEntry* entry;
+    AnimationEntry* entry = animationCtx->entries;
 
-    for (entry = animationCtx->entries; animationCtx->animationCount != 0; entry++, animationCtx->animationCount--) {
+    for (; animationCtx->animationCount != 0; animationCtx->animationCount--) {
         animFuncs[entry->type](play, &entry->data);
+        entry++;
     }
 
     sAnimQueueFlags = 1;
@@ -1374,9 +1379,8 @@ s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame) {
 /**
  * Initializes a normal skeleton to a looping animation, dynamically allocating the frame tables if not provided.
  */
-BAD_RETURN(s32)
-SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg, AnimationHeader* animation,
-               Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
+BAD_RETURN(s32) SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
     SkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelAnime->limbCount = skeletonHeader->limbCount + 1;
@@ -1405,9 +1409,8 @@ SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHe
 /**
  * Initializes a flex skeleton to a looping animation, dynamically allocating the frame tables if not given.
  */
-BAD_RETURN(s32)
-SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
+BAD_RETURN(s32) SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
+                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
     FlexSkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelAnime->limbCount = skeletonHeader->sh.limbCount + 1;
@@ -1440,9 +1443,8 @@ SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* sk
 /**
  * Initializes a skeleton with SkinLimbs to a looping animation, dynamically allocating the frame tables.
  */
-BAD_RETURN(s32)
-SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                   AnimationHeader* animation) {
+BAD_RETURN(s32) SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+                                   AnimationHeader* animation) {
     SkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelAnime->limbCount = skeletonHeader->limbCount + 1;

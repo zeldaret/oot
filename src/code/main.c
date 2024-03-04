@@ -1,6 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 
+extern u8 _buffersSegmentEnd[];
+
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
@@ -25,12 +27,15 @@ AudioMgr gAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
+#if OOT_DEBUG
 void Main_LogSystemHeap(void) {
     PRINTF(VT_FGCOL(GREEN));
     // "System heap size% 08x (% dKB) Start address% 08x"
-    PRINTF("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", gSystemHeapSize, gSystemHeapSize / 1024, gSystemHeap);
+    PRINTF("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", gSystemHeapSize, gSystemHeapSize / 1024,
+           _buffersSegmentEnd);
     PRINTF(VT_RST);
 }
+#endif
 
 void Main(void* arg) {
     IrqMgrClient irqClient;
@@ -38,9 +43,6 @@ void Main(void* arg) {
     OSMesg irqMgrMsgBuf[60];
     uintptr_t systemHeapStart;
     uintptr_t fb;
-    void* debugHeapStart;
-    u32 debugHeapSize;
-    s16* msg;
 
     PRINTF("mainproc 実行開始\n"); // "Start running"
     gScreenWidth = SCREEN_WIDTH;
@@ -49,21 +51,31 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
     SysCfb_Init(0);
-    systemHeapStart = (uintptr_t)gSystemHeap;
+    systemHeapStart = (uintptr_t)_buffersSegmentEnd;
     fb = (uintptr_t)SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - systemHeapStart;
     // "System heap initalization"
     PRINTF("システムヒープ初期化 %08x-%08x %08x\n", systemHeapStart, fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
-    if (osMemSize >= 0x800000) {
-        debugHeapStart = SysCfb_GetFbEnd();
-        debugHeapSize = PHYS_TO_K0(0x600000) - (uintptr_t)debugHeapStart;
-    } else {
-        debugHeapSize = 0x400;
-        debugHeapStart = SYSTEM_ARENA_MALLOC(debugHeapSize, "../main.c", 565);
+
+#if OOT_DEBUG
+    {
+        void* debugHeapStart;
+        u32 debugHeapSize;
+
+        if (osMemSize >= 0x800000) {
+            debugHeapStart = SysCfb_GetFbEnd();
+            debugHeapSize = PHYS_TO_K0(0x600000) - (uintptr_t)debugHeapStart;
+        } else {
+            debugHeapSize = 0x400;
+            debugHeapStart = SYSTEM_ARENA_MALLOC(debugHeapSize, "../main.c", 565);
+        }
+
+        PRINTF("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
+        DebugArena_Init(debugHeapStart, debugHeapSize);
     }
-    PRINTF("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
-    DebugArena_Init(debugHeapStart, debugHeapSize);
+#endif
+
     Regs_Init();
 
     R_ENABLE_ARENA_DBG = 0;
@@ -71,7 +83,9 @@ void Main(void* arg) {
     osCreateMesgQueue(&sSerialEventQueue, sSerialMsgBuf, ARRAY_COUNT(sSerialMsgBuf));
     osSetEventMesg(OS_EVENT_SI, &sSerialEventQueue, NULL);
 
+#if OOT_DEBUG
     Main_LogSystemHeap();
+#endif
 
     osCreateMesgQueue(&irqMgrMsgQueue, irqMgrMsgBuf, ARRAY_COUNT(irqMgrMsgBuf));
     StackCheck_Init(&sIrqMgrStackInfo, sIrqMgrStack, STACK_TOP(sIrqMgrStack), 0, 0x100, "irqmgr");
@@ -97,7 +111,8 @@ void Main(void* arg) {
     osSetThreadPri(NULL, THREAD_PRI_MAIN);
 
     while (true) {
-        msg = NULL;
+        s16* msg = NULL;
+
         osRecvMesg(&irqMgrMsgQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
         if (msg == NULL) {
             break;

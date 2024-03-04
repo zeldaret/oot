@@ -16,7 +16,13 @@ ORIG_COMPILER := 0
 COMPILER := ido
 # Target game version. Currently only the following version is supported:
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
+# The following versions are work-in-progress and not yet matching:
+#   gc-eu-mq       GameCube Europe/PAL Master Quest
 VERSION := gc-eu-mq-dbg
+# Number of threads to extract and compress with
+N_THREADS := $(shell nproc)
+# Check code syntax with host compiler
+RUN_CC_CHECK := 1
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -45,18 +51,36 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 # Version-specific settings
-ifeq ($(VERSION),gc-eu-mq-dbg)
-  OPTFLAGS := -O2
+ifeq ($(VERSION),gc-eu-mq)
+  DEBUG := 0
+  CFLAGS += -DNON_MATCHING
+  CPPFLAGS += -DNON_MATCHING
+  COMPARE := 0
+else ifeq ($(VERSION),gc-eu-mq-dbg)
+  DEBUG := 1
 else
 $(error Unsupported version $(VERSION))
 endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
+EXPECTED_DIR := expected/$(BUILD_DIR)
+BASEROM_DIR := baseroms/$(VERSION)
+EXTRACTED_DIR := extracted/$(VERSION)
+VENV := .venv
 
 MAKE = make
-CFLAGS += -DOOT_DEBUG
-CPPFLAGS += -DOOT_DEBUG -fno-dollars-in-identifiers -P
+CPPFLAGS += -fno-dollars-in-identifiers -P
+
+ifeq ($(DEBUG),1)
+  CFLAGS += -DOOT_DEBUG=1
+  CPPFLAGS += -DOOT_DEBUG=1
+  OPTFLAGS := -O2
+else
+  CFLAGS += -DNDEBUG -DOOT_DEBUG=0
+  CPPFLAGS += -DNDEBUG -DOOT_DEBUG=0
+  OPTFLAGS := -O2 -g3
+endif
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
@@ -71,8 +95,6 @@ else
         CPPFLAGS += -xc++
     endif
 endif
-
-N_THREADS := $(shell nproc)
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
@@ -105,10 +127,11 @@ AS      := $(MIPS_BINUTILS_PREFIX)as
 LD      := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
+NM      := $(MIPS_BINUTILS_PREFIX)nm
 
 N64_EMULATOR ?= 
 
-INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I.
+INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
@@ -119,6 +142,7 @@ MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
+PYTHON     ?= $(VENV)/bin/python3
 
 # Command to replace path variables in the spec file. We can't use the C
 # preprocessor for this because it won't substitute inside string literals.
@@ -131,7 +155,7 @@ endif
 ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
 
 ifeq ($(COMPILER),gcc)
-  CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
+  CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -fbuiltin -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS) -funsigned-char
   MIPS_VERSION := -mips3
 else
   # Suppress warnings for wrong number of macro arguments (to fake variadic
@@ -144,7 +168,7 @@ endif
 ifeq ($(COMPILER),ido)
   # Have CC_CHECK pretend to be a MIPS compiler
   MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
-  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
+  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING -DOOT_DEBUG=1 $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
   ifeq ($(shell getconf LONG_BIT), 32)
     # Work around memory allocation bug in QEMU
     export QEMU_GUEST_BASE := 1
@@ -153,7 +177,7 @@ ifeq ($(COMPILER),ido)
     CC_CHECK += -m32
   endif
 else
-  CC_CHECK  = @:
+  RUN_CC_CHECK := 0
 endif
 
 OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
@@ -161,8 +185,11 @@ OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
 #### Files ####
 
 # ROM image
-ROM := oot-$(VERSION).z64
-ELF := $(ROM:.z64=.elf)
+ROM      := $(BUILD_DIR)/oot-$(VERSION).z64
+ROMC     := $(ROM:.z64=-compressed.z64)
+ELF      := $(ROM:.z64=.elf)
+MAP      := $(ROM:.z64=.map)
+LDSCRIPT := $(ROM:.z64=.ld)
 # description of ROM segments
 SPEC := spec
 
@@ -181,12 +208,15 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
+BASEROM_SEGMENTS_DIR := $(BASEROM_DIR)/segments
+BASEROM_BIN_FILES := $(wildcard $(BASEROM_SEGMENTS_DIR)/*)
+
 # source files
 C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c)))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
-                 $(foreach f,$(wildcard baserom/*),$(BUILD_DIR)/$f.o)
+                 $(foreach f,$(BASEROM_BIN_FILES),$(BUILD_DIR)/baserom/$(notdir $f).o)
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
 
@@ -201,17 +231,44 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),$(BUILD_DIR)/$
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),$(BUILD_DIR)/$f) \
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/baserom $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/baserom $(EXTRACTED_DIR)/text $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
 
 ifeq ($(COMPILER),ido)
+$(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
+
+$(BUILD_DIR)/src/code/__osMalloc.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FC620.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FCE80.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/rand.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/load.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/loadfragment2.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/logutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/padsetup.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/padutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/printutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/relocation.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/sleep.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
+
 $(BUILD_DIR)/src/code/fault.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/fault_drawer.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
+
+ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -g
+else
+$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -O2
+endif
 
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 
@@ -222,8 +279,14 @@ $(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
 $(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
 $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
+ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
+else
+$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2
+endif
+
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
@@ -246,42 +309,71 @@ $(BUILD_DIR)/src/libultra/rmon/%.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
-$(BUILD_DIR)/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/overlays/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+# For using asm_processor on some files:
+#$(BUILD_DIR)/.../%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
-$(BUILD_DIR)/assets/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+ifeq ($(PERMUTER),)  # permuter + reencode.sh misbehaves, permuter doesn't care about encoding ((ro)data diffs) so just don't use it in that case
+# Handle encoding (UTF-8 -> EUC-JP)
+$(BUILD_DIR)/%.o: CC := tools/reencode.sh $(CC)
+endif
+
 else
+# Note that if adding additional assets directories for modding reasons these flags must also be used there
+$(BUILD_DIR)/assets/%.o: CFLAGS += -fno-zero-initialized-in-bss -fno-toplevel-reorder
+$(BUILD_DIR)/src/%.o: CFLAGS += -fexec-charset=euc-jp
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
-$(BUILD_DIR)/src/%.o: CC := $(CC) -fexec-charset=euc-jp
+$(BUILD_DIR)/src/overlays/%.o: CFLAGS += -fno-merge-constants -mno-explicit-relocs -mno-split-addresses
 endif
 
 #### Main Targets ###
 
-all: $(ROM)
-ifeq ($(COMPARE),1)
+all: rom compress
+
+rom: $(ROM)
+ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
-	@md5sum -c checksum.md5
+	@md5sum -c $(BASEROM_DIR)/checksum.md5
+endif
+
+compress: $(ROMC)
+ifneq ($(COMPARE),0)
+	@md5sum $(ROMC)
+	@md5sum -c $(BASEROM_DIR)/checksum-compressed.md5
 endif
 
 clean:
-	$(RM) -r $(ROM) $(ELF) $(BUILD_DIR)
+	$(RM) -r $(BUILD_DIR)
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
-	$(RM) -r assets/text/*.h
+	$(RM) -r $(EXTRACTED_DIR)
 	$(RM) -r $(BUILD_DIR)/assets
 	$(RM) -r .extracted-assets.json
 
 distclean: clean assetclean
-	$(RM) -r baserom/
+	$(RM) -r $(BASEROM_SEGMENTS_DIR)
 	$(MAKE) -C tools distclean
 
-setup:
+venv:
+# Create the virtual environment if it doesn't exist.
+# Delete the virtual environment directory if creation fails.
+	test -d $(VENV) || python3 -m venv $(VENV) || { rm -rf $(VENV); false; }
+	$(PYTHON) -m pip install -U pip
+	$(PYTHON) -m pip install -U -r requirements.txt
+
+setup: venv
 	$(MAKE) -C tools
-	python3 fixbaserom.py
-	python3 extract_baserom.py
-	python3 extract_assets.py -j$(N_THREADS)
+	$(PYTHON) tools/decompress_baserom.py $(VERSION)
+	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(BASEROM_SEGMENTS_DIR) --dmadata-start `cat $(BASEROM_DIR)/dmadata_start.txt` --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
+	$(PYTHON) tools/msgdis.py --oot-version $(VERSION) --text-out $(EXTRACTED_DIR)/text/message_data.h --staff-text-out $(EXTRACTED_DIR)/text/message_data_staff.h
+# TODO: for now, we only extract assets from the Debug ROM
+ifeq ($(VERSION),gc-eu-mq-dbg)
+	$(PYTHON) extract_assets.py -j$(N_THREADS)
+endif
+
+disasm:
+	$(RM) -r $(EXPECTED_DIR)
+	VERSION=$(VERSION) DISASM_BASEROM=$(BASEROM_DIR)/baserom-decompressed.z64 DISASM_DIR=$(EXPECTED_DIR) PYTHON=$(PYTHON) AS_CMD='$(AS) $(ASFLAGS)' LD=$(LD) ./tools/disasm/do_disasm.sh
 
 run: $(ROM)
 ifeq ($(N64_EMULATOR),)
@@ -290,15 +382,20 @@ endif
 	$(N64_EMULATOR) $<
 
 
-.PHONY: all clean setup run distclean assetclean
+.PHONY: all rom compress clean assetclean distclean venv setup disasm run
+.DEFAULT_GOAL := rom
 
 #### Various Recipes ####
 
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(BUILD_DIR)/ldscript.txt $(BUILD_DIR)/undefined_syms.txt
-	$(LD) -T $(BUILD_DIR)/undefined_syms.txt -T $(BUILD_DIR)/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(BUILD_DIR)/z64.map -o $@
+$(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
+	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
+
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
+	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
 
 ## Order-only prerequisites
 # These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
@@ -315,20 +412,20 @@ $(O_FILES): | asset_files
 $(BUILD_DIR)/$(SPEC): $(SPEC)
 	$(CPP) $(CPPFLAGS) $< | $(SPEC_REPLACE_VARS) > $@
 
-$(BUILD_DIR)/ldscript.txt: $(BUILD_DIR)/$(SPEC)
+$(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
 	$(MKLDSCRIPT) $< $@
 
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
 
-$(BUILD_DIR)/baserom/%.o: baserom/%
+$(BUILD_DIR)/baserom/%.o: $(BASEROM_SEGMENTS_DIR)/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
-$(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
-	python3 tools/msgenc.py assets/text/charmap.txt $< $@
+$(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h assets/text/charmap.txt
+	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py - --output $@ --charmap assets/text/charmap.txt
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
@@ -345,8 +442,8 @@ $(BUILD_DIR)/assets/%.o: assets/%.c
 $(BUILD_DIR)/src/%.o: src/%.s
 	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
 
-$(BUILD_DIR)/dmadata_table_spec.h: $(BUILD_DIR)/$(SPEC)
-	$(MKDMADATA) $< $@
+$(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)/$(SPEC)
+	$(MKDMADATA) $< $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt
 
 # Dependencies for files that may include the dmadata header automatically generated from the spec file
 $(BUILD_DIR)/src/boot/z_std_dma.o: $(BUILD_DIR)/dmadata_table_spec.h
@@ -363,20 +460,26 @@ $(BUILD_DIR)/src/code/z_game_dlftbls.o: include/tables/gamestate_table.h
 $(BUILD_DIR)/src/code/z_scene_table.o: include/tables/scene_table.h include/tables/entrance_table.h
 
 $(BUILD_DIR)/src/%.o: src/%.c
+ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
+ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
+ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/$(SPEC)
@@ -393,3 +496,6 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
 
 -include $(DEP_FILES)
+
+# Print target for debugging
+print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
