@@ -208,7 +208,7 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
-BASEROM_SEGMENTS_DIR := $(BASEROM_DIR)/segments
+BASEROM_SEGMENTS_DIR := $(EXTRACTED_DIR)/segments
 BASEROM_BIN_FILES := $(wildcard $(BASEROM_SEGMENTS_DIR)/*)
 
 # source files
@@ -351,7 +351,6 @@ assetclean:
 	$(RM) -r .extracted-assets.json
 
 distclean: assetclean
-	$(RM) -r baseroms/*/segments
 	$(RM) -r extracted/
 	$(RM) -r build/
 	$(MAKE) -C tools distclean

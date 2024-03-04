@@ -17,7 +17,6 @@ build/
 expected/
 notes/
 baserom/
-baseroms/*/segments/
 docs/doxygen/
 *.elf
 *.sra
