@@ -2696,7 +2696,8 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
         sp84 = this->subCamAt.z - this->subCamEye.z;
         temp = SQ(sp8C) + SQ(sp84);
         sp7C = Math_FAtan2F(sp8C, sp84);
-        sp78 = -Math_FAtan2F(sp88, sqrtf(temp));
+        temp = sqrtf(temp);
+        sp78 = -Math_FAtan2F(sp88, temp);
 
         sp6C.x = 0.0f;
         sp6C.y = 0.0f;
