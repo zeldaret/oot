@@ -29,7 +29,7 @@ The only build currently supported is Master Quest (Debug), but other versions a
 
 It builds the following ROM:
 
-* oot-gc-eu-mq-dbg.z64 `md5: f0b7f35375f9cc8ca1b2d59d78e35405`
+* oot-gc-eu-mq-dbg.z64 `md5: 75e344f41c26ec2ec5ad92caa9e25629`
 
 **Note: This repository does not include any of the assets necessary to build the ROM. A prior copy of the game is required to extract the needed assets.**
 
