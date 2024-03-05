@@ -109,8 +109,6 @@ static void write_ld_script(FILE *fout)
                 fprintf(fout, "            %s (.data)\n"
                               "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
-            fprintf(fout, "            %s (.rodata)\n"
-                          "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
             // Compilers other than IDO, such as GCC, produce different sections such as
             // the ones named directly below. These sections do not contain values that
             // need relocating, but we need to ensure that the base .rodata section
@@ -119,12 +117,11 @@ static void write_ld_script(FILE *fout)
             // the beginning of the entire rodata area in order to remain consistent.
             // Inconsistencies will lead to various .rodata reloc crashes as a result of
             // either missing relocs or wrong relocs.
-            fprintf(fout, "            %s (.rodata.str1.4)\n"
-                          "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
-            fprintf(fout, "            %s (.rodata.cst4)\n"
-                          "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
-            fprintf(fout, "            %s (.rodata.cst8)\n"
-                          "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.rodata)\n"
+                          "            %s (.rodata.str*)\n"
+                          "            %s (.rodata.cst*)\n"
+                          "        . = ALIGN(0x10);\n",
+                    seg->includes[j].fpath, seg->includes[j].fpath, seg->includes[j].fpath);
         }
 
         fprintf(fout, "        _%sSegmentRoDataEnd = .;\n", seg->name);
