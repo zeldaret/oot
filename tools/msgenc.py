@@ -4,6 +4,7 @@
 #
 
 import argparse, ast, re
+import sys
 
 def read_charmap(path):
     with open(path) as infile:
@@ -50,22 +51,40 @@ def convert_text(text, charmap):
 
 def main():
     parser = argparse.ArgumentParser(description="Encode message_data_static text headers")
-    parser.add_argument("charmap", help="path to charmap file specifying custom encoding elements")
-    parser.add_argument("input", help="path to file to be encoded")
-    parser.add_argument("output", help="encoded file")
+    parser.add_argument(
+        "input",
+        help="path to file to be encoded, or - for stdin",
+    )
+    parser.add_argument(
+        "--output",
+        "-o",
+        help="path to write encoded file, or - for stdout",
+        required=True,
+    )
+    parser.add_argument(
+        "--charmap",
+        help="path to charmap file specifying custom encoding elements",
+        required=True,
+    )
     args = parser.parse_args()
 
     charmap = read_charmap(args.charmap)
 
     text = ""
-    with open(args.input, "r") as infile:
-        text = infile.read()
+    if args.input == "-":
+        text = sys.stdin.read()
+    else:
+        with open(args.input, "r") as infile:
+            text = infile.read()
 
     text = remove_comments(text)
     text = convert_text(text, charmap)
 
-    with open(args.output, "w", encoding="raw_unicode_escape") as outfile:
-        outfile.write(text)
+    if args.output == "-":
+        sys.stdout.buffer.write(text.encode("raw_unicode_escape"))
+    else:
+        with open(args.output, "w", encoding="raw_unicode_escape") as outfile:
+            outfile.write(text)
 
 if __name__ == "__main__":
     main()

@@ -808,7 +808,6 @@ void func_80A03AB0(EnElf* this, PlayState* play) {
 
 void EnElf_UpdateLights(EnElf* this, PlayState* play) {
     s16 glowLightRadius;
-    Player* player;
 
     glowLightRadius = 100;
 
@@ -817,7 +816,8 @@ void EnElf_UpdateLights(EnElf* this, PlayState* play) {
     }
 
     if (this->fairyFlags & 0x20) {
-        player = GET_PLAYER(play);
+        Player* player = GET_PLAYER(play);
+
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, player->actor.world.pos.x,
                                   (s16)(player->actor.world.pos.y) + 60.0f, player->actor.world.pos.z, 255, 255, 255,
                                   200);
@@ -1379,9 +1379,15 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 
     if (player->naviTextId == 0) {
         if (player->unk_664 == NULL) {
+#if OOT_DEBUG
             if (((gSaveContext.save.info.playerData.naviTimer >= 600) &&
                  (gSaveContext.save.info.playerData.naviTimer <= 3000)) ||
-                (nREG(89) != 0)) {
+                (nREG(89) != 0))
+#else
+            if ((gSaveContext.save.info.playerData.naviTimer >= 600) &&
+                (gSaveContext.save.info.playerData.naviTimer <= 3000))
+#endif
+            {
                 player->naviTextId = QuestHint_GetNaviTextId(play);
 
                 if (player->naviTextId == 0x15F) {
@@ -1417,6 +1423,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
         thisx->shape.rot.y = this->unk_2BC;
 
+#if OOT_DEBUG
         // `gSaveContext.save.info.sceneFlags[127].chest` (like in the debug string) instead of `HIGH_SCORE(HS_HBA)`
         // matches too, but, with how the `SaveContext` struct is currently defined, it is an out-of-bounds read in the
         // `sceneFlags` array. It is theorized the original `room_inf` (currently `sceneFlags`) was an array of length
@@ -1426,6 +1433,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         if ((nREG(81) != 0) && (HIGH_SCORE(HS_HBA) != 0)) {
             LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_elf.c", 2595);
         }
+#endif
 
         if (!Play_InCsMode(play)) {
             if (gSaveContext.save.info.playerData.naviTimer < 25800) {
@@ -1513,7 +1521,7 @@ void EnElf_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->unk_2A8 != 8) && !(this->fairyFlags & 8)) {
         if (!(player->stateFlags1 & PLAYER_STATE1_20) || (kREG(90) < this->actor.projectedPos.z)) {
-            dListHead = Graph_Alloc(play->state.gfxCtx, sizeof(Gfx) * 4);
+            dListHead = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Gfx) * 4);
 
             OPEN_DISPS(play->state.gfxCtx, "../z_en_elf.c", 2730);
 
@@ -1535,7 +1543,7 @@ void EnElf_Draw(Actor* thisx, PlayState* play) {
                 gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
             }
 
-            gSPEndDisplayList(dListHead++);
+            gSPEndDisplayList(dListHead);
             gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
             POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,

@@ -60,8 +60,8 @@ static ColliderCylinderInit sColCylInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x04, 0x08 },
         { 0x00000019, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_HARD,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_HARD,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 27, 17, -10, { 0, 0, 0 } },
@@ -178,7 +178,7 @@ void EnEiyer_RotateAroundHome(EnEiyer* this) {
 }
 
 void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
-    this->collider.info.bumper.dmgFlags = DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT;
+    this->collider.elem.acDmgInfo.dmgFlags = DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT;
     Animation_PlayLoop(&this->skelanime, &gStingerIdleAnim);
 
     this->actor.world.pos.x = this->actor.home.pos.x;
@@ -228,7 +228,7 @@ void EnEiyer_SetupInactive(EnEiyer* this) {
 void EnEiyer_SetupAmbush(EnEiyer* this, PlayState* play) {
     this->actor.speed = 0.0f;
     Animation_PlayOnce(&this->skelanime, &gStingerBackflipAnim);
-    this->collider.info.bumper.dmgFlags = DMG_DEFAULT;
+    this->collider.elem.acDmgInfo.dmgFlags = DMG_DEFAULT;
     this->basePos = this->actor.world.pos;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.flags |= ACTOR_FLAG_IGNORE_QUAKE;
@@ -290,23 +290,23 @@ void EnEiyer_SetupDie(EnEiyer* this) {
     this->timer = 20;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, 40);
 
-    if (this->collider.info.bumper.dmgFlags != (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT)) {
+    if (this->collider.elem.acDmgInfo.dmgFlags != (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT)) {
         this->actor.speed = 6.0f;
         Animation_MorphToLoop(&this->skelanime, &gStingerHitAnim, -3.0f);
     } else {
         this->actor.speed -= 6.0f;
     }
 
-    this->collider.info.bumper.dmgFlags = DMG_DEFAULT;
+    this->collider.elem.acDmgInfo.dmgFlags = DMG_DEFAULT;
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnEiyer_Die;
 }
 
 void EnEiyer_SetupDead(EnEiyer* this) {
-    this->actor.colorFilterParams |= 0x2000;
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
+    this->actor.colorFilterParams |= 0x2000;
     this->actionFunc = EnEiyer_Dead;
 }
 
@@ -602,7 +602,7 @@ void EnEiyer_Stunned(EnEiyer* this, PlayState* play) {
 void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
 
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
@@ -612,7 +612,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
             }
 
             // If underground, one hit kill
-            if (this->collider.info.bumper.dmgFlags == (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT)) {
+            if (this->collider.elem.acDmgInfo.dmgFlags == (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT)) {
                 if (this->actor.colChkInfo.damage == 0) {
                     EnEiyer_SetupAmbush(this, play);
                 } else {
@@ -687,7 +687,7 @@ s32 EnEiyer_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
         pos->z += 2500.0f;
     }
 
-    if (this->collider.info.bumper.dmgFlags == (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) && limbIndex != 9 &&
+    if (this->collider.elem.acDmgInfo.dmgFlags == (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) && limbIndex != 9 &&
         limbIndex != 10) {
         *dList = NULL;
     }

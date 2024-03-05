@@ -51,7 +51,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
         // Skip update, no rsp task produced
         rspTask = NULL;
     } else {
-        rspTask = func_800E4FE0();
+        rspTask = AudioThread_Update();
     }
 
     gAudioThreadUpdateTimeAcc += osGetTime() - gAudioThreadUpdateTimeStart;
@@ -82,7 +82,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
  */
 void AudioMgr_HandlePreNMI(AudioMgr* audioMgr) {
     // "Audio manager received OS_SC_PRE_NMI_MSG"
-    osSyncPrintf("オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました\n");
+    PRINTF("オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました\n");
     Audio_PreNMI();
 }
 
@@ -92,7 +92,7 @@ void AudioMgr_ThreadEntry(void* arg) {
     s16* msg = NULL;
 
     // "Start running audio manager thread"
-    osSyncPrintf("オーディオマネージャスレッド実行開始\n");
+    PRINTF("オーディオマネージャスレッド実行開始\n");
 
     // Initialize audio driver
     Audio_Init();
@@ -105,7 +105,7 @@ void AudioMgr_ThreadEntry(void* arg) {
     IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, &audioMgr->interruptQueue);
 
     // Spin waiting for events
-    while (true) {
+    for (;;) {
         osRecvMesg(&audioMgr->interruptQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
 
         switch (*msg) {

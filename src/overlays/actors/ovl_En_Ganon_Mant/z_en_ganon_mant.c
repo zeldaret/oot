@@ -361,7 +361,7 @@ void EnGanonMant_DrawCloak(PlayState* play, EnGanonMant* this) {
 
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ganon_mant.c", 572),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ganon_mant.c", 572),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     // set texture
@@ -391,14 +391,14 @@ void EnGanonMant_Draw(Actor* thisx, PlayState* play) {
     f32 diffHalfDist;
     f32 yDiff;
     f32 yaw;
-    Vec3f* rightPos;
-    Vec3f* leftPos;
-    s16 strandIdx;
-    Vec3f midpoint;
-    s16 nextStrandIdx;
 
     if (this->updateHasRun) {
         // Only run this if update has run since last draw
+        Vec3f* rightPos;
+        Vec3f* leftPos;
+        s16 strandIdx;
+        Vec3f midpoint;
+        s16 nextStrandIdx;
 
         // Choose endpoints
         if (this->attachRightArmTimer != 0.0f) {

@@ -30,8 +30,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
           ELEMTYPE_UNK0,
           { 0x00000000, 0x00, 0x00 },
           { 0xFFCFFFFF, 0x000, 0x00 },
-          TOUCH_NONE,
-          BUMP_NONE,
+          ATELEM_NONE,
+          ACELEM_NONE,
           OCELEM_ON,
       },
       { 0, { { 0, 0, 0 }, 5 }, 100 } },
@@ -129,7 +129,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
     Matrix_SetTranslateRotateYXZ(this->actor.focus.pos.x + sp5C.x, this->actor.focus.pos.y + sp5C.y,
                                  this->actor.focus.pos.z + sp5C.z, &camDir);
     Matrix_Scale(sTransformationEffectScale, sTransformationEffectScale, sTransformationEffectScale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_choo.c", 317),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_choo.c", 317),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
@@ -170,7 +170,7 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;
     // "field keep butterfly"
-    osSyncPrintf("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
+    PRINTF("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
 }
 
 void EnButte_Destroy(Actor* thisx, PlayState* play2) {

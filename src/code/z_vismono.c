@@ -45,7 +45,7 @@ void VisMono_Init(VisMono* this) {
 }
 
 void VisMono_Destroy(VisMono* this) {
-    SystemArena_FreeDebug(this->dList, "../z_vismono.c", 137);
+    SYSTEM_ARENA_FREE(this->dList, "../z_vismono.c", 137);
 }
 
 void VisMono_DesaturateTLUT(VisMono* this, u16* tlut) {
@@ -146,14 +146,14 @@ void VisMono_Draw(VisMono* this, Gfx** gfxP) {
     if (this->tlut) {
         tlut = this->tlut;
     } else {
-        tlut = Graph_DlistAlloc(&gfx, 256 * G_IM_SIZ_16b_BYTES);
+        tlut = Gfx_Alloc(&gfx, 256 * G_IM_SIZ_16b_BYTES);
         VisMono_DesaturateTLUT(this, tlut);
     }
 
     if (this->dList) {
         dList = this->dList;
     } else {
-        dList = Graph_DlistAlloc(&gfx, VISMONO_DLSIZE * sizeof(Gfx));
+        dList = Gfx_Alloc(&gfx, VISMONO_DLSIZE * sizeof(Gfx));
         dListEnd = VisMono_DesaturateDList(this, dList);
 
         if (!(dListEnd <= dList + VISMONO_DLSIZE)) {
@@ -187,12 +187,12 @@ void VisMono_DrawOld(VisMono* this) {
     Gfx* dListEnd;
 
     if (this->tlut == NULL) {
-        this->tlut = SystemArena_MallocDebug(256 * G_IM_SIZ_16b_BYTES, "../z_vismono.c", 283);
+        this->tlut = SYSTEM_ARENA_MALLOC(256 * G_IM_SIZ_16b_BYTES, "../z_vismono.c", 283);
         VisMono_DesaturateTLUT(this, this->tlut);
     }
 
     if (this->dList == NULL) {
-        this->dList = SystemArena_MallocDebug(VISMONO_DLSIZE * sizeof(Gfx), "../z_vismono.c", 289);
+        this->dList = SYSTEM_ARENA_MALLOC(VISMONO_DLSIZE * sizeof(Gfx), "../z_vismono.c", 289);
         dListEnd = VisMono_DesaturateDList(this, this->dList);
         ASSERT(dListEnd <= this->dList + VISMONO_DLSIZE, "glistp_end <= this->mono_dl + DLSIZE", "../z_vismono.c", 292);
     }

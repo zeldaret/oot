@@ -124,8 +124,8 @@ static ColliderCylinderInit sBodyCylinderInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -144,8 +144,8 @@ static ColliderQuadInit sSwordQuadInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -412,9 +412,12 @@ s16 EnZf_FindNextPlatformAwayFromPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, P
     s16 curLoopPlatform = PLATFORM_INDEX_DOWNSTAIRS_INNER_MAX; // Will never retreat to the last two
     s16 minIndex = PLATFORM_INDEX_DOWNSTAIRS_MIN;
     f32 largeMaxRange = 99999.0f;
-    s16 altNextPlatform = -1;
-    s16 nextPlatform = -1;
-    s16 playerPlatform = EnZf_FindPlatform(&player->actor.world.pos, initialPlatform);
+    s16 nextPlatform;
+    s16 altNextPlatform;
+    s16 playerPlatform;
+
+    altNextPlatform = nextPlatform = -1;
+    playerPlatform = EnZf_FindPlatform(&player->actor.world.pos, initialPlatform);
 
     // Set up search constraints
     // Upstairs
@@ -436,9 +439,12 @@ s16 EnZf_FindNextPlatformAwayFromPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, P
         if ((curLoopPlatform == initialPlatform) || (curLoopPlatform == playerPlatform)) {
             continue;
         }
-        if ((playerPlatform == -1) &&
-            (Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[curLoopPlatform]) < playerMaxDist)) {
-            continue;
+        if (playerPlatform == -1) {
+            s16 pad;
+
+            if (Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[curLoopPlatform]) < playerMaxDist) {
+                continue;
+            }
         }
         distToCurLoopPlatform = Math_Vec3f_DistXYZ(pos, &sPlatformPositions[curLoopPlatform]);
 
@@ -490,6 +496,7 @@ s16 EnZf_FindNextPlatformTowardsPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, Pl
     f32 largeMaxRange = 99999.0f;
     s16 phi_s2 = curPlatform;
     s16 phi_s3 = arg2;
+    f32 curPlatformDistToPlayer;
 
     // Upstairs
     if (pos->y > 200.0f) {
@@ -503,7 +510,7 @@ s16 EnZf_FindNextPlatformTowardsPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, Pl
             continue;
         }
         if (curLoopPlatform != nextPlatform) {
-            f32 curPlatformDistToPlayer =
+            curPlatformDistToPlayer =
                 Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[curLoopPlatform]);
 
             if (curPlatformDistToPlayer < smallMaxRange) {
@@ -1783,27 +1790,31 @@ void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play) {
         if (this->unk_3F8) {
             this->actor.speed = -this->actor.speed;
         }
-    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-               !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF)) {
-        if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-            if (this->actor.speed >= 0.0f) {
-                phi_v0_4 = this->actor.shape.rot.y + 0x3FFF;
+    } else {
+        s16 pad;
+
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
+            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF)) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
+                if (this->actor.speed >= 0.0f) {
+                    phi_v0_4 = this->actor.shape.rot.y + 0x3FFF;
+                } else {
+                    phi_v0_4 = this->actor.shape.rot.y - 0x3FFF;
+                }
+
+                phi_v0_4 = this->actor.wallYaw - phi_v0_4;
             } else {
-                phi_v0_4 = this->actor.shape.rot.y - 0x3FFF;
+                this->actor.speed *= -0.8f;
+                phi_v0_4 = 0;
             }
 
-            phi_v0_4 = this->actor.wallYaw - phi_v0_4;
-        } else {
-            this->actor.speed *= -0.8f;
-            phi_v0_4 = 0;
-        }
-
-        if (ABS(phi_v0_4) > 0x4000) {
-            this->actor.speed *= -0.8f;
-            if (this->actor.speed < 0.0f) {
-                this->actor.speed -= 0.5f;
-            } else {
-                this->actor.speed += 0.5f;
+            if (ABS(phi_v0_4) > 0x4000) {
+                this->actor.speed *= -0.8f;
+                if (this->actor.speed < 0.0f) {
+                    this->actor.speed -= 0.5f;
+                } else {
+                    this->actor.speed += 0.5f;
+                }
             }
         }
     }
@@ -1873,6 +1884,8 @@ void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play) {
             } else if ((this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) && (D_80B4A1B4 == this->actor.params)) {
                 EnZf_SetupHopAndTaunt(this);
             } else {
+                s16 pad;
+
                 this->actor.world.rot.y = this->actor.shape.rot.y;
 
                 if ((this->actor.xzDistToPlayer <= 100.0f) && ((play->gameplayFrames % 4) == 0) &&
@@ -1889,10 +1902,8 @@ void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play) {
             this->unk_3F0--;
         }
         if (prevFrame != (s32)this->skelAnime.curFrame) {
-            s32 afterPrevFrame = absPlaySpeed + prevFrame;
-
-            if (((beforeCurFrame < 14) && (afterPrevFrame >= 16)) ||
-                ((beforeCurFrame < 27) && (afterPrevFrame >= 29))) {
+            if (((beforeCurFrame < 14) && (absPlaySpeed + prevFrame >= 16)) ||
+                ((beforeCurFrame < 27) && (absPlaySpeed + prevFrame >= 29))) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_WALK);
             }
         }
@@ -2000,7 +2011,7 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
              (D_80B4A1B4 != this->actor.params)) &&
             (this->actor.colChkInfo.damageEffect != ENZF_DMGEFF_IMMUNE)) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, false);
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
 
             if ((this->actor.colChkInfo.damageEffect == ENZF_DMGEFF_STUN) ||
                 (this->actor.colChkInfo.damageEffect == ENZF_DMGEFF_ICE)) {

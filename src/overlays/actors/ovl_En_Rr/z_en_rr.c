@@ -76,10 +76,12 @@ ActorInit En_Rr_InitVars = {
     /**/ EnRr_Draw,
 };
 
+#if OOT_DEBUG
 static char* sDropNames[] = {
     // "type 7", "small magic jar", "arrow", "fairy", "20 rupees", "50 rupees"
     "タイプ７  ", "魔法の壷小", "矢        ", "妖精      ", "20ルピー  ", "50ルピー  ",
 };
+#endif
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
@@ -93,8 +95,8 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 30, 55, 0, { 0, 0, 0 } },
@@ -112,8 +114,8 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 20, -10, { 0, 0, 0 } },
@@ -321,7 +323,7 @@ void EnRr_SetupReleasePlayer(EnRr* this, PlayState* play) {
             Message_StartTextbox(play, 0x3061, NULL);
             break;
     }
-    osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d] : Rr_Catch_Cancel" VT_RST "\n", "../z_en_rr.c", 650);
+    PRINTF(VT_FGCOL(YELLOW) "%s[%d] : Rr_Catch_Cancel" VT_RST "\n", "../z_en_rr.c", 650);
     func_8002F6D4(play, &this->actor, 4.0f, this->actor.shape.rot.y, 12.0f, 8);
     if (this->actor.colorFilterTimer == 0) {
         this->actionFunc = EnRr_Approach;
@@ -337,8 +339,8 @@ void EnRr_SetupDamage(EnRr* this) {
     s32 i;
 
     this->reachState = 0;
-    this->actionTimer = 20;
     this->segMoveRate = 0.0f;
+    this->actionTimer = 20;
     this->segPhaseVelTarget = 2500.0f;
     this->pulseSizeTarget = 0.0f;
     this->wobbleSizeTarget = 0.0f;
@@ -416,10 +418,10 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
     if (this->collider2.base.acFlags & AC_HIT) {
         this->collider2.base.acFlags &= ~AC_HIT;
         // "Kakin" (not sure what this means)
-        osSyncPrintf(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
-        hitPos.x = this->collider2.info.bumper.hitPos.x;
-        hitPos.y = this->collider2.info.bumper.hitPos.y;
-        hitPos.z = this->collider2.info.bumper.hitPos.z;
+        PRINTF(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
+        hitPos.x = this->collider2.elem.acDmgInfo.hitPos.x;
+        hitPos.y = this->collider2.elem.acDmgInfo.hitPos.y;
+        hitPos.z = this->collider2.elem.acDmgInfo.hitPos.z;
         CollisionCheck_SpawnShieldParticlesMetal2(play, &hitPos);
     } else {
         if (this->collider1.base.acFlags & AC_HIT) {
@@ -427,9 +429,9 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
 
             this->collider1.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 0) {
-                hitPos.x = this->collider1.info.bumper.hitPos.x;
-                hitPos.y = this->collider1.info.bumper.hitPos.y;
-                hitPos.z = this->collider1.info.bumper.hitPos.z;
+                hitPos.x = this->collider1.elem.acDmgInfo.hitPos.x;
+                hitPos.y = this->collider1.elem.acDmgInfo.hitPos.y;
+                hitPos.z = this->collider1.elem.acDmgInfo.hitPos.z;
                 CollisionCheck_BlueBlood(play, NULL, &hitPos);
             }
             switch (this->actor.colChkInfo.damageEffect) {
@@ -447,9 +449,9 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     FALLTHROUGH;
                 case RR_DMG_NORMAL:
                     // "ouch"
-                    osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",
-                                 this->frameCount, this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
-                                 this->actor.colChkInfo.damageEffect);
+                    PRINTF(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n", this->frameCount,
+                           this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
+                           this->actor.colChkInfo.damageEffect);
                     this->stopScroll = false;
                     Actor_ApplyDamage(&this->actor);
                     this->invincibilityTimer = 40;
@@ -506,7 +508,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
             this->collider1.base.ocFlags1 &= ~OC1_HIT;
             this->collider2.base.ocFlags1 &= ~OC1_HIT;
             // "catch"
-            osSyncPrintf(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
+            PRINTF(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
             if (play->grabPlayer(play, player)) {
                 player->actor.parent = &this->actor;
                 this->stopScroll = false;
@@ -688,7 +690,7 @@ void EnRr_Death(EnRr* this, PlayState* play) {
                 break;
         }
         // "dropped"
-        osSyncPrintf(VT_FGCOL(GREEN) "「%s」が出た！！" VT_RST "\n", sDropNames[this->dropType]);
+        PRINTF(VT_FGCOL(GREEN) "「%s」が出た！！" VT_RST "\n", sDropNames[this->dropType]);
         switch (this->dropType) {
             case RR_DROP_MAGIC:
                 Item_DropCollectible(play, &dropPos, ITEM00_MAGIC_SMALL);
@@ -849,7 +851,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
     Vec3f zeroVec;
     EnRr* this = (EnRr*)thisx;
     s32 i;
-    Mtx* segMtx = Graph_Alloc(play->state.gfxCtx, 4 * sizeof(Mtx));
+    Mtx* segMtx = GRAPH_ALLOC(play->state.gfxCtx, 4 * sizeof(Mtx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_rr.c", 1478);
 
@@ -864,7 +866,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
     Matrix_Scale((1.0f + this->bodySegs[RR_BASE].scaleMod.x) * this->bodySegs[RR_BASE].scale.x,
                  (1.0f + this->bodySegs[RR_BASE].scaleMod.y) * this->bodySegs[RR_BASE].scale.y,
                  (1.0f + this->bodySegs[RR_BASE].scaleMod.z) * this->bodySegs[RR_BASE].scale.z, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_rr.c", 1501),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Matrix_Pop();
 
@@ -880,7 +882,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
         Matrix_Scale((1.0f + this->bodySegs[i].scaleMod.x) * this->bodySegs[i].scale.x,
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,
                      (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, MTXMODE_APPLY);
-        Matrix_ToMtx(segMtx, "../z_en_rr.c", 1527);
+        MATRIX_TO_MTX(segMtx, "../z_en_rr.c", 1527);
         Matrix_Pop();
         segMtx++;
         Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);

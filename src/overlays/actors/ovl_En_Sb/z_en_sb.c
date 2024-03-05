@@ -267,7 +267,7 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
         this->bouncesLeft = 3;
         EnSb_SetupLunge(this);
         // "Attack!!"
-        osSyncPrintf("アタァ〜ック！！\n");
+        PRINTF("アタァ〜ック！！\n");
     }
 }
 
@@ -311,7 +311,7 @@ void EnSb_Bounce(EnSb* this, PlayState* play) {
             this->actor.speed = 0.0f;
             this->timer = 1;
             EnSb_SetupWaitClosed(this);
-            osSyncPrintf(VT_FGCOL(RED) "攻撃終了！！" VT_RST "\n"); // "Attack Complete!"
+            PRINTF(VT_FGCOL(RED) "攻撃終了！！" VT_RST "\n"); // "Attack Complete!"
         }
     }
 }
@@ -388,7 +388,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
                 FALLTHROUGH;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.info.bumper.hitPos.y - this->actor.world.pos.y;
+                    hitY = this->collider.elem.acDmgInfo.hitPos.y - this->actor.world.pos.y;
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -406,7 +406,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
             case 1:  // hookshot/longshot
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.info.bumper.hitPos.y - this->actor.world.pos.y;
+                    hitY = this->collider.elem.acDmgInfo.hitPos.y - this->actor.world.pos.y;
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -430,9 +430,9 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
 
         // if player attack didn't do damage, play recoil sound effect and spawn sparks
         if (!tookDamage) {
-            hitPoint.x = this->collider.info.bumper.hitPos.x;
-            hitPoint.y = this->collider.info.bumper.hitPos.y;
-            hitPoint.z = this->collider.info.bumper.hitPos.z;
+            hitPoint.x = this->collider.elem.acDmgInfo.hitPos.x;
+            hitPoint.y = this->collider.elem.acDmgInfo.hitPos.y;
+            hitPoint.z = this->collider.elem.acDmgInfo.hitPos.z;
             CollisionCheck_SpawnShieldParticlesMetal2(play, &hitPoint);
         }
     }

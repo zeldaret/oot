@@ -91,8 +91,8 @@ static ColliderCylinderInit sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0x00000400, 0x00, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -111,8 +111,8 @@ static ColliderCylinderInit sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -124,8 +124,8 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_NO_AT_INFO | ACELEM_NO_DAMAGE | ACELEM_NO_SWORD_SFX | ACELEM_NO_HITMARK,
             OCELEM_ON,
         },
         { 13, { { 0, 0, 0 }, 20 }, 100 },
@@ -529,14 +529,13 @@ void EnHorse_RotateToPoint(EnHorse* this, PlayState* play, Vec3f* pos, s16 turnA
 void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceInfo) {
     Vec3f curWaypointPos;
     Vec3f prevWaypointPos;
-    f32 playerDist;
+    s32 prevWaypoint;
     f32 sp50;
     s16 relPlayerYaw;
     f32 px;
     f32 pz;
     f32 d;
     f32 distSq;
-    s32 prevWaypoint;
 
     EnHorse_RaceWaypointPos(raceInfo->waypoints, this->curRaceWaypoint, &curWaypointPos);
     Math3D_RotateXZPlane(&curWaypointPos, raceInfo->waypoints[this->curRaceWaypoint].angle, &px, &pz, &d);
@@ -559,14 +558,15 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
     EnHorse_RotateToPoint(this, play, &curWaypointPos, 400);
 
     if (distSq < SQ(300.0f)) {
-        playerDist = this->actor.xzDistToPlayer;
-        if (playerDist < 130.0f || this->jntSph.elements[0].info.ocElemFlags & OCELEM_HIT) {
+        if (this->actor.xzDistToPlayer < 130.0f || this->jntSph.elements[0].base.ocElemFlags & OCELEM_HIT) {
+            s32 pad;
+
             if (Math_SinS(this->actor.yawTowardsPlayer - this->actor.world.rot.y) > 0.0f) {
                 this->actor.world.rot.y -= 280;
             } else {
                 this->actor.world.rot.y += 280;
             }
-        } else if (playerDist < 300.0f) {
+        } else if (this->actor.xzDistToPlayer < 300.0f) {
             if (Math_SinS(this->actor.yawTowardsPlayer - this->actor.world.rot.y) > 0.0f) {
                 this->actor.world.rot.y += 280;
             } else {
@@ -1320,8 +1320,7 @@ void EnHorse_MountedTrot(EnHorse* this, PlayState* play) {
 }
 
 void EnHorse_StartGallopingInterruptable(EnHorse* this) {
-    this->noInputTimerMax = 0;
-    this->noInputTimer = 0;
+    this->noInputTimerMax = this->noInputTimer = 0;
     EnHorse_StartGalloping(this);
 }
 
@@ -1334,8 +1333,7 @@ void EnHorse_StartGalloping(EnHorse* this) {
 }
 
 void EnHorse_MountedGallopReset(EnHorse* this) {
-    this->noInputTimerMax = 0;
-    this->noInputTimer = 0;
+    this->noInputTimerMax = this->noInputTimer = 0;
     this->action = ENHORSE_ACT_MOUNTED_GALLOP;
     this->animationIdx = ENHORSE_ANIM_GALLOP;
     this->unk_234 = 0;
@@ -1498,8 +1496,7 @@ void EnHorse_Stopping(EnHorse* this, PlayState* play) {
 }
 
 void EnHorse_StartReversingInterruptable(EnHorse* this) {
-    this->noInputTimerMax = 0;
-    this->noInputTimer = 0;
+    this->noInputTimerMax = this->noInputTimer = 0;
     EnHorse_StartReversing(this);
 }
 
@@ -1906,7 +1903,6 @@ void EnHorse_SetFollowAnimation(EnHorse* this, PlayState* play) {
 
 void EnHorse_FollowPlayer(EnHorse* this, PlayState* play) {
     f32 distToPlayer;
-    f32 angleDiff;
 
     R_EPONAS_SONG_PLAYED = false;
     distToPlayer = Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(play)->actor);
@@ -1914,6 +1910,8 @@ void EnHorse_FollowPlayer(EnHorse* this, PlayState* play) {
     // First rotate if the player is behind
     if ((this->playerDir == PLAYER_DIR_BACK_R || this->playerDir == PLAYER_DIR_BACK_L) &&
         (distToPlayer > 300.0f && !(this->stateFlags & ENHORSE_TURNING_TO_PLAYER))) {
+        f32 angleDiff;
+
         this->animationIdx = ENHORSE_ANIM_REARING;
         this->stateFlags |= ENHORSE_TURNING_TO_PLAYER;
         this->angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor);
@@ -2182,6 +2180,8 @@ void EnHorse_CsJumpInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
 
 void EnHorse_CsJump(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     f32 temp_f2;
+    Vec3s* jointTable;
+    f32 y;
 
     if (this->cutsceneFlags & 1) {
         EnHorse_CsMoveToPoint(this, play, cue);
@@ -2210,9 +2210,6 @@ void EnHorse_CsJump(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     }
     if (SkelAnime_Update(&this->skin.skelAnime) ||
         (temp_f2 > 19.0f && this->actor.world.pos.y < (this->actor.floorHeight - this->actor.velocity.y) + 80.0f)) {
-        Vec3s* jointTable;
-        f32 y;
-
         this->cutsceneFlags |= 1;
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_LAND, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -3411,8 +3408,9 @@ void EnHorse_UpdatePlayerDir(EnHorse* this, PlayState* play) {
     s16 angle;
     f32 s;
     f32 c;
+    Player* player = GET_PLAYER(play);
 
-    angle = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor) - this->actor.world.rot.y;
+    angle = Actor_WorldYawTowardActor(&this->actor, &player->actor) - this->actor.world.rot.y;
     s = Math_SinS(angle);
     c = Math_CosS(angle);
     if (s > 0.8660254f) { // sin(60 degrees)
@@ -3533,7 +3531,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
                 this->rider->shape.rot.y = thisx->shape.rot.y;
             }
         }
-        if (this->jntSph.elements[0].info.ocElemFlags & OCELEM_HIT) {
+        if (this->jntSph.elements[0].base.ocElemFlags & OCELEM_HIT) {
             if (thisx->speed > 6.0f) {
                 thisx->speed -= 1.0f;
             }

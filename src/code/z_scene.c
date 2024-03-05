@@ -21,19 +21,18 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     objectCtx->slots[objectCtx->numEntries].id = objectId;
     size = gObjectTable[objectId].vromEnd - gObjectTable[objectId].vromStart;
 
-    osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, size / 1024.0f,
-                 objectCtx->slots[objectCtx->numEntries].segment);
+    PRINTF("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, size / 1024.0f, objectCtx->slots[objectCtx->numEntries].segment);
 
-    osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->numEntries,
-                 (uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size, objectCtx->spaceEnd);
+    PRINTF("num=%d adrs=%x end=%x\n", objectCtx->numEntries,
+           (uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size, objectCtx->spaceEnd);
 
     ASSERT(((objectCtx->numEntries < ARRAY_COUNT(objectCtx->slots)) &&
             (((uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size) < (uintptr_t)objectCtx->spaceEnd)),
            "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
            "../z_scene.c", 142);
 
-    DmaMgr_RequestSyncDebug(objectCtx->slots[objectCtx->numEntries].segment, gObjectTable[objectId].vromStart, size,
-                            "../z_scene.c", 145);
+    DMA_REQUEST_SYNC(objectCtx->slots[objectCtx->numEntries].segment, gObjectTable[objectId].vromStart, size,
+                     "../z_scene.c", 145);
 
     if (objectCtx->numEntries < (ARRAY_COUNT(objectCtx->slots) - 1)) {
         objectCtx->slots[objectCtx->numEntries + 1].segment =
@@ -48,6 +47,7 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
 
 void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     PlayState* play2 = play;
+    s32 pad;
     u32 spaceSize;
     s32 i;
 
@@ -76,12 +76,13 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
         objectCtx->slots[i].id = OBJECT_INVALID;
     }
 
-    osSyncPrintf(VT_FGCOL(GREEN));
+    PRINTF(VT_FGCOL(GREEN));
     // "Object exchange bank data %8.3fKB"
-    osSyncPrintf("オブジェクト入れ替えバンク情報 %8.3fKB\n", spaceSize / 1024.0f);
-    osSyncPrintf(VT_RST);
+    PRINTF("オブジェクト入れ替えバンク情報 %8.3fKB\n", spaceSize / 1024.0f);
+    PRINTF(VT_RST);
 
-    objectCtx->spaceStart = objectCtx->slots[0].segment = GameState_Alloc(&play->state, spaceSize, "../z_scene.c", 219);
+    objectCtx->spaceStart = objectCtx->slots[0].segment =
+        GAME_STATE_ALLOC(&play->state, spaceSize, "../z_scene.c", 219);
     objectCtx->spaceEnd = (void*)((uintptr_t)objectCtx->spaceStart + spaceSize);
 
     objectCtx->mainKeepSlot = Object_SpawnPersistent(objectCtx, OBJECT_GAMEPLAY_KEEP);
@@ -101,10 +102,10 @@ void Object_UpdateEntries(ObjectContext* objectCtx) {
                 objectFile = &gObjectTable[-entry->id];
                 size = objectFile->vromEnd - objectFile->vromStart;
 
-                osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, entry->segment);
+                PRINTF("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, entry->segment);
 
-                DmaMgr_RequestAsync(&entry->dmaRequest, entry->segment, objectFile->vromStart, size, 0,
-                                    &entry->loadQueue, NULL, "../z_scene.c", 266);
+                DMA_REQUEST_ASYNC(&entry->dmaRequest, entry->segment, objectFile->vromStart, size, 0, &entry->loadQueue,
+                                  NULL, "../z_scene.c", 266);
             } else if (osRecvMesg(&entry->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
                 entry->id = -entry->id;
             }
@@ -141,11 +142,10 @@ void func_800981B8(ObjectContext* objectCtx) {
     for (i = 0; i < objectCtx->numEntries; i++) {
         id = objectCtx->slots[i].id;
         size = gObjectTable[id].vromEnd - gObjectTable[id].vromStart;
-        osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->slots[i].id, size / 1024.0f,
-                     objectCtx->slots[i].segment);
-        osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->numEntries, (uintptr_t)objectCtx->slots[i].segment + size,
-                     objectCtx->spaceEnd);
-        DmaMgr_RequestSyncDebug(objectCtx->slots[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
+        PRINTF("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->slots[i].id, size / 1024.0f, objectCtx->slots[i].segment);
+        PRINTF("num=%d adrs=%x end=%x\n", objectCtx->numEntries, (uintptr_t)objectCtx->slots[i].segment + size,
+               objectCtx->spaceEnd);
+        DMA_REQUEST_SYNC(objectCtx->slots[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
     }
 }
 
@@ -159,25 +159,24 @@ void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
     entry->dmaRequest.vromAddr = 0;
 
     size = objectFile->vromEnd - objectFile->vromStart;
-    osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", slot, objectId, size / 1024.0f);
+    PRINTF("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", slot, objectId, size / 1024.0f);
 
     nextPtr = (void*)ALIGN16((uintptr_t)entry->segment + size);
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
     // "Object exchange free size=%08x"
-    osSyncPrintf("オブジェクト入れ替え空きサイズ=%08x\n", (uintptr_t)objectCtx->spaceEnd - (uintptr_t)nextPtr);
+    PRINTF("オブジェクト入れ替え空きサイズ=%08x\n", (uintptr_t)objectCtx->spaceEnd - (uintptr_t)nextPtr);
 
     return nextPtr;
 }
 
 s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
-    u32 cmdCode;
-
     while (true) {
-        cmdCode = sceneCmd->base.code;
-        osSyncPrintf("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
-                     sceneCmd->base.data2);
+        u32 cmdCode = sceneCmd->base.code;
+
+        PRINTF("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
+               sceneCmd->base.data2);
 
         if (cmdCode == SCENE_CMD_ID_END) {
             break;
@@ -186,16 +185,18 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
         if (cmdCode < ARRAY_COUNT(gSceneCmdHandlers)) {
             gSceneCmdHandlers[cmdCode](play, sceneCmd);
         } else {
-            osSyncPrintf(VT_FGCOL(RED));
-            osSyncPrintf("code の値が異常です\n"); // "code variable is abnormal"
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_FGCOL(RED));
+            PRINTF("code の値が異常です\n"); // "code variable is abnormal"
+            PRINTF(VT_RST);
         }
+
         sceneCmd++;
     }
+
     return 0;
 }
 
-void Scene_CommandPlayerEntryList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandPlayerEntryList(PlayState* play, SceneCmd* cmd) {
     ActorEntry* playerEntry = play->playerEntry =
         (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->playerEntryList.data) + play->spawnList[play->spawn].playerEntryIndex;
     s16 linkObjectId;
@@ -208,16 +209,16 @@ void Scene_CommandPlayerEntryList(PlayState* play, SceneCmd* cmd) {
     Object_SpawnPersistent(&play->objectCtx, linkObjectId);
 }
 
-void Scene_CommandActorEntryList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandActorEntryList(PlayState* play, SceneCmd* cmd) {
     play->numActorEntries = cmd->actorEntryList.length;
     play->actorEntryList = SEGMENTED_TO_VIRTUAL(cmd->actorEntryList.data);
 }
 
-void Scene_CommandUnused2(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandUnused2(PlayState* play, SceneCmd* cmd) {
     play->unk_11DFC = SEGMENTED_TO_VIRTUAL(cmd->unused02.segment);
 }
 
-void Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
     CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(cmd->colHeader.data);
 
     colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
@@ -229,16 +230,16 @@ void Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
     BgCheck_Allocate(&play->colCtx, play, colHeader);
 }
 
-void Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
     play->numRooms = cmd->roomList.length;
     play->roomList = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
 }
 
-void Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
     play->spawnList = SEGMENTED_TO_VIRTUAL(cmd->spawnList.data);
 }
 
-void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
         play->objectCtx.subKeepSlot = Object_SpawnPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
         gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
@@ -249,18 +250,18 @@ void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     }
 }
 
-void Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
     play->roomCtx.curRoom.behaviorType1 = cmd->roomBehavior.gpFlag1;
     play->roomCtx.curRoom.behaviorType2 = cmd->roomBehavior.gpFlag2 & 0xFF;
     play->roomCtx.curRoom.lensMode = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
     play->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
 
-void Scene_CommandRoomShape(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandRoomShape(PlayState* play, SceneCmd* cmd) {
     play->roomCtx.curRoom.roomShape = SEGMENTED_TO_VIRTUAL(cmd->mesh.data);
 }
 
-void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     s32 i;
     s32 j;
     s32 k;
@@ -312,7 +313,7 @@ void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     play->objectCtx.numEntries = i;
 }
 
-void Scene_CommandLightList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandLightList(PlayState* play, SceneCmd* cmd) {
     s32 i;
     LightInfo* lightInfo = SEGMENTED_TO_VIRTUAL(cmd->lightList.data);
 
@@ -322,11 +323,11 @@ void Scene_CommandLightList(PlayState* play, SceneCmd* cmd) {
     }
 }
 
-void Scene_CommandPathList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandPathList(PlayState* play, SceneCmd* cmd) {
     play->pathList = SEGMENTED_TO_VIRTUAL(cmd->pathList.data);
 }
 
-void Scene_CommandTransitionActorEntryList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandTransitionActorEntryList(PlayState* play, SceneCmd* cmd) {
     play->transiActorCtx.numActors = cmd->transiActorList.length;
     play->transiActorCtx.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.data);
 }
@@ -335,23 +336,23 @@ void TransitionActor_InitContext(GameState* state, TransitionActorContext* trans
     transiActorCtx->numActors = 0;
 }
 
-void Scene_CommandLightSettingsList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandLightSettingsList(PlayState* play, SceneCmd* cmd) {
     play->envCtx.numLightSettings = cmd->lightSettingList.length;
     play->envCtx.lightSettingsList = SEGMENTED_TO_VIRTUAL(cmd->lightSettingList.data);
 }
 
-void Scene_CommandSkyboxSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandSkyboxSettings(PlayState* play, SceneCmd* cmd) {
     play->skyboxId = cmd->skyboxSettings.skyboxId;
     play->envCtx.skyboxConfig = play->envCtx.changeSkyboxNextConfig = cmd->skyboxSettings.skyboxConfig;
     play->envCtx.lightMode = cmd->skyboxSettings.envLightMode;
 }
 
-void Scene_CommandSkyboxDisables(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandSkyboxDisables(PlayState* play, SceneCmd* cmd) {
     play->envCtx.skyboxDisabled = cmd->skyboxDisables.skyboxDisabled;
     play->envCtx.sunMoonDisabled = cmd->skyboxDisables.sunMoonDisabled;
 }
 
-void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
         gSaveContext.skyboxTime = gSaveContext.save.dayTime =
             ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / ((f32)(24 * 60) / 0x10000);
@@ -388,7 +389,7 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     }
 }
 
-void Scene_CommandWindSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandWindSettings(PlayState* play, SceneCmd* cmd) {
     s8 x = cmd->windSettings.x;
     s8 y = cmd->windSettings.y;
     s8 z = cmd->windSettings.z;
@@ -400,14 +401,14 @@ void Scene_CommandWindSettings(PlayState* play, SceneCmd* cmd) {
     play->envCtx.windSpeed = cmd->windSettings.unk_07;
 }
 
-void Scene_CommandExitList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandExitList(PlayState* play, SceneCmd* cmd) {
     play->exitList = SEGMENTED_TO_VIRTUAL(cmd->exitList.data);
 }
 
-void Scene_CommandUndefined9(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandUndefined9(PlayState* play, SceneCmd* cmd) {
 }
 
-void Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
     play->sequenceCtx.seqId = cmd->soundSettings.seqId;
     play->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
@@ -416,38 +417,33 @@ void Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
     }
 }
 
-void Scene_CommandEchoSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandEchoSettings(PlayState* play, SceneCmd* cmd) {
     play->roomCtx.curRoom.echo = cmd->echoSettings.echo;
 }
 
-void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
-    s32 pad;
-    SceneCmd* altHeader;
-
-    osSyncPrintf("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.save.linkAge));
-    osSyncPrintf("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.save.cutsceneIndex));
-    osSyncPrintf("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
+BAD_RETURN(s32) Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
+    PRINTF("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.save.linkAge));
+    PRINTF("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.save.cutsceneIndex));
+    PRINTF("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
 
     if (gSaveContext.sceneLayer != 0) {
-        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
-
-        if (1) {}
+        SceneCmd* altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
 
         if (altHeader != NULL) {
             Scene_ExecuteCommands(play, SEGMENTED_TO_VIRTUAL(altHeader));
             (cmd + 1)->base.code = SCENE_CMD_ID_END;
         } else {
             // "Coughh! There is no specified dataaaaa!"
-            osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
+            PRINTF("\nげぼはっ！ 指定されたデータがないでええっす！");
 
             if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_NIGHT) {
                 // Due to the condition above, this is equivalent to accessing altHeaders[SCENE_LAYER_ADULT_DAY - 1]
-                altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(
+                SceneCmd* altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(
                     cmd->altHeaders
                         .data))[(gSaveContext.sceneLayer - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
 
                 // "Using adult day data there!"
-                osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
+                PRINTF("\nそこで、大人の昼データを使用するでええっす！！");
 
                 if (altHeader != NULL) {
                     Scene_ExecuteCommands(play, SEGMENTED_TO_VIRTUAL(altHeader));
@@ -458,13 +454,12 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
     }
 }
 
-void Scene_CommandCutsceneData(PlayState* play, SceneCmd* cmd) {
-    osSyncPrintf("\ngame_play->demo_play.data=[%x]", play->csCtx.script);
+BAD_RETURN(s32) Scene_CommandCutsceneData(PlayState* play, SceneCmd* cmd) {
+    PRINTF("\ngame_play->demo_play.data=[%x]", play->csCtx.script);
     play->csCtx.script = SEGMENTED_TO_VIRTUAL(cmd->cutsceneData.data);
 }
 
-// Camera & World Map Area
-void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
     R_SCENE_CAM_TYPE = cmd->miscSettings.sceneCamType;
     gSaveContext.worldMapArea = cmd->miscSettings.area;
 
@@ -477,14 +472,34 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
     if (((play->sceneId >= SCENE_HYRULE_FIELD) && (play->sceneId <= SCENE_OUTSIDE_GANONS_CASTLE)) ||
         ((play->sceneId >= SCENE_MARKET_ENTRANCE_DAY) && (play->sceneId <= SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS))) {
         if (gSaveContext.save.cutsceneIndex < 0xFFF0) {
-            gSaveContext.save.info.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
-            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.save.info.worldMapAreaData,
-                         gSaveContext.worldMapArea);
+            gSaveContext.save.info.worldMapAreaData |= gBitFlags[((void)0, gSaveContext.worldMapArea)];
+            PRINTF("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.save.info.worldMapAreaData,
+                   ((void)0, gSaveContext.worldMapArea));
         }
     }
 }
 
-void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
+void Scene_SetTransitionForNextEntrance(PlayState* play) {
+    s16 entranceIndex;
+
+    if (!IS_DAY) {
+        if (!LINK_IS_ADULT) {
+            entranceIndex = play->nextEntranceIndex + 1;
+        } else {
+            entranceIndex = play->nextEntranceIndex + 3;
+        }
+    } else {
+        if (!LINK_IS_ADULT) {
+            entranceIndex = play->nextEntranceIndex;
+        } else {
+            entranceIndex = play->nextEntranceIndex + 2;
+        }
+    }
+
+    play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
+}
+
+SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
     Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_SPAWN_LIST
     Scene_CommandActorEntryList,           // SCENE_CMD_ID_ACTOR_LIST
     Scene_CommandUnused2,                  // SCENE_CMD_ID_UNUSED_2

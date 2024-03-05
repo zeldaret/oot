@@ -58,17 +58,19 @@ static Vec3f sBoxGroundCheckPoints[] = {
 void func_808B3960(BgSpot15Rrbox* this, PlayState* play, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    u32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 171,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        s32 pad2;
+
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 171,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgSpot15Rrbox_RotatePoint(Vec3f* outPos, Vec3f* pos, f32 arg2, f32 arg3) {
@@ -131,7 +133,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, PlayState* play) {
     } else {
         func_808B4084(this, play);
     }
-    osSyncPrintf("(spot15 ロンロン木箱)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(spot15 ロンロン木箱)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgSpot15Rrbox_Destroy(Actor* thisx, PlayState* play) {
@@ -224,11 +226,9 @@ s32 func_808B4010(BgSpot15Rrbox* this, PlayState* play) {
 }
 
 void func_808B4084(BgSpot15Rrbox* this, PlayState* play) {
-    this->actionFunc = func_808B40AC;
     this->dyna.actor.gravity = 0.0f;
-    this->dyna.actor.velocity.x = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.velocity.z = 0.0f;
+    this->dyna.actor.velocity.x = this->dyna.actor.velocity.y = this->dyna.actor.velocity.z = 0.0f;
+    this->actionFunc = func_808B40AC;
 }
 
 void func_808B40AC(BgSpot15Rrbox* this, PlayState* play) {
@@ -301,9 +301,7 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
 }
 
 void func_808B4380(BgSpot15Rrbox* this, PlayState* play) {
-    this->dyna.actor.velocity.x = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.velocity.z = 0.0f;
+    this->dyna.actor.velocity.x = this->dyna.actor.velocity.y = this->dyna.actor.velocity.z = 0.0f;
     this->dyna.actor.gravity = -1.0f;
     this->dyna.actor.floorHeight = BgSpot15Rrbox_GetFloorHeight(this, play);
     this->actionFunc = func_808B43D0;
@@ -323,8 +321,8 @@ void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
 
     if (actor->world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
         // "Lon Lon wooden crate fell too much"
-        osSyncPrintf("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 599,
-                     actor->params);
+        PRINTF("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 599,
+               actor->params);
 
         Actor_Kill(actor);
 

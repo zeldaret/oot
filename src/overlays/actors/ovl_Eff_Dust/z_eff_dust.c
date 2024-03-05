@@ -102,7 +102,7 @@ void EffDust_Init(Actor* thisx, PlayState* play) {
             this->scalingFactor = 20.0f;
             break;
         default:
-            SystemArena_FreeDebug(this, "../z_eff_dust.c", 202);
+            SYSTEM_ARENA_FREE(this, "../z_eff_dust.c", 202);
             break;
     }
 
@@ -273,31 +273,32 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play2) {
     Gfx_SetupDL_25Opa(gfxCtx);
 
     gDPPipeSync(POLY_XLU_DISP++);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 128, 128, 128, 255);
-    gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 0);
 
     initialPositions = this->initialPositions;
     distanceTraveled = this->distanceTraveled;
 
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 128, 128, 128, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 0);
     gSPSegment(POLY_XLU_DISP++, 0x08, sEmptyDL);
 
-    for (i = 0; i < 64; i++, initialPositions++, distanceTraveled++) {
-        if (!(*distanceTraveled < 1.0f)) {
-            continue;
+    for (i = 0; i < 64; i++) {
+        if (*distanceTraveled < 1.0f) {
+            aux = 1.0f - SQ(*distanceTraveled);
+            Matrix_Translate(this->actor.world.pos.x + (initialPositions->x * ((this->dx * aux) + (1.0f - this->dx))),
+                             this->actor.world.pos.y + (initialPositions->y * ((this->dy * aux) + (1.0f - this->dy))),
+                             this->actor.world.pos.z + (initialPositions->z * ((this->dz * aux) + (1.0f - this->dz))),
+                             MTXMODE_NEW);
+
+            Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
+            Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
+
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_dust.c", 449),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
         }
 
-        aux = 1.0f - SQ(*distanceTraveled);
-        Matrix_Translate(this->actor.world.pos.x + (initialPositions->x * ((this->dx * aux) + (1.0f - this->dx))),
-                         this->actor.world.pos.y + (initialPositions->y * ((this->dy * aux) + (1.0f - this->dy))),
-                         this->actor.world.pos.z + (initialPositions->z * ((this->dz * aux) + (1.0f - this->dz))),
-                         MTXMODE_NEW);
-
-        Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
-        Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
-
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 449),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
+        initialPositions++;
+        distanceTraveled++;
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_dust.c", 458);
@@ -318,6 +319,10 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2) {
     Gfx_SetupDL_25Opa(gfxCtx);
 
     gDPPipeSync(POLY_XLU_DISP++);
+
+    initialPositions = this->initialPositions;
+    distanceTraveled = this->distanceTraveled;
+
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
     if (player->unk_858 >= 0.85f) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
@@ -325,34 +330,32 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 0);
     }
 
-    initialPositions = this->initialPositions;
-    distanceTraveled = this->distanceTraveled;
-
     gSPSegment(POLY_XLU_DISP++, 0x08, sEmptyDL);
 
-    for (i = 0; i < 64; i++, initialPositions++, distanceTraveled++) {
-        if (!(*distanceTraveled < 1.0f)) {
-            continue;
+    for (i = 0; i < 64; i++) {
+        if (*distanceTraveled < 1.0f) {
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, *distanceTraveled * 255);
+
+            aux = 1.0f - SQ(*distanceTraveled);
+
+            Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
+
+            Matrix_Translate(initialPositions->x * ((this->dx * aux) + (1.0f - this->dx)),
+                             initialPositions->y * (1.0f - *distanceTraveled) + 320.0f,
+                             initialPositions->z * (1.0f - *distanceTraveled) + -20.0f, MTXMODE_APPLY);
+
+            Matrix_Scale(*distanceTraveled * this->scalingFactor, *distanceTraveled * this->scalingFactor,
+                         *distanceTraveled * this->scalingFactor, MTXMODE_APPLY);
+
+            Matrix_ReplaceRotation(&play->billboardMtxF);
+
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_dust.c", 506),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
         }
 
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, *distanceTraveled * 255);
-
-        aux = 1.0f - SQ(*distanceTraveled);
-
-        Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
-
-        Matrix_Translate(initialPositions->x * ((this->dx * aux) + (1.0f - this->dx)),
-                         initialPositions->y * (1.0f - *distanceTraveled) + 320.0f,
-                         initialPositions->z * (1.0f - *distanceTraveled) + -20.0f, MTXMODE_APPLY);
-
-        Matrix_Scale(*distanceTraveled * this->scalingFactor, *distanceTraveled * this->scalingFactor,
-                     *distanceTraveled * this->scalingFactor, MTXMODE_APPLY);
-
-        Matrix_ReplaceRotation(&play->billboardMtxF);
-
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 506),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
+        initialPositions++;
+        distanceTraveled++;
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_dust.c", 515);

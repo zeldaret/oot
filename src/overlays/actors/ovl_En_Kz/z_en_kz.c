@@ -47,8 +47,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 80, 120, 0, { 0, 0, 0 } },
@@ -102,10 +102,10 @@ u16 EnKz_GetTextIdAdult(PlayState* play, EnKz* this) {
 
 u16 EnKz_GetTextId(PlayState* play, Actor* thisx) {
     EnKz* this = (EnKz*)thisx;
-    u16 reactionText = Text_GetFaceReaction(play, 0x1E);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KING_ZORA);
 
-    if (reactionText != 0) {
-        return reactionText;
+    if (textId != 0) {
+        return textId;
     }
 
     if (LINK_IS_ADULT) {

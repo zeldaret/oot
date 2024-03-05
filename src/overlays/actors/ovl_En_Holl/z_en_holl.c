@@ -256,14 +256,12 @@ void EnHoll_HorizontalInvisible(EnHoll* this, PlayState* play) {
 void EnHoll_VerticalDownBgCoverLarge(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 absYDistToPlayer = fabsf(this->actor.yDistToPlayer);
-    s32 transitionActorIndex;
 
     if (this->actor.xzDistToPlayer < ENHOLL_V_DOWN_RADIUS &&
         // Nothing happens if `absYDistToPlayer > ENHOLL_V_DOWN_BGCOVER_YDIST`,
         // so this check may as well compare to ENHOLL_V_DOWN_BGCOVER_YDIST
         absYDistToPlayer < (ENHOLL_V_DOWN_BGCOVER_YDIST + 95.0f)) {
-
-        transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
+        s32 transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
 
         if (absYDistToPlayer < ENHOLL_V_DOWN_LOAD_YDIST) {
             play->bgCoverAlpha = 255;
@@ -295,8 +293,6 @@ void EnHoll_VerticalDownBgCoverLarge(EnHoll* this, PlayState* play) {
 
 void EnHoll_VerticalBgCover(EnHoll* this, PlayState* play) {
     f32 absYDistToPlayer;
-    s32 side;
-    s32 transitionActorIndex;
 
     if ((this->actor.xzDistToPlayer < ENHOLL_V_RADIUS) &&
         (absYDistToPlayer = fabsf(this->actor.yDistToPlayer), absYDistToPlayer < ENHOLL_V_BGCOVER_BGCOVER_YDIST)) {
@@ -309,8 +305,9 @@ void EnHoll_VerticalBgCover(EnHoll* this, PlayState* play) {
         }
 
         if (absYDistToPlayer > ENHOLL_V_BGCOVER_LOAD_YDIST) {
-            transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
-            side = (this->actor.yDistToPlayer > 0.0f) ? 0 : 1;
+            s32 transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
+            s32 side = (this->actor.yDistToPlayer > 0.0f) ? 0 : 1;
+
             this->actor.room = play->transiActorCtx.list[transitionActorIndex].sides[side].room;
             if (this->actor.room != play->roomCtx.curRoom.num &&
                 func_8009728C(play, &play->roomCtx, this->actor.room)) {
@@ -348,10 +345,6 @@ void EnHoll_VerticalInvisible(EnHoll* this, PlayState* play) {
 
 void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Vec3f relPlayerPos;
-    f32 orthogonalDistToPlayer;
-    s32 side;
-    s32 transitionActorIndex;
 
     if (!Flags_GetSwitch(play, ENHOLL_GET_SWITCH_FLAG(&this->actor))) {
         if (this->resetBgCoverAlpha) {
@@ -359,15 +352,17 @@ void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play) {
             this->resetBgCoverAlpha = false;
         }
     } else {
+        Vec3f relPlayerPos;
+        f32 orthogonalDistToPlayer;
+
         func_8002DBD0(&this->actor, &relPlayerPos, &player->actor.world.pos);
         orthogonalDistToPlayer = fabsf(relPlayerPos.z);
 
         if (ENHOLL_H_Y_MIN < relPlayerPos.y && relPlayerPos.y < ENHOLL_H_Y_MAX &&
             fabsf(relPlayerPos.x) < ENHOLL_H_HALFWIDTH && orthogonalDistToPlayer < ENHOLL_H_SWITCHFLAG_BGCOVER_DEPTH) {
+            s32 transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
 
             this->resetBgCoverAlpha = true;
-            transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
-
             play->bgCoverAlpha =
                 255 - (s32)((orthogonalDistToPlayer - ENHOLL_H_SWITCHFLAG_LOAD_DEPTH) *
                             (255 / (ENHOLL_H_SWITCHFLAG_BGCOVER_DEPTH - ENHOLL_H_SWITCHFLAG_LOAD_DEPTH) + 0.8f));
@@ -378,7 +373,8 @@ void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play) {
             }
 
             if (orthogonalDistToPlayer < ENHOLL_H_SWITCHFLAG_LOAD_DEPTH) {
-                side = (relPlayerPos.z < 0.0f) ? 0 : 1;
+                s32 side = (relPlayerPos.z < 0.0f) ? 0 : 1;
+
                 this->actor.room = play->transiActorCtx.list[transitionActorIndex].sides[side].room;
                 if (this->actor.room != play->roomCtx.curRoom.num &&
                     func_8009728C(play, &play->roomCtx, this->actor.room)) {
@@ -433,7 +429,7 @@ void EnHoll_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateY(M_PI, MTXMODE_APPLY);
         }
 
-        gSPMatrix(gfxP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_holl.c", 824),
+        gSPMatrix(gfxP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_holl.c", 824),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(gfxP++, 0, 0, 0, 0, 0, (u8)this->planeAlpha);
         gSPDisplayList(gfxP++, sPlaneDL);

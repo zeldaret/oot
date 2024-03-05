@@ -58,12 +58,10 @@ void func_80991298(DemoShd* this, PlayState* play) {
     }
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorCue* cue = play->csCtx.actorCues[0];
-
-        if (cue != NULL) {
-            if (cue->id == 2) {
+        if (play->csCtx.actorCues[0] != NULL) {
+            if (play->csCtx.actorCues[0]->id == 2) {
                 if (!(this->unk_14C & 1)) {
-                    this->unk_14E = cue->startPos.x;
+                    this->unk_14E = play->csCtx.actorCues[0]->startPos.x;
                 }
                 this->unk_14C |= 1;
             } else {
@@ -73,12 +71,10 @@ void func_80991298(DemoShd* this, PlayState* play) {
     }
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorCue* cue = play->csCtx.actorCues[1];
-
-        if (cue != NULL) {
-            if (cue->id == 2) {
+        if (play->csCtx.actorCues[1] != NULL) {
+            if (play->csCtx.actorCues[1]->id == 2) {
                 if (!(this->unk_14C & 2)) {
-                    this->unk_14E = cue->startPos.x;
+                    this->unk_14E = play->csCtx.actorCues[1]->startPos.x;
                 }
                 this->unk_14C |= 2;
             } else {
@@ -101,13 +97,11 @@ void DemoShd_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     u32 unk_14E = this->unk_14E;
 
-    if (1) {} // Necessary to match, can be anywhere in the function
-
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_shd.c", 726);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_shd.c", 729),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_shd.c", 729),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_809932D0);
 
@@ -122,6 +116,8 @@ void DemoShd_Draw(Actor* thisx, PlayState* play) {
                                         256, 1, 0, 255 - ((unk_14E * 5) & 255), 32, 32));
         gSPDisplayList(POLY_XLU_DISP++, D_809934B8);
     }
+
+    if (1) {} // Necessary to match
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_shd.c", 762);
 }

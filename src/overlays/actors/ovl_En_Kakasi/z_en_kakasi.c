@@ -35,8 +35,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE | BUMP_HOOKABLE,
+        ATELEM_NONE,
+        ACELEM_NONE | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -64,8 +64,8 @@ void EnKakasi_Destroy(Actor* thisx, PlayState* play) {
 void EnKakasi_Init(Actor* thisx, PlayState* play) {
     EnKakasi* this = (EnKakasi*)thisx;
 
-    osSyncPrintf("\n\n");
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ Ｌｅｔ’ｓ ＤＡＮＣＥ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.world.pos.y);
+    PRINTF("\n\n");
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ Ｌｅｔ’ｓ ＤＡＮＣＥ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.world.pos.y);
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -237,7 +237,7 @@ void func_80A8F8D0(EnKakasi* this, PlayState* play) {
 
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_04 && play->msgCtx.msgMode == MSGMODE_NONE) {
         // "end?"
-        osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" VT_RST);
 
         if (this->unk_19A != 0) {
             Message_CloseTextbox(play);
@@ -280,7 +280,7 @@ void func_80A8FAA4(EnKakasi* this, PlayState* play) {
         return;
     }
 
-    osSyncPrintf("game_play->message.msg_mode=%d\n", play->msgCtx.msgMode);
+    PRINTF("game_play->message.msg_mode=%d\n", play->msgCtx.msgMode);
 
     if (play->msgCtx.msgMode == MSGMODE_NONE) {
         if (this->unk_194) {
@@ -339,9 +339,9 @@ void EnKakasi_Draw(Actor* thisx, PlayState* play) {
     EnKakasi* this = (EnKakasi*)thisx;
 
     if (BREG(3) != 0) {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "flag!"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.save.info.scarecrowLongSongSet);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.save.info.scarecrowLongSongSet);
     }
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount, NULL,

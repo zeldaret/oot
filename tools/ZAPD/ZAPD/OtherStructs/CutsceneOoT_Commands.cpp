@@ -6,6 +6,8 @@
 #include "Utils/BitConverter.h"
 #include "Utils/StringHelper.h"
 
+#include "ZCutscene.h"
+
 /**** GENERIC ****/
 
 // Specific for command lists where each entry has size 0x30 bytes
@@ -15,9 +17,9 @@ const std::unordered_map<CutsceneOoT_CommandType, CsCommandListDescriptor> csCom
 	{CutsceneOoT_CommandType::CS_CMD_LIGHT_SETTING,
      {"CS_LIGHT_SETTING", "(0x%02X, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 	{CutsceneOoT_CommandType::CS_CMD_START_SEQ,
-     {"CS_START_SEQ", "(%i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
+     {"CS_START_SEQ", "(%s, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 	{CutsceneOoT_CommandType::CS_CMD_STOP_SEQ,
-     {"CS_STOP_SEQ", "(%i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
+     {"CS_STOP_SEQ", "(%s, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 	{CutsceneOoT_CommandType::CS_CMD_FADE_OUT_SEQ,
      {"CS_FADE_OUT_SEQ", "(%s, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 };
@@ -51,6 +53,7 @@ std::string CutsceneOoTSubCommandEntry_GenericCmd::GetBodySourceCode() const
 		bool isIndexInMisc = enumData->miscType.find(base) != enumData->miscType.end();
 		bool isIndexInFade =
 			enumData->fadeOutSeqPlayer.find(base) != enumData->fadeOutSeqPlayer.end();
+		bool isIndexInSeqId = enumData->seqId.find(base - 1) != enumData->seqId.end();
 		std::string entryFmt = element->second.cmdMacro;
 		std::string firstArg;
 		entryFmt += element->second.args;
@@ -59,14 +62,15 @@ std::string CutsceneOoTSubCommandEntry_GenericCmd::GetBodySourceCode() const
 			firstArg = enumData->miscType[base];
 		else if (commandId == CutsceneOoT_CommandType::CS_CMD_FADE_OUT_SEQ && isIndexInFade)
 			firstArg = enumData->fadeOutSeqPlayer[base];
+		else if (commandId == CutsceneOoT_CommandType::CS_CMD_START_SEQ && isIndexInSeqId)
+			firstArg = enumData->seqId[base - 1];
+		else if (commandId == CutsceneOoT_CommandType::CS_CMD_STOP_SEQ && isIndexInSeqId)
+			firstArg = enumData->seqId[base - 1];
 		else
 		{
-			bool baseOne = (commandId == CutsceneOoT_CommandType::CS_CMD_LIGHT_SETTING ||
-			                commandId == CutsceneOoT_CommandType::CS_CMD_START_SEQ ||
-			                commandId == CutsceneOoT_CommandType::CS_CMD_STOP_SEQ);
-			return StringHelper::Sprintf(entryFmt.c_str(), baseOne ? base - 1 : base, startFrame,
-			                             endFrame, pad, unused1, unused2, unused3, unused4, unused5,
-			                             unused6, unused7, unused8, unused9, unused10);
+			return StringHelper::Sprintf(entryFmt.c_str(), base - 1, startFrame, endFrame, pad,
+			                             unused1, unused2, unused3, unused4, unused5, unused6,
+			                             unused7, unused8, unused9, unused10);
 		}
 		return StringHelper::Sprintf(entryFmt.c_str(), firstArg.c_str(), startFrame, endFrame, pad,
 		                             unused1, unused2, unused3, unused4, unused5, unused6, unused7,
@@ -137,9 +141,11 @@ std::string CutsceneOoTCommand_CameraPoint::GetBodySourceCode() const
 	if (continueFlag != 0)
 		continueMacro = "CS_CAM_STOP";
 
-	return StringHelper::Sprintf("CS_CAM_POINT(%s, 0x%02X, %i, %ff, %i, %i, %i, 0x%04X)",
-	                             continueMacro.c_str(), cameraRoll, nextPointFrame, viewAngle, posX,
-	                             posY, posZ, unused);
+	return StringHelper::Sprintf(
+		"CS_CAM_POINT(%s, 0x%02X, %i, %s, %i, %i, %i, 0x%04X)", continueMacro.c_str(), cameraRoll,
+		nextPointFrame,
+		ZCutscene::GetCsEncodedFloat(viewAngle, Globals::Instance->floatType, false).c_str(), posX,
+		posY, posZ, unused);
 }
 
 size_t CutsceneOoTCommand_CameraPoint::GetRawSize() const
@@ -270,9 +276,11 @@ std::string CutsceneOoTSubCommandEntry_Text::GetBodySourceCode() const
 	{
 		return StringHelper::Sprintf("CS_TEXT_NONE(%i, %i)", startFrame, endFrame);
 	}
-	if (type == 2)
+	if (type == 2 &&
+	    enumData->ocarinaSongActionId.find(base) != enumData->ocarinaSongActionId.end())
 	{
-		return StringHelper::Sprintf("CS_TEXT_OCARINA_ACTION(%i, %i, %i, 0x%X)", base, startFrame,
+		return StringHelper::Sprintf("CS_TEXT_OCARINA_ACTION(%s, %i, %i, 0x%X)",
+		                             enumData->ocarinaSongActionId[base].c_str(), startFrame,
 		                             endFrame, textId1);
 	}
 
@@ -330,27 +338,35 @@ CutsceneOoTSubCommandEntry_ActorCue::CutsceneOoTSubCommandEntry_ActorCue(
 	normalY = BitConverter::ToFloatBE(rawData, rawDataIndex + 0x28);
 	normalZ = BitConverter::ToFloatBE(rawData, rawDataIndex + 0x2C);
 }
-
 std::string CutsceneOoTSubCommandEntry_ActorCue::GetBodySourceCode() const
 {
-	std::string result;
+	EnumData* enumData = &Globals::Instance->cfg.enumData;
+
+	std::string normalXStr =
+		ZCutscene::GetCsEncodedFloat(normalX, Globals::Instance->floatType, true);
+	std::string normalYStr =
+		ZCutscene::GetCsEncodedFloat(normalY, Globals::Instance->floatType, true);
+	std::string normalZStr =
+		ZCutscene::GetCsEncodedFloat(normalZ, Globals::Instance->floatType, true);
 
 	if (static_cast<CutsceneOoT_CommandType>(commandID) ==
 	    CutsceneOoT_CommandType::CS_CMD_PLAYER_CUE)
 	{
-		result = "CS_PLAYER_CUE";
+		return StringHelper::Sprintf("CS_PLAYER_CUE(%s, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
+		                             "%i, %i, %i, %i, %s, %s, %s)",
+		                             enumData->playerCueId[base].c_str(), startFrame, endFrame,
+		                             rotX, rotY, rotZ, startPosX, startPosY, startPosZ, endPosX,
+		                             endPosY, endPosZ, normalXStr.c_str(), normalYStr.c_str(),
+		                             normalZStr.c_str());
 	}
 	else
 	{
-		result = "CS_ACTOR_CUE";
+		return StringHelper::Sprintf("CS_ACTOR_CUE(%i, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
+		                             "%i, %i, %i, %i, %s, %s, %s)",
+		                             base, startFrame, endFrame, rotX, rotY, rotZ, startPosX,
+		                             startPosY, startPosZ, endPosX, endPosY, endPosZ,
+		                             normalXStr.c_str(), normalYStr.c_str(), normalZStr.c_str());
 	}
-
-	result +=
-		StringHelper::Sprintf("(%i, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
-	                          "%i, %i, %i, %i, %.8ef, %.8ef, %.8ef)",
-	                          base, startFrame, endFrame, rotX, rotY, rotZ, startPosX, startPosY,
-	                          startPosZ, endPosX, endPosY, endPosZ, normalX, normalY, normalZ);
-	return result;
 }
 
 size_t CutsceneOoTSubCommandEntry_ActorCue::GetRawSize() const

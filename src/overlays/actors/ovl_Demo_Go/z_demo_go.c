@@ -209,9 +209,12 @@ s32 func_8097CDB0(DemoGo* this, PlayState* play, u16 cueId) {
     CutsceneContext* csCtx = &play->csCtx;
     s32 cueChannel = DemoGo_GetCueChannel(this);
 
-    if ((csCtx->state != CS_STATE_IDLE) && (csCtx->actorCues[cueChannel] != NULL) &&
-        (csCtx->actorCues[cueChannel]->id == cueId)) {
-        return true;
+    if (csCtx->state != CS_STATE_IDLE) {
+        CsCmdActorCue* cue = csCtx->actorCues[cueChannel];
+
+        if (cue != NULL && cue->id == cueId) {
+            return true;
+        }
     }
 
     return false;
@@ -317,7 +320,7 @@ void DemoGo_Update(Actor* thisx, PlayState* play) {
     DemoGo* this = (DemoGo*)thisx;
 
     if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     D_8097D44C[this->action](this, play);
@@ -341,13 +344,13 @@ void func_8097D29C(DemoGo* this, PlayState* play) {
     s16 eyeTexIdx = this->unk_190;
     SkelAnime* skelAnime = &this->skelAnime;
     void* eyeTexture = sEyeTextures[eyeTexIdx];
-    void* mouthTexture = gGoronCsMouthSmileTex;
+    s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_go.c", 732);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTexture));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthSmileTex));
 
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL, this);
 
@@ -358,7 +361,7 @@ void DemoGo_Draw(Actor* thisx, PlayState* play) {
     DemoGo* this = (DemoGo*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     D_8097D468[this->drawConfig](this, play);

@@ -67,8 +67,8 @@ static ColliderCylinderInit D_80A4B7A0 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -87,8 +87,8 @@ static ColliderCylinderInit D_80A4B7CC = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -397,13 +397,13 @@ void EnGoma_SetupDead(EnGoma* this) {
 }
 
 void EnGoma_Dead(EnGoma* this, PlayState* play) {
-    Vec3f accel;
-    Vec3f pos;
-
     SkelAnime_Update(&this->skelanime);
     Math_ApproachZeroF(&this->actor.speed, 1.0f, 2.0f);
 
     if (this->actionTimer == 2) {
+        Vec3f accel;
+        Vec3f pos;
+
         pos.x = this->actor.world.pos.x;
         pos.y = (this->actor.world.pos.y + 5.0f) - 10.0f;
         pos.z = this->actor.world.pos.z;
@@ -604,13 +604,12 @@ void EnGoma_LookAtPlayer(EnGoma* this, PlayState* play) {
 }
 
 void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
-    static Vec3f sShieldKnockbackVel = { 0.0f, 0.0f, 20.0f };
     Player* player = GET_PLAYER(play);
 
     if (this->hurtTimer != 0) {
         this->hurtTimer--;
     } else {
-        ColliderInfo* acHitInfo;
+        ColliderElement* acHitElem;
         u8 swordDamage;
 
         if ((this->colCyl1.base.atFlags & AT_HIT) && this->actionFunc == EnGoma_Jump) {
@@ -620,11 +619,11 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
         }
 
         if ((this->colCyl2.base.acFlags & AC_HIT) && (s8)this->actor.colChkInfo.health > 0) {
-            acHitInfo = this->colCyl2.info.acHitInfo;
+            acHitElem = this->colCyl2.elem.acHitElem;
             this->colCyl2.base.acFlags &= ~AC_HIT;
 
             if (this->gomaType == ENGOMA_NORMAL) {
-                u32 dmgFlags = acHitInfo->toucher.dmgFlags;
+                u32 dmgFlags = acHitElem->atDmgInfo.dmgFlags;
 
                 if (dmgFlags & DMG_SHIELD) {
                     if (this->actionFunc == EnGoma_Jump) {
@@ -632,6 +631,8 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
                         this->actor.velocity.y = 0.0f;
                         this->actor.speed = -5.0f;
                     } else {
+                        static Vec3f sShieldKnockbackVel = { 0.0f, 0.0f, 20.0f };
+
                         Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
                         Matrix_MultVec3f(&sShieldKnockbackVel, &this->shieldKnockbackVel);
                         this->invincibilityTimer = 5;
@@ -770,7 +771,7 @@ Gfx* EnGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
     Gfx* dList;
 
-    dListHead = dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
+    dListHead = dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 4);
     gDPPipeSync(dListHead++);
     gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
     gSPClearGeometryMode(dListHead++, G_CULL_BACK);
@@ -818,14 +819,14 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateY(-(this->eggSquishAngle * 0.15f), MTXMODE_APPLY);
             Matrix_Translate(0.0f, this->eggYOffset, 0.0f, MTXMODE_APPLY);
             Matrix_RotateX(this->eggPitch, MTXMODE_APPLY);
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_goma.c", 2101),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_goma.c", 2101),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gObjectGolEggDL);
             Matrix_Pop();
             break;
 
         case ENGOMA_HATCH_DEBRIS:
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_goma.c", 2107),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_goma.c", 2107),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gBrownFragmentDL);
             break;
@@ -833,7 +834,7 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
         case ENGOMA_BOSSLIMB:
             if (this->bossLimbDL != NULL) {
                 gSPSegment(POLY_OPA_DISP++, 0x08, EnGoma_NoBackfaceCullingDlist(play->state.gfxCtx));
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_goma.c", 2114),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_goma.c", 2114),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, this->bossLimbDL);
             }

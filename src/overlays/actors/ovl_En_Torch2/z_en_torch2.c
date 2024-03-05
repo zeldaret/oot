@@ -104,8 +104,8 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     this->meleeWeaponQuads[0].base.atFlags = this->meleeWeaponQuads[1].base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->meleeWeaponQuads[0].base.acFlags = this->meleeWeaponQuads[1].base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
     this->meleeWeaponQuads[0].base.colType = this->meleeWeaponQuads[1].base.colType = COLTYPE_METAL;
-    this->meleeWeaponQuads[0].info.toucher.damage = this->meleeWeaponQuads[1].info.toucher.damage = 8;
-    this->meleeWeaponQuads[0].info.bumperFlags = this->meleeWeaponQuads[1].info.bumperFlags = BUMP_ON;
+    this->meleeWeaponQuads[0].elem.atDmgInfo.damage = this->meleeWeaponQuads[1].elem.atDmgInfo.damage = 8;
+    this->meleeWeaponQuads[0].elem.acElemFlags = this->meleeWeaponQuads[1].elem.acElemFlags = ACELEM_ON;
     this->shieldQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->shieldQuad.base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -202,15 +202,10 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     Input* input = &sInput;
     Camera* mainCam;
     s16 sp66;
-    u8 staggerThreshold;
     s8 stickY;
-    s32 pad60;
+    u32 pad54;
     Actor* attackItem;
     s16 sp5A;
-    s16 pad58;
-    u32 pad54;
-    f32 sp50;
-    s16 sp4E;
 
     sp5A = player->actor.shape.rot.y - this->actor.shape.rot.y;
     input->cur.button = 0;
@@ -410,44 +405,47 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                         // Handles movement and attacks when not reacting to Link's actions
 
                         sStickAngle = thisx->yawTowardsPlayer;
-                        sp50 = 0.0f;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
                             (ABS(sp5A) >= 0x7800) &&
                             (this->actor.isTargeted || !(player->stateFlags1 & PLAYER_STATE1_22))) {
                             EnTorch2_SwingSword(play, input, this);
-                        } else if (((this->actor.xzDistToPlayer <= 70.0f) ||
-                                    ((this->actor.xzDistToPlayer <= 80.0f + sp50) &&
-                                     (player->meleeWeaponState != 0))) &&
-                                   (this->meleeWeaponState == 0)) {
-                            if (!EnTorch2_SwingSword(play, input, this) && (this->meleeWeaponState == 0) &&
-                                (sCounterState == 0)) {
-                                EnTorch2_Backflip(this, input, &this->actor);
-                            }
-                        } else if (this->actor.xzDistToPlayer <= 50 + sp50) {
-                            sStickTilt = 127.0f;
-                            sStickAngle = this->actor.yawTowardsPlayer;
-                            if (!this->actor.isTargeted) {
-                                Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
-                            }
-                        } else if (this->actor.xzDistToPlayer > 100.0f + sp50) {
-                            if ((player->meleeWeaponState == 0) ||
-                                !((player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
-                                  (player->meleeWeaponAnimation <= PLAYER_MWA_BIG_SPIN_2H)) ||
-                                (this->actor.xzDistToPlayer >= 280.0f)) {
+                        } else {
+                            f32 sp50 = 0.0f;
+
+                            if (((this->actor.xzDistToPlayer <= 70.0f) ||
+                                 ((this->actor.xzDistToPlayer <= 80.0f + sp50) && (player->meleeWeaponState != 0))) &&
+                                (this->meleeWeaponState == 0)) {
+                                if (!EnTorch2_SwingSword(play, input, this) && (this->meleeWeaponState == 0) &&
+                                    (sCounterState == 0)) {
+                                    EnTorch2_Backflip(this, input, &this->actor);
+                                }
+                            } else if (this->actor.xzDistToPlayer <= 50 + sp50) {
                                 sStickTilt = 127.0f;
                                 sStickAngle = this->actor.yawTowardsPlayer;
                                 if (!this->actor.isTargeted) {
                                     Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
                                 }
-                            } else {
-                                EnTorch2_Backflip(this, input, &this->actor);
-                            }
-                        } else if (((ABS(sp5A) < 0x7800) && (ABS(sp5A) >= 0x3000)) ||
-                                   !EnTorch2_SwingSword(play, input, this)) {
-                            sStickAngle = this->actor.yawTowardsPlayer;
-                            sStickTilt = 127.0f;
-                            if (!this->actor.isTargeted) {
-                                Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
+                            } else if (this->actor.xzDistToPlayer > 100.0f + sp50) {
+                                if ((player->meleeWeaponState == 0) ||
+                                    !((player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
+                                      (player->meleeWeaponAnimation <= PLAYER_MWA_BIG_SPIN_2H)) ||
+                                    (this->actor.xzDistToPlayer >= 280.0f)) {
+                                    sStickTilt = 127.0f;
+                                    sStickAngle = this->actor.yawTowardsPlayer;
+                                    if (!this->actor.isTargeted) {
+                                        Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328,
+                                                           0);
+                                    }
+                                } else {
+                                    EnTorch2_Backflip(this, input, &this->actor);
+                                }
+                            } else if (((ABS(sp5A) < 0x7800) && (ABS(sp5A) >= 0x3000)) ||
+                                       !EnTorch2_SwingSword(play, input, this)) {
+                                sStickAngle = this->actor.yawTowardsPlayer;
+                                sStickTilt = 127.0f;
+                                if (!this->actor.isTargeted) {
+                                    Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
+                                }
                             }
                         }
                     }
@@ -495,8 +493,9 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 this->actor.world.pos.x = (Math_SinS(player->actor.shape.rot.y) * -120.0f) + player->actor.world.pos.x;
                 this->actor.world.pos.z = (Math_CosS(player->actor.shape.rot.y) * -120.0f) + player->actor.world.pos.z;
                 if (Actor_WorldDistXYZToPoint(&this->actor, &sSpawnPoint) > 800.0f) {
-                    sp50 = Rand_ZeroOne() * 20.0f;
-                    sp4E = Rand_CenteredFloat(4000.0f);
+                    f32 sp50 = Rand_ZeroOne() * 20.0f;
+                    s16 sp4E = Rand_CenteredFloat(4000.0f);
+
                     this->actor.shape.rot.y = this->actor.world.rot.y =
                         Math_Vec3f_Yaw(&sSpawnPoint, &player->actor.world.pos);
                     this->actor.world.pos.x =
@@ -599,7 +598,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 this->unk_8A8 = 6.0f;
                 this->unk_8A4 = 8.0f;
                 this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
-                Actor_SetDropFlag(&this->actor, &this->cylinder.info, true);
+                Actor_SetDropFlag(&this->actor, &this->cylinder.elem, true);
                 this->stateFlags3 &= ~PLAYER_STATE3_2;
                 this->stateFlags3 |= PLAYER_STATE3_0;
                 sActionState = ENTORCH2_DAMAGE;
@@ -640,7 +639,8 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
      * if he's had to counter with enough different sword animations in a row.
      */
     if (this->speedXZ == -18.0f) {
-        staggerThreshold = (u32)Rand_CenteredFloat(2.0f) + 6;
+        u8 staggerThreshold = (u32)Rand_CenteredFloat(2.0f) + 6;
+
         if (gSaveContext.save.info.playerData.health < 0x50) {
             staggerThreshold = (u32)Rand_CenteredFloat(2.0f) + 3;
         }
@@ -698,10 +698,10 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     }
     if (this->invincibilityTimer != 0) {
         this->cylinder.base.colType = COLTYPE_NONE;
-        this->cylinder.info.elemType = ELEMTYPE_UNK5;
+        this->cylinder.elem.elemType = ELEMTYPE_UNK5;
     } else {
         this->cylinder.base.colType = COLTYPE_HIT5;
-        this->cylinder.info.elemType = ELEMTYPE_UNK1;
+        this->cylinder.elem.elemType = ELEMTYPE_UNK1;
     }
     /*
      * Handles the jump movement onto Link's sword. Dark Link doesn't move during the

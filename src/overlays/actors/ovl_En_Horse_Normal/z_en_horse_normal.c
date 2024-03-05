@@ -31,7 +31,7 @@ typedef enum {
 void EnHorseNormal_Init(Actor* thisx, PlayState* play);
 void EnHorseNormal_Destroy(Actor* thisx, PlayState* play);
 void EnHorseNormal_Update(Actor* thisx, PlayState* play);
-void EnHorseNormal_Draw(Actor* thisx, PlayState* play);
+void EnHorseNormal_Draw(Actor* thisx, PlayState* play2);
 
 void func_80A6B91C(EnHorseNormal* this, PlayState* play);
 void func_80A6BC48(EnHorseNormal* this);
@@ -70,8 +70,8 @@ static ColliderCylinderInit sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 40, 100, 0, { 0, 0, 0 } },
@@ -90,8 +90,8 @@ static ColliderCylinderInit sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 60, 100, 0, { 0, 0, 0 } },
@@ -103,8 +103,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 11, { { 0, 0, 0 }, 20 }, 100 },
@@ -333,10 +333,10 @@ void EnHorseNormal_CycleAnimations(EnHorseNormal* this, PlayState* play) {
 void func_80A6BC48(EnHorseNormal* this) {
     this->action = HORSE_WANDER;
     this->animationIdx = 0;
-    this->unk_21C = 0;
-    this->unk_21E = 0;
     this->actor.speed = 0.0f;
     this->unk_218 = 0.0f;
+    this->unk_21C = 0;
+    this->unk_21E = 0;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
                      Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
@@ -484,10 +484,10 @@ void EnHorseNormal_Wander(EnHorseNormal* this, PlayState* play) {
 void func_80A6C4CC(EnHorseNormal* this) {
     this->action = HORSE_WAIT;
     this->animationIdx = 0;
-    this->unk_21C = 0;
-    this->unk_21E = 0;
     this->actor.speed = 0.0f;
     this->unk_218 = 0.0f;
+    this->unk_21C = 0;
+    this->unk_21E = 0;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
                      Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
@@ -516,11 +516,11 @@ void EnHorseNormal_Wait(EnHorseNormal* this, PlayState* play) {
 void func_80A6C6B0(EnHorseNormal* this) {
     this->action = HORSE_WAIT_CLONE;
     this->animationIdx = 0;
+    this->actor.speed = 0.0f;
+    this->unk_218 = 0.0f;
     this->unk_21C = 0;
     this->unk_21E = 0;
     this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
-    this->actor.speed = 0.0f;
-    this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
                      Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
@@ -648,9 +648,9 @@ void func_80A6CC88(PlayState* play, EnHorseNormal* this, Vec3f* arg2) {
     }
 }
 
-void EnHorseNormal_Draw(Actor* thisx, PlayState* play) {
+void EnHorseNormal_Draw(Actor* thisx, PlayState* play2) {
     EnHorseNormal* this = (EnHorseNormal*)thisx;
-    Mtx* mtx2;
+    PlayState* play = (PlayState*)play2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_horse_normal.c", 2224);
 
@@ -662,7 +662,7 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play) {
 
     if (this->action == HORSE_WAIT_CLONE) {
         MtxF skinMtx;
-        Mtx* mtx1;
+        Mtx* mtx;
         Vec3f clonePos = { 0.0f, 0.0f, 0.0f };
         s16 cloneRotY;
         f32 distFromGround = this->actor.world.pos.y - this->actor.floorHeight;
@@ -702,12 +702,12 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play) {
                                               this->actor.shape.rot.x, cloneRotY, this->actor.shape.rot.z, clonePos.x,
                                               (this->actor.shape.yOffset * this->actor.scale.y) + clonePos.y,
                                               clonePos.z);
-        mtx1 = SkinMatrix_MtxFToNewMtx(play->state.gfxCtx, &skinMtx);
-        if (mtx1 == NULL) {
+        mtx = SkinMatrix_MtxFToNewMtx(play->state.gfxCtx, &skinMtx);
+        if (mtx == NULL) {
             return;
         }
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPMatrix(POLY_OPA_DISP++, mtx1, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_800A63CC(&this->actor, play, &this->skin, NULL, NULL, true, 0,
                       SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS | SKIN_DRAW_FLAG_CUSTOM_MATRIX);
         this->cloneCollider.dim.pos.x = clonePos.x;
@@ -720,9 +720,9 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play) {
         temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.shadowScale;
         Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD(cloneRotY), MTXMODE_APPLY);
-        mtx2 = Matrix_NewMtx(play->state.gfxCtx, "../z_en_horse_normal.c", 2329);
-        if (mtx2 != NULL) {
-            gSPMatrix(POLY_XLU_DISP++, mtx2, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_horse_normal.c", 2329);
+        if (mtx != NULL) {
+            gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gHorseShadowDL);
         }
     }

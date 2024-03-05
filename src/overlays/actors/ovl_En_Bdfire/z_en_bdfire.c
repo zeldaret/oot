@@ -121,9 +121,7 @@ void func_809BC2A4(EnBdfire* this, PlayState* play) {
 void func_809BC598(EnBdfire* this, PlayState* play) {
     s16 quarterTurn;
     Player* player = GET_PLAYER(play);
-    f32 distToBurn;
     BossDodongo* bossDodongo;
-    s16 i;
 
     bossDodongo = ((BossDodongo*)this->actor.parent);
     this->unk_158 = bossDodongo->unk_1A2;
@@ -164,14 +162,17 @@ void func_809BC598(EnBdfire* this, PlayState* play) {
             return;
         }
     } else if (!player->bodyIsBurning) {
-        distToBurn = (this->actor.scale.x * 130.0f) / 4.2000003f;
+        f32 distToBurn = (this->actor.scale.x * 130.0f) / 4.2000003f;
+
         if (this->actor.xyzDistToPlayerSq < SQ(distToBurn)) {
+            s16 i;
+
             for (i = 0; i < 18; i++) {
                 player->bodyFlameTimers[i] = Rand_S16Offset(0, 200);
             }
             player->bodyIsBurning = true;
             func_8002F6D4(play, &this->actor, 20.0f, this->actor.world.rot.y, 0.0f, 8);
-            osSyncPrintf("POWER\n");
+            PRINTF("POWER\n");
         }
     }
 }
@@ -206,7 +207,7 @@ void EnBdfire_DrawFire(EnBdfire* this, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 0, 0, 0);
     gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_809BCB10[texIndex]));
     Matrix_Translate(0.0f, 11.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bdfire.c", 647),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bdfire.c", 647),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_kingdodongo_DL_01D950);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bdfire.c", 651);

@@ -136,12 +136,14 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play)
     Player* player = GET_PLAYER(play);
     s32 i;
     EnHorse* ingoHorse;
-    EnHorse* horse;
+    Player* player2 = player;
 
     if ((this->startTimer > 50) && !(this->startFlags & INGORACE_SET_TIMER)) {
         this->startFlags |= INGORACE_SET_TIMER;
         Interface_SetTimer(0);
     } else if ((this->startTimer > 80) && (player->rideActor != NULL) && !(this->startFlags & INGORACE_PLAYER_MOVE)) {
+        EnHorse* horse;
+
         this->startFlags |= INGORACE_PLAYER_MOVE;
         horse = (EnHorse*)player->rideActor;
         horse->inRace = 1;
@@ -175,8 +177,6 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play)
     }
 
     if (this->result == INGORACE_NO_RESULT) {
-        Player* player2 = player;
-
         if ((player2->rideActor != NULL) && (this->playerCheck[2] == 1) && AT_FINISH_LINE(player2->rideActor)) {
             this->playerFinish++;
             if (this->playerFinish > 0) {
@@ -306,7 +306,7 @@ void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, PlayState
         play->transitionTrigger = TRANS_TRIGGER_START;
     } else {
         // "not supported"
-        osSyncPrintf("En_HGC_Spot20_Ta_end():対応せず\n");
+        PRINTF("En_HGC_Spot20_Ta_end():対応せず\n");
         gSaveContext.save.cutsceneIndex = 0;
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
@@ -319,6 +319,8 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, PlayState* play
     s32 i;
     Player* player = GET_PLAYER(play);
     EnHorse* horse;
+    Player* player2 = player;
+    f32 dist;
 
     if (!(this->raceFlags & MALONRACE_PLAYER_ON_MARK) && AT_FINISH_LINE(player->rideActor)) {
         this->raceFlags |= MALONRACE_PLAYER_ON_MARK;
@@ -330,10 +332,12 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, PlayState* play
         this->raceFlags |= MALONRACE_SET_TIMER;
         Interface_SetTimer(0);
     } else if ((this->startTimer > 80) && (player->rideActor != NULL) && !(this->raceFlags & MALONRACE_PLAYER_MOVE)) {
-        this->raceFlags |= MALONRACE_PLAYER_MOVE;
-        horse = (EnHorse*)player->rideActor;
+        EnHorse* rideHorse;
 
-        horse->inRace = 1;
+        this->raceFlags |= MALONRACE_PLAYER_MOVE;
+        rideHorse = (EnHorse*)player->rideActor;
+
+        rideHorse->inRace = 1;
     } else if ((this->startTimer > 81) && !(this->raceFlags & MALONRACE_START_SFX)) {
         this->raceFlags |= MALONRACE_START_SFX;
         Audio_PlaySfxGeneral(NA_SE_SY_START_SHOT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -342,9 +346,6 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, PlayState* play
 
     this->startTimer++;
     if (this->result == MALONRACE_NO_RESULT) {
-        Player* player2 = player;
-        f32 dist;
-
         for (i = 0; i < 16; i++) {
             if ((this->lapCount == 0) && (i >= 8)) {
                 break;

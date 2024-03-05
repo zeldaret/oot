@@ -3,7 +3,7 @@
 import os
 import struct
 import argparse
-from filemap import FileResult, GetFromVRam, GetFromRom
+from filemap import GetFromVRam, GetFromRom
 
 T_DEFAULT = ''
 TType1 = 'Type1'
@@ -244,7 +244,7 @@ def GetColliderStr(data, off, type):
     else:
         cBase[i] = '0x{0:02X}'.format(cBase[i])
 
-    return cf[1].format(*cBase);
+    return cf[1].format(*cBase)
 
 def GetItems(data, off, count, structf, fmt, size):
     result = ''
@@ -387,7 +387,7 @@ def GetColliderInit(address, type, num, path):
     else:
         return("ItemInit type must specify number of elements")
 
-    ovlFile = open(path + "/baserom/" + fileResult.name, "rb")
+    ovlFile = open(path + "/extracted/gc-eu-mq-dbg/baserom/" + fileResult.name, "rb")
     ovlData = bytearray(ovlFile.read())
     ovlFile.close()
 
@@ -470,7 +470,7 @@ print(GetColliderInitFull(args.address, args.type, args.num, repo))
 
 # script_dir = os.path.dirname(os.path.realpath(__file__))
 
-# ovlFile = open(script_dir + "/../../baserom/" + fileResult.name, "rb")
+# ovlFile = open(script_dir + "/../../baseroms/" + fileResult.name, "rb")
 # ovlData = bytearray(ovlFile.read())
 # ovlFile.close()
 

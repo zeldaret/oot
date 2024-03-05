@@ -43,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 63, 0, { 0, 0, 0 } },
@@ -253,7 +253,7 @@ u32 EnToryo_ReactToExchangeItem(EnToryo* this, PlayState* play) {
 }
 
 s32 EnToryo_GetTextId(EnToryo* this, PlayState* play) {
-    s32 textId = Text_GetFaceReaction(play, 0);
+    s32 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CARPENTER_BOSS);
     s32 ret = textId;
 
     if (textId == 0) {

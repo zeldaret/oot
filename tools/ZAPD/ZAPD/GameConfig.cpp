@@ -167,7 +167,7 @@ void GameConfig::ConfigFunc_ExternalFile(const tinyxml2::XMLElement& element)
 
 void GameConfig::ConfigFunc_EnumData(const tinyxml2::XMLElement& element)
 {
-	std::string path = Path::GetDirectoryName(configFilePath);
+	std::string path = Path::GetDirectoryName(configFilePath).string();
 	path = path.append("/").append(element.Attribute("File"));
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError eResult = doc.LoadFile(path.c_str());
@@ -214,6 +214,15 @@ void GameConfig::ConfigFunc_EnumData(const tinyxml2::XMLElement& element)
 			else if (enumKey == "naviQuestHintType")
 				enumData.naviQuestHintType[itemIndex] = itemID;
 
+			else if (enumKey == "ocarinaSongActionId")
+				enumData.ocarinaSongActionId[itemIndex] = itemID;
+
+			else if (enumKey == "seqId")
+				enumData.seqId[itemIndex] = itemID;
+
+			else if (enumKey == "playerCueId")
+				enumData.playerCueId[itemIndex] = itemID;
+
 			// MM
 			else if (enumKey == "modifySeqType")
 				enumData.modifySeqType[itemIndex] = itemID;
@@ -238,6 +247,12 @@ void GameConfig::ConfigFunc_EnumData(const tinyxml2::XMLElement& element)
 
 			else if (enumKey == "endSfx")
 				enumData.endSfx[itemIndex] = itemID;
+
+			else if (enumKey == "csSplineInterpType")
+				enumData.interpType[itemIndex] = itemID;
+
+			else if (enumKey == "csSplineRelTo")
+				enumData.relTo[itemIndex] = itemID;
 		}
 	}
 }

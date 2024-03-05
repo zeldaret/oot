@@ -29,7 +29,6 @@ EffectSsInit Effect_Ss_Dead_Dd_InitVars = {
 };
 
 u32 EffectSsDeadDd_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
-    s32 i;
     EffectSsDeadDdInitParams* initParams = (EffectSsDeadDdInitParams*)initParamsx;
 
     if (initParams->type == 0) {
@@ -58,6 +57,8 @@ u32 EffectSsDeadDd_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
         this->rEnvColorB = initParams->envColor.b;
 
     } else if (initParams->type == 1) {
+        s32 i;
+
         this->life = initParams->life;
         this->rScaleStep = initParams->scaleStep;
         this->rAlphaMode = 0;
@@ -82,7 +83,7 @@ u32 EffectSsDeadDd_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
             this->accel.z = this->velocity.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         }
     } else {
-        osSyncPrintf("Effect_SS_Dd_disp_mode():mode_swが変です。\n");
+        PRINTF("Effect_SS_Dd_disp_mode():mode_swが変です。\n");
         return 0;
     }
 

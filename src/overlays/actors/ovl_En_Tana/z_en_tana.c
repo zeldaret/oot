@@ -27,6 +27,7 @@ ActorInit En_Tana_InitVars = {
     /**/ NULL,
 };
 
+#if OOT_DEBUG
 //! @bug A third entry is missing here. When printing the string indexed by `params` for type 2, the
 //! next data entry will be dereferenced and print garbage, stopping any future printing.
 //! In a non-matching context, this can cause a crash if the next item isn't a valid pointer.
@@ -37,6 +38,7 @@ static const char* sShelfTypes[] = {
     "",
 #endif
 };
+#endif
 
 static const ActorFunc sDrawFuncs[] = {
     EnTana_DrawWoodenShelves,
@@ -59,7 +61,7 @@ static void* sStoneTextures[] = {
 void EnTana_Init(Actor* thisx, PlayState* play) {
     EnTana* this = (EnTana*)thisx;
 
-    osSyncPrintf("☆☆☆ %s ☆☆☆\n", sShelfTypes[thisx->params]);
+    PRINTF("☆☆☆ %s ☆☆☆\n", sShelfTypes[thisx->params]);
     Actor_SetScale(thisx, 1.0f);
     thisx->flags &= ~ACTOR_FLAG_0;
     thisx->draw = sDrawFuncs[thisx->params];
@@ -77,7 +79,7 @@ void EnTana_DrawWoodenShelves(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_tana.c", 148);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tana.c", 152),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_tana.c", 152),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sShelfDLists[thisx->params]);
 
@@ -91,7 +93,7 @@ void EnTana_DrawStoneShelves(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sStoneTextures[thisx->params]));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tana.c", 169),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_tana.c", 169),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sShelfDLists[thisx->params]);
 

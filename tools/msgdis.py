@@ -5,6 +5,7 @@
 
 import re, struct
 from os import path
+import argparse
 
 # ===================================================
 #   Util
@@ -258,12 +259,14 @@ textbox_ypos = {
     3: "TEXTBOX_POS_BOTTOM",
 }
 
-# message entry tables vrom addresses
-nes_message_entry_table_addr = 0x00BC24C0
-ger_message_entry_table_addr = 0x00BC66E8
-fra_message_entry_table_addr = 0x00BC87F8
-staff_message_entry_table_addr = 0x00BCA908
-staff_message_entry_table_addr_end = 0x00BCAA90
+# Global variables for baserom version and message entry table vrom addresses,
+# set based on command line arguments in main()
+version = None
+nes_message_entry_table_addr = None
+ger_message_entry_table_addr = None
+fra_message_entry_table_addr = None
+staff_message_entry_table_addr = None
+staff_message_entry_table_addr_end = None
 
 nes_message_entry_table = []
 ger_message_entry_table = []
@@ -282,7 +285,7 @@ def read_tables():
     global staff_message_entry_table
 
     baserom = None
-    with open("baserom.z64","rb") as infile:
+    with open(f"baseroms/{version}/baserom-decompressed.z64","rb") as infile:
         baserom = infile.read()
 
     nes_message_entry_table = as_message_table_entry(baserom[nes_message_entry_table_addr:ger_message_entry_table_addr])
@@ -326,7 +329,7 @@ def dump_all_text():
             nes_offset = segmented_to_physical(entry[3])
             nes_length = next_entry[3] - entry[3]
             nes_text = ""
-            with open("baserom/nes_message_data_static","rb") as infile:
+            with open(f"extracted/{version}/baserom/nes_message_data_static","rb") as infile:
                 infile.seek(nes_offset)
                 nes_text = fixup_message(decode(infile.read(nes_length), entry[1]).replace("\x00","",-1))
 
@@ -337,13 +340,13 @@ def dump_all_text():
                     next_entry = combined_message_entry_table[i+2]
                 ger_offset = segmented_to_physical(entry[4])
                 ger_length = next_entry[4] - entry[4]
-                with open("baserom/ger_message_data_static","rb") as infile:
+                with open(f"extracted/{version}/baserom/ger_message_data_static","rb") as infile:
                     infile.seek(ger_offset)
                     ger_text = fixup_message(decode(infile.read(ger_length), entry[1]).replace("\x00","",-1))
 
                 fra_offset = segmented_to_physical(entry[5])
                 fra_length = next_entry[5] - entry[5]
-                with open("baserom/fra_message_data_static","rb") as infile:
+                with open(f"extracted/{version}/baserom/fra_message_data_static","rb") as infile:
                     infile.seek(fra_offset)
                     fra_text = fixup_message(decode(infile.read(fra_length), entry[1]).replace("\x00","",-1))
 
@@ -352,7 +355,7 @@ def dump_all_text():
     return messages
 
 def dump_staff_text():
-    staff_message_data_static_size = path.getsize("baserom/staff_message_data_static")
+    staff_message_data_static_size = path.getsize(f"extracted/{version}/baserom/staff_message_data_static")
     # text id, ypos, type, staff
     messages = []
     for i,entry in enumerate(staff_message_entry_table,0):
@@ -361,7 +364,7 @@ def dump_staff_text():
             staff_offset = segmented_to_physical(entry[3])
             # hacky way to ensure the staff message entry table is read all the way to the end
             staff_length = (staff_message_data_static_size if entry[0] == 0x052F else segmented_to_physical(next_entry[3])) - segmented_to_physical(entry[3])
-            with open("baserom/staff_message_data_static","rb") as infile:
+            with open(f"extracted/{version}/baserom/staff_message_data_static","rb") as infile:
                 infile.seek(staff_offset)
                 messages.append((entry[0], entry[1], entry[2], fixup_message(decode(infile.read(staff_length), entry[1]).replace("\x00","",-1))))
         else:
@@ -375,20 +378,26 @@ def extract_all_text(text_out, staff_text_out):
     if text_out is not None:
         out = ""
         for message in dump_all_text():
-            if message[0] == 0xFFFF:
+            # Skip 0xFFFC and 0xFFFD because they are committed
+            # Skip 0xFFFF, the last entry
+            if message[0] in {0xFFFC, 0xFFFD, 0xFFFF}:
                 continue
 
-            if message[0] == 0xFFFC:
-                out += "#ifdef DEFINE_MESSAGE_FFFC\n"
-            out += f"DEFINE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
+            is_nes_message = message[0] == 0xFFFC
+            if not is_nes_message:
+                out += "DEFINE_MESSAGE"
+            else:
+                out += "DEFINE_MESSAGE_NES"
+            out += f"(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
             out += "\n"
-            out += f"{message[3]}" + ("\n" if message[3] != "" else "") + ","
-            out += "\n" if message[3] != "" else ""
-            out += f"{message[4]}" + ("\n" if message[4] != "" else "") + ","
-            out += "\n" if message[4] != "" else ""
-            out += f"{message[5]}\n)"
-            if message[0] == 0xFFFC:
-                out += "\n#endif"
+            out += f"{message[3]}"
+            if not is_nes_message:
+                out += ("\n" if message[3] != "" else "") + ","
+                out += "\n" if message[3] != "" else ""
+                out += f"{message[4]}" + ("\n" if message[4] != "" else "") + ","
+                out += "\n" if message[4] != "" else ""
+                out += f"{message[5]}"
+            out += "\n)"
             out += "\n\n"
 
         with open(text_out, "w", encoding="utf8") as outfile:
@@ -404,3 +413,47 @@ def extract_all_text(text_out, staff_text_out):
 
         with open(staff_text_out, "w", encoding="utf8") as outfile:
             outfile.write(out.strip() + "\n")
+
+
+def main():
+    global version
+    global nes_message_entry_table_addr
+    global ger_message_entry_table_addr
+    global fra_message_entry_table_addr
+    global staff_message_entry_table_addr
+    global staff_message_entry_table_addr_end
+
+    parser = argparse.ArgumentParser(
+        description="Extract text from the baserom into .h files"
+    )
+    parser.add_argument("--oot-version", help="OOT version", default="gc-eu-mq-dbg", choices=["gc-eu-mq", "gc-eu-mq-dbg"])
+    parser.add_argument("--text-out", help="Path to output .h file for text")
+    parser.add_argument(
+        "--staff-text-out", help="Path to output .h file for staff text"
+    )
+
+    args = parser.parse_args()
+    if not (args.text_out or args.staff_text_out):
+        parser.error("No output file requested")
+
+    version = args.oot_version
+    if version == "gc-eu-mq-dbg":
+        nes_message_entry_table_addr = 0x00BC24C0
+        ger_message_entry_table_addr = 0x00BC66E8
+        fra_message_entry_table_addr = 0x00BC87F8
+        staff_message_entry_table_addr = 0x00BCA908
+        staff_message_entry_table_addr_end = 0x00BCAA90
+    elif version == "gc-eu-mq":
+        nes_message_entry_table_addr = 0x00B7E8F0
+        ger_message_entry_table_addr = 0x00B82B18
+        fra_message_entry_table_addr = 0x00B84C28
+        staff_message_entry_table_addr = 0x00B86D38
+        staff_message_entry_table_addr_end = 0x00B86EC0
+    else:
+        parser.error("Unsupported OOT version")
+
+    extract_all_text(args.text_out, args.staff_text_out)
+
+
+if __name__ == "__main__":
+    main()

@@ -53,8 +53,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0, 0, 0 } },
@@ -100,14 +100,14 @@ void EnFu_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-s32 func_80A1D94C(EnFu* this, PlayState* play, u16 textID, EnFuActionFunc actionFunc) {
+s32 func_80A1D94C(EnFu* this, PlayState* play, u16 textId, EnFuActionFunc actionFunc) {
     s16 yawDiff;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = actionFunc;
         return true;
     }
-    this->actor.textId = textID;
+    this->actor.textId = textId;
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistToPlayer < 100.0f)) {
@@ -131,16 +131,16 @@ void func_80A1DA04(EnFu* this, PlayState* play) {
 }
 
 void EnFu_WaitChild(EnFu* this, PlayState* play) {
-    u16 textID = Text_GetFaceReaction(play, 0xB);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_WINDMILL_MAN);
 
-    if (textID == 0) {
-        textID = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
+    if (textId == 0) {
+        textId = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
     }
 
-    // if ACTOR_FLAG_TALK is set and textID is 0x5033, change animation
+    // if ACTOR_FLAG_TALK is set and textId is 0x5033, change animation
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
-    if (func_80A1D94C(this, play, textID, func_80A1DA04)) {
-        if (textID == 0x5033) {
+    if (func_80A1D94C(this, play, textId, func_80A1DA04)) {
+        if (textId == 0x5033) {
             Animation_Change(&this->skelanime, &gWindmillManPlayAndMoveHeadAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gWindmillManPlayAndMoveHeadAnim), ANIMMODE_ONCE, -4.0f);
         }

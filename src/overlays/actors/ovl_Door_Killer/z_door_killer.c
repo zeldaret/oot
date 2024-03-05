@@ -54,8 +54,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0x0001FFEE, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 20, 100, 0, { 0, 0, 0 } },
@@ -67,8 +67,8 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 100 }, 100 },
@@ -109,8 +109,8 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
         objectSlot = Object_GetSlot(&play->objectCtx, sDoorTextures[i].objectId);
         this->textureEntryIndex = i;
     }
-    osSyncPrintf("bank_ID = %d\n", objectSlot);
-    osSyncPrintf("status = %d\n", this->textureEntryIndex);
+    PRINTF("bank_ID = %d\n", objectSlot);
+    PRINTF("status = %d\n", this->textureEntryIndex);
     this->requiredObjectSlot = objectSlot;
     this->texture = sDoorTextures[this->textureEntryIndex].texture;
 
@@ -228,7 +228,7 @@ void DoorKiller_FallAsRubble(DoorKiller* this, PlayState* play) {
 
 s32 DoorKiller_IsHit(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
-    if ((this->colliderCylinder.base.acFlags & AC_HIT) && (this->colliderCylinder.info.acHitInfo != NULL)) {
+    if ((this->colliderCylinder.base.acFlags & AC_HIT) && (this->colliderCylinder.elem.acHitElem != NULL)) {
         return true;
     }
     return false;
@@ -423,10 +423,10 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
 
     if (DoorKiller_IsHit(&this->actor, play)) {
         // AC cylinder: wobble if hit by most weapons, die if hit by explosives or hammer
-        if (this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & (DMG_RANGED | DMG_SLASH | DMG_DEKU_STICK)) {
+        if (this->colliderCylinder.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_RANGED | DMG_SLASH | DMG_DEKU_STICK)) {
             this->timer = 16;
             this->actionFunc = DoorKiller_Wobble;
-        } else if (this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & (DMG_HAMMER_SWING | DMG_EXPLOSIVE)) {
+        } else if (this->colliderCylinder.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_HAMMER_SWING | DMG_EXPLOSIVE)) {
             DoorKiller_SpawnRubble(&this->actor, play);
             this->actionFunc = DoorKiller_Die;
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);

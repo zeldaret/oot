@@ -46,8 +46,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 36, 46, 0, { 0, 0, 0 } },
@@ -385,10 +385,10 @@ s16 func_80AAAC78(EnMd* this, PlayState* play) {
 }
 
 u16 EnMd_GetTextIdKokiriForest(PlayState* play, EnMd* this) {
-    u16 reactionText = Text_GetFaceReaction(play, 0x11);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MIDO);
 
-    if (reactionText != 0) {
-        return reactionText;
+    if (textId != 0) {
+        return textId;
     }
 
     this->unk_208 = 0;

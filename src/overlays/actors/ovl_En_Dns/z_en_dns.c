@@ -66,8 +66,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 18, 32, 0, { 0, 0, 0 } },
@@ -77,6 +77,7 @@ static u16 sStartingTextIds[] = {
     0x10A0, 0x10A1, 0x10A2, 0x10CA, 0x10CB, 0x10CC, 0x10CD, 0x10CE, 0x10CF, 0x10DC, 0x10DD,
 };
 
+#if OOT_DEBUG
 static char* sItemDebugTxt[] = {
     "デクの実売り            ", // "Deku Nuts"
     "デクの棒売り            ", // "Deku Sticks"
@@ -90,6 +91,7 @@ static char* sItemDebugTxt[] = {
     "デクの棒持てる数を増やす", // "Deku Stick Upgrade"
     "デクの実持てる数を増やす", // "Deku Nut Upgrade"
 };
+#endif
 
 static DnsItemEntry sItemDekuNuts = { 20, 5, GI_DEKU_NUTS_5_2, EnDns_CanBuyDekuNuts, EnDns_PayForDekuNuts };
 static DnsItemEntry sItemDekuSticks = { 15, 1, GI_DEKU_STICKS_1, EnDns_CanBuyDekuSticks, EnDns_PayPrice };
@@ -128,7 +130,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
 
     if (DNS_GET_TYPE(&this->actor) < 0) {
         // "Function Error (Deku Salesman)"
-        osSyncPrintf(VT_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" VT_RST "\n", this->actor.params);
+        PRINTF(VT_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" VT_RST "\n", this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -139,7 +141,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     }
 
     // "Deku Salesman"
-    osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
+    PRINTF(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -154,7 +156,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->bumpOn = true;
+    this->isColliderEnabled = true;
     this->standOnGround = true;
     this->dropCollectible = false;
     this->actor.speed = 0.0f;
@@ -432,7 +434,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
         if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
             this->dnsItemEntry->payment(this);
             this->dropCollectible = true;
-            this->bumpOn = false;
+            this->isColliderEnabled = false;
             this->actor.flags &= ~ACTOR_FLAG_0;
             EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
             this->actionFunc = EnDns_Burrow;
@@ -440,7 +442,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
     } else {
         this->dnsItemEntry->payment(this);
         this->dropCollectible = true;
-        this->bumpOn = false;
+        this->isColliderEnabled = false;
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->actionFunc = EnDns_Burrow;
@@ -449,7 +451,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
 
 void EnDns_SetupNoSaleBurrow(EnDns* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        this->bumpOn = false;
+        this->isColliderEnabled = false;
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->actionFunc = EnDns_Burrow;
@@ -513,7 +515,7 @@ void EnDns_Update(Actor* thisx, PlayState* play) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
     }
 
-    if (this->bumpOn) {
+    if (this->isColliderEnabled) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }

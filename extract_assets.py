@@ -28,7 +28,7 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
     Path(outputPath).mkdir(parents=True, exist_ok=True)
     Path(outputSourcePath).mkdir(parents=True, exist_ok=True)
 
-    execStr = f"{zapdPath} e -eh -i {xmlPath} -b baserom -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} {ZAPDArgs}"
+    execStr = f"{zapdPath} e -eh -i {xmlPath} -b extracted/gc-eu-mq-dbg/baserom -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
 
     if "overlays" in xmlPath:
         execStr += " --static"
@@ -96,7 +96,7 @@ def processZAPDArgs(argsZ):
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
     parser.add_argument("-s", "--single", help="asset path relative to assets/, e.g. objects/gameplay_keep")
-    parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones, and text (overwriting current files).", action="store_true")
+    parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones (overwriting current files).", action="store_true")
     parser.add_argument("-j", "--jobs", help="Number of cpu cores to extract with.")
     parser.add_argument("-u", "--unaccounted", help="Enables ZAPD unaccounted detector warning system.", action="store_true")
     parser.add_argument("-Z", help="Pass the argument on to ZAPD, e.g. `-ZWunaccounted` to warn about unaccounted blocks in XMLs. Each argument should be passed separately, *without* the leading dash.", metavar="ZAPD_ARG", action="append")
@@ -128,21 +128,6 @@ def main():
             del extractedAssetsTracker[fullPath]
         ExtractFunc(fullPath)
     else:
-        extract_text_path = "assets/text/message_data.h"
-        extract_staff_text_path = "assets/text/message_data_staff.h"
-
-        # Only extract text if the header does not already exist, or if --force was passed
-        if not args.force:
-            if os.path.isfile(extract_text_path):
-                extract_text_path = None
-            if os.path.isfile(extract_staff_text_path):
-                extract_staff_text_path = None
-
-        if extract_text_path is not None or extract_staff_text_path is not None:
-            print("Extracting text")
-            from tools import msgdis
-            msgdis.extract_all_text(extract_text_path, extract_staff_text_path)
-
         xmlFiles = []
         for currentPath, _, files in os.walk(os.path.join("assets", "xml")):
             for file in files:

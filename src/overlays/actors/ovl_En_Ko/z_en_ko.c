@@ -55,8 +55,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 46, 0, { 0, 0, 0 } },
@@ -489,23 +489,23 @@ u16 EnKo_GetTextIdAdult(PlayState* play, Actor* thisx) {
 }
 
 u16 EnKo_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction;
+    u16 textId;
     EnKo* this = (EnKo*)thisx;
 
     if (ENKO_TYPE == ENKO_TYPE_CHILD_0 || ENKO_TYPE == ENKO_TYPE_CHILD_2 || ENKO_TYPE == ENKO_TYPE_CHILD_3 ||
         ENKO_TYPE == ENKO_TYPE_CHILD_4 || ENKO_TYPE == ENKO_TYPE_CHILD_7 || ENKO_TYPE == ENKO_TYPE_CHILD_8 ||
         ENKO_TYPE == ENKO_TYPE_CHILD_11) {
-        faceReaction = Text_GetFaceReaction(play, 0x13);
+        textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KOKIRI_1);
     }
     if (ENKO_TYPE == ENKO_TYPE_CHILD_1 || ENKO_TYPE == ENKO_TYPE_CHILD_5 || ENKO_TYPE == ENKO_TYPE_CHILD_6 ||
         ENKO_TYPE == ENKO_TYPE_CHILD_9 || ENKO_TYPE == ENKO_TYPE_CHILD_10) {
-        faceReaction = Text_GetFaceReaction(play, 0x14);
+        textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KOKIRI_2);
     }
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
-        faceReaction = Text_GetFaceReaction(play, 0x12);
+        textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_FADO);
     }
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     if (LINK_IS_ADULT) {
         return EnKo_GetTextIdAdult(play, thisx);
@@ -1161,7 +1161,7 @@ void func_80A99048(EnKo* this, PlayState* play) {
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if (ENKO_TYPE == ENKO_TYPE_CHILD_7) {
             // "Angle Z"
-            osSyncPrintf(VT_BGCOL(BLUE) "  アングルＺ->(%d)\n" VT_RST, this->actor.shape.rot.z);
+            PRINTF(VT_BGCOL(BLUE) "  アングルＺ->(%d)\n" VT_RST, this->actor.shape.rot.z);
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (this->actor.shape.rot.z != 1) {
                     Actor_Kill(&this->actor);
@@ -1347,7 +1347,7 @@ void EnKo_PostLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 Gfx* EnKo_SetEnvColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
-    Gfx* dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
+    Gfx* dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 2);
 
     gDPSetEnvColor(dList, r, g, b, a);
     gSPEndDisplayList(dList + 1);

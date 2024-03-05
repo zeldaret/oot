@@ -38,6 +38,7 @@
 #include "z64view.h"
 #include "z64vis.h"
 #include "alignment.h"
+#include "audiothread_cmd.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
@@ -193,8 +194,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ uintptr_t vromStart;
-    /* 0x08 */ uintptr_t vromEnd;
+    /* 0x04 */ RomFile file;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
     /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
@@ -272,6 +272,8 @@ typedef struct {
     /* 0x70 */ OSMesg loadMsg;
     /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
+
+#define SAC_ENABLE (1 << 0)
 
 typedef struct {
     /* 0x000 */ s16 colATCount;
@@ -555,8 +557,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void*     loadedRamAddr;
-    /* 0x04 */ uintptr_t vromStart; // if applicable
-    /* 0x08 */ uintptr_t vromEnd;   // if applicable
+    /* 0x04 */ RomFile   file;      // if applicable
     /* 0x0C */ void*     vramStart; // if applicable
     /* 0x10 */ void*     vramEnd;   // if applicable
     /* 0x14 */ void*     unk_14;
@@ -693,8 +694,7 @@ typedef struct {
     /* 0x04 */ u32 decSize;
     /* 0x08 */ u32 compInfoOffset; // only used in mio0
     /* 0x0C */ u32 uncompDataOffset; // only used in mio0
-    /* 0x10 */ u8 data[1];
-} Yaz0Header; // size = 0x10 ("data" is not part of the header)
+} Yaz0Header; // size = 0x10
 
 struct ArenaNode;
 
@@ -702,7 +702,7 @@ typedef struct Arena {
     /* 0x00 */ struct ArenaNode* head;
     /* 0x04 */ void* start;
     /* 0x08 */ OSMesgQueue lockQueue;
-    /* 0x20 */ u8 unk_20;
+    /* 0x20 */ u8 allocFailures; // only used in non-debug builds
     /* 0x21 */ u8 isInit;
     /* 0x22 */ u8 flag;
 } Arena; // size = 0x24
@@ -713,12 +713,14 @@ typedef struct ArenaNode {
     /* 0x04 */ u32 size;
     /* 0x08 */ struct ArenaNode* next;
     /* 0x0C */ struct ArenaNode* prev;
+#if OOT_DEBUG // TODO: This debug info is also present in N64 retail builds
     /* 0x10 */ const char* filename;
-    /* 0x14 */ s32 line;
+    /* 0x14 */ int line;
     /* 0x18 */ OSId threadId;
     /* 0x1C */ Arena* arena;
     /* 0x20 */ OSTime time;
     /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
+#endif
 } ArenaNode; // size = 0x30
 
 /* Relocation entry field getters */
@@ -751,7 +753,12 @@ typedef struct OverlayRelocationSection {
     /* 0x14 */ u32 relocations[1]; // size is nRelocations
 } OverlayRelocationSection; // size >= 0x18
 
-typedef struct {
+// This struct is used at osAppNMIBuffer which is not at an 8-byte aligned address. This causes an unaligned access
+// crash if the OSTime variables use 64-bit load/store instructions, which is the case in any MIPS ABI other than O32
+// where 64-bit load/store instructions are emulated with 2x 32-bit load/store instructions. The alignment attribute
+// conveys that this structure will not always be 8-bytes aligned, allowing a modern compiler to generate non-crashing
+// code for accessing these. This is not an issue in the original compiler as it only output O32 ABI code.
+ALIGNED(4) typedef struct {
     /* 0x00 */ u32 resetting;
     /* 0x04 */ u32 resetCount;
     /* 0x08 */ OSTime duration;

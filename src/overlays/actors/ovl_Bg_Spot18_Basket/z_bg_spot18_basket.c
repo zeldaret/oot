@@ -40,8 +40,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 0, { { 0, 2040, 0 }, 54 }, 100 },
@@ -51,8 +51,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 1, { { 0, 1400, 0 }, 13 }, 100 },
@@ -91,33 +91,33 @@ void func_808B7770(BgSpot18Basket* this, PlayState* play, f32 arg2) {
     s32 i;
     f32 randomValue;
     f32 sinValue;
-    s32 count;
 
-    for (i = 0, count = 2; i != count; i++) {
-        if (play) {}
-        if (!(arg2 < Rand_ZeroOne())) {
-            D_808B85D0 += 0x7530;
-
-            sinValue = Math_SinS(D_808B85D0);
-            cosValue = Math_CosS(D_808B85D0);
-
-            randomValue = (Rand_ZeroOne() * 35.0f) + 35.0f;
-
-            position.x = (randomValue * sinValue) + this->dyna.actor.world.pos.x;
-            position.y = this->dyna.actor.world.pos.y + 10.0f;
-            position.z = (randomValue * cosValue) + this->dyna.actor.world.pos.z;
-
-            velocity.x = sinValue;
-            velocity.y = 0.0f;
-            velocity.z = cosValue;
-
-            acceleration.x = 0.0f;
-            acceleration.y = 0.5f;
-            acceleration.z = 0.0f;
-
-            func_800286CC(play, &position, &velocity, &acceleration, ((Rand_ZeroOne() * 16) + 80),
-                          ((Rand_ZeroOne() * 30) + 80));
+    for (i = 0; i != 2; i++) {
+        if (arg2 < Rand_ZeroOne()) {
+            continue;
         }
+
+        D_808B85D0 += 0x7530;
+
+        sinValue = Math_SinS(D_808B85D0);
+        cosValue = Math_CosS(D_808B85D0);
+
+        randomValue = (Rand_ZeroOne() * 35.0f) + 35.0f;
+
+        position.x = (randomValue * sinValue) + this->dyna.actor.world.pos.x;
+        position.y = this->dyna.actor.world.pos.y + 10.0f;
+        position.z = (randomValue * cosValue) + this->dyna.actor.world.pos.z;
+
+        velocity.x = sinValue;
+        velocity.y = 0.0f;
+        velocity.z = cosValue;
+
+        acceleration.x = 0.0f;
+        acceleration.y = 0.5f;
+        acceleration.z = 0.0f;
+
+        func_800286CC(play, &position, &velocity, &acceleration, ((Rand_ZeroOne() * 16) + 80),
+                      ((Rand_ZeroOne() * 30) + 80));
     }
 }
 
@@ -155,9 +155,9 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
                        this->dyna.actor.shape.rot.y + 0x1555, this->dyna.actor.shape.rot.z, -1);
 
     if (this->dyna.actor.child == NULL) {
-        osSyncPrintf(VT_FGCOL(RED));
-        osSyncPrintf("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_FGCOL(RED));
+        PRINTF("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
+        PRINTF(VT_RST);
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -240,9 +240,6 @@ void func_808B7D38(BgSpot18Basket* this) {
 }
 
 void func_808B7D50(BgSpot18Basket* this, PlayState* play) {
-    f32 tempValue2;
-    f32 tempValue;
-
     if (this->unk_216 > 120) {
         Math_StepToS(&this->unk_210, 0x3E8, 0x32);
     } else {
@@ -281,11 +278,12 @@ void func_808B7D50(BgSpot18Basket* this, PlayState* play) {
         func_808B7770(this, play, 0.8f);
     }
 
-    tempValue2 = (this->unk_210 - 500) * 0.0006f;
+    {
+        f32 tempValue2 = (this->unk_210 - 500) * 0.0006f;
+        f32 tempValue = CLAMP(tempValue2, 0.0f, 1.5f);
 
-    tempValue = CLAMP(tempValue2, 0.0f, 1.5f);
-
-    func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG, tempValue);
+        func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG, tempValue);
+    }
 }
 
 void func_808B7F74(BgSpot18Basket* this) {
@@ -308,9 +306,7 @@ void func_808B7F74(BgSpot18Basket* this) {
 void func_808B7FC0(BgSpot18Basket* this, PlayState* play) {
     s32 pad;
     s32 tempUnk214;
-    f32 tempUnk210;
     s16 arrayValue;
-    f32 clampedTempUnk210;
 
     this->unk_212 += 0xBB8;
 
@@ -343,11 +339,12 @@ void func_808B7FC0(BgSpot18Basket* this, PlayState* play) {
         func_808B7770(this, play, 0.3f);
     }
 
-    tempUnk210 = (this->unk_210 - 500) * 0.0006f;
+    {
+        f32 tempUnk210 = (this->unk_210 - 500) * 0.0006f;
+        f32 clampedTempUnk210 = CLAMP(tempUnk210, 0.0f, 1.5f);
 
-    clampedTempUnk210 = CLAMP(tempUnk210, 0.0f, 1.5f);
-
-    func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG, clampedTempUnk210);
+        func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG, clampedTempUnk210);
+    }
 }
 
 void func_808B818C(BgSpot18Basket* this) {

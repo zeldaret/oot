@@ -40,6 +40,22 @@ Gfx sTransTileSetupDL[] = {
     gsSPEndDisplayList(),
 };
 
+#define SET_VERTEX(vtx, x, y, z, s, t, nx, ny, nz, alpha) \
+    {                                                     \
+        Vtx_tn* vtxn = &(vtx)->n;                         \
+        vtxn->ob[0] = (x);                                \
+        vtxn->ob[1] = (y);                                \
+        vtxn->ob[2] = (z);                                \
+        vtxn->flag = 0;                                   \
+        vtxn->tc[0] = (s);                                \
+        vtxn->tc[1] = (t);                                \
+        vtxn->n[0] = (nx);                                \
+        vtxn->n[1] = (ny);                                \
+        vtxn->n[2] = (nz);                                \
+        vtxn->a = (alpha);                                \
+    }                                                     \
+    (void)0
+
 void TransitionTile_InitGraphics(TransitionTile* this) {
     s32 frame;
     s32 col;
@@ -61,20 +77,7 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
         for (row = 0; row < this->rows + 1; row++) {
             colTex = 0;
             for (col = 0; col < this->cols + 1; col++) {
-                Vtx_tn* vtxn = &vtx->n;
-
-                vtx++;
-                vtxn->tc[0] = colTex << 6;
-                vtxn->ob[0] = col * 0x20;
-                vtxn->ob[1] = row * 0x20;
-                vtxn->ob[2] = -5;
-                vtxn->flag = 0;
-                vtxn->tc[1] = rowTex << 6;
-                vtxn->n[0] = 0;
-                vtxn->n[1] = 0;
-                vtxn->n[2] = 120;
-                vtxn->a = 255;
-
+                SET_VERTEX(vtx++, col * 0x20, row * 0x20, -5, colTex << 6, rowTex << 6, 0, 0, 120, 255);
                 colTex += 0x20;
             }
 
@@ -128,56 +131,55 @@ void TransitionTile_InitVtxData(TransitionTile* this) {
 }
 
 void TransitionTile_Destroy(TransitionTile* this) {
-    osSyncPrintf("fbdemo_cleanup(%08x)\n", this);
-    osSyncPrintf("msleep(100);\n");
+    PRINTF("fbdemo_cleanup(%08x)\n", this);
+    PRINTF("msleep(100);\n");
     Sleep_Msec(100);
 
     if (this->vtxData != NULL) {
-        SystemArena_FreeDebug(this->vtxData, "../z_fbdemo.c", 180);
+        SYSTEM_ARENA_FREE(this->vtxData, "../z_fbdemo.c", 180);
         this->vtxData = NULL;
     }
     if (this->vtxFrame1 != NULL) {
-        SystemArena_FreeDebug(this->vtxFrame1, "../z_fbdemo.c", 181);
+        SYSTEM_ARENA_FREE(this->vtxFrame1, "../z_fbdemo.c", 181);
         this->vtxFrame1 = NULL;
     }
     if (this->vtxFrame2 != NULL) {
-        SystemArena_FreeDebug(this->vtxFrame2, "../z_fbdemo.c", 182);
+        SYSTEM_ARENA_FREE(this->vtxFrame2, "../z_fbdemo.c", 182);
         this->vtxFrame2 = NULL;
     }
     if (this->gfx != NULL) {
-        SystemArena_FreeDebug(this->gfx, "../z_fbdemo.c", 183);
+        SYSTEM_ARENA_FREE(this->gfx, "../z_fbdemo.c", 183);
         this->gfx = NULL;
     }
 }
 
 TransitionTile* TransitionTile_Init(TransitionTile* this, s32 cols, s32 rows) {
-    osSyncPrintf("fbdemo_init(%08x, %d, %d)\n", this, cols, rows);
+    PRINTF("fbdemo_init(%08x, %d, %d)\n", this, cols, rows);
     bzero(this, sizeof(TransitionTile));
     this->frame = 0;
     this->cols = cols;
     this->rows = rows;
-    this->vtxData =
-        SystemArena_MallocDebug((cols + 1) * sizeof(TransitionTileVtxData) * (rows + 1), "../z_fbdemo.c", 195);
-    this->vtxFrame1 = SystemArena_MallocDebug((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 196);
-    this->vtxFrame2 = SystemArena_MallocDebug((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 197);
-    this->gfx = SystemArena_MallocDebug((this->rows * (1 + this->cols * 9) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
+    this->vtxData = SYSTEM_ARENA_MALLOC((cols + 1) * sizeof(TransitionTileVtxData) * (rows + 1), "../z_fbdemo.c", 195);
+    this->vtxFrame1 = SYSTEM_ARENA_MALLOC((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 196);
+    this->vtxFrame2 = SYSTEM_ARENA_MALLOC((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 197);
+    this->gfx = SYSTEM_ARENA_MALLOC((this->rows * (1 + this->cols * 9) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
 
     if ((this->vtxData == NULL) || (this->vtxFrame1 == NULL) || (this->vtxFrame2 == NULL) || (this->gfx == NULL)) {
-        osSyncPrintf("fbdemo_init allocation error\n");
+        PRINTF("fbdemo_init allocation error\n");
         if (this->vtxData != NULL) {
-            SystemArena_FreeDebug(this->vtxData, "../z_fbdemo.c", 202);
+            SYSTEM_ARENA_FREE(this->vtxData, "../z_fbdemo.c", 202);
             this->vtxData = NULL;
         }
         if (this->vtxFrame1 != NULL) {
-            SystemArena_FreeDebug(this->vtxFrame1, "../z_fbdemo.c", 203);
+            SYSTEM_ARENA_FREE(this->vtxFrame1, "../z_fbdemo.c", 203);
             this->vtxFrame1 = NULL;
         }
         if (this->vtxFrame2 != NULL) {
-            SystemArena_FreeDebug(this->vtxFrame2, "../z_fbdemo.c", 204);
+            SYSTEM_ARENA_FREE(this->vtxFrame2, "../z_fbdemo.c", 204);
             this->vtxFrame2 = NULL;
         }
         if (this->gfx != NULL) {
-            SystemArena_FreeDebug(this->gfx, "../z_fbdemo.c", 205);
+            SYSTEM_ARENA_FREE(this->gfx, "../z_fbdemo.c", 205);
             this->gfx = NULL;
         }
         return NULL;

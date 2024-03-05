@@ -183,8 +183,8 @@ static ColliderCylinderInitType1 D_80B01678 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x0, 0x08 },
         { 0xFFCFFFFF, 0x0, 0x0 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 8, 48, 0, { 0, 0, 0 } },
@@ -364,7 +364,6 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
     EnSkj* this = (EnSkj*)thisx;
     PlayState* play = play2;
     s32 pad;
-    Player* player;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     switch (type) {
@@ -445,13 +444,18 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             this->actor.gravity = -1.0f;
             EnSkj_CalculateCenter(this);
 
-            player = GET_PLAYER(play);
-            osSyncPrintf("Player_X : %f\n", player->actor.world.pos.x);
-            osSyncPrintf("Player_Z : %f\n", player->actor.world.pos.z);
-            osSyncPrintf("World_X  : %f\n", this->actor.world.pos.x);
-            osSyncPrintf("World_Z  : %f\n", this->actor.world.pos.z);
-            osSyncPrintf("Center_X : %f\n", this->center.x);
-            osSyncPrintf("Center_Z : %f\n\n", this->center.z);
+#if OOT_DEBUG
+            {
+                Player* player = GET_PLAYER(play);
+
+                PRINTF("Player_X : %f\n", player->actor.world.pos.x);
+                PRINTF("Player_Z : %f\n", player->actor.world.pos.z);
+                PRINTF("World_X  : %f\n", this->actor.world.pos.x);
+                PRINTF("World_Z  : %f\n", this->actor.world.pos.z);
+                PRINTF("Center_X : %f\n", this->center.x);
+                PRINTF("Center_Z : %f\n\n", this->center.z);
+            }
+#endif
 
             break;
     }
@@ -581,9 +585,9 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         switch (this->actor.colChkInfo.damageEffect) {
             case 0xF:
-                effectPos.x = this->collider.info.bumper.hitPos.x;
-                effectPos.y = this->collider.info.bumper.hitPos.y;
-                effectPos.z = this->collider.info.bumper.hitPos.z;
+                effectPos.x = this->collider.elem.acDmgInfo.hitPos.x;
+                effectPos.y = this->collider.elem.acDmgInfo.hitPos.y;
+                effectPos.z = this->collider.elem.acDmgInfo.hitPos.z;
 
                 EnSkj_SpawnBlood(play, &effectPos);
                 EffectSsHitMark_SpawnFixedScale(play, 1, &effectPos);
@@ -927,7 +931,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
         player->stateFlags2 |= PLAYER_STATE2_23;
         if (GET_ITEMGETINF(ITEMGETINF_16)) {
             if (GET_ITEMGETINF(ITEMGETINF_39)) {
-                this->textId = Text_GetFaceReaction(play, 0x15);
+                this->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SKULL_KID);
                 if (this->textId == 0) {
                     this->textId = 0x1020;
                 }
@@ -936,7 +940,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
             } else if (Player_GetMask(play) == PLAYER_MASK_SKULL) {
                 this->textId = 0x101B;
             } else {
-                this->textId = Text_GetFaceReaction(play, 0x15);
+                this->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SKULL_KID);
             }
             Actor_OfferTalk(&this->actor, play, EnSkj_GetItemXzRange(this));
         }
@@ -1345,7 +1349,7 @@ void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, PlayState* play) {
 
     D_80B01EA0 = Actor_TalkOfferAccepted(&this->actor, play);
 
-    if (BREG(0) != 0) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
@@ -1502,15 +1506,15 @@ void EnSkj_OfferNextRound(EnSkj* this, PlayState* play) {
 }
 
 void EnSkj_WaitForOfferResponse(EnSkj* this, PlayState* play) {
-    Player* player;
-
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
-            case 0: // yes
-                player = GET_PLAYER(play);
+            case 0: { // yes
+                Player* player = GET_PLAYER(play);
+
                 player->stateFlags3 |= PLAYER_STATE3_5; // makes player take ocarina out right away after closing box
                 this->actionFunc = EnSkj_SetupWaitForOcarina;
                 break;
+            }
             case 1: // no
                 this->actionFunc = EnSkj_CleanupOcarinaGame;
                 break;
@@ -1587,11 +1591,13 @@ void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, PlayState* play) {
     this->actor.focus.pos.y = -90.0f;
     this->actor.focus.pos.z = 450.0f;
 
+#if OOT_DEBUG
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
     }
+#endif
 
     this->actionFunc(this, play);
 
@@ -1610,7 +1616,7 @@ void EnSkj_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         Matrix_Push();
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_skj.c", 2430),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_skj.c", 2430),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gSkullKidSkullMaskDL);
         Matrix_Pop();
@@ -1624,7 +1630,7 @@ Gfx* EnSkj_TranslucentDL(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dListHead;
 
     //! @bug This only allocates space for 1 command but uses 3
-    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    dList = dListHead = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gDPSetEnvColor(dListHead++, 0, 0, 0, alpha);
     gSPEndDisplayList(dListHead++);
@@ -1637,7 +1643,7 @@ Gfx* EnSkj_OpaqueDL(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dListHead;
 
     //! @bug This only allocates space for 1 command but uses 2
-    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    dList = dListHead = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     gDPSetEnvColor(dListHead++, 0, 0, 0, alpha);
     gSPEndDisplayList(dListHead++);
 

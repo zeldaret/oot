@@ -55,8 +55,8 @@ static ColliderCylinderInit sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 32, 50, -24, { 0, 0, 0 } },
@@ -77,8 +77,8 @@ static ColliderCylinderInit sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 60, -30, { 0, 0, 0 } },
@@ -90,8 +90,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
@@ -200,15 +200,15 @@ void EnSsh_InitColliders(EnSsh* this, PlayState* play) {
         Collider_SetCylinder(play, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dmgFlags =
+    this->colCylinder[0].elem.acDmgInfo.dmgFlags =
         DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT;
-    this->colCylinder[1].info.bumper.dmgFlags =
+    this->colCylinder[1].elem.acDmgInfo.dmgFlags =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
         ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
     this->colCylinder[2].base.colType = COLTYPE_METAL;
-    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
-    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].info.bumper.dmgFlags =
+    this->colCylinder[2].elem.acElemFlags = ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO;
+    this->colCylinder[2].elem.elemType = ELEMTYPE_UNK2;
+    this->colCylinder[2].elem.acDmgInfo.dmgFlags =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
@@ -434,17 +434,17 @@ void EnSsh_Sway(EnSsh* this) {
 }
 
 void EnSsh_CheckBodyStickHit(EnSsh* this, PlayState* play) {
-    ColliderInfo* info = &this->colCylinder[0].info;
+    ColliderElement* elem = &this->colCylinder[0].elem;
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        info->bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        elem->acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[1].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[2].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        info->bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags |= DMG_DEKU_STICK;
+        elem->acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[1].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[2].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 
@@ -694,7 +694,7 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
             }
             EnSsh_Bob(this, play);
             if ((this->unkTimer == 0) && (this->animTimer == 0)) {
-                this->actor.textId = Text_GetFaceReaction(play, 0xD);
+                this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CURSED_SKULLTULA_MAN);
                 if (this->actor.textId == 0) {
                     if (this->actor.params == ENSSH_FATHER) {
                         if (gSaveContext.save.info.inventory.gsTokens >= 50) {

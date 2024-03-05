@@ -63,7 +63,6 @@ static void* sEyeTextures[] = {
 
 static UNK_TYPE D_80AF4118 = 0;
 
-#pragma asmproc recurse
 #include "z_en_ru2_cutscene_data.inc.c"
 
 static EnRu2ActionFunc sActionFuncs[] = {
@@ -137,6 +136,7 @@ s32 func_80AF26A0(EnRu2* this) {
     return params & 0xFF;
 }
 
+#if OOT_DEBUG
 void func_80AF26AC(EnRu2* this) {
     this->action = 7;
     this->drawConfig = 0;
@@ -164,6 +164,7 @@ void func_80AF26D0(EnRu2* this, PlayState* play) {
         }
     }
 }
+#endif
 
 void func_80AF2744(EnRu2* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_2);
@@ -175,8 +176,11 @@ s32 EnRu2_UpdateSkelAnime(EnRu2* this) {
 
 CsCmdActorCue* EnRu2_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
+
     return NULL;
 }
 
@@ -447,7 +451,9 @@ void func_80AF30AC(EnRu2* this, PlayState* play) {
 
 void func_80AF3144(EnRu2* this, PlayState* play) {
     func_80AF2F04(this, play);
+#if OOT_DEBUG
     func_80AF26D0(this, play);
+#endif
 }
 
 void func_80AF3174(EnRu2* this, PlayState* play) {
@@ -455,7 +461,9 @@ void func_80AF3174(EnRu2* this, PlayState* play) {
     EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF2F58(this, play);
+#if OOT_DEBUG
     func_80AF26D0(this, play);
+#endif
 }
 
 void func_80AF31C8(EnRu2* this, PlayState* play) {
@@ -463,7 +471,9 @@ void func_80AF31C8(EnRu2* this, PlayState* play) {
     EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF30AC(this, play);
+#if OOT_DEBUG
     func_80AF26D0(this, play);
+#endif
 }
 
 void func_80AF321C(EnRu2* this, PlayState* play) {
@@ -555,7 +565,7 @@ void func_80AF3564(EnRu2* this, PlayState* play) {
                     break;
                 default:
                     // "There is no such action!"
-                    osSyncPrintf("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
             this->cueId = nextCueId;
@@ -671,12 +681,12 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
     if (dialogState == TEXT_STATE_DONE_FADING) {
         if (this->unk_2C3 != TEXT_STATE_DONE_FADING) {
             // "I'm Komatsu!" (cinema scene dev)
-            osSyncPrintf("おれが小松だ！ \n");
+            PRINTF("おれが小松だ！ \n");
             this->unk_2C2++;
             if (this->unk_2C2 % 6 == 3) {
                 player = GET_PLAYER(play);
                 // "uorya-!" (screeming sound)
-                osSyncPrintf("うおりゃー！ \n");
+                PRINTF("うおりゃー！ \n");
                 Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;
@@ -760,7 +770,7 @@ void EnRu2_Update(Actor* thisx, PlayState* play) {
 
     if ((this->action < 0) || (this->action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[this->action] == NULL)) {
         // "Main Mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -821,7 +831,7 @@ void EnRu2_Draw(Actor* thisx, PlayState* play) {
     if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
         (sDrawFuncs[this->drawConfig] == NULL)) {
         // "Draw Mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

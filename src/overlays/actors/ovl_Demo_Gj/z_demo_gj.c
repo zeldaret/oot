@@ -27,8 +27,8 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 30, 100, 0, { 0, 0, 0 } },
@@ -46,8 +46,8 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 25, 110, 0, { 0, 0, 0 } },
@@ -65,8 +65,8 @@ static ColliderCylinderInitType1 sCylinderInit3 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 25, 200, 0, { 0, 0, 0 } },
@@ -220,14 +220,14 @@ s32 DemoGj_FindGanon(DemoGj* this, PlayState* play) {
                 this->ganon = (BossGanon2*)actor;
 
                 // "Demo_Gj_Search_Boss_Ganon %d: Discover Ganon !!!!"
-                osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
+                PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
                 return true;
             }
             actor = actor->next;
         }
 
         // "Demo_Gj_Search_Boss_Ganon %d: I couldn't find Ganon"
-        osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
+        PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
         return false;
     }
     //! @bug: Missing return value when `this->ganon` is already set.
@@ -263,14 +263,14 @@ s32 DemoGj_InitSetIndices(DemoGj* this, PlayState* play, s32 updateMode, s32 dra
 }
 
 void DemoGj_DrawCommon(DemoGj* this, PlayState* play, Gfx* displayList) {
-    if (kREG(0) == 0) {
+    if (!OOT_DEBUG || kREG(0) == 0) {
         GraphicsContext* gfxCtx = play->state.gfxCtx;
 
         OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1163);
 
         Gfx_SetupDL_25Opa(gfxCtx);
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gj.c", 1165),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_gj.c", 1165),
                   G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gSPDisplayList(POLY_OPA_DISP++, displayList);
@@ -290,13 +290,13 @@ void DemoGj_DrawRotated(DemoGj* this, PlayState* play, Gfx* displayList) {
     Mtx* matrix;
 
     gfxCtx = play->state.gfxCtx;
-    matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    matrix = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1187);
 
     Matrix_Push();
     Matrix_RotateZYX(x, y, z, MTXMODE_APPLY);
-    Matrix_ToMtx(matrix, "../z_demo_gj.c", 1193);
+    MATRIX_TO_MTX(matrix, "../z_demo_gj.c", 1193);
     Matrix_Pop();
 
     Gfx_SetupDL_25Opa(gfxCtx);
@@ -384,8 +384,8 @@ void DemoGj_SetupRotation(DemoGj* this, PlayState* play) {
 
         default:
             // "Demo_Gj_common_Reflect : This arg_data is not supported = %d"
-            osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" VT_RST,
-                         this->dyna.actor.params);
+            PRINTF(VT_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" VT_RST,
+                   this->dyna.actor.params);
             return;
     }
 
@@ -454,7 +454,7 @@ s32 DemoGj_IsGanondorfFloatingInAir(DemoGj* this, PlayState* play) {
 
 void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
     Actor* actor = &this->dyna.actor;
-    Player* player;
+    s32 pad;
     Vec3f* pos = &actor->world.pos;
     Vec3s* unk_172;
     f32 xDistance;
@@ -538,13 +538,14 @@ void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
 
             default:
                 // "Demo_Gj_Setup_Move_common : This arg_data is not supported = %d"
-                osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" VT_RST,
-                             actor->params);
+                PRINTF(VT_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" VT_RST,
+                       actor->params);
                 break;
         }
 
         if (xDistance == 0.0f && zDistance == 0.0f) {
-            player = GET_PLAYER(play);
+            Player* player = GET_PLAYER(play);
+
             xDistance = player->actor.world.pos.x - pos->x;
             zDistance = player->actor.world.pos.z - pos->z;
 
@@ -974,8 +975,10 @@ void DemoGj_InitDestructableRubble1(DemoGj* this, PlayState* play) {
     DemoGj_InitCylinder(this, play, &this->cylinders[2], &sCylinderInit1);
 }
 
+#if OOT_DEBUG
 void DemoGj_DoNothing1(DemoGj* this, PlayState* play) {
 }
+#endif
 
 /*
  * Moves the ColliderCylinder's relative to the actor's position.
@@ -1092,7 +1095,9 @@ void DemoGj_Update15(DemoGj* this, PlayState* play) {
 // func_8097B370
 void DemoGj_Update18(DemoGj* this, PlayState* play) {
     func_8097B22C(this, play);
+#if OOT_DEBUG
     DemoGj_DoNothing1(this, play);
+#endif
 }
 
 void DemoGj_DrawDestructableRubble1(DemoGj* this, PlayState* play) {
@@ -1107,8 +1112,10 @@ void DemoGj_InitDestructableRubble2(DemoGj* this, PlayState* play) {
     DemoGj_InitCylinder(this, play, &this->cylinders[2], &sCylinderInit2);
 }
 
+#if OOT_DEBUG
 void DemoGj_DoNothing2(DemoGj* this, PlayState* play) {
 }
+#endif
 
 // Moves the ColliderCylinder's relative to the actor's position.
 void func_8097B450(DemoGj* this, PlayState* play) {
@@ -1223,7 +1230,9 @@ void DemoGj_Update16(DemoGj* this, PlayState* play) {
 // func_8097B894
 void DemoGj_Update19(DemoGj* this, PlayState* play) {
     func_8097B750(this, play);
+#if OOT_DEBUG
     DemoGj_DoNothing2(this, play);
+#endif
 }
 
 void DemoGj_DemoGj_InitDestructableRubble2(DemoGj* this, PlayState* play) {
@@ -1236,8 +1245,10 @@ void DemoGj_InitDestructableRubbleTall(DemoGj* this, PlayState* play) {
     DemoGj_InitCylinder(this, play, &this->cylinders[0], &sCylinderInit3);
 }
 
+#if OOT_DEBUG
 void DemoGj_DoNothing3(DemoGj* this, PlayState* play) {
 }
+#endif
 
 void DemoGj_DirectedDoubleExplosion(DemoGj* this, PlayState* play, Vec3f* direction) {
     Vec3f pos;
@@ -1308,7 +1319,9 @@ void DemoGj_Update17(DemoGj* this, PlayState* play) {
 // func_8097BBA8
 void DemoGj_Update20(DemoGj* this, PlayState* play) {
     func_8097BA48(this, play);
+#if OOT_DEBUG
     DemoGj_DoNothing3(this, play);
+#endif
 }
 
 void DemoGj_DemoGj_InitDestructableRubbleTall(DemoGj* this, PlayState* play) {
@@ -1345,7 +1358,7 @@ void DemoGj_Update(Actor* thisx, PlayState* play) {
     if (this->updateMode < 0 || this->updateMode >= ARRAY_COUNT(sUpdateFuncs) ||
         sUpdateFuncs[this->updateMode] == NULL) {
         // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1402,7 +1415,7 @@ void DemoGj_Init(Actor* thisx, PlayState* play) {
 
         default:
             // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
-            osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play, this);
+            PRINTF(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play, this);
             Actor_Kill(&this->dyna.actor);
     }
 }
@@ -1437,7 +1450,7 @@ void DemoGj_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
         // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 

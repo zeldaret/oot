@@ -12,7 +12,7 @@
 
 void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play);
 void BgMoriRakkatenjo_Destroy(Actor* thisx, PlayState* play);
-void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play);
+void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play2);
 void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play);
 
 void BgMoriRakkatenjo_SetupWaitForMoriTex(BgMoriRakkatenjo* this);
@@ -52,22 +52,26 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
+
+#if OOT_DEBUG
     // "Forest Temple obj. Falling Ceiling"
-    osSyncPrintf("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
+    PRINTF("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
         (fabsf(683.0f - this->dyna.actor.home.pos.y) > 0.001f) ||
         (fabsf(-2520.0f - this->dyna.actor.home.pos.z) > 0.001f)) {
         // "The set position has been changed. Let's fix the program."
-        osSyncPrintf("Warning : セット位置が変更されています。プログラムを修正しましょう。\n");
+        PRINTF("Warning : セット位置が変更されています。プログラムを修正しましょう。\n");
     }
     if (this->dyna.actor.home.rot.y != 0x8000) {
         // "The set Angle has changed. Let's fix the program."
-        osSyncPrintf("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
+        PRINTF("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
     }
+#endif
+
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
         // "Forest Temple obj Falling Ceiling Bank Danger!"
-        osSyncPrintf("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n", "../z_bg_mori_rakkatenjo.c", 205);
+        PRINTF("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n", "../z_bg_mori_rakkatenjo.c", 205);
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -197,8 +201,8 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, PlayState* play) {
     }
 }
 
-void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play2) {
+    PlayState* play = (PlayState*)play2;
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     if (this->timer > 0) {
@@ -207,13 +211,13 @@ void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (BgMoriRakkatenjo_IsLinkUnder(this, play)) {
         if (sCamSetting == CAM_SET_NONE) {
-            osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
+            PRINTF("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = play->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], 1, &this->dyna.actor, NULL, 0, 0, 0);
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FOREST_BIRDS_EYE);
         }
     } else if (sCamSetting != CAM_SET_NONE) {
-        osSyncPrintf("camera changed (previous) ... \n");
+        PRINTF("camera changed (previous) ... \n");
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
         sCamSetting = CAM_SET_NONE;
     }
@@ -228,7 +232,7 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, gMoriRakkatenjoDL);

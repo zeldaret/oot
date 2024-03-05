@@ -88,8 +88,8 @@ void func_80A89A6C(EnJsjutan* this, PlayState* play) {
     Vtx* phi_s0_2;
     Vec3f sp108;
     Vec3f spFC;
-    Actor* actorProfessor;
-    Actor* actorBeanGuy;
+    f32 rotX;
+    f32 rotZ;
     f32 dxVtx;
     f32 dyVtx;
     f32 dzVtx;
@@ -148,6 +148,9 @@ void func_80A89A6C(EnJsjutan* this, PlayState* play) {
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
     if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_0) && (gSaveContext.sceneLayer == 8)) {
+        Actor* actorProfessor;
+        Actor* actorBeanGuy;
+
         isInCreditsScene = true;
 
         actorProfessor = play->actorCtx.actorLists[ACTORCAT_NPC].head;
@@ -320,10 +323,6 @@ void func_80A89A6C(EnJsjutan* this, PlayState* play) {
 
     // Fancy math to smooth each part of the wave considering its neighborhood.
     for (i = 0; i < ARRAY_COUNT(sCarpetOddVtx); i++, carpetVtx++) {
-        f32 rotX;
-        f32 rotZ;
-        s32 pad;
-
         // Carpet size is 12x12.
         if ((i % 12) == 11) { // Last column.
             j = i - 1;
@@ -408,7 +407,7 @@ void EnJsjutan_Draw(Actor* thisx, PlayState* play2) {
     Matrix_Translate(thisx->world.pos.x, 3.0f, thisx->world.pos.z, MTXMODE_NEW);
     Matrix_Scale(thisx->scale.x, 1.0f, thisx->scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_jsjutan.c", 782),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_jsjutan.c", 782),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     // Draws the carpet's shadow texture.
@@ -427,7 +426,7 @@ void EnJsjutan_Draw(Actor* thisx, PlayState* play2) {
     Matrix_Translate(thisx->world.pos.x, this->unk_168 + 3.0f, thisx->world.pos.z, MTXMODE_NEW);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_jsjutan.c", 805),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_jsjutan.c", 805),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     // Draws the carpet's texture.
     gSPDisplayList(POLY_OPA_DISP++, sCarpetMaterialDL);

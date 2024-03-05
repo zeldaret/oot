@@ -4,6 +4,9 @@
 #include "Globals.h"
 #include "Utils/BitConverter.h"
 #include "Utils/StringHelper.h"
+#include "WarningHandler.h"
+
+#include "ZCutscene.h"
 
 /**** GENERIC ****/
 
@@ -14,13 +17,13 @@ const std::unordered_map<CutsceneMM_CommandType, CsCommandListDescriptor> csComm
 	{CutsceneMM_CommandType::CS_CMD_TRANSITION, {"CS_TRANSITION", "(%s, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_MOTION_BLUR, {"CS_MOTION_BLUR", "(%s, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_GIVE_TATL, {"CS_GIVE_TATL", "(%s, %i, %i)"}},
-	{CutsceneMM_CommandType::CS_CMD_START_SEQ, {"CS_START_SEQ", "(0x%04X, %i, %i)"}},
+	{CutsceneMM_CommandType::CS_CMD_START_SEQ, {"CS_START_SEQ", "(%s, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_SFX_REVERB_INDEX_2,
      {"CS_SFX_REVERB_INDEX_2", "(0x%04X, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_SFX_REVERB_INDEX_1,
      {"CS_SFX_REVERB_INDEX_1", "(0x%04X, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_MODIFY_SEQ, {"CS_MODIFY_SEQ", "(%s, %i, %i)"}},
-	{CutsceneMM_CommandType::CS_CMD_STOP_SEQ, {"CS_STOP_SEQ", "(0x%04X, %i, %i, %i)"}},
+	{CutsceneMM_CommandType::CS_CMD_STOP_SEQ, {"CS_STOP_SEQ", "(%s, %i, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_START_AMBIENCE, {"CS_START_AMBIENCE", "(0x%04X, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_FADE_OUT_AMBIENCE,
      {"CS_FADE_OUT_AMBIENCE", "(0x%04X, %i, %i)"}},
@@ -41,6 +44,7 @@ std::string CutsceneMMSubCommandEntry_GenericCmd::GetBodySourceCode() const
 	const auto& element = csCommandsDescMM.find(commandId);
 	std::string entryFmt = "CS_UNK_DATA(0x%02X, %i, %i, %i)";
 	std::string type = "";
+	bool isIndexInSeqId = enumData->seqId.find(base - 1) != enumData->seqId.end();
 
 	if (element != csCommandsDescMM.end())
 	{
@@ -71,6 +75,11 @@ std::string CutsceneMMSubCommandEntry_GenericCmd::GetBodySourceCode() const
 	else if (commandId == CutsceneMM_CommandType::CS_CMD_CHOOSE_CREDITS_SCENES &&
 	         enumData->chooseCreditsSceneType.find(base) != enumData->chooseCreditsSceneType.end())
 		type = enumData->chooseCreditsSceneType[base];
+
+	else if ((commandId == CutsceneMM_CommandType::CS_CMD_START_SEQ ||
+	          commandId == CutsceneMM_CommandType::CS_CMD_STOP_SEQ) &&
+	         isIndexInSeqId)
+		type = enumData->seqId[base - 1];
 
 	else if (commandId == CutsceneMM_CommandType::CS_CMD_GIVE_TATL)
 		type = base ? "true" : "false";
@@ -120,40 +129,161 @@ std::string CutsceneMMCommand_GenericCmd::GetCommandMacro() const
 
 /**** CAMERA ****/
 
-CutsceneSubCommandEntry_Camera::CutsceneSubCommandEntry_Camera(const std::vector<uint8_t>& rawData,
-                                                               offset_t rawDataIndex)
+CutsceneSubCommandEntry_SplineCamPoint::CutsceneSubCommandEntry_SplineCamPoint(
+	const std::vector<uint8_t>& rawData, offset_t rawDataIndex)
 	: CutsceneSubCommandEntry(rawData, rawDataIndex)
 {
+	interpType = BitConverter::ToUInt8BE(rawData, rawDataIndex + 0);
+	weight = BitConverter::ToUInt8BE(rawData, rawDataIndex + 1);
+	duration = BitConverter::ToUInt16BE(rawData, rawDataIndex + 2);
+	posX = BitConverter::ToUInt16BE(rawData, rawDataIndex + 4);
+	posY = BitConverter::ToUInt16BE(rawData, rawDataIndex + 6);
+	posZ = BitConverter::ToUInt16BE(rawData, rawDataIndex + 8);
+	relTo = BitConverter::ToUInt16BE(rawData, rawDataIndex + 10);
 }
 
-std::string CutsceneSubCommandEntry_Camera::GetBodySourceCode() const
+std::string CutsceneSubCommandEntry_SplineCamPoint::GetBodySourceCode() const
 {
-	return StringHelper::Sprintf("CMD_HH(0x%04X, 0x%04X)", base, startFrame);
+	const auto interpTypeMap = &Globals::Instance->cfg.enumData.interpType;
+	const auto relToMap = &Globals::Instance->cfg.enumData.relTo;
+
+	return StringHelper::Sprintf("CS_CAM_POINT(%s, 0x%02X, 0x%04X, 0x%04X, 0x%04X, 0x%04X, %s)",
+	                             interpTypeMap->at(interpType).c_str(), weight, duration, posX,
+	                             posY, posZ, relToMap->at(relTo).c_str());
 }
 
-size_t CutsceneSubCommandEntry_Camera::GetRawSize() const
+size_t CutsceneSubCommandEntry_SplineCamPoint::GetRawSize() const
+{
+	return 0x0C;
+}
+
+CutsceneSubCommandEntry_SplineMiscPoint::CutsceneSubCommandEntry_SplineMiscPoint(
+	const std::vector<uint8_t>& rawData, offset_t rawDataIndex)
+	: CutsceneSubCommandEntry(rawData, rawDataIndex)
+{
+	unused0 = BitConverter::ToUInt16BE(rawData, rawDataIndex + 0);
+	roll = BitConverter::ToUInt16BE(rawData, rawDataIndex + 2);
+	fov = BitConverter::ToUInt16BE(rawData, rawDataIndex + 4);
+	unused1 = BitConverter::ToUInt16BE(rawData, rawDataIndex + 6);
+}
+
+std::string CutsceneSubCommandEntry_SplineMiscPoint::GetBodySourceCode() const
+{
+	return StringHelper::Sprintf("CS_CAM_MISC(0x%04X, 0x%04X, 0x%04X, 0x%04X)", unused0, roll, fov,
+	                             unused1);
+}
+
+size_t CutsceneSubCommandEntry_SplineMiscPoint::GetRawSize() const
+{
+	return 0x08;
+}
+
+CutsceneSubCommandEntry_SplineHeader::CutsceneSubCommandEntry_SplineHeader(
+	const std::vector<uint8_t>& rawData, offset_t rawDataIndex)
+	: CutsceneSubCommandEntry(rawData, rawDataIndex)
+{
+	numEntries = BitConverter::ToUInt16BE(rawData, rawDataIndex + 0);
+	unused0 = BitConverter::ToUInt16BE(rawData, rawDataIndex + 2);
+	unused1 = BitConverter::ToUInt16BE(rawData, rawDataIndex + 4);
+	duration = BitConverter::ToUInt16BE(rawData, rawDataIndex + 6);
+}
+
+std::string CutsceneSubCommandEntry_SplineHeader::GetBodySourceCode() const
+{
+	return StringHelper::Sprintf("CS_CAM_SPLINE(0x%04X, 0x%04X, 0x%04X, 0x%04X)", numEntries,
+	                             unused0, unused1, duration);
+}
+
+size_t CutsceneSubCommandEntry_SplineHeader::GetRawSize() const
+{
+	return 0x08;
+}
+
+CutsceneSubCommandEntry_SplineFooter::CutsceneSubCommandEntry_SplineFooter(
+	const std::vector<uint8_t>& rawData, offset_t rawDataIndex)
+	: CutsceneSubCommandEntry(rawData, rawDataIndex)
+{
+	uint16_t firstHalfWord = BitConverter::ToUInt16BE(rawData, rawDataIndex);
+	uint16_t secondHalfWord = BitConverter::ToUInt16BE(rawData, rawDataIndex + 2);
+
+	if (firstHalfWord != 0xFFFF || secondHalfWord != 4)
+	{
+		HANDLE_ERROR(WarningType::InvalidExtractedData, "Invalid Spline Footer",
+		             StringHelper::Sprintf(
+						 "Invalid Spline footer. Was expecting 0xFFFF, 0x0004. Got 0x%04X, 0x%04X",
+						 firstHalfWord, secondHalfWord));
+	}
+}
+
+std::string CutsceneSubCommandEntry_SplineFooter::GetBodySourceCode() const
+{
+	return "CS_CAM_END()";
+}
+
+size_t CutsceneSubCommandEntry_SplineFooter::GetRawSize() const
 {
 	return 0x04;
 }
 
-CutsceneMMCommand_Camera::CutsceneMMCommand_Camera(const std::vector<uint8_t>& rawData,
+CutsceneMMCommand_Spline::CutsceneMMCommand_Spline(const std::vector<uint8_t>& rawData,
                                                    offset_t rawDataIndex)
 	: CutsceneCommand(rawData, rawDataIndex)
 {
+	numHeaders = 0;
+	totalCommands = 0;
 	rawDataIndex += 4;
 
-	entries.reserve(numEntries);
-	for (size_t i = 0; i < numEntries / 4; i++)
+	while (1)
 	{
-		auto* entry = new CutsceneSubCommandEntry_Camera(rawData, rawDataIndex);
-		entries.push_back(entry);
-		rawDataIndex += entry->GetRawSize();
+		if (BitConverter::ToUInt16BE(rawData, rawDataIndex) == 0xFFFF)
+		{
+			break;
+		}
+		numHeaders++;
+
+		auto* header = new CutsceneSubCommandEntry_SplineHeader(rawData, rawDataIndex);
+		rawDataIndex += header->GetRawSize();
+		entries.push_back(header);
+
+		totalCommands += header->numEntries;
+
+		for (uint32_t i = 0; i < header->numEntries; i++)
+		{
+			auto* entry = new CutsceneSubCommandEntry_SplineCamPoint(rawData, rawDataIndex);
+			entries.push_back(entry);
+			rawDataIndex += entry->GetRawSize();
+		}
+
+		for (uint32_t i = 0; i < header->numEntries; i++)
+		{
+			auto* entry = new CutsceneSubCommandEntry_SplineCamPoint(rawData, rawDataIndex);
+			entries.push_back(entry);
+			rawDataIndex += entry->GetRawSize();
+		}
+
+		for (uint32_t i = 0; i < header->numEntries; i++)
+		{
+			auto* entry = new CutsceneSubCommandEntry_SplineMiscPoint(rawData, rawDataIndex);
+			entries.push_back(entry);
+			rawDataIndex += entry->GetRawSize();
+		}
 	}
+
+	auto* footer = new CutsceneSubCommandEntry_SplineFooter(rawData, rawDataIndex);
+	entries.push_back(footer);
+	rawDataIndex += footer->GetRawSize();
 }
 
-std::string CutsceneMMCommand_Camera::GetCommandMacro() const
+std::string CutsceneMMCommand_Spline::GetCommandMacro() const
 {
 	return StringHelper::Sprintf("CS_CAM_SPLINE_LIST(%i)", numEntries);
+}
+
+size_t CutsceneMMCommand_Spline::GetCommandSize() const
+{
+	// 8 Bytes once for the spline command, 8 Bytes per spline the header, two groups of size 12, 1
+	// group of size 8, 4 bytes for the footer.
+	return 8 + (8 * numHeaders) + ((totalCommands * 2) * 0xC) + (totalCommands * 8) + 4;
 }
 
 /**** TRANSITION GENERAL ****/
@@ -339,16 +469,18 @@ CutsceneMMSubCommandEntry_Text::CutsceneMMSubCommandEntry_Text(const std::vector
 
 std::string CutsceneMMSubCommandEntry_Text::GetBodySourceCode() const
 {
+	EnumData* enumData = &Globals::Instance->cfg.enumData;
+
 	if (type == 0xFFFF)
 	{
 		return StringHelper::Sprintf("CS_TEXT_NONE(%i, %i)", startFrame, endFrame);
 	}
 
-	if (type == 2)
+	if (type == 2 &&
+	    enumData->ocarinaSongActionId.find(base) != enumData->ocarinaSongActionId.end())
 	{
-		// TODO: set the enum name when it will be documented
-		// (https://github.com/Decompollaborate/mm/blob/3e1c568c084671c17836ced904714ea49d989621/include/z64ocarina.h#L35-L118)
-		return StringHelper::Sprintf("CS_TEXT_OCARINA_ACTION(%i, %i, %i, 0x%X)", base, startFrame,
+		return StringHelper::Sprintf("CS_TEXT_OCARINA_ACTION(%s, %i, %i, 0x%X)",
+		                             enumData->ocarinaSongActionId[base].c_str(), startFrame,
 		                             endFrame, textId1);
 	}
 
@@ -425,23 +557,31 @@ CutsceneMMSubCommandEntry_ActorCue::CutsceneMMSubCommandEntry_ActorCue(
 
 std::string CutsceneMMSubCommandEntry_ActorCue::GetBodySourceCode() const
 {
-	std::string result;
+	EnumData* enumData = &Globals::Instance->cfg.enumData;
+	std::string normalXStr =
+		ZCutscene::GetCsEncodedFloat(normalX, Globals::Instance->floatType, true);
+	std::string normalYStr =
+		ZCutscene::GetCsEncodedFloat(normalY, Globals::Instance->floatType, true);
+	std::string normalZStr =
+		ZCutscene::GetCsEncodedFloat(normalZ, Globals::Instance->floatType, true);
 
 	if (static_cast<CutsceneMM_CommandType>(commandID) == CutsceneMM_CommandType::CS_CMD_PLAYER_CUE)
 	{
-		result = "CS_PLAYER_CUE";
+		return StringHelper::Sprintf("CS_PLAYER_CUE(%s, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
+		                             "%i, %i, %i, %i, %s, %s, %s)",
+		                             enumData->playerCueId[base].c_str(), startFrame, endFrame,
+		                             rotX, rotY, rotZ, startPosX, startPosY, startPosZ, endPosX,
+		                             endPosY, endPosZ, normalXStr.c_str(), normalYStr.c_str(),
+		                             normalZStr.c_str());
 	}
 	else
 	{
-		result = "CS_ACTOR_CUE";
+		return StringHelper::Sprintf("CS_ACTOR_CUE(%i, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
+		                             "%i, %i, %i, %i, %s, %s, %s)",
+		                             base, startFrame, endFrame, rotX, rotY, rotZ, startPosX,
+		                             startPosY, startPosZ, endPosX, endPosY, endPosZ,
+		                             normalXStr.c_str(), normalYStr.c_str(), normalZStr.c_str());
 	}
-
-	result +=
-		StringHelper::Sprintf("(%i, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
-	                          "%i, %i, %i, %i, %.8ef, %.8ef, %.8ef)",
-	                          base, startFrame, endFrame, rotX, rotY, rotZ, startPosX, startPosY,
-	                          startPosZ, endPosX, endPosY, endPosZ, normalX, normalY, normalZ);
-	return result;
 }
 
 size_t CutsceneMMSubCommandEntry_ActorCue::GetRawSize() const

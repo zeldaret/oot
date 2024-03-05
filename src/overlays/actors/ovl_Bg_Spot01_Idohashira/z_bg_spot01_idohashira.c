@@ -117,10 +117,11 @@ void func_808AAE6C(BgSpot01Idohashira* this, PlayState* play) {
 
 void func_808AAF34(BgSpot01Idohashira* this, PlayState* play) {
     s32 pad[2];
-    Vec3f dest;
-    Vec3f src;
 
     if (this->unk_170 != 0) {
+        Vec3f dest;
+        Vec3f src;
+
         src.x = kREG(20) + 1300.0f;
         src.y = kREG(21) + 200.0f;
         src.z = 0.0f;
@@ -170,17 +171,15 @@ void func_808AB18C(BgSpot01Idohashira* this) {
 f32 func_808AB1DC(f32 arg0, f32 arg1, u16 arg2, u16 arg3, u16 arg4) {
     f32 temp_f12;
     f32 regFloat;
-    f32 diff23;
-    f32 diff43;
+    f32 diff23 = arg2 - arg3;
+    f32 diff43 = arg4 - arg3;
 
-    diff23 = arg2 - arg3;
     if (diff23 != 0.0f) {
         regFloat = kREG(9) + 30.0f;
-        diff43 = arg4 - arg3;
         temp_f12 = regFloat * diff43;
         return (((((arg1 - arg0) - temp_f12) / SQ(diff23)) * diff43) * diff43) + temp_f12;
     }
-    osSyncPrintf(VT_FGCOL(RED) "Bg_Spot01_Idohashira_Get_FreeFallで割り算出来ない!!!!!!!!!!!!!!\n" VT_RST);
+    PRINTF(VT_FGCOL(RED) "Bg_Spot01_Idohashira_Get_FreeFallで割り算出来ない!!!!!!!!!!!!!!\n" VT_RST);
     return 0.0f;
 }
 
@@ -255,7 +254,7 @@ void func_808AB444(BgSpot01Idohashira* this, PlayState* play) {
                     Actor_Kill(&this->dyna.actor);
                     break;
                 default:
-                    osSyncPrintf("Bg_Spot01_Idohashira_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("Bg_Spot01_Idohashira_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
 
             this->cueId = nextCueId;
@@ -285,7 +284,7 @@ void BgSpot01Idohashira_Update(Actor* thisx, PlayState* play) {
     BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     if (this->action < 0 || this->action >= 4 || sActionFuncs[this->action] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -325,7 +324,7 @@ void func_808AB700(BgSpot01Idohashira* this, PlayState* play) {
 
     Gfx_SetupDL_25Opa(localGfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_808AAF34(this, play);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoWellArchDL);
@@ -337,7 +336,7 @@ void BgSpot01Idohashira_Draw(Actor* thisx, PlayState* play) {
     BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig > 0 || sDrawFuncs[this->drawConfig] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

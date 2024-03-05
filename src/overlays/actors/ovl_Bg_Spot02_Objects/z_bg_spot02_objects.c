@@ -13,8 +13,8 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play);
 void BgSpot02Objects_Destroy(Actor* thisx, PlayState* play);
 void BgSpot02Objects_Update(Actor* thisx, PlayState* play);
 void BgSpot02Objects_Draw(Actor* thisx, PlayState* play);
-void func_808ACCB8(Actor* thisx, PlayState* play);
-void func_808AD450(Actor* thisx, PlayState* play);
+void func_808ACCB8(Actor* thisx, PlayState* play2);
+void func_808AD450(Actor* thisx, PlayState* play2);
 
 void func_808AC8FC(BgSpot02Objects* this, PlayState* play);
 void func_808AC908(BgSpot02Objects* this, PlayState* play);
@@ -74,7 +74,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
             } else if (thisx->params == 1) {
                 this->actionFunc = func_808AC8FC;
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0128D8, &colHeader);
-                thisx->flags |= ACTOR_FLAG_22;
+                thisx->flags |= ACTOR_FLAG_IGNORE_POINT_LIGHTS;
             } else {
                 if (play->sceneId == SCENE_GRAVEYARD) {
                     this->actionFunc = func_808AC908;
@@ -212,10 +212,10 @@ void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
     }
 }
 
-void func_808ACCB8(Actor* thisx, PlayState* play) {
+void func_808ACCB8(Actor* thisx, PlayState* play2) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
+    PlayState* play = (PlayState*)play2;
     f32 rate;
-    s32 pad;
     u8 redPrim;
     u8 greenPrim;
     u8 bluePrim;
@@ -224,6 +224,8 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
     u8 blueEnv;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 600);
+
+    if (1) {}
 
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
         if (this->unk_16A < 5) {
@@ -253,7 +255,7 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, redPrim, greenPrim, bluePrim, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, redEnv, greenEnv, blueEnv, 255);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot02_objects.c", 679),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot02_objects.c", 679),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_808AD850[this->unk_16A]));
         gDPPipeSync(POLY_XLU_DISP++);
@@ -278,9 +280,9 @@ void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
     }
 }
 
-void func_808AD450(Actor* thisx, PlayState* play) {
+void func_808AD450(Actor* thisx, PlayState* play2) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
-    s32 pad;
+    PlayState* play = (PlayState*)play2;
     f32 lerp;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 736);
@@ -313,7 +315,7 @@ void func_808AD450(Actor* thisx, PlayState* play) {
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 120, 0, 128);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot02_objects.c", 795),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot02_objects.c", 795),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 2 * this->timer, -3 * this->timer, 32, 64,

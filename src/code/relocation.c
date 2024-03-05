@@ -33,19 +33,19 @@
  *  - [29:24]  6-bit relocation type describing which relocation operation should be performed. Same as ELF32 MIPS.
  *  - [23: 0]  24-bit section-relative offset indicating where in the section to apply this relocation.
  *
- * @param allocatedRamAddress Memory address the binary was loaded at.
+ * @param allocatedRamAddr Memory address the binary was loaded at.
  * @param ovlRelocs Overlay relocation section containing overlay section layout and runtime relocations.
  * @param vramStart Virtual RAM address that the overlay was compiled at.
  */
-void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRelocs, void* vramStart) {
+void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlRelocs, void* vramStart) {
     uintptr_t sections[RELOC_SECTION_MAX];
-    u32 relocatedValue;
-    u32 dbg;
-    u32 relocOffset;
-    u32 relocData;
-    uintptr_t unrelocatedAddress;
-    u32 i;
     u32* relocDataP;
+    u32 reloc;
+    u32 relocData;
+    u32 isLoNeg;
+    uintptr_t allocu32 = (uintptr_t)allocatedRamAddr;
+    u32 i;
+    u32* regValP;
     //! MIPS ELF relocation does not generally require tracking register values, so at first glance it appears this
     //! register tracking was an unnecessary complication. However there is a bug in the IDO compiler that can cause
     //! relocations to be emitted in the wrong order under rare circumstances when the compiler attempts to reuse a
@@ -54,23 +54,18 @@ void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRe
     //! due to the incorrect ordering.
     u32* luiRefs[32];
     u32 luiVals[32];
-    uintptr_t relocatedAddress;
-    u32 reloc;
     u32* luiInstRef;
-    uintptr_t allocu32 = (uintptr_t)allocatedRamAddress;
-    u32* regValP;
-    u32 isLoNeg;
+    u32 dbg;
+    s32 relocOffset = 0;
+    u32 relocatedValue = 0;
+    uintptr_t unrelocatedAddress = 0;
+    uintptr_t relocatedAddress = 0;
     s32 pad;
 
-    relocOffset = 0;
-    relocatedValue = 0;
-    unrelocatedAddress = 0;
-    relocatedAddress = 0;
-
     if (gOverlayLogSeverity >= 3) {
-        osSyncPrintf("DoRelocation(%08x, %08x, %08x)\n", allocatedRamAddress, ovlRelocs, vramStart);
-        osSyncPrintf("text=%08x, data=%08x, rodata=%08x, bss=%08x\n", ovlRelocs->textSize, ovlRelocs->dataSize,
-                     ovlRelocs->rodataSize, ovlRelocs->bssSize);
+        PRINTF("DoRelocation(%08x, %08x, %08x)\n", allocatedRamAddr, ovlRelocs, vramStart);
+        PRINTF("text=%08x, data=%08x, rodata=%08x, bss=%08x\n", ovlRelocs->textSize, ovlRelocs->dataSize,
+               ovlRelocs->rodataSize, ovlRelocs->bssSize);
     }
 
     sections[RELOC_SECTION_NULL] = 0;
@@ -105,12 +100,13 @@ void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRe
                 // Handles 26-bit address relocation, used for jumps and jals.
                 // Extract the address from the target field of the J-type MIPS instruction.
                 // Relocate the address and update the instruction.
-
-                unrelocatedAddress = PHYS_TO_K0(MIPS_JUMP_TARGET(*relocDataP));
-                relocOffset = unrelocatedAddress - (uintptr_t)vramStart;
-                relocatedValue = (*relocDataP & 0xFC000000) | (((allocu32 + relocOffset) & 0x0FFFFFFF) >> 2);
-                relocatedAddress = PHYS_TO_K0(MIPS_JUMP_TARGET(relocatedValue));
-                *relocDataP = relocatedValue;
+                if (1) {
+                    relocOffset = PHYS_TO_K0(MIPS_JUMP_TARGET(*relocDataP)) - (uintptr_t)vramStart;
+                    unrelocatedAddress = PHYS_TO_K0(MIPS_JUMP_TARGET(*relocDataP));
+                    relocatedValue = (*relocDataP & 0xFC000000) | (((allocu32 + relocOffset) & 0x0FFFFFFF) >> 2);
+                    relocatedAddress = PHYS_TO_K0(MIPS_JUMP_TARGET(relocatedValue));
+                    *relocDataP = relocatedValue;
+                }
                 break;
 
             case R_MIPS_HI16 << RELOC_TYPE_SHIFT:
@@ -157,9 +153,9 @@ void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRe
                 FALLTHROUGH;
             case R_MIPS_LO16 << RELOC_TYPE_SHIFT:
                 if (gOverlayLogSeverity >= 3) {
-                    osSyncPrintf("%02d %08x %08x %08x ", dbg, relocDataP, relocatedValue, relocatedAddress);
-                    osSyncPrintf(" %08x %08x %08x %08x\n", (uintptr_t)relocDataP + (uintptr_t)vramStart - allocu32,
-                                 relocData, unrelocatedAddress, relocOffset);
+                    PRINTF("%02d %08x %08x %08x ", dbg, relocDataP, relocatedValue, relocatedAddress);
+                    PRINTF(" %08x %08x %08x %08x\n", (uintptr_t)relocDataP + (uintptr_t)vramStart - allocu32, relocData,
+                           unrelocatedAddress, relocOffset);
                 }
                 // Adding a break prevents matching
         }

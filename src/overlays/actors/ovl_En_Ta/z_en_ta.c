@@ -21,8 +21,6 @@
 #define TALON_STATE_FLAG_RAISING_HANDS (1 << 8)
 #define TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY (1 << 9)
 
-#define TALON_FACE_REACTION_SET 24
-
 typedef enum {
     /* 0 */ TALON_EYE_INDEX_OPEN,
     /* 1 */ TALON_EYE_INDEX_HALF,
@@ -84,8 +82,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000004, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0, 0, 0 } },
@@ -97,7 +95,7 @@ void EnTa_SetupAction(EnTa* this, EnTaActionFunc actionFunc, EnTaAnimFunc animFu
 }
 
 void EnTa_SetTextForTalkInLonLonHouse(EnTa* this, PlayState* play) {
-    u16 faceReaction = Text_GetFaceReaction(play, TALON_FACE_REACTION_SET);
+    u16 maskReactionTextId = MaskReaction_GetTextId(play, MASK_REACTION_SET_TALON);
 
     // Check if cucco game was just finished
     if (GET_EVENTINF(EVENTINF_CUCCO_GAME_FINISHED)) {
@@ -115,7 +113,7 @@ void EnTa_SetTextForTalkInLonLonHouse(EnTa* this, PlayState* play) {
             this->actor.textId = 0x2085;
         }
         CLEAR_EVENTINF(EVENTINF_CUCCO_GAME_WON);
-    } else if (faceReaction == 0) {
+    } else if (maskReactionTextId == 0) {
         if (GET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE)) {
             if (GET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE)) {
                 // Play cucco game or buy milk
@@ -129,7 +127,7 @@ void EnTa_SetTextForTalkInLonLonHouse(EnTa* this, PlayState* play) {
             this->actor.textId = 0x207E;
         }
     } else {
-        this->actor.textId = faceReaction;
+        this->actor.textId = maskReactionTextId;
     }
 }
 
@@ -158,7 +156,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
     switch (this->actor.params) {
         case ENTA_IN_KAKARIKO:
             // "Exile Talon"
-            osSyncPrintf(VT_FGCOL(CYAN) " 追放タロン \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) " 追放タロン \n" VT_RST);
             if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
@@ -179,14 +177,14 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
 
         case ENTA_RETURNED_FROM_KAKARIKO:
             // "Return Talon"
-            osSyncPrintf(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
             if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             } else if (play->sceneId == SCENE_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
-                osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
                 EnTa_SetupAction(this, EnTa_IdleAtRanch, EnTa_AnimRepeatCurrent);
                 this->eyeIndex = TALON_EYE_INDEX_OPEN;
@@ -197,7 +195,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
 
         default: // Child era Talon
             // "Other Talon"
-            osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
             if (play->sceneId == SCENE_HYRULE_CASTLE) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
@@ -214,7 +212,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     this->actor.shape.shadowScale = 54.0f;
                 }
             } else if (play->sceneId == SCENE_LON_LON_BUILDINGS) {
-                osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
                 } else if (LINK_IS_ADULT) {
@@ -1086,14 +1084,14 @@ void EnTa_TalkAfterCuccoGameWon(EnTa* this, PlayState* play) {
 }
 
 void EnTa_IdleSittingInLonLonHouse(EnTa* this, PlayState* play) {
-    u16 faceReaction = Text_GetFaceReaction(play, TALON_FACE_REACTION_SET);
+    u16 maskReactionTextId = MaskReaction_GetTextId(play, MASK_REACTION_SET_TALON);
 
     EnTa_SetTextForTalkInLonLonHouse(this, play);
 
     if (EnTa_RequestTalk(this, play, this->actor.textId)) {
         Actor_PlaySfx(&this->actor, NA_SE_VO_TA_SURPRISE);
 
-        if (faceReaction != 0) {
+        if (maskReactionTextId != 0) {
             EnTa_SetupActionWithWakeUpAnimation(this, EnTa_TalkGeneralInLonLonHouse);
         } else {
             SET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE);

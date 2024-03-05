@@ -8,9 +8,9 @@
 
 enum class ZLimbSkinType
 {
-	SkinType_Null,			// SkinLimb segment = NULL
-	SkinType_Animated = 4,	// SkinLimb segment = SkinAnimatedLimbData*
-	SkinType_Normal = 11,	// SkinLimb segment = Gfx*
+	SkinType_Null,          // SkinLimb segment = NULL
+	SkinType_Animated = 4,  // SkinLimb segment = SkinAnimatedLimbData*
+	SkinType_Normal = 11,   // SkinLimb segment = Gfx*
 };
 
 class SkinVertex : public ZResource
@@ -75,11 +75,11 @@ public:
 	size_t GetRawDataSize() const override;
 
 protected:
-	uint16_t vtxCount;				// Number of vertices in this modif entry
-	uint16_t transformCount;		// Length of limbTransformations
-	uint16_t unk_4;					// 0 or 1, used as an index for limbTransformations
-	segptr_t skinVertices;			// SkinVertex*
-	segptr_t limbTransformations;	// SkinTransformation*
+	uint16_t vtxCount;             // Number of vertices in this modif entry
+	uint16_t transformCount;       // Length of limbTransformations
+	uint16_t unk_4;                // 0 or 1, used as an index for limbTransformations
+	segptr_t skinVertices;         // SkinVertex*
+	segptr_t limbTransformations;  // SkinTransformation*
 
 	std::vector<SkinVertex> skinVertices_arr;
 	std::vector<SkinTransformation> limbTransformations_arr;
@@ -102,9 +102,9 @@ public:
 
 protected:
 	uint16_t totalVtxCount;
-	uint16_t limbModifCount;	// Length of limbModifications
-	segptr_t limbModifications;	// SkinLimbModif*
-	segptr_t dlist;				// Gfx*
+	uint16_t limbModifCount;     // Length of limbModifications
+	segptr_t limbModifications;  // SkinLimbModif*
+	segptr_t dlist;              // Gfx*
 
 	std::vector<SkinLimbModif> limbModifications_arr;
 	// ZDisplayList* unk_8_dlist = nullptr;

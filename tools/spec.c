@@ -83,6 +83,10 @@ static bool parse_flags(char *str, unsigned int *flags)
             f |= FLAG_OBJECT;
         else if (strcmp(str, "RAW") == 0)
             f |= FLAG_RAW;
+        else if (strcmp(str, "NOLOAD") == 0)
+            f |= FLAG_NOLOAD;
+        else if (strcmp(str, "SYMS") == 0)
+            f |= FLAG_SYMS;
         else
             return false;
 
@@ -127,6 +131,7 @@ static const char *const stmtNames[] =
     [STMT_after]     = "after",
     [STMT_align]     = "align",
     [STMT_beginseg]  = "beginseg",
+    [STMT_compress]  = "compress",
     [STMT_endseg]    = "endseg",
     [STMT_entry]     = "entry",
     [STMT_flags]     = "flags",
@@ -216,9 +221,12 @@ bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, i
         currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
         currSeg->includes[currSeg->includesCount - 1].dataWithRodata = (stmt == STMT_include_data_with_rodata);
         break;
-        case STMT_increment:
+    case STMT_increment:
         if (!parse_number(args, &currSeg->increment))
             util_fatal_error("line %i: expected number after 'increment'", lineNum);
+        break;
+    case STMT_compress:
+        currSeg->compress = true;
         break;
     case STMT_pad_text:
         currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;

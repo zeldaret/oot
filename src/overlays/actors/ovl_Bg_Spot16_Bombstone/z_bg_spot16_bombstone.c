@@ -39,8 +39,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFF6, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { 0, 50, 0 }, 288 }, 100 },
@@ -73,8 +73,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 190, 80, 0, { 10, 0, 50 } },
@@ -171,7 +171,7 @@ void func_808B4D04(BgSpot16Bombstone* this, PlayState* play) {
 
 s32 func_808B4D9C(BgSpot16Bombstone* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
-        osSyncPrintf("Spot16 obj 爆弾石 破壊済み\n");
+        PRINTF("Spot16 obj 爆弾石 破壊済み\n");
         return false;
     }
     Actor_ProcessInitChain(&this->actor, sInitChainBoulder);
@@ -221,8 +221,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
     this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOMBIWA);
 
     if (this->requiredObjectSlot < 0) {
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params, "../z_bg_spot16_bombstone.c",
-                     589);
+        PRINTF("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params, "../z_bg_spot16_bombstone.c", 589);
         return false;
     }
 
@@ -231,8 +230,8 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
 }
 
 void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
+    s16 shouldLive = true;
     BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
-    s16 shouldLive;
 
     func_808B4C30(this);
 
@@ -241,6 +240,7 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
             // The boulder is intact
             shouldLive = func_808B4D9C(this, play);
             break;
+
         case 0:
         case 1:
         case 2:
@@ -250,18 +250,21 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
             // The boulder is debris
             shouldLive = func_808B4E58(this, play);
             break;
+
+#if OOT_DEBUG
         default:
-            osSyncPrintf("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot16_bombstone.c", 668,
-                         this->actor.params);
+            PRINTF("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot16_bombstone.c", 668,
+                   this->actor.params);
             shouldLive = false;
             break;
+#endif
     }
 
     if (!shouldLive) {
         Actor_Kill(&this->actor);
         return;
     }
-    osSyncPrintf("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x, this->actor.params);
+    PRINTF("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x, this->actor.params);
 }
 
 void BgSpot16Bombstone_Destroy(Actor* thisx, PlayState* play) {
@@ -384,8 +387,8 @@ void func_808B56BC(BgSpot16Bombstone* this, PlayState* play) {
                 player->actor.world.pos.x += sinValue * this->sinRotation;
                 player->actor.world.pos.z += sinValue * this->cosRotation;
             } else {
-                osSyncPrintf("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n",
-                             "../z_bg_spot16_bombstone.c", 935, this->actor.params, adjustedYawDiff);
+                PRINTF("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n", "../z_bg_spot16_bombstone.c", 935,
+                       this->actor.params, adjustedYawDiff);
             }
         }
     }
@@ -452,12 +455,14 @@ void func_808B5950(BgSpot16Bombstone* this, PlayState* play) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
+#if OOT_DEBUG
     if (mREG(64) == 1) {
         func_808B561C(this, play);
         mREG(64) = -10;
     } else if (mREG(64) < 0) {
         mREG(64)++;
     }
+#endif
 }
 
 void func_808B5A78(BgSpot16Bombstone* this) {
@@ -538,7 +543,7 @@ void BgSpot16Bombstone_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == 0xFF) {

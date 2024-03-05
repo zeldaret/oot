@@ -262,25 +262,25 @@ s32 Room_DecodeJpeg(void* data) {
     OSTime time;
 
     if (*(u32*)data == JPEG_MARKER) {
-        osSyncPrintf("JPEGデータを展開します\n");        // "Expanding jpeg data"
-        osSyncPrintf("JPEGデータアドレス %08x\n", data); // "Jpeg data address %08x"
+        PRINTF("JPEGデータを展開します\n");        // "Expanding jpeg data"
+        PRINTF("JPEGデータアドレス %08x\n", data); // "Jpeg data address %08x"
         // "Work buffer address (Z buffer) %08x"
-        osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
+        PRINTF("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
         time = osGetTime();
         if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
             time = osGetTime() - time;
 
             // "Success... I think. time = %6.3f ms"
-            osSyncPrintf("成功…だと思う。 time = %6.3f ms \n", OS_CYCLES_TO_USEC(time) / 1000.0f);
+            PRINTF("成功…だと思う。 time = %6.3f ms \n", OS_CYCLES_TO_USEC(time) / 1000.0f);
             // "Writing back to original address from work buffer."
-            osSyncPrintf("ワークバッファから元のアドレスに書き戻します。\n");
+            PRINTF("ワークバッファから元のアドレスに書き戻します。\n");
             // "If the original buffer size isn't at least 150kB, it will be out of control."
-            osSyncPrintf("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
+            PRINTF("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
 
             bcopy(gZBuffer, data, sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
         } else {
-            osSyncPrintf("失敗！なんで〜\n"); // "Failure! Why is it 〜"
+            PRINTF("失敗！なんで〜\n"); // "Failure! Why is it 〜"
         }
     }
 
@@ -385,17 +385,19 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
         if (drawBackground) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
+            gfx = POLY_OPA_DISP;
+
             {
                 Vec3f quakeOffset;
 
-                gfx = POLY_OPA_DISP;
                 quakeOffset = Camera_GetQuakeOffset(activeCam);
                 Room_DrawBackground2D(&gfx, roomShape->source, roomShape->tlut, roomShape->width, roomShape->height,
                                       roomShape->fmt, roomShape->siz, roomShape->tlutMode, roomShape->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
                                       quakeOffset.y * 2.4f + (quakeOffset.x + quakeOffset.z) * 0.3f);
-                POLY_OPA_DISP = gfx;
             }
+
+            POLY_OPA_DISP = gfx;
 
             gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
         }
@@ -438,7 +440,7 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
     }
 
     // "z_room.c: Data consistent with camera id does not exist camid=%d"
-    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, bgCamIndex);
+    PRINTF(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, bgCamIndex);
     LogUtils_HungupThread("../z_room.c", 726);
 
     return NULL;
@@ -483,17 +485,19 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
         if (drawBackground) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
+            gfx = POLY_OPA_DISP;
+
             {
                 Vec3f quakeOffset;
 
-                gfx = POLY_OPA_DISP;
                 quakeOffset = Camera_GetQuakeOffset(activeCam);
                 Room_DrawBackground2D(&gfx, bgEntry->source, bgEntry->tlut, bgEntry->width, bgEntry->height,
                                       bgEntry->fmt, bgEntry->siz, bgEntry->tlutMode, bgEntry->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
                                       quakeOffset.y * 2.4f + (quakeOffset.x + quakeOffset.z) * 0.3f);
-                POLY_OPA_DISP = gfx;
             }
+
+            POLY_OPA_DISP = gfx;
 
             gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
         }
@@ -528,7 +532,6 @@ void func_80096FD4(PlayState* play, Room* room) {
 
 u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     u32 maxRoomSize = 0;
-    RomFile* roomList = play->roomList;
     u32 roomSize;
     s32 i;
     s32 j;
@@ -537,16 +540,21 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     u32 frontRoomSize;
     u32 backRoomSize;
     u32 cumulRoomSize;
+    s32 pad;
 
-    for (i = 0; i < play->numRooms; i++) {
-        roomSize = roomList[i].vromEnd - roomList[i].vromStart;
-        osSyncPrintf("ROOM%d size=%d\n", i, roomSize);
-        if (maxRoomSize < roomSize) {
-            maxRoomSize = roomSize;
+    {
+        RomFile* roomList = play->roomList;
+
+        for (i = 0; i < play->numRooms; i++) {
+            roomSize = roomList[i].vromEnd - roomList[i].vromStart;
+            PRINTF("ROOM%d size=%d\n", i, roomSize);
+            if (maxRoomSize < roomSize) {
+                maxRoomSize = roomSize;
+            }
         }
     }
 
-    if (play->transiActorCtx.numActors != 0) {
+    if ((u32)play->transiActorCtx.numActors != 0) {
         RomFile* roomList = play->roomList;
         TransitionActorEntry* transitionActor = &play->transiActorCtx.list[0];
 
@@ -559,8 +567,8 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
             backRoomSize = (backRoom < 0) ? 0 : roomList[backRoom].vromEnd - roomList[backRoom].vromStart;
             cumulRoomSize = (frontRoom != backRoom) ? frontRoomSize + backRoomSize : frontRoomSize;
 
-            osSyncPrintf("DOOR%d=<%d> ROOM1=<%d, %d> ROOM2=<%d, %d>\n", j, cumulRoomSize, frontRoom, frontRoomSize,
-                         backRoom, backRoomSize);
+            PRINTF("DOOR%d=<%d> ROOM1=<%d, %d> ROOM2=<%d, %d>\n", j, cumulRoomSize, frontRoom, frontRoomSize, backRoom,
+                   backRoomSize);
             if (maxRoomSize < cumulRoomSize) {
                 maxRoomSize = cumulRoomSize;
             }
@@ -568,16 +576,16 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
         }
     }
 
-    osSyncPrintf(VT_FGCOL(YELLOW));
+    PRINTF(VT_FGCOL(YELLOW));
     // "Room buffer size=%08x(%5.1fK)"
-    osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
-    roomCtx->bufPtrs[0] = GameState_Alloc(&play->state, maxRoomSize, "../z_room.c", 946);
+    PRINTF("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
+    roomCtx->bufPtrs[0] = GAME_STATE_ALLOC(&play->state, maxRoomSize, "../z_room.c", 946);
     // "Room buffer initial pointer=%08x"
-    osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
+    PRINTF("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((uintptr_t)roomCtx->bufPtrs[0] + maxRoomSize);
     // "Room buffer end pointer=%08x"
-    osSyncPrintf("部屋バッファ終了ポインタ=%08x\n", roomCtx->bufPtrs[1]);
-    osSyncPrintf(VT_RST);
+    PRINTF("部屋バッファ終了ポインタ=%08x\n", roomCtx->bufPtrs[1]);
+    PRINTF(VT_RST);
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 
@@ -589,9 +597,9 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
 }
 
 s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
-    u32 size;
-
     if (roomCtx->status == 0) {
+        u32 size;
+
         roomCtx->prevRoom = roomCtx->curRoom;
         roomCtx->curRoom.num = roomNum;
         roomCtx->curRoom.segment = NULL;
@@ -604,8 +612,8 @@ s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
             (void*)ALIGN16((uintptr_t)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
 
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
-        DmaMgr_RequestAsync(&roomCtx->dmaRequest, roomCtx->unk_34, play->roomList[roomNum].vromStart, size, 0,
-                            &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
+        DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->unk_34, play->roomList[roomNum].vromStart, size, 0,
+                          &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
         roomCtx->unk_30 ^= 1;
 
         return true;
@@ -624,11 +632,9 @@ s32 func_800973FC(PlayState* play, RoomContext* roomCtx) {
             Scene_ExecuteCommands(play, roomCtx->curRoom.segment);
             Player_SetBootData(play, GET_PLAYER(play));
             Actor_SpawnTransitionActors(play, &play->actorCtx);
-
-            return 1;
+        } else {
+            return 0;
         }
-
-        return 0;
     }
 
     return 1;

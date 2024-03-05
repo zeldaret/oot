@@ -49,8 +49,8 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { WOLFOS_LIMB_FRONT_RIGHT_CLAW, { { 0, 0, 0 }, 15 }, 100 },
@@ -60,8 +60,8 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { WOLFOS_LIMB_FRONT_LEFT_CLAW, { { 0, 0, 0 }, 15 }, 100 },
@@ -71,8 +71,8 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
             ELEMTYPE_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { WOLFOS_LIMB_HEAD, { { 800, 0, 0 }, 25 }, 100 },
@@ -82,8 +82,8 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
             ELEMTYPE_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { WOLFOS_LIMB_THORAX, { { 0, 0, 0 }, 30 }, 100 },
@@ -116,8 +116,8 @@ static ColliderCylinderInit sBodyCylinderInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 20, 50, 0, { 0, 0, 0 } },
@@ -136,8 +136,8 @@ static ColliderCylinderInit sTailCylinderInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 15, 20, -15, { 0, 0, 0 } },
@@ -241,8 +241,8 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gWolfosWhiteSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.01f);
-        this->colliderSpheres.elements[0].info.toucher.damage = this->colliderSpheres.elements[1].info.toucher.damage =
-            8;
+        this->colliderSpheres.elements[0].base.atDmgInfo.damage =
+            this->colliderSpheres.elements[1].base.atDmgInfo.damage = 8;
         thisx->naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }
 
@@ -272,10 +272,10 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
                 parent->curNumSpawn--;
             }
 
-            osSyncPrintf("\n\n");
+            PRINTF("\n\n");
             // "☆☆☆☆☆ Number of concurrent events ☆☆☆☆☆"
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, parent->curNumSpawn);
-            osSyncPrintf("\n\n");
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, parent->curNumSpawn);
+            PRINTF("\n\n");
         }
     }
 }
@@ -285,7 +285,6 @@ s32 EnWf_ChangeAction(PlayState* play, EnWf* this, s16 mustChoose) {
     s32 pad;
     s16 wallYawDiff;
     s16 playerYawDiff;
-    Actor* explosive;
 
     wallYawDiff = this->actor.wallYaw - this->actor.shape.rot.y;
     wallYawDiff = ABS(wallYawDiff);
@@ -321,26 +320,27 @@ s32 EnWf_ChangeAction(PlayState* play, EnWf* this, s16 mustChoose) {
             EnWf_SetupBackflipAway(this);
             return true;
         }
-    }
+    } else {
+        Actor* explosive = Actor_FindNearby(play, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
 
-    explosive = Actor_FindNearby(play, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
+        if (explosive != NULL) {
+            this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-    if (explosive != NULL) {
-        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-
-        if (((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (wallYawDiff < 0x2EE0)) ||
-            (explosive->id == ACTOR_EN_BOM_CHU)) {
-            if ((explosive->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(&this->actor, explosive) < 80.0f) &&
-                (s16)((this->actor.shape.rot.y - explosive->world.rot.y) + 0x8000) < 0x3E80) {
-                EnWf_SetupSomersaultAndAttack(this);
-                return true;
+            if (((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (wallYawDiff < 0x2EE0)) ||
+                (explosive->id == ACTOR_EN_BOM_CHU)) {
+                if ((explosive->id == ACTOR_EN_BOM_CHU) &&
+                    (Actor_WorldDistXYZToActor(&this->actor, explosive) < 80.0f) &&
+                    (s16)((this->actor.shape.rot.y - explosive->world.rot.y) + 0x8000) < 0x3E80) {
+                    EnWf_SetupSomersaultAndAttack(this);
+                    return true;
+                } else {
+                    EnWf_SetupSidestep(this, play);
+                    return true;
+                }
             } else {
-                EnWf_SetupSidestep(this, play);
+                EnWf_SetupBackflipAway(this);
                 return true;
             }
-        } else {
-            EnWf_SetupBackflipAway(this);
-            return true;
         }
     }
 
@@ -1266,7 +1266,7 @@ void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
 
             if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
                 this->damageEffect = this->actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->actor, &this->colliderCylinderBody.info, true);
+                Actor_SetDropFlag(&this->actor, &this->colliderCylinderBody.elem, true);
                 this->slashStatus = 0;
 
                 if ((this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_STUN) ||

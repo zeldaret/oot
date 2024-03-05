@@ -32,7 +32,7 @@ typedef enum {
 } EnfHGIntroState;
 
 void EnfHG_Init(Actor* thisx, PlayState* play2);
-void EnfHG_Destroy(Actor* thisx, PlayState* play);
+void EnfHG_Destroy(Actor* thisx, PlayState* play2);
 void EnfHG_Update(Actor* thisx, PlayState* play);
 void EnfHG_Draw(Actor* thisx, PlayState* play);
 
@@ -89,13 +89,13 @@ void EnfHG_Init(Actor* thisx, PlayState* play2) {
     }
 }
 
-void EnfHG_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+void EnfHG_Destroy(Actor* thisx, PlayState* play2) {
+    PlayState* play = (PlayState*)play2;
     EnfHG* this = (EnfHG*)thisx;
 
-    osSyncPrintf("F DT1\n");
+    PRINTF("F DT1\n");
     Skin_Free(play, &this->skin);
-    osSyncPrintf("F DT2\n");
+    PRINTF("F DT2\n");
 }
 
 void EnfHG_SetupIntro(EnfHG* this, PlayState* play) {
@@ -373,7 +373,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             }
             Math_ApproachF(&this->subCamAt.x, this->actor.world.pos.x, 0.2f, 50.0f);
             Math_ApproachF(&this->subCamAt.z, this->actor.world.pos.z, 0.2f, 50.0f);
-            osSyncPrintf("TIME %d-------------------------------------------------\n", this->timers[0]);
+            PRINTF("TIME %d-------------------------------------------------\n", this->timers[0]);
             if (fabsf(this->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f)) < 1.0f) {
                 play->envCtx.lightSettingOverride = 0;
                 play->envCtx.lightBlendRateOverride = 20;
@@ -418,16 +418,16 @@ void EnfHG_SetupApproach(EnfHG* this, PlayState* play, s16 paintingIndex) {
     this->curPainting = paintingIndex;
     this->targetPainting = oppositeIndex[this->curPainting];
 
-    osSyncPrintf("KABE NO 1 = %d\n", this->curPainting);
-    osSyncPrintf("KABE NO 2 = %d\n", this->targetPainting);
+    PRINTF("KABE NO 1 = %d\n", this->curPainting);
+    PRINTF("KABE NO 2 = %d\n", this->targetPainting);
 
     this->actor.world.pos.x = (1.3f * sPaintings[this->curPainting].pos.x) + (GND_BOSSROOM_CENTER_X - 4.0f);
     this->actor.world.pos.y = sPaintings[this->curPainting].pos.y + (GND_BOSSROOM_CENTER_Y + 153.0f);
     this->actor.world.pos.z = (1.3f * sPaintings[this->curPainting].pos.z) - -(GND_BOSSROOM_CENTER_Z - 10.0f);
     this->actor.world.rot.y = sPaintings[this->curPainting].yRot;
 
-    osSyncPrintf("XP1  = %f\n", this->actor.world.pos.x);
-    osSyncPrintf("ZP1  = %f\n", this->actor.world.pos.z);
+    PRINTF("XP1  = %f\n", this->actor.world.pos.x);
+    PRINTF("ZP1  = %f\n", this->actor.world.pos.z);
 
     this->inPaintingPos.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + (GND_BOSSROOM_CENTER_X - 4.0f);
     this->inPaintingPos.y = sPaintings[this->targetPainting].pos.y + (GND_BOSSROOM_CENTER_Y + 33.0f);
@@ -459,9 +459,9 @@ void EnfHG_SetupApproach(EnfHG* this, PlayState* play, s16 paintingIndex) {
 }
 
 void EnfHG_Approach(EnfHG* this, PlayState* play) {
-    osSyncPrintf("STANDBY !!\n");
-    osSyncPrintf("XP2  = %f\n", this->actor.world.pos.x);
-    osSyncPrintf("ZP2  = %f\n", this->actor.world.pos.z);
+    PRINTF("STANDBY !!\n");
+    PRINTF("XP2  = %f\n", this->actor.world.pos.x);
+    PRINTF("ZP2  = %f\n", this->actor.world.pos.z);
     if (this->actor.params == GND_REAL_BOSS) {
         this->hoofSfxPos.x = this->actor.projectedPos.x / (this->actor.scale.x * 100.0f);
         this->hoofSfxPos.y = this->actor.projectedPos.y / (this->actor.scale.x * 100.0f);
@@ -476,7 +476,7 @@ void EnfHG_Approach(EnfHG* this, PlayState* play) {
     Math_ApproachF(&this->actor.world.pos.y, 60.0f, 0.1f, 1.0f);
     this->actor.scale.y = this->actor.scale.x;
     if (this->timers[0] == 0) {
-        osSyncPrintf("arg_data ------------------------------------>%d\n", this->actor.params);
+        PRINTF("arg_data ------------------------------------>%d\n", this->actor.params);
         if (this->actor.params != GND_REAL_BOSS) {
             this->timers[0] = 140;
             this->actionFunc = EnfHG_Retreat;
@@ -495,7 +495,7 @@ void EnfHG_Approach(EnfHG* this, PlayState* play) {
 }
 
 void EnfHG_Attack(EnfHG* this, PlayState* play) {
-    osSyncPrintf("KABE OUT !!\n");
+    PRINTF("KABE OUT !!\n");
     this->bossGndInPainting = false;
     SkelAnime_Update(&this->skin.skelAnime);
     if (this->timers[0] != 0) {
@@ -563,10 +563,10 @@ void EnfHG_Attack(EnfHG* this, PlayState* play) {
                                FHGFIRE_WARP_RETREAT);
             this->fhgFireKillWarp = true;
         }
-        osSyncPrintf("SPD X %f\n", this->inPaintingVelX);
-        osSyncPrintf("SPD Z %f\n", this->inPaintingVelZ);
-        osSyncPrintf("X=%f\n", dx);
-        osSyncPrintf("Z=%f\n", dz);
+        PRINTF("SPD X %f\n", this->inPaintingVelX);
+        PRINTF("SPD Z %f\n", this->inPaintingVelZ);
+        PRINTF("X=%f\n", dx);
+        PRINTF("Z=%f\n", dz);
         if (dxz == 0.0f) {
             this->timers[0] = 140;
             this->actionFunc = EnfHG_Retreat;
@@ -581,7 +581,7 @@ void EnfHG_Damage(EnfHG* this, PlayState* play) {
     f32 dz;
     f32 dxz2;
 
-    osSyncPrintf("REVISE !!\n");
+    PRINTF("REVISE !!\n");
     SkelAnime_Update(&this->skin.skelAnime);
     Math_ApproachF(&this->warpColorFilterR, play->lightCtx.fogColor[0], 1.0f, 10.0f);
     Math_ApproachF(&this->warpColorFilterG, play->lightCtx.fogColor[0], 1.0f, 10.0f);
@@ -627,7 +627,7 @@ void EnfHG_Damage(EnfHG* this, PlayState* play) {
 }
 
 void EnfHG_Retreat(EnfHG* this, PlayState* play) {
-    osSyncPrintf("KABE IN !!\n");
+    PRINTF("KABE IN !!\n");
     if (this->turnTarget != 0) {
         Math_ApproachS(&this->turnRot, this->turnTarget, 5, 2000);
     }
@@ -651,6 +651,7 @@ void EnfHG_Retreat(EnfHG* this, PlayState* play) {
         BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
         s16 paintingIdxReal;
         s16 paintingIdxFake;
+        Actor* child;
 
         if (this->actor.params != GND_REAL_BOSS) {
             this->killActor = true;
@@ -664,10 +665,11 @@ void EnfHG_Retreat(EnfHG* this, PlayState* play) {
             do {
                 paintingIdxFake = Rand_ZeroOne() * 5.99f;
             } while (paintingIdxFake == paintingIdxReal);
-            osSyncPrintf("ac1 = %x `````````````````````````````````````````````````\n",
-                         Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BOSS_GANONDROF,
-                                            this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                                            0, 0, 0, paintingIdxFake + GND_FAKE_BOSS));
+
+            child = Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BOSS_GANONDROF,
+                                       this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
+                                       0, paintingIdxFake + GND_FAKE_BOSS);
+            PRINTF("ac1 = %x `````````````````````````````````````````````````\n", child);
         }
     }
 }

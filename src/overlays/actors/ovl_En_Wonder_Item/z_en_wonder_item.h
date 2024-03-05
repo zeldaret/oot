@@ -18,7 +18,7 @@ typedef struct EnWonderItem {
     /* 0x015A */ s16 dropCount;
     /* 0x015C */ s16 timer;
     /* 0x015E */ s16 tagFlags;
-    /* 0x015A */ s16 tagCount;
+    /* 0x0160 */ s16 tagCount;
     /* 0x0162 */ s16 switchFlag;
     /* 0x0164 */ char unk_164[4];
     /* 0x0168 */ s16 nextTag;

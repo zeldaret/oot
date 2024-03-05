@@ -31,8 +31,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { -20.0f, 3.0f, -20.0f }, { -20.0f, 3.0f, 20.0f }, { 20.0f, 3.0f, 20.0f } } },
@@ -42,8 +42,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 20.0f, 3.0f, 20.0f }, { 20.0f, 3.0f, -20.0f }, { -20.0f, 3.0f, -20.0f } } },
@@ -180,13 +180,13 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
         // "Fire Temple Object [Hammer Step] appears"
-        osSyncPrintf("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n");
+        PRINTF("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n");
         if (BgHidanHamstep_SpawnChildren(this, play) == 0) {
             step = this;
 
             // "[Hammer Step] I can't create a step!"
-            osSyncPrintf("【ハンマーステップ】 足場産れない！！\n");
-            osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 425);
+            PRINTF("【ハンマーステップ】 足場産れない！！\n");
+            PRINTF("%s %d\n", "../z_bg_hidan_hamstep.c", 425);
 
             while (step != NULL) {
                 Actor_Kill(&step->dyna.actor);
@@ -316,7 +316,7 @@ void func_80888860(BgHidanHamstep* this, PlayState* play) {
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
                 Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 255, 20, 150);
                 func_80888638(this, play);
-                osSyncPrintf("A(%d)\n", this->dyna.actor.params);
+                PRINTF("A(%d)\n", this->dyna.actor.params);
             }
         }
     }
@@ -347,11 +347,13 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
     Actor_MoveXZGravity(&this->dyna.actor);
     func_80888694(this, (BgHidanHamstep*)this->dyna.actor.parent);
 
+#if OOT_DEBUG
     if (((this->dyna.actor.params & 0xFF) <= 0) || ((this->dyna.actor.params & 0xFF) >= 6)) {
         // "[Hammer Step] arg_data strange (arg_data = %d)"
-        osSyncPrintf("【ハンマーステップ】 arg_data おかしい (arg_data = %d)", this->dyna.actor.params);
-        osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 696);
+        PRINTF("【ハンマーステップ】 arg_data おかしい (arg_data = %d)", this->dyna.actor.params);
+        PRINTF("%s %d\n", "../z_bg_hidan_hamstep.c", 696);
     }
+#endif
 
     if (((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) <=
          sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1]) &&
@@ -381,7 +383,7 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
                     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                 }
 
-                osSyncPrintf("B(%d)\n", this->dyna.actor.params);
+                PRINTF("B(%d)\n", this->dyna.actor.params);
             }
         }
     }
@@ -401,7 +403,7 @@ void BgHidanHamstep_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 787),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 787),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if ((thisx->params & 0xFF) == 0) {

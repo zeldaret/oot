@@ -53,17 +53,20 @@ void BgMoriBigst_SetupAction(BgMoriBigst* this, BgMoriBigstActionFunc actionFunc
 void BgMoriBigst_InitDynapoly(BgMoriBigst* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         // "Warning : move BG login failed"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_bigst.c", 190,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_bigst.c", 190,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
@@ -71,17 +74,17 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
     BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     // "mori (bigST.keyceiling)"
-    osSyncPrintf("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
-                 Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F),
-                 Flags_GetTempClear(play, this->dyna.actor.room), Flags_GetClear(play, this->dyna.actor.room),
-                 GET_PLAYER(play)->actor.world.pos.y);
+    PRINTF("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
+           Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F),
+           Flags_GetTempClear(play, this->dyna.actor.room), Flags_GetClear(play, this->dyna.actor.room),
+           GET_PLAYER(play)->actor.world.pos.y);
     BgMoriBigst_InitDynapoly(this, play, &gMoriBigstCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
         // "【Big Stalfos key ceiling】 bank danger!"
-        osSyncPrintf("【ビッグスタルフォス鍵型天井】 バンク危険！\n");
-        osSyncPrintf("%s %d\n", "../z_bg_mori_bigst.c", 234);
+        PRINTF("【ビッグスタルフォス鍵型天井】 バンク危険！\n");
+        PRINTF("%s %d\n", "../z_bg_mori_bigst.c", 234);
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -138,7 +141,7 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, PlayState* play) {
         this->dyna.actor.home.rot.z++;
     } else {
         // "Second Stalfos failure"
-        osSyncPrintf("Warning : 第２スタルフォス発生失敗\n");
+        PRINTF("Warning : 第２スタルフォス発生失敗\n");
     }
     Flags_SetClear(play, this->dyna.actor.room);
 }
@@ -200,7 +203,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
         this->dyna.actor.home.rot.z++;
     } else {
         // "Warning: 3-1 Stalfos failure"
-        osSyncPrintf("Warning : 第３-1スタルフォス発生失敗\n");
+        PRINTF("Warning : 第３-1スタルフォス発生失敗\n");
     }
     stalfos2 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_TEST, 170.0f, 827.0f, -3260.0f, 0,
                                   0, 0, 5);
@@ -209,7 +212,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
         this->dyna.actor.home.rot.z++;
     } else {
         // "Warning: 3-2 Stalfos failure"
-        osSyncPrintf("Warning : 第３-2スタルフォス発生失敗\n");
+        PRINTF("Warning : 第３-2スタルフォス発生失敗\n");
     }
     Flags_SetClear(play, this->dyna.actor.room);
 }
@@ -250,7 +253,7 @@ void BgMoriBigst_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_bigst.c", 548),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_bigst.c", 548),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, gMoriBigstDL);

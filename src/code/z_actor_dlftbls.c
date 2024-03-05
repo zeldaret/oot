@@ -23,19 +23,46 @@
 #undef DEFINE_ACTOR_UNSET
 
 // Actor Overlay Table definition
-#define DEFINE_ACTOR(name, _1, allocType, nameString) \
-    { (uintptr_t)_ovl_##name##SegmentRomStart,        \
-      (uintptr_t)_ovl_##name##SegmentRomEnd,          \
-      _ovl_##name##SegmentStart,                      \
-      _ovl_##name##SegmentEnd,                        \
-      NULL,                                           \
-      &name##_InitVars,                               \
-      nameString,                                     \
-      allocType,                                      \
-      0 },
+#if OOT_DEBUG
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString) \
-    { 0, 0, NULL, NULL, NULL, &name##_InitVars, nameString, allocType, 0 },
+#define DEFINE_ACTOR(name, _1, allocType, nameString) \
+    {                                                 \
+        ROM_FILE(ovl_##name),                         \
+        _ovl_##name##SegmentStart,                    \
+        _ovl_##name##SegmentEnd,                      \
+        NULL,                                         \
+        &name##_InitVars,                             \
+        nameString,                                   \
+        allocType,                                    \
+        0,                                            \
+    },
+
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString)                        \
+    {                                                                                 \
+        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, nameString, allocType, 0, \
+    },
+
+#else
+
+// Actor name is set to NULL in retail builds
+#define DEFINE_ACTOR(name, _1, allocType, _3) \
+    {                                         \
+        ROM_FILE(ovl_##name),                 \
+        _ovl_##name##SegmentStart,            \
+        _ovl_##name##SegmentEnd,              \
+        NULL,                                 \
+        &name##_InitVars,                     \
+        NULL,                                 \
+        allocType,                            \
+        0,                                    \
+    },
+
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                          \
+    {                                                                           \
+        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, NULL, allocType, 0, \
+    },
+
+#endif
 
 #define DEFINE_ACTOR_UNSET(_0) { 0 },
 
@@ -52,17 +79,19 @@ s32 gMaxActorId = 0;
 static FaultClient sFaultClient;
 
 void ActorOverlayTable_LogPrint(void) {
+#if OOT_DEBUG
     ActorOverlay* overlayEntry;
     u32 i;
 
-    osSyncPrintf("actor_dlftbls %u\n", gMaxActorId);
-    osSyncPrintf("RomStart RomEnd   SegStart SegEnd   allocp   profile  segname\n");
+    PRINTF("actor_dlftbls %u\n", gMaxActorId);
+    PRINTF("RomStart RomEnd   SegStart SegEnd   allocp   profile  segname\n");
 
     for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < (u32)gMaxActorId; i++, overlayEntry++) {
-        osSyncPrintf("%08x %08x %08x %08x %08x %08x %s\n", overlayEntry->vromStart, overlayEntry->vromEnd,
-                     overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
-                     &overlayEntry->initInfo->id, overlayEntry->name != NULL ? overlayEntry->name : "?");
+        PRINTF("%08x %08x %08x %08x %08x %08x %s\n", overlayEntry->file.vromStart, overlayEntry->file.vromEnd,
+               overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr, &overlayEntry->initInfo->id,
+               overlayEntry->name != NULL ? overlayEntry->name : "?");
     }
+#endif
 }
 
 void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
@@ -80,7 +109,7 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
         if (overlayEntry->loadedRamAddr != NULL) {
             FaultDrawer_Printf("%3d %08x-%08x %3d %s\n", i, overlayEntry->loadedRamAddr,
                                (uintptr_t)overlayEntry->loadedRamAddr + overlaySize, overlayEntry->numLoaded,
-                               overlayEntry->name != NULL ? overlayEntry->name : "");
+                               (OOT_DEBUG && overlayEntry->name != NULL) ? overlayEntry->name : "");
         }
     }
 }

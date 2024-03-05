@@ -53,8 +53,8 @@ static ColliderCylinderInit sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 0, 0, 0, { 0, 0, 0 } },
@@ -73,8 +73,8 @@ static ColliderCylinderInit sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4FC1FFF6, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 0, 0, 0, { 0, 0, 0 } },
@@ -115,17 +115,20 @@ void BgIceShelter_InitColliders(BgIceShelter* this, PlayState* play) {
 void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         // "Warning : move BG registration failed"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 362,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 362,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgIceShelter_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
@@ -144,7 +147,6 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgIceShelter_Init(Actor* thisx, PlayState* play) {
-    static Vec3f kzIceScale = { 0.18f, 0.27f, 0.24f };
     BgIceShelter* this = (BgIceShelter*)thisx;
     s16 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
 
@@ -158,7 +160,9 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
     }
 
     if (type == RED_ICE_KING_ZORA) {
-        Math_Vec3f_Copy(&this->dyna.actor.scale, &kzIceScale);
+        static Vec3f sKingZoraRedIceScale = { 0.18f, 0.27f, 0.24f };
+
+        Math_Vec3f_Copy(&this->dyna.actor.scale, &sKingZoraRedIceScale);
     } else {
         Actor_SetScale(&this->dyna.actor, sRedIceScales[type]);
     }
@@ -186,7 +190,7 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
 
     BgIceShelter_SetupIdle(this);
 
-    osSyncPrintf("(ice shelter)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(ice shelter)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play) {
@@ -453,7 +457,7 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ice_shelter.c", 751),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ice_shelter.c", 751),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (BGICESHELTER_GET_TYPE(&this->dyna.actor)) {

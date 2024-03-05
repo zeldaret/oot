@@ -36,8 +36,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_HARD,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_HARD,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 1, { { 0, 0, 0 }, 20 }, 100 },
@@ -285,8 +285,6 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
 void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 facingPlayer;
-    Vec3f pos;
-    s16 target;
 
     SkelAnime_Update(&this->skelAnime);
     if (this->timer != 0) {
@@ -296,6 +294,9 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
     facingPlayer = Actor_IsFacingPlayer(&this->actor, 0x2800);
 
     if (facingPlayer) {
+        Vec3f pos;
+        s16 target;
+
         pos.x = player->actor.world.pos.x;
         pos.y = player->actor.world.pos.y + 20.0f;
         pos.z = player->actor.world.pos.z;
@@ -411,7 +412,7 @@ void EnCrow_Respawn(EnCrow* this, PlayState* play) {
 void EnCrow_UpdateDamage(EnCrow* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) { // Deku Nuts
                 EnCrow_SetupTurnAway(this);

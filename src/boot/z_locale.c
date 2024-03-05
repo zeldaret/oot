@@ -19,20 +19,21 @@ void Locale_Init(void) {
             gCurrentRegion = REGION_EU;
             break;
         default:
-            osSyncPrintf(VT_COL(RED, WHITE));
-            osSyncPrintf("z_locale_init: 日本用かアメリカ用か判別できません\n");
+            PRINTF(VT_COL(RED, WHITE));
+            PRINTF("z_locale_init: 日本用かアメリカ用か判別できません\n");
             LogUtils_HungupThread("../z_locale.c", 118);
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_RST);
             break;
     }
 
-    osSyncPrintf("z_locale_init:日本用かアメリカ用か３コンで判断させる\n");
+    PRINTF("z_locale_init:日本用かアメリカ用か３コンで判断させる\n");
 }
 
 void Locale_ResetRegion(void) {
     gCurrentRegion = REGION_NULL;
 }
 
+#if OOT_DEBUG
 u32 func_80001F48(void) {
     if (gCurrentRegion == REGION_NATIVE) {
         return 0;
@@ -61,3 +62,4 @@ u32 func_80001F8C(void) {
 u32 Locale_IsRegionNative(void) {
     return gCurrentRegion == REGION_NATIVE;
 }
+#endif

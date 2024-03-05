@@ -58,16 +58,14 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0, 0, 0, 0, MASS_IMMOVABLE,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
     /*  0 */ ENSA_ANIM1_0,
@@ -140,10 +138,10 @@ s16 func_80AF5560(EnSa* this, PlayState* play) {
 
 u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
     EnSa* this = (EnSa*)thisx;
-    u16 reaction = Text_GetFaceReaction(play, 0x10);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SARIA);
 
-    if (reaction != 0) {
-        return reaction;
+    if (textId != 0) {
+        return textId;
     }
     if (CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
         return 0x10AD;
@@ -615,10 +613,12 @@ void func_80AF6448(EnSa* this, PlayState* play) {
 }
 
 void func_80AF67D0(EnSa* this, PlayState* play) {
-    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
-        this->actionFunc = func_80AF6448;
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        return;
     }
+
+    Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
+    this->actionFunc = func_80AF6448;
 }
 
 void func_80AF683C(EnSa* this, PlayState* play) {

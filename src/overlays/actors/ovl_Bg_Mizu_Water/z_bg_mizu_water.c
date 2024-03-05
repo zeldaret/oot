@@ -53,6 +53,7 @@ static InitChainEntry sInitChain[] = {
 u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, PlayState* play) {
     u32 ret;
 
+#if OOT_DEBUG
     if (bREG(0) != 0) {
         switch (bREG(1)) {
             case 0:
@@ -67,6 +68,8 @@ u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, PlayState* play) {
         }
         bREG(0) = 0;
     }
+#endif
+
     if (Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG) && (switchFlag != WATER_TEMPLE_WATER_F1_FLAG)) {
         ret = 3;
     } else if (Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG) && (switchFlag != WATER_TEMPLE_WATER_F2_FLAG)) {
@@ -105,9 +108,9 @@ void BgMizuWater_Init(Actor* thisx, PlayState* play) {
     switch (this->type) {
         case 0:
             if (bREG(15) == 0) {
-                osSyncPrintf("<コンストラクト>%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
-                             Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG),
-                             Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
+                PRINTF("<コンストラクト>%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
+                       Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG),
+                       Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
             }
             waterLevelActionIndex = BgMizuWater_GetWaterLevelActionIndex(-1, play);
             this->actor.world.pos.y = sWaterLevels[waterLevelActionIndex].yDiff + this->baseY;
@@ -297,11 +300,13 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
     s32 unk1;
     s32 pad;
 
+#if OOT_DEBUG
     if (bREG(15) == 0) {
-        osSyncPrintf("%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
-                     Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG),
-                     Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
+        PRINTF("%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
+               Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG), Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
     }
+#endif
+
     if (this->type == 0) {
         posY = this->actor.world.pos.y;
         unk0 = 0;
@@ -336,7 +341,7 @@ void BgMizuWater_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1,
                                 0, -gameplayFrames * 1, 32, 32));
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mizu_water.c", 749),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mizu_water.c", 749),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);

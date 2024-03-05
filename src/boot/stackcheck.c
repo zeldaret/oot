@@ -20,7 +20,7 @@ void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 i
         iter = sStackInfoListStart;
         while (iter) {
             if (iter == entry) {
-                osSyncPrintf(VT_COL(RED, WHITE) "stackcheck_init: %08x は既にリスト中にある\n" VT_RST, entry);
+                PRINTF(VT_COL(RED, WHITE) "stackcheck_init: %08x は既にリスト中にある\n" VT_RST, entry);
                 return;
             }
             iter = iter->next;
@@ -68,7 +68,7 @@ void StackCheck_Cleanup(StackEntry* entry) {
         }
     }
     if (inconsistency) {
-        osSyncPrintf(VT_COL(RED, WHITE) "stackcheck_cleanup: %08x リスト不整合です\n" VT_RST, entry);
+        PRINTF(VT_COL(RED, WHITE) "stackcheck_cleanup: %08x リスト不整合です\n" VT_RST, entry);
     }
 }
 
@@ -89,22 +89,29 @@ u32 StackCheck_GetState(StackEntry* entry) {
 
     if (free == 0) {
         ret = STACK_STATUS_OVERFLOW;
-        osSyncPrintf(VT_FGCOL(RED));
+        PRINTF(VT_FGCOL(RED));
     } else if (free < (u32)entry->minSpace && entry->minSpace != -1) {
         ret = STACK_STATUS_WARNING;
-        osSyncPrintf(VT_FGCOL(YELLOW));
+        PRINTF(VT_FGCOL(YELLOW));
     } else {
-        osSyncPrintf(VT_FGCOL(GREEN));
+        PRINTF(VT_FGCOL(GREEN));
         ret = STACK_STATUS_OK;
     }
 
-    osSyncPrintf("head=%08x tail=%08x last=%08x used=%08x free=%08x [%s]\n", entry->head, entry->tail, last, used, free,
-                 entry->name != NULL ? entry->name : "(null)");
-    osSyncPrintf(VT_RST);
+#if !OOT_DEBUG
+    // This string is still in .rodata for retail builds
+    (void)"(null)";
+#endif
 
+    PRINTF("head=%08x tail=%08x last=%08x used=%08x free=%08x [%s]\n", entry->head, entry->tail, last, used, free,
+           entry->name != NULL ? entry->name : "(null)");
+    PRINTF(VT_RST);
+
+#if OOT_DEBUG
     if (ret != STACK_STATUS_OK) {
         LogUtils_LogHexDump(entry->head, (uintptr_t)entry->tail - (uintptr_t)entry->head);
     }
+#endif
 
     return ret;
 }

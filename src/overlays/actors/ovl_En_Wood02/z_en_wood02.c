@@ -58,8 +58,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK5,
         { 0x00000000, 0x00, 0x00 },
         { 0x0FC0074A, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 18, 60, 0, { 0, 0, 0 } },
@@ -306,18 +306,13 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     EnWood02* this = (EnWood02*)thisx;
     f32 wobbleAmplitude;
-    u8 new_var;
-    u8 phi_v0;
-    s32 pad;
-    Vec3f dropsSpawnPt;
-    s32 i;
-    s32 leavesParams;
 
     // Despawn extra trees in a group if out of range
     if ((this->spawnType == WOOD_SPAWN_SPAWNED) && (this->actor.parent != NULL)) {
         if (!(this->actor.flags & ACTOR_FLAG_6)) {
-            new_var = this->unk_14E[0];
-            phi_v0 = 0;
+            u8 new_var = this->unk_14E[0];
+            u8 phi_v0 = 0;
+            s32 pad;
 
             if (this->unk_14C < 0) {
                 phi_v0 = 0x80;
@@ -338,7 +333,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
         }
 
         if (this->actor.home.rot.y != 0) {
-            dropsSpawnPt = this->actor.world.pos;
+            Vec3f dropsSpawnPt = this->actor.world.pos;
+
             dropsSpawnPt.y += 200.0f;
 
             if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
@@ -355,7 +351,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
 
             // Spawn falling leaves
             if (this->unk_14C >= -1) {
-                leavesParams = WOOD_LEAF_GREEN;
+                s32 i;
+                s32 leavesParams = WOOD_LEAF_GREEN;
 
                 if ((this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNER) ||
                     (this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNED)) {
@@ -449,12 +446,12 @@ void EnWood02_Draw(Actor* thisx, PlayState* play) {
     } else if (D_80B3BF70[this->drawType & 0xF] != NULL) {
         Gfx_DrawDListOpa(play, D_80B3BF54[this->drawType & 0xF]);
         gDPSetEnvColor(POLY_XLU_DISP++, red, green, blue, 0);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 808),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 808),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_80B3BF70[this->drawType & 0xF]);
     } else {
         Gfx_SetupDL_25Xlu(gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 814),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 814),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_80B3BF54[this->drawType & 0xF]);
     }

@@ -29,8 +29,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 64, 0, { 0, 0, 0 } },
@@ -52,13 +52,11 @@ ActorInit En_Tg_InitVars = {
 
 u16 EnTg_GetTextId(PlayState* play, Actor* thisx) {
     EnTg* this = (EnTg*)thisx;
-    u16 faceReaction;
+    u16 maskReactionTextId = MaskReaction_GetTextId(play, MASK_REACTION_SET_DANCING_COUPLE);
     u32 textId;
 
-    // If the player is wearing a mask, return a special reaction text
-    faceReaction = Text_GetFaceReaction(play, 0x24);
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (maskReactionTextId != 0) {
+        return maskReactionTextId;
     }
     if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
         if (this->nextDialogue % 2 != 0) {
@@ -169,7 +167,7 @@ void EnTg_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 }
 
 Gfx* EnTg_SetColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
 
     gDPSetEnvColor(displayList, r, g, b, a);
     gSPEndDisplayList(displayList + 1);

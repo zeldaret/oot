@@ -46,8 +46,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 21, 48, 0, { 0, 0, 0 } },
@@ -139,9 +139,15 @@ s32 func_80A4E3EC(EnGs* this, PlayState* play) {
 void func_80A4E470(EnGs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
+#if OOT_DEBUG
     bREG(15) = 0;
+#endif
+
     if (this->actor.xzDistToPlayer <= 100.0f) {
+#if OOT_DEBUG
         bREG(15) = 1;
+#endif
+
         if (this->unk_19D == 0) {
             player->stateFlags2 |= PLAYER_STATE2_23;
             if (player->stateFlags2 & PLAYER_STATE2_24) {
@@ -285,19 +291,6 @@ void func_80A4EB3C(EnGs* this, PlayState* play) {
 }
 
 void func_80A4ED34(EnGs* this, PlayState* play) {
-    static Color_RGBA8 flashRed = { 255, 50, 50, 0 };
-    static Color_RGBA8 flashBlue = { 50, 50, 255, 0 };
-    static Color_RGBA8 baseWhite = { 255, 255, 255, 0 };
-    static Vec3f dustAccel = { 0.0f, -0.3f, 0.0f };
-    static Color_RGBA8 dustPrim = { 200, 200, 200, 128 };
-    static Color_RGBA8 dustEnv = { 100, 100, 100, 0 };
-    static Vec3f bomb2Velocity = { 0.0f, 0.0f, 0.0f };
-    static Vec3f bomb2Accel = { 0.0f, 0.0f, 0.0f };
-    u8 i;
-    Vec3f dustPos;
-    Vec3f dustVelocity;
-    Vec3f bomb2Pos;
-
     if (this->unk_19F == 0) {
         this->unk_200 = 40;
         this->unk_19F++;
@@ -312,6 +305,10 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
     }
 
     if (this->unk_19F == 2) {
+        static Color_RGBA8 flashRed = { 255, 50, 50, 0 };
+        static Color_RGBA8 flashBlue = { 50, 50, 255, 0 };
+        static Color_RGBA8 baseWhite = { 255, 255, 255, 0 };
+
         this->unk_200--;
         Color_RGBA8_Copy(&this->flashColor, &baseWhite);
         if ((this->unk_200 < 80) && ((this->unk_200 % 20) < 8)) {
@@ -337,7 +334,15 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
     }
 
     if (this->unk_19F == 3) {
+        u8 i;
+
         for (i = 0; i < 3; i++) {
+            static Vec3f dustAccel = { 0.0f, -0.3f, 0.0f };
+            static Color_RGBA8 dustPrim = { 200, 200, 200, 128 };
+            static Color_RGBA8 dustEnv = { 100, 100, 100, 0 };
+            Vec3f dustPos;
+            Vec3f dustVelocity;
+
             dustVelocity.x = Rand_CenteredFloat(15.0f);
             dustVelocity.y = Rand_ZeroFloat(-1.0f);
             dustVelocity.z = Rand_CenteredFloat(15.0f);
@@ -362,6 +367,10 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
     if (this->unk_19F == 4) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 60.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1);
         if (this->actor.bgCheckFlags & (BGCHECKFLAG_WALL | BGCHECKFLAG_CEILING)) {
+            static Vec3f bomb2Velocity = { 0.0f, 0.0f, 0.0f };
+            static Vec3f bomb2Accel = { 0.0f, 0.0f, 0.0f };
+            Vec3f bomb2Pos;
+
             bomb2Pos.x = this->actor.world.pos.x;
             bomb2Pos.y = this->actor.world.pos.y;
             bomb2Pos.z = this->actor.world.pos.z;
@@ -578,7 +587,7 @@ void EnGs_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateZ(BINANG_TO_RAD(this->unk_1A0[1].z), MTXMODE_APPLY);
         }
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_gs.c", 1064),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gGossipStoneMaterialDL);
 
@@ -598,7 +607,7 @@ void EnGs_Draw(Actor* thisx, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_gs.c", 1087),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_gs.c", 1087),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14,

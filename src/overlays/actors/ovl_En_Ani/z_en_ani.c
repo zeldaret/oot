@@ -51,8 +51,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0 } },
@@ -137,7 +137,7 @@ void func_809B05F0(EnAni* this, PlayState* play) {
 }
 
 void func_809B064C(EnAni* this, PlayState* play) {
-    u16 textId = Text_GetFaceReaction(play, 0xA);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KAKARIKO_ROOF_MAN);
     s16 yawDiff;
 
     if (textId == 0) {

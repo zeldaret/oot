@@ -265,7 +265,6 @@ void func_8097E454(PlayState* play, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* a
     s16 phi_s0;
     s16 dustScaleStep = 15.0f * scale;
     f32 dustScale = 300.0f * scale;
-    Vec3f pos;
 
     if ((!FrameAdvance_IsEnabled(play)) && (arg7 > 0) && (arg6 > 0)) {
         frames = (ABS((s32)play->gameplayFrames) % arg7);
@@ -273,6 +272,7 @@ void func_8097E454(PlayState* play, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* a
         increment = 0x10000 / arg6;
 
         for (i = frames; i < arg6; i += arg7) {
+            Vec3f pos;
 
             pos.x = (Math_SinS(phi_s0) * arg4) + spawnerPos->x;
             pos.y = spawnerPos->y;
@@ -437,7 +437,7 @@ void func_8097ED64(DemoGt* this, PlayState* play, s32 cueChannel) {
 }
 
 u8 DemoGt_IsCutsceneLayer(void) {
-    if (kREG(2) != 0) {
+    if (OOT_DEBUG && (kREG(2) != 0)) {
         return true;
     } else if (!IS_CUTSCENE_LAYER) {
         return false;
@@ -503,7 +503,7 @@ void func_8097EF40(DemoGt* this, PlayState* play) {
     Vec3f* pos = &this->dyna.actor.world.pos;
     s32 pad;
 
-    if ((kREG(1) == 20) || (csCurFrame == 220)) {
+    if ((OOT_DEBUG && (kREG(1) == 20)) || (csCurFrame == 220)) {
         dustPos.x = pos->x + 256.0f;
         dustPos.y = pos->y + 679.0f;
         dustPos.z = pos->z + 82.0f;
@@ -526,7 +526,12 @@ void func_8097F0AC(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
     s32 pad2;
 
-    if ((csCurFrame == 140) || (kREG(1) == 19)) {
+#if OOT_DEBUG
+    if (csCurFrame == 140 || kREG(1) == 19)
+#else
+    if (csCurFrame == 140)
+#endif
+    {
         sp38.x = this->dyna.actor.world.pos.x + 260.0f;
         sp38.y = this->dyna.actor.world.pos.y + 340.0f;
         sp38.z = this->dyna.actor.world.pos.z + 45.0f;
@@ -562,7 +567,6 @@ void func_8097F280(DemoGt* this, PlayState* play) {
     s32* unk178 = this->unk_178;
     s32* unk188 = this->unk_188;
     s32* unk198 = this->unk_198;
-    f32 temp_f0;
 
     if (play->csCtx.curFrame < 160) {
         unk178[0] = 100;
@@ -576,7 +580,7 @@ void func_8097F280(DemoGt* this, PlayState* play) {
         unk198[0]++;
         unk198[1]--;
     } else if (play->csCtx.curFrame < 170) {
-        temp_f0 = Environment_LerpWeightAccelDecel(170, 160, play->csCtx.curFrame, 0, 0);
+        f32 temp_f0 = Environment_LerpWeightAccelDecel(170, 160, play->csCtx.curFrame, 0, 0);
 
         unk178[0] = (temp_f0 * -63.0f) + 163.0f;
         unk178[1] = (temp_f0 * -155.0f) + 255.0f;
@@ -645,7 +649,7 @@ void DemoGt_Draw1(DemoGt* this, PlayState* play) {
     spBC = kREG(71);
     spB8 = (s16)((s32)kREG(70)) + 0x4000;
     spBA = kREG(70);
-    spB4 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    spB4 = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp98 = 1.0f - Math_CosS(spC6);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part1.c", 458);
@@ -661,7 +665,7 @@ void DemoGt_Draw1(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(spC0, &spA8, MTXMODE_APPLY);
     Matrix_Translate(sp9C.x, sp9C.y, sp9C.z, MTXMODE_APPLY);
-    Matrix_ToMtx(spB4, "../z_demo_gt_part1.c", 474);
+    MATRIX_TO_MTX(spB4, "../z_demo_gt_part1.c", 474);
     unk198 = this->unk_198;
     unk188 = this->unk_188;
     unk178 = this->unk_178;
@@ -700,13 +704,14 @@ void func_8097F960(DemoGt* this, PlayState* play) {
 }
 
 void func_8097F96C(DemoGt* this, PlayState* play) {
-    static Actor* cloudRing = NULL;
     s32 pad[4];
     Vec3f pos;
     Actor* actor;
     u16 csCurFrame = play->csCtx.curFrame;
 
-    if (((csCurFrame > 1059) && (csCurFrame < 1062)) || kREG(1) == 17) {
+    if (((csCurFrame > 1059) && (csCurFrame < 1062)) || (OOT_DEBUG && (kREG(1) == 17))) {
+        static Actor* cloudRing = NULL;
+
         pos.x = this->dyna.actor.world.pos.x;
         pos.y = this->dyna.actor.world.pos.y + 612.0f;
         pos.z = this->dyna.actor.world.pos.z;
@@ -730,7 +735,7 @@ void func_8097FA1C(DemoGt* this, PlayState* play) {
     Vec3f velOffset = { -12.0f, -17.0, 5.0 };
     s32 pad1[3];
 
-    if (((csCurFrame > 502) && !(csCurFrame >= 581)) || (kREG(1) == 5)) {
+    if (((csCurFrame > 502) && !(csCurFrame >= 581)) || (OOT_DEBUG && (kREG(1) == 5))) {
         dustPos.x = pos->x + 300.0f;
         dustPos.y = pos->y + 360.0f;
         dustPos.z = pos->z - 377.0f;
@@ -739,19 +744,20 @@ void func_8097FA1C(DemoGt* this, PlayState* play) {
 }
 
 void func_8097FAFC(DemoGt* this, PlayState* play) {
-    static Vec3f velocity = { 0.0f, 1.0f, 0.0f };
-    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
-    static f32 arg4 = 280.0f;
-    static f32 scale = 8.0f;
-    static s32 arg6 = 11;
-    static s32 arg7 = 1;
-    static s16 life = 3;
     s32 pad[2];
     u16 csCurFrame = play->csCtx.curFrame;
     Vec3f pos;
     f32 new_var = -200.0;
 
-    if (((csCurFrame > 582) && (csCurFrame < 683)) || (kREG(1) == 6)) {
+    if (((csCurFrame > 582) && (csCurFrame < 683)) || (OOT_DEBUG && (kREG(1) == 6))) {
+        static Vec3f velocity = { 0.0f, 1.0f, 0.0f };
+        static Vec3f accel = { 0.0f, 0.0f, 0.0f };
+        static f32 arg4 = 280.0f;
+        static f32 scale = 8.0f;
+        static s32 arg6 = 11;
+        static s32 arg7 = 1;
+        static s16 life = 3;
+
         pos = this->dyna.actor.world.pos;
         pos.y += 680.0f;
 
@@ -773,7 +779,7 @@ void func_8097FC1C(DemoGt* this, PlayState* play) {
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
-    if (csCurFrame > 682 || kREG(1) == 7) {
+    if (csCurFrame > 682 || (OOT_DEBUG && (kREG(1) == 7))) {
         dustPos.x = pos->x + 260.0f;
         dustPos.y = pos->y + 360.0f;
         dustPos.z = pos->z + 260.0f;
@@ -786,7 +792,12 @@ void func_8097FCE4(DemoGt* this, PlayState* play) {
     Vec3f vec;
     u16 csCurFrame = play->csCtx.curFrame;
 
-    if (csCurFrame == 503 || kREG(1) == 4) {
+#if OOT_DEBUG
+    if (csCurFrame == 503 || kREG(1) == 4)
+#else
+    if (csCurFrame == 503)
+#endif
+    {
         vec.x = this->dyna.actor.world.pos.x + 300.0f;
         vec.y = this->dyna.actor.world.pos.y + 560.0f;
         vec.z = this->dyna.actor.world.pos.z - 377.0f;
@@ -859,7 +870,7 @@ void DemoGt_Draw2(DemoGt* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, unk198[0], 0x20, 0x40, 1, 0, unk198[1], 0x20, 0x40, unk178[0],
                                         unk178[1], unk178[2], 128));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part2.c", 485),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_gt_part2.c", 485),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsCollapsedStructureInnerDL);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
@@ -881,12 +892,13 @@ void func_80980178(DemoGt* this, PlayState* play) {
 }
 
 void func_80980184(DemoGt* this, PlayState* play) {
-    static Actor* cloudRing = NULL;
     s32 pad[4];
     Vec3f pos;
     Actor* actor;
 
     if ((play->csCtx.curFrame > 1027) && (play->csCtx.curFrame < 1031)) {
+        static Actor* cloudRing = NULL;
+
         pos.x = this->dyna.actor.world.pos.x;
         pos.y = this->dyna.actor.world.pos.y + 247.0f;
         pos.z = this->dyna.actor.world.pos.z;
@@ -903,12 +915,13 @@ void func_80980184(DemoGt* this, PlayState* play) {
 }
 
 void func_80980218(DemoGt* this, PlayState* play) {
-    static Actor* cloudRing = NULL;
     s32 pad[4];
     Vec3f pos;
     Actor* actor;
 
     if ((play->csCtx.curFrame > 997) && (play->csCtx.curFrame < 1001)) {
+        static Actor* cloudRing = NULL;
+
         pos.x = this->dyna.actor.home.pos.x;
         pos.y = this->dyna.actor.home.pos.y + 38.0f;
         pos.z = this->dyna.actor.home.pos.z;
@@ -964,7 +977,7 @@ void func_80980430(DemoGt* this, PlayState* play) {
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
     s32 pad1[3];
 
-    if (csCurFrame > 709 || kREG(1) == 8) {
+    if (csCurFrame > 709 || (OOT_DEBUG && (kREG(1) == 8))) {
         dustPos.x = pos->x + 760.0f;
         dustPos.y = pos->y - 40.0f;
         dustPos.z = pos->z - 240.0f;
@@ -980,7 +993,7 @@ void func_80980504(DemoGt* this, PlayState* play) {
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
-    if ((csCurFrame > 704) || kREG(1) == 9) {
+    if ((csCurFrame > 704) || (OOT_DEBUG && (kREG(1) == 9))) {
         dustPos.x = pos->x + 830.0f;
         dustPos.y = pos->y + 60.0f;
         dustPos.z = pos->z + 390.0f;
@@ -996,7 +1009,7 @@ void func_809805D8(DemoGt* this, PlayState* play) {
     Vec3f velOffset = { 15.0f, -26.0, 0.0f };
     s32 pad1[3];
 
-    if (((csCurFrame > 739) && (csCurFrame < 781)) || kREG(1) == 11) {
+    if (((csCurFrame > 739) && (csCurFrame < 781)) || (OOT_DEBUG && (kREG(1) == 11))) {
         dustPos.x = homePos->x + 550.0f;
         dustPos.y = homePos->y - 110.0f;
         dustPos.z = homePos->z + 50.0f;
@@ -1012,7 +1025,7 @@ void func_809806B8(DemoGt* this, PlayState* play) {
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
-    if ((csCurFrame > 964) || (kREG(1) == 12)) {
+    if ((csCurFrame > 964) || (OOT_DEBUG && (kREG(1) == 12))) {
         dustPos.x = pos->x + 460.0f;
         dustPos.y = pos->y + 60.0f;
         dustPos.z = pos->z + 760.0f;
@@ -1028,7 +1041,7 @@ void func_8098078C(DemoGt* this, PlayState* play) {
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
-    if ((csCurFrame > 939) || (kREG(1) == 14)) {
+    if ((csCurFrame > 939) || (OOT_DEBUG && (kREG(1) == 14))) {
         dustPos.x = pos->x + 360.0f;
         dustPos.y = pos->y + 70.0f;
         dustPos.z = pos->z - 640.0f;
@@ -1042,7 +1055,7 @@ void func_8098085C(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
 
-    if ((csCurFrame == 58) || (kREG(1) == 1)) {
+    if ((csCurFrame == 58) || (OOT_DEBUG && (kREG(1) == 1))) {
         sp28.x = pos->x + 900.0f;
         sp28.y = pos->y - 50.0f;
         sp28.z = pos->z + 93.0f;
@@ -1068,7 +1081,7 @@ void func_809809C0(DemoGt* this, PlayState* play2) {
     Vec3f sp54;
     s16 pad[3];
 
-    if (((csCurFrame > 469) && (csCurFrame < 481)) || (kREG(1) == 3)) {
+    if (((csCurFrame > 469) && (csCurFrame < 481)) || (OOT_DEBUG && (kREG(1) == 3))) {
         Vec3f sp40 = { 20.0f, 6.0f, 0.0f };
         Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
         s16 pad2[3];
@@ -1088,7 +1101,7 @@ void func_80980AD4(DemoGt* this, PlayState* play) {
     Vec3f pos;
     u16 csCurFrame = play->csCtx.curFrame;
 
-    if ((csCurFrame == 477) || (kREG(2) == 1)) {
+    if ((csCurFrame == 477) || (OOT_DEBUG && (kREG(2) == 1))) {
         pos.x = this->dyna.actor.world.pos.x + 790.0f;
         pos.y = this->dyna.actor.world.pos.y + 60.0f;
         pos.z = this->dyna.actor.world.pos.z + 23.0f;
@@ -1103,7 +1116,7 @@ void func_80980B68(DemoGt* this, PlayState* play) {
     Vec3f pos;
     u16 csCurFrame = play->csCtx.curFrame;
 
-    if ((csCurFrame == 317) || (kREG(3) == 1)) {
+    if ((csCurFrame == 317) || (OOT_DEBUG && (kREG(3) == 1))) {
         pos.x = this->dyna.actor.world.pos.x + 980.0f;
         pos.y = this->dyna.actor.world.pos.y + 410.0f;
         pos.z = this->dyna.actor.world.pos.z - 177.0f;
@@ -1117,7 +1130,7 @@ void func_80980BFC(DemoGt* this, PlayState* play) {
     Vec3f pos;
     u16 csCurFrame = play->csCtx.curFrame;
 
-    if ((csCurFrame == 740) || (kREG(4) == 1)) {
+    if ((csCurFrame == 740) || (OOT_DEBUG && (kREG(4) == 1))) {
         pos.x = this->dyna.actor.world.pos.x + 790.0f;
         pos.y = this->dyna.actor.world.pos.y + 60.0f;
         pos.z = this->dyna.actor.world.pos.z + 23.0f;
@@ -1169,7 +1182,7 @@ void DemoGt_Draw3(DemoGt* this, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1026);
 
     Gfx_SetupDL_25Opa(gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part3.c", 1028),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_gt_part3.c", 1028),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsCollapsedStructureOuterDL);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
@@ -1266,7 +1279,7 @@ void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
         sp68 = (s16)((s32)kREG(58)) + 0x4000;
         sp6A = kREG(58);
         gfxCtx = play->state.gfxCtx;
-        sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+        sp60 = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
         sp44 = 1.0f - Math_CosS(sp76);
 
         OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 217);
@@ -1283,7 +1296,7 @@ void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
 
         Matrix_RotateAxis(sp70, &sp54, MTXMODE_APPLY);
         Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
-        Matrix_ToMtx(sp60, "../z_demo_gt_part4_1.c", 232);
+        MATRIX_TO_MTX(sp60, "../z_demo_gt_part4_1.c", 232);
 
         if (!FrameAdvance_IsEnabled(play)) {
             func_80980F8C(this, play);
@@ -1322,7 +1335,7 @@ void func_80981458(DemoGt* this, PlayState* play) {
     Vec3f dustPos;
     u16 csCurFrame = play->csCtx.curFrame;
 
-    if (((csCurFrame > 855) && (csCurFrame < 891)) || (kREG(1) == 13)) {
+    if (((csCurFrame > 855) && (csCurFrame < 891)) || (OOT_DEBUG && (kREG(1) == 13))) {
         Vec3f velOffset = { 0.0f, -30.0f, 0.0f };
         s32 pad1[3];
 
@@ -1385,7 +1398,7 @@ void DemoGt_Draw5(DemoGt* this, PlayState* play) {
     sp6A = kREG(59) - 0x4000;
     sp68 = (s16)(kREG(59) - 0x4000) + 0x4000;
     gfxCtx = play->state.gfxCtx;
-    sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sp60 = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp44 = 1 - Math_CosS(sp76);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_2.c", 212);
@@ -1402,7 +1415,7 @@ void DemoGt_Draw5(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp70, &sp54, MTXMODE_APPLY);
     Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
-    Matrix_ToMtx(sp60, "../z_demo_gt_part4_2.c", 227);
+    MATRIX_TO_MTX(sp60, "../z_demo_gt_part4_2.c", 227);
 
     if (!FrameAdvance_IsEnabled(play)) {
         func_80981458(this, play);
@@ -1481,7 +1494,7 @@ void DemoGt_Draw6(DemoGt* this, PlayState* play) {
     sp6C = kREG(60) + 0x4000;
     sp6C += 0x4000;
     gfxCtx = play->state.gfxCtx;
-    sp64 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sp64 = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp48 = 1.0f - Math_CosS(sp78);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_3.c", 276);
@@ -1498,7 +1511,7 @@ void DemoGt_Draw6(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp74, &sp58, MTXMODE_APPLY);
     Matrix_Translate(sp4C.x, sp4C.y, sp4C.z, MTXMODE_APPLY);
-    Matrix_ToMtx(sp64, "../z_demo_gt_part4_3.c", 291);
+    MATRIX_TO_MTX(sp64, "../z_demo_gt_part4_3.c", 291);
 
     Matrix_Pop();
 
@@ -1573,7 +1586,7 @@ void DemoGt_Draw7(DemoGt* this, PlayState* play) {
     sp62 = kREG(74) + 0x7FEC;
     sp60 = kREG(74) + 0x7FEC;
     sp60 += 0x4000;
-    sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sp5C = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp40 = 1.0f - Math_CosS(sp6E);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part5.c", 136);
@@ -1590,7 +1603,7 @@ void DemoGt_Draw7(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp68, &sp50, MTXMODE_APPLY);
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
-    Matrix_ToMtx(sp5C, "../z_demo_gt_part5.c", 152);
+    MATRIX_TO_MTX(sp5C, "../z_demo_gt_part5.c", 152);
 
     Matrix_Pop();
 
@@ -1664,7 +1677,7 @@ void DemoGt_Draw8(DemoGt* this, PlayState* play) {
     sp62 = kREG(77) + 0xBE80;
     sp60 = kREG(77) + 0xBE80;
     sp60 += 0x4000;
-    sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sp5C = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp40 = 1.0f - Math_CosS(sp6E);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part6.c", 137);
@@ -1681,7 +1694,7 @@ void DemoGt_Draw8(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp68, &sp50, MTXMODE_APPLY);
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
-    Matrix_ToMtx(sp5C, "../z_demo_gt_part6.c", 153);
+    MATRIX_TO_MTX(sp5C, "../z_demo_gt_part6.c", 153);
 
     Matrix_Pop();
 
@@ -1705,7 +1718,7 @@ void DemoGt_Update(Actor* thisx, PlayState* play) {
 
     if ((this->updateMode < 0) || (this->updateMode >= 19) || (updateFunc = sUpdateFuncs[this->updateMode]) == NULL) {
         // "The main mode is strange!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1742,7 +1755,7 @@ void DemoGt_Init(Actor* thisx, PlayState* play) {
             break;
         default:
             // "Demo_Gt_Actor_ct There is no such argument !"
-            osSyncPrintf("Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+            PRINTF("Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
             Actor_Kill(&this->dyna.actor);
     }
 }
@@ -1761,7 +1774,7 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 9) || (drawFunc = sDrawFuncs[this->drawConfig]) == NULL) {
         // "The drawing mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 

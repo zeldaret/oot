@@ -31,10 +31,13 @@ public:
 	std::map<uint16_t, std::string> fadeOutSeqPlayer;
 	std::map<uint16_t, std::string> transitionType;
 	std::map<uint16_t, std::string> naviQuestHintType;
+	std::map<uint16_t, std::string> ocarinaSongActionId;
+	std::map<uint16_t, std::string> seqId;
 
 	// OoT
 	std::map<uint16_t, std::string> textType;
 	std::map<uint16_t, std::string> destination;
+	std::map<uint16_t, std::string> playerCueId;
 
 	// MM
 	std::map<uint16_t, std::string> modifySeqType;
@@ -45,6 +48,8 @@ public:
 	std::map<uint16_t, std::string> rumbleType;
 	std::map<uint8_t, std::string> spawnFlag;
 	std::map<uint8_t, std::string> endSfx;
+	std::map<uint8_t, std::string> interpType;
+	std::map<uint16_t, std::string> relTo;
 };
 
 class ZFile;

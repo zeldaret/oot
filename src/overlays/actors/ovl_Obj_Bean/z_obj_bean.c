@@ -9,7 +9,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_22
+#define FLAGS ACTOR_FLAG_IGNORE_POINT_LIGHTS
 
 void ObjBean_Init(Actor* thisx, PlayState* play);
 void ObjBean_Destroy(Actor* thisx, PlayState* play);
@@ -97,8 +97,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 64, 30, -31, { 0, 0, 0 } },
@@ -135,19 +135,20 @@ void ObjBean_InitCollider(Actor* thisx, PlayState* play) {
 
 void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
-    CollisionHeader* colHeader;
-    s32 pad2;
-
-    colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_bean.c", 374,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        s32 pad2;
+
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_bean.c", 374,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void ObjBean_FindFloor(ObjBean* this, PlayState* play) {
@@ -240,14 +241,8 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
     Path* path;
     Vec3f acell;
     Vec3f pathPointsFloat;
-    f32 speed;
-    Vec3s* nextPathPoint;
-    Vec3s* currentPoint;
-    Vec3s* sp4C;
-    Vec3f sp40;
-    Vec3f sp34;
-    f32 sp30;
     f32 mag;
+    Vec3s* nextPathPoint;
 
     Math_StepToF(&this->dyna.actor.speed, sBeanSpeeds[this->unk_1F6].velocity, sBeanSpeeds[this->unk_1F6].accel);
     path = &play->pathList[(this->dyna.actor.params >> 8) & 0x1F];
@@ -257,8 +252,13 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
 
     Math_Vec3f_Diff(&pathPointsFloat, &this->pathPoints, &acell);
     mag = Math3D_Vec3fMagnitude(&acell);
-    speed = CLAMP_MIN(this->dyna.actor.speed, 0.5f);
-    if (speed > mag) {
+    if (CLAMP_MIN(this->dyna.actor.speed, 0.5f) > mag) {
+        Vec3s* currentPoint;
+        Vec3s* sp4C;
+        Vec3f sp40;
+        Vec3f sp34;
+        f32 sp30;
+
         currentPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->currentPointIndex];
 
         Math_Vec3f_Copy(&this->pathPoints, &pathPointsFloat);
@@ -469,23 +469,21 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-        if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || (mREG(1) == 1)) {
+        if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || (OOT_DEBUG && mREG(1) == 1)) {
             path = (this->dyna.actor.params >> 8) & 0x1F;
             if (path == 0x1F) {
-                osSyncPrintf(VT_COL(RED, WHITE));
+                PRINTF(VT_COL(RED, WHITE));
                 // "No path data?"
-                osSyncPrintf("パスデータが無い？(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 909,
-                             this->dyna.actor.params);
-                osSyncPrintf(VT_RST);
+                PRINTF("パスデータが無い？(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 909, this->dyna.actor.params);
+                PRINTF(VT_RST);
                 Actor_Kill(&this->dyna.actor);
                 return;
             }
             if (play->pathList[path].count < 3) {
-                osSyncPrintf(VT_COL(RED, WHITE));
+                PRINTF(VT_COL(RED, WHITE));
                 // "Incorrect number of path data"
-                osSyncPrintf("パスデータ数が不正(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 921,
-                             this->dyna.actor.params);
-                osSyncPrintf(VT_RST);
+                PRINTF("パスデータ数が不正(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 921, this->dyna.actor.params);
+                PRINTF(VT_RST);
                 Actor_Kill(&this->dyna.actor);
                 return;
             }
@@ -506,14 +504,14 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
-    } else if ((Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) != 0) || (mREG(1) == 1)) {
+    } else if ((Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) != 0) || (OOT_DEBUG && mREG(1) == 1)) {
         ObjBean_SetupWaitForWater(this);
     } else {
         ObjBean_SetupWaitForBean(this);
     }
     this->dyna.actor.world.rot.z = this->dyna.actor.home.rot.z = this->dyna.actor.shape.rot.z = 0;
     // "Magic bean tree lift"
-    osSyncPrintf("(魔法の豆の木リフト)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(魔法の豆の木リフト)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void ObjBean_Destroy(Actor* thisx, PlayState* play) {
@@ -889,10 +887,10 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
         this->dyna.actor.shape.shadowScale = this->dyna.actor.scale.x * 88.0f;
 
         if (ObjBean_CheckForHorseTrample(this, play)) {
-            osSyncPrintf(VT_FGCOL(CYAN));
+            PRINTF(VT_FGCOL(CYAN));
             // "Horse and bean tree lift collision"
-            osSyncPrintf("馬と豆の木リフト衝突！！！\n");
-            osSyncPrintf(VT_RST);
+            PRINTF("馬と豆の木リフト衝突！！！\n");
+            PRINTF(VT_RST);
             ObjBean_Break(this, play);
             DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             func_80B908EC(this);

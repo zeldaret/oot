@@ -9,7 +9,7 @@ typedef struct {
 
 SsSramContext sSsSramContext = { 0 };
 
-void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
+void SsSram_Init(s32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
                  u8 handlePulse, u32 handleSpeed) {
     u32 prevInt;
     OSPiHandle* handle = &sSsSramContext.piHandle;
@@ -49,8 +49,8 @@ void SsSram_Dma(void* dramAddr, size_t size, s32 direction) {
     osInvalDCache(dramAddr, size);
 }
 
-void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction) {
-    osSyncPrintf("ssSRAMReadWrite:%08x %08x %08x %d\n", addr, dramAddr, size, direction);
+void SsSram_ReadWrite(s32 addr, void* dramAddr, size_t size, s32 direction) {
+    PRINTF("ssSRAMReadWrite:%08x %08x %08x %d\n", addr, dramAddr, size, direction);
     SsSram_Init(addr, DEVICE_TYPE_SRAM, PI_DOMAIN2, 5, 0xD, 2, 0xC, 0);
     SsSram_Dma(dramAddr, size, direction);
 }

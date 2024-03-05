@@ -85,7 +85,7 @@ extern u32 gGsFlagsMasks[4];
 extern u32 gGsFlagsShifts[4];
 extern void* gItemIcons[0x82];
 extern u8 gItemSlots[56];
-extern void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*);
+extern SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX];
 extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
 extern RomFile gObjectTable[OBJECT_ID_MAX];
@@ -103,7 +103,9 @@ extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern Mtx gMtxClear;
 extern MtxF gMtxFClear;
+#if OOT_DEBUG
 extern u32 gIsCtrlr2Valid;
+#endif
 extern s16* gWaveSamples[9];
 extern f32 gBendPitchOneOctaveFrequencies[256];
 extern f32 gBendPitchTwoSemitonesFrequencies[256];
@@ -141,13 +143,17 @@ extern u16 D_801333D0;
 extern Vec3f gSfxDefaultPos;
 extern f32 gSfxDefaultFreqAndVolScale;
 extern s8 gSfxDefaultReverb;
+#if OOT_DEBUG
 extern u8 D_801333F0;
 extern u8 gAudioSfxSwapOff;
 extern u8 D_801333F8;
+#endif
 extern u8 gSeqCmdWritePos;
 extern u8 gSeqCmdReadPos;
 extern u8 gStartSeqDisabled;
+#if OOT_DEBUG
 extern u8 gAudioDebugPrintSeqCmd;
+#endif
 extern u8 gSoundModeList[];
 extern u8 gAudioSpecId;
 extern u8 D_80133418;
@@ -157,8 +163,7 @@ extern s32 gSystemArenaLogSeverity;
 extern u8 __osPfsInodeCacheBank;
 extern s32 __osPfsLastChannel;
 
-extern const s16 D_8014A6C0[];
-#define gTatumsPerBeat (D_8014A6C0[1])
+extern const TempoData gTempoData;
 extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
 extern u8 gSoundFontTable[];
@@ -215,7 +220,7 @@ extern u16 gAudioSfxSwapTarget[10];
 extern u8 gAudioSfxSwapMode[10];
 extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
-extern void(*D_801755D0)(void);
+extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 
 extern u32 __osMalloc_FreeBlockTest_Enable;
 extern Arena gSystemArena;
@@ -230,6 +235,5 @@ extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 byt
 extern u64 gGfxSPTaskStack[SP_DRAM_STACK_SIZE64]; // 0x400 bytes
 extern GfxPool gGfxPools[2]; // 0x24820 bytes
 extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
-extern u8 gSystemHeap[];
 
 #endif
