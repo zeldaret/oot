@@ -10800,7 +10800,7 @@ void Player_UpdateBodyBurn(PlayState* play, Player* this) {
     }
 }
 
-void Player_UpdateStoneOfAgony(Player* this) {
+void Player_DetectRumbleSecrets(Player* this) {
     if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY)) {
         f32 temp = 200000.0f - (this->closestSecretDistSq * 5.0f);
 
@@ -11157,7 +11157,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                     this->fallStartHeight = this->actor.world.pos.y;
                 }
 
-                Player_UpdateStoneOfAgony(this);
+                Player_DetectRumbleSecrets(this);
             }
         }
 
