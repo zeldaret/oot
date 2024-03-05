@@ -94,8 +94,8 @@ static ColliderCylinderInit sCylinderInitBody = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0xFFCFFFFE, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 30, 90, -50, { 0, 0, 0 } },
@@ -114,8 +114,8 @@ static ColliderCylinderInit sCylinderInitSpear = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x30 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 30, -20, { 0, 0, 0 } },
@@ -1239,14 +1239,14 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
             }
             if (this->flyMode != GND_FLY_PAINTING) {
                 if (acHit && (this->actionFunc != BossGanondrof_Stunned) &&
-                    (acHitElem->toucher.dmgFlags & DMG_RANGED)) {
+                    (acHitElem->atDmgInfo.dmgFlags & DMG_RANGED)) {
                     Actor_PlaySfx(&this->actor, NA_SE_NONE);
                     PRINTF("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
                     if (this->returnCount == 0) {
                         u8 dmg;
                         u8 canKill = false;
-                        s32 dmgFlags = acHitElem->toucher.dmgFlags;
+                        s32 dmgFlags = acHitElem->atDmgInfo.dmgFlags;
 
                         if (dmgFlags & DMG_HOOKSHOT) {
                             return;
@@ -1273,7 +1273,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                 } else {
                     Actor_PlaySfx(&this->actor, NA_SE_NONE);
                 }
-            } else if (acHit && (acHitElem->toucher.dmgFlags & DMG_RANGED)) {
+            } else if (acHit && (acHitElem->atDmgInfo.dmgFlags & DMG_RANGED)) {
                 this->work[GND_INVINC_TIMER] = 10;
                 this->actor.colChkInfo.health -= 2;
                 horse->hitTimer = 20;

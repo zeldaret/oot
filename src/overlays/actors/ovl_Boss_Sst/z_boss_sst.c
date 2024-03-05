@@ -873,10 +873,10 @@ void BossSst_HeadStunned(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupVulnerable(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadStunnedAnim, -5.0f);
     this->colliderCyl.base.acFlags |= AC_ON;
-    this->colliderCyl.elem.bumper.dmgFlags = DMG_SWORD | DMG_DEKU_STICK;
+    this->colliderCyl.elem.acDmgInfo.dmgFlags = DMG_SWORD | DMG_DEKU_STICK;
     this->actor.speed = 0.0f;
-    this->colliderJntSph.elements[10].base.bumperFlags |= (BUMP_ON | BUMP_HOOKABLE);
-    this->colliderJntSph.elements[0].base.bumperFlags &= ~BUMP_ON;
+    this->colliderJntSph.elements[10].base.acElemFlags |= (ACELEM_ON | ACELEM_HOOKABLE);
+    this->colliderJntSph.elements[0].base.acElemFlags &= ~ACELEM_ON;
     if (this->actionFunc != BossSst_HeadDamage) {
         this->timer = 50;
     }
@@ -932,9 +932,9 @@ void BossSst_HeadDamage(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupRecover(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadRecoverAnim, -5.0f);
     this->colliderCyl.base.acFlags &= ~AC_ON;
-    this->colliderCyl.elem.bumper.dmgFlags = DMG_DEFAULT;
-    this->colliderJntSph.elements[10].base.bumperFlags &= ~(BUMP_ON | BUMP_HOOKABLE);
-    this->colliderJntSph.elements[0].base.bumperFlags |= BUMP_ON;
+    this->colliderCyl.elem.acDmgInfo.dmgFlags = DMG_DEFAULT;
+    this->colliderJntSph.elements[10].base.acElemFlags &= ~(ACELEM_ON | ACELEM_HOOKABLE);
+    this->colliderJntSph.elements[0].base.acElemFlags |= ACELEM_ON;
     this->vVanish = true;
     this->actor.speed = 5.0f;
     this->actionFunc = BossSst_HeadRecover;
@@ -2500,7 +2500,7 @@ void BossSst_HandSetDamage(BossSst* this, s32 damage) {
 
     this->colliderJntSph.base.atFlags |= AT_ON;
     for (i = 0; i < 11; i++) {
-        this->colliderJntSph.elements[i].base.toucher.damage = damage;
+        this->colliderJntSph.elements[i].base.atDmgInfo.damage = damage;
     }
 }
 

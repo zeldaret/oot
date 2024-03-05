@@ -100,8 +100,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x08, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 20, 40, 0, { 0, 0, 0 } },
@@ -132,8 +132,8 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
         // "Reeba Boss Appears %f"
         PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
-        this->collider.elem.toucher.effect = 4;
-        this->collider.elem.toucher.damage = 16;
+        this->collider.elem.atDmgInfo.effect = 4;
+        this->collider.elem.atDmgInfo.damage = 16;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
     }
 
@@ -326,7 +326,7 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
     }
 }
 
-void EnReeba_Bumped(EnReeba* this, PlayState* play) {
+void EnReeba_Recoiled(EnReeba* this, PlayState* play) {
     Math_ApproachZeroF(&this->actor.speed, 1.0f, 0.3f);
 
     if (this->moveTimer == 0) {
@@ -640,7 +640,7 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
             this->actor.speed = 8.0f;
             this->actor.world.rot.y *= -1.0f;
             this->moveTimer = 14;
-            this->actionfunc = EnReeba_Bumped;
+            this->actionfunc = EnReeba_Recoiled;
             return;
         }
     }
