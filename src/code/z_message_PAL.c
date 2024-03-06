@@ -3060,7 +3060,6 @@ void Message_Update(PlayState* play) {
         0x0015, 0x0016, 0x0017, 0x0003, 0x0000, 0x270B, 0x00C8, 0x012C, 0x012D, 0xFFDA, 0x0014, 0x0016, 0x0014, 0x0016,
     };
     static u8 D_80153D74 = 0;
-    static u16 D_80153D78 = 0;
     MessageContext* msgCtx = &play->msgCtx;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     Player* player = GET_PLAYER(play);
@@ -3073,6 +3072,8 @@ void Message_Update(PlayState* play) {
 
 #if OOT_DEBUG
     if (BREG(0) != 0) {
+        static u16 D_80153D78 = 0;
+
         if (CHECK_BTN_ALL(input->press.button, BTN_DDOWN) && CHECK_BTN_ALL(input->cur.button, BTN_L)) {
             PRINTF("msgno=%d\n", D_80153D78);
             Message_StartTextbox(play, R_MESSAGE_DEBUGGER_TEXTID, NULL);
@@ -3358,8 +3359,10 @@ void Message_SetTables(void) {
     sStaffMessageEntryTablePtr = sStaffMessageEntryTable;
 }
 
+#if OOT_DEBUG
 // Appears to be file padding
 UNK_TYPE D_80153D7C = 0x00000000;
+#endif
 
 // This should be part of z_game_over.c, but cannot be moved there as the entire
 // late_rodata section of this file is in the way

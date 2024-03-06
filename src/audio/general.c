@@ -123,7 +123,10 @@ u8 sAudioBaseFilter2 = 0;
 u8 sAudioExtraFilter2 = 0;
 Vec3f* sSariaBgmPtr = NULL;
 f32 D_80130650 = 2000.0f;
+
+#if OOT_DEBUG
 u8 sSeqModeInput = 0;
+#endif
 
 #define SEQ_FLAG_ENEMY (1 << 0) // Allows enemy bgm
 #define SEQ_FLAG_FANFARE (1 << 1)
