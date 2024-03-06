@@ -3072,12 +3072,12 @@ void Message_Update(PlayState* play) {
 
 #if OOT_DEBUG
     if (BREG(0) != 0) {
-        static u16 D_80153D78 = 0;
+        static u16 sMessageDebuggerTextboxCount = 0;
 
         if (CHECK_BTN_ALL(input->press.button, BTN_DDOWN) && CHECK_BTN_ALL(input->cur.button, BTN_L)) {
-            PRINTF("msgno=%d\n", D_80153D78);
+            PRINTF("msgno=%d\n", sMessageDebuggerTextboxCount);
             Message_StartTextbox(play, R_MESSAGE_DEBUGGER_TEXTID, NULL);
-            D_80153D78 = (D_80153D78 + 1) % 10;
+            sMessageDebuggerTextboxCount = (sMessageDebuggerTextboxCount + 1) % 10;
         }
         if (R_MESSAGE_DEBUGGER_SELECT != 0) {
             while (R_MESSAGE_DEBUGGER_TEXTID != 0x8000) {
