@@ -157,8 +157,8 @@ def main():
                         build, file.vrom + reloc.offset_hi16
                     ):
                         print(
-                            f"Error: Relocation for {reloc.name} in {file.filepath} references a shifted portion of the ROM.\n"
-                            "Please ensure that the only differences between the baserom and the current build are due to BSS reordering.",
+                            f"Error: Reference to {reloc.name} in {file.filepath} is in a shifted portion of the ROM.\n"
+                            "Please ensure that the only differences between the baserom and the current build are due to data ordering.",
                             file=sys.stderr,
                         )
                         sys.exit(1)
