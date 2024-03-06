@@ -94,10 +94,11 @@ def read_s16(f: BinaryIO, offset: int) -> int:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Report BSS reorderings between the baserom and the current build "
+        description="Report data/bss reorderings between the baserom and the current build "
         "by parsing relocations from the built object files and comparing their final values "
         "between the baserom and the current build. "
-        "Assumes that the only differences are due to BSS ordering."
+        "Assumes that the only differences are due to ordering and that the text sections of the "
+        "ROMS are not shifted."
     )
     parser.add_argument(
         "--oot-version",
@@ -118,29 +119,32 @@ def main():
     mapfile = mapfile_parser.mapfile.MapFile()
     mapfile.readMapFile(f"build/{version}/oot-{version}.map")
 
-    reloc_mapfile_segments = []
+    mapfile_segments = []
     for mapfile_segment in mapfile:
-        if args.segment and mapfile_segment.name != f"..{args.segment}":
-            continue
-        if not (
-            mapfile_segment.name == "..boot"
-            or mapfile_segment.name == "..code"
-            or (
-                mapfile_segment.name.startswith("..ovl_")
-                and not mapfile_segment.name.endswith(".bss")
-            )
+        if (
+            args.segment
+            and mapfile_segment.name != f"..{args.segment}"
+            and mapfile_segment.name != f"..{args.segment}.bss"
         ):
             continue
-        reloc_mapfile_segments.append(mapfile_segment)
+        if not (
+            mapfile_segment.name.startswith("..boot")
+            or mapfile_segment.name.startswith("..code")
+            or mapfile_segment.name.startswith("..ovl_")
+        ):
+            continue
+        mapfile_segments.append(mapfile_segment)
 
     base = open(f"baseroms/{version}/baserom-decompressed.z64", "rb")
     build = open(f"build/{version}/oot-{version}.z64", "rb")
 
     # Find all pointers with different values
     pointers = []
-    for mapfile_segment in reloc_mapfile_segments:
+    for mapfile_segment in mapfile_segments:
         for file in mapfile_segment:
             if not str(file.filepath).endswith(".o"):
+                continue
+            if file.sectionType == ".bss":
                 continue
             for reloc in read_relocs(file.filepath, file.sectionType):
                 if reloc.offset_32 is not None:
@@ -178,10 +182,9 @@ def main():
     pointers.sort(key=lambda p: p.base_value)
 
     # Go through BSS sections and report differences
-    i = 0
-    for mapfile_segment in mapfile:
+    for mapfile_segment in mapfile_segments:
         for file in mapfile_segment:
-            if not file.sectionType == ".bss":
+            if file.vram is None:
                 continue
 
             pointers_in_section = [
@@ -190,7 +193,7 @@ def main():
             if not pointers_in_section:
                 continue
 
-            print(f"{file.filepath} BSS is reordered:")
+            print(f"{file.filepath} {file.sectionType} is reordered:")
             for i, p in enumerate(pointers_in_section):
                 if p.addend > 0:
                     addend_str = f"+0x{p.addend:X}"
