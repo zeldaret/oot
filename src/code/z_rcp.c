@@ -847,28 +847,50 @@ Gfx gEmptyDL[] = {
     gsSPEndDisplayList(),
 };
 
+/**
+ * Set fog color and range.
+ *
+ * At or prior to fog near, geometry is unaffected by fog. At or beyond fog far, geometry is fully fogged.
+ * Between near and far pixels will be linearly interpolated between the unfogged color and the supplied fog color.
+ *
+ * Fog far should be in the range 0 to 1000 and greater than or equal to fog near. If fog near is negative everything
+ * will be fully fogged. If fog near is 1000 or greater there is no fog.
+ */
 Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far) {
+    // Ensure fog far is greater than near
     if (far == near) {
         far++;
     }
-
     ASSERT(near != far, "n != f", "../z_rcp.c", 1155);
 
+    // Set the fog color, far away geometry will be rendered as this solid color.
     gDPSetFogColor(gfx++, r, g, b, a);
 
     if (near >= 1000) {
+        // Fog far is expected to be at most 1000 so near >= far. Set a constant shade alpha of 0 for no fog
         gSPFogFactor(gfx++, 0, 0);
-    } else if (near >= 997) {
-        gSPFogFactor(gfx++, 0x7FFF, 0x8100);
+    } else if (near > 996) {
+        // Calculating the fog multiplier when far = 1000 and near >= 997 using `128000 / (far - near)` as in
+        // SPFogPosition would result in an overflow since 128000 / (1000 - 997) > 32767. Avoid this overflow by
+        // effectively clamping near to ~996. This is almost SPFogPosition(996.0937f, 1000)
+        gSPFogFactor(gfx++, 0x7FFF, -0x7F00); // Fixed point: 0x7FFF = 1.0, -0x7F00 = -0.992
     } else if (near < 0) {
+        // Fog near is out of range. Set a constant shade alpha of 255 for fully fogged
         gSPFogFactor(gfx++, 0, 255);
     } else {
+        // Normal range. Shade alpha is 0 at z <= near and 255 at z >= far, linearly interpolated in between.
+        //! @bug If the difference between near and far is not at least 4, the fog multiplier will overflow. This is
+        //! handled above when fog far is 1000 but for closer fog far it is not accounted for.
         gSPFogPosition(gfx++, near, far);
     }
-
     return gfx;
 }
 
+/**
+ * Like Gfx_SetFog but issues a pipesync before changing fog color.
+ *
+ * @see Gfx_SetFog
+ */
 Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far) {
     if (far == near) {
         far++;
@@ -891,6 +913,11 @@ Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far)
     return gfx;
 }
 
+/**
+ * Wrapper for Gfx_SetFog
+ *
+ * @see Gfx_SetFog
+ */
 Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far) {
     return Gfx_SetFog(gfx, r, g, b, a, near, far);
 }
