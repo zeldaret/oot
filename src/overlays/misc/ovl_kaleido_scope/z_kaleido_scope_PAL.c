@@ -135,6 +135,21 @@ s16 D_8082AB2C[] = {
     24, 72, 13, 22, 19, 20, 19, 27, 14, 26, 22, 21, 49, 32, 45, 60, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 32, 8,
 };
 
+/**
+ * Contains the status of buttons for each page.
+ *
+ * Indexed by `pageIndex + pt` values,
+ * where pageIndex is from the `PauseMenuPage` enum
+ * and pt is 0 or 2 (respectively `SWITCH_PAGE_LEFT_PT` and `SWITCH_PAGE_RIGHT_PT`).
+ *
+ * `PauseMenuPage` enum values are ordered clockwise, starting at PAUSE_ITEM. That means adding 1 to a page index
+ * produces (modulo 4) the index of the page to the right, and similar with subtracting 1 for the left page.
+ * The indexing of this array relies on this property, but without modulo operations. Instead, the data for the first
+ * and last pages (PAUSE_ITEM, PAUSE_EQUIP) is duplicated.
+ *
+ * For example when scrolling left from the quest page PAUSE_QUEST (so, to PAUSE_MAP),
+ * the index is `PAUSE_QUEST + SWITCH_PAGE_LEFT_PT` and the data is button status for the map page.
+ */
 static u8 gPageSwitchNextButtonStatus[][5] = {
     // PAUSE_ITEM  + SWITCH_PAGE_LEFT_PT
     //
