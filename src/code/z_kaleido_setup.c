@@ -61,7 +61,11 @@ void KaleidoSetup_Update(PlayState* play) {
             WREG(17) = 155;
 
             pauseCtx->switchPageTimer = 0;
-            pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE; // irrelevant
+
+            // Setting mainState here is irrelevant, mainState is only used under PAUSE_STATE_MAIN,
+            // which isn't involved in the initial pause menu opening page scrolling animation.
+            // mainState is also overwritten later before being used.
+            pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
 
             if (R_START_LABEL_DD(0) == 0) {
                 // Never reached, unused, and the data would be wrong anyway
