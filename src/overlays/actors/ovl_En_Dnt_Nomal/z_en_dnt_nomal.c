@@ -81,8 +81,8 @@ static ColliderCylinderInit sBodyCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 16, 46, 0, { 0, 0, 0 } },
@@ -101,8 +101,8 @@ static ColliderQuadInit sTargetQuadInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x0001F824, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -238,9 +238,9 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
     if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0)) {
         this->targetQuad.base.acFlags &= ~AC_HIT;
 
-        dx = fabsf(targetX - this->targetQuad.elem.bumper.hitPos.x);
-        dy = fabsf(targetY - this->targetQuad.elem.bumper.hitPos.y);
-        dz = fabsf(targetZ - this->targetQuad.elem.bumper.hitPos.z);
+        dx = fabsf(targetX - this->targetQuad.elem.acDmgInfo.hitPos.x);
+        dy = fabsf(targetY - this->targetQuad.elem.acDmgInfo.hitPos.y);
+        dz = fabsf(targetZ - this->targetQuad.elem.acDmgInfo.hitPos.z);
 
         scoreVel.y = 5.0f;
 

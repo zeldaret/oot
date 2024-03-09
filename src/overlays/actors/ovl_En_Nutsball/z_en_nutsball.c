@@ -47,8 +47,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_WOOD,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_WOOD,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 13, 13, 0, { 0 } },
@@ -120,7 +120,7 @@ void func_80ABBBA8(EnNutsball* this, PlayState* play) {
                 this->collider.base.atFlags &= ~AT_TYPE_ENEMY & ~AT_BOUNCED & ~AT_HIT;
                 this->collider.base.atFlags |= AT_TYPE_PLAYER;
 
-                this->collider.elem.toucher.dmgFlags = DMG_DEKU_STICK;
+                this->collider.elem.atDmgInfo.dmgFlags = DMG_DEKU_STICK;
                 Matrix_MtxFToYXZRotS(&player->shieldMf, &sp4C, 0);
                 this->actor.world.rot.y = sp4C.y + 0x8000;
                 this->timer = 30;

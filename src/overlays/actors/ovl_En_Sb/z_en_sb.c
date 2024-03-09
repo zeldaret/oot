@@ -388,7 +388,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
                 FALLTHROUGH;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.elem.bumper.hitPos.y - this->actor.world.pos.y;
+                    hitY = this->collider.elem.acDmgInfo.hitPos.y - this->actor.world.pos.y;
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -406,7 +406,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
             case 1:  // hookshot/longshot
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.elem.bumper.hitPos.y - this->actor.world.pos.y;
+                    hitY = this->collider.elem.acDmgInfo.hitPos.y - this->actor.world.pos.y;
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -430,9 +430,9 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
 
         // if player attack didn't do damage, play recoil sound effect and spawn sparks
         if (!tookDamage) {
-            hitPoint.x = this->collider.elem.bumper.hitPos.x;
-            hitPoint.y = this->collider.elem.bumper.hitPos.y;
-            hitPoint.z = this->collider.elem.bumper.hitPos.z;
+            hitPoint.x = this->collider.elem.acDmgInfo.hitPos.x;
+            hitPoint.y = this->collider.elem.acDmgInfo.hitPos.y;
+            hitPoint.z = this->collider.elem.acDmgInfo.hitPos.z;
             CollisionCheck_SpawnShieldParticlesMetal2(play, &hitPoint);
         }
     }

@@ -76,23 +76,23 @@ typedef struct {
 } ColliderInitToActor; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags; // Toucher damage type flags.
+    /* 0x00 */ u32 dmgFlags; // Damage types dealt by this collider element as AT.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
-    /* 0x05 */ u8 damage; // Damage or Stun Timer
-} ColliderElementTouch; // size = 0x08
+    /* 0x05 */ u8 damage; // Damage
+} ColliderElementDamageInfoAT; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags;  // Bumper damage type flags.
+    /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
     /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
-} ColliderElementBump; // size = 0x0C
+} ColliderElementDamageInfoAC; // size = 0x0C
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags; // Bumper exclusion mask
+    /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
-} ColliderElementBumpInit; // size = 0x08
+} ColliderElementDamageInfoACInit; // size = 0x08
 
 /**
  * Affects the sound Link's sword makes when hitting it, hookability,
@@ -112,11 +112,11 @@ typedef enum {
 } ElementType;
 
 typedef struct ColliderElement {
-    /* 0x00 */ ColliderElementTouch toucher; // Damage properties when acting as an AT collider
-    /* 0x08 */ ColliderElementBump bumper; // Damage properties when acting as an AC collider
+    /* 0x00 */ ColliderElementDamageInfoAT atDmgInfo; // Damage properties when acting as an AT collider
+    /* 0x08 */ ColliderElementDamageInfoAC acDmgInfo; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
-    /* 0x15 */ u8 toucherFlags; // Information flags for AT collisions
-    /* 0x16 */ u8 bumperFlags; // Information flags for AC collisions
+    /* 0x15 */ u8 atElemFlags; // Information flags for AT collisions
+    /* 0x16 */ u8 acElemFlags; // Information flags for AC collisions
     /* 0x17 */ u8 ocElemFlags; // Information flags for OC collisions
     /* 0x18 */ Collider* atHit; // object touching this element's AT collider
     /* 0x1C */ Collider* acHit; // object touching this element's AC collider
@@ -126,10 +126,10 @@ typedef struct ColliderElement {
 
 typedef struct {
     /* 0x00 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
-    /* 0x04 */ ColliderElementTouch toucher; // Damage properties when acting as an AT collider
-    /* 0x0C */ ColliderElementBumpInit bumper; // Damage properties when acting as an AC collider
-    /* 0x14 */ u8 toucherFlags; // Information flags for AT collisions
-    /* 0x15 */ u8 bumperFlags;  // Information flags for AC collisions
+    /* 0x04 */ ColliderElementDamageInfoAT atDmgInfo; // Damage properties when acting as an AT collider
+    /* 0x0C */ ColliderElementDamageInfoACInit acDmgInfo; // Damage properties when acting as an AC collider
+    /* 0x14 */ u8 atElemFlags; // Information flags for AT collisions
+    /* 0x15 */ u8 acElemFlags;  // Information flags for AC collisions
     /* 0x16 */ u8 ocElemFlags; // Information flags for OC collisions
 } ColliderElementInit; // size = 0x18
 
@@ -349,28 +349,28 @@ typedef struct {
 #define OC2_TYPE_2 OC1_TYPE_2 // Has OC type 2
 #define OC2_FIRST_ONLY (1 << 6) // Skips AC checks on elements after the first collision. Only used by Ganon
 
-#define TOUCH_NONE 0 // No flags set. Cannot have AT collisions
-#define TOUCH_ON (1 << 0) // Can have AT collisions
-#define TOUCH_HIT (1 << 1) // Had an AT collision
-#define TOUCH_NEAREST (1 << 2) // If a Quad, only collides with the closest bumper
-#define TOUCH_SFX_MASK (3 << 3)
-#define TOUCH_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's type
-#define TOUCH_SFX_HARD (1 << 3) // Always uses hard deflection sound
-#define TOUCH_SFX_WOOD (2 << 3) // Always uses wood deflection sound
-#define TOUCH_SFX_NONE (3 << 3) // No hit sound effect
-#define TOUCH_AT_HITMARK (1 << 5) // Draw hitmarks for every AT collision
-#define TOUCH_DREW_HITMARK (1 << 6) // Already drew hitmark for this frame
-#define TOUCH_UNK7 (1 << 7) // Unknown purpose. Used by some enemy quads
+#define ATELEM_NONE 0 // No flags set. Cannot have AT collisions
+#define ATELEM_ON (1 << 0) // Can have AT collisions
+#define ATELEM_HIT (1 << 1) // Had an AT collision
+#define ATELEM_NEAREST (1 << 2) // For COLSHAPE_QUAD colliders, only collide with the closest AC element
+#define ATELEM_SFX_MASK (3 << 3)
+#define ATELEM_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's type
+#define ATELEM_SFX_HARD (1 << 3) // Always uses hard deflection sound
+#define ATELEM_SFX_WOOD (2 << 3) // Always uses wood deflection sound
+#define ATELEM_SFX_NONE (3 << 3) // No hit sound effect
+#define ATELEM_AT_HITMARK (1 << 5) // Draw hitmarks for every AT collision
+#define ATELEM_DREW_HITMARK (1 << 6) // Already drew hitmark for this frame
+#define ATELEM_UNK7 (1 << 7) // Unknown purpose. Used by some enemy quads
 
-#define BUMP_NONE 0 // No flags set. Cannot have AC collisions
-#define BUMP_ON (1 << 0) // Can have AC collisions
-#define BUMP_HIT (1 << 1) // Had an AC collision
-#define BUMP_HOOKABLE (1 << 2) // Can be hooked if actor has hookability flags set.
-#define BUMP_NO_AT_INFO (1 << 3) // Does not give its info to the AT collider that hit it.
-#define BUMP_NO_DAMAGE (1 << 4) // Does not take damage.
-#define BUMP_NO_SWORD_SFX (1 << 5) // Does not have a sound effect when hit by player-attached AT colliders.
-#define BUMP_NO_HITMARK (1 << 6) // Skips hit effects.
-#define BUMP_DRAW_HITMARK (1 << 7) // Draw hitmark for AC collision this frame.
+#define ACELEM_NONE 0 // No flags set. Cannot have AC collisions
+#define ACELEM_ON (1 << 0) // Can have AC collisions
+#define ACELEM_HIT (1 << 1) // Had an AC collision
+#define ACELEM_HOOKABLE (1 << 2) // Can be hooked if actor has hookability flags set.
+#define ACELEM_NO_AT_INFO (1 << 3) // Does not give its info to the AT collider that hit it.
+#define ACELEM_NO_DAMAGE (1 << 4) // Does not take damage.
+#define ACELEM_NO_SWORD_SFX (1 << 5) // Does not have a sound effect when hit by player-attached AT colliders.
+#define ACELEM_NO_HITMARK (1 << 6) // Skips hit effects.
+#define ACELEM_DRAW_HITMARK (1 << 7) // Draw hitmark for AC collision this frame.
 
 #define OCELEM_NONE 0 // No flags set. Cannot have OC collisions
 #define OCELEM_ON (1 << 0) // Can have OC collisions

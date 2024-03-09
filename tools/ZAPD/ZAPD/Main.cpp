@@ -36,6 +36,7 @@ void Arg_SetExporter(int& i, char* argv[]);
 void Arg_EnableGCCCompat(int& i, char* argv[]);
 void Arg_ForceStatic(int& i, char* argv[]);
 void Arg_ForceUnaccountedStatic(int& i, char* argv[]);
+void Arg_CsFloatMode(int& i, char* argv[]);
 
 int main(int argc, char* argv[]);
 
@@ -252,6 +253,7 @@ void ParseArgs(int& argc, char* argv[])
 		{"--static", &Arg_ForceStatic},
 		{"-us", &Arg_ForceUnaccountedStatic},
 		{"--unaccounted-static", &Arg_ForceUnaccountedStatic},
+		{"--cs-float", &Arg_CsFloatMode},
 	};
 
 	for (int32_t i = 2; i < argc; i++)
@@ -390,6 +392,32 @@ void Arg_ForceStatic([[maybe_unused]] int& i, [[maybe_unused]] char* argv[])
 void Arg_ForceUnaccountedStatic([[maybe_unused]] int& i, [[maybe_unused]] char* argv[])
 {
 	Globals::Instance->forceUnaccountedStatic = true;
+}
+
+void Arg_CsFloatMode([[maybe_unused]] int& i, [[maybe_unused]] char* argv[])
+{
+	i++;
+	if (std::strcmp(argv[i], "hex") == 0)
+	{
+		Globals::Instance->floatType = CsFloatType::HexOnly;
+	}
+	else if (std::strcmp(argv[i], "float") == 0)
+	{
+		Globals::Instance->floatType = CsFloatType::FloatOnly;
+	}
+	else if (std::strcmp(argv[i], "both") == 0)
+	{
+		Globals::Instance->floatType = CsFloatType::HexAndFloat;
+	}
+	else
+	{
+		Globals::Instance->floatType = CsFloatType::FloatOnly;
+		HANDLE_WARNING(
+			WarningType::Always, "Invalid CS Float Type",
+			StringHelper::Sprintf("Invalid CS float type entered. Expected \"hex\", \"float\", or "
+		                          "\"both\". Got %s.\n Defaulting to \"float\".",
+		                          argv[i]));
+	}
 }
 
 int HandleExtract(ZFileMode fileMode, ExporterSet* exporterSet)

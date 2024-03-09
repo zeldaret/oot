@@ -5,7 +5,7 @@
  *    - Argument 1: Name of the object segment in spec
  *    - Argument 2: Enum value for this object
  *
- * DEFINE_OBJECT_UNSET and DEFINE_OBJECT_NULL are needed to define empty entries from the original game
+ * DEFINE_OBJECT_UNSET and DEFINE_OBJECT_EMPTY are needed to define empty entries from the original game
  */
 /* 0x0000 */ DEFINE_OBJECT_UNSET(OBJECT_INVALID) // Object ID 0 isn't usable and should remain unset
 /* 0x0001 */ DEFINE_OBJECT(gameplay_keep, OBJECT_GAMEPLAY_KEEP)
@@ -234,7 +234,7 @@
 /* 0x00E0 */ DEFINE_OBJECT(object_ma1, OBJECT_MA1)
 /* 0x00E1 */ DEFINE_OBJECT(object_ganon, OBJECT_GANON)
 /* 0x00E2 */ DEFINE_OBJECT(object_sst, OBJECT_SST)
-/* 0x00E3 */ DEFINE_OBJECT_NULL(object_ny, OBJECT_NY_UNUSED) // unused duplicate with size 0
+/* 0x00E3 */ DEFINE_OBJECT_EMPTY(object_ny, OBJECT_NY_UNUSED) // unused duplicate with size 0
 /* 0x00E4 */ DEFINE_OBJECT_UNSET(OBJECT_UNSET_E4)
 /* 0x00E5 */ DEFINE_OBJECT(object_ny, OBJECT_NY)
 /* 0x00E6 */ DEFINE_OBJECT(object_fr, OBJECT_FR)
@@ -257,7 +257,7 @@
 /* 0x00F7 */ DEFINE_OBJECT(object_gi_grass, OBJECT_GI_GRASS)
 /* 0x00F8 */ DEFINE_OBJECT(object_gi_longsword, OBJECT_GI_LONGSWORD)
 /* 0x00F9 */ DEFINE_OBJECT(object_spot01_objects, OBJECT_SPOT01_OBJECTS)
-/* 0x00FA */ DEFINE_OBJECT_NULL(object_md, OBJECT_MD_UNUSED) // unused duplicate with size 0
+/* 0x00FA */ DEFINE_OBJECT_EMPTY(object_md, OBJECT_MD_UNUSED) // unused duplicate with size 0
 /* 0x00FB */ DEFINE_OBJECT(object_md, OBJECT_MD)
 /* 0x00FC */ DEFINE_OBJECT(object_km1, OBJECT_KM1)
 /* 0x00FD */ DEFINE_OBJECT(object_kw1, OBJECT_KW1)
