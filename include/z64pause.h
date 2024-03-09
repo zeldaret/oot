@@ -23,15 +23,15 @@ typedef enum {
 // The XZ coordinates in which direction each pause page is at
 // e.g. the item page is in the -z direction
 /*
- *         [item]
- *   [
- *   e          x     [
- *   q       o-->     m
- *   u       |        a
- *   i     z v        p
- *   p                ]
- *   ]
- *         [quest]
+ *      [   item   ]
+ *
+ *   [                [
+ *              x
+ * equip     o-->    map
+ *           |
+ *   ]     z v        ]
+ *
+ *      [   quest  ]
  */
 #define PAUSE_ITEM_X (0)
 #define PAUSE_ITEM_Z (-1)
@@ -43,7 +43,8 @@ typedef enum {
 #define PAUSE_EQUIP_Z (0)
 
 // The pause camera looks at x=0,z=0,
-// with the eye being PAUSE_EYE_DIST away in the direction opposite to the active page.
+// with the eye being PAUSE_EYE_DIST away in the direction opposite to the active page,
+// which results in the camera being pointed (through x=0,z=0) towards the active page.
 #define PAUSE_EYE_DIST (64.0f)
 
 #define PAUSE_EQUIP_PLAYER_WIDTH 64
