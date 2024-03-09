@@ -185,9 +185,6 @@ def main():
     # Go through sections and report differences
     for mapfile_segment in source_code_segments:
         for file in mapfile_segment:
-            if file.vram is None:
-                continue
-
             pointers_in_section = [
                 p for p in pointers if file.vram <= p.build_value < file.vram + file.size
             ]
