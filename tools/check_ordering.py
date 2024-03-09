@@ -119,7 +119,8 @@ def main():
     mapfile = mapfile_parser.mapfile.MapFile()
     mapfile.readMapFile(f"build/{version}/oot-{version}.map")
 
-    mapfile_segments = []
+    # Segments built from source code (filtering out assets)
+    source_code_segments = []
     for mapfile_segment in mapfile:
         if (
             args.segment
@@ -133,14 +134,14 @@ def main():
             or mapfile_segment.name.startswith("..ovl_")
         ):
             continue
-        mapfile_segments.append(mapfile_segment)
+        source_code_segments.append(mapfile_segment)
 
     base = open(f"baseroms/{version}/baserom-decompressed.z64", "rb")
     build = open(f"build/{version}/oot-{version}.z64", "rb")
 
     # Find all pointers with different values
     pointers = []
-    for mapfile_segment in mapfile_segments:
+    for mapfile_segment in source_code_segments:
         for file in mapfile_segment:
             if not str(file.filepath).endswith(".o"):
                 continue
@@ -181,8 +182,8 @@ def main():
     pointers = list({p.base_value: p for p in pointers}.values())
     pointers.sort(key=lambda p: p.base_value)
 
-    # Go through BSS sections and report differences
-    for mapfile_segment in mapfile_segments:
+    # Go through sections and report differences
+    for mapfile_segment in source_code_segments:
         for file in mapfile_segment:
             if file.vram is None:
                 continue
