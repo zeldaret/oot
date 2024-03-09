@@ -140,7 +140,7 @@ s16 D_8082AB2C[] = {
  *
  * Indexed by `pageIndex + pt` values,
  * where pageIndex is from the `PauseMenuPage` enum
- * and pt is 0 or 2 (respectively `SWITCH_PAGE_LEFT_PT` and `SWITCH_PAGE_RIGHT_PT`).
+ * and pt is 0 or 2 (respectively `PAGE_SWITCH_PT_LEFT` and `PAGE_SWITCH_PT_RIGHT`).
  *
  * `PauseMenuPage` enum values are ordered clockwise, starting at PAUSE_ITEM. That means adding 1 to a page index
  * produces (modulo 4) the index of the page to the right, and similar with subtracting 1 for the left page.
@@ -148,31 +148,31 @@ s16 D_8082AB2C[] = {
  * and last pages (PAUSE_ITEM, PAUSE_EQUIP) is duplicated.
  *
  * For example when scrolling left from the quest page PAUSE_QUEST (so, to PAUSE_MAP),
- * the index is `PAUSE_QUEST + SWITCH_PAGE_LEFT_PT` and the data is button status for the map page.
+ * the index is `PAUSE_QUEST + PAGE_SWITCH_PT_LEFT` and the data is button status for the map page.
  */
 static u8 gPageSwitchNextButtonStatus[][5] = {
-    // PAUSE_ITEM  + SWITCH_PAGE_LEFT_PT
+    // PAUSE_ITEM  + PAGE_SWITCH_PT_LEFT
     //
     //  -> PAUSE_EQUIP
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
-    // PAUSE_MAP   + SWITCH_PAGE_LEFT_PT
+    // PAUSE_MAP   + PAGE_SWITCH_PT_LEFT
     //
     //  -> PAUSE_ITEM
     { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
-    // PAUSE_QUEST + SWITCH_PAGE_LEFT_PT
-    // PAUSE_ITEM  + SWITCH_PAGE_RIGHT_PT
+    // PAUSE_QUEST + PAGE_SWITCH_PT_LEFT
+    // PAUSE_ITEM  + PAGE_SWITCH_PT_RIGHT
     //  -> PAUSE_MAP
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED },
-    // PAUSE_EQUIP + SWITCH_PAGE_LEFT_PT
-    // PAUSE_MAP   + SWITCH_PAGE_RIGHT_PT
+    // PAUSE_EQUIP + PAGE_SWITCH_PT_LEFT
+    // PAUSE_MAP   + PAGE_SWITCH_PT_RIGHT
     //  -> PAUSE_QUEST
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
     //
-    // PAUSE_QUEST + SWITCH_PAGE_RIGHT_PT
+    // PAUSE_QUEST + PAGE_SWITCH_PT_RIGHT
     //  -> PAUSE_EQUIP
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
     //
-    // PAUSE_EQUIP + SWITCH_PAGE_RIGHT_PT
+    // PAUSE_EQUIP + PAGE_SWITCH_PT_RIGHT
     //  -> PAUSE_ITEM
     { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
 };
@@ -556,19 +556,19 @@ void KaleidoScope_SetDefaultCursor(PlayState* play) {
     }
 }
 
-#define SWITCH_PAGE_LEFT_PT 0
-#define SWITCH_PAGE_RIGHT_PT 2
+#define PAGE_SWITCH_PT_LEFT 0
+#define PAGE_SWITCH_PT_RIGHT 2
 
 void KaleidoScope_SetupPageSwitch(PauseContext* pauseCtx, u8 pt) {
     pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
     pauseCtx->pageSwitchTimer = 0;
 
-    if (!pt) { // SWITCH_PAGE_LEFT_PT
+    if (!pt) { // PAGE_SWITCH_PT_LEFT
         pauseCtx->nextPageMode = pauseCtx->pageIndex * 2 + 1;
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_SCROLL_LEFT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         pauseCtx->cursorSpecialPos = PAUSE_CURSOR_PAGE_RIGHT;
-    } else { // SWITCH_PAGE_RIGHT_PT
+    } else { // PAGE_SWITCH_PT_RIGHT
         pauseCtx->nextPageMode = pauseCtx->pageIndex * 2;
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_SCROLL_RIGHT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -593,12 +593,12 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
-        KaleidoScope_SetupPageSwitch(pauseCtx, SWITCH_PAGE_RIGHT_PT);
+        KaleidoScope_SetupPageSwitch(pauseCtx, PAGE_SWITCH_PT_RIGHT);
         return;
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
-        KaleidoScope_SetupPageSwitch(pauseCtx, SWITCH_PAGE_LEFT_PT);
+        KaleidoScope_SetupPageSwitch(pauseCtx, PAGE_SWITCH_PT_LEFT);
         return;
     }
 
@@ -606,7 +606,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
         if (pauseCtx->stickAdjX < -30) {
             pauseCtx->pageSwitchInputTimer++;
             if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
-                KaleidoScope_SetupPageSwitch(pauseCtx, SWITCH_PAGE_LEFT_PT);
+                KaleidoScope_SetupPageSwitch(pauseCtx, PAGE_SWITCH_PT_LEFT);
             }
         } else {
             pauseCtx->pageSwitchInputTimer = -1;
@@ -615,7 +615,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
         if (pauseCtx->stickAdjX > 30) {
             pauseCtx->pageSwitchInputTimer++;
             if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
-                KaleidoScope_SetupPageSwitch(pauseCtx, SWITCH_PAGE_RIGHT_PT);
+                KaleidoScope_SetupPageSwitch(pauseCtx, PAGE_SWITCH_PT_RIGHT);
             }
         } else {
             pauseCtx->pageSwitchInputTimer = -1;
