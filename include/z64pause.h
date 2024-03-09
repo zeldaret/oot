@@ -124,7 +124,7 @@ typedef struct {
     /* 0x01D6 */ u16 debugState;
     /* 0x01D8 */ Vec3f eye;
     /* 0x01E4 */ u16 mainState;
-    /* 0x01E6 */ u16 nextPageMode; // (2 * prev pageIndex) + (scroll left ? 1 : 0)
+    /* 0x01E6 */ u16 nextPageMode; // During a page switch, indicates the page before switching and the direction to scroll in. Value is `(2 * prev pageIndex) + (scroll left ? 1 : 0)`
     /* 0x01E8 */ u16 pageIndex; // "kscp_pos"
     /* 0x01EA */ u16 switchPageTimer;
     /* 0x01EC */ u16 unk_1EC;
