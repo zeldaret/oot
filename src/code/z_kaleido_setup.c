@@ -1,17 +1,25 @@
 #include "global.h"
 
+/*
+ * The following three arrays are effectively unused.
+ * They are partly equivalent to the `sKaleidoSetupRightPage*` arrays below,
+ * but make each page correspond to the opposite page instead of the page to the right.
+ */
+
 s16 sKaleidoSetupUnusedPageIndex[] = {
     PAUSE_QUEST, // PAUSE_ITEM
     PAUSE_EQUIP, // PAUSE_MAP
     PAUSE_ITEM,  // PAUSE_QUEST
     PAUSE_MAP,   // PAUSE_EQUIP
 };
+
 f32 sKaleidoSetupUnusedEyeX[] = {
     PAUSE_EYE_DIST * -PAUSE_QUEST_X, // PAUSE_ITEM
     PAUSE_EYE_DIST * -PAUSE_EQUIP_X, // PAUSE_MAP
     PAUSE_EYE_DIST * -PAUSE_ITEM_X,  // PAUSE_QUEST
     PAUSE_EYE_DIST * -PAUSE_MAP_X,   // PAUSE_EQUIP
 };
+
 f32 sKaleidoSetupUnusedEyeZ[] = {
     PAUSE_EYE_DIST * -PAUSE_QUEST_Z, // PAUSE_ITEM
     PAUSE_EYE_DIST * -PAUSE_EQUIP_Z, // PAUSE_MAP
@@ -19,18 +27,26 @@ f32 sKaleidoSetupUnusedEyeZ[] = {
     PAUSE_EYE_DIST * -PAUSE_MAP_Z,   // PAUSE_EQUIP
 };
 
+/*
+ * The following three arrays are used when opening the pause menu to set up a page switch such that scrolling left
+ * brings to the initial page.
+ * For example to open the menu on page PAUSE_ITEM, the menu would open on PAUSE_MAP and scroll left to PAUSE_ITEM.
+ */
+
 s16 sKaleidoSetupRightPageIndex[] = {
     PAUSE_MAP,   // PAUSE_ITEM
     PAUSE_QUEST, // PAUSE_MAP
     PAUSE_EQUIP, // PAUSE_QUEST
     PAUSE_ITEM,  // PAUSE_EQUIP
 };
+
 f32 sKaleidoSetupRightPageEyeX[] = {
     PAUSE_EYE_DIST * -PAUSE_MAP_X,   // PAUSE_ITEM
     PAUSE_EYE_DIST * -PAUSE_QUEST_X, // PAUSE_MAP
     PAUSE_EYE_DIST * -PAUSE_EQUIP_X, // PAUSE_QUEST
     PAUSE_EYE_DIST * -PAUSE_ITEM_X,  // PAUSE_EQUIP
 };
+
 f32 sKaleidoSetupRightPageEyeZ[] = {
     PAUSE_EYE_DIST * -PAUSE_MAP_Z,   // PAUSE_ITEM
     PAUSE_EYE_DIST * -PAUSE_QUEST_Z, // PAUSE_MAP
@@ -67,8 +83,10 @@ void KaleidoSetup_Update(PlayState* play) {
             // mainState is also overwritten later before being used.
             pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
 
+            //! @bug REG collision
             if (R_START_LABEL_DD(0) == 0) {
                 // Never reached, unused, and the data would be wrong anyway
+                // (scrolling left from this would not bring to the initial page)
                 pauseCtx->eye.x = sKaleidoSetupUnusedEyeX[pauseCtx->pageIndex];
                 pauseCtx->eye.z = sKaleidoSetupUnusedEyeZ[pauseCtx->pageIndex];
                 pauseCtx->pageIndex = sKaleidoSetupUnusedPageIndex[pauseCtx->pageIndex];
