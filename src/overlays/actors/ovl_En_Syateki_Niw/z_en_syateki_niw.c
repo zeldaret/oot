@@ -51,8 +51,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 10, 20, 4, { 0, 0, 0 } },
@@ -760,8 +760,10 @@ void EnSyatekiNiw_UpdateEffects(EnSyatekiNiw* this, PlayState* play) {
 void EnSyatekiNiw_DrawEffects(EnSyatekiNiw* this, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 i;
-    EnSyatekiNiwEffect* effect = &this->effects[0];
+    EnSyatekiNiwEffect* effect;
     u8 materialFlag = 0;
+
+    effect = &this->effects[0];
 
     OPEN_DISPS(gfxCtx, "../z_en_syateki_niw.c", 1234);
 

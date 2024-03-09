@@ -56,12 +56,15 @@ def main():
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     for dma_name, dma_entry in zip(dma_names, dma_entries):
-        if dma_entry.is_compressed():
+        if dma_entry.is_syms():
+            segment_rom_start = dma_entry.vrom_start
+        elif not dma_entry.is_compressed():
+            segment_rom_start = dma_entry.rom_start
+        else: # Segment compressed
             print(f"Error: segment {dma_name} is compressed", file=sys.stderr)
             exit(1)
 
-        segment_rom_start = dma_entry.rom_start
-        segment_rom_end = dma_entry.rom_start + (
+        segment_rom_end = segment_rom_start + (
             dma_entry.vrom_end - dma_entry.vrom_start
         )
 

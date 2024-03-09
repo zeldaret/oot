@@ -43,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0x0003F828, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 6, 11, 14, { 0, 0, 0 } },
@@ -56,8 +56,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000008, 0x00, 0x08 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 0 }, 100 },
@@ -101,7 +101,7 @@ void EnBom_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->explosionCollider);
     Collider_SetCylinder(play, &this->bombCollider, thisx, &sCylinderInit);
     Collider_SetJntSph(play, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderItems[0]);
-    this->explosionColliderItems[0].base.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
+    this->explosionColliderItems[0].base.atDmgInfo.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
 
     thisx->shape.rot.z &= 0xFF;
     if (thisx->shape.rot.z & 0x80) {
@@ -241,7 +241,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
     }
 
     if ((thisx->xzDistToPlayer >= 20.0f) || (ABS(thisx->yDistToPlayer) >= 80.0f)) {
-        this->bumpOn = true;
+        this->colliderSetOC = true;
     }
 
     this->actionFunc(this, play);
@@ -333,8 +333,8 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
     if (thisx->params <= BOMB_BODY) {
         Collider_UpdateCylinder(thisx, &this->bombCollider);
 
-        // if link is not holding the bomb anymore and bump conditions are met, subscribe to OC
-        if (!Actor_HasParent(thisx, play) && this->bumpOn) {
+        // if link is not holding the bomb anymore and conditions for OC are met, subscribe to OC
+        if (!Actor_HasParent(thisx, play) && this->colliderSetOC) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->bombCollider.base);
         }
 

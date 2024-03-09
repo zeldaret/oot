@@ -62,8 +62,8 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000080, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 1, { { 0, 0, -160 }, 18 }, 100 },
@@ -111,10 +111,11 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
             if (LINK_IS_ADULT && Flags_GetSwitch(play, this->switchFlag)) {
                 thisx->world.pos.y = thisx->home.pos.y + 120.0f;
                 this->actionFunc = BgSpot06Objects_DoNothing;
-
             } else {
                 this->actionFunc = BgSpot06Objects_GateWaitForSwitch;
             }
+
+            if (1) {}
 
             break;
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:

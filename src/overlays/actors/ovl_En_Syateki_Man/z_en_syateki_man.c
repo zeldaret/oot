@@ -40,7 +40,9 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, PlayState* play);
 void EnSyatekiMan_BlinkWait(EnSyatekiMan* this);
 void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
+#if OOT_DEBUG
 void EnSyatekiMan_SetBgm(void);
+#endif
 
 ActorInit En_Syateki_Man_InitVars = {
     /**/ ACTOR_EN_SYATEKI_MAN,
@@ -54,6 +56,7 @@ ActorInit En_Syateki_Man_InitVars = {
     /**/ EnSyatekiMan_Draw,
 };
 
+#if OOT_DEBUG
 static u16 sBgmList[] = {
     NA_BGM_GENERAL_SFX,
     NA_BGM_NATURE_AMBIENCE,
@@ -144,6 +147,7 @@ static u16 sBgmList[] = {
     NA_BGM_GANON_BOSS,
     NA_BGM_END_DEMO,
 };
+#endif
 
 static s16 sTextIds[] = { 0x2B, 0x2E, 0xC8, 0x2D };
 
@@ -468,7 +472,11 @@ void EnSyatekiMan_Update(Actor* thisx, PlayState* play) {
         this->timer--;
     }
     this->actionFunc(this, play);
+
+#if OOT_DEBUG
     EnSyatekiMan_SetBgm();
+#endif
+
     this->blinkFunc(this);
     this->actor.focus.pos.y = 70.0f;
     Actor_SetFocus(&this->actor, 70.0f);
@@ -503,9 +511,11 @@ void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
                           EnSyatekiMan_OverrideLimbDraw, NULL, this);
 }
 
+#if OOT_DEBUG
 void EnSyatekiMan_SetBgm(void) {
     if (BREG(80)) {
         BREG(80) = false;
         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, sBgmList[BREG(81)]);
     }
 }
+#endif

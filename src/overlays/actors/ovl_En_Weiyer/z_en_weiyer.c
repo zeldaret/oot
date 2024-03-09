@@ -51,8 +51,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_HARD,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_HARD,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 16, 10, -6, { 0, 0, 0 } },
@@ -199,9 +199,9 @@ void func_80B32724(EnWeiyer* this) {
 }
 
 void func_80B327B0(EnWeiyer* this) {
-    this->actor.colorFilterParams |= 0x2000;
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
+    this->actor.colorFilterParams |= 0x2000;
     this->actionFunc = func_80B33338;
 }
 

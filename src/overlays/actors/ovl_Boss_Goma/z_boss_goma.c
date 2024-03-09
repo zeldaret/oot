@@ -67,8 +67,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK3,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_EYE, { { 0, 0, 1200 }, 20 }, 100 },
@@ -78,8 +78,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_TAIL4, { { 0, 0, 0 }, 20 }, 100 },
@@ -89,8 +89,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_TAIL3, { { 0, 0, 0 }, 15 }, 100 },
@@ -100,8 +100,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_TAIL2, { { 0, 0, 0 }, 12 }, 100 },
@@ -111,8 +111,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_TAIL1, { { 0, 0, 0 }, 25 }, 100 },
@@ -122,8 +122,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_R_FEET, { { 0, 0, 0 }, 30 }, 100 },
@@ -133,8 +133,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_R_SHIN, { { 0, 0, 0 }, 15 }, 100 },
@@ -144,8 +144,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_R_THIGH_SHELL, { { 0, 0, 0 }, 15 }, 100 },
@@ -155,8 +155,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_L_ANTENNA_CLAW, { { 0, 0, 0 }, 20 }, 100 },
@@ -166,8 +166,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_R_ANTENNA_CLAW, { { 0, 0, 0 }, 20 }, 100 },
@@ -177,8 +177,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_L_FEET, { { 0, 0, 0 }, 30 }, 100 },
@@ -188,8 +188,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_L_SHIN, { { 0, 0, 0 }, 15 }, 100 },
@@ -199,8 +199,8 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
             ELEMTYPE_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { BOSSGOMA_LIMB_L_THIGH_SHELL, { { 0, 0, 0 }, 15 }, 100 },
@@ -672,7 +672,8 @@ void BossGoma_SetupEncounterState4(BossGoma* this, PlayState* play) {
 void BossGoma_Encounter(BossGoma* this, PlayState* play) {
     Camera* mainCam;
     Player* player = GET_PLAYER(play);
-    s32 pad[2];
+    f32 s;
+    s32 pad;
 
     Math_ApproachZeroF(&this->actor.speed, 0.5f, 2.0f);
 
@@ -761,7 +762,8 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             }
 
             if (this->frameCount >= 228) {
-                mainCam = Play_GetCamera(play, CAM_ID_MAIN);
+                Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
+
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
@@ -909,8 +911,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             this->subCamAt.z = this->actor.world.pos.z;
 
             if (this->framesUntilNextAction != 0) {
-                f32 s = sinf(this->framesUntilNextAction * 3.1415f * 0.5f);
-
+                s = sinf(this->framesUntilNextAction * 3.1415f * 0.5f);
                 this->subCamAt.y = this->framesUntilNextAction * s * 0.7f + this->actor.world.pos.y;
             } else {
                 Math_ApproachF(&this->subCamAt.y, this->actor.focus.pos.y, 0.1f, 10.0f);
@@ -1301,7 +1302,7 @@ void BossGoma_FloorAttack(BossGoma* this, PlayState* play) {
     switch (this->actionState) {
         case 0:
             for (i = 0; i < this->collider.count; i++) {
-                if (this->collider.elements[i].base.toucherFlags & TOUCH_HIT) {
+                if (this->collider.elements[i].base.atElemFlags & ATELEM_HIT) {
                     this->framesUntilNextAction = 10;
                     break;
                 }
@@ -1811,15 +1812,15 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
         s32 damage;
 
         if (this->eyeClosedTimer == 0 && this->actionFunc != BossGoma_CeilingSpawnGohmas &&
-            (this->collider.elements[0].base.bumperFlags & BUMP_HIT)) {
-            this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
+            (this->collider.elements[0].base.acElemFlags & ACELEM_HIT)) {
+            this->collider.elements[0].base.acElemFlags &= ~ACELEM_HIT;
 
             if (this->actionFunc == BossGoma_CeilingMoveToCenter || this->actionFunc == BossGoma_CeilingIdle ||
                 this->actionFunc == BossGoma_CeilingPrepareSpawnGohmas) {
                 BossGoma_SetupFallStruckDown(this);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_DAM2);
             } else if (this->actionFunc == BossGoma_FloorStunned &&
-                       (damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags)) != 0) {
+                       (damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags)) != 0) {
                 this->actor.colChkInfo.health -= damage;
 
                 if ((s8)this->actor.colChkInfo.health > 0) {
@@ -1833,14 +1834,14 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
 
                 this->invincibilityFrames = 10;
             } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
-                       (acHitElem->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
+                       (acHitElem->atDmgInfo.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_DAM2);
                 Audio_StopSfxById(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
                 BossGoma_SetupFloorStunned(this);
                 this->sfxFaintTimer = 100;
 
-                if (acHitElem->toucher.dmgFlags & DMG_DEKU_NUT) {
+                if (acHitElem->atDmgInfo.dmgFlags & DMG_DEKU_NUT) {
                     this->framesUntilNextAction = 40;
                 } else {
                     this->framesUntilNextAction = 90;
@@ -2047,9 +2048,8 @@ void BossGoma_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
     static Vec3f zero = { 0.0f, 0.0f, 0.0f };
     Vec3f childPos;
     Vec3s childRot;
-    EnGoma* babyGohma;
     BossGoma* this = (BossGoma*)thisx;
-    s32 pad;
+    s32 pad[2];
     MtxF mtx;
 
     if (limbIndex == BOSSGOMA_LIMB_TAIL4) { // tail end/last part
@@ -2073,6 +2073,8 @@ void BossGoma_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
     }
 
     if (this->deadLimbsState[limbIndex] == 1) {
+        EnGoma* babyGohma;
+
         this->deadLimbsState[limbIndex] = 2;
         Matrix_MultVec3f(&zero, &childPos);
         Matrix_Get(&mtx);

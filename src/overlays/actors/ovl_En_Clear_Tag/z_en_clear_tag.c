@@ -47,8 +47,8 @@ static ColliderCylinderInit sArwingCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0xFFDFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -67,8 +67,8 @@ static ColliderCylinderInit sLaserCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0xFFDFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -283,11 +283,15 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
  * This is used for the ground flash display lists and Arwing shadow display lists to snap onto the floor.
  */
 void EnClearTag_CalculateFloorTangent(EnClearTag* this) {
+    f32 x;
+    f32 y;
+    f32 z;
+
     // If there is a floor poly below the Arwing, calculate the floor tangent.
     if (this->actor.floorPoly != NULL) {
-        f32 x = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
-        f32 y = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
-        f32 z = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
+        x = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
+        y = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
+        z = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
 
         this->floorTangent.x = -Math_FAtan2F(-z * y, 1.0f);
         this->floorTangent.z = Math_FAtan2F(-x * y, 1.0f);

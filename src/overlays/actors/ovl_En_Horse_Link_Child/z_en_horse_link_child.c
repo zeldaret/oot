@@ -48,8 +48,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 100, 0, { 0, 0, 0 } },
@@ -61,8 +61,8 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 13, { { 0, 0, 0 }, 10 }, 100 },
@@ -344,8 +344,6 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     f32 distFromLink;
     s32 animationEnded;
     s32 newAnimationIdx;
-    f32 distFromHome;
-    f32 distLinkFromHome;
 
     func_80A69F5C(this, play);
     player = GET_PLAYER(play);
@@ -369,8 +367,9 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (animationEnded || (this->animationIdx == 1) || (this->animationIdx == 0)) {
         if (GET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH)) {
-            distFromHome = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
-            distLinkFromHome = Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos);
+            f32 distFromHome = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
+            f32 distLinkFromHome = Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos);
+
             if (distLinkFromHome > 250.0f) {
                 if (distFromHome >= 300.0f) {
                     newAnimationIdx = 4;

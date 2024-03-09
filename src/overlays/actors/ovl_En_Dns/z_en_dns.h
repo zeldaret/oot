@@ -58,7 +58,7 @@ typedef struct EnDns {
     /* 0x026C */ ColliderCylinder collider;
     /* 0x02B8 */ s16 dustTimer;
     /* 0x02BA */ u8 animIndex; // set but not read
-    /* 0x02BB */ u8 bumpOn;
+    /* 0x02BB */ u8 isColliderEnabled;
     /* 0x02BC */ u8 standOnGround;
     /* 0x02BD */ u8 dropCollectible;
     /* 0x02C0 */ DnsItemEntry* dnsItemEntry;

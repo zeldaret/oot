@@ -44,8 +44,8 @@ static ColliderCylinderInit sProjectileColliderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_HARD,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_HARD,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 13, 20, 0, { 0, 0, 0 } },
@@ -64,8 +64,8 @@ static ColliderCylinderInit sOctorockColliderInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 40, -30, { 0, 0, 0 } },
@@ -490,7 +490,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, PlayState* play) {
             this->collider.base.atFlags & AT_BOUNCED) {
             this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->collider.base.atFlags |= AT_TYPE_PLAYER;
-            this->collider.elem.toucher.dmgFlags = DMG_DEKU_STICK;
+            this->collider.elem.atDmgInfo.dmgFlags = DMG_DEKU_STICK;
             Matrix_MtxFToYXZRotS(&player->shieldMf, &shieldRot, 0);
             this->actor.world.rot.y = shieldRot.y + 0x8000;
             this->timer = 30;
@@ -679,10 +679,11 @@ s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 curFrame, Vec3f* scale) {
 
 s32 EnOkuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnOkuta* this = (EnOkuta*)thisx;
-    f32 curFrame = this->skelAnime.curFrame;
+    f32 curFrame;
     Vec3f scale;
     s32 doScale = false;
 
+    curFrame = this->skelAnime.curFrame;
     if (this->actionFunc == EnOkuta_Die) {
         curFrame += this->timer;
     }

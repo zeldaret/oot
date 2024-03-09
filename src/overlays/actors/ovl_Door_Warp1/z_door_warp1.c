@@ -456,12 +456,10 @@ s32 DoorWarp1_PlayerInRange(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_ChildWarpIdle(DoorWarp1* this, PlayState* play) {
-    Player* player;
-
     Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (DoorWarp1_PlayerInRange(this, play)) {
-        player = GET_PLAYER(play);
+        Player* player = GET_PLAYER(play);
 
         Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -830,12 +828,10 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_Destination(DoorWarp1* this, PlayState* play) {
-    f32 alphaFrac;
+    f32 alphaFrac = 1.0f;
 
-    this->warpTimer++;
     this->unk_194 = 5.0f;
-
-    alphaFrac = 1.0f;
+    this->warpTimer++;
     if (this->warpTimer < 20) {
         alphaFrac = this->warpTimer / 20.f;
     } else if (this->warpTimer >= 60) {

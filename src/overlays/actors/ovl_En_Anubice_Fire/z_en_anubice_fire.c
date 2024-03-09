@@ -44,8 +44,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 0, 0, 0, { 0, 0, 0 } },
@@ -113,7 +113,7 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
             this->cylinder.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->cylinder.base.atFlags |= AT_TYPE_PLAYER;
-            this->cylinder.elem.toucher.dmgFlags = DMG_DEKU_STICK;
+            this->cylinder.elem.atDmgInfo.dmgFlags = DMG_DEKU_STICK;
             this->unk_15A = 30;
             this->actor.params = 1;
             this->actor.velocity.x *= -1.0f;

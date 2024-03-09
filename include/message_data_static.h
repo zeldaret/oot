@@ -47,9 +47,12 @@ typedef struct {
     extern const char _message_##textId##_ger[]; \
     extern const char _message_##textId##_fra[];
 
+#define DEFINE_MESSAGE_NES(textId, type, yPos, nesMessage) \
+    extern const char _message_##textId##_nes[];
+
 #include "assets/text/message_data.h"
-extern const char _message_0xFFFC_nes[];
 
 #undef DEFINE_MESSAGE
+#undef DEFINE_MESSAGE_NES
 
 #endif
