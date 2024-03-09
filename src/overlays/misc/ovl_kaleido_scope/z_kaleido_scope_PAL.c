@@ -198,26 +198,28 @@ static s16 sInDungeonScene = false;
  * sPageSwitchNextPageIndex contains the page a nextPageMode leads to once scrolling is done.
  */
 
+#define PAGE_SWITCH_NSTEPS 16
+
 static f32 sPageSwitchEyeDx[] = {
-    -PAUSE_EYE_DIST * (PAUSE_MAP_X - PAUSE_ITEM_X) / 16,  // PAUSE_ITEM  right
-    -PAUSE_EYE_DIST*(PAUSE_EQUIP_X - PAUSE_ITEM_X) / 16,  // PAUSE_ITEM  left
-    -PAUSE_EYE_DIST*(PAUSE_QUEST_X - PAUSE_MAP_X) / 16,   // PAUSE_MAP   right
-    -PAUSE_EYE_DIST*(PAUSE_ITEM_X - PAUSE_MAP_X) / 16,    // PAUSE_MAP   left
-    -PAUSE_EYE_DIST*(PAUSE_EQUIP_X - PAUSE_QUEST_X) / 16, // PAUSE_QUEST right
-    -PAUSE_EYE_DIST*(PAUSE_MAP_X - PAUSE_QUEST_X) / 16,   // PAUSE_QUEST left
-    -PAUSE_EYE_DIST*(PAUSE_ITEM_X - PAUSE_EQUIP_X) / 16,  // PAUSE_EQUIP right
-    -PAUSE_EYE_DIST*(PAUSE_QUEST_X - PAUSE_EQUIP_X) / 16, // PAUSE_EQUIP left
+    -PAUSE_EYE_DIST * (PAUSE_MAP_X - PAUSE_ITEM_X) / PAGE_SWITCH_NSTEPS,  // PAUSE_ITEM  right
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_X - PAUSE_ITEM_X) / PAGE_SWITCH_NSTEPS,  // PAUSE_ITEM  left
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_X - PAUSE_MAP_X) / PAGE_SWITCH_NSTEPS,   // PAUSE_MAP   right
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_X - PAUSE_MAP_X) / PAGE_SWITCH_NSTEPS,    // PAUSE_MAP   left
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_X - PAUSE_QUEST_X) / PAGE_SWITCH_NSTEPS, // PAUSE_QUEST right
+    -PAUSE_EYE_DIST*(PAUSE_MAP_X - PAUSE_QUEST_X) / PAGE_SWITCH_NSTEPS,   // PAUSE_QUEST left
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_X - PAUSE_EQUIP_X) / PAGE_SWITCH_NSTEPS,  // PAUSE_EQUIP right
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_X - PAUSE_EQUIP_X) / PAGE_SWITCH_NSTEPS, // PAUSE_EQUIP left
 };
 
 static f32 sPageSwitchEyeDz[] = {
-    -PAUSE_EYE_DIST * (PAUSE_MAP_Z - PAUSE_ITEM_Z) / 16,  // PAUSE_ITEM  right
-    -PAUSE_EYE_DIST*(PAUSE_EQUIP_Z - PAUSE_ITEM_Z) / 16,  // PAUSE_ITEM  left
-    -PAUSE_EYE_DIST*(PAUSE_QUEST_Z - PAUSE_MAP_Z) / 16,   // PAUSE_MAP   right
-    -PAUSE_EYE_DIST*(PAUSE_ITEM_Z - PAUSE_MAP_Z) / 16,    // PAUSE_MAP   left
-    -PAUSE_EYE_DIST*(PAUSE_EQUIP_Z - PAUSE_QUEST_Z) / 16, // PAUSE_QUEST right
-    -PAUSE_EYE_DIST*(PAUSE_MAP_Z - PAUSE_QUEST_Z) / 16,   // PAUSE_QUEST left
-    -PAUSE_EYE_DIST*(PAUSE_ITEM_Z - PAUSE_EQUIP_Z) / 16,  // PAUSE_EQUIP right
-    -PAUSE_EYE_DIST*(PAUSE_QUEST_Z - PAUSE_EQUIP_Z) / 16, // PAUSE_EQUIP left
+    -PAUSE_EYE_DIST * (PAUSE_MAP_Z - PAUSE_ITEM_Z) / PAGE_SWITCH_NSTEPS,  // PAUSE_ITEM  right
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_Z - PAUSE_ITEM_Z) / PAGE_SWITCH_NSTEPS,  // PAUSE_ITEM  left
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_Z - PAUSE_MAP_Z) / PAGE_SWITCH_NSTEPS,   // PAUSE_MAP   right
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_Z - PAUSE_MAP_Z) / PAGE_SWITCH_NSTEPS,    // PAUSE_MAP   left
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_Z - PAUSE_QUEST_Z) / PAGE_SWITCH_NSTEPS, // PAUSE_QUEST right
+    -PAUSE_EYE_DIST*(PAUSE_MAP_Z - PAUSE_QUEST_Z) / PAGE_SWITCH_NSTEPS,   // PAUSE_QUEST left
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_Z - PAUSE_EQUIP_Z) / PAGE_SWITCH_NSTEPS,  // PAUSE_EQUIP right
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_Z - PAUSE_EQUIP_Z) / PAGE_SWITCH_NSTEPS, // PAUSE_EQUIP left
 };
 
 static u16 sPageSwitchNextPageIndex[] = {
@@ -1612,7 +1614,7 @@ void KaleidoScope_UpdatePageSwitch(PlayState* play, Input* input) {
         pauseCtx->eye.x += sPageSwitchEyeDx[nextPageMode];
         pauseCtx->eye.z += sPageSwitchEyeDz[nextPageMode];
 
-        if (pauseCtx->pageSwitchTimer < ((4 * 16) / 2)) {
+        if (pauseCtx->pageSwitchTimer < ((4 * PAGE_SWITCH_NSTEPS) / 2)) {
             WREG(16) -= WREG(25) / WREG(6);
             WREG(17) -= WREG(26) / WREG(6);
         } else {
@@ -1622,7 +1624,7 @@ void KaleidoScope_UpdatePageSwitch(PlayState* play, Input* input) {
 
         pauseCtx->pageSwitchTimer += 4;
 
-        if (pauseCtx->pageSwitchTimer == (4 * 16)) {
+        if (pauseCtx->pageSwitchTimer == (4 * PAGE_SWITCH_NSTEPS)) {
             pauseCtx->pageSwitchTimer = 0;
             pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
@@ -2541,7 +2543,7 @@ void KaleidoScope_UpdateOpening(PlayState* play) {
     pauseCtx->eye.z += sPageSwitchEyeDz[pauseCtx->nextPageMode] * ZREG(46);
     pauseCtx->pageSwitchTimer += 4 * ZREG(46);
 
-    if (pauseCtx->pageSwitchTimer == (4 * 16 * ZREG(47))) {
+    if (pauseCtx->pageSwitchTimer == (4 * PAGE_SWITCH_NSTEPS * ZREG(47))) {
         // Finished opening
 
         func_80084BF4(play, 1);
@@ -2559,7 +2561,7 @@ void KaleidoScope_UpdateOpening(PlayState* play) {
 
         pauseCtx->alpha = 255;
         Interface_LoadActionLabelB(play, DO_ACTION_SAVE);
-    } else if (pauseCtx->pageSwitchTimer == (4 * 16 * 1)) {
+    } else if (pauseCtx->pageSwitchTimer == (4 * PAGE_SWITCH_NSTEPS * 1)) {
         // `ZREG(47)` is always 1 so this normally never happens
         pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
         pauseCtx->nextPageMode = (u16)(pauseCtx->pageIndex * 2) + 1;
