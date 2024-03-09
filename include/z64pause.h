@@ -23,15 +23,15 @@ typedef enum {
 // The XZ coordinates in which direction each pause page is at
 // e.g. the item page is in the -z direction
 /*
- *      [   item   ]
+ *      <   item   >
  *
- *   [                [
+ *   ^                ^
  *              x
  * equip     o-->    map
  *           |
- *   ]     z v        ]
+ *   v     z v        v
  *
- *      [   quest  ]
+ *      <   quest  >
  */
 #define PAUSE_ITEM_X (0)
 #define PAUSE_ITEM_Z (-1)
