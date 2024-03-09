@@ -188,6 +188,16 @@ static s16 D_8082ABA4 = 0;
 
 static s16 sInDungeonScene = false;
 
+/*
+ * The following three `sPageSwitch*` arrays are indexed by nextPageMode values,
+ * which encode the page to switch from and the scroll direction.
+ *
+ * sPageSwitchEyeDx/Dz describe how to move the camera eye so that the pages appear scrolling and the next active page
+ * is switched into view.
+ *
+ * sPageSwitchNextPageIndex contains the page a nextPageMode leads to once scrolling is done.
+ */
+
 static f32 sPageSwitchEyeDx[] = {
     -PAUSE_EYE_DIST * (PAUSE_MAP_X - PAUSE_ITEM_X) / 16,  // PAUSE_ITEM  right
     -PAUSE_EYE_DIST*(PAUSE_EQUIP_X - PAUSE_ITEM_X) / 16,  // PAUSE_ITEM  left
