@@ -76,7 +76,7 @@ void KaleidoSetup_Update(PlayState* play) {
             WREG(16) = -175;
             WREG(17) = 155;
 
-            pauseCtx->switchPageTimer = 0;
+            pauseCtx->pageSwitchTimer = 0;
 
             // Setting mainState here is irrelevant, mainState is only used under PAUSE_STATE_MAIN,
             // which isn't involved in the initial pause menu opening page scrolling animation.
@@ -132,7 +132,7 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->alpha = 0;
 
     // mainState = PAUSE_MAIN_STATE_IDLE , pageIndex = PAUSE_ITEM
-    pauseCtx->switchPageTimer = pauseCtx->mainState = pauseCtx->nextPageMode = pauseCtx->pageIndex = 0;
+    pauseCtx->pageSwitchTimer = pauseCtx->mainState = pauseCtx->nextPageMode = pauseCtx->pageIndex = 0;
 
     pauseCtx->unk_204 = -314.0f;
 

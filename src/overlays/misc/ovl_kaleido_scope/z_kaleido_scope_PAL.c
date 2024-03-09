@@ -557,9 +557,9 @@ void KaleidoScope_SetDefaultCursor(PlayState* play) {
 #define SWITCH_PAGE_LEFT_PT 0
 #define SWITCH_PAGE_RIGHT_PT 2
 
-void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
+void KaleidoScope_SetupPageSwitch(PauseContext* pauseCtx, u8 pt) {
     pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
-    pauseCtx->switchPageTimer = 0;
+    pauseCtx->pageSwitchTimer = 0;
 
     if (!pt) { // SWITCH_PAGE_LEFT_PT
         pauseCtx->nextPageMode = pauseCtx->pageIndex * 2 + 1;
@@ -591,12 +591,12 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
-        KaleidoScope_SwitchPage(pauseCtx, SWITCH_PAGE_RIGHT_PT);
+        KaleidoScope_SetupPageSwitch(pauseCtx, SWITCH_PAGE_RIGHT_PT);
         return;
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
-        KaleidoScope_SwitchPage(pauseCtx, SWITCH_PAGE_LEFT_PT);
+        KaleidoScope_SetupPageSwitch(pauseCtx, SWITCH_PAGE_LEFT_PT);
         return;
     }
 
@@ -604,7 +604,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
         if (pauseCtx->stickAdjX < -30) {
             pauseCtx->pageSwitchInputTimer++;
             if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
-                KaleidoScope_SwitchPage(pauseCtx, SWITCH_PAGE_LEFT_PT);
+                KaleidoScope_SetupPageSwitch(pauseCtx, SWITCH_PAGE_LEFT_PT);
             }
         } else {
             pauseCtx->pageSwitchInputTimer = -1;
@@ -613,7 +613,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
         if (pauseCtx->stickAdjX > 30) {
             pauseCtx->pageSwitchInputTimer++;
             if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
-                KaleidoScope_SwitchPage(pauseCtx, SWITCH_PAGE_RIGHT_PT);
+                KaleidoScope_SetupPageSwitch(pauseCtx, SWITCH_PAGE_RIGHT_PT);
             }
         } else {
             pauseCtx->pageSwitchInputTimer = -1;
@@ -1598,12 +1598,12 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
     }
 }
 
-void KaleidoScope_UpdateSwitchPage(PlayState* play, Input* input) {
+void KaleidoScope_UpdatePageSwitch(PlayState* play, Input* input) {
     PauseContext* pauseCtx = &play->pauseCtx;
     s32 frameAdvanceFreeze = false;
     s32 nextPageMode;
 
-    if (R_PAUSE_SWITCH_PAGE_FRAME_ADVANCE_ON && !CHECK_BTN_ALL(input->press.button, BTN_L)) {
+    if (R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON && !CHECK_BTN_ALL(input->press.button, BTN_L)) {
         frameAdvanceFreeze = true;
     }
 
@@ -1612,7 +1612,7 @@ void KaleidoScope_UpdateSwitchPage(PlayState* play, Input* input) {
         pauseCtx->eye.x += sPageSwitchEyeDx[nextPageMode];
         pauseCtx->eye.z += sPageSwitchEyeDz[nextPageMode];
 
-        if (pauseCtx->switchPageTimer < ((4 * 16) / 2)) {
+        if (pauseCtx->pageSwitchTimer < ((4 * 16) / 2)) {
             WREG(16) -= WREG(25) / WREG(6);
             WREG(17) -= WREG(26) / WREG(6);
         } else {
@@ -1620,10 +1620,10 @@ void KaleidoScope_UpdateSwitchPage(PlayState* play, Input* input) {
             WREG(17) += WREG(26) / WREG(6);
         }
 
-        pauseCtx->switchPageTimer += 4;
+        pauseCtx->pageSwitchTimer += 4;
 
-        if (pauseCtx->switchPageTimer == (4 * 16)) {
-            pauseCtx->switchPageTimer = 0;
+        if (pauseCtx->pageSwitchTimer == (4 * 16)) {
+            pauseCtx->pageSwitchTimer = 0;
             pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
         }
@@ -2539,9 +2539,9 @@ void KaleidoScope_UpdateOpening(PlayState* play) {
 
     pauseCtx->eye.x += sPageSwitchEyeDx[pauseCtx->nextPageMode] * ZREG(46);
     pauseCtx->eye.z += sPageSwitchEyeDz[pauseCtx->nextPageMode] * ZREG(46);
-    pauseCtx->switchPageTimer += 4 * ZREG(46);
+    pauseCtx->pageSwitchTimer += 4 * ZREG(46);
 
-    if (pauseCtx->switchPageTimer == (4 * 16 * ZREG(47))) {
+    if (pauseCtx->pageSwitchTimer == (4 * 16 * ZREG(47))) {
         // Finished opening
 
         func_80084BF4(play, 1);
@@ -2559,7 +2559,7 @@ void KaleidoScope_UpdateOpening(PlayState* play) {
 
         pauseCtx->alpha = 255;
         Interface_LoadActionLabelB(play, DO_ACTION_SAVE);
-    } else if (pauseCtx->switchPageTimer == (4 * 16 * 1)) {
+    } else if (pauseCtx->pageSwitchTimer == (4 * 16 * 1)) {
         // `ZREG(47)` is always 1 so this normally never happens
         pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
         pauseCtx->nextPageMode = (u16)(pauseCtx->pageIndex * 2) + 1;
@@ -3156,7 +3156,7 @@ void KaleidoScope_Update(PlayState* play) {
                     break;
 
                 case PAUSE_MAIN_STATE_SWITCHING_PAGE:
-                    KaleidoScope_UpdateSwitchPage(play, play->state.input);
+                    KaleidoScope_UpdatePageSwitch(play, play->state.input);
                     break;
 
                 case PAUSE_MAIN_STATE_2:
