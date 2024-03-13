@@ -368,7 +368,7 @@ void Fairy_PrintSectionSizes(FairySecHeader* sectionTable, FILE* inputFile, size
         }
     }
     /* Can use symbols here too */
-    puts(".section .ovl");
+    puts(".section .ovl, \"a\"");
     printf("# OverlayInfo\n");
     printf(".word 0x%08X # .text size\n", textSize);
     printf(".word 0x%08X # .data size\n", dataSize);
