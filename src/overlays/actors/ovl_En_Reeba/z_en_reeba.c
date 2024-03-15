@@ -132,7 +132,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
         // "Reeba Boss Appears %f"
         PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
-        this->collider.elem.atDmgInfo.effect_ColliderElementDamageInfoAT = 4;
+        this->collider.elem.atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_4;
         this->collider.elem.atDmgInfo.damage_ColliderElementDamageInfoAT = 16;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
     }

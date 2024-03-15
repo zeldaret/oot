@@ -4284,7 +4284,7 @@ void func_8083821C(Player* this) {
 }
 
 void func_80838280(Player* this) {
-    if (this->actor.colChkInfo.acHitEffect_CollisionCheckInfo == 1) {
+    if (this->actor.colChkInfo.playerACHitReaction_CollisionCheckInfo == PLAYER_AC_HIT_REACTION_1) {
         func_8083821C(this);
     }
     func_80832698(this, NA_SE_VO_LI_FALL_L);
@@ -4394,7 +4394,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.effect_ColliderElementDamageInfoAT == 1)) {
+                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT == 1)) {
                     func_8083819C(this, play);
                 }
 
@@ -4417,11 +4417,11 @@ s32 func_808382DC(Player* this, PlayState* play) {
 
                 if (this->stateFlags1 & PLAYER_STATE1_27) {
                     sp4C = 0;
-                } else if (this->actor.colChkInfo.acHitEffect_CollisionCheckInfo == 2) {
+                } else if (this->actor.colChkInfo.playerACHitReaction_CollisionCheckInfo == PLAYER_AC_HIT_REACTION_2) {
                     sp4C = 3;
-                } else if (this->actor.colChkInfo.acHitEffect_CollisionCheckInfo == 3) {
+                } else if (this->actor.colChkInfo.playerACHitReaction_CollisionCheckInfo == PLAYER_AC_HIT_REACTION_3) {
                     sp4C = 4;
-                } else if (this->actor.colChkInfo.acHitEffect_CollisionCheckInfo == 4) {
+                } else if (this->actor.colChkInfo.playerACHitReaction_CollisionCheckInfo == PLAYER_AC_HIT_REACTION_4) {
                     sp4C = 1;
                 } else {
                     func_80838280(this);
@@ -8466,7 +8466,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
             if ((func_80842AC4(play, this) == 0) && (this->heldItemAction != PLAYER_IA_HAMMER)) {
                 func_80842B7C(play, this);
 
-                if (this->actor.colChkInfo.atHitEffect_CollisionCheckInfo == 1) {
+                if (this->actor.colChkInfo.playerATHitReaction_CollisionCheckInfo == PLAYER_AT_HIT_REACTION_1) {
                     this->actor.colChkInfo.damage_CollisionCheckInfo = 8;
                     func_80837C0C(play, this, 4, 0.0f, 0.0f, this->actor.shape.rot.y, 20);
                     return 1;

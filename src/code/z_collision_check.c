@@ -153,7 +153,7 @@ s32 Collider_DestroyElementDamageInfoAT(PlayState* play, ColliderElementDamageIn
 s32 Collider_SetElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT* dest,
                                     ColliderElementDamageInfoAT* src) {
     dest->dmgFlags_ColliderElementDamageInfoAT = src->dmgFlags_ColliderElementDamageInfoAT;
-    dest->effect_ColliderElementDamageInfoAT = src->effect_ColliderElementDamageInfoAT;
+    dest->playerACHitReaction_ColliderElementDamageInfoAT = src->playerACHitReaction_ColliderElementDamageInfoAT;
     dest->damage_ColliderElementDamageInfoAT = src->damage_ColliderElementDamageInfoAT;
     return true;
 }
@@ -175,7 +175,7 @@ s32 Collider_DestroyElementDamageInfoAC(PlayState* play, ColliderElementDamageIn
 s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
                                     ColliderElementDamageInfoACInit* init) {
     acDmgInfo->dmgFlags_ColliderElementDamageInfoAC = init->dmgFlags_ColliderElementDamageInfoACInit;
-    acDmgInfo->effect_ColliderElementDamageInfoAC = init->effect_ColliderElementDamageInfoACInit;
+    acDmgInfo->playerATHitReaction_ColliderElementDamageInfoAC = init->playerATHitReaction_ColliderElementDamageInfoACInit;
     acDmgInfo->defense_ColliderElementDamageInfoAC = init->defense_ColliderElementDamageInfoACInit;
     return true;
 }
@@ -1713,7 +1713,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
         atElem->atHitElem = acElem;
         atElem->atElemFlags |= ATELEM_HIT;
         if (atCol->actor != NULL) {
-            atCol->actor->colChkInfo.atHitEffect_CollisionCheckInfo = acElem->acDmgInfo.effect_ColliderElementDamageInfoAC;
+            atCol->actor->colChkInfo.playerATHitReaction_CollisionCheckInfo = acElem->acDmgInfo.playerATHitReaction_ColliderElementDamageInfoAC;
         }
     }
     acCol->acFlags |= AC_HIT;
@@ -1722,7 +1722,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
     acElem->acHitElem = atElem;
     acElem->acElemFlags |= ACELEM_HIT;
     if (acCol->actor != NULL) {
-        acCol->actor->colChkInfo.acHitEffect_CollisionCheckInfo = atElem->atDmgInfo.effect_ColliderElementDamageInfoAT;
+        acCol->actor->colChkInfo.playerACHitReaction_CollisionCheckInfo = atElem->atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT;
     }
     acElem->acDmgInfo.hitPos.x = hitPos->x;
     acElem->acDmgInfo.hitPos.y = hitPos->y;
@@ -2991,8 +2991,8 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage_CollisionCheckInfo = 0;
     info->damageEffect_CollisionCheckInfo = 0;
-    info->atHitEffect_CollisionCheckInfo = 0;
-    info->acHitEffect_CollisionCheckInfo = 0;
+    info->playerATHitReaction_CollisionCheckInfo = PLAYER_AT_HIT_REACTION_0;
+    info->playerACHitReaction_CollisionCheckInfo = PLAYER_AC_HIT_REACTION_0;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
 }
 

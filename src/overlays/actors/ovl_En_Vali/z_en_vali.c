@@ -52,8 +52,8 @@ static ColliderQuadInit sQuadInit = {
     },
     {
         ELEMTYPE_UNK0,
-        { 0xFFCFFFFF, 0x07, 0x08 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, PLAYER_AC_HIT_REACTION_7, 0x08 },
+        { 0x00000000, PLAYER_AT_HIT_REACTION_0, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -72,8 +72,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEMTYPE_UNK0,
-        { 0xFFCFFFFF, 0x07, 0x08 },
-        { 0xFFCFFFFF, 0x01, 0x00 },
+        { 0xFFCFFFFF, PLAYER_AC_HIT_REACTION_7, 0x08 },
+        { 0xFFCFFFFF, PLAYER_AT_HIT_REACTION_1, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -258,7 +258,7 @@ void EnVali_SetupStunned(EnVali* this) {
     this->timer = 80;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
-    this->bodyCollider.elem.acDmgInfo.effect_ColliderElementDamageInfoAC = 0;
+    this->bodyCollider.elem.acDmgInfo.playerATHitReaction_ColliderElementDamageInfoAC = PLAYER_AT_HIT_REACTION_0;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actor.velocity.y = 1.0f;
     this->actionFunc = EnVali_Stunned;
@@ -448,7 +448,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        this->bodyCollider.elem.acDmgInfo.effect_ColliderElementDamageInfoAC = 1; // Shock?
+        this->bodyCollider.elem.acDmgInfo.playerATHitReaction_ColliderElementDamageInfoAC = PLAYER_AT_HIT_REACTION_1; // Shock?
         EnVali_SetupFloatIdle(this);
     }
 }

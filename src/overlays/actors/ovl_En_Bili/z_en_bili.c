@@ -141,7 +141,7 @@ void EnBili_Destroy(Actor* thisx, PlayState* play) {
 
 void EnBili_SetupFloatIdle(EnBili* this) {
     this->actor.speed = 0.7f;
-    this->collider.elem.acDmgInfo.effect_ColliderElementDamageInfoAC = 1; // Shock?
+    this->collider.elem.acDmgInfo.playerATHitReaction_ColliderElementDamageInfoAC = PLAYER_AT_HIT_REACTION_1; // Shock?
     this->timer = 32;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.gravity = 0.0f;
@@ -237,7 +237,7 @@ void EnBili_SetupDie(EnBili* this) {
  */
 void EnBili_SetupStunned(EnBili* this) {
     this->timer = 80;
-    this->collider.elem.acDmgInfo.effect_ColliderElementDamageInfoAC = 0;
+    this->collider.elem.acDmgInfo.playerATHitReaction_ColliderElementDamageInfoAC = PLAYER_AT_HIT_REACTION_0;
     this->actor.gravity = -1.0f;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);

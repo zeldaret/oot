@@ -77,20 +77,20 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u32 dmgFlags_ColliderElementDamageInfoAT; // Damage types dealt by this collider element as AT.
-    /* 0x04 */ u8 effect_ColliderElementDamageInfoAT; // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 playerACHitReaction_ColliderElementDamageInfoAT; // Player reaction to a Player AC collider hitting this AT collider
     /* 0x05 */ u8 damage_ColliderElementDamageInfoAT; // Damage
 } ColliderElementDamageInfoAT; // size = 0x08
 
 typedef struct {
     /* 0x00 */ u32 dmgFlags_ColliderElementDamageInfoAC; // Damage types that may affect this collider element as AC.
-    /* 0x04 */ u8 effect_ColliderElementDamageInfoAC;  // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 playerATHitReaction_ColliderElementDamageInfoAC; // Player reaction to a Player AT collider hitting this AC collider
     /* 0x05 */ u8 defense_ColliderElementDamageInfoAC; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderElementDamageInfoAC; // size = 0x0C
 
 typedef struct {
     /* 0x00 */ u32 dmgFlags_ColliderElementDamageInfoACInit; // Damage types that may affect this collider element as AC.
-    /* 0x04 */ u8 effect_ColliderElementDamageInfoACInit; // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 playerATHitReaction_ColliderElementDamageInfoACInit; // Player reaction to a Player AT collider hitting this AC collider
     /* 0x05 */ u8 defense_ColliderElementDamageInfoACInit; // Damage Resistance
 } ColliderElementDamageInfoACInit; // size = 0x08
 

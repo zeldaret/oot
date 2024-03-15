@@ -98,7 +98,7 @@ u32 func_809CBCBC(EnBubble* this) {
     ColliderElement* elem = &this->colliderSphere.elements[0].base;
 
     elem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = DMG_EXPLOSIVE;
-    elem->atDmgInfo.effect_ColliderElementDamageInfoAT = 0;
+    elem->atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_0;
     elem->atDmgInfo.damage_ColliderElementDamageInfoAT = 4;
     elem->atElemFlags = ATELEM_ON;
     this->actor.velocity.y = 0.0f;

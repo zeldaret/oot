@@ -351,7 +351,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
-                this->collider.elements[0].base.atDmgInfo.effect_ColliderElementDamageInfoAT = 1;
+                this->collider.elements[0].base.atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_1;
                 EnBb_SetupRed(play, this);
                 break;
             case ENBB_WHITE:
