@@ -293,7 +293,7 @@ void func_80ADE28C(EnPoh* this) {
     } else {
         Animation_PlayOnce(&this->skelAnime, &gPoeComposerDamagedAnim);
     }
-    if (this->colliderCyl.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+    if (this->colliderCyl.elem.acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->colliderCyl.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->colliderCyl.base.ac) + 0x8000;
@@ -864,7 +864,7 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play) {
 void func_80AE032C(EnPoh* this, PlayState* play) {
     if (this->colliderCyl.base.acFlags & AC_HIT) {
         this->colliderCyl.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
+        if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0 || this->actor.colChkInfo.damage_CollisionCheckInfo != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DEAD);

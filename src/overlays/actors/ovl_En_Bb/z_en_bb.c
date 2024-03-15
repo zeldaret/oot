@@ -332,8 +332,8 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
         this->collider.elements[0].base.atElemFlags = ATELEM_ON | ATELEM_SFX_HARD;
-        this->collider.elements[0].base.atDmgInfo.dmgFlags = DMG_DEFAULT;
-        this->collider.elements[0].base.atDmgInfo.damage = 8;
+        this->collider.elements[0].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = DMG_DEFAULT;
+        this->collider.elements[0].base.atDmgInfo.damage_ColliderElementDamageInfoAT = 8;
         this->bobSize = this->actionState * 20.0f;
         this->flamePrimAlpha = 255;
         this->moveMode = BBMOVE_NORMAL;
@@ -351,7 +351,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
-                this->collider.elements[0].base.atDmgInfo.effect = 1;
+                this->collider.elements[0].base.atDmgInfo.effect_ColliderElementDamageInfoAT = 1;
                 EnBb_SetupRed(play, this);
                 break;
             case ENBB_WHITE:
@@ -1151,11 +1151,11 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
     }
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->dmgEffect = this->actor.colChkInfo.damageEffect;
+        this->dmgEffect = this->actor.colChkInfo.damageEffect_CollisionCheckInfo;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, false);
         switch (this->dmgEffect) {
             case 7:
-                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage;
+                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage_ColliderElementDamageInfoAT;
                 FALLTHROUGH;
             case 5:
                 this->fireIceTimer = 0x30;
@@ -1165,7 +1165,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
-                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage;
+                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage_ColliderElementDamageInfoAT;
                 break;
             case 8:
             case 9:
@@ -1234,7 +1234,7 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
     if (this->actor.params <= ENBB_BLUE) {
         EnBb_CollisionCheck(this, play);
     }
-    if (this->actor.colChkInfo.damageEffect != 0xD) {
+    if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0xD) {
         this->actionFunc(this, play);
         if ((this->actor.params <= ENBB_BLUE) && (this->actor.speed >= -6.0f) &&
             ((this->actor.flags & ACTOR_FLAG_15) == 0)) {

@@ -126,10 +126,10 @@ typedef struct {
     /* 0x14 */ s16 cylYShift; // Unused. Purpose inferred from Cylinder16 and CollisionCheck_CylSideVsLineSeg
     /* 0x16 */ u8 mass; // Used to compute displacement for OC collisions
     /* 0x17 */ u8 health; // Note: some actors may use their own health variable instead of this one
-    /* 0x18 */ u8 damage; // Amount to decrement health by
-    /* 0x19 */ u8 damageEffect; // Stores what effect should occur when hit by a weapon
-    /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC
-    /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
+    /* 0x18 */ u8 damage_CollisionCheckInfo; // Amount to decrement health by
+    /* 0x19 */ u8 damageEffect_CollisionCheckInfo; // Stores what effect should occur when hit by a weapon
+    /* 0x1A */ u8 atHitEffect_CollisionCheckInfo; // Stores what effect should occur when AT connects with an AC
+    /* 0x1B */ u8 acHitEffect_CollisionCheckInfo; // Stores what effect should occur when AC is touched by an AT
 } CollisionCheckInfo; // size = 0x1C
 
 typedef struct {

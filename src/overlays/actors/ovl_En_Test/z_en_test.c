@@ -899,7 +899,7 @@ void EnTest_SetupSlashDown(EnTest* this) {
     this->unk_7C8 = 0x10;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashDown);
-    this->swordCollider.elem.atDmgInfo.damage = 16;
+    this->swordCollider.elem.atDmgInfo.damage_ColliderElementDamageInfoAT = 16;
 
     if (this->unk_7DE != 0) {
         this->unk_7DE = 3;
@@ -996,7 +996,7 @@ void EnTest_SetupSlashUp(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosUpSlashAnim);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x11;
-    this->swordCollider.elem.atDmgInfo.damage = 16;
+    this->swordCollider.elem.atDmgInfo.damage_ColliderElementDamageInfoAT = 16;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashUp);
 
@@ -1085,7 +1085,7 @@ void EnTest_SetupJumpslash(EnTest* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     EnTest_SetupAction(this, EnTest_Jumpslash);
-    this->swordCollider.elem.atDmgInfo.damage = 32;
+    this->swordCollider.elem.atDmgInfo.damage_ColliderElementDamageInfoAT = 32;
 
     if (this->unk_7DE != 0) {
         this->unk_7DE = 3;
@@ -1663,9 +1663,9 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
-            (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
-            this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
+        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != STALFOS_DMGEFF_SLING) &&
+            (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != STALFOS_DMGEFF_FIREMAGIC)) {
+            this->lastDamageEffect = this->actor.colChkInfo.damageEffect_CollisionCheckInfo;
             if (this->swordState >= 1) {
                 this->swordState = 0;
             }
@@ -1674,9 +1674,9 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
-            if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
-                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_FREEZE) ||
-                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_LIGHT)) {
+            if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == STALFOS_DMGEFF_STUN) ||
+                (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == STALFOS_DMGEFF_FREEZE) ||
+                (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == STALFOS_DMGEFF_LIGHT)) {
                 if (this->unk_7C8 != 0xB) {
                     Actor_ApplyDamage(&this->actor);
                     EnTest_SetupStunned(this);
@@ -1708,7 +1708,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
 
     EnTest_UpdateDamage(this, play);
 
-    if (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC) {
+    if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != STALFOS_DMGEFF_FIREMAGIC) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |

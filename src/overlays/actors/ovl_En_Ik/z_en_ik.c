@@ -732,7 +732,7 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
 
         Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
-        this->damageEffect = this->actor.colChkInfo.damageEffect;
+        this->damageEffect = this->actor.colChkInfo.damageEffect_CollisionCheckInfo;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
         if ((this->damageEffect == EN_IK_DMGEFF_NONE) || (this->damageEffect == EN_IK_DMGEFF_SPARKS_NO_DMG) ||

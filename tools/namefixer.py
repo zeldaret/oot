@@ -216,7 +216,7 @@ wordReplace = {
     "bumper.flags":"bumper.dmgFlags",
     "maskA ":"ocFlags1 ",
     "maskB ":"ocFlags2 ",
-    ".base.type":".base.colType",
+    ".base.type":".base.colType_Collider",
     "COLTYPE_UNK11":"COLTYPE_HARD",
     "COLTYPE_UNK12":"COLTYPE_WOOD",
     "COLTYPE_UNK13":"COLTYPE_TREE",

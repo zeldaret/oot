@@ -1372,12 +1372,12 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->action >= GELDB_READY) &&
                (this->spinAttackState < 2)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
+        if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != GELDB_DMG_UNK_6) {
+            this->damageEffect = this->actor.colChkInfo.damageEffect_CollisionCheckInfo;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
-            if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN) ||
-                (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {
+            if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == GELDB_DMG_STUN) ||
+                (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == GELDB_DMG_FREEZE)) {
                 if (this->action != GELDB_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -1411,7 +1411,7 @@ void EnGeldB_Update(Actor* thisx, PlayState* play) {
     EnGeldB* this = (EnGeldB*)thisx;
 
     EnGeldB_CollisionCheck(this, play);
-    if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
+    if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != GELDB_DMG_UNK_6) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 15.0f, 30.0f, 60.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |

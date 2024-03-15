@@ -140,7 +140,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
         PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         this->actor.colChkInfo.mass = 0xFF;
         this->actor.update = EnNy_UpdateUnused;
-        this->collider.base.colType = COLTYPE_METAL;
+        this->collider.base.colType_Collider = COLTYPE_METAL;
     }
 }
 
@@ -309,7 +309,7 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
             effectPos.y = this->collider.elements[0].base.acDmgInfo.hitPos.y;
             effectPos.z = this->collider.elements[0].base.acDmgInfo.hitPos.z;
             if ((this->unk_1E0 == 0.25f) && (this->unk_1D4 == 0xFF)) {
-                switch (this->actor.colChkInfo.damageEffect) {
+                switch (this->actor.colChkInfo.damageEffect_CollisionCheckInfo) {
                     case 0xE:
                         sp3F = 1;
                         FALLTHROUGH;

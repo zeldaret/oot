@@ -200,15 +200,15 @@ void EnSsh_InitColliders(EnSsh* this, PlayState* play) {
         Collider_SetCylinder(play, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].elem.acDmgInfo.dmgFlags =
+    this->colCylinder[0].elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC =
         DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT;
-    this->colCylinder[1].elem.acDmgInfo.dmgFlags =
+    this->colCylinder[1].elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
         ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
-    this->colCylinder[2].base.colType = COLTYPE_METAL;
+    this->colCylinder[2].base.colType_Collider = COLTYPE_METAL;
     this->colCylinder[2].elem.acElemFlags = ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO;
-    this->colCylinder[2].elem.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].elem.acDmgInfo.dmgFlags =
+    this->colCylinder[2].elem.elemType_ColliderElement = ELEMTYPE_UNK2;
+    this->colCylinder[2].elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
@@ -438,13 +438,13 @@ void EnSsh_CheckBodyStickHit(EnSsh* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        elem->acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[1].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[2].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
+        elem->acDmgInfo.dmgFlags_ColliderElementDamageInfoAC |= DMG_DEKU_STICK;
+        this->colCylinder[1].elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC &= ~DMG_DEKU_STICK;
+        this->colCylinder[2].elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC &= ~DMG_DEKU_STICK;
     } else {
-        elem->acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[1].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[2].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
+        elem->acDmgInfo.dmgFlags_ColliderElementDamageInfoAC &= ~DMG_DEKU_STICK;
+        this->colCylinder[1].elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC |= DMG_DEKU_STICK;
+        this->colCylinder[2].elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC |= DMG_DEKU_STICK;
     }
 }
 

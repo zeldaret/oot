@@ -800,7 +800,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->damageEffect = this->actor.colChkInfo.damageEffect;
+        this->damageEffect = this->actor.colChkInfo.damageEffect_CollisionCheckInfo;
 
         if (this->action != REDEAD_ACTION_RISE_FROM_COFFIN) {
             Actor_SetDropFlag(&this->actor, &this->collider.elem, true);

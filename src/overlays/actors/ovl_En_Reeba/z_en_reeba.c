@@ -132,8 +132,8 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
         // "Reeba Boss Appears %f"
         PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
-        this->collider.elem.atDmgInfo.effect = 4;
-        this->collider.elem.atDmgInfo.damage = 16;
+        this->collider.elem.atDmgInfo.effect_ColliderElementDamageInfoAT = 4;
+        this->collider.elem.atDmgInfo.damage_ColliderElementDamageInfoAT = 16;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
     }
 
@@ -537,7 +537,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
             this->actor.shape.rot.x = this->actor.shape.rot.z = 0;
             this->stunType = LEEVER_STUN_NONE;
 
-            switch (this->actor.colChkInfo.damageEffect) {
+            switch (this->actor.colChkInfo.damageEffect_CollisionCheckInfo) {
                 case LEEVER_DMGEFF_UNUSED:
                 case LEEVER_DMGEFF_BOOMERANG:
                     if ((this->actor.colChkInfo.health > 1) && (this->stunType != LEEVER_STUN_OTHER)) {

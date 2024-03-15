@@ -822,11 +822,11 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
         }
     }
     if (!bossFd->faceExposed) {
-        this->collider.elements[0].base.elemType = ELEMTYPE_UNK2;
-        this->collider.base.colType = COLTYPE_METAL;
+        this->collider.elements[0].base.elemType_ColliderElement = ELEMTYPE_UNK2;
+        this->collider.base.colType_Collider = COLTYPE_METAL;
     } else {
-        this->collider.elements[0].base.elemType = ELEMTYPE_UNK3;
-        this->collider.base.colType = COLTYPE_HIT3;
+        this->collider.elements[0].base.elemType_ColliderElement = ELEMTYPE_UNK3;
+        this->collider.base.colType_Collider = COLTYPE_HIT3;
     }
 
     if (this->collider.elements[0].base.acElemFlags & ACELEM_HIT) {
@@ -834,7 +834,7 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
 
         acHitElem = this->collider.elements[0].base.acHitElem;
         if (!bossFd->faceExposed) {
-            if (acHitElem->atDmgInfo.dmgFlags & DMG_HAMMER) {
+            if (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_HAMMER) {
                 bossFd->actor.colChkInfo.health -= 2;
                 if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;
@@ -865,12 +865,12 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             u8 canKill = false;
             u8 damage;
 
-            if ((damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags)) == 0) {
-                damage = (acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
+            if ((damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT)) == 0) {
+                damage = (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_ARROW_ICE) ? 4 : 2;
             } else {
                 canKill = true;
             }
-            if (acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT) {
+            if (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_HOOKSHOT) {
                 damage = 0;
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {

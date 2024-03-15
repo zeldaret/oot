@@ -348,14 +348,14 @@ s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play) {
             this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         }
 
-        if ((this->actor.colChkInfo.damageEffect == 0) && (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0) && (this->actor.colChkInfo.damage_CollisionCheckInfo != 0)) {
             Enemy_StartFinishingBlow(play, &this->actor);
             this->freezeFrameTimer = 2;
             this->actionFunc = EnDodojr_WaitFreezeFrames;
             return true;
         }
 
-        if ((this->actor.colChkInfo.damageEffect == 1) && (this->actionFunc != EnDodojr_Stunned) &&
+        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 1) && (this->actionFunc != EnDodojr_Stunned) &&
             (this->actionFunc != EnDodojr_StunnedBounce)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;

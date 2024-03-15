@@ -423,10 +423,10 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
 
     if (DoorKiller_IsHit(&this->actor, play)) {
         // AC cylinder: wobble if hit by most weapons, die if hit by explosives or hammer
-        if (this->colliderCylinder.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_RANGED | DMG_SLASH | DMG_DEKU_STICK)) {
+        if (this->colliderCylinder.elem.acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & (DMG_RANGED | DMG_SLASH | DMG_DEKU_STICK)) {
             this->timer = 16;
             this->actionFunc = DoorKiller_Wobble;
-        } else if (this->colliderCylinder.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_HAMMER_SWING | DMG_EXPLOSIVE)) {
+        } else if (this->colliderCylinder.elem.acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & (DMG_HAMMER_SWING | DMG_EXPLOSIVE)) {
             DoorKiller_SpawnRubble(&this->actor, play);
             this->actionFunc = DoorKiller_Die;
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);

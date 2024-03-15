@@ -583,7 +583,7 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
 
     if (!((this->unk_2D3 == 0) || (D_80B01EA0 != 0) || !(this->collider.base.acFlags & AC_HIT))) {
         this->collider.base.acFlags &= ~AC_HIT;
-        switch (this->actor.colChkInfo.damageEffect) {
+        switch (this->actor.colChkInfo.damageEffect_CollisionCheckInfo) {
             case 0xF:
                 effectPos.x = this->collider.elem.acDmgInfo.hitPos.x;
                 effectPos.y = this->collider.elem.acDmgInfo.hitPos.y;

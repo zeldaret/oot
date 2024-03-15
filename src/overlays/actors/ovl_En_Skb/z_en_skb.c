@@ -457,11 +457,11 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
     } else if (this->actionState >= SKB_BEHAVIOR_ATTACKING) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            if (this->actor.colChkInfo.damageEffect != 6) {
-                this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
+            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 6) {
+                this->lastDamageEffect = this->actor.colChkInfo.damageEffect_CollisionCheckInfo;
                 Actor_SetDropFlag(&this->actor, &this->collider.elements[1].base, true);
                 this->setColliderAT = false;
-                if (this->actor.colChkInfo.damageEffect == 1) {
+                if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 1) {
                     if (this->actionState != SKB_BEHAVIOR_STUNNED) {
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA,
                                              80);
@@ -470,7 +470,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                     }
                 } else {
                     colorFilterDuration = 8;
-                    if (this->actor.colChkInfo.damageEffect == 7) {
+                    if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 7) {
                         scale = this->actor.scale.y * 7500.0f;
                         for (i = 4; i >= 0; i--) {
                             flamePos = this->actor.world.pos;
@@ -489,8 +489,8 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                     }
                     player = GET_PLAYER(play);
                     if (this->breakFlags == 0) {
-                        if ((this->actor.colChkInfo.damageEffect == 0xD) ||
-                            ((this->actor.colChkInfo.damageEffect == 0xE) &&
+                        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0xD) ||
+                            ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0xE) &&
                              ((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H &&
                                player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H) ||
                               (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT ||

@@ -97,9 +97,9 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
 u32 func_809CBCBC(EnBubble* this) {
     ColliderElement* elem = &this->colliderSphere.elements[0].base;
 
-    elem->atDmgInfo.dmgFlags = DMG_EXPLOSIVE;
-    elem->atDmgInfo.effect = 0;
-    elem->atDmgInfo.damage = 4;
+    elem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = DMG_EXPLOSIVE;
+    elem->atDmgInfo.effect_ColliderElementDamageInfoAT = 0;
+    elem->atDmgInfo.damage_ColliderElementDamageInfoAT = 4;
     elem->atElemFlags = ATELEM_ON;
     this->actor.velocity.y = 0.0f;
     return 6;
@@ -112,7 +112,7 @@ u32 func_809CBCEC(EnBubble* this) {
 }
 
 void EnBubble_DamagePlayer(EnBubble* this, PlayState* play) {
-    s32 damage = -this->colliderSphere.elements[0].base.atDmgInfo.damage;
+    s32 damage = -this->colliderSphere.elements[0].base.atDmgInfo.damage_ColliderElementDamageInfoAT;
 
     play->damagePlayer(play, damage);
     func_8002F7A0(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);

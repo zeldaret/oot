@@ -384,7 +384,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
 
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            if (this->actor.colChkInfo.damageEffect == ANUBICE_DMGEFF_FIRE) {
+            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == ANUBICE_DMGEFF_FIRE) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(play, &this->actor);

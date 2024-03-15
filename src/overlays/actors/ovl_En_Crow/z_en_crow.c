@@ -156,7 +156,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     this->actor.targetArrowOffset = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_DEAD);
 
-    if (this->actor.colChkInfo.damageEffect == 3) { // Ice arrows
+    if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 3) { // Ice arrows
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 40);
         for (i = 0; i < 8; i++) {
             iceParticlePos.x = ((i & 1 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.x;
@@ -165,7 +165,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
             EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
                                            ((Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
         }
-    } else if (this->actor.colChkInfo.damageEffect == 2) { // Fire arrows and Din's Fire
+    } else if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 2) { // Fire arrows and Din's Fire
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 40);
 
         for (i = 0; i < 4; i++) {
@@ -413,8 +413,8 @@ void EnCrow_UpdateDamage(EnCrow* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
-            if (this->actor.colChkInfo.damageEffect == 1) { // Deku Nuts
+        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0)) {
+            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 1) { // Deku Nuts
                 EnCrow_SetupTurnAway(this);
             } else {
                 Actor_ApplyDamage(&this->actor);

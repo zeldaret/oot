@@ -333,7 +333,7 @@ void func_809BD524(EnBigokuta* this) {
     this->unk_19A = 0;
     this->cylinder[0].base.atFlags |= AT_ON;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
-    if (this->collider.elements[0].base.acHitElem->atDmgInfo.dmgFlags & DMG_DEKU_NUT) {
+    if (this->collider.elements[0].base.acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_DEKU_NUT) {
         this->unk_195 = true;
         this->unk_196 = 20;
     } else {
@@ -747,12 +747,12 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
 void EnBigokuta_UpdateDamage(EnBigokuta* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
-            if (this->actor.colChkInfo.damageEffect == 1) {
+        if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0 || this->actor.colChkInfo.damage_CollisionCheckInfo != 0) {
+            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 1) {
                 if (this->actionFunc != func_809BE058) {
                     func_809BD524(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 0xF) {
+            } else if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0xF) {
                 func_809BD47C(this);
             } else if (!Actor_IsFacingPlayer(&this->actor, 0x4000)) {
                 if (Actor_ApplyDamage(&this->actor) == 0) { // Dead

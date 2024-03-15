@@ -139,7 +139,7 @@ s32 EnFw_CheckCollider(EnFw* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         elem = &this->collider.elements[0].base;
-        if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT) {
+        if (elem->acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_HOOKSHOT) {
             this->lastDmgHook = true;
         } else {
             this->lastDmgHook = false;
