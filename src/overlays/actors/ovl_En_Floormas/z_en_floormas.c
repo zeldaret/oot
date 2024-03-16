@@ -58,7 +58,7 @@ ActorInit En_Floormas_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -66,7 +66,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x04, 0x10 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,
@@ -181,13 +181,13 @@ void EnFloormas_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnFloormas_MakeInvulnerable(EnFloormas* this) {
-    this->collider.base.colType_Collider = COLTYPE_HARD;
+    this->collider.base.colMaterial_Collider = COL_MATERIAL_HARD;
     this->collider.base.acFlags |= AC_HARD;
     this->actionTarget = 0x28;
 }
 
 void EnFloormas_MakeVulnerable(EnFloormas* this) {
-    this->collider.base.colType_Collider = COLTYPE_HIT0;
+    this->collider.base.colMaterial_Collider = COL_MATERIAL_HIT0;
     this->actionTarget = 0;
     this->collider.base.acFlags &= ~AC_HARD;
 }
@@ -980,7 +980,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0)) {
-            if (this->collider.base.colType_Collider != COLTYPE_HARD) {
+            if (this->collider.base.colMaterial_Collider != COL_MATERIAL_HARD) {
                 isSmall = false;
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = true;
@@ -1063,7 +1063,7 @@ void EnFloormas_Update(Actor* thisx, PlayState* play) {
 
         Actor_SetFocus(&this->actor, this->actor.scale.x * 2500.0f);
 
-        if (this->collider.base.colType_Collider == COLTYPE_HARD) {
+        if (this->collider.base.colMaterial_Collider == COL_MATERIAL_HARD) {
             if (this->actionTarget != 0) {
                 this->actionTarget--;
             }
@@ -1106,14 +1106,14 @@ void EnFloormas_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_floormas.c", 2318);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    if (this->collider.base.colType_Collider == COLTYPE_HARD) {
+    if (this->collider.base.colMaterial_Collider == COL_MATERIAL_HARD) {
         func_80026230(play, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
 
     POLY_OPA_DISP =
         SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                            EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_OPA_DISP);
-    if (this->collider.base.colType_Collider == COLTYPE_HARD) {
+    if (this->collider.base.colMaterial_Collider == COL_MATERIAL_HARD) {
         func_80026608(play);
     }
 
@@ -1126,13 +1126,13 @@ void EnFloormas_DrawHighlighted(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_floormas.c", 2352);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (this->collider.base.colType_Collider == COLTYPE_HARD) {
+    if (this->collider.base.colMaterial_Collider == COL_MATERIAL_HARD) {
         func_80026690(play, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
     POLY_XLU_DISP =
         SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                            EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_XLU_DISP);
-    if (this->collider.base.colType_Collider == COLTYPE_HARD) {
+    if (this->collider.base.colMaterial_Collider == COL_MATERIAL_HARD) {
         func_80026A6C(play);
     }
 

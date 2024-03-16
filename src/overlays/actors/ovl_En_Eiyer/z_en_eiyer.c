@@ -49,7 +49,7 @@ ActorInit En_Eiyer_InitVars = {
 
 static ColliderCylinderInit sColCylInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -57,7 +57,7 @@ static ColliderCylinderInit sColCylInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x04, 0x08 },
         { 0x00000019, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,

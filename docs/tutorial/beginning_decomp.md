@@ -364,7 +364,7 @@ ovl_En_Jj: Rom 00E3E3D0:00E3F9E0 VRam 80A87800:80A88E10 Offset 0014B4
 
 static ColliderCylinderInit sCylinderInit =
 {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { COL_MATERIAL_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000004, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 170, 150, 0, { 0, 0, 0 } },
 };
@@ -375,7 +375,7 @@ As with the InitChain, replace the commented-out data we copied into the C file 
 extern ColliderCylinderInit D_80A88CB4;
 // static ColliderCylinderInit sCylinderInit =
 // {
-//     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+//     { COL_MATERIAL_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
 //     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000004, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
 //     { 170, 150, 0, { 0, 0, 0 } },
 // };
@@ -655,7 +655,7 @@ ActorInit En_Jj_InitVars = {
 extern ColliderCylinderInit D_80A88CB4;
 // static ColliderCylinderInit sCylinderInit = {
 //     {
-//         COLTYPE_NONE,
+//         COL_MATERIAL_NONE,
 //         AT_NONE,
 //         AC_ON | AC_TYPE_PLAYER,
 //         OC1_ON | OC1_TYPE_ALL,
@@ -663,7 +663,7 @@ extern ColliderCylinderInit D_80A88CB4;
 //         COLSHAPE_CYLINDER,
 //     },
 //     {
-//         ELEMTYPE_UNK0,
+//         ELEM_MATERIAL_UNK0,
 //         { 0x00000000, 0x00, 0x00 },
 //         { 0x00000004, 0x00, 0x00 },
 //         ATELEM_NONE,

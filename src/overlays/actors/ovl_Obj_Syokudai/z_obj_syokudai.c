@@ -30,7 +30,7 @@ ActorInit Obj_Syokudai_InitVars = {
 
 static ColliderCylinderInit sCylInitStand = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylInitStand = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00100000, 0x00, 0x00 },
         { 0xEE01FFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -50,7 +50,7 @@ static ColliderCylinderInit sCylInitStand = {
 
 static ColliderCylinderInit sCylInitFlame = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylInitFlame = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0x00020820, 0x00, 0x00 },
         ATELEM_NONE,
@@ -78,7 +78,7 @@ static InitChainEntry sInitChain[] = {
 static s32 sLitTorchCount;
 
 void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
-    static u8 sColTypesStand[] = { COLTYPE_METAL, COLTYPE_WOOD, COLTYPE_WOOD };
+    static u8 sColTypesStand[] = { COL_MATERIAL_METAL, COL_MATERIAL_WOOD, COL_MATERIAL_WOOD };
     s32 pad;
     ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 torchType = this->actor.params & 0xF000;
@@ -88,7 +88,7 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
 
     Collider_InitCylinder(play, &this->colliderStand);
     Collider_SetCylinder(play, &this->colliderStand, &this->actor, &sCylInitStand);
-    this->colliderStand.base.colType_Collider = sColTypesStand[this->actor.params >> 0xC];
+    this->colliderStand.base.colMaterial_Collider = sColTypesStand[this->actor.params >> 0xC];
 
     Collider_InitCylinder(play, &this->colliderFlame);
     Collider_SetCylinder(play, &this->colliderFlame, &this->actor, &sCylInitFlame);

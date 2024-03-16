@@ -43,7 +43,7 @@ ActorInit En_Vali_InitVars = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -51,7 +51,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, PLAYER_AC_HIT_REACTION_7, 0x08 },
         { 0x00000000, PLAYER_AT_HIT_REACTION_0, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
@@ -63,7 +63,7 @@ static ColliderQuadInit sQuadInit = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT8,
+        COL_MATERIAL_HIT8,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -71,7 +71,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, PLAYER_AC_HIT_REACTION_7, 0x08 },
         { 0xFFCFFFFF, PLAYER_AT_HIT_REACTION_1, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,

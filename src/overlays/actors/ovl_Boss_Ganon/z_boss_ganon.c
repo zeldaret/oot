@@ -59,7 +59,7 @@ ActorInit Boss_Ganon_InitVars = {
 
 static ColliderCylinderInit sDorfCylinderInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -67,7 +67,7 @@ static ColliderCylinderInit sDorfCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0xFFCFFFFE, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -79,7 +79,7 @@ static ColliderCylinderInit sDorfCylinderInit = {
 
 static ColliderCylinderInit sLightBallCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -87,7 +87,7 @@ static ColliderCylinderInit sLightBallCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK6,
+        ELEM_MATERIAL_UNK6,
         { 0x00100700, 0x00, 0x08 },
         { 0x0D900740, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -2370,7 +2370,7 @@ void BossGanon_SetupBlock(BossGanon* this, PlayState* play) {
 }
 
 void BossGanon_Block(BossGanon* this, PlayState* play) {
-    this->collider.base.colType_Collider = COLTYPE_METAL;
+    this->collider.base.colMaterial_Collider = COL_MATERIAL_METAL;
     SkelAnime_Update(&this->skelAnime);
     sCape->backPush = -9.0f;
     sCape->backSwayMagnitude = 0.25f;
@@ -2821,7 +2821,7 @@ void BossGanon_Update(Actor* thisx, PlayState* play2) {
         }
     }
 
-    this->collider.base.colType_Collider = COLTYPE_HIT3;
+    this->collider.base.colMaterial_Collider = COL_MATERIAL_HIT3;
     sCape->gravity = -3.0f;
     this->shockGlow = false;
     this->actor.flags &= ~ACTOR_FLAG_0;

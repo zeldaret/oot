@@ -46,7 +46,7 @@ s32 EnWf_DodgeRanged(PlayState* play, EnWf* this);
 static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -57,7 +57,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -68,7 +68,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK1,
+            ELEM_MATERIAL_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -79,7 +79,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK1,
+            ELEM_MATERIAL_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -92,7 +92,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -105,7 +105,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static ColliderCylinderInit sBodyCylinderInit = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -113,7 +113,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -125,7 +125,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
 
 static ColliderCylinderInit sTailCylinderInit = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -133,7 +133,7 @@ static ColliderCylinderInit sTailCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,

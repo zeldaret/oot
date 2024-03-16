@@ -73,7 +73,7 @@ static f32 sFocusHeights[] = {
 static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
             ATELEM_NONE,
@@ -84,7 +84,7 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
             ATELEM_NONE,
@@ -97,7 +97,7 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
 
 static ColliderTrisInit sRustyFloorTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -111,7 +111,7 @@ static ColliderTrisInit sRustyFloorTrisInit = {
 static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK4,
+            ELEM_MATERIAL_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
             ATELEM_NONE,
@@ -122,7 +122,7 @@ static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
             ATELEM_NONE,
@@ -135,7 +135,7 @@ static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
 
 static ColliderTrisInit sEyeTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -149,7 +149,7 @@ static ColliderTrisInit sEyeTrisInit = {
 static ColliderJntSphElementInit sCrystalJntSphElementInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xEFC1FFFE, 0x00, 0x00 },
             ATELEM_NONE,
@@ -162,7 +162,7 @@ static ColliderJntSphElementInit sCrystalJntSphElementInit[1] = {
 
 static ColliderJntSphInit sCrystalJntSphInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,

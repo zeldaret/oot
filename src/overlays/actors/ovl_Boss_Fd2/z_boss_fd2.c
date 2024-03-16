@@ -822,11 +822,11 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
         }
     }
     if (!bossFd->faceExposed) {
-        this->collider.elements[0].base.elemType_ColliderElement = ELEMTYPE_UNK2;
-        this->collider.base.colType_Collider = COLTYPE_METAL;
+        this->collider.elements[0].base.elemMaterial_ColliderElement = ELEM_MATERIAL_UNK2;
+        this->collider.base.colMaterial_Collider = COL_MATERIAL_METAL;
     } else {
-        this->collider.elements[0].base.elemType_ColliderElement = ELEMTYPE_UNK3;
-        this->collider.base.colType_Collider = COLTYPE_HIT3;
+        this->collider.elements[0].base.elemMaterial_ColliderElement = ELEM_MATERIAL_UNK3;
+        this->collider.base.colMaterial_Collider = COL_MATERIAL_HIT3;
     }
 
     if (this->collider.elements[0].base.acElemFlags & ACELEM_HIT) {

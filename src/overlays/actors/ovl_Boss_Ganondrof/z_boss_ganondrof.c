@@ -83,7 +83,7 @@ ActorInit Boss_Ganondrof_InitVars = {
 
 static ColliderCylinderInit sCylinderInitBody = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -91,7 +91,7 @@ static ColliderCylinderInit sCylinderInitBody = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0xFFCFFFFE, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -103,7 +103,7 @@ static ColliderCylinderInit sCylinderInitBody = {
 
 static ColliderCylinderInit sCylinderInitSpear = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -111,7 +111,7 @@ static ColliderCylinderInit sCylinderInitSpear = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x30 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -773,7 +773,7 @@ void BossGanondrof_SetupBlock(BossGanondrof* this, PlayState* play) {
 }
 
 void BossGanondrof_Block(BossGanondrof* this, PlayState* play) {
-    this->colliderBody.base.colType_Collider = COLTYPE_METAL;
+    this->colliderBody.base.colMaterial_Collider = COL_MATERIAL_METAL;
     SkelAnime_Update(&this->skelAnime);
     this->actor.world.pos.x += this->actor.velocity.x;
     this->actor.world.pos.z += this->actor.velocity.z;
@@ -802,7 +802,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play) {
     f32 dxCenter = thisx->world.pos.x - GND_BOSSROOM_CENTER_X;
     f32 dzCenter = thisx->world.pos.z - GND_BOSSROOM_CENTER_Z;
 
-    this->colliderBody.base.colType_Collider = COLTYPE_METAL;
+    this->colliderBody.base.colMaterial_Collider = COL_MATERIAL_METAL;
     SkelAnime_Update(&this->skelAnime);
     switch (this->work[GND_ACTION_STATE]) {
         case CHARGE_WINDUP:
@@ -1298,7 +1298,7 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
 
     PRINTF("MOVE START %d\n", this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_10;
-    this->colliderBody.base.colType_Collider = COLTYPE_HIT3;
+    this->colliderBody.base.colMaterial_Collider = COL_MATERIAL_HIT3;
     if (this->killActor) {
         Actor_Kill(&this->actor);
         return;

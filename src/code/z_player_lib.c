@@ -1247,16 +1247,16 @@ u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo
 
 void Player_UpdateShieldCollider(PlayState* play, Player* this, ColliderQuad* collider, Vec3f* quadSrc) {
     static u8 shieldColTypes[PLAYER_SHIELD_MAX] = {
-        COLTYPE_METAL,
-        COLTYPE_WOOD,
-        COLTYPE_METAL,
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
+        COL_MATERIAL_WOOD,
+        COL_MATERIAL_METAL,
+        COL_MATERIAL_METAL,
     };
 
     if (this->stateFlags1 & PLAYER_STATE1_22) {
         Vec3f quadDest[4];
 
-        this->shieldQuad.base.colType_Collider = shieldColTypes[this->currentShield];
+        this->shieldQuad.base.colMaterial_Collider = shieldColTypes[this->currentShield];
 
         Matrix_MultVec3f(&quadSrc[0], &quadDest[0]);
         Matrix_MultVec3f(&quadSrc[1], &quadDest[1]);

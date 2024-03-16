@@ -62,7 +62,7 @@ static EnIshiEffectSpawnFunc sDustSpawnFuncs[] = { EnIshi_SpawnDustSmall, EnIshi
 static ColliderCylinderInit sCylinderInits[] = {
     {
         {
-            COLTYPE_HARD,
+            COL_MATERIAL_HARD,
             AT_NONE,
             AC_ON | AC_HARD | AC_TYPE_PLAYER,
             OC1_ON | OC1_TYPE_ALL,
@@ -70,7 +70,7 @@ static ColliderCylinderInit sCylinderInits[] = {
             COLSHAPE_CYLINDER,
         },
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFFE, 0x00, 0x00 },
             ATELEM_NONE,
@@ -81,7 +81,7 @@ static ColliderCylinderInit sCylinderInits[] = {
     },
     {
         {
-            COLTYPE_HARD,
+            COL_MATERIAL_HARD,
             AT_NONE,
             AC_ON | AC_HARD | AC_TYPE_PLAYER,
             OC1_ON | OC1_TYPE_ALL,
@@ -89,7 +89,7 @@ static ColliderCylinderInit sCylinderInits[] = {
             COLSHAPE_CYLINDER,
         },
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFF6, 0x00, 0x00 },
             ATELEM_NONE,

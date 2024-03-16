@@ -44,7 +44,7 @@ ActorInit En_Dekubaba_InitVars = {
 static ColliderJntSphElementInit sJntSphElementsInit[7] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_HARD,
@@ -55,7 +55,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[7] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -66,7 +66,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[7] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -77,7 +77,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[7] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -88,7 +88,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[7] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -99,7 +99,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[7] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -110,7 +110,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[7] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -123,7 +123,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[7] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -299,7 +299,7 @@ void EnDekubaba_SetupWait(EnDekubaba* this) {
 
     Actor_SetScale(&this->actor, this->size * 0.01f * 0.5f);
 
-    this->collider.base.colType_Collider = COLTYPE_HARD;
+    this->collider.base.colMaterial_Collider = COL_MATERIAL_HARD;
     this->collider.base.acFlags |= AC_HARD;
     this->timer = 45;
 
@@ -326,7 +326,7 @@ void EnDekubaba_SetupGrow(EnDekubaba* this) {
         this->collider.elements[i].base.ocElemFlags |= OCELEM_ON;
     }
 
-    this->collider.base.colType_Collider = COLTYPE_HIT6;
+    this->collider.base.colMaterial_Collider = COL_MATERIAL_HIT6;
     this->collider.base.acFlags &= ~AC_HARD;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = EnDekubaba_Grow;
@@ -1034,7 +1034,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
 
-        if ((this->collider.base.colType_Collider != COLTYPE_HARD) &&
+        if ((this->collider.base.colMaterial_Collider != COL_MATERIAL_HARD) &&
             ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != DEKUBABA_DMGEFF_NONE) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0))) {
 
             phi_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage_CollisionCheckInfo;
@@ -1082,7 +1082,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
         } else {
             return;
         }
-    } else if ((play->actorCtx.unk_02 != 0) && (this->collider.base.colType_Collider != COLTYPE_HARD) &&
+    } else if ((play->actorCtx.unk_02 != 0) && (this->collider.base.colMaterial_Collider != COL_MATERIAL_HARD) &&
                (this->actionFunc != EnDekubaba_StunnedVertical) && (this->actionFunc != EnDekubaba_Hit) &&
                (this->actor.colChkInfo.health != 0)) {
         this->actor.colChkInfo.health--;

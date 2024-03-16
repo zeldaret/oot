@@ -45,7 +45,7 @@ ActorInit En_Fd_InitVars = {
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040088, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -56,7 +56,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -67,7 +67,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -78,7 +78,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -89,7 +89,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -100,7 +100,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -111,7 +111,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -122,7 +122,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -133,7 +133,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -144,7 +144,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -155,7 +155,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -166,7 +166,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -179,7 +179,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,

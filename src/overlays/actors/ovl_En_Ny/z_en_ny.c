@@ -38,7 +38,7 @@ ActorInit En_Ny_InitVars = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x04, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -51,7 +51,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sColliderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -140,7 +140,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
         PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         this->actor.colChkInfo.mass = 0xFF;
         this->actor.update = EnNy_UpdateUnused;
-        this->collider.base.colType_Collider = COLTYPE_METAL;
+        this->collider.base.colMaterial_Collider = COL_MATERIAL_METAL;
     }
 }
 

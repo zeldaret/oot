@@ -43,7 +43,7 @@ ActorInit En_Karebaba_InitVars = {
 
 static ColliderCylinderInit sBodyColliderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -51,7 +51,7 @@ static ColliderCylinderInit sBodyColliderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -63,7 +63,7 @@ static ColliderCylinderInit sBodyColliderInit = {
 
 static ColliderCylinderInit sHeadColliderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -71,7 +71,7 @@ static ColliderCylinderInit sHeadColliderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,
@@ -123,7 +123,7 @@ void EnKarebaba_Destroy(Actor* thisx, PlayState* play) {
 void EnKarebaba_ResetCollider(EnKarebaba* this) {
     this->bodyCollider.dim.radius = 7;
     this->bodyCollider.dim.height = 25;
-    this->bodyCollider.base.colType_Collider = COLTYPE_HARD;
+    this->bodyCollider.base.colMaterial_Collider = COL_MATERIAL_HARD;
     this->bodyCollider.base.acFlags |= AC_HARD;
     this->bodyCollider.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_DEFAULT;
     this->headCollider.dim.height = 25;
@@ -153,7 +153,7 @@ void EnKarebaba_SetupAwaken(EnKarebaba* this) {
 void EnKarebaba_SetupUpright(EnKarebaba* this) {
     if (this->actionFunc != EnKarebaba_Spin) {
         Actor_SetScale(&this->actor, 0.01f);
-        this->bodyCollider.base.colType_Collider = COLTYPE_HIT6;
+        this->bodyCollider.base.colMaterial_Collider = COL_MATERIAL_HIT6;
         this->bodyCollider.base.acFlags &= ~AC_HARD;
         this->bodyCollider.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC =
             !LINK_IS_ADULT ? ((DMG_SWORD | DMG_BOOMERANG) & ~DMG_JUMP_MASTER) : (DMG_SWORD | DMG_BOOMERANG);
