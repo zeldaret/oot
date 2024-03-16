@@ -1145,7 +1145,7 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
                 sp24.z = this->actor.world.pos.z;
                 Item_DropCollectible(play, &sp24, ITEM00_ARROWS_SMALL);
             }
-        } else if (this->collider.base.colType_Collider == 9 ||
+        } else if (this->collider.base.colType_Collider == COLTYPE_METAL ||
                    (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0 && this->actor.colChkInfo.damage_CollisionCheckInfo == 0)) {
             if (this->unk_194 == 0) {
                 this->actor.freezeTimer = 0;

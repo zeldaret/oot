@@ -78,7 +78,7 @@ static InitChainEntry sInitChain[] = {
 static s32 sLitTorchCount;
 
 void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
-    static u8 sColTypesStand[] = { 0x09, 0x0B, 0x0B };
+    static u8 sColTypesStand[] = { COLTYPE_METAL, COLTYPE_WOOD, COLTYPE_WOOD };
     s32 pad;
     ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 torchType = this->actor.params & 0xF000;

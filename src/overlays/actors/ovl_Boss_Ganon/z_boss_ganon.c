@@ -2370,7 +2370,7 @@ void BossGanon_SetupBlock(BossGanon* this, PlayState* play) {
 }
 
 void BossGanon_Block(BossGanon* this, PlayState* play) {
-    this->collider.base.colType_Collider = 9;
+    this->collider.base.colType_Collider = COLTYPE_METAL;
     SkelAnime_Update(&this->skelAnime);
     sCape->backPush = -9.0f;
     sCape->backSwayMagnitude = 0.25f;
@@ -2821,7 +2821,7 @@ void BossGanon_Update(Actor* thisx, PlayState* play2) {
         }
     }
 
-    this->collider.base.colType_Collider = 3;
+    this->collider.base.colType_Collider = COLTYPE_HIT3;
     sCape->gravity = -3.0f;
     this->shockGlow = false;
     this->actor.flags &= ~ACTOR_FLAG_0;
