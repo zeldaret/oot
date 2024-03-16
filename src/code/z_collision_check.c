@@ -182,11 +182,16 @@ s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC
 
 s32 Collider_InitElement(PlayState* play, ColliderElement* elem) {
     static ColliderElement init = {
-        { 0, 0, 0 },   { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
-        ELEM_MATERIAL_UNK0, ATELEM_NONE,
-        ACELEM_NONE,   OCELEM_NONE,
-        NULL,          NULL,
-        NULL,          NULL,
+        { 0, 0, 0 },
+        { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
+        ELEM_MATERIAL_UNK0,
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_NONE,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
     };
 
     *elem = init;
@@ -1386,8 +1391,7 @@ s32 CollisionCheck_IsElementNotAC(ColliderElement* elem) {
  * If the AT element has no dmgFlags in common with the AC element, no collision happens.
  */
 s32 CollisionCheck_NoSharedFlags(ColliderElement* atElem, ColliderElement* acElem) {
-    if (!(atElem->atDmgInfo.dmgFlags &
-          acElem->acDmgInfo.dmgFlags)) {
+    if (!(atElem->atDmgInfo.dmgFlags & acElem->acDmgInfo.dmgFlags)) {
         return true;
     }
     return false;
