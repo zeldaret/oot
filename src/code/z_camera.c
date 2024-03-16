@@ -43,14 +43,6 @@ s32 Camera_QRegInit(void);
 #define GET_NEXT_SCALED_RO_DATA(values) CAM_DATA_SCALED(GET_NEXT_RO_DATA(values))
 
 #if OOT_DEBUG
-#define OREG_DEBUG(i, default) OREG(i)
-#define OREG_DEBUG_SCALED(i, default) CAM_DATA_SCALED(OREG(i))
-#else
-#define OREG_DEBUG(i, default) (default)
-#define OREG_DEBUG_SCALED(i, default) (default)
-#endif
-
-#if OOT_DEBUG
 
 #define CAM_GLOBAL_0 OREG(0)
 #define CAM_GLOBAL_1 OREG(1)
