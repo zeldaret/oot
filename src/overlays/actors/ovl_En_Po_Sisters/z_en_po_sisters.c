@@ -209,8 +209,8 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
             func_80AD9AA8(this, play);
         } else {
             this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_14);
-            this->collider.elem.elemMaterial_ColliderElement = ELEM_MATERIAL_UNK4;
-            this->collider.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC |= DMG_DEKU_NUT;
+            this->collider.elem.elemMaterial = ELEM_MATERIAL_UNK4;
+            this->collider.elem.acDmgInfo.dmgFlags |= DMG_DEKU_NUT;
             this->collider.base.ocFlags1 = OC1_NONE;
             func_80AD9C24(this, NULL);
         }
@@ -265,7 +265,7 @@ void func_80AD943C(EnPoSisters* this) {
 
 void func_80AD944C(EnPoSisters* this) {
     if (this->unk_22E.a != 0) {
-        this->collider.base.colMaterial_Collider = COL_MATERIAL_METAL;
+        this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->collider.base.acFlags |= AC_HARD;
     }
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
@@ -278,7 +278,7 @@ void func_80AD944C(EnPoSisters* this) {
 void func_80AD94E0(EnPoSisters* this) {
     this->actor.speed = 5.0f;
     if (this->unk_194 == 0) {
-        this->collider.base.colMaterial_Collider = COL_MATERIAL_METAL;
+        this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->collider.base.acFlags |= AC_HARD;
         Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
     }
@@ -292,7 +292,7 @@ void func_80AD9568(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
     if (this->unk_194 != 0) {
-        this->collider.base.colMaterial_Collider = COL_MATERIAL_HIT3;
+        this->collider.base.colMaterial = COL_MATERIAL_HIT3;
         this->collider.base.acFlags &= ~AC_HARD;
     }
     this->actionFunc = func_80ADA9E8;
@@ -301,7 +301,7 @@ void func_80AD9568(EnPoSisters* this) {
 void func_80AD95D8(EnPoSisters* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeSistersDamagedAnim, -3.0f);
     if (this->collider.base.ac != NULL) {
-        this->actor.world.rot.y = (this->collider.elem.acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & (DMG_ARROW | DMG_SLINGSHOT))
+        this->actor.world.rot.y = (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT))
                                       ? this->collider.base.ac->world.rot.y
                                       : Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
@@ -429,7 +429,7 @@ void func_80AD9C24(EnPoSisters* this, PlayState* play) {
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_19C = 100;
     this->unk_199 = 32;
-    this->collider.base.colMaterial_Collider = COL_MATERIAL_HIT3;
+    this->collider.base.colMaterial = COL_MATERIAL_HIT3;
     this->collider.base.acFlags &= ~AC_HARD;
     if (play != NULL) {
         vec.x = this->actor.world.pos.x;
@@ -671,7 +671,7 @@ void func_80ADA8C0(EnPoSisters* this, PlayState* play) {
     this->actor.shape.rot.y += (384.0f * this->skelAnime.endFrame) * 3.0f;
     if (this->unk_19A == 0 && ABS((s16)(this->actor.shape.rot.y - this->actor.world.rot.y)) < 0x1000) {
         if (this->unk_194 != 0) {
-            this->collider.base.colMaterial_Collider = COL_MATERIAL_HIT3;
+            this->collider.base.colMaterial = COL_MATERIAL_HIT3;
             this->collider.base.acFlags &= ~AC_HARD;
             func_80AD93C4(this);
         } else {
@@ -744,7 +744,7 @@ void func_80ADAD54(EnPoSisters* this, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_22E.a = 0;
-        this->collider.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_MAGIC_ICE | DMG_MAGIC_FIRE | DMG_DEKU_NUT;
+        this->collider.elem.acDmgInfo.dmgFlags = DMG_MAGIC_ICE | DMG_MAGIC_FIRE | DMG_DEKU_NUT;
         func_80AD93C4(this);
     } else {
         endFrame = this->skelAnime.endFrame;
@@ -757,7 +757,7 @@ void func_80ADAE6C(EnPoSisters* this, PlayState* play) {
         this->unk_22E.a = 255;
         if (this->unk_194 != 0) {
             this->unk_199 |= 1;
-            this->collider.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE |
+            this->collider.elem.acDmgInfo.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE |
                                                       DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
             if (this->unk_19A != 0) {
                 this->unk_19A--;
@@ -1145,16 +1145,16 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
                 sp24.z = this->actor.world.pos.z;
                 Item_DropCollectible(play, &sp24, ITEM00_ARROWS_SMALL);
             }
-        } else if (this->collider.base.colMaterial_Collider == COL_MATERIAL_METAL ||
-                   (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0 && this->actor.colChkInfo.damage_CollisionCheckInfo == 0)) {
+        } else if (this->collider.base.colMaterial == COL_MATERIAL_METAL ||
+                   (this->actor.colChkInfo.damageEffect == 0 && this->actor.colChkInfo.damage == 0)) {
             if (this->unk_194 == 0) {
                 this->actor.freezeTimer = 0;
             }
-        } else if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0xF) {
+        } else if (this->actor.colChkInfo.damageEffect == 0xF) {
             this->actor.world.rot.y = this->actor.shape.rot.y;
             this->unk_199 |= 2;
             func_80AD98F4(this, play);
-        } else if (this->unk_194 == 0 && this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0xE &&
+        } else if (this->unk_194 == 0 && this->actor.colChkInfo.damageEffect == 0xE &&
                    this->actionFunc == func_80ADB770) {
             if (this->unk_19C == 0) {
                 this->unk_19C = -45;

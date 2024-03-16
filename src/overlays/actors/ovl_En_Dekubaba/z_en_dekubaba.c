@@ -299,7 +299,7 @@ void EnDekubaba_SetupWait(EnDekubaba* this) {
 
     Actor_SetScale(&this->actor, this->size * 0.01f * 0.5f);
 
-    this->collider.base.colMaterial_Collider = COL_MATERIAL_HARD;
+    this->collider.base.colMaterial = COL_MATERIAL_HARD;
     this->collider.base.acFlags |= AC_HARD;
     this->timer = 45;
 
@@ -326,7 +326,7 @@ void EnDekubaba_SetupGrow(EnDekubaba* this) {
         this->collider.elements[i].base.ocElemFlags |= OCELEM_ON;
     }
 
-    this->collider.base.colMaterial_Collider = COL_MATERIAL_HIT6;
+    this->collider.base.colMaterial = COL_MATERIAL_HIT6;
     this->collider.base.acFlags &= ~AC_HARD;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = EnDekubaba_Grow;
@@ -1034,15 +1034,15 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
 
-        if ((this->collider.base.colMaterial_Collider != COL_MATERIAL_HARD) &&
-            ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != DEKUBABA_DMGEFF_NONE) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0))) {
+        if ((this->collider.base.colMaterial != COL_MATERIAL_HARD) &&
+            ((this->actor.colChkInfo.damageEffect != DEKUBABA_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0))) {
 
-            phi_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage_CollisionCheckInfo;
+            phi_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
 
             if (this->actionFunc != EnDekubaba_StunnedVertical) {
-                if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == DEKUBABA_DMGEFF_BOOMERANG) ||
-                    (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == DEKUBABA_DMGEFF_DEKUNUT)) {
-                    if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == DEKUBABA_DMGEFF_BOOMERANG) {
+                if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) ||
+                    (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_DEKUNUT)) {
+                    if (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) {
                         phi_s0 = this->actor.colChkInfo.health;
                     }
 
@@ -1056,14 +1056,14 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
                 } else {
                     EnDekubaba_SetupHit(this, 0);
                 }
-            } else if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == DEKUBABA_DMGEFF_BOOMERANG) ||
-                       (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == DEKUBABA_DMGEFF_SWORD)) {
+            } else if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) ||
+                       (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_SWORD)) {
                 if (phi_s0 > 0) {
                     EnDekubaba_SetupSway(this);
                 } else {
                     EnDekubaba_SetupPrunedSomersault(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != DEKUBABA_DMGEFF_DEKUNUT) {
+            } else if (this->actor.colChkInfo.damageEffect != DEKUBABA_DMGEFF_DEKUNUT) {
                 EnDekubaba_SetupHit(this, 0);
             } else {
                 return;
@@ -1071,7 +1071,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
 
             this->actor.colChkInfo.health = CLAMP_MIN(phi_s0, 0);
 
-            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == DEKUBABA_DMGEFF_FIRE) {
+            if (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_FIRE) {
                 firePos = &this->actor.world.pos;
                 fireScale = (this->size * 70.0f);
 
@@ -1082,7 +1082,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
         } else {
             return;
         }
-    } else if ((play->actorCtx.unk_02 != 0) && (this->collider.base.colMaterial_Collider != COL_MATERIAL_HARD) &&
+    } else if ((play->actorCtx.unk_02 != 0) && (this->collider.base.colMaterial != COL_MATERIAL_HARD) &&
                (this->actionFunc != EnDekubaba_StunnedVertical) && (this->actionFunc != EnDekubaba_Hit) &&
                (this->actor.colChkInfo.health != 0)) {
         this->actor.colChkInfo.health--;

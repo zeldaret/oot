@@ -103,7 +103,7 @@ s32 Collider_SetBaseToActor(PlayState* play, Collider* col, ColliderInitToActor*
  */
 s32 Collider_SetBaseType1(PlayState* play, Collider* col, Actor* actor, ColliderInitType1* src) {
     col->actor = actor;
-    col->colMaterial_Collider = src->colMaterial_ColliderInitType1;
+    col->colMaterial = src->colMaterial;
     col->atFlags = src->atFlags;
     col->acFlags = src->acFlags;
     col->ocFlags1 = src->ocFlags1;
@@ -114,7 +114,7 @@ s32 Collider_SetBaseType1(PlayState* play, Collider* col, Actor* actor, Collider
 
 s32 Collider_SetBase(PlayState* play, Collider* col, Actor* actor, ColliderInit* src) {
     col->actor = actor;
-    col->colMaterial_Collider = src->colMaterial_ColliderInit;
+    col->colMaterial = src->colMaterial;
     col->atFlags = src->atFlags;
     col->acFlags = src->acFlags;
     col->ocFlags1 = src->ocFlags1;
@@ -152,9 +152,9 @@ s32 Collider_DestroyElementDamageInfoAT(PlayState* play, ColliderElementDamageIn
 
 s32 Collider_SetElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT* dest,
                                     ColliderElementDamageInfoAT* src) {
-    dest->dmgFlags_ColliderElementDamageInfoAT = src->dmgFlags_ColliderElementDamageInfoAT;
-    dest->playerACHitReaction_ColliderElementDamageInfoAT = src->playerACHitReaction_ColliderElementDamageInfoAT;
-    dest->damage_ColliderElementDamageInfoAT = src->damage_ColliderElementDamageInfoAT;
+    dest->dmgFlags = src->dmgFlags;
+    dest->playerACHitReaction = src->playerACHitReaction;
+    dest->damage = src->damage;
     return true;
 }
 
@@ -174,9 +174,9 @@ s32 Collider_DestroyElementDamageInfoAC(PlayState* play, ColliderElementDamageIn
 
 s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
                                     ColliderElementDamageInfoACInit* init) {
-    acDmgInfo->dmgFlags_ColliderElementDamageInfoAC = init->dmgFlags_ColliderElementDamageInfoACInit;
-    acDmgInfo->playerATHitReaction_ColliderElementDamageInfoAC = init->playerATHitReaction_ColliderElementDamageInfoACInit;
-    acDmgInfo->defense_ColliderElementDamageInfoAC = init->defense_ColliderElementDamageInfoACInit;
+    acDmgInfo->dmgFlags = init->dmgFlags;
+    acDmgInfo->playerATHitReaction = init->playerATHitReaction;
+    acDmgInfo->defense = init->defense;
     return true;
 }
 
@@ -202,7 +202,7 @@ s32 Collider_DestroyElement(PlayState* play, ColliderElement* elem) {
 }
 
 s32 Collider_SetElement(PlayState* play, ColliderElement* elem, ColliderElementInit* elemInit) {
-    elem->elemMaterial_ColliderElement = elemInit->elemMaterial_ColliderElementInit;
+    elem->elemMaterial = elemInit->elemMaterial;
     Collider_SetElementDamageInfoAT(play, &elem->atDmgInfo, &elemInit->atDmgInfo);
     Collider_SetElementDamageInfoAC(play, &elem->acDmgInfo, &elemInit->acDmgInfo);
     elem->atElemFlags = elemInit->atElemFlags;
@@ -1386,8 +1386,8 @@ s32 CollisionCheck_IsElementNotAC(ColliderElement* elem) {
  * If the AT element has no dmgFlags in common with the AC element, no collision happens.
  */
 s32 CollisionCheck_NoSharedFlags(ColliderElement* atElem, ColliderElement* acElem) {
-    if (!(atElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT &
-          acElem->acDmgInfo.dmgFlags_ColliderElementDamageInfoAC)) {
+    if (!(atElem->atDmgInfo.dmgFlags &
+          acElem->acDmgInfo.dmgFlags)) {
         return true;
     }
     return false;
@@ -1537,7 +1537,7 @@ void CollisionCheck_RedBloodUnused(PlayState* play, Collider* collider, Vec3f* v
 void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* collider, Vec3f* hitPos) {
     s32 flags = elem->atElemFlags & ATELEM_SFX_MASK;
 
-    if (flags == ATELEM_SFX_NORMAL && collider->colMaterial_Collider != COL_MATERIAL_METAL) {
+    if (flags == ATELEM_SFX_NORMAL && collider->colMaterial != COL_MATERIAL_METAL) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
         if (collider->actor == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -1546,7 +1546,7 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
-    } else if (flags == ATELEM_SFX_NORMAL) { // collider->colMaterial_Collider == COL_MATERIAL_METAL
+    } else if (flags == ATELEM_SFX_NORMAL) { // collider->colMaterial == COL_MATERIAL_METAL
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_METAL, hitPos);
         if (collider->actor == NULL) {
             CollisionCheck_SpawnShieldParticlesMetal(play, hitPos);
@@ -1575,20 +1575,20 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
 }
 
 /**
- * Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemMaterial_ColliderElement.
+ * Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemMaterial.
  */
 s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
     if (atCol->actor != NULL && atCol->actor->category == ACTORCAT_PLAYER) {
-        if (acElem->elemMaterial_ColliderElement == ELEM_MATERIAL_UNK0) {
+        if (acElem->elemMaterial == ELEM_MATERIAL_UNK0) {
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        } else if (acElem->elemMaterial_ColliderElement == ELEM_MATERIAL_UNK1) {
+        } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK1) {
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &atCol->actor->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        } else if (acElem->elemMaterial_ColliderElement == ELEM_MATERIAL_UNK2) {
+        } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK2) {
             Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        } else if (acElem->elemMaterial_ColliderElement == ELEM_MATERIAL_UNK3) {
+        } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK3) {
             Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
@@ -1648,7 +1648,7 @@ static HitInfo sHitInfo[] = {
 };
 
 /**
- * Handles hitmarks, blood, and sound effects for each AC collision, determined by the AC collider's colMaterial_Collider
+ * Handles hitmarks, blood, and sound effects for each AC collision, determined by the AC collider's colMaterial
  */
 void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement* atElem, Collider* acCol,
                                ColliderElement* acElem, Vec3f* hitPos) {
@@ -1659,12 +1659,12 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement
         return;
     }
     if (acCol->actor != NULL) {
-        sBloodFuncs[sHitInfo[acCol->colMaterial_Collider].blood](play, acCol, hitPos);
+        sBloodFuncs[sHitInfo[acCol->colMaterial].blood](play, acCol, hitPos);
     }
     if (acCol->actor != NULL) {
-        if (sHitInfo[acCol->colMaterial_Collider].effect == HIT_SOLID) {
+        if (sHitInfo[acCol->colMaterial].effect == HIT_SOLID) {
             CollisionCheck_HitSolid(play, atElem, acCol, hitPos);
-        } else if (sHitInfo[acCol->colMaterial_Collider].effect == HIT_WOOD) {
+        } else if (sHitInfo[acCol->colMaterial].effect == HIT_WOOD) {
             if (atCol->actor == NULL) {
                 CollisionCheck_SpawnShieldParticles(play, hitPos);
                 Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -1672,8 +1672,8 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement
             } else {
                 CollisionCheck_SpawnShieldParticlesWood(play, hitPos, &atCol->actor->projectedPos);
             }
-        } else if (sHitInfo[acCol->colMaterial_Collider].effect != HIT_NONE) {
-            EffectSsHitMark_SpawnFixedScale(play, sHitInfo[acCol->colMaterial_Collider].effect, hitPos);
+        } else if (sHitInfo[acCol->colMaterial].effect != HIT_NONE) {
+            EffectSsHitMark_SpawnFixedScale(play, sHitInfo[acCol->colMaterial].effect, hitPos);
             if (!(acElem->acElemFlags & ACELEM_NO_SWORD_SFX)) {
                 CollisionCheck_SwordHitAudio(atCol, acElem);
             }
@@ -1713,7 +1713,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
         atElem->atHitElem = acElem;
         atElem->atElemFlags |= ATELEM_HIT;
         if (atCol->actor != NULL) {
-            atCol->actor->colChkInfo.playerATHitReaction_CollisionCheckInfo = acElem->acDmgInfo.playerATHitReaction_ColliderElementDamageInfoAC;
+            atCol->actor->colChkInfo.playerATHitReaction = acElem->acDmgInfo.playerATHitReaction;
         }
     }
     acCol->acFlags |= AC_HIT;
@@ -1722,13 +1722,13 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
     acElem->acHitElem = atElem;
     acElem->acElemFlags |= ACELEM_HIT;
     if (acCol->actor != NULL) {
-        acCol->actor->colChkInfo.playerACHitReaction_CollisionCheckInfo = atElem->atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT;
+        acCol->actor->colChkInfo.playerACHitReaction = atElem->atDmgInfo.playerACHitReaction;
     }
     acElem->acDmgInfo.hitPos.x = hitPos->x;
     acElem->acDmgInfo.hitPos.y = hitPos->y;
     acElem->acDmgInfo.hitPos.z = hitPos->z;
-    if (!(atElem->atElemFlags & ATELEM_AT_HITMARK) && acCol->colMaterial_Collider != COL_MATERIAL_METAL &&
-        acCol->colMaterial_Collider != COL_MATERIAL_WOOD && acCol->colMaterial_Collider != COL_MATERIAL_HARD) {
+    if (!(atElem->atElemFlags & ATELEM_AT_HITMARK) && acCol->colMaterial != COL_MATERIAL_METAL &&
+        acCol->colMaterial != COL_MATERIAL_WOOD && acCol->colMaterial != COL_MATERIAL_HARD) {
         acElem->acElemFlags |= ACELEM_DRAW_HITMARK;
     } else {
         CollisionCheck_HitEffects(play, atCol, atElem, acCol, acElem, hitPos);
@@ -2989,10 +2989,10 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
  * Resets ColisionCheckInfo fields other than DamageTable, mass, and dim.
  */
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
-    info->damage_CollisionCheckInfo = 0;
-    info->damageEffect_CollisionCheckInfo = 0;
-    info->playerATHitReaction_CollisionCheckInfo = PLAYER_AT_HIT_REACTION_0;
-    info->playerACHitReaction_CollisionCheckInfo = PLAYER_AC_HIT_REACTION_0;
+    info->damage = 0;
+    info->damageEffect = 0;
+    info->playerATHitReaction = PLAYER_AT_HIT_REACTION_0;
+    info->playerACHitReaction = PLAYER_AC_HIT_REACTION_0;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
 }
 
@@ -3056,13 +3056,13 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
     ASSERT(elem->acHitElem != NULL, "pclobj_elem->ac_hit_elem != NULL", "../z_collision_check.c", 6493);
     tbl = col->actor->colChkInfo.damageTable;
     if (tbl == NULL) {
-        damage = (f32)elem->acHitElem->atDmgInfo.damage_ColliderElementDamageInfoAT - elem->acDmgInfo.defense_ColliderElementDamageInfoAC;
+        damage = (f32)elem->acHitElem->atDmgInfo.damage - elem->acDmgInfo.defense;
         if (damage < 0) {
             damage = 0;
         }
     } else {
         s32 i;
-        u32 flags = elem->acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT;
+        u32 flags = elem->acHitElem->atDmgInfo.dmgFlags;
 
         for (i = 0; i < 32; i++, flags >>= 1) {
             if (flags == 1) {
@@ -3071,10 +3071,10 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
         }
 
         damage = tbl->table[i] & 0xF;
-        col->actor->colChkInfo.damageEffect_CollisionCheckInfo = tbl->table[i] >> 4 & 0xF;
+        col->actor->colChkInfo.damageEffect = tbl->table[i] >> 4 & 0xF;
     }
     if (!(col->acFlags & AC_HARD)) {
-        col->actor->colChkInfo.damage_CollisionCheckInfo += damage;
+        col->actor->colChkInfo.damage += damage;
     }
 }
 

@@ -33,7 +33,7 @@ void func_80A13098(EnFirefly* this) {
     } else {
         this->actor.params -= 2;
     }
-    this->collider.list->body.atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_1;
+    this->collider.list->body.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_1;
     this->auraType = 1;
     this->onFire = 1;
     this->actor.naviEnemyId = 0x11;

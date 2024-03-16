@@ -231,7 +231,7 @@ void EnPeehat_Init(Actor* thisx, PlayState* play) {
             this->colCylinder.dim.radius = 25;
             this->colCylinder.dim.height = 15;
             this->colCylinder.dim.yShift = -5;
-            this->colCylinder.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_ARROW | DMG_SLINGSHOT;
+            this->colCylinder.elem.acDmgInfo.dmgFlags = DMG_ARROW | DMG_SLINGSHOT;
             this->colQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
             this->colQuad.base.acFlags = AC_ON | AC_TYPE_PLAYER;
             this->actor.naviEnemyId = NAVI_ENEMY_PEAHAT_LARVA;
@@ -884,13 +884,13 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, PlayState* play) {
     } else if (this->colJntSph.base.acFlags & AC_HIT) {
         this->colJntSph.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->colJntSph, true);
-        if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == PEAHAT_DMG_EFF_NUT ||
-            this->actor.colChkInfo.damageEffect_CollisionCheckInfo == PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
+        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_NUT ||
+            this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
             return;
         }
-        if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == PEAHAT_DMG_EFF_HOOKSHOT) {
+        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_HOOKSHOT) {
             this->actor.colChkInfo.health = 0;
-        } else if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == PEAHAT_DMG_EFF_BOOMERANG) {
+        } else if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_BOOMERANG) {
             if (this->state != PEAHAT_STATE_STUNNED) {
                 EnPeehat_SetStateBoomerangStunned(this);
             }
@@ -901,7 +901,7 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_DAMAGE);
         }
 
-        if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == PEAHAT_DMG_EFF_FIRE) {
+        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_FIRE) {
             Vec3f pos;
             s32 i;
             for (i = 4; i >= 0; i--) {
@@ -931,7 +931,7 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
     if (thisx->params <= 0) {
         EnPeehat_Adult_CollisionCheck(this, play);
     }
-    if (thisx->colChkInfo.damageEffect_CollisionCheckInfo != PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
+    if (thisx->colChkInfo.damageEffect != PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
         if (thisx->speed != 0.0f || thisx->velocity.y != 0.0f) {
             Actor_MoveXZGravity(thisx);
             Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);

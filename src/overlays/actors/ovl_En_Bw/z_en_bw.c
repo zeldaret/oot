@@ -686,10 +686,10 @@ void func_809D0584(EnBw* this, PlayState* play) {
     } else {
         if (this->collider2.base.acFlags & AC_HIT) {
             this->collider2.base.acFlags &= ~AC_HIT;
-            if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0) || (this->unk_220 == 6)) {
+            if ((this->actor.colChkInfo.damageEffect == 0) || (this->unk_220 == 6)) {
                 return;
             }
-            this->damageEffect = this->actor.colChkInfo.damageEffect_CollisionCheckInfo;
+            this->damageEffect = this->actor.colChkInfo.damageEffect;
             Actor_SetDropFlag(&this->actor, &this->collider2.elem, false);
             if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
                 if (this->unk_23C == 0) {
@@ -751,7 +751,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
     Color_RGBA8 sp44 = { 0, 0, 0, 220 };
 
     func_809D0584(this, play);
-    if (thisx->colChkInfo.damageEffect_CollisionCheckInfo != 6) {
+    if (thisx->colChkInfo.damageEffect != 6) {
         this->actionFunc(this, play);
         if (this->unk_23C == 0) {
             this->unk_23A = (this->unk_23A + 4) & 0x7F;
@@ -766,7 +766,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
             func_8002836C(play, &thisx->world.pos, &velocity, &accel, &sp50, &sp4C, 0x3C, 0, 0x14);
         }
         if (this->unk_248 <= 0.4f) {
-            this->collider1.elem.atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_0;
+            this->collider1.elem.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_0;
             if (((play->gameplayFrames & 1) == 0) && (this->unk_220 < 5) && (this->unk_23C == 0)) {
                 accel.y = -0.1f;
                 velocity.x = Rand_CenteredFloat(4.0f);
@@ -786,7 +786,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
                               20.0f - (this->unk_248 * 40.0f));
             }
         } else {
-            this->collider1.elem.atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_1;
+            this->collider1.elem.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_1;
         }
 
         this->unk_234 = Actor_TestFloorInDirection(thisx, play, 50.0f, thisx->world.rot.y);

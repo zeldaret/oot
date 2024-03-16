@@ -219,7 +219,7 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
 
 void EnWallmas_SetupTakeDamage(EnWallmas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
-    if (this->collider.elem.acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & (DMG_ARROW | DMG_SLINGSHOT)) {
+    if (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
@@ -278,7 +278,7 @@ void EnWallmas_SetupStun(EnWallmas* this) {
     Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
 
     this->actor.speed = 0.0f;
-    if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 4) {
+    if (this->actor.colChkInfo.damageEffect == 4) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
@@ -508,24 +508,24 @@ void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
-        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0)) {
+        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_DEAD);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             } else {
-                if (this->actor.colChkInfo.damage_CollisionCheckInfo != 0) {
+                if (this->actor.colChkInfo.damage != 0) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_DAMAGE);
                 }
             }
 
-            if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == DAMAGE_EFFECT_STUN_WHITE) ||
-                (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == DAMAGE_EFFECT_STUN_BLUE)) {
+            if ((this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_WHITE) ||
+                (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_BLUE)) {
                 if (this->actionFunc != EnWallmas_Stun) {
                     EnWallmas_SetupStun(this);
                 }
             } else {
-                if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == DAMAGE_EFFECT_BURN) {
+                if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_BURN) {
                     EffectSsFCircle_Spawn(play, &this->actor, &this->actor.world.pos, 40, 40);
                 }
 

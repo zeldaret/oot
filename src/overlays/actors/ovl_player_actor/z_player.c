@@ -4007,7 +4007,7 @@ s32 func_80837818(Player* this) {
 }
 
 void func_80837918(Player* this, s32 quadIndex, u32 dmgFlags) {
-    this->meleeWeaponQuads[quadIndex].elem.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = dmgFlags;
+    this->meleeWeaponQuads[quadIndex].elem.atDmgInfo.dmgFlags = dmgFlags;
 
     if (dmgFlags == DMG_DEKU_STICK) {
         this->meleeWeaponQuads[quadIndex].elem.atElemFlags = ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_WOOD;
@@ -4120,7 +4120,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
 
     Player_PlaySfx(this, NA_SE_PL_DAMAGE);
 
-    if (!func_80837B18(play, this, 0 - this->actor.colChkInfo.damage_CollisionCheckInfo)) {
+    if (!func_80837B18(play, this, 0 - this->actor.colChkInfo.damage)) {
         this->stateFlags2 &= ~PLAYER_STATE2_7;
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !(this->stateFlags1 & PLAYER_STATE1_27)) {
             func_80837B9C(this, play);
@@ -4212,7 +4212,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
             Player_SetupAction(play, this, Player_Action_8084370C, 0);
             func_80833C3C(this);
 
-            if (this->actor.colChkInfo.damage_CollisionCheckInfo < 5) {
+            if (this->actor.colChkInfo.damage < 5) {
                 Player_RequestRumble(this, 120, 20, 10, 0);
             } else {
                 Player_RequestRumble(this, 180, 20, 100, 0);
@@ -4284,7 +4284,7 @@ void func_8083821C(Player* this) {
 }
 
 void func_80838280(Player* this) {
-    if (this->actor.colChkInfo.playerACHitReaction_CollisionCheckInfo == PLAYER_AC_HIT_REACTION_1) {
+    if (this->actor.colChkInfo.playerACHitReaction == PLAYER_AC_HIT_REACTION_1) {
         func_8083821C(this);
     }
     func_80832698(this, NA_SE_VO_LI_FALL_L);
@@ -4351,7 +4351,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 this->bodyShockTimer = 40;
             }
 
-            this->actor.colChkInfo.damage_CollisionCheckInfo += this->unk_8A0;
+            this->actor.colChkInfo.damage += this->unk_8A0;
             func_80837C0C(play, this, sp5C[this->unk_8A1 - 1], this->unk_8A4, this->unk_8A8, this->unk_8A2, 20);
         } else {
             sp64 = (this->shieldQuad.base.acFlags & AC_BOUNCED) != 0;
@@ -4394,7 +4394,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT == 1)) {
+                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.playerACHitReaction == 1)) {
                     func_8083819C(this, play);
                 }
 
@@ -4417,11 +4417,11 @@ s32 func_808382DC(Player* this, PlayState* play) {
 
                 if (this->stateFlags1 & PLAYER_STATE1_27) {
                     sp4C = 0;
-                } else if (this->actor.colChkInfo.playerACHitReaction_CollisionCheckInfo == PLAYER_AC_HIT_REACTION_2) {
+                } else if (this->actor.colChkInfo.playerACHitReaction == PLAYER_AC_HIT_REACTION_2) {
                     sp4C = 3;
-                } else if (this->actor.colChkInfo.playerACHitReaction_CollisionCheckInfo == PLAYER_AC_HIT_REACTION_3) {
+                } else if (this->actor.colChkInfo.playerACHitReaction == PLAYER_AC_HIT_REACTION_3) {
                     sp4C = 4;
-                } else if (this->actor.colChkInfo.playerACHitReaction_CollisionCheckInfo == PLAYER_AC_HIT_REACTION_4) {
+                } else if (this->actor.colChkInfo.playerACHitReaction == PLAYER_AC_HIT_REACTION_4) {
                     sp4C = 1;
                 } else {
                     func_80838280(this);
@@ -4442,7 +4442,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     ((sp48 >= 0) &&
                      ((this->currentTunic != PLAYER_TUNIC_GORON) || (this->floorTypeTimer >= D_808544F4[sp48])))) {
                     this->floorTypeTimer = 0;
-                    this->actor.colChkInfo.damage_CollisionCheckInfo = 4;
+                    this->actor.colChkInfo.damage = 4;
                     func_80837C0C(play, this, 0, 4.0f, 5.0f, this->actor.shape.rot.y, 20);
                 } else {
                     return 0;
@@ -8466,8 +8466,8 @@ s32 func_80842DF4(PlayState* play, Player* this) {
             if ((func_80842AC4(play, this) == 0) && (this->heldItemAction != PLAYER_IA_HAMMER)) {
                 func_80842B7C(play, this);
 
-                if (this->actor.colChkInfo.playerATHitReaction_CollisionCheckInfo == PLAYER_AT_HIT_REACTION_1) {
-                    this->actor.colChkInfo.damage_CollisionCheckInfo = 8;
+                if (this->actor.colChkInfo.playerATHitReaction == PLAYER_AT_HIT_REACTION_1) {
+                    this->actor.colChkInfo.damage = 8;
                     func_80837C0C(play, this, 4, 0.0f, 0.0f, this->actor.shape.rot.y, 20);
                     return 1;
                 }
@@ -9072,7 +9072,7 @@ void Player_Action_80844A44(Player* this, PlayState* play) {
     Math_StepToF(&this->speedXZ, 0.0f, 0.05f);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->actor.colChkInfo.damage_CollisionCheckInfo = 0x10;
+        this->actor.colChkInfo.damage = 0x10;
         func_80837C0C(play, this, 1, 4.0f, 5.0f, this->actor.shape.rot.y, 20);
     }
 }
@@ -13100,7 +13100,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
                                 this->actor.world.pos.y + 100.0f, this->actor.world.pos.z, 0, 0, 0, 0);
                     func_8083C0E8(this, play);
                 } else {
-                    this->actor.colChkInfo.damage_CollisionCheckInfo = 0;
+                    this->actor.colChkInfo.damage = 0;
                     func_80837C0C(play, this, 3, 0.0f, 0.0f, 0, 20);
                 }
                 return;

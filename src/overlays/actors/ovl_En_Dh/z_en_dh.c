@@ -303,7 +303,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
                          -4.0f);
         this->actionState = 4;
         this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags = AT_NONE; // also ATELEM_NONE
-        this->collider2.elements[0].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = this->collider2.elements[0].base.atDmgInfo.damage_ColliderElementDamageInfoAT = 0;
+        this->collider2.elements[0].base.atDmgInfo.dmgFlags = this->collider2.elements[0].base.atDmgInfo.damage = 0;
     }
     switch (this->actionState) {
         case 1:
@@ -318,15 +318,15 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
             if (this->skelAnime.curFrame >= 4.0f) {
                 this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags =
                     AT_ON | AT_TYPE_ENEMY; // also ATELEM_ON | ATELEM_SFX_WOOD
-                this->collider2.elements[0].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = DMG_DEFAULT;
-                this->collider2.elements[0].base.atDmgInfo.damage_ColliderElementDamageInfoAT = 8;
+                this->collider2.elements[0].base.atDmgInfo.dmgFlags = DMG_DEFAULT;
+                this->collider2.elements[0].base.atDmgInfo.damage = 8;
             }
             if (this->collider2.base.atFlags & AT_BOUNCED) {
                 this->collider2.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
                 this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags =
                     AT_NONE; // also ATELEM_NONE
-                this->collider2.elements[0].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT =
-                    this->collider2.elements[0].base.atDmgInfo.damage_ColliderElementDamageInfoAT = 0;
+                this->collider2.elements[0].base.atDmgInfo.dmgFlags =
+                    this->collider2.elements[0].base.atDmgInfo.damage = 0;
                 this->actionState++;
             } else if (this->collider2.base.atFlags & AT_HIT) {
                 this->collider2.base.atFlags &= ~AT_HIT;
@@ -346,8 +346,8 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
                 this->actionState++;
                 this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags =
                     AT_NONE; // also ATELEM_NONE
-                this->collider2.elements[0].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT =
-                    this->collider2.elements[0].base.atDmgInfo.damage_ColliderElementDamageInfoAT = 0;
+                this->collider2.elements[0].base.atDmgInfo.dmgFlags =
+                    this->collider2.elements[0].base.atDmgInfo.damage = 0;
             }
             break;
         case 5:
@@ -378,8 +378,8 @@ void EnDh_Burrow(EnDh* this, PlayState* play) {
             this->drawDirtWave++;
             this->collider1.base.atFlags = this->collider1.elem.atElemFlags =
                 AT_ON | AT_TYPE_ENEMY; // also ATELEM_ON | ATELEM_SFX_WOOD
-            this->collider1.elem.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = DMG_DEFAULT;
-            this->collider1.elem.atDmgInfo.damage_ColliderElementDamageInfoAT = 4;
+            this->collider1.elem.atDmgInfo.dmgFlags = DMG_DEFAULT;
+            this->collider1.elem.atDmgInfo.damage = 4;
             FALLTHROUGH;
         case 1:
             this->dirtWavePhase += 0x47E;
@@ -396,7 +396,7 @@ void EnDh_Burrow(EnDh* this, PlayState* play) {
             this->drawDirtWave = false;
             this->collider1.dim.radius = 35;
             this->collider1.base.atFlags = this->collider1.elem.atElemFlags = AT_NONE; // Also ATELEM_NONE
-            this->collider1.elem.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = this->collider1.elem.atDmgInfo.damage_ColliderElementDamageInfoAT = 0;
+            this->collider1.elem.atDmgInfo.dmgFlags = this->collider1.elem.atDmgInfo.damage = 0;
             EnDh_SetupWait(this);
             break;
     }
@@ -478,9 +478,9 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
 
     if ((this->collider2.base.acFlags & AC_HIT) && !this->retreat) {
         this->collider2.base.acFlags &= ~AC_HIT;
-        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0) && (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 6)) {
+        if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 6)) {
             this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags = AT_NONE; // also ATELEM_NONE
-            this->collider2.elements[0].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = this->collider2.elements[0].base.atDmgInfo.damage_ColliderElementDamageInfoAT = 0;
+            this->collider2.elements[0].base.atDmgInfo.dmgFlags = this->collider2.elements[0].base.atDmgInfo.damage = 0;
             if (player->unk_844 != 0) {
                 this->unk_258 = player->unk_845;
             }

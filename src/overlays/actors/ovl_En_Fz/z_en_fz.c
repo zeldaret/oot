@@ -341,7 +341,7 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
             this->collider1.base.acFlags &= ~AC_HIT;
         } else if (this->collider1.base.acFlags & AC_HIT) {
             this->collider1.base.acFlags &= ~AC_HIT;
-            switch (this->actor.colChkInfo.damageEffect_CollisionCheckInfo) {
+            switch (this->actor.colChkInfo.damageEffect) {
                 case 0xF:
                     Actor_ApplyDamage(&this->actor);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 8);

@@ -1154,14 +1154,14 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
             }
             acHitElem = this->tentCollider.elements[i1].base.acHitElem;
             this->work[MO_TENT_INVINC_TIMER] = 5;
-            if (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_MAGIC_FIRE) {
+            if (acHitElem->atDmgInfo.dmgFlags & DMG_MAGIC_FIRE) {
                 Sfx_PlaySfxAtPos(&this->tentTipPos, NA_SE_EN_MOFER_CUT);
                 this->cutIndex = 15;
                 this->meltIndex = this->cutIndex + 1;
                 this->work[MO_TENT_ACTION_STATE] = MO_TENT_CUT;
                 this->timers[0] = 40;
                 this->cutScale = 1.0f;
-            } else if (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & (DMG_JUMP_MASTER | DMG_JUMP_GIANT | DMG_SPIN_MASTER |
+            } else if (acHitElem->atDmgInfo.dmgFlags & (DMG_JUMP_MASTER | DMG_JUMP_GIANT | DMG_SPIN_MASTER |
                                                         DMG_SPIN_GIANT | DMG_SLASH_GIANT | DMG_SLASH_MASTER)) {
                 this->playerHitTimer = 5;
             }
@@ -1755,13 +1755,13 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
         // "hit!!"
         PRINTF("Core_Damage_check 当り！！\n");
         this->coreCollider.base.acFlags &= ~AC_HIT;
-        if ((acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_MAGIC_FIRE) && (this->work[MO_TENT_ACTION_STATE] == MO_CORE_ATTACK)) {
+        if ((acHitElem->atDmgInfo.dmgFlags & DMG_MAGIC_FIRE) && (this->work[MO_TENT_ACTION_STATE] == MO_CORE_ATTACK)) {
             this->work[MO_TENT_ACTION_STATE] = MO_CORE_RETREAT;
         }
         // "hit 2 !!"
         PRINTF("Core_Damage_check 当り 2 ！！\n");
         if ((this->work[MO_TENT_ACTION_STATE] != MO_CORE_UNDERWATER) && (this->work[MO_TENT_INVINC_TIMER] == 0)) {
-            u8 damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT);
+            u8 damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags);
 
             if ((damage != 0) && (this->work[MO_TENT_ACTION_STATE] < MO_CORE_ATTACK)) {
                 // "sword hit !!"
@@ -1799,8 +1799,8 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                     }
                 }
                 this->work[MO_TENT_INVINC_TIMER] = 10;
-            } else if (!(acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_SHIELD) &&
-                       (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_HOOKSHOT)) {
+            } else if (!(acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD) &&
+                       (acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
                 if (this->work[MO_TENT_ACTION_STATE] >= MO_CORE_ATTACK) {
                     Sfx_PlaySfxAtPos(&sMorphaTent1->tentTipPos, NA_SE_EN_MOFER_CUT);
                     sMorphaTent1->cutIndex = this->work[MO_CORE_POS_IN_TENT];

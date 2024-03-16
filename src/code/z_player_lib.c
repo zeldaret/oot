@@ -1256,7 +1256,7 @@ void Player_UpdateShieldCollider(PlayState* play, Player* this, ColliderQuad* co
     if (this->stateFlags1 & PLAYER_STATE1_22) {
         Vec3f quadDest[4];
 
-        this->shieldQuad.base.colMaterial_Collider = shieldColTypes[this->currentShield];
+        this->shieldQuad.base.colMaterial = shieldColTypes[this->currentShield];
 
         Matrix_MultVec3f(&quadSrc[0], &quadDest[0]);
         Matrix_MultVec3f(&quadSrc[1], &quadDest[1]);

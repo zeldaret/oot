@@ -123,9 +123,9 @@ void EnKarebaba_Destroy(Actor* thisx, PlayState* play) {
 void EnKarebaba_ResetCollider(EnKarebaba* this) {
     this->bodyCollider.dim.radius = 7;
     this->bodyCollider.dim.height = 25;
-    this->bodyCollider.base.colMaterial_Collider = COL_MATERIAL_HARD;
+    this->bodyCollider.base.colMaterial = COL_MATERIAL_HARD;
     this->bodyCollider.base.acFlags |= AC_HARD;
-    this->bodyCollider.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_DEFAULT;
+    this->bodyCollider.elem.acDmgInfo.dmgFlags = DMG_DEFAULT;
     this->headCollider.dim.height = 25;
 }
 
@@ -153,9 +153,9 @@ void EnKarebaba_SetupAwaken(EnKarebaba* this) {
 void EnKarebaba_SetupUpright(EnKarebaba* this) {
     if (this->actionFunc != EnKarebaba_Spin) {
         Actor_SetScale(&this->actor, 0.01f);
-        this->bodyCollider.base.colMaterial_Collider = COL_MATERIAL_HIT6;
+        this->bodyCollider.base.colMaterial = COL_MATERIAL_HIT6;
         this->bodyCollider.base.acFlags &= ~AC_HARD;
-        this->bodyCollider.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC =
+        this->bodyCollider.elem.acDmgInfo.dmgFlags =
             !LINK_IS_ADULT ? ((DMG_SWORD | DMG_BOOMERANG) & ~DMG_JUMP_MASTER) : (DMG_SWORD | DMG_BOOMERANG);
         this->bodyCollider.dim.radius = 15;
         this->bodyCollider.dim.height = 80;

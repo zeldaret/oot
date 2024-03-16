@@ -137,7 +137,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = 0.25f;
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
-            this->collider.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_ARROW;
+            this->collider.elem.acDmgInfo.dmgFlags = DMG_ARROW;
             this->objectId = OBJECT_TSUBO;
             this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
             if (this->requiredObjectSlot < 0) {

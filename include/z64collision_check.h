@@ -46,12 +46,12 @@ typedef struct {
     /* 0x11 */ u8 acFlags;
     /* 0x12 */ u8 ocFlags1;
     /* 0x13 */ u8 ocFlags2; // Flags related to which colliders it can OC collide with.
-    /* 0x14 */ u8 colMaterial_Collider; // Determines hitmarks and sound effects during AC collisions. See `ColliderType` enum
+    /* 0x14 */ u8 colMaterial; // Determines hitmarks and sound effects during AC collisions. See `ColliderMaterial` enum
     /* 0x15 */ u8 shape; // See `ColliderShape` enum
 } Collider; // size = 0x18
 
 typedef struct {
-    /* 0x00 */ u8 colMaterial_ColliderInit;
+    /* 0x00 */ u8 colMaterial;
     /* 0x01 */ u8 atFlags;
     /* 0x02 */ u8 acFlags;
     /* 0x03 */ u8 ocFlags1;
@@ -60,7 +60,7 @@ typedef struct {
 } ColliderInit; // size = 0x06
 
 typedef struct {
-    /* 0x00 */ u8 colMaterial_ColliderInitType1;
+    /* 0x00 */ u8 colMaterial;
     /* 0x01 */ u8 atFlags;
     /* 0x02 */ u8 acFlags;
     /* 0x03 */ u8 ocFlags1;
@@ -76,22 +76,22 @@ typedef struct {
 } ColliderInitToActor; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags_ColliderElementDamageInfoAT; // Damage types dealt by this collider element as AT.
-    /* 0x04 */ u8 playerACHitReaction_ColliderElementDamageInfoAT; // Player reaction to a Player AC collider hitting this AT collider
-    /* 0x05 */ u8 damage_ColliderElementDamageInfoAT; // Damage
+    /* 0x00 */ u32 dmgFlags; // Damage types dealt by this collider element as AT.
+    /* 0x04 */ u8 playerACHitReaction; // Player reaction to a Player AC collider hitting this AT collider
+    /* 0x05 */ u8 damage; // Damage
 } ColliderElementDamageInfoAT; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags_ColliderElementDamageInfoAC; // Damage types that may affect this collider element as AC.
-    /* 0x04 */ u8 playerATHitReaction_ColliderElementDamageInfoAC; // Player reaction to a Player AT collider hitting this AC collider
-    /* 0x05 */ u8 defense_ColliderElementDamageInfoAC; // Damage Resistance
+    /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
+    /* 0x04 */ u8 playerATHitReaction; // Player reaction to a Player AT collider hitting this AC collider
+    /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderElementDamageInfoAC; // size = 0x0C
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags_ColliderElementDamageInfoACInit; // Damage types that may affect this collider element as AC.
-    /* 0x04 */ u8 playerATHitReaction_ColliderElementDamageInfoACInit; // Player reaction to a Player AT collider hitting this AC collider
-    /* 0x05 */ u8 defense_ColliderElementDamageInfoACInit; // Damage Resistance
+    /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
+    /* 0x04 */ u8 playerATHitReaction; // Player reaction to a Player AT collider hitting this AC collider
+    /* 0x05 */ u8 defense; // Damage Resistance
 } ColliderElementDamageInfoACInit; // size = 0x08
 
 typedef enum {
@@ -108,7 +108,7 @@ typedef enum {
 typedef struct ColliderElement {
     /* 0x00 */ ColliderElementDamageInfoAT atDmgInfo; // Damage properties when acting as an AT collider
     /* 0x08 */ ColliderElementDamageInfoAC acDmgInfo; // Damage properties when acting as an AC collider
-    /* 0x14 */ u8 elemMaterial_ColliderElement; // Affects sfx when attacked by Player, and interaction with hookshot and arrows.
+    /* 0x14 */ u8 elemMaterial; // Affects sfx when attacked by Player, and interaction with hookshot and arrows.
     /* 0x15 */ u8 atElemFlags; // Information flags for AT collisions
     /* 0x16 */ u8 acElemFlags; // Information flags for AC collisions
     /* 0x17 */ u8 ocElemFlags; // Information flags for OC collisions
@@ -119,7 +119,7 @@ typedef struct ColliderElement {
 } ColliderElement; // size = 0x28
 
 typedef struct {
-    /* 0x00 */ u8 elemMaterial_ColliderElementInit; // Affects sfx when attacked by Player, and interaction with hookshot and arrows.
+    /* 0x00 */ u8 elemMaterial; // Affects sfx when attacked by Player, and interaction with hookshot and arrows.
     /* 0x04 */ ColliderElementDamageInfoAT atDmgInfo; // Damage properties when acting as an AT collider
     /* 0x0C */ ColliderElementDamageInfoACInit acDmgInfo; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 atElemFlags; // Information flags for AT collisions

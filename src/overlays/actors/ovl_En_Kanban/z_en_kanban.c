@@ -303,7 +303,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     u8 i;
 
-                    if (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_SLASH) {
+                    if (acHitElem->atDmgInfo.dmgFlags & DMG_SLASH) {
                         this->cutType = sCutTypes[player->meleeWeaponAnimation];
                     } else {
                         this->cutType = CUT_POST;

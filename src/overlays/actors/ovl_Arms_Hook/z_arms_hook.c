@@ -150,7 +150,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
     ArmsHook_CheckForCancel(this);
 
     if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
-        (this->collider.elem.atHitElem->elemMaterial_ColliderElement != ELEM_MATERIAL_UNK4)) {
+        (this->collider.elem.atHitElem->elemMaterial != ELEM_MATERIAL_UNK4)) {
         Actor* touchedActor = this->collider.base.at;
 
         if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {

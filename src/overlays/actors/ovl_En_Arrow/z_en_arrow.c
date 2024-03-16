@@ -128,8 +128,8 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         if (this->actor.params < 0) {
             this->collider.base.atFlags = (AT_ON | AT_TYPE_ENEMY);
         } else if (this->actor.params <= ARROW_SEED) {
-            this->collider.elem.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = dmgFlags[this->actor.params];
-            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.elem.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT,
+            this->collider.elem.atDmgInfo.dmgFlags = dmgFlags[this->actor.params];
+            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.elem.atDmgInfo.dmgFlags,
                     "../z_en_arrow.c", 707);
         }
     }
@@ -282,7 +282,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
         } else {
             EffectSsHitMark_SpawnCustomScale(play, 0, 150, &this->actor.world.pos);
 
-            if (atTouched && (this->collider.elem.atHitElem->elemMaterial_ColliderElement != ELEM_MATERIAL_UNK4)) {
+            if (atTouched && (this->collider.elem.atHitElem->elemMaterial != ELEM_MATERIAL_UNK4)) {
                 hitActor = this->collider.base.at;
 
                 if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&

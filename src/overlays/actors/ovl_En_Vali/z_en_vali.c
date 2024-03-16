@@ -258,7 +258,7 @@ void EnVali_SetupStunned(EnVali* this) {
     this->timer = 80;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
-    this->bodyCollider.elem.acDmgInfo.playerATHitReaction_ColliderElementDamageInfoAC = PLAYER_AT_HIT_REACTION_0;
+    this->bodyCollider.elem.acDmgInfo.playerATHitReaction = PLAYER_AT_HIT_REACTION_0;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actor.velocity.y = 1.0f;
     this->actionFunc = EnVali_Stunned;
@@ -448,7 +448,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        this->bodyCollider.elem.acDmgInfo.playerATHitReaction_ColliderElementDamageInfoAC = PLAYER_AT_HIT_REACTION_1; // Shock?
+        this->bodyCollider.elem.acDmgInfo.playerATHitReaction = PLAYER_AT_HIT_REACTION_1; // Shock?
         EnVali_SetupFloatIdle(this);
     }
 }
@@ -498,21 +498,21 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
-        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0)) {
+        if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
-            } else if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != BARI_DMGEFF_STUN) &&
-                       (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != BARI_DMGEFF_SLINGSHOT)) {
+            } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
+                       (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DAMAGE);
             }
 
-            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == BARI_DMGEFF_STUN) {
+            if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_STUN) {
                 if (this->actionFunc != EnVali_Stunned) {
                     EnVali_SetupStunned(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == BARI_DMGEFF_SWORD) {
+            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SWORD) {
                 if (this->actionFunc != EnVali_Stunned) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
                     this->actor.params = BARI_TYPE_SWORD_DAMAGE;
@@ -520,11 +520,11 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
                 } else {
                     EnVali_SetupRetaliate(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == BARI_DMGEFF_FIRE) {
+            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_FIRE) {
                 EnVali_SetupBurnt(this);
-            } else if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == BARI_DMGEFF_ICE) {
+            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_ICE) {
                 EnVali_SetupFrozen(this);
-            } else if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == BARI_DMGEFF_SLINGSHOT) {
+            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SLINGSHOT) {
                 if (this->slingshotReactionTimer == 0) {
                     this->slingshotReactionTimer = 20;
                 }

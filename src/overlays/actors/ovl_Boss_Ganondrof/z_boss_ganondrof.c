@@ -773,7 +773,7 @@ void BossGanondrof_SetupBlock(BossGanondrof* this, PlayState* play) {
 }
 
 void BossGanondrof_Block(BossGanondrof* this, PlayState* play) {
-    this->colliderBody.base.colMaterial_Collider = COL_MATERIAL_METAL;
+    this->colliderBody.base.colMaterial = COL_MATERIAL_METAL;
     SkelAnime_Update(&this->skelAnime);
     this->actor.world.pos.x += this->actor.velocity.x;
     this->actor.world.pos.z += this->actor.velocity.z;
@@ -802,7 +802,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play) {
     f32 dxCenter = thisx->world.pos.x - GND_BOSSROOM_CENTER_X;
     f32 dzCenter = thisx->world.pos.z - GND_BOSSROOM_CENTER_Z;
 
-    this->colliderBody.base.colMaterial_Collider = COL_MATERIAL_METAL;
+    this->colliderBody.base.colMaterial = COL_MATERIAL_METAL;
     SkelAnime_Update(&this->skelAnime);
     switch (this->work[GND_ACTION_STATE]) {
         case CHARGE_WINDUP:
@@ -1239,14 +1239,14 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
             }
             if (this->flyMode != GND_FLY_PAINTING) {
                 if (acHit && (this->actionFunc != BossGanondrof_Stunned) &&
-                    (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_RANGED)) {
+                    (acHitElem->atDmgInfo.dmgFlags & DMG_RANGED)) {
                     Actor_PlaySfx(&this->actor, NA_SE_NONE);
                     PRINTF("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
                     if (this->returnCount == 0) {
                         u8 dmg;
                         u8 canKill = false;
-                        s32 dmgFlags = acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT;
+                        s32 dmgFlags = acHitElem->atDmgInfo.dmgFlags;
 
                         if (dmgFlags & DMG_HOOKSHOT) {
                             return;
@@ -1273,7 +1273,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                 } else {
                     Actor_PlaySfx(&this->actor, NA_SE_NONE);
                 }
-            } else if (acHit && (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_RANGED)) {
+            } else if (acHit && (acHitElem->atDmgInfo.dmgFlags & DMG_RANGED)) {
                 this->work[GND_INVINC_TIMER] = 10;
                 this->actor.colChkInfo.health -= 2;
                 horse->hitTimer = 20;
@@ -1298,7 +1298,7 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
 
     PRINTF("MOVE START %d\n", this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_10;
-    this->colliderBody.base.colMaterial_Collider = COL_MATERIAL_HIT3;
+    this->colliderBody.base.colMaterial = COL_MATERIAL_HIT3;
     if (this->killActor) {
         Actor_Kill(&this->actor);
         return;

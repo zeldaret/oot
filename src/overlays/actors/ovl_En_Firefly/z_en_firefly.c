@@ -118,7 +118,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnFirefly_Extinguish(EnFirefly* this) {
     this->actor.params += 2;
-    this->collider.elements[0].base.atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_0; // None
+    this->collider.elements[0].base.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_0; // None
     this->auraType = KEESE_AURA_NONE;
     this->onFire = false;
     this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
@@ -130,7 +130,7 @@ void EnFirefly_Ignite(EnFirefly* this) {
     } else {
         this->actor.params -= 2;
     }
-    this->collider.elements[0].base.atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_1; // Fire
+    this->collider.elements[0].base.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_1; // Fire
     this->auraType = KEESE_AURA_FIRE;
     this->onFire = true;
     this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
@@ -174,10 +174,10 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         }
 
         if (this->actor.params == KEESE_ICE_FLY) {
-            this->collider.elements[0].base.atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_2; // Ice
+            this->collider.elements[0].base.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_2; // Ice
             this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
-            this->collider.elements[0].base.atDmgInfo.playerACHitReaction_ColliderElementDamageInfoAT = PLAYER_AC_HIT_REACTION_0; // Nothing
+            this->collider.elements[0].base.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_0; // Nothing
             this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
 
@@ -622,13 +622,13 @@ void EnFirefly_UpdateDamage(EnFirefly* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
 
-        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0)) {
+        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             }
 
-            damageEffect = this->actor.colChkInfo.damageEffect_CollisionCheckInfo;
+            damageEffect = this->actor.colChkInfo.damageEffect;
 
             if (damageEffect == 2) { // Din's Fire
                 if (this->actor.params == KEESE_ICE_FLY) {

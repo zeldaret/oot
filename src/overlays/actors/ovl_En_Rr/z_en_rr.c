@@ -428,13 +428,13 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
             u8 dropType = RR_DROP_RANDOM_RUPEE;
 
             this->collider1.base.acFlags &= ~AC_HIT;
-            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0) {
+            if (this->actor.colChkInfo.damageEffect != 0) {
                 hitPos.x = this->collider1.elem.acDmgInfo.hitPos.x;
                 hitPos.y = this->collider1.elem.acDmgInfo.hitPos.y;
                 hitPos.z = this->collider1.elem.acDmgInfo.hitPos.z;
                 CollisionCheck_BlueBlood(play, NULL, &hitPos);
             }
-            switch (this->actor.colChkInfo.damageEffect_CollisionCheckInfo) {
+            switch (this->actor.colChkInfo.damageEffect) {
                 case RR_DMG_LIGHT_ARROW:
                     dropType++; // purple rupee
                     FALLTHROUGH;
@@ -450,8 +450,8 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                 case RR_DMG_NORMAL:
                     // "ouch"
                     PRINTF(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n", this->frameCount,
-                           this->actor.colChkInfo.health, this->actor.colChkInfo.damage_CollisionCheckInfo,
-                           this->actor.colChkInfo.damageEffect_CollisionCheckInfo);
+                           this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
+                           this->actor.colChkInfo.damageEffect);
                     this->stopScroll = false;
                     Actor_ApplyDamage(&this->actor);
                     this->invincibilityTimer = 40;

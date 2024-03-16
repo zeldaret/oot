@@ -563,8 +563,8 @@ void func_80B3368C(EnWeiyer* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
 
-        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0)) {
-            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 1) {
+        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+            if (this->actor.colChkInfo.damageEffect == 1) {
                 if (this->actionFunc != func_80B333B8) {
                     func_80B32660(this);
                 }

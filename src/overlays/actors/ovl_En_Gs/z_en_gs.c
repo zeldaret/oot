@@ -530,7 +530,7 @@ void EnGs_Update(Actor* thisx, PlayState* play2) {
             this->unk_19F = 0;
             this->collider.base.acFlags &= ~AC_HIT;
 
-            switch (this->actor.colChkInfo.damageEffect_CollisionCheckInfo) {
+            switch (this->actor.colChkInfo.damageEffect) {
                 case 15:
                     this->unk_19E |= 1;
                     func_80A4F77C(this);

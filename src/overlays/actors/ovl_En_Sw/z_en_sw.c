@@ -283,7 +283,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = 0.0f;
             FALLTHROUGH;
         case 1:
-            this->collider.elements[0].base.atDmgInfo.damage_ColliderElementDamageInfoAT *= 2;
+            this->collider.elements[0].base.atDmgInfo.damage *= 2;
             this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;
             this->actor.colChkInfo.health *= 2;
             this->actor.flags &= ~ACTOR_FLAG_0;
@@ -322,7 +322,7 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
     if (this->actor.xyzDistToPlayerSq < SQ(400.0f) && ((this->actor.params & 0xE000) >> 0xD) == 0 &&
         play->actorCtx.unk_02 != 0) {
 
-        this->actor.colChkInfo.damage_CollisionCheckInfo = this->actor.colChkInfo.health;
+        this->actor.colChkInfo.damage = this->actor.colChkInfo.health;
         phi_v1 = true;
     }
 

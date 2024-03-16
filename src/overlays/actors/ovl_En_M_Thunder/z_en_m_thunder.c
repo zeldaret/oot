@@ -90,7 +90,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
 
         player->stateFlags2 &= ~PLAYER_STATE2_17;
         this->unk_1CA = 1;
-        this->collider.elem.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = D_80AA044C[this->unk_1C7];
+        this->collider.elem.atDmgInfo.dmgFlags = D_80AA044C[this->unk_1C7];
         this->unk_1C6 = 1;
         this->unk_1C9 = ((this->unk_1C7 == 1) ? 2 : 4);
         func_80A9EFE0(this, func_80A9F9B4);
@@ -189,11 +189,11 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
                 gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
             }
             if (player->unk_858 < 0.85f) {
-                this->collider.elem.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = D_80AA044C[this->unk_1C7];
+                this->collider.elem.atDmgInfo.dmgFlags = D_80AA044C[this->unk_1C7];
                 this->unk_1C6 = 1;
                 this->unk_1C9 = ((this->unk_1C7 == 1) ? 2 : 4);
             } else {
-                this->collider.elem.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = D_80AA0458[this->unk_1C7];
+                this->collider.elem.atDmgInfo.dmgFlags = D_80AA0458[this->unk_1C7];
                 this->unk_1C6 = 0;
                 this->unk_1C9 = ((this->unk_1C7 == 1) ? 4 : 8);
             }

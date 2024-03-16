@@ -103,8 +103,8 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
     this->meleeWeaponQuads[0].base.atFlags = this->meleeWeaponQuads[1].base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->meleeWeaponQuads[0].base.acFlags = this->meleeWeaponQuads[1].base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
-    this->meleeWeaponQuads[0].base.colMaterial_Collider = this->meleeWeaponQuads[1].base.colMaterial_Collider = COL_MATERIAL_METAL;
-    this->meleeWeaponQuads[0].elem.atDmgInfo.damage_ColliderElementDamageInfoAT = this->meleeWeaponQuads[1].elem.atDmgInfo.damage_ColliderElementDamageInfoAT = 8;
+    this->meleeWeaponQuads[0].base.colMaterial = this->meleeWeaponQuads[1].base.colMaterial = COL_MATERIAL_METAL;
+    this->meleeWeaponQuads[0].elem.atDmgInfo.damage = this->meleeWeaponQuads[1].elem.atDmgInfo.damage = 8;
     this->meleeWeaponQuads[0].elem.acElemFlags = this->meleeWeaponQuads[1].elem.acElemFlags = ACELEM_ON;
     this->shieldQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->shieldQuad.base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
@@ -576,7 +576,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             this->unk_8A1 = 2;
             this->unk_8A4 = 6.0f;
             this->unk_8A8 = 6.0f;
-            this->unk_8A0 = this->actor.colChkInfo.damage_CollisionCheckInfo;
+            this->unk_8A0 = this->actor.colChkInfo.damage;
             this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
             sDeathFlag++;
             sActionState = ENTORCH2_DEATH;
@@ -585,7 +585,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             this->stateFlags3 &= ~PLAYER_STATE3_2;
         } else {
             func_800F5ACC(NA_BGM_MINI_BOSS);
-            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 1) {
+            if (this->actor.colChkInfo.damageEffect == 1) {
                 if (sAlpha == 255) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                 } else {
@@ -593,7 +593,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 }
             } else {
                 this->actor.flags &= ~ACTOR_FLAG_0;
-                this->unk_8A0 = this->actor.colChkInfo.damage_CollisionCheckInfo;
+                this->unk_8A0 = this->actor.colChkInfo.damage;
                 this->unk_8A1 = 1;
                 this->unk_8A8 = 6.0f;
                 this->unk_8A4 = 8.0f;
@@ -609,7 +609,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 }
             }
         }
-        this->actor.colChkInfo.damage_CollisionCheckInfo = 0;
+        this->actor.colChkInfo.damage = 0;
         this->unk_8A0 = 0;
     }
 
@@ -697,11 +697,11 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         sDodgeRollState = (this->invincibilityTimer > 0) ? 2 : 0;
     }
     if (this->invincibilityTimer != 0) {
-        this->cylinder.base.colMaterial_Collider = COL_MATERIAL_NONE;
-        this->cylinder.elem.elemMaterial_ColliderElement = ELEM_MATERIAL_UNK5;
+        this->cylinder.base.colMaterial = COL_MATERIAL_NONE;
+        this->cylinder.elem.elemMaterial = ELEM_MATERIAL_UNK5;
     } else {
-        this->cylinder.base.colMaterial_Collider = COL_MATERIAL_HIT5;
-        this->cylinder.elem.elemMaterial_ColliderElement = ELEM_MATERIAL_UNK1;
+        this->cylinder.base.colMaterial = COL_MATERIAL_HIT5;
+        this->cylinder.elem.elemMaterial = ELEM_MATERIAL_UNK1;
     }
     /*
      * Handles the jump movement onto Link's sword. Dark Link doesn't move during the

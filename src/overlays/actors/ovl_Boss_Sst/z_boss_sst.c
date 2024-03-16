@@ -873,7 +873,7 @@ void BossSst_HeadStunned(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupVulnerable(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadStunnedAnim, -5.0f);
     this->colliderCyl.base.acFlags |= AC_ON;
-    this->colliderCyl.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_SWORD | DMG_DEKU_STICK;
+    this->colliderCyl.elem.acDmgInfo.dmgFlags = DMG_SWORD | DMG_DEKU_STICK;
     this->actor.speed = 0.0f;
     this->colliderJntSph.elements[10].base.acElemFlags |= (ACELEM_ON | ACELEM_HOOKABLE);
     this->colliderJntSph.elements[0].base.acElemFlags &= ~ACELEM_ON;
@@ -932,7 +932,7 @@ void BossSst_HeadDamage(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupRecover(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadRecoverAnim, -5.0f);
     this->colliderCyl.base.acFlags &= ~AC_ON;
-    this->colliderCyl.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_DEFAULT;
+    this->colliderCyl.elem.acDmgInfo.dmgFlags = DMG_DEFAULT;
     this->colliderJntSph.elements[10].base.acElemFlags &= ~(ACELEM_ON | ACELEM_HOOKABLE);
     this->colliderJntSph.elements[0].base.acElemFlags |= ACELEM_ON;
     this->vVanish = true;
@@ -2500,17 +2500,17 @@ void BossSst_HandSetDamage(BossSst* this, s32 damage) {
 
     this->colliderJntSph.base.atFlags |= AT_ON;
     for (i = 0; i < 11; i++) {
-        this->colliderJntSph.elements[i].base.atDmgInfo.damage_ColliderElementDamageInfoAT = damage;
+        this->colliderJntSph.elements[i].base.atDmgInfo.damage = damage;
     }
 }
 
 void BossSst_HandSetInvulnerable(BossSst* this, s32 isInv) {
     this->colliderJntSph.base.acFlags &= ~AC_HIT;
     if (isInv) {
-        this->colliderJntSph.base.colMaterial_Collider = COL_MATERIAL_HARD;
+        this->colliderJntSph.base.colMaterial = COL_MATERIAL_HARD;
         this->colliderJntSph.base.acFlags |= AC_HARD;
     } else {
-        this->colliderJntSph.base.colMaterial_Collider = COL_MATERIAL_HIT0;
+        this->colliderJntSph.base.colMaterial = COL_MATERIAL_HIT0;
         this->colliderJntSph.base.acFlags &= ~AC_HARD;
     }
 }
@@ -2520,11 +2520,11 @@ void BossSst_HeadSfx(BossSst* this, u16 sfxId) {
 }
 
 void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
-    if ((this->colliderJntSph.base.acFlags & AC_HIT) && (this->colliderJntSph.base.colMaterial_Collider != COL_MATERIAL_HARD)) {
+    if ((this->colliderJntSph.base.acFlags & AC_HIT) && (this->colliderJntSph.base.colMaterial != COL_MATERIAL_HARD)) {
         s32 bothHands = true;
 
         this->colliderJntSph.base.acFlags &= ~AC_HIT;
-        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0)) {
+        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
             this->colliderJntSph.base.acFlags &= ~AC_ON;
             this->colliderJntSph.base.ocFlags1 &= ~OC1_NO_PUSH;
@@ -2535,7 +2535,7 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
             }
 
             this->actor.flags &= ~ACTOR_FLAG_0;
-            if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 3) {
+            if (this->actor.colChkInfo.damageEffect == 3) {
                 BossSst_HandSetupFrozen(this);
             } else {
                 BossSst_HandSetupReel(this);
@@ -2555,7 +2555,7 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
 void BossSst_HeadCollisionCheck(BossSst* this, PlayState* play) {
     if (this->colliderCyl.base.acFlags & AC_HIT) {
         this->colliderCyl.base.acFlags &= ~AC_HIT;
-        if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0) || (this->actor.colChkInfo.damage_CollisionCheckInfo != 0)) {
+        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actionFunc == BossSst_HeadVulnerable) {
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     Enemy_StartFinishingBlow(play, &this->actor);

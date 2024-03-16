@@ -794,27 +794,27 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
         } else if ((this->hurtCollider.base.acFlags & AC_HIT) && (this->behavior >= AM_BEHAVIOR_5)) {
             this->hurtCollider.base.acFlags &= ~AC_HIT;
 
-            if (this->dyna.actor.colChkInfo.damageEffect_CollisionCheckInfo != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
+            if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                 this->unk_264 = 0;
-                this->damageEffect = this->dyna.actor.colChkInfo.damageEffect_CollisionCheckInfo;
+                this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
                 Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.elem, false);
 
-                if ((this->dyna.actor.colChkInfo.damageEffect_CollisionCheckInfo == AM_DMGEFF_NUT) ||
-                    (this->dyna.actor.colChkInfo.damageEffect_CollisionCheckInfo == AM_DMGEFF_STUN) ||
-                    (this->dyna.actor.colChkInfo.damageEffect_CollisionCheckInfo == AM_DMGEFF_ICE)) {
+                if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
+                    (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
+                    (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_ICE)) {
                     if (this->behavior != AM_BEHAVIOR_STUNNED) {
                         EnAm_SetupStunned(this, play);
 
-                        if (this->dyna.actor.colChkInfo.damage_CollisionCheckInfo != 0) {
+                        if (this->dyna.actor.colChkInfo.damage != 0) {
                             this->dyna.actor.colChkInfo.health = 0;
                         }
-                    } else if (this->dyna.actor.colChkInfo.damageEffect_CollisionCheckInfo == AM_DMGEFF_STUN) {
+                    } else if (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) {
                         Vec3f sparkPos = this->dyna.actor.world.pos;
 
                         sparkPos.y += 50.0f;
                         CollisionCheck_SpawnShieldParticlesMetal(play, &sparkPos);
                     }
-                } else if ((this->dyna.actor.colChkInfo.damageEffect_CollisionCheckInfo == AM_DMGEFF_KILL) ||
+                } else if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_KILL) ||
                            (this->behavior == AM_BEHAVIOR_STUNNED)) {
                     this->dyna.actor.colChkInfo.health = 0;
 
@@ -841,7 +841,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
         EnAm_UpdateDamage(this, play);
     }
 
-    if (this->dyna.actor.colChkInfo.damageEffect_CollisionCheckInfo != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
+    if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
         if (this->attackTimer != 0) {
             this->attackTimer--;
         }

@@ -1242,8 +1242,8 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
                 if (this->collider.elements[i].base.acElemFlags & ACELEM_HIT) {
                     acHitElem = this->collider.elements[i].base.acHitElem;
 
-                    if ((acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_BOOMERANG) ||
-                        (acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT & DMG_SLINGSHOT)) {
+                    if ((acHitElem->atDmgInfo.dmgFlags & DMG_BOOMERANG) ||
+                        (acHitElem->atDmgInfo.dmgFlags & DMG_SLINGSHOT)) {
                         this->collider.elements[i].base.acElemFlags &= ~ACELEM_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);
@@ -1258,7 +1258,7 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
             this->collider.elements[0].base.acElemFlags &= ~ACELEM_HIT;
             acHitElem = this->collider.elements[0].base.acHitElem;
             if ((this->actionFunc == BossDodongo_Vulnerable) || (this->actionFunc == BossDodongo_LayDown)) {
-                swordDamage = damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags_ColliderElementDamageInfoAT);
+                swordDamage = damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags);
 
                 if (damage != 0) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_DAMAGE);

@@ -608,10 +608,10 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
             this->sphElements[2].base.atElemFlags = ATELEM_NONE;
             this->sphElements[1].base.atElemFlags = ATELEM_NONE;
             this->colliderBody.base.atFlags = AT_NONE;
-            this->sphElements[2].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = 0;
-            this->sphElements[1].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = 0;
-            this->sphElements[2].base.atDmgInfo.damage_ColliderElementDamageInfoAT = 0;
-            this->sphElements[1].base.atDmgInfo.damage_ColliderElementDamageInfoAT = 0;
+            this->sphElements[2].base.atDmgInfo.dmgFlags = 0;
+            this->sphElements[1].base.atDmgInfo.dmgFlags = 0;
+            this->sphElements[2].base.atDmgInfo.damage = 0;
+            this->sphElements[1].base.atDmgInfo.damage = 0;
             EnDodongo_SetupBreatheFire(this);
             this->timer = Rand_S16Offset(5, 10);
         } else {
@@ -630,8 +630,8 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
             this->timer = 18;
             this->colliderBody.base.atFlags = this->sphElements[1].base.atElemFlags =
                 this->sphElements[2].base.atElemFlags = AT_ON | AT_TYPE_ENEMY; // also ATELEM_ON | ATELEM_SFX_WOOD
-            this->sphElements[1].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = this->sphElements[2].base.atDmgInfo.dmgFlags_ColliderElementDamageInfoAT = DMG_DEFAULT;
-            this->sphElements[1].base.atDmgInfo.damage_ColliderElementDamageInfoAT = this->sphElements[2].base.atDmgInfo.damage_ColliderElementDamageInfoAT = 8;
+            this->sphElements[1].base.atDmgInfo.dmgFlags = this->sphElements[2].base.atDmgInfo.dmgFlags = DMG_DEFAULT;
+            this->sphElements[1].base.atDmgInfo.damage = this->sphElements[2].base.atDmgInfo.damage = 8;
         }
     } else if (this->timer > 1) {
         Vec3f tailPos;
@@ -715,9 +715,9 @@ void EnDodongo_CollisionCheck(EnDodongo* this, PlayState* play) {
     } else if ((this->colliderBody.base.acFlags & AC_HIT) && (this->actionState > DODONGO_DEATH)) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->colliderBody, false);
-        if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0xE) {
-            this->damageEffect = this->actor.colChkInfo.damageEffect_CollisionCheckInfo;
-            if ((this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 1) || (this->actor.colChkInfo.damageEffect_CollisionCheckInfo == 0xF)) {
+        if (this->actor.colChkInfo.damageEffect != 0xE) {
+            this->damageEffect = this->actor.colChkInfo.damageEffect;
+            if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
                 if (this->actionState != DODONGO_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -765,7 +765,7 @@ void EnDodongo_Update(Actor* thisx, PlayState* play) {
     EnDodongo* this = (EnDodongo*)thisx;
 
     EnDodongo_CollisionCheck(this, play);
-    if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 0xE) {
+    if (this->actor.colChkInfo.damageEffect != 0xE) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 60.0f, 70.0f,

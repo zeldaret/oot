@@ -1128,7 +1128,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 160);
             this->actor.colorFilterTimer = this->invincibilityTimer;
         } else {
-            this->colliderBody.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_BOOMERANG;
+            this->colliderBody.elem.acDmgInfo.dmgFlags = DMG_BOOMERANG;
         }
     }
 
@@ -1138,7 +1138,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
         if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
             sPhase2Timer &= 0xFE00;
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 160);
-            this->colliderBody.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
+            this->colliderBody.elem.acDmgInfo.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
         } else {
             sKillBari++;
             if ((this->actor.colorFilterTimer != 0) && !(this->actor.colorFilterParams & 0x4000)) {
@@ -1217,7 +1217,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 }
 
 void BossVa_SetupBodyPhase3(BossVa* this) {
-    this->colliderBody.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_BOOMERANG;
+    this->colliderBody.elem.acDmgInfo.dmgFlags = DMG_BOOMERANG;
     this->actor.speed = 0.0f;
     sPhase3StopMoving = false;
     BossVa_SetupAction(this, BossVa_BodyPhase3);
@@ -1371,11 +1371,11 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
         if (this->timer >= 0) {
             if (this->invincibilityTimer == 0) {
                 this->invincibilityTimer = 8;
-                if (this->actor.colChkInfo.damageEffect_CollisionCheckInfo != 1) {
+                if (this->actor.colChkInfo.damageEffect != 1) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
-                    sPhase4HP -= this->actor.colChkInfo.damage_CollisionCheckInfo;
+                    sPhase4HP -= this->actor.colChkInfo.damage;
                     if (sPhase4HP <= 0) {
                         this->timer = 0;
                         sFightPhase++;
@@ -1421,7 +1421,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
             }
             Math_SmoothStepToF(&this->actor.speed, ((sFightPhase - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
         }
-        this->colliderBody.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_BOOMERANG;
+        this->colliderBody.elem.acDmgInfo.dmgFlags = DMG_BOOMERANG;
     } else {
         Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x96, 0);
         if (this->timer > 0) {
@@ -1429,7 +1429,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                 this->timer = 35;
             }
             Math_SmoothStepToF(&this->actor.shape.yOffset, -480.0f, 1.0f, 30.0f, 0.0f);
-            this->colliderBody.elem.acDmgInfo.dmgFlags_ColliderElementDamageInfoAC = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
+            this->colliderBody.elem.acDmgInfo.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
             this->timer--;
         } else {
             if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer < -60)) {
