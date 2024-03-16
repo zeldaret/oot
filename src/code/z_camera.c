@@ -13,9 +13,11 @@ s32 Camera_QRegInit(void);
 #endif
 
 #if OOT_DEBUG
-#define CAM_DEBUG_RELOAD_PREG(camera) \
-    if (R_RELOAD_CAM_PARAMS)          \
-    Camera_CopyPREGToModeValues(camera)
+#define CAM_DEBUG_RELOAD_PREG(camera)        \
+    if (R_RELOAD_CAM_PARAMS) {               \
+        Camera_CopyPREGToModeValues(camera); \
+    }                                        \
+    (void)0
 #else
 #define CAM_DEBUG_RELOAD_PREG(camera) (void)0
 #endif
