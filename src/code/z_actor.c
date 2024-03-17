@@ -3189,20 +3189,20 @@ void Enemy_StartFinishingBlow(PlayState* play, Actor* actor) {
     SfxSource_PlaySfxAtFixedWorldPos(play, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
-s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
-    if (DECR(arg0[1]) == 0) {
-        arg0[1] = Rand_S16Offset(arg1, arg2);
+s16 func_80032CB4(s16* faceData, s16 changeTimerBase, s16 changeTimerRandRange, s16 arg3) {
+    if (DECR(faceData[1]) == 0) {
+        faceData[1] = Rand_S16Offset(changeTimerBase, changeTimerRandRange);
     }
 
-    if ((arg0[1] - arg3) > 0) {
-        arg0[0] = 0;
-    } else if (((arg0[1] - arg3) > -2) || (arg0[1] < 2)) {
-        arg0[0] = 1;
+    if ((faceData[1] - arg3) > 0) {
+        faceData[0] = 0;
+    } else if (((faceData[1] - arg3) > -2) || (faceData[1] < 2)) {
+        faceData[0] = 1;
     } else {
-        arg0[0] = 2;
+        faceData[0] = 2;
     }
 
-    return arg0[0];
+    return faceData[0];
 }
 
 s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {

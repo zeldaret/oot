@@ -813,9 +813,58 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
     return envHazard + 1;
 }
 
+typedef enum {
+    PLAYER_EYES,
+    PLAYER_MOUTH
+} PlayerFacePartIndex;
+
+typedef enum {
+    PLAYER_EYES_OPEN,
+    PLAYER_EYES_HALF,
+    PLAYER_EYES_CLOSED,
+    PLAYER_EYES_ROLL_LEFT,
+    PLAYER_EYES_ROLL_RIGHT,
+    PLAYER_EYES_WIDE_OPEN,
+    PLAYER_EYES_ALERT, // todo better name?
+    PLAYER_EYES_WINCING
+} PlayerEyes;
+
+typedef enum {
+    PLAYER_MOUTH_CLOSED,
+    PLAYER_MOUTH_HALF,
+    PLAYER_MOUTH_OPEN,
+    PLAYER_MOUTH_SMILE
+} PlayerMouth;
+
+typedef enum {
+    PLAYER_FACE_NEUTRAL, // eyes open and mouth closed
+    PLAYER_FACE_NEUTRAL_BLINKING_HALF, // eyes half open and mouth closed
+    PLAYER_FACE_NEUTRAL_BLINKING_CLOSED, // eyes half open and mouth closed
+    PLAYER_FACE_NEUTRAL_2, // same as `PLAYER_FACE_NEUTRAL`
+    PLAYER_FACE_NEUTRAL_BLINKING_HALF_2, // same as `PLAYER_FACE_NEUTRAL_BLINKING_HALF`
+    PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2, // same as `PLAYER_FACE_NEUTRAL_BLINKING_CLOSED`
+    PLAYER_FACE_unk6,
+    PLAYER_FACE_SURPRISED, // eyes and mouth wide open
+    PLAYER_FACE_HURT, // mouth open and eyes wincing in pain
+} PlayerFace;
+
 u8 sEyeMouthIndices[][2] = {
-    { 0, 0 }, { 1, 0 }, { 2, 0 }, { 0, 0 }, { 1, 0 }, { 2, 0 }, { 4, 0 }, { 5, 1 },
-    { 7, 2 }, { 0, 2 }, { 3, 0 }, { 4, 0 }, { 2, 2 }, { 1, 1 }, { 0, 2 }, { 0, 0 },
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL
+    { PLAYER_EYES_HALF, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL_BLINKING_HALF
+    { PLAYER_EYES_CLOSED, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL_BLINKING_CLOSED
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL_2
+    { PLAYER_EYES_HALF, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL_BLINKING_HALF_2
+    { PLAYER_EYES_CLOSED, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2
+    { PLAYER_EYES_ROLL_RIGHT, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_unk6
+    { PLAYER_EYES_WIDE_OPEN, PLAYER_MOUTH_HALF }, // PLAYER_FACE_SURPRISED
+    { PLAYER_EYES_WINCING, PLAYER_MOUTH_OPEN }, // PLAYER_FACE_HURT
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_OPEN }, 
+    { PLAYER_EYES_ROLL_LEFT, PLAYER_MOUTH_CLOSED }, 
+    { PLAYER_EYES_ROLL_RIGHT, PLAYER_MOUTH_CLOSED }, 
+    { PLAYER_EYES_CLOSED, PLAYER_MOUTH_OPEN }, 
+    { PLAYER_EYES_HALF, PLAYER_MOUTH_HALF }, 
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_OPEN }, 
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_CLOSED },
 };
 
 /**
@@ -870,13 +919,16 @@ Gfx* sBootDListGroups[][2] = {
 void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic, s32 boots,
                      s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* data) {
     Color_RGB8* color;
+    // Player has an extra joint in his skeleton which can specify the eyes and mouth texture to use
+    // at a given point during an animation
     s32 eyeIndex = (jointTable[22].x & 0xF) - 1;
     s32 mouthIndex = (jointTable[22].x >> 4) - 1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 1721);
 
+    // If the eye index provided by the animation is negative, use the value provided by the `face` argument instead
     if (eyeIndex < 0) {
-        eyeIndex = sEyeMouthIndices[face][0];
+        eyeIndex = sEyeMouthIndices[face][PLAYER_EYES];
     }
 
 #ifndef AVOID_UB
@@ -885,8 +937,9 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[gSaveContext.save.linkAge][eyeIndex]));
 #endif
 
+    // If the mouth index provided by the animation is negative, use the value provided by the `face` argument instead
     if (mouthIndex < 0) {
-        mouthIndex = sEyeMouthIndices[face][1];
+        mouthIndex = sEyeMouthIndices[face][PLAYER_MOUTH];
     }
 
 #ifndef AVOID_UB
