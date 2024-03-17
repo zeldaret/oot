@@ -3077,7 +3077,8 @@ s32 Camera_Battle1(Camera* camera) {
         tmpAng1 = CAM_DEG_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * (0.5f + distRatio * (1.0f - 0.5f)));
 #else
         // Fake match for retail
-        tmpAng1 = CAM_DEG_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * ((0.5f * 1.0f) + distRatio * (1.0f - 0.5f)));
+        tmpAng1 =
+            CAM_DEG_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * ((0.5f * 1.0f) + distRatio * (1.0f - 0.5f)));
 #endif
         tmpAng1 += (s16)(var3);
 
