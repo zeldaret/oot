@@ -2920,7 +2920,7 @@ s32 Camera_Battle1(Camera* camera) {
 
     if (camera->player->stateFlags1 & PLAYER_STATE1_12) {
         // charging sword.
-        rwData->unk_10 = Camera_LERPCeilF(CAM_GLOBAL_12 * 0.5f, rwData->unk_10, CAM_UPDATE_RATE_STEP_SCALE_XZ, 0.1f);
+        rwData->unk_10 = Camera_LERPCeilF(CAM_GLOBAL_12 * (1.0f - 0.5f), rwData->unk_10, CAM_UPDATE_RATE_STEP_SCALE_XZ, 0.1f);
         camera->xzOffsetUpdateRate =
             Camera_LERPCeilF(0.2f, camera->xzOffsetUpdateRate, CAM_UPDATE_RATE_STEP_SCALE_XZ, 0.1f);
         camera->yOffsetUpdateRate =
@@ -3073,13 +3073,7 @@ s32 Camera_Battle1(Camera* camera) {
     if (!skipEyeAtCalc) {
         var3 = atToTargetDir.pitch * roData->swingPitchAdj;
         var2 = F32_LERPIMP(sp7C, sp78, distRatio);
-#if OOT_DEBUG
-        tmpAng1 = CAM_DEG_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * (0.5f + distRatio * (1.0f - 0.5f)));
-#else
-        // Fake match for retail
-        tmpAng1 =
-            CAM_DEG_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * ((0.5f * 1.0f) + distRatio * (1.0f - 0.5f)));
-#endif
+        tmpAng1 = CAM_DEG_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * ((1.0f - 0.5f) + distRatio * (1.0f - 0.5f)));
         tmpAng1 += (s16)(var3);
 
         if (tmpAng1 < -0x2AA8) {
