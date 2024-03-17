@@ -3026,7 +3026,7 @@ s32 Camera_Battle1(Camera* camera) {
     playerHead = playerPosRot->pos;
     playerHead.y += playerHeight;
     playerToTargetDir = OLib_Vec3fDiffToVecGeo(&playerHead, &camera->targetPosRot.pos);
-    distRatio = playerToTargetDir.r > distance ? 1 : playerToTargetDir.r / distance;
+    distRatio = playerToTargetDir.r > distance ? 1.0f : playerToTargetDir.r / distance;
     targetPos = camera->targetPosRot.pos;
     atToTargetDir = OLib_Vec3fDiffToVecGeo(at, &targetPos);
     atToTargetDir.r = distance - ((atToTargetDir.r <= distance ? atToTargetDir.r : distance) * 0.5f);
@@ -3065,7 +3065,7 @@ s32 Camera_Battle1(Camera* camera) {
         spB4.yaw = (s16)((s16)(atToEyeNextDir.yaw - 0x7FFF) + tmpAng2) - 0x7FFF;
     } else {
         spFC = 0.05f;
-        spFC = (1 - camera->speedRatio) * spFC;
+        spFC = (1.0f - camera->speedRatio) * spFC;
         tmpAng2 = tmpAng1 >= 0 ? CAM_DEG_TO_BINANG(swingAngle) : -CAM_DEG_TO_BINANG(swingAngle);
         spB4.yaw = atToEyeNextDir.yaw - (s16)((tmpAng2 - tmpAng1) * spFC);
     }
@@ -3073,7 +3073,12 @@ s32 Camera_Battle1(Camera* camera) {
     if (!skipEyeAtCalc) {
         var3 = atToTargetDir.pitch * roData->swingPitchAdj;
         var2 = F32_LERPIMP(sp7C, sp78, distRatio);
+#if OOT_DEBUG
         tmpAng1 = CAM_DEG_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * (0.5f + distRatio * (1.0f - 0.5f)));
+#else
+        // Fake match for retail
+        tmpAng1 = CAM_DEG_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * ((0.5f * 1.0f) + distRatio * (1.0f - 0.5f)));
+#endif
         tmpAng1 += (s16)(var3);
 
         if (tmpAng1 < -0x2AA8) {
