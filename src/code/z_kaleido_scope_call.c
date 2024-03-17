@@ -1,8 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 
-void (*sKaleidoScopeUpdateFunc)(PlayState* play);
-void (*sKaleidoScopeDrawFunc)(PlayState* play);
+void (*gKaleidoScopeUpdateFunc)(PlayState* play);
+void (*gKaleidoScopeDrawFunc)(PlayState* play);
 f32 gBossMarkScale;
 u32 D_8016139C;
 PauseMapMarksData* gLoadedPauseMarkDataTable;
@@ -34,13 +34,13 @@ void KaleidoScopeCall_Init(PlayState* play) {
     // "Kaleidoscope replacement construction"
     PRINTF("カレイド・スコープ入れ替え コンストラクト \n");
 
-    sKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr(KaleidoScope_Update);
-    sKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr(KaleidoScope_Draw);
+    gKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr(KaleidoScope_Update);
+    gKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr(KaleidoScope_Draw);
 
     LOG_ADDRESS("kaleido_scope_move", KaleidoScope_Update, "../z_kaleido_scope_call.c", 98);
-    LOG_ADDRESS("kaleido_scope_move_func", sKaleidoScopeUpdateFunc, "../z_kaleido_scope_call.c", 99);
+    LOG_ADDRESS("kaleido_scope_move_func", gKaleidoScopeUpdateFunc, "../z_kaleido_scope_call.c", 99);
     LOG_ADDRESS("kaleido_scope_draw", KaleidoScope_Draw, "../z_kaleido_scope_call.c", 100);
-    LOG_ADDRESS("kaleido_scope_draw_func", sKaleidoScopeDrawFunc, "../z_kaleido_scope_call.c", 101);
+    LOG_ADDRESS("kaleido_scope_draw_func", gKaleidoScopeDrawFunc, "../z_kaleido_scope_call.c", 101);
 
     KaleidoSetup_Init(play);
 }
@@ -105,7 +105,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
             }
 
             if (gKaleidoMgrCurOvl == kaleidoScopeOvl) {
-                sKaleidoScopeUpdateFunc(play);
+                gKaleidoScopeUpdateFunc(play);
 
                 if (!IS_PAUSED(&play->pauseCtx)) {
                     PRINTF(VT_FGCOL(GREEN));
@@ -128,7 +128,7 @@ void KaleidoScopeCall_Draw(PlayState* play) {
         if (((play->pauseCtx.state >= PAUSE_STATE_OPENING_1) && (play->pauseCtx.state <= PAUSE_STATE_SAVE_PROMPT)) ||
             ((play->pauseCtx.state >= PAUSE_STATE_11) && (play->pauseCtx.state <= PAUSE_STATE_CLOSING))) {
             if (gKaleidoMgrCurOvl == kaleidoScopeOvl) {
-                sKaleidoScopeDrawFunc(play);
+                gKaleidoScopeDrawFunc(play);
             }
         }
     }

@@ -1,6 +1,19 @@
 #include "global.h"
 #include "terminal.h"
 
+// For retail BSS ordering, the block number of cbf in Math3D_CylVsCylOverlapCenterDist
+// must be 0.
+INCREMENT_BLOCK_NUMBER_BY_100();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);
 s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA,

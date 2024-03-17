@@ -271,4 +271,33 @@ extern struct GraphicsContext* __gfxCtx;
                        ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
     } while (0)
 
+#define DUMMY_STRUCT(line, tens, ones) struct DummyStruct_##line##_##tens##_##ones
+#define DUMMY_STRUCT_INDIRECT(line, tens, ones) DUMMY_STRUCT(line, tens, ones)
+#define TEN_DUMMY_STRUCTS(line, index) \
+    DUMMY_STRUCT_INDIRECT(line, index, 0); \
+    DUMMY_STRUCT_INDIRECT(line, index, 1); \
+    DUMMY_STRUCT_INDIRECT(line, index, 2); \
+    DUMMY_STRUCT_INDIRECT(line, index, 3); \
+    DUMMY_STRUCT_INDIRECT(line, index, 4); \
+    DUMMY_STRUCT_INDIRECT(line, index, 5); \
+    DUMMY_STRUCT_INDIRECT(line, index, 6); \
+    DUMMY_STRUCT_INDIRECT(line, index, 7); \
+    DUMMY_STRUCT_INDIRECT(line, index, 8); \
+    DUMMY_STRUCT_INDIRECT(line, index, 9)
+
+// Macros which define dummy structs to increment the IDO block number for BSS ordering.
+#define INCREMENT_BLOCK_NUMBER_BY_1() DUMMY_STRUCT_INDIRECT(__LINE__, 0, 0)
+#define INCREMENT_BLOCK_NUMBER_BY_10() TEN_DUMMY_STRUCTS(__LINE__, 0)
+#define INCREMENT_BLOCK_NUMBER_BY_100()  \
+    TEN_DUMMY_STRUCTS(__LINE__, 0);      \
+    TEN_DUMMY_STRUCTS(__LINE__, 1);      \
+    TEN_DUMMY_STRUCTS(__LINE__, 2);      \
+    TEN_DUMMY_STRUCTS(__LINE__, 3);      \
+    TEN_DUMMY_STRUCTS(__LINE__, 4);      \
+    TEN_DUMMY_STRUCTS(__LINE__, 5);      \
+    TEN_DUMMY_STRUCTS(__LINE__, 6);      \
+    TEN_DUMMY_STRUCTS(__LINE__, 7);      \
+    TEN_DUMMY_STRUCTS(__LINE__, 8);      \
+    TEN_DUMMY_STRUCTS(__LINE__, 9)
+
 #endif
