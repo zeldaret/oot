@@ -4,9 +4,10 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-// For retail BSS ordering, the block number of sLensFlareUnused must be 0 or
-// just above (the exact upper bound depends on the block numbers assigned to
-// extern variables declared in headers).
+// For retail BSS ordering, the block number of sLensFlareUnused
+// must be lower than the extern variables declared in the header,
+// while the block number of sNGameOverLightNode must be higher.
+INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
@@ -214,17 +215,26 @@ LightningBolt sLightningBolts[3];
 
 LightningStrike gLightningStrike;
 
-s16 gLightningFlashAlpha;
+s16 sLightningFlashAlpha;
 
-s16 gSunDepthTestX;
-s16 gSunDepthTestY;
+s16 sSunDepthTestX;
+s16 sSunDepthTestY;
 
-LightNode* gNGameOverLightNode;
-LightInfo gNGameOverLightInfo;
-LightNode* gSGameOverLightNode;
-LightInfo gSGameOverLightInfo;
-u8 gGameOverLightsIntensity;
-u16 gSandstormScroll;
+// These variables could be moved farther down in the file to reduce the amount
+// of block number padding here, but currently this causes BSS ordering issues
+// for debug.
+INCREMENT_BLOCK_NUMBER_BY_100();
+INCREMENT_BLOCK_NUMBER_BY_100();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+
+LightNode* sNGameOverLightNode;
+LightInfo sNGameOverLightInfo;
+LightNode* sSGameOverLightNode;
+LightInfo sSGameOverLightInfo;
+u8 sGameOverLightsIntensity;
+u16 sSandstormScroll;
 
 #define ZBUFVAL_EXPONENT(v) (((v) >> 15) & 7)
 #define ZBUFVAL_MANTISSA(v) (((v) >> 4) & 0x7FF)
@@ -254,7 +264,7 @@ u16 Environment_GetPixelDepth(s32 x, s32 y) {
 void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param) {
     PlayState* play = (PlayState*)param;
 
-    sSunScreenDepth = Environment_GetPixelDepth(gSunDepthTestX, gSunDepthTestY);
+    sSunScreenDepth = Environment_GetPixelDepth(sSunDepthTestX, sSunDepthTestY);
     Lights_GlowCheck(play);
 }
 
@@ -328,7 +338,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     gLightningStrike.flashGreen = 0;
     gLightningStrike.flashBlue = 0;
 
-    gLightningFlashAlpha = 0;
+    sLightningFlashAlpha = 0;
 
     gSaveContext.cutsceneTransitionControl = 0;
 
@@ -1594,8 +1604,8 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
     } else {
         if (isSun) {
             Play_GetScreenPos(play, &pos, &screenPos);
-            gSunDepthTestX = (s16)screenPos.x;
-            gSunDepthTestY = (s16)screenPos.y - 5.0f;
+            sSunDepthTestX = (s16)screenPos.x;
+            sSunDepthTestY = (s16)screenPos.y - 5.0f;
             if (sSunScreenDepth != GPACK_ZDZ(G_MAXFBZ, 0) || screenPos.x < 0.0f || screenPos.y < 0.0f ||
                 screenPos.x > SCREEN_WIDTH || screenPos.y > SCREEN_HEIGHT) {
                 isOffScreen = true;
@@ -1905,7 +1915,7 @@ void Environment_UpdateLightningStrike(PlayState* play) {
                     gLightningStrike.delayTimer = 0.0f;
                     Environment_AddLightningBolts(play,
                                                   (u8)(Rand_ZeroOne() * (ARRAY_COUNT(sLightningBolts) - 0.1f)) + 1);
-                    gLightningFlashAlpha = 0;
+                    sLightningFlashAlpha = 0;
                     gLightningStrike.state++;
                 }
                 break;
@@ -1918,9 +1928,9 @@ void Environment_UpdateLightningStrike(PlayState* play) {
                 play->envCtx.adjAmbientColor[1] += 80;
                 play->envCtx.adjAmbientColor[2] += 100;
 
-                gLightningFlashAlpha += 100;
+                sLightningFlashAlpha += 100;
 
-                if (gLightningFlashAlpha >= gLightningStrike.flashAlphaTarget) {
+                if (sLightningFlashAlpha >= gLightningStrike.flashAlphaTarget) {
                     Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_0, 0);
                     gLightningStrike.state++;
                     gLightningStrike.flashAlphaTarget = 0;
@@ -1936,9 +1946,9 @@ void Environment_UpdateLightningStrike(PlayState* play) {
                     play->envCtx.adjAmbientColor[2] -= 10;
                 }
 
-                gLightningFlashAlpha -= 10;
+                sLightningFlashAlpha -= 10;
 
-                if (gLightningFlashAlpha <= gLightningStrike.flashAlphaTarget) {
+                if (sLightningFlashAlpha <= gLightningStrike.flashAlphaTarget) {
                     play->envCtx.adjAmbientColor[0] = 0;
                     play->envCtx.adjAmbientColor[1] = 0;
                     play->envCtx.adjAmbientColor[2] = 0;
@@ -1955,7 +1965,7 @@ void Environment_UpdateLightningStrike(PlayState* play) {
 
     if (gLightningStrike.state != LIGHTNING_STRIKE_WAIT) {
         Environment_DrawLightningFlash(play, gLightningStrike.flashRed, gLightningStrike.flashGreen,
-                                       gLightningStrike.flashBlue, gLightningFlashAlpha);
+                                       gLightningStrike.flashBlue, sLightningFlashAlpha);
     }
 }
 
@@ -2229,32 +2239,32 @@ void Environment_InitGameOverLights(PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    gGameOverLightsIntensity = 0;
+    sGameOverLightsIntensity = 0;
 
-    Lights_PointNoGlowSetInfo(&gNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
+    Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
                               (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z - 10.0f, 0, 0, 0,
                               255);
-    gNGameOverLightNode = LightContext_InsertLight(play, &play->lightCtx, &gNGameOverLightInfo);
+    sNGameOverLightNode = LightContext_InsertLight(play, &play->lightCtx, &sNGameOverLightInfo);
 
-    Lights_PointNoGlowSetInfo(&gSGameOverLightInfo, (s16)player->actor.world.pos.x + 10.0f,
+    Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.world.pos.x + 10.0f,
                               (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z + 10.0f, 0, 0, 0,
                               255);
-    gSGameOverLightNode = LightContext_InsertLight(play, &play->lightCtx, &gSGameOverLightInfo);
+    sSGameOverLightNode = LightContext_InsertLight(play, &play->lightCtx, &sSGameOverLightInfo);
 }
 
 void Environment_FadeInGameOverLights(PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 i;
 
-    Lights_PointNoGlowSetInfo(&gNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
+    Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
                               (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z - 10.0f,
-                              gGameOverLightsIntensity, gGameOverLightsIntensity, gGameOverLightsIntensity, 255);
-    Lights_PointNoGlowSetInfo(&gSGameOverLightInfo, (s16)player->actor.world.pos.x + 10.0f,
+                              sGameOverLightsIntensity, sGameOverLightsIntensity, sGameOverLightsIntensity, 255);
+    Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.world.pos.x + 10.0f,
                               (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z + 10.0f,
-                              gGameOverLightsIntensity, gGameOverLightsIntensity, gGameOverLightsIntensity, 255);
+                              sGameOverLightsIntensity, sGameOverLightsIntensity, sGameOverLightsIntensity, 255);
 
-    if (gGameOverLightsIntensity < 254) {
-        gGameOverLightsIntensity += 2;
+    if (sGameOverLightsIntensity < 254) {
+        sGameOverLightsIntensity += 2;
     }
 
     if (Play_CamIsNotFixed(play)) {
@@ -2278,7 +2288,7 @@ void Environment_FadeInGameOverLights(PlayState* play) {
         play->envCtx.screenFillColor[0] = 0;
         play->envCtx.screenFillColor[1] = 0;
         play->envCtx.screenFillColor[2] = 0;
-        play->envCtx.screenFillColor[3] = gGameOverLightsIntensity;
+        play->envCtx.screenFillColor[3] = sGameOverLightsIntensity;
     }
 }
 
@@ -2286,22 +2296,22 @@ void Environment_FadeOutGameOverLights(PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 i;
 
-    if (gGameOverLightsIntensity >= 3) {
-        gGameOverLightsIntensity -= 3;
+    if (sGameOverLightsIntensity >= 3) {
+        sGameOverLightsIntensity -= 3;
     } else {
-        gGameOverLightsIntensity = 0;
+        sGameOverLightsIntensity = 0;
     }
 
-    if (gGameOverLightsIntensity == 1) {
-        LightContext_RemoveLight(play, &play->lightCtx, gNGameOverLightNode);
-        LightContext_RemoveLight(play, &play->lightCtx, gSGameOverLightNode);
-    } else if (gGameOverLightsIntensity >= 2) {
-        Lights_PointNoGlowSetInfo(&gNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
+    if (sGameOverLightsIntensity == 1) {
+        LightContext_RemoveLight(play, &play->lightCtx, sNGameOverLightNode);
+        LightContext_RemoveLight(play, &play->lightCtx, sSGameOverLightNode);
+    } else if (sGameOverLightsIntensity >= 2) {
+        Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
                                   (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z - 10.0f,
-                                  gGameOverLightsIntensity, gGameOverLightsIntensity, gGameOverLightsIntensity, 255);
-        Lights_PointNoGlowSetInfo(&gSGameOverLightInfo, (s16)player->actor.world.pos.x + 10.0f,
+                                  sGameOverLightsIntensity, sGameOverLightsIntensity, sGameOverLightsIntensity, 255);
+        Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.world.pos.x + 10.0f,
                                   (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z + 10.0f,
-                                  gGameOverLightsIntensity, gGameOverLightsIntensity, gGameOverLightsIntensity, 255);
+                                  sGameOverLightsIntensity, sGameOverLightsIntensity, sGameOverLightsIntensity, 255);
     }
 
     if (Play_CamIsNotFixed(play)) {
@@ -2317,8 +2327,8 @@ void Environment_FadeOutGameOverLights(PlayState* play) {
         play->envCtx.screenFillColor[0] = 0;
         play->envCtx.screenFillColor[1] = 0;
         play->envCtx.screenFillColor[2] = 0;
-        play->envCtx.screenFillColor[3] = gGameOverLightsIntensity;
-        if (gGameOverLightsIntensity == 0) {
+        play->envCtx.screenFillColor[3] = sGameOverLightsIntensity;
+        if (sGameOverLightsIntensity == 0) {
             play->envCtx.fillScreen = false;
         }
     }
@@ -2495,9 +2505,9 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
     envColor.b = ((envColor.b * sp98) + ((6.0f - sp98) * primColor.b)) * (1.0f / 6.0f);
 
     {
-        u16 sp96 = (s32)(gSandstormScroll * (11.0f / 6.0f));
-        u16 sp94 = (s32)(gSandstormScroll * (9.0f / 6.0f));
-        u16 sp92 = (s32)(gSandstormScroll * (6.0f / 6.0f));
+        u16 sp96 = (s32)(sSandstormScroll * (11.0f / 6.0f));
+        u16 sp94 = (s32)(sSandstormScroll * (9.0f / 6.0f));
+        u16 sp92 = (s32)(sSandstormScroll * (6.0f / 6.0f));
 
         OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 4044);
 
@@ -2516,7 +2526,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
         CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 4068);
     }
 
-    gSandstormScroll += (s32)sp98;
+    sSandstormScroll += (s32)sp98;
 }
 
 void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {

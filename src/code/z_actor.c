@@ -8,6 +8,9 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
+// For retail BSS ordering, the block number of sCurCeilingPoly
+// must be between 2 and 243 inclusive.
+
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
 

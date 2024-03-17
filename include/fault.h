@@ -88,4 +88,6 @@ typedef struct FaultMgr {
     /* 0x848 */ void* clientThreadSp;
 } FaultMgr; // size = 0x850
 
+extern FaultMgr gFaultMgr;
+
 #endif

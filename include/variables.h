@@ -41,10 +41,6 @@ extern u32 __additional_scanline;
 extern u8 gBuildTeam[];
 extern u8 gBuildDate[];
 extern u8 gBuildMakeOption[];
-extern OSThread gMainThread;
-extern STACK(sMainStack, 0x900);
-extern StackEntry sMainStackInfo;
-extern OSMesg sPiMgrCmdBuff[50];
 extern OSMesgQueue gPiMgrCmdQueue;
 extern OSViMode gViConfigMode;
 extern u8 gViConfigModeType;
@@ -110,11 +106,6 @@ extern MtxF gMtxFClear;
 #if OOT_DEBUG
 extern u32 gIsCtrlr2Valid;
 #endif
-extern FaultMgr* gFaultInstance;
-extern u8 gFaultAwaitingInput;
-extern STACK(gFaultStack, 0x600);
-extern StackEntry gFaultThreadInfo;
-extern FaultMgr gFaultMgr;
 extern s16* gWaveSamples[9];
 extern f32 gBendPitchOneOctaveFrequencies[256];
 extern f32 gBendPitchTwoSemitonesFrequencies[256];
@@ -192,23 +183,18 @@ extern u16 gCamEyePointAppliedFrame;
 extern u16 gCamAtPointAppliedFrame;
 
 extern LightningStrike gLightningStrike;
-extern s16 gLightningFlashAlpha;
-extern s16 gSunDepthTestX;
-extern s16 gSunDepthTestY;
+// TODO: These variables are here for BSS ordering but ideally they should not
+// be extern. This could be fixed by putting more stuff (e.g. struct definitions)
+// between gLightningStrike and gCustomLensFlareOn.
+extern s16 sLightningFlashAlpha;
+extern s16 sSunDepthTestX;
+extern s16 sSunDepthTestY;
 extern u8 gCustomLensFlareOn;
 extern Vec3f gCustomLensFlarePos;
 extern s16 gLensFlareScale;
 extern f32 gLensFlareColorIntensity;
 extern s16 gLensFlareGlareStrength;
-extern LightNode* gNGameOverLightNode;
-extern LightInfo gNGameOverLightInfo;
-extern LightNode* gSGameOverLightNode;
-extern LightInfo gSGameOverLightInfo;
-extern u8 gGameOverLightsIntensity;
-extern u16 gSandstormScroll;
 extern MapData* gMapData;
-extern void (*gKaleidoScopeUpdateFunc)(PlayState* play);
-extern void (*gKaleidoScopeDrawFunc)(PlayState* play);
 extern f32 gBossMarkScale;
 extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
