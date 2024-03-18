@@ -3189,33 +3189,33 @@ void Enemy_StartFinishingBlow(PlayState* play, Actor* actor) {
     SfxSource_PlaySfxAtFixedWorldPos(play, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
-s16 func_80032CB4(s16* faceData, s16 changeTimerBase, s16 changeTimerRandRange, s16 arg3) {
-    if (DECR(faceData[1]) == 0) {
-        faceData[1] = Rand_S16Offset(changeTimerBase, changeTimerRandRange);
+s16 FaceChange_UpdateBlinking(s16* faceData, s16 changeTimerBase, s16 changeTimerRandRange, s16 arg3) {
+    if (DECR(faceData[ACTOR_FACEDATA_CHANGE_TIMER]) == 0) {
+        faceData[ACTOR_FACEDATA_CHANGE_TIMER] = Rand_S16Offset(changeTimerBase, changeTimerRandRange);
     }
 
-    if ((faceData[1] - arg3) > 0) {
-        faceData[0] = 0;
-    } else if (((faceData[1] - arg3) > -2) || (faceData[1] < 2)) {
-        faceData[0] = 1;
+    if ((faceData[ACTOR_FACEDATA_CHANGE_TIMER] - arg3) > 0) {
+        faceData[ACTOR_FACEDATA_FACE] = 0;
+    } else if (((faceData[ACTOR_FACEDATA_CHANGE_TIMER] - arg3) > -2) || (faceData[ACTOR_FACEDATA_CHANGE_TIMER] < 2)) {
+        faceData[ACTOR_FACEDATA_FACE] = 1;
     } else {
-        faceData[0] = 2;
+        faceData[ACTOR_FACEDATA_FACE] = 2;
     }
 
-    return faceData[0];
+    return faceData[ACTOR_FACEDATA_FACE];
 }
 
-s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
-    if (DECR(arg0[1]) == 0) {
-        arg0[1] = Rand_S16Offset(arg1, arg2);
-        arg0[0]++;
+s16 FaceChange_UpdateRandomSet(s16* faceData, s16 changeTimerBase, s16 changeTimerRandRange, s16 arg3) {
+    if (DECR(faceData[ACTOR_FACEDATA_CHANGE_TIMER]) == 0) {
+        faceData[ACTOR_FACEDATA_CHANGE_TIMER] = Rand_S16Offset(changeTimerBase, changeTimerRandRange);
+        faceData[ACTOR_FACEDATA_FACE]++;
 
-        if ((arg0[0] % 3) == 0) {
-            arg0[0] = (s32)(Rand_ZeroOne() * arg3) * 3;
+        if ((faceData[ACTOR_FACEDATA_FACE] % 3) == 0) {
+            faceData[ACTOR_FACEDATA_FACE] = (s32)(Rand_ZeroOne() * arg3) * 3;
         }
     }
 
-    return arg0[0];
+    return faceData[ACTOR_FACEDATA_FACE];
 }
 
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
