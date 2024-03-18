@@ -3191,8 +3191,8 @@ void Enemy_StartFinishingBlow(PlayState* play, Actor* actor) {
 
 /**
  * Updates `FaceChange` data for a blinking pattern.
- * This system expects that the first 3 `faces` that an actor has defined to be
- * the "open", "half", and "closed" faces, in that exact order.
+ * This system expects that the actor using the system has defined 3 faces in this exact order:
+ * "eyes open", "eyes half open", "eyes closed".
  *
  * @param faceChange  pointer to an actor's faceChange data
  * @param blinkIntervalBase  The base number of frames between blinks
