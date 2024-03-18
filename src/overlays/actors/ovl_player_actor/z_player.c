@@ -11007,9 +11007,9 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         }
 
         Math_ScaledStepToS(&this->unk_6C2, 0, 400);
-        FaceChange_UpdateBlinking(this->faceData, 20, 80, 6);
-
-        this->actor.shape.face = this->faceData[0] + ((play->gameplayFrames & 32) ? 0 : 3);
+        
+        FaceChange_UpdateBlinking(&this->faceChange, 20, 80, 6);
+        this->actor.shape.face = this->faceChange.face + ((play->gameplayFrames & 32) ? 0 : 3);
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
             Player_UpdateBunnyEars(this);

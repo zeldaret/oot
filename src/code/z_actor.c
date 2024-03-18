@@ -3189,33 +3189,55 @@ void Enemy_StartFinishingBlow(PlayState* play, Actor* actor) {
     SfxSource_PlaySfxAtFixedWorldPos(play, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
-s16 FaceChange_UpdateBlinking(s16* faceData, s16 changeTimerBase, s16 changeTimerRandRange, s16 arg3) {
-    if (DECR(faceData[ACTOR_FACEDATA_CHANGE_TIMER]) == 0) {
-        faceData[ACTOR_FACEDATA_CHANGE_TIMER] = Rand_S16Offset(changeTimerBase, changeTimerRandRange);
+/**
+ * Updates `FaceChange` data for a blinking pattern.
+ * This system expects that the first 3 `faces` that an actor has defined to be
+ * the "open", "half", and "closed" faces, in that exact order.
+ *
+ * @param faceChange  pointer to an actor's faceChange data
+ * @param blinkIntervalBase  The base number of frames between blinks
+ * @param blinkIntervalRandRange  The range for a random number of frames that can be added to `blinkIntervalBase`
+ * @param blinkDuration  The number of frames it takes for a single blink to occur.
+ */
+s16 FaceChange_UpdateBlinking(FaceChange* faceChange, s16 blinkIntervalBase, s16 blinkIntervalRandRange,
+                              s16 blinkDuration) {
+    if (DECR(faceChange->timer) == 0) {
+        faceChange->timer = Rand_S16Offset(blinkIntervalBase, blinkIntervalRandRange);
     }
 
-    if ((faceData[ACTOR_FACEDATA_CHANGE_TIMER] - arg3) > 0) {
-        faceData[ACTOR_FACEDATA_FACE] = 0;
-    } else if (((faceData[ACTOR_FACEDATA_CHANGE_TIMER] - arg3) > -2) || (faceData[ACTOR_FACEDATA_CHANGE_TIMER] < 2)) {
-        faceData[ACTOR_FACEDATA_FACE] = 1;
+    if ((faceChange->timer - blinkDuration) > 0) {
+        faceChange->face = 0;
+    } else if (((faceChange->timer - blinkDuration) > -2) || (faceChange->timer < 2)) {
+        faceChange->face = 1;
     } else {
-        faceData[ACTOR_FACEDATA_FACE] = 2;
+        faceChange->face = 2;
     }
 
-    return faceData[ACTOR_FACEDATA_FACE];
+    return faceChange->face;
 }
 
-s16 FaceChange_UpdateRandomSet(s16* faceData, s16 changeTimerBase, s16 changeTimerRandRange, s16 arg3) {
-    if (DECR(faceData[ACTOR_FACEDATA_CHANGE_TIMER]) == 0) {
-        faceData[ACTOR_FACEDATA_CHANGE_TIMER] = Rand_S16Offset(changeTimerBase, changeTimerRandRange);
-        faceData[ACTOR_FACEDATA_FACE]++;
+/**
+ * Updates `FaceChange` data for randomly selected face sets.
+ * Each set contains 3 faces. After the timer runs out, the next face in the set is used.
+ * After the third face in a set is used, a new face set is randomly chosen.
+ *
+ * @param faceChange  pointer to an actor's faceChange data
+ * @param changeTimerBase  The base number of frames between each face change
+ * @param changeTimerRandRange  The range for a random number of frames that can be added to `changeTimerBase`
+ * @param faceSetRange  The max number of face sets that will be chosen from
+ */
+s16 FaceChange_UpdateRandomlyChosenSet(FaceChange* faceChange, s16 changeTimerBase, s16 changeTimerRandRange,
+                                       s16 faceSetRange) {
+    if (DECR(faceChange->timer) == 0) {
+        faceChange->timer = Rand_S16Offset(changeTimerBase, changeTimerRandRange);
+        faceChange->face++;
 
-        if ((faceData[ACTOR_FACEDATA_FACE] % 3) == 0) {
-            faceData[ACTOR_FACEDATA_FACE] = (s32)(Rand_ZeroOne() * arg3) * 3;
+        if ((faceChange->face % 3) == 0) {
+            faceChange->face = (s32)(Rand_ZeroOne() * faceSetRange) * 3;
         }
     }
 
-    return faceData[ACTOR_FACEDATA_FACE];
+    return faceChange->face;
 }
 
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {

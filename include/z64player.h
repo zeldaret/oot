@@ -706,7 +706,7 @@ typedef struct Player {
     /* 0x01F8 */ Vec3s jointTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x0288 */ Vec3s morphTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x0318 */ Vec3s blendTable[PLAYER_LIMB_BUF_COUNT];
-    /* 0x03A8 */ s16 faceData[ACTOR_FACEDATA_MAX];
+    /* 0x03A8 */ FaceChange faceChange;
     /* 0x03AC */ Actor* heldActor;
     /* 0x03B0 */ Vec3f leftHandPos;
     /* 0x03BC */ Vec3s unk_3BC;
