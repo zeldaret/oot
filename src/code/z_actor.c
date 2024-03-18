@@ -3206,10 +3206,13 @@ s16 FaceChange_UpdateBlinking(FaceChange* faceChange, s16 blinkIntervalBase, s16
     }
 
     if ((faceChange->timer - blinkDuration) > 0) {
+        // `timer - duration` is positive so its the default state: "eyes open" face
         faceChange->face = 0;
     } else if (((faceChange->timer - blinkDuration) > -2) || (faceChange->timer < 2)) {
+        // This condition aims to catch both cases where the "eyes half open" face is needed.
         faceChange->face = 1;
     } else {
+        // If both conditions above fail, the only possibility left is the "eyes closed" face.
         faceChange->face = 2;
     }
 
@@ -3226,13 +3229,15 @@ s16 FaceChange_UpdateBlinking(FaceChange* faceChange, s16 blinkIntervalBase, s16
  * @param changeTimerRandRange  The range for a random number of frames that can be added to `changeTimerBase`
  * @param faceSetRange  The max number of face sets that will be chosen from
  */
-s16 FaceChange_UpdateRandomlyChosenSet(FaceChange* faceChange, s16 changeTimerBase, s16 changeTimerRandRange,
-                                       s16 faceSetRange) {
+s16 FaceChange_UpdateRandomSet(FaceChange* faceChange, s16 changeTimerBase, s16 changeTimerRandRange,
+                               s16 faceSetRange) {
     if (DECR(faceChange->timer) == 0) {
         faceChange->timer = Rand_S16Offset(changeTimerBase, changeTimerRandRange);
         faceChange->face++;
 
         if ((faceChange->face % 3) == 0) {
+            // Randomly chose a "set number", then multiply by 3 because each set has 3 faces.
+            // This will set the first face in the newly chosen set.
             faceChange->face = (s32)(Rand_ZeroOne() * faceSetRange) * 3;
         }
     }
