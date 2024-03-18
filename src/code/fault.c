@@ -49,6 +49,11 @@
 // extern variables declared in headers).
 INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_1();
+INCREMENT_BLOCK_NUMBER_BY_1();
+INCREMENT_BLOCK_NUMBER_BY_1();
+INCREMENT_BLOCK_NUMBER_BY_1();
+INCREMENT_BLOCK_NUMBER_BY_1();
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);

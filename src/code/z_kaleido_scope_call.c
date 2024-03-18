@@ -10,6 +10,7 @@ INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);
