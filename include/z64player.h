@@ -230,6 +230,49 @@ typedef enum {
 } PlayerDoorType;
 
 typedef enum {
+    PLAYER_FACEPART_EYES,
+    PLAYER_FACEPART_MOUTH,
+    PLAYER_FACEPART_MAX
+} PlayerFacePart;
+
+typedef enum {
+    PLAYER_EYES_OPEN,
+    PLAYER_EYES_HALF,
+    PLAYER_EYES_CLOSED,
+    PLAYER_EYES_LEFT,
+    PLAYER_EYES_RIGHT,
+    PLAYER_EYES_WIDE,
+    PLAYER_EYES_DOWN,
+    PLAYER_EYES_WINCING
+} PlayerEyes;
+
+typedef enum {
+    PLAYER_MOUTH_CLOSED,
+    PLAYER_MOUTH_HALF,
+    PLAYER_MOUTH_OPEN,
+    PLAYER_MOUTH_SMILE
+} PlayerMouth;
+
+typedef enum {
+    PLAYER_FACE_NEUTRAL,                   // eyes open and mouth closed
+    PLAYER_FACE_NEUTRAL_BLINKING_HALF,     // eyes half open and mouth closed
+    PLAYER_FACE_NEUTRAL_BLINKING_CLOSED,   // eyes half open and mouth closed
+    PLAYER_FACE_NEUTRAL_2,                 // same as `PLAYER_FACE_NEUTRAL`
+    PLAYER_FACE_NEUTRAL_BLINKING_HALF_2,   // same as `PLAYER_FACE_NEUTRAL_BLINKING_HALF`
+    PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2, // same as `PLAYER_FACE_NEUTRAL_BLINKING_CLOSED`
+    PLAYER_FACE_LOOK_RIGHT,                // eyes looking right and mouth closed
+    PLAYER_FACE_SURPRISED,                 // wide eyes and grimacing mouth
+    PLAYER_FACE_HURT,                      // eyes wincing in pain, mouth open
+    PLAYER_FACE_GASP,                      // eyes open and mouth open
+    PLAYER_FACE_LOOK_LEFT,                 // eyes looking left and mouth closed
+    PLAYER_FACE_LOOK_RIGHT_2,              // duplicate of `PLAYER_FACE_LOOK_RIGHT`
+    PLAYER_FACE_EYES_CLOSED_MOUTH_OPEN,    // eyes closed and mouth open
+    PLAYER_FACE_OPENING,                   // eyes and mouth both halfway open
+    PLAYER_FACE_EYES_AND_MOUTH_OPEN,       // eyes and mouth open
+    PLAYER_FACE_NEUTRAL_3,                 // same as `PLAYER_FACE_NEUTRAL` and `PLAYER_FACE_NEUTRAL_2`
+} PlayerFace;
+
+typedef enum {
     /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `Player_OverrideLimbDrawPause`)
     /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD,  //hold sword only. used for holding sword only as child link with hylian shield equipped
     /* 0x02 */ PLAYER_MODELGROUP_SWORD_AND_SHIELD, // hold sword and shield or just sword if no shield is equipped
