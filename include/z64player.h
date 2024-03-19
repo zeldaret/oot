@@ -258,14 +258,14 @@ typedef enum {
 typedef enum {
     PLAYER_FACE_NEUTRAL,                   // eyes open and mouth closed
     PLAYER_FACE_NEUTRAL_BLINKING_HALF,     // eyes half open and mouth closed
-    PLAYER_FACE_NEUTRAL_BLINKING_CLOSED,   // eyes half open and mouth closed
+    PLAYER_FACE_NEUTRAL_BLINKING_CLOSED,   // eyes and mouth closed
     PLAYER_FACE_NEUTRAL_2,                 // same as `PLAYER_FACE_NEUTRAL`
     PLAYER_FACE_NEUTRAL_BLINKING_HALF_2,   // same as `PLAYER_FACE_NEUTRAL_BLINKING_HALF`
     PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2, // same as `PLAYER_FACE_NEUTRAL_BLINKING_CLOSED`
     PLAYER_FACE_LOOK_RIGHT,                // eyes looking right and mouth closed
     PLAYER_FACE_SURPRISED,                 // wide eyes and grimacing mouth
-    PLAYER_FACE_HURT,                      // eyes wincing in pain, mouth open
-    PLAYER_FACE_GASP,                      // eyes open and mouth open
+    PLAYER_FACE_HURT,                      // eyes wincing in pain and mouth open
+    PLAYER_FACE_GASP,                      // eyes and mouth open
     PLAYER_FACE_LOOK_LEFT,                 // eyes looking left and mouth closed
     PLAYER_FACE_LOOK_RIGHT_2,              // duplicate of `PLAYER_FACE_LOOK_RIGHT`
     PLAYER_FACE_EYES_CLOSED_MOUTH_OPEN,    // eyes closed and mouth open
