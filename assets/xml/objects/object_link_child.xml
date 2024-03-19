@@ -186,8 +186,8 @@
         <Texture Name="gLinkChildEyesOpenTex" OutName="eyes_open" Format="ci8" Width="64" Height="32" Offset="0x0000" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesHalfTex" OutName="eyes_half" Format="ci8" Width="64" Height="32" Offset="0x0800" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesClosedfTex" OutName="eyes_closed" Format="ci8" Width="64" Height="32" Offset="0x1000" TlutOffset="0x5500"/>
-        <Texture Name="gLinkChildEyesLeftTex" OutName="eyes_left" Format="ci8" Width="64" Height="32" Offset="0x1800" TlutOffset="0x5500"/><!--Left from links perspective-->
-        <Texture Name="gLinkChildEyesRightTex" OutName="eyes_right" Format="ci8" Width="64" Height="32" Offset="0x2000" TlutOffset="0x5500"/><!--Right from links perspective-->
+        <Texture Name="gLinkChildEyesLeftTex" OutName="eyes_left" Format="ci8" Width="64" Height="32" Offset="0x1800" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildEyesRightTex" OutName="eyes_right" Format="ci8" Width="64" Height="32" Offset="0x2000" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesWideTex" OutName="eyes_wide" Format="ci8" Width="64" Height="32" Offset="0x2800" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesDownTex" OutName="eyes_down" Format="ci8" Width="64" Height="32" Offset="0x3000" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesWincingTex" OutName="eyes_wincing" Format="ci8" Width="64" Height="32" Offset="0x3800" TlutOffset="0x5500"/>
