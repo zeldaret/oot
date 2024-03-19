@@ -243,14 +243,16 @@ typedef enum {
     PLAYER_EYES_RIGHT,
     PLAYER_EYES_WIDE,
     PLAYER_EYES_DOWN,
-    PLAYER_EYES_WINCING
+    PLAYER_EYES_WINCING,
+    PLAYER_EYES_MAX
 } PlayerEyes;
 
 typedef enum {
     PLAYER_MOUTH_CLOSED,
     PLAYER_MOUTH_HALF,
     PLAYER_MOUTH_OPEN,
-    PLAYER_MOUTH_SMILE
+    PLAYER_MOUTH_SMILE,
+    PLAYER_MOUTH_MAX
 } PlayerMouth;
 
 typedef enum {
@@ -269,7 +271,7 @@ typedef enum {
     PLAYER_FACE_EYES_CLOSED_MOUTH_OPEN,    // eyes closed and mouth open
     PLAYER_FACE_OPENING,                   // eyes and mouth both halfway open
     PLAYER_FACE_EYES_AND_MOUTH_OPEN,       // eyes and mouth open
-    PLAYER_FACE_NEUTRAL_3,                 // same as `PLAYER_FACE_NEUTRAL` and `PLAYER_FACE_NEUTRAL_2`
+    PLAYER_FACE_NEUTRAL_3                  // same as `PLAYER_FACE_NEUTRAL` and `PLAYER_FACE_NEUTRAL_2`
 } PlayerFace;
 
 typedef enum {

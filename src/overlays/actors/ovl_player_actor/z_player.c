@@ -11007,7 +11007,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         }
 
         Math_ScaledStepToS(&this->unk_6C2, 0, 400);
-        
+
         FaceChange_UpdateBlinking(&this->faceChange, 20, 80, 6);
         this->actor.shape.face = this->faceChange.face + ((play->gameplayFrames & 32) ? 0 : 3);
 

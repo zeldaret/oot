@@ -846,35 +846,61 @@ u8 sPlayerFaces[][PLAYER_FACEPART_MAX] = {
  * from adult Link's object are used here.
  */
 #ifndef AVOID_UB
-void* sEyesTextures[] = {
-    gLinkAdultEyesOpenTex,      // PLAYER_EYES_OPEN
-    gLinkAdultEyesHalfTex,      // PLAYER_EYES_HALF
-    gLinkAdultEyesClosedfTex,   // PLAYER_EYES_CLOSED
-    gLinkAdultEyesRollLeftTex,  // PLAYER_EYES_LEFT
-    gLinkAdultEyesRollRightTex, // PLAYER_EYES_RIGHT
-    gLinkAdultEyesShockTex,     // PLAYER_EYES_WIDE
-    gLinkAdultEyesUnk1Tex,      // PLAYER_EYES_DOWN
-    gLinkAdultEyesUnk2Tex,      // PLAYER_EYES_WINCING
+void* sEyesTextures[PLAYER_EYES_MAX] = {
+    gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
+    gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
+    gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
+    gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
+    gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+    gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
+    gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
+    gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
 };
 
-void* sMouthTextures[] = {
-    gLinkAdultMouth1Tex, // PLAYER_MOUTH_CLOSED
-    gLinkAdultMouth2Tex, // PLAYER_MOUTH_HALF
-    gLinkAdultMouth3Tex, // PLAYER_MOUTH_OPEN
-    gLinkAdultMouth4Tex, // PLAYER_MOUTH_SMILE
+void* sMouthTextures[PLAYER_MOUTH_MAX] = {
+    gLinkAdultMouthClosedTex, // PLAYER_MOUTH_CLOSED
+    gLinkAdultMouthHalfTex,   // PLAYER_MOUTH_HALF
+    gLinkAdultMouthOpenTex,   // PLAYER_MOUTH_OPEN
+    gLinkAdultMouthSmileTex,  // PLAYER_MOUTH_SMILE
 };
 #else
 // Defining `AVOID_UB` will use a 2D array instead and properly use the child link pointers to allow for shifting.
-void* sEyesTextures[][8] = {
-    { gLinkAdultEyesOpenTex, gLinkAdultEyesHalfTex, gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
-      gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex, gLinkAdultEyesUnk2Tex },
-    { gLinkChildEyesOpenTex, gLinkChildEyesHalfTex, gLinkChildEyesClosedfTex, gLinkChildEyesRollLeftTex,
-      gLinkChildEyesRollRightTex, gLinkChildEyesShockTex, gLinkChildEyesUnk1Tex, gLinkChildEyesUnk2Tex },
+void* sEyesTextures[][PLAYER_EYES_MAX] = {
+    {
+        gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
+        gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
+        gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
+        gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
+        gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+        gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
+        gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
+        gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
+    },
+    {
+        gLinkChildEyesOpenTex,    // PLAYER_EYES_OPEN
+        gLinkChildEyesHalfTex,    // PLAYER_EYES_HALF
+        gLinkChildEyesClosedfTex, // PLAYER_EYES_CLOSED
+        gLinkChildEyesLeftTex,    // PLAYER_EYES_LEFT
+        gLinkChildEyesRightTex,   // PLAYER_EYES_RIGHT
+        gLinkChildEyesWideTex,    // PLAYER_EYES_WIDE
+        gLinkChildEyesDownTex,    // PLAYER_EYES_DOWN
+        gLinkChildEyesWincingTex, // PLAYER_EYES_WINCING
+    },
 };
 
-void* sMouthTextures[][4] = {
-    { gLinkAdultMouth1Tex, gLinkAdultMouth2Tex, gLinkAdultMouth3Tex, gLinkAdultMouth4Tex },
-    { gLinkChildMouth1Tex, gLinkChildMouth2Tex, gLinkChildMouth3Tex, gLinkChildMouth4Tex },
+void* sMouthTextures[][PLAYER_MOUTH_MAX] = {
+    {
+        gLinkAdultMouthClosedTex, // PLAYER_MOUTH_CLOSED
+        gLinkAdultMouthHalfTex,   // PLAYER_MOUTH_HALF
+        gLinkAdultMouthOpenTex,   // PLAYER_MOUTH_OPEN
+        gLinkAdultMouthSmileTex,  // PLAYER_MOUTH_SMILE
+    },
+    {
+        gLinkChildMouthClosedTex, // PLAYER_MOUTH_CLOSED
+        gLinkChildMouthHalfTex,   // PLAYER_MOUTH_HALF
+        gLinkChildMouthOpenTex,   // PLAYER_MOUTH_OPEN
+        gLinkChildMouthSmileTex,  // PLAYER_MOUTH_SMILE
+    },
 };
 #endif
 
@@ -897,11 +923,14 @@ Gfx* sBootDListGroups[][2] = {
 void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic, s32 boots,
                      s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* data) {
     Color_RGB8* color;
+    s32 eyesIndex;
+    s32 mouthIndex;
+
     // Player's animation data includes eyes and mouth indices for which texture to use on a given frame.
     // Despite being accessed as "the x component of the 22nd limb", the eyes and mouth indices are stored in 2
-    // additional bytes tacked onto the end of the limb rotation data.
-    s32 eyesIndex = (jointTable[22].x & 0xF) - 1;
-    s32 mouthIndex = (jointTable[22].x >> 4) - 1;
+    // additional bytes tacked onto the end of the limb rotation data for a given animation frame.
+    eyesIndex = (jointTable[22].x & 0xF) - 1;
+    mouthIndex = (jointTable[22].x >> 4) - 1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 1721);
 
