@@ -3237,7 +3237,7 @@ s16 FaceChange_UpdateRandomSet(FaceChange* faceChange, s16 changeTimerBase, s16 
 
         if ((faceChange->face % 3) == 0) {
             // Randomly chose a "set number", then multiply by 3 because each set has 3 faces.
-            // This will set the first face in the newly chosen set.
+            // This will use the first face in the newly chosen set.
             faceChange->face = (s32)(Rand_ZeroOne() * faceSetRange) * 3;
         }
     }
