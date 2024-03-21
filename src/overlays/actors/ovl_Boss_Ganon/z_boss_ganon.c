@@ -100,11 +100,27 @@ static ColliderCylinderInit sLightBallCylinderInit = {
 static u8 D_808E4C58[] = { 0, 12, 10, 12, 14, 16, 12, 14, 16, 12, 14, 16, 12, 14, 16, 10, 16, 14 };
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
+// For retail BSS ordering, the block number of sGanondorf must be 0 or just above.
+
+// TODO: There's probably a way to do this with less padding by spreading the variables out and moving
+// data around. It would be easier if we had more options for controlling BSS ordering in debug.
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+
 static EnGanonMant* sCape;
+
+INCREMENT_BLOCK_NUMBER_BY_100();
+INCREMENT_BLOCK_NUMBER_BY_100();
 
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
+
+INCREMENT_BLOCK_NUMBER_BY_100();
+INCREMENT_BLOCK_NUMBER_BY_100();
 
 static BossGanon* sGanondorf;
 
