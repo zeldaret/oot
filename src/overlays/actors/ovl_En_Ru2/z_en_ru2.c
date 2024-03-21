@@ -61,7 +61,9 @@ static void* sEyeTextures[] = {
     gAdultRutoEyeClosedTex,
 };
 
+#if OOT_DEBUG
 static UNK_TYPE D_80AF4118 = 0;
+#endif
 
 #include "z_en_ru2_cutscene_data.inc.c"
 
