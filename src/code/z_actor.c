@@ -3197,7 +3197,7 @@ void Enemy_StartFinishingBlow(PlayState* play, Actor* actor) {
  * @param faceChange  pointer to an actor's faceChange data
  * @param blinkIntervalBase  The base number of frames between blinks
  * @param blinkIntervalRandRange  The range for a random number of frames that can be added to `blinkIntervalBase`
- * @param blinkDuration  The number of frames it takes for a single blink to occur.
+ * @param blinkDuration  The number of frames it takes for a single blink to occur
  */
 s16 FaceChange_UpdateBlinking(FaceChange* faceChange, s16 blinkIntervalBase, s16 blinkIntervalRandRange,
                               s16 blinkDuration) {
@@ -3206,7 +3206,7 @@ s16 FaceChange_UpdateBlinking(FaceChange* faceChange, s16 blinkIntervalBase, s16
     }
 
     if ((faceChange->timer - blinkDuration) > 0) {
-        // `timer - duration` is positive so its the default state: "eyes open" face
+        // `timer - duration` is positive so this the default state: "eyes open" face
         faceChange->face = 0;
     } else if (((faceChange->timer - blinkDuration) > -2) || (faceChange->timer < 2)) {
         // This condition aims to catch both cases where the "eyes half open" face is needed

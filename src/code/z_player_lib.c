@@ -846,7 +846,7 @@ u8 sPlayerFaces[][PLAYER_FACEPART_MAX] = {
  * from adult Link's object are used here.
  */
 #ifndef AVOID_UB
-void* sEyesTextures[PLAYER_EYES_MAX] = {
+void* sEyeTextures[PLAYER_EYES_MAX] = {
     gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
     gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
     gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
@@ -865,7 +865,7 @@ void* sMouthTextures[PLAYER_MOUTH_MAX] = {
 };
 #else
 // Defining `AVOID_UB` will use a 2D array instead and properly use the child link pointers to allow for shifting.
-void* sEyesTextures[][PLAYER_EYES_MAX] = {
+void* sEyeTextures[][PLAYER_EYES_MAX] = {
     {
         gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
         gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
@@ -940,9 +940,9 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
     }
 
 #ifndef AVOID_UB
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesTextures[eyesIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[eyesIndex]));
 #else
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesTextures[gSaveContext.save.linkAge][eyesIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[gSaveContext.save.linkAge][eyesIndex]));
 #endif
 
     // If the mouth index provided by the animation is negative, use the value provided by the `face` argument instead
