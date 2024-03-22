@@ -121,10 +121,10 @@
  * The lighting change will take place immediately with no blending.
  * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
-#define CS_LIGHT_SETTING(lightSetting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+#define CS_LIGHT_SETTING(lightSetting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
     CMD_BBH(0, (lightSetting + 1), startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
 /**
  * Declares a list of `CS_RUMBLE_CONTROLLER` entries.
