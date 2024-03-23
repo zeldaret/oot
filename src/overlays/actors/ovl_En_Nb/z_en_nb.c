@@ -83,7 +83,9 @@ static void* sEyeTextures[] = {
     gNabooruEyeClosedTex,
 };
 
+#if OOT_DEBUG
 static s32 D_80AB4318 = 0;
+#endif
 
 #include "z_en_nb_cutscene_data.inc.c"
 

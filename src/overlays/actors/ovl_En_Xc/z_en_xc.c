@@ -472,7 +472,6 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
     if (gSaveContext.sceneLayer == 4) {
         static s32 D_80B41D90 = 0;
         static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
-        static f32 sMaxSpeed = 0.0f;
         static Vec3f D_80B42DB0;
         s32 pad;
         s16 sceneId = play->sceneId;
@@ -487,8 +486,9 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
 
                 if (D_80B41D90 != 0) {
                     f32 speed = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
-
 #if OOT_DEBUG
+                    static f32 sMaxSpeed = 0.0f;
+
                     sMaxSpeed = CLAMP_MIN(sMaxSpeed, speed);
                     PRINTF("MAX speed = %f\n", sMaxSpeed);
 #endif
