@@ -50,8 +50,9 @@
     .word (sym)
 
 /**
- * Indicates the hardware revision the program is designed for (hw_major, hw_minor) and what libultra version (os_ver)
- * it uses.
+ * Indicates the hardware revision the program is designed for (hw_major, hw_minor)
+ * and what libultra version (os_ver) it uses.
+ *
  * The hardware revision for a retail N64 is (2,0).
  * The libultra version may be a single letter, without quotes.
  */
@@ -65,15 +66,14 @@
     .endif
 
 /**
- * ROM Checksum value. IPL3 computes a checksum over ROM data in the range 0x1000 to 0x101000 and compares it to this
- * value, if the results differ it will refuse to boot the program.
+ * Leaves space to insert the ROM Checksum value. IPL3 computes a checksum over ROM data in the range 0x1000 to 0x101000
+ * and compares it to this value, if the results differ it will refuse to boot the program.
  *
- * This can generally be left as 0 in the ROM header declaration and filled in after the full ROM image is available to
+ * This macro just writes 8 bytes of 0. The correct checksum value is filled in after the full ROM image is available to
  * compute the checksum with.
  */
-#define CHECKSUM(value)                 \
-    .word ((value) >> 32) & 0xFFFFFFFF; \
-    .word ((value) >>  0) & 0xFFFFFFFF
+#define CHECKSUM() \
+    .word 0, 0
 
 /**
  * For unused header space. Fills num bytes with 0.
@@ -97,6 +97,7 @@
 
 /**
  * Identifies the storage medium the program intends to use.
+ *
  * Should be one of:
  *  - CARTRIDGE
  *  - CARTRIDGE_EXPANDABLE
@@ -118,6 +119,7 @@
 
 /**
  * Identifies the region the game is made for.
+ *
  * Should be one of:
  *  - ALL
  *  - JP
