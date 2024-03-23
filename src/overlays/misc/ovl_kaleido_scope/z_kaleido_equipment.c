@@ -16,8 +16,6 @@ static u8 sEquipmentItemOffsets[] = {
     0x00, 0x00, 0x01, 0x02, 0x00, 0x03, 0x04, 0x05, 0x00, 0x06, 0x07, 0x08, 0x00, 0x09, 0x0A, 0x0B,
 };
 
-static s16 sEquipTimer = 0;
-
 void KaleidoScope_DrawEquipmentImage(PlayState* play, void* source, u32 width, u32 height) {
     PauseContext* pauseCtx = &play->pauseCtx;
     u8* curTexture;
@@ -119,6 +117,7 @@ void KaleidoScope_DrawPlayerWork(PlayState* play) {
 void KaleidoScope_ProcessPlayerPreRender(PlayState* play);
 
 void KaleidoScope_DrawEquipment(PlayState* play) {
+    static s16 sEquipTimer = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
     u16 i;
@@ -551,12 +550,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[j], 16, 0);
 
         if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-            // if (1) {}
             point = CUR_UPG_VALUE(sChildUpgrades[i]);
-#if OOT_DEBUG
-            if (1) {}
-#endif
-            if ((point != 0) && (CUR_UPG_VALUE(sChildUpgrades[i]) != 0)) {
+            if (((u32)point != 0) && (CUR_UPG_VALUE(sChildUpgrades[i]) != 0)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx,
                                                    gItemIcons[sChildUpgradeItemBases[i] + point - 1], ITEM_ICON_WIDTH,
                                                    ITEM_ICON_HEIGHT, 0);
@@ -573,9 +568,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             }
         }
 
-    dummy:;
-
         for (k = 0, bit = rowStart, point = 4; k < 3; k++, point += 4, temp++, bit++) {
+
             if (((u32)i == 0) && (k == 2) && (gSaveContext.save.info.playerData.bgsFlag != 0)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIconSwordBiggoronTex, ITEM_ICON_WIDTH,
                                                    ITEM_ICON_HEIGHT, point);
@@ -609,10 +603,6 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
     Gfx_SetupDL_42Opa(play->state.gfxCtx);
     KaleidoScope_DrawEquipmentImage(play, pauseCtx->playerSegment, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT);
-
-#if OOT_DEBUG
-    if (gUpgradeMasks[0]) {}
-#endif
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_equipment.c", 609);
 }
