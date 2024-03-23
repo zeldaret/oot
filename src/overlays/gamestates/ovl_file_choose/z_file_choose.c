@@ -30,13 +30,13 @@ void FileSelect_SetView(FileSelectState* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f lookAt;
     Vec3f up;
 
-    lookAt.x = lookAt.y = lookAt.z = 0.0f;
-    up.x = up.z = 0.0f;
-
     eye.x = eyeX;
     eye.y = eyeY;
     eye.z = eyeZ;
 
+    lookAt.x = lookAt.y = lookAt.z = 0.0f;
+
+    up.x = up.z = 0.0f;
     up.y = 1.0f;
 
     View_LookAt(&this->view, &eye, &lookAt, &up);
@@ -382,6 +382,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
     SramContext* sramCtx = &this->sramCtx;
     Input* debugInput = &this->state.input[2];
 
+#if OOT_DEBUG
     if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_ENG;
         *((u8*)0x80000002) = LANGUAGE_ENG;
@@ -421,6 +422,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
                sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                sramCtx->readBuff[SRAM_HEADER_MAGIC]);
     }
+#endif
 
     alphaStep = ABS(this->highlightColor[3] - cursorAlphaTargets[this->highlightPulseDir]) / XREG(35);
 
@@ -807,6 +809,8 @@ void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
     s16 j;
     s16 deathCountSplit[3];
 
+    if (1) {}
+
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1709);
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -819,7 +823,7 @@ void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sNamePrimColors[isActive][0], sNamePrimColors[isActive][1],
                         sNamePrimColors[isActive][2], this->nameAlpha[fileIndex]);
 
-        for (i = 0, vtxOffset = 0; vtxOffset < 0x20; i++, vtxOffset += 4) {
+        for (vtxOffset = 0, i = 0; vtxOffset < 0x20; i++, vtxOffset += 4) {
             FileSelect_DrawCharacter(this->state.gfxCtx,
                                      sp54->fontBuf + this->fileNames[fileIndex][i] * FONT_CHAR_TEX_SIZE, vtxOffset);
         }
@@ -1436,9 +1440,8 @@ void FileSelect_FadeOut(GameState* thisx) {
  */
 void FileSelect_LoadGame(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
-    u16 swordEquipValue;
-    s32 pad;
 
+#if OOT_DEBUG
     if (this->buttonIndex == FS_BTN_SELECT_FILE_1) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1447,7 +1450,9 @@ void FileSelect_LoadGame(GameState* thisx) {
         gSaveContext.gameMode = GAMEMODE_NORMAL;
         SET_NEXT_GAMESTATE(&this->state, MapSelect_Init, MapSelectState);
         this->state.running = false;
-    } else {
+    } else
+#endif
+    {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         gSaveContext.fileNum = this->buttonIndex;
@@ -1506,6 +1511,7 @@ void FileSelect_LoadGame(GameState* thisx) {
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
+        u16 swordEquipValue;
 
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
         swordEquipValue =

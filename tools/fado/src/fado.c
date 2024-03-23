@@ -17,16 +17,6 @@
 
 /* String-finding-related functions */
 
-bool Fado_CheckInProgBitsSections(Elf32_Section section, vc_vector* progBitsSections) {
-    Elf32_Section* i;
-    VC_FOREACH(i, progBitsSections) {
-        if (*i == section) {
-            return true;
-        }
-    }
-    return false;
-}
-
 /**
  * For each input file, construct a vector of pointers to the starts of the strings defined in that file.
  */
@@ -41,8 +31,7 @@ void Fado_ConstructStringVectors(vc_vector** stringVectors, FairyFileInfo* fileI
 
         /* Build a vector of pointers to defined symbols' names */
         for (currentSym = 0; currentSym < fileInfo[currentFile].symtabInfo.sectionEntryCount; currentSym++) {
-            if ((symtab[currentSym].st_shndx != STN_UNDEF) &&
-                Fado_CheckInProgBitsSections(symtab[currentSym].st_shndx, fileInfo[currentFile].progBitsSections)) {
+            if (symtab[currentSym].st_shndx != STN_UNDEF) {
                 /* Have to pass a double pointer so it copies the pointer instead of the start of the string */
                 char* stringPtr = &fileInfo[currentFile].strtab[symtab[currentSym].st_name];
                 assert(vc_vector_push_back(stringVectors[currentFile], &stringPtr));
@@ -251,7 +240,7 @@ void Fado_Relocs(FILE* outputFile, int inputFilesCount, FILE** inputFiles, const
 
     {
         /* Write header */
-        fprintf(outputFile, ".section .ovl\n");
+        fprintf(outputFile, ".section .ovl, \"a\"\n");
         fprintf(outputFile, "# %sOverlayInfo\n", ovlName);
         fprintf(outputFile, ".word _%sSegmentTextSize\n", ovlName);
         fprintf(outputFile, ".word _%sSegmentDataSize\n", ovlName);

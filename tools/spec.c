@@ -83,6 +83,10 @@ static bool parse_flags(char *str, unsigned int *flags)
             f |= FLAG_OBJECT;
         else if (strcmp(str, "RAW") == 0)
             f |= FLAG_RAW;
+        else if (strcmp(str, "NOLOAD") == 0)
+            f |= FLAG_NOLOAD;
+        else if (strcmp(str, "SYMS") == 0)
+            f |= FLAG_SYMS;
         else
             return false;
 

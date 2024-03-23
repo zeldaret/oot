@@ -490,6 +490,8 @@ void BgHeavyBlock_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_heavy_block.c", 904);
 
+    if (1) {}
+
     if (BgHeavyBlock_LiftedUp == this->actionFunc) {
         Matrix_SetTranslateRotateYXZ(player->leftHandPos.x, player->leftHandPos.y, player->leftHandPos.z,
                                      &thisx->shape.rot);

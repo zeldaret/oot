@@ -67,8 +67,8 @@ static ColliderCylinderInit D_80A4B7A0 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -87,8 +87,8 @@ static ColliderCylinderInit D_80A4B7CC = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -397,13 +397,13 @@ void EnGoma_SetupDead(EnGoma* this) {
 }
 
 void EnGoma_Dead(EnGoma* this, PlayState* play) {
-    Vec3f accel;
-    Vec3f pos;
-
     SkelAnime_Update(&this->skelanime);
     Math_ApproachZeroF(&this->actor.speed, 1.0f, 2.0f);
 
     if (this->actionTimer == 2) {
+        Vec3f accel;
+        Vec3f pos;
+
         pos.x = this->actor.world.pos.x;
         pos.y = (this->actor.world.pos.y + 5.0f) - 10.0f;
         pos.z = this->actor.world.pos.z;
@@ -604,7 +604,6 @@ void EnGoma_LookAtPlayer(EnGoma* this, PlayState* play) {
 }
 
 void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
-    static Vec3f sShieldKnockbackVel = { 0.0f, 0.0f, 20.0f };
     Player* player = GET_PLAYER(play);
 
     if (this->hurtTimer != 0) {
@@ -624,7 +623,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
             this->colCyl2.base.acFlags &= ~AC_HIT;
 
             if (this->gomaType == ENGOMA_NORMAL) {
-                u32 dmgFlags = acHitElem->toucher.dmgFlags;
+                u32 dmgFlags = acHitElem->atDmgInfo.dmgFlags;
 
                 if (dmgFlags & DMG_SHIELD) {
                     if (this->actionFunc == EnGoma_Jump) {
@@ -632,6 +631,8 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
                         this->actor.velocity.y = 0.0f;
                         this->actor.speed = -5.0f;
                     } else {
+                        static Vec3f sShieldKnockbackVel = { 0.0f, 0.0f, 20.0f };
+
                         Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
                         Matrix_MultVec3f(&sShieldKnockbackVel, &this->shieldKnockbackVel);
                         this->invincibilityTimer = 5;

@@ -46,8 +46,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 30, 83, 0, { 0 } },
@@ -58,8 +58,7 @@ static CollisionCheckInfoInit sColChkInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
 void BgHidanFirewall_Init(Actor* thisx, PlayState* play) {
     BgHidanFirewall* this = (BgHidanFirewall*)thisx;
 
-    this->actor.scale.x = 0.12f;
-    this->actor.scale.z = 0.12f;
+    this->actor.scale.x = this->actor.scale.z = 0.12f;
     this->actor.scale.y = 0.01f;
 
     this->unk_150 = 0;

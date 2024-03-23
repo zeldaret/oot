@@ -45,19 +45,18 @@
 #define RDP_DONE_MSG 668
 #define NOTIFY_MSG 670 // original name: ENTRY_MSG
 
-vs32 sSchedDebugPrintfEnabled = false;
-
 OSTime sRSPGfxTimeStart;
 OSTime sRSPAudioTimeStart;
 OSTime sRSPOtherTimeStart;
 OSTime sRDPTimeStart;
 
 #if OOT_DEBUG
+vs32 sSchedDebugPrintfEnabled = false;
+
 #define SCHED_DEBUG_PRINTF        \
     if (sSchedDebugPrintfEnabled) \
     PRINTF
-#elif defined(__sgi)
-// See comment about PRINTF in macros.h
+#elif IDO_PRINTF_WORKAROUND
 #define SCHED_DEBUG_PRINTF(args) (void)0
 #else
 #define SCHED_DEBUG_PRINTF(format, ...) (void)0

@@ -42,8 +42,8 @@ static ColliderCylinderInit sCylinderInitIce = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x02, 0x00 },
         { 0x00020800, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 50, 120, 0, { 0, 0, 0 } },
@@ -62,8 +62,8 @@ static ColliderCylinderInit sCylinderInitHard = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4E01F7F6, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 50, 120, 0, { 0, 0, 0 } },
@@ -117,7 +117,7 @@ void ObjIcePoly_Idle(ObjIcePoly* this, PlayState* play) {
     Vec3f pos;
 
     if (this->colliderIce.base.acFlags & AC_HIT) {
-        this->meltTimer = -this->colliderIce.elem.acHitElem->toucher.damage;
+        this->meltTimer = -this->colliderIce.elem.acHitElem->atDmgInfo.damage;
         this->actor.focus.rot.y = this->actor.yawTowardsPlayer;
         OnePointCutscene_Init(play, 5120, 40, &this->actor, CAM_ID_MAIN);
         this->actionFunc = ObjIcePoly_Melt;

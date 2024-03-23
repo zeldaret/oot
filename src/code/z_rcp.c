@@ -1246,23 +1246,33 @@ Gfx* Gfx_SetupDL_69NoCD(Gfx* gfx) {
     return gfx;
 }
 
+#if OOT_DEBUG
+#define HREG_21 HREG(21)
+#define HREG_22 HREG(22)
+#else
+#define HREG_21 0
+#define HREG_22 0
+#endif
+
 Gfx* func_800947AC(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_65]);
     gDPSetColorDither(gfx++, G_CD_DISABLE);
 
     // clang-format off
-    switch (HREG(21)) {
+    switch (HREG_21) {
         case 1: gDPSetAlphaDither(gfx++, G_AD_DISABLE); break;
         case 2: gDPSetAlphaDither(gfx++, G_AD_PATTERN); break;
         case 3: gDPSetAlphaDither(gfx++, G_AD_NOTPATTERN); break;
         case 4: gDPSetAlphaDither(gfx++, G_AD_NOISE); break;
+        default: break;
     }
 
-    switch (HREG(22)) {
+    switch (HREG_22) {
         case 1: gDPSetColorDither(gfx++, G_CD_DISABLE); break;
         case 2: gDPSetColorDither(gfx++, G_CD_MAGICSQ); break;
         case 3: gDPSetColorDither(gfx++, G_CD_BAYER); break;
         case 4: gDPSetColorDither(gfx++, G_CD_NOISE); break;
+        default: break;
     }
     // clang-format on
 
@@ -1472,6 +1482,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     if ((R_PAUSE_BG_PRERENDER_STATE <= PAUSE_BG_PRERENDER_SETUP) && (gTransitionTileState <= TRANS_TILE_SETUP)) {
         s32 letterboxSize = Letterbox_GetSize();
 
+#if OOT_DEBUG
         if (R_HREG_MODE == HREG_MODE_SETUP_FRAME) {
             if (R_SETUP_FRAME_INIT != HREG_MODE_SETUP_FRAME) {
                 R_SETUP_FRAME_GET = (SETUP_FRAME_LETTERBOX_SIZE_FLAG | SETUP_FRAME_BASE_COLOR_FLAG);
@@ -1514,6 +1525,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
                 b = R_SETUP_FRAME_BASE_COLOR_B;
             }
         }
+#endif
 
         // Set the whole z buffer to maximum depth
         // Don't bother with pixels that are being covered by the letterbox

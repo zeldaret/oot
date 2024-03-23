@@ -55,7 +55,7 @@ static ColliderCylinderInit sCylinderInit = {
         OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, TOUCH_NONE, BUMP_ON, OCELEM_ON },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, ATELEM_NONE, ACELEM_ON, OCELEM_ON },
     { 30, 20, 0, { 0, 0, 0 } },
 };
 
@@ -135,7 +135,6 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
     Vec3f colPoint;         // unused return value from function
     CollisionPoly* colPoly; // unused return value from function
     s32 bgId;               // unused return value from function
-    f32 temp_cond;
 
     touchingActor = false;
     blockedOnReturn = false;
@@ -209,7 +208,8 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                 Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
             }
         } else if (thisx->params & SPIKETRAP_MODE_CIRCULAR) {
-            temp_cond = Math_SinS(this->vAngularPos);
+            f32 temp_cond = Math_SinS(this->vAngularPos);
+
             this->vAngularPos += this->vAngularVel;
             // Every full circle make a sound:
             if ((temp_cond < 0.0f) && (Math_SinS(this->vAngularPos) >= 0.0f)) {

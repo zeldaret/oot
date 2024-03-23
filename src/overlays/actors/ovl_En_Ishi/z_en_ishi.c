@@ -73,8 +73,8 @@ static ColliderCylinderInit sCylinderInits[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 10, 18, -2, { 0, 0, 0 } },
@@ -92,8 +92,8 @@ static ColliderCylinderInit sCylinderInits[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFF6, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 55, 70, 0, { 0, 0, 0 } },
@@ -356,7 +356,7 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
             EnIshi_SpawnBugs(this, play);
         }
     } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
-               this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
+               this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
         EnIshi_DropCollectible(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, sBreakSfxDurations[type], sBreakSfxIds[type]);
         sFragmentSpawnFuncs[type](this, play);

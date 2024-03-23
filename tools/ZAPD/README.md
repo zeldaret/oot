@@ -117,6 +117,11 @@ ZAPD also accepts the following list of extra parameters:
 - `-us` / `--unaccounted-static` : Mark unaccounted data as `static` 
 - `-s` / `--static` : Mark every asset as `static`.
   - This behaviour can be overridden per asset using `Static=` in the respective XML node.
+- `--cs-float` : How cutscene floats should be extracted. 
+- Valid values:
+  - `hex`
+  - `float`
+  - `both`
 - `-W...`: warning flags, see below
 
 Additionally, you can pass the flag `--version` to see the current ZAPD version. If that flag is passed, ZAPD will ignore any other parameter passed.

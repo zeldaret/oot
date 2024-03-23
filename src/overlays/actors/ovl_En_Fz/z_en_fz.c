@@ -69,8 +69,8 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCE0FDB, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 30, 80, 0, { 0, 0, 0 } },
@@ -88,8 +88,8 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0x0001F024, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 35, 80, 0, { 0, 0, 0 } },
@@ -107,8 +107,8 @@ static ColliderCylinderInitType1 sCylinderInit3 = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x02, 0x08 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { 20, 30, -15, { 0, 0, 0 } },
@@ -256,6 +256,8 @@ void EnFz_Damaged(EnFz* this, PlayState* play, Vec3f* vec, s32 numEffects, f32 u
     f32 scale;
     s32 life;
 
+    accel.x = accel.z = 0.0f;
+    accel.y = -1.0f;
     primColor.r = 155;
     primColor.g = 255;
     primColor.b = 255;
@@ -263,8 +265,6 @@ void EnFz_Damaged(EnFz* this, PlayState* play, Vec3f* vec, s32 numEffects, f32 u
     envColor.r = 200;
     envColor.g = 200;
     envColor.b = 200;
-    accel.x = accel.z = 0.0f;
-    accel.y = -1.0f;
 
     for (i = 0; i < numEffects; i++) {
         scale = Rand_CenteredFloat(0.3f) + 0.6f;
@@ -476,10 +476,10 @@ void EnFz_MoveTowardsPlayer(EnFz* this, PlayState* play) {
 
 void EnFz_SetupAimForFreeze(EnFz* this) {
     this->state = 1;
-    this->timer = 40;
-    this->actionFunc = EnFz_AimForFreeze;
     this->speedXZ = 0.0f;
     this->actor.speed = 0.0f;
+    this->timer = 40;
+    this->actionFunc = EnFz_AimForFreeze;
 }
 
 void EnFz_AimForFreeze(EnFz* this, PlayState* play) {
@@ -547,16 +547,16 @@ void EnFz_BlowSmoke(EnFz* this, PlayState* play) {
 
 void EnFz_SetupDespawn(EnFz* this, PlayState* play) {
     this->state = 0;
+    this->speedXZ = 0.0f;
+    this->actor.gravity = 0.0f;
+    this->actor.velocity.y = 0.0f;
+    this->actor.speed = 0.0f;
     this->updateBgInfo = true;
     this->isFreezing = false;
     this->isDespawning = true;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->isActive = false;
     this->timer = 60;
-    this->speedXZ = 0.0f;
-    this->actor.gravity = 0.0f;
-    this->actor.velocity.y = 0.0f;
-    this->actor.speed = 0.0f;
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x60);
     this->actionFunc = EnFz_Despawn;
@@ -573,9 +573,9 @@ void EnFz_SetupMelt(EnFz* this) {
     this->isFreezing = false;
     this->isDespawning = true;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->actionFunc = EnFz_Melt;
     this->actor.speed = 0.0f;
     this->speedXZ = 0.0f;
+    this->actionFunc = EnFz_Melt;
 }
 
 void EnFz_Melt(EnFz* this, PlayState* play) {
@@ -859,10 +859,10 @@ void EnFz_UpdateIceSmoke(EnFz* this, PlayState* play) {
 }
 
 void EnFz_DrawEffects(EnFz* this, PlayState* play) {
-    EnFzEffect* effect = this->effects;
     s16 i;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     u8 materialFlag = 0;
+    EnFzEffect* effect = this->effects;
 
     OPEN_DISPS(gfxCtx, "../z_en_fz.c", 1384);
 
@@ -872,7 +872,7 @@ void EnFz_DrawEffects(EnFz* this, PlayState* play) {
         if (effect->type > 0) {
             gDPPipeSync(POLY_XLU_DISP++);
 
-            if (!materialFlag) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamStartDL));
                 materialFlag++;
             }

@@ -15,8 +15,7 @@ static s32 sCurCeilingBgId;
 #define ACTOR_DEBUG_PRINTF           \
     if (R_ENABLE_ACTOR_DEBUG_PRINTF) \
     PRINTF
-#elif defined(__sgi)
-// See comment about PRINTF in macros.h
+#elif IDO_PRINTF_WORKAROUND
 #define ACTOR_DEBUG_PRINTF(args) (void)0
 #else
 #define ACTOR_DEBUG_PRINTF(format, ...) (void)0
@@ -1398,9 +1397,9 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
         PRINTF("z_actor.c 3529 eye=[%f(%f) %f %f] object=[%f %f %f] light_direction=[%f %f %f]\n", correctedEyeX,
                eye->x, eye->y, eye->z, object->x, object->y, object->z, lightDir->x, lightDir->y, lightDir->z);
     }
-
-    View_ErrorCheckEyePosition(correctedEyeX, eye->y, eye->z);
 #endif
+
+    VIEW_ERROR_CHECK_EYE_POS(correctedEyeX, eye->y, eye->z);
 
     guLookAtHilite(&D_8015BBA8, lookAt, *hilite, correctedEyeX, eye->y, eye->z, object->x, object->y, object->z, 0.0f,
                    1.0f, 0.0f, lightDir->x, lightDir->y, lightDir->z, lightDir->x, lightDir->y, lightDir->z, 16, 16);
@@ -2878,8 +2877,8 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                 return NULL;
             }
 
-            Overlay_Load(overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
-                         overlayEntry->loadedRamAddr);
+            Overlay_Load(overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
+                         overlayEntry->vramEnd, overlayEntry->loadedRamAddr);
 
             PRINTF(VT_FGCOL(GREEN));
             PRINTF("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart, overlayEntry->vramEnd,
@@ -4325,24 +4324,24 @@ u8 Actor_ApplyDamage(Actor* actor) {
 void Actor_SetDropFlag(Actor* actor, ColliderElement* elem, s32 freezeFlag) {
     if (elem->acHitElem == NULL) {
         actor->dropFlag = 0x00;
-    } else if (freezeFlag && (elem->acHitElem->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
-        actor->freezeTimer = elem->acHitElem->toucher.damage;
+    } else if (freezeFlag && (elem->acHitElem->atDmgInfo.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
+        actor->freezeTimer = elem->acHitElem->atDmgInfo.damage;
         actor->dropFlag = 0x00;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_FIRE) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_FIRE) {
         actor->dropFlag = 0x01;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) {
         actor->dropFlag = 0x02;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK1) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK1) {
         actor->dropFlag = 0x04;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK2) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK2) {
         actor->dropFlag = 0x08;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK3) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK3) {
         actor->dropFlag = 0x10;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_LIGHT) {
         actor->dropFlag = 0x20;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_MAGIC_LIGHT) {
         if (freezeFlag) {
-            actor->freezeTimer = elem->acHitElem->toucher.damage;
+            actor->freezeTimer = elem->acHitElem->atDmgInfo.damage;
         }
         actor->dropFlag = 0x40;
     } else {
@@ -4362,24 +4361,24 @@ void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFla
         if (elem->acHitElem == NULL) {
             flag = 0x00;
         } else if (freezeFlag &&
-                   (elem->acHitElem->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
-            actor->freezeTimer = elem->acHitElem->toucher.damage;
+                   (elem->acHitElem->atDmgInfo.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
+            actor->freezeTimer = elem->acHitElem->atDmgInfo.damage;
             flag = 0x00;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_FIRE) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_FIRE) {
             flag = 0x01;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) {
             flag = 0x02;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK1) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK1) {
             flag = 0x04;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK2) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK2) {
             flag = 0x08;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK3) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK3) {
             flag = 0x10;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_LIGHT) {
             flag = 0x20;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_MAGIC_LIGHT) {
             if (freezeFlag) {
-                actor->freezeTimer = elem->acHitElem->toucher.damage;
+                actor->freezeTimer = elem->acHitElem->atDmgInfo.damage;
             }
             flag = 0x40;
         } else {

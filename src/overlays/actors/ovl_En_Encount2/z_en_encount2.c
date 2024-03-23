@@ -338,9 +338,9 @@ void EnEncount2_UpdateEffects(EnEncount2* this, PlayState* play) {
 }
 
 void EnEncount2_DrawEffects(Actor* thisx, PlayState* play) {
+    GraphicsContext* gfxCtx = play->state.gfxCtx;
     EnEncount2* this = (EnEncount2*)thisx;
     EnEncount2Effect* effect = this->effects;
-    GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 i;
     s32 objectSlot;
 
