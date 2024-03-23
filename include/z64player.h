@@ -801,8 +801,8 @@ typedef struct Player {
     /* 0x0690 */ s16 naviTextId;
     /* 0x0692 */ u8 stateFlags3;
     /* 0x0693 */ s8 exchangeItemId;
-    /* 0x0694 */ Actor* targetActor;
-    /* 0x0698 */ f32 targetActorDistance;
+    /* 0x0694 */ Actor* talkActor; // Actor offering to talk, or currently talking to, depending on context
+    /* 0x0698 */ f32 talkActorDistance; // xz distance away from `talkActor`
     /* 0x069C */ char unk_69C[0x004];
     /* 0x06A0 */ f32 unk_6A0;
     /* 0x06A4 */ f32 closestSecretDistSq;
