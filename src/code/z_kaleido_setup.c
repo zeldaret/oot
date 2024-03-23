@@ -1,12 +1,42 @@
 #include "global.h"
 
-s16 sKaleidoSetupKscpPos0[] = { PAUSE_QUEST, PAUSE_EQUIP, PAUSE_ITEM, PAUSE_MAP };
-f32 sKaleidoSetupEyeX0[] = { 0.0f, 64.0f, 0.0f, -64.0f };
-f32 sKaleidoSetupEyeZ0[] = { -64.0f, 0.0f, 64.0f, 0.0f };
+s16 sKaleidoSetupUnusedPageIndex[] = {
+    PAUSE_QUEST, // PAUSE_ITEM
+    PAUSE_EQUIP, // PAUSE_MAP
+    PAUSE_ITEM,  // PAUSE_QUEST
+    PAUSE_MAP,   // PAUSE_EQUIP
+};
+f32 sKaleidoSetupUnusedEyeX[] = {
+    PAUSE_EYE_DIST * -PAUSE_QUEST_X, // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_X, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_ITEM_X,  // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_MAP_X,   // PAUSE_EQUIP
+};
+f32 sKaleidoSetupUnusedEyeZ[] = {
+    PAUSE_EYE_DIST * -PAUSE_QUEST_Z, // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_Z, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_ITEM_Z,  // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_MAP_Z,   // PAUSE_EQUIP
+};
 
-s16 sKaleidoSetupKscpPos1[] = { PAUSE_MAP, PAUSE_QUEST, PAUSE_EQUIP, PAUSE_ITEM };
-f32 sKaleidoSetupEyeX1[] = { -64.0f, 0.0f, 64.0f, 0.0f };
-f32 sKaleidoSetupEyeZ1[] = { 0.0f, -64.0f, 0.0f, 64.0f };
+s16 sKaleidoSetupRightPageIndex[] = {
+    PAUSE_MAP,   // PAUSE_ITEM
+    PAUSE_QUEST, // PAUSE_MAP
+    PAUSE_EQUIP, // PAUSE_QUEST
+    PAUSE_ITEM,  // PAUSE_EQUIP
+};
+f32 sKaleidoSetupRightPageEyeX[] = {
+    PAUSE_EYE_DIST * -PAUSE_MAP_X,   // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_QUEST_X, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_X, // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_ITEM_X,  // PAUSE_EQUIP
+};
+f32 sKaleidoSetupRightPageEyeZ[] = {
+    PAUSE_EYE_DIST * -PAUSE_MAP_Z,   // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_QUEST_Z, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_Z, // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_ITEM_Z,  // PAUSE_EQUIP
+};
 
 void KaleidoSetup_Update(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
@@ -27,31 +57,38 @@ void KaleidoSetup_Update(PlayState* play) {
             // The start button was pressed, pause
             gSaveContext.prevHudVisibilityMode = gSaveContext.hudVisibilityMode;
 
-            WREG(16) = -175;
-            WREG(17) = 155;
+            R_PAUSE_CURSOR_LEFT_X = -175;
+            R_PAUSE_CURSOR_RIGHT_X = 155;
 
-            pauseCtx->unk_1EA = 0;
-            pauseCtx->mainState = PAUSE_MAIN_STATE_1;
+            pauseCtx->switchPageTimer = 0;
 
-            if (ZREG(48) == 0) {
-                pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->pageIndex];
-                pauseCtx->eye.z = sKaleidoSetupEyeZ0[pauseCtx->pageIndex];
-                pauseCtx->pageIndex = sKaleidoSetupKscpPos0[pauseCtx->pageIndex];
+            // irrelevant, the initial page switch animation is handled by KaleidoScope_UpdateOpening
+            // and mainState is reset to idle before reaching the main state anyway (KaleidoScopeCall_Update)
+            pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
+
+            //! @bug using an unrelated reg
+            if (R_START_LABEL_DD(0) == 0) {
+                // Never reached, unused, and the data would be wrong anyway
+                pauseCtx->eye.x = sKaleidoSetupUnusedEyeX[pauseCtx->pageIndex];
+                pauseCtx->eye.z = sKaleidoSetupUnusedEyeZ[pauseCtx->pageIndex];
+                pauseCtx->pageIndex = sKaleidoSetupUnusedPageIndex[pauseCtx->pageIndex];
             } else {
-                pauseCtx->eye.x = sKaleidoSetupEyeX1[pauseCtx->pageIndex];
-                pauseCtx->eye.z = sKaleidoSetupEyeZ1[pauseCtx->pageIndex];
-                pauseCtx->pageIndex = sKaleidoSetupKscpPos1[pauseCtx->pageIndex];
+                // Set eye position and pageIndex such that scrolling left brings to the desired page
+                pauseCtx->eye.x = sKaleidoSetupRightPageEyeX[pauseCtx->pageIndex];
+                pauseCtx->eye.z = sKaleidoSetupRightPageEyeZ[pauseCtx->pageIndex];
+                pauseCtx->pageIndex = sKaleidoSetupRightPageIndex[pauseCtx->pageIndex];
             }
 
-            pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
+            // Set next page mode to scroll left
+            pauseCtx->nextPageMode = (u16)(pauseCtx->pageIndex * 2) + 1;
             pauseCtx->state = PAUSE_STATE_WAIT_LETTERBOX;
 
-            PRINTF("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, pauseCtx->eye.x, pauseCtx->eye.z,
-                   pauseCtx->pageIndex);
+            PRINTF("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->nextPageMode, pauseCtx->eye.x,
+                   pauseCtx->eye.z, pauseCtx->pageIndex);
         }
 
         if (pauseCtx->state == PAUSE_STATE_WAIT_LETTERBOX) {
-            WREG(2) = -6240;
+            R_PAUSE_OFFSET_VERTICAL = -6240;
             R_UPDATE_RATE = 2;
 
             if (Letterbox_GetSizeTarget() != 0) {
@@ -69,21 +106,24 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->state = PAUSE_STATE_OFF;
     pauseCtx->debugState = 0;
 
+    // Setting the eye xz here is irrelevant, it's set on pausing in KaleidoSetup_Update
+    // x = -PAUSE_EYE_DIST * PAUSE_ITEM_X
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
-    pauseCtx->eye.z = 64.0f;
-    pauseCtx->unk_1F0 = 936.0f;
-    pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 = 160.0f;
+    pauseCtx->eye.z = -PAUSE_EYE_DIST * PAUSE_ITEM_Z;
+
+    pauseCtx->savePromptOffsetDepth_ = 936.0f;
+    pauseCtx->itemPageRoll = pauseCtx->equipPageRoll = pauseCtx->mapPageRoll = pauseCtx->questPageRoll = 160.0f;
 
     pauseCtx->alpha = 0;
 
     // mainState = PAUSE_MAIN_STATE_IDLE , pageIndex = PAUSE_ITEM
-    pauseCtx->unk_1EA = pauseCtx->mainState = pauseCtx->mode = pauseCtx->pageIndex = 0;
+    pauseCtx->switchPageTimer = pauseCtx->mainState = pauseCtx->nextPageMode = pauseCtx->pageIndex = 0;
 
-    pauseCtx->unk_204 = -314.0f;
+    pauseCtx->rollRotSavePrompt_ = -314.0f;
 
     pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
     pauseCtx->cursorPoint[PAUSE_MAP] = VREG(30) + 3;
-    pauseCtx->cursorPoint[PAUSE_QUEST] = 0;
+    pauseCtx->cursorPoint[PAUSE_QUEST] = QUEST_MEDALLION_FOREST;
     pauseCtx->cursorPoint[PAUSE_EQUIP] = 1;
     pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 10;
 
@@ -93,8 +133,8 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->cursorY[PAUSE_MAP] = 0;
     pauseCtx->cursorX[PAUSE_QUEST] = 0;
     pauseCtx->cursorY[PAUSE_QUEST] = 0;
-    pauseCtx->cursorX[PAUSE_EQUIP] = 1;
-    pauseCtx->cursorY[PAUSE_EQUIP] = 0;
+    pauseCtx->cursorX[PAUSE_EQUIP] = EQUIP_VALUE_SWORD_KOKIRI;
+    pauseCtx->cursorY[PAUSE_EQUIP] = EQUIP_TYPE_SWORD;
 
     pauseCtx->cursorItem[PAUSE_ITEM] = PAUSE_ITEM_NONE;
     pauseCtx->cursorItem[PAUSE_MAP] = VREG(30) + 3;

@@ -2,21 +2,58 @@
 #include "assets/textures/parameter_static/parameter_static.h"
 
 u8 gAmmoItems[] = {
-    ITEM_DEKU_STICK, ITEM_DEKU_NUT, ITEM_BOMB, ITEM_BOW,  ITEM_NONE, ITEM_NONE, ITEM_SLINGSHOT,  ITEM_NONE,
-    ITEM_BOMBCHU,    ITEM_NONE,     ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_MAGIC_BEAN, ITEM_NONE,
+    ITEM_DEKU_STICK, // SLOT_DEKU_STICK
+    ITEM_DEKU_NUT,   // SLOT_DEKU_NUT
+    ITEM_BOMB,       // SLOT_BOMB
+    ITEM_BOW,        // SLOT_BOW
+    ITEM_NONE,       // SLOT_ARROW_FIRE
+    ITEM_NONE,       // SLOT_DINS_FIRE
+    ITEM_SLINGSHOT,  // SLOT_SLINGSHOT
+    ITEM_NONE,       // SLOT_OCARINA
+    ITEM_BOMBCHU,    // SLOT_BOMBCHU
+    ITEM_NONE,       // SLOT_HOOKSHOT
+    ITEM_NONE,       // SLOT_ARROW_ICE
+    ITEM_NONE,       // SLOT_FARORES_WIND
+    ITEM_NONE,       // SLOT_BOOMERANG
+    ITEM_NONE,       // SLOT_LENS_OF_TRUTH
+    ITEM_MAGIC_BEAN, // SLOT_MAGIC_BEAN
+    ITEM_NONE,
 };
 
-static s16 sEquipState = 0;
+typedef enum {
+    /* 0 */ ITEM_EQUIP_STATE_0,
+    /* 1 */ ITEM_EQUIP_STATE_1,
+    /* 2 */ ITEM_EQUIP_STATE_2,
+    /* 3 */ ITEM_EQUIP_STATE_3
+} ItemEquipState;
+
+static s16 sEquipState = ITEM_EQUIP_STATE_0;
 static s16 sEquipAnimTimer = 0;
 static s16 sEquipMoveTimer = 10;
 
 static s16 sAmmoVtxOffset[] = {
-    0, 2, 4, 6, 99, 99, 8, 99, 99, 10, 99, 99, 99, 99, 99, 99, 12,
+    QUAD_ITEM_AMMO_STICK_TENS - QUAD_ITEM_AMMO_FIRST,     // ITEM_DEKU_STICK
+    QUAD_ITEM_AMMO_NUT_TENS - QUAD_ITEM_AMMO_FIRST,       // ITEM_DEKU_NUT
+    QUAD_ITEM_AMMO_BOMB_TENS - QUAD_ITEM_AMMO_FIRST,      // ITEM_BOMB
+    QUAD_ITEM_AMMO_BOW_TENS - QUAD_ITEM_AMMO_FIRST,       // ITEM_BOW
+    99,                                                   // (ITEM_ARROW_FIRE)
+    99,                                                   // (ITEM_DINS_FIRE)
+    QUAD_ITEM_AMMO_SLINGSHOT_TENS - QUAD_ITEM_AMMO_FIRST, // ITEM_SLINGSHOT
+    99,                                                   // (ITEM_OCARINA_FAIRY)
+    99,                                                   // (ITEM_OCARINA_OF_TIME)
+    QUAD_ITEM_AMMO_BOMBCHU_TENS - QUAD_ITEM_AMMO_FIRST,   // ITEM_BOMBCHU
+    99,                                                   // (ITEM_HOOKSHOT)
+    99,                                                   // (ITEM_LONGSHOT)
+    99,                                                   // (ITEM_ARROW_ICE)
+    99,                                                   // (ITEM_FARORES_WIND)
+    99,                                                   // (ITEM_BOOMERANG)
+    99,                                                   // (ITEM_LENS)
+    QUAD_ITEM_AMMO_BEAN_TENS - QUAD_ITEM_AMMO_FIRST,      // ITEM_MAGIC_BEAN
 };
 
 void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx, s16 item) {
     s16 ammo;
-    s16 i;
+    s16 ammoTens;
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_item.c", 69);
 
@@ -41,23 +78,23 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
         }
     }
 
-    for (i = 0; ammo >= 10; i++) {
+    for (ammoTens = 0; ammo >= 10; ammoTens++) {
         ammo -= 10;
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    if (i != 0) {
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(sAmmoVtxOffset[item] + 27) * 4], 4, 0);
+    if (ammoTens != 0) {
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(QUAD_ITEM_AMMO_FIRST + sAmmoVtxOffset[item] + 0) * 4], 4, 0);
 
-        gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * i)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                            G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * ammoTens)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8,
+                            0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD);
 
         gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     }
 
-    gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(sAmmoVtxOffset[item] + 28) * 4], 4, 0);
+    gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(QUAD_ITEM_AMMO_FIRST + sAmmoVtxOffset[item] + 1) * 4], 4, 0);
 
     gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * ammo)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -68,13 +105,20 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
     CLOSE_DISPS(gfxCtx, "../z_kaleido_item.c", 116);
 }
 
-void KaleidoScope_SetCursorVtx(PauseContext* pauseCtx, u16 index, Vtx* vtx) {
+/**
+ * Set the cursor to the position of `vtx[index]`.
+ * The position indicates the cursor's top-left.
+ *
+ * @see KaleidoScope_UpdateCursorVtx where this position is used to update all cursor quads.
+ */
+void KaleidoScope_SetCursorPos(PauseContext* pauseCtx, u16 index, Vtx* vtx) {
+    // PAUSE_QUAD_CURSOR_TL
     pauseCtx->cursorVtx[0].v.ob[0] = vtx[index].v.ob[0];
     pauseCtx->cursorVtx[0].v.ob[1] = vtx[index].v.ob[1];
 }
 
-void KaleidoScope_SetItemCursorVtx(PauseContext* pauseCtx) {
-    KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_ITEM] * 4, pauseCtx->itemVtx);
+void KaleidoScope_SetItemCursorPos(PauseContext* pauseCtx) {
+    KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_ITEM] * 4, pauseCtx->itemVtx);
 }
 
 void KaleidoScope_DrawItemSelect(PlayState* play) {
@@ -130,30 +174,37 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]]) {}
 
                 while (moveCursorResult == 0) {
+                    // input says move left
                     if (pauseCtx->stickAdjX < -30) {
+                        // if not left-most
                         if (pauseCtx->cursorX[PAUSE_ITEM] != 0) {
+                            // move left
                             pauseCtx->cursorX[PAUSE_ITEM]--;
                             pauseCtx->cursorPoint[PAUSE_ITEM] -= 1;
 
+                            // if there's an item there, stop there
                             if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
                                 ITEM_NONE) {
                                 moveCursorResult = 1;
                             }
                         } else {
-                            pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
-                            pauseCtx->cursorY[PAUSE_ITEM]++;
+                            // move the cursor to its initial horizontal position and try find an item on the next line
 
-                            if (pauseCtx->cursorY[PAUSE_ITEM] >= 4) {
+                            pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
+
+                            pauseCtx->cursorY[PAUSE_ITEM]++;
+                            if (pauseCtx->cursorY[PAUSE_ITEM] >= ITEM_GRID_ROWS) {
                                 pauseCtx->cursorY[PAUSE_ITEM] = 0;
                             }
 
                             pauseCtx->cursorPoint[PAUSE_ITEM] =
-                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * 6);
+                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * ITEM_GRID_COLS);
 
-                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= 24) {
+                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= (ITEM_GRID_ROWS * ITEM_GRID_COLS)) {
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = pauseCtx->cursorX[PAUSE_ITEM];
                             }
 
+                            // there is no item to the left of the initial position, on any line
                             if (cursorY == pauseCtx->cursorY[PAUSE_ITEM]) {
                                 pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = cursorPoint;
@@ -164,7 +215,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             }
                         }
                     } else if (pauseCtx->stickAdjX > 30) {
-                        if (pauseCtx->cursorX[PAUSE_ITEM] < 5) {
+                        if (pauseCtx->cursorX[PAUSE_ITEM] < (ITEM_GRID_COLS - 1)) {
                             pauseCtx->cursorX[PAUSE_ITEM]++;
                             pauseCtx->cursorPoint[PAUSE_ITEM] += 1;
 
@@ -176,14 +227,14 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                             pauseCtx->cursorY[PAUSE_ITEM]++;
 
-                            if (pauseCtx->cursorY[PAUSE_ITEM] >= 4) {
+                            if (pauseCtx->cursorY[PAUSE_ITEM] >= ITEM_GRID_ROWS) {
                                 pauseCtx->cursorY[PAUSE_ITEM] = 0;
                             }
 
                             pauseCtx->cursorPoint[PAUSE_ITEM] =
-                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * 6);
+                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * ITEM_GRID_COLS);
 
-                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= 24) {
+                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= (ITEM_GRID_ROWS * ITEM_GRID_COLS)) {
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = pauseCtx->cursorX[PAUSE_ITEM];
                             }
 
@@ -225,16 +276,16 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         break;
                     }
 
-                    cursorY = cursorY + 1;
-                    cursorPoint = cursorPoint + 6;
-                    if (cursorY < 4) {
+                    cursorY += 1;
+                    cursorPoint += ITEM_GRID_COLS;
+                    if (cursorY < ITEM_GRID_ROWS) {
                         continue;
                     }
 
                     cursorY = 0;
                     cursorPoint = cursorX + 1;
                     cursorX = cursorPoint;
-                    if (cursorX < 6) {
+                    if (cursorX < ITEM_GRID_COLS) {
                         continue;
                     }
 
@@ -250,7 +301,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
-                cursorPoint = cursorX = 5;
+                cursorPoint = cursorX = ITEM_GRID_COLS - 1;
                 cursorY = 0;
                 while (true) {
                     if (gSaveContext.save.info.inventory.items[cursorPoint] != ITEM_NONE) {
@@ -261,9 +312,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         break;
                     }
 
-                    cursorY = cursorY + 1;
-                    cursorPoint = cursorPoint + 6;
-                    if (cursorY < 4) {
+                    cursorY += 1;
+                    cursorPoint += ITEM_GRID_COLS;
+                    if (cursorY < ITEM_GRID_ROWS) {
                         continue;
                     }
 
@@ -291,7 +342,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         if (pauseCtx->stickAdjY > 30) {
                             if (pauseCtx->cursorY[PAUSE_ITEM] != 0) {
                                 pauseCtx->cursorY[PAUSE_ITEM]--;
-                                pauseCtx->cursorPoint[PAUSE_ITEM] -= 6;
+                                pauseCtx->cursorPoint[PAUSE_ITEM] -= ITEM_GRID_COLS;
 
                                 if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
                                     ITEM_NONE) {
@@ -304,9 +355,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 moveCursorResult = 2;
                             }
                         } else if (pauseCtx->stickAdjY < -30) {
-                            if (pauseCtx->cursorY[PAUSE_ITEM] < 3) {
+                            if (pauseCtx->cursorY[PAUSE_ITEM] < (ITEM_GRID_ROWS - 1)) {
                                 pauseCtx->cursorY[PAUSE_ITEM]++;
-                                pauseCtx->cursorPoint[PAUSE_ITEM] += 6;
+                                pauseCtx->cursorPoint[PAUSE_ITEM] += ITEM_GRID_COLS;
 
                                 if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
                                     ITEM_NONE) {
@@ -346,7 +397,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
             if (cursorItem != PAUSE_ITEM_NONE) {
                 index = cursorSlot * 4; // required to match?
-                KaleidoScope_SetCursorVtx(pauseCtx, index, pauseCtx->itemVtx);
+                KaleidoScope_SetCursorPos(pauseCtx, index, pauseCtx->itemVtx);
 
                 if ((pauseCtx->debugState == 0) && (pauseCtx->state == PAUSE_STATE_MAIN) &&
                     (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
@@ -367,11 +418,13 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->equipAnimY = pauseCtx->itemVtx[index].v.ob[1] * 10;
                             pauseCtx->equipAnimAlpha = 255;
                             sEquipAnimTimer = 0;
-                            sEquipState = 3;
+                            sEquipState = ITEM_EQUIP_STATE_3;
                             sEquipMoveTimer = 10;
+
                             if ((pauseCtx->equipTargetItem == ITEM_ARROW_FIRE) ||
                                 (pauseCtx->equipTargetItem == ITEM_ARROW_ICE) ||
                                 (pauseCtx->equipTargetItem == ITEM_ARROW_LIGHT)) {
+
                                 index = 0;
                                 if (pauseCtx->equipTargetItem == ITEM_ARROW_ICE) {
                                     index = 1;
@@ -383,7 +436,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                      &gSfxDefaultReverb);
                                 pauseCtx->equipTargetItem = 0xBF + index;
-                                sEquipState = 0;
+                                sEquipState = ITEM_EQUIP_STATE_0;
                                 pauseCtx->equipAnimAlpha = 0;
                                 sEquipMoveTimer = 6;
                             } else {
@@ -397,6 +450,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                     }
                 }
             } else {
+                // PAUSE_QUAD_CURSOR_TL
+
                 pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->cursorVtx[2].v.ob[0] = pauseCtx->cursorVtx[1].v.ob[0] =
                     pauseCtx->cursorVtx[3].v.ob[0] = 0;
 
@@ -412,7 +467,10 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else if ((pauseCtx->mainState == PAUSE_MAIN_STATE_3) && (pauseCtx->pageIndex == PAUSE_ITEM)) {
-        KaleidoScope_SetCursorVtx(pauseCtx, cursorSlot * 4, pauseCtx->itemVtx);
+        //! @bug cursorSlot is used uninitialized
+        // This leads to reading from the itemVtx array at some index, typically OOB, and setting the cursor to an
+        // unexpected position. However the cursor is not drawn in this state so it ends up not being an issue.
+        KaleidoScope_SetCursorPos(pauseCtx, cursorSlot * 4, pauseCtx->itemVtx);
         pauseCtx->cursorColorSet = 4;
     }
 
@@ -421,7 +479,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-    for (i = 0, j = 24 * 4; i < 3; i++, j += 4) {
+    for (i = 0, j = QUAD_ITEM_GRID_SELECTED_C_LEFT * 4; i < 3; i++, j += 4) {
         if (gSaveContext.save.info.equips.buttonItems[i + 1] != ITEM_NONE) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j], 4, 0);
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, gEquippedItemOutlineTex, 32, 32, 0);
@@ -431,41 +489,47 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-    for (i = j = 0; i < 24; i++, j += 4) {
+    for (i = j = 0; i < (ITEM_GRID_ROWS * ITEM_GRID_COLS); i++, j += 4) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
         if (gSaveContext.save.info.inventory.items[i] != ITEM_NONE) {
             if ((pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) && (pauseCtx->pageIndex == PAUSE_ITEM) &&
                 (pauseCtx->cursorSpecialPos == 0)) {
                 if (CHECK_AGE_REQ_SLOT(i)) {
-                    if ((sEquipState == 2) && (i == 3)) {
+                    if ((sEquipState == ITEM_EQUIP_STATE_2) && (i == SLOT_BOW)) {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, magicArrowEffectsR[pauseCtx->equipTargetItem - 0xBF],
                                         magicArrowEffectsG[pauseCtx->equipTargetItem - 0xBF],
                                         magicArrowEffectsB[pauseCtx->equipTargetItem - 0xBF], pauseCtx->alpha);
 
                         pauseCtx->itemVtx[j + 0].v.ob[0] = pauseCtx->itemVtx[j + 2].v.ob[0] =
-                            pauseCtx->itemVtx[j + 0].v.ob[0] - 2;
+                            pauseCtx->itemVtx[j + 0].v.ob[0] - ITEM_GRID_QUAD_ENLARGE_OFFSET;
 
                         pauseCtx->itemVtx[j + 1].v.ob[0] = pauseCtx->itemVtx[j + 3].v.ob[0] =
-                            pauseCtx->itemVtx[j + 0].v.ob[0] + 32;
+                            pauseCtx->itemVtx[j + 0].v.ob[0] +
+                            (ITEM_GRID_QUAD_WIDTH + (ITEM_GRID_QUAD_ENLARGE_OFFSET * 2));
 
                         pauseCtx->itemVtx[j + 0].v.ob[1] = pauseCtx->itemVtx[j + 1].v.ob[1] =
-                            pauseCtx->itemVtx[j + 0].v.ob[1] + 2;
+                            pauseCtx->itemVtx[j + 0].v.ob[1] + ITEM_GRID_QUAD_ENLARGE_OFFSET;
 
                         pauseCtx->itemVtx[j + 2].v.ob[1] = pauseCtx->itemVtx[j + 3].v.ob[1] =
-                            pauseCtx->itemVtx[j + 0].v.ob[1] - 32;
+                            pauseCtx->itemVtx[j + 0].v.ob[1] -
+                            (ITEM_GRID_QUAD_HEIGHT + (ITEM_GRID_QUAD_ENLARGE_OFFSET * 2));
                     } else if (i == cursorSlot) {
+                        // enlarge item under the cursor
+
                         pauseCtx->itemVtx[j + 0].v.ob[0] = pauseCtx->itemVtx[j + 2].v.ob[0] =
-                            pauseCtx->itemVtx[j + 0].v.ob[0] - 2;
+                            pauseCtx->itemVtx[j + 0].v.ob[0] - ITEM_GRID_QUAD_ENLARGE_OFFSET;
 
                         pauseCtx->itemVtx[j + 1].v.ob[0] = pauseCtx->itemVtx[j + 3].v.ob[0] =
-                            pauseCtx->itemVtx[j + 0].v.ob[0] + 32;
+                            pauseCtx->itemVtx[j + 0].v.ob[0] +
+                            (ITEM_GRID_QUAD_WIDTH + (ITEM_GRID_QUAD_ENLARGE_OFFSET * 2));
 
                         pauseCtx->itemVtx[j + 0].v.ob[1] = pauseCtx->itemVtx[j + 1].v.ob[1] =
-                            pauseCtx->itemVtx[j + 0].v.ob[1] + 2;
+                            pauseCtx->itemVtx[j + 0].v.ob[1] + ITEM_GRID_QUAD_ENLARGE_OFFSET;
 
                         pauseCtx->itemVtx[j + 2].v.ob[1] = pauseCtx->itemVtx[j + 3].v.ob[1] =
-                            pauseCtx->itemVtx[j + 0].v.ob[1] - 32;
+                            pauseCtx->itemVtx[j + 0].v.ob[1] -
+                            (ITEM_GRID_QUAD_HEIGHT + (ITEM_GRID_QUAD_ENLARGE_OFFSET * 2));
                     }
                 }
             }
@@ -494,44 +558,45 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_item.c", 516);
 }
 
+// C-left, C-down, C-right
 static s16 sCButtonPosX[] = { 660, 900, 1140 };
 static s16 sCButtonPosY[] = { 1100, 920, 1100 };
 
 void KaleidoScope_UpdateItemEquip(PlayState* play) {
-    static s16 D_8082A488 = 0;
+    static s16 sItemEquipState2Timer_8082A488 = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     Vtx* bowItemVtx;
     u16 offsetX;
     u16 offsetY;
 
-    if (sEquipState == 0) {
-        pauseCtx->equipAnimAlpha += 14;
+    if (sEquipState == ITEM_EQUIP_STATE_0) {
+        pauseCtx->equipAnimAlpha += 255 / 18;
         if (pauseCtx->equipAnimAlpha > 255) {
             pauseCtx->equipAnimAlpha = 254;
-            sEquipState++;
+            sEquipState++; // ITEM_EQUIP_STATE_1
         }
         sEquipAnimTimer = 5;
         return;
     }
 
-    if (sEquipState == 2) {
-        D_8082A488--;
+    if (sEquipState == ITEM_EQUIP_STATE_2) {
+        sItemEquipState2Timer_8082A488--;
 
-        if (D_8082A488 == 0) {
+        if (sItemEquipState2Timer_8082A488 == 0) {
             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
             pauseCtx->equipTargetSlot = SLOT_BOW;
             sEquipMoveTimer = 6;
             WREG(90) = 320;
             WREG(87) = WREG(91);
-            sEquipState++;
+            sEquipState++; // ITEM_EQUIP_STATE_3
             Audio_PlaySfxGeneral(NA_SE_SY_SYNTH_MAGIC_ARROW, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         return;
     }
 
-    if (sEquipState == 1) {
-        bowItemVtx = &pauseCtx->itemVtx[12];
+    if (sEquipState == ITEM_EQUIP_STATE_1) {
+        bowItemVtx = &pauseCtx->itemVtx[SLOT_BOW * 4];
         offsetX = ABS(pauseCtx->equipAnimX - bowItemVtx->v.ob[0] * 10) / sEquipMoveTimer;
         offsetY = ABS(pauseCtx->equipAnimY - bowItemVtx->v.ob[1] * 10) / sEquipMoveTimer;
     } else {
@@ -552,14 +617,14 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
         WREG(90) -= WREG(87) / sEquipMoveTimer;
         WREG(87) -= WREG(87) / sEquipMoveTimer;
 
-        if (sEquipState == 1) {
-            if (pauseCtx->equipAnimX >= (pauseCtx->itemVtx[12].v.ob[0] * 10)) {
+        if (sEquipState == ITEM_EQUIP_STATE_1) {
+            if (pauseCtx->equipAnimX >= (pauseCtx->itemVtx[SLOT_BOW * 4].v.ob[0] * 10)) {
                 pauseCtx->equipAnimX -= offsetX;
             } else {
                 pauseCtx->equipAnimX += offsetX;
             }
 
-            if (pauseCtx->equipAnimY >= (pauseCtx->itemVtx[12].v.ob[1] * 10)) {
+            if (pauseCtx->equipAnimY >= (pauseCtx->itemVtx[SLOT_BOW * 4].v.ob[1] * 10)) {
                 pauseCtx->equipAnimY -= offsetY;
             } else {
                 pauseCtx->equipAnimY += offsetY;
@@ -581,9 +646,9 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
         sEquipMoveTimer--;
 
         if (sEquipMoveTimer == 0) {
-            if (sEquipState == 1) {
-                sEquipState++;
-                D_8082A488 = 4;
+            if (sEquipState == ITEM_EQUIP_STATE_1) {
+                sEquipState++; // ITEM_EQUIP_STATE_2
+                sItemEquipState2Timer_8082A488 = 4;
                 return;
             }
 
