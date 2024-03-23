@@ -3206,7 +3206,7 @@ s16 FaceChange_UpdateBlinking(FaceChange* faceChange, s16 blinkIntervalBase, s16
     }
 
     if ((faceChange->timer - blinkDuration) > 0) {
-        // `timer - duration` is positive so this the default state: "eyes open" face
+        // `timer - duration` is positive so this is the default state: "eyes open" face
         faceChange->face = 0;
     } else if (((faceChange->timer - blinkDuration) > -2) || (faceChange->timer < 2)) {
         // This condition aims to catch both cases where the "eyes half open" face is needed
