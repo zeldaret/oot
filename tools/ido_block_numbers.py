@@ -266,8 +266,9 @@ def generate_symbol_table(command_line):
             f.write(source_contents)
 
         # Invoke compiler
+        # -I adds the directory of the source file to the include path
         # -Hf stops compilation after cfe so we can inspect the symbol table
-        subprocess.run(args + ["-Hf", input_file], check=True)
+        subprocess.run(args + ["-I", source_file.parent, "-Hf", input_file], check=True)
 
         # Read symbol table
         return symbol_table_file.read_bytes()

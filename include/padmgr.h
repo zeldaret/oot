@@ -44,8 +44,6 @@ typedef struct PadMgr {
     /* 0x0464 */ void* retraceCallbackArg;
 } PadMgr; // size = 0x468
 
-extern PadMgr gPadMgr;
-
 // Initialization
 
 void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack);

@@ -14,6 +14,9 @@
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 #include "terminal.h"
 
+// For retail BSS ordering, the block number of sSfxPos
+// must be between 0 and 213 inclusive.
+
 #define FLAGS ACTOR_FLAG_4
 
 void EnXc_Init(Actor* thisx, PlayState* play);
@@ -387,6 +390,8 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
 void EnXc_DoNothing(EnXc* this, PlayState* play) {
 }
 
+static Vec3f sSfxPos;
+
 void EnXc_SetWalkingSFX(EnXc* this, PlayState* play) {
     s32 pad[2];
     u32 sfxId;
@@ -432,7 +437,6 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
-    static Vec3f sXyzDist;
     s16 sceneId;
 
     if (gSaveContext.sceneLayer == 4) {
@@ -445,14 +449,14 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
             if (csCurFrame == 119) {
                 Vec3f pos = { -611.0f, 728.0f, -2.0f };
 
-                SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sXyzDist, wDest);
-                Sfx_PlaySfxAtPos(&sXyzDist, NA_SE_EV_JUMP_CONC);
+                SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sSfxPos, wDest);
+                Sfx_PlaySfxAtPos(&sSfxPos, NA_SE_EV_JUMP_CONC);
             } else if (csCurFrame == 164) {
                 Vec3f pos = { -1069.0f, 38.0f, 0.0f };
                 s32 pad;
 
-                SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sXyzDist, wDest);
-                Sfx_PlaySfxAtPos(&sXyzDist, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
+                SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sSfxPos, wDest);
+                Sfx_PlaySfxAtPos(&sSfxPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
             }
         }
     }
@@ -465,8 +469,6 @@ void func_80B3D118(PlayState* play) {
         Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
     }
 }
-
-static Vec3f D_80B42DA0;
 
 void EnXc_SetColossusWindSFX(PlayState* play) {
     if (gSaveContext.sceneLayer == 4) {
@@ -1394,7 +1396,11 @@ void func_80B3F3D8(void) {
     Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
 }
 
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+
 void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {
+    static Vec3f D_80B42DA0;
     f32 wDest[2];
 
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, src, &D_80B42DA0, wDest);

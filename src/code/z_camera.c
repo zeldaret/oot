@@ -4,6 +4,12 @@
 #include "terminal.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
+// For retail BSS ordering, the block number of D_8015BD7C
+// must be between 88 and 123 inclusive.
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
 s32 Camera_QRegInit(void);
@@ -3533,6 +3539,8 @@ s32 Camera_KeepOn3(Camera* camera) {
     }
     return 1;
 }
+
+INCREMENT_BLOCK_NUMBER_BY_100();
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;

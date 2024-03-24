@@ -353,10 +353,35 @@ void Player_Action_80850E84(Player* this, PlayState* play);
 void Player_Action_CsAction(Player* this, PlayState* play);
 
 // .bss part 1
+
+// For retail BSS ordering, the block number of sDogSpawnPos in Player_Update
+// must be between 0 and 53 inclusive.
+
+// TODO: There's probably a way to do this with less padding by spreading the variables out and moving
+// data around. It would be easier if we had more options for controlling BSS ordering in debug.
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+
 static s32 D_80858AA0;
+
+INCREMENT_BLOCK_NUMBER_BY_100();
+INCREMENT_BLOCK_NUMBER_BY_100();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+
 static s32 D_80858AA4;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
+
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
+INCREMENT_BLOCK_NUMBER_BY_10();
 
 // .data
 
@@ -11376,8 +11401,6 @@ typedef struct {
 
 static BunnyEarKinematics sBunnyEarKinematics;
 
-static Vec3s D_80858AD8[25];
-
 static Gfx* sMaskDlists[PLAYER_MASK_MAX - 1] = {
     gLinkChildKeatonMaskDL, gLinkChildSkullMaskDL, gLinkChildSpookyMaskDL, gLinkChildBunnyHoodDL,
     gLinkChildGoronMaskDL,  gLinkChildZoraMaskDL,  gLinkChildGerudoMaskDL, gLinkChildMaskOfTruthDL,
@@ -14080,6 +14103,7 @@ void Player_Action_80850AEC(Player* this, PlayState* play) {
 
 void Player_Action_80850C68(Player* this, PlayState* play) {
     if ((this->av2.actionVar2 != 0) && ((this->unk_858 != 0.0f) || (this->unk_85C != 0.0f))) {
+        static Vec3s D_80858AD8[25];
         f32 updateScale = R_UPDATE_RATE * 0.5f;
 
         this->skelAnime.curFrame += this->skelAnime.playSpeed * updateScale;
