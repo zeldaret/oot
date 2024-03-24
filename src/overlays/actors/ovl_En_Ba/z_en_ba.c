@@ -303,7 +303,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
             if (this->collider.base.at == &player->actor) {
-                func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             }
         }
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
