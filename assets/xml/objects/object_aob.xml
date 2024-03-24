@@ -1,59 +1,58 @@
 <Root>
+    <!-- Hylian Woman who owns Richard (DogLady) -->
     <File Name="object_aob" Segment="6">
-        <!-- Dog Lady Skeleton -->
-        <Skeleton Name="gDogLadySkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
-
-        <!-- Dog Lady Limbs -->
-        <Limb Name="gDogLadyRootLimb" LimbType="Standard" Offset="0x000"/>
-        <Limb Name="gDogLadyLimb_00C" LimbType="Standard" Offset="0x00C"/>
-        <Limb Name="gDogLadyLimb_018" LimbType="Standard" Offset="0x018"/>
-        <Limb Name="gDogLadyLimb_024" LimbType="Standard" Offset="0x024"/>
-        <Limb Name="gDogLadyLimb_030" LimbType="Standard" Offset="0x030"/>
-        <Limb Name="gDogLadyLimb_03C" LimbType="Standard" Offset="0x03C"/>
-        <Limb Name="gDogLadyLimb_048" LimbType="Standard" Offset="0x048"/>
-        <Limb Name="gDogLadyTorsoLimb" LimbType="Standard" Offset="0x054"/>
-        <Limb Name="gDogLadyLimb_060" LimbType="Standard" Offset="0x060"/>
-        <Limb Name="gDogLadyLimb_06C" LimbType="Standard" Offset="0x06C"/>
-        <Limb Name="gDogLadyLimb_078" LimbType="Standard" Offset="0x078"/>
-        <Limb Name="gDogLadyLimb_084" LimbType="Standard" Offset="0x084"/>
-        <Limb Name="gDogLadyLimb_090" LimbType="Standard" Offset="0x090"/>
-        <Limb Name="gDogLadyLimb_09C" LimbType="Standard" Offset="0x09C"/>
-        <Limb Name="gDogLadyHeadLimb" LimbType="Standard" Offset="0x0A8"/>
+        <!-- Skeleton -->
+        <Limb Name="gHylianWoman1PelvisLimb" LimbType="Standard" Offset="0x000"/>
+        <Limb Name="gHylianWoman1LeftThighLimb" LimbType="Standard" Offset="0x00C"/>
+        <Limb Name="gHylianWoman1LeftShinLimb" LimbType="Standard" Offset="0x018"/>
+        <Limb Name="gHylianWoman1LeftFootLimb" LimbType="Standard" Offset="0x024"/>
+        <Limb Name="gHylianWoman1RightThighLimb" LimbType="Standard" Offset="0x030"/>
+        <Limb Name="gHylianWoman1RightShinLimb" LimbType="Standard" Offset="0x03C"/>
+        <Limb Name="gHylianWoman1RightFootLimb" LimbType="Standard" Offset="0x048"/>
+        <Limb Name="gHylianWoman1TorsoLimb" LimbType="Standard" Offset="0x054"/>
+        <Limb Name="gHylianWoman1LeftUpperArmLimb" LimbType="Standard" Offset="0x060"/>
+        <Limb Name="gHylianWoman1LeftForearmLimb" LimbType="Standard" Offset="0x06C"/>
+        <Limb Name="gHylianWoman1LeftHandLimb" LimbType="Standard" Offset="0x078"/>
+        <Limb Name="gHylianWoman1RightUpperArmLimb" LimbType="Standard" Offset="0x084"/>
+        <Limb Name="gHylianWoman1RightForearmLimb" LimbType="Standard" Offset="0x090"/>
+        <Limb Name="gHylianWoman1RightHandLimb" LimbType="Standard" Offset="0x09C"/>
+        <Limb Name="gHylianWoman1HeadLimb" LimbType="Standard" Offset="0x0A8"/>
+        <Skeleton Name="gHylianWoman1Skel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
 
 
-        <!-- Dog Lady Limb DisplayLists -->
-        <DList Name="gDogLadyDressDL" Offset="0x5588"/>
-        <DList Name="gDogLadyDL_54B8" Offset="0x54B8"/>
-        <DList Name="gDogLadyDL_53E8" Offset="0x53E8"/>
-        <DList Name="gDogLadyDL_5318" Offset="0x5318"/>
-        <DList Name="gDogLadyDL_5248" Offset="0x5248"/>
-        <DList Name="gDogLadyDL_5178" Offset="0x5178"/>
-        <DList Name="gDogLadyDL_50A8" Offset="0x50A8"/>
-        <DList Name="gDogLadyTorsoDL" Offset="0x4E08"/>
-        <DList Name="gDogLadyDL_4C60" Offset="0x4C60"/>
-        <DList Name="gDogLadyDL_4B30" Offset="0x4B30"/>
-        <DList Name="gDogLadyDL_4928" Offset="0x4928"/>
-        <DList Name="gDogLadyDL_4780" Offset="0x4780"/>
-        <DList Name="gDogLadyDL_4650" Offset="0x4650"/>
-        <DList Name="gDogLadyDL_4448" Offset="0x4448"/>
-        <DList Name="gDogLadyHeadDL" Offset="0x3C88"/>
+        <!-- DLs -->
+        <DList Name="gHylianWoman1PelvisDL" Offset="0x5588"/>
+        <DList Name="gHylianWoman1LeftThighDL" Offset="0x54B8"/>
+        <DList Name="gHylianWoman1LeftShinDL" Offset="0x53E8"/>
+        <DList Name="gHylianWoman1LeftFootDL" Offset="0x5318"/>
+        <DList Name="gHylianWoman1RightThighDL" Offset="0x5248"/>
+        <DList Name="gHylianWoman1RightShinDL" Offset="0x5178"/>
+        <DList Name="gHylianWoman1RightFootDL" Offset="0x50A8"/>
+        <DList Name="gHylianWoman1TorsoDL" Offset="0x4E08"/>
+        <DList Name="gHylianWoman1LeftUpperArmDL" Offset="0x4C60"/>
+        <DList Name="gHylianWoman1LeftForearmDL" Offset="0x4B30"/>
+        <DList Name="gHylianWoman1LeftHandDL" Offset="0x4928"/>
+        <DList Name="gHylianWoman1RightUpperArmDL" Offset="0x4780"/>
+        <DList Name="gHylianWoman1RightForearmDL" Offset="0x4650"/>
+        <DList Name="gHylianWoman1RightHandDL" Offset="0x4448"/>
+        <DList Name="gHylianWoman1HeadDL" Offset="0x3C88"/>
 
-        <!-- Palettes -->
-        <Texture Name="gDogLadyTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x0108"/>
+        <!-- TLUTs -->
+        <Texture Name="gHylianWoman1TLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x0108"/>
 
         <!-- Textures -->
-        <Texture Name="gDogLadyHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x0308" TlutOffset="0x0108"/>
-        <Texture Name="gDogLadySkinGradientTex" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x0408" TlutOffset="0x0108"/>
-        <Texture Name="gDogLadyEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x0448" TlutOffset="0x0108"/>
-        <Texture Name="gDogLadyLipGradientTex" OutName="lip_gradient" Format="ci8" Width="8" Height="8" Offset="0x0548" TlutOffset="0x0108"/>
-        <Texture Name="gDogLadyNostrilTex" OutName="nostril" Format="ci8" Width="8" Height="8" Offset="0x0588" TlutOffset="0x0108"/>
-        <Texture Name="gDogLadyBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="16" Height="16" Offset="0x1DC8" TlutOffset="0x0108"/>
-        <Texture Name="gDogLadyDressShoulderPatternTex" OutName="dress_shoulder_pattern" Format="ci8" Width="8" Height="8" Offset="0x1EC8" TlutOffset="0x0108"/>
-        <Texture Name="gDogLadyDressTex" OutName="dress" Format="ci8" Width="8" Height="8" Offset="0x1F08" TlutOffset="0x0108"/>
+        <Texture Name="gHylianWoman1HairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x0308" TlutOffset="0x0108"/>
+        <Texture Name="gHylianWoman1SkinTex" OutName="skin" Format="ci8" Width="8" Height="8" Offset="0x0408" TlutOffset="0x0108"/>
+        <Texture Name="gHylianWoman1EarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x0448" TlutOffset="0x0108"/>
+        <Texture Name="gHylianWoman1MouthTex" OutName="mouth" Format="ci8" Width="8" Height="8" Offset="0x0548" TlutOffset="0x0108"/>
+        <Texture Name="gHylianWoman1NostrilTex" OutName="nostril" Format="ci8" Width="8" Height="8" Offset="0x0588" TlutOffset="0x0108"/>
+        <Texture Name="gHylianWoman1FingersTex" OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x1DC8" TlutOffset="0x0108"/>
+        <Texture Name="gHylianWoman1SleevesTex" OutName="sleeves" Format="ci8" Width="8" Height="8" Offset="0x1EC8" TlutOffset="0x0108"/>
+        <Texture Name="gHylianWoman1DressTex" OutName="dress" Format="ci8" Width="8" Height="8" Offset="0x1F08" TlutOffset="0x0108"/>
 
-        <!-- Dog Lady Eye Textures -->
-        <Texture Name="gDogLadyEyeOpenTex" OutName="dog_lady_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x05C8"/>
-        <Texture Name="gDogLadyEyeHalfTex" OutName="dog_lady_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x0DC8"/>
-        <Texture Name="gDogLadyEyeClosedTex" OutName="dog_lady_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x15C8"/>
+        <!-- Eye Textures -->
+        <Texture Name="gHylianWoman1EyeOpenTex" OutName="eye_open" Format="rgba16" Width="32" Height="32" Offset="0x05C8"/>
+        <Texture Name="gHylianWoman1EyeHalfTex" OutName="eye_half" Format="rgba16" Width="32" Height="32" Offset="0x0DC8"/>
+        <Texture Name="gHylianWoman1EyeClosedTex" OutName="eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x15C8"/>
     </File>
 </Root>
