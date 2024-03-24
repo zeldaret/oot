@@ -34,7 +34,7 @@ ActorInit Bg_Dodoago_InitVars = {
 
 static ColliderCylinderInit sColCylinderInitMain = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ALL,
         OC1_NONE,
@@ -42,7 +42,7 @@ static ColliderCylinderInit sColCylinderInitMain = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -54,7 +54,7 @@ static ColliderCylinderInit sColCylinderInitMain = {
 
 static ColliderCylinderInit sColCylinderInitLeftRight = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_NO_PUSH | OC1_TYPE_ALL,
@@ -62,7 +62,7 @@ static ColliderCylinderInit sColCylinderInitLeftRight = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,

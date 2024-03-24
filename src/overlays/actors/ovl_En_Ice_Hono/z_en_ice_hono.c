@@ -38,7 +38,7 @@ ActorInit En_Ice_Hono_InitVars = {
 
 static ColliderCylinderInit sCylinderInitCapturableFlame = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -46,7 +46,7 @@ static ColliderCylinderInit sCylinderInitCapturableFlame = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylinderInitCapturableFlame = {
 
 static ColliderCylinderInit sCylinderInitDroppedFlame = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_OTHER,
         AC_NONE,
         OC1_ON | OC1_TYPE_2,
@@ -66,7 +66,7 @@ static ColliderCylinderInit sCylinderInitDroppedFlame = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
