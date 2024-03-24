@@ -5131,8 +5131,8 @@ void func_8083A2F8(PlayState* play, Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_6 | PLAYER_STATE1_29;
 
     if (this->actor.textId != 0) {
-        Message_StartTextbox(play, this->actor.textId, this->targetActor);
-        this->unk_664 = this->targetActor;
+        Message_StartTextbox(play, this->actor.textId, this->talkActor);
+        this->unk_664 = this->talkActor;
     }
 }
 
@@ -5499,7 +5499,7 @@ s32 Player_ActionChange_13(Player* this, PlayState* play) {
     s32 sp2C;
     s32 sp28;
     GetItemEntry* giEntry;
-    Actor* targetActor;
+    Actor* talkActor;
 
     if ((this->unk_6AD != 0) && (func_808332B8(this) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
                                  (this->stateFlags1 & PLAYER_STATE1_23))) {
@@ -5526,9 +5526,9 @@ s32 Player_ActionChange_13(Player* this, PlayState* play) {
                     (sp28 = Player_ActionToBottle(this, this->itemAction) - 1,
                      ((sp28 >= 0) && (sp28 < 6) &&
                       ((this->itemAction > PLAYER_IA_BOTTLE_POE) ||
-                       ((this->targetActor != NULL) && (((this->itemAction == PLAYER_IA_BOTTLE_POE) &&
-                                                         (this->exchangeItemId == EXCH_ITEM_BOTTLE_POE)) ||
-                                                        (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE))))))) {
+                       ((this->talkActor != NULL) && (((this->itemAction == PLAYER_IA_BOTTLE_POE) &&
+                                                       (this->exchangeItemId == EXCH_ITEM_BOTTLE_POE)) ||
+                                                      (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE))))))) {
 
                     if ((play->actorCtx.titleCtx.delayTimer == 0) && (play->actorCtx.titleCtx.alpha == 0)) {
                         func_80835DE4(play, this, Player_Action_8084F104, 0);
@@ -5546,9 +5546,9 @@ s32 Player_ActionChange_13(Player* this, PlayState* play) {
                             sp2C = sp28 + 0x18;
                         }
 
-                        targetActor = this->targetActor;
+                        talkActor = this->talkActor;
 
-                        if ((targetActor != NULL) &&
+                        if ((talkActor != NULL) &&
                             ((this->exchangeItemId == sp2C) || (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE) ||
                              ((this->exchangeItemId == EXCH_ITEM_BOTTLE_POE) &&
                               (this->itemAction == PLAYER_IA_BOTTLE_BIG_POE)) ||
@@ -5563,8 +5563,8 @@ s32 Player_ActionChange_13(Player* this, PlayState* play) {
                                 this->av2.actionVar2 = 0x50;
                                 this->av1.actionVar1 = -1;
                             }
-                            targetActor->flags |= ACTOR_FLAG_TALK;
-                            this->unk_664 = this->targetActor;
+                            talkActor->flags |= ACTOR_FLAG_TALK;
+                            this->unk_664 = this->talkActor;
                         } else if (sp2C == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                             this->av1.actionVar1 = 1;
                             this->actor.textId = 0x4005;
@@ -5642,7 +5642,7 @@ s32 Player_ActionChange_13(Player* this, PlayState* play) {
 }
 
 s32 Player_ActionChange_4(Player* this, PlayState* play) {
-    Actor* sp34 = this->targetActor;
+    Actor* sp34 = this->talkActor;
     Actor* sp30 = this->unk_664;
     Actor* sp2C = NULL;
     s32 sp28 = 0;
@@ -5691,7 +5691,7 @@ s32 Player_ActionChange_4(Player* this, PlayState* play) {
                         }
 
                         sp34 = sp2C;
-                        this->targetActor = NULL;
+                        this->talkActor = NULL;
 
                         if (sp28 || !sp24) {
                             sp2C->textId = ABS(this->naviTextId);
@@ -10152,8 +10152,8 @@ void func_808473D4(PlayState* play, Player* this) {
                     doAction = DO_ACTION_CLIMB;
                 } else if ((this->stateFlags1 & PLAYER_STATE1_23) && !EN_HORSE_CHECK_4((EnHorse*)this->rideActor) &&
                            (Player_Action_8084D3E4 != this->actionFunc)) {
-                    if ((this->stateFlags2 & PLAYER_STATE2_1) && (this->targetActor != NULL)) {
-                        if (this->targetActor->category == ACTORCAT_NPC) {
+                    if ((this->stateFlags2 & PLAYER_STATE2_1) && (this->talkActor != NULL)) {
+                        if (this->talkActor->category == ACTORCAT_NPC) {
                             doAction = DO_ACTION_SPEAK;
                         } else {
                             doAction = DO_ACTION_CHECK;
@@ -10161,8 +10161,8 @@ void func_808473D4(PlayState* play, Player* this) {
                     } else if (!func_8002DD78(this) && !(this->stateFlags1 & PLAYER_STATE1_20)) {
                         doAction = DO_ACTION_FASTER;
                     }
-                } else if ((this->stateFlags2 & PLAYER_STATE2_1) && (this->targetActor != NULL)) {
-                    if (this->targetActor->category == ACTORCAT_NPC) {
+                } else if ((this->stateFlags2 & PLAYER_STATE2_1) && (this->talkActor != NULL)) {
+                    if (this->talkActor->category == ACTORCAT_NPC) {
                         doAction = DO_ACTION_SPEAK;
                     } else {
                         doAction = DO_ACTION_CHECK;
@@ -11211,10 +11211,10 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         func_808368EC(this, play);
 
         if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_TALK)) {
-            this->targetActorDistance = 0.0f;
+            this->talkActorDistance = 0.0f;
         } else {
-            this->targetActor = NULL;
-            this->targetActorDistance = MAXFLOAT;
+            this->talkActor = NULL;
+            this->talkActorDistance = MAXFLOAT;
             this->exchangeItemId = EXCH_ITEM_NONE;
         }
 
@@ -11769,14 +11769,14 @@ void Player_Action_8084B530(Player* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         this->actor.flags &= ~ACTOR_FLAG_TALK;
 
-        if (!CHECK_FLAG_ALL(this->targetActor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2)) {
+        if (!CHECK_FLAG_ALL(this->talkActor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2)) {
             this->stateFlags2 &= ~PLAYER_STATE2_13;
         }
 
         Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
 
         if (!func_8084B4D4(play, this) && !func_8084B3CC(play, this) && !Player_StartCsAction(play, this)) {
-            if ((this->targetActor != this->interactRangeActor) || !Player_ActionChange_2(this, play)) {
+            if ((this->talkActor != this->interactRangeActor) || !Player_ActionChange_2(this, play)) {
                 if (this->stateFlags1 & PLAYER_STATE1_23) {
                     s32 sp24 = this->av2.actionVar2;
                     func_8083A360(play, this);
@@ -11800,7 +11800,7 @@ void Player_Action_8084B530(Player* this, PlayState* play) {
     } else if (!func_8008E9C4(this) && LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->skelAnime.moveFlags != 0) {
             func_80832DBC(this);
-            if ((this->targetActor->category == ACTORCAT_NPC) && (this->heldItemAction != PLAYER_IA_FISHING_POLE)) {
+            if ((this->talkActor->category == ACTORCAT_NPC) && (this->heldItemAction != PLAYER_IA_FISHING_POLE)) {
                 Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_normal_talk_free);
             } else {
                 Player_AnimPlayLoop(play, this, func_80833338(this));
@@ -13004,12 +13004,12 @@ void Player_Action_8084E3C4(Player* this, PlayState* play) {
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
 
-        if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
-            func_80853148(play, this->targetActor);
+        if ((this->talkActor != NULL) && (this->talkActor == this->unk_6A8)) {
+            func_80853148(play, this->talkActor);
         } else if (this->naviTextId < 0) {
-            this->targetActor = this->naviActor;
+            this->talkActor = this->naviActor;
             this->naviActor->textId = -this->naviTextId;
-            func_80853148(play, this->targetActor);
+            func_80853148(play, this->talkActor);
         } else if (!Player_ActionChange_13(this, play)) {
             func_8083A098(this, &gPlayerAnim_link_normal_okarina_end, play);
         }
@@ -13073,8 +13073,8 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
             }
 
             if (func_8084DFF4(play, this) && (this->av2.actionVar2 == 1)) {
-                cond = ((this->targetActor != NULL) && (this->exchangeItemId < 0)) ||
-                       (this->stateFlags3 & PLAYER_STATE3_5);
+                cond =
+                    ((this->talkActor != NULL) && (this->exchangeItemId < 0)) || (this->stateFlags3 & PLAYER_STATE3_5);
 
                 if (cond || (gSaveContext.healthAccumulator == 0)) {
                     if (cond) {
@@ -13082,7 +13082,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
                         this->exchangeItemId = EXCH_ITEM_NONE;
 
                         if (func_8084B4D4(play, this) == 0) {
-                            func_80853148(play, this->targetActor);
+                            func_80853148(play, this->talkActor);
                         }
                     } else {
                         func_8084DFAC(play, this);
@@ -13360,14 +13360,14 @@ void Player_Action_8084F104(Player* this, PlayState* play) {
         if (this->av2.actionVar2 < 0) {
             func_8083C0E8(this, play);
         } else if (this->exchangeItemId == EXCH_ITEM_NONE) {
-            Actor* targetActor = this->targetActor;
+            Actor* talkActor = this->talkActor;
 
             this->unk_862 = 0;
-            if (targetActor->textId != 0xFFFF) {
+            if (talkActor->textId != 0xFFFF) {
                 this->actor.flags |= ACTOR_FLAG_TALK;
             }
 
-            func_80853148(play, targetActor);
+            func_80853148(play, talkActor);
         } else {
             GetItemEntry* giEntry = &sGetItemTable[D_80854528[this->exchangeItemId - 1] - 1];
 
@@ -15266,12 +15266,12 @@ void func_80853148(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
     s32 pad;
 
-    if ((this->targetActor != NULL) || (actor == this->naviActor) ||
+    if ((this->talkActor != NULL) || (actor == this->naviActor) ||
         CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18)) {
         actor->flags |= ACTOR_FLAG_TALK;
     }
 
-    this->targetActor = actor;
+    this->talkActor = actor;
     this->exchangeItemId = EXCH_ITEM_NONE;
 
     if (actor->textId == 0xFFFF) {
@@ -15324,7 +15324,7 @@ void func_80853148(PlayState* play, Actor* actor) {
         this->stateFlags1 |= PLAYER_STATE1_6 | PLAYER_STATE1_29;
     }
 
-    if ((this->naviActor == this->targetActor) && ((this->targetActor->textId & 0xFF00) != 0x200)) {
+    if ((this->naviActor == this->talkActor) && ((this->talkActor->textId & 0xFF00) != 0x200)) {
         this->naviActor->flags |= ACTOR_FLAG_TALK;
         func_80835EA4(play, 0xB);
     }
