@@ -304,8 +304,8 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
 
         //! @bug This code being located here gives multiple opportunities for the current action to change
         //! before damage handling can be done.
-        //! By, for example, taking damage on the same frame the collider contacts Player, a different action 
-        //! will run and `AT_HIT` will remain set. Then when returning back to this action, Player 
+        //! By, for example, taking damage on the same frame the collider contacts Player, a different action
+        //! will run and `AT_HIT` will remain set. Then when returning back to this action, Player
         //! will get knocked back instantly, even though there was no apparent collision.
         //! Handling `AT_HIT` directly in Update, where it can run every frame, would help catch these edge cases.
         if (this->collider.base.atFlags & AT_HIT) {
