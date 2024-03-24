@@ -51,11 +51,13 @@ static void write_ld_script(FILE *fout)
                   "    ..%s ", seg->name, seg->name, seg->name, seg->name);
 
         if (seg->fields & (1 << STMT_after))
-            fprintf(fout, "_%sSegmentEnd ", seg->after);
+            fprintf(fout, "(_%sSegmentEnd + %i) & ~ %i ", seg->after, seg->align - 1, seg->align - 1);
         else if (seg->fields & (1 << STMT_number))
             fprintf(fout, "0x%02X000000 ", seg->number);
         else if (seg->fields & (1 << STMT_address))
             fprintf(fout, "0x%08X ", seg->address);
+        else
+            fprintf(fout, "ALIGN(0x%X) ", seg->align);
 
         // (AT(_RomSize) isn't necessary, but adds useful "load address" lines to the map file)
         fprintf(fout, ": AT(_RomSize)\n    {\n"
@@ -63,9 +65,6 @@ static void write_ld_script(FILE *fout)
                   "        . = ALIGN(0x10);\n"
                   "        _%sSegmentTextStart = .;\n",
                   seg->name, seg->name);
-
-        if (seg->fields & (1 << STMT_align))
-            fprintf(fout, "        . = ALIGN(0x%X);\n", seg->align);
 
         for (j = 0; j < seg->includesCount; j++)
         {
@@ -165,9 +164,6 @@ static void write_ld_script(FILE *fout)
                       "        . = ALIGN(0x10);\n"
                       "        _%sSegmentBssStart = .;\n",
                       seg->name, seg->name, seg->name, seg->name);
-
-        if (seg->fields & (1 << STMT_align))
-            fprintf(fout, "        . = ALIGN(0x%X);\n", seg->align);
 
         for (j = 0; j < seg->includesCount; j++)
             fprintf(fout, "            %s (.sbss)\n"
