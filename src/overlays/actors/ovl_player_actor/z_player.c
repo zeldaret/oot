@@ -9429,7 +9429,7 @@ void Player_Action_PutAwayDelay(Player* this, PlayState* play) {
     // Wait for the held item put away process to complete.
     // Determining if the put away process is complete is a bit complicated:
     // `Player_UpdateUpperBody` will only return false if the current UpperAction function returns false.
-    // The UpperAction responsible for putting away items, `Player_UpperAction_ChangeHeldItem`, constatntly
+    // The UpperAction responsible for putting away items, `Player_UpperAction_ChangeHeldItem`, constantly
     // returns true until the item change is done. False won't be returned until the item change is done, and a new
     // UpperAction is running and can return false itself.
     // Note that this implementation allows for delaying indefinitely by, for example, holding shield
