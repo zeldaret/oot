@@ -9421,7 +9421,7 @@ void Player_Action_80845668(Player* this, PlayState* play) {
 
 /**
  * Allow the held item put away process to complete before running `putAwayDelayFunc`
- */
+*/
 void Player_Action_PutAwayDelay(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_5 | PLAYER_STATE2_6;
     LinkAnimation_Update(play, &this->skelAnime);
