@@ -9432,6 +9432,10 @@ void Player_Action_PutAwayDelay(Player* this, PlayState* play) {
     // The UpperAction responsible for putting away items, `Player_UpperAction_ChangeHeldItem`, constatntly
     // returns true until the item change is done. False won't be returned until the item change is done, and a new
     // UpperAction is running and can return false itself.
+    // Note that this implementation allows for delaying indefinitley by, for example, holding shield
+    // during the item put away. The shield UpperAction will return true while shielding and targeting.
+    // Meaning, `putAwayDelayFunc` will be delayed until the player decides to let go of shield.
+    // This quirk can contribute to the possibility of other bugs manifesting.
     //
     // The other conditions listed will force the put away delay function to run instantly if carrying an actor.
     // This is necessary because the upper action for carrying actors will always return true while holding
