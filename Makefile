@@ -70,7 +70,7 @@ EXTRACTED_DIR := extracted/$(VERSION)
 VENV := .venv
 
 MAKE = make
-CPPFLAGS += -fno-dollars-in-identifiers -P
+CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
 ifeq ($(DEBUG),1)
   CFLAGS += -DOOT_DEBUG=1
@@ -92,7 +92,6 @@ else
     ifeq ($(UNAME_S),Darwin)
         DETECTED_OS=macos
         MAKE=gmake
-        CPPFLAGS += -xc++
     endif
 endif
 
@@ -136,7 +135,9 @@ INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
 
-CPP        := cpp
+# The `cpp` command behaves differently on macOS (it behaves as if
+# `-traditional-cpp` was passed) so we use `gcc -E` instead.
+CPP        := gcc -E
 MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
