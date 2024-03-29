@@ -2,8 +2,11 @@
 #include "quake.h"
 #include "terminal.h"
 
+#if OOT_DEBUG
 void* gDebugCutsceneScript = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
+#endif
+
 Input* D_8012D1F8 = NULL;
 
 TransitionTile sTransitionTile;
