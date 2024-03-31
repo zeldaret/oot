@@ -70,7 +70,7 @@ EXTRACTED_DIR := extracted/$(VERSION)
 VENV := .venv
 
 MAKE = make
-CPPFLAGS += -fno-dollars-in-identifiers -P
+CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
 ifeq ($(DEBUG),1)
   CFLAGS += -DOOT_DEBUG=1
@@ -92,7 +92,6 @@ else
     ifeq ($(UNAME_S),Darwin)
         DETECTED_OS=macos
         MAKE=gmake
-        CPPFLAGS += -xc++
     endif
 endif
 
@@ -136,7 +135,9 @@ INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
 
-CPP        := cpp
+# The `cpp` command behaves differently on macOS (it behaves as if
+# `-traditional-cpp` was passed) so we use `gcc -E` instead.
+CPP        := gcc -E
 MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
@@ -208,8 +209,7 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
-BASEROM_SEGMENTS_DIR := $(BASEROM_DIR)/segments
-BASEROM_BIN_FILES := $(wildcard $(BASEROM_SEGMENTS_DIR)/*)
+BASEROM_BIN_FILES := $(wildcard $(EXTRACTED_DIR)/baserom/*)
 
 # source files
 C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c)))
@@ -351,7 +351,6 @@ assetclean:
 	$(RM) -r .extracted-assets.json
 
 distclean: assetclean
-	$(RM) -r baseroms/*/segments
 	$(RM) -r extracted/
 	$(RM) -r build/
 	$(MAKE) -C tools distclean
@@ -366,7 +365,7 @@ venv:
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(BASEROM_SEGMENTS_DIR) --dmadata-start `cat $(BASEROM_DIR)/dmadata_start.txt` --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
+	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(EXTRACTED_DIR)/baserom --dmadata-start `cat $(BASEROM_DIR)/dmadata_start.txt` --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
 	$(PYTHON) tools/msgdis.py --oot-version $(VERSION) --text-out $(EXTRACTED_DIR)/text/message_data.h --staff-text-out $(EXTRACTED_DIR)/text/message_data_staff.h
 # TODO: for now, we only extract assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
@@ -420,7 +419,7 @@ $(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
 
-$(BUILD_DIR)/baserom/%.o: $(BASEROM_SEGMENTS_DIR)/%
+$(BUILD_DIR)/baserom/%.o: $(EXTRACTED_DIR)/baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s

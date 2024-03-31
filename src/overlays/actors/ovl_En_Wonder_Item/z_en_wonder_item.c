@@ -34,8 +34,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 20, 30, 0, { 0, 0, 0 } },
@@ -159,7 +159,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
             colTypeIndex = this->actor.world.rot.z & 0xFF;
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.elem.bumper.dmgFlags = damageFlags[colTypeIndex];
+            this->collider.elem.acDmgInfo.dmgFlags = damageFlags[colTypeIndex];
             this->collider.dim.radius = 20;
             this->collider.dim.height = 30;
             this->updateFunc = EnWonderItem_InteractSwitch;
@@ -188,7 +188,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
         case WONDERITEM_BOMB_SOLDIER:
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.elem.bumper.dmgFlags = DMG_SLINGSHOT;
+            this->collider.elem.acDmgInfo.dmgFlags = DMG_SLINGSHOT;
             this->unkPos = this->actor.world.pos;
             this->collider.dim.radius = 35;
             this->collider.dim.height = 75;

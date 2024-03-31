@@ -16,8 +16,6 @@ static u8 sEquipmentItemOffsets[] = {
     0x00, 0x00, 0x01, 0x02, 0x00, 0x03, 0x04, 0x05, 0x00, 0x06, 0x07, 0x08, 0x00, 0x09, 0x0A, 0x0B,
 };
 
-static s16 sEquipTimer = 0;
-
 void KaleidoScope_DrawEquipmentImage(PlayState* play, void* source, u32 width, u32 height) {
     PauseContext* pauseCtx = &play->pauseCtx;
     u8* curTexture;
@@ -119,6 +117,7 @@ void KaleidoScope_DrawPlayerWork(PlayState* play) {
 void KaleidoScope_ProcessPlayerPreRender(PlayState* play);
 
 void KaleidoScope_DrawEquipment(PlayState* play) {
+    static s16 sEquipTimer = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
     u16 i;
@@ -437,8 +436,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
         cursorSlot = pauseCtx->cursorPoint[PAUSE_EQUIP];
 
-        pauseCtx->cursorItem[PAUSE_EQUIP] = cursorItem;
         pauseCtx->cursorSlot[PAUSE_EQUIP] = cursorSlot;
+        pauseCtx->cursorItem[PAUSE_EQUIP] = cursorItem;
 
         PRINTF("kscope->select_name[Display_Equipment] = %d\n", pauseCtx->cursorItem[PAUSE_EQUIP]);
 
@@ -552,8 +551,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
         if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
             point = CUR_UPG_VALUE(sChildUpgrades[i]);
-            if (1) {}
-            if ((point != 0) && (CUR_UPG_VALUE(sChildUpgrades[i]) != 0)) {
+            if (((u32)point != 0) && (CUR_UPG_VALUE(sChildUpgrades[i]) != 0)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx,
                                                    gItemIcons[sChildUpgradeItemBases[i] + point - 1], ITEM_ICON_WIDTH,
                                                    ITEM_ICON_HEIGHT, 0);
@@ -605,8 +603,6 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
     Gfx_SetupDL_42Opa(play->state.gfxCtx);
     KaleidoScope_DrawEquipmentImage(play, pauseCtx->playerSegment, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT);
-
-    if (gUpgradeMasks[0]) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_equipment.c", 609);
 }

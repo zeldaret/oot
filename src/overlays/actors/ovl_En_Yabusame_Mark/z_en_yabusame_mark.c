@@ -27,8 +27,8 @@ static ColliderQuadInit sQuadInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x0001F824, 0x00, 0x00 },
-        TOUCH_NONE | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_NONE | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -128,9 +128,9 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
 
-        arrowHitPos.x = this->collider.elem.bumper.hitPos.x;
-        arrowHitPos.y = this->collider.elem.bumper.hitPos.y;
-        arrowHitPos.z = this->collider.elem.bumper.hitPos.z;
+        arrowHitPos.x = this->collider.elem.acDmgInfo.hitPos.x;
+        arrowHitPos.y = this->collider.elem.acDmgInfo.hitPos.y;
+        arrowHitPos.z = this->collider.elem.acDmgInfo.hitPos.z;
 
         effectVelocity.y = 15.0f;
 

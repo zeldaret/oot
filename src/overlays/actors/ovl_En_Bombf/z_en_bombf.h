@@ -16,7 +16,7 @@ typedef struct EnBombf {
     /* 0x01F8 */ s16 timer;
     /* 0x01FC */ EnBombfActionFunc actionFunc;
     /* 0x0200 */ s32 isFuseEnabled; // enables the ability to ignite and tick down to explode
-    /* 0x0204 */ u8 bumpOn;
+    /* 0x0204 */ u8 colliderSetOC;
     /* 0x0206 */ s16 flashSpeedScale;
     /* 0x0208 */ f32 flashIntensity;
     /* 0x020C */ f32 flowerBombScale;

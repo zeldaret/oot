@@ -70,8 +70,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 25, 80, 0, { 0, 0, 0 } },
@@ -83,7 +83,9 @@ static void* sEyeTextures[] = {
     gNabooruEyeClosedTex,
 };
 
+#if OOT_DEBUG
 static s32 D_80AB4318 = 0;
+#endif
 
 #include "z_en_nb_cutscene_data.inc.c"
 

@@ -38,8 +38,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4001FFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { 0, 0, 0 }, 15 }, 100 },
@@ -176,7 +176,7 @@ void ObjComb_Wait(ObjComb* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        dmgFlags = this->collider.elements[0].base.acHitElem->toucher.dmgFlags;
+        dmgFlags = this->collider.elements[0].base.acHitElem->atDmgInfo.dmgFlags;
         if (dmgFlags & (DMG_HAMMER | DMG_ARROW | DMG_SLINGSHOT | DMG_DEKU_STICK)) {
             this->unk_1B0 = 1500;
         } else {
