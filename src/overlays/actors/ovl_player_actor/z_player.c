@@ -3408,7 +3408,7 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
 /**
  * Sets up `Player_Action_WaitForPutAway`, which will allow the held item put away process
  * to complete before moving on to a new action.
- * 
+ *
  * The function provided by the `afterPutAwayFunc` argument will run after the put away is complete.
  * This function is expected to set a new action and move execution away from `Player_Action_WaitForPutAway`.
  *
