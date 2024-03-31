@@ -892,7 +892,7 @@ typedef struct Player {
     /* 0x0A60 */ u8 bodyIsBurning;
     /* 0x0A61 */ u8 bodyFlameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8 unk_A73;
-    /* 0x0A74 */ AfterPutAwayFunc afterPutAwayFunc;
+    /* 0x0A74 */ AfterPutAwayFunc afterPutAwayFunc; // See `Player_SetupWaitForPutAway` and `Player_Action_WaitForPutAway`
     /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
     /* 0x0A79 */ u8 floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
     /* 0x0A7A */ u8 floorProperty;
