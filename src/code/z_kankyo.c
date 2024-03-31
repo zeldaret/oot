@@ -4,10 +4,9 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-// For retail BSS ordering, the block number of sLensFlareUnused
-// must be lower than the extern variables declared in the header,
+// For retail BSS ordering, the block number of sLensFlareUnused must be lower
+// than the extern variables declared in the header (e.g. gLightningStrike)
 // while the block number of sNGameOverLightNode must be higher.
-INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
 INCREMENT_BLOCK_NUMBER_BY_10();
