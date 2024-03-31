@@ -53,9 +53,6 @@ endif
 # Version-specific settings
 ifeq ($(VERSION),gc-eu-mq)
   DEBUG := 0
-  CFLAGS += -DNON_MATCHING
-  CPPFLAGS += -DNON_MATCHING
-  COMPARE := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   DEBUG := 1
 else
