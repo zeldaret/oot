@@ -88,10 +88,10 @@ typedef enum {
 
 #define ANIMSFX_SHIFT_TYPE(type) ((type) << 11)
 
-#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame) & 0x7FF)))
+#define ANIMSFX_DATA(type, frame) ((ANIMSFX_SHIFT_TYPE(type) | ((frame)&0x7FF)))
 
-#define ANIMSFX_GET_TYPE(data) ((data) & 0x7800)
-#define ANIMSFX_GET_FRAME(data) ((data) & 0x7FF)
+#define ANIMSFX_GET_TYPE(data) ((data)&0x7800)
+#define ANIMSFX_GET_FRAME(data) ((data)&0x7FF)
 
 typedef struct {
     /* 0x00 */ u16 sfxId;
