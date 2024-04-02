@@ -5,7 +5,7 @@ const char gBuildTeam[] = "zelda@srd022j";
 const char gBuildDate[] = "03-02-21 00:16:31";
 #elif !OOT_MQ // gc-eu
 const char gBuildDate[] = "03-02-21 20:12:23";
-#else // gc-eu-mq
+#else         // gc-eu-mq
 const char gBuildDate[] = "03-02-21 20:37:19";
 #endif
 
