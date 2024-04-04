@@ -15,10 +15,10 @@ ORIG_COMPILER := 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER := ido
 # Target game version. Currently only the following version is supported:
-#   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 # The following versions are work-in-progress and not yet matching:
 #   gc-eu          GameCube Europe/PAL
+#   gc-eu-mq       GameCube Europe/PAL Master Quest
 VERSION := gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS := $(shell nproc)
