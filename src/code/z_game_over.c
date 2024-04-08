@@ -13,8 +13,7 @@ void GameOver_FadeInLights(PlayState* play) {
     }
 }
 
-// This variable cannot be moved into this file as all of z_message_PAL rodata is in the way
-extern s16 gGameOverTimer;
+s16 gGameOverTimer = 0;
 
 void GameOver_Update(PlayState* play) {
     GameOverContext* gameOverCtx = &play->gameOverCtx;
