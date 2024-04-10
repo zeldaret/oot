@@ -3,9 +3,12 @@
 # SPDX-FileCopyrightText: © 2024 ZeldaRET
 # SPDX-License-Identifier: CC0-1.0
 
+# Usage: preprocess.py [compile command minus input file...] [single input file]
 # Preprocess a C file to:
-# * Re-encode from UTF-8 to EUC-JP
-# * Replace `#pragma increment_block_number i` with `i` fake structs for controlling BSS ordering
+# * Re-encode from UTF-8 to EUC-JP (the repo uses UTF-8 for text encoding, but
+#   the strings in the ROM are encoded in EUC-JP)
+# * Replace `#pragma increment_block_number N` with `N` fake structs for
+#   controlling BSS ordering
 
 from pathlib import Path
 import os
