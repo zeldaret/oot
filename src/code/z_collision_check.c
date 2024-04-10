@@ -2,12 +2,6 @@
 #include "terminal.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 
-typedef enum {
-    /* 0 */ MASSTYPE_IMMOVABLE,
-    /* 1 */ MASSTYPE_HEAVY,
-    /* 2 */ MASSTYPE_NORMAL
-} ColChkMassType;
-
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
 typedef void (*ColChkVsFunc)(PlayState*, CollisionCheckContext*, Collider*, Collider*);
@@ -2696,6 +2690,14 @@ void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx) {
     }
     CollisionCheck_SetHitEffects(play, colChkCtx);
 }
+
+typedef enum {
+    /* 0 */ MASSTYPE_IMMOVABLE,
+    /* 1 */ MASSTYPE_HEAVY,
+    /* 2 */ MASSTYPE_NORMAL
+} ColChkMassType;
+
+#pragma increment_block_number 253
 
 /**
  * Get mass type. Immovable colliders cannot be pushed, while heavy colliders can only be pushed by heavy and immovable
