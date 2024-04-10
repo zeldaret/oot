@@ -47,14 +47,10 @@
 // For retail BSS ordering, the block number of sFaultInstance must be 0 or
 // just above (the exact upper bound depends on the block numbers assigned to
 // extern variables declared in headers).
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
-#if !OOT_DEBUG
-INCREMENT_BLOCK_NUMBER_BY_1();
-INCREMENT_BLOCK_NUMBER_BY_1();
-INCREMENT_BLOCK_NUMBER_BY_1();
-INCREMENT_BLOCK_NUMBER_BY_1();
-INCREMENT_BLOCK_NUMBER_BY_1();
+#if OOT_DEBUG
+#pragma increment_block_number 20
+#else
+#pragma increment_block_number 25
 #endif
 
 void FaultDrawer_Init(void);

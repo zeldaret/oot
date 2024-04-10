@@ -1897,10 +1897,7 @@ s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, 
     return false;
 }
 
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_1();
-INCREMENT_BLOCK_NUMBER_BY_1();
+#pragma increment_block_number 22
 
 // Local data used for Farore's Wind light (stored in BSS)
 LightInfo D_8015BC00;

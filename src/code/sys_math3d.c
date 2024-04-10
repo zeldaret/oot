@@ -3,16 +3,7 @@
 
 // For retail BSS ordering, the block number of cbf in Math3D_CylVsCylOverlapCenterDist
 // must be 0.
-INCREMENT_BLOCK_NUMBER_BY_100();
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
+#pragma increment_block_number 190
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);

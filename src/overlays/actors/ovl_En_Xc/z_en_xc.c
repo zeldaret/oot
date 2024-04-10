@@ -1396,8 +1396,7 @@ void func_80B3F3D8(void) {
     Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
 }
 
-INCREMENT_BLOCK_NUMBER_BY_10();
-INCREMENT_BLOCK_NUMBER_BY_10();
+#pragma increment_block_number 20
 
 void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {
     static Vec3f D_80B42DA0;
