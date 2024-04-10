@@ -16,7 +16,6 @@
 #   https://github.com/decompals/IDO/blob/main/IDO_7.1/dist/compiler_eoe/usr/include/sym.h
 
 import argparse
-import glob
 import itertools
 from pathlib import Path
 import platform
@@ -242,23 +241,21 @@ def generate_symbol_table(command_line):
     input_file = Path(command_line[-1])
     rest = command_line[:-1]
 
-    stem = f"oot_{input_file.stem}_"
+    stem = input_file.stem
+    symbol_table_file = Path(f"{stem}.T")
+    ucode_file = Path(f"{stem}.B")
+
     try:
         # Invoke compiler
         # -Hf stops compilation after cfe so we can inspect the symbol table
         subprocess.run(rest + ["-Hf", input_file], check=True)
 
         # Read symbol table
-        filenames = glob.glob(f"{stem}*.T")
-        if len(filenames) != 1:
-            print(f"Expected 1 symbol table file, found {len(filenames)}", file=sys.stderr)
-            sys.exit(1)
-
-        return Path(filenames[0]).read_bytes()
+        return symbol_table_file.read_bytes()
     finally:
-        # Cleanup any leftover files
-        for filename in glob.glob(f"{stem}*"):
-            Path(filename).unlink(missing_ok=True)
+        # Cleanup
+        symbol_table_file.unlink(missing_ok=True)
+        ucode_file.unlink(missing_ok=True)
 
 
 def main():

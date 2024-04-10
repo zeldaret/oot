@@ -47,14 +47,14 @@ def process_file(filename, input, output):
 
 def main():
     filename = Path(sys.argv[-1])
-    with tempfile.NamedTemporaryFile(
-        mode="w", prefix=f"oot_{filename.stem}_", suffix=".c", encoding="euc-jp"
-    ) as tmp:
-        with open(filename, "r", encoding="utf-8") as f:
-            process_file(filename, f, tmp)
-        tmp.flush()
+    with tempfile.TemporaryDirectory(prefix="oot_") as tmpdir:
+        tmpfile = Path(tmpdir) / filename.name
 
-        compile_command = sys.argv[1:-1] + ["-I", filename.parent, tmp.name]
+        with open(filename, mode="r", encoding="utf-8") as input:
+            with open(tmpfile, mode="w", encoding="euc-jp") as output:
+                process_file(filename, input, output)
+
+        compile_command = sys.argv[1:-1] + ["-I", filename.parent, tmpfile]
         process = subprocess.run(compile_command)
         return process.returncode
 
