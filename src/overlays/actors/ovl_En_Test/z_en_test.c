@@ -1743,7 +1743,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
                 Animation_Change(&this->upperSkelanime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
                                  Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
                 AnimTaskQueue_AddCopyUsingMap(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                                              this->upperSkelanime.jointTable, sJointCopyFlags);
                 this->unk_7DE++;
                 break;
 

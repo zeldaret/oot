@@ -795,7 +795,6 @@ void SkelAnime_InterpFrameTable(s32 limbCount, Vec3s* dst, Vec3s* start, Vec3s* 
     }
 }
 
-
 static u32 sDisabledTransformTaskGroups = 0;
 static u32 sCurAnimTaskGroup;
 
@@ -809,10 +808,10 @@ void AnimTaskQueue_Reset(AnimTaskQueue* animTaskQueue) {
 
 /**
  * Changes `sCurAnimTaskGroup` to the next group number.
- * 
+ *
  * Task groups allow for disabling "transformative" tasks for a defined group.
  * For more information see `AnimTaskQueue_DisableTransformTasksForGroup`.
- * 
+ *
  * Note that `sCurAnimTaskGroup` is not a whole number that increments, it is handled at the bit-level.
  * Every time the group number changes, a single bit moves 1 position to the left. This is an implementation detail
  * that allows for `sDisabledTransformTaskGroups` to compare against a set of bit flags.
@@ -829,7 +828,7 @@ void AnimTaskQueue_NewGroup(PlayState* play) {
  * - Interp
  * - CopyUsingMap
  * - CopyUsingMapInverted
- * 
+ *
  * LoadPlayerFrame and MoveActor, which don't alter the appearance of an existing animation,
  * will always run even if a group has its transform tasks disabled.
  */
@@ -839,12 +838,12 @@ void AnimTaskQueue_DisableTransformTasksForGroup(PlayState* play) {
 
 /**
  * Creates a new task and adds it to the queue, if there is room for it.
- * 
- * The `type` value for the task gets set here, but all other 
+ *
+ * The `type` value for the task gets set here, but all other
  * initialization must be handled by the caller.
- * 
+ *
  * @return  a pointer to the task, or NULL if it could not be added
-*/
+ */
 AnimTask* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
     AnimTask* task;
     s16 taskNumber = animTaskQueue->count;
@@ -871,7 +870,7 @@ AnimTask* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
  * When the task is processed later in the AnimTaskQueue, it will wait for the DMA to finish.
  */
 void AnimTaskQueue_AddLoadPlayerFrame(PlayState* play, LinkAnimationHeader* animation, s32 frame, s32 limbCount,
-                                   Vec3s* frameTable) {
+                                      Vec3s* frameTable) {
     AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_LOAD_PLAYER_FRAME);
 
     if (task != NULL) {
@@ -881,13 +880,14 @@ void AnimTaskQueue_AddLoadPlayerFrame(PlayState* play, LinkAnimationHeader* anim
         osCreateMesgQueue(&task->data.loadPlayerFrame.msgQueue, &task->data.loadPlayerFrame.msg, 1);
         DMA_REQUEST_ASYNC(&task->data.loadPlayerFrame.req, frameTable,
                           LINK_ANIMATION_OFFSET(linkAnimHeader->segment, ((sizeof(Vec3s) * limbCount + 2) * frame)),
-                          sizeof(Vec3s) * limbCount + 2, 0, &task->data.loadPlayerFrame.msgQueue, NULL, "../z_skelanime.c", 2004);
+                          sizeof(Vec3s) * limbCount + 2, 0, &task->data.loadPlayerFrame.msgQueue, NULL,
+                          "../z_skelanime.c", 2004);
     }
 }
 
 /**
  * Creates a task which will copy all vectors from the `src` frame table to the `dest` frame table.
- * 
+ *
  * Note: This task is "transformative", meaning it will alter the appearance of an animation.
  * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
@@ -905,7 +905,7 @@ void AnimTaskQueue_AddCopy(PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* sr
 /**
  * Creates a task which will interpolate between the `base` and `mod` frame tables.
  * The result of the interpolation will be placed in the original `base` table.
- * 
+ *
  * Note: This task is "transformative", meaning it will alter the appearance of an animation.
  * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
@@ -924,11 +924,11 @@ void AnimTaskQueue_AddInterp(PlayState* play, s32 vecCount, Vec3s* base, Vec3s* 
 /**
  * Creates a task which will copy specified vectors from the `src` frame table to the `dest` frame table.
  * Exactly which vectors will be copied is specified by the `copyMap`.
- * 
+ *
  * The copy map is a list of true/false flags that specify which limbs should have their data copied.
  * Each index of the map corresponds to a limb number in the skeleton.
  * Every limb that has `true` listed will have its data copied.
- * 
+ *
  * Note: This task is "transformative", meaning it will alter the appearance of an animation.
  * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
@@ -947,11 +947,11 @@ void AnimTaskQueue_AddCopyUsingMap(PlayState* play, s32 vecCount, Vec3s* dest, V
 /**
  * Creates a task which will copy specified vectors from the `src` frame table to the `dest` frame table.
  * Exactly which vectors will be copied is specified by the `copyMap`.
- * 
+ *
  * The copy map is a list of true/false flags that specify which limbs should have their data copied.
  * Each index of the map corresponds to a limb number in the skeleton.
  * Every limb that has `false` listed will have its data copied.
- * 
+ *
  * Note: This task is "transformative", meaning it will alter the appearance of an animation.
  * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
@@ -1080,8 +1080,8 @@ typedef void (*AnimTaskFunc)(struct PlayState* play, AnimTaskData* data);
  */
 void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
     static AnimTaskFunc animTaskFuncs[] = {
-        AnimTask_LoadPlayerFrame, AnimTask_Copy,   AnimTaskQueue_Interp,
-        AnimTask_CopyUsingMap,  AnimTask_CopyUsingMapInverted, AnimTask_MoveActor,
+        AnimTask_LoadPlayerFrame,      AnimTask_Copy,      AnimTaskQueue_Interp, AnimTask_CopyUsingMap,
+        AnimTask_CopyUsingMapInverted, AnimTask_MoveActor,
     };
     AnimTask* task;
 
@@ -1181,7 +1181,7 @@ s32 LinkAnimation_Morph(PlayState* play, SkelAnime* skelAnime) {
     }
 
     AnimTaskQueue_AddInterp(play, skelAnime->limbCount, skelAnime->jointTable, skelAnime->morphTable,
-                               1.0f - (skelAnime->morphWeight / prevMorphWeight));
+                            1.0f - (skelAnime->morphWeight / prevMorphWeight));
     return 0;
 }
 
@@ -1191,7 +1191,7 @@ s32 LinkAnimation_Morph(PlayState* play, SkelAnime* skelAnime) {
  */
 void LinkAnimation_AnimateFrame(PlayState* play, SkelAnime* skelAnime) {
     AnimTaskQueue_AddLoadPlayerFrame(play, skelAnime->animation, skelAnime->curFrame, skelAnime->limbCount,
-                                  skelAnime->jointTable);
+                                     skelAnime->jointTable);
     if (skelAnime->morphWeight != 0) {
         f32 updateRate = R_UPDATE_RATE * 0.5f;
 
@@ -1200,7 +1200,7 @@ void LinkAnimation_AnimateFrame(PlayState* play, SkelAnime* skelAnime) {
             skelAnime->morphWeight = 0.0f;
         } else {
             AnimTaskQueue_AddInterp(play, skelAnime->limbCount, skelAnime->jointTable, skelAnime->morphTable,
-                                       skelAnime->morphWeight);
+                                    skelAnime->morphWeight);
         }
     }
 }
@@ -1268,7 +1268,7 @@ void LinkAnimation_Change(PlayState* play, SkelAnime* skelAnime, LinkAnimationHe
         } else {
             skelAnime->update.link = LinkAnimation_Morph;
             AnimTaskQueue_AddLoadPlayerFrame(play, animation, (s32)startFrame, skelAnime->limbCount,
-                                          skelAnime->morphTable);
+                                             skelAnime->morphTable);
         }
         skelAnime->morphWeight = 1.0f;
         skelAnime->morphRate = 1.0f / morphFrames;
