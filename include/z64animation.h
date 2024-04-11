@@ -91,7 +91,7 @@ typedef enum {
 #define ANIM_FLAG_0 (1 << 0) // (no effect outside of player) Related to scaling an animation from/to child/adult
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 #define ANIM_FLAG_PLAYER_2 (1 << 2) // (player-only) Related to scaling an animation from/to child/adult
-#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) // (player-only) Call AnimationContext_SetMoveActor
+#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) // (player-only) Call AnimTaskQueue_AddMoveActor
 #define ANIM_FLAG_NO_MOVE (1 << 4)
 #define ANIM_FLAG_PLAYER_7 (1 << 7) // (player-only)
 
@@ -239,17 +239,17 @@ s16 Animation_GetLength(void* animation);
 s16 Animation_GetLastFrame(void* animation);
 
 /*
- * Animation requests
+ * Animation Task Queue
  */
 
 typedef enum {
-    /* 0 */ ANIMENTRY_LOADFRAME,
-    /* 1 */ ANIMENTRY_COPYALL,
-    /* 2 */ ANIMENTRY_INTERP,
-    /* 3 */ ANIMENTRY_COPYTRUE,
-    /* 4 */ ANIMENTRY_COPYFALSE,
-    /* 5 */ ANIMENTRY_MOVEACTOR
-} AnimationType;
+    /* 0 */ ANIMTASK_LOAD_PLAYER_FRAME,
+    /* 1 */ ANIMTASK_COPY,
+    /* 2 */ ANIMTASK_INTERP,
+    /* 3 */ ANIMTASK_COPY_USING_MAP,
+    /* 4 */ ANIMTASK_COPY_USING_MAP_INVERTED,
+    /* 5 */ ANIMTASK_MOVE_ACTOR
+} AnimTaskType;
 
 typedef struct {
     /* 0x000 */ DmaRequest req;
@@ -301,33 +301,33 @@ typedef union {
     AnimEntryCopyTrue copy1;
     AnimEntryCopyFalse copy0;
     AnimEntryMoveActor move;
-} AnimationEntryData; // size = 0x3C
+} AnimTaskData; // size = 0x3C
 
 typedef struct {
     /* 0x00 */ u8 type;
-    /* 0x04 */ AnimationEntryData data;
-} AnimationEntry; // size = 0x40
+    /* 0x04 */ AnimTaskData data;
+} AnimTaskEntry; // size = 0x40
 
-#define ANIMATION_ENTRY_MAX 50
+#define ANIM_TASK_QUEUE_MAX 50
 
-typedef struct AnimationContext {
-    s16 animationCount;
-    AnimationEntry entries[ANIMATION_ENTRY_MAX];
-} AnimationContext; // size = 0xC84
+typedef struct AnimTaskQueue {
+    s16 count;
+    AnimTaskEntry tasks[ANIM_TASK_QUEUE_MAX];
+} AnimTaskQueue; // size = 0xC84
 
-void AnimationContext_SetLoadFrame(struct PlayState* play, LinkAnimationHeader* animation, s32 frame, s32 limbCount,
-                                   Vec3s* frameTable);
-void AnimationContext_SetCopyAll(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src);
-void AnimationContext_SetCopyTrue(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
-void AnimationContext_SetCopyFalse(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
-void AnimationContext_SetInterp(struct PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
-void AnimationContext_SetMoveActor(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
+void AnimTaskQueue_AddLoadPlayerFrame(struct PlayState* play, LinkAnimationHeader* animation, s32 frame, s32 limbCount,
+                                      Vec3s* frameTable);
+void AnimTaskQueue_AddCopy(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src);
+void AnimTaskQueue_AddInterp(struct PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
+void AnimTaskQueue_AddCopyUsingMap(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
+void AnimTaskQueue_AddCopyUsingMapInverted(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
+void AnimTaskQueue_AddMoveActor(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
 
-void AnimationContext_SetNextQueue(struct PlayState* play);
-void AnimationContext_DisableQueue(struct PlayState* play);
+void AnimTaskQueue_SetNextGroup(struct PlayState* play);
+void AnimTaskQueue_DisableTransformTasksForGroup(struct PlayState* play);
 
-void AnimationContext_Reset(AnimationContext* animationCtx);
-void AnimationContext_Update(struct PlayState* play, AnimationContext* animationCtx);
+void AnimTaskQueue_Reset(AnimTaskQueue* animTaskQueue);
+void AnimTaskQueue_Update(struct PlayState* play, AnimTaskQueue* animTaskQueue);
 
 /*
  * Link animations
