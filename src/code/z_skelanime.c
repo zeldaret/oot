@@ -825,7 +825,7 @@ void AnimTaskQueue_NewGroup(PlayState* play) {
  * A transformative task is one that will alter the appearance of an animation.
  * These include Copy, Interp, CopyUsingMap, and CopyUsingMapInverted.
  *
- * LoadPlayerFrame and MoveActor, which don't alter the appearance of an existing animation,
+ * LoadPlayerFrame and ActorMove, which don't alter the appearance of an existing animation,
  * will always run even if a group has its transformative tasks disabled.
  */
 void AnimTaskQueue_DisableTransformTasksForGroup(PlayState* play) {
