@@ -800,7 +800,7 @@ static u32 sCurAnimTaskGroup;
 
 /**
  * Resets the AnimTaskQueue.
- * Zeroing the entry count will stop the queue from processing entries until new ones are added.
+ * Zeroing the task count will stop the queue from processing tasks until new ones are added.
  */
 void AnimTaskQueue_Reset(AnimTaskQueue* animTaskQueue) {
     animTaskQueue->count = 0;
@@ -821,16 +821,12 @@ void AnimTaskQueue_NewGroup(PlayState* play) {
 }
 
 /**
- * Marks the current task group as disabled, so that "transformative" tasks are skipped.
+ * Marks the current task group as disabled so that "transformative" tasks are skipped.
  * A transformative task is one that will alter the appearance of an animation.
- * These include:
- * - Copy
- * - Interp
- * - CopyUsingMap
- * - CopyUsingMapInverted
+ * These include Copy, Interp, CopyUsingMap, and CopyUsingMapInverted.
  *
  * LoadPlayerFrame and MoveActor, which don't alter the appearance of an existing animation,
- * will always run even if a group has its transform tasks disabled.
+ * will always run even if a group has its transformative tasks disabled.
  */
 void AnimTaskQueue_DisableTransformTasksForGroup(PlayState* play) {
     sDisabledTransformTaskGroups |= sCurAnimTaskGroup;
@@ -842,7 +838,7 @@ void AnimTaskQueue_DisableTransformTasksForGroup(PlayState* play) {
  * The `type` value for the task gets set here, but all other
  * initialization must be handled by the caller.
  *
- * @return  a pointer to the task, or NULL if it could not be added
+ * @return a pointer to the task, or NULL if it could not be added
  */
 AnimTask* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
     AnimTask* task;
@@ -866,7 +862,7 @@ AnimTask* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
 
 /**
  * Creates a task which will load a single frame of animation data from the link_animetion file.
- * The asynchronous DMA request to load the data is sent as soon as the task is created.
+ * The asynchronous DMA request to load the data is made as soon as the task is created.
  * When the task is processed later in the AnimTaskQueue, it will wait for the DMA to finish.
  */
 void AnimTaskQueue_AddLoadPlayerFrame(PlayState* play, LinkAnimationHeader* animation, s32 frame, s32 limbCount,
@@ -925,7 +921,7 @@ void AnimTaskQueue_AddInterp(PlayState* play, s32 vecCount, Vec3s* base, Vec3s* 
  * Creates a task which will copy specified vectors from the `src` frame table to the `dest` frame table.
  * Exactly which vectors will be copied is specified by the `copyMap`.
  *
- * The copy map is a list of true/false flags that specify which limbs should have their data copied.
+ * The copy map is an array of true/false flags that specify which limbs should have their data copied.
  * Each index of the map corresponds to a limb number in the skeleton.
  * Every limb that has `true` listed will have its data copied.
  *
@@ -948,7 +944,7 @@ void AnimTaskQueue_AddCopyUsingMap(PlayState* play, s32 vecCount, Vec3s* dest, V
  * Creates a task which will copy specified vectors from the `src` frame table to the `dest` frame table.
  * Exactly which vectors will be copied is specified by the `copyMap`.
  *
- * The copy map is a list of true/false flags that specify which limbs should have their data copied.
+ * The copy map is an array of true/false flags that specify which limbs should have their data copied.
  * Each index of the map corresponds to a limb number in the skeleton.
  * Every limb that has `false` listed will have its data copied.
  *
@@ -1007,7 +1003,7 @@ void AnimTask_Copy(PlayState* play, AnimTaskData* data) {
 }
 
 /**
- * Interpolate between the base and mod frame tables.
+ * Interpolate between the `base` and `mod` frame tables.
  */
 void AnimTaskQueue_Interp(PlayState* play, AnimTaskData* data) {
     AnimTaskInterp* task = &data->interp;
