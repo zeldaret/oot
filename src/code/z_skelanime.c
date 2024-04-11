@@ -816,7 +816,7 @@ void AnimTaskQueue_Reset(AnimTaskQueue* animTaskQueue) {
  * Every time the group number changes, a single bit moves 1 position to the left. This is an implementation detail
  * that allows for `sDisabledTransformTaskGroups` to compare against a set of bit flags.
  */
-void AnimTaskQueue_NewGroup(PlayState* play) {
+void AnimTaskQueue_SetNextGroup(PlayState* play) {
     sCurAnimTaskGroup <<= 1;
 }
 
@@ -1005,7 +1005,7 @@ void AnimTask_Copy(PlayState* play, AnimTaskData* data) {
 /**
  * Interpolate between the `base` and `mod` frame tables.
  */
-void AnimTaskQueue_Interp(PlayState* play, AnimTaskData* data) {
+void AnimTask_Interp(PlayState* play, AnimTaskData* data) {
     AnimTaskInterp* task = &data->interp;
 
     if (!(task->group & sDisabledTransformTaskGroups)) {
@@ -1076,7 +1076,7 @@ typedef void (*AnimTaskFunc)(struct PlayState* play, AnimTaskData* data);
  */
 void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
     static AnimTaskFunc animTaskFuncs[] = {
-        AnimTask_LoadPlayerFrame,      AnimTask_Copy,      AnimTaskQueue_Interp, AnimTask_CopyUsingMap,
+        AnimTask_LoadPlayerFrame,      AnimTask_Copy,      AnimTask_Interp, AnimTask_CopyUsingMap,
         AnimTask_CopyUsingMapInverted, AnimTask_ActorMove,
     };
     AnimTask* task;

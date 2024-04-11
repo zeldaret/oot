@@ -323,7 +323,7 @@ void AnimTaskQueue_AddCopyUsingMap(struct PlayState* play, s32 vecCount, Vec3s* 
 void AnimTaskQueue_AddCopyUsingMapInverted(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* copyMap);
 void AnimTaskQueue_AddActorMove(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
 
-void AnimTaskQueue_NewGroup(struct PlayState* play);
+void AnimTaskQueue_SetNextGroup(struct PlayState* play);
 void AnimTaskQueue_DisableTransformTasksForGroup(struct PlayState* play);
 
 void AnimTaskQueue_Reset(AnimTaskQueue* animTaskQueue);
