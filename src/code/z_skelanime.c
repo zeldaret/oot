@@ -796,7 +796,7 @@ void SkelAnime_InterpFrameTable(s32 limbCount, Vec3s* dst, Vec3s* start, Vec3s* 
 }
 
 
-static u32 sAnimTaskDisabledTransformGroups = 0;
+static u32 sDisabledTransformTaskGroups = 0;
 static u32 sCurAnimTaskGroup;
 
 /**
@@ -810,14 +810,14 @@ void AnimTaskQueue_Reset(AnimTaskQueue* animTaskQueue) {
 /**
  * Changes `sCurAnimTaskGroup` to the next group number.
  * 
- * Task groups allow for disabling "transformative" tasks for only some defined group.
+ * Task groups allow for disabling "transformative" tasks for a defined group.
  * For more information see `AnimTaskQueue_DisableTransformTasksForGroup`.
  * 
  * Note that `sCurAnimTaskGroup` is not a whole number that increments, it is handled at the bit-level.
  * Every time the group number changes, a single bit moves 1 position to the left. This is an implementation detail
- * that allows for `sAnimTaskDisabledTransformGroups` to compare against a set of bit flags.
+ * that allows for `sDisabledTransformTaskGroups` to compare against a set of bit flags.
  */
-void AnimTaskQueue_SetNextGroup(PlayState* play) {
+void AnimTaskQueue_NewGroup(PlayState* play) {
     sCurAnimTaskGroup <<= 1;
 }
 
@@ -831,22 +831,22 @@ void AnimTaskQueue_SetNextGroup(PlayState* play) {
  * - CopyUsingMapInverted
  * 
  * LoadPlayerFrame and MoveActor, which don't alter the appearance of an existing animation,
- * will always run even if the group has its transformative tasks disabled.
+ * will always run even if a group has its transform tasks disabled.
  */
 void AnimTaskQueue_DisableTransformTasksForGroup(PlayState* play) {
-    sAnimTaskDisabledTransformGroups |= sCurAnimTaskGroup;
+    sDisabledTransformTaskGroups |= sCurAnimTaskGroup;
 }
 
 /**
  * Creates a new task and adds it to the queue, if there is room for it.
  * 
- * The `type` value for the task gets set in this function, but all other 
+ * The `type` value for the task gets set here, but all other 
  * initialization must be handled by the caller.
  * 
  * @return  a pointer to the task, or NULL if it could not be added
 */
-AnimTaskEntry* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
-    AnimTaskEntry* task;
+AnimTask* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
+    AnimTask* task;
     s16 taskNumber = animTaskQueue->count;
 
     if (taskNumber >= ANIM_TASK_QUEUE_MAX) {
@@ -872,29 +872,32 @@ AnimTaskEntry* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
  */
 void AnimTaskQueue_AddLoadPlayerFrame(PlayState* play, LinkAnimationHeader* animation, s32 frame, s32 limbCount,
                                    Vec3s* frameTable) {
-    AnimTaskEntry* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_LOAD_PLAYER_FRAME);
+    AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_LOAD_PLAYER_FRAME);
 
     if (task != NULL) {
         LinkAnimationHeader* linkAnimHeader = SEGMENTED_TO_VIRTUAL(animation);
         s32 pad;
 
-        osCreateMesgQueue(&task->data.load.msgQueue, &task->data.load.msg, 1);
-        DMA_REQUEST_ASYNC(&task->data.load.req, frameTable,
+        osCreateMesgQueue(&task->data.loadPlayerFrame.msgQueue, &task->data.loadPlayerFrame.msg, 1);
+        DMA_REQUEST_ASYNC(&task->data.loadPlayerFrame.req, frameTable,
                           LINK_ANIMATION_OFFSET(linkAnimHeader->segment, ((sizeof(Vec3s) * limbCount + 2) * frame)),
-                          sizeof(Vec3s) * limbCount + 2, 0, &task->data.load.msgQueue, NULL, "../z_skelanime.c", 2004);
+                          sizeof(Vec3s) * limbCount + 2, 0, &task->data.loadPlayerFrame.msgQueue, NULL, "../z_skelanime.c", 2004);
     }
 }
 
 /**
- * Creates a task which will copy all vectors from the `src` frame table to the `dst` frame table.
+ * Creates a task which will copy all vectors from the `src` frame table to the `dest` frame table.
+ * 
+ * Note: This task is "transformative", meaning it will alter the appearance of an animation.
+ * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
-void AnimTaskQueue_AddCopy(PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src) {
-    AnimTaskEntry* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_COPY);
+void AnimTaskQueue_AddCopy(PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src) {
+    AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_COPY);
 
     if (task != NULL) {
-        task->data.copy.queueFlag = sCurAnimTaskGroup;
+        task->data.copy.group = sCurAnimTaskGroup;
         task->data.copy.vecCount = vecCount;
-        task->data.copy.dst = dst;
+        task->data.copy.dest = dest;
         task->data.copy.src = src;
     }
 }
@@ -902,12 +905,15 @@ void AnimTaskQueue_AddCopy(PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src
 /**
  * Creates a task which will interpolate between the `base` and `mod` frame tables.
  * The result of the interpolation will be placed in the original `base` table.
+ * 
+ * Note: This task is "transformative", meaning it will alter the appearance of an animation.
+ * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
 void AnimTaskQueue_AddInterp(PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight) {
-    AnimTaskEntry* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_INTERP);
+    AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_INTERP);
 
     if (task != NULL) {
-        task->data.interp.queueFlag = sCurAnimTaskGroup;
+        task->data.interp.group = sCurAnimTaskGroup;
         task->data.interp.vecCount = vecCount;
         task->data.interp.base = base;
         task->data.interp.mod = mod;
@@ -916,42 +922,48 @@ void AnimTaskQueue_AddInterp(PlayState* play, s32 vecCount, Vec3s* base, Vec3s* 
 }
 
 /**
- * Creates a task which will copy specified vectors from the `src` frame table to the `dst` frame table.
+ * Creates a task which will copy specified vectors from the `src` frame table to the `dest` frame table.
  * Exactly which vectors will be copied is specified by the `copyMap`.
  * 
  * The copy map is a list of true/false flags that specify which limbs should have their data copied.
  * Each index of the map corresponds to a limb number in the skeleton.
  * Every limb that has `true` listed will have its data copied.
+ * 
+ * Note: This task is "transformative", meaning it will alter the appearance of an animation.
+ * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
-void AnimTaskQueue_AddCopyUsingMap(PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyMap) {
-    AnimTaskEntry* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_COPY_USING_MAP);
+void AnimTaskQueue_AddCopyUsingMap(PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* copyMap) {
+    AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_COPY_USING_MAP);
 
     if (task != NULL) {
-        task->data.copy1.queueFlag = sCurAnimTaskGroup;
-        task->data.copy1.vecCount = vecCount;
-        task->data.copy1.dst = dst;
-        task->data.copy1.src = src;
-        task->data.copy1.copyFlag = copyMap;
+        task->data.copyUsingMap.group = sCurAnimTaskGroup;
+        task->data.copyUsingMap.vecCount = vecCount;
+        task->data.copyUsingMap.dest = dest;
+        task->data.copyUsingMap.src = src;
+        task->data.copyUsingMap.copyMap = copyMap;
     }
 }
 
 /**
- * Creates a task which will copy specified vectors from the `src` frame table to the `dst` frame table.
+ * Creates a task which will copy specified vectors from the `src` frame table to the `dest` frame table.
  * Exactly which vectors will be copied is specified by the `copyMap`.
  * 
  * The copy map is a list of true/false flags that specify which limbs should have their data copied.
  * Each index of the map corresponds to a limb number in the skeleton.
  * Every limb that has `false` listed will have its data copied.
+ * 
+ * Note: This task is "transformative", meaning it will alter the appearance of an animation.
+ * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
-void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyMap) {
-    AnimTaskEntry* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_COPY_USING_MAP_INVERTED);
+void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* copyMap) {
+    AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_COPY_USING_MAP_INVERTED);
 
     if (task != NULL) {
-        task->data.copy0.queueFlag = sCurAnimTaskGroup;
-        task->data.copy0.vecCount = vecCount;
-        task->data.copy0.dst = dst;
-        task->data.copy0.src = src;
-        task->data.copy0.copyFlag = copyMap;
+        task->data.copyUsingMapInverted.group = sCurAnimTaskGroup;
+        task->data.copyUsingMapInverted.vecCount = vecCount;
+        task->data.copyUsingMapInverted.dest = dest;
+        task->data.copyUsingMapInverted.src = src;
+        task->data.copyUsingMapInverted.copyMap = copyMap;
     }
 }
 
@@ -959,12 +971,12 @@ void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s*
  * Creates a task which will move an actor according to the translation of its root limb for the current frame.
  */
 void AnimTaskQueue_AddMoveActor(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
-    AnimTaskEntry* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_MOVE_ACTOR);
+    AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_MOVE_ACTOR);
 
     if (task != NULL) {
-        task->data.move.actor = actor;
-        task->data.move.skelAnime = skelAnime;
-        task->data.move.diffScaleY = moveDiffScaleY;
+        task->data.moveActor.actor = actor;
+        task->data.moveActor.skelAnime = skelAnime;
+        task->data.moveActor.diffScaleY = moveDiffScaleY;
     }
 }
 
@@ -972,24 +984,24 @@ void AnimTaskQueue_AddMoveActor(PlayState* play, Actor* actor, SkelAnime* skelAn
  * Wait for the DMA request submitted by `AnimTaskQueue_AddLoadPlayerFrame` to complete.
  */
 void AnimTask_LoadPlayerFrame(PlayState* play, AnimTaskData* data) {
-    AnimEntryLoadFrame* task = &data->load;
+    AnimTaskLoadPlayerFrame* task = &data->loadPlayerFrame;
 
     osRecvMesg(&task->msgQueue, NULL, OS_MESG_BLOCK);
 }
 
 /**
- * Copy all data from the `src` frame table to the `dst` table.
+ * Copy all data from the `src` frame table to the `dest` table.
  */
 void AnimTask_Copy(PlayState* play, AnimTaskData* data) {
-    AnimEntryCopyAll* task = &data->copy;
+    AnimTaskCopy* task = &data->copy;
 
-    if (!(task->queueFlag & sAnimTaskDisabledTransformGroups)) {
-        Vec3s* dst = task->dst;
+    if (!(task->group & sDisabledTransformTaskGroups)) {
+        Vec3s* dest = task->dest;
         Vec3s* src = task->src;
         s32 i;
 
         for (i = 0; i < task->vecCount; i++) {
-            *dst++ = *src++;
+            *dest++ = *src++;
         }
     }
 }
@@ -998,48 +1010,48 @@ void AnimTask_Copy(PlayState* play, AnimTaskData* data) {
  * Interpolate between the base and mod frame tables.
  */
 void AnimTaskQueue_Interp(PlayState* play, AnimTaskData* data) {
-    AnimEntryInterp* task = &data->interp;
+    AnimTaskInterp* task = &data->interp;
 
-    if (!(task->queueFlag & sAnimTaskDisabledTransformGroups)) {
+    if (!(task->group & sDisabledTransformTaskGroups)) {
         SkelAnime_InterpFrameTable(task->vecCount, task->base, task->base, task->mod, task->weight);
     }
 }
 
 /**
- * Copy all data from the `src` frame table to the `dst` table according to the copy map.
+ * Copy all data from the `src` frame table to the `dest` table according to the copy map.
  */
 void AnimTask_CopyUsingMap(PlayState* play, AnimTaskData* data) {
-    AnimEntryCopyTrue* task = &data->copy1;
+    AnimTaskCopyUsingMap* task = &data->copyUsingMap;
 
-    if (!(task->queueFlag & sAnimTaskDisabledTransformGroups)) {
-        Vec3s* dst = task->dst;
+    if (!(task->group & sDisabledTransformTaskGroups)) {
+        Vec3s* dest = task->dest;
         Vec3s* src = task->src;
-        u8* copyFlag = task->copyFlag;
+        u8* copyMap = task->copyMap;
         s32 i;
 
-        for (i = 0; i < task->vecCount; i++, dst++, src++) {
-            if (*copyFlag++) {
-                *dst = *src;
+        for (i = 0; i < task->vecCount; i++, dest++, src++) {
+            if (*copyMap++) {
+                *dest = *src;
             }
         }
     }
 }
 
 /**
- * Copy all data from the `src` frame table to the `dst` table according to the inverted copy map.
+ * Copy all data from the `src` frame table to the `dest` table according to the inverted copy map.
  */
 void AnimTask_CopyUsingMapInverted(PlayState* play, AnimTaskData* data) {
-    AnimEntryCopyFalse* task = &data->copy0;
+    AnimTaskCopyUsingMapInverted* task = &data->copyUsingMapInverted;
 
-    if (!(task->queueFlag & sAnimTaskDisabledTransformGroups)) {
-        Vec3s* dst = task->dst;
+    if (!(task->group & sDisabledTransformTaskGroups)) {
+        Vec3s* dest = task->dest;
         Vec3s* src = task->src;
-        u8* copyFlag = task->copyFlag;
+        u8* copyMap = task->copyMap;
         s32 i;
 
-        for (i = 0; i < task->vecCount; i++, dst++, src++) {
-            if (!(*copyFlag++)) {
-                *dst = *src;
+        for (i = 0; i < task->vecCount; i++, dest++, src++) {
+            if (!(*copyMap++)) {
+                *dest = *src;
             }
         }
     }
@@ -1049,7 +1061,7 @@ void AnimTask_CopyUsingMapInverted(PlayState* play, AnimTaskData* data) {
  * Move an actor according to the translation of its root limb for the current animation frame.
  */
 void AnimTask_MoveActor(PlayState* play, AnimTaskData* data) {
-    AnimEntryMoveActor* task = &data->move;
+    AnimTaskMoveActor* task = &data->moveActor;
     Actor* actor = task->actor;
     Vec3f diff;
 
@@ -1071,7 +1083,7 @@ void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
         AnimTask_LoadPlayerFrame, AnimTask_Copy,   AnimTaskQueue_Interp,
         AnimTask_CopyUsingMap,  AnimTask_CopyUsingMapInverted, AnimTask_MoveActor,
     };
-    AnimTaskEntry* task;
+    AnimTask* task;
 
     for (task = animTaskQueue->tasks; animTaskQueue->count != 0; animTaskQueue->count--) {
         animTaskFuncs[task->type](play, &task->data);
@@ -1079,7 +1091,7 @@ void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
     }
 
     sCurAnimTaskGroup = 1 << 0;
-    sAnimTaskDisabledTransformGroups = 0;
+    sDisabledTransformTaskGroups = 0;
 }
 
 /**

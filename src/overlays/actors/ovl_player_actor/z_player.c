@@ -11276,7 +11276,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             }
         }
 
-        AnimTaskQueue_SetNextGroup(play);
+        AnimTaskQueue_NewGroup(play);
     }
 
     Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
