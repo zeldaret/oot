@@ -11203,7 +11203,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         Player_UpdateCamAndSeqModes(play, this);
 
         if (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_SETMOVE) {
-            AnimTaskQueue_AddMoveActor(play, &this->actor, &this->skelAnime,
+            AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime,
                                        (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) ? 1.0f
                                                                                         : this->ageProperties->unk_08);
         }

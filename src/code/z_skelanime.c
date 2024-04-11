@@ -966,13 +966,13 @@ void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s*
 /**
  * Creates a task which will move an actor according to the translation of its root limb for the current frame.
  */
-void AnimTaskQueue_AddMoveActor(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
-    AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_MOVE_ACTOR);
+void AnimTaskQueue_AddActorMove(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
+    AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_ACTOR_MOVE);
 
     if (task != NULL) {
-        task->data.moveActor.actor = actor;
-        task->data.moveActor.skelAnime = skelAnime;
-        task->data.moveActor.diffScaleY = moveDiffScaleY;
+        task->data.actorMove.actor = actor;
+        task->data.actorMove.skelAnime = skelAnime;
+        task->data.actorMove.diffScaleY = moveDiffScaleY;
     }
 }
 
@@ -1056,8 +1056,8 @@ void AnimTask_CopyUsingMapInverted(PlayState* play, AnimTaskData* data) {
 /**
  * Move an actor according to the translation of its root limb for the current animation frame.
  */
-void AnimTask_MoveActor(PlayState* play, AnimTaskData* data) {
-    AnimTaskMoveActor* task = &data->moveActor;
+void AnimTask_ActorMove(PlayState* play, AnimTaskData* data) {
+    AnimTaskActorMove* task = &data->actorMove;
     Actor* actor = task->actor;
     Vec3f diff;
 
@@ -1077,7 +1077,7 @@ typedef void (*AnimTaskFunc)(struct PlayState* play, AnimTaskData* data);
 void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
     static AnimTaskFunc animTaskFuncs[] = {
         AnimTask_LoadPlayerFrame,      AnimTask_Copy,      AnimTaskQueue_Interp, AnimTask_CopyUsingMap,
-        AnimTask_CopyUsingMapInverted, AnimTask_MoveActor,
+        AnimTask_CopyUsingMapInverted, AnimTask_ActorMove,
     };
     AnimTask* task;
 

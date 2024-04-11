@@ -91,7 +91,7 @@ typedef enum {
 #define ANIM_FLAG_0 (1 << 0) // (no effect outside of player) Related to scaling an animation from/to child/adult
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 #define ANIM_FLAG_PLAYER_2 (1 << 2) // (player-only) Related to scaling an animation from/to child/adult
-#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) // (player-only) Call AnimTaskQueue_AddMoveActor
+#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) // (player-only) Call AnimTaskQueue_AddActorMove
 #define ANIM_FLAG_NO_MOVE (1 << 4)
 #define ANIM_FLAG_PLAYER_7 (1 << 7) // (player-only)
 
@@ -248,7 +248,7 @@ typedef enum {
     /* 2 */ ANIMTASK_INTERP,
     /* 3 */ ANIMTASK_COPY_USING_MAP,
     /* 4 */ ANIMTASK_COPY_USING_MAP_INVERTED,
-    /* 5 */ ANIMTASK_MOVE_ACTOR
+    /* 5 */ ANIMTASK_ACTOR_MOVE
 } AnimTaskType;
 
 typedef struct {
@@ -292,7 +292,7 @@ typedef struct {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ struct SkelAnime* skelAnime;
     /* 0x08 */ f32 diffScaleY;
-} AnimTaskMoveActor; // size = 0xC
+} AnimTaskActorMove; // size = 0xC
 
 typedef union {
     AnimTaskLoadPlayerFrame loadPlayerFrame;
@@ -300,7 +300,7 @@ typedef union {
     AnimTaskInterp interp;
     AnimTaskCopyUsingMap copyUsingMap;
     AnimTaskCopyUsingMapInverted copyUsingMapInverted;
-    AnimTaskMoveActor moveActor;
+    AnimTaskActorMove actorMove;
 } AnimTaskData; // size = 0x3C
 
 typedef struct {
@@ -321,7 +321,7 @@ void AnimTaskQueue_AddCopy(struct PlayState* play, s32 vecCount, Vec3s* dest, Ve
 void AnimTaskQueue_AddInterp(struct PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
 void AnimTaskQueue_AddCopyUsingMap(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* copyMap);
 void AnimTaskQueue_AddCopyUsingMapInverted(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* copyMap);
-void AnimTaskQueue_AddMoveActor(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
+void AnimTaskQueue_AddActorMove(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
 
 void AnimTaskQueue_NewGroup(struct PlayState* play);
 void AnimTaskQueue_DisableTransformTasksForGroup(struct PlayState* play);
