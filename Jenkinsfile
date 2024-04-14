@@ -24,37 +24,54 @@ pipeline {
                 sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
             }
         }
-
-        def versions = ['gc-eu-mq-dbg', 'gc-eu-mq']
-        for (int i = 0; i < versions.length; i++) {
-            def version = versions[i]
-
-            stage("Setup ${version}") {
-                steps {
-                    sh "cp /usr/local/etc/roms/oot-${version}.z64 baseroms/${version}/baserom.z64"
-                    sh "make -j setup VERSION=${version}"
-                }
-            }
-            stage("Build ${version} (qemu-irix)") {
-                when {
-                    branch 'main'
-                }
-                steps {
-                    sh "make -j VERSION=${version} ORIG_COMPILER=1"
-                }
-            }
-            stage("Build ${version}") {
-                when {
-                    not {
-                        branch 'main'
-                    }
-                }
-                steps {
-                    sh "make -j VERSION=${version} RUN_CC_CHECK=0"
-                }
+        stage("Setup gc-eu-mq-dbg") {
+            steps {
+                sh "cp /usr/local/etc/roms/oot-gc-eu-mq-dbg.z64 baseroms/gc-eu-mq-dbg/baserom.z64"
+                sh "make -j setup"
             }
         }
-
+        stage("Build gc-eu-mq-dbg (qemu-irix)") {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh "make -j ORIG_COMPILER=1"
+            }
+        }
+        stage("Build gc-eu-mq-dbg") {
+            when {
+                not {
+                    branch 'main'
+                }
+            }
+            steps {
+                sh "make -j RUN_CC_CHECK=0"
+            }
+        }
+        stage("Setup gc-eu-mq") {
+            steps {
+                sh "cp /usr/local/etc/roms/oot-gc-eu-mq.z64 baseroms/gc-eu-mq/baserom.z64"
+                sh "make -j setup VERSION=gc-eu-mq"
+            }
+        }
+        stage("Build gc-eu-mq (qemu-irix)") {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh "make -j VERSION=gc-eu-mq ORIG_COMPILER=1"
+            }
+        }
+        stage("Build gc-eu-mq") {
+            when {
+                not {
+                    branch 'main'
+                }
+            }
+            steps {
+                sh "make -j VERSION=gc-eu-mq RUN_CC_CHECK=0"
+            }
+        }
         stage('Report Progress') {
             when {
                 branch 'main'
