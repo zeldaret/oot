@@ -418,7 +418,11 @@ void Scene_DrawConfigWaterTemple(PlayState* play) {
     spAC = play->roomCtx.unk_74[1] & 0xFF;
     gameplayFrames = play->gameplayFrames;
 
+#if !OOT_MQ
+    gSPSegment(POLY_XLU_DISP++, 0x06, SEGMENTED_TO_VIRTUAL(D_8012A330[((void)0, gSaveContext.save.nightFlag)]));
+#else
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A330[((void)0, gSaveContext.save.nightFlag)]));
+#endif
 
     if (spB0 == 1) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
