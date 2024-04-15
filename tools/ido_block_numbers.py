@@ -222,7 +222,7 @@ def find_compiler_command_line(filename, oot_version):
     for line in make_output:
         parts = line.split()
         if "-o" in parts and str(filename) in parts:
-            makefile_command_line = parts
+            compiler_command_line = parts
             found += 1
 
     if found != 1:
@@ -231,49 +231,29 @@ def find_compiler_command_line(filename, oot_version):
         )
         sys.exit(1)
 
-    # Assume command line is of the form:
-    # tools/reencode.sh [COMPILER] [COMPILER_ARGS]
-    compiler_command_line = makefile_command_line[1:]
-
     print(f'Command line: {" ".join(compiler_command_line)}', file=sys.stderr)
     return compiler_command_line
 
 
 def generate_symbol_table(command_line):
-    # Find source file in compiler arguments
-    source_file = None
-    args = []
-    for arg in command_line:
-        if arg.endswith(".c"):
-            source_file = Path(arg)
-        else:
-            args.append(arg)
+    # Assume command line is of the form:
+    # python3 tools/preprocess.py [COMPILER] [COMPILER_ARGS] [INPUT_FILE]
+    input_file = Path(command_line[-1])
+    rest = command_line[:-1]
 
-    if source_file is None:
-        raise Exception("No source file found")
-
-    source_contents = source_file.read_text()
-
-    stem = "reencode_tmp"
-    input_file = Path(f"{stem}.c")
+    stem = input_file.stem
     symbol_table_file = Path(f"{stem}.T")
     ucode_file = Path(f"{stem}.B")
 
     try:
-        # Write temporary file with #line directive to simulate asm-processor
-        with open(input_file, "w") as f:
-            f.write('#line 1 "{}"\n'.format(source_file))
-            f.write(source_contents)
-
         # Invoke compiler
         # -Hf stops compilation after cfe so we can inspect the symbol table
-        subprocess.run(args + ["-Hf", input_file], check=True)
+        subprocess.run(rest + ["-Hf", input_file], check=True)
 
         # Read symbol table
         return symbol_table_file.read_bytes()
     finally:
         # Cleanup
-        input_file.unlink(missing_ok=True)
         symbol_table_file.unlink(missing_ok=True)
         ucode_file.unlink(missing_ok=True)
 
