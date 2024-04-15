@@ -4,6 +4,11 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
+// For retail BSS ordering, the block number of sLensFlareUnused must be lower
+// than the extern variables declared in the header (e.g. gLightningStrike)
+// while the block number of sNGameOverLightNode must be higher.
+#pragma increment_block_number 80
+
 typedef enum {
     /* 0x00 */ LIGHTNING_BOLT_START,
     /* 0x01 */ LIGHTNING_BOLT_WAIT,
@@ -183,7 +188,7 @@ f32 sSandstormLerpScale = 0.0f;
 
 u8 gCustomLensFlareOn;
 Vec3f gCustomLensFlarePos;
-s16 gLensFlareUnused;
+s16 sLensFlareUnused;
 s16 gLensFlareScale;
 f32 gLensFlareColorIntensity;
 s16 gLensFlareGlareStrength;
@@ -206,6 +211,11 @@ s16 sLightningFlashAlpha;
 
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
+
+// These variables could be moved farther down in the file to reduce the amount
+// of block number padding here, but currently this causes BSS ordering issues
+// for debug.
+#pragma increment_block_number 230
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
@@ -2208,7 +2218,7 @@ void Environment_DrawCustomLensFlare(PlayState* play) {
         pos.y = gCustomLensFlarePos.y;
         pos.z = gCustomLensFlarePos.z;
 
-        Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, gLensFlareUnused,
+        Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, sLensFlareUnused,
                                   gLensFlareScale, gLensFlareColorIntensity, gLensFlareGlareStrength, false);
     }
 }

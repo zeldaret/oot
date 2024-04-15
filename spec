@@ -448,10 +448,6 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/code/fault.o"
     include "$(BUILD_DIR)/src/code/fault_drawer.o"
-#ifndef NON_MATCHING
-    include "$(BUILD_DIR)/data/fault.bss.o"
-    include "$(BUILD_DIR)/data/fault_drawer.bss.o"
-#endif
     include "$(BUILD_DIR)/src/code/kanread.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"

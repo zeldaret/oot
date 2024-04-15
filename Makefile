@@ -59,7 +59,6 @@ else ifeq ($(VERSION),gc-eu-mq)
   DEBUG := 0
   CFLAGS += -DOOT_MQ
   CPPFLAGS += -DOOT_MQ
-  COMPARE := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   DEBUG := 1
   CFLAGS += -DOOT_MQ
@@ -318,9 +317,9 @@ $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 # For using asm_processor on some files:
 #$(BUILD_DIR)/.../%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
-ifeq ($(PERMUTER),)  # permuter + reencode.sh misbehaves, permuter doesn't care about encoding ((ro)data diffs) so just don't use it in that case
-# Handle encoding (UTF-8 -> EUC-JP)
-$(BUILD_DIR)/%.o: CC := tools/reencode.sh $(CC)
+ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
+# Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
+$(BUILD_DIR)/src/%.o: CC := $(PYTHON) tools/preprocess.py $(CC)
 endif
 
 else
