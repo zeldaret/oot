@@ -1,3 +1,5 @@
+#include "z_kaleido_scope.h"
+
 PauseMapMarksData gPauseMapMarkDataTable[] = {
     // Deku Tree map 0
     {
