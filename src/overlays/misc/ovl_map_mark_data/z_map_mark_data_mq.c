@@ -1437,3 +1437,8 @@ static MapMarkData sMapMarkIceCavern[] = {
         { MAP_MARK_NONE, 0, { 0 } },
     },
 };
+
+MapMarkData* gMapMarkDataTable[] = {
+    sMapMarkDekuTree,    sMapMarkDodongosCavern, sMapMarkJabuJabuBelly, sMapMarkForestTemple, sMapMarkFireTemple,
+    sMapMarkWaterTemple, sMapMarkSpiritTemple,   sMapMarkShadowTemple,  sMapMarkBottomWell,   sMapMarkIceCavern,
+};
