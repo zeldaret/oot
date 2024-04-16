@@ -277,7 +277,7 @@ typedef struct {
     /* 0x01 */ u8 vecCount;
     /* 0x04 */ Vec3s* dest;
     /* 0x08 */ Vec3s* src;
-    /* 0x0C */ u8* copyMap;
+    /* 0x0C */ u8* limbCopyMap;
 } AnimTaskCopyUsingMap; // size = 0x10
 
 typedef struct {
@@ -285,7 +285,7 @@ typedef struct {
     /* 0x01 */ u8 vecCount;
     /* 0x04 */ Vec3s* dest;
     /* 0x08 */ Vec3s* src;
-    /* 0x0C */ u8* copyMap;
+    /* 0x0C */ u8* limbCopyMap;
 } AnimTaskCopyUsingMapInverted; // size = 0x10
 
 typedef struct {
@@ -319,8 +319,8 @@ void AnimTaskQueue_AddLoadPlayerFrame(struct PlayState* play, LinkAnimationHeade
                                       Vec3s* frameTable);
 void AnimTaskQueue_AddCopy(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src);
 void AnimTaskQueue_AddInterp(struct PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
-void AnimTaskQueue_AddCopyUsingMap(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* copyMap);
-void AnimTaskQueue_AddCopyUsingMapInverted(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* copyMap);
+void AnimTaskQueue_AddCopyUsingMap(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap);
+void AnimTaskQueue_AddCopyUsingMapInverted(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap);
 void AnimTaskQueue_AddActorMove(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
 
 void AnimTaskQueue_SetNextGroup(struct PlayState* play);

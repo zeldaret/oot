@@ -799,8 +799,7 @@ static u32 sDisabledTransformTaskGroups = 0;
 static u32 sCurAnimTaskGroup;
 
 /**
- * Resets the AnimTaskQueue.
- * Zeroing the task count will stop the queue from processing tasks until new ones are added.
+ * Clear the current task queue. The discarded tasks will then not be processed.
  */
 void AnimTaskQueue_Reset(AnimTaskQueue* animTaskQueue) {
     animTaskQueue->count = 0;
@@ -919,7 +918,7 @@ void AnimTaskQueue_AddInterp(PlayState* play, s32 vecCount, Vec3s* base, Vec3s* 
 
 /**
  * Creates a task which will copy specified vectors from the `src` frame table to the `dest` frame table.
- * Exactly which vectors will be copied is specified by the `copyMap`.
+ * Exactly which vectors will be copied is specified by the `limbCopyMap`.
  *
  * The copy map is an array of true/false flags that specify which limbs should have their data copied.
  * Each index of the map corresponds to a limb number in the skeleton.
@@ -928,7 +927,7 @@ void AnimTaskQueue_AddInterp(PlayState* play, s32 vecCount, Vec3s* base, Vec3s* 
  * Note: This task is "transformative", meaning it will alter the appearance of an animation.
  * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
-void AnimTaskQueue_AddCopyUsingMap(PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* copyMap) {
+void AnimTaskQueue_AddCopyUsingMap(PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap) {
     AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_COPY_USING_MAP);
 
     if (task != NULL) {
@@ -936,13 +935,13 @@ void AnimTaskQueue_AddCopyUsingMap(PlayState* play, s32 vecCount, Vec3s* dest, V
         task->data.copyUsingMap.vecCount = vecCount;
         task->data.copyUsingMap.dest = dest;
         task->data.copyUsingMap.src = src;
-        task->data.copyUsingMap.copyMap = copyMap;
+        task->data.copyUsingMap.limbCopyMap = limbCopyMap;
     }
 }
 
 /**
  * Creates a task which will copy specified vectors from the `src` frame table to the `dest` frame table.
- * Exactly which vectors will be copied is specified by the `copyMap`.
+ * Exactly which vectors will be copied is specified by the `limbCopyMap`.
  *
  * The copy map is an array of true/false flags that specify which limbs should have their data copied.
  * Each index of the map corresponds to a limb number in the skeleton.
@@ -951,7 +950,7 @@ void AnimTaskQueue_AddCopyUsingMap(PlayState* play, s32 vecCount, Vec3s* dest, V
  * Note: This task is "transformative", meaning it will alter the appearance of an animation.
  * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
  */
-void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* copyMap) {
+void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap) {
     AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_COPY_USING_MAP_INVERTED);
 
     if (task != NULL) {
@@ -959,7 +958,7 @@ void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s*
         task->data.copyUsingMapInverted.vecCount = vecCount;
         task->data.copyUsingMapInverted.dest = dest;
         task->data.copyUsingMapInverted.src = src;
-        task->data.copyUsingMapInverted.copyMap = copyMap;
+        task->data.copyUsingMapInverted.limbCopyMap = limbCopyMap;
     }
 }
 
@@ -1022,11 +1021,11 @@ void AnimTask_CopyUsingMap(PlayState* play, AnimTaskData* data) {
     if (!(task->group & sDisabledTransformTaskGroups)) {
         Vec3s* dest = task->dest;
         Vec3s* src = task->src;
-        u8* copyMap = task->copyMap;
+        u8* limbCopyMap = task->limbCopyMap;
         s32 i;
 
         for (i = 0; i < task->vecCount; i++, dest++, src++) {
-            if (*copyMap++) {
+            if (*limbCopyMap++) {
                 *dest = *src;
             }
         }
@@ -1042,11 +1041,11 @@ void AnimTask_CopyUsingMapInverted(PlayState* play, AnimTaskData* data) {
     if (!(task->group & sDisabledTransformTaskGroups)) {
         Vec3s* dest = task->dest;
         Vec3s* src = task->src;
-        u8* copyMap = task->copyMap;
+        u8* limbCopyMap = task->limbCopyMap;
         s32 i;
 
         for (i = 0; i < task->vecCount; i++, dest++, src++) {
-            if (!(*copyMap++)) {
+            if (!(*limbCopyMap++)) {
                 *dest = *src;
             }
         }
