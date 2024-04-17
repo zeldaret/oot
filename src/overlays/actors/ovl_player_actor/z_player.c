@@ -2140,7 +2140,7 @@ LinkAnimationHeader* func_808335F4(Player* this) {
 void Player_SetUpperActionFunc(Player* this, UpperActionFunc upperActionFunc) {
     this->upperActionFunc = upperActionFunc;
     this->unk_836 = 0;
-    this->upperAnimBlendWeight = 0.0f;
+    this->upperAnimInterpWeight = 0.0f;
     func_808326F0(this);
 }
 
@@ -3361,12 +3361,13 @@ int Player_CanUpdateItems(Player* this) {
 /**
  * Updates the Upper Body system.
  * The Upper Body system is composed of an upper action function and
- * a seperate skelanime that can play an animation that is different
+ * a seperate skelanime that can play an animation which is different
  * from the main skelanime.
  * 
  * @return true if the upper body is "busy", false otherwise.
+ * 
  * The upper body being "busy" can mean a few things:
- * - Hookshot has just connected with something that player can fly to
+ * - Hookshot has just connected with something that Player can fly to
  * - A deku is currently being thrown
  * - The current upper action function has indicated that it is busy
  * 
@@ -3403,22 +3404,23 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
         return false;
     }
 
-    if (this->upperAnimBlendWeight != 0.0f) {
+    if (this->upperAnimInterpWeight != 0.0f) {
         // The functionality contained within this block of code is never used in practice
+        // because `upperAnimInterpWeight` is always 0.
         if ((func_80833350(this) == 0) || (this->speedXZ != 0.0f)) {
             AnimationContext_SetCopyFalse(play, this->skelAnime.limbCount, this->upperSkelAnime.jointTable,
                                           this->skelAnime.jointTable, sUpperBodyLimbCopyMap);
         }
-        Math_StepToF(&this->upperAnimBlendWeight, 0.0f, 0.25f);
+        Math_StepToF(&this->upperAnimInterpWeight, 0.0f, 0.25f);
         AnimationContext_SetInterp(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
-                                   this->upperSkelAnime.jointTable, 1.0f - this->upperAnimBlendWeight);
+                                   this->upperSkelAnime.jointTable, 1.0f - this->upperAnimInterpWeight);
     } else if ((func_80833350(this) == 0) || (this->speedXZ != 0.0f)) {
         // Only copy the upper body animation to the upper body limbs in the main skeleton.
         // Doing so allows the main skeleton to play its own animation for the lower body limbs.
         AnimationContext_SetCopyTrue(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                      this->upperSkelAnime.jointTable, sUpperBodyLimbCopyMap);
     } else {
-        // Copy all of the upper body animation into the lower body.
+        // Copy all of the upper body animation into the whole main skeleton.
         // The upper body has full control of all limbs.
         AnimationContext_SetCopyAll(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                     this->upperSkelAnime.jointTable);
