@@ -496,7 +496,7 @@ static u32 sNoclipEnabled = false;
 static f32 sControlStickMagnitude = 0.0f;
 static s16 sControlStickAngle = 0;
 static s16 D_808535DC = 0;
-static s32 D_808535E0 = 0;
+static s32 sUpperBodyIsBusy = false; // see `Player_UpdateUpperBody`
 static s32 sFloorType = FLOOR_TYPE_0;
 static f32 D_808535E8 = 1.0f;
 static f32 D_808535EC = 1.0f;
@@ -2613,9 +2613,9 @@ s32 func_80834758(PlayState* play, Player* this) {
 
 s32 func_8083485C(Player* this, PlayState* play) {
     if (func_80834758(play, this)) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -2660,9 +2660,9 @@ s32 func_8083499C(Player* this, PlayState* play) {
  */
 s32 Player_UpperAction_Sword(Player* this, PlayState* play) {
     if (func_80834758(play, this) || func_8083499C(this, play)) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -2675,6 +2675,7 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
         this->unk_834 = 0;
         this->unk_6AC = 0;
         sHeldItemButtonIsHeldDown = sUseHeldItem;
+
         return this->upperActionFunc(this, play);
     }
 
@@ -2686,7 +2687,7 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
         Player_WaitToFinishItemChange(play, this);
     }
 
-    return 1;
+    return true;
 }
 
 s32 func_80834B5C(Player* this, PlayState* play) {
@@ -2694,11 +2695,11 @@ s32 func_80834B5C(Player* this, PlayState* play) {
 
     if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
         func_80834894(this);
-        return 1;
+        return true;
     } else {
         this->stateFlags1 |= PLAYER_STATE1_22;
         Player_SetModelsForHoldingShield(this);
-        return 1;
+        return true;
     }
 }
 
@@ -2715,7 +2716,7 @@ s32 func_80834BD4(Player* this, PlayState* play) {
     this->stateFlags1 |= PLAYER_STATE1_22;
     Player_SetModelsForHoldingShield(this);
 
-    return 1;
+    return true;
 }
 
 s32 func_80834C74(Player* this, PlayState* play) {
@@ -2727,10 +2728,11 @@ s32 func_80834C74(Player* this, PlayState* play) {
                                GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
         this->unk_6AC = 0;
         this->upperActionFunc(this, play);
-        return 0;
+
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 s32 func_80834D2C(Player* this, PlayState* play) {
@@ -2817,10 +2819,10 @@ s32 func_8083501C(Player* this, PlayState* play) {
 
     if ((!Player_HoldsHookshot(this) || func_80834FBC(this)) && !func_80834758(play, this) &&
         !func_80834F2C(this, play)) {
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 s32 func_808350A4(PlayState* play, Player* this) {
@@ -2907,14 +2909,14 @@ s32 func_808351D4(Player* this, PlayState* play) {
         this->stateFlags1 |= PLAYER_STATE1_9;
     }
 
-    return 1;
+    return true;
 }
 
 s32 func_808353D8(Player* this, PlayState* play) {
     LinkAnimation_Update(play, &this->upperSkelAnime);
 
     if (Player_HoldsHookshot(this) && !func_80834FBC(this)) {
-        return 1;
+        return true;
     }
 
     if (!func_80834758(play, this) &&
@@ -2937,7 +2939,8 @@ s32 func_808353D8(Player* this, PlayState* play) {
             if (this->unk_834 == 0) {
                 this->unk_834++;
             }
-            return 1;
+
+            return true;
         }
 
         if (Player_HoldsHookshot(this)) {
@@ -2950,7 +2953,7 @@ s32 func_808353D8(Player* this, PlayState* play) {
         this->unk_834 = 0;
     }
 
-    return 1;
+    return true;
 }
 
 s32 func_80835588(Player* this, PlayState* play) {
@@ -2958,7 +2961,7 @@ s32 func_80835588(Player* this, PlayState* play) {
         Player_SetUpperActionFunc(this, func_8083501C);
     }
 
-    return 1;
+    return true;
 }
 
 void func_808355DC(Player* this) {
@@ -2997,7 +3000,7 @@ s32 Player_UpperAction_CarryActor(Player* this, PlayState* play) {
     }
 
     if (func_80834758(play, this)) {
-        return 1;
+        return true;
     }
 
     if (this->stateFlags1 & PLAYER_STATE1_11) {
@@ -3011,7 +3014,7 @@ s32 Player_UpperAction_CarryActor(Player* this, PlayState* play) {
             this->fallStartHeight = this->actor.world.pos.y;
         }
 
-        return 1;
+        return true;
     }
 
     return func_8083485C(this, play);
@@ -3023,16 +3026,16 @@ void func_808357E8(Player* this, Gfx** dLists) {
 
 s32 func_80835800(Player* this, PlayState* play) {
     if (func_80834758(play, this)) {
-        return 1;
+        return true;
     }
 
     if (this->stateFlags1 & PLAYER_STATE1_25) {
         Player_SetUpperActionFunc(this, func_80835B60);
     } else if (func_80834F2C(this, play)) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_80835884(Player* this, PlayState* play) {
@@ -3043,7 +3046,7 @@ s32 func_80835884(Player* this, PlayState* play) {
 
     func_80834EB8(this, play);
 
-    return 1;
+    return true;
 }
 
 s32 func_808358F0(Player* this, PlayState* play) {
@@ -3065,7 +3068,7 @@ s32 func_808358F0(Player* this, PlayState* play) {
                                (this->unk_870 < 0.5f) ? &gPlayerAnim_link_boom_throwR : &gPlayerAnim_link_boom_throwL);
     }
 
-    return 1;
+    return true;
 }
 
 s32 func_808359FC(Player* this, PlayState* play) {
@@ -3094,12 +3097,12 @@ s32 func_808359FC(Player* this, PlayState* play) {
         }
     }
 
-    return 1;
+    return true;
 }
 
 s32 func_80835B60(Player* this, PlayState* play) {
     if (func_80834758(play, this)) {
-        return 1;
+        return true;
     }
 
     if (!(this->stateFlags1 & PLAYER_STATE1_25)) {
@@ -3108,10 +3111,11 @@ s32 func_80835B60(Player* this, PlayState* play) {
         func_808357E8(this, gPlayerLeftHandBoomerangDLs);
         Player_PlaySfx(this, NA_SE_PL_CATCH_BOOMERANG);
         func_80832698(this, NA_SE_VO_LI_SWORD_N);
-        return 1;
+
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_80835C08(Player* this, PlayState* play) {
@@ -3119,7 +3123,7 @@ s32 func_80835C08(Player* this, PlayState* play) {
         Player_SetUpperActionFunc(this, func_80835800);
     }
 
-    return 1;
+    return true;
 }
 
 s32 Player_SetupAction(PlayState* play, Player* this, PlayerActionFunc actionFunc, s32 flags) {
@@ -3354,6 +3358,23 @@ int Player_CanUpdateItems(Player* this) {
             (Player_ItemToItemAction(this->heldItemId) == this->heldItemAction));
 }
 
+/**
+ * Updates the Upper Body system.
+ * The Upper Body system is composed of an upper action function and
+ * a seperate skelanime that can play an animation that is different
+ * from the main skelanime.
+ * 
+ * @return true if the upper body is "busy", false otherwise.
+ * The upper body being "busy" can mean a few things:
+ * - Hookshot has just connected with something that player can fly to
+ * - A deku is currently being thrown
+ * - The current upper action function has indicated that it is busy
+ * 
+ * If an upper action indicates that its busy by returning true, the
+ * animation playing in the upper body skeleton will be used.
+ * This animation may play for all limbs or only the upper body limbs
+ * depending on some conditions. See details below.
+*/
 s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & PLAYER_STATE1_23) && (this->actor.parent != NULL) && Player_HoldsHookshot(this)) {
         Player_SetupAction(play, this, Player_Action_80850AEC, 1);
@@ -3368,21 +3389,22 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
         this->hoverBootsTimer = 0;
         this->unk_6AE |= 0x43;
         func_80832698(this, NA_SE_VO_LI_LASH);
-        return 1;
+        return true;
     }
 
     if (Player_CanUpdateItems(this)) {
         Player_UpdateItems(this, play);
         if (Player_Action_8084E604 == this->actionFunc) {
-            return 1;
+            return true;
         }
     }
 
     if (!this->upperActionFunc(this, play)) {
-        return 0;
+        return false;
     }
 
     if (this->upperAnimBlendWeight != 0.0f) {
+        // The functionality contained within this block of code is never used in practice
         if ((func_80833350(this) == 0) || (this->speedXZ != 0.0f)) {
             AnimationContext_SetCopyFalse(play, this->skelAnime.limbCount, this->upperSkelAnime.jointTable,
                                           this->skelAnime.jointTable, sUpperBodyLimbCopyMap);
@@ -3391,14 +3413,18 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
         AnimationContext_SetInterp(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                    this->upperSkelAnime.jointTable, 1.0f - this->upperAnimBlendWeight);
     } else if ((func_80833350(this) == 0) || (this->speedXZ != 0.0f)) {
+        // Only copy the upper body animation to the upper body limbs in the main skeleton.
+        // Doing so allows the main skeleton to play its own animation for the lower body limbs.
         AnimationContext_SetCopyTrue(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                      this->upperSkelAnime.jointTable, sUpperBodyLimbCopyMap);
     } else {
+        // Copy all of the upper body animation into the lower body.
+        // The upper body has full control of all limbs.
         AnimationContext_SetCopyAll(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                     this->upperSkelAnime.jointTable);
     }
 
-    return 1;
+    return true;
 }
 
 s32 func_80836898(PlayState* play, Player* this, PlayerFuncA74 func) {
@@ -3830,7 +3856,7 @@ s32 Player_TryActionChangeList(PlayState* play, Player* this, s8* actionChangeLi
 
     if (!(this->stateFlags1 & (PLAYER_STATE1_0 | PLAYER_STATE1_7 | PLAYER_STATE1_29))) {
         if (updateUpperBody) {
-            D_808535E0 = Player_UpdateUpperBody(this, play);
+            sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
 
             if (Player_Action_8084E604 == this->actionFunc) {
                 return true;
@@ -5905,7 +5931,7 @@ void func_8083C148(Player* this, PlayState* play) {
 }
 
 s32 Player_ActionChange_6(Player* this, PlayState* play) {
-    if (!func_80833B54(this) && (D_808535E0 == 0) && !(this->stateFlags1 & PLAYER_STATE1_23) &&
+    if (!func_80833B54(this) && !sUpperBodyIsBusy && !(this->stateFlags1 & PLAYER_STATE1_23) &&
         CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
         if (func_8083BC7C(this, play)) {
             return 1;
@@ -8583,7 +8609,7 @@ void Player_Action_808435C4(Player* this, PlayState* play) {
     func_8083721C(this);
 
     if (this->av1.actionVar1 == 0) {
-        D_808535E0 = Player_UpdateUpperBody(this, play);
+        sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
         if ((func_80834B5C == this->upperActionFunc) || (func_808374A0(play, this, &this->upperSkelAnime, 4.0f) > 0)) {
             Player_SetupAction(play, this, Player_Action_80840450, 1);
         }
@@ -12483,7 +12509,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
     }
 
     if (this->av2.actionVar2 == 1) {
-        if ((D_808535E0 != 0) || func_8083224C(play)) {
+        if (sUpperBodyIsBusy || func_8083224C(play)) {
             Player_AnimPlayOnce(play, this, &gPlayerAnim_link_uma_wait_3);
         } else if (LinkAnimation_Update(play, &this->skelAnime)) {
             this->av2.actionVar2 = 99;
@@ -12505,8 +12531,9 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
         this->unk_6AD = 0;
         this->av1.actionVar1 = 0;
     } else if ((this->av2.actionVar2 < 2) || (this->av2.actionVar2 >= 4)) {
-        D_808535E0 = Player_UpdateUpperBody(this, play);
-        if (D_808535E0 != 0) {
+        sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
+
+        if (sUpperBodyIsBusy) {
             this->av1.actionVar1 = 0;
         }
     }
@@ -12520,7 +12547,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
     if ((this->csAction != PLAYER_CSACTION_NONE) ||
         (!func_8083224C(play) && ((rideActor->actor.speed != 0.0f) || !Player_ActionChange_4(this, play)) &&
          !Player_ActionChange_6(this, play))) {
-        if (D_808535E0 == 0) {
+        if (!sUpperBodyIsBusy) {
             if (this->av1.actionVar1 != 0) {
                 if (LinkAnimation_Update(play, &this->upperSkelAnime)) {
                     rideActor->stateFlags &= ~ENHORSE_FLAG_8;
