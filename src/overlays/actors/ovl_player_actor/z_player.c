@@ -3363,19 +3363,19 @@ int Player_CanUpdateItems(Player* this) {
  * The Upper Body system is composed of an upper action function and
  * a seperate skelanime that can play an animation which is different
  * from the main skelanime.
- * 
+ *
  * @return true if the upper body is "busy", false otherwise.
- * 
+ *
  * The upper body being "busy" can mean a few things:
  * - Hookshot has just connected with something that Player can fly to
  * - A deku is currently being thrown
  * - The current upper action function has indicated that it is busy
- * 
+ *
  * If an upper action indicates that its busy by returning true, the
  * animation playing in the upper body skeleton will be used.
  * This animation may play for all limbs or only the upper body limbs
  * depending on some conditions. See details below.
-*/
+ */
 s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & PLAYER_STATE1_23) && (this->actor.parent != NULL) && Player_HoldsHookshot(this)) {
         Player_SetupAction(play, this, Player_Action_80850AEC, 1);
