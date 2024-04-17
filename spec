@@ -448,10 +448,6 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/code/fault.o"
     include "$(BUILD_DIR)/src/code/fault_drawer.o"
-#ifndef NON_MATCHING
-    include "$(BUILD_DIR)/data/fault.bss.o"
-    include "$(BUILD_DIR)/data/fault_drawer.bss.o"
-#endif
     include "$(BUILD_DIR)/src/code/kanread.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
@@ -659,7 +655,11 @@ beginseg
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_prompt.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark.o"
+#if !OOT_MQ
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data.o"
+#else
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data_mq.o"
+#endif
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
 endseg
 
@@ -673,7 +673,11 @@ endseg
 beginseg
     name "ovl_map_mark_data"
     compress
+#if !OOT_MQ
     include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data.o"
+#else
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data_mq.o"
+#endif
     include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/ovl_map_mark_data_reloc.o"
 endseg
 

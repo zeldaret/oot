@@ -426,7 +426,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Extract text from the baserom into .h files"
     )
-    parser.add_argument("--oot-version", help="OOT version", default="gc-eu-mq-dbg", choices=["gc-eu-mq", "gc-eu-mq-dbg"])
+    parser.add_argument("--oot-version", help="OOT version", default="gc-eu-mq-dbg")
     parser.add_argument("--text-out", help="Path to output .h file for text")
     parser.add_argument(
         "--staff-text-out", help="Path to output .h file for staff text"
@@ -449,6 +449,12 @@ def main():
         fra_message_entry_table_addr = 0x00B84C28
         staff_message_entry_table_addr = 0x00B86D38
         staff_message_entry_table_addr_end = 0x00B86EC0
+    elif version == "gc-eu":
+        nes_message_entry_table_addr = 0x00B7E910
+        ger_message_entry_table_addr = 0x00B82B38
+        fra_message_entry_table_addr = 0x00B84C48
+        staff_message_entry_table_addr = 0x00B86D58
+        staff_message_entry_table_addr_end = 0x00B86EE0
     else:
         parser.error("Unsupported OOT version")
 
