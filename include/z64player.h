@@ -824,7 +824,7 @@ typedef struct Player {
     /* 0x070C */ Vec3s upperJointTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x082C */ UpperActionFunc upperActionFunc;
-    /* 0x0830 */ f32 upperAnimBlendWeight;
+    /* 0x0830 */ f32 upperAnimInterpWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
     /* 0x0837 */ u8 unk_837;
