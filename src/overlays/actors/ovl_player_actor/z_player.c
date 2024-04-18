@@ -285,7 +285,7 @@ void Player_Action_80843954(Player* this, PlayState* play);
 void Player_Action_80843A38(Player* this, PlayState* play);
 void Player_Action_80843CEC(Player* this, PlayState* play);
 void Player_Action_8084411C(Player* this, PlayState* play);
-void Player_Action_80844708(Player* this, PlayState* play);
+void Player_Action_Roll(Player* this, PlayState* play);
 void Player_Action_80844A44(Player* this, PlayState* play);
 void Player_Action_80844AF4(Player* this, PlayState* play);
 void Player_Action_80844E68(Player* this, PlayState* play);
@@ -5836,20 +5836,22 @@ s32 func_8083BBA0(Player* this, PlayState* play) {
     return 0;
 }
 
-void func_8083BC04(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_80844708, 0);
+void Player_SetupRoll(Player* this, PlayState* play) {
+    Player_SetupAction(play, this, Player_Action_Roll, 0);
     LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime,
                                    GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing_roll, this->modelAnimType),
                                    1.25f * D_808535E8);
 }
 
-s32 func_8083BC7C(Player* this, PlayState* play) {
+
+s32 Player_TryRolling(Player* this, PlayState* play) {
     if ((this->unk_84B[this->unk_846] == 0) && (sFloorType != FLOOR_TYPE_7)) {
-        func_8083BC04(this, play);
-        return 1;
+        Player_SetupRoll(this, play);
+
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 void func_8083BCD0(Player* this, PlayState* play, s32 arg2) {
@@ -5882,13 +5884,13 @@ s32 Player_ActionChange_10(Player* this, PlayState* play) {
                     if (sp2C < 0) {
                         func_808389E8(this, &gPlayerAnim_link_normal_jump, REG(69) / 100.0f, play);
                     } else {
-                        func_8083BC04(this, play);
+                        Player_SetupRoll(this, play);
                     }
                 } else {
                     if ((Player_GetMeleeWeaponHeld(this) != 0) && Player_CanUpdateItems(this)) {
                         func_8083BA90(play, this, PLAYER_MWA_JUMPSLASH_START, 5.0f, 5.0f);
                     } else {
-                        func_8083BC04(this, play);
+                        Player_SetupRoll(this, play);
                     }
                 }
                 return 1;
@@ -5962,13 +5964,12 @@ void func_8083C148(Player* this, PlayState* play) {
 s32 Player_ActionChange_6(Player* this, PlayState* play) {
     if (!func_80833B54(this) && !sUpperBodyIsBusy && !(this->stateFlags1 & PLAYER_STATE1_23) &&
         CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
-        if (func_8083BC7C(this, play)) {
+        if (Player_TryRolling(this, play)) {
             return 1;
-        }
-        if ((this->unk_837 == 0) && (this->heldItemAction >= PLAYER_IA_SWORD_MASTER)) {
+        } else if ((this->putAwayCooldownTimer == 0) && (this->heldItemAction >= PLAYER_IA_SWORD_MASTER)) {
             Player_UseItem(play, this, ITEM_NONE);
         } else {
-            this->stateFlags2 ^= PLAYER_STATE2_20;
+            this->stateFlags2 ^= PLAYER_STATE2_NAVI_ACTIVE;
         }
     }
 
@@ -9010,7 +9011,7 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
             anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_short_landing, this->modelAnimType);
         } else if ((this->fallDistance < 800) && (this->unk_84B[this->unk_846] == 0) &&
                    !(this->stateFlags1 & PLAYER_STATE1_11)) {
-            func_8083BC04(this, play);
+            Player_SetupRoll(this, play);
             return;
         }
 
@@ -9037,10 +9038,10 @@ static AnimSfxEntry D_8085460C[] = {
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_5, 18) },
 };
 
-void Player_Action_80844708(Player* this, PlayState* play) {
+void Player_Action_Roll(Player* this, PlayState* play) {
     Actor* cylinderOc;
     s32 temp;
-    s32 sp44;
+    s32 animDone;
     DynaPolyActor* wallPolyActor;
     s32 pad;
     f32 speedTarget;
@@ -9049,7 +9050,7 @@ void Player_Action_80844708(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_5;
 
     cylinderOc = NULL;
-    sp44 = LinkAnimation_Update(play, &this->skelAnime);
+    animDone = LinkAnimation_Update(play, &this->skelAnime);
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 8.0f)) {
         func_80837AFC(this, -10);
@@ -9058,12 +9059,13 @@ void Player_Action_80844708(Player* this, PlayState* play) {
     if (func_80842964(this, play) == 0) {
         if (this->av2.actionVar2 != 0) {
             Math_StepToF(&this->speedXZ, 0.0f, 2.0f);
-
             temp = func_808374A0(play, this, &this->skelAnime, 5.0f);
-            if ((temp != 0) && ((temp > 0) || sp44)) {
+            
+            if ((temp != 0) && ((temp > 0) || animDone)) {
                 func_8083A060(this, play);
             }
         } else {
+            // Must have a speed of 7.0 or above to be able to bonk
             if (this->speedXZ >= 7.0f) {
                 if (((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
                      (sWorldYawToTouchedWall < 0x2000)) ||
@@ -9071,12 +9073,17 @@ void Player_Action_80844708(Player* this, PlayState* play) {
                      (cylinderOc = this->cylinder.base.oc,
                       ((cylinderOc->id == ACTOR_EN_WOOD02) &&
                        (ABS((s16)(this->actor.world.rot.y - cylinderOc->yawTowardsPlayer)) > 0x6000))))) {
-
                     if (cylinderOc != NULL) {
+                        // The EN_WOOD02 actor uses home y rotation as a flag to signal that it has been
+                        // bonked into and should try to spawn a drop.
+                        // Note that this code will run even if the actor is not EN_WOOD02.
                         cylinderOc->home.rot.y = 1;
                     } else if (this->actor.wallBgId != BGCHECK_SCENE) {
                         wallPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
+
                         if ((wallPolyActor != NULL) && (wallPolyActor->actor.id == ACTOR_OBJ_KIBAKO2)) {
+                            // The OBJ_KIBAKO2 actor uses home z rotation as a flag to signal that it has been
+                            // bonked into and should break.
                             wallPolyActor->actor.home.rot.z = 1;
                         }
                     }
@@ -9088,6 +9095,7 @@ void Player_Action_80844708(Player* this, PlayState* play) {
                     Player_PlaySfx(this, NA_SE_PL_BODY_HIT);
                     func_80832698(this, NA_SE_VO_LI_CLIMB_END);
                     this->av2.actionVar2 = 1;
+
                     return;
                 }
             }
@@ -9095,12 +9103,14 @@ void Player_Action_80844708(Player* this, PlayState* play) {
             if ((this->skelAnime.curFrame < 15.0f) || !Player_ActionChange_7(this, play)) {
                 if (this->skelAnime.curFrame >= 20.0f) {
                     func_8083A060(this, play);
+
                     return;
                 }
 
                 Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
                 speedTarget *= 1.5f;
+
                 if ((speedTarget < 3.0f) || (this->unk_84B[this->unk_846] != 0)) {
                     speedTarget = 3.0f;
                 }
@@ -10277,7 +10287,7 @@ void func_808473D4(PlayState* play, Player* this) {
                                (sp20 > 0)) {
                         doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemAction >= PLAYER_IA_SWORD_MASTER) ||
-                               ((this->stateFlags2 & PLAYER_STATE2_20) &&
+                               ((this->stateFlags2 & PLAYER_STATE2_NAVI_ACTIVE) &&
                                 (play->actorCtx.targetCtx.arrowPointedActor == NULL))) {
                         doAction = DO_ACTION_PUTAWAY;
                     }
@@ -10286,10 +10296,12 @@ void func_808473D4(PlayState* play, Player* this) {
         }
 
         if (doAction != DO_ACTION_PUTAWAY) {
-            this->unk_837 = 20;
-        } else if (this->unk_837 != 0) {
+            this->putAwayCooldownTimer = 20;
+        } else if (this->putAwayCooldownTimer != 0) {
+            // Replace the "Put Away" Do Action label with a blank label while
+            // the cooldown timer is counting down
             doAction = DO_ACTION_NONE;
-            this->unk_837--;
+            this->putAwayCooldownTimer--;
         }
 
         Interface_SetDoAction(play, doAction);
