@@ -3926,10 +3926,10 @@ typedef enum {
 /**
  * The Action Interrupt system allows for interrupting the end of an animation with either
  * a new action from `sActionChangeList7`, or with movement if the control stick is pressed.
- * 
+ *
  * @param frameRange  The number of frames, from the end of the current animation, where an interrupt can occur.
  * @return The interrupt result. See `PlayerActionInterruptResult`.
-*/
+ */
 s32 Player_TryActionInterrupt(PlayState* play, Player* this, SkelAnime* skelAnime, f32 frameRange) {
     f32 speedTarget;
     s16 yawTarget;
@@ -8653,13 +8653,15 @@ void Player_Action_808435C4(Player* this, PlayState* play) {
     if (this->av1.actionVar1 == 0) {
         sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
 
-        if ((func_80834B5C == this->upperActionFunc) || (Player_TryActionInterrupt(play, this, &this->upperSkelAnime, 4.0f) >= PLAYER_INTERRUPT_MOVE)) {
+        if ((func_80834B5C == this->upperActionFunc) ||
+            (Player_TryActionInterrupt(play, this, &this->upperSkelAnime, 4.0f) >= PLAYER_INTERRUPT_MOVE)) {
             Player_SetupAction(play, this, Player_Action_80840450, 1);
         }
     } else {
         interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 4.0f);
 
-        if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) && ((interruptResult >= PLAYER_INTERRUPT_MOVE) || LinkAnimation_Update(play, &this->skelAnime))) {
+        if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) &&
+            ((interruptResult >= PLAYER_INTERRUPT_MOVE) || LinkAnimation_Update(play, &this->skelAnime))) {
             Player_SetupAction(play, this, Player_Action_80843188, 1);
             this->stateFlags1 |= PLAYER_STATE1_22;
             Player_SetModelsForHoldingShield(this);
@@ -8677,7 +8679,8 @@ void Player_Action_8084370C(Player* this, PlayState* play) {
 
     interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 16.0f);
 
-    if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) && (LinkAnimation_Update(play, &this->skelAnime) || (interruptResult >= PLAYER_INTERRUPT_MOVE))) {
+    if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) &&
+        (LinkAnimation_Update(play, &this->skelAnime) || (interruptResult >= PLAYER_INTERRUPT_MOVE))) {
         func_80839F90(this, play);
     }
 }
@@ -8767,7 +8770,8 @@ void Player_Action_80843A38(Player* this, PlayState* play) {
     } else {
         interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 16.0f);
 
-        if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) && (LinkAnimation_Update(play, &this->skelAnime) || (interruptResult >= PLAYER_INTERRUPT_MOVE))) {
+        if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) &&
+            (LinkAnimation_Update(play, &this->skelAnime) || (interruptResult >= PLAYER_INTERRUPT_MOVE))) {
             func_80839F90(this, play);
         }
     }
@@ -9078,7 +9082,8 @@ void Player_Action_80844708(Player* this, PlayState* play) {
 
             interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 5.0f);
 
-            if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) && ((interruptResult >= PLAYER_INTERRUPT_MOVE) || sp44)) {
+            if ((interruptResult != PLAYER_INTERRUPT_NEW_ACTION) &&
+                ((interruptResult >= PLAYER_INTERRUPT_MOVE) || sp44)) {
                 func_8083A060(this, play);
             }
         } else {
