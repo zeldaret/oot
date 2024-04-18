@@ -433,7 +433,8 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
 
     unkActor = NULL;
 
-    if ((player->unk_664 != NULL) && (player->controlStickDirections[player->controlStickDataIndex] == 2)) {
+    if ((player->unk_664 != NULL) &&
+        (player->controlStickDirections[player->controlStickDataIndex] == PLAYER_STICK_DIR_DOWN)) {
         targetCtx->unk_94 = NULL;
     } else {
         func_80032AF0(play, &play->actorCtx, &unkActor, player);

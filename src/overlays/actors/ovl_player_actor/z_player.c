@@ -2044,7 +2044,7 @@ void Player_ProcessControlStick(PlayState* play, Player* this) {
     this->controlStickDataIndex = (this->controlStickDataIndex + 1) % 4;
 
     if (sControlStickMagnitude < 55.0f) {
-        direction = -1;
+        direction = PLAYER_STICK_DIR_NONE;
         spinAngle = -1;
     } else {
         spinAngle = (u16)(sControlStickAngle + 0x2000) >> 9;
@@ -3950,7 +3950,7 @@ void func_80837530(PlayState* play, Player* this, s32 arg2) {
     }
 }
 
-s32 func_808375D8(Player* this) {
+s32 Player_CanSpinAttack(Player* this) {
     s8 sp3C[4];
     s8* iter;
     s8* iter2;
@@ -3959,32 +3959,37 @@ s32 func_808375D8(Player* this) {
     s32 i;
 
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) || Player_HoldsBrokenKnife(this)) {
-        return 0;
+        return false;
     }
 
     iter = &this->controlStickSpinAngles[0];
     iter2 = &sp3C[0];
+
     for (i = 0; i < 4; i++, iter++, iter2++) {
         if ((*iter2 = *iter) < 0) {
-            return 0;
+            return false;
         }
+
         *iter2 *= 2;
     }
 
     temp1 = sp3C[0] - sp3C[1];
+
     if (ABS(temp1) < 10) {
-        return 0;
+        return false;
     }
 
     iter2 = &sp3C[1];
+
     for (i = 1; i < 3; i++, iter2++) {
         temp2 = *iter2 - *(iter2 + 1);
+
         if ((ABS(temp2) < 10) || (temp2 * temp1 < 0)) {
-            return 0;
+            return false;
         }
     }
 
-    return 1;
+    return true;
 }
 
 void func_80837704(PlayState* play, Player* this) {
@@ -4033,7 +4038,7 @@ s32 func_80837818(Player* this) {
         sp18 = D_80854484[controlStickDirection];
         this->unk_845 = 0;
     } else {
-        if (func_808375D8(this)) {
+        if (Player_CanSpinAttack(this)) {
             sp18 = PLAYER_MWA_SPIN_ATTACK_1H;
         } else {
             if (controlStickDirection <= PLAYER_STICK_DIR_NONE) {
@@ -5850,8 +5855,10 @@ void func_8083BC04(Player* this, PlayState* play) {
 }
 
 s32 func_8083BC7C(Player* this, PlayState* play) {
-    if ((this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP) && (sFloorType != FLOOR_TYPE_7)) {
+    if ((this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP) &&
+        (sFloorType != FLOOR_TYPE_7)) {
         func_8083BC04(this, play);
+
         return 1;
     }
 
@@ -5859,7 +5866,8 @@ s32 func_8083BC7C(Player* this, PlayState* play) {
 }
 
 void func_8083BCD0(Player* this, PlayState* play, s32 controlStickDirection) {
-    func_80838940(this, D_80853D4C[controlStickDirection][0], !(controlStickDirection & 1) ? 5.8f : 3.5f, play, NA_SE_VO_LI_SWORD_N);
+    func_80838940(this, D_80853D4C[controlStickDirection][0], !(controlStickDirection & 1) ? 5.8f : 3.5f, play,
+                  NA_SE_VO_LI_SWORD_N);
 
     if (controlStickDirection) {}
 
@@ -8978,7 +8986,8 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
                     if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
                         !(this->stateFlags2 & PLAYER_STATE2_19) &&
                         !(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_27)) && (this->speedXZ > 0.0f)) {
-                        if ((this->yDistToLedge >= 150.0f) && (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP)) {
+                        if ((this->yDistToLedge >= 150.0f) &&
+                            (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP)) {
                             func_8083EC18(this, play, sTouchedWallFlags);
                         } else if ((this->ledgeClimbType >= PLAYER_LEDGE_CLIMB_2) && (this->yDistToLedge < 150.0f) &&
                                    (((this->actor.world.pos.y - this->actor.floorHeight) + this->yDistToLedge) >
@@ -9016,7 +9025,8 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
             func_80833C3C(this);
         } else if (this->fallDistance <= 80) {
             anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_short_landing, this->modelAnimType);
-        } else if ((this->fallDistance < 800) && (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP) &&
+        } else if ((this->fallDistance < 800) &&
+                   (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP) &&
                    !(this->stateFlags1 & PLAYER_STATE1_11)) {
             func_8083BC04(this, play);
             return;
@@ -9109,7 +9119,8 @@ void Player_Action_80844708(Player* this, PlayState* play) {
                 Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
                 speedTarget *= 1.5f;
-                if ((speedTarget < 3.0f) || (this->controlStickDirections[this->controlStickDataIndex] != PLAYER_STICK_DIR_UP)) {
+                if ((speedTarget < 3.0f) ||
+                    (this->controlStickDirections[this->controlStickDataIndex] != PLAYER_STICK_DIR_UP)) {
                     speedTarget = 3.0f;
                 }
 
@@ -9174,7 +9185,7 @@ s32 func_80844BE4(Player* this, PlayState* play) {
         if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
             s32 temp;
 
-            if ((this->unk_858 >= 0.85f) || func_808375D8(this)) {
+            if ((this->unk_858 >= 0.85f) || Player_CanSpinAttack(this)) {
                 temp = D_80854384[Player_HoldsTwoHandedWeapon(this)];
             } else {
                 temp = D_80854380[Player_HoldsTwoHandedWeapon(this)];
@@ -10279,7 +10290,8 @@ void func_808473D4(PlayState* play, Player* this) {
                          (func_8008E9C4(this) ||
                           ((sFloorType != FLOOR_TYPE_7) &&
                            (func_80833B2C(this) || ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
-                                                    !(this->stateFlags1 & PLAYER_STATE1_22) && (controlStickDirection == PLAYER_STICK_DIR_UP))))))) {
+                                                    !(this->stateFlags1 & PLAYER_STATE1_22) &&
+                                                    (controlStickDirection == PLAYER_STICK_DIR_UP))))))) {
                         doAction = DO_ACTION_ATTACK;
                     } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && func_80833BCC(this) &&
                                (controlStickDirection >= PLAYER_STICK_DIR_RIGHT)) {
