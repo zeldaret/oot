@@ -10294,7 +10294,7 @@ void func_808473D4(PlayState* play, Player* this) {
                                                     (controlStickDirection == PLAYER_STICK_DIR_UP))))))) {
                         doAction = DO_ACTION_ATTACK;
                     } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && func_80833BCC(this) &&
-                               (controlStickDirection >= PLAYER_STICK_DIR_RIGHT)) {
+                               (controlStickDirection >= PLAYER_STICK_DIR_LEFT)) {
                         doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemAction >= PLAYER_IA_SWORD_MASTER) ||
                                ((this->stateFlags2 & PLAYER_STATE2_20) &&

@@ -599,9 +599,9 @@ typedef enum {
 typedef enum {
     /* -1 */ PLAYER_STICK_DIR_NONE = -1,
     /*  0 */ PLAYER_STICK_DIR_UP,
-    /*  1 */ PLAYER_STICK_DIR_RIGHT,
+    /*  1 */ PLAYER_STICK_DIR_LEFT,
     /*  2 */ PLAYER_STICK_DIR_DOWN,
-    /*  3 */ PLAYER_STICK_DIR_LEFT
+    /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 
 typedef struct {
@@ -846,7 +846,7 @@ typedef struct Player {
     /* 0x0845 */ u8 unk_845;
     /* 0x0846 */ u8 controlStickDataIndex; // cycles between 0 - 3. Used to index `controlStickSpinAngles` and `controlStickDirections`
     /* 0x0847 */ s8 controlStickSpinAngles[4]; // Stores a modified version of the control stick angle for the last 4 frames. Used for checking spins.
-    /* 0x084B */ s8 controlStickDirections[4]; // Stores the control stick direction for the last 4 frames. See `PlayerStickDirection`.
+    /* 0x084B */ s8 controlStickDirections[4]; // Stores the control stick direction (relative to shape yaw) for the last 4 frames. See `PlayerStickDirection`.
 
     /* 0x084F */ union { 
         s8 actionVar1;
