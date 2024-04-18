@@ -1,6 +1,8 @@
 #include "global.h"
 #include "quake.h"
 
+#include "assets/scenes/indoors/souko/souko_scene.h"
+
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_room_0.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
@@ -10,7 +12,6 @@
 #include "assets/scenes/overworld/spot16/spot16_room_0.h"
 #include "assets/scenes/overworld/spot18/spot18_scene.h"
 #include "assets/scenes/overworld/spot20/spot20_scene.h"
-#include "assets/scenes/overworld/souko/souko_scene.h"
 
 #include "assets/scenes/dungeons/men/men_scene.h"
 #include "assets/scenes/dungeons/ddan/ddan_scene.h"
