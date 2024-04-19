@@ -598,9 +598,9 @@ typedef enum {
 
 typedef enum {
     /* -1 */ PLAYER_STICK_DIR_NONE = -1,
-    /*  0 */ PLAYER_STICK_DIR_UP,
+    /*  0 */ PLAYER_STICK_DIR_FORWARD,
     /*  1 */ PLAYER_STICK_DIR_LEFT,
-    /*  2 */ PLAYER_STICK_DIR_DOWN,
+    /*  2 */ PLAYER_STICK_DIR_BACKWARD,
     /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 

@@ -4055,7 +4055,7 @@ s32 func_80837818(Player* this) {
 
     if (this->heldItemAction == PLAYER_IA_HAMMER) {
         if (controlStickDirection <= PLAYER_STICK_DIR_NONE) {
-            controlStickDirection = PLAYER_STICK_DIR_UP;
+            controlStickDirection = PLAYER_STICK_DIR_FORWARD;
         }
 
         sp18 = D_80854484[controlStickDirection];
@@ -5878,7 +5878,7 @@ void func_8083BC04(Player* this, PlayState* play) {
 }
 
 s32 func_8083BC7C(Player* this, PlayState* play) {
-    if ((this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP) &&
+    if ((this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) &&
         (sFloorType != FLOOR_TYPE_7)) {
         func_8083BC04(this, play);
 
@@ -5913,7 +5913,7 @@ s32 Player_ActionChange_10(Player* this, PlayState* play) {
         (SurfaceType_GetFloorEffect(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != FLOOR_EFFECT_1)) {
         controlStickDirection = this->controlStickDirections[this->controlStickDataIndex];
 
-        if (controlStickDirection <= PLAYER_STICK_DIR_UP) {
+        if (controlStickDirection <= PLAYER_STICK_DIR_FORWARD) {
             if (func_80833BCC(this)) {
                 if (this->actor.category != ACTORCAT_PLAYER) {
                     if (controlStickDirection <= PLAYER_STICK_DIR_NONE) {
@@ -9018,7 +9018,7 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
                         !(this->stateFlags2 & PLAYER_STATE2_19) &&
                         !(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_27)) && (this->speedXZ > 0.0f)) {
                         if ((this->yDistToLedge >= 150.0f) &&
-                            (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP)) {
+                            (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD)) {
                             func_8083EC18(this, play, sTouchedWallFlags);
                         } else if ((this->ledgeClimbType >= PLAYER_LEDGE_CLIMB_2) && (this->yDistToLedge < 150.0f) &&
                                    (((this->actor.world.pos.y - this->actor.floorHeight) + this->yDistToLedge) >
@@ -9057,7 +9057,7 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
         } else if (this->fallDistance <= 80) {
             anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_short_landing, this->modelAnimType);
         } else if ((this->fallDistance < 800) &&
-                   (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP) &&
+                   (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) &&
                    !(this->stateFlags1 & PLAYER_STATE1_11)) {
             func_8083BC04(this, play);
             return;
@@ -9153,7 +9153,7 @@ void Player_Action_80844708(Player* this, PlayState* play) {
 
                 speedTarget *= 1.5f;
                 if ((speedTarget < 3.0f) ||
-                    (this->controlStickDirections[this->controlStickDataIndex] != PLAYER_STICK_DIR_UP)) {
+                    (this->controlStickDirections[this->controlStickDataIndex] != PLAYER_STICK_DIR_FORWARD)) {
                     speedTarget = 3.0f;
                 }
 
@@ -9228,7 +9228,7 @@ s32 func_80844BE4(Player* this, PlayState* play) {
             func_80837AFC(this, -8);
 
             this->stateFlags2 |= PLAYER_STATE2_17;
-            if (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_UP) {
+            if (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) {
                 this->stateFlags2 |= PLAYER_STATE2_30;
             }
         } else {
@@ -10319,12 +10319,12 @@ void func_808473D4(PlayState* play, Player* this) {
                     doAction = DO_ACTION_DIVE;
                 } else if (!sp1C && (!(this->stateFlags1 & PLAYER_STATE1_22) || func_80833BCC(this) ||
                                      !Player_IsChildWithHylianShield(this))) {
-                    if ((!(this->stateFlags1 & PLAYER_STATE1_14) && (controlStickDirection <= PLAYER_STICK_DIR_UP) &&
+                    if ((!(this->stateFlags1 & PLAYER_STATE1_14) && (controlStickDirection <= PLAYER_STICK_DIR_FORWARD) &&
                          (func_8008E9C4(this) ||
                           ((sFloorType != FLOOR_TYPE_7) &&
                            (func_80833B2C(this) || ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
                                                     !(this->stateFlags1 & PLAYER_STATE1_22) &&
-                                                    (controlStickDirection == PLAYER_STICK_DIR_UP))))))) {
+                                                    (controlStickDirection == PLAYER_STICK_DIR_FORWARD))))))) {
                         doAction = DO_ACTION_ATTACK;
                     } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && func_80833BCC(this) &&
                                (controlStickDirection >= PLAYER_STICK_DIR_LEFT)) {
