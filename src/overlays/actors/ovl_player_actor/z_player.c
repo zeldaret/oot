@@ -9087,7 +9087,7 @@ void Player_Action_Roll(Player* this, PlayState* play) {
         func_80837AFC(this, -10);
     }
 
-    if (func_80842964(this, play) == 0) {
+    if (!func_80842964(this, play)) {
         if (this->av2.actionVar2 != 0) {
             Math_StepToF(&this->speedXZ, 0.0f, 2.0f);
 
@@ -9098,7 +9098,7 @@ void Player_Action_Roll(Player* this, PlayState* play) {
                 func_8083A060(this, play);
             }
         } else {
-            // Must have a speed of 7.0 or above to be able to bonk
+            // Must have a speed of 7 or above to be able to bonk into something
             if (this->speedXZ >= 7.0f) {
                 if (((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
                      (sWorldYawToTouchedWall < 0x2000)) ||
