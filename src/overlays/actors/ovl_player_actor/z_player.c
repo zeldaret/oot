@@ -3926,11 +3926,11 @@ typedef enum {
 /**
  * An Action Interrupt allows for ending an action early, toward the end of an animation.
  * First, `sActionChangeList7` will be checked to see if any of those actions should be used.
- * If no actions from the Action Change List are used, then the control stick is checked to see if 
+ * If no actions from the Action Change List are used, then the control stick is checked to see if
  * any movement should occur.
- * 
+ *
  * Note that while this function can set up a new action with `sActionChangeList7`, this function
- * will not set up an appropriate action for moving. 
+ * will not set up an appropriate action for moving.
  * It is the callers responsibility to react accordingly to `PLAYER_INTERRUPT_MOVE`.
  *
  * @param frameRange  The number of frames, from the end of the current animation, where an interrupt can occur.
