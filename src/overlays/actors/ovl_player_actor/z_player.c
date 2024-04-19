@@ -3924,8 +3924,14 @@ typedef enum {
 } PlayerActionInterruptResult;
 
 /**
- * The Action Interrupt system allows for interrupting the end of an animation with either
- * a new action from `sActionChangeList7`, or with movement if the control stick is pressed.
+ * An Action Interrupt allows for ending an action early, toward the end of an animation.
+ * First, `sActionChangeList7` will be checked to see if any of those actions should be used.
+ * If no actions from the Action Change List are used, then the control stick is checked to see if 
+ * any movement should occur.
+ * 
+ * Note that while this function can set up a new action with `sActionChangeList7`, this function
+ * will not set up an appropriate action for moving. 
+ * It is the callers responsibility to react accordingly to `PLAYER_INTERRUPT_MOVE`.
  *
  * @param frameRange  The number of frames, from the end of the current animation, where an interrupt can occur.
  * @return The interrupt result. See `PlayerActionInterruptResult`.
@@ -3936,15 +3942,15 @@ s32 Player_TryActionInterrupt(PlayState* play, Player* this, SkelAnime* skelAnim
 
     if ((skelAnime->endFrame - frameRange) <= skelAnime->curFrame) {
         if (Player_TryActionChangeList(play, this, sActionChangeList7, true)) {
-            return 0;
+            return PLAYER_INTERRUPT_NEW_ACTION;
         }
 
         if (Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play)) {
-            return 1;
+            return PLAYER_INTERRUPT_MOVE;
         }
     }
 
-    return -1;
+    return PLAYER_INTERRUPT_NONE;
 }
 
 void func_80837530(PlayState* play, Player* this, s32 arg2) {
