@@ -10319,7 +10319,8 @@ void func_808473D4(PlayState* play, Player* this) {
                     doAction = DO_ACTION_DIVE;
                 } else if (!sp1C && (!(this->stateFlags1 & PLAYER_STATE1_22) || func_80833BCC(this) ||
                                      !Player_IsChildWithHylianShield(this))) {
-                    if ((!(this->stateFlags1 & PLAYER_STATE1_14) && (controlStickDirection <= PLAYER_STICK_DIR_FORWARD) &&
+                    if ((!(this->stateFlags1 & PLAYER_STATE1_14) &&
+                         (controlStickDirection <= PLAYER_STICK_DIR_FORWARD) &&
                          (func_8008E9C4(this) ||
                           ((sFloorType != FLOOR_TYPE_7) &&
                            (func_80833B2C(this) || ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
