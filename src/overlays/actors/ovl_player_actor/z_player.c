@@ -3925,7 +3925,11 @@ typedef enum {
 
 /**
  * An Action Interrupt allows for ending an action early, toward the end of an animation.
+ * 
  * First, `sActionChangeList7` will be checked to see if any of those actions should be used.
+ * It should be noted that the `updateUpperBody` argument passed to `Player_TryActionChangeList`
+ * is `true`. This means that an item can be used during the interrupt window.
+ * 
  * If no actions from the Action Change List are used, then the control stick is checked to see if
  * any movement should occur.
  *
