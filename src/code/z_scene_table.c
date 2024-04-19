@@ -1,6 +1,7 @@
 #include "global.h"
 #include "quake.h"
 
+#include "assets/scenes/indoors/miharigoya/miharigoya_scene.h"
 #include "assets/scenes/indoors/souko/souko_scene.h"
 
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
@@ -13,15 +14,14 @@
 #include "assets/scenes/overworld/spot18/spot18_scene.h"
 #include "assets/scenes/overworld/spot20/spot20_scene.h"
 
-#include "assets/scenes/dungeons/men/men_scene.h"
-#include "assets/scenes/dungeons/ddan/ddan_scene.h"
-#include "assets/scenes/dungeons/ydan/ydan_scene.h"
 #include "assets/scenes/dungeons/Bmori1/Bmori1_scene.h"
 #include "assets/scenes/dungeons/MIZUsin/MIZUsin_scene.h"
+#include "assets/scenes/dungeons/ddan/ddan_scene.h"
 #include "assets/scenes/dungeons/gerudoway/gerudoway_scene.h"
-#include "assets/scenes/dungeons/jyasinzou/jyasinzou_scene.h"
-#include "assets/scenes/indoors/miharigoya/miharigoya_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
+#include "assets/scenes/dungeons/jyasinzou/jyasinzou_scene.h"
+#include "assets/scenes/dungeons/men/men_scene.h"
+#include "assets/scenes/dungeons/ydan/ydan_scene.h"
 
 #include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
