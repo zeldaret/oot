@@ -655,7 +655,11 @@ beginseg
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_prompt.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark.o"
+#if !OOT_MQ
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data.o"
+#else
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data_mq.o"
+#endif
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
 endseg
 
@@ -669,7 +673,11 @@ endseg
 beginseg
     name "ovl_map_mark_data"
     compress
+#if !OOT_MQ
     include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data.o"
+#else
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data_mq.o"
+#endif
     include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/ovl_map_mark_data_reloc.o"
 endseg
 
@@ -10491,7 +10499,7 @@ beginseg
     name "entra_scene"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/entra/entra_scene.o"
+    include "$(BUILD_DIR)/assets/scenes/misc/entra/entra_scene.o"
     number 2
 endseg
 
@@ -10499,7 +10507,7 @@ beginseg
     name "entra_room_0"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/entra/entra_room_0.o"
+    include "$(BUILD_DIR)/assets/scenes/misc/entra/entra_room_0.o"
     number 3
 endseg
 
@@ -10579,7 +10587,7 @@ beginseg
     name "ganon_tou_scene"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/dungeons/ganon_tou/ganon_tou_scene.o"
+    include "$(BUILD_DIR)/assets/scenes/overworld/ganon_tou/ganon_tou_scene.o"
     number 2
 endseg
 
@@ -10587,7 +10595,7 @@ beginseg
     name "ganon_tou_room_0"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/dungeons/ganon_tou/ganon_tou_room_0.o"
+    include "$(BUILD_DIR)/assets/scenes/overworld/ganon_tou/ganon_tou_room_0.o"
     number 3
 endseg
 
@@ -11643,7 +11651,7 @@ beginseg
     name "souko_scene"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_scene.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_scene.o"
     number 2
 endseg
 
@@ -11651,7 +11659,7 @@ beginseg
     name "souko_room_0"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_room_0.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_room_0.o"
     number 3
 endseg
 
@@ -11659,7 +11667,7 @@ beginseg
     name "souko_room_1"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_room_1.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_room_1.o"
     number 3
 endseg
 
@@ -11667,7 +11675,7 @@ beginseg
     name "souko_room_2"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_room_2.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_room_2.o"
     number 3
 endseg
 
