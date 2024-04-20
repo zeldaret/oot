@@ -3463,7 +3463,16 @@ s32 Player_SetupWaitForPutAway(PlayState* play, Player* this, AfterPutAwayFunc a
     return Player_PutAwayHeldItem(play, this);
 }
 
-void func_808368EC(Player* this, PlayState* play) {
+/**
+ * Updates Shape Yaw (`shape.rot.y`). In other words, the Y rotation of Player's model.
+ * This does not affect the direction Player will move in.
+ *
+ * There are 3 modes shape yaw can be updated with, based on player state:
+ *     - Lock on:  Rotates Player to face the lock on target.
+ *     - Parallel: Rotates Player to face the Parallel angle, set by `func_808355DC` when Z is pressed.
+ *     - Normal:   Rotates Player to face `this->yaw`, the direction he is currently moving
+ */
+void Player_UpdateShapeYaw(Player* this, PlayState* play) {
     s16 previousYaw = this->actor.shape.rot.y;
 
     if (!(this->stateFlags2 & (PLAYER_STATE2_5 | PLAYER_STATE2_6))) {
@@ -3528,6 +3537,7 @@ s32 func_80836AB8(Player* this, s32 arg1) {
     return var;
 }
 
+// Update things related to Z Targeting
 void func_80836BEC(Player* this, PlayState* play) {
     s32 sp1C = 0;
     s32 zTrigPressed = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
@@ -9971,11 +9981,11 @@ void func_808469BC(PlayState* play, Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_29;
 }
 
-static s16 D_80854700[] = { ACTOR_MAGIC_WIND, ACTOR_MAGIC_DARK, ACTOR_MAGIC_FIRE };
+Actor* Player_SpawnMagicSpell(PlayState* play, Player* this, s32 spell) {
+    static s16 sMagicSpellActorIds[] = { ACTOR_MAGIC_WIND, ACTOR_MAGIC_DARK, ACTOR_MAGIC_FIRE };
 
-Actor* func_80846A00(PlayState* play, Player* this, s32 arg2) {
-    return Actor_Spawn(&play->actorCtx, play, D_80854700[arg2], this->actor.world.pos.x, this->actor.world.pos.y,
-                       this->actor.world.pos.z, 0, 0, 0, 0);
+    return Actor_Spawn(&play->actorCtx, play, sMagicSpellActorIds[spell], this->actor.world.pos.x,
+                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
 }
 
 void func_80846A68(PlayState* play, Player* this) {
@@ -10147,7 +10157,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
     if (gSaveContext.nayrusLoveTimer != 0) {
         gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
-        func_80846A00(play, this, 1);
+        Player_SpawnMagicSpell(play, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 
@@ -10218,7 +10228,12 @@ void func_80847298(Player* this) {
 
 static f32 D_80854784[] = { 120.0f, 240.0f, 360.0f };
 
-void func_808473D4(PlayState* play, Player* this) {
+/**
+ * Updates the two main interface elements that player is responsible for:
+ *     - Do Action label on the A button
+ *     - Navi C-up icon for hints
+ */
+void Player_UpdateInterface(PlayState* play, Player* this) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) && (this->actor.category == ACTORCAT_PLAYER)) {
         Actor* heldActor = this->heldActor;
         Actor* interactRangeActor = this->interactRangeActor;
@@ -10290,12 +10305,12 @@ void func_808473D4(PlayState* play, Player* this) {
                            (this->getItemId < GI_MAX)) {
                     doAction = DO_ACTION_GRAB;
                 } else if (this->stateFlags2 & PLAYER_STATE2_11) {
-                    static u8 sDiveDoActions[] = { DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_4,
-                                                   DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8 };
+                    static u8 sDiveNumberDoActions[] = { DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_4,
+                                                         DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8 };
 
                     sp24 = (D_80854784[CUR_UPG_VALUE(UPG_SCALE)] - this->actor.yDistToWater) / 40.0f;
                     sp24 = CLAMP(sp24, 0, 7);
-                    doAction = sDiveDoActions[sp24];
+                    doAction = sDiveNumberDoActions[sp24];
                 } else if (sp1C && !(this->stateFlags2 & PLAYER_STATE2_10)) {
                     doAction = DO_ACTION_DIVE;
                 } else if (!sp1C && (!(this->stateFlags1 & PLAYER_STATE1_22) || func_80833BCC(this) ||
@@ -10772,11 +10787,11 @@ static Vec3f D_808547B0 = { 0.0f, 0.5f, 0.0f };
 static Color_RGBA8 D_808547BC = { 255, 255, 100, 255 };
 static Color_RGBA8 D_808547C0 = { 255, 50, 0, 0 };
 
-void func_80848A04(PlayState* play, Player* this) {
+void Player_UpdateBurningDekuStick(PlayState* play, Player* this) {
     f32 temp;
 
     if (this->unk_85C == 0.0f) {
-        Player_UseItem(play, this, 0xFF);
+        Player_UseItem(play, this, ITEM_NONE);
         return;
     }
 
@@ -10890,7 +10905,7 @@ void Player_UpdateBodyBurn(PlayState* play, Player* this) {
     }
 }
 
-void func_80848EF8(Player* this) {
+void Player_DetectRumbleSecrets(Player* this) {
     if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY)) {
         f32 temp = 200000.0f - (this->closestSecretDistSq * 5.0f);
 
@@ -11037,11 +11052,11 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->unk_890--;
     }
 
-    func_808473D4(play, this);
+    Player_UpdateInterface(play, this);
     func_80836BEC(this, play);
 
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
-        func_80848A04(play, this);
+        Player_UpdateBurningDekuStick(play, this);
     } else if ((this->heldItemAction == PLAYER_IA_FISHING_POLE) && (this->unk_860 < 0)) {
         this->unk_860++;
     }
@@ -11057,7 +11072,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     if ((this->stateFlags3 & PLAYER_STATE3_RESTORE_NAYRUS_LOVE) && (gSaveContext.nayrusLoveTimer != 0) &&
         (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
         gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
-        func_80846A00(play, this, 1);
+        Player_SpawnMagicSpell(play, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 
@@ -11246,7 +11261,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 } else {
                     this->fallStartHeight = this->actor.world.pos.y;
                 }
-                func_80848EF8(this);
+
+                Player_DetectRumbleSecrets(this);
             }
         }
 
@@ -11298,7 +11314,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         }
 
         D_808535EC = 1.0f / D_808535E8;
-        sUseHeldItem = sHeldItemButtonIsHeldDown = 0;
+        sUseHeldItem = sHeldItemButtonIsHeldDown = false;
         D_80858AA4 = this->currentMask;
 
         if (!(this->stateFlags3 & PLAYER_STATE3_2)) {
@@ -11313,7 +11329,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) ? 1.0f : this->ageProperties->unk_08);
         }
 
-        func_808368EC(this, play);
+        Player_UpdateShapeYaw(this, play);
 
         if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_TALK)) {
             this->talkActorDistance = 0.0f;
@@ -14072,7 +14088,7 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
             if (this->av2.actionVar2 == 0) {
                 LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, D_80854A58[this->av1.actionVar1], 0.83f);
 
-                if (func_80846A00(play, this, this->av1.actionVar1) != NULL) {
+                if (Player_SpawnMagicSpell(play, this, this->av1.actionVar1) != NULL) {
                     this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                     if ((this->av1.actionVar1 != 0) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
                         gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
