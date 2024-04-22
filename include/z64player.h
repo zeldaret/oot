@@ -596,6 +596,14 @@ typedef enum {
     /* 4 */ PLAYER_LEDGE_CLIMB_4
 } PlayerLedgeClimbType;
 
+typedef enum {
+    /* -1 */ PLAYER_STICK_DIR_NONE = -1,
+    /*  0 */ PLAYER_STICK_DIR_FORWARD,
+    /*  1 */ PLAYER_STICK_DIR_LEFT,
+    /*  2 */ PLAYER_STICK_DIR_BACKWARD,
+    /*  3 */ PLAYER_STICK_DIR_RIGHT
+} PlayerStickDirection;
+
 typedef struct {
     /* 0x00 */ f32 ceilingCheckHeight;
     /* 0x04 */ f32 unk_04;
@@ -836,9 +844,9 @@ typedef struct Player {
     /* 0x0843 */ s8 meleeWeaponState;
     /* 0x0844 */ s8 unk_844;
     /* 0x0845 */ u8 unk_845;
-    /* 0x0846 */ u8 unk_846;
-    /* 0x0847 */ s8 unk_847[4];
-    /* 0x084B */ s8 unk_84B[4];
+    /* 0x0846 */ u8 controlStickDataIndex; // cycles between 0 - 3. Used to index `controlStickSpinAngles` and `controlStickDirections`
+    /* 0x0847 */ s8 controlStickSpinAngles[4]; // Stores a modified version of the control stick angle for the last 4 frames. Used for checking spins.
+    /* 0x084B */ s8 controlStickDirections[4]; // Stores the control stick direction (relative to shape yaw) for the last 4 frames. See `PlayerStickDirection`.
 
     /* 0x084F */ union { 
         s8 actionVar1;
