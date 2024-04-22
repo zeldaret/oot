@@ -508,7 +508,7 @@ static PlayerAgeProperties sAgeProperties[] = {
 static u32 sNoclipEnabled = false;
 static f32 sControlStickMagnitude = 0.0f;
 static s16 sControlStickAngle = 0;
-static s16 D_808535DC = 0;
+static s16 sControlStickWorldYaw = 0;
 static s32 sUpperBodyIsBusy = false; // see `Player_UpdateUpperBody`
 static s32 sFloorType = FLOOR_TYPE_0;
 static f32 D_808535E8 = 1.0f;
@@ -2031,28 +2031,28 @@ void Player_AnimReplaceNormalPlayLoopAdjusted(PlayState* play, Player* this, Lin
 }
 
 void Player_ProcessControlStick(PlayState* play, Player* this) {
-    s8 phi_v1;
-    s8 phi_v0;
+    s8 spinAngle;
+    s8 direction;
 
     this->prevControlStickMagnitude = sControlStickMagnitude;
     this->prevControlStickAngle = sControlStickAngle;
 
     Lib_GetControlStickData(&sControlStickMagnitude, &sControlStickAngle, sControlInput);
 
-    D_808535DC = Camera_GetInputDirYaw(GET_ACTIVE_CAM(play)) + sControlStickAngle;
+    sControlStickWorldYaw = Camera_GetInputDirYaw(GET_ACTIVE_CAM(play)) + sControlStickAngle;
 
-    this->unk_846 = (this->unk_846 + 1) % 4;
+    this->controlStickDataIndex = (this->controlStickDataIndex + 1) % 4;
 
     if (sControlStickMagnitude < 55.0f) {
-        phi_v0 = -1;
-        phi_v1 = -1;
+        direction = PLAYER_STICK_DIR_NONE;
+        spinAngle = -1;
     } else {
-        phi_v1 = (u16)(sControlStickAngle + 0x2000) >> 9;
-        phi_v0 = (u16)((s16)(D_808535DC - this->actor.shape.rot.y) + 0x2000) >> 14;
+        spinAngle = (u16)(sControlStickAngle + 0x2000) >> 9;
+        direction = (u16)((s16)(sControlStickWorldYaw - this->actor.shape.rot.y) + 0x2000) >> 14;
     }
 
-    this->unk_847[this->unk_846] = phi_v1;
-    this->unk_84B[this->unk_846] = phi_v0;
+    this->controlStickSpinAngles[this->controlStickDataIndex] = spinAngle;
+    this->controlStickDirections[this->controlStickDataIndex] = direction;
 }
 
 void func_8083328C(PlayState* play, Player* this, LinkAnimationHeader* linkAnim) {
@@ -3463,7 +3463,16 @@ s32 Player_SetupWaitForPutAway(PlayState* play, Player* this, AfterPutAwayFunc a
     return Player_PutAwayHeldItem(play, this);
 }
 
-void func_808368EC(Player* this, PlayState* play) {
+/**
+ * Updates Shape Yaw (`shape.rot.y`). In other words, the Y rotation of Player's model.
+ * This does not affect the direction Player will move in.
+ *
+ * There are 3 modes shape yaw can be updated with, based on player state:
+ *     - Lock on:  Rotates Player to face the lock on target.
+ *     - Parallel: Rotates Player to face the Parallel angle, set by `func_808355DC` when Z is pressed.
+ *     - Normal:   Rotates Player to face `this->yaw`, the direction he is currently moving
+ */
+void Player_UpdateShapeYaw(Player* this, PlayState* play) {
     s16 previousYaw = this->actor.shape.rot.y;
 
     if (!(this->stateFlags2 & (PLAYER_STATE2_5 | PLAYER_STATE2_6))) {
@@ -3528,6 +3537,7 @@ s32 func_80836AB8(Player* this, s32 arg1) {
     return var;
 }
 
+// Update things related to Z Targeting
 void func_80836BEC(Player* this, PlayState* play) {
     s32 sp1C = 0;
     s32 zTrigPressed = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
@@ -3973,7 +3983,7 @@ void func_80837530(PlayState* play, Player* this, s32 arg2) {
     }
 }
 
-s32 func_808375D8(Player* this) {
+s32 Player_CanSpinAttack(Player* this) {
     s8 sp3C[4];
     s8* iter;
     s8* iter2;
@@ -3982,32 +3992,37 @@ s32 func_808375D8(Player* this) {
     s32 i;
 
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) || Player_HoldsBrokenKnife(this)) {
-        return 0;
+        return false;
     }
 
-    iter = &this->unk_847[0];
+    iter = &this->controlStickSpinAngles[0];
     iter2 = &sp3C[0];
+
     for (i = 0; i < 4; i++, iter++, iter2++) {
         if ((*iter2 = *iter) < 0) {
-            return 0;
+            return false;
         }
+
         *iter2 *= 2;
     }
 
     temp1 = sp3C[0] - sp3C[1];
+
     if (ABS(temp1) < 10) {
-        return 0;
+        return false;
     }
 
     iter2 = &sp3C[1];
+
     for (i = 1; i < 3; i++, iter2++) {
         temp2 = *iter2 - *(iter2 + 1);
+
         if ((ABS(temp2) < 10) || (temp2 * temp1 < 0)) {
-            return 0;
+            return false;
         }
     }
 
-    return 1;
+    return true;
 }
 
 void func_80837704(PlayState* play, Player* this) {
@@ -4036,6 +4051,7 @@ static s8 D_80854480[] = {
     PLAYER_MWA_RIGHT_SLASH_1H,
     PLAYER_MWA_LEFT_SLASH_1H,
 };
+
 static s8 D_80854484[] = {
     PLAYER_MWA_HAMMER_FORWARD,
     PLAYER_MWA_HAMMER_SIDE,
@@ -4044,38 +4060,43 @@ static s8 D_80854484[] = {
 };
 
 s32 func_80837818(Player* this) {
-    s32 sp1C = this->unk_84B[this->unk_846];
+    s32 controlStickDirection = this->controlStickDirections[this->controlStickDataIndex];
     s32 sp18;
 
     if (this->heldItemAction == PLAYER_IA_HAMMER) {
-        if (sp1C < 0) {
-            sp1C = 0;
+        if (controlStickDirection <= PLAYER_STICK_DIR_NONE) {
+            controlStickDirection = PLAYER_STICK_DIR_FORWARD;
         }
-        sp18 = D_80854484[sp1C];
+
+        sp18 = D_80854484[controlStickDirection];
         this->unk_845 = 0;
     } else {
-        if (func_808375D8(this)) {
+        if (Player_CanSpinAttack(this)) {
             sp18 = PLAYER_MWA_SPIN_ATTACK_1H;
         } else {
-            if (sp1C < 0) {
+            if (controlStickDirection <= PLAYER_STICK_DIR_NONE) {
                 if (func_80833BCC(this)) {
                     sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
                 } else {
                     sp18 = PLAYER_MWA_RIGHT_SLASH_1H;
                 }
             } else {
-                sp18 = D_80854480[sp1C];
+                sp18 = D_80854480[controlStickDirection];
+
                 if (sp18 == PLAYER_MWA_STAB_1H) {
                     this->stateFlags2 |= PLAYER_STATE2_30;
+
                     if (!func_80833BCC(this)) {
                         sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
                     }
                 }
             }
+
             if (this->heldItemAction == PLAYER_IA_DEKU_STICK) {
                 sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
             }
         }
+
         if (Player_HoldsTwoHandedWeapon(this)) {
             sp18++;
         }
@@ -5868,7 +5889,7 @@ void Player_SetupRoll(Player* this, PlayState* play) {
 
 
 s32 Player_TryRolling(Player* this, PlayState* play) {
-    if ((this->unk_84B[this->unk_846] == 0) && (sFloorType != FLOOR_TYPE_7)) {
+    if ((this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) && (sFloorType != FLOOR_TYPE_7)) {
         Player_SetupRoll(this, play);
 
         return true;
@@ -5877,34 +5898,35 @@ s32 Player_TryRolling(Player* this, PlayState* play) {
     return false;
 }
 
-void func_8083BCD0(Player* this, PlayState* play, s32 arg2) {
-    func_80838940(this, D_80853D4C[arg2][0], !(arg2 & 1) ? 5.8f : 3.5f, play, NA_SE_VO_LI_SWORD_N);
+void func_8083BCD0(Player* this, PlayState* play, s32 controlStickDirection) {
+    func_80838940(this, D_80853D4C[controlStickDirection][0], !(controlStickDirection & 1) ? 5.8f : 3.5f, play,
+                  NA_SE_VO_LI_SWORD_N);
 
-    if (arg2) {}
+    if (controlStickDirection) {}
 
     this->av2.actionVar2 = 1;
-    this->av1.actionVar1 = arg2;
+    this->av1.actionVar1 = controlStickDirection;
 
-    this->yaw = this->actor.shape.rot.y + (arg2 << 0xE);
-    this->speedXZ = !(arg2 & 1) ? 6.0f : 8.5f;
+    this->yaw = this->actor.shape.rot.y + (controlStickDirection << 0xE);
+    this->speedXZ = !(controlStickDirection & 1) ? 6.0f : 8.5f;
 
     this->stateFlags2 |= PLAYER_STATE2_19;
 
-    Player_PlaySfx(this, ((arg2 << 0xE) == 0x8000) ? NA_SE_PL_ROLL : NA_SE_PL_SKIP);
+    Player_PlaySfx(this, ((controlStickDirection << 0xE) == 0x8000) ? NA_SE_PL_ROLL : NA_SE_PL_SKIP);
 }
 
 s32 Player_ActionChange_10(Player* this, PlayState* play) {
-    s32 sp2C;
+    s32 controlStickDirection;
 
     if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
         (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && (sFloorType != FLOOR_TYPE_7) &&
         (SurfaceType_GetFloorEffect(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != FLOOR_EFFECT_1)) {
-        sp2C = this->unk_84B[this->unk_846];
+        controlStickDirection = this->controlStickDirections[this->controlStickDataIndex];
 
-        if (sp2C <= 0) {
+        if (controlStickDirection <= PLAYER_STICK_DIR_FORWARD) {
             if (func_80833BCC(this)) {
                 if (this->actor.category != ACTORCAT_PLAYER) {
-                    if (sp2C < 0) {
+                    if (controlStickDirection <= PLAYER_STICK_DIR_NONE) {
                         func_808389E8(this, &gPlayerAnim_link_normal_jump, REG(69) / 100.0f, play);
                     } else {
                         Player_SetupRoll(this, play);
@@ -5916,10 +5938,12 @@ s32 Player_ActionChange_10(Player* this, PlayState* play) {
                         Player_SetupRoll(this, play);
                     }
                 }
+
                 return 1;
             }
         } else {
-            func_8083BCD0(this, play, sp2C);
+            func_8083BCD0(this, play, controlStickDirection);
+
             return 1;
         }
     }
@@ -9002,7 +9026,8 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
                     if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
                         !(this->stateFlags2 & PLAYER_STATE2_19) &&
                         !(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_27)) && (this->speedXZ > 0.0f)) {
-                        if ((this->yDistToLedge >= 150.0f) && (this->unk_84B[this->unk_846] == 0)) {
+                        if ((this->yDistToLedge >= 150.0f) &&
+                            (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD)) {
                             func_8083EC18(this, play, sTouchedWallFlags);
                         } else if ((this->ledgeClimbType >= PLAYER_LEDGE_CLIMB_2) && (this->yDistToLedge < 150.0f) &&
                                    (((this->actor.world.pos.y - this->actor.floorHeight) + this->yDistToLedge) >
@@ -9040,7 +9065,8 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
             func_80833C3C(this);
         } else if (this->fallDistance <= 80) {
             anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_short_landing, this->modelAnimType);
-        } else if ((this->fallDistance < 800) && (this->unk_84B[this->unk_846] == 0) &&
+        } else if ((this->fallDistance < 800) &&
+                   (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) &&
                    !(this->stateFlags1 & PLAYER_STATE1_11)) {
             Player_SetupRoll(this, play);
             return;
@@ -9143,8 +9169,9 @@ void Player_Action_Roll(Player* this, PlayState* play) {
                 Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
                 speedTarget *= 1.5f;
-
-                if ((speedTarget < 3.0f) || (this->unk_84B[this->unk_846] != 0)) {
+                
+                if ((speedTarget < 3.0f) ||
+                    (this->controlStickDirections[this->controlStickDataIndex] != PLAYER_STICK_DIR_FORWARD)) {
                     speedTarget = 3.0f;
                 }
 
@@ -9209,7 +9236,7 @@ s32 func_80844BE4(Player* this, PlayState* play) {
         if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
             s32 temp;
 
-            if ((this->unk_858 >= 0.85f) || func_808375D8(this)) {
+            if ((this->unk_858 >= 0.85f) || Player_CanSpinAttack(this)) {
                 temp = D_80854384[Player_HoldsTwoHandedWeapon(this)];
             } else {
                 temp = D_80854380[Player_HoldsTwoHandedWeapon(this)];
@@ -9219,7 +9246,7 @@ s32 func_80844BE4(Player* this, PlayState* play) {
             func_80837AFC(this, -8);
 
             this->stateFlags2 |= PLAYER_STATE2_17;
-            if (this->unk_84B[this->unk_846] == 0) {
+            if (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) {
                 this->stateFlags2 |= PLAYER_STATE2_30;
             }
         } else {
@@ -9981,11 +10008,11 @@ void func_808469BC(PlayState* play, Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_29;
 }
 
-static s16 D_80854700[] = { ACTOR_MAGIC_WIND, ACTOR_MAGIC_DARK, ACTOR_MAGIC_FIRE };
+Actor* Player_SpawnMagicSpell(PlayState* play, Player* this, s32 spell) {
+    static s16 sMagicSpellActorIds[] = { ACTOR_MAGIC_WIND, ACTOR_MAGIC_DARK, ACTOR_MAGIC_FIRE };
 
-Actor* func_80846A00(PlayState* play, Player* this, s32 arg2) {
-    return Actor_Spawn(&play->actorCtx, play, D_80854700[arg2], this->actor.world.pos.x, this->actor.world.pos.y,
-                       this->actor.world.pos.z, 0, 0, 0, 0);
+    return Actor_Spawn(&play->actorCtx, play, sMagicSpellActorIds[spell], this->actor.world.pos.x,
+                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
 }
 
 void func_80846A68(PlayState* play, Player* this) {
@@ -10157,7 +10184,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
     if (gSaveContext.nayrusLoveTimer != 0) {
         gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
-        func_80846A00(play, this, 1);
+        Player_SpawnMagicSpell(play, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 
@@ -10228,12 +10255,17 @@ void func_80847298(Player* this) {
 
 static f32 D_80854784[] = { 120.0f, 240.0f, 360.0f };
 
-void func_808473D4(PlayState* play, Player* this) {
+/**
+ * Updates the two main interface elements that player is responsible for:
+ *     - Do Action label on the A button
+ *     - Navi C-up icon for hints
+ */
+void Player_UpdateInterface(PlayState* play, Player* this) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) && (this->actor.category == ACTORCAT_PLAYER)) {
         Actor* heldActor = this->heldActor;
         Actor* interactRangeActor = this->interactRangeActor;
         s32 sp24;
-        s32 sp20 = this->unk_84B[this->unk_846];
+        s32 controlStickDirection = this->controlStickDirections[this->controlStickDataIndex];
         s32 sp1C = func_808332B8(this);
         s32 doAction = DO_ACTION_NONE;
 
@@ -10300,24 +10332,26 @@ void func_808473D4(PlayState* play, Player* this) {
                            (this->getItemId < GI_MAX)) {
                     doAction = DO_ACTION_GRAB;
                 } else if (this->stateFlags2 & PLAYER_STATE2_11) {
-                    static u8 sDiveDoActions[] = { DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_4,
-                                                   DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8 };
+                    static u8 sDiveNumberDoActions[] = { DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_4,
+                                                         DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8 };
 
                     sp24 = (D_80854784[CUR_UPG_VALUE(UPG_SCALE)] - this->actor.yDistToWater) / 40.0f;
                     sp24 = CLAMP(sp24, 0, 7);
-                    doAction = sDiveDoActions[sp24];
+                    doAction = sDiveNumberDoActions[sp24];
                 } else if (sp1C && !(this->stateFlags2 & PLAYER_STATE2_10)) {
                     doAction = DO_ACTION_DIVE;
                 } else if (!sp1C && (!(this->stateFlags1 & PLAYER_STATE1_22) || func_80833BCC(this) ||
                                      !Player_IsChildWithHylianShield(this))) {
-                    if ((!(this->stateFlags1 & PLAYER_STATE1_14) && (sp20 <= 0) &&
+                    if ((!(this->stateFlags1 & PLAYER_STATE1_14) &&
+                         (controlStickDirection <= PLAYER_STICK_DIR_FORWARD) &&
                          (func_8008E9C4(this) ||
                           ((sFloorType != FLOOR_TYPE_7) &&
                            (func_80833B2C(this) || ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
-                                                    !(this->stateFlags1 & PLAYER_STATE1_22) && (sp20 == 0))))))) {
+                                                    !(this->stateFlags1 & PLAYER_STATE1_22) &&
+                                                    (controlStickDirection == PLAYER_STICK_DIR_FORWARD))))))) {
                         doAction = DO_ACTION_ATTACK;
                     } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && func_80833BCC(this) &&
-                               (sp20 > 0)) {
+                               (controlStickDirection >= PLAYER_STICK_DIR_LEFT)) {
                         doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemAction >= PLAYER_IA_SWORD_MASTER) ||
                                ((this->stateFlags2 & PLAYER_STATE2_NAVI_ACTIVE) &&
@@ -10784,11 +10818,11 @@ static Vec3f D_808547B0 = { 0.0f, 0.5f, 0.0f };
 static Color_RGBA8 D_808547BC = { 255, 255, 100, 255 };
 static Color_RGBA8 D_808547C0 = { 255, 50, 0, 0 };
 
-void func_80848A04(PlayState* play, Player* this) {
+void Player_UpdateBurningDekuStick(PlayState* play, Player* this) {
     f32 temp;
 
     if (this->unk_85C == 0.0f) {
-        Player_UseItem(play, this, 0xFF);
+        Player_UseItem(play, this, ITEM_NONE);
         return;
     }
 
@@ -10902,7 +10936,7 @@ void Player_UpdateBodyBurn(PlayState* play, Player* this) {
     }
 }
 
-void func_80848EF8(Player* this) {
+void Player_DetectRumbleSecrets(Player* this) {
     if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY)) {
         f32 temp = 200000.0f - (this->closestSecretDistSq * 5.0f);
 
@@ -11049,11 +11083,11 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->unk_890--;
     }
 
-    func_808473D4(play, this);
+    Player_UpdateInterface(play, this);
     func_80836BEC(this, play);
 
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
-        func_80848A04(play, this);
+        Player_UpdateBurningDekuStick(play, this);
     } else if ((this->heldItemAction == PLAYER_IA_FISHING_POLE) && (this->unk_860 < 0)) {
         this->unk_860++;
     }
@@ -11069,7 +11103,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     if ((this->stateFlags3 & PLAYER_STATE3_RESTORE_NAYRUS_LOVE) && (gSaveContext.nayrusLoveTimer != 0) &&
         (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
         gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
-        func_80846A00(play, this, 1);
+        Player_SpawnMagicSpell(play, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 
@@ -11258,7 +11292,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 } else {
                     this->fallStartHeight = this->actor.world.pos.y;
                 }
-                func_80848EF8(this);
+
+                Player_DetectRumbleSecrets(this);
             }
         }
 
@@ -11310,7 +11345,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         }
 
         D_808535EC = 1.0f / D_808535E8;
-        sUseHeldItem = sHeldItemButtonIsHeldDown = 0;
+        sUseHeldItem = sHeldItemButtonIsHeldDown = false;
         D_80858AA4 = this->currentMask;
 
         if (!(this->stateFlags3 & PLAYER_STATE3_2)) {
@@ -11325,7 +11360,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) ? 1.0f : this->ageProperties->unk_08);
         }
 
-        func_808368EC(this, play);
+        Player_UpdateShapeYaw(this, play);
 
         if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_TALK)) {
             this->talkActorDistance = 0.0f;
@@ -12100,7 +12135,7 @@ void Player_Action_8084BBE4(Player* this, PlayState* play) {
 
     if (this->av1.actionVar1 != 0) {
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
-        if (this->unk_847[this->unk_846] >= 0) {
+        if (this->controlStickSpinAngles[this->controlStickDataIndex] >= 0) {
             if (this->av1.actionVar1 > 0) {
                 anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_fall_up, this->modelAnimType);
             } else {
@@ -14084,7 +14119,7 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
             if (this->av2.actionVar2 == 0) {
                 LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, D_80854A58[this->av1.actionVar1], 0.83f);
 
-                if (func_80846A00(play, this, this->av1.actionVar1) != NULL) {
+                if (Player_SpawnMagicSpell(play, this, this->av1.actionVar1) != NULL) {
                     this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                     if ((this->av1.actionVar1 != 0) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
                         gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
