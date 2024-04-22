@@ -104,8 +104,8 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     this->meleeWeaponQuads[0].base.atFlags = this->meleeWeaponQuads[1].base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->meleeWeaponQuads[0].base.acFlags = this->meleeWeaponQuads[1].base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
     this->meleeWeaponQuads[0].base.colType = this->meleeWeaponQuads[1].base.colType = COLTYPE_METAL;
-    this->meleeWeaponQuads[0].elem.toucher.damage = this->meleeWeaponQuads[1].elem.toucher.damage = 8;
-    this->meleeWeaponQuads[0].elem.bumperFlags = this->meleeWeaponQuads[1].elem.bumperFlags = BUMP_ON;
+    this->meleeWeaponQuads[0].elem.atDmgInfo.damage = this->meleeWeaponQuads[1].elem.atDmgInfo.damage = 8;
+    this->meleeWeaponQuads[0].elem.acElemFlags = this->meleeWeaponQuads[1].elem.acElemFlags = ACELEM_ON;
     this->shieldQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->shieldQuad.base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
     this->actor.colChkInfo.damageTable = &sDamageTable;

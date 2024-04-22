@@ -283,7 +283,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = 0.0f;
             FALLTHROUGH;
         case 1:
-            this->collider.elements[0].base.toucher.damage *= 2;
+            this->collider.elements[0].base.atDmgInfo.damage *= 2;
             this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;
             this->actor.colChkInfo.health *= 2;
             this->actor.flags &= ~ACTOR_FLAG_0;
@@ -538,14 +538,14 @@ void func_80B0D590(EnSw* this, PlayState* play) {
 
     if (((this->actor.params & 0xE000) >> 0xD) == 2) {
         if (this->actor.scale.x < 0.0139999995f) {
-            this->collider.elements[0].base.toucherFlags = TOUCH_NONE;
-            this->collider.elements[0].base.bumperFlags = BUMP_NONE;
+            this->collider.elements[0].base.atElemFlags = ATELEM_NONE;
+            this->collider.elements[0].base.acElemFlags = ACELEM_NONE;
             this->collider.elements[0].base.ocElemFlags = OCELEM_NONE;
         }
 
         if (this->actor.scale.x >= 0.0139999995f) {
-            this->collider.elements[0].base.toucherFlags = TOUCH_ON;
-            this->collider.elements[0].base.bumperFlags = BUMP_ON;
+            this->collider.elements[0].base.atElemFlags = ATELEM_ON;
+            this->collider.elements[0].base.acElemFlags = ACELEM_ON;
             this->collider.elements[0].base.ocElemFlags = OCELEM_ON;
         }
 

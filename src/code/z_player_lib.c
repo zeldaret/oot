@@ -813,41 +813,94 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
     return envHazard + 1;
 }
 
-u8 sEyeMouthIndices[][2] = {
-    { 0, 0 }, { 1, 0 }, { 2, 0 }, { 0, 0 }, { 1, 0 }, { 2, 0 }, { 4, 0 }, { 5, 1 },
-    { 7, 2 }, { 0, 2 }, { 3, 0 }, { 4, 0 }, { 2, 2 }, { 1, 1 }, { 0, 2 }, { 0, 0 },
+u8 sPlayerFaces[PLAYER_FACE_MAX][PLAYER_FACEPART_MAX] = {
+    // The first 6 faces defined must be default blinking faces. See relevant code in `Player_UpdateCommon`.
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_CLOSED },   // PLAYER_FACE_NEUTRAL
+    { PLAYER_EYES_HALF, PLAYER_MOUTH_CLOSED },   // PLAYER_FACE_NEUTRAL_BLINKING_HALF
+    { PLAYER_EYES_CLOSED, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL_BLINKING_CLOSED
+
+    // This duplicate set of blinking faces is defined because Player will choose between the first and second set
+    // based on gameplayFrames. See relevant code in `Player_UpdateCommon`.
+    // This, in theory, allows for psuedo-random variance in the faces used. But in practice, duplicate faces are used.
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_CLOSED },   // PLAYER_FACE_NEUTRAL_2
+    { PLAYER_EYES_HALF, PLAYER_MOUTH_CLOSED },   // PLAYER_FACE_NEUTRAL_BLINKING_HALF_2
+    { PLAYER_EYES_CLOSED, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2
+
+    // The rest of these faces go unused. Face data encoded within animations handles all other faces.
+    { PLAYER_EYES_RIGHT, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_LOOK_RIGHT
+    { PLAYER_EYES_WIDE, PLAYER_MOUTH_HALF },    // PLAYER_FACE_SURPRISED
+    { PLAYER_EYES_WINCING, PLAYER_MOUTH_OPEN }, // PLAYER_FACE_HURT
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_OPEN },    // PLAYER_FACE_GASP
+    { PLAYER_EYES_LEFT, PLAYER_MOUTH_CLOSED },  // PLAYER_FACE_LOOK_LEFT
+    { PLAYER_EYES_RIGHT, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_LOOK_RIGHT_2
+    { PLAYER_EYES_CLOSED, PLAYER_MOUTH_OPEN },  // PLAYER_FACE_EYES_CLOSED_MOUTH_OPEN
+    { PLAYER_EYES_HALF, PLAYER_MOUTH_HALF },    // PLAYER_FACE_OPENING
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_OPEN },    // PLAYER_FACE_EYES_AND_MOUTH_OPEN
+    { PLAYER_EYES_OPEN, PLAYER_MOUTH_CLOSED },  // PLAYER_FACE_NEUTRAL_3
 };
 
 /**
- * Link's eye and mouth textures are placed at the exact same place in adult and child Link's respective object files.
+ * Link's eyes and mouth textures are placed at the exact same place in adult and child Link's respective object files.
  * This allows the array to only contain the symbols for one file and have it apply to both. This is a problem for
  * shiftability, and changes will need to be made in the code to account for this in a modding scenario. The symbols
  * from adult Link's object are used here.
  */
 #ifndef AVOID_UB
-void* sEyeTextures[] = {
-    gLinkAdultEyesOpenTex,      gLinkAdultEyesHalfTex,  gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
-    gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex,    gLinkAdultEyesUnk2Tex,
+void* sEyeTextures[PLAYER_EYES_MAX] = {
+    gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
+    gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
+    gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
+    gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
+    gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+    gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
+    gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
+    gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
 };
 
-void* sMouthTextures[] = {
-    gLinkAdultMouth1Tex,
-    gLinkAdultMouth2Tex,
-    gLinkAdultMouth3Tex,
-    gLinkAdultMouth4Tex,
+void* sMouthTextures[PLAYER_MOUTH_MAX] = {
+    gLinkAdultMouthClosedTex, // PLAYER_MOUTH_CLOSED
+    gLinkAdultMouthHalfTex,   // PLAYER_MOUTH_HALF
+    gLinkAdultMouthOpenTex,   // PLAYER_MOUTH_OPEN
+    gLinkAdultMouthSmileTex,  // PLAYER_MOUTH_SMILE
 };
 #else
 // Defining `AVOID_UB` will use a 2D array instead and properly use the child link pointers to allow for shifting.
-void* sEyeTextures[][8] = {
-    { gLinkAdultEyesOpenTex, gLinkAdultEyesHalfTex, gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
-      gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex, gLinkAdultEyesUnk2Tex },
-    { gLinkChildEyesOpenTex, gLinkChildEyesHalfTex, gLinkChildEyesClosedfTex, gLinkChildEyesRollLeftTex,
-      gLinkChildEyesRollRightTex, gLinkChildEyesShockTex, gLinkChildEyesUnk1Tex, gLinkChildEyesUnk2Tex },
+void* sEyeTextures[][PLAYER_EYES_MAX] = {
+    {
+        gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
+        gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
+        gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
+        gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
+        gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+        gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
+        gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
+        gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
+    },
+    {
+        gLinkChildEyesOpenTex,    // PLAYER_EYES_OPEN
+        gLinkChildEyesHalfTex,    // PLAYER_EYES_HALF
+        gLinkChildEyesClosedfTex, // PLAYER_EYES_CLOSED
+        gLinkChildEyesLeftTex,    // PLAYER_EYES_LEFT
+        gLinkChildEyesRightTex,   // PLAYER_EYES_RIGHT
+        gLinkChildEyesWideTex,    // PLAYER_EYES_WIDE
+        gLinkChildEyesDownTex,    // PLAYER_EYES_DOWN
+        gLinkChildEyesWincingTex, // PLAYER_EYES_WINCING
+    },
 };
 
-void* sMouthTextures[][4] = {
-    { gLinkAdultMouth1Tex, gLinkAdultMouth2Tex, gLinkAdultMouth3Tex, gLinkAdultMouth4Tex },
-    { gLinkChildMouth1Tex, gLinkChildMouth2Tex, gLinkChildMouth3Tex, gLinkChildMouth4Tex },
+void* sMouthTextures[][PLAYER_MOUTH_MAX] = {
+    {
+        gLinkAdultMouthClosedTex, // PLAYER_MOUTH_CLOSED
+        gLinkAdultMouthHalfTex,   // PLAYER_MOUTH_HALF
+        gLinkAdultMouthOpenTex,   // PLAYER_MOUTH_OPEN
+        gLinkAdultMouthSmileTex,  // PLAYER_MOUTH_SMILE
+    },
+    {
+        gLinkChildMouthClosedTex, // PLAYER_MOUTH_CLOSED
+        gLinkChildMouthHalfTex,   // PLAYER_MOUTH_HALF
+        gLinkChildMouthOpenTex,   // PLAYER_MOUTH_OPEN
+        gLinkChildMouthSmileTex,  // PLAYER_MOUTH_SMILE
+    },
 };
 #endif
 
@@ -870,23 +923,31 @@ Gfx* sBootDListGroups[][2] = {
 void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic, s32 boots,
                      s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* data) {
     Color_RGB8* color;
-    s32 eyeIndex = (jointTable[22].x & 0xF) - 1;
-    s32 mouthIndex = (jointTable[22].x >> 4) - 1;
+    s32 eyesIndex;
+    s32 mouthIndex;
+
+    // Player's animation data includes eyes and mouth indices for which texture to use on a given frame.
+    // Despite being accessed as "the x component of the 22nd limb", the eyes and mouth indices are stored in 2
+    // additional bytes tacked onto the end of the limb rotation data for a given animation frame.
+    eyesIndex = (jointTable[22].x & 0xF) - 1;
+    mouthIndex = (jointTable[22].x >> 4) - 1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 1721);
 
-    if (eyeIndex < 0) {
-        eyeIndex = sEyeMouthIndices[face][0];
+    // If the eyes index provided by the animation is negative, use the value provided by the `face` argument instead
+    if (eyesIndex < 0) {
+        eyesIndex = sPlayerFaces[face][PLAYER_FACEPART_EYES];
     }
 
 #ifndef AVOID_UB
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[eyesIndex]));
 #else
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[gSaveContext.save.linkAge][eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[gSaveContext.save.linkAge][eyesIndex]));
 #endif
 
+    // If the mouth index provided by the animation is negative, use the value provided by the `face` argument instead
     if (mouthIndex < 0) {
-        mouthIndex = sEyeMouthIndices[face][1];
+        mouthIndex = sPlayerFaces[face][PLAYER_FACEPART_MOUTH];
     }
 
 #ifndef AVOID_UB
@@ -1810,8 +1871,8 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
-    Player_DrawImpl(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
-                    Player_OverrideLimbDrawPause, NULL, &playerSwordAndShield);
+    Player_DrawImpl(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots,
+                    PLAYER_FACE_NEUTRAL, Player_OverrideLimbDrawPause, NULL, &playerSwordAndShield);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
     gSPEndDisplayList(POLY_XLU_DISP++);

@@ -3,6 +3,7 @@
 
 #include "z64actor.h"
 #include "alignment.h"
+#include "face_change.h"
 
 struct Player;
 
@@ -227,6 +228,52 @@ typedef enum {
     /*  2 */ PLAYER_DOORTYPE_SLIDING,
     /*  3 */ PLAYER_DOORTYPE_FAKE
 } PlayerDoorType;
+
+typedef enum {
+    /* 0 */ PLAYER_FACEPART_EYES,
+    /* 1 */ PLAYER_FACEPART_MOUTH,
+    /* 2 */ PLAYER_FACEPART_MAX
+} PlayerFacePart;
+
+typedef enum {
+    /* 0 */ PLAYER_EYES_OPEN,
+    /* 1 */ PLAYER_EYES_HALF,
+    /* 2 */ PLAYER_EYES_CLOSED,
+    /* 3 */ PLAYER_EYES_LEFT,
+    /* 4 */ PLAYER_EYES_RIGHT,
+    /* 5 */ PLAYER_EYES_WIDE,
+    /* 6 */ PLAYER_EYES_DOWN,
+    /* 7 */ PLAYER_EYES_WINCING,
+    /* 8 */ PLAYER_EYES_MAX
+} PlayerEyes;
+
+typedef enum {
+    /* 0 */ PLAYER_MOUTH_CLOSED,
+    /* 1 */ PLAYER_MOUTH_HALF,
+    /* 2 */ PLAYER_MOUTH_OPEN,
+    /* 3 */ PLAYER_MOUTH_SMILE,
+    /* 4 */ PLAYER_MOUTH_MAX
+} PlayerMouth;
+
+typedef enum {
+    /*  0 */ PLAYER_FACE_NEUTRAL,                   // eyes open and mouth closed
+    /*  1 */ PLAYER_FACE_NEUTRAL_BLINKING_HALF,     // eyes half open and mouth closed
+    /*  2 */ PLAYER_FACE_NEUTRAL_BLINKING_CLOSED,   // eyes and mouth closed
+    /*  3 */ PLAYER_FACE_NEUTRAL_2,                 // same as `PLAYER_FACE_NEUTRAL`
+    /*  4 */ PLAYER_FACE_NEUTRAL_BLINKING_HALF_2,   // same as `PLAYER_FACE_NEUTRAL_BLINKING_HALF`
+    /*  5 */ PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2, // same as `PLAYER_FACE_NEUTRAL_BLINKING_CLOSED`
+    /*  6 */ PLAYER_FACE_LOOK_RIGHT,                // eyes looking right and mouth closed
+    /*  7 */ PLAYER_FACE_SURPRISED,                 // wide eyes and grimacing mouth
+    /*  8 */ PLAYER_FACE_HURT,                      // eyes wincing in pain and mouth open
+    /*  9 */ PLAYER_FACE_GASP,                      // eyes and mouth open
+    /* 10 */ PLAYER_FACE_LOOK_LEFT,                 // eyes looking left and mouth closed
+    /* 11 */ PLAYER_FACE_LOOK_RIGHT_2,              // duplicate of `PLAYER_FACE_LOOK_RIGHT`
+    /* 12 */ PLAYER_FACE_EYES_CLOSED_MOUTH_OPEN,    // eyes closed and mouth open
+    /* 13 */ PLAYER_FACE_OPENING,                   // eyes and mouth both halfway open
+    /* 14 */ PLAYER_FACE_EYES_AND_MOUTH_OPEN,       // eyes and mouth open
+    /* 15 */ PLAYER_FACE_NEUTRAL_3,                 // same as `PLAYER_FACE_NEUTRAL` and `PLAYER_FACE_NEUTRAL_2`
+    /* 16 */ PLAYER_FACE_MAX
+} PlayerFace;
 
 typedef enum {
     /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `Player_OverrideLimbDrawPause`)
@@ -550,6 +597,14 @@ typedef enum {
 } PlayerLedgeClimbType;
 
 typedef enum {
+    /* -1 */ PLAYER_STICK_DIR_NONE = -1,
+    /*  0 */ PLAYER_STICK_DIR_FORWARD,
+    /*  1 */ PLAYER_STICK_DIR_LEFT,
+    /*  2 */ PLAYER_STICK_DIR_BACKWARD,
+    /*  3 */ PLAYER_STICK_DIR_RIGHT
+} PlayerStickDirection;
+
+typedef enum {
     /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
     /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
     /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
@@ -685,7 +740,7 @@ typedef struct {
 
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
 typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
-typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
+typedef void (*AfterPutAwayFunc)(struct PlayState*, struct Player*);
 
 typedef struct Player {
     /* 0x0000 */ Actor actor;
@@ -720,7 +775,7 @@ typedef struct Player {
     /* 0x01F8 */ Vec3s jointTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x0288 */ Vec3s morphTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x0318 */ Vec3s blendTable[PLAYER_LIMB_BUF_COUNT];
-    /* 0x03A8 */ s16 unk_3A8[2];
+    /* 0x03A8 */ FaceChange faceChange;
     /* 0x03AC */ Actor* heldActor;
     /* 0x03B0 */ Vec3f leftHandPos;
     /* 0x03BC */ Vec3s unk_3BC;
@@ -769,8 +824,8 @@ typedef struct Player {
     /* 0x0690 */ s16 naviTextId;
     /* 0x0692 */ u8 stateFlags3;
     /* 0x0693 */ s8 exchangeItemId;
-    /* 0x0694 */ Actor* targetActor;
-    /* 0x0698 */ f32 targetActorDistance;
+    /* 0x0694 */ Actor* talkActor; // Actor offering to talk, or currently talking to, depending on context
+    /* 0x0698 */ f32 talkActorDistance; // xz distance away from `talkActor`
     /* 0x069C */ char unk_69C[0x004];
     /* 0x06A0 */ f32 unk_6A0;
     /* 0x06A4 */ f32 closestSecretDistSq;
@@ -792,7 +847,7 @@ typedef struct Player {
     /* 0x070C */ Vec3s upperJointTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x082C */ UpperActionFunc upperActionFunc;
-    /* 0x0830 */ f32 upperAnimBlendWeight;
+    /* 0x0830 */ f32 upperAnimInterpWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
     /* 0x0837 */ u8 unk_837;
@@ -804,9 +859,9 @@ typedef struct Player {
     /* 0x0843 */ s8 meleeWeaponState;
     /* 0x0844 */ s8 unk_844;
     /* 0x0845 */ u8 unk_845;
-    /* 0x0846 */ u8 unk_846;
-    /* 0x0847 */ s8 unk_847[4];
-    /* 0x084B */ s8 unk_84B[4];
+    /* 0x0846 */ u8 controlStickDataIndex; // cycles between 0 - 3. Used to index `controlStickSpinAngles` and `controlStickDirections`
+    /* 0x0847 */ s8 controlStickSpinAngles[4]; // Stores a modified version of the control stick angle for the last 4 frames. Used for checking spins.
+    /* 0x084B */ s8 controlStickDirections[4]; // Stores the control stick direction (relative to shape yaw) for the last 4 frames. See `PlayerStickDirection`.
 
     /* 0x084F */ union {
         s8 actionVar1;
@@ -860,7 +915,7 @@ typedef struct Player {
     /* 0x0A60 */ u8 bodyIsBurning;
     /* 0x0A61 */ u8 bodyFlameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8 unk_A73;
-    /* 0x0A74 */ PlayerFuncA74 func_A74;
+    /* 0x0A74 */ AfterPutAwayFunc afterPutAwayFunc; // See `Player_SetupWaitForPutAway` and `Player_Action_WaitForPutAway`
     /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
     /* 0x0A79 */ u8 floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
     /* 0x0A7A */ u8 floorProperty;

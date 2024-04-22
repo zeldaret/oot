@@ -67,8 +67,8 @@ static ColliderCylinderInit D_80A4B7A0 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -87,8 +87,8 @@ static ColliderCylinderInit D_80A4B7CC = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -623,7 +623,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
             this->colCyl2.base.acFlags &= ~AC_HIT;
 
             if (this->gomaType == ENGOMA_NORMAL) {
-                u32 dmgFlags = acHitElem->toucher.dmgFlags;
+                u32 dmgFlags = acHitElem->atDmgInfo.dmgFlags;
 
                 if (dmgFlags & DMG_SHIELD) {
                     if (this->actionFunc == EnGoma_Jump) {

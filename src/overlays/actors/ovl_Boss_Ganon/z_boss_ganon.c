@@ -70,8 +70,8 @@ static ColliderCylinderInit sDorfCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0xFFCFFFFE, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 20, 80, -50, { 0, 0, 0 } },
@@ -90,8 +90,8 @@ static ColliderCylinderInit sLightBallCylinderInit = {
         ELEMTYPE_UNK6,
         { 0x00100700, 0x00, 0x08 },
         { 0x0D900740, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 30, -15, { 0, 0, 0 } },
@@ -100,11 +100,21 @@ static ColliderCylinderInit sLightBallCylinderInit = {
 static u8 D_808E4C58[] = { 0, 12, 10, 12, 14, 16, 12, 14, 16, 12, 14, 16, 12, 14, 16, 10, 16, 14 };
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
+// For retail BSS ordering, the block number of sGanondorf must be 0 or just above.
+
+// TODO: There's probably a way to do this with less padding by spreading the variables out and moving
+// data around. It would be easier if we had more options for controlling BSS ordering in debug.
+#pragma increment_block_number 50
+
 static EnGanonMant* sCape;
+
+#pragma increment_block_number 200
 
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
+
+#pragma increment_block_number 200
 
 static BossGanon* sGanondorf;
 
@@ -2691,14 +2701,14 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
         acHitElem = this->collider.elem.acHitElem;
 
         if ((this->actionFunc == BossGanon_HitByLightBall) || (this->actionFunc == BossGanon_ChargeBigMagic)) {
-            if (acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) {
+            if (acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_LIGHT) {
                 BossGanon_SetupVulnerable(this, play);
                 this->timers[2] = 0;
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GANON_DAMAGE1);
                 this->unk_1A6 = 15;
             }
         } else if ((this->actionFunc == BossGanon_Vulnerable) && (this->unk_1C2 >= 3)) {
-            if (!(acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
+            if (!(acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
                 u8 hitWithSword = false;
                 u8 damage;
                 Vec3f sp50;
@@ -2712,7 +2722,7 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
                                               0x1E);
                 }
 
-                damage = flags = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags);
+                damage = flags = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags);
 
                 if (flags == 0) {
                     damage = 2;
@@ -2746,7 +2756,7 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
                     sCape->tearTimer = 1;
                 }
             }
-        } else if (acHitElem->toucher.dmgFlags & DMG_RANGED) {
+        } else if (acHitElem->atDmgInfo.dmgFlags & DMG_RANGED) {
             Actor_PlaySfx(&this->actor, 0);
 
             for (i = 0; i < ARRAY_COUNT(sCape->strands); i++) {
@@ -3941,7 +3951,7 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
 
                     this->collider.base.acFlags &= ~AC_HIT;
 
-                    if ((hitWithBottle == false) && (acHitElem->toucher.dmgFlags & DMG_SHIELD)) {
+                    if ((hitWithBottle == false) && (acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD)) {
                         spBA = 2;
                         Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -4427,7 +4437,7 @@ void func_808E2544(Actor* thisx, PlayState* play) {
 
                 this->collider.base.acFlags &= ~AC_HIT;
 
-                if (!(acHitElem->toucher.dmgFlags & DMG_SHIELD) || Player_HasMirrorShieldEquipped(play)) {
+                if (!(acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD) || Player_HasMirrorShieldEquipped(play)) {
                     Rumble_Request(this->actor.xyzDistToPlayerSq, 180, 20, 100);
                     this->unk_1C2 = 0xC;
                     this->actor.speed = -30.0f;

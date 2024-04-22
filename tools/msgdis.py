@@ -329,7 +329,7 @@ def dump_all_text():
             nes_offset = segmented_to_physical(entry[3])
             nes_length = next_entry[3] - entry[3]
             nes_text = ""
-            with open(f"baseroms/{version}/segments/nes_message_data_static","rb") as infile:
+            with open(f"extracted/{version}/baserom/nes_message_data_static","rb") as infile:
                 infile.seek(nes_offset)
                 nes_text = fixup_message(decode(infile.read(nes_length), entry[1]).replace("\x00","",-1))
 
@@ -340,13 +340,13 @@ def dump_all_text():
                     next_entry = combined_message_entry_table[i+2]
                 ger_offset = segmented_to_physical(entry[4])
                 ger_length = next_entry[4] - entry[4]
-                with open(f"baseroms/{version}/segments/ger_message_data_static","rb") as infile:
+                with open(f"extracted/{version}/baserom/ger_message_data_static","rb") as infile:
                     infile.seek(ger_offset)
                     ger_text = fixup_message(decode(infile.read(ger_length), entry[1]).replace("\x00","",-1))
 
                 fra_offset = segmented_to_physical(entry[5])
                 fra_length = next_entry[5] - entry[5]
-                with open(f"baseroms/{version}/segments/fra_message_data_static","rb") as infile:
+                with open(f"extracted/{version}/baserom/fra_message_data_static","rb") as infile:
                     infile.seek(fra_offset)
                     fra_text = fixup_message(decode(infile.read(fra_length), entry[1]).replace("\x00","",-1))
 
@@ -355,7 +355,7 @@ def dump_all_text():
     return messages
 
 def dump_staff_text():
-    staff_message_data_static_size = path.getsize(f"baseroms/{version}/segments/staff_message_data_static")
+    staff_message_data_static_size = path.getsize(f"extracted/{version}/baserom/staff_message_data_static")
     # text id, ypos, type, staff
     messages = []
     for i,entry in enumerate(staff_message_entry_table,0):
@@ -364,7 +364,7 @@ def dump_staff_text():
             staff_offset = segmented_to_physical(entry[3])
             # hacky way to ensure the staff message entry table is read all the way to the end
             staff_length = (staff_message_data_static_size if entry[0] == 0x052F else segmented_to_physical(next_entry[3])) - segmented_to_physical(entry[3])
-            with open(f"baseroms/{version}/segments/staff_message_data_static","rb") as infile:
+            with open(f"extracted/{version}/baserom/staff_message_data_static","rb") as infile:
                 infile.seek(staff_offset)
                 messages.append((entry[0], entry[1], entry[2], fixup_message(decode(infile.read(staff_length), entry[1]).replace("\x00","",-1))))
         else:
@@ -426,7 +426,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Extract text from the baserom into .h files"
     )
-    parser.add_argument("--oot-version", help="OOT version", default="gc-eu-mq-dbg", choices=["gc-eu-mq", "gc-eu-mq-dbg"])
+    parser.add_argument("--oot-version", help="OOT version", default="gc-eu-mq-dbg")
     parser.add_argument("--text-out", help="Path to output .h file for text")
     parser.add_argument(
         "--staff-text-out", help="Path to output .h file for staff text"
@@ -449,6 +449,12 @@ def main():
         fra_message_entry_table_addr = 0x00B84C28
         staff_message_entry_table_addr = 0x00B86D38
         staff_message_entry_table_addr_end = 0x00B86EC0
+    elif version == "gc-eu":
+        nes_message_entry_table_addr = 0x00B7E910
+        ger_message_entry_table_addr = 0x00B82B38
+        fra_message_entry_table_addr = 0x00B84C48
+        staff_message_entry_table_addr = 0x00B86D58
+        staff_message_entry_table_addr_end = 0x00B86EE0
     else:
         parser.error("Unsupported OOT version")
 

@@ -36,8 +36,8 @@ static ColliderQuadInit sQuadInit = {
         ELEMTYPE_UNK2,
         { 0x00000080, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -154,7 +154,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         Actor* touchedActor = this->collider.base.at;
 
         if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
-            if (this->collider.elem.atHitElem->bumperFlags & BUMP_HOOKABLE) {
+            if (this->collider.elem.atHitElem->acElemFlags & ACELEM_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);
                 if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_10)) {
                     func_80865044(this);

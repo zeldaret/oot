@@ -42,8 +42,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x04 },
             { 0xFFCFFFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 2, { { 1200, 0, 0 }, 16 }, 100 },
@@ -139,7 +139,7 @@ s32 EnFw_CheckCollider(EnFw* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         elem = &this->collider.elements[0].base;
-        if (elem->acHitElem->toucher.dmgFlags & DMG_HOOKSHOT) {
+        if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT) {
             this->lastDmgHook = true;
         } else {
             this->lastDmgHook = false;

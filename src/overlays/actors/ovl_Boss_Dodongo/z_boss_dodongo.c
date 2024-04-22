@@ -1239,12 +1239,12 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     if (this->unk_1C0 == 0) {
         if (this->actionFunc == BossDodongo_Inhale) {
             for (i = 0; i < 19; i++) {
-                if (this->collider.elements[i].base.bumperFlags & BUMP_HIT) {
+                if (this->collider.elements[i].base.acElemFlags & ACELEM_HIT) {
                     acHitElem = this->collider.elements[i].base.acHitElem;
 
-                    if ((acHitElem->toucher.dmgFlags & DMG_BOOMERANG) ||
-                        (acHitElem->toucher.dmgFlags & DMG_SLINGSHOT)) {
-                        this->collider.elements[i].base.bumperFlags &= ~BUMP_HIT;
+                    if ((acHitElem->atDmgInfo.dmgFlags & DMG_BOOMERANG) ||
+                        (acHitElem->atDmgInfo.dmgFlags & DMG_SLINGSHOT)) {
+                        this->collider.elements[i].base.acElemFlags &= ~ACELEM_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);
                         this->unk_1DA = 0x32;
@@ -1254,11 +1254,11 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
             }
         }
 
-        if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
-            this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
+        if (this->collider.elements[0].base.acElemFlags & ACELEM_HIT) {
+            this->collider.elements[0].base.acElemFlags &= ~ACELEM_HIT;
             acHitElem = this->collider.elements[0].base.acHitElem;
             if ((this->actionFunc == BossDodongo_Vulnerable) || (this->actionFunc == BossDodongo_LayDown)) {
-                swordDamage = damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags);
+                swordDamage = damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags);
 
                 if (damage != 0) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_DAMAGE);

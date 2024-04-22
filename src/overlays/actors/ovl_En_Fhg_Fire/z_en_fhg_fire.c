@@ -69,8 +69,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK6,
         { 0x00100700, 0x03, 0x20 },
         { 0x0D900700, 0x00, 0x00 },
-        TOUCH_ON,
-        BUMP_ON,
+        ATELEM_ON,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 30, 10, { 0, 0, 0 } },
@@ -491,7 +491,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                                                         (s16)(Rand_ZeroOne() * 25.0f) + 50, FHGFLASH_LIGHTBALL_GREEN);
                     }
                     canBottleReflect2 = canBottleReflect1;
-                    if (!canBottleReflect2 && (acHitElem->toucher.dmgFlags & DMG_SHIELD)) {
+                    if (!canBottleReflect2 && (acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD)) {
                         killMode = BALL_IMPACT;
                         Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,

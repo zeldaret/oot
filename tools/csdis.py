@@ -491,7 +491,7 @@ cutscene_command_macros = {
               "CS_MISC(%h2:1:e4, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
     4:
         ("CS_LIGHT_SETTING_LIST(%w1:1:s)", 2, None, 0,
-              "CS_LIGHT_SETTING(%h2:1:x-1, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+              "CS_LIGHT_SETTING(%h2:1:x-1, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
     86:
         ("CS_START_SEQ_LIST(%w1:1:s)", 2, None, 0,
               "CS_START_SEQ(%h2:1:e3, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
@@ -781,7 +781,7 @@ def main():
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     cs_data = None
-    with open(script_dir + "/../baseroms/gc-eu-mq-dbg/segments/" + file_result.name, "rb") as ovl_file:
+    with open(script_dir + "/../extracted/gc-eu-mq-dbg/baserom/" + file_result.name, "rb") as ovl_file:
         ovl_file.seek(file_result.offset)
         cs_data = [i[0] for i in struct.iter_unpack(">I",  bytearray(ovl_file.read()))]
     if cs_data is not None:

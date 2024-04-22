@@ -183,8 +183,8 @@ static ColliderCylinderInitType1 D_80B01678 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x0, 0x08 },
         { 0xFFCFFFFF, 0x0, 0x0 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 8, 48, 0, { 0, 0, 0 } },
@@ -585,9 +585,9 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         switch (this->actor.colChkInfo.damageEffect) {
             case 0xF:
-                effectPos.x = this->collider.elem.bumper.hitPos.x;
-                effectPos.y = this->collider.elem.bumper.hitPos.y;
-                effectPos.z = this->collider.elem.bumper.hitPos.z;
+                effectPos.x = this->collider.elem.acDmgInfo.hitPos.x;
+                effectPos.y = this->collider.elem.acDmgInfo.hitPos.y;
+                effectPos.z = this->collider.elem.acDmgInfo.hitPos.z;
 
                 EnSkj_SpawnBlood(play, &effectPos);
                 EffectSsHitMark_SpawnFixedScale(play, 1, &effectPos);

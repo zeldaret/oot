@@ -69,7 +69,9 @@ static void* sMouthTextures[] = {
     gSariaMouthSmilingOpenTex, gSariaMouthFrowningTex,
 };
 
+#if OOT_DEBUG
 static u32 D_80990108 = 0;
+#endif
 
 #include "z_demo_sa_cutscene_data.inc.c"
 

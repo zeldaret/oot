@@ -44,8 +44,8 @@ static ColliderQuadInit sColliderInit = {
         ELEMTYPE_UNK2,
         { 0x00000020, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -121,15 +121,15 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         Collider_SetQuad(play, &this->collider, &this->actor, &sColliderInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
-            this->collider.elem.toucherFlags &= ~TOUCH_SFX_MASK;
-            this->collider.elem.toucherFlags |= TOUCH_SFX_NORMAL;
+            this->collider.elem.atElemFlags &= ~ATELEM_SFX_MASK;
+            this->collider.elem.atElemFlags |= ATELEM_SFX_NORMAL;
         }
 
         if (this->actor.params < 0) {
             this->collider.base.atFlags = (AT_ON | AT_TYPE_ENEMY);
         } else if (this->actor.params <= ARROW_SEED) {
-            this->collider.elem.toucher.dmgFlags = dmgFlags[this->actor.params];
-            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.elem.toucher.dmgFlags,
+            this->collider.elem.atDmgInfo.dmgFlags = dmgFlags[this->actor.params];
+            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.elem.atDmgInfo.dmgFlags,
                     "../z_en_arrow.c", 707);
         }
     }
@@ -298,10 +298,10 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
 
-                    if (this->collider.elem.atHitElem->bumperFlags & BUMP_HIT) {
-                        this->actor.world.pos.x = this->collider.elem.atHitElem->bumper.hitPos.x;
-                        this->actor.world.pos.y = this->collider.elem.atHitElem->bumper.hitPos.y;
-                        this->actor.world.pos.z = this->collider.elem.atHitElem->bumper.hitPos.z;
+                    if (this->collider.elem.atHitElem->acElemFlags & ACELEM_HIT) {
+                        this->actor.world.pos.x = this->collider.elem.atHitElem->acDmgInfo.hitPos.x;
+                        this->actor.world.pos.y = this->collider.elem.atHitElem->acDmgInfo.hitPos.y;
+                        this->actor.world.pos.z = this->collider.elem.atHitElem->acDmgInfo.hitPos.z;
                     }
 
                     func_809B3CEC(play, this);

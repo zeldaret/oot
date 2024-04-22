@@ -100,7 +100,11 @@ f32 D_801305E4[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/
 f32 D_801305F4 = 1.0f;
 u8 sGanonsTowerLevelsVol[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
 u8 sEnterGanonsTowerTimer = 0;
+#if OOT_DEBUG
 s8 sSoundMode = SOUNDMODE_SURROUND;
+#else
+s8 sSoundMode = SOUNDMODE_STEREO;
+#endif
 s8 D_80130608 = 0;
 s8 sAudioCutsceneFlag = 0;
 s8 sSpecReverb = 0;
@@ -123,7 +127,10 @@ u8 sAudioBaseFilter2 = 0;
 u8 sAudioExtraFilter2 = 0;
 Vec3f* sSariaBgmPtr = NULL;
 f32 D_80130650 = 2000.0f;
+
+#if OOT_DEBUG
 u8 sSeqModeInput = 0;
+#endif
 
 #define SEQ_FLAG_ENEMY (1 << 0) // Allows enemy bgm
 #define SEQ_FLAG_FANFARE (1 << 1)

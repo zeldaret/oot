@@ -52,8 +52,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 13, 40, 0, { 0, 0, 0 } },
@@ -137,7 +137,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = 0.25f;
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
-            this->collider.elem.bumper.dmgFlags = DMG_ARROW;
+            this->collider.elem.acDmgInfo.dmgFlags = DMG_ARROW;
             this->objectId = OBJECT_TSUBO;
             this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
             if (this->requiredObjectSlot < 0) {
@@ -183,9 +183,9 @@ void EnGSwitch_Break(EnGSwitch* this, PlayState* play) {
     randPos.x = this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
     randPos.y = this->actor.world.pos.y + 30.0f + Rand_CenteredFloat(35.0f);
     randPos.z = this->actor.world.pos.z + Rand_CenteredFloat(40.0f);
-    hitPos.x = this->collider.elem.bumper.hitPos.x;
-    hitPos.y = this->collider.elem.bumper.hitPos.y;
-    hitPos.z = this->collider.elem.bumper.hitPos.z;
+    hitPos.x = this->collider.elem.acDmgInfo.hitPos.x;
+    hitPos.y = this->collider.elem.acDmgInfo.hitPos.y;
+    hitPos.z = this->collider.elem.acDmgInfo.hitPos.z;
     EffectSsHitMark_SpawnCustomScale(play, EFFECT_HITMARK_WHITE, 700, &hitPos);
     if (this->type == ENGSWITCH_ARCHERY_POT) {
         velocity.y = 15.0f;
