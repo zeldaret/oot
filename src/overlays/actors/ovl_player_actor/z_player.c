@@ -4083,7 +4083,7 @@ void Player_SetIFrameInvincibilityTimer(Player* this, s32 timer) {
 /**
  * @return false if player is out of health
  */
-s32 Player_Health_ChangeBy(PlayState* play, Player* this, s32 damage) {
+s32 func_80837B18(PlayState* play, Player* this, s32 damage) {
     if ((this->invincibilityTimer != 0) || (this->actor.category != ACTORCAT_PLAYER)) {
         return true;
     }
@@ -4124,7 +4124,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
     Player_PlaySfx(this, NA_SE_PL_DAMAGE);
 
-    if (!Player_Health_ChangeBy(play, this, 0 - this->actor.colChkInfo.damage)) {
+    if (!func_80837B18(play, this, 0 - this->actor.colChkInfo.damage)) {
         this->stateFlags2 &= ~PLAYER_STATE2_7;
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !(this->stateFlags1 & PLAYER_STATE1_27)) {
             func_80837B9C(this, play);
@@ -13638,7 +13638,7 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
     LinkAnimation_Update(play, &this->skelAnime);
     func_808382BC(this);
 
-    if (((this->av2.actionVar2 % 25) != 0) || Player_Health_ChangeBy(play, this, -1)) {
+    if (((this->av2.actionVar2 % 25) != 0) || func_80837B18(play, this, -1)) {
         if (DECR(this->av2.actionVar2) == 0) {
             func_80839F90(this, play);
         }
@@ -15267,7 +15267,7 @@ void func_80853080(Player* this, PlayState* play) {
 s32 Player_InflictDamage(PlayState* play, s32 damage) {
     Player* this = GET_PLAYER(play);
 
-    if (!Player_InBlockingCsMode(play, this) && !Player_Health_ChangeBy(play, this, damage)) {
+    if (!Player_InBlockingCsMode(play, this) && !func_80837B18(play, this, damage)) {
         this->stateFlags2 &= ~PLAYER_STATE2_7;
         return 1;
     }
