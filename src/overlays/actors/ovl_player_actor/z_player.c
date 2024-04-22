@@ -508,7 +508,7 @@ static PlayerAgeProperties sAgeProperties[] = {
 static u32 sNoclipEnabled = false;
 static f32 sControlStickMagnitude = 0.0f;
 static s16 sControlStickAngle = 0;
-static s16 sControlStickAngleRelToCamera = 0;
+static s16 sControlStickWorldYaw = 0;
 static s32 sUpperBodyIsBusy = false; // see `Player_UpdateUpperBody`
 static s32 sFloorType = FLOOR_TYPE_0;
 static f32 D_808535E8 = 1.0f;
@@ -2039,7 +2039,7 @@ void Player_ProcessControlStick(PlayState* play, Player* this) {
 
     Lib_GetControlStickData(&sControlStickMagnitude, &sControlStickAngle, sControlInput);
 
-    sControlStickAngleRelToCamera = Camera_GetInputDirYaw(GET_ACTIVE_CAM(play)) + sControlStickAngle;
+    sControlStickWorldYaw = Camera_GetInputDirYaw(GET_ACTIVE_CAM(play)) + sControlStickAngle;
 
     this->controlStickDataIndex = (this->controlStickDataIndex + 1) % 4;
 
@@ -2048,7 +2048,7 @@ void Player_ProcessControlStick(PlayState* play, Player* this) {
         spinAngle = -1;
     } else {
         spinAngle = (u16)(sControlStickAngle + 0x2000) >> 9;
-        direction = (u16)((s16)(sControlStickAngleRelToCamera - this->actor.shape.rot.y) + 0x2000) >> 14;
+        direction = (u16)((s16)(sControlStickWorldYaw - this->actor.shape.rot.y) + 0x2000) >> 14;
     }
 
     this->controlStickSpinAngles[this->controlStickDataIndex] = spinAngle;
