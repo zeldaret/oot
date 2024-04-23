@@ -7,42 +7,42 @@
 // The Following arrays must be defined as const in z_lmap_mark.c to appear in rodata
 
 #ifndef GDP_LOADTEXTUREBLOCK_RUNTIME_CONST
-#define ZCONST
+#define COND_CONST
 #else
-#define ZCONST const
+#define COND_CONST const
 #endif
 
-static ZCONST u32 sLoadTextureBlock_siz[] = {
+static COND_CONST u32 sLoadTextureBlock_siz[] = {
     G_IM_SIZ_4b,
     G_IM_SIZ_8b,
     G_IM_SIZ_16b,
     G_IM_SIZ_32b,
 };
-static ZCONST u32 sLoadTextureBlock_siz_LOAD_BLOCK[] = {
+static COND_CONST u32 sLoadTextureBlock_siz_LOAD_BLOCK[] = {
     G_IM_SIZ_4b_LOAD_BLOCK,
     G_IM_SIZ_8b_LOAD_BLOCK,
     G_IM_SIZ_16b_LOAD_BLOCK,
     G_IM_SIZ_32b_LOAD_BLOCK,
 };
-static ZCONST u32 sLoadTextureBlock_siz_INCR[] = {
+static COND_CONST u32 sLoadTextureBlock_siz_INCR[] = {
     G_IM_SIZ_4b_INCR,
     G_IM_SIZ_8b_INCR,
     G_IM_SIZ_16b_INCR,
     G_IM_SIZ_32b_INCR,
 };
-static ZCONST u32 sLoadTextureBlock_siz_SHIFT[] = {
+static COND_CONST u32 sLoadTextureBlock_siz_SHIFT[] = {
     G_IM_SIZ_4b_SHIFT,
     G_IM_SIZ_8b_SHIFT,
     G_IM_SIZ_16b_SHIFT,
     G_IM_SIZ_32b_SHIFT,
 };
-static ZCONST u32 sLoadTextureBlock_siz_BYTES[] = {
+static COND_CONST u32 sLoadTextureBlock_siz_BYTES[] = {
     G_IM_SIZ_4b_BYTES,
     G_IM_SIZ_8b_BYTES,
     G_IM_SIZ_16b_BYTES,
     G_IM_SIZ_32b_BYTES,
 };
-static ZCONST u32 sLoadTextureBlock_siz_LINE_BYTES[] = {
+static COND_CONST u32 sLoadTextureBlock_siz_LINE_BYTES[] = {
     G_IM_SIZ_4b_LINE_BYTES,
     G_IM_SIZ_8b_LINE_BYTES,
     G_IM_SIZ_16b_LINE_BYTES,
