@@ -150,8 +150,8 @@ static ColliderCylinderInit sBodyColliderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 25, 65, 0, { 0, 0, 0 } },
@@ -170,8 +170,8 @@ static ColliderCylinderInit sShieldColliderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFC1FFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 20, 70, -50, { 0, 0, 0 } },
@@ -190,8 +190,8 @@ static ColliderQuadInit sSwordColliderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -568,12 +568,11 @@ void EnTest_SetupWalkAndBlock(EnTest* this) {
 void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
     s32 pad;
     f32 checkDist = 0.0f;
-    s32 pad1;
+    s32 absPlaySpeed;
     s32 prevFrame;
     s32 beforeCurFrame;
     f32 playSpeed;
     Player* player = GET_PLAYER(play);
-    s32 absPlaySpeed;
     s16 yawDiff;
 
     if (!EnTest_ReactToProjectile(play, this)) {
@@ -601,6 +600,8 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         }
 
         if (ABS(this->actor.speed) < 3.0f) {
+            s32 pad;
+
             Animation_Change(&this->skelAnime, &gStalfosSlowAdvanceAnim, 0.0f, this->skelAnime.curFrame,
                              Animation_GetLastFrame(&gStalfosSlowAdvanceAnim), 0, -6.0f);
             playSpeed = this->actor.speed * 10.0f;
@@ -898,7 +899,7 @@ void EnTest_SetupSlashDown(EnTest* this) {
     this->unk_7C8 = 0x10;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashDown);
-    this->swordCollider.elem.toucher.damage = 16;
+    this->swordCollider.elem.atDmgInfo.damage = 16;
 
     if (this->unk_7DE != 0) {
         this->unk_7DE = 3;
@@ -995,7 +996,7 @@ void EnTest_SetupSlashUp(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosUpSlashAnim);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x11;
-    this->swordCollider.elem.toucher.damage = 16;
+    this->swordCollider.elem.atDmgInfo.damage = 16;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashUp);
 
@@ -1084,7 +1085,7 @@ void EnTest_SetupJumpslash(EnTest* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     EnTest_SetupAction(this, EnTest_Jumpslash);
-    this->swordCollider.elem.toucher.damage = 32;
+    this->swordCollider.elem.atDmgInfo.damage = 32;
 
     if (this->unk_7DE != 0) {
         this->unk_7DE = 3;
@@ -1819,9 +1820,9 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnTest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnTest_OverrideLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnTest* this = (EnTest*)thisx;
-    s32 pad;
+    PlayState* play = (PlayState*)play2;
 
     if (limbIndex == STALFOS_LIMB_HEAD_ROOT) {
         rot->x += this->headRot.y;

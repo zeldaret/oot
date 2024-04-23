@@ -20,13 +20,17 @@ beginseg
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
     include "$(BUILD_DIR)/src/boot/yaz0.o"
     include "$(BUILD_DIR)/src/boot/z_locale.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/boot/assert.o"
+#endif
     include "$(BUILD_DIR)/src/boot/is_debug.o"
     include "$(BUILD_DIR)/src/libultra/io/driverominit.o"
     include "$(BUILD_DIR)/src/boot/mio0.o"
     include "$(BUILD_DIR)/src/boot/stackcheck.o"
     include "$(BUILD_DIR)/src/boot/logutils.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/sprintf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
     include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
     include "$(BUILD_DIR)/src/libultra/os/stopthread.o"
@@ -57,10 +61,14 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/probetlb.o"
     include "$(BUILD_DIR)/src/libultra/os/getmemsize.o"
     include "$(BUILD_DIR)/src/libultra/os/seteventmesg.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
     include "$(BUILD_DIR)/src/libultra/os/createmesgqueue.o"
     include "$(BUILD_DIR)/src/libultra/os/invaldcache.o"
@@ -88,17 +96,23 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/epiread.o"
     include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
     include "$(BUILD_DIR)/src/libultra/io/cartrominit.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
     include "$(BUILD_DIR)/src/libultra/os/yieldthread.o"
     include "$(BUILD_DIR)/src/libultra/os/getcause.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawwrite.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+#endif
     include "$(BUILD_DIR)/src/boot/build.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawwrite.o"
     include "$(BUILD_DIR)/src/libultra/io/vimgr.o"
@@ -242,7 +256,12 @@ endseg
 beginseg
     name "nes_font_static"
     romalign 0x1000
+#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/textures/nes_font_static/nes_font_static.o"
+#else
+    // TODO: Remove this hack once assets are extracted from gc-eu-mq
+    include "$(BUILD_DIR)/baserom/nes_font_static.o"
+#endif
     number 10
 endseg
 
@@ -299,6 +318,7 @@ beginseg
     name "code"
     compress
     after "dmadata"
+    align 0x20
     include "$(BUILD_DIR)/src/code/z_en_a_keep.o"
     include "$(BUILD_DIR)/src/code/z_en_item00.o"
     include "$(BUILD_DIR)/src/code/z_eff_blure.o"
@@ -342,7 +362,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_lights.o"
     include "$(BUILD_DIR)/src/code/z_malloc.o"
     include "$(BUILD_DIR)/src/code/z_map_mark.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/z_moji.o"
+#endif
     include "$(BUILD_DIR)/src/code/z_prenmi_buff.o"
     include "$(BUILD_DIR)/src/code/z_nulltask.o"
     include "$(BUILD_DIR)/src/code/z_olib.o"
@@ -369,7 +391,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_sram.o"
     include "$(BUILD_DIR)/src/code/z_ss_sram.o"
     include "$(BUILD_DIR)/src/code/z_rumble.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/data/z_text.data.o"
+#endif
     include "$(BUILD_DIR)/data/unk_8012ABC0.data.o"
     include "$(BUILD_DIR)/src/code/z_view.o"
     include "$(BUILD_DIR)/src/code/z_vimode.o"
@@ -385,9 +409,13 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_fbdemo_circle.o"
     include "$(BUILD_DIR)/src/code/z_fbdemo_fade.o"
     include "$(BUILD_DIR)/src/code/shrink_window.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/db_camera.o"
+#endif
     include "$(BUILD_DIR)/src/code/code_800BB0A0.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/mempak.o"
+#endif
     include "$(BUILD_DIR)/src/code/z_kaleido_manager.o"
     include "$(BUILD_DIR)/src/code/z_kaleido_scope_call.o"
     include "$(BUILD_DIR)/src/code/z_play.o"
@@ -415,16 +443,16 @@ beginseg
     include "$(BUILD_DIR)/src/code/sys_rumble.o"
     include "$(BUILD_DIR)/src/code/code_800D31A0.o"
     include "$(BUILD_DIR)/src/code/irqmgr.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
+#endif
     include "$(BUILD_DIR)/src/code/fault.o"
     include "$(BUILD_DIR)/src/code/fault_drawer.o"
-#ifndef NON_MATCHING
-    include "$(BUILD_DIR)/data/fault.bss.o"
-    include "$(BUILD_DIR)/data/fault_drawer.bss.o"
-#endif
     include "$(BUILD_DIR)/src/code/kanread.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
-    pad_text // audio library aligned to 32 bytes?
+#endif
+    pad_text // on GameCube, NTSC 1.0 and "0.9" prerelease
     include "$(BUILD_DIR)/src/audio/lib/data.o"
     include "$(BUILD_DIR)/src/audio/lib/synthesis.o"
     include "$(BUILD_DIR)/src/audio/lib/heap.o"
@@ -436,6 +464,9 @@ beginseg
     include "$(BUILD_DIR)/src/audio/lib/effects.o"
     include "$(BUILD_DIR)/src/audio/lib/seqplayer.o"
     include "$(BUILD_DIR)/src/audio/general.o"
+#if !OOT_DEBUG
+    pad_text // on retail GameCube
+#endif
     include "$(BUILD_DIR)/src/audio/sfx_params.o"
     include "$(BUILD_DIR)/src/audio/sfx.o"
     include "$(BUILD_DIR)/src/audio/sequence.o"
@@ -445,7 +476,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/gfxprint.o"
     include "$(BUILD_DIR)/src/code/rcp_utils.o"
     include "$(BUILD_DIR)/src/code/loadfragment2.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/mtxuty-cvt.o"
+#endif
     include "$(BUILD_DIR)/src/code/relocation.o"
     include "$(BUILD_DIR)/src/code/load.o"
     include "$(BUILD_DIR)/src/code/code_800FC620.o"
@@ -454,13 +487,18 @@ beginseg
     include "$(BUILD_DIR)/src/code/code_800FCE80.o"
     include "$(BUILD_DIR)/src/code/fp.o"
     include "$(BUILD_DIR)/src/code/system_malloc.o"
-    include "$(BUILD_DIR)/src/code/code_800FD970.o"
+    include "$(BUILD_DIR)/src/code/rand.o"
     include "$(BUILD_DIR)/src/code/__osMalloc.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/libc/sprintf.o"
+#endif
     include "$(BUILD_DIR)/src/code/printutils.o"
     include "$(BUILD_DIR)/src/code/sleep.o"
     include "$(BUILD_DIR)/src/code/jpegutils.o"
     include "$(BUILD_DIR)/src/code/jpegdecoder.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/mgu/scale.o"
     include "$(BUILD_DIR)/src/libultra/gu/sinf.o"
     include "$(BUILD_DIR)/src/libultra/gu/sins.o"
@@ -473,19 +511,29 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/sprawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/sptaskyield.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/mgu/mtxidentf.o"
     include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/sqrtf.o"
     include "$(BUILD_DIR)/src/libultra/os/afterprenmi.o"
     include "$(BUILD_DIR)/src/libultra/io/contquery.o"
     include "$(BUILD_DIR)/src/libultra/gu/lookathil.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
     include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
     include "$(BUILD_DIR)/src/libultra/gu/position.o"
@@ -496,25 +544,44 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/normalize.o"
     include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsdeletefile.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/ortho.o"
     include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
     include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
     include "$(BUILD_DIR)/src/libultra/gu/coss.o"
     include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/us2dex.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
     include "$(BUILD_DIR)/src/libultra/io/contsetch.o"
+#if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsfilestate.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsinitpak.o"
     include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+    include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/contramread.o"
     include "$(BUILD_DIR)/src/libultra/io/crc.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/settimer.o"
+#if !OOT_DEBUG
+    include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/spgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetstat.o"
     include "$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o"
@@ -542,7 +609,7 @@ beginseg
     align 0x40
     include "$(BUILD_DIR)/src/buffers/zbuffer.o"
     include "$(BUILD_DIR)/src/buffers/gfxbuffers.o"
-    include "$(BUILD_DIR)/src/buffers/heaps.o"
+    include "$(BUILD_DIR)/src/buffers/audio_heap.o"
 endseg
 
 beginseg
@@ -588,7 +655,11 @@ beginseg
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_prompt.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark.o"
+#if !OOT_MQ
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data.o"
+#else
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data_mq.o"
+#endif
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
 endseg
 
@@ -602,7 +673,11 @@ endseg
 beginseg
     name "ovl_map_mark_data"
     compress
+#if !OOT_MQ
     include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data.o"
+#else
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data_mq.o"
+#endif
     include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/ovl_map_mark_data_reloc.o"
 endseg
 
@@ -2911,7 +2986,7 @@ beginseg
     name "ovl_En_Mb"
     compress
     include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Mb/z_en_mb.o"
-	include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Mb/ovl_En_Mb_reloc.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Mb/ovl_En_Mb_reloc.o"
 endseg
 
 beginseg
@@ -10424,7 +10499,7 @@ beginseg
     name "entra_scene"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/entra/entra_scene.o"
+    include "$(BUILD_DIR)/assets/scenes/misc/entra/entra_scene.o"
     number 2
 endseg
 
@@ -10432,7 +10507,7 @@ beginseg
     name "entra_room_0"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/entra/entra_room_0.o"
+    include "$(BUILD_DIR)/assets/scenes/misc/entra/entra_room_0.o"
     number 3
 endseg
 
@@ -10512,7 +10587,7 @@ beginseg
     name "ganon_tou_scene"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/dungeons/ganon_tou/ganon_tou_scene.o"
+    include "$(BUILD_DIR)/assets/scenes/overworld/ganon_tou/ganon_tou_scene.o"
     number 2
 endseg
 
@@ -10520,7 +10595,7 @@ beginseg
     name "ganon_tou_room_0"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/dungeons/ganon_tou/ganon_tou_room_0.o"
+    include "$(BUILD_DIR)/assets/scenes/overworld/ganon_tou/ganon_tou_room_0.o"
     number 3
 endseg
 
@@ -11576,7 +11651,7 @@ beginseg
     name "souko_scene"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_scene.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_scene.o"
     number 2
 endseg
 
@@ -11584,7 +11659,7 @@ beginseg
     name "souko_room_0"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_room_0.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_room_0.o"
     number 3
 endseg
 
@@ -11592,7 +11667,7 @@ beginseg
     name "souko_room_1"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_room_1.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_room_1.o"
     number 3
 endseg
 
@@ -11600,7 +11675,7 @@ beginseg
     name "souko_room_2"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_room_2.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_room_2.o"
     number 3
 endseg
 

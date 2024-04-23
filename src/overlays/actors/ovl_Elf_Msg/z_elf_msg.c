@@ -13,7 +13,9 @@
 void ElfMsg_Init(Actor* thisx, PlayState* play);
 void ElfMsg_Destroy(Actor* thisx, PlayState* play);
 void ElfMsg_Update(Actor* thisx, PlayState* play);
+#if OOT_DEBUG
 void ElfMsg_Draw(Actor* thisx, PlayState* play);
+#endif
 
 void ElfMsg_CallNaviCuboid(ElfMsg* this, PlayState* play);
 void ElfMsg_CallNaviCylinder(ElfMsg* this, PlayState* play);
@@ -27,7 +29,11 @@ ActorInit Elf_Msg_InitVars = {
     /**/ ElfMsg_Init,
     /**/ ElfMsg_Destroy,
     /**/ ElfMsg_Update,
+#if OOT_DEBUG
     /**/ ElfMsg_Draw,
+#else
+    /**/ NULL,
+#endif
 };
 
 static InitChainEntry sInitChain[] = {
@@ -163,6 +169,7 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
     }
 }
 
+#if OOT_DEBUG
 #include "assets/overlays/ovl_Elf_Msg/ovl_Elf_Msg.c"
 
 void ElfMsg_Draw(Actor* thisx, PlayState* play) {
@@ -191,3 +198,4 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_elf_msg.c", 457);
 }
+#endif

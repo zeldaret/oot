@@ -5,8 +5,6 @@
 #define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
     const char _message_##textId##_nes[sizeof(nesMessage)] = { nesMessage END };
 
-#define DEFINE_MESSAGE_FFFC
+#define DEFINE_MESSAGE_NES(textId, type, yPos, nesMessage) DEFINE_MESSAGE(textId, type, yPos, nesMessage, , )
 
 #include "assets/text/message_data.enc.h"
-
-#undef DEFINE_MESSAGE_FFFC

@@ -14,6 +14,7 @@ pycparser
 toml
 
 # tools
-mapfile-parser>=1.2.1,<2.0.0
+mapfile-parser>=2.3.5,<3.0.0
+pyelftools==0.30
 rabbitizer>=1.0.0,<2.0.0
-spimdisasm>=1.20.0,<2.0.0
+spimdisasm>=1.21.0,<2.0.0

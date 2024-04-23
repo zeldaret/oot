@@ -88,27 +88,31 @@ void BgMoriElevator_Init(Actor* thisx, PlayState* play) {
 
     this->unk_172 = sIsSpawned;
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
+
+#if OOT_DEBUG
     if (this->moriTexObjectSlot < 0) {
         Actor_Kill(thisx);
         // "Forest Temple obj elevator Bank Danger!"
         PRINTF("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
-    } else {
-        switch (sIsSpawned) {
-            case false:
-                // "Forest Temple elevator CT"
-                PRINTF("森の神殿 elevator CT\n");
-                sIsSpawned = true;
-                this->dyna.actor.room = -1;
-                Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-                DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-                CollisionHeader_GetVirtual(&gMoriElevatorCol, &colHeader);
-                this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
-                BgMoriElevator_SetupWaitAfterInit(this);
-                break;
-            case true:
-                Actor_Kill(thisx);
-                break;
-        }
+        return;
+    }
+#endif
+
+    switch (sIsSpawned) {
+        case false:
+            // "Forest Temple elevator CT"
+            PRINTF("森の神殿 elevator CT\n");
+            sIsSpawned = true;
+            this->dyna.actor.room = -1;
+            Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+            DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
+            CollisionHeader_GetVirtual(&gMoriElevatorCol, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+            BgMoriElevator_SetupWaitAfterInit(this);
+            break;
+        case true:
+            Actor_Kill(thisx);
+            break;
     }
 }
 

@@ -41,8 +41,8 @@ static ColliderCylinderInit sCylInitStand = {
         ELEMTYPE_UNK2,
         { 0x00100000, 0x00, 0x00 },
         { 0xEE01FFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_NONE,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 12, 45, 0, { 0, 0, 0 } },
@@ -61,8 +61,8 @@ static ColliderCylinderInit sCylInitFlame = {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0x00020820, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 15, 45, 45, { 0, 0, 0 } },
@@ -171,7 +171,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
             }
         }
         if (this->colliderFlame.base.acFlags & AC_HIT) {
-            dmgFlags = this->colliderFlame.elem.acHitElem->toucher.dmgFlags;
+            dmgFlags = this->colliderFlame.elem.acHitElem->atDmgInfo.dmgFlags;
             if (dmgFlags & (DMG_FIRE | DMG_ARROW_NORMAL)) {
                 interactionType = 1;
             }
@@ -197,7 +197,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                     arrow = (EnArrow*)this->colliderFlame.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
-                        arrow->collider.elem.toucher.dmgFlags = DMG_ARROW_FIRE;
+                        arrow->collider.elem.atDmgInfo.dmgFlags = DMG_ARROW_FIRE;
                     }
                 }
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {

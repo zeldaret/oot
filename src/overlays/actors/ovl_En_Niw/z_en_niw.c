@@ -86,8 +86,8 @@ static ColliderCylinderInit sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 15, 25, 4, { 0, 0, 0 } },
@@ -106,8 +106,8 @@ static ColliderCylinderInit sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 15, 25, 4, { 0, 0, 0 } },
@@ -886,14 +886,9 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
     Vec3f accel;
     s32 pad2;
     f32 scale;
-    Vec3f cam;
     f32 dist;
-    f32 camResult;
-    s32 pad3[10];
 
     if (1) {} // Required to match
-    if (1) {}
-    if (1) {}
 
     this->unk_294++;
 
@@ -914,10 +909,10 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
             scale = Rand_ZeroFloat(6.0f) + 6.0f;
 
             if (this->unk_2A6 == 2 && this->unk_304 != 0) {
-                pos.y += 10;
+                pos.y += 10.0f;
             }
             if (this->unk_304 == 0) {
-                scale = Rand_ZeroFloat(2.0f) + 2;
+                scale = Rand_ZeroFloat(2.0f) + 2.0f;
             }
 
             vel.x = Rand_CenteredFloat(3.0f);
@@ -933,42 +928,19 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
     }
 
     EnNiw_UpdateEffects(this, play);
-    if (this->timer1 != 0) {
-        this->timer1--;
-    }
-    if (this->timer2 != 0) {
-        this->timer2--;
-    }
-    if (this->timer3 != 0) {
-        this->timer3--;
-    }
-    if (this->timer4 != 0) {
-        this->timer4--;
-    }
-    if (this->timer5 != 0) {
-        this->timer5--;
-    }
-    if (this->timer7 != 0) {
-        this->timer7--;
-    }
-    if (this->timer6 != 0) {
-        this->timer6--;
-    }
-    if (this->sfxTimer1 != 0) {
-        this->sfxTimer1--;
-    }
-    if (this->sfxTimer2 != 0) {
-        this->sfxTimer2--;
-    }
-    if (this->sfxTimer3 != 0) {
-        this->sfxTimer3--;
-    }
-    if (this->timer8 != 0) {
-        this->timer8--;
-    }
-    if (this->timer9 != 0) {
-        this->timer9--;
-    }
+    DECR(this->timer1);
+    DECR(this->timer2);
+    DECR(this->timer3);
+    DECR(this->timer4);
+    DECR(this->timer5);
+    DECR(this->timer7);
+    DECR(this->timer6);
+    DECR(this->sfxTimer1);
+    DECR(this->sfxTimer2);
+    DECR(this->sfxTimer3);
+    DECR(this->timer8);
+    DECR(this->timer9);
+
     thisx->shape.rot = thisx->world.rot;
     thisx->shape.shadowScale = 15.0f;
     this->actionFunc(this, play);
@@ -986,6 +958,10 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
                                     UPDBGCHECKINFO_FLAG_4);
     }
     if (thisx->floorHeight <= BGCHECK_Y_MIN || thisx->floorHeight >= 32000.0f) {
+        Vec3f cam;
+        f32 camResult;
+        s32 pad3[10];
+
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, thisx->floorHeight);
         cam.x = play->view.at.x - play->view.eye.x;
         cam.y = play->view.at.y - play->view.eye.y;

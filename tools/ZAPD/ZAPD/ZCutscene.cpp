@@ -24,7 +24,7 @@ std::string ZCutscene::GetBodySourceCode() const
 {
 	std::string output = "";
 
-	output += StringHelper::Sprintf("    CS_BEGIN_CUTSCENE(%i, %i),\n", commands.size(), endFrame);
+	output += StringHelper::Sprintf("    CS_BEGIN_CUTSCENE(%i, %i),\n", numCommands, endFrame);
 
 	for (size_t i = 0; i < commands.size(); i++)
 	{
@@ -32,7 +32,7 @@ std::string ZCutscene::GetBodySourceCode() const
 		output += "    " + cmd->GenerateSourceCode();
 	}
 
-	output += StringHelper::Sprintf("    CS_END(),", commands.size(), endFrame);
+	output += StringHelper::Sprintf("    CS_END(),");
 
 	return output;
 }
@@ -323,7 +323,7 @@ CutsceneCommand* ZCutscene::GetCommandMM(uint32_t id, offset_t currentPtr) const
 		return new CutsceneMMCommand_Text(rawData, currentPtr);
 
 	case CutsceneMM_CommandType::CS_CMD_CAMERA_SPLINE:
-		return new CutsceneMMCommand_Camera(rawData, currentPtr);
+		return new CutsceneMMCommand_Spline(rawData, currentPtr);
 
 	case CutsceneMM_CommandType::CS_CMD_TRANSITION_GENERAL:
 		return new CutsceneMMCommand_TransitionGeneral(rawData, currentPtr);
@@ -371,4 +371,37 @@ std::string ZCutscene::GetSourceTypeName() const
 ZResourceType ZCutscene::GetResourceType() const
 {
 	return ZResourceType::Cutscene;
+}
+
+std::string ZCutscene::GetCsEncodedFloat(float f, CsFloatType type, bool useSciNotation)
+{
+	switch (type)
+	{
+	default:
+	// This default case will NEVER be reached, but GCC still gives a warning.
+	case CsFloatType::HexOnly:
+	{
+		uint32_t i;
+		std::memcpy(&i, &f, sizeof(i));
+		return StringHelper::Sprintf("0x%08X", i);
+	}
+	case CsFloatType::FloatOnly:
+	{
+		if (useSciNotation)
+		{
+			return StringHelper::Sprintf("%.8ef", f);
+		}
+		return StringHelper::Sprintf("%ff", f);
+	}
+	case CsFloatType::HexAndFloat:
+	{
+		uint32_t i;
+		std::memcpy(&i, &f, sizeof(i));
+		if (useSciNotation)
+		{
+			return StringHelper::Sprintf("CS_FLOAT(0x%08X, %.8ef)", i, f);
+		}
+		return StringHelper::Sprintf("CS_FLOAT(0x%08X, %ff)", i, f);
+	}
+	}
 }

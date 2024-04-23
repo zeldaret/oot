@@ -76,12 +76,20 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
         this->effectPrimLodFrac = 128.0f;
         this->effectAlpha = 255.0f;
 
+#if !OOT_MQ
+        this->effectPrimColor[0] = 255.0f;
+        this->effectPrimColor[1] = 255.0f;
+        this->effectPrimColor[2] = 170;
+        this->effectEnvColor[0] = 255.0f;
+        this->effectEnvColor[1] = 100;
+#else
         this->effectPrimColor[0] = 170;
         this->effectPrimColor[1] = 255.0f;
         this->effectPrimColor[2] = 255.0f;
         this->effectEnvColor[0] = 200.0f;
         this->effectEnvColor[1] = 255.0f;
         this->effectEnvColor[2] = 0;
+#endif
 
         gSaveContext.forceRisingButtonAlphas = false;
         this->globalState = MAG_STATE_DISPLAY;
@@ -121,12 +129,20 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
                 this->effectPrimLodFrac = 128.0f;
                 this->effectAlpha = 255.0f;
 
+#if !OOT_MQ
+                this->effectPrimColor[0] = 255.0f;
+                this->effectPrimColor[1] = 255.0f;
+                this->effectPrimColor[2] = 170;
+                this->effectEnvColor[0] = 255.0f;
+                this->effectEnvColor[1] = 100;
+#else
                 this->effectPrimColor[0] = 170;
                 this->effectPrimColor[1] = 255.0f;
                 this->effectPrimColor[2] = 255.0f;
                 this->effectEnvColor[0] = 200.0f;
                 this->effectEnvColor[1] = 255.0f;
                 this->effectEnvColor[2] = 0;
+#endif
 
                 this->globalState = MAG_STATE_DISPLAY;
                 sDelayTimer = 20;
@@ -187,8 +203,13 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
                 this->effectFadeInState = 1;
             }
         } else if (this->effectFadeInState == 1) {
+#if !OOT_MQ
+            this->effectPrimColor[2] += -2.125f;
+            this->effectEnvColor[1] += -3.875f;
+#else
             this->effectPrimColor[0] += -2.125f;
             this->effectEnvColor[0] += -1.375f;
+#endif
 
             this->effectPrimLodFrac += 2.4f;
 
@@ -197,8 +218,13 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
             if (this->effectFadeInTimer == 0) {
                 this->effectPrimLodFrac = 128.0f;
 
+#if !OOT_MQ
+                this->effectPrimColor[2] = 170.0f;
+                this->effectEnvColor[1] = 100.0f;
+#else
                 this->effectPrimColor[0] = 170.0f;
                 this->effectEnvColor[0] = 200.0f;
+#endif
 
                 this->effectFadeInTimer = 32;
                 this->effectFadeInState = 2;
@@ -371,6 +397,13 @@ void EnMag_DrawCharTexture(Gfx** gfxP, u8* texture, s32 rectLeft, s32 rectTop) {
     *gfxP = gfx;
 }
 
+// Title logo is shifted to the left in Master Quest
+#if !OOT_MQ
+#define LOGO_X_SHIFT 0
+#else
+#define LOGO_X_SHIFT (-8)
+#endif
+
 void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     static s16 textAlpha = 0;
     static s16 textFadeDirection = 0;
@@ -413,7 +446,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
     if ((s16)this->effectPrimLodFrac != 0) {
         for (k = 0, i = 0, rectTop = 0; i < 3; i++, rectTop += 64) {
-            for (j = 0, rectLeft = 56; j < 3; j++, k++, rectLeft += 64) {
+            for (j = 0, rectLeft = 64 + LOGO_X_SHIFT; j < 3; j++, k++, rectLeft += 64) {
                 EnMag_DrawEffectTextures(&gfx, effectMaskTextures[k], gTitleFlameEffectTex, 64, 64, 32, 32, rectLeft,
                                          rectTop, 64, 64, 1024, 1024, 1, 1, k, this);
             }
@@ -423,7 +456,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->mainAlpha);
 
     if ((s16)this->mainAlpha != 0) {
-        EnMag_DrawImageRGBA32(&gfx, 152, 100, (u8*)gTitleZeldaShieldLogoMQTex, 160, 160);
+        EnMag_DrawImageRGBA32(&gfx, 160 + LOGO_X_SHIFT, 100, (u8*)gTitleZeldaShieldLogoMQTex, 160, 160);
     }
 
     Gfx_SetupDL_39Ptr(&gfx);
@@ -440,23 +473,35 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     }
 
     gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, (s16)this->mainAlpha);
+#if !OOT_MQ
+    gDPSetEnvColor(gfx++, 100, 0, 100, 255);
+#else
     gDPSetEnvColor(gfx++, 0, 0, 100, 255);
+#endif
 
     if ((s16)this->mainAlpha != 0) {
-        EnMag_DrawTextureI8(&gfx, gTitleTheLegendOfTextTex, 72, 8, 146, 73, 72, 8, 1024, 1024);
-        EnMag_DrawTextureI8(&gfx, gTitleOcarinaOfTimeTMTextTex, 96, 8, 144, 127, 96, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, gTitleTheLegendOfTextTex, 72, 8, 154 + LOGO_X_SHIFT, 73, 72, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, gTitleOcarinaOfTimeTMTextTex, 96, 8, 152 + LOGO_X_SHIFT, 127, 96, 8, 1024, 1024);
 
         gDPPipeSync(gfx++);
+
+#if !OOT_MQ
+        gDPSetPrimColor(gfx++, 0, 0, 200, 200, 150, (s16)this->mainAlpha);
+        gDPSetEnvColor(gfx++, 100, 100, 50, 255);
+#else
         gDPSetPrimColor(gfx++, 0, 0, 100, 150, 255, (s16)this->mainAlpha);
         gDPSetEnvColor(gfx++, 20, 80, 160, 255);
+#endif
 
-        EnMag_DrawTextureI8(&gfx, gTitleTheLegendOfTextTex, 72, 8, 145, 72, 72, 8, 1024, 1024);
-        EnMag_DrawTextureI8(&gfx, gTitleOcarinaOfTimeTMTextTex, 96, 8, 143, 126, 96, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, gTitleTheLegendOfTextTex, 72, 8, 153 + LOGO_X_SHIFT, 72, 72, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, gTitleOcarinaOfTimeTMTextTex, 96, 8, 151 + LOGO_X_SHIFT, 126, 96, 8, 1024, 1024);
 
+#if OOT_MQ
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->subAlpha);
 
         EnMag_DrawImageRGBA32(&gfx, 174, 145, (u8*)gTitleMasterQuestSubtitleTex, 128, 32);
+#endif
     }
 
     Gfx_SetupDL_39Ptr(&gfx);

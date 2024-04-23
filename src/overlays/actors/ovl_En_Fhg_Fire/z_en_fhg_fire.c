@@ -69,8 +69,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK6,
         { 0x00100700, 0x03, 0x20 },
         { 0x0D900700, 0x00, 0x00 },
-        TOUCH_ON,
-        BUMP_ON,
+        ATELEM_ON,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 30, 10, { 0, 0, 0 } },
@@ -283,7 +283,6 @@ void EnFhgFire_LightningTrail(EnFhgFire* this, PlayState* play) {
 
 void EnFhgFire_LightningShock(EnFhgFire* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Vec3f pos;
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
@@ -291,7 +290,8 @@ void EnFhgFire_LightningShock(EnFhgFire* this, PlayState* play) {
     }
 
     if (Rand_ZeroOne() < 0.5f) {
-        pos = this->actor.world.pos;
+        Vec3f pos = this->actor.world.pos;
+
         pos.y -= 20.0f;
         EffectSsFhgFlash_SpawnShock(play, &this->actor, &pos, 200, FHGFLASH_SHOCK_NO_ACTOR);
     }
@@ -447,7 +447,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
             Actor_SetScale(&this->actor, 5.25f);
         }
         this->actor.shape.rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x4000;
-        {
+        if (1) {
             u8 lightBallColor1 = FHGFLASH_LIGHTBALL_GREEN;
             s16 i1;
             Vec3f spD4;
@@ -491,7 +491,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                                                         (s16)(Rand_ZeroOne() * 25.0f) + 50, FHGFLASH_LIGHTBALL_GREEN);
                     }
                     canBottleReflect2 = canBottleReflect1;
-                    if (!canBottleReflect2 && (acHitElem->toucher.dmgFlags & DMG_SHIELD)) {
+                    if (!canBottleReflect2 && (acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD)) {
                         killMode = BALL_IMPACT;
                         Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -527,7 +527,9 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                                              &gSfxDefaultReverb);
                         Rumble_Request(this->actor.xyzDistToPlayerSq, 180, 20, 100);
                     }
-                } else if (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f) {
+                    break;
+                }
+                if (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f) {
                     killMode = BALL_BURST;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
                     if ((bossGnd->flyMode >= GND_FLY_VOLLEY) && (this->work[FHGFIRE_RETURN_COUNT] >= 2)) {
@@ -642,7 +644,6 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
 
 void EnFhgFire_PhantomWarp(EnFhgFire* this, PlayState* play) {
     EnfHG* horse = (EnfHG*)this->actor.parent;
-    f32 scrollDirection;
 
     this->fwork[FHGFIRE_WARP_TEX_1_X] += 25.0f * this->fwork[FHGFIRE_WARP_TEX_SPEED];
     this->fwork[FHGFIRE_WARP_TEX_1_Y] -= 40.0f * this->fwork[FHGFIRE_WARP_TEX_SPEED];
@@ -662,7 +663,8 @@ void EnFhgFire_PhantomWarp(EnFhgFire* this, PlayState* play) {
     }
 
     if (this->work[FHGFIRE_TIMER] > 50) {
-        scrollDirection = 1.0f;
+        f32 scrollDirection = 1.0f;
+
         if (this->actor.params > FHGFIRE_WARP_EMERGE) {
             scrollDirection = -1.0f;
         }

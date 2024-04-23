@@ -1,6 +1,9 @@
 #include "global.h"
 #include "quake.h"
 
+#include "assets/scenes/indoors/miharigoya/miharigoya_scene.h"
+#include "assets/scenes/indoors/souko/souko_scene.h"
+
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_room_0.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
@@ -10,17 +13,15 @@
 #include "assets/scenes/overworld/spot16/spot16_room_0.h"
 #include "assets/scenes/overworld/spot18/spot18_scene.h"
 #include "assets/scenes/overworld/spot20/spot20_scene.h"
-#include "assets/scenes/overworld/souko/souko_scene.h"
 
-#include "assets/scenes/dungeons/men/men_scene.h"
-#include "assets/scenes/dungeons/ddan/ddan_scene.h"
-#include "assets/scenes/dungeons/ydan/ydan_scene.h"
 #include "assets/scenes/dungeons/Bmori1/Bmori1_scene.h"
 #include "assets/scenes/dungeons/MIZUsin/MIZUsin_scene.h"
+#include "assets/scenes/dungeons/ddan/ddan_scene.h"
 #include "assets/scenes/dungeons/gerudoway/gerudoway_scene.h"
-#include "assets/scenes/dungeons/jyasinzou/jyasinzou_scene.h"
-#include "assets/scenes/indoors/miharigoya/miharigoya_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
+#include "assets/scenes/dungeons/jyasinzou/jyasinzou_scene.h"
+#include "assets/scenes/dungeons/men/men_scene.h"
+#include "assets/scenes/dungeons/ydan/ydan_scene.h"
 
 #include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
@@ -418,7 +419,11 @@ void Scene_DrawConfigWaterTemple(PlayState* play) {
     spAC = play->roomCtx.unk_74[1] & 0xFF;
     gameplayFrames = play->gameplayFrames;
 
+#if !OOT_MQ
+    gSPSegment(POLY_XLU_DISP++, 0x06, SEGMENTED_TO_VIRTUAL(D_8012A330[((void)0, gSaveContext.save.nightFlag)]));
+#else
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A330[((void)0, gSaveContext.save.nightFlag)]));
+#endif
 
     if (spB0 == 1) {
         gSPSegment(POLY_OPA_DISP++, 0x08,

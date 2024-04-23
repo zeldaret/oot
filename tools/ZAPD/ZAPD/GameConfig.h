@@ -48,6 +48,8 @@ public:
 	std::map<uint16_t, std::string> rumbleType;
 	std::map<uint8_t, std::string> spawnFlag;
 	std::map<uint8_t, std::string> endSfx;
+	std::map<uint8_t, std::string> interpType;
+	std::map<uint16_t, std::string> relTo;
 };
 
 class ZFile;
