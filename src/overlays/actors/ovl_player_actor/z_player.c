@@ -3848,7 +3848,7 @@ s32 Player_ActionChange_2(Player* this, PlayState* play);
 s32 Player_ActionChange_3(Player* this, PlayState* play);
 s32 Player_ActionChange_4(Player* this, PlayState* play);
 s32 Player_ActionChange_5(Player* this, PlayState* play);
-s32 Player_ActionChange_6(Player* this, PlayState* play);
+s32 Player_ActionChange_HandleRollingAndPutAway(Player* this, PlayState* play);
 s32 Player_ActionChange_7(Player* this, PlayState* play);
 s32 Player_ActionChange_8(Player* this, PlayState* play);
 s32 Player_ActionChange_9(Player* this, PlayState* play);
@@ -3864,7 +3864,7 @@ static s32 (*sActionChangeFuncs[])(Player* this, PlayState* play) = {
     /* PLAYER_ACTION_CHG_3  */ Player_ActionChange_3,
     /* PLAYER_ACTION_CHG_4  */ Player_ActionChange_4,
     /* PLAYER_ACTION_CHG_5  */ Player_ActionChange_5,
-    /* PLAYER_ACTION_CHG_6  */ Player_ActionChange_6,
+    /* PLAYER_ACTION_CHG_6  */ Player_ActionChange_HandleRollingAndPutAway,
     /* PLAYER_ACTION_CHG_7  */ Player_ActionChange_7,
     /* PLAYER_ACTION_CHG_8  */ Player_ActionChange_8,
     /* PLAYER_ACTION_CHG_9  */ Player_ActionChange_9,
@@ -6008,11 +6008,22 @@ void func_8083C148(Player* this, PlayState* play) {
     this->stateFlags1 &= ~(PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_20);
 }
 
-s32 Player_ActionChange_6(Player* this, PlayState* play) {
+/**
+ * Handles some behavior related to the A button.
+ * 
+ * First, if a roll can be performed, that will take precedence.
+ * The next option is putting away an item in hand, if applicable.
+ * Lastly if neither of those two options are available, Navi can be toggled on and off.
+ * She will either appear and fly around Links head, or fly back into his body.
+ * 
+ * Note that the item putaway and Navi cases do not trigger new actions. In these cases, `false`
+ * is returned and the action processing the Action Change List will remain the same.
+*/
+s32 Player_ActionChange_HandleRollingAndPutAway(Player* this, PlayState* play) {
     if (!func_80833B54(this) && !sUpperBodyIsBusy && !(this->stateFlags1 & PLAYER_STATE1_23) &&
         CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
         if (Player_TryRolling(this, play)) {
-            return 1;
+            return true;
         } else if ((this->putAwayCooldownTimer == 0) && (this->heldItemAction >= PLAYER_IA_SWORD_MASTER)) {
             Player_UseItem(play, this, ITEM_NONE);
         } else {
@@ -6020,7 +6031,7 @@ s32 Player_ActionChange_6(Player* this, PlayState* play) {
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 Player_ActionChange_11(Player* this, PlayState* play) {
@@ -9169,7 +9180,7 @@ void Player_Action_Roll(Player* this, PlayState* play) {
                 Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
                 speedTarget *= 1.5f;
-                
+
                 if ((speedTarget < 3.0f) ||
                     (this->controlStickDirections[this->controlStickDataIndex] != PLAYER_STICK_DIR_FORWARD)) {
                     speedTarget = 3.0f;
@@ -12670,7 +12681,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
 
     if ((this->csAction != PLAYER_CSACTION_NONE) ||
         (!func_8083224C(play) && ((rideActor->actor.speed != 0.0f) || !Player_ActionChange_4(this, play)) &&
-         !Player_ActionChange_6(this, play))) {
+         !Player_ActionChange_HandleRollingAndPutAway(this, play))) {
         if (!sUpperBodyIsBusy) {
             if (this->av1.actionVar1 != 0) {
                 if (LinkAnimation_Update(play, &this->upperSkelAnime)) {
