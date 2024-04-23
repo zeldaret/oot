@@ -22,6 +22,7 @@ typedef struct {
     /* 0x14 */ void* vramTable;
 } MapMarkDataOverlay; // size = 0x18
 
+#define GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS
 #include "gDPLoadTextureBlock_Runtime.inc.c"
 
 MapMarkInfo sMapMarkInfoTable[] = {

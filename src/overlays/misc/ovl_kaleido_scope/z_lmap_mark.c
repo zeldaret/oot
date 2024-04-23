@@ -13,7 +13,7 @@ typedef struct {
     /* 0x20 */ u32 dtdy;
 } PauseMapMarkInfo; // size = 0x24
 
-#define GDP_LOADTEXTUREBLOCK_RUNTIME_CONST
+#define GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS const
 #include "gDPLoadTextureBlock_Runtime.inc.c"
 
 static PauseMapMarkInfo sMapMarkInfoTable[] = {

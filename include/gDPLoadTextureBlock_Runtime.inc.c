@@ -4,51 +4,53 @@
 #include "global.h"
 #include "gfx.h"
 
-// The Following arrays must be defined as const in z_lmap_mark.c to appear in rodata
-
-#ifndef GDP_LOADTEXTUREBLOCK_RUNTIME_CONST
-#define COND_CONST
-#else
-#define COND_CONST const
+#ifndef GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS
+#define GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS
 #endif
 
-static COND_CONST u32 sLoadTextureBlock_siz[] = {
+// The Following arrays must be defined as const in z_lmap_mark.c to appear in rodata
+
+static GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS u32 sLoadTextureBlock_siz[] = {
     G_IM_SIZ_4b,
     G_IM_SIZ_8b,
     G_IM_SIZ_16b,
     G_IM_SIZ_32b,
 };
-static COND_CONST u32 sLoadTextureBlock_siz_LOAD_BLOCK[] = {
+static GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS u32 sLoadTextureBlock_siz_LOAD_BLOCK[] = {
     G_IM_SIZ_4b_LOAD_BLOCK,
     G_IM_SIZ_8b_LOAD_BLOCK,
     G_IM_SIZ_16b_LOAD_BLOCK,
     G_IM_SIZ_32b_LOAD_BLOCK,
 };
-static COND_CONST u32 sLoadTextureBlock_siz_INCR[] = {
+static GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS u32 sLoadTextureBlock_siz_INCR[] = {
     G_IM_SIZ_4b_INCR,
     G_IM_SIZ_8b_INCR,
     G_IM_SIZ_16b_INCR,
     G_IM_SIZ_32b_INCR,
 };
-static COND_CONST u32 sLoadTextureBlock_siz_SHIFT[] = {
+static GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS u32 sLoadTextureBlock_siz_SHIFT[] = {
     G_IM_SIZ_4b_SHIFT,
     G_IM_SIZ_8b_SHIFT,
     G_IM_SIZ_16b_SHIFT,
     G_IM_SIZ_32b_SHIFT,
 };
-static COND_CONST u32 sLoadTextureBlock_siz_BYTES[] = {
+static GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS u32 sLoadTextureBlock_siz_BYTES[] = {
     G_IM_SIZ_4b_BYTES,
     G_IM_SIZ_8b_BYTES,
     G_IM_SIZ_16b_BYTES,
     G_IM_SIZ_32b_BYTES,
 };
-static COND_CONST u32 sLoadTextureBlock_siz_LINE_BYTES[] = {
+static GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS u32 sLoadTextureBlock_siz_LINE_BYTES[] = {
     G_IM_SIZ_4b_LINE_BYTES,
     G_IM_SIZ_8b_LINE_BYTES,
     G_IM_SIZ_16b_LINE_BYTES,
     G_IM_SIZ_32b_LINE_BYTES,
 };
 
+/**
+ * Implements a version of gDPLoadTextureBlock using table lookups instead of token pasting, to allow values to be
+ * passed into `siz` during runtime.
+ */
 #define gDPLoadTextureBlock_Runtime(pkt, timg, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)   \
     _DW({                                                                                                              \
         gDPSetTextureImage(pkt, fmt, sLoadTextureBlock_siz_LOAD_BLOCK[siz], 1, timg);                                  \
