@@ -66,7 +66,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
-#if OOT_DEBUG
+#if OOT_DEBUG || COMPILER_GCC
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
@@ -532,6 +532,8 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/lookathil.o"
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+#endif
+#if !OOT_DEBUG && !COMPILER_GCC
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
