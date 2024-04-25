@@ -854,6 +854,7 @@ typedef struct Player {
 
     /* 0x0850 */ union { 
         s16 actionVar2;
+        s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;

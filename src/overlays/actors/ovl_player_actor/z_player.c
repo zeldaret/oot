@@ -3770,7 +3770,7 @@ typedef enum {
     /*  3 */ PLAYER_ACTION_CHG_3,
     /*  4 */ PLAYER_ACTION_CHG_4,
     /*  5 */ PLAYER_ACTION_CHG_5,
-    /*  6 */ PLAYER_ACTION_CHG_6,
+    /*  6 */ PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
     /*  7 */ PLAYER_ACTION_CHG_7,
     /*  8 */ PLAYER_ACTION_CHG_8,
     /*  9 */ PLAYER_ACTION_CHG_9,
@@ -3788,13 +3788,21 @@ static s8 sActionChangeList1[] = {
 static s8 sActionChangeList2[] = {
     PLAYER_ACTION_CHG_13, PLAYER_ACTION_CHG_1, PLAYER_ACTION_CHG_2, PLAYER_ACTION_CHG_5,
     PLAYER_ACTION_CHG_3,  PLAYER_ACTION_CHG_4, PLAYER_ACTION_CHG_9, PLAYER_ACTION_CHG_10,
-    PLAYER_ACTION_CHG_11, PLAYER_ACTION_CHG_7, PLAYER_ACTION_CHG_8, -PLAYER_ACTION_CHG_6,
+    PLAYER_ACTION_CHG_11, PLAYER_ACTION_CHG_7, PLAYER_ACTION_CHG_8, -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
 };
 
 static s8 sActionChangeList3[] = {
-    PLAYER_ACTION_CHG_13, PLAYER_ACTION_CHG_1, PLAYER_ACTION_CHG_2,  PLAYER_ACTION_CHG_3,
-    PLAYER_ACTION_CHG_4,  PLAYER_ACTION_CHG_9, PLAYER_ACTION_CHG_10, PLAYER_ACTION_CHG_11,
-    PLAYER_ACTION_CHG_8,  PLAYER_ACTION_CHG_7, -PLAYER_ACTION_CHG_6,
+    PLAYER_ACTION_CHG_13,
+    PLAYER_ACTION_CHG_1,
+    PLAYER_ACTION_CHG_2,
+    PLAYER_ACTION_CHG_3,
+    PLAYER_ACTION_CHG_4,
+    PLAYER_ACTION_CHG_9,
+    PLAYER_ACTION_CHG_10,
+    PLAYER_ACTION_CHG_11,
+    PLAYER_ACTION_CHG_8,
+    PLAYER_ACTION_CHG_7,
+    -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
 };
 
 static s8 sActionChangeList4[] = {
@@ -3812,21 +3820,39 @@ static s8 sActionChangeList6[] = {
 };
 
 static s8 sActionChangeList7[] = {
-    PLAYER_ACTION_CHG_0, PLAYER_ACTION_CHG_11, PLAYER_ACTION_CHG_1,  PLAYER_ACTION_CHG_2,
-    PLAYER_ACTION_CHG_3, PLAYER_ACTION_CHG_5,  PLAYER_ACTION_CHG_4,  PLAYER_ACTION_CHG_9,
-    PLAYER_ACTION_CHG_8, PLAYER_ACTION_CHG_7,  -PLAYER_ACTION_CHG_6,
+    PLAYER_ACTION_CHG_0,
+    PLAYER_ACTION_CHG_11,
+    PLAYER_ACTION_CHG_1,
+    PLAYER_ACTION_CHG_2,
+    PLAYER_ACTION_CHG_3,
+    PLAYER_ACTION_CHG_5,
+    PLAYER_ACTION_CHG_4,
+    PLAYER_ACTION_CHG_9,
+    PLAYER_ACTION_CHG_8,
+    PLAYER_ACTION_CHG_7,
+    -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
 };
 
 static s8 sActionChangeList8[] = {
     PLAYER_ACTION_CHG_0, PLAYER_ACTION_CHG_11, PLAYER_ACTION_CHG_1, PLAYER_ACTION_CHG_2,
     PLAYER_ACTION_CHG_3, PLAYER_ACTION_CHG_12, PLAYER_ACTION_CHG_5, PLAYER_ACTION_CHG_4,
-    PLAYER_ACTION_CHG_9, PLAYER_ACTION_CHG_8,  PLAYER_ACTION_CHG_7, -PLAYER_ACTION_CHG_6,
+    PLAYER_ACTION_CHG_9, PLAYER_ACTION_CHG_8,  PLAYER_ACTION_CHG_7, -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
 };
 
 static s8 sActionChangeList9[] = {
-    PLAYER_ACTION_CHG_13, PLAYER_ACTION_CHG_1, PLAYER_ACTION_CHG_2,  PLAYER_ACTION_CHG_3,  PLAYER_ACTION_CHG_12,
-    PLAYER_ACTION_CHG_5,  PLAYER_ACTION_CHG_4, PLAYER_ACTION_CHG_9,  PLAYER_ACTION_CHG_10, PLAYER_ACTION_CHG_11,
-    PLAYER_ACTION_CHG_8,  PLAYER_ACTION_CHG_7, -PLAYER_ACTION_CHG_6,
+    PLAYER_ACTION_CHG_13,
+    PLAYER_ACTION_CHG_1,
+    PLAYER_ACTION_CHG_2,
+    PLAYER_ACTION_CHG_3,
+    PLAYER_ACTION_CHG_12,
+    PLAYER_ACTION_CHG_5,
+    PLAYER_ACTION_CHG_4,
+    PLAYER_ACTION_CHG_9,
+    PLAYER_ACTION_CHG_10,
+    PLAYER_ACTION_CHG_11,
+    PLAYER_ACTION_CHG_8,
+    PLAYER_ACTION_CHG_7,
+    -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
 };
 
 static s8 sActionChangeList10[] = {
@@ -3864,7 +3890,7 @@ static s32 (*sActionChangeFuncs[])(Player* this, PlayState* play) = {
     /* PLAYER_ACTION_CHG_3  */ Player_ActionChange_3,
     /* PLAYER_ACTION_CHG_4  */ Player_ActionChange_4,
     /* PLAYER_ACTION_CHG_5  */ Player_ActionChange_5,
-    /* PLAYER_ACTION_CHG_6  */ Player_ActionChange_HandleRollingAndPutAway,
+    /* PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY  */ Player_ActionChange_HandleRollingAndPutAway,
     /* PLAYER_ACTION_CHG_7  */ Player_ActionChange_7,
     /* PLAYER_ACTION_CHG_8  */ Player_ActionChange_8,
     /* PLAYER_ACTION_CHG_9  */ Player_ActionChange_9,
@@ -5887,9 +5913,9 @@ void Player_SetupRoll(Player* this, PlayState* play) {
                                    1.25f * D_808535E8);
 }
 
-
 s32 Player_TryRolling(Player* this, PlayState* play) {
-    if ((this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) && (sFloorType != FLOOR_TYPE_7)) {
+    if ((this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) &&
+        (sFloorType != FLOOR_TYPE_7)) {
         Player_SetupRoll(this, play);
 
         return true;
@@ -6009,16 +6035,16 @@ void func_8083C148(Player* this, PlayState* play) {
 }
 
 /**
- * Handles some behavior related to the A button.
- * 
+ * Handles some specific behavior related to the A button.
+ *
  * First, if a roll can be performed, that will take precedence.
  * The next option is putting away an item in hand, if applicable.
  * Lastly if neither of those two options are available, Navi can be toggled on and off.
- * She will either appear and fly around Links head, or fly back into his body.
- * 
+ * She will either appear and fly around Link's head, or fly back into his body.
+ *
  * Note that the item putaway and Navi cases do not trigger new actions. In these cases, `false`
  * is returned and the action processing the Action Change List will remain the same.
-*/
+ */
 s32 Player_ActionChange_HandleRollingAndPutAway(Player* this, PlayState* play) {
     if (!func_80833B54(this) && !sUpperBodyIsBusy && !(this->stateFlags1 & PLAYER_STATE1_23) &&
         CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
@@ -9099,7 +9125,7 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
     }
 }
 
-static AnimSfxEntry D_8085460C[] = {
+static AnimSfxEntry sRollAnimSfxList[] = {
     { NA_SE_VO_LI_SWORD_N, ANIMSFX_DATA(ANIMSFX_TYPE_4, 1) },
     { NA_SE_PL_WALK_GROUND, ANIMSFX_DATA(ANIMSFX_TYPE_3, 6) },
     { NA_SE_PL_ROLL, ANIMSFX_DATA(ANIMSFX_TYPE_1, 6) },
@@ -9125,7 +9151,7 @@ void Player_Action_Roll(Player* this, PlayState* play) {
     }
 
     if (!func_80842964(this, play)) {
-        if (this->av2.actionVar2 != 0) {
+        if (this->av2.bonked) {
             Math_StepToF(&this->speedXZ, 0.0f, 2.0f);
 
             interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 5.0f);
@@ -9146,7 +9172,6 @@ void Player_Action_Roll(Player* this, PlayState* play) {
                     if (ocCollidedActor != NULL) {
                         // The EN_WOOD02 actor uses home y rotation as a flag to signal that it has been
                         // bonked into and should try to spawn a drop.
-                        // Note that this code will run even if the actor is not EN_WOOD02.
                         ocCollidedActor->home.rot.y = 1;
                     } else if (this->actor.wallBgId != BGCHECK_SCENE) {
                         wallPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.wallBgId);
@@ -9164,7 +9189,7 @@ void Player_Action_Roll(Player* this, PlayState* play) {
                     Player_RequestRumble(this, 255, 20, 150, 0);
                     Player_PlaySfx(this, NA_SE_PL_BODY_HIT);
                     func_80832698(this, NA_SE_VO_LI_CLIMB_END);
-                    this->av2.actionVar2 = 1;
+                    this->av2.bonked = true;
 
                     return;
                 }
@@ -9179,6 +9204,9 @@ void Player_Action_Roll(Player* this, PlayState* play) {
 
                 Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
+                // `speedTarget` at this point is the speed that would be used for regular walking.
+                // Rolling speed is 1.5 times faster than what the walking speed would be for the current control stick
+                // input.
                 speedTarget *= 1.5f;
 
                 if ((speedTarget < 3.0f) ||
@@ -9192,7 +9220,7 @@ void Player_Action_Roll(Player* this, PlayState* play) {
                     func_8002F8F0(&this->actor, NA_SE_PL_ROLL_DUST - SFX_FLAG);
                 }
 
-                Player_ProcessAnimSfxList(this, D_8085460C);
+                Player_ProcessAnimSfxList(this, sRollAnimSfxList);
             }
         }
     }
