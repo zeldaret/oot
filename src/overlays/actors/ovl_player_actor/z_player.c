@@ -3770,7 +3770,7 @@ typedef enum {
     /*  3 */ PLAYER_ACTION_CHG_3,
     /*  4 */ PLAYER_ACTION_CHG_4,
     /*  5 */ PLAYER_ACTION_CHG_5,
-    /*  6 */ PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
+    /*  6 */ PLAYER_ACTION_CHG_ROLL,
     /*  7 */ PLAYER_ACTION_CHG_7,
     /*  8 */ PLAYER_ACTION_CHG_8,
     /*  9 */ PLAYER_ACTION_CHG_9,
@@ -3788,7 +3788,7 @@ static s8 sActionChangeList1[] = {
 static s8 sActionChangeList2[] = {
     PLAYER_ACTION_CHG_13, PLAYER_ACTION_CHG_1, PLAYER_ACTION_CHG_2, PLAYER_ACTION_CHG_5,
     PLAYER_ACTION_CHG_3,  PLAYER_ACTION_CHG_4, PLAYER_ACTION_CHG_9, PLAYER_ACTION_CHG_10,
-    PLAYER_ACTION_CHG_11, PLAYER_ACTION_CHG_7, PLAYER_ACTION_CHG_8, -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
+    PLAYER_ACTION_CHG_11, PLAYER_ACTION_CHG_7, PLAYER_ACTION_CHG_8, -PLAYER_ACTION_CHG_ROLL,
 };
 
 static s8 sActionChangeList3[] = {
@@ -3802,7 +3802,7 @@ static s8 sActionChangeList3[] = {
     PLAYER_ACTION_CHG_11,
     PLAYER_ACTION_CHG_8,
     PLAYER_ACTION_CHG_7,
-    -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
+    -PLAYER_ACTION_CHG_ROLL,
 };
 
 static s8 sActionChangeList4[] = {
@@ -3830,13 +3830,13 @@ static s8 sActionChangeList7[] = {
     PLAYER_ACTION_CHG_9,
     PLAYER_ACTION_CHG_8,
     PLAYER_ACTION_CHG_7,
-    -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
+    -PLAYER_ACTION_CHG_ROLL,
 };
 
 static s8 sActionChangeList8[] = {
     PLAYER_ACTION_CHG_0, PLAYER_ACTION_CHG_11, PLAYER_ACTION_CHG_1, PLAYER_ACTION_CHG_2,
     PLAYER_ACTION_CHG_3, PLAYER_ACTION_CHG_12, PLAYER_ACTION_CHG_5, PLAYER_ACTION_CHG_4,
-    PLAYER_ACTION_CHG_9, PLAYER_ACTION_CHG_8,  PLAYER_ACTION_CHG_7, -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
+    PLAYER_ACTION_CHG_9, PLAYER_ACTION_CHG_8,  PLAYER_ACTION_CHG_7, -PLAYER_ACTION_CHG_ROLL,
 };
 
 static s8 sActionChangeList9[] = {
@@ -3852,7 +3852,7 @@ static s8 sActionChangeList9[] = {
     PLAYER_ACTION_CHG_11,
     PLAYER_ACTION_CHG_8,
     PLAYER_ACTION_CHG_7,
-    -PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY,
+    -PLAYER_ACTION_CHG_ROLL,
 };
 
 static s8 sActionChangeList10[] = {
@@ -3874,7 +3874,7 @@ s32 Player_ActionChange_2(Player* this, PlayState* play);
 s32 Player_ActionChange_3(Player* this, PlayState* play);
 s32 Player_ActionChange_4(Player* this, PlayState* play);
 s32 Player_ActionChange_5(Player* this, PlayState* play);
-s32 Player_ActionChange_HandleRollingAndPutAway(Player* this, PlayState* play);
+s32 Player_ActionChange_HandleRolling(Player* this, PlayState* play);
 s32 Player_ActionChange_7(Player* this, PlayState* play);
 s32 Player_ActionChange_8(Player* this, PlayState* play);
 s32 Player_ActionChange_9(Player* this, PlayState* play);
@@ -3890,7 +3890,7 @@ static s32 (*sActionChangeFuncs[])(Player* this, PlayState* play) = {
     /* PLAYER_ACTION_CHG_3  */ Player_ActionChange_3,
     /* PLAYER_ACTION_CHG_4  */ Player_ActionChange_4,
     /* PLAYER_ACTION_CHG_5  */ Player_ActionChange_5,
-    /* PLAYER_ACTION_CHG_ROLL_AND_PUTAWAY  */ Player_ActionChange_HandleRollingAndPutAway,
+    /* PLAYER_ACTION_CHG_ROLL  */ Player_ActionChange_HandleRolling,
     /* PLAYER_ACTION_CHG_7  */ Player_ActionChange_7,
     /* PLAYER_ACTION_CHG_8  */ Player_ActionChange_8,
     /* PLAYER_ACTION_CHG_9  */ Player_ActionChange_9,
@@ -6035,17 +6035,16 @@ void func_8083C148(Player* this, PlayState* play) {
 }
 
 /**
- * Handles some specific behavior related to the A button.
+ * Handles setting up a roll if it is appropriate.
  *
- * First, if a roll can be performed, that will take precedence.
- * The next option is putting away an item in hand, if applicable.
- * Lastly if neither of those two options are available, Navi can be toggled on and off.
- * She will either appear and fly around Link's head, or fly back into his body.
+ * If a roll is not applicable, there are two extra behaviors that could occur:
+ * - If an item is currently held in hand, it can be put away.
+ * - Navi can be toggled on and off. She will either appear and fly around Link's head, or fly back into his body.
  *
- * Note that the item putaway and Navi cases do not trigger new actions. In these cases, `false`
- * is returned and the action processing the Action Change List will remain the same.
+ * These extra behaviors are not new actions themselves, so they will result in `false` being returned
+ * even if they occur.
  */
-s32 Player_ActionChange_HandleRollingAndPutAway(Player* this, PlayState* play) {
+s32 Player_ActionChange_HandleRolling(Player* this, PlayState* play) {
     if (!func_80833B54(this) && !sUpperBodyIsBusy && !(this->stateFlags1 & PLAYER_STATE1_23) &&
         CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
         if (Player_TryRolling(this, play)) {
@@ -12709,7 +12708,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
 
     if ((this->csAction != PLAYER_CSACTION_NONE) ||
         (!func_8083224C(play) && ((rideActor->actor.speed != 0.0f) || !Player_ActionChange_4(this, play)) &&
-         !Player_ActionChange_HandleRollingAndPutAway(this, play))) {
+         !Player_ActionChange_HandleRolling(this, play))) {
         if (!sUpperBodyIsBusy) {
             if (this->av1.actionVar1 != 0) {
                 if (LinkAnimation_Update(play, &this->upperSkelAnime)) {
