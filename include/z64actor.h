@@ -89,8 +89,7 @@ typedef struct {
 #define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
 typedef struct {
-    /* 0x00 */ uintptr_t vromStart;
-    /* 0x04 */ uintptr_t vromEnd;
+    /* 0x00 */ RomFile file;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
@@ -135,7 +134,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ Vec3s rot; // Current actor shape rotation
-    /* 0x06 */ s16 face; // Used to index eyebrow/eye/mouth textures. Only used by player
+    /* 0x06 */ s16 face; // Used to index eyes and mouth textures. Only used by player
     /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units
     /* 0x0C */ ActorShadowFunc shadowDraw; // Shadow draw function
     /* 0x10 */ f32 shadowScale; // Changes the size of the shadow

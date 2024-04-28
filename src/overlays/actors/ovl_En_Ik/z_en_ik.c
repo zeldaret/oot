@@ -78,8 +78,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_NONE,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 25, 80, 0, { 0, 0, 0 } },
@@ -91,8 +91,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC3FFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_NO_AT_INFO,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_NO_AT_INFO,
             OCELEM_NONE,
         },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
@@ -102,8 +102,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC3FFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_NO_AT_INFO,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_NO_AT_INFO,
             OCELEM_NONE,
         },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
@@ -136,8 +136,8 @@ static ColliderQuadInit sQuadInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x00, 0x40 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -708,18 +708,13 @@ void EnIk_Die(EnIk* this, PlayState* play) {
 }
 
 void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
-    f32 frames;
-    s16 pad;
-    u8 prevHealth;
-    s32 damageEffect;
-    Vec3f sparksPos;
 
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
         return;
     }
 
     if (this->shieldCollider.base.acFlags & AC_BOUNCED) {
-        frames = Animation_GetLastFrame(&gIronKnuckleBlockAnim) - 2.0f;
+        f32 frames = Animation_GetLastFrame(&gIronKnuckleBlockAnim) - 2.0f;
 
         if (this->skelAnime.curFrame < frames) {
             this->skelAnime.curFrame = frames;
@@ -728,7 +723,11 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         this->shieldCollider.base.acFlags &= ~AC_BOUNCED;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
-        sparksPos = this->actor.world.pos;
+        s16 pad;
+        u8 prevHealth;
+        s32 damageEffect;
+        Vec3f sparksPos = this->actor.world.pos;
+
         sparksPos.y += 50.0f;
 
         Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
@@ -1120,10 +1119,12 @@ s32 EnIk_UpdateSkelAnime(EnIk* this) {
 
 CsCmdActorCue* EnIk_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
-    } else {
-        return NULL;
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
+
+    return NULL;
 }
 
 void EnIk_SetStartPosRotFromCue(EnIk* this, PlayState* play, s32 cueChannel) {

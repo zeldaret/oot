@@ -16,7 +16,7 @@ typedef struct EnBom {
     /* 0x01F8 */ s16 timer;
     /* 0x01FA */ s16 flashSpeedScale;
     /* 0x01FC */ f32 flashIntensity;
-    /* 0x0200 */ u8 bumpOn;
+    /* 0x0200 */ u8 colliderSetOC;
     /* 0x0204 */ EnBomActionFunc actionFunc;
 } EnBom; // size = 0x0208
 

@@ -1808,21 +1808,21 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
 
 void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    u8* alpha;
-    Gfx* disp;
+    uintptr_t flashDList = (uintptr_t)gEffFlash1DL;
+    s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2842);
 
     if (!DemoEffect_CheckForCue(this, play, 1)) {
-
         if (this->light.flicker == 0) {
             this->light.flicker = 1;
         } else {
-            disp = (Gfx*)(uintptr_t)gEffFlash1DL; // necessary to match but probably fake
-            alpha = &this->light.alpha;
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+            // `(*this).light.alpha` is probably fake and indicates that `alpha`
+            // may have been part of an array (possibly a "workbuf" array
+            // instead of the union of structs we have now).
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
-                            this->primXluColor[2], *alpha);
+                            this->primXluColor[2], (*this).light.alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
             Matrix_Scale(((this->light.scaleFlag & 1) * 0.05f) + 1.0f, ((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
                          ((this->light.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
@@ -1831,14 +1831,13 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
             Matrix_RotateZ(DEG_TO_RAD(this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2866),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-            if (disp) {};
-            gSPDisplayList(POLY_XLU_DISP++, disp);
+            gSPDisplayList(POLY_XLU_DISP++, flashDList);
             Matrix_Pop();
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(-(f32)this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2874),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, disp);
+            gSPDisplayList(POLY_XLU_DISP++, flashDList);
         }
     }
 
@@ -2004,8 +2003,8 @@ s32 DemoEffect_OverrideLimbDrawTimeWarp(PlayState* play, SkelCurve* skelCurve, s
 }
 
 void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
-    DemoEffect* this = (DemoEffect*)thisx;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
+    DemoEffect* this = (DemoEffect*)thisx;
     u8 effectType = (this->actor.params & 0x00FF);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||

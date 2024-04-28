@@ -49,8 +49,8 @@ static ColliderCylinderInit sCylinderInitCapturableFlame = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 25, 80, 0, { 0, 0, 0 } },
@@ -69,8 +69,8 @@ static ColliderCylinderInit sCylinderInitDroppedFlame = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 12, 60, 0, { 0, 0, 0 } },
@@ -356,9 +356,13 @@ void EnIceHono_Update(Actor* thisx, PlayState* play) {
         sin156 = Math_SinS(this->unk_156);
         sin154 = Math_SinS(this->unk_154);
         intensity = (Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
+
+#if OOT_DEBUG
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
             PRINTF("ありえない値(ratio = %f)\n", intensity); // "impossible value(ratio = %f)"
         }
+#endif
+
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, (s16)this->actor.world.pos.y + 10,
                                   this->actor.world.pos.z, (s32)(155.0f * intensity), (s32)(210.0f * intensity),
                                   (s32)(255.0f * intensity), 1400);

@@ -13,7 +13,11 @@ typedef struct InitFunc {
 // .data
 void* sInitFuncs = NULL;
 
+#if OOT_DEBUG
 char sNew[] = "new";
+#else
+char sNew[] = "";
+#endif
 
 char D_80134488[0x18] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7F, 0x80, 0x00, 0x00,

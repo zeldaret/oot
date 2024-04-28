@@ -90,8 +90,8 @@ static ColliderCylinderInit sOwlCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0, 0, 0 } },
@@ -1368,6 +1368,7 @@ void func_80ACD2CC(EnOwl* this, PlayState* play) {
     Vec3f pos;
     s32 angle;
     f32 t = func_80ACD1C4(play, 7);
+    f32 phi_f2;
 
     pos.x = play->csCtx.actorCues[7]->startPos.x;
     pos.y = play->csCtx.actorCues[7]->startPos.y;
@@ -1379,8 +1380,7 @@ void func_80ACD2CC(EnOwl* this, PlayState* play) {
     angle = (s16)((t * angle) + this->actor.world.rot.z);
     angle = (u16)angle;
     if (this->actionFlags & 4) {
-        f32 phi_f2 = play->csCtx.actorCues[7]->rot.x;
-
+        phi_f2 = play->csCtx.actorCues[7]->rot.x;
         phi_f2 *= 10.0f * (360.0f / 0x10000);
         if (phi_f2 < 0.0f) {
             phi_f2 += 360.0f;

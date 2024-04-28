@@ -611,7 +611,9 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                 bzero(&gSaveContext.save.entranceIndex, sizeof(s32));
                 bzero(&gSaveContext.save.linkAge, sizeof(s32));
                 bzero(&gSaveContext.save.cutsceneIndex, sizeof(s32));
-                // note that gSaveContext.save.dayTime is not actually the sizeof(s32)
+                //! @bug gSaveContext.save.dayTime is a u16 but is cleared as a 32-bit value. This is harmless as-is
+                //! since it is followed by nightFlag which is also reset here, but can become an issue if the save
+                //! layout is changed.
                 bzero(&gSaveContext.save.dayTime, sizeof(s32));
                 bzero(&gSaveContext.save.nightFlag, sizeof(s32));
                 bzero(&gSaveContext.save.totalDays, sizeof(s32));

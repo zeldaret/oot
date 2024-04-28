@@ -80,8 +80,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x000007A2, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 60, 0, { 0, 0, 0 } },
@@ -112,8 +112,8 @@ void EnGe2_ChangeAction(EnGe2* this, s32 i) {
 }
 
 void EnGe2_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
     EnGe2* this = (EnGe2*)thisx;
+    s16 params = this->actor.params;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoPurpleSkel, NULL, this->jointTable, this->morphTable, 22);
@@ -133,7 +133,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.world.rot.z = 0;
     this->actor.shape.rot.z = 0;
 
-    switch (this->actor.params & 0xFF) {
+    switch (thisx->params & 0xFF) {
         case GE2_TYPE_PATROLLING:
             EnGe2_ChangeAction(this, GE2_ACTION_WALK);
             if (EnGe2_CheckCarpentersFreed()) {
@@ -156,6 +156,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
             break;
         default:
             ASSERT(0, "0", "../z_en_ge2.c", 418);
+            break;
     }
 
     this->stateFlags = 0;
@@ -165,7 +166,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     this->walkDirection = this->actor.world.rot.y;
-    this->walkDuration = ((this->actor.params & 0xFF00) >> 8) * 10;
+    this->walkDuration = ((thisx->params & 0xFF00) >> 8) * 10;
 }
 
 void EnGe2_Destroy(Actor* thisx, PlayState* play) {
@@ -555,7 +556,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
     } else if (this->collider.base.acFlags & AC_HIT) {
         if ((this->collider.elem.acHitElem != NULL) &&
-            (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
+            (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
             //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the colorfilter.
             //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
@@ -606,8 +607,9 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-    if ((this->collider.base.acFlags & AC_HIT) && ((this->collider.elem.acHitElem == NULL) ||
-                                                   !(this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT))) {
+    if ((this->collider.base.acFlags & AC_HIT) &&
+        ((this->collider.elem.acHitElem == NULL) ||
+         !(this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT))) {
         this->actor.colorFilterTimer = 0;
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;

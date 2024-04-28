@@ -6,7 +6,7 @@
 
 #include "z_bg_gjyo_bridge.h"
 #include "assets/objects/object_gjyo_objects/object_gjyo_objects.h"
-#include "assets/scenes/dungeons/ganon_tou/ganon_tou_scene.h"
+#include "assets/scenes/overworld/ganon_tou/ganon_tou_scene.h"
 
 #define FLAGS 0
 

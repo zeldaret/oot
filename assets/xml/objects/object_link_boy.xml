@@ -225,17 +225,17 @@
         <Texture Name="gLinkAdultEyesOpenTex" OutName="eyes_open" Format="ci8" Width="64" Height="32" Offset="0x0000" TlutOffset="0x5C00"/>
         <Texture Name="gLinkAdultEyesHalfTex" OutName="eyes_half" Format="ci8" Width="64" Height="32" Offset="0x0800" TlutOffset="0x5C00"/>
         <Texture Name="gLinkAdultEyesClosedfTex" OutName="eyes_closed" Format="ci8" Width="64" Height="32" Offset="0x1000" TlutOffset="0x5C00"/>
-        <Texture Name="gLinkAdultEyesRollLeftTex" OutName="eyes_roll_left" Format="ci8" Width="64" Height="32" Offset="0x1800" TlutOffset="0x5C00"/><!--Left from links perspective-->
-        <Texture Name="gLinkAdultEyesRollRightTex" OutName="eyes_roll_right" Format="ci8" Width="64" Height="32" Offset="0x2000" TlutOffset="0x5C00"/><!--Right from links perspective-->
-        <Texture Name="gLinkAdultEyesShockTex" OutName="eyes_shock" Format="ci8" Width="64" Height="32" Offset="0x2800" TlutOffset="0x5C00"/>
-        <Texture Name="gLinkAdultEyesUnk1Tex" OutName="eyes_unk_1" Format="ci8" Width="64" Height="32" Offset="0x3000" TlutOffset="0x5C00"/>
-        <Texture Name="gLinkAdultEyesUnk2Tex" OutName="eyes_unk_2" Format="ci8" Width="64" Height="32" Offset="0x3800" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultEyesLeftTex" OutName="eyes_left" Format="ci8" Width="64" Height="32" Offset="0x1800" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultEyesRightTex" OutName="eyes_right" Format="ci8" Width="64" Height="32" Offset="0x2000" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultEyesWideTex" OutName="eyes_wide" Format="ci8" Width="64" Height="32" Offset="0x2800" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultEyesDownTex" OutName="eyes_down" Format="ci8" Width="64" Height="32" Offset="0x3000" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultEyesWincingTex" OutName="eyes_wincing" Format="ci8" Width="64" Height="32" Offset="0x3800" TlutOffset="0x5C00"/>
 
         <!--Mouth-->
-        <Texture Name="gLinkAdultMouth1Tex" OutName="mouth_1" Format="ci8" Width="32" Height="32" Offset="0x4000" TlutOffset="0x5C00"/>
-        <Texture Name="gLinkAdultMouth2Tex" OutName="mouth_2" Format="ci8" Width="32" Height="32" Offset="0x4400" TlutOffset="0x5C00"/>
-        <Texture Name="gLinkAdultMouth3Tex" OutName="mouth_3" Format="ci8" Width="32" Height="32" Offset="0x4800" TlutOffset="0x5C00"/>
-        <Texture Name="gLinkAdultMouth4Tex" OutName="mouth_4" Format="ci8" Width="32" Height="32" Offset="0x4C00" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultMouthClosedTex" OutName="mouth_closed" Format="ci8" Width="32" Height="32" Offset="0x4000" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultMouthHalfTex" OutName="mouth_half" Format="ci8" Width="32" Height="32" Offset="0x4400" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultMouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="32" Offset="0x4800" TlutOffset="0x5C00"/>
+        <Texture Name="gLinkAdultMouthSmileTex" OutName="mouth_smile" Format="ci8" Width="32" Height="32" Offset="0x4C00" TlutOffset="0x5C00"/>
 
         <Texture Name="gLinkAdultEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x5000" TlutOffset="0x5C00"/>
         <Texture Name="gLinkAdultNoseTex" OutName="nose" Format="ci8" Width="16" Height="16" Offset="0x5100" TlutOffset="0x5C00"/>

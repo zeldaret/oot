@@ -69,8 +69,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x04, 0x10 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_HARD,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_HARD,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 25, 40, 0, { 0, 0, 0 } },
@@ -292,7 +292,7 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
                      ANIMMODE_ONCE, 0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
-    this->collider.elem.bumperFlags &= ~BUMP_HOOKABLE;
+    this->collider.elem.acElemFlags &= ~ACELEM_HOOKABLE;
     this->actor.speed = 4.0f;
     this->actor.velocity.y = 7.0f;
     // using div creates a signed check.
@@ -389,7 +389,7 @@ void EnFloormas_SetupSmallWait(EnFloormas* this) {
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
-    if (this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+    if (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
@@ -914,7 +914,7 @@ void EnFloormas_Merge(EnFloormas* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_4;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
-            this->collider.elem.bumperFlags |= BUMP_HOOKABLE;
+            this->collider.elem.acElemFlags |= ACELEM_HOOKABLE;
             this->actor.colChkInfo.health = sColChkInfoInit.health;
             EnFloormas_SetupStand(this);
         } else {
@@ -985,7 +985,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = true;
                 }
-                if (isSmall && this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT) {
+                if (isSmall && this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT) {
                     this->actor.colChkInfo.damage = 2;
                     this->actor.colChkInfo.damageEffect = 0;
                 }

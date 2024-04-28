@@ -12,7 +12,9 @@
 void ElfMsg2_Init(Actor* thisx, PlayState* play);
 void ElfMsg2_Destroy(Actor* thisx, PlayState* play);
 void ElfMsg2_Update(Actor* thisx, PlayState* play);
+#if OOT_DEBUG
 void ElfMsg2_Draw(Actor* thisx, PlayState* play);
+#endif
 
 s32 ElfMsg2_GetMessageId(ElfMsg2* this);
 void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play);
@@ -27,7 +29,11 @@ ActorInit Elf_Msg2_InitVars = {
     /**/ ElfMsg2_Init,
     /**/ ElfMsg2_Destroy,
     /**/ ElfMsg2_Update,
+#if OOT_DEBUG
     /**/ ElfMsg2_Draw,
+#else
+    /**/ NULL,
+#endif
 };
 
 static InitChainEntry sInitChain[] = {
@@ -147,6 +153,7 @@ void ElfMsg2_Update(Actor* thisx, PlayState* play) {
     }
 }
 
+#if OOT_DEBUG
 #include "assets/overlays/ovl_Elf_Msg2/ovl_Elf_Msg2.c"
 
 void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
@@ -165,3 +172,4 @@ void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_elf_msg2.c", 367);
 }
+#endif

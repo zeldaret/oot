@@ -61,8 +61,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_NONE | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 10, 10, 0, { 0, 0, 0 } },
@@ -125,6 +125,8 @@ void EnDivingGame_SpawnRuppy(EnDivingGame* this, PlayState* play) {
 }
 
 s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
+    s32 rupeesNeeded;
+
     if ((gSaveContext.timerState == TIMER_STATE_STOP) && !Play_InCsMode(play)) {
         // Failed.
         gSaveContext.timerState = TIMER_STATE_OFF;
@@ -138,7 +140,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
         this->actionFunc = func_809EE048;
         return true;
     } else {
-        s32 rupeesNeeded = 5;
+        rupeesNeeded = 5;
 
         if (GET_EVENTCHKINF(EVENTCHKINF_38)) {
             rupeesNeeded = 10;

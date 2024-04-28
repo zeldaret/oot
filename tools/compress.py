@@ -8,7 +8,6 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import dataclasses
-import struct
 import time
 import multiprocessing
 import multiprocessing.pool
@@ -28,6 +27,7 @@ class RomSegment:
     vrom_start: int
     vrom_end: int
     is_compressed: bool
+    is_syms: bool
     data: memoryview | None
     data_async: multiprocessing.pool.AsyncResult | None
 
@@ -92,6 +92,7 @@ def compress_rom(
                     dma_entry.vrom_start,
                     dma_entry.vrom_end,
                     is_compressed,
+                    dma_entry.is_syms(),
                     segment_data,
                     segment_data_async,
                 )
@@ -167,16 +168,22 @@ def compress_rom(
         assert i <= len(compressed_rom_data)
         compressed_rom_data[segment_rom_start:i] = segment.data
 
+        rom_offset = segment_rom_end
+
+        if segment.is_syms:
+            segment_rom_start = 0xFFFFFFFF
+            segment_rom_end = 0xFFFFFFFF
+        elif not segment.is_compressed:
+            segment_rom_end = 0
+
         compressed_rom_dma_entries.append(
             dmadata.DmaEntry(
                 segment.vrom_start,
                 segment.vrom_end,
                 segment_rom_start,
-                segment_rom_end if segment.is_compressed else 0,
+                segment_rom_end,
             )
         )
-
-        rom_offset = segment_rom_end
 
     assert rom_offset == compressed_rom_size
     # Pad the compressed rom with the pattern matching the baseroms

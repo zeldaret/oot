@@ -43,8 +43,8 @@ static ColliderJntSphElementInit sJntSphElementInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000010, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 8, { { 0, 0, 0 }, 20 }, 100 },
@@ -54,8 +54,8 @@ static ColliderJntSphElementInit sJntSphElementInit[2] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 13, { { 0, 0, 0 }, 25 }, 100 },
@@ -235,6 +235,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
     s16 phi_fp;
 
     Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 60.0f, 1.0f, 10.0f, 0.0f);
+
     if ((this->actor.xzDistToPlayer <= 175.0f) || (this->unk_31A != 0)) {
         if (this->unk_318 == 20) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HAND_UP);
@@ -300,16 +301,22 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
         }
         this->unk_2A8[13].x = this->unk_2A8[12].x;
         this->unk_2A8[13].y = this->unk_2A8[12].y;
+
+        //! @bug This code being located here gives multiple opportunities for the current action to change
+        //! before damage handling can be done.
+        //! By, for example, taking damage on the same frame the collider contacts Player, a different action
+        //! will run and `AT_HIT` will remain set. Then when returning back to this action, Player
+        //! will get knocked back instantly, even though there was no apparent collision.
+        //! Handling `AT_HIT` directly in Update, where it can run every frame, would help catch these edge cases.
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
             if (this->collider.base.at == &player->actor) {
                 func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             }
         }
+
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-        return;
-    }
-    if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & PLAYER_STATE1_26)) {
+    } else if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & PLAYER_STATE1_26)) {
         EnBa_SetupIdle(this);
     } else {
         EnBa_SetupSwingAtPlayer(this);
@@ -492,6 +499,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateZYX(this->unk_2A8[i].x, this->unk_2A8[i].y, this->unk_2A8[i].z, MTXMODE_APPLY);
             Matrix_Scale(this->unk_200[i].x, this->unk_200[i].y, this->unk_200[i].z, MTXMODE_APPLY);
             if ((i == 6) || (i == 13)) {
+                if (mtx) {}
                 switch (i) {
                     case 13:
                         Collider_UpdateSpheres(i, &this->collider);
