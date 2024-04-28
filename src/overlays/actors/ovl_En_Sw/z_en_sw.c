@@ -7,7 +7,6 @@
 #include "z_en_sw.h"
 #include "assets/objects/object_st/object_st.h"
 
-
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnSw_Init(Actor* thisx, PlayState* play);
@@ -210,9 +209,9 @@ s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 changePoly) {
                 continue;
             }
             if (changePoly == true) {
-                    EnSw_ClingToWall(this, newPoly);
-                    this->actor.world.pos = newPos;
-                    this->actor.floorBgId = newBgId;
+                EnSw_ClingToWall(this, newPoly);
+                this->actor.world.pos = newPos;
+                this->actor.floorBgId = newBgId;
             }
             ret = true;
             break;
@@ -309,7 +308,6 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
             this->actor.naviEnemyId = NAVI_ENEMY_SKULLWALLTULA;
             break;
-
     }
 
     this->crawlTimer = Rand_S16Offset(15, 30);
@@ -348,7 +346,8 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
         if ((this->collider.base.acFlags & AC_HIT) || phi_v1) {
             this->collider.base.acFlags &= ~AC_HIT;
             this->painTimer = 0x10;
-            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, this->painTimer);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA,
+                                 this->painTimer);
             if (Actor_ApplyDamage(&this->actor) != 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;
@@ -452,15 +451,15 @@ s32 EnSw_GetRotate(EnSw* this, f32* angle) {
     Matrix_MtxFToYXZRotS(&rotMtxF, &this->actor.world.rot, 0);
     return true;
 }
-/*Play the Skulltula's "roll" sound if in range 
+/*Play the Skulltula's "roll" sound if in range
 (and in outdoor Gold's case, not "sleeping")*/
 void EnSw_PlaySfxRoll(EnSw* this, PlayState* play) {
     if (!(this->actor.scale.x < (140.0f * 0.0001f))) {
         Camera* activeCam = GET_ACTIVE_CAM(play);
 
         if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) >= 380.0f)) {
-            Actor_PlaySfx(&this->actor, ENSW_GET_TYPE_EN(this) > SW_TYPE_NORMAL 
-            ? NA_SE_EN_STALGOLD_ROLL : NA_SE_EN_STALWALL_ROLL);
+            Actor_PlaySfx(&this->actor,
+                          ENSW_GET_TYPE_EN(this) > SW_TYPE_NORMAL ? NA_SE_EN_STALGOLD_ROLL : NA_SE_EN_STALWALL_ROLL);
         }
     }
 }
@@ -740,13 +739,13 @@ s32 EnSW_CanDashPlayer(EnSw* this, PlayState* play, s32 arg2) {
         return false;
     } else if (func_8002DDF4(play) && arg2) {
         return false;
-    // check Link's Angle
+        // check Link's Angle
     } else if (ABS(EnSw_GetTargetPitch(this, &player->actor.world.pos) - this->actor.shape.rot.z) >= 8130) {
         return false;
-    // is Link in dash range?
+        // is Link in dash range?
     } else if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.world.pos) >= 130.0f) {
         return false;
-    // are there no obstructions?
+        // are there no obstructions?
     } else if (!BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &pos, &poly,
                                         true, false, false, true, &bgId)) {
         return true;
@@ -766,14 +765,14 @@ s32 EnSW_LineTestWall(EnSw* this, PlayState* play) {
     if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         ret = false;
-    // rotates through the 4 "eyes" each frame.
+        // rotates through the 4 "eyes" each frame.
     } else if (((play->state.frames % 4) == 0) &&
                !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine0, &posResult, &poly, true,
                                         false, false, true, &bgId)) {
         ret = false;
     } else if (((play->state.frames % 4) == 1) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine1, &posResult, &poly, true, false,
-                                       false, true, &bgId)) {
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine1, &posResult, &poly, true,
+                                       false, false, true, &bgId)) {
         ret = false;
     } else if (((play->state.frames % 4) == 2) &&
                !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine2, &posResult, &poly, true,
@@ -781,13 +780,13 @@ s32 EnSW_LineTestWall(EnSw* this, PlayState* play) {
         if (0) {}
         ret = false;
     } else if (((play->state.frames % 4) == 3) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine3, &posResult, &poly, true, false,
-                                       false, true, &bgId)) {
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine3, &posResult, &poly, true,
+                                       false, false, true, &bgId)) {
         ret = false;
     }
 
-    if (BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->wallCast, &posResult, &this->wallPoly, true,
-                                false, false, true, &bgId)) {
+    if (BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->wallCast, &posResult, &this->wallPoly,
+                                true, false, false, true, &bgId)) {
         this->actor.wallYaw = RAD_TO_BINANG(Math_FAtan2F(this->wallPoly->normal.x, this->wallPoly->normal.z));
         this->actor.world.pos = posResult;
         this->actor.world.pos.x += 6.0f * Math_SinS(this->actor.world.rot.y);
