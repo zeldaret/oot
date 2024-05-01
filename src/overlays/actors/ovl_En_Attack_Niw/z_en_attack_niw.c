@@ -345,7 +345,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
         s32 pad;
 
         Math_Vec3f_Copy(&sp30, &this->actor.world.pos);
-        sp30.y += this->actor.yDistToWater;
+        sp30.y += this->actor.depthInWater;
         EffectSsGSplash_Spawn(play, &sp30, NULL, NULL, 0, 0x190);
         this->unk_2DC = 0.0f;
         this->actor.gravity = 0.0f;

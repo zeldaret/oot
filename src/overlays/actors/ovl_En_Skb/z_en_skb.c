@@ -450,7 +450,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
 
     if ((this->actionState != SKB_BEHAVIOR_DYING) &&
         (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
-        (this->actor.yDistToWater >= 40.0f)) {
+        (this->actor.depthInWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->setColliderAT = false;
         EnSkb_SetupDeath(this, play);
