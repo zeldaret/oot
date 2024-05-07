@@ -14,7 +14,7 @@ typedef enum {
     STMT_entry,
     STMT_flags,
     STMT_include,
-    STMT_include_data_only_with_rodata,
+    STMT_include_data_only_within_rodata,
     STMT_include_no_data,
     STMT_name,
     STMT_number,
@@ -35,7 +35,7 @@ enum {
 struct Include {
     char* fpath;
     int linkerPadding;
-    bool dataOnlyWithRodata;
+    bool dataOnlyWithinRodata;
     bool noData;
 };
 
