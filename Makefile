@@ -14,10 +14,11 @@ NON_MATCHING := 0
 ORIG_COMPILER := 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER := ido
-# Target game version. Currently only the following version is supported:
+# Target game version. Currently the following versions are supported:
+#   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 # The following versions are work-in-progress and not yet matching:
-#   gc-eu-mq       GameCube Europe/PAL Master Quest
+#   gc-eu          GameCube Europe/PAL
 VERSION := gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS := $(shell nproc)
@@ -51,13 +52,17 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 # Version-specific settings
-ifeq ($(VERSION),gc-eu-mq)
+ifeq ($(VERSION),gc-eu)
   DEBUG := 0
-  CFLAGS += -DNON_MATCHING
-  CPPFLAGS += -DNON_MATCHING
   COMPARE := 0
+else ifeq ($(VERSION),gc-eu-mq)
+  DEBUG := 0
+  CFLAGS += -DOOT_MQ
+  CPPFLAGS += -DOOT_MQ
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   DEBUG := 1
+  CFLAGS += -DOOT_MQ
+  CPPFLAGS += -DOOT_MQ
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -312,9 +317,9 @@ $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 # For using asm_processor on some files:
 #$(BUILD_DIR)/.../%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
-ifeq ($(PERMUTER),)  # permuter + reencode.sh misbehaves, permuter doesn't care about encoding ((ro)data diffs) so just don't use it in that case
-# Handle encoding (UTF-8 -> EUC-JP)
-$(BUILD_DIR)/%.o: CC := tools/reencode.sh $(CC)
+ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
+# Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
+$(BUILD_DIR)/src/%.o: CC := $(PYTHON) tools/preprocess.py $(CC)
 endif
 
 else

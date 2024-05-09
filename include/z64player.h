@@ -596,6 +596,14 @@ typedef enum {
     /* 4 */ PLAYER_LEDGE_CLIMB_4
 } PlayerLedgeClimbType;
 
+typedef enum {
+    /* -1 */ PLAYER_STICK_DIR_NONE = -1,
+    /*  0 */ PLAYER_STICK_DIR_FORWARD,
+    /*  1 */ PLAYER_STICK_DIR_LEFT,
+    /*  2 */ PLAYER_STICK_DIR_BACKWARD,
+    /*  3 */ PLAYER_STICK_DIR_RIGHT
+} PlayerStickDirection;
+
 typedef struct {
     /* 0x00 */ f32 ceilingCheckHeight;
     /* 0x04 */ f32 unk_04;
@@ -717,7 +725,7 @@ typedef struct {
 
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
 typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
-typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
+typedef void (*AfterPutAwayFunc)(struct PlayState*, struct Player*);
 
 typedef struct Player {
     /* 0x0000 */ Actor actor;
@@ -824,7 +832,7 @@ typedef struct Player {
     /* 0x070C */ Vec3s upperJointTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x082C */ UpperActionFunc upperActionFunc;
-    /* 0x0830 */ f32 upperAnimBlendWeight;
+    /* 0x0830 */ f32 upperAnimInterpWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
     /* 0x0837 */ u8 unk_837;
@@ -836,9 +844,9 @@ typedef struct Player {
     /* 0x0843 */ s8 meleeWeaponState;
     /* 0x0844 */ s8 unk_844;
     /* 0x0845 */ u8 unk_845;
-    /* 0x0846 */ u8 unk_846;
-    /* 0x0847 */ s8 unk_847[4];
-    /* 0x084B */ s8 unk_84B[4];
+    /* 0x0846 */ u8 controlStickDataIndex; // cycles between 0 - 3. Used to index `controlStickSpinAngles` and `controlStickDirections`
+    /* 0x0847 */ s8 controlStickSpinAngles[4]; // Stores a modified version of the control stick angle for the last 4 frames. Used for checking spins.
+    /* 0x084B */ s8 controlStickDirections[4]; // Stores the control stick direction (relative to shape yaw) for the last 4 frames. See `PlayerStickDirection`.
 
     /* 0x084F */ union { 
         s8 actionVar1;
@@ -892,7 +900,7 @@ typedef struct Player {
     /* 0x0A60 */ u8 bodyIsBurning;
     /* 0x0A61 */ u8 bodyFlameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8 unk_A73;
-    /* 0x0A74 */ PlayerFuncA74 func_A74;
+    /* 0x0A74 */ AfterPutAwayFunc afterPutAwayFunc; // See `Player_SetupWaitForPutAway` and `Player_Action_WaitForPutAway`
     /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
     /* 0x0A79 */ u8 floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
     /* 0x0A7A */ u8 floorProperty;

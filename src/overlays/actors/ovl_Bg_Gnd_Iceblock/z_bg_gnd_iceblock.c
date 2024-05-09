@@ -84,7 +84,7 @@ void BgGndIceblock_Destroy(Actor* thisx, PlayState* play) {
  * | 3     h8    15    19 |
  * | 4      9 11 XX   *20*|
  * |*5*    XX 12      *21*|
- *  ----------------------
+ *  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
  * XX are rocks
  * ** are pits
  * h is the hole.

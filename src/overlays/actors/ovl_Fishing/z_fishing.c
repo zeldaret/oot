@@ -10,6 +10,9 @@
 #include "assets/objects/object_fish/object_fish.h"
 #include "terminal.h"
 
+// For retail BSS ordering, the block number of sStreamSfxProjectedPos must be 0.
+#pragma increment_block_number 198
+
 #define FLAGS ACTOR_FLAG_4
 
 #define WATER_SURFACE_Y(play) play->colCtx.colHeader->waterBoxes->ySurface
