@@ -940,12 +940,8 @@ void AnimTaskQueue_AddCopyUsingMap(PlayState* play, s32 vecCount, Vec3s* dest, V
 }
 
 /**
- * Creates a task which will copy specified vectors from the `src` frame table to the `dest` frame table.
- * Exactly which vectors will be copied is specified by the `limbCopyMap`.
- *
- * The copy map is an array of true/false flags that specify which limbs should have their data copied.
- * Each index of the map corresponds to a limb number in the skeleton.
- * Every limb that has `false` listed will have its data copied.
+ * Identical to `AnimTaskQueue_AddCopyUsingMap`, except the meaning of the flags in the `limbCopyMap` are inverted.
+ * Any entry that specifies `false` will be copied, and any entry that specifies `true` will not.
  *
  * Note: This task is "transformative", meaning it will alter the appearance of an animation.
  * If this task's group is included in `sDisabledTransformTaskGroups`, this task will be skipped for that frame.
@@ -1071,7 +1067,7 @@ typedef void (*AnimTaskFunc)(struct PlayState* play, AnimTaskData* data);
 
 /**
  * Update the AnimTaskQueue, processing all tasks in order.
- * After all entries have been processed, reset the queue for the next frame.
+ * Variables related to anim task groups are then reset for the next frame.
  */
 void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
     static AnimTaskFunc animTaskFuncs[] = {
