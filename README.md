@@ -55,7 +55,7 @@ For Windows 10 or 11, install WSL and a distribution by following this
 [WSL Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install).
 We recommend using Ubuntu 20.04 as the Linux distribution.
 
-For older versions of Windows, install a Linux VM or refer to either [Cygwin](docs/BUILDING_CYGWIN.md) or [Docker](docs/BUILDING_DOCKER.md) instructions.
+For older versions of Windows, install a Linux VM or refer to [Docker](docs/BUILDING_DOCKER.md) instructions.
 
 
 ### Linux (Native or under WSL / VM)
