@@ -7,7 +7,8 @@
         <Texture Name="object_oE7_Tex_001158" OutName="tex_00001158" Format="ci8" Width="16" Height="16" Offset="0x1158" TlutOffset="0xB18"/>
         <Texture Name="object_oE7_TLUT_001258" OutName="tlut_00001258" Format="rgba16" Width="16" Height="16" Offset="0x1258"/>
         <Texture Name="object_oE7_Tex_001458" OutName="tex_00001458" Format="ci8" Width="32" Height="32" Offset="0x1458" TlutOffset="0x1258"/>
-        <Blob Name="object_oE7_Blob_001858" Size="0x800" Offset="0x1858"/>
+        <Texture Name="object_oE7_Tex_001858" OutName="tex_00001858" Format="ci8" Width="32" Height="32" Offset="0x1858" TlutOffset="0x1258"/>
+        <Texture Name="object_oE7_Tex_001C58" OutName="tex_00001C58" Format="ci8" Width="32" Height="32" Offset="0x1C58" TlutOffset="0x1258"/>
         <Texture Name="object_oE7_Tex_002058" OutName="tex_00002058" Format="rgba16" Width="32" Height="32" Offset="0x2058"/>
         <Texture Name="object_oE7_Tex_002858" OutName="tex_00002858" Format="rgba16" Width="16" Height="16" Offset="0x2858"/>
     </File>

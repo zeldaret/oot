@@ -165,17 +165,17 @@ void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
 
     switch (this->actor.params) {
         case 0:
-            skeleton = &object_ik_Skel_000C90;
+            skeleton = &object_ik_Skel_000C90.sh;
             animation = &object_ik_Anim_000C6C;
             phi_f0 = 30.0f;
             break;
         case 1:
-            skeleton = &object_ik_Skel_000660;
+            skeleton = &object_ik_Skel_000660.sh;
             animation = &object_ik_Anim_000634;
             phi_f0 = 10.0f;
             break;
         default:
-            skeleton = &object_ik_Skel_000380;
+            skeleton = &object_ik_Skel_000380.sh;
             animation = &object_ik_Anim_00035C;
             phi_f0 = 20.0f;
             // No break is required for matching

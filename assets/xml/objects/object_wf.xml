@@ -122,6 +122,7 @@
         <Animation Name="gWolfosSidesteppingAnim" Offset="0x98C8"/>
         <Blob Name="object_wf_zeroes_Blob_0098D8" Size="0x18" Offset="0x98D8"/>
         <Animation Name="gWolfosDamagedAnim" Offset="0x9B20"/>
+        <Blob Name="object_wf_zeroes_Blob_009B30" Size="0x10" Offset="0x9B30"/>
         <Animation Name="gWolfosWaitingAnim" Offset="0xA4AC"/>
         <Blob Name="object_wf_zeroes_Blob_00A4BC" Size="0x44" Offset="0xA4BC"/>
     </File>
