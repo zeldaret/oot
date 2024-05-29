@@ -23,7 +23,7 @@ typedef struct {
 } MapMarkDataOverlay; // size = 0x18
 
 #define GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS
-#include "gDPLoadTextureBlock_Runtime.inc.c"
+#include "src/code/gDPLoadTextureBlock_Runtime.c"
 
 MapMarkInfo sMapMarkInfoTable[] = {
     { gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1 << 10, 1 << 10 }, // Chest Icon
