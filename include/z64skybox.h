@@ -66,6 +66,10 @@ typedef struct {
 
 extern SkyboxFile gNormalSkyFiles[];
 
+// Tests if the skybox palette for the given skybox should be written to color index 0-127.
+// If false, it should be written to color index 128-255
+#define IS_NORMAL_SKY_PALETTE_ALLOC_FRONT(skyboxIndex) ((skyboxIndex & 1) ^ ((skyboxIndex & 4) >> 2))
+
 void Skybox_Init(struct GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId);
 Mtx* Skybox_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
 void Skybox_Draw(SkyboxContext* skyboxCtx, struct GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y,

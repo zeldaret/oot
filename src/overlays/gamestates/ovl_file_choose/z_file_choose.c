@@ -1846,8 +1846,8 @@ void FileSelect_InitContext(GameState* thisx) {
     envCtx->changeLightEnabled = false;
     envCtx->changeLightTimer = 0;
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
-    envCtx->skybox1Index = 99;
-    envCtx->skybox2Index = 99;
+    envCtx->skybox1Index = SKYBOX_INDEX_INIT_MAGIC;
+    envCtx->skybox2Index = SKYBOX_INDEX_INIT_MAGIC;
     envCtx->lightConfig = 0;
     envCtx->changeLightNextConfig = 0;
     envCtx->lightSetting = 0;
