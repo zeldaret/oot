@@ -7,6 +7,8 @@ import re, struct
 from os import path
 import argparse
 
+import version_config
+
 # ===================================================
 #   Util
 # ===================================================
@@ -285,7 +287,7 @@ def read_tables():
     global staff_message_entry_table
 
     baserom = None
-    with open(f"baseroms/{version}/baserom-decompressed.z64","rb") as infile:
+    with open(f"extracted/{version}/baserom/code","rb") as infile:
         baserom = infile.read()
 
     nes_message_entry_table = as_message_table_entry(baserom[nes_message_entry_table_addr:ger_message_entry_table_addr])
@@ -437,26 +439,15 @@ def main():
         parser.error("No output file requested")
 
     version = args.oot_version
-    if version == "gc-eu-mq-dbg":
-        nes_message_entry_table_addr = 0x00BC24C0
-        ger_message_entry_table_addr = 0x00BC66E8
-        fra_message_entry_table_addr = 0x00BC87F8
-        staff_message_entry_table_addr = 0x00BCA908
-        staff_message_entry_table_addr_end = 0x00BCAA90
-    elif version == "gc-eu-mq":
-        nes_message_entry_table_addr = 0x00B7E8F0
-        ger_message_entry_table_addr = 0x00B82B18
-        fra_message_entry_table_addr = 0x00B84C28
-        staff_message_entry_table_addr = 0x00B86D38
-        staff_message_entry_table_addr_end = 0x00B86EC0
-    elif version == "gc-eu":
-        nes_message_entry_table_addr = 0x00B7E910
-        ger_message_entry_table_addr = 0x00B82B38
-        fra_message_entry_table_addr = 0x00B84C48
-        staff_message_entry_table_addr = 0x00B86D58
-        staff_message_entry_table_addr_end = 0x00B86EE0
-    else:
-        parser.error("Unsupported OOT version")
+
+    config = version_config.load_version_config(version)
+    code_vram = config.dmadata_segments["code"].vram
+
+    nes_message_entry_table_addr = config.variables["sNesMessageEntryTable"] - code_vram
+    ger_message_entry_table_addr = config.variables["sGerMessageEntryTable"] - code_vram
+    fra_message_entry_table_addr = config.variables["sFraMessageEntryTable"] - code_vram
+    staff_message_entry_table_addr = config.variables["sStaffMessageEntryTable"] - code_vram
+    staff_message_entry_table_addr_end = config.variables["sNesMessageEntryTablePtr"] - code_vram
 
     extract_all_text(args.text_out, args.staff_text_out)
 
