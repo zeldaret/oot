@@ -1,4 +1,5 @@
-#include "global.h"
+#include "ultra64.h"
+#include "libultra_gu_math.h"
 
 /**
  * @param angle binang
