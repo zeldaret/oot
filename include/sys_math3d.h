@@ -1,3 +1,6 @@
+#ifndef SYS_MATH3D_H
+#define SYS_MATH3D_H
+
 #include "ultra64.h"
 #include "z64math.h"
 
@@ -66,3 +69,5 @@ s32 Math3D_TriVsTriIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect);
 s32 Math3D_XZInSphere(Sphere16* sphere, f32 x, f32 z);
 s32 Math3D_XYInSphere(Sphere16* sphere, f32 x, f32 y);
 s32 Math3D_YZInSphere(Sphere16* sphere, f32 y, f32 z);
+
+#endif

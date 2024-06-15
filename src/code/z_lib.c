@@ -1,18 +1,10 @@
 #include "ultra64.h"
-#include "z_intrinsic.h"
-#include "libultra_gu_math.h"
-#include "ichain.h" //#include "z_lib.h"
-#include "regs.h"
 #include "z_lib.h"
+#include "regs.h"
 #include "macros.h"
 #include "sys_math.h"
 #include "rand.h"
 #include "sfx.h"
-
-//! TODO: These should be moved into a header
-extern Vec3f gSfxDefaultPos;
-extern f32 gSfxDefaultFreqAndVolScale;
-extern s8 gSfxDefaultReverb;
 
 /**
  * memset: sets `len` bytes to `val` starting at address `dest`.

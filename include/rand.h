@@ -1,5 +1,6 @@
-#ifndef Z_RAND_H
-#define Z_RAND_H
+#ifndef RAND_H
+#define RAND_H
+
 #include "ultra64.h"
 
 u32 Rand_Next(void);

@@ -44,7 +44,7 @@
 #include "sfx.h"
 #include "color.h"
 #include "gfxprint.h"
-#include "ichain.h"
+#include "z_lib.h"
 #include "regs.h"
 #include "irqmgr.h"
 #include "padmgr.h"
@@ -58,13 +58,9 @@
 #include "gfx.h"
 #include "jpeg.h"
 #include "prerender.h"
-
-// new headers
 #include "rand.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
-#include "z_lib.h"
-#include "libultra_gu_math.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240

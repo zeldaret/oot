@@ -1,14 +1,13 @@
 #include "ultra64.h"
-#include "ichain.h"
+#include "z_lib.h"
 #include "z64math.h"
 #include "terminal.h"
 #include "macros.h"
 #include "sys_math3d.h"
-#include "z_intrinsic.h"
 
 // For retail BSS ordering, the block number of cbf in Math3D_CylVsCylOverlapCenterDist
 // must be 0.
-#pragma increment_block_number 107
+#pragma increment_block_number 108
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);
