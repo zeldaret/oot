@@ -8,6 +8,7 @@
 #define MAXFLOAT 3.40282347e+38f
 #define SHT_MAX 32767.0f
 #define SHT_MINV (1.0f / SHT_MAX)
+#define SQ(x) ((x)*(x))
 
 float floorf(float);
 double floor(double);
