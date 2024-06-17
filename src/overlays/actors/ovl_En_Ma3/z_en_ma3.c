@@ -228,7 +228,7 @@ s32 func_80AA2F28(EnMa3* this) {
     if (this->eyeIndex != 2) {
         return 0;
     }
-    this->mouthIndex = 2;
+    this->mouthIndex = MALON_ADULT_MOUTH_HAPPY;
     return 1;
 }
 

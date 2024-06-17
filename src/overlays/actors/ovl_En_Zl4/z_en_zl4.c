@@ -283,16 +283,16 @@ void EnZl4_UpdateFace(EnZl4* this) {
     }
     switch (this->mouthExpression) {
         case ZL4_MOUTH_HAPPY:
-            this->mouthState = 1;
+            this->mouthState = ZL4_MOUTH_HAPPY;
             break;
         case ZL4_MOUTH_WORRIED:
-            this->mouthState = 2;
+            this->mouthState = ZL4_MOUTH_WORRIED;
             break;
         case ZL4_MOUTH_SURPRISED:
-            this->mouthState = 3;
+            this->mouthState = ZL4_MOUTH_SURPRISED;
             break;
         default:
-            this->mouthState = 0;
+            this->mouthState = ZL4_MOUTH_NEUTRAL;
             break;
     }
 }

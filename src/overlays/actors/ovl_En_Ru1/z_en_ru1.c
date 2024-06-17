@@ -93,6 +93,12 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
     { 20, 30, 0, { 0 } },
 };
 
+typedef enum {
+    /* 0 */ RUTO_CHILD_MOUTH_CLOSED,
+    /* 1 */ RUTO_CHILD_MOUTH_FROWN,
+    /* 2 */ RUTO_CHILD_MOUTH_OPEN
+} RutoMouthState;
+
 static void* sEyeTextures[] = {
     gRutoChildEyeOpenTex,     gRutoChildEyeHalfTex,  gRutoChildEyeClosedTex,
     gRutoChildEyeRollLeftTex, gRutoChildEyeHalf2Tex, gRutoChildEyeHalfWithBlushTex,
@@ -409,7 +415,7 @@ void func_80AEB3DC(EnRu1* this, PlayState* play) {
     this->action = 0;
     this->drawConfig = 1;
     EnRu1_SetEyeIndex(this, 4);
-    EnRu1_SetMouthIndex(this, 0);
+    EnRu1_SetMouthIndex(this, RUTO_CHILD_MOUTH_CLOSED);
 }
 
 CsCmdActorCue* EnRu1_GetCueChannel3(PlayState* play) {
@@ -765,7 +771,7 @@ void func_80AEC320(EnRu1* this, PlayState* play) {
     if (!GET_INFTABLE(INFTABLE_141)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 7;
-        EnRu1_SetMouthIndex(this, 1);
+        EnRu1_SetMouthIndex(this, RUTO_CHILD_MOUTH_FROWN);
     } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
@@ -1011,7 +1017,7 @@ void func_80AECDA0(EnRu1* this, PlayState* play) {
     this->action = 15;
     this->actor.shape.yOffset = -10000.0f;
     EnRu1_SetEyeIndex(this, 5);
-    EnRu1_SetMouthIndex(this, 2);
+    EnRu1_SetMouthIndex(this, RUTO_CHILD_MOUTH_OPEN);
 }
 
 void func_80AECE04(EnRu1* this, PlayState* play) {
@@ -1939,7 +1945,7 @@ void func_80AEF51C(EnRu1* this) {
 void func_80AEF540(EnRu1* this) {
     if (func_80AEB104(this) == 2) {
         EnRu1_SetEyeIndex(this, 3);
-        EnRu1_SetMouthIndex(this, 2);
+        EnRu1_SetMouthIndex(this, RUTO_CHILD_MOUTH_OPEN);
         if (this->skelAnime.mode != 2) {
             func_80AEB264(this, &gRutoChildShutterAnim, 2, -8.0f, 0);
             func_80AEF51C(this);
@@ -1954,7 +1960,7 @@ void func_80AEF5B8(EnRu1* this) {
         curFrame = this->skelAnime.curFrame;
         if (curFrame >= 60.0f) {
             EnRu1_SetEyeIndex(this, 3);
-            EnRu1_SetMouthIndex(this, 0);
+            EnRu1_SetMouthIndex(this, RUTO_CHILD_MOUTH_CLOSED);
             func_80AED57C(this);
             D_80AF1938 = 1;
         }

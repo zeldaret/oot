@@ -60,6 +60,12 @@ void func_80B523BC(EnZl2* this, PlayState* play);
 void func_80B523C8(EnZl2* this, PlayState* play);
 void func_80B525D4(EnZl2* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ ADULT_ZELDA_MOUTH_SERIOUS,
+    /* 1 */ ADULT_ZELDA_MOUTH_HAPPY,
+    /* 2 */ ADULT_ZELDA_MOUTH_OPEN
+} Zelda2MouthState;
+
 static void* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex,
                                 gZelda2Eye03Tex,   gZelda2Eye04Tex,   gZelda2Eye05Tex,
                                 gZelda2Eye06Tex,   gZelda2Eye07Tex,   gZelda2Eye08Tex };
@@ -798,7 +804,7 @@ void func_80B504D4(EnZl2* this, PlayState* play) {
     this->action = 7;
     this->drawConfig = 1;
     this->unk_27C = 0.0f;
-    EnZl2_setMouthIndex(this, 1);
+    EnZl2_setMouthIndex(this, ADULT_ZELDA_MOUTH_HAPPY);
     this->actor.shape.shadowAlpha = 0xFF;
 }
 
@@ -845,7 +851,7 @@ void func_80B506C4(EnZl2* this, PlayState* play) {
     this->action = 14;
     this->drawConfig = 1;
     EnZl2_setEyesIndex(this, 4);
-    EnZl2_setMouthIndex(this, 2);
+    EnZl2_setMouthIndex(this, ADULT_ZELDA_MOUTH_OPEN);
     this->actor.shape.shadowAlpha = 0xFF;
     func_80B4FE90(this);
 }
@@ -1205,15 +1211,15 @@ void func_80B513A8(EnZl2* this, PlayState* play) {
 void func_80B51418(EnZl2* this, PlayState* play) {
     EnZl2_UpdateEyes(this);
     if (play->csCtx.curFrame < 431) {
-        EnZl2_setMouthIndex(this, 1);
+        EnZl2_setMouthIndex(this, ADULT_ZELDA_MOUTH_HAPPY);
     } else {
-        EnZl2_setMouthIndex(this, 0);
+        EnZl2_setMouthIndex(this, ADULT_ZELDA_MOUTH_SERIOUS);
     }
 }
 
 void func_80B5146C(EnZl2* this, PlayState* play) {
     func_80B4EA40(this);
-    EnZl2_setMouthIndex(this, 0);
+    EnZl2_setMouthIndex(this, ADULT_ZELDA_MOUTH_SERIOUS);
 }
 
 void func_80B5149C(EnZl2* this, PlayState* play) {
@@ -1223,15 +1229,15 @@ void func_80B5149C(EnZl2* this, PlayState* play) {
     } else {
         EnZl2_UpdateEyes(this);
     }
-    EnZl2_setMouthIndex(this, 0);
+    EnZl2_setMouthIndex(this, ADULT_ZELDA_MOUTH_SERIOUS);
 }
 
 void func_80B514F8(EnZl2* this, PlayState* play) {
     EnZl2_UpdateEyes(this);
     if (play->csCtx.curFrame < 1190) {
-        EnZl2_setMouthIndex(this, 1);
+        EnZl2_setMouthIndex(this, ADULT_ZELDA_MOUTH_HAPPY);
     } else {
-        EnZl2_setMouthIndex(this, 0);
+        EnZl2_setMouthIndex(this, ADULT_ZELDA_MOUTH_SERIOUS);
     }
 }
 
