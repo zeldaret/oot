@@ -543,14 +543,14 @@ void func_80AF6448(EnSa* this, PlayState* play) {
                 case 0x1002:
                     if (this->unk_208 == 0 && this->unk_20B != 1) {
                         func_80AF5CD4(this, 1);
-                        this->mouthIndex = 1;
+                        this->mouthIndex = SARIA_MOUTH_SUPRISED;
                     }
                     if (this->unk_208 == 2 && this->unk_20B != 2) {
                         func_80AF5CD4(this, 2);
-                        this->mouthIndex = 1;
+                        this->mouthIndex = SARIA_MOUTH_SUPRISED;
                     }
                     if (this->unk_208 == 5) {
-                        this->mouthIndex = 0;
+                        this->mouthIndex = SARIA_MOUTH_CLOSED2;
                     }
                     break;
                 case 0x1003:
@@ -562,15 +562,15 @@ void func_80AF6448(EnSa* this, PlayState* play) {
                     if (this->unk_208 == 0 && this->unk_20B != 4 &&
                         this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
                         func_80AF5CD4(this, 4);
-                        this->mouthIndex = 3;
+                        this->mouthIndex = SARIA_MOUTH_SMILING_OPEN;
                     }
                     if (this->unk_208 == 2 && this->unk_20B != 5) {
                         func_80AF5CD4(this, 5);
-                        this->mouthIndex = 2;
+                        this->mouthIndex = SARIA_MOUTH_CLOSED;
                     }
                     if (this->unk_208 == 4 && this->unk_20B != 6) {
                         func_80AF5CD4(this, 6);
-                        this->mouthIndex = 0;
+                        this->mouthIndex = SARIA_MOUTH_CLOSED2;
                     }
                     break;
                 case 0x1032:
@@ -657,13 +657,13 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
         if (this->unk_210 != cue->id) {
             switch (cue->id) {
                 case 2:
-                    this->mouthIndex = 1;
+                    this->mouthIndex = SARIA_MOUTH_SUPRISED;
                     break;
                 case 9:
-                    this->mouthIndex = 1;
+                    this->mouthIndex = SARIA_MOUTH_SUPRISED;
                     break;
                 default:
-                    this->mouthIndex = 0;
+                    this->mouthIndex = SARIA_MOUTH_CLOSED2;
                     break;
             }
             EnSa_ChangeAnim(this, cue->id);
@@ -717,7 +717,7 @@ void func_80AF6B20(EnSa* this, PlayState* play) {
         EnSa_ChangeAnim(this, ENSA_ANIM1_4);
         this->actor.world.pos = this->actor.home.pos;
         this->actor.world.rot = this->unk_21A;
-        this->mouthIndex = 0;
+        this->mouthIndex = SARIA_MOUTH_CLOSED2;
         SET_INFTABLE(INFTABLE_00);
     }
 
