@@ -58,7 +58,7 @@ typedef enum {
     /* 0 */ MALON_ADULT_MOUTH_NEUTRAL,
     /* 1 */ MALON_ADULT_MOUTH_SAD,
     /* 2 */ MALON_ADULT_MOUTH_HAPPY
-} EnMa2MouthState;
+} EnMa3MouthState;
 
 typedef enum {
     /* 0 */ ENMA3_ANIM_0,
