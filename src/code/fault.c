@@ -50,7 +50,7 @@
 #if OOT_DEBUG
 #pragma increment_block_number 20
 #else
-#pragma increment_block_number 25
+#pragma increment_block_number 0
 #endif
 
 void FaultDrawer_Init(void);
