@@ -388,7 +388,7 @@ void func_80B32E34(EnWeiyer* this, PlayState* play) {
 
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0x200, 0x80);
 
-        if ((player->actor.yDistToWater < 50.0f) && (this->actor.yDistToWater < 20.0f) &&
+        if ((player->actor.depthInWater < 50.0f) && (this->actor.depthInWater < 20.0f) &&
             Actor_IsFacingPlayer(&this->actor, 0x2000)) {
             func_80B327D8(this);
         }
@@ -523,7 +523,7 @@ void func_80B3349C(EnWeiyer* this, PlayState* play) {
     if (this->unk_194 == -1) {
         if (phi_a0 || (this->collider.base.atFlags & AT_HIT)) {
             func_80B32538(this);
-        } else if (this->actor.yDistToWater < 0.0f) {
+        } else if (this->actor.depthInWater < 0.0f) {
             this->unk_194 = 10;
             EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 1, 400);
             Actor_PlaySfx(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
@@ -584,7 +584,7 @@ void EnWeiyer_Update(Actor* thisx, PlayState* play) {
     EnWeiyer* this = (EnWeiyer*)thisx;
     s32 pad;
 
-    this->actor.home.pos.y = this->actor.yDistToWater + this->actor.world.pos.y - 5.0f;
+    this->actor.home.pos.y = this->actor.depthInWater + this->actor.world.pos.y - 5.0f;
     func_80B3368C(this, play);
     this->actionFunc(this, play);
     this->actor.world.rot.y = this->actor.shape.rot.y;
