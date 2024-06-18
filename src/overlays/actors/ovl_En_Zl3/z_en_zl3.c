@@ -2067,7 +2067,7 @@ void func_80B58014(EnZl3* this, PlayState* play) {
         this->action = 34;
         this->unk_3D0 = 0;
         func_80B57AE0(this, play);
-    } else if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
+    } else if ((invincibilityTimer > 0) || (player->fallDistance >= 51)) {
         func_80B54E14(this, &gZelda2Anime2Anim_007664, 0, -11.0f, 0);
         this->action = 30;
         func_80B537E8(this);
@@ -2222,7 +2222,7 @@ s32 func_80B5899C(EnZl3* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
         s8 invincibilityTimer = player->invincibilityTimer;
 
-        if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
+        if ((invincibilityTimer > 0) || (player->fallDistance >= 51)) {
             func_80B54E14(this, &gZelda2Anime2Anim_007664, 2, -11.0f, 0);
             this->action = 35;
             func_80B56DC8(this);

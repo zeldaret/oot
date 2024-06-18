@@ -4165,6 +4165,10 @@ void func_80837948(PlayState* play, Player* this, s32 arg2) {
     func_80837918(this, 1, dmgFlags);
 }
 
+/// Sets the number of frames the player will be invunerable for after taking damage.
+/// Overrides any existing damage invincibility frames.
+/// Does nothing if the player has dodge invincibility frames.
+/// @param timer must be a positive value representing the number of frames the invunerability should last for
 void Player_SetDamagedInvincibilityTimer(Player* this, s32 timer) {
     if (this->invincibilityTimer >= 0) {
         this->invincibilityTimer = timer;
@@ -4172,7 +4176,11 @@ void Player_SetDamagedInvincibilityTimer(Player* this, s32 timer) {
     }
 }
 
-void Player_SetIFrameInvincibilityTimer(Player* this, s32 timer) {
+/// Sets the number of frames the player will be invunerable for when performing a dodging maneuver like a roll.
+/// Overrides any existing damage invincibility frames.
+/// If the player already has dodge invincibility frames, the longer of the two will be kept.
+/// @param timer must be a negative value representing the number of frames the invunerability should last for
+void Player_SetDodgeInvincibilityTimer(Player* this, s32 timer) {
     if (this->invincibilityTimer > timer) {
         this->invincibilityTimer = timer;
     }
@@ -4233,7 +4241,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
     Player_SetDamagedInvincibilityTimer(this, invincibilityTimer);
 
-    if (damageResponseType == PLAYER_DAMAGE_RESPONSE_ICE_TRAP) {
+    if (damageResponseType == PLAYER_HIT_RESPONSE_ICE_TRAP) {
         Player_SetupAction(play, this, Player_Action_8084FB10, 0);
 
         anim = &gPlayerAnim_link_normal_ice_down;
@@ -4243,7 +4251,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
         Player_PlaySfx(this, NA_SE_PL_FREEZE_S);
         func_80832698(this, NA_SE_VO_LI_FREEZE);
-    } else if (damageResponseType == PLAYER_DAMAGE_RESPONSE_ELECTRIC_SHOCK) {
+    } else if (damageResponseType == PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK) {
         Player_SetupAction(play, this, Player_Action_8084FBF4, 0);
 
         Player_RequestRumble(this, 255, 80, 150, 0);
@@ -4264,8 +4272,8 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
             anim = &gPlayerAnim_link_swimer_swim_hit;
 
             func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
-        } else if ((damageResponseType == PLAYER_DAMAGE_RESPONSE_KNOCKBACK_LARGE) ||
-                   (damageResponseType == PLAYER_DAMAGE_RESPONSE_KNOCKBACK_SMALL) ||
+        } else if ((damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE) ||
+                   (damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) ||
                    !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
                    (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) {
             Player_SetupAction(play, this, Player_Action_8084377C, 0);
@@ -4275,7 +4283,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
             Player_RequestRumble(this, 255, 20, 150, 0);
             func_80832224(this);
 
-            if (damageResponseType == PLAYER_DAMAGE_RESPONSE_KNOCKBACK_SMALL) {
+            if (damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) {
                 this->av2.actionVar2 = 4;
 
                 this->actor.speed = 3.0f;
@@ -4450,9 +4458,9 @@ s32 func_808382DC(Player* this, PlayState* play) {
         } else if ((this->knockbackType != PLAYER_KNOCKBACK_NONE) &&
                    ((this->knockbackType >= PLAYER_KNOCKBACK_LARGE) || (this->invincibilityTimer == 0))) {
             u8 knockbackResponse[] = {
-                PLAYER_DAMAGE_RESPONSE_KNOCKBACK_SMALL,
-                PLAYER_DAMAGE_RESPONSE_KNOCKBACK_LARGE,
-                PLAYER_DAMAGE_RESPONSE_KNOCKBACK_LARGE,
+                PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
+                PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
+                PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
             };
 
             func_80838280(this);
@@ -4527,16 +4535,16 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 }
 
                 if (this->stateFlags1 & PLAYER_STATE1_27) {
-                    sp4C = PLAYER_DAMAGE_RESPONSE_NONE;
+                    sp4C = PLAYER_HIT_RESPONSE_NONE;
                 } else if (this->actor.colChkInfo.acHitEffect == 2) {
-                    sp4C = PLAYER_DAMAGE_RESPONSE_ICE_TRAP;
+                    sp4C = PLAYER_HIT_RESPONSE_ICE_TRAP;
                 } else if (this->actor.colChkInfo.acHitEffect == 3) {
-                    sp4C = PLAYER_DAMAGE_RESPONSE_ELECTRIC_SHOCK;
+                    sp4C = PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK;
                 } else if (this->actor.colChkInfo.acHitEffect == 4) {
-                    sp4C = PLAYER_DAMAGE_RESPONSE_KNOCKBACK_LARGE;
+                    sp4C = PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE;
                 } else {
                     func_80838280(this);
-                    sp4C = PLAYER_DAMAGE_RESPONSE_NONE;
+                    sp4C = PLAYER_HIT_RESPONSE_NONE;
                 }
 
                 func_80837C0C(play, this, sp4C, 4.0f, 5.0f, Actor_WorldYawTowardActor(ac, &this->actor), 20);
@@ -4554,7 +4562,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                      ((this->currentTunic != PLAYER_TUNIC_GORON) || (this->floorTypeTimer >= D_808544F4[sp48])))) {
                     this->floorTypeTimer = 0;
                     this->actor.colChkInfo.damage = 4;
-                    func_80837C0C(play, this, PLAYER_DAMAGE_RESPONSE_NONE, 4.0f, 5.0f, this->actor.shape.rot.y, 20);
+                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_NONE, 4.0f, 5.0f, this->actor.shape.rot.y, 20);
                 } else {
                     return 0;
                 }
@@ -8584,7 +8592,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
 
                 if (this->actor.colChkInfo.atHitEffect == 1) {
                     this->actor.colChkInfo.damage = 8;
-                    func_80837C0C(play, this, PLAYER_DAMAGE_RESPONSE_ELECTRIC_SHOCK, 0.0f, 0.0f,
+                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK, 0.0f, 0.0f,
                                   this->actor.shape.rot.y, 20);
                     return 1;
                 }
@@ -8855,7 +8863,7 @@ void func_80843AE8(PlayState* play, Player* this) {
                 func_80853080(this, play);
             }
             this->unk_A87 = 20;
-            Player_SetIFrameInvincibilityTimer(this, -20);
+            Player_SetDodgeInvincibilityTimer(this, -20);
             Audio_SetBgmVolumeOnDuringFanfare();
         }
     } else if (this->av1.actionVar1 != 0) {
@@ -9125,7 +9133,7 @@ void Player_Action_80844708(Player* this, PlayState* play) {
     sp44 = LinkAnimation_Update(play, &this->skelAnime);
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 8.0f)) {
-        Player_SetIFrameInvincibilityTimer(this, -10);
+        Player_SetDodgeInvincibilityTimer(this, -10);
     }
 
     if (func_80842964(this, play) == 0) {
@@ -9204,7 +9212,7 @@ void Player_Action_80844A44(Player* this, PlayState* play) {
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.colChkInfo.damage = 0x10;
-        func_80837C0C(play, this, PLAYER_DAMAGE_RESPONSE_KNOCKBACK_LARGE, 4.0f, 5.0f, this->actor.shape.rot.y, 20);
+        func_80837C0C(play, this, PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE, 4.0f, 5.0f, this->actor.shape.rot.y, 20);
     }
 }
 
@@ -9249,7 +9257,7 @@ s32 func_80844BE4(Player* this, PlayState* play) {
             }
 
             func_80837948(play, this, temp);
-            Player_SetIFrameInvincibilityTimer(this, -8);
+            Player_SetDodgeInvincibilityTimer(this, -8);
 
             this->stateFlags2 |= PLAYER_STATE2_17;
             if (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) {
@@ -10005,7 +10013,7 @@ void func_808468E8(PlayState* play, Player* this) {
 }
 
 void func_80846978(PlayState* play, Player* this) {
-    func_80837C0C(play, this, PLAYER_DAMAGE_RESPONSE_KNOCKBACK_LARGE, 2.0f, 2.0f, this->actor.shape.rot.y + 0x8000, 0);
+    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE, 2.0f, 2.0f, this->actor.shape.rot.y + 0x8000, 0);
 }
 
 void func_808469BC(PlayState* play, Player* this) {
@@ -13256,7 +13264,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
                     func_8083C0E8(this, play);
                 } else {
                     this->actor.colChkInfo.damage = 0;
-                    func_80837C0C(play, this, PLAYER_DAMAGE_RESPONSE_ICE_TRAP, 0.0f, 0.0f, 0, 20);
+                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ICE_TRAP, 0.0f, 0.0f, 0, 20);
                 }
                 return;
             }
@@ -13770,7 +13778,7 @@ void Player_Action_8084FB10(Player* this, PlayState* play) {
     } else {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
             func_80839F90(this, play);
-            Player_SetIFrameInvincibilityTimer(this, -20);
+            Player_SetDodgeInvincibilityTimer(this, -20);
         }
     }
 }

@@ -529,7 +529,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, PlayState* play) {
     f32 tgtSpeed;
     f32 rotSpeed;
 
-    if ((this->spinTimer < 31) && (this->invincibilityTimer == 0)) {
+    if ((this->spinTimer <= 30) && (this->invincibilityTimer == 0)) {
         func_8002F974(&this->actor, NA_SE_EN_FLAME_FIRE_ATTACK - SFX_FLAG);
     } else {
         func_8002F974(&this->actor, NA_SE_EN_FLAME_ROLL - SFX_FLAG);
