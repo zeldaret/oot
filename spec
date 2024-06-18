@@ -597,8 +597,12 @@ beginseg
     include "$(BUILD_DIR)/src/code/fmodf.o"
     include "$(BUILD_DIR)/src/code/__osMemset.o"
     include "$(BUILD_DIR)/src/code/__osMemmove.o"
-    include_data_with_rodata "$(BUILD_DIR)/src/code/z_message_PAL.o"
-    include "$(BUILD_DIR)/src/code/z_game_over.o"
+    // For some reason, the data sections of these files are placed here near the
+    // rodata sections of the other files
+    include_data_only_within_rodata "$(BUILD_DIR)/src/code/z_message_PAL.o"
+    include_data_only_within_rodata "$(BUILD_DIR)/src/code/z_game_over.o"
+    include_no_data "$(BUILD_DIR)/src/code/z_message_PAL.o"
+    include_no_data "$(BUILD_DIR)/src/code/z_game_over.o"
     include "$(BUILD_DIR)/src/code/z_construct.o"
     include "$(BUILD_DIR)/data/audio_tables.rodata.o"
     include "$(BUILD_DIR)/data/rsp.text.o"
