@@ -8592,8 +8592,8 @@ s32 func_80842DF4(PlayState* play, Player* this) {
 
                 if (this->actor.colChkInfo.atHitEffect == 1) {
                     this->actor.colChkInfo.damage = 8;
-                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK, 0.0f, 0.0f,
-                                  this->actor.shape.rot.y, 20);
+                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK, 0.0f, 0.0f, this->actor.shape.rot.y,
+                                  20);
                     return 1;
                 }
             }
