@@ -4,6 +4,7 @@
 #include "ultra64.h"
 #include "math.h"
 
+#define SQ(x) ((x)*(x))
 #define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
 
 typedef struct {
