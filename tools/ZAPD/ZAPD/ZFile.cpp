@@ -120,6 +120,9 @@ void ZFile::ParseXML(tinyxml2::XMLElement* reader, const std::string& filename)
 	if (reader->Attribute("BaseAddress") != nullptr)
 		baseAddress = StringHelper::StrToL(reader->Attribute("BaseAddress"), 16);
 
+	if (mode == ZFileMode::Extract && Globals::Instance->baseAddress != -1)
+		baseAddress = Globals::Instance->baseAddress;
+
 	if (reader->Attribute("RangeStart") != nullptr)
 		rangeStart = StringHelper::StrToL(reader->Attribute("RangeStart"), 16);
 
@@ -197,6 +200,9 @@ void ZFile::ParseXML(tinyxml2::XMLElement* reader, const std::string& filename)
 		}
 
 		rawData = File::ReadAllBytes((basePath / name).string());
+		if (mode == ZFileMode::Extract && Globals::Instance->startOffset != -1 && Globals::Instance->endOffset != -1)
+			rawData = std::vector<uint8_t>(rawData.begin() + Globals::Instance->startOffset,
+			                               rawData.begin() + Globals::Instance->endOffset);
 
 		if (reader->Attribute("RangeEnd") == nullptr)
 			rangeEnd = rawData.size();

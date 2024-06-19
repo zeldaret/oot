@@ -39,6 +39,9 @@ public:
 	fs::path baseRomPath, inputPath, outputPath, sourceOutputPath, cfgPath;
 	TextureType texType;
 	CsFloatType floatType = CsFloatType::FloatOnly;
+	int baseAddress = -1;
+	int startOffset = -1;
+	int endOffset = -1;
 	ZGame game;
 	GameConfig cfg;
 	bool verboseUnaccounted = false;

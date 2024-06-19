@@ -37,6 +37,9 @@ void Arg_EnableGCCCompat(int& i, char* argv[]);
 void Arg_ForceStatic(int& i, char* argv[]);
 void Arg_ForceUnaccountedStatic(int& i, char* argv[]);
 void Arg_CsFloatMode(int& i, char* argv[]);
+void Arg_BaseAddress(int& i, char* argv[]);
+void Arg_StartOffset(int& i, char* argv[]);
+void Arg_EndOffset(int& i, char* argv[]);
 
 int main(int argc, char* argv[]);
 
@@ -254,6 +257,9 @@ void ParseArgs(int& argc, char* argv[])
 		{"-us", &Arg_ForceUnaccountedStatic},
 		{"--unaccounted-static", &Arg_ForceUnaccountedStatic},
 		{"--cs-float", &Arg_CsFloatMode},
+		{"--base-address", &Arg_BaseAddress},
+		{"--start-offset", &Arg_StartOffset},
+		{"--end-offset", &Arg_EndOffset},
 	};
 
 	for (int32_t i = 2; i < argc; i++)
@@ -418,6 +424,21 @@ void Arg_CsFloatMode([[maybe_unused]] int& i, [[maybe_unused]] char* argv[])
 		                          "\"both\". Got %s.\n Defaulting to \"float\".",
 		                          argv[i]));
 	}
+}
+
+void Arg_BaseAddress(int& i, char* argv[])
+{
+	Globals::Instance->baseAddress = std::stoul(argv[++i], nullptr, 16);
+}
+
+void Arg_StartOffset(int& i, char* argv[])
+{
+	Globals::Instance->startOffset = std::stoul(argv[++i], nullptr, 16);
+}
+
+void Arg_EndOffset(int& i, char* argv[])
+{
+	Globals::Instance->endOffset = std::stoul(argv[++i], nullptr, 16);
 }
 
 int HandleExtract(ZFileMode fileMode, ExporterSet* exporterSet)
