@@ -1074,11 +1074,12 @@ void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
         AnimTask_LoadPlayerFrame,      AnimTask_Copy,      AnimTask_Interp, AnimTask_CopyUsingMap,
         AnimTask_CopyUsingMapInverted, AnimTask_ActorMove,
     };
-    AnimTask* task;
+    AnimTask* task = animTaskQueue->tasks;
 
-    for (task = animTaskQueue->tasks; animTaskQueue->count != 0; animTaskQueue->count--) {
+    while (animTaskQueue->count != 0) {
         animTaskFuncs[task->type](play, &task->data);
         task++;
+        animTaskQueue->count--;
     }
 
     sCurAnimTaskGroup = 1 << 0;
