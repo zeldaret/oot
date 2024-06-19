@@ -585,6 +585,12 @@ Declaration* ZFile::AddDeclarationIncludeArray(offset_t address, std::string& in
 		includePath = "assets/" + StringHelper::Split(includePath, "assets/extracted/")[1];
 	if (StringHelper::StartsWith(includePath, "assets/custom/"))
 		includePath = "assets/" + StringHelper::Split(includePath, "assets/custom/")[1];
+	// Hack for OOT: don't prefix include paths with extracted/VERSION/
+	if (StringHelper::StartsWith(includePath, "extracted/")) {
+		std::vector<std::string> parts = StringHelper::Split(includePath, "/");
+		parts.erase(parts.begin(), parts.begin() + 2);
+		includePath = StringHelper::Join(parts, "/");
+	}
 
 	Declaration* decl = GetDeclaration(address);
 	if (decl == nullptr)
@@ -621,6 +627,12 @@ Declaration* ZFile::AddDeclarationIncludeArray(offset_t address, std::string& in
 		includePath = "assets/" + StringHelper::Split(includePath, "assets/extracted/")[1];
 	if (StringHelper::StartsWith(includePath, "assets/custom/"))
 		includePath = "assets/" + StringHelper::Split(includePath, "assets/custom/")[1];
+	// Hack for OOT: don't prefix include paths with extracted/VERSION/
+	if (StringHelper::StartsWith(includePath, "extracted/")) {
+		std::vector<std::string> parts = StringHelper::Split(includePath, "/");
+		parts.erase(parts.begin(), parts.begin() + 2);
+		includePath = StringHelper::Join(parts, "/");
+	}
 
 	Declaration* decl = GetDeclaration(address);
 	if (decl == nullptr)
