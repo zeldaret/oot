@@ -131,6 +131,7 @@ def main():
         if not (
             mapfile_segment.name.startswith("..boot")
             or mapfile_segment.name.startswith("..code")
+            or mapfile_segment.name.startswith("..buffers")
             or mapfile_segment.name.startswith("..ovl_")
         ):
             continue
