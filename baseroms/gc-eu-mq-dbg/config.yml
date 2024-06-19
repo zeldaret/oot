@@ -6,6 +6,7 @@ variables:
   sFraMessageEntryTable: 0x80151658
   sStaffMessageEntryTable: 0x80153768
   sNesMessageEntryTablePtr: 0x801538F0
+  sShadowTex: 0x80A8E610
 assets:
 - xml_path: assets/xml/code/fbdemo_circle.xml
   start_offset: 0x10ED48

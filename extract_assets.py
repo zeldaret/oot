@@ -32,8 +32,7 @@ def ExtractFile(assetConfig, outputPath, outputSourcePath):
     Path(outputPath).mkdir(parents=True, exist_ok=True)
     Path(outputSourcePath).mkdir(parents=True, exist_ok=True)
 
-    # TODO: Extract assets from the correct version instead of the Debug ROM
-    execStr = f"{zapdPath} e -eh -i {xmlPath} -b extracted/gc-eu-mq-dbg/baserom -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
+    execStr = f"{zapdPath} e -eh -i {xmlPath} -b extracted/{version}/baserom -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
 
     if "/code/" in xmlPath:
         assert assetConfig.start_offset is not None
