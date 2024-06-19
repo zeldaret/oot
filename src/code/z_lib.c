@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "z_lib.h"
+#include "ichain.h"
 #include "regs.h"
 #include "macros.h"
 #include "sys_math.h"
@@ -340,7 +341,7 @@ void (*sInitChainHandlers[])(u8* ptr, InitChainEntry* ichain) = {
     IChain_Apply_Vec3f, IChain_Apply_Vec3fdiv1000, IChain_Apply_Vec3s,
 };
 
-void Actor_ProcessInitChain(void* actor, InitChainEntry* ichain) {
+void Actor_ProcessInitChain(struct Actor* actor, InitChainEntry* ichain) {
     do {
         sInitChainHandlers[ichain->type]((u8*)actor, ichain);
     } while ((ichain++)->cont);

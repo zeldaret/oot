@@ -45,6 +45,7 @@
 #include "color.h"
 #include "gfxprint.h"
 #include "z_lib.h"
+#include "ichain.h"
 #include "regs.h"
 #include "irqmgr.h"
 #include "padmgr.h"
