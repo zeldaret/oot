@@ -9,7 +9,7 @@ import multiprocessing
 from pathlib import Path
 
 
-EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
+EXTRACTED_ASSETS_FILENAME = ".extracted-assets.json"
 
 
 def SignalHandler(sig, frame):
@@ -28,6 +28,7 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
     Path(outputPath).mkdir(parents=True, exist_ok=True)
     Path(outputSourcePath).mkdir(parents=True, exist_ok=True)
 
+    # TODO: Extract assets from the correct version instead of the Debug ROM
     execStr = f"{zapdPath} e -eh -i {xmlPath} -b extracted/gc-eu-mq-dbg/baserom -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
 
     if "overlays" in xmlPath:
@@ -49,7 +50,7 @@ def ExtractFunc(fullPath):
     *pathList, xmlName = fullPath.split(os.sep)
     objectName = os.path.splitext(xmlName)[0]
 
-    outPath = os.path.join("assets", *pathList[2:], objectName)
+    outPath = os.path.join("extracted", globalVersion, "assets", *pathList[2:], objectName)
     outSourcePath = outPath
 
     if fullPath in globalExtractedAssetsTracker:
@@ -69,11 +70,13 @@ def ExtractFunc(fullPath):
             globalExtractedAssetsTracker[fullPath] = globalManager.dict()
         globalExtractedAssetsTracker[fullPath]["timestamp"] = currentTimeStamp
 
-def initializeWorker(abort, unaccounted: bool, extractedAssetsTracker: dict, manager):
+def initializeWorker(version, abort, unaccounted: bool, extractedAssetsTracker: dict, manager):
+    global globalVersion
     global globalAbort
     global globalUnaccounted
     global globalExtractedAssetsTracker
     global globalManager
+    globalVersion = version
     globalAbort = abort
     globalUnaccounted = unaccounted
     globalExtractedAssetsTracker = extractedAssetsTracker
@@ -95,7 +98,8 @@ def processZAPDArgs(argsZ):
 
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
-    parser.add_argument("-s", "--single", help="asset path relative to assets/, e.g. objects/gameplay_keep")
+    parser.add_argument("-v", "--oot-version", help="OOT game version", default="gc-eu-mq-dbg")
+    parser.add_argument("-s", "--single", help="Asset path relative to assets/, e.g. objects/gameplay_keep")
     parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones (overwriting current files).", action="store_true")
     parser.add_argument("-j", "--jobs", help="Number of cpu cores to extract with.")
     parser.add_argument("-u", "--unaccounted", help="Enables ZAPD unaccounted detector warning system.", action="store_true")
@@ -110,9 +114,11 @@ def main():
     manager = multiprocessing.Manager()
     signal.signal(signal.SIGINT, SignalHandler)
 
+    version = args.oot_version
+    extracted_assets_filename = os.path.join("extracted", version, EXTRACTED_ASSETS_FILENAME)
     extractedAssetsTracker = manager.dict()
-    if os.path.exists(EXTRACTED_ASSETS_NAMEFILE) and not args.force:
-        with open(EXTRACTED_ASSETS_NAMEFILE, encoding='utf-8') as f:
+    if os.path.exists(extracted_assets_filename) and not args.force:
+        with open(extracted_assets_filename, encoding='utf-8') as f:
             extractedAssetsTracker.update(json.load(f, object_hook=manager.dict))
 
     asset_path = args.single
@@ -122,7 +128,7 @@ def main():
             print(f"Error. File {fullPath} does not exist.", file=os.sys.stderr)
             exit(1)
 
-        initializeWorker(mainAbort, args.unaccounted, extractedAssetsTracker, manager)
+        initializeWorker(version, mainAbort, args.unaccounted, extractedAssetsTracker, manager)
         # Always extract if -s is used.
         if fullPath in extractedAssetsTracker:
             del extractedAssetsTracker[fullPath]
@@ -147,17 +153,17 @@ def main():
                 mp_context = multiprocessing.get_context("fork")
             except ValueError as e:
                 raise CannotMultiprocessError() from e
-            with mp_context.Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
+            with mp_context.Pool(numCores, initializer=initializeWorker, initargs=(version, mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
                 p.map(ExtractFunc, xmlFiles)
         except (multiprocessing.ProcessError, TypeError, CannotMultiprocessError):
             print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
             print("Disabling mutliprocessing.", file=os.sys.stderr)
 
-            initializeWorker(mainAbort, args.unaccounted, extractedAssetsTracker, manager)
+            initializeWorker(version, mainAbort, args.unaccounted, extractedAssetsTracker, manager)
             for singlePath in xmlFiles:
                 ExtractFunc(singlePath)
 
-    with open(EXTRACTED_ASSETS_NAMEFILE, 'w', encoding='utf-8') as f:
+    with open(extracted_assets_filename, 'w', encoding='utf-8') as f:
         serializableDict = dict()
         for xml, data in extractedAssetsTracker.items():
             serializableDict[xml] = dict(data)
