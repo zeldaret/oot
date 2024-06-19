@@ -71,6 +71,27 @@ typedef enum {
 } WeatherMode;
 
 typedef enum {
+// Clear Sky
+    SKYBOX_INDEX_CLEAR_SUNRISE,
+    SKYBOX_INDEX_CLEAR_DAY,
+    SKYBOX_INDEX_CLEAR_SUNSET,
+    SKYBOX_INDEX_CLEAR_NIGHT,
+// Cloudy Sky
+    SKYBOX_INDEX_CLOUDY_SUNRISE,
+    SKYBOX_INDEX_CLOUDY_DAY,
+    SKYBOX_INDEX_CLOUDY_SUNSET,
+    SKYBOX_INDEX_CLOUDY_NIGHT,
+// Holy (not implemented correctly)
+    SKYBOX_INDEX_HOLY0,
+    SKYBOX_INDEX_HOLY_RESERVED_9,
+    SKYBOX_INDEX_HOLY_RESERVED_10,
+    SKYBOX_INDEX_HOLY_RESERVED_11,
+// Error checking
+    SKYBOX_INDEX_INIT_MAGIC = 99, // Magic number used to detect a fault during initialization, value unused.
+    SKYBOX_INDEX_UNDEFINED = 0xFF
+} SkyboxIndex;
+
+typedef enum {
     /* 0 */ CHANGE_SKYBOX_INACTIVE,
     /* 1 */ CHANGE_SKYBOX_REQUESTED,
     /* 2 */ CHANGE_SKYBOX_WAIT,

@@ -98,86 +98,103 @@ TimeBasedLightEntry sTimeBasedLightConfigs[][7] = {
 
 TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9] = {
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, false, 3, 3 },
-        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(5, 0) + 1, true, 3, 0 },
-        { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), false, 0, 0 },
-        { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, true, 0, 1 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), false, 1, 1 },
-        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, true, 1, 2 },
-        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, 2, 2 },
-        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, true, 2, 3 },
-        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, false, 3, 3 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, false, SKYBOX_INDEX_CLEAR_NIGHT, SKYBOX_INDEX_CLEAR_NIGHT },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(5, 0) + 1, true, SKYBOX_INDEX_CLEAR_NIGHT, SKYBOX_INDEX_CLEAR_SUNRISE },
+        { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), false, SKYBOX_INDEX_CLEAR_SUNRISE, SKYBOX_INDEX_CLEAR_SUNRISE },
+        { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, true, SKYBOX_INDEX_CLEAR_SUNRISE, SKYBOX_INDEX_CLEAR_DAY },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), false, SKYBOX_INDEX_CLEAR_DAY, SKYBOX_INDEX_CLEAR_DAY },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, true, SKYBOX_INDEX_CLEAR_DAY, SKYBOX_INDEX_CLEAR_SUNSET },
+        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, SKYBOX_INDEX_CLEAR_SUNSET, SKYBOX_INDEX_CLEAR_SUNSET },
+        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, true, SKYBOX_INDEX_CLEAR_SUNSET, SKYBOX_INDEX_CLEAR_NIGHT },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, false, SKYBOX_INDEX_CLEAR_NIGHT, SKYBOX_INDEX_CLEAR_NIGHT },
     },
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, false, 7, 7 },
-        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(5, 0) + 1, true, 7, 4 },
-        { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), false, 4, 4 },
-        { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, true, 4, 5 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), false, 5, 5 },
-        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, true, 5, 6 },
-        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, 6, 6 },
-        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, true, 6, 7 },
-        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, false, 7, 7 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, false, SKYBOX_INDEX_CLOUDY_NIGHT, SKYBOX_INDEX_CLOUDY_NIGHT },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(5, 0) + 1, true, SKYBOX_INDEX_CLOUDY_NIGHT, SKYBOX_INDEX_CLOUDY_SUNRISE },
+        { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), false, SKYBOX_INDEX_CLOUDY_SUNRISE, SKYBOX_INDEX_CLOUDY_SUNRISE },
+        { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, true, SKYBOX_INDEX_CLOUDY_SUNRISE, SKYBOX_INDEX_CLOUDY_DAY },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), false, SKYBOX_INDEX_CLOUDY_DAY, SKYBOX_INDEX_CLOUDY_DAY },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, true, SKYBOX_INDEX_CLOUDY_DAY, SKYBOX_INDEX_CLOUDY_SUNSET },
+        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, SKYBOX_INDEX_CLOUDY_SUNSET, SKYBOX_INDEX_CLOUDY_SUNSET },
+        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, true, SKYBOX_INDEX_CLOUDY_SUNSET, SKYBOX_INDEX_CLOUDY_NIGHT },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, false, SKYBOX_INDEX_CLOUDY_NIGHT, SKYBOX_INDEX_CLOUDY_NIGHT },
     },
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(2, 0) + 1, false, 3, 3 },
-        { CLOCK_TIME(2, 0) + 1, CLOCK_TIME(4, 0) + 1, true, 3, 0 },
-        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(8, 0) + 1, false, 0, 0 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(10, 0), true, 0, 1 },
-        { CLOCK_TIME(10, 0), CLOCK_TIME(14, 0) + 1, false, 1, 1 },
-        { CLOCK_TIME(14, 0) + 1, CLOCK_TIME(16, 0), true, 1, 2 },
-        { CLOCK_TIME(16, 0), CLOCK_TIME(20, 0) + 1, false, 2, 2 },
-        { CLOCK_TIME(20, 0) + 1, CLOCK_TIME(22, 0), true, 2, 3 },
-        { CLOCK_TIME(22, 0), CLOCK_TIME(24, 0) - 1, false, 3, 3 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(2, 0) + 1, false, SKYBOX_INDEX_CLEAR_NIGHT, SKYBOX_INDEX_CLEAR_NIGHT },
+        { CLOCK_TIME(2, 0) + 1, CLOCK_TIME(4, 0) + 1, true, SKYBOX_INDEX_CLEAR_NIGHT, SKYBOX_INDEX_CLEAR_SUNRISE },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(8, 0) + 1, false, SKYBOX_INDEX_CLEAR_SUNRISE, SKYBOX_INDEX_CLEAR_SUNRISE },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(10, 0), true, SKYBOX_INDEX_CLEAR_SUNRISE, SKYBOX_INDEX_CLEAR_DAY },
+        { CLOCK_TIME(10, 0), CLOCK_TIME(14, 0) + 1, false, SKYBOX_INDEX_CLEAR_DAY, SKYBOX_INDEX_CLEAR_DAY },
+        { CLOCK_TIME(14, 0) + 1, CLOCK_TIME(16, 0), true, SKYBOX_INDEX_CLEAR_DAY, SKYBOX_INDEX_CLEAR_SUNSET },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(20, 0) + 1, false, SKYBOX_INDEX_CLEAR_SUNSET, SKYBOX_INDEX_CLEAR_SUNSET },
+        { CLOCK_TIME(20, 0) + 1, CLOCK_TIME(22, 0), true, SKYBOX_INDEX_CLEAR_SUNSET, SKYBOX_INDEX_CLEAR_NIGHT },
+        { CLOCK_TIME(22, 0), CLOCK_TIME(24, 0) - 1, false, SKYBOX_INDEX_CLEAR_NIGHT, SKYBOX_INDEX_CLEAR_NIGHT },
     },
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(5, 0) + 1, false, 11, 11 },
-        { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), true, 11, 8 },
-        { CLOCK_TIME(6, 0), CLOCK_TIME(7, 0), false, 8, 8 },
-        { CLOCK_TIME(7, 0), CLOCK_TIME(8, 0) + 1, true, 8, 9 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), false, 9, 9 },
-        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, true, 9, 10 },
-        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, 10, 10 },
-        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, true, 10, 11 },
-        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, false, 11, 11 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(5, 0) + 1, false, SKYBOX_INDEX_HOLY_RESERVED_11, SKYBOX_INDEX_HOLY_RESERVED_11 },
+        { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), true, SKYBOX_INDEX_HOLY_RESERVED_11, SKYBOX_INDEX_HOLY0 },
+        { CLOCK_TIME(6, 0), CLOCK_TIME(7, 0), false, SKYBOX_INDEX_HOLY0, SKYBOX_INDEX_HOLY0 },
+        { CLOCK_TIME(7, 0), CLOCK_TIME(8, 0) + 1, true, SKYBOX_INDEX_HOLY0, SKYBOX_INDEX_HOLY_RESERVED_9 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), false, SKYBOX_INDEX_HOLY_RESERVED_9, SKYBOX_INDEX_HOLY_RESERVED_9 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, true, SKYBOX_INDEX_HOLY_RESERVED_9, SKYBOX_INDEX_HOLY_RESERVED_10 },
+        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, SKYBOX_INDEX_HOLY_RESERVED_10,
+          SKYBOX_INDEX_HOLY_RESERVED_10 },
+        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, true, SKYBOX_INDEX_HOLY_RESERVED_10,
+          SKYBOX_INDEX_HOLY_RESERVED_11 },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, false, SKYBOX_INDEX_HOLY_RESERVED_11,
+          SKYBOX_INDEX_HOLY_RESERVED_11 },
     },
 };
 
+//! @brief File data for the "normal" skybox used in the overworld.
+//! Up to two different skyboxes can loaded at once for the purpose of blending. Skyboxes can only
+//! transition either to the next step in the day night cycle (e.g clear day to clear sunset),
+//! or the opposing weather condition in the same step of the day/night cycle (e.g. cloudy night to clear night).
+//
+//! The skybox image data is color indexed, capped to a maximum 128 colors to allow the palette data for two different
+//! skyboxes to fit in one 256 color tlut. This means the image data for the skyboxes is required to alternate between
+//! starting at color index 0 and color index 128.
+//
+//! IS_NORMAL_SKY_PALETTE_ALLOC_FRONT depends on the order of this table to determine where to write palette data.
 SkyboxFile gNormalSkyFiles[] = {
+    // Clear Sky
     {
-        ROM_FILE(vr_fine0_static),
+        ROM_FILE(vr_fine0_static), // color index start 128
         ROM_FILE(vr_fine0_pal_static),
     },
     {
-        ROM_FILE(vr_fine1_static),
+        ROM_FILE(vr_fine1_static), // color index start 0
         ROM_FILE(vr_fine1_pal_static),
     },
     {
-        ROM_FILE(vr_fine2_static),
+        ROM_FILE(vr_fine2_static), // color index start 128
         ROM_FILE(vr_fine2_pal_static),
     },
     {
-        ROM_FILE(vr_fine3_static),
+        ROM_FILE(vr_fine3_static), // color index start 0
         ROM_FILE(vr_fine3_pal_static),
     },
+    // Cloudy Sky
     {
-        ROM_FILE(vr_cloud0_static),
+        ROM_FILE(vr_cloud0_static), // color index start 0
         ROM_FILE(vr_cloud0_pal_static),
     },
     {
-        ROM_FILE(vr_cloud1_static),
+        ROM_FILE(vr_cloud1_static), // color index start 128
         ROM_FILE(vr_cloud1_pal_static),
     },
     {
-        ROM_FILE(vr_cloud2_static),
+        ROM_FILE(vr_cloud2_static), // color index start 0
         ROM_FILE(vr_cloud2_pal_static),
     },
     {
-        ROM_FILE(vr_cloud3_static),
+        ROM_FILE(vr_cloud3_static), // color index start 128
         ROM_FILE(vr_cloud3_pal_static),
     },
+    // Holy Sky
+    // Will appear incorrect due to IS_NORMAL_SKY_PALETTE_ALLOC_FRONT putting the palette at color index 128
     {
-        ROM_FILE(vr_holy0_static),
+        ROM_FILE(vr_holy0_static), // color index start 0
         ROM_FILE(vr_holy0_pal_static),
     },
 };
@@ -279,8 +296,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     Lights_DirectionalSetInfo(&envCtx->dirLight2, 80, 80, 80, 80, 80, 80);
     LightContext_InsertLight(play, &play->lightCtx, &envCtx->dirLight2);
 
-    envCtx->skybox1Index = 99;
-    envCtx->skybox2Index = 99;
+    envCtx->skybox1Index = SKYBOX_INDEX_INIT_MAGIC;
+    envCtx->skybox2Index = SKYBOX_INDEX_INIT_MAGIC;
 
     envCtx->changeSkyboxState = CHANGE_SKYBOX_INACTIVE;
     envCtx->changeSkyboxTimer = 0;
@@ -648,8 +665,8 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
 void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
     u32 size;
     u8 i;
-    u8 newSkybox1Index = 0xFF;
-    u8 newSkybox2Index = 0xFF;
+    u8 newSkybox1Index = SKYBOX_INDEX_UNDEFINED;
+    u8 newSkybox2Index = SKYBOX_INDEX_UNDEFINED;
     u8 skyboxBlend = 0;
 
     if (skyboxId == SKYBOX_CUTSCENE_MAP) {
@@ -719,7 +736,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         }
 
 #if OOT_DEBUG
-        if (newSkybox1Index == 0xFF) {
+        if (newSkybox1Index == SKYBOX_INDEX_UNDEFINED) {
             // "Environment VR data acquisition failed! Report to Sasaki!"
             PRINTF(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
         }
@@ -750,7 +767,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         if (envCtx->skyboxDmaState == SKYBOX_DMA_TEXTURE1_DONE) {
             envCtx->skyboxDmaState = SKYBOX_DMA_TLUT1_START;
 
-            if ((newSkybox1Index & 1) ^ ((newSkybox1Index & 4) >> 2)) {
+            if (IS_NORMAL_SKY_PALETTE_ALLOC_FRONT(newSkybox1Index)) {
+                // Reserve palette at the front
                 size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
 
@@ -759,6 +777,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                                   gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                   "../z_kankyo.c", 1307);
             } else {
+                // Reserve palette at the back
                 size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
@@ -771,7 +790,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         if (envCtx->skyboxDmaState == SKYBOX_DMA_TEXTURE2_DONE) {
             envCtx->skyboxDmaState = SKYBOX_DMA_TLUT2_START;
 
-            if ((newSkybox2Index & 1) ^ ((newSkybox2Index & 4) >> 2)) {
+            if (IS_NORMAL_SKY_PALETTE_ALLOC_FRONT(newSkybox2Index)) {
+                // Reserve palette at the front
                 size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
 
@@ -780,6 +800,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                                   gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                   "../z_kankyo.c", 1342);
             } else {
+                // Reserve palette at the back
                 size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
