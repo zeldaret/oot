@@ -1,4 +1,5 @@
-#include "global.h"
+#include "z64math.h"
+#include "macros.h"
 
 s32 gUseAtanContFrac;
 

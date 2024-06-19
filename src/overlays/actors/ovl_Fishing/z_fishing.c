@@ -11,7 +11,7 @@
 #include "terminal.h"
 
 // For retail BSS ordering, the block number of sStreamSfxProjectedPos must be 0.
-#pragma increment_block_number 198
+#pragma increment_block_number 193
 
 #define FLAGS ACTOR_FLAG_4
 

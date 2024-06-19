@@ -2,7 +2,9 @@
 #define Z64MATH_H
 
 #include "ultra64.h"
+#include "math.h"
 
+#define SQ(x) ((x)*(x))
 #define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
 
 typedef struct {
@@ -115,6 +117,11 @@ typedef VecSphGeo VecGeo;
 #define BINANG_TO_RAD(binang) ((f32)(binang) * (M_PI / 0x8000))
 #define BINANG_TO_RAD_ALT(binang) (((f32)(binang) / (f32)0x8000) * M_PI)
 #define BINANG_TO_RAD_ALT2(binang) (((f32)(binang) * M_PI) / 0x8000)
+
+// Angle conversion macros (Camera)
+// these two angle conversion macros are slightly inaccurate
+#define CAM_DEG_TO_BINANG(degrees) (s16)TRUNCF_BINANG((degrees) * 182.04167f + .5f)
+#define CAM_BINANG_TO_DEG(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
 
 // Vector macros
 #define SQXZ(vec) ((vec).x * (vec).x + (vec).z * (vec).z)
