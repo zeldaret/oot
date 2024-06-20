@@ -27,7 +27,7 @@ def ExtractFile(assetConfig, outputPath, outputSourcePath):
         return
 
     zapdPath = Path("tools") / "ZAPD" / "ZAPD.out"
-    configPath = Path("tools") / "ZAPDConfigs" / "MqDbg" / "Config.xml"
+    configPath = Path("tools") / "ZAPDConfigs" / version / "Config.xml"
 
     Path(outputPath).mkdir(parents=True, exist_ok=True)
     Path(outputSourcePath).mkdir(parents=True, exist_ok=True)
