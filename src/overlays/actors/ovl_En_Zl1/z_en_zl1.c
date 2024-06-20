@@ -346,7 +346,7 @@ void func_80B4B834(CsCmdActorCue* cue, Vec3f* dest) {
 
 void func_80B4B874(EnZl1* this, PlayState* play) {
     this->skelAnime.moveFlags |= ANIM_FLAG_0;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80B4B8B4(EnZl1* this, PlayState* play) {

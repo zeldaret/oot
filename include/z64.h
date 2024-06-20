@@ -44,6 +44,7 @@
 #include "sfx.h"
 #include "color.h"
 #include "gfxprint.h"
+#include "z_lib.h"
 #include "ichain.h"
 #include "regs.h"
 #include "irqmgr.h"
@@ -58,6 +59,10 @@
 #include "gfx.h"
 #include "jpeg.h"
 #include "prerender.h"
+#include "rand.h"
+#include "sys_math.h"
+#include "sys_math3d.h"
+#include "fp_math.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -98,15 +103,6 @@
 
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
-
-typedef struct {
-    /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page
-    /* 0x04 */ s32  regGroup; // Indexed from 0 to `REG_GROUPS`-1. Each group has its own character to identify it.
-    /* 0x08 */ s32  regCur; // Selected reg, indexed from 0 as the page start
-    /* 0x0C */ s32  dPadInputPrev;
-    /* 0x10 */ s32  inputRepeatTimer;
-    /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
-} RegEditor; // size = 0x15D4
 
 typedef struct {
     /* 0x00 */ u8   seqId;
@@ -225,8 +221,8 @@ typedef struct {
 } GameOverContext; // size = 0x2
 
 typedef enum {
-    /* 0 */ LENS_MODE_HIDE_ACTORS, // lens actors are visible by default, and hidden by using lens (for example, fake walls)
-    /* 1 */ LENS_MODE_SHOW_ACTORS // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
+    /* 0 */ LENS_MODE_SHOW_ACTORS, // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
+    /* 1 */ LENS_MODE_HIDE_ACTORS // lens actors are visible by default, and hidden by using lens (for example, fake walls)
 } LensMode;
 
 typedef enum {
@@ -396,7 +392,7 @@ typedef struct PlayState {
     /* 0x10760 */ PauseContext pauseCtx;
     /* 0x10A20 */ GameOverContext gameOverCtx;
     /* 0x10A24 */ EnvironmentContext envCtx;
-    /* 0x10B20 */ AnimationContext animationCtx;
+    /* 0x10B20 */ AnimTaskQueue animTaskQueue;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
     /* 0x11D34 */ TransitionActorContext transiActorCtx;

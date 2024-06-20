@@ -13,8 +13,7 @@ void GameOver_FadeInLights(PlayState* play) {
     }
 }
 
-// This variable cannot be moved into this file as all of z_message_PAL rodata is in the way
-extern s16 gGameOverTimer;
+s16 sGameOverTimer = 0;
 
 void GameOver_Update(PlayState* play) {
     GameOverContext* gameOverCtx = &play->gameOverCtx;
@@ -74,7 +73,7 @@ void GameOver_Update(PlayState* play) {
                 gSaveContext.hudVisibilityModeTimer = 0; // false, HUD_VISIBILITY_NO_CHANGE
 
             Environment_InitGameOverLights(play);
-            gGameOverTimer = 20;
+            sGameOverTimer = 20;
 
             if (1) {}
             rumbleStrength = R_GAME_OVER_RUMBLE_STRENGTH;
@@ -92,9 +91,9 @@ void GameOver_Update(PlayState* play) {
             break;
 
         case GAMEOVER_DEATH_DELAY_MENU:
-            gGameOverTimer--;
+            sGameOverTimer--;
 
-            if (gGameOverTimer == 0) {
+            if (sGameOverTimer == 0) {
                 play->pauseCtx.state = PAUSE_STATE_8;
                 gameOverCtx->state++;
                 Rumble_Reset();
@@ -103,13 +102,13 @@ void GameOver_Update(PlayState* play) {
 
         case GAMEOVER_REVIVE_START:
             gameOverCtx->state++;
-            gGameOverTimer = 0;
+            sGameOverTimer = 0;
             Environment_InitGameOverLights(play);
             Letterbox_SetSizeTarget(32);
             return;
 
         case GAMEOVER_REVIVE_RUMBLE:
-            gGameOverTimer = 50;
+            sGameOverTimer = 50;
             gameOverCtx->state++;
 
             if (1) {}
@@ -123,28 +122,28 @@ void GameOver_Update(PlayState* play) {
             break;
 
         case GAMEOVER_REVIVE_WAIT_GROUND:
-            gGameOverTimer--;
+            sGameOverTimer--;
 
-            if (gGameOverTimer == 0) {
-                gGameOverTimer = 64;
+            if (sGameOverTimer == 0) {
+                sGameOverTimer = 64;
                 gameOverCtx->state++;
             }
             break;
 
         case GAMEOVER_REVIVE_WAIT_FAIRY:
-            gGameOverTimer--;
+            sGameOverTimer--;
 
-            if (gGameOverTimer == 0) {
-                gGameOverTimer = 50;
+            if (sGameOverTimer == 0) {
+                sGameOverTimer = 50;
                 gameOverCtx->state++;
             }
             break;
 
         case GAMEOVER_REVIVE_FADE_OUT:
             Environment_FadeOutGameOverLights(play);
-            gGameOverTimer--;
+            sGameOverTimer--;
 
-            if (gGameOverTimer == 0) {
+            if (sGameOverTimer == 0) {
                 gameOverCtx->state = GAMEOVER_INACTIVE;
             }
             break;

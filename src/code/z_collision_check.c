@@ -2360,9 +2360,6 @@ void CollisionCheck_ATTrisVsACTris(PlayState* play, CollisionCheckContext* colCh
 
 #if OOT_DEBUG
 static s8 sBssDummy7;
-static s8 sBssDummy8;
-static s8 sBssDummy9;
-static s8 sBssDummy10;
 #endif
 
 void CollisionCheck_ATTrisVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
@@ -3329,12 +3326,10 @@ void Collider_SetTrisDim(PlayState* play, ColliderTris* tris, s32 elemIndex, Col
 }
 
 #if OOT_DEBUG
-// Due to an unknown reason, bss ordering changed between the 2 static Vec3f variables in the function below.
-// In order to reproduce this behavior, we need a specific number of bss variables in the file before that point.
-// For this, we introduce a certain amount of dummy variables throughout the file, which we fit inside padding added
-// by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in bss.
-static s8 sBssDummy11;
-static s8 sBssDummy12;
+// The two static Vec3f variables in the function below cross a block index rollover, causing a bss order swap.
+//! In order to replicate this behavior, we declare a certain amount of sBssDummy variables throughout the file, which
+//! we fit inside padding added by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in
+//! bss.
 #endif
 
 /**

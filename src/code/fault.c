@@ -48,9 +48,9 @@
 // just above (the exact upper bound depends on the block numbers assigned to
 // extern variables declared in headers).
 #if OOT_DEBUG
-#pragma increment_block_number 20
+#pragma increment_block_number 0
 #else
-#pragma increment_block_number 25
+#pragma increment_block_number 20
 #endif
 
 void FaultDrawer_Init(void);

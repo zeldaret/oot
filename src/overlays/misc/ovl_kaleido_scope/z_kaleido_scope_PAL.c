@@ -135,12 +135,45 @@ s16 D_8082AB2C[] = {
     24, 72, 13, 22, 19, 20, 19, 27, 14, 26, 22, 21, 49, 32, 45, 60, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 32, 8,
 };
 
-static u8 D_8082AB6C[][5] = {
+/**
+ * Contains the status of buttons for each page.
+ *
+ * Indexed by `pageIndex + pt` values,
+ * where pageIndex is from the `PauseMenuPage` enum
+ * and pt is 0 or 2 (respectively `PAGE_SWITCH_PT_LEFT` and `PAGE_SWITCH_PT_RIGHT`).
+ *
+ * `PauseMenuPage` enum values are ordered clockwise, starting at PAUSE_ITEM. That means adding 1 to a page index
+ * produces (modulo 4) the index of the page to the right, and similar with subtracting 1 for the left page.
+ * The indexing of this array relies on this property, but without modulo operations. Instead, the data for the first
+ * and last pages (PAUSE_ITEM, PAUSE_EQUIP) is duplicated.
+ *
+ * For example when scrolling left from the quest page PAUSE_QUEST (so, to PAUSE_MAP),
+ * the index is `PAUSE_QUEST + PAGE_SWITCH_PT_LEFT` and the data is button status for the map page.
+ */
+static u8 gPageSwitchNextButtonStatus[][5] = {
+    // PAUSE_ITEM  + PAGE_SWITCH_PT_LEFT
+    //
+    //  -> PAUSE_EQUIP
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
+    // PAUSE_MAP   + PAGE_SWITCH_PT_LEFT
+    //
+    //  -> PAUSE_ITEM
     { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
+    // PAUSE_QUEST + PAGE_SWITCH_PT_LEFT
+    // PAUSE_ITEM  + PAGE_SWITCH_PT_RIGHT
+    //  -> PAUSE_MAP
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED },
+    // PAUSE_EQUIP + PAGE_SWITCH_PT_LEFT
+    // PAUSE_MAP   + PAGE_SWITCH_PT_RIGHT
+    //  -> PAUSE_QUEST
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
+    //
+    // PAUSE_QUEST + PAGE_SWITCH_PT_RIGHT
+    //  -> PAUSE_EQUIP
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
+    //
+    // PAUSE_EQUIP + PAGE_SWITCH_PT_RIGHT
+    //  -> PAUSE_ITEM
     { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
 };
 
@@ -155,16 +188,49 @@ static s16 D_8082ABA4 = 0;
 
 static s16 sInDungeonScene = false;
 
-static f32 D_8082ABAC[] = {
-    -4.0f, 4.0f, 4.0f, 4.0f, 4.0f, -4.0f, -4.0f, -4.0f,
+/*
+ * The following three `sPageSwitch*` arrays are indexed by nextPageMode values,
+ * which encode the page to switch from and the scroll direction.
+ *
+ * sPageSwitchEyeDx/Dz describe how to move the camera eye so that the pages appear scrolling and the next active page
+ * is switched into view.
+ *
+ * sPageSwitchNextPageIndex contains the page a nextPageMode leads to once scrolling is done.
+ */
+
+#define PAGE_SWITCH_NSTEPS 16
+
+static f32 sPageSwitchEyeDx[] = {
+    -PAUSE_EYE_DIST * (PAUSE_MAP_X - PAUSE_ITEM_X) / PAGE_SWITCH_NSTEPS,  // PAUSE_ITEM  right
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_X - PAUSE_ITEM_X) / PAGE_SWITCH_NSTEPS,  // PAUSE_ITEM  left
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_X - PAUSE_MAP_X) / PAGE_SWITCH_NSTEPS,   // PAUSE_MAP   right
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_X - PAUSE_MAP_X) / PAGE_SWITCH_NSTEPS,    // PAUSE_MAP   left
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_X - PAUSE_QUEST_X) / PAGE_SWITCH_NSTEPS, // PAUSE_QUEST right
+    -PAUSE_EYE_DIST*(PAUSE_MAP_X - PAUSE_QUEST_X) / PAGE_SWITCH_NSTEPS,   // PAUSE_QUEST left
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_X - PAUSE_EQUIP_X) / PAGE_SWITCH_NSTEPS,  // PAUSE_EQUIP right
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_X - PAUSE_EQUIP_X) / PAGE_SWITCH_NSTEPS, // PAUSE_EQUIP left
 };
 
-static f32 D_8082ABCC[] = {
-    -4.0f, -4.0f, -4.0f, 4.0f, 4.0f, 4.0f, 4.0f, -4.0f,
+static f32 sPageSwitchEyeDz[] = {
+    -PAUSE_EYE_DIST * (PAUSE_MAP_Z - PAUSE_ITEM_Z) / PAGE_SWITCH_NSTEPS,  // PAUSE_ITEM  right
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_Z - PAUSE_ITEM_Z) / PAGE_SWITCH_NSTEPS,  // PAUSE_ITEM  left
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_Z - PAUSE_MAP_Z) / PAGE_SWITCH_NSTEPS,   // PAUSE_MAP   right
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_Z - PAUSE_MAP_Z) / PAGE_SWITCH_NSTEPS,    // PAUSE_MAP   left
+    -PAUSE_EYE_DIST*(PAUSE_EQUIP_Z - PAUSE_QUEST_Z) / PAGE_SWITCH_NSTEPS, // PAUSE_QUEST right
+    -PAUSE_EYE_DIST*(PAUSE_MAP_Z - PAUSE_QUEST_Z) / PAGE_SWITCH_NSTEPS,   // PAUSE_QUEST left
+    -PAUSE_EYE_DIST*(PAUSE_ITEM_Z - PAUSE_EQUIP_Z) / PAGE_SWITCH_NSTEPS,  // PAUSE_EQUIP right
+    -PAUSE_EYE_DIST*(PAUSE_QUEST_Z - PAUSE_EQUIP_Z) / PAGE_SWITCH_NSTEPS, // PAUSE_EQUIP left
 };
 
-static u16 D_8082ABEC[] = {
-    PAUSE_MAP, PAUSE_EQUIP, PAUSE_QUEST, PAUSE_ITEM, PAUSE_EQUIP, PAUSE_MAP, PAUSE_ITEM, PAUSE_QUEST,
+static u16 sPageSwitchNextPageIndex[] = {
+    PAUSE_MAP,   // PAUSE_ITEM  right
+    PAUSE_EQUIP, // PAUSE_ITEM  left
+    PAUSE_QUEST, // PAUSE_MAP   right
+    PAUSE_ITEM,  // PAUSE_MAP   left
+    PAUSE_EQUIP, // PAUSE_QUEST right
+    PAUSE_MAP,   // PAUSE_QUEST left
+    PAUSE_ITEM,  // PAUSE_EQUIP right
+    PAUSE_QUEST, // PAUSE_EQUIP left
 };
 
 u8 gSlotAgeReqs[] = {
@@ -489,26 +555,29 @@ void KaleidoScope_SetDefaultCursor(PlayState* play) {
     }
 }
 
-void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
-    pauseCtx->mainState = PAUSE_MAIN_STATE_1;
-    pauseCtx->unk_1EA = 0;
+#define PAGE_SWITCH_PT_LEFT 0
+#define PAGE_SWITCH_PT_RIGHT 2
 
-    if (!pt) {
-        pauseCtx->mode = pauseCtx->pageIndex * 2 + 1;
+void KaleidoScope_SetupPageSwitch(PauseContext* pauseCtx, u8 pt) {
+    pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
+    pauseCtx->pageSwitchTimer = 0;
+
+    if (!pt) { // PAGE_SWITCH_PT_LEFT
+        pauseCtx->nextPageMode = pauseCtx->pageIndex * 2 + 1;
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_SCROLL_LEFT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         pauseCtx->cursorSpecialPos = PAUSE_CURSOR_PAGE_RIGHT;
-    } else {
-        pauseCtx->mode = pauseCtx->pageIndex * 2;
+    } else { // PAGE_SWITCH_PT_RIGHT
+        pauseCtx->nextPageMode = pauseCtx->pageIndex * 2;
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_SCROLL_RIGHT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         pauseCtx->cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
-    gSaveContext.buttonStatus[1] = D_8082AB6C[pauseCtx->pageIndex + pt][1];
-    gSaveContext.buttonStatus[2] = D_8082AB6C[pauseCtx->pageIndex + pt][2];
-    gSaveContext.buttonStatus[3] = D_8082AB6C[pauseCtx->pageIndex + pt][3];
-    gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->pageIndex + pt][4];
+    gSaveContext.buttonStatus[1] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][1];
+    gSaveContext.buttonStatus[2] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][2];
+    gSaveContext.buttonStatus[3] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][3];
+    gSaveContext.buttonStatus[4] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][4];
 
     PRINTF("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
 
@@ -525,12 +594,12 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
-        KaleidoScope_SwitchPage(pauseCtx, 2);
+        KaleidoScope_SetupPageSwitch(pauseCtx, PAGE_SWITCH_PT_RIGHT);
         return;
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
-        KaleidoScope_SwitchPage(pauseCtx, 0);
+        KaleidoScope_SetupPageSwitch(pauseCtx, PAGE_SWITCH_PT_LEFT);
         return;
     }
 
@@ -538,7 +607,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
         if (pauseCtx->stickAdjX < -30) {
             pauseCtx->pageSwitchInputTimer++;
             if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
-                KaleidoScope_SwitchPage(pauseCtx, 0);
+                KaleidoScope_SetupPageSwitch(pauseCtx, PAGE_SWITCH_PT_LEFT);
             }
         } else {
             pauseCtx->pageSwitchInputTimer = -1;
@@ -547,7 +616,7 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
         if (pauseCtx->stickAdjX > 30) {
             pauseCtx->pageSwitchInputTimer++;
             if ((pauseCtx->pageSwitchInputTimer >= 10) || (pauseCtx->pageSwitchInputTimer == 0)) {
-                KaleidoScope_SwitchPage(pauseCtx, 2);
+                KaleidoScope_SetupPageSwitch(pauseCtx, PAGE_SWITCH_PT_RIGHT);
             }
         } else {
             pauseCtx->pageSwitchInputTimer = -1;
@@ -1533,21 +1602,21 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
     }
 }
 
-void func_808237B4(PlayState* play, Input* input) {
+void KaleidoScope_UpdatePageSwitch(PlayState* play, Input* input) {
     PauseContext* pauseCtx = &play->pauseCtx;
-    s32 cond = false;
-    s32 mode;
+    s32 frameAdvanceFreeze = false;
+    s32 nextPageMode;
 
-    if (ZREG(13) && !CHECK_BTN_ALL(input->press.button, BTN_L)) {
-        cond = true;
+    if (R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON && !CHECK_BTN_ALL(input->press.button, BTN_L)) {
+        frameAdvanceFreeze = true;
     }
 
-    if (!cond) {
-        mode = pauseCtx->mode;
-        pauseCtx->eye.x += D_8082ABAC[mode];
-        pauseCtx->eye.z += D_8082ABCC[mode];
+    if (!frameAdvanceFreeze) {
+        nextPageMode = pauseCtx->nextPageMode;
+        pauseCtx->eye.x += sPageSwitchEyeDx[nextPageMode];
+        pauseCtx->eye.z += sPageSwitchEyeDz[nextPageMode];
 
-        if (pauseCtx->unk_1EA < 32) {
+        if (pauseCtx->pageSwitchTimer < ((4 * PAGE_SWITCH_NSTEPS) / 2)) {
             WREG(16) -= WREG(25) / WREG(6);
             WREG(17) -= WREG(26) / WREG(6);
         } else {
@@ -1555,11 +1624,11 @@ void func_808237B4(PlayState* play, Input* input) {
             WREG(17) += WREG(26) / WREG(6);
         }
 
-        pauseCtx->unk_1EA += 4;
+        pauseCtx->pageSwitchTimer += 4;
 
-        if (pauseCtx->unk_1EA == 64) {
-            pauseCtx->unk_1EA = 0;
-            pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
+        if (pauseCtx->pageSwitchTimer == (4 * PAGE_SWITCH_NSTEPS)) {
+            pauseCtx->pageSwitchTimer = 0;
+            pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
         }
     }
@@ -2471,28 +2540,32 @@ void KaleidoScope_GrayOutTextureRGBA32(u32* texture, u16 pixelCount) {
 void KaleidoScope_UpdateOpening(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
 
-    pauseCtx->eye.x += D_8082ABAC[pauseCtx->mode] * ZREG(46);
-    pauseCtx->eye.z += D_8082ABCC[pauseCtx->mode] * ZREG(46);
-    pauseCtx->unk_1EA += 4 * ZREG(46);
+    pauseCtx->eye.x += sPageSwitchEyeDx[pauseCtx->nextPageMode] * ZREG(46);
+    pauseCtx->eye.z += sPageSwitchEyeDz[pauseCtx->nextPageMode] * ZREG(46);
+    pauseCtx->pageSwitchTimer += 4 * ZREG(46);
 
-    if (pauseCtx->unk_1EA == (64 * ZREG(47))) {
+    if (pauseCtx->pageSwitchTimer == (4 * PAGE_SWITCH_NSTEPS * ZREG(47))) {
         // Finished opening
 
         func_80084BF4(play, 1);
-        gSaveContext.buttonStatus[0] = D_8082AB6C[pauseCtx->pageIndex][0];
-        gSaveContext.buttonStatus[1] = D_8082AB6C[pauseCtx->pageIndex][1];
-        gSaveContext.buttonStatus[2] = D_8082AB6C[pauseCtx->pageIndex][2];
-        gSaveContext.buttonStatus[3] = D_8082AB6C[pauseCtx->pageIndex][3];
-        gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->pageIndex][4];
-        pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
+
+        gSaveContext.buttonStatus[0] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex][0];
+        gSaveContext.buttonStatus[1] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex][1];
+        gSaveContext.buttonStatus[2] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex][2];
+        gSaveContext.buttonStatus[3] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex][3];
+        gSaveContext.buttonStatus[4] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex][4];
+
+        pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
+
         pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
         pauseCtx->state++; // PAUSE_STATE_MAIN
+
         pauseCtx->alpha = 255;
         Interface_LoadActionLabelB(play, DO_ACTION_SAVE);
-    } else if (pauseCtx->unk_1EA == 64) {
+    } else if (pauseCtx->pageSwitchTimer == (4 * PAGE_SWITCH_NSTEPS * 1)) {
         // `ZREG(47)` is always 1 so this normally never happens
-        pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
-        pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
+        pauseCtx->pageIndex = sPageSwitchNextPageIndex[pauseCtx->nextPageMode];
+        pauseCtx->nextPageMode = (u16)(pauseCtx->pageIndex * 2) + 1;
     }
 }
 
@@ -3071,7 +3144,7 @@ void KaleidoScope_Update(PlayState* play) {
                         WREG(2) = -6240;
                         func_800F64E0(0);
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        pauseCtx->mode = 0;
+                        pauseCtx->nextPageMode = 0;
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -3085,8 +3158,8 @@ void KaleidoScope_Update(PlayState* play) {
                     }
                     break;
 
-                case PAUSE_MAIN_STATE_1:
-                    func_808237B4(play, play->state.input);
+                case PAUSE_MAIN_STATE_SWITCHING_PAGE:
+                    KaleidoScope_UpdatePageSwitch(play, play->state.input);
                     break;
 
                 case PAUSE_MAIN_STATE_2:
@@ -3118,7 +3191,7 @@ void KaleidoScope_Update(PlayState* play) {
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-                        pauseCtx->mode = 0;
+                        pauseCtx->nextPageMode = 0;
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -3168,7 +3241,7 @@ void KaleidoScope_Update(PlayState* play) {
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-                        pauseCtx->mode = 0;
+                        pauseCtx->nextPageMode = 0;
                         pauseCtx->promptChoice = 0;
                         Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

@@ -133,7 +133,7 @@ OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
 NM      := $(MIPS_BINUTILS_PREFIX)nm
 
-N64_EMULATOR ?= 
+N64_EMULATOR ?=
 
 INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
@@ -243,7 +243,7 @@ $(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/code/__osMalloc.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/code_800FC620.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/code_800FCE80.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/fp_math.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/rand.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
