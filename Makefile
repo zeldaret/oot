@@ -170,7 +170,7 @@ endif
 
 CFLAGS += $(GBI_DEFINES)
 
-ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
+ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude -I$(EXTRACTED_DIR)
 
 ifeq ($(COMPILER),gcc)
   CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -fbuiltin -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS) -funsigned-char
@@ -383,6 +383,7 @@ setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 --oot-version $(VERSION) -o $(EXTRACTED_DIR)/baserom
+	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom --oot-version $(VERSION) -o $(EXTRACTED_DIR)/incbin
 	$(PYTHON) tools/msgdis.py $(VERSION)
 	$(PYTHON) extract_assets.py -v $(VERSION) -j$(N_THREADS)
 

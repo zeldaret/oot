@@ -10,21 +10,21 @@
 .balign 16
 
 glabel aspMainDataStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCCE10, 0x2E0
+    .incbin "incbin/aspMainData"
 glabel aspMainDataEnd
 
 glabel gspF3DZEX2_NoN_PosLight_fifoTextStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCD0F0, 0x1630
+    .incbin "incbin/gspF3DZEX2_NoN_PosLight_fifoText"
 glabel gspF3DZEX2_NoN_PosLight_fifoTextEnd
 
 glabel gspF3DZEX2_NoN_PosLight_fifoDataStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCE720, 0x420
+    .incbin "incbin/gspF3DZEX2_NoN_PosLight_fifoData"
 glabel gspF3DZEX2_NoN_PosLight_fifoDataEnd
 
 glabel gspS2DEX2d_fifoDataStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCEB40, 0x390
+    .incbin "incbin/gspS2DEX2d_fifoData"
 glabel gspS2DEX2d_fifoDataEnd
 
 glabel njpgdspMainDataStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCEED0, 0x60
+    .incbin "incbin/njpgdspMainData"
 glabel njpgdspMainDataEnd

@@ -11,8 +11,10 @@
 
 /* temporary file name, rename to something more appropriate when decompiled */
 
+#if OOT_DEBUG
 glabel gMojiFontTLUTs
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBA18E0, 0x80
+    .incbin "incbin/gMojiFontTLUTs"
 
 glabel gMojiFontTex
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBA1960, 0x400
+    .incbin "incbin/gMojiFontTex"
+#endif
