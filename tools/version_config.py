@@ -38,6 +38,7 @@ class SegmentInfo:
 
 @dataclasses.dataclass
 class AssetConfig:
+    name: str
     xml_path: Path
     start_offset: int | None
     end_offset: int | None
@@ -60,10 +61,11 @@ def load_version_config(version: str) -> VersionConfig:
 
     assets = []
     for asset in config["assets"]:
+        name = asset["name"]
         xml_path = asset["xml_path"]
         start_offset = asset.get("start_offset", None)
         end_offset = asset.get("end_offset", None)
-        assets.append(AssetConfig(xml_path, start_offset, end_offset))
+        assets.append(AssetConfig(name, xml_path, start_offset, end_offset))
 
     return VersionConfig(
         version=version,

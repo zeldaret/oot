@@ -65,12 +65,11 @@ def ExtractFile(assetConfig, outputPath, outputSourcePath):
         print("\n")
 
 def ExtractFunc(assetConfig):
+    objectName = assetConfig.name
     fullPath = assetConfig.xml_path
-    *pathList, xmlName = fullPath.split(os.sep)
-    objectName = os.path.splitext(xmlName)[0]
 
     version = globalVersionConfig.version
-    outPath = os.path.join("extracted", version, "assets", *pathList[2:], objectName)
+    outPath = os.path.join("extracted", version, "assets", objectName)
     outSourcePath = outPath
 
     if fullPath in globalExtractedAssetsTracker:
@@ -143,24 +142,20 @@ def main():
         with open(extracted_assets_filename, encoding='utf-8') as f:
             extractedAssetsTracker.update(json.load(f, object_hook=manager.dict))
 
-    asset_path = args.single
-    if asset_path is not None:
-        fullPath = os.path.join("assets", "xml", asset_path + ".xml")
-        if not os.path.exists(fullPath):
-            print(f"Error. File {fullPath} does not exist.", file=os.sys.stderr)
-            exit(1)
-
+    objectName = args.single
+    if objectName is not None:
         assetConfig = None
         for asset in versionConfig.assets:
-            if asset.xml_path == fullPath:
+            if asset.name == objectName:
                 assetConfig = asset
                 break
         else:
-            print(f"Error. Asset {fullPath} not found in config.", file=os.sys.stderr)
+            print(f"Error. Asset {objectName} not found in config.", file=os.sys.stderr)
             exit(1)
 
         initializeWorker(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager)
         # Always extract if -s is used.
+        fullPath = assetConfig.xml_path
         if fullPath in extractedAssetsTracker:
             del extractedAssetsTracker[fullPath]
         ExtractFunc(assetConfig)
