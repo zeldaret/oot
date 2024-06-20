@@ -1,7 +1,6 @@
 #ifndef GDP_LOADTEXTUREBLOCK_RUNTIME_C
 #define GDP_LOADTEXTUREBLOCK_RUNTIME_C
 
-#include "global.h"
 #include "gfx.h"
 
 #ifndef GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS

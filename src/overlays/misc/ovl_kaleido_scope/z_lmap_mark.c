@@ -14,7 +14,7 @@ typedef struct {
 } PauseMapMarkInfo; // size = 0x24
 
 #define GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS const
-#include "src/code/gDPLoadTextureBlock_Runtime.c"
+#include "src/code/gDPLoadTextureBlock_Runtime.inc.c"
 
 static PauseMapMarkInfo sMapMarkInfoTable[] = {
     { gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1 << 10, 1 << 10 },
