@@ -5056,7 +5056,8 @@ s32 Player_ActionChange_1(Player* this, PlayState* play) {
                 func_80832224(this);
                 Player_AnimReplaceApplyFlags(play, this,
                                              ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
-                                                 ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
+                                                 ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
+                                                 ANIM_FLAG_IGNORE_SCENE_COLLISION);
 
                 // If this door is the second half of a double door (spawned as child)
                 if (doorActor->parent != NULL) {
@@ -5367,7 +5368,8 @@ s32 func_8083A6AC(Player* this, PlayState* play) {
                 this->stateFlags1 |= PLAYER_STATE1_21;
                 Player_AnimReplaceApplyFlags(play, this,
                                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
-                                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
+                                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                                 ANIM_FLAG_IGNORE_SCENE_COLLISION);
 
                 this->av2.actionVar2 = -1;
                 this->av1.actionVar1 = sp50;
@@ -5412,7 +5414,8 @@ void func_8083AA10(Player* this, PlayState* play) {
                 return;
             }
 
-            if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.moveFlags & ANIM_FLAG_IGNORE_SCENE_COLLISION) &&
+            if (!(this->stateFlags3 & PLAYER_STATE3_1) &&
+                !(this->skelAnime.moveFlags & ANIM_FLAG_IGNORE_SCENE_COLLISION) &&
                 (Player_Action_8084411C != this->actionFunc) && (Player_Action_80844A44 != this->actionFunc)) {
 
                 if ((sPrevFloorProperty == FLOOR_PROPERTY_7) || (this->meleeWeaponState != 0)) {
@@ -7069,7 +7072,8 @@ s32 func_8083EC18(Player* this, PlayState* play, u32 wallFlags) {
                     Player_AnimPlayOnce(play, this, anim);
                     Player_AnimReplaceApplyFlags(play, this,
                                                  ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
-                                                     ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
+                                                     ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                                     ANIM_FLAG_IGNORE_SCENE_COLLISION);
 
                     return true;
                 }
@@ -14546,7 +14550,8 @@ void func_808510D4(PlayState* play, Player* this, void* anim) {
 
 void func_808510F4(PlayState* play, Player* this, void* anim) {
     Player_AnimReplacePlayOnce(play, this, anim,
-                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
+                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                   ANIM_FLAG_IGNORE_SCENE_COLLISION);
 }
 
 void func_80851114(PlayState* play, Player* this, void* anim) {
@@ -14555,7 +14560,8 @@ void func_80851114(PlayState* play, Player* this, void* anim) {
 
 void func_80851134(PlayState* play, Player* this, void* anim) {
     Player_AnimReplacePlayLoop(play, this, anim,
-                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
+                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                   ANIM_FLAG_IGNORE_SCENE_COLLISION);
 }
 
 void func_80851154(PlayState* play, Player* this, void* anim) {
@@ -14918,7 +14924,8 @@ void func_80851E64(PlayState* play, Player* this, CsCmdActorCue* cue) {
 
 void func_80851E90(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Player_AnimReplacePlayOnce(play, this, &gPlayerAnim_clink_op3_negaeri,
-                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
+                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                   ANIM_FLAG_IGNORE_SCENE_COLLISION);
     func_80832698(this, NA_SE_VO_LI_GROAN);
 }
 
@@ -15027,7 +15034,8 @@ void func_80852234(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
+    Player_AnimReplaceApplyFlags(play, this,
+                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 }
 
 void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue) {
