@@ -90,11 +90,11 @@ typedef enum {
 
 // This flag seems like it was intended to be paired with `ANIM_FLAG_UPDATE_Y` to control 
 // XZ movement based on the current animation.
-// However, this flag is not checked by the Skelanime system. It will not toggle XZ movement.
+// However, this flag is not checked by the Skelanime system. XZ movement will always occur
+// regardless of the current state of this flag, as long as the "Actor Move" Anim Task is in use.
 // The name of this flag is speculative based on its usage in Player and in other actors.
 //
-// In practice, this flag only affects Player's XZ position scaling while the 
-// "Actor Move" Anim Task is in use.
+// In practice, this flag only affects the scaling of Player's XZ position based on age.
 #define ANIM_FLAG_UPDATE_XZ (1 << 0)
 
 // Enables the movement of an actor in the Y-axis based on the current animation.
