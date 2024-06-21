@@ -2229,15 +2229,15 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
 
         csCtx->curFrame++;
 
-        if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
 #if OOT_DEBUG
-            // Under !OOT_DEBUG this branch is optimized out, but we still need to #if out the reference to
-            // gDebugCutsceneScript
+        if (R_USE_DEBUG_CUTSCENE) {
             Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScript);
-#endif
         } else {
             Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
         }
+#else
+        Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
+#endif
     }
 }
 
