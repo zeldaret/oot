@@ -306,6 +306,8 @@ typedef struct {
     /* 0x18 */ u16 ocFlags;
 } OcLine; // size = 0x1C
 
+#define SAC_ENABLE (1 << 0)
+
 typedef struct {
     /* 0x000 */ s16 colATCount;
     /* 0x002 */ u16 sacFlags;

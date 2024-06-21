@@ -128,8 +128,6 @@ typedef enum {
     /* 1 */ LENS_MODE_HIDE_ACTORS // lens actors are visible by default, and hidden by using lens (for example, fake walls)
 } LensMode;
 
-#define SAC_ENABLE (1 << 0)
-
 typedef struct {
     /* 0x00 */ GameState state;
 } SetupState; // size = 0xA4
