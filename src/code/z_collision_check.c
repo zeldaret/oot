@@ -2358,10 +2358,6 @@ void CollisionCheck_ATTrisVsACTris(PlayState* play, CollisionCheckContext* colCh
     }
 }
 
-#if OOT_DEBUG
-static s8 sBssDummy7;
-#endif
-
 void CollisionCheck_ATTrisVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                    Collider* acCol) {
     static Vec3f hitPos;
