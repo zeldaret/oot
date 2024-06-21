@@ -25,7 +25,7 @@ class VersionConfig:
     # DMA segment information, in ROM order
     dmadata_segments: OrderedDict[str, SegmentInfo]
     # Addresses of important variables needed for asset extraction
-    variables: Dict[str, int]
+    variables: dict[str, int]
     # Assets to extract
     assets: list[AssetConfig]
 
@@ -33,15 +33,15 @@ class VersionConfig:
 @dataclasses.dataclass
 class SegmentInfo:
     name: str
-    vram: int | None
+    vram: Optional[int]
 
 
 @dataclasses.dataclass
 class AssetConfig:
     name: str
     xml_path: Path
-    start_offset: int | None
-    end_offset: int | None
+    start_offset: Optional[int]
+    end_offset: Optional[int]
 
 
 def load_dmadata_segments(version: str) -> OrderedDict[str, SegmentInfo]:
@@ -62,7 +62,7 @@ def load_version_config(version: str) -> VersionConfig:
     assets = []
     for asset in config["assets"]:
         name = asset["name"]
-        xml_path = asset["xml_path"]
+        xml_path = Path(asset["xml_path"])
         start_offset = asset.get("start_offset", None)
         end_offset = asset.get("end_offset", None)
         assets.append(AssetConfig(name, xml_path, start_offset, end_offset))
