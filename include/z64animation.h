@@ -99,6 +99,9 @@ typedef enum {
 
 // Enables the movement of an actor in the Y-axis based on the current animation.
 // This only has an effect if the "Actor Move" Anim Task is in use.
+// Due to how scene collision works, actors will snap to a floor if close enough to one.
+// This can cause adverse affects on the appearance of the animation.
+// `ANIM_FLAG_IGNORE_SCENE_COLLISION` can be used to help mitigate this issue.
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 
 // (player-only) Related to scaling an animation from/to child/adult
@@ -110,8 +113,14 @@ typedef enum {
 //
 #define ANIM_FLAG_NO_MOVE (1 << 4)
 
-// (player-only)
-#define ANIM_FLAG_PLAYER_7 (1 << 7) 
+// Stops the processing of scene collision, allowing animation translation to behave more freely.
+// Due to how scene collision works, actors will snap to the ground if they are within a certain radius to it.
+// This can cause unwanted stuttering and snapping, especially if there is movement in the Y axis.
+// 
+// Note that individual actors are responsible for implementing the functionality of this flag.
+// In practice, Player is the only actor who implements this flag. It will not work for other actors
+// without modification.
+#define ANIM_FLAG_IGNORE_SCENE_COLLISION (1 << 7) 
 
 typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // Number of limbs in the skeleton

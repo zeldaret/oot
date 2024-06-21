@@ -2984,7 +2984,7 @@ s32 func_80835588(Player* this, PlayState* play) {
 void func_808355DC(Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_17;
 
-    if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_7) &&
+    if (!(this->skelAnime.moveFlags & ANIM_FLAG_IGNORE_SCENE_COLLISION) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) && (sShapeYawToTouchedWall < 0x2000)) {
         this->yaw = this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
     }
@@ -3400,7 +3400,7 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_hook_fly_start);
         Player_AnimReplaceApplyFlags(play, this,
                                      ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
-                                         ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                         ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
         func_80832224(this);
         this->yaw = this->actor.shape.rot.y;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
@@ -5056,7 +5056,7 @@ s32 Player_ActionChange_1(Player* this, PlayState* play) {
                 func_80832224(this);
                 Player_AnimReplaceApplyFlags(play, this,
                                              ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
-                                                 ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_PLAYER_7);
+                                                 ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 
                 // If this door is the second half of a double door (spawned as child)
                 if (doorActor->parent != NULL) {
@@ -5367,7 +5367,7 @@ s32 func_8083A6AC(Player* this, PlayState* play) {
                 this->stateFlags1 |= PLAYER_STATE1_21;
                 Player_AnimReplaceApplyFlags(play, this,
                                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
-                                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 
                 this->av2.actionVar2 = -1;
                 this->av1.actionVar1 = sp50;
@@ -5412,7 +5412,7 @@ void func_8083AA10(Player* this, PlayState* play) {
                 return;
             }
 
-            if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_7) &&
+            if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.moveFlags & ANIM_FLAG_IGNORE_SCENE_COLLISION) &&
                 (Player_Action_8084411C != this->actionFunc) && (Player_Action_80844A44 != this->actionFunc)) {
 
                 if ((sPrevFloorProperty == FLOOR_PROPERTY_7) || (this->meleeWeaponState != 0)) {
@@ -6722,7 +6722,7 @@ s32 Player_ActionChange_3(Player* this, PlayState* play) {
         Player_AnimPlayOnce(play, this, D_80854578[temp].anim);
         Player_AnimReplaceApplyFlags(play, this,
                                      ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
-                                         ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                         ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 
         this->actor.parent = this->rideActor;
         func_80832224(this);
@@ -6891,7 +6891,7 @@ s32 Player_ActionChange_2(Player* this, PlayState* play) {
                     Player_AnimReplaceApplyFlags(play, this,
                                                  ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
                                                      ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                                     ANIM_FLAG_PLAYER_7);
+                                                     ANIM_FLAG_IGNORE_SCENE_COLLISION);
                     chest->unk_1F4 = 1;
                     Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_SLOW_CHEST_CS);
                 } else {
@@ -7069,7 +7069,7 @@ s32 func_8083EC18(Player* this, PlayState* play, u32 wallFlags) {
                     Player_AnimPlayOnce(play, this, anim);
                     Player_AnimReplaceApplyFlags(play, this,
                                                  ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
-                                                     ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                                     ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 
                     return true;
                 }
@@ -7150,7 +7150,7 @@ s32 Player_TryEnteringCrawlspace(Player* this, PlayState* play, u32 interactWall
                 Player_AnimPlayOnce(play, this, &gPlayerAnim_link_child_tunnel_start);
                 Player_AnimReplaceApplyFlags(play, this,
                                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 
                 return true;
             }
@@ -7240,7 +7240,7 @@ s32 Player_TryLeavingCrawlspace(Player* this, PlayState* play) {
                 Player_AnimPlayOnce(play, this, &gPlayerAnim_link_child_tunnel_end);
                 Player_AnimReplaceApplyFlags(play, this,
                                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
                 OnePointCutscene_Init(play, 9601, 999, NULL, CAM_ID_MAIN);
             } else {
                 // Leaving a crawlspace backwards
@@ -7250,7 +7250,7 @@ s32 Player_TryLeavingCrawlspace(Player* this, PlayState* play) {
                                      0.0f);
                 Player_AnimReplaceApplyFlags(play, this,
                                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
                 OnePointCutscene_Init(play, 9602, 999, NULL, CAM_ID_MAIN);
             }
 
@@ -9969,7 +9969,7 @@ void func_808467D4(PlayState* play, Player* this) {
                          0.0f);
     Player_AnimReplaceApplyFlags(play, this,
                                  ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
-                                     ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_PLAYER_7);
+                                     ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
     if (LINK_IS_ADULT) {
         func_80846720(play, this, 0);
     }
@@ -9980,7 +9980,7 @@ void func_808468A8(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F9A0, 0);
     Player_AnimReplaceApplyFlags(play, this,
                                  ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
-                                     ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                     ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 }
 
 void func_808468E8(PlayState* play, Player* this) {
@@ -11136,7 +11136,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             Player_AnimPlayOnce(play, this, &gPlayerAnim_link_uma_wait_1);
             Player_AnimReplaceApplyFlags(play, this,
                                          ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
-                                             ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                             ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
             this->av2.actionVar2 = 99;
         }
 
@@ -11161,7 +11161,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             func_8084FF7C(this);
         }
 
-        if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_7)) {
+        if (!(this->skelAnime.moveFlags & ANIM_FLAG_IGNORE_SCENE_COLLISION)) {
             if (((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (sFloorType == FLOOR_TYPE_5) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((this->currentBoots == PLAYER_BOOTS_HOVER) &&
@@ -14546,7 +14546,7 @@ void func_808510D4(PlayState* play, Player* this, void* anim) {
 
 void func_808510F4(PlayState* play, Player* this, void* anim) {
     Player_AnimReplacePlayOnce(play, this, anim,
-                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 }
 
 void func_80851114(PlayState* play, Player* this, void* anim) {
@@ -14555,7 +14555,7 @@ void func_80851114(PlayState* play, Player* this, void* anim) {
 
 void func_80851134(PlayState* play, Player* this, void* anim) {
     Player_AnimReplacePlayLoop(play, this, anim,
-                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 }
 
 void func_80851154(PlayState* play, Player* this, void* anim) {
@@ -14802,7 +14802,7 @@ void func_808519EC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Player_AnimPlayOnceAdjusted(play, this, this->ageProperties->unk_9C);
     Player_AnimReplaceApplyFlags(play, this,
                                  ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
-                                     ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_PLAYER_7);
+                                     ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 }
 
 static struct_808551A4 D_808551A4[] = {
@@ -14913,12 +14913,12 @@ void func_80851E28(PlayState* play, Player* this, CsCmdActorCue* cue) {
 
 void func_80851E64(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Player_AnimReplacePlayOnceAdjusted(play, this, &gPlayerAnim_link_swimer_swim_get,
-                                       ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                       ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 }
 
 void func_80851E90(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Player_AnimReplacePlayOnce(play, this, &gPlayerAnim_clink_op3_negaeri,
-                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
     func_80832698(this, NA_SE_VO_LI_GROAN);
 }
 
@@ -14926,7 +14926,7 @@ void func_80851ECC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         Player_AnimReplacePlayLoop(play, this, &gPlayerAnim_clink_op3_wait2,
                                    ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
-                                       ANIM_FLAG_PLAYER_7);
+                                       ANIM_FLAG_IGNORE_SCENE_COLLISION);
     }
 }
 
@@ -14954,7 +14954,7 @@ void func_80851FB0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         Player_AnimReplacePlayLoop(play, this, &gPlayerAnim_clink_op3_wait3,
                                    ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
-                                       ANIM_FLAG_PLAYER_7);
+                                       ANIM_FLAG_IGNORE_SCENE_COLLISION);
         this->av2.actionVar2 = 1;
     } else if (this->av2.actionVar2 == 0) {
         Player_ProcessAnimSfxList(this, D_808551BC);
@@ -14979,7 +14979,7 @@ void func_80852048(PlayState* play, Player* this, CsCmdActorCue* cue) {
 void func_80852080(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Player_AnimReplacePlayOnceAdjusted(play, this, &gPlayerAnim_clink_demo_futtobi,
                                        ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                           ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+                                           ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
     func_80832698(this, NA_SE_VO_LI_FALL_L);
 }
 
@@ -15027,7 +15027,7 @@ void func_80852234(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
+    Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_IGNORE_SCENE_COLLISION);
 }
 
 void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue) {
