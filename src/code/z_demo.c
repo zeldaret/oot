@@ -2231,8 +2231,8 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
 
         if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
 #if OOT_DEBUG
-            // the first OOT_DEBUG check is required for matching, while the second fully removes the reference to
-            // gDebugCutsceneScript in retail builds
+            // Under !OOT_DEBUG this branch is optimized out, but we still need to #if out the reference to
+            // gDebugCutsceneScript
             Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScript);
 #endif
         } else {
