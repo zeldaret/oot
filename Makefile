@@ -354,6 +354,8 @@ assetclean:
 	$(RM) -r $(EXTRACTED_DIR)
 
 distclean:
+# Remove old generated asset directories
+	$(RM) -r assets/code/ assets/misc/ assets/objects/ assets/overlays/ assets/scenes/ assets/textures/
 	$(RM) -r extracted/
 	$(RM) -r build/
 	$(MAKE) -C tools distclean
