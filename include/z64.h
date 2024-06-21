@@ -209,11 +209,6 @@ typedef struct {
     /* 0x03 */ u8 byte3;
 } QuestHintCmd; // size = 0x4
 
-typedef struct {
-    /* 0x00 */ u8 numActors;
-    /* 0x04 */ TransitionActorEntry* list;
-} TransitionActorContext; // size = 0x8
-
 typedef enum {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
     /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
