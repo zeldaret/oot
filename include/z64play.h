@@ -115,6 +115,9 @@ typedef struct PlayState {
     /* 0x12430 */ char unk_12430[0xE8];
 } PlayState; // size = 0x12518
 
+#define GET_ACTIVE_CAM(play) ((play)->cameraPtrs[(play)->activeCamId])
+#define GET_PLAYER(play) ((Player*)(play)->actorCtx.actorLists[ACTORCAT_PLAYER].head)
+
 void Play_SetViewpoint(PlayState* this, s16 viewpoint);
 s32 Play_CheckViewpoint(PlayState* this, s16 viewpoint);
 void Play_SetShopBrowsingViewpoint(PlayState* this);
