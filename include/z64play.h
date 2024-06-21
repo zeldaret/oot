@@ -27,6 +27,7 @@
 
 union Color_RGBA8_u32;
 struct QuestHintCmd;
+struct VisMono;
 
 typedef struct SequenceContext {
     /* 0x00 */ u8 seqId;
@@ -149,7 +150,9 @@ int Play_CamIsNotFixed(PlayState* this);
 extern void* gDebugCutsceneScript;
 #endif
 
+extern TransitionTile gTransitionTile;
 extern s32 gTransitionTileState;
+extern struct VisMono gPlayVisMono;
 extern union Color_RGBA8_u32 gVisMonoColor;
 
 #endif
