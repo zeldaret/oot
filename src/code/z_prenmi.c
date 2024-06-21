@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "z_prenmi_game.h"
 
 void func_80092320(PreNMIState* this) {
     this->state.running = false;

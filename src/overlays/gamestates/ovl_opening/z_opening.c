@@ -4,7 +4,11 @@
  * Description: Initializes the game into the title screen
  */
 
-#include "global.h"
+#include "z_opening.h"
+#include "z64save.h"
+#include "z_file_select.h"
+#include "functions.h"
+#include "variables.h"
 
 void TitleSetup_SetupTitleScreen(TitleSetupState* this) {
     gSaveContext.gameMode = GAMEMODE_TITLE_SCREEN;

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "quake.h"
 #include "terminal.h"
+#include "z_opening.h"
 
 #if OOT_DEBUG
 void* gDebugCutsceneScript = NULL;

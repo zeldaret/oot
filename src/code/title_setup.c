@@ -1,4 +1,8 @@
-#include "global.h"
+#include "z_title.h"
+#include "z_opening.h"
+#include "z_title_setup.h"
+#include "z64save.h"
+#include "macros.h"
 
 void Setup_InitImpl(SetupState* this) {
     PRINTF("ゼルダ共通データ初期化\n"); // "Zelda common data initalization"

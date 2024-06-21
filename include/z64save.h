@@ -860,5 +860,6 @@ typedef enum {
 #define EVENTINF_30 0x30
 
 
+void SaveContext_Init(void);
 
 #endif

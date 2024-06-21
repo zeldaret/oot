@@ -1,7 +1,12 @@
+#include "z64_scraps.h"
+#include "z_file_select.h"
+#include "z_select.h"
 #include "file_select.h"
 #include "terminal.h"
 #include "assets/textures/title_static/title_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
+#include "z64save.h"
+#include "global.h"
 
 static s16 sUnused = 106;
 

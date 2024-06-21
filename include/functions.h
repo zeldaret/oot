@@ -1,6 +1,7 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+#include "z64_scraps.h"
 #include "z64.h"
 #include "macros.h"
 
@@ -733,7 +734,6 @@ void CollisionCheck_SpawnShieldParticlesWood(PlayState* play, Vec3f* v, Vec3f* a
 s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                                     Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
 u8 CollisionCheck_GetSwordDamage(s32 dmgFlags);
-void SaveContext_Init(void);
 s32 func_800635D0(s32);
 void Regs_Init(void);
 void DebugCamera_ScreenText(u8 x, u8 y, const char* text);
@@ -1045,8 +1045,6 @@ s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum);
 s32 func_800973FC(PlayState* play, RoomContext* roomCtx);
 void Room_Draw(PlayState* play, Room* room, u32 flags);
 void func_80097534(PlayState* play, RoomContext* roomCtx);
-void Sample_Destroy(GameState* thisx);
-void Sample_Init(GameState* thisx);
 void Inventory_ChangeEquipment(s16 equipment, u16 value);
 u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment);
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
@@ -1090,18 +1088,7 @@ void SkinMatrix_SetTranslateRotateZYX(MtxF* dest, s16 rotX, s16 rotY, s16 rotZ, 
                                       f32 translateZ);
 Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src);
 void SkinMatrix_SetRotateAxis(MtxF* mf, s16 angle, f32 axisX, f32 axisY, f32 axisZ);
-void Sram_InitNewSave(void);
-void Sram_InitDebugSave(void);
-void Sram_OpenSave(SramContext* sramCtx);
-void Sram_WriteSave(SramContext* sramCtx);
-void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_WriteSramHeader(SramContext* sramCtx);
-void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
-void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
-void Sram_Init(PlayState* play, SramContext* sramCtx);
+
 void SsSram_Init(s32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
                  u8 handlePulse, u32 handleSpeed);
 void SsSram_Dma(void* dramAddr, size_t size, s32 direction);
@@ -1777,23 +1764,9 @@ u8 Message_GetState(MessageContext* msgCtx);
 void Message_Draw(PlayState* play);
 void Message_Update(PlayState* play);
 void Message_SetTables(void);
-void GameOver_Init(PlayState* play);
-void GameOver_FadeInLights(PlayState* play);
-void GameOver_Update(PlayState* play);
 void Interface_Destroy(PlayState* play);
 void Interface_Init(PlayState* play);
 void Message_Init(PlayState* play);
 void Regs_InitData(PlayState* play);
-
-void Setup_Init(GameState* thisx);
-void Setup_Destroy(GameState* thisx);
-void ConsoleLogo_Init(GameState* thisx);
-void ConsoleLogo_Destroy(GameState* thisx);
-void MapSelect_Init(GameState* thisx);
-void MapSelect_Destroy(GameState* thisx);
-void TitleSetup_Init(GameState* thisx);
-void TitleSetup_Destroy(GameState* thisx);
-void FileSelect_Init(GameState* thisx);
-void FileSelect_Destroy(GameState* thisx);
 
 #endif

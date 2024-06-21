@@ -1,7 +1,12 @@
+#include "z64_scraps.h"
 #include "file_select.h"
+#include "z_file_select.h"
 #include "terminal.h"
 #include "assets/textures/title_static/title_static.h"
 #include "assets/overlays/ovl_File_Choose/ovl_file_choose.h"
+#include "gfx.h"
+#include "functions.h"
+#include "variables.h"
 
 static s16 D_808124C0[] = {
     0x0002, 0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0002, 0x0000, 0x0001,

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "z64soundsource.h"
 
 void SfxSource_InitAll(PlayState* play) {
     SfxSource* sources = &play->sfxSources[0];

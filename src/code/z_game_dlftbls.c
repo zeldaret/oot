@@ -1,4 +1,12 @@
-#include "global.h"
+#include "z64_scraps.h"
+#include "segment_symbols.h"
+#include "z_title.h"
+#include "z_title_setup.h"
+#include "z_opening.h"
+#include "z_file_select.h"
+#include "z_select.h"
+#include "z64.h"
+#include "functions.h"
 
 // Linker symbol declarations (used in the table below)
 #define DEFINE_GAMESTATE(typeName, enumName, name) DECLARE_OVERLAY_SEGMENT(name)

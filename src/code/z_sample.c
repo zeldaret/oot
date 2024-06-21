@@ -1,4 +1,5 @@
 #include "global.h"
+#include "z_sample.h"
 
 void Sample_HandleStateChange(SampleState* this) {
     if (CHECK_BTN_ALL(this->state.input[0].press.button, BTN_START)) {

@@ -6,6 +6,7 @@
 #include "assets/textures/icon_item_fra_static/icon_item_fra_static.h"
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "terminal.h"
+#include "z_opening.h"
 
 static void* sEquipmentFRATexs[] = {
     gPauseEquipment00FRATex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,

@@ -1,4 +1,11 @@
+#include "z64_scraps.h"
 #include "file_select.h"
+#include "z_file_select.h"
+#include "z64save.h"
+#include "z64sram.h"
+#include "regs.h"
+#include "sfx.h"
+#include "variables.h"
 
 // when choosing a file to copy or erase, the 6 main menu buttons are placed at these offsets
 static s16 sChooseFileYOffsets[] = { -48, -48, -48, -24, -24, 0 };

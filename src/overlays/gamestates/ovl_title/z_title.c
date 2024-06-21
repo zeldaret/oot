@@ -4,9 +4,12 @@
  * Description: Displays the Nintendo Logo
  */
 
-#include "global.h"
+#include "z_title.h"
+#include "z_opening.h"
+#include "gfx.h"
 #include "alloca.h"
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
+#include "global.h"
 
 #if OOT_DEBUG
 void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {

@@ -5,9 +5,15 @@
  */
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64_scraps.h"
+#include "z_file_select.h"
+#include "z_select.h"
+#include "z_title.h"
 #include "terminal.h"
 #include "alloca.h"
+#include "z64.h"
+#include "functions.h"
+#include "variables.h"
 
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;

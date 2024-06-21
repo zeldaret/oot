@@ -1,5 +1,11 @@
-#include "global.h"
+#include "z64sram.h"
 #include "terminal.h"
+#include "z64save.h"
+#include "z64item.h"
+#include "z64scene.h"
+#include "z_file_select.h"
+#include "macros.h"
+#include "global.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)
@@ -555,7 +561,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
  *
  *  After verifying all 3 saves, pass relevant data to File Select to be displayed.
  */
-void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCtx) {
+void Sram_VerifyAndLoadAllSaves(struct FileSelectState* fileSelect, SramContext* sramCtx) {
     u16 i;
     u16 newChecksum;
     u16 slotNum;
@@ -717,7 +723,7 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
     PRINTF("now_life=%d, %d, %d\n", fileSelect->health[0], fileSelect->health[1], fileSelect->health[2]);
 }
 
-void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
+void Sram_InitSave(struct FileSelectState* fileSelect, SramContext* sramCtx) {
     u16 offset;
     u16 j;
     u16* ptr;
@@ -810,7 +816,7 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     PRINTF("now_life[%d]=%d\n", gSaveContext.fileNum, fileSelect->health[gSaveContext.fileNum]);
 }
 
-void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx) {
+void Sram_EraseSave(struct FileSelectState* fileSelect, SramContext* sramCtx) {
     s32 offset;
 
     Sram_InitNewSave();
@@ -829,7 +835,7 @@ void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     PRINTF("ＣＬＥＡＲ終了\n");
 }
 
-void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx) {
+void Sram_CopySave(struct FileSelectState* fileSelect, SramContext* sramCtx) {
     s32 offset;
 
     PRINTF("ＲＥＡＤ=%d(%x)  ＣＯＰＹ=%d(%x)\n", fileSelect->selectedFileIndex,
@@ -928,5 +934,5 @@ void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
     ASSERT(sramCtx->readBuff != NULL, "sram->read_buff != NULL", "../z_sram.c", 1295);
 }
 
-void Sram_Init(PlayState* play, SramContext* sramCtx) {
+void Sram_Init(struct PlayState* play, SramContext* sramCtx) {
 }

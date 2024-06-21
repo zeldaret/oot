@@ -76,7 +76,7 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
 }
 #endif
 
-s32 Collider_InitBase(PlayState* play, Collider* col) {
+s32 Collider_InitBase(struct PlayState* play, Collider* col) {
     static Collider init = {
         NULL, NULL, NULL, NULL, AT_NONE, AC_NONE, OC1_NONE, OC2_NONE, COLTYPE_HIT3, COLSHAPE_MAX,
     };
@@ -85,14 +85,14 @@ s32 Collider_InitBase(PlayState* play, Collider* col) {
     return true;
 }
 
-s32 Collider_DestroyBase(PlayState* play, Collider* col) {
+s32 Collider_DestroyBase(struct PlayState* play, Collider* col) {
     return true;
 }
 
 /**
  * Uses default OC2_TYPE_1 and COLTYPE_HIT0
  */
-s32 Collider_SetBaseToActor(PlayState* play, Collider* col, ColliderInitToActor* src) {
+s32 Collider_SetBaseToActor(struct PlayState* play, Collider* col, ColliderInitToActor* src) {
     col->actor = src->actor;
     col->atFlags = src->atFlags;
     col->acFlags = src->acFlags;
@@ -105,7 +105,7 @@ s32 Collider_SetBaseToActor(PlayState* play, Collider* col, ColliderInitToActor*
 /**
  * Uses default OC2_TYPE_1
  */
-s32 Collider_SetBaseType1(PlayState* play, Collider* col, Actor* actor, ColliderInitType1* src) {
+s32 Collider_SetBaseType1(struct PlayState* play, Collider* col, Actor* actor, ColliderInitType1* src) {
     col->actor = actor;
     col->colType = src->colType;
     col->atFlags = src->atFlags;
@@ -116,7 +116,7 @@ s32 Collider_SetBaseType1(PlayState* play, Collider* col, Actor* actor, Collider
     return true;
 }
 
-s32 Collider_SetBase(PlayState* play, Collider* col, Actor* actor, ColliderInit* src) {
+s32 Collider_SetBase(struct PlayState* play, Collider* col, Actor* actor, ColliderInit* src) {
     col->actor = actor;
     col->colType = src->colType;
     col->atFlags = src->atFlags;
@@ -127,34 +127,34 @@ s32 Collider_SetBase(PlayState* play, Collider* col, Actor* actor, ColliderInit*
     return true;
 }
 
-void Collider_ResetATBase(PlayState* play, Collider* col) {
+void Collider_ResetATBase(struct PlayState* play, Collider* col) {
     col->at = NULL;
     col->atFlags &= ~(AT_HIT | AT_BOUNCED);
 }
 
-void Collider_ResetACBase(PlayState* play, Collider* col) {
+void Collider_ResetACBase(struct PlayState* play, Collider* col) {
     col->ac = NULL;
     col->acFlags &= ~(AC_HIT | AC_BOUNCED);
 }
 
-void Collider_ResetOCBase(PlayState* play, Collider* col) {
+void Collider_ResetOCBase(struct PlayState* play, Collider* col) {
     col->oc = NULL;
     col->ocFlags1 &= ~OC1_HIT;
     col->ocFlags2 &= ~OC2_HIT_PLAYER;
 }
 
-s32 Collider_InitElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT* atDmgInfo) {
+s32 Collider_InitElementDamageInfoAT(struct PlayState* play, ColliderElementDamageInfoAT* atDmgInfo) {
     static ColliderElementDamageInfoAT init = { 0x00000000, 0, 0 };
 
     *atDmgInfo = init;
     return true;
 }
 
-s32 Collider_DestroyElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT* atDmgInfo) {
+s32 Collider_DestroyElementDamageInfoAT(struct PlayState* play, ColliderElementDamageInfoAT* atDmgInfo) {
     return true;
 }
 
-s32 Collider_SetElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT* dest,
+s32 Collider_SetElementDamageInfoAT(struct PlayState* play, ColliderElementDamageInfoAT* dest,
                                     ColliderElementDamageInfoAT* src) {
     dest->dmgFlags = src->dmgFlags;
     dest->effect = src->effect;
@@ -162,21 +162,21 @@ s32 Collider_SetElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT
     return true;
 }
 
-void Collider_ResetATElement_Unk(PlayState* play, ColliderElement* elem) {
+void Collider_ResetATElement_Unk(struct PlayState* play, ColliderElement* elem) {
 }
 
-s32 Collider_InitElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo) {
+s32 Collider_InitElementDamageInfoAC(struct PlayState* play, ColliderElementDamageInfoAC* acDmgInfo) {
     static ColliderElementDamageInfoAC init = { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } };
 
     *acDmgInfo = init;
     return true;
 }
 
-s32 Collider_DestroyElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo) {
+s32 Collider_DestroyElementDamageInfoAC(struct PlayState* play, ColliderElementDamageInfoAC* acDmgInfo) {
     return true;
 }
 
-s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
+s32 Collider_SetElementDamageInfoAC(struct PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
                                     ColliderElementDamageInfoACInit* init) {
     acDmgInfo->dmgFlags = init->dmgFlags;
     acDmgInfo->effect = init->effect;
@@ -184,7 +184,7 @@ s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC
     return true;
 }
 
-s32 Collider_InitElement(PlayState* play, ColliderElement* elem) {
+s32 Collider_InitElement(struct PlayState* play, ColliderElement* elem) {
     static ColliderElement init = {
         { 0, 0, 0 },   { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
         ELEMTYPE_UNK0, ATELEM_NONE,
@@ -199,13 +199,13 @@ s32 Collider_InitElement(PlayState* play, ColliderElement* elem) {
     return true;
 }
 
-s32 Collider_DestroyElement(PlayState* play, ColliderElement* elem) {
+s32 Collider_DestroyElement(struct PlayState* play, ColliderElement* elem) {
     Collider_DestroyElementDamageInfoAT(play, &elem->atDmgInfo);
     Collider_DestroyElementDamageInfoAC(play, &elem->acDmgInfo);
     return true;
 }
 
-s32 Collider_SetElement(PlayState* play, ColliderElement* elem, ColliderElementInit* elemInit) {
+s32 Collider_SetElement(struct PlayState* play, ColliderElement* elem, ColliderElementInit* elemInit) {
     elem->elemType = elemInit->elemType;
     Collider_SetElementDamageInfoAT(play, &elem->atDmgInfo, &elemInit->atDmgInfo);
     Collider_SetElementDamageInfoAC(play, &elem->acDmgInfo, &elemInit->acDmgInfo);
@@ -215,7 +215,7 @@ s32 Collider_SetElement(PlayState* play, ColliderElement* elem, ColliderElementI
     return true;
 }
 
-void Collider_ResetATElement(PlayState* play, ColliderElement* elem) {
+void Collider_ResetATElement(struct PlayState* play, ColliderElement* elem) {
     elem->atHit = NULL;
     elem->atHitElem = NULL;
     elem->atElemFlags &= ~ATELEM_HIT;
@@ -223,7 +223,7 @@ void Collider_ResetATElement(PlayState* play, ColliderElement* elem) {
     Collider_ResetATElement_Unk(play, elem);
 }
 
-void Collider_ResetACElement(PlayState* play, ColliderElement* elem) {
+void Collider_ResetACElement(struct PlayState* play, ColliderElement* elem) {
     elem->acDmgInfo.hitPos.x = elem->acDmgInfo.hitPos.y = elem->acDmgInfo.hitPos.z = 0;
     elem->acElemFlags &= ~ACELEM_HIT;
     elem->acElemFlags &= ~ACELEM_DRAW_HITMARK;
@@ -231,11 +231,11 @@ void Collider_ResetACElement(PlayState* play, ColliderElement* elem) {
     elem->acHitElem = NULL;
 }
 
-void Collider_ResetOCElement(PlayState* play, ColliderElement* elem) {
+void Collider_ResetOCElement(struct PlayState* play, ColliderElement* elem) {
     elem->ocElemFlags &= ~OCELEM_HIT;
 }
 
-s32 Collider_InitJntSphElementDim(PlayState* play, ColliderJntSphElementDim* dim) {
+s32 Collider_InitJntSphElementDim(struct PlayState* play, ColliderJntSphElementDim* dim) {
     static ColliderJntSphElementDim init = {
         { { 0, 0, 0 }, 0 },
         { { 0, 0, 0 }, 0 },
@@ -246,46 +246,46 @@ s32 Collider_InitJntSphElementDim(PlayState* play, ColliderJntSphElementDim* dim
     return true;
 }
 
-s32 Collider_DestroyJntSphElementDim(PlayState* play, ColliderJntSphElementDim* dim) {
+s32 Collider_DestroyJntSphElementDim(struct PlayState* play, ColliderJntSphElementDim* dim) {
     return true;
 }
 
-s32 Collider_SetJntSphElementDim(PlayState* play, ColliderJntSphElementDim* dest, ColliderJntSphElementDimInit* src) {
+s32 Collider_SetJntSphElementDim(struct PlayState* play, ColliderJntSphElementDim* dest, ColliderJntSphElementDimInit* src) {
     dest->limb = src->limb;
     dest->modelSphere = src->modelSphere;
     dest->scale = src->scale * 0.01f;
     return true;
 }
 
-s32 Collider_InitJntSphElement(PlayState* play, ColliderJntSphElement* jntSphElem) {
+s32 Collider_InitJntSphElement(struct PlayState* play, ColliderJntSphElement* jntSphElem) {
     Collider_InitElement(play, &jntSphElem->base);
     Collider_InitJntSphElementDim(play, &jntSphElem->dim);
     return true;
 }
 
-s32 Collider_DestroyJntSphElement(PlayState* play, ColliderJntSphElement* jntSphElem) {
+s32 Collider_DestroyJntSphElement(struct PlayState* play, ColliderJntSphElement* jntSphElem) {
     Collider_DestroyElement(play, &jntSphElem->base);
     Collider_DestroyJntSphElementDim(play, &jntSphElem->dim);
     return true;
 }
 
-s32 Collider_SetJntSphElement(PlayState* play, ColliderJntSphElement* dest, ColliderJntSphElementInit* src) {
+s32 Collider_SetJntSphElement(struct PlayState* play, ColliderJntSphElement* dest, ColliderJntSphElementInit* src) {
     Collider_SetElement(play, &dest->base, &src->base);
     Collider_SetJntSphElementDim(play, &dest->dim, &src->dim);
     return true;
 }
 
-s32 Collider_ResetJntSphElementAT(PlayState* play, ColliderJntSphElement* jntSphElem) {
+s32 Collider_ResetJntSphElementAT(struct PlayState* play, ColliderJntSphElement* jntSphElem) {
     Collider_ResetATElement(play, &jntSphElem->base);
     return true;
 }
 
-s32 Collider_ResetJntSphElementAC(PlayState* play, ColliderJntSphElement* jntSphElem) {
+s32 Collider_ResetJntSphElementAC(struct PlayState* play, ColliderJntSphElement* jntSphElem) {
     Collider_ResetACElement(play, &jntSphElem->base);
     return true;
 }
 
-s32 Collider_ResetJntSphElementOC(PlayState* play, ColliderJntSphElement* jntSphElem) {
+s32 Collider_ResetJntSphElementOC(struct PlayState* play, ColliderJntSphElement* jntSphElem) {
     Collider_ResetOCElement(play, &jntSphElem->base);
     return true;
 }
@@ -293,7 +293,7 @@ s32 Collider_ResetJntSphElementOC(PlayState* play, ColliderJntSphElement* jntSph
 /**
  * Initializes a ColliderJntSph to default values
  */
-s32 Collider_InitJntSph(PlayState* play, ColliderJntSph* jntSph) {
+s32 Collider_InitJntSph(struct PlayState* play, ColliderJntSph* jntSph) {
     Collider_InitBase(play, &jntSph->base);
     jntSph->count = 0;
     jntSph->elements = NULL;
@@ -303,7 +303,7 @@ s32 Collider_InitJntSph(PlayState* play, ColliderJntSph* jntSph) {
 /**
  * Destroys a dynamically allocated ColliderJntSph
  */
-s32 Collider_FreeJntSph(PlayState* play, ColliderJntSph* jntSph) {
+s32 Collider_FreeJntSph(struct PlayState* play, ColliderJntSph* jntSph) {
     ColliderJntSphElement* jntSphElem;
 
     Collider_DestroyBase(play, &jntSph->base);
@@ -322,7 +322,7 @@ s32 Collider_FreeJntSph(PlayState* play, ColliderJntSph* jntSph) {
 /**
  * Destroys a preallocated ColliderJntSph
  */
-s32 Collider_DestroyJntSph(PlayState* play, ColliderJntSph* jntSph) {
+s32 Collider_DestroyJntSph(struct PlayState* play, ColliderJntSph* jntSph) {
     ColliderJntSphElement* jntSphElem;
 
     Collider_DestroyBase(play, &jntSph->base);
@@ -338,7 +338,7 @@ s32 Collider_DestroyJntSph(PlayState* play, ColliderJntSph* jntSph) {
  * Sets up the ColliderJntSph using the values in src, sets it to the actor specified in src, and dynamically allocates
  * the element array. Uses default OC2_TYPE_1 and COLTYPE_HIT0. Unused.
  */
-s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJntSphInitToActor* src) {
+s32 Collider_SetJntSphToActor(struct PlayState* play, ColliderJntSph* dest, ColliderJntSphInitToActor* src) {
     ColliderJntSphElement* destElem;
     ColliderJntSphElementInit* srcElem;
 
@@ -366,7 +366,7 @@ s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJnt
  * Sets up the ColliderJntSph using the values in src and dynamically allocates the element array. Uses default
  * OC2_TYPE_1. Only used by En_Nwc, an unused and unfinished actor.
  */
-s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* actor, ColliderJntSphInitType1* src) {
+s32 Collider_SetJntSphAllocType1(struct PlayState* play, ColliderJntSph* dest, Actor* actor, ColliderJntSphInitType1* src) {
     ColliderJntSphElement* destElem;
     ColliderJntSphElementInit* srcElem;
 
@@ -394,7 +394,7 @@ s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* a
  * Sets up the ColliderJntSph using the values in src and dynamically allocates the element array.
  * Unused.
  */
-s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src) {
+s32 Collider_SetJntSphAlloc(struct PlayState* play, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src) {
     ColliderJntSphElement* destElem;
     ColliderJntSphElementInit* srcElem;
 
@@ -420,7 +420,7 @@ s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor,
 /**
  * Sets up the ColliderJntSph using the values in src, placing the element array in elements.
  */
-s32 Collider_SetJntSph(PlayState* play, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
+s32 Collider_SetJntSph(struct PlayState* play, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
                        ColliderJntSphElement* jntSphElements) {
     ColliderJntSphElement* destElem;
     ColliderJntSphElementInit* srcElem;
@@ -441,7 +441,7 @@ s32 Collider_SetJntSph(PlayState* play, ColliderJntSph* dest, Actor* actor, Coll
 /**
  * Resets the collider's AT collision flags.
  */
-s32 Collider_ResetJntSphAT(PlayState* play, Collider* col) {
+s32 Collider_ResetJntSphAT(struct PlayState* play, Collider* col) {
     ColliderJntSphElement* jntSphElem;
     ColliderJntSph* jntSph = (ColliderJntSph*)col;
 
@@ -456,7 +456,7 @@ s32 Collider_ResetJntSphAT(PlayState* play, Collider* col) {
 /**
  * Resets the collider's AC collision flags.
  */
-s32 Collider_ResetJntSphAC(PlayState* play, Collider* col) {
+s32 Collider_ResetJntSphAC(struct PlayState* play, Collider* col) {
     ColliderJntSphElement* jntSphElem;
     ColliderJntSph* jntSph = (ColliderJntSph*)col;
 
@@ -471,7 +471,7 @@ s32 Collider_ResetJntSphAC(PlayState* play, Collider* col) {
 /**
  * Resets the collider's OC collision flags.
  */
-s32 Collider_ResetJntSphOC(PlayState* play, Collider* col) {
+s32 Collider_ResetJntSphOC(struct PlayState* play, Collider* col) {
     ColliderJntSphElement* jntSphElem;
     ColliderJntSph* jntSph = (ColliderJntSph*)col;
 
@@ -483,18 +483,18 @@ s32 Collider_ResetJntSphOC(PlayState* play, Collider* col) {
     return true;
 }
 
-s32 Collider_InitCylinderDim(PlayState* play, Cylinder16* dim) {
+s32 Collider_InitCylinderDim(struct PlayState* play, Cylinder16* dim) {
     Cylinder16 init = { 0, 0, 0, { 0, 0, 0 } };
 
     *dim = init;
     return true;
 }
 
-s32 Collider_DestroyCylinderDim(PlayState* play, Cylinder16* dim) {
+s32 Collider_DestroyCylinderDim(struct PlayState* play, Cylinder16* dim) {
     return true;
 }
 
-s32 Collider_SetCylinderDim(PlayState* play, Cylinder16* dest, Cylinder16* src) {
+s32 Collider_SetCylinderDim(struct PlayState* play, Cylinder16* dest, Cylinder16* src) {
     *dest = *src;
     return true;
 }
@@ -502,7 +502,7 @@ s32 Collider_SetCylinderDim(PlayState* play, Cylinder16* dest, Cylinder16* src) 
 /**
  * Initializes a ColliderCylinder to default values
  */
-s32 Collider_InitCylinder(PlayState* play, ColliderCylinder* cyl) {
+s32 Collider_InitCylinder(struct PlayState* play, ColliderCylinder* cyl) {
     Collider_InitBase(play, &cyl->base);
     Collider_InitElement(play, &cyl->elem);
     Collider_InitCylinderDim(play, &cyl->dim);
@@ -512,7 +512,7 @@ s32 Collider_InitCylinder(PlayState* play, ColliderCylinder* cyl) {
 /**
  * Destroys a ColliderCylinder
  */
-s32 Collider_DestroyCylinder(PlayState* play, ColliderCylinder* cyl) {
+s32 Collider_DestroyCylinder(struct PlayState* play, ColliderCylinder* cyl) {
     Collider_DestroyBase(play, &cyl->base);
     Collider_DestroyElement(play, &cyl->elem);
     Collider_DestroyCylinderDim(play, &cyl->dim);
@@ -523,7 +523,7 @@ s32 Collider_DestroyCylinder(PlayState* play, ColliderCylinder* cyl) {
  * Sets up the ColliderCylinder using the values in src and sets it to the actor specified in src. Uses default
  * OC2_TYPE_1 and COLTYPE_0. Used only by DekuJr, who sets it to himself anyways.
  */
-s32 Collider_SetCylinderToActor(PlayState* play, ColliderCylinder* dest, ColliderCylinderInitToActor* src) {
+s32 Collider_SetCylinderToActor(struct PlayState* play, ColliderCylinder* dest, ColliderCylinderInitToActor* src) {
     Collider_SetBaseToActor(play, &dest->base, &src->base);
     Collider_SetElement(play, &dest->elem, &src->elem);
     Collider_SetCylinderDim(play, &dest->dim, &src->dim);
@@ -533,7 +533,7 @@ s32 Collider_SetCylinderToActor(PlayState* play, ColliderCylinder* dest, Collide
 /**
  * Sets up the ColliderCylinder using the values in src. Uses default OC2_TYPE_1
  */
-s32 Collider_SetCylinderType1(PlayState* play, ColliderCylinder* dest, Actor* actor, ColliderCylinderInitType1* src) {
+s32 Collider_SetCylinderType1(struct PlayState* play, ColliderCylinder* dest, Actor* actor, ColliderCylinderInitType1* src) {
     Collider_SetBaseType1(play, &dest->base, actor, &src->base);
     Collider_SetElement(play, &dest->elem, &src->elem);
     Collider_SetCylinderDim(play, &dest->dim, &src->dim);
@@ -543,7 +543,7 @@ s32 Collider_SetCylinderType1(PlayState* play, ColliderCylinder* dest, Actor* ac
 /**
  * Sets up the ColliderCylinder using the values in src.
  */
-s32 Collider_SetCylinder(PlayState* play, ColliderCylinder* dest, Actor* actor, ColliderCylinderInit* src) {
+s32 Collider_SetCylinder(struct PlayState* play, ColliderCylinder* dest, Actor* actor, ColliderCylinderInit* src) {
     Collider_SetBase(play, &dest->base, actor, &src->base);
     Collider_SetElement(play, &dest->elem, &src->elem);
     Collider_SetCylinderDim(play, &dest->dim, &src->dim);
@@ -553,7 +553,7 @@ s32 Collider_SetCylinder(PlayState* play, ColliderCylinder* dest, Actor* actor, 
 /**
  * Resets the collider's AT collision flags.
  */
-s32 Collider_ResetCylinderAT(PlayState* play, Collider* col) {
+s32 Collider_ResetCylinderAT(struct PlayState* play, Collider* col) {
     ColliderCylinder* cyl = (ColliderCylinder*)col;
 
     Collider_ResetATBase(play, &cyl->base);
@@ -564,7 +564,7 @@ s32 Collider_ResetCylinderAT(PlayState* play, Collider* col) {
 /**
  * Resets the collider's AC collision flags.
  */
-s32 Collider_ResetCylinderAC(PlayState* play, Collider* col) {
+s32 Collider_ResetCylinderAC(struct PlayState* play, Collider* col) {
     ColliderCylinder* cyl = (ColliderCylinder*)col;
 
     Collider_ResetACBase(play, &cyl->base);
@@ -575,7 +575,7 @@ s32 Collider_ResetCylinderAC(PlayState* play, Collider* col) {
 /**
  * Resets the collider's OC collision flags.
  */
-s32 Collider_ResetCylinderOC(PlayState* play, Collider* col) {
+s32 Collider_ResetCylinderOC(struct PlayState* play, Collider* col) {
     ColliderCylinder* cyl = (ColliderCylinder*)col;
 
     Collider_ResetOCBase(play, &cyl->base);
@@ -583,7 +583,7 @@ s32 Collider_ResetCylinderOC(PlayState* play, Collider* col) {
     return true;
 }
 
-s32 Collider_InitTrisElementDim(PlayState* play, TriNorm* dim) {
+s32 Collider_InitTrisElementDim(struct PlayState* play, TriNorm* dim) {
     static TriNorm init = {
         { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } },
         { { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -593,11 +593,11 @@ s32 Collider_InitTrisElementDim(PlayState* play, TriNorm* dim) {
     return true;
 }
 
-s32 Collider_DestroyTrisElementDim(PlayState* play, TriNorm* dim) {
+s32 Collider_DestroyTrisElementDim(struct PlayState* play, TriNorm* dim) {
     return true;
 }
 
-s32 Collider_SetTrisElementDim(PlayState* play, TriNorm* dest, ColliderTrisElementDimInit* src) {
+s32 Collider_SetTrisElementDim(struct PlayState* play, TriNorm* dest, ColliderTrisElementDimInit* src) {
     Vec3f* destVtx;
     Vec3f* srcVtx;
     f32 nx;
@@ -618,35 +618,35 @@ s32 Collider_SetTrisElementDim(PlayState* play, TriNorm* dest, ColliderTrisEleme
     return true;
 }
 
-s32 Collider_InitTrisElement(PlayState* play, ColliderTrisElement* trisElem) {
+s32 Collider_InitTrisElement(struct PlayState* play, ColliderTrisElement* trisElem) {
     Collider_InitElement(play, &trisElem->base);
     Collider_InitTrisElementDim(play, &trisElem->dim);
     return true;
 }
 
-s32 Collider_DestroyTrisElement(PlayState* play, ColliderTrisElement* trisElem) {
+s32 Collider_DestroyTrisElement(struct PlayState* play, ColliderTrisElement* trisElem) {
     Collider_DestroyElement(play, &trisElem->base);
     Collider_DestroyTrisElementDim(play, &trisElem->dim);
     return true;
 }
 
-s32 Collider_SetTrisElement(PlayState* play, ColliderTrisElement* dest, ColliderTrisElementInit* src) {
+s32 Collider_SetTrisElement(struct PlayState* play, ColliderTrisElement* dest, ColliderTrisElementInit* src) {
     Collider_SetElement(play, &dest->base, &src->base);
     Collider_SetTrisElementDim(play, &dest->dim, &src->dim);
     return true;
 }
 
-s32 Collider_ResetTrisElementAT(PlayState* play, ColliderTrisElement* trisElem) {
+s32 Collider_ResetTrisElementAT(struct PlayState* play, ColliderTrisElement* trisElem) {
     Collider_ResetATElement(play, &trisElem->base);
     return true;
 }
 
-s32 Collider_ResetTrisElementAC(PlayState* play, ColliderTrisElement* trisElem) {
+s32 Collider_ResetTrisElementAC(struct PlayState* play, ColliderTrisElement* trisElem) {
     Collider_ResetACElement(play, &trisElem->base);
     return true;
 }
 
-s32 Collider_ResetTrisElementOC(PlayState* play, ColliderTrisElement* trisElem) {
+s32 Collider_ResetTrisElementOC(struct PlayState* play, ColliderTrisElement* trisElem) {
     Collider_ResetOCElement(play, &trisElem->base);
     return true;
 }
@@ -654,7 +654,7 @@ s32 Collider_ResetTrisElementOC(PlayState* play, ColliderTrisElement* trisElem) 
 /**
  * Initializes a ColliderTris to default values
  */
-s32 Collider_InitTris(PlayState* play, ColliderTris* tris) {
+s32 Collider_InitTris(struct PlayState* play, ColliderTris* tris) {
     Collider_InitBase(play, &tris->base);
     tris->count = 0;
     tris->elements = NULL;
@@ -665,7 +665,7 @@ s32 Collider_InitTris(PlayState* play, ColliderTris* tris) {
  * Destroys a dynamically allocated ColliderTris
  * Unused
  */
-s32 Collider_FreeTris(PlayState* play, ColliderTris* tris) {
+s32 Collider_FreeTris(struct PlayState* play, ColliderTris* tris) {
     ColliderTrisElement* trisElem;
 
     Collider_DestroyBase(play, &tris->base);
@@ -684,7 +684,7 @@ s32 Collider_FreeTris(PlayState* play, ColliderTris* tris) {
 /**
  * Destroys a preallocated ColliderTris
  */
-s32 Collider_DestroyTris(PlayState* play, ColliderTris* tris) {
+s32 Collider_DestroyTris(struct PlayState* play, ColliderTris* tris) {
     ColliderTrisElement* trisElem;
 
     Collider_DestroyBase(play, &tris->base);
@@ -701,7 +701,7 @@ s32 Collider_DestroyTris(PlayState* play, ColliderTris* tris) {
  * Sets up the ColliderTris using the values in src and dynamically allocates the element array. Uses default OC2_TYPE_1
  * Unused.
  */
-s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor, ColliderTrisInitType1* src) {
+s32 Collider_SetTrisAllocType1(struct PlayState* play, ColliderTris* dest, Actor* actor, ColliderTrisInitType1* src) {
     ColliderTrisElement* destElem;
     ColliderTrisElementInit* srcElem;
 
@@ -727,7 +727,7 @@ s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor
  * Sets up the ColliderTris using the values in src and dynamically allocates the element array.
  * Unused
  */
-s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, ColliderTrisInit* src) {
+s32 Collider_SetTrisAlloc(struct PlayState* play, ColliderTris* dest, Actor* actor, ColliderTrisInit* src) {
     ColliderTrisElement* destElem;
     ColliderTrisElementInit* srcElem;
 
@@ -754,7 +754,7 @@ s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, Col
 /**
  * Sets up the ColliderTris using the values in src, placing the element array in elements.
  */
-s32 Collider_SetTris(PlayState* play, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
+s32 Collider_SetTris(struct PlayState* play, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
                      ColliderTrisElement* trisElements) {
     ColliderTrisElement* destElem;
     ColliderTrisElementInit* srcElem;
@@ -775,7 +775,7 @@ s32 Collider_SetTris(PlayState* play, ColliderTris* dest, Actor* actor, Collider
 /**
  * Resets the collider's AT collision flags.
  */
-s32 Collider_ResetTrisAT(PlayState* play, Collider* col) {
+s32 Collider_ResetTrisAT(struct PlayState* play, Collider* col) {
     ColliderTrisElement* trisElem;
     ColliderTris* tris = (ColliderTris*)col;
 
@@ -789,7 +789,7 @@ s32 Collider_ResetTrisAT(PlayState* play, Collider* col) {
 /**
  * Resets the collider's AC collision flags.
  */
-s32 Collider_ResetTrisAC(PlayState* play, Collider* col) {
+s32 Collider_ResetTrisAC(struct PlayState* play, Collider* col) {
     ColliderTrisElement* trisElem;
     ColliderTris* tris = (ColliderTris*)col;
 
@@ -803,7 +803,7 @@ s32 Collider_ResetTrisAC(PlayState* play, Collider* col) {
 /**
  * Resets the collider's OC collision flags.
  */
-s32 Collider_ResetTrisOC(PlayState* play, Collider* col) {
+s32 Collider_ResetTrisOC(struct PlayState* play, Collider* col) {
     ColliderTrisElement* trisElem;
     ColliderTris* tris = (ColliderTris*)col;
 
@@ -814,7 +814,7 @@ s32 Collider_ResetTrisOC(PlayState* play, Collider* col) {
     return true;
 }
 
-s32 Collider_InitQuadDim(PlayState* play, ColliderQuadDim* dim) {
+s32 Collider_InitQuadDim(struct PlayState* play, ColliderQuadDim* dim) {
     static ColliderQuadDim init = {
         { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } },
         { 0, 0, 0 },
@@ -826,11 +826,11 @@ s32 Collider_InitQuadDim(PlayState* play, ColliderQuadDim* dim) {
     return true;
 }
 
-s32 Collider_DestroyQuadDim(PlayState* play, ColliderQuadDim* dim) {
+s32 Collider_DestroyQuadDim(struct PlayState* play, ColliderQuadDim* dim) {
     return true;
 }
 
-s32 Collider_ResetQuadACDist(PlayState* play, ColliderQuadDim* dim) {
+s32 Collider_ResetQuadACDist(struct PlayState* play, ColliderQuadDim* dim) {
     dim->acDistSq = 1.0e38f;
     return true;
 }
@@ -844,7 +844,7 @@ void Collider_SetQuadMidpoints(ColliderQuadDim* dim) {
     dim->baMid.z = (dim->quad[1].z + dim->quad[0].z) * 0.5f;
 }
 
-s32 Collider_SetQuadDim(PlayState* play, ColliderQuadDim* dest, ColliderQuadDimInit* src) {
+s32 Collider_SetQuadDim(struct PlayState* play, ColliderQuadDim* dest, ColliderQuadDimInit* src) {
     dest->quad[0] = src->quad[0];
     dest->quad[1] = src->quad[1];
     dest->quad[2] = src->quad[2];
@@ -856,7 +856,7 @@ s32 Collider_SetQuadDim(PlayState* play, ColliderQuadDim* dest, ColliderQuadDimI
 /**
  * Initializes a ColliderQuad to default values.
  */
-s32 Collider_InitQuad(PlayState* play, ColliderQuad* quad) {
+s32 Collider_InitQuad(struct PlayState* play, ColliderQuad* quad) {
     Collider_InitBase(play, &quad->base);
     Collider_InitElement(play, &quad->elem);
     Collider_InitQuadDim(play, &quad->dim);
@@ -866,7 +866,7 @@ s32 Collider_InitQuad(PlayState* play, ColliderQuad* quad) {
 /**
  * Destroys a ColliderQuad.
  */
-s32 Collider_DestroyQuad(PlayState* play, ColliderQuad* quad) {
+s32 Collider_DestroyQuad(struct PlayState* play, ColliderQuad* quad) {
     Collider_DestroyBase(play, &quad->base);
     Collider_DestroyElement(play, &quad->elem);
     Collider_DestroyQuadDim(play, &quad->dim);
@@ -876,7 +876,7 @@ s32 Collider_DestroyQuad(PlayState* play, ColliderQuad* quad) {
 /**
  * Sets up the ColliderQuad using the values in src. Uses the default OC2_TYPE_1
  */
-s32 Collider_SetQuadType1(PlayState* play, ColliderQuad* dest, Actor* actor, ColliderQuadInitType1* src) {
+s32 Collider_SetQuadType1(struct PlayState* play, ColliderQuad* dest, Actor* actor, ColliderQuadInitType1* src) {
     Collider_SetBaseType1(play, &dest->base, actor, &src->base);
     Collider_SetElement(play, &dest->elem, &src->elem);
     Collider_SetQuadDim(play, &dest->dim, &src->dim);
@@ -886,7 +886,7 @@ s32 Collider_SetQuadType1(PlayState* play, ColliderQuad* dest, Actor* actor, Col
 /**
  * Sets up the ColliderQuad using the values in src.
  */
-s32 Collider_SetQuad(PlayState* play, ColliderQuad* dest, Actor* actor, ColliderQuadInit* src) {
+s32 Collider_SetQuad(struct PlayState* play, ColliderQuad* dest, Actor* actor, ColliderQuadInit* src) {
     Collider_SetBase(play, &dest->base, actor, &src->base);
     Collider_SetElement(play, &dest->elem, &src->elem);
     Collider_SetQuadDim(play, &dest->dim, &src->dim);
@@ -896,7 +896,7 @@ s32 Collider_SetQuad(PlayState* play, ColliderQuad* dest, Actor* actor, Collider
 /**
  * Resets the collider's AT collision flags.
  */
-s32 Collider_ResetQuadAT(PlayState* play, Collider* col) {
+s32 Collider_ResetQuadAT(struct PlayState* play, Collider* col) {
     ColliderQuad* quad = (ColliderQuad*)col;
 
     Collider_ResetATBase(play, &quad->base);
@@ -908,7 +908,7 @@ s32 Collider_ResetQuadAT(PlayState* play, Collider* col) {
 /**
  * Resets the collider's AC collision flags.
  */
-s32 Collider_ResetQuadAC(PlayState* play, Collider* col) {
+s32 Collider_ResetQuadAC(struct PlayState* play, Collider* col) {
     ColliderQuad* quad = (ColliderQuad*)col;
 
     Collider_ResetACBase(play, &quad->base);
@@ -919,7 +919,7 @@ s32 Collider_ResetQuadAC(PlayState* play, Collider* col) {
 /**
  * Resets the collider's OC collision flags.
  */
-s32 Collider_ResetQuadOC(PlayState* play, Collider* col) {
+s32 Collider_ResetQuadOC(struct PlayState* play, Collider* col) {
     ColliderQuad* quad = (ColliderQuad*)col;
 
     Collider_ResetOCBase(play, &quad->base);
@@ -931,7 +931,7 @@ s32 Collider_ResetQuadOC(PlayState* play, Collider* col) {
  * For quad colliders with AT_NEAREST, resets the previous AC collider it hit if the current element is closer,
  * otherwise returns false. Used on player AT colliders to prevent multiple collisions from registering.
  */
-s32 Collider_QuadSetNearestAC(PlayState* play, ColliderQuad* quad, Vec3f* hitPos) {
+s32 Collider_QuadSetNearestAC(struct PlayState* play, ColliderQuad* quad, Vec3f* hitPos) {
     f32 acDistSq;
     Vec3f dcMid;
 
@@ -957,7 +957,7 @@ s32 Collider_QuadSetNearestAC(PlayState* play, ColliderQuad* quad, Vec3f* hitPos
  * Initializes an OcLine to default values
  * OcLines are entirely unused.
  */
-s32 Collider_InitLine(PlayState* play, OcLine* line) {
+s32 Collider_InitLine(struct PlayState* play, OcLine* line) {
     Vec3f init = { 0.0f, 0.0f, 0.0f };
 
     Math_Vec3f_Copy(&line->line.a, &init);
@@ -969,7 +969,7 @@ s32 Collider_InitLine(PlayState* play, OcLine* line) {
  * Destroys an OcLine
  * OcLines are entirely unused.
  */
-s32 Collider_DestroyLine(PlayState* play, OcLine* line) {
+s32 Collider_DestroyLine(struct PlayState* play, OcLine* line) {
     return true;
 }
 
@@ -977,7 +977,7 @@ s32 Collider_DestroyLine(PlayState* play, OcLine* line) {
  * Sets up an OcLine with endpoints a and b.
  * OcLines are entirely unused.
  */
-s32 Collider_SetLinePoints(PlayState* play, OcLine* ocLine, Vec3f* a, Vec3f* b) {
+s32 Collider_SetLinePoints(struct PlayState* play, OcLine* ocLine, Vec3f* a, Vec3f* b) {
     Math_Vec3f_Copy(&ocLine->line.a, a);
     Math_Vec3f_Copy(&ocLine->line.b, b);
     return true;
@@ -987,7 +987,7 @@ s32 Collider_SetLinePoints(PlayState* play, OcLine* ocLine, Vec3f* a, Vec3f* b) 
  * Sets up an OcLine using the values in src.
  * OcLines are entirely unused.
  */
-s32 Collider_SetLine(PlayState* play, OcLine* dest, OcLine* src) {
+s32 Collider_SetLine(struct PlayState* play, OcLine* dest, OcLine* src) {
     dest->ocFlags = src->ocFlags;
     Collider_SetLinePoints(play, dest, &src->line.a, &src->line.b);
     return true;
@@ -997,7 +997,7 @@ s32 Collider_SetLine(PlayState* play, OcLine* dest, OcLine* src) {
  * Resets the OcLine's collision flags.
  * OcLines are entirely unused.
  */
-s32 Collider_ResetLineOC(PlayState* play, OcLine* line) {
+s32 Collider_ResetLineOC(struct PlayState* play, OcLine* line) {
     line->ocFlags &= ~OCLINE_HIT;
     return true;
 }
@@ -1005,7 +1005,7 @@ s32 Collider_ResetLineOC(PlayState* play, OcLine* line) {
 /**
  * Initializes CollisionCheckContext. Clears all collider arrays, disables SAC, and sets flags for drawing colliders.
  */
-void CollisionCheck_InitContext(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_InitContext(struct PlayState* play, CollisionCheckContext* colChkCtx) {
     colChkCtx->sacFlags = 0;
     CollisionCheck_ClearContext(play, colChkCtx);
 
@@ -1016,13 +1016,13 @@ void CollisionCheck_InitContext(PlayState* play, CollisionCheckContext* colChkCt
 #endif
 }
 
-void CollisionCheck_DestroyContext(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_DestroyContext(struct PlayState* play, CollisionCheckContext* colChkCtx) {
 }
 
 /**
  * Clears all collider lists in CollisionCheckContext when not in SAC mode.
  */
-void CollisionCheck_ClearContext(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_ClearContext(struct PlayState* play, CollisionCheckContext* colChkCtx) {
     Collider** colP;
     OcLine** lineP;
 
@@ -1052,14 +1052,14 @@ void CollisionCheck_ClearContext(PlayState* play, CollisionCheckContext* colChkC
 /**
  * Enables SAC, an alternate collision check mode that allows direct management of collider lists. Unused.
  */
-void CollisionCheck_EnableSAC(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_EnableSAC(struct PlayState* play, CollisionCheckContext* colChkCtx) {
     colChkCtx->sacFlags |= SAC_ENABLE;
 }
 
 /**
  * Disables SAC, an alternate collision check mode that allows direct management of collider lists. Unused.
  */
-void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_DisableSAC(struct PlayState* play, CollisionCheckContext* colChkCtx) {
     colChkCtx->sacFlags &= ~SAC_ENABLE;
 }
 
@@ -1068,7 +1068,7 @@ void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx
  * Draws a collider of any shape.
  * Math3D_DrawSphere and Math3D_DrawCylinder are noops, so JntSph and Cylinder are not drawn.
  */
-void Collider_Draw(PlayState* play, Collider* col) {
+void Collider_Draw(struct PlayState* play, Collider* col) {
     ColliderJntSph* jntSph;
     ColliderCylinder* cyl;
     ColliderTris* tris;
@@ -1111,7 +1111,7 @@ void Collider_Draw(PlayState* play, Collider* col) {
  * Draws collision if AREG(15) and other AREGs are set. AREG(21) draws AT colliders, AREG(22) draws AC colliders,
  * AREG(23) draws OC colliders, AREG(24) draws dynapolys, and AREG(25) draws bg polys
  */
-void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_DrawCollision(struct PlayState* play, CollisionCheckContext* colChkCtx) {
     Collider* col;
     s32 i;
 
@@ -1155,7 +1155,7 @@ static ColChkResetFunc sATResetFuncs[] = {
  * Sets collider as an AT (attack) for the current frame, which will be checked against ACs (attack colliders)
  * The last argument takes a Collider, so pass collider.base rather than the raw collider.
  */
-s32 CollisionCheck_SetAT(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider) {
+s32 CollisionCheck_SetAT(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
     if (FrameAdvance_IsEnabled(play) == true) {
@@ -1184,7 +1184,7 @@ s32 CollisionCheck_SetAT(PlayState* play, CollisionCheckContext* colChkCtx, Coll
  * If CollisionCheck_SAC is enabled, the collider will be inserted into the list at the specified index, otherwise it
  * will be inserted into the next slot
  */
-s32 CollisionCheck_SetAT_SAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index) {
+s32 CollisionCheck_SetAT_SAC(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index) {
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3037);
     if (FrameAdvance_IsEnabled(play) == true) {
         return -1;
@@ -1223,7 +1223,7 @@ static ColChkResetFunc sACResetFuncs[] = {
  * Sets collider as an AC (attack collider) for the current frame, allowing it to detect ATs (attacks)
  * The last argument takes a Collider, so pass collider.base rather than the raw collider.
  */
-s32 CollisionCheck_SetAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider) {
+s32 CollisionCheck_SetAC(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
     if (FrameAdvance_IsEnabled(play) == true) {
@@ -1252,7 +1252,7 @@ s32 CollisionCheck_SetAC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
  * If CollisionCheck_SAC is enabled, the collider will be inserted into the list at the specified index, otherwise it
  * will be inserted into the next slot
  */
-s32 CollisionCheck_SetAC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index) {
+s32 CollisionCheck_SetAC_SAC(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index) {
     ASSERT(collider->shape < COLSHAPE_MAX, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3153);
     if (FrameAdvance_IsEnabled(play) == true) {
         return -1;
@@ -1291,7 +1291,7 @@ static ColChkResetFunc sOCResetFuncs[] = {
  * Sets collider as an OC (object collider) for the current frame, allowing it to detect other OCs
  * The last argument takes a Collider, so pass collider.base rather than the raw collider.
  */
-s32 CollisionCheck_SetOC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider) {
+s32 CollisionCheck_SetOC(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
     if (FrameAdvance_IsEnabled(play) == true) {
@@ -1322,7 +1322,7 @@ s32 CollisionCheck_SetOC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
  * If CollisionCheck_SAC is enabled, the collider will be inserted into the list at the specified index, otherwise it
  * will be inserted into the next slot
  */
-s32 CollisionCheck_SetOC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index) {
+s32 CollisionCheck_SetOC_SAC(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index) {
     if (FrameAdvance_IsEnabled(play) == true) {
         return -1;
     }
@@ -1355,7 +1355,7 @@ s32 CollisionCheck_SetOC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
  * Sets a line as an OC collider for this frame.
  * OC lines are entirely unused, and do not even have collision check functions.
  */
-s32 CollisionCheck_SetOCLine(PlayState* play, CollisionCheckContext* colChkCtx, OcLine* collider) {
+s32 CollisionCheck_SetOCLine(struct PlayState* play, CollisionCheckContext* colChkCtx, OcLine* collider) {
     s32 index;
 
     if (FrameAdvance_IsEnabled(play) == true) {
@@ -1400,14 +1400,14 @@ s32 CollisionCheck_NoSharedFlags(ColliderElement* atElem, ColliderElement* acEle
  * Spawns no blood drops.
  * Used by collider types HIT1, HIT3, HIT5, METAL, NONE, WOOD, HARD, and TREE
  */
-void CollisionCheck_NoBlood(PlayState* play, Collider* collider, Vec3f* v) {
+void CollisionCheck_NoBlood(struct PlayState* play, Collider* collider, Vec3f* v) {
 }
 
 /**
  * Spawns blue blood drops.
  * Used by collider types HIT0 and HIT8.
  */
-void CollisionCheck_BlueBlood(PlayState* play, Collider* collider, Vec3f* v) {
+void CollisionCheck_BlueBlood(struct PlayState* play, Collider* collider, Vec3f* v) {
     static EffectSparkInit sparkInit;
     s32 effectIndex;
 
@@ -1460,7 +1460,7 @@ void CollisionCheck_BlueBlood(PlayState* play, Collider* collider, Vec3f* v) {
  * Spawns green blood drops.
  * Used by collider types HIT2 and HIT6. No actor has type HIT2.
  */
-void CollisionCheck_GreenBlood(PlayState* play, Collider* collider, Vec3f* v) {
+void CollisionCheck_GreenBlood(struct PlayState* play, Collider* collider, Vec3f* v) {
     static EffectSparkInit sparkInit;
     s32 effectIndex;
 
@@ -1513,7 +1513,7 @@ void CollisionCheck_GreenBlood(PlayState* play, Collider* collider, Vec3f* v) {
  * Spawns a burst of water.
  * Used by collider type HIT4, which no actor has.
  */
-void CollisionCheck_WaterBurst(PlayState* play, Collider* collider, Vec3f* pos) {
+void CollisionCheck_WaterBurst(struct PlayState* play, Collider* collider, Vec3f* pos) {
     EffectSsSibuki_SpawnBurst(play, pos);
     CollisionCheck_SpawnWaterDroplets(play, pos);
 }
@@ -1522,7 +1522,7 @@ void CollisionCheck_WaterBurst(PlayState* play, Collider* collider, Vec3f* pos) 
  * Spawns red blood drops.
  * Used by collider type HIT7, which no actor has.
  */
-void CollisionCheck_RedBlood(PlayState* play, Collider* collider, Vec3f* v) {
+void CollisionCheck_RedBlood(struct PlayState* play, Collider* collider, Vec3f* v) {
     CollisionCheck_SpawnRedBlood(play, v);
 }
 
@@ -1530,14 +1530,14 @@ void CollisionCheck_RedBlood(PlayState* play, Collider* collider, Vec3f* v) {
  * Spawns red blood drops.
  * Unused.
  */
-void CollisionCheck_RedBloodUnused(PlayState* play, Collider* collider, Vec3f* v) {
+void CollisionCheck_RedBloodUnused(struct PlayState* play, Collider* collider, Vec3f* v) {
     CollisionCheck_SpawnRedBlood(play, v);
 }
 
 /**
  * Plays sound effects and displays hitmarks for solid-type AC colliders (METAL, WOOD, HARD, and TREE)
  */
-void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* collider, Vec3f* hitPos) {
+void CollisionCheck_HitSolid(struct PlayState* play, ColliderElement* elem, Collider* collider, Vec3f* hitPos) {
     s32 flags = elem->atElemFlags & ATELEM_SFX_MASK;
 
     if (flags == ATELEM_SFX_NORMAL && collider->colType != COLTYPE_METAL) {
@@ -1653,7 +1653,7 @@ static HitInfo sHitInfo[] = {
 /**
  * Handles hitmarks, blood, and sound effects for each AC collision, determined by the AC collider's colType
  */
-void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement* atElem, Collider* acCol,
+void CollisionCheck_HitEffects(struct PlayState* play, Collider* atCol, ColliderElement* atElem, Collider* acCol,
                                ColliderElement* acElem, Vec3f* hitPos) {
     if (acElem->acElemFlags & ACELEM_NO_HITMARK) {
         return;
@@ -1704,7 +1704,7 @@ void CollisionCheck_SetBounce(Collider* atCol, Collider* acCol) {
 /**
  * Performs the AC collision between the AT element and AC element that collided.
  */
-s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* atElem, Vec3f* atPos, Collider* acCol,
+s32 CollisionCheck_SetATvsAC(struct PlayState* play, Collider* atCol, ColliderElement* atElem, Vec3f* atPos, Collider* acCol,
                              ColliderElement* acElem, Vec3f* acPos, Vec3f* hitPos) {
     if (acCol->acFlags & AC_HARD && atCol->actor != NULL && acCol->actor != NULL) {
         CollisionCheck_SetBounce(atCol, acCol);
@@ -1740,7 +1740,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
     return true;
 }
 
-void CollisionCheck_ATJntSphVsACJntSph(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATJntSphVsACJntSph(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                        Collider* acCol) {
     ColliderJntSph* atJntSph = (ColliderJntSph*)atCol;
     ColliderJntSphElement* atJntSphElem;
@@ -1794,7 +1794,7 @@ void CollisionCheck_ATJntSphVsACJntSph(PlayState* play, CollisionCheckContext* c
     }
 }
 
-void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATJntSphVsACCyl(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                     Collider* acCol) {
     ColliderJntSph* atJntSph = (ColliderJntSph*)atCol;
     ColliderJntSphElement* atJntSphElem;
@@ -1846,7 +1846,7 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
     }
 }
 
-void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATCylVsACJntSph(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                     Collider* acCol) {
     ColliderCylinder* atCyl = (ColliderCylinder*)atCol;
     ColliderJntSph* acJntSph = (ColliderJntSph*)acCol;
@@ -1900,7 +1900,7 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
     }
 }
 
-void CollisionCheck_ATJntSphVsACTris(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATJntSphVsACTris(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                      Collider* acCol) {
     ColliderJntSph* atJntSph = (ColliderJntSph*)atCol;
     ColliderJntSphElement* atJntSphElem;
@@ -1942,7 +1942,7 @@ void CollisionCheck_ATJntSphVsACTris(PlayState* play, CollisionCheckContext* col
     }
 }
 
-void CollisionCheck_ATTrisVsACJntSph(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATTrisVsACJntSph(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                      Collider* acCol) {
     ColliderTris* atTris = (ColliderTris*)atCol;
     ColliderTrisElement* atTrisElem;
@@ -1984,7 +1984,7 @@ void CollisionCheck_ATTrisVsACJntSph(PlayState* play, CollisionCheckContext* col
     }
 }
 
-void CollisionCheck_ATJntSphVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATJntSphVsACQuad(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                      Collider* acCol) {
     static TriNorm tri1;
     static TriNorm tri2;
@@ -2031,7 +2031,7 @@ void CollisionCheck_ATJntSphVsACQuad(PlayState* play, CollisionCheckContext* col
     }
 }
 
-void CollisionCheck_ATQuadVsACJntSph(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATQuadVsACJntSph(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                      Collider* acCol) {
     static TriNorm tri1;
     static TriNorm tri2;
@@ -2083,7 +2083,7 @@ void CollisionCheck_ATQuadVsACJntSph(PlayState* play, CollisionCheckContext* col
     }
 }
 
-void CollisionCheck_ATCylVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
+void CollisionCheck_ATCylVsACCyl(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     ColliderCylinder* atCyl = (ColliderCylinder*)atCol;
     ColliderCylinder* acCyl = (ColliderCylinder*)acCol;
     f32 overlapSize;
@@ -2121,7 +2121,7 @@ void CollisionCheck_ATCylVsACCyl(PlayState* play, CollisionCheckContext* colChkC
     }
 }
 
-void CollisionCheck_ATCylVsACTris(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
+void CollisionCheck_ATCylVsACTris(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     ColliderCylinder* atCyl = (ColliderCylinder*)atCol;
     ColliderTris* acTris = (ColliderTris*)acCol;
     ColliderTrisElement* acTrisElem;
@@ -2155,7 +2155,7 @@ void CollisionCheck_ATCylVsACTris(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
-void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
+void CollisionCheck_ATTrisVsACCyl(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static Vec3f hitPos;
     ColliderTris* atTris = (ColliderTris*)atCol;
     ColliderTrisElement* atTrisElem;
@@ -2189,7 +2189,7 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
-void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
+void CollisionCheck_ATCylVsACQuad(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
     static TriNorm tri2;
     static Vec3f hitPos;
@@ -2247,7 +2247,7 @@ static s8 sBssDummy0;
 static s8 sBssDummy1;
 #endif
 
-void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
+void CollisionCheck_ATQuadVsACCyl(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
     static TriNorm tri2;
     static Vec3f hitPos;
@@ -2313,7 +2313,7 @@ static s8 sBssDummy5;
 static s8 sBssDummy6;
 #endif
 
-void CollisionCheck_ATTrisVsACTris(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATTrisVsACTris(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                    Collider* acCol) {
     static Vec3f hitPos;
     ColliderTris* atTris = (ColliderTris*)atCol;
@@ -2362,7 +2362,7 @@ void CollisionCheck_ATTrisVsACTris(PlayState* play, CollisionCheckContext* colCh
 static s8 sBssDummy7;
 #endif
 
-void CollisionCheck_ATTrisVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATTrisVsACQuad(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                    Collider* acCol) {
     static Vec3f hitPos;
     static TriNorm tri1;
@@ -2409,7 +2409,7 @@ void CollisionCheck_ATTrisVsACQuad(PlayState* play, CollisionCheckContext* colCh
     }
 }
 
-void CollisionCheck_ATQuadVsACTris(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATQuadVsACTris(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                    Collider* acCol) {
     static Vec3f hitPos;
     static TriNorm tri1;
@@ -2461,7 +2461,7 @@ void CollisionCheck_ATQuadVsACTris(PlayState* play, CollisionCheckContext* colCh
     }
 }
 
-void CollisionCheck_ATQuadVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
+void CollisionCheck_ATQuadVsACQuad(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                    Collider* acCol) {
     static TriNorm acTris[2];
     static Vec3f hitPos;
@@ -2520,7 +2520,7 @@ void CollisionCheck_ATQuadVsACQuad(PlayState* play, CollisionCheckContext* colCh
     }
 }
 
-void CollisionCheck_SetJntSphHitFX(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
+void CollisionCheck_SetJntSphHitFX(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
     ColliderJntSph* jntSph = (ColliderJntSph*)col;
     ColliderJntSphElement* jntSphElem;
 
@@ -2538,7 +2538,7 @@ void CollisionCheck_SetJntSphHitFX(PlayState* play, CollisionCheckContext* colCh
     }
 }
 
-void CollisionCheck_SetCylHitFX(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
+void CollisionCheck_SetCylHitFX(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
     ColliderCylinder* cyl = (ColliderCylinder*)col;
 
     if ((cyl->elem.acElemFlags & ACELEM_DRAW_HITMARK) && (cyl->elem.acHitElem != NULL) &&
@@ -2551,7 +2551,7 @@ void CollisionCheck_SetCylHitFX(PlayState* play, CollisionCheckContext* colChkCt
     }
 }
 
-void CollisionCheck_SetTrisHitFX(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
+void CollisionCheck_SetTrisHitFX(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
     ColliderTris* tris = (ColliderTris*)col;
     ColliderTrisElement* trisElem;
 
@@ -2569,7 +2569,7 @@ void CollisionCheck_SetTrisHitFX(PlayState* play, CollisionCheckContext* colChkC
     }
 }
 
-void CollisionCheck_SetQuadHitFX(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
+void CollisionCheck_SetQuadHitFX(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
     ColliderQuad* quad = (ColliderQuad*)col;
     Vec3f hitPos;
 
@@ -2591,7 +2591,7 @@ static ColChkApplyFunc sColChkApplyFuncs[] = {
 /**
  * Handles hit effects for each AC collider that had an AC collision. Spawns hitmarks and plays sound effects.
  */
-void CollisionCheck_SetHitEffects(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_SetHitEffects(struct PlayState* play, CollisionCheckContext* colChkCtx) {
     Collider** acColP;
     Collider* acCol;
 
@@ -2641,7 +2641,7 @@ static ColChkVsFunc sACVsFuncs[COLSHAPE_MAX][COLSHAPE_MAX] = {
 /**
  * Iterates through all AC colliders, performing AC collisions with the AT collider.
  */
-void CollisionCheck_AC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol) {
+void CollisionCheck_AC(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol) {
     Collider** acColP;
     Collider* acCol;
 
@@ -2668,7 +2668,7 @@ void CollisionCheck_AC(PlayState* play, CollisionCheckContext* colChkCtx, Collid
  * successful collision. To collide, an AT collider must share a type (AC_TYPE_PLAYER, AC_TYPE_ENEMY, or AC_TYPE_OTHER)
  * with the AC collider and the AT and AC elements that overlapped must share a dmgFlag.
  */
-void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_AT(struct PlayState* play, CollisionCheckContext* colChkCtx) {
     Collider** atColP;
     Collider* atCol;
 
@@ -2805,7 +2805,7 @@ void CollisionCheck_SetOCvsOC(Collider* leftCol, ColliderElement* leftElem, Vec3
     }
 }
 
-void CollisionCheck_OC_JntSphVsJntSph(PlayState* play, CollisionCheckContext* colChkCtx, Collider* leftCol,
+void CollisionCheck_OC_JntSphVsJntSph(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* leftCol,
                                       Collider* rightCol) {
     ColliderJntSph* leftJntSph = (ColliderJntSph*)leftCol;
     ColliderJntSphElement* leftJntSphElem;
@@ -2840,7 +2840,7 @@ void CollisionCheck_OC_JntSphVsJntSph(PlayState* play, CollisionCheckContext* co
     }
 }
 
-void CollisionCheck_OC_JntSphVsCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* leftCol,
+void CollisionCheck_OC_JntSphVsCyl(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* leftCol,
                                    Collider* rightCol) {
     ColliderJntSph* leftJntSph = (ColliderJntSph*)leftCol;
     ColliderJntSphElement* leftJntSphElem;
@@ -2868,12 +2868,12 @@ void CollisionCheck_OC_JntSphVsCyl(PlayState* play, CollisionCheckContext* colCh
     }
 }
 
-void CollisionCheck_OC_CylVsJntSph(PlayState* play, CollisionCheckContext* colChkCtx, Collider* leftCol,
+void CollisionCheck_OC_CylVsJntSph(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* leftCol,
                                    Collider* rightCol) {
     CollisionCheck_OC_JntSphVsCyl(play, colChkCtx, rightCol, leftCol);
 }
 
-void CollisionCheck_OC_CylVsCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* leftCol,
+void CollisionCheck_OC_CylVsCyl(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* leftCol,
                                 Collider* rightCol) {
     ColliderCylinder* leftCyl = (ColliderCylinder*)leftCol;
     ColliderCylinder* rightCyl = (ColliderCylinder*)rightCol;
@@ -2960,7 +2960,7 @@ static ColChkVsFunc sOCVsFuncs[COLSHAPE_MAX][COLSHAPE_MAX] = {
  * can collide, and each collider must have the OC flag corresponding to the other's OC type. Additionally, OC2_UNK1
  * cannot collide with OC2_UNK2, nor can two colliders that share an actor.
  */
-void CollisionCheck_OC(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_OC(struct PlayState* play, CollisionCheckContext* colChkCtx) {
     Collider** leftColP;
     Collider** rightColP;
     ColChkVsFunc vsFunc;
@@ -3052,7 +3052,7 @@ void CollisionCheck_SetInfoGetDamageTable(CollisionCheckInfo* info, s32 index, C
 /**
  * Apply AC damage effect
  */
-void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col,
+void CollisionCheck_ApplyDamage(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* col,
                                 ColliderElement* elem) {
     DamageTable* tbl;
     f32 damage;
@@ -3092,7 +3092,7 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
 /**
  * Apply ColliderJntSph AC damage effect
  */
-void CollisionCheck_ApplyDamageJntSph(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
+void CollisionCheck_ApplyDamageJntSph(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
     ColliderJntSph* jntSph = (ColliderJntSph*)col;
     s32 i;
 
@@ -3106,7 +3106,7 @@ void CollisionCheck_ApplyDamageJntSph(PlayState* play, CollisionCheckContext* co
 /**
  * Apply ColliderCylinder AC damage effect
  */
-void CollisionCheck_ApplyDamageCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
+void CollisionCheck_ApplyDamageCyl(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
     ColliderCylinder* cyl = (ColliderCylinder*)col;
 
     CollisionCheck_ApplyDamage(play, colChkCtx, &cyl->base, &cyl->elem);
@@ -3115,7 +3115,7 @@ void CollisionCheck_ApplyDamageCyl(PlayState* play, CollisionCheckContext* colCh
 /**
  * Apply ColliderTris AC damage effect
  */
-void CollisionCheck_ApplyDamageTris(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
+void CollisionCheck_ApplyDamageTris(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
     ColliderTris* tris = (ColliderTris*)col;
     s32 i;
 
@@ -3127,7 +3127,7 @@ void CollisionCheck_ApplyDamageTris(PlayState* play, CollisionCheckContext* colC
 /**
  *  Apply ColliderQuad AC damage effect
  */
-void CollisionCheck_ApplyDamageQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
+void CollisionCheck_ApplyDamageQuad(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
     ColliderQuad* quad = (ColliderQuad*)col;
 
     CollisionCheck_ApplyDamage(play, colChkCtx, &quad->base, &quad->elem);
@@ -3144,7 +3144,7 @@ static ColChkApplyFunc sApplyDamageFuncs[COLSHAPE_MAX] = {
  * For all AC colliders, sets any damage effects from collisions with AT colliders to their corresponding actor's
  * CollisionCheckInfo.
  */
-void CollisionCheck_Damage(PlayState* play, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_Damage(struct PlayState* play, CollisionCheckContext* colChkCtx) {
     s32 i;
     Collider* col;
 
@@ -3164,7 +3164,7 @@ void CollisionCheck_Damage(PlayState* play, CollisionCheckContext* colChkCtx) {
 /**
  * Checks if the line ab intersects any of the ColliderJntSph's elements
  */
-s32 CollisionCheck_LineOC_JntSph(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, Vec3f* a,
+s32 CollisionCheck_LineOC_JntSph(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, Vec3f* a,
                                  Vec3f* b) {
     static Linef lineSeg;
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
@@ -3188,7 +3188,7 @@ s32 CollisionCheck_LineOC_JntSph(PlayState* play, CollisionCheckContext* colChkC
 /**
  * Checks if the line segment ab intersects the ColliderCylinder
  */
-s32 CollisionCheck_LineOC_Cyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, Vec3f* a,
+s32 CollisionCheck_LineOC_Cyl(struct PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, Vec3f* a,
                               Vec3f* b) {
     static Vec3f intersectA;
     static Vec3f intersectB;
@@ -3214,7 +3214,7 @@ static ColChkLineFunc sOCLineCheckFuncs[COLSHAPE_MAX] = {
  * Checks if the line segment ab intersects any OC colliders, excluding those attached to actors
  * on the exclusion list. Returns true if there are any intersections and false otherwise.
  */
-s32 CollisionCheck_LineOC(PlayState* play, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b, Actor** exclusions,
+s32 CollisionCheck_LineOC(struct PlayState* play, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b, Actor** exclusions,
                           s32 numExclusions) {
     ColChkLineFunc lineCheck;
     Collider** col;
@@ -3254,7 +3254,7 @@ s32 CollisionCheck_LineOC(PlayState* play, CollisionCheckContext* colChkCtx, Vec
  * Checks if the line segment ab intersects any OC colliders. Returns true if there are any intersections and false
  * otherwise. Unused.
  */
-s32 CollisionCheck_LineOCCheckAll(PlayState* play, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b) {
+s32 CollisionCheck_LineOCCheckAll(struct PlayState* play, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b) {
     return CollisionCheck_LineOC(play, colChkCtx, a, b, NULL, 0);
 }
 
@@ -3262,7 +3262,7 @@ s32 CollisionCheck_LineOCCheckAll(PlayState* play, CollisionCheckContext* colChk
  * Checks if the line segment ab intersects any OC colliders, excluding those attached to actors on the exclusion list.
  * Returns true if there are any intersections and false otherwise.
  */
-s32 CollisionCheck_LineOCCheck(PlayState* play, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
+s32 CollisionCheck_LineOCCheck(struct PlayState* play, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
                                Actor** exclusions, s32 numExclusions) {
     return CollisionCheck_LineOC(play, colChkCtx, a, b, exclusions, numExclusions);
 }
@@ -3319,7 +3319,7 @@ void Collider_SetTrisVertices(ColliderTris* tris, s32 elemIndex, Vec3f* a, Vec3f
 /**
  * Sets the specified ColliderTrisElement's dim using the values in src
  */
-void Collider_SetTrisDim(PlayState* play, ColliderTris* tris, s32 elemIndex, ColliderTrisElementDimInit* src) {
+void Collider_SetTrisDim(struct PlayState* play, ColliderTris* tris, s32 elemIndex, ColliderTrisElementDimInit* src) {
     ColliderTrisElement* trisElem = &tris->elements[elemIndex];
 
     Collider_SetTrisElementDim(play, &trisElem->dim, src);
@@ -3359,7 +3359,7 @@ void Collider_UpdateSpheres(s32 limb, ColliderJntSph* jntSph) {
  * Spawns red blood droplets.
  * No actor has a collision type that spawns red blood.
  */
-void CollisionCheck_SpawnRedBlood(PlayState* play, Vec3f* v) {
+void CollisionCheck_SpawnRedBlood(struct PlayState* play, Vec3f* v) {
     static EffectSparkInit sparkInit;
     s32 effectIndex;
 
@@ -3412,7 +3412,7 @@ void CollisionCheck_SpawnRedBlood(PlayState* play, Vec3f* v) {
  * Spawns water droplets.
  * No actor has a collision type that spawns water droplets.
  */
-void CollisionCheck_SpawnWaterDroplets(PlayState* play, Vec3f* v) {
+void CollisionCheck_SpawnWaterDroplets(struct PlayState* play, Vec3f* v) {
     static EffectSparkInit sparkInit;
     s32 effectIndex;
 
@@ -3464,7 +3464,7 @@ void CollisionCheck_SpawnWaterDroplets(PlayState* play, Vec3f* v) {
 /**
  * Spawns streaks of light from hits against solid objects
  */
-void CollisionCheck_SpawnShieldParticles(PlayState* play, Vec3f* v) {
+void CollisionCheck_SpawnShieldParticles(struct PlayState* play, Vec3f* v) {
     static EffectShieldParticleInit metalInit = {
         16,
         { 0, 0, 0 },
@@ -3496,7 +3496,7 @@ void CollisionCheck_SpawnShieldParticles(PlayState* play, Vec3f* v) {
 /**
  * Spawns streaks of light and plays a metallic sound effect
  */
-void CollisionCheck_SpawnShieldParticlesMetal(PlayState* play, Vec3f* v) {
+void CollisionCheck_SpawnShieldParticlesMetal(struct PlayState* play, Vec3f* v) {
     CollisionCheck_SpawnShieldParticles(play, v);
     Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_SW, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -3505,7 +3505,7 @@ void CollisionCheck_SpawnShieldParticlesMetal(PlayState* play, Vec3f* v) {
 /**
  * Spawns streaks of light and plays a metallic sound effect at the specified position
  */
-void CollisionCheck_SpawnShieldParticlesMetalSfx(PlayState* play, Vec3f* v, Vec3f* pos) {
+void CollisionCheck_SpawnShieldParticlesMetalSfx(struct PlayState* play, Vec3f* v, Vec3f* pos) {
     CollisionCheck_SpawnShieldParticles(play, v);
     Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_SW, pos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
@@ -3514,14 +3514,14 @@ void CollisionCheck_SpawnShieldParticlesMetalSfx(PlayState* play, Vec3f* v, Vec3
 /**
  * Spawns streaks of light and plays a metallic sound effect
  */
-void CollisionCheck_SpawnShieldParticlesMetal2(PlayState* play, Vec3f* v) {
+void CollisionCheck_SpawnShieldParticlesMetal2(struct PlayState* play, Vec3f* v) {
     CollisionCheck_SpawnShieldParticlesMetal(play, v);
 }
 
 /**
  * Spawns streaks of light and plays a wooden sound effect
  */
-void CollisionCheck_SpawnShieldParticlesWood(PlayState* play, Vec3f* v, Vec3f* actorPos) {
+void CollisionCheck_SpawnShieldParticlesWood(struct PlayState* play, Vec3f* v, Vec3f* actorPos) {
     static EffectShieldParticleInit woodInit = {
         16,
         { 0, 0, 0 },

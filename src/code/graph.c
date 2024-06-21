@@ -1,5 +1,11 @@
 #include "global.h"
 #include "terminal.h"
+#include "z_file_select.h"
+#include "z_opening.h"
+#include "z_select.h"
+#include "z_title.h"
+#include "z_prenmi_game.h"
+#include "z_title_setup.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678

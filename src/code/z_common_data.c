@@ -1,4 +1,8 @@
-#include "global.h"
+#include "alignment.h"
+#include "z64save.h"
+#include "sequence.h"
+#include "z64environment.h"
+#include "z64transition.h"
 
 // For retail BSS ordering, the block number of D_8015FA88 must be 0 or
 // just above (the exact upper bound depends on the block numbers assigned to
