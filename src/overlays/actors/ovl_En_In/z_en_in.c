@@ -337,7 +337,7 @@ void func_80A795C8(EnIn* this, PlayState* play) {
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, PlayState* play) {
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
+        skelAnime->moveFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
         AnimTaskQueue_AddActorMove(play, &this->actor, skelAnime, 1.0f);
     }
 }
