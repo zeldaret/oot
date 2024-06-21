@@ -34,6 +34,7 @@
 #include "z64transition.h"
 #include "z64transition_instances.h"
 #include "z64interface.h"
+#include "z64sfx_source.h"
 #include "z64skybox.h"
 #include "z64sram.h"
 #include "z64view.h"
@@ -109,12 +110,6 @@ typedef struct {
     /* 0x00 */ u8   seqId;
     /* 0x01 */ u8   natureAmbienceId;
 } SequenceContext; // size = 0x2
-
-typedef struct {
-    /* 0x00 */ u16 countdown;
-    /* 0x04 */ Vec3f worldPos;
-    /* 0x10 */ Vec3f projectedPos;
-} SfxSource; // size = 0x1C
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
@@ -312,7 +307,7 @@ typedef struct PlayState {
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
-    /* 0x01DB4 */ SfxSource sfxSources[16];
+    /* 0x01DB4 */ SfxSource sfxSources[SFX_SOURCE_COUNT];
     /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
     /* 0x020D8 */ MessageContext msgCtx; // "message"

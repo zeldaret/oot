@@ -757,9 +757,7 @@ void Cutscene_HandleConditionalTriggers(PlayState* play);
 void Cutscene_SetScript(PlayState* play, void* script);
 void* MemCpy(void* dest, const void* src, s32 len);
 void GetItem_Draw(PlayState* play, s16 drawId);
-void SfxSource_InitAll(PlayState* play);
-void SfxSource_UpdateAll(PlayState* play);
-void SfxSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 duration, u16 sfxId);
+
 u16 QuestHint_GetSariaTextId(PlayState* play);
 u16 QuestHint_GetNaviTextId(PlayState* play);
 u16 MaskReaction_GetTextId(PlayState* play, u32 maskReactionSet);
