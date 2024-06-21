@@ -1,6 +1,7 @@
 #ifndef Z64ACTOR_H
 #define Z64ACTOR_H
 
+#include "color.h"
 #include "z64dma.h"
 #include "z64animation.h"
 #include "z64math.h"
@@ -14,18 +15,14 @@
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
 struct Actor;
-struct PlayState;
+struct CollisionPoly;
 struct Lights;
+struct PlayState;
 
 typedef void (*ActorFunc)(struct Actor*, struct PlayState*);
 typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*);
 typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
 typedef s16 (*NpcUpdateTalkStateFunc)(struct PlayState*, struct Actor*);
-
-typedef struct {
-    Vec3f pos;
-    Vec3s rot;
-} PosRot; // size = 0x14
 
 typedef struct {
     /* 0x00 */ s16 id;
@@ -270,8 +267,8 @@ typedef struct Actor {
     /* 0x068 */ f32 speed; // Context dependent speed value. Can be used for XZ or XYZ depending on which move function is used
     /* 0x06C */ f32 gravity; // Acceleration due to gravity. Value is added to Y velocity every frame
     /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap for velocity along the Y axis. Only relevant when moved with gravity.
-    /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon the actor is touching
-    /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon directly below the actor
+    /* 0x074 */ struct CollisionPoly* wallPoly; // Wall polygon the actor is touching
+    /* 0x078 */ struct CollisionPoly* floorPoly; // Floor polygon directly below the actor
     /* 0x07C */ u8 wallBgId; // Bg ID of the wall polygon the actor is touching
     /* 0x07D */ u8 floorBgId; // Bg ID of the floor polygon directly below the actor
     /* 0x07E */ s16 wallYaw; // Y rotation of the wall polygon the actor is touching
