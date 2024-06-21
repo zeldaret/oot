@@ -1,5 +1,8 @@
 #include "global.h"
 #include "terminal.h"
+
+#include "z64frame_advance.h"
+
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);

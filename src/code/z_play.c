@@ -2,6 +2,8 @@
 #include "quake.h"
 #include "terminal.h"
 
+#include "z64frame_advance.h"
+
 #if OOT_DEBUG
 void* gDebugCutsceneScript = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused

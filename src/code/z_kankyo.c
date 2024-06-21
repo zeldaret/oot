@@ -1,6 +1,9 @@
 #include "global.h"
 #include "ultra64.h"
 #include "terminal.h"
+
+#include "z64frame_advance.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 

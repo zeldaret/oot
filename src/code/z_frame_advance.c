@@ -1,4 +1,4 @@
-#include "z64frameadvance.h"
+#include "z64frame_advance.h"
 
 #include "stdbool.h"
 
