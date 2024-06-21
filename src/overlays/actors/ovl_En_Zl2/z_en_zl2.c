@@ -60,6 +60,18 @@ void func_80B523BC(EnZl2* this, PlayState* play);
 void func_80B523C8(EnZl2* this, PlayState* play);
 void func_80B525D4(EnZl2* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ ZELDA_EYE_OPEN,
+    /* 1 */ ZELDA_EYE_HALF,
+    /* 2 */ ZELDA_EYE_CLOSED,
+    /* 3 */ ZELDA_EYE_3,
+    /* 4 */ ZELDA_EYE_4,
+    /* 5 */ ZELDA_EYE_5,
+    /* 6 */ ZELDA_EYE_6,
+    /* 7 */ ZELDA_EYE_7,
+    /* 8 */ ZELDA_EYE_8
+} EyeState;
+
 static void* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex,
                                 gZelda2Eye03Tex,   gZelda2Eye04Tex,   gZelda2Eye05Tex,
                                 gZelda2Eye06Tex,   gZelda2Eye07Tex,   gZelda2Eye08Tex };
@@ -113,79 +125,79 @@ void EnZl2_UpdateEyes(EnZl2* this) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
     *eyeTexIndex = *blinkTimer;
-    if (*eyeTexIndex >= 3) {
-        *eyeTexIndex = 0;
+    if (*eyeTexIndex >= ZELDA_EYE_3) { //check if we've moved beyond 'blink' indices
+        *eyeTexIndex = ZELDA_EYE_OPEN;
     }
     *eyeTexIndex2 = *eyeTexIndex;
 }
 
-void func_80B4EA40(EnZl2* this) {
+void EnZl2_SpecialBlinkCycle1(EnZl2* this) {
     s16* eyeTexIndex = &this->eyeTexIndex;
-    f32* unk_27C = &this->unk_27C;
+    f32* blinkTimerSpecial = &this->blinkTimerSpecial;
 
-    if (*unk_27C < 3.0f) {
-        *eyeTexIndex = 0;
-    } else if (*unk_27C < 6.0f) {
-        *eyeTexIndex = 1;
-    } else if (*unk_27C < 9.0f) {
-        *eyeTexIndex = 2;
+    if (*blinkTimerSpecial < 3.0f) {
+        *eyeTexIndex = ZELDA_EYE_OPEN;
+    } else if (*blinkTimerSpecial < 6.0f) {
+        *eyeTexIndex = ZELDA_EYE_HALF;
+    } else if (*blinkTimerSpecial < 9.0f) {
+        *eyeTexIndex = ZELDA_EYE_CLOSED;
     } else {
-        *eyeTexIndex = 5;
+        *eyeTexIndex = ZELDA_EYE_5;
         this->eyeTexIndex2 = *eyeTexIndex;
         return;
     }
-    *unk_27C += 1.0f;
+    *blinkTimerSpecial += 1.0f;
     this->eyeTexIndex2 = *eyeTexIndex;
 }
 
-void func_80B4EAF4(EnZl2* this) {
+void EnZl2_SpecialBlinkCycle2(EnZl2* this) {
     s16* eyeTexIndex = &this->eyeTexIndex;
-    f32* unk_27C = &this->unk_27C;
+    f32* blinkTimerSpecial = &this->blinkTimerSpecial;
 
-    if (*unk_27C < 2.0f) {
-        *eyeTexIndex = 5;
-    } else if (*unk_27C < 4.0f) {
-        *eyeTexIndex = 2;
-    } else if (*unk_27C < 6.0f) {
-        *eyeTexIndex = 1;
+    if (*blinkTimerSpecial < 2.0f) {
+        *eyeTexIndex = ZELDA_EYE_5;
+    } else if (*blinkTimerSpecial < 4.0f) {
+        *eyeTexIndex = ZELDA_EYE_CLOSED;
+    } else if (*blinkTimerSpecial < 6.0f) {
+        *eyeTexIndex = ZELDA_EYE_HALF;
     } else {
         EnZl2_UpdateEyes(this);
         return;
     }
-    *unk_27C += 1.0f;
+    *blinkTimerSpecial += 1.0f;
     this->eyeTexIndex2 = *eyeTexIndex;
 }
 
-void func_80B4EBB8(EnZl2* this) {
+void EnZl2_SpecialBlinkCycle3(EnZl2* this) {
     s16* eyeTexIndex = &this->eyeTexIndex;
-    f32* unk_27C = &this->unk_27C;
+    f32* blinkTimerSpecial = &this->blinkTimerSpecial;
 
-    if (*unk_27C < 2.0f) {
-        *eyeTexIndex = 0;
-    } else if (*unk_27C < 4.0f) {
-        *eyeTexIndex = 1;
+    if (*blinkTimerSpecial < 2.0f) {
+        *eyeTexIndex = ZELDA_EYE_OPEN;
+    } else if (*blinkTimerSpecial < 4.0f) {
+        *eyeTexIndex = ZELDA_EYE_HALF;
     } else {
-        *eyeTexIndex = 2;
+        *eyeTexIndex = ZELDA_EYE_CLOSED;
         this->eyeTexIndex2 = *eyeTexIndex;
         return;
     }
-    *unk_27C += 1.0f;
+    *blinkTimerSpecial += 1.0f;
     this->eyeTexIndex2 = *eyeTexIndex;
 }
 
-void func_80B4EC48(EnZl2* this) {
+void EnZl2_SpecialBlinkCycle4(EnZl2* this) {
     s16* eyeTexIndex = &this->eyeTexIndex;
-    f32* unk_27C = &this->unk_27C;
+    f32* blinkTimerSpecial = &this->blinkTimerSpecial;
 
-    if (*unk_27C < 2.0f) {
-        *eyeTexIndex = 2;
-    } else if (*unk_27C < 4.0f) {
-        *eyeTexIndex = 1;
+    if (*blinkTimerSpecial < 2.0f) {
+        *eyeTexIndex = ZELDA_EYE_CLOSED;
+    } else if (*blinkTimerSpecial < 4.0f) {
+        *eyeTexIndex = ZELDA_EYE_HALF;
     } else {
         EnZl2_UpdateEyes(this);
         return;
     }
-    *unk_27C += 1.0f;
+    *blinkTimerSpecial += 1.0f;
     this->eyeTexIndex2 = *eyeTexIndex;
 }
 
@@ -782,7 +794,7 @@ void func_80B5042C(EnZl2* this, PlayState* play) {
     this->action = 5;
     this->drawConfig = 1;
     this->actor.shape.shadowAlpha = 0xFF;
-    this->unk_27C = 0.0f;
+    this->blinkTimerSpecial = 0.0f;
 }
 
 void func_80B50488(EnZl2* this, s32 arg1) {
@@ -797,7 +809,7 @@ void func_80B504D4(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_00325C, 2, -8.0f, 0);
     this->action = 7;
     this->drawConfig = 1;
-    this->unk_27C = 0.0f;
+    this->blinkTimerSpecial = 0.0f;
     EnZl2_setMouthIndex(this, 1);
     this->actor.shape.shadowAlpha = 0xFF;
 }
@@ -844,7 +856,7 @@ void func_80B506C4(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_00AAD4, 2, -8.0f, 0);
     this->action = 14;
     this->drawConfig = 1;
-    EnZl2_setEyesIndex(this, 4);
+    EnZl2_setEyesIndex(this, ZELDA_EYE_4);
     EnZl2_setMouthIndex(this, 2);
     this->actor.shape.shadowAlpha = 0xFF;
     func_80B4FE90(this);
@@ -863,7 +875,7 @@ void func_80B50780(EnZl2* this, PlayState* play) {
     this->drawConfig = 1;
     this->actor.shape.shadowAlpha = 0xFF;
     func_80B4FFF0(this, play);
-    EnZl2_setEyesIndex(this, 3);
+    EnZl2_setEyesIndex(this, ZELDA_EYE_3);
 }
 
 void func_80B507E8(EnZl2* this, s32 arg1) {
@@ -892,7 +904,7 @@ void func_80B508C8(EnZl2* this, PlayState* play) {
     func_80B4FD00(this, &gZelda2Anime1Anim_001010, 2, -8.0f, 0);
     this->action = 20;
     this->drawConfig = 1;
-    EnZl2_setEyesIndex(this, 6);
+    EnZl2_setEyesIndex(this, ZELDA_EYE_6);
     this->actor.shape.shadowAlpha = 0xFF;
 }
 
@@ -1024,7 +1036,7 @@ void func_80B50CA8(EnZl2* this, PlayState* play) {
 void func_80B50CFC(EnZl2* this, PlayState* play) {
     func_80B4FCCC(this, play);
     func_80B4ED2C(this, play);
-    func_80B4EA40(this);
+    EnZl2_SpecialBlinkCycle1(this);
     func_80B50488(this, EnZl2_UpdateSkelAnime(this));
 }
 
@@ -1038,7 +1050,7 @@ void func_80B50D50(EnZl2* this, PlayState* play) {
 void func_80B50D94(EnZl2* this, PlayState* play) {
     func_80B4FCCC(this, play);
     func_80B4ED2C(this, play);
-    func_80B4EAF4(this);
+    EnZl2_SpecialBlinkCycle2(this);
     func_80B5053C(this, EnZl2_UpdateSkelAnime(this));
 }
 
@@ -1212,14 +1224,14 @@ void func_80B51418(EnZl2* this, PlayState* play) {
 }
 
 void func_80B5146C(EnZl2* this, PlayState* play) {
-    func_80B4EA40(this);
+    EnZl2_SpecialBlinkCycle1(this);
     EnZl2_setMouthIndex(this, 0);
 }
 
 void func_80B5149C(EnZl2* this, PlayState* play) {
     if (play->csCtx.curFrame < 988) {
-        EnZl2_setEyesIndex(this, 7);
-        EnZl2_setEyeIndex2(this, 8);
+        EnZl2_setEyesIndex(this, ZELDA_EYE_7);
+        EnZl2_setEyeIndex2(this, ZELDA_EYE_8);
     } else {
         EnZl2_UpdateEyes(this);
     }
@@ -1243,11 +1255,11 @@ void func_80B5154C(EnZl2* this, PlayState* play) {
     } else {
         csCtx = &play->csCtx;
         if (csCtx->curFrame < 1520) {
-            func_80B4EBB8(this);
+            EnZl2_SpecialBlinkCycle3(this);
         } else if (csCtx->curFrame == 1520) {
-            this->unk_27C = 0.0f;
+            this->blinkTimerSpecial = 0.0f;
         } else {
-            func_80B4EC48(this);
+            EnZl2_SpecialBlinkCycle4(this);
         }
     }
 }
@@ -1264,7 +1276,7 @@ void func_80B515D8(EnZl2* this, PlayState* play) {
     this->action = 26;
     this->drawConfig = 1;
     this->actor.shape.shadowAlpha = 0xFF;
-    this->unk_27C = 0.0f;
+    this->blinkTimerSpecial = 0.0f;
 }
 
 void func_80B51644(EnZl2* this, s32 arg1) {
@@ -1278,7 +1290,7 @@ void func_80B51678(EnZl2* this) {
     this->action = 27;
     this->drawConfig = 1;
     this->actor.shape.shadowAlpha = 0xFF;
-    this->unk_27C = 0.0f;
+    this->blinkTimerSpecial = 0.0f;
 }
 
 void func_80B516D0(EnZl2* this, s32 arg1) {
@@ -1292,7 +1304,7 @@ void func_80B51704(EnZl2* this) {
     this->action = 28;
     this->drawConfig = 1;
     this->actor.shape.shadowAlpha = 0xFF;
-    this->unk_27C = 0.0f;
+    this->blinkTimerSpecial = 0.0f;
 }
 
 void func_80B5175C(EnZl2* this, s32 arg1) {
@@ -1320,13 +1332,13 @@ void func_80B51824(EnZl2* this) {
     this->action = 30;
     this->drawConfig = 1;
     this->actor.shape.shadowAlpha = 0xFF;
-    this->unk_27C = 0.0f;
+    this->blinkTimerSpecial = 0.0f;
 }
 
 void func_80B5187C(EnZl2* this, s32 arg1) {
     if (arg1 != 0) {
         func_80B4FD00(this, &gZelda2Anime1Anim_00A79C, 0, -8.0f, 0);
-        this->unk_27C = 0.0f;
+        this->blinkTimerSpecial = 0.0f;
     }
 }
 
@@ -1335,7 +1347,7 @@ void func_80B518C0(EnZl2* this) {
     this->action = 32;
     this->drawConfig = 1;
     this->actor.shape.shadowAlpha = 0xFF;
-    this->unk_27C = 0.0f;
+    this->blinkTimerSpecial = 0.0f;
 }
 
 void func_80B51948(EnZl2* this, PlayState* play) {

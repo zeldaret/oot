@@ -52,6 +52,12 @@ void func_80987330(DemoIm* this, PlayState* play);
 void DemoIm_DrawNothing(DemoIm* this, PlayState* play);
 void DemoIm_DrawSolid(DemoIm* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ IMPA_EYE_OPEN,
+    /* 1 */ IMPA_EYE_HALF,
+    /* 2 */ IMPA_EYE_CLOSED
+} DemoImEyeState;
+
 static void* sEyeTextures[] = {
     gImpaEyeOpenTex,
     gImpaEyeHalfTex,
@@ -104,7 +110,7 @@ ActorInit Demo_Im_InitVars = {
     /**/ DemoIm_Draw,
 };
 
-void func_80984BE0(DemoIm* this) {
+void DemoIm_UpdateBlink(DemoIm* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
     s16* eyeIndex = &this->eyeIndex;
@@ -114,8 +120,8 @@ void func_80984BE0(DemoIm* this) {
     }
 
     *eyeIndex = *blinkTimer;
-    if (*eyeIndex >= 3) {
-        *eyeIndex = 0;
+    if (*eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
+        *eyeIndex = IMPA_EYE_OPEN;
     }
 }
 
@@ -394,14 +400,14 @@ void func_80985718(DemoIm* this, PlayState* play) {
 void func_80985738(DemoIm* this, PlayState* play) {
     func_80985430(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_8098557C(this);
 }
 
 void func_80985770(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_809855A8(this, play);
 }
 
@@ -410,21 +416,21 @@ void func_809857B0(DemoIm* this, PlayState* play) {
 
     DemoIm_UpdateBgCheckInfo(this, play);
     sp1C = DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_80985640(this, sp1C);
 }
 
 void func_809857F0(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_809856AC(this, play);
 }
 
 void func_80985830(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
 }
 
 void func_80985860(DemoIm* this, PlayState* play) {
@@ -508,7 +514,7 @@ void func_80985C10(DemoIm* this, PlayState* play) {
 void func_80985C40(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_809859E0(this, play);
 #if OOT_DEBUG
     func_80984C8C(this, play);
@@ -518,7 +524,7 @@ void func_80985C40(DemoIm* this, PlayState* play) {
 void func_80985C94(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_80985B34(this, play);
 #if OOT_DEBUG
     func_80984C8C(this, play);
@@ -688,7 +694,7 @@ void func_809863DC(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
     func_80985EAC(this, play);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_809862E0(this, play);
 }
 
@@ -698,7 +704,7 @@ void func_80986430(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     sp24 = DemoIm_UpdateSkelAnime(this);
     func_80985EAC(this, play);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_80985FE8(this, sp24);
     func_809862E0(this, play);
 }
@@ -706,7 +712,7 @@ void func_80986430(DemoIm* this, PlayState* play) {
 void func_80986494(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     func_80985EF4(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_809861C4(this, play);
 }
 
@@ -715,7 +721,7 @@ void func_809864D4(DemoIm* this, PlayState* play) {
 
     DemoIm_UpdateBgCheckInfo(this, play);
     sp24 = DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_809860DC(this, sp24);
     func_8098629C(this, play);
 }
@@ -815,7 +821,7 @@ void func_809868E8(DemoIm* this, PlayState* play) {
 void func_80986908(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_8098680C(this, play);
 }
 
@@ -825,7 +831,7 @@ void func_80986948(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     sp24 = DemoIm_UpdateSkelAnime(this);
     func_80986570(this, play);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_809865F8(this, play, sp24);
     func_8098680C(this, play);
 }
@@ -955,7 +961,7 @@ void func_80986D40(DemoIm* this, PlayState* play) {
 void func_80986DC8(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_80984E58(this, play);
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
 }
@@ -967,7 +973,7 @@ void func_80986E20(DemoIm* this, PlayState* play) {
 void func_80986E40(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_80984E58(this, play);
     DemoIm_UpdateCollider(this, play);
     func_80986BE4(this, func_80986AD0(this, play));
@@ -976,7 +982,7 @@ void func_80986E40(DemoIm* this, PlayState* play) {
 void func_80986EAC(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_80984F94(this, play);
     DemoIm_UpdateCollider(this, play);
     func_80986B2C(play);
@@ -989,7 +995,7 @@ void func_80986F08(DemoIm* this, PlayState* play) {
 void func_80986F28(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_80984E58(this, play);
     DemoIm_UpdateCollider(this, play);
     func_80986C30(this, play);
@@ -1002,7 +1008,7 @@ void func_80986F88(DemoIm* this, PlayState* play) {
 void func_80986FA8(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_80984E58(this, play);
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
     DemoIm_UpdateCollider(this, play);
@@ -1085,7 +1091,7 @@ void func_80987288(DemoIm* this, PlayState* play) {
 void func_809872A8(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_80987064(this);
     func_80987128(this);
 }
@@ -1093,7 +1099,7 @@ void func_809872A8(DemoIm* this, PlayState* play) {
 void func_809872F0(DemoIm* this, PlayState* play) {
     DemoIm_UpdateBgCheckInfo(this, play);
     DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_809871E8(this, play);
 }
 
@@ -1102,7 +1108,7 @@ void func_80987330(DemoIm* this, PlayState* play) {
 
     DemoIm_UpdateBgCheckInfo(this, play);
     sp1C = DemoIm_UpdateSkelAnime(this);
-    func_80984BE0(this);
+    DemoIm_UpdateBlink(this);
     func_809871B4(this, sp1C);
 }
 

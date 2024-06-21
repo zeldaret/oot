@@ -68,6 +68,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0 */ ZORA_EYE_OPEN,
+    /* 1 */ ZORA_EYE_HALF,
+    /* 2 */ ZORA_EYE_CLOSED
+} EnDivingGameEyeState;
+
 static void* sEyeTextures[] = {
     gZoraEyeOpenTex,
     gZoraEyeHalfTex,
@@ -515,8 +521,8 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
     if (this->eyeTimer == 0) {
         this->eyeTimer = 2;
         this->eyeTexIndex++;
-        if (this->eyeTexIndex >= 3) {
-            this->eyeTexIndex = 0;
+        if (this->eyeTexIndex >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyeTexIndex = ZORA_EYE_OPEN;
             this->eyeTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }

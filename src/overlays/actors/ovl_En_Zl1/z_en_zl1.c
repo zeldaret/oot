@@ -59,13 +59,13 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static void* D_80B4E61C[] = {
+static void* sEyeTextures[] = {
     gChildZelda1EyeOpenLookingUpRightTex,
     gChildZelda1EyeHalf2Tex,
     gChildZelda1EyeClosedTex,
     gChildZelda1EyeHalf2Tex,
 };
-static void* D_80B4E62C[] = { gChildZelda1MouthNeutralTex };
+static void* sMouthTextures[] = { gChildZelda1MouthNeutralTex };
 
 void func_80B4AB40(void) {
 }
@@ -123,16 +123,16 @@ void func_80B4AE18(EnZl1* this) {
     if ((this->skelAnime.animation == &gChildZelda1Anim_10B38) && (this->skelAnime.curFrame < 26.0f)) {
         this->unk_1F4 = gChildZelda1EyeOpenLookingRightTex;
         this->unk_1F8 = gChildZelda1EyeOpenLookingLeftTex;
-        this->unk_1FC = 2;
+        this->blinkTimer = 2;
     } else {
-        if (DECR(this->unk_1FC) == 0) {
-            this->unk_1FC = Rand_S16Offset(0x1E, 0xA);
+        if (DECR(this->blinkTimer) == 0) {
+            this->blinkTimer = Rand_S16Offset(0x1E, 0xA);
         }
-        this->unk_1FE = (this->unk_1FC < 4) ? this->unk_1FC : 0;
+        this->blinkTextureIndex = (this->blinkTimer < 4) ? this->blinkTimer : 0;
 
-        this->unk_1F4 = D_80B4E61C[this->unk_1FE];
-        this->unk_1F8 = D_80B4E61C[this->unk_1FE];
-        this->unk_1EC = D_80B4E62C[this->unk_1F2];
+        this->unk_1F4 = sEyeTextures[this->blinkTextureIndex];
+        this->unk_1F8 = sEyeTextures[this->blinkTextureIndex];
+        this->mouthTexture = sMouthTextures[this->mouthTextureIndex];
     }
 }
 
@@ -636,7 +636,7 @@ void EnZl1_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(this->unk_1F4));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(this->unk_1F8));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(this->unk_1EC));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(this->mouthTexture));
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

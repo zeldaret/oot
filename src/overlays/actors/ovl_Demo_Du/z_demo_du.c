@@ -18,6 +18,13 @@ static s32 sUnused = 0;
 
 #include "z_demo_du_cutscene_data.inc.c"
 
+typedef enum {
+    /* 0 */ DARUNIA_EYE_OPEN,
+    /* 1 */ DARUNIA_EYE_OPENING,
+    /* 2 */ DARUNIA_EYE_CLOSED,
+    /* 3 */ DARUNIA_EYE_CLOSING
+} DemoDuEyeState;
+
 static void* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
 static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
                                   gDaruniaMouthHappyTex };
@@ -54,8 +61,8 @@ void DemoDu_UpdateEyes(DemoDu* this) {
     }
 
     *eyeTexIndex = *blinkTimer;
-    if (*eyeTexIndex >= 3) {
-        *eyeTexIndex = 0;
+    if (*eyeTexIndex >= DARUNIA_EYE_CLOSING) { //check if we've moved beyond 'blink' indices
+        *eyeTexIndex = DARUNIA_EYE_OPEN;
     }
 }
 
@@ -164,7 +171,7 @@ void func_80969DDC(DemoDu* this, AnimationHeader* animation, u8 mode, f32 morphF
 void DemoDu_InitCs_FireMedallion(DemoDu* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gDaruniaSkel, &gDaruniaIdleAnim, NULL, NULL, 0);
     this->actor.shape.yOffset = -10000.0f;
-    DemoDu_SetEyeTexIndex(this, 1);
+    DemoDu_SetEyeTexIndex(this, DARUNIA_EYE_OPENING);
     DemoDu_SetMouthTexIndex(this, 3);
 }
 
@@ -364,10 +371,10 @@ void DemoDu_CsGoronsRuby_UpdateFaceTextures(DemoDu* this, PlayState* play) {
         DemoDu_UpdateEyes(this);
         DemoDu_SetMouthTexIndex(this, 3);
     } else if (*frames < 365) {
-        DemoDu_SetEyeTexIndex(this, 3);
+        DemoDu_SetEyeTexIndex(this, DARUNIA_EYE_CLOSING);
         DemoDu_SetMouthTexIndex(this, 1);
     } else if (*frames < 395) {
-        DemoDu_SetEyeTexIndex(this, 0);
+        DemoDu_SetEyeTexIndex(this, DARUNIA_EYE_OPEN);
         DemoDu_SetMouthTexIndex(this, 3);
     } else if (*frames < 410) {
         DemoDu_UpdateEyes(this);

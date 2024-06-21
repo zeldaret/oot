@@ -87,6 +87,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 60, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0 */ GE2_EYE_OPEN,
+    /* 1 */ GE2_EYE_HALF,
+    /* 2 */ GE2_EYE_CLOSED
+} EnGe2EyeState;
+
 static EnGe2ActionFunc sActionFuncs[] = {
     EnGe2_Walk,         EnGe2_AboutTurn,   EnGe2_TurnPlayerSpotted,
     EnGe2_KnockedOut,   EnGe2_CaptureTurn, EnGe2_CaptureCharge,
@@ -507,8 +513,8 @@ void EnGe2_MoveAndBlink(EnGe2* this, PlayState* play) {
     }
     this->eyeIndex = this->blinkTimer;
 
-    if (this->eyeIndex >= 3) {
-        this->eyeIndex = 0;
+    if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
+        this->eyeIndex = GE2_EYE_OPEN;
     }
 }
 

@@ -132,6 +132,17 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 30, 80, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0 */ HAPPY_MASK_SHOPKEEPER_EYE_CLOSED,
+    /* 1 */ HAPPY_MASK_SHOPKEEPER_EYE_OPEN
+} HappyMaskShopkeeperEyeState;
+
+typedef enum {
+    /* 0 */ GENERIC_EYE_OPEN,
+    /* 1 */ GENERIC_EYE_HALF,
+    /* 2 */ GENERIC_EYE_CLOSED
+} GenericEyeState;
+
 // Rupees to pay back to Happy Mask Shop
 static s16 sMaskPaymentPrice[] = { 10, 30, 20, 50 };
 
@@ -859,7 +870,7 @@ void EnOssan_TryPaybackMask(EnOssan* this, PlayState* play) {
 
     if (gSaveContext.save.info.playerData.rupees < price) {
         Message_ContinueTextbox(play, 0x70A8);
-        this->happyMaskShopkeeperEyeIdx = 1;
+        this->happyMaskShopkeeperEyeIdx = HAPPY_MASK_SHOPKEEPER_EYE_OPEN;
         this->happyMaskShopState = OSSAN_HAPPY_STATE_ANGRY;
     } else {
         Rupees_ChangeBy(-price);
@@ -1965,8 +1976,8 @@ void EnOssan_Blink(EnOssan* this) {
         return;
     }
     eyeTextureIdxTemp = this->eyeTextureIdx + 1;
-    if (eyeTextureIdxTemp > 2) {
-        this->eyeTextureIdx = 0;
+    if (eyeTextureIdxTemp > 2) { //check if we've moved beyond 'blink' indices
+        this->eyeTextureIdx = GENERIC_EYE_OPEN;
         this->blinkTimer = (s32)(Rand_ZeroOne() * 60.0f) + 20;
         this->blinkFunc = EnOssan_WaitForBlink;
     } else {
@@ -2150,7 +2161,7 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
 
         this->cursorAnimState = 0;
         this->drawCursor = 0;
-        this->happyMaskShopkeeperEyeIdx = 0;
+        this->happyMaskShopkeeperEyeIdx = HAPPY_MASK_SHOPKEEPER_EYE_CLOSED;
 
         this->stickLeftPrompt.stickColorR = 200;
         this->stickLeftPrompt.stickColorG = 200;
@@ -2191,7 +2202,7 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
         EnOssan_SpawnItemsOnShelves(this, play, items);
         this->headRot = this->headTargetRot = 0;
         this->blinkTimer = 20;
-        this->eyeTextureIdx = 0;
+        this->eyeTextureIdx = GENERIC_EYE_OPEN;
         this->blinkFunc = EnOssan_WaitForBlink;
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnOssan_SetupAction(this, EnOssan_MainActionFunc);
@@ -2482,6 +2493,8 @@ void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4564);
 }
+
+
 
 void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, PlayState* play) {
     static void* sHappyMaskShopkeeperEyeTextures[] = { gHappyMaskSalesmanEyeClosedTex, gHappyMaskSalesmanEyeOpenTex };

@@ -74,6 +74,12 @@ static Color_RGBA8 D_80B243C0[4] = {
     { 0, 0, 255, 255 },
 };
 
+typedef enum {
+    /* 0 */ KOTAKE_KOUME_EYE_OPEN,
+    /* 1 */ KOTAKE_KOUME_EYE_HALF,
+    /* 2 */ KOTAKE_KOUME_EYE_CLOSED
+} KotakeKoumeEyeState;
+
 static void* sEyeTextures[] = {
     gKotakeKoumeEyeOpenTex,
     gKotakeKoumeEyeHalfTex,
@@ -405,8 +411,8 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
     this->eyeIndex = this->blinkTimer;
-    if (this->eyeIndex >= 3) {
-        this->eyeIndex = 0;
+    if (this->eyeIndex > KOTAKE_KOUME_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
+        this->eyeIndex = KOTAKE_KOUME_EYE_OPEN;
     }
 }
 

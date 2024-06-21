@@ -94,6 +94,13 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
+typedef enum {
+    /* 0 */ GORON_EYE_CLOSED_2,
+    /* 1 */ GORON_EYE_OPEN,
+    /* 2 */ GORON_EYE_HALF,
+    /* 3 */ GORON_EYE_CLOSED
+} EyeState;
+
 ActorInit En_Go2_InitVars = {
     /**/ ACTOR_EN_GO2,
     /**/ ACTORCAT_NPC,
@@ -1245,26 +1252,26 @@ void EnGo2_EyeMouthTexState(EnGo2* this) {
     switch (this->eyeMouthTexState) {
         case 1:
             this->blinkTimer = 0;
-            this->eyeTexIndex = 0;
+            this->eyeTexIndex = GORON_EYE_CLOSED_2;
             this->mouthTexIndex = 0;
             break;
         case 2:
             this->blinkTimer = 0;
-            this->eyeTexIndex = 1;
+            this->eyeTexIndex = GORON_EYE_OPEN;
             this->mouthTexIndex = 0;
             break;
         // case 3 only when biggoron is given eyedrops. Biggoron smiles. (only use of second mouth texture)
         case 3:
             this->blinkTimer = 0;
-            this->eyeTexIndex = 0;
+            this->eyeTexIndex = GORON_EYE_CLOSED_2;
             this->mouthTexIndex = 1;
             break;
         default:
             if (DECR(this->blinkTimer) == 0) {
                 this->eyeTexIndex++;
-                if (this->eyeTexIndex >= 4) {
+                if (this->eyeTexIndex >= 4) { //check if we've moved beyond 'blink' indices
                     this->blinkTimer = Rand_S16Offset(30, 30);
-                    this->eyeTexIndex = 1;
+                    this->eyeTexIndex = GORON_EYE_OPEN;
                 }
             }
     }

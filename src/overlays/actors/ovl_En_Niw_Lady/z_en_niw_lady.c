@@ -66,6 +66,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0 */ CUCCO_LADY_EYE_OPEN,
+    /* 1 */ CUCCO_LADY_EYE_HALF,
+    /* 2 */ CUCCO_LADY_EYE_CLOSED
+} EnNiwLadyEyeState;
+
 void EnNiwLady_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnNiwLady* this = (EnNiwLady*)thisx;
@@ -533,9 +539,9 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
         }
         this->unusedTimer++;
         if (this->unusedRandomTimer == 0) {
-            this->faceState++;
-            if (this->faceState >= 3) {
-                this->faceState = 0;
+            this->eyeTexIndex++;
+            if (this->eyeTexIndex >= 3) { //check if we've moved beyond 'blink' indices
+                this->eyeTexIndex = CUCCO_LADY_EYE_OPEN;
                 this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
             }
         }
@@ -584,7 +590,7 @@ void EnNiwLady_Draw(Actor* thisx, PlayState* play2) {
     if (this->unk_27E != 0) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->faceState]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, EnNiwLady_EmptyDList(play->state.gfxCtx));
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnNiwLady_OverrideLimbDraw, NULL, this);

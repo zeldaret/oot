@@ -55,6 +55,12 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 30, 100, 0, { 0 } },
 };
 
+typedef enum {
+    /* 0 */ ADULT_RUTO_EYE_OPEN,
+    /* 1 */ ADULT_RUTO_EYE_HALF,
+    /* 2 */ ADULT_RUTO_EYE_CLOSED
+} AdultRutoEyeState;
+
 static void* sEyeTextures[] = {
     gAdultRutoEyeOpenTex,
     gAdultRutoEyeHalfTex,
@@ -111,18 +117,18 @@ void EnRu2_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80AF2608(EnRu2* this) {
+void EnRu2_UpdateEyes(EnRu2* this) {
     s32 pad[3];
-    s16* unk_2A6 = &this->unk_2A6;
-    s16* unk_2A4 = &this->unk_2A4;
+    s16* blinkTimer = &this->blinkTimer;
+    s16* eyeTexIndex = &this->eyeTexIndex;
 
-    if (DECR(*unk_2A6) == 0) {
-        *unk_2A6 = Rand_S16Offset(0x3C, 0x3C);
+    if (DECR(*blinkTimer) == 0) {
+        *blinkTimer = Rand_S16Offset(0x3C, 0x3C);
     }
 
-    *unk_2A4 = *unk_2A6;
-    if (*unk_2A4 >= 3) {
-        *unk_2A4 = 0;
+    *eyeTexIndex = *blinkTimer;
+    if (*eyeTexIndex >= 3) { //check if we've moved beyond 'blink' indices
+        *eyeTexIndex = ADULT_RUTO_EYE_OPEN;
     }
 }
 
@@ -348,14 +354,14 @@ void func_80AF2CD4(EnRu2* this, PlayState* play) {
 void func_80AF2CF4(EnRu2* this, PlayState* play) {
     func_80AF2978(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     func_80AF2B94(this);
 }
 
 void func_80AF2D2C(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     func_80AF2BC0(this, play);
 }
 
@@ -364,21 +370,21 @@ void func_80AF2D6C(EnRu2* this, PlayState* play) {
 
     func_80AF2744(this, play);
     something = EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     func_80AF2C54(this, something);
 }
 
 void func_80AF2DAC(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     func_80AF2C68(this, play);
 }
 
 void func_80AF2DEC(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
 }
 
 void func_80AF2E1C(EnRu2* this, PlayState* play) {
@@ -461,7 +467,7 @@ void func_80AF3144(EnRu2* this, PlayState* play) {
 void func_80AF3174(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     func_80AF2F58(this, play);
 #if OOT_DEBUG
     func_80AF26D0(this, play);
@@ -471,7 +477,7 @@ void func_80AF3174(EnRu2* this, PlayState* play) {
 void func_80AF31C8(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     func_80AF30AC(this, play);
 #if OOT_DEBUG
     func_80AF26D0(this, play);
@@ -480,7 +486,7 @@ void func_80AF31C8(EnRu2* this, PlayState* play) {
 
 void func_80AF321C(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->unk_2A4;
+    s16 temp = this->eyeTexIndex;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -582,7 +588,7 @@ void func_80AF3604(EnRu2* this, PlayState* play) {
 void func_80AF3624(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     func_80AF33E0(this);
     func_80AF34A4(this);
 }
@@ -590,7 +596,7 @@ void func_80AF3624(EnRu2* this, PlayState* play) {
 void func_80AF366C(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     func_80AF3564(this, play);
 }
 
@@ -599,7 +605,7 @@ void func_80AF36AC(EnRu2* this, PlayState* play) {
 
     func_80AF2744(this, play);
     something = EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     func_80AF3530(this, something);
 }
 
@@ -729,7 +735,7 @@ void func_80AF3C04(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     func_80AF259C(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF38D0(this, play);
 }
@@ -737,7 +743,7 @@ void func_80AF3C04(EnRu2* this, PlayState* play) {
 void func_80AF3C64(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF390C(this, play);
 }
@@ -745,7 +751,7 @@ void func_80AF3C64(EnRu2* this, PlayState* play) {
 void func_80AF3CB8(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF39DC(this, play);
 }
@@ -753,7 +759,7 @@ void func_80AF3CB8(EnRu2* this, PlayState* play) {
 void func_80AF3D0C(EnRu2* this, PlayState* play) {
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF3ADC(this, play);
 }
@@ -762,7 +768,7 @@ void func_80AF3D60(EnRu2* this, PlayState* play) {
     func_80AF37CC(this);
     func_80AF2744(this, play);
     EnRu2_UpdateSkelAnime(this);
-    func_80AF2608(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     func_80AF3B74(this, play);
 }
@@ -809,7 +815,7 @@ void func_80AF3F14(EnRu2* this, PlayState* play) {
 
 void func_80AF3F20(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->unk_2A4;
+    s16 temp = this->eyeTexIndex;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 

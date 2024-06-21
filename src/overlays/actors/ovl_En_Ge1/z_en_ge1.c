@@ -79,6 +79,12 @@ static Gfx* sHairstyleDLists[] = {
 
 static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
 
+typedef enum {
+    /* 0 */ GE1_EYE_OPEN,
+    /* 1 */ GE1_EYE_HALF,
+    /* 2 */ GE1_EYE_CLOSED
+} EnGe1EyeState;
+
 static void* sEyeTextures[] = {
     gGerudoWhiteEyeOpenTex,
     gGerudoWhiteEyeHalfTex,
@@ -738,8 +744,8 @@ void EnGe1_Update(Actor* thisx, PlayState* play) {
     }
     this->eyeIndex = this->blinkTimer;
 
-    if (this->eyeIndex >= 3) {
-        this->eyeIndex = 0;
+    if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
+        this->eyeIndex = GE1_EYE_OPEN;
     }
 }
 

@@ -25,6 +25,12 @@ typedef enum {
     /* 2 */ FAIRY_SPELL_NAYRUS_LOVE
 } BgDyYoseizoSpellType;
 
+typedef enum {
+    /* 0 */ FAIRY_EYE_OPEN,
+    /* 1 */ FAIRY_EYE_HALF,
+    /* 2 */ FAIRY_EYE_CLOSED
+} BgDyYoseizoEyeState;
+
 void BgDyYoseizo_Init(Actor* thisx, PlayState* play2);
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play);
 void BgDyYoseizo_Update(Actor* thisx, PlayState* play2);
@@ -850,8 +856,8 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     if ((this->blinkTimer == 0) && (this->actionFunc != BgDyYoseizo_HealPlayer_NoReward)) {
         this->eyeState++;
         this->eyeState2++;
-        if (this->eyeState >= 3) {
-            this->eyeState = this->eyeState2 = 0;
+        if (this->eyeState >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyeState = this->eyeState2 = FAIRY_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }

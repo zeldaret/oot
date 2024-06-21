@@ -9,7 +9,6 @@ void EnMa2_Update(Actor* thisx, PlayState* play);
 void EnMa2_Draw(Actor* thisx, PlayState* play);
 
 void func_80AA1AE4(EnMa2* this, PlayState* play);
-s32 func_80AA1C68(EnMa2* this);
 void EnMa2_UpdateEyes(EnMa2* this);
 void func_80AA1DB4(EnMa2* this, PlayState* play);
 void func_80AA2018(EnMa2* this, PlayState* play);
@@ -28,6 +27,12 @@ ActorInit En_Ma2_InitVars = {
     /**/ EnMa2_Update,
     /**/ EnMa2_Draw,
 };
+
+typedef enum {
+    /* 0 */ MALON_ADULT_EYE_OPEN,
+    /* 1 */ MALON_ADULT_EYE_HALF,
+    /* 2 */ MALON_ADULT_EYE_CLOSED
+} EnMa2EyeState;
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -158,7 +163,12 @@ u16 func_80AA1B58(EnMa2* this, PlayState* play) {
     return 0;
 }
 
-s32 func_80AA1C68(EnMa2* this) {
+/**
+ * Set face textures based on current actor state, and determine whether the blink code is allowed to run
+ *
+ * @return 1 for 'face is busy', 0 if not
+ */
+s32 EnMa2_UpdateFaceAndCheckIfBusy(EnMa2* this) {
     if (this->skelAnime.animation != &gMalonAdultSingAnim) {
         return 0;
     }
@@ -166,7 +176,7 @@ s32 func_80AA1C68(EnMa2* this) {
         return 0;
     }
     this->blinkTimer = 0;
-    if (this->eyeIndex != 2) {
+    if (this->eyeIndex != MALON_ADULT_EYE_CLOSED) {
         return 0;
     }
     this->mouthIndex = 2;
@@ -174,11 +184,11 @@ s32 func_80AA1C68(EnMa2* this) {
 }
 
 void EnMa2_UpdateEyes(EnMa2* this) {
-    if ((!func_80AA1C68(this)) && (DECR(this->blinkTimer) == 0)) {
+    if ((!EnMa2_UpdateFaceAndCheckIfBusy(this)) && (DECR(this->blinkTimer) == 0)) {
         this->eyeIndex++;
-        if (this->eyeIndex >= 3) {
+        if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIndex = 0;
+            this->eyeIndex = MALON_ADULT_EYE_OPEN;
         }
     }
 }

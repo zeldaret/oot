@@ -31,6 +31,12 @@ ActorInit En_Niw_Girl_InitVars = {
     /**/ EnNiwGirl_Draw,
 };
 
+typedef enum {
+    /* 0 */ NIW_GIRL_EYE_OPEN,
+    /* 1 */ NIW_GIRL_EYE_HALF,
+    /* 2 */ NIW_GIRL_EYE_CLOSED
+} EnNiwGirlEyeState;
+
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
@@ -194,8 +200,8 @@ void EnNiwGirl_Update(Actor* thisx, PlayState* play) {
     tempActionFunc = func_80AB94D0;
     if (this->blinkTimer == 0) {
         this->eyeIndex++;
-        if (this->eyeIndex >= 3) {
-            this->eyeIndex = 0;
+        if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyeIndex = NIW_GIRL_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }

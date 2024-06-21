@@ -22,6 +22,12 @@ void func_809FEC70(EnDu* this, PlayState* play);
 void func_809FECE4(EnDu* this, PlayState* play);
 void func_809FEB08(EnDu* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ DARUNIA_EYE_OPEN,
+    /* 1 */ DARUNIA_EYE_HALF,
+    /* 2 */ DARUNIA_EYE_CLOSED
+} DaruniaEyeState;
+
 ActorInit En_Du_InitVars = {
     /**/ ACTOR_EN_DU,
     /**/ ACTORCAT_NPC,
@@ -175,7 +181,7 @@ void func_809FDE24(EnDu* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 3, trackingMode);
 }
 
-void func_809FDE9C(EnDu* this) {
+void EnDu_UpdateFaceTextures(EnDu* this) {
     if (this->blinkTimer > 0) {
         this->blinkTimer--;
     } else {
@@ -193,17 +199,17 @@ void func_809FDE9C(EnDu* this) {
             break;
         case 1:
             if (this->blinkTimer == 0) {
-                this->eyeTexIndex = 2;
+                this->eyeTexIndex = DARUNIA_EYE_CLOSED;
             }
             break;
         case 2:
             if (this->blinkTimer == 0) {
-                this->eyeTexIndex = 2;
+                this->eyeTexIndex = DARUNIA_EYE_CLOSED;
             }
             break;
         case 3:
             if (this->blinkTimer == 0) {
-                this->eyeTexIndex = 0;
+                this->eyeTexIndex = DARUNIA_EYE_OPEN;
             }
             break;
     }
@@ -561,7 +567,7 @@ void EnDu_Update(Actor* thisx, PlayState* play) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    func_809FDE9C(this);
+    EnDu_UpdateFaceTextures(this);
     func_809FDE24(this, play);
 
     if (this->actionFunc == func_809FE890) {

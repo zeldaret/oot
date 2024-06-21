@@ -26,6 +26,12 @@ void EnGm_ProcessChoiceIndex(EnGm* this, PlayState* play);
 void func_80A3DF00(EnGm* this, PlayState* play);
 void func_80A3DF60(EnGm* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ MEDI_GORON_EYE_OPEN,
+    /* 1 */ MEDI_GORON_EYE_HALF,
+    /* 2 */ MEDI_GORON_EYE_CLOSED
+} MediGoronEyeState;
+
 ActorInit En_Gm_InitVars = {
     /**/ ACTOR_EN_GM,
     /**/ ACTORCAT_NPC,
@@ -114,7 +120,7 @@ void func_80A3D838(EnGm* this, PlayState* play) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
         Actor_SetScale(&this->actor, 0.05f);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-        this->eyeTexIndex = 0;
+        this->eyeTexIndex = MEDI_GORON_EYE_OPEN;
         this->blinkTimer = 20;
         this->actor.textId = 0x3049;
         this->updateFunc = func_80A3DFBC;
@@ -131,8 +137,8 @@ void EnGm_UpdateEye(EnGm* this) {
     } else {
         this->eyeTexIndex++;
 
-        if (this->eyeTexIndex >= 3) {
-            this->eyeTexIndex = 0;
+        if (this->eyeTexIndex >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyeTexIndex = MEDI_GORON_EYE_OPEN;
             this->blinkTimer = Rand_ZeroFloat(60.0f) + 20.0f;
         }
     }

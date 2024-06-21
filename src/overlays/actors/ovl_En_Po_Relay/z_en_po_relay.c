@@ -78,6 +78,12 @@ static Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
 
+typedef enum {
+    /* 0 */ DAMPE_EYE_OPEN,
+    /* 1 */ DAMPE_EYE_HALF,
+    /* 2 */ DAMPE_EYE_CLOSED
+} DampeEyeState;
+
 static void* sEyesTextures[] = {
     gDampeEyeOpenTex,
     gDampeEyeHalfTex,
@@ -117,7 +123,7 @@ void EnPoRelay_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnPoRelay_SetupIdle(EnPoRelay* this) {
-    this->unk_195 = 32;
+    this->hoverAnimTimer = 32;
     this->pathIndex = 0;
     this->actor.room = -1;
     this->actor.shape.rot.y = 0;
@@ -154,7 +160,7 @@ void EnPoRelay_SetupEndRace(EnPoRelay* this) {
 
 void EnPoRelay_CorrectY(EnPoRelay* this) {
     Math_StepToF(&this->actor.home.pos.y, D_80AD8C30[(this->pathIndex >= 28) ? 27 : this->pathIndex].y + 45.0f, 2.0f);
-    this->actor.world.pos.y = Math_SinS(this->unk_195 * 0x800) * 8.0f + this->actor.home.pos.y;
+    this->actor.world.pos.y = Math_SinS(this->hoverAnimTimer * 0x800) * 8.0f + this->actor.home.pos.y;
 }
 
 void EnPoRelay_Idle(EnPoRelay* this, PlayState* play) {
@@ -358,15 +364,15 @@ void EnPoRelay_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_SetFocus(&this->actor, 50.0f);
-    if (this->unk_195 != 0) {
-        this->unk_195 -= 1;
+    if (this->hoverAnimTimer != 0) {
+        this->hoverAnimTimer -= 1;
     }
-    if (this->unk_195 == 0) {
-        this->unk_195 = 32;
+    if (this->hoverAnimTimer == 0) {
+        this->hoverAnimTimer = 32;
     }
     this->eyeTextureIdx++;
-    if (this->eyeTextureIdx == 3) {
-        this->eyeTextureIdx = 0;
+    if (this->eyeTextureIdx == 3) { //check if we've moved beyond 'blink' indices
+        this->eyeTextureIdx = DAMPE_EYE_OPEN;
     }
 }
 

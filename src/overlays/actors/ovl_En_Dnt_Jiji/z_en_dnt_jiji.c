@@ -39,6 +39,12 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Hide(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Return(EnDntJiji* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ SCRUB_LEADER_EYE_OPEN,
+    /* 1 */ SCRUB_LEADER_EYE_HALF,
+    /* 2 */ SCRUB_LEADER_EYE_CLOSED
+} ScrubLeaderEyeState;
+
 ActorInit En_Dnt_Jiji_InitVars = {
     /**/ ACTOR_EN_DNT_JIJI,
     /**/ ACTORCAT_NPC,
@@ -411,8 +417,8 @@ void EnDntJiji_Update(Actor* thisx, PlayState* play) {
     }
     if (this->blinkTimer == 0) {
         this->eyeState++;
-        if (this->eyeState > 2) {
-            this->eyeState = 0;
+        if (this->eyeState > 2) { //check if we've moved beyond 'blink' indices
+            this->eyeState = SCRUB_LEADER_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }

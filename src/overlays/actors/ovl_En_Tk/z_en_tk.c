@@ -20,6 +20,12 @@ void EnTk_Rest(EnTk* this, PlayState* play);
 void EnTk_Walk(EnTk* this, PlayState* play);
 void EnTk_Dig(EnTk* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ DAMPE_EYE_OPEN,
+    /* 1 */ DAMPE_EYE_HALF,
+    /* 2 */ DAMPE_EYE_CLOSED
+} DampeEyeState;
+
 ActorInit En_Tk_InitVars = {
     /**/ ACTOR_EN_TK,
     /**/ ACTORCAT_NPC,
@@ -191,7 +197,7 @@ void EnTk_DigAnim(EnTk* this, PlayState* play) {
 void EnTk_UpdateEyes(EnTk* this) {
     if (DECR(this->blinkCountdown) == 0) {
         this->eyeTextureIdx++;
-        if (this->eyeTextureIdx > 2) {
+        if (this->eyeTextureIdx > DAMPE_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
             this->blinkCycles--;
             if (this->blinkCycles < 0) {
                 this->blinkCountdown = Rand_S16Offset(30, 30);
@@ -200,7 +206,7 @@ void EnTk_UpdateEyes(EnTk* this) {
                     this->blinkCycles++;
                 }
             }
-            this->eyeTextureIdx = 0;
+            this->eyeTextureIdx = DAMPE_EYE_OPEN;
         }
     }
 }

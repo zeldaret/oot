@@ -31,6 +31,12 @@ ActorInit En_Horse_Link_Child_InitVars = {
     /**/ EnHorseLinkChild_Draw,
 };
 
+typedef enum {
+    /* 0 */ CHILD_EPONA_EYE_OPEN,
+    /* 1 */ CHILD_EPONA_EYE_HALF,
+    /* 2 */ CHILD_EPONA_EYE_CLOSED
+} EnHorseLinkChildEyeState;
+
 static AnimationHeader* sAnimations[] = {
     &gChildEponaIdleAnim,     &gChildEponaWhinnyAnim,    &gChildEponaWalkingAnim,
     &gChildEponaTrottingAnim, &gChildEponaGallopingAnim,
@@ -160,7 +166,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);
     this->unk_1F0 = 0;
-    this->eyeTexIndex = 0;
+    this->eyeTexIndex = CHILD_EPONA_EYE_OPEN;
 
     if (IS_CUTSCENE_LAYER) {
         func_80A69EC0(this);
@@ -565,12 +571,12 @@ void EnHorseLinkChild_Update(Actor* thisx, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
 
-    if ((Rand_ZeroOne() < 0.025f) && (this->eyeTexIndex == 0)) {
+    if ((Rand_ZeroOne() < 0.025f) && (this->eyeTexIndex == CHILD_EPONA_EYE_OPEN)) {
         this->eyeTexIndex++;
-    } else if (this->eyeTexIndex > 0) {
+    } else if (this->eyeTexIndex > CHILD_EPONA_EYE_OPEN) {
         this->eyeTexIndex++;
         if (this->eyeTexIndex >= ARRAY_COUNT(sEyeIndexOrder)) {
-            this->eyeTexIndex = 0;
+            this->eyeTexIndex = CHILD_EPONA_EYE_OPEN;
         }
     }
 

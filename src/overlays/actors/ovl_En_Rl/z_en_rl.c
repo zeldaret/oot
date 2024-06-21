@@ -29,13 +29,19 @@ void func_80AE7D94(EnRl* this, PlayState* play);
 
 static void* D_80AE81A0[] = { object_rl_Tex_003620, object_rl_Tex_003960, object_rl_Tex_003B60 };
 
+typedef enum {
+    /* 0 */ RARU_EYE_OPEN,
+    /* 1 */ RARU_EYE_HALF,
+    /* 2 */ RARU_EYE_CLOSED
+} EnRlEyeState;
+
 void EnRl_Destroy(Actor* thisx, PlayState* play) {
     EnRl* this = (EnRl*)thisx;
 
     SkelAnime_Free(&this->skelAnime, play);
 }
 
-void func_80AE72D0(EnRl* this) {
+void EnRl_UpdateEyes(EnRl* this) {
     s32 pad[3];
     s16* timer = &this->timer;
     s16* eyeTextureIndex = &this->eyeTextureIndex;
@@ -45,8 +51,8 @@ void func_80AE72D0(EnRl* this) {
     }
 
     *eyeTextureIndex = *timer;
-    if (*eyeTextureIndex > 2) {
-        *eyeTextureIndex = 0;
+    if (*eyeTextureIndex > 2) { //check if we've moved beyond 'blink' indices
+        *eyeTextureIndex = RARU_EYE_OPEN;
     }
 }
 
@@ -172,7 +178,7 @@ void func_80AE7798(EnRl* this, PlayState* play) {
 void func_80AE77B8(EnRl* this, PlayState* play) {
     func_80AE744C(this, play);
     func_80AE7494(this);
-    func_80AE72D0(this);
+    EnRl_UpdateEyes(this);
     func_80AE7698(this, play);
 }
 
@@ -181,14 +187,14 @@ void func_80AE77F8(EnRl* this, PlayState* play) {
 
     func_80AE744C(this, play);
     temp = func_80AE7494(this);
-    func_80AE72D0(this);
+    EnRl_UpdateEyes(this);
     func_80AE772C(this, temp);
 }
 
 void func_80AE7838(EnRl* this, PlayState* play) {
     func_80AE744C(this, play);
     func_80AE7494(this);
-    func_80AE72D0(this);
+    EnRl_UpdateEyes(this);
     func_80AE7590(this, play);
 }
 
@@ -280,7 +286,7 @@ void func_80AE7C64(EnRl* this, PlayState* play) {
 void func_80AE7C94(EnRl* this, PlayState* play) {
     func_80AE744C(this, play);
     func_80AE7494(this);
-    func_80AE72D0(this);
+    EnRl_UpdateEyes(this);
     func_80AE79A4(this, play);
 #if OOT_DEBUG
     func_80AE73D8(this, play);
@@ -292,7 +298,7 @@ void func_80AE7CE8(EnRl* this, PlayState* play) {
 
     func_80AE744C(this, play);
     temp = func_80AE7494(this);
-    func_80AE72D0(this);
+    EnRl_UpdateEyes(this);
     func_80AE7BF8(this, temp);
 #if OOT_DEBUG
     func_80AE73D8(this, play);
@@ -302,7 +308,7 @@ void func_80AE7CE8(EnRl* this, PlayState* play) {
 void func_80AE7D40(EnRl* this, PlayState* play) {
     func_80AE744C(this, play);
     func_80AE7494(this);
-    func_80AE72D0(this);
+    EnRl_UpdateEyes(this);
     func_80AE7AF8(this, play);
 #if OOT_DEBUG
     func_80AE73D8(this, play);

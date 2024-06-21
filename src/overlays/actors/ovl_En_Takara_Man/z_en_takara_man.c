@@ -188,7 +188,7 @@ void EnTakaraMan_Update(Actor* thisx, PlayState* play) {
     Actor_TrackPlayer(play, &this->actor, &this->unk_22C, &this->unk_232, this->actor.focus.pos);
     if (this->eyeTimer == 0) {
         this->eyeTextureIdx++;
-        if (this->eyeTextureIdx >= 2) {
+        if (this->eyeTextureIdx >= 2) { //check if we've moved beyond 'blink' indices
             this->eyeTextureIdx = 0;
             this->eyeTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }

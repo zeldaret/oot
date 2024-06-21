@@ -13,8 +13,7 @@
 typedef enum {
     /* 0 */ JABUJABU_EYE_OPEN,
     /* 1 */ JABUJABU_EYE_HALF,
-    /* 2 */ JABUJABU_EYE_CLOSED,
-    /* 3 */ JABUJABU_EYE_MAX
+    /* 2 */ JABUJABU_EYE_CLOSED
 } EnJjEyeState;
 
 void EnJj_Init(Actor* thisx, PlayState* play2);
@@ -91,7 +90,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
                                this->morphTable, 22);
             Animation_PlayLoop(&this->skelAnime, &gJabuJabuAnim);
             this->unk_30A = 0;
-            this->eyeIndex = 0;
+            this->eyeIndex = JABUJABU_EYE_OPEN;
             this->blinkTimer = 0;
             this->extraBlinkCounter = 0;
             this->extraBlinkTotal = 0;
@@ -162,7 +161,7 @@ void EnJj_Blink(EnJj* this) {
         this->blinkTimer--;
     } else {
         this->eyeIndex++;
-        if (this->eyeIndex >= JABUJABU_EYE_MAX) {
+        if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
             this->eyeIndex = JABUJABU_EYE_OPEN;
             if (this->extraBlinkCounter > 0) {
                 this->extraBlinkCounter--;
@@ -227,7 +226,7 @@ void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
     switch (play->csCtx.actorCues[2]->id) {
         case 1:
             if (this->unk_30A & 2) {
-                this->eyeIndex = 0;
+                this->eyeIndex = JABUJABU_EYE_OPEN;
                 this->blinkTimer = Rand_S16Offset(20, 20);
                 this->extraBlinkCounter = 0;
                 this->extraBlinkTotal = 0;
@@ -247,7 +246,7 @@ void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
 
         case 3:
             if (!(this->unk_30A & 2)) {
-                this->eyeIndex = 0;
+                this->eyeIndex = JABUJABU_EYE_OPEN;
                 this->blinkTimer = 0;
                 this->extraBlinkCounter = 1;
                 this->extraBlinkTotal = 0;

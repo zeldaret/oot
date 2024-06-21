@@ -115,8 +115,8 @@ void func_8098E480(DemoSa* this) {
     }
 
     *eyeIndex = *blinkTimer;
-    if (*eyeIndex >= 3) {
-        *eyeIndex = 0;
+    if (*eyeIndex >= SARIA_EYE_SUPRISED) { //check if we've moved beyond 'blink' indices
+        *eyeIndex = SARIA_EYE_OPEN;
     }
 }
 

@@ -68,6 +68,12 @@ ActorInit En_Dnt_Nomal_InitVars = {
     /**/ NULL,
 };
 
+typedef enum {
+    /* 0 */ MINIGAME_SCRUB_EYE_OPEN,
+    /* 1 */ MINIGAME_SCRUB_EYE_HALF,
+    /* 2 */ MINIGAME_SCRUB_EYE_CLOSED
+} MinigameScrubEyeState;
+
 static ColliderCylinderInit sBodyCylinderInit = {
     {
         COLTYPE_NONE,
@@ -805,8 +811,8 @@ void EnDntNomal_Update(Actor* thisx, PlayState* play) {
     }
     if (this->blinkTimer == 0) {
         this->eyeState++;
-        if (this->eyeState >= 3) {
-            this->eyeState = 0;
+        if (this->eyeState >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyeState = MINIGAME_SCRUB_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }

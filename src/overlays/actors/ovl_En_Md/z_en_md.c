@@ -56,6 +56,12 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
+    /* 0 */ MIDO_EYE_OPEN,
+    /* 1 */ MIDO_EYE_HALF,
+    /* 2 */ MIDO_EYE_CLOSED
+} MidoEyeState;
+
+typedef enum {
     /*  0 */ ENMD_ANIM_0,
     /*  1 */ ENMD_ANIM_1,
     /*  2 */ ENMD_ANIM_2,
@@ -529,9 +535,9 @@ u8 EnMd_ShouldSpawn(EnMd* this, PlayState* play) {
 void EnMd_UpdateEyes(EnMd* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIdx++;
-        if (this->eyeIdx > 2) {
+        if (this->eyeIdx >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIdx = 0;
+            this->eyeIdx = MIDO_EYE_OPEN;
         }
     }
 }

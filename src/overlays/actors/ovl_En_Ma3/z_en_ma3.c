@@ -16,7 +16,6 @@ void EnMa3_Draw(Actor* thisx, PlayState* play);
 
 void func_80AA2E54(EnMa3* this, PlayState* play);
 s32 func_80AA2EC8(EnMa3* this, PlayState* play);
-s32 func_80AA2F28(EnMa3* this);
 void EnMa3_UpdateEyes(EnMa3* this);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
@@ -61,6 +60,12 @@ typedef enum {
     /* 3 */ ENMA3_ANIM_3,
     /* 4 */ ENMA3_ANIM_4
 } EnMa3Animation;
+
+typedef enum {
+    /* 0 */ MALON_ADULT_RANCH_EYE_OPEN,
+    /* 1 */ MALON_ADULT_RANCH_EYE_HALF,
+    /* 2 */ MALON_ADULT_RANCH_EYE_CLOSED
+} EnMa3EyeState;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -212,7 +217,12 @@ s32 func_80AA2EC8(EnMa3* this, PlayState* play) {
     return 0;
 }
 
-s32 func_80AA2F28(EnMa3* this) {
+/**
+ * Set face textures based on current actor state, and determine whether the blink code is allowed to run
+ *
+ * @return 1 for 'face is busy', 0 if not
+ */
+s32 EnMa3_UpdateFaceAndCheckIfBusy(EnMa3* this) {
     if (this->skelAnime.animation != &gMalonAdultSingAnim) {
         return 0;
     }
@@ -220,7 +230,7 @@ s32 func_80AA2F28(EnMa3* this) {
         return 0;
     }
     this->blinkTimer = 0;
-    if (this->eyeIndex != 2) {
+    if (this->eyeIndex != MALON_ADULT_RANCH_EYE_CLOSED) {
         return 0;
     }
     this->mouthIndex = 2;
@@ -228,11 +238,11 @@ s32 func_80AA2F28(EnMa3* this) {
 }
 
 void EnMa3_UpdateEyes(EnMa3* this) {
-    if ((!func_80AA2F28(this)) && (DECR(this->blinkTimer) == 0)) {
+    if ((!EnMa3_UpdateFaceAndCheckIfBusy(this)) && (DECR(this->blinkTimer) == 0)) {
         this->eyeIndex++;
-        if (this->eyeIndex >= 3) {
+        if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIndex = 0;
+            this->eyeIndex = MALON_ADULT_RANCH_EYE_OPEN;
         }
     }
 }
