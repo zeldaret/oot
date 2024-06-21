@@ -29,8 +29,8 @@ union Color_RGBA8_u32;
 struct QuestHintCmd;
 
 typedef struct SequenceContext {
-    /* 0x00 */ u8   seqId;
-    /* 0x01 */ u8   natureAmbienceId;
+    /* 0x00 */ u8 seqId;
+    /* 0x01 */ u8 natureAmbienceId;
 } SequenceContext; // size = 0x2
 
 typedef struct PlayState {
@@ -54,7 +54,7 @@ typedef struct PlayState {
     /* 0x01DB4 */ SfxSource sfxSources[SFX_SOURCE_COUNT];
     /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
-    /* 0x020D8 */ MessageContext msgCtx; // "message"
+    /* 0x020D8 */ MessageContext msgCtx;         // "message"
     /* 0x104F0 */ InterfaceContext interfaceCtx; // "parameter"
     /* 0x10760 */ PauseContext pauseCtx;
     /* 0x10A20 */ GameOverContext gameOverCtx;
