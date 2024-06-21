@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_st" Segment="6">
         <Animation Name="object_st_Anim_000304" Offset="0x304"/>
         <Texture Name="object_st_Tex_000320" OutName="tex_00000320" Format="i4" Width="16" Height="8" Offset="0x320"/>

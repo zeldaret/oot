@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_arrow" Segment="6">
         <DList Name="gGiArrowSmallDL" Offset="0x0340"/>
         <DList Name="gGiArrowMediumDL" Offset="0x0B90"/>

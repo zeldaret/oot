@@ -28,7 +28,7 @@ assets:
 - name: objects/gameplay_field_keep
   xml_path: assets/xml/objects/gameplay_field_keep.xml
 - name: objects/gameplay_keep
-  xml_path: assets/xml/objects/gameplay_keep.xml
+  xml_path: assets/xml/objects/gameplay_keep_pal.xml
 - name: objects/object_ahg
   xml_path: assets/xml/objects/object_ahg.xml
 - name: objects/object_am
@@ -80,7 +80,7 @@ assets:
 - name: objects/object_bubble
   xml_path: assets/xml/objects/object_bubble.xml
 - name: objects/object_bv
-  xml_path: assets/xml/objects/object_bv.xml
+  xml_path: assets/xml/objects/object_bv_pal.xml
 - name: objects/object_bw
   xml_path: assets/xml/objects/object_bw.xml
 - name: objects/object_bwall
@@ -140,7 +140,7 @@ assets:
 - name: objects/object_ds2
   xml_path: assets/xml/objects/object_ds2.xml
 - name: objects/object_du
-  xml_path: assets/xml/objects/object_du.xml
+  xml_path: assets/xml/objects/object_du_pal.xml
 - name: objects/object_dy_obj
   xml_path: assets/xml/objects/object_dy_obj.xml
 - name: objects/object_ec
@@ -166,11 +166,11 @@ assets:
 - name: objects/object_fa
   xml_path: assets/xml/objects/object_fa.xml
 - name: objects/object_fd
-  xml_path: assets/xml/objects/object_fd.xml
+  xml_path: assets/xml/objects/object_fd_pal.xml
 - name: objects/object_fd2
   xml_path: assets/xml/objects/object_fd2.xml
 - name: objects/object_fhg
-  xml_path: assets/xml/objects/object_fhg.xml
+  xml_path: assets/xml/objects/object_fhg_pal.xml
 - name: objects/object_fire
   xml_path: assets/xml/objects/object_fire.xml
 - name: objects/object_firefly
@@ -186,9 +186,9 @@ assets:
 - name: objects/object_fz
   xml_path: assets/xml/objects/object_fz.xml
 - name: objects/object_ganon
-  xml_path: assets/xml/objects/object_ganon.xml
+  xml_path: assets/xml/objects/object_ganon_pal.xml
 - name: objects/object_ganon2
-  xml_path: assets/xml/objects/object_ganon2.xml
+  xml_path: assets/xml/objects/object_ganon2_pal.xml
 - name: objects/object_ganon_anime1
   xml_path: assets/xml/objects/object_ganon_anime1.xml
 - name: objects/object_ganon_anime2
@@ -376,7 +376,7 @@ assets:
 - name: objects/object_gol
   xml_path: assets/xml/objects/object_gol.xml
 - name: objects/object_goma
-  xml_path: assets/xml/objects/object_goma.xml
+  xml_path: assets/xml/objects/object_goma_pal.xml
 - name: objects/object_goroiwa
   xml_path: assets/xml/objects/object_goroiwa.xml
 - name: objects/object_gr
@@ -444,7 +444,7 @@ assets:
 - name: objects/object_kibako2
   xml_path: assets/xml/objects/object_kibako2.xml
 - name: objects/object_kingdodongo
-  xml_path: assets/xml/objects/object_kingdodongo.xml
+  xml_path: assets/xml/objects/object_kingdodongo_pal.xml
 - name: objects/object_km1
   xml_path: assets/xml/objects/object_km1.xml
 - name: objects/object_kusa
@@ -512,7 +512,7 @@ assets:
 - name: objects/object_mm
   xml_path: assets/xml/objects/object_mm.xml
 - name: objects/object_mo
-  xml_path: assets/xml/objects/object_mo.xml
+  xml_path: assets/xml/objects/object_mo_pal.xml
 - name: objects/object_mori_hineri1
   xml_path: assets/xml/objects/object_mori_hineri1.xml
 - name: objects/object_mori_hineri1a
@@ -708,7 +708,7 @@ assets:
 - name: objects/object_ssh
   xml_path: assets/xml/objects/object_ssh.xml
 - name: objects/object_sst
-  xml_path: assets/xml/objects/object_sst.xml
+  xml_path: assets/xml/objects/object_sst_pal.xml
 - name: objects/object_st
   xml_path: assets/xml/objects/object_st.xml
 - name: objects/object_stream
@@ -742,7 +742,7 @@ assets:
 - name: objects/object_tsubo
   xml_path: assets/xml/objects/object_tsubo.xml
 - name: objects/object_tw
-  xml_path: assets/xml/objects/object_tw.xml
+  xml_path: assets/xml/objects/object_tw_pal.xml
 - name: objects/object_umajump
   xml_path: assets/xml/objects/object_umajump.xml
 - name: objects/object_vali
@@ -762,7 +762,7 @@ assets:
 - name: objects/object_wood02
   xml_path: assets/xml/objects/object_wood02.xml
 - name: objects/object_xc
-  xml_path: assets/xml/objects/object_xc.xml
+  xml_path: assets/xml/objects/object_xc_pal.xml
 - name: objects/object_yabusame_point
   xml_path: assets/xml/objects/object_yabusame_point.xml
 - name: objects/object_ydan_objects
@@ -1112,7 +1112,7 @@ assets:
 - name: scenes/overworld/spot18
   xml_path: assets/xml/scenes/overworld/spot18.xml
 - name: scenes/overworld/spot20
-  xml_path: assets/xml/scenes/overworld/spot20.xml
+  xml_path: assets/xml/scenes/overworld/spot20_pal.xml
 - name: scenes/shops/alley_shop
   xml_path: assets/xml/scenes/shops/alley_shop.xml
 - name: scenes/shops/drag
@@ -1148,7 +1148,7 @@ assets:
 - name: textures/backgrounds
   xml_path: assets/xml/textures/backgrounds.xml
 - name: textures/do_action_static
-  xml_path: assets/xml/textures/do_action_static.xml
+  xml_path: assets/xml/textures/do_action_static_pal.xml
 - name: textures/icon_item_24_static
   xml_path: assets/xml/textures/icon_item_24_static.xml
 - name: textures/icon_item_dungeon_static
@@ -1158,15 +1158,15 @@ assets:
 - name: textures/icon_item_fra_static
   xml_path: assets/xml/textures/icon_item_fra_static.xml
 - name: textures/icon_item_gameover_static
-  xml_path: assets/xml/textures/icon_item_gameover_static.xml
+  xml_path: assets/xml/textures/icon_item_gameover_static_pal.xml
 - name: textures/icon_item_ger_static
   xml_path: assets/xml/textures/icon_item_ger_static.xml
 - name: textures/icon_item_nes_static
   xml_path: assets/xml/textures/icon_item_nes_static.xml
 - name: textures/icon_item_static
-  xml_path: assets/xml/textures/icon_item_static.xml
+  xml_path: assets/xml/textures/icon_item_static_pal.xml
 - name: textures/item_name_static
-  xml_path: assets/xml/textures/item_name_static.xml
+  xml_path: assets/xml/textures/item_name_static_pal.xml
 - name: textures/map_48x85_static
   xml_path: assets/xml/textures/map_48x85_static.xml
 - name: textures/map_grand_static
@@ -1174,7 +1174,7 @@ assets:
 - name: textures/map_i_static
   xml_path: assets/xml/textures/map_i_static.xml
 - name: textures/map_name_static
-  xml_path: assets/xml/textures/map_name_static.xml
+  xml_path: assets/xml/textures/map_name_static_pal.xml
 - name: textures/message_static
   xml_path: assets/xml/textures/message_static.xml
 - name: textures/message_texture_static
@@ -1186,8 +1186,8 @@ assets:
 - name: textures/parameter_static
   xml_path: assets/xml/textures/parameter_static.xml
 - name: textures/place_title_cards
-  xml_path: assets/xml/textures/place_title_cards.xml
+  xml_path: assets/xml/textures/place_title_cards_pal.xml
 - name: textures/skyboxes
   xml_path: assets/xml/textures/skyboxes.xml
 - name: textures/title_static
-  xml_path: assets/xml/textures/title_static.xml
+  xml_path: assets/xml/textures/title_static_pal.xml

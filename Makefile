@@ -19,7 +19,7 @@ COMPILER := ido
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 # The following versions are work-in-progress and not yet matching:
-#   (none currently)
+#   gc-us          GameCube US
 VERSION := gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS := $(shell nproc)
@@ -52,7 +52,9 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 # Version-specific settings
-ifeq ($(VERSION),gc-eu)
+ifeq ($(VERSION),gc-us)
+  DEBUG := 0
+else ifeq ($(VERSION),gc-eu)
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu-mq)
   DEBUG := 0
