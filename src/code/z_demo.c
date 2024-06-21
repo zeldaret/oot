@@ -2230,7 +2230,10 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
         csCtx->curFrame++;
 
         if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
+#if OOT_DEBUG
+            // Redundant OOT_DEBUG required for matching
             Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScript);
+#endif
         } else {
             Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
         }
