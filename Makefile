@@ -368,7 +368,7 @@ venv:
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(EXTRACTED_DIR)/baserom --dmadata-start `cat $(BASEROM_DIR)/dmadata_start.txt` --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
+	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 --oot-version $(VERSION) -o $(EXTRACTED_DIR)/baserom
 	$(PYTHON) tools/msgdis.py --oot-version $(VERSION) --text-out $(EXTRACTED_DIR)/text/message_data.h --staff-text-out $(EXTRACTED_DIR)/text/message_data_staff.h
 # TODO: for now, we only extract assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
