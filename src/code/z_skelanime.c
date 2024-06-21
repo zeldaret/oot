@@ -1838,7 +1838,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     f32 sin;
     f32 cos;
 
-    // If `ANIM_FLAG_UPDATE_XZ` behaved as expected, it flag would also be checked here
+    // If `ANIM_FLAG_UPDATE_XZ` behaved as expected, it would also be checked here
     if (skelAnime->moveFlags & ANIM_FLAG_NO_MOVE) {
         diff->x = diff->z = 0.0f;
     } else {
