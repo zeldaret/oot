@@ -932,8 +932,7 @@ void Interface_Update(PlayState* play);
 Path* Path_GetByIndex(PlayState* play, s16 index, s16 max);
 f32 Path_OrientAndGetDistSq(Actor* actor, Path* path, s16 waypoint, s16* yaw);
 void Path_CopyLastPoint(Path* path, Vec3f* dest);
-void FrameAdvance_Init(FrameAdvanceContext* frameAdvCtx);
-s32 FrameAdvance_Update(FrameAdvanceContext* frameAdvCtx, Input* input);
+
 void Player_SetBootData(PlayState* play, Player* this);
 int Player_InBlockingCsMode(PlayState* play, Player* this);
 int Player_InCsMode(PlayState* play);
@@ -1234,7 +1233,7 @@ void Play_SetupRespawnPoint(PlayState* this, s32 respawnMode, s32 playerParams);
 void Play_TriggerVoidOut(PlayState* this);
 void Play_TriggerRespawn(PlayState* this);
 int Play_CamIsNotFixed(PlayState* this);
-int FrameAdvance_IsEnabled(PlayState* this);
+
 s32 func_800C0D34(PlayState* this, Actor* actor, s16* yaw);
 s32 func_800C0DB4(PlayState* this, Vec3f* pos);
 void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg);

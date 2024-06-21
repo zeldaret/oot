@@ -10,7 +10,7 @@ typedef enum {
     CONT_PAK_OTHER
 } ControllerPakType;
 
-typedef struct {
+typedef struct Input {
     /* 0x00 */ OSContPad cur;
     /* 0x06 */ OSContPad prev;
     /* 0x0C */ OSContPad press; // X/Y store delta from last frame

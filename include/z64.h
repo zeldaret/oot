@@ -23,6 +23,7 @@
 #include "z64item.h"
 #include "z64animation.h"
 #include "z64animation_legacy.h"
+#include "z64frameadvance.h"
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
@@ -108,11 +109,6 @@ typedef struct {
     /* 0x00 */ u8   seqId;
     /* 0x01 */ u8   natureAmbienceId;
 } SequenceContext; // size = 0x2
-
-typedef struct {
-    /* 0x00 */ s32 enabled;
-    /* 0x04 */ s32 timer;
-} FrameAdvanceContext; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u16 countdown;
