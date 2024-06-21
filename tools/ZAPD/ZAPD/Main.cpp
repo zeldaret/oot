@@ -426,19 +426,25 @@ void Arg_CsFloatMode([[maybe_unused]] int& i, [[maybe_unused]] char* argv[])
 	}
 }
 
+uint32_t parse_u32_hex(char* str)
+{
+	static_assert(sizeof(uint32_t) <= sizeof(unsigned long));
+	return (uint32_t)std::stoul(str, nullptr, 16);
+}
+
 void Arg_BaseAddress(int& i, char* argv[])
 {
-	Globals::Instance->baseAddress = std::stoul(argv[++i], nullptr, 16);
+	Globals::Instance->baseAddress = parse_u32_hex(argv[++i]);
 }
 
 void Arg_StartOffset(int& i, char* argv[])
 {
-	Globals::Instance->startOffset = std::stoul(argv[++i], nullptr, 16);
+	Globals::Instance->startOffset = parse_u32_hex(argv[++i]);
 }
 
 void Arg_EndOffset(int& i, char* argv[])
 {
-	Globals::Instance->endOffset = std::stoul(argv[++i], nullptr, 16);
+	Globals::Instance->endOffset = parse_u32_hex(argv[++i]);
 }
 
 int HandleExtract(ZFileMode fileMode, ExporterSet* exporterSet)
