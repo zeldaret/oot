@@ -3,12 +3,16 @@
 #ifndef ULTRA64_GBI_H
 #define ULTRA64_GBI_H
 
+#ifdef GBI_DOWHILE
+/* Private macro to wrap other macros in do {...} while (0) */
+#define _DW(macro) do { macro } while (0)
+#else
+#define _DW(macro) { macro } (void)0
+#endif
+
 /* To enable Fast3DEX grucode support, define F3DEX_GBI. */
 
 /* Types */
-
-/* Private macro to wrap other macros in do {...} while (0) */
-#define _DW(macro) do {macro} while (0)
 
 #ifdef    F3DEX_GBI_2
 # ifndef  F3DEX_GBI
