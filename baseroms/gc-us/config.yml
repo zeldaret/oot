@@ -1138,6 +1138,8 @@ assets:
   xml_path: assets/xml/textures/icon_item_static.xml
 - name: textures/item_name_static
   xml_path: assets/xml/textures/item_name_static.xml
+- name: textures/kanji
+  xml_path: assets/xml/textures/kanji.xml
 - name: textures/map_48x85_static
   xml_path: assets/xml/textures/map_48x85_static.xml
 - name: textures/map_grand_static
