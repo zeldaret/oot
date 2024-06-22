@@ -21,6 +21,8 @@ enum class CsFloatType
 	HexOnly,
 	FloatOnly,
 	HexAndFloat,
+	HexAndCommentedFloatLeft,
+	HexAndCommentedFloatRight,
 };
 
 class Globals
