@@ -198,7 +198,7 @@ void EnBrob_Stunned(EnBrob* this, PlayState* play) {
     } else if (this->skelAnime.curFrame < 8.0f) {
         this->modelOffsetY -= 1250.0f;
     }
-    this->dyna.actor.colorFilterTimer = 0x50;
+    this->dyna.actor.colorFilterTimer = 80;
 }
 
 void EnBrob_MoveDown(EnBrob* this, PlayState* play) {
