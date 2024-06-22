@@ -426,7 +426,12 @@ void func_80AF5F34(EnSa* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
 }
 
-s32 func_80AF603C(EnSa* this) {
+/**
+ * Determine whether the blink code is allowed to run
+ *
+ * @return 1 for 'eyes are busy', 0 if not
+ */
+s32 EnSa_EyesBusy(EnSa* this) {
     if (this->skelAnime.animation != &gSariaPlayingOcarinaAnim &&
         this->skelAnime.animation != &gSariaOcarinaToMouthAnim) {
         return 0;
@@ -434,29 +439,29 @@ s32 func_80AF603C(EnSa* this) {
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         return 0;
     }
-    this->unk_20E = 0;
+    this->blinkTimer = 0;
     if (this->rightEyeIndex != SARIA_EYE_CLOSED) {
         return 0;
     }
     return 1;
 }
 
-void func_80AF609C(EnSa* this) {
+void EnSa_UpdateEyes(EnSa* this) {
     s16 phi_v1;
 
-    if (func_80AF603C(this) == 0) {
-        if (this->unk_20E == 0) {
+    if (EnSa_EyesBusy(this) == 0) {
+        if (this->blinkTimer == 0) {
             phi_v1 = 0;
         } else {
-            this->unk_20E--;
-            phi_v1 = this->unk_20E;
+            this->blinkTimer--;
+            phi_v1 = this->blinkTimer;
         }
         if (phi_v1 == 0) {
             this->rightEyeIndex++;
             if (this->rightEyeIndex < SARIA_EYE_SUPRISED) {
                 this->leftEyeIndex = this->rightEyeIndex;
             } else {
-                this->unk_20E = Rand_S16Offset(30, 30);
+                this->blinkTimer = Rand_S16Offset(30, 30);
                 this->leftEyeIndex = SARIA_EYE_OPEN;
                 this->rightEyeIndex = this->leftEyeIndex;
             }
@@ -757,7 +762,7 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
 
-    func_80AF609C(this);
+    EnSa_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AF57D8(this, play);
     func_80AF5F34(this, play);

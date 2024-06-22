@@ -51,7 +51,7 @@ void EnRl_UpdateEyes(EnRl* this) {
     }
 
     *eyeTextureIndex = *timer;
-    if (*eyeTextureIndex > 2) { //check if we've moved beyond 'blink' indices
+    if (*eyeTextureIndex > RARU_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
         *eyeTextureIndex = RARU_EYE_OPEN;
     }
 }

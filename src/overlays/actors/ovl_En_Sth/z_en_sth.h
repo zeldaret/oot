@@ -20,8 +20,8 @@ typedef struct EnSth {
     /* 0x02A6 */ Vec3s headRot;
     /* 0x02AC */ Vec3s unk_2AC;
     /* 0x02B2 */ u16 unk_2B2;
-    /* 0x02B4 */ s16 unk_2B4;
-    /* 0x02B6 */ s16 unk_2B6;
+    /* 0x02B4 */ s16 eyeTexIndex;
+    /* 0x02B6 */ s16 blinkTimer;
     /* 0x02B8 */ EnSthActionFunc actionFunc;
 } EnSth; // size = 0x02BC
 

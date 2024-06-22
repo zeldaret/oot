@@ -14,7 +14,6 @@ void EnZl1_Destroy(Actor* thisx, PlayState* play);
 void EnZl1_Update(Actor* thisx, PlayState* play);
 void EnZl1_Draw(Actor* thisx, PlayState* play);
 
-void func_80B4AE18(EnZl1* this);
 void func_80B4AF18(EnZl1* this, PlayState* play);
 void func_80B4B010(EnZl1* this, PlayState* play);
 void func_80B4B240(EnZl1* this, PlayState* play);
@@ -119,7 +118,7 @@ void EnZl1_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80B4AE18(EnZl1* this) {
+void EnZl1_UpdateFace(EnZl1* this) {
     if ((this->skelAnime.animation == &gChildZelda1Anim_10B38) && (this->skelAnime.curFrame < 26.0f)) {
         this->unk_1F4 = gChildZelda1EyeOpenLookingRightTex;
         this->unk_1F8 = gChildZelda1EyeOpenLookingLeftTex;
@@ -596,7 +595,7 @@ void EnZl1_Update(Actor* thisx, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x, 0xA, 0x3E8, 1);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0xA, 0x3E8, 1);
     Math_SmoothStepToS(&this->actor.shape.rot.z, this->actor.world.rot.z, 0xA, 0x3E8, 1);
-    func_80B4AE18(this);
+    EnZl1_UpdateFace(this);
 }
 
 s32 EnZl1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

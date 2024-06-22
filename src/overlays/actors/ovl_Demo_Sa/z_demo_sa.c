@@ -105,7 +105,7 @@ void DemoSa_Destroy(Actor* thisx, PlayState* play) {
     SkelAnime_Free(&this->skelAnime, play);
 }
 
-void func_8098E480(DemoSa* this) {
+void DemoSa_UpdateBlink(DemoSa* this) {
     s32 pad[2];
     s16* eyeIndex = &this->eyeIndex;
     s16* blinkTimer = &this->blinkTimer;
@@ -452,7 +452,7 @@ void func_8098F0E8(DemoSa* this, PlayState* play) {
 void func_8098F118(DemoSa* this, PlayState* play) {
     func_8098E5C8(this, play);
     DemoSa_UpdateSkelAnime(this);
-    func_8098E480(this);
+    DemoSa_UpdateBlink(this);
     func_8098EEFC(this, play);
 #if OOT_DEBUG
     func_8098E554(this, play);
@@ -503,7 +503,7 @@ void func_8098F390(DemoSa* this, PlayState* play) {
 void func_8098F3F0(DemoSa* this, PlayState* play) {
     func_8098E5C8(this, play);
     DemoSa_UpdateSkelAnime(this);
-    func_8098E480(this);
+    DemoSa_UpdateBlink(this);
 }
 
 void func_8098F420(DemoSa* this, PlayState* play) {
@@ -593,7 +593,7 @@ void func_8098F714(DemoSa* this, PlayState* play) {
 void func_8098F734(DemoSa* this, PlayState* play) {
     func_8098E5C8(this, play);
     DemoSa_UpdateSkelAnime(this);
-    func_8098E480(this);
+    DemoSa_UpdateBlink(this);
     func_8098F480(this);
     func_8098F544(this);
 }
@@ -601,14 +601,14 @@ void func_8098F734(DemoSa* this, PlayState* play) {
 void func_8098F77C(DemoSa* this, PlayState* play) {
     func_8098E5C8(this, play);
     DemoSa_UpdateSkelAnime(this);
-    func_8098E480(this);
+    DemoSa_UpdateBlink(this);
     func_8098F654(this, play);
 }
 
 void func_8098F7BC(DemoSa* this, PlayState* play) {
     func_8098E5C8(this, play);
     DemoSa_UpdateSkelAnime(this);
-    func_8098E480(this);
+    DemoSa_UpdateBlink(this);
     func_8098F654(this, play);
 }
 
@@ -617,7 +617,7 @@ void func_8098F7FC(DemoSa* this, PlayState* play) {
 
     func_8098E5C8(this, play);
     sp1C = DemoSa_UpdateSkelAnime(this);
-    func_8098E480(this);
+    DemoSa_UpdateBlink(this);
     func_8098F610(this, sp1C);
 }
 

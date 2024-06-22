@@ -19,7 +19,7 @@ typedef struct EnSa {
     /* 0x020A */ u8 unk_20A;
     /* 0x020B */ u8 unk_20B;
     /* 0x020C */ s16 unk_20C;
-    /* 0x020E */ s16 unk_20E;
+    /* 0x020E */ s16 blinkTimer;
     /* 0x0210 */ s16 unk_210;
     /* 0x0212 */ s16 rightEyeIndex;
     /* 0x0214 */ s16 leftEyeIndex;

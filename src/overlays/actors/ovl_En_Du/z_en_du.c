@@ -197,7 +197,7 @@ void EnDu_UpdateFaceTextures(EnDu* this) {
                 this->blinkTimer = Rand_S16Offset(30, 30);
             }
             break;
-        case 1:
+        case 1: //Unreachable case
             if (this->blinkTimer == 0) {
                 this->eyeTexIndex = DARUNIA_EYE_CLOSED;
             }
