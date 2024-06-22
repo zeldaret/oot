@@ -5,4 +5,3 @@ variables:
   sGerMessageEntryTable: 0x8010BA18
   sFraMessageEntryTable: 0x8010DB28
   sStaffMessageEntryTable: 0x8010FC38
-  sNesMessageEntryTablePtr: 0x8010FDC0
