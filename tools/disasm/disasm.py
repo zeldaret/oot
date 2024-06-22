@@ -91,6 +91,8 @@ def main():
     context.addBannedSymbolRange(0x0000F000, 0x00010100)
     context.addBannedSymbolRange(0x10000000, 0x80000300)
     context.addBannedSymbolRange(0xA0000000, 0xFFFFFFFF)
+    context.addBannedSymbol(0x80100000)  # z_kaleido_equipment.c
+    context.addBannedSymbol(0x80112200)  # z_message.c
 
     spimdisasm.mips.InstructionConfig.parseArgs(args)
     spimdisasm.common.GlobalConfig.parseArgs(args)
