@@ -3,20 +3,16 @@
 #ifndef ULTRA64_GBI_H
 #define ULTRA64_GBI_H
 
+#ifdef GBI_DOWHILE
+/* Private macro to wrap other macros in do {...} while (0) */
+#define _DW(macro) do { macro } while (0)
+#else
+#define _DW(macro) { macro } (void)0
+#endif
+
 /* To enable Fast3DEX grucode support, define F3DEX_GBI. */
 
 /* Types */
-
-/* Private macro to wrap other macros in do {...} while (0) */
-#define _DW(macro) do {macro} while (0)
-
-#ifndef F3DEX_GBI
- #define F3DEX_GBI_2
-
- /* F3DEX2 with Point Lighting */
- /* TODO this should have version defines, gamecube versions have point light ucode but n64 versions don't */
- #define F3DEX_GBI_PL
-#endif
 
 #ifdef    F3DEX_GBI_2
 # ifndef  F3DEX_GBI
@@ -2015,7 +2011,9 @@ typedef union {
     Gquad           quad;
 #endif
     Gline3D         line;
+#if (defined(F3DLP_GBI) || defined(F3DEX_GBI))
     Gcull           cull;
+#endif
     Gmovewd         movewd;
     Gmovemem        movemem;
     Gpopmtx         popmtx;
@@ -3454,6 +3452,15 @@ _DW({                                               \
 #define gsDPSetAlphaDither(mode)        \
     gsSPSetOtherMode(    G_SETOTHERMODE_H, G_MDSFT_ALPHADITHER, 2, mode)
 #endif
+
+/*
+ * Majora's Mask Extension, sets both RGB and Alpha dither modes in the same
+ * macro. `mode` should use both G_CD_* and G_AD_* constants.
+ */
+#define gDPSetDither(pkt, mode) \
+    gSPSetOtherMode(pkt, G_SETOTHERMODE_H, G_MDSFT_ALPHADITHER, 4, mode)
+#define gsDPSetDither(mode)     \
+    gsSPSetOtherMode(    G_SETOTHERMODE_H, G_MDSFT_ALPHADITHER, 4, mode)
 
 /* 'blendmask' is not supported anymore.
  * The bits are reserved for future use.
@@ -5143,7 +5150,7 @@ _DW({                                                   \
 #define gDPNoOpTag(pkt, tag)    gDPParam(pkt,   G_NOOP, tag)
 #define gsDPNoOpTag(tag)        gsDPParam(      G_NOOP, tag)
 
-#if OOT_DEBUG
+#ifdef GBI_DEBUG
 
 #define gDPNoOpHere(pkt, file, line)        gDma1p(pkt, G_NOOP, file, line, 1)
 #define gDPNoOpString(pkt, data, n)         gDma1p(pkt, G_NOOP, data, n, 2)
@@ -5169,7 +5176,7 @@ _DW({                                                   \
 #define gDPNoOpCloseDisp(pkt, file, line)
 #define gDPNoOpTag3(pkt, type, data, n)
 
-#endif /* OOT_DEBUG */
+#endif /* GBI_DEBUG */
 
 #endif
 

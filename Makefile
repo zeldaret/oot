@@ -156,6 +156,14 @@ ifeq ($(COMPILER),gcc)
   OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
 endif
 
+# TODO PL and DOWHILE should be disabled for non-gamecube
+GBI_DEFINES := -DF3DEX_GBI_2 -DF3DEX_GBI_PL -DGBI_DOWHILE
+ifeq ($(DEBUG),1)
+  GBI_DEFINES += -DGBI_DEBUG
+endif
+
+CFLAGS += $(GBI_DEFINES)
+
 ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
 
 ifeq ($(COMPILER),gcc)
@@ -172,7 +180,7 @@ endif
 ifeq ($(COMPILER),ido)
   # Have CC_CHECK pretend to be a MIPS compiler
   MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
-  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C $(CPP_DEFINES) $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
+  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C $(CPP_DEFINES) $(MIPS_BUILTIN_DEFS) $(GBI_DEFINES) $(INC) $(CHECK_WARNINGS)
   ifeq ($(shell getconf LONG_BIT), 32)
     # Work around memory allocation bug in QEMU
     export QEMU_GUEST_BASE := 1
@@ -304,7 +312,7 @@ $(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/rmon/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/assets/misc/z_select_static/%.o: CFLAGS += -DF3DEX_GBI
+$(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
 
 $(BUILD_DIR)/src/libultra/gu/%.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/libultra/io/%.o: CC := $(CC_OLD)

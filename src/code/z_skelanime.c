@@ -1838,6 +1838,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     f32 sin;
     f32 cos;
 
+    // If `ANIM_FLAG_UPDATE_XZ` behaved as expected, it would also be checked here
     if (skelAnime->moveFlags & ANIM_FLAG_NO_MOVE) {
         diff->x = diff->z = 0.0f;
     } else {
@@ -1847,6 +1848,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
         cos = Math_CosS(angle);
         diff->x = x * cos + z * sin;
         diff->z = z * cos - x * sin;
+
         x = skelAnime->prevTransl.x;
         z = skelAnime->prevTransl.z;
         sin = Math_SinS(skelAnime->prevRot);
@@ -1856,22 +1858,27 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     }
 
     skelAnime->prevRot = angle;
+
     skelAnime->prevTransl.x = skelAnime->jointTable[0].x;
     skelAnime->jointTable[0].x = skelAnime->baseTransl.x;
+
     skelAnime->prevTransl.z = skelAnime->jointTable[0].z;
     skelAnime->jointTable[0].z = skelAnime->baseTransl.z;
+
     if (skelAnime->moveFlags & ANIM_FLAG_UPDATE_Y) {
         if (skelAnime->moveFlags & ANIM_FLAG_NO_MOVE) {
             diff->y = 0.0f;
         } else {
             diff->y = skelAnime->jointTable[0].y - skelAnime->prevTransl.y;
         }
+
         skelAnime->prevTransl.y = skelAnime->jointTable[0].y;
         skelAnime->jointTable[0].y = skelAnime->baseTransl.y;
     } else {
         diff->y = 0.0f;
         skelAnime->prevTransl.y = skelAnime->jointTable[0].y;
     }
+
     skelAnime->moveFlags &= ~ANIM_FLAG_NO_MOVE;
 }
 

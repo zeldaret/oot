@@ -1125,7 +1125,8 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         sCurBodyPartPos = &this->bodyPartsPos[0] - 1;
 
         if (!LINK_IS_ADULT) {
-            if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) || (this->skelAnime.moveFlags & ANIM_FLAG_0)) {
+            if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) ||
+                (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_XZ)) {
                 pos->x *= 0.64f;
                 pos->z *= 0.64f;
             }
