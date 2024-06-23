@@ -54,12 +54,12 @@ s32 DemoIk_CheckForCue(PlayState* play, u16 cueId, s32 cueChannel) {
 }
 
 void DemoIk_SetMove(DemoIk* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
+    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ;
     AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void DemoIk_EndMove(DemoIk* this) {
-    this->skelAnime.moveFlags &= ~ANIM_FLAG_0;
+    this->skelAnime.moveFlags &= ~ANIM_FLAG_UPDATE_XZ;
 }
 
 f32 DemoIk_GetCurFrame(DemoIk* this) {

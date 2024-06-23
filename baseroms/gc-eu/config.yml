@@ -1,0 +1,7 @@
+dmadata_start: 0x7170
+variables:
+  gMtxClear: 0x800FBC20
+  sNesMessageEntryTable: 0x80107810
+  sGerMessageEntryTable: 0x8010BA38
+  sFraMessageEntryTable: 0x8010DB48
+  sStaffMessageEntryTable: 0x8010FC58

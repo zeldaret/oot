@@ -16,6 +16,7 @@ import ipl3checksum
 import zlib
 
 import dmadata
+import version_config
 
 
 def decompress_zlib(data: bytes) -> bytes:
@@ -172,8 +173,12 @@ def main():
 
     uncompressed_path = baserom_dir / "baserom-decompressed.z64"
 
-    dmadata_start = int((baserom_dir / "dmadata_start.txt").read_text(), 16)
-    compressed_str_hash = (baserom_dir / "checksum-compressed.md5").read_text().split()[0]
+    config = version_config.load_version_config(version)
+    dmadata_start = config.dmadata_start
+
+    compressed_str_hash = (
+        (baserom_dir / "checksum-compressed.md5").read_text().split()[0]
+    )
     decompressed_str_hash = (baserom_dir / "checksum.md5").read_text().split()[0]
 
     if check_existing_rom(uncompressed_path, decompressed_str_hash):

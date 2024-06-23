@@ -27,6 +27,7 @@ RUN_CC_CHECK := 1
 
 CFLAGS ?=
 CPPFLAGS ?=
+CPP_DEFINES ?=
 
 # ORIG_COMPILER cannot be combined with a non-IDO compiler. Check for this case and error out if found.
 ifneq ($(COMPILER),ido)
@@ -36,8 +37,7 @@ ifneq ($(COMPILER),ido)
 endif
 
 ifeq ($(COMPILER),gcc)
-  CFLAGS += -DCOMPILER_GCC
-  CPPFLAGS += -DCOMPILER_GCC
+  CPP_DEFINES += -DCOMPILER_GCC
   NON_MATCHING := 1
 endif
 
@@ -46,8 +46,7 @@ endif
 MIPS_BINUTILS_PREFIX := mips-linux-gnu-
 
 ifeq ($(NON_MATCHING),1)
-  CFLAGS += -DNON_MATCHING -DAVOID_UB
-  CPPFLAGS += -DNON_MATCHING -DAVOID_UB
+  CPP_DEFINES += -DNON_MATCHING -DAVOID_UB
   COMPARE := 0
 endif
 
@@ -57,12 +56,10 @@ ifeq ($(VERSION),gc-eu)
   COMPARE := 0
 else ifeq ($(VERSION),gc-eu-mq)
   DEBUG := 0
-  CFLAGS += -DOOT_MQ
-  CPPFLAGS += -DOOT_MQ
+  CPP_DEFINES += -DOOT_MQ
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   DEBUG := 1
-  CFLAGS += -DOOT_MQ
-  CPPFLAGS += -DOOT_MQ
+  CPP_DEFINES += -DOOT_MQ
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -78,12 +75,10 @@ MAKE = make
 CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
 ifeq ($(DEBUG),1)
-  CFLAGS += -DOOT_DEBUG=1
-  CPPFLAGS += -DOOT_DEBUG=1
+  CPP_DEFINES += -DOOT_DEBUG=1
   OPTFLAGS := -O2
 else
-  CFLAGS += -DNDEBUG -DOOT_DEBUG=0
-  CPPFLAGS += -DNDEBUG -DOOT_DEBUG=0
+  CPP_DEFINES += -DNDEBUG -DOOT_DEBUG=0
   OPTFLAGS := -O2 -g3
 endif
 
@@ -154,9 +149,20 @@ PYTHON     ?= $(VENV)/bin/python3
 # preprocessor for this because it won't substitute inside string literals.
 SPEC_REPLACE_VARS := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
+CFLAGS += $(CPP_DEFINES)
+CPPFLAGS += $(CPP_DEFINES)
+
 ifeq ($(COMPILER),gcc)
   OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
 endif
+
+# TODO PL and DOWHILE should be disabled for non-gamecube
+GBI_DEFINES := -DF3DEX_GBI_2 -DF3DEX_GBI_PL -DGBI_DOWHILE
+ifeq ($(DEBUG),1)
+  GBI_DEFINES += -DGBI_DEBUG
+endif
+
+CFLAGS += $(GBI_DEFINES)
 
 ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
 
@@ -174,7 +180,7 @@ endif
 ifeq ($(COMPILER),ido)
   # Have CC_CHECK pretend to be a MIPS compiler
   MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
-  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING -DOOT_DEBUG=1 $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
+  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C $(CPP_DEFINES) $(MIPS_BUILTIN_DEFS) $(GBI_DEFINES) $(INC) $(CHECK_WARNINGS)
   ifeq ($(shell getconf LONG_BIT), 32)
     # Work around memory allocation bug in QEMU
     export QEMU_GUEST_BASE := 1
@@ -303,7 +309,7 @@ $(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/rmon/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/assets/misc/z_select_static/%.o: CFLAGS += -DF3DEX_GBI
+$(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
 
 $(BUILD_DIR)/src/libultra/gu/%.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/libultra/io/%.o: CC := $(CC_OLD)
@@ -370,7 +376,7 @@ venv:
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 -o $(EXTRACTED_DIR)/baserom --dmadata-start `cat $(BASEROM_DIR)/dmadata_start.txt` --dmadata-names $(BASEROM_DIR)/dmadata_names.txt
+	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 --oot-version $(VERSION) -o $(EXTRACTED_DIR)/baserom
 	$(PYTHON) tools/msgdis.py --oot-version $(VERSION) --text-out $(EXTRACTED_DIR)/text/message_data.h --staff-text-out $(EXTRACTED_DIR)/text/message_data_staff.h
 # TODO: for now, we only extract assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
