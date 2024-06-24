@@ -58,14 +58,16 @@
 #include "mempak.h"
 #include "tha.h"
 #include "thga.h"
-#include "speedmeter.h"
+#include "speed_meter.h"
 #include "gfx.h"
+#include "graph.h"
 #include "jpeg.h"
 #include "prerender.h"
 #include "rand.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
 #include "fp_math.h"
+#include "sys_matrix.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -308,20 +310,6 @@ typedef struct {
     /* 0x01 */ s8  spawn;
     /* 0x02 */ u16 field;
 } EntranceInfo; // size = 0x4
-
-typedef struct {
-    /* 0x00 */ void*     loadedRamAddr;
-    /* 0x04 */ RomFile   file;      // if applicable
-    /* 0x0C */ void*     vramStart; // if applicable
-    /* 0x10 */ void*     vramEnd;   // if applicable
-    /* 0x14 */ void*     unk_14;
-    /* 0x18 */ void*     init;    // initializes and executes the given context
-    /* 0x1C */ void*     destroy; // deconstructs the context, and sets the next context to load
-    /* 0x20 */ void*     unk_20;
-    /* 0x24 */ void*     unk_24;
-    /* 0x28 */ UNK_TYPE4 unk_28;
-    /* 0x2C */ u32       instanceSize;
-} GameStateOverlay; // size = 0x30
 
 typedef struct {
     /* 0x00 */ GameState state;

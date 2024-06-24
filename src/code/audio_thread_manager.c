@@ -6,6 +6,7 @@
  */
 
 #include "global.h"
+#include "speed_meter.h"
 
 void AudioMgr_NotifyTaskDone(AudioMgr* audioMgr) {
     AudioTask* task = audioMgr->rspTask;

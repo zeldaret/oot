@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "speed_meter.h"
 
 /**
  * How much time the audio update on the audio thread (`AudioThread_Update`) took in total, between scheduling the last
