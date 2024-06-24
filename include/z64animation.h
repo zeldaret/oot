@@ -99,9 +99,11 @@ typedef enum {
 
 // Enables the movement of an actor in the Y-axis based on the current animation.
 // This only has an effect if the "Actor Move" Anim Task is in use.
-// Due to how movement and gravity works, actors will appear to be pulled to the ground
-// if nearby. To avoid this undesireable snapping and stuttering, `ANIM_FLAG_OVERRIDE_MOVEMENT`
-// can be used.
+//
+// This animation-driven movement does not replace "normal" movement from other sources 
+// such as speed/velocity and collisions. The actor should stop updating other sources of movement
+// as required if they are preventing the animation from playing as intended. 
+// An option is to implement and use `ANIM_FLAG_OVERRIDE_MOVEMENT`.
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 
 // (player-only) Related to scaling an animation from/to child/adult
@@ -113,8 +115,8 @@ typedef enum {
 //
 #define ANIM_FLAG_NO_MOVE (1 << 4)
 
-// Disables movement due to velocity/gravity and the processing of scene collision to allow the 
-// animation to have full control over movement.
+// Disables "normal" movement from sources like speed/velocity and collisions, which allows the 
+// animation to have full control over the actor's movement.
 // 
 // Note that individual actors are responsible for implementing the functionality of this flag.
 // In practice, Player is the only actor who implements this flag.
