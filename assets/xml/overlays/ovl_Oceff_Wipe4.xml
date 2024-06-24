@@ -1,12 +1,12 @@
 <Root>
     <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
-    <File Name="ovl_Oceff_Wipe4" BaseAddress="0x80BACC10" RangeStart="0x460" RangeEnd="0xF48">
-        <Texture Name="sTex" OutName="scarecrow_song_effect" Format="i8" Width="32" Height="64" Offset="0x460"/>
-        <Array Name="sFrustumVtx" Count="22" Offset="0xC60">
+    <File Name="ovl_Oceff_Wipe4">
+        <Texture Name="sTex" OutName="scarecrow_song_effect" Format="i8" Width="32" Height="64" Offset="0x0"/>
+        <Array Name="sFrustumVtx" Count="22" Offset="0x800">
             <Vtx/>
         </Array>
-        <DList Name="sMaterialDL" Offset="0xDC0"/>
-        <DList Name="sUnusedMaterialDL" Offset="0xE28"/>
-        <DList Name="sMaterial2DL" Offset="0xE90"/>
+        <DList Name="sMaterialDL" Offset="0x960"/>
+        <DList Name="sUnusedMaterialDL" Offset="0x9C8"/>
+        <DList Name="sMaterial2DL" Offset="0xA30"/>
     </File>
 </Root>

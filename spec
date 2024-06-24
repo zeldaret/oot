@@ -256,12 +256,7 @@ endseg
 beginseg
     name "nes_font_static"
     romalign 0x1000
-#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/textures/nes_font_static/nes_font_static.o"
-#else
-    // TODO: Remove this hack once assets are extracted from gc-eu-mq
-    include "$(BUILD_DIR)/baserom/nes_font_static.o"
-#endif
     number 10
 endseg
 
