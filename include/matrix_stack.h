@@ -1,5 +1,5 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef MATRIX_STACK_H
+#define MATRIX_STACK_H
 
 #include "ultra64.h"
 #include "z64math.h"
