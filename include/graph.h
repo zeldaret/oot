@@ -3,19 +3,12 @@
 
 #include "ultra64.h"
 
-struct GameState;
 struct GraphicsContext;
 
-void Graph_InitTHGA(GraphicsContext* gfxCtx);
-struct GameStateOverlay* Graph_GetNextGameState(struct GameState* gameState);
-void Graph_Init(GraphicsContext* gfxCtx);
-void Graph_Destroy(GraphicsContext* gfxCtx);
-void Graph_TaskSet00(GraphicsContext* gfxCtx);
-void Graph_Update(GraphicsContext* gfxCtx, struct GameState* gameState);
 void Graph_ThreadEntry(void*);
-void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
-void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
+
 #if OOT_DEBUG
+void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
 #endif

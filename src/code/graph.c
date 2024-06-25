@@ -51,9 +51,6 @@ void Graph_FaultClient(void) {
     osViSwapBuffer(nextFb);
 }
 
-// TODO: merge Gfx and GfxMod to make this function's arguments consistent
-void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
-
 void Graph_DisassembleUCode(Gfx* workBuf) {
     UCodeDisas disassembler;
 
