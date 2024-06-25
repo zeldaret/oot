@@ -1,4 +1,7 @@
 #include "z_demo_gt.h"
+
+#include "z64frame_advance.h"
+
 #include "assets/objects/object_gt/object_gt.h"
 #include "assets/objects/object_geff/object_geff.h"
 #include "terminal.h"

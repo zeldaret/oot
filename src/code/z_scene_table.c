@@ -1,6 +1,8 @@
 #include "global.h"
 #include "quake.h"
 
+#include "z64frame_advance.h"
+
 #include "assets/scenes/indoors/miharigoya/miharigoya_scene.h"
 #include "assets/scenes/indoors/souko/souko_scene.h"
 

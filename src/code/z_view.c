@@ -380,6 +380,7 @@ s32 View_ApplyPerspective(View* view) {
     if (QREG(88) & 2) {
         s32 i;
         MtxF mf;
+
         Matrix_MtxToMtxF(view->viewingPtr, &mf);
 
         PRINTF("viewing\n");

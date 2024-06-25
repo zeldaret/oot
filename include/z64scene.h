@@ -33,6 +33,11 @@ typedef struct {
     /* 0x0E */ s16   params;
 } TransitionActorEntry; // size = 0x10
 
+typedef struct TransitionActorContext {
+    /* 0x00 */ u8 numActors;
+    /* 0x04 */ TransitionActorEntry* list;
+} TransitionActorContext; // size = 0x8
+
 typedef struct {
     /* 0x00 */ u8 playerEntryIndex;
     /* 0x01 */ u8 room;
@@ -138,6 +143,50 @@ typedef union {
     } image;
     RoomShapeCullable cullable;
 } RoomShape; // "Ground Shape"
+
+typedef enum RoomBehaviorType1 {
+    /* 0 */ ROOM_BEHAVIOR_TYPE1_0,
+    /* 1 */ ROOM_BEHAVIOR_TYPE1_1,
+    /* 2 */ ROOM_BEHAVIOR_TYPE1_2,
+    /* 3 */ ROOM_BEHAVIOR_TYPE1_3, // unused
+    /* 4 */ ROOM_BEHAVIOR_TYPE1_4, // unused
+    /* 5 */ ROOM_BEHAVIOR_TYPE1_5
+} RoomBehaviorType1;
+
+typedef enum RoomBehaviorType2 {
+    /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
+    /* 1 */ ROOM_BEHAVIOR_TYPE2_1,
+    /* 2 */ ROOM_BEHAVIOR_TYPE2_2,
+    /* 3 */ ROOM_BEHAVIOR_TYPE2_3,
+    /* 4 */ ROOM_BEHAVIOR_TYPE2_4,
+    /* 5 */ ROOM_BEHAVIOR_TYPE2_5,
+    /* 6 */ ROOM_BEHAVIOR_TYPE2_6
+} RoomBehaviorType2;
+
+typedef struct Room {
+    /* 0x00 */ s8 num;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ u8 behaviorType2;
+    /* 0x03 */ u8 behaviorType1;
+    /* 0x04 */ s8 echo;
+    /* 0x05 */ u8 lensMode;
+    /* 0x08 */ RoomShape* roomShape; // original name: "ground_shape"
+    /* 0x0C */ void* segment;
+    /* 0x10 */ char unk_10[0x4];
+} Room; // size = 0x14
+
+typedef struct RoomContext {
+    /* 0x00 */ Room curRoom;
+    /* 0x14 */ Room prevRoom;
+    /* 0x28 */ void* bufPtrs[2];
+    /* 0x30 */ u8 unk_30;
+    /* 0x31 */ s8 status;
+    /* 0x34 */ void* unk_34;
+    /* 0x38 */ DmaRequest dmaRequest;
+    /* 0x58 */ OSMesgQueue loadQueue;
+    /* 0x70 */ OSMesg loadMsg;
+    /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
+} RoomContext; // size = 0x78
 
 #define ROOM_DRAW_OPA (1 << 0)
 #define ROOM_DRAW_XLU (1 << 1)

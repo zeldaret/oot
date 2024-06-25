@@ -1,0 +1,9 @@
+<Root>
+    <SymbolMap File="SymbolMap.txt"/>
+    <ActorList File="../ActorList.txt"/>
+    <ObjectList File="../ObjectList.txt"/>
+    <EntranceList File="../EntranceList.txt"/>
+    <SpecialEntranceList File="../SpecialEntranceList.txt"/>
+    <EnumData File="../EnumData.xml"/>
+    <ExternalXMLFolder Path="assets/xml/"/>
+</Root>
