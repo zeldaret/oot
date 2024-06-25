@@ -2,6 +2,7 @@
 #define Z64CUTSCENE_H
 
 #include "ultra64.h"
+#include "z64math.h"
 
 typedef union CutsceneData {
     s32 i;
