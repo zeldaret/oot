@@ -99,6 +99,11 @@ typedef enum {
 
 // Enables the movement of an actor in the Y-axis based on the current animation.
 // This only has an effect if the "Actor Move" Anim Task is in use.
+//
+// This animation-driven movement does not replace "normal" movement from other sources
+// such as speed/velocity and collisions. The actor should stop updating other sources of movement
+// as required if they are preventing the animation from playing as intended.
+// An option is to implement and use `ANIM_FLAG_OVERRIDE_MOVEMENT`.
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 
 // (player-only) Related to scaling an animation from/to child/adult
@@ -110,8 +115,12 @@ typedef enum {
 //
 #define ANIM_FLAG_NO_MOVE (1 << 4)
 
-// (player-only)
-#define ANIM_FLAG_PLAYER_7 (1 << 7)
+// Disables "normal" movement from sources like speed/velocity and collisions, which allows the
+// animation to have full control over the actor's movement.
+//
+// Note that individual actors are responsible for implementing the functionality of this flag.
+// In practice, Player is the only actor who implements this flag.
+#define ANIM_FLAG_OVERRIDE_MOVEMENT (1 << 7)
 
 typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // Number of limbs in the skeleton
