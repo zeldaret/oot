@@ -1,4 +1,5 @@
 #include "z_kaleido_scope.h"
+#include "gfxalloc.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
 #include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"

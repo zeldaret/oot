@@ -1542,13 +1542,13 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
                     Matrix_RotateZYX(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&sp14C);
-                    Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
+                    Matrix_MtxFToYXZRot(&sp14C, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
                 } else if (this->stateFlags1 & PLAYER_STATE1_11) {
                     Vec3s spB8;
 
                     Matrix_Get(&sp14C);
-                    Matrix_MtxFToYXZRotS(&sp14C, &spB8, 0);
+                    Matrix_MtxFToYXZRot(&sp14C, &spB8, 0);
 
                     if (hookedActor->flags & ACTOR_FLAG_17) {
                         hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
@@ -1558,7 +1558,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 }
             } else {
                 Matrix_Get(&this->mf_9E0);
-                Matrix_MtxFToYXZRotS(&this->mf_9E0, &this->unk_3BC, 0);
+                Matrix_MtxFToYXZRot(&this->mf_9E0, &this->unk_3BC, 0);
             }
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
@@ -1639,7 +1639,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_MultVec3f(&D_80126190, &heldActor->world.pos);
                     Matrix_RotateZYX(0, -0x4000, -0x4000, MTXMODE_APPLY);
                     Matrix_Get(&sp44);
-                    Matrix_MtxFToYXZRotS(&sp44, &heldActor->world.rot, 0);
+                    Matrix_MtxFToYXZRot(&sp44, &heldActor->world.rot, 0);
                     heldActor->shape.rot = heldActor->world.rot;
 
                     if (func_8002DD78(this) != 0) {

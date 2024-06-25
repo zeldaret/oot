@@ -1,4 +1,5 @@
 #include "global.h"
+#include "gfxalloc.h"
 #include "quake.h"
 #include "terminal.h"
 

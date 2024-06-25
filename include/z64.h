@@ -55,14 +55,15 @@
 #include "mempak.h"
 #include "tha.h"
 #include "thga.h"
-#include "speedmeter.h"
 #include "gfx.h"
+#include "graph.h"
 #include "jpeg.h"
 #include "prerender.h"
 #include "rand.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
 #include "fp_math.h"
+#include "sys_matrix.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -552,20 +553,6 @@ typedef struct {
 } EntranceInfo; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ void*     loadedRamAddr;
-    /* 0x04 */ RomFile   file;      // if applicable
-    /* 0x0C */ void*     vramStart; // if applicable
-    /* 0x10 */ void*     vramEnd;   // if applicable
-    /* 0x14 */ void*     unk_14;
-    /* 0x18 */ void*     init;    // initializes and executes the given context
-    /* 0x1C */ void*     destroy; // deconstructs the context, and sets the next context to load
-    /* 0x20 */ void*     unk_20;
-    /* 0x24 */ void*     unk_24;
-    /* 0x28 */ UNK_TYPE4 unk_28;
-    /* 0x2C */ u32       instanceSize;
-} GameStateOverlay; // size = 0x30
-
-typedef struct {
     /* 0x00 */ GameState state;
     /* 0xA4 */ u32       timer;
     /* 0xA8 */ UNK_TYPE4 unk_A8;
@@ -641,11 +628,6 @@ typedef struct DebugDispObject {
     /* 0x24 */ s16   type;
     /* 0x28 */ struct DebugDispObject* next;
 } DebugDispObject; // size = 0x2C
-
-typedef enum {
-    /* 0 */ MTXMODE_NEW,  // generates a new matrix
-    /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
-} MatrixMode;
 
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;

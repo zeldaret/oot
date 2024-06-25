@@ -1,5 +1,6 @@
 #include "global.h"
 #include "ultra64.h"
+#include "gfxalloc.h"
 #include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
@@ -7,7 +8,7 @@
 // For retail BSS ordering, the block number of sLensFlareUnused must be lower
 // than the extern variables declared in the header (e.g. gLightningStrike)
 // while the block number of sNGameOverLightNode must be higher.
-#pragma increment_block_number 78
+#pragma increment_block_number 85
 
 typedef enum {
     /* 0x00 */ LIGHTNING_BOLT_START,

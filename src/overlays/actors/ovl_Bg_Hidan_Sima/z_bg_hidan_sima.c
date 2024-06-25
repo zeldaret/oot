@@ -233,7 +233,7 @@ Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     f32 sin;
     s32 pad[2];
 
-    Matrix_MtxFCopy(&mtxF, &gMtxFClear);
+    Matrix_MtxFCopy(&mtxF, &gIdentityMatrixF);
     cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
     sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
 

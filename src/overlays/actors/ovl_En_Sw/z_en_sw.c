@@ -110,7 +110,7 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
     this->unk_3D8.yw = 0.0f;
     this->unk_3D8.zw = 0.0f;
     this->unk_3D8.ww = 1.0f;
-    Matrix_MtxFToYXZRotS(&this->unk_3D8, &this->actor.world.rot, 0);
+    Matrix_MtxFToYXZRot(&this->unk_3D8, &this->actor.world.rot, 0);
     //! @bug: Does not return.
 }
 
@@ -429,7 +429,7 @@ s32 func_80B0CCF4(EnSw* this, f32* arg1) {
     sp2C.yw = 0.0f;
     sp2C.zw = 0.0f;
     sp2C.ww = 1.0f;
-    Matrix_MtxFToYXZRotS(&sp2C, &this->actor.world.rot, 0);
+    Matrix_MtxFToYXZRot(&sp2C, &this->actor.world.rot, 0);
     return true;
 }
 

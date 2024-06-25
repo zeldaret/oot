@@ -56,7 +56,6 @@ extern Gfx D_80116280[];
 extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxActorId; // original name: "MaxProfile"
 extern s32 gDebugCamEnabled;
-extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
 extern u8 gWeatherMode;
 extern u8 gLightConfigAfterUnderwater;
 extern u8 gInterruptSongOfStorms;
@@ -101,8 +100,6 @@ extern u8 gBossMarkState;
 extern void* gDebugCutsceneScript;
 extern s32 gScreenWidth;
 extern s32 gScreenHeight;
-extern Mtx gMtxClear;
-extern MtxF gMtxFClear;
 #if OOT_DEBUG
 extern u32 gIsCtrlr2Valid;
 #endif
@@ -205,20 +202,6 @@ extern PreNmiBuff* gAppNmiBufferPtr;
 extern uintptr_t gSegments[NUM_SEGMENTS];
 extern Scheduler gScheduler;
 extern PadMgr gPadMgr;
-extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
-extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
-extern volatile OSTime gRSPAudioTimeTotal;
-extern volatile OSTime gRSPGfxTimeTotal;
-extern volatile OSTime gRDPTimeTotal;
-extern volatile OSTime gGraphUpdatePeriod;
-extern volatile OSTime gAudioThreadUpdateTimeStart;
-extern volatile OSTime gAudioThreadUpdateTimeAcc;
-extern volatile OSTime gRSPAudioTimeAcc;
-extern volatile OSTime gRSPGfxTimeAcc;
-extern volatile OSTime gRSPOtherTimeAcc;
-extern volatile OSTime D_8016A578;
-extern volatile OSTime gRDPTimeAcc;
-
 extern SfxBankEntry D_8016BAD0[9];
 extern SfxBankEntry D_8016BC80[12];
 extern SfxBankEntry D_8016BEC0[22];
@@ -243,10 +226,6 @@ extern u8 __osMaxControllers;
 extern __OSInode __osPfsInodeCache;
 extern OSPifRam __osPfsPifRam;
 extern u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH]; // 0x25800 bytes
-extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
-extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 bytes
-extern u64 gGfxSPTaskStack[SP_DRAM_STACK_SIZE64]; // 0x400 bytes
-extern GfxPool gGfxPools[2]; // 0x24820 bytes
 extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
 
 #endif

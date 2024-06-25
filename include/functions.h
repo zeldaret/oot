@@ -292,8 +292,6 @@ void EffectSsDeadSound_SpawnStationary(PlayState* play, Vec3f* pos, u16 sfxId, s
                                        s16 repeatMode, s32 life);
 void EffectSsIceSmoke_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale);
 void FlagSet_Update(PlayState* play);
-void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
-void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
 void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale);
 void ActorShadow_DrawCircle(Actor* actor, Lights* lights, PlayState* play);
 void ActorShadow_DrawWhiteCircle(Actor* actor, Lights* lights, PlayState* play);
@@ -1251,41 +1249,6 @@ void func_800C213C(PreRender* this, Gfx** gfxP);
 void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxP);
 void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP);
 void PreRender_ApplyFilters(PreRender* this);
-void GameState_SetFBFilter(Gfx** gfxP);
-void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx);
-void GameState_SetFrameBuffer(GraphicsContext* gfxCtx);
-void GameState_ReqPadData(GameState* gameState);
-void GameState_Update(GameState* gameState);
-void GameState_InitArena(GameState* gameState, size_t size);
-void GameState_Realloc(GameState* gameState, size_t size);
-void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx);
-void GameState_Destroy(GameState* gameState);
-GameStateFunc GameState_GetInit(GameState* gameState);
-u32 GameState_IsRunning(GameState* gameState);
-#if OOT_DEBUG
-void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int line);
-void* GameAlloc_MallocDebug(GameAlloc* this, u32 size, const char* file, int line);
-#endif
-void* GameAlloc_Malloc(GameAlloc* this, u32 size);
-void GameAlloc_Free(GameAlloc* this, void* data);
-void GameAlloc_Cleanup(GameAlloc* this);
-void GameAlloc_Init(GameAlloc* this);
-void Graph_InitTHGA(GraphicsContext* gfxCtx);
-GameStateOverlay* Graph_GetNextGameState(GameState* gameState);
-void Graph_Init(GraphicsContext* gfxCtx);
-void Graph_Destroy(GraphicsContext* gfxCtx);
-void Graph_TaskSet00(GraphicsContext* gfxCtx);
-void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
-void Graph_ThreadEntry(void*);
-void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
-void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
-#if OOT_DEBUG
-void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
-void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
-#endif
-Gfx* Gfx_Open(Gfx* gfx);
-Gfx* Gfx_Close(Gfx* gfx, Gfx* dst);
-void* Gfx_Alloc(Gfx** gfxP, u32 size);
 ListAlloc* ListAlloc_Init(ListAlloc* this);
 void* ListAlloc_Alloc(ListAlloc* this, u32 size);
 void ListAlloc_Free(ListAlloc* this, void* data);
@@ -1294,45 +1257,8 @@ void Main(void* arg);
 void SysCfb_Init(s32 n64dd);
 void* SysCfb_GetFbPtr(s32 idx);
 void* SysCfb_GetFbEnd(void);
-
 void Math3D_DrawSphere(PlayState* play, Sphere16* sph);
 void Math3D_DrawCylinder(PlayState* play, Cylinder16* cyl);
-void Matrix_Init(GameState* gameState);
-void Matrix_Push(void);
-void Matrix_Pop(void);
-void Matrix_Get(MtxF* dest);
-void Matrix_Put(MtxF* src);
-void Matrix_Mult(MtxF* mf, u8 mode);
-void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode);
-void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode);
-void Matrix_RotateX(f32 x, u8 mode);
-void Matrix_RotateY(f32 y, u8 mode);
-void Matrix_RotateZ(f32 z, u8 mode);
-void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
-void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
-void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot);
-Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
-#if OOT_DEBUG
-Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line);
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, const char* file, int line);
-#else
-Mtx* Matrix_ToMtx(Mtx* dest);
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx);
-#endif
-void Matrix_MultVec3f(Vec3f* src, Vec3f* dest);
-void Matrix_MtxFCopy(MtxF* dest, MtxF* src);
-void Matrix_MtxToMtxF(Mtx* src, MtxF* dest);
-void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf);
-void Matrix_Transpose(MtxF* mf);
-void Matrix_ReplaceRotation(MtxF* mf);
-void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
-void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
-void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode);
-#if OOT_DEBUG
-MtxF* Matrix_CheckFloats(MtxF* mf, const char* file, int line);
-#endif
-void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
-                                  f32 translateZ);
 u64* SysUcode_GetUCodeBoot(void);
 size_t SysUcode_GetUCodeBootSize(void);
 u64* SysUcode_GetUCode(void);

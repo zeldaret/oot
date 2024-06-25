@@ -1,4 +1,5 @@
 #include "global.h"
+#include "gfxalloc.h"
 
 typedef struct {
     /* 0x0 */ u8 x;

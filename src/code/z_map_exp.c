@@ -319,7 +319,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
     if (play->interfaceCtx.minimapAlpha >= 0xAA) {
         Gfx_SetupDL_42Overlay(play->state.gfxCtx);
 
-        gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(OVERLAY_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);

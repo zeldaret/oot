@@ -187,7 +187,7 @@ void EnBomChu_UpdateFloorPoly(EnBomChu* this, CollisionPoly* floorPoly, PlayStat
             mf.yz = this->axisForwards.y;
             mf.zz = this->axisForwards.z;
 
-            Matrix_MtxFToYXZRotS(&mf, &this->actor.world.rot, 0);
+            Matrix_MtxFToYXZRot(&mf, &this->actor.world.rot, 0);
 
             // A hack for preventing bombchus from sticking to ledges.
             // The visual rotation reverts the sign inversion (shape.rot.x = -world.rot.x).

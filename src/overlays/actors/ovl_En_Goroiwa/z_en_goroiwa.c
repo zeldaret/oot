@@ -481,7 +481,7 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, PlayState* play) {
     Matrix_RotateX(BINANG_TO_RAD(this->actor.shape.rot.x), MTXMODE_APPLY);
     Matrix_RotateZ(BINANG_TO_RAD(this->actor.shape.rot.z), MTXMODE_APPLY);
     Matrix_Get(&mtx);
-    Matrix_MtxFToYXZRotS(&mtx, &this->actor.shape.rot, 0);
+    Matrix_MtxFToYXZRot(&mtx, &this->actor.shape.rot, 0);
 }
 
 void EnGoroiwa_NextWaypoint(EnGoroiwa* this, PlayState* play) {

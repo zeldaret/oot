@@ -204,7 +204,7 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
 
     if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_MATRIX)) {
-        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_OPA_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &skin->mtx);
 
         if (mtx == NULL) {

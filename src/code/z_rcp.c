@@ -1,4 +1,5 @@
 #include "global.h"
+#include "gfxalloc.h"
 
 Gfx sSetupDL[SETUPDL_MAX][6] = {
     {

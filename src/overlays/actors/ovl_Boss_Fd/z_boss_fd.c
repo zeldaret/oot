@@ -1920,7 +1920,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
                     this->bodyFallApart[i] = 2;
                     Matrix_MultVec3f(&spF0, &spE4);
                     Matrix_Get(&spFC);
-                    Matrix_MtxFToYXZRotS(&spFC, &spDC, 0);
+                    Matrix_MtxFToYXZRot(&spFC, &spDC, 0);
                     bones = (EnVbBall*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_VB_BALL, spE4.x,
                                                           spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i + 200);
 

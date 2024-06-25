@@ -1,5 +1,12 @@
 #include "global.h"
+#include "gfx.h"
+#include "gfxbuffers.h"
+#include "graph.h"
 #include "terminal.h"
+#include "z64game.h"
+#include "z_game_dlftbls.h"
+#include "regs.h"
+#include "speed_meter.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
@@ -43,9 +50,6 @@ void Graph_FaultClient(void) {
     Fault_WaitForInput();
     osViSwapBuffer(nextFb);
 }
-
-// TODO: merge Gfx and GfxMod to make this function's arguments consistent
-void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
 
 void Graph_DisassembleUCode(Gfx* workBuf) {
     UCodeDisas disassembler;
@@ -440,7 +444,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 #endif
 }
 
-void Graph_ThreadEntry(void* arg0) {
+void Graph_ThreadEntry(void* arg) {
     GraphicsContext gfxCtx;
     GameState* gameState;
     u32 size;

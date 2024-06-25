@@ -100,7 +100,7 @@ void EffectSsLightning_Draw(PlayState* play, u32 index, EffectSs* this) {
     SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfRotate, &mfTransBillboardRotate);
     SkinMatrix_MtxFMtxFMult(&mfTransBillboardRotate, &mfScale, &mfResult);
 
-    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
