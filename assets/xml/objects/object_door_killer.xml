@@ -12,6 +12,6 @@
         <DList Name="object_door_killer_DL_001550" Offset="0x1550"/>
         <DList Name="object_door_killer_DL_0017B8" Offset="0x17B8"/>
         <DList Name="object_door_killer_DL_001A58" Offset="0x1A58"/>
-        <Skeleton Name="object_door_killer_Skel_001BC8" Type="Flex" LimbType="Standard" Offset="0x1BC8"/>
+        <Skeleton Name="object_door_killer_Skel_001BC8" Type="Flex" LimbType="LOD" Offset="0x1BC8"/>
     </File>
 </Root>

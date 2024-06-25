@@ -3,10 +3,25 @@
     <File Name="object_gi_medal" Segment="6">
         <DList Name="gGiForestMedallionFaceDL" Offset="0x0CB0"/>
         <DList Name="gGiMedallionDL" Offset="0x0E18"/>
+        <Array Name="gGiFireMedallionUnusedVtx" Count="143" Offset="0x11B0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiFireMedallionFaceDL" Offset="0x1AF0"/>
+        <Array Name="gGiWaterMedallionUnusedVtx" Count="143" Offset="0x1F40">
+            <Vtx/>
+        </Array>
         <DList Name="gGiWaterMedallionFaceDL" Offset="0x2830"/>
+        <Array Name="gGiSpiritMedallionUnusedVtx" Count="143" Offset="0x2D20">
+            <Vtx/>
+        </Array>
         <DList Name="gGiSpiritMedallionFaceDL" Offset="0x3610"/>
+        <Array Name="gGiShadowMedallionUnusedVtx" Count="143" Offset="0x3A40">
+            <Vtx/>
+        </Array>
         <DList Name="gGiShadowMedallionFaceDL" Offset="0x4330"/>
+        <Array Name="gGiLightMedallionUnusedVtx" Count="143" Offset="0x4930">
+            <Vtx/>
+        </Array>
         <DList Name="gGiLightMedallionFaceDL" Offset="0x5220"/>
     </File>
 </Root>

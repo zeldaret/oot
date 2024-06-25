@@ -55,10 +55,15 @@
         <Texture Name="gStalchildEyeTex" OutName="stalchild_eye" Format="rgba16" Width="8" Height="8" Offset="0x2120"/>
 
         <!-- Stalchild animations -->
-        <Animation Name="gStalchildUncurlingAnim" Offset="0x1854"/>
-        <Animation Name="gStalchildDyingAnim" Offset="0x9DC"/>
-        <Animation Name="gStalchildDamagedAnim" Offset="0xD98"/>
-        <Animation Name="gStalchildWalkingAnim" Offset="0x47E0"/>
         <Animation Name="gStalchildAttackingAnim" Offset="0x460"/>
+        <Blob Name="object_skb_zeroes_Blob_470" Size="0x20" Offset="0x470"/>
+        <Animation Name="gStalchildDyingAnim" Offset="0x9DC"/>
+        <Blob Name="object_skb_zeroes_Blob_9EC" Size="0x24" Offset="0x9EC"/>
+        <Animation Name="gStalchildDamagedAnim" Offset="0xD98"/>
+        <Blob Name="object_skb_zeroes_Blob_DA8" Size="0x18" Offset="0xDA8"/>
+        <Animation Name="gStalchildUncurlingAnim" Offset="0x1854"/>
+        <Blob Name="object_skb_zeroes_Blob_1864" Size="0x3C" Offset="0x1864"/>
+        <Animation Name="gStalchildWalkingAnim" Offset="0x47E0"/>
+        <Blob Name="object_skb_zeroes_Blob_47F0" Size="0x20" Offset="0x47F0"/>
     </File>
 </Root>

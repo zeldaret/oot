@@ -7,7 +7,7 @@
         <Skeleton Name="gBarinadeSupportSkel" Type="Flex" LimbType="Standard" Offset="0x17498"/>
         <Skeleton Name="gBarinadeZapperSkel" Type="Flex" LimbType="Standard" Offset="0x199A0"/>
         <Skeleton Name="gBarinadeStumpSkel" Type="Flex" LimbType="Standard" Offset="0x18870"/>
-        <Skeleton Name="gBarinadeBariSkel" Type="Normal" LimbType="Standard" Offset="0x4E70"/>
+        <Skeleton Name="gBarinadeBariSkel" Type="Flex" LimbType="Standard" Offset="0x4E70"/>
         <Skeleton Name="gBarinadeCutSupportSkel" Type="Flex" LimbType="Standard" Offset="0x17FC8"/>
 
         <Animation Name="gBarinadeBodyAnim" Offset="0x5184"/> <!-- Body anim 1-->

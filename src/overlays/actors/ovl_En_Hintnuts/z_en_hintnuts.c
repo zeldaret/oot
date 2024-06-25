@@ -78,8 +78,8 @@ void EnHintnuts_Init(Actor* thisx, PlayState* play) {
         this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     } else {
         ActorShape_Init(&this->actor.shape, 0x0, ActorShadow_DrawCircle, 35.0f);
-        SkelAnime_Init(play, &this->skelAnime, &gHintNutsSkel, &gHintNutsStandAnim, this->jointTable, this->morphTable,
-                       10);
+        SkelAnime_Init(play, &this->skelAnime, &gHintNutsSkel.sh, &gHintNutsStandAnim, this->jointTable,
+                       this->morphTable, 10);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);

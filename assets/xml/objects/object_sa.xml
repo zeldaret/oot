@@ -66,7 +66,7 @@
         <DList Name="gSariaLeftShinDL" Offset="0xAC20"/>
         <DList Name="gSariaLeftFootDL" Offset="0xAEE0"/>
 
-        <Texture Name="gSariaClothesTLUT" OutName="clothes_tlut" Format="rgba16" Width="18" Height="6" Offset="0x21F0"/>
+        <Texture Name="gSariaClothesTLUT" OutName="clothes_tlut" Format="rgba16" Width="16" Height="16" Offset="0x21F0"/>
         <Texture Name="gSariaMouthTLUT" OutName="mouth_tlut" Format="rgba16" Width="29" Height="8" Offset="0x2CF8"/>
         <Texture Name="gSariaEyeTLUT" OutName="eye_tlut" Format="rgba16" Width="63" Height="4" Offset="0x2B00"/>
         <Texture Name="gSariaSkinTLUT" OutName="skin_tlut" Format="rgba16" Width="8" Height="9" Offset="0x2A70"/>

@@ -1,8 +1,8 @@
 ﻿<Root>
     <File Name="object_ik" Segment="6">
-        <Skeleton Name="object_ik_Skel_000380" Type="Normal" LimbType="Standard" Offset="0x380"/>
-        <Skeleton Name="object_ik_Skel_000660" Type="Normal" LimbType="Standard" Offset="0x660"/>
-        <Skeleton Name="object_ik_Skel_000C90" Type="Normal" LimbType="Standard" Offset="0xC90"/>
+        <Skeleton Name="object_ik_Skel_000380" Type="Flex" LimbType="Standard" Offset="0x380"/>
+        <Skeleton Name="object_ik_Skel_000660" Type="Flex" LimbType="Standard" Offset="0x660"/>
+        <Skeleton Name="object_ik_Skel_000C90" Type="Flex" LimbType="Standard" Offset="0xC90"/>
 
         <Skeleton Name="object_ik_Skel_000900" Type="Flex" LimbType="Standard" Offset="0x900"/>
         <Skeleton Name="object_ik_Skel_000F30" Type="Flex" LimbType="Standard" Offset="0xF30"/>
@@ -29,7 +29,10 @@
         <Animation Name="gIronKnuckleNabooruSummonAxeAnim" Offset="0xC114"/>
         <Animation Name="gIronKnuckleStandUpAnim" Offset="0xCD70"/>
         <Animation Name="object_ik_Anim_00DD50" Offset="0xDD50"/>
+        <Animation Name="gIronKnuckleUnused1Anim" Offset="0xE28C"/>
         <Animation Name="gIronKnuckleWalkAnim" Offset="0xED24"/>
+        <Animation Name="gIronKnuckleUnused2Anim" Offset="0xF620"/>
+        <Animation Name="gIronKnuckleUnused3Anim" Offset="0x1E820"/>
         <Animation Name="object_ik_Anim_01EB14" Offset="0x1EB14"/>
         <Animation Name="object_ik_Anim_01EE34" Offset="0x1EE34"/>
         <Animation Name="gIronKnuckleNabooruDeathAnim" Offset="0x203D8"/>

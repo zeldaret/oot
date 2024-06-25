@@ -16,7 +16,7 @@
         <Texture Name="gHorseIngoManeTex" OutName="horse_ingo_mane" Format="i8" Width="16" Height="16" Offset="0x740"/>
         <Texture Name="gHorseIngoNostrilsTex" OutName="horse_ingo_nostrils" Format="rgba16" Width="16" Height="16" Offset="0x440"/>
         <Texture Name="gHorseIngoNoseTex" OutName="horse_ingo_nose" Format="i8" Width="8" Height="8" Offset="0x400"/>
-        <Texture Name="gHorseIngoForeheadTex" OutName="horse_ingo_forehead" Format="i8" Width="8" Height="8" Offset="0x840"/>
+        <Texture Name="gHorseIngoForeheadTex" OutName="horse_ingo_forehead" Format="i8" Width="16" Height="8" Offset="0x840"/>
         <Limb Name="gHorseIngoHeadLimb" LimbType="Skin" Offset="0x4748"/>
 
         <!-- Body -->

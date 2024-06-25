@@ -124,6 +124,8 @@
         <Texture Name="gLinkChildNoseTex" OutName="nose" Format="ci8" Width="16" Height="16" Offset="0x5000" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildUnusedHandTex" OutName="unused_hand" Format="ci8" Width="16" Height="16" Offset="0x5100" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x5200" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildUnused1Tex" OutName="unused_1" Format="ci8" Width="16" Height="16" Offset="0x5900" TlutOffset="0x5700"/>
+        <Texture Name="gLinkChildUnused2Tex" OutName="unused_2" Format="ci8" Width="32" Height="16" Offset="0x5A00" TlutOffset="0x5300"/>
         <Texture Name="gLinkChildLowerBootTex" OutName="lower_boot" Format="ci8" Width="16" Height="16" Offset="0x5C00" TlutOffset="0x5300"/>
         <Texture Name="gLinkChildUnusedBootTex" OutName="unused_boot" Format="ci8" Height="32" Width="24" Offset="0x5D00" TlutOffset="0x5300"/><!--Unused so hard to verify-->
         <Texture Name="gLinkChildBootTex" OutName="boot" Format="ci8" Width="32" Height="32" Offset="0x6000" TlutOffset="0x5300"/>
@@ -176,11 +178,12 @@
         <Texture Name="gLinkChildBunnyHoodEarTex" OutName="bunny_hood_ear" Format="rgba16" Width="16" Height="32" Offset="0x2C028"/>
 
         <!--TLUTs-->
+        <Texture Name="gLinkChildBeltTLUT" OutName="belt_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5300"/>
         <Texture Name="gLinkChildSkinTLUT" OutName="skin_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5500"/>
+        <Texture Name="gLinkChildUnusedTLUT" OutName="unused_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5700"/>
         <Texture Name="gLinkChildHandTLUT" OutName="hand_tlut" Format="rgba16" Width="17" Height="4" Offset="0x9E88"/>
         <Texture Name="gLinkChildSwordsTLUT" OutName="swords_tlut" Format="rgba16" Width="16" Height="16" Offset="0x9F10"/> <!--For both the kokiri sword sheath and master sword-->
         <Texture Name="gLinkChildSwordTLUT" OutName="sword_tlut" Format="rgba16" Width="27" Height="4" Offset="0xA118"/>
-        <Texture Name="gLinkChildBeltTLUT" OutName="belt_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5300"/>
 
         <!--Eyes-->
         <Texture Name="gLinkChildEyesOpenTex" OutName="eyes_open" Format="ci8" Width="64" Height="32" Offset="0x0000" TlutOffset="0x5500"/>

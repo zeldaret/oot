@@ -5,5 +5,6 @@
         <Animation Name="gArmosHopAnim" Offset="0x238"/>
         <Animation Name="gArmosDamagedAnim" Offset="0x5B3C"/>
         <Collision Name="gArmosCol" Offset="0x118"/>
+        <DList Name="gArmosUnusedDL" Offset="0x7A8"/>
     </File>
 </Root>

@@ -3,7 +3,8 @@
         <DList Name="object_oE9_DL_000800" Offset="0x800"/>
         <Texture Name="object_oE9_TLUT_000C90" OutName="tlut_00000C90" Format="rgba16" Width="16" Height="16" Offset="0xC90"/>
         <Texture Name="object_oE9_Tex_000E90" OutName="tex_00000E90" Format="ci8" Width="32" Height="32" Offset="0xE90" TlutOffset="0xC90"/>
-        <Blob Name="object_oE9_Blob_001290" Size="0x800" Offset="0x1290"/>
+        <Texture Name="object_oE9_Tex_001290" OutName="tex_00001290" Format="ci8" Width="32" Height="32" Offset="0x1290" TlutOffset="0xC90"/>
+        <Texture Name="object_oE9_Tex_001690" OutName="tex_00001690" Format="ci8" Width="32" Height="32" Offset="0x1690" TlutOffset="0xC90"/>
         <Texture Name="object_oE9_TLUT_001A90" OutName="tlut_00001A90" Format="rgba16" Width="16" Height="16" Offset="0x1A90"/>
         <Texture Name="object_oE9_Tex_001C90" OutName="tex_00001C90" Format="ci8" Width="8" Height="8" Offset="0x1C90" TlutOffset="0x1A90"/>
         <Texture Name="object_oE9_Tex_001CD0" OutName="tex_00001CD0" Format="ci8" Width="16" Height="16" Offset="0x1CD0" TlutOffset="0x1A90"/>
