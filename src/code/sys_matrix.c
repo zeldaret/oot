@@ -821,7 +821,7 @@ void Matrix_MtxFToYXZRot(MtxF* src, Vec3s* dest, s32 nonUniformScale) {
             temp += SQ(temp2);
             // temp = xx^2+zx^2+yx^2 == 1 for a rotation matrix
             temp = sqrtf(temp);
-            temp = temp2 / temp;  // yx in normalised column
+            temp = temp2 / temp; // yx in normalised column
 
             temp2 = src->xy;
             temp2 *= temp2;
@@ -830,7 +830,7 @@ void Matrix_MtxFToYXZRot(MtxF* src, Vec3s* dest, s32 nonUniformScale) {
             temp2 += SQ(temp3);
             // temp2 = xy^2+zy^2+yy^2 == 1 for a rotation matrix
             temp2 = sqrtf(temp2);
-            temp2 = temp3 / temp2;  // yy in normalised column
+            temp2 = temp3 / temp2; // yy in normalised column
 
             // for a rotation matrix, temp == yx and temp2 == yy which is the same as in the !nonUniformScale branch
             dest->z = RAD_TO_BINANG(Math_FAtan2F(temp, temp2));
