@@ -29,10 +29,10 @@ union Color_RGBA8_u32;
 struct QuestHintCmd;
 struct VisMono;
 
-typedef struct SequenceContext {
+typedef struct SceneSequences {
     /* 0x00 */ u8 seqId;
     /* 0x01 */ u8 natureAmbienceId;
-} SequenceContext; // size = 0x2
+} SceneSequences; // size = 0x2
 
 typedef struct PlayState {
     /* 0x00000 */ GameState state;
@@ -46,7 +46,7 @@ typedef struct PlayState {
     /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamId;
     /* 0x007A2 */ s16 nextCamId;
-    /* 0x007A4 */ SequenceContext sequenceCtx;
+    /* 0x007A4 */ SceneSequences sceneSequences;
     /* 0x007A8 */ LightContext lightCtx;
     /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
     /* 0x007C0 */ CollisionContext colCtx;
