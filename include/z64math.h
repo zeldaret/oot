@@ -38,6 +38,11 @@ typedef struct {
 } Spheref; // size = 0x10
 
 typedef struct {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ Vec3s rot;
+} PosRot; // size = 0x14
+
+typedef struct {
     Vec3f normal;
     f32 originDist;
 } Plane; // size = 0x10
