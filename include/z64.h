@@ -67,6 +67,7 @@
 #include "sys_math3d.h"
 #include "fp_math.h"
 #include "matrix.h"
+#include "matrix_stack.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
