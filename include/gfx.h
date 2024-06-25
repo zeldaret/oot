@@ -164,8 +164,6 @@ typedef struct {
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
 void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
 
-extern struct GraphicsContext* __gfxCtx;
-
 #define WORK_DISP       __gfxCtx->work.p
 #define POLY_OPA_DISP   __gfxCtx->polyOpa.p
 #define POLY_XLU_DISP   __gfxCtx->polyXlu.p
