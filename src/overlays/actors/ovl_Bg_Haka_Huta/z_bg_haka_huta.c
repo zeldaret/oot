@@ -200,7 +200,7 @@ void func_8087D720(BgHakaHuta* this, PlayState* play) {
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + vec.y;
     this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z + vec.z;
     Matrix_Get(&mtx);
-    Matrix_MtxFToYXZRotS(&mtx, &this->dyna.actor.shape.rot, 0);
+    Matrix_MtxFToYXZRot(&mtx, &this->dyna.actor.shape.rot, 0);
 }
 
 void BgHakaHuta_DoNothing(BgHakaHuta* this, PlayState* play) {

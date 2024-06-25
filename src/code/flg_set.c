@@ -1,4 +1,5 @@
 #include "global.h"
+#include "gfxalloc.h"
 
 typedef struct {
     /* 0x00 */ u16* value;

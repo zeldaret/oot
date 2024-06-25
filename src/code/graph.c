@@ -126,7 +126,7 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->unk_014 = 0;
 }
 
-struct GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
+GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     void* gameStateInitFunc = GameState_GetInit(gameState);
 
     // Generates code to match gameStateInitFunc to a gamestate entry and returns it if found

@@ -251,7 +251,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, PlayState* play) {
                       MTXMODE_NEW);
     Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_APPLY);
     Matrix_Get(&mtx);
-    Matrix_MtxFToYXZRotS(&mtx, &this->dyna.actor.shape.rot, 0);
+    Matrix_MtxFToYXZRot(&mtx, &this->dyna.actor.shape.rot, 0);
 }
 
 void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, PlayState* play) {

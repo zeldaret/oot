@@ -348,7 +348,7 @@ Gfx* func_8088DC50(PlayState* play, BgHidanSekizou* this, s16 arg2, s16 arg3, Gf
     }
     temp_f20 = Math_SinS(arg2);
     temp_f22 = Math_CosS(arg2);
-    Matrix_MtxFCopy(&sp68, &gMtxFClear);
+    Matrix_MtxFCopy(&sp68, &gIdentityMatrixF);
     temp_v1 = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - arg2;
 
     if (ABS(temp_v1) < 0x4000) {

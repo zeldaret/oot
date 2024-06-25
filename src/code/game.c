@@ -1,5 +1,7 @@
 #include "global.h"
 #include "terminal.h"
+#include "gfxalloc.h"
+#include "speed_meter.h"
 
 SpeedMeter D_801664D0;
 VisCvg sVisCvg;

@@ -621,7 +621,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         Matrix_Push();
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
-        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRot(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
             func_80B53980(this, sp30.y, 0);
             func_80B54360(this, sp30.x, 1);
@@ -631,7 +631,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         MATRIX_TO_MTX(&sp78[0], "../z_en_zl3.c", 1490);
         Matrix_Get(&sp38);
-        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRot(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
             func_80B53980(this, sp30.y, 3);
         }
@@ -639,7 +639,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         MATRIX_TO_MTX(&sp78[1], "../z_en_zl3.c", 1534);
         Matrix_Get(&sp38);
-        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRot(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
             func_80B54360(this, sp30.x, 7);
         }
@@ -650,7 +650,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
-        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRot(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
             func_80B53980(this, sp30.y, 9);
             func_80B54360(this, sp30.x, 10);
@@ -660,7 +660,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
         MATRIX_TO_MTX(&sp78[3], "../z_en_zl3.c", 1579);
         Matrix_Get(&sp38);
-        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRot(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
             func_80B53980(this, sp30.y, 12);
             func_80B54360(this, sp30.x, 13);
@@ -673,7 +673,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
-        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRot(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
             func_80B53980(this, sp30.y, 15);
             func_80B54360(this, sp30.x, 16);
@@ -683,7 +683,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
         MATRIX_TO_MTX(&sp78[5], "../z_en_zl3.c", 1623);
         Matrix_Get(&sp38);
-        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRot(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
             func_80B53980(this, sp30.y, 18);
             func_80B54360(this, sp30.x, 19);

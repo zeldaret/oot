@@ -1,14 +1,14 @@
 #include "global.h"
 
 // clang-format off
-Mtx gMtxClear = gdSPDefMtx(
+Mtx gIdentityMtx = gdSPDefMtx(
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
     0.0f, 0.0f, 1.0f, 0.0f,
     0.0f, 0.0f, 0.0f, 1.0f
 );
 
-MtxF gMtxFClear = {
+MtxF gIdentityMatrixF = {
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
     0.0f, 0.0f, 1.0f, 0.0f,
@@ -771,103 +771,131 @@ void Matrix_ReplaceRotation(MtxF* mf) {
 }
 
 /**
- * Gets the rotation the specified matrix represents, using Tait-Bryan YXZ angles.
- * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
+ * @brief Extract the YXZ Tait-Bryan rotation angles from the linear part \f$ A \f$ of a matrix.
+ *
+ * \f$ A \f$ should have orthogonal columns; the most general matrix of this form can be written as \f$ RS \f$
+ * with \f$ S \f$ a scale matrix.
+ *
+ * If A has columns with the same norm (such as if it is just a rotation matrix), it is sufficient (and faster) to use
+ * `nonUniformScale` off: `nonUniformScale` being set enables extraction of the angles from a matrix with columns that
+ * are orthogonal but have different scales, at the cost of requiring extra calculation.
+ *
+ * @param[in] src Matrix to extract angles from.
+ * @param[out] dest vector to write angles to.
+ * @param[in] nonUniformScale boolean: true enables handling matrices with differently-scaled columns.
+ *
+ * @remark original name: "Matrix_to_rotate_new"?
  */
-void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
+void Matrix_MtxFToYXZRot(MtxF* src, Vec3s* dest, s32 nonUniformScale) {
     f32 temp;
     f32 temp2;
     f32 temp3;
     f32 temp4;
 
-    temp = mf->xz;
+    temp = src->xz;
     temp *= temp;
-    temp += SQ(mf->zz);
-    rotDest->x = RAD_TO_BINANG(Math_FAtan2F(-mf->yz, sqrtf(temp)));
+    temp += SQ(src->zz);
+    dest->x = RAD_TO_BINANG(Math_FAtan2F(-src->yz, sqrtf(temp)));
 
-    if ((rotDest->x == 0x4000) || (rotDest->x == -0x4000)) {
-        rotDest->z = 0;
+    if ((dest->x == 0x4000) || (dest->x == -0x4000)) {
+        // cos(x) = 0 if either of these is true, and we get gimbal locking
+        // (https://en.wikipedia.org/wiki/Gimbal_lock#Loss_of_a_degree_of_freedom_with_Euler_angles); fix z to make y
+        // well-defined.
+        dest->z = 0;
 
-        rotDest->y = RAD_TO_BINANG(Math_FAtan2F(-mf->zx, mf->xx));
+        dest->y = RAD_TO_BINANG(Math_FAtan2F(-src->zx, src->xx));
     } else {
-        rotDest->y = RAD_TO_BINANG(Math_FAtan2F(mf->xz, mf->zz));
+        dest->y = RAD_TO_BINANG(Math_FAtan2F(src->xz, src->zz));
 
-        if (!flag) {
-            rotDest->z = RAD_TO_BINANG(Math_FAtan2F(mf->yx, mf->yy));
+        if (!nonUniformScale) {
+            // assume the columns have the same normalisation
+            dest->z = RAD_TO_BINANG(Math_FAtan2F(src->yx, src->yy));
         } else {
-            temp = mf->xx;
-            temp2 = mf->zx;
-            temp3 = mf->zy;
+            temp = src->xx;
+            temp2 = src->zx;
+            temp3 = src->zy;
 
             temp *= temp;
             temp += SQ(temp2);
-            temp2 = mf->yx;
+            temp2 = src->yx;
             temp += SQ(temp2);
-            /* temp = xx^2+zx^2+yx^2 == 1 for a rotation matrix */
+            // temp = xx^2+zx^2+yx^2 == 1 for a rotation matrix
             temp = sqrtf(temp);
-            temp = temp2 / temp;
+            temp = temp2 / temp;  // yx in normalised column
 
-            temp2 = mf->xy;
+            temp2 = src->xy;
             temp2 *= temp2;
             temp2 += SQ(temp3);
-            temp3 = mf->yy;
+            temp3 = src->yy;
             temp2 += SQ(temp3);
-            /* temp2 = xy^2+zy^2+yy^2 == 1 for a rotation matrix */
+            // temp2 = xy^2+zy^2+yy^2 == 1 for a rotation matrix
             temp2 = sqrtf(temp2);
-            temp2 = temp3 / temp2;
+            temp2 = temp3 / temp2;  // yy in normalised column
 
-            /* for a rotation matrix, temp == yx and temp2 == yy
-             * which is the same as in the !flag branch */
-            rotDest->z = RAD_TO_BINANG(Math_FAtan2F(temp, temp2));
+            // for a rotation matrix, temp == yx and temp2 == yy which is the same as in the !nonUniformScale branch
+            dest->z = RAD_TO_BINANG(Math_FAtan2F(temp, temp2));
         }
     }
 }
 
 /**
- * Gets the rotation the specified matrix represents, using Tait-Bryan ZYX angles.
- * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
+ * @brief Extract the ZYX Tait-Bryan rotation angles from the linear part \f$ A \f$ of a matrix.
+ *
+ * \f$ A \f$ should have orthogonal columns; the most general matrix of this form can be written as \f$ RS \f$
+ * with \f$ S \f$ a scale matrix.
+ *
+ * If A has columns with the same norm (such as if it is just a rotation matrix), it is sufficient (and faster) to use
+ * `nonUniformScale` off: `nonUniformScale` being set enables extraction of the angles from a matrix with columns that
+ * are orthogonal but have different scales, at the cost of requiring extra calculation.
+ *
+ * @param[in] src Matrix to extract angles from.
+ * @param[out] dest vector to write angles to.
+ * @param[in] nonUniformScale boolean: true enables handling matrices with unnormalised columns.
+ *
+ * @remark original name: "Matrix_to_rotate2_new"?
+ *
+ * See Matrix_MtxFToYXZRot() for full inline documentation.
  */
-void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
+void Matrix_MtxFToZYXRot(MtxF* src, Vec3s* dest, s32 nonUniformScale) {
     f32 temp;
     f32 temp2;
     f32 temp3;
     f32 temp4;
 
-    temp = mf->xx;
+    temp = src->xx;
     temp *= temp;
-    temp += SQ(mf->yx);
-    rotDest->y = RAD_TO_BINANG(Math_FAtan2F(-mf->zx, sqrtf(temp)));
+    temp += SQ(src->yx);
+    dest->y = RAD_TO_BINANG(Math_FAtan2F(-src->zx, sqrtf(temp)));
 
-    if ((rotDest->y == 0x4000) || (rotDest->y == -0x4000)) {
-        rotDest->x = 0;
-        rotDest->z = RAD_TO_BINANG(Math_FAtan2F(-mf->xy, mf->yy));
+    if ((dest->y == 0x4000) || (dest->y == -0x4000)) {
+        dest->x = 0;
+        dest->z = RAD_TO_BINANG(Math_FAtan2F(-src->xy, src->yy));
     } else {
-        rotDest->z = RAD_TO_BINANG(Math_FAtan2F(mf->yx, mf->xx));
+        dest->z = RAD_TO_BINANG(Math_FAtan2F(src->yx, src->xx));
 
-        if (!flag) {
-            rotDest->x = RAD_TO_BINANG(Math_FAtan2F(mf->zy, mf->zz));
+        if (!nonUniformScale) {
+            dest->x = RAD_TO_BINANG(Math_FAtan2F(src->zy, src->zz));
         } else {
-            // see Matrix_MtxFToYXZRotS
-            temp = mf->xy;
-            temp2 = mf->yy;
-            temp3 = mf->yz;
+            temp = src->xy;
+            temp2 = src->yy;
+            temp3 = src->yz;
 
             temp *= temp;
             temp += SQ(temp2);
-            temp2 = mf->zy;
+            temp2 = src->zy;
             temp += SQ(temp2);
             temp = sqrtf(temp);
             temp = temp2 / temp;
 
-            temp2 = mf->xz;
+            temp2 = src->xz;
             temp2 *= temp2;
             temp2 += SQ(temp3);
-            temp3 = mf->zz;
+            temp3 = src->zz;
             temp2 += SQ(temp3);
             temp2 = sqrtf(temp2);
             temp2 = temp3 / temp2;
 
-            rotDest->x = RAD_TO_BINANG(Math_FAtan2F(temp, temp2));
+            dest->x = RAD_TO_BINANG(Math_FAtan2F(temp, temp2));
         }
     }
 }

@@ -491,7 +491,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, PlayState* play) {
             this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->collider.base.atFlags |= AT_TYPE_PLAYER;
             this->collider.elem.atDmgInfo.dmgFlags = DMG_DEKU_STICK;
-            Matrix_MtxFToYXZRotS(&player->shieldMf, &shieldRot, 0);
+            Matrix_MtxFToYXZRot(&player->shieldMf, &shieldRot, 0);
             this->actor.world.rot.y = shieldRot.y + 0x8000;
             this->timer = 30;
         } else {

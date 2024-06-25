@@ -3018,7 +3018,7 @@ s32 BossVa_ZapperOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
         case 7:
             Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
             Matrix_Get(&zapperMtx);
-            Matrix_MtxFToZYXRotS(&zapperMtx, &sZapperRot, false);
+            Matrix_MtxFToZYXRot(&zapperMtx, &sZapperRot, false);
             Matrix_RotateX(BINANG_TO_RAD(-sZapperRot.x), MTXMODE_APPLY);
             Matrix_RotateY(BINANG_TO_RAD(-sZapperRot.y), MTXMODE_APPLY);
             Matrix_RotateZ(BINANG_TO_RAD(-sZapperRot.z), MTXMODE_APPLY);

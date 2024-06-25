@@ -19,17 +19,12 @@ void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
 #endif
-Gfx* Gfx_Open(Gfx* gfx);
-Gfx* Gfx_Close(Gfx* gfx, Gfx* dst);
-void* Gfx_Alloc(Gfx** gfxP, u32 size);
 
 #if OOT_DEBUG
 #define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
 #else
 #define GRAPH_ALLOC(gfxCtx, size) ((void*)((gfxCtx)->polyOpa.d = (Gfx*)((u8*)(gfxCtx)->polyOpa.d - ALIGN16(size))))
 #endif /* OOT_DEBUG */
-
-extern struct GraphicsContext* __gfxCtx;
 
 #define WORK_DISP       __gfxCtx->work.p
 #define POLY_OPA_DISP   __gfxCtx->polyOpa.p

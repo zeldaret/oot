@@ -87,7 +87,7 @@ void EffectSsDeadDs_Draw(PlayState* play, u32 index, EffectSs* this) {
             }
         }
 
-        Matrix_MtxFToZYXRotS(&mf, &rpy, 0);
+        Matrix_MtxFToZYXRot(&mf, &rpy, 0);
         this->rRoll = rpy.x;
         this->rPitch = rpy.y;
         this->rYaw = rpy.z;

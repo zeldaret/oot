@@ -2110,8 +2110,8 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
     bzero(actorCtx, sizeof(ActorContext));
 
     ActorOverlayTable_Init();
-    Matrix_MtxFCopy(&play->billboardMtxF, &gMtxFClear);
-    Matrix_MtxFCopy(&play->viewProjectionMtxF, &gMtxFClear);
+    Matrix_MtxFCopy(&play->billboardMtxF, &gIdentityMatrixF);
+    Matrix_MtxFCopy(&play->viewProjectionMtxF, &gIdentityMatrixF);
 
     overlayEntry = &gActorOverlayTable[0];
     for (i = 0; i < ARRAY_COUNT(gActorOverlayTable); i++) {
@@ -3347,7 +3347,7 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
                                                     mtx->zw, 0, 0, objectSlot, type);
 
         if (spawnedEnPart != NULL) {
-            Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
+            Matrix_MtxFToYXZRot(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
             spawnedEnPart->displayList = bodyBreak->dLists[bodyBreak->count];
             spawnedEnPart->actor.scale = actor->scale;
         }
