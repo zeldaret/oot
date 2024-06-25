@@ -1,3 +1,5 @@
+#include "z64game_over.h"
+
 #include "global.h"
 
 void GameOver_Init(PlayState* play) {
