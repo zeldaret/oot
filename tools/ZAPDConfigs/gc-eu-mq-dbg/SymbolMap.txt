@@ -1,2 +1,2 @@
-8012DB20 gMtxClear
+8012DB20 gIdentityMtx
 80A8E610 sShadowTex
