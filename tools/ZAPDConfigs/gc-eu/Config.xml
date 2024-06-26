@@ -6,4 +6,5 @@
     <SpecialEntranceList File="../SpecialEntranceList.txt"/>
     <EnumData File="../EnumData.xml"/>
     <ExternalXMLFolder Path="assets/xml/"/>
+    <ExternalFile XmlPath="objects/gameplay_keep_pal.xml" OutPath="assets/objects/gameplay_keep/"/>
 </Root>

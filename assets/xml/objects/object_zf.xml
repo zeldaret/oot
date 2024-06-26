@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_zf" Segment="6">
         <Texture Name="gZfDinolfosTLUT" OutName="zf_dinolfos_tlut" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
         <Texture Name="object_zf_Tex_000200" OutName="tex_00000200" Format="ci8" Width="8" Height="8" Offset="0x200" TlutOffset="0x0"/>
