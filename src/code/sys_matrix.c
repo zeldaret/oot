@@ -1,6 +1,5 @@
 #include "global.h"
-#include "matrix_stack.h"
-#include "matrix.h"
+#include "sys_matrix.h"
 
 // clang-format off
 Mtx gMtxClear = gdSPDefMtx(

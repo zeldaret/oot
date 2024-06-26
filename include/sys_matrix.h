@@ -7,6 +7,8 @@
 struct GameState;
 struct GraphicsContext;
 
+// Matrix stack operations
+
 typedef enum {
     /* 0 */ MTXMODE_NEW,  // generates a new matrix
     /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
@@ -45,6 +47,32 @@ Mtx* Matrix_ToMtx(Mtx* dest);
 
 Mtx* Matrix_NewMtx(struct GraphicsContext* gfxCtx);
 #define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx)
+
+#endif
+
+// Operations not involving the matrix stack
+
+extern Mtx gMtxClear;
+extern MtxF gMtxFClear;
+
+Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
+void Matrix_MtxFCopy(MtxF* dest, MtxF* src);
+void Matrix_MtxToMtxF(Mtx* src, MtxF* dest);
+void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf);
+void Matrix_Transpose(MtxF* mf);
+void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
+void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
+void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
+                                  f32 translateZ);
+
+#if OOT_DEBUG
+
+MtxF* Matrix_CheckFloats(MtxF* mf, const char* file, int line);
+#define MATRIX_CHECK_FLOATS(mtx, file, line) Matrix_CheckFloats(mtx, file, line)
+
+#else
+
+#define MATRIX_CHECK_FLOATS(mtx, file, line) (mtx)
 
 #endif
 

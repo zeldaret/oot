@@ -1,6 +1,6 @@
 #include "global.h"
 #include "terminal.h"
-#include "matrix.h"
+#include "skin_matrix.h"
 
 // clang-format off
 MtxF sMtxFClear = {

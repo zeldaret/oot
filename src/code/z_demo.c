@@ -115,7 +115,9 @@ void* sUnusedEntranceCsList[] = {
     gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
-#pragma increment_block_number 248
+// Because the other bss variables are already declared (in header files), this directive only affects the block number
+// of sReturnToCamId and sQuakeIndex. For matching, their block numbers should come after gCamAtPointAppliedFrame's.
+#pragma increment_block_number 210
 
 // Stores the frame the relevant cam data was last applied on
 u16 gCamAtSplinePointsAppliedFrame;
