@@ -1,5 +1,7 @@
 #include "global.h"
 
+#include "z64frame_advance.h"
+
 EffectContext sEffectContext;
 
 EffectInfo sEffectInfoTable[] = {

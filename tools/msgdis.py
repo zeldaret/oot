@@ -7,6 +7,8 @@ import re, struct
 from os import path
 import argparse
 
+import version_config
+
 # ===================================================
 #   Util
 # ===================================================
@@ -21,10 +23,16 @@ def as_word_list(b):
         return None
     return [i[0] for i in struct.iter_unpack(">I", b)]
 
-def as_message_table_entry(b):
-    if len(b) % 8 != 0:
-        return None
-    return [(e[0], e[1]>>0x4&0xF, e[1]&0xF, e[2]) for e in [i for i in struct.iter_unpack(">HBxI", b)]]
+def read_message_table(b, offset):
+    table = []
+    while True:
+        e = struct.unpack(">HBxI", b[offset:offset+8])
+        entry = (e[0], e[1]>>0x4&0xF, e[1]&0xF, e[2])
+        table.append(entry)
+        offset += 8
+        if entry[0] == 0xFFFF:
+            break
+    return table
 
 def segmented_to_physical(address):
     return address & ~0x07000000
@@ -266,7 +274,6 @@ nes_message_entry_table_addr = None
 ger_message_entry_table_addr = None
 fra_message_entry_table_addr = None
 staff_message_entry_table_addr = None
-staff_message_entry_table_addr_end = None
 
 nes_message_entry_table = []
 ger_message_entry_table = []
@@ -285,10 +292,10 @@ def read_tables():
     global staff_message_entry_table
 
     baserom = None
-    with open(f"baseroms/{version}/baserom-decompressed.z64","rb") as infile:
+    with open(f"extracted/{version}/baserom/code","rb") as infile:
         baserom = infile.read()
 
-    nes_message_entry_table = as_message_table_entry(baserom[nes_message_entry_table_addr:ger_message_entry_table_addr])
+    nes_message_entry_table = read_message_table(baserom, nes_message_entry_table_addr)
 
     ids = [entry[0] for entry in nes_message_entry_table if entry[0] != 0xFFFC]
     ger_message_entry_table = list(zip(ids,as_word_list(baserom[ger_message_entry_table_addr:  fra_message_entry_table_addr])))
@@ -300,7 +307,7 @@ def read_tables():
         else:
             combined_message_entry_table.append((*entry, None, None))
 
-    staff_message_entry_table = as_message_table_entry(baserom[staff_message_entry_table_addr:staff_message_entry_table_addr_end])
+    staff_message_entry_table = read_message_table(baserom, staff_message_entry_table_addr)
 
 # ===================================================
 #   Run
@@ -421,7 +428,6 @@ def main():
     global ger_message_entry_table_addr
     global fra_message_entry_table_addr
     global staff_message_entry_table_addr
-    global staff_message_entry_table_addr_end
 
     parser = argparse.ArgumentParser(
         description="Extract text from the baserom into .h files"
@@ -437,26 +443,14 @@ def main():
         parser.error("No output file requested")
 
     version = args.oot_version
-    if version == "gc-eu-mq-dbg":
-        nes_message_entry_table_addr = 0x00BC24C0
-        ger_message_entry_table_addr = 0x00BC66E8
-        fra_message_entry_table_addr = 0x00BC87F8
-        staff_message_entry_table_addr = 0x00BCA908
-        staff_message_entry_table_addr_end = 0x00BCAA90
-    elif version == "gc-eu-mq":
-        nes_message_entry_table_addr = 0x00B7E8F0
-        ger_message_entry_table_addr = 0x00B82B18
-        fra_message_entry_table_addr = 0x00B84C28
-        staff_message_entry_table_addr = 0x00B86D38
-        staff_message_entry_table_addr_end = 0x00B86EC0
-    elif version == "gc-eu":
-        nes_message_entry_table_addr = 0x00B7E910
-        ger_message_entry_table_addr = 0x00B82B38
-        fra_message_entry_table_addr = 0x00B84C48
-        staff_message_entry_table_addr = 0x00B86D58
-        staff_message_entry_table_addr_end = 0x00B86EE0
-    else:
-        parser.error("Unsupported OOT version")
+
+    config = version_config.load_version_config(version)
+    code_vram = config.dmadata_segments["code"].vram
+
+    nes_message_entry_table_addr = config.variables["sNesMessageEntryTable"] - code_vram
+    ger_message_entry_table_addr = config.variables["sGerMessageEntryTable"] - code_vram
+    fra_message_entry_table_addr = config.variables["sFraMessageEntryTable"] - code_vram
+    staff_message_entry_table_addr = config.variables["sStaffMessageEntryTable"] - code_vram
 
     extract_all_text(args.text_out, args.staff_text_out)
 

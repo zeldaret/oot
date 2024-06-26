@@ -165,7 +165,7 @@ void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, &this->element);
 
-    this->collider.elements->dim.worldSphere.radius = this->collider.elements->dim.modelSphere.radius;
+    this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
 
     for (i = 0; i < ARRAY_COUNT(sCylinderInit); i++) {
         Collider_InitCylinder(play, &this->cylinder[i]);
@@ -694,14 +694,14 @@ void func_809BE568(EnBigokuta* this) {
     f32 sin = Math_SinS(this->actor.shape.rot.y);
     f32 cos = Math_CosS(this->actor.shape.rot.y);
 
-    this->collider.elements->dim.worldSphere.center.x =
-        (this->collider.elements->dim.modelSphere.center.z * sin) +
-        (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
-    this->collider.elements->dim.worldSphere.center.z =
-        (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.center.z * cos)) -
-        (this->collider.elements->dim.modelSphere.center.x * sin);
-    this->collider.elements->dim.worldSphere.center.y =
-        this->collider.elements->dim.modelSphere.center.y + this->actor.world.pos.y;
+    this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x +
+                                                          (this->collider.elements[0].dim.modelSphere.center.x * cos) +
+                                                          (this->collider.elements[0].dim.modelSphere.center.z * sin);
+    this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z +
+                                                          (this->collider.elements[0].dim.modelSphere.center.z * cos) -
+                                                          (this->collider.elements[0].dim.modelSphere.center.x * sin);
+    this->collider.elements[0].dim.worldSphere.center.y =
+        this->actor.world.pos.y + this->collider.elements[0].dim.modelSphere.center.y;
 
     for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
         this->cylinder[i].dim.pos.x =

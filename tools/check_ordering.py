@@ -131,6 +131,7 @@ def main():
         if not (
             mapfile_segment.name.startswith("..boot")
             or mapfile_segment.name.startswith("..code")
+            or mapfile_segment.name.startswith("..buffers")
             or mapfile_segment.name.startswith("..ovl_")
         ):
             continue
@@ -152,13 +153,15 @@ def main():
                     base_value = read_u32(base, file.vrom + reloc.offset_32)
                     build_value = read_u32(build, file.vrom + reloc.offset_32)
                 elif reloc.offset_hi16 is not None and reloc.offset_lo16 is not None:
-                    if read_u16(base, file.vrom + reloc.offset_hi16) != read_u16(
-                        build, file.vrom + reloc.offset_hi16
-                    ) or read_u16(base, file.vrom + reloc.offset_hi16) != read_u16(
-                        build, file.vrom + reloc.offset_hi16
+                    if (
+                        read_u16(base, file.vrom + reloc.offset_hi16)
+                        != read_u16(build, file.vrom + reloc.offset_hi16)
+                    ) or (
+                        read_u16(base, file.vrom + reloc.offset_lo16)
+                        != read_u16(build, file.vrom + reloc.offset_lo16)
                     ):
                         print(
-                            f"Error: Reference to {reloc.name} in {file.filepath} is in a shifted portion of the ROM.\n"
+                            f"Error: Reference to {reloc.name} in {file.filepath} is in a shifted (or non-matching even ignoring relocs) portion of the ROM.\n"
                             "Please ensure that the only differences between the baserom and the current build are due to data ordering.",
                             file=sys.stderr,
                         )
@@ -186,7 +189,9 @@ def main():
     for mapfile_segment in source_code_segments:
         for file in mapfile_segment:
             pointers_in_section = [
-                p for p in pointers if file.vram <= p.build_value < file.vram + file.size
+                p
+                for p in pointers
+                if file.vram <= p.build_value < file.vram + file.size
             ]
             if not pointers_in_section:
                 continue

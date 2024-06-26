@@ -55,7 +55,7 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxP);
 
 // Only one type
 
-typedef struct {
+typedef struct VisMono {
     /* 0x00 */ Vis vis;
     /* 0x10 */ u16* tlut;
     /* 0x14 */ Gfx* dList;
