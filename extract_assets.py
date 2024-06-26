@@ -149,9 +149,9 @@ def main():
 
         initializeWorker(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager)
         # Always extract if -s is used.
-        fullPath = assetConfig.xml_path
-        if fullPath in extractedAssetsTracker:
-            del extractedAssetsTracker[fullPath]
+        xml_path_str = str(assetConfig.xml_path)
+        if xml_path_str in extractedAssetsTracker:
+            del extractedAssetsTracker[xml_path_str]
         ExtractFunc(assetConfig)
     else:
         class CannotMultiprocessError(Exception):
