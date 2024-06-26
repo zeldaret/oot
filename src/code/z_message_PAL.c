@@ -28,30 +28,56 @@ s16 sMessageHasSetSfx = false;
 u16 sOcarinaSongBitFlags = 0; // ocarina bit flags
 
 MessageTableEntry sNesMessageEntryTable[] = {
-#define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_nes },
-#define DEFINE_MESSAGE_NES(textId, type, yPos, nesMessage) DEFINE_MESSAGE(textId, type, yPos, nesMessage, , )
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Not Present */
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Present */ DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
 #include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
 #undef DEFINE_MESSAGE_NES
+#undef DEFINE_MESSAGE_JPN
+#undef DEFINE_MESSAGE_FFFC
     { 0xFFFF, 0, NULL },
 };
 
 const char* sGerMessageEntryTable[] = {
-#define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_ger,
-#define DEFINE_MESSAGE_NES(textId, type, yPos, nesMessage)
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    _message_##textId##_ger,
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Not Present */
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Not Present */
 #include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
 #undef DEFINE_MESSAGE_NES
+#undef DEFINE_MESSAGE_JPN
+#undef DEFINE_MESSAGE_FFFC
     NULL,
 };
 
 const char* sFraMessageEntryTable[] = {
-#define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) _message_##textId##_fra,
-#define DEFINE_MESSAGE_NES(textId, type, yPos, nesMessage)
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    _message_##textId##_fra,
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Not Present */
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Not Present */
 #include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
 #undef DEFINE_MESSAGE_NES
+#undef DEFINE_MESSAGE_JPN
+#undef DEFINE_MESSAGE_FFFC
     NULL,
 };
 
@@ -390,7 +416,7 @@ void Message_FindCreditsMessage(PlayState* play, u16 textId) {
 
 void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
     switch (colorParameter) {
-        case MSGCOL_RED:
+        case TEXT_COLOR_RED:
             if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 255;
                 msgCtx->textColorG = 120;
@@ -401,7 +427,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
                 msgCtx->textColorB = 60;
             }
             break;
-        case MSGCOL_ADJUSTABLE:
+        case TEXT_COLOR_ADJUSTABLE:
             if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = R_TEXT_ADJUST_COLOR_1_R;
                 msgCtx->textColorG = R_TEXT_ADJUST_COLOR_1_G;
@@ -412,7 +438,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
                 msgCtx->textColorB = R_TEXT_ADJUST_COLOR_2_B;
             }
             break;
-        case MSGCOL_BLUE:
+        case TEXT_COLOR_BLUE:
             if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 80;
                 msgCtx->textColorG = 110;
@@ -423,7 +449,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
                 msgCtx->textColorB = 255;
             }
             break;
-        case MSGCOL_LIGHTBLUE:
+        case TEXT_COLOR_LIGHTBLUE:
             if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 90;
                 msgCtx->textColorG = 180;
@@ -438,7 +464,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
                 msgCtx->textColorB = 255;
             }
             break;
-        case MSGCOL_PURPLE:
+        case TEXT_COLOR_PURPLE:
             if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 210;
                 msgCtx->textColorG = 100;
@@ -449,7 +475,7 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
                 msgCtx->textColorB = 180;
             }
             break;
-        case MSGCOL_YELLOW:
+        case TEXT_COLOR_YELLOW:
             if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 255;
                 msgCtx->textColorG = 255;
@@ -460,10 +486,10 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
                 msgCtx->textColorB = 50;
             }
             break;
-        case MSGCOL_BLACK:
+        case TEXT_COLOR_BLACK:
             msgCtx->textColorR = msgCtx->textColorG = msgCtx->textColorB = 0;
             break;
-        case MSGCOL_DEFAULT:
+        case TEXT_COLOR_DEFAULT:
         default:
             if (msgCtx->textBoxType == TEXTBOX_TYPE_NONE_NO_SHADOW) {
                 msgCtx->textColorR = msgCtx->textColorG = msgCtx->textColorB = 0;
