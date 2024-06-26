@@ -174,14 +174,13 @@ item_ids = {
 def remove_comments(text : str) -> str:
     def replacer(match : re.Match) -> str:
         string : str = match.group(0)
-        if string.startswith('/'):
-            return " " # note: a space and not an empty string
+        if string.startswith("/"):
+            return " "  # note: a space and not an empty string
         else:
             return string
 
     pattern = re.compile(
-        r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"',
-        re.DOTALL | re.MULTILINE
+        r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"', re.DOTALL | re.MULTILINE
     )
     return re.sub(pattern, replacer, text)
 
@@ -666,11 +665,11 @@ class MessageDecoderNES(MessageDecoder):
         }[c]
 
 class MessageTableDesc:
-    def __init__(self, table_name : str, seg_name : str, decoder : MessageDecoder, parent : int) -> None:
+    def __init__(self, table_name : str, seg_name : str, decoder : MessageDecoder, parent : Optional[int]) -> None:
         self.table_name : str = table_name
         self.seg_name : str = seg_name
         self.decoder : MessageDecoder = decoder
-        self.parent : int = parent
+        self.parent : Optional[int] = parent
 
 class MessageTableEntry:
     SIZE = 8
@@ -778,7 +777,7 @@ def collect_messages(message_tables : List[Optional[MessageTableDesc]], version 
 
                 if curr.text_id not in messages:
                     messages[curr.text_id] = MessageEntry(message_tables, curr.text_id, curr.box_type, curr.box_pos)
-                messages[curr.text_id].data[lang_num] = (desc.decoder, baserom_seg[curr_offset:curr_offset+size])
+                messages[curr.text_id].data[lang_num] = (desc.decoder, baserom_seg[curr_offset : curr_offset+size])
         else:
             # Addresses only
 
@@ -800,8 +799,6 @@ def collect_messages(message_tables : List[Optional[MessageTableDesc]], version 
     return messages
 
 def main():
-    PAL_VERSIONS = ("gc-eu", "gc-eu-mq", "gc-eu-mq-dbg")
-
     parser = argparse.ArgumentParser(description="Extract text from the baserom into .h files")
     parser.add_argument("version", help="OoT version")
     args = parser.parse_args()
@@ -822,7 +819,7 @@ def main():
     message_tables : List[Optional[MessageTableDesc]] = [None for _ in range(4)] # JP, EN, FR, DE
     message_table_staff : MessageTableDesc = None
 
-    if version in PAL_VERSIONS:
+    if config.text_lang_pal:
         message_tables[0]   = None
         message_tables[1]   = MessageTableDesc("sNesMessageEntryTable",   "nes_message_data_static",   nes_decoder, None)
         message_tables[2]   = MessageTableDesc("sGerMessageEntryTable",   "ger_message_data_static",   nes_decoder, 1)

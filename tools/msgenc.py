@@ -17,7 +17,7 @@ def read_charmap(path : str, wchar : bool) -> Dict[str,str]:
         if v is None:
             v = 0
         assert isinstance(k, str)
-        assert v in (range(0xFFFF+1) if wchar else range(0xFF+1))
+        assert v in (range(0xFFFF + 1) if wchar else range(0xFF + 1))
 
         k = repr(k)[1:-1]
 
@@ -34,29 +34,29 @@ def read_charmap(path : str, wchar : bool) -> Dict[str,str]:
 def remove_comments(text : str) -> str:
     def replacer(match : re.Match) -> str:
         string : str = match.group(0)
-        if string.startswith('/'):
-            return " " # note: a space and not an empty string
+        if string.startswith("/"):
+            return " "  # note: a space and not an empty string
         else:
             return string
 
     pattern = re.compile(
-        r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"',
-        re.DOTALL | re.MULTILINE
+        r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"', re.DOTALL | re.MULTILINE
     )
     return re.sub(pattern, replacer, text)
 
-def convert_text(text : str, encoding : str, charmap : Dict[str,str]) -> str:
+def convert_text(text : str, encoding : str, charmap : Dict[str, str]) -> str:
     def cvt_str(match : re.Match) -> str:
         string : str = match.group(0)
 
         # strip quotes
         string = string[1:-1]
 
-        def cvt_escape(s):
+        def cvt_escape(s : str):
             # Convert escape sequences such as "\\\"" to "\""
             return s.encode("ascii").decode("unicode-escape")
 
         run_start = 0
+
         def emit(text : Optional[str], advance : int):
             nonlocal out, string, i, run_start
             # flush text
@@ -83,14 +83,14 @@ def convert_text(text : str, encoding : str, charmap : Dict[str,str]) -> str:
                     emit(charmap[k], len(k))
                     break
             else:
-                if string[i] == "\\" and string[i+1] != "\\":
+                if string[i] == "\\" and string[i + 1] != "\\":
                     # is already escaped, emit the escape sequence verbatim
-                    if string[i+1] == "x":
+                    if string[i + 1] == "x":
                         # \x**
-                        emit("0" + string[i+1:i+4] + ",", 4)
+                        emit("0" + string[i + 1 : i + 4] + ",", 4)
                     else:
                         # \*
-                        e = cvt_escape(string[i:i+2]).encode(encoding)
+                        e = cvt_escape(string[i : i + 2]).encode(encoding)
                         assert len(e) == 1
                         emit(f"0x{e[0]:02X},", 2)
                 else:
@@ -113,7 +113,9 @@ def convert_text(text : str, encoding : str, charmap : Dict[str,str]) -> str:
     return text
 
 def main():
-    parser = argparse.ArgumentParser(description="Encode message_data_static text headers")
+    parser = argparse.ArgumentParser(
+        description="Encode message_data_static text headers"
+    )
     parser.add_argument(
         "input",
         help="path to file to be encoded, or - for stdin",
@@ -137,7 +139,7 @@ def main():
     args = parser.parse_args()
 
     wchar,encoding = {
-        "jpn" : (True,  "SHIFT-JIS"),
+        "jpn" : (True, "SHIFT-JIS"),
         "nes" : (False, "raw-unicode-escape"),
     }[args.encoding]
 

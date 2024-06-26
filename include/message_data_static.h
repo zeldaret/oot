@@ -47,8 +47,8 @@ typedef struct {
 #define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
 
-#define FONT_MESSAGE_START  _message_0xFFFC_jpn
-#define FONT_MESSAGE_END    _message_0xFFFD_jpn
+#define FONT_MESSAGE_OFFSET (_message_0xFFFC_jpn - (const char*)_jpn_message_data_staticSegmentStart)
+#define FONT_MESSAGE_LENGTH (_message_0xFFFD_jpn - _message_0xFFFC_jpn)
 #else
 #define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     extern const char _message_##textId##_nes[]; \
@@ -61,8 +61,8 @@ typedef struct {
 #define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
 
-#define FONT_MESSAGE_START  _message_0xFFFC_nes
-#define FONT_MESSAGE_END    _message_0xFFFD_nes
+#define FONT_MESSAGE_OFFSET (_message_0xFFFC_nes - (const char*)_nes_message_data_staticSegmentStart)
+#define FONT_MESSAGE_LENGTH (_message_0xFFFD_nes - _message_0xFFFC_nes)
 #endif
 
 #define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \

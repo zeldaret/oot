@@ -12,7 +12,7 @@
  * Text control characters
  */
 
-// Non-Wide
+// Non-Wide (nes/ger/fra)
 
 #define MESSAGE_NEWLINE                    0x01
 #define MESSAGE_END                        0x02
@@ -45,7 +45,7 @@
 #define MESSAGE_HIGHSCORE                  0x1E
 #define MESSAGE_TIME                       0x1F
 
-// Wide
+// Wide (jpn)
 
 #define MESSAGE_WIDE_NEWLINE               0x000A
 #define MESSAGE_WIDE_END                   0x8170
@@ -128,7 +128,9 @@ typedef enum {
 #ifdef MESSAGE_DATA_STATIC
 // For use in message_data_static files
 
-// Text is preprocessed with modern cpp so varargs is valid
+// Encoded text consists of an array of bytes. Since it's in a macro it must be wrapped in a varargs macro so that each
+// byte is not treated as a separate macro argument to DEFINE_MESSAGE. IDO doesn't support varargs macros, however we
+// preprocess the message_data_static files with modern cpp instead. See the makefile rule for assets/text/
 # define MSG(...)  { __VA_ARGS__ END }
 
 // Encoding helpers
