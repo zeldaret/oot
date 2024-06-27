@@ -437,6 +437,9 @@ Gfx gCullFrontDList[] = {
     gsSPEndDisplayList(),
 };
 
+// The block number for sCurBodyPartPos must be <= 251
+#pragma increment_block_number 100
+
 Vec3f* sCurBodyPartPos;
 s32 sDListsLodOffset;
 Vec3f sGetItemRefPos;
