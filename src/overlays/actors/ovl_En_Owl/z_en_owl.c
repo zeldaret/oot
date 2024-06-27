@@ -65,6 +65,12 @@ typedef enum {
     /* 0x01 */ OWL_OK
 } EnOwlMessageChoice;
 
+typedef enum {
+    /* 0 */ OWL_EYE_OPEN,
+    /* 1 */ OWL_EYE_HALF,
+    /* 2 */ OWL_EYE_CLOSED
+} OwlEyeState;
+
 ActorInit En_Owl_InitVars = {
     /**/ ACTOR_EN_OWL,
     /**/ ACTORCAT_NPC,
@@ -297,7 +303,7 @@ s32 func_80ACA558(EnOwl* this, PlayState* play, u16 textId) {
 
 void func_80ACA5C8(EnOwl* this) {
     EnOwl_ChangeMode(this, func_80ACBEA0, func_80ACC540, &this->skelAnime, &gOwlUnfoldWingsAnim, 0.0f);
-    this->eyeTexIndex = 0;
+    this->eyeTexIndex = OWL_EYE_OPEN;
     this->blinkTimer = Rand_S16Offset(60, 60);
 }
 
@@ -1104,7 +1110,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->actionFlags & 2) {
-        this->eyeTexIndex = 2;
+        this->eyeTexIndex = OWL_EYE_CLOSED;
     } else {
         if (DECR(this->blinkTimer) == 0) {
             this->blinkTimer = Rand_S16Offset(60, 60);
@@ -1112,8 +1118,8 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
 
         this->eyeTexIndex = this->blinkTimer;
 
-        if (this->eyeTexIndex >= 3) {
-            this->eyeTexIndex = 0;
+        if (this->eyeTexIndex >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyeTexIndex = OWL_EYE_OPEN;
         }
     }
 

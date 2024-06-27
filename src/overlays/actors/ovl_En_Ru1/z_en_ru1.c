@@ -97,7 +97,16 @@ typedef enum {
     /* 0 */ RUTO_CHILD_MOUTH_CLOSED,
     /* 1 */ RUTO_CHILD_MOUTH_FROWN,
     /* 2 */ RUTO_CHILD_MOUTH_OPEN
-} RutoMouthState;
+} ChildRutoMouth;
+
+typedef enum {
+    /* 0 */ RUTO_CHILD_EYE_OPEN,
+    /* 1 */ RUTO_CHILD_EYE_HALF,
+    /* 2 */ RUTO_CHILD_EYE_CLOSED,
+    /* 3 */ RUTO_CHILD_EYE_ROLL_LEFT,
+    /* 4 */ RUTO_CHILD_EYE_HALF2,
+    /* 5 */ RUTO_CHILD_EYE_HALF_WITH_BLUSH
+} ChildRutoEyes;
 
 static void* sEyeTextures[] = {
     gRutoChildEyeOpenTex,     gRutoChildEyeHalfTex,  gRutoChildEyeClosedTex,
@@ -222,8 +231,8 @@ void EnRu1_UpdateEyes(EnRu1* this) {
     }
 
     *eyeIndex = *blinkTimer;
-    if (*eyeIndex >= 3) {
-        *eyeIndex = 0;
+    if (*eyeIndex >= RUTO_CHILD_EYE_ROLL_LEFT) { //check if we've moved beyond 'blink' indices
+        *eyeIndex = RUTO_CHILD_EYE_OPEN;
     }
 }
 
@@ -414,7 +423,7 @@ void func_80AEB3DC(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWaitHandsBehindBackAnim, 0, 0, 0);
     this->action = 0;
     this->drawConfig = 1;
-    EnRu1_SetEyeIndex(this, 4);
+    EnRu1_SetEyeIndex(this, RUTO_CHILD_EYE_HALF2);
     EnRu1_SetMouthIndex(this, RUTO_CHILD_MOUTH_CLOSED);
 }
 
@@ -1016,7 +1025,7 @@ void func_80AECDA0(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWaitHandsOnHipsAnim, 0, 0, 0);
     this->action = 15;
     this->actor.shape.yOffset = -10000.0f;
-    EnRu1_SetEyeIndex(this, 5);
+    EnRu1_SetEyeIndex(this, RUTO_CHILD_EYE_HALF_WITH_BLUSH);
     EnRu1_SetMouthIndex(this, RUTO_CHILD_MOUTH_OPEN);
 }
 
@@ -1944,7 +1953,7 @@ void func_80AEF51C(EnRu1* this) {
 
 void func_80AEF540(EnRu1* this) {
     if (func_80AEB104(this) == 2) {
-        EnRu1_SetEyeIndex(this, 3);
+        EnRu1_SetEyeIndex(this, RUTO_CHILD_EYE_ROLL_LEFT);
         EnRu1_SetMouthIndex(this, RUTO_CHILD_MOUTH_OPEN);
         if (this->skelAnime.mode != 2) {
             func_80AEB264(this, &gRutoChildShutterAnim, 2, -8.0f, 0);
@@ -1959,7 +1968,7 @@ void func_80AEF5B8(EnRu1* this) {
     if (D_80AF1938 == 0) {
         curFrame = this->skelAnime.curFrame;
         if (curFrame >= 60.0f) {
-            EnRu1_SetEyeIndex(this, 3);
+            EnRu1_SetEyeIndex(this, RUTO_CHILD_EYE_ROLL_LEFT);
             EnRu1_SetMouthIndex(this, RUTO_CHILD_MOUTH_CLOSED);
             func_80AED57C(this);
             D_80AF1938 = 1;

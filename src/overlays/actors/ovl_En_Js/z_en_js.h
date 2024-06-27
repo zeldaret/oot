@@ -17,8 +17,8 @@ typedef struct EnJs {
     /* 0x0278 */ Vec3s unk_278;
     /* 0x027E */ Vec3s unk_27E;
     /* 0x0284 */ u16 unk_284;
-    /* 0x0286 */ s16 unk_286;
-    /* 0x0288 */ s16 unk_288;
+    /* 0x0286 */ s16 eyeTexIdx;
+    /* 0x0288 */ s16 blinkTimer;
     /* 0x028C */ EnJsActionFunc actionFunc;
 } EnJs; // size = 0x0290
 

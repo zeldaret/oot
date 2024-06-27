@@ -192,6 +192,12 @@ void func_8096D64C(DemoEc* this, PlayState* play) {
     AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
+typedef enum {
+    /* 0 */ GENERIC_EYE_OPEN,
+    /* 1 */ GENERIC_EYE_HALF,
+    /* 2 */ GENERIC_EYE_CLOSED
+} GenericEyeState;
+
 void DemoEc_UpdateEyes(DemoEc* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
@@ -204,7 +210,7 @@ void DemoEc_UpdateEyes(DemoEc* this) {
     *eyeTexIndex = *blinkTimer;
 
     if (*eyeTexIndex >= 3) {
-        *eyeTexIndex = 0;
+        *eyeTexIndex = GENERIC_EYE_OPEN;
     }
 }
 

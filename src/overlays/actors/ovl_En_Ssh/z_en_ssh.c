@@ -825,7 +825,7 @@ void EnSsh_Update(Actor* thisx, PlayState* play) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
     this->blinkState = this->blinkTimer;
-    if (this->blinkState >= 3) {
+    if (this->blinkState >= 3) { //check if we've moved beyond 'blink' indices
         this->blinkState = 0;
     }
     EnSsh_SetColliders(this, play);

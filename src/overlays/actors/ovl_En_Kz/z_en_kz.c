@@ -62,6 +62,12 @@ typedef enum {
     /* 2 */ ENKZ_ANIM_2
 } EnKzAnimation;
 
+typedef enum {
+    /* 0 */ ENKZ_EYE_OPEN,
+    /* 1 */ ENKZ_EYE_HALF,
+    /* 2 */ ENKZ_EYE_CLOSED
+} EnKzEyeState;
+
 static AnimationInfo sAnimationInfo[] = {
     { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
@@ -181,9 +187,9 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
 void EnKz_UpdateEyes(EnKz* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIdx++;
-        if (this->eyeIdx >= 3) {
+        if (this->eyeIdx >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIdx = 0;
+            this->eyeIdx = ENKZ_EYE_OPEN;
         }
     }
 }

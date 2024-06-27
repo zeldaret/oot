@@ -85,6 +85,12 @@ static DamageTable sDamageTable[] = {
 };
 
 typedef enum {
+    /* 0 */ GRAVEYARD_KID_EYE_OPEN,
+    /* 1 */ GRAVEYARD_KID_EYE_HALF,
+    /* 2 */ GRAVEYARD_KID_EYE_CLOSED
+} EnCsEyeState;
+
+typedef enum {
     /* 0 */ ENCS_ANIM_0,
     /* 1 */ ENCS_ANIM_1,
     /* 2 */ ENCS_ANIM_2,
@@ -444,8 +450,8 @@ void EnCs_Update(Actor* thisx, PlayState* play) {
     if (this->eyeBlinkTimer < 0) {
         this->eyeIndex++;
 
-        if (this->eyeIndex >= 3) {
-            this->eyeIndex = 0;
+        if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyeIndex = GRAVEYARD_KID_EYE_OPEN;
         }
 
         this->eyeBlinkTimer = eyeBlinkFrames[this->eyeIndex];

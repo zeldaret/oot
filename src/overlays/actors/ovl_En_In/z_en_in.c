@@ -59,6 +59,13 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
+    /* 0 */ INGO_EYE_OPEN,
+    /* 1 */ INGO_EYE_HALF,
+    /* 2 */ INGO_EYE_CLOSED,
+    /* 3 */ INGO_EYE_CLOSED_2
+} gIngoEyeState;
+
+typedef enum {
     /* 0 */ ENIN_ANIM_0,
     /* 1 */ ENIN_ANIM_1,
     /* 2 */ ENIN_ANIM_2,
@@ -397,12 +404,12 @@ s32 func_80A79830(EnIn* this, PlayState* play) {
 }
 
 void EnIn_UpdateEyes(EnIn* this) {
-    if (this->eyeIndex != 3) {
+    if (this->eyeIndex != INGO_EYE_CLOSED_2) {
         if (DECR(this->blinkTimer) == 0) {
             this->eyeIndex++;
-            if (this->eyeIndex >= 3) {
+            if (this->eyeIndex >= INGO_EYE_CLOSED_2) { //check if we've moved beyond 'blink' indices
                 this->blinkTimer = Rand_S16Offset(30, 30);
-                this->eyeIndex = 0;
+                this->eyeIndex = INGO_EYE_OPEN;
             }
         }
     }
@@ -536,7 +543,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                 break;
             case 4:
                 EnIn_ChangeAnim(this, ENIN_ANIM_8);
-                this->eyeIndex = 3;
+                this->eyeIndex = INGO_EYE_CLOSED_2;
                 this->actionFunc = func_80A7A4BC;
                 break;
             case 0:

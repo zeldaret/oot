@@ -37,7 +37,7 @@ typedef struct EnZl2 {
     /* 0x0268 */ char unk_268[0xC];
     /* 0x0274 */ s32 zl2Anime1ObjectSlot;
     /* 0x0278 */ f32 unk_278;
-    /* 0x027C */ f32 unk_27C;
+    /* 0x027C */ f32 blinkTimerSpecial;
 } EnZl2; // size = 0x0280
 
 #endif

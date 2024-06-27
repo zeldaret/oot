@@ -77,6 +77,12 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0 */ NABOORU_EYE_OPEN,
+    /* 1 */ NABOORU_EYE_HALF,
+    /* 2 */ NABOORU_EYE_CLOSED
+} NabooruEyeState;
+
 static void* sEyeTextures[] = {
     gNabooruEyeOpenTex,
     gNabooruEyeHalfTex,
@@ -189,8 +195,8 @@ void EnNb_UpdateEyes(EnNb* this) {
     }
 
     *eyeIdx = *blinkTimer;
-    if (*eyeIdx >= ARRAY_COUNT(sEyeTextures)) {
-        *eyeIdx = 0;
+    if (*eyeIdx >= ARRAY_COUNT(sEyeTextures)) { //check if we've moved beyond 'blink' indices
+        *eyeIdx = NABOORU_EYE_OPEN;
     }
 }
 

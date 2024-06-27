@@ -42,6 +42,16 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0 */ ZELDA_EYE_OPEN,
+    /* 1 */ ZELDA_EYE_HALF,
+    /* 2 */ ZELDA_EYE_CLOSED,
+    /* 3 */ ZELDA_EYE_3,
+    /* 4 */ ZELDA_EYE_4,
+    /* 5 */ ZELDA_EYE_5,
+    /* 6 */ ZELDA_EYE_6
+} EyeState;
+
 static void* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex, gZelda2Eye03Tex,
                                 gZelda2Eye04Tex,   gZelda2Eye05Tex,   gZelda2Eye06Tex,   NULL };
 
@@ -102,8 +112,8 @@ void EnZl3_UpdateEyes(EnZl3* this) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
     *eyeTexIndex = *blinkTimer;
-    if (*eyeTexIndex >= 3) {
-        *eyeTexIndex = 0;
+    if (*eyeTexIndex > ZELDA_EYE_CLOSED) {
+        *eyeTexIndex = ZELDA_EYE_OPEN;
     }
 }
 
@@ -795,7 +805,7 @@ void func_80B54F18(EnZl3* this, PlayState* play) {
 void func_80B54FB4(EnZl3* this, PlayState* play) {
     PRINTF("ゼルダ姫のEn_Zl3_Actor_inFinal_Init通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     func_80B54E14(this, &gZelda2Anime2Anim_008AD0, 0, 0.0f, 0);
-    EnZl3_setEyeIndex(this, 4);
+    EnZl3_setEyeIndex(this, ZELDA_EYE_4);
     EnZl3_setMouthIndex(this, 2);
     this->action = 1;
     this->drawConfig = 1;
@@ -841,10 +851,10 @@ void func_80B55144(EnZl3* this) {
 
     if (D_80B5A484 < 2.0f) {
         D_80B5A484 += 1.0f;
-        EnZl3_setEyeIndex(this, 2);
+        EnZl3_setEyeIndex(this, ZELDA_EYE_CLOSED);
     } else if (D_80B5A484 < 4.0f) {
         D_80B5A484 += 1.0f;
-        EnZl3_setEyeIndex(this, 1);
+        EnZl3_setEyeIndex(this, ZELDA_EYE_HALF);
     } else {
         EnZl3_UpdateEyes(this);
     }
@@ -923,7 +933,7 @@ void func_80B55444(EnZl3* this, PlayState* play) {
                     func_80B551E0(this);
                     break;
                 case 1:
-                    EnZl3_setEyeIndex(this, 3);
+                    EnZl3_setEyeIndex(this, ZELDA_EYE_3);
                     func_80B54EF4(this);
                     break;
                 case 3:
@@ -967,7 +977,7 @@ void func_80B55550(EnZl3* this, PlayState* play) {
 void func_80B555A4(EnZl3* this, PlayState* play) {
     func_80B54DE0(this, play);
     func_80B5366C(this, play);
-    EnZl3_setEyeIndex(this, 2);
+    EnZl3_setEyeIndex(this, ZELDA_EYE_CLOSED);
     func_80B550F0(this);
     func_80B55054(this);
     func_80B55444(this, play);

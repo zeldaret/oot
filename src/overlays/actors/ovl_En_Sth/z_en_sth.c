@@ -324,13 +324,13 @@ void EnSth_Update2(Actor* thisx, PlayState* play) {
     }
     this->actionFunc(this, play);
 
-    // Likely an unused blink timer and eye index
-    if (DECR(this->unk_2B6) == 0) {
-        this->unk_2B6 = Rand_S16Offset(0x3C, 0x3C);
+    // Unused blink timer and eye index
+    if (DECR(this->blinkTimer) == 0) {
+        this->blinkTimer = Rand_S16Offset(0x3C, 0x3C);
     }
-    this->unk_2B4 = this->unk_2B6;
-    if (this->unk_2B4 >= 3) {
-        this->unk_2B4 = 0;
+    this->eyeTexIndex = this->blinkTimer;
+    if (this->eyeTexIndex >= 3) {
+        this->eyeTexIndex = 0;
     }
 }
 

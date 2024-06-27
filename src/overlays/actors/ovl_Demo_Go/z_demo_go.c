@@ -88,17 +88,17 @@ void DemoGo_Destroy(Actor* thisx, PlayState* play) {
     SkelAnime_Free(&this->skelAnime, play);
 }
 
-void func_8097C930(DemoGo* this) {
-    s16* something = &this->unk_192;
-    s16* other = &this->unk_190;
+void DemoGo_UpdateBlink(DemoGo* this) {
+    s16* timer = &this->blinkTimer;
+    s16* texIdx = &this->eyeTexIdx;
     s32 pad[3];
 
-    if (DECR(*something) == 0) {
-        *something = Rand_S16Offset(60, 60);
+    if (DECR(*timer) == 0) {
+        *timer = Rand_S16Offset(60, 60);
     }
-    *other = *something;
-    if (*other >= 3) {
-        *other = 0;
+    *texIdx = *timer;
+    if (*texIdx >= 3) {
+        *texIdx = 0;
     }
 }
 
@@ -294,7 +294,7 @@ void func_8097D088(DemoGo* this, PlayState* play) {
 
     func_8097CA30(this, play);
     something = DemoGo_UpdateSkelAnime(this);
-    func_8097C930(this);
+    DemoGo_UpdateBlink(this);
     func_8097CF20(this, play, something);
 }
 
@@ -303,7 +303,7 @@ void func_8097D0D0(DemoGo* this, PlayState* play) {
     func_8097CCC0(this);
     func_8097CA30(this, play);
     DemoGo_UpdateSkelAnime(this);
-    func_8097C930(this);
+    DemoGo_UpdateBlink(this);
     func_8097C9DC(this);
     func_8097CF9C(this);
 }
@@ -312,7 +312,7 @@ void func_8097D130(DemoGo* this, PlayState* play) {
     func_8097CC08(this);
     func_8097CA30(this, play);
     DemoGo_UpdateSkelAnime(this);
-    func_8097C930(this);
+    DemoGo_UpdateBlink(this);
     func_8097C9DC(this);
 }
 
@@ -341,7 +341,7 @@ void func_8097D290(DemoGo* this, PlayState* play) {
 
 void func_8097D29C(DemoGo* this, PlayState* play) {
     s32 pad;
-    s16 eyeTexIdx = this->unk_190;
+    s16 eyeTexIdx = this->eyeTexIdx;
     SkelAnime* skelAnime = &this->skelAnime;
     void* eyeTexture = sEyeTextures[eyeTexIdx];
     s32 pad2;

@@ -7,6 +7,12 @@
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
 
 typedef enum {
+    /* 0 */ CHU_GIRL_EYE_OPEN,
+    /* 1 */ CHU_GIRL_EYE_HALF,
+    /* 2 */ CHU_GIRL_EYE_CLOSED
+} BombchuGirlEyeState;
+
+typedef enum {
     /* 0 */ CHU_GIRL_EYES_ASLEEP,
     /* 1 */ CHU_GIRL_EYES_OPEN_SLOWLY,
     /* 2 */ CHU_GIRL_EYES_BLINK_RAPIDLY,
@@ -140,9 +146,9 @@ void EnBomBowlMan_BlinkAwake(EnBomBowlMan* this, PlayState* play) {
     }
     Message_ContinueTextbox(play, this->actor.textId);
 
-    if ((this->eyeTextureIndex == 0) && (this->eyeMode == CHU_GIRL_EYES_BLINK_RAPIDLY) && (this->blinkTimer == 0)) {
+    if ((this->eyeTextureIndex == CHU_GIRL_EYE_OPEN) && (this->eyeMode == CHU_GIRL_EYES_BLINK_RAPIDLY) && (this->blinkTimer == 0)) {
         // Blink twice, then move on
-        this->eyeTextureIndex = 2;
+        this->eyeTextureIndex = CHU_GIRL_EYE_CLOSED;
         this->blinkCount++;
         if (this->blinkCount >= 3) {
             this->actionFunc = EnBomBowlMan_CheckBeatenDC;
@@ -471,10 +477,10 @@ void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
 
     switch (this->eyeMode) {
         case CHU_GIRL_EYES_ASLEEP:
-            this->eyeTextureIndex = 2;
+            this->eyeTextureIndex = CHU_GIRL_EYE_CLOSED;
             break;
         case CHU_GIRL_EYES_OPEN_SLOWLY:
-            if (this->eyeTextureIndex > 0) {
+            if (this->eyeTextureIndex > CHU_GIRL_EYE_OPEN) {
                 this->eyeTextureIndex--;
             } else {
                 this->blinkTimer = 30;
@@ -482,15 +488,15 @@ void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
             }
             break;
         case CHU_GIRL_EYES_BLINK_RAPIDLY:
-            if ((this->blinkTimer == 0) && (this->eyeTextureIndex > 0)) {
+            if ((this->blinkTimer == 0) && (this->eyeTextureIndex > CHU_GIRL_EYE_OPEN)) {
                 this->eyeTextureIndex--;
             }
             break;
         default:
             if (this->blinkTimer == 0) {
                 this->eyeTextureIndex++;
-                if (this->eyeTextureIndex >= 3) {
-                    this->eyeTextureIndex = 0;
+                if (this->eyeTextureIndex >= 3) { //check if we've moved beyond 'blink' indices
+                    this->eyeTextureIndex = CHU_GIRL_EYE_OPEN;
                     this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
                 }
             }

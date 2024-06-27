@@ -45,6 +45,12 @@ typedef enum {
     /* 0x69 */ TW_DEATHBALL_KOUME
 } TwinrovaType;
 
+typedef enum {
+    /* 0 */ EYE_OPEN,
+    /* 1 */ EYE_HALF,
+    /* 2 */ EYE_CLOSED
+} EyeTexState;
+
 #define BOSS_TW_EFFECT_COUNT 150
 
 typedef struct {
@@ -2834,14 +2840,15 @@ void BossTw_TwinrovaDeathCS(BossTw* this, PlayState* play) {
     }
 }
 
-static s16 D_8094A900[] = {
+static s16 BossTw_SeparateTwinsEyeFrameOrder[] = {
     0, 1, 2, 2, 1,
 };
 
-static s16 D_8094A90C[] = {
+static s16 BossTw_MergedTwinsEyeFrameOrder[] = {
     0, 1, 2, 2, 2, 2, 2, 2, 1,
 };
 
+//Separate Twins update
 void BossTw_Update(Actor* thisx, PlayState* play) {
     BossTw* this = (BossTw*)thisx;
     Player* player = GET_PLAYER(play);
@@ -2926,7 +2933,7 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
         this->work[BLINK_IDX] = 4;
     }
 
-    this->eyeTexIdx = D_8094A900[this->work[BLINK_IDX]];
+    this->eyeTexIdx = BossTw_SeparateTwinsEyeFrameOrder[this->work[BLINK_IDX]];
 
     if (this->work[BLINK_IDX] != 0) {
         this->work[BLINK_IDX]--;
@@ -2968,6 +2975,7 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
     }
 }
 
+//Merged Twins update
 void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
     s16 i;
     PlayState* play = play2;
@@ -3010,7 +3018,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
         BossTw_TwinrovaSetupSpin(this, play);
     }
 
-    this->eyeTexIdx = D_8094A900[this->work[BLINK_IDX]];
+    this->eyeTexIdx = BossTw_SeparateTwinsEyeFrameOrder[this->work[BLINK_IDX]];
     if (this->work[BLINK_IDX] != 0) {
         this->work[BLINK_IDX]--;
     }
@@ -3024,17 +3032,17 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
     }
 
     if (this->actionFunc == BossTw_TwinrovaMergeCS) {
-        this->leftEyeTexIdx = D_8094A90C[this->work[TW_BLINK_IDX]];
+        this->leftEyeTexIdx = BossTw_MergedTwinsEyeFrameOrder[this->work[TW_BLINK_IDX]];
         if (this->work[TW_BLINK_IDX] != 0) {
             this->work[TW_BLINK_IDX]--;
         }
     } else {
         if (this->actionFunc == BossTw_TwinrovaStun) {
-            this->eyeTexIdx = 1;
+            this->eyeTexIdx = EYE_HALF;
         }
 
         if (this->actionFunc == BossTw_TwinrovaDeathCS) {
-            this->eyeTexIdx = 2;
+            this->eyeTexIdx = EYE_CLOSED;
         }
 
         this->leftEyeTexIdx = this->eyeTexIdx;

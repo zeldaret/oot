@@ -195,14 +195,13 @@ void EnJs_Update(Actor* thisx, PlayState* play) {
     }
     this->unk_284 &= ~0x1;
 
-    if (DECR(this->unk_288) == 0) {
-        this->unk_288 = Rand_S16Offset(0x3C, 0x3C);
+    //Blink logic - functionally useless as this actor doesn't actually have any eyes
+    if (DECR(this->blinkTimer) == 0) {
+        this->blinkTimer = Rand_S16Offset(0x3C, 0x3C);
     }
-
-    this->unk_286 = this->unk_288;
-
-    if (this->unk_286 >= 3) {
-        this->unk_286 = 0;
+    this->eyeTexIdx = this->blinkTimer;
+    if (this->eyeTexIdx >= 3) {
+        this->eyeTexIdx = 0;
     }
 }
 

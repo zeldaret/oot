@@ -144,6 +144,13 @@ static ColliderCylinderInit sTailCylinderInit = {
 };
 
 typedef enum {
+    /* 0 */ WOLFOS_EYE_OPEN,
+    /* 1 */ WOLFOS_EYE_HALF,
+    /* 2 */ WOLFOS_EYE_NARROW,
+    /* 3 */ WOLFOS_EYE_CLOSED
+} WolfosEyeState;
+
+typedef enum {
     /*  0 */ ENWF_DMGEFF_NONE,
     /*  1 */ ENWF_DMGEFF_STUN,
     /*  6 */ ENWF_DMGEFF_ICE_MAGIC = 6,
@@ -222,7 +229,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.cylHeight = 100;
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    this->eyeIndex = 0;
+    this->eyeIndex = WOLFOS_EYE_OPEN;
     this->unk_2F4 = 10.0f; // Set and not used
 
     Collider_InitJntSph(play, &this->colliderSpheres);
@@ -1343,7 +1350,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 25.0f;
 
-    if (this->eyeIndex == 0) {
+    if (this->eyeIndex == WOLFOS_EYE_OPEN) {
         if ((Rand_ZeroOne() < 0.2f) && ((play->gameplayFrames % 4) == 0) && (this->actor.colorFilterTimer == 0)) {
             this->eyeIndex++;
         }

@@ -50,6 +50,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0 */ GE3_EYE_OPEN,
+    /* 1 */ GE3_EYE_HALF,
+    /* 2 */ GE3_EYE_CLOSED
+} EnGe3EyeState;
+
 static EnGe3ActionFunc sActionFuncs[] = { EnGe3_WaitLookAtPlayer };
 static AnimationHeader* sAnimations[] = { &gGerudoRedStandAnim }; // Idle with right hand on hip and left over mouth
 static u8 sAnimationModes[] = { ANIMMODE_LOOP };
@@ -190,10 +196,10 @@ void EnGe3_MoveAndBlink(EnGe3* this, PlayState* play) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    this->eyeIndex = this->blinkTimer;
+    this->eyeIndex = this->blinkTimer; //check if we've moved beyond 'blink' indices
 
     if (this->eyeIndex >= 3) {
-        this->eyeIndex = 0;
+        this->eyeIndex = GE3_EYE_OPEN;
     }
 }
 

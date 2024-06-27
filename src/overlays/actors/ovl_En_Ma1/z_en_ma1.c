@@ -58,6 +58,12 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
+    /* 0 */ MALON_CHILD_EYE_OPEN,
+    /* 1 */ MALON_CHILD_EYE_HALF,
+    /* 2 */ MALON_CHILD_EYE_CLOSED
+} EnMa1EyeState;
+
+typedef enum {
     /* 0 */ MALON_ANIM_IDLE_NOMORPH,
     /* 1 */ MALON_ANIM_IDLE,
     /* 2 */ MALON_ANIM_SING_NOMORPH,
@@ -206,9 +212,9 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
 void EnMa1_UpdateEyes(EnMa1* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIndex++;
-        if (this->eyeIndex >= 3) {
+        if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIndex = 0;
+            this->eyeIndex = MALON_CHILD_EYE_OPEN;
         }
     }
 }
