@@ -30,7 +30,7 @@ ActorInit En_Vb_Ball_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK6,
+        ELEM_MATERIAL_UNK6,
         { 0x00100700, 0x00, 0x20 },
         { 0x00100700, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,

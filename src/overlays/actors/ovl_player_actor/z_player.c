@@ -4384,7 +4384,7 @@ void func_8083821C(Player* this) {
 }
 
 void func_80838280(Player* this) {
-    if (this->actor.colChkInfo.acHitEffect == 1) {
+    if (this->actor.colChkInfo.playerACHitReaction == PLAYER_AC_HIT_REACTION_1) {
         func_8083821C(this);
     }
     func_80832698(this, NA_SE_VO_LI_FALL_L);
@@ -4494,7 +4494,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.effect == 1)) {
+                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.playerACHitReaction == 1)) {
                     func_8083819C(this, play);
                 }
 
@@ -4517,11 +4517,11 @@ s32 func_808382DC(Player* this, PlayState* play) {
 
                 if (this->stateFlags1 & PLAYER_STATE1_27) {
                     sp4C = 0;
-                } else if (this->actor.colChkInfo.acHitEffect == 2) {
+                } else if (this->actor.colChkInfo.playerACHitReaction == PLAYER_AC_HIT_REACTION_2) {
                     sp4C = 3;
-                } else if (this->actor.colChkInfo.acHitEffect == 3) {
+                } else if (this->actor.colChkInfo.playerACHitReaction == PLAYER_AC_HIT_REACTION_3) {
                     sp4C = 4;
-                } else if (this->actor.colChkInfo.acHitEffect == 4) {
+                } else if (this->actor.colChkInfo.playerACHitReaction == PLAYER_AC_HIT_REACTION_4) {
                     sp4C = 1;
                 } else {
                     func_80838280(this);
@@ -8574,7 +8574,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
             if ((func_80842AC4(play, this) == 0) && (this->heldItemAction != PLAYER_IA_HAMMER)) {
                 func_80842B7C(play, this);
 
-                if (this->actor.colChkInfo.atHitEffect == 1) {
+                if (this->actor.colChkInfo.playerATHitReaction == PLAYER_AT_HIT_REACTION_1) {
                     this->actor.colChkInfo.damage = 8;
                     func_80837C0C(play, this, 4, 0.0f, 0.0f, this->actor.shape.rot.y, 20);
                     return 1;
@@ -9864,7 +9864,7 @@ void Player_Action_80846578(Player* this, PlayState* play) {
 
 static ColliderCylinderInit D_80854624 = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -9872,7 +9872,7 @@ static ColliderCylinderInit D_80854624 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -9884,7 +9884,7 @@ static ColliderCylinderInit D_80854624 = {
 
 static ColliderQuadInit D_80854650 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -9892,7 +9892,7 @@ static ColliderQuadInit D_80854650 = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000100, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -9904,7 +9904,7 @@ static ColliderQuadInit D_80854650 = {
 
 static ColliderQuadInit D_808546A0 = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_PLAYER,
         AC_ON | AC_HARD | AC_TYPE_ENEMY,
         OC1_NONE,
@@ -9912,7 +9912,7 @@ static ColliderQuadInit D_808546A0 = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00100000, 0x00, 0x00 },
         { 0xDFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
