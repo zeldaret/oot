@@ -1,4 +1,5 @@
 dmadata_start: 0x7170
+text_lang_pal: true
 variables:
   gMtxClear: 0x800FBC00
   sNesMessageEntryTable: 0x801077F0

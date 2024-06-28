@@ -1,7 +1,8 @@
 dmadata_start: 0x7170
+text_lang_pal: false
 variables:
   gMtxClear: 0x800FE2A0
-  sJpnMessageEntryTable: 0x80107810
+  sJpnMessageEntryTable: 0x80109E8C
   sNesMessageEntryTable: 0x8010DFCC
   sStaffMessageEntryTable: 0x801121EC
   sShadowTex: 0x80A74130
