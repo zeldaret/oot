@@ -2103,11 +2103,11 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
         action = DO_ACTION_NONE;
     }
 
-    if (gSaveContext.language != LANGUAGE_ENG) {
+    if (gSaveContext.language != 0) { // LANGUAGE_JPN for NTSC versions, LANGUAGE_ENG for PAL versions
         action += DO_ACTION_MAX;
     }
 
-    if (gSaveContext.language == LANGUAGE_FRA) {
+    if (gSaveContext.language == 2) { // LANGUAGE_FRA for PAL versions
         action += DO_ACTION_MAX;
     }
 
@@ -2167,11 +2167,11 @@ void Interface_SetNaviCall(PlayState* play, u16 naviCallState) {
 void Interface_LoadActionLabelB(PlayState* play, u16 action) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
-    if (gSaveContext.language != LANGUAGE_ENG) {
+    if (gSaveContext.language != 0) { // LANGUAGE_JPN for NTSC versions, LANGUAGE_ENG for PAL versions
         action += DO_ACTION_MAX;
     }
 
-    if (gSaveContext.language == LANGUAGE_FRA) {
+    if (gSaveContext.language == 2) { // LANGUAGE_FRA for PAL versions
         action += DO_ACTION_MAX;
     }
 

@@ -897,7 +897,15 @@ static void* sFileInfoBoxTextures[] = {
     gFileSelFileInfoBox4Tex, gFileSelFileInfoBox5Tex,
 };
 
-static void* sTitleLabels[3][9] = {
+static void* sTitleLabels[][9] = {
+#if OOT_NTSC
+    { gFileSelPleaseSelectAFileJPNTex, gFileSelOpenThisFileJPNTex, gFileSelCopyWhichFileJPNTex,
+      gFileSelCopyToWhichFileJPNTex, gFileSelAreYouSureJPNTex, gFileSelFileCopiedJPNTex, gFileSelEraseWhichFileJPNTex,
+      gFileSelAreYouSure2JPNTex, gFileSelFileErasedJPNTex },
+    { gFileSelPleaseSelectAFileENGTex, gFileSelOpenThisFileENGTex, gFileSelCopyWhichFileENGTex,
+      gFileSelCopyToWhichFileENGTex, gFileSelAreYouSureENGTex, gFileSelFileCopiedENGTex, gFileSelEraseWhichFileENGTex,
+      gFileSelAreYouSure2ENGTex, gFileSelFileErasedENGTex },
+#else
     { gFileSelPleaseSelectAFileENGTex, gFileSelOpenThisFileENGTex, gFileSelCopyWhichFileENGTex,
       gFileSelCopyToWhichFileENGTex, gFileSelAreYouSureENGTex, gFileSelFileCopiedENGTex, gFileSelEraseWhichFileENGTex,
       gFileSelAreYouSure2ENGTex, gFileSelFileErasedENGTex },
@@ -907,34 +915,49 @@ static void* sTitleLabels[3][9] = {
     { gFileSelPleaseSelectAFileFRATex, gFileSelOpenThisFileFRATex, gFileSelCopyWhichFileFRATex,
       gFileSelCopyToWhichFileFRATex, gFileSelAreYouSureFRATex, gFileSelFileCopiedFRATex, gFileSelEraseWhichFileFRATex,
       gFileSelAreYouSure2FRATex, gFileSelFileErasedFRATex }
+#endif
 };
 
-static void* sWarningLabels[3][5] = {
+static void* sWarningLabels[][5] = {
+#if OOT_NTSC
+    { gFileSelNoFileToCopyJPNTex, gFileSelNoFileToEraseJPNTex, gFileSelNoEmptyFileJPNTex, gFileSelFileEmptyJPNTex,
+      gFileSelFileInUseJPNTex },
+    { gFileSelNoFileToCopyENGTex, gFileSelNoFileToEraseENGTex, gFileSelNoEmptyFileENGTex, gFileSelFileEmptyENGTex,
+      gFileSelFileInUseENGTex },
+#else
     { gFileSelNoFileToCopyENGTex, gFileSelNoFileToEraseENGTex, gFileSelNoEmptyFileENGTex, gFileSelFileEmptyENGTex,
       gFileSelFileInUseENGTex },
     { gFileSelNoFileToCopyGERTex, gFileSelNoFileToEraseGERTex, gFileSelNoEmptyFileGERTex, gFileSelFileEmptyGERTex,
       gFileSelFileInUseGERTex },
     { gFileSelNoFileToCopyFRATex, gFileSelNoFileToEraseFRATex, gFileSelNoEmptyFileFRATex, gFileSelFileEmptyFRATex,
       gFileSelFileInUseFRATex },
+#endif
 };
 
-static void* sFileButtonTextures[3][3] = {
+static void* sFileButtonTextures[][3] = {
+#if OOT_NTSC
+    { gFileSelFile1ButtonJPNTex, gFileSelFile2ButtonJPNTex, gFileSelFile3ButtonJPNTex },
+    { gFileSelFile1ButtonENGTex, gFileSelFile2ButtonENGTex, gFileSelFile3ButtonENGTex },
+#else
     { gFileSelFile1ButtonENGTex, gFileSelFile2ButtonENGTex, gFileSelFile3ButtonENGTex },
     { gFileSelFile1ButtonGERTex, gFileSelFile2ButtonGERTex, gFileSelFile3ButtonGERTex },
     { gFileSelFile1ButtonFRATex, gFileSelFile2ButtonFRATex, gFileSelFile3ButtonFRATex },
+#endif
 };
 
-static void* sActionButtonTextures[3][4] = {
+static void* sActionButtonTextures[][4] = {
+#if OOT_NTSC
+    { gFileSelCopyButtonJPNTex, gFileSelEraseButtonJPNTex, gFileSelYesButtonJPNTex, gFileSelQuitButtonJPNTex },
+    { gFileSelCopyButtonENGTex, gFileSelEraseButtonENGTex, gFileSelYesButtonENGTex, gFileSelQuitButtonENGTex },
+#else
     { gFileSelCopyButtonENGTex, gFileSelEraseButtonENGTex, gFileSelYesButtonENGTex, gFileSelQuitButtonENGTex },
     { gFileSelCopyButtonGERTex, gFileSelEraseButtonGERTex, gFileSelYesButtonGERTex, gFileSelQuitButtonGERTex },
     { gFileSelCopyButtonFRATex, gFileSelEraseButtonFRATex, gFileSelYesButtonFRATex, gFileSelQuitButtonFRATex },
+#endif
 };
 
-static void* sOptionsButtonTextures[] = {
-    gFileSelOptionsButtonENGTex,
-    gFileSelOptionsButtonGERTex,
-    gFileSelOptionsButtonENGTex,
-};
+static void* sOptionsButtonTextures[] = LANGUAGE_ARRAY(gFileSelOptionsButtonJPNTex, gFileSelOptionsButtonENGTex,
+                                                       gFileSelOptionsButtonGERTex, gFileSelOptionsButtonENGTex);
 
 /**
  * Draw most window contents including buttons, labels, and icons.
@@ -1597,11 +1620,8 @@ static void (*sFileSelectUpdateFuncs[])(GameState*) = {
 };
 
 void FileSelect_Main(GameState* thisx) {
-    static void* controlsTextures[] = {
-        gFileSelControlsENGTex,
-        gFileSelControlsGERTex,
-        gFileSelControlsFRATex,
-    };
+    static void* controlsTextures[] =
+        LANGUAGE_ARRAY(gFileSelControlsJPNTex, gFileSelControlsENGTex, gFileSelControlsGERTex, gFileSelControlsFRATex);
     FileSelectState* this = (FileSelectState*)thisx;
     Input* input = &this->state.input[0];
 

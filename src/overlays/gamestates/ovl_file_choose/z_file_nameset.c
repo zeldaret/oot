@@ -87,13 +87,19 @@ void FileSelect_SetKeyboardVtx(GameState* thisx) {
     }
 }
 
-static void* sNameLabelTextures[] = { gFileSelNameENGTex, gFileSelNameENGTex, gFileSelNameFRATex };
+static void* sNameLabelTextures[] =
+    LANGUAGE_ARRAY(gFileSelNameJPNTex, gFileSelNameENGTex, gFileSelNameENGTex, gFileSelNameFRATex);
 
+#if OOT_NTSC
+// TODO: fix NTSC data
+static void* sBackspaceEndTextures[2] = { gFileSelBackspaceButtonTex, gFileSelENDButtonENGTex };
+#else
 static void* sBackspaceEndTextures[][2] = {
     { gFileSelBackspaceButtonTex, gFileSelENDButtonENGTex },
     { gFileSelBackspaceButtonTex, gFileSelENDButtonGERTex },
     { gFileSelBackspaceButtonTex, gFileSelENDButtonFRATex },
 };
+#endif
 
 static u16 sBackspaceEndWidths[] = { 28, 44 };
 
@@ -137,9 +143,15 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     for (phi_t1 = 0; phi_t1 < 2; phi_t1++, phi_s0 += 4) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2], 255);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
+#if OOT_NTSC
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sBackspaceEndTextures[phi_t1], G_IM_FMT_IA, G_IM_SIZ_16b,
+                            sBackspaceEndWidths[phi_t1], 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+#else
         gDPLoadTextureBlock(POLY_OPA_DISP++, sBackspaceEndTextures[gSaveContext.language][phi_t1], G_IM_FMT_IA,
                             G_IM_SIZ_16b, sBackspaceEndWidths[phi_t1], 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+#endif
         gSP1Quadrangle(POLY_OPA_DISP++, phi_s0, phi_s0 + 2, phi_s0 + 3, phi_s0 + 1, 0);
     }
 
@@ -738,22 +750,24 @@ typedef struct {
 
 static OptionsMenuTextureInfo sOptionsMenuHeaders[] = {
     {
-        { gFileSelOptionsENGTex, gFileSelOptionsGERTex, gFileSelOptionsENGTex },
+        LANGUAGE_ARRAY(gFileSelOptionsJPNTex, gFileSelOptionsENGTex, gFileSelOptionsGERTex, gFileSelOptionsENGTex),
         { 128, 128, 128 },
         16,
     },
     {
-        { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDFRATex },
+        LANGUAGE_ARRAY(gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDFRATex),
         { 64, 64, 64 },
         16,
     },
     {
-        { gFileSelLTargetingENGTex, gFileSelLTargetingGERTex, gFileSelLTargetingFRATex },
+        LANGUAGE_ARRAY(gFileSelLTargetingJPNTex, gFileSelLTargetingENGTex, gFileSelLTargetingGERTex,
+                       gFileSelLTargetingFRATex),
         { 64, 144, 64 },
         16,
     },
     {
-        { gFileSelCheckBrightnessENGTex, gFileSelCheckBrightnessGERTex, gFileSelCheckBrightnessFRATex },
+        LANGUAGE_ARRAY(gFileSelCheckBrightnessJPNTex, gFileSelCheckBrightnessENGTex, gFileSelCheckBrightnessGERTex,
+                       gFileSelCheckBrightnessFRATex),
         { 128, 128, 128 },
         16,
     },
@@ -761,32 +775,32 @@ static OptionsMenuTextureInfo sOptionsMenuHeaders[] = {
 
 static OptionsMenuTextureInfo sOptionsMenuSettings[] = {
     {
-        { gFileSelStereoENGTex, gFileSelStereoENGTex, gFileSelStereoFRATex },
+        LANGUAGE_ARRAY(gFileSelStereoJPNTex, gFileSelStereoENGTex, gFileSelStereoENGTex, gFileSelStereoFRATex),
         { 48, 48, 48 },
         16,
     },
     {
-        { gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex },
+        LANGUAGE_ARRAY(gFileSelMonoJPNTex, gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex),
         { 48, 48, 48 },
         16,
     },
     {
-        { gFileSelHeadsetENGTex, gFileSelHeadsetGERTex, gFileSelHeadsetFRATex },
+        LANGUAGE_ARRAY(gFileSelHeadsetJPNTex, gFileSelHeadsetENGTex, gFileSelHeadsetGERTex, gFileSelHeadsetFRATex),
         { 48, 48, 48 },
         16,
     },
     {
-        { gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex },
+        LANGUAGE_ARRAY(gFileSelSurroundJPNTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex),
         { 48, 48, 48 },
         16,
     },
     {
-        { gFileSelSwitchENGTex, gFileSelSwitchGERTex, gFileSelSwitchFRATex },
+        LANGUAGE_ARRAY(gFileSelSwitchJPNTex, gFileSelSwitchENGTex, gFileSelSwitchGERTex, gFileSelSwitchFRATex),
         { 48, 80, 48 },
         16,
     },
     {
-        { gFileSelHoldENGTex, gFileSelHoldGERTex, gFileSelHoldFRATex },
+        LANGUAGE_ARRAY(gFileSelHoldJPNTex, gFileSelHoldENGTex, gFileSelHoldGERTex, gFileSelHoldFRATex),
         { 48, 80, 48 },
         16,
     },
@@ -879,11 +893,15 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
         }
     }
 
+#if OOT_NTSC
+    gSPVertex(POLY_OPA_DISP++, D_80811D30, 32, 0);
+#else
     if (gSaveContext.language == LANGUAGE_GER) {
         gSPVertex(POLY_OPA_DISP++, D_80811E30, 32, 0);
     } else {
         gSPVertex(POLY_OPA_DISP++, D_80811D30, 32, 0);
     }
+#endif
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
@@ -899,11 +917,15 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
 
+#if OOT_NTSC
+    gSPVertex(POLY_OPA_DISP++, D_80811F30, 32, 0);
+#else
     if (gSaveContext.language == LANGUAGE_GER) {
         gSPVertex(POLY_OPA_DISP++, D_80812130, 32, 0);
     } else {
         gSPVertex(POLY_OPA_DISP++, D_80811F30, 32, 0);
     }
+#endif
 
     for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
