@@ -838,7 +838,7 @@ def main():
     message_data = []
 
     for text_id in sorted(messages.keys()):
-        if text_id in (0x0000,0xFFFC,0xFFFD):
+        if text_id in (0xFFFC,0xFFFD):
             # Skip committed text ids
             continue
         message_data.append(messages[text_id].decode())
