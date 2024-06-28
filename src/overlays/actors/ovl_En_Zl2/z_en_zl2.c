@@ -68,7 +68,6 @@ typedef enum {
     /* 2 */ ADULT_ZELDA_MOUTH_OPEN
 } AdultZeldaMouth;
 
-
 typedef enum {
     /* 0 */ ZELDA_EYE_OPEN,
     /* 1 */ ZELDA_EYE_HALF,
@@ -126,101 +125,101 @@ void EnZl2_Destroy(Actor* thisx, PlayState* play) {
 
 void EnZl2_UpdateEyes(EnZl2* this) {
     s32 pad[4];
-    s16* eyeTexIndex2 = &this->eyeTexIndex2;
+    s16* eyes2 = &this->eyes2;
     s16* blinkTimer = &this->blinkTimer;
-    s16* eyeTexIndex = &this->eyeTexIndex;
+    s16* eyes = &this->eyes;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
-    *eyeTexIndex = *blinkTimer;
-    if (*eyeTexIndex >= ZELDA_EYE_3) { //check if we've moved beyond 'blink' indices
-        *eyeTexIndex = ZELDA_EYE_OPEN;
+    *eyes = *blinkTimer;
+    if (*eyes >= ZELDA_EYE_3) { //check if we've moved beyond 'blink' indices
+        *eyes = ZELDA_EYE_OPEN;
     }
-    *eyeTexIndex2 = *eyeTexIndex;
+    *eyes2 = *eyes;
 }
 
 void EnZl2_SpecialBlinkCycle1(EnZl2* this) {
-    s16* eyeTexIndex = &this->eyeTexIndex;
+    s16* eyes = &this->eyes;
     f32* blinkTimerSpecial = &this->blinkTimerSpecial;
 
     if (*blinkTimerSpecial < 3.0f) {
-        *eyeTexIndex = ZELDA_EYE_OPEN;
+        *eyes = ZELDA_EYE_OPEN;
     } else if (*blinkTimerSpecial < 6.0f) {
-        *eyeTexIndex = ZELDA_EYE_HALF;
+        *eyes = ZELDA_EYE_HALF;
     } else if (*blinkTimerSpecial < 9.0f) {
-        *eyeTexIndex = ZELDA_EYE_CLOSED;
+        *eyes = ZELDA_EYE_CLOSED;
     } else {
-        *eyeTexIndex = ZELDA_EYE_5;
-        this->eyeTexIndex2 = *eyeTexIndex;
+        *eyes = ZELDA_EYE_5;
+        this->eyes2 = *eyes;
         return;
     }
     *blinkTimerSpecial += 1.0f;
-    this->eyeTexIndex2 = *eyeTexIndex;
+    this->eyes2 = *eyes;
 }
 
 void EnZl2_SpecialBlinkCycle2(EnZl2* this) {
-    s16* eyeTexIndex = &this->eyeTexIndex;
+    s16* eyes = &this->eyes;
     f32* blinkTimerSpecial = &this->blinkTimerSpecial;
 
     if (*blinkTimerSpecial < 2.0f) {
-        *eyeTexIndex = ZELDA_EYE_5;
+        *eyes = ZELDA_EYE_5;
     } else if (*blinkTimerSpecial < 4.0f) {
-        *eyeTexIndex = ZELDA_EYE_CLOSED;
+        *eyes = ZELDA_EYE_CLOSED;
     } else if (*blinkTimerSpecial < 6.0f) {
-        *eyeTexIndex = ZELDA_EYE_HALF;
+        *eyes = ZELDA_EYE_HALF;
     } else {
         EnZl2_UpdateEyes(this);
         return;
     }
     *blinkTimerSpecial += 1.0f;
-    this->eyeTexIndex2 = *eyeTexIndex;
+    this->eyes2 = *eyes;
 }
 
 void EnZl2_SpecialBlinkCycle3(EnZl2* this) {
-    s16* eyeTexIndex = &this->eyeTexIndex;
+    s16* eyes = &this->eyes;
     f32* blinkTimerSpecial = &this->blinkTimerSpecial;
 
     if (*blinkTimerSpecial < 2.0f) {
-        *eyeTexIndex = ZELDA_EYE_OPEN;
+        *eyes = ZELDA_EYE_OPEN;
     } else if (*blinkTimerSpecial < 4.0f) {
-        *eyeTexIndex = ZELDA_EYE_HALF;
+        *eyes = ZELDA_EYE_HALF;
     } else {
-        *eyeTexIndex = ZELDA_EYE_CLOSED;
-        this->eyeTexIndex2 = *eyeTexIndex;
+        *eyes = ZELDA_EYE_CLOSED;
+        this->eyes2 = *eyes;
         return;
     }
     *blinkTimerSpecial += 1.0f;
-    this->eyeTexIndex2 = *eyeTexIndex;
+    this->eyes2 = *eyes;
 }
 
 void EnZl2_SpecialBlinkCycle4(EnZl2* this) {
-    s16* eyeTexIndex = &this->eyeTexIndex;
+    s16* eyes = &this->eyes;
     f32* blinkTimerSpecial = &this->blinkTimerSpecial;
 
     if (*blinkTimerSpecial < 2.0f) {
-        *eyeTexIndex = ZELDA_EYE_CLOSED;
+        *eyes = ZELDA_EYE_CLOSED;
     } else if (*blinkTimerSpecial < 4.0f) {
-        *eyeTexIndex = ZELDA_EYE_HALF;
+        *eyes = ZELDA_EYE_HALF;
     } else {
         EnZl2_UpdateEyes(this);
         return;
     }
     *blinkTimerSpecial += 1.0f;
-    this->eyeTexIndex2 = *eyeTexIndex;
+    this->eyes2 = *eyes;
 }
 
 void EnZl2_setEyesIndex(EnZl2* this, s16 index) {
-    this->eyeTexIndex = index;
-    this->eyeTexIndex2 = this->eyeTexIndex;
+    this->eyes = index;
+    this->eyes2 = this->eyes;
 }
 
 void EnZl2_setEyeIndex2(EnZl2* this, s16 index) {
-    this->eyeTexIndex2 = index;
+    this->eyes2 = index;
 }
 
 void EnZl2_setMouthIndex(EnZl2* this, s16 index) {
-    this->mouthTexIndex = index;
+    this->mouth = index;
 }
 
 void func_80B4ED2C(EnZl2* this, PlayState* play) {
@@ -1671,13 +1670,13 @@ void func_80B523BC(EnZl2* this, PlayState* play) {
 
 void func_80B523C8(EnZl2* this, PlayState* play) {
     s32 pad[3];
-    s16 eyeTexIndex = this->eyeTexIndex;
-    s16 eyeTexIndex2 = this->eyeTexIndex2;
-    void* eyeTex = sEyeTextures[eyeTexIndex];
-    void* eyeTex2 = sEyeTextures[eyeTexIndex2];
+    s16 eyes = this->eyes;
+    s16 eyes2 = this->eyes2;
+    void* eyeTex = sEyeTextures[eyes];
+    void* eyeTex2 = sEyeTextures[eyes2];
     SkelAnime* skelAnime = &this->skelAnime;
-    s16 mouthTexIndex = this->mouthTexIndex;
-    void* mouthTex = sMouthTextures[mouthTexIndex];
+    s16 mouth = this->mouth;
+    void* mouthTex = sMouthTextures[mouth];
     s32 pad1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl2.c", 1623);
@@ -1698,11 +1697,11 @@ void func_80B523C8(EnZl2* this, PlayState* play) {
 
 void func_80B525D4(EnZl2* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTex = sEyeTextures[eyeTexIndex];
-    s16 mouthTexIndex = this->mouthTexIndex;
+    s16 eyes = this->eyes;
+    void* eyeTex = sEyeTextures[eyes];
+    s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouth];
     s32 pad1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl2.c", 1663);

@@ -33,7 +33,7 @@ typedef enum {
     /* 0 */ RARU_EYE_OPEN,
     /* 1 */ RARU_EYE_HALF,
     /* 2 */ RARU_EYE_CLOSED
-} EnRlEyeState;
+} RaruEye;
 
 void EnRl_Destroy(Actor* thisx, PlayState* play) {
     EnRl* this = (EnRl*)thisx;
@@ -43,16 +43,16 @@ void EnRl_Destroy(Actor* thisx, PlayState* play) {
 
 void EnRl_UpdateEyes(EnRl* this) {
     s32 pad[3];
-    s16* timer = &this->timer;
-    s16* eyeTextureIndex = &this->eyeTextureIndex;
+    s16* blinkTimer = &this->blinkTimer;
+    s16* eyes = &this->eyes;
 
-    if (DECR(*timer) == 0) {
-        *timer = Rand_S16Offset(60, 60);
+    if (DECR(*blinkTimer) == 0) {
+        *blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    *eyeTextureIndex = *timer;
-    if (*eyeTextureIndex > RARU_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
-        *eyeTextureIndex = RARU_EYE_OPEN;
+    *eyes = *blinkTimer;
+    if (*eyes > RARU_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
+        *eyes = RARU_EYE_OPEN;
     }
 }
 
@@ -317,7 +317,7 @@ void func_80AE7D40(EnRl* this, PlayState* play) {
 
 void func_80AE7D94(EnRl* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->eyeTextureIndex;
+    s16 temp = this->eyes;
     void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -366,7 +366,7 @@ void func_80AE7FD0(EnRl* this, PlayState* play) {
 
 void func_80AE7FDC(EnRl* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->eyeTextureIndex;
+    s16 temp = this->eyes;
     void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 

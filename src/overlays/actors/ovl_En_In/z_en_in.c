@@ -63,7 +63,7 @@ typedef enum {
     /* 1 */ INGO_EYE_HALF,
     /* 2 */ INGO_EYE_CLOSED,
     /* 3 */ INGO_EYE_CLOSED_2
-} gIngoEyeState;
+} IngoEye;
 
 typedef enum {
     /* 0 */ ENIN_ANIM_0,
@@ -404,12 +404,12 @@ s32 func_80A79830(EnIn* this, PlayState* play) {
 }
 
 void EnIn_UpdateEyes(EnIn* this) {
-    if (this->eyeIndex != INGO_EYE_CLOSED_2) {
+    if (this->eyes != INGO_EYE_CLOSED_2) {
         if (DECR(this->blinkTimer) == 0) {
-            this->eyeIndex++;
-            if (this->eyeIndex >= INGO_EYE_CLOSED_2) { //check if we've moved beyond 'blink' indices
+            this->eyes++;
+            if (this->eyes >= INGO_EYE_CLOSED_2) { //check if we've moved beyond 'blink' indices
                 this->blinkTimer = Rand_S16Offset(30, 30);
-                this->eyeIndex = INGO_EYE_OPEN;
+                this->eyes = INGO_EYE_OPEN;
             }
         }
     }
@@ -543,7 +543,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                 break;
             case 4:
                 EnIn_ChangeAnim(this, ENIN_ANIM_8);
-                this->eyeIndex = INGO_EYE_CLOSED_2;
+                this->eyes = INGO_EYE_CLOSED_2;
                 this->actionFunc = func_80A7A4BC;
                 break;
             case 0:
@@ -1012,7 +1012,7 @@ void EnIn_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_in.c", 2384);
     if (this->actionFunc != EnIn_WaitForObject) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gIngoHeadGradient2Tex));
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnIn_OverrideLimbDraw, EnIn_PostLimbDraw, &this->actor);

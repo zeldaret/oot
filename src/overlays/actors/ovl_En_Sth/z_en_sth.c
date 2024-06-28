@@ -328,9 +328,9 @@ void EnSth_Update2(Actor* thisx, PlayState* play) {
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(0x3C, 0x3C);
     }
-    this->eyeTexIndex = this->blinkTimer;
-    if (this->eyeTexIndex >= 3) {
-        this->eyeTexIndex = 0;
+    this->eyes = this->blinkTimer;
+    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        this->eyes = 0;
     }
 }
 

@@ -82,7 +82,7 @@ typedef enum {
     /* 0 */ DAMPE_EYE_OPEN,
     /* 1 */ DAMPE_EYE_HALF,
     /* 2 */ DAMPE_EYE_CLOSED
-} DampeEyeState;
+} DampeEye;
 
 static void* sEyesTextures[] = {
     gDampeEyeOpenTex,
@@ -370,9 +370,9 @@ void EnPoRelay_Update(Actor* thisx, PlayState* play) {
     if (this->hoverAnimTimer == 0) {
         this->hoverAnimTimer = 32;
     }
-    this->eyeTextureIdx++;
-    if (this->eyeTextureIdx == 3) { //check if we've moved beyond 'blink' indices
-        this->eyeTextureIdx = DAMPE_EYE_OPEN;
+    this->eyes++;
+    if (this->eyes == 3) { //check if we've moved beyond 'blink' indices
+        this->eyes = DAMPE_EYE_OPEN;
     }
 }
 
@@ -410,7 +410,7 @@ void EnPoRelay_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 940);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesTextures[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 954);

@@ -32,10 +32,10 @@ ActorInit En_Horse_Link_Child_InitVars = {
 };
 
 typedef enum {
-    /* 0 */ CHILD_EPONA_EYE_OPEN,
-    /* 1 */ CHILD_EPONA_EYE_HALF,
-    /* 2 */ CHILD_EPONA_EYE_CLOSED
-} EnHorseLinkChildEyeState;
+    /* 0 */ YOUNG_EPONA_EYE_OPEN,
+    /* 1 */ YOUNG_EPONA_EYE_HALF,
+    /* 2 */ YOUNG_EPONA_EYE_CLOSED
+} YoungEponaEye;
 
 static AnimationHeader* sAnimations[] = {
     &gChildEponaIdleAnim,     &gChildEponaWhinnyAnim,    &gChildEponaWalkingAnim,
@@ -166,7 +166,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);
     this->unk_1F0 = 0;
-    this->eyeTexIndex = CHILD_EPONA_EYE_OPEN;
+    this->eyes = YOUNG_EPONA_EYE_OPEN;
 
     if (IS_CUTSCENE_LAYER) {
         func_80A69EC0(this);
@@ -571,12 +571,12 @@ void EnHorseLinkChild_Update(Actor* thisx, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
 
-    if ((Rand_ZeroOne() < 0.025f) && (this->eyeTexIndex == CHILD_EPONA_EYE_OPEN)) {
-        this->eyeTexIndex++;
-    } else if (this->eyeTexIndex > CHILD_EPONA_EYE_OPEN) {
-        this->eyeTexIndex++;
-        if (this->eyeTexIndex >= ARRAY_COUNT(sEyeIndexOrder)) {
-            this->eyeTexIndex = CHILD_EPONA_EYE_OPEN;
+    if ((Rand_ZeroOne() < 0.025f) && (this->eyes == YOUNG_EPONA_EYE_OPEN)) {
+        this->eyes++;
+    } else if (this->eyes > YOUNG_EPONA_EYE_OPEN) {
+        this->eyes++;
+        if (this->eyes >= ARRAY_COUNT(sEyeIndexOrder)) { //check if we've moved beyond 'blink' indices
+            this->eyes = YOUNG_EPONA_EYE_OPEN;
         }
     }
 
@@ -613,7 +613,7 @@ s32 EnHorseLinkChild_OverrideLimbDraw(Actor* thisx, PlayState* play, s32 arg2, S
     OPEN_DISPS(play->state.gfxCtx, "../z_en_horse_link_child.c", 1467);
 
     if (arg2 == 0xD) {
-        u8 index = sEyeIndexOrder[this->eyeTexIndex];
+        u8 index = sEyeIndexOrder[this->eyes];
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[index]));
     }

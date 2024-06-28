@@ -12,11 +12,11 @@ typedef void (*EnZl2DrawFunc)(struct EnZl2*, PlayState*);
 typedef struct EnZl2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ s16 eyeTexIndex;
+    /* 0x0190 */ s16 eyes;
     /* 0x0192 */ s16 blinkTimer;
-    /* 0x0194 */ s16 eyeTexIndex2;
+    /* 0x0194 */ s16 eyes2;
     /* 0x0196 */ char unk_196[0x2];
-    /* 0x0198 */ s16 mouthTexIndex;
+    /* 0x0198 */ s16 mouth;
     /* 0x019A */ char unk_19A[0x2];
     /* 0x019C */ s32 action;
     /* 0x01A0 */ s32 drawConfig;

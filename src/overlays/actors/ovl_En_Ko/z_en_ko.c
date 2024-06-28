@@ -64,6 +64,12 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
+typedef enum {
+    /*  0 */ KOKIRI_EYE_OPEN,
+    /*  1 */ KOKIRI_EYE_HALF,
+    /*  2 */ KOKIRI_EYE_CLOSED
+} KokiriEye;
+
 static void* sFaEyes[] = { gFaEyeOpenTex, gFaEyeHalfTex, gFaEyeClosedTex, NULL };
 static void* sKw1Eyes[] = { gKw1EyeOpenTex, gKw1EyeHalfTex, gKw1EyeClosedTex, NULL };
 
@@ -1060,11 +1066,11 @@ void EnKo_Blink(EnKo* this) {
 
     if (DECR(this->blinkTimer) == 0) {
         headId = sModelInfo[ENKO_TYPE].headId;
-        this->eyeTextureIndex++;
+        this->eyes++;
         eyeTextures = sHead[headId].eyeTextures;
-        if (eyeTextures != NULL && eyeTextures[this->eyeTextureIndex] == NULL) { //check if we've moved beyond 'blink' indices
+        if (eyeTextures != NULL && eyeTextures[this->eyes] == NULL) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeTextureIndex = 0;
+            this->eyes = KOKIRI_EYE_OPEN;
         }
     }
 }
@@ -1308,7 +1314,7 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         headId = sModelInfo[ENKO_TYPE].headId;
         *dList = sHead[headId].dList;
         if (sHead[headId].eyeTextures != NULL) {
-            eyeTexture = sHead[headId].eyeTextures[this->eyeTextureIndex];
+            eyeTexture = sHead[headId].eyeTextures[this->eyes];
             gSPSegment((*gfx)++, 0x0A, SEGMENTED_TO_VIRTUAL(eyeTexture));
         }
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->legsObjectSlot].segment);

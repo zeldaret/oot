@@ -26,6 +26,12 @@ void func_8097D130(DemoGo* this, PlayState* play);
 void func_8097D290(DemoGo* this, PlayState* play);
 void func_8097D29C(DemoGo* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ GORON_EYE_OPEN,
+    /* 1 */ GORON_EYE_HALF,
+    /* 2 */ GORON_EYE_CLOSED
+} GoronEye;
+
 static void* sEyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
 
 static DemoGoActionFunc D_8097D44C[] = {
@@ -90,15 +96,15 @@ void DemoGo_Destroy(Actor* thisx, PlayState* play) {
 
 void DemoGo_UpdateBlink(DemoGo* this) {
     s16* timer = &this->blinkTimer;
-    s16* texIdx = &this->eyeTexIdx;
+    s16* eyes = &this->eyes;
     s32 pad[3];
 
     if (DECR(*timer) == 0) {
         *timer = Rand_S16Offset(60, 60);
     }
-    *texIdx = *timer;
-    if (*texIdx >= 3) {
-        *texIdx = 0;
+    *eyes = *timer;
+    if (*eyes >= 3) { //check if we've moved beyond 'blink' indices
+        *eyes = GORON_EYE_OPEN;
     }
 }
 
@@ -341,9 +347,9 @@ void func_8097D290(DemoGo* this, PlayState* play) {
 
 void func_8097D29C(DemoGo* this, PlayState* play) {
     s32 pad;
-    s16 eyeTexIdx = this->eyeTexIdx;
+    s16 eyes = this->eyes;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* eyeTexture = sEyeTextures[eyeTexIdx];
+    void* eyeTexture = sEyeTextures[eyes];
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_go.c", 732);

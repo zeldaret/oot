@@ -37,7 +37,7 @@ typedef struct EnZo {
     /* 0x064E */ s16 rippleTimer;
     /* 0x0650 */ s16 timeToDive;
     /* 0x0652 */ s16 blinkTimer;
-    /* 0x0654 */ s16 eyeTexture;
+    /* 0x0654 */ s16 eyes;
     /* 0x0656 */ s16 unk_656[20];
     /* 0x067E */ s16 unk_67E[20];
 } EnZo; // size = 0x06A8

@@ -33,11 +33,11 @@ typedef enum {
 } EnZl4EyeExpression;
 
 typedef enum {
-    /* 0 */ ZL4_MOUTH_NEUTRAL,
-    /* 1 */ ZL4_MOUTH_HAPPY,
-    /* 2 */ ZL4_MOUTH_WORRIED,
-    /* 3 */ ZL4_MOUTH_SURPRISED
-} EnZl4MouthExpression;
+    /* 0 */ CHILD_ZELDA_MOUTH_NEUTRAL,
+    /* 1 */ CHILD_ZELDA_MOUTH_HAPPY,
+    /* 2 */ CHILD_ZELDA_MOUTH_WORRIED,
+    /* 3 */ CHILD_ZELDA_MOUTH_SURPRISED
+} ChildZeldaMouth;
 
 typedef enum {
     /* 0 */ ZL4_EYE_OPEN,
@@ -47,7 +47,7 @@ typedef enum {
     /* 4 */ ZL4_EYE_SQUINT,
     /* 5 */ ZL4_EYE_LOOK_OUT,
     /* 6 */ ZL4_EYE_LOOK_IN
-} EnZl4EyeState;
+} ChildZeldaEye;
 
 void EnZl4_Init(Actor* thisx, PlayState* play);
 void EnZl4_Destroy(Actor* thisx, PlayState* play);
@@ -240,7 +240,7 @@ void EnZl4_UpdateFace(EnZl4* this) {
         this->blinkTimer = 0;
     }
     if (this->blinkTimer <= 2) {
-        this->leftEyeState = this->rightEyeState = this->blinkTimer;
+        this->leftEye = this->rightEye = this->blinkTimer;
     }
     switch (this->eyeExpression) {
         case ZL4_EYES_NEUTRAL:
@@ -250,29 +250,29 @@ void EnZl4_UpdateFace(EnZl4* this) {
             break;
         case ZL4_EYES_SHUT:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = this->rightEyeState = ZL4_EYE_SHUT;
+                this->leftEye = this->rightEye = ZL4_EYE_SHUT;
             }
             break;
         case ZL4_EYES_LOOK_LEFT:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = ZL4_EYE_LOOK_OUT;
-                this->rightEyeState = ZL4_EYE_LOOK_IN;
+                this->leftEye = ZL4_EYE_LOOK_OUT;
+                this->rightEye = ZL4_EYE_LOOK_IN;
             }
             break;
         case ZL4_EYES_LOOK_RIGHT:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = ZL4_EYE_LOOK_IN;
-                this->rightEyeState = ZL4_EYE_LOOK_OUT;
+                this->leftEye = ZL4_EYE_LOOK_IN;
+                this->rightEye = ZL4_EYE_LOOK_OUT;
             }
             break;
         case ZL4_EYES_WIDE:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = this->rightEyeState = ZL4_EYE_WIDE;
+                this->leftEye = this->rightEye = ZL4_EYE_WIDE;
             }
             break;
         case ZL4_EYES_SQUINT:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = this->rightEyeState = ZL4_EYE_SQUINT;
+                this->leftEye = this->rightEye = ZL4_EYE_SQUINT;
             }
             break;
         case ZL4_EYES_OPEN:
@@ -282,17 +282,17 @@ void EnZl4_UpdateFace(EnZl4* this) {
             break;
     }
     switch (this->mouthExpression) {
-        case ZL4_MOUTH_HAPPY:
-            this->mouthState = ZL4_MOUTH_HAPPY;
+        case CHILD_ZELDA_MOUTH_HAPPY:
+            this->mouth = CHILD_ZELDA_MOUTH_HAPPY;
             break;
-        case ZL4_MOUTH_WORRIED:
-            this->mouthState = ZL4_MOUTH_WORRIED;
+        case CHILD_ZELDA_MOUTH_WORRIED:
+            this->mouth = CHILD_ZELDA_MOUTH_WORRIED;
             break;
-        case ZL4_MOUTH_SURPRISED:
-            this->mouthState = ZL4_MOUTH_SURPRISED;
+        case CHILD_ZELDA_MOUTH_SURPRISED:
+            this->mouth = CHILD_ZELDA_MOUTH_SURPRISED;
             break;
         default:
-            this->mouthState = ZL4_MOUTH_NEUTRAL;
+            this->mouth = CHILD_ZELDA_MOUTH_NEUTRAL;
             break;
     }
 }
@@ -369,7 +369,7 @@ void EnZl4_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
     this->actor.textId = -1;
-    this->eyeExpression = this->mouthExpression = ZL4_MOUTH_NEUTRAL;
+    this->eyeExpression = this->mouthExpression = CHILD_ZELDA_MOUTH_NEUTRAL;
 
     if (IS_CUTSCENE_LAYER) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
@@ -499,7 +499,7 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, PlayState* play) {
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 EnZl4_SetActiveCamDir(play, 2);
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_22);
-                this->mouthExpression = ZL4_MOUTH_NEUTRAL;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_NEUTRAL;
                 this->talkTimer2 = 0;
                 this->talkState++;
                 Message_StartTextbox(play, 0x70FB, NULL);
@@ -538,13 +538,13 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_28);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_SQUINT;
-                this->mouthExpression = ZL4_MOUTH_HAPPY;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_HAPPY;
                 Message_StartTextbox(play, 0x7032, NULL);
                 this->talkState = 7;
             } else {
                 EnZl4_SetActiveCamDir(play, 2);
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_9);
-                this->mouthExpression = ZL4_MOUTH_WORRIED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_WORRIED;
                 Message_StartTextbox(play, 0x7031, NULL);
                 this->talkState++;
             }
@@ -561,13 +561,13 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_9);
-                this->mouthExpression = ZL4_MOUTH_WORRIED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_WORRIED;
                 EnZl4_ReverseAnimation(this);
                 this->talkState = 6;
             }
             break;
         case 6:
-            this->mouthExpression = ZL4_MOUTH_NEUTRAL;
+            this->mouthExpression = CHILD_ZELDA_MOUTH_NEUTRAL;
             EnZl4_SetActiveCamDir(play, 3);
             Message_StartTextbox(play, 0x7030, NULL);
             this->talkState = 12;
@@ -585,13 +585,13 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_28);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_SQUINT;
-                this->mouthExpression = ZL4_MOUTH_HAPPY;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_HAPPY;
                 Message_StartTextbox(play, 0x7032, NULL);
                 this->talkState = 7;
             } else {
                 EnZl4_SetActiveCamDir(play, 2);
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_9);
-                this->mouthExpression = ZL4_MOUTH_WORRIED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_WORRIED;
                 Message_StartTextbox(play, 0x7031, NULL);
                 this->talkState = 4;
             }
@@ -610,7 +610,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
-                this->mouthExpression = ZL4_MOUTH_NEUTRAL;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_NEUTRAL;
                 Message_StartTextbox(play, 0x70FC, NULL);
                 this->talkState = 9;
             }
@@ -626,7 +626,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_5);
                 this->eyeExpression = ZL4_EYES_OPEN;
-                this->mouthExpression = ZL4_MOUTH_SURPRISED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_SURPRISED;
                 Message_StartTextbox(play, 0x70FE, NULL);
                 this->talkState++;
             }
@@ -648,7 +648,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_1);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_SQUINT;
-                this->mouthExpression = ZL4_MOUTH_NEUTRAL;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_NEUTRAL;
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 Message_StartTextbox(play, 0x70FF, NULL);
                 this->talkState++;
@@ -693,7 +693,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
         case 7:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_6);
-                this->mouthExpression = ZL4_MOUTH_HAPPY;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_HAPPY;
                 Message_StartTextbox(play, 0x2075, NULL);
                 this->talkState++;
             }
@@ -714,7 +714,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
                 if (play->msgCtx.choiceIndex == 0) {
                     EnZl4_SetActiveCamMove(play, 4);
                     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_33);
-                    this->mouthExpression = ZL4_MOUTH_NEUTRAL;
+                    this->mouthExpression = CHILD_ZELDA_MOUTH_NEUTRAL;
                     play->msgCtx.msgMode = MSGMODE_PAUSED;
                     this->talkTimer2 = 0;
                     this->talkState = 15;
@@ -732,7 +732,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_11);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_LOOK_RIGHT;
-                this->mouthExpression = ZL4_MOUTH_WORRIED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_WORRIED;
                 Message_StartTextbox(play, 0x7034, NULL);
                 this->talkState++;
             }
@@ -750,7 +750,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_6);
                 this->blinkTimer = 3;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
-                this->mouthExpression = ZL4_MOUTH_HAPPY;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_HAPPY;
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState = 14;
             }
@@ -831,7 +831,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, PlayState* play) {
                 this->talkState = 9;
             } else {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_5);
-                this->mouthExpression = ZL4_MOUTH_SURPRISED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_SURPRISED;
                 Message_StartTextbox(play, 0x7038, NULL);
                 this->talkState++;
                 Actor_PlaySfx(&this->actor, NA_SE_VO_Z0_HURRY);
@@ -845,7 +845,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, PlayState* play) {
         case 6:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_33);
-                this->mouthExpression = ZL4_MOUTH_NEUTRAL;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_NEUTRAL;
                 Message_StartTextbox(play, 0x7037, NULL);
                 this->talkState++;
             }
@@ -952,7 +952,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, PlayState* play) {
             EnZl4_SetActiveCamMove(play, 8);
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_WIDE;
-            this->mouthExpression = ZL4_MOUTH_WORRIED;
+            this->mouthExpression = CHILD_ZELDA_MOUTH_WORRIED;
             this->talkTimer2 = 0;
             this->talkState++;
             Message_StartTextbox(play, 0x2079, NULL);
@@ -984,7 +984,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_23);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
-                this->mouthExpression = ZL4_MOUTH_SURPRISED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_SURPRISED;
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
@@ -1008,14 +1008,14 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_31);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_SQUINT;
-                this->mouthExpression = ZL4_MOUTH_HAPPY;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_HAPPY;
                 Message_StartTextbox(play, 0x703B, NULL);
                 this->talkState = 11;
             } else {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_13);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_LOOK_LEFT;
-                this->mouthExpression = ZL4_MOUTH_WORRIED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_WORRIED;
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
@@ -1024,7 +1024,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_15)) {
                 this->blinkTimer = 3;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
-                this->mouthExpression = ZL4_MOUTH_SURPRISED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_SURPRISED;
                 Message_StartTextbox(play, 0x7073, NULL);
                 this->talkState++;
             }
@@ -1063,7 +1063,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_18);
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_NEUTRAL;
-            this->mouthExpression = ZL4_MOUTH_WORRIED;
+            this->mouthExpression = CHILD_ZELDA_MOUTH_WORRIED;
             EnZl4_SetActiveCamMove(play, 10);
             this->talkTimer2 = 0;
             this->talkState++;
@@ -1081,7 +1081,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_19);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
-                this->mouthExpression = ZL4_MOUTH_SURPRISED;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_SURPRISED;
                 Message_StartTextbox(play, 0x207C, NULL);
                 this->talkState++;
             }
@@ -1097,7 +1097,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_7);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
-                this->mouthExpression = ZL4_MOUTH_NEUTRAL;
+                this->mouthExpression = CHILD_ZELDA_MOUTH_NEUTRAL;
                 this->talkState = 5;
                 this->unk_20F = this->cueId = 0;
             }
@@ -1147,7 +1147,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_3);
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_NEUTRAL;
-            this->mouthExpression = ZL4_MOUTH_SURPRISED;
+            this->mouthExpression = CHILD_ZELDA_MOUTH_SURPRISED;
             Audio_PlayFanfare(NA_BGM_APPEAR);
             EnZl4_SetActiveCamDir(play, 0);
             Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
@@ -1235,7 +1235,7 @@ void EnZl4_TheEnd(EnZl4* this, PlayState* play) {
     if (play->csCtx.curFrame == 450) {
         this->blinkTimer = 3;
         this->eyeExpression = ZL4_EYES_NEUTRAL;
-        this->mouthExpression = ZL4_MOUTH_SURPRISED;
+        this->mouthExpression = CHILD_ZELDA_MOUTH_SURPRISED;
     }
 
     cue = play->csCtx.actorCues[0];
@@ -1313,9 +1313,9 @@ void EnZl4_Draw(Actor* thisx, PlayState* play) {
     };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl4.c", 2012);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex[this->rightEyeState]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex[this->leftEyeState]));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTex[this->mouthState]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex[this->rightEye]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex[this->leftEye]));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTex[this->mouth]));
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnZl4_OverrideLimbDraw, EnZl4_PostLimbDraw, this);

@@ -25,7 +25,7 @@ typedef struct EnDntNomal {
     /* 0x0262 */ s16 unkCounter;
     /* 0x0264 */ s16 timer3;
     /* 0x0266 */ s16 objectId;
-    /* 0x0268 */ s16 eyeState;
+    /* 0x0268 */ s16 eyes;
     /* 0x026A */ s16 type;
     /* 0x026C */ s16 hitCounter;
     /* 0x026E */ s16 endFrame;

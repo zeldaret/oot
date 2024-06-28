@@ -35,7 +35,7 @@ typedef struct EnSsh {
     /* 0x05C8 */ s16 swayAngle;
     /* 0x05CA */ u16 stateFlags;
     /* 0x05CC */ u8 hitCount;
-    /* 0x05CE */ s16 blinkState;
+    /* 0x05CE */ s16 eyes;
     /* 0x05D0 */ s16 blinkTimer;
 } EnSsh; // size = 0x05D4
 

@@ -24,7 +24,7 @@ typedef struct EnBomBowlMan {
     /* 0x022E */ s16 dialogState;
     /* 0x0230 */ s16 prizeIndex;
     /* 0x0232 */ s16 startedPlaying; // set to true after starting the first round
-    /* 0x0234 */ s16 eyeTextureIndex;
+    /* 0x0234 */ s16 eyes;
     /* 0x0236 */ s16 blinkTimer;
     /* 0x0238 */ s16 eyeMode;
     /* 0x023A */ s16 blinkCount;

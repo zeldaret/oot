@@ -10,7 +10,7 @@ typedef enum {
     /* 0 */ CHU_GIRL_EYE_OPEN,
     /* 1 */ CHU_GIRL_EYE_HALF,
     /* 2 */ CHU_GIRL_EYE_CLOSED
-} BombchuGirlEyeState;
+} BombchuGirlEye;
 
 typedef enum {
     /* 0 */ CHU_GIRL_EYES_ASLEEP,
@@ -146,9 +146,9 @@ void EnBomBowlMan_BlinkAwake(EnBomBowlMan* this, PlayState* play) {
     }
     Message_ContinueTextbox(play, this->actor.textId);
 
-    if ((this->eyeTextureIndex == CHU_GIRL_EYE_OPEN) && (this->eyeMode == CHU_GIRL_EYES_BLINK_RAPIDLY) && (this->blinkTimer == 0)) {
+    if ((this->eyes == CHU_GIRL_EYE_OPEN) && (this->eyeMode == CHU_GIRL_EYES_BLINK_RAPIDLY) && (this->blinkTimer == 0)) {
         // Blink twice, then move on
-        this->eyeTextureIndex = CHU_GIRL_EYE_CLOSED;
+        this->eyes = CHU_GIRL_EYE_CLOSED;
         this->blinkCount++;
         if (this->blinkCount >= 3) {
             this->actionFunc = EnBomBowlMan_CheckBeatenDC;
@@ -477,26 +477,26 @@ void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
 
     switch (this->eyeMode) {
         case CHU_GIRL_EYES_ASLEEP:
-            this->eyeTextureIndex = CHU_GIRL_EYE_CLOSED;
+            this->eyes = CHU_GIRL_EYE_CLOSED;
             break;
         case CHU_GIRL_EYES_OPEN_SLOWLY:
-            if (this->eyeTextureIndex > CHU_GIRL_EYE_OPEN) {
-                this->eyeTextureIndex--;
+            if (this->eyes > CHU_GIRL_EYE_OPEN) {
+                this->eyes--;
             } else {
                 this->blinkTimer = 30;
                 this->eyeMode = CHU_GIRL_EYES_BLINK_RAPIDLY;
             }
             break;
         case CHU_GIRL_EYES_BLINK_RAPIDLY:
-            if ((this->blinkTimer == 0) && (this->eyeTextureIndex > CHU_GIRL_EYE_OPEN)) {
-                this->eyeTextureIndex--;
+            if ((this->blinkTimer == 0) && (this->eyes > CHU_GIRL_EYE_OPEN)) {
+                this->eyes--;
             }
             break;
         default:
             if (this->blinkTimer == 0) {
-                this->eyeTextureIndex++;
-                if (this->eyeTextureIndex >= 3) { //check if we've moved beyond 'blink' indices
-                    this->eyeTextureIndex = CHU_GIRL_EYE_OPEN;
+                this->eyes++;
+                if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+                    this->eyes = CHU_GIRL_EYE_OPEN;
                     this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
                 }
             }
@@ -529,7 +529,7 @@ void EnBomBowlMan_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTextureIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnBomBowlMan_OverrideLimbDraw, NULL, this);
 

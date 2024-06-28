@@ -99,7 +99,12 @@ typedef enum {
     /* 1 */ GORON_EYE_OPEN,
     /* 2 */ GORON_EYE_HALF,
     /* 3 */ GORON_EYE_CLOSED
-} EyeState;
+} GoronEye;
+
+typedef enum {
+    /* 0 */ GORON_MOUTH_NEUTRAL,
+    /* 1 */ GORON_MOUTH_SMILE,
+} GoronMouth;
 
 ActorInit En_Go2_InitVars = {
     /**/ ACTOR_EN_GO2,
@@ -1252,26 +1257,26 @@ void EnGo2_EyeMouthTexState(EnGo2* this) {
     switch (this->eyeMouthTexState) {
         case 1:
             this->blinkTimer = 0;
-            this->eyeTexIndex = GORON_EYE_CLOSED_2;
-            this->mouthTexIndex = 0;
+            this->eyes = GORON_EYE_CLOSED_2;
+            this->mouth = GORON_MOUTH_NEUTRAL;
             break;
         case 2:
             this->blinkTimer = 0;
-            this->eyeTexIndex = GORON_EYE_OPEN;
-            this->mouthTexIndex = 0;
+            this->eyes = GORON_EYE_OPEN;
+            this->mouth = GORON_MOUTH_NEUTRAL;
             break;
         // case 3 only when biggoron is given eyedrops. Biggoron smiles. (only use of second mouth texture)
         case 3:
             this->blinkTimer = 0;
-            this->eyeTexIndex = GORON_EYE_CLOSED_2;
-            this->mouthTexIndex = 1;
+            this->eyes = GORON_EYE_CLOSED_2;
+            this->mouth = GORON_MOUTH_SMILE;
             break;
         default:
             if (DECR(this->blinkTimer) == 0) {
-                this->eyeTexIndex++;
-                if (this->eyeTexIndex >= 4) { //check if we've moved beyond 'blink' indices
+                this->eyes++;
+                if (this->eyes >= 4) { //check if we've moved beyond 'blink' indices
                     this->blinkTimer = Rand_S16Offset(30, 30);
-                    this->eyeTexIndex = GORON_EYE_OPEN;
+                    this->eyes = GORON_EYE_OPEN;
                 }
             }
     }
@@ -2080,8 +2085,8 @@ void EnGo2_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 3063);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouth]));
 
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnGo2_OverrideLimbDraw, EnGo2_PostLimbDraw, this);

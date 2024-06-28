@@ -50,6 +50,12 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0 */ SHEIK_EYE_OPEN,
+    /* 1 */ SHEIK_EYE_HALF,
+    /* 2 */ SHEIK_EYE_CLOSED
+} SheikEye;
+
 static void* sEyeTextures[] = {
     gSheikEyeOpenTex,
     gSheikEyeHalfClosedTex,
@@ -89,15 +95,15 @@ void EnXc_CalculateHeadTurn(EnXc* this, PlayState* play) {
 void EnXc_UpdateBlink(EnXc* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
-    s16* eyeTextureIndex = &this->eyeIdx;
+    s16* eyes = &this->eyes;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    *eyeTextureIndex = *blinkTimer;
-    if (*eyeTextureIndex >= ARRAY_COUNT(sEyeTextures)) { //check if we've moved beyond 'blink' indices
-        *eyeTextureIndex = 0;
+    *eyes = *blinkTimer;
+    if (*eyes >= ARRAY_COUNT(sEyeTextures)) { //check if we've moved beyond 'blink' indices
+        *eyes = SHEIK_EYE_OPEN;
     }
 }
 
@@ -1101,8 +1107,8 @@ s32 EnXc_HarpOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
 void EnXc_DrawPullingOutHarp(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
     s32 pad;
-    s16 eyePattern = this->eyeIdx;
-    void* eyeTexture = sEyeTextures[eyePattern];
+    s16 eyes = this->eyes;
+    void* eyeTexture = sEyeTextures[eyes];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s32 pad2;
@@ -1123,8 +1129,8 @@ void EnXc_DrawPullingOutHarp(Actor* thisx, PlayState* play) {
 void EnXc_DrawHarp(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
     s32 pad;
-    s16 eyePattern = this->eyeIdx;
-    void* eyeTexture = sEyeTextures[eyePattern];
+    s16 eyes = this->eyes;
+    void* eyeTexture = sEyeTextures[eyes];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s32 pad2;
@@ -1741,8 +1747,8 @@ void EnXc_TriforcePostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
 void EnXc_DrawTriforce(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
     s32 pad;
-    s16 eyeIdx = this->eyeIdx;
-    void* eyeTexture = sEyeTextures[eyeIdx];
+    s16 eyes = this->eyes;
+    void* eyeTexture = sEyeTextures[eyes];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s32 pad2;
@@ -2424,8 +2430,8 @@ void EnXc_DrawNothing(Actor* thisx, PlayState* play) {
 void EnXc_DrawDefault(Actor* thisx, PlayState* play) {
     s32 pad;
     EnXc* this = (EnXc*)thisx;
-    s16 eyeIdx = this->eyeIdx;
-    void* eyeSegment = sEyeTextures[eyeIdx];
+    s16 eyes = this->eyes;
+    void* eyeSegment = sEyeTextures[eyes];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* localGfxCtx = play->state.gfxCtx;
     GraphicsContext* gfxCtx = localGfxCtx;

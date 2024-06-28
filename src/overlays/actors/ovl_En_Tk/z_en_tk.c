@@ -24,7 +24,7 @@ typedef enum {
     /* 0 */ DAMPE_EYE_OPEN,
     /* 1 */ DAMPE_EYE_HALF,
     /* 2 */ DAMPE_EYE_CLOSED
-} DampeEyeState;
+} DampeEye;
 
 ActorInit En_Tk_InitVars = {
     /**/ ACTOR_EN_TK,
@@ -195,18 +195,18 @@ void EnTk_DigAnim(EnTk* this, PlayState* play) {
 }
 
 void EnTk_UpdateEyes(EnTk* this) {
-    if (DECR(this->blinkCountdown) == 0) {
-        this->eyeTextureIdx++;
-        if (this->eyeTextureIdx > DAMPE_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
+    if (DECR(this->blinkTimer) == 0) {
+        this->eyes++;
+        if (this->eyes > DAMPE_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
             this->blinkCycles--;
             if (this->blinkCycles < 0) {
-                this->blinkCountdown = Rand_S16Offset(30, 30);
+                this->blinkTimer = Rand_S16Offset(30, 30);
                 this->blinkCycles = 2;
                 if (Rand_ZeroOne() > 0.5f) {
                     this->blinkCycles++;
                 }
             }
-            this->eyeTextureIdx = DAMPE_EYE_OPEN;
+            this->eyes = DAMPE_EYE_OPEN;
         }
     }
 }
@@ -735,7 +735,7 @@ void EnTk_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, this);

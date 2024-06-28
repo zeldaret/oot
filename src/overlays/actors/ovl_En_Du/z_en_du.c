@@ -26,7 +26,19 @@ typedef enum {
     /* 0 */ DARUNIA_EYE_OPEN,
     /* 1 */ DARUNIA_EYE_HALF,
     /* 2 */ DARUNIA_EYE_CLOSED
-} DaruniaEyeState;
+} DaruniaEye;
+
+typedef enum {
+    /* 0 */ DARUNIA_MOUTH_SERIOUS,
+    /* 1 */ DARUNIA_MOUTH_GRINNING,
+    /* 2 */ DARUNIA_MOUTH_OPEN,
+    /* 3 */ DARUNIA_MOUTH_HAPPY
+} DaruniaMouth;
+
+typedef enum {
+    /* 0 */ DARUNIA_NOSE_SERIOUS,
+    /* 1 */ DARUNIA_NOSE_HAPPY
+} DaruniaNose;
 
 ActorInit En_Du_InitVars = {
     /**/ ACTOR_EN_DU,
@@ -188,7 +200,7 @@ void EnDu_UpdateFaceTextures(EnDu* this) {
         this->blinkTimer = 0;
     }
     if (this->blinkTimer < 3) {
-        this->eyeTexIndex = this->blinkTimer;
+        this->eyes = this->blinkTimer;
     }
 
     switch (this->unk_1EC) {
@@ -199,40 +211,40 @@ void EnDu_UpdateFaceTextures(EnDu* this) {
             break;
         case 1: //Unreachable case
             if (this->blinkTimer == 0) {
-                this->eyeTexIndex = DARUNIA_EYE_CLOSED;
+                this->eyes = DARUNIA_EYE_CLOSED;
             }
             break;
         case 2:
             if (this->blinkTimer == 0) {
-                this->eyeTexIndex = DARUNIA_EYE_CLOSED;
+                this->eyes = DARUNIA_EYE_CLOSED;
             }
             break;
         case 3:
             if (this->blinkTimer == 0) {
-                this->eyeTexIndex = DARUNIA_EYE_OPEN;
+                this->eyes = DARUNIA_EYE_OPEN;
             }
             break;
     }
 
     switch (this->unk_1ED) {
         case 1:
-            this->mouthTexIndex = 1;
+            this->mouth = DARUNIA_MOUTH_GRINNING;
             break;
         case 2:
-            this->mouthTexIndex = 2;
+            this->mouth = DARUNIA_MOUTH_OPEN;
             break;
         case 3:
-            this->mouthTexIndex = 3;
+            this->mouth = DARUNIA_MOUTH_HAPPY;
             break;
         default:
-            this->mouthTexIndex = 0;
+            this->mouth = DARUNIA_MOUTH_SERIOUS;
             break;
     }
 
     if (this->unk_1EE == 1) {
-        this->noseTexIndex = 1;
+        this->nose = DARUNIA_NOSE_HAPPY;
     } else {
-        this->noseTexIndex = 0;
+        this->nose = DARUNIA_NOSE_SERIOUS;
     }
 }
 
@@ -636,9 +648,9 @@ void EnDu_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_du.c", 1470);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(noseTextures[this->noseTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouth]));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(noseTextures[this->nose]));
 
     func_80034BA0(play, &this->skelAnime, EnDu_OverrideLimbDraw, EnDu_PostLimbDraw, &this->actor, 255);
 

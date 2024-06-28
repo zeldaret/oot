@@ -14,7 +14,7 @@ typedef struct EnGe2 {
     /* 0x0198 */ SkelAnime skelAnime;
     /* 0x01DC */ Vec3s jointTable[22];
     /* 0x0260 */ Vec3s morphTable[22];
-    /* 0x02E4 */ s16 eyeIndex;
+    /* 0x02E4 */ s16 eyes;
     /* 0x02E6 */ s16 blinkTimer;
     /* 0x02E8 */ Vec3s headRot;
     /* 0x02EE */ Vec3s unk_2EE;

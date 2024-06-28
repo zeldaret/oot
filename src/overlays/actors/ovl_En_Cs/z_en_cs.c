@@ -88,7 +88,7 @@ typedef enum {
     /* 0 */ GRAVEYARD_KID_EYE_OPEN,
     /* 1 */ GRAVEYARD_KID_EYE_HALF,
     /* 2 */ GRAVEYARD_KID_EYE_CLOSED
-} EnCsEyeState;
+} GraveyardKidEye;
 
 typedef enum {
     /* 0 */ ENCS_ANIM_0,
@@ -445,16 +445,16 @@ void EnCs_Update(Actor* thisx, PlayState* play) {
 
     EnCs_HandleTalking(this, play);
 
-    this->eyeBlinkTimer--;
+    this->blinkTimer--;
 
-    if (this->eyeBlinkTimer < 0) {
-        this->eyeIndex++;
+    if (this->blinkTimer < 0) {
+        this->eyes++;
 
-        if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
-            this->eyeIndex = GRAVEYARD_KID_EYE_OPEN;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyes = GRAVEYARD_KID_EYE_OPEN;
         }
 
-        this->eyeBlinkTimer = eyeBlinkFrames[this->eyeIndex];
+        this->blinkTimer = eyeBlinkFrames[this->eyes];
     }
 }
 
@@ -470,7 +470,7 @@ void EnCs_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_cs.c", 968);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnCs_OverrideLimbDraw, EnCs_PostLimbDraw, &this->actor);

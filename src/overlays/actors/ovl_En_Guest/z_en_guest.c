@@ -94,32 +94,32 @@ void EnGuest_Update(Actor* thisx, PlayState* play) {
 
         Actor_SetFocus(&this->actor, 60.0f);
 
-        this->unk_30E = 0;
+        this->eyes = 0;
         this->unk_30D = 0;
-        this->unk_2CA = 0;
+        this->blinkTimer = 0;
         this->actor.textId = 0x700D;
         this->actionFunc = func_80A50518;
     }
 }
 
-void func_80A5046C(EnGuest* this) {
+void EnGuest_UpdateEyes(EnGuest* this) {
     if (this->unk_30D == 0) {
-        if (this->unk_2CA != 0) {
-            this->unk_2CA--;
+        if (this->blinkTimer != 0) {
+            this->blinkTimer--;
         } else {
             this->unk_30D = 1;
         }
     } else {
-        if (this->unk_2CA != 0) {
-            this->unk_2CA--;
+        if (this->blinkTimer != 0) {
+            this->blinkTimer--;
         } else {
-            this->unk_30E++;
-            if (this->unk_30E >= 3) {
-                this->unk_30E = 0;
+            this->eyes++;
+            if (this->eyes >= 3) {
+                this->eyes = 0;
                 this->unk_30D = 0;
-                this->unk_2CA = (s32)Rand_ZeroFloat(60.0f) + 20;
+                this->blinkTimer = (s32)Rand_ZeroFloat(60.0f) + 20;
             } else {
-                this->unk_2CA = 1;
+                this->blinkTimer = 1;
             }
         }
     }
@@ -147,7 +147,7 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
     player = GET_PLAYER(play);
     this->unk_2C8++;
 
-    func_80A5046C(this);
+    EnGuest_UpdateEyes(this);
     this->actionFunc(this, play);
 
     this->interactInfo.trackPos = player->actor.world.pos;
@@ -225,7 +225,7 @@ void EnGuest_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80A50708(play->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A50708(play->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGuest_OverrideLimbDraw, NULL, this);

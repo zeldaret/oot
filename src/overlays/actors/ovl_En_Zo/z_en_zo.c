@@ -17,10 +17,10 @@ typedef enum {
 } EnZoEffectType;
 
 typedef enum {
-    /* 0 */ ENZO_EYE_OPEN,
-    /* 1 */ ENZO_EYE_HALF,
-    /* 2 */ ENZO_EYE_CLOSED
-} EnZoEyeState;
+    /* 0 */ ZORA_EYE_OPEN,
+    /* 1 */ ZORA_EYE_HALF,
+    /* 2 */ ZORA_EYE_CLOSED
+} ZoraEye;
 
 void EnZo_Init(Actor* thisx, PlayState* play);
 void EnZo_Destroy(Actor* thisx, PlayState* play);
@@ -501,10 +501,10 @@ s16 EnZo_UpdateTalkState(PlayState* play, Actor* thisx) {
 
 void EnZo_Blink(EnZo* this) {
     if (DECR(this->blinkTimer) == 0) {
-        this->eyeTexture++;
-        if (this->eyeTexture >= 3) { //check if we've moved beyond 'blink' indices
+        this->eyes++;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeTexture = ENZO_EYE_OPEN;
+            this->eyes = ZORA_EYE_OPEN;
         }
     }
 }
@@ -809,10 +809,10 @@ void EnZo_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_zo.c", 1008);
 
         if (this->alpha == 255.0f) {
-            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexture]));
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
             func_80034BA0(play, &this->skelAnime, EnZo_OverrideLimbDraw, EnZo_PostLimbDraw, thisx, this->alpha);
         } else {
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexture]));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
             func_80034CC4(play, &this->skelAnime, EnZo_OverrideLimbDraw, EnZo_PostLimbDraw, thisx, this->alpha);
         }
 

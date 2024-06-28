@@ -12,8 +12,8 @@ typedef void (*EnRlDrawFunc)(struct EnRl*, PlayState*);
 typedef struct EnRl {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ s16 eyeTextureIndex;
-    /* 0x0192 */ s16 timer;
+    /* 0x0190 */ s16 eyes;
+    /* 0x0192 */ s16 blinkTimer;
     /* 0x0194 */ s32 action;
     /* 0x0198 */ s32 drawConfig;
     /* 0x019C */ f32 unk_19C;

@@ -14,7 +14,7 @@ typedef enum {
     /* 0 */ JABUJABU_EYE_OPEN,
     /* 1 */ JABUJABU_EYE_HALF,
     /* 2 */ JABUJABU_EYE_CLOSED
-} EnJjEyeState;
+} JabuJabuEye;
 
 void EnJj_Init(Actor* thisx, PlayState* play2);
 void EnJj_Destroy(Actor* thisx, PlayState* play);
@@ -90,7 +90,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
                                this->morphTable, 22);
             Animation_PlayLoop(&this->skelAnime, &gJabuJabuAnim);
             this->unk_30A = 0;
-            this->eyeIndex = JABUJABU_EYE_OPEN;
+            this->eyes = JABUJABU_EYE_OPEN;
             this->blinkTimer = 0;
             this->extraBlinkCounter = 0;
             this->extraBlinkTotal = 0;
@@ -160,9 +160,9 @@ void EnJj_Blink(EnJj* this) {
     if (this->blinkTimer > 0) {
         this->blinkTimer--;
     } else {
-        this->eyeIndex++;
-        if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
-            this->eyeIndex = JABUJABU_EYE_OPEN;
+        this->eyes++;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyes = JABUJABU_EYE_OPEN;
             if (this->extraBlinkCounter > 0) {
                 this->extraBlinkCounter--;
             } else {
@@ -226,7 +226,7 @@ void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
     switch (play->csCtx.actorCues[2]->id) {
         case 1:
             if (this->unk_30A & 2) {
-                this->eyeIndex = JABUJABU_EYE_OPEN;
+                this->eyes = JABUJABU_EYE_OPEN;
                 this->blinkTimer = Rand_S16Offset(20, 20);
                 this->extraBlinkCounter = 0;
                 this->extraBlinkTotal = 0;
@@ -246,7 +246,7 @@ void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
 
         case 3:
             if (!(this->unk_30A & 2)) {
-                this->eyeIndex = JABUJABU_EYE_OPEN;
+                this->eyes = JABUJABU_EYE_OPEN;
                 this->blinkTimer = 0;
                 this->extraBlinkCounter = 1;
                 this->extraBlinkTotal = 0;
@@ -312,7 +312,7 @@ void EnJj_Draw(Actor* thisx, PlayState* play2) {
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * (M_PI / 41.0f)) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(10.0f, 10.0f, 10.0f, MTXMODE_APPLY);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           NULL, this);
 

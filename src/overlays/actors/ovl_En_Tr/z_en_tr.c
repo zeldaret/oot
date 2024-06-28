@@ -78,7 +78,7 @@ typedef enum {
     /* 0 */ KOTAKE_KOUME_EYE_OPEN,
     /* 1 */ KOTAKE_KOUME_EYE_HALF,
     /* 2 */ KOTAKE_KOUME_EYE_CLOSED
-} KotakeKoumeEyeState;
+} KotakeKoumeEye;
 
 static void* sEyeTextures[] = {
     gKotakeKoumeEyeOpenTex,
@@ -410,9 +410,9 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
-    this->eyeIndex = this->blinkTimer;
-    if (this->eyeIndex > KOTAKE_KOUME_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
-        this->eyeIndex = KOTAKE_KOUME_EYE_OPEN;
+    this->eyes = this->blinkTimer;
+    if (this->eyes > KOTAKE_KOUME_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
+        this->eyes = KOTAKE_KOUME_EYE_OPEN;
     }
 }
 
@@ -444,7 +444,7 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_en_tr.c", 840);
         Gfx_SetupDL_37Opa(play->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyes]));
         func_8002EBCC(&this->actor, play, 0);
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnTr_OverrideLimbDraw, NULL, this);

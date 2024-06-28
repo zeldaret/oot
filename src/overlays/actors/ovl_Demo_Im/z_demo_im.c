@@ -56,7 +56,7 @@ typedef enum {
     /* 0 */ IMPA_EYE_OPEN,
     /* 1 */ IMPA_EYE_HALF,
     /* 2 */ IMPA_EYE_CLOSED
-} DemoImEyeState;
+} ImpaEye;
 
 static void* sEyeTextures[] = {
     gImpaEyeOpenTex,
@@ -113,15 +113,15 @@ ActorInit Demo_Im_InitVars = {
 void DemoIm_UpdateBlink(DemoIm* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
-    s16* eyeIndex = &this->eyeIndex;
+    s16* eyes = &this->eyes;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    *eyeIndex = *blinkTimer;
-    if (*eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
-        *eyeIndex = IMPA_EYE_OPEN;
+    *eyes = *blinkTimer;
+    if (*eyes >= 3) { //check if we've moved beyond 'blink' indices
+        *eyes = IMPA_EYE_OPEN;
     }
 }
 
@@ -533,8 +533,8 @@ void func_80985C94(DemoIm* this, PlayState* play) {
 
 void DemoIm_DrawTranslucent(DemoIm* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeIndex = this->eyeIndex;
-    void* eyeTex = sEyeTextures[eyeIndex];
+    s16 eyes = this->eyes;
+    void* eyeTex = sEyeTextures[eyes];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_im_inKenjyanomaDemo02.c", 281);
@@ -1204,8 +1204,8 @@ void DemoIm_DrawNothing(DemoIm* this, PlayState* play) {
 
 void DemoIm_DrawSolid(DemoIm* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeIndex = this->eyeIndex;
-    void* eyeTexture = sEyeTextures[eyeIndex];
+    s16 eyes = this->eyes;
+    void* eyeTexture = sEyeTextures[eyes];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_im.c", 904);

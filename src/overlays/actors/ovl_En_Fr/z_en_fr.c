@@ -145,6 +145,11 @@ ActorInit En_Fr_InitVars = {
     /**/ NULL,
 };
 
+typedef enum {
+    /* 0 */ FROG_EYE_OPEN,
+    /* 1 */ FROG_EYE_CLOSED,
+} FrogEye;
+
 static Color_RGBA8 sEnFrColor[] = {
     { 200, 170, 0, 255 }, { 0, 170, 200, 255 }, { 210, 120, 100, 255 }, { 120, 130, 230, 255 }, { 190, 190, 190, 255 },
 };
@@ -300,7 +305,7 @@ void EnFr_Update(Actor* thisx, PlayState* play) {
         Actor_SetScale(&this->actor, this->scale * 0.0001f);
         this->actor.minVelocityY = -9999.0f;
         Actor_SetFocus(&this->actor, 10.0f);
-        this->eyeTexIndex = 1;
+        this->eyes = FROG_EYE_CLOSED;
         this->blinkTimer = (s16)(Rand_ZeroFloat(60.0f) + 20.0f);
         this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
         this->isBelowWaterSurfacePrevious = this->isBelowWaterSurfaceCurrent = false;
@@ -390,12 +395,12 @@ void EnFr_DecrementBlinkTimer(EnFr* this) {
 void EnFr_DecrementBlinkTimerUpdate(EnFr* this) {
     if (this->blinkTimer != 0) {
         this->blinkTimer--;
-    } else if (this->eyeTexIndex) {
-        this->eyeTexIndex = 0;
+    } else if (this->eyes) {
+        this->eyes = FROG_EYE_OPEN;
         this->blinkTimer = (s16)(Rand_ZeroFloat(60.0f) + 20.0f);
         this->blinkFunc = EnFr_DecrementBlinkTimer;
     } else {
-        this->eyeTexIndex = 1;
+        this->eyes = FROG_EYE_CLOSED;
         this->blinkTimer = 1;
     }
 }
@@ -1063,8 +1068,8 @@ void EnFr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 
 void EnFr_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = {
-        object_fr_Tex_0059A0,
-        object_fr_Tex_005BA0,
+        gFrogEyeOpen,
+        gFrogEyeClosed,
     };
     s16 lightRadius;
     EnFr* this = (EnFr*)thisx;
@@ -1079,8 +1084,8 @@ void EnFr_Draw(Actor* thisx, PlayState* play) {
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->posButterflyLight.x, this->posButterflyLight.y,
                               this->posButterflyLight.z, 255, 255, 255, lightRadius);
     gDPSetEnvColor(POLY_OPA_DISP++, sEnFrColor[frogIndex].r, sEnFrColor[frogIndex].g, sEnFrColor[frogIndex].b, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFr_OverrideLimbDraw, EnFr_PostLimbDraw, this);
     if (this->isButterflyDrawn) {

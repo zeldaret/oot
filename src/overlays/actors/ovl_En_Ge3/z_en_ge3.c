@@ -51,10 +51,10 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 typedef enum {
-    /* 0 */ GE3_EYE_OPEN,
-    /* 1 */ GE3_EYE_HALF,
-    /* 2 */ GE3_EYE_CLOSED
-} EnGe3EyeState;
+    /* 0 */ RED_GERUDO_EYE_OPEN,
+    /* 1 */ RED_GERUDO_EYE_HALF,
+    /* 2 */ RED_GERUDO_EYE_CLOSED
+} RedGerudoEye;
 
 static EnGe3ActionFunc sActionFuncs[] = { EnGe3_WaitLookAtPlayer };
 static AnimationHeader* sAnimations[] = { &gGerudoRedStandAnim }; // Idle with right hand on hip and left over mouth
@@ -196,10 +196,10 @@ void EnGe3_MoveAndBlink(EnGe3* this, PlayState* play) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    this->eyeIndex = this->blinkTimer; //check if we've moved beyond 'blink' indices
+    this->eyes = this->blinkTimer;
 
-    if (this->eyeIndex >= 3) {
-        this->eyeIndex = GE3_EYE_OPEN;
+    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        this->eyes = RED_GERUDO_EYE_OPEN;
     }
 }
 
@@ -292,7 +292,7 @@ void EnGe3_Draw(Actor* thisx, PlayState* play2) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 614);
 
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     func_8002EBCC(&this->actor, play, 0);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe3_OverrideLimbDraw, EnGe3_PostLimbDraw, this);

@@ -23,7 +23,7 @@ typedef struct EnDntJiji {
     /* 0x0246 */ s16 unkTimer;
     /* 0x0248 */ s16 endFrame;
     /* 0x024A */ s16 unburrow;
-    /* 0x024C */ s16 eyeState;
+    /* 0x024C */ s16 eyes;
     /* 0x024E */ s16 stageSignal;
     /* 0x0250 */ s16 unused; // always set to 5
     /* 0x0252 */ s16 attackFlag; // Is never set

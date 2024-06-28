@@ -196,26 +196,26 @@ typedef enum {
     /* 0 */ GENERIC_EYE_OPEN,
     /* 1 */ GENERIC_EYE_HALF,
     /* 2 */ GENERIC_EYE_CLOSED
-} GenericEyeState;
+} GenericEye;
 
 void DemoEc_UpdateEyes(DemoEc* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
-    s16* eyeTexIndex = &this->eyeTexIndex;
+    s16* eyes = &this->eyes;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    *eyeTexIndex = *blinkTimer;
+    *eyes = *blinkTimer;
 
-    if (*eyeTexIndex >= 3) {
-        *eyeTexIndex = GENERIC_EYE_OPEN;
+    if (*eyes >= 3) { //check if we've moved beyond 'blink' indices
+        *eyes = GENERIC_EYE_OPEN;
     }
 }
 
-void DemoEc_SetEyeTexIndex(DemoEc* this, s16 texIndex) {
-    this->eyeTexIndex = texIndex;
+void DemoEc_SetEyes(DemoEc* this, s16 texIndex) {
+    this->eyes = texIndex;
 }
 
 void DemoEc_InitSkelAnime(DemoEc* this, PlayState* play, FlexSkeletonHeader* skeletonHeader) {
@@ -503,8 +503,8 @@ void DemoEc_DrawKokiriGirl(DemoEc* this, PlayState* play) {
     };
     static u8 color1[] = { 70, 190, 60, 255 };
     static u8 color2[] = { 100, 30, 0, 255 };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeletonCustomColor(this, play, eyeTexture, NULL, color1, color2, NULL, NULL);
 }
@@ -534,8 +534,8 @@ void DemoEc_DrawOldMan(DemoEc* this, PlayState* play) {
     };
     static u8 color1[] = { 0, 50, 100, 255 };
     static u8 color2[] = { 0, 50, 160, 255 };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeletonCustomColor(this, play, eyeTexture, NULL, color1, color2, NULL, NULL);
 }
@@ -566,8 +566,8 @@ void DemoEc_DrawBeardedMan(DemoEc* this, PlayState* play) {
     };
     static u8 color1[] = { 255, 255, 255, 255 };
     static u8 color2[] = { 255, 255, 255, 255 };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeletonCustomColor(this, play, eyeTexture, NULL, color1, color2, NULL, NULL);
 }
@@ -596,8 +596,8 @@ void DemoEc_DrawWoman(DemoEc* this, PlayState* play) {
         object_bob_Tex_000FC8,
         object_bob_Tex_0017C8,
     };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, NULL, NULL, NULL);
 }
@@ -764,8 +764,8 @@ void DemoEc_DrawGerudo(DemoEc* this, PlayState* play) {
         gGerudoWhiteEyeHalfTex,
         gGerudoWhiteEyeClosedTex,
     };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, NULL, NULL, DemoEc_GerudoPostLimbDraw);
 }
@@ -790,8 +790,8 @@ void DemoEc_UpdateDancingZora(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawDancingZora(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, NULL, NULL, NULL);
 }
@@ -805,14 +805,14 @@ void DemoEc_InitKingZora(DemoEc* this, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_KING_ZORA;
     this->drawConfig = EC_DRAW_KING_ZORA;
-    DemoEc_SetEyeTexIndex(this, 3);
+    DemoEc_SetEyes(this, 3);
 }
 
 void func_8096F1D4(DemoEc* this) {
     f32 currentFrame = this->skelAnime.curFrame;
 
     if (currentFrame <= 32.0f) {
-        DemoEc_SetEyeTexIndex(this, 3);
+        DemoEc_SetEyes(this, 3);
     } else {
         DemoEc_UpdateEyes(this);
     }
@@ -876,8 +876,8 @@ void func_8096F3D4(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawKingZora(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = { gKzEyeOpenTex, gKzEyeHalfTex, gKzEyeClosedTex, gKzEyeOpen2Tex };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, NULL, NULL, NULL);
 }
@@ -891,7 +891,7 @@ void DemoEc_InitMido(DemoEc* this, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_MIDO;
     this->drawConfig = EC_DRAW_MIDO;
-    DemoEc_SetEyeTexIndex(this, 3);
+    DemoEc_SetEyes(this, 3);
 }
 
 void func_8096F4FC(DemoEc* this, PlayState* play) {
@@ -951,8 +951,8 @@ void DemoEc_DrawMido(DemoEc* this, PlayState* play) {
         gMidoEyeClosedTex,
         gMidoEyeAngryTex,
     };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, NULL, NULL, NULL);
 }
@@ -1013,8 +1013,8 @@ void DemoEc_DrawCuccoLady(DemoEc* this, PlayState* play) {
         gCuccoLadyEyeHalfTex,
         gCuccoLadyEyeClosedTex,
     };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, NULL, NULL, NULL);
 }
@@ -1043,8 +1043,8 @@ void DemoEc_DrawPotionShopOwner(DemoEc* this, PlayState* play) {
         gPotionShopkeeperEyeHalfTex,
         gPotionShopkeeperEyeClosedTex,
     };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, NULL, NULL, NULL);
 }
@@ -1102,8 +1102,8 @@ void DemoEc_DrawFishingOwner(DemoEc* this, PlayState* play) {
         gFishingOwnerEyeHalfTex,
         gFishingOwnerEyeClosedTex,
     };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, NULL, NULL, DemoEc_FishingOwnerPostLimbDraw);
 }
@@ -1129,8 +1129,8 @@ void DempEc_UpdateBombchuShopOwner(DemoEc* this, PlayState* play) {
 void DemoEc_DrawBombchuShopOwner(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = { gBombchuShopkeeperEyeOpenTex, gBombchuShopkeeperEyeHalfTex,
                                    gBombchuShopkeeperEyeClosedTex };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, NULL, NULL, NULL);
 }
@@ -1180,8 +1180,8 @@ void DemoEc_UpdateGorons(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawGorons(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, gGoronCsMouthNeutralTex, NULL, NULL);
 }
@@ -1206,8 +1206,8 @@ void DemoEc_UpdateMalon(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawMalon(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
-    s32 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTexture = eyeTextures[eyeTexIndex];
+    s32 eyes = this->eyes;
+    void* eyeTexture = eyeTextures[eyes];
 
     DemoEc_DrawSkeleton(this, play, eyeTexture, gMalonAdultMouthHappyTex, NULL, NULL);
 }

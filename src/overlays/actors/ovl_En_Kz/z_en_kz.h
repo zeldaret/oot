@@ -19,7 +19,7 @@ typedef struct EnKz {
     /* 0x020A */ s16 waypoint;
     /* 0x020C */ s16 blinkTimer;
     /* 0x020E */ char unk_20E[2];
-    /* 0x0210 */ s16 eyeIdx;
+    /* 0x0210 */ s16 eyes;
     /* 0x0212 */ s16 subCamId;
     /* 0x0214 */ s16 returnToCamId;
     /* 0x0216 */ Vec3s jointTable[12];

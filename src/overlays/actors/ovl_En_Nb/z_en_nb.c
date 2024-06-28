@@ -81,7 +81,7 @@ typedef enum {
     /* 0 */ NABOORU_EYE_OPEN,
     /* 1 */ NABOORU_EYE_HALF,
     /* 2 */ NABOORU_EYE_CLOSED
-} NabooruEyeState;
+} NabooruEye;
 
 static void* sEyeTextures[] = {
     gNabooruEyeOpenTex,
@@ -188,15 +188,15 @@ void func_80AB10C4(EnNb* this) {
 void EnNb_UpdateEyes(EnNb* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
-    s16* eyeIdx = &this->eyeIdx;
+    s16* eyes = &this->eyes;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    *eyeIdx = *blinkTimer;
-    if (*eyeIdx >= ARRAY_COUNT(sEyeTextures)) { //check if we've moved beyond 'blink' indices
-        *eyeIdx = NABOORU_EYE_OPEN;
+    *eyes = *blinkTimer;
+    if (*eyes >= ARRAY_COUNT(sEyeTextures)) { //check if we've moved beyond 'blink' indices
+        *eyes = NABOORU_EYE_OPEN;
     }
 }
 
@@ -566,7 +566,7 @@ void EnNb_CreateLightOrb(EnNb* this, PlayState* play) {
 
 void EnNb_DrawTransparency(EnNb* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeSegIdx = this->eyeIdx;
+    s16 eyeSegIdx = this->eyes;
     void* eyeTex = sEyeTextures[eyeSegIdx];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -1006,9 +1006,9 @@ s32 func_80AB2FC0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
 
 void func_80AB2FE4(EnNb* this, PlayState* play) {
     s32 pad;
-    s16 eyeIdx = this->eyeIdx;
+    s16 eyes = this->eyes;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* eyeTexture = sEyeTextures[eyeIdx];
+    void* eyeTexture = sEyeTextures[eyes];
     s32 pad1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb_inConfrontion.c", 623);
@@ -1530,9 +1530,9 @@ void EnNb_DrawNothing(EnNb* this, PlayState* play) {
 
 void EnNb_DrawDefault(EnNb* this, PlayState* play) {
     s32 pad;
-    s16 eyeIdx = this->eyeIdx;
+    s16 eyes = this->eyes;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* eyeTexture = sEyeTextures[eyeIdx];
+    void* eyeTexture = sEyeTextures[eyes];
     s32 pad1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_nb.c", 992);

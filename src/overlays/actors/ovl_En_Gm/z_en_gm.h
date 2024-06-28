@@ -20,7 +20,7 @@ typedef struct EnGm {
     /* 0x02BC */ s8 gmObjectSlot;
     /* 0x02BE */ s16 timer;
     /* 0x02C0 */ s16 blinkTimer;
-    /* 0x02C2 */ u8 eyeTexIndex;
+    /* 0x02C2 */ u8 eyes;
     /* 0x02C4 */ Vec3f talkPos;
 } EnGm; // size = 0x02D0
 

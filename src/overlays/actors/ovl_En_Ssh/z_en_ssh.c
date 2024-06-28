@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ssh.c
+ * Overlay: ovl_En_Ssh
+ * Description: Hyliantula (Cursed Skulltula People)
+ */
+
 #include "z_en_ssh.h"
 #include "assets/objects/object_ssh/object_ssh.h"
 
@@ -17,6 +23,12 @@ typedef enum {
     SSH_ANIM_UNK5, // Slower version of ANIM_DROP
     SSH_ANIM_UNK6  // Faster repeating version of ANIM_UNK0
 } EnSshAnimation;
+
+typedef enum {
+    /* 0 */ HYLIANTULA_EYE_OPEN,
+    /* 1 */ HYLIANTULA_EYE_HALF,
+    /* 2 */ HYLIANTULA_EYE_CLOSED
+} HyliantulaEye;
 
 void EnSsh_Init(Actor* thisx, PlayState* play);
 void EnSsh_Destroy(Actor* thisx, PlayState* play);
@@ -824,9 +836,9 @@ void EnSsh_Update(Actor* thisx, PlayState* play) {
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
-    this->blinkState = this->blinkTimer;
-    if (this->blinkState >= 3) { //check if we've moved beyond 'blink' indices
-        this->blinkState = 0;
+    this->eyes = this->blinkTimer;
+    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        this->eyes = HYLIANTULA_EYE_OPEN;
     }
     EnSsh_SetColliders(this, play);
     Actor_SetFocus(&this->actor, 0.0f);
@@ -872,9 +884,9 @@ void EnSsh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
 void EnSsh_Draw(Actor* thisx, PlayState* play) {
     static void* blinkTex[] = {
-        object_ssh_Tex_0007E0,
-        object_ssh_Tex_000C60,
-        object_ssh_Tex_001060,
+        gHyliantulaEyeOpenTex,
+        gHyliantulaEyeHalfTex,
+        gHyliantulaEyeClosedTex,
     };
     s32 pad;
     EnSsh* this = (EnSsh*)thisx;
@@ -882,7 +894,7 @@ void EnSsh_Draw(Actor* thisx, PlayState* play) {
     EnSsh_CheckBodyStickHit(this, play);
     EnSsh_Sway(this);
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ssh.c", 2333);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->blinkState]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->eyes]));
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ssh.c", 2336);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSsh_OverrideLimbDraw,
                       EnSsh_PostLimbDraw, &this->actor);

@@ -43,7 +43,7 @@ typedef struct EnFr {
     /* 0x036C */ s32 jumpCounter; // cyclic clock used to time celebratory frog jumps every 4 frames when child song is played.
     /* 0x0370 */ s32 blinkTimer; // blinking timer
     /* 0x0374 */ EnFrBlinkFunc blinkFunc; // unique case of using a function pointer for blinking
-    /* 0x0378 */ u8 eyeTexIndex; // index for blinking graphics
+    /* 0x0378 */ u8 eyes; // index for blinking graphics
     /* 0x0379 */ u8 isJumpingUp; // Conditional for jumping up from the log back onto the log
     /* 0x037A */ u8 isBelowWaterSurfaceCurrent;   // Used for diving effects
     /* 0x037B */ u8 isBelowWaterSurfacePrevious;

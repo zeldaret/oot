@@ -180,17 +180,17 @@ void func_80B17B14(EnTakaraMan* this, PlayState* play) {
 void EnTakaraMan_Update(Actor* thisx, PlayState* play) {
     EnTakaraMan* this = (EnTakaraMan*)thisx;
 
-    if (this->eyeTimer != 0) {
-        this->eyeTimer--;
+    if (this->blinkTimer != 0) {
+        this->blinkTimer--;
     }
 
     Actor_SetFocus(&this->actor, this->height);
     Actor_TrackPlayer(play, &this->actor, &this->unk_22C, &this->unk_232, this->actor.focus.pos);
-    if (this->eyeTimer == 0) {
-        this->eyeTextureIdx++;
-        if (this->eyeTextureIdx >= 2) { //check if we've moved beyond 'blink' indices
-            this->eyeTextureIdx = 0;
-            this->eyeTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
+    if (this->blinkTimer == 0) {
+        this->eyes++;
+        if (this->eyes >= 2) { //check if we've moved beyond 'blink' indices
+            this->eyes = 0;
+            this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->unk_212++;
@@ -212,15 +212,15 @@ s32 EnTakaraMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
 void EnTakaraMan_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = {
-        object_ts_Tex_000970,
-        object_ts_Tex_000D70,
+        gTakaraManEyeOpen,
+        gTakaraManEyeClosed,
     };
     EnTakaraMan* this = (EnTakaraMan*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_takara_man.c", 528);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTakaraMan_OverrideLimbDraw, NULL, this);
 

@@ -70,7 +70,7 @@ typedef enum {
     /* 0 */ CUCCO_LADY_EYE_OPEN,
     /* 1 */ CUCCO_LADY_EYE_HALF,
     /* 2 */ CUCCO_LADY_EYE_CLOSED
-} EnNiwLadyEyeState;
+} CuccoLadyEye;
 
 void EnNiwLady_Init(Actor* thisx, PlayState* play) {
     s32 pad;
@@ -534,15 +534,15 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
         if (this->unusedTimer2 != 0) {
             this->unusedTimer2--;
         }
-        if (this->unusedRandomTimer != 0) {
-            this->unusedRandomTimer--;
+        if (this->blinkTimer != 0) {
+            this->blinkTimer--;
         }
         this->unusedTimer++;
-        if (this->unusedRandomTimer == 0) {
-            this->eyeTexIndex++;
-            if (this->eyeTexIndex >= 3) { //check if we've moved beyond 'blink' indices
-                this->eyeTexIndex = CUCCO_LADY_EYE_OPEN;
-                this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
+        if (this->blinkTimer == 0) {
+            this->eyes++;
+            if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+                this->eyes = CUCCO_LADY_EYE_OPEN;
+                this->blinkTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
             }
         }
         Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 20.0f, 60.0f,
@@ -590,7 +590,7 @@ void EnNiwLady_Draw(Actor* thisx, PlayState* play2) {
     if (this->unk_27E != 0) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyes]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, EnNiwLady_EmptyDList(play->state.gfxCtx));
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnNiwLady_OverrideLimbDraw, NULL, this);

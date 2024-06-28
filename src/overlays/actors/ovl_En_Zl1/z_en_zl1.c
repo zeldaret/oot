@@ -127,11 +127,11 @@ void EnZl1_UpdateFace(EnZl1* this) {
         if (DECR(this->blinkTimer) == 0) {
             this->blinkTimer = Rand_S16Offset(0x1E, 0xA);
         }
-        this->blinkTextureIndex = (this->blinkTimer < 4) ? this->blinkTimer : 0;
+        this->eyes = (this->blinkTimer < 4) ? this->blinkTimer : 0;
 
-        this->unk_1F4 = sEyeTextures[this->blinkTextureIndex];
-        this->unk_1F8 = sEyeTextures[this->blinkTextureIndex];
-        this->mouthTexture = sMouthTextures[this->mouthTextureIndex];
+        this->unk_1F4 = sEyeTextures[this->eyes];
+        this->unk_1F8 = sEyeTextures[this->eyes];
+        this->mouth = sMouthTextures[this->mouthTextureIndex];
     }
 }
 
@@ -635,7 +635,7 @@ void EnZl1_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(this->unk_1F4));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(this->unk_1F8));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(this->mouthTexture));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(this->mouth));
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

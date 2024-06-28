@@ -59,7 +59,7 @@ typedef enum {
     /* 0 */ ADULT_RUTO_EYE_OPEN,
     /* 1 */ ADULT_RUTO_EYE_HALF,
     /* 2 */ ADULT_RUTO_EYE_CLOSED
-} AdultRutoEyeState;
+} AdultRutoEye;
 
 static void* sEyeTextures[] = {
     gAdultRutoEyeOpenTex,
@@ -120,15 +120,15 @@ void EnRu2_Destroy(Actor* thisx, PlayState* play) {
 void EnRu2_UpdateEyes(EnRu2* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
-    s16* eyeTexIndex = &this->eyeTexIndex;
+    s16* eyes = &this->eyes;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(0x3C, 0x3C);
     }
 
-    *eyeTexIndex = *blinkTimer;
-    if (*eyeTexIndex >= 3) { //check if we've moved beyond 'blink' indices
-        *eyeTexIndex = ADULT_RUTO_EYE_OPEN;
+    *eyes = *blinkTimer;
+    if (*eyes >= 3) { //check if we've moved beyond 'blink' indices
+        *eyes = ADULT_RUTO_EYE_OPEN;
     }
 }
 
@@ -486,7 +486,7 @@ void func_80AF31C8(EnRu2* this, PlayState* play) {
 
 void func_80AF321C(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->eyeTexIndex;
+    s16 temp = this->eyes;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -815,7 +815,7 @@ void func_80AF3F14(EnRu2* this, PlayState* play) {
 
 void func_80AF3F20(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->eyeTexIndex;
+    s16 temp = this->eyes;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 

@@ -35,7 +35,7 @@ typedef struct DemoIm {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s jointTable[IMPA_LIMB_MAX];
     /* 0x01F6 */ Vec3s morphTable[IMPA_LIMB_MAX];
-    /* 0x025C */ s16 eyeIndex;
+    /* 0x025C */ s16 eyes;
     /* 0x025E */ s16 blinkTimer;
     /* 0x0260 */ s32 action;
     /* 0x0264 */ s32 drawConfig;

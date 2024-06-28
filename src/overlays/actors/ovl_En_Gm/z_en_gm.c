@@ -30,7 +30,7 @@ typedef enum {
     /* 0 */ MEDI_GORON_EYE_OPEN,
     /* 1 */ MEDI_GORON_EYE_HALF,
     /* 2 */ MEDI_GORON_EYE_CLOSED
-} MediGoronEyeState;
+} MediGoronEye;
 
 ActorInit En_Gm_InitVars = {
     /**/ ACTOR_EN_GM,
@@ -120,7 +120,7 @@ void func_80A3D838(EnGm* this, PlayState* play) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
         Actor_SetScale(&this->actor, 0.05f);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-        this->eyeTexIndex = MEDI_GORON_EYE_OPEN;
+        this->eyes = MEDI_GORON_EYE_OPEN;
         this->blinkTimer = 20;
         this->actor.textId = 0x3049;
         this->updateFunc = func_80A3DFBC;
@@ -135,10 +135,10 @@ void EnGm_UpdateEye(EnGm* this) {
     if (this->blinkTimer != 0) {
         this->blinkTimer--;
     } else {
-        this->eyeTexIndex++;
+        this->eyes++;
 
-        if (this->eyeTexIndex >= 3) { //check if we've moved beyond 'blink' indices
-            this->eyeTexIndex = MEDI_GORON_EYE_OPEN;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyes = MEDI_GORON_EYE_OPEN;
             this->blinkTimer = Rand_ZeroFloat(60.0f) + 20.0f;
         }
     }
@@ -331,7 +331,7 @@ void EnGm_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_gm.c", 613);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           NULL, &this->actor);

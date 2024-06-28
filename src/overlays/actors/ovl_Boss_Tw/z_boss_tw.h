@@ -156,8 +156,8 @@ typedef struct BossTw {
     /* 0x04B0 */ Vec3f targetPos;
     /* 0x04BC */ Vec3f groundBlastPos2;
     /* 0x04C8 */ f32 rotateSpeed;
-    /* 0x04CC */ s16 eyeTexIdx;
-    /* 0x04CE */ s16 leftEyeTexIdx;
+    /* 0x04CC */ s16 eye;
+    /* 0x04CE */ s16 leftEye;
     /* 0x04D0 */ f32 scepterAlpha;
     /* 0x04D4 */ f32 flameAlpha;
     /* 0x04D8 */ f32 spawnPortalAlpha;

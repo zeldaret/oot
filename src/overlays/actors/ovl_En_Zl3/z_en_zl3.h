@@ -16,9 +16,9 @@ typedef struct EnZl3 {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s jointTable[15];
     /* 0x01EA */ Vec3s morphTable[15];
-    /* 0x0244 */ s16 eyeTexIndex;
+    /* 0x0244 */ s16 eyes;
     /* 0x0246 */ s16 blinkTimer;
-    /* 0x0248 */ s16 mouthTexIndex;
+    /* 0x0248 */ s16 mouth;
     /* 0x024C */ s32 action;
     /* 0x0250 */ s32 drawConfig;
     /* 0x0254 */ char unk_254[0x4];

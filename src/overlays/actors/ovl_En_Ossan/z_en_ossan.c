@@ -135,13 +135,13 @@ static ColliderCylinderInitType1 sCylinderInit = {
 typedef enum {
     /* 0 */ HAPPY_MASK_SHOPKEEPER_EYE_CLOSED,
     /* 1 */ HAPPY_MASK_SHOPKEEPER_EYE_OPEN
-} HappyMaskShopkeeperEyeState;
+} HappyMaskShopkeeperEye;
 
 typedef enum {
     /* 0 */ GENERIC_EYE_OPEN,
     /* 1 */ GENERIC_EYE_HALF,
     /* 2 */ GENERIC_EYE_CLOSED
-} GenericEyeState;
+} GenericEye;
 
 // Rupees to pay back to Happy Mask Shop
 static s16 sMaskPaymentPrice[] = { 10, 30, 20, 50 };
@@ -1968,20 +1968,20 @@ void EnOssan_WaitForBlink(EnOssan* this) {
 
 void EnOssan_Blink(EnOssan* this) {
     s16 decr;
-    s16 eyeTextureIdxTemp;
+    s16 eyesTemp;
 
     decr = this->blinkTimer - 1;
     if (decr != 0) {
         this->blinkTimer = decr;
         return;
     }
-    eyeTextureIdxTemp = this->eyeTextureIdx + 1;
-    if (eyeTextureIdxTemp > 2) { //check if we've moved beyond 'blink' indices
-        this->eyeTextureIdx = GENERIC_EYE_OPEN;
+    eyesTemp = this->eyes + 1;
+    if (eyesTemp > 2) { //check if we've moved beyond 'blink' indices
+        this->eyes = GENERIC_EYE_OPEN;
         this->blinkTimer = (s32)(Rand_ZeroOne() * 60.0f) + 20;
         this->blinkFunc = EnOssan_WaitForBlink;
     } else {
-        this->eyeTextureIdx = eyeTextureIdxTemp;
+        this->eyes = eyesTemp;
         this->blinkTimer = 1;
     }
 }
@@ -2202,7 +2202,7 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
         EnOssan_SpawnItemsOnShelves(this, play, items);
         this->headRot = this->headTargetRot = 0;
         this->blinkTimer = 20;
-        this->eyeTextureIdx = GENERIC_EYE_OPEN;
+        this->eyes = GENERIC_EYE_OPEN;
         this->blinkFunc = EnOssan_WaitForBlink;
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnOssan_SetupAction(this, EnOssan_MainActionFunc);
@@ -2357,7 +2357,7 @@ void EnOssan_DrawBazaarShopkeeper(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4320);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBazaarShopkeeperEyeTextures[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBazaarShopkeeperEyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnOssan_OverrideLimbDrawDefaultShopkeeper, NULL, this);
     EnOssan_DrawCursor(play, this, this->cursorX, this->cursorY, this->cursorZ, this->drawCursor);
@@ -2382,7 +2382,7 @@ s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(PlayState* play, s32 limbIndex, Gfx
         gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->objectSlot2].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot2].segment);
         *dList = gKokiriShopkeeperHeadDL;
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sKokiriShopkeeperEyeTextures[this->eyeTextureIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sKokiriShopkeeperEyeTextures[this->eyes]));
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4374);
@@ -2433,7 +2433,7 @@ void EnOssan_DrawGoronShopkeeper(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4455);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGoronShopkeeperEyeTextures[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGoronShopkeeperEyeTextures[this->eyes]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           NULL, this);
@@ -2463,7 +2463,7 @@ void EnOssan_DrawZoraShopkeeper(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, EnOssan_EmptyDList(play->state.gfxCtx));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sZoraShopkeeperEyeTextures[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sZoraShopkeeperEyeTextures[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnOssan_OverrideLimbDrawZoraShopkeeper, NULL, this);
@@ -2485,7 +2485,7 @@ void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4544);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sPotionShopkeeperEyeTextures[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sPotionShopkeeperEyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           NULL, this);
     EnOssan_DrawCursor(play, this, this->cursorX, this->cursorY, this->cursorZ, this->drawCursor);
@@ -2528,7 +2528,7 @@ void EnOssan_DrawBombchuShopkeeper(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBombchuShopkeeperEyeTextures[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBombchuShopkeeperEyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           NULL, this);
     EnOssan_DrawCursor(play, this, this->cursorX, this->cursorY, this->cursorZ, this->drawCursor);

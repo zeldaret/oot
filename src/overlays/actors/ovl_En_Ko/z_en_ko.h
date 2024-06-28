@@ -22,7 +22,7 @@ typedef struct EnKo {
     /* 0x0210 */ u8 unk_210; // block trade quest sfx
     /* 0x0212 */ s16 forestQuestState;
     /* 0x0214 */ s16 blinkTimer;
-    /* 0x0216 */ s16 eyeTextureIndex;
+    /* 0x0216 */ s16 eyes;
     /* 0x0218 */ f32 appearDist;
     /* 0x021C */ f32 lookDist; // distance to start looking at player
     /* 0x0220 */ f32 modelAlpha;

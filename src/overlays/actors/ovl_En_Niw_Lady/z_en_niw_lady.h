@@ -19,7 +19,7 @@ typedef struct EnNiwLady {
     /* 0x0260 */ s16 unusedTimer;
     /* 0x0262 */ s16 unk_262; // "message_end_code"
     /* 0x0264 */ s16 unusedTimer2;
-    /* 0x0266 */ s16 unusedRandomTimer;
+    /* 0x0266 */ s16 blinkTimer;
     /* 0x0268 */ s16 cuccosInPen;
     /* 0x026A */ s16 unk_26A;
     /* 0x026C */ s16 unk_26C;
@@ -33,7 +33,7 @@ typedef struct EnNiwLady {
     /* 0x0277 */ u8 unk_277;
     /* 0x0278 */ s16 unk_278;
     /* 0x027A */ s16 unk_27A;
-    /* 0x027C */ s16 eyeTexIndex;
+    /* 0x027C */ s16 eyes;
     /* 0x027E */ s16 unk_27E;
     /* 0x0280 */ s8 aneObjectSlot;
     /* 0x0281 */ s8 osAnimeObjectSlot;

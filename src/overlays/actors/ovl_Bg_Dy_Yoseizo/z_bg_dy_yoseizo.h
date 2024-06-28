@@ -42,8 +42,8 @@ typedef struct BgDyYoseizo {
     /* 0x02EC */ s16 fountainType;
     /* 0x02EE */ s16 dialogState;
     /* 0x02F0 */ s16 absoluteTimer;
-    /* 0x02F2 */ s16 eyeState;
-    /* 0x02F4 */ s16 eyeState2; // Used, but does not actually change the actor's eyes
+    /* 0x02F2 */ s16 eye;
+    /* 0x02F4 */ s16 eye2; // Used, but does not actually change the actor's eyes
     /* 0x02F6 */ s16 mouthState;
     /* 0x02F8 */ s16 blinkTimer;
     /* 0x02FA */ s16 unusedTimer;

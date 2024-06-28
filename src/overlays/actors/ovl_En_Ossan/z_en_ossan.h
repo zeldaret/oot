@@ -48,7 +48,7 @@ typedef struct EnOssan {
     /* 0x01EC */ u8 happyMaskShopkeeperEyeIdx;
     /* 0x01EE */ s16 headRot;
     /* 0x01F0 */ s16 headTargetRot;
-    /* 0x01F2 */ s16 eyeTextureIdx;
+    /* 0x01F2 */ s16 eyes;
     /* 0x01F4 */ s16 blinkTimer;
     /* 0x01F8 */ void (*blinkFunc)(struct EnOssan*);
     /* 0x01FC */ s16 stateFlag;

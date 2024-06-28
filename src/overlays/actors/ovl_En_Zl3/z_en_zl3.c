@@ -50,7 +50,7 @@ typedef enum {
     /* 4 */ ZELDA_EYE_4,
     /* 5 */ ZELDA_EYE_5,
     /* 6 */ ZELDA_EYE_6
-} EyeState;
+} ZeldaEye;
 
 static void* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex, gZelda2Eye03Tex,
                                 gZelda2Eye04Tex,   gZelda2Eye05Tex,   gZelda2Eye06Tex,   NULL };
@@ -105,24 +105,24 @@ BossGanon2* func_80B53488(EnZl3* this, PlayState* play) {
 
 void EnZl3_UpdateEyes(EnZl3* this) {
     s32 pad[2];
-    s16* eyeTexIndex = &this->eyeTexIndex;
+    s16* eyes = &this->eyes;
     s16* blinkTimer = &this->blinkTimer;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
-    *eyeTexIndex = *blinkTimer;
-    if (*eyeTexIndex > ZELDA_EYE_CLOSED) {
-        *eyeTexIndex = ZELDA_EYE_OPEN;
+    *eyes = *blinkTimer;
+    if (*eyes > ZELDA_EYE_CLOSED) {
+        *eyes = ZELDA_EYE_OPEN;
     }
 }
 
 void EnZl3_setEyeIndex(EnZl3* this, s16 index) {
-    this->eyeTexIndex = index;
+    this->eyes = index;
 }
 
 void EnZl3_setMouthIndex(EnZl3* this, s16 index) {
-    this->mouthTexIndex = index;
+    this->mouth = index;
 }
 
 void func_80B5357C(EnZl3* this, PlayState* play) {
@@ -2734,11 +2734,11 @@ void func_80B59FE8(EnZl3* this, PlayState* play) {
 
 void func_80B59FF4(EnZl3* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTex = sEyeTextures[eyeTexIndex];
-    s16 mouthTexIndex = this->mouthTexIndex;
+    s16 eyes = this->eyes;
+    void* eyeTex = sEyeTextures[eyes];
+    s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouth];
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl3.c", 2165);
@@ -2759,11 +2759,11 @@ void func_80B59FF4(EnZl3* this, PlayState* play) {
 
 void func_80B5A1D0(EnZl3* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeTexIndex = this->eyeTexIndex;
-    void* eyeTex = sEyeTextures[eyeTexIndex];
-    s16 mouthTexIndex = this->mouthTexIndex;
+    s16 eyes = this->eyes;
+    void* eyeTex = sEyeTextures[eyes];
+    s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouth];
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl3.c", 2205);

@@ -23,7 +23,7 @@ typedef enum {
     /* 2 */ SARIA_EYE_CLOSED,
     /* 3 */ SARIA_EYE_SUPRISED,
     /* 4 */ SARIA_EYE_SAD
-} SariaEyeState;
+} SariaEye;
 
 typedef enum {
     /* 0 */ SARIA_MOUTH_CLOSED2,
@@ -31,7 +31,7 @@ typedef enum {
     /* 2 */ SARIA_MOUTH_CLOSED,
     /* 3 */ SARIA_MOUTH_SMILING_OPEN,
     /* 4 */ SARIA_MOUTH_FROWNING
-} SariaMouthState;
+} SariaMouth;
 
 ActorInit En_Sa_InitVars = {
     /**/ ACTOR_EN_SA,
@@ -440,7 +440,7 @@ s32 EnSa_EyesBusy(EnSa* this) {
         return 0;
     }
     this->blinkTimer = 0;
-    if (this->rightEyeIndex != SARIA_EYE_CLOSED) {
+    if (this->rightEye != SARIA_EYE_CLOSED) {
         return 0;
     }
     return 1;
@@ -457,13 +457,13 @@ void EnSa_UpdateEyes(EnSa* this) {
             phi_v1 = this->blinkTimer;
         }
         if (phi_v1 == 0) {
-            this->rightEyeIndex++;
-            if (this->rightEyeIndex < SARIA_EYE_SUPRISED) {
-                this->leftEyeIndex = this->rightEyeIndex;
+            this->rightEye++;
+            if (this->rightEye < SARIA_EYE_SUPRISED) {
+                this->leftEye = this->rightEye;
             } else {
                 this->blinkTimer = Rand_S16Offset(30, 30);
-                this->leftEyeIndex = SARIA_EYE_OPEN;
-                this->rightEyeIndex = this->leftEyeIndex;
+                this->leftEye = SARIA_EYE_OPEN;
+                this->rightEye = this->leftEye;
             }
         }
     }
@@ -548,14 +548,14 @@ void func_80AF6448(EnSa* this, PlayState* play) {
                 case 0x1002:
                     if (this->unk_208 == 0 && this->unk_20B != 1) {
                         func_80AF5CD4(this, 1);
-                        this->mouthIndex = SARIA_MOUTH_SUPRISED;
+                        this->mouth = SARIA_MOUTH_SUPRISED;
                     }
                     if (this->unk_208 == 2 && this->unk_20B != 2) {
                         func_80AF5CD4(this, 2);
-                        this->mouthIndex = SARIA_MOUTH_SUPRISED;
+                        this->mouth = SARIA_MOUTH_SUPRISED;
                     }
                     if (this->unk_208 == 5) {
-                        this->mouthIndex = SARIA_MOUTH_CLOSED2;
+                        this->mouth = SARIA_MOUTH_CLOSED2;
                     }
                     break;
                 case 0x1003:
@@ -567,15 +567,15 @@ void func_80AF6448(EnSa* this, PlayState* play) {
                     if (this->unk_208 == 0 && this->unk_20B != 4 &&
                         this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
                         func_80AF5CD4(this, 4);
-                        this->mouthIndex = SARIA_MOUTH_SMILING_OPEN;
+                        this->mouth = SARIA_MOUTH_SMILING_OPEN;
                     }
                     if (this->unk_208 == 2 && this->unk_20B != 5) {
                         func_80AF5CD4(this, 5);
-                        this->mouthIndex = SARIA_MOUTH_CLOSED;
+                        this->mouth = SARIA_MOUTH_CLOSED;
                     }
                     if (this->unk_208 == 4 && this->unk_20B != 6) {
                         func_80AF5CD4(this, 6);
-                        this->mouthIndex = SARIA_MOUTH_CLOSED2;
+                        this->mouth = SARIA_MOUTH_CLOSED2;
                     }
                     break;
                 case 0x1032:
@@ -662,13 +662,13 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
         if (this->unk_210 != cue->id) {
             switch (cue->id) {
                 case 2:
-                    this->mouthIndex = SARIA_MOUTH_SUPRISED;
+                    this->mouth = SARIA_MOUTH_SUPRISED;
                     break;
                 case 9:
-                    this->mouthIndex = SARIA_MOUTH_SUPRISED;
+                    this->mouth = SARIA_MOUTH_SUPRISED;
                     break;
                 default:
-                    this->mouthIndex = SARIA_MOUTH_CLOSED2;
+                    this->mouth = SARIA_MOUTH_CLOSED2;
                     break;
             }
             EnSa_ChangeAnim(this, cue->id);
@@ -722,7 +722,7 @@ void func_80AF6B20(EnSa* this, PlayState* play) {
         EnSa_ChangeAnim(this, ENSA_ANIM1_4);
         this->actor.world.pos = this->actor.home.pos;
         this->actor.world.rot = this->unk_21A;
-        this->mouthIndex = SARIA_MOUTH_CLOSED2;
+        this->mouth = SARIA_MOUTH_CLOSED2;
         SET_INFTABLE(INFTABLE_00);
     }
 
@@ -816,14 +816,14 @@ void EnSa_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sa.c", 1444);
 
     if (this->alpha == 255) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->rightEyeIndex]));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->leftEyeIndex]));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->rightEye]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->leftEye]));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouth]));
         func_80034BA0(play, &this->skelAnime, EnSa_OverrideLimbDraw, EnSa_PostLimbDraw, &this->actor, this->alpha);
     } else if (this->alpha != 0) {
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->rightEyeIndex]));
-        gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->leftEyeIndex]));
-        gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthIndex]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->rightEye]));
+        gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->leftEye]));
+        gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouth]));
         func_80034CC4(play, &this->skelAnime, EnSa_OverrideLimbDraw, EnSa_PostLimbDraw, &this->actor, this->alpha);
     }
 

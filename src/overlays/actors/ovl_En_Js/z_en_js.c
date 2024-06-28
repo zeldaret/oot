@@ -199,9 +199,9 @@ void EnJs_Update(Actor* thisx, PlayState* play) {
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(0x3C, 0x3C);
     }
-    this->eyeTexIdx = this->blinkTimer;
-    if (this->eyeTexIdx >= 3) {
-        this->eyeTexIdx = 0;
+    this->eyes = this->blinkTimer;
+    if (this->eyes >= 3) {
+        this->eyes = 0;
     }
 }
 

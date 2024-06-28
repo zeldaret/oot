@@ -32,10 +32,10 @@ ActorInit En_Niw_Girl_InitVars = {
 };
 
 typedef enum {
-    /* 0 */ NIW_GIRL_EYE_OPEN,
-    /* 1 */ NIW_GIRL_EYE_HALF,
-    /* 2 */ NIW_GIRL_EYE_CLOSED
-} EnNiwGirlEyeState;
+    /* 0 */ CUCCO_GIRL_EYE_OPEN,
+    /* 1 */ CUCCO_GIRL_EYE_HALF,
+    /* 2 */ CUCCO_GIRL_EYE_CLOSED
+} CuccoGirlEye;
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -199,9 +199,9 @@ void EnNiwGirl_Update(Actor* thisx, PlayState* play) {
     this->unkUpTimer++;
     tempActionFunc = func_80AB94D0;
     if (this->blinkTimer == 0) {
-        this->eyeIndex++;
-        if (this->eyeIndex >= 3) { //check if we've moved beyond 'blink' indices
-            this->eyeIndex = NIW_GIRL_EYE_OPEN;
+        this->eyes++;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyes = CUCCO_GIRL_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
@@ -258,7 +258,7 @@ void EnNiwGirl_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_niw_girl.c", 573);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnNiwGirlOverrideLimbDraw, NULL, this);
     func_80033C30(&this->actor.world.pos, &sp4C, 255, play);

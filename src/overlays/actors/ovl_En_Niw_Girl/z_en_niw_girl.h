@@ -20,7 +20,7 @@ typedef struct EnNiwGirl {
     /* 0x026C */ s16 jumpTimer; // Controls how many frames she jumps for and how long until she jumps again
     /* 0x026E */ s16 unkUpTimer;
     /* 0x0270 */ s16 unk_270;
-    /* 0x0272 */ s16 eyeIndex;
+    /* 0x0272 */ s16 eyes;
     /* 0x0274 */ s16 blinkTimer;
     /* 0x0276 */ s16 path;
     /* 0x0278 */ s16 unk_278;

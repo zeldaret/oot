@@ -406,12 +406,15 @@ void func_80A3F060(EnGo* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 4, trackingMode);
 }
 
+/**
+ * Unused(?) blink logic. Draw function disregards the value of the eyes field and always uses the open eye texture.
+ */
 void EnGo_UpdateBlink(EnGo* this) {
     if (DECR(this->blinkTimer) == 0) {
-        this->eyeTexIdx++;
-        if (this->eyeTexIdx >= 3) {
+        this->eyes++;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeTexIdx = 0;
+            this->eyes = 0;
         }
     }
 }

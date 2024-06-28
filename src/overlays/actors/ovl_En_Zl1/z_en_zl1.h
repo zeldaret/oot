@@ -19,13 +19,13 @@ typedef struct EnZl1 {
     /* 0x01E6 */ s16 unk_1E6;
     /* 0x01E8 */ s16 subCamId;
     /* 0x01EA */ char unk_1EA[0x2];
-    /* 0x01EC */ void* mouthTexture;
+    /* 0x01EC */ void* mouth;
     /* 0x01F0 */ char unk_1F0[0x2];
     /* 0x01F2 */ s16 mouthTextureIndex; //Always 0
     /* 0x01F4 */ void* unk_1F4; //Left eye?
     /* 0x01F8 */ void* unk_1F8; //Right eye?
     /* 0x01FC */ s16 blinkTimer;
-    /* 0x01FE */ s16 blinkTextureIndex;
+    /* 0x01FE */ s16 eyes;
     /* 0x0200 */ Vec3s unk_200;
     /* 0x0206 */ Vec3s unk_206;
 } EnZl1; // size = 0x020C

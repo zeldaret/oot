@@ -72,7 +72,7 @@ typedef enum {
     /* 0 */ ZORA_EYE_OPEN,
     /* 1 */ ZORA_EYE_HALF,
     /* 2 */ ZORA_EYE_CLOSED
-} EnDivingGameEyeState;
+} DivingGameZoraEye;
 
 static void* sEyeTextures[] = {
     gZoraEyeOpenTex,
@@ -520,9 +520,9 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
 
     if (this->eyeTimer == 0) {
         this->eyeTimer = 2;
-        this->eyeTexIndex++;
-        if (this->eyeTexIndex >= 3) { //check if we've moved beyond 'blink' indices
-            this->eyeTexIndex = ZORA_EYE_OPEN;
+        this->eyes++;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyes = ZORA_EYE_OPEN;
             this->eyeTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
@@ -582,7 +582,7 @@ void EnDivingGame_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, EnDivingGame_EmptyDList(play->state.gfxCtx));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDivingGame_OverrideLimbDraw, NULL, this);

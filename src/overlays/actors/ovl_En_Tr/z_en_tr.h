@@ -48,7 +48,7 @@ typedef struct EnTr {
     /* 0x02D6 */ u16 timer; // Also used as an angle
     /* 0x02D8 */ s16 cueChannel;
     /* 0x02DC */ EnTrActionFunc actionFunc;
-    /* 0x02E0 */ s16 eyeIndex;
+    /* 0x02E0 */ s16 eyes;
     /* 0x02E2 */ s16 blinkTimer;
     /* 0x02E4 */ AnimationHeader* animation;
 } EnTr; // size = 0x02E8

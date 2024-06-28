@@ -50,7 +50,7 @@ typedef enum {
     /* 2 */ SARIA_EYE_CLOSED,
     /* 3 */ SARIA_EYE_SUPRISED,
     /* 4 */ SARIA_EYE_SAD
-} SariaEyeState;
+} SariaEye;
 
 typedef enum {
     /* 0 */ SARIA_MOUTH_CLOSED2,
@@ -58,7 +58,7 @@ typedef enum {
     /* 2 */ SARIA_MOUTH_CLOSED,
     /* 3 */ SARIA_MOUTH_SMILING_OPEN,
     /* 4 */ SARIA_MOUTH_FROWNING
-} SariaMouthState;
+} SariaMouth;
 
 static void* sEyeTextures[] = {
     gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex, gSariaEyeSadTex,
@@ -107,25 +107,25 @@ void DemoSa_Destroy(Actor* thisx, PlayState* play) {
 
 void DemoSa_UpdateBlink(DemoSa* this) {
     s32 pad[2];
-    s16* eyeIndex = &this->eyeIndex;
+    s16* eyes = &this->eyes;
     s16* blinkTimer = &this->blinkTimer;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(0x3C, 0x3C);
     }
 
-    *eyeIndex = *blinkTimer;
-    if (*eyeIndex >= SARIA_EYE_SUPRISED) { //check if we've moved beyond 'blink' indices
-        *eyeIndex = SARIA_EYE_OPEN;
+    *eyes = *blinkTimer;
+    if (*eyes >= SARIA_EYE_SUPRISED) { //check if we've moved beyond 'blink' indices
+        *eyes = SARIA_EYE_OPEN;
     }
 }
 
-void DemoSa_SetEyeIndex(DemoSa* this, s16 eyeIndex) {
-    this->eyeIndex = eyeIndex;
+void DemoSa_Seteyes(DemoSa* this, s16 eyes) {
+    this->eyes = eyes;
 }
 
-void DemoSa_SetMouthIndex(DemoSa* this, s16 mouthIndex) {
-    this->mouthIndex = mouthIndex;
+void DemoSa_SetMouth(DemoSa* this, s16 mouth) {
+    this->mouth = mouth;
 }
 
 #if OOT_DEBUG
@@ -227,8 +227,8 @@ void func_8098E76C(DemoSa* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 mo
 void func_8098E7FC(DemoSa* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gSariaSkel, &gSariaWaitArmsToSideAnim, NULL, NULL, 0);
     this->actor.shape.yOffset = -10000.0f;
-    DemoSa_SetEyeIndex(this, SARIA_EYE_HALF);
-    DemoSa_SetMouthIndex(this, SARIA_MOUTH_CLOSED2);
+    DemoSa_Seteyes(this, SARIA_EYE_HALF);
+    DemoSa_SetMouth(this, SARIA_MOUTH_CLOSED2);
 }
 
 void func_8098E86C(DemoSa* this, PlayState* play) {
@@ -367,16 +367,16 @@ void func_8098ECF4(DemoSa* this, PlayState* play) {
     Animation_Change(skelAnime, &gSariaSealGanonAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
     this->action = 7;
     this->actor.shape.shadowAlpha = 0;
-    DemoSa_SetEyeIndex(this, SARIA_EYE_CLOSED);
-    DemoSa_SetMouthIndex(this, SARIA_MOUTH_CLOSED);
+    DemoSa_Seteyes(this, SARIA_EYE_CLOSED);
+    DemoSa_SetMouth(this, SARIA_MOUTH_CLOSED);
 }
 
 void func_8098EDB0(DemoSa* this) {
     f32 curFrame = this->skelAnime.curFrame;
 
     if ((this->skelAnime.mode == 2) && (curFrame >= 32.0f)) {
-        DemoSa_SetEyeIndex(this, SARIA_EYE_HALF);
-        DemoSa_SetMouthIndex(this, SARIA_MOUTH_CLOSED2);
+        DemoSa_Seteyes(this, SARIA_EYE_HALF);
+        DemoSa_SetMouth(this, SARIA_MOUTH_CLOSED2);
     }
 }
 
@@ -471,11 +471,11 @@ void func_8098F16C(DemoSa* this, PlayState* play) {
 
 void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeIndex = this->eyeIndex;
-    void* sp78 = sEyeTextures[eyeIndex];
-    s16 mouthIndex = this->mouthIndex;
+    s16 eyes = this->eyes;
+    void* sp78 = sEyeTextures[eyes];
+    s16 mouth = this->mouth;
     s32 pad2;
-    void* sp6C = sMouthTextures[mouthIndex];
+    void* sp6C = sMouthTextures[mouth];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 296);
@@ -630,8 +630,8 @@ void func_8098F83C(DemoSa* this, PlayState* play) {
     this->action = 16;
     this->drawConfig = 0;
     this->actor.shape.shadowAlpha = 0;
-    DemoSa_SetEyeIndex(this, SARIA_EYE_SAD);
-    DemoSa_SetMouthIndex(this, SARIA_MOUTH_CLOSED);
+    DemoSa_Seteyes(this, SARIA_EYE_SAD);
+    DemoSa_SetMouth(this, SARIA_MOUTH_CLOSED);
 }
 
 void func_8098F8F8(DemoSa* this) {
@@ -669,7 +669,7 @@ void func_8098F998(DemoSa* this, PlayState* play) {
         this->unk_1B0 = 0;
         this->actor.shape.shadowAlpha = 0xFF;
     }
-    DemoSa_SetEyeIndex(this, SARIA_EYE_SAD);
+    DemoSa_Seteyes(this, SARIA_EYE_SAD);
 }
 
 void func_8098FA2C(DemoSa* this) {
@@ -687,7 +687,7 @@ void func_8098FA84(DemoSa* this) {
     this->drawConfig = 1;
     this->unk_1B0 = 1;
     this->actor.shape.shadowAlpha = 0xFF;
-    DemoSa_SetEyeIndex(this, SARIA_EYE_CLOSED);
+    DemoSa_Seteyes(this, SARIA_EYE_CLOSED);
 }
 
 void func_8098FAE0(DemoSa* this) {
@@ -811,11 +811,11 @@ void DemoSa_DrawNothing(DemoSa* this, PlayState* play) {
 
 void DemoSa_DrawOpa(DemoSa* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeIndex = this->eyeIndex;
-    void* eyeTex = sEyeTextures[eyeIndex];
+    s16 eyes = this->eyes;
+    void* eyeTex = sEyeTextures[eyes];
     s32 pad2;
-    s16 mouthIndex = this->mouthIndex;
-    void* mouthTex = sMouthTextures[mouthIndex];
+    s16 mouth = this->mouth;
+    void* mouthTex = sMouthTextures[mouth];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_sa.c", 602);
