@@ -159,6 +159,9 @@ endseg
 
 beginseg
     name "link_animetion"
+#if OOT_NTSC
+    romalign 0x1000
+#endif
     include "$(BUILD_DIR)/assets/misc/link_animetion/link_animetion.o"
     number 7
 endseg
