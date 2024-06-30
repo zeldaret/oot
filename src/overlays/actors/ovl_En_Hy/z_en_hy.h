@@ -49,8 +49,8 @@ typedef struct EnHy {
     /* 0x0214 */ s8 waypoint;
     /* 0x0215 */ s8 unk_215;
     /* 0x0216 */ char unk_216[2]; // unused
-    /* 0x0218 */ s16 curEyeIndex;
-    /* 0x021A */ s16 nextEyeIndexTimer;
+    /* 0x0218 */ s16 eyes;
+    /* 0x021A */ s16 blinkTimer;
     /* 0x021C */ s16 unk_21C[16]; // bodyWiggleY ?
     /* 0x023C */ s16 unk_23C[16]; // bodyWiggleZ ?
     /* 0x025C */ f32 interactRange;

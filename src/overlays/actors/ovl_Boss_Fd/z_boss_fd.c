@@ -25,13 +25,13 @@ typedef enum {
     /* 0 */ MANE_CENTER,
     /* 1 */ MANE_RIGHT,
     /* 2 */ MANE_LEFT
-} BossFdManeIndex;
+} VolvagiaMane;
 
 typedef enum {
     /* 0 */ EYE_OPEN,
     /* 1 */ EYE_HALF,
     /* 2 */ EYE_CLOSED
-} BossFdEyeState;
+} VolvagiaEye;
 
 void BossFd_Init(Actor* thisx, PlayState* play);
 void BossFd_Destroy(Actor* thisx, PlayState* play);
@@ -1128,7 +1128,7 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
     if (((this->work[BFD_VAR_TIMER] % 8) == 0) && (Rand_ZeroOne() < 0.3f)) {
         this->work[BFD_BLINK_TIMER] = 4;
     }
-    this->eyeState = eyeStates[this->work[BFD_BLINK_TIMER]];
+    this->eyes = eyeStates[this->work[BFD_BLINK_TIMER]];
 
     if (this->work[BFD_BLINK_TIMER] != 0) {
         this->work[BFD_BLINK_TIMER]--;
@@ -1835,7 +1835,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_fd.c", 4589);
     if (this->skinSegments != 0) {
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeState]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyes]));
     }
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (s16)this->fwork[BFD_TEX1_SCROLL_X],

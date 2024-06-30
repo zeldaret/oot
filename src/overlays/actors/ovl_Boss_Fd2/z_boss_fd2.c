@@ -25,7 +25,7 @@ typedef enum {
     /* 0 */ EYE_OPEN,
     /* 1 */ EYE_HALF,
     /* 2 */ EYE_CLOSED
-} BossFd2EyeState;
+} BossFd2eyes;
 
 void BossFd2_Init(Actor* thisx, PlayState* play);
 void BossFd2_Destroy(Actor* thisx, PlayState* play);
@@ -920,19 +920,19 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
 void BossFd2_UpdateFace(BossFd2* this, PlayState* play) {
     f32 maxOpen;
     f32 openRate;
-    s16 eyeStates[5] = { EYE_OPEN, EYE_HALF, EYE_CLOSED, EYE_CLOSED, EYE_HALF };
+    s16 eyess[5] = { EYE_OPEN, EYE_HALF, EYE_CLOSED, EYE_CLOSED, EYE_HALF };
 
     if (((this->work[FD2_VAR_TIMER] % 8) == 0) && (Rand_ZeroOne() < 0.3f)) {
         this->work[FD2_BLINK_TIMER] = 4;
     }
     if ((this->actionFunc == BossFd2_Vulnerable) || (this->actionFunc == BossFd2_Damaged)) {
         if (this->work[FD2_VAR_TIMER] & 0x10) {
-            this->eyeState = EYE_HALF;
+            this->eyes = EYE_HALF;
         } else {
-            this->eyeState = EYE_CLOSED;
+            this->eyes = EYE_CLOSED;
         }
     } else {
-        this->eyeState = eyeStates[this->work[FD2_BLINK_TIMER]];
+        this->eyes = eyess[this->work[FD2_BLINK_TIMER]];
     }
 
     if (this->work[FD2_BLINK_TIMER] != 0) {
@@ -1199,7 +1199,7 @@ void BossFd2_Draw(Actor* thisx, PlayState* play) {
         if (this->work[FD2_DAMAGE_FLASH_TIMER] & 2) {
             POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 900, 1099);
         }
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeState]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
 
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (s16)this->fwork[FD2_TEX1_SCROLL_X],

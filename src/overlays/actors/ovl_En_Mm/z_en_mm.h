@@ -14,7 +14,7 @@ typedef struct EnMm {
     /* 0x0190 */ EnMmActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ s32 unk_1E0;
-    /* 0x01E4 */ s32 mouthTexIndex;
+    /* 0x01E4 */ s32 mouth;
     /* 0x01E8 */ s32 unk_1E8;
     /* 0x01EC */ s32 path;
     /* 0x01F0 */ s32 unk_1F0;

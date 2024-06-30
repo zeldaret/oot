@@ -106,6 +106,7 @@ s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
                     SET_INFTABLE(INFTABLE_8C);
                     talkState = NPC_TALK_STATE_ACTION;
                     break;
+                //! @bug Unreachable code - this text ID is for "This statue's one-eyed gaze pierces into your mind...", which belongs to gossip stones, not Malon 2
                 case 0x2053:
                     SET_INFTABLE(INFTABLE_8D);
                     talkState = NPC_TALK_STATE_IDLE;

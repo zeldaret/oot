@@ -26,7 +26,7 @@ typedef enum {
     /* 1 */ TALON_EYE_INDEX_HALF,
     /* 2 */ TALON_EYE_INDEX_CLOSED,
     /* 3 */ TALON_EYE_INDEX_MAX
-} TalonEyeIndex;
+} TalonEyes;
 
 typedef enum {
     /* 0 */ TALON_CANBUYMILK_NOT_ENOUGH_RUPEES,
@@ -163,12 +163,12 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
             } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
                 EnTa_SetupAction(this, EnTa_IdleAwakeInKakariko, EnTa_AnimRepeatCurrent);
-                this->eyeIndex = TALON_EYE_INDEX_OPEN;
+                this->eyes = TALON_EYE_INDEX_OPEN;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                 this->currentAnimation = &gTalonStandAnim;
             } else {
                 EnTa_SetupAction(this, EnTa_IdleAsleepInKakariko, EnTa_AnimSleeping);
-                this->eyeIndex = TALON_EYE_INDEX_CLOSED;
+                this->eyes = TALON_EYE_INDEX_CLOSED;
                 Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                 this->currentAnimation = &gTalonSleepAnim;
                 this->actor.shape.shadowScale = 54.0f;
@@ -187,7 +187,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 PRINTF(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
                 EnTa_SetupAction(this, EnTa_IdleAtRanch, EnTa_AnimRepeatCurrent);
-                this->eyeIndex = TALON_EYE_INDEX_OPEN;
+                this->eyes = TALON_EYE_INDEX_OPEN;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                 this->currentAnimation = &gTalonStandAnim;
             }
@@ -201,12 +201,12 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     Actor_Kill(&this->actor);
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE)) {
                     EnTa_SetupAction(this, EnTa_IdleAwakeInCastle, EnTa_AnimRepeatCurrent);
-                    this->eyeIndex = TALON_EYE_INDEX_OPEN;
+                    this->eyes = TALON_EYE_INDEX_OPEN;
                     Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                     this->currentAnimation = &gTalonStandAnim;
                 } else {
                     EnTa_SetupAction(this, EnTa_IdleAsleepInCastle, EnTa_AnimSleeping);
-                    this->eyeIndex = TALON_EYE_INDEX_CLOSED;
+                    this->eyes = TALON_EYE_INDEX_CLOSED;
                     Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                     this->currentAnimation = &gTalonSleepAnim;
                     this->actor.shape.shadowScale = 54.0f;
@@ -240,13 +240,13 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                             CLEAR_EVENTINF(EVENTINF_CUCCO_GAME_FINISHED);
                         } else {
                             EnTa_SetupAction(this, EnTa_IdleSittingInLonLonHouse, EnTa_AnimSitSleeping);
-                            this->eyeIndex = TALON_EYE_INDEX_OPEN;
+                            this->eyes = TALON_EYE_INDEX_OPEN;
                             Animation_PlayOnce(&this->skelAnime, &gTalonSitSleepingAnim);
                             this->currentAnimation = &gTalonSitSleepingAnim;
                         }
                     } else {
                         EnTa_SetupAction(this, EnTa_IdleAsleepInLonLonHouse, EnTa_AnimSleeping);
-                        this->eyeIndex = TALON_EYE_INDEX_CLOSED;
+                        this->eyes = TALON_EYE_INDEX_CLOSED;
                         Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                         this->currentAnimation = &gTalonSleepAnim;
                         this->actor.shape.shadowScale = 54.0f;
@@ -254,7 +254,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 }
             } else {
                 EnTa_SetupAction(this, EnTa_IdleAsleepInCastle, EnTa_AnimSleeping);
-                this->eyeIndex = TALON_EYE_INDEX_CLOSED;
+                this->eyes = TALON_EYE_INDEX_CLOSED;
                 Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                 this->currentAnimation = &gTalonSleepAnim;
                 this->actor.shape.shadowScale = 54.0f;
@@ -338,7 +338,7 @@ void EnTa_TalkWakingUp1(EnTa* this, PlayState* play) {
 
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) {
         // Half-open eyes once the textbox reaches its end
-        this->eyeIndex = TALON_EYE_INDEX_HALF;
+        this->eyes = TALON_EYE_INDEX_HALF;
         EnTa_SetupAction(this, EnTa_TalkWakingUp2, EnTa_AnimRepeatCurrent);
     }
     EnTa_DecreaseShadowSize(this);
@@ -594,7 +594,7 @@ void EnTa_RemoveFloorCamera(EnTa* this, PlayState* play) {
 
 void EnTa_SetupActionWithSleepAnimation(EnTa* this, EnTaActionFunc actionFunc) {
     EnTa_SetupAction(this, actionFunc, EnTa_AnimSitSleeping);
-    this->eyeIndex = TALON_EYE_INDEX_CLOSED;
+    this->eyes = TALON_EYE_INDEX_CLOSED;
     Animation_Change(&this->skelAnime, &gTalonSitSleepingAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gTalonSitSleepingAnim), ANIMMODE_ONCE, -5.0f);
     this->nodOffTimer = 0;
@@ -602,7 +602,7 @@ void EnTa_SetupActionWithSleepAnimation(EnTa* this, EnTaActionFunc actionFunc) {
 }
 
 void EnTa_SetupActionWithWakeUpAnimation(EnTa* this, EnTaActionFunc actionFunc) {
-    this->eyeIndex = TALON_EYE_INDEX_HALF;
+    this->eyes = TALON_EYE_INDEX_HALF;
     EnTa_SetupAction(this, actionFunc, EnTa_AnimRunToEnd);
     this->stateFlags &= ~TALON_STATE_FLAG_ANIMATION_FINISHED;
     Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gTalonSitWakeUpAnim),
@@ -1155,13 +1155,13 @@ void EnTa_BlinkAdvanceState(EnTa* this) {
         this->blinkTimer = blinkTimer;
     } else {
         // Next towards closed eyes: open -> half, half -> closed
-        s16 nextEyeIndex = this->eyeIndex + 1;
+        s16 nexteyes = this->eyes + 1;
 
         // If the eyes were already closed, set the eyes open and set a new blink timer.
         // If just woken up (rapidBlinks > 0), blink a few times
         // in quick succession before starting the normal blink cycle.
-        if (nextEyeIndex >= TALON_EYE_INDEX_MAX) {
-            this->eyeIndex = TALON_EYE_INDEX_OPEN;
+        if (nexteyes >= TALON_EYE_INDEX_MAX) {
+            this->eyes = TALON_EYE_INDEX_OPEN;
             if (this->rapidBlinks > 0) {
                 this->rapidBlinks--;
                 blinkTimer = 1;
@@ -1171,7 +1171,7 @@ void EnTa_BlinkAdvanceState(EnTa* this) {
             this->blinkTimer = blinkTimer;
             this->blinkFunc = EnTa_BlinkWaitUntilNext;
         } else {
-            this->eyeIndex = nextEyeIndex;
+            this->eyes = nexteyes;
             this->blinkTimer = 1;
         }
     }
@@ -1205,10 +1205,10 @@ void EnTa_AnimSitSleeping(EnTa* this) {
         if (this->skelAnime.curFrame < 96.0f && this->skelAnime.curFrame >= 53.0f) {
             // Half-open eyes during the part of the sleeping animation where Talon
             // raises his head after nodding off
-            this->eyeIndex = TALON_EYE_INDEX_HALF;
+            this->eyes = TALON_EYE_INDEX_HALF;
         } else {
             // Otherwise keep the eyes closed
-            this->eyeIndex = TALON_EYE_INDEX_CLOSED;
+            this->eyes = TALON_EYE_INDEX_CLOSED;
         }
         this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM;
     }
@@ -1313,7 +1313,7 @@ void EnTa_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(gTalonHeadSkinTex));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

@@ -528,9 +528,9 @@ void DemoEc_UpdateOldMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawOldMan(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        object_bji_Tex_0005FC,
-        object_bji_Tex_0009FC,
-        object_bji_Tex_000DFC,
+        gOldManEyeOpen,
+        gOldManEyeHalf,
+        gOldManEyeClosed,
     };
     static u8 color1[] = { 0, 50, 100, 255 };
     static u8 color2[] = { 0, 50, 160, 255 };
@@ -560,9 +560,9 @@ void DemoEc_UpdateBeardedMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawBeardedMan(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        object_ahg_Tex_00057C,
-        object_ahg_Tex_00067C,
-        object_ahg_Tex_00077C,
+        gBeardedManEyeOpen,
+        gBeardedManEyeHalf,
+        gBeardedManEyeClosed,
     };
     static u8 color1[] = { 255, 255, 255, 255 };
     static u8 color2[] = { 255, 255, 255, 255 };
@@ -592,9 +592,9 @@ void DemoEc_UpdateWoman(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawWoman(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        object_bob_Tex_0007C8,
-        object_bob_Tex_000FC8,
-        object_bob_Tex_0017C8,
+        gWomanEyeOpen,
+        gWomanEyeHalf,
+        gWomanEyeClosed,
     };
     s32 eyes = this->eyes;
     void* eyeTexture = eyeTextures[eyes];
@@ -620,7 +620,7 @@ void DemoEc_UpdateOldWoman(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawOldWoman(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, &object_bba_Tex_0004C8, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, play, &gOldWomanEye, NULL, NULL, NULL);
 }
 
 void DemoEc_InitBossCarpenter(DemoEc* this, PlayState* play) {

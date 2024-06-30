@@ -17,7 +17,7 @@ typedef struct EnSyatekiMan {
     /* 0x01FC */ EnSyatekiManActionFunc actionFunc;
     /* 0x0200 */ Vec3s headRot;
     /* 0x0206 */ Vec3s bodyRot;
-    /* 0x020C */ s16 eyeState; // Unused
+    /* 0x020C */ s16 eyes; // Unused
     /* 0x020E */ s16 blinkTimer; // Unused
     /* 0x0210 */ s16 textIdx;
     /* 0x0212 */ s16 numTextBox;

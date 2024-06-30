@@ -21,7 +21,7 @@
         <Texture Name="object_bba_Tex_000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348" TlutOffset="0x108"/>
         <Texture Name="object_bba_Tex_000388" OutName="tex_00000388" Format="ci8" Width="16" Height="16" Offset="0x388" TlutOffset="0x108"/>
         <Texture Name="object_bba_Tex_000488" OutName="tex_00000488" Format="ci8" Width="8" Height="8" Offset="0x488" TlutOffset="0x108"/>
-        <Texture Name="object_bba_Tex_0004C8" OutName="tex_000004C8" Format="rgba16" Width="32" Height="32" Offset="0x4C8"/>
+        <Texture Name="gOldWomanEye" OutName="old_woman_eye" Format="rgba16" Width="32" Height="32" Offset="0x4C8"/>
         <Texture Name="object_bba_Tex_000CC8" OutName="tex_00000CC8" Format="ci8" Width="16" Height="16" Offset="0xCC8" TlutOffset="0x108"/>
         <Texture Name="object_bba_Tex_000DC8" OutName="tex_00000DC8" Format="ci8" Width="8" Height="8" Offset="0xDC8" TlutOffset="0x108"/>
         <Texture Name="object_bba_Tex_000E08" OutName="tex_00000E08" Format="ci8" Width="16" Height="16" Offset="0xE08" TlutOffset="0x108"/>

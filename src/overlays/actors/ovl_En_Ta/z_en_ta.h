@@ -48,7 +48,7 @@ typedef struct EnTa {
     /* 0x0260 */ EnTaAnimFunc animFunc;
     /* 0x0264 */ ColliderCylinder collider;
     /* 0x02B0 */ EnTaBlinkFunc blinkFunc;
-    /* 0x02B4 */ s16 eyeIndex;
+    /* 0x02B4 */ s16 eyes;
     /* 0x02B6 */ s16 blinkTimer;
     /* 0x02B8 */ EnNiw* superCuccos[3];
     /* 0x02C4 */ s16 superCuccoTimers[3]; // This is used to time animations and actions for super-cuccos

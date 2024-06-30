@@ -38,6 +38,12 @@ ActorInit En_Ani_InitVars = {
     /**/ EnAni_Draw,
 };
 
+typedef enum {
+    /* 0 */ ROOF_GUY_EYE_OPEN,
+    /* 1 */ ROOF_GUY_EYE_HALF,
+    /* 2 */ ROOF_GUY_EYE_CLOSED
+} RoofGuyEye;
+
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
@@ -278,9 +284,9 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
-    this->eyeIndex = this->blinkTimer;
-    if (this->eyeIndex >= 3) {
-        this->eyeIndex = 0;
+    this->eyes = this->blinkTimer;
+    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        this->eyes = ROOF_GUY_EYE_OPEN;
     }
 }
 
@@ -316,7 +322,7 @@ void EnAni_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, this);

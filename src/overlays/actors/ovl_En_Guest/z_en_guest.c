@@ -211,10 +211,10 @@ s32 EnGuest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
 }
 
 void EnGuest_Draw(Actor* thisx, PlayState* play) {
-    static void* D_80A50BA4[] = {
-        object_boj_Tex_0005FC,
-        object_boj_Tex_0006FC,
-        object_boj_Tex_0007FC,
+    static void* sEyeTextures[] = {
+        gGuestEyeOpen,
+        gGuestEyeHalf,
+        gGuestEyeClosed,
     };
     EnGuest* this = (EnGuest*)thisx;
     s32 pad;
@@ -225,7 +225,7 @@ void EnGuest_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80A50708(play->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A50708(play->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->eyes]));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGuest_OverrideLimbDraw, NULL, this);

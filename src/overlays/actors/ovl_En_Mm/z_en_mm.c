@@ -182,11 +182,11 @@ void EnMm_Init(Actor* thisx, PlayState* play) {
     this->unk_204 = this->actor.objectSlot;
 
     if (func_80AADA70() == 1) {
-        this->mouthTexIndex = RM_MOUTH_OPEN;
+        this->mouth = RM_MOUTH_OPEN;
         EnMm_ChangeAnim(this, RM_ANIM_RUN, &this->curAnimIndex);
         this->actionFunc = func_80AAE598;
     } else {
-        this->mouthTexIndex = RM_MOUTH_CLOSED;
+        this->mouth = RM_MOUTH_CLOSED;
         EnMm_ChangeAnim(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
         this->actionFunc = func_80AAE294;
     }
@@ -396,7 +396,7 @@ void func_80AAE224(EnMm* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actionFunc = func_80AAE598;
         this->unk_1E8 = 0;
-        this->mouthTexIndex = RM_MOUTH_CLOSED;
+        this->mouth = RM_MOUTH_CLOSED;
         this->unk_254 |= 1;
         this->unk_1E0 = 0;
         this->actor.speed = 0.0f;
@@ -475,10 +475,10 @@ void func_80AAE50C(EnMm* this, PlayState* play) {
 
         if (GET_ITEMGETINF(ITEMGETINF_3B)) {
             EnMm_ChangeAnim(this, RM_ANIM_SPRINT, &this->curAnimIndex);
-            this->mouthTexIndex = RM_MOUTH_CLOSED;
+            this->mouth = RM_MOUTH_CLOSED;
         } else {
             EnMm_ChangeAnim(this, RM_ANIM_RUN, &this->curAnimIndex);
-            this->mouthTexIndex = RM_MOUTH_OPEN;
+            this->mouth = RM_MOUTH_OPEN;
         }
 
         this->unk_1E8 = 1;
@@ -515,7 +515,7 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_mm.c", 1065);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouth]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMm_OverrideLimbDraw, EnMm_PostLimbDraw, this);
 

@@ -168,7 +168,7 @@ void EnSyatekiMan_Init(Actor* thisx, PlayState* play) {
         this->headRot.z = 20;
     }
     this->blinkTimer = 20;
-    this->eyeState = 0;
+    this->eyes = 0;
     this->blinkFunc = EnSyatekiMan_BlinkWait;
     this->actor.colChkInfo.cylRadius = 100;
     this->actionFunc = EnSyatekiMan_Start;
@@ -451,14 +451,14 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this) {
     if (decrBlinkTimer != 0) {
         this->blinkTimer = decrBlinkTimer;
     } else {
-        s16 nextEyeState = this->eyeState + 1;
+        s16 nextEyeState = this->eyes + 1;
 
         if (nextEyeState >= 3) {
-            this->eyeState = 0;
+            this->eyes = 0;
             this->blinkTimer = 20 + (s32)(Rand_ZeroOne() * 60.0f);
             this->blinkFunc = EnSyatekiMan_BlinkWait;
         } else {
-            this->eyeState = nextEyeState;
+            this->eyes = nextEyeState;
             this->blinkTimer = 1;
         }
     }

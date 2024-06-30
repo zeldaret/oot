@@ -59,7 +59,7 @@ typedef struct BossFd2 {
     /* 0x0210 */ Vec3f headPos;
     /* 0x021C */ Vec3s headRot;
     /* 0x0222 */ char unk_222;
-    /* 0x0223 */ u8 eyeState;
+    /* 0x0223 */ u8 eyes;
     /* 0x0224 */ char unk_224[0xC90]; // despite its size, seems to be unused.
     /* 0x0EB4 */ BossFd2Mane centerMane;
     /* 0x1050 */ BossFd2Mane rightMane;

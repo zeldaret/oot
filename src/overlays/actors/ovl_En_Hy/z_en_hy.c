@@ -68,11 +68,11 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 // NULL-terminated arrays of eye textures
 static void* sEyeTexturesAOB[] = { gDogLadyEyeOpenTex, gDogLadyEyeHalfTex, gDogLadyEyeClosedTex, NULL };
-static void* sEyeTexturesAHG7[] = { object_ahg_Tex_00057C, object_ahg_Tex_00067C, object_ahg_Tex_00077C, NULL };
-static void* sEyeTexturesBBA[] = { object_bba_Tex_0004C8, NULL };
-static void* sEyeTexturesBJI13[] = { object_bji_Tex_0005FC, object_bji_Tex_0009FC, object_bji_Tex_000DFC, NULL };
-static void* sEyeTexturesBOJ2[] = { object_boj_Tex_0005FC, object_boj_Tex_0006FC, object_boj_Tex_0007FC, NULL };
-static void* sEyeTexturesBOB[] = { object_bob_Tex_0007C8, object_bob_Tex_000FC8, object_bob_Tex_0017C8, NULL };
+static void* sEyeTexturesAHG7[] = { gBeardedManEyeOpen, gBeardedManEyeHalf, gBeardedManEyeClosed, NULL };
+static void* sEyeTexturesBBA[] = { gOldWomanEye, NULL };
+static void* sEyeTexturesBJI13[] = { gOldManEyeOpen, gOldManEyeHalf, gOldManEyeClosed, NULL };
+static void* sEyeTexturesBOJ2[] = { gGuestEyeOpen, gGuestEyeHalf, gGuestEyeClosed, NULL };
+static void* sEyeTexturesBOB[] = { gWomanEyeOpen, gWomanEyeHalf, gWomanEyeClosed, NULL };
 
 typedef struct {
     /* 0x00 */ s16 objectId;
@@ -677,14 +677,14 @@ s16 EnHy_UpdateTalkState(PlayState* play, Actor* thisx) {
 }
 
 void EnHy_UpdateEyes(EnHy* this) {
-    if (DECR(this->nextEyeIndexTimer) == 0) {
+    if (DECR(this->blinkTimer) == 0) {
         u8 headInfoIndex = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
 
-        this->curEyeIndex++;
+        this->eyes++;
         if ((sHeadInfo[headInfoIndex].eyeTextures != NULL) &&
-            (sHeadInfo[headInfoIndex].eyeTextures[this->curEyeIndex] == NULL)) {
-            this->nextEyeIndexTimer = Rand_S16Offset(30, 30);
-            this->curEyeIndex = 0;
+            (sHeadInfo[headInfoIndex].eyeTextures[this->eyes] == NULL)) {
+            this->blinkTimer = Rand_S16Offset(30, 30);
+            this->eyes = 0;
         }
     }
 }
@@ -1115,7 +1115,7 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         *dList = sHeadInfo[i].headDList;
 
         if (sHeadInfo[i].eyeTextures != NULL) {
-            ptr = sHeadInfo[i].eyeTextures[this->curEyeIndex];
+            ptr = sHeadInfo[i].eyeTextures[this->eyes];
             gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(ptr));
         }
 
