@@ -428,7 +428,7 @@ typedef enum {
 /**
  * Unmute all sequence players
  *
- * @param restartNotes (s32) if set to 1, then notes with the `MUTE_BEHAVIOR_STOP_SAMPLES` flag set 
+ * @param restartNotes (s32) if set to 1, then notes with the `MUTE_BEHAVIOR_STOP_SAMPLES` flag set
  * are marked as finished for all seqPlayers
  */
 #define AUDIOCMD_GLOBAL_UNMUTE(restartNotes) \

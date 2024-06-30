@@ -298,8 +298,8 @@ void EnZl4_UpdateFace(EnZl4* this) {
 }
 
 void EnZl4_SetMove(EnZl4* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ;
+    AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80B5BB78(EnZl4* this, PlayState* play) {

@@ -61,7 +61,7 @@ void func_80862FA8(EnTest* this, PlayState* play);
 
 s32 EnTest_ReactToProjectile(PlayState* play, EnTest* this);
 
-static u8 sJointCopyFlags[] = {
+static u8 sUpperBodyLimbCopyMap[] = {
     false, // STALFOS_LIMB_NONE
     false, // STALFOS_LIMB_ROOT
     false, // STALFOS_LIMB_UPPERBODY_ROOT
@@ -1742,15 +1742,15 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
             case 1:
                 Animation_Change(&this->upperSkelanime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
                                  Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
-                AnimationContext_SetCopyTrue(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                AnimTaskQueue_AddCopyUsingMap(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                              this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 this->unk_7DE++;
                 break;
 
             case 2:
                 SkelAnime_Update(&this->upperSkelanime);
                 SkelAnime_CopyFrameTableTrue(&this->skelAnime, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                                             this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 break;
 
             case 3:
@@ -1769,7 +1769,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
                                            this->upperSkelanime.jointTable, this->skelAnime.jointTable,
                                            1.0f - (this->upperSkelanime.morphWeight / oldWeight));
                 SkelAnime_CopyFrameTableTrue(&this->skelAnime, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                                             this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 break;
         }
 

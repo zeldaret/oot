@@ -8,10 +8,11 @@
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
+#include "ichain.h"
 #include "terminal.h"
 
 // For retail BSS ordering, the block number of sStreamSfxProjectedPos must be 0.
-#pragma increment_block_number 198
+#pragma increment_block_number 182
 
 #define FLAGS ACTOR_FLAG_4
 

@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_glasses" Segment="6">
         <DList Name="gGiLensDL" Offset="0x0D80"/>
         <DList Name="gGiLensGlassDL" Offset="0x1010"/>

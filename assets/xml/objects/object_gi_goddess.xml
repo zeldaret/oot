@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_goddess" Segment="6">
         <DList Name="gGiMagicSpellDiamondDL" Offset="0x0920"/>
         <DList Name="gGiDinsFireColorDL" Offset="0x09E0"/>

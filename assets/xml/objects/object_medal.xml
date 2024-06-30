@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_medal" Segment="6">
         <DList Name="object_medal_DL_000360" Offset="0x360"/>
         <DList Name="object_medal_DL_000840" Offset="0x840"/>

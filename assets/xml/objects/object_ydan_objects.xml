@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_ydan_objects" Segment="6">
         <Texture Name="gYdanDoor1Tex" OutName="door_tex1" Format="rgba16" Width="32" Height="64" Offset="0x2800"/>
         <Texture Name="gYdanWebTex" OutName="web_tex" Format="ia16" Width="32" Height="64" Offset="0x1000"/>

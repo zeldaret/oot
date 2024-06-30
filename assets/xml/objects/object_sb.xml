@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_sb" Segment="6">
         <Animation Name="object_sb_Anim_00004C" Offset="0x4C"/>
         <Animation Name="object_sb_Anim_0000B4" Offset="0xB4"/>

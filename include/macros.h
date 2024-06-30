@@ -14,7 +14,6 @@
 #define VIRTUAL_TO_PHYSICAL(addr) (uintptr_t)((u8*)(addr) - 0x80000000)
 #define SEGMENTED_TO_VIRTUAL(addr) PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr))
 
-#define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define DECR(x) ((x) == 0 ? 0 : --(x))
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
@@ -30,10 +29,6 @@
     (void)0
 
 #define RGBA8(r, g, b, a) ((((r) & 0xFF) << 24) | (((g) & 0xFF) << 16) | (((b) & 0xFF) << 8) | (((a) & 0xFF) << 0))
-
-#define GET_PLAYER(play) ((Player*)(play)->actorCtx.actorLists[ACTORCAT_PLAYER].head)
-
-#define GET_ACTIVE_CAM(play) ((play)->cameraPtrs[(play)->activeCamId])
 
 #define LINK_IS_ADULT (gSaveContext.save.linkAge == LINK_AGE_ADULT)
 #define LINK_IS_CHILD (gSaveContext.save.linkAge == LINK_AGE_CHILD)
