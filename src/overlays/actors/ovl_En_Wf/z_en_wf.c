@@ -144,6 +144,13 @@ static ColliderCylinderInit sTailCylinderInit = {
 };
 
 typedef enum {
+    /* 0 */ WOLFOS_EYE_OPEN,
+    /* 1 */ WOLFOS_EYE_HALF,
+    /* 2 */ WOLFOS_EYE_NARROW,
+    /* 3 */ WOLFOS_EYE_CLOSED
+} WolfosEye;
+
+typedef enum {
     /*  0 */ ENWF_DMGEFF_NONE,
     /*  1 */ ENWF_DMGEFF_STUN,
     /*  6 */ ENWF_DMGEFF_ICE_MAGIC = 6,
@@ -222,7 +229,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.cylHeight = 100;
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    this->eyeIndex = 0;
+    this->eyes = WOLFOS_EYE_OPEN;
     this->unk_2F4 = 10.0f; // Set and not used
 
     Collider_InitJntSph(play, &this->colliderSpheres);
@@ -1343,12 +1350,12 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 25.0f;
 
-    if (this->eyeIndex == 0) {
+    if (this->eyes == WOLFOS_EYE_OPEN) {
         if ((Rand_ZeroOne() < 0.2f) && ((play->gameplayFrames % 4) == 0) && (this->actor.colorFilterTimer == 0)) {
-            this->eyeIndex++;
+            this->eyes++;
         }
     } else {
-        this->eyeIndex = (this->eyeIndex + 1) & 3;
+        this->eyes = (this->eyes + 1) & 3;
     }
 }
 
@@ -1443,9 +1450,9 @@ void EnWf_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
         if (this->actor.params == WOLFOS_NORMAL) {
-            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sWolfosNormalEyeTextures[this->eyeIndex]));
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sWolfosNormalEyeTextures[this->eyes]));
         } else {
-            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sWolfosWhiteEyeTextures[this->eyeIndex]));
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sWolfosWhiteEyeTextures[this->eyes]));
         }
 
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

@@ -14,8 +14,8 @@ typedef struct EnCs {
     /* 0x0190 */ EnCsActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ s32 talkState;
-    /* 0x01E4 */ s32 eyeIndex;
-    /* 0x01E8 */ s32 eyeBlinkTimer;
+    /* 0x01E4 */ s32 eyes;
+    /* 0x01E8 */ s32 blinkTimer;
     /* 0x01EC */ s32 unk_1EC;
     /* 0x01F0 */ char unk_1F0[4];
     /* 0x01F4 */ s32 path;

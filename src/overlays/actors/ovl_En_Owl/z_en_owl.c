@@ -65,6 +65,12 @@ typedef enum {
     /* 0x01 */ OWL_OK
 } EnOwlMessageChoice;
 
+typedef enum {
+    /* 0 */ OWL_EYE_OPEN,
+    /* 1 */ OWL_EYE_HALF,
+    /* 2 */ OWL_EYE_CLOSED
+} OwlEye;
+
 ActorInit En_Owl_InitVars = {
     /**/ ACTOR_EN_OWL,
     /**/ ACTORCAT_NPC,
@@ -297,7 +303,7 @@ s32 func_80ACA558(EnOwl* this, PlayState* play, u16 textId) {
 
 void func_80ACA5C8(EnOwl* this) {
     EnOwl_ChangeMode(this, func_80ACBEA0, func_80ACC540, &this->skelAnime, &gOwlUnfoldWingsAnim, 0.0f);
-    this->eyeTexIndex = 0;
+    this->eyes = OWL_EYE_OPEN;
     this->blinkTimer = Rand_S16Offset(60, 60);
 }
 
@@ -1104,16 +1110,16 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->actionFlags & 2) {
-        this->eyeTexIndex = 2;
+        this->eyes = OWL_EYE_CLOSED;
     } else {
         if (DECR(this->blinkTimer) == 0) {
             this->blinkTimer = Rand_S16Offset(60, 60);
         }
 
-        this->eyeTexIndex = this->blinkTimer;
+        this->eyes = this->blinkTimer;
 
-        if (this->eyeTexIndex >= 3) {
-            this->eyeTexIndex = 0;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+            this->eyes = OWL_EYE_OPEN;
         }
     }
 
@@ -1316,7 +1322,7 @@ void EnOwl_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_owl.c", 2247);
 
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->curSkelAnime->skeleton, this->curSkelAnime->jointTable,
                           this->curSkelAnime->dListCount, EnOwl_OverrideLimbDraw, EnOwl_PostLimbUpdate, this);
 

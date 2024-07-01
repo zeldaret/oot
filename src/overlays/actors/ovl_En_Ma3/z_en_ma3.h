@@ -40,8 +40,8 @@ typedef struct EnMa3 {
     /* 0x0208 */ s16 unk_208;
     /* 0x020A */ s16 isNotSinging;
     /* 0x020C */ s16 blinkTimer;
-    /* 0x020E */ s16 eyeIndex;
-    /* 0x0210 */ s16 mouthIndex;
+    /* 0x020E */ s16 eyes;
+    /* 0x0210 */ s16 mouth;
     /* 0x0212 */ Vec3s unk_212[MALON_ADULT_LIMB_MAX];
 } EnMa3; // size = 0x0284
 

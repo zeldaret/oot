@@ -58,6 +58,12 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
+    /* 0 */ CHILD_MALON_EYE_OPEN,
+    /* 1 */ CHILD_MALON_EYE_HALF,
+    /* 2 */ CHILD_MALON_EYE_CLOSED
+} ChildMalonEye;
+
+typedef enum {
     /* 0 */ MALON_ANIM_IDLE_NOMORPH,
     /* 1 */ MALON_ANIM_IDLE,
     /* 2 */ MALON_ANIM_SING_NOMORPH,
@@ -205,10 +211,10 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
 
 void EnMa1_UpdateEyes(EnMa1* this) {
     if (DECR(this->blinkTimer) == 0) {
-        this->eyeIndex++;
-        if (this->eyeIndex >= 3) {
+        this->eyes++;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIndex = 0;
+            this->eyes = CHILD_MALON_EYE_OPEN;
         }
     }
 }
@@ -463,8 +469,8 @@ void EnMa1_Draw(Actor* thisx, PlayState* play) {
     Audio_UpdateMalonSinging(distFromCamEye, NA_BGM_LONLON);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouth]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa1_OverrideLimbDraw, EnMa1_PostLimbDraw, this);

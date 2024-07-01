@@ -135,7 +135,7 @@ void EnMm2_Init(Actor* thisx, PlayState* play2) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->mouthTexIndex = RM2_MOUTH_CLOSED;
+    this->mouth = RM2_MOUTH_CLOSED;
     this->actor.targetMode = 6;
     this->unk_1F4 |= 1;
     this->actor.gravity = -1.0f;
@@ -189,7 +189,7 @@ void func_80AAF330(EnMm2* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actionFunc = func_80AAF2BC;
         EnMm2_ChangeAnim(this, RM2_ANIM_RUN, &this->previousAnimation);
-        this->mouthTexIndex = RM2_MOUTH_OPEN;
+        this->mouth = RM2_MOUTH_OPEN;
         if (!(this->unk_1F4 & 2)) {
             Message_CloseTextbox(play);
         }
@@ -316,7 +316,7 @@ void EnMm2_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_mm2.c", 634);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouth]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMm2_OverrideLimbDraw, EnMm2_PostLimbDraw, this);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_mm2.c", 654);

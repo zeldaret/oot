@@ -15,7 +15,7 @@ typedef struct EnGe3 {
     /* 0x0198 */ SkelAnime skelAnime;
     /* 0x01DC */ Vec3s jointTable[GELDB_LIMB_MAX];
     /* 0x026C */ Vec3s morphTable[GELDB_LIMB_MAX];
-    /* 0x02FC */ s16 eyeIndex;
+    /* 0x02FC */ s16 eyes;
     /* 0x02FE */ s16 blinkTimer;
     /* 0x0300 */ Vec3s headRot;
     /* 0x0306 */ Vec3s unk_306;

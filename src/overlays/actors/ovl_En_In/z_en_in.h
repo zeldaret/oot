@@ -43,7 +43,7 @@ typedef struct EnIn {
     /* 0x01E8 */ s16 unk_1E8;
     /* 0x01EA */ s16 blinkTimer;
     /* 0x01EC */ s16 unk_1EC;
-    /* 0x01EE */ s16 eyeIndex;
+    /* 0x01EE */ s16 eyes;
     /* 0x01F0 */ s16 subCamId;
     /* 0x01F2 */ s16 returnToCamId;
     /* 0x01F4 */ char unk_1F4[0x4];

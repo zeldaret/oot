@@ -141,7 +141,7 @@ typedef struct BossFd {
     /* 0x02BC */ Vec3f targetPosition;
     /* 0x02C8 */ Vec3f holePosition;
     /* 0x02D4 */ u8 holeIndex;
-    /* 0x02D5 */ u8 eyeState;
+    /* 0x02D5 */ u8 eyes;
     /* 0x02D6 */ u8 platformSignal;
     /* 0x02D7 */ u8 faceExposed;
     /* 0x02D8 */ u8 handoffSignal;

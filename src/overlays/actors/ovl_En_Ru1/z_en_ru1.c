@@ -93,6 +93,21 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
     { 20, 30, 0, { 0 } },
 };
 
+typedef enum {
+    /* 0 */ CHILD_RUTO_MOUTH_CLOSED,
+    /* 1 */ CHILD_RUTO_MOUTH_FROWN,
+    /* 2 */ CHILD_RUTO_MOUTH_OPEN
+} ChildRutoMouth;
+
+typedef enum {
+    /* 0 */ CHILD_RUTO_EYE_OPEN,
+    /* 1 */ CHILD_RUTO_EYE_HALF,
+    /* 2 */ CHILD_RUTO_EYE_CLOSED,
+    /* 3 */ CHILD_RUTO_EYE_ROLL_LEFT,
+    /* 4 */ CHILD_RUTO_EYE_HALF2,
+    /* 5 */ CHILD_RUTO_EYE_HALF_WITH_BLUSH
+} ChildRutoEye;
+
 static void* sEyeTextures[] = {
     gRutoChildEyeOpenTex,     gRutoChildEyeHalfTex,  gRutoChildEyeClosedTex,
     gRutoChildEyeRollLeftTex, gRutoChildEyeHalf2Tex, gRutoChildEyeHalfWithBlushTex,
@@ -209,24 +224,24 @@ void EnRu1_Destroy(Actor* thisx, PlayState* play) {
 void EnRu1_UpdateEyes(EnRu1* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
-    s16* eyeIndex = &this->eyeIndex;
+    s16* eyes = &this->eyes;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    *eyeIndex = *blinkTimer;
-    if (*eyeIndex >= 3) {
-        *eyeIndex = 0;
+    *eyes = *blinkTimer;
+    if (*eyes >= CHILD_RUTO_EYE_ROLL_LEFT) { //check if we've moved beyond 'blink' indices
+        *eyes = CHILD_RUTO_EYE_OPEN;
     }
 }
 
-void EnRu1_SetEyeIndex(EnRu1* this, s16 eyeIndex) {
-    this->eyeIndex = eyeIndex;
+void EnRu1_SetEyes(EnRu1* this, s16 eyes) {
+    this->eyes = eyes;
 }
 
-void EnRu1_SetMouthIndex(EnRu1* this, s16 mouthIndex) {
-    this->mouthIndex = mouthIndex;
+void EnRu1_SetMouth(EnRu1* this, s16 mouth) {
+    this->mouth = mouth;
 }
 
 void func_80AEAECC(EnRu1* this, PlayState* play) {
@@ -408,8 +423,8 @@ void func_80AEB3DC(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWaitHandsBehindBackAnim, 0, 0, 0);
     this->action = 0;
     this->drawConfig = 1;
-    EnRu1_SetEyeIndex(this, 4);
-    EnRu1_SetMouthIndex(this, 0);
+    EnRu1_SetEyes(this, CHILD_RUTO_EYE_HALF2);
+    EnRu1_SetMouth(this, CHILD_RUTO_MOUTH_CLOSED);
 }
 
 CsCmdActorCue* EnRu1_GetCueChannel3(PlayState* play) {
@@ -765,7 +780,7 @@ void func_80AEC320(EnRu1* this, PlayState* play) {
     if (!GET_INFTABLE(INFTABLE_141)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 7;
-        EnRu1_SetMouthIndex(this, 1);
+        EnRu1_SetMouth(this, CHILD_RUTO_MOUTH_FROWN);
     } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
@@ -1010,8 +1025,8 @@ void func_80AECDA0(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWaitHandsOnHipsAnim, 0, 0, 0);
     this->action = 15;
     this->actor.shape.yOffset = -10000.0f;
-    EnRu1_SetEyeIndex(this, 5);
-    EnRu1_SetMouthIndex(this, 2);
+    EnRu1_SetEyes(this, CHILD_RUTO_EYE_HALF_WITH_BLUSH);
+    EnRu1_SetMouth(this, CHILD_RUTO_MOUTH_OPEN);
 }
 
 void func_80AECE04(EnRu1* this, PlayState* play) {
@@ -1938,8 +1953,8 @@ void func_80AEF51C(EnRu1* this) {
 
 void func_80AEF540(EnRu1* this) {
     if (func_80AEB104(this) == 2) {
-        EnRu1_SetEyeIndex(this, 3);
-        EnRu1_SetMouthIndex(this, 2);
+        EnRu1_SetEyes(this, CHILD_RUTO_EYE_ROLL_LEFT);
+        EnRu1_SetMouth(this, CHILD_RUTO_MOUTH_OPEN);
         if (this->skelAnime.mode != 2) {
             func_80AEB264(this, &gRutoChildShutterAnim, 2, -8.0f, 0);
             func_80AEF51C(this);
@@ -1953,8 +1968,8 @@ void func_80AEF5B8(EnRu1* this) {
     if (D_80AF1938 == 0) {
         curFrame = this->skelAnime.curFrame;
         if (curFrame >= 60.0f) {
-            EnRu1_SetEyeIndex(this, 3);
-            EnRu1_SetMouthIndex(this, 0);
+            EnRu1_SetEyes(this, CHILD_RUTO_EYE_ROLL_LEFT);
+            EnRu1_SetMouth(this, CHILD_RUTO_MOUTH_CLOSED);
             func_80AED57C(this);
             D_80AF1938 = 1;
         }
@@ -2346,11 +2361,11 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play) {
 
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeIndex = this->eyeIndex;
-    void* eyeTex = sEyeTextures[eyeIndex];
-    s16 mouthIndex = this->mouthIndex;
+    s16 eyes = this->eyes;
+    void* eyeTex = sEyeTextures[eyes];
+    s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* mouthTex = sMouthTextures[mouthIndex];
+    void* mouthTex = sMouthTextures[mouth];
     s32 pad1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1282);
@@ -2371,11 +2386,11 @@ void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
 
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeIndex = this->eyeIndex;
-    void* eyeTex = sEyeTextures[eyeIndex];
-    s16 mouthIndex = this->mouthIndex;
+    s16 eyes = this->eyes;
+    void* eyeTex = sEyeTextures[eyes];
+    s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* mouthTex = sMouthTextures[mouthIndex];
+    void* mouthTex = sMouthTextures[mouth];
     s32 pad1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1324);

@@ -79,6 +79,12 @@ static Gfx* sHairstyleDLists[] = {
 
 static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
 
+typedef enum {
+    /* 0 */ WHITE_GERUDO_EYE_OPEN,
+    /* 1 */ WHITE_GERUDO_EYE_HALF,
+    /* 2 */ WHITE_GERUDO_CLOSED
+} WhiteGerudoEye;
+
 static void* sEyeTextures[] = {
     gGerudoWhiteEyeOpenTex,
     gGerudoWhiteEyeHalfTex,
@@ -736,10 +742,10 @@ void EnGe1_Update(Actor* thisx, PlayState* play) {
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
-    this->eyeIndex = this->blinkTimer;
+    this->eyes = this->blinkTimer;
 
-    if (this->eyeIndex >= 3) {
-        this->eyeIndex = 0;
+    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        this->eyes = WHITE_GERUDO_EYE_OPEN;
     }
 }
 
@@ -803,7 +809,7 @@ void EnGe1_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge1.c", 1442);
 
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyes]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe1_OverrideLimbDraw, EnGe1_PostLimbDraw, this);
 

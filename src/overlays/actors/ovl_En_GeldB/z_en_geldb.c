@@ -29,6 +29,13 @@ typedef enum {
     /* 16 */ GELDB_SPIN_DODGE
 } EnGeldBAction;
 
+typedef enum {
+    /* 0 */ RED_GERUDO_EYE_OPEN,
+    /* 1 */ RED_GERUDO_EYE_HALF,
+    /* 2 */ RED_GERUDO_EYE_CLOSED,
+    /* 3 */ RED_GERUDO_EYE_HALF2
+} RedGerudoEye;
+
 void EnGeldB_Init(Actor* thisx, PlayState* play);
 void EnGeldB_Destroy(Actor* thisx, PlayState* play);
 void EnGeldB_Update(Actor* thisx, PlayState* play);
@@ -230,7 +237,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     thisx->naviEnemyId = NAVI_ENEMY_GERUDO_THIEF;
     this->keyFlag = thisx->params & 0xFF00;
     thisx->params &= 0xFF;
-    this->blinkState = 0;
+    this->eyes = RED_GERUDO_EYE_OPEN;
     this->unkFloat = 10.0f;
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, &gGerudoRedNeutralAnim, this->jointTable,
                        this->morphTable, GELDB_LIMB_MAX);
@@ -1433,12 +1440,12 @@ void EnGeldB_Update(Actor* thisx, PlayState* play) {
     if (this->swordState > 0) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->swordCollider.base);
     }
-    if (this->blinkState == 0) {
+    if (this->eyes == RED_GERUDO_EYE_OPEN) {
         if ((Rand_ZeroOne() < 0.1f) && ((play->gameplayFrames % 4) == 0)) {
-            this->blinkState++;
+            this->eyes++;
         }
     } else {
-        this->blinkState = (this->blinkState + 1) & 3;
+        this->eyes = (this->eyes + 1) & RED_GERUDO_EYE_HALF2;
     }
 }
 
@@ -1593,7 +1600,7 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->action != GELDB_WAIT) || !this->invisible) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->blinkState]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnGeldB_OverrideLimbDraw, EnGeldB_PostLimbDraw, this);
         if (this->action == GELDB_BLOCK) {

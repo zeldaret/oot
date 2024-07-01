@@ -46,7 +46,7 @@ typedef struct EnGe1 {
     /* 0x023C */ Vec3s morphTable[GE1_LIMB_MAX];
     /* 0x029C */ Vec3s headRot;
     /* 0x02A2 */ Vec3s unk_2A2;
-    /* 0x02A8 */ s16 eyeIndex;
+    /* 0x02A8 */ s16 eyes;
     /* 0x02AA */ s16 blinkTimer;
     /* 0x02AC */ u16 stateFlags;
     /* 0x02AE */ u8 hairstyle;

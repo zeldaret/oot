@@ -87,6 +87,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 60, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0 */ PURPLE_GERUDO_EYE_OPEN,
+    /* 1 */ PURPLE_GERUDO_EYE_HALF,
+    /* 2 */ PURPLE_GERUDO_EYE_CLOSED
+} PurpleGerudoEye;
+
 static EnGe2ActionFunc sActionFuncs[] = {
     EnGe2_Walk,         EnGe2_AboutTurn,   EnGe2_TurnPlayerSpotted,
     EnGe2_KnockedOut,   EnGe2_CaptureTurn, EnGe2_CaptureCharge,
@@ -505,10 +511,10 @@ void EnGe2_MoveAndBlink(EnGe2* this, PlayState* play) {
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
-    this->eyeIndex = this->blinkTimer;
+    this->eyes = this->blinkTimer;
 
-    if (this->eyeIndex >= 3) {
-        this->eyeIndex = 0;
+    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        this->eyes = PURPLE_GERUDO_EYE_OPEN;
     }
 }
 
@@ -655,7 +661,7 @@ void EnGe2_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge2.c", 1274);
 
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyes]));
     func_8002EBCC(&this->actor, play, 0);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe2_OverrideLimbDraw, EnGe2_PostLimbDraw, this);

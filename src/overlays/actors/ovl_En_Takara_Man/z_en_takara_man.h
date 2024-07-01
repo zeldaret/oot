@@ -15,8 +15,8 @@ typedef struct EnTakaraMan {
     /* 0x0194 */ Vec3s jointTable[10];
     /* 0x01D0 */ Vec3s morphTable[10];
     /* 0x020C */ s16 dialogState;
-    /* 0x020E */ s16 eyeTextureIdx;
-    /* 0x0210 */ s16 eyeTimer;
+    /* 0x020E */ s16 eyes;
+    /* 0x0210 */ s16 blinkTimer;
     /* 0x0212 */ s16 unk_212;
     /* 0x0214 */ s16 unk_214;
     /* 0x0216 */ s16 originalRoomNum;

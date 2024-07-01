@@ -62,6 +62,12 @@ typedef enum {
     /* 2 */ ENKZ_ANIM_2
 } EnKzAnimation;
 
+typedef enum {
+    /* 0 */ KING_ZORA_EYE_OPEN,
+    /* 1 */ KING_ZORA_EYE_HALF,
+    /* 2 */ KING_ZORA_EYE_CLOSED
+} KingZoraEye;
+
 static AnimationInfo sAnimationInfo[] = {
     { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
@@ -180,10 +186,10 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
 
 void EnKz_UpdateEyes(EnKz* this) {
     if (DECR(this->blinkTimer) == 0) {
-        this->eyeIdx++;
-        if (this->eyeIdx >= 3) {
+        this->eyes++;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIdx = 0;
+            this->eyes = KING_ZORA_EYE_OPEN;
         }
     }
 }
@@ -503,7 +509,7 @@ void EnKz_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_kz.c", 1259);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyes]));
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount,
                           EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, this);

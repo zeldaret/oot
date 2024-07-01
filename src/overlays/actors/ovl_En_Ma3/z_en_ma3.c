@@ -14,10 +14,7 @@ void EnMa3_Destroy(Actor* thisx, PlayState* play);
 void EnMa3_Update(Actor* thisx, PlayState* play);
 void EnMa3_Draw(Actor* thisx, PlayState* play);
 
-void func_80AA2E54(EnMa3* this, PlayState* play);
 s32 func_80AA2EC8(EnMa3* this, PlayState* play);
-s32 func_80AA2F28(EnMa3* this);
-void EnMa3_UpdateEyes(EnMa3* this);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
 ActorInit En_Ma3_InitVars = {
@@ -55,12 +52,24 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
+    /* 0 */ ADULT_MALON_MOUTH_NEUTRAL,
+    /* 1 */ ADULT_MALON_MOUTH_SAD,
+    /* 2 */ ADULT_MALON_MOUTH_HAPPY
+} AdultMalonMouth;
+
+typedef enum {
     /* 0 */ ENMA3_ANIM_0,
     /* 1 */ ENMA3_ANIM_1,
     /* 2 */ ENMA3_ANIM_2,
     /* 3 */ ENMA3_ANIM_3,
     /* 4 */ ENMA3_ANIM_4
 } EnMa3Animation;
+
+typedef enum {
+    /* 0 */ ADULT_MALON_EYE_OPEN,
+    /* 1 */ ADULT_MALON_EYE_HALF,
+    /* 2 */ ADULT_MALON_EYE_CLOSED
+} AdultMalonEye;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -184,7 +193,7 @@ s16 EnMa3_UpdateTalkState(PlayState* play, Actor* thisx) {
     return talkState;
 }
 
-void func_80AA2E54(EnMa3* this, PlayState* play) {
+void EnMa3_UpdateTracking(EnMa3* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
@@ -212,7 +221,12 @@ s32 func_80AA2EC8(EnMa3* this, PlayState* play) {
     return 0;
 }
 
-s32 func_80AA2F28(EnMa3* this) {
+/**
+ * Set face textures based on current actor state, and determine whether the blink code is allowed to run
+ *
+ * @return 1 for 'face is busy', 0 if not
+ */
+s32 EnMa3_UpdateFaceAndCheckIfBusy(EnMa3* this) {
     if (this->skelAnime.animation != &gMalonAdultSingAnim) {
         return 0;
     }
@@ -220,19 +234,19 @@ s32 func_80AA2F28(EnMa3* this) {
         return 0;
     }
     this->blinkTimer = 0;
-    if (this->eyeIndex != 2) {
+    if (this->eyes != ADULT_MALON_EYE_CLOSED) {
         return 0;
     }
-    this->mouthIndex = 2;
+    this->mouth = ADULT_MALON_MOUTH_HAPPY;
     return 1;
 }
 
 void EnMa3_UpdateEyes(EnMa3* this) {
-    if ((!func_80AA2F28(this)) && (DECR(this->blinkTimer) == 0)) {
-        this->eyeIndex++;
-        if (this->eyeIndex >= 3) {
+    if ((!EnMa3_UpdateFaceAndCheckIfBusy(this)) && (DECR(this->blinkTimer) == 0)) {
+        this->eyes++;
+        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIndex = 0;
+            this->eyes = ADULT_MALON_EYE_OPEN;
         }
     }
 }
@@ -296,7 +310,7 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     EnMa3_UpdateEyes(this);
     this->actionFunc(this, play);
-    func_80AA2E54(this, play);
+    EnMa3_UpdateTracking(this, play);
     Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 150.0f,
                       EnMa3_GetTextId, EnMa3_UpdateTalkState);
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
@@ -371,8 +385,8 @@ void EnMa3_Draw(Actor* thisx, PlayState* play) {
     Audio_UpdateMalonSinging(distFromCamEye, NA_BGM_LONLON);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouth]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, this);
