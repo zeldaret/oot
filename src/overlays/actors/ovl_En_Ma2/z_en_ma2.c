@@ -8,7 +8,6 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play);
 void EnMa2_Update(Actor* thisx, PlayState* play);
 void EnMa2_Draw(Actor* thisx, PlayState* play);
 
-void func_80AA1AE4(EnMa2* this, PlayState* play);
 void func_80AA1DB4(EnMa2* this, PlayState* play);
 void func_80AA2018(EnMa2* this, PlayState* play);
 void func_80AA204C(EnMa2* this, PlayState* play);
@@ -60,6 +59,12 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
+
+typedef enum {
+    /* 0 */ MALON_ADULT_MOUTH_NEUTRAL,
+    /* 1 */ MALON_ADULT_MOUTH_SAD,
+    /* 2 */ MALON_ADULT_MOUTH_HAPPY
+} EnMa2MouthState;
 
 typedef enum {
     /* 0 */ ENMA2_ANIM_0,
@@ -129,7 +134,7 @@ s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
     return talkState;
 }
 
-void func_80AA1AE4(EnMa2* this, PlayState* play) {
+void EnMa2_UpdateTracking(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
@@ -145,7 +150,7 @@ void func_80AA1AE4(EnMa2* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
 
-u16 func_80AA1B58(EnMa2* this, PlayState* play) {
+u16 EnMa2_CheckState(EnMa2* this, PlayState* play) {
     if (LINK_IS_CHILD) {
         return 0;
     }
@@ -234,7 +239,7 @@ void EnMa2_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
-    switch (func_80AA1B58(this, play)) {
+    switch (EnMa2_CheckState(this, play)) {
         case 1:
             EnMa2_ChangeAnim(this, ENMA2_ANIM_2);
             this->actionFunc = func_80AA2018;
@@ -333,7 +338,7 @@ void EnMa2_Update(Actor* thisx, PlayState* play) {
     EnMa2_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AA1DB4(this, play);
-    func_80AA1AE4(this, play);
+    EnMa2_UpdateTracking(this, play);
     if (this->actionFunc != func_80AA20E4) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                           EnMa2_GetTextId, EnMa2_UpdateTalkState);

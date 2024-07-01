@@ -14,7 +14,6 @@ void EnMa3_Destroy(Actor* thisx, PlayState* play);
 void EnMa3_Update(Actor* thisx, PlayState* play);
 void EnMa3_Draw(Actor* thisx, PlayState* play);
 
-void func_80AA2E54(EnMa3* this, PlayState* play);
 s32 func_80AA2EC8(EnMa3* this, PlayState* play);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
@@ -194,7 +193,7 @@ s16 EnMa3_UpdateTalkState(PlayState* play, Actor* thisx) {
     return talkState;
 }
 
-void func_80AA2E54(EnMa3* this, PlayState* play) {
+void EnMa3_UpdateTracking(EnMa3* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
@@ -311,7 +310,7 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     EnMa3_UpdateEyes(this);
     this->actionFunc(this, play);
-    func_80AA2E54(this, play);
+    EnMa3_UpdateTracking(this, play);
     Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 150.0f,
                       EnMa3_GetTextId, EnMa3_UpdateTalkState);
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
