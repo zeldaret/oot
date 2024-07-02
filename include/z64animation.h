@@ -112,8 +112,20 @@ typedef enum {
 // (player-only) Call AnimTaskQueue_AddActorMove
 #define ANIM_FLAG_PLAYER_SETMOVE (1 << 3)
 
+// Depending on specific implementations, an actor may choose to reset `prevTransl` to `baseTransl` when
+// starting a new animation. This is helpful when an animation's translation data starts at the origin.
+// However, some animations have translation data that does not begin at the origin. This is 
+// common when a longer animation is broken up into different parts as seperate animations. 
+// In this case, resetting `prevTransl` to the origin will cause the actor's position to noticeably shift
+// when the translation data from the first frame of the new animation is applied.
+// By using this flag, translation from the first frame of the new animation will not be applied.
+// This allows the actor's world postiion to stay the same from where the previous animation ended.
+// Because translations are calculated as a difference from the current and previous frame, all subsequent 
+// frames have their translation occur relative to this new starting point.
 //
-#define ANIM_FLAG_NO_MOVE (1 << 4)
+// Note that for Player, this flag is only relevant when transitioning from an animation that was also using
+// animation translation.
+#define ANIM_FLAG_ADJUST_STARTING_POS (1 << 4)
 
 // Disables "normal" movement from sources like speed/velocity and collisions, which allows the
 // animation to have full control over the actor's movement.
