@@ -218,7 +218,7 @@ s16 sSunDepthTestY;
 // These variables could be moved farther down in the file to reduce the amount
 // of block number padding here, but currently this causes BSS ordering issues
 // for debug.
-#pragma increment_block_number 227
+#pragma increment_block_number 217
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
