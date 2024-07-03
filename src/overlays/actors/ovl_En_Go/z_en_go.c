@@ -1048,7 +1048,7 @@ void EnGo_DrawCurledUp(EnGo* this, PlayState* play) {
     Matrix_Push();
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_go.c", 2326), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go.c", 2326);
 
     gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00BD80);
 
@@ -1067,7 +1067,7 @@ void EnGo_DrawRolling(EnGo* this, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_RotateZYX((s16)(play->state.frames * ((s16)this->actor.speed * 1400)), 0, this->actor.shape.rot.z,
                      MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_go.c", 2368), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go.c", 2368);
     gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00C140);
     Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus.pos);
     Matrix_Pop();
@@ -1215,7 +1215,7 @@ void EnGo_DrawEffects(EnGo* this, PlayState* play) {
         Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_go.c", 2664), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_go.c", 2664);
 
         index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));

@@ -70,7 +70,7 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist,
         temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.shadowScale;
         Matrix_Scale(actor->scale.x * temp2, 1.0f, actor->scale.z * temp2, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 1588), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 1588);
         gSPDisplayList(POLY_OPA_DISP++, dlist);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 1594);
@@ -108,7 +108,7 @@ void ActorShadow_DrawFoot(PlayState* play, Light* light, MtxF* arg2, s32 arg3, f
     Matrix_RotateY(sp58, MTXMODE_APPLY);
     Matrix_Scale(arg5, 1.0f, arg5 * arg6, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 1687), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 1687);
     gSPDisplayList(POLY_OPA_DISP++, gFootShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 1693);
@@ -390,7 +390,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
                         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
                         Matrix_Push();
                         Matrix_Translate(entry->unk_0C, entry->unk_0C, 0.0f, MTXMODE_APPLY);
-                        gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2116), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                        gSPMATRIX_SET_NEW(OVERLAY_DISP++, play->state.gfxCtx, "../z_actor.c", 2116);
                         gSPDisplayList(OVERLAY_DISP++, gZTargetLockOnTriangleDL);
                         Matrix_Pop();
                     }
@@ -416,7 +416,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2153), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_actor.c", 2153);
         gSPDisplayList(POLY_XLU_DISP++, gZTargetArrowDL);
     }
 
@@ -2066,13 +2066,13 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
 
             Matrix_RotateZ(BINANG_TO_RAD_ALT2((play->gameplayFrames * 1500) & 0xFFFF), MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 5458), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_actor.c", 5458);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
 
             Matrix_Pop();
             Matrix_RotateZ(BINANG_TO_RAD_ALT2(~((play->gameplayFrames * 1200) & 0xFFFF)), MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 5463), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_actor.c", 5463);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
         }
 
@@ -3693,7 +3693,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
 
     Matrix_Scale(arg1->x, 1.0f, arg1->z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8149), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 8149);
     gSPDisplayList(POLY_OPA_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8155);
@@ -3785,7 +3785,7 @@ void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type) {
                 Matrix_Scale(entry->chainsScale, entry->chainsScale, entry->chainsScale, MTXMODE_APPLY);
             }
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8299), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 8299);
             gSPDisplayList(POLY_OPA_DISP++, entry->chainDL);
 
             if (i % 2) {
@@ -3801,7 +3801,7 @@ void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type) {
     Matrix_Put(&baseMtxF);
     Matrix_Scale(frame * 0.1f, frame * 0.1f, frame * 0.1f, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8314), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 8314);
     gSPDisplayList(POLY_OPA_DISP++, entry->lockDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8319);

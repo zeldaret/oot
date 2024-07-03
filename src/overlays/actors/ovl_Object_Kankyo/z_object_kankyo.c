@@ -571,7 +571,7 @@ void ObjectKankyo_DrawFairies(Actor* thisx, PlayState* play2) {
 
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(play->state.frames * 20.0f), MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_object_kankyo.c", 913), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_object_kankyo.c", 913);
             gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteModelDL);
         }
         CLOSE_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 922);
@@ -703,7 +703,7 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 200, 200, 180);
             gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 180);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_object_kankyo.c", 1107), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_object_kankyo.c", 1107);
 
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust5Tex));
 
@@ -763,7 +763,7 @@ void ObjectKankyo_DrawLightning(Actor* thisx, PlayState* play) {
         Matrix_Scale(2.0f, 5.0f, 2.0f, MTXMODE_APPLY);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_object_kankyo.c", 1213), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_object_kankyo.c", 1213);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEffLightningTextures[this->effects[0].timer]));
         Gfx_SetupDL_61Xlu(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
@@ -863,7 +863,7 @@ void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
             if (1) {}
 
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_object_kankyo.c", 1416), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_object_kankyo.c", 1416);
 
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80BA5900[this->effects[0].timer]));
             gDPPipeSync(POLY_XLU_DISP++);
@@ -941,7 +941,7 @@ void ObjectKankyo_DrawBeams(Actor* thisx, PlayState* play2) {
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, sBeamPrimColors[i].r, sBeamPrimColors[i].g,
                                 sBeamPrimColors[i].b, 128);
                 gDPSetEnvColor(POLY_XLU_DISP++, sBeamEnvColors[i].r, sBeamEnvColors[i].g, sBeamEnvColors[i].b, 128);
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_object_kankyo.c", 1586), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_object_kankyo.c", 1586);
                 gSPSegment(POLY_XLU_DISP++, 0x08,
                            Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->state.frames * 5,
                                             play->state.frames * 10, 32, 64, 1, play->state.frames * 5,

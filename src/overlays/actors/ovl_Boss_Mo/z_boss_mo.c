@@ -2532,7 +2532,7 @@ void BossMo_DrawTentacle(BossMo* this, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(phi_f22, phi_f22, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_mo.c", 6511), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_mo.c", 6511);
 
             gSPDisplayList(POLY_OPA_DISP++, gMorphaBubbleDL);
 
@@ -2591,7 +2591,7 @@ void BossMo_DrawWater(BossMo* this, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 80);
 
     Matrix_Scale(0.5f, 1.0f, 0.5f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_mo.c", 6675), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_mo.c", 6675);
 
     gSPDisplayList(POLY_XLU_DISP++, gMorphaWaterDL);
 
@@ -2621,7 +2621,7 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
 
         Matrix_RotateX(this->work[MO_TENT_MOVE_TIMER] * 0.5f, MTXMODE_APPLY);
         Matrix_RotateZ(this->work[MO_TENT_MOVE_TIMER] * 0.8f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_mo.c", 6735), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_mo.c", 6735);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, (s8)this->baseAlpha);
 
@@ -2658,7 +2658,7 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
 
             Matrix_Translate(this->actor.world.pos.x, groundLevel, this->actor.world.pos.z, MTXMODE_NEW);
             Matrix_Scale(0.23f, 1.0f, 0.23f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_mo.c", 6820), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_mo.c", 6820);
 
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gCircleShadowDL));
         }
@@ -2716,7 +2716,7 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         Matrix_Scale(0.05f, 1.0f, 0.05f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_mo.c", 6941), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_mo.c", 6941);
 
         gSPDisplayList(POLY_XLU_DISP++, gMorphaWaterDL);
     }
@@ -2929,7 +2929,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_mo.c", 7294), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_boss_mo.c", 7294);
 
             gSPDisplayList(POLY_XLU_DISP++, gEffWaterRippleDL);
         }
@@ -2951,7 +2951,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_mo.c", 7330), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_boss_mo.c", 7330);
 
             gSPDisplayList(POLY_XLU_DISP++, gEffShockwaveDL);
         }
@@ -2979,7 +2979,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale / effect->fwork[MO_FX_STRETCH], effect->fwork[MO_FX_STRETCH] * effect->scale,
                          1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_mo.c", 7373), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_boss_mo.c", 7373);
 
             gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletModelDL);
         }
@@ -3004,7 +3004,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_mo.c", 7441), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_boss_mo.c", 7441);
 
             gSPDisplayList(POLY_XLU_DISP++, gMorphaWetSpotModelDL);
         }
@@ -3027,7 +3027,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_mo.c", 7476), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_boss_mo.c", 7476);
 
             gSPDisplayList(POLY_OPA_DISP++, gMorphaBubbleDL);
         }

@@ -193,7 +193,7 @@ void EnNwc_DrawChicks(EnNwc* this, PlayState* play) {
             Matrix_Put(&floorMat);
             Matrix_RotateY(BINANG_TO_RAD(chick->rot.y), MTXMODE_APPLY);
             Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_nwc.c", 388), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_nwc.c", 388);
             gSPDisplayList(POLY_XLU_DISP++, gCuccoChickShadowDL);
         }
     }

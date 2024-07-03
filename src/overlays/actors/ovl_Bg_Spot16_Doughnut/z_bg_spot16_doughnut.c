@@ -127,7 +127,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213);
     if (this->fireFlag & 1) {
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * (-1), 0, 16, 32, 1, scroll,
@@ -151,7 +151,7 @@ void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->envColorAlpha);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
     gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleNormalDL);

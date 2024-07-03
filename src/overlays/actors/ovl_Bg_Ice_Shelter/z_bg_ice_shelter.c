@@ -457,7 +457,7 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ice_shelter.c", 751), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_ice_shelter.c", 751);
 
     switch (BGICESHELTER_GET_TYPE(&this->dyna.actor)) {
         case RED_ICE_LARGE:

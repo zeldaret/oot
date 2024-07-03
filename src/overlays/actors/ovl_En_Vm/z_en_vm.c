@@ -529,14 +529,14 @@ void EnVm_Draw(Actor* thisx, PlayState* play2) {
     if (this->unk_260 >= 3) {
         Matrix_Translate(this->beamPos3.x, this->beamPos3.y + 10.0f, this->beamPos3.z, MTXMODE_NEW);
         Matrix_Scale(0.8f, 0.8f, 0.8f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vm.c", 1033), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vm.c", 1033);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 168);
         Gfx_SetupDL_60NoCDXlu(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 0);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[play->gameplayFrames % 8]));
         gSPDisplayList(POLY_XLU_DISP++, gEffEnemyDeathFlameDL);
         Matrix_RotateY(32767.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vm.c", 1044), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vm.c", 1044);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[(play->gameplayFrames + 4) % 8]));
         gSPDisplayList(POLY_XLU_DISP++, gEffEnemyDeathFlameDL);
     }
@@ -544,7 +544,7 @@ void EnVm_Draw(Actor* thisx, PlayState* play2) {
     Matrix_Translate(this->beamPos1.x, this->beamPos1.y, this->beamPos1.z, MTXMODE_NEW);
     Matrix_RotateZYX(this->beamRot.x, this->beamRot.y, this->beamRot.z, MTXMODE_APPLY);
     Matrix_Scale(this->beamScale.x * 0.1f, this->beamScale.x * 0.1f, this->beamScale.z * 0.0015f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vm.c", 1063), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_vm.c", 1063);
     gSPDisplayList(POLY_OPA_DISP++, gBeamosLaserDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_vm.c", 1068);

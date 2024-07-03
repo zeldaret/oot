@@ -792,7 +792,7 @@ void EnPoField_DrawFlame(EnPoField* this, PlayState* play) {
             Matrix_Scale((this->flameScale * 0.7f) + 0.00090000004f, (0.003f - this->flameScale) + 0.003f, 0.003f,
                          MTXMODE_APPLY);
         }
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_field.c", 1709), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_po_field.c", 1709);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
         if (1) {}
@@ -896,7 +896,7 @@ void EnPoField_PostLimDraw2(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
     EnPoField* this = (EnPoField*)thisx;
 
     if (this->actionFunc == EnPoField_Death && this->actionTimer >= 2 && limbIndex == 8) {
-        gSPMatrix((*gfxP)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_field.c", 1916), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW((*gfxP)++, play->state.gfxCtx, "../z_en_po_field.c", 1916);
         gSPDisplayList((*gfxP)++, gPoeFieldBurnDL);
     }
     if (limbIndex == 7) {
@@ -947,7 +947,7 @@ void EnPoField_Draw(Actor* thisx, PlayState* play) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, this->soulColor.r, this->soulColor.g, this->soulColor.b, 255);
         Matrix_Put(&sLimb7Mtx);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_field.c", 2033), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_field.c", 2033);
         gSPDisplayList(POLY_OPA_DISP++, gPoeFieldLanternDL);
         gSPDisplayList(POLY_OPA_DISP++, gPoeFieldLanternTopDL);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_field.c", 2039);
@@ -978,7 +978,7 @@ void EnPoField_DrawSoul(Actor* thisx, PlayState* play) {
         Lights_PointGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                                 this->actor.world.pos.z, this->soulColor.r, this->soulColor.g, this->soulColor.b, 200);
         gDPSetEnvColor(POLY_OPA_DISP++, this->soulColor.r, this->soulColor.g, this->soulColor.b, 255);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_field.c", 2104), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_field.c", 2104);
         gSPDisplayList(POLY_OPA_DISP++, gPoeFieldLanternDL);
         gSPDisplayList(POLY_OPA_DISP++, gPoeFieldLanternTopDL);
     } else {
@@ -991,7 +991,7 @@ void EnPoField_DrawSoul(Actor* thisx, PlayState* play) {
                         this->lightColor.a);
         gDPSetEnvColor(POLY_XLU_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
         Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000) * 9.58738e-05f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_field.c", 2143), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_po_field.c", 2143);
         gSPDisplayList(POLY_XLU_DISP++, gPoeFieldSoulDL);
     }
 

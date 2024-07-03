@@ -729,7 +729,7 @@ void EnVali_DrawBody(EnVali* this, PlayState* play) {
     EnVali_PulseInsides(this, curFrame, &scale);
     Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1436), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1436);
     gSPDisplayList(POLY_XLU_DISP++, gBariInnerHoodDL);
 
     Matrix_Put(&mtx);
@@ -738,17 +738,17 @@ void EnVali_DrawBody(EnVali* this, PlayState* play) {
     cos = Math_CosS(this->actor.shape.rot.y);
     sin = Math_SinS(this->actor.shape.rot.y);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1446), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1446);
     gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
 
     Matrix_Translate((506.0f * cos) + (372.0f * sin), 1114.0f, (372.0f * cos) - (506.0f * sin), MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1455), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1455);
     gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
 
     Matrix_Translate((-964.0f * cos) - (804.0f * sin), -108.0f, (-804.0f * cos) + (964.0f * sin), MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1463), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1463);
     gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
 
     Matrix_Put(&mtx);
@@ -758,7 +758,7 @@ void EnVali_DrawBody(EnVali* this, PlayState* play) {
     EnVali_PulseOutside(this, curFrame, &scale);
     Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1471), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1471);
     gSPDisplayList(POLY_XLU_DISP++, gBariOuterHoodDL);
 
     Matrix_Put(&mtx);

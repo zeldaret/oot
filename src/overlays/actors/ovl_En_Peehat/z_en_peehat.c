@@ -1021,7 +1021,7 @@ s32 EnPeehat_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
         Matrix_RotateZ(-(this->jiggleRot * 0.1f), MTXMODE_APPLY);
         Matrix_RotateY(-(this->jiggleRot * 0.13f), MTXMODE_APPLY);
         Matrix_RotateX(-(this->jiggleRot * 0.115f), MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_peehat.c", 1959), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_peehat.c", 1959);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_peehat.c", 1963);
@@ -1054,7 +1054,7 @@ void EnPeehat_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
         }
         Matrix_RotateY(3.2f + damageYRot, MTXMODE_APPLY);
         Matrix_Scale(0.3f, 0.2f, 0.2f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_peehat.c", 1990), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_peehat.c", 1990);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_peehat.c", 1994);

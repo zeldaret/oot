@@ -1092,7 +1092,7 @@ void EnFloormas_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         Matrix_RotateY(DEG_TO_RAD(60), MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD(15), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
-        gSPMatrix((*gfx)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_floormas.c", 2299), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW((*gfx)++, play->state.gfxCtx, "../z_en_floormas.c", 2299);
         gSPDisplayList((*gfx)++, gWallmasterFingerDL);
         Matrix_Pop();
     }

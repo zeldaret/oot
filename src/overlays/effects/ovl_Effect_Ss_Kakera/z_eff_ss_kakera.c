@@ -114,7 +114,7 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
     if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_kakera.c", 268), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_eff_kakera.c", 268);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         if (colorIdx >= 0) {
@@ -123,7 +123,7 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
 
         gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     } else {
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_kakera.c", 286), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_eff_kakera.c", 286);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
         if (colorIdx >= 0) {

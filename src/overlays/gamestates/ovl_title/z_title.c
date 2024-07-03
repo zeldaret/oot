@@ -88,7 +88,7 @@ void ConsoleLogo_Draw(ConsoleLogoState* this) {
     Matrix_Scale(1.0, 1.0, 1.0, MTXMODE_APPLY);
     Matrix_RotateZYX(0, sTitleRotY, 0, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(this->state.gfxCtx, "../z_title.c", 424), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, this->state.gfxCtx, "../z_title.c", 424);
     gSPDisplayList(POLY_OPA_DISP++, gNintendo64LogoDL);
     Gfx_SetupDL_39Opa(this->state.gfxCtx);
     gDPPipeSync(POLY_OPA_DISP++);

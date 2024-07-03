@@ -268,7 +268,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_syokudai.c", 707);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_syokudai.c", 714), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_syokudai.c", 714);
 
     gSPDisplayList(POLY_OPA_DISP++, displayLists[(u16)this->actor.params >> 0xC]);
 
@@ -300,7 +300,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
             MTXMODE_APPLY);
         Matrix_Scale(flameScale, flameScale, flameScale, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_syokudai.c", 745), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_obj_syokudai.c", 745);
 
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }

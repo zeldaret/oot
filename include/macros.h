@@ -238,6 +238,9 @@ extern struct GraphicsContext* __gfxCtx;
 
 #endif /* OOT_DEBUG */
 
+#define gSPMATRIX_SET_NEW(pkt, gfxCtx, file, line) \
+    gSPMatrix(pkt, MATRIX_NEW(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
+
 /**
  * `x` vertex x
  * `y` vertex y

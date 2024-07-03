@@ -513,7 +513,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
             MATRIX_TO_MTX(mtx, "../z_en_ba.c", 970);
         }
         Matrix_Pop();
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ba.c", 973), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ba.c", 973);
         gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_000890);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x08,
@@ -521,7 +521,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
                                     (play->gameplayFrames * 2) % 128, 32, 32, 1, (play->gameplayFrames * -5) % 128,
                                     (play->gameplayFrames * -5) % 128, 32, 32));
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 125, 100, 255);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ba.c", 991), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ba.c", 991);
         gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_001D80);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ba.c", 995);

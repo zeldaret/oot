@@ -234,7 +234,7 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, this->fireScroll & 127, 0, 32, 64, 1, 0,
                                 (this->fireScroll * -15) & 0xFF, 32, 64));
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka_tubo.c", 497), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_haka_tubo.c", 497);
     gSPDisplayList(POLY_XLU_DISP++, gEffFireCircleDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_haka_tubo.c", 501);

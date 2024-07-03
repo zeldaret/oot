@@ -931,7 +931,7 @@ void EnIk_PostLimbDrawEnemy(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
                           BODYBREAK_OBJECT_SLOT_DEFAULT);
     }
     if (limbIndex == IRON_KNUCKLE_LIMB_HELMET_ARMOR) {
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1217), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1217);
         if (this->actor.params != IK_TYPE_NABOORU) {
             gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleHelmetMarkingDL);
         } else {
@@ -969,25 +969,25 @@ void EnIk_PostLimbDrawEnemy(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 
     switch (limbIndex) {
         case IRON_KNUCKLE_LIMB_UPPER_LEFT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1270), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1270);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
 
         case IRON_KNUCKLE_LIMB_UPPER_RIGHT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1275), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1275);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
 
         case IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT:
             if (!(this->drawArmorFlag & ARMOR_BROKEN)) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1281), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1281);
                 gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
             }
             break;
 
         case IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK:
             if (!(this->drawArmorFlag & ARMOR_BROKEN)) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1288), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ik_inFight.c", 1288);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
             }
             break;
@@ -1257,18 +1257,18 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 267), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 267);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016D88);
             }
         } break;
 
         case IRON_KNUCKLE_DEFEAT_LIMB_UPPER_LEFT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 274), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 274);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
 
         case IRON_KNUCKLE_DEFEAT_LIMB_UPPER_RIGHT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 280), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 280);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
 
@@ -1276,7 +1276,7 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 288), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 288);
                 gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
             }
         } break;
@@ -1285,7 +1285,7 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 297), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inAwake.c", 297);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
             }
         } break;
@@ -1425,27 +1425,27 @@ void EnIk_PostLimbDrawIntro(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 
     switch (limbIndex) {
         case IRON_KNUCKLE_LIMB_HELMET_ARMOR:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 575), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 575);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016D88);
             break;
 
         case IRON_KNUCKLE_LIMB_UPPER_LEFT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 581), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 581);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
 
         case IRON_KNUCKLE_LIMB_UPPER_RIGHT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 587), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 587);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
 
         case IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 593), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 593);
             gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
             break;
 
         case IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK:
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 599), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_en_ik_inConfrontion.c", 599);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
             break;
     }

@@ -158,7 +158,7 @@ void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_hsblock.c", 369), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_hsblock.c", 369);
 
     if (play->sceneId == SCENE_FIRE_TEMPLE) {
         color = &sFireTempleColor;
