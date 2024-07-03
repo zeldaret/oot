@@ -156,33 +156,8 @@
     }                                      \
     (void)0
 
-struct GraphicsContext;
-
-extern struct GraphicsContext* __gfxCtx;
-
-#define WORK_DISP       __gfxCtx->work.p
-#define POLY_OPA_DISP   __gfxCtx->polyOpa.p
-#define POLY_XLU_DISP   __gfxCtx->polyXlu.p
-#define OVERLAY_DISP    __gfxCtx->overlay.p
-
 #if OOT_DEBUG
 
-// __gfxCtx shouldn't be used directly.
-// Use the DISP macros defined above when writing to display buffers.
-#define OPEN_DISPS(gfxCtx, file, line) \
-    {                                  \
-        GraphicsContext* __gfxCtx;     \
-        Gfx* dispRefs[4];              \
-        __gfxCtx = gfxCtx;             \
-        (void)__gfxCtx;                \
-        Graph_OpenDisps(dispRefs, gfxCtx, file, line)
-
-#define CLOSE_DISPS(gfxCtx, file, line)                 \
-        Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
-    }                                                   \
-    (void)0
-
-#define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
 #define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx, file, line)
 #define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx, file, line)
 #define MATRIX_CHECK_FLOATS(mtx, file, line) Matrix_CheckFloats(mtx, file, line)
@@ -205,17 +180,6 @@ extern struct GraphicsContext* __gfxCtx;
 
 #else
 
-#define OPEN_DISPS(gfxCtx, file, line)      \
-    {                                       \
-        GraphicsContext* __gfxCtx = gfxCtx; \
-        s32 __dispPad
-
-#define CLOSE_DISPS(gfxCtx, file, line) \
-    (void)0;                            \
-    }                                   \
-    (void)0
-
-#define GRAPH_ALLOC(gfxCtx, size) ((void*)((gfxCtx)->polyOpa.d = (Gfx*)((u8*)(gfxCtx)->polyOpa.d - ALIGN16(size))))
 #define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx)
 #define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx)
 #define MATRIX_CHECK_FLOATS(mtx, file, line) (mtx)
