@@ -128,7 +128,7 @@ typedef enum {
 // when the translation data from the first frame of the new animation is applied.
 //
 // When this flag is used during a transition between two animations, the first frame of movement is not applied.
-// This allows the actor's world postiion to stay the same as where the previous animation ended.
+// This allows the actor's world postiion to stay at the same location as where the previous animation ended.
 // Because translations are calculated as a difference from the current and previous frame, all subsequent 
 // frames have their translation occur relative to this new starting point.
 //
