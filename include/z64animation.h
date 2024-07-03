@@ -112,7 +112,6 @@ typedef enum {
 // (player-only) Call AnimTaskQueue_AddActorMove
 #define ANIM_FLAG_PLAYER_SETMOVE (1 << 3)
 
-
 // When this flag is set, movement in all axes will not be applied for one frame. The flag
 // is unset automatically after one use, so movement can resume. The intent is for this flag to be used
 // when changing between two different animations. 
