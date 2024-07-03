@@ -1,3 +1,6 @@
+// 1) The block number for gAppNmiBufferPtr must be <= 193
+#pragma increment_block_number 130
+
 #include "global.h"
 #include "terminal.h"
 
@@ -6,6 +9,9 @@ extern u8 _buffersSegmentEnd[];
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
+
+// 2) The block number for gIrqMgr must be <= 241 and > gPadMgr's
+#pragma increment_block_number 40
 
 PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
