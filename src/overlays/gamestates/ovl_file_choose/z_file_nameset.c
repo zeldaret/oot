@@ -91,17 +91,21 @@ static void* sNameLabelTextures[] =
     LANGUAGE_ARRAY(gFileSelNameJPNTex, gFileSelNameENGTex, gFileSelNameENGTex, gFileSelNameFRATex);
 
 #if OOT_NTSC
-// TODO: fix NTSC data
-static void* sBackspaceEndTextures[2] = { gFileSelBackspaceButtonTex, gFileSelENDButtonENGTex };
+static void* sButtonTextures[] = {
+    gFileSelHiraganaButtonTex,  gFileSelKatakanaButtonTex, gFileSelKanjiButtonTex,
+    gFileSelBackspaceButtonTex, gFileSelENDButtonENGTex,
+};
+
+static u16 sButtonWidths[] = { 44, 44, 28, 28, 44 };
 #else
-static void* sBackspaceEndTextures[][2] = {
+static void* sButtonTextures[][2] = {
     { gFileSelBackspaceButtonTex, gFileSelENDButtonENGTex },
     { gFileSelBackspaceButtonTex, gFileSelENDButtonGERTex },
     { gFileSelBackspaceButtonTex, gFileSelENDButtonFRATex },
 };
-#endif
 
-static u16 sBackspaceEndWidths[] = { 28, 44 };
+static u16 sButtonWidths[] = { 28, 44 };
+#endif
 
 static s16 D_808125EC[] = {
     0xFFE2, 0xFFF0, 0xFFFA, 0x0004, 0x000E, 0x0018, 0x0022, 0x002C, 0x0036, 0xFFF0, 0xFFF0,
@@ -144,13 +148,14 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2], 255);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 #if OOT_NTSC
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sBackspaceEndTextures[phi_t1], G_IM_FMT_IA, G_IM_SIZ_16b,
-                            sBackspaceEndWidths[phi_t1], 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        // TODO: implement NTSC version
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sButtonTextures[phi_t1], G_IM_FMT_IA, G_IM_SIZ_16b, sButtonWidths[phi_t1],
+                            16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD);
 #else
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sBackspaceEndTextures[gSaveContext.language][phi_t1], G_IM_FMT_IA,
-                            G_IM_SIZ_16b, sBackspaceEndWidths[phi_t1], 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sButtonTextures[gSaveContext.language][phi_t1], G_IM_FMT_IA, G_IM_SIZ_16b,
+                            sButtonWidths[phi_t1], 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 #endif
         gSP1Quadrangle(POLY_OPA_DISP++, phi_s0, phi_s0 + 2, phi_s0 + 3, phi_s0 + 1, 0);
     }
