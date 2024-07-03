@@ -1308,7 +1308,7 @@ void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
         Matrix_Pop();
 
         Gfx_SetupDL_25Opa(gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, sp60, (G_MTX_PUSH | G_MTX_LOAD) | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_OPA_DISP++, sp60, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsStandalonePillarDL);
         gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 

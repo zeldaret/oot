@@ -407,8 +407,7 @@ void EnJsjutan_Draw(Actor* thisx, PlayState* play2) {
     Matrix_Translate(thisx->world.pos.x, 3.0f, thisx->world.pos.z, MTXMODE_NEW);
     Matrix_Scale(thisx->scale.x, 1.0f, thisx->scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_jsjutan.c", 782),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_jsjutan.c", 782), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     // Draws the carpet's shadow texture.
     gSPDisplayList(POLY_OPA_DISP++, sShadowMaterialDL);
@@ -426,8 +425,7 @@ void EnJsjutan_Draw(Actor* thisx, PlayState* play2) {
     Matrix_Translate(thisx->world.pos.x, this->unk_168 + 3.0f, thisx->world.pos.z, MTXMODE_NEW);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_jsjutan.c", 805),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_jsjutan.c", 805), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     // Draws the carpet's texture.
     gSPDisplayList(POLY_OPA_DISP++, sCarpetMaterialDL);
 
