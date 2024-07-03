@@ -55,16 +55,16 @@ endif
 ifeq ($(VERSION),gc-us)
   DEBUG := 0
   COMPARE := 0
-  CPP_DEFINES += -DOOT_NTSC
+  CPP_DEFINES += -DOOT_NTSC=1 -DOOT_PAL=0 -DOOT_MQ=0
 else ifeq ($(VERSION),gc-eu)
   DEBUG := 0
-  CPP_DEFINES += -DOOT_PAL
+  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=0
 else ifeq ($(VERSION),gc-eu-mq)
   DEBUG := 0
-  CPP_DEFINES += -DOOT_PAL -DOOT_MQ
+  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=1
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   DEBUG := 1
-  CPP_DEFINES += -DOOT_PAL -DOOT_MQ
+  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=1
 else
 $(error Unsupported version $(VERSION))
 endif
