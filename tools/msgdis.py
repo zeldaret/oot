@@ -230,7 +230,7 @@ def read_sfx_ids():
     return sfx_ids
 
 def unique_or_none(lst : List[T]) -> Optional[T]:
-    if len(lst) == 0:
+    if not lst:
         return None
     elem = lst[0]
     for e in lst[1:]:
