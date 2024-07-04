@@ -879,9 +879,9 @@ assets:
   start_offset: 0x6E0
   end_offset: 0x4088
 - name: overlays/ovl_file_choose
-  xml_path: assets/xml/overlays/ovl_file_choose.xml
+  xml_path: assets/xml/overlays/ovl_file_choose_pal.xml
   start_offset: 0xD740
-  end_offset: 0xDF80
+  end_offset: 0xE010
 - name: overlays/ovl_Magic_Dark
   xml_path: assets/xml/overlays/ovl_Magic_Dark.xml
   start_offset: 0xC90

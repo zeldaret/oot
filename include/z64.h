@@ -215,7 +215,9 @@ typedef struct {
     /* 0x000A4 */ Vtx* windowVtx;
     /* 0x000A8 */ u8* staticSegment;
     /* 0x000AC */ u8* parameterSegment;
+#if OOT_PAL
     /* 0x000B0 */ char unk_B0[0x8];
+#endif
     /* 0x000B8 */ View view;
     /* 0x001E0 */ SramContext sramCtx;
     /* 0x001E4 */ char unk_1E4[0x4];
@@ -234,7 +236,9 @@ typedef struct {
     /* 0x1CA1C */ u32 questItems[3];
     /* 0x1CA28 */ s16 n64ddFlags[3];
     /* 0x1CA2E */ s8 defense[3];
+#if OOT_PAL
     /* 0x1CA32 */ u16 health[3];
+#endif
     /* 0x1CA38 */ s16 buttonIndex;
     /* 0x1CA3A */ s16 confirmButtonIndex; // 0: yes, 1: quit
     /* 0x1CA3C */ s16 menuMode;
