@@ -4,9 +4,11 @@
 #
 
 import argparse, re, struct
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple, TypeVar
 
 import version_config
+
+T = TypeVar("T")
 
 item_ids = {
     0x00 : "ITEM_DEKU_STICK",
@@ -226,6 +228,15 @@ def read_sfx_ids():
             value += 1
 
     return sfx_ids
+
+def unique_or_none(lst : List[T]) -> Optional[T]:
+    if len(lst) == 0:
+        return None
+    elem = lst[0]
+    for e in lst[1:]:
+        if e != elem:
+            return None
+    return elem
 
 class MessageDecoder:
     def __init__(self, sfx_ids : Dict[int,str], control_end : int, control_codes : Dict[int, Tuple[str, str, Optional[Tuple[Callable[[int], str]]]]], extraction_charmap : Dict[int, str]) -> None:
@@ -684,16 +695,20 @@ class MessageTableEntry:
         box_pos  = (info >> 0) & 0xF
         return MessageTableEntry(text_id, box_type, box_pos, addr)
 
-class MessageEntry:
-    def __init__(self, message_tables : List[Optional[MessageTableDesc]], text_id : int, box_type : int, box_pos : int) -> None:
-        self.text_id : int = text_id
+class MessageData:
+    def __init__(self, box_type : int, box_pos : int, decoded_text : str):
         self.box_type : int = box_type
         self.box_pos : int = box_pos
-        self.data : List[Tuple[Optional[MessageDecoder], Optional[bytes]]] = [(None,None) for _ in message_tables]
+        self.decoded_text : str = decoded_text
+
+class MessageEntry:
+    def __init__(self, message_tables : List[Optional[MessageTableDesc]], text_id : int) -> None:
+        self.text_id : int = text_id
+        self.data : List[Optional[MessageData]] = [None for _ in message_tables]
         self.select = tuple(tbl is not None for tbl in message_tables)
 
-    def box_type_str(self) -> str:
-        return {
+    def define_message(self, defn : str, box_type : int, box_pos : int, data : List[Optional[MessageData]]) -> str:
+        box_type_str = {
             0: "TEXTBOX_TYPE_BLACK",
             1: "TEXTBOX_TYPE_WOODEN",
             2: "TEXTBOX_TYPE_BLUE",
@@ -701,37 +716,49 @@ class MessageEntry:
             4: "TEXTBOX_TYPE_NONE_BOTTOM",
             5: "TEXTBOX_TYPE_NONE_NO_SHADOW",
             0xB: "TEXTBOX_TYPE_CREDITS",
-        }[self.box_type]
-
-    def box_pos_str(self) -> str:
-        return {
+        }[box_type]
+        box_pos_str = {
             0: "TEXTBOX_POS_VARIABLE",
             1: "TEXTBOX_POS_TOP",
             2: "TEXTBOX_POS_MIDDLE",
             3: "TEXTBOX_POS_BOTTOM",
-        }[self.box_pos]
+        }[box_pos]
+        out = f"{defn}(0x{self.text_id:04X}, {box_type_str}, {box_pos_str},\n"
+        out += "\n,\n".join(f"MSG(\n{d.decoded_text}\n)" if d is not None else "MSG(/* MISSING */)" for d in data)
+        out += "\n)\n"
+        return out
 
     def decode(self) -> str:
-        selection = tuple(not (select and data == (None,None)) for select,data in zip(self.select,self.data))
-        assert any(sel for sel in selection)
+        selection = tuple(not (select and data is None) for select,data in zip(self.select,self.data))
+        assert any(selection)
 
-        defn = ""
-        if all(sel for sel in selection):
+        out = ""
+        if all(selection):
+            shared_box_type = unique_or_none([data.box_type for data in self.data if data is not None])
+            shared_box_pos = unique_or_none([data.box_pos for data in self.data if data is not None])
+            if shared_box_type is not None and shared_box_pos is not None:
+                # Valid for all languages
+                out += self.define_message("DEFINE_MESSAGE", shared_box_type, shared_box_pos, self.data)
+            else:
+                # Some NTSC messages have different box types/positions between JPN and NES,
+                # so emit both DEFINE_MESSAGE_JPN and DEFINE_MESSAGE_NES
+                assert self.data[0] is not None
+                assert self.data[1] is not None
+                out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, [self.data[0], None, None, None])
+                out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, [None, self.data[1], None, None])
+        elif all(selection):
             # Valid for all languages
-            defn = "DEFINE_MESSAGE"
+            out += self.define_message("DEFINE_MESSAGE", self.data[0].box_type, self.data[0].box_pos, self.data)
         elif selection == (True,False,True,True):
             # JPN only
-            defn = "DEFINE_MESSAGE_JPN"
+            out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, self.data)
         elif selection == (False,True,True,True):
             # NES only
-            defn = "DEFINE_MESSAGE_NES"
+            out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, self.data)
         else:
             # Other unimplemented cases
             assert False
 
-        out = f"{defn}(0x{self.text_id:04X}, {self.box_type_str()}, {self.box_pos_str()},\n"
-        out += "\n,\n".join(f"MSG(\n{decoder.decode(data)}\n)" if decoder is not None else "MSG(/* MISSING */)" for decoder,data in self.data)
-        out += "\n)\n"
         return out
 
 def collect_messages(message_tables : List[Optional[MessageTableDesc]], version : str,
@@ -776,8 +803,9 @@ def collect_messages(message_tables : List[Optional[MessageTableDesc]], version 
                 size = next_offset - curr_offset
 
                 if curr.text_id not in messages:
-                    messages[curr.text_id] = MessageEntry(message_tables, curr.text_id, curr.box_type, curr.box_pos)
-                messages[curr.text_id].data[lang_num] = (desc.decoder, baserom_seg[curr_offset : curr_offset+size])
+                    messages[curr.text_id] = MessageEntry(message_tables, curr.text_id)
+                messages[curr.text_id].data[lang_num] = MessageData(
+                    curr.box_type, curr.box_pos, desc.decoder.decode(baserom_seg[curr_offset : curr_offset+size]))
         else:
             # Addresses only
 
@@ -794,7 +822,9 @@ def collect_messages(message_tables : List[Optional[MessageTableDesc]], version 
                 size = next_offset - curr_offset
 
                 # The text id is guaranteed to already exist
-                messages[text_id].data[lang_num] = (desc.decoder, baserom_seg[curr_offset:curr_offset+size])
+                parent_data = messages[text_id].data[desc.parent]
+                messages[text_id].data[lang_num] = MessageData(
+                    parent_data.box_type, parent_data.box_pos, desc.decoder.decode(baserom_seg[curr_offset:curr_offset+size]))
 
     return messages
 
