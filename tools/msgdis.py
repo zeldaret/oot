@@ -746,9 +746,6 @@ class MessageEntry:
                 assert self.data[1] is not None
                 out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, [self.data[0], None, None, None])
                 out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, [None, self.data[1], None, None])
-        elif all(selection):
-            # Valid for all languages
-            out += self.define_message("DEFINE_MESSAGE", self.data[0].box_type, self.data[0].box_pos, self.data)
         elif selection == (True,False,True,True):
             # JPN only
             out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, self.data)
