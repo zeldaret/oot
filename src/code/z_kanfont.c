@@ -1,7 +1,15 @@
 #include "global.h"
 #include "message_data_static.h"
 
-void func_8006EE50(Font* font, u16 arg1, u16 arg2) {
+/**
+ * Loads a texture from kanji for the requested `character` into the character texture buffer
+ * at `codePointIndex`. The value of `character` is the SHIFT-JIS encoding of the character.
+ */
+void Font_LoadKanji(Font* font, u16 character, u16 codePointIndex) {
+#if OOT_NTSC
+    DmaMgr_RequestSync(&font->charTexBuf[codePointIndex],
+                       (uintptr_t)_kanjiSegmentRomStart + Kanji_OffsetFromShiftJIS(character), FONT_CHAR_TEX_SIZE);
+#endif
 }
 
 /**
@@ -33,13 +41,36 @@ void Font_LoadMessageBoxIcon(Font* font, u16 icon) {
  * the font buffer.
  */
 void Font_LoadOrderedFont(Font* font) {
+    s32 size;
     s32 len;
     s32 codePointIndex;
     s32 fontBufIndex;
     u32 offset;
 
-    font->msgOffset = FONT_MESSAGE_OFFSET;
-    len = font->msgLength = FONT_MESSAGE_LENGTH;
+#if OOT_NTSC
+    font->msgOffset = _message_0xFFFC_jpn - (const char*)_jpn_message_data_staticSegmentStart;
+    size = font->msgLength = _message_0xFFFD_jpn - _message_0xFFFC_jpn;
+    len = (u32)size / 2;
+
+    DmaMgr_RequestSync(font->msgBufWide, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset, size);
+
+    fontBufIndex = 0;
+    for (codePointIndex = 0; font->msgBufWide[codePointIndex] != MESSAGE_WIDE_END; codePointIndex++) {
+        if (len < codePointIndex) {
+            return;
+        }
+
+        if (font->msgBufWide[codePointIndex] != MESSAGE_WIDE_NEWLINE) {
+            offset = Kanji_OffsetFromShiftJIS(font->msgBufWide[codePointIndex]);
+            DmaMgr_RequestSync(&font->fontBuf[fontBufIndex * 8], (uintptr_t)_kanjiSegmentRomStart + offset,
+                               FONT_CHAR_TEX_SIZE);
+            fontBufIndex += FONT_CHAR_TEX_SIZE / 8;
+        }
+    }
+#else
+    font->msgOffset = _message_0xFFFC_nes - (const char*)_nes_message_data_staticSegmentStart;
+    size = font->msgLength = _message_0xFFFD_nes - _message_0xFFFC_nes;
+    len = size;
 
     DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset, len,
                      "../z_kanfont.c", 122);
@@ -62,4 +93,5 @@ void Font_LoadOrderedFont(Font* font) {
             fontBufIndex += FONT_CHAR_TEX_SIZE / 8;
         }
     }
+#endif
 }
