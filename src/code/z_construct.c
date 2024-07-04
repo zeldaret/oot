@@ -328,6 +328,17 @@ void Regs_InitDataImpl(void) {
     R_C_BTN_COLOR(2) = 0;
     ZREG(46) = 1;
     ZREG(47) = 1;
+
+#if OOT_NTSC
+    R_START_LABEL_DD(0) = 86;
+    R_START_LABEL_DD(1) = 100;
+    R_START_LABEL_WIDTH = 0;
+    R_START_LABEL_HEIGHT = 0;
+    R_START_LABEL_Y(0) = 21;
+    R_START_LABEL_Y(1) = 20;
+    R_START_LABEL_X(0) = 122;
+    R_START_LABEL_X(1) = 120;
+#else
     R_START_LABEL_DD(0) = 100;
     R_START_LABEL_DD(1) = 89;
     R_START_LABEL_DD(2) = 92;
@@ -337,6 +348,8 @@ void Regs_InitDataImpl(void) {
     R_START_LABEL_X(0) = 120;
     R_START_LABEL_X(1) = 119;
     R_START_LABEL_X(2) = 119;
+#endif
+
     ZREG(61) = 1;
     R_C_UP_BTN_X = C_UP_BUTTON_X;
     R_C_UP_BTN_Y = C_UP_BUTTON_Y;
@@ -492,6 +505,8 @@ void Regs_InitDataImpl(void) {
     WREG(33) = 60;
     WREG(35) = 0;
     WREG(36) = 0;
+
+#if OOT_PAL
     WREG(37) = 100;
     WREG(38) = 99;
     WREG(39) = 109;
@@ -522,6 +537,8 @@ void Regs_InitDataImpl(void) {
     WREG(64) = -37;
     WREG(65) = 30;
     WREG(66) = -50;
+#endif
+
     R_DGN_MINIMAP_X = 204;
     R_DGN_MINIMAP_Y = 140;
     WREG(87) = 80;
