@@ -8,13 +8,12 @@ typedef enum {
 #if OOT_NTSC
     /* 0 */ LANGUAGE_JPN,
     /* 1 */ LANGUAGE_ENG,
-    /* 2 */ LANGUAGE_MAX
 #else
     /* 0 */ LANGUAGE_ENG,
     /* 1 */ LANGUAGE_GER,
     /* 2 */ LANGUAGE_FRA,
-    /* 3 */ LANGUAGE_MAX
 #endif
+    /*   */ LANGUAGE_MAX
 } Language;
 
 // `_FORCE` means that this request will respond to `forceRisingButtonAlphas`.
