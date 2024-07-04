@@ -27,23 +27,32 @@ u16 gSramSlotOffsets[] = {
 static char sZeldaMagic[] = { '\0', '\0', '\0', '\x98', '\x09', '\x10', '\x21', 'Z', 'E', 'L', 'D', 'A' };
 
 static SavePlayerData sNewSavePlayerData = {
-    { '\0', '\0', '\0', '\0', '\0', '\0' },             // newf
-    0,                                                  // deaths
-    { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E }, // playerName
-    0,                                                  // n64ddFlag
-    0x30,                                               // healthCapacity
-    0x30,                                               // defense
-    0,                                                  // magicLevel
-    MAGIC_NORMAL_METER,                                 // magic
-    0,                                                  // rupees
-    0,                                                  // swordHealth
-    0,                                                  // naviTimer
-    false,                                              // isMagicAcquired
-    0,                                                  // unk_1F
-    false,                                              // isDoubleMagicAcquired
-    false,                                              // isDoubleDefenseAcquired
-    0,                                                  // bgsFlag
-    0,                                                  // ocarinaGameRoundNum
+    { '\0', '\0', '\0', '\0', '\0', '\0' }, // newf
+    0,                                      // deaths
+    {
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+    },                  // playerName
+    0,                  // n64ddFlag
+    0x30,               // healthCapacity
+    0x30,               // defense
+    0,                  // magicLevel
+    MAGIC_NORMAL_METER, // magic
+    0,                  // rupees
+    0,                  // swordHealth
+    0,                  // naviTimer
+    false,              // isMagicAcquired
+    0,                  // unk_1F
+    false,              // isDoubleMagicAcquired
+    false,              // isDoubleDefenseAcquired
+    0,                  // bgsFlag
+    0,                  // ocarinaGameRoundNum
     {
         { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE }, // buttonItems
         { SLOT_NONE, SLOT_NONE, SLOT_NONE },            // cButtonSlots
@@ -155,23 +164,32 @@ void Sram_InitNewSave(void) {
 }
 
 static SavePlayerData sDebugSavePlayerData = {
-    { 'Z', 'E', 'L', 'D', 'A', 'Z' },                   // newf
-    0,                                                  // deaths
-    { 0x15, 0x12, 0x17, 0x14, 0x3E, 0x3E, 0x3E, 0x3E }, // playerName ( "LINK" )
-    0,                                                  // n64ddFlag
-    0xE0,                                               // healthCapacity
-    0xE0,                                               // health
-    0,                                                  // magicLevel
-    MAGIC_NORMAL_METER,                                 // magic
-    150,                                                // rupees
-    8,                                                  // swordHealth
-    0,                                                  // naviTimer
-    true,                                               // isMagicAcquired
-    0,                                                  // unk_1F
-    false,                                              // isDoubleMagicAcquired
-    false,                                              // isDoubleDefenseAcquired
-    0,                                                  // bgsFlag
-    0,                                                  // ocarinaGameRoundNum
+    { 'Z', 'E', 'L', 'D', 'A', 'Z' }, // newf
+    0,                                // deaths
+    {
+        FILENAME_UPPERCASE('L'),
+        FILENAME_UPPERCASE('I'),
+        FILENAME_UPPERCASE('N'),
+        FILENAME_UPPERCASE('K'),
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+    },                  // playerName
+    0,                  // n64ddFlag
+    0xE0,               // healthCapacity
+    0xE0,               // health
+    0,                  // magicLevel
+    MAGIC_NORMAL_METER, // magic
+    150,                // rupees
+    8,                  // swordHealth
+    0,                  // naviTimer
+    true,               // isMagicAcquired
+    0,                  // unk_1F
+    false,              // isDoubleMagicAcquired
+    false,              // isDoubleDefenseAcquired
+    0,                  // bgsFlag
+    0,                  // ocarinaGameRoundNum
     {
         { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE }, // buttonItems
         { SLOT_NONE, SLOT_NONE, SLOT_NONE },            // cButtonSlots
