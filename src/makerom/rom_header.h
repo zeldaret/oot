@@ -99,13 +99,13 @@
  * Identifies the storage medium the program intends to use.
  *
  * Should be one of:
- *  - CARTRIDGE
- *  - CARTRIDGE_EXPANDABLE
- *  - DISK
- *  - DISK_EXPANSION
+ *  - STORAGE_MEDIUM_CARTRIDGE
+ *  - STORAGE_MEDIUM_CARTRIDGE_EXPANDABLE
+ *  - STORAGE_MEDIUM_DISK
+ *  - STORAGE_MEDIUM_DISK_EXPANSION
  */
 #define MEDIUM(type) \
-    .ascii STORAGE_MEDIUM_##type
+    .ascii type
 
 /**
  * Two-letter game identifier. Should be wrapped in quotes.
@@ -121,12 +121,12 @@
  * Identifies the region the game is made for.
  *
  * Should be one of:
- *  - ALL
- *  - JP
- *  - US
- *  - PAL
- *  - GATEWAY
- *  - LODGENET
+ *  - REGION_CODE_ALL
+ *  - REGION_CODE_JP
+ *  - REGION_CODE_US
+ *  - REGION_CODE_PAL
+ *  - REGION_CODE_GATEWAY
+ *  - REGION_CODE_LODGENET
  *
  * Note: Often flashcarts and emulators will read this value to determine whether to act as an NTSC or PAL system and
  *       will adjust the VI timings appropriately, which may be used to determine target FPS.
@@ -134,7 +134,7 @@
  *       video mode for the hardware version.
  */
 #define REGION(name) \
-    .ascii REGION_CODE_##name
+    .ascii name
 
 /**
  * Identifies the game revision number. Can be between 0 and 255.
