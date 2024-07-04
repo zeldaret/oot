@@ -100,19 +100,19 @@ static ColliderCylinderInit sLightBallCylinderInit = {
 static u8 D_808E4C58[] = { 0, 12, 10, 12, 14, 16, 12, 14, 16, 12, 14, 16, 12, 14, 16, 10, 16, 14 };
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-us:128"
 
 static EnGanonMant* sCape;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-us:128"
 
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-us:192"
 
 static BossGanon* sGanondorf;
 

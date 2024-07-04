@@ -120,7 +120,7 @@ u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-us:0"
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;

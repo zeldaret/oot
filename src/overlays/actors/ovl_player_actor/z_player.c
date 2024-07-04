@@ -354,19 +354,19 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 
 // .bss part 1
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-us:0"
 
 static s32 D_80858AA0;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-us:128"
 
 static s32 D_80858AA4;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-us:192"
 
 // .data
 

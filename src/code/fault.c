@@ -44,7 +44,7 @@
 #include "terminal.h"
 #include "alloca.h"
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:0"
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:0 gc-us:64"
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);

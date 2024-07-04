@@ -1,6 +1,6 @@
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-us:128"
 
 ALIGNED(16) SaveContext gSaveContext;
 u32 D_8015FA88;
