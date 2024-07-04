@@ -29,7 +29,7 @@ The only build currently supported is Master Quest (Debug), but other versions a
 
 It builds the following ROM:
 
-* oot-gc-eu-mq-dbg.z64 `md5: f0b7f35375f9cc8ca1b2d59d78e35405`
+* oot-gc-eu-mq-dbg.z64 `md5: 75e344f41c26ec2ec5ad92caa9e25629`
 
 **Note: This repository does not include any of the assets necessary to build the ROM. A prior copy of the game is required to extract the needed assets.**
 
@@ -55,7 +55,7 @@ For Windows 10 or 11, install WSL and a distribution by following this
 [WSL Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install).
 We recommend using Ubuntu 20.04 as the Linux distribution.
 
-For older versions of Windows, install a Linux VM or refer to either [Cygwin](docs/BUILDING_CYGWIN.md) or [Docker](docs/BUILDING_DOCKER.md) instructions.
+For older versions of Windows, install a Linux VM or refer to [Docker](docs/BUILDING_DOCKER.md) instructions.
 
 
 ### Linux (Native or under WSL / VM)
@@ -103,6 +103,7 @@ cd oot
 #### 3. Prepare a base ROM
 
 Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder.
+If you are under WSL, you can run the command `explorer.exe .` to open the current directory in the Windows file explorer.
 
 Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
 
@@ -115,7 +116,7 @@ make setup
 ```
 
 This downloads some dependencies (from pip), and compiles tools for the build process.
-Then it generates a new ROM "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64" that will have the overdump removed and the header patched.
+Then it generates a new ROM `baseroms/gc-eu-mq-dbg/baserom-decompressed.z64` that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
 #### 5. Build the ROM

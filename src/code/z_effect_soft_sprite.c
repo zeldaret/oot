@@ -1,6 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 
+#include "z64frame_advance.h"
+
 EffectSsInfo sEffectSsInfo = { 0 }; // "EffectSS2Info"
 
 void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
@@ -12,7 +14,8 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
     for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
         overlay = &gEffectSsOverlayTable[i];
         PRINTF("effect index %3d:size=%6dbyte romsize=%6dbyte\n", i,
-               (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
+               (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart,
+               overlay->file.vromEnd - overlay->file.vromStart);
     }
 #endif
 
@@ -205,13 +208,13 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
                 return;
             }
 
-            Overlay_Load(overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
-                         overlayEntry->loadedRamAddr);
+            Overlay_Load(overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
+                         overlayEntry->vramEnd, overlayEntry->loadedRamAddr);
 
             PRINTF(VT_FGCOL(GREEN));
-            PRINTF("EFFECT SS OVL:SegRom %08x %08x, Seg %08x %08x, RamStart %08x, type: %d\n", overlayEntry->vromStart,
-                   overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
-                   type);
+            PRINTF("EFFECT SS OVL:SegRom %08x %08x, Seg %08x %08x, RamStart %08x, type: %d\n",
+                   overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
+                   overlayEntry->vramEnd, overlayEntry->loadedRamAddr, type);
             PRINTF(VT_RST);
         }
 

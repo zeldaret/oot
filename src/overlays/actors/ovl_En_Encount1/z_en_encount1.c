@@ -51,6 +51,8 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
     spawnRange = 120.0f + (40.0f * this->actor.world.rot.z);
     this->spawnRange = spawnRange;
 
+    if (1) {}
+
     PRINTF("\n\n");
     // "It's an enemy spawner!"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
@@ -270,8 +272,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
-                if ((player->actor.yDistToWater != BGCHECK_Y_MIN) &&
-                    (floorY < (player->actor.world.pos.y - player->actor.yDistToWater))) {
+                if ((player->actor.depthInWater != BGCHECK_Y_MIN) &&
+                    (floorY < (player->actor.world.pos.y - player->actor.depthInWater))) {
                     break;
                 }
                 spawnPos.y = floorY;
@@ -322,7 +324,7 @@ void EnEncount1_Update(Actor* thisx, PlayState* play) {
 
     this->updateFunc(this, play);
 
-    if (BREG(0) != 0) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         if (this->outOfRangeTimer != 0) {
             if ((this->outOfRangeTimer & 1) == 0) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

@@ -85,8 +85,8 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play) {
                 PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n" VT_RST);
                 this->actor.textId = 0x5002;
                 this->unk_156 = TEXT_STATE_CHOICE;
-                this->height = 30.0f;
                 this->unk_15C = 40.0f;
+                this->height = 30.0f;
                 // "Attention coordinates"
                 PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 30.0f);
                 break;
@@ -239,7 +239,7 @@ void EnWonderTalk_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     Actor_SetFocus(&this->actor, this->height);
 
-    if (BREG(0) != 0) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         if (this->unk_15A != 0) {
             if ((this->unk_15A & 1) == 0) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

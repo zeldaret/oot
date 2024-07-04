@@ -224,11 +224,10 @@ void BossFd2_SetupEmerge(BossFd2* this, PlayState* play) {
 }
 
 void BossFd2_Emerge(BossFd2* this, PlayState* play) {
-    s8 health;
+    s16 holeTime;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     Player* player = GET_PLAYER(play);
     s16 i;
-    s16 holeTime;
 
     PRINTF("UP 1    mode %d\n", this->work[FD2_ACTION_STATE]);
     SkelAnime_Update(&this->skelAnime);
@@ -239,6 +238,8 @@ void BossFd2_Emerge(BossFd2* this, PlayState* play) {
             PRINTF("PL time %x \n", player);
             PRINTF("MT time %x \n", bossFd);
             if ((this->timers[0] == 0) && (player->actor.world.pos.y > 70.0f)) {
+                s8 health;
+
                 PRINTF("UP 1.6 \n");
                 bossFd->faceExposed = 0;
                 bossFd->holePosition.x = this->actor.world.pos.x;
@@ -645,7 +646,6 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
     f32 pad3;
     f32 pad2;
     f32 pad1;
-    f32 cameraShake;
     SkelAnime* skelAnime = &this->skelAnime;
 
     SkelAnime_Update(skelAnime);
@@ -766,6 +766,8 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
             this->subCamEyeNext.y = 140.0f;
             Math_ApproachF(&this->subCamEyeNext.z, 220.0f, 0.5f, 1.15f);
             if (bossFd->work[BFD_CAM_SHAKE_TIMER] != 0) {
+                f32 cameraShake;
+
                 bossFd->work[BFD_CAM_SHAKE_TIMER]--;
                 cameraShake = bossFd->work[BFD_CAM_SHAKE_TIMER] / 0.5f;
                 if (cameraShake >= 20.0f) {
@@ -813,8 +815,8 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
 
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
-            if (this->collider.elements[i].base.toucherFlags & TOUCH_HIT) {
-                this->collider.elements[i].base.toucherFlags &= ~TOUCH_HIT;
+            if (this->collider.elements[i].base.atElemFlags & ATELEM_HIT) {
+                this->collider.elements[i].base.atElemFlags &= ~ATELEM_HIT;
                 Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }
@@ -827,12 +829,12 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
         this->collider.base.colType = COLTYPE_HIT3;
     }
 
-    if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
-        this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
+    if (this->collider.elements[0].base.acElemFlags & ACELEM_HIT) {
+        this->collider.elements[0].base.acElemFlags &= ~ACELEM_HIT;
 
         acHitElem = this->collider.elements[0].base.acHitElem;
         if (!bossFd->faceExposed) {
-            if (acHitElem->toucher.dmgFlags & DMG_HAMMER) {
+            if (acHitElem->atDmgInfo.dmgFlags & DMG_HAMMER) {
                 bossFd->actor.colChkInfo.health -= 2;
                 if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;
@@ -863,12 +865,12 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             u8 canKill = false;
             u8 damage;
 
-            if ((damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags)) == 0) {
-                damage = (acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
+            if ((damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags)) == 0) {
+                damage = (acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
             } else {
                 canKill = true;
             }
-            if (acHitElem->toucher.dmgFlags & DMG_HOOKSHOT) {
+            if (acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT) {
                 damage = 0;
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
@@ -1061,7 +1063,7 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
     f32 spE8[10] = { 0.4f, 0.6f, 0.8f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
     s16 i;
     Vec3f temp_vec;
-    f32 temp_f2;
+    f32 temp_radius;
     f32 phi_f0;
     f32 temp_angleX;
     f32 temp_angleY;
@@ -1089,9 +1091,8 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
         temp_vec.x = (pos + i)->x + (pull + i)->x - (pos + i - 1)->x;
 
         phi_f0 = (pos + i)->y + (pull + i)->y - 2.0f + sp138[i];
-        temp_f2 = (pos + i - 1)->y + sp110[i];
-        if (phi_f0 > temp_f2) {
-            phi_f0 = temp_f2;
+        if (phi_f0 > (pos + i - 1)->y + sp110[i]) {
+            phi_f0 = (pos + i - 1)->y + sp110[i];
         }
         if ((head->y >= -910.0f) && (phi_f0 < 110.0f)) {
             phi_f0 = 110.0f;
@@ -1100,7 +1101,8 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
 
         temp_vec.z = (pos + i)->z + (pull + i)->z - (pos + i - 1)->z;
         temp_angleY = Math_Atan2F(temp_vec.z, temp_vec.x);
-        temp_angleX = -Math_Atan2F(sqrtf(SQ(temp_vec.x) + SQ(temp_vec.z)), temp_vec.y);
+        temp_radius = sqrtf(SQ(temp_vec.x) + SQ(temp_vec.z));
+        temp_angleX = -Math_Atan2F(temp_radius, temp_vec.y);
         (rot + i - 1)->y = temp_angleY;
         (rot + i - 1)->x = temp_angleX;
         spBC.x = 0.0f;

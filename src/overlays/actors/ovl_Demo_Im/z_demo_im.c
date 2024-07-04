@@ -58,7 +58,9 @@ static void* sEyeTextures[] = {
     gImpaEyeClosedTex,
 };
 
+#if OOT_DEBUG
 static u32 D_8098783C = 0;
+#endif
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
@@ -72,7 +74,6 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-#pragma asmproc recurse
 #include "z_demo_im_cutscene_data.inc.c"
 
 static DemoImActionFunc sActionFuncs[] = {
@@ -118,6 +119,7 @@ void func_80984BE0(DemoIm* this) {
     }
 }
 
+#if OOT_DEBUG
 void func_80984C68(DemoIm* this) {
     this->action = 7;
     this->drawConfig = 0;
@@ -143,6 +145,7 @@ void func_80984C8C(DemoIm* this, PlayState* play) {
         }
     }
 }
+#endif
 
 void DemoIm_InitCollider(Actor* thisx, PlayState* play) {
     DemoIm* this = (DemoIm*)thisx;
@@ -497,7 +500,9 @@ void func_80985B34(DemoIm* this, PlayState* play) {
 
 void func_80985C10(DemoIm* this, PlayState* play) {
     func_80985948(this, play);
+#if OOT_DEBUG
     func_80984C8C(this, play);
+#endif
 }
 
 void func_80985C40(DemoIm* this, PlayState* play) {
@@ -505,7 +510,9 @@ void func_80985C40(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_809859E0(this, play);
+#if OOT_DEBUG
     func_80984C8C(this, play);
+#endif
 }
 
 void func_80985C94(DemoIm* this, PlayState* play) {
@@ -513,7 +520,9 @@ void func_80985C94(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80985B34(this, play);
+#if OOT_DEBUG
     func_80984C8C(this, play);
+#endif
 }
 
 void DemoIm_DrawTranslucent(DemoIm* this, PlayState* play) {
@@ -899,6 +908,8 @@ void func_80986BF8(DemoIm* this, PlayState* play) {
 
 void func_80986C30(DemoIm* this, PlayState* play) {
     if (func_80986A5C(this, play)) {
+        s32 pad;
+
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardLullabyCs);
         gSaveContext.cutsceneTrigger = 1;
         SET_EVENTCHKINF(EVENTCHKINF_59);
@@ -924,10 +935,15 @@ void func_80986CFC(DemoIm* this, PlayState* play) {
 }
 
 void func_80986D40(DemoIm* this, PlayState* play) {
+#if OOT_DEBUG
     if (gSaveContext.sceneLayer == 6) {
         this->action = 19;
         this->drawConfig = 1;
-    } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        return;
+    }
+#endif
+
+    if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
         Actor_Kill(&this->actor);
     } else if (!GET_EVENTCHKINF(EVENTCHKINF_59)) {
         this->action = 23;

@@ -52,8 +52,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000020, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 60, 0, { 0, 0, 0 } },
@@ -163,7 +163,6 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     EnItem00* collectible;
     s32 pad;
-    Vec3f spawnPos;
 
     if (this->collider.base.acFlags & AC_HIT) {
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
@@ -174,6 +173,8 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
             if (1) {}
             gSaveContext.cutsceneTrigger = 1;
         } else {
+            Vec3f spawnPos;
+
             spawnPos.x = 700.0f;
             spawnPos.y = -800.0f;
             spawnPos.z = 7261.0f;

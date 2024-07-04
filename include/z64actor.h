@@ -1,6 +1,7 @@
 #ifndef Z64ACTOR_H
 #define Z64ACTOR_H
 
+#include "color.h"
 #include "z64dma.h"
 #include "z64animation.h"
 #include "z64math.h"
@@ -14,18 +15,14 @@
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
 struct Actor;
-struct PlayState;
+struct CollisionPoly;
 struct Lights;
+struct PlayState;
 
 typedef void (*ActorFunc)(struct Actor*, struct PlayState*);
 typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*);
 typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
 typedef s16 (*NpcUpdateTalkStateFunc)(struct PlayState*, struct Actor*);
-
-typedef struct {
-    Vec3f pos;
-    Vec3s rot;
-} PosRot; // size = 0x14
 
 typedef struct {
     /* 0x00 */ s16 id;
@@ -89,8 +86,7 @@ typedef struct {
 #define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
 typedef struct {
-    /* 0x00 */ uintptr_t vromStart;
-    /* 0x04 */ uintptr_t vromEnd;
+    /* 0x00 */ RomFile file;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
@@ -135,7 +131,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ Vec3s rot; // Current actor shape rotation
-    /* 0x06 */ s16 face; // Used to index eyebrow/eye/mouth textures. Only used by player
+    /* 0x06 */ s16 face; // Used to index eyes and mouth textures. Only used by player
     /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units
     /* 0x0C */ ActorShadowFunc shadowDraw; // Shadow draw function
     /* 0x10 */ f32 shadowScale; // Changes the size of the shadow
@@ -271,13 +267,13 @@ typedef struct Actor {
     /* 0x068 */ f32 speed; // Context dependent speed value. Can be used for XZ or XYZ depending on which move function is used
     /* 0x06C */ f32 gravity; // Acceleration due to gravity. Value is added to Y velocity every frame
     /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap for velocity along the Y axis. Only relevant when moved with gravity.
-    /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon the actor is touching
-    /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon directly below the actor
+    /* 0x074 */ struct CollisionPoly* wallPoly; // Wall polygon the actor is touching
+    /* 0x078 */ struct CollisionPoly* floorPoly; // Floor polygon directly below the actor
     /* 0x07C */ u8 wallBgId; // Bg ID of the wall polygon the actor is touching
     /* 0x07D */ u8 floorBgId; // Bg ID of the floor polygon directly below the actor
     /* 0x07E */ s16 wallYaw; // Y rotation of the wall polygon the actor is touching
     /* 0x080 */ f32 floorHeight; // Y position of the floor polygon directly below the actor
-    /* 0x084 */ f32 yDistToWater; // Distance to the surface of active waterbox. Negative value means above water
+    /* 0x084 */ f32 depthInWater; // Distance below the surface of active waterbox. Positive value means under water, negative value means above water
     /* 0x088 */ u16 bgCheckFlags; // Flags indicating how the actor is interacting with collision
     /* 0x08A */ s16 yawTowardsPlayer; // Y rotation difference between the actor and the player
     /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player
@@ -574,6 +570,76 @@ typedef enum {
     /* 0x5C */ NAVI_ENEMY_POE_WASTELAND,
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
+
+typedef struct TargetContextEntry {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ f32 unk_0C; // radius?
+    /* 0x10 */ Color_RGB8 color;
+} TargetContextEntry; // size = 0x14
+
+typedef struct TargetContext {
+    /* 0x00 */ Vec3f naviRefPos; // possibly wrong
+    /* 0x0C */ Vec3f targetCenterPos;
+    /* 0x18 */ Color_RGBAf naviInner;
+    /* 0x28 */ Color_RGBAf naviOuter;
+    /* 0x38 */ Actor* arrowPointedActor;
+    /* 0x3C */ Actor* targetedActor;
+    /* 0x40 */ f32 unk_40;
+    /* 0x44 */ f32 unk_44;
+    /* 0x48 */ s16 unk_48;
+    /* 0x4A */ u8 activeCategory;
+    /* 0x4B */ u8 unk_4B;
+    /* 0x4C */ s8 unk_4C;
+    /* 0x4D */ char unk_4D[0x03];
+    /* 0x50 */ TargetContextEntry arr_50[3];
+    /* 0x8C */ Actor* unk_8C;
+    /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
+    /* 0x94 */ Actor* unk_94;
+} TargetContext; // size = 0x98
+
+typedef struct TitleCardContext {
+    /* 0x00 */ void* texture;
+    /* 0x04 */ s16 x;
+    /* 0x06 */ s16 y;
+    /* 0x08 */ u8 width;
+    /* 0x09 */ u8 height;
+    /* 0x0A */ u8 durationTimer; // how long the title card appears for before fading
+    /* 0x0B */ u8 delayTimer; // how long the title card waits to appear
+    /* 0x0C */ s16 alpha;
+    /* 0x0E */ s16 intensity;
+} TitleCardContext; // size = 0x10
+
+typedef struct ActorListEntry {
+    /* 0x00 */ s32 length; // number of actors loaded of this category
+    /* 0x04 */ Actor* head; // pointer to head of the linked list of this category (most recent actor added)
+} ActorListEntry; // size = 0x08
+
+typedef struct ActorContextSceneFlags {
+    /* 0x00 */ u32 swch;
+    /* 0x04 */ u32 tempSwch;
+    /* 0x08 */ u32 unk0;
+    /* 0x0C */ u32 unk1;
+    /* 0x10 */ u32 chest;
+    /* 0x14 */ u32 clear;
+    /* 0x18 */ u32 tempClear;
+    /* 0x1C */ u32 collect;
+    /* 0x20 */ u32 tempCollect;
+} ActorContextSceneFlags; // size = 0x24
+
+typedef struct ActorContext {
+    /* 0x000 */ u8 freezeFlashTimer;
+    /* 0x001 */ char unk_01[0x01];
+    /* 0x002 */ u8 unk_02;
+    /* 0x003 */ u8 lensActive;
+    /* 0x004 */ char unk_04[0x04];
+    /* 0x008 */ u8 total; // total number of actors loaded
+    /* 0x00C */ ActorListEntry actorLists[ACTORCAT_MAX];
+    /* 0x06C */ TargetContext targetCtx;
+    /* 0x104 */ ActorContextSceneFlags flags;
+    /* 0x128 */ TitleCardContext titleCtx;
+    /* 0x138 */ char unk_138[0x04];
+    /* 0x13C */ void* absoluteSpace; // Space used to allocate actor overlays with alloc type ACTOROVL_ALLOC_ABSOLUTE
+} ActorContext; // size = 0x140
 
 #define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
 #define GET_TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)

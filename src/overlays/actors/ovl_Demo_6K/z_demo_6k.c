@@ -775,8 +775,6 @@ void func_80968FB0(Actor* thisx, PlayState* play) {
     f32 scaleFactor;
     s32 pad;
 
-    if (1) {}
-
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1386);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
@@ -787,6 +785,7 @@ void func_80968FB0(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08, displayList);
     gDPPipeSync(displayList++);
+    if (displayList) {}
     gDPSetPrimColor(displayList++, 0, 0x80, 255, 255, 255, this->unk_293);
     gDPSetRenderMode(displayList++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
     gSPEndDisplayList(displayList++);

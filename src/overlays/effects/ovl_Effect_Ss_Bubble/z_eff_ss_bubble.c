@@ -58,10 +58,7 @@ void EffectSsBubble_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsBubble_Update(PlayState* play, u32 index, EffectSs* this) {
     WaterBox* waterBox;
-    f32 waterSurfaceY;
-    Vec3f ripplePos;
-
-    waterSurfaceY = this->pos.y;
+    f32 waterSurfaceY = this->pos.y;
 
     // kill bubble if it's out of range of a water box
     if (!WaterBox_GetSurface1(play, &play->colCtx, this->pos.x, this->pos.z, &waterSurfaceY, &waterBox)) {
@@ -70,6 +67,8 @@ void EffectSsBubble_Update(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (waterSurfaceY < this->pos.y) {
+        Vec3f ripplePos;
+
         ripplePos.x = this->pos.x;
         ripplePos.y = waterSurfaceY;
         ripplePos.z = this->pos.z;

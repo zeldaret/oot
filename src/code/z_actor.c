@@ -8,6 +8,9 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
+// For retail BSS ordering, the block number of sCurCeilingPoly
+// must be between 2 and 243 inclusive.
+
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
 
@@ -430,7 +433,8 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
 
     unkActor = NULL;
 
-    if ((player->unk_664 != NULL) && (player->unk_84B[player->unk_846] == 2)) {
+    if ((player->unk_664 != NULL) &&
+        (player->controlStickDirections[player->controlStickDataIndex] == PLAYER_STICK_DIR_BACKWARD)) {
         targetCtx->unk_94 = NULL;
     } else {
         func_80032AF0(play, &play->actorCtx, &unkActor, player);
@@ -1354,8 +1358,8 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
         waterBoxYSurface = actor->world.pos.y;
         if (WaterBox_GetSurface1(play, &play->colCtx, actor->world.pos.x, actor->world.pos.z, &waterBoxYSurface,
                                  &waterBox)) {
-            actor->yDistToWater = waterBoxYSurface - actor->world.pos.y;
-            if (actor->yDistToWater < 0.0f) {
+            actor->depthInWater = waterBoxYSurface - actor->world.pos.y;
+            if (actor->depthInWater < 0.0f) {
                 actor->bgCheckFlags &= ~(BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH);
             } else {
                 if (!(actor->bgCheckFlags & BGCHECKFLAG_WATER)) {
@@ -1375,7 +1379,7 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
             }
         } else {
             actor->bgCheckFlags &= ~(BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH);
-            actor->yDistToWater = BGCHECK_Y_MIN;
+            actor->depthInWater = BGCHECK_Y_MIN;
         }
     }
 }
@@ -1601,13 +1605,13 @@ s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRan
 
     if ((player->actor.flags & ACTOR_FLAG_TALK) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
         (!actor->isTargeted &&
-         ((yRange < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
+         ((yRange < fabsf(actor->yDistToPlayer)) || (player->talkActorDistance < actor->xzDistToPlayer) ||
           (xzRange < actor->xzDistToPlayer)))) {
         return false;
     }
 
-    player->targetActor = actor;
-    player->targetActorDistance = actor->xzDistToPlayer;
+    player->talkActor = actor;
+    player->talkActorDistance = actor->xzDistToPlayer;
     player->exchangeItemId = exchangeItemId;
 
     return true;
@@ -1697,7 +1701,7 @@ s32 Actor_OfferGetItem(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange
     if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
                                  PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21)) &&
         Player_GetExplosiveHeld(player) < 0) {
-        if ((((player->heldActor != NULL) || (actor == player->targetActor)) && (getItemId > GI_NONE) &&
+        if ((((player->heldActor != NULL) || (actor == player->talkActor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
             (!(player->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_29)))) {
             if ((actor->xzDistToPlayer < xzRange) && (fabsf(actor->yDistToPlayer) < yRange)) {
@@ -1831,7 +1835,7 @@ void func_8002F850(PlayState* play, Actor* actor) {
     s32 surfaceSfxOffset;
 
     if (actor->bgCheckFlags & BGCHECKFLAG_WATER) {
-        if (actor->yDistToWater < 20.0f) {
+        if (actor->depthInWater < 20.0f) {
             surfaceSfxOffset = SURFACE_SFX_OFFSET_WATER_SHALLOW;
         } else {
             surfaceSfxOffset = SURFACE_SFX_OFFSET_WATER_DEEP;
@@ -1894,7 +1898,9 @@ s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, 
     return false;
 }
 
-// Local data used for Farore's Wind light (stored in BSS, possibly a struct?)
+#pragma increment_block_number 22
+
+// Local data used for Farore's Wind light (stored in BSS)
 LightInfo D_8015BC00;
 LightNode* D_8015BC10;
 s32 D_8015BC14;
@@ -2204,7 +2210,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     }
 
     if ((player->stateFlags1 & PLAYER_STATE1_6) && ((player->actor.textId & 0xFF00) != 0x600)) {
-        sp74 = player->targetActor;
+        sp74 = player->talkActor;
     }
 
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, categoryFreezeMaskP++) {
@@ -2446,7 +2452,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
 
     gDPPipeSync(POLY_XLU_DISP++);
 
-    if (play->roomCtx.curRoom.lensMode == LENS_MODE_HIDE_ACTORS) {
+    if (play->roomCtx.curRoom.lensMode == LENS_MODE_SHOW_ACTORS) {
         // Update both the color frame buffer and the z-buffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
@@ -2495,7 +2501,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
     // "Magic lens invisible Actor display END"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
-    if (play->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
+    if (play->roomCtx.curRoom.lensMode != LENS_MODE_SHOW_ACTORS) {
         // Draw the lens overlay to the color frame buffer
 
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
@@ -2590,7 +2596,7 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
             if (!OOT_DEBUG || (HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
                 if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & (ACTOR_FLAG_5 | ACTOR_FLAG_6))) {
                     if ((actor->flags & ACTOR_FLAG_REACT_TO_LENS) &&
-                        ((play->roomCtx.curRoom.lensMode == LENS_MODE_HIDE_ACTORS) || play->actorCtx.lensActive ||
+                        ((play->roomCtx.curRoom.lensMode == LENS_MODE_SHOW_ACTORS) || play->actorCtx.lensActive ||
                          (actor->room != play->roomCtx.curRoom.num))) {
                         ASSERT(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
                                "invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
@@ -2877,8 +2883,8 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                 return NULL;
             }
 
-            Overlay_Load(overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
-                         overlayEntry->loadedRamAddr);
+            Overlay_Load(overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
+                         overlayEntry->vramEnd, overlayEntry->loadedRamAddr);
 
             PRINTF(VT_FGCOL(GREEN));
             PRINTF("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart, overlayEntry->vramEnd,
@@ -3189,33 +3195,64 @@ void Enemy_StartFinishingBlow(PlayState* play, Actor* actor) {
     SfxSource_PlaySfxAtFixedWorldPos(play, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
-s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
-    if (DECR(arg0[1]) == 0) {
-        arg0[1] = Rand_S16Offset(arg1, arg2);
+/**
+ * Updates `FaceChange` data for a blinking pattern.
+ * This system expects that the actor using the system has defined 3 faces in this exact order:
+ * "eyes open", "eyes half open", "eyes closed".
+ *
+ * @param faceChange  pointer to an actor's faceChange data
+ * @param blinkIntervalBase  The base number of frames between blinks
+ * @param blinkIntervalRandRange  The range for a random number of frames that can be added to `blinkIntervalBase`
+ * @param blinkDuration  The number of frames it takes for a single blink to occur
+ */
+s16 FaceChange_UpdateBlinking(FaceChange* faceChange, s16 blinkIntervalBase, s16 blinkIntervalRandRange,
+                              s16 blinkDuration) {
+    if (DECR(faceChange->timer) == 0) {
+        faceChange->timer = Rand_S16Offset(blinkIntervalBase, blinkIntervalRandRange);
     }
 
-    if ((arg0[1] - arg3) > 0) {
-        arg0[0] = 0;
-    } else if (((arg0[1] - arg3) > -2) || (arg0[1] < 2)) {
-        arg0[0] = 1;
+    if ((faceChange->timer - blinkDuration) > 0) {
+        // `timer - duration` is positive so this is the default state: "eyes open" face
+        faceChange->face = 0;
+    } else if (((faceChange->timer - blinkDuration) > -2) || (faceChange->timer < 2)) {
+        // This condition aims to catch both cases where the "eyes half open" face is needed.
+        // Note that the comparison assumes the duration of the "eyes half open" phase is 2 frames, irrespective of the
+        // value of `blinkDuration`. The duration for the "eyes closed" phase is `blinkDuration - 4`.
+        // For Player's use case `blinkDuration` is 6, so the "eyes closed" phase happens to have
+        // the same duration as each "eyes half open" phase.
+        faceChange->face = 1;
     } else {
-        arg0[0] = 2;
+        // If both conditions above fail, the only possibility left is the "eyes closed" face
+        faceChange->face = 2;
     }
 
-    return arg0[0];
+    return faceChange->face;
 }
 
-s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
-    if (DECR(arg0[1]) == 0) {
-        arg0[1] = Rand_S16Offset(arg1, arg2);
-        arg0[0]++;
+/**
+ * Updates `FaceChange` data for randomly selected face sets.
+ * Each set contains 3 faces. After the timer runs out, the next face in the set is used.
+ * After the third face in a set is used, a new face set is randomly chosen.
+ *
+ * @param faceChange  pointer to an actor's faceChange data
+ * @param changeTimerBase  The base number of frames between each face change
+ * @param changeTimerRandRange  The range for a random number of frames that can be added to `changeTimerBase`
+ * @param faceSetRange  The max number of face sets that will be chosen from
+ */
+s16 FaceChange_UpdateRandomSet(FaceChange* faceChange, s16 changeTimerBase, s16 changeTimerRandRange,
+                               s16 faceSetRange) {
+    if (DECR(faceChange->timer) == 0) {
+        faceChange->timer = Rand_S16Offset(changeTimerBase, changeTimerRandRange);
+        faceChange->face++;
 
-        if ((arg0[0] % 3) == 0) {
-            arg0[0] = (s32)(Rand_ZeroOne() * arg3) * 3;
+        if ((faceChange->face % 3) == 0) {
+            // Randomly chose a "set number", then multiply by 3 because each set has 3 faces.
+            // This will use the first face in the newly chosen set.
+            faceChange->face = (s32)(Rand_ZeroOne() * faceSetRange) * 3;
         }
     }
 
-    return arg0[0];
+    return faceChange->face;
 }
 
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
@@ -4324,24 +4361,24 @@ u8 Actor_ApplyDamage(Actor* actor) {
 void Actor_SetDropFlag(Actor* actor, ColliderElement* elem, s32 freezeFlag) {
     if (elem->acHitElem == NULL) {
         actor->dropFlag = 0x00;
-    } else if (freezeFlag && (elem->acHitElem->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
-        actor->freezeTimer = elem->acHitElem->toucher.damage;
+    } else if (freezeFlag && (elem->acHitElem->atDmgInfo.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
+        actor->freezeTimer = elem->acHitElem->atDmgInfo.damage;
         actor->dropFlag = 0x00;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_FIRE) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_FIRE) {
         actor->dropFlag = 0x01;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) {
         actor->dropFlag = 0x02;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK1) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK1) {
         actor->dropFlag = 0x04;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK2) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK2) {
         actor->dropFlag = 0x08;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK3) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK3) {
         actor->dropFlag = 0x10;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_LIGHT) {
         actor->dropFlag = 0x20;
-    } else if (elem->acHitElem->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
+    } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_MAGIC_LIGHT) {
         if (freezeFlag) {
-            actor->freezeTimer = elem->acHitElem->toucher.damage;
+            actor->freezeTimer = elem->acHitElem->atDmgInfo.damage;
         }
         actor->dropFlag = 0x40;
     } else {
@@ -4361,24 +4398,24 @@ void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFla
         if (elem->acHitElem == NULL) {
             flag = 0x00;
         } else if (freezeFlag &&
-                   (elem->acHitElem->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
-            actor->freezeTimer = elem->acHitElem->toucher.damage;
+                   (elem->acHitElem->atDmgInfo.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
+            actor->freezeTimer = elem->acHitElem->atDmgInfo.damage;
             flag = 0x00;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_FIRE) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_FIRE) {
             flag = 0x01;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) {
             flag = 0x02;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK1) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK1) {
             flag = 0x04;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK2) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK2) {
             flag = 0x08;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK3) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_UNK3) {
             flag = 0x10;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_LIGHT) {
             flag = 0x20;
-        } else if (elem->acHitElem->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
+        } else if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_MAGIC_LIGHT) {
             if (freezeFlag) {
-                actor->freezeTimer = elem->acHitElem->toucher.damage;
+                actor->freezeTimer = elem->acHitElem->atDmgInfo.damage;
             }
             flag = 0x40;
         } else {

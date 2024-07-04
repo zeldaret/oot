@@ -13,8 +13,8 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play);
 void BgSpot02Objects_Destroy(Actor* thisx, PlayState* play);
 void BgSpot02Objects_Update(Actor* thisx, PlayState* play);
 void BgSpot02Objects_Draw(Actor* thisx, PlayState* play);
-void func_808ACCB8(Actor* thisx, PlayState* play);
-void func_808AD450(Actor* thisx, PlayState* play);
+void func_808ACCB8(Actor* thisx, PlayState* play2);
+void func_808AD450(Actor* thisx, PlayState* play2);
 
 void func_808AC8FC(BgSpot02Objects* this, PlayState* play);
 void func_808AC908(BgSpot02Objects* this, PlayState* play);
@@ -212,10 +212,10 @@ void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
     }
 }
 
-void func_808ACCB8(Actor* thisx, PlayState* play) {
+void func_808ACCB8(Actor* thisx, PlayState* play2) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
+    PlayState* play = (PlayState*)play2;
     f32 rate;
-    s32 pad;
     u8 redPrim;
     u8 greenPrim;
     u8 bluePrim;
@@ -224,6 +224,8 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
     u8 blueEnv;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 600);
+
+    if (1) {}
 
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
         if (this->unk_16A < 5) {
@@ -278,9 +280,9 @@ void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
     }
 }
 
-void func_808AD450(Actor* thisx, PlayState* play) {
+void func_808AD450(Actor* thisx, PlayState* play2) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
-    s32 pad;
+    PlayState* play = (PlayState*)play2;
     f32 lerp;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 736);

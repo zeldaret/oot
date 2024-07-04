@@ -17,7 +17,7 @@
 void EnHeishi2_Init(Actor* thisx, PlayState* play);
 void EnHeishi2_Destroy(Actor* thisx, PlayState* play);
 void EnHeishi2_Update(Actor* thisx, PlayState* play);
-void EnHeishi2_Draw(Actor* thisx, PlayState* play);
+void EnHeishi2_Draw(Actor* thisx, PlayState* play2);
 
 void EnHeishi2_DrawKingGuard(Actor* thisx, PlayState* play);
 void EnHeishi2_DoNothing1(EnHeishi2* this, PlayState* play);
@@ -75,8 +75,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 33, 40, 0, { 0, 0, 0 } },
@@ -389,7 +389,6 @@ void func_80A5399C(EnHeishi2* this, PlayState* play) {
 
 void func_80A53AD4(EnHeishi2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 exchangeItemId;
     s16 yawDiffTemp;
     s16 yawDiff;
 
@@ -400,8 +399,10 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
         this->actor.textId = 0x200E;
     }
     this->unk_300 = TEXT_STATE_DONE;
+
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        exchangeItemId = func_8002F368(play);
+        s32 exchangeItemId = func_8002F368(play);
+
         if (exchangeItemId == EXCH_ITEM_ZELDAS_LETTER) {
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             player->actor.textId = 0x2010;
@@ -410,12 +411,14 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
         } else if (exchangeItemId != EXCH_ITEM_NONE) {
             player->actor.textId = 0x200F;
         }
-    } else {
-        yawDiffTemp = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-        yawDiff = ABS(yawDiffTemp);
-        if (!(120.0f < this->actor.xzDistToPlayer) && (yawDiff < 0x4300)) {
-            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_ZELDAS_LETTER);
-        }
+        return;
+    }
+
+    yawDiffTemp = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    yawDiff = ABS(yawDiffTemp);
+
+    if (!(120.0f < this->actor.xzDistToPlayer) && (yawDiff < 0x4300)) {
+        Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_ZELDAS_LETTER);
     }
 }
 
@@ -834,9 +837,9 @@ void EnHeishi2_DrawKingGuard(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
 
-void EnHeishi2_Draw(Actor* thisx, PlayState* play) {
+void EnHeishi2_Draw(Actor* thisx, PlayState* play2) {
+    PlayState* play = (PlayState*)play2;
     EnHeishi2* this = (EnHeishi2*)thisx;
-    Mtx* mtx;
     s32 linkChildObjectSlot;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1792);
@@ -848,6 +851,8 @@ void EnHeishi2_Draw(Actor* thisx, PlayState* play) {
     if ((this->type == 5) && GET_INFTABLE(INFTABLE_77)) {
         linkChildObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_LINK_CHILD);
         if (linkChildObjectSlot >= 0) {
+            Mtx* mtx;
+
             Matrix_Put(&this->mtxf_330);
             Matrix_Translate(-570.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(70), MTXMODE_APPLY);

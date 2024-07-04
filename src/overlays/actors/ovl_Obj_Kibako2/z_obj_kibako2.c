@@ -42,8 +42,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x40000040, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 31, 48, 0, { 0, 0, 0 } },
@@ -125,8 +125,8 @@ void ObjKibako2_Init(Actor* thisx, PlayState* play) {
     ObjKibako2_InitCollider(thisx, play);
     CollisionHeader_GetVirtual(&gLargeCrateCol, &colHeader);
     bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->collectibleFlag = this->dyna.actor.home.rot.z & 0x3F;
     this->dyna.bgId = bgId;
+    this->collectibleFlag = this->dyna.actor.home.rot.z & 0x3F;
     this->actionFunc = ObjKibako2_Idle;
     this->dyna.actor.home.rot.z = this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z =
         this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x = 0;

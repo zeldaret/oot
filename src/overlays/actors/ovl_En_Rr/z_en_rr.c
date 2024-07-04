@@ -76,10 +76,12 @@ ActorInit En_Rr_InitVars = {
     /**/ EnRr_Draw,
 };
 
+#if OOT_DEBUG
 static char* sDropNames[] = {
     // "type 7", "small magic jar", "arrow", "fairy", "20 rupees", "50 rupees"
     "タイプ７  ", "魔法の壷小", "矢        ", "妖精      ", "20ルピー  ", "50ルピー  ",
 };
+#endif
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
@@ -93,8 +95,8 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 30, 55, 0, { 0, 0, 0 } },
@@ -112,8 +114,8 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 20, -10, { 0, 0, 0 } },
@@ -337,8 +339,8 @@ void EnRr_SetupDamage(EnRr* this) {
     s32 i;
 
     this->reachState = 0;
-    this->actionTimer = 20;
     this->segMoveRate = 0.0f;
+    this->actionTimer = 20;
     this->segPhaseVelTarget = 2500.0f;
     this->pulseSizeTarget = 0.0f;
     this->wobbleSizeTarget = 0.0f;
@@ -417,9 +419,9 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
         this->collider2.base.acFlags &= ~AC_HIT;
         // "Kakin" (not sure what this means)
         PRINTF(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
-        hitPos.x = this->collider2.elem.bumper.hitPos.x;
-        hitPos.y = this->collider2.elem.bumper.hitPos.y;
-        hitPos.z = this->collider2.elem.bumper.hitPos.z;
+        hitPos.x = this->collider2.elem.acDmgInfo.hitPos.x;
+        hitPos.y = this->collider2.elem.acDmgInfo.hitPos.y;
+        hitPos.z = this->collider2.elem.acDmgInfo.hitPos.z;
         CollisionCheck_SpawnShieldParticlesMetal2(play, &hitPos);
     } else {
         if (this->collider1.base.acFlags & AC_HIT) {
@@ -427,9 +429,9 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
 
             this->collider1.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 0) {
-                hitPos.x = this->collider1.elem.bumper.hitPos.x;
-                hitPos.y = this->collider1.elem.bumper.hitPos.y;
-                hitPos.z = this->collider1.elem.bumper.hitPos.z;
+                hitPos.x = this->collider1.elem.acDmgInfo.hitPos.x;
+                hitPos.y = this->collider1.elem.acDmgInfo.hitPos.y;
+                hitPos.z = this->collider1.elem.acDmgInfo.hitPos.z;
                 CollisionCheck_BlueBlood(play, NULL, &hitPos);
             }
             switch (this->actor.colChkInfo.damageEffect) {

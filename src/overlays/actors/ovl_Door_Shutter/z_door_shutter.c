@@ -896,9 +896,7 @@ void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play) {
     f32 targetOffsetY;
 
     PRINTF("FHG SAKU START !!\n");
-    if (this->isActive != 0) {
-        this->isActive--;
-    }
+    DECR(this->isActive);
     targetOffsetY = (this->isActive % 2 != 0) ? -3.0f : 0.0f;
     Math_SmoothStepToF(&this->dyna.actor.world.pos.y, -34.0f + targetOffsetY, 1.0f, 20.0f, 0.0f);
     PRINTF("FHG SAKU END !!\n");
@@ -974,6 +972,9 @@ s32 DoorShutter_ShouldDraw(DoorShutter* this, PlayState* play) {
 
 void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     DoorShutter* this = (DoorShutter*)thisx;
+
+    if (1) {}
+    if (1) {}
 
     //! @bug This actor is not fully initialized until the required object dependency is loaded.
     //! In most cases, the check for objectSlot to equal requiredObjectSlot prevents the actor

@@ -36,8 +36,11 @@ s32 DemoIk_UpdateSkelAnime(DemoIk* this) {
 
 CsCmdActorCue* DemoIk_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
+
     return NULL;
 }
 
@@ -51,12 +54,12 @@ s32 DemoIk_CheckForCue(PlayState* play, u16 cueId, s32 cueChannel) {
 }
 
 void DemoIk_SetMove(DemoIk* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ;
+    AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void DemoIk_EndMove(DemoIk* this) {
-    this->skelAnime.moveFlags &= ~ANIM_FLAG_0;
+    this->skelAnime.moveFlags &= ~ANIM_FLAG_UPDATE_XZ;
 }
 
 f32 DemoIk_GetCurFrame(DemoIk* this) {
@@ -256,8 +259,8 @@ void DemoIk_Type1Action2(DemoIk* this, PlayState* play) {
 }
 
 void DemoIk_Type1PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    DemoIk* this = (DemoIk*)thisx;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
+    DemoIk* this = (DemoIk*)thisx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_ik_inArmer.c", 385);
     if (limbIndex == 1) {

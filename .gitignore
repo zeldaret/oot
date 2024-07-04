@@ -51,6 +51,7 @@ graphs/
 *.fbx
 !*_custom*
 .extracted-assets.json
+extracted/
 
 # Docs
 !docs/tutorial/

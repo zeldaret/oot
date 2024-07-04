@@ -277,7 +277,6 @@ void DemoKankyo_Destroy(Actor* thisx, PlayState* play) {
 
 void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    f32 temp;
 
     if (this->actor.objectSlot == this->requiredObjectSlot) {
         switch (this->actor.params) {
@@ -302,12 +301,14 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                 play->envCtx.screenFillColor[2] = 0xFF;
                 play->envCtx.fillScreen = false;
                 if (this->warpTimer < 21 && this->warpTimer >= 15) {
-                    temp = (this->warpTimer - 15.0f) / 5.0f;
+                    f32 temp = (this->warpTimer - 15.0f) / 5.0f;
+
                     play->envCtx.fillScreen = true;
                     play->envCtx.screenFillColor[3] = 255 - 255 * temp;
                 }
                 if (this->warpTimer < 15 && this->warpTimer >= 4) {
-                    temp = (this->warpTimer - 4.0f) / 10.0f;
+                    f32 temp = (this->warpTimer - 4.0f) / 10.0f;
+
                     play->envCtx.fillScreen = true;
                     play->envCtx.screenFillColor[3] = 255 * temp;
                 }

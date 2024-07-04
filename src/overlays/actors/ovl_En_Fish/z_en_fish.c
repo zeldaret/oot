@@ -43,8 +43,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 0, { { 0, 0, 0 }, 5 }, 100 },
@@ -472,11 +472,11 @@ void EnFish_Dropped_FlopOnGround(EnFish* this, PlayState* play) {
 
 void EnFish_Dropped_SetupSwimAway(EnFish* this) {
     this->actor.home.pos = this->actor.world.pos;
-    this->actor.flags |= ACTOR_FLAG_4;
-    this->timer = 200;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->actor.shape.yOffset = 0.0f;
+    this->actor.flags |= ACTOR_FLAG_4;
+    this->timer = 200;
     EnFish_SetInWaterAnimation(this);
     this->actionFunc = EnFish_Dropped_SwimAway;
     this->unk_250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
@@ -623,6 +623,8 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
     Vec3f endPos;
     f32 lerp;
     s32 bgId;
+
+    if (play) {}
 
     if (cue == NULL) {
         // "Warning : DEMO ended without dousa (action) 3 termination being called"

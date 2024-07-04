@@ -3,6 +3,8 @@
 #include "z64camera.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
+
+#include "assets/scenes/overworld/ganon_tou/ganon_tou_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
@@ -24,7 +26,6 @@
 #include "assets/scenes/dungeons/ddan/ddan_scene.h"
 #include "assets/scenes/dungeons/ydan/ydan_scene.h"
 #include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
-#include "assets/scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 
@@ -113,6 +114,8 @@ EntranceCutscene sEntranceCutsceneTable[] = {
 void* sUnusedEntranceCsList[] = {
     gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
 };
+
+#pragma increment_block_number 248
 
 // Stores the frame the relevant cam data was last applied on
 u16 gCamAtSplinePointsAppliedFrame;
@@ -2204,7 +2207,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
 
 void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
     if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
-        if (OOT_DEBUG && BREG(0) != 0) {
+#if OOT_DEBUG
+        if (BREG(0) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
 
@@ -2218,15 +2222,22 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
             Gfx_Close(prevDisplayList, displayList);
             POLY_OPA_DISP = displayList;
 
+            if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_demo.c", 4108);
         }
+#endif
+
         csCtx->curFrame++;
 
-        if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
+#if OOT_DEBUG
+        if (R_USE_DEBUG_CUTSCENE) {
             Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScript);
         } else {
             Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
         }
+#else
+        Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
+#endif
     }
 }
 

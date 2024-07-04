@@ -64,8 +64,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 63, 0, { 0, 0, 0 } },
@@ -512,8 +512,6 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnMm* this = (EnMm*)thisx;
 
-    if (0) {}
-
     OPEN_DISPS(play->state.gfxCtx, "../z_en_mm.c", 1065);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -559,6 +557,8 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         }
     }
+
+    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_mm.c", 1141);
 }

@@ -33,9 +33,12 @@ ActiveSfx gActiveSfx[7][3];
 u8 sCurSfxPlayerChannelIndex;
 u8 gSfxBankMuted[7];
 UnusedBankLerp sUnusedBankLerp[7];
+
+#if OOT_DEBUG
 u16 gAudioSfxSwapSource[10];
 u16 gAudioSfxSwapTarget[10];
 u8 gAudioSfxSwapMode[10];
+#endif
 
 void Audio_SetSfxBanksMute(u16 muteMask) {
     u8 bankId;

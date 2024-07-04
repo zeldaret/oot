@@ -1,7 +1,9 @@
 #ifndef ICHAIN_H
 #define ICHAIN_H
 
-#include "libc/stddef.h"
+#include "ultra64.h"
+
+struct Actor;
 
 typedef struct {
     u32 cont:   1;
@@ -54,5 +56,7 @@ typedef enum {
 
 #define ICHAIN_CONTINUE 1
 #define ICHAIN_STOP     0
+
+void Actor_ProcessInitChain(struct Actor* actor, InitChainEntry* ichain);
 
 #endif
