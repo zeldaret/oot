@@ -744,6 +744,8 @@ class MessageEntry:
                 # so emit both DEFINE_MESSAGE_JPN and DEFINE_MESSAGE_NES
                 assert self.data[0] is not None
                 assert self.data[1] is not None
+                assert self.data[2] is None
+                assert self.data[3] is None
                 out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, [self.data[0], None, None, None])
                 out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, [None, self.data[1], None, None])
         elif selection == (True,False,True,True):
