@@ -63,7 +63,7 @@ void ObjDekujr_Init(Actor* thisx, PlayState* play) {
         sCylinderInit.base.actor = thisx;
         Collider_SetCylinderToActor(play, &this->collider, &sCylinderInit);
         thisx->colChkInfo.mass = MASS_IMMOVABLE;
-        thisx->textId = func_80037C30(play, 0xF);
+        thisx->textId = Actor_GetTextID(play, 0xF);
         Actor_SetScale(thisx, 0.4f);
     }
 }

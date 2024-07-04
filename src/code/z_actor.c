@@ -4488,7 +4488,14 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
     }
 }
 
-void func_80035B18(PlayState* play, Actor* actor, u16 textId) {
+/**
+ * Loads the correct 'response' Text ID to a selected dialog option
+ *
+ * @param play current game state
+ * @param actor (Actor*) the actor being responded to
+ * @param textId (u16) the text ID to load into the actor
+ */
+void Actor_LoadResponseTextID(PlayState* play, Actor* actor, u16 textId) {
     Message_ContinueTextbox(play, textId);
     actor->textId = textId;
 }
@@ -4521,10 +4528,17 @@ void Flags_SetInfTable(s32 flag) {
     SET_INFTABLE(flag);
 }
 
-u32 func_80035BFC(PlayState* play, s16 arg1) {
+/**
+ * Returns a text ID value for an actor given the current set of world flags - internal function for Actor_GetTextID()
+ *
+ * @param play current game state
+ * @param actorID (s16) the actor we're trying to talk to
+ * @return (u32) text ID
+ */
+u32 Actor_GetTextID32(PlayState* play, s16 actorID) {
     u16 retTextId = 0;
 
-    switch (arg1) {
+    switch (actorID) {
         case 0:
             if (Flags_GetEventChkInf(EVENTCHKINF_09)) {
                 if (Flags_GetInfTable(INFTABLE_05)) {
@@ -4835,7 +4849,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             }
             break;
         case 19:
-            retTextId = 0x702D;
+            retTextId = 0x702D; //"Hey, you!  Stop!  You, kid, over there!"
             break;
         case 18:
             if (Flags_GetEventChkInf(EVENTCHKINF_09) && Flags_GetEventChkInf(EVENTCHKINF_25) &&
@@ -5255,7 +5269,10 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
     return retTextId;
 }
 
-void func_80036E50(u16 textId, s16 arg1) {
+/**
+ * Sets flags associated with having read a given textID
+ */
+void Actor_SetInfForTextID(u16 textId, s16 arg1) {
     switch (arg1) {
         case 0:
             switch (textId) {
@@ -5522,7 +5539,15 @@ void func_80036E50(u16 textId, s16 arg1) {
     }
 }
 
-s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
+/**
+ * Processes a message choice and loads the appropriate response text into an actor
+ *
+ * @param play current game state
+ * @param actor the actor we're currently in a conversation with
+ * @param textId the textID containing the current prompt we're responding to
+ * @return 0 if we found and loaded a response, 1 if we were passed a textID that wasn't meant to be responded to
+ */
+s32 Actor_SelectDialogResponse(PlayState* play, Actor* actor, u16 textId) {
     MessageContext* msgCtx = &play->msgCtx;
     s32 ret = 1;
 
@@ -5530,16 +5555,16 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
         case 0x1035:
             if (msgCtx->choiceIndex == 0) {
                 if (Flags_GetInfTable(INFTABLE_2A)) {
-                    func_80035B18(play, actor, 0x1036);
+                    Actor_LoadResponseTextID(play, actor, 0x1036);
                 } else {
-                    func_80035B18(play, actor, 0x1041);
+                    Actor_LoadResponseTextID(play, actor, 0x1041);
                 }
             }
             if (msgCtx->choiceIndex == 1) {
                 if (Flags_GetInfTable(INFTABLE_2B)) {
-                    func_80035B18(play, actor, 0x1037);
+                    Actor_LoadResponseTextID(play, actor, 0x1037);
                 } else {
-                    func_80035B18(play, actor, 0x1041);
+                    Actor_LoadResponseTextID(play, actor, 0x1041);
                 }
             }
             ret = 0;
@@ -5547,58 +5572,58 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
         case 0x1038:
             if (msgCtx->choiceIndex == 0) {
                 if (Flags_GetInfTable(INFTABLE_2E)) {
-                    func_80035B18(play, actor, 0x1039);
+                    Actor_LoadResponseTextID(play, actor, 0x1039);
                 } else {
-                    func_80035B18(play, actor, 0x1041);
+                    Actor_LoadResponseTextID(play, actor, 0x1041);
                 }
             }
             if (msgCtx->choiceIndex == 1) {
                 if (Flags_GetInfTable(INFTABLE_2F)) {
-                    func_80035B18(play, actor, 0x103A);
+                    Actor_LoadResponseTextID(play, actor, 0x103A);
                 } else {
-                    func_80035B18(play, actor, 0x1041);
+                    Actor_LoadResponseTextID(play, actor, 0x1041);
                 }
             }
             if (msgCtx->choiceIndex == 2) {
                 if (Flags_GetInfTable(INFTABLE_30)) {
-                    func_80035B18(play, actor, 0x103B);
+                    Actor_LoadResponseTextID(play, actor, 0x103B);
                 } else {
-                    func_80035B18(play, actor, 0x1041);
+                    Actor_LoadResponseTextID(play, actor, 0x1041);
                 }
             }
             ret = 0;
             break;
         case 0x103E:
             if (msgCtx->choiceIndex == 0) {
-                func_80035B18(play, actor, 0x103F);
+                Actor_LoadResponseTextID(play, actor, 0x103F);
             }
             if (msgCtx->choiceIndex == 1) {
-                func_80035B18(play, actor, 0x1040);
+                Actor_LoadResponseTextID(play, actor, 0x1040);
             }
             ret = 0;
             break;
         case 0x1041:
             if (msgCtx->choiceTextId == 0x1035) {
                 if (msgCtx->choiceIndex == 0) {
-                    func_80035B18(play, actor, 0x1036);
+                    Actor_LoadResponseTextID(play, actor, 0x1036);
                     Flags_SetInfTable(INFTABLE_2A);
                 }
                 if (msgCtx->choiceIndex == 1) {
-                    func_80035B18(play, actor, 0x1037);
+                    Actor_LoadResponseTextID(play, actor, 0x1037);
                     Flags_SetInfTable(INFTABLE_2B);
                 }
             }
             if (msgCtx->choiceTextId == 0x1038) {
                 if (msgCtx->choiceIndex == 0) {
-                    func_80035B18(play, actor, 0x1039);
+                    Actor_LoadResponseTextID(play, actor, 0x1039);
                     Flags_SetInfTable(INFTABLE_2E);
                 }
                 if (msgCtx->choiceIndex == 1) {
-                    func_80035B18(play, actor, 0x103A);
+                    Actor_LoadResponseTextID(play, actor, 0x103A);
                     Flags_SetInfTable(INFTABLE_2F);
                 }
                 if (msgCtx->choiceIndex == 2) {
-                    func_80035B18(play, actor, 0x103B);
+                    Actor_LoadResponseTextID(play, actor, 0x103B);
                     Flags_SetInfTable(INFTABLE_30);
                 }
             }
@@ -5606,10 +5631,10 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
             break;
         case 0x1062:
             if (msgCtx->choiceIndex == 0) {
-                func_80035B18(play, actor, 0x1063);
+                Actor_LoadResponseTextID(play, actor, 0x1063);
             }
             if (msgCtx->choiceIndex == 1) {
-                func_80035B18(play, actor, 0x1064);
+                Actor_LoadResponseTextID(play, actor, 0x1064);
             }
             ret = 0;
             break;
@@ -5617,14 +5642,14 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
         case 0x2031:
             if (msgCtx->choiceIndex == 0) {
                 if (gSaveContext.save.info.playerData.rupees >= 10) {
-                    func_80035B18(play, actor, 0x2034);
+                    Actor_LoadResponseTextID(play, actor, 0x2034);
                     Rupees_ChangeBy(-10);
                 } else {
-                    func_80035B18(play, actor, 0x2032);
+                    Actor_LoadResponseTextID(play, actor, 0x2032);
                 }
             }
             if (msgCtx->choiceIndex == 1) {
-                func_80035B18(play, actor, 0x2032);
+                Actor_LoadResponseTextID(play, actor, 0x2032);
             }
             Flags_SetInfTable(INFTABLE_9A);
             ret = 0;
@@ -5632,10 +5657,10 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
         case 0x2036:
         case 0x2037:
             if (msgCtx->choiceIndex == 0) {
-                func_80035B18(play, actor, 0x201F);
+                Actor_LoadResponseTextID(play, actor, 0x201F);
             }
             if (msgCtx->choiceIndex == 1) {
-                func_80035B18(play, actor, 0x205A);
+                Actor_LoadResponseTextID(play, actor, 0x205A);
             }
             ret = 0;
             break;
@@ -5644,7 +5669,7 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
                 break;
             }
             if (msgCtx->choiceIndex == 1) {
-                func_80035B18(play, actor, 0x205A);
+                Actor_LoadResponseTextID(play, actor, 0x205A);
             }
             ret = 0;
             break;
@@ -5652,14 +5677,14 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
             if (msgCtx->choiceIndex != 0) {
                 break;
             }
-            func_80035B18(play, actor, 0x2035);
+            Actor_LoadResponseTextID(play, actor, 0x2035);
             ret = 0;
             break;
         case 0x2043:
             if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_EGG)) {
                 break;
             }
-            func_80035B18(play, actor, 0x2044);
+            Actor_LoadResponseTextID(play, actor, 0x2044);
             ret = 0;
             break;
         case 0x205A:
@@ -5667,52 +5692,52 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
         case 0x300A:
             if (msgCtx->choiceIndex == 0) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_22)) {
-                    func_80035B18(play, actor, 0x300B);
+                    Actor_LoadResponseTextID(play, actor, 0x300B);
                 } else {
-                    func_80035B18(play, actor, 0x300C);
+                    Actor_LoadResponseTextID(play, actor, 0x300C);
                 }
             }
             if (msgCtx->choiceIndex == 1) {
-                func_80035B18(play, actor, 0x300D);
+                Actor_LoadResponseTextID(play, actor, 0x300D);
             }
             ret = 0;
             break;
         case 0x301B:
             if (msgCtx->choiceIndex == 0) {
-                func_80035B18(play, actor, 0x301D);
+                Actor_LoadResponseTextID(play, actor, 0x301D);
             }
             if (msgCtx->choiceIndex == 1) {
                 if (Flags_GetInfTable(INFTABLE_113)) {
-                    func_80035B18(play, actor, 0x301F);
+                    Actor_LoadResponseTextID(play, actor, 0x301F);
                 } else {
-                    func_80035B18(play, actor, 0x301E);
+                    Actor_LoadResponseTextID(play, actor, 0x301E);
                 }
             }
             ret = 0;
             break;
         case 0x301E:
-            func_80035B18(play, actor, 0x3020);
+            Actor_LoadResponseTextID(play, actor, 0x3020);
             ret = 0;
             break;
         case 0x400C:
             if (msgCtx->choiceIndex == 0) {
-                func_80035B18(play, actor, 0x400D);
+                Actor_LoadResponseTextID(play, actor, 0x400D);
             }
             if (msgCtx->choiceIndex == 1) {
-                func_80035B18(play, actor, 0x400E);
+                Actor_LoadResponseTextID(play, actor, 0x400E);
             }
             ret = 0;
             break;
         case 0x7007:
-            func_80035B18(play, actor, 0x703E);
+            Actor_LoadResponseTextID(play, actor, 0x703E);
             ret = 0;
             break;
         case 0x703E:
-            func_80035B18(play, actor, 0x703F);
+            Actor_LoadResponseTextID(play, actor, 0x703F);
             ret = 0;
             break;
         case 0x703F:
-            func_80035B18(play, actor, 0x7042);
+            Actor_LoadResponseTextID(play, actor, 0x7042);
             ret = 0;
             break;
     }
@@ -5720,17 +5745,36 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
     return ret;
 }
 
-u16 func_80037C30(PlayState* play, s16 arg1) {
-    return func_80035BFC(play, arg1);
+/**
+ * Returns a text ID value for an actor given the current set of world flags
+ *
+ * @param play current game state
+ * @param arg1 (s16) the actor we're trying to talk to
+ * @return (u16) text ID
+ */
+u16 Actor_GetTextID(PlayState* play, s16 actorID) {
+    return Actor_GetTextID32(play, actorID);
 }
 
-s32 func_80037C5C(PlayState* play, s16 arg1, u16 textId) {
-    func_80036E50(textId, arg1);
+/**
+ * Wrapper function w/ return type of s32
+ * @see Actor_SetInfForTextID
+ */
+s32 Actor_SetInfForTextID32(PlayState* play, s16 arg1, u16 textId) {
+    Actor_SetInfForTextID(textId, arg1);
     return false;
 }
 
-s32 func_80037C94(PlayState* play, Actor* actor, s32 arg2) {
-    return func_800374E0(play, actor, actor->textId);
+/**
+ * Returns a text ID value for an actor given the current set of world flags
+ *
+ * @param play current game state
+ * @param actor the actor we're trying to talk to
+ * @param pad (s32) unused
+ * @return 0 if we found and loaded a response, 1 if something has gone wrong
+ */
+s32 Actor_ProcessDialogChoice(PlayState* play, Actor* actor, s32 pad) {
+    return Actor_SelectDialogResponse(play, actor, actor->textId);
 }
 
 s32 func_80037CB8(PlayState* play, Actor* actor, s16 arg2) {
@@ -5739,12 +5783,12 @@ s32 func_80037CB8(PlayState* play, Actor* actor, s16 arg2) {
 
     switch (Message_GetState(msgCtx)) {
         case TEXT_STATE_CLOSING:
-            func_80037C5C(play, arg2, actor->textId);
+            Actor_SetInfForTextID32(play, arg2, actor->textId);
             ret = true;
             break;
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_EVENT:
-            if (Message_ShouldAdvance(play) && func_80037C94(play, actor, arg2)) {
+            if (Message_ShouldAdvance(play) && Actor_ProcessDialogChoice(play, actor, arg2)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CANCEL, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 msgCtx->msgMode = MSGMODE_TEXT_CLOSING;
@@ -5756,7 +5800,7 @@ s32 func_80037CB8(PlayState* play, Actor* actor, s16 arg2) {
     return ret;
 }
 
-s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
+s32 func_80037D98(PlayState* play, Actor* actor, s16 fifteen, s32* arg3) {
     s16 var;
     s16 sp2C;
     s16 sp2A;
@@ -5768,7 +5812,7 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     }
 
     if (*arg3 == 1) {
-        if (func_80037CB8(play, actor, arg2)) {
+        if (func_80037CB8(play, actor, fifteen)) {
             *arg3 = 0;
         }
         return false;
@@ -5793,11 +5837,11 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
 
     if (actor->xyzDistToPlayerSq <= SQ(80.0f)) {
         if (Actor_OfferTalk(actor, play, 80.0f)) {
-            actor->textId = func_80037C30(play, arg2);
+            actor->textId = Actor_GetTextID(play, fifteen);
         }
     } else {
         if (Actor_OfferTalkNearColChkInfoCylinder(actor, play)) {
-            actor->textId = func_80037C30(play, arg2);
+            actor->textId = Actor_GetTextID(play, fifteen);
         }
     }
 
