@@ -71,11 +71,11 @@ variables:
   sGerMessageEntryTable: 0x8014F548
   sFraMessageEntryTable: 0x80151658
   sStaffMessageEntryTable: 0x80153768
-  sShadowTex: 0x80A8E610
   gSoundFontTable: 0x801550D0
   gSequenceFontTable: 0x80155340
   gSequenceTable: 0x80155500
   gSampleBankTable: 0x80155BF0
+  sShadowTex: 0x80A8E610
 assets:
 - name: code/fbdemo_circle
   xml_path: assets/xml/code/fbdemo_circle.xml
@@ -538,7 +538,7 @@ assets:
 - name: objects/object_ma2
   xml_path: assets/xml/objects/object_ma2.xml
 - name: objects/object_mag
-  xml_path: assets/xml/objects/object_mag_mq.xml
+  xml_path: assets/xml/objects/object_mag_v3_mq.xml
 - name: objects/object_mamenoki
   xml_path: assets/xml/objects/object_mamenoki.xml
 - name: objects/object_mastergolon
@@ -1250,7 +1250,7 @@ assets:
 - name: textures/message_texture_static
   xml_path: assets/xml/textures/message_texture_static.xml
 - name: textures/nes_font_static
-  xml_path: assets/xml/textures/nes_font_static.xml
+  xml_path: assets/xml/textures/nes_font_static_v2.xml
 - name: textures/nintendo_rogo_static
   xml_path: assets/xml/textures/nintendo_rogo_static.xml
 - name: textures/parameter_static
