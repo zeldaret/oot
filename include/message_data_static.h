@@ -37,7 +37,7 @@ typedef struct {
 
 /* Non-Credits Messages */
 
-#if (TEXT_LANGUAGE == TEXT_LANG_US_JP)
+#if OOT_NTSC
 #define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     extern const char _message_##textId##_nes[];
 

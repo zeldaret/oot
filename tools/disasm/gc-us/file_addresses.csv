@@ -1,0 +1,7 @@
+name,vrom_start,vrom_end,rom_start,rom_end,vram_start,overlay_dir
+code,A86000,B8AA60,A62500,AFDAA0,80010EE0,
+ovl_file_choose,B8E090,B9DFF0,AFFCF0,B08BF0,80803630,gamestates
+ovl_kaleido_scope,B9DFF0,BBA770,B08BF0,B17940,808135B0,misc
+ovl_player_actor,BBA770,BE0E80,B17940,B30C90,8082FDA0,actors
+ovl_En_Mag,DFA080,DFC9B0,C8E1E0,C8FEA0,80A884E0,actors
+ovl_Fishing,EB6810,ECA2E0,D061D0,D13750,80B44FE0,actors

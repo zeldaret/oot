@@ -5,9 +5,6 @@
 #include "z64item.h" // For item ids
 #include "sfx.h" // For sfx ids
 
-#define TEXT_LANG_US_JP 0
-#define TEXT_LANG_EU    1
-
 /*
  * Text control characters
  */

@@ -50,6 +50,13 @@ void Interface_Init(PlayState* play) {
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
+#if OOT_NTSC
+    if (gSaveContext.language == LANGUAGE_JPN) {
+        doActionOffset = LANGUAGE_JPN * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+    } else {
+        doActionOffset = LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+    }
+#else
     if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
@@ -57,10 +64,18 @@ void Interface_Init(PlayState* play) {
     } else {
         doActionOffset = LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     }
+#endif
 
     DMA_REQUEST_SYNC(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
                      2 * DO_ACTION_TEX_SIZE, "../z_construct.c", 174);
 
+#if OOT_NTSC
+    if (gSaveContext.language == LANGUAGE_JPN) {
+        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_JPN * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+    } else {
+        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+    }
+#else
     if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
@@ -68,6 +83,7 @@ void Interface_Init(PlayState* play) {
     } else {
         doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     }
+#endif
 
     DMA_REQUEST_SYNC(interfaceCtx->doActionSegment + 2 * DO_ACTION_TEX_SIZE,
                      (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, DO_ACTION_TEX_SIZE,

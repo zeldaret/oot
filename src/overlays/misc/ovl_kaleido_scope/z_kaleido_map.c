@@ -1,8 +1,13 @@
 #include "z_kaleido_scope.h"
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
+#if OOT_NTSC
+#include "assets/textures/icon_item_jpn_static/icon_item_jpn_static.h"
+#include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
+#else
 #include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
 #include "assets/textures/icon_item_ger_static/icon_item_ger_static.h"
 #include "assets/textures/icon_item_fra_static/icon_item_fra_static.h"
+#endif
 #include "assets/textures/icon_item_field_static/icon_item_field_static.h"
 #include "assets/textures/icon_item_dungeon_static/icon_item_dungeon_static.h"
 #include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
@@ -393,11 +398,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gWorldMapAreaBox3Tex, gWorldMapAreaBox5Tex, gWorldMapAreaBox4Tex, gWorldMapAreaBox3Tex, gWorldMapAreaBox3Tex,
         gWorldMapAreaBox8Tex, gWorldMapAreaBox3Tex,
     };
-    static void* currentPosTitleTexs[] = {
-        gPauseCurrentPositionENGTex,
-        gPauseCurrentPositionGERTex,
-        gPauseCurrentPositionFRATex,
-    };
+    static void* currentPosTitleTexs[] = LANGUAGE_ARRAY(gPauseCurrentPositionJPNTex, gPauseCurrentPositionENGTex,
+                                                        gPauseCurrentPositionGERTex, gPauseCurrentPositionFRATex);
     static u16 D_8082A6D4 = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 i;
