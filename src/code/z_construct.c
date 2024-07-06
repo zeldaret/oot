@@ -507,18 +507,18 @@ void Regs_InitDataImpl(void) {
     WREG(36) = 0;
 
 #if OOT_PAL
-    WREG(37) = 100;
-    WREG(38) = 99;
-    WREG(39) = 109;
+    R_B_LABEL_SCALE(0) = 100;
+    R_B_LABEL_SCALE(1) = 99;
+    R_B_LABEL_SCALE(2) = 109;
     R_B_LABEL_X(0) = B_BUTTON_X - 9;
     R_B_LABEL_X(1) = B_BUTTON_X - 11;
     R_B_LABEL_X(2) = B_BUTTON_X - 12;
     R_B_LABEL_Y(0) = B_BUTTON_Y + 6;
     R_B_LABEL_Y(1) = B_BUTTON_Y + 5;
     R_B_LABEL_Y(2) = B_BUTTON_Y + 5;
-    WREG(46) = -380;
-    WREG(47) = -360;
-    WREG(48) = -350;
+    R_A_LABEL_Z(0) = -380;
+    R_A_LABEL_Z(1) = -360;
+    R_A_LABEL_Z(2) = -350;
     WREG(49) = -48;
     WREG(50) = 16;
     WREG(51) = -62;
