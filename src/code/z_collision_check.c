@@ -14,7 +14,7 @@ typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec
 
 // For retail BSS ordering, the block number of sparkInit in CollisionCheck_BlueBlood
 // must be between 183 and 255 inclusive.
-#pragma increment_block_number 50
+#pragma increment_block_number 55
 
 #if OOT_DEBUG
 /**

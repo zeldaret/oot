@@ -40,6 +40,8 @@ static s32 sHoldShieldTimer = 0;
 static u8 sZTargetFlag = false;
 static u8 sDeathFlag = false;
 
+#pragma increment_block_number 30
+
 static Input sInput;
 static u8 sSwordJumpState;
 static Vec3f sSpawnPoint;

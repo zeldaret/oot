@@ -2,54 +2,9 @@
 #define GFX_H
 
 #include "ultra64.h"
-#include "ultra64/gbi.h"
-#include "sched.h"
-#include "thga.h"
+#include "graph.h"
 
-// Texture memory size, 4 KiB
-#define TMEM_SIZE 0x1000
-
-typedef struct {
-    /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
-    /* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
-    /* 0x0BF08 */ Gfx polyXluBuffer[0x800];
-    /* 0x0FF08 */ Gfx overlayBuffer[0x400];
-    /* 0x11F08 */ Gfx workBuffer[0x80];
-    /* 0x11308 */ Gfx unusedBuffer[0x20];
-    /* 0x12408 */ u16 tailMagic; // GFXPOOL_TAIL_MAGIC
-} GfxPool; // size = 0x12410
-
-typedef struct GraphicsContext {
-    /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"
-    /* 0x0004 */ Gfx* polyXluBuffer; // Pointer to "Zelda 1"
-    /* 0x0008 */ char unk_008[0x08]; // Unused, could this be pointers to "Zelda 2" / "Zelda 3"
-    /* 0x0010 */ Gfx* overlayBuffer; // Pointer to "Zelda 4"
-    /* 0x0014 */ u32 unk_014;
-    /* 0x0018 */ char unk_018[0x20];
-    /* 0x0038 */ OSMesg msgBuff[0x08];
-    /* 0x0058 */ OSMesgQueue* schedMsgQueue;
-    /* 0x005C */ OSMesgQueue queue;
-    /* 0x0078 */ OSScTask task;
-    /* 0x00E0 */ char unk_0E0[0xD0];
-    /* 0x01B0 */ Gfx* workBuffer;
-    /* 0x01B4 */ TwoHeadGfxArena work;
-    /* 0x01C4 */ char unk_01C4[0xC0];
-    /* 0x0284 */ OSViMode* viMode;
-    /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
-    /* 0x02A8 */ TwoHeadGfxArena overlay; // "Zelda 4"
-    /* 0x02B8 */ TwoHeadGfxArena polyOpa; // "Zelda 0"
-    /* 0x02C8 */ TwoHeadGfxArena polyXlu; // "Zelda 1"
-    /* 0x02D8 */ u32 gfxPoolIdx;
-    /* 0x02DC */ u16* curFrameBuffer;
-    /* 0x02E0 */ char unk_2E0[0x04];
-    /* 0x02E4 */ u32 viFeatures;
-    /* 0x02E8 */ s32 fbIdx;
-    /* 0x02EC */ void (*callback)(struct GraphicsContext*, void*);
-    /* 0x02F0 */ void* callbackParam;
-    /* 0x02F4 */ f32 xScale;
-    /* 0x02F8 */ f32 yScale;
-    /* 0x02FC */ char unk_2FC[0x04];
-} GraphicsContext; // size = 0x300
+struct PlayState;
 
 typedef enum {
     /*  0 */ SETUPDL_0,
@@ -126,39 +81,55 @@ typedef enum {
     /* 71 */ SETUPDL_MAX
 } SetupDL;
 
-#define UCODE_NULL      0
-#define UCODE_F3DZEX    1
-#define UCODE_UNK       2
-#define UCODE_S2DEX     3
 
-typedef struct {
-    /* 0x00 */ u32 type;
-    /* 0x04 */ void* ptr;
-} UCodeInfo; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ uintptr_t segments[NUM_SEGMENTS];
-    /* 0x40 */ Gfx* dlStack[18];
-    /* 0x88 */ s32 dlDepth;
-    /* 0x8C */ u32 dlCnt;
-    /* 0x90 */ u32 vtxCnt;
-    /* 0x94 */ u32 spvtxCnt;
-    /* 0x98 */ u32 tri1Cnt;
-    /* 0x9C */ u32 tri2Cnt;
-    /* 0xA0 */ u32 quadCnt;
-    /* 0xA4 */ u32 lineCnt;
-    /* 0xA8 */ u32 loaducodeCnt;
-    /* 0xAC */ u32 pipeSyncRequired;
-    /* 0xB0 */ u32 tileSyncRequired;
-    /* 0xB4 */ u32 loadSyncRequired;
-    /* 0xB8 */ u32 syncErr;
-    /* 0xBC */ s32 enableLog;
-    /* 0xC0 */ s32 ucodeType;
-    /* 0xC4 */ s32 ucodeInfoCount;
-    /* 0xC8 */ UCodeInfo* ucodeInfo;
-    /* 0xCC */ u32 modeH;
-    /* 0xD0 */ u32 modeL;
-    /* 0xD4 */ u32 geometryMode;
-} UCodeDisas; // size = 0xD8
+Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
+Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
+Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
+Gfx* Gfx_SetupDL(Gfx* gfx, u32 i);
+Gfx* Gfx_SetupDL_57(Gfx* gfx);
+Gfx* Gfx_SetupDL_52NoCD(Gfx* gfx);
+void Gfx_SetupDL_57Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_51Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_54Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_26Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_25Xlu2(GraphicsContext* gfxCtx);
+void func_80093C80(struct PlayState* play);
+void Gfx_SetupDL_25Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_25Xlu(GraphicsContext* gfxCtx);
+Gfx* Gfx_SetupDL_64(Gfx* gfx);
+Gfx* Gfx_SetupDL_34(Gfx* gfx);
+void Gfx_SetupDL_44Xlu(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_36Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_28Opa(GraphicsContext* gfxCtx);
+Gfx* Gfx_SetupDL_28(Gfx* gfx);
+void Gfx_SetupDL_38Xlu(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_4Xlu(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_37Opa(GraphicsContext* gfxCtx);
+Gfx* Gfx_SetupDL_39(Gfx* gfx);
+void Gfx_SetupDL_39Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_39Overlay(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_39Ptr(Gfx** gfxP);
+void Gfx_SetupDL_40Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_41Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_47Xlu(GraphicsContext* gfxCtx);
+Gfx* Gfx_SetupDL_20NoCD(Gfx* gfx);
+Gfx* Gfx_SetupDL_66(Gfx* gfx);
+Gfx* func_800947AC(Gfx* gfx);
+void Gfx_SetupDL_42Opa(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_42Overlay(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_27Xlu(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_60NoCDXlu(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_61Xlu(GraphicsContext* gfxCtx);
+void Gfx_SetupDL_56Ptr(Gfx** gfxP);
+Gfx* Gfx_BranchTexScroll(Gfx** gfxP, u32 x, u32 y, s32 width, s32 height);
+Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
+Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
+Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
+                      u32 y2, s32 width2, s32 height2);
+Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
+                              u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
+Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
+void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
+void func_80095974(GraphicsContext* gfxCtx);
 
 #endif

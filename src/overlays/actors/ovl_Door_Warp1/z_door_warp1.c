@@ -51,6 +51,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 4000, ICHAIN_STOP),
 };
 
+// For retail BSS ordering, the block number of sWarpTimerTarget must be lower than sRutoWarpSubCamId.
+#pragma increment_block_number 30
+
 static s16 sWarpTimerTarget;
 
 void DoorWarp1_SetupAction(DoorWarp1* this, DoorWarp1ActionFunc actionFunc) {

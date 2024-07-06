@@ -6,7 +6,7 @@
 
 // For retail BSS ordering, the block number of D_8015BD7C
 // must be between 88 and 123 inclusive.
-#pragma increment_block_number 30
+#pragma increment_block_number 38
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);

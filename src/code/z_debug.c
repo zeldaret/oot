@@ -279,18 +279,17 @@ void Regs_DrawEditor(GfxPrint* printer) {
  * Draws the Reg Editor and Debug Camera text on screen
  */
 void Debug_DrawText(GraphicsContext* gfxCtx) {
-    Gfx* gfx;
-    Gfx* opaStart;
+    Gfx* newDisp;
+    Gfx* lockedGfxDisp;
     GfxPrint printer;
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_debug.c", 628);
 
     GfxPrint_Init(&printer);
-    opaStart = POLY_OPA_DISP;
-    gfx = Gfx_Open(POLY_OPA_DISP);
-    gSPDisplayList(OVERLAY_DISP++, gfx);
-    GfxPrint_Open(&printer, gfx);
+    newDisp = Gfx_Open(lockedGfxDisp = POLY_OPA_DISP);
+    gSPDisplayList(OVERLAY_DISP++, newDisp);
+    GfxPrint_Open(&printer, newDisp);
 
     if ((OREG(0) == 1) || (OREG(0) == 8)) {
         DebugCamera_DrawScreenText(&printer);
@@ -304,10 +303,10 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
 
     sDebugCamTextEntryCount = 0;
 
-    gfx = GfxPrint_Close(&printer);
-    gSPEndDisplayList(gfx++);
-    Gfx_Close(opaStart, gfx);
-    POLY_OPA_DISP = gfx;
+    newDisp = GfxPrint_Close(&printer);
+    gSPEndDisplayList(newDisp++);
+    Gfx_Close(lockedGfxDisp, newDisp);
+    POLY_OPA_DISP = newDisp;
 
     if (1) {}
 

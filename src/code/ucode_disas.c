@@ -1,4 +1,5 @@
 #include "global.h"
+#include "ucode_disas.h"
 
 typedef struct {
     /* 0x00 */ u32 value;

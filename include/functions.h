@@ -982,55 +982,6 @@ u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime)
 void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
                       s32 sword, s32 tunic, s32 shield, s32 boots);
 void PreNMI_Init(GameState* thisx);
-Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
-Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
-Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
-Gfx* Gfx_SetupDL(Gfx* gfx, u32 i);
-Gfx* Gfx_SetupDL_57(Gfx* gfx);
-Gfx* Gfx_SetupDL_52NoCD(Gfx* gfx);
-void Gfx_SetupDL_57Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_51Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_54Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_26Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_25Xlu2(GraphicsContext* gfxCtx);
-void func_80093C80(PlayState* play);
-void Gfx_SetupDL_25Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_25Xlu(GraphicsContext* gfxCtx);
-Gfx* Gfx_SetupDL_64(Gfx* gfx);
-Gfx* Gfx_SetupDL_34(Gfx* gfx);
-void Gfx_SetupDL_44Xlu(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_36Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_28Opa(GraphicsContext* gfxCtx);
-Gfx* Gfx_SetupDL_28(Gfx* gfx);
-void Gfx_SetupDL_38Xlu(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_4Xlu(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_37Opa(GraphicsContext* gfxCtx);
-Gfx* Gfx_SetupDL_39(Gfx* gfx);
-void Gfx_SetupDL_39Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_39Overlay(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_39Ptr(Gfx** gfxP);
-void Gfx_SetupDL_40Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_41Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_47Xlu(GraphicsContext* gfxCtx);
-Gfx* Gfx_SetupDL_20NoCD(Gfx* gfx);
-Gfx* Gfx_SetupDL_66(Gfx* gfx);
-Gfx* func_800947AC(Gfx* gfx);
-void Gfx_SetupDL_42Opa(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_42Overlay(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_27Xlu(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_60NoCDXlu(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_61Xlu(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_56Ptr(Gfx** gfxP);
-Gfx* Gfx_BranchTexScroll(Gfx** gfxP, u32 x, u32 y, s32 width, s32 height);
-Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
-Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
-Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
-                      u32 y2, s32 width2, s32 height2);
-Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
-                              u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
-Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
-void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
-void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3);
 void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 tlutMode,
                            u16 tlutCount, f32 offsetX, f32 offsetY);
@@ -1251,11 +1202,6 @@ void* DebugArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line
 void DebugArena_FreeDebug(void* ptr, const char* file, int line);
 void DebugArena_Display(void);
 #endif
-void UCodeDisas_Init(UCodeDisas*);
-void UCodeDisas_Destroy(UCodeDisas*);
-void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
-void UCodeDisas_RegisterUCode(UCodeDisas*, s32, UCodeInfo*);
-void UCodeDisas_SetCurUCode(UCodeDisas*, void*);
 Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);
 void AudioHeap_DiscardFont(s32 fontId);
 void AudioHeap_DiscardSequence(s32 seqId);

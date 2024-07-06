@@ -11,7 +11,7 @@
 // For retail BSS ordering, the block number of sLensFlareUnused must be lower
 // than the extern variables declared in the header (e.g. gLightningStrike)
 // while the block number of sNGameOverLightNode must be higher.
-#pragma increment_block_number 85
+#pragma increment_block_number 94
 
 typedef enum {
     /* 0x00 */ LIGHTNING_BOLT_START,
@@ -979,18 +979,18 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
 #if OOT_DEBUG
         if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
-            Gfx* displayList;
-            Gfx* prevDisplayList;
+            Gfx* newDisp;
+            Gfx* lockedGfxDisp;
 
             OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1682);
 
-            prevDisplayList = POLY_OPA_DISP;
-            displayList = Gfx_Open(POLY_OPA_DISP);
-            gSPDisplayList(OVERLAY_DISP++, displayList);
-            Environment_PrintDebugInfo(play, &displayList);
-            gSPEndDisplayList(displayList++);
-            Gfx_Close(prevDisplayList, displayList);
-            POLY_OPA_DISP = displayList;
+            newDisp = Gfx_Open(lockedGfxDisp = POLY_OPA_DISP);
+            gSPDisplayList(OVERLAY_DISP++, newDisp);
+            Environment_PrintDebugInfo(play, &newDisp);
+
+            gSPEndDisplayList(newDisp++);
+            Gfx_Close(lockedGfxDisp, newDisp);
+            POLY_OPA_DISP = newDisp;
             if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1690);
         }
