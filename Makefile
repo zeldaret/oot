@@ -23,7 +23,7 @@ COMPILER ?= ido
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 # The following versions are work-in-progress and not yet matching:
-#   (none currently)
+#   ntsc-1.2       N64 NTSC 1.2 (Japan/US)
 VERSION ?= gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS ?= $(shell nproc)
@@ -42,23 +42,34 @@ CPPFLAGS ?=
 CPP_DEFINES ?=
 
 # Version-specific settings
-ifeq ($(VERSION),gc-us)
+ifeq ($(VERSION),ntsc-1.2)
+  REGION ?= JP
+  PLATFORM := N64
+  PAL := 0
+  MQ := 0
+  DEBUG := 0
+  COMPARE := 0
+else ifeq ($(VERSION),gc-us)
   REGION ?= US
+  PLATFORM := GC
   PAL := 0
   MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
+  PLATFORM := GC
   PAL := 1
   MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu-mq)
   REGION ?= EU
+  PLATFORM := GC
   PAL := 1
   MQ := 1
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
+  PLATFORM := GC
   PAL := 1
   MQ := 1
   DEBUG := 1
@@ -97,6 +108,14 @@ CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 VERSION_MACRO := OOT_$(shell echo $(VERSION) | tr a-z-. A-Z__)
 CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO)
 CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
+
+ifeq ($(PLATFORM),N64)
+  CPP_DEFINES += -DOOT_N64=1 -DOOT_GC=0
+else ifeq ($(PLATFORM),GC)
+  CPP_DEFINES += -DOOT_N64=0 -DOOT_GC=1
+else
+  $(error Unsupported platform $(PLATFORM))
+endif
 
 ifeq ($(PAL),0)
   CPP_DEFINES += -DOOT_NTSC=1
@@ -194,8 +213,10 @@ ifeq ($(COMPILER),gcc)
   OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
 endif
 
-# TODO PL and DOWHILE should be disabled for non-gamecube
-GBI_DEFINES := -DF3DEX_GBI_2 -DF3DEX_GBI_PL -DGBI_DOWHILE
+GBI_DEFINES := -DF3DEX_GBI_2
+ifeq ($(PLATFORM),GC)
+  GBI_DEFINES += -DF3DEX_GBI_PL -DGBI_DOWHILE
+endif
 ifeq ($(DEBUG),1)
   GBI_DEFINES += -DGBI_DEBUG
 endif
