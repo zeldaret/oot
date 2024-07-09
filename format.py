@@ -146,8 +146,8 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
     else:
         run_clang_tidy(src_files)
 
-    print("Adding missing final new lines...")
-    # Adding final new lines is safe to do in parallel and can be applied to all types of files
+    print("Whitespace cleanup...")
+    # Safe to do in parallel and can be applied to all types of files
     with multiprocessing.get_context("fork").Pool(nb_jobs) as pool:
         pool.map(cleanup_whitespace, src_files + extra_files)
 
