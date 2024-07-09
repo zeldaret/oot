@@ -477,6 +477,18 @@ void Regs_InitDataImpl(void) {
     WREG(5) = 3;
     WREG(6) = 8;
     WREG(7) = 0;
+
+#if OOT_NTSC
+    R_B_LABEL_SCALE(0) = 100;
+    R_B_LABEL_SCALE(1) = 109;
+    R_B_LABEL_X(0) = 151;
+    R_B_LABEL_X(1) = 148;
+    R_B_LABEL_Y(0) = 23;
+    R_B_LABEL_Y(1) = 22;
+    R_A_LABEL_Z(0) = -380;
+    R_A_LABEL_Z(1) = -350;
+#else
+    // Same as above, although these regs are now unused in PAL versions
     WREG(8) = 100;
     WREG(9) = 109;
     WREG(10) = 151;
@@ -485,6 +497,8 @@ void Regs_InitDataImpl(void) {
     WREG(13) = 22;
     WREG(14) = -380;
     WREG(15) = -350;
+#endif
+
     WREG(16) = -175;
     WREG(17) = 155;
     WREG(18) = 10;
