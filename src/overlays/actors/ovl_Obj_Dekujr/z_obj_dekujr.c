@@ -150,7 +150,7 @@ void ObjDekujr_Update(Actor* thisx, PlayState* play) {
         this->actor.world.pos.y += this->actor.velocity.y;
         this->actor.world.pos.z += this->actor.velocity.z;
     } else {
-        func_80037D98(play, &this->actor, 0xF, &this->unk_1A0);
+        Actor_TalkUpdate(play, &this->actor, 0xF, &this->unk_1A0);
         Actor_SetFocus(&this->actor, 40.0f);
     }
 }

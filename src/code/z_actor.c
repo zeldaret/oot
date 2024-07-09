@@ -4490,6 +4490,7 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
 
 /**
  * Loads the correct 'response' Text ID to a selected dialog option
+ * Note: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic actually resides
  *
  * @param play current game state
  * @param actor (Actor*) the actor being responded to
@@ -5271,6 +5272,7 @@ u32 Actor_GetTextID32(PlayState* play, s16 actorID) {
 
 /**
  * Sets flags associated with having read a given textID
+ * Note: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic actually resides
  */
 void Actor_SetInfForTextID(u16 textId, s16 arg1) {
     switch (arg1) {
@@ -5541,6 +5543,7 @@ void Actor_SetInfForTextID(u16 textId, s16 arg1) {
 
 /**
  * Processes a message choice and loads the appropriate response text into an actor
+ * Note: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic actually resides
  *
  * @param play current game state
  * @param actor the actor we're currently in a conversation with
@@ -5747,9 +5750,10 @@ s32 Actor_SelectDialogResponse(PlayState* play, Actor* actor, u16 textId) {
 
 /**
  * Returns a text ID value for an actor given the current set of world flags
+ * Note: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic actually resides
  *
  * @param play current game state
- * @param arg1 (s16) the actor we're trying to talk to
+ * @param actorID (s16) the actor we're trying to talk to
  * @return (u16) text ID
  */
 u16 Actor_GetTextID(PlayState* play, s16 actorID) {
@@ -5758,15 +5762,17 @@ u16 Actor_GetTextID(PlayState* play, s16 actorID) {
 
 /**
  * Wrapper function w/ return type of s32
+ * Note: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic actually resides
  * @see Actor_SetInfForTextID
  */
-s32 Actor_SetInfForTextID32(PlayState* play, s16 arg1, u16 textId) {
-    Actor_SetInfForTextID(textId, arg1);
+s32 Actor_SetInfForTextID32(PlayState* play, s16 actorID, u16 textId) {
+    Actor_SetInfForTextID(textId, actorID);
     return false;
 }
 
 /**
  * Returns a text ID value for an actor given the current set of world flags
+ * Note: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic actually resides
  *
  * @param play current game state
  * @param actor the actor we're trying to talk to
@@ -5777,18 +5783,27 @@ s32 Actor_ProcessDialogChoice(PlayState* play, Actor* actor, s32 pad) {
     return Actor_SelectDialogResponse(play, actor, actor->textId);
 }
 
-s32 func_80037CB8(PlayState* play, Actor* actor, s16 arg2) {
+/**
+ * Processes the current message state
+ * Note: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic actually resides
+ *
+ * @param play current game state
+ * @param actor the actor we're trying to talk to
+ * @param actorID (s16) the ID of the actor we're trying to talk to
+ * @return 0 if we found and loaded a response, 1 if something has gone wrong
+ */
+s32 Actor_ProcessMessage(PlayState* play, Actor* actor, s16 actorID) {
     MessageContext* msgCtx = &play->msgCtx;
     s32 ret = false;
 
     switch (Message_GetState(msgCtx)) {
         case TEXT_STATE_CLOSING:
-            Actor_SetInfForTextID32(play, arg2, actor->textId);
+            Actor_SetInfForTextID32(play, actorID, actor->textId);
             ret = true;
             break;
         case TEXT_STATE_CHOICE:
         case TEXT_STATE_EVENT:
-            if (Message_ShouldAdvance(play) && Actor_ProcessDialogChoice(play, actor, arg2)) {
+            if (Message_ShouldAdvance(play) && Actor_ProcessDialogChoice(play, actor, actorID)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CANCEL, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 msgCtx->msgMode = MSGMODE_TEXT_CLOSING;
@@ -5800,34 +5815,45 @@ s32 func_80037CB8(PlayState* play, Actor* actor, s16 arg2) {
     return ret;
 }
 
-s32 func_80037D98(PlayState* play, Actor* actor, s16 fifteen, s32* arg3) {
-    s16 var;
-    s16 sp2C;
-    s16 sp2A;
-    s16 abs_var;
+/**
+ * Core of the dialog system update loop
+ * Note: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic actually resides
+ *
+ * @param play current game state
+ * @param actor the actor we're trying to talk to
+ * @param actorID (s16) the ID of the actor we're trying to talk to
+ * @param talkState (s32*) flag for determining whether the active message needs to be processed
+ * @return True if a new dialog was started (player talked to the actor). False otherwise.
+ */
+s32 Actor_TalkUpdate(PlayState* play, Actor* actor, s16 actorID, s32* talkState) {
+    s16 yawDiff;
+    s16 x;
+    s16 y;
+    s16 yaw;
 
     if (Actor_TalkOfferAccepted(actor, play)) {
-        *arg3 = 1;
+        *talkState = NPC_TALK_STATE_TALKING;
         return true;
     }
 
-    if (*arg3 == 1) {
-        if (func_80037CB8(play, actor, fifteen)) {
-            *arg3 = 0;
+    if (*talkState == NPC_TALK_STATE_TALKING) {
+        if (Actor_ProcessMessage(play, actor, actorID)) {
+            *talkState = NPC_TALK_STATE_IDLE;
         }
         return false;
     }
 
-    Actor_GetScreenPos(play, actor, &sp2C, &sp2A);
+    Actor_GetScreenPos(play, actor, &x, &y);
 
-    if ((sp2C < 0) || (sp2C > SCREEN_WIDTH) || (sp2A < 0) || (sp2A > SCREEN_HEIGHT)) {
+    if ((x < 0) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT)) {
+        // Actor is offscreen
         return false;
     }
 
-    var = actor->yawTowardsPlayer - actor->shape.rot.y;
-    abs_var = ABS(var);
+    yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
+    yaw = ABS(yawDiff);
 
-    if (abs_var >= 0x4300) {
+    if (yaw >= 0x4300) {
         return false;
     }
 
@@ -5837,11 +5863,11 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 fifteen, s32* arg3) {
 
     if (actor->xyzDistToPlayerSq <= SQ(80.0f)) {
         if (Actor_OfferTalk(actor, play, 80.0f)) {
-            actor->textId = Actor_GetTextID(play, fifteen);
+            actor->textId = Actor_GetTextID(play, actorID);
         }
     } else {
         if (Actor_OfferTalkNearColChkInfoCylinder(actor, play)) {
-            actor->textId = Actor_GetTextID(play, fifteen);
+            actor->textId = Actor_GetTextID(play, actorID);
         }
     }
 

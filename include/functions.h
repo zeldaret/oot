@@ -485,7 +485,7 @@ void Flags_SetEventChkInf(s32 flag);
 s32 Flags_GetInfTable(s32 flag);
 void Flags_SetInfTable(s32 flag);
 u16 Actor_GetTextID(PlayState* play, s16 arg1);
-s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3);
+s32 Actor_TalkUpdate(PlayState* play, Actor* actor, s16 arg2, s32* arg3);
 s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos);
 void ActorOverlayTable_LogPrint(void);
 void ActorOverlayTable_Init(void);
