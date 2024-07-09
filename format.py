@@ -154,6 +154,16 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
     print("Done formatting files.")
 
 
+def list_files_to_format():
+    files = glob.glob("src/**/*.c", recursive=True)
+    extra_files = (
+        glob.glob("assets/**/*.xml", recursive=True)
+        + glob.glob("include/**/*.h", recursive=True)
+        + glob.glob("src/**/*.h", recursive=True)
+    )
+    return files, extra_files
+
+
 def main():
     parser = argparse.ArgumentParser(description="Format files in the codebase to enforce most style rules")
     parser.add_argument(
@@ -191,12 +201,7 @@ def main():
         files = args.files
         extra_files = []
     else:
-        files = glob.glob("src/**/*.c", recursive=True)
-        extra_files = (
-            glob.glob("assets/**/*.xml", recursive=True)
-            + glob.glob("include/**/*.h", recursive=True)
-            + glob.glob("src/**/*.h", recursive=True)
-        )
+        files, extra_files = list_files_to_format()
 
     format_files(files, extra_files, nb_jobs)
 
