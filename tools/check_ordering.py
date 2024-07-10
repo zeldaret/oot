@@ -181,10 +181,9 @@ def main():
                 else:
                     assert False, "Invalid relocation"
 
-                if base_value != build_value:
-                    pointers.append(
-                        Pointer(reloc.name, reloc.addend, base_value, build_value)
-                    )
+                pointers.append(
+                    Pointer(reloc.name, reloc.addend, base_value, build_value)
+                )
 
     # Remove duplicates and sort by baserom address
     pointers = list({p.base_value: p for p in pointers}.values())
@@ -202,6 +201,17 @@ def main():
                 if file.vram <= p.build_value < file.vram + file.size
             ]
             if not pointers_in_section:
+                continue
+
+            # Try to detect if the section is shifted by comparing the lowest
+            # address among any pointer into the section between base and build
+            base_min_address = min(p.base_value for p in pointers_in_section)
+            build_min_address = min(p.build_value for p in pointers_in_section)
+            section_shift = build_min_address - base_min_address
+            if all(
+                p.build_value == p.base_value + section_shift
+                for p in pointers_in_section
+            ):
                 continue
 
             print(f"{file.filepath} {file.sectionType} is reordered:")
