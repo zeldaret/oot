@@ -28,7 +28,7 @@ typedef enum {
 // the character 'A'.
 #if OOT_NTSC
 #define FILENAME_DIGIT(c)                   ((c) - '0')
-// 0x0A - 0x59: hirigana
+// 0x0A - 0x59: hiragana
 // 0x5A - 0xAA: katakana
 #define FILENAME_UPPERCASE(c)               ((c) - 'A' + 0xAB)
 #define FILENAME_LOWERCASE(c)               ((c) - 'a' + 0xC5)
