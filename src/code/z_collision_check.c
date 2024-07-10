@@ -2315,7 +2315,7 @@ void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChk
 static s8 sBssDummy3;
 static s8 sBssDummy4;
 static s8 sBssDummy5;
-static s8 sBssDummy6;
+// static s8 sBssDummy6;
 #endif
 
 void CollisionCheck_ATTrisVsACTris(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
