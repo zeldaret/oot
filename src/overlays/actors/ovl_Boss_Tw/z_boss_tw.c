@@ -206,6 +206,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
+// For retail BSS ordering, the block number of sEnvType must be between
+// 0 and 187 inclusive.
+#pragma increment_block_number 30
+
 static s8 sEnvType;
 static u8 sGroundBlastType;
 static BossTw* sKotakePtr;

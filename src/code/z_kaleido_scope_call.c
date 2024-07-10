@@ -4,7 +4,7 @@
 // For retail BSS ordering, the block number of sKaleidoScopeUpdateFunc must be 0 or
 // just above (the exact upper bound depends on the block numbers assigned to
 // extern variables declared in headers).
-#pragma increment_block_number 60
+#pragma increment_block_number 90
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);

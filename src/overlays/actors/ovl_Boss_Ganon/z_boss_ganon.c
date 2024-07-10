@@ -104,7 +104,7 @@ static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 // TODO: There's probably a way to do this with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number 50
+#pragma increment_block_number 80
 
 static EnGanonMant* sCape;
 

@@ -359,7 +359,7 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 
 // TODO: There's probably a way to do this with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number 36
+#pragma increment_block_number 66
 
 static s32 D_80858AA0;
 

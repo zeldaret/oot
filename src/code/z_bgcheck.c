@@ -1,6 +1,10 @@
 #include "global.h"
 #include "terminal.h"
 
+// For retail BSS ordering, the block number of polyVerts in CollisionPoly_CheckYIntersectApprox1
+// must be 0 or just above.
+#pragma increment_block_number 30
+
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
 s32 BgCheck_PosInStaticBoundingBox(CollisionContext* colCtx, Vec3f* pos);

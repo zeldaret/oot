@@ -14,6 +14,10 @@ Color_RGBA8_u32 gVisMonoColor;
 FaultClient D_801614B8;
 #endif
 
+// For retail BSS ordering, the block number of sTransitionFillTimer must be greater than the
+// the block numbers assigned to extern variables above (declared in variables.h).
+#pragma increment_block_number 30
+
 s16 sTransitionFillTimer;
 
 #if OOT_DEBUG
