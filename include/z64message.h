@@ -35,7 +35,7 @@ typedef enum {
 #define FILENAME_SPACE                      0xDF
 // 0xE0: unknown
 #define FILENAME_QUESTION_MARK              0xE1
-#define FILENAME_EXCLAMATION_POINT          0xE2
+#define FILENAME_EXCLAMATION_MARK           0xE2
 #define FILENAME_COLON                      0xE3
 #define FILENAME_DASH                       0xE4
 #define FILENAME_LEFT_PARENTHESES           0xE5
