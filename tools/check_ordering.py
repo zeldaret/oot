@@ -94,7 +94,7 @@ def read_s16(f: BinaryIO, offset: int) -> int:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Report data/bss reorderings between the baserom and the current build "
+        description="Report bss reorderings between the baserom and the current build "
         "by parsing relocations from the built object files and comparing their final values "
         "between the baserom and the current build. "
         "Assumes that the only differences are due to ordering and that the text sections of the "
@@ -111,6 +111,11 @@ def main():
         "--segment",
         type=str,
         help="ROM segment to check, e.g. 'boot', 'code', or 'ovl_player_actor' (default: all)",
+    )
+    parser.add_argument(
+        "--all-sections",
+        action="store_true",
+        help="Check ordering for all section types, not just .bss",
     )
 
     args = parser.parse_args()
@@ -188,6 +193,9 @@ def main():
     # Go through sections and report differences
     for mapfile_segment in source_code_segments:
         for file in mapfile_segment:
+            if not args.all_sections and not file.sectionType == ".bss":
+                continue
+
             pointers_in_section = [
                 p
                 for p in pointers
