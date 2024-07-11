@@ -16,7 +16,7 @@ void func_80A7A568(EnIn* this, PlayState* play);
 void func_80A7A848(EnIn* this, PlayState* play);
 void func_80A7ABD4(EnIn* this, PlayState* play);
 void func_80A7AEF0(EnIn* this, PlayState* play);
-void func_80A7B018(EnIn* this, PlayState* play);
+void EnIn_DoNothing(EnIn* this, PlayState* play);
 void func_80A7B024(EnIn* this, PlayState* play);
 void func_80A7AE84(EnIn* this, PlayState* play);
 void func_80A7A770(EnIn* this, PlayState* play);
@@ -874,7 +874,7 @@ void func_80A7AEF0(EnIn* this, PlayState* play) {
         play->nextEntranceIndex = ENTR_HYRULE_FIELD_15;
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
-        this->actionFunc = func_80A7B018;
+        this->actionFunc = EnIn_DoNothing;
     } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -882,7 +882,7 @@ void func_80A7AEF0(EnIn* this, PlayState* play) {
     }
 }
 
-void func_80A7B018(EnIn* this, PlayState* play) {
+void EnIn_DoNothing(EnIn* this, PlayState* play) {
 }
 
 void func_80A7B024(EnIn* this, PlayState* play) {

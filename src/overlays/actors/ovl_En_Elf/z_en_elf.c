@@ -38,7 +38,7 @@ void func_80A03814(EnElf* this, PlayState* play);
 void func_80A0353C(EnElf* this, PlayState* play);
 
 // Fairy Spawner
-void func_80A03604(EnElf* this, PlayState* play);
+void EnElf_DoNothing(EnElf* this, PlayState* play);
 
 // Move(?) functions
 void func_80A0214C(EnElf* this, PlayState* play);
@@ -397,7 +397,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
             func_80A01C38(this, 0);
             break;
         case FAIRY_SPAWNER:
-            EnElf_SetupAction(this, func_80A03604);
+            EnElf_SetupAction(this, EnElf_DoNothing);
             func_80A01C38(this, 8);
 
             for (i = 0; i < 8; i++) {
@@ -424,7 +424,8 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
     }
 }
 
-void func_80A0299C(EnElf* this, s32 arg1) {
+//TODO: Technically a noop, but the argument and values passed to it suggest it may have done *something*.
+void EnElf_NoOp(EnElf* this, s32 arg1) {
 }
 
 void func_80A029A8(EnElf* this, s16 increment) {
@@ -686,7 +687,7 @@ void func_80A0353C(EnElf* this, PlayState* play) {
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
 }
 
-void func_80A03604(EnElf* this, PlayState* play) {
+void EnElf_DoNothing(EnElf* this, PlayState* play) {
 }
 
 void func_80A03610(EnElf* this, PlayState* play) {
@@ -925,7 +926,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
 
                 if (this->unk_2C0 < 0x20) {
                     this->unk_2B0 = (this->unk_2C0 * 0xF0) + 0x200;
-                    func_80A0299C(this, 1);
+                    EnElf_NoOp(this, 1);
                 }
                 break;
             case 12:
@@ -1155,7 +1156,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
                 break;
             case 8:
                 if (player->stateFlags2 & PLAYER_STATE2_20) {
-                    func_80A0299C(this, 0x32);
+                    EnElf_NoOp(this, 0x32);
                     this->unk_2C0 = 42;
                     temp = 11;
                     if (this->unk_2C7 == 0) {

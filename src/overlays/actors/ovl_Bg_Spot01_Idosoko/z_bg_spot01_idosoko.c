@@ -14,7 +14,7 @@ void BgSpot01Idosoko_Destroy(Actor* thisx, PlayState* play);
 void BgSpot01Idosoko_Update(Actor* thisx, PlayState* play);
 void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play);
 
-void func_808ABF54(BgSpot01Idosoko* this, PlayState* play);
+void BgSpot01Idosoko_DoNothing(BgSpot01Idosoko* this, PlayState* play);
 
 ActorInit Bg_Spot01_Idosoko_InitVars = {
     /**/ ACTOR_BG_SPOT01_IDOSOKO,
@@ -49,7 +49,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play) {
     if (!LINK_IS_ADULT) {
         Actor_Kill(&this->dyna.actor);
     } else {
-        BgSpot01Idosoko_SetupAction(this, func_808ABF54);
+        BgSpot01Idosoko_SetupAction(this, BgSpot01Idosoko_DoNothing);
     }
 }
 
@@ -59,7 +59,7 @@ void BgSpot01Idosoko_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808ABF54(BgSpot01Idosoko* this, PlayState* play) {
+void BgSpot01Idosoko_DoNothing(BgSpot01Idosoko* this, PlayState* play) {
 }
 
 void BgSpot01Idosoko_Update(Actor* thisx, PlayState* play) {

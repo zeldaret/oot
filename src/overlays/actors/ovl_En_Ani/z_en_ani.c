@@ -21,7 +21,7 @@ void func_809B0558(EnAni* this, PlayState* play);
 void func_809B05F0(EnAni* this, PlayState* play);
 void func_809B064C(EnAni* this, PlayState* play);
 void func_809B07F8(EnAni* this, PlayState* play);
-void func_809B0988(EnAni* this, PlayState* play);
+void EnAni_DoNothing(EnAni* this, PlayState* play);
 void func_809B0994(EnAni* this, PlayState* play);
 void func_809B0A28(EnAni* this, PlayState* play);
 void func_809B0A6C(EnAni* this, PlayState* play);
@@ -196,7 +196,7 @@ void func_809B07F8(EnAni* this, PlayState* play) {
     }
 }
 
-void func_809B0988(EnAni* this, PlayState* play) {
+void EnAni_DoNothing(EnAni* this, PlayState* play) {
 }
 
 void func_809B0994(EnAni* this, PlayState* play) {
@@ -249,7 +249,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
                 func_809B0A28(this, play);
                 break;
             case 4:
-                func_809B0988(this, play);
+                EnAni_DoNothing(this, play);
                 break;
         }
 

@@ -9922,11 +9922,11 @@ static ColliderQuadInit D_808546A0 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-void func_8084663C(Actor* thisx, PlayState* play) {
+void Player_DoNothing(Actor* thisx, PlayState* play) {
 }
 
 void func_80846648(PlayState* play, Player* this) {
-    this->actor.update = func_8084663C;
+    this->actor.update = Player_DoNothing;
     this->actor.draw = NULL;
 }
 

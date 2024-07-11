@@ -23,7 +23,7 @@ void func_8097D058(DemoGo* this, PlayState* play);
 void func_8097D088(DemoGo* this, PlayState* play);
 void func_8097D0D0(DemoGo* this, PlayState* play);
 void func_8097D130(DemoGo* this, PlayState* play);
-void func_8097D290(DemoGo* this, PlayState* play);
+void DemoGo_DrawNothing(DemoGo* this, PlayState* play);
 void func_8097D29C(DemoGo* this, PlayState* play);
 
 static void* sEyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
@@ -33,7 +33,7 @@ static DemoGoActionFunc D_8097D44C[] = {
 };
 
 static DemoGoDrawFunc D_8097D468[] = {
-    func_8097D290,
+    DemoGo_DrawNothing,
     func_8097D29C,
 };
 
@@ -336,7 +336,7 @@ void DemoGo_Init(Actor* thisx, PlayState* play) {
     this->action = 0;
 }
 
-void func_8097D290(DemoGo* this, PlayState* play) {
+void DemoGo_DrawNothing(DemoGo* this, PlayState* play) {
 }
 
 void func_8097D29C(DemoGo* this, PlayState* play) {

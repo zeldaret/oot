@@ -2719,7 +2719,7 @@ s32 EnZl3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     return sOverrideLimbDrawFuncs[this->unk_308](play, limbIndex, dList, pos, rot, thisx, gfx);
 }
 
-void func_80B59FE8(EnZl3* this, PlayState* play) {
+void EnZl3_DrawNothing(EnZl3* this, PlayState* play) {
 }
 
 void func_80B59FF4(EnZl3* this, PlayState* play) {
@@ -2773,7 +2773,7 @@ void func_80B5A1D0(EnZl3* this, PlayState* play) {
 }
 
 static EnZl3DrawFunc sDrawFuncs[] = {
-    func_80B59FE8,
+    EnZl3_DrawNothing,
     func_80B59FF4,
     func_80B5A1D0,
 };

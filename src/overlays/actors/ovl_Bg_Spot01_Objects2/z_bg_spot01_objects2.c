@@ -15,7 +15,7 @@ void BgSpot01Objects2_Destroy(Actor* thisx, PlayState* play);
 void BgSpot01Objects2_Update(Actor* thisx, PlayState* play);
 
 void func_808AC2BC(BgSpot01Objects2* this, PlayState* play);
-void func_808AC474(BgSpot01Objects2* this, PlayState* play);
+void BgSpot01Objects2_DoNothing(BgSpot01Objects2* this, PlayState* play);
 void func_808AC4A4(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Spot01_Objects2_InitVars = {
@@ -121,11 +121,11 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
         }
 
         this->dyna.actor.draw = func_808AC4A4;
-        this->actionFunc = func_808AC474;
+        this->actionFunc = BgSpot01Objects2_DoNothing;
     }
 }
 
-void func_808AC474(BgSpot01Objects2* this, PlayState* play) {
+void BgSpot01Objects2_DoNothing(BgSpot01Objects2* this, PlayState* play) {
 }
 
 void BgSpot01Objects2_Update(Actor* thisx, PlayState* play) {

@@ -16,7 +16,7 @@ void BgHidanHrock_Draw(Actor* thisx, PlayState* play);
 
 void func_8088960C(BgHidanHrock* this, PlayState* play);
 void func_808896B8(BgHidanHrock* this, PlayState* play);
-void func_808894A4(BgHidanHrock* this, PlayState* play);
+void BgHidanHrock_DoNothing(BgHidanHrock* this, PlayState* play);
 
 ActorInit Bg_Hidan_Hrock_InitVars = {
     /**/ ACTOR_BG_HIDAN_HROCK,
@@ -115,7 +115,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
     }
 
     if (Flags_GetSwitch(play, this->unk_16A)) {
-        this->actionFunc = func_808894A4;
+        this->actionFunc = BgHidanHrock_DoNothing;
         if (thisx->params == 0) {
             thisx->world.pos.y -= 2800.0f;
             thisx->uncullZoneForward = 3000.0f;
@@ -148,7 +148,7 @@ void BgHidanHrock_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyTris(play, &this->collider);
 }
 
-void func_808894A4(BgHidanHrock* this, PlayState* play) {
+void BgHidanHrock_DoNothing(BgHidanHrock* this, PlayState* play) {
 }
 
 void func_808894B0(BgHidanHrock* this, PlayState* play) {
@@ -196,7 +196,7 @@ void func_8088960C(BgHidanHrock* this, PlayState* play) {
             }
         }
 
-        this->actionFunc = func_808894A4;
+        this->actionFunc = BgHidanHrock_DoNothing;
     }
 }
 

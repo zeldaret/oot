@@ -525,7 +525,7 @@ void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     }
 }
 
-void func_80096FD4(PlayState* play, Room* room) {
+void Room_Clear(PlayState* play, Room* room) {
     room->num = -1;
     room->segment = NULL;
 }

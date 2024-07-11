@@ -9,7 +9,7 @@ void EnDu_Destroy(Actor* thisx, PlayState* play);
 void EnDu_Update(Actor* thisx, PlayState* play);
 void EnDu_Draw(Actor* thisx, PlayState* play);
 
-void func_809FE3B4(EnDu* this, PlayState* play);
+void EnDu_DoNothing(EnDu* this, PlayState* play);
 void func_809FE3C0(EnDu* this, PlayState* play);
 void func_809FE638(EnDu* this, PlayState* play);
 void func_809FE890(EnDu* this, PlayState* play);
@@ -301,7 +301,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
     } else if (!LINK_IS_ADULT) {
         EnDu_SetupAction(this, func_809FE3C0);
     } else {
-        EnDu_SetupAction(this, func_809FE3B4);
+        EnDu_SetupAction(this, EnDu_DoNothing);
     }
 }
 
@@ -312,7 +312,7 @@ void EnDu_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_809FE3B4(EnDu* this, PlayState* play) {
+void EnDu_DoNothing(EnDu* this, PlayState* play) {
 }
 
 void func_809FE3C0(EnDu* this, PlayState* play) {

@@ -15,7 +15,7 @@ void BgGjyoBridge_Destroy(Actor* thisx, PlayState* play);
 void BgGjyoBridge_Update(Actor* thisx, PlayState* play);
 void BgGjyoBridge_Draw(Actor* thisx, PlayState* play);
 
-void func_808787A4(BgGjyoBridge* this, PlayState* play);
+void BgGjyoBridge_DoNothing(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play);
 
@@ -50,7 +50,7 @@ void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     if (GET_EVENTCHKINF(EVENTCHKINF_4D)) {
-        this->actionFunc = func_808787A4;
+        this->actionFunc = BgGjyoBridge_DoNothing;
     } else {
         this->dyna.actor.draw = NULL;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
@@ -64,7 +64,7 @@ void BgGjyoBridge_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808787A4(BgGjyoBridge* this, PlayState* play) {
+void BgGjyoBridge_DoNothing(BgGjyoBridge* this, PlayState* play) {
 }
 
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play) {

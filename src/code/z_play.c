@@ -1466,7 +1466,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
     Object_InitContext(this, &this->objectCtx);
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);
-    func_80096FD4(this, &this->roomCtx.curRoom);
+    Room_Clear(this, &this->roomCtx.curRoom);
     R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
     gSaveContext.worldMapArea = 0;
     Scene_ExecuteCommands(this, this->sceneSegment);

@@ -37,7 +37,7 @@ void func_80AF3CB8(EnRu2* this, PlayState* play);
 void func_80AF3D0C(EnRu2* this, PlayState* play);
 void func_80AF3D60(EnRu2* this, PlayState* play);
 
-void func_80AF3F14(EnRu2* this, PlayState* play);
+void EnRu2_DrawNothing(EnRu2* this, PlayState* play);
 void func_80AF3F20(EnRu2* this, PlayState* play);
 void func_80AF321C(EnRu2* this, PlayState* play);
 
@@ -74,7 +74,7 @@ static EnRu2ActionFunc sActionFuncs[] = {
 };
 
 static EnRu2DrawFunc sDrawFuncs[] = {
-    func_80AF3F14,
+    EnRu2_DrawNothing,
     func_80AF3F20,
     func_80AF321C,
 };
@@ -804,7 +804,7 @@ void EnRu2_Init(Actor* thisx, PlayState* play) {
     this->unk_2C3 = TEXT_STATE_DONE_FADING;
 }
 
-void func_80AF3F14(EnRu2* this, PlayState* play) {
+void EnRu2_DrawNothing(EnRu2* this, PlayState* play) {
 }
 
 void func_80AF3F20(EnRu2* this, PlayState* play) {

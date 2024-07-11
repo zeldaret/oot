@@ -12,7 +12,7 @@
 void BgSpot17Funen_Init(Actor* thisx, PlayState* play);
 void BgSpot17Funen_Destroy(Actor* thisx, PlayState* play);
 void BgSpot17Funen_Update(Actor* thisx, PlayState* play);
-void func_808B746C(Actor* thisx, PlayState* play);
+void BgSpot17Funen_DoNothing(Actor* thisx, PlayState* play);
 void func_808B7478(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Spot17_Funen_InitVars = {
@@ -45,10 +45,10 @@ void BgSpot17Funen_Update(Actor* thisx, PlayState* play) {
     BgSpot17Funen* this = (BgSpot17Funen*)thisx;
 
     this->actor.draw = func_808B7478;
-    this->actor.update = func_808B746C;
+    this->actor.update = BgSpot17Funen_DoNothing;
 }
 
-void func_808B746C(Actor* thisx, PlayState* play) {
+void BgSpot17Funen_DoNothing(Actor* thisx, PlayState* play) {
 }
 
 void func_808B7478(Actor* thisx, PlayState* play) {

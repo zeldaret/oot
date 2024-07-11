@@ -56,9 +56,9 @@ void func_80B51C64(EnZl2* this, PlayState* play);
 void func_80B51CA8(EnZl2* this, PlayState* play);
 void func_80B52068(EnZl2* this, PlayState* play);
 void func_80B52098(EnZl2* this, PlayState* play);
-void func_80B52108(EnZl2* this, PlayState* play);
+void EnZl2_NoOp(EnZl2* this, PlayState* play);
 void func_80B521A0(EnZl2* this, PlayState* play);
-void func_80B523BC(EnZl2* this, PlayState* play);
+void EnZl2_DrawNothing(EnZl2* this, PlayState* play);
 void func_80B523C8(EnZl2* this, PlayState* play);
 void func_80B525D4(EnZl2* this, PlayState* play);
 
@@ -74,7 +74,7 @@ static EnZl2ActionFunc sActionFuncs[] = {
     func_80B50F38, func_80B50F8C, func_80B50FE8, func_80B51034, func_80B51080, func_80B510CC,
     func_80B51118, func_80B51164, func_80B511B0, func_80B511FC, func_80B51250, func_80B512B8,
     func_80B51310, func_80B51A5C, func_80B51A8C, func_80B51AE4, func_80B51B44, func_80B51BA8,
-    func_80B51C0C, func_80B51C64, func_80B51CA8, func_80B52068, func_80B52098, func_80B52108,
+    func_80B51C0C, func_80B51C64, func_80B51CA8, func_80B52068, func_80B52098, EnZl2_NoOp,
 };
 
 static OverrideLimbDraw sOverrideLimbDrawFuncs[] = {
@@ -82,7 +82,7 @@ static OverrideLimbDraw sOverrideLimbDrawFuncs[] = {
 };
 
 static EnZl2DrawFunc sDrawFuncs[] = {
-    func_80B523BC,
+    EnZl2_DrawNothing,
     func_80B523C8,
     func_80B525D4,
 };
@@ -1563,7 +1563,7 @@ void func_80B52098(EnZl2* this, PlayState* play) {
     func_80B51DA4(this, play);
 }
 
-void func_80B52108(EnZl2* this, PlayState* play) {
+void EnZl2_NoOp(EnZl2* this, PlayState* play) {
 }
 
 void func_80B52114(EnZl2* this, PlayState* play) {
@@ -1647,7 +1647,7 @@ s32 EnZl2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     return sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig](play, limbIndex, dList, pos, rot, thisx, gfx);
 }
 
-void func_80B523BC(EnZl2* this, PlayState* play) {
+void EnZl2_DrawNothing(EnZl2* this, PlayState* play) {
 }
 
 void func_80B523C8(EnZl2* this, PlayState* play) {

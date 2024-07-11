@@ -1036,7 +1036,7 @@ void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3);
 void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 tlutMode,
                            u16 tlutCount, f32 offsetX, f32 offsetY);
-void func_80096FD4(PlayState* play, Room* room);
+void Room_Clear(PlayState* play, Room* room);
 u32 func_80096FE8(PlayState* play, RoomContext* roomCtx);
 s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum);
 s32 func_800973FC(PlayState* play, RoomContext* roomCtx);
@@ -1558,7 +1558,7 @@ size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, voi
 // ? func_800FCAB4(?);
 void SystemHeap_Init(void* start, u32 size);
 void PadUtils_Init(Input* input);
-void func_800FCB70(void);
+void PadUtils_NoOp(void);
 void PadUtils_ResetPressRel(Input* input);
 u32 PadUtils_CheckCurExact(Input* input, u16 value);
 u32 PadUtils_CheckCur(Input* input, u16 key);
