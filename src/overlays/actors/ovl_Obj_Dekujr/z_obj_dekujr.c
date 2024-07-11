@@ -63,7 +63,7 @@ void ObjDekujr_Init(Actor* thisx, PlayState* play) {
         sCylinderInit.base.actor = thisx;
         Collider_SetCylinderToActor(play, &this->collider, &sCylinderInit);
         thisx->colChkInfo.mass = MASS_IMMOVABLE;
-        thisx->textId = Actor_GetTextID(play, 0xF);
+        thisx->textId = NpcImpl_GetTextID(play, 0xF);
         Actor_SetScale(thisx, 0.4f);
     }
 }
@@ -150,7 +150,7 @@ void ObjDekujr_Update(Actor* thisx, PlayState* play) {
         this->actor.world.pos.y += this->actor.velocity.y;
         this->actor.world.pos.z += this->actor.velocity.z;
     } else {
-        Actor_TalkUpdate(play, &this->actor, 0xF, &this->unk_1A0);
+        NpcImpl_UpdateTalking(play, &this->actor, 0xF, &this->talkState);
         Actor_SetFocus(&this->actor, 40.0f);
     }
 }

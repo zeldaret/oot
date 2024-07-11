@@ -13,7 +13,7 @@ typedef struct ObjDekujr {
     /* 0x019B */ u8 unk_19B;
     /* 0x019C */ u8 unk_19C;
     /* 0x019D */ char unk_19D[0x3];
-    /* 0x01A0 */ s32 unk_1A0;
+    /* 0x01A0 */ s32 talkState;
 } ObjDekujr; // size = 0x01A4
 
 #endif
