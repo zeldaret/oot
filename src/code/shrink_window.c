@@ -13,7 +13,7 @@ s32 sLetterboxSize = 0;
 
 void Letterbox_SetSizeTarget(s32 target) {
     if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
-        osSyncPrintf("shrink_window_setval(%d)\n", target);
+        PRINTF("shrink_window_setval(%d)\n", target);
     }
 
     sLetterboxSizeTarget = target;
@@ -25,7 +25,7 @@ u32 Letterbox_GetSizeTarget(void) {
 
 void Letterbox_SetSize(s32 size) {
     if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
-        osSyncPrintf("shrink_window_setnowval(%d)\n", size);
+        PRINTF("shrink_window_setnowval(%d)\n", size);
     }
 
     sLetterboxSize = size;
@@ -37,7 +37,7 @@ u32 Letterbox_GetSize(void) {
 
 void Letterbox_Init(void) {
     if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
-        osSyncPrintf("shrink_window_init()\n");
+        PRINTF("shrink_window_init()\n");
     }
 
     sLetterboxState = LETTERBOX_STATE_IDLE;
@@ -47,7 +47,7 @@ void Letterbox_Init(void) {
 
 void Letterbox_Destroy(void) {
     if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
-        osSyncPrintf("shrink_window_cleanup()\n");
+        PRINTF("shrink_window_cleanup()\n");
     }
 
     sLetterboxSize = 0;
@@ -86,7 +86,7 @@ void Letterbox_Update(s32 updateRate) {
         sLetterboxState = LETTERBOX_STATE_IDLE;
     }
 
-    if (R_HREG_MODE == HREG_MODE_LETTERBOX) {
+    if (OOT_DEBUG && (R_HREG_MODE == HREG_MODE_LETTERBOX)) {
         if (R_LETTERBOX_INIT != HREG_MODE_LETTERBOX) {
             R_LETTERBOX_INIT = HREG_MODE_LETTERBOX;
             R_LETTERBOX_ENABLE_LOGS = 0;

@@ -20,15 +20,15 @@ void func_8087B284(BgGndSoulmeiro* this, PlayState* play);
 void func_8087B350(BgGndSoulmeiro* this, PlayState* play);
 
 ActorInit Bg_Gnd_Soulmeiro_InitVars = {
-    ACTOR_BG_GND_SOULMEIRO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndSoulmeiro),
-    (ActorFunc)BgGndSoulmeiro_Init,
-    (ActorFunc)BgGndSoulmeiro_Destroy,
-    (ActorFunc)BgGndSoulmeiro_Update,
-    (ActorFunc)BgGndSoulmeiro_Draw,
+    /**/ ACTOR_BG_GND_SOULMEIRO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndSoulmeiro),
+    /**/ BgGndSoulmeiro_Init,
+    /**/ BgGndSoulmeiro_Destroy,
+    /**/ BgGndSoulmeiro_Update,
+    /**/ BgGndSoulmeiro_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -44,8 +44,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0x00020800, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 50, 20, 20, { 0, 0, 0 } },
@@ -125,15 +125,18 @@ void func_8087AF38(BgGndSoulmeiro* this, PlayState* play) {
     } else if ((this->unk_198 % 6) == 0) {
         s32 i;
         s16 temp_2 = Rand_ZeroOne() * (10922.0f); // This should be: 0x10000 / 6.0f
+        s16 temp_1;
+        f32 temp_3;
+        f32 temp_4;
+        f32 distXZ;
 
         vecA.y = 0.0f;
         vecB.y = thisx->world.pos.y;
 
         for (i = 0; i < 6; i++) {
-            s16 temp_1 = Rand_CenteredFloat(0x2800) + temp_2;
-            f32 temp_3 = Math_SinS(temp_1);
-            f32 temp_4 = Math_CosS(temp_1);
-            f32 distXZ;
+            temp_1 = Rand_CenteredFloat(0x2800) + temp_2;
+            temp_3 = Math_SinS(temp_1);
+            temp_4 = Math_CosS(temp_1);
 
             vecB.x = thisx->world.pos.x + (120.0f * temp_3);
             vecB.z = thisx->world.pos.z + (120.0f * temp_4);
@@ -203,7 +206,7 @@ void BgGndSoulmeiro_Draw(Actor* thisx, PlayState* play) {
         case 0:
             OPEN_DISPS(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 398);
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 400),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 400),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, dLists[params]);
             CLOSE_DISPS(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 403);

@@ -2,21 +2,8 @@
 #define Z64CUTSCENE_H
 
 #include "ultra64.h"
+#include "z64math.h"
 
-/**
- * Special type for blocks of cutscene data, asm-processor checks
- * arrays for CutsceneData type and converts floats within the array
- * to their IEEE-754 representation. The array must close with };
- * on its own line.
- *
- * Files that contain this type that are included in other C files
- * must be preceded by a '#pragma asmproc recurse' qualifier to
- * inform asm-processor that it must recursively process that include.
- *
- * Example:
- * #pragma asmproc recurse
- * #include "file.c"
- */
 typedef union CutsceneData {
     s32 i;
     f32 f;
@@ -493,10 +480,6 @@ typedef union {
 
 #define CS_CAM_CONTINUE 0
 #define CS_CAM_STOP -1
-
-// todo: remove after ZAPD is updated
-#define CS_CMD_CONTINUE CS_CAM_CONTINUE
-#define CS_CMD_STOP CS_CAM_STOP
 
 #define CS_CAM_DATA_NOT_APPLIED 0xFFFF
 

@@ -31,15 +31,15 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play);
 void EnFd_Land(EnFd* this, PlayState* play);
 
 ActorInit En_Fd_InitVars = {
-    ACTOR_EN_FD,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FW,
-    sizeof(EnFd),
-    (ActorFunc)EnFd_Init,
-    (ActorFunc)EnFd_Destroy,
-    (ActorFunc)EnFd_Update,
-    (ActorFunc)EnFd_Draw,
+    /**/ ACTOR_EN_FD,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FW,
+    /**/ sizeof(EnFd),
+    /**/ EnFd_Init,
+    /**/ EnFd_Destroy,
+    /**/ EnFd_Update,
+    /**/ EnFd_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
@@ -48,8 +48,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040088, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 21, { { 1600, 0, 0 }, 5 }, 300 },
@@ -59,8 +59,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 12, { { 1600, 0, 0 }, 5 }, 400 },
@@ -70,8 +70,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 14, { { 800, 0, 0 }, 4 }, 300 },
@@ -81,8 +81,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 15, { { 1600, 0, 0 }, 4 }, 300 },
@@ -92,8 +92,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 16, { { 2000, 0, 0 }, 4 }, 300 },
@@ -103,8 +103,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 17, { { 800, 0, 0 }, 4 }, 300 },
@@ -114,8 +114,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 18, { { 1600, 0, 0 }, 4 }, 300 },
@@ -125,8 +125,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 19, { { 2000, 0, 0 }, 4 }, 300 },
@@ -136,8 +136,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 4, { { 2200, 0, 0 }, 4 }, 400 },
@@ -147,8 +147,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 4, { { 5000, 0, 0 }, 4 }, 300 },
@@ -158,8 +158,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 8, { { 2200, 0, 0 }, 4 }, 400 },
@@ -169,8 +169,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 8, { { 5000, 0, 0 }, 4 }, 300 },
@@ -275,15 +275,15 @@ s32 EnFd_CheckHammer(EnFd* this, PlayState* play) {
 
 s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    ColliderInfo* info;
+    ColliderElement* elem;
 
     if (this->collider.base.acFlags & AC_HIT || EnFd_CheckHammer(this, play)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
-        info = &this->collider.elements[0].info;
-        if (info->acHitInfo != NULL && (info->acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
+        elem = &this->collider.elements[0].base;
+        if (elem->acHitElem != NULL && (elem->acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
             return false;
         }
 
@@ -773,11 +773,11 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
         if (1) {}
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        clampedHealth = CLAMP(thisx->colChkInfo.health - 1, 0, 23);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth / 8].r, primColors[clampedHealth / 8].g,
-                        primColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
-        gDPSetEnvColor(POLY_XLU_DISP++, envColors[clampedHealth / 8].r, envColors[clampedHealth / 8].g,
-                       envColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
+        clampedHealth = CLAMP(thisx->colChkInfo.health - 1, 0, 23) / 8;
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth].r, primColors[clampedHealth].g,
+                        primColors[clampedHealth].b, (u8)this->fadeAlpha);
+        gDPSetEnvColor(POLY_XLU_DISP++, envColors[clampedHealth].r, envColors[clampedHealth].g,
+                       envColors[clampedHealth].b, (u8)this->fadeAlpha);
         gSPSegment(POLY_XLU_DISP++, 0x8,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                     0xFF - (u8)(frames * 6), 8, 0x40));
@@ -875,35 +875,41 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
     static void* dustTextures[] = {
         gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
-    s32 materialFlag;
     s16 i;
     s16 idx;
+    STACK_PAD(s16);
+    s16 materialFlag;
     EnFdEffect* eff = this->effects;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fd.c", 1969);
+
     materialFlag = false;
-    if (1) {}
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+
     for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
-        if (eff->type == FD_EFFECT_FLAME) {
-            if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
-                gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
-                materialFlag = true;
-            }
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
-            gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fd.c", 2006),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            idx = eff->timer * (8.0f / eff->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
-            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
+        if (eff->type != FD_EFFECT_FLAME) {
+            continue;
         }
+
+        if (!materialFlag) {
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
+            materialFlag = true;
+        }
+
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2006),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        idx = eff->timer * (8.0f / eff->initialTimer);
+        gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
+        gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
     }
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fd.c", 2020);
 }
 
@@ -918,23 +924,25 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
-        if (eff->type == FD_EFFECT_DOT) {
-            if (!materialFlag) {
-                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_79F8);
-                materialFlag = true;
-            }
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b,
-                            (u8)(eff->color.a * (this->fadeAlpha / 255.0f)));
-            gDPPipeSync(POLY_XLU_DISP++);
-            if (1) {}
-            Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fd.c", 2064),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
+        if (eff->type != FD_EFFECT_DOT) {
+            continue;
         }
+
+        if (!materialFlag) {
+            Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_79F8);
+            materialFlag = true;
+        }
+
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b,
+                        (u8)(eff->color.a * (this->fadeAlpha / 255.0f)));
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2064),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fd.c", 2071);

@@ -19,15 +19,15 @@ void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play);
 void EnHorseZelda_SetupStop(EnHorseZelda* this);
 
 ActorInit En_Horse_Zelda_InitVars = {
-    ACTOR_EN_HORSE_ZELDA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HORSE_ZELDA,
-    sizeof(EnHorseZelda),
-    (ActorFunc)EnHorseZelda_Init,
-    (ActorFunc)EnHorseZelda_Destroy,
-    (ActorFunc)EnHorseZelda_Update,
-    (ActorFunc)EnHorseZelda_Draw,
+    /**/ ACTOR_EN_HORSE_ZELDA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HORSE_ZELDA,
+    /**/ sizeof(EnHorseZelda),
+    /**/ EnHorseZelda_Init,
+    /**/ EnHorseZelda_Destroy,
+    /**/ EnHorseZelda_Update,
+    /**/ EnHorseZelda_Draw,
 };
 
 static AnimationHeader* sAnimationHeaders[] = { &gHorseZeldaGallopingAnim };
@@ -46,8 +46,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 40, 100, 0, { 0, 0, 0 } },
@@ -59,8 +59,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 13, { { 0, 0, 0 }, 20 }, 100 },

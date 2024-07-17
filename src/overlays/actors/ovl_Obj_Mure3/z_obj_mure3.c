@@ -20,15 +20,15 @@ void func_80B9AFEC(ObjMure3* this);
 void func_80B9AFFC(ObjMure3* this, PlayState* play);
 
 ActorInit Obj_Mure3_InitVars = {
-    ACTOR_OBJ_MURE3,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjMure3),
-    (ActorFunc)ObjMure3_Init,
-    (ActorFunc)ObjMure3_Destroy,
-    (ActorFunc)ObjMure3_Update,
-    NULL,
+    /**/ ACTOR_OBJ_MURE3,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjMure3),
+    /**/ ObjMure3_Init,
+    /**/ ObjMure3_Destroy,
+    /**/ ObjMure3_Update,
+    /**/ NULL,
 };
 
 static s16 sRupeeCounts[] = { 5, 5, 7, 0 };
@@ -106,9 +106,10 @@ void func_80B9ABA0(ObjMure3* this, PlayState* play) {
 void func_80B9ACE4(ObjMure3* this, PlayState* play) {
     s16 count = sRupeeCounts[(this->actor.params >> 13) & 7];
     s32 i;
+    EnItem00** collectible;
 
     for (i = 0; i < count; i++) {
-        EnItem00** collectible = &this->unk_150[i];
+        collectible = &this->unk_150[i];
 
         if (!((this->unk_16C >> i) & 1) && (*collectible != NULL)) {
             if (Actor_HasParent(&(*collectible)->actor, play) || ((*collectible)->actor.update == NULL)) {

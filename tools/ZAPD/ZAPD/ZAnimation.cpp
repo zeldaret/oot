@@ -153,7 +153,10 @@ size_t ZLinkAnimation::GetRawDataSize() const
 
 std::string ZLinkAnimation::GetSourceTypeName() const
 {
-	return "LinkAnimationHeader";
+	if (Globals::Instance->game == ZGame::MM_RETAIL)
+		return "PlayerAnimationHeader";
+	else
+		return "LinkAnimationHeader";
 }
 
 void ZLinkAnimation::ParseRawData()
@@ -174,8 +177,8 @@ std::string ZLinkAnimation::GetBodySourceCode() const
 
 /* ZCurveAnimation */
 
-TransformData::TransformData(ZFile* parent, const std::vector<uint8_t>& rawData,
-                             uint32_t fileOffset)
+CurveInterpKnot::CurveInterpKnot(ZFile* parent, const std::vector<uint8_t>& rawData,
+                                 uint32_t fileOffset)
 	: parent(parent)
 {
 	unk_00 = BitConverter::ToUInt16BE(rawData, fileOffset + 0);
@@ -185,26 +188,26 @@ TransformData::TransformData(ZFile* parent, const std::vector<uint8_t>& rawData,
 	unk_08 = BitConverter::ToFloatBE(rawData, fileOffset + 8);
 }
 
-TransformData::TransformData(ZFile* parent, const std::vector<uint8_t>& rawData,
-                             uint32_t fileOffset, size_t index)
-	: TransformData(parent, rawData, fileOffset + index * GetRawDataSize())
+CurveInterpKnot::CurveInterpKnot(ZFile* parent, const std::vector<uint8_t>& rawData,
+                                 uint32_t fileOffset, size_t index)
+	: CurveInterpKnot(parent, rawData, fileOffset + index * GetRawDataSize())
 {
 }
 
-std::string TransformData::GetBody([[maybe_unused]] const std::string& prefix) const
+std::string CurveInterpKnot::GetBody([[maybe_unused]] const std::string& prefix) const
 {
 	return StringHelper::Sprintf("0x%04X, 0x%04X, %i, %i, %ff", unk_00, unk_02, unk_04, unk_06,
 	                             unk_08);
 }
 
-size_t TransformData::GetRawDataSize() const
+size_t CurveInterpKnot::GetRawDataSize() const
 {
 	return 0x0C;
 }
 
-std::string TransformData::GetSourceTypeName()
+std::string CurveInterpKnot::GetSourceTypeName()
 {
-	return "TransformData";
+	return "CurveInterpKnot";
 }
 
 ZCurveAnimation::ZCurveAnimation(ZFile* nParent) : ZAnimation(nParent)
@@ -300,7 +303,7 @@ void ZCurveAnimation::DeclareReferences(const std::string& prefix)
 		}
 		else
 		{
-			decl->text = entryStr;
+			decl->declBody = entryStr;
 		}
 	}
 
@@ -331,7 +334,7 @@ void ZCurveAnimation::DeclareReferences(const std::string& prefix)
 		}
 		else
 		{
-			decl->text = entryStr;
+			decl->declBody = entryStr;
 		}
 	}
 
@@ -359,7 +362,7 @@ void ZCurveAnimation::DeclareReferences(const std::string& prefix)
 		}
 		else
 		{
-			decl->text = entryStr;
+			decl->declBody = entryStr;
 		}
 	}
 }
@@ -369,7 +372,7 @@ std::string ZCurveAnimation::GetBodySourceCode() const
 	std::string refIndexStr;
 	Globals::Instance->GetSegmentedPtrName(refIndex, parent, "u8", refIndexStr);
 	std::string transformDataStr;
-	Globals::Instance->GetSegmentedPtrName(transformData, parent, "TransformData",
+	Globals::Instance->GetSegmentedPtrName(transformData, parent, "CurveInterpKnot",
 	                                       transformDataStr);
 	std::string copyValuesStr;
 	Globals::Instance->GetSegmentedPtrName(copyValues, parent, "s16", copyValuesStr);
@@ -390,7 +393,7 @@ DeclarationAlignment ZCurveAnimation::GetDeclarationAlignment() const
 
 std::string ZCurveAnimation::GetSourceTypeName() const
 {
-	return "TransformUpdateIndex";
+	return "CurveAnimationHeader";
 }
 
 /* ZLegacyAnimation */
@@ -423,7 +426,7 @@ void ZLegacyAnimation::ParseRawData()
 		ptr = jointKeyOffset;
 		for (int32_t i = 0; i < limbCount + 1; i++)
 		{
-			JointKey key(parent);
+			LegacyJointKey key(parent);
 			key.ExtractFromFile(ptr);
 
 			jointKeyArray.push_back(key);
@@ -495,7 +498,7 @@ std::string ZLegacyAnimation::GetBodySourceCode() const
 	std::string frameDataName;
 	std::string jointKeyName;
 	Globals::Instance->GetSegmentedPtrName(frameData, parent, "s16", frameDataName);
-	Globals::Instance->GetSegmentedPtrName(jointKey, parent, "JointKey", jointKeyName);
+	Globals::Instance->GetSegmentedPtrName(jointKey, parent, "LegacyJointKey", jointKeyName);
 
 	body += StringHelper::Sprintf("\t%i, %i,\n", frameCount, limbCount);
 	body += StringHelper::Sprintf("\t%s,\n", frameDataName.c_str());
@@ -514,11 +517,11 @@ size_t ZLegacyAnimation::GetRawDataSize() const
 	return 0x0C;
 }
 
-JointKey::JointKey(ZFile* nParent) : ZResource(nParent)
+LegacyJointKey::LegacyJointKey(ZFile* nParent) : ZResource(nParent)
 {
 }
 
-void JointKey::ParseRawData()
+void LegacyJointKey::ParseRawData()
 {
 	ZResource::ParseRawData();
 
@@ -531,23 +534,23 @@ void JointKey::ParseRawData()
 	z = BitConverter::ToInt16BE(rawData, rawDataIndex + 0x0A);
 }
 
-std::string JointKey::GetBodySourceCode() const
+std::string LegacyJointKey::GetBodySourceCode() const
 {
 	return StringHelper::Sprintf("%6i, %6i, %6i, %6i, %6i, %6i", xMax, x, yMax, y, zMax, z);
 }
 
-std::string JointKey::GetSourceTypeName() const
+std::string LegacyJointKey::GetSourceTypeName() const
 {
-	return "JointKey";
+	return "LegacyJointKey";
 }
 
-ZResourceType JointKey::GetResourceType() const
+ZResourceType LegacyJointKey::GetResourceType() const
 {
 	// TODO
 	return ZResourceType::Error;
 }
 
-size_t JointKey::GetRawDataSize() const
+size_t LegacyJointKey::GetRawDataSize() const
 {
 	return 0x0C;
 }

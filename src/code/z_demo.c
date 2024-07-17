@@ -3,6 +3,8 @@
 #include "z64camera.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
+
+#include "assets/scenes/overworld/ganon_tou/ganon_tou_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
@@ -24,7 +26,6 @@
 #include "assets/scenes/dungeons/ddan/ddan_scene.h"
 #include "assets/scenes/dungeons/ydan/ydan_scene.h"
 #include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
-#include "assets/scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 
@@ -119,6 +120,10 @@ u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
+// For retail BSS ordering, the block number of sReturnToCamId must be greater
+// than that of gCamAtPointAppliedFrame (declared in variables.h).
+#pragma increment_block_number 180
+
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
 
@@ -130,6 +135,7 @@ s16 sQuakeIndex;
 
 void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx);
 
+#if OOT_DEBUG
 void Cutscene_DrawDebugInfo(UNUSED PlayState* play, Gfx** dlist, CutsceneContext* csCtx) {
     GfxPrint printer;
     STACK_PADS(s32, 2);
@@ -149,6 +155,7 @@ void Cutscene_DrawDebugInfo(UNUSED PlayState* play, Gfx** dlist, CutsceneContext
     *dlist = GfxPrint_Close(&printer);
     GfxPrint_Destroy(&printer);
 }
+#endif
 
 void Cutscene_InitContext(UNUSED PlayState* play, CutsceneContext* csCtx) {
     csCtx->state = CS_STATE_IDLE;
@@ -173,27 +180,31 @@ void Cutscene_UpdateManual(PlayState* play, CutsceneContext* csCtx) {
 }
 
 void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx) {
-    Input* input = &play->state.input[0];
+#if OOT_DEBUG
+    {
+        Input* input = &play->state.input[0];
 
-    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER) {
-        gUseCutsceneCam = false;
-        gSaveContext.save.cutsceneIndex = 0xFFFD;
-        gSaveContext.cutsceneTrigger = 1;
-    }
+        if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER) {
+            gUseCutsceneCam = false;
+            gSaveContext.save.cutsceneIndex = 0xFFFD;
+            gSaveContext.cutsceneTrigger = 1;
+        }
 
-    if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER &&
-        !gDebugCamEnabled) {
-        gUseCutsceneCam = true;
-        gSaveContext.save.cutsceneIndex = 0xFFFD;
-        gSaveContext.cutsceneTrigger = 1;
+        if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER &&
+            !gDebugCamEnabled) {
+            gUseCutsceneCam = true;
+            gSaveContext.save.cutsceneIndex = 0xFFFD;
+            gSaveContext.cutsceneTrigger = 1;
+        }
     }
+#endif
 
     if ((gSaveContext.cutsceneTrigger != 0) && (play->transitionTrigger == TRANS_TRIGGER_START)) {
         gSaveContext.cutsceneTrigger = 0;
     }
 
     if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE)) {
-        osSyncPrintf("\nデモ開始要求 発令！"); // "Cutscene start request announcement!"
+        PRINTF("\nデモ開始要求 発令！"); // "Cutscene start request announcement!"
         gSaveContext.save.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
@@ -562,13 +573,13 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
     }
 
     if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped ||
-        ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
+        (OOT_DEBUG && (csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_RUN_UNSTOPPABLE;
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
 
-        osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->destination); // "Future fork designation=No. [%d]"
+        PRINTF("\n分岐先指定！！=[%d]番", cmd->destination); // "Future fork designation=No. [%d]"
 
         // `forceRisingButtonAlphas` has a secondary purpose, which is to signal to the title screen actor
         // that it should display immediately. This occurs when a title screen cutscene that is not the main
@@ -717,7 +728,9 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION:
-                SET_EVENTCHKINF(EVENTCHKINF_4F);
+#if OOT_DEBUG
+                SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
+#endif
                 play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_4;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_BLACK;
@@ -886,7 +899,9 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION_ALT:
-                SET_EVENTCHKINF(EVENTCHKINF_4F);
+#if OOT_DEBUG
+                SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
+#endif
                 play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_4;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
@@ -941,8 +956,10 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_GERUDO_VALLEY_CREDITS:
+#if OOT_DEBUG
                 gSaveContext.gameMode = GAMEMODE_END_CREDITS;
                 Audio_SetSfxBanksMute(0x6F);
+#endif
                 play->linkAgeOnLoad = LINK_AGE_CHILD;
                 play->nextEntranceIndex = ENTR_GERUDO_VALLEY_0;
                 gSaveContext.save.cutsceneIndex = 0xFFF2;
@@ -1530,7 +1547,7 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
             csCtx->camEyeSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
@@ -1569,7 +1586,7 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
             gCamAtSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
@@ -1616,7 +1633,7 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, U
 
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
                 roll = csCtx->camAtPoints->cameraRoll * 1.40625f;
                 Camera_SetViewParam(subCam, CAM_VIEW_ROLL, &roll);
@@ -1664,7 +1681,7 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, UN
 
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
                 at.x = csCtx->camAtPoints->pos.x;
                 at.y = csCtx->camAtPoints->pos.y;
@@ -1779,10 +1796,12 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
         return;
     }
 
+#if OOT_DEBUG
     if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_DRIGHT)) {
         csCtx->state = CS_STATE_STOP;
         return;
     }
+#endif
 
     for (i = 0; i < totalEntries; i++) {
         MemCpy(&cmdType, script, sizeof(cmdType));
@@ -2189,35 +2208,38 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
 }
 
 void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
-    Gfx* displayList;
-    Gfx* prevDisplayList;
-
-    if (0) {} // Necessary to match
-
     if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
-        if (0) {} // Also necessary to match
-
+#if OOT_DEBUG
         if (BREG(0) != 0) {
+            Gfx* displayList;
+            Gfx* prevDisplayList;
+
             OPEN_DISPS(play->state.gfxCtx, "../z_demo.c", 4101);
 
             prevDisplayList = POLY_OPA_DISP;
-            displayList = Graph_GfxPlusOne(POLY_OPA_DISP);
+            displayList = Gfx_Open(POLY_OPA_DISP);
             gSPDisplayList(OVERLAY_DISP++, displayList);
             Cutscene_DrawDebugInfo(play, &displayList, csCtx);
             gSPEndDisplayList(displayList++);
-            Graph_BranchDlist(prevDisplayList, displayList);
+            Gfx_Close(prevDisplayList, displayList);
             POLY_OPA_DISP = displayList;
 
+            if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_demo.c", 4108);
         }
+#endif
 
         csCtx->curFrame++;
 
+#if OOT_DEBUG
         if (R_USE_DEBUG_CUTSCENE) {
             Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScript);
         } else {
             Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
         }
+#else
+        Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
+#endif
     }
 }
 
@@ -2238,7 +2260,7 @@ void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
             csCtx->actorCues[i] = NULL;
         }
 
-        osSyncPrintf("\n\n\n\n\nやっぱりここかいな"); // "Right here, huh"
+        PRINTF("\n\n\n\n\nやっぱりここかいな"); // "Right here, huh"
 
         gSaveContext.save.cutsceneIndex = 0;
         gSaveContext.gameMode = GAMEMODE_NORMAL;
@@ -2254,7 +2276,7 @@ void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
 
             Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_ACTIVE);
             Play_ClearCamera(play, csCtx->subCamId);
-            func_8005B1A4(play->cameraPtrs[sReturnToCamId]);
+            Camera_SetFinishedFlag(play->cameraPtrs[sReturnToCamId]);
         }
 
         Audio_SetCutsceneFlag(0);
@@ -2363,7 +2385,7 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
 }
 
 void Cutscene_HandleConditionalTriggers(PlayState* play) {
-    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
+    PRINTF("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
 
     if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (gSaveContext.respawnFlag <= 0) &&
         (gSaveContext.save.cutsceneIndex < 0xFFF0)) {

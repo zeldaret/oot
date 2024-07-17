@@ -49,7 +49,7 @@ typedef struct {
 // flags for flags_vIB
 #define COLPOLY_IS_FLOOR_CONVEYOR (1 << 0)
 
-typedef struct {
+typedef struct CollisionPoly {
     /* 0x00 */ u16 type;
     union {
         u16 vtxData[3];
@@ -71,10 +71,6 @@ typedef struct {
     /* 0x2 */ s16 count; // only used when `bgCamFuncData` is a list of points used for crawlspaces
     /* 0x4 */ Vec3s* bgCamFuncData; // s16 data grouped in threes (ex. Vec3s), is usually of type `BgCamFuncData`, but can be a list of points of type `Vec3s` for crawlspaces
 } BgCamInfo; // size = 0x8
-
-// ZAPD compatibility typedefs
-// TODO: Remove when ZAPD adds support for them
-typedef BgCamInfo CamData;
 
 // The structure used for all instances of s16 data from `BgCamInfo` with the exception of crawlspaces.
 // See `Camera_Subj4` for Vec3s data usage in crawlspaces

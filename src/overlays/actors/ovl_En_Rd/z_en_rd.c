@@ -53,15 +53,15 @@ typedef enum {
 } EnRdGrabState;
 
 ActorInit En_Rd_InitVars = {
-    ACTOR_EN_RD,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_RD,
-    sizeof(EnRd),
-    (ActorFunc)EnRd_Init,
-    (ActorFunc)EnRd_Destroy,
-    (ActorFunc)EnRd_Update,
-    (ActorFunc)EnRd_Draw,
+    /**/ ACTOR_EN_RD,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_RD,
+    /**/ sizeof(EnRd),
+    /**/ EnRd_Init,
+    /**/ EnRd_Destroy,
+    /**/ EnRd_Update,
+    /**/ EnRd_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -77,8 +77,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_NONE,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -181,7 +181,7 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.params == REDEAD_TYPE_INVISIBLE) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
@@ -466,10 +466,12 @@ void EnRd_SetupWalkToParent(EnRd* this) {
  * fade away.
  */
 void EnRd_WalkToParent(EnRd* this, PlayState* play) {
+    STACK_PAD(s32);
+    s16 targetY;
+    Vec3f parentPos;
+
     if (this->actor.parent != NULL) {
-        STACK_PAD(s32);
-        s16 targetY;
-        Vec3f parentPos = this->actor.parent->world.pos;
+        parentPos = this->actor.parent->world.pos;
 
         targetY = Actor_WorldYawTowardPoint(&this->actor, &parentPos);
 
@@ -801,7 +803,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
         this->damageEffect = this->actor.colChkInfo.damageEffect;
 
         if (this->action != REDEAD_ACTION_RISE_FROM_COFFIN) {
-            Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+            Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }
@@ -991,6 +993,8 @@ void EnRd_Draw(Actor* thisx, PlayState* play) {
 
         func_80033C30(&thisPos, &sShadowScale, this->alpha, play);
     }
+
+    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_rd.c", 1735);
 }

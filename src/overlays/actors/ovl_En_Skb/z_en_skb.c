@@ -46,8 +46,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 15, { { 0, 0, 0 }, 10 }, 100 },
@@ -57,8 +57,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 1, { { 0, 0, 0 }, 20 }, 100 },
@@ -114,15 +114,15 @@ static DamageTable sDamageTable = {
 };
 
 ActorInit En_Skb_InitVars = {
-    ACTOR_EN_SKB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SKB,
-    sizeof(EnSkb),
-    (ActorFunc)EnSkb_Init,
-    (ActorFunc)EnSkb_Destroy,
-    (ActorFunc)EnSkb_Update,
-    (ActorFunc)EnSkb_Draw,
+    /**/ ACTOR_EN_SKB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SKB,
+    /**/ sizeof(EnSkb),
+    /**/ EnSkb_Init,
+    /**/ EnSkb_Destroy,
+    /**/ EnSkb_Update,
+    /**/ EnSkb_Draw,
 };
 
 void EnSkb_SetupAction(EnSkb* this, EnSkbActionFunc actionFunc) {
@@ -450,7 +450,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
 
     if ((this->actionState != SKB_BEHAVIOR_DYING) &&
         (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
-        (this->actor.yDistToWater >= 40.0f)) {
+        (this->actor.depthInWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->setColliderAT = false;
         EnSkb_SetupDeath(this, play);
@@ -459,7 +459,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
             this->collider.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, true);
+                Actor_SetDropFlag(&this->actor, &this->collider.elements[1].base, true);
                 this->setColliderAT = false;
                 if (this->actor.colChkInfo.damageEffect == 1) {
                     if (this->actionState != SKB_BEHAVIOR_STUNNED) {
@@ -531,10 +531,10 @@ void EnSkb_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
 
-s32 EnSkb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnSkb_OverrideLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSkb* this = (EnSkb*)thisx;
+    PlayState* play = (PlayState*)play2;
     s16 color;
-    STACK_PADS(s16, 2);
 
     if (limbIndex == 11) {
         if ((this->breakFlags & 2) == 0) { // head limb, head is still attached
@@ -558,9 +558,9 @@ void EnSkb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     Collider_UpdateSpheres(limbIndex, &this->collider);
 
     if ((this->breakFlags ^ 1) == 0) {
-        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 11, 12, 18, dList, BODYBREAK_OBJECT_DEFAULT);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 11, 12, 18, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
     } else if ((this->breakFlags ^ (this->breakFlags | 4)) == 0) {
-        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 18, 18, dList, BODYBREAK_OBJECT_DEFAULT);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 18, 18, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
     }
 }
 

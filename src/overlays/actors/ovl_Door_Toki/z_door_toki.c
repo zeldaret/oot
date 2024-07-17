@@ -14,15 +14,15 @@ void DoorToki_Destroy(Actor* thisx, PlayState* play);
 void DoorToki_Update(Actor* thisx, PlayState* play);
 
 ActorInit Door_Toki_InitVars = {
-    ACTOR_DOOR_TOKI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_TOKI_OBJECTS,
-    sizeof(DoorToki),
-    (ActorFunc)DoorToki_Init,
-    (ActorFunc)DoorToki_Destroy,
-    (ActorFunc)DoorToki_Update,
-    NULL,
+    /**/ ACTOR_DOOR_TOKI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_TOKI_OBJECTS,
+    /**/ sizeof(DoorToki),
+    /**/ DoorToki_Init,
+    /**/ DoorToki_Destroy,
+    /**/ DoorToki_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {

@@ -61,7 +61,7 @@ s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s
     }
     *curFrame += advance;
     if (*curFrame >= 1) {
-        if (point[++*keyFrame + 3].continueFlag == CS_CMD_STOP) {
+        if (point[++*keyFrame + 3].continueFlag == CS_CAM_STOP) {
             *keyFrame = 0;
             ret = true;
         }

@@ -61,7 +61,7 @@ void func_80862FA8(EnTest* this, PlayState* play);
 
 s32 EnTest_ReactToProjectile(PlayState* play, EnTest* this);
 
-static u8 sJointCopyFlags[] = {
+static u8 sUpperBodyLimbCopyMap[] = {
     false, // STALFOS_LIMB_NONE
     false, // STALFOS_LIMB_ROOT
     false, // STALFOS_LIMB_UPPERBODY_ROOT
@@ -126,15 +126,15 @@ static u8 sJointCopyFlags[] = {
 };
 
 ActorInit En_Test_InitVars = {
-    ACTOR_EN_TEST,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SK2,
-    sizeof(EnTest),
-    (ActorFunc)EnTest_Init,
-    (ActorFunc)EnTest_Destroy,
-    (ActorFunc)EnTest_Update,
-    (ActorFunc)EnTest_Draw,
+    /**/ ACTOR_EN_TEST,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SK2,
+    /**/ sizeof(EnTest),
+    /**/ EnTest_Init,
+    /**/ EnTest_Destroy,
+    /**/ EnTest_Update,
+    /**/ EnTest_Draw,
 };
 
 static ColliderCylinderInit sBodyColliderInit = {
@@ -150,8 +150,8 @@ static ColliderCylinderInit sBodyColliderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 25, 65, 0, { 0, 0, 0 } },
@@ -170,8 +170,8 @@ static ColliderCylinderInit sShieldColliderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFC1FFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 20, 70, -50, { 0, 0, 0 } },
@@ -190,8 +190,8 @@ static ColliderQuadInit sSwordColliderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -306,7 +306,7 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
     }
 
     if (this->actor.params == STALFOS_TYPE_INVISIBLE) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
@@ -568,12 +568,11 @@ void EnTest_SetupWalkAndBlock(EnTest* this) {
 void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
     STACK_PAD(s32);
     f32 checkDist = 0.0f;
-    STACK_PAD(s32);
+    s32 absPlaySpeed;
     s32 prevFrame;
     s32 beforeCurFrame;
     f32 playSpeed;
     Player* player = GET_PLAYER(play);
-    s32 absPlaySpeed;
     s16 yawDiff;
 
     if (!EnTest_ReactToProjectile(play, this)) {
@@ -601,6 +600,8 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         }
 
         if (ABS(this->actor.speed) < 3.0f) {
+            STACK_PAD(s32);
+
             Animation_Change(&this->skelAnime, &gStalfosSlowAdvanceAnim, 0.0f, this->skelAnime.curFrame,
                              Animation_GetLastFrame(&gStalfosSlowAdvanceAnim), 0, -6.0f);
             playSpeed = this->actor.speed * 10.0f;
@@ -898,7 +899,7 @@ void EnTest_SetupSlashDown(EnTest* this) {
     this->unk_7C8 = 0x10;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashDown);
-    this->swordCollider.info.toucher.damage = 16;
+    this->swordCollider.elem.atDmgInfo.damage = 16;
 
     if (this->unk_7DE != 0) {
         this->unk_7DE = 3;
@@ -995,7 +996,7 @@ void EnTest_SetupSlashUp(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosUpSlashAnim);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x11;
-    this->swordCollider.info.toucher.damage = 16;
+    this->swordCollider.elem.atDmgInfo.damage = 16;
     this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashUp);
 
@@ -1084,7 +1085,7 @@ void EnTest_SetupJumpslash(EnTest* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     EnTest_SetupAction(this, EnTest_Jumpslash);
-    this->swordCollider.info.toucher.damage = 32;
+    this->swordCollider.elem.atDmgInfo.damage = 32;
 
     if (this->unk_7DE != 0) {
         this->unk_7DE = 3;
@@ -1670,7 +1671,7 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
             }
             this->unk_7DC = player->unk_845;
             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, false);
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
             if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
@@ -1741,15 +1742,15 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
             case 1:
                 Animation_Change(&this->upperSkelanime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
                                  Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
-                AnimationContext_SetCopyTrue(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                AnimTaskQueue_AddCopyUsingMap(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                              this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 this->unk_7DE++;
                 break;
 
             case 2:
                 SkelAnime_Update(&this->upperSkelanime);
                 SkelAnime_CopyFrameTableTrue(&this->skelAnime, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                                             this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 break;
 
             case 3:
@@ -1768,7 +1769,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
                                            this->upperSkelanime.jointTable, this->skelAnime.jointTable,
                                            1.0f - (this->upperSkelanime.morphWeight / oldWeight));
                 SkelAnime_CopyFrameTableTrue(&this->skelAnime, this->skelAnime.jointTable,
-                                             this->upperSkelanime.jointTable, sJointCopyFlags);
+                                             this->upperSkelanime.jointTable, sUpperBodyLimbCopyMap);
                 break;
         }
 
@@ -1810,18 +1811,18 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
 
     if (this->actor.params == STALFOS_TYPE_INVISIBLE) {
         if (play->actorCtx.lensActive) {
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_7;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_REACT_TO_LENS;
             this->actor.shape.shadowDraw = ActorShadow_DrawFeet;
         } else {
-            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_7);
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_REACT_TO_LENS);
             this->actor.shape.shadowDraw = NULL;
         }
     }
 }
 
-s32 EnTest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnTest_OverrideLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnTest* this = (EnTest*)thisx;
-    STACK_PAD(s32);
+    PlayState* play = (PlayState*)play2;
 
     if (limbIndex == STALFOS_LIMB_HEAD_ROOT) {
         rot->x += this->headRot.y;
@@ -1836,7 +1837,8 @@ s32 EnTest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_test.c", 3587);
     }
 
-    if ((this->actor.params == STALFOS_TYPE_INVISIBLE) && !CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+    if ((this->actor.params == STALFOS_TYPE_INVISIBLE) &&
+        !CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
         *dList = NULL;
     }
 
@@ -1865,7 +1867,7 @@ void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
     STACK_PAD(s32);
     Vec3f sp50;
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
 
     if (limbIndex == STALFOS_LIMB_SWORD) {
         Matrix_MultVec3f(&D_8086467C, &this->swordCollider.dim.quad[1]);

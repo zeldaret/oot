@@ -16,15 +16,15 @@ void BgVbSima_Update(Actor* thisx, PlayState* play);
 void BgVbSima_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Vb_Sima_InitVars = {
-    ACTOR_BG_VB_SIMA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_FD,
-    sizeof(BgVbSima),
-    (ActorFunc)BgVbSima_Init,
-    (ActorFunc)BgVbSima_Destroy,
-    (ActorFunc)BgVbSima_Update,
-    (ActorFunc)BgVbSima_Draw,
+    /**/ ACTOR_BG_VB_SIMA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_FD,
+    /**/ sizeof(BgVbSima),
+    /**/ BgVbSima_Init,
+    /**/ BgVbSima_Destroy,
+    /**/ BgVbSima_Update,
+    /**/ BgVbSima_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -151,7 +151,7 @@ void BgVbSima_Update(Actor* thisx, PlayState* play) {
 void BgVbSima_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_vb_sima.c", 285);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_vb_sima.c", 291),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_vb_sima.c", 291),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gVolvagiaPlatformDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_vb_sima.c", 296);

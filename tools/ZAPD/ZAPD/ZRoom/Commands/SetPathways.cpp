@@ -24,7 +24,7 @@ void SetPathways::ParseRawDataLate()
 {
 	if (Globals::Instance->game == ZGame::MM_RETAIL)
 	{
-		auto numPaths = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 8;
+		auto numPaths = zRoom->parent->GetDeclarationSizeFromNeighbor(segmentOffset) / 8;
 		pathwayList.SetNumPaths(numPaths);
 	}
 

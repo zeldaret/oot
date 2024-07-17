@@ -21,9 +21,18 @@
  * when sometimes only the `startFrame` matters (as documented).
  */
 
+/**
+ * CMD_F expects an (IEEE 754) encoded float (colloquially "in hex", such as `0x42280000`),
+ * rather than a C float literal (such as `42.0f`).
+ * Float literals cannot be used because cutscenes are arrays of union type CutsceneData, which may contain integers and floats.
+ * Regardless of CutsceneData having a float member, initializing with a float will cast the float to s32.
+ * Designated initializers (added in C99) would solve this problem but are not supported by IDO (C89 and some extensions).
+ */
 #ifdef __GNUC__
+#define CS_FLOAT(ieee754bin, f) (f)
 #define CMD_F(a) {.f = (a)}
 #else
+#define CS_FLOAT(ieee754bin, f) (ieee754bin)
 #define CMD_F(a) {(a)}
 #endif
 
@@ -112,10 +121,10 @@
  * The lighting change will take place immediately with no blending.
  * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
-#define CS_LIGHT_SETTING(lightSetting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+#define CS_LIGHT_SETTING(lightSetting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
     CMD_BBH(0, (lightSetting + 1), startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
 /**
  * Declares a list of `CS_RUMBLE_CONTROLLER` entries.
@@ -270,51 +279,5 @@
 #define CS_UNK_DATA(unk1, unk2, unk3, unk4, unk5, unk6, unk7, unk8, unk9, unk10, unk11, unk12) \
     CMD_W(unk1), CMD_W(unk2), CMD_W(unk3), CMD_W(unk4), CMD_W(unk5), CMD_W(unk6), \
     CMD_W(unk7), CMD_W(unk8), CMD_W(unk9), CMD_W(unk10), CMD_W(unk11), CMD_W(unk12)
-
-// TODO: Fix ZAPD and delete these (everything to the end of the file)
-#define CS_CAM_POS_LIST                CS_CAM_EYE_SPLINE
-#define CS_CAM_POS                     CS_CAM_POINT
-#define CS_CAM_FOCUS_POINT_LIST        CS_CAM_AT_SPLINE
-#define CS_CAM_FOCUS_POINT             CS_CAM_POINT
-#define CS_CAM_POS_PLAYER_LIST         CS_CAM_EYE_SPLINE_REL_TO_PLAYER
-#define CS_CAM_POS_PLAYER              CS_CAM_POINT
-#define CS_CAM_FOCUS_POINT_PLAYER_LIST CS_CAM_AT_SPLINE_REL_TO_PLAYER
-#define CS_CAM_FOCUS_POINT_PLAYER      CS_CAM_POINT
-#define CS_NPC_ACTION_LIST             CS_ACTOR_CUE_LIST
-#define CS_NPC_ACTION                  CS_ACTOR_CUE
-#define CS_PLAYER_ACTION_LIST          CS_PLAYER_CUE_LIST
-#define CS_PLAYER_ACTION               CS_PLAYER_CUE
-#define CS_LIGHTING_LIST               CS_LIGHT_SETTING_LIST
-#define CS_CMD_09_LIST                 CS_RUMBLE_CONTROLLER_LIST
-#define CS_CMD_09                      CS_RUMBLE_CONTROLLER
-#define CS_TEXT_DISPLAY_TEXTBOX        CS_TEXT
-#define CS_TEXT_LEARN_SONG             CS_TEXT_OCARINA_ACTION
-#define CS_SCENE_TRANS_FX              CS_TRANSITION
-#define CS_PLAY_BGM_LIST               CS_START_SEQ_LIST
-#define CS_STOP_BGM_LIST               CS_STOP_SEQ_LIST
-#define CS_FADE_BGM_LIST               CS_FADE_OUT_SEQ_LIST
-#define CS_FADE_BGM                    CS_FADE_OUT_SEQ
-#define CS_TERMINATOR                  CS_DESTINATION
-
-// CS_TIME macro:
-// The last argument of the macro was removed, but ZAPD isn't aware
-// Passing 6 arguments to a 5-arguments macro works fine with IDO, so ignore this hack for IDO
-#ifndef __sgi
-// Only spot06_scene uses CS_TIME. Limit the hack to that file, so everything else can use the new macro
-#  ifdef SPOT06_SCENE_H
-#    undef CS_TIME
-#    define CS_TIME(unused0, startFrame, endFrame, hour, min, _unusedZapdCompatibilityArg) \
-        CMD_HH(unused0, startFrame), CMD_HBB(endFrame, hour, min), CMD_W(0)
-#  endif
-#endif
-
-#define CS_PLAY_BGM(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-CS_START_SEQ((seqId)-1, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7)
-
-#define CS_STOP_BGM(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
-CS_STOP_SEQ((seqId)-1, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8)
-
-#define CS_LIGHTING(lightSetting, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
-CS_LIGHT_SETTING((lightSetting)-1, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8)
 
 #endif

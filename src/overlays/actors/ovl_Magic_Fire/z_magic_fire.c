@@ -31,15 +31,15 @@ typedef enum {
 } MagicFireScreenTint;
 
 ActorInit Magic_Fire_InitVars = {
-    ACTOR_MAGIC_FIRE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(MagicFire),
-    (ActorFunc)MagicFire_Init,
-    (ActorFunc)MagicFire_Destroy,
-    (ActorFunc)MagicFire_Update,
-    (ActorFunc)MagicFire_Draw,
+    /**/ ACTOR_MAGIC_FIRE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(MagicFire),
+    /**/ MagicFire_Init,
+    /**/ MagicFire_Destroy,
+    /**/ MagicFire_Update,
+    /**/ MagicFire_Draw,
 };
 
 #include "assets/overlays/ovl_Magic_Fire/ovl_Magic_Fire.c"
@@ -57,8 +57,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00020000, 0x00, 0x01 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { 9, 9, 0, { 0, 0, 0 } },
@@ -133,9 +133,9 @@ void MagicFire_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->action == DF_ACTION_EXPAND_SLOWLY) {
-        this->collider.info.toucher.damage = this->actionTimer + 25;
+        this->collider.elem.atDmgInfo.damage = this->actionTimer + 25;
     } else if (this->action == DF_ACTION_STOP_EXPANDING) {
-        this->collider.info.toucher.damage = this->actionTimer;
+        this->collider.elem.atDmgInfo.damage = this->actionTimer;
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);
     this->collider.dim.radius = (this->actor.scale.x * 325.0f);
@@ -237,7 +237,7 @@ void MagicFire_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 255, 200, 0, (u8)(this->alphaMultiplier * 255));
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, (u8)(this->alphaMultiplier * 255));
         Matrix_Scale(0.15f, 0.15f, 0.15f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_magic_fire.c", 715),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_magic_fire.c", 715),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_XLU_DISP++);
         gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);

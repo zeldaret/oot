@@ -14,15 +14,15 @@ void EnVase_Destroy(Actor* thisx, PlayState* play);
 void EnVase_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Vase_InitVars = {
-    ACTOR_EN_VASE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_VASE,
-    sizeof(EnVase),
-    (ActorFunc)EnVase_Init,
-    (ActorFunc)EnVase_Destroy,
-    (ActorFunc)Actor_Noop,
-    (ActorFunc)EnVase_Draw,
+    /**/ ACTOR_EN_VASE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_VASE,
+    /**/ sizeof(EnVase),
+    /**/ EnVase_Init,
+    /**/ EnVase_Destroy,
+    /**/ Actor_Noop,
+    /**/ EnVase_Draw,
 };
 
 void EnVase_Init(Actor* thisx, PlayState* play) {

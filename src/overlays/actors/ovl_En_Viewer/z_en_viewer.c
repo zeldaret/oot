@@ -32,15 +32,15 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play);
 static u8 sHorseSfxPlayed = false;
 
 ActorInit En_Viewer_InitVars = {
-    ACTOR_EN_VIEWER,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnViewer),
-    (ActorFunc)EnViewer_Init,
-    (ActorFunc)EnViewer_Destroy,
-    (ActorFunc)EnViewer_Update,
-    (ActorFunc)EnViewer_Draw,
+    /**/ ACTOR_EN_VIEWER,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnViewer),
+    /**/ EnViewer_Init,
+    /**/ EnViewer_Destroy,
+    /**/ EnViewer_Update,
+    /**/ EnViewer_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -123,7 +123,7 @@ void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, PlayState* play, void* sk
         SkelAnime_Init(play, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     }
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->animObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->animObjectSlot].segment);
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF ||
         type == ENVIEWER_TYPE_9_GANONDORF) {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 1.0f);
@@ -134,7 +134,7 @@ void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, PlayState* play, void* sk
 
 void EnViewer_InitAnimImpa(EnViewer* this, PlayState* play, void* skeletonHeaderSeg, AnimationHeader* anim) {
     SkelAnime_InitFlex(play, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->animObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->animObjectSlot].segment);
     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 3.0f);
 }
 
@@ -167,21 +167,21 @@ static ActorShadowFunc sShadowDrawFuncs[] = {
 
 void EnViewer_InitImpl(EnViewer* this, PlayState* play) {
     EnViewerInitData* initData = &sInitData[this->actor.params >> 8];
-    s32 skelObjBankIndex = Object_GetIndex(&play->objectCtx, initData->skeletonObject);
+    s32 skelObjectSlot = Object_GetSlot(&play->objectCtx, initData->skeletonObject);
 
-    ASSERT(skelObjBankIndex >= 0, "bank_ID >= 0", "../z_en_viewer.c", 576);
+    ASSERT(skelObjectSlot >= 0, "bank_ID >= 0", "../z_en_viewer.c", 576);
 
-    this->animObjBankIndex = Object_GetIndex(&play->objectCtx, initData->animObject);
-    ASSERT(this->animObjBankIndex >= 0, "this->anime_bank_ID >= 0", "../z_en_viewer.c", 579);
+    this->animObjectSlot = Object_GetSlot(&play->objectCtx, initData->animObject);
+    ASSERT(this->animObjectSlot >= 0, "this->anime_bank_ID >= 0", "../z_en_viewer.c", 579);
 
-    if (!Object_IsLoaded(&play->objectCtx, skelObjBankIndex) ||
-        !Object_IsLoaded(&play->objectCtx, this->animObjBankIndex)) {
+    if (!Object_IsLoaded(&play->objectCtx, skelObjectSlot) ||
+        !Object_IsLoaded(&play->objectCtx, this->animObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 
     this->isVisible = true;
-    this->actor.objBankIndex = skelObjBankIndex;
+    this->actor.objectSlot = skelObjectSlot;
     Actor_SetObjectDependency(play, &this->actor);
     Actor_SetScale(&this->actor, initData->scale / 100.0f);
     ActorShape_Init(&this->actor.shape, initData->yOffset * 100, sShadowDrawFuncs[initData->shadowType],
@@ -487,7 +487,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
 void EnViewer_Update(Actor* thisx, PlayState* play) {
     EnViewer* this = (EnViewer*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->animObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->animObjectSlot].segment);
     this->actionFunc(this, play);
 }
 
@@ -513,7 +513,7 @@ void EnViewer_Ganondorf9PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList
     if (limbIndex == GANONDORF_LIMB_JEWEL) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1365);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_viewer.c", 1370),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_viewer.c", 1370),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGanondorfEyesDL));
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1372);
@@ -859,7 +859,7 @@ void EnViewer_DrawFireEffects(EnViewer* this2, PlayState* play) {
                                     (10 * i - 20 * play->state.frames) % 512, 32, 128));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 170, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 00, 255);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_viewer.c", 2027),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_viewer.c", 2027),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
@@ -872,28 +872,29 @@ void EnViewer_UpdateGanondorfCape(PlayState* play, EnViewer* this) {
     Vec3f forearmModelOffset;
     Vec3f forearmWorldOffset;
 
-    if ((this->actor.params >> 8) == ENVIEWER_TYPE_5_GANONDORF) {
-        if (1) {}
-        sGanondorfCape->backPush = BREG(54) / 10.0f;
-        sGanondorfCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
-        sGanondorfCape->sideSwayMagnitude = (BREG(55) - 45) / 10.0f;
-        sGanondorfCape->minY = -10000.0f;
-        sGanondorfCape->minDist = 0.0f;
-        sGanondorfCape->gravity = (BREG(67) - 10) / 10.0f;
-        forearmModelOffset.x = KREG(16) - 13.0f;
-        forearmModelOffset.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
-        forearmModelOffset.z = KREG(18) - 10.0f;
-        yOscillationPhase += KREG(19) * 0x1000 + 0x2000;
-
-        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
-        Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
-        sGanondorfCape->rightForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
-        sGanondorfCape->rightForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
-        sGanondorfCape->rightForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
-        forearmModelOffset.x = -(KREG(16) - 13.0f);
-        Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
-        sGanondorfCape->leftForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
-        sGanondorfCape->leftForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
-        sGanondorfCape->leftForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
+    if ((this->actor.params >> 8) != ENVIEWER_TYPE_5_GANONDORF) {
+        return;
     }
+
+    sGanondorfCape->backPush = BREG(54) / 10.0f;
+    sGanondorfCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
+    sGanondorfCape->sideSwayMagnitude = (BREG(55) - 45) / 10.0f;
+    sGanondorfCape->minY = -10000.0f;
+    sGanondorfCape->minDist = 0.0f;
+    sGanondorfCape->gravity = (BREG(67) - 10) / 10.0f;
+    forearmModelOffset.x = KREG(16) - 13.0f;
+    forearmModelOffset.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
+    forearmModelOffset.z = KREG(18) - 10.0f;
+    yOscillationPhase += KREG(19) * 0x1000 + 0x2000;
+
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
+    Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+    sGanondorfCape->rightForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
+    sGanondorfCape->rightForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
+    sGanondorfCape->rightForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
+    forearmModelOffset.x = -(KREG(16) - 13.0f);
+    Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+    sGanondorfCape->leftForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
+    sGanondorfCape->leftForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
+    sGanondorfCape->leftForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
 }

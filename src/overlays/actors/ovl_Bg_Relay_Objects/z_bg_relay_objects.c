@@ -27,15 +27,15 @@ void func_808A932C(BgRelayObjects* this, PlayState* play);
 void func_808A939C(BgRelayObjects* this, PlayState* play);
 
 ActorInit Bg_Relay_Objects_InitVars = {
-    ACTOR_BG_RELAY_OBJECTS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_RELAY_OBJECTS,
-    sizeof(BgRelayObjects),
-    (ActorFunc)BgRelayObjects_Init,
-    (ActorFunc)BgRelayObjects_Destroy,
-    (ActorFunc)BgRelayObjects_Update,
-    (ActorFunc)BgRelayObjects_Draw,
+    /**/ ACTOR_BG_RELAY_OBJECTS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_RELAY_OBJECTS,
+    /**/ sizeof(BgRelayObjects),
+    /**/ BgRelayObjects_Init,
+    /**/ BgRelayObjects_Destroy,
+    /**/ BgRelayObjects_Update,
+    /**/ BgRelayObjects_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

@@ -19,15 +19,15 @@ s32 EnToryo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
 void EnToryo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 ActorInit En_Toryo_InitVars = {
-    ACTOR_EN_TORYO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TORYO,
-    sizeof(EnToryo),
-    (ActorFunc)EnToryo_Init,
-    (ActorFunc)EnToryo_Destroy,
-    (ActorFunc)EnToryo_Update,
-    (ActorFunc)EnToryo_Draw,
+    /**/ ACTOR_EN_TORYO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TORYO,
+    /**/ sizeof(EnToryo),
+    /**/ EnToryo_Init,
+    /**/ EnToryo_Destroy,
+    /**/ EnToryo_Update,
+    /**/ EnToryo_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -43,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 63, 0, { 0, 0, 0 } },
@@ -252,7 +252,7 @@ u32 EnToryo_ReactToExchangeItem(EnToryo* this, PlayState* play) {
 }
 
 s32 EnToryo_GetTextId(EnToryo* this, PlayState* play) {
-    s32 textId = Text_GetFaceReaction(play, 0);
+    s32 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CARPENTER_BOSS);
     s32 ret = textId;
 
     if (textId == 0) {
@@ -286,7 +286,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
     s16 posY;
 
     if (this->messageState == 3) {
-        Actor_ProcessTalkRequest(&this->actor, play);
+        Actor_TalkOfferAccepted(&this->actor, play);
         Message_ContinueTextbox(play, this->actor.textId);
         this->messageState = 1;
     }
@@ -316,7 +316,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
     }
 
     if (this->messageState == 0) {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->exchangeItemId = func_8002F368(play);
             if (this->exchangeItemId != EXCH_ITEM_NONE) {
                 player->actor.textId = EnToryo_ReactToExchangeItem(this, play);
@@ -329,7 +329,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &posX, &posY);
         if ((posX >= 0) && (posX <= SCREEN_WIDTH) && (posY >= 0) && (posY <= SCREEN_HEIGHT)) {
             this->actor.textId = EnToryo_GetTextId(this, play);
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_POACHERS_SAW);
+            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_POACHERS_SAW);
         }
     }
 }

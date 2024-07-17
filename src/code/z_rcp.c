@@ -907,8 +907,8 @@ Gfx* Gfx_SetupDL(Gfx* gfx, u32 i) {
     return Gfx_SetupDLImpl(gfx, i);
 }
 
-void Gfx_SetupDLAtPtr(Gfx** gfxp, u32 i) {
-    *gfxp = Gfx_SetupDL(*gfxp, i);
+void Gfx_SetupDLAtPtr(Gfx** gfxP, u32 i) {
+    *gfxP = Gfx_SetupDL(*gfxP, i);
 }
 
 Gfx* Gfx_SetupDL_57(Gfx* gfx) {
@@ -1193,11 +1193,11 @@ void Gfx_SetupDL_39Overlay(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1811);
 }
 
-void Gfx_SetupDL_39Ptr(Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void Gfx_SetupDL_39Ptr(Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
 
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_39]);
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 void Gfx_SetupDL_40Opa(GraphicsContext* gfxCtx) {
@@ -1246,23 +1246,33 @@ Gfx* Gfx_SetupDL_69NoCD(Gfx* gfx) {
     return gfx;
 }
 
+#if OOT_DEBUG
+#define HREG_21 HREG(21)
+#define HREG_22 HREG(22)
+#else
+#define HREG_21 0
+#define HREG_22 0
+#endif
+
 Gfx* func_800947AC(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_65]);
     gDPSetColorDither(gfx++, G_CD_DISABLE);
 
     // clang-format off
-    switch (HREG(21)) {
+    switch (HREG_21) {
         case 1: gDPSetAlphaDither(gfx++, G_AD_DISABLE); break;
         case 2: gDPSetAlphaDither(gfx++, G_AD_PATTERN); break;
         case 3: gDPSetAlphaDither(gfx++, G_AD_NOTPATTERN); break;
         case 4: gDPSetAlphaDither(gfx++, G_AD_NOISE); break;
+        default: break;
     }
 
-    switch (HREG(22)) {
+    switch (HREG_22) {
         case 1: gDPSetColorDither(gfx++, G_CD_DISABLE); break;
         case 2: gDPSetColorDither(gfx++, G_CD_MAGICSQ); break;
         case 3: gDPSetColorDither(gfx++, G_CD_BAYER); break;
         case 4: gDPSetColorDither(gfx++, G_CD_NOISE); break;
+        default: break;
     }
     // clang-format on
 
@@ -1345,12 +1355,12 @@ void Gfx_SetupDL_56Opa(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2090);
 }
 
-void Gfx_SetupDL_56Ptr(Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void Gfx_SetupDL_56Ptr(Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
 
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_56]);
 
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 void Gfx_SetupDL_59Opa(GraphicsContext* gfxCtx) {
@@ -1361,8 +1371,8 @@ void Gfx_SetupDL_59Opa(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2116);
 }
 
-Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
-    Gfx* displayList = Graph_DlistAlloc(gfxp, 3 * sizeof(Gfx));
+Gfx* Gfx_BranchTexScroll(Gfx** gfxP, u32 x, u32 y, s32 width, s32 height) {
+    Gfx* displayList = Gfx_Alloc(gfxP, 3 * sizeof(Gfx));
 
     gDPTileSync(displayList);
     gDPSetTileSize(displayList + 1, G_TX_RENDERTILE, x, y, x + ((width - 1) << 2), y + ((height - 1) << 2));
@@ -1371,8 +1381,8 @@ Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
     return displayList;
 }
 
-Gfx* func_80094E54(Gfx** gfxp, u32 x, u32 y) {
-    return Gfx_BranchTexScroll(gfxp, x, y, 0, 0);
+Gfx* func_80094E54(Gfx** gfxP, u32 x, u32 y) {
+    return Gfx_BranchTexScroll(gfxP, x, y, 0, 0);
 }
 
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y) {
@@ -1380,7 +1390,7 @@ Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y) {
 }
 
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 3 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 3 * sizeof(Gfx));
 
     x %= 512 << 2;
     y %= 512 << 2;
@@ -1394,7 +1404,7 @@ Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height)
 
 Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
                       u32 y2, s32 width2, s32 height2) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 5 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 5 * sizeof(Gfx));
 
     x1 %= 512 << 2;
     y1 %= 512 << 2;
@@ -1412,7 +1422,7 @@ Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 wi
 
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 6 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 6 * sizeof(Gfx));
 
     x1 %= 512 << 2;
     y1 %= 512 << 2;
@@ -1430,7 +1440,7 @@ Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1
 }
 
 Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
 
     gDPSetEnvColor(displayList, r, g, b, a);
     gSPEndDisplayList(displayList + 1);
@@ -1472,6 +1482,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     if ((R_PAUSE_BG_PRERENDER_STATE <= PAUSE_BG_PRERENDER_SETUP) && (gTransitionTileState <= TRANS_TILE_SETUP)) {
         s32 letterboxSize = Letterbox_GetSize();
 
+#if OOT_DEBUG
         if (R_HREG_MODE == HREG_MODE_SETUP_FRAME) {
             if (R_SETUP_FRAME_INIT != HREG_MODE_SETUP_FRAME) {
                 R_SETUP_FRAME_GET = (SETUP_FRAME_LETTERBOX_SIZE_FLAG | SETUP_FRAME_BASE_COLOR_FLAG);
@@ -1514,6 +1525,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
                 b = R_SETUP_FRAME_BASE_COLOR_B;
             }
         }
+#endif
 
         // Set the whole z buffer to maximum depth
         // Don't bother with pixels that are being covered by the letterbox

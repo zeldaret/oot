@@ -46,7 +46,7 @@ typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 
 #define DISAS_LOG        \
     if (this->enableLog) \
-    osSyncPrintf
+    PRINTF
 
 void* UCodeDisas_TranslateAddr(UCodeDisas* this, uintptr_t addr) {
     uintptr_t physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
@@ -69,7 +69,12 @@ F3dzexFlag sUCodeDisasMtxFlags[] = {
     F3DZEX_FLAG(G_MTX_PUSH, G_MTX_NOPUSH),
 };
 
-typedef enum { COMBINER_A = 1, COMBINER_B, COMBINER_C, COMBINER_D } CombinerArg;
+typedef enum {
+    COMBINER_A = 1,
+    COMBINER_B,
+    COMBINER_C,
+    COMBINER_D
+} CombinerArg;
 
 const char* UCodeDisas_GetCombineColorName(u32 value, u32 arg) {
     const char* ret = "?";
@@ -283,14 +288,14 @@ void UCodeDisas_PrintRenderMode(UCodeDisas* this, u32 mode) {
     b = (mode >> 16) & 0x3333;
 
     // clang-format off
-    if (this->enableLog == 0) {} else { osSyncPrintf("\nGBL_c1(%s, %s, %s, %s)|",
+    if (this->enableLog == 0) {} else { PRINTF("\nGBL_c1(%s, %s, %s, %s)|",
         sBlenderInputNames[0][a >> 12 & 3], sBlenderInputNames[1][a >> 8 & 3], sBlenderInputNames[2][a >> 4 & 3], sBlenderInputNames[3][a >> 0 & 3]);
     }
     // clang-format on
 
     if (this->enableLog) {
-        osSyncPrintf("\nGBL_c2(%s, %s, %s, %s)", sBlenderInputNames[0][b >> 12 & 3], sBlenderInputNames[1][b >> 8 & 3],
-                     sBlenderInputNames[2][b >> 4 & 3], sBlenderInputNames[3][b >> 0 & 3]);
+        PRINTF("\nGBL_c2(%s, %s, %s, %s)", sBlenderInputNames[0][b >> 12 & 3], sBlenderInputNames[1][b >> 8 & 3],
+               sBlenderInputNames[2][b >> 4 & 3], sBlenderInputNames[3][b >> 0 & 3]);
     }
 }
 

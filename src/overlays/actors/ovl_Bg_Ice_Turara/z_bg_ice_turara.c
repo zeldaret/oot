@@ -33,23 +33,23 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0x4FC007CA, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 13, 120, 0, { 0, 0, 0 } },
 };
 
 ActorInit Bg_Ice_Turara_InitVars = {
-    ACTOR_BG_ICE_TURARA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceTurara),
-    (ActorFunc)BgIceTurara_Init,
-    (ActorFunc)BgIceTurara_Destroy,
-    (ActorFunc)BgIceTurara_Update,
-    (ActorFunc)BgIceTurara_Draw,
+    /**/ ACTOR_BG_ICE_TURARA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceTurara),
+    /**/ BgIceTurara_Init,
+    /**/ BgIceTurara_Destroy,
+    /**/ BgIceTurara_Update,
+    /**/ BgIceTurara_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

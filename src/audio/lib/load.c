@@ -789,7 +789,7 @@ AudioTable* AudioLoad_GetLoadTable(s32 tableType) {
  * Also relocate offsets into pointers within this loaded soundFont
  *
  * @param fontId index of font being processed
- * @param fontData ram address of raw soundfont binary loaded into cache
+ * @param fontDataStartAddr ram address of raw soundfont binary loaded into cache
  * @param sampleBankReloc information on the sampleBank containing raw audio samples
  */
 void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, SampleBankRelocInfo* sampleBankReloc) {
@@ -811,7 +811,6 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
 
     // The first u32 in fontData is an offset to a list of offsets to the drums
     soundListOffset = fontData[0];
-    if (1) {}
 
     // If the soundFont has drums
     if ((soundListOffset != 0) && (numDrums != 0)) {
@@ -824,20 +823,24 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
             soundOffset = (u32)((Drum**)fontData[0])[i];
 
             // Some drum data entries are empty, represented by an offset of 0 in the list of drum offsets
-            if (soundOffset != 0) {
-                soundOffset = RELOC_TO_RAM(soundOffset);
-                ((Drum**)fontData[0])[i] = drum = (Drum*)soundOffset;
-
-                // The drum may be in the list multiple times and already relocated
-                if (!drum->isRelocated) {
-                    AudioLoad_RelocateSample(&drum->tunedSample, fontDataStartAddr, sampleBankReloc);
-
-                    soundOffset = (u32)drum->envelope;
-                    drum->envelope = (EnvelopePoint*)RELOC_TO_RAM(soundOffset);
-
-                    drum->isRelocated = true;
-                }
+            if (soundOffset == 0) {
+                continue;
             }
+
+            soundOffset = RELOC_TO_RAM(soundOffset);
+            ((Drum**)fontData[0])[i] = drum = (Drum*)soundOffset;
+
+            // The drum may be in the list multiple times and already relocated
+            if (drum->isRelocated) {
+                continue;
+            }
+
+            AudioLoad_RelocateSample(&drum->tunedSample, fontDataStartAddr, sampleBankReloc);
+
+            soundOffset = (u32)drum->envelope;
+            drum->envelope = (EnvelopePoint*)RELOC_TO_RAM(soundOffset);
+
+            drum->isRelocated = true;
         }
     }
 
@@ -845,7 +848,6 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
 
     // The second u32 in fontData is an offset to the first sound effect entry
     soundListOffset = fontData[1];
-    if (1) {}
 
     // If the soundFont has sound effects
     if ((soundListOffset != 0) && (numSfx != 0)) {
@@ -859,9 +861,11 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
             soundEffect = (SoundEffect*)soundOffset;
 
             // Check for NULL (note: the pointer is guaranteed to be in fontData and can never be NULL)
-            if ((soundEffect != NULL) && ((u32)soundEffect->tunedSample.sample != 0)) {
-                AudioLoad_RelocateSample(&soundEffect->tunedSample, fontDataStartAddr, sampleBankReloc);
+            if ((soundEffect == NULL) || ((u32)soundEffect->tunedSample.sample == 0)) {
+                continue;
             }
+
+            AudioLoad_RelocateSample(&soundEffect->tunedSample, fontDataStartAddr, sampleBankReloc);
         }
     }
 
@@ -1122,37 +1126,48 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     void* ramAddr;
     s32 i;
 
-    D_801755D0 = NULL;
+    gAudioCustomUpdateFunction = NULL;
     gAudioCtx.resetTimer = 0;
 
     {
         s32 i;
         u8* audioContextPtr = (u8*)&gAudioCtx;
 
+#ifndef AVOID_UB
+        //! @bug This clearing loop sets one extra byte to 0 following gAudioCtx.
+        //! In practice this is harmless as it would set the most significant byte in gAudioCustomUpdateFunction to 0,
+        //! which was just reset to NULL above.
         for (i = sizeof(gAudioCtx); i >= 0; i--) {
             *audioContextPtr++ = 0;
         }
+#else
+        // Avoid out-of-bounds variable access
+        for (i = sizeof(gAudioCtx); i > 0; i--) {
+            *audioContextPtr++ = 0;
+        }
+#endif
     }
 
+    // 1000 is a conversion from seconds to milliseconds
     switch (osTvType) {
         case OS_TV_PAL:
-            gAudioCtx.unk_2960 = 20.03042f;
-            gAudioCtx.refreshRate = 50;
+            gAudioCtx.maxTempoTvTypeFactors = 1000 * REFRESH_RATE_DEVIATION_PAL / REFRESH_RATE_PAL;
+            gAudioCtx.refreshRate = REFRESH_RATE_PAL;
             break;
 
         case OS_TV_MPAL:
-            gAudioCtx.unk_2960 = 16.546f;
-            gAudioCtx.refreshRate = 60;
+            gAudioCtx.maxTempoTvTypeFactors = 1000 * REFRESH_RATE_DEVIATION_MPAL / REFRESH_RATE_MPAL;
+            gAudioCtx.refreshRate = REFRESH_RATE_MPAL;
             break;
 
         case OS_TV_NTSC:
         default:
-            gAudioCtx.unk_2960 = 16.713f;
-            gAudioCtx.refreshRate = 60;
+            gAudioCtx.maxTempoTvTypeFactors = 1000 * REFRESH_RATE_DEVIATION_NTSC / REFRESH_RATE_NTSC;
+            gAudioCtx.refreshRate = REFRESH_RATE_NTSC;
             break;
     }
 
-    Audio_InitMesgQueues();
+    AudioThread_InitMesgQueues();
 
     for (i = 0; i < 3; i++) {
         gAudioCtx.aiBufLengths[i] = 0xA0;
@@ -1205,7 +1220,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     gAudioCtx.numSequences = gAudioCtx.sequenceTable->numEntries;
 
-    gAudioCtx.audioResetSpecIdToLoad = 0;
+    gAudioCtx.specId = 0;
     gAudioCtx.resetStatus = 1; // Set reset to immediately initialize the audio heap
 
     AudioHeap_ResetStep();

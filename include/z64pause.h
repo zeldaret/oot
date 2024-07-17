@@ -20,6 +20,33 @@ typedef enum {
     /* 0x04 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
 
+// The XZ coordinates in which direction each pause page is at
+// e.g. the item page is in the -z direction
+/*
+ *      <   item   >
+ *
+ *   ^                ^
+ *              x
+ * equip     o-->    map
+ *           |
+ *   v     z v        v
+ *
+ *      <   quest  >
+ */
+#define PAUSE_ITEM_X (0)
+#define PAUSE_ITEM_Z (-1)
+#define PAUSE_MAP_X (1)
+#define PAUSE_MAP_Z (0)
+#define PAUSE_QUEST_X (0)
+#define PAUSE_QUEST_Z (1)
+#define PAUSE_EQUIP_X (-1)
+#define PAUSE_EQUIP_Z (0)
+
+// The pause camera looks at x=0,z=0,
+// with the eye being PAUSE_EYE_DIST away in the direction opposite to the active page,
+// which results in the camera being pointed (through x=0,z=0) towards the active page.
+#define PAUSE_EYE_DIST (64.0f)
+
 #define PAUSE_EQUIP_PLAYER_WIDTH 64
 #define PAUSE_EQUIP_PLAYER_HEIGHT 112
 
@@ -33,7 +60,7 @@ typedef enum {
     /*  3 */ PAUSE_STATE_INIT, // Load data and initialize/setup various things.
     /*  4 */ PAUSE_STATE_OPENING_1, // Animate the pause menu coming together with rotations and other animations.
     /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
-    /*  6 */ PAUSE_STATE_6, // Pause menu ready for player inputs.
+    /*  6 */ PAUSE_STATE_MAIN, // Pause menu ready for player inputs.
     /*  7 */ PAUSE_STATE_SAVE_PROMPT,  // Save prompt in the pause menu
     /*  8 */ PAUSE_STATE_8,
     /*  9 */ PAUSE_STATE_9,
@@ -54,6 +81,20 @@ typedef enum {
 
 #define IS_PAUSED(pauseCtx) \
     (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != 0))
+
+// Sub-states of PAUSE_STATE_MAIN
+typedef enum {
+    /* 0 */ PAUSE_MAIN_STATE_IDLE,
+    /* 1 */ PAUSE_MAIN_STATE_SWITCHING_PAGE,
+    /* 2 */ PAUSE_MAIN_STATE_2,
+    /* 3 */ PAUSE_MAIN_STATE_3,
+    /* 4 */ PAUSE_MAIN_STATE_4,
+    /* 5 */ PAUSE_MAIN_STATE_5,
+    /* 6 */ PAUSE_MAIN_STATE_6,
+    /* 7 */ PAUSE_MAIN_STATE_7,
+    /* 8 */ PAUSE_MAIN_STATE_8,
+    /* 9 */ PAUSE_MAIN_STATE_9
+} PauseMainState;
 
 typedef struct {
     /* 0x0000 */ View view;
@@ -83,10 +124,10 @@ typedef struct {
     /* 0x01D4 */ u16 state;
     /* 0x01D6 */ u16 debugState;
     /* 0x01D8 */ Vec3f eye;
-    /* 0x01E4 */ u16 unk_1E4;
-    /* 0x01E6 */ u16 mode;
+    /* 0x01E4 */ u16 mainState;
+    /* 0x01E6 */ u16 nextPageMode; // During a page switch, indicates the page before switching and the direction to scroll in. Value is `(2 * prev pageIndex) + (scroll left ? 1 : 0)`
     /* 0x01E8 */ u16 pageIndex; // "kscp_pos"
-    /* 0x01EA */ u16 unk_1EA;
+    /* 0x01EA */ u16 pageSwitchTimer;
     /* 0x01EC */ u16 unk_1EC;
     /* 0x01F0 */ f32 unk_1F0;
     /* 0x01F4 */ f32 unk_1F4;
@@ -125,7 +166,7 @@ typedef struct {
     /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 
-// Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
+// Note that z_kaleido_scope.c assumes that the dimensions and texture format here also matches the dimensions and
 // texture format for ITEM_NAME_TEX_*
 #define MAP_NAME_TEX1_WIDTH 128
 #define MAP_NAME_TEX1_HEIGHT 16

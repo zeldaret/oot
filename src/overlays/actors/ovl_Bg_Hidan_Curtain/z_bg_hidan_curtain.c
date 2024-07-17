@@ -42,8 +42,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 81, 144, 0, { 0, 0, 0 } },
@@ -54,15 +54,15 @@ static CollisionCheckInfoInit sCcInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
 static BgHidanCurtainParams sHCParams[] = { { 81, 144, 0.090f, 144.0f, 5.0f }, { 46, 88, 0.055f, 88.0f, 3.0f } };
 
 ActorInit Bg_Hidan_Curtain_InitVars = {
-    ACTOR_BG_HIDAN_CURTAIN,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgHidanCurtain),
-    (ActorFunc)BgHidanCurtain_Init,
-    (ActorFunc)BgHidanCurtain_Destroy,
-    (ActorFunc)BgHidanCurtain_Update,
-    (ActorFunc)BgHidanCurtain_Draw,
+    /**/ ACTOR_BG_HIDAN_CURTAIN,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgHidanCurtain),
+    /**/ BgHidanCurtain_Init,
+    /**/ BgHidanCurtain_Destroy,
+    /**/ BgHidanCurtain_Update,
+    /**/ BgHidanCurtain_Draw,
 };
 
 void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
@@ -70,13 +70,13 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
     BgHidanCurtain* this = (BgHidanCurtain*)thisx;
     BgHidanCurtainParams* hcParams;
 
-    osSyncPrintf("Curtain (arg_data 0x%04x)\n", this->actor.params);
+    PRINTF("Curtain (arg_data 0x%04x)\n", this->actor.params);
     Actor_SetFocus(&this->actor, 20.0f);
     this->type = (thisx->params >> 0xC) & 0xF;
     if (this->type > 6) {
         // "Type is not set"
-        osSyncPrintf("Error : object のタイプが設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_hidan_curtain.c",
-                     352, this->actor.params);
+        PRINTF("Error : object のタイプが設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_hidan_curtain.c", 352,
+               this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -86,11 +86,12 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
     this->treasureFlag = (thisx->params >> 6) & 0x3F;
     thisx->params &= 0x3F;
 
-    if ((this->actor.params < 0) || (this->actor.params > 0x3F)) {
+    if (OOT_DEBUG && ((this->actor.params < 0) || (this->actor.params > 0x3F))) {
         // "Save bit is not set"
-        osSyncPrintf("Warning : object のセーブビットが設定されていない(%s %d)(arg_data 0x%04x)\n",
-                     "../z_bg_hidan_curtain.c", 373, this->actor.params);
+        PRINTF("Warning : object のセーブビットが設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_hidan_curtain.c",
+               373, this->actor.params);
     }
+
     Actor_SetScale(&this->actor, hcParams->scale);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -252,7 +253,7 @@ void BgHidanCurtain_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, this->texScroll & 0x7F, 0, 0x20, 0x40, 1, 0,
                                 (this->texScroll * -0xF) & 0xFF, 0x20, 0x40));
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_curtain.c", 698),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_curtain.c", 698),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_XLU_DISP++, gEffFireCircleDL);

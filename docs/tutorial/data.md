@@ -94,15 +94,15 @@ s32 D_80B18910[] = { 0x0A000039, 0x20010000, 0x00000000, 0x00000000, 0x00000000,
 s32 D_80B1893C[] = { 0x00000000, 0x00000000, 0xFF000000 };
 
 ActorInit En_Tg_InitVars = {
-    ACTOR_EN_TG,
-    ACTORTYPE_NPC,
-    FLAGS,
-    OBJECT_MU,
-    sizeof(EnTg),
-    (ActorFunc)EnTg_Init,
-    (ActorFunc)EnTg_Destroy,
-    (ActorFunc)EnTg_Update,
-    (ActorFunc)EnTg_Draw,
+    /**/ ACTOR_EN_TG,
+    /**/ ACTORTYPE_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MU,
+    /**/ sizeof(EnTg),
+    /**/ EnTg_Init,
+    /**/ EnTg_Destroy,
+    /**/ EnTg_Update,
+    /**/ EnTg_Draw,
 };
 
 s32 D_80B18968[] = { 0x00000000, 0x44480000, 0x00000000, 0x00000000, 0x00000000, 0x00000000 };
@@ -118,18 +118,18 @@ Now, open the file called `spec` in the base directory, find the section corresp
 ```
 beginseg
     name "ovl_En_Tg"
-    include "build/src/overlays/actors/ovl_En_Tg/z_en_tg.o"
-    include "build/data/overlays/actors/z_en_tg.data.o"
-    include "build/data/overlays/actors/z_en_tg.reloc.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Tg/z_en_tg.o"
+    include "$(BUILD_DIR)/data/overlays/actors/z_en_tg.data.o"
+    include "$(BUILD_DIR)/data/overlays/actors/z_en_tg.reloc.o"
 endseg
 ```
 and comment out the .data line,
 ```
 beginseg
     name "ovl_En_Tg"
-    include "build/src/overlays/actors/ovl_En_Tg/z_en_tg.o"
-    //include "build/data/overlays/actors/z_en_tg.data.o"
-    include "build/data/overlays/actors/z_en_tg.reloc.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Tg/z_en_tg.o"
+    //include "$(BUILD_DIR)/data/overlays/actors/z_en_tg.data.o"
+    include "$(BUILD_DIR)/data/overlays/actors/z_en_tg.reloc.o"
 endseg
 ```
 to tell the compiler not to look for the data in that file any more. Now run `make -j`, and if you did both steps correctly, you should get `OK`.
@@ -262,18 +262,18 @@ First, we tell the compiler to ignore the original data file. To do this, open t
 ```
 beginseg
     name "ovl_En_Jj"
-    include "build/src/overlays/actors/ovl_En_Jj/z_en_jj.o"
-    include "build/data/overlays/actors/z_en_jj.data.o"
-    include "build/data/overlays/actors/z_en_jj.reloc.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Jj/z_en_jj.o"
+    include "$(BUILD_DIR)/data/overlays/actors/z_en_jj.data.o"
+    include "$(BUILD_DIR)/data/overlays/actors/z_en_jj.reloc.o"
 endseg
 ```
 We will eventually remove both of the bottom two lines and replace them with our own reloc file, but for now, just comment out the data line:
 ```
 beginseg
     name "ovl_En_Jj"
-    include "build/src/overlays/actors/ovl_En_Jj/z_en_jj.o"
-    //include "build/data/overlays/actors/z_en_jj.data.o"
-    include "build/data/overlays/actors/z_en_jj.reloc.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Jj/z_en_jj.o"
+    //include "$(BUILD_DIR)/data/overlays/actors/z_en_jj.data.o"
+    include "$(BUILD_DIR)/data/overlays/actors/z_en_jj.reloc.o"
 endseg
 ```
 
@@ -325,10 +325,10 @@ ovl_En_Jj: Rom 00E3E3D0:00E3F9E0 VRam 80A87800:80A88E10 Offset 000964
 static CutsceneData D_80A88164[] = {
     CS_BEGIN_CUTSCENE(26, 1629),
     CS_PLAYER_CUE_LIST(4),
-        CS_PLAYER_CUE(0x0005, 0, 240, 0x0000, 0x4000, 0x0000, -1732, 52, -44, -1732, 52, -44, 1.1393037197548209e-29f, 0.0f, 1.401298464324817e-45f),
-        CS_PLAYER_CUE(0x0003, 240, 255, 0x0000, 0x4000, 0x0000, -1732, 52, -44, -1732, 52, -44, 1.1393037197548209e-29f, 0.0f, 1.401298464324817e-45f),
-        CS_PLAYER_CUE(0x0006, 255, 285, 0x0000, 0x4000, 0x0000, -1732, 52, -44, -1732, 52, -44, 1.1393037197548209e-29f, 0.0f, 1.401298464324817e-45f),
-        CS_PLAYER_CUE(0x0020, 285, 300, 0x0000, 0xC000, 0x0000, -1732, 52, -44, -1537, 109, -44, 1.1393037197548209e-29f, 0.0f, 1.401298464324817e-45f),
+        CS_PLAYER_CUE(PLAYER_CUEID_5, 0, 240, 0x0000, 0x4000, 0x0000, -1732, 52, -44, -1732, 52, -44, 1.1393037197548209e-29f, 0.0f, 1.401298464324817e-45f),
+        CS_PLAYER_CUE(PLAYER_CUEID_3, 240, 255, 0x0000, 0x4000, 0x0000, -1732, 52, -44, -1732, 52, -44, 1.1393037197548209e-29f, 0.0f, 1.401298464324817e-45f),
+        CS_PLAYER_CUE(PLAYER_CUEID_6, 255, 285, 0x0000, 0x4000, 0x0000, -1732, 52, -44, -1732, 52, -44, 1.1393037197548209e-29f, 0.0f, 1.401298464324817e-45f),
+        CS_PLAYER_CUE(PLAYER_CUEID_32, 285, 300, 0x0000, 0xC000, 0x0000, -1732, 52, -44, -1537, 109, -44, 1.1393037197548209e-29f, 0.0f, 1.401298464324817e-45f),
     CS_ACTOR_CUE_LIST(68, 4),
         CS_ACTOR_CUE(0x0001, 0, 234, 0x0000, 0x4000, 0x0000, -1665, 52, -44, -1665, 52, -44, 1.1393037197548209e-29f, 0.0f, 1.401298464324817e-45f),
         CS_ACTOR_CUE(0x0002, 234, 241, 0x41F8, 0x0000, 0x0000, -1665, 52, -44, -1603, 130, -47, 8.857142448425293f, 11.142857551574707f, -8.857142448425293f),
@@ -348,7 +348,7 @@ static CutsceneData D_80A88164[] = {
         CS_MISC(0x000C, 1095, 1161, 0x0000, 0x00000000, 0xFFFFFFD2, 0x00000000, 0xFFFFFFD0, 0xFFFFFFD2, 0x00000000, 0xFFFFFFD0, 0x00000000, 0x00000000, 0x00000000),
     CS_TRANSITION(0x0009, 0, 10),
     CS_PLAYER_CUE_LIST(1),
-        CS_PLAYER_CUE(0x0035, 300, 1629, 0x0000, 0x0000, 0x0000, -1630, 52, -52, -1630, 52, -52, 0.0f, 0.0f, 0.0f),
+        CS_PLAYER_CUE(PLAYER_CUEID_53, 300, 1629, 0x0000, 0x0000, 0x0000, -1630, 52, -52, -1630, 52, -52, 0.0f, 0.0f, 0.0f),
     CS_CAM_EYE_SPLINE(0, 1091),
         CS_CAM_POINT(CS_CAM_CONTINUE, 0x00, 0, 45.39994430541992f, -1641, 95, -41, 0x015C),
         CS_CAM_POINT(CS_CAM_CONTINUE, 0x00, 0, 45.39994430541992f, -1641, 95, -41, 0x016D),
@@ -490,15 +490,15 @@ To replace the `extern`, because the data is in a separate file, we include the 
 Lastly, uncomment the InitVars block that's been sitting there the whole time. The data section of the file now looks like
 ```C
 ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORTYPE_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORTYPE_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
 
 #include "en_jj_cutscene_data.c" EARLY
@@ -557,7 +557,7 @@ Ignore the first line: `gDmaDataTable` is always different if the ROM is shifted
 
 To fix this, we use a binary diff program. A suitable one is `vbindiff`: run it on the baserom and the zelda_whatever one the compiler generates:
 ```
-vbindiff baserom.z64 zelda_ocarina_mq_dbg.z64
+vbindiff baseroms/gc-eu-mq-dbg/baserom-decompressed.z64 oot-gc-eu-mq-dbg.z64
 ```
 In this, press `g` to open up goto position, and paste in the address `0xE3ED10` from the first important line of the `first_diff` output. This gives us the following:
 
@@ -567,15 +567,15 @@ Notice that the numbers in the bottom pane is all shifted one word to the left. 
 
 ```C
 ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORTYPE_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORTYPE_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
 
 s32 usused = 0;
@@ -623,7 +623,7 @@ static ColliderCylinderInit sCylinderInit =
 
 Running `make -j` again,
 ```
-zelda_ocarina_mq_dbg.z64: OK
+oot-gc-eu-mq-dbg.z64: OK
 ```
 
 Hooray, we won!

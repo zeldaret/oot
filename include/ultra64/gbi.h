@@ -3,16 +3,16 @@
 #ifndef ULTRA64_GBI_H
 #define ULTRA64_GBI_H
 
+#ifdef GBI_DOWHILE
+/* Private macro to wrap other macros in do {...} while (0) */
+#define _DW(macro) do { macro } while (0)
+#else
+#define _DW(macro) { macro } (void)0
+#endif
+
 /* To enable Fast3DEX grucode support, define F3DEX_GBI. */
 
 /* Types */
-
-/* Private macro to wrap other macros in do {...} while (0) */
-#define _DW(macro) do {macro} while (0)
-
-#ifndef F3DEX_GBI
- #define F3DEX_GBI_2
-#endif
 
 #ifdef    F3DEX_GBI_2
 # ifndef  F3DEX_GBI
@@ -290,6 +290,9 @@
 #define G_TEXTURE_GEN           0x00040000
 #define G_TEXTURE_GEN_LINEAR    0x00080000
 #define G_LOD                   0x00100000  /* NOT IMPLEMENTED */
+#ifdef F3DEX_GBI_PL
+# define G_LIGHTING_POSITIONAL  0x00400000
+#endif
 #if (defined(F3DEX_GBI) || defined(F3DLP_GBI))
 # define G_CLIPPING             0x00800000
 #else
@@ -297,13 +300,16 @@
 #endif
 
 #ifdef _LANGUAGE_ASSEMBLY
-#define G_FOG_H                 (G_FOG/0x10000)
-#define G_LIGHTING_H            (G_LIGHTING/0x10000)
-#define G_TEXTURE_GEN_H         (G_TEXTURE_GEN/0x10000)
-#define G_TEXTURE_GEN_LINEAR_H  (G_TEXTURE_GEN_LINEAR/0x10000)
-#define G_LOD_H                 (G_LOD/0x10000) /* NOT IMPLEMENTED */
+# define G_FOG_H                    (G_FOG/0x10000)
+# define G_LIGHTING_H               (G_LIGHTING/0x10000)
+# define G_TEXTURE_GEN_H            (G_TEXTURE_GEN/0x10000)
+# define G_TEXTURE_GEN_LINEAR_H     (G_TEXTURE_GEN_LINEAR/0x10000)
+# define G_LOD_H                    (G_LOD/0x10000) /* NOT IMPLEMENTED */
+# ifdef F3DEX_GBI_PL
+#  define G_LIGHTING_POSITIONAL_H   (G_LIGHTING_POSITIONAL/0x10000)
+# endif
 # if (defined(F3DEX_GBI) || defined(F3DLP_GBI))
-#  define G_CLIPPING_H          (G_CLIPPING/0x10000)
+#  define G_CLIPPING_H              (G_CLIPPING/0x10000)
 # endif
 #endif
 
@@ -1309,6 +1315,17 @@ typedef struct {
     char          pad3;
 } Light_t;
 
+#ifdef F3DEX_GBI_PL
+typedef struct {
+    unsigned char col[3];   /* point light value (rgba) */
+    unsigned char kc;       /* constant attenuation (> 0 indicates point light) */
+    unsigned char colc[3];  /* copy of point light value (rgba) */
+    unsigned char kl;       /* linear attenuation */
+    short         pos[3];   /* world-space position of light */
+    unsigned char kq;       /* quadratic attenuation */
+} PointLight_t;
+#endif
+
 typedef struct {
     unsigned char col[3];   /* ambient light value (rgba) */
     char          pad1;
@@ -1325,7 +1342,10 @@ typedef struct {
 } Hilite_t;
 
 typedef union {
-    Light_t l;
+    Light_t         l;
+#ifdef F3DEX_GBI_PL
+    PointLight_t    p;
+#endif
     long long int force_structure_alignment[2];
 } Light;
 
@@ -1388,259 +1408,255 @@ typedef union {
     long int force_structure_alignment;
 } Hilite;
 
-#define gdSPDefLights0(ar, ag, ab)  \
-    {                               \
-        {{                          \
-            { ar, ag, ab }, 0,      \
-            { ar, ag, ab }, 0,      \
-        }},                         \
-        {                           \
-            {{                      \
-                { 0, 0, 0 }, 0,     \
-                { 0, 0, 0 }, 0,     \
-                { 0, 0, 0 }, 0,     \
-            }}                      \
-        }                           \
-    }
+#define gDefAmbient(r, g, b)    \
+    {{                          \
+        { (r), (g), (b) }, 0,   \
+        { (r), (g), (b) }, 0,   \
+    }}
 
-#define gdSPDefLights1(ar, ag, ab,              \
-                       r1, g1, b1, x1, y1, z1)  \
-    {                                           \
-        {{                                      \
-            { ar, ag, ab }, 0,                  \
-            { ar, ag, ab }, 0,                  \
-        }},                                     \
-        {                                       \
-            {{                                  \
-                { r1, g1, b1 }, 0,              \
-                { r1, g1, b1 }, 0,              \
-                { x1, y1, z1 }, 0,              \
-            }}                                  \
-        }                                       \
-    }
+#define gDefLight(r, g, b, x, y, z) \
+    {{                              \
+        { (r), (g), (b) }, 0,       \
+        { (r), (g), (b) }, 0,       \
+        { (x), (y), (z) }, 0,       \
+    }}
 
-#define gdSPDefLights2(ar, ag, ab,              \
-                       r1, g1, b1, x1, y1, z1,  \
-                       r2, g2, b2, x2, y2, z2)  \
-    {                                           \
-        {{                                      \
-            { ar, ag, ab }, 0,                  \
-            { ar, ag, ab }, 0,                  \
-        }},                                     \
-        {                                       \
-            {{                                  \
-                { r1, g1, b1 }, 0,              \
-                { r1, g1, b1 }, 0,              \
-                { x1, y1, z1 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r2, g2, b2 }, 0,              \
-                { r2, g2, b2 }, 0,              \
-                { x2, y2, z2 }, 0,              \
-            }}                                  \
-        }                                       \
-    }
+#define gdSPDefLights0(ar, ag, ab)                  \
+        {                                           \
+            gDefAmbient(ar, ag, ab),                \
+            {                                       \
+                gDefLight(0, 0, 0, 0, 0, 0),        \
+            }                                       \
+        }
 
-#define gdSPDefLights3(ar, ag, ab,              \
-                       r1, g1, b1, x1, y1, z1,  \
-                       r2, g2, b2, x2, y2, z2,  \
-                       r3, g3, b3, x3, y3, z3)  \
-    {                                           \
-        {{                                      \
-            { ar, ag, ab }, 0,                  \
-            { ar, ag, ab }, 0,                  \
-        }},                                     \
-        {                                       \
-            {{                                  \
-                { r1, g1, b1 }, 0,              \
-                { r1, g1, b1 }, 0,              \
-                { x1, y1, z1 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r2, g2, b2 }, 0,              \
-                { r2, g2, b2 }, 0,              \
-                { x2, y2, z2 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r3, g3, b3 }, 0,              \
-                { r3, g3, b3 }, 0,              \
-                { x3, y3, z3 }, 0,              \
-            }}                                  \
-        }                                       \
-    }
+#define gdSPDefLights1(ar, ag, ab,                  \
+                       r1, g1, b1, x1, y1, z1)      \
+        {                                           \
+            gDefAmbient(ar, ag, ab),                \
+            {                                       \
+                gDefLight(r1, g1, b1, x1, y1, z1),  \
+            }                                       \
+        }
 
-#define gdSPDefLights4(ar, ag, ab,              \
-                       r1, g1, b1, x1, y1, z1,  \
-                       r2, g2, b2, x2, y2, z2,  \
-                       r3, g3, b3, x3, y3, z3,  \
-                       r4, g4, b4, x4, y4, z4)  \
-    {                                           \
-        {{                                      \
-            { ar, ag, ab }, 0,                  \
-            { ar, ag, ab }, 0,                  \
-        }},                                     \
-        {                                       \
-            {{                                  \
-                { r1, g1, b1 }, 0,              \
-                { r1, g1, b1 }, 0,              \
-                { x1, y1, z1 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r2, g2, b2 }, 0,              \
-                { r2, g2, b2 }, 0,              \
-                { x2, y2, z2 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r3, g3, b3 }, 0,              \
-                { r3, g3, b3 }, 0,              \
-                { x3, y3, z3 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r4, g4, b4 }, 0,              \
-                { r4, g4, b4 }, 0,              \
-                { x4, y4, z4 }, 0,              \
-            }}                                  \
-        }                                       \
-    }
+#define gdSPDefLights2(ar, ag, ab,                  \
+                       r1, g1, b1, x1, y1, z1,      \
+                       r2, g2, b2, x2, y2, z2)      \
+        {                                           \
+            gDefAmbient(ar, ag, ab),                \
+            {                                       \
+                gDefLight(r1, g1, b1, x1, y1, z1),  \
+                gDefLight(r2, g2, b2, x2, y2, z2),  \
+            }                                       \
+        }
 
-#define gdSPDefLights5(ar, ag, ab,              \
-                       r1, g1, b1, x1, y1, z1,  \
-                       r2, g2, b2, x2, y2, z2,  \
-                       r3, g3, b3, x3, y3, z3,  \
-                       r4, g4, b4, x4, y4, z4,  \
-                       r5, g5, b5, x5, y5, z5)  \
-    {                                           \
-        {{                                      \
-            { ar, ag, ab }, 0,                  \
-            { ar, ag, ab }, 0,                  \
-        }},                                     \
-        {                                       \
-            {{                                  \
-                { r1, g1, b1 }, 0,              \
-                { r1, g1, b1 }, 0,              \
-                { x1, y1, z1 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r2, g2, b2 }, 0,              \
-                { r2, g2, b2 }, 0,              \
-                { x2, y2, z2 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r3, g3, b3 }, 0,              \
-                { r3, g3, b3 }, 0,              \
-                { x3, y3, z3 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r4, g4, b4 }, 0,              \
-                { r4, g4, b4 }, 0,              \
-                { x4, y4, z4 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r5, g5, b5 }, 0,              \
-                { r5, g5, b5 }, 0,              \
-                { x5, y5, z5 }, 0,              \
-            }}                                  \
-        }                                       \
-    }
+#define gdSPDefLights3(ar, ag, ab,                  \
+                       r1, g1, b1, x1, y1, z1,      \
+                       r2, g2, b2, x2, y2, z2)      \
+                       r3, g3, b3, x3, y3, z3)      \
+        {                                           \
+            gDefAmbient(ar, ag, ab),                \
+            {                                       \
+                gDefLight(r1, g1, b1, x1, y1, z1),  \
+                gDefLight(r2, g2, b2, x2, y2, z2),  \
+                gDefLight(r3, g3, b3, x3, y3, z3),  \
+            }                                       \
+        }
 
-#define gdSPDefLights6(ar, ag, ab,              \
-                       r1, g1, b1, x1, y1, z1,  \
-                       r2, g2, b2, x2, y2, z2,  \
-                       r3, g3, b3, x3, y3, z3,  \
-                       r4, g4, b4, x4, y4, z4,  \
-                       r5, g5, b5, x5, y5, z5,  \
-                       r6, g6, b6, x6, y6, z6)  \
-    {                                           \
-        {{                                      \
-            { ar, ag, ab }, 0,                  \
-            { ar, ag, ab }, 0,                  \
-        }},                                     \
-        {                                       \
-            {{                                  \
-                { r1, g1, b1 }, 0,              \
-                { x1, y1, z1 }, 0,              \
-                { r1, g1, b1 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r2, g2, b2 }, 0,              \
-                { r2, g2, b2 }, 0,              \
-                { x2, y2, z2 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r3, g3, b3 }, 0,              \
-                { r3, g3, b3 }, 0,              \
-                { x3, y3, z3 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r4, g4, b4 }, 0,              \
-                { r4, g4, b4 }, 0,              \
-                { x4, y4, z4 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r5, g5, b5 }, 0,              \
-                { r5, g5, b5 }, 0,              \
-                { x5, y5, z5 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r6, g6, b6 }, 0,              \
-                { r6, g6, b6 }, 0,              \
-                { x6, y6, z6 }, 0,              \
-            }}                                  \
-        }                                       \
-    }
+#define gdSPDefLights4(ar, ag, ab,                  \
+                       r1, g1, b1, x1, y1, z1,      \
+                       r2, g2, b2, x2, y2, z2,      \
+                       r3, g3, b3, x3, y3, z3,      \
+                       r4, g4, b4, x4, y4, z4)      \
+        {                                           \
+            gDefAmbient(ar, ag, ab),                \
+            {                                       \
+                gDefLight(r1, g1, b1, x1, y1, z1),  \
+                gDefLight(r2, g2, b2, x2, y2, z2),  \
+                gDefLight(r3, g3, b3, x3, y3, z3),  \
+                gDefLight(r4, g4, b4, x4, y4, z4),  \
+            }                                       \
+        }
 
-#define gdSPDefLights7(ar, ag, ab,              \
-                       r1, g1, b1, x1, y1, z1,  \
-                       r2, g2, b2, x2, y2, z2,  \
-                       r3, g3, b3, x3, y3, z3,  \
-                       r4, g4, b4, x4, y4, z4,  \
-                       r5, g5, b5, x5, y5, z5,  \
-                       r6, g6, b6, x6, y6, z6,  \
-                       r7, g7, b7, x7, y7, z7)  \
-    {                                           \
-        {{                                      \
-            { ar, ag, ab}, 0,                   \
-            { ar, ag, ab}, 0,                   \
-        }},                                     \
-        {                                       \
-            {{                                  \
-                { r1, g1, b1 }, 0,              \
-                { r1, g1, b1 }, 0,              \
-                { x1, y1, z1 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r2, g2, b2 }, 0,              \
-                { r2, g2, b2 }, 0,              \
-                { x2, y2, z2 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r3, g3, b3 }, 0,              \
-                { r3, g3, b3 }, 0,              \
-                { x3, y3, z3 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r4, g4, b4 }, 0,              \
-                { r4, g4, b4 }, 0,              \
-                { x4, y4, z4 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r5, g5, b5 }, 0,              \
-                { r5, g5, b5 }, 0,              \
-                { x5, y5, z5 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r6, g6, b6 }, 0,              \
-                { r6, g6, b6 }, 0,              \
-                { x6, y6, z6 }, 0,              \
-            }},                                 \
-            {{                                  \
-                { r7, g7, b7 }, 0,              \
-                { r7, g7, b7 }, 0,              \
-                { x7, y7, z7 }, 0,              \
-            }}                                  \
-        }                                       \
-    }
+#define gdSPDefLights5(ar, ag, ab,                  \
+                       r1, g1, b1, x1, y1, z1,      \
+                       r2, g2, b2, x2, y2, z2,      \
+                       r3, g3, b3, x3, y3, z3,      \
+                       r4, g4, b4, x4, y4, z4)      \
+                       r5, g5, b5, x5, y5, z5)      \
+        {                                           \
+            gDefAmbient(ar, ag, ab),                \
+            {                                       \
+                gDefLight(r1, g1, b1, x1, y1, z1),  \
+                gDefLight(r2, g2, b2, x2, y2, z2),  \
+                gDefLight(r3, g3, b3, x3, y3, z3),  \
+                gDefLight(r4, g4, b4, x4, y4, z4),  \
+                gDefLight(r5, g5, b5, x5, y5, z5),  \
+            }                                       \
+        }
 
+#define gdSPDefLights6(ar, ag, ab,                  \
+                       r1, g1, b1, x1, y1, z1,      \
+                       r2, g2, b2, x2, y2, z2,      \
+                       r3, g3, b3, x3, y3, z3,      \
+                       r4, g4, b4, x4, y4, z4,      \
+                       r5, g5, b5, x5, y5, z5,      \
+                       r6, g6, b6, x6, y6, z6)      \
+        {                                           \
+            gDefAmbient(ar, ag, ab),                \
+            {                                       \
+                gDefLight(r1, g1, b1, x1, y1, z1),  \
+                gDefLight(r2, g2, b2, x2, y2, z2),  \
+                gDefLight(r3, g3, b3, x3, y3, z3),  \
+                gDefLight(r4, g4, b4, x4, y4, z4),  \
+                gDefLight(r5, g5, b5, x5, y5, z5),  \
+                gDefLight(r6, g6, b6, x6, y6, z6),  \
+            }                                       \
+        }
+
+#define gdSPDefLights7(ar, ag, ab,                  \
+                       r1, g1, b1, x1, y1, z1,      \
+                       r2, g2, b2, x2, y2, z2,      \
+                       r3, g3, b3, x3, y3, z3,      \
+                       r4, g4, b4, x4, y4, z4,      \
+                       r5, g5, b5, x5, y5, z5,      \
+                       r6, g6, b6, x6, y6, z6)      \
+                       r7, g7, b7, x7, y7, z7)      \
+        {                                           \
+            gDefAmbient(ar, ag, ab),                \
+            {                                       \
+                gDefLight(r1, g1, b1, x1, y1, z1),  \
+                gDefLight(r2, g2, b2, x2, y2, z2),  \
+                gDefLight(r3, g3, b3, x3, y3, z3),  \
+                gDefLight(r4, g4, b4, x4, y4, z4),  \
+                gDefLight(r5, g5, b5, x5, y5, z5),  \
+                gDefLight(r6, g6, b6, x6, y6, z6),  \
+                gDefLight(r7, g7, b7, x7, y7, z7),  \
+            }                                       \
+        }
+
+#ifdef F3DEX_GBI_PL
+
+#define gDefPointLight(r, g, b, x, y, z, kc, kl, kq)    \
+    {{                                                  \
+        { (r1), (g1), (b1) }, (kc),                     \
+        { (r1), (g1), (b1) }, (kl),                     \
+        { (x1), (y1), (z1) }, (kq),                     \
+    }}
+
+#define gdSPDefPointLights0(ar, ag, ab)                     \
+        {                                                   \
+            gDefAmbient(ar, ag, ab),                        \
+            {                                               \
+                gDefPointLight(0, 0, 0, 0, 0, 0, 0, 0, 0),  \
+            }                                               \
+        }
+
+#define gdSPDefPointLights1(ar, ag, ab,                             \
+                            r1, g1, b1, x1, y1, z1, c1, l1, q1)     \
+        {                                                           \
+            gDefAmbient(ar, ag, ab),                                \
+            {                                                       \
+                gDefPointLight(r1, g1, b1, x1, y1, z1, c1, l1, q1), \
+            }                                                       \
+        }
+
+#define gdSPDefPointLights2(ar, ag, ab,                             \
+                            r1, g1, b1, x1, y1, z1, c1, l1, q1,     \
+                            r2, g2, b2, x2, y2, z2, c2, l2, q2)     \
+        {                                                           \
+            gDefAmbient(ar, ag, ab),                                \
+            {                                                       \
+                gDefPointLight(r1, g1, b1, x1, y1, z1, c1, l1, q1), \
+                gDefPointLight(r2, g2, b2, x2, y2, z2, c2, l2, q2), \
+            }                                                       \
+        }
+
+#define gdSPDefPointLights3(ar, ag, ab,                             \
+                            r1, g1, b1, x1, y1, z1, c1, l1, q1,     \
+                            r2, g2, b2, x2, y2, z2, c2, l2, q2)     \
+                            r3, g3, b3, x3, y3, z3, c3, l3, q3)     \
+        {                                                           \
+            gDefAmbient(ar, ag, ab),                                \
+            {                                                       \
+                gDefPointLight(r1, g1, b1, x1, y1, z1, c1, l1, q1), \
+                gDefPointLight(r2, g2, b2, x2, y2, z2, c2, l2, q2), \
+                gDefPointLight(r3, g3, b3, x3, y3, z3, c3, l3, q3), \
+            }                                                       \
+        }
+
+#define gdSPDefPointLights4(ar, ag, ab,                             \
+                            r1, g1, b1, x1, y1, z1, c1, l1, q1,     \
+                            r2, g2, b2, x2, y2, z2, c2, l2, q2,     \
+                            r3, g3, b3, x3, y3, z3, c3, l3, q3,     \
+                            r4, g4, b4, x4, y4, z4, c4, l4, q4)     \
+        {                                                           \
+            gDefAmbient(ar, ag, ab),                                \
+            {                                                       \
+                gDefPointLight(r1, g1, b1, x1, y1, z1, c1, l1, q1), \
+                gDefPointLight(r2, g2, b2, x2, y2, z2, c2, l2, q2), \
+                gDefPointLight(r3, g3, b3, x3, y3, z3, c3, l3, q3), \
+                gDefPointLight(r4, g4, b4, x4, y4, z4, c4, l4, q4), \
+            }                                                       \
+        }
+
+#define gdSPDefPointLights5(ar, ag, ab,                             \
+                            r1, g1, b1, x1, y1, z1, c1, l1, q1,     \
+                            r2, g2, b2, x2, y2, z2, c2, l2, q2,     \
+                            r3, g3, b3, x3, y3, z3, c3, l3, q3,     \
+                            r4, g4, b4, x4, y4, z4, c4, l4, q4)     \
+                            r5, g5, b5, x5, y5, z5, c5, l5, q5)     \
+        {                                                           \
+            gDefAmbient(ar, ag, ab),                                \
+            {                                                       \
+                gDefPointLight(r1, g1, b1, x1, y1, z1, c1, l1, q1), \
+                gDefPointLight(r2, g2, b2, x2, y2, z2, c2, l2, q2), \
+                gDefPointLight(r3, g3, b3, x3, y3, z3, c3, l3, q3), \
+                gDefPointLight(r4, g4, b4, x4, y4, z4, c4, l4, q4), \
+                gDefPointLight(r5, g5, b5, x5, y5, z5, c5, l5, q5), \
+            }                                                       \
+        }
+
+#define gdSPDefPointLights6(ar, ag, ab,                             \
+                            r1, g1, b1, x1, y1, z1, c1, l1, q1,     \
+                            r2, g2, b2, x2, y2, z2, c2, l2, q2,     \
+                            r3, g3, b3, x3, y3, z3, c3, l3, q3,     \
+                            r4, g4, b4, x4, y4, z4, c4, l4, q4)     \
+                            r5, g5, b5, x5, y5, z5, c5, l5, q5)     \
+                            r6, g6, b6, x6, y6, z6, c6, l6, q6)     \
+        {                                                           \
+            gDefAmbient(ar, ag, ab),                                \
+            {                                                       \
+                gDefPointLight(r1, g1, b1, x1, y1, z1, c1, l1, q1), \
+                gDefPointLight(r2, g2, b2, x2, y2, z2, c2, l2, q2), \
+                gDefPointLight(r3, g3, b3, x3, y3, z3, c3, l3, q3), \
+                gDefPointLight(r4, g4, b4, x4, y4, z4, c4, l4, q4), \
+                gDefPointLight(r5, g5, b5, x5, y5, z5, c5, l5, q5), \
+                gDefPointLight(r6, g6, b6, x6, y6, z6, c6, l6, q6), \
+            }                                                       \
+        }
+
+#define gdSPDefPointLights7(ar, ag, ab,                             \
+                            r1, g1, b1, x1, y1, z1, c1, l1, q1,     \
+                            r2, g2, b2, x2, y2, z2, c2, l2, q2,     \
+                            r3, g3, b3, x3, y3, z3, c3, l3, q3,     \
+                            r4, g4, b4, x4, y4, z4, c4, l4, q4,     \
+                            r5, g5, b5, x5, y5, z5, c5, l5, q5,     \
+                            r6, g6, b6, x6, y6, z6, c6, l6, q6)     \
+                            r7, g7, b7, x7, y7, z7, c7, l7, q7)     \
+        {                                                           \
+            gDefAmbient(ar, ag, ab),                                \
+            {                                                       \
+                gDefPointLight(r1, g1, b1, x1, y1, z1, c1, l1, q1), \
+                gDefPointLight(r2, g2, b2, x2, y2, z2, c2, l2, q2), \
+                gDefPointLight(r3, g3, b3, x3, y3, z3, c3, l3, q3), \
+                gDefPointLight(r4, g4, b4, x4, y4, z4, c4, l4, q4), \
+                gDefPointLight(r5, g5, b5, x5, y5, z5, c5, l5, q5), \
+                gDefPointLight(r6, g6, b6, x6, y6, z6, c6, l6, q6), \
+                gDefPointLight(r7, g7, b7, x7, y7, z7, c7, l7, q7), \
+            }                                                       \
+        }
+
+#endif
 
 #define gdSPDefLookAt(rightx, righty, rightz, upx, upy, upz)    \
     {{                                                          \
@@ -1995,7 +2011,9 @@ typedef union {
     Gquad           quad;
 #endif
     Gline3D         line;
+#if (defined(F3DLP_GBI) || defined(F3DEX_GBI))
     Gcull           cull;
+#endif
     Gmovewd         movewd;
     Gmovemem        movemem;
     Gpopmtx         popmtx;
@@ -3434,6 +3452,15 @@ _DW({                                               \
 #define gsDPSetAlphaDither(mode)        \
     gsSPSetOtherMode(    G_SETOTHERMODE_H, G_MDSFT_ALPHADITHER, 2, mode)
 #endif
+
+/*
+ * Majora's Mask Extension, sets both RGB and Alpha dither modes in the same
+ * macro. `mode` should use both G_CD_* and G_AD_* constants.
+ */
+#define gDPSetDither(pkt, mode) \
+    gSPSetOtherMode(pkt, G_SETOTHERMODE_H, G_MDSFT_ALPHADITHER, 4, mode)
+#define gsDPSetDither(mode)     \
+    gsSPSetOtherMode(    G_SETOTHERMODE_H, G_MDSFT_ALPHADITHER, 4, mode)
 
 /* 'blendmask' is not supported anymore.
  * The bits are reserved for future use.
@@ -5123,6 +5150,8 @@ _DW({                                                   \
 #define gDPNoOpTag(pkt, tag)    gDPParam(pkt,   G_NOOP, tag)
 #define gsDPNoOpTag(tag)        gsDPParam(      G_NOOP, tag)
 
+#ifdef GBI_DEBUG
+
 #define gDPNoOpHere(pkt, file, line)        gDma1p(pkt, G_NOOP, file, line, 1)
 #define gDPNoOpString(pkt, data, n)         gDma1p(pkt, G_NOOP, data, n, 2)
 #define gDPNoOpWord(pkt, data, n)           gDma1p(pkt, G_NOOP, data, n, 3)
@@ -5133,6 +5162,21 @@ _DW({                                                   \
 #define gDPNoOpOpenDisp(pkt, file, line)    gDma1p(pkt, G_NOOP, file, line, 7)
 #define gDPNoOpCloseDisp(pkt, file, line)   gDma1p(pkt, G_NOOP, file, line, 8)
 #define gDPNoOpTag3(pkt, type, data, n)     gDma1p(pkt, G_NOOP, data, n, type)
+
+#else
+
+#define gDPNoOpHere(pkt, file, line)
+#define gDPNoOpString(pkt, data, n)
+#define gDPNoOpWord(pkt, data, n)
+#define gDPNoOpFloat(pkt, data, n)
+#define gDPNoOpQuiet(pkt)
+#define gDPNoOpVerbose(pkt, n)
+#define gDPNoOpCallBack(pkt, callback, arg)
+#define gDPNoOpOpenDisp(pkt, file, line)
+#define gDPNoOpCloseDisp(pkt, file, line)
+#define gDPNoOpTag3(pkt, type, data, n)
+
+#endif /* GBI_DEBUG */
 
 #endif
 

@@ -22,7 +22,7 @@ typedef struct BgSpot16Bombstone {
     /* 0x01C4 */ ColliderCylinder colliderCylinder;
     /* 0x0210 */ s16 unk_210;
     /* 0x0212 */ s16 unk_212;
-    /* 0x0214 */ s8 bombiwaBankIndex;
+    /* 0x0214 */ s8 requiredObjectSlot;
 } BgSpot16Bombstone; // size = 0x0218
 
 #endif

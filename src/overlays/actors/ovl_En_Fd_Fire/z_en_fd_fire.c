@@ -13,15 +13,15 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play);
 void EnFdFire_WaitToDie(EnFdFire* this, PlayState* play);
 
 ActorInit En_Fd_Fire_InitVars = {
-    ACTOR_EN_FD_FIRE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(EnFdFire),
-    (ActorFunc)EnFdFire_Init,
-    (ActorFunc)EnFdFire_Destroy,
-    (ActorFunc)EnFdFire_Update,
-    (ActorFunc)EnFdFire_Draw,
+    /**/ ACTOR_EN_FD_FIRE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(EnFdFire),
+    /**/ EnFdFire_Init,
+    /**/ EnFdFire_Destroy,
+    /**/ EnFdFire_Update,
+    /**/ EnFdFire_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -37,8 +37,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x01, 0x08 },
         { 0x0D840008, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 12, 46, 0, { 0, 0, 0 } },
@@ -265,7 +265,7 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
         sp84 = 0.1f;
     }
     Matrix_Scale(1.0f, sp84, 1.0f / sp84, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fd_fire.c", 623),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd_fire.c", 623),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x8,

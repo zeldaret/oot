@@ -23,15 +23,15 @@ void ObjKibako_SetupThrown(ObjKibako* this);
 void ObjKibako_Thrown(ObjKibako* this, PlayState* play);
 
 ActorInit Obj_Kibako_InitVars = {
-    ACTOR_OBJ_KIBAKO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(ObjKibako),
-    (ActorFunc)ObjKibako_Init,
-    (ActorFunc)ObjKibako_Destroy,
-    (ActorFunc)ObjKibako_Update,
-    (ActorFunc)ObjKibako_Draw,
+    /**/ ACTOR_OBJ_KIBAKO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(ObjKibako),
+    /**/ ObjKibako_Init,
+    /**/ ObjKibako_Destroy,
+    /**/ ObjKibako_Update,
+    /**/ ObjKibako_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -47,8 +47,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000002, 0x00, 0x01 },
         { 0x4FC00748, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 12, 27, 0, { 0, 0, 0 } },
@@ -98,7 +98,7 @@ void ObjKibako_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sCCInfoInit);
     ObjKibako_SetupIdle(this);
     // "wooden box"
-    osSyncPrintf("(dungeon keep 木箱)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF("(dungeon keep 木箱)(arg_data 0x%04x)\n", this->actor.params);
 }
 
 void ObjKibako_Destroy(Actor* thisx, PlayState* play2) {
@@ -152,7 +152,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, PlayState* play) {
     Vec3f velocity;
 
     pos = *breakPos;
-    pos.y += this->actor.yDistToWater;
+    pos.y += this->actor.depthInWater;
     EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 500);
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
@@ -187,7 +187,7 @@ void ObjKibako_Idle(ObjKibako* this, PlayState* play) {
 
     if (Actor_HasParent(&this->actor, play)) {
         ObjKibako_SetupHeld(this);
-    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 19.0f)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.depthInWater > 19.0f)) {
         ObjKibako_WaterBreak(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, play);

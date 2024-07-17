@@ -26,15 +26,15 @@ void func_80A55BD4(EnHeishi3* this, PlayState* play);
 static s16 sPlayerCaught = 0;
 
 ActorInit En_Heishi3_InitVars = {
-    ACTOR_EN_HEISHI3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SD,
-    sizeof(EnHeishi3),
-    (ActorFunc)EnHeishi3_Init,
-    (ActorFunc)EnHeishi3_Destroy,
-    (ActorFunc)EnHeishi3_Update,
-    (ActorFunc)EnHeishi3_Draw,
+    /**/ ACTOR_EN_HEISHI3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SD,
+    /**/ sizeof(EnHeishi3),
+    /**/ EnHeishi3_Init,
+    /**/ EnHeishi3_Destroy,
+    /**/ EnHeishi3_Update,
+    /**/ EnHeishi3_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -50,8 +50,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 15, 70, 0, { 0, 0, 0 } },
@@ -77,7 +77,7 @@ void EnHeishi3_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     // "Castle Gate Soldier - Power Up"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n" VT_RST);
 
     this->actor.gravity = -3.0f;
     this->actor.focus.pos = this->actor.world.pos;
@@ -132,8 +132,8 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, PlayState* play) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }
@@ -160,8 +160,8 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, PlayState* play) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }

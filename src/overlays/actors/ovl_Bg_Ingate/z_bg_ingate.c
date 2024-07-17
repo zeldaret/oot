@@ -18,15 +18,15 @@ void func_80892890(BgInGate* this, PlayState* play);
 void BgInGate_DoNothing(BgInGate* this, PlayState* play);
 
 ActorInit Bg_Ingate_InitVars = {
-    ACTOR_BG_INGATE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_INGATE,
-    sizeof(BgInGate),
-    (ActorFunc)BgInGate_Init,
-    (ActorFunc)BgInGate_Destroy,
-    (ActorFunc)BgInGate_Update,
-    (ActorFunc)BgInGate_Draw,
+    /**/ ACTOR_BG_INGATE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_INGATE,
+    /**/ sizeof(BgInGate),
+    /**/ BgInGate_Init,
+    /**/ BgInGate_Destroy,
+    /**/ BgInGate_Update,
+    /**/ BgInGate_Draw,
 };
 
 void BgInGate_SetupAction(BgInGate* this, BgInGateActionFunc actionFunc) {
@@ -106,7 +106,7 @@ void BgInGate_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ingate.c", 245),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ingate.c", 245),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, gIngoGateDL);

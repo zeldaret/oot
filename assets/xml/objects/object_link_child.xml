@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_link_child" Segment="6">
         <Skeleton Name="gLinkChildSkel" Type="Flex" LimbType="LOD" Offset="0x2CF6C"/>
 
@@ -105,7 +104,7 @@
         <DList Name="gLinkChildBottleDL" Offset="0x18478"/>
         <DList Name="gLinkChildDL_18580" Offset="0x18580"/>
         <DList Name="gLinkChildBottle2DL" Offset="0x18648"/>
-        <DList Name="gLinkChildSlinghotStringDL" Offset="0x221A8"/>
+        <DList Name="gLinkChildSlingshotStringDL" Offset="0x221A8"/>
         <DList Name="gLinkChildDekuShieldDL" Offset="0x224F8"/>
         <Mtx Name="gLinkChildDekuShieldMtx"  Offset="0x22648"/>
         <DList Name="gLinkChildDekuShieldWithMatrixDL" Offset="0x22688"/>
@@ -186,17 +185,17 @@
         <Texture Name="gLinkChildEyesOpenTex" OutName="eyes_open" Format="ci8" Width="64" Height="32" Offset="0x0000" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesHalfTex" OutName="eyes_half" Format="ci8" Width="64" Height="32" Offset="0x0800" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEyesClosedfTex" OutName="eyes_closed" Format="ci8" Width="64" Height="32" Offset="0x1000" TlutOffset="0x5500"/>
-        <Texture Name="gLinkChildEyesRollLeftTex" OutName="eyes_roll_left" Format="ci8" Width="64" Height="32" Offset="0x1800" TlutOffset="0x5500"/><!--Left from links perspective-->
-        <Texture Name="gLinkChildEyesRollRightTex" OutName="eyes_roll_right" Format="ci8" Width="64" Height="32" Offset="0x2000" TlutOffset="0x5500"/><!--Right from links perspective-->
-        <Texture Name="gLinkChildEyesShockTex" OutName="eyes_shock" Format="ci8" Width="64" Height="32" Offset="0x2800" TlutOffset="0x5500"/>
-        <Texture Name="gLinkChildEyesUnk1Tex" OutName="eyes_unk_1" Format="ci8" Width="64" Height="32" Offset="0x3000" TlutOffset="0x5500"/>
-        <Texture Name="gLinkChildEyesUnk2Tex" OutName="eyes_unk_2" Format="ci8" Width="64" Height="32" Offset="0x3800" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildEyesLeftTex" OutName="eyes_left" Format="ci8" Width="64" Height="32" Offset="0x1800" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildEyesRightTex" OutName="eyes_right" Format="ci8" Width="64" Height="32" Offset="0x2000" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildEyesWideTex" OutName="eyes_wide" Format="ci8" Width="64" Height="32" Offset="0x2800" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildEyesDownTex" OutName="eyes_down" Format="ci8" Width="64" Height="32" Offset="0x3000" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildEyesWincingTex" OutName="eyes_wincing" Format="ci8" Width="64" Height="32" Offset="0x3800" TlutOffset="0x5500"/>
 
         <!--Mouth-->
-        <Texture Name="gLinkChildMouth1Tex" OutName="mouth_1" Format="ci8" Width="32" Height="32" Offset="0x4000" TlutOffset="0x5500"/>
-        <Texture Name="gLinkChildMouth2Tex" OutName="mouth_2" Format="ci8" Width="32" Height="32" Offset="0x4400" TlutOffset="0x5500"/>
-        <Texture Name="gLinkChildMouth3Tex" OutName="mouth_3" Format="ci8" Width="32" Height="32" Offset="0x4800" TlutOffset="0x5500"/>
-        <Texture Name="gLinkChildMouth4Tex" OutName="mouth_4" Format="ci8" Width="32" Height="32" Offset="0x4C00" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildMouthClosedTex" OutName="mouth_closed" Format="ci8" Width="32" Height="32" Offset="0x4000" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildMouthHalfTex" OutName="mouth_half" Format="ci8" Width="32" Height="32" Offset="0x4400" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildMouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="32" Offset="0x4800" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildMouthSmileTex" OutName="mouth_smile" Format="ci8" Width="32" Height="32" Offset="0x4C00" TlutOffset="0x5500"/>
 
         <!--Unused Vtx-->
         <Array Name="gLinkChildVtx_019E08" Count="35" Offset="0x19E08" Static="On">

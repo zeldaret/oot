@@ -97,7 +97,7 @@ typedef struct EnHorse {
     /* 0x0150 */ s32 noInputTimer;
     /* 0x0154 */ s32 noInputTimerMax;
     /* 0x0158 */ s32 type;
-    /* 0x015C */ s8 bankIndex;
+    /* 0x015C */ s8 hniObjectSlot;
     /* 0x0160 */ Skin skin;
     /* 0x01F0 */ u32 stateFlags;
     /* 0x01F4 */ Vec3f lastPos;

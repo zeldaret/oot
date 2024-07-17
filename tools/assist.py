@@ -10,10 +10,10 @@ gAddressWidth = 18 # if your ld >= 2.40 change this to 10
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
 asm_dir = root_dir + "asm/non_matchings/overlays/actors"
-build_dir = root_dir + "build/"
+build_dir = root_dir + "build/gc-eu-mq-dbg/"
 
 def read_rom():
-    with open("baserom.z64", "rb") as f:
+    with open("baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", "rb") as f:
         return f.read()
 
 
@@ -162,7 +162,7 @@ parser.add_argument("--num-out", help="number of functions to display", type=int
 args = parser.parse_args()
 
 rom_bytes = read_rom()
-map_syms = parse_map(build_dir + "z64.map")
+map_syms = parse_map(build_dir + "oot-gc-eu-mq-dbg.map")
 map_offsets = get_map_offsets(map_syms)
 
 s_files = get_all_s_files()

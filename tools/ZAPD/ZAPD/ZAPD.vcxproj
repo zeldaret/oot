@@ -45,6 +45,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -52,6 +53,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -186,21 +188,24 @@ mkdir build\ZAPD
     <ClCompile Include="ImageBackend.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="OtherStructs\CutsceneMM_Commands.cpp" />
-    <ClCompile Include="OtherStructs\Cutscene_Commands.cpp" />
+    <ClCompile Include="OtherStructs\CutsceneOoT_Commands.cpp" />
+    <ClCompile Include="OtherStructs\Cutscene_Common.cpp" />
     <ClCompile Include="OtherStructs\SkinLimbStructs.cpp" />
     <ClCompile Include="OutputFormatter.cpp" />
     <ClCompile Include="WarningHandler.cpp" />
     <ClCompile Include="ZActorList.cpp" />
     <ClCompile Include="ZArray.cpp" />
     <ClCompile Include="ZBackground.cpp" />
+    <ClCompile Include="ZCKeyFrame.cpp" />
+    <ClCompile Include="ZCKeyFrameAnim.cpp" />
     <ClCompile Include="ZCollisionPoly.cpp" />
     <ClCompile Include="ZLimb.cpp" />
     <ClCompile Include="ZMtx.cpp" />
     <ClCompile Include="ZPath.cpp" />
     <ClCompile Include="ZPlayerAnimationData.cpp" />
-    <ClCompile Include="ZRoom\Commands\SetActorCutsceneList.cpp" />
     <ClCompile Include="ZRoom\Commands\SetAnimatedMaterialList.cpp" />
     <ClCompile Include="ZRoom\Commands\SetCsCamera.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetCutsceneEntryList.cpp" />
     <ClCompile Include="ZRoom\Commands\SetMinimapChests.cpp" />
     <ClCompile Include="ZRoom\Commands\SetMinimapList.cpp" />
     <ClCompile Include="ZRoom\Commands\SetWorldMapVisited.cpp" />
@@ -249,6 +254,7 @@ mkdir build\ZAPD
     <ClCompile Include="ZTextureAnimation.cpp" />
     <ClCompile Include="ZVector.cpp" />
     <ClCompile Include="ZVtx.cpp" />
+    <ClCompile Include="ZWaterbox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\elfio\elfio\elfio.hpp" />
@@ -272,11 +278,13 @@ mkdir build\ZAPD
     <ClInclude Include="CrashHandler.h" />
     <ClInclude Include="CRC32.h" />
     <ClInclude Include="Declaration.h" />
+    <ClInclude Include="ExporterSet.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ImageBackend.h" />
     <ClInclude Include="OtherStructs\CutsceneMM_Commands.h" />
-    <ClInclude Include="OtherStructs\Cutscene_Commands.h" />
+    <ClInclude Include="OtherStructs\CutsceneOoT_Commands.h" />
+    <ClInclude Include="OtherStructs\Cutscene_Common.h" />
     <ClInclude Include="OtherStructs\SkinLimbStructs.h" />
     <ClInclude Include="OutputFormatter.h" />
     <ClInclude Include="WarningHandler.h" />
@@ -285,6 +293,8 @@ mkdir build\ZAPD
     <ClInclude Include="ZArray.h" />
     <ClInclude Include="ZBackground.h" />
     <ClInclude Include="ZBlob.h" />
+    <ClInclude Include="ZCKeyFrame.h" />
+    <ClInclude Include="ZCkeyFrameAnim.h" />
     <ClInclude Include="ZCollision.h" />
     <ClInclude Include="ZCollisionPoly.h" />
     <ClInclude Include="ZCutscene.h" />
@@ -294,9 +304,9 @@ mkdir build\ZAPD
     <ClInclude Include="ZMtx.h" />
     <ClInclude Include="ZPath.h" />
     <ClInclude Include="ZPlayerAnimationData.h" />
-    <ClInclude Include="ZRoom\Commands\SetActorCutsceneList.h" />
     <ClInclude Include="ZRoom\Commands\SetAnimatedMaterialList.h" />
     <ClInclude Include="ZRoom\Commands\SetCsCamera.h" />
+    <ClInclude Include="ZRoom\Commands\SetCutsceneEntryList.h" />
     <ClInclude Include="ZRoom\Commands\SetMinimapChests.h" />
     <ClInclude Include="ZRoom\Commands\SetMinimapList.h" />
     <ClInclude Include="ZRoom\Commands\SetWorldMapVisited.h" />
@@ -339,6 +349,7 @@ mkdir build\ZAPD
     <ClInclude Include="ZTextureAnimation.h" />
     <ClInclude Include="ZVector.h" />
     <ClInclude Include="ZVtx.h" />
+    <ClInclude Include="ZWaterbox.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\SymbolMap_OoTMqDbg.txt">

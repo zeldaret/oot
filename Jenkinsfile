@@ -4,38 +4,77 @@ pipeline {
     }
 
     stages {
-        stage('Check for unused asm') {
-            steps {
-                sh './tools/find_unused_asm.sh'
-            }
-        }
-        stage('Setup') {
-            steps {
-                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'
-                sh 'make -j setup'
-            }
-        }
-        stage('Build (qemu-irix)') {
+        stage('Check formatting (full)') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
-                sh 'ORIG_COMPILER=1 make -j'
+                echo 'Checking formatting on all files...'
+                sh 'python3 tools/check_format.py'
             }
         }
-        stage('Build') {
+        stage('Check formatting (modified)') {
             when {
                 not {
-                    branch 'master'
+                    branch 'main'
                 }
             }
             steps {
-                sh 'make -j'
+                echo 'Checking formatting on modified files...'
+                sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
+            }
+        }
+        stage('Setup gc-eu-mq-dbg') {
+            steps {
+                sh 'cp /usr/local/etc/roms/oot-gc-eu-mq-dbg.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
+                sh 'make -j setup'
+            }
+        }
+        stage('Build gc-eu-mq-dbg (qemu-irix)') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh 'make -j ORIG_COMPILER=1'
+            }
+        }
+        stage('Build gc-eu-mq-dbg') {
+            when {
+                not {
+                    branch 'main'
+                }
+            }
+            steps {
+                sh 'make -j RUN_CC_CHECK=0'
+            }
+        }
+        stage('Setup gc-eu-mq') {
+            steps {
+                sh 'cp /usr/local/etc/roms/oot-gc-eu-mq.z64 baseroms/gc-eu-mq/baserom.z64'
+                sh 'make -j setup VERSION=gc-eu-mq'
+            }
+        }
+        stage('Build gc-eu-mq (qemu-irix)') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh 'make -j VERSION=gc-eu-mq ORIG_COMPILER=1'
+            }
+        }
+        stage('Build gc-eu-mq') {
+            when {
+                not {
+                    branch 'main'
+                }
+            }
+            steps {
+                sh 'make -j VERSION=gc-eu-mq RUN_CC_CHECK=0'
             }
         }
         stage('Report Progress') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
                 sh 'mkdir reports'
@@ -47,7 +86,7 @@ pipeline {
         }
         stage('Update Progress') {
             when {
-                branch 'master'
+                branch 'main'
             }
             agent {
                 label 'zeldaret_website'

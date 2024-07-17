@@ -15,15 +15,15 @@ void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, PlayState* pla
 void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, PlayState* play);
 
 ActorInit Bg_Jya_Bombchuiwa_InitVars = {
-    ACTOR_BG_JYA_BOMBCHUIWA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaBombchuiwa),
-    (ActorFunc)BgJyaBombchuiwa_Init,
-    (ActorFunc)BgJyaBombchuiwa_Destroy,
-    (ActorFunc)BgJyaBombchuiwa_Update,
-    (ActorFunc)BgJyaBombchuiwa_Draw,
+    /**/ ACTOR_BG_JYA_BOMBCHUIWA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaBombchuiwa),
+    /**/ BgJyaBombchuiwa_Init,
+    /**/ BgJyaBombchuiwa_Destroy,
+    /**/ BgJyaBombchuiwa_Update,
+    /**/ BgJyaBombchuiwa_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
@@ -32,8 +32,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { -300, 0, 0 }, 40 }, 100 },
@@ -182,8 +182,8 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, PlayState* play) {
     if (Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 0) == NULL) {
         // "Occurrence failure"
-        osSyncPrintf("Ｅｒｒｏｒ : Mir_Ray 発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombchuiwa.c", 410,
-                     this->actor.params);
+        PRINTF("Ｅｒｒｏｒ : Mir_Ray 発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombchuiwa.c", 410,
+               this->actor.params);
     }
 }
 
@@ -198,7 +198,7 @@ void BgJyaBombchuiwa_Update(Actor* thisx, PlayState* play) {
 void BgJyaBombchuiwa_DrawRock(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 436);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 439),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 439),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gBombchuiwa2DL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 443);
@@ -209,7 +209,7 @@ void BgJyaBombchuiwa_DrawLight(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 453);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 457),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, CLAMP_MAX((u32)(this->lightRayIntensity * 153.0f), 153));
     gSPDisplayList(POLY_XLU_DISP++, gBombchuiwaLight1DL);

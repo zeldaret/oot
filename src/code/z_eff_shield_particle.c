@@ -18,9 +18,9 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
     if ((this != NULL) && (initParams != NULL)) {
         this->numElements = initParams->numElements;
         if (this->numElements > ARRAY_COUNT(this->elements)) {
-            osSyncPrintf(VT_FGCOL(RED));
-            osSyncPrintf("EffectShieldParticle_ct():パーティクル数がオーバしてます。\n");
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_FGCOL(RED));
+            PRINTF("EffectShieldParticle_ct():パーティクル数がオーバしてます。\n");
+            PRINTF(VT_RST);
             return;
         }
 
@@ -114,7 +114,6 @@ s32 EffectShieldParticle_Update(void* thisx) {
 
 void EffectShieldParticle_GetColors(EffectShieldParticle* this, Color_RGBA8* primColor, Color_RGBA8* envColor) {
     s32 halfDuration = this->duration * 0.5f;
-    f32 ratio;
 
     if (halfDuration == 0) {
         primColor->r = this->primColorStart.r;
@@ -126,7 +125,8 @@ void EffectShieldParticle_GetColors(EffectShieldParticle* this, Color_RGBA8* pri
         envColor->b = this->envColorStart.b;
         envColor->a = this->envColorStart.a;
     } else if (this->timer < halfDuration) {
-        ratio = this->timer / (f32)halfDuration;
+        f32 ratio = this->timer / (f32)halfDuration;
+
         primColor->r = this->primColorStart.r + (this->primColorMid.r - this->primColorStart.r) * ratio;
         primColor->g = this->primColorStart.g + (this->primColorMid.g - this->primColorStart.g) * ratio;
         primColor->b = this->primColorStart.b + (this->primColorMid.b - this->primColorStart.b) * ratio;
@@ -136,7 +136,8 @@ void EffectShieldParticle_GetColors(EffectShieldParticle* this, Color_RGBA8* pri
         envColor->b = this->envColorStart.b + (this->envColorMid.b - this->envColorStart.b) * ratio;
         envColor->a = this->envColorStart.a + (this->envColorMid.a - this->envColorStart.a) * ratio;
     } else {
-        ratio = (this->timer - halfDuration) / (f32)halfDuration;
+        f32 ratio = (this->timer - halfDuration) / (f32)halfDuration;
+
         primColor->r = this->primColorMid.r + (this->primColorEnd.r - this->primColorMid.r) * ratio;
         primColor->g = this->primColorMid.g + (this->primColorEnd.g - this->primColorMid.g) * ratio;
         primColor->b = this->primColorMid.b + (this->primColorEnd.b - this->primColorMid.b) * ratio;

@@ -9,7 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS ACTOR_FLAG_22
+#define FLAGS ACTOR_FLAG_IGNORE_POINT_LIGHTS
 
 void BgSpot08Bakudankabe_Init(Actor* thisx, PlayState* play);
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, PlayState* play);
@@ -20,15 +20,15 @@ void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play);
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play);
 
 ActorInit Bg_Spot08_Bakudankabe_InitVars = {
-    ACTOR_BG_SPOT08_BAKUDANKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT08_OBJ,
-    sizeof(BgSpot08Bakudankabe),
-    (ActorFunc)BgSpot08Bakudankabe_Init,
-    (ActorFunc)BgSpot08Bakudankabe_Destroy,
-    (ActorFunc)BgSpot08Bakudankabe_Update,
-    (ActorFunc)BgSpot08Bakudankabe_Draw,
+    /**/ ACTOR_BG_SPOT08_BAKUDANKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT08_OBJ,
+    /**/ sizeof(BgSpot08Bakudankabe),
+    /**/ BgSpot08Bakudankabe_Init,
+    /**/ BgSpot08Bakudankabe_Destroy,
+    /**/ BgSpot08Bakudankabe_Update,
+    /**/ BgSpot08Bakudankabe_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
@@ -37,8 +37,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 50, 50 }, 70 }, 100 },
@@ -48,8 +48,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { -100, 50, 50 }, 70 }, 100 },
@@ -59,8 +59,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 100, 50, 50 }, 70 }, 100 },

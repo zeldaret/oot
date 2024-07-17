@@ -35,7 +35,7 @@
  *  - End Screen
  *      This page informs you that there are no more pages to display.
  *
- * To navigate the pages, START and A may be used to advance to the next page, and L toggles whether to
+ * To navigate the pages, DPad-Right or A may be used to advance to the next page, and L toggles whether to
  * automatically scroll to the next page after some time has passed.
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
@@ -43,6 +43,15 @@
 #include "global.h"
 #include "terminal.h"
 #include "alloca.h"
+
+// For retail BSS ordering, the block number of sFaultInstance must be 0 or
+// just above (the exact upper bound depends on the block numbers assigned to
+// extern variables declared in headers).
+#if OOT_DEBUG
+#pragma increment_block_number 0
+#else
+#pragma increment_block_number 20
+#endif
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);
@@ -76,21 +85,11 @@ const char* sFpExceptionNames[] = {
     "Unimplemented operation", "Invalid operation", "Division by zero", "Overflow", "Underflow", "Inexact operation",
 };
 
-#ifndef NON_MATCHING
-// TODO: match .bss (has reordering issues)
-extern FaultMgr* sFaultInstance;
-extern u8 sFaultAwaitingInput;
-extern STACK(sFaultStack, 0x600);
-extern StackEntry sFaultThreadInfo;
-extern FaultMgr gFaultMgr;
-#else
-// Non-matching version for struct shiftability
 FaultMgr* sFaultInstance;
 u8 sFaultAwaitingInput;
 STACK(sFaultStack, 0x600);
 StackEntry sFaultThreadInfo;
 FaultMgr gFaultMgr;
-#endif
 
 typedef struct {
     /* 0x00 */ s32 (*callback)(void*, void*);
@@ -912,6 +911,8 @@ void Fault_DrawMemDump(uintptr_t pc, uintptr_t sp, uintptr_t cLeftJump, uintptr_
         } while (input->press.button == 0);
 
         // Move to next page
+        //! @bug DPad-Right does not move to the next page, unlike when on any other page
+        // START moving to the next page is unique to this page.
         if (CHECK_BTN_ALL(input->press.button, BTN_START) || CHECK_BTN_ALL(input->cur.button, BTN_A)) {
             return;
         }
@@ -1304,19 +1305,25 @@ void Fault_HungupFaultClient(const char* exp1, const char* exp2) {
  * error occurs. The parameters specify two messages detailing the error, one
  * or both may be NULL.
  */
-void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
+NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     FaultClient client;
     STACK_PAD(s32);
 
     Fault_AddClient(&client, Fault_HungupFaultClient, (void*)exp1, (void*)exp2);
     *(u32*)0x11111111 = 0; // trigger an exception via unaligned memory access
+
+    // Since the above line triggers an exception and transfers execution to the fault handler
+    // this function does not return and the rest of the function is unreachable.
+#ifdef __GNUC__
+    __builtin_unreachable();
+#endif
 }
 
 /**
  * Like `Fault_AddHungupAndCrashImpl`, however provides a fixed message containing
  * filename and line number
  */
-void Fault_AddHungupAndCrash(const char* file, s32 line) {
+NORETURN void Fault_AddHungupAndCrash(const char* file, int line) {
     char msg[256];
 
     sprintf(msg, "HungUp %s:%d", file, line);

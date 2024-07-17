@@ -26,15 +26,15 @@ void BgJya1flift_DelayMove(BgJya1flift* this, PlayState* play);
 static u8 sIsSpawned = false;
 
 ActorInit Bg_Jya_1flift_InitVars = {
-    ACTOR_BG_JYA_1FLIFT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJya1flift),
-    (ActorFunc)BgJya1flift_Init,
-    (ActorFunc)BgJya1flift_Destroy,
-    (ActorFunc)BgJya1flift_Update,
-    (ActorFunc)BgJya1flift_Draw,
+    /**/ ACTOR_BG_JYA_1FLIFT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJya1flift),
+    /**/ BgJya1flift_Init,
+    /**/ BgJya1flift_Destroy,
+    /**/ BgJya1flift_Update,
+    /**/ BgJya1flift_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -50,8 +50,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 70, 80, -82, { 0, 0, 0 } },
@@ -69,17 +69,20 @@ static InitChainEntry sInitChain[] = {
 void BgJya1flift_InitDynapoly(BgJya1flift* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
-    STACK_PAD(s32);
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        STACK_PAD(s32);
+
         // "Warning : move BG login failed"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 179,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 179,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgJya1flift_InitCollision(Actor* thisx, PlayState* play) {
@@ -93,7 +96,7 @@ void BgJya1flift_InitCollision(Actor* thisx, PlayState* play) {
 void BgJya1flift_Init(Actor* thisx, PlayState* play) {
     BgJya1flift* this = (BgJya1flift*)thisx;
     // "1 F lift"
-    osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", sIsSpawned, play->roomCtx.curRoom.num);
+    PRINTF("(１Ｆリフト)(flag %d)(room %d)\n", sIsSpawned, play->roomCtx.curRoom.num);
     this->hasInitialized = false;
     if (sIsSpawned) {
         Actor_Kill(thisx);
@@ -189,9 +192,9 @@ void BgJya1flift_Update(Actor* thisx, PlayState* play2) {
         tempIsRiding = DynaPolyActor_IsPlayerOnTop(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
             } else if (!tempIsRiding && this->isLinkRiding) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
         }
         this->isLinkRiding = tempIsRiding;

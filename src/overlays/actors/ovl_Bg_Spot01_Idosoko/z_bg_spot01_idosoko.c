@@ -17,15 +17,15 @@ void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play);
 void func_808ABF54(BgSpot01Idosoko* this, PlayState* play);
 
 ActorInit Bg_Spot01_Idosoko_InitVars = {
-    ACTOR_BG_SPOT01_IDOSOKO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT01_MATOYA,
-    sizeof(BgSpot01Idosoko),
-    (ActorFunc)BgSpot01Idosoko_Init,
-    (ActorFunc)BgSpot01Idosoko_Destroy,
-    (ActorFunc)BgSpot01Idosoko_Update,
-    (ActorFunc)BgSpot01Idosoko_Draw,
+    /**/ ACTOR_BG_SPOT01_IDOSOKO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_MATOYA,
+    /**/ sizeof(BgSpot01Idosoko),
+    /**/ BgSpot01Idosoko_Init,
+    /**/ BgSpot01Idosoko_Destroy,
+    /**/ BgSpot01Idosoko_Update,
+    /**/ BgSpot01Idosoko_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -73,7 +73,7 @@ void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoBOTWStoneDL);
 

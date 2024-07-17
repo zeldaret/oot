@@ -57,15 +57,15 @@ void EnDntNomal_StageAttack(EnDntNomal* this, PlayState* play);
 void EnDntNomal_StageReturn(EnDntNomal* this, PlayState* play);
 
 ActorInit En_Dnt_Nomal_InitVars = {
-    ACTOR_EN_DNT_NOMAL,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnDntNomal),
-    (ActorFunc)EnDntNomal_Init,
-    (ActorFunc)EnDntNomal_Destroy,
-    (ActorFunc)EnDntNomal_Update,
-    NULL,
+    /**/ ACTOR_EN_DNT_NOMAL,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnDntNomal),
+    /**/ EnDntNomal_Init,
+    /**/ EnDntNomal_Destroy,
+    /**/ EnDntNomal_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sBodyCylinderInit = {
@@ -81,8 +81,8 @@ static ColliderCylinderInit sBodyCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 16, 46, 0, { 0, 0, 0 } },
@@ -101,8 +101,8 @@ static ColliderQuadInit sTargetQuadInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x0001F824, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -124,31 +124,31 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
     }
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
-    this->objId = -1;
+    this->objectId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "Deku Scrub target"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" VT_RST);
         Collider_InitQuad(play, &this->targetQuad);
         Collider_SetQuad(play, &this->targetQuad, &this->actor, &sTargetQuadInit);
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-        this->objId = OBJECT_HINTNUTS;
+        this->objectId = OBJECT_HINTNUTS;
     } else {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "Deku Scrub mask show audience"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
         Collider_InitCylinder(play, &this->bodyCyl);
         Collider_SetCylinder(play, &this->bodyCyl, &this->actor, &sBodyCylinderInit);
-        this->objId = OBJECT_DNK;
+        this->objectId = OBJECT_DNK;
     }
-    if (this->objId >= 0) {
-        this->objIndex = Object_GetIndex(&play->objectCtx, this->objId);
-        if (this->objIndex < 0) {
+    if (this->objectId >= 0) {
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
+        if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
             // "What?"
-            osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
+            PRINTF(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->requiredObjectSlot);
             // "Bank is funny"
-            osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+            PRINTF(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
         }
     } else {
@@ -169,9 +169,9 @@ void EnDntNomal_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnDntNomal_WaitForObject(EnDntNomal* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objIndex)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objIndex].segment);
-        this->actor.objBankIndex = this->objIndex;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+        this->actor.objectSlot = this->requiredObjectSlot;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actor.gravity = -2.0f;
         Actor_SetScale(&this->actor, 0.01f);
@@ -216,24 +216,31 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
     f32 dz;
     Vec3f scoreAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f scoreVel = { 0.0f, 0.0f, 0.0f };
+    STACK_PAD(s32);
 
-    this->targetVtx[0].x = this->targetVtx[1].x = this->targetVtx[2].x = this->targetVtx[3].x = targetX;
+    this->targetVtx[0].x = targetX;
+    this->targetVtx[0].y = targetY - 24.0f;
+    this->targetVtx[0].z = targetZ + 24.0f;
 
-    this->targetVtx[1].y = this->targetVtx[0].y = targetY - 24.0f;
+    this->targetVtx[1].x = targetX;
+    this->targetVtx[1].y = targetY - 24.0f;
+    this->targetVtx[1].z = targetZ - 24.0f;
 
-    this->targetVtx[2].z = this->targetVtx[0].z = targetZ + 24.0f;
+    this->targetVtx[2].x = targetX;
+    this->targetVtx[2].y = targetY + 24.0f;
+    this->targetVtx[2].z = targetZ + 24.0f;
 
-    this->targetVtx[3].z = this->targetVtx[1].z = targetZ - 24.0f;
-
-    this->targetVtx[3].y = this->targetVtx[2].y = targetY + 24.0f;
+    this->targetVtx[3].x = targetX;
+    this->targetVtx[3].y = targetY + 24.0f;
+    this->targetVtx[3].z = targetZ - 24.0f;
 
     SkelAnime_Update(&this->skelAnime);
     if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0)) {
         this->targetQuad.base.acFlags &= ~AC_HIT;
 
-        dx = fabsf(targetX - this->targetQuad.info.bumper.hitPos.x);
-        dy = fabsf(targetY - this->targetQuad.info.bumper.hitPos.y);
-        dz = fabsf(targetZ - this->targetQuad.info.bumper.hitPos.z);
+        dx = fabsf(targetX - this->targetQuad.elem.acDmgInfo.hitPos.x);
+        dy = fabsf(targetY - this->targetQuad.elem.acDmgInfo.hitPos.y);
+        dz = fabsf(targetZ - this->targetQuad.elem.acDmgInfo.hitPos.z);
 
         scoreVel.y = 5.0f;
 
@@ -245,12 +252,12 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
             Audio_StopSfxById(NA_SE_SY_TRE_BOX_APPEAR);
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             // "Big hit"
-            osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" VT_RST, this->hitCounter);
+            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" VT_RST, this->hitCounter);
             if (!LINK_IS_ADULT && !GET_ITEMGETINF(ITEMGETINF_1D)) {
                 this->hitCounter++;
                 if (this->hitCounter >= 3) {
                     OnePointCutscene_Init(play, 4140, -99, &this->actor, CAM_ID_MAIN);
-                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+                    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
                     this->timer4 = 50;
                     this->actionFunc = EnDntNomal_SetupTargetUnburrow;
                 }
@@ -337,9 +344,9 @@ void EnDntNomal_TargetTalk(EnDntNomal* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         GET_ACTIVE_CAM(play)->csId = 0;
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = EnDntNomal_SetupTargetGivePrize;
     }
 }
@@ -361,7 +368,7 @@ void EnDntNomal_TargetGivePrize(EnDntNomal* this, PlayState* play) {
 
         if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, itemX, itemY, itemZ, 0, 0, 0,
                                EXITEM_BULLET_BAG) == NULL) {
-            func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+            Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
             Actor_Kill(&this->actor);
         }
         this->spawnedItem = true;
@@ -862,7 +869,7 @@ void EnDntNomal_DrawStageScrub(Actor* thisx, PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, sLeafColors[this->type - ENDNTNOMAL_STAGE].r,
                    sLeafColors[this->type - ENDNTNOMAL_STAGE].g, sLeafColors[this->type - ENDNTNOMAL_STAGE].b, 255);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1814),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1814),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gDntStageFlowerDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1817);
@@ -879,7 +886,7 @@ void EnDntNomal_DrawTargetScrub(Actor* thisx, PlayState* play) {
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnDntNomal_PostLimbDraw, this);
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1848),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1848),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gHintNutsFlowerDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1851);

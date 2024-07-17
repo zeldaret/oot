@@ -2,7 +2,6 @@
 
 import argparse
 import json
-import csv
 import git
 import os
 import re
@@ -59,10 +58,10 @@ def GetNonMatchingSize(path):
     return size
 
 def IsCFile(objfile):
-    srcfile = objfile.strip().replace("build/", "").replace(".o", ".c")
+    srcfile = objfile.strip().replace("build/gc-eu-mq-dbg/", "").replace(".o", ".c")
     return os.path.isfile(srcfile)
 
-mapFile = ReadAllLines("build/z64.map")
+mapFile = ReadAllLines("build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.map")
 curSegment = None
 src = 0
 code = 0
@@ -86,15 +85,15 @@ for line in mapFile:
         objFile = lineSplit[3]
 
         if (section == ".text" and IsCFile(objFile)):
-            if (objFile.startswith("build/src")):
+            if objFile.startswith("build/gc-eu-mq-dbg/src"):
                 src += size
 
-            if (objFile.startswith("build/src/code") or (objFile.startswith("build/src/libultra/") and curSegment == "code")):
-                code += size
-            elif (objFile.startswith("build/src/boot") or (objFile.startswith("build/src/libultra/") and curSegment == "boot")):
-                boot += size
-            elif (objFile.startswith("build/src/overlays")):
-                ovl += size
+                if curSegment == "code":
+                    code += size
+                elif curSegment == "boot":
+                    boot += size
+                else:
+                    ovl += size
 
 nonMatchingASM = GetNonMatchingSize("asm/non_matchings")
 nonMatchingASMBoot = GetNonMatchingSize("asm/non_matchings/boot")

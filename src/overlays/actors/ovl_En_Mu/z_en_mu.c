@@ -30,8 +30,8 @@ static ColliderCylinderInit D_80AB0BD0 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 100, 70, 0, { 0, 0, 0 } },
@@ -40,15 +40,15 @@ static ColliderCylinderInit D_80AB0BD0 = {
 static CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 ActorInit En_Mu_InitVars = {
-    ACTOR_EN_MU,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MU,
-    sizeof(EnMu),
-    (ActorFunc)EnMu_Init,
-    (ActorFunc)EnMu_Destroy,
-    (ActorFunc)EnMu_Update,
-    (ActorFunc)EnMu_Draw,
+    /**/ ACTOR_EN_MU,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MU,
+    /**/ sizeof(EnMu),
+    /**/ EnMu_Init,
+    /**/ EnMu_Destroy,
+    /**/ EnMu_Update,
+    /**/ EnMu_Draw,
 };
 
 void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
@@ -100,10 +100,10 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
 
 u16 EnMu_GetTextId(PlayState* play, Actor* thisx) {
     EnMu* this = (EnMu*)thisx;
-    u16 faceReaction = Text_GetFaceReaction(play, this->actor.params + 0x3A);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HAGGLING_TOWNSPEOPLE_1 + this->actor.params);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     return this->defaultTextId;
 }
@@ -195,7 +195,7 @@ void EnMu_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 Gfx* EnMu_DisplayListSetColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* dlist;
 
-    dlist = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    dlist = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
     gDPSetEnvColor(dlist, r, g, b, a);
     gSPEndDisplayList(dlist + 1);
     return dlist;

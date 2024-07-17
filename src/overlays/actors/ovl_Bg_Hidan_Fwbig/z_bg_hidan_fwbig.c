@@ -32,15 +32,15 @@ void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, PlayState* play);
 void BgHidanFwbig_Move(BgHidanFwbig* this, PlayState* play);
 
 ActorInit Bg_Hidan_Fwbig_InitVars = {
-    ACTOR_BG_HIDAN_FWBIG,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanFwbig),
-    (ActorFunc)BgHidanFwbig_Init,
-    (ActorFunc)BgHidanFwbig_Destroy,
-    (ActorFunc)BgHidanFwbig_Update,
-    (ActorFunc)BgHidanFwbig_Draw,
+    /**/ ACTOR_BG_HIDAN_FWBIG,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanFwbig),
+    /**/ BgHidanFwbig_Init,
+    /**/ BgHidanFwbig_Destroy,
+    /**/ BgHidanFwbig_Update,
+    /**/ BgHidanFwbig_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -56,8 +56,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 30, 130, 0, { 0, 0, 0 } },
@@ -268,7 +268,7 @@ void BgHidanFwbig_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->gameplayFrames % 0x80, 0, 0x20, 0x40, 1, 0,
                                 (u8)(play->gameplayFrames * -15), 0x20, 0x40));
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_fwbig.c", 660),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_fwbig.c", 660),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_XLU_DISP++, gFireTempleBigFireWallDL);

@@ -14,15 +14,15 @@ void ObjBlockstop_Destroy(Actor* thisx, PlayState* play);
 void ObjBlockstop_Update(Actor* thisx, PlayState* play);
 
 ActorInit Obj_Blockstop_InitVars = {
-    ACTOR_OBJ_BLOCKSTOP,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjBlockstop),
-    (ActorFunc)ObjBlockstop_Init,
-    (ActorFunc)ObjBlockstop_Destroy,
-    (ActorFunc)ObjBlockstop_Update,
-    NULL,
+    /**/ ACTOR_OBJ_BLOCKSTOP,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjBlockstop),
+    /**/ ObjBlockstop_Init,
+    /**/ ObjBlockstop_Destroy,
+    /**/ ObjBlockstop_Update,
+    /**/ NULL,
 };
 
 void ObjBlockstop_Init(Actor* thisx, PlayState* play) {

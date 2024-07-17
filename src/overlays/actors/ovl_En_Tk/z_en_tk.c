@@ -21,15 +21,15 @@ void EnTk_Walk(EnTk* this, PlayState* play);
 void EnTk_Dig(EnTk* this, PlayState* play);
 
 ActorInit En_Tk_InitVars = {
-    ACTOR_EN_TK,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TK,
-    sizeof(EnTk),
-    (ActorFunc)EnTk_Init,
-    (ActorFunc)EnTk_Destroy,
-    (ActorFunc)EnTk_Update,
-    (ActorFunc)EnTk_Draw,
+    /**/ ACTOR_EN_TK,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TK,
+    /**/ sizeof(EnTk),
+    /**/ EnTk_Init,
+    /**/ EnTk_Destroy,
+    /**/ EnTk_Update,
+    /**/ EnTk_Draw,
 };
 
 void EnTkEff_Create(EnTk* this, Vec3f* pos, Vec3f* speed, Vec3f* accel, u8 duration, f32 size, f32 growth) {
@@ -93,33 +93,32 @@ void EnTkEff_Draw(EnTk* this, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    if (1) {}
-
-    for (i = 0; i < ARRAY_COUNT(this->eff); i++) {
-        if (eff->active != 0) {
-            if (gfxSetup == 0) {
-                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-                gSPDisplayList(POLY_XLU_DISP++, gDampeEff1DL);
-                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                gfxSetup = 1;
-            }
-
-            alpha = eff->timeLeft * (255.0f / eff->timeTotal);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
-
-            gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(eff->size, eff->size, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tk_eff.c", 140),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-            imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustTextures) / eff->timeTotal);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTextures[imageIdx]));
-
-            gSPDisplayList(POLY_XLU_DISP++, gDampeEff2DL);
+    for (i = 0; i < ARRAY_COUNT(this->eff); i++, eff++) {
+        if (eff->active == 0) {
+            continue;
         }
-        eff++;
+
+        if (gfxSetup == 0) {
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
+            gSPDisplayList(POLY_XLU_DISP++, gDampeEff1DL);
+            gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
+            gfxSetup = 1;
+        }
+
+        alpha = eff->timeLeft * (255.0f / eff->timeTotal);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
+
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(eff->size, eff->size, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_tk_eff.c", 140),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustTextures) / eff->timeTotal);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTextures[imageIdx]));
+
+        gSPDisplayList(POLY_XLU_DISP++, gDampeEff2DL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_tk_eff.c", 154);
@@ -151,8 +150,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 30, 52, 0, { 0, 0, 0 } },
@@ -331,11 +330,10 @@ s32 EnTk_Orient(EnTk* this, PlayState* play) {
 }
 
 u16 EnTk_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction;
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_DAMPE);
 
-    faceReaction = Text_GetFaceReaction(play, 14);
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
 
     if (GET_INFTABLE(INFTABLE_D9)) {
@@ -538,7 +536,7 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
         this->actionCountdown = 0;
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                           EnTk_GetTextId, EnTk_UpdateTalkState);
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;

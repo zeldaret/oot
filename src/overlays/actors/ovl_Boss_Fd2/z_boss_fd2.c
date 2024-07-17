@@ -47,15 +47,15 @@ void BossFd2_Death(BossFd2* this, PlayState* play);
 void BossFd2_Wait(BossFd2* this, PlayState* play);
 
 ActorInit Boss_Fd2_InitVars = {
-    ACTOR_BOSS_FD2,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_FD2,
-    sizeof(BossFd2),
-    (ActorFunc)BossFd2_Init,
-    (ActorFunc)BossFd2_Destroy,
-    (ActorFunc)BossFd2_Update,
-    (ActorFunc)BossFd2_Draw,
+    /**/ ACTOR_BOSS_FD2,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_FD2,
+    /**/ sizeof(BossFd2),
+    /**/ BossFd2_Init,
+    /**/ BossFd2_Destroy,
+    /**/ BossFd2_Update,
+    /**/ BossFd2_Draw,
 };
 
 #include "z_boss_fd2_colchk.inc.c"
@@ -199,7 +199,7 @@ void BossFd2_SetupEmerge(BossFd2* this, PlayState* play) {
     s16 temp_rand;
     s8 health;
 
-    osSyncPrintf("UP INIT 1\n");
+    PRINTF("UP INIT 1\n");
     Animation_PlayOnce(&this->skelAnime, &gHoleVolvagiaEmergeAnim);
     this->actionFunc = BossFd2_Emerge;
     this->skelAnime.playSpeed = 0.0f;
@@ -207,7 +207,7 @@ void BossFd2_SetupEmerge(BossFd2* this, PlayState* play) {
     this->actor.world.pos.x = sHoleLocations[temp_rand].x;
     this->actor.world.pos.z = sHoleLocations[temp_rand].z;
     this->work[FD2_ACTION_STATE] = 0;
-    osSyncPrintf("UP INIT 2\n");
+    PRINTF("UP INIT 2\n");
     this->timers[0] = 10;
     if (bossFd != NULL) {
         health = bossFd->actor.colChkInfo.health;
@@ -224,22 +224,23 @@ void BossFd2_SetupEmerge(BossFd2* this, PlayState* play) {
 }
 
 void BossFd2_Emerge(BossFd2* this, PlayState* play) {
-    s8 health;
+    s16 holeTime;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     Player* player = GET_PLAYER(play);
     s16 i;
-    s16 holeTime;
 
-    osSyncPrintf("UP 1    mode %d\n", this->work[FD2_ACTION_STATE]);
+    PRINTF("UP 1    mode %d\n", this->work[FD2_ACTION_STATE]);
     SkelAnime_Update(&this->skelAnime);
-    osSyncPrintf("UP 1.5 \n");
+    PRINTF("UP 1.5 \n");
     switch (this->work[FD2_ACTION_STATE]) {
         case 0:
-            osSyncPrintf("UP time %d \n", this->timers[0]);
-            osSyncPrintf("PL time %x \n", player);
-            osSyncPrintf("MT time %x \n", bossFd);
+            PRINTF("UP time %d \n", this->timers[0]);
+            PRINTF("PL time %x \n", player);
+            PRINTF("MT time %x \n", bossFd);
             if ((this->timers[0] == 0) && (player->actor.world.pos.y > 70.0f)) {
-                osSyncPrintf("UP 1.6 \n");
+                s8 health;
+
+                PRINTF("UP 1.6 \n");
                 bossFd->faceExposed = 0;
                 bossFd->holePosition.x = this->actor.world.pos.x;
                 bossFd->holePosition.z = this->actor.world.pos.z;
@@ -261,7 +262,7 @@ void BossFd2_Emerge(BossFd2* this, PlayState* play) {
                 }
                 this->timers[0] = holeTime;
                 bossFd->timers[4] = this->timers[0] + 10;
-                osSyncPrintf("UP 1.7 \n");
+                PRINTF("UP 1.7 \n");
             }
             break;
         case 1:
@@ -302,7 +303,7 @@ void BossFd2_Emerge(BossFd2* this, PlayState* play) {
             }
             break;
     }
-    osSyncPrintf("UP 2\n");
+    PRINTF("UP 2\n");
 }
 
 void BossFd2_SetupIdle(BossFd2* this, PlayState* play) {
@@ -310,7 +311,7 @@ void BossFd2_SetupIdle(BossFd2* this, PlayState* play) {
     s8 health;
     s16 idleTime;
 
-    osSyncPrintf("UP INIT 1\n");
+    PRINTF("UP INIT 1\n");
     Animation_PlayLoop(&this->skelAnime, &gHoleVolvagiaTurnAnim);
     this->actionFunc = BossFd2_Idle;
     health = bossFd->actor.colChkInfo.health;
@@ -335,8 +336,8 @@ void BossFd2_Idle(BossFd2* this, PlayState* play) {
     prevToLink = this->work[FD2_TURN_TO_LINK];
     this->work[FD2_TURN_TO_LINK] =
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x7D0, 0);
-    osSyncPrintf("SW1 = %d\n", prevToLink);
-    osSyncPrintf("SW2 = %d\n", this->work[FD2_TURN_TO_LINK]);
+    PRINTF("SW1 = %d\n", prevToLink);
+    PRINTF("SW2 = %d\n", this->work[FD2_TURN_TO_LINK]);
     if ((fabsf(prevToLink) <= 1000.0f) && (1000.0f < fabsf(this->work[FD2_TURN_TO_LINK]))) {
         Animation_MorphToLoop(&this->skelAnime, &gHoleVolvagiaTurnAnim, -5.0f);
     }
@@ -643,7 +644,6 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
     BossFd* bossFd = (BossFd*)this->actor.parent;
     Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
     STACK_PADS(s32, 3);
-    f32 cameraShake;
     SkelAnime* skelAnime = &this->skelAnime;
 
     SkelAnime_Update(skelAnime);
@@ -651,7 +651,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
         case DEATH_START:
             this->deathState = DEATH_RETREAT;
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -745,7 +745,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
                     this->work[FD2_ACTION_STATE]++;
                     this->subCamVelFactor = 0.0f;
                     this->subCamAccel = 0.02f;
-                    func_8002DF54(play, &bossFd->actor, PLAYER_CSMODE_1);
+                    Player_SetCsActionWithHaltedActors(play, &bossFd->actor, PLAYER_CSACTION_1);
                 }
             }
             if ((bossFd->work[BFD_ACTION_STATE] == BOSSFD_BONES_FALL) && (bossFd->timers[0] == 5)) {
@@ -764,6 +764,8 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
             this->subCamEyeNext.y = 140.0f;
             Math_ApproachF(&this->subCamEyeNext.z, 220.0f, 0.5f, 1.15f);
             if (bossFd->work[BFD_CAM_SHAKE_TIMER] != 0) {
+                f32 cameraShake;
+
                 bossFd->work[BFD_CAM_SHAKE_TIMER]--;
                 cameraShake = bossFd->work[BFD_CAM_SHAKE_TIMER] / 0.5f;
                 if (cameraShake >= 20.0f) {
@@ -779,7 +781,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0, 0,
                                    WARP_DUNGEON_ADULT);
                 Flags_SetClear(play, play->roomCtx.curRoom.num);
@@ -804,33 +806,33 @@ void BossFd2_Wait(BossFd2* this, PlayState* play) {
 
 void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
     s16 i;
-    ColliderInfo* hurtbox;
+    ColliderElement* acHitElem;
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
         Player* player = GET_PLAYER(play);
 
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
-            if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
-                this->collider.elements[i].info.toucherFlags &= ~TOUCH_HIT;
+            if (this->collider.elements[i].base.atElemFlags & ATELEM_HIT) {
+                this->collider.elements[i].base.atElemFlags &= ~ATELEM_HIT;
                 Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }
     }
     if (!bossFd->faceExposed) {
-        this->collider.elements[0].info.elemType = ELEMTYPE_UNK2;
+        this->collider.elements[0].base.elemType = ELEMTYPE_UNK2;
         this->collider.base.colType = COLTYPE_METAL;
     } else {
-        this->collider.elements[0].info.elemType = ELEMTYPE_UNK3;
+        this->collider.elements[0].base.elemType = ELEMTYPE_UNK3;
         this->collider.base.colType = COLTYPE_HIT3;
     }
 
-    if (this->collider.elements[0].info.bumperFlags & BUMP_HIT) {
-        this->collider.elements[0].info.bumperFlags &= ~BUMP_HIT;
+    if (this->collider.elements[0].base.acElemFlags & ACELEM_HIT) {
+        this->collider.elements[0].base.acElemFlags &= ~ACELEM_HIT;
 
-        hurtbox = this->collider.elements[0].info.acHitInfo;
+        acHitElem = this->collider.elements[0].base.acHitElem;
         if (!bossFd->faceExposed) {
-            if (hurtbox->toucher.dmgFlags & DMG_HAMMER) {
+            if (acHitElem->atDmgInfo.dmgFlags & DMG_HAMMER) {
                 bossFd->actor.colChkInfo.health -= 2;
                 if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;
@@ -861,21 +863,21 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             u8 canKill = false;
             u8 damage;
 
-            if ((damage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags)) == 0) {
-                damage = (hurtbox->toucher.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
+            if ((damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags)) == 0) {
+                damage = (acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
             } else {
                 canKill = true;
             }
-            if (hurtbox->toucher.dmgFlags & DMG_HOOKSHOT) {
+            if (acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT) {
                 damage = 0;
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
                 bossFd->actor.colChkInfo.health -= damage;
-                osSyncPrintf(VT_FGCOL(GREEN));
-                osSyncPrintf("damage   %d\n", damage);
+                PRINTF(VT_FGCOL(GREEN));
+                PRINTF("damage   %d\n", damage);
             }
-            osSyncPrintf(VT_RST);
-            osSyncPrintf("hp %d\n", bossFd->actor.colChkInfo.health);
+            PRINTF(VT_RST);
+            PRINTF("hp %d\n", bossFd->actor.colChkInfo.health);
 
             if ((s8)bossFd->actor.colChkInfo.health <= 0) {
                 bossFd->actor.colChkInfo.health = 0;
@@ -954,7 +956,7 @@ void BossFd2_Update(Actor* thisx, PlayState* play2) {
     BossFd2* this = (BossFd2*)thisx;
     s16 i;
 
-    osSyncPrintf("FD2 move start \n");
+    PRINTF("FD2 move start \n");
     this->disableAT = false;
     this->actor.flags &= ~ACTOR_FLAG_10;
     this->work[FD2_VAR_TIMER]++;
@@ -1059,7 +1061,7 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
     f32 spE8[10] = { 0.4f, 0.6f, 0.8f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
     s16 i;
     Vec3f temp_vec;
-    f32 temp_f2;
+    f32 temp_radius;
     f32 phi_f0;
     f32 temp_angleX;
     f32 temp_angleY;
@@ -1087,9 +1089,8 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
         temp_vec.x = (pos + i)->x + (pull + i)->x - (pos + i - 1)->x;
 
         phi_f0 = (pos + i)->y + (pull + i)->y - 2.0f + sp138[i];
-        temp_f2 = (pos + i - 1)->y + sp110[i];
-        if (phi_f0 > temp_f2) {
-            phi_f0 = temp_f2;
+        if (phi_f0 > (pos + i - 1)->y + sp110[i]) {
+            phi_f0 = (pos + i - 1)->y + sp110[i];
         }
         if ((head->y >= -910.0f) && (phi_f0 < 110.0f)) {
             phi_f0 = 110.0f;
@@ -1098,7 +1099,8 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
 
         temp_vec.z = (pos + i)->z + (pull + i)->z - (pos + i - 1)->z;
         temp_angleY = Math_Atan2F(temp_vec.z, temp_vec.x);
-        temp_angleX = -Math_Atan2F(sqrtf(SQ(temp_vec.x) + SQ(temp_vec.z)), temp_vec.y);
+        temp_radius = sqrtf(SQ(temp_vec.x) + SQ(temp_vec.z));
+        temp_angleX = -Math_Atan2F(temp_radius, temp_vec.y);
         (rot + i - 1)->y = temp_angleY;
         (rot + i - 1)->x = temp_angleX;
         spBC.x = 0.0f;
@@ -1143,7 +1145,7 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
         xyScale = (0.01f - (i * 0.0009f)) * spE8[i] * scale[i];
         Matrix_Scale(xyScale, xyScale, 0.01f * spE8[i], MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_fd2.c", 2498),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_fd2.c", 2498),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeModelDL);
     }
@@ -1189,7 +1191,7 @@ void BossFd2_Draw(Actor* thisx, PlayState* play) {
     BossFd2* this = (BossFd2*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_fd2.c", 2617);
-    osSyncPrintf("FD2 draw start \n");
+    PRINTF("FD2 draw start \n");
     if (this->actionFunc != BossFd2_Wait) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         if (this->work[FD2_DAMAGE_FLASH_TIMER] & 2) {

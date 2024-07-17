@@ -37,8 +37,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 12, 60, 0, { 0, 0, 0 } },
@@ -59,15 +59,15 @@ static Color_RGBA8 sEnvColors[] = {
 };
 
 ActorInit Bg_Po_Syokudai_InitVars = {
-    ACTOR_BG_PO_SYOKUDAI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SYOKUDAI,
-    sizeof(BgPoSyokudai),
-    (ActorFunc)BgPoSyokudai_Init,
-    (ActorFunc)BgPoSyokudai_Destroy,
-    (ActorFunc)BgPoSyokudai_Update,
-    (ActorFunc)BgPoSyokudai_Draw,
+    /**/ ACTOR_BG_PO_SYOKUDAI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SYOKUDAI,
+    /**/ sizeof(BgPoSyokudai),
+    /**/ BgPoSyokudai_Init,
+    /**/ BgPoSyokudai_Destroy,
+    /**/ BgPoSyokudai_Update,
+    /**/ BgPoSyokudai_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -150,7 +150,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_po_syokudai.c", 315);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gGoldenTorchDL);
 
@@ -180,7 +180,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
             MTXMODE_APPLY);
         Matrix_Scale(0.0027f, 0.0027f, 0.0027f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }

@@ -22,15 +22,15 @@ void BgGndDarkmeiro_UpdateStaticBlock(BgGndDarkmeiro* this, PlayState* play);
 void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, PlayState* play);
 
 ActorInit Bg_Gnd_Darkmeiro_InitVars = {
-    ACTOR_BG_GND_DARKMEIRO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndDarkmeiro),
-    (ActorFunc)BgGndDarkmeiro_Init,
-    (ActorFunc)BgGndDarkmeiro_Destroy,
-    (ActorFunc)BgGndDarkmeiro_Update,
-    NULL,
+    /**/ ACTOR_BG_GND_DARKMEIRO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndDarkmeiro),
+    /**/ BgGndDarkmeiro_Init,
+    /**/ BgGndDarkmeiro_Destroy,
+    /**/ BgGndDarkmeiro_Update,
+    /**/ NULL,
 };
 
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, PlayState* play) {
@@ -55,7 +55,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, PlayState* play2) {
     switch (this->dyna.actor.params & 0xFF) {
         case DARKMEIRO_INVISIBLE_PATH:
             this->dyna.actor.draw = BgGndDarkmeiro_DrawInvisiblePath;
-            this->dyna.actor.flags |= ACTOR_FLAG_7;
+            this->dyna.actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
             break;
         case DARKMEIRO_CLEAR_BLOCK:
             CollisionHeader_GetVirtual(&gClearBlockCol, &colHeader);
@@ -100,10 +100,11 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BgGndDarkmeiro* this = (BgGndDarkmeiro*)thisx;
 
-    if ((this->dyna.actor.params & 0xFF) == 1) {
-        if (1) {}
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    if ((this->dyna.actor.params & 0xFF) != 1) {
+        return;
     }
+
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgGndDarkmeiro_Noop(BgGndDarkmeiro* this, PlayState* play) {

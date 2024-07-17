@@ -17,15 +17,15 @@ void EnLight_Draw(Actor* thisx, PlayState* play);
 void EnLight_UpdateSwitch(Actor* thisx, PlayState* play);
 
 ActorInit En_Light_InitVars = {
-    ACTOR_EN_LIGHT,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnLight),
-    (ActorFunc)EnLight_Init,
-    (ActorFunc)EnLight_Destroy,
-    (ActorFunc)EnLight_Update,
-    (ActorFunc)EnLight_Draw,
+    /**/ ACTOR_EN_LIGHT,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnLight),
+    /**/ EnLight_Init,
+    /**/ EnLight_Destroy,
+    /**/ EnLight_Update,
+    /**/ EnLight_Draw,
 };
 
 typedef struct {
@@ -189,7 +189,7 @@ void EnLight_Draw(Actor* thisx, PlayState* play) {
     }
 
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_light.c", 488),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_light.c", 488),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, dList);
 

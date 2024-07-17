@@ -196,15 +196,15 @@ static DamageTable sDamageTableWhite = {
 };
 
 ActorInit En_Bb_InitVars = {
-    ACTOR_EN_BB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BB,
-    sizeof(EnBb),
-    (ActorFunc)EnBb_Init,
-    (ActorFunc)EnBb_Destroy,
-    (ActorFunc)EnBb_Update,
-    (ActorFunc)EnBb_Draw,
+    /**/ ACTOR_EN_BB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BB,
+    /**/ sizeof(EnBb),
+    /**/ EnBb_Init,
+    /**/ EnBb_Destroy,
+    /**/ EnBb_Update,
+    /**/ EnBb_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementInit[1] = {
@@ -213,8 +213,8 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { 0, -120, 0 }, 4 }, 300 },
@@ -291,9 +291,10 @@ void EnBb_SpawnFlameTrail(PlayState* play, EnBb* this, s16 startAtZero) {
 
 void EnBb_KillFlameTrail(EnBb* this) {
     Actor* actor = &this->actor;
+    Actor* nextActor;
 
     while (actor->child != NULL) {
-        Actor* nextActor = actor->child;
+        nextActor = actor->child;
 
         if (nextActor->id == ACTOR_EN_BB) {
             nextActor->parent = NULL;
@@ -330,9 +331,9 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
         this->timer = 0;
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
-        this->collider.elements[0].info.toucherFlags = TOUCH_ON | TOUCH_SFX_HARD;
-        this->collider.elements[0].info.toucher.dmgFlags = DMG_DEFAULT;
-        this->collider.elements[0].info.toucher.damage = 8;
+        this->collider.elements[0].base.atElemFlags = ATELEM_ON | ATELEM_SFX_HARD;
+        this->collider.elements[0].base.atDmgInfo.dmgFlags = DMG_DEFAULT;
+        this->collider.elements[0].base.atDmgInfo.damage = 8;
         this->bobSize = this->actionState * 20.0f;
         this->flamePrimAlpha = 255;
         this->moveMode = BBMOVE_NORMAL;
@@ -350,7 +351,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
-                this->collider.elements[0].info.toucher.effect = 1;
+                this->collider.elements[0].base.atDmgInfo.effect = 1;
                 EnBb_SetupRed(play, this);
                 break;
             case ENBB_WHITE:
@@ -408,10 +409,10 @@ void EnBb_Destroy(Actor* thisx, PlayState* play) {
 void EnBb_SetupFlameTrail(EnBb* this) {
     this->action = BB_FLAME_TRAIL;
     this->moveMode = BBMOVE_NOCLIP;
-    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.speed = 0.0f;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnBb_SetupAction(this, EnBb_FlameTrail);
 }
 
@@ -1151,10 +1152,10 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->dmgEffect = this->actor.colChkInfo.damageEffect;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, false);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, false);
         switch (this->dmgEffect) {
             case 7:
-                this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage;
                 FALLTHROUGH;
             case 5:
                 this->fireIceTimer = 0x30;
@@ -1164,7 +1165,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
-                this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage;
                 break;
             case 8:
             case 9:
@@ -1247,10 +1248,10 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
         this->actor.focus.pos = this->actor.world.pos;
-        this->collider.elements->dim.worldSphere.center.x = this->actor.world.pos.x;
-        this->collider.elements->dim.worldSphere.center.y =
+        this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
+        this->collider.elements[0].dim.worldSphere.center.y =
             this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y);
-        this->collider.elements->dim.worldSphere.center.z = this->actor.world.pos.z;
+        this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
 
         if ((this->action > BB_KILL) && ((this->actor.speed != 0.0f) || (this->action == BB_GREEN))) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
@@ -1267,7 +1268,7 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
 void EnBb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnBb* this = (EnBb*)thisx;
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 4, 15, 15, dList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 4, 15, 15, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
 }
 
 static Vec3f sFireIceOffsets[] = {
@@ -1338,7 +1339,7 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
                 BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
                 MTXMODE_APPLY);
             Matrix_Scale(this->flameScaleX * 0.01f, this->flameScaleY * 0.01f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bb.c", 2106),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bb.c", 2106),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
         } else {

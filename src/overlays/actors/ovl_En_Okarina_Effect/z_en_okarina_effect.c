@@ -7,6 +7,8 @@
 #include "z_en_okarina_effect.h"
 #include "terminal.h"
 
+#include "z64frame_advance.h"
+
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnOkarinaEffect_Init(Actor* thisx, PlayState* play);
@@ -17,15 +19,15 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, PlayState* play);
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play);
 
 ActorInit En_Okarina_Effect_InitVars = {
-    ACTOR_EN_OKARINA_EFFECT,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnOkarinaEffect),
-    (ActorFunc)EnOkarinaEffect_Init,
-    (ActorFunc)EnOkarinaEffect_Destroy,
-    (ActorFunc)EnOkarinaEffect_Update,
-    NULL,
+    /**/ ACTOR_EN_OKARINA_EFFECT,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnOkarinaEffect),
+    /**/ EnOkarinaEffect_Init,
+    /**/ EnOkarinaEffect_Destroy,
+    /**/ EnOkarinaEffect_Update,
+    /**/ NULL,
 };
 
 void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFunc actionFunc) {
@@ -47,10 +49,10 @@ void EnOkarinaEffect_Destroy(Actor* thisx, PlayState* play) {
 void EnOkarinaEffect_Init(Actor* thisx, PlayState* play) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Ocarina Storm Effect"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n" VT_RST);
-    osSyncPrintf("\n\n");
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF("\n\n");
     if (play->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
         Actor_Kill(&this->actor);
     }
@@ -79,9 +81,9 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
         if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || play->envCtx.lightConfig != 1) {
             this->timer--;
         }
-        osSyncPrintf("\nthis->timer=[%d]", this->timer);
+        PRINTF("\nthis->timer=[%d]", this->timer);
         if (this->timer == 308) {
-            osSyncPrintf("\n\n\n豆よ のびろ 指定\n\n\n"); // "Let's grow some beans"
+            PRINTF("\n\n\n豆よ のびろ 指定\n\n\n"); // "Let's grow some beans"
             CutsceneFlags_Set(play, 5);
         }
     }
@@ -98,8 +100,8 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_1, 0);
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
         }
-        osSyncPrintf("\n\n\nE_wether_flg=[%d]", gWeatherMode);
-        osSyncPrintf("\nrain_evt_trg=[%d]\n\n", play->envCtx.stormRequest);
+        PRINTF("\n\n\nE_wether_flg=[%d]", gWeatherMode);
+        PRINTF("\nrain_evt_trg=[%d]\n\n", play->envCtx.stormRequest);
         if (gWeatherMode == WEATHER_MODE_CLEAR && (play->envCtx.stormRequest == STORM_REQUEST_START)) {
             play->envCtx.stormRequest = STORM_REQUEST_STOP;
         } else {
@@ -115,7 +117,8 @@ void EnOkarinaEffect_Update(Actor* thisx, PlayState* play) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     this->actionFunc(this, play);
-    if (BREG(0) != 0) {
+
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0xFF, 0, 0xFF, 0xFF, 4, play->state.gfxCtx);

@@ -15,15 +15,15 @@ void OceffWipe4_Update(Actor* thisx, PlayState* play);
 void OceffWipe4_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Oceff_Wipe4_InitVars = {
-    ACTOR_OCEFF_WIPE4,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(OceffWipe4),
-    (ActorFunc)OceffWipe4_Init,
-    (ActorFunc)OceffWipe4_Destroy,
-    (ActorFunc)OceffWipe4_Update,
-    (ActorFunc)OceffWipe4_Draw,
+    /**/ ACTOR_OCEFF_WIPE4,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(OceffWipe4),
+    /**/ OceffWipe4_Init,
+    /**/ OceffWipe4_Destroy,
+    /**/ OceffWipe4_Update,
+    /**/ OceffWipe4_Draw,
 };
 
 void OceffWipe4_Init(Actor* thisx, PlayState* play) {
@@ -32,7 +32,7 @@ void OceffWipe4_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.1f);
     this->timer = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(play)->eye;
-    osSyncPrintf(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe4_Destroy(Actor* thisx, PlayState* play) {
@@ -68,7 +68,7 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(play));
+    quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(play));
     if (this->timer < 16) {
         z = Math_SinS(this->timer * 1024) * 1330.0f;
     } else {
@@ -95,7 +95,7 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_wipe4.c", 324),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_oceff_wipe4.c", 324),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == OCEFF_WIPE4_UNUSED) {

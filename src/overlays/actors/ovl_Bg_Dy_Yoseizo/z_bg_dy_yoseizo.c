@@ -55,15 +55,15 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play);
 UNUSED static s32 sUnusedGetItemIds[] = { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE };
 
 ActorInit Bg_Dy_Yoseizo_InitVars = {
-    ACTOR_BG_DY_YOSEIZO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DY_OBJ,
-    sizeof(BgDyYoseizo),
-    (ActorFunc)BgDyYoseizo_Init,
-    (ActorFunc)BgDyYoseizo_Destroy,
-    (ActorFunc)BgDyYoseizo_Update,
-    NULL,
+    /**/ ACTOR_BG_DY_YOSEIZO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DY_OBJ,
+    /**/ sizeof(BgDyYoseizo),
+    /**/ BgDyYoseizo_Init,
+    /**/ BgDyYoseizo_Destroy,
+    /**/ BgDyYoseizo_Update,
+    /**/ NULL,
 };
 
 void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
@@ -82,12 +82,12 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
 
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         // "Great Fairy Fountain"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
                            this->jointTable, this->morphTable, 28);
     } else {
         // "Stone/Jewel Fairy Fountain"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
                            this->jointTable, this->morphTable, 28);
     }
@@ -191,7 +191,7 @@ void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, PlayState* play) {
                 return;
             }
         }
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->actionFunc = BgDyYoseizo_ChooseType;
     }
 }
@@ -199,9 +199,9 @@ void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, PlayState* play) {
 void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
     s32 givingReward;
 
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     // "Mode"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
     givingReward = false;
 
     if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
@@ -227,7 +227,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
             case FAIRY_UPGRADE_MAGIC:
                 if (!gSaveContext.save.info.playerData.isMagicAcquired || BREG(2)) {
                     // "Spin Attack speed UP"
-                    osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }
@@ -235,7 +235,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
                 if (!gSaveContext.save.info.playerData.isDoubleMagicAcquired) {
                     // "Magic Meter doubled"
-                    osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }
@@ -243,7 +243,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
             case FAIRY_UPGRADE_DOUBLE_DEFENSE:
                 if (!gSaveContext.save.info.playerData.isDoubleDefenseAcquired) {
                     // "Damage halved"
-                    osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }
@@ -252,7 +252,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
     }
 
     if (givingReward) {
-        if (!IS_CUTSCENE_LAYER) {
+        if (!IS_CUTSCENE_LAYER || !OOT_DEBUG) {
             if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 switch (this->fountainType) {
                     case FAIRY_SPELL_FARORES_WIND:
@@ -315,12 +315,12 @@ void BgDyYoseizo_SetupSpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
     }
 
     Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     this->actionFunc = BgDyYoseizo_SpinGrow_NoReward;
 }
 
 void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     Math_ApproachF(&this->actor.world.pos.y, this->grownHeight, this->heightFraction, 100.0f);
     Math_ApproachF(&this->scale, 0.035f, this->scaleFraction, 0.005f);
     Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
@@ -346,7 +346,7 @@ void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
 void BgDyYoseizo_CompleteSpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
     f32 curFrame = this->skelAnime.curFrame;
 
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 
     if ((this->frameCount * 1273.0f) <= this->bobTimer) {
         this->bobTimer = 0.0f;
@@ -360,7 +360,7 @@ void BgDyYoseizo_CompleteSpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
 }
 
 void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         this->frameCount = Animation_GetLastFrame(&gGreatFairySittingAnim);
@@ -380,7 +380,7 @@ void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
 }
 
 void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     this->bobTimer = this->skelAnime.curFrame * 1273.0f;
 
     if ((this->frameCount * 1273.0f) <= this->bobTimer) {
@@ -501,7 +501,7 @@ void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->mouthState = 0;
         this->actionFunc = BgDyYoseizo_SetupSpinShrink;
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
     }
 
     BgDyYoseizo_Bob(this, play);
@@ -548,7 +548,7 @@ void BgDyYoseizo_Vanish(BgDyYoseizo* this, PlayState* play) {
     Actor* findOcarinaSpot;
 
     if (this->vanishTimer == 0) {
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
         play->envCtx.lightSettingOverride = 0;
         findOcarinaSpot = play->actorCtx.actorLists[ACTORCAT_PROP].head;
 
@@ -570,7 +570,7 @@ void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         if ((play->csCtx.actorCues[0] != NULL) && (play->csCtx.actorCues[0]->id == 2)) {
             this->actor.draw = BgDyYoseizo_Draw;
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
             this->finishedSpinGrow = false;
 
             if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
@@ -1029,7 +1029,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(effect->roll, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleModelDL));
         }

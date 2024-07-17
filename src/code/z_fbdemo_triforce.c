@@ -80,7 +80,7 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
     modelView = this->modelView[this->frame];
     scale = this->transPos * 0.625f;
     this->frame ^= 1;
-    osSyncPrintf("rate=%f tx=%f ty=%f rotate=%f\n", this->transPos, 0.0f, 0.0f, rotation);
+    PRINTF("rate=%f tx=%f ty=%f rotate=%f\n", this->transPos, 0.0f, 0.0f, rotation);
     guScale(&modelView[0], scale, scale, 1.0f);
     guRotate(&modelView[1], rotation, 0.0f, 0.0f, 1.0f);
     guTranslate(&modelView[2], 0.0f, 0.0f, 0.0f);

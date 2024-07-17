@@ -17,15 +17,15 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play);
 void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play);
 
 ActorInit Obj_Dekujr_InitVars = {
-    ACTOR_OBJ_DEKUJR,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DEKUJR,
-    sizeof(ObjDekujr),
-    (ActorFunc)ObjDekujr_Init,
-    (ActorFunc)ObjDekujr_Destroy,
-    (ActorFunc)ObjDekujr_Update,
-    (ActorFunc)ObjDekujr_Draw,
+    /**/ ACTOR_OBJ_DEKUJR,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DEKUJR,
+    /**/ sizeof(ObjDekujr),
+    /**/ ObjDekujr_Init,
+    /**/ ObjDekujr_Destroy,
+    /**/ ObjDekujr_Update,
+    /**/ ObjDekujr_Draw,
 };
 
 static ColliderCylinderInitToActor sCylinderInit = {
@@ -163,7 +163,7 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_dekujr.c", 379),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_dekujr.c", 379),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, object_dekujr_DL_0030D0);
 
@@ -171,7 +171,7 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frameCount % 128, 0, 32, 32, 1, frameCount % 128,
                                 0, 32, 32));
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_dekujr.c", 399),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_dekujr.c", 399),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_dekujr_DL_0032D8);
 

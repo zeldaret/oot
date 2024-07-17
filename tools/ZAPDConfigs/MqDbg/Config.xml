@@ -1,8 +1,0 @@
-<Root>
-    <SymbolMap File="SymbolMap_OoTMqDbg.txt"/>
-    <ActorList File="ActorList_OoTMqDbg.txt"/>
-    <ObjectList File="ObjectList_OoTMqDbg.txt"/>
-    <EntranceList File="EntranceList_OoTMqDbg.txt"/>
-    <SpecialEntranceList File="SpecialEntranceList_OoTMqDbg.txt"/>
-    <ExternalXMLFolder Path="assets/xml/"/>
-</Root>

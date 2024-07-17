@@ -2,6 +2,27 @@
 
 This list gives brief information on the most common usage cases. For more information, first try using `-h` or `--help` as an argument, and failing that, ask in #oot-decomp-help or #tools-other in the Discord.
 
+Many tools require activating a Python virtual environment that contains Python
+dependencies. This virtual environment is automatically installed into the
+`.venv` directory by `make setup`, but you need to **activate** it in your
+current terminal session in order to run Python tools. To start using the
+virtual environment in your current terminal run:
+
+```bash
+source .venv/bin/activate
+```
+
+Keep in mind that for each new terminal session, you will need to activate the
+Python virtual environment again. That is, run the above `source .venv/bin/activate` command.
+
+To deactivate the virtual environment, run
+
+```bash
+deactivate
+```
+
+and your terminal session state will be restored to what it was before.
+
 ## m2ctx
 
 This generates the context for mips2c to use to type objects in its output. It lives in the tools directory. Running
@@ -120,7 +141,7 @@ Optional arguments are `-o output` to output to a different file and `-v` to giv
 
 ## vt_fmt
 
-This turns the strange strings in the `osSyncPrintf`s into the human-readable equivalent instructions. Copy the contents, including the quotation marks, and run
+This turns the strange strings in the `PRINTF`s into the human-readable equivalent instructions. Copy the contents, including the quotation marks, and run
 ```sh
 ./tools/vt_fmt.py "contents"
 ```

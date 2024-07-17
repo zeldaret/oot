@@ -17,15 +17,15 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play);
 void func_808ADEF0(BgSpot03Taki* this, PlayState* play);
 
 ActorInit Bg_Spot03_Taki_InitVars = {
-    ACTOR_BG_SPOT03_TAKI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT03_OBJECT,
-    sizeof(BgSpot03Taki),
-    (ActorFunc)BgSpot03Taki_Init,
-    (ActorFunc)BgSpot03Taki_Destroy,
-    (ActorFunc)BgSpot03Taki_Update,
-    (ActorFunc)BgSpot03Taki_Draw,
+    /**/ ACTOR_BG_SPOT03_TAKI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT03_OBJECT,
+    /**/ sizeof(BgSpot03Taki),
+    /**/ BgSpot03Taki_Init,
+    /**/ BgSpot03Taki_Destroy,
+    /**/ BgSpot03Taki_Update,
+    /**/ BgSpot03Taki_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -122,7 +122,7 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot03_taki.c", 325),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot03_taki.c", 325),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
@@ -146,6 +146,8 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
                                 -gameplayFrames, gameplayFrames * 3, 64, 64));
 
     gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_001580);
+
+    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 

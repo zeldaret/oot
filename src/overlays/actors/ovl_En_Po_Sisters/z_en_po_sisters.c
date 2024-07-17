@@ -62,15 +62,15 @@ static Color_RGBA8 D_80ADD700[4] = {
 };
 
 ActorInit En_Po_Sisters_InitVars = {
-    ACTOR_EN_PO_SISTERS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_PO_SISTERS,
-    sizeof(EnPoSisters),
-    (ActorFunc)EnPoSisters_Init,
-    (ActorFunc)EnPoSisters_Destroy,
-    (ActorFunc)EnPoSisters_Update,
-    (ActorFunc)EnPoSisters_Draw,
+    /**/ ACTOR_EN_PO_SISTERS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_SISTERS,
+    /**/ sizeof(EnPoSisters),
+    /**/ EnPoSisters_Init,
+    /**/ EnPoSisters_Destroy,
+    /**/ EnPoSisters_Update,
+    /**/ EnPoSisters_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -86,8 +86,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x4FC7FFEA, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 18, 60, 15, { 0, 0, 0 } },
@@ -209,8 +209,8 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
             func_80AD9AA8(this, play);
         } else {
             this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_14);
-            this->collider.info.elemType = ELEMTYPE_UNK4;
-            this->collider.info.bumper.dmgFlags |= DMG_DEKU_NUT;
+            this->collider.elem.elemType = ELEMTYPE_UNK4;
+            this->collider.elem.acDmgInfo.dmgFlags |= DMG_DEKU_NUT;
             this->collider.base.ocFlags1 = OC1_NONE;
             func_80AD9C24(this, NULL);
         }
@@ -301,7 +301,7 @@ void func_80AD9568(EnPoSisters* this) {
 void func_80AD95D8(EnPoSisters* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeSistersDamagedAnim, -3.0f);
     if (this->collider.base.ac != NULL) {
-        this->actor.world.rot.y = (this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT))
+        this->actor.world.rot.y = (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT))
                                       ? this->collider.base.ac->world.rot.y
                                       : Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
@@ -743,7 +743,7 @@ void func_80ADAD54(EnPoSisters* this, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_22E.a = 0;
-        this->collider.info.bumper.dmgFlags = DMG_MAGIC_ICE | DMG_MAGIC_FIRE | DMG_DEKU_NUT;
+        this->collider.elem.acDmgInfo.dmgFlags = DMG_MAGIC_ICE | DMG_MAGIC_FIRE | DMG_DEKU_NUT;
         func_80AD93C4(this);
     } else {
         endFrame = this->skelAnime.endFrame;
@@ -756,8 +756,8 @@ void func_80ADAE6C(EnPoSisters* this, PlayState* play) {
         this->unk_22E.a = 255;
         if (this->unk_194 != 0) {
             this->unk_199 |= 1;
-            this->collider.info.bumper.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE | DMG_MAGIC_FIRE |
-                                                   DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
+            this->collider.elem.acDmgInfo.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE |
+                                                      DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
             if (this->unk_19A != 0) {
                 this->unk_19A--;
             }
@@ -1130,7 +1130,7 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if (this->unk_195 != 0) {
             ((EnPoSisters*)this->actor.parent)->unk_19C--;
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
@@ -1271,9 +1271,9 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
     if (limbIndex == 1 && (this->unk_199 & 0x40)) {
         if (this->unk_19A >= 284) {
-            rot->x += (this->unk_19A * 0x1000) + 0xFFEE4000;
+            rot->x += (this->unk_19A * 0x1000) - 0x11C000;
         } else {
-            rot->x += (this->unk_19A * 0x1000) + 0xFFFF1000;
+            rot->x += (this->unk_19A * 0x1000) - 0xF000;
         }
     }
     if (this->unk_22E.a == 0 || limbIndex == 8 || (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8)) {
@@ -1298,7 +1298,7 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     STACK_PAD(s32);
 
     if (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8 && limbIndex == 9) {
-        gSPMatrix((*gfxP)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_po_sisters.c", 2876),
+        gSPMatrix((*gfxP)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_sisters.c", 2876),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList((*gfxP)++, gPoSistersBurnDL);
     }
@@ -1363,7 +1363,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     }
     if (!(this->unk_199 & 0x80)) {
         Matrix_Put(&this->unk_2F8);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_po_sisters.c", 3034),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_sisters.c", 3034),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gPoSistersTorchDL);
     }
@@ -1407,7 +1407,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
             phi_f20 = CLAMP(phi_f20, 0.5f, 0.8f) * 0.007f;
         }
         Matrix_Scale(phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_po_sisters.c", 3132),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_sisters.c", 3132),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }

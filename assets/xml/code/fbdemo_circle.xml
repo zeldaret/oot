@@ -1,13 +1,13 @@
 <Root>
-    <File Name="code" OutName="z_fbdemo_circle" RangeStart="0x10ED48" RangeEnd="0x10FF68">
-        <Texture Name="sTransCircleNormalTex" OutName="trans_circle_normal" Format="i8" Width="16" Height="64" Offset="0x10ED48"/>
-        <Texture Name="sTransCircleWaveTex" OutName="trans_circle_wave" Format="i8" Width="16" Height="64" Offset="0x10F148"/>
-        <Texture Name="sTransCircleRippleTex" OutName="trans_circle_ripple" Format="i8" Width="16" Height="64" Offset="0x10F548"/>
-        <Texture Name="sTransCircleStarburstTex" OutName="trans_circle_starburst" Format="i8" Width="16" Height="64" Offset="0x10F948"/>
-        <Array Name="sTransCircleVtx" Count="34" Offset="0x10FD48">
+    <File Name="code" OutName="z_fbdemo_circle">
+        <Texture Name="sTransCircleNormalTex" OutName="trans_circle_normal" Format="i8" Width="16" Height="64" Offset="0x0"/>
+        <Texture Name="sTransCircleWaveTex" OutName="trans_circle_wave" Format="i8" Width="16" Height="64" Offset="0x400"/>
+        <Texture Name="sTransCircleRippleTex" OutName="trans_circle_ripple" Format="i8" Width="16" Height="64" Offset="0x800"/>
+        <Texture Name="sTransCircleStarburstTex" OutName="trans_circle_starburst" Format="i8" Width="16" Height="64" Offset="0xC00"/>
+        <Array Name="sTransCircleVtx" Count="34" Offset="0x1000">
             <Vtx/>
         </Array>
         <!-- ZAPD isn't finding symbols correctly, instead finding them much later in `code`-->
-        <!--<DList Name="sTransCircleDL" Offset="0x10FF68"/>-->
+        <!--<DList Name="sTransCircleDL" Offset="0x1220"/>-->
     </File>
 </Root>

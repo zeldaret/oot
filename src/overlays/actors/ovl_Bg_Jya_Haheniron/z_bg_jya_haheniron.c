@@ -23,15 +23,15 @@ void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this);
 void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, PlayState* play);
 
 ActorInit Bg_Jya_Haheniron_InitVars = {
-    ACTOR_BG_JYA_HAHENIRON,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_JYA_IRON,
-    sizeof(BgJyaHaheniron),
-    (ActorFunc)BgJyaHaheniron_Init,
-    (ActorFunc)BgJyaHaheniron_Destroy,
-    (ActorFunc)BgJyaHaheniron_Update,
-    (ActorFunc)BgJyaHaheniron_Draw,
+    /**/ ACTOR_BG_JYA_HAHENIRON,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_IRON,
+    /**/ sizeof(BgJyaHaheniron),
+    /**/ BgJyaHaheniron_Init,
+    /**/ BgJyaHaheniron_Destroy,
+    /**/ BgJyaHaheniron_Update,
+    /**/ BgJyaHaheniron_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
@@ -40,8 +40,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 10 }, 100 },

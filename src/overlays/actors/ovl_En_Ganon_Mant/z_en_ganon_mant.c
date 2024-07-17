@@ -15,15 +15,15 @@ void EnGanonMant_Update(Actor* thisx, PlayState* play);
 void EnGanonMant_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Ganon_Mant_InitVars = {
-    ACTOR_EN_GANON_MANT,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnGanonMant),
-    (ActorFunc)EnGanonMant_Init,
-    (ActorFunc)EnGanonMant_Destroy,
-    (ActorFunc)EnGanonMant_Update,
-    (ActorFunc)EnGanonMant_Draw,
+    /**/ ACTOR_EN_GANON_MANT,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnGanonMant),
+    /**/ EnGanonMant_Init,
+    /**/ EnGanonMant_Destroy,
+    /**/ EnGanonMant_Update,
+    /**/ EnGanonMant_Draw,
 };
 
 static s16 sTearSizesMedium[] = {
@@ -129,12 +129,12 @@ void EnGanonMant_Tear(EnGanonMant* this) {
     for (i = 0; i < count; i++) {
         if ((0 <= tx && tx < MANT_TEX_WIDTH) && (0 <= ty && ty < MANT_TEX_HEIGHT)) {
             for (areaX = 0; areaX <= tearAreaSizes[i]; areaX++) {
-                if (1) {}
                 for (areaY = 0; areaY <= tearAreaSizes[i]; areaY++) {
                     texIdx = (s16)((s16)tx + ((s16)ty * MANT_TEX_WIDTH)) + ((s16)areaX + ((s16)areaY * MANT_TEX_WIDTH));
-                    if (texIdx < MANT_TEX_WIDTH * MANT_TEX_HEIGHT) {
-                        ((u16*)gMantTex)[texIdx] = 0;
+                    if (texIdx >= MANT_TEX_WIDTH * MANT_TEX_HEIGHT) {
+                        continue;
                     }
+                    ((u16*)gMantTex)[texIdx] = 0;
                 }
             }
         }
@@ -361,7 +361,7 @@ void EnGanonMant_DrawCloak(PlayState* play, EnGanonMant* this) {
 
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ganon_mant.c", 572),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ganon_mant.c", 572),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     // set texture
@@ -391,14 +391,14 @@ void EnGanonMant_Draw(Actor* thisx, PlayState* play) {
     f32 diffHalfDist;
     f32 yDiff;
     f32 yaw;
-    Vec3f* rightPos;
-    Vec3f* leftPos;
-    s16 strandIdx;
-    Vec3f midpoint;
-    s16 nextStrandIdx;
 
     if (this->updateHasRun) {
         // Only run this if update has run since last draw
+        Vec3f* rightPos;
+        Vec3f* leftPos;
+        s16 strandIdx;
+        Vec3f midpoint;
+        s16 nextStrandIdx;
 
         // Choose endpoints
         if (this->attachRightArmTimer != 0.0f) {

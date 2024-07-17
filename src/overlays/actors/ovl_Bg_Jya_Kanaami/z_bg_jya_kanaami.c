@@ -22,15 +22,15 @@ void func_80899950(BgJyaKanaami* this, PlayState* play);
 void func_80899A08(BgJyaKanaami* this);
 
 ActorInit Bg_Jya_Kanaami_InitVars = {
-    ACTOR_BG_JYA_KANAAMI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaKanaami),
-    (ActorFunc)BgJyaKanaami_Init,
-    (ActorFunc)BgJyaKanaami_Destroy,
-    (ActorFunc)BgJyaKanaami_Update,
-    (ActorFunc)BgJyaKanaami_Draw,
+    /**/ ACTOR_BG_JYA_KANAAMI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaKanaami),
+    /**/ BgJyaKanaami_Init,
+    /**/ BgJyaKanaami_Destroy,
+    /**/ BgJyaKanaami_Update,
+    /**/ BgJyaKanaami_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -43,15 +43,19 @@ static InitChainEntry sInitChain[] = {
 void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, PlayState* play, CollisionHeader* collision, s32 flag) {
     STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
-    STACK_PAD(s32);
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        STACK_PAD(s32);
+
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgJyaKanaami_Init(Actor* thisx, PlayState* play) {
@@ -64,7 +68,7 @@ void BgJyaKanaami_Init(Actor* thisx, PlayState* play) {
     } else {
         func_80899880(this);
     }
-    osSyncPrintf("(jya 金網)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(jya 金網)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgJyaKanaami_Destroy(Actor* thisx, PlayState* play) {

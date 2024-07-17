@@ -31,15 +31,15 @@ static Color_RGBA8 sEffectEnvColor = { 100, 255, 255, 255 };
 static Vec3f sEffectPosAccel = { 0.0f, 0.0f, 0.0f };
 
 ActorInit En_Bigokuta_InitVars = {
-    ACTOR_EN_BIGOKUTA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BIGOKUTA,
-    sizeof(EnBigokuta),
-    (ActorFunc)EnBigokuta_Init,
-    (ActorFunc)EnBigokuta_Destroy,
-    (ActorFunc)EnBigokuta_Update,
-    (ActorFunc)EnBigokuta_Draw,
+    /**/ ACTOR_EN_BIGOKUTA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BIGOKUTA,
+    /**/ sizeof(EnBigokuta),
+    /**/ EnBigokuta_Init,
+    /**/ EnBigokuta_Destroy,
+    /**/ EnBigokuta_Update,
+    /**/ EnBigokuta_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementInit[1] = {
@@ -48,8 +48,8 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
             ELEMTYPE_UNK1,
             { 0x20000000, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_HARD,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_HARD,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 1, { { 0, 45, -30 }, 75 }, 100 },
@@ -82,8 +82,8 @@ static ColliderCylinderInit sCylinderInit[] = {
           ELEMTYPE_UNK1,
           { 0x20000000, 0x00, 0x08 },
           { 0xFFCFFFE7, 0x00, 0x00 },
-          TOUCH_ON | TOUCH_SFX_HARD,
-          BUMP_ON,
+          ATELEM_ON | ATELEM_SFX_HARD,
+          ACELEM_ON,
           OCELEM_ON,
       },
       { 50, 100, 0, { 30, 0, 12 } } },
@@ -99,8 +99,8 @@ static ColliderCylinderInit sCylinderInit[] = {
           ELEMTYPE_UNK1,
           { 0x20000000, 0x00, 0x08 },
           { 0xFFCFFFE7, 0x00, 0x00 },
-          TOUCH_ON | TOUCH_SFX_HARD,
-          BUMP_ON,
+          ATELEM_ON | ATELEM_SFX_HARD,
+          ACELEM_ON,
           OCELEM_ON,
       },
       { 50, 100, 0, { -30, 0, 12 } } },
@@ -152,7 +152,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // possibly color data
-UNUSED static s32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
+UNUSED static u32 sUnk[] = { 0xFFFFFFFF, 0x969696FF };
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     EnBigokuta* this = (EnBigokuta*)thisx;
@@ -165,7 +165,7 @@ void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, &this->element);
 
-    this->collider.elements->dim.worldSphere.radius = this->collider.elements->dim.modelSphere.radius;
+    this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
 
     for (i = 0; i < ARRAY_COUNT(sCylinderInit); i++) {
         Collider_InitCylinder(play, &this->cylinder[i]);
@@ -333,7 +333,7 @@ void func_809BD524(EnBigokuta* this) {
     this->unk_19A = 0;
     this->cylinder[0].base.atFlags |= AT_ON;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
-    if (this->collider.elements->info.acHitInfo->toucher.dmgFlags & DMG_DEKU_NUT) {
+    if (this->collider.elements[0].base.acHitElem->atDmgInfo.dmgFlags & DMG_DEKU_NUT) {
         this->unk_195 = true;
         this->unk_196 = 20;
     } else {
@@ -640,8 +640,8 @@ void func_809BE26C(EnBigokuta* this, PlayState* play) {
         }
         if (this->unk_198 == 0 && Math_StepToF(&this->actor.scale.y, 0.0f, 0.001f)) {
             Flags_SetClear(play, this->actor.room);
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
-            Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_2);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+            Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xB0);
             Actor_Kill(&this->actor);
@@ -694,14 +694,14 @@ void func_809BE568(EnBigokuta* this) {
     f32 sin = Math_SinS(this->actor.shape.rot.y);
     f32 cos = Math_CosS(this->actor.shape.rot.y);
 
-    this->collider.elements->dim.worldSphere.center.x =
-        (this->collider.elements->dim.modelSphere.center.z * sin) +
-        (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
-    this->collider.elements->dim.worldSphere.center.z =
-        (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.center.z * cos)) -
-        (this->collider.elements->dim.modelSphere.center.x * sin);
-    this->collider.elements->dim.worldSphere.center.y =
-        this->collider.elements->dim.modelSphere.center.y + this->actor.world.pos.y;
+    this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x +
+                                                          (this->collider.elements[0].dim.modelSphere.center.x * cos) +
+                                                          (this->collider.elements[0].dim.modelSphere.center.z * sin);
+    this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z +
+                                                          (this->collider.elements[0].dim.modelSphere.center.z * cos) -
+                                                          (this->collider.elements[0].dim.modelSphere.center.x * sin);
+    this->collider.elements[0].dim.worldSphere.center.y =
+        this->actor.world.pos.y + this->collider.elements[0].dim.modelSphere.center.y;
 
     for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
         this->cylinder[i].dim.pos.x =
@@ -777,8 +777,8 @@ void EnBigokuta_Update(Actor* thisx, PlayState* play2) {
     this->actionFunc(this, play);
     func_809BD2E4(this);
     func_809BE568(this);
-    Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BIG_OCTO);
-    Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_2);
+    Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BIG_OCTO);
+    Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
 
     if (this->cylinder[0].base.atFlags & AT_ON) {
         if (this->actionFunc != func_809BE058) {
@@ -837,6 +837,7 @@ s32 EnBigokuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
             gDPPipeSync(POLY_OPA_DISP++);
 
             gDPSetEnvColor(POLY_OPA_DISP++, temp_f0, temp_f0, temp_f0, 255);
+            if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_en_bigokuta.c", 1945);
         }
     } else if (limbIndex == 10) {
@@ -848,7 +849,7 @@ s32 EnBigokuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
         }
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, intensity, intensity, intensity, intensity);
-
+        if (1) {}
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_bigokuta.c", 1972);
     } else if (limbIndex == 17 && this->actionFunc == func_809BE26C) {
         if (this->unk_198 < 5) {

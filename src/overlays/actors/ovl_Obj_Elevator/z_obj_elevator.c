@@ -20,15 +20,15 @@ void func_80B92D20(ObjElevator* this);
 void func_80B92D44(ObjElevator* this, PlayState* play);
 
 ActorInit Obj_Elevator_InitVars = {
-    ACTOR_OBJ_ELEVATOR,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_D_ELEVATOR,
-    sizeof(ObjElevator),
-    (ActorFunc)ObjElevator_Init,
-    (ActorFunc)ObjElevator_Destroy,
-    (ActorFunc)ObjElevator_Update,
-    (ActorFunc)ObjElevator_Draw,
+    /**/ ACTOR_OBJ_ELEVATOR,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_D_ELEVATOR,
+    /**/ sizeof(ObjElevator),
+    /**/ ObjElevator_Init,
+    /**/ ObjElevator_Destroy,
+    /**/ ObjElevator_Update,
+    /**/ ObjElevator_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -46,16 +46,19 @@ void ObjElevator_SetupAction(ObjElevator* this, ObjElevatorActionFunc actionFunc
 void func_80B92B08(ObjElevator* this, PlayState* play, CollisionHeader* collision, s32 flag) {
     STACK_PAD(s16);
     CollisionHeader* colHeader = NULL;
-    STACK_PAD(s16);
-    Actor* thisx = &this->dyna.actor;
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136,
-                     thisx->id, thisx->params);
+    STACK_PAD(s32);
+
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void ObjElevator_Init(Actor* thisx, PlayState* play) {
@@ -68,7 +71,7 @@ void ObjElevator_Init(Actor* thisx, PlayState* play) {
     temp_f0 = (thisx->params >> 8) & 0xF;
     this->unk_16C = temp_f0 + temp_f0;
     func_80B92C5C(this);
-    osSyncPrintf("(Dungeon Elevator)(arg_data 0x%04x)\n", thisx->params);
+    PRINTF("(Dungeon Elevator)(arg_data 0x%04x)\n", thisx->params);
 }
 
 void ObjElevator_Destroy(Actor* thisx, PlayState* play) {

@@ -30,15 +30,15 @@ void func_80880D68(BgHakaTrap* this);
 static UNK_TYPE D_80880F30 = 0;
 
 ActorInit Bg_Haka_Trap_InitVars = {
-    ACTOR_BG_HAKA_TRAP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaTrap),
-    (ActorFunc)BgHakaTrap_Init,
-    (ActorFunc)BgHakaTrap_Destroy,
-    (ActorFunc)BgHakaTrap_Update,
-    (ActorFunc)BgHakaTrap_Draw,
+    /**/ ACTOR_BG_HAKA_TRAP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaTrap),
+    /**/ BgHakaTrap_Init,
+    /**/ BgHakaTrap_Destroy,
+    /**/ BgHakaTrap_Update,
+    /**/ BgHakaTrap_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -54,8 +54,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 90, 0, { 0, 0, 0 } },
@@ -67,8 +67,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00020000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 1800.0f, 1200.0f, 0.0f }, { -1800.0f, 1200.0f, 0.0f }, { -1800.0f, 0.0f, 0.0f } } },
@@ -78,8 +78,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00020000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 1800.0f, 1200.0f, 0.0f }, { -1800.0f, 0.0f, 0.0f }, { 1800.0f, 0.0f, 0.0f } } },
@@ -166,8 +166,8 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
 
-                this->colliderCylinder.info.toucherFlags &= ~TOUCH_SFX_NORMAL;
-                this->colliderCylinder.info.toucherFlags |= TOUCH_SFX_WOOD;
+                this->colliderCylinder.elem.atElemFlags &= ~ATELEM_SFX_NORMAL;
+                this->colliderCylinder.elem.atElemFlags |= ATELEM_SFX_WOOD;
 
                 this->actionFunc = func_808801B8;
             }
@@ -352,6 +352,7 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     f32 floorHeight;
     f32 yIntersect;
     s32 i;
+    s32 bgId;
 
     this->dyna.actor.velocity.y *= 1.6f;
 
@@ -366,8 +367,6 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     floorHeight = this->dyna.actor.floorHeight;
 
     for (i = 0; i < 3; i++) {
-        s32 bgId;
-
         yIntersect =
             BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &vector) -
             25.0f;

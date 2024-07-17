@@ -55,20 +55,21 @@ void EnZo_SpawnBubble(EnZo* this, Vec3f* pos) {
     f32 waterSurface;
 
     effect = this->effects;
-    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
-        if (1) {}
-        if (effect->type == ENZO_EFFECT_NONE) {
-            waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
-            if (!(waterSurface <= pos->y)) {
-                effect->type = ENZO_EFFECT_BUBBLE;
-                effect->pos = *pos;
-                effect->vec = *pos;
-                effect->vel = vel;
-                effect->scale = ((Rand_ZeroOne() - 0.5f) * 0.02f) + 0.12f;
-                break;
-            }
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->type != ENZO_EFFECT_NONE) {
+            continue;
         }
-        effect++;
+
+        waterSurface = this->actor.world.pos.y + this->actor.depthInWater;
+
+        if (!(waterSurface <= pos->y)) {
+            effect->type = ENZO_EFFECT_BUBBLE;
+            effect->pos = *pos;
+            effect->vec = *pos;
+            effect->vel = vel;
+            effect->scale = ((Rand_ZeroOne() - 0.5f) * 0.02f) + 0.12f;
+            break;
+        }
     }
 }
 
@@ -78,18 +79,17 @@ void EnZo_SpawnSplash(EnZo* this, Vec3f* pos, Vec3f* vel, f32 scale) {
     s16 i;
 
     effect = this->effects;
-    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
-        if (1) {}
-        if (effect->type != ENZO_EFFECT_SPLASH) {
-            effect->type = ENZO_EFFECT_SPLASH;
-            effect->pos = *pos;
-            effect->vec = accel;
-            effect->vel = *vel;
-            effect->color.a = (Rand_ZeroOne() * 100.0f) + 100.0f;
-            effect->scale = scale;
-            break;
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->type == ENZO_EFFECT_SPLASH) {
+            continue;
         }
-        effect++;
+        effect->type = ENZO_EFFECT_SPLASH;
+        effect->pos = *pos;
+        effect->vec = accel;
+        effect->vel = *vel;
+        effect->color.a = (Rand_ZeroOne() * 100.0f) + 100.0f;
+        effect->scale = scale;
+        break;
     }
 }
 
@@ -127,7 +127,7 @@ void EnZo_UpdateEffectsBubbles(EnZo* this) {
             effect->pos.y += effect->vel.y;
 
             // Bubbles turn into ripples when they reach the surface
-            waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
+            waterSurface = this->actor.world.pos.y + this->actor.depthInWater;
             if (waterSurface <= effect->pos.y) {
                 effect->type = ENZO_EFFECT_NONE;
                 effect->pos.y = waterSurface;
@@ -158,7 +158,7 @@ void EnZo_UpdateEffectsSplashes(EnZo* this) {
             }
 
             // Splash particles turn into ripples when they hit the surface
-            waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
+            waterSurface = this->actor.world.pos.y + this->actor.depthInWater;
             if (effect->pos.y < waterSurface) {
                 effect->type = ENZO_EFFECT_NONE;
                 effect->pos.y = waterSurface;
@@ -178,25 +178,27 @@ void EnZo_DrawEffectsRipples(EnZo* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 217);
     materialFlag = false;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
-        if (effect->type == ENZO_EFFECT_RIPPLE) {
-            if (!materialFlag) {
-                if (1) {}
-                gDPPipeSync(POLY_XLU_DISP++);
-                gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesMaterialDL);
-                gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
-                materialFlag = true;
-            }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->color.a);
-            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_zo_eff.c", 242),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesModelDL);
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->type != ENZO_EFFECT_RIPPLE) {
+            continue;
         }
-        effect++;
+
+        if (!materialFlag) {
+            gDPPipeSync(POLY_XLU_DISP++);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesMaterialDL);
+            gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
+            materialFlag = true;
+        }
+
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->color.a);
+        Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+        Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_zo_eff.c", 242),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesModelDL);
     }
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 248);
 }
 
@@ -208,27 +210,28 @@ void EnZo_DrawEffectsBubbles(EnZo* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 260);
     materialFlag = false;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
-        if (effect->type == ENZO_EFFECT_BUBBLE) {
-            if (!materialFlag) {
-                if (1) {}
-                gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesMaterialDL);
-                gDPPipeSync(POLY_XLU_DISP++);
-                gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
-                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
 
-                materialFlag = true;
-            }
-
-            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
-
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_zo_eff.c", 281),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesModelDL);
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->type != ENZO_EFFECT_BUBBLE) {
+            continue;
         }
-        effect++;
+
+        if (!materialFlag) {
+            gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesMaterialDL);
+            gDPPipeSync(POLY_XLU_DISP++);
+            gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
+
+            materialFlag = true;
+        }
+
+        Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
+
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_zo_eff.c", 281),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesModelDL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 286);
 }
@@ -242,26 +245,25 @@ void EnZo_DrawEffectsSplashes(EnZo* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 298);
     materialFlag = false;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
-        if (effect->type == ENZO_EFFECT_SPLASH) {
-            if (!materialFlag) {
-                if (1) {}
-                gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesMaterialDL);
-                gDPPipeSync(POLY_XLU_DISP++);
-                gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
-                materialFlag = true;
-            }
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->color.a);
-
-            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_zo_eff.c", 325),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-            gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesModelDL);
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->type != ENZO_EFFECT_SPLASH) {
+            continue;
         }
-        effect++;
+        if (!materialFlag) {
+            gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesMaterialDL);
+            gDPPipeSync(POLY_XLU_DISP++);
+            gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
+            materialFlag = true;
+        }
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->color.a);
+
+        Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_zo_eff.c", 325),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesModelDL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 331);
 }
@@ -270,7 +272,7 @@ void EnZo_TreadWaterRipples(EnZo* this, f32 scale, f32 targetScale, u8 alpha) {
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
     pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    pos.y = this->actor.world.pos.y + this->actor.depthInWater;
     pos.z = this->actor.world.pos.z;
     EnZo_SpawnRipple(this, &pos, scale, targetScale, alpha);
 }
@@ -288,8 +290,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 26, 64, 0, { 0, 0, 0 } },
@@ -298,15 +300,15 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 ActorInit En_Zo_InitVars = {
-    ACTOR_EN_ZO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZO,
-    sizeof(EnZo),
-    (ActorFunc)EnZo_Init,
-    (ActorFunc)EnZo_Destroy,
-    (ActorFunc)EnZo_Update,
-    (ActorFunc)EnZo_Draw,
+    /**/ ACTOR_EN_ZO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZO,
+    /**/ sizeof(EnZo),
+    /**/ EnZo_Init,
+    /**/ EnZo_Destroy,
+    /**/ EnZo_Update,
+    /**/ EnZo_Draw,
 };
 
 typedef enum {
@@ -349,17 +351,16 @@ void EnZo_SpawnSplashes(EnZo* this) {
         pos = this->actor.world.pos;
         pos.x += vel.x * 6.0f;
         pos.z += vel.z * 6.0f;
-        pos.y += this->actor.yDistToWater;
+        pos.y += this->actor.depthInWater;
         EnZo_SpawnSplash(this, &pos, &vel, 0.08f);
     }
 }
 
 u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction;
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_ZORA);
 
-    faceReaction = Text_GetFaceReaction(play, 29);
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
 
     switch (thisx->params & 0x3F) {
@@ -526,7 +527,7 @@ s32 EnZo_PlayerInProximity(EnZo* this, PlayState* play) {
     f32 hDist;
 
     surfacePos.x = this->actor.world.pos.x;
-    surfacePos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    surfacePos.y = this->actor.world.pos.y + this->actor.depthInWater;
     surfacePos.z = this->actor.world.pos.z;
 
     hDist = Math_Vec3f_DistXZ(&surfacePos, &player->actor.world.pos);
@@ -595,7 +596,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-    if (this->actor.yDistToWater < 54.0f || (this->actor.params & 0x3F) == 8) {
+    if (this->actor.depthInWater < 54.0f || (this->actor.params & 0x3F) == 8) {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         this->actor.shape.shadowScale = 24.0f;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_1);
@@ -641,7 +642,7 @@ void EnZo_Submerged(EnZo* this, PlayState* play) {
 }
 
 void EnZo_Surface(EnZo* this, PlayState* play) {
-    if (this->actor.yDistToWater < 54.0f) {
+    if (this->actor.depthInWater < 54.0f) {
         Actor_PlaySfx(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_3);
@@ -649,7 +650,7 @@ void EnZo_Surface(EnZo* this, PlayState* play) {
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
-    } else if (this->actor.yDistToWater < 80.0f) {
+    } else if (this->actor.depthInWater < 80.0f) {
         Math_ApproachF(&this->actor.velocity.y, 2.0f, 0.4f, 0.6f);
         Math_ApproachF(&this->alpha, 255.0f, 0.3f, 10.0f);
     }
@@ -664,7 +665,7 @@ void EnZo_TreadWater(EnZo* this, PlayState* play) {
     }
     EnZo_SetAnimation(this);
 
-    Math_ApproachF(&this->actor.velocity.y, this->actor.yDistToWater < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
+    Math_ApproachF(&this->actor.velocity.y, this->actor.depthInWater < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
     if (this->rippleTimer != 0) {
         this->rippleTimer--;
         if ((this->rippleTimer == 3) || (this->rippleTimer == 6)) {
@@ -704,7 +705,7 @@ void EnZo_Dive(EnZo* this, PlayState* play) {
         return;
     }
 
-    if (this->actor.yDistToWater > 80.0f || this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
+    if (this->actor.depthInWater > 80.0f || this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_ApproachF(&this->actor.velocity.y, -1.0f, 0.4f, 0.6f);
         Math_ApproachF(&this->alpha, 0.0f, 0.3f, 10.0f);
     }

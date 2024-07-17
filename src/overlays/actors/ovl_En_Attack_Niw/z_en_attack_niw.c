@@ -20,15 +20,15 @@ void func_809B5C18(EnAttackNiw* this, PlayState* play);
 void func_809B59B0(EnAttackNiw* this, PlayState* play);
 
 ActorInit En_Attack_Niw_InitVars = {
-    ACTOR_EN_ATTACK_NIW,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_NIW,
-    sizeof(EnAttackNiw),
-    (ActorFunc)EnAttackNiw_Init,
-    (ActorFunc)EnAttackNiw_Destroy,
-    (ActorFunc)EnAttackNiw_Update,
-    (ActorFunc)EnAttackNiw_Draw,
+    /**/ ACTOR_EN_ATTACK_NIW,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_NIW,
+    /**/ sizeof(EnAttackNiw),
+    /**/ EnAttackNiw_Init,
+    /**/ EnAttackNiw_Destroy,
+    /**/ EnAttackNiw_Update,
+    /**/ EnAttackNiw_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -297,8 +297,6 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     EnAttackNiw* this = (EnAttackNiw*)thisx;
     EnNiw* cucco;
     Player* player = GET_PLAYER(play);
-    STACK_PAD(s32);
-    Vec3f sp30;
     PlayState* play2 = play;
 
     this->unk_28C++;
@@ -343,8 +341,11 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     }
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actionFunc != func_809B5C18)) {
+        Vec3f sp30;
+        STACK_PAD(s32);
+
         Math_Vec3f_Copy(&sp30, &this->actor.world.pos);
-        sp30.y += this->actor.yDistToWater;
+        sp30.y += this->actor.depthInWater;
         EffectSsGSplash_Spawn(play, &sp30, NULL, NULL, 0, 0x190);
         this->unk_2DC = 0.0f;
         this->actor.gravity = 0.0f;

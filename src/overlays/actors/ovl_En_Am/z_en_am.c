@@ -40,15 +40,15 @@ typedef enum {
 } ArmosBehavior;
 
 ActorInit En_Am_InitVars = {
-    ACTOR_EN_AM,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_AM,
-    sizeof(EnAm),
-    (ActorFunc)EnAm_Init,
-    (ActorFunc)EnAm_Destroy,
-    (ActorFunc)EnAm_Update,
-    (ActorFunc)EnAm_Draw,
+    /**/ ACTOR_EN_AM,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_AM,
+    /**/ sizeof(EnAm),
+    /**/ EnAm_Init,
+    /**/ EnAm_Destroy,
+    /**/ EnAm_Update,
+    /**/ EnAm_Draw,
 };
 
 static ColliderCylinderInit sHurtCylinderInit = {
@@ -64,8 +64,8 @@ static ColliderCylinderInit sHurtCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 15, 70, 0, { 0, 0, 0 } },
@@ -84,8 +84,8 @@ static ColliderCylinderInit sBlockCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00400106, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 15, 70, 0, { 0, 0, 0 } },
@@ -104,8 +104,8 @@ static ColliderQuadInit sQuadInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -782,7 +782,6 @@ void EnAm_TransformSwordHitbox(Actor* thisx, PlayState* play) {
 
 void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
     STACK_PAD(s32);
-    Vec3f sparkPos;
 
     if (this->deathTimer == 0) {
         if (this->blockCollider.base.acFlags & AC_BOUNCED) {
@@ -798,7 +797,7 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
             if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                 this->unk_264 = 0;
                 this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.info, false);
+                Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.elem, false);
 
                 if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
                     (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
@@ -810,7 +809,8 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
                             this->dyna.actor.colChkInfo.health = 0;
                         }
                     } else if (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) {
-                        sparkPos = this->dyna.actor.world.pos;
+                        Vec3f sparkPos = this->dyna.actor.world.pos;
+
                         sparkPos.y += 50.0f;
                         CollisionCheck_SpawnShieldParticlesMetal(play, &sparkPos);
                     }
@@ -836,8 +836,6 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
     EnBom* bomb;
     Vec3f dustPos;
     s32 i;
-    f32 dustPosScale;
-    STACK_PAD(s32);
 
     if (this->dyna.actor.params != ARMOS_STATUE) {
         EnAm_UpdateDamage(this, play);
@@ -854,7 +852,8 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
             this->deathTimer--;
 
             if (this->deathTimer == 0) {
-                dustPosScale = play->gameplayFrames * 10;
+                f32 dustPosScale = play->gameplayFrames * 10;
+                STACK_PAD(s32);
 
                 EnAm_SpawnEffects(this, play);
                 bomb =
@@ -943,9 +942,9 @@ static Vec3f sIcePosOffsets[] = {
 };
 
 void EnAm_Draw(Actor* thisx, PlayState* play) {
-    STACK_PAD(s32);
-    Vec3f sp68;
     EnAm* this = (EnAm*)thisx;
+    Vec3f sp68;
+    s32 index;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_am.c", 1580);
 
@@ -959,7 +958,6 @@ void EnAm_Draw(Actor* thisx, PlayState* play) {
         this->iceTimer--;
 
         if ((this->iceTimer % 4) == 0) {
-            s32 index;
 
             index = this->iceTimer >> 2;
 

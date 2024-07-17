@@ -1,0 +1,21 @@
+# Setup and compression
+crunch64>=0.3.1,<1.0.0
+ipl3checksum>=1.2.0,<2.0.0
+pyyaml>=6.0.1,<7.0.0
+
+# asm-differ
+argcomplete
+colorama
+cxxfilt
+python-Levenshtein
+watchdog
+
+# decomp-permuter
+pycparser
+toml
+
+# tools
+mapfile-parser>=2.3.5,<3.0.0
+pyelftools==0.30
+rabbitizer>=1.0.0,<2.0.0
+spimdisasm>=1.21.0,<2.0.0

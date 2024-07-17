@@ -17,16 +17,16 @@ void BgPushbox_Draw(Actor* thisx, PlayState* play);
 void BgPushbox_UpdateImpl(BgPushbox* this, PlayState* play);
 
 ActorInit Bg_Pushbox_InitVars = {
-    ACTOR_BG_PUSHBOX,
-    ACTORCAT_BG,
-    FLAGS,
+    /**/ ACTOR_BG_PUSHBOX,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
     //! @bug fixing this actor would involve using OBJECT_PU_BOX
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(BgPushbox),
-    (ActorFunc)BgPushbox_Init,
-    (ActorFunc)BgPushbox_Destroy,
-    (ActorFunc)BgPushbox_Update,
-    (ActorFunc)BgPushbox_Draw,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(BgPushbox),
+    /**/ BgPushbox_Init,
+    /**/ BgPushbox_Destroy,
+    /**/ BgPushbox_Update,
+    /**/ BgPushbox_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -81,7 +81,7 @@ void BgPushbox_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_pushbox.c", 263);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_pushbox.c", 269),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_pushbox.c", 269),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, gBlockSmallDL);
 

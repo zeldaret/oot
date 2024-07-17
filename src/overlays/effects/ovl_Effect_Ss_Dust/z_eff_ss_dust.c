@@ -37,7 +37,6 @@ static EffectSsUpdateFunc sUpdateFuncs[] = {
 };
 
 u32 EffectSsDust_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
-    s32 randColorOffset;
     EffectSsDustInitParams* initParams = (EffectSsDustInitParams*)initParamsx;
 
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
@@ -49,7 +48,8 @@ u32 EffectSsDust_Init(PlayState* play, u32 index, EffectSs* this, void* initPara
     this->draw = EffectSsDust_Draw;
 
     if (initParams->drawFlags & 4) {
-        randColorOffset = Rand_ZeroOne() * 20.0f - 10.0f;
+        s32 randColorOffset = Rand_ZeroOne() * 20.0f - 10.0f;
+
         this->rPrimColorR = initParams->primColor.r + randColorOffset;
         this->rPrimColorG = initParams->primColor.g + randColorOffset;
         this->rPrimColorB = initParams->primColor.b + randColorOffset;

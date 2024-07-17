@@ -22,15 +22,15 @@ void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, PlayState* play);
 void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, PlayState* play);
 
 ActorInit Bg_Ydan_Hasi_InitVars = {
-    ACTOR_BG_YDAN_HASI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_YDAN_OBJECTS,
-    sizeof(BgYdanHasi),
-    (ActorFunc)BgYdanHasi_Init,
-    (ActorFunc)BgYdanHasi_Destroy,
-    (ActorFunc)BgYdanHasi_Update,
-    (ActorFunc)BgYdanHasi_Draw,
+    /**/ ACTOR_BG_YDAN_HASI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_YDAN_OBJECTS,
+    /**/ sizeof(BgYdanHasi),
+    /**/ BgYdanHasi_Init,
+    /**/ BgYdanHasi_Destroy,
+    /**/ BgYdanHasi_Update,
+    /**/ BgYdanHasi_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -45,7 +45,7 @@ void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->type = ((thisx->params >> 8) & 0x3F);
-    thisx->params = thisx->params & 0xFF;
+    thisx->params &= 0xFF;
     waterBox = &play->colCtx.colHeader->waterBoxes[1];
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (thisx->params == HASI_WATER) {
@@ -171,10 +171,10 @@ void BgYdanHasi_Update(Actor* thisx, PlayState* play) {
 
 void BgYdanHasi_Draw(Actor* thisx, PlayState* play) {
     static Gfx* dLists[] = { gDTSlidingPlatformDL, gDTWaterPlaneDL, gDTRisingPlatformsDL };
-    BgYdanHasi* this = (BgYdanHasi*)thisx;
+    s16 params = thisx->params;
 
-    if (this->dyna.actor.params == HASI_WATER_BLOCK || this->dyna.actor.params == HASI_THREE_BLOCKS) {
-        Gfx_DrawDListOpa(play, dLists[this->dyna.actor.params]);
+    if (params == HASI_WATER_BLOCK || params == HASI_THREE_BLOCKS) {
+        Gfx_DrawDListOpa(play, dLists[params]);
     } else {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 577);
 
@@ -183,7 +183,7 @@ void BgYdanHasi_Draw(Actor* thisx, PlayState* play) {
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -play->gameplayFrames % 128,
                                     play->gameplayFrames % 128, 0x20, 0x20, 1, play->gameplayFrames % 128,
                                     play->gameplayFrames % 128, 0x20, 0x20));
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gDTWaterPlaneDL);
 

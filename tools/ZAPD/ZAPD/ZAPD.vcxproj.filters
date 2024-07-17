@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -228,9 +228,6 @@
     <ClCompile Include="ZRoom\Commands\Unused1D.cpp">
       <Filter>Source Files\Z64\ZRoom\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="ZRoom\Commands\SetActorCutsceneList.cpp">
-      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="ZRoom\Commands\SetCsCamera.cpp">
       <Filter>Source Files\Z64\ZRoom\Commands</Filter>
     </ClCompile>
@@ -279,9 +276,6 @@
     <ClCompile Include="ZCollisionPoly.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
-    <ClCompile Include="OtherStructs\Cutscene_Commands.cpp">
-      <Filter>Source Files\Z64</Filter>
-    </ClCompile>
     <ClCompile Include="OtherStructs\CutsceneMM_Commands.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
@@ -289,6 +283,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ZSurfaceType.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZActorList.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZWaterbox.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="OtherStructs\CutsceneOoT_Commands.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="OtherStructs\Cutscene_Common.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetCutsceneEntryList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZCKeyFrame.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZCKeyFrameAnim.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
   </ItemGroup>
@@ -491,9 +506,6 @@
     <ClInclude Include="ZRoom\Commands\SetWorldMapVisited.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="ZRoom\Commands\SetActorCutsceneList.h">
-      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="ZRoom\Commands\Unused1D.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
@@ -542,9 +554,6 @@
     <ClInclude Include="ZCollisionPoly.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
-    <ClInclude Include="OtherStructs\Cutscene_Commands.h">
-      <Filter>Header Files\Z64</Filter>
-    </ClInclude>
     <ClInclude Include="OtherStructs\CutsceneMM_Commands.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
@@ -552,6 +561,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ZSurfaceType.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZActorList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExporterSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZWaterbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherStructs\Cutscene_Common.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherStructs\CutsceneOoT_Commands.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetCutsceneEntryList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZCKeyFrame.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZCkeyFrameAnim.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,15 +15,15 @@ void OceffWipe_Update(Actor* thisx, PlayState* play);
 void OceffWipe_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Oceff_Wipe_InitVars = {
-    ACTOR_OCEFF_WIPE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(OceffWipe),
-    (ActorFunc)OceffWipe_Init,
-    (ActorFunc)OceffWipe_Destroy,
-    (ActorFunc)OceffWipe_Update,
-    (ActorFunc)OceffWipe_Draw,
+    /**/ ACTOR_OCEFF_WIPE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(OceffWipe),
+    /**/ OceffWipe_Init,
+    /**/ OceffWipe_Destroy,
+    /**/ OceffWipe_Update,
+    /**/ OceffWipe_Draw,
 };
 
 void OceffWipe_Init(Actor* thisx, PlayState* play) {
@@ -32,7 +32,7 @@ void OceffWipe_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.1f);
     this->timer = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(play)->eye;
-    osSyncPrintf(VT_FGCOL(CYAN) " WIPE arg_data = %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(CYAN) " WIPE arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe_Destroy(Actor* thisx, PlayState* play) {
@@ -75,7 +75,7 @@ void OceffWipe_Draw(Actor* thisx, PlayState* play) {
     Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(play));
+    quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(play));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_oceff_wipe.c", 346);
 
@@ -108,7 +108,7 @@ void OceffWipe_Draw(Actor* thisx, PlayState* play) {
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_wipe.c", 375),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_oceff_wipe.c", 375),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params != OCEFF_WIPE_ZL) {
@@ -123,6 +123,8 @@ void OceffWipe_Draw(Actor* thisx, PlayState* play) {
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0 - scroll, scroll * (-2), 32,
                                                      32, 1, 0 - scroll, scroll * (-2), 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
+
+    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_wipe.c", 398);
 }

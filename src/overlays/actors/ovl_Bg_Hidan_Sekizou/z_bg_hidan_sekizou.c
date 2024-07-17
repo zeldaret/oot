@@ -18,15 +18,15 @@ void func_8088D434(BgHidanSekizou* this, PlayState* play);
 void func_8088D720(BgHidanSekizou* this, PlayState* play);
 
 ActorInit Bg_Hidan_Sekizou_InitVars = {
-    ACTOR_BG_HIDAN_SEKIZOU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanSekizou),
-    (ActorFunc)BgHidanSekizou_Init,
-    (ActorFunc)BgHidanSekizou_Destroy,
-    (ActorFunc)BgHidanSekizou_Update,
-    (ActorFunc)BgHidanSekizou_Draw,
+    /**/ ACTOR_BG_HIDAN_SEKIZOU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanSekizou),
+    /**/ BgHidanSekizou_Init,
+    /**/ BgHidanSekizou_Destroy,
+    /**/ BgHidanSekizou_Update,
+    /**/ BgHidanSekizou_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[6] = {
@@ -35,8 +35,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 30, 40 }, 23 }, 100 },
@@ -46,8 +46,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 32, 87 }, 30 }, 100 },
@@ -57,8 +57,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 35, 150 }, 40 }, 100 },
@@ -68,8 +68,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 30, 40 }, 23 }, 100 },
@@ -79,8 +79,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 32, 87 }, 30 }, 100 },
@@ -90,8 +90,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 35, 150 }, 40 }, 100 },
@@ -130,17 +130,18 @@ void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
     s32 end = start + 3;
     f32 sp30 = Math_SinS(arg2);
     f32 sp2C = Math_CosS(arg2);
+    ColliderJntSphElement* element;
 
     for (i = start; i < end; i++) {
-        ColliderJntSphElement* element = &this->collider.elements[i];
+        element = &this->collider.elements[i];
 
         element->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + (sp2C * element->dim.modelSphere.center.x) +
                                             (sp30 * element->dim.modelSphere.center.z);
         element->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + element->dim.modelSphere.center.y;
         element->dim.worldSphere.center.z = this->dyna.actor.home.pos.z - (sp30 * element->dim.modelSphere.center.x) +
                                             (sp2C * element->dim.modelSphere.center.z);
-        element->info.toucherFlags |= TOUCH_ON;
-        element->info.ocElemFlags |= OCELEM_ON;
+        element->base.atElemFlags |= ATELEM_ON;
+        element->base.ocElemFlags |= OCELEM_ON;
     }
 }
 
@@ -210,8 +211,8 @@ void func_8088D434(BgHidanSekizou* this, PlayState* play) {
         }
     }
     for (i = 3 * phi_s4; i < ARRAY_COUNT(this->elements); i++) {
-        this->collider.elements[i].info.toucherFlags &= ~TOUCH_ON;
-        this->collider.elements[i].info.ocElemFlags &= ~OCELEM_ON;
+        this->collider.elements[i].base.atElemFlags &= ~ATELEM_ON;
+        this->collider.elements[i].base.ocElemFlags &= ~OCELEM_ON;
     }
 }
 
@@ -301,8 +302,8 @@ Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, 
     f32 phi_f12;
 
     arg6 = (((arg6 + arg2) % 8) * 7) * (1 / 7.0f);
-    arg2++;
     gSPSegment(arg7++, 9, SEGMENTED_TO_VIRTUAL(sFireballsTexs[arg6]));
+    arg2++;
     if (arg2 != 4) {
         phi_f12 = arg2 + ((4 - this->unk_170) / 4.0f);
     } else {
@@ -318,8 +319,8 @@ Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, 
     arg3->yw = this->dyna.actor.world.pos.y + 30.0f + (.7f * phi_f12);
     arg3->zw = (temp_f2 * arg5) + this->dyna.actor.world.pos.z;
     gSPMatrix(arg7++,
-              Matrix_MtxFToMtx(Matrix_CheckFloats(arg3, "../z_bg_hidan_sekizou.c", 711),
-                               Graph_Alloc(play->state.gfxCtx, sizeof(Mtx))),
+              Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(arg3, "../z_bg_hidan_sekizou.c", 711),
+                               GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(arg7++, gFireTempleFireballDL);
@@ -396,7 +397,7 @@ void BgHidanSekizou_Draw(Actor* thisx, PlayState* play2) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 827);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 831),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 831),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStationaryFlamethrowerShortDL);

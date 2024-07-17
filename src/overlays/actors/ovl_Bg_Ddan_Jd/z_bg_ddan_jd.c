@@ -18,15 +18,15 @@ void BgDdanJd_Idle(BgDdanJd* this, PlayState* play);
 void BgDdanJd_Move(BgDdanJd* this, PlayState* play);
 
 ActorInit Bg_Ddan_Jd_InitVars = {
-    ACTOR_BG_DDAN_JD,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_DDAN_OBJECTS,
-    sizeof(BgDdanJd),
-    (ActorFunc)BgDdanJd_Init,
-    (ActorFunc)BgDdanJd_Destroy,
-    (ActorFunc)BgDdanJd_Update,
-    (ActorFunc)BgDdanJd_Draw,
+    /**/ ACTOR_BG_DDAN_JD,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_DDAN_OBJECTS,
+    /**/ sizeof(BgDdanJd),
+    /**/ BgDdanJd_Init,
+    /**/ BgDdanJd_Destroy,
+    /**/ BgDdanJd_Update,
+    /**/ BgDdanJd_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

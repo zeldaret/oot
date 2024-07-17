@@ -31,8 +31,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000090, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_NONE,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 20, 18, 2, { 0, 0, 0 } },
@@ -41,15 +41,15 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 D_80AFBADC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 ActorInit En_Si_InitVars = {
-    ACTOR_EN_SI,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_ST,
-    sizeof(EnSi),
-    (ActorFunc)EnSi_Init,
-    (ActorFunc)EnSi_Destroy,
-    (ActorFunc)EnSi_Update,
-    (ActorFunc)EnSi_Draw,
+    /**/ ACTOR_EN_SI,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_ST,
+    /**/ sizeof(EnSi),
+    /**/ EnSi_Init,
+    /**/ EnSi_Destroy,
+    /**/ EnSi_Update,
+    /**/ EnSi_Draw,
 };
 
 void EnSi_Init(Actor* thisx, PlayState* play) {

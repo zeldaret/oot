@@ -15,15 +15,15 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play);
 void ObjHamishi_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Obj_Hamishi_InitVars = {
-    ACTOR_OBJ_HAMISHI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(ObjHamishi),
-    (ActorFunc)ObjHamishi_Init,
-    (ActorFunc)ObjHamishi_Destroy,
-    (ActorFunc)ObjHamishi_Update,
-    (ActorFunc)ObjHamishi_Draw,
+    /**/ ACTOR_OBJ_HAMISHI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(ObjHamishi),
+    /**/ ObjHamishi_Init,
+    /**/ ObjHamishi_Destroy,
+    /**/ ObjHamishi_Update,
+    /**/ ObjHamishi_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -39,8 +39,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4FC1FFF6, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 50, 70, 0, { 0, 0, 0 } },
@@ -170,7 +170,7 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play) {
 
     ObjHamishi_Shake(this);
 
-    if ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HAMMER)) {
+    if ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HAMMER)) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->hitCount++;
         if (this->hitCount < 2) {
@@ -198,7 +198,7 @@ void ObjHamishi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_hamishi.c", 404),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_hamishi.c", 404),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 170, 130, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);

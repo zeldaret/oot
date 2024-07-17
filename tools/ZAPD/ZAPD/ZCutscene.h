@@ -5,9 +5,12 @@
 #include <vector>
 #include "tinyxml2.h"
 
-#include "OtherStructs/Cutscene_Commands.h"
+#include "OtherStructs/CutsceneOoT_Commands.h"
+#include "OtherStructs/CutsceneMM_Commands.h"
 #include "ZFile.h"
 #include "ZResource.h"
+
+enum class CsFloatType;
 
 class ZCutscene : public ZResource
 {
@@ -25,6 +28,8 @@ public:
 
 	std::string GetSourceTypeName() const override;
 	ZResourceType GetResourceType() const override;
+
+	static std::string GetCsEncodedFloat(float f, CsFloatType type, bool useSciNotation);
 
 	int32_t numCommands;
 	int32_t endFrame;

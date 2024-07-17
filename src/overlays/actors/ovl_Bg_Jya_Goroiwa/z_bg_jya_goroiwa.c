@@ -24,15 +24,15 @@ void BgJyaGoroiwa_UpdateRotation(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this);
 
 ActorInit Bg_Jya_Goroiwa_InitVars = {
-    ACTOR_BG_JYA_GOROIWA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GOROIWA,
-    sizeof(BgJyaGoroiwa),
-    (ActorFunc)BgJyaGoroiwa_Init,
-    (ActorFunc)BgJyaGoroiwa_Destroy,
-    (ActorFunc)BgJyaGoroiwa_Update,
-    (ActorFunc)BgJyaGoroiwa_Draw,
+    /**/ ACTOR_BG_JYA_GOROIWA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GOROIWA,
+    /**/ sizeof(BgJyaGoroiwa),
+    /**/ BgJyaGoroiwa_Init,
+    /**/ BgJyaGoroiwa_Destroy,
+    /**/ BgJyaGoroiwa_Update,
+    /**/ BgJyaGoroiwa_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
@@ -41,8 +41,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
