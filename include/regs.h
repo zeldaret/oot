@@ -112,9 +112,18 @@
 #define R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON     ZREG(13)
 #define R_C_BTN_COLOR(i)                         ZREG(39 + (i))
 #define R_B_BTN_COLOR(i)                         ZREG(43 + (i))
+#if OOT_NTSC
+#define R_START_LABEL_SCALE                      ZREG(48)
+#define R_START_LABEL_DD(i)                      ZREG(49 + (i))
+#define R_START_LABEL_WIDTH                      ZREG(51)
+#define R_START_LABEL_HEIGHT                     ZREG(52)
+#define R_START_LABEL_Y(i)                       ZREG(53 + (i))
+#define R_START_LABEL_X(i)                       ZREG(55 + (i))
+#else
 #define R_START_LABEL_DD(i)                      ZREG(48 + (i))
 #define R_START_LABEL_Y(i)                       ZREG(51 + (i))
 #define R_START_LABEL_X(i)                       ZREG(54 + (i))
+#endif
 #define R_C_UP_BTN_X                             ZREG(62)
 #define R_C_UP_BTN_Y                             ZREG(63)
 #define R_START_BTN_X                            ZREG(68)
@@ -164,11 +173,21 @@
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)
 #define R_ROOM_CULL_DEBUG_TARGET                 iREG(89)
 #define R_B_LABEL_DD                             WREG(0)
+#if OOT_NTSC
+#define R_B_LABEL_SCALE(i)                       WREG(8 + (i))
+#define R_B_LABEL_X(i)                           WREG(10 + (i))
+#define R_B_LABEL_Y(i)                           WREG(12 + (i))
+#define R_A_LABEL_Z(i)                           WREG(14 + (i))
+#endif
 #define R_OW_MINIMAP_X                           WREG(29)
 #define R_OW_MINIMAP_Y                           WREG(30)
 #define R_MINIMAP_DISABLED                       WREG(31)
+#if OOT_PAL
+#define R_B_LABEL_SCALE(i)                       WREG(37 + (i))
 #define R_B_LABEL_X(i)                           WREG(40 + (i))
 #define R_B_LABEL_Y(i)                           WREG(43 + (i))
+#define R_A_LABEL_Z(i)                           WREG(46 + (i))
+#endif
 #define R_DGN_MINIMAP_X                          WREG(68)
 #define R_DGN_MINIMAP_Y                          WREG(69)
 #define R_TEXTBOX_X                              VREG(0)
