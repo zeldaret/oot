@@ -1303,7 +1303,7 @@ void Message_Decode(PlayState* play) {
             // Substitute the player name control character for the file's player name.
             for (playerNameLen = ARRAY_COUNT(gSaveContext.save.info.playerData.playerName); playerNameLen > 0;
                  playerNameLen--) {
-                if (gSaveContext.save.info.playerData.playerName[playerNameLen - 1] != 0x3E) {
+                if (gSaveContext.save.info.playerData.playerName[playerNameLen - 1] != FILENAME_SPACE) {
                     break;
                 }
             }
@@ -1311,21 +1311,21 @@ void Message_Decode(PlayState* play) {
             PRINTF("\n名前 ＝ ");
             for (i = 0; i < playerNameLen; i++) {
                 curChar2 = gSaveContext.save.info.playerData.playerName[i];
-                if (curChar2 == 0x3E) {
+                if (curChar2 == FILENAME_SPACE) {
                     curChar2 = ' ';
-                } else if (curChar2 == 0x40) {
+                } else if (curChar2 == FILENAME_PERIOD) {
                     curChar2 = '.';
-                } else if (curChar2 == 0x3F) {
+                } else if (curChar2 == FILENAME_DASH) {
                     curChar2 = '-';
-                } else if (curChar2 < 0xA) {
-                    curChar2 += 0;
+                } else if (curChar2 <= FILENAME_DIGIT('9')) {
+                    curChar2 -= FILENAME_DIGIT('0');
                     curChar2 += '0';
-                } else if (curChar2 < 0x24) {
-                    curChar2 += 0;
-                    curChar2 += '7';
-                } else if (curChar2 < 0x3E) {
-                    curChar2 += 0;
-                    curChar2 += '=';
+                } else if (curChar2 <= FILENAME_UPPERCASE('Z')) {
+                    curChar2 -= FILENAME_UPPERCASE('A');
+                    curChar2 += 'A';
+                } else if (curChar2 <= FILENAME_LOWERCASE('z')) {
+                    curChar2 -= FILENAME_LOWERCASE('a');
+                    curChar2 += 'a';
                 }
                 if (curChar2 != ' ') {
                     Font_LoadChar(font, curChar2 - ' ', charTexIdx);
