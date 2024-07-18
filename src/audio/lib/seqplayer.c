@@ -1478,7 +1478,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->muteBehavior = *data++;
                     channel->noteAllocPolicy = *data++;
                     AudioSeq_SetChannelPriorities(channel, *data++);
-                    channel->transposition = *(s8*)data++;
+                    channel->transposition = (s8)*data++;
                     channel->newPan = *data++;
                     channel->panChannelWeight = *data++;
                     channel->targetReverbVol = *data++;
