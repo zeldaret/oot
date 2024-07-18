@@ -53,7 +53,7 @@ def ExtractFile(assetConfig: version_config.AssetConfig, outputPath: Path, outpu
     if exitValue != 0:
         globalAbort.set()
         print("\n")
-        print("Error when extracting from file " + xmlPath, file=os.sys.stderr)
+        print(f"Error when extracting from file {xmlPath}", file=os.sys.stderr)
         print("Aborting...", file=os.sys.stderr)
         print("\n")
 
