@@ -195,7 +195,6 @@
 #define R_B_LABEL_X(i)                           WREG(40 + (i))
 #define R_B_LABEL_Y(i)                           WREG(43 + (i))
 #define R_A_LABEL_Z(i)                           WREG(46 + (i))
-#if OOT_PAL
 #define R_KALEIDO_UNK1(i)                        WREG(49 + (i))
 #define R_KALEIDO_UNK2(i)                        WREG(52 + (i))
 #define R_KALEIDO_UNK3(i)                        WREG(55 + (i))
