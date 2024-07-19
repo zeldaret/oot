@@ -8,7 +8,7 @@ StackEntry sIdleThreadInfo;
 STACK(sBootThreadStack, BOOT_STACK_SIZE);
 
 void cleararena(void) {
-    bzero(_dmadataSegmentStart, osMemSize - OS_K0_TO_PHYSICAL(_dmadataSegmentStart));
+    bzero(_bootSegmentEnd, osMemSize - OS_K0_TO_PHYSICAL(_bootSegmentEnd));
 }
 
 void bootproc(void) {
