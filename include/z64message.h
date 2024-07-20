@@ -238,7 +238,7 @@ typedef struct {
     /* 0xE306 */ union {
         u8 msgBufDecoded[200];
         u16 msgBufDecodedWide[100];
-    }; // decoded message buffer, may be smaller than this
+    };
     /* 0xE3CE */ u16 msgBufPos; // original name : "rdp"
     /* 0xE3D0 */ u16 unk_E3D0; // unused, only ever set to 0
     /* 0xE3D2 */ u16 textDrawPos; // draw all decoded characters up to this buffer position
