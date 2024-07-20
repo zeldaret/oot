@@ -1523,9 +1523,9 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             func_800906D4(play, this, spE4);
         } else if ((*dList != NULL) && (this->leftHandType == PLAYER_MODELTYPE_LH_BOTTLE)) {
             //! @bug When Player is actively using shield, the `itemAction` value will be set to -1.
-            //! If shield is used at the same time a bottle is in hand, `Player_ActionToBottle` will 
-            // return -1, which results in an out of bounds access behind the `sBottleColors` array. 
-            //! A value of -1 happens to access the last three bytes of `gLinkChildBottleDL` (0x06018478) 
+            //! If shield is used at the same time a bottle is in hand, `Player_ActionToBottle` will
+            // return -1, which results in an out of bounds access behind the `sBottleColors` array.
+            //! A value of -1 happens to access the last three bytes of `gLinkChildBottleDL` (0x06018478)
             //! which results in a dark teal color used for the bottle.
             Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemAction)];
 
