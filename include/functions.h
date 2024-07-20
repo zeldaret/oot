@@ -777,7 +777,7 @@ void KaleidoSetup_Update(PlayState* play);
 void KaleidoSetup_Init(PlayState* play);
 void KaleidoSetup_Destroy(PlayState* play);
 s32 Kanji_OffsetFromShiftJIS(s32 character);
-void Font_LoadKanji(Font* font, u16 arg1, u16 arg2);
+void Font_LoadKanji(Font* font, u16 character, u16 codePointIndex);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);
 void Font_LoadOrderedFont(Font* font);

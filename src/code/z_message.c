@@ -1191,7 +1191,7 @@ void Message_DrawTextJPN(PlayState* play, Gfx** gfxP) {
                         Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_END, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_SQUARE);
-                        if (play->csCtx.state == 0) {
+                        if (play->csCtx.state == CS_STATE_IDLE) {
                             Interface_SetDoAction(play, DO_ACTION_RETURN);
                         }
                     }
@@ -1211,7 +1211,7 @@ void Message_DrawTextJPN(PlayState* play, Gfx** gfxP) {
                     msgCtx->textboxEndType = TEXTBOX_ENDTYPE_FADING;
                     msgCtx->stateTimer = msgCtx->msgBufDecodedWide[++i];
                     Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_SQUARE);
-                    if (play->csCtx.state == 0) {
+                    if (play->csCtx.state == CS_STATE_IDLE) {
                         Interface_SetDoAction(play, DO_ACTION_RETURN);
                     }
                 }
@@ -2687,8 +2687,8 @@ void Message_StartOcarinaImpl(PlayState* play, u16 ocarinaActionId) {
         gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     }
-    for (k = 0, j = 0; j < 48; j++, k += 0x80) {
-        Font_LoadKanji(&play->msgCtx.font, 0x8140, k);
+    for (k = 0, j = 0; j < 48; j++, k += FONT_CHAR_TEX_SIZE) {
+        Font_LoadKanji(&play->msgCtx.font, MESSAGE_WIDE_CHAR_SPACE, k);
     }
 }
 
@@ -2874,8 +2874,8 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                 break;
             case MSGMODE_TEXT_CONTINUING:
                 if (msgCtx->stateTimer == 1) {
-                    for (j = 0, i = 0; i < 48; i++, j += 0x80) {
-                        Font_LoadKanji(&play->msgCtx.font, 0x8140, j);
+                    for (j = 0, i = 0; i < 48; i++, j += FONT_CHAR_TEX_SIZE) {
+                        Font_LoadKanji(&play->msgCtx.font, MESSAGE_WIDE_CHAR_SPACE, j);
                     }
                     DRAW_TEXT(play, &gfx, sTextIsCredits);
                 }
