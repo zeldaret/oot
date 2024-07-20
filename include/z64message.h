@@ -235,7 +235,6 @@ typedef struct {
     /* 0xE2FE */ u8 textBoxPos; // text box position
     /* 0xE300 */ s32 msgLength; // original name : "msg_data"
     /* 0xE304 */ u8 msgMode; // original name: "msg_mode"
-    /* 0xE305 */ char unk_E305[0x1];
     /* 0xE306 */ union {
         u8 msgBufDecoded[200];
         u16 msgBufDecodedWide[100];
