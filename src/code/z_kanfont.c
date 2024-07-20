@@ -5,7 +5,7 @@
  * Loads a texture from kanji for the requested `character` into the character texture buffer
  * at `codePointIndex`. The value of `character` is the SHIFT-JIS encoding of the character.
  */
-void Font_LoadKanji(Font* font, u16 character, u16 codePointIndex) {
+void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex) {
 #if OOT_NTSC
     DmaMgr_RequestSync(&font->charTexBuf[codePointIndex],
                        (uintptr_t)_kanjiSegmentRomStart + Kanji_OffsetFromShiftJIS(character), FONT_CHAR_TEX_SIZE);

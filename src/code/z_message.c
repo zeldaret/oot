@@ -1742,17 +1742,17 @@ void Message_Decode(PlayState* play) {
                 }
 
                 for (i = 0; i < 4; i++) {
-                    Font_LoadKanji(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
+                    Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                     charTexIdx += FONT_CHAR_TEX_SIZE;
                     msgCtx->msgBufDecodedWide[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                     decodedBufPos++;
                     if (i == 1) {
-                        Font_LoadKanji(font, MESSAGE_WIDE_CHAR_MINUTES, charTexIdx);
+                        Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_MINUTES, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
                         msgCtx->msgBufDecodedWide[decodedBufPos] = MESSAGE_WIDE_CHAR_MINUTES;
                         decodedBufPos++;
                     } else if (i == 3) {
-                        Font_LoadKanji(font, MESSAGE_WIDE_CHAR_SECONDS, charTexIdx);
+                        Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_SECONDS, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
                         msgCtx->msgBufDecodedWide[decodedBufPos] = MESSAGE_WIDE_CHAR_SECONDS;
                     }
@@ -1781,7 +1781,7 @@ void Message_Decode(PlayState* play) {
                         loadChar = true;
                     }
                     if (loadChar) {
-                        Font_LoadKanji(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
+                        Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
                         msgCtx->msgBufDecodedWide[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                         decodedBufPos++;
@@ -1809,7 +1809,7 @@ void Message_Decode(PlayState* play) {
                         loadChar = true;
                     }
                     if (loadChar) {
-                        Font_LoadKanji(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
+                        Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
                         msgCtx->msgBufDecodedWide[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                         decodedBufPos++;
@@ -1827,7 +1827,7 @@ void Message_Decode(PlayState* play) {
 
                 for (i = 0; i < 2; i++) {
                     if (i == 1 || digits[i] != 0) {
-                        Font_LoadKanji(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
+                        Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
                         msgCtx->msgBufDecodedWide[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                         decodedBufPos++;
@@ -1869,7 +1869,7 @@ void Message_Decode(PlayState* play) {
                                 loadChar = true;
                             }
                             if (loadChar) {
-                                Font_LoadKanji(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
+                                Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                                 charTexIdx += FONT_CHAR_TEX_SIZE;
                                 msgCtx->msgBufDecodedWide[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                                 decodedBufPos++;
@@ -1899,17 +1899,17 @@ void Message_Decode(PlayState* play) {
                         }
 
                         for (i = 0; i < 4; i++) {
-                            Font_LoadKanji(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
+                            Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                             charTexIdx += FONT_CHAR_TEX_SIZE;
                             msgCtx->msgBufDecodedWide[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                             decodedBufPos++;
                             if (i == 1) {
-                                Font_LoadKanji(font, MESSAGE_WIDE_CHAR_MINUTES, charTexIdx);
+                                Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_MINUTES, charTexIdx);
                                 charTexIdx += FONT_CHAR_TEX_SIZE;
                                 msgCtx->msgBufDecodedWide[decodedBufPos] = MESSAGE_WIDE_CHAR_MINUTES;
                                 decodedBufPos++;
                             } else if (i == 3) {
-                                Font_LoadKanji(font, MESSAGE_WIDE_CHAR_SECONDS, charTexIdx);
+                                Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_SECONDS, charTexIdx);
                                 charTexIdx += FONT_CHAR_TEX_SIZE;
                                 msgCtx->msgBufDecodedWide[decodedBufPos] = MESSAGE_WIDE_CHAR_SECONDS;
                             }
@@ -1933,17 +1933,17 @@ void Message_Decode(PlayState* play) {
                 }
 
                 for (i = 0; i < 4; i++) {
-                    Font_LoadKanji(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
+                    Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                     charTexIdx += FONT_CHAR_TEX_SIZE;
                     msgCtx->msgBufDecodedWide[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                     decodedBufPos++;
                     if (i == 1) {
-                        Font_LoadKanji(font, MESSAGE_WIDE_CHAR_HOURS, charTexIdx);
+                        Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_HOURS, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
                         msgCtx->msgBufDecodedWide[decodedBufPos] = MESSAGE_WIDE_CHAR_HOURS;
                         decodedBufPos++;
                     } else if (i == 3) {
-                        Font_LoadKanji(font, MESSAGE_WIDE_CHAR_MINUTES, charTexIdx);
+                        Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_MINUTES, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
                         msgCtx->msgBufDecodedWide[decodedBufPos] = MESSAGE_WIDE_CHAR_MINUTES;
                     }
@@ -1988,7 +1988,7 @@ void Message_Decode(PlayState* play) {
                     msgCtx->choiceNum = 3;
                     R_TEXT_INIT_XPOS += 32;
                 } else if (curCharWide != MESSAGE_WIDE_CHAR_SPACE) {
-                    Font_LoadKanji(font, curCharWide, charTexIdx);
+                    Font_LoadCharWide(font, curCharWide, charTexIdx);
                     charTexIdx += FONT_CHAR_TEX_SIZE;
                 }
             }
@@ -2692,7 +2692,7 @@ void Message_StartOcarinaImpl(PlayState* play, u16 ocarinaActionId) {
         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     }
     for (k = 0, j = 0; j < 48; j++, k += FONT_CHAR_TEX_SIZE) {
-        Font_LoadKanji(&play->msgCtx.font, MESSAGE_WIDE_CHAR_SPACE, k);
+        Font_LoadCharWide(&play->msgCtx.font, MESSAGE_WIDE_CHAR_SPACE, k);
     }
 }
 
@@ -2879,7 +2879,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
             case MSGMODE_TEXT_CONTINUING:
                 if (msgCtx->stateTimer == 1) {
                     for (j = 0, i = 0; i < 48; i++, j += FONT_CHAR_TEX_SIZE) {
-                        Font_LoadKanji(&play->msgCtx.font, MESSAGE_WIDE_CHAR_SPACE, j);
+                        Font_LoadCharWide(&play->msgCtx.font, MESSAGE_WIDE_CHAR_SPACE, j);
                     }
                     DRAW_TEXT(play, &gfx, sTextIsCredits);
                 }
