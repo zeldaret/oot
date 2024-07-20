@@ -980,7 +980,11 @@ void Message_HandleOcarina(PlayState* play) {
 }
 
 #if OOT_NTSC
-void Message_DrawTextJPN(PlayState* play, Gfx** gfxP) {
+/**
+ * Draws the text contents of a jpn textbox, up to the current point that has
+ * been scrolled to so far.
+ */
+void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
     MessageContext* msgCtx = &play->msgCtx;
     Font* font = &play->msgCtx.font;
     u16 character;
@@ -1300,10 +1304,10 @@ void Message_DrawTextJPN(PlayState* play, Gfx** gfxP) {
 #endif
 
 /**
- * Draws the text contents of a textbox, up to the current point that has
+ * Draws the text contents of an eng/ger/fra textbox, up to the current point that has
  * been scrolled to so far.
  */
-void Message_DrawTextNES(PlayState* play, Gfx** gfxP) {
+void Message_DrawText(PlayState* play, Gfx** gfxP) {
     MessageContext* msgCtx = &play->msgCtx;
     s16 pad;
     u8 character;
@@ -2786,13 +2790,13 @@ void Message_SetView(View* view) {
 #if OOT_NTSC
 #define DRAW_TEXT(play, gfx, isCredits)                          \
     if (gSaveContext.language == LANGUAGE_JPN && !(isCredits)) { \
-        Message_DrawTextJPN(play, gfx);                          \
+        Message_DrawTextWide(play, gfx);                         \
     } else {                                                     \
-        Message_DrawTextNES(play, gfx);                          \
+        Message_DrawText(play, gfx);                             \
     }                                                            \
     (void)0
 #else
-#define DRAW_TEXT(play, gfx, isCredits) Message_DrawTextNES(play, gfx)
+#define DRAW_TEXT(play, gfx, isCredits) Message_DrawText(play, gfx)
 #endif
 
 /**
