@@ -173,7 +173,7 @@
         <Texture Name="gNamePanelRightTex" OutName="name_panel_right" Format="ia8" Width="72" Height="24" Offset="0x86E80"/>
         <Texture Name="gLButtonTex" OutName="l_button" Format="ia8" Width="24" Height="32" Offset="0x87540"/>
         <Texture Name="gRButtonTex" OutName="r_button" Format="ia8" Width="24" Height="32" Offset="0x87840"/>
-        <Texture Name="gUnknownJPTex" OutName="unknown_JP" Format="ia8" Width="80" Height="16" Offset="0x87B40"/>
+        <Texture Name="gUnknownJPNTex" OutName="unknown_jpn" Format="ia8" Width="80" Height="16" Offset="0x87B40"/>
         <Texture Name="gSongNoteTex" OutName="song_note" Format="ia8" Width="16" Height="24" Offset="0x88040"/>
         <Texture Name="gMagicArrowEquipEffectTex" OutName="magic_arrow_equip_effect" Format="ia8" Width="32" Height="32" Offset="0x881C0"/>
         <DList Name="gItemNamePanelDL" Offset="0x885C0"/>

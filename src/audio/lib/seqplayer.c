@@ -1475,16 +1475,14 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                 case 0xE7:
                     cmdArgU16 = (u16)cmdArgs[0];
                     data = &seqPlayer->seqData[cmdArgU16];
-                    channel->muteBehavior = data[0];
-                    data += 3;
-                    channel->noteAllocPolicy = data[-2];
-                    AudioSeq_SetChannelPriorities(channel, data[-1]);
-                    channel->transposition = (s8)data[0];
-                    data += 4;
-                    channel->newPan = data[-3];
-                    channel->panChannelWeight = data[-2];
-                    channel->targetReverbVol = data[-1];
-                    channel->reverbIndex = data[0];
+                    channel->muteBehavior = *data++;
+                    channel->noteAllocPolicy = *data++;
+                    AudioSeq_SetChannelPriorities(channel, *data++);
+                    channel->transposition = (s8)*data++;
+                    channel->newPan = *data++;
+                    channel->panChannelWeight = *data++;
+                    channel->targetReverbVol = *data++;
+                    channel->reverbIndex = *data++;
                     //! @bug: Not marking reverb state as changed
                     channel->changes.s.pan = true;
                     break;

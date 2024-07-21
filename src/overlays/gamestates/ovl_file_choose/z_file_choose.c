@@ -169,7 +169,10 @@ void FileSelect_FinishFadeIn(GameState* thisx) {
  * Update function for `CM_MAIN_MENU`
  */
 void FileSelect_UpdateMainMenu(GameState* thisx) {
-    static u8 emptyName[] = { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E };
+    static u8 emptyName[] = {
+        FILENAME_SPACE, FILENAME_SPACE, FILENAME_SPACE, FILENAME_SPACE,
+        FILENAME_SPACE, FILENAME_SPACE, FILENAME_SPACE, FILENAME_SPACE,
+    };
     FileSelectState* this = (FileSelectState*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* input = &this->state.input[0];

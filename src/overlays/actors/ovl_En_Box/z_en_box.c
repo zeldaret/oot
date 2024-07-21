@@ -588,9 +588,7 @@ Gfx* func_809CA4A0(GraphicsContext* gfxCtx) {
     ASSERT(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1546);
 
     dList = dListHead;
-    gDPSetRenderMode(dListHead++,
-                     AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
-                         GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),
+    gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A,
                      AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
                          GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA));
     gSPEndDisplayList(dListHead++);
@@ -606,10 +604,7 @@ Gfx* func_809CA518(GraphicsContext* gfxCtx) {
     ASSERT(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1564);
 
     dList = dListHead;
-    gDPSetRenderMode(dListHead++,
-                     AA_EN | Z_CMP | Z_UPD | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | ALPHA_CVG_SEL |
-                         GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),
-                     G_RM_AA_ZB_OPA_SURF2);
+    gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
     gSPEndDisplayList(dListHead++);
 
     return dList;

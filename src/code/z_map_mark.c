@@ -22,21 +22,10 @@ typedef struct {
     /* 0x14 */ void* vramTable;
 } MapMarkDataOverlay; // size = 0x18
 
-static u32 sBaseImageSizes[] = { 0, 1, 2, 3 };
-static u32 sLoadBlockImageSizes[] = { 2, 2, 2, 3 };
-static u32 sIncrImageSizes[] = { 3, 1, 0, 0 };
-static u32 sShiftImageSizes[] = { 2, 1, 0, 0 };
-static u32 sBytesImageSizes[] = { 0, 1, 2, 4 };
-static u32 sLineBytesImageSizes[] = { 0, 1, 2, 2 };
+#define GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS
+#include "src/code/gDPLoadTextureBlock_Runtime.inc.c"
 
-#define G_IM_SIZ_MARK sBaseImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_LOAD_BLOCK sLoadBlockImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_INCR sIncrImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_SHIFT sShiftImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_BYTES sBytesImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_LINE_BYTES sLineBytesImageSizes[markInfo->imageSize]
-
-static MapMarkInfo sMapMarkInfoTable[] = {
+MapMarkInfo sMapMarkInfoTable[] = {
     { gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1 << 10, 1 << 10 }, // Chest Icon
     { gMapBossIconTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1 << 10, 1 << 10 },     // Boss Skull Icon
 };
@@ -109,9 +98,10 @@ void MapMark_DrawForDungeon(PlayState* play) {
                 markInfo = &sMapMarkInfoTable[mapMarkIconData->markType];
 
                 gDPPipeSync(OVERLAY_DISP++);
-                gDPLoadTextureBlock(OVERLAY_DISP++, markInfo->texture, markInfo->imageFormat, G_IM_SIZ_MARK,
-                                    markInfo->textureWidth, markInfo->textureHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_Runtime(OVERLAY_DISP++, markInfo->texture, markInfo->imageFormat,
+                                            markInfo->imageSize, markInfo->textureWidth, markInfo->textureHeight, 0,
+                                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                 rectLeft = ((OOT_DEBUG ? GREG(94) : 0) + markPoint->x + 204) << 2;
                 rectTop = ((OOT_DEBUG ? GREG(95) : 0) + markPoint->y + 140) << 2;

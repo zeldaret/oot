@@ -139,7 +139,7 @@ INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-missing-braces
-CHECK_WARNINGS += -Werror=implicit-function-declaration
+CHECK_WARNINGS += -Werror=implicit-int -Werror=implicit-function-declaration -Werror=int-conversion -Werror=incompatible-pointer-types
 
 # Actors and effets are mostly callback functions and often don't use all arguments,
 # ignore those warnings entirely in these directories.

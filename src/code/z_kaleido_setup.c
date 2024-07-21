@@ -83,8 +83,8 @@ void KaleidoSetup_Update(PlayState* play) {
             // mainState is also overwritten later before being used.
             pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
 
-            //! @bug REG collision
-            if (R_START_LABEL_DD(0) == 0) {
+            //! @bug REG collision, ZREG(48) is also R_START_LABEL_SCALE for NTSC and R_START_LABEL_DD(0) for PAL
+            if (ZREG(48) == 0) {
                 // Never reached, unused, and the data would be wrong anyway
                 // (scrolling left from this would not bring to the initial page)
                 pauseCtx->eye.x = sKaleidoSetupUnusedEyeX[pauseCtx->pageIndex];
