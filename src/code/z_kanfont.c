@@ -47,11 +47,11 @@ void Font_LoadOrderedFont(Font* font) {
     s32 fontBufIndex;
     u32 offset;
 
-#if OOT_NTSC
-    font->msgOffset = _message_0xFFFC_jpn - (const char*)_jpn_message_data_staticSegmentStart;
-    size = font->msgLength = _message_0xFFFD_jpn - _message_0xFFFC_jpn;
-    len = (u32)size / 2;
+    font->msgOffset = FONT_MESSAGE_OFFSET;
+    size = font->msgLength = FONT_MESSAGE_LENGTH;
 
+#if OOT_NTSC
+    len = (u32)size / 2;
     DmaMgr_RequestSync(font->msgBufWide, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset, size);
 
     fontBufIndex = 0;
@@ -68,10 +68,7 @@ void Font_LoadOrderedFont(Font* font) {
         }
     }
 #else
-    font->msgOffset = _message_0xFFFC_nes - (const char*)_nes_message_data_staticSegmentStart;
-    size = font->msgLength = _message_0xFFFD_nes - _message_0xFFFC_nes;
     len = size;
-
     DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset, len,
                      "../z_kanfont.c", 122);
 
