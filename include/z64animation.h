@@ -114,21 +114,21 @@ typedef enum {
 
 // When this flag is set, movement in all axes will not be applied for one frame. The flag
 // is unset automatically after one use, so movement can resume. The intent is for this flag to be used
-// when changing between two different animations. 
+// when changing between two different animations.
 // In some contexts, disabling the first frame of movement is necessary for a seamless transition.
-// 
+//
 // Depending on specific implementations, an actor may choose to reset `prevTransl` to `baseTransl` when
 // starting a new animation. This is helpful when an animation's translation data starts at the "origin"
 // (in this case, the origin refers to `baseTransl`, in model space).
-// Some animations have translation data that does not begin at the "origin". This is common when a 
-// longer sequence of animation is broken up into different parts as seperate animations. 
+// Some animations have translation data that does not begin at the "origin". This is common when a
+// longer sequence of animation is broken up into different parts as seperate animations.
 // In this case, when one animation starts its translation at the same position where a different animation
 // left off, resetting `prevTransl` is not desireable. This will cause the actor's position to noticeably change
 // when the translation data from the first frame of the new animation is applied.
 //
 // When this flag is used during a transition between two animations, the first frame of movement is not applied.
 // This allows the actor's world postiion to stay at the same location as where the previous animation ended.
-// Because translations are calculated as a difference from the current and previous frame, all subsequent 
+// Because translations are calculated as a difference from the current and previous frame, all subsequent
 // frames have their translation occur relative to this new starting point.
 //
 // Note that for Player, this flag is only relevant when transitioning from an animation that was also using
