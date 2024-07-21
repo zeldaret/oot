@@ -2390,7 +2390,7 @@ s32 EnXc_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (this->unk_30C != 0) {
         if (limbIndex == 9) {
-    STACK_PAD(s32);
+            STACK_PAD(s32);
 
             rot->x += this->interactInfo.torsoRot.y;
             rot->y -= this->interactInfo.torsoRot.x;

@@ -415,8 +415,9 @@ static s16 sCursorColors[][3] = {
 static void* sSavePromptTexs[] =
     LANGUAGE_ARRAY(gPauseSavePromptJPNTex, gPauseSavePromptENGTex, gPauseSavePromptGERTex, gPauseSavePromptFRATex);
 
-UNUSED static void* sSaveConfirmationTexs[] = LANGUAGE_ARRAY(gPauseSaveConfirmationJPNTex, gPauseSaveConfirmationENGTex,
-                                                             gPauseSaveConfirmationGERTex, gPauseSaveConfirmationFRATex);
+UNUSED static void* sSaveConfirmationTexs[] =
+    LANGUAGE_ARRAY(gPauseSaveConfirmationJPNTex, gPauseSaveConfirmationENGTex, gPauseSaveConfirmationGERTex,
+                   gPauseSaveConfirmationFRATex);
 
 static void* sContinuePromptTexs[] =
     LANGUAGE_ARRAY(gContinuePlayingJPNTex, gContinuePlayingENGTex, gContinuePlayingGERTex, gContinuePlayingFRATex);

@@ -71,7 +71,7 @@ void ObjLift_InitDynaPoly(ObjLift* this, PlayState* play, CollisionHeader* colli
 
 #if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-    STACK_PAD(s32);
+        STACK_PAD(s32);
 
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_lift.c", 188,
                this->dyna.actor.id, this->dyna.actor.params);

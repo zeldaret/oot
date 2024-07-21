@@ -8186,7 +8186,7 @@ void func_80841EE4(Player* this, PlayState* play) {
     f32 temp2;
 
     if (this->unk_864 < 1.0f) {
-    STACK_PAD(s32);
+        STACK_PAD(s32);
 
         temp1 = R_UPDATE_RATE * 0.5f;
 
@@ -11509,7 +11509,7 @@ void Player_Update(Actor* thisx, PlayState* play) {
 skip_update:;
 #endif
     {
-    STACK_PAD(s32);
+        STACK_PAD(s32);
 
         MREG(52) = this->actor.world.pos.x;
         MREG(53) = this->actor.world.pos.y;
@@ -13165,7 +13165,7 @@ void Player_Action_8084E3C4(Player* this, PlayState* play) {
         this->stateFlags2 &= ~(PLAYER_STATE2_23 | PLAYER_STATE2_24 | PLAYER_STATE2_25);
         this->unk_6A8 = NULL;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_02) {
-    STACK_PAD(s32);
+        STACK_PAD(s32);
 
         gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = sWarpSongEntrances[play->msgCtx.lastPlayedSong];
         gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;

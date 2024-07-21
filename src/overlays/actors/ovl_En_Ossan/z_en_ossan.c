@@ -888,7 +888,7 @@ void EnOssan_State_StartConversation(EnOssan* this, PlayState* play, Player* pla
 
     if (this->actor.params == OSSAN_TYPE_MASK && dialogState == TEXT_STATE_CHOICE) {
         if (!EnOssan_TestEndInteraction(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
-                STACK_PAD(s32);
+            STACK_PAD(s32);
 
             switch (play->msgCtx.choiceIndex) {
                 case 0:

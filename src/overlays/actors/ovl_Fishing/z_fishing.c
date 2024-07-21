@@ -1519,7 +1519,7 @@ void Fishing_UpdateLine(PlayState* play, Vec3f* basePos, Vec3f* pos, Vec3f* rot,
         }
 
         if (sLureEquipped == FS_LURE_SINKING) {
-    STACK_PAD(s32);
+            STACK_PAD(s32);
 
             if (spD8 < phi_f12) {
                 phi_f12 = ((sqrtf(sqDistXZ) - 920.0f) * 0.147f) + WATER_SURFACE_Y(play);
@@ -2371,7 +2371,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                         for (i = 0; i < 50; i++) {
                             f32 sp7C = Rand_ZeroFloat(1.5f) + 0.5f;
                             f32 sp78 = Rand_ZeroFloat(6.28f);
-    STACK_PAD(s32);
+                            STACK_PAD(s32);
 
                             sp9C.x = sinf(sp78) * sp7C;
                             sp9C.z = cosf(sp78) * sp7C;
@@ -5298,7 +5298,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
 #if OOT_DEBUG
     if (KREG(0) != 0) {
-    STACK_PADS(s32, 3);
+        STACK_PADS(s32, 3);
 
         KREG(0) = 0;
         sLureEquipped = FS_LURE_STOCK;

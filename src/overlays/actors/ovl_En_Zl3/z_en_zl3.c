@@ -316,25 +316,25 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
 
         if (idx == 2 && (action == 5 || action == 24)) {
             if (phi_v1 != 0) {
-    STACK_PAD(s32);
+                STACK_PAD(s32);
 
                 phi_v0 -= (phi_v1 - phi_v0) / 10;
             }
         } else if (idx == 2 && action == 22 && skelAnime->mode == 2) {
             if (phi_v1 != 0) {
-    STACK_PAD(s32);
+                STACK_PAD(s32);
 
                 phi_v0 -= (phi_v1 - phi_v0) / 10;
             }
         } else if (idx == 2 && (action == 20 || action == 21) && skelAnime->mode == 2) {
             if (phi_v1 != 0) {
-    STACK_PAD(s32);
+                STACK_PAD(s32);
 
                 phi_v0 -= (phi_v1 - phi_v0) / 10;
             }
         } else {
             if (phi_v1 != 0) {
-    STACK_PAD(s32);
+                STACK_PAD(s32);
 
                 phi_v0 += (phi_v1 - phi_v0) / 16;
             }
@@ -707,7 +707,7 @@ void EnZl3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     if (limbIndex == 13) {
         Vec3f sp34 = D_80B5A46C;
-    STACK_PAD(s32);
+        STACK_PAD(s32);
 
         Matrix_MultVec3f(&sp34, &this->unk_31C);
     } else if (limbIndex == 14) {
@@ -813,7 +813,7 @@ void func_80B55054(EnZl3* this) {
             f32* temp_v0 = &this->unk_2EC;
 
             if (*temp_v0 < 19.0f) {
-    STACK_PAD(s32);
+                STACK_PAD(s32);
 
                 ((DoorWarp1*)child)->crystalAlpha = (20.0f - *temp_v0) * 12.75f;
                 *temp_v0 += 1.0f;
@@ -1797,7 +1797,7 @@ void func_80B5764C(EnZl3* this, PlayState* play) {
 
 s32 func_80B576C8(EnZl3* this, PlayState* play) {
     if (func_80B575F0(this, play)) {
-    STACK_PAD(s32);
+        STACK_PAD(s32);
 
         if (this->unk_3D8 == 0) {
             return 1;
@@ -2009,7 +2009,7 @@ s32 func_80B57D80(EnZl3* this, PlayState* play) {
 
 void func_80B57EAC(EnZl3* this, PlayState* play) {
     if (func_80B57324(this, play)) {
-    STACK_PAD(s32);
+        STACK_PAD(s32);
 
         this->action = 26;
     } else {
@@ -2053,7 +2053,7 @@ void func_80B58014(EnZl3* this, PlayState* play) {
         this->action = 29;
         func_80B538B0(this);
     } else if (func_80B57C8C(this) && func_80B57F84(this, play)) {
-    STACK_PAD(s32);
+        STACK_PAD(s32);
 
         OnePointCutscene_Init(play, 4000, -99, &this->actor, CAM_ID_MAIN);
         this->unk_3D0 = 0;
@@ -2164,7 +2164,7 @@ void func_80B58624(EnZl3* this, PlayState* play) {
         func_80B54E14(this, &gZelda2Anime2Anim_008050, 0, -12.0f, 0);
         func_80B5772C(this, play);
     } else if (*unk_3CC == kREG(19) + 20.0f) {
-    STACK_PAD(s32);
+        STACK_PAD(s32);
 
         *unk_3CC += 1.0f;
         this->actor.textId = 0x71AC;

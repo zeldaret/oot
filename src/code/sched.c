@@ -642,7 +642,8 @@ void Sched_ThreadEntry(void* arg) {
     }
 }
 
-void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNUSED u8 viModeType, UNUSED UNK_TYPE arg4, IrqMgr* irqMgr) {
+void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNUSED u8 viModeType, UNUSED UNK_TYPE arg4,
+                IrqMgr* irqMgr) {
     bzero(sc, sizeof(Scheduler));
     sc->isFirstSwap = true;
 
