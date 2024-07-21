@@ -876,7 +876,7 @@ void Sram_WriteSramHeader(SramContext* sramCtx) {
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_HEADER_SIZE, OS_WRITE);
 }
 
-void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
+void Sram_InitSram(UNUSED_NDEBUG GameState* gameState, SramContext* sramCtx) {
     u16 i;
 
     PRINTF("sram_initialize( Game *game, Sram *sram )\n");

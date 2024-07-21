@@ -61,7 +61,7 @@ void VisZBuf_Init(VisZBuf* this) {
     // clang-format on
 }
 
-void VisZBuf_Destroy(VisZBuf* this) {
+void VisZBuf_Destroy(UNUSED VisZBuf* this) {
 }
 
 void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP) {

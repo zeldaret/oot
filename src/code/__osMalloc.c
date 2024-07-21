@@ -464,7 +464,7 @@ void* __osMallocR(Arena* arena, u32 size) {
     return alloc;
 }
 
-void __osFree_NoLock(Arena* arena, void* ptr) {
+void __osFree_NoLock(UNUSED_NDEBUG Arena* arena, void* ptr) {
     ArenaNode* node;
     ArenaNode* next;
     ArenaNode* prev;

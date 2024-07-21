@@ -2190,8 +2190,8 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
  * @return false if player is out of health
  */
 s32 Health_ChangeBy(UNUSED PlayState* play, s16 amount) {
-    u16 heartCount;
-    u16 healthLevel;
+    UNUSED_NDEBUG u16 heartCount;
+    UNUSED_NDEBUG u16 healthLevel;
 
     // "＊＊＊＊＊ Fluctuation=%d (now=%d, max=%d) ＊＊＊"
     PRINTF("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", amount, gSaveContext.save.info.playerData.health,

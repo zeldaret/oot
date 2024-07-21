@@ -4,7 +4,9 @@
 #ifndef GLUE
 #define GLUE(a,b) a##b
 #endif
+#ifndef GLUE2
 #define GLUE2(a,b) GLUE(a,b)
+#endif
 
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
@@ -216,10 +218,10 @@ struct GraphicsContext;
 
 #else
 
-#define OPEN_DISPS(gfxCtx, file, line)      \
-    {                                       \
-        GraphicsContext* __gfxCtx = gfxCtx; \
-        s32 __dispPad
+#define OPEN_DISPS(gfxCtx, file, line)             \
+    {                                              \
+        UNUSED GraphicsContext* __gfxCtx = gfxCtx; \
+        UNUSED s32 __dispPad
 
 #define CLOSE_DISPS(gfxCtx, file, line) \
     (void)0;                            \

@@ -1092,7 +1092,7 @@ void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
  */
 void SkelAnime_InitLink(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
                         LinkAnimationHeader* animation, s32 flags, Vec3s* jointTable, Vec3s* morphTable,
-                        s32 limbBufCount) {
+                        UNUSED_NDEBUG s32 limbBufCount) {
     FlexSkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
     s32 headerJointCount = skeletonHeader->sh.limbCount;
     s32 limbCount;
@@ -1427,7 +1427,8 @@ s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame) {
  * Initializes a normal skeleton to a looping animation, dynamically allocating the frame tables if not provided.
  */
 BAD_RETURN(s32) SkelAnime_Init(UNUSED PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
+                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable,
+                               UNUSED_NDEBUG s32 limbCount) {
     SkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelAnime->limbCount = skeletonHeader->limbCount + 1;
@@ -1457,7 +1458,8 @@ BAD_RETURN(s32) SkelAnime_Init(UNUSED PlayState* play, SkelAnime* skelAnime, Ske
  * Initializes a flex skeleton to a looping animation, dynamically allocating the frame tables if not given.
  */
 BAD_RETURN(s32) SkelAnime_InitFlex(UNUSED PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
+                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable,
+                                   UNUSED_NDEBUG s32 limbCount) {
     FlexSkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelAnime->limbCount = skeletonHeader->sh.limbCount + 1;

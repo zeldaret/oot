@@ -100,7 +100,7 @@ void VisCvg_Init(VisCvg* this) {
     this->vis.primColor.a = 255;
 }
 
-void VisCvg_Destroy(VisCvg* this) {
+void VisCvg_Destroy(UNUSED VisCvg* this) {
 }
 
 void VisCvg_Draw(VisCvg* this, Gfx** gfxP) {

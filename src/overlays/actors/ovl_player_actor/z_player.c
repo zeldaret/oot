@@ -3891,7 +3891,7 @@ static s32 (*sActionChangeFuncs[])(Player* this, PlayState* play) = {
  *
  */
 s32 Player_TryActionChangeList(PlayState* play, Player* this, s8* actionChangeList, s32 updateUpperBody) {
-    s32 i;
+    STACK_PAD(s32);
 
     if (!(this->stateFlags1 & (PLAYER_STATE1_0 | PLAYER_STATE1_7 | PLAYER_STATE1_29))) {
         if (updateUpperBody) {
@@ -11505,7 +11505,9 @@ void Player_Update(Actor* thisx, PlayState* play) {
 
     Player_UpdateCommon(this, play, &input);
 
+#if OOT_DEBUG
 skip_update:;
+#endif
     {
     STACK_PAD(s32);
 

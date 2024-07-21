@@ -70,7 +70,7 @@ void func_8006D0EC(PlayState* play, Player* player) {
         horseActor->room = -1;
     } else if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_7) &&
                GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-        Actor* horseActor =
+        UNUSED_NDEBUG Actor* horseActor =
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
     } else if ((play->sceneId == gSaveContext.save.info.horseData.sceneId) &&
@@ -97,7 +97,8 @@ void func_8006D0EC(PlayState* play, Player* player) {
         }
     } else if ((play->sceneId == SCENE_LON_LON_RANCH) && !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) &&
                (DREG(1) == 0)) {
-        Actor* horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1);
+        UNUSED_NDEBUG Actor* horseActor =
+            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 443);
     } else if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || (DREG(1) != 0)) {
         for (i = 0; i < ARRAY_COUNT(horseSpawns); i++) {

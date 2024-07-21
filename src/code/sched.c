@@ -126,7 +126,7 @@ void Sched_SwapFrameBuffer(Scheduler* sc, CfbInfo* cfbInfo) {
     Sched_SwapFrameBufferImpl(cfbInfo);
 }
 
-void Sched_HandlePreNMI(Scheduler* sc) {
+void Sched_HandlePreNMI(UNUSED_NDEBUG Scheduler* sc) {
 #if OOT_DEBUG
     OSTime now;
 

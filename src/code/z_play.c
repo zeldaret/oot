@@ -1475,7 +1475,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     SceneTableEntry* scene = &gSceneTable[sceneId];
-    u32 size;
+    UNUSED_NDEBUG u32 size;
 
     scene->unk_13 = 0;
     this->loadedScene = scene;

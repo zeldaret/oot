@@ -113,7 +113,7 @@ void EnGe2_ChangeAction(EnGe2* this, s32 i) {
 
 void EnGe2_Init(Actor* thisx, PlayState* play) {
     EnGe2* this = (EnGe2*)thisx;
-    s16 params = this->actor.params;
+    UNUSED s16 params = this->actor.params;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoPurpleSkel, NULL, this->jointTable, this->morphTable, 22);

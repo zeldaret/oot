@@ -2320,10 +2320,10 @@ void AudioOcarina_ResetStaffs(void) {
 #if OOT_DEBUG
 #include "debug.inc.c"
 #else
-void AudioDebug_Draw(GfxPrint* printer) {
+void AudioDebug_Draw(UNUSED GfxPrint* printer) {
 }
 
-void AudioDebug_ScrPrt(const char* str, u16 num) {
+void AudioDebug_ScrPrt(UNUSED const char* str, UNUSED u16 num) {
 }
 #endif
 

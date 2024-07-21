@@ -706,7 +706,7 @@ void MapSelect_Main(GameState* thisx) {
     MapSelect_Draw(this);
 }
 
-void MapSelect_Destroy(GameState* thisx) {
+void MapSelect_Destroy(UNUSED GameState* thisx) {
     PRINTF("%c", BEL);
     // "view_cleanup will hang, so it won't be called"
     PRINTF("*** view_cleanupはハングアップするので、呼ばない ***\n");

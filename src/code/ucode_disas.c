@@ -1,5 +1,7 @@
 #include "global.h"
 
+#if OOT_DEBUG
+
 typedef struct {
     /* 0x00 */ u32 value;
     /* 0x04 */ const char* name;
@@ -1243,3 +1245,5 @@ void UCodeDisas_RegisterUCode(UCodeDisas* this, s32 count, UCodeInfo* ucodeArray
 void UCodeDisas_SetCurUCode(UCodeDisas* this, void* ptr) {
     UCodeDisas_SetCurUCodeImpl(this, ptr);
 }
+
+#endif

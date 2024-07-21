@@ -64,7 +64,7 @@ void GameState_SetFBFilter(Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-void func_800C4344(GameState* gameState) {
+void func_800C4344(UNUSED_NDEBUG GameState* gameState) {
 #if OOT_DEBUG
     Input* selectedInput;
     s32 hexDumpSize;
@@ -400,8 +400,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 }
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
-    OSTime startTime;
-    OSTime endTime;
+    UNUSED_NDEBUG OSTime startTime;
+    UNUSED_NDEBUG OSTime endTime;
 
     PRINTF("game コンストラクタ開始\n"); // "game constructor start"
     gameState->gfxCtx = gfxCtx;
@@ -416,7 +416,8 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     gameState->size = (u32)(gameState->init = NULL);
 
     {
-        s32 requiredScopeTemp;
+        STACK_PAD(s32);
+
         endTime = osGetTime();
         // "game_set_next_game_null processing time %d us"
         PRINTF("game_set_next_game_null 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));

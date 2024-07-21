@@ -837,8 +837,8 @@ void Actor_Init(Actor* actor, PlayState* play) {
 }
 
 void Actor_Destroy(Actor* actor, PlayState* play) {
-    ActorOverlay* overlayEntry;
-    char* name;
+    UNUSED_NDEBUG ActorOverlay* overlayEntry;
+    UNUSED_NDEBUG char* name;
 
     if (actor->destroy != NULL) {
         actor->destroy(actor, play);
@@ -2307,7 +2307,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 }
 
 void Actor_FaultPrint(Actor* actor, char* command) {
-    ActorOverlay* overlayEntry;
+    UNUSED_NDEBUG ActorOverlay* overlayEntry;
     char* name;
 
     if ((actor == NULL) || (actor->overlayEntry == NULL)) {
@@ -2563,7 +2563,7 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
 
         while (actor != NULL) {
             ActorOverlay* overlayEntry = actor->overlayEntry;
-            char* actorName = overlayEntry->name != NULL ? overlayEntry->name : "";
+            UNUSED_NDEBUG char* actorName = overlayEntry->name != NULL ? overlayEntry->name : "";
 
             gDPNoOpString(POLY_OPA_DISP++, actorName, i);
             gDPNoOpString(POLY_XLU_DISP++, actorName, i);
@@ -2830,7 +2830,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     s32 objectSlot;
     ActorOverlay* overlayEntry;
     uintptr_t temp;
-    char* name;
+    UNUSED_NDEBUG char* name;
     u32 overlaySize;
 
     overlayEntry = &gActorOverlayTable[actorId];
@@ -3020,7 +3020,7 @@ Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, PlayStat
 }
 
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
-    char* name;
+    UNUSED_NDEBUG char* name;
     Player* player;
     Actor* newHead;
     ActorOverlay* overlayEntry;

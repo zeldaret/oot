@@ -1673,7 +1673,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
                 this->subCamAt.y = 1117.0f;
                 this->subCamAt.z = -11.0f;
             } else {
-                f32 phi_f0;
+                STACK_PAD(s32);
                 s32 phi_a1;
 
                 if (this->unk_398 < 30) {

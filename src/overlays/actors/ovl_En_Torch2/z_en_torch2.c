@@ -203,7 +203,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     Camera* mainCam;
     s16 sp66;
     s8 stickY;
-    STACK_PAD(s32);
+    u32 temp;
     Actor* attackItem;
     s16 sp5A = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
@@ -545,12 +545,12 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     // Updates Dark Link's "controller". The conditional seems to cause him to
     // stop targeting and hold shield if he's been holding it long enough.
 
-    sp54 = input->prev.button ^ input->cur.button;
-    input->press.button = input->cur.button & sp54;
+    temp = input->prev.button ^ input->cur.button;
+    input->press.button = input->cur.button & temp;
     if (CHECK_BTN_ANY(input->cur.button, BTN_R)) {
         input->cur.button = ((sCounterState == 0) && (this->meleeWeaponState == 0)) ? BTN_R : input->cur.button ^ BTN_R;
     }
-    input->rel.button = input->prev.button & sp54;
+    input->rel.button = input->prev.button & temp;
     input->prev.button = input->cur.button & (u16) ~(BTN_A | BTN_B);
     PadUtils_UpdateRelXY(input);
 

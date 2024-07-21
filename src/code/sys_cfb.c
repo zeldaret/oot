@@ -5,7 +5,7 @@ uintptr_t sSysCfbEnd;
 
 void SysCfb_Init(s32 n64dd) {
     u32 screenSize;
-    uintptr_t tmpFbEnd;
+    UNUSED_NDEBUG uintptr_t tmpFbEnd;
 
     if (osMemSize >= 0x800000) {
         // "8MB or more memory is installed"

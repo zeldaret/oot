@@ -724,7 +724,7 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
         STACK_PAD(s16);
         u8 prevHealth;
-        s32 damageEffect;
+        STACK_PAD(s32);
         Vec3f sparksPos = this->actor.world.pos;
 
         sparksPos.y += 50.0f;

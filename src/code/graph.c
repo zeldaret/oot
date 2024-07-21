@@ -488,7 +488,7 @@ void Graph_ThreadEntry(UNUSED void* arg) {
 }
 
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size) {
-    TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
+    UNUSED_NDEBUG TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
 
     if (HREG(59) == 1) {
         PRINTF("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,
@@ -498,7 +498,7 @@ void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size) {
 }
 
 void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
-    TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
+    UNUSED_NDEBUG TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
 
     if (HREG(59) == 1) {
         PRINTF("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,

@@ -143,8 +143,8 @@ CHECK_WARNINGS += -Werror=implicit-function-declaration
 
 # Actors and effets are mostly callback functions and often don't use all arguments,
 # ignore those warnings entirely in these directories.
-build/src/overlays/actors/%.o: CHECK_WARNINGS += -Wno-unused-parameter
-build/src/overlays/effects/%.o: CHECK_WARNINGS += -Wno-unused-parameter
+$(BUILD_DIR)/src/overlays/actors/%.o: CHECK_WARNINGS += -Wno-unused-parameter
+$(BUILD_DIR)/src/overlays/effects/%.o: CHECK_WARNINGS += -Wno-unused-parameter
 
 # The `cpp` command behaves differently on macOS (it behaves as if
 # `-traditional-cpp` was passed) so we use `gcc -E` instead.

@@ -68,7 +68,7 @@ void Audio_ClearBGMMute(u8 channelIndex) {
 }
 
 void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd) {
-    u8 i;
+    UNUSED_NDEBUG u8 i;
     SfxRequest* req;
 
     if (!gSfxBankMuted[SFX_BANK_SHIFT(sfxId)]) {

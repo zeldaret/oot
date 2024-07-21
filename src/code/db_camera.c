@@ -1,5 +1,7 @@
 #include "global.h"
 
+#if OOT_DEBUG
+
 #define DEBUG_CAM_CONTROLLER_PORT 2
 
 static PlayState* sPlay;
@@ -2365,3 +2367,5 @@ void func_800BB060(void) {
 int func_800BB06C(void) {
     return sDebugCamPtr->unk_00 == 2 && sDebugCamAnim.unk_0A != 0;
 }
+
+#endif

@@ -3132,7 +3132,7 @@ void Message_Update(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     Player* player = GET_PLAYER(play);
-    Input* input = &play->state.input[0];
+    UNUSED_NDEBUG Input* input = &play->state.input[0];
     s16 var;
     s16 focusScreenPosX;
     s16 averageY;

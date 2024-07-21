@@ -1053,7 +1053,7 @@ s32 BgCheck_SphVsFirstStaticPolyList(SSNode* node, u16 xpFlags, CollisionContext
     Vec3s* vtxList = colCtx->colHeader->vtxList;
 
     while (true) {
-        u16 nextId;
+        STACK_PAD(s16);
         s16 curPolyId = node->polyId;
         CollisionPoly* curPoly = &polyList[curPolyId];
 
@@ -1540,9 +1540,9 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     };
     u32 tblMax;
     u32 memSize;
-    u32 lookupTblMemSize;
+    UNUSED_NDEBUG u32 lookupTblMemSize;
     s32 customNodeListMax;
-    SSNodeList* nodeList;
+    STACK_PAD(s32);
     u32 customMemSize;
     s32 useCustomSubdivisions;
     s32 i;

@@ -122,7 +122,7 @@ u16 gCamAtPointAppliedFrame;
 
 // For retail BSS ordering, the block number of sReturnToCamId must be greater
 // than that of gCamAtPointAppliedFrame (declared in variables.h).
-#pragma increment_block_number 180
+#pragma increment_block_number 181
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;

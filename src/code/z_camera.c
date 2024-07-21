@@ -606,10 +606,10 @@ Vec3s* Camera_GetBgCamFuncData(Camera* camera) {
  */
 s32 Camera_GetBgCamIndex(Camera* camera, s32* bgId, CollisionPoly* poly) {
     s32 bgCamIndex;
-    PosRot playerPosRot;
+    UNUSED PosRot playerPosRot;
     s32 ret;
 
-    playerPosRot = Actor_GetWorldPosShapeRot(&camera->player->actor); // unused.
+    playerPosRot = Actor_GetWorldPosShapeRot(&camera->player->actor);
     bgCamIndex = SurfaceType_GetBgCamIndex(&camera->play->colCtx, poly, *bgId);
 
     if (BgCheck_GetBgCamSettingImpl(&camera->play->colCtx, bgCamIndex, *bgId) == CAM_SET_NONE) {
@@ -857,10 +857,10 @@ f32 Camera_ClampLERPScale(Camera* camera, f32 maxLERPScale) {
     return ret;
 }
 
-void Camera_CopyDataToRegs(Camera* camera, s16 mode) {
-    CameraModeValue* values;
-    CameraModeValue* valueP;
-    s32 i;
+void Camera_CopyDataToRegs(Camera* camera, UNUSED_NDEBUG s16 mode) {
+    UNUSED_NDEBUG CameraModeValue* values;
+    UNUSED_NDEBUG CameraModeValue* valueP;
+    UNUSED_NDEBUG s32 i;
 
 #if OOT_DEBUG
     if (PREG(82)) {
@@ -941,7 +941,7 @@ void Camera_UpdateInterface(s16 interfaceField) {
 
 Vec3f Camera_BGCheckCorner(Vec3f* linePointA, Vec3f* linePointB, CamColChk* pointAColChk, CamColChk* pointBColChk) {
     Vec3f closestPoint;
-    bool result;
+    UNUSED_NDEBUG s32 result;
 
     result = func_800427B4(pointAColChk->poly, pointBColChk->poly, linePointA, linePointB, &closestPoint);
 #if OOT_DEBUG
@@ -2340,7 +2340,7 @@ s32 Camera_Jump1(Camera* camera) {
     VecGeo eyeDiffGeo;
     VecGeo eyeDiffTarget;
     PosRot* playerPosRot = &camera->playerPosRot;
-    PosRot playerhead;
+    UNUSED PosRot playerhead;
     STACK_PAD(s16);
     Jump1ReadOnlyData* roData = &camera->paramData.jump1.roData;
     Jump1ReadWriteData* rwData = &camera->paramData.jump1.rwData;
@@ -2483,7 +2483,7 @@ s32 Camera_Jump2(Camera* camera) {
     VecGeo adjAtToEyeDir;
     VecGeo bgChkPara;
     VecGeo atToEyeNextDir;
-    VecGeo atToEyeDir;
+    UNUSED VecGeo atToEyeDir;
     f32 temp_f14;
     f32 temp_f16;
     f32 sp90;
@@ -2661,7 +2661,7 @@ s32 Camera_Jump3(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
-    s32 prevMode;
+    UNUSED_NDEBUG s32 prevMode;
     f32 spC4;
     f32 spC0;
     f32 spBC;
@@ -3459,13 +3459,13 @@ s32 Camera_KeepOn3(Camera* camera) {
     Actor* colChkActors[2];
     VecGeo targetToPlayerDir;
     VecGeo atToEyeAdj;
-    VecGeo atToEyeDir;
+    UNUSED VecGeo atToEyeDir;
     VecGeo atToEyeNextDir;
     s32 i;
     s32 angleCnt;
     s16 sp82;
     s16 sp80;
-    PosRot playerPosRot;
+    UNUSED PosRot playerPosRot;
     PosRot* camPlayerPosRot = &camera->playerPosRot;
     KeepOn3ReadOnlyData* roData = &camera->paramData.keep3.roData;
     KeepOn3ReadWriteData* rwData = &camera->paramData.keep3.rwData;
@@ -3644,7 +3644,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     f32 temp_f0_2;
     CollisionPoly* spC0;
     VecGeo spB8;
-    VecGeo spB0;
+    UNUSED VecGeo spB0;
     VecGeo spA8;
     s16* temp_s0 = &camera->data2;
     s16 spA2;
@@ -4179,7 +4179,7 @@ s32 Camera_Fixed3(Camera* camera) {
     Vec3f* eyeNext = &camera->eyeNext;
     VecGeo atGeo;
     BgCamFuncData* bgCamFuncData;
-    VecGeo eyeAtOffset;
+    UNUSED VecGeo eyeAtOffset;
     Fixed3ReadOnlyData* roData = &camera->paramData.fixd3.roData;
     Fixed3ReadWriteData* rwData = &camera->paramData.fixd3.rwData;
     STACK_PAD(s32);
@@ -4337,7 +4337,7 @@ s32 Camera_Subj3(Camera* camera) {
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
     Vec3f sp98;
-    Vec3f sp8C;
+    UNUSED Vec3f sp8C;
     VecGeo sp84;
     VecGeo sp7C;
     VecGeo tGeo;
@@ -4350,7 +4350,7 @@ s32 Camera_Subj3(Camera* camera) {
     Subj3ReadOnlyData* roData = &camera->paramData.subj3.roData;
     Subj3ReadWriteData* rwData = &camera->paramData.subj3.rwData;
     CameraModeValue* values;
-    Vec3f* atTemp;
+    STACK_PAD(s32);
     f32 playerHeight;
 
     sp60 = Actor_GetFocus(&camera->player->actor);
@@ -4484,8 +4484,7 @@ s32 Camera_Subj4(Camera* camera) {
     VecGeo targetOffset;
     VecGeo atEyeOffset;
     s16 eyeToAtYaw;
-    STACK_PAD(s32);
-    f32 temp;
+    STACK_PADS(s32, 2);
     Subj4ReadOnlyData* roData = &camera->paramData.subj4.roData;
     Subj4ReadWriteData* rwData = &camera->paramData.subj4.rwData;
 
@@ -4732,7 +4731,7 @@ s32 Camera_Unique1(Camera* camera) {
     VecGeo eyeAtOffset;
     VecGeo eyeNextAtOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
-    PosRot playerhead;
+    UNUSED PosRot playerhead;
     Unique1ReadOnlyData* roData = &camera->paramData.uniq1.roData;
     Unique1ReadWriteData* rwData = &camera->paramData.uniq1.rwData;
     STACK_PAD(s32);
@@ -4775,7 +4774,7 @@ s32 Camera_Unique1(Camera* camera) {
         camera->animState++;
     }
 
-    playerhead = Actor_GetFocus(&camera->player->actor); // unused
+    playerhead = Actor_GetFocus(&camera->player->actor);
 
     camera->yawUpdateRateInv = Camera_LERPCeilF(100.0f, camera->yawUpdateRateInv, CAM_UPDATE_RATE_STEP_SCALE_XZ, 0.1f);
     camera->pitchUpdateRateInv =
@@ -6969,7 +6968,7 @@ s32 Camera_Special5(Camera* camera) {
     CamColChk sp7C;
     VecGeo sp74;
     VecGeo sp6C;
-    VecGeo sp64;
+    UNUSED VecGeo sp64;
     VecGeo sp5C;
     PosRot* playerPosRot = &camera->playerPosRot;
     Special5ReadOnlyData* roData = &camera->paramData.spec5.roData;
@@ -7171,7 +7170,7 @@ s32 Camera_Special6(Camera* camera) {
     Vec3f eyePosCalc;
     Vec3f eyeAnim;
     Vec3f atAnim;
-    VecGeo eyeAtOffset;
+    UNUSED VecGeo eyeAtOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
     BgCamFuncData* bgCamFuncData;
     Vec3s bgCamRot;
@@ -7451,7 +7450,7 @@ void Camera_Init(Camera* camera, UNUSED View* view, UNUSED CollisionContext* col
 
     __osMemset(camera, 0, sizeof(Camera));
     if (sInitRegs) {
-        s32 i;
+        UNUSED_NDEBUG s32 i;
 
 #if OOT_DEBUG
         for (i = 0; i < sOREGInitCnt; i++) {
@@ -7636,9 +7635,9 @@ void Camera_InitDataUsingPlayer(Camera* camera, Player* player) {
 }
 
 s16 Camera_ChangeStatus(Camera* camera, s16 status) {
-    CameraModeValue* values;
-    CameraModeValue* valueP;
-    s32 i;
+    UNUSED_NDEBUG CameraModeValue* values;
+    UNUSED_NDEBUG CameraModeValue* valueP;
+    UNUSED_NDEBUG s32 i;
 
 #if OOT_DEBUG
     if (PREG(82)) {
@@ -8576,7 +8575,7 @@ s32 Camera_RequestSetting(Camera* camera, s16 setting) {
 
 s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
     s16 requestedCamSetting;
-    s16 settingChangeSuccessful;
+    UNUSED_NDEBUG s16 settingChangeSuccessful;
 
     if ((requestedBgCamIndex == -1) || (requestedBgCamIndex == camera->bgCamIndex)) {
         camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;

@@ -896,7 +896,7 @@ void EnGirlA_Noop(EnGirlA* this, PlayState* play) {
 
 void EnGirlA_SetItemDescription(PlayState* play, EnGirlA* this) {
     ShopItemEntry* tmp = &sShopItemEntries[this->actor.params];
-    s32 params = this->actor.params;
+    UNUSED s32 params = this->actor.params;
 
     if ((this->actor.params >= SI_KEATON_MASK) && (this->actor.params <= SI_MASK_OF_TRUTH)) {
         s32 maskId = this->actor.params - SI_KEATON_MASK;

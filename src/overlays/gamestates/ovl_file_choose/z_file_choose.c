@@ -379,8 +379,8 @@ void FileSelect_PulsateCursor(GameState* thisx) {
     static s16 cursorAlphaTargets[] = { 70, 200 };
     FileSelectState* this = (FileSelectState*)thisx;
     s16 alphaStep;
-    SramContext* sramCtx = &this->sramCtx;
-    Input* debugInput = &this->state.input[2];
+    UNUSED_NDEBUG SramContext* sramCtx = &this->sramCtx;
+    UNUSED_NDEBUG Input* debugInput = &this->state.input[2];
 
 #if OOT_DEBUG
     if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {

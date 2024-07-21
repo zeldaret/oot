@@ -281,7 +281,7 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
  * @param vrom Virtual ROM location
  * @return Pointer to associated filename
  */
-const char* DmaMgr_FindFileName(uintptr_t vrom) {
+const char* DmaMgr_FindFileName(UNUSED_NDEBUG uintptr_t vrom) {
 #if OOT_DEBUG
     DmaEntry* iter = gDmaDataTable;
     const char** name = sDmaMgrFileNames;
@@ -304,7 +304,7 @@ const char* DmaMgr_FindFileName(uintptr_t vrom) {
 #endif
 }
 
-const char* DmaMgr_GetFileName(uintptr_t vrom) {
+const char* DmaMgr_GetFileName(UNUSED_NDEBUG uintptr_t vrom) {
 #if OOT_DEBUG
     const char* ret = DmaMgr_FindFileName(vrom);
 
@@ -331,7 +331,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
     size_t romSize;
     u8 found = false;
     DmaEntry* iter;
-    const char* filename;
+    UNUSED_NDEBUG const char* filename;
 
 #if OOT_DEBUG
     // Get the filename (for debugging)
@@ -479,7 +479,7 @@ void DmaMgr_ThreadEntry(UNUSED void* arg) {
  */
 s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, UNUSED u32 unk, OSMesgQueue* queue,
                         OSMesg msg) {
-    static s32 sDmaMgrQueueFullLogged = 0;
+    UNUSED_NDEBUG static s32 sDmaMgrQueueFullLogged = 0;
 
 #if OOT_DEBUG
     if ((ram == NULL) || (osMemSize < OS_K0_TO_PHYSICAL(ram) + size) || (vrom & 1) || (vrom > 0x4000000) ||
@@ -541,9 +541,9 @@ s32 DmaMgr_RequestSync(void* ram, uintptr_t vrom, size_t size) {
 }
 
 void DmaMgr_Init(void) {
-    const char** name;
-    s32 idx;
-    DmaEntry* iter;
+    UNUSED_NDEBUG const char** name;
+    UNUSED_NDEBUG s32 idx;
+    UNUSED_NDEBUG DmaEntry* iter;
 
     // DMA the dma data table to RAM
     DmaMgr_DmaRomToRam((uintptr_t)_dmadataSegmentRomStart, _dmadataSegmentStart,

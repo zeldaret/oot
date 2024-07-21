@@ -229,7 +229,7 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
     }
 }
 
-s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
+s32 Jpeg_Decode(void* data, void* zbuffer, void* work, UNUSED_NDEBUG u32 workSize) {
     s32 y;
     s32 x;
     u32 j;
@@ -239,7 +239,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     JpegDecoder decoder;
     JpegDecoderState state;
     JpegWork* workBuff;
-    OSTime diff;
+    UNUSED_NDEBUG OSTime diff;
     OSTime time;
     OSTime curTime;
 
