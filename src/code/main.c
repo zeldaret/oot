@@ -7,6 +7,10 @@ s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
 
+// For retail BSS ordering, the block number of gIrqMgr must be greater than the
+// the block numbers assigned to extern variables above (declared in variables.h).
+#pragma increment_block_number 220
+
 PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
 PadMgr gPadMgr;

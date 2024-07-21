@@ -4,6 +4,7 @@ import argparse
 import glob
 import multiprocessing
 import os
+from pathlib import Path
 import re
 import shutil
 import subprocess
@@ -94,14 +95,25 @@ def run_clang_apply_replacements(tmp_dir: str):
     subprocess.run(exec_str, shell=True)
 
 
-def add_final_new_line(file: str):
-    # https://backreference.org/2010/05/23/sanitizing-files-with-no-trailing-newline/index.html
-    # "gets the last character of the file pipes it into read, which will exit with a nonzero exit
-    # code if it encounters EOF before newline (so, if the last character of the file isn't a newline).
-    # If read exits nonzero, then append a newline onto the file using echo (if read exits 0,
-    # that satisfies the ||, so the echo command isn't run)." (https://stackoverflow.com/a/34865616)
-    exec_str = f"tail -c1 {file} | read -r _ || echo >> {file}"
-    subprocess.run(exec_str, shell=True)
+def cleanup_whitespace(file: str):
+    """
+    Remove whitespace at the end of lines,
+    ensure the file ends with an empty line.
+    """
+    file_p = Path(file)
+    contents = file_p.read_text(encoding="UTF-8")
+    modified = False
+
+    contents, n_subst = re.subn(r"[^\S\n]+\n", "\n", contents)
+    if n_subst != 0:
+        modified = True
+
+    if not contents.endswith("\n"):
+        contents += "\n"
+        modified = True
+
+    if modified:
+        file_p.write_text(contents, encoding="UTF-8")
 
 
 def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
@@ -134,12 +146,22 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
     else:
         run_clang_tidy(src_files)
 
-    print("Adding missing final new lines...")
-    # Adding final new lines is safe to do in parallel and can be applied to all types of files
+    print("Cleaning up whitespace...")
+    # Safe to do in parallel and can be applied to all types of files
     with multiprocessing.get_context("fork").Pool(nb_jobs) as pool:
-        pool.map(add_final_new_line, src_files + extra_files)
+        pool.map(cleanup_whitespace, src_files + extra_files)
 
     print("Done formatting files.")
+
+
+def list_files_to_format():
+    files = glob.glob("src/**/*.c", recursive=True)
+    extra_files = (
+        glob.glob("assets/**/*.xml", recursive=True)
+        + glob.glob("include/**/*.h", recursive=True)
+        + glob.glob("src/**/*.h", recursive=True)
+    )
+    return files, extra_files
 
 
 def main():
@@ -179,8 +201,7 @@ def main():
         files = args.files
         extra_files = []
     else:
-        files = glob.glob("src/**/*.c", recursive=True)
-        extra_files = glob.glob("assets/**/*.xml", recursive=True)
+        files, extra_files = list_files_to_format()
 
     format_files(files, extra_files, nb_jobs)
 

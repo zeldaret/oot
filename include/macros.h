@@ -238,6 +238,12 @@ extern struct GraphicsContext* __gfxCtx;
 
 #endif /* OOT_DEBUG */
 
+#if OOT_NTSC
+#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { jpn, nes }
+#else
+#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { nes, ger, fra }
+#endif
+
 /**
  * `x` vertex x
  * `y` vertex y

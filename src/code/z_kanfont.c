@@ -38,8 +38,8 @@ void Font_LoadOrderedFont(Font* font) {
     s32 fontBufIndex;
     u32 offset;
 
-    font->msgOffset = _message_0xFFFC_nes - (const char*)_nes_message_data_staticSegmentStart;
-    len = font->msgLength = _message_0xFFFD_nes - _message_0xFFFC_nes;
+    font->msgOffset = FONT_MESSAGE_OFFSET;
+    len = font->msgLength = FONT_MESSAGE_LENGTH;
 
     DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset, len,
                      "../z_kanfont.c", 122);
