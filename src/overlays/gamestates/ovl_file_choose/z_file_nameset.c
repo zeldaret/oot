@@ -1174,7 +1174,7 @@ typedef struct {
     /* 0x0A */ u16 height;
 } OptionsMenuTextureInfo; // size = 0x0C
 
-#define OPTIONS_MENU_TEXTURE_WIDTHS(jpn, nes, ger, fra) jpn
+#define OPTIONS_MENU_TEXTURE_WIDTHS(jpn, eng, ger, fra) jpn
 #define OPTIONS_MENU_TEXTURE_WIDTH(info) info.width
 #define OPTIONS_MENU_TEXTURE_HEIGHT(info) info.height
 #else
@@ -1184,8 +1184,8 @@ typedef struct {
     /* 0x12 */ u16 height;
 } OptionsMenuTextureInfo; // size = 0x14
 
-#define OPTIONS_MENU_TEXTURE_WIDTHS(jpn, nes, ger, fra) \
-    { nes, ger, fra }
+#define OPTIONS_MENU_TEXTURE_WIDTHS(jpn, eng, ger, fra) \
+    { eng, ger, fra }
 #define OPTIONS_MENU_TEXTURE_WIDTH(info) info.width[gSaveContext.language]
 #define OPTIONS_MENU_TEXTURE_HEIGHT(info) info.height
 #endif
