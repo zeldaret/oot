@@ -21,7 +21,7 @@ s32 func_808B8A98(BgSpot18Obj* this, PlayState* play);
 s32 func_808B8B08(BgSpot18Obj* this, PlayState* play);
 s32 func_808B8BB4(BgSpot18Obj* this, PlayState* play);
 s32 func_808B8C90(BgSpot18Obj* this, PlayState* play);
-void func_808B8DC0(BgSpot18Obj* this);
+void BgSpot18Obj_SetupDoNothing(BgSpot18Obj* this);
 void BgSpot18Obj_DoNothing(BgSpot18Obj* this, PlayState* play);
 void func_808B8E64(BgSpot18Obj* this);
 void func_808B8E7C(BgSpot18Obj* this, PlayState* play);
@@ -167,7 +167,7 @@ s32 func_808B8BB4(BgSpot18Obj* this, PlayState* play) {
 
 s32 func_808B8C90(BgSpot18Obj* this, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain2);
-    func_808B8DC0(this);
+    BgSpot18Obj_SetupDoNothing(this);
     return 1;
 }
 
@@ -196,7 +196,7 @@ void BgSpot18Obj_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808B8DC0(BgSpot18Obj* this) {
+void BgSpot18Obj_SetupDoNothing(BgSpot18Obj* this) {
     this->actionFunc = BgSpot18Obj_DoNothing;
 }
 

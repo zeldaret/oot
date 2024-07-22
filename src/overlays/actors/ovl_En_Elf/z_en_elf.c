@@ -424,7 +424,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
     }
 }
 
-//TODO: Technically a noop, but the argument and values passed to it suggest it may have done *something*.
+// TODO: Technically a noop, but the argument and values passed to it suggest it may have done *something*.
 void EnElf_NoOp(EnElf* this, s32 arg1) {
 }
 

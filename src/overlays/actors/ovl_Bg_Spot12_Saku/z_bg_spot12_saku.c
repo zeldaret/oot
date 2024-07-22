@@ -18,7 +18,7 @@ void func_808B3550(BgSpot12Saku* this);
 void func_808B357C(BgSpot12Saku* this, PlayState* play);
 void func_808B35E4(BgSpot12Saku* this);
 void func_808B3604(BgSpot12Saku* this, PlayState* play);
-void func_808B3714(BgSpot12Saku* this);
+void BgSpot12Saku_SetupDoNothing(BgSpot12Saku* this);
 void BgSpot12Saku_DoNothing(BgSpot12Saku* this, PlayState* play);
 
 ActorInit Bg_Spot12_Saku_InitVars = {
@@ -64,7 +64,7 @@ void BgSpot12Saku_Init(Actor* thisx, PlayState* play) {
     func_808B3420(this, play, &gGerudoFortressGTGShutterCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
-        func_808B3714(this);
+        BgSpot12Saku_SetupDoNothing(this);
     } else {
         func_808B3550(this);
     }
@@ -106,14 +106,14 @@ void func_808B3604(BgSpot12Saku* this, PlayState* play) {
     this->dyna.actor.world.pos.z =
         this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
     if (fabsf(temp_ret) < 0.0001f) {
-        func_808B3714(this);
+        BgSpot12Saku_SetupDoNothing(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }
 }
 
-void func_808B3714(BgSpot12Saku* this) {
+void BgSpot12Saku_SetupDoNothing(BgSpot12Saku* this) {
     this->actionFunc = BgSpot12Saku_DoNothing;
     this->dyna.actor.scale.x = 0.001f / 0.14f;
     this->dyna.actor.world.pos.x =

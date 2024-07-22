@@ -17,7 +17,7 @@ void func_808B2970(BgSpot11Oasis* this);
 void func_808B2980(BgSpot11Oasis* this, PlayState* play);
 void func_808B29E0(BgSpot11Oasis* this);
 void func_808B29F0(BgSpot11Oasis* this, PlayState* play);
-void BgSpot11Oasis_SetActionToNothing(BgSpot11Oasis* this);
+void BgSpot11Oasis_SetupDoNothing(BgSpot11Oasis* this);
 void BgSpot11Oasis_DoNothing(BgSpot11Oasis* this, PlayState* play);
 
 ActorInit Bg_Spot11_Oasis_InitVars = {
@@ -106,7 +106,7 @@ void func_808B29E0(BgSpot11Oasis* this) {
 
 void func_808B29F0(BgSpot11Oasis* this, PlayState* play) {
     if (Math_StepToF(&this->actor.world.pos.y, 0.0f, 0.7f)) {
-        BgSpot11Oasis_SetActionToNothing(this);
+        BgSpot11Oasis_SetupDoNothing(this);
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, this->actor.world.pos.x, this->actor.world.pos.y + 40.0f,
                     this->actor.world.pos.z, 0, 0, 0, FAIRY_SPAWNER);
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
@@ -114,7 +114,7 @@ void func_808B29F0(BgSpot11Oasis* this, PlayState* play) {
     func_808B27F0(play, this->actor.world.pos.y);
 }
 
-void BgSpot11Oasis_SetActionToNothing(BgSpot11Oasis* this) {
+void BgSpot11Oasis_SetupDoNothing(BgSpot11Oasis* this) {
     this->actionFunc = BgSpot11Oasis_DoNothing;
 }
 

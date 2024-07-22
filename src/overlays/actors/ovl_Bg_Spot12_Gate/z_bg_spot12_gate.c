@@ -21,7 +21,7 @@ void func_808B3134(BgSpot12Gate* this);
 void func_808B314C(BgSpot12Gate* this, PlayState* play);
 void func_808B317C(BgSpot12Gate* this);
 void func_808B318C(BgSpot12Gate* this, PlayState* play);
-void func_808B3274(BgSpot12Gate* this);
+void BgSpot12Gate_SetupDoNothing(BgSpot12Gate* this);
 void BgSpot12Gate_DoNothing(BgSpot12Gate* this, PlayState* play);
 
 ActorInit Bg_Spot12_Gate_InitVars = {
@@ -68,7 +68,7 @@ void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
-        func_808B3274(this);
+        BgSpot12Gate_SetupDoNothing(this);
     } else {
         func_808B30C0(this);
     }
@@ -113,7 +113,7 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play) {
     Math_StepToF(&this->dyna.actor.velocity.y, 1.6f, 0.03f);
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f,
                      this->dyna.actor.velocity.y)) {
-        func_808B3274(this);
+        BgSpot12Gate_SetupDoNothing(this);
 
         {
             s32 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
@@ -129,7 +129,7 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play) {
     }
 }
 
-void func_808B3274(BgSpot12Gate* this) {
+void BgSpot12Gate_SetupDoNothing(BgSpot12Gate* this) {
     this->actionFunc = BgSpot12Gate_DoNothing;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 200.0f;
 }

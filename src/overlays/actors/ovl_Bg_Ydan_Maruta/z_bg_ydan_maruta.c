@@ -18,7 +18,7 @@ void func_808BEFF4(BgYdanMaruta* this, PlayState* play);
 void BgYdanMaruta_DoNothing(BgYdanMaruta* this, PlayState* play);
 void func_808BF078(BgYdanMaruta* this, PlayState* play);
 void func_808BF108(BgYdanMaruta* this, PlayState* play);
-void func_808BF1EC(BgYdanMaruta* this, PlayState* play);
+void BgYdanMaruta_SetupDoNothing(BgYdanMaruta* this, PlayState* play);
 
 ActorInit Bg_Ydan_Maruta_InitVars = {
     /**/ ACTOR_BG_YDAN_MARUTA,
@@ -163,7 +163,7 @@ void func_808BF108(BgYdanMaruta* this, PlayState* play) {
         this->unk_16A--;
     }
     if (this->unk_16A == 0) {
-        this->actionFunc = func_808BF1EC;
+        this->actionFunc = BgYdanMaruta_SetupDoNothing;
     }
 
     if (1) {}
@@ -181,7 +181,7 @@ void func_808BF108(BgYdanMaruta* this, PlayState* play) {
     func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
 }
 
-void func_808BF1EC(BgYdanMaruta* this, PlayState* play) {
+void BgYdanMaruta_SetupDoNothing(BgYdanMaruta* this, PlayState* play) {
     this->dyna.actor.velocity.y += 1.0f;
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_LADDER_DOUND);
