@@ -168,7 +168,11 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
+#if OOT_NTSC
+                HUNGUP_AND_CRASH("../z_play.c", 2287);
+#else
                 HUNGUP_AND_CRASH("../z_play.c", 2290);
+#endif
                 break;
         }
     }
