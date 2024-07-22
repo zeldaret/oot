@@ -106,8 +106,14 @@ typedef enum {
 // An option is to implement and use `ANIM_FLAG_OVERRIDE_MOVEMENT`.
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 
-// (player-only) Related to scaling an animation from/to child/adult
-#define ANIM_FLAG_PLAYER_2 (1 << 2)
+// When this flag is set, Player's root limb position adjustment as child is disabled.
+// Many of Player's animations are originally created for Adult Link. When playing those 
+// animations as Child Link without any adjustment, he will appear to be floating in the air.
+// However, if an animation is created specifically for Child Link, it is desireable to disable
+// this adjustment of the root position.
+// Note that this flag will be ignored if `ANIM_FLAG_UPDATE_XZ` or `ANIM_FLAG_UPDATE_Y` are also
+// set. The adjustment will be applied in this case regardless of this flag being enabled. 
+#define ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT (1 << 2)
 
 // (player-only) Call AnimTaskQueue_AddActorMove
 #define ANIM_FLAG_PLAYER_SETMOVE (1 << 3)
