@@ -4490,7 +4490,8 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
 
 /**
  * Loads the correct 'response' Text ID to a selected dialog option
- * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically resides
+ * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically
+ * resides
  *
  * @param actor the actor being responded to
  * @param textId the text ID to load into the actor
@@ -5270,7 +5271,8 @@ u32 NpcImpl_GetTextID32(PlayState* play, s16 actorID) {
 
 /**
  * Sets flags associated with having read a given textID
- * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically resides
+ * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically
+ * resides
  */
 void NpcImpl_SetInfForTextID(u16 textId, s16 actorID) {
     switch (actorID) {
@@ -5541,7 +5543,8 @@ void NpcImpl_SetInfForTextID(u16 textId, s16 actorID) {
 
 /**
  * Processes a message choice and loads the appropriate response text into an actor
- * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically resides
+ * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically
+ * resides
  *
  * @param actor the actor we're currently in a conversation with
  * @param textId the textID containing the current prompt we're responding to
@@ -5747,7 +5750,8 @@ s32 NpcImpl_SelectDialogResponse(PlayState* play, Actor* actor, u16 textId) {
 
 /**
  * Returns a text ID value for an actor given the current set of world flags
- * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically resides
+ * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically
+ * resides
  *
  * @param actorID ID of the actor who is speaking
  * @return text ID
@@ -5758,7 +5762,8 @@ u16 NpcImpl_GetTextID(PlayState* play, s16 actorID) {
 
 /**
  * Wrapper function w/ return type of s32
- * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically resides
+ * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically
+ * resides
  * @see NpcImpl_SetInfForTextID
  */
 s32 NpcImpl_SetInfForTextID32(PlayState* play, s16 actorID, u16 textId) {
@@ -5768,7 +5773,8 @@ s32 NpcImpl_SetInfForTextID32(PlayState* play, s16 actorID, u16 textId) {
 
 /**
  * Returns a text ID value for an actor given the current set of world flags
- * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically resides
+ * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically
+ * resides
  *
  * @return 0 if we found and loaded a response, 1 if something has gone wrong
  */
@@ -5778,7 +5784,8 @@ s32 NpcImpl_ProcessDialogChoice(PlayState* play, Actor* actor, s32 unused) {
 
 /**
  * Processes the current message state
- * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically resides
+ * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically
+ * resides
  *
  * @param play current game state
  * @param actor the actor who is speaking
@@ -5813,7 +5820,8 @@ s32 NpcImpl_ProcessMessage(PlayState* play, Actor* actor, s16 actorID) {
  * the talkState parameter when a dialog is ongoing. Otherwise checks if
  * the actor is onscreen, advertises the interaction in a range and sets
  * the current text id WITHOUT callbcks if necessary.
- * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically resides
+ * NOTE: Only used by Deku Tree Sprout, see an individual actor's overlay .c file for where their dialog logic typically
+ * resides
  * @see Npc_UpdateTalking
  *
  * The talk state values are defined in the NpcTalkState enum.
