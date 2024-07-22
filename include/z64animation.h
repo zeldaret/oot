@@ -109,7 +109,7 @@ typedef enum {
 // When this flag is set, Player's root limb position adjustment as child is disabled.
 // Many of Player's animations are originally created for Adult Link. When playing those
 // animations as Child Link without any adjustment, he will appear to be floating in the air.
-// To fix this, Child Link's root position is scalled down by default to fit his smaller size.
+// To fix this, Child Link's root position is scaled down by default to fit his smaller size.
 // However, if an animation is created specifically for Child Link, it is desirable to disable
 // this scaling of the root position by using this flag.
 // Note that this flag will be ignored if `ANIM_FLAG_UPDATE_XZ` or `ANIM_FLAG_UPDATE_Y` are also
