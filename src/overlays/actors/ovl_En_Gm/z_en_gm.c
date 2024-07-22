@@ -137,7 +137,7 @@ void EnGm_UpdateEye(EnGm* this) {
     } else {
         this->eyes++;
 
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->eyes = MEDI_GORON_EYE_OPEN;
             this->blinkTimer = Rand_ZeroFloat(60.0f) + 20.0f;
         }

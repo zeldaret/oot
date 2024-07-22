@@ -197,7 +197,7 @@ void EnTk_DigAnim(EnTk* this, PlayState* play) {
 void EnTk_UpdateEyes(EnTk* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyes++;
-        if (this->eyes > DAMPE_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
+        if (this->eyes > DAMPE_EYE_CLOSED) { // check if we've moved beyond 'blink' indices
             this->blinkCycles--;
             if (this->blinkCycles < 0) {
                 this->blinkTimer = Rand_S16Offset(30, 30);

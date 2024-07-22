@@ -120,7 +120,7 @@ void DemoIm_UpdateBlink(DemoIm* this) {
     }
 
     *eyes = *blinkTimer;
-    if (*eyes >= 3) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= 3) { // check if we've moved beyond 'blink' indices
         *eyes = IMPA_EYE_OPEN;
     }
 }

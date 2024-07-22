@@ -244,7 +244,7 @@ s32 EnMa3_UpdateFaceAndCheckIfBusy(EnMa3* this) {
 void EnMa3_UpdateEyes(EnMa3* this) {
     if ((!EnMa3_UpdateFaceAndCheckIfBusy(this)) && (DECR(this->blinkTimer) == 0)) {
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyes = ADULT_MALON_EYE_OPEN;
         }

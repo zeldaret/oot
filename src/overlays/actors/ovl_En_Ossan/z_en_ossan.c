@@ -1976,7 +1976,7 @@ void EnOssan_Blink(EnOssan* this) {
         return;
     }
     eyesTemp = this->eyes + 1;
-    if (eyesTemp > 2) { //check if we've moved beyond 'blink' indices
+    if (eyesTemp > 2) { // check if we've moved beyond 'blink' indices
         this->eyes = GENERIC_EYE_OPEN;
         this->blinkTimer = (s32)(Rand_ZeroOne() * 60.0f) + 20;
         this->blinkFunc = EnOssan_WaitForBlink;
@@ -2493,8 +2493,6 @@ void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4564);
 }
-
-
 
 void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, PlayState* play) {
     static void* sHappyMaskShopkeeperEyeTextures[] = { gHappyMaskSalesmanEyeClosedTex, gHappyMaskSalesmanEyeOpenTex };

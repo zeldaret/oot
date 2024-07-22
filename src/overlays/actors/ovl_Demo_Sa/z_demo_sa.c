@@ -115,7 +115,7 @@ void DemoSa_UpdateBlink(DemoSa* this) {
     }
 
     *eyes = *blinkTimer;
-    if (*eyes >= SARIA_EYE_SUPRISED) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= SARIA_EYE_SUPRISED) { // check if we've moved beyond 'blink' indices
         *eyes = SARIA_EYE_OPEN;
     }
 }

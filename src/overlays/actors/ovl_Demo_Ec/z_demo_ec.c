@@ -209,7 +209,7 @@ void DemoEc_UpdateEyes(DemoEc* this) {
 
     *eyes = *blinkTimer;
 
-    if (*eyes >= 3) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= 3) { // check if we've moved beyond 'blink' indices
         *eyes = GENERIC_EYE_OPEN;
     }
 }

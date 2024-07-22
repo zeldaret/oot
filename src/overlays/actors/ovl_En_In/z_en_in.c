@@ -407,7 +407,7 @@ void EnIn_UpdateEyes(EnIn* this) {
     if (this->eyes != INGO_EYE_CLOSED_2) {
         if (DECR(this->blinkTimer) == 0) {
             this->eyes++;
-            if (this->eyes >= INGO_EYE_CLOSED_2) { //check if we've moved beyond 'blink' indices
+            if (this->eyes >= INGO_EYE_CLOSED_2) { // check if we've moved beyond 'blink' indices
                 this->blinkTimer = Rand_S16Offset(30, 30);
                 this->eyes = INGO_EYE_OPEN;
             }

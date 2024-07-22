@@ -61,7 +61,7 @@ void DemoDu_UpdateEyes(DemoDu* this) {
     }
 
     *eyes = *blinkTimer;
-    if (*eyes >= DARUNIA_EYE_CLOSING) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= DARUNIA_EYE_CLOSING) { // check if we've moved beyond 'blink' indices
         *eyes = DARUNIA_EYE_OPEN;
     }
 }

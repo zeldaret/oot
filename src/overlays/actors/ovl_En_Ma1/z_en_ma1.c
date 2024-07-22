@@ -212,7 +212,7 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
 void EnMa1_UpdateEyes(EnMa1* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyes = CHILD_MALON_EYE_OPEN;
         }

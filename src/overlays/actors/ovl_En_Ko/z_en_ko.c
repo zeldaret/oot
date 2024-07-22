@@ -1068,7 +1068,7 @@ void EnKo_Blink(EnKo* this) {
         headId = sModelInfo[ENKO_TYPE].headId;
         this->eyes++;
         eyeTextures = sHead[headId].eyeTextures;
-        if (eyeTextures != NULL && eyeTextures[this->eyes] == NULL) { //check if we've moved beyond 'blink' indices
+        if (eyeTextures != NULL && eyeTextures[this->eyes] == NULL) { // check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyes = KOKIRI_EYE_OPEN;
         }

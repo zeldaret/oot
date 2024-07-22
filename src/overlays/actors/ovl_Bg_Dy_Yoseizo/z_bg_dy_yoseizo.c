@@ -856,7 +856,7 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     if ((this->blinkTimer == 0) && (this->actionFunc != BgDyYoseizo_HealPlayer_NoReward)) {
         this->eye++;
         this->eye2++;
-        if (this->eye >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eye >= 3) { // check if we've moved beyond 'blink' indices
             this->eye = this->eye2 = GREAT_FAIRY_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }

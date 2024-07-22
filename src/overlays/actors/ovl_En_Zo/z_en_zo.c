@@ -502,7 +502,7 @@ s16 EnZo_UpdateTalkState(PlayState* play, Actor* thisx) {
 void EnZo_Blink(EnZo* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyes = ZORA_EYE_OPEN;
         }

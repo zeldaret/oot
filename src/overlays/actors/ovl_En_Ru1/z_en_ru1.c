@@ -231,7 +231,7 @@ void EnRu1_UpdateEyes(EnRu1* this) {
     }
 
     *eyes = *blinkTimer;
-    if (*eyes >= CHILD_RUTO_EYE_ROLL_LEFT) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= CHILD_RUTO_EYE_ROLL_LEFT) { // check if we've moved beyond 'blink' indices
         *eyes = CHILD_RUTO_EYE_OPEN;
     }
 }

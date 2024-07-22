@@ -111,7 +111,8 @@ s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
                     SET_INFTABLE(INFTABLE_8C);
                     talkState = NPC_TALK_STATE_ACTION;
                     break;
-                //! @bug Unreachable code - this text ID is for "This statue's one-eyed gaze pierces into your mind...", which belongs to gossip stones, not Malon 2
+                //! @bug Unreachable code - this text ID is for "This statue's one-eyed gaze pierces into your mind...",
+                //! which belongs to gossip stones, not Malon 2
                 case 0x2053:
                     SET_INFTABLE(INFTABLE_8D);
                     talkState = NPC_TALK_STATE_IDLE;
@@ -197,7 +198,7 @@ s32 EnMa2_UpdateFaceAndCheckIfBusy(EnMa2* this) {
 void EnMa2_UpdateEyes(EnMa2* this) {
     if ((!EnMa2_UpdateFaceAndCheckIfBusy(this)) && (DECR(this->blinkTimer) == 0)) {
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyes = ADULT_MALON_EYE_OPEN;
         }

@@ -1118,7 +1118,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
 
         this->eyes = this->blinkTimer;
 
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->eyes = OWL_EYE_OPEN;
         }
     }

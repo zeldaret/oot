@@ -51,7 +51,7 @@ void EnRl_UpdateEyes(EnRl* this) {
     }
 
     *eyes = *blinkTimer;
-    if (*eyes > RARU_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
+    if (*eyes > RARU_EYE_CLOSED) { // check if we've moved beyond 'blink' indices
         *eyes = RARU_EYE_OPEN;
     }
 }

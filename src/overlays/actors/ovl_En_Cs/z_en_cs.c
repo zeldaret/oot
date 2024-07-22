@@ -450,7 +450,7 @@ void EnCs_Update(Actor* thisx, PlayState* play) {
     if (this->blinkTimer < 0) {
         this->eyes++;
 
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->eyes = GRAVEYARD_KID_EYE_OPEN;
         }
 

@@ -535,7 +535,7 @@ u8 EnMd_ShouldSpawn(EnMd* this, PlayState* play) {
 void EnMd_UpdateEyes(EnMd* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyes = MIDO_EYE_OPEN;
         }

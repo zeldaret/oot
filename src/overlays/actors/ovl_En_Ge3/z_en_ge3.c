@@ -198,7 +198,7 @@ void EnGe3_MoveAndBlink(EnGe3* this, PlayState* play) {
 
     this->eyes = this->blinkTimer;
 
-    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+    if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
         this->eyes = RED_GERUDO_EYE_OPEN;
     }
 }

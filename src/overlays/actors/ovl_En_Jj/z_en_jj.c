@@ -161,7 +161,7 @@ void EnJj_Blink(EnJj* this) {
         this->blinkTimer--;
     } else {
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->eyes = JABUJABU_EYE_OPEN;
             if (this->extraBlinkCounter > 0) {
                 this->extraBlinkCounter--;

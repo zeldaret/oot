@@ -411,7 +411,7 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
     this->eyes = this->blinkTimer;
-    if (this->eyes > KOTAKE_KOUME_EYE_CLOSED) { //check if we've moved beyond 'blink' indices
+    if (this->eyes > KOTAKE_KOUME_EYE_CLOSED) { // check if we've moved beyond 'blink' indices
         this->eyes = KOTAKE_KOUME_EYE_OPEN;
     }
 }

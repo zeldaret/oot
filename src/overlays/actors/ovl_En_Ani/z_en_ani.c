@@ -285,7 +285,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
     this->eyes = this->blinkTimer;
-    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+    if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
         this->eyes = ROOF_GUY_EYE_OPEN;
     }
 }

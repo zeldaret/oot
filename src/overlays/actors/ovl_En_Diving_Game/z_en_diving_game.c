@@ -521,7 +521,7 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
     if (this->blinkTimer == 0) {
         this->blinkTimer = 2;
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->eyes = ZORA_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }

@@ -575,7 +575,7 @@ void EnHorseLinkChild_Update(Actor* thisx, PlayState* play) {
         this->eyes++;
     } else if (this->eyes > YOUNG_EPONA_EYE_OPEN) {
         this->eyes++;
-        if (this->eyes >= ARRAY_COUNT(sEyeIndexOrder)) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= ARRAY_COUNT(sEyeIndexOrder)) { // check if we've moved beyond 'blink' indices
             this->eyes = YOUNG_EPONA_EYE_OPEN;
         }
     }

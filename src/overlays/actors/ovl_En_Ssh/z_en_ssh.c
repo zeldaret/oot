@@ -837,7 +837,7 @@ void EnSsh_Update(Actor* thisx, PlayState* play) {
         this->blinkTimer = Rand_S16Offset(60, 60);
     }
     this->eyes = this->blinkTimer;
-    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+    if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
         this->eyes = HYLIANTULA_EYE_OPEN;
     }
     EnSsh_SetColliders(this, play);

@@ -811,7 +811,7 @@ void EnDntNomal_Update(Actor* thisx, PlayState* play) {
     }
     if (this->blinkTimer == 0) {
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->eyes = MINIGAME_SCRUB_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }

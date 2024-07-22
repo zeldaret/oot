@@ -744,7 +744,7 @@ void EnGe1_Update(Actor* thisx, PlayState* play) {
     }
     this->eyes = this->blinkTimer;
 
-    if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+    if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
         this->eyes = WHITE_GERUDO_EYE_OPEN;
     }
 }

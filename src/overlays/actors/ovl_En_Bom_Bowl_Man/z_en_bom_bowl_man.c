@@ -146,7 +146,8 @@ void EnBomBowlMan_BlinkAwake(EnBomBowlMan* this, PlayState* play) {
     }
     Message_ContinueTextbox(play, this->actor.textId);
 
-    if ((this->eyes == CHU_GIRL_EYE_OPEN) && (this->eyeMode == CHU_GIRL_EYES_BLINK_RAPIDLY) && (this->blinkTimer == 0)) {
+    if ((this->eyes == CHU_GIRL_EYE_OPEN) && (this->eyeMode == CHU_GIRL_EYES_BLINK_RAPIDLY) &&
+        (this->blinkTimer == 0)) {
         // Blink twice, then move on
         this->eyes = CHU_GIRL_EYE_CLOSED;
         this->blinkCount++;
@@ -495,7 +496,7 @@ void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
         default:
             if (this->blinkTimer == 0) {
                 this->eyes++;
-                if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+                if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
                     this->eyes = CHU_GIRL_EYE_OPEN;
                     this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
                 }

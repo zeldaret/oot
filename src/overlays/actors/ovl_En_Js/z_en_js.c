@@ -195,7 +195,7 @@ void EnJs_Update(Actor* thisx, PlayState* play) {
     }
     this->unk_284 &= ~0x1;
 
-    //Blink logic - functionally useless as this actor doesn't actually have any eyes
+    // Blink logic - functionally useless as this actor doesn't actually have any eyes
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(0x3C, 0x3C);
     }

@@ -1274,7 +1274,7 @@ void EnGo2_EyeMouthTexState(EnGo2* this) {
         default:
             if (DECR(this->blinkTimer) == 0) {
                 this->eyes++;
-                if (this->eyes >= 4) { //check if we've moved beyond 'blink' indices
+                if (this->eyes >= 4) { // check if we've moved beyond 'blink' indices
                     this->blinkTimer = Rand_S16Offset(30, 30);
                     this->eyes = GORON_EYE_OPEN;
                 }

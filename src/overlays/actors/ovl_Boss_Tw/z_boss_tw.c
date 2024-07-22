@@ -2848,7 +2848,7 @@ static s16 BossTw_MergedTwinsEyeFrameOrder[] = {
     0, 1, 2, 2, 2, 2, 2, 2, 1,
 };
 
-//Separate Twins update
+// Separate Twins update
 void BossTw_Update(Actor* thisx, PlayState* play) {
     BossTw* this = (BossTw*)thisx;
     Player* player = GET_PLAYER(play);
@@ -2975,7 +2975,7 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-//Merged Twins update
+// Merged Twins update
 void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
     s16 i;
     PlayState* play = play2;

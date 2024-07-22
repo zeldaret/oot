@@ -200,7 +200,7 @@ void EnNiwGirl_Update(Actor* thisx, PlayState* play) {
     tempActionFunc = func_80AB94D0;
     if (this->blinkTimer == 0) {
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->eyes = CUCCO_GIRL_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }

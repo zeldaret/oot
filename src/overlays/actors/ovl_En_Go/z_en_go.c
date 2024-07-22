@@ -412,7 +412,7 @@ void func_80A3F060(EnGo* this, PlayState* play) {
 void EnGo_UpdateBlink(EnGo* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyes++;
-        if (this->eyes >= 3) { //check if we've moved beyond 'blink' indices
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyes = 0;
         }

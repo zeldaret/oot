@@ -103,7 +103,7 @@ void DemoGo_UpdateBlink(DemoGo* this) {
         *timer = Rand_S16Offset(60, 60);
     }
     *eyes = *timer;
-    if (*eyes >= 3) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= 3) { // check if we've moved beyond 'blink' indices
         *eyes = GORON_EYE_OPEN;
     }
 }

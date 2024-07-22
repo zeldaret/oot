@@ -195,7 +195,7 @@ void EnNb_UpdateEyes(EnNb* this) {
     }
 
     *eyes = *blinkTimer;
-    if (*eyes >= ARRAY_COUNT(sEyeTextures)) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= ARRAY_COUNT(sEyeTextures)) { // check if we've moved beyond 'blink' indices
         *eyes = NABOORU_EYE_OPEN;
     }
 }

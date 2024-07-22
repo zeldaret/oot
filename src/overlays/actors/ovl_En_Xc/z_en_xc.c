@@ -102,7 +102,7 @@ void EnXc_UpdateBlink(EnXc* this) {
     }
 
     *eyes = *blinkTimer;
-    if (*eyes >= ARRAY_COUNT(sEyeTextures)) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= ARRAY_COUNT(sEyeTextures)) { // check if we've moved beyond 'blink' indices
         *eyes = SHEIK_EYE_OPEN;
     }
 }

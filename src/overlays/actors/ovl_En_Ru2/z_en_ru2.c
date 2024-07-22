@@ -127,7 +127,7 @@ void EnRu2_UpdateEyes(EnRu2* this) {
     }
 
     *eyes = *blinkTimer;
-    if (*eyes >= 3) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= 3) { // check if we've moved beyond 'blink' indices
         *eyes = ADULT_RUTO_EYE_OPEN;
     }
 }

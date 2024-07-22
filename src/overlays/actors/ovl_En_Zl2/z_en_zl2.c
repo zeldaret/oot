@@ -133,7 +133,7 @@ void EnZl2_UpdateEyes(EnZl2* this) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
     *eyes = *blinkTimer;
-    if (*eyes >= ZELDA_EYE_3) { //check if we've moved beyond 'blink' indices
+    if (*eyes >= ZELDA_EYE_3) { // check if we've moved beyond 'blink' indices
         *eyes = ZELDA_EYE_OPEN;
     }
     *eyes2 = *eyes;
