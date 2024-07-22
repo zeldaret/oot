@@ -107,12 +107,13 @@ typedef enum {
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 
 // When this flag is set, Player's root limb position adjustment as child is disabled.
-// Many of Player's animations are originally created for Adult Link. When playing those 
+// Many of Player's animations are originally created for Adult Link. When playing those
 // animations as Child Link without any adjustment, he will appear to be floating in the air.
-// However, if an animation is created specifically for Child Link, it is desireable to disable
-// this adjustment of the root position.
+// To fix this, Child Link's root position is scalled down by default to fit his smaller size.
+// However, if an animation is created specifically for Child Link, it is desirable to disable
+// this scaling of the root position by using this flag.
 // Note that this flag will be ignored if `ANIM_FLAG_UPDATE_XZ` or `ANIM_FLAG_UPDATE_Y` are also
-// set. The adjustment will be applied in this case regardless of this flag being enabled. 
+// set. The adjustment will be applied in this case regardless of this flag being enabled.
 #define ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT (1 << 2)
 
 // (player-only) Call AnimTaskQueue_AddActorMove
@@ -129,7 +130,7 @@ typedef enum {
 // Some animations have translation data that does not begin at the "origin". This is common when a
 // longer sequence of animation is broken up into different parts as seperate animations.
 // In this case, when one animation starts its translation at the same position where a different animation
-// left off, resetting `prevTransl` is not desireable. This will cause the actor's position to noticeably change
+// left off, resetting `prevTransl` is not desirable. This will cause the actor's position to noticeably change
 // when the translation data from the first frame of the new animation is applied.
 //
 // When this flag is used during a transition between two animations, the first frame of movement is not applied.
