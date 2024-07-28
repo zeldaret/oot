@@ -53,18 +53,25 @@ endif
 
 # Version-specific settings
 ifeq ($(VERSION),gc-us)
+  REGION := US
+  PAL := 0
+  MQ := 0
   DEBUG := 0
-  COMPARE := 0
-  CPP_DEFINES += -DOOT_NTSC=1 -DOOT_PAL=0 -DOOT_MQ=0
 else ifeq ($(VERSION),gc-eu)
+  REGION := EU
+  PAL := 1
+  MQ := 0
   DEBUG := 0
-  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=0
 else ifeq ($(VERSION),gc-eu-mq)
+  REGION := EU
+  PAL := 1
+  MQ := 1
   DEBUG := 0
-  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=1
 else ifeq ($(VERSION),gc-eu-mq-dbg)
+  REGION := EU
+  PAL := 1
+  MQ := 1
   DEBUG := 1
-  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=1
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -79,11 +86,27 @@ VENV := .venv
 MAKE = make
 CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
+# Converts e.g. ntsc-1.0 to OOT_NTSC_1_0
+CPP_DEFINES += -DOOT_VERSION=OOT_$(shell echo $(VERSION) | tr a-z-. A-Z__)
+CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
+
+ifeq ($(PAL),0)
+  CPP_DEFINES += -DOOT_NTSC=1
+else
+  CPP_DEFINES += -DOOT_PAL=1
+endif
+
+ifeq ($(MQ),0)
+  CPP_DEFINES += -DOOT_MQ=0
+else
+  CPP_DEFINES += -DOOT_MQ=1
+endif
+
 ifeq ($(DEBUG),1)
   CPP_DEFINES += -DOOT_DEBUG=1
   OPTFLAGS := -O2
 else
-  CPP_DEFINES += -DNDEBUG -DOOT_DEBUG=0
+  CPP_DEFINES += -DOOT_DEBUG=0 -DNDEBUG
   OPTFLAGS := -O2 -g3
 endif
 
