@@ -1,5 +1,70 @@
 dmadata_start: 0x12F70
 text_lang_pal: true
+incbins:
+  - name: ipl3
+    segment: makerom
+    vram: 0x80000040
+    size: 0xFC0
+  - name: rspbootText
+    segment: boot
+    vram: 0x80009320
+    size: 0xD0
+  - name: aspMainText
+    segment: code
+    vram: 0x801120C0
+    size: 0xFB0
+  - name: gspS2DEX2d_fifoText
+    segment: code
+    vram: 0x80113070
+    size: 0x18C0
+  - name: njpgdspMainText
+    segment: code
+    vram: 0x80114930
+    size: 0xAF0
+  - name: gMojiFontTLUTs
+    segment: code
+    vram: 0x8012A740
+    size: 0x80
+  - name: gMojiFontTex
+    segment: code
+    vram: 0x8012A7C0
+    size: 0x400
+  - name: gSoundFontTable
+    segment: code
+    vram: 0x801550D0
+    size: 0x270
+  - name: gSequenceFontTable
+    segment: code
+    vram: 0x80155340
+    size: 0x1C0
+  - name: gSequenceTable
+    segment: code
+    vram: 0x80155500
+    size: 0x6F0
+  - name: gSampleBankTable
+    segment: code
+    vram: 0x80155BF0
+    size: 0x80
+  - name: aspMainData
+    segment: code
+    vram: 0x80155C70
+    size: 0x2E0
+  - name: gspF3DZEX2_NoN_PosLight_fifoText
+    segment: code
+    vram: 0x80155F50
+    size: 0x1630
+  - name: gspF3DZEX2_NoN_PosLight_fifoData
+    segment: code
+    vram: 0x80157580
+    size: 0x420
+  - name: gspS2DEX2d_fifoData
+    segment: code
+    vram: 0x801579A0
+    size: 0x390
+  - name: njpgdspMainData
+    segment: code
+    vram: 0x80157D30
+    size: 0x60
 variables:
   gMtxClear: 0x8012DB20
   sNesMessageEntryTable: 0x8014B320
