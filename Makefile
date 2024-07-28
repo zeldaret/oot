@@ -58,17 +58,17 @@ ifeq ($(VERSION),gc-us)
   MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu)
-  REGION := PAL
+  REGION := EU
   PAL := 1
   MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu-mq)
-  REGION := PAL
+  REGION := EU
   PAL := 1
   MQ := 1
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
-  REGION := PAL
+  REGION := EU
   PAL := 1
   MQ := 1
   DEBUG := 1
@@ -88,7 +88,7 @@ CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
 # Converts e.g. ntsc-1.0 to OOT_NTSC_1_0
 CPP_DEFINES += -DOOT_VERSION=OOT_$(shell echo $(VERSION) | tr a-z-. A-Z__)
-CPP_DEFINES += -DOOT_REGION=REGION_CODE_$(REGION)
+CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
 
 ifeq ($(PAL),0)
   CPP_DEFINES += -DOOT_NTSC=1
