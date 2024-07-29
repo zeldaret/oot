@@ -87,7 +87,8 @@ MAKE = make
 CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
 # Converts e.g. ntsc-1.0 to OOT_NTSC_1_0
-CPP_DEFINES += -DOOT_VERSION=OOT_$(shell echo $(VERSION) | tr a-z-. A-Z__)
+VERSION_MACRO := OOT_$(shell echo $(VERSION) | tr a-z-. A-Z__)
+CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO)
 CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
 
 ifeq ($(PAL),0)
