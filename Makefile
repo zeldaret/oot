@@ -179,6 +179,9 @@ PYTHON     ?= $(VENV)/bin/python3
 # preprocessor for this because it won't substitute inside string literals.
 SPEC_REPLACE_VARS := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
+# Audio tools
+AUDIO_EXTRACT := $(PYTHON) tools/audio/extraction/audio_extract.py
+
 CFLAGS += $(CPP_DEFINES)
 CPPFLAGS += $(CPP_DEFINES)
 
@@ -421,6 +424,7 @@ setup: venv
 	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom --oot-version $(VERSION) -o $(EXTRACTED_DIR)/incbin
 	$(PYTHON) tools/msgdis.py $(VERSION)
 	$(PYTHON) extract_assets.py -v $(VERSION) -j$(N_THREADS)
+	$(AUDIO_EXTRACT) -r $(BASEROM_DIR)/baserom-decompressed.z64 -v oot-$(VERSION) --read-xml
 
 disasm:
 	$(RM) -r $(EXPECTED_DIR)
