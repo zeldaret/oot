@@ -285,7 +285,16 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG_EXTRACTED:.png=.inc.c),$(f:
                      $(foreach f,$(TEXTURE_FILES_JPG_COMMITTED:.jpg=.jpg.inc.c),$(BUILD_DIR)/$f)
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/baserom $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(BUILD_DIR)/$(dir)) $(foreach dir,$(ASSET_BIN_DIRS),$(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
+$(shell mkdir -p $(BUILD_DIR)/baserom \
+                 $(BUILD_DIR)/assets/text \
+                 $(foreach dir, \
+                      $(SRC_DIRS) \
+                      $(UNDECOMPILED_DATA_DIRS) \
+                      $(ASSET_BIN_DIRS_COMMITTED), \
+                    $(BUILD_DIR)/$(dir)) \
+                 $(foreach dir, \
+                      $(ASSET_BIN_DIRS_EXTRACTED), \
+                    $(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
