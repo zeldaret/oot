@@ -1,4 +1,3 @@
-# audiobank_file.py
 # SPDX-FileCopyrightText: © 2024 ZeldaRET
 # SPDX-License-Identifier: CC0-1.0
 #
@@ -9,12 +8,12 @@ import struct
 from typing import Optional, Tuple
 from xml.etree.ElementTree import Element
 
-from audio_tables import AudioCodeTable
-from audiobank_structs import AdpcmBook, AdpcmLoop, Drum, Instrument, SoundFontSample, SoundFontSound
-from envelope import Envelope
-from audiotable import AudioTableFile, AudioTableSample
-from tuning import pitch_names
-from util import XMLWriter, align, debugm, merge_like_ranges, merge_ranges
+from .audio_tables import AudioCodeTableEntry
+from .audiobank_structs import AdpcmBook, AdpcmLoop, Drum, Instrument, SoundFontSample, SoundFontSound
+from .envelope import Envelope
+from .audiotable import AudioTableFile, AudioTableSample
+from .tuning import pitch_names
+from .util import XMLWriter, align, debugm, merge_like_ranges, merge_ranges
 
 # Debug settings
 PLOT_DRUM_TUNING = False
@@ -182,13 +181,13 @@ class AudiobankFile:
     """
     """
 
-    def __init__(self, rom_image : memoryview, index : int, table_entry : AudioCodeTable.AudioCodeTableEntry,
-                 rom_offset : int, bank1 : AudioTableFile, bank2 : AudioTableFile, bank1_num : int, bank2_num : int,
+    def __init__(self, audiobank_seg : memoryview, index : int, table_entry : AudioCodeTableEntry,
+                 seg_offset : int, bank1 : AudioTableFile, bank2 : AudioTableFile, bank1_num : int, bank2_num : int,
                  extraction_xml : Tuple[str, Element] = None):
         self.bank_num = index
-        self.table_entry : AudioCodeTable.AudioCodeTableEntry = table_entry
+        self.table_entry : AudioCodeTableEntry = table_entry
         self.num_instruments = self.table_entry.num_instruments
-        self.data = self.table_entry.data(rom_image, rom_offset)
+        self.data = self.table_entry.data(audiobank_seg, seg_offset)
         self.bank1 : AudioTableFile = bank1
         self.bank2 : AudioTableFile = bank2
         self.bank1_num = bank1_num

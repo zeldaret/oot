@@ -1,4 +1,3 @@
-# audiotable.py
 # SPDX-FileCopyrightText: © 2024 ZeldaRET
 # SPDX-License-Identifier: CC0-1.0
 #
@@ -9,10 +8,10 @@ import struct
 from typing import Dict, Tuple
 from xml.etree.ElementTree import Element
 
-from audio_tables import AudioCodeTable
-from audiobank_structs import AudioSampleCodec, SoundFontSample, AdpcmBook, AdpcmLoop
-from tuning import pitch_names, note_z64_to_midi, recalc_tuning, rate_from_tuning, rank_rates_notes, BAD_FLOATS
-from util import align, error, XMLWriter, f32_to_u32
+from .audio_tables import AudioCodeTableEntry
+from .audiobank_structs import AudioSampleCodec, SoundFontSample, AdpcmBook, AdpcmLoop
+from .tuning import pitch_names, note_z64_to_midi, recalc_tuning, rate_from_tuning, rank_rates_notes, BAD_FLOATS
+from .util import align, error, XMLWriter, f32_to_u32
 
 class AIFCFile:
 
@@ -389,11 +388,11 @@ class AudioTableFile:
     Single sample bank in the Audiotable
     """
 
-    def __init__(self, bank_num : int, rom_image : memoryview, table_entry : AudioCodeTable.AudioCodeTableEntry,
-                 rom_offset : int, buffer_bug : bool = False, extraction_xml : Tuple[str, Element] = None):
+    def __init__(self, bank_num : int, audiotable_seg : memoryview, table_entry : AudioCodeTableEntry,
+                 seg_offset : int, buffer_bug : bool = False, extraction_xml : Tuple[str, Element] = None):
         self.bank_num = bank_num
-        self.table_entry : AudioCodeTable.AudioCodeTableEntry = table_entry
-        self.data = self.table_entry.data(rom_image, rom_offset)
+        self.table_entry : AudioCodeTableEntry = table_entry
+        self.data = self.table_entry.data(audiotable_seg, seg_offset)
         self.buffer_bug = buffer_bug
 
         self.samples_final = None

@@ -180,7 +180,7 @@ PYTHON     ?= $(VENV)/bin/python3
 SPEC_REPLACE_VARS := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
 # Audio tools
-AUDIO_EXTRACT := $(PYTHON) tools/audio/extraction/audio_extract.py
+AUDIO_EXTRACT := $(PYTHON) tools/audio_extraction.py
 
 CFLAGS += $(CPP_DEFINES)
 CPPFLAGS += $(CPP_DEFINES)
@@ -417,6 +417,9 @@ venv:
 	$(PYTHON) -m pip install -U pip
 	$(PYTHON) -m pip install -U -r requirements.txt
 
+setup-audio:
+	$(AUDIO_EXTRACT) -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
+
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
@@ -424,7 +427,7 @@ setup: venv
 	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom --oot-version $(VERSION) -o $(EXTRACTED_DIR)/incbin
 	$(PYTHON) tools/msgdis.py $(VERSION)
 	$(PYTHON) extract_assets.py -v $(VERSION) -j$(N_THREADS)
-	$(AUDIO_EXTRACT) -r $(BASEROM_DIR)/baserom-decompressed.z64 -v oot-$(VERSION) --read-xml
+	$(MAKE) setup-audio
 
 disasm:
 	$(RM) -r $(EXPECTED_DIR)

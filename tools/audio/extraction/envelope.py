@@ -1,4 +1,3 @@
-# envelope.py
 # SPDX-FileCopyrightText: © 2024 ZeldaRET
 # SPDX-License-Identifier: CC0-1.0
 #
@@ -7,7 +6,7 @@
 
 import collections
 
-from util import XMLWriter
+from .util import XMLWriter
 
 class EnvDelay(int):
     def __str__(self):

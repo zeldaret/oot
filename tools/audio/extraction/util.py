@@ -1,4 +1,3 @@
-# util.py
 # SPDX-FileCopyrightText: © 2024 ZeldaRET
 # SPDX-License-Identifier: CC0-1.0
 #
@@ -96,7 +95,6 @@ class XMLWriter:
     """
 
     def __init__(self):
-        self.indent_level = 0
         self.contents = ""
         self.tag_stack = []
 
@@ -104,7 +102,7 @@ class XMLWriter:
         return self.contents
 
     def write_line(self, name, open, close, attributes):
-        indent = "    " * self.indent_level
+        indent = "    " * len(self.tag_stack)
         if attributes is None:
             self.contents += f"{indent}{open}{name}{close}\n"
         else:
@@ -116,11 +114,9 @@ class XMLWriter:
 
     def write_start_tag(self, name, attributes=None):
         self.write_line(name, "<", ">", attributes)
-        self.indent_level += 1
         self.tag_stack.append(name)
 
     def write_end_tag(self):
-        self.indent_level -= 1
         self.write_line(self.tag_stack.pop(), "</", ">", None)
 
     def write_element(self, name, attributes=None):

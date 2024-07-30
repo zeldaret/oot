@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# tuning.py
 # SPDX-FileCopyrightText: © 2024 ZeldaRET
 # SPDX-License-Identifier: CC0-1.0
 #
@@ -10,7 +9,7 @@
 
 from typing import List, Tuple
 
-from util import f32, u32_to_f32, f32_to_u32
+from .util import f32, u32_to_f32, f32_to_u32
 
 # Mirrors gPitchFrequencies in audio driver source.
 # Indexed by z64 note numbers, g_pitch_frequencies[C4] = 1.0 (0x3F800000)
