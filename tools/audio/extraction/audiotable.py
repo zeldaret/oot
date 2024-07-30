@@ -208,9 +208,6 @@ class AudioTableSample(AudioTableData):
         return note_z64_to_midi(pitch_names.index(self.base_note))
 
     def resolve_basenote_rate(self, extraction_sample_info : Dict[int, Dict[str,str]]):
-        # print("")
-        # print(f"BANK {self.bank_num} SAMPLE {i:3} [0x{sample.start:05X}:0x{sample.end:05X}]")
-
         assert len(self.notes_rates) != 0
 
         # rate_3ds = None
@@ -296,8 +293,7 @@ class AudioTableSample(AudioTableData):
             else:
                 print(f"WARNING: Missing extraction xml entry for sample at offset=0x{self.start:X}")
 
-        #print("     ",len(FINAL_NOTES_RATES), FINAL_NOTES_RATES)
-
+        # print("     ",len(FINAL_NOTES_RATES), FINAL_NOTES_RATES)
         # if rate_3ds is not None and len(FINAL_NOTES_RATES) == 1:
         #     print(f"3DS : {rate_3ds} N64 : {FINAL_NOTES_RATES[0][0]}")
         #     if rate_3ds != FINAL_NOTES_RATES[0][0]:
@@ -652,7 +648,6 @@ class AudioTableFile:
                     "Name"       : sample.name,
                     "FileName"   : sample.filename.replace(sample.codec_file_extension_compressed(), ""),
                     "Offset"     : f"0x{sample.start:06X}",
-                    # "Size"     : f"0x{sample.header.size:04X}",
                     "SampleRate" : sample.sample_rate,
                     "BaseNote"   : sample.base_note,
                 })

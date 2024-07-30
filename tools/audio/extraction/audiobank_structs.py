@@ -57,6 +57,7 @@ class SoundFontSample: # SampleHeader ?
         assert not self.is_relocated # Not relocated in ROM
 
     def to_xml(self, xml : XMLWriter, name : str, rate_override = None, note_override = None):
+        # Example xml output:
         # <Sample Name="SAMPLE_NAME" SampleRate="32000" BaseNote="C4" IsDD="false" Cached="false">
 
         attrs = { "Name" : name }

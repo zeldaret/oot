@@ -67,8 +67,6 @@ def collect_sample_banks(audiotable_seg : memoryview, extracted_dir : str, versi
             entry_dst = table.entries[entry.rom_addr]
             sample_banks[entry.rom_addr].register_ptr(i)
             sample_banks.append(entry_dst.rom_addr)
-
-            # debugm(f"{i} Pointer: {entry.rom_addr} -> 0x{entry_dst.rom_addr:X}, 0x{entry_dst.size:X}")
         else:
             # Check whether this samplebank suffers from the buffer bug
             # TODO it should be possible to detect this automatically by checking padding following sample discovery
@@ -103,8 +101,6 @@ def collect_soundfonts(audiobank_seg : memoryview, extracted_dir : str, version_
         # Lookup the samplebanks used by this soundfont
         bank1 = bank_data_lookup(sample_banks, version_info.fake_banks.get(i, entry.sample_bank_id_1))
         bank2 = bank_data_lookup(sample_banks, entry.sample_bank_id_2)
-
-        # debugm(f"\n\nBANK BEGIN {i} {e.sample_bank_id_1} {e.sample_bank_id_2}\n\n\n")
 
         # Read the data
         soundfont = AudiobankFile(audiobank_seg, i, entry, sound_font_table.rom_addr, bank1, bank2,

@@ -254,7 +254,6 @@ class AudiobankFile:
 
         self.cvg_log()
         self.coverage = merge_ranges(self.coverage)
-        # coverage_log([[[interval[0][0], interval[0][1].__name__], [interval[1][0], interval[1][1].__name__]] for interval in self.coverage])
 
         self.resolve_cvg_gaps()
         self.coverage = merge_ranges(self.coverage)
@@ -283,8 +282,6 @@ class AudiobankFile:
             if drum is None:
                 # NULL pointer in drums pointer list
                 continue
-
-            # print(drum)
 
             # Read envelope
             self.read_envelope(drum.envelope, drum.release_rate)
@@ -321,10 +318,7 @@ class AudiobankFile:
         for drum_grp in self.drum_groups:
             note_end = note_start + len(drum_grp) - 1
 
-            if all(d is None for d in drum_grp):
-                pass
-                #print(f"GROUP EMPTY == [{note_start:2}:{note_end:2}]")
-            else:
+            if any(d is not None for d in drum_grp):
                 drum_grp : DrumGroup
                 drum_grp.set_range(note_start, note_end)
 
@@ -448,18 +442,20 @@ class AudiobankFile:
                          f"to 0x{unref_end_offset:X}({unref_end_type.__name__})")
             coverage_log([f"0x{b:02X}" for b in unaccounted_data])
 
-            #coverage_log("assuming this data is of the same type as the data before it")
             try:
                 if unref_start_type == Envelope.EnvelopePoint:
                     # Assume it is an envelope if it follows an envelope
                     assert unref_start_offset not in self.envelopes
+                    coverage_log("Unaccounted follows an envelope, assume it is an envelope")
                     st = self.read_envelope(unref_start_offset, None, is_zero=all(b == 0 for b in unaccounted_data))
 
                 elif unref_start_type in [SoundFontSample, AdpcmLoop]:
                     # Orphaned loops are unlikely, it's more likely a SoundFontSample
+                    coverage_log("Unaccounted follows a SoundFontSample or AdpcmLoop, assuming SoundFontSample")
                     st = self.read_sample_header(unref_start_offset, None, None)
 
                 elif unref_start_type == Instrument:
+                    coverage_log("Unaccounted follows an Instrument, assume it is an Instrument")
                     st : Instrument = self.read_structure(unref_start_offset, unref_start_type)
                     # Check that we already saw the sample header this instrument wants
                     assert st.normal_notes_sample in self.sample_headers
@@ -491,7 +487,7 @@ class AudiobankFile:
                 else:
                     st = self.read_structure(unref_start_offset, unref_start_type)
                     coverage_log(st)
-                    assert False, "Unhandled coverage case" # !! handle more structures if they appear
+                    assert False, "Unhandled coverage case" # handle more structures if they appear
 
                 coverage_log(st)
             except Exception as e:
@@ -719,8 +715,6 @@ class AudiobankFile:
         return self.lookup_sample_name(self.sample_headers[offset])
 
     def finalize(self):
-        # print(f"Finalize soundfont {self.bank_num}")
-
         # Assign envelope names
         for i,(offset,env) in self.sorted_envelopes():
             env : Envelope
