@@ -385,7 +385,7 @@ def solve_bss_ordering(
                 BssVariable(new_block_number, var.name, var.size, var.align)
             )
 
-        # Predict new BSS heck if new ordering matches
+        # Predict new BSS and check if new ordering matches
         new_bss_symbols = predict_bss_ordering(new_bss_variables)
 
         bss_ordering_matches = True
