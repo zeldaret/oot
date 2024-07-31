@@ -354,22 +354,19 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 
 // .bss part 1
 
-// For retail BSS ordering, the block number of sDogSpawnPos in Player_Update
-// must be between 0 and 53 inclusive.
-
-// TODO: There's probably a way to do this with less padding by spreading the variables out and moving
-// data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number 30
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0"
 
 static s32 D_80858AA0;
 
-#pragma increment_block_number 250
+// TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
+// data around. It would be easier if we had more options for controlling BSS ordering in debug.
+#pragma increment_block_number "gc-eu:100 gc-eu-mq:100"
 
 static s32 D_80858AA4;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
-#pragma increment_block_number 50
+#pragma increment_block_number "gc-eu:220 gc-eu-mq:220"
 
 // .data
 

@@ -8,8 +8,7 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
-// For retail BSS ordering, the block number of sCurCeilingPoly
-// must be between 2 and 243 inclusive.
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0"
 
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
@@ -1906,7 +1905,7 @@ s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, 
     return false;
 }
 
-#pragma increment_block_number 22
+#pragma increment_block_number "gc-eu:22 gc-eu-mq:22"
 
 // Local data used for Farore's Wind light (stored in BSS)
 LightInfo D_8015BC00;

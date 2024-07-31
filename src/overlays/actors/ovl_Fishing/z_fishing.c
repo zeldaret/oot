@@ -11,8 +11,7 @@
 #include "ichain.h"
 #include "terminal.h"
 
-// For retail BSS ordering, the block number of sStreamSfxProjectedPos must be 0.
-#pragma increment_block_number 206
+#pragma increment_block_number "gc-eu:206 gc-eu-mq:206"
 
 #define FLAGS ACTOR_FLAG_4
 

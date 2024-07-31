@@ -7,10 +7,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-// For retail BSS ordering, the block number of sLensFlareUnused must be lower
-// than the extern variables declared in the header (e.g. gLightningStrike)
-// while the block number of sNGameOverLightNode must be higher.
-#pragma increment_block_number 80
+#pragma increment_block_number "gc-eu:80 gc-eu-mq:80"
 
 typedef enum {
     /* 0x00 */ LIGHTNING_BOLT_START,
@@ -215,10 +212,7 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-// These variables could be moved farther down in the file to reduce the amount
-// of block number padding here, but currently this causes BSS ordering issues
-// for debug.
-#pragma increment_block_number 217
+#pragma increment_block_number "gc-eu:160 gc-eu-mq:160"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;

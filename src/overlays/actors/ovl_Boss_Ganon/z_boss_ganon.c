@@ -100,21 +100,19 @@ static ColliderCylinderInit sLightBallCylinderInit = {
 static u8 D_808E4C58[] = { 0, 12, 10, 12, 14, 16, 12, 14, 16, 12, 14, 16, 12, 14, 16, 10, 16, 14 };
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-// For retail BSS ordering, the block number of sGanondorf must be 0 or just above.
-
-// TODO: There's probably a way to do this with less padding by spreading the variables out and moving
-// data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number 50
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0"
 
 static EnGanonMant* sCape;
 
-#pragma increment_block_number 200
+// TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
+// data around. It would be easier if we had more options for controlling BSS ordering in debug.
+#pragma increment_block_number "gc-eu:200 gc-eu-mq:200"
 
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
 
-#pragma increment_block_number 200
+#pragma increment_block_number "gc-eu:240 gc-eu-mq:240"
 
 static BossGanon* sGanondorf;
 
