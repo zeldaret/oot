@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "N64 oot-gc-us",
+            "name": "oot-gc-us",
             "compilerArgs": [
                 "-m32"
             ],
@@ -28,7 +28,7 @@
             "cStandard": "gnu89"
         },
         {
-            "name": "N64 oot-gc-eu",
+            "name": "oot-gc-eu",
             "compilerArgs": [
                 "-m32"
             ],
@@ -55,7 +55,7 @@
             "cStandard": "gnu89"
         },
         {
-            "name": "N64 oot-gc-eu-mq",
+            "name": "oot-gc-eu-mq",
             "compilerArgs": [
                 "-m32"
             ],
@@ -82,7 +82,7 @@
             "cStandard": "gnu89"
         },
         {
-            "name": "N64 oot-gc-eu-mq-dbg",
+            "name": "oot-gc-eu-mq-dbg",
             "compilerArgs": [
                 "-m32"
             ],

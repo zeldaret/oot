@@ -45,7 +45,7 @@ A more complete `c_cpp_properties.json` with configurations for all supported ve
 {
     "configurations": [
         {
-            "name": "N64 oot-gc-eu-mq-dbg",
+            "name": "oot-gc-eu-mq-dbg",
             "compilerPath": "${default}", // Needs to not be "" for -m32 to work
             "compilerArgs": [
                 "-m32" // Removes integer truncation warnings with gbi macros
