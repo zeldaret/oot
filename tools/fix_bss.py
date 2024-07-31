@@ -43,7 +43,7 @@ def read_s16(f: BinaryIO, offset: int) -> int:
     return int.from_bytes(f.read(2), "big", signed=True)
 
 
-def fail(message: str) -> None:
+def fail(message: str):
     print(message, file=sys.stderr)
     sys.exit(1)
 
@@ -221,7 +221,7 @@ class BssVariable:
     align: int
 
 
-# A BSS symbol with its offset in the BSS section
+# A BSS variable with its offset in the compiled .bss section
 @dataclass
 class BssSymbol:
     name: str
@@ -276,7 +276,8 @@ def find_bss_variables(
 
             size = op.args[0]
             align = 1 << op.lexlev
-            # TODO: IDO seems to automatically align anything with size 8 or more to an 8-byte boundary in BSS. Is this correct?
+            # TODO: IDO seems to automatically align anything with size 8 or more to
+            # an 8-byte boundary in BSS. Is this correct?
             if size >= 8:
                 align = 8
 
@@ -294,10 +295,8 @@ def predict_bss_ordering(variables: list[BssVariable]) -> list[BssSymbol]:
     offset = 0
     # Sort by block number mod 256 (for ties, the original order is preserved)
     for var in sorted(variables, key=lambda var: var.block_number % 256):
-        i = var.block_number
         size = var.size
         align = var.align
-
         offset = (offset + align - 1) & ~(align - 1)
         bss_symbols.append(BssSymbol(var.name, offset, size, align))
         offset += size
@@ -369,7 +368,9 @@ def solve_bss_ordering(
     # Our "algorithm" just tries all possible combinations of increment_block_number amounts.
     # This can get really slow, so we first try powers of 10 only, since the exact
     # amount often doesn't matter much and we can find a solution faster.
-    fast_candidates = itertools.product([i for i in range(256) if i % 10 == 0], repeat=len(pragmas))
+    fast_candidates = itertools.product(
+        [i for i in range(256) if i % 10 == 0], repeat=len(pragmas)
+    )
     slow_candidates = itertools.product(range(256), repeat=len(pragmas))
     all_candidates = itertools.chain(fast_candidates, slow_candidates)
 
@@ -409,7 +410,7 @@ def solve_bss_ordering(
     return []
 
 
-def update_source_file(version_to_update: str, file: Path, new_pragmas: list[Pragma]) -> None:
+def update_source_file(version_to_update: str, file: Path, new_pragmas: list[Pragma]):
     with open(file, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
