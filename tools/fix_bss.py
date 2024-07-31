@@ -506,15 +506,6 @@ def main():
         command_line = find_compiler_command_line(make_log, file)
         symbol_table, ucode = run_cfe(command_line, keep_files=False)
 
-        pragmas = find_pragmas(symbol_table)
-        max_pragmas = 3
-        if not pragmas:
-            fail(f"Error: no increment_block_number pragmas found in {file}")
-        elif len(pragmas) > max_pragmas:
-            fail(
-                f"Error: too many increment_block_number pragmas found in {file} (found {len(pragmas)}, max {max_pragmas})"
-            )
-
         bss_variables = find_bss_variables(symbol_table, ucode)
         print("BSS variables:", file=sys.stderr)
         for var in bss_variables:
@@ -538,6 +529,15 @@ def main():
             print(
                 f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}",
                 file=sys.stderr,
+            )
+
+        pragmas = find_pragmas(symbol_table)
+        max_pragmas = 3
+        if not pragmas:
+            fail(f"Error: no increment_block_number pragmas found in {file}")
+        elif len(pragmas) > max_pragmas:
+            fail(
+                f"Error: too many increment_block_number pragmas found in {file} (found {len(pragmas)}, max {max_pragmas})"
             )
 
         print("Solving BSS ordering ...", file=sys.stderr)
