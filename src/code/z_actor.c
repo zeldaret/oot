@@ -689,7 +689,7 @@ void TitleCard_InitPlaceName(PlayState* play, TitleCardContext* titleCtx, void* 
     SceneTableEntry* loadedScene = play->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
-    if ((size != 0) && (size <= 0x3000)) {
+    if ((size != 0) && (size <= 0x1000 * LANGUAGE_MAX)) {
         DMA_REQUEST_SYNC(texture, loadedScene->titleFile.vromStart, size, "../z_actor.c", 2765);
     }
 
@@ -733,7 +733,15 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2824);
 
+#if OOT_NTSC
+        if (gSaveContext.language == LANGUAGE_JPN) {
+            textureLanguageOffset = 0;
+        } else {
+            textureLanguageOffset = width * height;
+        }
+#else
         textureLanguageOffset = width * height * gSaveContext.language;
+#endif
         height = (width * height > 0x1000) ? 0x1000 / width : height;
         titleSecondY = titleY + (height * 4);
 

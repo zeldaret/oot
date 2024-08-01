@@ -1,5 +1,62 @@
 dmadata_start: 0x7170
 text_lang_pal: true
+incbins:
+  - name: ipl3
+    segment: makerom
+    vram: 0x80000040
+    size: 0xFC0
+  - name: rspbootText
+    segment: boot
+    vram: 0x80005FC0
+    size: 0xD0
+  - name: aspMainText
+    segment: code
+    vram: 0x800E11C0
+    size: 0xFB0
+  - name: gspS2DEX2d_fifoText
+    segment: code
+    vram: 0x800E2170
+    size: 0x18C0
+  - name: njpgdspMainText
+    segment: code
+    vram: 0x800E3A30
+    size: 0xAF0
+  - name: gSoundFontTable
+    segment: code
+    vram: 0x80110490
+    size: 0x270
+  - name: gSequenceFontTable
+    segment: code
+    vram: 0x80110700
+    size: 0x1C0
+  - name: gSequenceTable
+    segment: code
+    vram: 0x801108C0
+    size: 0x6F0
+  - name: gSampleBankTable
+    segment: code
+    vram: 0x80110FB0
+    size: 0x80
+  - name: aspMainData
+    segment: code
+    vram: 0x80111030
+    size: 0x2E0
+  - name: gspF3DZEX2_NoN_PosLight_fifoText
+    segment: code
+    vram: 0x80111310
+    size: 0x1630
+  - name: gspF3DZEX2_NoN_PosLight_fifoData
+    segment: code
+    vram: 0x80112940
+    size: 0x420
+  - name: gspS2DEX2d_fifoData
+    segment: code
+    vram: 0x80112D60
+    size: 0x390
+  - name: njpgdspMainData
+    segment: code
+    vram: 0x801130F0
+    size: 0x60
 variables:
   gMtxClear: 0x800FBC20
   sNesMessageEntryTable: 0x80107810

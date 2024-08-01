@@ -53,18 +53,25 @@ endif
 
 # Version-specific settings
 ifeq ($(VERSION),gc-us)
+  REGION := US
+  PAL := 0
+  MQ := 0
   DEBUG := 0
-  COMPARE := 0
-  CPP_DEFINES += -DOOT_NTSC=1 -DOOT_PAL=0 -DOOT_MQ=0
 else ifeq ($(VERSION),gc-eu)
+  REGION := EU
+  PAL := 1
+  MQ := 0
   DEBUG := 0
-  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=0
 else ifeq ($(VERSION),gc-eu-mq)
+  REGION := EU
+  PAL := 1
+  MQ := 1
   DEBUG := 0
-  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=1
 else ifeq ($(VERSION),gc-eu-mq-dbg)
+  REGION := EU
+  PAL := 1
+  MQ := 1
   DEBUG := 1
-  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=1
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -79,11 +86,28 @@ VENV := .venv
 MAKE = make
 CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
+# Converts e.g. ntsc-1.0 to OOT_NTSC_1_0
+VERSION_MACRO := OOT_$(shell echo $(VERSION) | tr a-z-. A-Z__)
+CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO)
+CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
+
+ifeq ($(PAL),0)
+  CPP_DEFINES += -DOOT_NTSC=1
+else
+  CPP_DEFINES += -DOOT_PAL=1
+endif
+
+ifeq ($(MQ),0)
+  CPP_DEFINES += -DOOT_MQ=0
+else
+  CPP_DEFINES += -DOOT_MQ=1
+endif
+
 ifeq ($(DEBUG),1)
   CPP_DEFINES += -DOOT_DEBUG=1
   OPTFLAGS := -O2
 else
-  CPP_DEFINES += -DNDEBUG -DOOT_DEBUG=0
+  CPP_DEFINES += -DOOT_DEBUG=0 -DNDEBUG
   OPTFLAGS := -O2 -g3
 endif
 
@@ -170,7 +194,7 @@ endif
 
 CFLAGS += $(GBI_DEFINES)
 
-ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
+ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude -I$(EXTRACTED_DIR)
 
 ifeq ($(COMPILER),gcc)
   CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -fbuiltin -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS) -funsigned-char
@@ -262,7 +286,16 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG_EXTRACTED:.png=.inc.c),$(f:
                      $(foreach f,$(TEXTURE_FILES_JPG_COMMITTED:.jpg=.jpg.inc.c),$(BUILD_DIR)/$f)
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/baserom $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(BUILD_DIR)/$(dir)) $(foreach dir,$(ASSET_BIN_DIRS),$(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
+$(shell mkdir -p $(BUILD_DIR)/baserom \
+                 $(BUILD_DIR)/assets/text \
+                 $(foreach dir, \
+                      $(SRC_DIRS) \
+                      $(UNDECOMPILED_DATA_DIRS) \
+                      $(ASSET_BIN_DIRS_COMMITTED), \
+                    $(BUILD_DIR)/$(dir)) \
+                 $(foreach dir, \
+                      $(ASSET_BIN_DIRS_EXTRACTED), \
+                    $(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
@@ -394,6 +427,7 @@ setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 --oot-version $(VERSION) -o $(EXTRACTED_DIR)/baserom
+	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom --oot-version $(VERSION) -o $(EXTRACTED_DIR)/incbin
 	$(PYTHON) tools/msgdis.py $(VERSION)
 	$(PYTHON) extract_assets.py -v $(VERSION) -j$(N_THREADS)
 
@@ -448,7 +482,7 @@ $(BUILD_DIR)/baserom/%.o: $(EXTRACTED_DIR)/baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
-	$(AS) $(ASFLAGS) $< -o $@
+	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
 
 $(BUILD_DIR)/assets/text/%.enc.jpn.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h assets/text/charmap.txt
 	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py --encoding jpn --charmap assets/text/charmap.txt - $@

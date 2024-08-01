@@ -70,11 +70,6 @@
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
 
-#define REGION_NULL 0
-#define REGION_JP 1
-#define REGION_US 2
-#define REGION_EU 3
-
 #define THREAD_PRI_IDLE_INIT    10
 #define THREAD_PRI_MAIN_INIT    10
 #define THREAD_PRI_DMAMGR_LOW   10  // Used when decompressing files
@@ -103,9 +98,6 @@
 
 #define STACK_TOP(stack) \
     ((u8*)(stack) + sizeof(stack))
-
-// NOTE: Once we start supporting other builds, this can be changed with an ifdef
-#define REGION_NATIVE REGION_EU
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;

@@ -1,5 +1,62 @@
 dmadata_start: 0x7170
 text_lang_pal: false
+incbins:
+  - name: ipl3
+    segment: makerom
+    vram: 0x80000040
+    size: 0xFC0
+  - name: rspbootText
+    segment: boot
+    vram: 0x80005FC0
+    size: 0xD0
+  - name: aspMainText
+    segment: code
+    vram: 0x800E3840
+    size: 0xFB0
+  - name: gspS2DEX2d_fifoText
+    segment: code
+    vram: 0x800E47F0
+    size: 0x18C0
+  - name: njpgdspMainText
+    segment: code
+    vram: 0x800E60B0
+    size: 0xAF0
+  - name: gSoundFontTable
+    segment: code
+    vram: 0x80112C80
+    size: 0x270
+  - name: gSequenceFontTable
+    segment: code
+    vram: 0x80112EF0
+    size: 0x1C0
+  - name: gSequenceTable
+    segment: code
+    vram: 0x801130B0
+    size: 0x6F0
+  - name: gSampleBankTable
+    segment: code
+    vram: 0x801137A0
+    size: 0x80
+  - name: aspMainData
+    segment: code
+    vram: 0x80113820
+    size: 0x2E0
+  - name: gspF3DZEX2_NoN_PosLight_fifoText
+    segment: code
+    vram: 0x80113B00
+    size: 0x1630
+  - name: gspF3DZEX2_NoN_PosLight_fifoData
+    segment: code
+    vram: 0x80115130
+    size: 0x420
+  - name: gspS2DEX2d_fifoData
+    segment: code
+    vram: 0x80115550
+    size: 0x390
+  - name: njpgdspMainData
+    segment: code
+    vram: 0x801158E0
+    size: 0x60
 variables:
   gMtxClear: 0x800FE2A0
   sJpnMessageEntryTable: 0x80109E8C
