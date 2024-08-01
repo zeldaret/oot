@@ -7,49 +7,23 @@ __pycache__/
 .vscode/
 .vs/
 .idea/
-CMakeLists.txt
-cmake-build-debug
-venv/
-.venv/
 
 # Project-specific ignores
 build/
 expected/
-notes/
-baserom/
-baseroms/*/segments/
 docs/doxygen/
-*.elf
-*.sra
 *.z64
 *.n64
 *.v64
-*.map
-*.dump
-out.txt
-*.ram
 
-# Tool artifacts
-tools/mipspro7.2_compiler/
-tools/overlayhelpers/batchdisasm/output/*
-tools/overlayhelpers/batchdisasm/output2/*
-tools/overlayhelpers/batchdisasm/mipsdisasm/*
+# Tools
+.venv/
 tools/disasm/output/*
-tools/asmsplitter/asm/*
-tools/asmsplitter/c/*
 ctx.c
 tools/*dSYM/
 graphs/
 
 # Assets
-*.png
-*.jpg
-*.mdli
-*.anmi
-*.obj
-*.mtl
-*.fbx
-!*_custom*
 .extracted-assets.json
 extracted/
 
@@ -57,4 +31,5 @@ extracted/
 !docs/tutorial/
 
 # Per-user configuration
-.python-version
+# Use `git config core.excludesFile path/to/my_gitignore_file`
+# if you want to use your own gitignore rules without modifying this file.
