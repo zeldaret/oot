@@ -3,6 +3,7 @@
 
 #include "z64actor.h"
 #include "alignment.h"
+#include "face_change.h"
 
 struct Player;
 
@@ -227,6 +228,52 @@ typedef enum {
     /*  2 */ PLAYER_DOORTYPE_SLIDING,
     /*  3 */ PLAYER_DOORTYPE_FAKE
 } PlayerDoorType;
+
+typedef enum {
+    /* 0 */ PLAYER_FACEPART_EYES,
+    /* 1 */ PLAYER_FACEPART_MOUTH,
+    /* 2 */ PLAYER_FACEPART_MAX
+} PlayerFacePart;
+
+typedef enum {
+    /* 0 */ PLAYER_EYES_OPEN,
+    /* 1 */ PLAYER_EYES_HALF,
+    /* 2 */ PLAYER_EYES_CLOSED,
+    /* 3 */ PLAYER_EYES_LEFT,
+    /* 4 */ PLAYER_EYES_RIGHT,
+    /* 5 */ PLAYER_EYES_WIDE,
+    /* 6 */ PLAYER_EYES_DOWN,
+    /* 7 */ PLAYER_EYES_WINCING,
+    /* 8 */ PLAYER_EYES_MAX
+} PlayerEyes;
+
+typedef enum {
+    /* 0 */ PLAYER_MOUTH_CLOSED,
+    /* 1 */ PLAYER_MOUTH_HALF,
+    /* 2 */ PLAYER_MOUTH_OPEN,
+    /* 3 */ PLAYER_MOUTH_SMILE,
+    /* 4 */ PLAYER_MOUTH_MAX
+} PlayerMouth;
+
+typedef enum {
+    /*  0 */ PLAYER_FACE_NEUTRAL,                   // eyes open and mouth closed
+    /*  1 */ PLAYER_FACE_NEUTRAL_BLINKING_HALF,     // eyes half open and mouth closed
+    /*  2 */ PLAYER_FACE_NEUTRAL_BLINKING_CLOSED,   // eyes and mouth closed
+    /*  3 */ PLAYER_FACE_NEUTRAL_2,                 // same as `PLAYER_FACE_NEUTRAL`
+    /*  4 */ PLAYER_FACE_NEUTRAL_BLINKING_HALF_2,   // same as `PLAYER_FACE_NEUTRAL_BLINKING_HALF`
+    /*  5 */ PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2, // same as `PLAYER_FACE_NEUTRAL_BLINKING_CLOSED`
+    /*  6 */ PLAYER_FACE_LOOK_RIGHT,                // eyes looking right and mouth closed
+    /*  7 */ PLAYER_FACE_SURPRISED,                 // wide eyes and grimacing mouth
+    /*  8 */ PLAYER_FACE_HURT,                      // eyes wincing in pain and mouth open
+    /*  9 */ PLAYER_FACE_GASP,                      // eyes and mouth open
+    /* 10 */ PLAYER_FACE_LOOK_LEFT,                 // eyes looking left and mouth closed
+    /* 11 */ PLAYER_FACE_LOOK_RIGHT_2,              // duplicate of `PLAYER_FACE_LOOK_RIGHT`
+    /* 12 */ PLAYER_FACE_EYES_CLOSED_MOUTH_OPEN,    // eyes closed and mouth open
+    /* 13 */ PLAYER_FACE_OPENING,                   // eyes and mouth both halfway open
+    /* 14 */ PLAYER_FACE_EYES_AND_MOUTH_OPEN,       // eyes and mouth open
+    /* 15 */ PLAYER_FACE_NEUTRAL_3,                 // same as `PLAYER_FACE_NEUTRAL` and `PLAYER_FACE_NEUTRAL_2`
+    /* 16 */ PLAYER_FACE_MAX
+} PlayerFace;
 
 typedef enum {
     /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `Player_OverrideLimbDrawPause`)
@@ -705,7 +752,7 @@ typedef struct Player {
     /* 0x01F8 */ Vec3s jointTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x0288 */ Vec3s morphTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x0318 */ Vec3s blendTable[PLAYER_LIMB_BUF_COUNT];
-    /* 0x03A8 */ s16 unk_3A8[2];
+    /* 0x03A8 */ FaceChange faceChange;
     /* 0x03AC */ Actor* heldActor;
     /* 0x03B0 */ Vec3f leftHandPos;
     /* 0x03BC */ Vec3s unk_3BC;

@@ -4,6 +4,8 @@
         <Texture Name="gSpiritTempleDayEntranceTex" OutName="day_entrance" Format="ia16" Width="8" Height="128" Offset="0x18920"/>
         <Texture Name="gSpiritTempleNightEntranceTex" OutName="night_entrance" Format="ia16" Width="8" Height="128" Offset="0x18020"/>
         <Scene Name="jyasinzou_scene" Offset="0x0"/>
+        <Scene Name="jyasinzou_scene_unused1" Offset="0x17200"/>
+        <Scene Name="jyasinzou_scene_unused2" Offset="0x176F0"/>
     </File>
     <File Name="jyasinzou_room_0" Segment="3">
         <Room Name="jyasinzou_room_0" Offset="0x0"/>

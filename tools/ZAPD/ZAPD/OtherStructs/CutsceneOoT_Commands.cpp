@@ -15,7 +15,7 @@ const std::unordered_map<CutsceneOoT_CommandType, CsCommandListDescriptor> csCom
 	{CutsceneOoT_CommandType::CS_CMD_MISC,
      {"CS_MISC", "(%s, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 	{CutsceneOoT_CommandType::CS_CMD_LIGHT_SETTING,
-     {"CS_LIGHT_SETTING", "(0x%02X, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
+     {"CS_LIGHT_SETTING", "(0x%02X, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 	{CutsceneOoT_CommandType::CS_CMD_START_SEQ,
      {"CS_START_SEQ", "(%s, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 	{CutsceneOoT_CommandType::CS_CMD_STOP_SEQ,
