@@ -20,6 +20,19 @@ typedef enum {
     /* 0x04 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
 
+// The XZ coordinates in which direction each pause page is at
+// e.g. the item page is in the -z direction
+/*
+ *      <   item   >
+ *
+ *   ^                ^
+ *              x
+ * equip     o-->    map
+ *           |
+ *   v     z v        v
+ *
+ *      <   quest  >
+ */
 #define PAUSE_ITEM_X (0)
 #define PAUSE_ITEM_Z (-1)
 #define PAUSE_MAP_X (1)
@@ -29,6 +42,9 @@ typedef enum {
 #define PAUSE_EQUIP_X (-1)
 #define PAUSE_EQUIP_Z (0)
 
+// The pause camera looks at x=0,z=0,
+// with the eye being PAUSE_EYE_DIST away in the direction opposite to the active page,
+// which results in the camera being pointed (through x=0,z=0) towards the active page.
 #define PAUSE_EYE_DIST (64.0f)
 
 #define PAUSE_EQUIP_PLAYER_WIDTH 64
@@ -154,9 +170,9 @@ typedef struct {
     /* 0x01D6 */ u16 debugState;
     /* 0x01D8 */ Vec3f eye;
     /* 0x01E4 */ u16 mainState;
-    /* 0x01E6 */ u16 nextPageMode; // (2 * prev pageIndex) + (scroll left ? 1 : 0)
+    /* 0x01E6 */ u16 nextPageMode; // During a page switch, indicates the page before switching and the direction to scroll in. Value is `(2 * prev pageIndex) + (scroll left ? 1 : 0)`
     /* 0x01E8 */ u16 pageIndex; // "kscp_pos"
-    /* 0x01EA */ u16 switchPageTimer;
+    /* 0x01EA */ u16 pageSwitchTimer;
     /* 0x01EC */ u16 savePromptState;
     /* 0x01F0 */ f32 savePromptOffsetDepth_;
     /* 0x01F4 */ f32 itemPageRoll;
