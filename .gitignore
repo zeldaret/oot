@@ -9,6 +9,7 @@ __pycache__/
 .idea/
 
 # Project-specific ignores
+extracted/
 build/
 expected/
 docs/doxygen/
@@ -23,13 +24,7 @@ ctx.c
 tools/*dSYM/
 graphs/
 
-# Assets
-.extracted-assets.json
-extracted/
-
-# Docs
-!docs/tutorial/
-
 # Per-user configuration
-# Use `git config core.excludesFile path/to/my_gitignore_file`
-# if you want to use your own gitignore rules without modifying this file.
+# If you want to use your own gitignore rules without modifying this file:
+# - use `git config core.excludesFile path/to/my_gitignore_file`
+# - or edit `.git/info/exclude`
