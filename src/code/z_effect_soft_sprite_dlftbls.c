@@ -9,7 +9,7 @@
 #undef DEFINE_EFFECT_SS
 #undef DEFINE_EFFECT_SS_UNSET
 
-// Init Vars declarations (also used in the table below)
+// Profile declarations (also used in the table below)
 #define DEFINE_EFFECT_SS(name, _1) extern EffectSsProfile name##_Profile;
 #define DEFINE_EFFECT_SS_UNSET(_0)
 
@@ -19,8 +19,8 @@
 #undef DEFINE_EFFECT_SS_UNSET
 
 // Effect SS Overlay Table definition
-#define DEFINE_EFFECT_SS(name, _1)                                                                           \
-    {                                                                                                        \
+#define DEFINE_EFFECT_SS(name, _1)                                                                          \
+    {                                                                                                       \
         ROM_FILE(ovl_##name), _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, NULL, &name##_Profile, 1, \
     },
 

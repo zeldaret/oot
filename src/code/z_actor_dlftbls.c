@@ -11,7 +11,7 @@
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
 
-// Init Vars declarations (also used in the table below)
+// Profile declarations (also used in the table below)
 #define DEFINE_ACTOR(name, _1, _2, _3) extern ActorProfile name##_Profile;
 #define DEFINE_ACTOR_INTERNAL(name, _1, _2, _3) extern ActorProfile name##_Profile;
 #define DEFINE_ACTOR_UNSET(_0)
@@ -31,14 +31,14 @@
         _ovl_##name##SegmentStart,                    \
         _ovl_##name##SegmentEnd,                      \
         NULL,                                         \
-        &name##_Profile,                             \
+        &name##_Profile,                              \
         nameString,                                   \
         allocType,                                    \
         0,                                            \
     },
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString)                        \
-    {                                                                                 \
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString)                       \
+    {                                                                                \
         ROM_FILE_UNSET, NULL, NULL, NULL, &name##_Profile, nameString, allocType, 0, \
     },
 
@@ -51,14 +51,14 @@
         _ovl_##name##SegmentStart,            \
         _ovl_##name##SegmentEnd,              \
         NULL,                                 \
-        &name##_Profile,                     \
+        &name##_Profile,                      \
         NULL,                                 \
         allocType,                            \
         0,                                    \
     },
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                          \
-    {                                                                           \
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                         \
+    {                                                                          \
         ROM_FILE_UNSET, NULL, NULL, NULL, &name##_Profile, NULL, allocType, 0, \
     },
 

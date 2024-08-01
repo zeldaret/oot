@@ -2906,10 +2906,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
         }
 
         profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
-                                           ? (void*)((uintptr_t)overlayEntry->profile -
-                                                     (intptr_t)((uintptr_t)overlayEntry->vramStart -
-                                                                (uintptr_t)overlayEntry->loadedRamAddr))
-                                           : NULL);
+                                         ? (void*)((uintptr_t)overlayEntry->profile -
+                                                   (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                              (uintptr_t)overlayEntry->loadedRamAddr))
+                                         : NULL);
     }
 
     objectSlot = Object_GetSlot(&play->objectCtx, profile->objectId);
