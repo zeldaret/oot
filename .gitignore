@@ -19,7 +19,6 @@ docs/doxygen/
 
 # Tools
 .venv/
-tools/disasm/output/*
 ctx.c
 tools/*dSYM/
 graphs/
