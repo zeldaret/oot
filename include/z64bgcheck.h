@@ -49,7 +49,7 @@ typedef struct {
 // flags for flags_vIB
 #define COLPOLY_IS_FLOOR_CONVEYOR (1 << 0)
 
-typedef struct {
+typedef struct CollisionPoly {
     /* 0x00 */ u16 type;
     union {
         u16 vtxData[3];

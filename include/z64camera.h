@@ -130,6 +130,9 @@
 // Use a camera pivot setting that allows camera rotation (CAM_SET_PIVOT_SHOP_BROWSING for shop specifically)
 #define VIEWPOINT_PIVOT (BGCAM_INDEX_TOGGLE_PIVOT + 1)
 
+struct Actor;
+struct CollisionPoly;
+
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
     /* 0x01 */ CAM_SET_NORMAL0,
@@ -336,7 +339,7 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ Vec3f collisionClosePoint;
-    /* 0x0C */ CollisionPoly* atEyePoly;
+    /* 0x0C */ struct CollisionPoly* atEyePoly;
     /* 0x10 */ f32 swingUpdateRate;
     /* 0x14 */ s16 unk_14;
     /* 0x16 */ s16 unk_16;
@@ -676,7 +679,7 @@ typedef struct {
     /* 0x00 */ f32 initialEyeToAtDist;
     /* 0x04 */ f32 roll;
     /* 0x08 */ f32 yPosOffset;
-    /* 0x0C */ Actor* target;
+    /* 0x0C */ struct Actor* target;
     /* 0x10 */ f32 unk_10;
     /* 0x14 */ s16 unk_14; // unused
     /* 0x16 */ s16 initialEyeToAtYaw;
@@ -757,7 +760,7 @@ typedef struct {
     /* 0x00 */ f32 unk_00;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
-    /* 0x0C */ Actor* unk_0C;
+    /* 0x0C */ struct Actor* unk_0C;
     /* 0x10 */ s16 unk_10;
     /* 0x12 */ s16 unk_12;
     /* 0x14 */ s16 unk_14;
@@ -806,7 +809,7 @@ typedef struct {
     /* 0x00 */ f32 eyeToAtTargetR;
     /* 0x08 */ f32 eyeToAtTargetYaw;
     /* 0x04 */ f32 eyeToAtTargetPitch;
-    /* 0x0C */ Actor* target;
+    /* 0x0C */ struct Actor* target;
     /* 0x10 */ Vec3f atTarget;
     /* 0x1C */ s16 animTimer;
 } KeepOn3ReadWriteData; // size = 0x20
@@ -1548,7 +1551,7 @@ typedef union {
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f norm;
-    /* 0x18 */ CollisionPoly* poly;
+    /* 0x18 */ struct CollisionPoly* poly;
     /* 0x1C */ VecGeo geoNorm;
     /* 0x24 */ s32 bgId;
 } CamColChk; // size = 0x28
