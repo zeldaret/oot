@@ -90,7 +90,7 @@ typedef struct {
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x14 */ ActorProfile* initInfo;
+    /* 0x14 */ ActorProfile* profile;
     /* 0x18 */ char* name;
     /* 0x1C */ u16 allocType; // See `ACTOROVL_ALLOC_` defines
     /* 0x1E */ s8 numLoaded; // original name: "clients"

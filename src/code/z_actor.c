@@ -2862,7 +2862,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     if (overlayEntry->vramStart == NULL) {
         ACTOR_DEBUG_PRINTF("オーバーレイではありません\n"); // "Not an overlay"
 
-        profile = overlayEntry->initInfo;
+        profile = overlayEntry->profile;
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
             ACTOR_DEBUG_PRINTF("既にロードされています\n"); // "Already loaded"
@@ -2905,8 +2905,8 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             overlayEntry->numLoaded = 0;
         }
 
-        profile = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
-                                           ? (void*)((uintptr_t)overlayEntry->initInfo -
+        profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
+                                           ? (void*)((uintptr_t)overlayEntry->profile -
                                                      (intptr_t)((uintptr_t)overlayEntry->vramStart -
                                                                 (uintptr_t)overlayEntry->loadedRamAddr))
                                            : NULL);
