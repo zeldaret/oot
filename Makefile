@@ -14,10 +14,11 @@ NON_MATCHING := 0
 ORIG_COMPILER := 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER := ido
-# Target game version. Currently only the following version is supported:
+# Target game version. Currently the following versions are supported:
+#   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 # The following versions are work-in-progress and not yet matching:
-#   gc-eu-mq       GameCube Europe/PAL Master Quest
+#   gc-eu          GameCube Europe/PAL
 VERSION := gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS := $(shell nproc)
@@ -51,10 +52,17 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 # Version-specific settings
-ifeq ($(VERSION),gc-eu-mq)
+ifeq ($(VERSION),gc-eu)
   DEBUG := 0
+  COMPARE := 0
+else ifeq ($(VERSION),gc-eu-mq)
+  DEBUG := 0
+  CFLAGS += -DOOT_MQ
+  CPPFLAGS += -DOOT_MQ
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   DEBUG := 1
+  CFLAGS += -DOOT_MQ
+  CPPFLAGS += -DOOT_MQ
 else
 $(error Unsupported version $(VERSION))
 endif

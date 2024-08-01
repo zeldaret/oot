@@ -173,9 +173,10 @@ def main():
     uncompressed_path = baserom_dir / "baserom-decompressed.z64"
 
     dmadata_start = int((baserom_dir / "dmadata_start.txt").read_text(), 16)
-    correct_str_hash = (baserom_dir / "checksum.md5").read_text().split()[0]
+    compressed_str_hash = (baserom_dir / "checksum-compressed.md5").read_text().split()[0]
+    decompressed_str_hash = (baserom_dir / "checksum.md5").read_text().split()[0]
 
-    if check_existing_rom(uncompressed_path, correct_str_hash):
+    if check_existing_rom(uncompressed_path, decompressed_str_hash):
         print("Found valid baserom - exiting early")
         return
 
@@ -211,17 +212,12 @@ def main():
 
     file_content = per_version_fixes(file_content, version)
 
-    dma_entries = dmadata.read_dmadata(file_content, dmadata_start)
-    # Decompress
-    if any(dma_entry.is_compressed() for dma_entry in dma_entries):
-        print("Decompressing rom...")
-        is_zlib_compressed = version in {"ique-cn", "ique-zh"}
-        file_content = decompress_rom(
-            file_content, dmadata_start, dma_entries, is_zlib_compressed
-        )
-
     # Check to see if the ROM is a "vanilla" ROM
     str_hash = get_str_hash(file_content)
+    if version == "gc-eu-mq-dbg":
+        correct_str_hash = decompressed_str_hash
+    else:
+        correct_str_hash = compressed_str_hash
     if str_hash != correct_str_hash:
         print(
             f"Error: Expected a hash of {correct_str_hash} but got {str_hash}. The baserom has probably been tampered, find a new one"
@@ -233,6 +229,23 @@ def main():
                     "The provided baserom is a rom which has been edited with ZeldaEdit and is not suitable for use with decomp. Find a new one."
                 )
 
+        exit(1)
+
+    dma_entries = dmadata.read_dmadata(file_content, dmadata_start)
+    # Decompress
+    if any(dma_entry.is_compressed() for dma_entry in dma_entries):
+        print("Decompressing rom...")
+        is_zlib_compressed = version in {"ique-cn", "ique-zh"}
+        file_content = decompress_rom(
+            file_content, dmadata_start, dma_entries, is_zlib_compressed
+        )
+
+    # Double check the hash
+    str_hash = get_str_hash(file_content)
+    if str_hash != decompressed_str_hash:
+        print(
+            f"Error: Expected a hash of {decompressed_str_hash} after decompression but got {str_hash}!"
+        )
         exit(1)
 
     # Write out our new ROM

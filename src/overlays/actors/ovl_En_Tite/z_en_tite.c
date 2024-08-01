@@ -234,7 +234,7 @@ void EnTite_Idle(EnTite* this, PlayState* play) {
             // Float on water surface
             this->actor.gravity = 0.0f;
             Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.yDistToWater, 1.0f, 2.0f,
+            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.depthInWater, 1.0f, 2.0f,
                                0.0f);
         } else {
             this->actor.gravity = -1.0f;
@@ -278,7 +278,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                     }
                     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
                 } else {
-                    this->actor.world.pos.y += this->actor.yDistToWater;
+                    this->actor.world.pos.y += this->actor.depthInWater;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
                 }
                 this->actor.velocity.y = 8.0f;
@@ -304,7 +304,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                             if (this->actor.velocity.y < -8.0f) {
                                 Vec3f ripplePos = this->actor.world.pos;
 
-                                ripplePos.y += this->actor.yDistToWater;
+                                ripplePos.y += this->actor.depthInWater;
                                 this->vAttackState++; // TEKTITE_SUBMERGED
                                 this->actor.velocity.y *= 0.75f;
                                 attackState = this->vAttackState;
@@ -330,7 +330,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                 break;
             case TEKTITE_SUBMERGED:
                 // Check if floated to surface
-                if (this->actor.yDistToWater == 0.0f) {
+                if (this->actor.depthInWater == 0.0f) {
                     this->vAttackState = TEKTITE_LANDED;
                     attackState = this->vAttackState;
                 }
@@ -388,7 +388,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
             // Float up to water surface
             Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
             Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
-            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.yDistToWater, 1.0f, 2.0f,
+            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.depthInWater, 1.0f, 2.0f,
                                0.0f);
             break;
     }
@@ -447,7 +447,7 @@ void EnTite_TurnTowardPlayer(EnTite* this, PlayState* play) {
     }
     // Calculate turn velocity and animation speed based on angle to player
     if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-        this->actor.world.pos.y += this->actor.yDistToWater;
+        this->actor.world.pos.y += this->actor.depthInWater;
     }
     angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor) - this->actor.world.rot.y;
     if (angleToPlayer > 0) {
@@ -546,7 +546,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
             Vec3f ripplePos = this->actor.world.pos;
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-            ripplePos.y += this->actor.yDistToWater;
+            ripplePos.y += this->actor.depthInWater;
             this->actor.gravity = 0.0f;
             this->actor.velocity.y *= 0.75f;
             EffectSsGRipple_Spawn(play, &ripplePos, 0, 500, 0);
@@ -554,9 +554,9 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         } else {
             // If submerged, float to surface
             Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.yDistToWater, 1.0f, 2.0f,
+            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.depthInWater, 1.0f, 2.0f,
                                0.0f);
-            if (this->actor.yDistToWater != 0.0f) {
+            if (this->actor.depthInWater != 0.0f) {
                 // Do not change state until tekite has floated to surface
                 return;
             }
@@ -633,7 +633,7 @@ void EnTite_Recoil(EnTite* this, PlayState* play) {
         } else {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = 0.0f;
-            this->actor.world.pos.y += this->actor.yDistToWater;
+            this->actor.world.pos.y += this->actor.depthInWater;
         }
     }
 
@@ -704,7 +704,7 @@ void EnTite_Stunned(EnTite* this, PlayState* play) {
         } else {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = 0.0f;
-            this->actor.world.pos.y += this->actor.yDistToWater;
+            this->actor.world.pos.y += this->actor.depthInWater;
         }
     }
     // Play sound effect and spawn dirt effects upon landing
