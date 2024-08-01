@@ -163,8 +163,6 @@ def get_file_pointers_worker(file: mapfile_parser.mapfile.File):
 # Compare pointers between the baserom and the current build, returning a dictionary from
 # C files to a list of pointers into their BSS sections
 def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
-    print("Comparing pointers between baserom and build ...", file=sys.stderr)
-
     mapfile_path = Path(f"build/{version}/oot-{version}.map")
     if not mapfile_path.exists():
         fail(f"Error: could not open {mapfile_path}")
@@ -187,7 +185,6 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
     # Find all pointers with different values
     pointers = list[Pointer]()
 
-    print("Analyzing...", end="\r", file=sys.stderr)
     all_file_pointers = list[multiprocessing.pool.AsyncResult]()
     with multiprocessing.Pool(
         initializer=get_file_pointers_worker_init,
@@ -214,8 +211,9 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
             all_file_pointers = remaining_file_pointers
             num_files_done = num_files - len(all_file_pointers)
             print(
-                f"Analyzing... {num_files_done:>{len(f'{num_files}')}}/{num_files}",
+                f"Comparing pointers between baserom and build ... {num_files_done:>{len(f'{num_files}')}}/{num_files}",
                 end="\r",
+                file=sys.stderr,
             )
     print("", file=sys.stderr)
 
@@ -533,8 +531,8 @@ def process_file(
         print(f"  line {pragma.line_number}: {pragma.amount}", file=sys.stderr)
 
     if not dry_run:
-        print(f"{colorama.Fore.GREEN}Updating {file} ...{colorama.Fore.RESET}", file=sys.stderr)
         update_source_file(version, file, new_pragmas)
+        print(f"{colorama.Fore.GREEN}Updated {file}{colorama.Fore.RESET}", file=sys.stderr)
 
 
 def process_file_worker(*x):
@@ -544,7 +542,7 @@ def process_file_worker(*x):
         sys.stderr = fake_stderr
         process_file(*x)
     except Exception as e:
-        print(fake_stderr.getvalue())
+        print(fake_stderr.getvalue(), end="", file=sys.stderr)
         raise
     finally:
         sys.stderr = ini_stderr
@@ -629,11 +627,11 @@ def main():
             remaining_stderr_async = list[multiprocessing.pool.AsyncResult]()
             for stderr_async in all_stderr_async:
                 if stderr_async.ready():
-                    print(stderr_async.get())
+                    print("", file=sys.stderr)
+                    print(stderr_async.get(), end="", file=sys.stderr)
                 else:
                     remaining_stderr_async.append(stderr_async)
             all_stderr_async = remaining_stderr_async
-    print("Done.", file=sys.stderr)
 
 
 if __name__ == "__main__":
