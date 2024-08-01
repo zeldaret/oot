@@ -115,12 +115,14 @@ void* sUnusedEntranceCsList[] = {
     gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
-#pragma increment_block_number 254
-
 // Stores the frame the relevant cam data was last applied on
 u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
+
+// For retail BSS ordering, the block number of sReturnToCamId must be greater
+// than that of gCamAtPointAppliedFrame (declared in variables.h).
+#pragma increment_block_number 180
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
@@ -2229,11 +2231,15 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
 
         csCtx->curFrame++;
 
-        if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
+#if OOT_DEBUG
+        if (R_USE_DEBUG_CUTSCENE) {
             Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScript);
         } else {
             Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
         }
+#else
+        Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
+#endif
     }
 }
 

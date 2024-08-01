@@ -102,6 +102,8 @@ void EffDust_Init(Actor* thisx, PlayState* play) {
             this->scalingFactor = 20.0f;
             break;
         default:
+            //! @bug Actor_Kill should be used, not free.
+            //! Note this also frees with a function for the wrong memory arena.
             SYSTEM_ARENA_FREE(this, "../z_eff_dust.c", 202);
             break;
     }

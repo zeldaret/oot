@@ -53,6 +53,8 @@ ActorInit En_Wonder_Item_InitVars = {
     /**/ NULL,
 };
 
+#pragma increment_block_number 1
+
 static Vec3f sTagPointsFree[9];
 static Vec3f sTagPointsOrdered[9];
 

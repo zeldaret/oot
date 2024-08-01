@@ -111,7 +111,7 @@ void EnNwc_ChickFall(EnNwcChick* chick, EnNwc* this, PlayState* play) {
 void EnNwc_UpdateChicks(EnNwc* this, PlayState* play) {
     static EnNwcChickFunc chickActionFuncs[] = { EnNwc_ChickNoop, EnNwc_ChickFall };
     EnNwcChick* chick = this->chicks;
-    ColliderJntSphElement* element = this->collider.elements;
+    ColliderJntSphElement* element = &this->collider.elements[0];
     Vec3f prevChickPos;
     s32 i;
     f32 test;

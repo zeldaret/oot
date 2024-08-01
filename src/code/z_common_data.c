@@ -24,4 +24,7 @@ void SaveContext_Init(void) {
     gSaveContext.dogIsLost = true;
     gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
     gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
+#if OOT_NTSC
+    gSaveContext.language = LANGUAGE_ENG;
+#endif
 }

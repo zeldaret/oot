@@ -1,6 +1,16 @@
 #ifndef MACROS_H
 #define MACROS_H
 
+// OOT versions in build order
+#define OOT_GC_JP 1
+#define OOT_GC_JP_MQ 2
+#define OOT_GC_US 3
+#define OOT_GC_US_MQ 4
+#define OOT_GC_EU_MQ_DBG 5
+#define OOT_GC_EU 6
+#define OOT_GC_EU_MQ 7
+#define OOT_GC_JP_CE 8
+
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
@@ -29,10 +39,6 @@
     (void)0
 
 #define RGBA8(r, g, b, a) ((((r) & 0xFF) << 24) | (((g) & 0xFF) << 16) | (((b) & 0xFF) << 8) | (((a) & 0xFF) << 0))
-
-#define GET_PLAYER(play) ((Player*)(play)->actorCtx.actorLists[ACTORCAT_PLAYER].head)
-
-#define GET_ACTIVE_CAM(play) ((play)->cameraPtrs[(play)->activeCamId])
 
 #define LINK_IS_ADULT (gSaveContext.save.linkAge == LINK_AGE_ADULT)
 #define LINK_IS_CHILD (gSaveContext.save.linkAge == LINK_AGE_CHILD)
@@ -241,6 +247,12 @@ extern struct GraphicsContext* __gfxCtx;
 #define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_Malloc(alloc, size)
 
 #endif /* OOT_DEBUG */
+
+#if OOT_NTSC
+#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { jpn, nes }
+#else
+#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { nes, ger, fra }
+#endif
 
 /**
  * `x` vertex x

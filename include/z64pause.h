@@ -166,7 +166,7 @@ typedef struct {
     /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 
-// Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
+// Note that z_kaleido_scope.c assumes that the dimensions and texture format here also matches the dimensions and
 // texture format for ITEM_NAME_TEX_*
 #define MAP_NAME_TEX1_WIDTH 128
 #define MAP_NAME_TEX1_HEIGHT 16

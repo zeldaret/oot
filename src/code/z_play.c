@@ -2,12 +2,7 @@
 #include "quake.h"
 #include "terminal.h"
 
-#if OOT_DEBUG
-void* gDebugCutsceneScript = NULL;
-UNK_TYPE D_8012D1F4 = 0; // unused
-#endif
-
-Input* D_8012D1F8 = NULL;
+#include "z64frame_advance.h"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -19,6 +14,13 @@ FaultClient D_801614B8;
 #endif
 
 s16 sTransitionFillTimer;
+
+#if OOT_DEBUG
+void* gDebugCutsceneScript = NULL;
+UNK_TYPE D_8012D1F4 = 0; // unused
+#endif
+
+Input* D_8012D1F8 = NULL;
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
@@ -166,7 +168,11 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
+#if OOT_NTSC
+                HUNGUP_AND_CRASH("../z_play.c", 2287);
+#else
                 HUNGUP_AND_CRASH("../z_play.c", 2290);
+#endif
                 break;
         }
     }
@@ -451,8 +457,8 @@ void Play_Init(GameState* thisx) {
 
     Interface_SetSceneRestrictions(this);
     Environment_PlaySceneSequence(this);
-    gSaveContext.seqId = this->sequenceCtx.seqId;
-    gSaveContext.natureAmbienceId = this->sequenceCtx.natureAmbienceId;
+    gSaveContext.seqId = this->sceneSequences.seqId;
+    gSaveContext.natureAmbienceId = this->sceneSequences.natureAmbienceId;
     func_8002DF18(this, GET_PLAYER(this));
     AnimTaskQueue_Update(this, &this->animTaskQueue);
     gSaveContext.respawnFlag = 0;

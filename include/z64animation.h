@@ -88,7 +88,7 @@ typedef enum {
     /*  1 */ ANIMTAPER_ACCEL
 } AnimationTapers;
 
-// This flag seems like it was intended to be paired with `ANIM_FLAG_UPDATE_Y` to control 
+// This flag seems like it was intended to be paired with `ANIM_FLAG_UPDATE_Y` to control
 // XZ movement based on the current animation.
 // However, this flag is not checked by the Skelanime system. XZ movement will always occur
 // regardless of the current state of this flag, as long as the "Actor Move" Anim Task is in use.
@@ -99,19 +99,55 @@ typedef enum {
 
 // Enables the movement of an actor in the Y-axis based on the current animation.
 // This only has an effect if the "Actor Move" Anim Task is in use.
+//
+// This animation-driven movement does not replace "normal" movement from other sources
+// such as speed/velocity and collisions. The actor should stop updating other sources of movement
+// as required if they are preventing the animation from playing as intended.
+// An option is to implement and use `ANIM_FLAG_OVERRIDE_MOVEMENT`.
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 
-// (player-only) Related to scaling an animation from/to child/adult
-#define ANIM_FLAG_PLAYER_2 (1 << 2) 
+// When this flag is set, Player's root limb position adjustment as child is disabled.
+// Many of Player's animations are originally created for Adult Link. When playing those
+// animations as Child Link without any adjustment, he will appear to be floating in the air.
+// To fix this, Child Link's root position is scaled down by default to fit his smaller size.
+// However, if an animation is created specifically for Child Link, it is desirable to disable
+// this scaling of the root position by using this flag.
+// Note that this flag will be ignored if `ANIM_FLAG_UPDATE_XZ` or `ANIM_FLAG_UPDATE_Y` are also
+// set. The adjustment will be applied in this case regardless of this flag being enabled.
+#define ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT (1 << 2)
 
 // (player-only) Call AnimTaskQueue_AddActorMove
-#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) 
+#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3)
 
+// When this flag is set, movement in all axes will not be applied for one frame. The flag
+// is unset automatically after one use, so movement can resume. The intent is for this flag to be used
+// when changing between two different animations.
+// In some contexts, disabling the first frame of movement is necessary for a seamless transition.
 //
-#define ANIM_FLAG_NO_MOVE (1 << 4)
+// Depending on specific implementations, an actor may choose to reset `prevTransl` to `baseTransl` when
+// starting a new animation. This is helpful when an animation's translation data starts at the "origin"
+// (in this case, the origin refers to `baseTransl`, in model space).
+// Some animations have translation data that does not begin at the "origin". This is common when a
+// longer sequence of animation is broken up into different parts as seperate animations.
+// In this case, when one animation starts its translation at the same position where a different animation
+// left off, resetting `prevTransl` is not desirable. This will cause the actor's position to noticeably change
+// when the translation data from the first frame of the new animation is applied.
+//
+// When this flag is used during a transition between two animations, the first frame of movement is not applied.
+// This allows the actor's world postiion to stay at the same location as where the previous animation ended.
+// Because translations are calculated as a difference from the current and previous frame, all subsequent
+// frames have their translation occur relative to this new starting point.
+//
+// Note that for Player, this flag is only relevant when transitioning from an animation that was also using
+// animation translation. This is because of how `prevTransl` gets reset in `Player_AnimReplaceApplyFlags`.
+#define ANIM_FLAG_ADJUST_STARTING_POS (1 << 4)
 
-// (player-only)
-#define ANIM_FLAG_PLAYER_7 (1 << 7) 
+// Disables "normal" movement from sources like speed/velocity and collisions, which allows the
+// animation to have full control over the actor's movement.
+//
+// Note that individual actors are responsible for implementing the functionality of this flag.
+// In practice, Player is the only actor who implements this flag.
+#define ANIM_FLAG_OVERRIDE_MOVEMENT (1 << 7)
 
 typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // Number of limbs in the skeleton
