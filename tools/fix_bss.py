@@ -8,13 +8,16 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+import colorama
 from dataclasses import dataclass
-import enum
+import io
 import itertools
+import multiprocessing
+import multiprocessing.pool
 from pathlib import Path
 import re
 import sys
-from typing import BinaryIO, Optional
+from typing import BinaryIO
 
 from ido_block_numbers import (
     generate_make_log,
@@ -44,7 +47,7 @@ def read_s16(f: BinaryIO, offset: int) -> int:
 
 
 def fail(message: str):
-    print(message, file=sys.stderr)
+    print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}", file=sys.stderr)
     sys.exit(1)
 
 
@@ -109,6 +112,54 @@ def read_relocs(object_path: Path, section_name: str) -> list[Reloc]:
         return relocs
 
 
+def get_file_pointers(
+    file: mapfile_parser.mapfile.File,
+    base: BinaryIO,
+    build: BinaryIO,
+):
+    pointers = list[Pointer]()
+    # TODO: open each ELF file only once instead of once per section?
+    for reloc in read_relocs(file.filepath, file.sectionType):
+        if reloc.offset_32 is not None:
+            base_value = read_u32(base, file.vrom + reloc.offset_32)
+            build_value = read_u32(build, file.vrom + reloc.offset_32)
+        elif reloc.offset_hi16 is not None and reloc.offset_lo16 is not None:
+            if (
+                read_u16(base, file.vrom + reloc.offset_hi16)
+                != read_u16(build, file.vrom + reloc.offset_hi16)
+            ) or (
+                read_u16(base, file.vrom + reloc.offset_lo16)
+                != read_u16(build, file.vrom + reloc.offset_lo16)
+            ):
+                fail(
+                    f"Error: Reference to {reloc.name} in {file.filepath} is in a shifted or non-matching portion of the ROM.\n"
+                    "Please ensure that the only differences between the baserom and the current build are due to BSS ordering."
+                )
+
+            base_value = (
+                read_u16(base, file.vrom + reloc.offset_hi16 + 2) << 16
+            ) + read_s16(base, file.vrom + reloc.offset_lo16 + 2)
+            build_value = (
+                read_u16(build, file.vrom + reloc.offset_hi16 + 2) << 16
+            ) + read_s16(build, file.vrom + reloc.offset_lo16 + 2)
+        else:
+            assert False, "Invalid relocation"
+
+        pointers.append(Pointer(reloc.name, reloc.addend, base_value, build_value))
+    return pointers
+
+
+def get_file_pointers_worker_init(version: str):
+    global base
+    global build
+    base = open(f"baseroms/{version}/baserom-decompressed.z64", "rb")
+    build = open(f"build/{version}/oot-{version}.z64", "rb")
+
+
+def get_file_pointers_worker(file: mapfile_parser.mapfile.File):
+    return get_file_pointers(file, base, build)
+
+
 # Compare pointers between the baserom and the current build, returning a dictionary from
 # C files to a list of pointers into their BSS sections
 def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
@@ -122,7 +173,7 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
     mapfile.readMapFile(mapfile_path)
 
     # Segments built from source code (filtering out assets)
-    source_code_segments = []
+    source_code_segments = list[mapfile_parser.mapfile.Segment]()
     for mapfile_segment in mapfile:
         if not (
             mapfile_segment.name.startswith("..boot")
@@ -133,51 +184,39 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
             continue
         source_code_segments.append(mapfile_segment)
 
-    base = open(f"baseroms/{version}/baserom-decompressed.z64", "rb")
-    build = open(f"build/{version}/oot-{version}.z64", "rb")
-
     # Find all pointers with different values
-    pointers = []
-    for mapfile_segment in source_code_segments:
-        for file in mapfile_segment:
-            if not str(file.filepath).endswith(".o"):
-                continue
-            if file.sectionType == ".bss":
-                continue
+    pointers = list[Pointer]()
 
-            print(f"  Analyzing {str(file.filepath):120}", end="\r", file=sys.stderr)
+    print("Analyzing...", end="\r", file=sys.stderr)
+    all_file_pointers = list[multiprocessing.pool.AsyncResult]()
+    with multiprocessing.Pool(
+        initializer=get_file_pointers_worker_init,
+        initargs=(version,),
+    ) as p:
+        for mapfile_segment in source_code_segments:
+            for file in mapfile_segment:
+                if not str(file.filepath).endswith(".o"):
+                    continue
+                if file.sectionType == ".bss":
+                    continue
+                file_pointers_async = p.apply_async(get_file_pointers_worker, (file,))
+                all_file_pointers.append(file_pointers_async)
 
-            # TODO: open each ELF file only once instead of once per section?
-            for reloc in read_relocs(file.filepath, file.sectionType):
-                if reloc.offset_32 is not None:
-                    base_value = read_u32(base, file.vrom + reloc.offset_32)
-                    build_value = read_u32(build, file.vrom + reloc.offset_32)
-                elif reloc.offset_hi16 is not None and reloc.offset_lo16 is not None:
-                    if (
-                        read_u16(base, file.vrom + reloc.offset_hi16)
-                        != read_u16(build, file.vrom + reloc.offset_hi16)
-                    ) or (
-                        read_u16(base, file.vrom + reloc.offset_lo16)
-                        != read_u16(build, file.vrom + reloc.offset_lo16)
-                    ):
-                        fail(
-                            f"Error: Reference to {reloc.name} in {file.filepath} is in a shifted or non-matching portion of the ROM.\n"
-                            "Please ensure that the only differences between the baserom and the current build are due to BSS ordering."
-                        )
-
-                    base_value = (
-                        read_u16(base, file.vrom + reloc.offset_hi16 + 2) << 16
-                    ) + read_s16(base, file.vrom + reloc.offset_lo16 + 2)
-                    build_value = (
-                        read_u16(build, file.vrom + reloc.offset_hi16 + 2) << 16
-                    ) + read_s16(build, file.vrom + reloc.offset_lo16 + 2)
+        num_files = len(all_file_pointers)
+        while all_file_pointers:
+            remaining_file_pointers = list[multiprocessing.pool.AsyncResult]()
+            for file_pointers_async in all_file_pointers:
+                if file_pointers_async.ready():
+                    file_pointers = file_pointers_async.get()
+                    pointers.extend(file_pointers)
                 else:
-                    assert False, "Invalid relocation"
-
-                pointers.append(
-                    Pointer(reloc.name, reloc.addend, base_value, build_value)
-                )
-
+                    remaining_file_pointers.append(file_pointers_async)
+            all_file_pointers = remaining_file_pointers
+            num_files_done = num_files - len(all_file_pointers)
+            print(
+                f"Analyzing... {num_files_done:>{len(f'{num_files}')}}/{num_files}",
+                end="\r",
+            )
     print("", file=sys.stderr)
 
     # Remove duplicates and sort by baserom address
@@ -441,6 +480,77 @@ def update_source_file(version_to_update: str, file: Path, new_pragmas: list[Pra
         f.writelines(lines)
 
 
+def process_file(
+    file: Path,
+    pointers: list[Pointer],
+    make_log: list[str],
+    dry_run: bool,
+    version: str,
+):
+    print(f"{colorama.Fore.CYAN}Processing {file} ...{colorama.Fore.RESET}", file=sys.stderr)
+
+    command_line = find_compiler_command_line(make_log, file)
+    symbol_table, ucode = run_cfe(command_line, keep_files=False)
+
+    bss_variables = find_bss_variables(symbol_table, ucode)
+    print("BSS variables:", file=sys.stderr)
+    for var in bss_variables:
+        i = var.block_number
+        print(
+            f"  {i:>6} [{i%256:>3}]: size=0x{var.size:04X} align=0x{var.align:X} {var.name}",
+            file=sys.stderr,
+        )
+
+    build_bss_symbols = predict_bss_ordering(bss_variables)
+    print("Current build BSS ordering:", file=sys.stderr)
+    for symbol in build_bss_symbols:
+        print(
+            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}",
+            file=sys.stderr,
+        )
+
+    base_bss_symbols = determine_base_bss_ordering(build_bss_symbols, pointers)
+    print("Baserom BSS ordering:", file=sys.stderr)
+    for symbol in base_bss_symbols:
+        print(
+            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}",
+            file=sys.stderr,
+        )
+
+    pragmas = find_pragmas(symbol_table)
+    max_pragmas = 3
+    if not pragmas:
+        fail(f"Error: no increment_block_number pragmas found in {file}")
+    elif len(pragmas) > max_pragmas:
+        fail(
+            f"Error: too many increment_block_number pragmas found in {file} (found {len(pragmas)}, max {max_pragmas})"
+        )
+
+    print("Solving BSS ordering ...", file=sys.stderr)
+    new_pragmas = solve_bss_ordering(pragmas, bss_variables, base_bss_symbols)
+    print("New increment_block_number amounts:", file=sys.stderr)
+    for pragma in new_pragmas:
+        print(f"  line {pragma.line_number}: {pragma.amount}", file=sys.stderr)
+
+    if not dry_run:
+        print(f"{colorama.Fore.GREEN}Updating {file} ...{colorama.Fore.RESET}", file=sys.stderr)
+        update_source_file(version, file, new_pragmas)
+
+
+def process_file_worker(*x):
+    ini_stderr = sys.stderr
+    fake_stderr = io.StringIO()
+    try:
+        sys.stderr = fake_stderr
+        process_file(*x)
+    except Exception as e:
+        print(fake_stderr.getvalue())
+        raise
+    finally:
+        sys.stderr = ini_stderr
+    return fake_stderr.getvalue()
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Automatically fix BSS ordering by editing increment_block_number pragmas. "
@@ -451,6 +561,7 @@ def main():
         "--oot-version",
         "-v",
         type=str,
+        required=True,
         help="OOT version",
     )
     parser.add_argument(
@@ -471,7 +582,7 @@ def main():
 
     pointers_by_file = compare_pointers(version)
 
-    files_with_reordering = []
+    files_with_reordering = list[Path]()
     for file, pointers in pointers_by_file.items():
         # Try to detect if the section is shifted by comparing the lowest
         # address among any pointer into the section between base and build
@@ -499,57 +610,29 @@ def main():
 
     make_log = generate_make_log(version)
 
-    for file in files_to_fix:
-        print(f"Processing {file} ...", file=sys.stderr)
-
-        pointers = pointers_by_file.get(file, [])
-        command_line = find_compiler_command_line(make_log, file)
-        symbol_table, ucode = run_cfe(command_line, keep_files=False)
-
-        bss_variables = find_bss_variables(symbol_table, ucode)
-        print("BSS variables:", file=sys.stderr)
-        for var in bss_variables:
-            i = var.block_number
-            print(
-                f"  {i:>6} [{i%256:>3}]: size=0x{var.size:04X} align=0x{var.align:X} {var.name}",
-                file=sys.stderr,
+    with multiprocessing.Pool() as p:
+        all_stderr_async = list[multiprocessing.pool.AsyncResult]()
+        for file in files_to_fix:
+            stderr_async = p.apply_async(
+                process_file_worker,
+                (
+                    file,
+                    pointers_by_file.get(file, []),
+                    make_log,
+                    args.dry_run,
+                    version,
+                ),
             )
+            all_stderr_async.append(stderr_async)
 
-        build_bss_symbols = predict_bss_ordering(bss_variables)
-        print("Current build BSS ordering:", file=sys.stderr)
-        for symbol in build_bss_symbols:
-            print(
-                f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}",
-                file=sys.stderr,
-            )
-
-        base_bss_symbols = determine_base_bss_ordering(build_bss_symbols, pointers)
-        print("Baserom BSS ordering:", file=sys.stderr)
-        for symbol in base_bss_symbols:
-            print(
-                f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}",
-                file=sys.stderr,
-            )
-
-        pragmas = find_pragmas(symbol_table)
-        max_pragmas = 3
-        if not pragmas:
-            fail(f"Error: no increment_block_number pragmas found in {file}")
-        elif len(pragmas) > max_pragmas:
-            fail(
-                f"Error: too many increment_block_number pragmas found in {file} (found {len(pragmas)}, max {max_pragmas})"
-            )
-
-        print("Solving BSS ordering ...", file=sys.stderr)
-        new_pragmas = solve_bss_ordering(pragmas, bss_variables, base_bss_symbols)
-        print("New increment_block_number amounts:", file=sys.stderr)
-        for pragma in new_pragmas:
-            print(f"  line {pragma.line_number}: {pragma.amount}", file=sys.stderr)
-
-        if not args.dry_run:
-            print(f"Updating {file} ...", file=sys.stderr)
-            update_source_file(version, file, new_pragmas)
-
+        while all_stderr_async:
+            remaining_stderr_async = list[multiprocessing.pool.AsyncResult]()
+            for stderr_async in all_stderr_async:
+                if stderr_async.ready():
+                    print(stderr_async.get())
+                else:
+                    remaining_stderr_async.append(stderr_async)
+            all_stderr_async = remaining_stderr_async
     print("Done.", file=sys.stderr)
 
 
