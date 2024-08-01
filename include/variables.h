@@ -172,7 +172,6 @@ extern u8 gSequenceTable[];
 extern u8 gSampleBankTable[];
 
 extern SaveContext gSaveContext;
-extern RegEditor* gRegEditor;
 
 extern u8 gUseCutsceneCam;
 extern u16 D_8015FCCC;

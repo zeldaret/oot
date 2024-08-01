@@ -42,10 +42,6 @@ static void write_ld_script(FILE *fout)
 
         // initialized data (.text, .data, .rodata, .sdata)
 
-        // Increment the start of the section
-        //if (seg->fields & (1 << STMT_increment))
-            //fprintf(fout, "    . += 0x%08X;\n", seg->increment);
-
         fprintf(fout, "    _%sSegmentRomStartTemp = _RomSize;\n"
                   "    _%sSegmentRomStart = _%sSegmentRomStartTemp;\n"
                   "    ..%s ", seg->name, seg->name, seg->name, seg->name);
@@ -68,10 +64,13 @@ static void write_ld_script(FILE *fout)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            fprintf(fout, "            %s (.text)\n", seg->includes[j].fpath);
-            if (seg->includes[j].linkerPadding != 0)
-                fprintf(fout, "            . += 0x%X;\n", seg->includes[j].linkerPadding);
-            fprintf(fout, "        . = ALIGN(0x10);\n");
+            if (!seg->includes[j].dataOnlyWithinRodata)
+            {
+                fprintf(fout, "            %s (.text)\n", seg->includes[j].fpath);
+                if (seg->includes[j].linkerPadding != 0)
+                    fprintf(fout, "            . += 0x%X;\n", seg->includes[j].linkerPadding);
+                fprintf(fout, "        . = ALIGN(0x10);\n");
+            }
         }
 
         fprintf(fout, "        _%sSegmentTextEnd = .;\n", seg->name);
@@ -82,20 +81,11 @@ static void write_ld_script(FILE *fout)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (!seg->includes[j].dataWithRodata)
+            if (!seg->includes[j].dataOnlyWithinRodata && !seg->includes[j].noData)
                 fprintf(fout, "            %s (.data)\n"
                               "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
         }
 
-        /*
-         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.rodata)\n", seg->includes[j].fpath);
-
-          for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.sdata)\n", seg->includes[j].fpath);
-        */
-
-        //fprintf(fout, "        . = ALIGN(0x10);\n");
         fprintf(fout, "        _%sSegmentDataEnd = .;\n", seg->name);
 
         fprintf(fout, "    _%sSegmentDataSize = ABSOLUTE( _%sSegmentDataEnd - _%sSegmentDataStart );\n", seg->name, seg->name, seg->name);
@@ -104,7 +94,7 @@ static void write_ld_script(FILE *fout)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (seg->includes[j].dataWithRodata)
+            if (seg->includes[j].dataOnlyWithinRodata)
                 fprintf(fout, "            %s (.data)\n"
                               "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
@@ -116,11 +106,12 @@ static void write_ld_script(FILE *fout)
             // the beginning of the entire rodata area in order to remain consistent.
             // Inconsistencies will lead to various .rodata reloc crashes as a result of
             // either missing relocs or wrong relocs.
-            fprintf(fout, "            %s (.rodata)\n"
-                          "            %s (.rodata.str*)\n"
-                          "            %s (.rodata.cst*)\n"
-                          "        . = ALIGN(0x10);\n",
-                    seg->includes[j].fpath, seg->includes[j].fpath, seg->includes[j].fpath);
+            if (!seg->includes[j].dataOnlyWithinRodata)
+                fprintf(fout, "            %s (.rodata)\n"
+                            "            %s (.rodata.str*)\n"
+                            "            %s (.rodata.cst*)\n"
+                            "        . = ALIGN(0x10);\n",
+                        seg->includes[j].fpath, seg->includes[j].fpath, seg->includes[j].fpath);
         }
 
         fprintf(fout, "        _%sSegmentRoDataEnd = .;\n", seg->name);
@@ -130,15 +121,17 @@ static void write_ld_script(FILE *fout)
         fprintf(fout, "        _%sSegmentSDataStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.sdata)\n"
-                          "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            if (!seg->includes[j].dataOnlyWithinRodata)
+                fprintf(fout, "            %s (.sdata)\n"
+                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         fprintf(fout, "        _%sSegmentSDataEnd = .;\n", seg->name);
 
         fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
+            if (!seg->includes[j].dataOnlyWithinRodata)
+                fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
 
         fprintf(fout, "        _%sSegmentOvlEnd = .;\n", seg->name);
 
@@ -166,20 +159,24 @@ static void write_ld_script(FILE *fout)
                       seg->name, seg->name, seg->name, seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.sbss)\n"
-                          "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            if (!seg->includes[j].dataOnlyWithinRodata)
+                fprintf(fout, "            %s (.sbss)\n"
+                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.scommon)\n"
-                          "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            if (!seg->includes[j].dataOnlyWithinRodata)
+                fprintf(fout, "            %s (.scommon)\n"
+                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.bss)\n"
-                          "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            if (!seg->includes[j].dataOnlyWithinRodata)
+                fprintf(fout, "            %s (.bss)\n"
+                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (COMMON)\n"
-                          "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            if (!seg->includes[j].dataOnlyWithinRodata)
+                fprintf(fout, "            %s (COMMON)\n"
+                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         fprintf(fout, "        . = ALIGN(0x10);\n"
                       "        _%sSegmentBssEnd = .;\n"
@@ -187,25 +184,6 @@ static void write_ld_script(FILE *fout)
                       "    }\n"
                       "    _%sSegmentBssSize = ABSOLUTE( _%sSegmentBssEnd - _%sSegmentBssStart );\n\n",
                       seg->name, seg->name, seg->name, seg->name, seg->name);
-
-        // Increment the end of the segment
-        //if (seg->fields & (1 << STMT_increment))
-            //fprintf(fout, "    . += 0x%08X;\n", seg->increment);
-
-        //fprintf(fout, "    ..%s.ovl ADDR(..%s) + SIZEOF(..%s) :\n"
-        //    /*"    ..%s.bss :\n"*/
-        //    "    {\n",
-        //    seg->name, seg->name, seg->name);
-        //fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
-
-        //for (j = 0; j < seg->includesCount; j++)
-        //    fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
-
-        ////fprintf(fout, "        . = ALIGN(0x10);\n");
-
-        //fprintf(fout, "        _%sSegmentOvlEnd = .;\n", seg->name);
-
-        //fprintf(fout, "\n    }\n");
     }
 
     fputs("    _RomEnd = _RomSize;\n\n", fout);

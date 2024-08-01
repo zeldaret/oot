@@ -1,9 +1,13 @@
-#include "global.h"
+#include "ultra64.h"
+#include "z_lib.h"
+#include "z64math.h"
 #include "terminal.h"
+#include "macros.h"
+#include "sys_math3d.h"
 
 // For retail BSS ordering, the block number of cbf in Math3D_CylVsCylOverlapCenterDist
 // must be 0.
-#pragma increment_block_number 187
+#pragma increment_block_number 111
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);
@@ -2147,11 +2151,3 @@ s32 Math3D_YZInSphere(Sphere16* sphere, f32 y, f32 z) {
     }
     return false;
 }
-
-#if OOT_DEBUG
-void Math3D_DrawSphere(PlayState* play, Sphere16* sph) {
-}
-
-void Math3D_DrawCylinder(PlayState* play, Cylinder16* cyl) {
-}
-#endif

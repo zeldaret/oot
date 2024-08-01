@@ -115,6 +115,8 @@ void* sUnusedEntranceCsList[] = {
     gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
+#pragma increment_block_number 254
+
 // Stores the frame the relevant cam data was last applied on
 u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
