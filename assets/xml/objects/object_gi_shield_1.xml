@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_shield_1" Segment="6">
         <DList Name="gGiDekuShieldDL" Offset="0x0A50"/>
     </File>

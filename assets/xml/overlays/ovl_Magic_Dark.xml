@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="ovl_Magic_Dark">
         <Texture Name="sDiamondTex" OutName="diamond_texture" Format="i8" Width="32" Height="64" Offset="0x0"/>
 
