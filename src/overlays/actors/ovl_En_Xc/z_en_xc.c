@@ -2456,7 +2456,7 @@ void EnXc_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-ActorInit En_Xc_InitVars = {
+ActorProfile En_Xc_InitVars = {
     /**/ ACTOR_EN_XC,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

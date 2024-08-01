@@ -299,7 +299,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-ActorInit En_Zo_InitVars = {
+ActorProfile En_Zo_InitVars = {
     /**/ ACTOR_EN_ZO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

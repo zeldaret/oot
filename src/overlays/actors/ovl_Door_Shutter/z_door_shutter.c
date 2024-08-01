@@ -48,7 +48,7 @@ void DoorShutter_GohmaBlockFall(DoorShutter* this, PlayState* play);
 void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play);
 void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play);
 
-ActorInit Door_Shutter_InitVars = {
+ActorProfile Door_Shutter_InitVars = {
     /**/ ACTOR_DOOR_SHUTTER,
     /**/ ACTORCAT_DOOR,
     /**/ FLAGS,

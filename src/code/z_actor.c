@@ -2834,7 +2834,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                    s16 rotY, s16 rotZ, s16 params) {
     s32 pad;
     Actor* actor;
-    ActorInit* actorInit;
+    ActorProfile* actorInit;
     s32 objectSlot;
     ActorOverlay* overlayEntry;
     uintptr_t temp;

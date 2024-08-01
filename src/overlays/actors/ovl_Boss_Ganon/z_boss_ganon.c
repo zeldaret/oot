@@ -45,7 +45,7 @@ void BossGanon_UpdateEffects(PlayState* play);
 
 s32 BossGanon_CheckFallingPlatforms(BossGanon* this, PlayState* play, Vec3f* checkPos);
 
-ActorInit Boss_Ganon_InitVars = {
+ActorProfile Boss_Ganon_InitVars = {
     /**/ ACTOR_BOSS_GANON,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

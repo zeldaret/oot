@@ -44,7 +44,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this);
 void EnSyatekiMan_SetBgm(void);
 #endif
 
-ActorInit En_Syateki_Man_InitVars = {
+ActorProfile En_Syateki_Man_InitVars = {
     /**/ ACTOR_EN_SYATEKI_MAN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
