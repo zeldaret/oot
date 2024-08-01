@@ -366,7 +366,7 @@ def solve_bss_ordering(
     base_symbols_by_name = {symbol.name: symbol for symbol in base_bss_symbols}
 
     # Our "algorithm" just tries all possible combinations of increment_block_number amounts.
-    # This can get really slow, so we first try powers of 10 only, since the exact
+    # This can get really slow, so we first try multiples of 10 only, since the exact
     # amount often doesn't matter much and we can find a solution faster.
     fast_candidates = itertools.product(
         [i for i in range(256) if i % 10 == 0], repeat=len(pragmas)

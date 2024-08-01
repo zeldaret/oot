@@ -7,8 +7,7 @@
 # Preprocess a C file to:
 # * Re-encode from UTF-8 to EUC-JP (the repo uses UTF-8 for text encoding, but
 #   the strings in the ROM are encoded in EUC-JP)
-# * Replace `#pragma increment_block_number N` with `N` fake structs for
-#   controlling BSS ordering
+# * Replace `#pragma increment_block_number` with fake structs for controlling BSS ordering
 
 import argparse
 from pathlib import Path
@@ -45,7 +44,7 @@ def process_file(version, filename, input, output):
                         f"{filename}:{i}: increment_block_number amount must be an integer"
                     )
 
-            # Always generate at least one struct so that fix_bss.py can know where the increment_block_number pragmas is
+            # Always generate at least one struct so that fix_bss.py can know where the increment_block_number pragmas are
             if amount == 0:
                 amount = 256
 
