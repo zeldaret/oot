@@ -1784,7 +1784,7 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
     drawFunc(this, play);
 }
 
-ActorProfile Demo_Gt_InitVars = {
+ActorProfile Demo_Gt_Profile = {
     /**/ ACTOR_DEMO_GT,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

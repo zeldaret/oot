@@ -13,7 +13,7 @@ void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, PlayState* play);
 void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play);
 void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, PlayState* play);
 
-ActorProfile Bg_Mizu_Shutter_InitVars = {
+ActorProfile Bg_Mizu_Shutter_Profile = {
     /**/ ACTOR_BG_MIZU_SHUTTER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

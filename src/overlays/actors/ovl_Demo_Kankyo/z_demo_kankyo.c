@@ -40,7 +40,7 @@ extern CutsceneData gChildWarpOutCS[];
 extern CutsceneData gChildWarpInToTCS[];
 extern CutsceneData gChildWarpOutToTCS[];
 
-ActorProfile Demo_Kankyo_InitVars = {
+ActorProfile Demo_Kankyo_Profile = {
     /**/ ACTOR_DEMO_KANKYO,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

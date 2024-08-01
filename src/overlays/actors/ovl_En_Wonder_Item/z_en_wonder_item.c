@@ -41,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 30, 0, { 0, 0, 0 } },
 };
 
-ActorProfile En_Wonder_Item_InitVars = {
+ActorProfile En_Wonder_Item_Profile = {
     /**/ ACTOR_EN_WONDER_ITEM,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

@@ -52,7 +52,7 @@ typedef enum {
     /* 4 */ REDEAD_GRAB_END
 } EnRdGrabState;
 
-ActorProfile En_Rd_InitVars = {
+ActorProfile En_Rd_Profile = {
     /**/ ACTOR_EN_RD,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
