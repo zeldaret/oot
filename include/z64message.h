@@ -235,8 +235,10 @@ typedef struct {
     /* 0xE2FE */ u8 textBoxPos; // text box position
     /* 0xE300 */ s32 msgLength; // original name : "msg_data"
     /* 0xE304 */ u8 msgMode; // original name: "msg_mode"
-    /* 0xE305 */ char unk_E305[0x1];
-    /* 0xE306 */ u8 msgBufDecoded[200]; // decoded message buffer, may be smaller than this
+    /* 0xE306 */ union {
+        u8 msgBufDecoded[200];
+        u16 msgBufDecodedWide[100];
+    };
     /* 0xE3CE */ u16 msgBufPos; // original name : "rdp"
     /* 0xE3D0 */ u16 unk_E3D0; // unused, only ever set to 0
     /* 0xE3D2 */ u16 textDrawPos; // draw all decoded characters up to this buffer position
