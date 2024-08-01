@@ -116,7 +116,7 @@ def get_file_pointers(
     file: mapfile_parser.mapfile.File,
     base: BinaryIO,
     build: BinaryIO,
-):
+) -> list[Pointer]:
     pointers = list[Pointer]()
     # TODO: open each ELF file only once instead of once per section?
     for reloc in read_relocs(file.filepath, file.sectionType):
@@ -149,6 +149,10 @@ def get_file_pointers(
     return pointers
 
 
+base = None
+build = None
+
+
 def get_file_pointers_worker_init(version: str):
     global base
     global build
@@ -156,7 +160,9 @@ def get_file_pointers_worker_init(version: str):
     build = open(f"build/{version}/oot-{version}.z64", "rb")
 
 
-def get_file_pointers_worker(file: mapfile_parser.mapfile.File):
+def get_file_pointers_worker(file: mapfile_parser.mapfile.File) -> list[Pointer]:
+    assert base is not None
+    assert build is not None
     return get_file_pointers(file, base, build)
 
 
@@ -485,7 +491,10 @@ def process_file(
     dry_run: bool,
     version: str,
 ):
-    print(f"{colorama.Fore.CYAN}Processing {file} ...{colorama.Fore.RESET}", file=sys.stderr)
+    print(
+        f"{colorama.Fore.CYAN}Processing {file} ...{colorama.Fore.RESET}",
+        file=sys.stderr,
+    )
 
     command_line = find_compiler_command_line(make_log, file)
     symbol_table, ucode = run_cfe(command_line, keep_files=False)
@@ -532,7 +541,9 @@ def process_file(
 
     if not dry_run:
         update_source_file(version, file, new_pragmas)
-        print(f"{colorama.Fore.GREEN}Updated {file}{colorama.Fore.RESET}", file=sys.stderr)
+        print(
+            f"{colorama.Fore.GREEN}Updated {file}{colorama.Fore.RESET}", file=sys.stderr
+        )
 
 
 def process_file_worker(*x):
