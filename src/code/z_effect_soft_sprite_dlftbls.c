@@ -10,7 +10,7 @@
 #undef DEFINE_EFFECT_SS_UNSET
 
 // Init Vars declarations (also used in the table below)
-#define DEFINE_EFFECT_SS(name, _1) extern EffectSsInit name##_InitVars;
+#define DEFINE_EFFECT_SS(name, _1) extern EffectSsProfile name##_InitVars;
 #define DEFINE_EFFECT_SS_UNSET(_0)
 
 #include "tables/effect_ss_table.h"
