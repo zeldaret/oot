@@ -155,7 +155,7 @@ typedef struct {
     /* 0x1C */ void (*buyEventFunc)(PlayState*, EnGirlA*);
 } ShopItemEntry; // size = 0x20
 
-static ShopItemEntry shopItemEntries[] = {
+static ShopItemEntry sShopItemEntries[] = {
     // SI_DEKU_NUTS_5
     { OBJECT_GI_NUTS, GID_DEKU_NUTS, func_8002ED80, 15, 5, 0x00B2, 0x007F, GI_DEKU_NUTS_5_2, EnGirlA_CanBuy_DekuNuts,
       EnGirlA_ItemGive_DekuNuts, EnGirlA_BuyEvent_ShieldDiscount },
@@ -389,7 +389,7 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
         return;
     }
 
-    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, shopItemEntries[params].objID);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sShopItemEntries[params].objID);
 
     if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
@@ -895,7 +895,7 @@ void EnGirlA_Noop(EnGirlA* this, PlayState* play) {
 }
 
 void EnGirlA_SetItemDescription(PlayState* play, EnGirlA* this) {
-    ShopItemEntry* tmp = &shopItemEntries[this->actor.params];
+    ShopItemEntry* tmp = &sShopItemEntries[this->actor.params];
     s32 params = this->actor.params;
 
     if ((this->actor.params >= SI_KEATON_MASK) && (this->actor.params <= SI_MASK_OF_TRUTH)) {
@@ -954,7 +954,7 @@ void EnGirlA_UpdateStockedItem(PlayState* play, EnGirlA* this) {
 
     if (EnGirlA_TryChangeShopItem(this)) {
         EnGirlA_InitItem(this, play);
-        itemEntry = &shopItemEntries[this->actor.params];
+        itemEntry = &sShopItemEntries[this->actor.params];
         this->actor.textId = itemEntry->itemDescTextId;
     } else {
         this->isInvisible = false;
@@ -979,7 +979,7 @@ s32 EnGirlA_TrySetMaskItemDescription(EnGirlA* this, PlayState* play) {
 
 void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
     s16 params = this->actor.params;
-    ShopItemEntry* itemEntry = &shopItemEntries[params];
+    ShopItemEntry* itemEntry = &sShopItemEntries[params];
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_4;

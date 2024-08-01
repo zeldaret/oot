@@ -98,7 +98,7 @@ extern u64 gMojiFontTex[]; // original name: "font_ff"
 extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
 extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
-extern void* gDebugCutsceneScript;
+
 extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern Mtx gMtxClear;
@@ -197,10 +197,7 @@ extern MapData* gMapData;
 extern f32 gBossMarkScale;
 extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
-extern TransitionTile gTransitionTile;
-extern s32 gTransitionTileState;
-extern VisMono gPlayVisMono;
-extern Color_RGBA8_u32 gVisMonoColor;
+
 extern PreNmiBuff* gAppNmiBufferPtr;
 extern uintptr_t gSegments[NUM_SEGMENTS];
 extern Scheduler gScheduler;

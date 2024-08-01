@@ -88,7 +88,7 @@ typedef enum {
     /*  1 */ ANIMTAPER_ACCEL
 } AnimationTapers;
 
-// This flag seems like it was intended to be paired with `ANIM_FLAG_UPDATE_Y` to control 
+// This flag seems like it was intended to be paired with `ANIM_FLAG_UPDATE_Y` to control
 // XZ movement based on the current animation.
 // However, this flag is not checked by the Skelanime system. XZ movement will always occur
 // regardless of the current state of this flag, as long as the "Actor Move" Anim Task is in use.
@@ -102,16 +102,16 @@ typedef enum {
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 
 // (player-only) Related to scaling an animation from/to child/adult
-#define ANIM_FLAG_PLAYER_2 (1 << 2) 
+#define ANIM_FLAG_PLAYER_2 (1 << 2)
 
 // (player-only) Call AnimTaskQueue_AddActorMove
-#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) 
+#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3)
 
 //
 #define ANIM_FLAG_NO_MOVE (1 << 4)
 
 // (player-only)
-#define ANIM_FLAG_PLAYER_7 (1 << 7) 
+#define ANIM_FLAG_PLAYER_7 (1 << 7)
 
 typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // Number of limbs in the skeleton

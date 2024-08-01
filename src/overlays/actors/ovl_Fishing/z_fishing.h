@@ -9,7 +9,7 @@ struct Fishing;
 typedef struct Fishing {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x004];
-    /* 0x0150 */ u8 isLoach; 
+    /* 0x0150 */ u8 isLoach;
     /* 0x0151 */ u8 lilyTimer; // if near lily and >0, lily moves. Move more if >20
     /* 0x0152 */ u8 unk_152;
     /* 0x0154 */ s16 unk_154;

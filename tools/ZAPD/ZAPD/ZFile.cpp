@@ -120,6 +120,9 @@ void ZFile::ParseXML(tinyxml2::XMLElement* reader, const std::string& filename)
 	if (reader->Attribute("BaseAddress") != nullptr)
 		baseAddress = StringHelper::StrToL(reader->Attribute("BaseAddress"), 16);
 
+	if (mode == ZFileMode::Extract && Globals::Instance->baseAddress != -1)
+		baseAddress = Globals::Instance->baseAddress;
+
 	if (reader->Attribute("RangeStart") != nullptr)
 		rangeStart = StringHelper::StrToL(reader->Attribute("RangeStart"), 16);
 
@@ -197,6 +200,9 @@ void ZFile::ParseXML(tinyxml2::XMLElement* reader, const std::string& filename)
 		}
 
 		rawData = File::ReadAllBytes((basePath / name).string());
+		if (mode == ZFileMode::Extract && Globals::Instance->startOffset != -1 && Globals::Instance->endOffset != -1)
+			rawData = std::vector<uint8_t>(rawData.begin() + Globals::Instance->startOffset,
+			                               rawData.begin() + Globals::Instance->endOffset);
 
 		if (reader->Attribute("RangeEnd") == nullptr)
 			rangeEnd = rawData.size();
@@ -585,6 +591,12 @@ Declaration* ZFile::AddDeclarationIncludeArray(offset_t address, std::string& in
 		includePath = "assets/" + StringHelper::Split(includePath, "assets/extracted/")[1];
 	if (StringHelper::StartsWith(includePath, "assets/custom/"))
 		includePath = "assets/" + StringHelper::Split(includePath, "assets/custom/")[1];
+	// Hack for OOT: don't prefix include paths with extracted/VERSION/
+	if (StringHelper::StartsWith(includePath, "extracted/")) {
+		std::vector<std::string> parts = StringHelper::Split(includePath, "/");
+		parts.erase(parts.begin(), parts.begin() + 2);
+		includePath = StringHelper::Join(parts, "/");
+	}
 
 	Declaration* decl = GetDeclaration(address);
 	if (decl == nullptr)
@@ -621,6 +633,12 @@ Declaration* ZFile::AddDeclarationIncludeArray(offset_t address, std::string& in
 		includePath = "assets/" + StringHelper::Split(includePath, "assets/extracted/")[1];
 	if (StringHelper::StartsWith(includePath, "assets/custom/"))
 		includePath = "assets/" + StringHelper::Split(includePath, "assets/custom/")[1];
+	// Hack for OOT: don't prefix include paths with extracted/VERSION/
+	if (StringHelper::StartsWith(includePath, "extracted/")) {
+		std::vector<std::string> parts = StringHelper::Split(includePath, "/");
+		parts.erase(parts.begin(), parts.begin() + 2);
+		includePath = StringHelper::Join(parts, "/");
+	}
 
 	Declaration* decl = GetDeclaration(address);
 	if (decl == nullptr)

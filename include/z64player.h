@@ -786,7 +786,7 @@ typedef struct Player {
     /* 0x0450 */ Vec3f unk_450;
     /* 0x045C */ Vec3f unk_45C;
     /* 0x0468 */ char unk_468[0x002];
-    /* 0x046A */ union { 
+    /* 0x046A */ union {
         s16 haltActorsDuringCsAction; // If true, halt actors belonging to certain categories during a `csAction`
         s16 slidingDoorBgCamIndex; // `BgCamIndex` used during a sliding door cutscene
     } cv; // "Cutscene Variable": context dependent variable that has different meanings depending on what function is called
@@ -848,11 +848,11 @@ typedef struct Player {
     /* 0x0847 */ s8 controlStickSpinAngles[4]; // Stores a modified version of the control stick angle for the last 4 frames. Used for checking spins.
     /* 0x084B */ s8 controlStickDirections[4]; // Stores the control stick direction (relative to shape yaw) for the last 4 frames. See `PlayerStickDirection`.
 
-    /* 0x084F */ union { 
+    /* 0x084F */ union {
         s8 actionVar1;
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
-    /* 0x0850 */ union { 
+    /* 0x0850 */ union {
         s16 actionVar2;
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 

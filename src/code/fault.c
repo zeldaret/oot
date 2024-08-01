@@ -35,7 +35,7 @@
  *  - End Screen
  *      This page informs you that there are no more pages to display.
  *
- * To navigate the pages, START and A may be used to advance to the next page, and L toggles whether to
+ * To navigate the pages, DPad-Right or A may be used to advance to the next page, and L toggles whether to
  * automatically scroll to the next page after some time has passed.
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
@@ -911,6 +911,8 @@ void Fault_DrawMemDump(uintptr_t pc, uintptr_t sp, uintptr_t cLeftJump, uintptr_
         } while (input->press.button == 0);
 
         // Move to next page
+        //! @bug DPad-Right does not move to the next page, unlike when on any other page
+        // START moving to the next page is unique to this page.
         if (CHECK_BTN_ALL(input->press.button, BTN_START) || CHECK_BTN_ALL(input->cur.button, BTN_A)) {
             return;
         }

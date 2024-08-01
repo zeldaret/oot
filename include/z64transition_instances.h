@@ -88,7 +88,7 @@ typedef struct {
     /* 0x060 */ Mtx lookAt;
     /* 0x0A0 */ void* texture;
     /* 0x0A8 */ Mtx modelView[2][3];
-} TransitionCircle; // size = 0x228;
+} TransitionCircle; // size = 0x228
 
 typedef struct {
     /* 0x000 */ Color_RGBA8_u32 color;
@@ -99,6 +99,6 @@ typedef struct {
     /* 0x018 */ Mtx projection;
     /* 0x058 */ s32 frame;
     /* 0x060 */ Mtx modelView[2][3];
-} TransitionTriforce; // size = 0x1E0;
+} TransitionTriforce; // size = 0x1E0
 
 #endif
