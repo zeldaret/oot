@@ -113,9 +113,18 @@
 #define R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER   ZREG(28)
 #define R_C_BTN_COLOR(i)                         ZREG(39 + (i))
 #define R_B_BTN_COLOR(i)                         ZREG(43 + (i))
+#if OOT_NTSC
+#define R_START_LABEL_SCALE                      ZREG(48)
+#define R_START_LABEL_DD(i)                      ZREG(49 + (i))
+#define R_START_LABEL_WIDTH                      ZREG(51)
+#define R_START_LABEL_HEIGHT                     ZREG(52)
+#define R_START_LABEL_Y(i)                       ZREG(53 + (i))
+#define R_START_LABEL_X(i)                       ZREG(55 + (i))
+#else
 #define R_START_LABEL_DD(i)                      ZREG(48 + (i))
 #define R_START_LABEL_Y(i)                       ZREG(51 + (i))
 #define R_START_LABEL_X(i)                       ZREG(54 + (i))
+#endif
 #define R_PAUSE_QUEST_MEDALLION_SHINE_TIME(i)    ZREG(61 + (i)) // i = 0..3 (clashes with ZREG(62) and ZREG(63))
 #define R_C_UP_BTN_X                             ZREG(62)
 #define R_C_UP_BTN_Y                             ZREG(63)
@@ -170,6 +179,12 @@
 #define R_PAUSE_OFFSET_DEPTH                     WREG(3)
 #define R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION       WREG(4)
 #define R_PAUSE_UI_ANIMS_DURATION                WREG(6)
+#if OOT_NTSC
+#define R_B_LABEL_SCALE(i)                       WREG(8 + (i))
+#define R_B_LABEL_X(i)                           WREG(10 + (i))
+#define R_B_LABEL_Y(i)                           WREG(12 + (i))
+#define R_A_LABEL_Z(i)                           WREG(14 + (i))
+#endif
 #define R_PAUSE_CURSOR_LEFT_X                    WREG(16)
 #define R_PAUSE_CURSOR_RIGHT_X                   WREG(17)
 #define R_PAUSE_CURSOR_LEFT_RIGHT_Y              WREG(18)
@@ -178,8 +193,12 @@
 #define R_OW_MINIMAP_X                           WREG(29)
 #define R_OW_MINIMAP_Y                           WREG(30)
 #define R_MINIMAP_DISABLED                       WREG(31)
+#if OOT_PAL
+#define R_B_LABEL_SCALE(i)                       WREG(37 + (i))
 #define R_B_LABEL_X(i)                           WREG(40 + (i))
 #define R_B_LABEL_Y(i)                           WREG(43 + (i))
+#define R_A_LABEL_Z(i)                           WREG(46 + (i))
+#endif
 #define R_DGN_MINIMAP_X                          WREG(68)
 #define R_DGN_MINIMAP_Y                          WREG(69)
 #define R_PAUSE_NAME_DISPLAY_TIMER_MAX_          WREG(88)

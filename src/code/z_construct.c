@@ -298,7 +298,7 @@ void Regs_InitDataImpl(void) {
     ZREG(10) = 200;
     ZREG(11) = 0;
     ZREG(12) = 200;
-    R_PAUSE_SWITCH_PAGE_FRAME_ADVANCE_ON = false;
+    R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON = false;
     ZREG(14) = 110;
     ZREG(15) = 56;
     ZREG(16) = 1;
@@ -328,6 +328,17 @@ void Regs_InitDataImpl(void) {
     R_C_BTN_COLOR(2) = 0;
     ZREG(46) = 1;
     ZREG(47) = 1;
+
+#if OOT_NTSC
+    R_START_LABEL_DD(0) = 86;
+    R_START_LABEL_DD(1) = 100;
+    R_START_LABEL_WIDTH = 0;
+    R_START_LABEL_HEIGHT = 0;
+    R_START_LABEL_Y(0) = 21;
+    R_START_LABEL_Y(1) = 20;
+    R_START_LABEL_X(0) = 122;
+    R_START_LABEL_X(1) = 120;
+#else
     R_START_LABEL_DD(0) = 100;
     R_START_LABEL_DD(1) = 89;
     R_START_LABEL_DD(2) = 92;
@@ -337,6 +348,8 @@ void Regs_InitDataImpl(void) {
     R_START_LABEL_X(0) = 120;
     R_START_LABEL_X(1) = 119;
     R_START_LABEL_X(2) = 119;
+#endif
+
     R_PAUSE_QUEST_MEDALLION_SHINE_TIME(0) = 1;
     //! @bug Overlapping reg usage
     R_C_UP_BTN_X = C_UP_BUTTON_X; // R_PAUSE_QUEST_MEDALLION_SHINE_TIME(1)
@@ -465,6 +478,18 @@ void Regs_InitDataImpl(void) {
     WREG(5) = 3;
     R_PAUSE_UI_ANIMS_DURATION = 8;
     WREG(7) = 0;
+
+#if OOT_NTSC
+    R_B_LABEL_SCALE(0) = 100;
+    R_B_LABEL_SCALE(1) = 109;
+    R_B_LABEL_X(0) = 151;
+    R_B_LABEL_X(1) = 148;
+    R_B_LABEL_Y(0) = 23;
+    R_B_LABEL_Y(1) = 22;
+    R_A_LABEL_Z(0) = -380;
+    R_A_LABEL_Z(1) = -350;
+#else
+    // Same as above, although these regs are now unused in PAL versions
     WREG(8) = 100;
     WREG(9) = 109;
     WREG(10) = 151;
@@ -473,6 +498,8 @@ void Regs_InitDataImpl(void) {
     WREG(13) = 22;
     WREG(14) = -380;
     WREG(15) = -350;
+#endif
+
     R_PAUSE_CURSOR_LEFT_X = -175;
     R_PAUSE_CURSOR_RIGHT_X = 155;
     R_PAUSE_CURSOR_LEFT_RIGHT_Y = 10;
@@ -493,18 +520,20 @@ void Regs_InitDataImpl(void) {
     WREG(33) = 60;
     WREG(35) = 0;
     WREG(36) = 0;
-    WREG(37) = 100;
-    WREG(38) = 99;
-    WREG(39) = 109;
+
+#if OOT_PAL
+    R_B_LABEL_SCALE(0) = 100;
+    R_B_LABEL_SCALE(1) = 99;
+    R_B_LABEL_SCALE(2) = 109;
     R_B_LABEL_X(0) = B_BUTTON_X - 9;
     R_B_LABEL_X(1) = B_BUTTON_X - 11;
     R_B_LABEL_X(2) = B_BUTTON_X - 12;
     R_B_LABEL_Y(0) = B_BUTTON_Y + 6;
     R_B_LABEL_Y(1) = B_BUTTON_Y + 5;
     R_B_LABEL_Y(2) = B_BUTTON_Y + 5;
-    WREG(46) = -380;
-    WREG(47) = -360;
-    WREG(48) = -350;
+    R_A_LABEL_Z(0) = -380;
+    R_A_LABEL_Z(1) = -360;
+    R_A_LABEL_Z(2) = -350;
     WREG(49) = -48;
     WREG(50) = 16;
     WREG(51) = -62;
@@ -523,6 +552,8 @@ void Regs_InitDataImpl(void) {
     WREG(64) = -37;
     WREG(65) = 30;
     WREG(66) = -50;
+#endif
+
     R_DGN_MINIMAP_X = 204;
     R_DGN_MINIMAP_Y = 140;
     WREG(87) = 80;
