@@ -1,9 +1,14 @@
 #include "z_kaleido_scope.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
+#if OOT_NTSC
+#include "assets/textures/icon_item_jpn_static/icon_item_jpn_static.h"
+#include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
+#else
 #include "assets/textures/icon_item_nes_static/icon_item_nes_static.h"
 #include "assets/textures/icon_item_ger_static/icon_item_ger_static.h"
 #include "assets/textures/icon_item_fra_static/icon_item_fra_static.h"
+#endif
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "terminal.h"
 
@@ -23,27 +28,45 @@ typedef enum {
 #define VTX_PAGE_MAP_WORLD_QUADS 32           // VTX_PAGE_MAP_WORLD
 #define VTX_PAGE_PROMPT_QUADS QUAD_PROMPT_MAX // VTX_PAGE_PROMPT
 
+#if OOT_NTSC
+
+// Japanese
+
+static void* sEquipmentJPNTexs[] = {
+    gPauseEquipment00Tex,    gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
+    gPauseEquipment10JPNTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
+    gPauseEquipment20Tex,    gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
+};
+static void* sSelectItemJPNTexs[] = {
+    gPauseSelectItem00JPNTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,    gPauseSelectItem10JPNTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20JPNTex, gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
+};
+static void* sMapJPNTexs[] = {
+    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
+    gPauseMap10JPNTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
+    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
+};
+static void* sQuestStatusJPNTexs[] = {
+    gPauseQuestStatus00JPNTex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex,    gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex,    gPauseQuestStatus10JPNTex, gPauseQuestStatus11Tex,    gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex,    gPauseQuestStatus14Tex,    gPauseQuestStatus20JPNTex, gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex,    gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
+};
+static void* sSaveJPNTexs[] = {
+    gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
+    gPauseSave10JPNTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
+    gPauseSave20Tex,    gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
+};
+#else
+
 // French
 
-static void* sEquipPageBgQuadsFRATexs[] = {
-    // column 1
-    gPauseEquipment00FRATex,
-    gPauseEquipment01Tex,
-    gPauseEquipment02Tex,
-    gPauseEquipment03Tex,
-    gPauseEquipment04Tex,
-    // column 2
-    gPauseEquipment10FRATex,
-    gPauseEquipment11Tex,
-    gPauseEquipment12Tex,
-    gPauseEquipment13Tex,
-    gPauseEquipment14Tex,
-    // column 3
-    gPauseEquipment20FRATex,
-    gPauseEquipment21Tex,
-    gPauseEquipment22Tex,
-    gPauseEquipment23Tex,
-    gPauseEquipment24Tex,
+static void* sEquipmentFRATexs[] = {
+    gPauseEquipment00FRATex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
+    gPauseEquipment10FRATex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
+    gPauseEquipment20FRATex, gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
 };
 static void* sItemPageBgQuadsFRATexs[] = {
     // column 1
@@ -228,6 +251,7 @@ static void* sSavePromptBgQuadsGERTexs[] = {
     gPauseSave23Tex,
     gPauseSave24Tex,
 };
+#endif
 
 // English
 
@@ -353,35 +377,20 @@ static void* sGameOverTexs[] = {
     gPauseSave24Tex,
 };
 
-static void* sEquipPageBgQuadsTexs[] = {
-    sEquipPageBgQuadsENGTexs,
-    sEquipPageBgQuadsGERTexs,
-    sEquipPageBgQuadsFRATexs,
-};
+static void* sEquipPageBgQuadsTexs[] =
+    LANGUAGE_ARRAY(sEquipmentJPNTexs, sEquipPageBgQuadsENGTexs, sEquipPageBgQuadsGERTexs, sEquipPageBgQuadsFRATexs);
 
-static void* sItemPageBgQuadsTexs[] = {
-    sItemPageBgQuadsENGTexs,
-    sItemPageBgQuadsGERTexs,
-    sItemPageBgQuadsFRATexs,
-};
+static void* sItemPageBgQuadsTexs[] =
+    LANGUAGE_ARRAY(sSelectItemJPNTexs, sItemPageBgQuadsENGTexs, sItemPageBgQuadsGERTexs, sItemPageBgQuadsFRATexs);
 
-static void* sMapPageBgQuadsTexs[] = {
-    sMapPageBgQuadsENGTexs,
-    sMapPageBgQuadsGERTexs,
-    sMapPageBgQuadsFRATexs,
-};
+static void* sMapPageBgQuadsTexs[] =
+    LANGUAGE_ARRAY(sMapJPNTexs, sMapPageBgQuadsENGTexs, sMapPageBgQuadsGERTexs, sMapPageBgQuadsFRATexs);
 
-static void* sQuestPageBgQuadsTexs[] = {
-    sQuestPageBgQuadsENGTexs,
-    sQuestPageBgQuadsGERTexs,
-    sQuestPageBgQuadsFRATexs,
-};
+static void* sQuestPageBgQuadsTexs[] =
+    LANGUAGE_ARRAY(sQuestStatusJPNTexs, sQuestPageBgQuadsENGTexs, sQuestPageBgQuadsGERTexs, sQuestPageBgQuadsFRATexs);
 
-static void* sSavePromptBgQuadsTexs[] = {
-    sSavePromptBgQuadsENGTexs,
-    sSavePromptBgQuadsGERTexs,
-    sSavePromptBgQuadsFRATexs,
-};
+static void* sSavePromptBgQuadsTexs[] =
+    LANGUAGE_ARRAY(sSaveJPNTexs, sSavePromptBgQuadsENGTexs, sSavePromptBgQuadsGERTexs, sSavePromptBgQuadsFRATexs);
 
 s16 gVtxPageMapWorldQuadsWidth[VTX_PAGE_MAP_WORLD_QUADS] = {
     32,  // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
@@ -713,28 +722,24 @@ static s16 sCursorColors[][3] = {
     { 0, 255, 50 },
 };
 
-static void* sSavePromptMessageTexs[] = {
-    gPauseSavePromptENGTex,
-    gPauseSavePromptGERTex,
-    gPauseSavePromptFRATex,
-};
+static void* sSavePromptMessageTexs[] =
+    LANGUAGE_ARRAY(gPauseSavePromptJPNTex, gPauseSavePromptENGTex, gPauseSavePromptGERTex, gPauseSavePromptFRATex);
 
-static void* sSaveConfirmationTexs[] = {
-    gPauseSaveConfirmationENGTex,
-    gPauseSaveConfirmationGERTex,
-    gPauseSaveConfirmationFRATex,
-};
+static void* sSaveConfirmationTexs[] = LANGUAGE_ARRAY(gPauseSaveConfirmationJPNTex, gPauseSaveConfirmationENGTex,
+                                                      gPauseSaveConfirmationGERTex, gPauseSaveConfirmationFRATex);
 
-static void* sContinuePromptTexs[] = {
-    gContinuePlayingENGTex,
-    gContinuePlayingGERTex,
-    gContinuePlayingFRATex,
-};
+static void* sContinuePromptTexs[] =
+    LANGUAGE_ARRAY(gContinuePlayingJPNTex, gContinuePlayingENGTex, gContinuePlayingGERTex, gContinuePlayingFRATex);
 
 static void* sPromptChoiceTexs[][2] = {
+#if OOT_NTSC
+    { gPauseYesJPNTex, gPauseNoJPNTex },
+    { gPauseYesENGTex, gPauseNoENGTex },
+#else
     { gPauseYesENGTex, gPauseNoENGTex },
     { gPauseYesGERTex, gPauseNoGERTex },
     { gPauseYesFRATex, gPauseNoFRATex },
+#endif
 };
 
 static u8 D_808321A8_savedButtonStatus[5];
@@ -1483,32 +1488,29 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 }
 
 void KaleidoScope_DrawInfoPanel(PlayState* play) {
-    static void* D_8082AD54_toEquipTextTextures_[3] = {
-        gPauseToEquipENGTex,
-        gPauseToEquipGERTex,
-        gPauseToEquipFRATex,
+    static void* D_8082AD54_toEquipTextTextures_[] =
+        LANGUAGE_ARRAY(gPauseToEquipJPNTex, gPauseToEquipENGTex, gPauseToEquipGERTex, gPauseToEquipFRATex);
+    static void* D_8082AD60_toDecideTextTextures_[] =
+        LANGUAGE_ARRAY(gPauseToDecideJPNTex, gPauseToDecideENGTex, gPauseToDecideGERTex, gPauseToDecideFRATex);
+    static void* D_8082AD6C_toPlayMelodyTextTextures_[] = LANGUAGE_ARRAY(
+        gPauseToPlayMelodyJPNTex, gPauseToPlayMelodyENGTex, gPauseToPlayMelodyGERTex, gPauseToPlayMelodyFRATex);
+    static void* D_8082AD78_scrollLeftLabels_[][LANGUAGE_MAX] = {
+        LANGUAGE_ARRAY(gPauseToEquipmentJPNTex, gPauseToEquipmentENGTex, gPauseToEquipmentGERTex,
+                       gPauseToEquipmentFRATex),
+        LANGUAGE_ARRAY(gPauseToSelectItemJPNTex, gPauseToSelectItemENGTex, gPauseToSelectItemGERTex,
+                       gPauseToSelectItemFRATex),
+        LANGUAGE_ARRAY(gPauseToMapJPNTex, gPauseToMapENGTex, gPauseToMapGERTex, gPauseToMapFRATex),
+        LANGUAGE_ARRAY(gPauseToQuestStatusJPNTex, gPauseToQuestStatusENGTex, gPauseToQuestStatusGERTex,
+                       gPauseToQuestStatusFRATex),
     };
-    static void* D_8082AD60_toDecideTextTextures_[3] = {
-        gPauseToDecideENGTex,
-        gPauseToDecideGERTex,
-        gPauseToDecideFRATex,
-    };
-    static void* D_8082AD6C_toPlayMelodyTextTextures_[3] = {
-        gPauseToPlayMelodyENGTex,
-        gPauseToPlayMelodyGERTex,
-        gPauseToPlayMelodyFRATex,
-    };
-    static void* D_8082AD78_scrollLeftLabels_[][3] = {
-        { gPauseToEquipmentENGTex, gPauseToEquipmentGERTex, gPauseToEquipmentFRATex },
-        { gPauseToSelectItemENGTex, gPauseToSelectItemGERTex, gPauseToSelectItemFRATex },
-        { gPauseToMapENGTex, gPauseToMapGERTex, gPauseToMapFRATex },
-        { gPauseToQuestStatusENGTex, gPauseToQuestStatusGERTex, gPauseToQuestStatusFRATex },
-    };
-    static void* D_8082ADA8_scrollRightLabels_[][3] = {
-        { gPauseToMapENGTex, gPauseToMapGERTex, gPauseToMapFRATex },
-        { gPauseToQuestStatusENGTex, gPauseToQuestStatusGERTex, gPauseToQuestStatusFRATex },
-        { gPauseToEquipmentENGTex, gPauseToEquipmentGERTex, gPauseToEquipmentFRATex },
-        { gPauseToSelectItemENGTex, gPauseToSelectItemGERTex, gPauseToSelectItemFRATex },
+    static void* D_8082ADA8_scrollRightLabels_[][LANGUAGE_MAX] = {
+        LANGUAGE_ARRAY(gPauseToMapJPNTex, gPauseToMapENGTex, gPauseToMapGERTex, gPauseToMapFRATex),
+        LANGUAGE_ARRAY(gPauseToQuestStatusJPNTex, gPauseToQuestStatusENGTex, gPauseToQuestStatusGERTex,
+                       gPauseToQuestStatusFRATex),
+        LANGUAGE_ARRAY(gPauseToEquipmentJPNTex, gPauseToEquipmentENGTex, gPauseToEquipmentGERTex,
+                       gPauseToEquipmentFRATex),
+        LANGUAGE_ARRAY(gPauseToSelectItemJPNTex, gPauseToSelectItemENGTex, gPauseToSelectItemGERTex,
+                       gPauseToSelectItemFRATex),
     };
     static u16 D_8082ADD8_toEquipTextWidth_[3] = { 56, 88, 80 };
     static u16 D_8082ADE0_toDecideTextWidth_[3] = { 64, 88, 72 };
@@ -1919,10 +1921,12 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                     pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                         pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
 
+#if OOT_PAL
                     if (gSaveContext.language == LANGUAGE_GER) {
                         pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                             pauseCtx->infoPanelVtx[16].v.ob[0] - 99;
                     }
+#endif
 
                     pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
                         pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADE8_toPlayMelodyTextWidth_[gSaveContext.language];
@@ -1990,12 +1994,15 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
             if ((pauseCtx->pageIndex == PAUSE_MAP) && !sInDungeonScene) {
                 // `texIndex` is a `WorldMapPoint` enum value
 
-                if (gSaveContext.language) { // != LANGUAGE_ENG
+                if (gSaveContext.language) { // != LANGUAGE_JPN for NTSC versions, LANGUAGE_ENG for PAL versions
                     texIndex += 12;
                 }
+
+#if OOT_PAL
                 if (gSaveContext.language == LANGUAGE_FRA) {
                     texIndex += 12;
                 }
+#endif
 
                 DMA_REQUEST_SYNC(pauseCtx->nameSegment,
                                  (uintptr_t)_map_name_staticSegmentRomStart + (texIndex * MAP_NAME_TEX1_SIZE),
@@ -2003,12 +2010,15 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
             } else {
                 PRINTF("zoom_name=%d\n", pauseCtx->namedItem);
 
-                if (gSaveContext.language) { // != LANGUAGE_ENG
+                if (gSaveContext.language) { // != LANGUAGE_JPN for NTSC versions, LANGUAGE_ENG for PAL versions
                     texIndex += 123;
                 }
+
+#if OOT_PAL
                 if (gSaveContext.language == LANGUAGE_FRA) {
                     texIndex += 123;
                 }
+#endif
 
                 PRINTF("J_N=%d  point=%d\n", gSaveContext.language, texIndex);
 
@@ -3627,6 +3637,17 @@ void KaleidoScope_Update(PlayState* play) {
 
             pauseCtx->iconItemLangSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemAltSegment + size2);
 
+#if OOT_NTSC
+            if (gSaveContext.language == LANGUAGE_JPN) {
+                size = (uintptr_t)_icon_item_jpn_staticSegmentRomEnd - (uintptr_t)_icon_item_jpn_staticSegmentRomStart;
+                DmaMgr_RequestSync(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_jpn_staticSegmentRomStart,
+                                   size);
+            } else {
+                size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
+                DmaMgr_RequestSync(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart,
+                                   size);
+            }
+#else
             if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
                 PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
@@ -3643,6 +3664,7 @@ void KaleidoScope_Update(PlayState* play) {
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart, size,
                                  "../z_kaleido_scope_PAL.c", 3753);
             }
+#endif
 
             pauseCtx->nameSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemLangSegment + size);
 
@@ -3654,6 +3676,21 @@ void KaleidoScope_Update(PlayState* play) {
             PRINTF("サイズ＝%x\n", size2 + playerSegmentDrawPauseSize + iconItemStaticSize + size + 0x800);
 
             if (((void)0, gSaveContext.worldMapArea) < WORLD_MAP_AREA_MAX) {
+#if OOT_NTSC
+                if (gSaveContext.language == LANGUAGE_JPN) {
+                    DmaMgr_RequestSync(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
+                                       (uintptr_t)_map_name_staticSegmentRomStart +
+                                           (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
+                                           24 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_JPN * MAP_NAME_TEX2_SIZE,
+                                       MAP_NAME_TEX2_SIZE);
+                } else {
+                    DmaMgr_RequestSync(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
+                                       (uintptr_t)_map_name_staticSegmentRomStart +
+                                           (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
+                                           24 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_ENG * MAP_NAME_TEX2_SIZE,
+                                       MAP_NAME_TEX2_SIZE);
+                }
+#else
                 if (gSaveContext.language == LANGUAGE_ENG) {
                     DMA_REQUEST_SYNC(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
                                      (uintptr_t)_map_name_staticSegmentRomStart +
@@ -3673,6 +3710,7 @@ void KaleidoScope_Update(PlayState* play) {
                                          36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_FRA * MAP_NAME_TEX2_SIZE,
                                      MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3784);
                 }
+#endif
             }
 
             sPreRenderCvg = (void*)ALIGN16((uintptr_t)pauseCtx->nameSegment +
@@ -4200,6 +4238,17 @@ void KaleidoScope_Update(PlayState* play) {
 
             pauseCtx->iconItemLangSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemAltSegment + size2);
 
+#if OOT_NTSC
+            if (gSaveContext.language == LANGUAGE_JPN) {
+                size = (uintptr_t)_icon_item_jpn_staticSegmentRomEnd - (uintptr_t)_icon_item_jpn_staticSegmentRomStart;
+                DmaMgr_RequestSync(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_jpn_staticSegmentRomStart,
+                                   size);
+            } else {
+                size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
+                DmaMgr_RequestSync(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart,
+                                   size);
+            }
+#else
             if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
                 PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
@@ -4216,6 +4265,7 @@ void KaleidoScope_Update(PlayState* play) {
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart, size,
                                  "../z_kaleido_scope_PAL.c", 4393);
             }
+#endif
 
             sColor82ABRed_D_8082AB8C = 255;
             sColor82ABGreen_D_8082AB90 = 130;

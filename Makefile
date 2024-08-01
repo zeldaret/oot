@@ -54,16 +54,17 @@ endif
 # Version-specific settings
 ifeq ($(VERSION),gc-us)
   DEBUG := 0
-  CPP_DEFINES += -DTEXT_LANGUAGE=TEXT_LANG_US_JP
+  COMPARE := 0
+  CPP_DEFINES += -DOOT_NTSC=1 -DOOT_PAL=0 -DOOT_MQ=0
 else ifeq ($(VERSION),gc-eu)
   DEBUG := 0
-  CPP_DEFINES += -DTEXT_LANGUAGE=TEXT_LANG_EU
+  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=0
 else ifeq ($(VERSION),gc-eu-mq)
   DEBUG := 0
-  CPP_DEFINES += -DTEXT_LANGUAGE=TEXT_LANG_EU -DOOT_MQ
+  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=1
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   DEBUG := 1
-  CPP_DEFINES += -DTEXT_LANGUAGE=TEXT_LANG_EU -DOOT_MQ
+  CPP_DEFINES += -DOOT_NTSC=0 -DOOT_PAL=1 -DOOT_MQ=1
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -451,7 +452,7 @@ $(BUILD_DIR)/assets/text/nes_message_data_static.o: $(BUILD_DIR)/assets/text/mes
 $(BUILD_DIR)/assets/text/ger_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.nes.h
 $(BUILD_DIR)/assets/text/fra_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.nes.h
 $(BUILD_DIR)/assets/text/staff_message_data_static.o: $(BUILD_DIR)/assets/text/message_data_staff.enc.nes.h
-$(BUILD_DIR)/src/code/z_message_PAL.o: assets/text/message_data.h assets/text/message_data_staff.h
+$(BUILD_DIR)/src/code/z_message.o: assets/text/message_data.h assets/text/message_data_staff.h
 
 $(BUILD_DIR)/assets/text/%.o: assets/text/%.c
 ifneq ($(COMPILER),gcc)
