@@ -98,7 +98,7 @@ extern u64 gMojiFontTex[]; // original name: "font_ff"
 extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
 extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
-extern void* gDebugCutsceneScript;
+
 extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern Mtx gMtxClear;
@@ -172,27 +172,36 @@ extern u8 gSequenceTable[];
 extern u8 gSampleBankTable[];
 
 extern SaveContext gSaveContext;
-extern RegEditor* gRegEditor;
 
+extern u8 gUseCutsceneCam;
+extern u16 D_8015FCCC;
+extern char D_8015FCD0[20];
+extern u8 D_8015FCE4;
 extern u16 gCamAtSplinePointsAppliedFrame;
 extern u16 gCamEyePointAppliedFrame;
 extern u16 gCamAtPointAppliedFrame;
-extern u8 gUseCutsceneCam;
 
+extern LightningStrike gLightningStrike;
+// TODO: These variables are here for BSS ordering but ideally they should not
+// be extern. This could be fixed by putting more stuff (e.g. struct definitions)
+// between gLightningStrike and gCustomLensFlareOn.
+extern s16 sLightningFlashAlpha;
+extern s16 sSunDepthTestX;
+extern s16 sSunDepthTestY;
 extern u8 gCustomLensFlareOn;
 extern Vec3f gCustomLensFlarePos;
 extern s16 gLensFlareScale;
 extern f32 gLensFlareColorIntensity;
 extern s16 gLensFlareGlareStrength;
-extern LightningStrike gLightningStrike;
 extern MapData* gMapData;
 extern f32 gBossMarkScale;
+extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
-extern s32 gTransitionTileState;
-extern Color_RGBA8_u32 gVisMonoColor;
+
 extern PreNmiBuff* gAppNmiBufferPtr;
-extern Scheduler gScheduler;
 extern uintptr_t gSegments[NUM_SEGMENTS];
+extern Scheduler gScheduler;
+extern PadMgr gPadMgr;
 extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
 extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
 extern volatile OSTime gRSPAudioTimeTotal;
@@ -204,6 +213,7 @@ extern volatile OSTime gAudioThreadUpdateTimeAcc;
 extern volatile OSTime gRSPAudioTimeAcc;
 extern volatile OSTime gRSPGfxTimeAcc;
 extern volatile OSTime gRSPOtherTimeAcc;
+extern volatile OSTime D_8016A578;
 extern volatile OSTime gRDPTimeAcc;
 
 extern SfxBankEntry D_8016BAD0[9];

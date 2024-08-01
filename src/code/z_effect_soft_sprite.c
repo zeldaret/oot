@@ -1,6 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 
+#include "z64frame_advance.h"
+
 EffectSsInfo sEffectSsInfo = { 0 }; // "EffectSS2Info"
 
 void EffectSs_InitInfo(PlayState* play, s32 tableSize) {

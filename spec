@@ -66,7 +66,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
-#if OOT_DEBUG
+#if OOT_DEBUG || COMPILER_GCC
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
@@ -150,8 +150,18 @@ beginseg
     include "$(BUILD_DIR)/baserom/Audiotable.o"
 endseg
 
+#if OOT_NTSC
+beginseg
+    name "kanji"
+    include "$(BUILD_DIR)/assets/textures/kanji/kanji.o"
+endseg
+#endif
+
 beginseg
     name "link_animetion"
+#if OOT_NTSC
+    romalign 0x1000
+#endif
     include "$(BUILD_DIR)/assets/misc/link_animetion/link_animetion.o"
     number 7
 endseg
@@ -194,6 +204,16 @@ beginseg
     number 12
 endseg
 
+#if OOT_NTSC
+beginseg
+    name "icon_item_jpn_static"
+    compress
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/textures/icon_item_jpn_static/icon_item_jpn_static.o"
+    number 13
+endseg
+#endif
+
 beginseg
     name "icon_item_nes_static"
     compress
@@ -202,6 +222,7 @@ beginseg
     number 13
 endseg
 
+#if OOT_PAL
 beginseg
     name "icon_item_ger_static"
     compress
@@ -217,6 +238,7 @@ beginseg
     include "$(BUILD_DIR)/assets/textures/icon_item_fra_static/icon_item_fra_static.o"
     number 13
 endseg
+#endif
 
 beginseg
     name "item_name_static"
@@ -256,14 +278,18 @@ endseg
 beginseg
     name "nes_font_static"
     romalign 0x1000
-#if OOT_DEBUG
     include "$(BUILD_DIR)/assets/textures/nes_font_static/nes_font_static.o"
-#else
-    // TODO: Remove this hack once assets are extracted from gc-eu-mq
-    include "$(BUILD_DIR)/baserom/nes_font_static.o"
-#endif
     number 10
 endseg
+
+#if OOT_NTSC
+beginseg
+    name "jpn_message_data_static"
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/text/jpn_message_data_static.o"
+    number 8
+endseg
+#endif
 
 beginseg
     name "nes_message_data_static"
@@ -272,6 +298,7 @@ beginseg
     number 7
 endseg
 
+#if OOT_PAL
 beginseg
     name "ger_message_data_static"
     romalign 0x1000
@@ -285,6 +312,7 @@ beginseg
     include "$(BUILD_DIR)/assets/text/fra_message_data_static.o"
     number 7
 endseg
+#endif
 
 beginseg
     name "staff_message_data_static"
@@ -318,6 +346,7 @@ beginseg
     name "code"
     compress
     after "dmadata"
+    align 0x20
     include "$(BUILD_DIR)/src/code/z_en_a_keep.o"
     include "$(BUILD_DIR)/src/code/z_en_item00.o"
     include "$(BUILD_DIR)/src/code/z_eff_blure.o"
@@ -436,6 +465,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/sys_cfb.o"
     include "$(BUILD_DIR)/src/code/sys_math.o"
     include "$(BUILD_DIR)/src/code/sys_math3d.o"
+#if OOT_DEBUG
+    include "$(BUILD_DIR)/src/code/sys_math3d_draw.o"
+#endif
     include "$(BUILD_DIR)/src/code/sys_math_atan.o"
     include "$(BUILD_DIR)/src/code/sys_matrix.o"
     include "$(BUILD_DIR)/src/code/sys_ucode.o"
@@ -447,15 +479,11 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/code/fault.o"
     include "$(BUILD_DIR)/src/code/fault_drawer.o"
-#ifndef NON_MATCHING
-    include "$(BUILD_DIR)/data/fault.bss.o"
-    include "$(BUILD_DIR)/data/fault_drawer.bss.o"
-#endif
     include "$(BUILD_DIR)/src/code/kanread.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
 #endif
-    pad_text // audio library aligned to 32 bytes?
+    pad_text // on GameCube, NTSC 1.0 and "0.9" prerelease
     include "$(BUILD_DIR)/src/audio/lib/data.o"
     include "$(BUILD_DIR)/src/audio/lib/synthesis.o"
     include "$(BUILD_DIR)/src/audio/lib/heap.o"
@@ -467,6 +495,9 @@ beginseg
     include "$(BUILD_DIR)/src/audio/lib/effects.o"
     include "$(BUILD_DIR)/src/audio/lib/seqplayer.o"
     include "$(BUILD_DIR)/src/audio/general.o"
+#if !OOT_DEBUG
+    pad_text // on retail GameCube
+#endif
     include "$(BUILD_DIR)/src/audio/sfx_params.o"
     include "$(BUILD_DIR)/src/audio/sfx.o"
     include "$(BUILD_DIR)/src/audio/sequence.o"
@@ -484,7 +515,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/code_800FC620.o"
     include "$(BUILD_DIR)/src/code/padutils.o"
     include "$(BUILD_DIR)/src/code/padsetup.o"
-    include "$(BUILD_DIR)/src/code/code_800FCE80.o"
+    include "$(BUILD_DIR)/src/code/fp_math.o"
     include "$(BUILD_DIR)/src/code/fp.o"
     include "$(BUILD_DIR)/src/code/system_malloc.o"
     include "$(BUILD_DIR)/src/code/rand.o"
@@ -532,6 +563,8 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/lookathil.o"
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+#endif
+#if !OOT_DEBUG && !COMPILER_GCC
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
@@ -595,8 +628,12 @@ beginseg
     include "$(BUILD_DIR)/src/code/fmodf.o"
     include "$(BUILD_DIR)/src/code/__osMemset.o"
     include "$(BUILD_DIR)/src/code/__osMemmove.o"
-    include_data_with_rodata "$(BUILD_DIR)/src/code/z_message_PAL.o"
-    include "$(BUILD_DIR)/src/code/z_game_over.o"
+    // For some reason, the data sections of these files are placed here near the
+    // rodata sections of the other files
+    include_data_only_within_rodata "$(BUILD_DIR)/src/code/z_message.o"
+    include_data_only_within_rodata "$(BUILD_DIR)/src/code/z_game_over.o"
+    include_no_data "$(BUILD_DIR)/src/code/z_message.o"
+    include_no_data "$(BUILD_DIR)/src/code/z_game_over.o"
     include "$(BUILD_DIR)/src/code/z_construct.o"
     include "$(BUILD_DIR)/data/audio_tables.rodata.o"
     include "$(BUILD_DIR)/data/rsp.text.o"
@@ -639,7 +676,7 @@ beginseg
     compress
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_nameset_data.o"
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o"
-    include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_nameset_PAL.o"
+    include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_nameset.o"
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/ovl_file_choose_reloc.o"
 endseg
@@ -651,11 +688,15 @@ beginseg
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_debug.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_equipment.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_item.o"
-    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_map_PAL.o"
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_map.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_prompt.o"
-    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark.o"
+#if !OOT_MQ
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data.o"
+#else
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data_mq.o"
+#endif
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
 endseg
 
@@ -669,7 +710,11 @@ endseg
 beginseg
     name "ovl_map_mark_data"
     compress
+#if !OOT_MQ
     include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data.o"
+#else
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/z_map_mark_data_mq.o"
+#endif
     include "$(BUILD_DIR)/src/overlays/misc/ovl_map_mark_data/ovl_map_mark_data_reloc.o"
 endseg
 
@@ -10491,7 +10536,7 @@ beginseg
     name "entra_scene"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/entra/entra_scene.o"
+    include "$(BUILD_DIR)/assets/scenes/misc/entra/entra_scene.o"
     number 2
 endseg
 
@@ -10499,7 +10544,7 @@ beginseg
     name "entra_room_0"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/entra/entra_room_0.o"
+    include "$(BUILD_DIR)/assets/scenes/misc/entra/entra_room_0.o"
     number 3
 endseg
 
@@ -10579,7 +10624,7 @@ beginseg
     name "ganon_tou_scene"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/dungeons/ganon_tou/ganon_tou_scene.o"
+    include "$(BUILD_DIR)/assets/scenes/overworld/ganon_tou/ganon_tou_scene.o"
     number 2
 endseg
 
@@ -10587,7 +10632,7 @@ beginseg
     name "ganon_tou_room_0"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/dungeons/ganon_tou/ganon_tou_room_0.o"
+    include "$(BUILD_DIR)/assets/scenes/overworld/ganon_tou/ganon_tou_room_0.o"
     number 3
 endseg
 
@@ -11643,7 +11688,7 @@ beginseg
     name "souko_scene"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_scene.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_scene.o"
     number 2
 endseg
 
@@ -11651,7 +11696,7 @@ beginseg
     name "souko_room_0"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_room_0.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_room_0.o"
     number 3
 endseg
 
@@ -11659,7 +11704,7 @@ beginseg
     name "souko_room_1"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_room_1.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_room_1.o"
     number 3
 endseg
 
@@ -11667,7 +11712,7 @@ beginseg
     name "souko_room_2"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/scenes/overworld/souko/souko_room_2.o"
+    include "$(BUILD_DIR)/assets/scenes/indoors/souko/souko_room_2.o"
     number 3
 endseg
 

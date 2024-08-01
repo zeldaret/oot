@@ -267,7 +267,7 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
-                    G_AC_NONE | G_ZS_PRIM | G_RM_PASS | G_RM_OPA_CI2);
+                    G_AC_NONE | G_ZS_PRIM | G_RM_OPA_CI | G_RM_OPA_CI2);
 
     // Set the combiner to draw the texture as-is, discarding alpha channel
     gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 0, 0, 0, 0, 0, 0, 0, TEXEL0, 0, 0, 0, 0);
@@ -659,11 +659,12 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
         }
     }
 
-    // The background color is determined by averaging the penultimate minimum and maximum pixels, and subtracting the
+    // The background color is determined by adding the penultimate minimum and maximum pixels, and subtracting the
     // ForeGround color:
-    //      BackGround = (pMax + pMin) - (ForeGround) * 2
+    //      BackGround = (pMax + pMin) - ForeGround
 
     // OutputColor = cvg * ForeGround + (1.0 - cvg) * BackGround
+    //             = ForeGround + (1.0 - cvg) * (BackGround - ForeGround)
     invCvg = 7 - buffCvg[7];
     outR = buffR[7] + ((s32)(invCvg * (pmaxR + pminR - (buffR[7] * 2)) + 4) >> 3);
     outG = buffG[7] + ((s32)(invCvg * (pmaxG + pminG - (buffG[7] * 2)) + 4) >> 3);

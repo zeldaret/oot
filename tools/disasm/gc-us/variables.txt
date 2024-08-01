@@ -1,0 +1,1 @@
+gSaveContext = 0x8011B148; // size:0x1428 type:SaveContext

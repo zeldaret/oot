@@ -15,7 +15,7 @@
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yRot;
-} EnfHGPainting; // size = 0x10;
+} EnfHGPainting; // size = 0x10
 
 typedef enum {
     /*  0 */ INTRO_WAIT,

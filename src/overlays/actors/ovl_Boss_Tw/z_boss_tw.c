@@ -3294,10 +3294,7 @@ void func_80941BC0(BossTw* this, PlayState* play) {
                                 (-this->work[CS_TIMER_2] * 2) & 0x3F, 0, 0x10, 0x10));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, (s16)this->workf[UNK_F9]);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
-    gDPSetRenderMode(POLY_XLU_DISP++,
-                     Z_CMP | IM_RD | CVG_DST_SAVE | ZMODE_DEC | FORCE_BL |
-                         GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),
-                     G_RM_ZB_OVL_SURF2);
+    gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_ZB_OVL_SURF2);
     gSPSetGeometryMode(POLY_XLU_DISP++, G_CULL_BACK | G_FOG);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaEffectHaloDL));
     Matrix_Pop();

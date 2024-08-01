@@ -50,6 +50,13 @@ void Interface_Init(PlayState* play) {
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
+#if OOT_NTSC
+    if (gSaveContext.language == LANGUAGE_JPN) {
+        doActionOffset = LANGUAGE_JPN * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+    } else {
+        doActionOffset = LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+    }
+#else
     if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
@@ -57,10 +64,18 @@ void Interface_Init(PlayState* play) {
     } else {
         doActionOffset = LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     }
+#endif
 
     DMA_REQUEST_SYNC(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
                      2 * DO_ACTION_TEX_SIZE, "../z_construct.c", 174);
 
+#if OOT_NTSC
+    if (gSaveContext.language == LANGUAGE_JPN) {
+        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_JPN * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+    } else {
+        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+    }
+#else
     if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
@@ -68,6 +83,7 @@ void Interface_Init(PlayState* play) {
     } else {
         doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     }
+#endif
 
     DMA_REQUEST_SYNC(interfaceCtx->doActionSegment + 2 * DO_ACTION_TEX_SIZE,
                      (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, DO_ACTION_TEX_SIZE,
@@ -312,6 +328,17 @@ void Regs_InitDataImpl(void) {
     R_C_BTN_COLOR(2) = 0;
     ZREG(46) = 1;
     ZREG(47) = 1;
+
+#if OOT_NTSC
+    R_START_LABEL_DD(0) = 86;
+    R_START_LABEL_DD(1) = 100;
+    R_START_LABEL_WIDTH = 0;
+    R_START_LABEL_HEIGHT = 0;
+    R_START_LABEL_Y(0) = 21;
+    R_START_LABEL_Y(1) = 20;
+    R_START_LABEL_X(0) = 122;
+    R_START_LABEL_X(1) = 120;
+#else
     R_START_LABEL_DD(0) = 100;
     R_START_LABEL_DD(1) = 89;
     R_START_LABEL_DD(2) = 92;
@@ -321,6 +348,8 @@ void Regs_InitDataImpl(void) {
     R_START_LABEL_X(0) = 120;
     R_START_LABEL_X(1) = 119;
     R_START_LABEL_X(2) = 119;
+#endif
+
     ZREG(61) = 1;
     R_C_UP_BTN_X = C_UP_BUTTON_X;
     R_C_UP_BTN_Y = C_UP_BUTTON_Y;
@@ -448,6 +477,18 @@ void Regs_InitDataImpl(void) {
     WREG(5) = 3;
     WREG(6) = 8;
     WREG(7) = 0;
+
+#if OOT_NTSC
+    R_B_LABEL_SCALE(0) = 100;
+    R_B_LABEL_SCALE(1) = 109;
+    R_B_LABEL_X(0) = 151;
+    R_B_LABEL_X(1) = 148;
+    R_B_LABEL_Y(0) = 23;
+    R_B_LABEL_Y(1) = 22;
+    R_A_LABEL_Z(0) = -380;
+    R_A_LABEL_Z(1) = -350;
+#else
+    // Same as above, although these regs are now unused in PAL versions
     WREG(8) = 100;
     WREG(9) = 109;
     WREG(10) = 151;
@@ -456,6 +497,8 @@ void Regs_InitDataImpl(void) {
     WREG(13) = 22;
     WREG(14) = -380;
     WREG(15) = -350;
+#endif
+
     WREG(16) = -175;
     WREG(17) = 155;
     WREG(18) = 10;
@@ -476,18 +519,20 @@ void Regs_InitDataImpl(void) {
     WREG(33) = 60;
     WREG(35) = 0;
     WREG(36) = 0;
-    WREG(37) = 100;
-    WREG(38) = 99;
-    WREG(39) = 109;
+
+#if OOT_PAL
+    R_B_LABEL_SCALE(0) = 100;
+    R_B_LABEL_SCALE(1) = 99;
+    R_B_LABEL_SCALE(2) = 109;
     R_B_LABEL_X(0) = B_BUTTON_X - 9;
     R_B_LABEL_X(1) = B_BUTTON_X - 11;
     R_B_LABEL_X(2) = B_BUTTON_X - 12;
     R_B_LABEL_Y(0) = B_BUTTON_Y + 6;
     R_B_LABEL_Y(1) = B_BUTTON_Y + 5;
     R_B_LABEL_Y(2) = B_BUTTON_Y + 5;
-    WREG(46) = -380;
-    WREG(47) = -360;
-    WREG(48) = -350;
+    R_A_LABEL_Z(0) = -380;
+    R_A_LABEL_Z(1) = -360;
+    R_A_LABEL_Z(2) = -350;
     WREG(49) = -48;
     WREG(50) = 16;
     WREG(51) = -62;
@@ -506,6 +551,8 @@ void Regs_InitDataImpl(void) {
     WREG(64) = -37;
     WREG(65) = 30;
     WREG(66) = -50;
+#endif
+
     R_DGN_MINIMAP_X = 204;
     R_DGN_MINIMAP_Y = 140;
     WREG(87) = 80;

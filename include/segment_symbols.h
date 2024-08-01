@@ -29,6 +29,11 @@ DECLARE_ROM_SEGMENT(Audiobank)
 DECLARE_ROM_SEGMENT(Audioseq)
 DECLARE_ROM_SEGMENT(Audiotable)
 
+#if OOT_NTSC
+DECLARE_SEGMENT(kanji)
+DECLARE_ROM_SEGMENT(kanji)
+#endif
+
 DECLARE_SEGMENT(link_animetion)
 DECLARE_ROM_SEGMENT(link_animetion)
 
@@ -37,9 +42,16 @@ DECLARE_ROM_SEGMENT(icon_item_24_static)
 DECLARE_ROM_SEGMENT(icon_item_field_static)
 DECLARE_ROM_SEGMENT(icon_item_dungeon_static)
 DECLARE_ROM_SEGMENT(icon_item_gameover_static)
+
+#if OOT_NTSC
+DECLARE_ROM_SEGMENT(icon_item_jpn_static)
+DECLARE_ROM_SEGMENT(icon_item_nes_static)
+#else
 DECLARE_ROM_SEGMENT(icon_item_nes_static)
 DECLARE_ROM_SEGMENT(icon_item_ger_static)
 DECLARE_ROM_SEGMENT(icon_item_fra_static)
+#endif
+
 DECLARE_ROM_SEGMENT(item_name_static)
 DECLARE_ROM_SEGMENT(map_name_static)
 DECLARE_ROM_SEGMENT(do_action_static)
@@ -47,12 +59,20 @@ DECLARE_ROM_SEGMENT(message_static)
 DECLARE_ROM_SEGMENT(message_texture_static)
 DECLARE_ROM_SEGMENT(nes_font_static)
 
+#if OOT_NTSC
+DECLARE_SEGMENT(jpn_message_data_static)
+DECLARE_ROM_SEGMENT(jpn_message_data_static)
+DECLARE_SEGMENT(nes_message_data_static)
+DECLARE_ROM_SEGMENT(nes_message_data_static)
+#else
 DECLARE_SEGMENT(nes_message_data_static)
 DECLARE_ROM_SEGMENT(nes_message_data_static)
 DECLARE_SEGMENT(ger_message_data_static)
 DECLARE_ROM_SEGMENT(ger_message_data_static)
 DECLARE_SEGMENT(fra_message_data_static)
 DECLARE_ROM_SEGMENT(fra_message_data_static)
+#endif
+
 DECLARE_SEGMENT(staff_message_data_static)
 DECLARE_ROM_SEGMENT(staff_message_data_static)
 
@@ -628,6 +648,7 @@ DECLARE_ROM_SEGMENT(spot20_room_0)
 
 DECLARE_ROM_SEGMENT(ganon_tou_room_0)
 
+#if OOT_DEBUG
 DECLARE_ROM_SEGMENT(test01_room_0)
 
 DECLARE_ROM_SEGMENT(besitu_room_0)
@@ -649,5 +670,6 @@ DECLARE_ROM_SEGMENT(testroom_room_1)
 DECLARE_ROM_SEGMENT(testroom_room_2)
 DECLARE_ROM_SEGMENT(testroom_room_3)
 DECLARE_ROM_SEGMENT(testroom_room_4)
+#endif
 
 #endif

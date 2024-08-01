@@ -3,6 +3,8 @@
 #include "z64camera.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
+
+#include "assets/scenes/overworld/ganon_tou/ganon_tou_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
@@ -24,7 +26,6 @@
 #include "assets/scenes/dungeons/ddan/ddan_scene.h"
 #include "assets/scenes/dungeons/ydan/ydan_scene.h"
 #include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
-#include "assets/scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 
@@ -118,6 +119,10 @@ void* sUnusedEntranceCsList[] = {
 u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
+
+// For retail BSS ordering, the block number of sReturnToCamId must be greater
+// than that of gCamAtPointAppliedFrame (declared in variables.h).
+#pragma increment_block_number 180
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
@@ -2226,11 +2231,15 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
 
         csCtx->curFrame++;
 
-        if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
+#if OOT_DEBUG
+        if (R_USE_DEBUG_CUTSCENE) {
             Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScript);
         } else {
             Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
         }
+#else
+        Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
+#endif
     }
 }
 

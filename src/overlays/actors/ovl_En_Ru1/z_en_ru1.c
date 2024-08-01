@@ -391,17 +391,17 @@ s32 EnRu1_UpdateSkelAnime(EnRu1* this) {
 }
 
 void func_80AEB364(EnRu1* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ;
+    AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80AEB3A4(EnRu1* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
+    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ;
     func_80AEB364(this, play);
 }
 
 void func_80AEB3CC(EnRu1* this) {
-    this->skelAnime.moveFlags &= ~ANIM_FLAG_0;
+    this->skelAnime.moveFlags &= ~ANIM_FLAG_UPDATE_XZ;
 }
 
 void func_80AEB3DC(EnRu1* this, PlayState* play) {
@@ -429,7 +429,7 @@ void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
     Actor* thisx = &this->actor;
 
     pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    pos.y = this->actor.world.pos.y + this->actor.depthInWater;
     pos.z = this->actor.world.pos.z;
     EffectSsGRipple_Spawn(play, &pos, 100, radiusMax, life);
 }
@@ -452,7 +452,7 @@ void EnRu1_SpawnSplash(EnRu1* this, PlayState* play) {
     Vec3f pos;
 
     pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    pos.y = this->actor.world.pos.y + this->actor.depthInWater;
     pos.z = this->actor.world.pos.z;
 
     EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 1, 0);
@@ -462,8 +462,8 @@ void func_80AEB6E0(EnRu1* this, PlayState* play) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
-        AnimationContext_SetMoveActor(play, &this->actor, skelAnime, 1.0f);
+        skelAnime->moveFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+        AnimTaskQueue_AddActorMove(play, &this->actor, skelAnime, 1.0f);
     }
 }
 
@@ -473,13 +473,13 @@ void func_80AEB738(EnRu1* this, PlayState* play) {
     skelAnime->baseTransl = skelAnime->jointTable[0];
     skelAnime->prevTransl = skelAnime->jointTable[0];
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
-        AnimationContext_SetMoveActor(play, &this->actor, skelAnime, 1.0f);
+        skelAnime->moveFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+        AnimTaskQueue_AddActorMove(play, &this->actor, skelAnime, 1.0f);
     }
 }
 
 void func_80AEB7D0(EnRu1* this) {
-    this->skelAnime.moveFlags &= ~(ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y);
+    this->skelAnime.moveFlags &= ~(ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y);
 }
 
 f32 func_80AEB7E0(CsCmdActorCue* cue, PlayState* play) {
@@ -1230,7 +1230,7 @@ s32 func_80AED624(EnRu1* this, PlayState* play) {
         Actor_Kill(&this->actor);
         return false;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (this->actor.yDistToWater > kREG(16) + 50.0f) && (this->action != 33)) {
+               (this->actor.depthInWater > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->alpha = 0xFF;
@@ -1460,7 +1460,7 @@ void func_80AEE050(EnRu1* this) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
-            this->unk_358 = (this->actor.yDistToWater - 10.0f) * 0.5f;
+            this->unk_358 = (this->actor.depthInWater - 10.0f) * 0.5f;
             this->unk_354 = this->actor.world.pos.y + thisx->unk_358; // thisx only used here
         } else {
             this->actor.gravity = 0.0f;
@@ -1593,7 +1593,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
             return;
         }
 
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->action = 29;
             this->unk_350 = 0;
         }

@@ -310,7 +310,7 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, PlayState* play) {
         }
 
         EffectSsGSplash_Spawn(play, &this->dyna.actor.world.pos, NULL, NULL, 1, 700);
-        this->collider.elements->dim.worldSphere.radius = 45;
+        this->collider.elements[0].dim.worldSphere.radius = 45;
         this->actionFunc = BgSpot06Objects_LockPullOutward;
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

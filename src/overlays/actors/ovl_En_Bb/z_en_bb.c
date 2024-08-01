@@ -1248,10 +1248,10 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
         this->actor.focus.pos = this->actor.world.pos;
-        this->collider.elements->dim.worldSphere.center.x = this->actor.world.pos.x;
-        this->collider.elements->dim.worldSphere.center.y =
+        this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
+        this->collider.elements[0].dim.worldSphere.center.y =
             this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y);
-        this->collider.elements->dim.worldSphere.center.z = this->actor.world.pos.z;
+        this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
 
         if ((this->action > BB_KILL) && ((this->actor.speed != 0.0f) || (this->action == BB_GREEN))) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

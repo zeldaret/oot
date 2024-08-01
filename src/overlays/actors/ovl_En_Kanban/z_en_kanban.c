@@ -440,7 +440,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             f32 tempX;
             f32 tempY;
             f32 tempZ;
-            f32 tempYDistToWater;
+            f32 tempDepthInWater;
 
             Actor_MoveXZGravity(&this->actor);
             Actor_UpdateBgCheckInfo(play, &this->actor, 30.0f, 30.0f, 50.0f,
@@ -450,7 +450,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             tempY = this->actor.world.pos.y;
             tempZ = this->actor.world.pos.z;
             tempBgFlags = this->actor.bgCheckFlags;
-            tempYDistToWater = this->actor.yDistToWater;
+            tempDepthInWater = this->actor.depthInWater;
 
             this->actor.world.pos.z += ((this->actor.world.pos.y - this->actor.floorHeight) * -50.0f) / 100.0f;
             Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 50.0f, UPDBGCHECKINFO_FLAG_2);
@@ -460,7 +460,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             this->actor.world.pos.y = tempY;
             this->actor.world.pos.z = tempZ;
             this->actor.bgCheckFlags = tempBgFlags;
-            this->actor.yDistToWater = tempYDistToWater;
+            this->actor.depthInWater = tempDepthInWater;
 
             PRINTF(VT_RST);
 
@@ -511,13 +511,13 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     this->actionState = ENKANBAN_WATER;
                     Actor_PlaySfx(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
                     this->bounceX = this->bounceZ = 0;
-                    this->actor.world.pos.y += this->actor.yDistToWater;
+                    this->actor.world.pos.y += this->actor.depthInWater;
                     EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 0, (this->partCount * 20) + 300);
                     EffectSsGRipple_Spawn(play, &this->actor.world.pos, 150, 650, 0);
                     EffectSsGRipple_Spawn(play, &this->actor.world.pos, 300, 800, 5);
                     this->actor.velocity.y = 0.0f;
                     this->actor.gravity = 0.0f;
-                    PRINTF(" WAT  Y  = %f\n", this->actor.yDistToWater);
+                    PRINTF(" WAT  Y  = %f\n", this->actor.depthInWater);
                     PRINTF(" POS  Y  = %f\n", this->actor.world.pos.y);
                     PRINTF(" GROUND Y  = %f\n", this->actor.floorHeight);
                     break;

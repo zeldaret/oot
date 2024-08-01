@@ -80,7 +80,7 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
     this->collider.dim.radius = 15;
     this->collider.dim.height = 70;
     switch (this->type) {
-        case HEISHI4_AT_KAKRIKO_ENTRANCE:
+        case HEISHI4_AT_KAKARIKO_ENTRANCE:
         case HEISHI4_AT_IMPAS_HOUSE:
             this->actionFunc = func_80A56328;
             break;
@@ -304,7 +304,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
     }
     if (MaskReaction_GetTextId(play, sMaskReactionSets[reactionOffset]) != 0) {
         if (this->unk_2B4 == 0) {
-            if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
+            if ((this->type == HEISHI4_AT_KAKARIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
                 this->actionFunc = func_80A563BC;
                 return;
             }
@@ -315,7 +315,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
         }
     } else {
         if (this->unk_2B4 != 0) {
-            if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
+            if ((this->type == HEISHI4_AT_KAKARIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
                 this->actionFunc = func_80A563BC;
                 return;
             }
@@ -326,7 +326,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
         }
     }
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
+        if ((this->type == HEISHI4_AT_KAKARIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
             this->unk_284 = 1;
             this->actionFunc = func_80A563BC;
             return;

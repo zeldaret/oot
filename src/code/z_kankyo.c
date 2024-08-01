@@ -1,8 +1,16 @@
 #include "global.h"
 #include "ultra64.h"
 #include "terminal.h"
+
+#include "z64frame_advance.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
+
+// For retail BSS ordering, the block number of sLensFlareUnused must be lower
+// than the extern variables declared in the header (e.g. gLightningStrike)
+// while the block number of sNGameOverLightNode must be higher.
+#pragma increment_block_number 80
 
 typedef enum {
     /* 0x00 */ LIGHTNING_BOLT_START,
@@ -183,7 +191,7 @@ f32 sSandstormLerpScale = 0.0f;
 
 u8 gCustomLensFlareOn;
 Vec3f gCustomLensFlarePos;
-s16 gLensFlareUnused;
+s16 sLensFlareUnused;
 s16 gLensFlareScale;
 f32 gLensFlareColorIntensity;
 s16 gLensFlareGlareStrength;
@@ -206,6 +214,11 @@ s16 sLightningFlashAlpha;
 
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
+
+// These variables could be moved farther down in the file to reduce the amount
+// of block number padding here, but currently this causes BSS ordering issues
+// for debug.
+#pragma increment_block_number 217
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
@@ -2059,30 +2072,30 @@ void Environment_PlaySceneSequence(PlayState* play) {
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, ((void)0, gSaveContext.forcedSeqId));
         }
         gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
-    } else if (play->sequenceCtx.seqId == NA_BGM_NO_MUSIC) {
-        if (play->sequenceCtx.natureAmbienceId == NATURE_ID_NONE) {
+    } else if (play->sceneSequences.seqId == NA_BGM_NO_MUSIC) {
+        if (play->sceneSequences.natureAmbienceId == NATURE_ID_NONE) {
             return;
         }
-        if (((void)0, gSaveContext.natureAmbienceId) != play->sequenceCtx.natureAmbienceId) {
-            Audio_PlayNatureAmbienceSequence(play->sequenceCtx.natureAmbienceId);
+        if (((void)0, gSaveContext.natureAmbienceId) != play->sceneSequences.natureAmbienceId) {
+            Audio_PlayNatureAmbienceSequence(play->sceneSequences.natureAmbienceId);
         }
-    } else if (play->sequenceCtx.natureAmbienceId == NATURE_ID_NONE) {
+    } else if (play->sceneSequences.natureAmbienceId == NATURE_ID_NONE) {
         // "BGM Configuration"
-        PRINTF("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", play->sequenceCtx.seqId,
+        PRINTF("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", play->sceneSequences.seqId,
                ((void)0, gSaveContext.seqId));
-        if (((void)0, gSaveContext.seqId) != play->sequenceCtx.seqId) {
-            Audio_PlaySceneSequence(play->sequenceCtx.seqId);
+        if (((void)0, gSaveContext.seqId) != play->sceneSequences.seqId) {
+            Audio_PlaySceneSequence(play->sceneSequences.seqId);
         }
     } else if (((void)0, gSaveContext.save.dayTime) >= CLOCK_TIME(7, 0) &&
                ((void)0, gSaveContext.save.dayTime) <= CLOCK_TIME(17, 10)) {
-        if (((void)0, gSaveContext.seqId) != play->sequenceCtx.seqId) {
-            Audio_PlaySceneSequence(play->sequenceCtx.seqId);
+        if (((void)0, gSaveContext.seqId) != play->sceneSequences.seqId) {
+            Audio_PlaySceneSequence(play->sceneSequences.seqId);
         }
 
         play->envCtx.timeSeqState = TIMESEQ_FADE_DAY_BGM;
     } else {
-        if (((void)0, gSaveContext.natureAmbienceId) != play->sequenceCtx.natureAmbienceId) {
-            Audio_PlayNatureAmbienceSequence(play->sequenceCtx.natureAmbienceId);
+        if (((void)0, gSaveContext.natureAmbienceId) != play->sceneSequences.natureAmbienceId) {
+            Audio_PlayNatureAmbienceSequence(play->sceneSequences.natureAmbienceId);
         }
 
         if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(17, 10) &&
@@ -2098,8 +2111,8 @@ void Environment_PlaySceneSequence(PlayState* play) {
 
     PRINTF("\n-----------------\n", ((void)0, gSaveContext.forcedSeqId));
     PRINTF("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.forcedSeqId)); // "Forced BGM"
-    PRINTF("\n     ＢＧＭ=[%d]", play->sequenceCtx.seqId);
-    PRINTF("\n     エンブ=[%d]", play->sequenceCtx.natureAmbienceId);
+    PRINTF("\n     ＢＧＭ=[%d]", play->sceneSequences.seqId);
+    PRINTF("\n     エンブ=[%d]", play->sceneSequences.natureAmbienceId);
     PRINTF("\n     status=[%d]", play->envCtx.timeSeqState);
 
     Audio_SetEnvReverb(play->roomCtx.curRoom.echo);
@@ -2113,7 +2126,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
 
             if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 && play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
                 PRINTF("\n\n\nNa_StartMorinigBgm\n\n");
-                Audio_PlayMorningSceneSequence(play->sequenceCtx.seqId);
+                Audio_PlayMorningSceneSequence(play->sceneSequences.seqId);
             }
 
             play->envCtx.timeSeqState++;
@@ -2139,7 +2152,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
 
         case TIMESEQ_EARLY_NIGHT_CRITTERS:
             if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 && play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
-                Audio_PlayNatureAmbienceSequence(play->sequenceCtx.natureAmbienceId);
+                Audio_PlayNatureAmbienceSequence(play->sceneSequences.natureAmbienceId);
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_1, 1);
             }
 
@@ -2208,7 +2221,7 @@ void Environment_DrawCustomLensFlare(PlayState* play) {
         pos.y = gCustomLensFlarePos.y;
         pos.z = gCustomLensFlarePos.z;
 
-        Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, gLensFlareUnused,
+        Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, sLensFlareUnused,
                                   gLensFlareScale, gLensFlareColorIntensity, gLensFlareGlareStrength, false);
     }
 }
@@ -2576,10 +2589,10 @@ s32 Environment_IsForcedSequenceDisabled(void) {
 }
 
 void Environment_PlayStormNatureAmbience(PlayState* play) {
-    if (play->sequenceCtx.natureAmbienceId == NATURE_ID_NONE) {
+    if (play->sceneSequences.natureAmbienceId == NATURE_ID_NONE) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_MARKET_NIGHT);
     } else {
-        Audio_PlayNatureAmbienceSequence(play->sequenceCtx.natureAmbienceId);
+        Audio_PlayNatureAmbienceSequence(play->sceneSequences.natureAmbienceId);
     }
 
     Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 1);

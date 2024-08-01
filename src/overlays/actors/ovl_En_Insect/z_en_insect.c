@@ -477,7 +477,7 @@ void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
         Math_StepToF(&this->actor.speed, 0.0f, 0.02f);
     }
     this->actor.velocity.y = 0.0f;
-    this->actor.world.pos.y += this->actor.yDistToWater;
+    this->actor.world.pos.y += this->actor.depthInWater;
     this->skelAnime.playSpeed = CLAMP(this->actionTimer * 0.018f, 0.1f, 1.9f);
 
     SkelAnime_Update(&this->skelAnime);
@@ -500,7 +500,7 @@ void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
 
     if (Rand_ZeroOne() < 0.03f) {
         ripplePoint.x = this->actor.world.pos.x;
-        ripplePoint.y = this->actor.world.pos.y + this->actor.yDistToWater;
+        ripplePoint.y = this->actor.world.pos.y + this->actor.depthInWater;
         ripplePoint.z = this->actor.world.pos.z;
         EffectSsGRipple_Spawn(play, &ripplePoint, 20, 100, 4);
         EffectSsGRipple_Spawn(play, &ripplePoint, 40, 200, 8);
@@ -537,7 +537,7 @@ void EnInsect_Drown(EnInsect* this, PlayState* play) {
     this->actor.shape.rot.y += 200;
     Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.00005f, 0.001f));
 
-    if (this->actor.yDistToWater > 5.0f && this->actor.yDistToWater < 30.0f && Rand_ZeroOne() < 0.3f) {
+    if (this->actor.depthInWater > 5.0f && this->actor.depthInWater < 30.0f && Rand_ZeroOne() < 0.3f) {
         EffectSsBubble_Spawn(play, &this->actor.world.pos, -5.0f, 5.0f, 5.0f, (Rand_ZeroOne() * 0.04f) + 0.02f);
     }
 

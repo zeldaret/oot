@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 /**
  * Computes one `x` modulo `y` for floats.

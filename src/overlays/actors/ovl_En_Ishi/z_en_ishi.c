@@ -443,7 +443,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         contactPos.x = this->actor.world.pos.x;
-        contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+        contactPos.y = this->actor.world.pos.y + this->actor.depthInWater;
         contactPos.z = this->actor.world.pos.z;
         EffectSsGSplash_Spawn(play, &contactPos, NULL, NULL, 0, 350);
         if (type == ROCK_SMALL) {

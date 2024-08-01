@@ -251,7 +251,7 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_CRY);
     }
 
-    if (this->actor.yDistToWater > -40.0f) {
+    if (this->actor.depthInWater > -40.0f) {
         this->aimRotX = -0x1000;
     } else if (this->actor.world.pos.y < (this->actor.home.pos.y - 50.0f)) {
         this->aimRotX = -0x800 - (Rand_ZeroOne() * 0x800);
@@ -277,7 +277,7 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
         this->timer--;
     }
     if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & PLAYER_STATE1_23) &&
-        (this->actor.yDistToWater < -40.0f) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
+        (this->actor.depthInWater < -40.0f) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
         EnCrow_SetupDiveAttack(this);
     }
 }
@@ -315,7 +315,7 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
 
     if ((this->timer == 0) || (Player_GetMask(play) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & AT_HIT) ||
         (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
-        (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
+        (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.depthInWater > -40.0f)) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
             Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_ATTACK);

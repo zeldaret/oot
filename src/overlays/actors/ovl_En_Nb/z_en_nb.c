@@ -83,7 +83,9 @@ static void* sEyeTextures[] = {
     gNabooruEyeClosedTex,
 };
 
+#if OOT_DEBUG
 static s32 D_80AB4318 = 0;
+#endif
 
 #include "z_en_nb_cutscene_data.inc.c"
 
@@ -754,8 +756,8 @@ void EnNb_InitDemo6KInConfrontation(EnNb* this, PlayState* play) {
 }
 
 void func_80AB2688(EnNb* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ;
+    AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80AB26C8(EnNb* this) {

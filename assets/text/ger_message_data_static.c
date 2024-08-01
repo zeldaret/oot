@@ -2,9 +2,16 @@
 
 #include "message_data_fmt.h"
 
-#define DEFINE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
-    const char _message_##textId##_ger[sizeof(gerMessage)] = { gerMessage END };
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    const char _message_##textId##_ger[] = gerMessage;
 
-#define DEFINE_MESSAGE_NES(textId, type, yPos, nesMessage)
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Present */ const char _message_##textId##_ger[] = gerMessage;
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Not Present */
 
-#include "assets/text/message_data.enc.h"
+// Font Message
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Not Present */
+
+#include "assets/text/message_data.enc.nes.h"

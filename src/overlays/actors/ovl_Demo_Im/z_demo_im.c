@@ -58,7 +58,9 @@ static void* sEyeTextures[] = {
     gImpaEyeClosedTex,
 };
 
+#if OOT_DEBUG
 static u32 D_8098783C = 0;
+#endif
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {

@@ -94,7 +94,7 @@ def read_s16(f: BinaryIO, offset: int) -> int:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Report data/bss reorderings between the baserom and the current build "
+        description="Report bss reorderings between the baserom and the current build "
         "by parsing relocations from the built object files and comparing their final values "
         "between the baserom and the current build. "
         "Assumes that the only differences are due to ordering and that the text sections of the "
@@ -111,6 +111,11 @@ def main():
         "--segment",
         type=str,
         help="ROM segment to check, e.g. 'boot', 'code', or 'ovl_player_actor' (default: all)",
+    )
+    parser.add_argument(
+        "--all-sections",
+        action="store_true",
+        help="Check ordering for all section types, not just .bss",
     )
 
     args = parser.parse_args()
@@ -131,6 +136,7 @@ def main():
         if not (
             mapfile_segment.name.startswith("..boot")
             or mapfile_segment.name.startswith("..code")
+            or mapfile_segment.name.startswith("..buffers")
             or mapfile_segment.name.startswith("..ovl_")
         ):
             continue
@@ -152,13 +158,15 @@ def main():
                     base_value = read_u32(base, file.vrom + reloc.offset_32)
                     build_value = read_u32(build, file.vrom + reloc.offset_32)
                 elif reloc.offset_hi16 is not None and reloc.offset_lo16 is not None:
-                    if read_u16(base, file.vrom + reloc.offset_hi16) != read_u16(
-                        build, file.vrom + reloc.offset_hi16
-                    ) or read_u16(base, file.vrom + reloc.offset_hi16) != read_u16(
-                        build, file.vrom + reloc.offset_hi16
+                    if (
+                        read_u16(base, file.vrom + reloc.offset_hi16)
+                        != read_u16(build, file.vrom + reloc.offset_hi16)
+                    ) or (
+                        read_u16(base, file.vrom + reloc.offset_lo16)
+                        != read_u16(build, file.vrom + reloc.offset_lo16)
                     ):
                         print(
-                            f"Error: Reference to {reloc.name} in {file.filepath} is in a shifted portion of the ROM.\n"
+                            f"Error: Reference to {reloc.name} in {file.filepath} is in a shifted (or non-matching even ignoring relocs) portion of the ROM.\n"
                             "Please ensure that the only differences between the baserom and the current build are due to data ordering.",
                             file=sys.stderr,
                         )
@@ -173,10 +181,9 @@ def main():
                 else:
                     assert False, "Invalid relocation"
 
-                if base_value != build_value:
-                    pointers.append(
-                        Pointer(reloc.name, reloc.addend, base_value, build_value)
-                    )
+                pointers.append(
+                    Pointer(reloc.name, reloc.addend, base_value, build_value)
+                )
 
     # Remove duplicates and sort by baserom address
     pointers = list({p.base_value: p for p in pointers}.values())
@@ -185,10 +192,26 @@ def main():
     # Go through sections and report differences
     for mapfile_segment in source_code_segments:
         for file in mapfile_segment:
+            if not args.all_sections and not file.sectionType == ".bss":
+                continue
+
             pointers_in_section = [
-                p for p in pointers if file.vram <= p.build_value < file.vram + file.size
+                p
+                for p in pointers
+                if file.vram <= p.build_value < file.vram + file.size
             ]
             if not pointers_in_section:
+                continue
+
+            # Try to detect if the section is shifted by comparing the lowest
+            # address among any pointer into the section between base and build
+            base_min_address = min(p.base_value for p in pointers_in_section)
+            build_min_address = min(p.build_value for p in pointers_in_section)
+            section_shift = build_min_address - base_min_address
+            if all(
+                p.build_value == p.base_value + section_shift
+                for p in pointers_in_section
+            ):
                 continue
 
             print(f"{file.filepath} {file.sectionType} is reordered:")

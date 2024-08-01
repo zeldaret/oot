@@ -342,7 +342,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
     }
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMB_EXPLOSION)) {
-        if (thisx->yDistToWater >= 20.0f) {
+        if (thisx->depthInWater >= 20.0f) {
             EffectSsDeadSound_SpawnStationary(play, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
                                               DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);

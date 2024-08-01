@@ -10,7 +10,7 @@ typedef struct {
 } Color_RGBA8;
 
 // only use when necessary for alignment purposes
-typedef union {
+typedef union Color_RGBA8_u32 {
     struct {
         u8 r, g, b, a;
     };
