@@ -764,6 +764,8 @@ Gfx* KaleidoScope_QuadTextureIA8(Gfx* gfx, void* texture, s16 width, s16 height,
 
 void KaleidoScope_OverridePalIndexCI4(u8* texture, s32 size, s32 targetIndex, s32 newIndex) {
     s32 i;
+    s32 index1;
+    s32 index2;
 
     targetIndex &= 0xF;
     newIndex &= 0xF;
@@ -773,9 +775,6 @@ void KaleidoScope_OverridePalIndexCI4(u8* texture, s32 size, s32 targetIndex, s3
     }
 
     for (i = 0; i < size; i++) {
-        s32 index1;
-        s32 index2;
-
         index1 = index2 = texture[i];
 
         index1 = (index1 >> 4) & 0xF;
@@ -880,7 +879,9 @@ void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
 
 void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     if ((pauseCtx->debugState == 0) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
+#if OOT_DEBUG
         pauseCtx->debugState = 1;
+#endif
         return;
     }
 
@@ -917,22 +918,22 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
 
 void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
     PauseContext* pauseCtx = &play->pauseCtx;
-    u16 temp;
+    s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 955);
 
-    temp = pauseCtx->mainState; // fake?
-
-    if ((((pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) || (temp == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
+    if (((((u32)pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) ||
+          (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
          (pauseCtx->state == PAUSE_STATE_MAIN)) ||
         ((pauseCtx->pageIndex == PAUSE_QUEST) &&
-         ((temp < PAUSE_MAIN_STATE_3) /* PAUSE_MAIN_STATE_IDLE, PAUSE_MAIN_STATE_SWITCHING_PAGE,
-                                         PAUSE_MAIN_STATE_SONG_PLAYBACK */
-          || (temp == PAUSE_MAIN_STATE_SONG_PROMPT) || (temp == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)))) {
+         ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) /* PAUSE_MAIN_STATE_IDLE, PAUSE_MAIN_STATE_SWITCHING_PAGE,
+                                                        PAUSE_MAIN_STATE_SONG_PLAYBACK */
+          || (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT) ||
+          (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)))) {
+        s16 i;
+        s16 j;
 
         if (pauseCtx->pageIndex == pageIndex) {
-            s16 i;
-            s16 j;
 
             // Draw PAUSE_QUAD_CURSOR_TL, PAUSE_QUAD_CURSOR_TR, PAUSE_QUAD_CURSOR_BL, PAUSE_QUAD_CURSOR_BR
 
@@ -1743,6 +1744,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                                                         ITEM_NAME_TEX_HEIGHT, 0);
         }
 
+#if OOT_DEBUG
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
                 PRINTF(VT_FGCOL(YELLOW));
@@ -1755,6 +1757,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                              gAreaGsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]]);
             }
         }
+#endif
 
         if ((pauseCtx->pageIndex == PAUSE_MAP) && !sInDungeonScene) {
             if (GET_GS_FLAGS(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) ==
@@ -2693,7 +2696,6 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 vtx_x_;
     s16 i;
-    s16 quadWidth;
     s16 j;
     s16 k;
     s16 vtx_y;
@@ -3102,7 +3104,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     pauseCtx->questVtx = GRAPH_ALLOC(gfxCtx, QUAD_QUEST_MAX * 4 * sizeof(Vtx));
 
     for (k = 0, j = 0; j < QUAD_QUEST_MAX; j++, k += 4) {
-        quadWidth = sQuestQuadsSize[j];
+        s16 quadWidth = sQuestQuadsSize[j];
 
         if ((j < QUEST_SONG_MINUET) || (j >= QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW)) {
             pauseCtx->questVtx[k + 0].v.ob[0] = pauseCtx->questVtx[k + 2].v.ob[0] = sQuestQuadsX[j];
@@ -4133,6 +4135,9 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
                         pauseCtx->rollRotSavePrompt_ = -434.0f;
                     }
+                    break;
+
+                default:
                     break;
             }
             break;

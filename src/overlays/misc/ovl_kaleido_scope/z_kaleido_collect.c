@@ -610,10 +610,10 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     }
 
     if (pauseCtx->state == PAUSE_STATE_MAIN) {
+        bufI += (QUAD_QUEST_SONG_NOTE_A1 - QUEST_HEART_PIECE) * 4;
+
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-
-        bufI += (QUAD_QUEST_SONG_NOTE_A1 - QUEST_HEART_PIECE) * 4;
 
         // Update cursor color
         if ((pauseCtx->cursorSpecialPos == 0) && (cursor >= QUEST_SONG_MINUET) && (cursor < QUEST_KOKIRI_EMERALD)) {
@@ -641,7 +641,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
 
             if (pauseCtx->ocarinaStaff->pos != 0) {
-                if (sPlayedSongBtnsNum + 1 == pauseCtx->ocarinaStaff->pos) {
+                if (sPlayedSongBtnsNum  == (pauseCtx->ocarinaStaff->pos-1)) {
                     sPlayedSongBtnsNum++;
                     sPlayedSongBtns[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->buttonIndex;
                 }
@@ -841,10 +841,10 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             }
 
             // Variable reused as a flag indicating all digits onwards should be displayed
-            nextCursorPoint = false;
+            cursorItem = false;
 
             for (bufI = 0; bufI < ARRAY_COUNT(gsTokensDigits); bufI++, j += 4) {
-                if ((bufI >= (ARRAY_COUNT(gsTokensDigits) - 1)) || (gsTokensDigits[bufI] != 0) || nextCursorPoint) {
+                if ((bufI >= (ARRAY_COUNT(gsTokensDigits) - 1)) || (gsTokensDigits[bufI] != 0) || cursorItem) {
                     gDPLoadTextureBlock(POLY_OPA_DISP++,
                                         ((u8*)gCounterDigit0Tex + (G_IM_SIZ_8b_BYTES * 8 * 16 * gsTokensDigits[bufI])),
                                         G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -852,7 +852,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
                     gSP1Quadrangle(POLY_OPA_DISP++, j, j + 2, j + 3, j + 1, 0);
 
-                    nextCursorPoint = true;
+                    cursorItem = true;
                 }
             }
         }
