@@ -190,6 +190,8 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
         source_code_segments.append(mapfile_segment)
 
     # Find all pointers with different values
+    if not sys.stdout.isatty():
+        print(f"Comparing pointers between baserom and build ...")
     pointers = []
     file_results = []
     with multiprocessing.Pool(
@@ -210,13 +212,15 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
         while True:
             time.sleep(0.010)
             num_files_done = sum(file_result.ready() for file_result in file_results)
-            print(
-                f"Comparing pointers between baserom and build ... {num_files_done:>{len(f'{num_files}')}}/{num_files}",
-                end="\r",
-            )
+            if sys.stdout.isatty():
+                print(
+                    f"Comparing pointers between baserom and build ... {num_files_done:>{len(f'{num_files}')}}/{num_files}",
+                    end="\r",
+                )
             if num_files_done == num_files:
                 break
-        print("")
+        if sys.stdout.isatty():
+            print("")
 
         # Collect results and check for errors
         for file_result in file_results:
