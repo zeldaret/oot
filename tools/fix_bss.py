@@ -118,7 +118,7 @@ def get_file_pointers(
     base: BinaryIO,
     build: BinaryIO,
 ) -> list[Pointer]:
-    pointers = list[Pointer]()
+    pointers = []
     # TODO: open each ELF file only once instead of once per section?
     for reloc in read_relocs(file.filepath, file.sectionType):
         if reloc.offset_32 is not None:
@@ -178,7 +178,7 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
     mapfile.readMapFile(mapfile_path)
 
     # Segments built from source code (filtering out assets)
-    source_code_segments = list[mapfile_parser.mapfile.Segment]()
+    source_code_segments = []
     for mapfile_segment in mapfile:
         if not (
             mapfile_segment.name.startswith("..boot")
@@ -190,9 +190,9 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
         source_code_segments.append(mapfile_segment)
 
     # Find all pointers with different values
-    pointers = list[Pointer]()
+    pointers = []
 
-    all_file_pointers = list[multiprocessing.pool.AsyncResult]()
+    all_file_pointers = []
     with multiprocessing.Pool(
         initializer=get_file_pointers_worker_init,
         initargs=(version,),
@@ -208,7 +208,7 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
 
         num_files = len(all_file_pointers)
         while all_file_pointers:
-            remaining_file_pointers = list[multiprocessing.pool.AsyncResult]()
+            remaining_file_pointers = []
             for file_pointers_async in all_file_pointers:
                 if file_pointers_async.ready():
                     file_pointers = file_pointers_async.get()
@@ -588,7 +588,7 @@ def main():
 
     pointers_by_file = compare_pointers(version)
 
-    files_with_reordering = list[Path]()
+    files_with_reordering = []
     for file, pointers in pointers_by_file.items():
         # Try to detect if the section is shifted by comparing the lowest
         # address among any pointer into the section between base and build
@@ -618,7 +618,7 @@ def main():
     make_log = generate_make_log(version)
 
     with multiprocessing.Pool() as p:
-        all_stdout_async = list[multiprocessing.pool.AsyncResult]()
+        all_stdout_async = []
         for file in files_to_fix:
             stdout_async = p.apply_async(
                 process_file_worker,
@@ -633,7 +633,7 @@ def main():
             all_stdout_async.append(stdout_async)
 
         while all_stdout_async:
-            remaining_stdout_async = list[multiprocessing.pool.AsyncResult]()
+            remaining_stdout_async = []
             for stdout_async in all_stdout_async:
                 if stdout_async.ready():
                     print("")
