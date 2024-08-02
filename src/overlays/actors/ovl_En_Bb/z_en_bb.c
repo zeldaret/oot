@@ -210,7 +210,7 @@ ActorProfile En_Bb_Profile = {
 static ColliderJntSphElementInit sJntSphElementInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -223,7 +223,7 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -351,7 +351,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
-                this->collider.elements[0].base.atDmgInfo.effect = 1;
+                this->collider.elements[0].base.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_1;
                 EnBb_SetupRed(play, this);
                 break;
             case ENBB_WHITE:

@@ -47,7 +47,7 @@ ActorProfile En_Bw_Profile = {
 
 static ColliderCylinderInit sCylinderInit1 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -55,7 +55,7 @@ static ColliderCylinderInit sCylinderInit1 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x01, 0x08 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -67,7 +67,7 @@ static ColliderCylinderInit sCylinderInit1 = {
 
 static ColliderCylinderInit sCylinderInit2 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -75,7 +75,7 @@ static ColliderCylinderInit sCylinderInit2 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -766,7 +766,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
             func_8002836C(play, &thisx->world.pos, &velocity, &accel, &sp50, &sp4C, 0x3C, 0, 0x14);
         }
         if (this->unk_248 <= 0.4f) {
-            this->collider1.elem.atDmgInfo.effect = 0;
+            this->collider1.elem.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_0;
             if (((play->gameplayFrames & 1) == 0) && (this->unk_220 < 5) && (this->unk_23C == 0)) {
                 accel.y = -0.1f;
                 velocity.x = Rand_CenteredFloat(4.0f);
@@ -786,7 +786,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
                               20.0f - (this->unk_248 * 40.0f));
             }
         } else {
-            this->collider1.elem.atDmgInfo.effect = 1;
+            this->collider1.elem.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_1;
         }
 
         this->unk_234 = Actor_TestFloorInDirection(thisx, play, 50.0f, thisx->world.rot.y);

@@ -157,7 +157,7 @@ ovl_En_Tg: Rom 00ECE1F0:00ECE910 VRam 80B18360:80B18A80 Offset 0005B0
 
 static ColliderCylinderInit sCylinderInit =
 {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { COL_MATERIAL_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 20, 64, 0, { 0, 0, 0 } },
 };
@@ -168,7 +168,7 @@ Copy this in below `D_80B18910`, delete the original words of data, change the n
 // sCylinderInit
 static ColliderCylinderInit D_80B18910 =
 {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { COL_MATERIAL_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 20, 64, 0, { 0, 0, 0 } },
 };
@@ -235,7 +235,7 @@ extern UNK_TYPE D_80A88164;
 extern ColliderCylinderInit D_80A88CB4;
 // static ColliderCylinderInit sCylinderInit =
 // {
-//     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+//     { COL_MATERIAL_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
 //     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000004, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
 //     { 170, 150, 0, { 0, 0, 0 } },
 // };
@@ -283,7 +283,7 @@ extern UNK_TYPE D_80A88164;
 
 static ColliderCylinderInit sCylinderInit =
 {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { COL_MATERIAL_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000004, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 170, 150, 0, { 0, 0, 0 } },
 };
@@ -505,7 +505,7 @@ ActorInit En_Jj_InitVars = {
 
 static ColliderCylinderInit sCylinderInit =
 {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { COL_MATERIAL_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000004, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 170, 150, 0, { 0, 0, 0 } },
 };
@@ -615,7 +615,7 @@ s32 usused2[] = { 0, 0 };
 
 static ColliderCylinderInit sCylinderInit =
 {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { COL_MATERIAL_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000004, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 170, 150, 0, { 0, 0, 0 } },
 };

@@ -42,7 +42,7 @@ ActorProfile En_Bili_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT8,
+        COL_MATERIAL_HIT8,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -50,7 +50,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x03, 0x08 },
         { 0xFFCFFFFF, 0x01, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
@@ -141,7 +141,7 @@ void EnBili_Destroy(Actor* thisx, PlayState* play) {
 
 void EnBili_SetupFloatIdle(EnBili* this) {
     this->actor.speed = 0.7f;
-    this->collider.elem.acDmgInfo.effect = 1; // Shock?
+    this->collider.elem.acDmgInfo.playerATHitReaction = PLAYER_AT_HIT_REACTION_1; // Shock?
     this->timer = 32;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.gravity = 0.0f;
@@ -237,7 +237,7 @@ void EnBili_SetupDie(EnBili* this) {
  */
 void EnBili_SetupStunned(EnBili* this) {
     this->timer = 80;
-    this->collider.elem.acDmgInfo.effect = 0;
+    this->collider.elem.acDmgInfo.playerATHitReaction = PLAYER_AT_HIT_REACTION_0;
     this->actor.gravity = -1.0f;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);

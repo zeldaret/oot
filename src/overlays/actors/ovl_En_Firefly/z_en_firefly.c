@@ -49,7 +49,7 @@ ActorProfile En_Firefly_Profile = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_HARD,
@@ -62,7 +62,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -118,7 +118,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnFirefly_Extinguish(EnFirefly* this) {
     this->actor.params += 2;
-    this->collider.elements[0].base.atDmgInfo.effect = 0; // None
+    this->collider.elements[0].base.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_0; // None
     this->auraType = KEESE_AURA_NONE;
     this->onFire = false;
     this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
@@ -130,7 +130,7 @@ void EnFirefly_Ignite(EnFirefly* this) {
     } else {
         this->actor.params -= 2;
     }
-    this->collider.elements[0].base.atDmgInfo.effect = 1; // Fire
+    this->collider.elements[0].base.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_1; // Fire
     this->auraType = KEESE_AURA_FIRE;
     this->onFire = true;
     this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
@@ -174,10 +174,10 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         }
 
         if (this->actor.params == KEESE_ICE_FLY) {
-            this->collider.elements[0].base.atDmgInfo.effect = 2; // Ice
+            this->collider.elements[0].base.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_2; // Ice
             this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
-            this->collider.elements[0].base.atDmgInfo.effect = 0; // Nothing
+            this->collider.elements[0].base.atDmgInfo.playerACHitReaction = PLAYER_AC_HIT_REACTION_0; // Nothing
             this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
 
