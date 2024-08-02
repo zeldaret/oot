@@ -58,7 +58,7 @@ typedef struct EnGeldB {
     /* 0x0314 */ s16 keyFlag;
     /* 0x0316 */ char unk_316[2];
     /* 0x0318 */ s16 invisible;
-    /* 0x031A */ u8 blinkState;
+    /* 0x031A */ u8 eyes;
     /* 0x031C */ s32 blureIndex;
     /* 0x0320 */ ColliderCylinder bodyCollider;
     /* 0x036C */ ColliderQuad swordCollider;

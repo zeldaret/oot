@@ -8,9 +8,6 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play);
 void EnMa2_Update(Actor* thisx, PlayState* play);
 void EnMa2_Draw(Actor* thisx, PlayState* play);
 
-void func_80AA1AE4(EnMa2* this, PlayState* play);
-s32 func_80AA1C68(EnMa2* this);
-void EnMa2_UpdateEyes(EnMa2* this);
 void func_80AA1DB4(EnMa2* this, PlayState* play);
 void func_80AA2018(EnMa2* this, PlayState* play);
 void func_80AA204C(EnMa2* this, PlayState* play);
@@ -28,6 +25,18 @@ ActorInit En_Ma2_InitVars = {
     /**/ EnMa2_Update,
     /**/ EnMa2_Draw,
 };
+
+typedef enum {
+    /* 0 */ ADULT_MALON_EYE_OPEN,
+    /* 1 */ ADULT_MALON_EYE_HALF,
+    /* 2 */ ADULT_MALON_EYE_CLOSED
+} AdultMalonEye;
+
+typedef enum {
+    /* 0 */ ADULT_MALON_MOUTH_NEUTRAL,
+    /* 1 */ ADULT_MALON_MOUTH_SAD,
+    /* 2 */ ADULT_MALON_MOUTH_HAPPY
+} AdultMalonMouth;
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -50,6 +59,12 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
+
+typedef enum {
+    /* 0 */ MALON_ADULT_MOUTH_NEUTRAL,
+    /* 1 */ MALON_ADULT_MOUTH_SAD,
+    /* 2 */ MALON_ADULT_MOUTH_HAPPY
+} EnMa2MouthState;
 
 typedef enum {
     /* 0 */ ENMA2_ANIM_0,
@@ -96,6 +111,8 @@ s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
                     SET_INFTABLE(INFTABLE_8C);
                     talkState = NPC_TALK_STATE_ACTION;
                     break;
+                //! @bug Unreachable code - this text ID is for "This statue's one-eyed gaze pierces into your mind...",
+                //! which belongs to gossip stones, not Malon 2
                 case 0x2053:
                     SET_INFTABLE(INFTABLE_8D);
                     talkState = NPC_TALK_STATE_IDLE;
@@ -118,7 +135,7 @@ s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
     return talkState;
 }
 
-void func_80AA1AE4(EnMa2* this, PlayState* play) {
+void EnMa2_UpdateTracking(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
@@ -134,7 +151,7 @@ void func_80AA1AE4(EnMa2* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
 
-u16 func_80AA1B58(EnMa2* this, PlayState* play) {
+u16 EnMa2_CheckState(EnMa2* this, PlayState* play) {
     if (LINK_IS_CHILD) {
         return 0;
     }
@@ -158,7 +175,12 @@ u16 func_80AA1B58(EnMa2* this, PlayState* play) {
     return 0;
 }
 
-s32 func_80AA1C68(EnMa2* this) {
+/**
+ * Set face textures based on current actor state, and determine whether the blink code is allowed to run
+ *
+ * @return 1 for 'face is busy', 0 if not
+ */
+s32 EnMa2_UpdateFaceAndCheckIfBusy(EnMa2* this) {
     if (this->skelAnime.animation != &gMalonAdultSingAnim) {
         return 0;
     }
@@ -166,19 +188,19 @@ s32 func_80AA1C68(EnMa2* this) {
         return 0;
     }
     this->blinkTimer = 0;
-    if (this->eyeIndex != 2) {
+    if (this->eyes != ADULT_MALON_EYE_CLOSED) {
         return 0;
     }
-    this->mouthIndex = 2;
+    this->mouth = ADULT_MALON_MOUTH_HAPPY;
     return 1;
 }
 
 void EnMa2_UpdateEyes(EnMa2* this) {
-    if ((!func_80AA1C68(this)) && (DECR(this->blinkTimer) == 0)) {
-        this->eyeIndex++;
-        if (this->eyeIndex >= 3) {
+    if ((!EnMa2_UpdateFaceAndCheckIfBusy(this)) && (DECR(this->blinkTimer) == 0)) {
+        this->eyes++;
+        if (this->eyes >= 3) { // check if we've moved beyond 'blink' indices
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIndex = 0;
+            this->eyes = ADULT_MALON_EYE_OPEN;
         }
     }
 }
@@ -218,7 +240,7 @@ void EnMa2_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
-    switch (func_80AA1B58(this, play)) {
+    switch (EnMa2_CheckState(this, play)) {
         case 1:
             EnMa2_ChangeAnim(this, ENMA2_ANIM_2);
             this->actionFunc = func_80AA2018;
@@ -317,7 +339,7 @@ void EnMa2_Update(Actor* thisx, PlayState* play) {
     EnMa2_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AA1DB4(this, play);
-    func_80AA1AE4(this, play);
+    EnMa2_UpdateTracking(this, play);
     if (this->actionFunc != func_80AA20E4) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                           EnMa2_GetTextId, EnMa2_UpdateTalkState);
@@ -383,8 +405,8 @@ void EnMa2_Draw(Actor* thisx, PlayState* play) {
     Audio_UpdateMalonSinging(distFromCamEye, NA_BGM_LONLON);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouth]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyes]));
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, this);

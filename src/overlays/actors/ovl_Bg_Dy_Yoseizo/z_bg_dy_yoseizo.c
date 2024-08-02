@@ -25,6 +25,12 @@ typedef enum {
     /* 2 */ FAIRY_SPELL_NAYRUS_LOVE
 } BgDyYoseizoSpellType;
 
+typedef enum {
+    /* 0 */ GREAT_FAIRY_EYE_OPEN,
+    /* 1 */ GREAT_FAIRY_EYE_HALF,
+    /* 2 */ GREAT_FAIRY_EYE_CLOSED
+} GreatFairyEye;
+
 void BgDyYoseizo_Init(Actor* thisx, PlayState* play2);
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play);
 void BgDyYoseizo_Update(Actor* thisx, PlayState* play2);
@@ -848,10 +854,10 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     }
 
     if ((this->blinkTimer == 0) && (this->actionFunc != BgDyYoseizo_HealPlayer_NoReward)) {
-        this->eyeState++;
-        this->eyeState2++;
-        if (this->eyeState >= 3) {
-            this->eyeState = this->eyeState2 = 0;
+        this->eye++;
+        this->eye2++;
+        if (this->eye >= 3) { // check if we've moved beyond 'blink' indices
+            this->eye = this->eye2 = GREAT_FAIRY_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
@@ -896,11 +902,11 @@ void BgDyYoseizo_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc != BgDyYoseizo_Vanish) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeState]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eye]));
 
         // This was probably intended to allow this actor to wink, but segment 09 is not used in the dList for the head,
         // so it can only blink
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeState2]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eye2]));
 
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthState]));
 

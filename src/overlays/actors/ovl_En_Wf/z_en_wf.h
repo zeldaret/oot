@@ -73,7 +73,7 @@ typedef struct EnWf {
     /* 0x02FC */ s16 switchFlag;
     /* 0x02FE */ s16 runAngle;
     /* 0x0300 */ s16 unk_300; // Set, but ineffectual (see comment in Draw)
-    /* 0x0302 */ u8 eyeIndex;
+    /* 0x0302 */ u8 eyes;
     /* 0x0304 */ ColliderJntSph colliderSpheres;
     /* 0x0324 */ ColliderJntSphElement colliderSpheresElements[4];
     /* 0x0424 */ ColliderCylinder colliderCylinderBody;

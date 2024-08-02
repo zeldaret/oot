@@ -39,6 +39,12 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Hide(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Return(EnDntJiji* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ SCRUB_LEADER_EYE_OPEN,
+    /* 1 */ SCRUB_LEADER_EYE_HALF,
+    /* 2 */ SCRUB_LEADER_EYE_CLOSED
+} ScrubLeaderEye;
+
 ActorInit En_Dnt_Jiji_InitVars = {
     /**/ ACTOR_EN_DNT_JIJI,
     /**/ ACTORCAT_NPC,
@@ -410,9 +416,9 @@ void EnDntJiji_Update(Actor* thisx, PlayState* play) {
         this->stageSignal = DNT_LEADER_SIGNAL_NONE;
     }
     if (this->blinkTimer == 0) {
-        this->eyeState++;
-        if (this->eyeState > 2) {
-            this->eyeState = 0;
+        this->eyes++;
+        if (this->eyes > 2) { // check if we've moved beyond 'blink' indices
+            this->eyes = SCRUB_LEADER_EYE_OPEN;
             this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
@@ -434,7 +440,7 @@ void EnDntJiji_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dnt_jiji.c", 1019);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Push();
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->eyeState]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->eyes]));
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, this);
     Matrix_Pop();
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);

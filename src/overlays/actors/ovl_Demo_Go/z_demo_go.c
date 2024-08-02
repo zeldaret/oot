@@ -26,6 +26,12 @@ void func_8097D130(DemoGo* this, PlayState* play);
 void func_8097D290(DemoGo* this, PlayState* play);
 void func_8097D29C(DemoGo* this, PlayState* play);
 
+typedef enum {
+    /* 0 */ GORON_EYE_OPEN,
+    /* 1 */ GORON_EYE_HALF,
+    /* 2 */ GORON_EYE_CLOSED
+} GoronEye;
+
 static void* sEyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
 
 static DemoGoActionFunc D_8097D44C[] = {
@@ -88,17 +94,17 @@ void DemoGo_Destroy(Actor* thisx, PlayState* play) {
     SkelAnime_Free(&this->skelAnime, play);
 }
 
-void func_8097C930(DemoGo* this) {
-    s16* something = &this->unk_192;
-    s16* other = &this->unk_190;
+void DemoGo_UpdateBlink(DemoGo* this) {
+    s16* timer = &this->blinkTimer;
+    s16* eyes = &this->eyes;
     s32 pad[3];
 
-    if (DECR(*something) == 0) {
-        *something = Rand_S16Offset(60, 60);
+    if (DECR(*timer) == 0) {
+        *timer = Rand_S16Offset(60, 60);
     }
-    *other = *something;
-    if (*other >= 3) {
-        *other = 0;
+    *eyes = *timer;
+    if (*eyes >= 3) { // check if we've moved beyond 'blink' indices
+        *eyes = GORON_EYE_OPEN;
     }
 }
 
@@ -294,7 +300,7 @@ void func_8097D088(DemoGo* this, PlayState* play) {
 
     func_8097CA30(this, play);
     something = DemoGo_UpdateSkelAnime(this);
-    func_8097C930(this);
+    DemoGo_UpdateBlink(this);
     func_8097CF20(this, play, something);
 }
 
@@ -303,7 +309,7 @@ void func_8097D0D0(DemoGo* this, PlayState* play) {
     func_8097CCC0(this);
     func_8097CA30(this, play);
     DemoGo_UpdateSkelAnime(this);
-    func_8097C930(this);
+    DemoGo_UpdateBlink(this);
     func_8097C9DC(this);
     func_8097CF9C(this);
 }
@@ -312,7 +318,7 @@ void func_8097D130(DemoGo* this, PlayState* play) {
     func_8097CC08(this);
     func_8097CA30(this, play);
     DemoGo_UpdateSkelAnime(this);
-    func_8097C930(this);
+    DemoGo_UpdateBlink(this);
     func_8097C9DC(this);
 }
 
@@ -341,9 +347,9 @@ void func_8097D290(DemoGo* this, PlayState* play) {
 
 void func_8097D29C(DemoGo* this, PlayState* play) {
     s32 pad;
-    s16 eyeTexIdx = this->unk_190;
+    s16 eyes = this->eyes;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* eyeTexture = sEyeTextures[eyeTexIdx];
+    void* eyeTexture = sEyeTextures[eyes];
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_go.c", 732);

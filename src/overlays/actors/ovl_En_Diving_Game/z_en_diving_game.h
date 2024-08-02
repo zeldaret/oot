@@ -20,10 +20,10 @@ typedef struct EnDivingGame {
     /* 0x0292 */ s16 unk_292;
     /* 0x0294 */ s16 subCamTimer;
     /* 0x0296 */ s16 unk_296; // read by ExRuppy // timer?
-    /* 0x0298 */ s16 eyeTimer;
+    /* 0x0298 */ s16 blinkTimer;
     /* 0x029A */ s16 spawnRuppyTimer;
     /* 0x029C */ s16 phase;
-    /* 0x029E */ s16 eyeTexIndex;
+    /* 0x029E */ s16 eyes;
     /* 0x02A0 */ s16 subCamId;
     /* 0x02A2 */ s16 unk_2A2; // 0: , 1: , 2: Tells rupees to sink in water
     /* 0x02A4 */ s16 grabbedRupeesCounter;
