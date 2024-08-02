@@ -48,7 +48,7 @@ def read_s16(f: BinaryIO, offset: int) -> int:
 
 
 def fail(message: str):
-    print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}", file=sys.stderr)
+    print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}")
     sys.exit(1)
 
 
@@ -220,9 +220,8 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
             print(
                 f"Comparing pointers between baserom and build ... {num_files_done:>{len(f'{num_files}')}}/{num_files}",
                 end="\r",
-                file=sys.stderr,
             )
-    print("", file=sys.stderr)
+    print("")
 
     # Remove duplicates and sort by baserom address
     pointers = list({p.base_value: p for p in pointers}.values())
@@ -492,41 +491,36 @@ def process_file(
     dry_run: bool,
     version: str,
 ):
-    print(
-        f"{colorama.Fore.CYAN}Processing {file} ...{colorama.Fore.RESET}",
-        file=sys.stderr,
-    )
+    print(f"{colorama.Fore.CYAN}Processing {file} ...{colorama.Fore.RESET}")
 
     command_line = find_compiler_command_line(make_log, file)
-    if not command_line:
+    if command_line is None:
         fail(f"Error: could not determine compiler command line for {file}")
+        return
 
-    print(f"Compiler command: {shlex.join(command_line)}", file=sys.stderr)
+    print(f"Compiler command: {shlex.join(command_line)}")
     symbol_table, ucode = run_cfe(command_line, keep_files=False)
 
     bss_variables = find_bss_variables(symbol_table, ucode)
-    print("BSS variables:", file=sys.stderr)
+    print("BSS variables:")
     for var in bss_variables:
         i = var.block_number
         print(
-            f"  {i:>6} [{i%256:>3}]: size=0x{var.size:04X} align=0x{var.align:X} {var.name}",
-            file=sys.stderr,
+            f"  {i:>6} [{i%256:>3}]: size=0x{var.size:04X} align=0x{var.align:X} {var.name}"
         )
 
     build_bss_symbols = predict_bss_ordering(bss_variables)
-    print("Current build BSS ordering:", file=sys.stderr)
+    print("Current build BSS ordering:")
     for symbol in build_bss_symbols:
         print(
-            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}",
-            file=sys.stderr,
+            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}"
         )
 
     base_bss_symbols = determine_base_bss_ordering(build_bss_symbols, pointers)
-    print("Baserom BSS ordering:", file=sys.stderr)
+    print("Baserom BSS ordering:")
     for symbol in base_bss_symbols:
         print(
-            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}",
-            file=sys.stderr,
+            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}"
         )
 
     pragmas = find_pragmas(symbol_table)
@@ -538,31 +532,29 @@ def process_file(
             f"Error: too many increment_block_number pragmas found in {file} (found {len(pragmas)}, max {max_pragmas})"
         )
 
-    print("Solving BSS ordering ...", file=sys.stderr)
+    print("Solving BSS ordering ...")
     new_pragmas = solve_bss_ordering(pragmas, bss_variables, base_bss_symbols)
-    print("New increment_block_number amounts:", file=sys.stderr)
+    print("New increment_block_number amounts:")
     for pragma in new_pragmas:
-        print(f"  line {pragma.line_number}: {pragma.amount}", file=sys.stderr)
+        print(f"  line {pragma.line_number}: {pragma.amount}")
 
     if not dry_run:
         update_source_file(version, file, new_pragmas)
-        print(
-            f"{colorama.Fore.GREEN}Updated {file}{colorama.Fore.RESET}", file=sys.stderr
-        )
+        print(f"{colorama.Fore.GREEN}Updated {file}{colorama.Fore.RESET}")
 
 
 def process_file_worker(*x):
-    ini_stderr = sys.stderr
-    fake_stderr = io.StringIO()
+    old_stdout = sys.stdout
+    fake_stdout = io.StringIO()
     try:
-        sys.stderr = fake_stderr
+        sys.stdout = fake_stdout
         process_file(*x)
     except Exception as e:
-        print(fake_stderr.getvalue(), end="", file=sys.stderr)
+        print(fake_stdout.getvalue(), end="")
         raise
     finally:
-        sys.stderr = ini_stderr
-    return fake_stderr.getvalue()
+        sys.stdout = old_stdout
+    return fake_stdout.getvalue()
 
 
 def main():
@@ -609,11 +601,11 @@ def main():
             files_with_reordering.append(file)
 
     if files_with_reordering:
-        print("Files with BSS reordering:", file=sys.stderr)
+        print("Files with BSS reordering:")
         for file in files_with_reordering:
-            print(f"  {file}", file=sys.stderr)
+            print(f"  {file}")
     else:
-        print("No BSS reordering found.", file=sys.stderr)
+        print("No BSS reordering found.")
 
     if args.files:
         files_to_fix = args.files
@@ -622,13 +614,13 @@ def main():
     if not files_to_fix:
         return
 
-    print(f"Running make to find compiler command line ...", file=sys.stderr)
+    print(f"Running make to find compiler command line ...")
     make_log = generate_make_log(version)
 
     with multiprocessing.Pool() as p:
-        all_stderr_async = list[multiprocessing.pool.AsyncResult]()
+        all_stdout_async = list[multiprocessing.pool.AsyncResult]()
         for file in files_to_fix:
-            stderr_async = p.apply_async(
+            stdout_async = p.apply_async(
                 process_file_worker,
                 (
                     file,
@@ -638,17 +630,17 @@ def main():
                     version,
                 ),
             )
-            all_stderr_async.append(stderr_async)
+            all_stdout_async.append(stdout_async)
 
-        while all_stderr_async:
-            remaining_stderr_async = list[multiprocessing.pool.AsyncResult]()
-            for stderr_async in all_stderr_async:
-                if stderr_async.ready():
-                    print("", file=sys.stderr)
-                    print(stderr_async.get(), end="", file=sys.stderr)
+        while all_stdout_async:
+            remaining_stdout_async = list[multiprocessing.pool.AsyncResult]()
+            for stdout_async in all_stdout_async:
+                if stdout_async.ready():
+                    print("")
+                    print(stdout_async.get(), end="")
                 else:
-                    remaining_stderr_async.append(stderr_async)
-            all_stderr_async = remaining_stderr_async
+                    remaining_stdout_async.append(stdout_async)
+            all_stdout_async = remaining_stdout_async
 
 
 if __name__ == "__main__":
