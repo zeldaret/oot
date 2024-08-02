@@ -58,11 +58,11 @@ void Interface_Init(PlayState* play) {
     }
 #else
     if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = LANGUAGE_GER * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     }
 #endif
 
@@ -77,11 +77,11 @@ void Interface_Init(PlayState* play) {
     }
 #else
     if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_GER * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     }
 #endif
 
@@ -298,7 +298,7 @@ void Regs_InitDataImpl(void) {
     ZREG(10) = 200;
     ZREG(11) = 0;
     ZREG(12) = 200;
-    ZREG(13) = 0;
+    R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON = false;
     ZREG(14) = 110;
     ZREG(15) = 56;
     ZREG(16) = 1;
@@ -313,7 +313,7 @@ void Regs_InitDataImpl(void) {
     ZREG(25) = 4;
     ZREG(26) = 20;
     ZREG(27) = 10;
-    ZREG(28) = 20;
+    R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER = 20;
     ZREG(29) = 4;
     ZREG(30) = 20;
     ZREG(31) = 10;
@@ -350,10 +350,11 @@ void Regs_InitDataImpl(void) {
     R_START_LABEL_X(2) = 119;
 #endif
 
-    ZREG(61) = 1;
-    R_C_UP_BTN_X = C_UP_BUTTON_X;
-    R_C_UP_BTN_Y = C_UP_BUTTON_Y;
-    ZREG(64) = 20;
+    R_PAUSE_QUEST_MEDALLION_SHINE_TIME(0) = 1;
+    //! @bug Overlapping reg usage
+    R_C_UP_BTN_X = C_UP_BUTTON_X; // R_PAUSE_QUEST_MEDALLION_SHINE_TIME(1)
+    R_C_UP_BTN_Y = C_UP_BUTTON_Y; // R_PAUSE_QUEST_MEDALLION_SHINE_TIME(2)
+    R_PAUSE_QUEST_MEDALLION_SHINE_TIME(3) = 20;
     ZREG(65) = 21;
     ZREG(66) = 122;
     R_ITEM_BTN_X(1) = C_LEFT_BUTTON_X;
@@ -471,11 +472,11 @@ void Regs_InitDataImpl(void) {
     XREG(93) = 100;
     XREG(94) = 160;
     XREG(95) = 200;
-    WREG(2) = -6080;
-    WREG(3) = 9355;
-    WREG(4) = 8;
+    R_PAUSE_OFFSET_VERTICAL = -6080;
+    R_PAUSE_OFFSET_DEPTH = 9355;
+    R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION = 8;
     WREG(5) = 3;
-    WREG(6) = 8;
+    R_PAUSE_UI_ANIMS_DURATION = 8;
     WREG(7) = 0;
 
 #if OOT_NTSC
@@ -499,17 +500,17 @@ void Regs_InitDataImpl(void) {
     WREG(15) = -350;
 #endif
 
-    WREG(16) = -175;
-    WREG(17) = 155;
-    WREG(18) = 10;
+    R_PAUSE_CURSOR_LEFT_X = -175;
+    R_PAUSE_CURSOR_RIGHT_X = 155;
+    R_PAUSE_CURSOR_LEFT_RIGHT_Y = 10;
     WREG(19) = 10;
     WREG(20) = -50;
     WREG(21) = -54;
     WREG(22) = -32;
     WREG(23) = -38;
     WREG(24) = -36;
-    WREG(25) = 40;
-    WREG(26) = -40;
+    R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X = 40;
+    R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X = -40;
     WREG(27) = 0;
     WREG(28) = 0;
     R_OW_MINIMAP_X = 238;
@@ -556,8 +557,8 @@ void Regs_InitDataImpl(void) {
     R_DGN_MINIMAP_X = 204;
     R_DGN_MINIMAP_Y = 140;
     WREG(87) = 80;
-    WREG(88) = 70;
-    WREG(89) = 40;
+    R_PAUSE_NAME_DISPLAY_TIMER_MAX_ = 70;
+    R_PAUSE_NAME_DISPLAY_TIMER_THRESHOLD_ = 40;
     WREG(90) = 320;
     WREG(91) = 40;
     WREG(92) = 3;
@@ -585,11 +586,12 @@ void Regs_InitDataImpl(void) {
         R_MINIMAP_COLOR(2) = 255;
     }
 
-    VREG(21) = 0;
-    VREG(22) = 0;
-    VREG(23) = 0;
-    VREG(24) = 0;
-    VREG(25) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_A) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_DOWN) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_RIGHT) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_LEFT) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_UP) = 0;
+
     VREG(26) = 0;
     VREG(27) = 0;
     R_OCARINA_BUTTONS_XPOS = 98;
@@ -615,7 +617,7 @@ void Regs_InitDataImpl(void) {
     R_OCARINA_BUTTONS_YPOS(2) = 176;
     R_OCARINA_BUTTONS_YPOS(3) = 172;
     R_OCARINA_BUTTONS_YPOS(4) = 170;
-    VREG(50) = 30;
+    R_OCARINA_BUTTONS_APPEAR_ALPHA_STEP = 30;
     R_OCARINA_BUTTONS_YPOS_OFFSET = 0;
     VREG(52) = -16;
     VREG(53) = 230;
@@ -625,10 +627,10 @@ void Regs_InitDataImpl(void) {
     VREG(57) = 255;
     VREG(58) = 255;
     VREG(59) = 255;
-    VREG(60) = 20;
-    VREG(61) = 100;
-    VREG(62) = 0;
-    VREG(63) = 10;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER_BASE = 20;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA = 100;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_STATE = 0;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER = 10;
     R_ITEM_AMMO_X(1) = C_LEFT_BUTTON_X + 1;
     R_ITEM_AMMO_X(2) = C_DOWN_BUTTON_X + 1;
     R_ITEM_AMMO_X(3) = C_RIGHT_BUTTON_X + 1;
