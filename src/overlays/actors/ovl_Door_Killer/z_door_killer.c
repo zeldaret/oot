@@ -29,7 +29,7 @@ void DoorKiller_WaitForObject(DoorKiller* this, PlayState* play);
 void DoorKiller_DrawDoor(Actor* thisx, PlayState* play);
 void DoorKiller_DrawRubble(Actor* thisx, PlayState* play);
 
-ActorInit Door_Killer_InitVars = {
+ActorProfile Door_Killer_Profile = {
     /**/ ACTOR_DOOR_KILLER,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

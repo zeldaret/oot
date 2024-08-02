@@ -16,7 +16,7 @@ void ObjSyokudai_Destroy(Actor* thisx, PlayState* play);
 void ObjSyokudai_Update(Actor* thisx, PlayState* play2);
 void ObjSyokudai_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Syokudai_InitVars = {
+ActorProfile Obj_Syokudai_Profile = {
     /**/ ACTOR_OBJ_SYOKUDAI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

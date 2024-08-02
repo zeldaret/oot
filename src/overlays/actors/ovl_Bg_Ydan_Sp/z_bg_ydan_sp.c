@@ -24,7 +24,7 @@ typedef enum {
     /* 1 */ WEB_WALL
 } BgYdanSpType;
 
-ActorInit Bg_Ydan_Sp_InitVars = {
+ActorProfile Bg_Ydan_Sp_Profile = {
     /**/ ACTOR_BG_YDAN_SP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

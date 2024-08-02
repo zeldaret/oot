@@ -20,7 +20,7 @@ s32 ElfMsg2_GetMessageId(ElfMsg2* this);
 void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play);
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, PlayState* play);
 
-ActorInit Elf_Msg2_InitVars = {
+ActorProfile Elf_Msg2_Profile = {
     /**/ ACTOR_ELF_MSG2,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -45,7 +45,7 @@ void EnFz_SpawnIceSmokeFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* ac
 void EnFz_UpdateIceSmoke(EnFz* this, PlayState* play);
 void EnFz_DrawEffects(EnFz* this, PlayState* play);
 
-ActorInit En_Fz_InitVars = {
+ActorProfile En_Fz_Profile = {
     /**/ ACTOR_EN_FZ,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

@@ -64,7 +64,7 @@ void EnRr_Death(EnRr* this, PlayState* play);
 void EnRr_Retreat(EnRr* this, PlayState* play);
 void EnRr_Stunned(EnRr* this, PlayState* play);
 
-ActorInit En_Rr_InitVars = {
+ActorProfile En_Rr_Profile = {
     /**/ ACTOR_EN_RR,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

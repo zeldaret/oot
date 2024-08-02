@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-ActorInit Bg_Haka_Zou_InitVars = {
+ActorProfile Bg_Haka_Zou_Profile = {
     /**/ ACTOR_BG_HAKA_ZOU,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

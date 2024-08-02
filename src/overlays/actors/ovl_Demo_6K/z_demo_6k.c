@@ -37,7 +37,7 @@ void func_80968B70(Actor* thisx, PlayState* play);
 void func_80968FB0(Actor* thisx, PlayState* play);
 void func_809691BC(Demo6K* this, PlayState* play, s32 cueChannel);
 
-ActorInit Demo_6K_InitVars = {
+ActorProfile Demo_6K_Profile = {
     /**/ ACTOR_DEMO_6K,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

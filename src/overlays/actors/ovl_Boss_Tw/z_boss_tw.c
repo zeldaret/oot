@@ -116,7 +116,7 @@ void BossTw_TwinrovaChargeBlast(BossTw* this, PlayState* play);
 void BossTw_TwinrovaSetupSpin(BossTw* this, PlayState* play);
 void BossTw_UpdateEffects(PlayState* play);
 
-ActorInit Boss_Tw_InitVars = {
+ActorProfile Boss_Tw_Profile = {
     /**/ ACTOR_BOSS_TW,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

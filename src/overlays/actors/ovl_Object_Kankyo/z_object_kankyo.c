@@ -43,7 +43,7 @@ static void* D_80BA5900[] = {
     gEffSunGraveSpark5Tex, gEffSunGraveSpark6Tex, gEffSunGraveSpark7Tex, gEffSunGraveSpark8Tex,
 };
 
-ActorInit Object_Kankyo_InitVars = {
+ActorProfile Object_Kankyo_Profile = {
     /**/ ACTOR_OBJECT_KANKYO,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

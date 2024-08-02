@@ -14,7 +14,7 @@ void EnBx_Destroy(Actor* thisx, PlayState* play);
 void EnBx_Update(Actor* thisx, PlayState* play);
 void EnBx_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Bx_InitVars = {
+ActorProfile En_Bx_Profile = {
     /**/ ACTOR_EN_BX,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

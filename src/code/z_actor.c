@@ -2834,7 +2834,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                    s16 rotY, s16 rotZ, s16 params) {
     s32 pad;
     Actor* actor;
-    ActorInit* actorInit;
+    ActorProfile* profile;
     s32 objectSlot;
     ActorOverlay* overlayEntry;
     uintptr_t temp;
@@ -2862,7 +2862,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     if (overlayEntry->vramStart == NULL) {
         ACTOR_DEBUG_PRINTF("オーバーレイではありません\n"); // "Not an overlay"
 
-        actorInit = overlayEntry->initInfo;
+        profile = overlayEntry->profile;
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
             ACTOR_DEBUG_PRINTF("既にロードされています\n"); // "Already loaded"
@@ -2905,30 +2905,30 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             overlayEntry->numLoaded = 0;
         }
 
-        actorInit = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
-                                           ? (void*)((uintptr_t)overlayEntry->initInfo -
-                                                     (intptr_t)((uintptr_t)overlayEntry->vramStart -
-                                                                (uintptr_t)overlayEntry->loadedRamAddr))
-                                           : NULL);
+        profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
+                                         ? (void*)((uintptr_t)overlayEntry->profile -
+                                                   (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                              (uintptr_t)overlayEntry->loadedRamAddr))
+                                         : NULL);
     }
 
-    objectSlot = Object_GetSlot(&play->objectCtx, actorInit->objectId);
+    objectSlot = Object_GetSlot(&play->objectCtx, profile->objectId);
 
     if ((objectSlot < 0) ||
-        ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
+        ((profile->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
         PRINTF(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST, objectSlot,
-               actorInit->objectId);
+               profile->objectId);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
 
-    actor = ZELDA_ARENA_MALLOC(actorInit->instanceSize, name, 1);
+    actor = ZELDA_ARENA_MALLOC(profile->instanceSize, name, 1);
 
     if (actor == NULL) {
         // "Actor class cannot be reserved! %s <size＝%d bytes>"
         PRINTF(VT_COL(RED, WHITE) "Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n", VT_RST, name,
-               actorInit->instanceSize);
+               profile->instanceSize);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -2942,32 +2942,36 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     // "Actor client No. %d"
     ACTOR_DEBUG_PRINTF("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
 
-    Lib_MemSet((u8*)actor, actorInit->instanceSize, 0);
+    Lib_MemSet((u8*)actor, profile->instanceSize, 0);
     actor->overlayEntry = overlayEntry;
-    actor->id = actorInit->id;
-    actor->flags = actorInit->flags;
+    actor->id = profile->id;
+    actor->flags = profile->flags;
 
-    if (actorInit->id == ACTOR_EN_PART) {
+    if (profile->id == ACTOR_EN_PART) {
         actor->objectSlot = rotZ;
         rotZ = 0;
     } else {
         actor->objectSlot = objectSlot;
     }
 
-    actor->init = actorInit->init;
-    actor->destroy = actorInit->destroy;
-    actor->update = actorInit->update;
-    actor->draw = actorInit->draw;
+    actor->init = profile->init;
+    actor->destroy = profile->destroy;
+    actor->update = profile->update;
+    actor->draw = profile->draw;
+
     actor->room = play->roomCtx.curRoom.num;
+
     actor->home.pos.x = posX;
     actor->home.pos.y = posY;
     actor->home.pos.z = posZ;
+
     actor->home.rot.x = rotX;
     actor->home.rot.y = rotY;
     actor->home.rot.z = rotZ;
+
     actor->params = params;
 
-    Actor_AddToCategory(actorCtx, actor, actorInit->category);
+    Actor_AddToCategory(actorCtx, actor, profile->category);
 
     temp = gSegments[6];
     Actor_Init(actor, play);

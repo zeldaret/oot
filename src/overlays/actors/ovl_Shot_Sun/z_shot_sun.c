@@ -21,7 +21,7 @@ void ShotSun_TriggerFairy(ShotSun* this, PlayState* play);
 void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play);
 void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play);
 
-ActorInit Shot_Sun_InitVars = {
+ActorProfile Shot_Sun_Profile = {
     /**/ ACTOR_SHOT_SUN,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

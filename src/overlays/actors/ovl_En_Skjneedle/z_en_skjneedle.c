@@ -16,7 +16,7 @@ void EnSkjneedle_Draw(Actor* thisx, PlayState* play);
 
 s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);
 
-ActorInit En_Skjneedle_InitVars = {
+ActorProfile En_Skjneedle_Profile = {
     /**/ ACTOR_EN_SKJNEEDLE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

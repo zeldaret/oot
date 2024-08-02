@@ -33,7 +33,7 @@ void EnPoField_SoulDisappear(EnPoField* this, PlayState* play);
 void EnPoField_SoulInteract(EnPoField* this, PlayState* play);
 void EnPoField_SpawnFlame(EnPoField* this);
 
-ActorInit En_Po_Field_InitVars = {
+ActorProfile En_Po_Field_Profile = {
     /**/ ACTOR_EN_PO_FIELD,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

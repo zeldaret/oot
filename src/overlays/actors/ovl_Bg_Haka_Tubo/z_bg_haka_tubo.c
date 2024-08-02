@@ -18,7 +18,7 @@ void BgHakaTubo_Draw(Actor* thisx, PlayState* play);
 void BgHakaTubo_Idle(BgHakaTubo* this, PlayState* play);
 void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play);
 
-ActorInit Bg_Haka_Tubo_InitVars = {
+ActorProfile Bg_Haka_Tubo_Profile = {
     /**/ ACTOR_BG_HAKA_TUBO,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -22,7 +22,7 @@ void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, PlayState* play);
 void func_80B85B28(ItemEtcetera* this, PlayState* play);
 void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, PlayState* play);
 
-ActorInit Item_Etcetera_InitVars = {
+ActorProfile Item_Etcetera_Profile = {
     /**/ ACTOR_ITEM_ETCETERA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

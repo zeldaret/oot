@@ -16,7 +16,7 @@ void BgSpot17Bakudankabe_Destroy(Actor* thisx, PlayState* play);
 void BgSpot17Bakudankabe_Update(Actor* thisx, PlayState* play);
 void BgSpot17Bakudankabe_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Spot17_Bakudankabe_InitVars = {
+ActorProfile Bg_Spot17_Bakudankabe_Profile = {
     /**/ ACTOR_BG_SPOT17_BAKUDANKABE,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

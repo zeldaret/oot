@@ -14,7 +14,7 @@ void EnGanonMant_Destroy(Actor* thisx, PlayState* play);
 void EnGanonMant_Update(Actor* thisx, PlayState* play);
 void EnGanonMant_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Ganon_Mant_InitVars = {
+ActorProfile En_Ganon_Mant_Profile = {
     /**/ ACTOR_EN_GANON_MANT,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

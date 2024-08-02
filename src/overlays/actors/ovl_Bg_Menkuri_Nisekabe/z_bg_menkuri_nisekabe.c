@@ -14,7 +14,7 @@ void BgMenkuriNisekabe_Destroy(Actor* thisx, PlayState* play);
 void BgMenkuriNisekabe_Update(Actor* thisx, PlayState* play);
 void BgMenkuriNisekabe_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Menkuri_Nisekabe_InitVars = {
+ActorProfile Bg_Menkuri_Nisekabe_Profile = {
     /**/ ACTOR_BG_MENKURI_NISEKABE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

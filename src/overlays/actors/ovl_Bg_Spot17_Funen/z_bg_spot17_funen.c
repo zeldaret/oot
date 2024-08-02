@@ -15,7 +15,7 @@ void BgSpot17Funen_Update(Actor* thisx, PlayState* play);
 void func_808B746C(Actor* thisx, PlayState* play);
 void func_808B7478(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Spot17_Funen_InitVars = {
+ActorProfile Bg_Spot17_Funen_Profile = {
     /**/ ACTOR_BG_SPOT17_FUNEN,
     /**/ ACTORCAT_SWITCH,
     /**/ FLAGS,

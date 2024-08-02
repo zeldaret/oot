@@ -159,7 +159,7 @@ typedef struct {
 static EnSkjUnkStruct sSmallStumpSkullKid = { 0, NULL };
 static EnSkjUnkStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
-ActorInit En_Skj_InitVars = {
+ActorProfile En_Skj_Profile = {
     /**/ ACTOR_EN_SKJ,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

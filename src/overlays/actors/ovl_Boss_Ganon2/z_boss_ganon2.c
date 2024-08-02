@@ -32,7 +32,7 @@ void BossGanon2_DrawEffects(PlayState* play);
 void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, PlayState* play);
 void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, PlayState* play);
 
-ActorInit Boss_Ganon2_InitVars = {
+ActorProfile Boss_Ganon2_Profile = {
     /**/ ACTOR_BOSS_GANON2,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

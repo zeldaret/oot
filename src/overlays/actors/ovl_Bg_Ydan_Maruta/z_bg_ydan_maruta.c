@@ -20,7 +20,7 @@ void func_808BF078(BgYdanMaruta* this, PlayState* play);
 void func_808BF108(BgYdanMaruta* this, PlayState* play);
 void func_808BF1EC(BgYdanMaruta* this, PlayState* play);
 
-ActorInit Bg_Ydan_Maruta_InitVars = {
+ActorProfile Bg_Ydan_Maruta_Profile = {
     /**/ ACTOR_BG_YDAN_MARUTA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

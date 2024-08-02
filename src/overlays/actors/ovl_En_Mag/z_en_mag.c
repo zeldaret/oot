@@ -14,7 +14,7 @@ void EnMag_Destroy(Actor* thisx, PlayState* play);
 void EnMag_Update(Actor* thisx, PlayState* play);
 void EnMag_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Mag_InitVars = {
+ActorProfile En_Mag_Profile = {
     /**/ ACTOR_EN_MAG,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

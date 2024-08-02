@@ -16,7 +16,7 @@ void EnDs_Draw(Actor* thisx, PlayState* play);
 
 void EnDs_Wait(EnDs* this, PlayState* play);
 
-ActorInit En_Ds_InitVars = {
+ActorProfile En_Ds_Profile = {
     /**/ ACTOR_EN_DS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

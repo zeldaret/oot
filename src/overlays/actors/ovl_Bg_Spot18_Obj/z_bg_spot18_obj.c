@@ -30,7 +30,7 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play);
 void func_808B9030(BgSpot18Obj* this);
 void func_808B9040(BgSpot18Obj* this, PlayState* play);
 
-ActorInit Bg_Spot18_Obj_InitVars = {
+ActorProfile Bg_Spot18_Obj_Profile = {
     /**/ ACTOR_BG_SPOT18_OBJ,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

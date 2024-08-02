@@ -14,7 +14,7 @@ void ObjHana_Destroy(Actor* thisx, PlayState* play);
 void ObjHana_Update(Actor* thisx, PlayState* play);
 void ObjHana_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Hana_InitVars = {
+ActorProfile Obj_Hana_Profile = {
     /**/ ACTOR_OBJ_HANA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

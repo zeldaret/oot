@@ -29,7 +29,7 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, PlayState* play);
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-ActorInit En_Dekubaba_InitVars = {
+ActorProfile En_Dekubaba_Profile = {
     /**/ ACTOR_EN_DEKUBABA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

@@ -131,7 +131,7 @@ typedef enum {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
-ActorInit Fishing_InitVars = {
+ActorProfile Fishing_Profile = {
     /**/ ACTOR_FISHING,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

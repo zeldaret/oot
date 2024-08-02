@@ -118,7 +118,7 @@ typedef enum {
     /* 150 */ MO_DEATH_MO_CORE_BURST = 150
 } BossMoCsState;
 
-ActorInit Boss_Mo_InitVars = {
+ActorProfile Boss_Mo_Profile = {
     /**/ ACTOR_BOSS_MO,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

@@ -79,7 +79,7 @@ static EnRu2DrawFunc sDrawFuncs[] = {
     func_80AF321C,
 };
 
-ActorInit En_Ru2_InitVars = {
+ActorProfile En_Ru2_Profile = {
     /**/ ACTOR_EN_RU2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

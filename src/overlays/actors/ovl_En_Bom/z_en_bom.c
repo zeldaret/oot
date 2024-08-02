@@ -18,7 +18,7 @@ void EnBom_Draw(Actor* thisx, PlayState* play);
 void EnBom_Move(EnBom* this, PlayState* play);
 void EnBom_WaitForRelease(EnBom* this, PlayState* play);
 
-ActorInit En_Bom_InitVars = {
+ActorProfile En_Bom_Profile = {
     /**/ ACTOR_EN_BOM,
     /**/ ACTORCAT_EXPLOSIVE,
     /**/ FLAGS,

@@ -25,7 +25,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, PlayState* play);
 void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play);
 void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, PlayState* play);
 
-ActorInit Obj_Timeblock_InitVars = {
+ActorProfile Obj_Timeblock_Profile = {
     /**/ ACTOR_OBJ_TIMEBLOCK,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

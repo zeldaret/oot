@@ -18,7 +18,7 @@ void ObjBombiwa_Draw(Actor* thisx, PlayState* play);
 
 void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play);
 
-ActorInit Obj_Bombiwa_InitVars = {
+ActorProfile Obj_Bombiwa_Profile = {
     /**/ ACTOR_OBJ_BOMBIWA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
