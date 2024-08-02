@@ -389,8 +389,8 @@ def determine_base_bss_ordering(
             existing_offset = found_symbols[new_symbol.name].offset
             if new_offset != existing_offset:
                 fail(
-                    f"Error: BSS symbol {new_symbol.name} found at multiple offsets in baserom "
-                    f"(0x{existing_offset:04X} and 0x{new_offset:04X})"
+                    f"Error: BSS symbol {new_symbol.name} found at conflicting offsets in this baserom "
+                    f"(0x{existing_offset:04X} and 0x{new_offset:04X}). Is the build up-to-date?"
                 )
         else:
             found_symbols[new_symbol.name] = BssSymbol(
