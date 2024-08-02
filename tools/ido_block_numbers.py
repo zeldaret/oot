@@ -458,12 +458,12 @@ def generate_make_log(oot_version: str) -> list[str]:
         "--dry-run",
         f"VERSION={oot_version}",
     ]
-
-    print(f"Running {make} to find compiler command line ...", file=sys.stderr)
     return subprocess.check_output(make_command_line).decode("utf-8").splitlines()
 
 
-def find_compiler_command_line(make_log: list[str], filename: Path) -> list[str]:
+def find_compiler_command_line(
+    make_log: list[str], filename: Path
+) -> Optional[list[str]]:
     found = 0
     for line in make_log:
         parts = line.split()
@@ -472,13 +472,8 @@ def find_compiler_command_line(make_log: list[str], filename: Path) -> list[str]
             found += 1
 
     if found != 1:
-        print(
-            f"Error: could not determine compiler command line for {filename}",
-            file=sys.stderr,
-        )
-        sys.exit(1)
+        return None
 
-    print(f"Compiler command: {shlex.join(compiler_command_line)}", file=sys.stderr)
     return compiler_command_line
 
 
@@ -533,8 +528,18 @@ def main():
 
     args = parser.parse_args()
 
+    print(f"Running make to find compiler command line ...", file=sys.stderr)
     make_log = generate_make_log(args.oot_version)
+
     command_line = find_compiler_command_line(make_log, args.filename)
+    if command_line is None:
+        print(
+            f"Error: could not determine compiler command line for {filename}",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    print(f"Compiler command: {shlex.join(compiler_command_line)}", file=sys.stderr)
+
     symbol_table, ucode = run_cfe(command_line, args.keep_files)
     print_symbol_table(symbol_table)
     if args.print_ucode:

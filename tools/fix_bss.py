@@ -16,6 +16,7 @@ import multiprocessing
 import multiprocessing.pool
 from pathlib import Path
 import re
+import shlex
 import sys
 from typing import BinaryIO
 
@@ -497,6 +498,10 @@ def process_file(
     )
 
     command_line = find_compiler_command_line(make_log, file)
+    if not command_line:
+        fail(f"Error: could not determine compiler command line for {file}")
+
+    print(f"Compiler command: {shlex.join(command_line)}", file=sys.stderr)
     symbol_table, ucode = run_cfe(command_line, keep_files=False)
 
     bss_variables = find_bss_variables(symbol_table, ucode)
@@ -617,6 +622,7 @@ def main():
     if not files_to_fix:
         return
 
+    print(f"Running make to find compiler command line ...", file=sys.stderr)
     make_log = generate_make_log(version)
 
     with multiprocessing.Pool() as p:
