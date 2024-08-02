@@ -12,7 +12,7 @@ typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec
 
 #define SAC_ENABLE (1 << 0)
 
-#pragma increment_block_number "gc-eu:36 gc-eu-mq:36"
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64"
 
 #if OOT_DEBUG
 /**
@@ -2693,7 +2693,7 @@ typedef enum {
     /* 2 */ MASSTYPE_NORMAL
 } ColChkMassType;
 
-#pragma increment_block_number "gc-eu:254 gc-eu-mq:254"
+#pragma increment_block_number "gc-eu:252 gc-eu-mq:252"
 
 /**
  * Get mass type. Immovable colliders cannot be pushed, while heavy colliders can only be pushed by heavy and immovable

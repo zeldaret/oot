@@ -19,7 +19,7 @@ import re
 import shlex
 import sys
 import time
-from typing import BinaryIO
+from typing import BinaryIO, Iterator
 
 from ido_block_numbers import (
     generate_make_log,
@@ -406,6 +406,54 @@ def determine_base_bss_ordering(
     return list(sorted(found_symbols.values(), key=lambda symbol: symbol.offset))
 
 
+# Generate a sequence of integers with a 2-adic valuation of exactly `nu`. The 2-adic
+# valuation of an integer n is the largest k such that 2^k divides n, and for convenience
+# we define the 2-adic valuation of 0 to be 8. Here's what the sequences look like for nu = 0..8:
+#   8: 0
+#   7: 128
+#   6: 64, 192
+#   5: 32, 96, 160, 224
+#   4: 16, 48, 80, 112, ...
+#   3: 8, 24, 40, 56, ...
+#   2: 4, 12, 20, 28, ...
+#   1: 2, 6, 10, 14, ...
+#   0: 1, 3, 5, 7, ...
+def gen_seq(nu: int) -> Iterator[int]:
+    if nu == 8:
+        yield 0
+    else:
+        for i in range(1 << (7 - nu)):
+            yield (2 * i + 1) * (1 << nu)
+
+
+# Yields all n-tuples of integers in the range [0, 256) with minimum 2-adic valuation
+# of exactly `min_nu`.
+def gen_candidates_impl(n: int, min_nu: int) -> Iterator[tuple[int, ...]]:
+    if n == 1:
+        for n in gen_seq(min_nu):
+            yield (n,)
+    else:
+        # (a, *b) has min 2-adic valuation = min_nu if and only if either:
+        #   a has 2-adic valuation >  min_nu and b has min 2-adic valuation == min_nu
+        #   a has 2-adic valuation == min_nu and b has min 2-adic valuation >= min_nu
+        for min_nu_a in reversed(range(min_nu + 1, 9)):
+            for a in gen_seq(min_nu_a):
+                for b in gen_candidates_impl(n - 1, min_nu):
+                    yield (a, *b)
+        for a in gen_seq(min_nu):
+            for min_nu_b in reversed(range(min_nu, 9)):
+                for b in gen_candidates_impl(n - 1, min_nu_b):
+                    yield (a, *b)
+
+
+# Yields all n-tuples of integers in the range [0, 256), ordered by descending minimum
+# 2-adic valuation of the elements in the tuple. For example, for n = 2 the sequence is:
+#   (0, 0), (0, 128), (128, 0), (128, 128), (0, 64), (0, 192), (128, 64), (128, 192), ...
+def gen_candidates(n: int) -> Iterator[tuple[int, ...]]:
+    for nu in reversed(range(9)):
+        yield from gen_candidates_impl(n, nu)
+
+
 # Determine a new set of increment_block_number pragmas that will fix the BSS ordering.
 def solve_bss_ordering(
     pragmas: list[Pragma],
@@ -414,16 +462,10 @@ def solve_bss_ordering(
 ) -> list[Pragma]:
     base_symbols_by_name = {symbol.name: symbol for symbol in base_bss_symbols}
 
-    # Our "algorithm" just tries all possible combinations of increment_block_number amounts.
-    # This can get really slow, so we first try multiples of 10 only, since the exact
-    # amount often doesn't matter much and we can find a solution faster.
-    fast_candidates = itertools.product(
-        [i for i in range(256) if i % 10 == 0], repeat=len(pragmas)
-    )
-    slow_candidates = itertools.product(range(256), repeat=len(pragmas))
-    all_candidates = itertools.chain(fast_candidates, slow_candidates)
-
-    for new_amounts in all_candidates:
+    # Our "algorithm" just tries all possible combinations of increment_block_number amounts,
+    # which can get very slow with more than a few pragmas. But, we order the candidates in a
+    # binary-search-esque way to try to find a solution faster.
+    for new_amounts in gen_candidates(len(pragmas)):
         # Generate new block numbers
         new_bss_variables = []
         for var in bss_variables:

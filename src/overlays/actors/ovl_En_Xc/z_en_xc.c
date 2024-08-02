@@ -1395,7 +1395,7 @@ void func_80B3F3D8(void) {
     Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
 }
 
-#pragma increment_block_number "gc-eu:20 gc-eu-mq:20"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {
     static Vec3f D_80B42DA0;

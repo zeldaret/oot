@@ -3630,7 +3630,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     return 1;
 }
 
-#pragma increment_block_number "gc-eu:120 gc-eu-mq:120"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;

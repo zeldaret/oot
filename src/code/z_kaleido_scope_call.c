@@ -1,7 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 
-#pragma increment_block_number "gc-eu:50 gc-eu-mq:50"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);
