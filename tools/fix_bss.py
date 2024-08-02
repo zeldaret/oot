@@ -18,6 +18,7 @@ from pathlib import Path
 import re
 import shlex
 import sys
+import time
 from typing import BinaryIO
 
 from ido_block_numbers import (
@@ -47,9 +48,8 @@ def read_s16(f: BinaryIO, offset: int) -> int:
     return int.from_bytes(f.read(2), "big", signed=True)
 
 
-def fail(message: str):
-    print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}")
-    sys.exit(1)
+class FixBssException(Exception):
+    pass
 
 
 @dataclass
@@ -132,8 +132,8 @@ def get_file_pointers(
                 read_u16(base, file.vrom + reloc.offset_lo16)
                 != read_u16(build, file.vrom + reloc.offset_lo16)
             ):
-                fail(
-                    f"Error: Reference to {reloc.name} in {file.filepath} is in a shifted or non-matching portion of the ROM.\n"
+                raise FixBssException(
+                    f"Reference to {reloc.name} in {file.filepath} is in a shifted or non-matching portion of the ROM.\n"
                     "Please ensure that the only differences between the baserom and the current build are due to BSS ordering."
                 )
 
@@ -172,7 +172,7 @@ def get_file_pointers_worker(file: mapfile_parser.mapfile.File) -> list[Pointer]
 def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
     mapfile_path = Path(f"build/{version}/oot-{version}.map")
     if not mapfile_path.exists():
-        fail(f"Error: could not open {mapfile_path}")
+        raise FixBssException(f"Could not open {mapfile_path}")
 
     mapfile = mapfile_parser.mapfile.MapFile()
     mapfile.readMapFile(mapfile_path)
@@ -191,8 +191,7 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
 
     # Find all pointers with different values
     pointers = []
-
-    all_file_pointers = []
+    file_results = []
     with multiprocessing.Pool(
         initializer=get_file_pointers_worker_init,
         initargs=(version,),
@@ -203,25 +202,29 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
                     continue
                 if file.sectionType == ".bss":
                     continue
-                file_pointers_async = p.apply_async(get_file_pointers_worker, (file,))
-                all_file_pointers.append(file_pointers_async)
+                file_result = p.apply_async(get_file_pointers_worker, (file,))
+                file_results.append(file_result)
 
-        num_files = len(all_file_pointers)
-        while all_file_pointers:
-            remaining_file_pointers = []
-            for file_pointers_async in all_file_pointers:
-                if file_pointers_async.ready():
-                    file_pointers = file_pointers_async.get()
-                    pointers.extend(file_pointers)
-                else:
-                    remaining_file_pointers.append(file_pointers_async)
-            all_file_pointers = remaining_file_pointers
-            num_files_done = num_files - len(all_file_pointers)
+        # Report progress and wait until all files are done
+        num_files = len(file_results)
+        while True:
+            time.sleep(0.010)
+            num_files_done = sum(file_result.ready() for file_result in file_results)
             print(
                 f"Comparing pointers between baserom and build ... {num_files_done:>{len(f'{num_files}')}}/{num_files}",
                 end="\r",
             )
-    print("")
+            if num_files_done == num_files:
+                break
+        print("")
+
+        # Collect results and check for errors
+        for file_result in file_results:
+            try:
+                pointers.extend(file_result.get())
+            except FixBssException as e:
+                print(f"{colorama.Fore.RED}Error: {str(e)}{colorama.Fore.RESET}")
+                sys.exit(1)
 
     # Remove duplicates and sort by baserom address
     pointers = list({p.base_value: p for p in pointers}.values())
@@ -378,18 +381,17 @@ def determine_base_bss_ordering(
                 addend_str = f"-0x{-p.addend:X}"
             else:
                 addend_str = ""
-            fail(
-                f"Error: could not find BSS symbol for pointer {p.name}{addend_str} "
+            raise FixBssException(
+                f"Could not find BSS symbol for pointer {p.name}{addend_str} "
                 f"(base address 0x{p.base_value:08X}, build address 0x{p.build_value:08X})"
             )
-            return []
 
         if new_symbol.name in found_symbols:
             # Sanity check that offsets agree
             existing_offset = found_symbols[new_symbol.name].offset
             if new_offset != existing_offset:
-                fail(
-                    f"Error: BSS symbol {new_symbol.name} found at conflicting offsets in this baserom "
+                raise FixBssException(
+                    f"BSS symbol {new_symbol.name} found at conflicting offsets in this baserom "
                     f"(0x{existing_offset:04X} and 0x{new_offset:04X}). Is the build up-to-date?"
                 )
         else:
@@ -449,8 +451,7 @@ def solve_bss_ordering(
                 )
             return new_pragmas
 
-    fail("Error: could not find any solutions")
-    return []
+    raise FixBssException("Could not find any solutions")
 
 
 def update_source_file(version_to_update: str, file: Path, new_pragmas: list[Pragma]):
@@ -460,8 +461,8 @@ def update_source_file(version_to_update: str, file: Path, new_pragmas: list[Pra
     for pragma in new_pragmas:
         line = lines[pragma.line_number - 1]
         if not line.startswith("#pragma increment_block_number "):
-            fail(
-                f"Error: expected #pragma increment_block_number on line {pragma.line_number}"
+            raise FixBssException(
+                f"Expected #pragma increment_block_number on line {pragma.line_number}"
             )
 
         # Grab pragma argument and remove quotes
@@ -495,8 +496,7 @@ def process_file(
 
     command_line = find_compiler_command_line(make_log, file)
     if command_line is None:
-        fail(f"Error: could not determine compiler command line for {file}")
-        return
+        raise FixBssException(f"Could not determine compiler command line for {file}")
 
     print(f"Compiler command: {shlex.join(command_line)}")
     symbol_table, ucode = run_cfe(command_line, keep_files=False)
@@ -526,10 +526,10 @@ def process_file(
     pragmas = find_pragmas(symbol_table)
     max_pragmas = 3
     if not pragmas:
-        fail(f"Error: no increment_block_number pragmas found in {file}")
+        raise FixBssException(f"No increment_block_number pragmas found in {file}")
     elif len(pragmas) > max_pragmas:
-        fail(
-            f"Error: too many increment_block_number pragmas found in {file} (found {len(pragmas)}, max {max_pragmas})"
+        raise FixBssException(
+            f"Too many increment_block_number pragmas found in {file} (found {len(pragmas)}, max {max_pragmas})"
         )
 
     print("Solving BSS ordering ...")
@@ -550,11 +550,12 @@ def process_file_worker(*x):
         sys.stdout = fake_stdout
         process_file(*x)
     except Exception as e:
-        print(fake_stdout.getvalue(), end="")
+        print(f"{colorama.Fore.RED}Error: {str(e)}{colorama.Fore.RESET}")
         raise
     finally:
         sys.stdout = old_stdout
-    return fake_stdout.getvalue()
+        print()
+        print(fake_stdout.getvalue(), end="")
 
 
 def main():
@@ -618,9 +619,9 @@ def main():
     make_log = generate_make_log(version)
 
     with multiprocessing.Pool() as p:
-        all_stdout_async = []
+        file_results = []
         for file in files_to_fix:
-            stdout_async = p.apply_async(
+            file_result = p.apply_async(
                 process_file_worker,
                 (
                     file,
@@ -630,17 +631,23 @@ def main():
                     version,
                 ),
             )
-            all_stdout_async.append(stdout_async)
+            file_results.append(file_result)
 
-        while all_stdout_async:
-            remaining_stdout_async = []
-            for stdout_async in all_stdout_async:
-                if stdout_async.ready():
-                    print("")
-                    print(stdout_async.get(), end="")
-                else:
-                    remaining_stdout_async.append(stdout_async)
-            all_stdout_async = remaining_stdout_async
+        # Wait until all files are done
+        while not all(file_result.ready() for file_result in file_results):
+            time.sleep(0.010)
+
+        # Collect results and check for errors
+        num_successes = sum(file_result.successful() for file_result in file_results)
+        if num_successes == len(file_results):
+            print()
+            print(f"Updated {num_successes}/{len(file_results)} files.")
+        else:
+            print()
+            print(
+                f"{colorama.Fore.RED}Updated {num_successes}/{len(file_results)} files.{colorama.Fore.RESET}"
+            )
+            sys.exit(1)
 
 
 if __name__ == "__main__":
