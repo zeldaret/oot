@@ -406,9 +406,10 @@ def determine_base_bss_ordering(
     return list(sorted(found_symbols.values(), key=lambda symbol: symbol.offset))
 
 
-# Generate a sequence of integers with a 2-adic valuation of exactly `nu`. The 2-adic
-# valuation of an integer n is the largest k such that 2^k divides n, and for convenience
-# we define the 2-adic valuation of 0 to be 8. Here's what the sequences look like for nu = 0..8:
+# Generate a sequence of integers with a 2-adic valuation of exactly `nu`.
+# The 2-adic valuation of an integer n is the largest k such that 2^k divides n
+# (see https://en.wikipedia.org/wiki/P-adic_valuation), and for convenience we define
+# the 2-adic valuation of 0 to be 8. Here's what the sequences look like for nu = 0..8:
 #   8: 0
 #   7: 128
 #   6: 64, 192
