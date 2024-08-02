@@ -516,6 +516,9 @@ def process_file(
             f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}"
         )
 
+    if not pointers:
+        raise FixBssException(f"No pointers to BSS found in ROM for {file}")
+
     base_bss_symbols = determine_base_bss_ordering(build_bss_symbols, pointers)
     print("Baserom BSS ordering:")
     for symbol in base_bss_symbols:
