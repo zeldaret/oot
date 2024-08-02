@@ -547,6 +547,7 @@ def process_file(
 
 
 def process_file_worker(*x):
+    # Collect output in a buffer to avoid interleaving output when processing multiple files
     old_stdout = sys.stdout
     fake_stdout = io.StringIO()
     try:
