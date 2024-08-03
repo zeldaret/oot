@@ -15,7 +15,7 @@ void EnSceneChange_Draw(Actor* thisx, PlayState* play);
 
 void EnSceneChange_DoNothing(EnSceneChange* this, PlayState* play);
 
-ActorInit En_Scene_Change_InitVars = {
+ActorProfile En_Scene_Change_Profile = {
     /**/ ACTOR_EN_SCENE_CHANGE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

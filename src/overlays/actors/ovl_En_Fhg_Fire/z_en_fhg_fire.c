@@ -44,7 +44,7 @@ void EnFhgFire_SpearLight(EnFhgFire* this, PlayState* play);
 void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play);
 void EnFhgFire_PhantomWarp(EnFhgFire* this, PlayState* play);
 
-ActorInit En_Fhg_Fire_InitVars = {
+ActorProfile En_Fhg_Fire_Profile = {
     /**/ 0,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

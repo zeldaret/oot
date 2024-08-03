@@ -26,7 +26,7 @@ void EffectSsDust_Update(PlayState* play, u32 index, EffectSs* this);
 void EffectSsDust_UpdateFire(PlayState* play, u32 index, EffectSs* this);
 void EffectSsDust_Draw(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Dust_InitVars = {
+EffectSsProfile Effect_Ss_Dust_Profile = {
     EFFECT_SS_DUST,
     EffectSsDust_Init,
 };

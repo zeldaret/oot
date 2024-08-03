@@ -39,7 +39,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Hide(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Return(EnDntJiji* this, PlayState* play);
 
-ActorInit En_Dnt_Jiji_InitVars = {
+ActorProfile En_Dnt_Jiji_Profile = {
     /**/ ACTOR_EN_DNT_JIJI,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

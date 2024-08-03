@@ -14,7 +14,7 @@ void BgMenkuriKaiten_Destroy(Actor* thisx, PlayState* play);
 void BgMenkuriKaiten_Update(Actor* thisx, PlayState* play);
 void BgMenkuriKaiten_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Menkuri_Kaiten_InitVars = {
+ActorProfile Bg_Menkuri_Kaiten_Profile = {
     /**/ ACTOR_BG_MENKURI_KAITEN,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

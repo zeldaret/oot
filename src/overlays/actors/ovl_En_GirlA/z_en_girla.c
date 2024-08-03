@@ -67,7 +67,7 @@ void EnGirlA_BuyEvent_ObtainBombchuPack(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_GoronTunic(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_ZoraTunic(PlayState* play, EnGirlA* this);
 
-ActorInit En_GirlA_InitVars = {
+ActorProfile En_GirlA_Profile = {
     /**/ ACTOR_EN_GIRLA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

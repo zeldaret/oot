@@ -33,7 +33,7 @@ typedef enum {
     /* 4 */ SARIA_MOUTH_FROWNING
 } SariaMouthState;
 
-ActorInit En_Sa_InitVars = {
+ActorProfile En_Sa_Profile = {
     /**/ ACTOR_EN_SA,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

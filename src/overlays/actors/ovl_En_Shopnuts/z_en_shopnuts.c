@@ -21,7 +21,7 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, PlayState* play);
 void EnShopnuts_Burrow(EnShopnuts* this, PlayState* play);
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, PlayState* play);
 
-ActorInit En_Shopnuts_InitVars = {
+ActorProfile En_Shopnuts_Profile = {
     /**/ ACTOR_EN_SHOPNUTS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

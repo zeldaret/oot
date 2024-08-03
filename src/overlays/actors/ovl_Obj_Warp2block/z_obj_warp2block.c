@@ -28,7 +28,7 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play);
 void func_80BA2600(ObjWarp2block* this);
 void func_80BA2610(ObjWarp2block* this, PlayState* play);
 
-ActorInit Obj_Warp2block_InitVars = {
+ActorProfile Obj_Warp2block_Profile = {
     /**/ ACTOR_OBJ_WARP2BLOCK,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

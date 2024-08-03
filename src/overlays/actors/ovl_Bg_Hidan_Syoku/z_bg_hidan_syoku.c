@@ -18,7 +18,7 @@ void func_8088F4B8(BgHidanSyoku* this, PlayState* play);
 void func_8088F514(BgHidanSyoku* this, PlayState* play);
 void func_8088F62C(BgHidanSyoku* this, PlayState* play);
 
-ActorInit Bg_Hidan_Syoku_InitVars = {
+ActorProfile Bg_Hidan_Syoku_Profile = {
     /**/ ACTOR_BG_HIDAN_SYOKU,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

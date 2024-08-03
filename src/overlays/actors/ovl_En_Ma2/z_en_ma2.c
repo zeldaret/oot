@@ -17,7 +17,7 @@ void func_80AA204C(EnMa2* this, PlayState* play);
 void func_80AA20E4(EnMa2* this, PlayState* play);
 void func_80AA21C8(EnMa2* this, PlayState* play);
 
-ActorInit En_Ma2_InitVars = {
+ActorProfile En_Ma2_Profile = {
     /**/ ACTOR_EN_MA2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

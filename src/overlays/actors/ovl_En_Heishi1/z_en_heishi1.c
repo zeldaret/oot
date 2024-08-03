@@ -31,7 +31,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play);
 
 static s32 sPlayerIsCaught = false;
 
-ActorInit En_Heishi1_InitVars = {
+ActorProfile En_Heishi1_Profile = {
     /**/ 0,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

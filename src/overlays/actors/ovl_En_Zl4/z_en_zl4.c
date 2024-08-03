@@ -58,7 +58,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play);
 void EnZl4_Idle(EnZl4* this, PlayState* play);
 void EnZl4_TheEnd(EnZl4* this, PlayState* play);
 
-ActorInit En_Zl4_InitVars = {
+ActorProfile En_Zl4_Profile = {
     /**/ ACTOR_EN_ZL4,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

@@ -22,7 +22,7 @@ void BgSpot08Iceblock_SetupFloatOrbitingTwins(BgSpot08Iceblock* this);
 void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, PlayState* play);
 void BgSpot08Iceblock_SetupNoAction(BgSpot08Iceblock* this);
 
-ActorInit Bg_Spot08_Iceblock_InitVars = {
+ActorProfile Bg_Spot08_Iceblock_Profile = {
     /**/ ACTOR_BG_SPOT08_ICEBLOCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

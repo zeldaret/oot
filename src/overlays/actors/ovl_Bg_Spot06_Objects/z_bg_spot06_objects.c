@@ -44,7 +44,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* play);
 
-ActorInit Bg_Spot06_Objects_InitVars = {
+ActorProfile Bg_Spot06_Objects_Profile = {
     /**/ ACTOR_BG_SPOT06_OBJECTS,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

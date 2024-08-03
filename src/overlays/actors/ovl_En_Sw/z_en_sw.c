@@ -26,7 +26,7 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play);
 void EnSw_FallNormal(EnSw* this, PlayState* play);
 void EnSw_DieGold(EnSw* this, PlayState* play);
 
-ActorInit En_Sw_InitVars = {
+ActorProfile En_Sw_Profile = {
     /**/ ACTOR_EN_SW,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

@@ -69,7 +69,7 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play);
 void EnGeldB_Sidestep(EnGeldB* this, PlayState* play);
 void EnGeldB_Defeated(EnGeldB* this, PlayState* play);
 
-ActorInit En_GeldB_InitVars = {
+ActorProfile En_GeldB_Profile = {
     /**/ ACTOR_EN_GELDB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

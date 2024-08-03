@@ -20,7 +20,7 @@ void func_8087B938(BgHaka* this, PlayState* play);
 void func_8087BAAC(BgHaka* this, PlayState* play);
 void func_8087BAE4(BgHaka* this, PlayState* play);
 
-ActorInit Bg_Haka_InitVars = {
+ActorProfile Bg_Haka_Profile = {
     /**/ ACTOR_BG_HAKA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

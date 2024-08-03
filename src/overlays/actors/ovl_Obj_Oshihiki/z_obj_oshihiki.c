@@ -24,7 +24,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, PlayState* play);
 void ObjOshihiki_SetupFall(ObjOshihiki* this, PlayState* play);
 void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play);
 
-ActorInit Obj_Oshihiki_InitVars = {
+ActorProfile Obj_Oshihiki_Profile = {
     /**/ ACTOR_OBJ_OSHIHIKI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

@@ -14,8 +14,7 @@
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 #include "terminal.h"
 
-// For retail BSS ordering, the block number of sSfxPos
-// must be between 0 and 213 inclusive.
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -1396,7 +1395,7 @@ void func_80B3F3D8(void) {
     Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
 }
 
-#pragma increment_block_number 20
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {
     static Vec3f D_80B42DA0;
@@ -2456,7 +2455,7 @@ void EnXc_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-ActorInit En_Xc_InitVars = {
+ActorProfile En_Xc_Profile = {
     /**/ ACTOR_EN_XC,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

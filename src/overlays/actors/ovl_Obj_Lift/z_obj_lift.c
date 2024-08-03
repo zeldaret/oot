@@ -24,7 +24,7 @@ void ObjLift_Wait(ObjLift* this, PlayState* play);
 void ObjLift_Shake(ObjLift* this, PlayState* play);
 void ObjLift_Fall(ObjLift* this, PlayState* play);
 
-ActorInit Obj_Lift_InitVars = {
+ActorProfile Obj_Lift_Profile = {
     /**/ ACTOR_OBJ_LIFT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

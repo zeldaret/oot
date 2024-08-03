@@ -21,7 +21,7 @@ void BgYdanHasi_MoveWater(BgYdanHasi* this, PlayState* play);
 void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, PlayState* play);
 void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, PlayState* play);
 
-ActorInit Bg_Ydan_Hasi_InitVars = {
+ActorProfile Bg_Ydan_Hasi_Profile = {
     /**/ ACTOR_BG_YDAN_HASI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

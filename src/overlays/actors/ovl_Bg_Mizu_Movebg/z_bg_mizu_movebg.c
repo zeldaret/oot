@@ -25,7 +25,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play);
 void BgMizuMovebg_UpdateHookshotPlatform(BgMizuMovebg* this, PlayState* play);
 s32 BgMizuMovebg_SetPosFromPath(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
 
-ActorInit Bg_Mizu_Movebg_InitVars = {
+ActorProfile Bg_Mizu_Movebg_Profile = {
     /**/ ACTOR_BG_MIZU_MOVEBG,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

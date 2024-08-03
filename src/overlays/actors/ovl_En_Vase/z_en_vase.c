@@ -13,7 +13,7 @@ void EnVase_Init(Actor* thisx, PlayState* play);
 void EnVase_Destroy(Actor* thisx, PlayState* play);
 void EnVase_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Vase_InitVars = {
+ActorProfile En_Vase_Profile = {
     /**/ ACTOR_EN_VASE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

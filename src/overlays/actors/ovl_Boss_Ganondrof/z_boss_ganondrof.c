@@ -69,7 +69,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Stunned(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Death(BossGanondrof* this, PlayState* play);
 
-ActorInit Boss_Ganondrof_InitVars = {
+ActorProfile Boss_Ganondrof_Profile = {
     /**/ ACTOR_BOSS_GANONDROF,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

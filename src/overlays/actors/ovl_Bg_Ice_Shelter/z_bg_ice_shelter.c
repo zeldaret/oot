@@ -23,7 +23,7 @@ void BgIceShelter_SetupMelt(BgIceShelter* this);
 void BgIceShelter_Idle(BgIceShelter* this, PlayState* play);
 void BgIceShelter_Melt(BgIceShelter* this, PlayState* play);
 
-ActorInit Bg_Ice_Shelter_InitVars = {
+ActorProfile Bg_Ice_Shelter_Profile = {
     /**/ ACTOR_BG_ICE_SHELTER,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

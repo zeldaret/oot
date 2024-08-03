@@ -10,7 +10,7 @@
 
 void EnTorch_Init(Actor* thisx, PlayState* play);
 
-ActorInit En_Torch_InitVars = {
+ActorProfile En_Torch_Profile = {
     /**/ ACTOR_EN_TORCH,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

@@ -63,7 +63,7 @@ static ColliderTrisInit sTrisInit = {
     sTrisElementsInit,
 };
 
-ActorInit Bg_Hidan_Hamstep_InitVars = {
+ActorProfile Bg_Hidan_Hamstep_Profile = {
     /**/ ACTOR_BG_HIDAN_HAMSTEP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

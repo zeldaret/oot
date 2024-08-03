@@ -75,7 +75,7 @@ void EnKanban_Destroy(Actor* thisx, PlayState* play);
 void EnKanban_Update(Actor* thisx, PlayState* play2);
 void EnKanban_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Kanban_InitVars = {
+ActorProfile En_Kanban_Profile = {
     /**/ ACTOR_EN_KANBAN,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
