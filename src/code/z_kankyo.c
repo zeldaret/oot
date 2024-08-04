@@ -441,8 +441,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
         sLightningBolts[i].state = LIGHTNING_BOLT_INACTIVE;
     }
 
-    play->roomCtx.unk_74[0] = 0;
-    play->roomCtx.unk_74[1] = 0;
+    play->roomCtx.drawParams[0] = 0;
+    play->roomCtx.drawParams[1] = 0;
 
     for (i = 0; i < ARRAY_COUNT(play->csCtx.actorCues); i++) {
         play->csCtx.actorCues[i] = NULL;

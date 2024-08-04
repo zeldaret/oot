@@ -33,10 +33,10 @@ typedef struct {
     /* 0x0E */ s16   params;
 } TransitionActorEntry; // size = 0x10
 
-typedef struct TransitionActorContext {
-    /* 0x00 */ u8 numActors;
+typedef struct TransitionActorList {
+    /* 0x00 */ u8 num;
     /* 0x04 */ TransitionActorEntry* list;
-} TransitionActorContext; // size = 0x8
+} TransitionActorList; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u8 playerEntryIndex;
@@ -178,15 +178,20 @@ typedef struct Room {
 typedef struct RoomContext {
     /* 0x00 */ Room curRoom;
     /* 0x14 */ Room prevRoom;
-    /* 0x28 */ void* bufPtrs[2];
-    /* 0x30 */ u8 unk_30;
-    /* 0x31 */ s8 status;
-    /* 0x34 */ void* unk_34;
+    /* 0x28 */ void* bufPtrs[2]; // Start and end pointers for the room buffer. Can be split into two pages, where page 0 is allocated from the start pointer and page 1 is allocated from the end pointer.
+    /* 0x30 */ u8 activeBufPage; // 0 - First page in memory, 1 - Last page in memory
+    /* 0x31 */ s8 status; // 0 = Free for new room request, 1 = DmaRequest for a new room is in progress
+    /* 0x34 */ void* roomRequestAddr; // ram pointer to where the requested room segment will be stored
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
-    /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
+    /* 0x74 */ s16 drawParams[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
+
+typedef struct RoomList {
+    /* 0x00 */ u8 num;
+    /* 0x04 */ RomFile* romFiles; // List of rom addresses for each room in a scene
+} RoomList;
 
 #define ROOM_DRAW_OPA (1 << 0)
 #define ROOM_DRAW_XLU (1 << 1)

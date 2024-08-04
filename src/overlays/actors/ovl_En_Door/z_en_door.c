@@ -166,7 +166,7 @@ void EnDoor_Destroy(Actor* thisx, PlayState* play) {
     TransitionActorEntry* transitionEntry;
     EnDoor* this = (EnDoor*)thisx;
 
-    transitionEntry = &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
+    transitionEntry = &play->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
     if (transitionEntry->id < 0) {
         transitionEntry->id = -transitionEntry->id;
     }
@@ -334,7 +334,7 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         TransitionActorEntry* transitionEntry;
         Gfx** doorDLists = sDoorDLists[this->dListIndex];
 
-        transitionEntry = &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
+        transitionEntry = &play->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
         rot->z += this->actor.world.rot.y;
         if ((play->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
             // Draw the side of the door that is visible to the camera

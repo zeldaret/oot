@@ -525,13 +525,13 @@ void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     }
 }
 
-void func_80096FD4(PlayState* play, Room* room) {
+void Room_Init(PlayState* play, Room* room) {
     room->num = -1;
     room->segment = NULL;
 }
 
-u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
-    u32 maxRoomSize = 0;
+u32 Room_AllocateAndLoad(PlayState* play, RoomContext* roomCtx) {
+    u32 roomBufferSize = 0;
     u32 roomSize;
     s32 i;
     s32 j;
@@ -542,25 +542,27 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     u32 cumulRoomSize;
     s32 pad;
 
+    // Set roomBufferSize to the largest room
     {
-        RomFile* roomList = play->roomList;
+        RomFile* roomList = play->roomList.romFiles;
 
-        for (i = 0; i < play->numRooms; i++) {
+        for (i = 0; i < play->roomList.num; i++) {
             roomSize = roomList[i].vromEnd - roomList[i].vromStart;
             PRINTF("ROOM%d size=%d\n", i, roomSize);
-            if (maxRoomSize < roomSize) {
-                maxRoomSize = roomSize;
+            if (roomBufferSize < roomSize) {
+                roomBufferSize = roomSize;
             }
         }
     }
 
-    if ((u32)play->transiActorCtx.numActors != 0) {
-        RomFile* roomList = play->roomList;
-        TransitionActorEntry* transitionActor = &play->transiActorCtx.list[0];
+    // If there any rooms are connected, find their combined size and update roomBufferSize if larger
+    if ((u32)play->transitionActors.num != 0) {
+        RomFile* roomList = play->roomList.romFiles;
+        TransitionActorEntry* transitionActor = &play->transitionActors.list[0];
 
-        LOG_NUM("game_play->room_rom_address.num", play->numRooms, "../z_room.c", 912);
+        LOG_NUM("game_play->room_rom_address.num", play->roomList.num, "../z_room.c", 912);
 
-        for (j = 0; j < play->transiActorCtx.numActors; j++) {
+        for (j = 0; j < play->transitionActors.num; j++) {
             frontRoom = transitionActor->sides[0].room;
             backRoom = transitionActor->sides[1].room;
             frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
@@ -569,8 +571,8 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
 
             PRINTF("DOOR%d=<%d> ROOM1=<%d, %d> ROOM2=<%d, %d>\n", j, cumulRoomSize, frontRoom, frontRoomSize, backRoom,
                    backRoomSize);
-            if (maxRoomSize < cumulRoomSize) {
-                maxRoomSize = cumulRoomSize;
+            if (roomBufferSize < cumulRoomSize) {
+                roomBufferSize = cumulRoomSize;
             }
             transitionActor++;
         }
@@ -578,25 +580,29 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
 
     PRINTF(VT_FGCOL(YELLOW));
     // "Room buffer size=%08x(%5.1fK)"
-    PRINTF("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
-    roomCtx->bufPtrs[0] = GAME_STATE_ALLOC(&play->state, maxRoomSize, "../z_room.c", 946);
+    PRINTF("部屋バッファサイズ=%08x(%5.1fK)\n", roomBufferSize, roomBufferSize / 1024.0f);
+    roomCtx->bufPtrs[0] = GAME_STATE_ALLOC(&play->state, roomBufferSize, "../z_room.c", 946);
     // "Room buffer initial pointer=%08x"
     PRINTF("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
-    roomCtx->bufPtrs[1] = (void*)((uintptr_t)roomCtx->bufPtrs[0] + maxRoomSize);
+    roomCtx->bufPtrs[1] = (void*)((uintptr_t)roomCtx->bufPtrs[0] + roomBufferSize);
     // "Room buffer end pointer=%08x"
     PRINTF("部屋バッファ終了ポインタ=%08x\n", roomCtx->bufPtrs[1]);
     PRINTF(VT_RST);
-    roomCtx->unk_30 = 0;
+    roomCtx->activeBufPage = 0;
     roomCtx->status = 0;
 
     frontRoom = gSaveContext.respawnFlag > 0 ? ((void)0, gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex)
                                              : play->spawnList[play->spawn].room;
-    func_8009728C(play, roomCtx, frontRoom);
 
-    return maxRoomSize;
+    // Load into a room for the first time
+    //! Since curRoom was initialized to null in Play_InitScene, the previous room will be null and Room_LeavePrevRoom
+    //! doesn't need to be called to complete the transition.
+    Room_StartRoomTransition(play, roomCtx, frontRoom);
+
+    return roomBufferSize;
 }
 
-s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
+s32 Room_StartRoomTransition(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
     if (roomCtx->status == 0) {
         u32 size;
 
@@ -605,16 +611,16 @@ s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
         roomCtx->curRoom.segment = NULL;
         roomCtx->status = 1;
 
-        ASSERT(roomNum < play->numRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
+        ASSERT(roomNum < play->roomList.num, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
-        size = play->roomList[roomNum].vromEnd - play->roomList[roomNum].vromStart;
-        roomCtx->unk_34 =
-            (void*)ALIGN16((uintptr_t)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
+        size = play->roomList.romFiles[roomNum].vromEnd - play->roomList.romFiles[roomNum].vromStart;
+        roomCtx->roomRequestAddr = (void*)ALIGN16((uintptr_t)roomCtx->bufPtrs[roomCtx->activeBufPage] -
+                                                  ((size + 8) * roomCtx->activeBufPage + 7));
 
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
-        DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->unk_34, play->roomList[roomNum].vromStart, size, 0,
-                          &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
-        roomCtx->unk_30 ^= 1;
+        DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->roomRequestAddr, play->roomList.romFiles[roomNum].vromStart,
+                          size, 0, &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
+        roomCtx->activeBufPage ^= 1;
 
         return true;
     }
@@ -622,12 +628,12 @@ s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
     return false;
 }
 
-s32 func_800973FC(PlayState* play, RoomContext* roomCtx) {
+s32 Room_HandleLoadCallbacks(PlayState* play, RoomContext* roomCtx) {
     if (roomCtx->status == 1) {
         if (osRecvMesg(&roomCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
             roomCtx->status = 0;
-            roomCtx->curRoom.segment = roomCtx->unk_34;
-            gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->unk_34);
+            roomCtx->curRoom.segment = roomCtx->roomRequestAddr;
+            gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->curRoom.segment);
 
             Scene_ExecuteCommands(play, roomCtx->curRoom.segment);
             Player_SetBootData(play, GET_PLAYER(play));
@@ -649,7 +655,7 @@ void Room_Draw(PlayState* play, Room* room, u32 flags) {
     }
 }
 
-void func_80097534(PlayState* play, RoomContext* roomCtx) {
+void Room_LeavePrevRoom(PlayState* play, RoomContext* roomCtx) {
     roomCtx->prevRoom.num = -1;
     roomCtx->prevRoom.segment = NULL;
     func_80031B14(play, &play->actorCtx);

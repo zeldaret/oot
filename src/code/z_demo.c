@@ -307,8 +307,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_FADE_KOKIRI_GRASS_ENV_ALPHA:
-            if (play->roomCtx.unk_74[0] <= 127) {
-                play->roomCtx.unk_74[0] += 4;
+            if (play->roomCtx.drawParams[0] <= 127) {
+                play->roomCtx.drawParams[0] += 4;
             }
             break;
 
@@ -321,14 +321,14 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_DEKU_TREE_DEATH:
-            if (play->roomCtx.unk_74[0] < 1650) {
-                play->roomCtx.unk_74[0] += 20;
+            if (play->roomCtx.drawParams[0] < 1650) {
+                play->roomCtx.drawParams[0] += 20;
             }
 
             if (csCtx->curFrame == 783) {
                 Sfx_PlaySfxCentered(NA_SE_EV_DEKU_DEATH);
             } else if (csCtx->curFrame == 717) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
             }
             break;
 
@@ -341,12 +341,12 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_TRIFORCE_FLASH:
-            if (play->roomCtx.unk_74[1] == 0) {
+            if (play->roomCtx.drawParams[1] == 0) {
                 Sfx_PlaySfxCentered(NA_SE_EV_TRIFORCE_FLASH);
             }
 
-            if (play->roomCtx.unk_74[1] < 255) {
-                play->roomCtx.unk_74[1] += 5;
+            if (play->roomCtx.drawParams[1] < 255) {
+                play->roomCtx.drawParams[1] += 5;
             }
             break;
 

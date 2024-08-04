@@ -63,7 +63,7 @@ typedef struct PlayState {
     /* 0x10B20 */ AnimTaskQueue animTaskQueue;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
-    /* 0x11D34 */ TransitionActorContext transiActorCtx;
+    /* 0x11D34 */ TransitionActorList transitionActors;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct PlayState* play, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct PlayState* play, Input* input);
     /* 0x11D44 */ int (*isPlayerDroppingFish)(struct PlayState* play);
@@ -81,8 +81,7 @@ typedef struct PlayState {
     /* 0x11DE9 */ u8 haltAllActors;
     /* 0x11DEA */ u8 spawn;
     /* 0x11DEB */ u8 numActorEntries;
-    /* 0x11DEC */ u8 numRooms;
-    /* 0x11DF0 */ RomFile* roomList;
+    /* 0x11DEC */ RoomList roomList;
     /* 0x11DF4 */ ActorEntry* playerEntry;
     /* 0x11DF8 */ ActorEntry* actorEntryList;
     /* 0x11DFC */ void* unk_11DFC;

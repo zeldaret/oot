@@ -1896,7 +1896,7 @@ void func_8002F994(Actor* actor, s32 timer) {
 // Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
 s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (SurfaceType_GetFloorType(&play->colCtx, poly, bgId) == FLOOR_TYPE_8) {
-        play->roomCtx.unk_74[0] = 1;
+        play->roomCtx.drawParams[0] = 1;
         CollisionCheck_BlueBlood(play, NULL, pos);
         Actor_PlaySfx(actor, NA_SE_IT_WALL_HIT_BUYO);
         return true;
@@ -3002,8 +3002,8 @@ void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx) {
     u8 numActors;
     s32 i;
 
-    transitionActor = play->transiActorCtx.list;
-    numActors = play->transiActorCtx.numActors;
+    transitionActor = play->transitionActors.list;
+    numActors = play->transitionActors.num;
 
     for (i = 0; i < numActors; i++) {
         if (transitionActor->id >= 0) {
@@ -3018,7 +3018,7 @@ void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx) {
                             (i << TRANSITION_ACTOR_PARAMS_INDEX_SHIFT) + transitionActor->params);
 
                 transitionActor->id = -transitionActor->id;
-                numActors = play->transiActorCtx.numActors;
+                numActors = play->transitionActors.num;
             }
         }
         transitionActor++;

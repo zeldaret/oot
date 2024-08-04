@@ -77,7 +77,7 @@ void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
     }
 
     if (gSaveContext.sceneLayer == 5) {
-        play->roomCtx.unk_74[0] = 0xFF;
+        play->roomCtx.drawParams[0] = 0xFF;
     }
 
     Collider_InitCylinder(play, &this->collider);
@@ -119,10 +119,10 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
         }
     }
     if (gSaveContext.sceneLayer == 5) {
-        if (play->roomCtx.unk_74[0] > 0) {
-            play->roomCtx.unk_74[0]--;
+        if (play->roomCtx.drawParams[0] > 0) {
+            play->roomCtx.drawParams[0]--;
         } else {
-            play->roomCtx.unk_74[0] = 0;
+            play->roomCtx.drawParams[0] = 0;
         }
     }
 }
@@ -146,8 +146,8 @@ void func_808BB0AC(BgTokiSwd* this, PlayState* play) {
 }
 
 void func_808BB128(BgTokiSwd* this, PlayState* play) {
-    if (CutsceneFlags_Get(play, 1) && (play->roomCtx.unk_74[0] < 0xFF)) {
-        play->roomCtx.unk_74[0] += 5;
+    if (CutsceneFlags_Get(play, 1) && (play->roomCtx.drawParams[0] < 0xFF)) {
+        play->roomCtx.drawParams[0] += 5;
     }
 }
 

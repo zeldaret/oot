@@ -11,7 +11,7 @@
 #include "ichain.h"
 #include "terminal.h"
 
-#pragma increment_block_number "gc-eu:206 gc-eu-mq:206"
+#pragma increment_block_number "gc-eu:203 gc-eu-mq:203"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -910,10 +910,10 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
 
         sFishGameNumber = (HIGH_SCORE(HS_FISHING) & (HS_FISH_PLAYED * 255)) >> 0x10;
         if ((sFishGameNumber & 7) == 7) {
-            play->roomCtx.unk_74[0] = 90;
+            play->roomCtx.drawParams[0] = 90;
             sFishingFoggy = 1;
         } else {
-            play->roomCtx.unk_74[0] = 40;
+            play->roomCtx.drawParams[0] = 40;
             sFishingFoggy = 0;
         }
 
