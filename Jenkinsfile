@@ -30,20 +30,7 @@ pipeline {
                 sh 'make -j setup'
             }
         }
-        stage('Build gc-eu-mq-dbg (qemu-irix)') {
-            when {
-                branch 'main'
-            }
-            steps {
-                sh 'make -j ORIG_COMPILER=1'
-            }
-        }
         stage('Build gc-eu-mq-dbg') {
-            when {
-                not {
-                    branch 'main'
-                }
-            }
             steps {
                 sh 'make -j RUN_CC_CHECK=0'
             }
@@ -54,20 +41,7 @@ pipeline {
                 sh 'make -j setup VERSION=gc-eu-mq'
             }
         }
-        stage('Build gc-eu-mq (qemu-irix)') {
-            when {
-                branch 'main'
-            }
-            steps {
-                sh 'make -j VERSION=gc-eu-mq ORIG_COMPILER=1'
-            }
-        }
         stage('Build gc-eu-mq') {
-            when {
-                not {
-                    branch 'main'
-                }
-            }
             steps {
                 sh 'make -j VERSION=gc-eu-mq RUN_CC_CHECK=0'
             }
