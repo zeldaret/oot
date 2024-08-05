@@ -5,6 +5,9 @@ SHELL = /bin/bash
 .SHELLFLAGS = -o pipefail -c
 
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
+# It is also possible to override default settings in a file called .make_options with 'SETTING=value'.
+
+-include .make_options.mk
 
 # If COMPARE is 1, check the output md5sum after building
 COMPARE := 1
