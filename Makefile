@@ -33,7 +33,7 @@ RUN_CC_CHECK ?= 1
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 # Emulator w/ flags
 N64_EMULATOR ?=
-# Set to override game region in the ROM header. Options: JP, US, PAL
+# Set to override game region in the ROM header. Options: JP, US, EU
 # REGION ?= US
 
 CFLAGS ?=
