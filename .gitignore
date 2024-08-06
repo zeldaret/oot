@@ -9,6 +9,7 @@ __pycache__/
 .idea/
 
 # Project-specific ignores
+.make_options.mk
 extracted/
 build/
 expected/

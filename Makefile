@@ -5,30 +5,65 @@ SHELL = /bin/bash
 .SHELLFLAGS = -o pipefail -c
 
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
+# It is also possible to override default settings in a file called .make_options.mk with 'SETTING=value'.
+
+-include .make_options.mk
 
 # If COMPARE is 1, check the output md5sum after building
-COMPARE := 1
+COMPARE ?= 1
 # If NON_MATCHING is 1, define the NON_MATCHING C flag when building
-NON_MATCHING := 0
+NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
-ORIG_COMPILER := 0
+ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
-COMPILER := ido
+COMPILER ?= ido
 # Target game version. Currently the following versions are supported:
 #   gc-eu          GameCube Europe/PAL
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 # The following versions are work-in-progress and not yet matching:
 #   gc-us          GameCube US
-VERSION := gc-eu-mq-dbg
+VERSION ?= gc-eu-mq-dbg
 # Number of threads to extract and compress with
-N_THREADS := $(shell nproc)
+N_THREADS ?= $(shell nproc)
 # Check code syntax with host compiler
-RUN_CC_CHECK := 1
+RUN_CC_CHECK ?= 1
+# Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
+# In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
+MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+# Emulator w/ flags
+N64_EMULATOR ?=
+# Set to override game region in the ROM header. Options: JP, US, EU
+# REGION ?= US
 
 CFLAGS ?=
 CPPFLAGS ?=
 CPP_DEFINES ?=
+
+# Version-specific settings
+ifeq ($(VERSION),gc-us)
+  REGION ?= US
+  PAL := 0
+  MQ := 0
+  DEBUG := 0
+else ifeq ($(VERSION),gc-eu)
+  REGION ?= EU
+  PAL := 1
+  MQ := 0
+  DEBUG := 0
+else ifeq ($(VERSION),gc-eu-mq)
+  REGION ?= EU
+  PAL := 1
+  MQ := 1
+  DEBUG := 0
+else ifeq ($(VERSION),gc-eu-mq-dbg)
+  REGION ?= EU
+  PAL := 1
+  MQ := 1
+  DEBUG := 1
+else
+$(error Unsupported version $(VERSION))
+endif
 
 # ORIG_COMPILER cannot be combined with a non-IDO compiler. Check for this case and error out if found.
 ifneq ($(COMPILER),ido)
@@ -42,38 +77,9 @@ ifeq ($(COMPILER),gcc)
   NON_MATCHING := 1
 endif
 
-# Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
-# In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
-MIPS_BINUTILS_PREFIX := mips-linux-gnu-
-
 ifeq ($(NON_MATCHING),1)
   CPP_DEFINES += -DNON_MATCHING -DAVOID_UB
   COMPARE := 0
-endif
-
-# Version-specific settings
-ifeq ($(VERSION),gc-us)
-  REGION := US
-  PAL := 0
-  MQ := 0
-  DEBUG := 0
-else ifeq ($(VERSION),gc-eu)
-  REGION := EU
-  PAL := 1
-  MQ := 0
-  DEBUG := 0
-else ifeq ($(VERSION),gc-eu-mq)
-  REGION := EU
-  PAL := 1
-  MQ := 1
-  DEBUG := 0
-else ifeq ($(VERSION),gc-eu-mq-dbg)
-  REGION := EU
-  PAL := 1
-  MQ := 1
-  DEBUG := 1
-else
-$(error Unsupported version $(VERSION))
 endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
@@ -156,8 +162,6 @@ LD      := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
 NM      := $(MIPS_BINUTILS_PREFIX)nm
-
-N64_EMULATOR ?=
 
 INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
