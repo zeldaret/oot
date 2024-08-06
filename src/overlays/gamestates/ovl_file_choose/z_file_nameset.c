@@ -58,23 +58,11 @@ void FileSelect_SetKeyboardVtx(GameState* thisx) {
 
     phi_s1 = 0x26;
 
+#if OOT_NTSC
     for (phi_t2 = 0, phi_s2 = 0, phi_t3 = 0; phi_s2 < 5; phi_s2++) {
-#if OOT_NTSC
-        for (phi_t0 = -0x60, phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4)
-#else
-        for (phi_t0 = -0x60, phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4, phi_t2++)
-#endif
-        {
-#if OOT_NTSC
+        for (phi_t0 = -0x60, phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4) {
             this->keyboardVtx[phi_t3].v.ob[0] = this->keyboardVtx[phi_t3 + 2].v.ob[0] = phi_t0;
             this->keyboardVtx[phi_t3 + 1].v.ob[0] = this->keyboardVtx[phi_t3 + 3].v.ob[0] = phi_t0 + 12;
-#else
-            //! @bug D_80812544 is accessed out of bounds when drawing the empty space character (value
-            //! of 64). Under normal circumstances it reads a halfword from sNameLabelTextures.
-            this->keyboardVtx[phi_t3].v.ob[0] = this->keyboardVtx[phi_t3 + 2].v.ob[0] = D_80812544[phi_t2] + phi_t0;
-            this->keyboardVtx[phi_t3 + 1].v.ob[0] = this->keyboardVtx[phi_t3 + 3].v.ob[0] =
-                D_80812544[phi_t2] + phi_t0 + 12;
-#endif
 
             this->keyboardVtx[phi_t3].v.ob[1] = this->keyboardVtx[phi_t3 + 1].v.ob[1] = phi_s1;
 
@@ -107,6 +95,47 @@ void FileSelect_SetKeyboardVtx(GameState* thisx) {
 
         phi_s1 -= 0x10;
     }
+#else
+    for (phi_t2 = 0, phi_s2 = 0, phi_t3 = 0; phi_s2 < 5; phi_s2++) {
+        for (phi_t0 = -0x60, phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4, phi_t2++) {
+            //! @bug D_80812544 is accessed out of bounds when drawing the empty space character (value
+            //! of 64). Under normal circumstances it reads a halfword from sNameLabelTextures.
+            this->keyboardVtx[phi_t3].v.ob[0] = this->keyboardVtx[phi_t3 + 2].v.ob[0] = D_80812544[phi_t2] + phi_t0;
+            this->keyboardVtx[phi_t3 + 1].v.ob[0] = this->keyboardVtx[phi_t3 + 3].v.ob[0] =
+                D_80812544[phi_t2] + phi_t0 + 12;
+
+            this->keyboardVtx[phi_t3].v.ob[1] = this->keyboardVtx[phi_t3 + 1].v.ob[1] = phi_s1;
+
+            this->keyboardVtx[phi_t3 + 2].v.ob[1] = this->keyboardVtx[phi_t3 + 3].v.ob[1] = phi_s1 - 12;
+
+            this->keyboardVtx[phi_t3].v.ob[2] = this->keyboardVtx[phi_t3 + 1].v.ob[2] =
+                this->keyboardVtx[phi_t3 + 2].v.ob[2] = this->keyboardVtx[phi_t3 + 3].v.ob[2] = 0;
+
+            this->keyboardVtx[phi_t3].v.flag = this->keyboardVtx[phi_t3 + 1].v.flag =
+                this->keyboardVtx[phi_t3 + 2].v.flag = this->keyboardVtx[phi_t3 + 3].v.flag = 0;
+
+            this->keyboardVtx[phi_t3].v.tc[0] = this->keyboardVtx[phi_t3].v.tc[1] =
+                this->keyboardVtx[phi_t3 + 1].v.tc[1] = this->keyboardVtx[phi_t3 + 2].v.tc[0] = 0;
+
+            this->keyboardVtx[phi_t3 + 1].v.tc[0] = this->keyboardVtx[phi_t3 + 2].v.tc[1] =
+                this->keyboardVtx[phi_t3 + 3].v.tc[0] = this->keyboardVtx[phi_t3 + 3].v.tc[1] = 0x200;
+
+            this->keyboardVtx[phi_t3].v.cn[0] = this->keyboardVtx[phi_t3 + 1].v.cn[0] =
+                this->keyboardVtx[phi_t3 + 2].v.cn[0] = this->keyboardVtx[phi_t3 + 3].v.cn[0] =
+                    this->keyboardVtx[phi_t3].v.cn[1] = this->keyboardVtx[phi_t3 + 1].v.cn[1] =
+                        this->keyboardVtx[phi_t3 + 2].v.cn[1] = this->keyboardVtx[phi_t3 + 3].v.cn[1] =
+                            this->keyboardVtx[phi_t3].v.cn[2] = this->keyboardVtx[phi_t3 + 1].v.cn[2] =
+                                this->keyboardVtx[phi_t3 + 2].v.cn[2] = this->keyboardVtx[phi_t3 + 3].v.cn[2] =
+                                    this->keyboardVtx[phi_t3].v.cn[3] = this->keyboardVtx[phi_t3 + 1].v.cn[3] =
+                                        this->keyboardVtx[phi_t3 + 2].v.cn[3] = this->keyboardVtx[phi_t3 + 3].v.cn[3] =
+                                            255;
+
+            phi_t0 += 0x10;
+        }
+
+        phi_s1 -= 0x10;
+    }
+#endif
 }
 
 static void* sNameLabelTextures[] =
@@ -209,7 +238,13 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     this->nameEntryVtx = GRAPH_ALLOC(this->state.gfxCtx, 44 * sizeof(Vtx));
 
     for (phi_s0 = 0, phi_t1 = 0; phi_t1 < 44; phi_t1 += 4, phi_s0++) {
-#if OOT_PAL
+#if OOT_NTSC
+        this->nameEntryVtx[phi_t1].v.ob[0] = this->nameEntryVtx[phi_t1 + 2].v.ob[0] =
+            D_808125EC[phi_s0] + this->nameEntryBoxPosX;
+
+        this->nameEntryVtx[phi_t1 + 1].v.ob[0] = this->nameEntryVtx[phi_t1 + 3].v.ob[0] =
+            this->nameEntryVtx[phi_t1].v.ob[0] + 0xA;
+#else
         if ((phi_s0 > 0) && (phi_s0 < 9)) {
             temp = this->fileNames[this->buttonIndex][phi_s0 - 1];
 
@@ -219,13 +254,11 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
             this->nameEntryVtx[phi_t1 + 1].v.ob[0] = this->nameEntryVtx[phi_t1 + 3].v.ob[0] =
                 this->nameEntryVtx[phi_t1].v.ob[0] + 0xA;
         } else {
-#endif
             this->nameEntryVtx[phi_t1].v.ob[0] = this->nameEntryVtx[phi_t1 + 2].v.ob[0] =
                 D_808125EC[phi_s0] + this->nameEntryBoxPosX;
 
             this->nameEntryVtx[phi_t1 + 1].v.ob[0] = this->nameEntryVtx[phi_t1 + 3].v.ob[0] =
                 this->nameEntryVtx[phi_t1].v.ob[0] + 0xA;
-#if OOT_PAL
         }
 #endif
 
@@ -621,11 +654,11 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
             }
         } else {
             if (this->charPage <= FS_CHAR_PAGE_ENG) {
+#if OOT_NTSC
                 if (this->kbdY != 5) {
                     // draw the character the cursor is hovering over in yellow
                     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, 255);
 
-#if OOT_NTSC
                     if (this->charPage == FS_CHAR_PAGE_HIRA) {
                         gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[(this->charIndex * 4)], 4, 0);
                         FileSelect_DrawCharacter(
@@ -685,7 +718,6 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                             }
                         }
                     } else {
-#endif
                         gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[this->charIndex * 4], 4, 0);
 
                         FileSelect_DrawCharacter(this->state.gfxCtx,
@@ -703,11 +735,8 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                                 this->newFileNameCharCount = 7;
                             }
                         }
-#if OOT_NTSC
                     }
-#endif
                 } else if (CHECK_BTN_ALL(input->press.button, BTN_A) && (this->charPage != this->kbdButton)) {
-#if OOT_NTSC
                     if (this->kbdButton == FS_KBD_BTN_HIRA) {
                         if (this->charPage == FS_CHAR_PAGE_KATA) {
                             this->charPage = FS_CHAR_PAGE_KATA_TO_HIRA;
@@ -733,7 +762,6 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                         Audio_PlaySfxGeneral(NA_SE_SY_WIN_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
-#endif
                         if (this->kbdButton == FS_KBD_BTN_BACKSPACE) {
                             if ((this->newFileNameCharCount == 7) &&
                                 (this->fileNames[this->buttonIndex][7] != FILENAME_SPACE)) {
@@ -789,9 +817,7 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                                                      &gSfxDefaultReverb);
                             }
                         }
-#if OOT_NTSC
                     }
-#endif
                 }
 
                 if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
@@ -810,14 +836,110 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                     if (this->newFileNameCharCount < 0) {
                         this->newFileNameCharCount = 0;
                     }
-#if OOT_NTSC
                 } else if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
                     if (FileSelect_ApplyDiacriticToFilename(&this->state, FILENAME_SPACE)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     }
-#endif
                 }
+#else
+                if (this->kbdY != 5) {
+                    // draw the character the cursor is hovering over in yellow
+                    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, 255);
+
+                    gSPVertex(POLY_OPA_DISP++, &this->keyboardVtx[this->charIndex * 4], 4, 0);
+
+                    FileSelect_DrawCharacter(this->state.gfxCtx,
+                                                font->fontBuf + gCharPageEng[this->charIndex] * FONT_CHAR_TEX_SIZE, 0);
+
+                    if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
+                        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_S, &gSfxDefaultPos, 4,
+                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                &gSfxDefaultReverb);
+                        this->fileNames[this->buttonIndex][this->newFileNameCharCount] =
+                            gCharPageEng[this->charIndex];
+                        this->newFileNameCharCount++;
+
+                        if (this->newFileNameCharCount > 7) {
+                            this->newFileNameCharCount = 7;
+                        }
+                    }
+                } else if (CHECK_BTN_ALL(input->press.button, BTN_A) && (this->charPage != this->kbdButton)) {
+                    if (this->kbdButton == FS_KBD_BTN_BACKSPACE) {
+                        if ((this->newFileNameCharCount == 7) &&
+                            (this->fileNames[this->buttonIndex][7] != FILENAME_SPACE)) {
+                            for (i = this->newFileNameCharCount; i < 7; i++) {
+                                this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
+                            }
+
+                            this->fileNames[this->buttonIndex][i] = FILENAME_SPACE;
+                            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_S, &gSfxDefaultPos, 4,
+                                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                    &gSfxDefaultReverb);
+                        } else {
+                            this->newFileNameCharCount--;
+
+                            if (this->newFileNameCharCount < 0) {
+                                this->newFileNameCharCount = 0;
+                            }
+
+                            for (i = this->newFileNameCharCount; i < 7; i++) {
+                                this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
+                            }
+
+                            this->fileNames[this->buttonIndex][i] = FILENAME_SPACE;
+                            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_S, &gSfxDefaultPos, 4,
+                                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                    &gSfxDefaultReverb);
+                        }
+                    } else if (this->kbdButton == FS_KBD_BTN_END) {
+                        validName = false;
+
+                        for (i = 0; i < 8; i++) {
+                            if (this->fileNames[this->buttonIndex][i] != FILENAME_SPACE) {
+                                validName = true;
+                                break;
+                            }
+                        }
+
+                        if (validName) {
+                            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4,
+                                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                    &gSfxDefaultReverb);
+                            gSaveContext.fileNum = this->buttonIndex;
+                            dayTime = ((void)0, gSaveContext.save.dayTime);
+                            Sram_InitSave(this, &this->sramCtx);
+                            gSaveContext.save.dayTime = dayTime;
+                            this->configMode = CM_NAME_ENTRY_TO_MAIN;
+                            this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
+                            this->connectorAlpha[this->buttonIndex] = 255;
+                            Rumble_Request(300.0f, 180, 20, 100);
+                        } else {
+                            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_ERROR, &gSfxDefaultPos, 4,
+                                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                    &gSfxDefaultReverb);
+                        }
+                    }
+                }
+
+                if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
+                    Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    this->newFileNameCharCount++;
+
+                    if (this->newFileNameCharCount > 7) {
+                        this->newFileNameCharCount = 7;
+                    }
+                } else if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
+                    Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    this->newFileNameCharCount--;
+
+                    if (this->newFileNameCharCount < 0) {
+                        this->newFileNameCharCount = 0;
+                    }
+                }
+#endif
             }
         }
     }
@@ -886,7 +1008,6 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
                 }
             }
         } else {
-#endif
             this->kbdButton = FS_KBD_BTN_NONE;
 
             if (this->kbdY != 5) {
@@ -909,7 +1030,6 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
                         this->charIndex = this->kbdY * 13 + this->kbdX;
                     }
                 }
-#if OOT_NTSC
             } else if (gSaveContext.language == LANGUAGE_JPN) {
                 if (this->stickAdjX < -30) {
                     Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -926,7 +1046,6 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
                         this->kbdX = 0;
                     }
                 }
-#endif
             } else {
                 if (this->stickAdjX < -30) {
                     Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -950,7 +1069,6 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->kbdY--;
                 if (this->kbdY < 0) {
-#if OOT_NTSC
                     if (gSaveContext.language == LANGUAGE_JPN) {
                         this->kbdY = 5;
                         this->charIndex += 52;
@@ -969,7 +1087,6 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
 
                         this->unk_1CAD6[this->kbdX] = prevKbdX;
                     } else {
-#endif
                         // don't go to bottom row
                         if (this->kbdX < 8) {
                             this->kbdY = 4;
@@ -986,9 +1103,7 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
 
                             this->unk_1CAD6[this->kbdX] = prevKbdX;
                         }
-#if OOT_NTSC
                     }
-#endif
                 } else {
                     this->charIndex -= 13;
                     if (this->kbdY == 4) {
@@ -1010,9 +1125,7 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
                     this->charIndex += 13;
 
                     if (this->kbdY == 5) {
-#if OOT_NTSC
                         if (gSaveContext.language != LANGUAGE_JPN) {
-#endif
                             if (this->kbdX < 8) {
                                 this->kbdY = 0;
                                 this->charIndex = this->kbdX;
@@ -1033,7 +1146,6 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
 
                                 this->unk_1CAD6[this->kbdX] = prevKbdX;
                             }
-#if OOT_NTSC
                         } else {
                             prevKbdX = this->kbdX;
 
@@ -1051,14 +1163,12 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
 
                             this->unk_1CAD6[this->kbdX] = prevKbdX;
                         }
-#endif
                     }
                 }
             }
             if (this->kbdY == 5) {
                 this->kbdButton = this->kbdX;
             }
-#if OOT_NTSC
         }
     } else {
         this->charBgAlpha += ZREG(9);
@@ -1066,6 +1176,115 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
             this->charBgAlpha = 0;
             this->charPage = gNextCharPage[this->charPage];
         }
+    }
+#else
+    this->kbdButton = FS_KBD_BTN_NONE;
+
+    if (this->kbdY != 5) {
+        if (this->stickAdjX < -30) {
+            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            this->charIndex--;
+            this->kbdX--;
+            if (this->kbdX < 0) {
+                this->kbdX = 12;
+                this->charIndex = this->kbdY * 13 + this->kbdX;
+            }
+        } else if (this->stickAdjX > 30) {
+            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            this->charIndex++;
+            this->kbdX++;
+            if (this->kbdX >= 13) {
+                this->kbdX = 0;
+                this->charIndex = this->kbdY * 13 + this->kbdX;
+            }
+        }
+    } else {
+        if (this->stickAdjX < -30) {
+            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            this->kbdX--;
+            if (this->kbdX < 3) {
+                this->kbdX = 4;
+            }
+        } else if (this->stickAdjX > 30) {
+            Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            this->kbdX++;
+            if (this->kbdX >= 5) {
+                this->kbdX = 3;
+            }
+        }
+    }
+
+    if (this->stickAdjY > 30) {
+        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        this->kbdY--;
+        if (this->kbdY < 0) {
+            // don't go to bottom row
+            if (this->kbdX < 8) {
+                this->kbdY = 4;
+                this->charIndex = this->kbdX + 52;
+            } else {
+                this->kbdY = 5;
+                this->charIndex += 52;
+                prevKbdX = this->kbdX;
+                if (this->kbdX < 10) {
+                    this->kbdX = 3;
+                } else if (this->kbdX < 13) {
+                    this->kbdX = 4;
+                }
+
+                this->unk_1CAD6[this->kbdX] = prevKbdX;
+            }
+        } else {
+            this->charIndex -= 13;
+            if (this->kbdY == 4) {
+                this->charIndex = 52;
+                this->kbdX = this->unk_1CAD6[this->kbdX];
+                this->charIndex += this->kbdX;
+            }
+        }
+    } else if (this->stickAdjY < -30) {
+        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        this->kbdY++;
+
+        if (this->kbdY >= 6) {
+            this->kbdY = 0;
+            this->kbdX = this->unk_1CAD6[this->kbdX];
+            this->charIndex = this->kbdX;
+        } else {
+            this->charIndex += 13;
+
+            if (this->kbdY == 5) {
+                if (this->kbdX < 8) {
+                    this->kbdY = 0;
+                    this->charIndex = this->kbdX;
+                } else {
+                    prevKbdX = this->kbdX;
+
+                    if (this->kbdX < 3) {
+                        this->kbdX = 0;
+                    } else if (this->kbdX < 6) {
+                        this->kbdX = 1;
+                    } else if (this->kbdX < 8) {
+                        this->kbdX = 2;
+                    } else if (this->kbdX < 10) {
+                        this->kbdX = 3;
+                    } else if (this->kbdX < 13) {
+                        this->kbdX = 4;
+                    }
+
+                    this->unk_1CAD6[this->kbdX] = prevKbdX;
+                }
+            }
+        }
+    }
+    if (this->kbdY == 5) {
+        this->kbdButton = this->kbdX;
     }
 #endif
 }
