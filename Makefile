@@ -427,9 +427,9 @@ setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 --oot-version $(VERSION) -o $(EXTRACTED_DIR)/baserom
-	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom --oot-version $(VERSION) -o $(EXTRACTED_DIR)/incbin
-	$(PYTHON) tools/msgdis.py $(VERSION)
-	$(PYTHON) extract_assets.py -v $(VERSION) -j$(N_THREADS)
+	$(PYTHON) tools/extract_incbins.py --baserom-segments $(EXTRACTED_DIR)/baserom --oot-version $(VERSION) -o $(EXTRACTED_DIR)/incbin
+	$(PYTHON) tools/msgdis.py --baserom-segments $(EXTRACTED_DIR)/baserom --oot-version $(VERSION) -o $(EXTRACTED_DIR)/text
+	$(PYTHON) extract_assets.py --baserom-segments $(EXTRACTED_DIR)/baserom --oot-version $(VERSION) -o $(EXTRACTED_DIR)/assets -j$(N_THREADS)
 
 disasm:
 	$(RM) -r $(EXPECTED_DIR)

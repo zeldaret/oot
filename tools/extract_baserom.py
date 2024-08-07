@@ -29,6 +29,7 @@ def main():
     parser.add_argument(
         "-o",
         "--output-dir",
+        dest="output_dir",
         type=Path,
         required=True,
         help="Output directory for segments",
