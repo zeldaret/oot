@@ -118,6 +118,7 @@ def main():
         "--baserom-segments",
         dest="baserom_segments_dir",
         type=Path,
+        required=True,
         help="Directory of uncompressed ROM segments",
     )
     parser.add_argument("-v", "--oot-version", dest="oot_version", help="OOT game version", default="gc-eu-mq-dbg")
