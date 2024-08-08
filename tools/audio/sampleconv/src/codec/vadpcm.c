@@ -623,7 +623,7 @@ scored_encode(int32_t *in_buf, int32_t *orig_state, int32_t ***coef_tbl, int32_t
 
 static bool
 descent(int32_t guess[16], int32_t min_vals[16], int32_t max_vals[16], int32_t prev_state[16], int32_t ***coef_tbl,
-        int32_t order, int32_t npredictors, int32_t wanted_predictor, int32_t wanted_scale, int32_t wanted_ix[32],
+        int32_t order, int32_t npredictors, int32_t wanted_predictor, int32_t wanted_scale, int32_t wanted_ix[16],
         int frame_size)
 {
     const double inf = 1e100;
