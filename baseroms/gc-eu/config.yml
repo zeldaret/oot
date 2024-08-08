@@ -64,6 +64,10 @@ variables:
   sFraMessageEntryTable: 0x8010DB48
   sStaffMessageEntryTable: 0x8010FC58
   sShadowTex: 0x80A73020
+  gSoundFontTable: 0x80110490
+  gSequenceFontTable: 0x80110700
+  gSequenceTable: 0x801108C0
+  gSampleBankTable: 0x80110FB0
 assets:
 - name: code/fbdemo_circle
   xml_path: assets/xml/code/fbdemo_circle.xml
