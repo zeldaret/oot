@@ -249,9 +249,9 @@ extern struct GraphicsContext* __gfxCtx;
 #endif /* OOT_DEBUG */
 
 #if OOT_NTSC
-#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { jpn, nes }
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { jpn, eng }
 #else
-#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { nes, ger, fra }
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { eng, ger, fra }
 #endif
 
 /**
