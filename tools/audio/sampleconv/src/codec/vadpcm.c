@@ -784,7 +784,7 @@ bruteforce(int32_t guess[16], uint8_t input[9], int32_t decoded[16], int32_t pre
 }
 
 /**
- * vadpcm encoder used when re-encoding data
+ * vadpcm encoder used when encoding data
  */
 static void
 vencodeframe(uint8_t *out_buf, int16_t *in_buf, int32_t *state, int32_t ***coef_tbl, int32_t order, int32_t npredictors,

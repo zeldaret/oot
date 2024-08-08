@@ -83,6 +83,8 @@ wav_type_name(int type)
             return "ALAW";
         case WAVE_TYPE_MULAW:
             return "MULAW";
+        case WAVE_TYPE_EXTENSIBLE:
+            return "Extensible";
         default:
             return "Unknown (should never be here)";
     }
