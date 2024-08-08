@@ -71,6 +71,23 @@ typedef struct {
     uint32_t num;
 } wav_loop;
 
+static const char *
+wav_type_name(int type)
+{
+    switch (type) {
+        case WAVE_TYPE_PCM:
+            return "PCM";
+        case WAVE_TYPE_FLOAT:
+            return "Float";
+        case WAVE_TYPE_ALAW:
+            return "ALAW";
+        case WAVE_TYPE_MULAW:
+            return "MULAW";
+        default:
+            return "Unknown (should never be here)";
+    }
+}
+
 int
 wav_read(container_data *out, const char *path, UNUSED bool matching)
 {
@@ -138,7 +155,7 @@ wav_read(container_data *out, const char *path, UNUSED bool matching)
                     case WAVE_TYPE_MULAW:
                     case WAVE_TYPE_ALAW:
                     case WAVE_TYPE_EXTENSIBLE:
-                        error("Unhandled sample type: %d, should be PCM", fmt.type);
+                        error("Unhandled sample type: %s, should be PCM", wav_type_name(fmt.type));
                         break;
 
                     default:

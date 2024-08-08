@@ -22,7 +22,7 @@ typedef struct {
     uint16_t numFramesH;
     uint16_t numFramesL;
     int16_t sampleSize;
-    int16_t sampleRate[5]; // 80-bit float
+    uint8_t sampleRate[10]; // 80-bit float
     // uint16_t compressionTypeH;
     // uint16_t compressionTypeL;
     // followed by compression type + compression name pstring
@@ -245,7 +245,7 @@ aiff_aifc_common_read(container_data *out, FILE *in, UNUSED bool matching, uint3
 
                 uint32_t num_samples = (comm.numFramesH << 16) | comm.numFramesL;
                 double sample_rate;
-                f80_to_f64(&sample_rate, (uint8_t *)comm.sampleRate);
+                f80_to_f64(&sample_rate, comm.sampleRate);
 
                 uint32_t comp_type = CC4('N', 'O', 'N', 'E');
                 if (chunk_size > sizeof(aiff_COMM)) {
@@ -639,7 +639,7 @@ aiff_aifc_common_write(container_data *in, const char *path, bool aifc, bool mat
         .sampleSize = htobe16(in->bit_depth),
         .sampleRate = { 0 },
     };
-    f64_to_f80(in->sample_rate, (uint8_t *)comm.sampleRate);
+    f64_to_f80(in->sample_rate, comm.sampleRate);
     CHUNK_BEGIN(out, "COMM", &chunk_start);
     CHUNK_WRITE(out, &comm);
     if (compression_name != NULL) {

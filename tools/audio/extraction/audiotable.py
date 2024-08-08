@@ -4,7 +4,7 @@
 #
 #
 
-import struct
+import math, struct
 from typing import Dict, Tuple
 from xml.etree.ElementTree import Element
 
@@ -474,7 +474,9 @@ class AudioTableFile:
             if sample.start in self.extraction_sample_info:
                 return self.extraction_sample_info[sample.start]["FileName"] + ext
             print(f"WARNING: Missing extraction xml entry for sample at offset=0x{sample.start:X}")
-        return f"Sample{index}{ext}"
+
+        npad = int(math.floor(1 + math.log10(len(self.samples)))) if len(self.samples) != 0 else 0
+        return f"Sample{index:0{npad}}{ext}"
 
     def blob_filename(self, start, end):
         if self.extraction_blob_info is not None:

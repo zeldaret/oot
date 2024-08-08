@@ -15,17 +15,18 @@
 #include "codec.h"
 
 int
-expand_codebook(int16_t *book_data, int32_t ****table, int32_t order, int32_t npredictors)
+expand_codebook(int16_t *book_data, int32_t ****table_out, int32_t order, int32_t npredictors)
 {
-    *table = MALLOC_CHECKED_INFO(npredictors * sizeof(int32_t **), "npredictors=%d", npredictors);
+    int32_t ***table = MALLOC_CHECKED_INFO(npredictors * sizeof(int32_t **), "npredictors=%d", npredictors);
+
     for (int32_t i = 0; i < npredictors; i++) {
-        (*table)[i] = MALLOC_CHECKED(8 * sizeof(int32_t *));
+        table[i] = MALLOC_CHECKED(8 * sizeof(int32_t *));
         for (int32_t j = 0; j < 8; j++)
-            (*table)[i][j] = MALLOC_CHECKED_INFO((order + 8) * sizeof(int32_t), "order=%d", order);
+            table[i][j] = MALLOC_CHECKED_INFO((order + 8) * sizeof(int32_t), "order=%d", order);
     }
 
     for (int32_t i = 0; i < npredictors; i++) {
-        int32_t **table_entry = (*table)[i];
+        int32_t **table_entry = table[i];
 
         for (int32_t j = 0; j < order; j++) {
             for (int32_t k = 0; k < 8; k++)
@@ -46,6 +47,8 @@ expand_codebook(int16_t *book_data, int32_t ****table, int32_t order, int32_t np
                 table_entry[j][k + order] = table_entry[j - k][order];
         }
     }
+
+    *table_out = table;
     return 0;
 }
 
@@ -220,6 +223,10 @@ vdecodeframe(uint8_t *frame, int32_t *prescaled, int32_t *state, int32_t order, 
     }
 }
 
+/**
+ * Similar to vencodeframe but sources data differently and doubles up certain operations. This is used during
+ * brute-force decoding of compressed data to decompressed data that matches on round-trip.
+ */
 static void
 my_encodeframe(uint8_t *out, int16_t *in_buf, int32_t *orig_state, int32_t ***coef_tbl, int32_t order,
                int32_t npredictors, int frame_size)
@@ -417,6 +424,9 @@ permute(int32_t *out, int32_t *in, int32_t *prescaled, int32_t scale, int frame_
     }
 }
 
+/**
+ * Like vencodeframe/my_encodeframe but assigns a score to the output for informing brute-force decoding
+ */
 static int64_t
 scored_encode(int32_t *in_buf, int32_t *orig_state, int32_t ***coef_tbl, int32_t order, int32_t npredictors,
               int32_t wanted_predictor, int32_t wanted_scale, int32_t wanted_ix[16], int frame_size)
@@ -773,6 +783,9 @@ bruteforce(int32_t guess[16], uint8_t input[9], int32_t decoded[16], int32_t pre
     }
 }
 
+/**
+ * vadpcm encoder used when re-encoding data
+ */
 static void
 vencodeframe(uint8_t *out_buf, int16_t *in_buf, int32_t *state, int32_t ***coef_tbl, int32_t order, int32_t npredictors,
              int frame_size)
@@ -1065,10 +1078,10 @@ vadpcm_enc(container_data *ctnr, const codec_spec *codec, const enc_dec_opts *op
         // Emplace loop state
         // printf("    wr loop state\n");
         for (j = 0; j < 16; j++) {
-            if (state[j] >= 0x8000)
-                state[j] = 0x7fff;
-            if (state[j] < -0x7fff)
-                state[j] = -0x7fff;
+            if (state[j] > 0x7FFF)
+                state[j] = 0x7FFF;
+            if (state[j] < -0x7FFF)
+                state[j] = -0x7FFF;
             aloops[i].state[j] = state[j];
         }
 

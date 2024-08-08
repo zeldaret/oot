@@ -169,7 +169,8 @@ def extract_samplebank(pool : ThreadPool, extracted_dir : str, sample_banks : Li
     # block until done
     [res.get() for res in async_results]
 
-    print(f"Samplebank {bank.name} extraction took {time.time() - t_start}s")
+    dt = time.time() - t_start
+    print(f"Samplebank {bank.name} extraction took {dt:.3f}s")
 
     # drop aifc dir if not in debug mode
     if not BASEROM_DEBUG:
