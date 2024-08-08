@@ -247,6 +247,22 @@ void Regs_InitDataImpl(void) {
     YREG(45) = 236;
     YREG(46) = 36;
     YREG(47) = 0;
+
+#if OOT_NTSC
+    R_KALEIDO_UNK1(0) = -45;
+    R_KALEIDO_UNK1(1) = -48;
+    R_KALEIDO_UNK2(0) = 16;
+    R_KALEIDO_UNK2(1) = 22;
+    R_KALEIDO_UNK3(0) = -55;
+    R_KALEIDO_UNK3(1) = -53;
+    R_KALEIDO_UNK4(0) = 43;
+    R_KALEIDO_UNK4(1) = 47;
+    R_KALEIDO_UNK5(0) = -33;
+    R_KALEIDO_UNK5(1) = -42;
+    R_KALEIDO_UNK6(0) = -33;
+    R_KALEIDO_UNK6(1) = -37;
+#else
+    // Same as above, although these regs are now unused for PAL versions
     YREG(48) = -45;
     YREG(49) = -48;
     YREG(50) = 16;
@@ -259,6 +275,8 @@ void Regs_InitDataImpl(void) {
     YREG(57) = -42;
     YREG(58) = -33;
     YREG(59) = -37;
+#endif
+
     YREG(60) = 14;
     YREG(61) = -2;
     YREG(62) = -2;
@@ -533,24 +551,24 @@ void Regs_InitDataImpl(void) {
     R_A_LABEL_Z(0) = -380;
     R_A_LABEL_Z(1) = -360;
     R_A_LABEL_Z(2) = -350;
-    WREG(49) = -48;
-    WREG(50) = 16;
-    WREG(51) = -62;
-    WREG(52) = 22;
-    WREG(53) = -84;
-    WREG(54) = 20;
-    WREG(55) = -53;
-    WREG(56) = 40;
-    WREG(57) = -64;
-    WREG(58) = 47;
-    WREG(59) = -84;
-    WREG(60) = 44;
-    WREG(61) = -42;
-    WREG(62) = 32;
-    WREG(63) = -45;
-    WREG(64) = -37;
-    WREG(65) = 30;
-    WREG(66) = -50;
+    R_KALEIDO_UNK1(0) = -48;
+    R_KALEIDO_UNK1(1) = 16;
+    R_KALEIDO_UNK1(2) = -62;
+    R_KALEIDO_UNK2(0) = 22;
+    R_KALEIDO_UNK2(1) = -84;
+    R_KALEIDO_UNK2(2) = 20;
+    R_KALEIDO_UNK3(0) = -53;
+    R_KALEIDO_UNK3(1) = 40;
+    R_KALEIDO_UNK3(2) = -64;
+    R_KALEIDO_UNK4(0) = 47;
+    R_KALEIDO_UNK4(1) = -84;
+    R_KALEIDO_UNK4(2) = 44;
+    R_KALEIDO_UNK5(0) = -42;
+    R_KALEIDO_UNK5(1) = 32;
+    R_KALEIDO_UNK5(2) = -45;
+    R_KALEIDO_UNK6(0) = -37;
+    R_KALEIDO_UNK6(1) = 30;
+    R_KALEIDO_UNK6(2) = -50;
 #endif
 
     R_DGN_MINIMAP_X = 204;

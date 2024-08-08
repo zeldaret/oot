@@ -100,6 +100,14 @@
 #define R_TEXTBOX_TEXHEIGHT                      YREG(17)
 #define R_TEXTBOX_WIDTH                          YREG(22)
 #define R_TEXTBOX_HEIGHT                         YREG(23)
+#if OOT_NTSC
+#define R_KALEIDO_UNK1(i)                        YREG(48 + (i))
+#define R_KALEIDO_UNK2(i)                        YREG(50 + (i))
+#define R_KALEIDO_UNK3(i)                        YREG(52 + (i))
+#define R_KALEIDO_UNK4(i)                        YREG(54 + (i))
+#define R_KALEIDO_UNK5(i)                        YREG(56 + (i))
+#define R_KALEIDO_UNK6(i)                        YREG(58 + (i))
+#endif
 #define R_TEXTBOX_ICON_XPOS                      YREG(71)
 #define R_TEXTBOX_ICON_YPOS                      YREG(72)
 #define R_TEXTBOX_ICON_DIMENSION                 YREG(75)
@@ -187,6 +195,12 @@
 #define R_B_LABEL_X(i)                           WREG(40 + (i))
 #define R_B_LABEL_Y(i)                           WREG(43 + (i))
 #define R_A_LABEL_Z(i)                           WREG(46 + (i))
+#define R_KALEIDO_UNK1(i)                        WREG(49 + (i))
+#define R_KALEIDO_UNK2(i)                        WREG(52 + (i))
+#define R_KALEIDO_UNK3(i)                        WREG(55 + (i))
+#define R_KALEIDO_UNK4(i)                        WREG(58 + (i))
+#define R_KALEIDO_UNK5(i)                        WREG(61 + (i))
+#define R_KALEIDO_UNK6(i)                        WREG(64 + (i))
 #endif
 #define R_DGN_MINIMAP_X                          WREG(68)
 #define R_DGN_MINIMAP_Y                          WREG(69)
