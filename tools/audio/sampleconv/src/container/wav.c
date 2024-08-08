@@ -357,7 +357,7 @@ wav_read(container_data *out, const char *path, UNUSED bool matching)
 
     if (out->data_type == SAMPLE_TYPE_PCM16) {
         if (out->data_size % 2 != 0)
-            error("wav data size is not a multiple of 2 despite being pcm16-formatted?")
+            error("wav data size is not a multiple of 2 despite being pcm16-formatted?");
 
         for (size_t i = 0; i < out->data_size / 2; i++)
             ((uint16_t *)(out->data))[i] = le16toh(((uint16_t *)(out->data))[i]);
