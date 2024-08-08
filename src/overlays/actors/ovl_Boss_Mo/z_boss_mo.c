@@ -335,7 +335,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
         Flags_SetSwitch(play, 0x14);
         sMorphaCore = this;
         MO_WATER_LEVEL(play) = this->waterLevel = MO_WATER_LEVEL(play);
-        play->roomCtx.unk_74[0] = 0xA0;
+        play->roomCtx.drawParams[0] = 0xA0;
         play->specialEffects = sEffects;
         for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++) {
             sEffects[i].type = MO_FX_NONE;
@@ -355,7 +355,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 0.0f, -280.0f, 0.0f, 0, 0, 0,
                                WARP_DUNGEON_ADULT);
             Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, -200.0f, -280.0f, 0.0f, 0, 0, 0, 0);
-            play->roomCtx.unk_74[0] = 0xFF;
+            play->roomCtx.drawParams[0] = 0xFF;
             MO_WATER_LEVEL(play) = -500;
             return;
         }
@@ -1709,9 +1709,9 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
         }
     }
     if (sMorphaCore->waterLevel < -200.0f) {
-        play->roomCtx.unk_74[0]++;
-        if (play->roomCtx.unk_74[0] >= 0xFF) {
-            play->roomCtx.unk_74[0] = 0xFF;
+        play->roomCtx.drawParams[0]++;
+        if (play->roomCtx.drawParams[0] >= 0xFF) {
+            play->roomCtx.drawParams[0] = 0xFF;
         }
     }
     if (sMorphaCore->waterLevel < -250.0f) {

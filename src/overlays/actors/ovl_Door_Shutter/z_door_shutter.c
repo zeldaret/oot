@@ -350,7 +350,7 @@ void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc
  * @return true if the door is barred
  */
 s32 DoorShutter_SetupDoor(DoorShutter* this, PlayState* play) {
-    TransitionActorEntry* transitionEntry = &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)];
+    TransitionActorEntry* transitionEntry = &play->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)];
     s8 frontRoom = transitionEntry->sides[0].room;
     s32 doorType = this->doorType;
     DoorShutterStyleInfo* styleInfo = &sStyleInfo[this->styleType];
@@ -462,7 +462,7 @@ void DoorShutter_Destroy(Actor* thisx, PlayState* play) {
     if (this->dyna.actor.room >= 0) {
         s32 transitionActorId = GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor);
 
-        play->transiActorCtx.list[transitionActorId].id *= -1;
+        play->transitionActors.list[transitionActorId].id *= -1;
     }
 }
 
@@ -801,7 +801,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
         Vec3f relPlayerPos;
 
         func_8002DBD0(&this->dyna.actor, &relPlayerPos, &player->actor.world.pos);
-        this->dyna.actor.room = play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)]
+        this->dyna.actor.room = play->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)]
                                     .sides[(relPlayerPos.z < 0.0f) ? 0 : 1]
                                     .room;
         if (room != this->dyna.actor.room) {
@@ -809,9 +809,9 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
 
             play->roomCtx.curRoom = play->roomCtx.prevRoom;
             play->roomCtx.prevRoom = tempRoom;
-            play->roomCtx.unk_30 ^= 1;
+            play->roomCtx.activeBufPage ^= 1;
         }
-        func_80097534(play, &play->roomCtx);
+        Room_LeavePrevRoom(play, &play->roomCtx);
         Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0x0EFF);
     }
     this->isActive = false;
@@ -1013,7 +1013,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
         } else {
             if (gfxInfo->barsDL != NULL) {
                 TransitionActorEntry* transitionEntry =
-                    &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)];
+                    &play->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)];
 
                 if (play->roomCtx.prevRoom.num >= 0 ||
                     transitionEntry->sides[0].room == transitionEntry->sides[1].room) {
