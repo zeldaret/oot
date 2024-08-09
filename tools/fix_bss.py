@@ -531,7 +531,7 @@ def format_pragma(amounts: dict[str, int], max_line_length: int) -> list[str]:
     for version, amount in sorted(amounts.items()):
         part = f"{version}:{amount}"
         if len(current_line) + len(part) + len('" \\') > max_line_length:
-            lines.append(current_line + '" \\\n')
+            lines.append(current_line + '" ')
             current_line = " " * len(pragma_start) + '"'
             first = True
         if not first:
@@ -541,16 +541,10 @@ def format_pragma(amounts: dict[str, int], max_line_length: int) -> list[str]:
     lines.append(current_line + '"\n')
 
     if len(lines) >= 2:
-        # align all continuation \ characters vertically
-        n_align = max(map(len, lines[:-1])) - len("\\\n")
-        assert n_align > 0
+        # add and align vertically all continuation \ characters
+        n_align = max(map(len, lines[:-1]))
         for i in range(len(lines) - 1):
-            s = lines[i]
-            assert s[-2:] == "\\\n", s
-            s = s[:-2]
-            assert n_align >= len(s)
-            s = f"{s:{n_align}}\\\n"
-            lines[i] = s
+            lines[i] = f"{lines[i]:{n_align}}\\\n"
 
     return lines
 
