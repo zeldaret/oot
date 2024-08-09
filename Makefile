@@ -251,20 +251,20 @@ SRC_DIRS := $(shell find src -type d)
 endif
 
 ifneq ($(wildcard $(EXTRACTED_DIR)/assets/audio),)
-  AIFF_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/samples -type d)
+  SAMPLE_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/samples -type d)
 else
-  AIFF_EXTRACT_DIRS :=
+  SAMPLE_EXTRACT_DIRS :=
 endif
 
 ifneq ($(wildcard assets/audio/samples),)
-  AIFF_DIRS := $(shell find assets/audio/samples -type d)
+  SAMPLE_DIRS := $(shell find assets/audio/samples -type d)
 else
-  AIFF_DIRS :=
+  SAMPLE_DIRS :=
 endif
 
-AIFF_FILES         := $(foreach dir,$(AIFF_DIRS),$(wildcard $(dir)/*.wav))
-AIFF_EXTRACT_FILES := $(foreach dir,$(AIFF_EXTRACT_DIRS),$(wildcard $(dir)/*.wav))
-AIFC_FILES         := $(foreach f,$(AIFF_FILES),$(BUILD_DIR)/$(f:.wav=.aifc)) $(foreach f,$(AIFF_EXTRACT_FILES:.wav=.aifc),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%))
+SAMPLE_FILES         := $(foreach dir,$(SAMPLE_DIRS),$(wildcard $(dir)/*.wav))
+SAMPLE_EXTRACT_FILES := $(foreach dir,$(SAMPLE_EXTRACT_DIRS),$(wildcard $(dir)/*.wav))
+AIFC_FILES           := $(foreach f,$(SAMPLE_FILES),$(BUILD_DIR)/$(f:.wav=.aifc)) $(foreach f,$(SAMPLE_EXTRACT_FILES:.wav=.aifc),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%))
 
 # create extracted directories
 $(shell mkdir -p $(EXTRACTED_DIR) $(EXTRACTED_DIR)/assets $(EXTRACTED_DIR)/text)
