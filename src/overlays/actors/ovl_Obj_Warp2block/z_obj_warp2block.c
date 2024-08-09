@@ -21,7 +21,7 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block* this, PlayState* play);
 s32 func_80BA2218(ObjWarp2block* this, PlayState* play);
 s32 func_80BA228C(ObjWarp2block* this, PlayState* play);
 s32 func_80BA2304(ObjWarp2block* this, PlayState* play);
-void ObjWarp2block_SetInactive(ObjWarp2block* this);
+void ObjWarp2block_SetupDoNothing(ObjWarp2block* this);
 void ObjWarp2block_DoNothing(ObjWarp2block* this, PlayState* play);
 void func_80BA24E8(ObjWarp2block* this);
 void func_80BA24F8(ObjWarp2block* this, PlayState* play);
@@ -214,7 +214,7 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
         CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &collisionHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, collisionHeader);
     } else {
-        ObjWarp2block_SetInactive(this);
+        ObjWarp2block_SetupDoNothing(this);
     }
 
     PRINTF("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", this->dyna.actor.params & 0xFFFF,
@@ -228,7 +228,7 @@ void ObjWarp2block_Destroy(Actor* thisx, PlayState* play) {
     }
 }
 
-void ObjWarp2block_SetInactive(ObjWarp2block* this) {
+void ObjWarp2block_SetupDoNothing(ObjWarp2block* this) {
     this->actionFunc = ObjWarp2block_DoNothing;
     this->dyna.actor.draw = NULL;
 }

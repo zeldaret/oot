@@ -23,7 +23,7 @@ void func_80AE7C64(EnRl* this, PlayState* play);
 void func_80AE7C94(EnRl* this, PlayState* play);
 void func_80AE7CE8(EnRl* this, PlayState* play);
 void func_80AE7D40(EnRl* this, PlayState* play);
-void func_80AE7FD0(EnRl* this, PlayState* play);
+void EnRl_DrawNothing(EnRl* this, PlayState* play);
 void func_80AE7FDC(EnRl* this, PlayState* play);
 void func_80AE7D94(EnRl* this, PlayState* play);
 
@@ -355,7 +355,7 @@ void EnRl_Init(Actor* thisx, PlayState* play) {
         func_80AE7544(this, play);
     }
 }
-void func_80AE7FD0(EnRl* this, PlayState* play) {
+void EnRl_DrawNothing(EnRl* this, PlayState* play) {
 }
 
 void func_80AE7FDC(EnRl* this, PlayState* play) {
@@ -379,7 +379,7 @@ void func_80AE7FDC(EnRl* this, PlayState* play) {
 }
 
 static EnRlDrawFunc sDrawFuncs[] = {
-    func_80AE7FD0,
+    EnRl_DrawNothing,
     func_80AE7FDC,
     func_80AE7D94,
 };

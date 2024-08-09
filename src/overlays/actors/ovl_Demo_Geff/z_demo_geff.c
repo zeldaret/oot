@@ -20,7 +20,7 @@ void func_80978030(DemoGeff* this, PlayState* play);
 void func_809783D4(DemoGeff* this, PlayState* play);
 void func_80978308(DemoGeff* this, PlayState* play);
 
-void func_809784D4(DemoGeff* this, PlayState* play);
+void DemoGeff_DrawNothing(DemoGeff* this, PlayState* play);
 void func_80978344(DemoGeff* this, PlayState* play);
 
 static s16 sObjectIds[] = {
@@ -38,7 +38,7 @@ static DemoGeffActionFunc sActionFuncs[] = {
 };
 
 static DemoGeffDrawFunc sDrawFuncs[] = {
-    func_809784D4,
+    DemoGeff_DrawNothing,
     func_80978344,
 };
 
@@ -214,7 +214,7 @@ void DemoGeff_Update(Actor* thisx, PlayState* play) {
     sActionFuncs[this->action](this, play);
 }
 
-void func_809784D4(DemoGeff* this, PlayState* play) {
+void DemoGeff_DrawNothing(DemoGeff* this, PlayState* play) {
 }
 
 void DemoGeff_Draw(Actor* thisx, PlayState* play) {

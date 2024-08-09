@@ -13,7 +13,7 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play);
 void BgSpot05Soko_Destroy(Actor* thisx, PlayState* play);
 void BgSpot05Soko_Update(Actor* thisx, PlayState* play);
 void BgSpot05Soko_Draw(Actor* thisx, PlayState* play);
-void func_808AE5A8(BgSpot05Soko* this, PlayState* play);
+void BgSpot05Soko_DoNothing(BgSpot05Soko* this, PlayState* play);
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play);
 void func_808AE630(BgSpot05Soko* this, PlayState* play);
 
@@ -53,7 +53,7 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
         if (LINK_IS_ADULT) {
             Actor_Kill(thisx);
         } else {
-            this->actionFunc = func_808AE5A8;
+            this->actionFunc = BgSpot05Soko_DoNothing;
         }
     } else {
         CollisionHeader_GetVirtual(&object_spot05_objects_Col_0012C0, &colHeader);
@@ -73,7 +73,7 @@ void BgSpot05Soko_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808AE5A8(BgSpot05Soko* this, PlayState* play) {
+void BgSpot05Soko_DoNothing(BgSpot05Soko* this, PlayState* play) {
 }
 
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play) {

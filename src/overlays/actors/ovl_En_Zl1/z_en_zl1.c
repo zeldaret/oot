@@ -67,10 +67,10 @@ static void* D_80B4E61C[] = {
 };
 static void* D_80B4E62C[] = { gChildZelda1MouthNeutralTex };
 
-void func_80B4AB40(void) {
+void EnZl1_NoOp(void) {
 }
 
-void func_80B4AB48(void) {
+void EnZl1_NoOp2(void) {
 }
 
 void EnZl1_Init(Actor* thisx, PlayState* play) {

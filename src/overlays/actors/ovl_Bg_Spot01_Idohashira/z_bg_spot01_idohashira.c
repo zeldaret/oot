@@ -15,14 +15,14 @@ void BgSpot01Idohashira_Destroy(Actor* thisx, PlayState* play);
 void BgSpot01Idohashira_Update(Actor* thisx, PlayState* play);
 void BgSpot01Idohashira_Draw(Actor* thisx, PlayState* play);
 
-void func_808AB504(BgSpot01Idohashira* this, PlayState* play);
+void BgSpot01Idohashira_DoNothing(BgSpot01Idohashira* this, PlayState* play);
 void func_808AB510(BgSpot01Idohashira* this, PlayState* play);
 void func_808AB530(BgSpot01Idohashira* this, PlayState* play);
 void func_808AB570(BgSpot01Idohashira* this, PlayState* play);
 void func_808AB700(BgSpot01Idohashira* this, PlayState* play);
 
 static BgSpot01IdohashiraActionFunc sActionFuncs[] = {
-    func_808AB504,
+    BgSpot01Idohashira_DoNothing,
     func_808AB510,
     func_808AB530,
     func_808AB570,
@@ -262,7 +262,7 @@ void func_808AB444(BgSpot01Idohashira* this, PlayState* play) {
     }
 }
 
-void func_808AB504(BgSpot01Idohashira* this, PlayState* play) {
+void BgSpot01Idohashira_DoNothing(BgSpot01Idohashira* this, PlayState* play) {
 }
 
 void func_808AB510(BgSpot01Idohashira* this, PlayState* play) {

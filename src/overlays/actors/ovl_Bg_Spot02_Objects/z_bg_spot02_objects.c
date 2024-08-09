@@ -16,7 +16,7 @@ void BgSpot02Objects_Draw(Actor* thisx, PlayState* play);
 void func_808ACCB8(Actor* thisx, PlayState* play2);
 void func_808AD450(Actor* thisx, PlayState* play2);
 
-void func_808AC8FC(BgSpot02Objects* this, PlayState* play);
+void BgSpot02Objects_DoNothing(BgSpot02Objects* this, PlayState* play);
 void func_808AC908(BgSpot02Objects* this, PlayState* play);
 void func_808ACA08(BgSpot02Objects* this, PlayState* play);
 void func_808ACAFC(BgSpot02Objects* this, PlayState* play);
@@ -64,7 +64,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
 
             if (thisx->params == 0) {
                 if (Flags_GetSwitch(play, this->unk_16B)) {
-                    this->actionFunc = func_808AC8FC;
+                    this->actionFunc = BgSpot02Objects_DoNothing;
                     thisx->world.pos.y += 255.0f;
                 } else {
                     this->actionFunc = func_808ACAFC;
@@ -72,14 +72,14 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
 
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_012BA4, &colHeader);
             } else if (thisx->params == 1) {
-                this->actionFunc = func_808AC8FC;
+                this->actionFunc = BgSpot02Objects_DoNothing;
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0128D8, &colHeader);
                 thisx->flags |= ACTOR_FLAG_IGNORE_POINT_LIGHTS;
             } else {
                 if (play->sceneId == SCENE_GRAVEYARD) {
                     this->actionFunc = func_808AC908;
                 } else {
-                    this->actionFunc = func_808AC8FC;
+                    this->actionFunc = BgSpot02Objects_DoNothing;
                 }
 
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0133EC, &colHeader);
@@ -120,7 +120,7 @@ void BgSpot02Objects_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808AC8FC(BgSpot02Objects* this, PlayState* play) {
+void BgSpot02Objects_DoNothing(BgSpot02Objects* this, PlayState* play) {
 }
 
 void func_808AC908(BgSpot02Objects* this, PlayState* play) {
@@ -176,7 +176,7 @@ void func_808ACAFC(BgSpot02Objects* this, PlayState* play) {
 void func_808ACB58(BgSpot02Objects* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 255.0f, 1.0f)) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
-        this->actionFunc = func_808AC8FC;
+        this->actionFunc = BgSpot02Objects_DoNothing;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
     }

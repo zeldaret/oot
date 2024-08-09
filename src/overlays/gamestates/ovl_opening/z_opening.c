@@ -16,7 +16,7 @@ void TitleSetup_SetupTitleScreen(TitleSetupState* this) {
     SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 
-void func_80803C5C(TitleSetupState* this) {
+void TitleSetup_NoOp(TitleSetupState* this) {
 }
 
 void TitleSetup_Main(GameState* thisx) {
@@ -24,7 +24,7 @@ void TitleSetup_Main(GameState* thisx) {
 
     Gfx_SetupFrame(this->state.gfxCtx, 0, 0, 0);
     TitleSetup_SetupTitleScreen(this);
-    func_80803C5C(this);
+    TitleSetup_NoOp(this);
 }
 
 void TitleSetup_Destroy(GameState* thisx) {
