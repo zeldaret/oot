@@ -539,6 +539,19 @@ def format_pragma(amounts: dict[str, int], max_line_length: int) -> list[str]:
         current_line += part
         first = False
     lines.append(current_line + '"\n')
+
+    if len(lines) >= 2:
+        # align all continuation \ characters vertically
+        n_align = max(map(len, lines[:-1])) - len("\\\n")
+        assert n_align > 0
+        for i in range(len(lines) - 1):
+            s = lines[i]
+            assert s[-2:] == "\\\n", s
+            s = s[:-2]
+            assert n_align >= len(s)
+            s = f"{s:{n_align}}\\\n"
+            lines[i] = s
+
     return lines
 
 
