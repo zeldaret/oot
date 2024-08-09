@@ -23,9 +23,7 @@ typedef struct {
     uint16_t numFramesL;
     int16_t sampleSize;
     uint8_t sampleRate[10]; // 80-bit float
-    // uint16_t compressionTypeH;
-    // uint16_t compressionTypeL;
-    // followed by compression type + compression name pstring
+    // Followed by compression type + compression name pstring
 } aiff_COMM;
 
 typedef struct {

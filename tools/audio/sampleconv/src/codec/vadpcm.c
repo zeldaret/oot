@@ -1136,7 +1136,6 @@ vadpcm_enc(container_data *ctnr, const codec_spec *codec, const enc_dec_opts *op
         memcpy(in_buf, &indata[currentPos], sizeof(int16_t) * nsam);
         currentPos += nsam;
 
-        /* printf("Padding with %u 0s\n", 16 - nsam); */
         memset(in_buf, 0, (16 - nsam) * sizeof(int16_t));
 
         vencodeframe(&outdata[nBytes], in_buf, state, coef_tbl, order, npredictors, frame_size);
@@ -1161,7 +1160,6 @@ vadpcm_enc(container_data *ctnr, const codec_spec *codec, const enc_dec_opts *op
     ctnr->data = outdata;
     ctnr->data_size = nBytes;
     ctnr->data_type = (frame_size == 5) ? SAMPLE_TYPE_VADPCM_HALF : SAMPLE_TYPE_VADPCM;
-    // ctnr->num_samples = (nFrames + 15) & ~15;
 
     destroy_expanded_codebook(coef_tbl, npredictors);
 
@@ -1196,8 +1194,6 @@ vadpcm_dec(container_data *ctnr, UNUSED const codec_spec *codec, const enc_dec_o
     int32_t in_pos = 0;
     int32_t cur_pos = 0;
     uint32_t nSamples = (ctnr->num_samples + 15) & ~15;
-
-    /* printf("nSamples = %d\n", nSamples); */
 
     int frame_size = (ctnr->data_type == SAMPLE_TYPE_VADPCM_HALF) ? 5 : 9;
 
@@ -1308,7 +1304,6 @@ vadpcm_dec(container_data *ctnr, UNUSED const codec_spec *codec, const enc_dec_o
         ctnr->vadpcm.num_loops = 0;
         free(ctnr->vadpcm.loops);
         ctnr->vadpcm.loops = NULL;
-        // printf("ctnr.loops[0].num = %u\n", ctnr.loops[0].num);
     }
 
     // Assign new data
