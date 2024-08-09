@@ -170,7 +170,17 @@ void ConsoleLogo_Init(GameState* thisx) {
     this->state.main = ConsoleLogo_Main;
     this->state.destroy = ConsoleLogo_Destroy;
     this->exit = false;
+
+#if OOT_VERSION < OOT_GC_US
+    if (!(gPadMgr.validCtrlrsMask & 1)) {
+        gSaveContext.fileNum = 0xFEDC;
+    } else {
+        gSaveContext.fileNum = 0xFF;
+    }
+#else
     gSaveContext.fileNum = 0xFF;
+#endif
+
     Sram_Alloc(&this->state, &this->sramCtx);
     this->ult = 0;
     this->unk_1D4 = 0x14;

@@ -25,8 +25,8 @@ def fail(message):
 def process_file(version, filename, input, output):
     output.write(f'#line 1 "{filename}"\n')
     for i, line in enumerate(input, start=1):
-        if line.startswith("#pragma increment_block_number "):
-            # Grab pragma argument and remove quotes
+        if line.startswith("#pragma increment_block_number"):
+            # Grab pragma argument (if any) and remove quotes
             arg = line.strip()[len("#pragma increment_block_number ") + 1 : -1]
             amount = 0
             for part in arg.split():

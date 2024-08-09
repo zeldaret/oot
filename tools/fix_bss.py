@@ -522,7 +522,7 @@ def update_source_file(version_to_update: str, file: Path, new_pragmas: list[Pra
 
         amounts_by_version[version_to_update] = pragma.amount
         new_arg = " ".join(
-            f"{version}:{amount}" for version, amount in amounts_by_version.items()
+            f"{version}:{amount}" for version, amount in sorted(amounts_by_version.items())
         )
         new_line = f'#pragma increment_block_number "{new_arg}"\n'
 

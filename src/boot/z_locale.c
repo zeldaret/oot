@@ -2,7 +2,7 @@
 #include "region.h"
 #include "terminal.h"
 
-u32 gCurrentRegion = 0;
+s32 gCurrentRegion = 0;
 LocaleCartInfo sCartInfo;
 
 void Locale_Init(void) {
