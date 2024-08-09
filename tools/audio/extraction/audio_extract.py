@@ -4,17 +4,18 @@
 #   Extract audio files
 #
 
-import os
+import os, shutil, time
 from dataclasses import dataclass
 from enum import auto, Enum
+from multiprocessing.pool import ThreadPool
 from typing import Dict, List, Tuple, Union
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
 from .audio_tables import AudioCodeTable, AudioCodeTableEntry, AudioStorageMedium
-from .audiotable import AudioTableFile
+from .audiotable import AudioTableData, AudioTableFile, AudioTableSample
 from .audiobank_file import AudiobankFile
-from .util import align, debugm, error, incbin
+from .util import align, debugm, error, incbin, program_get
 
 class MMLVersion(Enum):
     OOT = auto()
@@ -114,12 +115,33 @@ def collect_soundfonts(audiobank_seg : memoryview, extracted_dir : str, version_
 
     return soundfonts
 
-def extract_samplebank(extracted_dir : str, sample_banks : List[Union[AudioTableFile, int]], bank : AudioTableFile,
-                       write_xml : bool):
+def aifc_extract_one_sample(base_path : str, sample : AudioTableSample):
+    aifc_path = f"{base_path}/aifc/{sample.filename}"
+    ext_compressed = sample.codec_file_extension_compressed()
+    ext_decompressed = sample.codec_file_extension_decompressed()
+    wav_path = f"{base_path}/{sample.filename.replace(ext_compressed, ext_decompressed)}"
+    # export to AIFC
+    sample.to_file(aifc_path)
+    # decode to AIFF/WAV
+    program_get(f"{SAMPLECONV_PATH} --matching pcm16 {aifc_path} {wav_path}")
+
+def aifc_extract_one_bin(base_path : str, sample : AudioTableData):
+    # export to BIN
+    if BASEROM_DEBUG:
+        sample.to_file(f"{base_path}/aifc/{sample.filename}")
+        # copy to correct location
+        shutil.copyfile(f"{base_path}/aifc/{sample.filename}", f"{base_path}/{sample.filename}")
+    else:
+        sample.to_file(f"{base_path}/{sample.filename}")
+
+def extract_samplebank(pool : ThreadPool, extracted_dir : str, sample_banks : List[Union[AudioTableFile, int]],
+                       bank : AudioTableFile, write_xml : bool):
     # deal with remaining gaps, have to blob them unless we can find an exact match in another bank
     bank.finalize_coverage(sample_banks)
     # assign names
     bank.assign_names()
+
+    base_path = f"{extracted_dir}/assets/audio/samples/{bank.name}"
 
     # write xml
     with open(f"{extracted_dir}/assets/audio/samplebanks/{bank.file_name}.xml", "w") as outfile:
@@ -128,6 +150,31 @@ def extract_samplebank(extracted_dir : str, sample_banks : List[Union[AudioTable
     # write the extraction xml if specified
     if write_xml:
         bank.write_extraction_xml(f"assets/xml/audio/samplebanks/{bank.file_name}.xml")
+
+    # write sample sand blobs
+
+    os.makedirs(f"{base_path}/aifc", exist_ok=True)
+
+    aifc_samples = [sample for sample in bank.samples_final if     isinstance(sample, AudioTableSample)]
+    bin_samples  = [sample for sample in bank.samples_final if not isinstance(sample, AudioTableSample)]
+
+    t_start = time.time()
+
+    # we assume the number of bin samples are very small and don't multiprocess it
+    for sample in bin_samples:
+        aifc_extract_one_bin(base_path, sample)
+
+    # multiprocess aifc extraction + decompression
+    async_results = [pool.apply_async(aifc_extract_one_sample, args=(base_path, sample)) for sample in aifc_samples]
+    # block until done
+    [res.get() for res in async_results]
+
+    dt = time.time() - t_start
+    print(f"Samplebank {bank.name} extraction took {dt:.3f}s")
+
+    # drop aifc dir if not in debug mode
+    if not BASEROM_DEBUG:
+        shutil.rmtree(f"{base_path}/aifc")
 
 def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : str, read_xml : bool, write_xml : bool):
     print("Setting up...")
@@ -234,13 +281,17 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
 
     print("Extracting samplebanks...")
 
+    # Check that the sampleconv binary is available
+    assert os.path.isfile(SAMPLECONV_PATH) , "Compile sampleconv"
+
     os.makedirs(f"{extracted_dir}/assets/audio/samplebanks", exist_ok=True)
     if write_xml:
         os.makedirs(f"assets/xml/audio/samplebanks", exist_ok=True)
 
-    for bank in sample_banks:
-        if isinstance(bank, AudioTableFile):
-            extract_samplebank(extracted_dir, sample_banks, bank, write_xml)
+    with ThreadPool(processes=os.cpu_count()) as pool:
+        for bank in sample_banks:
+            if isinstance(bank, AudioTableFile):
+                extract_samplebank(pool, extracted_dir, sample_banks, bank, write_xml)
 
     # ==================================================================================================================
     # Extract soundfonts
