@@ -1,6 +1,6 @@
 #include "macros.h"
 
-#if OOT_N64
+#if PLATFORM_N64
 const char gBuildTeam[] = "zelda@srd44";
 #else
 const char gBuildTeam[] = "zelda@srd022j";

@@ -108,7 +108,7 @@
                                 ? gSaveContext.save.info.equips.buttonItems[(button) + 1]       \
                                 : ITEM_NONE)
 
-#if OOT_N64
+#if PLATFORM_N64
 #define CHECK_BTN_ALL(state, combo) (((state) & (combo)) == (combo))
 #else
 #define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
