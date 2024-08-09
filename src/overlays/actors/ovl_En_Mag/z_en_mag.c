@@ -139,7 +139,7 @@ void EnMag_Destroy(Actor* thisx, PlayState* play) {
 
 #if OOT_VERSION < OOT_GC_US
 void EnMag_CheckSramResetCode(PlayState* play, EnMag* this) {
-    static s32 sramResetCode[] = {
+    static s32 sSramResetCode[] = {
         BTN_DUP, BTN_DDOWN,  BTN_DLEFT, BTN_DRIGHT, BTN_START, BTN_B, BTN_CDOWN,
         BTN_L,   BTN_CRIGHT, BTN_CLEFT, BTN_A,      BTN_CUP,   BTN_R, BTN_Z,
     };
@@ -159,20 +159,20 @@ void EnMag_CheckSramResetCode(PlayState* play, EnMag* this) {
     }
 
     if (this->unk_E316 < 4) {
-        if (sramResetCode[this->unk_E316] & var_v1) {
+        if (sSramResetCode[this->unk_E316] & var_v1) {
             this->unk_E316++;
         } else if (var_v1 != 0) {
             this->unk_E316 = 0;
         }
     } else {
-        if (CHECK_BTN_ALL(play->state.input[2].press.button, sramResetCode[this->unk_E316])) {
+        if (CHECK_BTN_ALL(play->state.input[2].press.button, sSramResetCode[this->unk_E316])) {
             this->unk_E316++;
         } else if (var_v1 != 0) {
             this->unk_E316 = 0;
         }
     }
 
-    if (this->unk_E316 == ARRAY_COUNT(sramResetCode)) {
+    if (this->unk_E316 == ARRAY_COUNT(sSramResetCode)) {
         EnMag_ResetSram();
         this->unk_E316 = 0;
     }
