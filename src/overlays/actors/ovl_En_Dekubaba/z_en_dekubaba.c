@@ -1278,7 +1278,6 @@ void EnDekubaba_Draw(Actor* thisx, PlayState* play) {
     EnDekubaba* this = (EnDekubaba*)thisx;
     f32 scale;
 
-    if (1) {}
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2752);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 

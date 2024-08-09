@@ -1141,8 +1141,6 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         rot->z += Math_CosS(this->unk_23C[limbIndex]) * 200.0f;
     }
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2228);
 
     return false;

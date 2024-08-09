@@ -3868,7 +3868,6 @@ void Message_Draw(PlayState* play) {
         Gfx_Close(polyOpaP, plusOne);
         POLY_OPA_DISP = plusOne;
     }
-    if (1) {}
 #endif
 
     plusOne = Gfx_Open(polyOpaP = POLY_OPA_DISP);

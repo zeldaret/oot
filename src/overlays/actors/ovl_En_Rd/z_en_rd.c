@@ -994,7 +994,5 @@ void EnRd_Draw(Actor* thisx, PlayState* play) {
         func_80033C30(&thisPos, &sShadowScale, this->alpha, play);
     }
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_rd.c", 1735);
 }

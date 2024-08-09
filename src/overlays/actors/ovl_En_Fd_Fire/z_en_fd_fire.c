@@ -255,7 +255,6 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
     sp80 = Math_Vec3f_DistXZ(&scale, &this->actor.velocity) / 1.5f;
     if (1) {}
     if (1) {}
-    if (1) {}
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000)), MTXMODE_APPLY);
     Matrix_RotateZ(DEG_TO_RAD((sp88 * -10.0f) * sp80), MTXMODE_APPLY);
     scale.x = scale.y = scale.z = this->scale * 0.001f;

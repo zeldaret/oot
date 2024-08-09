@@ -124,7 +124,5 @@ void OceffWipe_Draw(Actor* thisx, PlayState* play) {
                                                      32, 1, 0 - scroll, scroll * (-2), 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_wipe.c", 398);
 }

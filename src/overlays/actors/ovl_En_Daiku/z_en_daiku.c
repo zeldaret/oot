@@ -607,8 +607,6 @@ void EnDaiku_Draw(Actor* thisx, PlayState* play) {
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDaiku_OverrideLimbDraw, EnDaiku_PostLimbDraw, this);
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_daiku.c", 1255);
 }
 

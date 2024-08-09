@@ -558,8 +558,6 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
         }
     }
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_mm.c", 1141);
 }
 

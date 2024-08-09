@@ -3299,8 +3299,6 @@ void func_80941BC0(BossTw* this, PlayState* play) {
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaEffectHaloDL));
     Matrix_Pop();
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_tw.c", 6461);
 }
 
@@ -3564,8 +3562,6 @@ void BossTw_Draw(Actor* thisx, PlayState* play2) {
             func_80942C70(&this->actor, play);
         }
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_tw.c", 7123);
 }
