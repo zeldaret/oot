@@ -80,8 +80,7 @@ void EnGuest_Update(Actor* thisx, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
-        SkelAnime_InitFlex(play, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable, this->morphTable,
-                           16);
+        SkelAnime_InitFlex(play, &this->skelAnime, &gHylianMan2Skel, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         Animation_Change(&this->skelAnime, &gObjOsAnim_42AC, 1.0f, 0.0f, Animation_GetLastFrame(&gObjOsAnim_42AC),
                          ANIMMODE_LOOP, 0.0f);
@@ -186,7 +185,7 @@ s32 EnGuest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     OPEN_DISPS(play->state.gfxCtx, "../z_en_guest.c", 352);
 
     if (limbIndex == 15) {
-        *dList = object_boj_DL_0059B0;
+        *dList = gHylianMan2BeardedHeadDL;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
@@ -212,9 +211,9 @@ s32 EnGuest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
 
 void EnGuest_Draw(Actor* thisx, PlayState* play) {
     static void* D_80A50BA4[] = {
-        object_boj_Tex_0005FC,
-        object_boj_Tex_0006FC,
-        object_boj_Tex_0007FC,
+        gHylianMan2MustachedEyeOpenTex,
+        gHylianMan2MustachedEyeHalfTex,
+        gHylianMan2MustachedEyeClosedTex,
     };
     EnGuest* this = (EnGuest*)thisx;
     s32 pad;
