@@ -387,7 +387,7 @@ if __name__ == "__main__":
         help="find functions with diffs in the given source file (if omitted, print summary of diffs for all files)",
     )
     parser.add_argument(
-        "-v", "--version", help="version to compare", default="gc-eu-mq"
+        "-v", "--version", help="version to compare", default="ntsc-1.2"
     )
     parser.add_argument(
         "--data",

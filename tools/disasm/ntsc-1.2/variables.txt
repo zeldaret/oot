@@ -1,0 +1,14 @@
+njpgdspMainDataStart = 0x08011542; //
+gActorOverlayTable = 0x800E8B70; // size:0x3AE0
+gMaxActorId = 0x800EC650; // size:0x4
+sJpegTask = 0x800F1BB0; // size:0x40 type:OSTask
+gSramSlotOffsets = 0x800FC550; // size:0xC type:u16
+Player_InitVars = 0x800FCB80; // size:0x20
+gKaleidoMgrOverlayTable = 0x800FEAD0; // size:0x38 type:KaleidoMgrOverlay
+gScreenWidth = 0x800FEB50; // size:0x4 type:s32
+gScreenHeight = 0x800FEB54; // size:0x4 type:s32
+gSystemHeapSize = 0x800FEB58; // size:0x4 type:u32
+gSaveContext = 0x8011AC80; // size:0x1428 type:SaveContext
+gRegEditor = 0x8011C0B0; // size:0x4 type:RegEditor*
+gSegments = 0x80121508; // size:0x40
+_string_n64dd_c = 0x801D9680; // size:0x1 type:char

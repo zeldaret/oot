@@ -1,0 +1,2 @@
+offset,vram,.text
+1000,80000400,entry
