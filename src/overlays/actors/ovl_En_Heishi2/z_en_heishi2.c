@@ -638,7 +638,7 @@ void func_80A544AC(EnHeishi2* this, PlayState* play) {
     Math_ApproachF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
     this->actor.world.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
-        Message_StartTextbox(play, 0x708F, NULL);
+        Message_StartTextbox(play, 0x708F, NULL); //"Hey you! Don't cause any trouble!"
         this->actor.flags |= ACTOR_FLAG_16;
         this->actionFunc = func_80A5455C;
         this->unk_2E4 = 0.0f;
