@@ -438,8 +438,8 @@ class AudiobankFile:
                 self.coverage.append([[unref_start_offset, Padding], [unref_end_offset, Padding]])
                 continue
 
-            coverage_log(f"Unaccounted: 0x{unref_start_offset:X}({unref_start_type.__name__}) " + \
-                         f"to 0x{unref_end_offset:X}({unref_end_type.__name__})")
+            coverage_log(f"Unaccounted: 0x{unref_start_offset:04X}({unref_start_type.__name__}) " + \
+                         f"to 0x{unref_end_offset:04X}({unref_end_type.__name__})")
             coverage_log([f"0x{b:02X}" for b in unaccounted_data])
 
             try:
