@@ -145,7 +145,9 @@ void EnMag_CheckSramResetCode(PlayState* play, EnMag* this) {
     };
     s32 var_v1;
 
-    var_v1 = play->state.input[2].cur.button & 0xFF3F;
+    var_v1 =
+        play->state.input[2].cur.button & (BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP | BTN_R | BTN_L | BTN_DRIGHT |
+                                           BTN_DLEFT | BTN_DDOWN | BTN_DUP | BTN_START | BTN_Z | BTN_B | BTN_A);
     if (this->unk_E31C == var_v1) {
         this->unk_E320--;
         if (this->unk_E320 < 0) {
