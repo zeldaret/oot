@@ -557,7 +557,7 @@ def update_source_file(version_to_update: str, file: Path, new_pragmas: list[Pra
 
     for pragma in new_pragmas:
         i = pragma.line_number - 1
-        if not lines[i].startswith("#pragma increment_block_number "):
+        if not lines[i].startswith("#pragma increment_block_number"):
             raise FixBssException(
                 f"Expected #pragma increment_block_number on line {pragma.line_number}"
             )
