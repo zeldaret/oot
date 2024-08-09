@@ -27,7 +27,7 @@ COMPILER ?= ido
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 # The following versions are work-in-progress and not yet matching:
-#   ntsc-1.2       N64 NTSC 1.2 (Japan)
+#   ntsc-1.2       N64 NTSC 1.2 (Japan/US depending on REGION)
 VERSION ?= gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS ?= $(shell nproc)
@@ -45,8 +45,10 @@ CFLAGS ?=
 CPPFLAGS ?=
 CPP_DEFINES ?=
 
+REGIONAL_CHECKSUM := 0
 # Version-specific settings
 ifeq ($(VERSION),ntsc-1.2)
+  REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
   PAL := 0
@@ -453,13 +455,21 @@ all: rom compress
 rom: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
+ ifneq ($(REGIONAL_CHECKSUM),0)
+	@md5sum -c $(BASEROM_DIR)/checksum-$(REGION).md5
+ else
 	@md5sum -c $(BASEROM_DIR)/checksum.md5
+ endif
 endif
 
 compress: $(ROMC)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROMC)
+ ifneq ($(REGIONAL_CHECKSUM),0)
+	@md5sum -c $(BASEROM_DIR)/checksum-$(REGION)-compressed.md5
+ else
 	@md5sum -c $(BASEROM_DIR)/checksum-compressed.md5
+ endif
 endif
 
 clean:
