@@ -24,7 +24,7 @@ that it matches both the retail ROM while continuing to match GC versions and th
 example, by reordering assignments or moving a local variable declaration inside
 an `if` block). Since retail MM versions currently target N64, checking MM decomp for similar code can help.
 
-We can disable code that was removed in retail builds by adding
+We can handle code that is different between versions by adding
 `#if OOT_N64 ... #endif` or `#if OOT_GC ... #endif` around these parts of the
 code. In order to keep the code readable, we should try to minimize the amount of
 `#if` noise whenever possible.
