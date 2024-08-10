@@ -1,6 +1,8 @@
 #ifndef Z64INTERFACE_H
 #define Z64INTERFACE_H
 
+#include "z64view.h"
+
 extern u8 _icon_item_staticSegmentRomStart[];
 extern u8 _icon_item_24_staticSegmentRomStart[];
 

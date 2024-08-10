@@ -499,6 +499,8 @@ typedef enum SceneDrawConfig {
     /* 53 */ SDC_MAX
 } SceneDrawConfig;
 
+typedef void (*SceneDrawConfigFunc)(struct PlayState*);
+
 // R_SCENE_CAM_TYPE values
 #define SCENE_CAM_TYPE_DEFAULT 0
 #define SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT 0x10 // Camera exhibits fixed behaviors and viewpoint changing is handled by shops
