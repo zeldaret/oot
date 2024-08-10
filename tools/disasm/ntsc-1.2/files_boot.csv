@@ -129,8 +129,8 @@ offset,vram,.bss
 8A80,80008EE0,src/boot/z_locale
 8AA0,80008F00,src/libultra/io/driverominit
 8B20,80008F80,src/libultra/io/piacs
-8B30,80008F90,src/libultra/os/initialize
-8B40,80008FA0,src/libultra/io/pimgr
+8B40,80008FA0,src/libultra/os/initialize
+8B50,80008FB0,src/libultra/io/pimgr
 9FC0,8000A420,src/libultra/os/seteventmesg
 A040,8000A4A0,src/libultra/os/timerintr
 A080,8000A4E0,src/libultra/io/cartrominit
