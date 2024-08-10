@@ -186,7 +186,7 @@ void EnHoll_HorizontalVisibleNarrow(EnHoll* this, PlayState* play) {
     f32 orthogonalDistToPlayer;
     s32 transitionActorIndex;
 
-    func_8002DBD0(&this->actor, &relPlayerPos, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &relPlayerPos, &player->actor.world.pos);
     this->side = (relPlayerPos.z < 0.0f) ? 0 : 1;
     orthogonalDistToPlayer = fabsf(relPlayerPos.z);
     if (relPlayerPos.y > ENHOLL_H_Y_MIN && relPlayerPos.y < ENHOLL_H_Y_MAX &&
@@ -227,7 +227,7 @@ void EnHoll_HorizontalInvisible(EnHoll* this, PlayState* play) {
     f32 hollHalfWidth;
     f32 orthogonalDistToSubject;
 
-    func_8002DBD0(&this->actor, &relSubjectPos, useViewEye ? &play->view.eye : &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &relSubjectPos, useViewEye ? &play->view.eye : &player->actor.world.pos);
     hollHalfWidth =
         (ENHOLL_GET_TYPE(&this->actor) == ENHOLL_H_INVISIBLE_NARROW) ? ENHOLL_H_HALFWIDTH_NARROW : ENHOLL_H_HALFWIDTH;
 
@@ -355,7 +355,7 @@ void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play) {
         Vec3f relPlayerPos;
         f32 orthogonalDistToPlayer;
 
-        func_8002DBD0(&this->actor, &relPlayerPos, &player->actor.world.pos);
+        Actor_WorldToActorCoords(&this->actor, &relPlayerPos, &player->actor.world.pos);
         orthogonalDistToPlayer = fabsf(relPlayerPos.z);
 
         if (ENHOLL_H_Y_MIN < relPlayerPos.y && relPlayerPos.y < ENHOLL_H_Y_MAX &&
