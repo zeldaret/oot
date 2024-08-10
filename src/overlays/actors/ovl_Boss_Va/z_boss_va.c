@@ -3149,8 +3149,6 @@ void BossVa_BariPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         gSPDisplayList(POLY_XLU_DISP++, *dList);
     }
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4517);
 }
 

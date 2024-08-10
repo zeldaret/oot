@@ -4555,8 +4555,6 @@ void Fishing_DrawPondProps(PlayState* play) {
 
     Matrix_Pop();
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_fishing.c", 7805);
 }
 

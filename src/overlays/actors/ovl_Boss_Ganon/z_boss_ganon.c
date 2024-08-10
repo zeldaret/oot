@@ -3519,8 +3519,6 @@ void BossGanon_DrawBigMagicCharge(BossGanon* this, PlayState* play) {
             Matrix_Pop();
         }
 
-        if (1) {}
-
         CLOSE_DISPS(gfxCtx, "../z_boss_ganon.c", 7721);
     }
 }
@@ -4176,8 +4174,6 @@ void BossGanon_LightBall_Draw(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gGanondorfSquareDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon.c", 9911);
 }

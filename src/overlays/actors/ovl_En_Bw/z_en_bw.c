@@ -907,7 +907,5 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
         }
     }
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bw.c", 1521);
 }

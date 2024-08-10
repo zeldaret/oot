@@ -522,7 +522,6 @@ void BgMizuBwall_Draw(Actor* thisx, PlayState* play2) {
     u32 frames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mizu_bwall.c", 1095);
-    if (1) {}
     frames = play->gameplayFrames;
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

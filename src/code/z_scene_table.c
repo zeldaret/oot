@@ -415,8 +415,6 @@ void Scene_DrawConfigWaterTemple(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5535);
 
-    if (1) {} // Necessary to match
-
     spB0 = (play->roomCtx.unk_74[1] >> 8) & 0xFF;
     spAC = play->roomCtx.unk_74[1] & 0xFF;
     gameplayFrames = play->gameplayFrames;
@@ -709,8 +707,6 @@ void Scene_DrawConfigLakesideLaboratory(PlayState* play) {
                                 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, 255 - (gameplayFrames * 10) % 256, 32, 64));
 
-    if (1) {}
-
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
 
@@ -747,8 +743,6 @@ void* sGTGEntranceTextures[] = {
 
 void Scene_DrawConfigGerudoTrainingGround(PlayState* play) {
     u32 gameplayFrames;
-
-    if (0) {} // Necessary to match
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6290);
 
@@ -914,8 +908,6 @@ void* sForestTempleEntranceTextures[] = {
 void Scene_DrawConfigForestTemple(PlayState* play) {
     u32 gameplayFrames;
 
-    if (0) {} // Necessary to match
-
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6640);
 
     gameplayFrames = play->gameplayFrames;
@@ -1041,8 +1033,6 @@ void Scene_DrawConfigZorasRiver(PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
                                 32, 32));
-
-    if (1) {}
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1176,8 +1166,6 @@ void Scene_DrawConfigZorasFountain(PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x0A,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 1) % 128, 32, 32, 1, 0,
                                 (gameplayFrames * 1) % 128, 32, 32));
-
-    if (1) {}
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1552,8 +1540,6 @@ void Scene_DrawConfigInsideGanonsCastle(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    if (1) {}
-
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 512, 32, 128, 1, gameplayFrames % 128,
@@ -1659,7 +1645,8 @@ void (*sSceneDrawConfigs[SDC_MAX])(PlayState*) = {
 };
 
 void Scene_Draw(PlayState* play) {
-    if ((R_HREG_MODE == HREG_MODE_SCENE_CONFIG) && OOT_DEBUG) {
+#if OOT_DEBUG
+    if (R_HREG_MODE == HREG_MODE_SCENE_CONFIG) {
         if (R_SCENE_CONFIG_INIT != HREG_MODE_SCENE_CONFIG) {
             R_SCENE_CONFIG_INIT = HREG_MODE_SCENE_CONFIG;
             R_SCENE_CONFIG_DRAW_DEFAULT_DLIST = 1;
@@ -1694,4 +1681,7 @@ void Scene_Draw(PlayState* play) {
     } else {
         sSceneDrawConfigs[play->sceneDrawConfig](play);
     }
+#else
+    sSceneDrawConfigs[play->sceneDrawConfig](play);
+#endif
 }

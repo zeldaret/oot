@@ -984,7 +984,6 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             gSPEndDisplayList(displayList++);
             Gfx_Close(prevDisplayList, displayList);
             POLY_OPA_DISP = displayList;
-            if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1690);
         }
 #endif

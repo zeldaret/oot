@@ -974,7 +974,6 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     DoorShutter* this = (DoorShutter*)thisx;
 
     if (1) {}
-    if (1) {}
 
     //! @bug This actor is not fully initialized until the required object dependency is loaded.
     //! In most cases, the check for objectSlot to equal requiredObjectSlot prevents the actor

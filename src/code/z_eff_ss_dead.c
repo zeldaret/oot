@@ -23,8 +23,6 @@ void func_80026230(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
 
     POLY_OPA_DISP = displayListHead;
 
-    if (1) {} // Necessary to match
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 129);
 }
 
@@ -43,8 +41,6 @@ void func_80026400(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
         gSPFogPosition(displayListHead++, 0, (s16)(2800.0f * ABS(cos)) + 1700);
 
         POLY_OPA_DISP = displayListHead;
-
-        if (1) {} // Necessary to match
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 153);
     }
@@ -83,8 +79,6 @@ void func_80026690(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
     gSPFogPosition(displayListHead++, 0, (s16)(absCos * 3000.0f) + 1500);
 
     POLY_XLU_DISP = displayListHead;
-
-    if (1) {} // Necessary to match
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 194);
 }

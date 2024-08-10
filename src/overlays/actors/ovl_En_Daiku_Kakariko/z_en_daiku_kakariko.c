@@ -562,7 +562,5 @@ void EnDaikuKakariko_Draw(Actor* thisx, PlayState* play) {
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDaikuKakariko_OverrideLimbDraw, EnDaikuKakariko_PostLimbDraw, thisx);
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_daiku_kakariko.c", 1151);
 }

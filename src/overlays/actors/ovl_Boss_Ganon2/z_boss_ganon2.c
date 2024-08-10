@@ -2486,7 +2486,6 @@ void func_80904340(BossGanon2* this, PlayState* play) {
     }
 
     Matrix_Pop();
-    if (1) {}
     CLOSE_DISPS(gameState->gfxCtx, "../z_boss_ganon2.c", 5255);
 }
 
@@ -2639,8 +2638,6 @@ void func_80904D88(BossGanon2* this, PlayState* play) {
             gSPDisplayList(POLY_XLU_DISP++, gGanonLightOrbModelDL);
         }
     }
-
-    if (1) {}
 
     CLOSE_DISPS(gameState->gfxCtx, "../z_boss_ganon2.c", 5622);
 }

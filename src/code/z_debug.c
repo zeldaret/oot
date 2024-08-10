@@ -308,8 +308,6 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
     Gfx_Close(opaStart, gfx);
     POLY_OPA_DISP = gfx;
 
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_debug.c", 664);
 
     GfxPrint_Destroy(&printer);

@@ -11610,8 +11610,6 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
         }
     }
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_player.c", 19328);
 }
 

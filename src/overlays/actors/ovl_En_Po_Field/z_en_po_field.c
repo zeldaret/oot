@@ -796,8 +796,6 @@ void EnPoField_DrawFlame(EnPoField* this, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
-        if (1) {}
-
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_field.c", 1712);
     }
 }
@@ -999,8 +997,6 @@ void EnPoField_DrawSoul(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gPoeFieldSoulDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_field.c", 2149);
     EnPoField_DrawFlame(this, play);
