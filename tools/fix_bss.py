@@ -11,7 +11,6 @@ from collections import Counter
 import colorama
 from dataclasses import dataclass
 import io
-import itertools
 import multiprocessing
 import multiprocessing.pool
 from pathlib import Path
@@ -19,6 +18,7 @@ import re
 import shlex
 import sys
 import time
+import traceback
 from typing import BinaryIO, Iterator
 
 from ido_block_numbers import (
@@ -501,32 +501,97 @@ def solve_bss_ordering(
     raise FixBssException("Could not find any solutions")
 
 
+# Parses #pragma increment_block_number (with line continuations already removed)
+def parse_pragma(pragma_string: str) -> dict[str, int]:
+    amounts = {}
+    for part in pragma_string.replace('"', "").split()[2:]:
+        kv = part.split(":")
+        if len(kv) != 2:
+            raise FixBssException(
+                "#pragma increment_block_number"
+                f' arguments must be version:amount pairs, not "{part}"'
+            )
+        try:
+            amount = int(kv[1])
+        except ValueError:
+            raise FixBssException(
+                "#pragma increment_block_number"
+                f' amount must be an integer, not "{kv[1]}" (in "{part}")'
+            )
+        amounts[kv[0]] = amount
+    return amounts
+
+
+# Formats #pragma increment_block_number as a list of lines
+def format_pragma(amounts: dict[str, int], max_line_length: int) -> list[str]:
+    lines = []
+    pragma_start = "#pragma increment_block_number "
+    current_line = pragma_start + '"'
+    first = True
+    for version, amount in sorted(amounts.items()):
+        part = f"{version}:{amount}"
+        if len(current_line) + len(part) + len('" \\') > max_line_length:
+            lines.append(current_line + '" ')
+            current_line = " " * len(pragma_start) + '"'
+            first = True
+        if not first:
+            current_line += " "
+        current_line += part
+        first = False
+    lines.append(current_line + '"\n')
+
+    if len(lines) >= 2:
+        # add and align vertically all continuation \ characters
+        n_align = max(map(len, lines[:-1]))
+        for i in range(len(lines) - 1):
+            lines[i] = f"{lines[i]:{n_align}}\\\n"
+
+    return lines
+
+
 def update_source_file(version_to_update: str, file: Path, new_pragmas: list[Pragma]):
     with open(file, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
+    replace_lines: list[tuple[int, int, list[str]]] = []
+
     for pragma in new_pragmas:
-        line = lines[pragma.line_number - 1]
-        if not line.startswith("#pragma increment_block_number "):
+        i = pragma.line_number - 1
+        if not lines[i].startswith("#pragma increment_block_number"):
             raise FixBssException(
                 f"Expected #pragma increment_block_number on line {pragma.line_number}"
             )
 
-        # Grab pragma argument and remove quotes
-        arg = line.strip()[len("#pragma increment_block_number ") + 1 : -1]
+        # list the pragma line and any continuation line
+        pragma_lines = [lines[i]]
+        while pragma_lines[-1].endswith("\\\n"):
+            i += 1
+            pragma_lines.append(lines[i])
 
-        amounts_by_version = {}
-        for part in arg.split():
-            version, amount_str = part.split(":")
-            amounts_by_version[version] = int(amount_str)
+        # concatenate all lines into one
+        pragma_string = "".join(s.replace("\\\n", "") for s in pragma_lines)
 
-        amounts_by_version[version_to_update] = pragma.amount
-        new_arg = " ".join(
-            f"{version}:{amount}" for version, amount in amounts_by_version.items()
+        amounts = parse_pragma(pragma_string)
+
+        amounts[version_to_update] = pragma.amount
+
+        column_limit = 120  # matches .clang-format's ColumnLimit
+        new_pragma_lines = format_pragma(amounts, column_limit)
+
+        replace_lines.append(
+            (
+                pragma.line_number - 1,
+                pragma.line_number - 1 + len(pragma_lines),
+                new_pragma_lines,
+            )
         )
-        new_line = f'#pragma increment_block_number "{new_arg}"\n'
 
-        lines[pragma.line_number - 1] = new_line
+    # Replace the pragma lines starting from the end of the file, so the line numbers
+    # for pragmas earlier in the file stay accurate.
+    replace_lines.sort(key=lambda it: it[0], reverse=True)
+    for start, end, new_pragma_lines in replace_lines:
+        del lines[start:end]
+        lines[start:start] = new_pragma_lines
 
     with open(file, "w", encoding="utf-8") as f:
         f.writelines(lines)
@@ -600,8 +665,14 @@ def process_file_worker(*x):
     try:
         sys.stdout = fake_stdout
         process_file(*x)
-    except Exception as e:
+    except FixBssException as e:
+        # exception with a message for the user
         print(f"{colorama.Fore.RED}Error: {str(e)}{colorama.Fore.RESET}")
+        raise
+    except Exception as e:
+        # "unexpected" exception, also print a trace for devs
+        print(f"{colorama.Fore.RED}Error: {str(e)}{colorama.Fore.RESET}")
+        traceback.print_exc(file=sys.stdout)
         raise
     finally:
         sys.stdout = old_stdout
