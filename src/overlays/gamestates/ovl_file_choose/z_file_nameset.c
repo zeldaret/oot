@@ -1384,7 +1384,7 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
 }
 
 #if OOT_NTSC
-typedef struct {
+typedef struct OptionsMenuTextureInfo {
     /* 0x00 */ void* texture[2];
     /* 0x08 */ u16 width;
     /* 0x0A */ u16 height;
@@ -1394,7 +1394,7 @@ typedef struct {
 #define OPTIONS_MENU_TEXTURE_WIDTH(info) info.width
 #define OPTIONS_MENU_TEXTURE_HEIGHT(info) info.height
 #else
-typedef struct {
+typedef struct OptionsMenuTextureInfo {
     /* 0x00 */ void* texture[3];
     /* 0x0C */ u16 width[3];
     /* 0x12 */ u16 height;

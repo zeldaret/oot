@@ -37,7 +37,7 @@ ActorProfile Obj_Timeblock_Profile = {
     /**/ ObjTimeblock_Draw,
 };
 
-typedef struct {
+typedef struct ObjTimeblockSizeOptions {
     /* 0x00 */ f32 scale;
     /* 0x04 */ f32 height;
     /* 0x08 */ s16 demoEffectParams;

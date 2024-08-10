@@ -6,7 +6,7 @@
 
 #define NUTSBALL_GET_TYPE(thisx) ((thisx)->params)
 
-typedef enum {
+typedef enum EnNutsballType {
     /*  0 */ EN_NUTSBALL_TYPE_DEKUNUTS,
     /*  1 */ EN_NUTSBALL_TYPE_HINTNUTS,
     /*  2 */ EN_NUTSBALL_TYPE_SHOPNUTS,

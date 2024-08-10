@@ -3,7 +3,7 @@
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-typedef struct {
+typedef struct BowSlingshotStringData {
     /* 0x00 */ Gfx* dList;
     /* 0x04 */ Vec3f pos;
 } BowSlingshotStringData; // size = 0x10
@@ -90,7 +90,7 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
     PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_LENS_OF_TRUTH
 };
 
-typedef struct {
+typedef struct EnvHazardTextTriggerEntry {
     /* 0x0 */ u8 flag;
     /* 0x2 */ u16 textId;
 } EnvHazardTextTriggerEntry; // size = 0x4

@@ -1345,7 +1345,7 @@ void AudioHeap_DiscardSampleCaches(void) {
     }
 }
 
-typedef struct {
+typedef struct StorageChange {
     u32 oldAddr;
     u32 newAddr;
     u32 size;

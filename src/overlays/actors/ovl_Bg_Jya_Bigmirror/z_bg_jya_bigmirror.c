@@ -28,7 +28,7 @@ ActorProfile Bg_Jya_Bigmirror_Profile = {
     /**/ BgJyaBigmirror_Draw,
 };
 
-typedef struct {
+typedef struct BigMirrorDataEntry {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 params;
     /* 0x0E */ s16 solvedRotY;

@@ -6,7 +6,7 @@
 
 struct ObjOshihiki;
 
-typedef enum {
+typedef enum PushBlockType {
     /* 0 */ PUSHBLOCK_SMALL_START_ON,
     /* 1 */ PUSHBLOCK_MEDIUM_START_ON,
     /* 2 */ PUSHBLOCK_LARGE_START_ON,

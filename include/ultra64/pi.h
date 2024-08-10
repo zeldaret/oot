@@ -3,7 +3,7 @@
 
 #include "message.h"
 
-typedef struct {
+typedef struct __OSBlockInfo {
     /* 0x00 */ u32 errStatus;
     /* 0x04 */ void* dramAddr;
     /* 0x08 */ void* C2Addr;
@@ -12,7 +12,7 @@ typedef struct {
     /* 0x14 */ u32 C1ErrSector[4];
 } __OSBlockInfo; // size = 0x24
 
-typedef struct {
+typedef struct __OSTranxInfo {
     /* 0x00 */ u32 cmdType;
     /* 0x04 */ u16 transferMode;
     /* 0x06 */ u16 blockNum;
@@ -36,19 +36,19 @@ typedef struct OSPiHandle {
     /* 0x14 */ __OSTranxInfo transferInfo;
 } OSPiHandle; // size = 0x74
 
-typedef struct {
+typedef struct OSPiInfo {
     /* 0x00 */ u8 type;
     /* 0x04 */ u32 address;
 } OSPiInfo; // size = 0x08
 
-typedef struct {
+typedef struct OSIoMesgHdr {
     /* 0x00 */ u16 type;
     /* 0x02 */ u8 pri;
     /* 0x03 */ u8 status;
     /* 0x04 */ OSMesgQueue* retQueue;
 } OSIoMesgHdr; // size = 0x08
 
-typedef struct {
+typedef struct OSIoMesg {
     /* 0x00 */ OSIoMesgHdr hdr;
     /* 0x08 */ void* dramAddr;
     /* 0x0C */ u32 devAddr;

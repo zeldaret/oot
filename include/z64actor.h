@@ -24,7 +24,7 @@ typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*
 typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
 typedef s16 (*NpcUpdateTalkStateFunc)(struct PlayState*, struct Actor*);
 
-typedef struct {
+typedef struct ActorProfile {
     /* 0x00 */ s16 id;
     /* 0x02 */ u8 category; // Classifies actor and determines when it will update or draw
     /* 0x04 */ u32 flags;
@@ -85,7 +85,7 @@ typedef struct {
  */
 #define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
-typedef struct {
+typedef struct ActorOverlay {
     /* 0x00 */ RomFile file;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
@@ -96,18 +96,18 @@ typedef struct {
     /* 0x1E */ s8 numLoaded; // original name: "clients"
 } ActorOverlay; // size = 0x20
 
-typedef struct {
+typedef struct DamageTable {
     u8 table[32];
 } DamageTable;
 
-typedef struct {
+typedef struct CollisionCheckInfoInit {
     /* 0x00 */ u8 health;
     /* 0x02 */ s16 cylRadius;
     /* 0x04 */ s16 cylHeight;
     /* 0x06 */ u8 mass;
 } CollisionCheckInfoInit;
 
-typedef struct {
+typedef struct CollisionCheckInfoInit2 {
     /* 0x00 */ u8 health;
     /* 0x02 */ s16 cylRadius;
     /* 0x04 */ s16 cylHeight;
@@ -115,7 +115,7 @@ typedef struct {
     /* 0x08 */ u8 mass;
 } CollisionCheckInfoInit2;
 
-typedef struct {
+typedef struct CollisionCheckInfo {
     /* 0x00 */ DamageTable* damageTable;
     /* 0x04 */ Vec3f displacement; // Amount to correct actor velocity by when colliding into a body
     /* 0x10 */ s16 cylRadius; // Used for various purposes
@@ -129,7 +129,7 @@ typedef struct {
     /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
 } CollisionCheckInfo; // size = 0x1C
 
-typedef struct {
+typedef struct ActorShape {
     /* 0x00 */ Vec3s rot; // Current actor shape rotation
     /* 0x06 */ s16 face; // Used to index eyes and mouth textures. Only used by player
     /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units
@@ -310,7 +310,7 @@ typedef struct Actor {
 #endif
 } Actor; // size = 0x14C
 
-typedef enum {
+typedef enum ActorFootIndex {
     /* 0 */ FOOT_LEFT,
     /* 1 */ FOOT_RIGHT
 } ActorFootIndex;
@@ -344,7 +344,7 @@ typedef struct DynaPolyActor {
     /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164
 
-typedef struct {
+typedef struct BodyBreak {
     /* 0x00 */ MtxF* matrices;
     /* 0x04 */ s16* objectSlots;
     /* 0x08 */ s16 count;
@@ -357,7 +357,7 @@ typedef struct {
 #define BODYBREAK_STATUS_READY -1
 #define BODYBREAK_STATUS_FINISHED 0
 
-typedef enum {
+typedef enum Item00Type {
     /* 0x00 */ ITEM00_RUPEE_GREEN,
     /* 0x01 */ ITEM00_RUPEE_BLUE,
     /* 0x02 */ ITEM00_RUPEE_RED,
@@ -406,7 +406,7 @@ typedef struct EnItem00 {
 } EnItem00; // size = 0x1AC
 
 // Only A_OBJ_SIGNPOST_OBLONG and A_OBJ_SIGNPOST_ARROW are used in room files.
-typedef enum {
+typedef enum AObjType {
     /* 0x00 */ A_OBJ_BLOCK_SMALL,
     /* 0x01 */ A_OBJ_BLOCK_LARGE,
     /* 0x02 */ A_OBJ_BLOCK_HUGE,
@@ -439,7 +439,7 @@ typedef struct EnAObj {
     /* 0x17C */ ColliderCylinder collider;
 } EnAObj; // size = 0x1C8
 
-typedef enum {
+typedef enum ActorCategory {
     /* 0x00 */ ACTORCAT_SWITCH,
     /* 0x01 */ ACTORCAT_BG,
     /* 0x02 */ ACTORCAT_PLAYER,
@@ -459,7 +459,7 @@ typedef enum {
 #define DEFINE_ACTOR_INTERNAL(_0, enum, _2, _3) enum,
 #define DEFINE_ACTOR_UNSET(enum) enum,
 
-typedef enum {
+typedef enum ActorID {
     #include "tables/actor_table.h"
     /* 0x0192 */ ACTOR_ID_MAX // originally "ACTOR_DLF_MAX"
 } ActorID;
@@ -468,13 +468,13 @@ typedef enum {
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
 
-typedef enum {
+typedef enum DoorLockType {
     DOORLOCK_NORMAL,
     DOORLOCK_BOSS,
     DOORLOCK_NORMAL_SPIRIT
 } DoorLockType;
 
-typedef enum {
+typedef enum NaviEnemy {
     /* 0x00 */ NAVI_ENEMY_DEFAULT,
     /* 0x01 */ NAVI_ENEMY_GOHMA,
     /* 0x02 */ NAVI_ENEMY_GOHMA_EGG,
@@ -666,7 +666,7 @@ typedef struct SlidingDoorActorBase {
     /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;
 } SlidingDoorActorBase;
 
-typedef enum {
+typedef enum DoorOpenAnim {
     /* 0x00 */ DOOR_OPEN_ANIM_ADULT_L,
     /* 0x01 */ DOOR_OPEN_ANIM_CHILD_L,
     /* 0x02 */ DOOR_OPEN_ANIM_ADULT_R,
@@ -683,14 +683,14 @@ typedef enum {
 #define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
 #define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
 
-typedef enum {
+typedef enum NpcTalkState {
     /* 0x0 */ NPC_TALK_STATE_IDLE, // NPC not currently talking to player
     /* 0x1 */ NPC_TALK_STATE_TALKING, // NPC is currently talking to player
     /* 0x2 */ NPC_TALK_STATE_ACTION, // An NPC-defined action triggered in the conversation
     /* 0x3 */ NPC_TALK_STATE_ITEM_GIVEN // NPC finished giving an item and text box is done
 } NpcTalkState;
 
-typedef enum {
+typedef enum NpcTrackingMode {
     /* 0x0 */ NPC_TRACKING_PLAYER_AUTO_TURN, // Determine tracking mode based on player position, see Npc_UpdateAutoTurn
     /* 0x1 */ NPC_TRACKING_NONE, // Don't track the target (usually the player)
     /* 0x2 */ NPC_TRACKING_HEAD_AND_TORSO, // Track target by turning the head and the torso
@@ -698,7 +698,7 @@ typedef enum {
     /* 0x4 */ NPC_TRACKING_FULL_BODY // Track target by turning the body, torso and head
 } NpcTrackingMode;
 
-typedef struct {
+typedef struct NpcInteractInfo {
     /* 0x00 */ s16 talkState;
     /* 0x02 */ s16 trackingMode;
     /* 0x04 */ s16 autoTurnTimer;

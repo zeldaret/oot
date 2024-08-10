@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum GomaType {
     /* 0 */ ENGOMA_NORMAL,
     /* 1 */ ENGOMA_EGG,
     /* 2 */ ENGOMA_HATCH_DEBRIS,
@@ -15,7 +15,7 @@ struct EnGoma;
 
 typedef void (*EnGomaActionFunc)(struct EnGoma*, PlayState*);
 
-typedef enum {
+typedef enum EnGomaLimb {
     /*  0 */ GOMA_LIMB_NONE,
     /*  1 */ GOMA_LIMB_ROOT1,
     /*  2 */ GOMA_LIMB_ROOT2,

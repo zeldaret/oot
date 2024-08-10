@@ -18,7 +18,7 @@ EffectSsProfile Effect_Ss_Stone1_Profile = {
     EffectSsStone1_Init,
 };
 
-typedef struct {
+typedef struct EffStoneDrawInfo {
     /* 0x00 */ void* texture;
     /* 0x04 */ Color_RGBA8 primColor;
     /* 0x08 */ Color_RGBA8 envColor;

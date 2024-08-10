@@ -119,7 +119,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum DamageEffect {
     /* 00 */ PEAHAT_DMG_EFF_ATTACK = 0,
     /* 06 */ PEAHAT_DMG_EFF_LIGHT_ICE_ARROW = 6,
     /* 12 */ PEAHAT_DMG_EFF_FIRE = 12,
@@ -163,7 +163,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
 };
 
-typedef enum {
+typedef enum PeahatState {
     /* 00 */ PEAHAT_STATE_DYING,
     /* 01 */ PEAHAT_STATE_EXPLODE,
     /* 03 */ PEAHAT_STATE_3 = 3,
@@ -1025,7 +1025,7 @@ s32 EnPeehat_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
-        CLOSE_DISPS(play->state.gfxCtx, "../z_en_peehat.c", 1963);
+        CLOSE_DISPS2(play->state.gfxCtx, "../z_en_peehat.c", 1963);
         return true;
     }
     return false;
@@ -1059,7 +1059,7 @@ void EnPeehat_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
-        CLOSE_DISPS(play->state.gfxCtx, "../z_en_peehat.c", 1994);
+        CLOSE_DISPS2(play->state.gfxCtx, "../z_en_peehat.c", 1994);
     }
 }
 

@@ -5,7 +5,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum TwEffType {
     /*  0 */ TWEFF_NONE,
     /*  1 */ TWEFF_DOT,
     /*  2 */ TWEFF_2,
@@ -19,13 +19,13 @@ typedef enum {
     /* 10 */ TWEFF_SHLD_HIT
 } TwEffType;
 
-typedef enum {
+typedef enum EffectWork {
     /* 0 */ EFF_ARGS,
     /* 1 */ EFF_UNKS1,
     /* 2 */ EFF_WORK_MAX
 } EffectWork;
 
-typedef enum {
+typedef enum EffectFWork {
     /* 0 */ EFF_SCALE,
     /* 1 */ EFF_DIST,
     /* 2 */ EFF_ROLL,
@@ -33,7 +33,7 @@ typedef enum {
     /* 4 */ EFF_FWORK_MAX
 } EffectFWork;
 
-typedef enum {
+typedef enum TwinrovaType {
     /* 0x00 */ TW_KOTAKE,
     /* 0x01 */ TW_KOUME,
     /* 0x02 */ TW_TWINROVA,
@@ -47,7 +47,7 @@ typedef enum {
 
 #define BOSS_TW_EFFECT_COUNT 150
 
-typedef struct {
+typedef struct BossTwEffect {
     /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 frame;
     /* 0x0004 */ Vec3f pos;

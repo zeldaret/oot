@@ -34,7 +34,7 @@ void func_8006D0AC(PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct HorseSpawn {
     /* 0x00 */ s16 sceneId;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ s16 angle;
@@ -121,7 +121,7 @@ void func_8006D0EC(PlayState* play, Player* player) {
     }
 }
 
-typedef struct {
+typedef struct struct_8011F9B8 {
     /* 0x00 */ s16 sceneId;
     /* 0x04 */ s32 cutsceneIndex;
     /* 0x08 */ Vec3s pos;

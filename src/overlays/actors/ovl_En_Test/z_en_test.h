@@ -8,7 +8,7 @@ struct EnTest;
 
 typedef void (*EnTestActionFunc)(struct EnTest*, PlayState*);
 
-typedef enum {
+typedef enum StalfosLimb {
     /* 0x00 */ STALFOS_LIMB_NONE,
     /* 0x01 */ STALFOS_LIMB_ROOT,
     /* 0x02 */ STALFOS_LIMB_UPPERBODY_ROOT,
@@ -102,7 +102,7 @@ typedef struct EnTest {
     /* 0x8DC */ ColliderCylinder shieldCollider;
 } EnTest; // size = 0x928
 
-typedef enum {
+typedef enum StalfosType {
     /* 0 */ STALFOS_TYPE_INVISIBLE,
     /* 1 */ STALFOS_TYPE_1,
     /* 2 */ STALFOS_TYPE_2,

@@ -3,7 +3,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
-typedef enum {
+typedef enum EnDhAction {
     /* 0 */ DH_WAIT,
     /* 1 */ DH_RETREAT,
     /* 2 */ DH_BURROW,

@@ -11,7 +11,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum HidanFwbigMoveState {
     /* 0 */ FWBIG_MOVE,
     /* 1 */ FWBIG_RESET,
     /* 2 */ FWBIG_KILL
