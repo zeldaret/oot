@@ -150,7 +150,7 @@ BF4A0,800D0B80,src/libultra/gu/perspective
 BF730,800D0E10,src/libultra/io/sprawdma
 BF7C0,800D0EA0,src/libultra/io/sirawdma
 BF870,800D0F50,src/libultra/io/sptaskyield
-BF890,800D0F70,src/code/mtxutil
+BF890,800D0F70,src/libultra/gu/mtxutil
 BFB00,800D11E0,src/libultra/gu/lookat
 BFE30,800D1510,src/libultra/os/stoptimer
 BFF20,800D1600,src/libultra/gu/sqrtf
