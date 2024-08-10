@@ -4,9 +4,7 @@
 #include "terminal.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-// clang-format off
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
-// clang-format on
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
@@ -3632,9 +3630,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     return 1;
 }
 
-// clang-format off
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
-// clang-format on
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;

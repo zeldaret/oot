@@ -7,9 +7,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-// clang-format off
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
-// clang-format on
 
 typedef enum {
     /* 0x00 */ LIGHTNING_BOLT_START,
@@ -214,9 +212,7 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-// clang-format off
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
-// clang-format on
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;

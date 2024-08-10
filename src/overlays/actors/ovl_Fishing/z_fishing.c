@@ -11,9 +11,7 @@
 #include "ichain.h"
 #include "terminal.h"
 
-// clang-format off
 #pragma increment_block_number "gc-eu:205 gc-eu-mq:205 gc-jp:207 gc-jp-ce:207 gc-jp-mq:207 gc-us:207 gc-us-mq:207"
-// clang-format on
 
 #define FLAGS ACTOR_FLAG_4
 
