@@ -11,10 +11,11 @@
 
 import argparse
 from pathlib import Path
-import os
+import re
 import tempfile
 import subprocess
 import sys
+import typing
 
 
 def fail(message):
@@ -22,36 +23,59 @@ def fail(message):
     sys.exit(1)
 
 
-def process_file(version, filename, input, output):
+def process_file(
+    version: str,
+    filename: str,
+    input: typing.TextIO,
+    output: typing.TextIO,
+):
     output.write(f'#line 1 "{filename}"\n')
+    # whether the current line follows a #pragma increment_block_number,
+    # including continuation lines (lines after a \-ending line)
+    in_pragma_incblocknum = False
+    # the line where the #pragma increment_block_number is
+    pragma_incblocknum_first_line_num = None
+    # all the lines from the #pragma increment_block_number line to the last
+    # continuation line, as a list[str]
+    pragma_incblocknum_lines = None
     for i, line in enumerate(input, start=1):
-        if line.startswith("#pragma increment_block_number"):
-            # Grab pragma argument (if any) and remove quotes
-            arg = line.strip()[len("#pragma increment_block_number ") + 1 : -1]
-            amount = 0
-            for part in arg.split():
-                kv = part.split(":")
-                if len(kv) != 2:
-                    fail(
-                        f"{filename}:{i}: increment_block_number must be followed by a list of version:amount pairs"
-                    )
-                if kv[0] != version:
-                    continue
-                try:
-                    amount = int(kv[1])
-                except ValueError:
-                    fail(
-                        f"{filename}:{i}: increment_block_number amount must be an integer"
-                    )
+        if not in_pragma_incblocknum and line.startswith(
+            "#pragma increment_block_number"
+        ):
+            in_pragma_incblocknum = True
+            pragma_incblocknum_first_line_num = i
+            pragma_incblocknum_lines = []
 
-            # Always generate at least one struct so that fix_bss.py can know where the increment_block_number pragmas are
-            if amount == 0:
-                amount = 256
+        if in_pragma_incblocknum:
+            if line.endswith("\\\n"):
+                pragma_incblocknum_lines.append(line)
+            else:
+                in_pragma_incblocknum = False
+                pragma_incblocknum_lines.append(line)
+                amount = 0
+                for s in pragma_incblocknum_lines:
+                    # Note if we had two versions like "abc-def-version" and "def-version"
+                    # then this code would find either given "def-version", but
+                    # thankfully we don't have such nested version names.
+                    m = re.search(rf"{version}:(\d+)\b", s)
+                    if m:
+                        amount = int(m.group(1))
+                        break
 
-            # Write fake structs for BSS ordering
-            for j in range(amount):
-                output.write(f"struct increment_block_number_{i:05}_{j:03};\n")
-            output.write(f'#line {i + 1} "{filename}"\n')
+                # Always generate at least one struct,
+                # so that fix_bss.py can know where the increment_block_number pragmas are
+                if amount == 0:
+                    amount = 256
+
+                # Write fake structs for BSS ordering
+                # pragma_incblocknum_first_line_num is used for symbol uniqueness, and
+                # also by fix_bss.py to locate the pragma these symbols originate from.
+                for j in range(amount):
+                    output.write(
+                        "struct increment_block_number_"
+                        f"{pragma_incblocknum_first_line_num:05}_{j:03};\n"
+                    )
+                output.write(f'#line {i + 1} "{filename}"\n')
         else:
             output.write(line)
 
