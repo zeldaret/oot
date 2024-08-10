@@ -18,7 +18,11 @@ ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER ?= ido
 # Target game version. Currently the following versions are supported:
+#   gc-jp          GameCube Japan
+#   gc-jp-mq       GameCube Japan Master Quest
+#   gc-jp-ce       GameCube Japan (Collector's Edition disc)
 #   gc-us          GameCube US
+#   gc-us-mq       GameCube US
 #   gc-eu          GameCube Europe/PAL
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
@@ -42,10 +46,30 @@ CPPFLAGS ?=
 CPP_DEFINES ?=
 
 # Version-specific settings
-ifeq ($(VERSION),gc-us)
+ifeq ($(VERSION),gc-jp)
+  REGION ?= JP
+  PAL := 0
+  MQ := 0
+  DEBUG := 0
+else ifeq ($(VERSION),gc-jp-mq)
+  REGION ?= JP
+  PAL := 0
+  MQ := 1
+  DEBUG := 0
+else ifeq ($(VERSION),gc-jp-ce)
+  REGION ?= JP
+  PAL := 0
+  MQ := 0
+  DEBUG := 0
+else ifeq ($(VERSION),gc-us)
   REGION ?= US
   PAL := 0
   MQ := 0
+  DEBUG := 0
+else ifeq ($(VERSION),gc-us-mq)
+  REGION ?= US
+  PAL := 0
+  MQ := 1
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
