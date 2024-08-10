@@ -1672,7 +1672,7 @@ typedef union Hilite {
         }},                                                     \
     }}
 
-typedef struct value {
+typedef struct Gnoop {
     int          cmd  : 8;
     unsigned int type : 8;
     unsigned int len  : 16;

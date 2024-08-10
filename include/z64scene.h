@@ -133,7 +133,7 @@ typedef struct RoomShapeCullable {
     /* 0x08 */ RoomShapeCullableEntry* entriesEnd;
 } RoomShapeCullable; // size = 0x0C
 
-typedef union image {
+typedef union RoomShape {
     RoomShapeBase base;
     RoomShapeNormal normal;
     union {

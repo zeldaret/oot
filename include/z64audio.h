@@ -343,7 +343,7 @@ typedef struct AdsrSettings {
     /* 0x4 */ EnvelopePoint* envelope;
 } AdsrSettings; // size = 0x8
 
-typedef struct s {
+typedef struct AdsrState {
     /* 0x00 */ union {
         struct A {
             /* 0x00 */ u8 unused : 1;
@@ -555,7 +555,7 @@ typedef struct NotePlaybackState {
     /* 0x6C */ VibratoState vibratoState;
 } NotePlaybackState; // size = 0x88
 
-typedef struct bitField0 {
+typedef struct NoteSubEu {
     struct {
         /* 0x00 */ volatile u8 enabled : 1;
         /* 0x00 */ u8 needsInit : 1;

@@ -27,7 +27,7 @@
 typedef s32 OSPri;
 typedef s32 OSId;
 
-typedef union f {
+typedef union __OSfp {
     struct {
         /* 0x00 */ f32 f_odd;
         /* 0x04 */ f32 f_even;

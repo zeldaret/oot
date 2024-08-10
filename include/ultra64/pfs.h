@@ -93,7 +93,7 @@ typedef struct OSPfsState {
     /* 0x10 */ char game_name[16];
 } OSPfsState; // size = 0x20
 
-typedef union inode_t {
+typedef union __OSInodeUnit {
     struct {
         /* 0x00 */ u8 bank;
         /* 0x01 */ u8 page;

@@ -62,7 +62,7 @@ typedef enum TransitionType {
 
 #define TRANS_TYPE_CIRCLE(appearance, color, speed) ((1 << 5) | ((color & 3) << 3) | ((appearance & 3) << 1) | (speed & 1))
 
-typedef struct instanceData {
+typedef struct TransitionContext {
     union {
         TransitionFade fade;
         TransitionCircle circle;
