@@ -629,11 +629,11 @@ void DemoGt_Update8(DemoGt* this, PlayState* play) {
     func_8097EF00(this, play);
 }
 
-void DemoGt_Draw1(DemoGt* this, PlayState* play) {
+void DemoGt_Draw1(DemoGt* thisx, PlayState* play) {
     s32 pad;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     u32 gameplayFrames = play->gameplayFrames;
-    s16 pad2[2];
+    DemoGt* this = (DemoGt*)thisx;
     s16 spC6;
     f32 spC0;
     f32 spBC;
@@ -870,6 +870,7 @@ void DemoGt_Draw2(DemoGt* this, PlayState* play) {
     Gfx_SetupDL_25Opa(gfxCtx);
     unk198 = this->unk_198;
     unk178 = this->unk_178;
+    if (1) {}
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, unk198[0], 0x20, 0x40, 1, 0, unk198[1], 0x20, 0x40, unk178[0],
                                         unk178[1], unk178[2], 128));
