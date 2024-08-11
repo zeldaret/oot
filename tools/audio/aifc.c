@@ -332,7 +332,7 @@ aifc_read(aifc_data *af, const char *path, uint8_t *match_buf, size_t *match_buf
                 af->has_inst = true;
             } break;
 
-            case CC4('M', 'A', 'R', 'K'):;
+            case CC4('M', 'A', 'R', 'K'): {
                 aiff_MARK mark;
                 FREAD(in, &mark, sizeof(mark));
                 mark.nMarkers = be16toh(mark.nMarkers);
@@ -354,7 +354,7 @@ aifc_read(aifc_data *af, const char *path, uint8_t *match_buf, size_t *match_buf
                     DEBUGF("    MARKER: %d @ %u [%s]\n", (*af->markers)[i].id, (*af->markers)[i].pos,
                            (*af->markers)[i].label);
                 }
-                break;
+            } break;
 
             case CC4('A', 'P', 'P', 'L'): {
                 char subcc4[4];
