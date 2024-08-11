@@ -28,7 +28,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play);
 void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, PlayState* play);
 void BgMoriBigst_SetupDone(BgMoriBigst* this, PlayState* play);
 
-ActorInit Bg_Mori_Bigst_InitVars = {
+ActorProfile Bg_Mori_Bigst_Profile = {
     /**/ ACTOR_BG_MORI_BIGST,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

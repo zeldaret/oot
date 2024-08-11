@@ -45,7 +45,7 @@ void EnfHG_Damage(EnfHG* this, PlayState* play);
 void EnfHG_Retreat(EnfHG* this, PlayState* play);
 void EnfHG_Done(EnfHG* this, PlayState* play);
 
-ActorInit En_fHG_InitVars = {
+ActorProfile En_fHG_Profile = {
     /**/ ACTOR_EN_FHG,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

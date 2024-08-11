@@ -33,7 +33,7 @@ static Vec3s D_80AD8C30[] = {
     { 0x0B4E, 0xFE66, 0xF87E }, { 0x0B4A, 0xFE66, 0xF97A }, { 0x0B4A, 0xFE98, 0xF9FC }, { 0x0BAE, 0xFE98, 0xF9FC },
 };
 
-ActorInit En_Po_Relay_InitVars = {
+ActorProfile En_Po_Relay_Profile = {
     /**/ ACTOR_EN_PO_RELAY,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -385,7 +385,6 @@ void EnPoRelay_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 128);
         gSPDisplayList(POLY_OPA_DISP++, gDampeLanternDL);
-        if (1) {}
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 901);
         Matrix_MultVec3f(&D_80AD8D48, &vec);
         Lights_PointNoGlowSetInfo(&this->lightInfo, vec.x, vec.y, vec.z, this->lightColor.r, this->lightColor.g,

@@ -34,7 +34,7 @@ void EnTrap_Destroy(Actor* thisx, PlayState* play);
 void EnTrap_Update(Actor* thisx, PlayState* play);
 void EnTrap_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Trap_InitVars = {
+ActorProfile En_Trap_Profile = {
     /**/ ACTOR_EN_TRAP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

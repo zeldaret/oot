@@ -22,7 +22,7 @@ void EnKz_Wait(EnKz* this, PlayState* play);
 void EnKz_SetupGetItem(EnKz* this, PlayState* play);
 void EnKz_StartTimer(EnKz* this, PlayState* play);
 
-ActorInit En_Kz_InitVars = {
+ActorProfile En_Kz_Profile = {
     /**/ ACTOR_EN_KZ,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

@@ -28,7 +28,7 @@ static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
-ActorInit En_Ex_Ruppy_InitVars = {
+ActorProfile En_Ex_Ruppy_Profile = {
     /**/ ACTOR_EN_EX_RUPPY,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

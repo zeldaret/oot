@@ -30,7 +30,7 @@ void EnDekunuts_BeDamaged(EnDekunuts* this, PlayState* play);
 void EnDekunuts_BeStunned(EnDekunuts* this, PlayState* play);
 void EnDekunuts_Die(EnDekunuts* this, PlayState* play);
 
-ActorInit En_Dekunuts_InitVars = {
+ActorProfile En_Dekunuts_Profile = {
     /**/ ACTOR_EN_DEKUNUTS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

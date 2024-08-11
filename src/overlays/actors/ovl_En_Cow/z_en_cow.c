@@ -26,7 +26,7 @@ void EnCow_DrawTail(Actor* thisx, PlayState* play);
 void EnCow_UpdateTail(Actor* thisx, PlayState* play);
 void EnCow_IdleTail(EnCow* this, PlayState* play);
 
-ActorInit En_Cow_InitVars = {
+ActorProfile En_Cow_Profile = {
     /**/ ACTOR_EN_COW,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

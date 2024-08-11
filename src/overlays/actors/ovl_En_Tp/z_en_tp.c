@@ -39,7 +39,7 @@ typedef enum {
     /* 9 */ TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME
 } TailpasaranAction;
 
-ActorInit En_Tp_InitVars = {
+ActorProfile En_Tp_Profile = {
     /**/ ACTOR_EN_TP,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

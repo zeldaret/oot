@@ -19,7 +19,7 @@ void MagicWind_FadeOut(MagicWind* this, PlayState* play);
 void MagicWind_WaitAtFullSize(MagicWind* this, PlayState* play);
 void MagicWind_Grow(MagicWind* this, PlayState* play);
 
-ActorInit Magic_Wind_InitVars = {
+ActorProfile Magic_Wind_Profile = {
     /**/ ACTOR_MAGIC_WIND,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

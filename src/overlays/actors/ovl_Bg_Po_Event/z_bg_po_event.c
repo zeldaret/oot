@@ -28,7 +28,7 @@ void BgPoEvent_PaintingAppear(BgPoEvent* this, PlayState* play);
 void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, PlayState* play);
 
-ActorInit Bg_Po_Event_InitVars = {
+ActorProfile Bg_Po_Event_Profile = {
     /**/ ACTOR_BG_PO_EVENT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

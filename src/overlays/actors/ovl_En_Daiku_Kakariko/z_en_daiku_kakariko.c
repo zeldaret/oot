@@ -24,7 +24,7 @@ void EnDaikuKakariko_Draw(Actor* thisx, PlayState* play);
 void EnDaikuKakariko_Wait(EnDaikuKakariko* this, PlayState* play);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play);
 
-ActorInit En_Daiku_Kakariko_InitVars = {
+ActorProfile En_Daiku_Kakariko_Profile = {
     /**/ ACTOR_EN_DAIKU_KAKARIKO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -561,8 +561,6 @@ void EnDaikuKakariko_Draw(Actor* thisx, PlayState* play) {
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDaikuKakariko_OverrideLimbDraw, EnDaikuKakariko_PostLimbDraw, thisx);
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_daiku_kakariko.c", 1151);
 }

@@ -18,7 +18,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play);
 void func_80B43AD4(EnYukabyun* this, PlayState* play);
 void func_80B43B6C(EnYukabyun* this, PlayState* play);
 
-ActorInit En_Yukabyun_InitVars = {
+ActorProfile En_Yukabyun_Profile = {
     /**/ ACTOR_EN_YUKABYUN,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

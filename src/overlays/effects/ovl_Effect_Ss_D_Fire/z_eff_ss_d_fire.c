@@ -22,7 +22,7 @@ u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
 void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsDFire_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_D_Fire_InitVars = {
+EffectSsProfile Effect_Ss_D_Fire_Profile = {
     EFFECT_SS_D_FIRE,
     EffectSsDFire_Init,
 };

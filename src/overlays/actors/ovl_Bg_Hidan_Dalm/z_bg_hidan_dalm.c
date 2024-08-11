@@ -17,7 +17,7 @@ void BgHidanDalm_Draw(Actor* thisx, PlayState* play);
 void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play);
 void BgHidanDalm_Shrink(BgHidanDalm* this, PlayState* play);
 
-ActorInit Bg_Hidan_Dalm_InitVars = {
+ActorProfile Bg_Hidan_Dalm_Profile = {
     /**/ ACTOR_BG_HIDAN_DALM,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

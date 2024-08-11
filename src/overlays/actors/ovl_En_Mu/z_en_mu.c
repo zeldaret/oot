@@ -39,7 +39,7 @@ static ColliderCylinderInit D_80AB0BD0 = {
 
 static CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-ActorInit En_Mu_InitVars = {
+ActorProfile En_Mu_Profile = {
     /**/ ACTOR_EN_MU,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

@@ -25,7 +25,7 @@ void BgJya1flift_DelayMove(BgJya1flift* this, PlayState* play);
 
 static u8 sIsSpawned = false;
 
-ActorInit Bg_Jya_1flift_InitVars = {
+ActorProfile Bg_Jya_1flift_Profile = {
     /**/ ACTOR_BG_JYA_1FLIFT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

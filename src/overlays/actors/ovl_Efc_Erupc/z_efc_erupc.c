@@ -14,7 +14,7 @@ void EfcErupc_UpdateEffects(EfcErupc* this, PlayState* play);
 void EfcErupc_SpawnEffect(EfcErupcEffect* effect, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor);
 void EfcErupc_InitEffects(EfcErupcEffect* effect);
 
-ActorInit Efc_Erupc_InitVars = {
+ActorProfile Efc_Erupc_Profile = {
     /**/ ACTOR_EFC_ERUPC,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

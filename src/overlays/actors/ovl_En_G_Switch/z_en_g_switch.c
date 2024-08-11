@@ -64,7 +64,7 @@ static s16 sRupeeTypes[] = {
     ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
 };
 
-ActorInit En_G_Switch_InitVars = {
+ActorProfile En_G_Switch_Profile = {
     /**/ ACTOR_EN_G_SWITCH,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

@@ -11,8 +11,7 @@
 #include "ichain.h"
 #include "terminal.h"
 
-// For retail BSS ordering, the block number of sStreamSfxProjectedPos must be 0.
-#pragma increment_block_number 202
+#pragma increment_block_number "gc-eu:205 gc-eu-mq:205 gc-jp:207 gc-jp-ce:207 gc-jp-mq:207 gc-us:207 gc-us-mq:207"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -131,7 +130,7 @@ typedef enum {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
-ActorInit Fishing_InitVars = {
+ActorProfile Fishing_Profile = {
     /**/ ACTOR_FISHING,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -4555,8 +4554,6 @@ void Fishing_DrawPondProps(PlayState* play) {
     }
 
     Matrix_Pop();
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_fishing.c", 7805);
 }

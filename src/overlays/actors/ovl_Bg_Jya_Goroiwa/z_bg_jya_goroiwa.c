@@ -23,7 +23,7 @@ void BgJyaGoroiwa_SetupMove(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateRotation(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this);
 
-ActorInit Bg_Jya_Goroiwa_InitVars = {
+ActorProfile Bg_Jya_Goroiwa_Profile = {
     /**/ ACTOR_BG_JYA_GOROIWA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

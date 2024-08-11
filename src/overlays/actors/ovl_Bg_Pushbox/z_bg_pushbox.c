@@ -16,7 +16,7 @@ void BgPushbox_Draw(Actor* thisx, PlayState* play);
 
 void BgPushbox_UpdateImpl(BgPushbox* this, PlayState* play);
 
-ActorInit Bg_Pushbox_InitVars = {
+ActorProfile Bg_Pushbox_Profile = {
     /**/ ACTOR_BG_PUSHBOX,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

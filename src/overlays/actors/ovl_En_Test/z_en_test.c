@@ -125,7 +125,7 @@ static u8 sUpperBodyLimbCopyMap[] = {
     false, // STALFOS_LIMB_WAIST
 };
 
-ActorInit En_Test_InitVars = {
+ActorProfile En_Test_Profile = {
     /**/ ACTOR_EN_TEST,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

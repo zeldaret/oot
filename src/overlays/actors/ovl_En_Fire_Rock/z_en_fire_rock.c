@@ -15,7 +15,7 @@ void FireRock_WaitOnFloor(EnFireRock* this, PlayState* play);
 void EnFireRock_Fall(EnFireRock* this, PlayState* play);
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play);
 
-ActorInit En_Fire_Rock_InitVars = {
+ActorProfile En_Fire_Rock_Profile = {
     /**/ ACTOR_EN_FIRE_ROCK,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

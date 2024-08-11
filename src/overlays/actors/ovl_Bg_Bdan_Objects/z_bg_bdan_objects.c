@@ -43,7 +43,7 @@ void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_FallToLowerPos(BgBdanObjects* this, PlayState* play);
 
-ActorInit Bg_Bdan_Objects_InitVars = {
+ActorProfile Bg_Bdan_Objects_Profile = {
     /**/ ACTOR_BG_BDAN_OBJECTS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

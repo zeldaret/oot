@@ -28,7 +28,7 @@ void EnJj_WaitForFish(EnJj* this, PlayState* play);
 void EnJj_BeginCutscene(EnJj* this, PlayState* play);
 void EnJj_RemoveDust(EnJj* this, PlayState* play);
 
-ActorInit En_Jj_InitVars = {
+ActorProfile En_Jj_Profile = {
     /**/ ACTOR_EN_JJ,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

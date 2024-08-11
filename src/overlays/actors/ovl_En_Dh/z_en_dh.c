@@ -31,7 +31,7 @@ void EnDh_Burrow(EnDh* this, PlayState* play);
 void EnDh_Damage(EnDh* this, PlayState* play);
 void EnDh_Death(EnDh* this, PlayState* play);
 
-ActorInit En_Dh_InitVars = {
+ActorProfile En_Dh_Profile = {
     /**/ ACTOR_EN_DH,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

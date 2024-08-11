@@ -16,7 +16,7 @@ void EnJs_Draw(Actor* thisx, PlayState* play);
 
 void func_80A89304(EnJs* this, PlayState* play);
 
-ActorInit En_Js_InitVars = {
+ActorProfile En_Js_Profile = {
     /**/ ACTOR_EN_JS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

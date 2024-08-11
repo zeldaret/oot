@@ -189,7 +189,16 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->configMode = CM_ROTATE_TO_NAME_ENTRY;
                 this->kbdButton = FS_KBD_BTN_NONE;
+
+#if OOT_NTSC
+                this->charPage = FS_CHAR_PAGE_HIRA;
+                if (gSaveContext.language != LANGUAGE_JPN) {
+                    this->charPage = FS_CHAR_PAGE_ENG;
+                }
+#else
                 this->charPage = FS_CHAR_PAGE_ENG;
+#endif
+
                 this->kbdX = 0;
                 this->kbdY = 0;
                 this->charIndex = 0;
@@ -224,7 +233,7 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
                     this->nextTitleLabel = FS_TITLE_ERASE_FILE;
                 } else {
                     this->configMode = CM_MAIN_TO_OPTIONS;
-                    this->kbdButton = 0;
+                    this->kbdButton = FS_KBD_BTN_HIRA;
                     this->kbdX = 0;
                     this->kbdY = 0;
                     this->charBgAlpha = 0;
@@ -798,6 +807,11 @@ static s16 sQuestItemRed[] = { 255, 255, 255, 0, 255, 0, 255, 200, 200 };
 static s16 sQuestItemGreen[] = { 255, 255, 255, 255, 60, 100, 130, 50, 200 };
 static s16 sQuestItemBlue[] = { 255, 255, 255, 0, 0, 255, 0, 255, 0 };
 static s16 sQuestItemFlags[] = { 0x0012, 0x0013, 0x0014, 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005 };
+
+#if OOT_NTSC && OOT_VERSION < OOT_GC_JP_CE
+static void* sSaveXTextures[] = { gFileSelSaveXJPNTex, gFileSelSaveXENGTex };
+#endif
+
 static s16 sNamePrimColors[2][3] = { { 255, 255, 255 }, { 100, 100, 100 } };
 static void* sHeartTextures[] = { gHeartFullTex, gDefenseHeartFullTex };
 static s16 sHeartPrimColors[2][3] = { { 255, 70, 50 }, { 200, 0, 0 } };
@@ -1729,9 +1743,11 @@ void FileSelect_Main(GameState* thisx) {
 void FileSelect_InitContext(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     EnvironmentContext* envCtx = &this->envCtx;
+#if OOT_PAL
     SramContext* sramCtx = &this->sramCtx;
+#endif
 
-    Sram_Alloc(&this->state, sramCtx);
+    Sram_Alloc(&this->state, &this->sramCtx);
 
     ZREG(7) = 32;
     ZREG(8) = 22;
@@ -1888,6 +1904,7 @@ void FileSelect_InitContext(GameState* thisx) {
     this->n64ddFlags[0] = this->n64ddFlags[1] = this->n64ddFlags[2] = this->defense[0] = this->defense[1] =
         this->defense[2] = 0;
 
+#if OOT_PAL
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
     gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
@@ -1895,6 +1912,7 @@ void FileSelect_InitContext(GameState* thisx) {
     if (gSaveContext.language >= LANGUAGE_MAX) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_ENG;
     }
+#endif
 }
 
 void FileSelect_Destroy(GameState* thisx) {

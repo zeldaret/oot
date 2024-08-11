@@ -18,7 +18,7 @@ void EnHorseZelda_Stop(EnHorseZelda* this, PlayState* play);
 void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play);
 void EnHorseZelda_SetupStop(EnHorseZelda* this);
 
-ActorInit En_Horse_Zelda_InitVars = {
+ActorProfile En_Horse_Zelda_Profile = {
     /**/ ACTOR_EN_HORSE_ZELDA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

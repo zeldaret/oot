@@ -19,7 +19,7 @@ void func_80B92C80(ObjElevator* this, PlayState* play);
 void func_80B92D20(ObjElevator* this);
 void func_80B92D44(ObjElevator* this, PlayState* play);
 
-ActorInit Obj_Elevator_InitVars = {
+ActorProfile Obj_Elevator_Profile = {
     /**/ ACTOR_OBJ_ELEVATOR,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

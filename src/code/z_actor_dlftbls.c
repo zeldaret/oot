@@ -11,9 +11,9 @@
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
 
-// Init Vars declarations (also used in the table below)
-#define DEFINE_ACTOR(name, _1, _2, _3) extern ActorInit name##_InitVars;
-#define DEFINE_ACTOR_INTERNAL(name, _1, _2, _3) extern ActorInit name##_InitVars;
+// Profile declarations (also used in the table below)
+#define DEFINE_ACTOR(name, _1, _2, _3) extern ActorProfile name##_Profile;
+#define DEFINE_ACTOR_INTERNAL(name, _1, _2, _3) extern ActorProfile name##_Profile;
 #define DEFINE_ACTOR_UNSET(_0)
 
 #include "tables/actor_table.h"
@@ -31,15 +31,15 @@
         _ovl_##name##SegmentStart,                    \
         _ovl_##name##SegmentEnd,                      \
         NULL,                                         \
-        &name##_InitVars,                             \
+        &name##_Profile,                              \
         nameString,                                   \
         allocType,                                    \
         0,                                            \
     },
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString)                        \
-    {                                                                                 \
-        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, nameString, allocType, 0, \
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString)                       \
+    {                                                                                \
+        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_Profile, nameString, allocType, 0, \
     },
 
 #else
@@ -51,15 +51,15 @@
         _ovl_##name##SegmentStart,            \
         _ovl_##name##SegmentEnd,              \
         NULL,                                 \
-        &name##_InitVars,                     \
+        &name##_Profile,                      \
         NULL,                                 \
         allocType,                            \
         0,                                    \
     },
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                          \
-    {                                                                           \
-        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, NULL, allocType, 0, \
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                         \
+    {                                                                          \
+        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_Profile, NULL, allocType, 0, \
     },
 
 #endif
@@ -88,7 +88,7 @@ void ActorOverlayTable_LogPrint(void) {
 
     for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < (u32)gMaxActorId; i++, overlayEntry++) {
         PRINTF("%08x %08x %08x %08x %08x %08x %s\n", overlayEntry->file.vromStart, overlayEntry->file.vromEnd,
-               overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr, &overlayEntry->initInfo->id,
+               overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr, &overlayEntry->profile->id,
                overlayEntry->name != NULL ? overlayEntry->name : "?");
     }
 #endif

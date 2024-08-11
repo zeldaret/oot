@@ -503,7 +503,7 @@ void DemoIk_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawMode](this, play);
 }
 
-ActorInit Demo_Ik_InitVars = {
+ActorProfile Demo_Ik_Profile = {
     /**/ ACTOR_DEMO_IK,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

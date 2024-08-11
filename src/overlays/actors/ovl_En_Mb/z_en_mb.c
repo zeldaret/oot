@@ -53,7 +53,7 @@ void EnMb_Destroy(Actor* thisx, PlayState* play);
 void EnMb_Update(Actor* thisx, PlayState* play);
 void EnMb_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Mb_InitVars = {
+ActorProfile En_Mb_Profile = {
     /**/ ACTOR_EN_MB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

@@ -22,7 +22,7 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
+ActorProfile Bg_Hidan_Kowarerukabe_Profile = {
     /**/ ACTOR_BG_HIDAN_KOWARERUKABE,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

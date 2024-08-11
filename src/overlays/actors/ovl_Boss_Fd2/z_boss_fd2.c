@@ -46,7 +46,7 @@ void BossFd2_Damaged(BossFd2* this, PlayState* play);
 void BossFd2_Death(BossFd2* this, PlayState* play);
 void BossFd2_Wait(BossFd2* this, PlayState* play);
 
-ActorInit Boss_Fd2_InitVars = {
+ActorProfile Boss_Fd2_Profile = {
     /**/ ACTOR_BOSS_FD2,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

@@ -28,7 +28,7 @@ void EnBili_Die(EnBili* this, PlayState* play);
 void EnBili_Stunned(EnBili* this, PlayState* play);
 void EnBili_Frozen(EnBili* this, PlayState* play);
 
-ActorInit En_Bili_InitVars = {
+ActorProfile En_Bili_Profile = {
     /**/ ACTOR_EN_BILI,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

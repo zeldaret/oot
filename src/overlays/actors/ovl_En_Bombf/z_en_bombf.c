@@ -21,7 +21,7 @@ void EnBombf_WaitForRelease(EnBombf* this, PlayState* play);
 void EnBombf_Explode(EnBombf* this, PlayState* play);
 void EnBombf_SetupGrowBomb(EnBombf* this, s16 params);
 
-ActorInit En_Bombf_InitVars = {
+ActorProfile En_Bombf_Profile = {
     /**/ ACTOR_EN_BOMBF,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -507,8 +507,6 @@ void EnBombf_Draw(Actor* thisx, PlayState* play) {
     } else {
         Collider_UpdateSpheres(0, &this->explosionCollider);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bombf.c", 1063);
 }

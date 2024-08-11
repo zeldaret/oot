@@ -64,7 +64,7 @@ void EnRr_Death(EnRr* this, PlayState* play);
 void EnRr_Retreat(EnRr* this, PlayState* play);
 void EnRr_Stunned(EnRr* this, PlayState* play);
 
-ActorInit En_Rr_InitVars = {
+ActorProfile En_Rr_Profile = {
     /**/ ACTOR_EN_RR,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -901,20 +901,18 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
         s32 offIndex;
 
         this->actor.colorFilterTimer++;
-        if ((effectTimer & 1) != 0) {
-            return;
-        }
+        if ((effectTimer & 1) == 0) {
+            segIndex = 4 - (effectTimer >> 2);
+            offIndex = (effectTimer >> 1) & 3;
 
-        segIndex = 4 - (effectTimer >> 2);
-        offIndex = (effectTimer >> 1) & 3;
-
-        effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
-        effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
-        effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
-        if (this->actor.colorFilterParams & 0x4000) {
-            EffectSsEnFire_SpawnVec3f(play, &this->actor, &effectPos, 100, 0, 0, -1);
-        } else {
-            EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255, 3.0f);
+            effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
+            effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
+            effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
+            if (this->actor.colorFilterParams & 0x4000) {
+                EffectSsEnFire_SpawnVec3f(play, &this->actor, &effectPos, 100, 0, 0, -1);
+            } else {
+                EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255, 3.0f);
+            }
         }
     }
 }

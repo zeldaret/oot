@@ -16,7 +16,7 @@ void EnVbBall_Destroy(Actor* thisx, PlayState* play);
 void EnVbBall_Update(Actor* thisx, PlayState* play2);
 void EnVbBall_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Vb_Ball_InitVars = {
+ActorProfile En_Vb_Ball_Profile = {
     /**/ 0,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

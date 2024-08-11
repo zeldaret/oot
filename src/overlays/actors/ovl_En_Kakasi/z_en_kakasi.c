@@ -42,7 +42,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-ActorInit En_Kakasi_InitVars = {
+ActorProfile En_Kakasi_Profile = {
     /**/ ACTOR_EN_KAKASI,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

@@ -132,7 +132,7 @@ static EnRu1DrawFunc sDrawFuncs[] = {
     EnRu1_DrawXlu,
 };
 
-ActorInit En_Ru1_InitVars = {
+ActorProfile En_Ru1_Profile = {
     /**/ ACTOR_EN_RU1,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

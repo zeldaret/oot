@@ -16,7 +16,7 @@ void EnMk_Draw(Actor* thisx, PlayState* play);
 
 void EnMk_Wait(EnMk* this, PlayState* play);
 
-ActorInit En_Mk_InitVars = {
+ActorProfile En_Mk_Profile = {
     /**/ ACTOR_EN_MK,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

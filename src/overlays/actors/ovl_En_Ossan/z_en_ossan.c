@@ -100,7 +100,7 @@ void EnOssan_SetStateGiveDiscountDialog(PlayState* play, EnOssan* this);
 
 #define CURSOR_INVALID 0xFF
 
-ActorInit En_Ossan_InitVars = {
+ActorProfile En_Ossan_Profile = {
     /**/ ACTOR_EN_OSSAN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

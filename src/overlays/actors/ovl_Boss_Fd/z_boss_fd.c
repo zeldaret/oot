@@ -44,7 +44,7 @@ void BossFd_Wait(BossFd* this, PlayState* play);
 void BossFd_UpdateEffects(BossFd* this, PlayState* play);
 void BossFd_DrawBody(PlayState* play, BossFd* this);
 
-ActorInit Boss_Fd_InitVars = {
+ActorProfile Boss_Fd_Profile = {
     /**/ ACTOR_BOSS_FD,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

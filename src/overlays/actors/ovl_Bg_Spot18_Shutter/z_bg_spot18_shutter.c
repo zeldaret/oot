@@ -20,7 +20,7 @@ void func_808B9618(BgSpot18Shutter* this, PlayState* play);
 void func_808B9698(BgSpot18Shutter* this, PlayState* play);
 void func_808B971C(BgSpot18Shutter* this, PlayState* play);
 
-ActorInit Bg_Spot18_Shutter_InitVars = {
+ActorProfile Bg_Spot18_Shutter_Profile = {
     /**/ ACTOR_BG_SPOT18_SHUTTER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

@@ -25,7 +25,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play);
 void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* play);
 void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play);
 
-ActorInit Bg_Spot00_Hanebasi_InitVars = {
+ActorProfile Bg_Spot00_Hanebasi_Profile = {
     /**/ ACTOR_BG_SPOT00_HANEBASI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

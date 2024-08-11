@@ -16,7 +16,7 @@ void BgJyaBombiwa_Destroy(Actor* thisx, PlayState* play);
 void BgJyaBombiwa_Update(Actor* thisx, PlayState* play);
 void BgJyaBombiwa_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Jya_Bombiwa_InitVars = {
+ActorProfile Bg_Jya_Bombiwa_Profile = {
     /**/ ACTOR_BG_JYA_BOMBIWA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

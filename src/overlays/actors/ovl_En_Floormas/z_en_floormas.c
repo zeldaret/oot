@@ -44,7 +44,7 @@ void EnFloormas_Stand(EnFloormas* this, PlayState* play);
 void EnFloormas_BigDecideAction(EnFloormas* this, PlayState* play);
 void EnFloormas_Charge(EnFloormas* this, PlayState* play);
 
-ActorInit En_Floormas_InitVars = {
+ActorProfile En_Floormas_Profile = {
     /**/ ACTOR_EN_FLOORMAS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

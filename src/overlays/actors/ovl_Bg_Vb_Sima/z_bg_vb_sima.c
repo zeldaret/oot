@@ -15,7 +15,7 @@ void BgVbSima_Destroy(Actor* thisx, PlayState* play);
 void BgVbSima_Update(Actor* thisx, PlayState* play);
 void BgVbSima_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Vb_Sima_InitVars = {
+ActorProfile Bg_Vb_Sima_Profile = {
     /**/ ACTOR_BG_VB_SIMA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

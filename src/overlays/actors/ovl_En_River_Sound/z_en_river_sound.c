@@ -13,7 +13,7 @@ void EnRiverSound_Destroy(Actor* thisx, PlayState* play);
 void EnRiverSound_Update(Actor* thisx, PlayState* play);
 void EnRiverSound_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_River_Sound_InitVars = {
+ActorProfile En_River_Sound_Profile = {
     /**/ ACTOR_EN_RIVER_SOUND,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

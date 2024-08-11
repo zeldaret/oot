@@ -24,7 +24,7 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
-ActorInit Bg_Mori_Hashigo_InitVars = {
+ActorProfile Bg_Mori_Hashigo_Profile = {
     /**/ ACTOR_BG_MORI_HASHIGO,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -20,7 +20,7 @@ void EnAObj_SetupBlockRot(EnAObj* this, s16 type);
 void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
 void EnAObj_SetupBlock(EnAObj* this, s16 type);
 
-ActorInit En_A_Obj_InitVars = {
+ActorProfile En_A_Obj_Profile = {
     /**/ ACTOR_EN_A_OBJ,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

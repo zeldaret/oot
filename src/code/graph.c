@@ -246,8 +246,6 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
         task->yield_data_ptr = gGfxSPTaskYieldBuffer;
 
-        if (1) {}
-
         task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
         scTask->next = NULL;

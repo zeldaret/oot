@@ -1558,7 +1558,7 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawMode](this, play);
 }
 
-ActorInit En_Nb_InitVars = {
+ActorProfile En_Nb_Profile = {
     /**/ ACTOR_EN_NB,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

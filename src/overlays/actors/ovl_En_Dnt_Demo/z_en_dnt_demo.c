@@ -26,7 +26,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play);
 void EnDntDemo_Results(EnDntDemo* this, PlayState* play);
 void EnDntDemo_Prize(EnDntDemo* this, PlayState* play);
 
-ActorInit En_Dnt_Demo_InitVars = {
+ActorProfile En_Dnt_Demo_Profile = {
     /**/ ACTOR_EN_DNT_DEMO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

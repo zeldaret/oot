@@ -49,7 +49,7 @@ static ColliderJntSphInit sColliderInit = {
     sJntSphElementsInit,
 };
 
-ActorInit En_Butte_InitVars = {
+ActorProfile En_Butte_Profile = {
     /**/ ACTOR_EN_BUTTE,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

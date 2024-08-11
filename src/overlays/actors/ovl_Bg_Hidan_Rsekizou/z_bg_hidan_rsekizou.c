@@ -14,7 +14,7 @@ void BgHidanRsekizou_Destroy(Actor* thisx, PlayState* play);
 void BgHidanRsekizou_Update(Actor* thisx, PlayState* play);
 void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Hidan_Rsekizou_InitVars = {
+ActorProfile Bg_Hidan_Rsekizou_Profile = {
     /**/ ACTOR_BG_HIDAN_RSEKIZOU,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

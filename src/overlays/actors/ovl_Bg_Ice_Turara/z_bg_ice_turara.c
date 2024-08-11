@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 13, 120, 0, { 0, 0, 0 } },
 };
 
-ActorInit Bg_Ice_Turara_InitVars = {
+ActorProfile Bg_Ice_Turara_Profile = {
     /**/ ACTOR_BG_ICE_TURARA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

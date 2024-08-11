@@ -21,7 +21,7 @@ void func_808B3604(BgSpot12Saku* this, PlayState* play);
 void func_808B3714(BgSpot12Saku* this);
 void func_808B37AC(BgSpot12Saku* this, PlayState* play);
 
-ActorInit Bg_Spot12_Saku_InitVars = {
+ActorProfile Bg_Spot12_Saku_Profile = {
     /**/ ACTOR_BG_SPOT12_SAKU,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

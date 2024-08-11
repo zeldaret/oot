@@ -20,13 +20,16 @@ endif
 all: $(PROGRAMS)
 	$(MAKE) -C ZAPD
 	$(MAKE) -C fado
+	$(MAKE) -C audio
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
 	$(MAKE) -C ZAPD clean
 	$(MAKE) -C fado clean
+	$(MAKE) -C audio clean
 
 distclean: clean
+	$(MAKE) -C audio distclean
 
 .PHONY: all clean distclean
 

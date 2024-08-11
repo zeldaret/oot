@@ -32,7 +32,7 @@ void func_80A7127C(EnHy* this, PlayState* play);
 void EnHy_DoNothing(EnHy* this, PlayState* play);
 void func_80A714C4(EnHy* this, PlayState* play);
 
-ActorInit En_Hy_InitVars = {
+ActorProfile En_Hy_Profile = {
     /**/ ACTOR_EN_HY,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -1140,8 +1140,6 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         rot->y += Math_SinS(this->unk_21C[limbIndex]) * 200.0f;
         rot->z += Math_CosS(this->unk_23C[limbIndex]) * 200.0f;
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2228);
 

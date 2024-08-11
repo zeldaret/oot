@@ -25,7 +25,7 @@ void func_80A55BD4(EnHeishi3* this, PlayState* play);
 
 static s16 sPlayerCaught = 0;
 
-ActorInit En_Heishi3_InitVars = {
+ActorProfile En_Heishi3_Profile = {
     /**/ ACTOR_EN_HEISHI3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

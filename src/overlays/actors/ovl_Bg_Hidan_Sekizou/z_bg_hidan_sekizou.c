@@ -17,7 +17,7 @@ void BgHidanSekizou_Draw(Actor* thisx, PlayState* play2);
 void func_8088D434(BgHidanSekizou* this, PlayState* play);
 void func_8088D720(BgHidanSekizou* this, PlayState* play);
 
-ActorInit Bg_Hidan_Sekizou_InitVars = {
+ActorProfile Bg_Hidan_Sekizou_Profile = {
     /**/ ACTOR_BG_HIDAN_SEKIZOU,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -49,7 +49,7 @@ void BossGoma_WallClimb(BossGoma* this, PlayState* play);
 void BossGoma_CeilingMoveToCenter(BossGoma* this, PlayState* play);
 void BossGoma_SpawnChildGohma(BossGoma* this, PlayState* play, s16 i);
 
-ActorInit Boss_Goma_InitVars = {
+ActorProfile Boss_Goma_Profile = {
     /**/ ACTOR_BOSS_GOMA,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

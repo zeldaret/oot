@@ -69,7 +69,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Stunned(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Death(BossGanondrof* this, PlayState* play);
 
-ActorInit Boss_Ganondrof_InitVars = {
+ActorProfile Boss_Ganondrof_Profile = {
     /**/ ACTOR_BOSS_GANONDROF,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -1520,7 +1520,6 @@ void BossGanondrof_Draw(Actor* thisx, PlayState* play) {
                       BossGanondrof_PostLimbDraw, this);
     PRINTF("DRAW 22\n");
     POLY_OPA_DISP = Play_SetFog(play, POLY_OPA_DISP);
-    if (1) {}
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganondrof.c", 3814);
     PRINTF("DRAW END %d\n", this->actor.params);
 }

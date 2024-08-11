@@ -32,7 +32,7 @@ void DoorWarp1_DoNothing(DoorWarp1* this, PlayState* play);
 void DoorWarp1_ChooseInitialAction(DoorWarp1* this, PlayState* play);
 void DoorWarp1_FloatPlayer(DoorWarp1* this, PlayState* play);
 
-ActorInit Door_Warp1_InitVars = {
+ActorProfile Door_Warp1_Profile = {
     /**/ ACTOR_DOOR_WARP1,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

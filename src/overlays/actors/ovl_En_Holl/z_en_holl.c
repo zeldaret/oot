@@ -76,7 +76,7 @@ void EnHoll_VerticalBgCover(EnHoll* this, PlayState* play);
 void EnHoll_VerticalInvisible(EnHoll* this, PlayState* play);
 void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play);
 
-ActorInit En_Holl_InitVars = {
+ActorProfile En_Holl_Profile = {
     /**/ ACTOR_EN_HOLL,
     /**/ ACTORCAT_DOOR,
     /**/ FLAGS,
