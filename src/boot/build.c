@@ -1,8 +1,14 @@
 #include "macros.h"
 
+#if PLATFORM_N64
+const char gBuildTeam[] = "zelda@srd44";
+#else
 const char gBuildTeam[] = "zelda@srd022j";
+#endif
 
-#if OOT_VERSION == OOT_GC_JP
+#if OOT_VERSION == OOT_NTSC_1_2
+const char gBuildDate[] = "98-11-12 18:17:03";
+#elif OOT_VERSION == OOT_GC_JP
 const char gBuildDate[] = "02-10-29 23:49:53";
 #elif OOT_VERSION == OOT_GC_JP_MQ
 const char gBuildDate[] = "02-10-30 00:15:15";
