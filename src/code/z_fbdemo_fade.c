@@ -96,18 +96,17 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
     }
 }
 
-#if PLATFORM_N64
-#define ALPHA_NOT_ZERO color->a != 0
-#else
-#define ALPHA_NOT_ZERO color->a > 0
-#endif
-
 void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
     TransitionFade* this = (TransitionFade*)thisx;
     Gfx* gfx;
     Color_RGBA8_u32* color = &this->color;
 
-    if (ALPHA_NOT_ZERO) {
+#if PLATFORM_N64
+    if (color->a != 0)
+#else
+    if (color->a > 0)
+#endif
+    {
         gfx = *gfxP;
         gSPDisplayList(gfx++, sTransFadeSetupDL);
         gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, color->a);
