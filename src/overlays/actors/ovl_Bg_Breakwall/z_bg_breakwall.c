@@ -26,7 +26,7 @@ void BgBreakwall_WaitForObject(BgBreakwall* this, PlayState* play);
 void BgBreakwall_Wait(BgBreakwall* this, PlayState* play);
 void BgBreakwall_LavaCoverMove(BgBreakwall* this, PlayState* play);
 
-ActorInit Bg_Breakwall_InitVars = {
+ActorProfile Bg_Breakwall_Profile = {
     /**/ ACTOR_BG_BREAKWALL,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -51,8 +51,8 @@ static ColliderQuadInit sQuadInit = {
         ELEMTYPE_UNK0,
         { 0x00000048, 0x00, 0x00 },
         { 0x00000048, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },

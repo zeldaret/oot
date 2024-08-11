@@ -21,7 +21,7 @@ void func_80B93D90(ObjHsblock* this);
 void func_80B93DB0(ObjHsblock* this);
 void func_80B93E38(ObjHsblock* this);
 
-ActorInit Obj_Hsblock_InitVars = {
+ActorProfile Obj_Hsblock_Profile = {
     /**/ ACTOR_OBJ_HSBLOCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -55,15 +55,19 @@ void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
 void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2[2];
 
     DynaPolyActor_Init(&this->dyna, moveFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_hsblock.c", 163,
                this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void func_80B93BF0(ObjHsblock* this, PlayState* play) {
@@ -94,9 +98,11 @@ void ObjHsblock_Init(Actor* thisx, PlayState* play) {
             }
     }
 
+#if OOT_DEBUG
     mREG(13) = 255;
     mREG(14) = 255;
     mREG(15) = 255;
+#endif
 }
 
 void ObjHsblock_Destroy(Actor* thisx, PlayState* play) {
@@ -158,9 +164,16 @@ void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
     if (play->sceneId == SCENE_FIRE_TEMPLE) {
         color = &sFireTempleColor;
     } else {
+#if OOT_DEBUG
         defaultColor.r = mREG(13);
         defaultColor.g = mREG(14);
         defaultColor.b = mREG(15);
+#else
+        defaultColor.r = 255;
+        defaultColor.g = 255;
+        defaultColor.b = 255;
+#endif
+
         color = &defaultColor;
     }
 

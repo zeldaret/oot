@@ -22,7 +22,7 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play);
 void func_80ABF4C8(EnOkarinaTag* this, PlayState* play);
 void func_80ABF7CC(EnOkarinaTag* this, PlayState* play);
 
-ActorInit En_Okarina_Tag_InitVars = {
+ActorProfile En_Okarina_Tag_Profile = {
     /**/ ACTOR_EN_OKARINA_TAG,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -318,7 +318,8 @@ void EnOkarinaTag_Update(Actor* thisx, PlayState* play) {
     EnOkarinaTag* this = (EnOkarinaTag*)thisx;
 
     this->actionFunc(this, play);
-    if (BREG(0) != 0) {
+
+    if (OOT_DEBUG && BREG(0) != 0) {
         if (this->unk_15A != 0) {
             if (!(this->unk_15A & 1)) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

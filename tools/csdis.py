@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 
+# Disassemble a cutscene script
+
 from overlayhelpers import filemap
 
 import argparse, os, struct
+import math
 
 """
 Enumerations
 """
 
-command_continue_stop = {
-    0x00: "CS_CMD_CONTINUE",
-    0xFF: "CS_CMD_STOP",
+cscam_continue_stop = {
+    0x00: "CS_CAM_CONTINUE",
+    0xFF: "CS_CAM_STOP",
 }
 
 cutscene_destinations = {
@@ -189,6 +192,264 @@ ocarina_action_ids = {
     0x31: "OCARINA_ACTION_CHECK_NOWARP_DONE",
 }
 
+sequence_ids = {
+    0x00: "NA_BGM_GENERAL_SFX",
+    0x01: "NA_BGM_NATURE_AMBIENCE",
+    0x02: "NA_BGM_FIELD_LOGIC",
+    0x03: "NA_BGM_FIELD_INIT",
+    0x04: "NA_BGM_FIELD_DEFAULT_1",
+    0x05: "NA_BGM_FIELD_DEFAULT_2",
+    0x06: "NA_BGM_FIELD_DEFAULT_3",
+    0x07: "NA_BGM_FIELD_DEFAULT_4",
+    0x08: "NA_BGM_FIELD_DEFAULT_5",
+    0x09: "NA_BGM_FIELD_DEFAULT_6",
+    0x0A: "NA_BGM_FIELD_DEFAULT_7",
+    0x0B: "NA_BGM_FIELD_DEFAULT_8",
+    0x0C: "NA_BGM_FIELD_DEFAULT_9",
+    0x0D: "NA_BGM_FIELD_DEFAULT_A",
+    0x0E: "NA_BGM_FIELD_DEFAULT_B",
+    0x0F: "NA_BGM_FIELD_ENEMY_INIT",
+    0x10: "NA_BGM_FIELD_ENEMY_1",
+    0x11: "NA_BGM_FIELD_ENEMY_2",
+    0x12: "NA_BGM_FIELD_ENEMY_3",
+    0x13: "NA_BGM_FIELD_ENEMY_4",
+    0x14: "NA_BGM_FIELD_STILL_1",
+    0x15: "NA_BGM_FIELD_STILL_2",
+    0x16: "NA_BGM_FIELD_STILL_3",
+    0x17: "NA_BGM_FIELD_STILL_4",
+    0x18: "NA_BGM_DUNGEON",
+    0x19: "NA_BGM_KAKARIKO_ADULT",
+    0x1A: "NA_BGM_ENEMY",
+    0x1B: "NA_BGM_BOSS",
+    0x1C: "NA_BGM_INSIDE_DEKU_TREE",
+    0x1D: "NA_BGM_MARKET",
+    0x1E: "NA_BGM_TITLE",
+    0x1F: "NA_BGM_LINK_HOUSE",
+    0x20: "NA_BGM_GAME_OVER",
+    0x21: "NA_BGM_BOSS_CLEAR",
+    0x22: "NA_BGM_ITEM_GET",
+    0x23: "NA_BGM_OPENING_GANON",
+    0x24: "NA_BGM_HEART_GET",
+    0x25: "NA_BGM_OCA_LIGHT",
+    0x26: "NA_BGM_JABU_JABU",
+    0x27: "NA_BGM_KAKARIKO_KID",
+    0x28: "NA_BGM_GREAT_FAIRY",
+    0x29: "NA_BGM_ZELDA_THEME",
+    0x2A: "NA_BGM_FIRE_TEMPLE",
+    0x2B: "NA_BGM_OPEN_TRE_BOX",
+    0x2C: "NA_BGM_FOREST_TEMPLE",
+    0x2D: "NA_BGM_COURTYARD",
+    0x2E: "NA_BGM_GANON_TOWER",
+    0x2F: "NA_BGM_LONLON",
+    0x30: "NA_BGM_GORON_CITY",
+    0x31: "NA_BGM_FIELD_MORNING",
+    0x32: "NA_BGM_SPIRITUAL_STONE",
+    0x33: "NA_BGM_OCA_BOLERO",
+    0x34: "NA_BGM_OCA_MINUET",
+    0x35: "NA_BGM_OCA_SERENADE",
+    0x36: "NA_BGM_OCA_REQUIEM",
+    0x37: "NA_BGM_OCA_NOCTURNE",
+    0x38: "NA_BGM_MINI_BOSS",
+    0x39: "NA_BGM_SMALL_ITEM_GET",
+    0x3A: "NA_BGM_TEMPLE_OF_TIME",
+    0x3B: "NA_BGM_EVENT_CLEAR",
+    0x3C: "NA_BGM_KOKIRI",
+    0x3D: "NA_BGM_OCA_FAIRY_GET",
+    0x3E: "NA_BGM_SARIA_THEME",
+    0x3F: "NA_BGM_SPIRIT_TEMPLE",
+    0x40: "NA_BGM_HORSE",
+    0x41: "NA_BGM_HORSE_GOAL",
+    0x42: "NA_BGM_INGO",
+    0x43: "NA_BGM_MEDALLION_GET",
+    0x44: "NA_BGM_OCA_SARIA",
+    0x45: "NA_BGM_OCA_EPONA",
+    0x46: "NA_BGM_OCA_ZELDA",
+    0x47: "NA_BGM_OCA_SUNS",
+    0x48: "NA_BGM_OCA_TIME",
+    0x49: "NA_BGM_OCA_STORM",
+    0x4A: "NA_BGM_NAVI_OPENING",
+    0x4B: "NA_BGM_DEKU_TREE_CS",
+    0x4C: "NA_BGM_WINDMILL",
+    0x4D: "NA_BGM_HYRULE_CS",
+    0x4E: "NA_BGM_MINI_GAME",
+    0x4F: "NA_BGM_SHEIK",
+    0x50: "NA_BGM_ZORA_DOMAIN",
+    0x51: "NA_BGM_APPEAR",
+    0x52: "NA_BGM_ADULT_LINK",
+    0x53: "NA_BGM_MASTER_SWORD",
+    0x54: "NA_BGM_INTRO_GANON",
+    0x55: "NA_BGM_SHOP",
+    0x56: "NA_BGM_CHAMBER_OF_SAGES",
+    0x57: "NA_BGM_FILE_SELECT",
+    0x58: "NA_BGM_ICE_CAVERN",
+    0x59: "NA_BGM_DOOR_OF_TIME",
+    0x5A: "NA_BGM_OWL",
+    0x5B: "NA_BGM_SHADOW_TEMPLE",
+    0x5C: "NA_BGM_WATER_TEMPLE",
+    0x5D: "NA_BGM_BRIDGE_TO_GANONS",
+    0x5E: "NA_BGM_OCARINA_OF_TIME",
+    0x5F: "NA_BGM_GERUDO_VALLEY",
+    0x60: "NA_BGM_POTION_SHOP",
+    0x61: "NA_BGM_KOTAKE_KOUME",
+    0x62: "NA_BGM_ESCAPE",
+    0x63: "NA_BGM_UNDERGROUND",
+    0x64: "NA_BGM_GANONDORF_BOSS",
+    0x65: "NA_BGM_GANON_BOSS",
+    0x66: "NA_BGM_END_DEMO",
+    0x67: "NA_BGM_STAFF_1",
+    0x68: "NA_BGM_STAFF_2",
+    0x69: "NA_BGM_STAFF_3",
+    0x6A: "NA_BGM_STAFF_4",
+    0x6B: "NA_BGM_FIRE_BOSS",
+    0x6C: "NA_BGM_TIMED_MINI_GAME",
+    0x6D: "NA_BGM_CUTSCENE_EFFECTS",
+    0x7F: "NA_BGM_NO_MUSIC",
+    0x80: "NA_BGM_NATURE_SFX_RAIN",
+    0xFFFF: "NA_BGM_DISABLED",
+}
+
+cutscene_misc_types = {
+    0x00: "CS_MISC_UNIMPLEMENTED_0",
+    0x01: "CS_MISC_RAIN",
+    0x02: "CS_MISC_LIGHTNING",
+    0x03: "CS_MISC_SET_CSFLAG_0",
+    0x04: "CS_MISC_UNIMPLEMENTED_4",
+    0x05: "CS_MISC_UNIMPLEMENTED_5",
+    0x06: "CS_MISC_LIFT_FOG",
+    0x07: "CS_MISC_CLOUDY_SKY",
+    0x08: "CS_MISC_FADE_KOKIRI_GRASS_ENV_ALPHA",
+    0x09: "CS_MISC_SNOW",
+    0x0A: "CS_MISC_SET_CSFLAG_1",
+    0x0B: "CS_MISC_DEKU_TREE_DEATH",
+    0x0C: "CS_MISC_STOP_CUTSCENE",
+    0x0D: "CS_MISC_TRIFORCE_FLASH",
+    0x0E: "CS_MISC_SET_LOCKED_VIEWPOINT",
+    0x0F: "CS_MISC_SHOW_TITLE_CARD",
+    0x10: "CS_MISC_QUAKE_START",
+    0x11: "CS_MISC_QUAKE_STOP",
+    0x12: "CS_MISC_STOP_STORM_AND_ADVANCE_TO_DAY",
+    0x13: "CS_MISC_SET_FLAG_FAST_WINDMILL",
+    0x14: "CS_MISC_SET_FLAG_WELL_DRAINED",
+    0x15: "CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED",
+    0x16: "CS_MISC_VISMONO_BLACK_AND_WHITE",
+    0x17: "CS_MISC_VISMONO_SEPIA",
+    0x18: "CS_MISC_HIDE_ROOM",
+    0x19: "CS_MISC_TIME_ADVANCE_TO_NIGHT",
+    0x1A: "CS_MISC_SET_TIME_BASED_LIGHT_SETTING",
+    0x1B: "CS_MISC_RED_PULSATING_LIGHTS",
+    0x1C: "CS_MISC_HALT_ALL_ACTORS",
+    0x1D: "CS_MISC_RESUME_ALL_ACTORS",
+    0x1E: "CS_MISC_SET_CSFLAG_3",
+    0x1F: "CS_MISC_SET_CSFLAG_4",
+    0x20: "CS_MISC_SANDSTORM_FILL",
+    0x21: "CS_MISC_SUNSSONG_START",
+    0x22: "CS_MISC_FREEZE_TIME",
+    0x23: "CS_MISC_LONG_SCARECROW_SONG",
+}
+
+cutscene_transition_types = {
+    0x01: "CS_TRANS_GRAY_FILL_IN",
+    0x02: "CS_TRANS_BLUE_FILL_IN",
+    0x03: "CS_TRANS_RED_FILL_OUT",
+    0x04: "CS_TRANS_GREEN_FILL_OUT",
+    0x05: "CS_TRANS_GRAY_FILL_OUT",
+    0x06: "CS_TRANS_BLUE_FILL_OUT",
+    0x07: "CS_TRANS_RED_FILL_IN",
+    0x08: "CS_TRANS_GREEN_FILL_IN",
+    0x09: "CS_TRANS_TRIGGER_INSTANCE",
+    0x0A: "CS_TRANS_BLACK_FILL_OUT",
+    0x0B: "CS_TRANS_BLACK_FILL_IN",
+    0x0C: "CS_TRANS_BLACK_FILL_OUT_TO_HALF",
+    0x0D: "CS_TRANS_BLACK_FILL_IN_FROM_HALF",
+}
+
+player_cue_ids = {
+    0x00: "PLAYER_CUEID_NONE",
+    0x01: "PLAYER_CUEID_1",
+    0x02: "PLAYER_CUEID_2",
+    0x03: "PLAYER_CUEID_3",
+    0x04: "PLAYER_CUEID_4",
+    0x05: "PLAYER_CUEID_5",
+    0x06: "PLAYER_CUEID_6",
+    0x07: "PLAYER_CUEID_7",
+    0x08: "PLAYER_CUEID_8",
+    0x09: "PLAYER_CUEID_9",
+    0x0A: "PLAYER_CUEID_10",
+    0x0B: "PLAYER_CUEID_11",
+    0x0C: "PLAYER_CUEID_12",
+    0x0D: "PLAYER_CUEID_13",
+    0x0E: "PLAYER_CUEID_14",
+    0x0F: "PLAYER_CUEID_15",
+    0x10: "PLAYER_CUEID_16",
+    0x11: "PLAYER_CUEID_17",
+    0x12: "PLAYER_CUEID_18",
+    0x13: "PLAYER_CUEID_19",
+    0x14: "PLAYER_CUEID_20",
+    0x15: "PLAYER_CUEID_21",
+    0x16: "PLAYER_CUEID_22",
+    0x17: "PLAYER_CUEID_23",
+    0x18: "PLAYER_CUEID_24",
+    0x19: "PLAYER_CUEID_25",
+    0x1A: "PLAYER_CUEID_26",
+    0x1B: "PLAYER_CUEID_27",
+    0x1C: "PLAYER_CUEID_28",
+    0x1D: "PLAYER_CUEID_29",
+    0x1E: "PLAYER_CUEID_30",
+    0x1F: "PLAYER_CUEID_31",
+    0x20: "PLAYER_CUEID_32",
+    0x21: "PLAYER_CUEID_33",
+    0x22: "PLAYER_CUEID_34",
+    0x23: "PLAYER_CUEID_35",
+    0x24: "PLAYER_CUEID_36",
+    0x25: "PLAYER_CUEID_37",
+    0x26: "PLAYER_CUEID_38",
+    0x27: "PLAYER_CUEID_39",
+    0x28: "PLAYER_CUEID_40",
+    0x29: "PLAYER_CUEID_41",
+    0x2A: "PLAYER_CUEID_42",
+    0x2B: "PLAYER_CUEID_43",
+    0x2C: "PLAYER_CUEID_44",
+    0x2D: "PLAYER_CUEID_45",
+    0x2E: "PLAYER_CUEID_46",
+    0x2F: "PLAYER_CUEID_47",
+    0x30: "PLAYER_CUEID_48",
+    0x31: "PLAYER_CUEID_49",
+    0x32: "PLAYER_CUEID_50",
+    0x33: "PLAYER_CUEID_51",
+    0x34: "PLAYER_CUEID_52",
+    0x35: "PLAYER_CUEID_53",
+    0x36: "PLAYER_CUEID_54",
+    0x37: "PLAYER_CUEID_55",
+    0x38: "PLAYER_CUEID_56",
+    0x39: "PLAYER_CUEID_57",
+    0x3A: "PLAYER_CUEID_58",
+    0x3B: "PLAYER_CUEID_59",
+    0x3C: "PLAYER_CUEID_60",
+    0x3D: "PLAYER_CUEID_61",
+    0x3E: "PLAYER_CUEID_62",
+    0x3F: "PLAYER_CUEID_63",
+    0x40: "PLAYER_CUEID_64",
+    0x41: "PLAYER_CUEID_65",
+    0x42: "PLAYER_CUEID_66",
+    0x43: "PLAYER_CUEID_67",
+    0x44: "PLAYER_CUEID_68",
+    0x45: "PLAYER_CUEID_69",
+    0x46: "PLAYER_CUEID_70",
+    0x47: "PLAYER_CUEID_71",
+    0x48: "PLAYER_CUEID_72",
+    0x49: "PLAYER_CUEID_73",
+    0x4A: "PLAYER_CUEID_74",
+    0x4B: "PLAYER_CUEID_75",
+    0x4C: "PLAYER_CUEID_76",
+    0x4D: "PLAYER_CUEID_77",
+    0x4E: "PLAYER_CUEID_MAX",
+}
+
+fade_out_seq_player = {
+    0x03: "CS_FADE_OUT_FANFARE",
+    0x04: "CS_FADE_OUT_BGM_MAIN",
+}
+
 """
 Entry format:
 
@@ -216,6 +477,7 @@ Argument format:
     s : decimal
     u : decimal unsigned
     x : hex
+    x-1 : hex but write the value read minus 1
     f : float
     e : enumeration
     n : unique identifier of which enum to use
@@ -226,19 +488,19 @@ cutscene_command_macros = {
               None, None),
     3:
         ("CS_MISC_LIST(%w1:1:s)", 2, None, 0,
-              "CS_MISC(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
+              "CS_MISC(%h2:1:e4, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
     4:
         ("CS_LIGHT_SETTING_LIST(%w1:1:s)", 2, None, 0,
-              "CS_LIGHT_SETTING(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+              "CS_LIGHT_SETTING(%h2:1:x-1, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
     86:
         ("CS_START_SEQ_LIST(%w1:1:s)", 2, None, 0,
-              "CS_START_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+              "CS_START_SEQ(%h2:1:e3, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     87:
         ("CS_STOP_SEQ_LIST(%w1:1:s)", 2, None, 0,
-              "CS_STOP_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+              "CS_STOP_SEQ(%h2:1:e3, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     124:
         ("CS_FADE_OUT_SEQ_LIST(%w1:1:s)", 2, None, 0,
-              "CS_FADE_OUT_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+              "CS_FADE_OUT_SEQ(%h2:1:e7, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     9:
         ("CS_RUMBLE_CONTROLLER_LIST(%w1:1:s)", 2, None, 0,
               "CS_RUMBLE_CONTROLLER(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),
@@ -247,7 +509,7 @@ cutscene_command_macros = {
               "CS_TIME(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %w1:3:x)", 3),
     10:
         ("CS_PLAYER_CUE_LIST(%w1:1:s)", 2, None, 0,
-              "CS_PLAYER_CUE(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
+              "CS_PLAYER_CUE(%h2:1:e6, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
     (15,17,18,23,34,39,46,76,85,93,105,107,110,119,123,138,139,144, # npc action 1
      14,16,24,35,40,48,64,68,70,78,80,94,116,118,120,125,131,141,   # npc action 2
      25,36,41,50,67,69,72,74,81,106,117,121,126,132,                # npc action 3
@@ -285,7 +547,7 @@ cutscene_command_macros = {
         ("CS_TEXT_LIST(%w1:1:s)", 2, None, 0,
               "__SPECIAL(CS_TEXT_LIST)", 3),
     45:
-        ("CS_TRANSITION(%h2:2:x, %h1:2:s, %h2:3:s)", 4, None, None,
+        ("CS_TRANSITION(%h2:2:e5, %h1:2:s, %h2:3:s)", 4, None, None,
               None, None),
 }
 
@@ -347,7 +609,17 @@ def get_word_unsigned(word):
     return struct.unpack(">I", struct.pack(">I", word))[0]
 
 def get_float(word):
-    return struct.unpack(">f", struct.pack(">i", word))[0]
+    word_bytes = struct.pack(">i", word)
+    v = struct.unpack(">f", word_bytes)[0]
+    if v == 0:
+        return v
+    ndigits = -math.ceil(math.log10(abs(v)))
+    while ndigits < 100:
+        v_rounded = round(v, ndigits)
+        if struct.pack(">f", v_rounded) == word_bytes:
+            return v_rounded
+        ndigits += 1
+    return v
 
 """
 Formatting
@@ -387,19 +659,32 @@ def format_arg(arg, words):
     if "e" in format_type:
         enum_no = int(format_type[1])
         if enum_no == 0:
-            result = command_continue_stop[unsigned_value]
+            result = cscam_continue_stop[unsigned_value]
         elif enum_no == 1:
             result = cutscene_destinations[unsigned_value]
         elif enum_no == 2:
             result = ocarina_action_ids[unsigned_value]
+        elif enum_no == 3:
+            result = sequence_ids[unsigned_value - 1]
+        elif enum_no == 4:
+            result = cutscene_misc_types[unsigned_value]
+        elif enum_no == 5:
+            result = cutscene_transition_types[unsigned_value]
+        elif enum_no == 6:
+            result = player_cue_ids[unsigned_value]
+        elif enum_no == 7:
+            result = fade_out_seq_player[unsigned_value]
     elif format_type == "u":
         result = str(value)
     elif format_type == "s":
         result = str(value)
     elif format_type == "x":
         result = "0x" + pad(hex(unsigned_value), pad_len).upper()
+    elif format_type == "x-1":
+        assert unsigned_value > 0
+        result = "0x" + pad(hex(unsigned_value - 1), pad_len).upper()
     elif format_type == "f":
-        result = str(get_float(value))+"f"
+        result = f"CS_FLOAT(0x{unsigned_value:X}, {get_float(value)}f)"
     else:
         print("Something went wrong!") # TODO more debug info
         os._exit(1)
@@ -496,7 +781,7 @@ def main():
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     cs_data = None
-    with open(script_dir + "/../baserom/" + file_result.name, "rb") as ovl_file:
+    with open(script_dir + "/../extracted/gc-eu-mq-dbg/baserom/" + file_result.name, "rb") as ovl_file:
         ovl_file.seek(file_result.offset)
         cs_data = [i[0] for i in struct.iter_unpack(">I",  bytearray(ovl_file.read()))]
     if cs_data is not None:

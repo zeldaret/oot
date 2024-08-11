@@ -32,7 +32,7 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play);
 
-ActorInit En_Ex_Item_InitVars = {
+ActorProfile En_Ex_Item_Profile = {
     /**/ ACTOR_EN_EX_ITEM,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

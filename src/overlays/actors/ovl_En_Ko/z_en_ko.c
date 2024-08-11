@@ -30,7 +30,7 @@ void func_80A99560(EnKo* this, PlayState* play);
 
 s32 func_80A98ECC(EnKo* this, PlayState* play);
 
-ActorInit En_Ko_InitVars = {
+ActorProfile En_Ko_Profile = {
     /**/ ACTOR_EN_KO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -55,8 +55,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 46, 0, { 0, 0, 0 } },

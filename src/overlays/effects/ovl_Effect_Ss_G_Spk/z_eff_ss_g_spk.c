@@ -24,7 +24,7 @@ void EffectSsGSpk_Update(PlayState* play, u32 index, EffectSs* this);
 void EffectSsGSpk_UpdateNoAccel(PlayState* play, u32 index, EffectSs* this);
 void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_G_Spk_InitVars = {
+EffectSsProfile Effect_Ss_G_Spk_Profile = {
     EFFECT_SS_G_SPK,
     EffectSsGSpk_Init,
 };
@@ -101,8 +101,6 @@ void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (1) {}
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_spk.c", 255);
 }
 

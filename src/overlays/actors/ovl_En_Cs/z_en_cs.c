@@ -15,7 +15,7 @@ void EnCs_Wait(EnCs* this, PlayState* play);
 s32 EnCs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnCs_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-ActorInit En_Cs_InitVars = {
+ActorProfile En_Cs_Profile = {
     /**/ ACTOR_EN_CS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -40,8 +40,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 63, 0, { 0, 0, 0 } },

@@ -6,7 +6,7 @@
 
 #include "z_bg_gjyo_bridge.h"
 #include "assets/objects/object_gjyo_objects/object_gjyo_objects.h"
-#include "assets/scenes/dungeons/ganon_tou/ganon_tou_scene.h"
+#include "assets/scenes/overworld/ganon_tou/ganon_tou_scene.h"
 
 #define FLAGS 0
 
@@ -19,7 +19,7 @@ void func_808787A4(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play);
 
-ActorInit Bg_Gjyo_Bridge_InitVars = {
+ActorProfile Bg_Gjyo_Bridge_Profile = {
     /**/ ACTOR_BG_GJYO_BRIDGE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

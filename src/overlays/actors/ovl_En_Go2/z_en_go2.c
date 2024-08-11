@@ -76,8 +76,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 40, 65, 0, { 0, 0, 0 } },
@@ -85,7 +85,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-ActorInit En_Go2_InitVars = {
+ActorProfile En_Go2_Profile = {
     /**/ ACTOR_EN_GO2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -1340,7 +1340,7 @@ void EnGo2_GetItemAnimation(EnGo2* this, PlayState* play) {
 void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     if (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_CITY_ROLLING_BIG ||
         PARAMS_GET_S(this->actor.params, 0, 5) == GORON_CITY_LINK) {
-        this->collider.elem.bumperFlags = BUMP_ON;
+        this->collider.elem.bumperFlags = ACELEM_ON;
         this->actor.speed = GET_INFTABLE(INFTABLE_11E) ? 6.0f : 3.6000001f;
     } else {
         this->actor.speed = 6.0f;
@@ -1365,7 +1365,7 @@ void EnGo2_StopRolling(EnGo2* this, PlayState* play) {
             }
         }
     } else {
-        this->collider.elem.bumperFlags = BUMP_NONE;
+        this->collider.elem.acElemFlags = ACELEM_NONE;
     }
 
     this->actor.shape.rot = this->actor.world.rot;

@@ -21,7 +21,7 @@ void func_80AAB948(EnMd* this, PlayState* play);
 void func_80AABC10(EnMd* this, PlayState* play);
 void func_80AABD0C(EnMd* this, PlayState* play);
 
-ActorInit En_Md_InitVars = {
+ActorProfile En_Md_Profile = {
     /**/ ACTOR_EN_MD,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -46,8 +46,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 36, 46, 0, { 0, 0, 0 } },

@@ -25,7 +25,7 @@ void EnAnubice_SetupShootFireball(EnAnubice* this, PlayState* play);
 void EnAnubice_ShootFireball(EnAnubice* this, PlayState* play);
 void EnAnubice_Die(EnAnubice* this, PlayState* play);
 
-ActorInit En_Anubice_InitVars = {
+ActorProfile En_Anubice_Profile = {
     /**/ ACTOR_EN_ANUBICE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -50,8 +50,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 29, 103, 0, { 0, 0, 0 } },

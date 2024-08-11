@@ -35,7 +35,7 @@ void func_80AAF668(EnMm2* this, PlayState* play);
 s32 EnMm2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-ActorInit En_Mm2_InitVars = {
+ActorProfile En_Mm2_Profile = {
     /**/ ACTOR_EN_MM2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -60,8 +60,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000004, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 18, 63, 0, { 0, 0, 0 } },

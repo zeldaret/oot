@@ -1,4 +1,6 @@
-#include "global.h"
+#include "z64math.h"
+#include "fp_math.h"
+#include "z_lib.h"
 
 /**
  * Calculates the distances between `a` and `b`

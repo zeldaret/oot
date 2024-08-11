@@ -22,7 +22,7 @@ void func_80B864EC(ItemOcarina* this, PlayState* play);
 void func_80B865E0(ItemOcarina* this, PlayState* play);
 void ItemOcarina_DoNothing(ItemOcarina* this, PlayState* play);
 
-ActorInit Item_Ocarina_InitVars = {
+ActorProfile Item_Ocarina_Profile = {
     /**/ ACTOR_ITEM_OCARINA,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

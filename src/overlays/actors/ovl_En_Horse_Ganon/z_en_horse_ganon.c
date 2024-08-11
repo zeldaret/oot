@@ -23,7 +23,7 @@ void func_80A68AC4(EnHorseGanon* this);
 void func_80A68AF0(EnHorseGanon* this, PlayState* play);
 void func_80A68DB0(EnHorseGanon* this, PlayState* play);
 
-ActorInit En_Horse_Ganon_InitVars = {
+ActorProfile En_Horse_Ganon_Profile = {
     /**/ ACTOR_EN_HORSE_GANON,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -55,8 +55,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 40, 100, 0, { 0, 0, 0 } },
@@ -68,8 +68,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 13, { { 0, 0, 0 }, 20 }, 100 },

@@ -21,24 +21,24 @@ typedef enum {
 } SfxState;
 
 typedef struct {
-    /* 0x00 */ f32*     posX;
-    /* 0x04 */ f32*     posY;
-    /* 0x08 */ f32*     posZ;
-    /* 0x0C */ u8       token;
-    /* 0x10 */ f32*     freqScale;
-    /* 0x14 */ f32*     vol;
-    /* 0x18 */ s8*      reverbAdd;
-    /* 0x1C */ f32      dist;
-    /* 0x20 */ u32      priority; // lower is more prioritized
-    /* 0x24 */ u8       sfxImportance;
-    /* 0x26 */ u16      sfxParams;
-    /* 0x28 */ u16      sfxId;
-    /* 0x2A */ u8       state; // uses SfxState enum
-    /* 0x2B */ u8       freshness;
-    /* 0x2C */ u8       prev;
-    /* 0x2D */ u8       next;
-    /* 0x2E */ u8       channelIdx;
-    /* 0x2F */ u8       unk_2F;
+    /* 0x00 */ f32* posX;
+    /* 0x04 */ f32* posY;
+    /* 0x08 */ f32* posZ;
+    /* 0x0C */ u8 token;
+    /* 0x10 */ f32* freqScale;
+    /* 0x14 */ f32* vol;
+    /* 0x18 */ s8* reverbAdd;
+    /* 0x1C */ f32 dist;
+    /* 0x20 */ u32 priority; // lower is more prioritized
+    /* 0x24 */ u8 sfxImportance;
+    /* 0x26 */ u16 sfxParams;
+    /* 0x28 */ u16 sfxId;
+    /* 0x2A */ u8 state; // uses SfxState enum
+    /* 0x2B */ u8 freshness;
+    /* 0x2C */ u8 prev;
+    /* 0x2D */ u8 next;
+    /* 0x2E */ u8 channelIndex;
+    /* 0x2F */ u8 unk_2F;
 } SfxBankEntry; // size = 0x30
 
 /*
@@ -118,5 +118,34 @@ typedef struct {
     u8 importance;
     u16 params;
 } SfxParams;
+
+#if OOT_DEBUG
+#define SFX_DIST_SCALING 1.0f
+#else
+#define SFX_DIST_SCALING 10.0f
+#endif
+
+void Audio_SetSfxBanksMute(u16 muteMask);
+void Audio_QueueSeqCmdMute(u8 channelIndex);
+void Audio_ClearBGMMute(u8 channelIndex);
+void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd);
+void Audio_ProcessSfxRequest(void);
+void Audio_ChooseActiveSfx(u8 bankId);
+void Audio_PlayActiveSfx(u8 bankId);
+void Audio_StopSfxByBank(u8 bankId);
+void func_800F8884(u8 bankId, Vec3f* pos);
+void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos);
+void Audio_StopSfxByPos(Vec3f* pos);
+void Audio_StopSfxByPosAndId(Vec3f* pos, u16 sfxId);
+void Audio_StopSfxByTokenAndId(u8 token, u16 sfxId);
+void Audio_StopSfxById(u32 sfxId);
+void Audio_ProcessSfxRequests(void);
+void func_800F8F88(void);
+u8 Audio_IsSfxPlaying(u32 sfxId);
+void Audio_ResetSfx(void);
+
+extern Vec3f gSfxDefaultPos;
+extern f32 gSfxDefaultFreqAndVolScale;
+extern s8 gSfxDefaultReverb;
 
 #endif

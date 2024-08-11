@@ -1,0 +1,10 @@
+<!-- This file is only for extraction of vanilla data. For other purposes see assets/audio/soundfonts/ -->
+<SoundFont Name="Soundfont_26" Index="26">
+    <Envelopes>
+        <Envelope Name="Env0"/>
+    </Envelopes>
+    <Instruments>
+        <Instrument ProgramNumber="14" Name="INST_14"/>
+        <Instrument ProgramNumber="13" Name="INST_13"/>
+    </Instruments>
+</SoundFont>

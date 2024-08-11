@@ -27,7 +27,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play);
 void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play);
 void BgHeavyBlock_DoNothing(BgHeavyBlock* this, PlayState* play);
 
-ActorInit Bg_Heavy_Block_InitVars = {
+ActorProfile Bg_Heavy_Block_Profile = {
     /**/ ACTOR_BG_HEAVY_BLOCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -489,6 +489,8 @@ void BgHeavyBlock_Draw(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_heavy_block.c", 904);
+
+    if (1) {}
 
     if (BgHeavyBlock_LiftedUp == this->actionFunc) {
         Matrix_SetTranslateRotateYXZ(player->leftHandPos.x, player->leftHandPos.y, player->leftHandPos.z,

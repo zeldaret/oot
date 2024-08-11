@@ -42,8 +42,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 81, 144, 0, { 0, 0, 0 } },
@@ -53,7 +53,7 @@ static CollisionCheckInfoInit sCcInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
 
 static BgHidanCurtainParams sHCParams[] = { { 81, 144, 0.090f, 144.0f, 5.0f }, { 46, 88, 0.055f, 88.0f, 3.0f } };
 
-ActorInit Bg_Hidan_Curtain_InitVars = {
+ActorProfile Bg_Hidan_Curtain_Profile = {
     /**/ ACTOR_BG_HIDAN_CURTAIN,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -86,11 +86,12 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
     this->treasureFlag = PARAMS_GET_U(thisx->params, 6, 6);
     thisx->params &= 0x3F;
 
-    if ((this->actor.params < 0) || (this->actor.params > 0x3F)) {
+    if (OOT_DEBUG && ((this->actor.params < 0) || (this->actor.params > 0x3F))) {
         // "Save bit is not set"
         PRINTF("Warning : object のセーブビットが設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_hidan_curtain.c",
                373, this->actor.params);
     }
+
     Actor_SetScale(&this->actor, hcParams->scale);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

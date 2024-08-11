@@ -22,7 +22,7 @@ extern CutsceneData D_808BB2F0[];
 extern CutsceneData D_808BB7A0[];
 extern CutsceneData D_808BBD90[];
 
-ActorInit Bg_Toki_Swd_InitVars = {
+ActorProfile Bg_Toki_Swd_Profile = {
     /**/ ACTOR_BG_TOKI_SWD,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -47,8 +47,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 10, 70, 0, { 0 } },
@@ -93,9 +93,9 @@ void BgTokiSwd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808BAF40(BgTokiSwd* this, PlayState* play) {
-    if (!GET_EVENTCHKINF(EVENTCHKINF_4F) && !IS_CUTSCENE_LAYER &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS) && !IS_CUTSCENE_LAYER &&
         Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Play_InCsMode(play)) {
-        SET_EVENTCHKINF(EVENTCHKINF_4F);
+        SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
         play->csCtx.script = D_808BBD90;
         gSaveContext.cutsceneTrigger = 1;
     }

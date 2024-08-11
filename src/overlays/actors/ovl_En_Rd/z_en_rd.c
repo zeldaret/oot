@@ -52,7 +52,7 @@ typedef enum {
     /* 4 */ REDEAD_GRAB_END
 } EnRdGrabState;
 
-ActorInit En_Rd_InitVars = {
+ActorProfile En_Rd_Profile = {
     /**/ ACTOR_EN_RD,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -77,8 +77,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_NONE,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -466,10 +466,12 @@ void EnRd_SetupWalkToParent(EnRd* this) {
  * fade away.
  */
 void EnRd_WalkToParent(EnRd* this, PlayState* play) {
+    s32 pad;
+    s16 targetY;
+    Vec3f parentPos;
+
     if (this->actor.parent != NULL) {
-        s32 pad;
-        s16 targetY;
-        Vec3f parentPos = this->actor.parent->world.pos;
+        parentPos = this->actor.parent->world.pos;
 
         targetY = Actor_WorldYawTowardPoint(&this->actor, &parentPos);
 

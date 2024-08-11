@@ -37,8 +37,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 12, 60, 0, { 0, 0, 0 } },
@@ -58,7 +58,7 @@ static Color_RGBA8 sEnvColors[] = {
     { 0, 150, 0, 255 },
 };
 
-ActorInit Bg_Po_Syokudai_InitVars = {
+ActorProfile Bg_Po_Syokudai_Profile = {
     /**/ ACTOR_BG_PO_SYOKUDAI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

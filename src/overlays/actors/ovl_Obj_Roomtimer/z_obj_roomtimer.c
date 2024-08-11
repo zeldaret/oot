@@ -15,7 +15,7 @@ void ObjRoomtimer_Update(Actor* thisx, PlayState* play);
 void func_80B9D054(ObjRoomtimer* this, PlayState* play);
 void func_80B9D0B0(ObjRoomtimer* this, PlayState* play);
 
-ActorInit Obj_Roomtimer_InitVars = {
+ActorProfile Obj_Roomtimer_Profile = {
     /**/ ACTOR_OBJ_ROOMTIMER,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

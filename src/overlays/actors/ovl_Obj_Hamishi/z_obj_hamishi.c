@@ -14,7 +14,7 @@ void ObjHamishi_Destroy(Actor* thisx, PlayState* play2);
 void ObjHamishi_Update(Actor* thisx, PlayState* play);
 void ObjHamishi_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Hamishi_InitVars = {
+ActorProfile Obj_Hamishi_Profile = {
     /**/ ACTOR_OBJ_HAMISHI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -39,8 +39,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4FC1FFF6, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 50, 70, 0, { 0, 0, 0 } },
@@ -170,7 +170,7 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play) {
 
     ObjHamishi_Shake(this);
 
-    if ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HAMMER)) {
+    if ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HAMMER)) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->hitCount++;
         if (this->hitCount < 2) {

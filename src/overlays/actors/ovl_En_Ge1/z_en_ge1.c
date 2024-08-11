@@ -39,7 +39,7 @@ void EnGe1_Wait_Archery(EnGe1* this, PlayState* play);
 void EnGe1_CueUpAnimation(EnGe1* this);
 void EnGe1_StopFidget(EnGe1* this);
 
-ActorInit En_Ge1_InitVars = {
+ActorProfile En_Ge1_Profile = {
     /**/ ACTOR_EN_GE1,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -64,8 +64,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000702, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 40, 0, { 0, 0, 0 } },

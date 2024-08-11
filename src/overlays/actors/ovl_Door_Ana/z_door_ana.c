@@ -18,7 +18,7 @@ void DoorAna_WaitClosed(DoorAna* this, PlayState* play);
 void DoorAna_WaitOpen(DoorAna* this, PlayState* play);
 void DoorAna_GrabPlayer(DoorAna* this, PlayState* play);
 
-ActorInit Door_Ana_InitVars = {
+ActorProfile Door_Ana_Profile = {
     /**/ ACTOR_DOOR_ANA,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -43,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000048, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 50, 10, 0, { 0 } },

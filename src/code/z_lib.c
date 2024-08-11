@@ -1,4 +1,11 @@
-#include "global.h"
+#include "ultra64.h"
+#include "z_lib.h"
+#include "ichain.h"
+#include "regs.h"
+#include "macros.h"
+#include "sys_math.h"
+#include "rand.h"
+#include "sfx.h"
 
 /**
  * memset: sets `len` bytes to `val` starting at address `dest`.
@@ -300,9 +307,14 @@ f32 Math_Vec3f_DiffY(Vec3f* a, Vec3f* b) {
     return b->y - a->y;
 }
 
-s16 Math_Vec3f_Yaw(Vec3f* a, Vec3f* b) {
-    f32 dx = b->x - a->x;
-    f32 dz = b->z - a->z;
+/**
+ * @param origin Position of the origin, the location from which to look at the target `point`
+ * @param point Position of the target point, in the same space as `origin`
+ * @return The yaw towards `point` when at `origin`, assuming +z is forwards.
+ */
+s16 Math_Vec3f_Yaw(Vec3f* origin, Vec3f* point) {
+    f32 dx = point->x - origin->x;
+    f32 dz = point->z - origin->z;
 
     return Math_Atan2S(dz, dx);
 }
@@ -329,7 +341,7 @@ void (*sInitChainHandlers[])(u8* ptr, InitChainEntry* ichain) = {
     IChain_Apply_Vec3f, IChain_Apply_Vec3fdiv1000, IChain_Apply_Vec3s,
 };
 
-void Actor_ProcessInitChain(Actor* actor, InitChainEntry* ichain) {
+void Actor_ProcessInitChain(struct Actor* actor, InitChainEntry* ichain) {
     do {
         sInitChainHandlers[ichain->type]((u8*)actor, ichain);
     } while ((ichain++)->cont);
@@ -402,8 +414,10 @@ void IChain_Apply_Vec3s(u8* ptr, InitChainEntry* ichain) {
  * instead, with a minimum step of minStep. Returns remaining distance to target.
  */
 f32 Math_SmoothStepToF(f32* pValue, f32 target, f32 fraction, f32 step, f32 minStep) {
+    f32 stepSize;
+
     if (*pValue != target) {
-        f32 stepSize = (target - *pValue) * fraction;
+        stepSize = (target - *pValue) * fraction;
 
         if ((stepSize >= minStep) || (stepSize <= -minStep)) {
             if (stepSize > step) {

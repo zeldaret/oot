@@ -16,7 +16,7 @@ void BgSpot11Bakudankabe_Destroy(Actor* thisx, PlayState* play);
 void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play);
 void BgSpot11Bakudankabe_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Spot11_Bakudankabe_InitVars = {
+ActorProfile Bg_Spot11_Bakudankabe_Profile = {
     /**/ ACTOR_BG_SPOT11_BAKUDANKABE,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -41,8 +41,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 40, 80, 0, { 2259, 108, -1580 } },

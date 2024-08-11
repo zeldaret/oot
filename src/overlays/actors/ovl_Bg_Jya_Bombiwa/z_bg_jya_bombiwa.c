@@ -16,7 +16,7 @@ void BgJyaBombiwa_Destroy(Actor* thisx, PlayState* play);
 void BgJyaBombiwa_Update(Actor* thisx, PlayState* play);
 void BgJyaBombiwa_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Jya_Bombiwa_InitVars = {
+ActorProfile Bg_Jya_Bombiwa_Profile = {
     /**/ ACTOR_BG_JYA_BOMBIWA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -34,8 +34,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 50 }, 100 },
@@ -63,19 +63,22 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, PlayState* play, CollisionHeader* collision, s32 flag) {
-    s16 pad1;
+    s32 pad1;
     CollisionHeader* colHeader = NULL;
-    s16 pad2;
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
 
         // "Warning: move BG registration failed"
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombiwa.c", 174,
                this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {

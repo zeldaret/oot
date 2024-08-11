@@ -31,7 +31,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, PlayState* play);
 
 #define WEATHER_TAG_RANGE100(x) ((x >> 8) * 100.0f)
 
-ActorInit En_Weather_Tag_InitVars = {
+ActorProfile En_Weather_Tag_Profile = {
     /**/ ACTOR_EN_WEATHER_TAG,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -326,7 +326,8 @@ void EnWeatherTag_Update(Actor* thisx, PlayState* play) {
     EnWeatherTag* this = (EnWeatherTag*)thisx;
 
     this->actionFunc(this, play);
-    if (BREG(0) != 0) {
+
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 255, 255, 4, play->state.gfxCtx);

@@ -31,7 +31,7 @@ void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, PlayState* play);
 void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, PlayState* play);
 void BgHidanFwbig_Move(BgHidanFwbig* this, PlayState* play);
 
-ActorInit Bg_Hidan_Fwbig_InitVars = {
+ActorProfile Bg_Hidan_Fwbig_Profile = {
     /**/ ACTOR_BG_HIDAN_FWBIG,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -56,8 +56,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 30, 130, 0, { 0, 0, 0 } },

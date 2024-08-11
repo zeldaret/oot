@@ -36,7 +36,7 @@ static s16 D_80BA1B54 = 0;
 static s16 D_80BA1B58 = 0;
 static s16 D_80BA1B5C = 0;
 
-ActorInit Obj_Tsubo_InitVars = {
+ActorProfile Obj_Tsubo_Profile = {
     /**/ ACTOR_OBJ_TSUBO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -67,8 +67,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000002, 0x00, 0x01 },
         { 0x4FC1FFFE, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 9, 26, 0, { 0, 0, 0 } },
@@ -197,7 +197,7 @@ void ObjTsubo_WaterBreak(ObjTsubo* this, PlayState* play) {
     s32 phi_s0;
     s32 i;
 
-    pos.y += this->actor.yDistToWater;
+    pos.y += this->actor.depthInWater;
     EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 400);
     for (i = 0, angle = 0; i < 15; i++, angle += 0x4E20) {
         f32 sins = Math_SinS(angle);
@@ -242,13 +242,13 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
 
     if (Actor_HasParent(&this->actor, play)) {
         ObjTsubo_SetupLiftedUp(this);
-    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.depthInWater > 15.0f)) {
         ObjTsubo_WaterBreak(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         ObjTsubo_SpawnCollectible(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->collider.base.acFlags & AC_HIT) &&
-               (this->collider.elem.acHitElem->toucher.dmgFlags &
+               (this->collider.elem.acHitElem->atDmgInfo.dmgFlags &
                 (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);

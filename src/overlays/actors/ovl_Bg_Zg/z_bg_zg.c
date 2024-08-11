@@ -35,7 +35,7 @@ static BgZgDrawFunc sDrawFuncs[] = {
     func_808C0EEC,
 };
 
-ActorInit Bg_Zg_InitVars = {
+ActorProfile Bg_Zg_Profile = {
     /**/ ACTOR_BG_ZG,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

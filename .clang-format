@@ -7,6 +7,7 @@ BreakBeforeBraces: Attach
 SpaceAfterCStyleCast: false
 Cpp11BracedListStyle: false
 IndentCaseLabels: true
+IndentPPDirectives: None
 BinPackArguments: true
 BinPackParameters: true
 AlignAfterOpenBracket: Align
@@ -18,6 +19,8 @@ AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
 AlignEscapedNewlines: Left
 AlignTrailingComments: true
 SortIncludes: false
+TypenameMacros: ['BAD_RETURN', 'ALIGNED']

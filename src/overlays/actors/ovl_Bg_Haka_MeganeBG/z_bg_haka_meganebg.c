@@ -23,7 +23,7 @@ void func_8087E288(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E34C(BgHakaMeganeBG* this, PlayState* play);
 
-ActorInit Bg_Haka_MeganeBG_InitVars = {
+ActorProfile Bg_Haka_MeganeBG_Profile = {
     /**/ ACTOR_BG_HAKA_MEGANEBG,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -23,7 +23,7 @@ void EnMa1_TeachSong(EnMa1* this, PlayState* play);
 void EnMa1_WaitForPlayback(EnMa1* this, PlayState* play);
 void EnMa1_DoNothing(EnMa1* this, PlayState* play);
 
-ActorInit En_Ma1_InitVars = {
+ActorProfile En_Ma1_Profile = {
     /**/ ACTOR_EN_MA1,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -48,8 +48,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 46, 0, { 0, 0, 0 } },

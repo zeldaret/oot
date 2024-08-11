@@ -31,7 +31,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play);
 
 static u8 sHorseSfxPlayed = false;
 
-ActorInit En_Viewer_InitVars = {
+ActorProfile En_Viewer_Profile = {
     /**/ ACTOR_EN_VIEWER,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

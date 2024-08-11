@@ -30,8 +30,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
           ELEMTYPE_UNK0,
           { 0x00000000, 0x00, 0x00 },
           { 0xFFCFFFFF, 0x000, 0x00 },
-          TOUCH_NONE,
-          BUMP_NONE,
+          ATELEM_NONE,
+          ACELEM_NONE,
           OCELEM_ON,
       },
       { 0, { { 0, 0, 0 }, 5 }, 100 } },
@@ -49,7 +49,7 @@ static ColliderJntSphInit sColliderInit = {
     sJntSphElementsInit,
 };
 
-ActorInit En_Butte_InitVars = {
+ActorProfile En_Butte_Profile = {
     /**/ ACTOR_EN_BUTTE,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

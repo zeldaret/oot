@@ -42,7 +42,7 @@ void func_8086DCE8(BgBdanSwitch* this, PlayState* play);
 void func_8086DDA8(BgBdanSwitch* this);
 void func_8086DDC0(BgBdanSwitch* this, PlayState* play);
 
-ActorInit Bg_Bdan_Switch_InitVars = {
+ActorProfile Bg_Bdan_Switch_Profile = {
     /**/ ACTOR_BG_BDAN_SWITCH,
     /**/ ACTORCAT_SWITCH,
     /**/ FLAGS,
@@ -60,8 +60,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xEFC1FFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { 0, 120, 0 }, 370 }, 100 },
@@ -90,17 +90,21 @@ static InitChainEntry sInitChain[] = {
 static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
 
 void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHeader* collision, s32 flag) {
-    s16 pad1;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
-    s16 pad2;
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_bdan_switch.c", 325,
                this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgBdanSwitch_InitCollision(BgBdanSwitch* this, PlayState* play) {

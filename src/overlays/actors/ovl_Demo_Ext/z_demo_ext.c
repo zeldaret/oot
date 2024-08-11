@@ -52,7 +52,9 @@ void DemoExt_PlayVortexSFX(DemoExt* this) {
 
 CsCmdActorCue* DemoExt_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
 
     return NULL;
@@ -234,7 +236,7 @@ void DemoExt_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-ActorInit Demo_Ext_InitVars = {
+ActorProfile Demo_Ext_Profile = {
     /**/ ACTOR_DEMO_EXT,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

@@ -24,7 +24,7 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
-ActorInit Bg_Mori_Hashigo_InitVars = {
+ActorProfile Bg_Mori_Hashigo_Profile = {
     /**/ ACTOR_BG_MORI_HASHIGO,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -42,8 +42,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F820, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 25 }, 100 },
@@ -78,19 +78,21 @@ static InitChainEntry sInitChainLadder[] = {
 
 void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
-    CollisionHeader* colHeader;
-    s32 pad2;
+    CollisionHeader* colHeader = NULL;
 
-    colHeader = NULL;
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         // "Warning : move BG login failed"
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashigo.c", 164,
                this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgMoriHashigo_InitCollider(BgMoriHashigo* this, PlayState* play) {
@@ -260,9 +262,9 @@ void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play) {
 }
 
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this) {
-    this->actionFunc = NULL;
     this->dyna.actor.gravity = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
+    this->actionFunc = NULL;
     this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
 }
 

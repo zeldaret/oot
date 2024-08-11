@@ -29,7 +29,7 @@ void func_8088BC40(PlayState* play, BgHidanRock* this);
 
 static Vec3f D_8088BF60 = { 3310.0f, 120.0f, 0.0f };
 
-ActorInit Bg_Hidan_Rock_InitVars = {
+ActorProfile Bg_Hidan_Rock_Profile = {
     /**/ ACTOR_BG_HIDAN_ROCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -54,8 +54,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { 45, 77, -40, { 3310, 120, 0 } },

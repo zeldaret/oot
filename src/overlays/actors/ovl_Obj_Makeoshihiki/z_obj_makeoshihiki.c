@@ -13,7 +13,7 @@
 void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play);
 void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Makeoshihiki_InitVars = {
+ActorProfile Obj_Makeoshihiki_Profile = {
     /**/ ACTOR_OBJ_MAKEOSHIHIKI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

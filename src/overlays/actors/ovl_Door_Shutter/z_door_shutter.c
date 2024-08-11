@@ -48,7 +48,7 @@ void DoorShutter_GohmaBlockFall(DoorShutter* this, PlayState* play);
 void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play);
 void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play);
 
-ActorInit Door_Shutter_InitVars = {
+ActorProfile Door_Shutter_Profile = {
     /**/ ACTOR_DOOR_SHUTTER,
     /**/ ACTORCAT_DOOR,
     /**/ FLAGS,
@@ -896,9 +896,7 @@ void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play) {
     f32 targetOffsetY;
 
     PRINTF("FHG SAKU START !!\n");
-    if (this->isActive != 0) {
-        this->isActive--;
-    }
+    DECR(this->isActive);
     targetOffsetY = (this->isActive % 2 != 0) ? -3.0f : 0.0f;
     Math_SmoothStepToF(&this->dyna.actor.world.pos.y, -34.0f + targetOffsetY, 1.0f, 20.0f, 0.0f);
     PRINTF("FHG SAKU END !!\n");
@@ -975,17 +973,19 @@ s32 DoorShutter_ShouldDraw(DoorShutter* this, PlayState* play) {
 void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     DoorShutter* this = (DoorShutter*)thisx;
 
+    if (1) {}
+
     //! @bug This actor is not fully initialized until the required object dependency is loaded.
     //! In most cases, the check for objectSlot to equal requiredObjectSlot prevents the actor
     //! from drawing until initialization is complete. However if the required object is the same as the
-    //! object dependency listed in init vars (gameplay_keep in this case), the check will pass even though
+    //! object dependency listed in the actor profile (gameplay_keep in this case), the check will pass even though
     //! initialization has not completed. When this happens, it will try to draw the display list of the
     //! first entry in `sGfxInfo`, which will likely crash the game.
     //! This only matters in very specific scenarios, when the door is unculled on the first possible frame
     //! after spawning. It will try to draw without having run update yet.
     //!
     //! The best way to fix this issue (and what was done in Majora's Mask) is to null out the draw function in
-    //! the init vars for the actor, and only set draw after initialization is complete.
+    //! the profile for the actor, and only set draw after initialization is complete.
 
     if (this->dyna.actor.objectSlot == this->requiredObjectSlot &&
         (this->styleType == DOORSHUTTER_STYLE_PHANTOM_GANON || DoorShutter_ShouldDraw(this, play))) {

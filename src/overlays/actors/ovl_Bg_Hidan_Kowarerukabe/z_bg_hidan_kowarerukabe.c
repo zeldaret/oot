@@ -22,7 +22,7 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
+ActorProfile Bg_Hidan_Kowarerukabe_Profile = {
     /**/ ACTOR_BG_HIDAN_KOWARERUKABE,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -46,8 +46,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 100 }, 100 },

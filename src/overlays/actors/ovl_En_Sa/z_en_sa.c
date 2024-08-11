@@ -33,7 +33,7 @@ typedef enum {
     /* 4 */ SARIA_MOUTH_FROWNING
 } SariaMouthState;
 
-ActorInit En_Sa_InitVars = {
+ActorProfile En_Sa_Profile = {
     /**/ ACTOR_EN_SA,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -58,8 +58,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 46, 0, { 0, 0, 0 } },
@@ -613,10 +613,12 @@ void func_80AF6448(EnSa* this, PlayState* play) {
 }
 
 void func_80AF67D0(EnSa* this, PlayState* play) {
-    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
-        this->actionFunc = func_80AF6448;
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        return;
     }
+
+    Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
+    this->actionFunc = func_80AF6448;
 }
 
 void func_80AF683C(EnSa* this, PlayState* play) {

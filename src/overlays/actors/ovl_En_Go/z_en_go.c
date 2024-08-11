@@ -34,7 +34,7 @@ void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
 void EnGo_UpdateEffects(EnGo* this);
 void EnGo_DrawEffects(EnGo* this, PlayState* play);
 
-ActorInit En_Go_InitVars = {
+ActorProfile En_Go_Profile = {
     /**/ ACTOR_EN_GO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -59,8 +59,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 46, 0, { 0, 0, 0 } },

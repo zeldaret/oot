@@ -28,7 +28,7 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play);
 void func_80BA2600(ObjWarp2block* this);
 void func_80BA2610(ObjWarp2block* this, PlayState* play);
 
-ActorInit Obj_Warp2block_InitVars = {
+ActorProfile Obj_Warp2block_Profile = {
     /**/ ACTOR_OBJ_WARP2BLOCK,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -74,39 +74,37 @@ void ObjWarp2block_Spawn(ObjWarp2block* this, PlayState* play) {
 }
 
 s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
-    s32 pad;
-    Actor* temp_a3;
-    Player* player;
-    Vec3f sp20;
-    f32 temp_f2;
-
     if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         return 0;
-    }
-
-    temp_a3 = this->dyna.actor.child;
-    player = GET_PLAYER(play);
-    if ((this->dyna.actor.xzDistToPlayer <= sDistances[PARAMS_GET_U(this->dyna.actor.params, 11, 3)]) ||
-        (temp_a3->xzDistToPlayer <= sDistances[PARAMS_GET_U(temp_a3->params, 11, 3)])) {
-
-        func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
-        temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
-
-        if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
-            return 0;
-        }
-
-        func_8002DBD0(temp_a3, &sp20, &player->actor.world.pos);
-        temp_f2 = (temp_a3->scale.x * 50.0f) + 6.0f;
-
-        if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
-            return 0;
-        }
     } else {
-        return 0;
-    }
+        s32 pad;
+        Actor* temp_a3 = this->dyna.actor.child;
+        Player* player = GET_PLAYER(play);
+        Vec3f sp20;
+        f32 temp_f2;
 
-    return 1;
+        if ((this->dyna.actor.xzDistToPlayer <= sDistances[PARAMS_GET_U(this->dyna.actor.params, 11, 3)]) ||
+            (temp_a3->xzDistToPlayer <= sDistances[PARAMS_GET_U(temp_a3->params, 11, 3)])) {
+
+            func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
+            temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
+
+            if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
+                return 0;
+            }
+
+            func_8002DBD0(temp_a3, &sp20, &player->actor.world.pos);
+            temp_f2 = (temp_a3->scale.x * 50.0f) + 6.0f;
+
+            if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+
+        return 1;
+    }
 }
 
 void ObjWarp2block_SwapWithChild(ObjWarp2block* this, PlayState* play) {

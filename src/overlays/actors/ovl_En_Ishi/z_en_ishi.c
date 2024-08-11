@@ -32,7 +32,7 @@ void EnIshi_SpawnDustLarge(EnIshi* this, PlayState* play);
 static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
-ActorInit En_Ishi_InitVars = {
+ActorProfile En_Ishi_Profile = {
     /**/ ACTOR_EN_ISHI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -73,8 +73,8 @@ static ColliderCylinderInit sCylinderInits[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 10, 18, -2, { 0, 0, 0 } },
@@ -92,8 +92,8 @@ static ColliderCylinderInit sCylinderInits[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFF6, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 55, 70, 0, { 0, 0, 0 } },
@@ -355,7 +355,7 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
             EnIshi_SpawnBugs(this, play);
         }
     } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
-               this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
+               this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
         EnIshi_DropCollectible(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, sBreakSfxDurations[type], sBreakSfxIds[type]);
         sFragmentSpawnFuncs[type](this, play);
@@ -442,7 +442,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         contactPos.x = this->actor.world.pos.x;
-        contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+        contactPos.y = this->actor.world.pos.y + this->actor.depthInWater;
         contactPos.z = this->actor.world.pos.z;
         EffectSsGSplash_Spawn(play, &contactPos, NULL, NULL, 0, 350);
         if (type == ROCK_SMALL) {

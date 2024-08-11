@@ -30,13 +30,13 @@ void FileSelect_SetView(FileSelectState* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f lookAt;
     Vec3f up;
 
-    lookAt.x = lookAt.y = lookAt.z = 0.0f;
-    up.x = up.z = 0.0f;
-
     eye.x = eyeX;
     eye.y = eyeY;
     eye.z = eyeZ;
 
+    lookAt.x = lookAt.y = lookAt.z = 0.0f;
+
+    up.x = up.z = 0.0f;
     up.y = 1.0f;
 
     View_LookAt(&this->view, &eye, &lookAt, &up);
@@ -169,7 +169,10 @@ void FileSelect_FinishFadeIn(GameState* thisx) {
  * Update function for `CM_MAIN_MENU`
  */
 void FileSelect_UpdateMainMenu(GameState* thisx) {
-    static u8 emptyName[] = { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E };
+    static u8 emptyName[] = {
+        FILENAME_SPACE, FILENAME_SPACE, FILENAME_SPACE, FILENAME_SPACE,
+        FILENAME_SPACE, FILENAME_SPACE, FILENAME_SPACE, FILENAME_SPACE,
+    };
     FileSelectState* this = (FileSelectState*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* input = &this->state.input[0];
@@ -186,7 +189,16 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->configMode = CM_ROTATE_TO_NAME_ENTRY;
                 this->kbdButton = FS_KBD_BTN_NONE;
+
+#if OOT_NTSC
+                this->charPage = FS_CHAR_PAGE_HIRA;
+                if (gSaveContext.language != LANGUAGE_JPN) {
+                    this->charPage = FS_CHAR_PAGE_ENG;
+                }
+#else
                 this->charPage = FS_CHAR_PAGE_ENG;
+#endif
+
                 this->kbdX = 0;
                 this->kbdY = 0;
                 this->charIndex = 0;
@@ -221,7 +233,7 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
                     this->nextTitleLabel = FS_TITLE_ERASE_FILE;
                 } else {
                     this->configMode = CM_MAIN_TO_OPTIONS;
-                    this->kbdButton = 0;
+                    this->kbdButton = FS_KBD_BTN_HIRA;
                     this->kbdX = 0;
                     this->kbdY = 0;
                     this->charBgAlpha = 0;
@@ -382,6 +394,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
     SramContext* sramCtx = &this->sramCtx;
     Input* debugInput = &this->state.input[2];
 
+#if OOT_DEBUG
     if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_ENG;
         *((u8*)0x80000002) = LANGUAGE_ENG;
@@ -421,6 +434,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
                sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                sramCtx->readBuff[SRAM_HEADER_MAGIC]);
     }
+#endif
 
     alphaStep = ABS(this->highlightColor[3] - cursorAlphaTargets[this->highlightPulseDir]) / XREG(35);
 
@@ -793,6 +807,11 @@ static s16 sQuestItemRed[] = { 255, 255, 255, 0, 255, 0, 255, 200, 200 };
 static s16 sQuestItemGreen[] = { 255, 255, 255, 255, 60, 100, 130, 50, 200 };
 static s16 sQuestItemBlue[] = { 255, 255, 255, 0, 0, 255, 0, 255, 0 };
 static s16 sQuestItemFlags[] = { 0x0012, 0x0013, 0x0014, 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005 };
+
+#if OOT_NTSC && OOT_VERSION < OOT_GC_JP_CE
+static void* sSaveXTextures[] = { gFileSelSaveXJPNTex, gFileSelSaveXENGTex };
+#endif
+
 static s16 sNamePrimColors[2][3] = { { 255, 255, 255 }, { 100, 100, 100 } };
 static void* sHeartTextures[] = { gHeartFullTex, gDefenseHeartFullTex };
 static s16 sHeartPrimColors[2][3] = { { 255, 70, 50 }, { 200, 0, 0 } };
@@ -807,6 +826,8 @@ void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
     s16 j;
     s16 deathCountSplit[3];
 
+    if (1) {}
+
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1709);
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -819,7 +840,7 @@ void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sNamePrimColors[isActive][0], sNamePrimColors[isActive][1],
                         sNamePrimColors[isActive][2], this->nameAlpha[fileIndex]);
 
-        for (i = 0, vtxOffset = 0; vtxOffset < 0x20; i++, vtxOffset += 4) {
+        for (vtxOffset = 0, i = 0; vtxOffset < 0x20; i++, vtxOffset += 4) {
             FileSelect_DrawCharacter(this->state.gfxCtx,
                                      sp54->fontBuf + this->fileNames[fileIndex][i] * FONT_CHAR_TEX_SIZE, vtxOffset);
         }
@@ -893,7 +914,15 @@ static void* sFileInfoBoxTextures[] = {
     gFileSelFileInfoBox4Tex, gFileSelFileInfoBox5Tex,
 };
 
-static void* sTitleLabels[3][9] = {
+static void* sTitleLabels[][9] = {
+#if OOT_NTSC
+    { gFileSelPleaseSelectAFileJPNTex, gFileSelOpenThisFileJPNTex, gFileSelCopyWhichFileJPNTex,
+      gFileSelCopyToWhichFileJPNTex, gFileSelAreYouSureJPNTex, gFileSelFileCopiedJPNTex, gFileSelEraseWhichFileJPNTex,
+      gFileSelAreYouSure2JPNTex, gFileSelFileErasedJPNTex },
+    { gFileSelPleaseSelectAFileENGTex, gFileSelOpenThisFileENGTex, gFileSelCopyWhichFileENGTex,
+      gFileSelCopyToWhichFileENGTex, gFileSelAreYouSureENGTex, gFileSelFileCopiedENGTex, gFileSelEraseWhichFileENGTex,
+      gFileSelAreYouSure2ENGTex, gFileSelFileErasedENGTex },
+#else
     { gFileSelPleaseSelectAFileENGTex, gFileSelOpenThisFileENGTex, gFileSelCopyWhichFileENGTex,
       gFileSelCopyToWhichFileENGTex, gFileSelAreYouSureENGTex, gFileSelFileCopiedENGTex, gFileSelEraseWhichFileENGTex,
       gFileSelAreYouSure2ENGTex, gFileSelFileErasedENGTex },
@@ -903,34 +932,49 @@ static void* sTitleLabels[3][9] = {
     { gFileSelPleaseSelectAFileFRATex, gFileSelOpenThisFileFRATex, gFileSelCopyWhichFileFRATex,
       gFileSelCopyToWhichFileFRATex, gFileSelAreYouSureFRATex, gFileSelFileCopiedFRATex, gFileSelEraseWhichFileFRATex,
       gFileSelAreYouSure2FRATex, gFileSelFileErasedFRATex }
+#endif
 };
 
-static void* sWarningLabels[3][5] = {
+static void* sWarningLabels[][5] = {
+#if OOT_NTSC
+    { gFileSelNoFileToCopyJPNTex, gFileSelNoFileToEraseJPNTex, gFileSelNoEmptyFileJPNTex, gFileSelFileEmptyJPNTex,
+      gFileSelFileInUseJPNTex },
+    { gFileSelNoFileToCopyENGTex, gFileSelNoFileToEraseENGTex, gFileSelNoEmptyFileENGTex, gFileSelFileEmptyENGTex,
+      gFileSelFileInUseENGTex },
+#else
     { gFileSelNoFileToCopyENGTex, gFileSelNoFileToEraseENGTex, gFileSelNoEmptyFileENGTex, gFileSelFileEmptyENGTex,
       gFileSelFileInUseENGTex },
     { gFileSelNoFileToCopyGERTex, gFileSelNoFileToEraseGERTex, gFileSelNoEmptyFileGERTex, gFileSelFileEmptyGERTex,
       gFileSelFileInUseGERTex },
     { gFileSelNoFileToCopyFRATex, gFileSelNoFileToEraseFRATex, gFileSelNoEmptyFileFRATex, gFileSelFileEmptyFRATex,
       gFileSelFileInUseFRATex },
+#endif
 };
 
-static void* sFileButtonTextures[3][3] = {
+static void* sFileButtonTextures[][3] = {
+#if OOT_NTSC
+    { gFileSelFile1ButtonJPNTex, gFileSelFile2ButtonJPNTex, gFileSelFile3ButtonJPNTex },
+    { gFileSelFile1ButtonENGTex, gFileSelFile2ButtonENGTex, gFileSelFile3ButtonENGTex },
+#else
     { gFileSelFile1ButtonENGTex, gFileSelFile2ButtonENGTex, gFileSelFile3ButtonENGTex },
     { gFileSelFile1ButtonGERTex, gFileSelFile2ButtonGERTex, gFileSelFile3ButtonGERTex },
     { gFileSelFile1ButtonFRATex, gFileSelFile2ButtonFRATex, gFileSelFile3ButtonFRATex },
+#endif
 };
 
-static void* sActionButtonTextures[3][4] = {
+static void* sActionButtonTextures[][4] = {
+#if OOT_NTSC
+    { gFileSelCopyButtonJPNTex, gFileSelEraseButtonJPNTex, gFileSelYesButtonJPNTex, gFileSelQuitButtonJPNTex },
+    { gFileSelCopyButtonENGTex, gFileSelEraseButtonENGTex, gFileSelYesButtonENGTex, gFileSelQuitButtonENGTex },
+#else
     { gFileSelCopyButtonENGTex, gFileSelEraseButtonENGTex, gFileSelYesButtonENGTex, gFileSelQuitButtonENGTex },
     { gFileSelCopyButtonGERTex, gFileSelEraseButtonGERTex, gFileSelYesButtonGERTex, gFileSelQuitButtonGERTex },
     { gFileSelCopyButtonFRATex, gFileSelEraseButtonFRATex, gFileSelYesButtonFRATex, gFileSelQuitButtonFRATex },
+#endif
 };
 
-static void* sOptionsButtonTextures[] = {
-    gFileSelOptionsButtonENGTex,
-    gFileSelOptionsButtonGERTex,
-    gFileSelOptionsButtonENGTex,
-};
+static void* sOptionsButtonTextures[] = LANGUAGE_ARRAY(gFileSelOptionsButtonJPNTex, gFileSelOptionsButtonENGTex,
+                                                       gFileSelOptionsButtonGERTex, gFileSelOptionsButtonENGTex);
 
 /**
  * Draw most window contents including buttons, labels, and icons.
@@ -1436,9 +1480,8 @@ void FileSelect_FadeOut(GameState* thisx) {
  */
 void FileSelect_LoadGame(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
-    u16 swordEquipValue;
-    s32 pad;
 
+#if OOT_DEBUG
     if (this->buttonIndex == FS_BTN_SELECT_FILE_1) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1447,7 +1490,9 @@ void FileSelect_LoadGame(GameState* thisx) {
         gSaveContext.gameMode = GAMEMODE_NORMAL;
         SET_NEXT_GAMESTATE(&this->state, MapSelect_Init, MapSelectState);
         this->state.running = false;
-    } else {
+    } else
+#endif
+    {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         gSaveContext.fileNum = this->buttonIndex;
@@ -1506,6 +1551,7 @@ void FileSelect_LoadGame(GameState* thisx) {
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
+        u16 swordEquipValue;
 
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
         swordEquipValue =
@@ -1591,11 +1637,8 @@ static void (*sFileSelectUpdateFuncs[])(GameState*) = {
 };
 
 void FileSelect_Main(GameState* thisx) {
-    static void* controlsTextures[] = {
-        gFileSelControlsENGTex,
-        gFileSelControlsGERTex,
-        gFileSelControlsFRATex,
-    };
+    static void* controlsTextures[] =
+        LANGUAGE_ARRAY(gFileSelControlsJPNTex, gFileSelControlsENGTex, gFileSelControlsGERTex, gFileSelControlsFRATex);
     FileSelectState* this = (FileSelectState*)thisx;
     Input* input = &this->state.input[0];
 
@@ -1700,9 +1743,11 @@ void FileSelect_Main(GameState* thisx) {
 void FileSelect_InitContext(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     EnvironmentContext* envCtx = &this->envCtx;
+#if OOT_PAL
     SramContext* sramCtx = &this->sramCtx;
+#endif
 
-    Sram_Alloc(&this->state, sramCtx);
+    Sram_Alloc(&this->state, &this->sramCtx);
 
     ZREG(7) = 32;
     ZREG(8) = 22;
@@ -1859,6 +1904,7 @@ void FileSelect_InitContext(GameState* thisx) {
     this->n64ddFlags[0] = this->n64ddFlags[1] = this->n64ddFlags[2] = this->defense[0] = this->defense[1] =
         this->defense[2] = 0;
 
+#if OOT_PAL
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
     gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
@@ -1866,6 +1912,7 @@ void FileSelect_InitContext(GameState* thisx) {
     if (gSaveContext.language >= LANGUAGE_MAX) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_ENG;
     }
+#endif
 }
 
 void FileSelect_Destroy(GameState* thisx) {

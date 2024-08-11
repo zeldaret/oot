@@ -16,7 +16,7 @@ void EnVbBall_Destroy(Actor* thisx, PlayState* play);
 void EnVbBall_Update(Actor* thisx, PlayState* play2);
 void EnVbBall_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Vb_Ball_InitVars = {
+ActorProfile En_Vb_Ball_Profile = {
     /**/ 0,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -41,8 +41,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK6,
         { 0x00100700, 0x00, 0x20 },
         { 0x00100700, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 30, 10, { 0, 0, 0 } },

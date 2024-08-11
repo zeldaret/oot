@@ -19,7 +19,7 @@ void BgSpot08Bakudankabe_Draw(Actor* thisx, PlayState* play);
 void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play);
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play);
 
-ActorInit Bg_Spot08_Bakudankabe_InitVars = {
+ActorProfile Bg_Spot08_Bakudankabe_Profile = {
     /**/ ACTOR_BG_SPOT08_BAKUDANKABE,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -37,8 +37,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 50, 50 }, 70 }, 100 },
@@ -48,8 +48,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { -100, 50, 50 }, 70 }, 100 },
@@ -59,8 +59,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 100, 50, 50 }, 70 }, 100 },

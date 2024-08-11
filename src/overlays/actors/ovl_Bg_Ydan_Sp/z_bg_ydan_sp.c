@@ -24,7 +24,7 @@ typedef enum {
     /* 1 */ WEB_WALL
 } BgYdanSpType;
 
-ActorInit Bg_Ydan_Sp_InitVars = {
+ActorProfile Bg_Ydan_Sp_Profile = {
     /**/ ACTOR_BG_YDAN_SP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -42,8 +42,8 @@ static ColliderTrisElementInit sTrisItemsInit[2] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x00 },
             { 0x00020800, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 75.0f, -8.0f, 75.0f }, { -75.0f, -8.0f, 75.0f }, { -75.0f, -8.0f, -75.0f } } },
@@ -53,8 +53,8 @@ static ColliderTrisElementInit sTrisItemsInit[2] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x00 },
             { 0x00020800, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 140.0f, 288.8f, 0.0f }, { -140.0f, 288.0f, 0.0f }, { -140.0f, 0.0f, 0.0f } } },
@@ -417,6 +417,7 @@ void BgYdanSp_Draw(Actor* thisx, PlayState* play) {
     MtxF mtxF;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_sp.c", 781);
+
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (thisx->params == WEB_WALL) {
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ydan_sp.c", 787),

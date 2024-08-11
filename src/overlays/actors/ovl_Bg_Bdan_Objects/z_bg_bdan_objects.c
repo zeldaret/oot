@@ -43,7 +43,7 @@ void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_FallToLowerPos(BgBdanObjects* this, PlayState* play);
 
-ActorInit Bg_Bdan_Objects_InitVars = {
+ActorProfile Bg_Bdan_Objects_Profile = {
     /**/ ACTOR_BG_BDAN_OBJECTS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -68,8 +68,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_HARD,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_HARD,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { 0x00BB, 0x0050, 0x0000, { 0 } },

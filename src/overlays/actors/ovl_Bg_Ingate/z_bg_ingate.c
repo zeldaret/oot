@@ -17,7 +17,7 @@ void BgInGate_Draw(Actor* thisx, PlayState* play);
 void func_80892890(BgInGate* this, PlayState* play);
 void BgInGate_DoNothing(BgInGate* this, PlayState* play);
 
-ActorInit Bg_Ingate_InitVars = {
+ActorProfile Bg_Ingate_Profile = {
     /**/ ACTOR_BG_INGATE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

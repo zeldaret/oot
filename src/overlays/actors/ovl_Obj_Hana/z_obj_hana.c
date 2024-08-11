@@ -14,7 +14,7 @@ void ObjHana_Destroy(Actor* thisx, PlayState* play);
 void ObjHana_Update(Actor* thisx, PlayState* play);
 void ObjHana_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Hana_InitVars = {
+ActorProfile Obj_Hana_Profile = {
     /**/ ACTOR_OBJ_HANA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -39,8 +39,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 8, 10, 0, { 0, 0, 0 } },

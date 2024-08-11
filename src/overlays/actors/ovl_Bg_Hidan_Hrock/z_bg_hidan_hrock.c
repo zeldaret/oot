@@ -18,7 +18,7 @@ void func_8088960C(BgHidanHrock* this, PlayState* play);
 void func_808896B8(BgHidanHrock* this, PlayState* play);
 void func_808894A4(BgHidanHrock* this, PlayState* play);
 
-ActorInit Bg_Hidan_Hrock_InitVars = {
+ActorProfile Bg_Hidan_Hrock_Profile = {
     /**/ ACTOR_BG_HIDAN_HROCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -36,8 +36,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_NO_AT_INFO | ACELEM_NO_DAMAGE | ACELEM_NO_SWORD_SFX | ACELEM_NO_HITMARK,
             OCELEM_NONE,
         },
         { { { -40.0f, 3.0f, -40.0f }, { -40.0f, 3.0f, 40.0f }, { 40.0f, 3.0f, 40.0f } } },
@@ -47,8 +47,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_NO_AT_INFO | ACELEM_NO_DAMAGE | ACELEM_NO_SWORD_SFX | ACELEM_NO_HITMARK,
             OCELEM_NONE,
         },
         { { { 40.0f, 3.0f, 40.0f }, { 40.0f, 3.0f, -40.0f }, { -40.0f, 3.0f, -40.0f } } },
@@ -82,6 +82,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
     s32 i;
     s32 j;
     CollisionHeader* collisionHeader = NULL;
+    Vec3f* vtx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->unk_16A = PARAMS_GET_U(thisx->params, 0, 6);
@@ -103,7 +104,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
 
         if (1) {
             for (j = 0; j < 3; j++) {
-                Vec3f* vtx = &colliderElementInit->dim.vtx[j];
+                vtx = &colliderElementInit->dim.vtx[j];
 
                 vertices[j].x = vtx->z * sinRotY + (thisx->home.pos.x + vtx->x * cosRotY);
                 vertices[j].y = vtx->y + thisx->home.pos.y;

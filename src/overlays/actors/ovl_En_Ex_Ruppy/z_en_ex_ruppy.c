@@ -28,7 +28,7 @@ static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
-ActorInit En_Ex_Ruppy_InitVars = {
+ActorProfile En_Ex_Ruppy_Profile = {
     /**/ ACTOR_EN_EX_RUPPY,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -249,9 +249,9 @@ void EnExRuppy_Sink(EnExRuppy* this, PlayState* play) {
     Vec3f pos;
     s32 pad;
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.depthInWater > 15.0f)) {
         pos = this->actor.world.pos;
-        pos.y += this->actor.yDistToWater;
+        pos.y += this->actor.depthInWater;
         this->actor.velocity.y = -1.0f;
         this->actor.gravity = -0.2f;
         EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 800);
@@ -315,6 +315,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
     f32 distToBlowUp = 50.0f;
     s16 explosionScale;
     s16 explosionScaleStep;
+    s32 pad;
 
     if (this->type == 2) {
         distToBlowUp = 30.0f;

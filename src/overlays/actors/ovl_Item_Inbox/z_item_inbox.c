@@ -15,7 +15,7 @@ void ItemInbox_Draw(Actor* thisx, PlayState* play);
 
 void ItemInbox_Wait(ItemInbox* this, PlayState* play);
 
-ActorInit Item_Inbox_InitVars = {
+ActorProfile Item_Inbox_Profile = {
     /**/ ACTOR_ITEM_INBOX,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

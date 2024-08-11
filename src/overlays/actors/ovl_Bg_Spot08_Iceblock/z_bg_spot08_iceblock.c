@@ -22,7 +22,7 @@ void BgSpot08Iceblock_SetupFloatOrbitingTwins(BgSpot08Iceblock* this);
 void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, PlayState* play);
 void BgSpot08Iceblock_SetupNoAction(BgSpot08Iceblock* this);
 
-ActorInit Bg_Spot08_Iceblock_InitVars = {
+ActorProfile Bg_Spot08_Iceblock_Profile = {
     /**/ ACTOR_BG_SPOT08_ICEBLOCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -41,16 +41,20 @@ void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockAction
 void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         // "Warning: move BG registration failed"
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xD9,
                this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 // Sets params to 0x10 (medium, nonrotating) if not in the cases listed.

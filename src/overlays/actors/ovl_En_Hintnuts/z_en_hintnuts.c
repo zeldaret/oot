@@ -27,7 +27,7 @@ void EnHintnuts_Talk(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Leave(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play);
 
-ActorInit En_Hintnuts_InitVars = {
+ActorProfile En_Hintnuts_Profile = {
     /**/ ACTOR_EN_HINTNUTS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -52,8 +52,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 18, 32, 0, { 0, 0, 0 } },

@@ -57,7 +57,7 @@ void EnTa_AnimSleeping(EnTa* this);
 void EnTa_AnimSitSleeping(EnTa* this);
 void EnTa_AnimRunToEnd(EnTa* this);
 
-ActorInit En_Ta_InitVars = {
+ActorProfile En_Ta_Profile = {
     /**/ ACTOR_EN_TA,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -82,8 +82,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000004, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0, 0, 0 } },

@@ -13,7 +13,11 @@ typedef struct InitFunc {
 // .data
 void* sInitFuncs = NULL;
 
+#if OOT_DEBUG
 char sNew[] = "new";
+#else
+char sNew[] = "";
+#endif
 
 char D_80134488[0x18] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7F, 0x80, 0x00, 0x00,
@@ -26,7 +30,11 @@ void* func_800FC800(u32 size) {
         size = 1;
     }
 
+#if OOT_DEBUG
     return __osMallocDebug(&gSystemArena, size, sNew, 0);
+#else
+    return __osMalloc(&gSystemArena, size);
+#endif
 }
 
 // possibly some kind of delete() function

@@ -21,7 +21,7 @@ void BgYdanHasi_MoveWater(BgYdanHasi* this, PlayState* play);
 void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, PlayState* play);
 void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, PlayState* play);
 
-ActorInit Bg_Ydan_Hasi_InitVars = {
+ActorProfile Bg_Ydan_Hasi_Profile = {
     /**/ ACTOR_BG_YDAN_HASI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -171,10 +171,10 @@ void BgYdanHasi_Update(Actor* thisx, PlayState* play) {
 
 void BgYdanHasi_Draw(Actor* thisx, PlayState* play) {
     static Gfx* dLists[] = { gDTSlidingPlatformDL, gDTWaterPlaneDL, gDTRisingPlatformsDL };
-    BgYdanHasi* this = (BgYdanHasi*)thisx;
+    s16 params = thisx->params;
 
-    if (this->dyna.actor.params == HASI_WATER_BLOCK || this->dyna.actor.params == HASI_THREE_BLOCKS) {
-        Gfx_DrawDListOpa(play, dLists[this->dyna.actor.params]);
+    if (params == HASI_WATER_BLOCK || params == HASI_THREE_BLOCKS) {
+        Gfx_DrawDListOpa(play, dLists[params]);
     } else {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 577);
 

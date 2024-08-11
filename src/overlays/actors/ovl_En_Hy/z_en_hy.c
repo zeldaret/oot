@@ -32,7 +32,7 @@ void func_80A7127C(EnHy* this, PlayState* play);
 void EnHy_DoNothing(EnHy* this, PlayState* play);
 void func_80A714C4(EnHy* this, PlayState* play);
 
-ActorInit En_Hy_InitVars = {
+ActorProfile En_Hy_Profile = {
     /**/ ACTOR_EN_HY,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -57,8 +57,8 @@ static ColliderCylinderInit sColCylInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 46, 0, { 0, 0, 0 } },
@@ -1108,8 +1108,6 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     Vec3s limbRot;
     u8 i;
     void* ptr;
-
-    if (1) {}
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2170);
 

@@ -35,7 +35,7 @@
  *  - End Screen
  *      This page informs you that there are no more pages to display.
  *
- * To navigate the pages, START and A may be used to advance to the next page, and L toggles whether to
+ * To navigate the pages, DPad-Right or A may be used to advance to the next page, and L toggles whether to
  * automatically scroll to the next page after some time has passed.
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
@@ -43,6 +43,9 @@
 #include "global.h"
 #include "terminal.h"
 #include "alloca.h"
+
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:0 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64" \
+                               "gc-us-mq:64"
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);
@@ -76,21 +79,11 @@ const char* sFpExceptionNames[] = {
     "Unimplemented operation", "Invalid operation", "Division by zero", "Overflow", "Underflow", "Inexact operation",
 };
 
-#ifndef NON_MATCHING
-// TODO: match .bss (has reordering issues)
-extern FaultMgr* sFaultInstance;
-extern u8 sFaultAwaitingInput;
-extern STACK(sFaultStack, 0x600);
-extern StackEntry sFaultThreadInfo;
-extern FaultMgr gFaultMgr;
-#else
-// Non-matching version for struct shiftability
 FaultMgr* sFaultInstance;
 u8 sFaultAwaitingInput;
 STACK(sFaultStack, 0x600);
 StackEntry sFaultThreadInfo;
 FaultMgr gFaultMgr;
-#endif
 
 typedef struct {
     /* 0x00 */ s32 (*callback)(void*, void*);
@@ -912,6 +905,8 @@ void Fault_DrawMemDump(uintptr_t pc, uintptr_t sp, uintptr_t cLeftJump, uintptr_
         } while (input->press.button == 0);
 
         // Move to next page
+        //! @bug DPad-Right does not move to the next page, unlike when on any other page
+        // START moving to the next page is unique to this page.
         if (CHECK_BTN_ALL(input->press.button, BTN_START) || CHECK_BTN_ALL(input->cur.button, BTN_A)) {
             return;
         }
@@ -1322,7 +1317,7 @@ NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
  * Like `Fault_AddHungupAndCrashImpl`, however provides a fixed message containing
  * filename and line number
  */
-NORETURN void Fault_AddHungupAndCrash(const char* file, s32 line) {
+NORETURN void Fault_AddHungupAndCrash(const char* file, int line) {
     char msg[256];
 
     sprintf(msg, "HungUp %s:%d", file, line);

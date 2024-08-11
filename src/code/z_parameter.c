@@ -1096,17 +1096,22 @@ void func_80083108(PlayState* play) {
 
 void Interface_SetSceneRestrictions(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
-    s16 i;
+    s16 i = 0;
     u8 sceneId;
+    s32 pad[3];
 
-    interfaceCtx->restrictions.hGauge = interfaceCtx->restrictions.bButton = interfaceCtx->restrictions.aButton =
-        interfaceCtx->restrictions.bottles = interfaceCtx->restrictions.tradeItems =
-            interfaceCtx->restrictions.hookshot = interfaceCtx->restrictions.ocarina =
-                interfaceCtx->restrictions.warpSongs = interfaceCtx->restrictions.sunsSong =
-                    interfaceCtx->restrictions.farores = interfaceCtx->restrictions.dinsNayrus =
-                        interfaceCtx->restrictions.all = 0;
-
-    i = 0;
+    interfaceCtx->restrictions.all = 0;
+    interfaceCtx->restrictions.dinsNayrus = 0;
+    interfaceCtx->restrictions.farores = 0;
+    interfaceCtx->restrictions.sunsSong = 0;
+    interfaceCtx->restrictions.warpSongs = 0;
+    interfaceCtx->restrictions.ocarina = 0;
+    interfaceCtx->restrictions.hookshot = 0;
+    interfaceCtx->restrictions.tradeItems = 0;
+    interfaceCtx->restrictions.bottles = 0;
+    interfaceCtx->restrictions.aButton = 0;
+    interfaceCtx->restrictions.bButton = 0;
+    interfaceCtx->restrictions.hGauge = 0;
 
     // "Data settings related to button display scene_data_ID=%d\n"
     PRINTF("ボタン表示関係データ設定 scene_data_ID=%d\n", play->sceneId);
@@ -1271,7 +1276,7 @@ void Inventory_SwapAgeEquipment(void) {
     }
 
     shieldEquipValue = gEquipMasks[EQUIP_TYPE_SHIELD] & gSaveContext.save.info.equips.equipment;
-    if (shieldEquipValue != 0) {
+    if (shieldEquipValue) {
         shieldEquipValue >>= gEquipShifts[EQUIP_TYPE_SHIELD];
         if (!CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, shieldEquipValue - 1)) {
             gSaveContext.save.info.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SHIELD];
@@ -1849,7 +1854,7 @@ u8 Item_Give(PlayState* play, u8 item) {
 u8 Item_CheckObtainability(u8 item) {
     s16 i;
     s16 slot = SLOT(item);
-    s32 temp;
+    s16 temp;
 
     if (item >= ITEM_DEKU_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
@@ -2014,35 +2019,27 @@ s32 Inventory_ReplaceItem(PlayState* play, u16 oldItem, u16 newItem) {
 }
 
 s32 Inventory_HasEmptyBottle(void) {
-    u8* items = gSaveContext.save.info.inventory.items;
+    s32 slot;
 
-    if (items[SLOT_BOTTLE_1] == ITEM_BOTTLE_EMPTY) {
-        return true;
-    } else if (items[SLOT_BOTTLE_2] == ITEM_BOTTLE_EMPTY) {
-        return true;
-    } else if (items[SLOT_BOTTLE_3] == ITEM_BOTTLE_EMPTY) {
-        return true;
-    } else if (items[SLOT_BOTTLE_4] == ITEM_BOTTLE_EMPTY) {
-        return true;
-    } else {
-        return false;
+    for (slot = SLOT_BOTTLE_1; slot <= SLOT_BOTTLE_4; slot++) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_BOTTLE_EMPTY) {
+            return true;
+        }
     }
+
+    return false;
 }
 
 s32 Inventory_HasSpecificBottle(u8 bottleItem) {
-    u8* items = gSaveContext.save.info.inventory.items;
+    s32 slot;
 
-    if (items[SLOT_BOTTLE_1] == bottleItem) {
-        return true;
-    } else if (items[SLOT_BOTTLE_2] == bottleItem) {
-        return true;
-    } else if (items[SLOT_BOTTLE_3] == bottleItem) {
-        return true;
-    } else if (items[SLOT_BOTTLE_4] == bottleItem) {
-        return true;
-    } else {
-        return false;
+    for (slot = SLOT_BOTTLE_1; slot <= SLOT_BOTTLE_4; slot++) {
+        if (gSaveContext.save.info.inventory.items[slot] == bottleItem) {
+            return true;
+        }
     }
+
+    return false;
 }
 
 void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
@@ -2100,17 +2097,21 @@ void func_80086D5C(s32* buf, u16 size) {
 }
 
 void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 loadOffset) {
+#if OOT_NTSC
+    static void* sDoActionTextures[] = { gAttackDoActionJPNTex, gCheckDoActionJPNTex };
+#else
     static void* sDoActionTextures[] = { gAttackDoActionENGTex, gCheckDoActionENGTex };
+#endif
 
     if (action >= DO_ACTION_MAX) {
         action = DO_ACTION_NONE;
     }
 
-    if (gSaveContext.language != LANGUAGE_ENG) {
+    if (gSaveContext.language != 0) { // LANGUAGE_JPN for NTSC versions, LANGUAGE_ENG for PAL versions
         action += DO_ACTION_MAX;
     }
 
-    if (gSaveContext.language == LANGUAGE_FRA) {
+    if (gSaveContext.language == 2) { // LANGUAGE_FRA for PAL versions
         action += DO_ACTION_MAX;
     }
 
@@ -2170,11 +2171,11 @@ void Interface_SetNaviCall(PlayState* play, u16 naviCallState) {
 void Interface_LoadActionLabelB(PlayState* play, u16 action) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
-    if (gSaveContext.language != LANGUAGE_ENG) {
+    if (gSaveContext.language != 0) { // LANGUAGE_JPN for NTSC versions, LANGUAGE_ENG for PAL versions
         action += DO_ACTION_MAX;
     }
 
-    if (gSaveContext.language == LANGUAGE_FRA) {
+    if (gSaveContext.language == 2) { // LANGUAGE_FRA for PAL versions
         action += DO_ACTION_MAX;
     }
 
@@ -2765,15 +2766,17 @@ void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
 }
 
 void Interface_DrawItemButtons(PlayState* play) {
-    static void* cUpLabelTextures[] = { gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpENGTex };
+    static void* cUpLabelTextures[] = LANGUAGE_ARRAY(gNaviCUpJPNTex, gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpENGTex);
     static s16 startButtonLeftPos[] = { 132, 130, 130 };
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     Player* player = GET_PLAYER(play);
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 temp; // Used as both an alpha value and a button index
+#if OOT_PAL
     s16 texCoordScale;
     s16 width;
     s16 height;
+#endif
 
     OPEN_DISPS(play->state.gfxCtx, "../z_parameter.c", 2900);
 
@@ -2814,9 +2817,16 @@ void Interface_DrawItemButtons(PlayState* play) {
             // Start Button Texture, Color & Label
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 120, 120, interfaceCtx->startAlpha);
+
+#if OOT_NTSC
+            gSPTextureRectangle(OVERLAY_DISP++, 132 << 2, 17 << 2, (132 + 22) << 2, 39 << 2, G_TX_RENDERTILE, 0, 0,
+                                (s32)(1.4277344 * (1 << 10)), (s32)(1.4277344 * (1 << 10)));
+#else
             gSPTextureRectangle(OVERLAY_DISP++, startButtonLeftPos[gSaveContext.language] << 2, 17 << 2,
                                 (startButtonLeftPos[gSaveContext.language] + 22) << 2, 39 << 2, G_TX_RENDERTILE, 0, 0,
                                 (s32)(1.4277344 * (1 << 10)), (s32)(1.4277344 * (1 << 10)));
+#endif
+
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->startAlpha);
             gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
@@ -2827,6 +2837,16 @@ void Interface_DrawItemButtons(PlayState* play) {
                                    DO_ACTION_TEX_WIDTH, DO_ACTION_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
+#if OOT_NTSC
+            R_START_LABEL_SCALE = (1 << 10) / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            R_START_LABEL_WIDTH = DO_ACTION_TEX_WIDTH / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            R_START_LABEL_HEIGHT = DO_ACTION_TEX_HEIGHT / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            gSPTextureRectangle(OVERLAY_DISP++, R_START_LABEL_X(gSaveContext.language) << 2,
+                                R_START_LABEL_Y(gSaveContext.language) << 2,
+                                (R_START_LABEL_X(gSaveContext.language) + R_START_LABEL_WIDTH) << 2,
+                                (R_START_LABEL_Y(gSaveContext.language) + R_START_LABEL_HEIGHT) << 2, G_TX_RENDERTILE,
+                                0, 0, R_START_LABEL_SCALE, R_START_LABEL_SCALE);
+#else
             texCoordScale = (1 << 10) / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             width = DO_ACTION_TEX_WIDTH / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             height = DO_ACTION_TEX_HEIGHT / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
@@ -2835,6 +2855,7 @@ void Interface_DrawItemButtons(PlayState* play) {
                                 (R_START_LABEL_X(gSaveContext.language) + width) << 2,
                                 (R_START_LABEL_Y(gSaveContext.language) + height) << 2, G_TX_RENDERTILE, 0, 0,
                                 texCoordScale, texCoordScale);
+#endif
         }
     }
 
@@ -3288,7 +3309,7 @@ void Interface_Draw(PlayState* play) {
                                    DO_ACTION_TEX_WIDTH, DO_ACTION_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            R_B_LABEL_DD = (1 << 10) / (WREG(37 + gSaveContext.language) / 100.0f);
+            R_B_LABEL_DD = (1 << 10) / (R_B_LABEL_SCALE(gSaveContext.language) / 100.0f);
             gSPTextureRectangle(OVERLAY_DISP++, R_B_LABEL_X(gSaveContext.language) << 2,
                                 R_B_LABEL_Y(gSaveContext.language) << 2,
                                 (R_B_LABEL_X(gSaveContext.language) + DO_ACTION_TEX_WIDTH) << 2,
@@ -3350,7 +3371,7 @@ void Interface_Draw(PlayState* play) {
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->aAlpha);
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
-        Matrix_Translate(0.0f, 0.0f, WREG(46 + gSaveContext.language) / 10.0f, MTXMODE_NEW);
+        Matrix_Translate(0.0f, 0.0f, R_A_LABEL_Z(gSaveContext.language) / 10.0f, MTXMODE_NEW);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateX(interfaceCtx->unk_1F4 / 10000.0f, MTXMODE_APPLY);
         gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_parameter.c", 3701),
@@ -3935,9 +3956,11 @@ void Interface_Draw(PlayState* play) {
         }
     }
 
+#if OOT_DEBUG
     if (pauseCtx->debugState == 3) {
         FlagSet_Update(play);
     }
+#endif
 
     if (interfaceCtx->unk_244 != 0) {
         gDPPipeSync(OVERLAY_DISP++);
@@ -3958,18 +3981,23 @@ void Interface_Update(PlayState* play) {
     s16 dimmingAlpha;
     s16 risingAlpha;
     u16 action;
-    Input* debugInput = &play->state.input[2];
 
-    if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
-        gSaveContext.language = LANGUAGE_ENG;
-        PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DUP)) {
-        gSaveContext.language = LANGUAGE_GER;
-        PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DRIGHT)) {
-        gSaveContext.language = LANGUAGE_FRA;
-        PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
+#if OOT_DEBUG
+    {
+        Input* debugInput = &play->state.input[2];
+
+        if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
+            gSaveContext.language = LANGUAGE_ENG;
+            PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
+        } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DUP)) {
+            gSaveContext.language = LANGUAGE_GER;
+            PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
+        } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DRIGHT)) {
+            gSaveContext.language = LANGUAGE_FRA;
+            PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
+        }
     }
+#endif
 
     if (!IS_PAUSED(&play->pauseCtx)) {
         if ((gSaveContext.minigameState == 1) || !IS_CUTSCENE_LAYER ||

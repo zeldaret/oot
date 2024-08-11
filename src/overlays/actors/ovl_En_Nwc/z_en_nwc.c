@@ -30,7 +30,7 @@ typedef enum {
     /* 1 */ CHICK_NORMAL
 } ChickTypes;
 
-ActorInit En_Nwc_InitVars = {
+ActorProfile En_Nwc_Profile = {
     /**/ ACTOR_EN_NWC,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -47,8 +47,8 @@ static ColliderJntSphElementInit sJntSphElementInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 0, { { 0, 0, 0 }, 10 }, 100 },
@@ -111,7 +111,7 @@ void EnNwc_ChickFall(EnNwcChick* chick, EnNwc* this, PlayState* play) {
 void EnNwc_UpdateChicks(EnNwc* this, PlayState* play) {
     static EnNwcChickFunc chickActionFuncs[] = { EnNwc_ChickNoop, EnNwc_ChickFall };
     EnNwcChick* chick = this->chicks;
-    ColliderJntSphElement* element = this->collider.elements;
+    ColliderJntSphElement* element = &this->collider.elements[0];
     Vec3f prevChickPos;
     s32 i;
     f32 test;

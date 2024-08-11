@@ -8,6 +8,7 @@
 #include "alloca.h"
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
+#if OOT_DEBUG
 void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
     Gfx* gfx;
     GfxPrint* printer;
@@ -29,6 +30,7 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
     GfxPrint_Destroy(printer);
     *gfxP = gfx;
 }
+#endif
 
 // Note: In other rom versions this function also updates unk_1D4, coverAlpha, addAlpha, visibleDuration to calculate
 // the fade-in/fade-out + the duration of the n64 logo animation
@@ -128,13 +130,14 @@ void ConsoleLogo_Main(GameState* thisx) {
     ConsoleLogo_Calc(this);
     ConsoleLogo_Draw(this);
 
+#if OOT_DEBUG
     if (gIsCtrlr2Valid) {
         Gfx* gfx = POLY_OPA_DISP;
-        s32 pad;
 
         ConsoleLogo_PrintBuildInfo(&gfx);
         POLY_OPA_DISP = gfx;
     }
+#endif
 
     if (this->exit) {
         gSaveContext.seqId = (u8)NA_BGM_DISABLED;
@@ -167,7 +170,17 @@ void ConsoleLogo_Init(GameState* thisx) {
     this->state.main = ConsoleLogo_Main;
     this->state.destroy = ConsoleLogo_Destroy;
     this->exit = false;
+
+#if OOT_VERSION < OOT_GC_US
+    if (!(gPadMgr.validCtrlrsMask & 1)) {
+        gSaveContext.fileNum = 0xFEDC;
+    } else {
+        gSaveContext.fileNum = 0xFF;
+    }
+#else
     gSaveContext.fileNum = 0xFF;
+#endif
+
     Sram_Alloc(&this->state, &this->sramCtx);
     this->ult = 0;
     this->unk_1D4 = 0x14;

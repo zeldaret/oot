@@ -7,21 +7,23 @@ STACK(sIdleThreadStack, 0x400);
 StackEntry sIdleThreadInfo;
 STACK(sBootThreadStack, BOOT_STACK_SIZE);
 
-void cleararena(void) {
-    bzero(_dmadataSegmentStart, osMemSize - OS_K0_TO_PHYSICAL(_dmadataSegmentStart));
+void bootclear(void) {
+    bzero(_bootSegmentEnd, osMemSize - OS_K0_TO_PHYSICAL(_bootSegmentEnd));
 }
 
 void bootproc(void) {
     StackCheck_Init(&sBootThreadInfo, sBootThreadStack, STACK_TOP(sBootThreadStack), 0, -1, "boot");
 
     osMemSize = osGetMemSize();
-    cleararena();
+    bootclear();
     __osInitialize_common();
     __osInitialize_autodetect();
 
     gCartHandle = osCartRomInit();
     osDriveRomInit();
+#if OOT_DEBUG
     isPrintfInit();
+#endif
     Locale_Init();
 
     StackCheck_Init(&sIdleThreadInfo, sIdleThreadStack, STACK_TOP(sIdleThreadStack), 0, 256, "idle");

@@ -17,7 +17,7 @@ void func_808AE5A8(BgSpot05Soko* this, PlayState* play);
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play);
 void func_808AE630(BgSpot05Soko* this, PlayState* play);
 
-ActorInit Bg_Spot05_Soko_InitVars = {
+ActorProfile Bg_Spot05_Soko_Profile = {
     /**/ ACTOR_BG_SPOT05_SOKO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

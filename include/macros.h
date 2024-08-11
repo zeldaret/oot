@@ -1,6 +1,16 @@
 #ifndef MACROS_H
 #define MACROS_H
 
+// OOT versions in build order
+#define OOT_GC_JP 1
+#define OOT_GC_JP_MQ 2
+#define OOT_GC_US 3
+#define OOT_GC_US_MQ 4
+#define OOT_GC_EU_MQ_DBG 5
+#define OOT_GC_EU 6
+#define OOT_GC_EU_MQ 7
+#define OOT_GC_JP_CE 8
+
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
@@ -14,18 +24,21 @@
 #define VIRTUAL_TO_PHYSICAL(addr) (uintptr_t)((u8*)(addr) - 0x80000000)
 #define SEGMENTED_TO_VIRTUAL(addr) PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr))
 
-#define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define DECR(x) ((x) == 0 ? 0 : --(x))
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
+#define SWAP(type, a, b)    \
+    {                       \
+        type _temp = (a);   \
+        (a) = (b);          \
+        (b) = _temp;        \
+    }                       \
+    (void)0
+
 #define RGBA8(r, g, b, a) ((((r) & 0xFF) << 24) | (((g) & 0xFF) << 16) | (((b) & 0xFF) << 8) | (((a) & 0xFF) << 0))
-
-#define GET_PLAYER(play) ((Player*)(play)->actorCtx.actorLists[ACTORCAT_PLAYER].head)
-
-#define GET_ACTIVE_CAM(play) ((play)->cameraPtrs[(play)->activeCamId])
 
 #define LINK_IS_ADULT (gSaveContext.save.linkAge == LINK_AGE_ADULT)
 #define LINK_IS_CHILD (gSaveContext.save.linkAge == LINK_AGE_CHILD)
@@ -95,34 +108,40 @@
                                 ? gSaveContext.save.info.equips.buttonItems[(button) + 1]       \
                                 : ITEM_NONE)
 
+#if PLATFORM_N64
+#define CHECK_BTN_ALL(state, combo) (((state) & (combo)) == (combo))
+#else
 #define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
+#endif
+
 #define CHECK_BTN_ANY(state, combo) (((state) & (combo)) != 0)
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
-#ifdef OOT_DEBUG
-#define PRINTF osSyncPrintf
-#else
-#ifdef __GNUC__
-#define PRINTF(format, ...) (void)0
-#else
 // IDO doesn't support variadic macros, but it merely throws a warning for the
 // number of arguments not matching the definition (warning 609) instead of
 // throwing an error. We suppress this warning and rely on GCC to catch macro
 // argument errors instead.
+// Note some tools define __sgi but preprocess with a modern cpp implementation,
+// ensure that these do not use the IDO workaround to avoid errors.
+#define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !M2CTX)
+
+#if OOT_DEBUG
+#define PRINTF osSyncPrintf
+#elif IDO_PRINTF_WORKAROUND
 #define PRINTF(args) (void)0
-#endif
+#else
+#define PRINTF(format, ...) (void)0
 #endif
 
-#ifdef OOT_DEBUG
-
+#if OOT_DEBUG
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
         LogUtils_LogThreadId(file, line);           \
         osSyncPrintf(exp " = " format "\n", value); \
     } while (0)
 #else
-#define LOG(exp, value, format, file, line) (void)0
+#define LOG(exp, value, format, file, line) (void)(value)
 #endif
 
 #define LOG_STRING(string, file, line) LOG(#string, string, "%s", file, line)
@@ -135,8 +154,10 @@
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
     do {                                                 \
-        (curState)->init = newInit;                      \
-        (curState)->size = sizeof(newStruct);            \
+        GameState* state = curState;                     \
+                                                         \
+        (state)->init = newInit;                         \
+        (state)->size = sizeof(newStruct);               \
     } while (0)
 
 #define SET_FULLSCREEN_VIEWPORT(view)      \
@@ -159,7 +180,7 @@ extern struct GraphicsContext* __gfxCtx;
 #define POLY_XLU_DISP   __gfxCtx->polyXlu.p
 #define OVERLAY_DISP    __gfxCtx->overlay.p
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 
 // __gfxCtx shouldn't be used directly.
 // Use the DISP macros defined above when writing to display buffers.
@@ -171,9 +192,11 @@ extern struct GraphicsContext* __gfxCtx;
         (void)__gfxCtx;                \
         Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
-#define CLOSE_DISPS(gfxCtx, file, line)                 \
-        Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
-    }                                                   \
+#define CLOSE_DISPS(gfxCtx, file, line)                     \
+        do {                                                \
+            Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
+        } while (0);                                        \
+    }                                                       \
     (void)0
 
 #define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
@@ -183,6 +206,9 @@ extern struct GraphicsContext* __gfxCtx;
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
 #define GAME_STATE_ALLOC(gameState, size, file, line) GameState_Alloc(gameState, size, file, line)
+#define DEBUG_ARENA_MALLOC(size, file, line) DebugArena_MallocDebug(size, file, line)
+#define DEBUG_ARENA_MALLOC_R(size, file, line) DebugArena_MallocRDebug(size, file, line)
+#define DEBUG_ARENA_FREE(size, file, line) DebugArena_FreeDebug(size, file, line)
 #define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_MallocDebug(size, file, line)
 #define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocRDebug(size, file, line)
 #define SYSTEM_ARENA_FREE(size, file, line) SystemArena_FreeDebug(size, file, line)
@@ -191,6 +217,8 @@ extern struct GraphicsContext* __gfxCtx;
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_FreeDebug(size, file, line)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) LogUtils_CheckNullPointer(exp, ptr, file, line)
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) LogUtils_CheckValidPointer(exp, ptr, file, line)
+#define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)
+#define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_MallocDebug(alloc, size, file, line)
 
 #else
 
@@ -200,7 +228,7 @@ extern struct GraphicsContext* __gfxCtx;
         s32 __dispPad
 
 #define CLOSE_DISPS(gfxCtx, file, line) \
-    (void)0;                            \
+        do {} while (0);                \
     }                                   \
     (void)0
 
@@ -211,6 +239,9 @@ extern struct GraphicsContext* __gfxCtx;
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSync(ram, vrom, size)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg)
 #define GAME_STATE_ALLOC(gameState, size, file, line) THA_AllocTailAlign16(&(gameState)->tha, size)
+#define DEBUG_ARENA_MALLOC(size, file, line) DebugArena_Malloc(size)
+#define DEBUG_ARENA_MALLOC_R(size, file, line) DebugArena_MallocR(size)
+#define DEBUG_ARENA_FREE(size, file, line) DebugArena_Free(size)
 #define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_Malloc(size)
 #define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocR(size)
 #define SYSTEM_ARENA_FREE(size, file, line) SystemArena_Free(size)
@@ -219,8 +250,16 @@ extern struct GraphicsContext* __gfxCtx;
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_Free(size)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) (void)0
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) (void)0
+#define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)
+#define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_Malloc(alloc, size)
 
 #endif /* OOT_DEBUG */
+
+#if OOT_NTSC
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { jpn, eng }
+#else
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { eng, ger, fra }
+#endif
 
 /**
  * `x` vertex x

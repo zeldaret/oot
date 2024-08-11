@@ -19,7 +19,7 @@ void func_80B9AF64(ObjMure3* this, PlayState* play);
 void func_80B9AFEC(ObjMure3* this);
 void func_80B9AFFC(ObjMure3* this, PlayState* play);
 
-ActorInit Obj_Mure3_InitVars = {
+ActorProfile Obj_Mure3_Profile = {
     /**/ ACTOR_OBJ_MURE3,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -106,9 +106,10 @@ void func_80B9ABA0(ObjMure3* this, PlayState* play) {
 void func_80B9ACE4(ObjMure3* this, PlayState* play) {
     s16 count = sRupeeCounts[PARAMS_GET_U(this->actor.params, 13, 3)];
     s32 i;
+    EnItem00** collectible;
 
     for (i = 0; i < count; i++) {
-        EnItem00** collectible = &this->unk_150[i];
+        collectible = &this->unk_150[i];
 
         if (!((this->unk_16C >> i) & 1) && (*collectible != NULL)) {
             if (Actor_HasParent(&(*collectible)->actor, play) || ((*collectible)->actor.update == NULL)) {

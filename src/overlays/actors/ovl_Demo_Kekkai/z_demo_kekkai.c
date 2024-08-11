@@ -21,7 +21,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play);
 
-ActorInit Demo_Kekkai_InitVars = {
+ActorProfile Demo_Kekkai_Profile = {
     /**/ ACTOR_DEMO_KEKKAI,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -46,8 +46,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x07, 0x04 },
         { 0x00002000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 680, 220, 120, { 0, 0, 0 } },

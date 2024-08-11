@@ -16,7 +16,7 @@ u32 EffectSsBomb_Init(PlayState* play, u32 index, EffectSs* this, void* initPara
 void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBomb_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Bomb_InitVars = {
+EffectSsProfile Effect_Ss_Bomb_Profile = {
     EFFECT_SS_BOMB,
     EffectSsBomb_Init,
 };
@@ -63,6 +63,7 @@ void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
+    if (1) {}
     SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
     SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
 

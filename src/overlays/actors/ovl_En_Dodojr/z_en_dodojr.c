@@ -31,7 +31,7 @@ void EnDodojr_DeathSequence(EnDodojr* this, PlayState* play);
 void EnDodojr_WaitFreezeFrames(EnDodojr* this, PlayState* play);
 void EnDodojr_EatBomb(EnDodojr* this, PlayState* play);
 
-ActorInit En_Dodojr_InitVars = {
+ActorProfile En_Dodojr_Profile = {
     /**/ ACTOR_EN_DODOJR,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -56,8 +56,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFC5FFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 18, 20, 0, { 0, 0, 0 } },

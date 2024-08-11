@@ -19,7 +19,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play);
 void func_80B3A3D4(EnWonderTalk2* this, PlayState* play);
 void EnWonderTalk2_DoNothing(EnWonderTalk2* this, PlayState* play);
 
-ActorInit En_Wonder_Talk2_InitVars = {
+ActorProfile En_Wonder_Talk2_Profile = {
     /**/ ACTOR_EN_WONDER_TALK2,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -130,7 +130,8 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
 
         if (!((this->actor.xzDistToPlayer > 40.0f + this->triggerRange) ||
               (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f) || (yawDiff >= 0x4000))) {
-            if (this->unk_158 >= 2) {
+
+            if (OOT_DEBUG && this->unk_158 >= 2) {
                 PRINTF("\n\n");
                 // "Transparent Message Kimi Set"
                 PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" VT_RST, this->actor.params);
@@ -218,7 +219,8 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
         if (((this->actor.xzDistToPlayer < (40.0f + this->triggerRange)) &&
              (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f)) &&
             !Play_InCsMode(play)) {
-            if (this->unk_158 >= 2) {
+
+            if (OOT_DEBUG && this->unk_158 >= 2) {
                 PRINTF("\n\n");
                 // "Transparent Message Kimi Seto"
                 PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" VT_RST, this->actor.params);
@@ -249,6 +251,7 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
 
                 PRINTF("\n\n");
             }
+
             this->unk_158 = 0;
             if (!this->unk_156) {
                 Message_StartTextbox(play, this->actor.textId, NULL);
@@ -275,7 +278,7 @@ void EnWonderTalk2_Update(Actor* thisx, PlayState* play) {
 
     Actor_SetFocus(&this->actor, this->height);
 
-    if (BREG(0) != 0) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         if (this->unk_158 != 0) {
             if ((this->unk_158 & 1) == 0) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

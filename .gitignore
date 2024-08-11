@@ -7,50 +7,24 @@ __pycache__/
 .vscode/
 .vs/
 .idea/
-CMakeLists.txt
-cmake-build-debug
-venv/
 
 # Project-specific ignores
+.make_options.mk
+extracted/
 build/
 expected/
-notes/
-baserom/
 docs/doxygen/
-*.elf
-*.sra
 *.z64
 *.n64
 *.v64
-*.map
-*.dump
-out.txt
 
-# Tool artifacts
-tools/mipspro7.2_compiler/
-tools/overlayhelpers/batchdisasm/output/*
-tools/overlayhelpers/batchdisasm/output2/*
-tools/overlayhelpers/batchdisasm/mipsdisasm/*
-tools/disasm/output/*
-tools/asmsplitter/asm/*
-tools/asmsplitter/c/*
+# Tools
+.venv/
 ctx.c
 tools/*dSYM/
 graphs/
 
-# Assets
-*.png
-*.jpg
-*.mdli
-*.anmi
-*.obj
-*.mtl
-*.fbx
-!*_custom*
-.extracted-assets.json
-
-# Docs
-!docs/tutorial/
-
 # Per-user configuration
-.python-version
+# If you want to use your own gitignore rules without modifying this file:
+# - use `git config core.excludesFile path/to/my_gitignore_file`
+# - or edit `.git/info/exclude`

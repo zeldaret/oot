@@ -39,7 +39,7 @@ s32 func_80AADA70(void);
 s32 EnMm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 
-ActorInit En_Mm_InitVars = {
+ActorProfile En_Mm_Profile = {
     /**/ ACTOR_EN_MM,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -64,8 +64,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 63, 0, { 0, 0, 0 } },
@@ -511,8 +511,6 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
     static void* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
     s32 pad;
     EnMm* this = (EnMm*)thisx;
-
-    if (0) {}
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_mm.c", 1065);
 

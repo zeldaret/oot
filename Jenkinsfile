@@ -4,28 +4,46 @@ pipeline {
     }
 
     stages {
-        stage('Setup') {
-            steps {
-                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'
-                sh 'make -j setup'
-            }
-        }
-        stage('Build (qemu-irix)') {
+        stage('Check formatting (full)') {
             when {
                 branch 'main'
             }
             steps {
-                sh 'ORIG_COMPILER=1 make -j'
+                echo 'Checking formatting on all files...'
+                sh 'python3 tools/check_format.py'
             }
         }
-        stage('Build') {
+        stage('Check formatting (modified)') {
             when {
                 not {
                     branch 'main'
                 }
             }
             steps {
-                sh 'make -j'
+                echo 'Checking formatting on modified files...'
+                sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
+            }
+        }
+        stage('Setup gc-eu-mq-dbg') {
+            steps {
+                sh 'cp /usr/local/etc/roms/oot-gc-eu-mq-dbg.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
+                sh 'make -j setup'
+            }
+        }
+        stage('Build gc-eu-mq-dbg') {
+            steps {
+                sh 'make -j RUN_CC_CHECK=0'
+            }
+        }
+        stage('Setup gc-eu-mq') {
+            steps {
+                sh 'cp /usr/local/etc/roms/oot-gc-eu-mq.z64 baseroms/gc-eu-mq/baserom.z64'
+                sh 'make -j setup VERSION=gc-eu-mq'
+            }
+        }
+        stage('Build gc-eu-mq') {
+            steps {
+                sh 'make -j VERSION=gc-eu-mq RUN_CC_CHECK=0'
             }
         }
         stage('Report Progress') {

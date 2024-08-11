@@ -21,7 +21,7 @@ void EnWallTubo_FindGirl(EnWallTubo* this, PlayState* play);
 void EnWallTubo_DetectChu(EnWallTubo* this, PlayState* play);
 void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play);
 
-ActorInit En_Wall_Tubo_InitVars = {
+ActorProfile En_Wall_Tubo_Profile = {
     /**/ ACTOR_EN_WALL_TUBO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -147,7 +147,7 @@ void EnWallTubo_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (BREG(0)) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 0, 255, 255, 4, play->state.gfxCtx);

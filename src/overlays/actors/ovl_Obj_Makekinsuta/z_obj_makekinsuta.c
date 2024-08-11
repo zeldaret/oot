@@ -15,7 +15,7 @@ void ObjMakekinsuta_Update(Actor* thisx, PlayState* play);
 void func_80B98320(ObjMakekinsuta* this, PlayState* play);
 void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, PlayState* play);
 
-ActorInit Obj_Makekinsuta_InitVars = {
+ActorProfile Obj_Makekinsuta_Profile = {
     /**/ ACTOR_OBJ_MAKEKINSUTA,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

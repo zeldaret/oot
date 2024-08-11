@@ -1,6 +1,11 @@
 #include "global.h"
 #include "quake.h"
 
+#include "z64frame_advance.h"
+
+#include "assets/scenes/indoors/miharigoya/miharigoya_scene.h"
+#include "assets/scenes/indoors/souko/souko_scene.h"
+
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_room_0.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
@@ -10,17 +15,15 @@
 #include "assets/scenes/overworld/spot16/spot16_room_0.h"
 #include "assets/scenes/overworld/spot18/spot18_scene.h"
 #include "assets/scenes/overworld/spot20/spot20_scene.h"
-#include "assets/scenes/overworld/souko/souko_scene.h"
 
-#include "assets/scenes/dungeons/men/men_scene.h"
-#include "assets/scenes/dungeons/ddan/ddan_scene.h"
-#include "assets/scenes/dungeons/ydan/ydan_scene.h"
 #include "assets/scenes/dungeons/Bmori1/Bmori1_scene.h"
 #include "assets/scenes/dungeons/MIZUsin/MIZUsin_scene.h"
+#include "assets/scenes/dungeons/ddan/ddan_scene.h"
 #include "assets/scenes/dungeons/gerudoway/gerudoway_scene.h"
-#include "assets/scenes/dungeons/jyasinzou/jyasinzou_scene.h"
-#include "assets/scenes/indoors/miharigoya/miharigoya_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
+#include "assets/scenes/dungeons/jyasinzou/jyasinzou_scene.h"
+#include "assets/scenes/dungeons/men/men_scene.h"
+#include "assets/scenes/dungeons/ydan/ydan_scene.h"
 
 #include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
@@ -266,6 +269,8 @@ void Scene_DrawConfigGrottos(PlayState* play) {
 void Scene_DrawConfigChamberOfTheSages(PlayState* play) {
     u32 gameplayFrames;
 
+    if (1) {}
+
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5226);
 
     gameplayFrames = play->gameplayFrames;
@@ -410,13 +415,15 @@ void Scene_DrawConfigWaterTemple(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5535);
 
-    if (1) {} // Necessary to match
-
     spB0 = (play->roomCtx.unk_74[1] >> 8) & 0xFF;
     spAC = play->roomCtx.unk_74[1] & 0xFF;
     gameplayFrames = play->gameplayFrames;
 
+#if !OOT_MQ
+    gSPSegment(POLY_XLU_DISP++, 0x06, SEGMENTED_TO_VIRTUAL(D_8012A330[((void)0, gSaveContext.save.nightFlag)]));
+#else
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A330[((void)0, gSaveContext.save.nightFlag)]));
+#endif
 
     if (spB0 == 1) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
@@ -737,8 +744,6 @@ void* sGTGEntranceTextures[] = {
 void Scene_DrawConfigGerudoTrainingGround(PlayState* play) {
     u32 gameplayFrames;
 
-    if (0) {} // Necessary to match
-
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6290);
 
     gameplayFrames = play->gameplayFrames;
@@ -903,8 +908,6 @@ void* sForestTempleEntranceTextures[] = {
 void Scene_DrawConfigForestTemple(PlayState* play) {
     u32 gameplayFrames;
 
-    if (0) {} // Necessary to match
-
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6640);
 
     gameplayFrames = play->gameplayFrames;
@@ -982,6 +985,9 @@ void Scene_DrawConfigHyruleField(PlayState* play) {
         }
 
         gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, play->roomCtx.unk_74[0]);
+
+        if (1) {}
+
         gSPDisplayList(displayListHead++, spot00_room_0DL_012B20);
         gSPEndDisplayList(displayListHead);
     }
@@ -1321,6 +1327,8 @@ void Scene_DrawConfigDeathMountainTrail(PlayState* play) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, displayListHead);
 
+    if (1) {}
+
     if ((gSaveContext.save.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.save.dayTime <= CLOCK_TIME(18, 0))) {
         gSPEndDisplayList(displayListHead);
     } else {
@@ -1335,6 +1343,9 @@ void Scene_DrawConfigDeathMountainTrail(PlayState* play) {
         }
 
         gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, play->roomCtx.unk_74[0]);
+
+        if (0) {}
+
         gSPDisplayList(displayListHead++, spot16_room_0DL_00AA48);
         gSPEndDisplayList(displayListHead);
     }
@@ -1528,6 +1539,7 @@ void Scene_DrawConfigInsideGanonsCastle(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7825);
 
     gameplayFrames = play->gameplayFrames;
+
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 512, 32, 128, 1, gameplayFrames % 128,
@@ -1633,6 +1645,7 @@ void (*sSceneDrawConfigs[SDC_MAX])(PlayState*) = {
 };
 
 void Scene_Draw(PlayState* play) {
+#if OOT_DEBUG
     if (R_HREG_MODE == HREG_MODE_SCENE_CONFIG) {
         if (R_SCENE_CONFIG_INIT != HREG_MODE_SCENE_CONFIG) {
             R_SCENE_CONFIG_INIT = HREG_MODE_SCENE_CONFIG;
@@ -1668,4 +1681,7 @@ void Scene_Draw(PlayState* play) {
     } else {
         sSceneDrawConfigs[play->sceneDrawConfig](play);
     }
+#else
+    sSceneDrawConfigs[play->sceneDrawConfig](play);
+#endif
 }

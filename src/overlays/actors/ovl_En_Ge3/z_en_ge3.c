@@ -18,7 +18,7 @@ void EnGe3_WaitLookAtPlayer(EnGe3* this, PlayState* play);
 void EnGe3_ForceTalk(EnGe3* this, PlayState* play);
 void EnGe3_UpdateWhenNotTalking(Actor* thisx, PlayState* play);
 
-ActorInit En_Ge3_InitVars = {
+ActorProfile En_Ge3_Profile = {
     /**/ ACTOR_EN_GE3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -43,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000722, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 50, 0, { 0, 0, 0 } },

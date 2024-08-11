@@ -41,7 +41,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play);
 s32 EnDaiku_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnDaiku_PostLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3s* rot, void* thisx);
 
-ActorInit En_Daiku_InitVars = {
+ActorProfile En_Daiku_Profile = {
     /**/ ACTOR_EN_DAIKU,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -66,8 +66,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 66, 0, { 0, 0, 0 } },
@@ -488,14 +488,15 @@ void EnDaiku_UpdateSubCamera(EnDaiku* this, PlayState* play) {
 
 void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
     static Vec3f D_809E4148 = { 0.0f, 0.0f, 120.0f };
-    Actor* gerudoGuard;
-    Vec3f vec;
 
     Play_ClearCamera(play, this->subCamId);
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
     this->subCamActive = false;
 
     if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+        Actor* gerudoGuard;
+        Vec3f vec;
+
         Matrix_RotateY(BINANG_TO_RAD(this->initRot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_GE3, this->initPos.x + vec.x, this->initPos.y + vec.y,
@@ -504,9 +505,10 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
         if (gerudoGuard == NULL) {
             Actor_Kill(&this->actor);
         }
-    } else {
-        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
+        return;
     }
+
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
 }
 
 /**

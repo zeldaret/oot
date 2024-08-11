@@ -21,7 +21,7 @@ void EnDog_RunAway(EnDog* this, PlayState* play);
 void EnDog_FaceLink(EnDog* this, PlayState* play);
 void EnDog_Wait(EnDog* this, PlayState* play);
 
-ActorInit En_Dog_InitVars = {
+ActorProfile En_Dog_Profile = {
     /**/ ACTOR_EN_DOG,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -46,8 +46,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 16, 20, 0, { 0 } },

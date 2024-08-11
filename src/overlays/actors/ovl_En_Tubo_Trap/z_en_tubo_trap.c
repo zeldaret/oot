@@ -33,14 +33,14 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 9, 23, 0, { 0 } },
 };
 
-ActorInit En_Tubo_Trap_InitVars = {
+ActorProfile En_Tubo_Trap_Profile = {
     /**/ ACTOR_EN_TUBO_TRAP,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -133,7 +133,7 @@ void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, PlayState* play) {
     Vec3f* actorPos = &this->actor.world.pos;
 
     pos = *actorPos;
-    pos.y += this->actor.yDistToWater;
+    pos.y += this->actor.depthInWater;
 
     EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 400);
 
@@ -168,7 +168,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     Player* player2 = GET_PLAYER(play);
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.depthInWater > 15.0f)) {
         EnTuboTrap_SpawnEffectsInWater(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_BOMB_DROP_WATER);
         EnTuboTrap_DropCollectible(this, play);

@@ -23,7 +23,7 @@ void func_80889D28(BgHidanKousi* this, PlayState* play);
 
 static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
-ActorInit Bg_Hidan_Kousi_InitVars = {
+ActorProfile Bg_Hidan_Kousi_Profile = {
     /**/ ACTOR_BG_HIDAN_KOUSI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -73,9 +73,12 @@ void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
            PARAMS_GET_U(thisx->params, 0, 8), PARAMS_GET_U((s32)thisx->params, 8, 8));
 
     Actor_ProcessInitChain(thisx, sInitChain);
+
+#if OOT_DEBUG
     if (PARAMS_GET_U(thisx->params, 0, 8) < 0 || PARAMS_GET_U(thisx->params, 0, 8) >= 3) {
         PRINTF("arg_data おかしい 【格子】\n");
     }
+#endif
 
     CollisionHeader_GetVirtual(sMetalFencesCollisions[PARAMS_GET_U(thisx->params, 0, 8)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);

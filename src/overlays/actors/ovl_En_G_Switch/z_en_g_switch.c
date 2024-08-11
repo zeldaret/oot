@@ -52,8 +52,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 13, 40, 0, { 0, 0, 0 } },
@@ -64,7 +64,7 @@ static s16 sRupeeTypes[] = {
     ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
 };
 
-ActorInit En_G_Switch_InitVars = {
+ActorProfile En_G_Switch_Profile = {
     /**/ ACTOR_EN_G_SWITCH,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -79,6 +79,8 @@ ActorInit En_G_Switch_InitVars = {
 void EnGSwitch_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnGSwitch* this = (EnGSwitch*)thisx;
+
+    if (play) {}
 
     this->type = PARAMS_GET_U(this->actor.params, 12, 4);
     this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
@@ -137,7 +139,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = 0.25f;
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
-            this->collider.elem.bumper.dmgFlags = DMG_ARROW;
+            this->collider.elem.acDmgInfo.dmgFlags = DMG_ARROW;
             this->objectId = OBJECT_TSUBO;
             this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
             if (this->requiredObjectSlot < 0) {
@@ -183,9 +185,9 @@ void EnGSwitch_Break(EnGSwitch* this, PlayState* play) {
     randPos.x = this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
     randPos.y = this->actor.world.pos.y + 30.0f + Rand_CenteredFloat(35.0f);
     randPos.z = this->actor.world.pos.z + Rand_CenteredFloat(40.0f);
-    hitPos.x = this->collider.elem.bumper.hitPos.x;
-    hitPos.y = this->collider.elem.bumper.hitPos.y;
-    hitPos.z = this->collider.elem.bumper.hitPos.z;
+    hitPos.x = this->collider.elem.acDmgInfo.hitPos.x;
+    hitPos.y = this->collider.elem.acDmgInfo.hitPos.y;
+    hitPos.z = this->collider.elem.acDmgInfo.hitPos.z;
     EffectSsHitMark_SpawnCustomScale(play, EFFECT_HITMARK_WHITE, 700, &hitPos);
     if (this->type == ENGSWITCH_ARCHERY_POT) {
         velocity.y = 15.0f;
@@ -445,7 +447,8 @@ void EnGSwitch_Update(Actor* thisx, PlayState* play) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
     }
-    if (BREG(0) && (this->type == ENGSWITCH_SILVER_TRACKER)) {
+
+    if (OOT_DEBUG && BREG(0) != 0 && (this->type == ENGSWITCH_SILVER_TRACKER)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
@@ -458,6 +461,9 @@ void EnGSwitch_DrawPot(Actor* thisx, PlayState* play) {
 
     if (!this->broken) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 918);
+
+        if (1) {}
+
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_g_switch.c", 925),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -493,12 +499,12 @@ void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
 void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colorIdx) {
     EnGSwitchEffect* effect = this->effects;
     s16 i;
+    Vec3f baseVel;
+    f32 pitch;
+    f32 yaw;
 
     for (i = 0; i < this->numEffects; i++, effect++) {
         if (!effect->flag) {
-            Vec3f baseVel;
-            f32 pitch;
-            f32 yaw;
 
             effect->pos = *pos;
             effect->scale = scale;

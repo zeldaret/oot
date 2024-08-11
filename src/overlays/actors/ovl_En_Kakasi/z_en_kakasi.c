@@ -35,14 +35,14 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE | BUMP_HOOKABLE,
+        ATELEM_NONE,
+        ACELEM_NONE | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-ActorInit En_Kakasi_InitVars = {
+ActorProfile En_Kakasi_Profile = {
     /**/ ACTOR_EN_KAKASI,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
