@@ -9753,7 +9753,7 @@ void Player_Action_80846120(Player* this, PlayState* play) {
         this->heldActor = &heavyBlock->dyna.actor;
         this->actor.child = &heavyBlock->dyna.actor;
         heavyBlock->dyna.actor.parent = &this->actor;
-        func_8002DBD0(&heavyBlock->dyna.actor, &heavyBlock->unk_164, &this->leftHandPos);
+        Actor_WorldToActorCoords(&heavyBlock->dyna.actor, &heavyBlock->unk_164, &this->leftHandPos);
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 229.0f)) {
         Actor* heldActor = this->heldActor;
 

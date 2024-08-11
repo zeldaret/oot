@@ -987,9 +987,8 @@ f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint) {
 
 /**
  * Convert `pos` to be relative to the actor's position and yaw, store into `dest`.
- * Actor_WorldToActorCoords
  */
-void func_8002DBD0(Actor* actor, Vec3f* dest, Vec3f* pos) {
+void Actor_WorldToActorCoords(Actor* actor, Vec3f* dest, Vec3f* pos) {
     f32 cosY;
     f32 sinY;
     f32 deltaX;

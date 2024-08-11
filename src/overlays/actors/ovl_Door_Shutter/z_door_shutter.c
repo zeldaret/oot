@@ -508,7 +508,7 @@ f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offset
     playerPos.y = player->actor.world.pos.y + offsetY;
     playerPos.z = player->actor.world.pos.z;
 
-    func_8002DBD0(&this->dyna.actor, &relPlayerPos, &playerPos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &relPlayerPos, &playerPos);
 
     if (fabsf(relPlayerPos.x) > maxDistSides || fabsf(relPlayerPos.y) > maxDistY) {
         return MAXFLOAT;
@@ -800,7 +800,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
     if (this->dyna.actor.room >= 0) {
         Vec3f relPlayerPos;
 
-        func_8002DBD0(&this->dyna.actor, &relPlayerPos, &player->actor.world.pos);
+        Actor_WorldToActorCoords(&this->dyna.actor, &relPlayerPos, &player->actor.world.pos);
         this->dyna.actor.room = play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)]
                                     .sides[(relPlayerPos.z < 0.0f) ? 0 : 1]
                                     .room;
