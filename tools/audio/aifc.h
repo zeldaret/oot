@@ -72,6 +72,4 @@ aifc_dispose(aifc_data *af);
 // Subtract 21, if negative wrap into [0, 128)
 #define NOTE_MIDI_TO_Z64(b) (((b)-21 < 0) ? ((b)-21 + 128) : ((b)-21))
 
-#define CC4(c1, c2, c3, c4) (((c1) << 24) | ((c2) << 16) | ((c3) << 8) | (c4))
-
 #endif
