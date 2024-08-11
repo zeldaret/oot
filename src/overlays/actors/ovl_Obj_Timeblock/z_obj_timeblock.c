@@ -152,13 +152,13 @@ u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, PlayState* play) {
     }
 
     if (this->dyna.actor.xzDistToPlayer <= sRanges[(this->dyna.actor.params >> 11) & 7]) {
-        Vec3f distance;
+        Vec3f playerRelativePos;
         f32 blockSize;
 
-        Actor_WorldToActorCoords(&this->dyna.actor, &distance, &GET_PLAYER(play)->actor.world.pos);
+        Actor_WorldToActorCoords(&this->dyna.actor, &playerRelativePos, &GET_PLAYER(play)->actor.world.pos);
         blockSize = this->dyna.actor.scale.x * 50.0f + 6.0f;
         // Return true if player's xz position is not inside the block
-        if (blockSize < fabsf(distance.x) || blockSize < fabsf(distance.z)) {
+        if (blockSize < fabsf(playerRelativePos.x) || blockSize < fabsf(playerRelativePos.z)) {
             return true;
         }
     }
