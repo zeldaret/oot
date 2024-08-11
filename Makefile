@@ -380,7 +380,7 @@ $(shell mkdir -p $(BUILD_DIR)/baserom \
                  $(foreach dir, \
                       $(SRC_DIRS) \
                       $(UNDECOMPILED_DATA_DIRS) \
-					  $(SAMPLE_DIRS) \
+                      $(SAMPLE_DIRS) \
                       $(SAMPLEBANK_DIRS) \
                       $(ASSET_BIN_DIRS_COMMITTED), \
                     $(BUILD_DIR)/$(dir)) \
