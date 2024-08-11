@@ -23,7 +23,7 @@ void EnBa_RecoilFromDamage(EnBa* this, PlayState* play);
 void EnBa_Die(EnBa* this, PlayState* play);
 void EnBa_SetupSwingAtPlayer(EnBa* this);
 
-ActorInit En_Ba_InitVars = {
+ActorProfile En_Ba_Profile = {
     /**/ ACTOR_EN_BA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

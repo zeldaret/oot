@@ -22,7 +22,7 @@ void EnBrob_Stunned(EnBrob* this, PlayState* play);
 void EnBrob_MoveDown(EnBrob* this, PlayState* play);
 void EnBrob_Shock(EnBrob* this, PlayState* play);
 
-ActorInit En_Brob_InitVars = {
+ActorProfile En_Brob_Profile = {
     /**/ ACTOR_EN_BROB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

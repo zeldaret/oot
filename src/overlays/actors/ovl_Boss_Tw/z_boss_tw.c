@@ -116,7 +116,7 @@ void BossTw_TwinrovaChargeBlast(BossTw* this, PlayState* play);
 void BossTw_TwinrovaSetupSpin(BossTw* this, PlayState* play);
 void BossTw_UpdateEffects(PlayState* play);
 
-ActorInit Boss_Tw_InitVars = {
+ActorProfile Boss_Tw_Profile = {
     /**/ ACTOR_BOSS_TW,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -3299,8 +3299,6 @@ void func_80941BC0(BossTw* this, PlayState* play) {
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaEffectHaloDL));
     Matrix_Pop();
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_tw.c", 6461);
 }
 
@@ -3564,8 +3562,6 @@ void BossTw_Draw(Actor* thisx, PlayState* play2) {
             func_80942C70(&this->actor, play);
         }
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_tw.c", 7123);
 }

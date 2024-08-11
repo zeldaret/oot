@@ -34,7 +34,7 @@ typedef struct {
     /* 0x14 */ ActorFunc destroy; // Destructor
     /* 0x18 */ ActorFunc update; // Update Function
     /* 0x1C */ ActorFunc draw; // Draw function
-} ActorInit; // size = 0x20
+} ActorProfile; // size = 0x20
 
 /**
  * @see ACTOROVL_ALLOC_ABSOLUTE
@@ -90,7 +90,7 @@ typedef struct {
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x14 */ ActorInit* initInfo;
+    /* 0x14 */ ActorProfile* profile;
     /* 0x18 */ char* name;
     /* 0x1C */ u16 allocType; // See `ACTOROVL_ALLOC_` defines
     /* 0x1E */ s8 numLoaded; // original name: "clients"

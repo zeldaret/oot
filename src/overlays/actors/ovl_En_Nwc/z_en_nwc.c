@@ -30,7 +30,7 @@ typedef enum {
     /* 1 */ CHICK_NORMAL
 } ChickTypes;
 
-ActorInit En_Nwc_InitVars = {
+ActorProfile En_Nwc_Profile = {
     /**/ ACTOR_EN_NWC,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

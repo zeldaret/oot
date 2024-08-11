@@ -118,7 +118,7 @@ typedef enum {
     /* 150 */ MO_DEATH_MO_CORE_BURST = 150
 } BossMoCsState;
 
-ActorInit Boss_Mo_InitVars = {
+ActorProfile Boss_Mo_Profile = {
     /**/ ACTOR_BOSS_MO,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -2753,7 +2753,6 @@ void BossMo_DrawTent(Actor* thisx, PlayState* play) {
     if (this->drawActor) {
         BossMo_DrawTentacle(this, play);
     }
-    if (1) {}
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_mo.c", 7023);
 }
 

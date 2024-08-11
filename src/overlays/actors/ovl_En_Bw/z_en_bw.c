@@ -33,7 +33,7 @@ void func_809D0268(EnBw* this, PlayState* play);
 void func_809D03CC(EnBw* this);
 void func_809D0424(EnBw* this, PlayState* play);
 
-ActorInit En_Bw_InitVars = {
+ActorProfile En_Bw_Profile = {
     /**/ ACTOR_EN_BW,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -906,8 +906,6 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
             EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &icePos, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, 1.3f);
         }
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bw.c", 1521);
 }

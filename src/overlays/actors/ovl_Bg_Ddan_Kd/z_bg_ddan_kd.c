@@ -18,7 +18,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play);
 void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play);
 void BgDdanKd_DoNothing(BgDdanKd* this, PlayState* play);
 
-ActorInit Bg_Ddan_Kd_InitVars = {
+ActorProfile Bg_Ddan_Kd_Profile = {
     /**/ ACTOR_BG_DDAN_KD,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

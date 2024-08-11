@@ -157,7 +157,13 @@ typedef enum {
 typedef enum {
     /* 0 */ FS_CHAR_PAGE_HIRA,
     /* 1 */ FS_CHAR_PAGE_KATA,
-    /* 2 */ FS_CHAR_PAGE_ENG
+    /* 2 */ FS_CHAR_PAGE_ENG,
+    /* 3 */ FS_CHAR_PAGE_HIRA_TO_KATA,
+    /* 4 */ FS_CHAR_PAGE_KATA_TO_HIRA,
+    /* 5 */ FS_CHAR_PAGE_HIRA_TO_ENG,
+    /* 6 */ FS_CHAR_PAGE_ENG_TO_HIRA,
+    /* 7 */ FS_CHAR_PAGE_KATA_TO_ENG,
+    /* 8 */ FS_CHAR_PAGE_ENG_TO_KATA
 } CharPage;
 
 typedef enum {
@@ -213,7 +219,5 @@ void FileSelect_DrawOptions(GameState* thisx);
 
 void FileSelect_DrawNameEntry(GameState* thisx);
 void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
-
-extern s16 D_808123F0[];
 
 #endif

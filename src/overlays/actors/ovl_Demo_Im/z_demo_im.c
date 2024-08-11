@@ -92,7 +92,7 @@ static DemoImDrawFunc sDrawFuncs[] = {
     DemoIm_DrawTranslucent,
 };
 
-ActorInit Demo_Im_InitVars = {
+ActorProfile Demo_Im_Profile = {
     /**/ ACTOR_DEMO_IM,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

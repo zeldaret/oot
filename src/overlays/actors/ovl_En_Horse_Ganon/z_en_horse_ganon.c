@@ -23,7 +23,7 @@ void func_80A68AC4(EnHorseGanon* this);
 void func_80A68AF0(EnHorseGanon* this, PlayState* play);
 void func_80A68DB0(EnHorseGanon* this, PlayState* play);
 
-ActorInit En_Horse_Ganon_InitVars = {
+ActorProfile En_Horse_Ganon_Profile = {
     /**/ ACTOR_EN_HORSE_GANON,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

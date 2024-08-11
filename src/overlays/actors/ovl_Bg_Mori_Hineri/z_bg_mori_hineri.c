@@ -29,7 +29,7 @@ void func_808A3D58(BgMoriHineri* this, PlayState* play);
 
 static s16 sSubCamId = CAM_ID_NONE;
 
-ActorInit Bg_Mori_Hineri_InitVars = {
+ActorProfile Bg_Mori_Hineri_Profile = {
     /**/ ACTOR_BG_MORI_HINERI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

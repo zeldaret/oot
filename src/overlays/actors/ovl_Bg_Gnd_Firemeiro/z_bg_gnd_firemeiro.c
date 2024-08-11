@@ -18,7 +18,7 @@ void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play);
 void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play);
 void BgGndFiremeiro_Rise(BgGndFiremeiro* this, PlayState* play);
 
-ActorInit Bg_Gnd_Firemeiro_InitVars = {
+ActorProfile Bg_Gnd_Firemeiro_Profile = {
     /**/ ACTOR_BG_GND_FIREMEIRO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

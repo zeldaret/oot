@@ -12,7 +12,7 @@ void func_80A0E70C(EnFdFire* this, PlayState* play);
 void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play);
 void EnFdFire_WaitToDie(EnFdFire* this, PlayState* play);
 
-ActorInit En_Fd_Fire_InitVars = {
+ActorProfile En_Fd_Fire_Profile = {
     /**/ ACTOR_EN_FD_FIRE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -253,7 +253,6 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
     sp84 = fabsf(Math_CosS(sp8E));
     sp88 = Math_SinS(sp8E);
     sp80 = Math_Vec3f_DistXZ(&scale, &this->actor.velocity) / 1.5f;
-    if (1) {}
     if (1) {}
     if (1) {}
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000)), MTXMODE_APPLY);

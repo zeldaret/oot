@@ -54,7 +54,7 @@ void func_80A0461C(EnElf* this, PlayState* play);
 void EnElf_SpawnSparkles(EnElf* this, PlayState* play, s32 sparkleLife);
 void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 cueChannel);
 
-ActorInit En_Elf_InitVars = {
+ActorProfile En_Elf_Profile = {
     /**/ ACTOR_EN_ELF,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

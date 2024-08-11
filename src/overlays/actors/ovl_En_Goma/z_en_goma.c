@@ -42,7 +42,7 @@ void EnGoma_SetupLand(EnGoma* this);
 void EnGoma_SetupJump(EnGoma* this);
 void EnGoma_SetupStunned(EnGoma* this, PlayState* play);
 
-ActorInit En_Goma_InitVars = {
+ActorProfile En_Goma_Profile = {
     /**/ ACTOR_BOSS_GOMA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

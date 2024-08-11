@@ -2115,9 +2115,8 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
         action += DO_ACTION_MAX;
     }
 
-    if ((action != LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_NONE) &&
-        (action != LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_NONE) &&
-        (action != LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_NONE)) {
+    if ((action != 0 * DO_ACTION_MAX + DO_ACTION_NONE) && (action != 1 * DO_ACTION_MAX + DO_ACTION_NONE) &&
+        (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE)) {
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
         DMA_REQUEST_ASYNC(&interfaceCtx->dmaRequest_160,
                           interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),

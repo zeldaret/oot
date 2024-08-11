@@ -16,7 +16,7 @@ void EnLight_Update(Actor* thisx, PlayState* play);
 void EnLight_Draw(Actor* thisx, PlayState* play);
 void EnLight_UpdateSwitch(Actor* thisx, PlayState* play);
 
-ActorInit En_Light_InitVars = {
+ActorProfile En_Light_Profile = {
     /**/ ACTOR_EN_LIGHT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

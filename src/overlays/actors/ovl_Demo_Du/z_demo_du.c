@@ -1042,7 +1042,7 @@ void DemoDu_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawIndex](thisx, play);
 }
 
-ActorInit Demo_Du_InitVars = {
+ActorProfile Demo_Du_Profile = {
     /**/ ACTOR_DEMO_DU,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

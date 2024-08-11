@@ -20,7 +20,7 @@ void BgDodoago_OpenJaw(BgDodoago* this, PlayState* play);
 void BgDodoago_DoNothing(BgDodoago* this, PlayState* play);
 void BgDodoago_LightOneEye(BgDodoago* this, PlayState* play);
 
-ActorInit Bg_Dodoago_InitVars = {
+ActorProfile Bg_Dodoago_Profile = {
     /**/ ACTOR_BG_DODOAGO,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

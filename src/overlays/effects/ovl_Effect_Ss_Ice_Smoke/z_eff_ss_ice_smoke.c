@@ -15,7 +15,7 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
 void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsIceSmoke_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Ice_Smoke_InitVars = {
+EffectSsProfile Effect_Ss_Ice_Smoke_Profile = {
     EFFECT_SS_ICE_SMOKE,
     EffectSsIceSmoke_Init,
 };

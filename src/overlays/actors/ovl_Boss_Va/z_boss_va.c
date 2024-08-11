@@ -188,7 +188,7 @@ void BossVa_SpawnBloodDroplets(PlayState* play, BossVaEffect* effect, Vec3f* pos
 void BossVa_Tumor(PlayState* play, BossVa* this, s32 count, s16 scale, f32 xzSpread, f32 ySpread, u8 mode, f32 range,
                   u8 fixed);
 
-ActorInit Boss_Va_InitVars = {
+ActorProfile Boss_Va_Profile = {
     /**/ ACTOR_BOSS_VA,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -3148,8 +3148,6 @@ void BossVa_BariPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, *dList);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4517);
 }

@@ -52,7 +52,7 @@ typedef enum {
     /* 4 */ REDEAD_GRAB_END
 } EnRdGrabState;
 
-ActorInit En_Rd_InitVars = {
+ActorProfile En_Rd_Profile = {
     /**/ ACTOR_EN_RD,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -993,8 +993,6 @@ void EnRd_Draw(Actor* thisx, PlayState* play) {
 
         func_80033C30(&thisPos, &sShadowScale, this->alpha, play);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_rd.c", 1735);
 }

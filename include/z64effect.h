@@ -199,14 +199,14 @@ typedef void (*EffectSsDrawFunc)(struct PlayState* play, u32 index, struct Effec
 typedef struct {
     /* 0x00 */ u32 type;
     /* 0x04 */ EffectSsInitFunc init;
-} EffectSsInit; // size = 0x08
+} EffectSsProfile; // size = 0x08
 
 typedef struct {
     /* 0x00 */ RomFile file;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr;
-    /* 0x14 */ EffectSsInit* initInfo;
+    /* 0x14 */ EffectSsProfile* profile;
     /* 0x18 */ u8 unk_18;
 } EffectSsOverlay; // size = 0x1C
 

@@ -21,7 +21,7 @@ void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, PlayState* play);
 
-ActorInit Bg_Mori_Hashira4_InitVars = {
+ActorProfile Bg_Mori_Hashira4_Profile = {
     /**/ ACTOR_BG_MORI_HASHIRA4,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

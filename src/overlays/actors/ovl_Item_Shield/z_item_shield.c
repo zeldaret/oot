@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 15, 15, 0, { 0, 0, 0 } },
 };
 
-ActorInit Item_Shield_InitVars = {
+ActorProfile Item_Shield_Profile = {
     /**/ ACTOR_ITEM_SHIELD,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

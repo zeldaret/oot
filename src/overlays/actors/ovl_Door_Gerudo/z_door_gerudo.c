@@ -19,7 +19,7 @@ s32 func_80994750(DoorGerudo* this, PlayState* play);
 void func_8099496C(DoorGerudo* this, PlayState* play);
 void func_809949C8(DoorGerudo* this, PlayState* play);
 
-ActorInit Door_Gerudo_InitVars = {
+ActorProfile Door_Gerudo_Profile = {
     /**/ ACTOR_DOOR_GERUDO,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -67,7 +67,7 @@ f32 func_809946BC(PlayState* play, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg
     playerPos.x = player->actor.world.pos.x;
     playerPos.y = player->actor.world.pos.y + arg2;
     playerPos.z = player->actor.world.pos.z;
-    func_8002DBD0(&this->dyna.actor, &sp1C, &playerPos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &sp1C, &playerPos);
 
     if ((arg3 < fabsf(sp1C.x)) || (arg4 < fabsf(sp1C.y))) {
         return MAXFLOAT;

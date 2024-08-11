@@ -39,7 +39,7 @@ s32 func_80AADA70(void);
 s32 EnMm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 
-ActorInit En_Mm_InitVars = {
+ActorProfile En_Mm_Profile = {
     /**/ ACTOR_EN_MM,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -557,8 +557,6 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         }
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_mm.c", 1141);
 }

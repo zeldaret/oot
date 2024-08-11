@@ -58,7 +58,7 @@ static Color_RGBA8 sEnvColors[] = {
     { 0, 150, 0, 255 },
 };
 
-ActorInit Bg_Po_Syokudai_InitVars = {
+ActorProfile Bg_Po_Syokudai_Profile = {
     /**/ ACTOR_BG_PO_SYOKUDAI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

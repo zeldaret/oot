@@ -12,7 +12,7 @@ void func_80A9F314(PlayState* play, f32 arg1);
 void func_80A9F408(EnMThunder* this, PlayState* play);
 void func_80A9F9B4(EnMThunder* this, PlayState* play);
 
-ActorInit En_M_Thunder_InitVars = {
+ActorProfile En_M_Thunder_Profile = {
     /**/ ACTOR_EN_M_THUNDER,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

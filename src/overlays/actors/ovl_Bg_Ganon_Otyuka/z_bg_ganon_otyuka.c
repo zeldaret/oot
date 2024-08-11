@@ -25,7 +25,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_DoNothing(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Ganon_Otyuka_InitVars = {
+ActorProfile Bg_Ganon_Otyuka_Profile = {
     /**/ ACTOR_BG_GANON_OTYUKA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

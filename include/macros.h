@@ -108,7 +108,12 @@
                                 ? gSaveContext.save.info.equips.buttonItems[(button) + 1]       \
                                 : ITEM_NONE)
 
+#if PLATFORM_N64
+#define CHECK_BTN_ALL(state, combo) (((state) & (combo)) == (combo))
+#else
 #define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
+#endif
+
 #define CHECK_BTN_ANY(state, combo) (((state) & (combo)) != 0)
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
@@ -187,9 +192,11 @@ extern struct GraphicsContext* __gfxCtx;
         (void)__gfxCtx;                \
         Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
-#define CLOSE_DISPS(gfxCtx, file, line)                 \
-        Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
-    }                                                   \
+#define CLOSE_DISPS(gfxCtx, file, line)                     \
+        do {                                                \
+            Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
+        } while (0);                                        \
+    }                                                       \
     (void)0
 
 #define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
@@ -221,7 +228,7 @@ extern struct GraphicsContext* __gfxCtx;
         s32 __dispPad
 
 #define CLOSE_DISPS(gfxCtx, file, line) \
-    (void)0;                            \
+        do {} while (0);                \
     }                                   \
     (void)0
 
@@ -249,9 +256,9 @@ extern struct GraphicsContext* __gfxCtx;
 #endif /* OOT_DEBUG */
 
 #if OOT_NTSC
-#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { jpn, nes }
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { jpn, eng }
 #else
-#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { nes, ger, fra }
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { eng, ger, fra }
 #endif
 
 /**

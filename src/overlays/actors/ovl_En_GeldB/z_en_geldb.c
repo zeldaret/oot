@@ -69,7 +69,7 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play);
 void EnGeldB_Sidestep(EnGeldB* this, PlayState* play);
 void EnGeldB_Defeated(EnGeldB* this, PlayState* play);
 
-ActorInit En_GeldB_InitVars = {
+ActorProfile En_GeldB_Profile = {
     /**/ ACTOR_EN_GELDB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -1567,7 +1567,6 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2672);
-    if (1) {}
 
     if ((this->spinAttackState >= 2) && SkelAnime_Update(&this->skelAnime)) {
         if (this->spinAttackState == 2) {

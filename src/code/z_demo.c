@@ -120,9 +120,7 @@ u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
-// For retail BSS ordering, the block number of sReturnToCamId must be greater
-// than that of gCamAtPointAppliedFrame (declared in variables.h).
-#pragma increment_block_number 180
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
@@ -2224,7 +2222,6 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
             Gfx_Close(prevDisplayList, displayList);
             POLY_OPA_DISP = displayList;
 
-            if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_demo.c", 4108);
         }
 #endif

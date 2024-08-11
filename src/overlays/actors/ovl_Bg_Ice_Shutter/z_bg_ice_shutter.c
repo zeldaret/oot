@@ -18,7 +18,7 @@ void func_80891CF4(BgIceShutter* this, PlayState* play);
 void func_80891D6C(BgIceShutter* this, PlayState* play);
 void func_80891DD4(BgIceShutter* this, PlayState* play);
 
-ActorInit Bg_Ice_Shutter_InitVars = {
+ActorProfile Bg_Ice_Shutter_Profile = {
     /**/ ACTOR_BG_ICE_SHUTTER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

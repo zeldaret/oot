@@ -33,7 +33,7 @@ void EnPoField_SoulDisappear(EnPoField* this, PlayState* play);
 void EnPoField_SoulInteract(EnPoField* this, PlayState* play);
 void EnPoField_SpawnFlame(EnPoField* this);
 
-ActorInit En_Po_Field_InitVars = {
+ActorProfile En_Po_Field_Profile = {
     /**/ ACTOR_EN_PO_FIELD,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -796,8 +796,6 @@ void EnPoField_DrawFlame(EnPoField* this, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
-        if (1) {}
-
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_field.c", 1712);
     }
 }
@@ -999,8 +997,6 @@ void EnPoField_DrawSoul(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gPoeFieldSoulDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_field.c", 2149);
     EnPoField_DrawFlame(this, play);

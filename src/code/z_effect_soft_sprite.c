@@ -174,7 +174,7 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     s32 index;
     u32 overlaySize;
     EffectSsOverlay* overlayEntry;
-    EffectSsInit* initInfo;
+    EffectSsProfile* profile;
 
     overlayEntry = &gEffectSsOverlayTable[type];
 
@@ -191,7 +191,7 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     if (overlayEntry->vramStart == NULL) {
         // "Not an overlay"
         PRINTF("EffectSoftSprite2_makeEffect():オーバーレイではありません。\n");
-        initInfo = overlayEntry->initInfo;
+        profile = overlayEntry->profile;
     } else {
         if (overlayEntry->loadedRamAddr == NULL) {
             overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC_R(overlaySize, "../z_effect_soft_sprite.c", 585);
@@ -218,19 +218,19 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
             PRINTF(VT_RST);
         }
 
-        initInfo = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
-                                          ? (void*)((uintptr_t)overlayEntry->initInfo -
-                                                    (intptr_t)((uintptr_t)overlayEntry->vramStart -
-                                                               (uintptr_t)overlayEntry->loadedRamAddr))
-                                          : NULL);
+        profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
+                                         ? (void*)((uintptr_t)overlayEntry->profile -
+                                                   (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                              (uintptr_t)overlayEntry->loadedRamAddr))
+                                         : NULL);
     }
 
-    if (initInfo->init == NULL) {
+    if (profile->init == NULL) {
         // "Effects have already been loaded, but the constructor is NULL so the addition will not occur.
         // Please fix this. (Waste of memory) %08x %d"
         PRINTF("EffectSoftSprite2_makeEffect():すでにエフェクトはロード済みで\nすが,"
                "コンストラクターがNULLなので追加をやめます。\n直してください。（メモリーの無駄) %08x %d\n",
-               initInfo, type);
+               profile, type);
         return;
     }
 
@@ -240,7 +240,7 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     sEffectSsInfo.table[index].type = type;
     sEffectSsInfo.table[index].priority = priority;
 
-    if (initInfo->init(play, index, &sEffectSsInfo.table[index], initParams) == 0) {
+    if (profile->init(play, index, &sEffectSsInfo.table[index], initParams) == 0) {
         PRINTF(VT_FGCOL(GREEN));
         // "Construction failed for some reason. The constructor returned an error.
         // Ceasing effect addition."

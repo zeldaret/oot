@@ -1457,7 +1457,7 @@ void DemoGj_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-ActorInit Demo_Gj_InitVars = {
+ActorProfile Demo_Gj_Profile = {
     /**/ ACTOR_DEMO_GJ,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

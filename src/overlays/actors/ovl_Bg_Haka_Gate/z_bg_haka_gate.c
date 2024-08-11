@@ -52,7 +52,7 @@ static f32 sStatueDistToPlayer = 0;
 
 static s16 sStatueRotY;
 
-ActorInit Bg_Haka_Gate_InitVars = {
+ActorProfile Bg_Haka_Gate_Profile = {
     /**/ ACTOR_BG_HAKA_GATE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -325,8 +325,6 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, PlayState* play) {
         Matrix_Translate(thisx->world.pos.x, thisx->world.pos.y + 15.0f, thisx->world.pos.z, MTXMODE_NEW);
         Matrix_RotateY(BINANG_TO_RAD(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))), MTXMODE_APPLY);
         scale = this->vFlameScale * 0.00001f;
-
-        if (1) {}
 
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka_gate.c", 744),

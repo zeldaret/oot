@@ -205,7 +205,7 @@ BAD_RETURN(s32) Scene_CommandPlayerEntryList(PlayState* play, SceneCmd* cmd) {
 
     linkObjectId = gLinkObjectIds[((void)0, gSaveContext.save.linkAge)];
 
-    gActorOverlayTable[playerEntry->id].initInfo->objectId = linkObjectId;
+    gActorOverlayTable[playerEntry->id].profile->objectId = linkObjectId;
     Object_SpawnPersistent(&play->objectCtx, linkObjectId);
 }
 

@@ -12,7 +12,7 @@ void EnBubble_Wait(EnBubble* this, PlayState* play);
 void EnBubble_Pop(EnBubble* this, PlayState* play);
 void EnBubble_Regrow(EnBubble* this, PlayState* play);
 
-ActorInit En_Bubble_InitVars = {
+ActorProfile En_Bubble_Profile = {
     /**/ ACTOR_EN_BUBBLE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -424,8 +424,6 @@ void EnBubble_Draw(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gBubbleDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bubble.c", 1226);
 

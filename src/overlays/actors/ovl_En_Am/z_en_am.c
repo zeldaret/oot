@@ -39,7 +39,7 @@ typedef enum {
     /* 10 */ AM_BEHAVIOR_AGGRO = 10
 } ArmosBehavior;
 
-ActorInit En_Am_InitVars = {
+ActorProfile En_Am_Profile = {
     /**/ ACTOR_EN_AM,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
