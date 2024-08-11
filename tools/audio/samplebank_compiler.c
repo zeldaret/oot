@@ -175,7 +175,7 @@ main(int argc, char **argv)
             // emplace garbage
             size_t end = ALIGN16(match_buf_pos);
 
-            fprintf(outf, "/* Garbage data from buffer bug */\n");
+            fprintf(outf, "\n# Garbage data from buffer bug\n");
             for (; match_buf_pos < end; match_buf_pos++)
                 fprintf(outf, ".byte 0x%02X\n", match_buf[match_buf_pos]);
         } else {
