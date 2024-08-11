@@ -227,13 +227,14 @@ ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
 PYTHON     ?= $(VENV)/bin/python3
 
-# Command to replace path variables in the spec file. We can't use the C
-# preprocessor for this because it won't substitute inside string literals.
-SPEC_REPLACE_VARS := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
+# Command to replace $(BUILD_DIR) in some files with the build path.
+# We can't use the C preprocessor for this because it won't substitute inside string literals.
+BUILD_DIR_REPLACE := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
 # Audio tools
 AUDIO_EXTRACT := $(PYTHON) tools/audio_extraction.py
 SAMPLECONV    := tools/audio/sampleconv/sampleconv
+SBC           := tools/audio/sbc --matching
 
 CFLAGS += $(CPP_DEFINES)
 CPPFLAGS += $(CPP_DEFINES)
@@ -301,8 +302,10 @@ endif
 
 ifneq ($(wildcard $(EXTRACTED_DIR)/assets/audio),)
   SAMPLE_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/samples -type d)
+  SAMPLEBANK_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/samplebanks -type d)
 else
   SAMPLE_EXTRACT_DIRS :=
+  SAMPLEBANK_EXTRACT_DIRS :=
 endif
 
 ifneq ($(wildcard assets/audio/samples),)
@@ -311,9 +314,21 @@ else
   SAMPLE_DIRS :=
 endif
 
+ifneq ($(wildcard assets/audio/samplebanks),)
+  SAMPLEBANK_DIRS := $(shell find assets/audio/samplebanks -type d)
+else
+  SAMPLEBANK_DIRS :=
+endif
+
 SAMPLE_FILES         := $(foreach dir,$(SAMPLE_DIRS),$(wildcard $(dir)/*.wav))
 SAMPLE_EXTRACT_FILES := $(foreach dir,$(SAMPLE_EXTRACT_DIRS),$(wildcard $(dir)/*.wav))
 AIFC_FILES           := $(foreach f,$(SAMPLE_FILES),$(BUILD_DIR)/$(f:.wav=.aifc)) $(foreach f,$(SAMPLE_EXTRACT_FILES:.wav=.aifc),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%))
+
+SAMPLEBANK_XMLS         := $(foreach dir,$(SAMPLEBANK_DIRS),$(wildcard $(dir)/*.xml))
+SAMPLEBANK_EXTRACT_XMLS := $(foreach dir,$(SAMPLEBANK_EXTRACT_DIRS),$(wildcard $(dir)/*.xml))
+SAMPLEBANK_BUILD_XMLS   := $(foreach f,$(SAMPLEBANK_XMLS),$(BUILD_DIR)/$f) $(foreach f,$(SAMPLEBANK_EXTRACT_XMLS),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%))
+SAMPLEBANK_O_FILES      := $(foreach f,$(SAMPLEBANK_BUILD_XMLS),$(f:.xml=.o))
+SAMPLEBANK_DEP_FILES    := $(foreach f,$(SAMPLEBANK_O_FILES),$(f:.o=.d))
 
 # create extracted directories
 $(shell mkdir -p $(EXTRACTED_DIR) $(EXTRACTED_DIR)/assets $(EXTRACTED_DIR)/text)
@@ -343,7 +358,7 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(ASSET_C_FILES_COMMITTED:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BASEROM_BIN_FILES),$(BUILD_DIR)/baserom/$(notdir $f).o)
 
-OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
+OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(BUILD_DIR_REPLACE) | grep -o '[^"]*_reloc.o' )
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
@@ -365,9 +380,13 @@ $(shell mkdir -p $(BUILD_DIR)/baserom \
                  $(foreach dir, \
                       $(SRC_DIRS) \
                       $(UNDECOMPILED_DATA_DIRS) \
+					  $(SAMPLE_DIRS) \
+                      $(SAMPLEBANK_DIRS) \
                       $(ASSET_BIN_DIRS_COMMITTED), \
                     $(BUILD_DIR)/$(dir)) \
                  $(foreach dir, \
+                      $(SAMPLE_EXTRACT_DIRS) \
+                      $(SAMPLEBANK_EXTRACT_DIRS) \
                       $(ASSET_BIN_DIRS_EXTRACTED), \
                     $(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
 
@@ -533,7 +552,8 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt \
+        $(SAMPLEBANK_O_FILES)
 	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
 
 ## Order-only prerequisites
@@ -549,7 +569,7 @@ $(O_FILES): | asset_files
 .PHONY: o_files asset_files
 
 $(BUILD_DIR)/$(SPEC): $(SPEC)
-	$(CPP) $(CPPFLAGS) $< | $(SPEC_REPLACE_VARS) > $@
+	$(CPP) $(CPPFLAGS) $< | $(BUILD_DIR_REPLACE) > $@
 
 $(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
 	$(MKLDSCRIPT) $< $@
@@ -667,6 +687,9 @@ AUDIO_BUILD_DEBUG ?= 0
 
 # first build samples...
 
+.PRECIOUS: $(BUILD_DIR)/assets/audio/samples/%.aifc
+.PRECIOUS: $(BUILD_DIR)/assets/audio/samples/%.half.aifc
+
 $(BUILD_DIR)/assets/audio/samples/%.half.aifc: assets/audio/samples/%.half.wav
 	$(SAMPLECONV) vadpcm-half $< $@
 
@@ -683,6 +706,29 @@ $(BUILD_DIR)/assets/audio/samples/%.aifc: $(EXTRACTED_DIR)/assets/audio/samples/
 	$(SAMPLECONV) vadpcm $< $@
 ifeq ($(AUDIO_BUILD_DEBUG),1)
 	@(cmp $(<D)/aifc/$(<F:.wav=.aifc) $@ && echo "$(<F) OK") || (mkdir -p NONMATCHINGS/$(<D) && cp $(<D)/aifc/$(<F:.wav=.aifc) NONMATCHINGS/$(<D)/$(<F:.wav=.aifc))
+endif
+
+# then assemble the samplebanks...
+
+.PRECIOUS: $(BUILD_DIR)/assets/audio/samplebanks/%.xml
+
+$(BUILD_DIR)/assets/audio/samplebanks/%.xml: assets/audio/samplebanks/%.xml
+	cat $< | $(BUILD_DIR_REPLACE) > $@
+
+$(BUILD_DIR)/assets/audio/samplebanks/%.xml: $(EXTRACTED_DIR)/assets/audio/samplebanks/%.xml
+	cat $< | $(BUILD_DIR_REPLACE) > $@
+
+.PRECIOUS: $(BUILD_DIR)/assets/audio/samplebanks/%.s
+$(BUILD_DIR)/assets/audio/samplebanks/%.s: $(BUILD_DIR)/assets/audio/samplebanks/%.xml | $(AIFC_FILES)
+	$(SBC) --makedepend $(@:.s=.d) $< $@
+
+-include $(SAMPLEBANK_DEP_FILES)
+
+$(BUILD_DIR)/assets/audio/samplebanks/%.o: $(BUILD_DIR)/assets/audio/samplebanks/%.s
+	$(AS) $(ASFLAGS) $< -o $@
+ifeq ($(AUDIO_BUILD_DEBUG),1)
+	$(OBJCOPY) -O binary -j.rodata $@ $(@:.o=.bin)
+	@cmp $(@:.o=.bin) $(patsubst $(BUILD_DIR)/assets/audio/samplebanks/%,$(EXTRACTED_DIR)/baserom_audiotest/audiotable_files/%,$(@:.o=.bin)) && echo "$(<F) OK"
 endif
 
 -include $(DEP_FILES)
