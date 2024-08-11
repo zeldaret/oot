@@ -233,6 +233,7 @@ SPEC_REPLACE_VARS := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
 # Audio tools
 AUDIO_EXTRACT := $(PYTHON) tools/audio_extraction.py
+SAMPLECONV    := tools/audio/sampleconv/sampleconv
 
 CFLAGS += $(CPP_DEFINES)
 CPPFLAGS += $(CPP_DEFINES)
@@ -297,6 +298,22 @@ SRC_DIRS := $(shell find src -type d -not -path src/gcc_fix)
 else
 SRC_DIRS := $(shell find src -type d)
 endif
+
+ifneq ($(wildcard $(EXTRACTED_DIR)/assets/audio),)
+  SAMPLE_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/samples -type d)
+else
+  SAMPLE_EXTRACT_DIRS :=
+endif
+
+ifneq ($(wildcard assets/audio/samples),)
+  SAMPLE_DIRS := $(shell find assets/audio/samples -type d)
+else
+  SAMPLE_DIRS :=
+endif
+
+SAMPLE_FILES         := $(foreach dir,$(SAMPLE_DIRS),$(wildcard $(dir)/*.wav))
+SAMPLE_EXTRACT_FILES := $(foreach dir,$(SAMPLE_EXTRACT_DIRS),$(wildcard $(dir)/*.wav))
+AIFC_FILES           := $(foreach f,$(SAMPLE_FILES),$(BUILD_DIR)/$(f:.wav=.aifc)) $(foreach f,$(SAMPLE_EXTRACT_FILES:.wav=.aifc),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%))
 
 # create extracted directories
 $(shell mkdir -p $(EXTRACTED_DIR) $(EXTRACTED_DIR)/assets $(EXTRACTED_DIR)/text)
@@ -643,6 +660,30 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
+
+# Audio
+
+AUDIO_BUILD_DEBUG ?= 0
+
+# first build samples...
+
+$(BUILD_DIR)/assets/audio/samples/%.half.aifc: assets/audio/samples/%.half.wav
+	$(SAMPLECONV) vadpcm-half $< $@
+
+$(BUILD_DIR)/assets/audio/samples/%.half.aifc: $(EXTRACTED_DIR)/assets/audio/samples/%.half.wav
+	$(SAMPLECONV) vadpcm-half $< $@
+ifeq ($(AUDIO_BUILD_DEBUG),1)
+	@(cmp $(<D)/aifc/$(<F:.half.wav=.half.aifc) $@ && echo "$(<F) OK") || (mkdir -p NONMATCHINGS/$(<D) && cp $(<D)/aifc/$(<F:.half.wav=.half.aifc) NONMATCHINGS/$(<D)/$(<F:.half.wav=.half.aifc))
+endif
+
+$(BUILD_DIR)/assets/audio/samples/%.aifc: assets/audio/samples/%.wav
+	$(SAMPLECONV) vadpcm $< $@
+
+$(BUILD_DIR)/assets/audio/samples/%.aifc: $(EXTRACTED_DIR)/assets/audio/samples/%.wav
+	$(SAMPLECONV) vadpcm $< $@
+ifeq ($(AUDIO_BUILD_DEBUG),1)
+	@(cmp $(<D)/aifc/$(<F:.wav=.aifc) $@ && echo "$(<F) OK") || (mkdir -p NONMATCHINGS/$(<D) && cp $(<D)/aifc/$(<F:.wav=.aifc) NONMATCHINGS/$(<D)/$(<F:.wav=.aifc))
+endif
 
 -include $(DEP_FILES)
 
