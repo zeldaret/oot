@@ -83,7 +83,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 
-typedef enum {
+typedef enum BariDamageEffect {
     /* 0x0 */ BARI_DMGEFF_NONE,
     /* 0x1 */ BARI_DMGEFF_STUN,
     /* 0x2 */ BARI_DMGEFF_FIRE,

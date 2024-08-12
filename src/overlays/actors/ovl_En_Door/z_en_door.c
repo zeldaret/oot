@@ -44,13 +44,13 @@ ActorProfile En_Door_Profile = {
     /**/ EnDoor_Draw,
 };
 
-typedef struct {
+typedef struct EnDoorInfo {
     /* 0x00 */ s16 sceneId;
     /* 0x02 */ u8 dListIndex;
     /* 0x04 */ s16 objectId;
 } EnDoorInfo;
 
-typedef enum {
+typedef enum EnDoorDListIndex {
     /* 0 */ DOOR_DL_DEFAULT,
     /* 1 */ DOOR_DL_FIRE_TEMPLE,
     /* 2 */ DOOR_DL_WATER_TEMPLE,
@@ -220,7 +220,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
     Vec3f playerPosRelToDoor;
 
     doorType = ENDOOR_GET_TYPE(&this->actor);
-    func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
     if (this->playerIsOpening) {
         this->actionFunc = EnDoor_Open;
         Animation_PlayOnceSetSpeed(&this->skelAnime, sDoorAnims[this->openAnim],

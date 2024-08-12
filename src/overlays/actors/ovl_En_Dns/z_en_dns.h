@@ -7,7 +7,7 @@
 
 #define DNS_GET_TYPE(thisx) ((thisx)->params)
 
-typedef enum {
+typedef enum EnDnsType {
     /*  0 */ DNS_TYPE_DEKU_NUTS_5,
     /*  1 */ DNS_TYPE_DEKU_STICKS_1,
     /*  2 */ DNS_TYPE_HEART_PIECE,
@@ -21,7 +21,7 @@ typedef enum {
     /* 10 */ DNS_TYPE_DEKU_NUT_UPGRADE
 } EnDnsType;
 
-typedef enum {
+typedef enum EnDnsCanBuyResult {
     /*  0 */ DNS_CANBUY_RESULT_NEED_RUPEES,
     /*  1 */ DNS_CANBUY_RESULT_CAPACITY_FULL,
     /*  2 */ DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM,
@@ -29,7 +29,7 @@ typedef enum {
     /*  4 */ DNS_CANBUY_RESULT_SUCCESS
 } EnDnsCanBuyResult;
 
-typedef enum {
+typedef enum EnDnsAnimation {
     /*  0 */ DNS_ANIM_IDLE,
     /*  1 */ DNS_ANIM_BURROW,
     /*  2 */ DNS_ANIM_IDLE_TRANSITION
@@ -41,7 +41,7 @@ typedef void (*EnDnsActionFunc)(struct EnDns*, PlayState*);
 typedef u32 (*EnDnsCanBuyFunc)(struct EnDns*);
 typedef void (*EnDnsPaymentFunc)(struct EnDns*);
 
-typedef struct {
+typedef struct DnsItemEntry {
     /* 0x00 */ s16 itemPrice;
     /* 0x02 */ u16 itemAmount;
     /* 0x04 */ s32 getItemId;

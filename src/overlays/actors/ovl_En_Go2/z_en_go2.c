@@ -125,7 +125,7 @@ static f32 sPlayerTrackingYOffsets[14][2] = {
     { 20.0f, 20.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f },
 };
 
-typedef enum {
+typedef enum EnGo2Animation {
     /*  0 */ ENGO2_ANIM_0,
     /*  1 */ ENGO2_ANIM_1,
     /*  2 */ ENGO2_ANIM_2,

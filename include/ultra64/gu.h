@@ -7,7 +7,7 @@
 
 #define ROUND(x) (s32)(((x) >= 0.0) ? ((x) + 0.5) : ((x) - 0.5))
 
-typedef union {
+typedef union du {
     struct {
         u32 hi;
         u32 lo;
@@ -16,7 +16,7 @@ typedef union {
     f64 d;
 } du;
 
-typedef union {
+typedef union fu {
     u32 i;
     f32 f;
 } fu;

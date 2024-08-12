@@ -28,7 +28,7 @@ void EnFirefly_FrozenFall(EnFirefly* this, PlayState* play);
 void EnFirefly_Perch(EnFirefly* this, PlayState* play);
 void EnFirefly_DisturbDiveAttack(EnFirefly* this, PlayState* play);
 
-typedef enum {
+typedef enum KeeseAuraType {
     /* 0 */ KEESE_AURA_NONE,
     /* 1 */ KEESE_AURA_FIRE,
     /* 2 */ KEESE_AURA_ICE

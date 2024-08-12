@@ -61,7 +61,7 @@ ActorProfile En_Butte_Profile = {
     /**/ EnButte_Draw,
 };
 
-typedef struct {
+typedef struct EnButteFlightParams {
     /* 0x00 */ s16 minTime;
     /* 0x02 */ s16 maxTime;
     /* 0x04 */ f32 speedXZTarget;

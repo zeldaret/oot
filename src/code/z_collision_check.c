@@ -1607,12 +1607,12 @@ s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
     return true;
 }
 
-typedef struct {
+typedef struct HitInfo {
     /* 0x0 */ u8 blood;
     /* 0x1 */ u8 effect;
 } HitInfo; // size = 0x2
 
-typedef enum {
+typedef enum ColChkBloodType {
     /* 0 */ BLOOD_NONE,
     /* 1 */ BLOOD_BLUE,
     /* 2 */ BLOOD_GREEN,
@@ -1621,7 +1621,7 @@ typedef enum {
     /* 5 */ BLOOD_RED2
 } ColChkBloodType;
 
-typedef enum {
+typedef enum ColChkHitType {
     /* 0 */ HIT_WHITE,
     /* 1 */ HIT_DUST,
     /* 2 */ HIT_RED,
@@ -2692,7 +2692,7 @@ void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx) {
     CollisionCheck_SetHitEffects(play, colChkCtx);
 }
 
-typedef enum {
+typedef enum ColChkMassType {
     /* 0 */ MASSTYPE_IMMOVABLE,
     /* 1 */ MASSTYPE_HEAVY,
     /* 2 */ MASSTYPE_NORMAL

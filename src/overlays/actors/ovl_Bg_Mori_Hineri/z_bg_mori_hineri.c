@@ -223,13 +223,13 @@ void BgMoriHineri_Update(Actor* thisx, PlayState* play) {
 
 void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
     BgMoriHineri* this = (BgMoriHineri*)thisx;
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
     MtxF mtx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hineri.c", 611);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, play2->objectCtx.slots[this->moriTexObjectSlot].segment);
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_hineri.c", 618),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[this->dyna.actor.params]);
@@ -249,9 +249,9 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDungeonDoorDL);
     }
-    if ((this->boxObjectSlot > 0) && ((this->boxObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOX)) > 0) &&
-        Object_IsLoaded(&play->objectCtx, this->boxObjectSlot)) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->boxObjectSlot].segment);
+    if ((this->boxObjectSlot > 0) && ((this->boxObjectSlot = Object_GetSlot(&play2->objectCtx, OBJECT_BOX)) > 0) &&
+        Object_IsLoaded(&play2->objectCtx, this->boxObjectSlot)) {
+        gSPSegment(POLY_OPA_DISP++, 0x06, play2->objectCtx.slots[this->boxObjectSlot].segment);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);
         Matrix_Translate(147.0f, -245.0f, -453.0f, MTXMODE_APPLY);
@@ -262,7 +262,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, gTreasureChestBossKeyChestFrontDL);
         Matrix_Put(&mtx);
         Matrix_Translate(167.0f, -218.0f, -453.0f, MTXMODE_APPLY);
-        if (Flags_GetTreasure(play, 0xE)) {
+        if (Flags_GetTreasure(play2, 0xE)) {
             Matrix_RotateZ(BINANG_TO_RAD(0x3500), MTXMODE_APPLY);
         } else {
             Matrix_RotateZ(M_PI, MTXMODE_APPLY);

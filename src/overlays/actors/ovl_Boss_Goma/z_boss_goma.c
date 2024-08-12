@@ -9,13 +9,13 @@
 // IRIS_FOLLOW: gohma looks towards the player (iris rotation)
 // BONUS_IFRAMES: gain invincibility frames when the player does something (throwing things?), or
 // randomly (see BossGoma_UpdateEye)
-typedef enum {
+typedef enum GohmaEyeState {
     EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES, // default, allows not drawing lens and iris when eye is closed
     EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES,
     EYESTATE_IRIS_FOLLOW_NO_IFRAMES
 } GohmaEyeState;
 
-typedef enum {
+typedef enum GohmaVisualState {
     VISUALSTATE_RED,         // main/eye: red
     VISUALSTATE_DEFAULT,     // main: greenish cyan, blinks with dark gray every 16 frames; eye: white
     VISUALSTATE_DEFEATED,    // main/eye: dark gray

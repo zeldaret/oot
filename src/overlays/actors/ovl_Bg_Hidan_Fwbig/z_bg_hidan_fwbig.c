@@ -11,7 +11,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum HidanFwbigMoveState {
     /* 0 */ FWBIG_MOVE,
     /* 1 */ FWBIG_RESET,
     /* 2 */ FWBIG_KILL
@@ -195,25 +195,25 @@ void BgHidanFwbig_Move(BgHidanFwbig* this, PlayState* play) {
 
 void BgHidanFwbig_MoveCollider(BgHidanFwbig* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Vec3f projPos;
+    Vec3f playerRelativePos;
     f32 cs;
     f32 sn;
 
-    func_8002DBD0(&this->actor, &projPos, &player->actor.world.pos);
-    projPos.z = ((projPos.z >= 0.0f) ? 1.0f : -1.0f) * 25.0f * -1.0f;
+    Actor_WorldToActorCoords(&this->actor, &playerRelativePos, &player->actor.world.pos);
+    playerRelativePos.z = ((playerRelativePos.z >= 0.0f) ? 1.0f : -1.0f) * 25.0f * -1.0f;
     if (this->direction == 0) {
-        projPos.x = CLAMP(projPos.x, -360.0f, 360.0f);
+        playerRelativePos.x = CLAMP(playerRelativePos.x, -360.0f, 360.0f);
     } else {
-        projPos.x = CLAMP(projPos.x, -500.0f, 500.0f);
+        playerRelativePos.x = CLAMP(playerRelativePos.x, -500.0f, 500.0f);
     }
 
     sn = Math_SinS(this->actor.shape.rot.y);
     cs = Math_CosS(this->actor.shape.rot.y);
-    this->collider.dim.pos.x = this->actor.world.pos.x + (projPos.x * cs) + (projPos.z * sn);
-    this->collider.dim.pos.z = this->actor.world.pos.z - (projPos.x * sn) + (projPos.z * cs);
+    this->collider.dim.pos.x = this->actor.world.pos.x + (playerRelativePos.x * cs) + (playerRelativePos.z * sn);
+    this->collider.dim.pos.z = this->actor.world.pos.z - (playerRelativePos.x * sn) + (playerRelativePos.z * cs);
     this->collider.dim.pos.y = this->actor.world.pos.y;
 
-    this->actor.world.rot.y = (projPos.z < 0.0f) ? this->actor.shape.rot.y : this->actor.shape.rot.y + 0x8000;
+    this->actor.world.rot.y = (playerRelativePos.z < 0.0f) ? this->actor.shape.rot.y : this->actor.shape.rot.y + 0x8000;
 }
 
 void BgHidanFwbig_Update(Actor* thisx, PlayState* play) {

@@ -7,7 +7,7 @@
 #include "global.h"
 #include "terminal.h"
 
-typedef struct {
+typedef struct FaultDrawer {
     /* 0x00 */ u16* fb;
     /* 0x04 */ u16 w;
     /* 0x06 */ u16 h;

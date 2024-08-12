@@ -1340,13 +1340,13 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
 
 void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     EnPoSisters* this = (EnPoSisters*)thisx;
-    u8 phi_s5;
+    s32 pad1;
     f32 phi_f20;
     s32 i;
-    u8 spE7;
+    u8 phi_s5;
     Color_RGBA8* temp_s1 = &D_80ADD700[this->unk_194];
     Color_RGBA8* temp_s7 = &D_80ADD6F0[this->unk_194];
-    s32 pad;
+    s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_sisters.c", 2989);
     func_80ADC55C(this);
@@ -1390,11 +1390,10 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
         phi_s5 = ((32 - this->unk_19A) * 255) / 32;
         phi_f20 = 0.0035f;
     } else if (this->actionFunc == func_80ADBC88) {
-        //! @bug uninitialised spE7
-        phi_s5 = spE7;
+        // phi_s5 initialized in loop below
         phi_f20 = 0.0027f;
     } else {
-        phi_s5 = spE7;
+        // phi_s5 initialized in loop below
         phi_f20 = this->actor.scale.x * 0.5f;
     }
     for (i = 0; i < this->unk_198; i++) {

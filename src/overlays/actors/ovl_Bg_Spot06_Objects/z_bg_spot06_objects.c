@@ -9,14 +9,14 @@
 
 #define FLAGS ACTOR_FLAG_9
 
-typedef enum {
+typedef enum LakeHyliaObjectsType {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
     /* 0x1 */ LHO_WATER_TEMPLE_ENTRANCE_LOCK,
     /* 0x2 */ LHO_WATER_PLANE,
     /* 0x3 */ LHO_ICE_BLOCK
 } LakeHyliaObjectsType;
 
-typedef enum {
+typedef enum LakeHyliaWaterBoxIndices {
     /* 0x0 */ LHWB_GERUDO_VALLEY_RIVER_UPPER, // entrance from Gerudo Valley
     /* 0x1 */ LHWB_GERUDO_VALLEY_RIVER_LOWER, // river flowing from Gerudo Valley
     /* 0x2 */ LHWB_MAIN_1,                    // main water box

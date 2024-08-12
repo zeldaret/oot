@@ -82,7 +82,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
-typedef struct {
+typedef struct HorsePosSpeed {
     /* 0x0 */ Vec3s pos;
     /* 0x6 */ u8 speedXZ;
 } HorsePosSpeed; // size = 0x8

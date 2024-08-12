@@ -2,7 +2,7 @@
 #include "quake.h"
 #include "terminal.h"
 
-typedef struct {
+typedef struct QuakeRequest {
     /* 0x00 */ s16 index;
     /* 0x02 */ s16 duration;
     /* 0x04 */ Camera* cam;

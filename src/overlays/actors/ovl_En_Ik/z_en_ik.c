@@ -15,7 +15,7 @@ typedef void (*EnIkDrawFunc)(struct EnIk*, PlayState*);
 
 #define ARMOR_BROKEN (1 << 0)
 
-typedef enum {
+typedef enum EnIkCsAction {
     /* 0x00 */ IK_CS_ACTION_0,
     /* 0x01 */ IK_CS_ACTION_1,
     /* 0x02 */ IK_CS_ACTION_2,
@@ -24,13 +24,13 @@ typedef enum {
     /* 0x05 */ IK_CS_ACTION_5
 } EnIkCsAction;
 
-typedef enum {
+typedef enum EnIkCsDrawMode {
     /* 0x00 */ IK_CS_DRAW_NOTHING,
     /* 0x01 */ IK_CS_DRAW_INTRO,
     /* 0x02 */ IK_CS_DRAW_DEFEAT
 } EnIkCsDrawMode;
 
-typedef enum {
+typedef enum EnIkDamageEffect {
     /* 0x0 */ EN_IK_DMGEFF_NONE,
     /* 0x6 */ EN_IK_DMGEFF_ELEMENTAL_MAGIC = 0x6,
     /* 0xD */ EN_IK_DMGEFF_SPARKS_NO_DMG = 0xD,

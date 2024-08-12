@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum StalchildBehavior {
     SKB_BEHAVIOR_BURIED,
     SKB_BEHAVIOR_DYING,
     SKB_BEHAVIOR_DAMAGED,

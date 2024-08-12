@@ -67,7 +67,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 static void* sFaEyes[] = { gFaEyeOpenTex, gFaEyeHalfTex, gFaEyeClosedTex, NULL };
 static void* sKw1Eyes[] = { gKw1EyeOpenTex, gKw1EyeHalfTex, gKw1EyeClosedTex, NULL };
 
-typedef struct {
+typedef struct EnKoHead {
     /* 0x0 */ s16 objectId;
     /* 0x4 */ Gfx* dList;
     /* 0x8 */ void** eyeTextures;
@@ -79,7 +79,7 @@ static EnKoHead sHead[] = {
     { OBJECT_FA, gFaDL, sFaEyes },
 };
 
-typedef struct {
+typedef struct EnKoSkeleton {
     /* 0x0 */ s16 objectId;
     /* 0x4 */ FlexSkeletonHeader* flexSkeletonHeader;
 } EnKoSkeleton; // size = 0x8
@@ -89,7 +89,7 @@ static EnKoSkeleton sSkeleton[2] = {
     { OBJECT_KW1, &gKw1Skel },
 };
 
-typedef enum {
+typedef enum EnKoAnimation {
     /*  0 */ ENKO_ANIM_BLOCKING_NOMORPH,
     /*  1 */ ENKO_ANIM_BLOCKING_NOMORPH_STATIC,
     /*  2 */ ENKO_ANIM_STANDUP_1,
@@ -202,7 +202,7 @@ static u8 sOsAnimeLookup[13][5] = {
       ENKO_ANIM_IDLE_NOMORPH },
 };
 
-typedef struct {
+typedef struct EnKoModelInfo {
     /* 0x0 */ u8 headId;
     /* 0x1 */ u8 bodyId;
     /* 0x4 */ Color_RGBA8 tunicColor;
@@ -210,7 +210,7 @@ typedef struct {
     /* 0xC */ Color_RGBA8 bootsColor;
 } EnKoModelInfo; // size = 0x10
 
-typedef enum {
+typedef enum KokiriGender {
     /* 0 */ KO_BOY,
     /* 1 */ KO_GIRL,
     /* 2 */ KO_FADO
@@ -232,7 +232,7 @@ static EnKoModelInfo sModelInfo[] = {
     /* ENKO_TYPE_CHILD_FADO */ { KO_FADO, KO_GIRL, { 70, 190, 60, 255 }, KO_GIRL, { 100, 30, 0, 255 } },
 };
 
-typedef struct {
+typedef struct EnKoInteractInfo {
     /* 0x0 */ s8 targetMode;
     /* 0x4 */ f32 lookDist; // extended by collider radius
     /* 0x8 */ f32 appearDist;

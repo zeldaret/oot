@@ -2,7 +2,7 @@
 #include "terminal.h"
 #include "z64environment.h"
 
-typedef struct {
+typedef struct SkyboxFaceParams {
     /* 0x000 */ s32 xStart;
     /* 0x004 */ s32 yStart;
     /* 0x008 */ s32 zStart;

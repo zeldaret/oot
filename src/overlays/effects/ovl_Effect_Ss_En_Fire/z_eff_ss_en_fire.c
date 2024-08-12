@@ -103,12 +103,12 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     CLOSE_DISPS(gfxCtx, "../z_eff_en_fire.c", 213);
 }
 
-typedef struct {
+typedef struct FireActorF {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3f firePos[10];
 } FireActorF;
 
-typedef struct {
+typedef struct FireActorS {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3s firePos[10];
 } FireActorS;

@@ -6,7 +6,7 @@
 #include "z64math.h"
 #include "color.h"
 
-typedef struct {
+typedef struct LightPoint {
     /* 0x0 */ s16 x;
     /* 0x2 */ s16 y;
     /* 0x4 */ s16 z;
@@ -15,19 +15,19 @@ typedef struct {
     /* 0xA */ s16 radius;
 } LightPoint; // size = 0xC
 
-typedef struct {
+typedef struct LightDirectional {
     /* 0x0 */ s8 x;
     /* 0x1 */ s8 y;
     /* 0x2 */ s8 z;
     /* 0x3 */ u8 color[3];
 } LightDirectional; // size = 0x6
 
-typedef union {
+typedef union LightParams {
     LightPoint point;
     LightDirectional dir;
 } LightParams; // size = 0xC
 
-typedef struct {
+typedef struct LightInfo {
     /* 0x0 */ u8 type;
     /* 0x2 */ LightParams params;
 } LightInfo; // size = 0xE
@@ -46,7 +46,7 @@ typedef struct LightNode {
 #define ENV_FOGNEAR_MAX 996
 #define ENV_ZFAR_MAX 12800
 
-typedef struct {
+typedef struct LightContext {
     /* 0x0 */ LightNode* listHead;
     /* 0x4 */ u8 ambientColor[3];
     /* 0x7 */ u8 fogColor[3];
@@ -54,7 +54,7 @@ typedef struct {
     /* 0xC */ s16 zFar; // draw distance. range 0 - ENV_ZFAR_MAX
 } LightContext; // size = 0x10
 
-typedef enum {
+typedef enum LightType {
     /* 0x00 */ LIGHT_POINT_NOGLOW,
     /* 0x01 */ LIGHT_DIRECTIONAL,
     /* 0x02 */ LIGHT_POINT_GLOW

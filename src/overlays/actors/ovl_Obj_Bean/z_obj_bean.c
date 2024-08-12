@@ -104,7 +104,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 64, 30, -31, { 0, 0, 0 } },
 };
 
-typedef struct {
+typedef struct BeenSpeedInfo {
     f32 velocity;
     f32 accel;
 } BeenSpeedInfo;

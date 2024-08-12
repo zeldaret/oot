@@ -9,7 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
-typedef enum {
+typedef enum EnZoEffectType {
     /* 0 */ ENZO_EFFECT_NONE,
     /* 1 */ ENZO_EFFECT_RIPPLE,
     /* 2 */ ENZO_EFFECT_SPLASH,
@@ -172,7 +172,7 @@ void EnZo_UpdateEffectsSplashes(EnZo* this) {
 void EnZo_DrawEffectsRipples(EnZo* this, PlayState* play) {
     EnZoEffect* effect;
     s16 i;
-    u8 materialFlag;
+    s16 materialFlag;
 
     effect = this->effects;
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 217);
@@ -311,7 +311,7 @@ ActorProfile En_Zo_Profile = {
     /**/ EnZo_Draw,
 };
 
-typedef enum {
+typedef enum EnZoAnimation {
     /* 0 */ ENZO_ANIM_0,
     /* 1 */ ENZO_ANIM_1,
     /* 2 */ ENZO_ANIM_2,

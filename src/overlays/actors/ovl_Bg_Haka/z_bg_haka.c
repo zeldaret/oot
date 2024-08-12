@@ -58,7 +58,7 @@ void BgHaka_Destroy(Actor* thisx, PlayState* play) {
 void BgHaka_CheckPlayerOnDirtPatch(BgHaka* this, Player* player) {
     Vec3f playerRelativePos;
 
-    func_8002DBD0(&this->dyna.actor, &playerRelativePos, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &playerRelativePos, &player->actor.world.pos);
     if (fabsf(playerRelativePos.x) < 34.6f && playerRelativePos.z > -112.8f && playerRelativePos.z < -36.0f) {
         player->stateFlags2 |= PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND;
     }

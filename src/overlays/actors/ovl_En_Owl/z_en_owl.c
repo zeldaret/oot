@@ -44,7 +44,7 @@ void func_80ACB680(EnOwl* this, PlayState* play);
 void func_80ACC460(EnOwl* this);
 void func_80ACBEA0(EnOwl*, PlayState*);
 
-typedef enum {
+typedef enum EnOwlType {
     /* 0x00 */ OWL_DEFAULT,
     /* 0x01 */ OWL_OUTSIDE_KOKIRI,
     /* 0x02 */ OWL_HYRULE_CASTLE,
@@ -60,7 +60,7 @@ typedef enum {
     /* 0x0C */ OWL_LOST_WOODS_POSTSARIA
 } EnOwlType;
 
-typedef enum {
+typedef enum EnOwlMessageChoice {
     /* 0x00 */ OWL_REPEAT,
     /* 0x01 */ OWL_OK
 } EnOwlMessageChoice;
