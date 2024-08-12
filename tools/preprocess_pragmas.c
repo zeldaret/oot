@@ -19,13 +19,6 @@
 const char str_pragma_increment_block_number[] = "#pragma increment_block_number";
 
 int main(int argc, char** argv) {
-#if 0
-    // for debugging with a specific file
-#undef stdin
-    FILE* stdin = fopen("src/code/fault.c", "r");
-    assert(stdin != NULL);
-#endif
-
     if (argc != 3) {
         fprintf(stderr, "Usage: preprocess_pragmas OOT_VERSION filename < source.c\n");
         return EXIT_FAILURE;
