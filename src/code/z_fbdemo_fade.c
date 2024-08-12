@@ -101,7 +101,12 @@ void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx;
     Color_RGBA8_u32* color = &this->color;
 
-    if (color->a > 0) {
+#if PLATFORM_N64
+    if (color->a != 0)
+#else
+    if (color->a > 0)
+#endif
+    {
         gfx = *gfxP;
         gSPDisplayList(gfx++, sTransFadeSetupDL);
         gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, color->a);
