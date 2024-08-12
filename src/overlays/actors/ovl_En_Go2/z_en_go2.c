@@ -1340,7 +1340,7 @@ void EnGo2_GetItemAnimation(EnGo2* this, PlayState* play) {
 void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     if (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_CITY_ROLLING_BIG ||
         PARAMS_GET_S(this->actor.params, 0, 5) == GORON_CITY_LINK) {
-        this->collider.elem.bumperFlags = ACELEM_ON;
+        this->collider.elem.acElemFlags = ACELEM_ON;
         this->actor.speed = GET_INFTABLE(INFTABLE_11E) ? 6.0f : 3.6000001f;
     } else {
         this->actor.speed = 6.0f;
