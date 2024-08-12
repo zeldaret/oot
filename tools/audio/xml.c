@@ -164,13 +164,13 @@ xml_parse_note_number(const char *value, void *out)
 
         // got a note number
         static const int8_t notes_lut[] = {
-            /* A */ 12, // 9,
-            /* B */ 14, // 11,
-            /* C */ 3,  // 0,
-            /* D */ 5,  // 2,
-            /* E */ 7,  // 4,
-            /* F */ 8,  // 5,
-            /* G */ 10, // 7
+            /* A */ 12,
+            /* B */ 14,
+            /* C */ 3,
+            /* D */ 5,
+            /* E */ 7,
+            /* F */ 8,
+            /* G */ 10,
         };
         char cm = toupper(value[start]);
         int mod = 0;
