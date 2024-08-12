@@ -378,15 +378,15 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG_EXTRACTED:.png=.inc.c),$(f:
 
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/baserom \
-                 $(BUILD_DIR)/assets/text \
-                 $(foreach dir, \
+                 $(BUILD_DIR)/assets/text)
+$(shell mkdir -p $(foreach dir, \
                       $(SRC_DIRS) \
                       $(UNDECOMPILED_DATA_DIRS) \
                       $(SAMPLE_DIRS) \
                       $(SAMPLEBANK_DIRS) \
                       $(ASSET_BIN_DIRS_COMMITTED), \
-                    $(BUILD_DIR)/$(dir)) \
-                 $(foreach dir, \
+                    $(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(foreach dir, \
                       $(SAMPLE_EXTRACT_DIRS) \
                       $(SAMPLEBANK_EXTRACT_DIRS) \
                       $(ASSET_BIN_DIRS_EXTRACTED), \
