@@ -64,9 +64,13 @@ then
     exit
 fi
 
-# Create a temporary file, and remove it on script exit
-tempfile=`mktemp`_oot.c
-trap "rm -f $tempfile" EXIT
+# Create a temporary directory, and remove it on script exit
+# We use a temp dir instead of a temp file because ido_block_numbers.py and fix_bss.py
+# need the symbol table .T file from IDO, which is always named like the input file.
+# So we use a file named like the original input file, inside a temp dir.
+tempdir=`mktemp --directory`
+tempfile=$tempdir/`basename $srcfile`
+trap "rm -rf $tempdir" EXIT
 
 # Preprocess pragmas and re-encode from UTF-8 to EUC-JP
 {
