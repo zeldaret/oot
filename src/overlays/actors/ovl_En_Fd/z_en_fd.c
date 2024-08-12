@@ -192,7 +192,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnFdAnimation {
     /* 0 */ ENFD_ANIM_0,
     /* 1 */ ENFD_ANIM_1,
     /* 2 */ ENFD_ANIM_2,

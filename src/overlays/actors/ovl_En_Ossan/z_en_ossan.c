@@ -157,7 +157,7 @@ static char* sShopkeeperPrintName[] = {
 };
 #endif
 
-typedef struct {
+typedef struct ShopkeeperObjInfo {
     /* 0x00 */ s16 objId;
     /* 0x02 */ s16 unk_02;
     /* 0x04 */ s16 unk_04;
@@ -188,7 +188,7 @@ static f32 sShopkeeperScale[] = {
     0.01f, 0.011f, 0.0105f, 0.011f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f,
 };
 
-typedef struct {
+typedef struct ShopItem {
     /* 0x00 */ s16 shopItemIndex;
     /* 0x02 */ s16 xOffset;
     /* 0x04 */ s16 yOffset;

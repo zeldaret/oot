@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
+typedef struct EffectSsEnIceInitParams {
     /* 0x00 */ Actor* actor;
     /* 0x04 */ Vec3f pos;
     /* 0x10 */ f32 scale;

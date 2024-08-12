@@ -7,14 +7,14 @@
 #define ASYNC_ID(v) ((u8)(v >> 8))
 #define ASYNC_LOAD_STATUS(v) ((u8)(v >> 0))
 
-typedef enum {
+typedef enum SlowLoadState {
     /* 0 */ SLOW_LOAD_STATE_WAITING,
     /* 1 */ SLOW_LOAD_STATE_START,
     /* 2 */ SLOW_LOAD_STATE_LOADING,
     /* 3 */ SLOW_LOAD_STATE_DONE
 } SlowLoadState;
 
-typedef struct {
+typedef struct SampleBankRelocInfo {
     /* 0x00 */ s32 sampleBankId1;
     /* 0x04 */ s32 sampleBankId2;
     /* 0x08 */ s32 baseAddr1;

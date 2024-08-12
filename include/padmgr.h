@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "irqmgr.h"
 
-typedef enum {
+typedef enum ControllerPakType {
     CONT_PAK_NONE,
     CONT_PAK_RUMBLE,
     CONT_PAK_OTHER

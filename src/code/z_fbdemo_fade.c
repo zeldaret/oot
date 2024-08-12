@@ -1,12 +1,12 @@
 #include "global.h"
 #include "terminal.h"
 
-typedef enum {
+typedef enum TransitionFadeDirection {
     /* 0 */ TRANS_FADE_DIR_IN,
     /* 1 */ TRANS_FADE_DIR_OUT
 } TransitionFadeDirection;
 
-typedef enum {
+typedef enum TransitionFadeType {
     /* 0 */ TRANS_FADE_TYPE_NONE,
     /* 1 */ TRANS_FADE_TYPE_ONE_WAY,
     /* 2 */ TRANS_FADE_TYPE_FLASH

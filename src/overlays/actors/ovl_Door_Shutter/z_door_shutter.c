@@ -60,7 +60,7 @@ ActorProfile Door_Shutter_Profile = {
     /**/ DoorShutter_Draw,
 };
 
-typedef enum {
+typedef enum DoorShutterGfxType {
     /*  0 */ DOORSHUTTER_GFX_DEKU_TREE_1,
     /*  1 */ DOORSHUTTER_GFX_DEKU_TREE_2,
     /*  2 */ DOORSHUTTER_GFX_DODONGOS_CAVERN,
@@ -83,7 +83,7 @@ typedef enum {
     /* 19 */ DOORSHUTTER_GFX_ROYAL_FAMILYS_TOMB
 } DoorShutterGfxType;
 
-typedef enum {
+typedef enum DoorShutterStyleType {
     /* -1 */ DOORSHUTTER_STYLE_FROM_SCENE = -1, // Style is taken from `sSceneInfo`
     /*  0 */ DOORSHUTTER_STYLE_PHANTOM_GANON,
     /*  1 */ DOORSHUTTER_STYLE_GOHMA_BLOCK,
@@ -104,7 +104,7 @@ typedef enum {
     /* 16 */ DOORSHUTTER_STYLE_ROYAL_FAMILYS_TOMB
 } DoorShutterStyleType;
 
-typedef struct {
+typedef struct DoorShutterStyleInfo {
     s16 objectId;
     u8 gfxType1;
     u8 gfxType2;
@@ -215,7 +215,7 @@ static DoorShutterStyleInfo sStyleInfo[] = {
     },
 };
 
-typedef struct {
+typedef struct DoorShutterGfxInfo {
     /* 0x0000 */ Gfx* doorDL;
     /* 0x0004 */ Gfx* barsDL;
     /* 0x0008 */ u8 barsOpenOffsetY;
@@ -269,7 +269,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
 };
 
-typedef struct {
+typedef struct DoorShutterSceneInfo {
     s16 sceneId;
     u8 styleType;
 } DoorShutterSceneInfo;
@@ -295,7 +295,7 @@ static DoorShutterSceneInfo sSceneInfo[] = {
     { -1, DOORSHUTTER_STYLE_GENERIC },
 };
 
-typedef enum {
+typedef enum DoorShutterBossDoorTexIndex {
     /* 0 */ DOORSHUTTER_BOSSDOORTEX_0,
     /* 1 */ DOORSHUTTER_BOSSDOORTEX_FIRE,
     /* 2 */ DOORSHUTTER_BOSSDOORTEX_WATER,
@@ -305,7 +305,7 @@ typedef enum {
     /* 6 */ DOORSHUTTER_BOSSDOORTEX_SPIRIT
 } DoorShutterBossDoorTexIndex;
 
-typedef struct {
+typedef struct DoorShutterBossDoorInfo {
     s16 dungeonSceneId;
     s16 bossSceneId;
     u8 texIndex;

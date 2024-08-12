@@ -17,7 +17,7 @@ void BgMizuWater_Draw(Actor* thisx, PlayState* play);
 void BgMizuWater_WaitForAction(BgMizuWater* this, PlayState* play);
 void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play);
 
-typedef struct {
+typedef struct WaterLevel {
     s32 switchFlag;
     s32 yDiff;
 } WaterLevel;

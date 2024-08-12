@@ -29,7 +29,7 @@ extern u8 _icon_item_24_staticSegmentRomStart[];
 #define GET_QUEST_ICON_VROM(itemId) \
     ((uintptr_t)_icon_item_24_staticSegmentRomStart + (((itemId)-ITEM_MEDALLION_FOREST) * QUEST_ICON_SIZE))
 
-typedef enum {
+typedef enum DoAction {
     /* 0x00 */ DO_ACTION_ATTACK,
     /* 0x01 */ DO_ACTION_CHECK,
     /* 0x02 */ DO_ACTION_ENTER,
@@ -67,7 +67,7 @@ typedef enum {
 #define DO_ACTION_TEX_HEIGHT 16
 #define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
 
-typedef struct {
+typedef struct InterfaceContext {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Vtx*   actionVtx;
     /* 0x012C */ Vtx*   beatingHeartVtx;

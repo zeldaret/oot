@@ -15,7 +15,7 @@
 #define GE1_STATE_IDLE_ANIM (1 << 2)
 #define GE1_STATE_STOP_FIDGET (1 << 3)
 
-typedef enum {
+typedef enum EnGe1Hairstyle {
     /* 00 */ GE1_HAIR_BOB,
     /* 01 */ GE1_HAIR_STRAIGHT,
     /* 02 */ GE1_HAIR_SPIKY

@@ -120,7 +120,7 @@ static EnZl3* sZelda;
 
 #define BOSSGANON_EFFECT_COUNT 200
 
-typedef struct {
+typedef struct GanondorfEffect {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 timer;
     /* 0x04 */ Vec3f pos;
@@ -502,7 +502,7 @@ void BossGanon_SetupIntroCutscene(BossGanon* this, PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct CutsceneCameraPosition {
     /* 0x00 */ Vec3s eye;
     /* 0x06 */ Vec3s at;
 } CutsceneCameraPosition; // size = 0x12

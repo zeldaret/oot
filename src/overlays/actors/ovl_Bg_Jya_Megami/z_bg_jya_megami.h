@@ -8,7 +8,7 @@ struct BgJyaMegami;
 
 typedef void (*BgJyaMegamiActionFunc)(struct BgJyaMegami*, PlayState*);
 
-typedef struct {
+typedef struct BgJyaMegamiPiece {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f vel;
     /* 0x18 */ s16 rotVelX;

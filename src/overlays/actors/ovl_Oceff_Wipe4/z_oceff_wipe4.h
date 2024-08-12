@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum OceffWipe4Type {
     /* 0x00 */ OCEFF_WIPE4_SCARECROWS,
     /* 0x01 */ OCEFF_WIPE4_UNUSED
 } OceffWipe4Type;

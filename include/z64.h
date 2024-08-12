@@ -99,7 +99,7 @@
 #define STACK_TOP(stack) \
     ((u8*)(stack) + sizeof(stack))
 
-typedef struct {
+typedef struct KaleidoMgrOverlay {
     /* 0x00 */ void* loadedRamAddr;
     /* 0x04 */ RomFile file;
     /* 0x0C */ void* vramStart;
@@ -108,22 +108,22 @@ typedef struct {
     /* 0x18 */ const char* name;
 } KaleidoMgrOverlay; // size = 0x1C
 
-typedef enum {
+typedef enum KaleidoOverlayType {
     /* 0 */ KALEIDO_OVL_KALEIDO_SCOPE,
     /* 1 */ KALEIDO_OVL_PLAYER_ACTOR,
     /* 2 */ KALEIDO_OVL_MAX
 } KaleidoOverlayType;
 
-typedef enum {
+typedef enum LensMode {
     /* 0 */ LENS_MODE_SHOW_ACTORS, // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
     /* 1 */ LENS_MODE_HIDE_ACTORS // lens actors are visible by default, and hidden by using lens (for example, fake walls)
 } LensMode;
 
-typedef struct {
+typedef struct SetupState {
     /* 0x00 */ GameState state;
 } SetupState; // size = 0xA4
 
-typedef struct {
+typedef struct ConsoleLogoState {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
@@ -141,7 +141,7 @@ typedef struct {
 
 struct MapSelectState;
 
-typedef struct {
+typedef struct SceneSelectEntry {
     /* 0x00 */ char* name;
     /* 0x04 */ void (*loadFunc)(struct MapSelectState*, s32);
     /* 0x08 */ s32 entranceIndex;
@@ -169,7 +169,7 @@ typedef struct MapSelectState {
     /* 0x0238 */ u8* staticSegment;
 } MapSelectState; // size = 0x240
 
-typedef struct {
+typedef struct SampleState {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
@@ -182,7 +182,7 @@ typedef struct QuestHintCmd {
     /* 0x03 */ u8 byte3;
 } QuestHintCmd; // size = 0x4
 
-typedef enum {
+typedef enum PauseBgPreRenderState {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
     /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
     /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
@@ -190,19 +190,19 @@ typedef enum {
     /* 4 */ PAUSE_BG_PRERENDER_MAX
 } PauseBgPreRenderState;
 
-typedef enum {
+typedef enum TransitionTileState {
     /* 0 */ TRANS_TILE_OFF, // Inactive, do nothing
     /* 1 */ TRANS_TILE_SETUP, // Save the necessary buffers
     /* 2 */ TRANS_TILE_PROCESS, // Initialize the transition
     /* 3 */ TRANS_TILE_READY // The transition is ready, so will update and draw each frame
 } TransitionTileState;
 
-typedef struct {
+typedef struct TitleSetupState {
     /* 0x0000 */ GameState state;
     /* 0x00A8 */ View view;
 } TitleSetupState; // size = 0x1D0
 
-typedef struct {
+typedef struct FileSelectState {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ Vtx* windowVtx;
     /* 0x000A8 */ u8* staticSegment;
@@ -299,13 +299,13 @@ typedef struct {
     (((field) >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) \
      & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
 
-typedef struct {
+typedef struct EntranceInfo {
     /* 0x00 */ s8  sceneId;
     /* 0x01 */ s8  spawn;
     /* 0x02 */ u16 field;
 } EntranceInfo; // size = 0x4
 
-typedef struct {
+typedef struct GameStateOverlay {
     /* 0x00 */ void*     loadedRamAddr;
     /* 0x04 */ RomFile   file;      // if applicable
     /* 0x0C */ void*     vramStart; // if applicable
@@ -319,13 +319,13 @@ typedef struct {
     /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
 
-typedef struct {
+typedef struct PreNMIState {
     /* 0x00 */ GameState state;
     /* 0xA4 */ u32       timer;
     /* 0xA8 */ UNK_TYPE4 unk_A8;
 } PreNMIState; // size = 0xAC
 
-typedef enum {
+typedef enum FloorID {
     /*  1 */ F_8F = 1,
     /*  2 */ F_7F,
     /*  3 */ F_6F,
@@ -347,7 +347,7 @@ typedef enum {
 // All arrays pointed in this struct are indexed by "map indices"
 // In dungeons, the map index corresponds to the dungeon index (which also indexes keys, items, etc)
 // In overworld areas, the map index corresponds to the overworld area index (spot 00, 01, etc)
-typedef struct {
+typedef struct MapData {
     /* 0x00 */ s16 (*floorTexIndexOffset)[8]; // dungeon texture index offset by floor
     /* 0x04 */ s16*  bossFloor; // floor the boss is on
     /* 0x08 */ s16 (*roomPalette)[32]; // map palette by room
@@ -396,7 +396,7 @@ typedef struct DebugDispObject {
     /* 0x28 */ struct DebugDispObject* next;
 } DebugDispObject; // size = 0x2C
 
-typedef enum {
+typedef enum MatrixMode {
     /* 0 */ MTXMODE_NEW,  // generates a new matrix
     /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
@@ -411,13 +411,13 @@ typedef struct StackEntry {
     /* 0x18 */ const char* name;
 } StackEntry;
 
-typedef enum {
+typedef enum StackStatus {
     /* 0 */ STACK_STATUS_OK,
     /* 1 */ STACK_STATUS_WARNING,
     /* 2 */ STACK_STATUS_OVERFLOW
 } StackStatus;
 
-typedef struct {
+typedef struct ISVDbg {
     /* 0x00 */ u32 magic; // IS64
     /* 0x04 */ u32 get;
     /* 0x08 */ u8 unk_08[0x14-0x08];
@@ -426,7 +426,7 @@ typedef struct {
     /* 0x20 */ u8 data[0x10000-0x20];
 } ISVDbg;
 
-typedef struct {
+typedef struct LocaleCartInfo {
     /* 0x00 */ char name[0x18];
     /* 0x18 */ u32 mediaFormat;
     /* 0x1C */ union {
@@ -439,7 +439,7 @@ typedef struct {
     };
 } LocaleCartInfo; // size = 0x20
 
-typedef struct {
+typedef struct Yaz0Header {
     /* 0x00 */ char magic[4]; // Yaz0
     /* 0x04 */ u32 decSize;
     /* 0x08 */ u32 compInfoOffset; // only used in mio0
@@ -486,7 +486,7 @@ typedef struct ArenaNode {
 #define R_MIPS_LO16 6
 
 /* Reloc section id, must fit in 2 bits otherwise the relocation format must be modified */
-typedef enum {
+typedef enum RelocSectionId {
     /* 0 */ RELOC_SECTION_NULL,
     /* 1 */ RELOC_SECTION_TEXT,
     /* 2 */ RELOC_SECTION_DATA,
@@ -508,21 +508,21 @@ typedef struct OverlayRelocationSection {
 // where 64-bit load/store instructions are emulated with 2x 32-bit load/store instructions. The alignment attribute
 // conveys that this structure will not always be 8-bytes aligned, allowing a modern compiler to generate non-crashing
 // code for accessing these. This is not an issue in the original compiler as it only output O32 ABI code.
-ALIGNED(4) typedef struct {
+ALIGNED(4) typedef struct PreNmiBuff {
     /* 0x00 */ u32 resetting;
     /* 0x04 */ u32 resetCount;
     /* 0x08 */ OSTime duration;
     /* 0x10 */ OSTime resetTime;
 } PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
-typedef enum {
+typedef enum ViModeEditState {
     /* 0 */ VI_MODE_EDIT_STATE_INACTIVE,
     /* 1 */ VI_MODE_EDIT_STATE_ACTIVE,
     /* 2 */ VI_MODE_EDIT_STATE_2, // active, more adjustments
     /* 3 */ VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
 } ViModeEditState;
 
-typedef struct {
+typedef struct ViMode {
     /* 0x00 */ OSViMode customViMode;
     /* 0x50 */ s32 viHeight;
     /* 0x54 */ s32 viWidth;

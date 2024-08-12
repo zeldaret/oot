@@ -9,14 +9,14 @@
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
-typedef enum {
+typedef enum LightningBoltState {
     /* 0x00 */ LIGHTNING_BOLT_START,
     /* 0x01 */ LIGHTNING_BOLT_WAIT,
     /* 0x02 */ LIGHTNING_BOLT_DRAW,
     /* 0xFF */ LIGHTNING_BOLT_INACTIVE = 0xFF
 } LightningBoltState;
 
-typedef struct {
+typedef struct ZBufValConversionEntry {
     /* 0x00 */ s32 mantissaShift; // shift applied to the mantissa of the z buffer value
     /* 0x04 */ s32 base;          // 15.3 fixed-point base value for the exponent
 } ZBufValConversionEntry;         // size = 0x8
@@ -41,7 +41,7 @@ u16 gTimeSpeed = 0;
 
 u16 sSunScreenDepth = GPACK_ZDZ(G_MAXFBZ, 0);
 
-typedef struct {
+typedef struct TimeBasedLightEntry {
     /* 0x00 */ u16 startTime;
     /* 0x02 */ u16 endTime;
     /* 0x04 */ u8 lightSetting;
@@ -193,7 +193,7 @@ s16 gLensFlareScale;
 f32 gLensFlareColorIntensity;
 s16 gLensFlareGlareStrength;
 
-typedef struct {
+typedef struct LightningBolt {
     /* 0x00 */ u8 state;
     /* 0x04 */ Vec3f offset;
     /* 0x10 */ Vec3f pos;
@@ -1485,7 +1485,7 @@ void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, V
 
 f32 sLensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
 
-typedef enum {
+typedef enum LensFlareType {
     /* 0 */ LENS_FLARE_CIRCLE0,
     /* 1 */ LENS_FLARE_CIRCLE1,
     /* 2 */ LENS_FLARE_RING

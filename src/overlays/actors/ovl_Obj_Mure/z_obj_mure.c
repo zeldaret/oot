@@ -31,7 +31,7 @@ ActorProfile Obj_Mure_Profile = {
     /**/ NULL,
 };
 
-typedef enum {
+typedef enum ObjMureType {
     /* 0 */ OBJMURE_TYPE_GRASS,
     /* 1 */ OBJMURE_TYPE_UNDEFINED,
     /* 2 */ OBJMURE_TYPE_FISH,
@@ -39,7 +39,7 @@ typedef enum {
     /* 4 */ OBJMURE_TYPE_BUTTERFLY
 } ObjMureType;
 
-typedef enum {
+typedef enum ObjMureChildState {
     /* 0 */ OBJMURE_CHILD_STATE_0,
     /* 1 */ OBJMURE_CHILD_STATE_1, // Dead
     /* 2 */ OBJMURE_CHILD_STATE_2

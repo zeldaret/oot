@@ -24,7 +24,7 @@
 #define ROOM_CENTER_Y 0.0f
 #define ROOM_CENTER_Z 0.0f
 
-typedef enum {
+typedef enum BossSstHandState {
     /*  0 */ HAND_WAIT,
     /*  1 */ HAND_BEAT,
     /*  2 */ HAND_RETREAT,
@@ -39,7 +39,7 @@ typedef enum {
     /* 11 */ HAND_DEATH
 } BossSstHandState;
 
-typedef enum {
+typedef enum BossSstEffectMode {
     /* 0 */ BONGO_NULL,
     /* 1 */ BONGO_ICE,
     /* 2 */ BONGO_SHOCKWAVE,
