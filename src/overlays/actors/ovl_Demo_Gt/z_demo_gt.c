@@ -629,7 +629,7 @@ void DemoGt_Update8(DemoGt* this, PlayState* play) {
     func_8097EF00(this, play);
 }
 
-void DemoGt_Draw1(DemoGt* thisx, PlayState* play) {
+void DemoGt_Draw1(Actor* thisx, PlayState* play) {
     s32 pad;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     u32 gameplayFrames = play->gameplayFrames;
@@ -859,11 +859,11 @@ void DemoGt_Update9(DemoGt* this, PlayState* play) {
     func_8097FD70(this, play);
 }
 
-void DemoGt_Draw2(DemoGt* this, PlayState* play) {
+void DemoGt_Draw2(Actor* thisx, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s32* unk198;
     s32* unk178;
-    s32 pad;
+    DemoGt* this = (DemoGt*)thisx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part2.c", 470);
 
@@ -1180,7 +1180,7 @@ void DemoGt_Update10(DemoGt* this, PlayState* play) {
     func_80980C90(this, play);
 }
 
-void DemoGt_Draw3(DemoGt* this, PlayState* play) {
+void DemoGt_Draw3(Actor* thisx, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1026);
@@ -1259,11 +1259,11 @@ void DemoGt_Update16(DemoGt* this, PlayState* play) {
     }
 }
 
-void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
+void DemoGt_Draw4(Actor* thisx, PlayState* play2) {
     GraphicsContext* gfxCtx;
     PlayState* play = play2;
     u16 csCurFrame = play->csCtx.curFrame;
-    s32 pad;
+    DemoGt* this = (DemoGt*)thisx;
     s16 sp76;
     f32 sp70;
     f32 sp6C;
@@ -1382,9 +1382,9 @@ void DemoGt_Update17(DemoGt* this, PlayState* play) {
     }
 }
 
-void DemoGt_Draw5(DemoGt* this, PlayState* play) {
+void DemoGt_Draw5(Actor* thisx, PlayState* play) {
     GraphicsContext* gfxCtx;
-    s32 pad;
+    DemoGt* this = (DemoGt*)thisx;
     s16 sp76;
     f32 sp70;
     f32 sp6C;
@@ -1479,9 +1479,9 @@ void DemoGt_Update18(DemoGt* this, PlayState* play) {
     }
 }
 
-void DemoGt_Draw6(DemoGt* this, PlayState* play) {
-    DemoGt* this2 = this;
-    s16 sp78 = this2->unk_172;
+void DemoGt_Draw6(Actor* thisx, PlayState* play) {
+    DemoGt* this = (DemoGt*)thisx;
+    s16 sp78 = this->unk_172;
     f32 sp74;
     f32 sp70;
     s16 sp6E;
@@ -1571,8 +1571,8 @@ void DemoGt_Update14(DemoGt* this, PlayState* play) {
     func_80981CEC(this, play);
 }
 
-void DemoGt_Draw7(DemoGt* this, PlayState* play) {
-    DemoGt* this2 = this;
+void DemoGt_Draw7(Actor* thisx, PlayState* play) {
+    DemoGt* this = (DemoGt*)thisx;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 sp6E;
     f32 sp68;
@@ -1584,7 +1584,7 @@ void DemoGt_Draw7(DemoGt* this, PlayState* play) {
     Vec3f sp44;
     f32 sp40;
 
-    sp6E = this2->unk_172;
+    sp6E = this->unk_172;
     sp68 = fabsf(BINANG_TO_RAD(sp6E));
     sp64 = kREG(75);
     sp62 = kREG(74) + 0x7FEC;
@@ -1662,8 +1662,8 @@ void DemoGt_Update15(DemoGt* this, PlayState* play) {
     func_809820AC(this, play);
 }
 
-void DemoGt_Draw8(DemoGt* this, PlayState* play) {
-    DemoGt* this2 = this;
+void DemoGt_Draw8(Actor* thisx, PlayState* play) {
+    DemoGt* this = (DemoGt*)thisx;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 sp6E;
     f32 sp68;
@@ -1675,7 +1675,7 @@ void DemoGt_Draw8(DemoGt* this, PlayState* play) {
     Vec3f sp44;
     f32 sp40;
 
-    sp6E = this2->unk_172;
+    sp6E = this->unk_172;
     sp68 = fabsf(BINANG_TO_RAD(sp6E));
     sp64 = kREG(78);
     sp62 = kREG(77) + 0xBE80;
@@ -1764,7 +1764,7 @@ void DemoGt_Init(Actor* thisx, PlayState* play) {
     }
 }
 
-void DemoGt_Draw0(DemoGt* this, PlayState* play) {
+void DemoGt_Draw0(Actor* thisx, PlayState* play) {
 }
 
 static DemoGtDrawFunc sDrawFuncs[] = {
@@ -1782,7 +1782,7 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
         return;
     }
 
-    drawFunc(this, play);
+    drawFunc(thisx, play);
 }
 
 ActorProfile Demo_Gt_Profile = {
