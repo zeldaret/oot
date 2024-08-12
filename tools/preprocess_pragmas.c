@@ -49,15 +49,15 @@ int main(int argc, char** argv) {
 
     while ((nread = fread(bufp, 1, bufend - bufp, stdin)) != 0) {
         bufp += nread;
-        char* last_line_return = NULL;
+        char* last_newline = NULL;
         for (char* p = bufp - 1; p >= buf; p--) {
             if (*p == '\n') {
-                last_line_return = p;
+                last_newline = p;
                 break;
             }
         }
-        if (last_line_return == NULL) {
-            // No line return, read more data.
+        if (last_newline == NULL) {
+            // No newline, read more data.
             // Assert there is space for it (there should be no line long enough to not fit in buf).
             assert(bufp < bufend);
             continue;
@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
             char* line_end = line;
             while (*line_end != '\n') {
                 line_end++;
-                assert(line_end <= last_line_return);
+                assert(line_end <= last_newline);
             }
             if (!strncmp(line, str_pragma_increment_block_number, strlen(str_pragma_increment_block_number))) {
                 is_in_pragma = true;
@@ -123,13 +123,13 @@ int main(int argc, char** argv) {
                 fprintf(stdout, "#line %d \"%s\"\n", line_num + 1, filename);
             }
             line_num++;
-            if (line_end == last_line_return)
+            if (line_end == last_newline)
                 break;
             line = line_end + 1;
         }
         assert(bufp <= bufend);
-        assert(bufp > last_line_return);
-        char* next_incomplete_line_start = last_line_return + 1;
+        assert(bufp > last_newline);
+        char* next_incomplete_line_start = last_newline + 1;
         ptrdiff_t next_incomplete_line_sz = bufp - next_incomplete_line_start;
         assert(next_incomplete_line_sz >= 0);
         memmove(buf, next_incomplete_line_start, next_incomplete_line_sz);
