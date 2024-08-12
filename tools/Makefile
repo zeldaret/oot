@@ -33,13 +33,13 @@ distclean: clean
 
 .PHONY: all clean distclean
 
-elf2rom_SOURCES      := elf2rom.c elf32.c n64chksum.c util.c
-makeromfs_SOURCES    := makeromfs.c n64chksum.c util.c
-mkdmadata_SOURCES    := mkdmadata.c spec.c util.c
-mkldscript_SOURCES   := mkldscript.c spec.c util.c
+elf2rom_SOURCES            := elf2rom.c elf32.c n64chksum.c util.c
+makeromfs_SOURCES          := makeromfs.c n64chksum.c util.c
+mkdmadata_SOURCES          := mkdmadata.c spec.c util.c
+mkldscript_SOURCES         := mkldscript.c spec.c util.c
 preprocess_pragmas_SOURCES := preprocess_pragmas.c
-reloc_prereq_SOURCES := reloc_prereq.c spec.c util.c
-vtxdis_SOURCES       := vtxdis.c
+reloc_prereq_SOURCES       := reloc_prereq.c spec.c util.c
+vtxdis_SOURCES             := vtxdis.c
 
 
 define COMPILE =
