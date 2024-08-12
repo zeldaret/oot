@@ -56,7 +56,7 @@ volatile OSTime D_8016A578;
 // Accumulator for `gRDPTimeTotal`
 volatile OSTime gRDPTimeAcc;
 
-typedef struct {
+typedef struct SpeedMeterTimeEntry {
     /* 0x00 */ volatile OSTime* time;
     /* 0x04 */ u8 x;
     /* 0x05 */ u8 y;
@@ -74,7 +74,7 @@ SpeedMeterTimeEntry sSpeedMeterTimeEntryArray[] = {
     { &gGraphUpdatePeriod, 0, 10, GPACK_RGBA5551(255, 0, 255, 1) },
 };
 
-typedef struct {
+typedef struct SpeedMeterAllocEntry {
     /* 0x00 */ s32 maxval;
     /* 0x04 */ s32 val;
     /* 0x08 */ u16 backColor;

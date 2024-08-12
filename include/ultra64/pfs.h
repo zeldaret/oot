@@ -69,7 +69,7 @@
 #define PFS_INODE_DIST_MAP  (PFS_BANK_LAPPED_BY * PFS_SECTOR_PER_BANK)
 #define PFS_SECTOR_SIZE     (PFS_INODE_SIZE_PER_PAGE/PFS_SECTOR_PER_BANK)
 
-typedef struct {
+typedef struct OSPfs {
     /* 0x00 */ s32 status;
     /* 0x04 */ OSMesgQueue* queue;
     /* 0x08 */ s32 channel;
@@ -85,7 +85,7 @@ typedef struct {
     /* 0x65 */ u8 activebank;
 } OSPfs; // size = 0x68
 
-typedef struct {
+typedef struct OSPfsState {
     /* 0x00 */ u32 file_size;       /* bytes */
     /* 0x04 */ u32 game_code;
     /* 0x08 */ u16 company_code;
@@ -93,7 +93,7 @@ typedef struct {
     /* 0x10 */ char game_name[16];
 } OSPfsState; // size = 0x20
 
-typedef union {
+typedef union __OSInodeUnit {
     struct {
         /* 0x00 */ u8 bank;
         /* 0x01 */ u8 page;
@@ -101,11 +101,11 @@ typedef union {
     /* 0x00 */ u16 ipage;
 } __OSInodeUnit; // size = 0x02
 
-typedef struct {
+typedef struct __OSInode {
     /* 0x00 */ __OSInodeUnit inodePage[128];
 } __OSInode; // size = 0x100
 
-typedef struct {
+typedef struct __OSDir {
     /* 0x00 */ u32 game_code;
     /* 0x04 */ u16 company_code;
     /* 0x06 */ __OSInodeUnit start_page;
@@ -116,7 +116,7 @@ typedef struct {
     /* 0x10 */ u8 game_name[PFS_FILE_NAME_LEN];
 } __OSDir; // size = 0x20
 
-typedef struct {
+typedef struct __OSPackId {
     /* 0x00 */ u32 repaired;
     /* 0x04 */ u32 random;
     /* 0x08 */ u64 serialMid;
@@ -128,7 +128,7 @@ typedef struct {
     /* 0x1E */ u16 invertedChecksum;
 } __OSPackId; // size = 0x20
 
-typedef struct {
+typedef struct __OSInodeCache {
     /* 0x000 */ __OSInode inode;
     /* 0x100 */ u8 bank;
     /* 0x101 */ u8 map[PFS_INODE_DIST_MAP];

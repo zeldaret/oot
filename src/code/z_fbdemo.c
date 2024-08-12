@@ -90,8 +90,8 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
     for (row = 0; row < this->rows; row++) {
         gSPVertex(gfx++, SEGMENT_ADDR(0xA, (u32)row * (this->cols + 1) * sizeof(Vtx)), 2 * (this->cols + 1), 0);
 
-        colTex = 0;
         col2 = 0;
+        colTex = 0;
         col = 0;
         while (col < this->cols) {
             gDPPipeSync(gfx++);

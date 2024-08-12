@@ -48,7 +48,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
-typedef struct {
+typedef struct HanaParams {
     /* 0x00 */ Gfx* dList;
     /* 0x04 */ f32 scale;
     /* 0x08 */ f32 yOffset;

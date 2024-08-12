@@ -96,18 +96,19 @@ void BgGjyoBridge_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgGjyoBridge_Draw(Actor* thisx, PlayState* play) {
-    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
+    PlayState* play2 = (PlayState*)play;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TexScroll(play->state.gfxCtx, play->gameplayFrames & 127, play->gameplayFrames * -3 & 127, 32, 32));
+    gSPSegment(
+        POLY_XLU_DISP++, 8,
+        Gfx_TexScroll(play->state.gfxCtx, play2->gameplayFrames & 127, play2->gameplayFrames * -3 & 127, 32, 32));
 
     gSPSegment(POLY_XLU_DISP++, 9,
-               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, -play->gameplayFrames & 127, 32, 32, 1, 0,
-                                play->gameplayFrames & 127, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, -play2->gameplayFrames & 127, 32, 32, 1, 0,
+                                play2->gameplayFrames & 127, 32, 32));
 
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

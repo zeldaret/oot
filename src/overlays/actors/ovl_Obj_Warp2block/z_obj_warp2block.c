@@ -40,7 +40,7 @@ ActorProfile Obj_Warp2block_Profile = {
     /**/ ObjWarp2block_Draw,
 };
 
-typedef struct {
+typedef struct Warp2BlockSpawnData {
     /* 0x00 */ f32 scale;
     /* 0x04 */ f32 focus;
     /* 0x08 */ s16 params;

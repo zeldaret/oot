@@ -11,7 +11,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum FaceTextureIndex {
     /* 0x00 */ FACE_EYES_CLOSED,
     /* 0x01 */ FACE_EYES_OPEN,
     /* 0x02 */ FACE_EYES_OPEN_SMILING
@@ -392,8 +392,8 @@ void ObjLightswitch_Update(Actor* thisx, PlayState* play2) {
     }
 }
 
-void ObjLightswitch_DrawOpa(ObjLightswitch* this, PlayState* play) {
-    Actor* child;
+void ObjLightswitch_DrawOpa(Actor* thisx, PlayState* play) {
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
     Vec3f pos;
     Vec3s rot;
 
@@ -404,18 +404,17 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, PlayState* play) {
                    (u8)(this->alpha >> 6));
     gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
 
-    if ((this->actor.params & 1) == 1) {
-        child = this->actor.child;
-        this->actor.world.pos.x = child->world.pos.x;
-        this->actor.world.pos.y = child->world.pos.y + 60.0f;
-        this->actor.world.pos.z = child->world.pos.z;
-        Math_Vec3f_Copy(&pos, &this->actor.world.pos);
-        Matrix_SetTranslateRotateYXZ(pos.x, pos.y, pos.z, &this->actor.shape.rot);
-        Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
+    if ((thisx->params & 1) == 1) {
+        thisx->world.pos.x = thisx->child->world.pos.x;
+        thisx->world.pos.y = thisx->child->world.pos.y + 60.0f;
+        thisx->world.pos.z = thisx->child->world.pos.z;
+        Math_Vec3f_Copy(&pos, &thisx->world.pos);
+        Matrix_SetTranslateRotateYXZ(pos.x, pos.y, pos.z, &thisx->shape.rot);
+        Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
     } else {
-        pos.x = this->actor.world.pos.x;
-        pos.y = this->actor.world.pos.y + this->actor.shape.yOffset * this->actor.scale.y;
-        pos.z = this->actor.world.pos.z;
+        pos.x = thisx->world.pos.x;
+        pos.y = thisx->world.pos.y + thisx->shape.yOffset * thisx->scale.y;
+        pos.z = thisx->world.pos.z;
     }
 
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 841),
@@ -423,18 +422,18 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFaceTextures[this->faceTextureIndex]));
     gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000260);
 
-    rot.x = this->actor.shape.rot.x;
-    rot.y = this->actor.shape.rot.y;
-    rot.z = this->actor.shape.rot.z + this->flameRingRot;
+    rot.x = thisx->shape.rot.x;
+    rot.y = thisx->shape.rot.y;
+    rot.z = thisx->shape.rot.z + this->flameRingRot;
     Matrix_SetTranslateRotateYXZ(pos.x, pos.y, pos.z, &rot);
-    Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
+    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 859),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000398);
 
-    rot.z = this->actor.shape.rot.z - this->flameRingRot;
+    rot.z = thisx->shape.rot.z - this->flameRingRot;
     Matrix_SetTranslateRotateYXZ(pos.x, pos.y, pos.z, &rot);
-    Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
+    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 873),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000408);
@@ -442,8 +441,8 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_lightswitch.c", 878);
 }
 
-void ObjLightswitch_DrawXlu(ObjLightswitch* this, PlayState* play) {
-    s32 pad;
+void ObjLightswitch_DrawXlu(Actor* thisx, PlayState* play) {
+    ObjLightswitch* this = (ObjLightswitch*)thisx;
     Vec3f sp68;
     Vec3s sp60;
 
@@ -454,28 +453,28 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, PlayState* play) {
                    (u8)(this->alpha >> 6));
     gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
 
-    sp68.x = this->actor.world.pos.x;
-    sp68.y = this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y);
-    sp68.z = this->actor.world.pos.z;
+    sp68.x = thisx->world.pos.x;
+    sp68.y = thisx->world.pos.y + (thisx->shape.yOffset * thisx->scale.y);
+    sp68.z = thisx->world.pos.z;
 
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 912),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFaceTextures[this->faceTextureIndex]));
     gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000260);
 
-    sp60.x = this->actor.shape.rot.x;
-    sp60.y = this->actor.shape.rot.y;
-    sp60.z = this->actor.shape.rot.z + this->flameRingRot;
+    sp60.x = thisx->shape.rot.x;
+    sp60.y = thisx->shape.rot.y;
+    sp60.z = thisx->shape.rot.z + this->flameRingRot;
 
     Matrix_SetTranslateRotateYXZ(sp68.x, sp68.y, sp68.z, &sp60);
-    Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
+    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 930),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000398);
 
-    sp60.z = this->actor.shape.rot.z - this->flameRingRot;
+    sp60.z = thisx->shape.rot.z - this->flameRingRot;
     Matrix_SetTranslateRotateYXZ(sp68.x, sp68.y, sp68.z, &sp60);
-    Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
+    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 944),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000408);
@@ -492,8 +491,8 @@ void ObjLightswitch_Draw(Actor* thisx, PlayState* play) {
     }
 
     if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_BURN && (alpha > 0 || alpha < 255)) {
-        ObjLightswitch_DrawXlu(this, play);
+        ObjLightswitch_DrawXlu(thisx, play);
     } else {
-        ObjLightswitch_DrawOpa(this, play);
+        ObjLightswitch_DrawOpa(thisx, play);
     }
 }

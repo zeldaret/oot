@@ -8,7 +8,7 @@ struct BossMo;
 
 typedef void (*BossMoActionFunc)(struct BossMo*, PlayState*);
 
-typedef enum {
+typedef enum BossMoTentS16Var {
     /* 0 */ MO_TENT_ACTION_STATE,
     /* 1 */ MO_TENT_MOVE_TIMER,
     /* 2 */ MO_TENT_VAR_TIMER,
@@ -21,7 +21,7 @@ typedef enum {
     /* 9 */ MO_TENT_SHORT_MAX
 } BossMoTentS16Var;
 
-typedef enum {
+typedef enum BossMoCoreS16Var {
     /* 0 */ MO_CORE_ACTION_STATE,
     /* 1 */ MO_CORE_MOVE_TIMER,
     /* 2 */ MO_CORE_VAR_TIMER,
@@ -34,7 +34,7 @@ typedef enum {
     /* 9 */ MO_CORE_SHORT_MAX
 } BossMoCoreS16Var;
 
-typedef enum {
+typedef enum BossMoTentF32Var {
     /* 0 */ MO_TENT_SWING_LAG_X,
     /* 1 */ MO_TENT_SWING_SIZE_X,
     /* 2 */ MO_TENT_SWING_RATE_X,
@@ -45,7 +45,7 @@ typedef enum {
     /* 7 */ MO_TENT_FLOAT_MAX
 } BossMoTentF32Var;
 
-typedef enum {
+typedef enum BossMoCoreF32Var {
     /* 0 */ MO_CORE_INTRO_WATER_ALPHA,
     /* 1 */ MO_CORE_FLOAT_MAX
 } BossMoCoreF32Var;

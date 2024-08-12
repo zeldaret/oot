@@ -756,6 +756,7 @@ s32 EnGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
                    255);
 
     if (limbIndex == GOMA_LIMB_EYE_IRIS_ROOT1) {
+        if (1) {}
         rot->x += this->eyePitch;
         rot->y += this->eyeYaw;
     } else if (limbIndex == GOMA_LIMB_BODY && this->hurtTimer != 0) {

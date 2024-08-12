@@ -16,14 +16,14 @@ struct SkelAnime;
 
 #define LIMB_DONE 0xFF
 
-typedef struct {
+typedef struct StandardLimb {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
     /* 0x08 */ Gfx* dList;
 } StandardLimb; // size = 0xC
 
-typedef struct {
+typedef struct LodLimb {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
@@ -31,13 +31,13 @@ typedef struct {
 } LodLimb; // size = 0x10
 
 // Model has limbs with only rigid meshes
-typedef struct {
+typedef struct SkeletonHeader {
     /* 0x00 */ void** segment;
     /* 0x04 */ u8 limbCount;
 } SkeletonHeader; // size = 0x8
 
 // Model has limbs with flexible meshes
-typedef struct {
+typedef struct FlexSkeletonHeader {
     /* 0x00 */ SkeletonHeader sh;
     /* 0x08 */ u8 dListCount;
 } FlexSkeletonHeader; // size = 0xC
@@ -47,22 +47,22 @@ typedef struct {
  */
 
 // Index into the frame data table.
-typedef struct {
+typedef struct JointIndex {
     /* 0x00 */ u16 x;
     /* 0x02 */ u16 y;
     /* 0x04 */ u16 z;
 } JointIndex; // size = 0x06
 
-typedef struct {
+typedef struct AnimationHeaderCommon {
     /* 0x00 */ s16 frameCount;
 } AnimationHeaderCommon;
 
-typedef struct {
+typedef struct LinkAnimationHeader {
     /* 0x00 */ AnimationHeaderCommon common;
     /* 0x04 */ void* segment;
 } LinkAnimationHeader; // size = 0x8
 
-typedef struct {
+typedef struct AnimationHeader {
     /* 0x00 */ AnimationHeaderCommon common;
     /* 0x04 */ s16* frameData; // "tbl"
     /* 0x08 */ JointIndex* jointIndices; // "ref_tbl"
@@ -73,7 +73,7 @@ typedef struct {
  * SkelAnime
  */
 
-typedef enum {
+typedef enum AnimationMode {
     /* 0 */ ANIMMODE_LOOP,
     /* 1 */ ANIMMODE_LOOP_INTERP,
     /* 2 */ ANIMMODE_ONCE,
@@ -82,7 +82,7 @@ typedef enum {
     /* 5 */ ANIMMODE_LOOP_PARTIAL_INTERP
 } AnimationMode;
 
-typedef enum {
+typedef enum AnimationTapers {
     /* -1 */ ANIMTAPER_DECEL = -1,
     /*  0 */ ANIMTAPER_NONE,
     /*  1 */ ANIMTAPER_ACCEL
@@ -253,7 +253,7 @@ void Animation_EndLoop(SkelAnime* skelAnime);
 void Animation_Reverse(SkelAnime* skelAnime);
 void Animation_SetMorph(struct PlayState* play, SkelAnime* skelAnime, f32 morphFrames);
 
-typedef struct {
+typedef struct AnimationInfo {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32 playSpeed;
     /* 0x08 */ f32 startFrame;
@@ -264,21 +264,21 @@ typedef struct {
 
 void Animation_ChangeByInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, s32 index);
 
-typedef struct {
+typedef struct AnimationFrameCountInfo {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32 frameCount;
     /* 0x08 */ u8 mode;
     /* 0x0C */ f32 morphFrames;
 } AnimationFrameCountInfo; // size = 0x10
 
-typedef struct {
+typedef struct AnimationSpeedInfo {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32 playSpeed;
     /* 0x08 */ u8 mode;
     /* 0x0C */ f32 morphFrames;
 } AnimationSpeedInfo; // size = 0x10
 
-typedef struct {
+typedef struct AnimationMinimalInfo {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ u8 mode;
     /* 0x08 */ f32 morphFrames;
@@ -296,7 +296,7 @@ s16 Animation_GetLastFrame(void* animation);
  * Animation Task Queue
  */
 
-typedef enum {
+typedef enum AnimTaskType {
     /* 0 */ ANIMTASK_LOAD_PLAYER_FRAME,
     /* 1 */ ANIMTASK_COPY,
     /* 2 */ ANIMTASK_INTERP,
@@ -305,20 +305,20 @@ typedef enum {
     /* 5 */ ANIMTASK_ACTOR_MOVE
 } AnimTaskType;
 
-typedef struct {
+typedef struct AnimTaskLoadPlayerFrame {
     /* 0x00 */ DmaRequest req;
     /* 0x20 */ OSMesgQueue msgQueue;
     /* 0x38 */ OSMesg msg;
 } AnimTaskLoadPlayerFrame; // size = 0x3C
 
-typedef struct {
+typedef struct AnimTaskCopy {
     /* 0x00 */ u8 group;
     /* 0x01 */ u8 vecCount;
     /* 0x04 */ Vec3s* dest;
     /* 0x08 */ Vec3s* src;
 } AnimTaskCopy; // size = 0xC
 
-typedef struct {
+typedef struct AnimTaskInterp {
     /* 0x00 */ u8 group;
     /* 0x01 */ u8 vecCount;
     /* 0x04 */ Vec3s* base;
@@ -326,7 +326,7 @@ typedef struct {
     /* 0x0C */ f32 weight;
 } AnimTaskInterp; // size = 0x10
 
-typedef struct {
+typedef struct AnimTaskCopyUsingMap {
     /* 0x00 */ u8 group;
     /* 0x01 */ u8 vecCount;
     /* 0x04 */ Vec3s* dest;
@@ -334,7 +334,7 @@ typedef struct {
     /* 0x0C */ u8* limbCopyMap;
 } AnimTaskCopyUsingMap; // size = 0x10
 
-typedef struct {
+typedef struct AnimTaskCopyUsingMapInverted {
     /* 0x00 */ u8 group;
     /* 0x01 */ u8 vecCount;
     /* 0x04 */ Vec3s* dest;
@@ -342,13 +342,13 @@ typedef struct {
     /* 0x0C */ u8* limbCopyMap;
 } AnimTaskCopyUsingMapInverted; // size = 0x10
 
-typedef struct {
+typedef struct AnimTaskActorMove {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ struct SkelAnime* skelAnime;
     /* 0x08 */ f32 diffScaleY;
 } AnimTaskActorMove; // size = 0xC
 
-typedef union {
+typedef union AnimTaskData {
     AnimTaskLoadPlayerFrame loadPlayerFrame;
     AnimTaskCopy copy;
     AnimTaskInterp interp;
@@ -357,7 +357,7 @@ typedef union {
     AnimTaskActorMove actorMove;
 } AnimTaskData; // size = 0x3C
 
-typedef struct {
+typedef struct AnimTask {
     /* 0x00 */ u8 type;
     /* 0x04 */ AnimTaskData data;
 } AnimTask; // size = 0x40

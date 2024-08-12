@@ -30,7 +30,7 @@ when set, gets cleared next EnBox_Update call and clip to the floor
 */
 #define ENBOX_MOVE_STICK_TO_GROUND (1 << 4)
 
-typedef enum {
+typedef enum EnBoxStateUnk1FB {
     ENBOX_STATE_0, // waiting for player near / player available / player ? (IDLE)
     ENBOX_STATE_1, // used only temporarily, maybe "player is ready" ?
     ENBOX_STATE_2  // waiting for something message context-related

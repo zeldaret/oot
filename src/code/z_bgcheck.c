@@ -1484,7 +1484,7 @@ s32 BgCheck_IsSpotScene(PlayState* play) {
     return false;
 }
 
-typedef struct {
+typedef struct BgCheckSceneMemEntry {
     s16 sceneId;
     u32 memSize;
 } BgCheckSceneMemEntry;
@@ -1523,7 +1523,7 @@ void BgCheck_SetSubdivisionDimension(f32 min, s32 subdivAmount, f32* max, f32* s
     *max = *subdivLength * subdivAmount + min;
 }
 
-typedef struct {
+typedef struct BgCheckSceneSubdivisionEntry {
     s16 sceneId;
     Vec3s subdivAmount;
     s32 nodeListMax; // if -1, dynamically compute max nodes

@@ -28,7 +28,7 @@ ActorProfile En_Light_Profile = {
     /**/ EnLight_Draw,
 };
 
-typedef struct {
+typedef struct FlameParams {
     /* 0x00 */ Color_RGBA8 primColor;
     /* 0x04 */ Color_RGB8 envColor;
     /* 0x07 */ u8 scale;

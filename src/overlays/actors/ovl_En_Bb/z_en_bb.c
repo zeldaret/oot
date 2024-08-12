@@ -16,7 +16,7 @@
 #define vMoveAngleY actionVar2
 #define vFlameTimer actionVar2
 
-typedef enum {
+typedef enum EnBbAction {
     /* 0 */ BB_DAMAGE,
     /* 1 */ BB_KILL,
     /* 2 */ BB_FLAME_TRAIL,
@@ -29,24 +29,24 @@ typedef enum {
     /* 9 */ BB_GREEN
 } EnBbAction;
 
-typedef enum {
+typedef enum EnBbMoveMode {
     /* 0 */ BBMOVE_NORMAL,
     /* 1 */ BBMOVE_NOCLIP,
     /* 2 */ BBMOVE_HIDDEN
 } EnBbMoveMode;
 
-typedef enum {
+typedef enum EnBbBlueActionState {
     /* 0 */ BBBLUE_NORMAL,
     /* 1 */ BBBLUE_AGGRO
 } EnBbBlueActionState;
 
-typedef enum {
+typedef enum EnBbRedActionState {
     /* 0 */ BBRED_WAIT,
     /* 1 */ BBRED_ATTACK,
     /* 2 */ BBRED_HIDE
 } EnBbRedActionState;
 
-typedef enum {
+typedef enum EnBbGreenActionState {
     /* 0 */ BBGREEN_FLAME_ON,
     /* 1 */ BBGREEN_FLAME_OFF
 } EnBbGreenActionState;

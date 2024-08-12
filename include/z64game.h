@@ -15,7 +15,7 @@ typedef struct GameAllocEntry {
     /* 0x0C */ u32 unk_0C;
 } GameAllocEntry; // size = 0x10
 
-typedef struct {
+typedef struct GameAlloc {
     /* 0x00 */ GameAllocEntry base;
     /* 0x10 */ GameAllocEntry* head;
 } GameAlloc; // size = 0x14
@@ -23,7 +23,7 @@ typedef struct {
 // Used in Graph_GetNextGameState in graph.c
 #define DEFINE_GAMESTATE_INTERNAL(typeName, enumName) enumName,
 #define DEFINE_GAMESTATE(typeName, enumName, name) DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
-typedef enum {
+typedef enum GameStateId {
 #include "tables/gamestate_table.h"
     GAMESTATE_ID_MAX
 } GameStateId;
