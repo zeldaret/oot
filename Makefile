@@ -452,7 +452,7 @@ $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
 ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
 # Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
-$(BUILD_DIR)/src/%.o: CC := $(PYTHON) tools/preprocess.py -v $(VERSION) -- $(CC)
+$(BUILD_DIR)/src/%.o: CC := ./tools/preprocess.sh -v $(VERSION) -- $(CC)
 endif
 
 else

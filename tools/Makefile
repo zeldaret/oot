@@ -1,5 +1,5 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
-PROGRAMS := elf2rom makeromfs mkdmadata mkldscript reloc_prereq vtxdis
+PROGRAMS := elf2rom makeromfs mkdmadata mkldscript preprocess_pragmas reloc_prereq vtxdis
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
   CC := clang
@@ -37,6 +37,7 @@ elf2rom_SOURCES      := elf2rom.c elf32.c n64chksum.c util.c
 makeromfs_SOURCES    := makeromfs.c n64chksum.c util.c
 mkdmadata_SOURCES    := mkdmadata.c spec.c util.c
 mkldscript_SOURCES   := mkldscript.c spec.c util.c
+preprocess_pragmas_SOURCES := preprocess_pragmas.c
 reloc_prereq_SOURCES := reloc_prereq.c spec.c util.c
 vtxdis_SOURCES       := vtxdis.c
 
