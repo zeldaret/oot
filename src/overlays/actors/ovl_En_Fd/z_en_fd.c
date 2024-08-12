@@ -771,7 +771,6 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
     EnFd_DrawEffectsFlames(this, play);
     Matrix_Pop();
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
-        if (1) {}
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         clampedHealth = CLAMP(thisx->colChkInfo.health - 1, 0, 23) / 8;
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth].r, primColors[clampedHealth].g,
@@ -788,6 +787,9 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                EnFd_OverrideLimbDraw, EnFd_PostLimbDraw, this, POLY_XLU_DISP);
     }
+
+    if (this->fadeAlpha) {}
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fd.c", 1822);
 }
 

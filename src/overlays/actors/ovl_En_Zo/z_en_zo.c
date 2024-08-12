@@ -172,7 +172,7 @@ void EnZo_UpdateEffectsSplashes(EnZo* this) {
 void EnZo_DrawEffectsRipples(EnZo* this, PlayState* play) {
     EnZoEffect* effect;
     s16 i;
-    u8 materialFlag;
+    s16 materialFlag;
 
     effect = this->effects;
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 217);

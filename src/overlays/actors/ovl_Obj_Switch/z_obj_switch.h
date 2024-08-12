@@ -7,6 +7,7 @@
 struct ObjSwitch;
 
 typedef void (*ObjSwitchActionFunc)(struct ObjSwitch*, PlayState*);
+typedef void (*ObjSwitchDrawFunc)(Actor*, PlayState*);
 
 typedef enum ObjSwitchType {
     /* 0 */ OBJSWITCH_TYPE_FLOOR,

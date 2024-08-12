@@ -7,7 +7,7 @@
 struct DemoGt;
 
 typedef void (*DemoGtUpdateFunc)(struct DemoGt*, PlayState*);
-typedef void (*DemoGtDrawFunc)(struct DemoGt*, PlayState*);
+typedef void (*DemoGtDrawFunc)(Actor*, PlayState*);
 
 typedef struct DemoGt {
     /* 0x0000 */ DynaPolyActor dyna;

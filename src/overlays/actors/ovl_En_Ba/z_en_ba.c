@@ -499,15 +499,11 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateZYX(this->unk_2A8[i].x, this->unk_2A8[i].y, this->unk_2A8[i].z, MTXMODE_APPLY);
             Matrix_Scale(this->unk_200[i].x, this->unk_200[i].y, this->unk_200[i].z, MTXMODE_APPLY);
             if ((i == 6) || (i == 13)) {
-                if (mtx) {}
-                switch (i) {
-                    case 13:
-                        Collider_UpdateSpheres(i, &this->collider);
-                        break;
-                    default:
-                        Matrix_Scale(0.5f, 0.5f, 1.0f, MTXMODE_APPLY);
-                        Collider_UpdateSpheres(8, &this->collider);
-                        break;
+                if (i == 13) {
+                    Collider_UpdateSpheres(i, &this->collider);
+                } else {
+                    Matrix_Scale(0.5f, 0.5f, 1.0f, MTXMODE_APPLY);
+                    Collider_UpdateSpheres(8, &this->collider);
                 }
             }
             MATRIX_TO_MTX(mtx, "../z_en_ba.c", 970);
