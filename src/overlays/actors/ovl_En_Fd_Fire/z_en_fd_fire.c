@@ -248,13 +248,11 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fd_fire.c", 572);
 
-    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    sp8E = Math_Vec3f_Yaw(&scale, &this->actor.velocity) - Camera_GetCamDirYaw(GET_ACTIVE_CAM(play));
+    Matrix_Translate(thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z, MTXMODE_NEW);
+    sp8E = Math_Vec3f_Yaw(&scale, &thisx->velocity) - Camera_GetCamDirYaw(GET_ACTIVE_CAM(play));
     sp84 = fabsf(Math_CosS(sp8E));
     sp88 = Math_SinS(sp8E);
-    sp80 = Math_Vec3f_DistXZ(&scale, &this->actor.velocity) / 1.5f;
-    if (1) {}
-    if (1) {}
+    sp80 = Math_Vec3f_DistXZ(&scale, &thisx->velocity) / 1.5f;
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000)), MTXMODE_APPLY);
     Matrix_RotateZ(DEG_TO_RAD((sp88 * -10.0f) * sp80), MTXMODE_APPLY);
     scale.x = scale.y = scale.z = this->scale * 0.001f;
@@ -270,14 +268,12 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x8,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                 play->state.frames * this->tile2Y, 0x20, 0x80));
-    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, primColors[PARAMS_GET_S(this->actor.params, 15, 1)].r,
-                    primColors[PARAMS_GET_S(this->actor.params, 15, 1)].g,
-                    primColors[PARAMS_GET_S(this->actor.params, 15, 1)].b,
-                    primColors[PARAMS_GET_S(this->actor.params, 15, 1)].a);
-    gDPSetEnvColor(POLY_XLU_DISP++, envColors[PARAMS_GET_S(this->actor.params, 15, 1)].r,
-                   envColors[PARAMS_GET_S(this->actor.params, 15, 1)].g,
-                   envColors[PARAMS_GET_S(this->actor.params, 15, 1)].b,
-                   envColors[PARAMS_GET_S(this->actor.params, 15, 1)].a);
+    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, primColors[PARAMS_GET_S(thisx->params, 15, 1)].r,
+                    primColors[PARAMS_GET_S(thisx->params, 15, 1)].g, primColors[PARAMS_GET_S(thisx->params, 15, 1)].b,
+                    primColors[PARAMS_GET_S(thisx->params, 15, 1)].a);
+    gDPSetEnvColor(POLY_XLU_DISP++, envColors[PARAMS_GET_S(thisx->params, 15, 1)].r,
+                   envColors[PARAMS_GET_S(thisx->params, 15, 1)].g, envColors[PARAMS_GET_S(thisx->params, 15, 1)].b,
+                   envColors[PARAMS_GET_S(thisx->params, 15, 1)].a);
     gDPPipeSync(POLY_XLU_DISP++);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 

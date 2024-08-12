@@ -19,7 +19,7 @@ typedef struct BgHakaGate {
     /* 0x0172 */ s16 actionVar5;
 } BgHakaGate; // size = 0x0174
 
-typedef enum {
+typedef enum BgHakaGateType {
     BGHAKAGATE_STATUE,
     BGHAKAGATE_FLOOR,
     BGHAKAGATE_GATE,

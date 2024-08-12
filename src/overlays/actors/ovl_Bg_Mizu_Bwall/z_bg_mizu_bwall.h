@@ -23,7 +23,7 @@ typedef struct BgMizuBwall {
     /* 0x02B8 */ Gfx* dList;
 } BgMizuBwall; // size = 0x02BC
 
-typedef enum {
+typedef enum BgMizuBwallType {
     MIZUBWALL_FLOOR,
     MIZUBWALL_RUTO_ROOM,
     MIZUBWALL_UNUSED,

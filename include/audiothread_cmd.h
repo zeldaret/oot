@@ -6,7 +6,7 @@
  * from the external graph thread to the internal audio thread
  */
 
-typedef enum {
+typedef enum AudioThreadCmdOp {
     // Channel Commands
     /* 0x00 */ AUDIOCMD_OP_NOOP,
     /* 0x01 */ AUDIOCMD_OP_CHANNEL_SET_VOL_SCALE,

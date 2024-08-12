@@ -40,7 +40,7 @@ ActorProfile Obj_Warp2block_Profile = {
     /**/ ObjWarp2block_Draw,
 };
 
-typedef struct {
+typedef struct Warp2BlockSpawnData {
     /* 0x00 */ f32 scale;
     /* 0x04 */ f32 focus;
     /* 0x08 */ s16 params;
@@ -86,14 +86,14 @@ s32 func_80BA1ECC(ObjWarp2block* this, PlayState* play) {
         if ((this->dyna.actor.xzDistToPlayer <= sDistances[PARAMS_GET_U(this->dyna.actor.params, 11, 3)]) ||
             (temp_a3->xzDistToPlayer <= sDistances[PARAMS_GET_U(temp_a3->params, 11, 3)])) {
 
-            func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
+            Actor_WorldToActorCoords(&this->dyna.actor, &sp20, &player->actor.world.pos);
             temp_f2 = (this->dyna.actor.scale.x * 50.0f) + 6.0f;
 
             if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {
                 return 0;
             }
 
-            func_8002DBD0(temp_a3, &sp20, &player->actor.world.pos);
+            Actor_WorldToActorCoords(temp_a3, &sp20, &player->actor.world.pos);
             temp_f2 = (temp_a3->scale.x * 50.0f) + 6.0f;
 
             if (!(temp_f2 < fabsf(sp20.x)) && !(temp_f2 < fabsf(sp20.z))) {

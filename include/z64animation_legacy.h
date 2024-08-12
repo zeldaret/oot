@@ -12,7 +12,7 @@ typedef struct LegacyLimb {
     /* 0x01C */ struct LegacyLimb* child;
 } LegacyLimb; // size = 0x20
 
-typedef struct {
+typedef struct LegacyJointKey {
     /* 0x00 */ s16 xMax;
     /* 0x02 */ s16 x;
     /* 0x04 */ s16 yMax;
@@ -21,7 +21,7 @@ typedef struct {
     /* 0x0A */ s16 z;
 } LegacyJointKey; // size = 0x0C
 
-typedef struct {
+typedef struct LegacyAnimationHeader {
     /* 0x00 */ s16 frameCount;
     /* 0x02 */ s16 limbCount;
     /* 0x04 */ s16* frameData;

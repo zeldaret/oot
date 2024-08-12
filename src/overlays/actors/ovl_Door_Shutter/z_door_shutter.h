@@ -25,7 +25,7 @@
 
 #define DOORSHUTTER_PARAMS(type, switchFlag) ((((type) & 0xF) << 6) | ((switchFlag) & 0x3F))
 
-typedef enum {
+typedef enum DoorShutterType {
     /* 0x00 */ SHUTTER,
     /* 0x01 */ SHUTTER_FRONT_CLEAR,
     /* 0x02 */ SHUTTER_FRONT_SWITCH,

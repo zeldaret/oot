@@ -33,7 +33,7 @@
 
 #define ENDOOR_GET_CHECKABLE_TEXT_ID(thisx)     PARAMS_GET_U((thisx)->params, 0, 6)
 
-typedef enum {
+typedef enum EnDoorType {
     /* 0x00 */ DOOR_ROOMLOAD,  // loads rooms
     /* 0x01 */ DOOR_LOCKED,    // small key locked door
     /* 0x02 */ DOOR_ROOMLOAD2, // loads rooms

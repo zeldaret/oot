@@ -23,7 +23,7 @@
  *   Bg Cover: The background geometry (e.g. room geometry but not actors) fades black as the player approaches.
  *   Invisible: Approaching the holl does not cause any particular visual effect.
  */
-typedef enum {
+typedef enum EnHollType {
     /* 0 */ ENHOLL_H_VISIBLE_NARROW,
     /* 1 */ ENHOLL_V_DOWN_BGCOVER_LARGE, // Only allows downwards transitions. 500 units radius. Used in fire temple drops.
     /* 2 */ ENHOLL_V_INVISIBLE,

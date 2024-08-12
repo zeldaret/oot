@@ -10,7 +10,7 @@
 
 typedef void (*ObjMure2SetPosFunc)(Vec3f* vec, ObjMure2* this);
 
-typedef struct {
+typedef struct Mure2sScatteredShrubInfo {
     s16 radius;
     s16 angle;
 } Mure2sScatteredShrubInfo;

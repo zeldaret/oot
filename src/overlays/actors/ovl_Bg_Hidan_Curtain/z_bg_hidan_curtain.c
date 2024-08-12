@@ -21,7 +21,7 @@ void BgHidanCurtain_TurnOn(BgHidanCurtain* this, PlayState* play);
 void BgHidanCurtain_TurnOff(BgHidanCurtain* this, PlayState* play);
 void BgHidanCurtain_WaitForTimer(BgHidanCurtain* this, PlayState* play);
 
-typedef struct {
+typedef struct BgHidanCurtainParams {
     /* 0x00 */ s16 radius;
     /* 0x02 */ s16 height;
     /* 0x04 */ f32 scale;

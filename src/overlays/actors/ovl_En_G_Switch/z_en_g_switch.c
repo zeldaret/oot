@@ -14,7 +14,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum GSwitchMoveState {
     /* 0 */ MOVE_TARGET,
     /* 1 */ MOVE_HOME
 } GSwitchMoveState;
@@ -456,15 +456,13 @@ void EnGSwitch_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnGSwitch_DrawPot(Actor* thisx, PlayState* play) {
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     if (!this->broken) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 918);
 
-        if (1) {}
-
-        Gfx_SetupDL_25Opa(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play2->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_g_switch.c", 925),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, object_tsubo_DL_0017C0);
@@ -477,10 +475,9 @@ static void* sRupeeTextures[] = {
 };
 
 void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
     EnGSwitch* this = (EnGSwitch*)thisx;
 
-    if (1) {}
     if (!this->broken) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 951);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -492,7 +489,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
     if (this->type == ENGSWITCH_TARGET_RUPEE) {
-        EnGSwitch_DrawEffects(this, play);
+        EnGSwitch_DrawEffects(this, play2);
     }
 }
 

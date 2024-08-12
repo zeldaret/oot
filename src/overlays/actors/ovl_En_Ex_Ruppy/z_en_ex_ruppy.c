@@ -302,7 +302,7 @@ void EnExRuppy_Kill(EnExRuppy* this, PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct EnExRuppyParentActor {
     /* 0x000 */ Actor actor;
     /* 0x14C */ char unk_14C[0x11A];
     /* 0x226 */ s16 unk_226;

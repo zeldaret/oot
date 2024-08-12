@@ -9,7 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum KakarikoCarpenterType {
     /* 0x0 */ CARPENTER_ICHIRO,  // Red and purple pants, normal hair
     /* 0x1 */ CARPENTER_SABOORO, // Light blue pants
     /* 0x2 */ CARPENTER_JIRO,    // Green pants
@@ -93,7 +93,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef enum {
+typedef enum EnDaikuKakarikoAnimation {
     /* 0 */ ENDAIKUKAKARIKO_ANIM_0,
     /* 1 */ ENDAIKUKAKARIKO_ANIM_1,
     /* 2 */ ENDAIKUKAKARIKO_ANIM_2,

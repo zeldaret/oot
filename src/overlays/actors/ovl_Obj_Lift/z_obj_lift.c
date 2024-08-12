@@ -38,7 +38,7 @@ ActorProfile Obj_Lift_Profile = {
 
 static s16 sFallTimerDurations[] = { 0, 10, 20, 30, 40, 50, 60 };
 
-typedef struct {
+typedef struct ObjLiftFramgentScale {
     /* 0x00 */ s16 x;
     /* 0x02 */ s16 z;
 } ObjLiftFramgentScale; // size = 0x4

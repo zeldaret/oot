@@ -18,7 +18,7 @@
 #define ISHI_GET_SWITCH_FLAG_LOWER(thisx)  PARAMS_GET_U((thisx)->params, 6, 2)
 #define ISHI_GET_SWITCH_FLAG(thisx) (ISHI_GET_SWITCH_FLAG_UPPER(thisx) | ISHI_GET_SWITCH_FLAG_LOWER(thisx))
 
-typedef enum {
+typedef enum EnIshiType {
     /* 0x00 */ ROCK_SMALL,
     /* 0x01 */ ROCK_LARGE
 } EnIshiType;

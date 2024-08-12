@@ -106,7 +106,7 @@ void GetItem_DrawScale(PlayState* play, s16 drawId);
 void GetItem_DrawBulletBag(PlayState* play, s16 drawId);
 void GetItem_DrawWallet(PlayState* play, s16 drawId);
 
-typedef struct {
+typedef struct DrawItemTableEntry {
     /* 0x00 */ void (*drawFunc)(PlayState*, s16);
     /* 0x04 */ Gfx* dlists[8];
 } DrawItemTableEntry; // size = 0x24

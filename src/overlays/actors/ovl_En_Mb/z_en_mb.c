@@ -16,7 +16,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum EnMbType {
     /* -1 */ ENMB_TYPE_SPEAR_GUARD = -1,
     /*  0 */ ENMB_TYPE_CLUB,
     /*  1 */ ENMB_TYPE_SPEAR_PATROL
@@ -29,7 +29,7 @@ typedef enum {
 #define ENMB_ATTACK_CLUB_LEFT 3
 
 /* Spear and Club moblins use a different skeleton but the limbs are organized the same */
-typedef enum {
+typedef enum EnMbLimb {
     /*  1 */ ENMB_LIMB_ROOT = 1,
     /*  3 */ ENMB_LIMB_WAIST = 3,
     /*  6 */ ENMB_LIMB_CHEST = 6,
@@ -167,7 +167,7 @@ static ColliderQuadInit sAttackColliderInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum EnMbDamageEffect {
     /* 0x0 */ ENMB_DMGEFF_IGNORE,
     /* 0x1 */ ENMB_DMGEFF_STUN,
     /* 0x5 */ ENMB_DMGEFF_FREEZE = 0x5,

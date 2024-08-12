@@ -80,7 +80,7 @@ static Color_RGBAf sOuterColors[] = {
     { 255.0f, 50.0f, 100.0f, 255.0f },
 };
 
-typedef struct {
+typedef struct FairyColorFlags {
     u8 r, g, b;
 } FairyColorFlags;
 

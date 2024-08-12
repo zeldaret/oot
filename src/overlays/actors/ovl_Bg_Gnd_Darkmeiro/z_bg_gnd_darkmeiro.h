@@ -16,7 +16,7 @@ typedef struct BgGndDarkmeiro {
     /* 0x016C */ BgGndDarkmeiroUpdateFunc updateFunc;
 } BgGndDarkmeiro; // size = 0x0170
 
-typedef enum {
+typedef enum DarkmeiroType {
     /* 0 */ DARKMEIRO_INVISIBLE_PATH,   // Textures for the invisible path in shadow trial.
 
     /* 1 */ DARKMEIRO_CLEAR_BLOCK,      /* Clear blocks appear when their switch flag is set and

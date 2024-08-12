@@ -7,76 +7,76 @@
 #define SQ(x) ((x)*(x))
 #define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
 
-typedef struct {
+typedef struct Vec2f {
     f32 x, y;
 } Vec2f; // size = 0x08
 
-typedef struct {
+typedef struct Vec3f {
     f32 x, y, z;
 } Vec3f; // size = 0x0C
 
-typedef struct {
+typedef struct Vec3us {
     u16 x, y, z;
 } Vec3us; // size = 0x06
 
-typedef struct {
+typedef struct Vec3s {
     s16 x, y, z;
 } Vec3s; // size = 0x06
 
-typedef struct {
+typedef struct Vec3i {
     s32 x, y, z;
 } Vec3i; // size = 0x0C
 
-typedef struct {
+typedef struct Sphere16 {
     Vec3s center;
     s16 radius;
 } Sphere16; // size = 0x08
 
-typedef struct {
+typedef struct Spheref {
     Vec3f center;
     f32 radius;
 } Spheref; // size = 0x10
 
-typedef struct {
+typedef struct PosRot {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3s rot;
 } PosRot; // size = 0x14
 
-typedef struct {
+typedef struct Plane {
     Vec3f normal;
     f32 originDist;
 } Plane; // size = 0x10
 
-typedef struct {
+typedef struct TriNorm {
     Vec3f vtx[3];
     Plane plane;
 } TriNorm; // size = 0x34
 
-typedef struct {
+typedef struct Cylinder16 {
     /* 0x0000 */ s16 radius;
     /* 0x0002 */ s16 height;
     /* 0x0004 */ s16 yShift;
     /* 0x0006 */ Vec3s pos;
 } Cylinder16; // size = 0x0C
 
-typedef struct {
+typedef struct Cylinderf {
     /* 0x00 */ f32 radius;
     /* 0x04 */ f32 height;
     /* 0x08 */ f32 yShift;
     /* 0x0C */ Vec3f pos;
 } Cylinderf; // size = 0x18
 
-typedef struct {
+typedef struct InfiniteLine {
     /* 0x0000 */ Vec3f point;
     /* 0x000C */ Vec3f dir;
 } InfiniteLine; // size = 0x18
 
-typedef struct {
+typedef struct Linef {
     /* 0x0000 */ Vec3f a;
     /* 0x000C */ Vec3f b;
 } Linef; // size = 0x18
 
-typedef struct {
+typedef struct VecSphGeo {
     /* 0x0 */ f32 r; // radius
     /* 0x4 */ s16 pitch; // depends on coordinate system. See below.
     /* 0x6 */ s16 yaw; // azimuthal angle
