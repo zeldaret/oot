@@ -68,7 +68,7 @@ fi
 # We use a temp dir instead of a temp file because ido_block_numbers.py and fix_bss.py
 # need the symbol table .T file from IDO, which is always named like the input file.
 # So we use a file named like the original input file, inside a temp dir.
-tempdir=`mktemp --directory`
+tempdir=`mktemp -d`
 tempfile=$tempdir/`basename $srcfile`
 trap "rm -rf $tempdir" EXIT
 
