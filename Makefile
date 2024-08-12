@@ -608,7 +608,7 @@ ifneq ($(COMPILER),gcc)
 else
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 endif
-	$(OBJCOPY) -O binary -j.rodata $@ $@.bin
+	$(OBJCOPY) -O binary --only-section .rodata $@ $@.bin
 
 $(BUILD_DIR)/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
@@ -729,7 +729,7 @@ $(BUILD_DIR)/assets/audio/samplebanks/%.s: $(BUILD_DIR)/assets/audio/samplebanks
 $(BUILD_DIR)/assets/audio/samplebanks/%.o: $(BUILD_DIR)/assets/audio/samplebanks/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 ifeq ($(AUDIO_BUILD_DEBUG),1)
-	$(OBJCOPY) -O binary -j.rodata $@ $(@:.o=.bin)
+	$(OBJCOPY) -O binary --only-section .rodata $@ $(@:.o=.bin)
 	@cmp $(@:.o=.bin) $(patsubst $(BUILD_DIR)/assets/audio/samplebanks/%,$(EXTRACTED_DIR)/baserom_audiotest/audiotable_files/%,$(@:.o=.bin)) && echo "$(<F) OK"
 endif
 
