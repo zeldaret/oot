@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
     char buf[32 * 1024];
     char* const bufend = buf + sizeof(buf);
     char* bufp = buf;
-    size_t nread;
+    bool cont = true;
     int line_num = 1;
     // whether the current line follows a #pragma increment_block_number,
     // including continuation lines (lines after a \-ending line)
@@ -47,8 +47,28 @@ int main(int argc, char** argv) {
     // how many fake structs to write to replace the current pragma
     int n_fake_structs;
 
-    while ((nread = fread(bufp, 1, bufend - bufp, stdin)) != 0) {
+    while (cont) {
+        size_t nread = fread(bufp, 1, bufend - bufp, stdin);
         bufp += nread;
+        if (nread == 0) {
+            if (!feof(stdin)) {
+                perror("fread");
+                fprintf(stderr, "Failed to read from stdin\n");
+                return EXIT_FAILURE;
+            }
+            cont = false;
+            if (bufp == buf) {
+                // All lines processed
+                break;
+            } else {
+                // The buffer contains the last line and that line isn't terminated with a newline.
+                // Add a final newline and do one last iteration.
+                assert(bufp < bufend);
+                *bufp = '\n';
+                bufp++;
+            }
+        }
+
         char* last_newline = NULL;
         for (char* p = bufp - 1; p >= buf; p--) {
             if (*p == '\n') {
@@ -62,6 +82,7 @@ int main(int argc, char** argv) {
             assert(bufp < bufend);
             continue;
         }
+
         char* line = buf;
         while (true) {
             char* line_end = line;
@@ -136,11 +157,5 @@ int main(int argc, char** argv) {
         bufp = buf + next_incomplete_line_sz;
     }
 
-    if (feof(stdin)) {
-        return EXIT_SUCCESS;
-    } else {
-        perror("fread");
-        fprintf(stderr, "Failed to read from stdin\n");
-        return EXIT_FAILURE;
-    }
+    return EXIT_SUCCESS;
 }
