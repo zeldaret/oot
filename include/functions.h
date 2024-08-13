@@ -1333,6 +1333,7 @@ void UCodeDisas_RegisterUCode(UCodeDisas*, s32, UCodeInfo*);
 void UCodeDisas_SetCurUCode(UCodeDisas*, void*);
 Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);
 void AudioHeap_DiscardFont(s32 fontId);
+void AudioHeap_ReleaseNotesForFont(s32 fontId);
 void AudioHeap_DiscardSequence(s32 seqId);
 void AudioHeap_WritebackDCache(void* ramAddr, u32 size);
 void* AudioHeap_AllocZeroedAttemptExternal(AudioAllocPool* pool, u32 size);

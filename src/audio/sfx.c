@@ -341,8 +341,11 @@ void Audio_ChooseActiveSfx(u8 bankId) {
                                               "flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n",
                            entry->sfxId, entry->posX, entry->posZ, *entry->posX, *entry->posY, *entry->posZ);
                 }
+                entry->priority = (u32)entry->dist + (SQ(0xFF - sfxImportance) * SQ(76));
+#if PLATFORM_GC
                 temp3 = entry->sfxId; // fake
-                entry->priority = (u32)entry->dist + (SQ(0xFF - sfxImportance) * SQ(76)) + temp3 - temp3;
+                entry->priority = entry->priority + temp3 - temp3;
+#endif
                 if (*entry->posZ < 0.0f) {
                     entry->priority += (s32)(-*entry->posZ * 6.0f);
                 }
