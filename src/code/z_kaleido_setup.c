@@ -1,4 +1,5 @@
 #include "global.h"
+#include "n64dd.h"
 
 /*
  * The following three arrays are effectively unused.
@@ -172,4 +173,9 @@ void KaleidoSetup_Init(PlayState* play) {
 }
 
 void KaleidoSetup_Destroy(PlayState* play) {
+    if (B_80121AF0 != NULL) {
+        if (B_80121AF0->unk_40 != NULL) {
+            B_80121AF0->unk_40();
+        }
+    }
 }
