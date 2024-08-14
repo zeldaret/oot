@@ -74,7 +74,7 @@ void EnPoDesert_Init(Actor* thisx, PlayState* play) {
                               255, 255, 255, 200);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 37.0f);
     this->currentPathPoint = 1;
-    this->actor.params = (this->actor.params >> 8) & 0xFF;
+    this->actor.params = PARAMS_GET_U(this->actor.params, 8, 8);
     this->targetY = this->actor.world.pos.y;
     EnPoDesert_SetNextPathPoint(this, play);
 }

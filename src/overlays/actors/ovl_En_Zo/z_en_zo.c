@@ -363,7 +363,7 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
         return textId;
     }
 
-    switch (thisx->params & 0x3F) {
+    switch (PARAMS_GET_U(thisx->params, 0, 6)) {
         case 8:
             if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x402A;
@@ -581,7 +581,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInit);
 
-    if (LINK_IS_ADULT && ((this->actor.params & 0x3F) == 8)) {
+    if (LINK_IS_ADULT && (PARAMS_GET_U(this->actor.params, 0, 6) == 8)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -596,7 +596,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-    if (this->actor.depthInWater < 54.0f || (this->actor.params & 0x3F) == 8) {
+    if (this->actor.depthInWater < 54.0f || PARAMS_GET_U(this->actor.params, 0, 6) == 8) {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         this->actor.shape.shadowScale = 24.0f;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_1);

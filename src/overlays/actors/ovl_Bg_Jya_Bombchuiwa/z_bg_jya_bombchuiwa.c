@@ -78,7 +78,7 @@ void BgJyaBombchuiwa_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     BgJyaBombchuiwa_SetupCollider(this, play);
-    if (Flags_GetSwitch(play, this->actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6))) {
         BgJyaBombchuiwa_SpawnLightRay(this, play);
     } else {
         BgJyaBombchuiwa_SetupWaitForExplosion(this, play);

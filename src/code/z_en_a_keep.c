@@ -80,7 +80,7 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
     EnAObj* this = (EnAObj*)thisx;
     f32 shadowScale = 6.0f;
 
-    this->textId = (thisx->params >> 8) & 0xFF;
+    this->textId = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     switch (thisx->params) {

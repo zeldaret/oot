@@ -22,14 +22,16 @@
  *
  */
 
-#define ENDOOR_PARAMS_TYPE_SHIFT 7
-#define ENDOOR_PARAMS_TYPE_MASK (7 << ENDOOR_PARAMS_TYPE_SHIFT)
-#define ENDOOR_GET_TYPE(thisx) ((thisx)->params >> ENDOOR_PARAMS_TYPE_SHIFT & 7)
-#define ENDOOR_PARAMS_DOUBLE_DOOR_FLAG 0x40
-#define ENDOOR_IS_DOUBLE_DOOR(thisx) ((thisx)->params & ENDOOR_PARAMS_DOUBLE_DOOR_FLAG)
-#define ENDOOR_GET_LOCKED_SWITCH_FLAG(thisx) ((thisx)->params & 0x3F)
-#define ENDOOR_GET_CHECKABLE_TEXT_ID(thisx) ((thisx)->params & 0x3F)
+#define ENDOOR_PARAMS_TYPE_SHIFT                7
+#define ENDOOR_PARAMS_TYPE_MASK                 PARAMS_MAKE_MASK(7, 3)
+#define ENDOOR_GET_TYPE(thisx)                  PARAMS_GET_U((thisx)->params, 7, 3)
 
+#define ENDOOR_PARAMS_IS_DOUBLE_DOOR_MASK       PARAMS_MAKE_MASK(6, 1)
+#define ENDOOR_GET_IS_DOUBLE_DOOR(thisx)        PARAMS_GET_NOSHIFT((thisx)->params, 6, 1)
+
+#define ENDOOR_GET_LOCKED_SWITCH_FLAG(thisx)    PARAMS_GET_U((thisx)->params, 0, 6)
+
+#define ENDOOR_GET_CHECKABLE_TEXT_ID(thisx)     PARAMS_GET_U((thisx)->params, 0, 6)
 
 typedef enum EnDoorType {
     /* 0x00 */ DOOR_ROOMLOAD,  // loads rooms

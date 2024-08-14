@@ -133,7 +133,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.world.rot.z = 0;
     this->actor.shape.rot.z = 0;
 
-    switch (thisx->params & 0xFF) {
+    switch (PARAMS_GET_S(thisx->params, 0, 8)) {
         case GE2_TYPE_PATROLLING:
             EnGe2_ChangeAction(this, GE2_ACTION_WALK);
             if (EnGe2_CheckCarpentersFreed()) {
@@ -166,7 +166,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     this->walkDirection = this->actor.world.rot.y;
-    this->walkDuration = ((thisx->params & 0xFF00) >> 8) * 10;
+    this->walkDuration = PARAMS_GET_S(thisx->params, 8, 8) * 10;
 }
 
 void EnGe2_Destroy(Actor* thisx, PlayState* play) {
@@ -426,7 +426,7 @@ void EnGe2_LookAtPlayer(EnGe2* this, PlayState* play) {
 void EnGe2_SetActionAfterTalk(EnGe2* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
 
-        switch (this->actor.params & 0xFF) {
+        switch (PARAMS_GET_S(this->actor.params, 0, 8)) {
             case GE2_TYPE_PATROLLING:
                 EnGe2_ChangeAction(this, GE2_ACTION_ABOUTTURN);
                 break;
@@ -521,7 +521,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        if ((this->actor.params & 0xFF) == GE2_TYPE_PATROLLING) {
+        if (PARAMS_GET_S(this->actor.params, 0, 8) == GE2_TYPE_PATROLLING) {
             this->actor.speed = 0.0f;
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);
         }
@@ -578,7 +578,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
             EnGe2_SetupCapturePlayer(this, play);
         }
 
-        if (((this->actor.params & 0xFF) == GE2_TYPE_STATIONARY) && (this->actor.xzDistToPlayer < 100.0f)) {
+        if ((PARAMS_GET_S(this->actor.params, 0, 8) == GE2_TYPE_STATIONARY) && (this->actor.xzDistToPlayer < 100.0f)) {
             // "Discovered!"
             PRINTF(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
             EnGe2_SetupCapturePlayer(this, play);
@@ -586,7 +586,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     }
 
     if (!(this->stateFlags & GE2_STATE_KO)) {
-        paramsType = this->actor.params & 0xFF; // Not necessary, but looks a bit nicer
+        paramsType = PARAMS_GET_S(this->actor.params, 0, 8); // Not necessary, but looks a bit nicer
         if ((paramsType == GE2_TYPE_PATROLLING) || (paramsType == GE2_TYPE_STATIONARY)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }

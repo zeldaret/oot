@@ -259,7 +259,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
         Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     }
-    if ((this->actor.params & 0xF0) == 0x10 && (this->actor.params & 0xF) != 0xF) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x10 && PARAMS_GET_U(this->actor.params, 0, 4) != 0xF) {
         func_80A6B91C(this, play);
     } else {
         func_80A6BC48(this);
@@ -286,7 +286,7 @@ void func_80A6B91C(EnHorseNormal* this, PlayState* play) {
 }
 
 void EnHorseNormal_FollowPath(EnHorseNormal* this, PlayState* play) {
-    Path* path = &play->pathList[this->actor.params & 0xF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 4)];
     Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     f32 dx;
     f32 dz;

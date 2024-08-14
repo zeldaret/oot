@@ -47,9 +47,9 @@ void EnOkarinaTag_Init(Actor* thisx, PlayState* play) {
     // "Ocarina tag outbreak"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->type = (this->actor.params >> 0xA) & 0x3F;
-    this->ocarinaSong = (this->actor.params >> 6) & 0xF;
-    this->switchFlag = this->actor.params & 0x3F;
+    this->type = PARAMS_GET_U(this->actor.params, 10, 6);
+    this->ocarinaSong = PARAMS_GET_U(this->actor.params, 6, 4);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }

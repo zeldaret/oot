@@ -173,7 +173,7 @@ void EnMm_Init(Actor* thisx, PlayState* play) {
                      Animation_GetLastFrame(sAnimationInfo[RM_ANIM_RUN].animation), sAnimationInfo[RM_ANIM_RUN].mode,
                      sAnimationInfo[RM_ANIM_RUN].morphFrames);
 
-    this->path = this->actor.params & 0xFF;
+    this->path = PARAMS_GET_U(this->actor.params, 0, 8);
     this->unk_1F0 = 2;
     this->unk_1E8 = 0;
     this->actor.targetMode = 2;

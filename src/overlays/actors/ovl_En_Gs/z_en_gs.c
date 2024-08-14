@@ -123,7 +123,7 @@ s32 func_80A4E3EC(EnGs* this, PlayState* play) {
             if (Message_ShouldAdvance(play)) {
                 switch (this->actor.textId) {
                     case 0x2054:
-                        this->actor.textId = (this->actor.params & 0xFF) + 0x400;
+                        this->actor.textId = PARAMS_GET_U(this->actor.params, 0, 8) + 0x400;
                         ret = 1;
                         break;
                     default:
@@ -169,7 +169,7 @@ void func_80A4E470(EnGs* this, PlayState* play) {
                     Actor_PlaySfx(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 }
                 this->unk_19D = 0;
-                Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+                Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
             } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
                 player->stateFlags2 |= PLAYER_STATE2_23;
             }
@@ -499,7 +499,7 @@ void func_80A4F700(EnGs* this, PlayState* play) {
 }
 
 void func_80A4F734(EnGs* this, PlayState* play) {
-    if (!Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+    if (!Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         func_80A4E470(this, play);
     }
 }
