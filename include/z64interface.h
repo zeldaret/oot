@@ -144,13 +144,33 @@ typedef struct InterfaceContext {
 } InterfaceContext; // size = 0x270
 
 /**
- * Button HUD Positions (Upper Left)
+ * Button HUD positions and colors
  */
 #define A_BUTTON_X 186
 #define A_BUTTON_Y 9
 
+#if PLATFORM_N64
+#define A_BUTTON_R 90
+#define A_BUTTON_G 90
+#define A_BUTTON_B 255
+#else
+#define A_BUTTON_R 0
+#define A_BUTTON_G 200
+#define A_BUTTON_B 50
+#endif
+
 #define B_BUTTON_X 160
 #define B_BUTTON_Y 17
+
+#if PLATFORM_N64
+#define B_BUTTON_R 0
+#define B_BUTTON_G 150
+#define B_BUTTON_B 0
+#else
+#define B_BUTTON_R 255
+#define B_BUTTON_G 30
+#define B_BUTTON_B 30
+#endif
 
 #define C_LEFT_BUTTON_X 227
 #define C_LEFT_BUTTON_Y 18
