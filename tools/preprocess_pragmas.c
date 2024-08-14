@@ -24,8 +24,13 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     char* const version = argv[1];
-    const int len_version = strlen(version);
     char* const filename = argv[2];
+
+    const size_t len_version = strlen(version);
+    char version_needle[len_version + 2];
+    memcpy(version_needle, version, len_version);
+    version_needle[len_version] = ':';
+    version_needle[len_version + 1] = '\0';
 
     char buf[32 * 1024];
     char* const bufend = buf + sizeof(buf);
@@ -90,13 +95,8 @@ int main(int argc, char** argv) {
             }
             if (is_in_pragma) {
                 *line_end = '\0';
-                char* version_amount_item = strstr(line, version);
+                char* version_amount_item = strstr(line, version_needle);
                 if (version_amount_item != NULL) {
-                    if (version_amount_item[len_version] != ':') {
-                        fprintf(stderr, "Found version %s in pragma line but no :amount attached\n", version);
-                        fprintf(stderr, "%s\n", line);
-                        return EXIT_FAILURE;
-                    }
                     char* version_amount_str_start = &version_amount_item[len_version + 1];
                     char* version_amount_str_end;
                     long amount = strtol(version_amount_str_start, &version_amount_str_end, 10);
