@@ -27,9 +27,9 @@ pipeline {
         stage('Build gc-eu-mq-dbg') {
             steps {
                 sh 'cp /usr/local/etc/roms/oot-gc-eu-mq-dbg.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
-                sh 'make -j setup'
-                sh 'make -j RUN_CC_CHECK=0'
-                sh 'make clean assetclean'
+                sh 'make -j setup VERSION=gc-eu-mq-dbg'
+                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-eu-mq-dbg'
+                sh 'make clean assetclean VERSION=gc-eu-mq-dbg'
             }
         }
         stage('Build gc-jp') {
