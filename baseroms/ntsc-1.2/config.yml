@@ -1,3 +1,6 @@
+checksums:
+  - checksum-JP
+  - checksum-US
 dmadata_start: 0x7960
 text_lang_pal: false
 incbins:
