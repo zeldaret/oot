@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum RunningManAnimIndex {
     /* 0 */ RM2_ANIM_RUN,
     /* 1 */ RM2_ANIM_SIT,
     /* 2 */ RM2_ANIM_SIT_WAIT,
@@ -20,7 +20,7 @@ typedef enum {
     /* 6 */ RM2_ANIM_HAPPY    // plays when you sell him the bunny hood
 } RunningManAnimIndex;
 
-typedef enum {
+typedef enum RunningManMouthTex {
     /* 0 */ RM2_MOUTH_CLOSED,
     /* 1 */ RM2_MOUTH_OPEN
 } RunningManMouthTex;

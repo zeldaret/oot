@@ -25,7 +25,7 @@ ActorProfile Obj_Makeoshihiki_Profile = {
     /**/ ObjMakeoshihiki_Draw,
 };
 
-typedef struct {
+typedef struct BlockConfig {
     /* 0x00 */ Vec3f posVecs[3];
     /* 0x24 */ u8 unk_24[3];
     /* 0x27 */ u8 color;

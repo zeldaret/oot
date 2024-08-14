@@ -10,7 +10,7 @@ typedef void (*BossDodongoActionFunc)(struct BossDodongo*, PlayState*);
 
 #define BOSS_DODONGO_EFFECT_COUNT 80
 
-typedef struct {
+typedef struct BossDodongoEffect {
     /* 0x00 */ Vec3f unk_00;
     /* 0x0C */ Vec3f unk_0C;
     /* 0x18 */ Vec3f unk_18;

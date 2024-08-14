@@ -5,7 +5,7 @@
 #include "global.h"
 
 // BgBdanSwitch.actor.params & 0xFF
-typedef enum {
+typedef enum BgBdanSwitchType {
     /* 0x00 */ BLUE,
     /* 0x01 */ YELLOW_HEAVY,
     /* 0x02 */ YELLOW,

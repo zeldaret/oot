@@ -180,8 +180,6 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
 #endif
     s16 phi_v0;
 
-    if (1) {}
-
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 205);
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1384,7 +1382,7 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
 }
 
 #if OOT_NTSC
-typedef struct {
+typedef struct OptionsMenuTextureInfo {
     /* 0x00 */ void* texture[2];
     /* 0x08 */ u16 width;
     /* 0x0A */ u16 height;
@@ -1394,7 +1392,7 @@ typedef struct {
 #define OPTIONS_MENU_TEXTURE_WIDTH(info) info.width
 #define OPTIONS_MENU_TEXTURE_HEIGHT(info) info.height
 #else
-typedef struct {
+typedef struct OptionsMenuTextureInfo {
     /* 0x00 */ void* texture[3];
     /* 0x0C */ u16 width[3];
     /* 0x12 */ u16 height;

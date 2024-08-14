@@ -6,7 +6,7 @@
 
 struct BgVbSima;
 
-typedef enum {
+typedef enum BgVbSimaSignal {
     /* 0 */ VBSIMA_STAND,
     /* 1 */ VBSIMA_COLLAPSE,
     /* 2 */ VBSIMA_KILL

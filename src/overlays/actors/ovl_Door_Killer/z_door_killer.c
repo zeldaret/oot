@@ -13,7 +13,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum DoorKillerBehaviour {
     /* 0 */ DOOR_KILLER_DOOR,
     /* 1 */ DOOR_KILLER_RUBBLE_PIECE_1,
     /* 2 */ DOOR_KILLER_RUBBLE_PIECE_2,
@@ -349,7 +349,7 @@ void DoorKiller_FallOver(DoorKiller* this, PlayState* play) {
     if (!(this->hasHitPlayerOrGround & 1)) {
         Vec3f playerPosRelToDoor;
         Player* player = GET_PLAYER(play);
-        func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
+        Actor_WorldToActorCoords(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
         if ((fabsf(playerPosRelToDoor.y) < 20.0f) && (fabsf(playerPosRelToDoor.x) < 20.0f) &&
             (playerPosRelToDoor.z < 100.0f) && (playerPosRelToDoor.z > 0.0f)) {
             this->hasHitPlayerOrGround |= 1;
@@ -411,7 +411,7 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
     Vec3f playerPosRelToDoor;
     s16 angleToFacingPlayer;
 
-    func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
 
     // playerIsOpening is set by player
     if (this->playerIsOpening) {

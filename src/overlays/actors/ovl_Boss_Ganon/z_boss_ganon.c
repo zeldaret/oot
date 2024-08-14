@@ -120,7 +120,7 @@ static EnZl3* sZelda;
 
 #define BOSSGANON_EFFECT_COUNT 200
 
-typedef struct {
+typedef struct GanondorfEffect {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 timer;
     /* 0x04 */ Vec3f pos;
@@ -502,7 +502,7 @@ void BossGanon_SetupIntroCutscene(BossGanon* this, PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct CutsceneCameraPosition {
     /* 0x00 */ Vec3s eye;
     /* 0x06 */ Vec3s at;
 } CutsceneCameraPosition; // size = 0x12
@@ -3519,8 +3519,6 @@ void BossGanon_DrawBigMagicCharge(BossGanon* this, PlayState* play) {
             Matrix_Pop();
         }
 
-        if (1) {}
-
         CLOSE_DISPS(gfxCtx, "../z_boss_ganon.c", 7721);
     }
 }
@@ -4176,8 +4174,6 @@ void BossGanon_LightBall_Draw(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gGanondorfSquareDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon.c", 9911);
 }

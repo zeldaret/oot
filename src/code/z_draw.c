@@ -106,7 +106,7 @@ void GetItem_DrawScale(PlayState* play, s16 drawId);
 void GetItem_DrawBulletBag(PlayState* play, s16 drawId);
 void GetItem_DrawWallet(PlayState* play, s16 drawId);
 
-typedef struct {
+typedef struct DrawItemTableEntry {
     /* 0x00 */ void (*drawFunc)(PlayState*, s16);
     /* 0x04 */ Gfx* dlists[8];
 } DrawItemTableEntry; // size = 0x24
@@ -767,8 +767,6 @@ void GetItem_DrawSmallRupee(PlayState* play, s16 drawId) {
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1133);
 
     Matrix_Scale(0.7f, 0.7f, 0.7f, MTXMODE_APPLY);
-
-    if (1) {}
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_draw.c", 1140), G_MTX_MODELVIEW | G_MTX_LOAD);

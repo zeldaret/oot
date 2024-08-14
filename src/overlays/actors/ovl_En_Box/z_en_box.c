@@ -30,7 +30,7 @@ when set, gets cleared next EnBox_Update call and clip to the floor
 */
 #define ENBOX_MOVE_STICK_TO_GROUND (1 << 4)
 
-typedef enum {
+typedef enum EnBoxStateUnk1FB {
     ENBOX_STATE_0, // waiting for player near / player available / player ? (IDLE)
     ENBOX_STATE_1, // used only temporarily, maybe "player is ready" ?
     ENBOX_STATE_2  // waiting for something message context-related
@@ -421,7 +421,7 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
         Flags_SetTreasure(play, this->dyna.actor.params & 0x1F);
     } else {
         player = GET_PLAYER(play);
-        func_8002DBD0(&this->dyna.actor, &sp4C, &player->actor.world.pos);
+        Actor_WorldToActorCoords(&this->dyna.actor, &sp4C, &player->actor.world.pos);
         if (sp4C.z > -50.0f && sp4C.z < 0.0f && fabsf(sp4C.y) < 10.0f && fabsf(sp4C.x) < 20.0f &&
             Player_IsFacingActor(&this->dyna.actor, 0x3000, play)) {
             Actor_OfferGetItemNearby(&this->dyna.actor, play, 0 - (this->dyna.actor.params >> 5 & 0x7F));

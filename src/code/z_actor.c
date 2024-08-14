@@ -235,7 +235,7 @@ void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedIn
     *cappedInvWDest = (*cappedInvWDest < 1.0f) ? 1.0f : (1.0f / *cappedInvWDest);
 }
 
-typedef struct {
+typedef struct NaviColor {
     /* 0x00 */ Color_RGBA8 inner;
     /* 0x04 */ Color_RGBA8 outer;
 } NaviColor; // size = 0x8
@@ -987,9 +987,8 @@ f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint) {
 
 /**
  * Convert `pos` to be relative to the actor's position and yaw, store into `dest`.
- * Actor_WorldToActorCoords
  */
-void func_8002DBD0(Actor* actor, Vec3f* dest, Vec3f* pos) {
+void Actor_WorldToActorCoords(Actor* actor, Vec3f* dest, Vec3f* pos) {
     f32 cosY;
     f32 sinY;
     f32 deltaX;
@@ -1541,7 +1540,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     return actor->xyzDistToPlayerSq;
 }
 
-typedef struct {
+typedef struct TargetRangeParams {
     /* 0x0 */ f32 rangeSq;
     /* 0x4 */ f32 leashScale;
 } TargetRangeParams; // size = 0x8
@@ -3746,7 +3745,7 @@ f32 Rand_CenteredFloat(f32 f) {
     return (Rand_ZeroOne() - 0.5f) * f;
 }
 
-typedef struct {
+typedef struct DoorLockInfo {
     /* 0x00 */ f32 chainAngle;
     /* 0x04 */ f32 chainLength;
     /* 0x08 */ f32 yShift;
@@ -3901,7 +3900,7 @@ s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interac
     return false;
 }
 
-typedef struct {
+typedef struct NpcTrackingRotLimits {
     /* 0x00 */ s16 maxHeadYaw;
     /* 0x02 */ s16 minHeadPitch;
     /* 0x04 */ s16 maxHeadPitch;
@@ -3911,7 +3910,7 @@ typedef struct {
     /* 0x0C */ u8 rotateYaw;
 } NpcTrackingRotLimits; // size = 0x10
 
-typedef struct {
+typedef struct NpcTrackingParams {
     /* 0x00 */ NpcTrackingRotLimits rotLimits;
     // Fields specific to NPC_TRACKING_PLAYER_AUTO_TURN mode
     /* 0x10 */ f32 autoTurnDistanceRange;   // Max distance to player to enable tracking and auto-turn

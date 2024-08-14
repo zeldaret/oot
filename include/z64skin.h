@@ -7,7 +7,7 @@
  * Holds a compact version of a vertex used in the Skin system
  * It is used to initialise the Vtx used by an animated limb
  */
-typedef struct {
+typedef struct SkinVertex {
     /* 0x00 */ u16 index;
     /* 0x02 */ s16 s; // s and t are texture coordinates (also known as u and v)
     /* 0x04 */ s16 t;
@@ -20,7 +20,7 @@ typedef struct {
 /**
  * Describes a position displacement and a scale to be applied to a limb at index `limbIndex`
  */
-typedef struct {
+typedef struct SkinTransformation {
     /* 0x00 */ u8 limbIndex;
     /* 0x02 */ s16 x;
     /* 0x04 */ s16 y;
@@ -28,7 +28,7 @@ typedef struct {
     /* 0x08 */ u8 scale;
 } SkinTransformation; // size = 0xA
 
-typedef struct {
+typedef struct SkinLimbModif {
     /* 0x00 */ u16 vtxCount; // number of vertices in this modif entry
     /* 0x02 */ u16 transformCount;
     /* 0x04 */ u16 unk_4; // index of limbTransformations?
@@ -36,7 +36,7 @@ typedef struct {
     /* 0x0C */ SkinTransformation* limbTransformations;
 } SkinLimbModif; // size = 0x10
 
-typedef struct {
+typedef struct SkinAnimatedLimbData {
     /* 0x00 */ u16 totalVtxCount; // total vertex count for all modif entries
     /* 0x02 */ u16 limbModifCount;
     /* 0x04 */ SkinLimbModif* limbModifications;
@@ -46,7 +46,7 @@ typedef struct {
 #define SKIN_LIMB_TYPE_ANIMATED 4
 #define SKIN_LIMB_TYPE_NORMAL 11
 
-typedef struct {
+typedef struct SkinLimb {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
@@ -54,12 +54,12 @@ typedef struct {
     /* 0x0C */ void* segment; // Gfx* if segmentType is SKIN_LIMB_TYPE_NORMAL, SkinAnimatedLimbData* if segmentType is SKIN_LIMB_TYPE_ANIMATED, NULL otherwise
 } SkinLimb; // size = 0x10
 
-typedef struct {
+typedef struct SkinLimbVtx {
     /* 0x000 */ u8 index; // alternates every draw cycle
     /* 0x004 */ Vtx* buf[2]; // number of vertices in buffer determined by `totalVtxCount`
 } SkinLimbVtx; // size = 0xC
 
-typedef struct {
+typedef struct Skin {
     /* 0x000 */ SkeletonHeader* skeletonHeader;
     /* 0x004 */ MtxF mtx;
     /* 0x044 */ s32 limbCount;

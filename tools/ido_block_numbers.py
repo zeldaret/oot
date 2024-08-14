@@ -538,7 +538,7 @@ def main():
             file=sys.stderr,
         )
         sys.exit(1)
-    print(f"Compiler command: {shlex.join(compiler_command_line)}", file=sys.stderr)
+    print(f"Compiler command: {shlex.join(command_line)}", file=sys.stderr)
 
     symbol_table, ucode = run_cfe(command_line, args.keep_files)
     print_symbol_table(symbol_table)

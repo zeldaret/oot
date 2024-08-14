@@ -147,8 +147,6 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
 
     gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_001580);
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 
     this->bufferIndex = this->bufferIndex == 0;

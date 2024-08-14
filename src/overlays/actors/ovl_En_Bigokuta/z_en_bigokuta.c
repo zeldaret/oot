@@ -498,7 +498,7 @@ void func_809BDC08(EnBigokuta* this, PlayState* play) {
     }
 
     phi_v1 = (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) - 180.0f) * (8.0f / 15);
-    func_8002DBD0(&this->actor, &sp28, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &sp28, &player->actor.world.pos);
     if (fabsf(sp28.x) > 263.0f || ((sp28.z > 0.0f) && !Actor_IsFacingPlayer(&this->actor, 0x1B00) &&
                                    !Player_IsFacingActor(&this->actor, 0x2000, play))) {
         phi_v1 -= 0x80;
@@ -837,7 +837,6 @@ s32 EnBigokuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
             gDPPipeSync(POLY_OPA_DISP++);
 
             gDPSetEnvColor(POLY_OPA_DISP++, temp_f0, temp_f0, temp_f0, 255);
-            if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_en_bigokuta.c", 1945);
         }
     } else if (limbIndex == 10) {
@@ -849,7 +848,6 @@ s32 EnBigokuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
         }
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, intensity, intensity, intensity, intensity);
-        if (1) {}
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_bigokuta.c", 1972);
     } else if (limbIndex == 17 && this->actionFunc == func_809BE26C) {
         if (this->unk_198 < 5) {

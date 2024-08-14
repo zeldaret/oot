@@ -12,14 +12,14 @@ typedef void (*EnIkActionFunc)(struct EnIk*, PlayState*);
 #define IK_GET_ARMOR_TYPE(thisx) ((thisx)->params & 0xFF)
 #define IK_GET_SWITCH_FLAG(thisx) (((thisx)->params >> 8) & 0xFF)
 
-typedef enum {
+typedef enum EnIkType {
     /* 0 */ IK_TYPE_NABOORU,
     /* 1 */ IK_TYPE_SILVER,
     /* 2 */ IK_TYPE_BLACK,
     /* 3 */ IK_TYPE_WHITE
 } EnIkType;
 
-typedef enum {
+typedef enum IronKnuckleLimb {
     /* 0x00 */ IRON_KNUCKLE_LIMB_NONE,
     /* 0x01 */ IRON_KNUCKLE_LIMB_ROOT,
     /* 0x02 */ IRON_KNUCKLE_LIMB_LOWER_BODY,
@@ -55,7 +55,7 @@ typedef enum {
 
 // This skeleton is only used in the defeat cutscene that reveals Nabooru under the armor.
 // The only difference between this skeleton and the main one is that the head and helmet armor limbs are swapped.
-typedef enum {
+typedef enum IronKnuckleDefeatLimb {
     /* 0x00 */ IRON_KNUCKLE_DEFEAT_LIMB_NONE,
     /* 0x01 */ IRON_KNUCKLE_DEFEAT_LIMB_ROOT,
     /* 0x02 */ IRON_KNUCKLE_DEFEAT_LIMB_LOWER_BODY,

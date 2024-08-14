@@ -8,7 +8,7 @@ struct BossGoma;
 
 typedef void (*BossGomaActionFunc)(struct BossGoma*, PlayState*);
 
-typedef enum {
+typedef enum BossGomaLimb {
     /*  0 */ BOSSGOMA_LIMB_NONE,
     /*  1 */ BOSSGOMA_LIMB_ROOT1,
     /*  2 */ BOSSGOMA_LIMB_ROOT2,

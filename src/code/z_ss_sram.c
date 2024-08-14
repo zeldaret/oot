@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
+typedef struct SsSramContext {
     /* 0x00 */ OSPiHandle piHandle;
     /* 0x74 */ OSIoMesg ioMesg;
     /* 0x8C */ OSMesgQueue msgQueue;

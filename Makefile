@@ -27,7 +27,7 @@ COMPILER ?= ido
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 # The following versions are work-in-progress and not yet matching:
-#   (none currently)
+#   ntsc-1.2       N64 NTSC 1.2 (Japan)
 VERSION ?= gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS ?= $(shell nproc)
@@ -46,43 +46,58 @@ CPPFLAGS ?=
 CPP_DEFINES ?=
 
 # Version-specific settings
-ifeq ($(VERSION),gc-jp)
+ifeq ($(VERSION),ntsc-1.2)
   REGION ?= JP
+  PLATFORM := N64
+  PAL := 0
+  MQ := 0
+  DEBUG := 0
+  COMPARE := 0
+else ifeq ($(VERSION),gc-jp)
+  REGION ?= JP
+  PLATFORM := GC
   PAL := 0
   MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-jp-mq)
   REGION ?= JP
+  PLATFORM := GC
   PAL := 0
   MQ := 1
   DEBUG := 0
 else ifeq ($(VERSION),gc-jp-ce)
   REGION ?= JP
+  PLATFORM := GC
   PAL := 0
   MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-us)
   REGION ?= US
+  PLATFORM := GC
   PAL := 0
   MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-us-mq)
   REGION ?= US
+  PLATFORM := GC
   PAL := 0
   MQ := 1
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
+  PLATFORM := GC
   PAL := 1
   MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu-mq)
   REGION ?= EU
+  PLATFORM := GC
   PAL := 1
   MQ := 1
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
+  PLATFORM := GC
   PAL := 1
   MQ := 1
   DEBUG := 1
@@ -121,6 +136,14 @@ CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 VERSION_MACRO := OOT_$(shell echo $(VERSION) | tr a-z-. A-Z__)
 CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO)
 CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
+
+ifeq ($(PLATFORM),N64)
+  CPP_DEFINES += -DPLATFORM_N64=1 -DPLATFORM_GC=0
+else ifeq ($(PLATFORM),GC)
+  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=1
+else
+  $(error Unsupported platform $(PLATFORM))
+endif
 
 ifeq ($(PAL),0)
   CPP_DEFINES += -DOOT_NTSC=1
@@ -210,6 +233,7 @@ SPEC_REPLACE_VARS := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
 # Audio tools
 AUDIO_EXTRACT := $(PYTHON) tools/audio_extraction.py
+SAMPLECONV    := tools/audio/sampleconv/sampleconv
 
 CFLAGS += $(CPP_DEFINES)
 CPPFLAGS += $(CPP_DEFINES)
@@ -218,8 +242,10 @@ ifeq ($(COMPILER),gcc)
   OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
 endif
 
-# TODO PL and DOWHILE should be disabled for non-gamecube
-GBI_DEFINES := -DF3DEX_GBI_2 -DF3DEX_GBI_PL -DGBI_DOWHILE
+GBI_DEFINES := -DF3DEX_GBI_2
+ifeq ($(PLATFORM),GC)
+  GBI_DEFINES += -DF3DEX_GBI_PL -DGBI_DOWHILE
+endif
 ifeq ($(DEBUG),1)
   GBI_DEFINES += -DGBI_DEBUG
 endif
@@ -272,6 +298,22 @@ SRC_DIRS := $(shell find src -type d -not -path src/gcc_fix)
 else
 SRC_DIRS := $(shell find src -type d)
 endif
+
+ifneq ($(wildcard $(EXTRACTED_DIR)/assets/audio),)
+  SAMPLE_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/samples -type d)
+else
+  SAMPLE_EXTRACT_DIRS :=
+endif
+
+ifneq ($(wildcard assets/audio/samples),)
+  SAMPLE_DIRS := $(shell find assets/audio/samples -type d)
+else
+  SAMPLE_DIRS :=
+endif
+
+SAMPLE_FILES         := $(foreach dir,$(SAMPLE_DIRS),$(wildcard $(dir)/*.wav))
+SAMPLE_EXTRACT_FILES := $(foreach dir,$(SAMPLE_EXTRACT_DIRS),$(wildcard $(dir)/*.wav))
+AIFC_FILES           := $(foreach f,$(SAMPLE_FILES),$(BUILD_DIR)/$(f:.wav=.aifc)) $(foreach f,$(SAMPLE_EXTRACT_FILES:.wav=.aifc),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%))
 
 # create extracted directories
 $(shell mkdir -p $(EXTRACTED_DIR) $(EXTRACTED_DIR)/assets $(EXTRACTED_DIR)/text)
@@ -410,7 +452,7 @@ $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
 ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
 # Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
-$(BUILD_DIR)/src/%.o: CC := $(PYTHON) tools/preprocess.py -v $(VERSION) -- $(CC)
+$(BUILD_DIR)/src/%.o: CC := ./tools/preprocess.sh -v $(VERSION) -- $(CC)
 endif
 
 else
@@ -618,6 +660,30 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
+
+# Audio
+
+AUDIO_BUILD_DEBUG ?= 0
+
+# first build samples...
+
+$(BUILD_DIR)/assets/audio/samples/%.half.aifc: assets/audio/samples/%.half.wav
+	$(SAMPLECONV) vadpcm-half $< $@
+
+$(BUILD_DIR)/assets/audio/samples/%.half.aifc: $(EXTRACTED_DIR)/assets/audio/samples/%.half.wav
+	$(SAMPLECONV) vadpcm-half $< $@
+ifeq ($(AUDIO_BUILD_DEBUG),1)
+	@(cmp $(<D)/aifc/$(<F:.half.wav=.half.aifc) $@ && echo "$(<F) OK") || (mkdir -p NONMATCHINGS/$(<D) && cp $(<D)/aifc/$(<F:.half.wav=.half.aifc) NONMATCHINGS/$(<D)/$(<F:.half.wav=.half.aifc))
+endif
+
+$(BUILD_DIR)/assets/audio/samples/%.aifc: assets/audio/samples/%.wav
+	$(SAMPLECONV) vadpcm $< $@
+
+$(BUILD_DIR)/assets/audio/samples/%.aifc: $(EXTRACTED_DIR)/assets/audio/samples/%.wav
+	$(SAMPLECONV) vadpcm $< $@
+ifeq ($(AUDIO_BUILD_DEBUG),1)
+	@(cmp $(<D)/aifc/$(<F:.wav=.aifc) $@ && echo "$(<F) OK") || (mkdir -p NONMATCHINGS/$(<D) && cp $(<D)/aifc/$(<F:.wav=.aifc) NONMATCHINGS/$(<D)/$(<F:.wav=.aifc))
+endif
 
 -include $(DEP_FILES)
 

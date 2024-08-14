@@ -4,7 +4,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-typedef struct {
+typedef struct EnDaikuEscapeSubCamParam {
     Vec3f eyePosDeltaLocal;
     s32 maxFramesActive;
 } EnDaikuEscapeSubCamParam;
@@ -20,7 +20,7 @@ typedef struct {
 // the gerudo guard was defeated
 #define ENDAIKU_STATEFLAG_GERUDODEFEATED (1 << 4)
 
-typedef enum {
+typedef enum EnDaikuTalkState {
     /* 0 */ ENDAIKU_STATE_CAN_TALK,
     /* 2 */ ENDAIKU_STATE_TALKING = 2,
     /* 3 */ ENDAIKU_STATE_NO_TALK
@@ -110,7 +110,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef enum {
+typedef enum EnDaikuAnimation {
     /* 0 */ ENDAIKU_ANIM_SHOUT,
     /* 1 */ ENDAIKU_ANIM_STAND,
     /* 2 */ ENDAIKU_ANIM_CELEBRATE,
@@ -606,8 +606,6 @@ void EnDaiku_Draw(Actor* thisx, PlayState* play) {
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDaiku_OverrideLimbDraw, EnDaiku_PostLimbDraw, this);
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_daiku.c", 1255);
 }

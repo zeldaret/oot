@@ -14,7 +14,7 @@ typedef struct EnWeatherTag {
     /* 0x0150 */ char unk_150[0x04];
 } EnWeatherTag; // size = 0x0154
 
-typedef enum {
+typedef enum EnWeatherTagType {
     /* 0x00 */ EN_WEATHER_TAG_TYPE_CLOUDY_MARKET,
     /* 0x01 */ EN_WEATHER_TAG_TYPE_CLOUDY_LON_LON_RANCH,
     /* 0x02 */ EN_WEATHER_TAG_TYPE_SNOW_ZORAS_DOMAIN,

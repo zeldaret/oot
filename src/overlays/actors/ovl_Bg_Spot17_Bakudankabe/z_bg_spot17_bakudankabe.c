@@ -123,9 +123,9 @@ void BgSpot17Bakudankabe_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgSpot17Bakudankabe_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
-    s8 r = coss(play->gameplayFrames * 1500) >> 8;
-    s8 g = coss(play->gameplayFrames * 1500) >> 8;
+    PlayState* play2 = (PlayState*)play;
+    s8 r = coss(play2->gameplayFrames * 1500) >> 8;
+    s8 g = coss(play2->gameplayFrames * 1500) >> 8;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 269);
 

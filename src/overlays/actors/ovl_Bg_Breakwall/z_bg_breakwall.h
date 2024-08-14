@@ -17,7 +17,7 @@ typedef struct BgBreakwall {
     /* 0x01EC */ BgBreakwallActionFunc actionFunc;
 } BgBreakwall; // size = 0x01F0
 
-typedef enum {
+typedef enum BombableWallType {
     /* 0 */ BWALL_DC_ENTRANCE,  // When exploded it will play the Dodongo's Cavern intro cutscene
     /* 1 */ BWALL_WALL,         // Used a lot in Dodongo's Cavern and other places
     /* 2 */ BWALL_KD_FLOOR,     // Used in the King Dodongo boss room

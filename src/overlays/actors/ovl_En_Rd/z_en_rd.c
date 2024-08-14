@@ -29,7 +29,7 @@ void EnRd_Damaged(EnRd* this, PlayState* play);
 void EnRd_Dead(EnRd* this, PlayState* play);
 void EnRd_Stunned(EnRd* this, PlayState* play);
 
-typedef enum {
+typedef enum EnRdAction {
     /*  0 */ REDEAD_ACTION_IDLE,
     /*  1 */ REDEAD_ACTION_STUNNED,
     /*  2 */ REDEAD_ACTION_WALK_TO_HOME,
@@ -44,7 +44,7 @@ typedef enum {
     /* 11 */ REDEAD_ACTION_RISE_FROM_COFFIN
 } EnRdAction;
 
-typedef enum {
+typedef enum EnRdGrabState {
     /* 0 */ REDEAD_GRAB_START,
     /* 1 */ REDEAD_GRAB_INITIAL_DAMAGE,
     /* 2 */ REDEAD_GRAB_ATTACK,
@@ -84,7 +84,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-typedef enum {
+typedef enum EnRdDamageEffect {
     /* 0x0 */ REDEAD_DMGEFF_NONE,              // Does not interact with the Gibdo/Redead at all
     /* 0x1 */ REDEAD_DMGEFF_HOOKSHOT,          // Stuns the Gibdo/Redead
     /* 0x6 */ REDEAD_DMGEFF_ICE_MAGIC = 0x6,   // Does not interact with the Gibdo/Redead at all
@@ -993,8 +993,6 @@ void EnRd_Draw(Actor* thisx, PlayState* play) {
 
         func_80033C30(&thisPos, &sShadowScale, this->alpha, play);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_rd.c", 1735);
 }

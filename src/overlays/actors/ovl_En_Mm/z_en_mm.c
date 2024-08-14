@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum RunningManAnimIndex {
     /* 0 */ RM_ANIM_RUN,
     /* 1 */ RM_ANIM_SIT,
     /* 2 */ RM_ANIM_SIT_WAIT,
@@ -20,7 +20,7 @@ typedef enum {
     /* 6 */ RM_ANIM_HAPPY    // plays when you sell him the bunny hood
 } RunningManAnimIndex;
 
-typedef enum {
+typedef enum RunningManMouthTex {
     /* 0 */ RM_MOUTH_CLOSED,
     /* 1 */ RM_MOUTH_OPEN
 } RunningManMouthTex;
@@ -115,7 +115,7 @@ static AnimationSpeedInfo sAnimationInfo[] = {
     { &gRunningManHappyAnim, 1.0f, ANIMMODE_LOOP, -12.0f },
 };
 
-typedef struct {
+typedef struct EnMmPathInfo {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
@@ -557,8 +557,6 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         }
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_mm.c", 1141);
 }

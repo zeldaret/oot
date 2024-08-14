@@ -147,7 +147,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit D_80A65F38 = { 10, 35, 100, MASS_HEAVY };
 
-typedef struct {
+typedef struct EnHorseSpawnpoint {
     /* 0x0 */ s16 sceneId;
     /* 0x2 */ Vec3s pos;
     /* 0x8 */ s16 angle;
@@ -329,7 +329,7 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_LON_LON_RANCH, 907, 0, -2336, 0 },
 };
 
-typedef struct {
+typedef struct BridgeJumpPoint {
     /* 0x00 */ s16 zMin;
     /* 0x02 */ s16 zMax;
     /* 0x04 */ s16 xMin;
@@ -345,7 +345,7 @@ static BridgeJumpPoint sBridgeJumps[] = {
     { -195, -40, -240, -120, -360, 0x4000, 0x7D0, 270, -52, -117 },
 };
 
-typedef struct {
+typedef struct RaceWaypoint {
     /* 0x0 */ s16 x;
     /* 0x2 */ s16 y;
     /* 0x4 */ s16 z;
@@ -353,7 +353,7 @@ typedef struct {
     /* 0x8 */ s16 angle;
 } RaceWaypoint; // size = 0xA
 
-typedef struct {
+typedef struct RaceInfo {
     /* 0x0 */ s32 numWaypoints;
     /* 0x4 */ RaceWaypoint* waypoints;
 } RaceInfo; // size = 0x8
@@ -403,7 +403,7 @@ static EnHorseCsFunc sCutsceneActionFuncs[] = {
     NULL, EnHorse_CsMoveToPoint, EnHorse_CsJump, EnHorse_CsRearing, EnHorse_CsWarpMoveToPoint, EnHorse_CsWarpRearing,
 };
 
-typedef struct {
+typedef struct CsActionEntry {
     /* 0x0 */ s32 cueId;
     /* 0x4 */ s32 csFuncIdx;
 } CsActionEntry; // size = 0x8

@@ -226,7 +226,7 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
             }
         }
     } else if ((thisx->params == RS_GORON_CITY_SARIAS_SONG) || (thisx->params == RS_GREAT_FAIRY)) {
-        func_8002DBD0(&player->actor, &thisx->home.pos, &thisx->world.pos);
+        Actor_WorldToActorCoords(&player->actor, &thisx->home.pos, &thisx->world.pos);
     } else if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS && Flags_GetClear(play, thisx->room)) {
         Actor_Kill(thisx);
     }

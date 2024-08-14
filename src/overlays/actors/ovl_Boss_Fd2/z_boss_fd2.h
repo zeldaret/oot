@@ -8,14 +8,14 @@ struct BossFd2;
 
 typedef void (*BossFd2ActionFunc)(struct BossFd2*, PlayState*);
 
-typedef enum {
+typedef enum BossFd2Signal {
     /* 0 */ FD2_SIGNAL_NONE,
     /* 1 */ FD2_SIGNAL_FLY,
     /* 2 */ FD2_SIGNAL_DEATH,
     /* 100 */ FD2_SIGNAL_GROUND = 100
 } BossFd2Signal;
 
-typedef struct {
+typedef struct BossFd2Mane {
     /* 0x000 */ Vec3f rot[10];
     /* 0x078 */ Vec3f pos[10];
     /* 0x0F0 */ Vec3f pull[10];
@@ -23,7 +23,7 @@ typedef struct {
     /* 0x190 */ Vec3f head;
 } BossFd2Mane; // size = 0x19C
 
-typedef enum {
+typedef enum BossFd2S16Var {
     /* 0 */ FD2_TURN_TO_LINK,
     /* 1 */ FD2_ACTION_STATE,
     /* 2 */ FD2_UNK_TIMER,
@@ -39,7 +39,7 @@ typedef enum {
     /* 19 */ FD2_SHORT_COUNT = 19
 } BossFd2S16Var;
 
-typedef enum {
+typedef enum BossFd2F32Var {
     /*  0 */ FD2_TEX1_SCROLL_X,
     /*  1 */ FD2_TEX1_SCROLL_Y,
     /*  2 */ FD2_TEX2_SCROLL_X,

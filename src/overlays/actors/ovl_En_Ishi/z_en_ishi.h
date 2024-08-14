@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum EnIshiType {
     /* 0x00 */ ROCK_SMALL,
     /* 0x01 */ ROCK_LARGE
 } EnIshiType;

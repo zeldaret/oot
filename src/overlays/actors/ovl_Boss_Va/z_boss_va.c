@@ -41,7 +41,7 @@ typedef struct BossVaEffect {
     /* 0x54 */ struct BossVa* parent;
 } BossVaEffect; // size = 0x58
 
-typedef enum {
+typedef enum BossVaEffectType {
     /* 0 */ VA_NONE,
     /* 1 */ VA_LARGE_SPARK,
     /* 2 */ VA_BLAST_SPARK,
@@ -53,7 +53,7 @@ typedef enum {
     /* 8 */ VA_GORE
 } BossVaEffectType;
 
-typedef enum {
+typedef enum BossVaSparkMode {
     /* 1 */ SPARK_TETHER = 1,
     /* 2 */ SPARK_BARI,
     /* 3 */ SPARK_BLAST,
@@ -62,25 +62,25 @@ typedef enum {
     /* 6 */ SPARK_LINK
 } BossVaSparkMode;
 
-typedef enum {
+typedef enum BossVaBloodMode {
     /* 0 */ BLOOD_DROPLET,
     /* 1 */ BLOOD_SPLATTER,
     /* 2 */ BLOOD_SPOT
 } BossVaBloodMode;
 
-typedef enum {
+typedef enum BossVaTumorMode {
     /* 0 */ TUMOR_UNUSED,
     /* 1 */ TUMOR_BODY,
     /* 2 */ TUMOR_ARM
 } BossVaTumorMode;
 
-typedef enum {
+typedef enum BossVaGoreMode {
     /* 0 */ GORE_PERMANENT,
     /* 1 */ GORE_FLOOR,
     /* 2 */ GORE_FADING
 } BossVaGoreMode;
 
-typedef enum {
+typedef enum BossVaCutscene {
     /* -5 */ INTRO_UNUSED_START = -5,
     /* -4 */ INTRO_START,
     /* -3 */ INTRO_LOOK_DOOR,
@@ -3148,8 +3148,6 @@ void BossVa_BariPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, *dList);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4517);
 }

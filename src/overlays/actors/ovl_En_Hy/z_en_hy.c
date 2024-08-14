@@ -74,13 +74,13 @@ static void* sEyeTexturesBJI13[] = { object_bji_Tex_0005FC, object_bji_Tex_0009F
 static void* sEyeTexturesBOJ2[] = { object_boj_Tex_0005FC, object_boj_Tex_0006FC, object_boj_Tex_0007FC, NULL };
 static void* sEyeTexturesBOB[] = { object_bob_Tex_0007C8, object_bob_Tex_000FC8, object_bob_Tex_0017C8, NULL };
 
-typedef struct {
+typedef struct EnHyHeadInfo {
     /* 0x00 */ s16 objectId;
     /* 0x04 */ Gfx* headDList;
     /* 0x08 */ void** eyeTextures;
 } EnHyHeadInfo; // size = 0xC
 
-typedef enum {
+typedef enum EnHyHeadIndex {
     /*  0 */ ENHY_HEAD_AOB,
     /*  1 */ ENHY_HEAD_BOB,
     /*  2 */ ENHY_HEAD_BOJ_2,
@@ -118,12 +118,12 @@ static EnHyHeadInfo sHeadInfo[] = {
     /* ENHY_HEAD_COB */ { OBJECT_COB, object_cob_DL_001300, NULL },
 };
 
-typedef struct {
+typedef struct EnHySkeletonInfo {
     /* 0x00 */ s16 objectId;
     /* 0x04 */ FlexSkeletonHeader* skeleton;
 } EnHySkeletonInfo; // size = 0x8
 
-typedef enum {
+typedef enum EnHySkeletonIndex {
     /* 0 */ ENHY_SKEL_AOB,
     /* 1 */ ENHY_SKEL_BOB,
     /* 2 */ ENHY_SKEL_BOJ,
@@ -145,7 +145,7 @@ static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_COB */ { OBJECT_COB, &object_cob_Skel_0021F8 },
 };
 
-typedef enum {
+typedef enum EnHyAnimationIndex {
     /*  0 */ ENHY_ANIM_0,
     /*  1 */ ENHY_ANIM_1,
     /*  2 */ ENHY_ANIM_2,
@@ -205,7 +205,7 @@ static AnimationInfo sAnimationInfo[] = {
     /* ENHY_ANIM_26 */ { &gObjOsAnim_0BFC, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
 };
 
-typedef struct {
+typedef struct EnHyModelInfo {
     /* 0x00 */ u8 headInfoIndex;  // EnHyHeadIndex
     /* 0x01 */ u8 skelInfoIndex2; // EnHySkeletonIndex, see EnHy.objectSlotSkel2
     /* 0x02 */ Color_RGBA8 envColorSeg8;
@@ -259,7 +259,7 @@ static EnHyModelInfo sModelInfo[] = {
     { ENHY_HEAD_AHG_9, ENHY_SKEL_AHG, { 160, 230, 0, 0 }, ENHY_SKEL_AHG, { 0, 150, 110, 0 }, ENHY_ANIM_12 },
 };
 
-typedef struct {
+typedef struct EnHyColliderInfo {
     /* 0x00 */ Vec3s offset;
     /* 0x06 */ s16 radius;
     /* 0x08 */ s16 height;
@@ -289,7 +289,7 @@ static EnHyColliderInfo sColliderInfo[] = {
     /* ENHY_TYPE_AHG_20 */ { { 0, 0, 8 }, 20, 58 },
 };
 
-typedef struct {
+typedef struct EnHyPlayerTrackingInfo {
     /* 0x00 */ u8 presetIndex;
     /* 0x04 */ f32 childYOffset;
     /* 0x08 */ f32 adultYOffset;
@@ -319,7 +319,7 @@ static EnHyPlayerTrackingInfo sPlayerTrackingInfo[] = {
     /* ENHY_TYPE_AHG_20 */ { 0x0A, 20.0f, 0.0f },
 };
 
-typedef struct {
+typedef struct EnHyInit2Info {
     /* 0x00 */ f32 shadowScale;
     /* 0x04 */ Vec3f modelOffset;
     /* 0x10 */ f32 scale;
@@ -1140,8 +1140,6 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         rot->y += Math_SinS(this->unk_21C[limbIndex]) * 200.0f;
         rot->z += Math_CosS(this->unk_23C[limbIndex]) * 200.0f;
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2228);
 

@@ -20,7 +20,7 @@
 
 #define BOSS_MO_EFFECT_COUNT 300
 
-typedef struct {
+typedef struct BossMoEffect {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f vel;
     /* 0x18 */ Vec3f accel;
@@ -59,7 +59,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play);
 
 void BossMo_Unknown(void);
 
-typedef enum {
+typedef enum BossMoEffectType {
     /* 0 */ MO_FX_NONE,
     /* 1 */ MO_FX_SMALL_RIPPLE,
     /* 2 */ MO_FX_BIG_RIPPLE,
@@ -70,7 +70,7 @@ typedef enum {
     /* 7 */ MO_FX_BUBBLE
 } BossMoEffectType;
 
-typedef enum {
+typedef enum BossMoTentState {
     /*   0 */ MO_TENT_READY,
     /*   1 */ MO_TENT_SWING,
     /*   2 */ MO_TENT_ATTACK,
@@ -90,7 +90,7 @@ typedef enum {
     /* 206 */ MO_TENT_DEATH_6
 } BossMoTentState;
 
-typedef enum {
+typedef enum BossMoCoreState {
     /* -11 */ MO_CORE_UNUSED = -11,
     /*   0 */ MO_CORE_MOVE = 0,
     /*   1 */ MO_CORE_MAKE_TENT,
@@ -102,7 +102,7 @@ typedef enum {
     /*  21 */ MO_CORE_INTRO_REVEAL
 } BossMoCoreState;
 
-typedef enum {
+typedef enum BossMoCsState {
     /*   0 */ MO_BATTLE,
     /*   1 */ MO_INTRO_WAIT,
     /*   2 */ MO_INTRO_START,
@@ -2753,7 +2753,6 @@ void BossMo_DrawTent(Actor* thisx, PlayState* play) {
     if (this->drawActor) {
         BossMo_DrawTentacle(this, play);
     }
-    if (1) {}
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_mo.c", 7023);
 }
 
