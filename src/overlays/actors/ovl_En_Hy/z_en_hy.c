@@ -102,7 +102,7 @@ static void* sHylianWoman2EyeTextures[] = {
     NULL,
 };
 
-typedef struct  EnHyHeadInfo {
+typedef struct EnHyHeadInfo {
     /* 0x0 */ s16 objectId;
     /* 0x4 */ Gfx* headDList;
     /* 0x8 */ void** eyeTextures;

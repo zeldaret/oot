@@ -17,7 +17,7 @@
         <Limb Name="gHylianOldWomanRightHandLimb" LimbType="Standard" Offset="0x9C"/>
         <Limb Name="gHylianOldWomanHeadLimb" LimbType="Standard" Offset="0xA8"/>
         <Skeleton Name="gHylianOldWomanSkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
-        
+
         <!-- Textures -->
         <Texture Name="gHylianOldWomanTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x108"/>
         <Texture Name="gHylianOldWomanMouthTex" OutName="mouth" Format="ci8" Width="8" Height="8" Offset="0x308" TlutOffset="0x108"/>
@@ -29,7 +29,7 @@
         <Texture Name="gHylianOldWomanCollarSleevesTex" OutName="collar_sleeves" Format="ci8" Width="8" Height="8" Offset="0xDC8" TlutOffset="0x108"/>
         <Texture Name="gHylianOldWomanShirtTex" OutName="shirt" Format="ci8" Width="16" Height="16" Offset="0xE08" TlutOffset="0x108"/>
         <Texture Name="gHylianOldWomanSkirtTex" OutName="skirt" Format="ci8" Width="16" Height="16" Offset="0xF08" TlutOffset="0x108"/>
-        
+
         <!-- DLs -->
         <DList Name="gHylianOldWomanHeadDL" Offset="0x2948"/>
         <DList Name="gHylianOldWomanRightHandDL" Offset="0x3298"/>
