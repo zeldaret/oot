@@ -147,7 +147,13 @@ endseg
 
 beginseg
     name "Audiotable"
-    include "$(BUILD_DIR)/baserom/Audiotable.o"
+    address 0
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_0.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_2.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_3.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_4.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_5.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_6.o"
 endseg
 
 #if OOT_NTSC
