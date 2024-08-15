@@ -366,14 +366,22 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
             PRINTF("%c", BEL);
             // "Dynamic area head is destroyed"
             PRINTF(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);
+#if PLATFORM_N64
+            Fault_AddHungupAndCrash("../graph.c", 951);
+#else
             Fault_AddHungupAndCrash("../graph.c", 1070);
+#endif
         }
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
             PRINTF("%c", BEL);
             // "Dynamic region tail is destroyed"
             PRINTF(VT_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" VT_RST);
+#if PLATFORM_N64
+            Fault_AddHungupAndCrash("../graph.c", 957);
+#else
             Fault_AddHungupAndCrash("../graph.c", 1076);
+#endif
         }
     }
 
@@ -465,6 +473,8 @@ void Graph_ThreadEntry(void* arg0) {
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
+#elif PLATFORM_N64
+            Fault_AddHungupAndCrash("../graph.c", 1081);
 #else
             Fault_AddHungupAndCrash("../graph.c", 1200);
 #endif
