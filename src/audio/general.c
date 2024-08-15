@@ -1928,11 +1928,7 @@ void AudioOcarina_PlaybackSong(void) {
         }
 
 // Update vibrato
-#if PLATFORM_GC
-        if (sNotePlaybackVibrato != sPlaybackSong[sPlaybackNotePos].vibrato)
-#else
-        if (1)
-#endif
+        if (PLATFORM_N64 || (sNotePlaybackVibrato != sPlaybackSong[sPlaybackNotePos].vibrato))
         {
             sNotePlaybackVibrato = sPlaybackSong[sPlaybackNotePos].vibrato;
             // Sets vibrato to io port 6
@@ -2218,12 +2214,7 @@ void AudioOcarina_RecordSong(void) {
         } else if (sRecordOcarinaVolume != sCurOcarinaVolume) {
             noteChanged = true;
         } else if (sRecordOcarinaVibrato != sCurOcarinaVibrato) {
-#if PLATFORM_N64
-            if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN)
-#else
-            if (1)
-#endif
-            {
+            if (PLATFORM_GC || sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
                 noteChanged = true;
             }
         } else if (sRecordOcarinaBendIndex != sCurOcarinaBendIndex) {
@@ -3317,12 +3308,10 @@ void Audio_PlaySceneSequence(u16 seqId) {
             AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
         }
 
-#if PLATFORM_N64
-        if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) {
+        if (PLATFORM_N64 && (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED)) {
             Audio_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
             AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
         }
-#endif
 
         if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_RESUME_PREV) && (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME)) {
             // Resume the sequence from the point where it left off last time it was played in the scene
@@ -3462,6 +3451,7 @@ void func_800F5B58(void) {
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         } else {
 #if PLATFORM_N64
+            // TODO: Can't do (PLATFORM_N64 &&) because `sPrevAmbienceSeqId` isn't defined
             if (sPrevMainBgmSeqId == NA_BGM_NATURE_AMBIENCE) {
                 sPrevMainBgmSeqId = sPrevAmbienceSeqId;
             }
