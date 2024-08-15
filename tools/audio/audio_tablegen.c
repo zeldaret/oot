@@ -122,7 +122,7 @@ tablegen_samplebanks(const char *sb_hdr_out, const char **samplebanks_paths, int
 
     for (size_t i = 0; i < indices_len; i++) {
         if (index_info[i].index_type == INDEX_NONE)
-            error("Missing samplebank index %u", i);
+            error("Missing samplebank index %lu", i);
     }
 
     // Emit the table
