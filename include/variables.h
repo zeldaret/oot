@@ -9,6 +9,7 @@ extern Mtx D_01000000;
 extern u32 osTvType;
 extern u32 osRomBase;
 extern u32 osResetType;
+extern u32 osCicId;
 extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 

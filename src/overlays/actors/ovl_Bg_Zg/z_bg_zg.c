@@ -71,6 +71,13 @@ s32 func_808C0CC8(BgZg* this) {
 }
 
 void func_808C0CD4(BgZg* this, PlayState* play) {
+#if PLATFORM_N64
+    // Anti-piracy check, bars will not open if the check fails
+    if (IO_READ(0x800002E8) != 0xC86E2000) {
+        return;
+    }
+#endif
+
     if (func_808C0C98(this, play) != 0) {
         this->action = 1;
         func_808C0C50(this);
