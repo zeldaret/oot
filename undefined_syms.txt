@@ -11,6 +11,7 @@ D_0F000000 = 0x0F000000;
 D_06000000 = 0x06000000;
 
 
+#if PLATFORM_N64
 D_800FF560_unknown = 0x800FF560;
 D_800FF960_unknown = 0x800FF960;
 D_80105A90_unknown = 0x80105A90;
@@ -46,3 +47,4 @@ FaultDrawer_Printf = 0x80000000;
 FaultDrawer_SetCursor = 0x80000000;
 FaultDrawer_SetFontColor = 0x80000000;
 FaultDrawer_SetCharPad = 0x80000000;
+#endif
