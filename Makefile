@@ -363,6 +363,8 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(ASSET_C_FILES_COMMITTED:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BASEROM_BIN_FILES),$(BUILD_DIR)/baserom/$(notdir $f).o)
 
+O_FILES += $(foreach s,data rodata bss,build/ntsc-1.2/src/code/fault_v1.$s.o)
+
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(BUILD_DIR_REPLACE) | grep -o '[^"]*_reloc.o' )
 
 # Automatic dependency files
@@ -418,10 +420,15 @@ $(BUILD_DIR)/src/code/relocation.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/sleep.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/src/code/fault.o: CFLAGS += -trapuv
-$(BUILD_DIR)/src/code/fault.o: OPTFLAGS := -O2 -g3
+ifeq ($(PLATFORM),N64)
+$(BUILD_DIR)/src/code/fault_v1.o: CFLAGS += -trapuv
+else
+$(BUILD_DIR)/src/code/fault_v2.o: CFLAGS += -trapuv
+$(BUILD_DIR)/src/code/fault_v2.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/fault_drawer.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
+endif
+
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 
 ifeq ($(DEBUG),1)
@@ -765,3 +772,9 @@ endif
 
 # Print target for debugging
 print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
+
+build/ntsc-1.2/src/code/fault_v1.o: src/code/fault_v1.c
+	$(PYTHON) tools/asm_processor/build.py tools/ido_recomp/$(DETECTED_OS)/7.1/cc -- $(AS) $(ASFLAGS) -- -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+
+build/ntsc-1.2/src/code/fault_v1.%.o: expected/build/ntsc-1.2/src/code/fault_v1.%.s
+	$(AS) $(ASFLAGS) $< -o $@
