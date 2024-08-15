@@ -72,8 +72,11 @@ s32 func_808C0CC8(BgZg* this) {
 
 void func_808C0CD4(BgZg* this, PlayState* play) {
 #if PLATFORM_N64
-    // Anti-piracy check, bars will not open if the check fails
-    if (IO_READ(0x800002E8) != 0xC86E2000) {
+    // Anti-piracy check, bars will not open if the check fails.
+    // The address 0x000002E8 is near the start of RDRAM, and is written when IPL3 copies itself to
+    // RDRAM after RDRAM has been initialized. Specifically, this is an instruction from some
+    // embedded RSP code at offset 0x7F8 into IPL3 (0xC86E2000 disassembles to `lqv $v14[0], ($3)`).
+    if (IO_READ(0x000002E8) != 0xC86E2000) {
         return;
     }
 #endif
