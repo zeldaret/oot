@@ -480,6 +480,10 @@ beginseg
     include "$(BUILD_DIR)/src/code/sys_rumble.o"
     include "$(BUILD_DIR)/src/code/code_800D31A0.o"
     include "$(BUILD_DIR)/src/code/irqmgr.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/code/code_n64dd_800AD410.o"
+    include "$(BUILD_DIR)/src/code/code_n64dd_800AD4C0.o"
+#endif
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
 #endif
