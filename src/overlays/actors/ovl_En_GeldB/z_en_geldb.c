@@ -9,7 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum EnGeldBAction {
     /*  0 */ GELDB_WAIT,
     /*  1 */ GELDB_DEFEAT,
     /*  2 */ GELDB_DAMAGED,
@@ -69,7 +69,7 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play);
 void EnGeldB_Sidestep(EnGeldB* this, PlayState* play);
 void EnGeldB_Defeated(EnGeldB* this, PlayState* play);
 
-ActorInit En_GeldB_InitVars = {
+ActorProfile En_GeldB_Profile = {
     /**/ ACTOR_EN_GELDB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -159,7 +159,7 @@ static ColliderQuadInit sSwordQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum EnGeldBDamageEffects {
     /* 0x0 */ GELDB_DMG_NORMAL,
     /* 0x1 */ GELDB_DMG_STUN,
     /* 0x6 */ GELDB_DMG_UNK_6 = 0x6,
@@ -228,7 +228,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
     thisx->naviEnemyId = NAVI_ENEMY_GERUDO_THIEF;
-    this->keyFlag = thisx->params & 0xFF00;
+    this->keyFlag = PARAMS_GET_NOSHIFT(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     this->blinkState = 0;
     this->unkFloat = 10.0f;
@@ -1567,7 +1567,6 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2672);
-    if (1) {}
 
     if ((this->spinAttackState >= 2) && SkelAnime_Update(&this->skelAnime)) {
         if (this->spinAttackState == 2) {

@@ -5,7 +5,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum TwEffType {
     /*  0 */ TWEFF_NONE,
     /*  1 */ TWEFF_DOT,
     /*  2 */ TWEFF_2,
@@ -19,13 +19,13 @@ typedef enum {
     /* 10 */ TWEFF_SHLD_HIT
 } TwEffType;
 
-typedef enum {
+typedef enum EffectWork {
     /* 0 */ EFF_ARGS,
     /* 1 */ EFF_UNKS1,
     /* 2 */ EFF_WORK_MAX
 } EffectWork;
 
-typedef enum {
+typedef enum EffectFWork {
     /* 0 */ EFF_SCALE,
     /* 1 */ EFF_DIST,
     /* 2 */ EFF_ROLL,
@@ -33,7 +33,7 @@ typedef enum {
     /* 4 */ EFF_FWORK_MAX
 } EffectFWork;
 
-typedef enum {
+typedef enum TwinrovaType {
     /* 0x00 */ TW_KOTAKE,
     /* 0x01 */ TW_KOUME,
     /* 0x02 */ TW_TWINROVA,
@@ -47,7 +47,7 @@ typedef enum {
 
 #define BOSS_TW_EFFECT_COUNT 150
 
-typedef struct {
+typedef struct BossTwEffect {
     /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 frame;
     /* 0x0004 */ Vec3f pos;
@@ -116,7 +116,7 @@ void BossTw_TwinrovaChargeBlast(BossTw* this, PlayState* play);
 void BossTw_TwinrovaSetupSpin(BossTw* this, PlayState* play);
 void BossTw_UpdateEffects(PlayState* play);
 
-ActorInit Boss_Tw_InitVars = {
+ActorProfile Boss_Tw_Profile = {
     /**/ ACTOR_BOSS_TW,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -3294,15 +3294,10 @@ void func_80941BC0(BossTw* this, PlayState* play) {
                                 (-this->work[CS_TIMER_2] * 2) & 0x3F, 0, 0x10, 0x10));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, (s16)this->workf[UNK_F9]);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
-    gDPSetRenderMode(POLY_XLU_DISP++,
-                     Z_CMP | IM_RD | CVG_DST_SAVE | ZMODE_DEC | FORCE_BL |
-                         GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),
-                     G_RM_ZB_OVL_SURF2);
+    gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_ZB_OVL_SURF2);
     gSPSetGeometryMode(POLY_XLU_DISP++, G_CULL_BACK | G_FOG);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaEffectHaloDL));
     Matrix_Pop();
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_tw.c", 6461);
 }
@@ -3567,8 +3562,6 @@ void BossTw_Draw(Actor* thisx, PlayState* play2) {
             func_80942C70(&this->actor, play);
         }
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_tw.c", 7123);
 }

@@ -1,11 +1,80 @@
 dmadata_start: 0x12F70
 text_lang_pal: true
+incbins:
+  - name: ipl3
+    segment: makerom
+    vram: 0x80000040
+    size: 0xFC0
+  - name: rspbootText
+    segment: boot
+    vram: 0x80009320
+    size: 0xD0
+  - name: aspMainText
+    segment: code
+    vram: 0x801120C0
+    size: 0xFB0
+  - name: gspS2DEX2d_fifoText
+    segment: code
+    vram: 0x80113070
+    size: 0x18C0
+  - name: njpgdspMainText
+    segment: code
+    vram: 0x80114930
+    size: 0xAF0
+  - name: gMojiFontTLUTs
+    segment: code
+    vram: 0x8012A740
+    size: 0x80
+  - name: gMojiFontTex
+    segment: code
+    vram: 0x8012A7C0
+    size: 0x400
+  - name: gSoundFontTable
+    segment: code
+    vram: 0x801550D0
+    size: 0x270
+  - name: gSequenceFontTable
+    segment: code
+    vram: 0x80155340
+    size: 0x1C0
+  - name: gSequenceTable
+    segment: code
+    vram: 0x80155500
+    size: 0x6F0
+  - name: gSampleBankTable
+    segment: code
+    vram: 0x80155BF0
+    size: 0x80
+  - name: aspMainData
+    segment: code
+    vram: 0x80155C70
+    size: 0x2E0
+  - name: gspF3DZEX2_NoN_PosLight_fifoText
+    segment: code
+    vram: 0x80155F50
+    size: 0x1630
+  - name: gspF3DZEX2_NoN_PosLight_fifoData
+    segment: code
+    vram: 0x80157580
+    size: 0x420
+  - name: gspS2DEX2d_fifoData
+    segment: code
+    vram: 0x801579A0
+    size: 0x390
+  - name: njpgdspMainData
+    segment: code
+    vram: 0x80157D30
+    size: 0x60
 variables:
   gMtxClear: 0x8012DB20
   sNesMessageEntryTable: 0x8014B320
   sGerMessageEntryTable: 0x8014F548
   sFraMessageEntryTable: 0x80151658
   sStaffMessageEntryTable: 0x80153768
+  gSoundFontTable: 0x801550D0
+  gSequenceFontTable: 0x80155340
+  gSequenceTable: 0x80155500
+  gSampleBankTable: 0x80155BF0
   sShadowTex: 0x80A8E610
 assets:
 - name: code/fbdemo_circle
@@ -469,7 +538,7 @@ assets:
 - name: objects/object_ma2
   xml_path: assets/xml/objects/object_ma2.xml
 - name: objects/object_mag
-  xml_path: assets/xml/objects/object_mag_mq.xml
+  xml_path: assets/xml/objects/object_mag_v3_mq.xml
 - name: objects/object_mamenoki
   xml_path: assets/xml/objects/object_mamenoki.xml
 - name: objects/object_mastergolon
@@ -887,9 +956,9 @@ assets:
   start_offset: 0x780
   end_offset: 0x4128
 - name: overlays/ovl_file_choose
-  xml_path: assets/xml/overlays/ovl_file_choose.xml
+  xml_path: assets/xml/overlays/ovl_file_choose_pal.xml
   start_offset: 0xDE70
-  end_offset: 0xE6B0
+  end_offset: 0xE740
 - name: overlays/ovl_Magic_Dark
   xml_path: assets/xml/overlays/ovl_Magic_Dark.xml
   start_offset: 0xD10
@@ -1181,7 +1250,7 @@ assets:
 - name: textures/message_texture_static
   xml_path: assets/xml/textures/message_texture_static.xml
 - name: textures/nes_font_static
-  xml_path: assets/xml/textures/nes_font_static.xml
+  xml_path: assets/xml/textures/nes_font_static_v2.xml
 - name: textures/nintendo_rogo_static
   xml_path: assets/xml/textures/nintendo_rogo_static.xml
 - name: textures/parameter_static

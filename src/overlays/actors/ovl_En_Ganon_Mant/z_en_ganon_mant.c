@@ -14,7 +14,7 @@ void EnGanonMant_Destroy(Actor* thisx, PlayState* play);
 void EnGanonMant_Update(Actor* thisx, PlayState* play);
 void EnGanonMant_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Ganon_Mant_InitVars = {
+ActorProfile En_Ganon_Mant_Profile = {
     /**/ ACTOR_EN_GANON_MANT,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -38,7 +38,7 @@ static s16 sTearSizesSmall[] = {
     0, 0, 0, 0, 0, 0, 0,
 };
 
-typedef struct {
+typedef struct TearShape {
     s16* tearAreaSizes;
     s16 count;
 } TearShape; // size = 0x8

@@ -8,13 +8,13 @@
 #define OS_SC_NMI_MSG           3 // name is made up, 3 is OS_SC_RDP_DONE_MSG in the original sched.c
 #define OS_SC_PRE_NMI_MSG       4
 
-typedef enum {
+typedef enum IrqResetStatus {
     IRQ_RESET_STATUS_IDLE,
     IRQ_RESET_STATUS_PRENMI,
     IRQ_RESET_STATUS_NMI
 } IrqResetStatus;
 
-typedef struct {
+typedef struct OSScMsg {
     /* 0x00 */ s16 type;
     /* 0x02 */ char misc[0x1E];
 } OSScMsg; // size = 0x20
@@ -24,7 +24,7 @@ typedef struct IrqMgrClient {
     /* 0x04 */ OSMesgQueue* queue;
 } IrqMgrClient;
 
-typedef struct {
+typedef struct IrqMgr {
     /* 0x000 */ OSScMsg retraceMsg;
     /* 0x020 */ OSScMsg prenmiMsg;
     /* 0x040 */ OSScMsg nmiMsg;

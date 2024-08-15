@@ -20,7 +20,7 @@ void EnItem00_DrawCollectible(EnItem00* this, PlayState* play);
 void EnItem00_DrawHeartContainer(EnItem00* this, PlayState* play);
 void EnItem00_DrawHeartPiece(EnItem00* this, PlayState* play);
 
-ActorInit En_Item00_InitVars = {
+ActorProfile En_Item00_Profile = {
     /**/ ACTOR_EN_ITEM00,
     /**/ ACTORCAT_MISC,
     /**/ FLAGS,
@@ -142,10 +142,10 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
     f32 yOffset = 980.0f;
     f32 shadowScale = 6.0f;
     s32 getItemId = GI_NONE;
-    s16 spawnParam8000 = this->actor.params & 0x8000;
+    s16 spawnParam8000 = PARAMS_GET_NOSHIFT(this->actor.params, 15, 1);
     s32 pad1;
 
-    this->collectibleFlag = (this->actor.params & 0x3F00) >> 8;
+    this->collectibleFlag = PARAMS_GET_S(this->actor.params, 8, 6);
 
     this->actor.params &= 0xFF;
 

@@ -28,7 +28,7 @@ void EnAm_Ricochet(EnAm* this, PlayState* play);
 void EnAm_Stunned(EnAm* this, PlayState* play);
 void EnAm_RecoilFromDamage(EnAm* this, PlayState* play);
 
-typedef enum {
+typedef enum ArmosBehavior {
     /* 00 */ AM_BEHAVIOR_NONE,
     /* 01 */ AM_BEHAVIOR_DAMAGED,
     /* 03 */ AM_BEHAVIOR_DO_NOTHING = 3,
@@ -39,7 +39,7 @@ typedef enum {
     /* 10 */ AM_BEHAVIOR_AGGRO = 10
 } ArmosBehavior;
 
-ActorInit En_Am_InitVars = {
+ActorProfile En_Am_Profile = {
     /**/ ACTOR_EN_AM,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -111,7 +111,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum ArmosDamageEffect {
     /*  0 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
     /*  1 */ AM_DMGEFF_NUT,
     /*  6 */ AM_DMGEFF_STUN = 6, // doesn't include deku nuts

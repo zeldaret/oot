@@ -8,7 +8,7 @@ struct EnDekubaba;
 
 typedef void (*EnDekubabaActionFunc)(struct EnDekubaba*, PlayState*);
 
-typedef enum {
+typedef enum DekuBabaType {
     /* 0 */ DEKUBABA_NORMAL,
     /* 1 */ DEKUBABA_BIG
 } DekuBabaType;

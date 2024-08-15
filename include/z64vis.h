@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "color.h"
 
-typedef enum {
+typedef enum FramebufferFilterType {
     /* 0 */ FB_FILTER_NONE,
     /* 1 */ FB_FILTER_CVG_RGB,
     /* 2 */ FB_FILTER_CVG_RGB_UNIFORM,
@@ -15,12 +15,12 @@ typedef enum {
     /* 7 */ FB_FILTER_MONO
 } FramebufferFilterType;
 
-typedef enum {
+typedef enum VisScissorType {
     /* 0 */ VIS_NO_SETSCISSOR,
     /* 1 */ VIS_SETSCISSOR
 } VisScissorType;
 
-typedef struct {
+typedef struct Vis {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 scissorType;
     /* 0x08 */ Color_RGBA8_u32 primColor;
@@ -33,7 +33,7 @@ typedef struct {
 
 #define FB_FILTER_TO_CVG_TYPE(filter) (filter)
 
-typedef enum {
+typedef enum VisCvgType {
     /* 0 */ VIS_CVG_TYPE_NONE = FB_FILTER_TO_CVG_TYPE(FB_FILTER_NONE),
     /* 1 */ VIS_CVG_TYPE_CVG_RGB = FB_FILTER_TO_CVG_TYPE(FB_FILTER_CVG_RGB),
     /* 2 */ VIS_CVG_TYPE_CVG_RGB_UNIFORM = FB_FILTER_TO_CVG_TYPE(FB_FILTER_CVG_RGB_UNIFORM),
@@ -41,7 +41,7 @@ typedef enum {
     /* 4 */ VIS_CVG_TYPE_CVG_RGB_FOG = FB_FILTER_TO_CVG_TYPE(FB_FILTER_CVG_RGB_FOG)
 } VisCvgType;
 
-typedef struct {
+typedef struct VisCvg {
     /* 0x00 */ Vis vis;
 } VisCvg; // size = 0x10
 
@@ -71,12 +71,12 @@ void VisMono_Draw(VisMono* this, Gfx** gfxP);
 
 #define FB_FILTER_TO_ZBUF_TYPE(filter) ((filter) - FB_FILTER_ZBUF_IA)
 
-typedef enum {
+typedef enum VisZBufType {
     /* 0 */ VIS_ZBUF_TYPE_IA = FB_FILTER_TO_ZBUF_TYPE(FB_FILTER_ZBUF_IA),
     /* 1 */ VIS_ZBUF_TYPE_RGBA = FB_FILTER_TO_ZBUF_TYPE(FB_FILTER_ZBUF_RGBA)
 } VisZBufType;
 
-typedef struct {
+typedef struct VisZBuf {
     /* 0x00 */ Vis vis;
 } VisZBuf; // size = 0x10
 

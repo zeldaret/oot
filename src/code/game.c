@@ -197,8 +197,6 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     Gfx_Close(polyOpaP, newDList);
     POLY_OPA_DISP = newDList;
 
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../game.c", 800);
 
     Debug_DrawText(gfxCtx);
@@ -237,8 +235,6 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     gSPEndDisplayList(newDlist++);
     Gfx_Close(polyOpaP, newDlist);
     POLY_OPA_DISP = newDlist;
-
-    if (1) {}
 
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }

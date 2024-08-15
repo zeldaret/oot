@@ -14,7 +14,7 @@ void ObjHamishi_Destroy(Actor* thisx, PlayState* play2);
 void ObjHamishi_Update(Actor* thisx, PlayState* play);
 void ObjHamishi_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Hamishi_InitVars = {
+ActorProfile Obj_Hamishi_Profile = {
     /**/ ACTOR_OBJ_HAMISHI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -149,7 +149,7 @@ void ObjHamishi_Init(Actor* thisx, PlayState* play) {
     ObjHamishi_InitCollision(&this->actor, play);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
-    if (Flags_GetSwitch(play, this->actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6))) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -180,7 +180,7 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play) {
         } else {
             ObjHamishi_Break(this, play);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
-            Flags_SetSwitch(play, this->actor.params & 0x3F);
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6));
             Actor_Kill(&this->actor);
         }
     } else {

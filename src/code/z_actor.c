@@ -8,8 +8,7 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
-// For retail BSS ordering, the block number of sCurCeilingPoly
-// must be between 2 and 243 inclusive.
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
@@ -236,7 +235,7 @@ void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedIn
     *cappedInvWDest = (*cappedInvWDest < 1.0f) ? 1.0f : (1.0f / *cappedInvWDest);
 }
 
-typedef struct {
+typedef struct NaviColor {
     /* 0x00 */ Color_RGBA8 inner;
     /* 0x04 */ Color_RGBA8 outer;
 } NaviColor; // size = 0x8
@@ -689,7 +688,7 @@ void TitleCard_InitPlaceName(PlayState* play, TitleCardContext* titleCtx, void* 
     SceneTableEntry* loadedScene = play->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
-    if ((size != 0) && (size <= 0x3000)) {
+    if ((size != 0) && (size <= 0x1000 * LANGUAGE_MAX)) {
         DMA_REQUEST_SYNC(texture, loadedScene->titleFile.vromStart, size, "../z_actor.c", 2765);
     }
 
@@ -733,7 +732,15 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2824);
 
+#if OOT_NTSC
+        if (gSaveContext.language == LANGUAGE_JPN) {
+            textureLanguageOffset = 0;
+        } else {
+            textureLanguageOffset = width * height;
+        }
+#else
         textureLanguageOffset = width * height * gSaveContext.language;
+#endif
         height = (width * height > 0x1000) ? 0x1000 / width : height;
         titleSecondY = titleY + (height * 4);
 
@@ -980,9 +987,8 @@ f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint) {
 
 /**
  * Convert `pos` to be relative to the actor's position and yaw, store into `dest`.
- * Actor_WorldToActorCoords
  */
-void func_8002DBD0(Actor* actor, Vec3f* dest, Vec3f* pos) {
+void Actor_WorldToActorCoords(Actor* actor, Vec3f* dest, Vec3f* pos) {
     f32 cosY;
     f32 sinY;
     f32 deltaX;
@@ -1534,7 +1540,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     return actor->xyzDistToPlayerSq;
 }
 
-typedef struct {
+typedef struct TargetRangeParams {
     /* 0x0 */ f32 rangeSq;
     /* 0x4 */ f32 leashScale;
 } TargetRangeParams; // size = 0x8
@@ -1898,7 +1904,7 @@ s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, 
     return false;
 }
 
-#pragma increment_block_number 22
+#pragma increment_block_number "gc-eu:22 gc-eu-mq:22 gc-jp:22 gc-jp-ce:22 gc-jp-mq:22 gc-us:22 gc-us-mq:22"
 
 // Local data used for Farore's Wind light (stored in BSS)
 LightInfo D_8015BC00;
@@ -2826,7 +2832,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                    s16 rotY, s16 rotZ, s16 params) {
     s32 pad;
     Actor* actor;
-    ActorInit* actorInit;
+    ActorProfile* profile;
     s32 objectSlot;
     ActorOverlay* overlayEntry;
     uintptr_t temp;
@@ -2854,7 +2860,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     if (overlayEntry->vramStart == NULL) {
         ACTOR_DEBUG_PRINTF("オーバーレイではありません\n"); // "Not an overlay"
 
-        actorInit = overlayEntry->initInfo;
+        profile = overlayEntry->profile;
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
             ACTOR_DEBUG_PRINTF("既にロードされています\n"); // "Already loaded"
@@ -2897,30 +2903,30 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             overlayEntry->numLoaded = 0;
         }
 
-        actorInit = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
-                                           ? (void*)((uintptr_t)overlayEntry->initInfo -
-                                                     (intptr_t)((uintptr_t)overlayEntry->vramStart -
-                                                                (uintptr_t)overlayEntry->loadedRamAddr))
-                                           : NULL);
+        profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
+                                         ? (void*)((uintptr_t)overlayEntry->profile -
+                                                   (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                              (uintptr_t)overlayEntry->loadedRamAddr))
+                                         : NULL);
     }
 
-    objectSlot = Object_GetSlot(&play->objectCtx, actorInit->objectId);
+    objectSlot = Object_GetSlot(&play->objectCtx, profile->objectId);
 
     if ((objectSlot < 0) ||
-        ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
+        ((profile->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
         PRINTF(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST, objectSlot,
-               actorInit->objectId);
+               profile->objectId);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
 
-    actor = ZELDA_ARENA_MALLOC(actorInit->instanceSize, name, 1);
+    actor = ZELDA_ARENA_MALLOC(profile->instanceSize, name, 1);
 
     if (actor == NULL) {
         // "Actor class cannot be reserved! %s <size＝%d bytes>"
         PRINTF(VT_COL(RED, WHITE) "Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n", VT_RST, name,
-               actorInit->instanceSize);
+               profile->instanceSize);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -2934,32 +2940,36 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     // "Actor client No. %d"
     ACTOR_DEBUG_PRINTF("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
 
-    Lib_MemSet((u8*)actor, actorInit->instanceSize, 0);
+    Lib_MemSet((u8*)actor, profile->instanceSize, 0);
     actor->overlayEntry = overlayEntry;
-    actor->id = actorInit->id;
-    actor->flags = actorInit->flags;
+    actor->id = profile->id;
+    actor->flags = profile->flags;
 
-    if (actorInit->id == ACTOR_EN_PART) {
+    if (profile->id == ACTOR_EN_PART) {
         actor->objectSlot = rotZ;
         rotZ = 0;
     } else {
         actor->objectSlot = objectSlot;
     }
 
-    actor->init = actorInit->init;
-    actor->destroy = actorInit->destroy;
-    actor->update = actorInit->update;
-    actor->draw = actorInit->draw;
+    actor->init = profile->init;
+    actor->destroy = profile->destroy;
+    actor->update = profile->update;
+    actor->draw = profile->draw;
+
     actor->room = play->roomCtx.curRoom.num;
+
     actor->home.pos.x = posX;
     actor->home.pos.y = posY;
     actor->home.pos.z = posZ;
+
     actor->home.rot.x = rotX;
     actor->home.rot.y = rotY;
     actor->home.rot.z = rotZ;
+
     actor->params = params;
 
-    Actor_AddToCategory(actorCtx, actor, actorInit->category);
+    Actor_AddToCategory(actorCtx, actor, profile->category);
 
     temp = gSegments[6];
     Actor_Init(actor, play);
@@ -3735,7 +3745,7 @@ f32 Rand_CenteredFloat(f32 f) {
     return (Rand_ZeroOne() - 0.5f) * f;
 }
 
-typedef struct {
+typedef struct DoorLockInfo {
     /* 0x00 */ f32 chainAngle;
     /* 0x04 */ f32 chainLength;
     /* 0x08 */ f32 yShift;
@@ -3890,7 +3900,7 @@ s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interac
     return false;
 }
 
-typedef struct {
+typedef struct NpcTrackingRotLimits {
     /* 0x00 */ s16 maxHeadYaw;
     /* 0x02 */ s16 minHeadPitch;
     /* 0x04 */ s16 maxHeadPitch;
@@ -3900,7 +3910,7 @@ typedef struct {
     /* 0x0C */ u8 rotateYaw;
 } NpcTrackingRotLimits; // size = 0x10
 
-typedef struct {
+typedef struct NpcTrackingParams {
     /* 0x00 */ NpcTrackingRotLimits rotLimits;
     // Fields specific to NPC_TRACKING_PLAYER_AUTO_TURN mode
     /* 0x10 */ f32 autoTurnDistanceRange;   // Max distance to player to enable tracking and auto-turn

@@ -99,7 +99,7 @@ static Vec3f sPlatformPositions[] = {
 static s16 D_80B4A1B0 = 0;
 static s16 D_80B4A1B4 = 1;
 
-ActorInit En_Zf_InitVars = {
+ActorProfile En_Zf_Profile = {
     /**/ ACTOR_EN_ZF,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -151,7 +151,7 @@ static ColliderQuadInit sSwordQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum EnZfDamageEffect {
     /* 0x0 */ ENZF_DMGEFF_NONE,
     /* 0x1 */ ENZF_DMGEFF_STUN,
     /* 0x6 */ ENZF_DMGEFF_IMMUNE = 6,       // Skips damage code, but also skips the top half of Update
@@ -283,12 +283,12 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->targetMode = 3;
-    this->clearFlag = (thisx->params & 0xFF00) >> 8;
+    this->clearFlag = PARAMS_GET_S(thisx->params, 8, 8);
     /* Strip the top byte of params */
     thisx->params &= 0xFF;
 
     /* Return the params to their original value if they were originally negative, i.e. 0xFFFF or 0xFFFE */
-    if (thisx->params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
         thisx->params |= 0xFF00;
     }
 

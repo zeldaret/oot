@@ -21,7 +21,7 @@ void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, PlayState* play);
 
-ActorInit Bg_Mori_Hashira4_InitVars = {
+ActorProfile Bg_Mori_Hashira4_Profile = {
     /**/ ACTOR_BG_MORI_HASHIRA4,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -71,7 +71,7 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
-    this->switchFlag = (this->dyna.actor.params >> 8) & 0x3F;
+    this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 8, 6);
     this->dyna.actor.params &= 0xFF;
 
     if (this->dyna.actor.params == 0) {

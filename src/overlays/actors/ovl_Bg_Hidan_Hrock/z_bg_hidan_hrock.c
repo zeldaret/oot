@@ -18,7 +18,7 @@ void func_8088960C(BgHidanHrock* this, PlayState* play);
 void func_808896B8(BgHidanHrock* this, PlayState* play);
 void func_808894A4(BgHidanHrock* this, PlayState* play);
 
-ActorInit Bg_Hidan_Hrock_InitVars = {
+ActorProfile Bg_Hidan_Hrock_Profile = {
     /**/ ACTOR_BG_HIDAN_HROCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -85,8 +85,8 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
     Vec3f* vtx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->unk_16A = thisx->params & 0x3F;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->unk_16A = PARAMS_GET_U(thisx->params, 0, 6);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
     Collider_InitTris(play, &this->collider);
     Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
     DynaPolyActor_Init(&this->dyna, 0);

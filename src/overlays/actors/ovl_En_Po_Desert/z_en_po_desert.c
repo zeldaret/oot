@@ -19,7 +19,7 @@ void EnPoDesert_WaitForPlayer(EnPoDesert* this, PlayState* play);
 void EnPoDesert_MoveToNextPoint(EnPoDesert* this, PlayState* play);
 void EnPoDesert_Disappear(EnPoDesert* this, PlayState* play);
 
-ActorInit En_Po_Desert_InitVars = {
+ActorProfile En_Po_Desert_Profile = {
     /**/ ACTOR_EN_PO_DESERT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -74,7 +74,7 @@ void EnPoDesert_Init(Actor* thisx, PlayState* play) {
                               255, 255, 255, 200);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 37.0f);
     this->currentPathPoint = 1;
-    this->actor.params = (this->actor.params >> 8) & 0xFF;
+    this->actor.params = PARAMS_GET_U(this->actor.params, 8, 8);
     this->targetY = this->actor.world.pos.y;
     EnPoDesert_SetNextPathPoint(this, play);
 }

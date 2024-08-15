@@ -41,7 +41,7 @@ void func_80A904D8(EnKakasi2* this, PlayState* play);
 void func_80A90578(EnKakasi2* this, PlayState* play);
 void func_80A906C4(EnKakasi2* this, PlayState* play);
 
-ActorInit En_Kakasi2_InitVars = {
+ActorProfile En_Kakasi2_Profile = {
     /**/ ACTOR_EN_KAKASI2,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -63,8 +63,8 @@ void EnKakasi2_Init(Actor* thisx, PlayState* play) {
     // "Visit Umeda"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n" VT_RST);
 
-    this->switchFlag = this->actor.params & 0x3F;
-    spawnRangeY = (this->actor.params >> 6) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
+    spawnRangeY = PARAMS_GET_U(this->actor.params, 6, 8);
     spawnRangeXZ = this->actor.world.rot.z;
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;

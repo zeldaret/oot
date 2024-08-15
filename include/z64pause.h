@@ -12,7 +12,7 @@ struct OcarinaStaff;
 #define PAUSE_CURSOR_PAGE_LEFT 10
 #define PAUSE_CURSOR_PAGE_RIGHT 11
 
-typedef enum {
+typedef enum PauseMenuPage {
     /* 0x00 */ PAUSE_ITEM,
     /* 0x01 */ PAUSE_MAP,
     /* 0x02 */ PAUSE_QUEST,
@@ -53,7 +53,7 @@ typedef enum {
 #define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
 
-typedef enum {
+typedef enum PauseState {
     /*  0 */ PAUSE_STATE_OFF,
     /*  1 */ PAUSE_STATE_WAIT_LETTERBOX, // Request no letterboxing and wait for it.
     /*  2 */ PAUSE_STATE_WAIT_BG_PRERENDER, // Wait for the pause background prerender to be done.
@@ -83,7 +83,7 @@ typedef enum {
     (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != 0))
 
 // Sub-states of PAUSE_STATE_MAIN
-typedef enum {
+typedef enum PauseMainState {
     /* 0 */ PAUSE_MAIN_STATE_IDLE,
     /* 1 */ PAUSE_MAIN_STATE_SWITCHING_PAGE,
     /* 2 */ PAUSE_MAIN_STATE_2,
@@ -96,7 +96,7 @@ typedef enum {
     /* 9 */ PAUSE_MAIN_STATE_9
 } PauseMainState;
 
-typedef struct {
+typedef struct PauseContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ u8* iconItemSegment;
     /* 0x012C */ u8* iconItem24Segment;
@@ -166,7 +166,7 @@ typedef struct {
     /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 
-// Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
+// Note that z_kaleido_scope.c assumes that the dimensions and texture format here also matches the dimensions and
 // texture format for ITEM_NAME_TEX_*
 #define MAP_NAME_TEX1_WIDTH 128
 #define MAP_NAME_TEX1_HEIGHT 16
@@ -180,12 +180,12 @@ typedef struct {
 #define PAUSE_MAP_MARK_CHEST 0
 #define PAUSE_MAP_MARK_BOSS 1
 
-typedef struct {
+typedef struct PauseMapMarkPoint {
     /* 0x00 */ s16 chestFlag; // chest icon is only displayed if this flag is not set for the current room, -1 for no flag
     /* 0x04 */ f32 x, y; // coordinates to place the icon (top-left corner)
 } PauseMapMarkPoint; // size = 0x0C
 
-typedef struct {
+typedef struct PauseMapMarkData {
     /* 0x00 */ s16 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ const Vtx* vtx;

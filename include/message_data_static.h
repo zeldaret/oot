@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "message_data_fmt.h"
 
-typedef enum {
+typedef enum TextBoxType {
     /*  0 */ TEXTBOX_TYPE_BLACK,
     /*  1 */ TEXTBOX_TYPE_WOODEN,
     /*  2 */ TEXTBOX_TYPE_BLUE,
@@ -14,18 +14,18 @@ typedef enum {
     /* 11 */ TEXTBOX_TYPE_CREDITS = 11
 } TextBoxType;
 
-typedef enum {
+typedef enum TextBoxBackground {
     /* 0 */ TEXTBOX_BG_CROSS
 } TextBoxBackground;
 
-typedef enum {
+typedef enum TextBoxPosition {
     /* 0 */ TEXTBOX_POS_VARIABLE,
     /* 1 */ TEXTBOX_POS_TOP,
     /* 2 */ TEXTBOX_POS_MIDDLE,
     /* 3 */ TEXTBOX_POS_BOTTOM
 } TextBoxPosition;
 
-typedef struct {
+typedef struct MessageTableEntry {
     u16 textId;
     u8 typePos;
     const char* segment;
@@ -37,7 +37,7 @@ typedef struct {
 
 /* Non-Credits Messages */
 
-#if (TEXT_LANGUAGE == TEXT_LANG_US_JP)
+#if OOT_NTSC
 #define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     extern const char _message_##textId##_nes[];
 

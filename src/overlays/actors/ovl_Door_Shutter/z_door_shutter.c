@@ -48,7 +48,7 @@ void DoorShutter_GohmaBlockFall(DoorShutter* this, PlayState* play);
 void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play);
 void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play);
 
-ActorInit Door_Shutter_InitVars = {
+ActorProfile Door_Shutter_Profile = {
     /**/ ACTOR_DOOR_SHUTTER,
     /**/ ACTORCAT_DOOR,
     /**/ FLAGS,
@@ -60,7 +60,7 @@ ActorInit Door_Shutter_InitVars = {
     /**/ DoorShutter_Draw,
 };
 
-typedef enum {
+typedef enum DoorShutterGfxType {
     /*  0 */ DOORSHUTTER_GFX_DEKU_TREE_1,
     /*  1 */ DOORSHUTTER_GFX_DEKU_TREE_2,
     /*  2 */ DOORSHUTTER_GFX_DODONGOS_CAVERN,
@@ -83,7 +83,7 @@ typedef enum {
     /* 19 */ DOORSHUTTER_GFX_ROYAL_FAMILYS_TOMB
 } DoorShutterGfxType;
 
-typedef enum {
+typedef enum DoorShutterStyleType {
     /* -1 */ DOORSHUTTER_STYLE_FROM_SCENE = -1, // Style is taken from `sSceneInfo`
     /*  0 */ DOORSHUTTER_STYLE_PHANTOM_GANON,
     /*  1 */ DOORSHUTTER_STYLE_GOHMA_BLOCK,
@@ -104,7 +104,7 @@ typedef enum {
     /* 16 */ DOORSHUTTER_STYLE_ROYAL_FAMILYS_TOMB
 } DoorShutterStyleType;
 
-typedef struct {
+typedef struct DoorShutterStyleInfo {
     s16 objectId;
     u8 gfxType1;
     u8 gfxType2;
@@ -215,7 +215,7 @@ static DoorShutterStyleInfo sStyleInfo[] = {
     },
 };
 
-typedef struct {
+typedef struct DoorShutterGfxInfo {
     /* 0x0000 */ Gfx* doorDL;
     /* 0x0004 */ Gfx* barsDL;
     /* 0x0008 */ u8 barsOpenOffsetY;
@@ -269,7 +269,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
 };
 
-typedef struct {
+typedef struct DoorShutterSceneInfo {
     s16 sceneId;
     u8 styleType;
 } DoorShutterSceneInfo;
@@ -295,7 +295,7 @@ static DoorShutterSceneInfo sSceneInfo[] = {
     { -1, DOORSHUTTER_STYLE_GENERIC },
 };
 
-typedef enum {
+typedef enum DoorShutterBossDoorTexIndex {
     /* 0 */ DOORSHUTTER_BOSSDOORTEX_0,
     /* 1 */ DOORSHUTTER_BOSSDOORTEX_FIRE,
     /* 2 */ DOORSHUTTER_BOSSDOORTEX_WATER,
@@ -305,7 +305,7 @@ typedef enum {
     /* 6 */ DOORSHUTTER_BOSSDOORTEX_SPIRIT
 } DoorShutterBossDoorTexIndex;
 
-typedef struct {
+typedef struct DoorShutterBossDoorInfo {
     s16 dungeonSceneId;
     s16 bossSceneId;
     u8 texIndex;
@@ -508,7 +508,7 @@ f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offset
     playerPos.y = player->actor.world.pos.y + offsetY;
     playerPos.z = player->actor.world.pos.z;
 
-    func_8002DBD0(&this->dyna.actor, &relPlayerPos, &playerPos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &relPlayerPos, &playerPos);
 
     if (fabsf(relPlayerPos.x) > maxDistSides || fabsf(relPlayerPos.y) > maxDistY) {
         return MAXFLOAT;
@@ -800,7 +800,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
     if (this->dyna.actor.room >= 0) {
         Vec3f relPlayerPos;
 
-        func_8002DBD0(&this->dyna.actor, &relPlayerPos, &player->actor.world.pos);
+        Actor_WorldToActorCoords(&this->dyna.actor, &relPlayerPos, &player->actor.world.pos);
         this->dyna.actor.room = play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->dyna.actor)]
                                     .sides[(relPlayerPos.z < 0.0f) ? 0 : 1]
                                     .room;
@@ -974,19 +974,18 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     DoorShutter* this = (DoorShutter*)thisx;
 
     if (1) {}
-    if (1) {}
 
     //! @bug This actor is not fully initialized until the required object dependency is loaded.
     //! In most cases, the check for objectSlot to equal requiredObjectSlot prevents the actor
     //! from drawing until initialization is complete. However if the required object is the same as the
-    //! object dependency listed in init vars (gameplay_keep in this case), the check will pass even though
+    //! object dependency listed in the actor profile (gameplay_keep in this case), the check will pass even though
     //! initialization has not completed. When this happens, it will try to draw the display list of the
     //! first entry in `sGfxInfo`, which will likely crash the game.
     //! This only matters in very specific scenarios, when the door is unculled on the first possible frame
     //! after spawning. It will try to draw without having run update yet.
     //!
     //! The best way to fix this issue (and what was done in Majora's Mask) is to null out the draw function in
-    //! the init vars for the actor, and only set draw after initialization is complete.
+    //! the profile for the actor, and only set draw after initialization is complete.
 
     if (this->dyna.actor.objectSlot == this->requiredObjectSlot &&
         (this->styleType == DOORSHUTTER_STYLE_PHANTOM_GANON || DoorShutter_ShouldDraw(this, play))) {

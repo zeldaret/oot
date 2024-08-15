@@ -10,9 +10,6 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
 
-#define FLG_COREDEAD (0x4000)
-#define FLG_COREDONE (0x8000)
-
 void EnFd_Init(Actor* thisx, PlayState* play);
 void EnFd_Destroy(Actor* thisx, PlayState* play);
 void EnFd_Update(Actor* thisx, PlayState* play);
@@ -30,7 +27,7 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play);
 void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play);
 void EnFd_Land(EnFd* this, PlayState* play);
 
-ActorInit En_Fd_InitVars = {
+ActorProfile En_Fd_Profile = {
     /**/ ACTOR_EN_FD,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -192,7 +189,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnFdAnimation {
     /* 0 */ ENFD_ANIM_0,
     /* 1 */ ENFD_ANIM_1,
     /* 2 */ ENFD_ANIM_2,
@@ -627,6 +624,9 @@ void EnFd_Run(EnFd* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speed, 8.0f, 0.1f, 1.0f, 0.0f);
 }
 
+#define FLG_COREDEAD (0x4000)
+#define FLG_COREDONE (0x8000)
+
 /**
  * En_Fw will set `this` params when it is done with its action.
  * It will set FLG_COREDONE when the core has returned to `this`'s initial
@@ -638,9 +638,9 @@ void EnFd_WaitForCore(EnFd* this, PlayState* play) {
         if (this->spinTimer == 0) {
             Actor_Kill(&this->actor);
         }
-    } else if (this->actor.params & FLG_COREDONE) {
+    } else if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) { // FLG_COREDONE
         this->actionFunc = EnFd_Reappear;
-    } else if (this->actor.params & FLG_COREDEAD) {
+    } else if (PARAMS_GET_NOSHIFT(this->actor.params, 14, 1)) { // FLG_COREDEAD
         this->actor.params = 0;
         this->spinTimer = 30;
     }
@@ -771,7 +771,6 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
     EnFd_DrawEffectsFlames(this, play);
     Matrix_Pop();
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
-        if (1) {}
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         clampedHealth = CLAMP(thisx->colChkInfo.health - 1, 0, 23) / 8;
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth].r, primColors[clampedHealth].g,
@@ -788,6 +787,9 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                EnFd_OverrideLimbDraw, EnFd_PostLimbDraw, this, POLY_XLU_DISP);
     }
+
+    if (this->fadeAlpha) {}
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fd.c", 1822);
 }
 

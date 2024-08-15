@@ -31,7 +31,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, PlayState* play);
 
 #define WEATHER_TAG_RANGE100(x) ((x >> 8) * 100.0f)
 
-ActorInit En_Weather_Tag_InitVars = {
+ActorProfile En_Weather_Tag_Profile = {
     /**/ ACTOR_EN_WEATHER_TAG,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -55,7 +55,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
 
     this->actor.flags &= ~ACTOR_FLAG_0;
 
-    switch (this->actor.params & 0xF) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 4)) {
         case EN_WEATHER_TAG_TYPE_CLOUDY_MARKET:
             PRINTF("\n\n");
             // "☆☆☆☆☆ (;o;) About ☆☆☆☆☆☆"

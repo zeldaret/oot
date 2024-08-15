@@ -10,7 +10,9 @@
 #define HEALTH_CAP offsetof(SaveContext, save.info.playerData.healthCapacity)
 #define QUEST offsetof(SaveContext, save.info.inventory.questItems)
 #define DEFENSE offsetof(SaveContext, save.info.inventory.defenseHearts)
+#if OOT_PAL
 #define HEALTH offsetof(SaveContext, save.info.playerData.health)
+#endif
 
 #define SLOT_OFFSET(index) (SRAM_HEADER_SIZE + 0x10 + (index * SLOT_SIZE))
 
@@ -27,23 +29,32 @@ u16 gSramSlotOffsets[] = {
 static char sZeldaMagic[] = { '\0', '\0', '\0', '\x98', '\x09', '\x10', '\x21', 'Z', 'E', 'L', 'D', 'A' };
 
 static SavePlayerData sNewSavePlayerData = {
-    { '\0', '\0', '\0', '\0', '\0', '\0' },             // newf
-    0,                                                  // deaths
-    { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E }, // playerName
-    0,                                                  // n64ddFlag
-    0x30,                                               // healthCapacity
-    0x30,                                               // defense
-    0,                                                  // magicLevel
-    MAGIC_NORMAL_METER,                                 // magic
-    0,                                                  // rupees
-    0,                                                  // swordHealth
-    0,                                                  // naviTimer
-    false,                                              // isMagicAcquired
-    0,                                                  // unk_1F
-    false,                                              // isDoubleMagicAcquired
-    false,                                              // isDoubleDefenseAcquired
-    0,                                                  // bgsFlag
-    0,                                                  // ocarinaGameRoundNum
+    { '\0', '\0', '\0', '\0', '\0', '\0' }, // newf
+    0,                                      // deaths
+    {
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+    },                  // playerName
+    0,                  // n64ddFlag
+    0x30,               // healthCapacity
+    0x30,               // defense
+    0,                  // magicLevel
+    MAGIC_NORMAL_METER, // magic
+    0,                  // rupees
+    0,                  // swordHealth
+    0,                  // naviTimer
+    false,              // isMagicAcquired
+    0,                  // unk_1F
+    false,              // isDoubleMagicAcquired
+    false,              // isDoubleDefenseAcquired
+    0,                  // bgsFlag
+    0,                  // ocarinaGameRoundNum
     {
         { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE }, // buttonItems
         { SLOT_NONE, SLOT_NONE, SLOT_NONE },            // cButtonSlots
@@ -155,23 +166,32 @@ void Sram_InitNewSave(void) {
 }
 
 static SavePlayerData sDebugSavePlayerData = {
-    { 'Z', 'E', 'L', 'D', 'A', 'Z' },                   // newf
-    0,                                                  // deaths
-    { 0x15, 0x12, 0x17, 0x14, 0x3E, 0x3E, 0x3E, 0x3E }, // playerName ( "LINK" )
-    0,                                                  // n64ddFlag
-    0xE0,                                               // healthCapacity
-    0xE0,                                               // health
-    0,                                                  // magicLevel
-    MAGIC_NORMAL_METER,                                 // magic
-    150,                                                // rupees
-    8,                                                  // swordHealth
-    0,                                                  // naviTimer
-    true,                                               // isMagicAcquired
-    0,                                                  // unk_1F
-    false,                                              // isDoubleMagicAcquired
-    false,                                              // isDoubleDefenseAcquired
-    0,                                                  // bgsFlag
-    0,                                                  // ocarinaGameRoundNum
+    { 'Z', 'E', 'L', 'D', 'A', 'Z' }, // newf
+    0,                                // deaths
+    {
+        FILENAME_UPPERCASE('L'),
+        FILENAME_UPPERCASE('I'),
+        FILENAME_UPPERCASE('N'),
+        FILENAME_UPPERCASE('K'),
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+    },                  // playerName
+    0,                  // n64ddFlag
+    0xE0,               // healthCapacity
+    0xE0,               // health
+    0,                  // magicLevel
+    MAGIC_NORMAL_METER, // magic
+    150,                // rupees
+    8,                  // swordHealth
+    0,                  // naviTimer
+    true,               // isMagicAcquired
+    0,                  // unk_1F
+    false,              // isDoubleMagicAcquired
+    false,              // isDoubleDefenseAcquired
+    0,                  // bgsFlag
+    0,                  // ocarinaGameRoundNum
     {
         { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE }, // buttonItems
         { SLOT_NONE, SLOT_NONE, SLOT_NONE },            // cButtonSlots
@@ -708,13 +728,17 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
     MemCpy(&fileSelect->defense[1], sramCtx->readBuff + SLOT_OFFSET(1) + DEFENSE, sizeof(fileSelect->defense[0]));
     MemCpy(&fileSelect->defense[2], sramCtx->readBuff + SLOT_OFFSET(2) + DEFENSE, sizeof(fileSelect->defense[0]));
 
+#if OOT_PAL
     MemCpy(&fileSelect->health[0], sramCtx->readBuff + SLOT_OFFSET(0) + HEALTH, sizeof(fileSelect->health[0]));
     MemCpy(&fileSelect->health[1], sramCtx->readBuff + SLOT_OFFSET(1) + HEALTH, sizeof(fileSelect->health[0]));
     MemCpy(&fileSelect->health[2], sramCtx->readBuff + SLOT_OFFSET(2) + HEALTH, sizeof(fileSelect->health[0]));
+#endif
 
     PRINTF("f_64dd=%d, %d, %d\n", fileSelect->n64ddFlags[0], fileSelect->n64ddFlags[1], fileSelect->n64ddFlags[2]);
     PRINTF("heart_status=%d, %d, %d\n", fileSelect->defense[0], fileSelect->defense[1], fileSelect->defense[2]);
+#if OOT_PAL
     PRINTF("now_life=%d, %d, %d\n", fileSelect->health[0], fileSelect->health[1], fileSelect->health[2]);
+#endif
 }
 
 void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
@@ -803,11 +827,15 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     MemCpy(&fileSelect->n64ddFlags[gSaveContext.fileNum], sramCtx->readBuff + j + N64DD,
            sizeof(fileSelect->n64ddFlags[0]));
     MemCpy(&fileSelect->defense[gSaveContext.fileNum], sramCtx->readBuff + j + DEFENSE, sizeof(fileSelect->defense[0]));
+#if OOT_PAL
     MemCpy(&fileSelect->health[gSaveContext.fileNum], sramCtx->readBuff + j + HEALTH, sizeof(fileSelect->health[0]));
+#endif
 
     PRINTF("f_64dd[%d]=%d\n", gSaveContext.fileNum, fileSelect->n64ddFlags[gSaveContext.fileNum]);
     PRINTF("heart_status[%d]=%d\n", gSaveContext.fileNum, fileSelect->defense[gSaveContext.fileNum]);
+#if OOT_PAL
     PRINTF("now_life[%d]=%d\n", gSaveContext.fileNum, fileSelect->health[gSaveContext.fileNum]);
+#endif
 }
 
 void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx) {
@@ -861,8 +889,10 @@ void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx) {
            sizeof(fileSelect->n64ddFlags[0]));
     MemCpy(&fileSelect->defense[fileSelect->copyDestFileIndex], sramCtx->readBuff + offset + DEFENSE,
            sizeof(fileSelect->defense[0]));
+#if OOT_PAL
     MemCpy(&fileSelect->health[fileSelect->copyDestFileIndex], (sramCtx->readBuff + offset) + HEALTH,
            sizeof(fileSelect->health[0]));
+#endif
 
     PRINTF("f_64dd[%d]=%d\n", gSaveContext.fileNum, fileSelect->n64ddFlags[gSaveContext.fileNum]);
     PRINTF("heart_status[%d]=%d\n", gSaveContext.fileNum, fileSelect->defense[gSaveContext.fileNum]);
@@ -885,22 +915,30 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     for (i = 0; i < ARRAY_COUNTU(sZeldaMagic) - 3; i++) {
         if (sZeldaMagic[i + SRAM_HEADER_MAGIC] != sramCtx->readBuff[i + SRAM_HEADER_MAGIC]) {
             PRINTF("ＳＲＡＭ破壊！！！！！！\n"); // "SRAM destruction! ! ! ! ! !"
+#if OOT_PAL
             gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
+#endif
+
             MemCpy(sramCtx->readBuff, sZeldaMagic, sizeof(sZeldaMagic));
+
+#if OOT_PAL
             sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language;
+#endif
             Sram_WriteSramHeader(sramCtx);
         }
     }
 
     gSaveContext.audioSetting = sramCtx->readBuff[SRAM_HEADER_SOUND] & 3;
     gSaveContext.zTargetSetting = sramCtx->readBuff[SRAM_HEADER_ZTARGET] & 1;
-    gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
 
+#if OOT_PAL
+    gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
     if (gSaveContext.language >= LANGUAGE_MAX) {
         gSaveContext.language = LANGUAGE_ENG;
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language;
         Sram_WriteSramHeader(sramCtx);
     }
+#endif
 
 #if OOT_DEBUG
     if (CHECK_BTN_ANY(gameState->input[2].cur.button, BTN_DRIGHT)) {

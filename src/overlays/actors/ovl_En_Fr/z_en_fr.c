@@ -83,12 +83,12 @@ sEnFrPointers.flags = 12
      - Deactivate frogs, frogs will jump back into the water
 */
 
-typedef struct {
+typedef struct EnFrPointers {
     u8 flags;
     EnFr* frogs[5];
 } EnFrPointers;
 
-typedef struct {
+typedef struct LogSpotToFromWater {
     f32 xzDist;
     f32 yaw;
     f32 yDist;
@@ -133,7 +133,7 @@ static s32 sSongToFrog[] = {
     FROG_PURPLE, FROG_WHITE, FROG_YELLOW, FROG_BLUE, FROG_RED,
 };
 
-ActorInit En_Fr_InitVars = {
+ActorProfile En_Fr_Profile = {
     /**/ ACTOR_EN_FR,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

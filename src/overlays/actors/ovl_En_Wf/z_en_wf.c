@@ -143,7 +143,7 @@ static ColliderCylinderInit sTailCylinderInit = {
     { 15, 20, -15, { 0, 0, 0 } },
 };
 
-typedef enum {
+typedef enum EnWfDamageEffect {
     /*  0 */ ENWF_DMGEFF_NONE,
     /*  1 */ ENWF_DMGEFF_STUN,
     /*  6 */ ENWF_DMGEFF_ICE_MAGIC = 6,
@@ -187,7 +187,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
 };
 
-ActorInit En_Wf_InitVars = {
+ActorProfile En_Wf_Profile = {
     /**/ ACTOR_EN_WF,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -220,7 +220,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.health = 8;
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     this->eyeIndex = 0;
     this->unk_2F4 = 10.0f; // Set and not used

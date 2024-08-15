@@ -24,7 +24,7 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
 
 static int sUnused = 0;
 
-ActorInit Bg_Jya_Ironobj_InitVars = {
+ActorProfile Bg_Jya_Ironobj_Profile = {
     /**/ ACTOR_BG_JYA_IRONOBJ,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -84,7 +84,7 @@ void BgJyaIronobj_InitCylinder(BgJyaIronobj* this, PlayState* play) {
 
     Collider_InitCylinder(play, colCylinder);
     Collider_SetCylinder(play, colCylinder, &this->dyna.actor, &sCylinderInit);
-    if ((this->dyna.actor.params & 1) == 1) {
+    if (PARAMS_GET_U(this->dyna.actor.params, 0, 1) == 1) {
         this->colCylinder.dim.radius = 40;
         this->colCylinder.dim.height = 100;
     }
@@ -227,7 +227,7 @@ void BgJyaIronobj_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     BgJyaIronobj_InitCylinder(this, play);
-    CollisionHeader_GetVirtual(sCollisionHeaders[thisx->params & 1], &colHeader);
+    CollisionHeader_GetVirtual(sCollisionHeaders[PARAMS_GET_U(thisx->params, 0, 1)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     func_808992D8(this);
 }
@@ -253,7 +253,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
         actor = this->colCylinder.base.ac;
         this->colCylinder.base.acFlags &= ~AC_HIT;
         if (actor != NULL && actor->id == ACTOR_EN_IK) {
-            particleFunc[this->dyna.actor.params & 1](this, play, (EnIk*)actor);
+            particleFunc[PARAMS_GET_U(this->dyna.actor.params, 0, 1)](this, play, (EnIk*)actor);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR);
             dropPos.x = this->dyna.actor.world.pos.x;
             dropPos.y = this->dyna.actor.world.pos.y + 20.0f;
@@ -277,5 +277,5 @@ void BgJyaIronobj_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgJyaIronobj_Draw(Actor* thisx, PlayState* play) {
-    Gfx_DrawDListOpa(play, sOpaDL[thisx->params & 1]);
+    Gfx_DrawDListOpa(play, sOpaDL[PARAMS_GET_U(thisx->params, 0, 1)]);
 }

@@ -44,14 +44,8 @@
 #include "terminal.h"
 #include "alloca.h"
 
-// For retail BSS ordering, the block number of sFaultInstance must be 0 or
-// just above (the exact upper bound depends on the block numbers assigned to
-// extern variables declared in headers).
-#if OOT_DEBUG
-#pragma increment_block_number 0
-#else
-#pragma increment_block_number 20
-#endif
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:0 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64" \
+                               "gc-us-mq:64"
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);
@@ -91,7 +85,7 @@ STACK(sFaultStack, 0x600);
 StackEntry sFaultThreadInfo;
 FaultMgr gFaultMgr;
 
-typedef struct {
+typedef struct FaultClientTask {
     /* 0x00 */ s32 (*callback)(void*, void*);
     /* 0x04 */ void* arg0;
     /* 0x08 */ void* arg1;

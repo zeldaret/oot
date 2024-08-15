@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum Heishi4Type {
     /* 0x00 */ HEISHI4_AT_KAKARIKO_ENTRANCE,
     /* 0x04 */ HEISHI4_AT_IMPAS_HOUSE = 4,
     /* 0x07 */ HEISHI4_AT_MARKET_DYING = 7,

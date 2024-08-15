@@ -61,7 +61,7 @@ static Color_RGBA8 D_80ADD700[4] = {
     { 0, 150, 0, 255 },
 };
 
-ActorInit En_Po_Sisters_InitVars = {
+ActorProfile En_Po_Sisters_Profile = {
     /**/ ACTOR_EN_PO_SISTERS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -191,17 +191,17 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->unk_194 = (thisx->params >> 8) & 3;
+    this->unk_194 = PARAMS_GET_U(thisx->params, 8, 2);
     this->actor.naviEnemyId = this->unk_194 + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
-    this->unk_195 = (thisx->params >> 0xA) & 3;
+    this->unk_195 = PARAMS_GET_U(thisx->params, 10, 2);
     this->unk_196 = 32;
     this->unk_197 = 20;
     this->unk_198 = 1;
     this->unk_199 = 32;
     this->unk_294 = 110.0f;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    if (this->actor.params & 0x1000) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 12, 1)) {
         func_80ADA094(this, play);
     } else if (this->unk_194 == 0) {
         if (this->unk_195 == 0) {
@@ -1340,13 +1340,13 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
 
 void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     EnPoSisters* this = (EnPoSisters*)thisx;
-    u8 phi_s5;
+    s32 pad1;
     f32 phi_f20;
     s32 i;
-    u8 spE7;
+    u8 phi_s5;
     Color_RGBA8* temp_s1 = &D_80ADD700[this->unk_194];
     Color_RGBA8* temp_s7 = &D_80ADD6F0[this->unk_194];
-    s32 pad;
+    s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_sisters.c", 2989);
     func_80ADC55C(this);
@@ -1390,11 +1390,10 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
         phi_s5 = ((32 - this->unk_19A) * 255) / 32;
         phi_f20 = 0.0035f;
     } else if (this->actionFunc == func_80ADBC88) {
-        //! @bug uninitialised spE7
-        phi_s5 = spE7;
+        // phi_s5 initialized in loop below
         phi_f20 = 0.0027f;
     } else {
-        phi_s5 = spE7;
+        // phi_s5 initialized in loop below
         phi_f20 = this->actor.scale.x * 0.5f;
     }
     for (i = 0; i < this->unk_198; i++) {

@@ -9,14 +9,14 @@
 
 #define FLAGS ACTOR_FLAG_9
 
-typedef enum {
+typedef enum LakeHyliaObjectsType {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
     /* 0x1 */ LHO_WATER_TEMPLE_ENTRANCE_LOCK,
     /* 0x2 */ LHO_WATER_PLANE,
     /* 0x3 */ LHO_ICE_BLOCK
 } LakeHyliaObjectsType;
 
-typedef enum {
+typedef enum LakeHyliaWaterBoxIndices {
     /* 0x0 */ LHWB_GERUDO_VALLEY_RIVER_UPPER, // entrance from Gerudo Valley
     /* 0x1 */ LHWB_GERUDO_VALLEY_RIVER_LOWER, // river flowing from Gerudo Valley
     /* 0x2 */ LHWB_MAIN_1,                    // main water box
@@ -44,7 +44,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* play);
 
-ActorInit Bg_Spot06_Objects_InitVars = {
+ActorProfile Bg_Spot06_Objects_Profile = {
     /**/ ACTOR_BG_SPOT06_OBJECTS,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -96,8 +96,8 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    this->switchFlag = thisx->params & 0xFF;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 0, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
 
     PRINTF("spot06 obj nthisx->arg_data=[%d]", thisx->params);
 

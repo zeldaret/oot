@@ -57,7 +57,7 @@ typedef struct EnRu1 {
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 
-typedef enum {
+typedef enum RutoLimb {
     /* 0 */ RUTO_CHILD_NONE,
     /* 1 */ RUTO_CHILD_ROOT,
     /* 2 */ RUTO_CHILD_LEFT_THIGH,

@@ -109,7 +109,7 @@ static s16 D_808B5EB0[][7] = {
     { 0x0014, 0x0050, 0x0032, 0x0000, 0x0096, 0x00C8, 0x0008 },
 };
 
-ActorInit Bg_Spot16_Bombstone_InitVars = {
+ActorProfile Bg_Spot16_Bombstone_Profile = {
     /**/ ACTOR_BG_SPOT16_BOMBSTONE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -144,8 +144,8 @@ static f32 D_808B6074[] = { 66.0f, 51.0f, 48.0f, 36.0f, 21.0f };
 static s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
 
 void func_808B4C30(BgSpot16Bombstone* this) {
-    this->switchFlag = (this->actor.params >> 8) & 0x3F;
-    this->actor.params &= 0xFF;
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 8, 6);
+    this->actor.params = PARAMS_GET_U(this->actor.params, 0, 8);
 }
 
 void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {

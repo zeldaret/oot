@@ -21,7 +21,7 @@ void ShotSun_TriggerFairy(ShotSun* this, PlayState* play);
 void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play);
 void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play);
 
-ActorInit Shot_Sun_InitVars = {
+ActorProfile Shot_Sun_Profile = {
     /**/ ACTOR_SHOT_SUN,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -33,7 +33,7 @@ ActorInit Shot_Sun_InitVars = {
     /**/ NULL,
 };
 
-typedef enum {
+typedef enum FairySpawnerState {
     /* 0 */ SPAWNER_OUT_OF_RANGE,
     /* 1 */ SPAWNER_OCARINA_START,
     /* 2 */ SPAWNER_OCARINA_PLAYING
@@ -65,7 +65,7 @@ void ShotSun_Init(Actor* thisx, PlayState* play) {
 
     // "Ocarina secret occurrence"
     PRINTF("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", this->actor.params);
-    params = this->actor.params & 0xFF;
+    params = PARAMS_GET_U(this->actor.params, 0, 8);
     if (params == 0x40 || params == 0x41) {
         this->fairySpawnerState = SPAWNER_OUT_OF_RANGE;
         this->actor.flags |= ACTOR_FLAG_4;
@@ -82,7 +82,7 @@ void ShotSun_Init(Actor* thisx, PlayState* play) {
 
 void ShotSun_Destroy(Actor* thisx, PlayState* play) {
     ShotSun* this = (ShotSun*)thisx;
-    s32 params = this->actor.params & 0xFF;
+    s32 params = PARAMS_GET_U(this->actor.params, 0, 8);
 
     if (params != 0x40 && params != 0x41) {
         Collider_DestroyCylinder(play, &this->collider);
@@ -90,7 +90,7 @@ void ShotSun_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void ShotSun_SpawnFairy(ShotSun* this, PlayState* play) {
-    s32 params = this->actor.params & 0xFF;
+    s32 params = PARAMS_GET_U(this->actor.params, 0, 8);
     s32 fairyType;
 
     if (this->timer > 0) {
@@ -128,7 +128,7 @@ void ShotSun_TriggerFairy(ShotSun* this, PlayState* play) {
 void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
-    s32 params = this->actor.params & 0xFF;
+    s32 params = PARAMS_GET_U(this->actor.params, 0, 8);
 
     if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
         this->fairySpawnerState = SPAWNER_OUT_OF_RANGE;

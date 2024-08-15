@@ -4,13 +4,6 @@
 
 #include "z64frame_advance.h"
 
-#if OOT_DEBUG
-void* gDebugCutsceneScript = NULL;
-UNK_TYPE D_8012D1F4 = 0; // unused
-#endif
-
-Input* D_8012D1F8 = NULL;
-
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
 VisMono gPlayVisMono;
@@ -21,6 +14,13 @@ FaultClient D_801614B8;
 #endif
 
 s16 sTransitionFillTimer;
+
+#if OOT_DEBUG
+void* gDebugCutsceneScript = NULL;
+UNK_TYPE D_8012D1F4 = 0; // unused
+#endif
+
+Input* D_8012D1F8 = NULL;
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
@@ -168,7 +168,13 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
+#if OOT_VERSION < OOT_GC_EU_MQ_DBG
+                HUNGUP_AND_CRASH("../z_play.c", 2287);
+#elif OOT_VERSION < OOT_GC_JP_CE
                 HUNGUP_AND_CRASH("../z_play.c", 2290);
+#else
+                HUNGUP_AND_CRASH("../z_play.c", 2293);
+#endif
                 break;
         }
     }
@@ -437,7 +443,7 @@ void Play_Init(GameState* thisx) {
     Camera_InitDataUsingPlayer(&this->mainCamera, player);
     Camera_RequestMode(&this->mainCamera, CAM_MODE_NORMAL);
 
-    playerStartBgCamIndex = player->actor.params & 0xFF;
+    playerStartBgCamIndex = PARAMS_GET_U(player->actor.params, 0, 8);
     if (playerStartBgCamIndex != 0xFF) {
         PRINTF("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);

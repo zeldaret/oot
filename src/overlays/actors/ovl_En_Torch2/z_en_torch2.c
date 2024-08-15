@@ -9,7 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum EnTorch2ActionStates {
     /* 0 */ ENTORCH2_WAIT,
     /* 1 */ ENTORCH2_ATTACK,
     /* 2 */ ENTORCH2_DEATH,
@@ -21,7 +21,7 @@ void EnTorch2_Destroy(Actor* thisx, PlayState* play);
 void EnTorch2_Update(Actor* thisx, PlayState* play2);
 void EnTorch2_Draw(Actor* thisx, PlayState* play2);
 
-ActorInit En_Torch2_InitVars = {
+ActorProfile En_Torch2_Profile = {
     /**/ ACTOR_EN_TORCH2,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

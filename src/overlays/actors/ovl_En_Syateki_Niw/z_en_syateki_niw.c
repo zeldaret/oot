@@ -26,7 +26,7 @@ void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play);
 
 void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 
-ActorInit En_Syateki_Niw_InitVars = {
+ActorProfile En_Syateki_Niw_Profile = {
     /**/ ACTOR_EN_SYATEKI_NIW,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

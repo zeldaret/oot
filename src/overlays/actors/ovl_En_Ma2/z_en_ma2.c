@@ -17,7 +17,7 @@ void func_80AA204C(EnMa2* this, PlayState* play);
 void func_80AA20E4(EnMa2* this, PlayState* play);
 void func_80AA21C8(EnMa2* this, PlayState* play);
 
-ActorInit En_Ma2_InitVars = {
+ActorProfile En_Ma2_Profile = {
     /**/ ACTOR_EN_MA2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -51,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnMa2Animation {
     /* 0 */ ENMA2_ANIM_0,
     /* 1 */ ENMA2_ANIM_1,
     /* 2 */ ENMA2_ANIM_2,

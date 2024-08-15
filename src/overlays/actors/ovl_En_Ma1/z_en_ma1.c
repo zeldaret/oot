@@ -23,7 +23,7 @@ void EnMa1_TeachSong(EnMa1* this, PlayState* play);
 void EnMa1_WaitForPlayback(EnMa1* this, PlayState* play);
 void EnMa1_DoNothing(EnMa1* this, PlayState* play);
 
-ActorInit En_Ma1_InitVars = {
+ActorProfile En_Ma1_Profile = {
     /**/ ACTOR_EN_MA1,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -57,7 +57,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnMa1Animation {
     /* 0 */ MALON_ANIM_IDLE_NOMORPH,
     /* 1 */ MALON_ANIM_IDLE,
     /* 2 */ MALON_ANIM_SING_NOMORPH,

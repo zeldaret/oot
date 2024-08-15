@@ -125,7 +125,7 @@ static u8 sUpperBodyLimbCopyMap[] = {
     false, // STALFOS_LIMB_WAIST
 };
 
-ActorInit En_Test_InitVars = {
+ActorProfile En_Test_Profile = {
     /**/ ACTOR_EN_TEST,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -197,7 +197,7 @@ static ColliderQuadInit sSwordColliderInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum StalfosDamageEffect {
     /* 0x0 */ STALFOS_DMGEFF_NORMAL,
     /* 0x1 */ STALFOS_DMGEFF_STUN,
     /* 0x6 */ STALFOS_DMGEFF_FIREMAGIC = 6,

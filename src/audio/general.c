@@ -3,7 +3,7 @@
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
-typedef struct {
+typedef struct SfxPlayerState {
     /* 0x0 */ f32 vol;
     /* 0x4 */ f32 freqScale;
     /* 0x8 */ s8 reverb;
@@ -13,7 +13,7 @@ typedef struct {
     /* 0xC */ u8 combFilterGain;
 } SfxPlayerState;
 
-typedef enum {
+typedef enum SfxChannelIndex {
     /* 0x0 */ SFX_CHANNEL_PLAYER0, // SfxPlayerBank
     /* 0x1 */ SFX_CHANNEL_PLAYER1,
     /* 0x2 */ SFX_CHANNEL_PLAYER2,
@@ -32,20 +32,20 @@ typedef enum {
     /* 0xF */ SFX_CHANNEL_VOICE1
 } SfxChannelIndex; // playerIdx = 2
 
-typedef struct {
+typedef struct FreqLerp {
     /* 0x0 */ f32 value;
     /* 0x4 */ f32 target;
     /* 0x8 */ f32 step;
     /* 0xC */ s32 remainingFrames;
 } FreqLerp;
 
-typedef struct {
+typedef struct NatureAmbienceDataIO {
     /* 0x0 */ u16 playerIO;
     /* 0x2 */ u16 channelMask;
     /* 0x4 */ u8 channelIO[3 * 33 + 1];
 } NatureAmbienceDataIO; // size = 0x68
 
-typedef enum {
+typedef enum AudioDebugPage {
     /* 0x0 */ PAGE_NON,
     /* 0x1 */ PAGE_SOUND_CONTROL,
     /* 0x2 */ PAGE_SPEC_INFO, // unused
@@ -66,7 +66,7 @@ typedef enum {
 
 #define SCROLL_PRINT_BUF_SIZE 25
 
-typedef struct {
+typedef struct OcarinaStick {
     s8 x;
     s8 y;
 } OcarinaStick;

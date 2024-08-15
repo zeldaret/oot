@@ -34,7 +34,7 @@ void EnTrap_Destroy(Actor* thisx, PlayState* play);
 void EnTrap_Update(Actor* thisx, PlayState* play);
 void EnTrap_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Trap_InitVars = {
+ActorProfile En_Trap_Profile = {
     /**/ ACTOR_EN_TRAP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -67,7 +67,7 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     EnTrap* this = (EnTrap*)thisx;
     ColliderCylinder* unused = &this->collider; // required to match
 
-    this->upperParams = (thisx->params >> 8) & 0xFF;
+    this->upperParams = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     Actor_SetScale(thisx, 0.1f);
     thisx->gravity = -2.0f;

@@ -32,7 +32,7 @@ void EnHy_Fidget(EnHy* this, PlayState* play);
 void EnHy_DoNothing(EnHy* this, PlayState* play);
 void EnHy_WaitDogFoundRewardGiven(EnHy* this, PlayState* play);
 
-ActorInit En_Hy_InitVars = {
+ActorProfile En_Hy_Profile = {
     /**/ ACTOR_EN_HY,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -102,7 +102,7 @@ static void* sHylianWoman2EyeTextures[] = {
     NULL,
 };
 
-typedef struct {
+typedef struct  EnHyHeadInfo {
     /* 0x0 */ s16 objectId;
     /* 0x4 */ Gfx* headDList;
     /* 0x8 */ void** eyeTextures;
@@ -146,7 +146,7 @@ static EnHyHeadInfo sHeadInfo[] = {
     /* ENHY_HEAD_WOMAN_3 */ { OBJECT_COB, gHylianWoman3HeadDL, NULL },
 };
 
-typedef struct {
+typedef struct EnHySkeletonInfo {
     /* 0x0 */ s16 objectId;
     /* 0x4 */ FlexSkeletonHeader* skeleton;
 } EnHySkeletonInfo; // size = 0x8
@@ -173,7 +173,7 @@ static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_WOMAN_3 */ { OBJECT_COB, &gHylianWoman3Skel },
 };
 
-typedef enum {
+typedef enum EnHyAnimationIndex {
     /*  0 */ ENHY_ANIM_0,
     /*  1 */ ENHY_ANIM_1,
     /*  2 */ ENHY_ANIM_2,
@@ -233,7 +233,7 @@ static AnimationInfo sAnimationInfo[] = {
     /* ENHY_ANIM_26 */ { &gObjOsAnim_0BFC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
-typedef struct {
+typedef struct EnHyModelInfo {
     /* 0x0 */ u8 headInfoIndex;      // EnHyHeadIndex
     /* 0x1 */ u8 upperSkelInfoIndex; // EnHySkeletonIndex, see EnHy.objectSlotUpperSkel
     /* 0x2 */ Color_RGBA8 envColorSeg8;
@@ -434,7 +434,7 @@ static EnHyModelInfo sModelInfo[] = {
     },
 };
 
-typedef struct {
+typedef struct EnHyColliderInfo {
     /* 0x0 */ Vec3s offset;
     /* 0x6 */ s16 radius;
     /* 0x8 */ s16 height;
@@ -464,7 +464,7 @@ static EnHyColliderInfo sColliderInfo[] = {
     /* ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT */ { { 0, 0, 8 }, 20, 58 },
 };
 
-typedef struct {
+typedef struct EnHyPlayerTrackingInfo {
     /* 0x00 */ u8 presetIndex;
     /* 0x04 */ f32 childYOffset;
     /* 0x08 */ f32 adultYOffset;
@@ -494,7 +494,7 @@ static EnHyPlayerTrackingInfo sPlayerTrackingInfo[] = {
     /* ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT */ { 10, 20.0f, 0.0f },
 };
 
-typedef struct {
+typedef struct EnHyInit2Info {
     /* 0x00 */ f32 shadowScale;
     /* 0x04 */ Vec3f modelOffset;
     /* 0x10 */ f32 scale;
@@ -1384,8 +1384,6 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * 200.0f;
         rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * 200.0f;
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2228);
 

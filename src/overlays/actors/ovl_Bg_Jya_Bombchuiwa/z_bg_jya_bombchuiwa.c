@@ -14,7 +14,7 @@ void func_808949B8(BgJyaBombchuiwa* this, PlayState* play);
 void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, PlayState* play);
 void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, PlayState* play);
 
-ActorInit Bg_Jya_Bombchuiwa_InitVars = {
+ActorProfile Bg_Jya_Bombchuiwa_Profile = {
     /**/ ACTOR_BG_JYA_BOMBCHUIWA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -78,7 +78,7 @@ void BgJyaBombchuiwa_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     BgJyaBombchuiwa_SetupCollider(this, play);
-    if (Flags_GetSwitch(play, this->actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6))) {
         BgJyaBombchuiwa_SpawnLightRay(this, play);
     } else {
         BgJyaBombchuiwa_SetupWaitForExplosion(this, play);

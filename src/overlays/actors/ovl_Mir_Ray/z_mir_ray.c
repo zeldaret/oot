@@ -17,7 +17,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play);
 s32 MirRay_CheckInFrustum(Vec3f* vecA, Vec3f* vecB, f32 pointx, f32 pointy, f32 pointz, s16 radiusA, s16 radiusB);
 
 // Locations of light beams in sMirRayData
-typedef enum {
+typedef enum MirRayBeamLocations {
     /* 0 */ MIRRAY_SPIRIT_BOMBCHUIWAROOM_DOWNLIGHT,
     /* 1 */ MIRRAY_SPIRIT_SUNBLOCKROOM_DOWNLIGHT,
     /* 2 */ MIRRAY_SPIRIT_SINGLECOBRAROOM_DOWNLIGHT,
@@ -30,7 +30,7 @@ typedef enum {
     /* 9 */ MIRRAY_GANONSCASTLE_SPIRITTRIAL_DOWNLIGHT
 } MirRayBeamLocations;
 
-ActorInit Mir_Ray_InitVars = {
+ActorProfile Mir_Ray_Profile = {
     /**/ ACTOR_MIR_RAY,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -136,7 +136,7 @@ void MirRay_MakeShieldLight(MirRay* this, PlayState* play) {
                               player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->sourceEndRad,
                               this->poolEndRad)) {
 
-        if (dataEntry->params & 8) { // Light beams from mirrors
+        if (PARAMS_GET_NOSHIFT(dataEntry->params, 3, 1)) { // Light beams from mirrors
             Math_Vec3f_Diff(&player->actor.world.pos, &this->sourcePt, &reflectionPt);
         } else { // Light beams from windows
             Math_Vec3f_Diff(&this->poolPt, &this->sourcePt, &reflectionPt);
@@ -207,10 +207,10 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     this->shieldCorners[5].x = 758.0f;
     this->shieldCorners[5].y = -800.0f;
 
-    if (dataEntry->params & 2) {
+    if (PARAMS_GET_NOSHIFT(dataEntry->params, 1, 1)) {
         Collider_InitJntSph(play, &this->colliderSph);
         Collider_SetJntSph(play, &this->colliderSph, &this->actor, &sJntSphInit, &this->colliderSphItem);
-        if (!(dataEntry->params & 4)) { // Beams not from mirrors
+        if (!PARAMS_GET_NOSHIFT(dataEntry->params, 2, 1)) { // Beams not from mirrors
             MirRay_SetupCollider(this);
         }
     }

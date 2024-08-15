@@ -4,7 +4,7 @@
 #include "z64camera.h"
 #include "z64math.h"
 
-typedef struct {
+typedef struct ShakeInfo {
     /* 0x00 */ Vec3f atOffset;
     /* 0x0C */ Vec3f eyeOffset;
     /* 0x18 */ s16 upPitchOffset; // gives a "roll" effect by offsetting the Up vector
@@ -13,7 +13,7 @@ typedef struct {
     /* 0x20 */ f32 maxOffset;
 } ShakeInfo; // size = 0x24
 
-typedef enum {
+typedef enum QuakeType {
     /* 0 */ QUAKE_TYPE_NONE,
     /* 1 */ QUAKE_TYPE_1, // Periodic, sustaining, random X perturbations
     /* 2 */ QUAKE_TYPE_2, // Aperiodic, sustaining, random X perturbations

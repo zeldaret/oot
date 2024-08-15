@@ -23,7 +23,7 @@ void EnVm_Attack(EnVm* this, PlayState* play);
 void EnVm_Stun(EnVm* this, PlayState* play);
 void EnVm_Die(EnVm* this, PlayState* play);
 
-ActorInit En_Vm_InitVars = {
+ActorProfile En_Vm_Profile = {
     /**/ ACTOR_EN_VM,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -142,7 +142,7 @@ void EnVm_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->colliderQuad1, thisx, &sQuadInit1);
     Collider_InitQuad(play, &this->colliderQuad2);
     Collider_SetQuad(play, &this->colliderQuad2, thisx, &sQuadInit2);
-    this->beamSightRange = (thisx->params >> 8) * 40.0f;
+    this->beamSightRange = PARAMS_GET_NOMASK(thisx->params, 8) * 40.0f;
     thisx->params &= 0xFF;
     thisx->naviEnemyId = NAVI_ENEMY_BEAMOS;
 

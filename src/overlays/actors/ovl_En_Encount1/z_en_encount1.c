@@ -14,7 +14,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play);
 static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
 static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
-ActorInit En_Encount1_InitVars = {
+ActorProfile En_Encount1_Profile = {
     /**/ ACTOR_EN_ENCOUNT1,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -44,9 +44,9 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    this->spawnType = (this->actor.params >> 0xB) & 0x1F;
-    this->maxCurSpawns = (this->actor.params >> 6) & 0x1F;
-    this->maxTotalSpawns = this->actor.params & 0x3F;
+    this->spawnType = PARAMS_GET_U(this->actor.params, 11, 5);
+    this->maxCurSpawns = PARAMS_GET_U(this->actor.params, 6, 5);
+    this->maxTotalSpawns = PARAMS_GET_U(this->actor.params, 0, 6);
     this->curNumSpawn = this->totalNumSpawn = 0;
     spawnRange = 120.0f + (40.0f * this->actor.world.rot.z);
     this->spawnRange = spawnRange;

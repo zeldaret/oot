@@ -4,10 +4,10 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define ENHY_GET_TYPE(thisx) ((thisx)->params & 0x7F)
-#define ENHY_GET_PATH_INDEX(thisx) (((thisx)->params & 0x780) >> 7)
+#define ENHY_GET_TYPE(thisx) PARAMS_GET_S((thisx)->params, 0, 7)
+#define ENHY_GET_PATH_INDEX(thisx) PARAMS_GET_S((thisx)->params, 7, 4)
 
-typedef enum {
+typedef enum EnHyType {
     /*  0 */ ENHY_TYPE_DOG_LADY,
     /*  1 */ ENHY_TYPE_WOMAN_3,
     /*  2 */ ENHY_TYPE_MAN_1_BEARD,
@@ -32,7 +32,7 @@ typedef enum {
     /* 21 */ ENHY_TYPE_MAX
 } EnHyType;
 
-typedef enum {
+typedef enum EnHyLimb {
     /* 0x00 */ ENHY_LIMB_NONE,
     /* 0x01 */ ENHY_LIMB_PELVIS,
     /* 0x02 */ ENHY_LIMB_LEFT_THIGH,

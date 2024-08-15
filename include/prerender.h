@@ -8,7 +8,7 @@ typedef struct ListAlloc {
     /* 0x04 */ struct ListAlloc* next;
 } ListAlloc; // size = 0x8
 
-typedef struct {
+typedef struct PreRender {
     /* 0x00 */ s32 width;
     /* 0x04 */ s32 height;
     /* 0x08 */ s32 widthSave;

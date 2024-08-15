@@ -11,8 +11,7 @@
 #include "ichain.h"
 #include "terminal.h"
 
-// For retail BSS ordering, the block number of sStreamSfxProjectedPos must be 0.
-#pragma increment_block_number 182
+#pragma increment_block_number "gc-eu:205 gc-eu-mq:205 gc-jp:207 gc-jp-ce:207 gc-jp-mq:207 gc-us:207 gc-us-mq:207"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -31,14 +30,14 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2);
 void Fishing_DrawFish(Actor* thisx, PlayState* play);
 void Fishing_DrawOwner(Actor* thisx, PlayState* play);
 
-typedef struct {
+typedef struct FishingFishInit {
     /* 0x00 */ u8 isLoach;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ u8 baseLength;
     /* 0x0C */ f32 perception;
 } FishingFishInit; // size = 0x10
 
-typedef enum {
+typedef enum FishingEffectType {
     /* 0x00 */ FS_EFF_NONE,
     /* 0x01 */ FS_EFF_RIPPLE,
     /* 0x02 */ FS_EFF_DUST_SPLASH,
@@ -52,7 +51,7 @@ typedef enum {
 
 #define FISHING_EFFECT_COUNT 130
 
-typedef struct {
+typedef struct FishingEffect {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f vel;
     /* 0x18 */ Vec3f accel;
@@ -68,7 +67,7 @@ typedef struct {
 
 #define POND_PROP_COUNT 140
 
-typedef enum {
+typedef enum FishingPropType {
     /* 0x00 */ FS_PROP_NONE,
     /* 0x01 */ FS_PROP_REED,
     /* 0x02 */ FS_PROP_LILY_PAD,
@@ -77,12 +76,12 @@ typedef enum {
     /* 0x23 */ FS_PROP_INIT_STOP = 0x23
 } FishingPropType;
 
-typedef struct {
+typedef struct FishingPropInit {
     /* 0x00 */ u8 type;
     /* 0x02 */ Vec3s pos;
 } FishingPropInit; // size = 0x08
 
-typedef struct {
+typedef struct FishingProp {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ f32 rotX;
     /* 0x10 */ f32 rotY;
@@ -97,14 +96,14 @@ typedef struct {
     /* 0x38 */ f32 drawDistance;
 } FishingProp; // size = 0x3C
 
-typedef enum {
+typedef enum FishingGroupFishType {
     /* 0x00 */ FS_GROUP_FISH_NONE,
     /* 0x01 */ FS_GROUP_FISH_NORMAL
 } FishingGroupFishType;
 
 #define GROUP_FISH_COUNT 60
 
-typedef struct {
+typedef struct FishingGroupFish {
     /* 0x00 */ u8 type;
     /* 0x02 */ s16 timer;
     /* 0x04 */ Vec3f pos;
@@ -122,7 +121,7 @@ typedef struct {
     /* 0x44 */ u8 shouldDraw;
 } FishingGroupFish; // size = 0x48
 
-typedef enum {
+typedef enum FishingLureTypes {
     /* 0x00 */ FS_LURE_STOCK,
     /* 0x01 */ FS_LURE_UNK, // hinted at with an "== 1"
     /* 0x02 */ FS_LURE_SINKING
@@ -131,7 +130,7 @@ typedef enum {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
-ActorInit Fishing_InitVars = {
+ActorProfile Fishing_Profile = {
     /**/ ACTOR_FISHING,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -167,7 +166,7 @@ static s32 sFishingTimePlayed = 0;
 
 static s16 sOwnerTheftTimer = 0;
 
-typedef enum {
+typedef enum FishingOwnerHair {
     /* 0x00 */ FS_OWNER_BALD,
     /* 0x01 */ FS_OWNER_CAPPED,
     /* 0x02 */ FS_OWNER_HAIR
@@ -4556,8 +4555,6 @@ void Fishing_DrawPondProps(PlayState* play) {
 
     Matrix_Pop();
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_fishing.c", 7805);
 }
 
@@ -5759,8 +5756,18 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sStreamSfxPos, &sStreamSfxProjectedPos, &sProjectedW);
 
     Sfx_PlaySfxAtPos(&sStreamSfxProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
-    // convert length to weight. Theoretical max of 59 lbs (127^2*.0036+.5)
+
+#if OOT_NTSC
+    if (gSaveContext.language == LANGUAGE_JPN) {
+        gSaveContext.minigameScore = sFishLengthToWeigh;
+    } else {
+        // Convert length to weight. Theoretical max of 59 lbs (127^2*.0036+.5)
+        gSaveContext.minigameScore = (SQ((f32)sFishLengthToWeigh) * 0.0036f) + 0.5f;
+    }
+#else
+    // Same as above, but for PAL
     gSaveContext.minigameScore = (SQ((f32)sFishLengthToWeigh) * 0.0036f) + 0.5f;
+#endif
 
 #if OOT_DEBUG
     if (BREG(26) != 0) {
