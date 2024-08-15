@@ -11,7 +11,7 @@ extern AudioTable gSampleBankTable;
 #define DEFINE_SAMPLE_BANK(name, medium, cachePolicy) \
     extern u8 name##_Start[];                         \
     extern u8 name##_Size[];
-#define DEFINE_SAMPLE_BANK_PTR(name, medium, cachePolicy) /*empty*/
+#define DEFINE_SAMPLE_BANK_PTR(index, medium, cachePolicy) /*empty*/
 
 #include "assets/audio/samplebank_table.h"
 
@@ -23,13 +23,13 @@ extern AudioTable gSampleBankTable;
 NO_REORDER AudioTableHeader sSampleBankTableHeader = {
 // The table contains the number of samplebanks, count them with the preprocessor
 #define DEFINE_SAMPLE_BANK(name, medium, cachePolicy) 1 +
-#define DEFINE_SAMPLE_BANK_PTR(name, medium, cachePolicy) 1 +
+#define DEFINE_SAMPLE_BANK_PTR(index, medium, cachePolicy) 1 +
 
 #include "assets/audio/samplebank_table.h"
+    0,
 
 #undef DEFINE_SAMPLE_BANK
 #undef DEFINE_SAMPLE_BANK_PTR
-    0,
 
     0,
     0x00000000,

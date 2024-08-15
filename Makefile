@@ -749,7 +749,7 @@ endif
 # put together the tables
 
 $(BUILD_DIR)/assets/audio/samplebank_table.h: $(SAMPLEBANK_BUILD_XMLS)
-	$(ATBLGEN) -banks $@ $^
+	$(ATBLGEN) --banks $@ $^
 
 # build the tables into objects, move data -> rodata
 
@@ -758,7 +758,7 @@ ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $(@:.o=.tmp) $<
-	@$(LD) -r -T include/audio/atbl_rdata.ld $(@:.o=.tmp) -o $@
+	@$(LD) -r -T linker_scripts/audio_table_rodata.ld $(@:.o=.tmp) -o $@
 	@$(RM) $(@:.o=.tmp)
 
 -include $(DEP_FILES)

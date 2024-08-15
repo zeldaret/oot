@@ -122,7 +122,7 @@ tablegen_samplebanks(const char *sb_hdr_out, const char **samplebanks_paths, int
 
     for (size_t i = 0; i < indices_len; i++) {
         if (index_info[i].index_type == INDEX_NONE)
-            error("Missing index");
+            error("Missing samplebank index %u", i);
     }
 
     // Emit the table
@@ -135,7 +135,7 @@ tablegen_samplebanks(const char *sb_hdr_out, const char **samplebanks_paths, int
             // clang-format off
            "/**"                                                    "\n"
            " * DEFINE_SAMPLE_BANK(name, medium, cachePolicy)"       "\n"
-           " * DEFINE_SAMPLE_BANK_PTR(name, medium, cachePolicy)"   "\n"
+           " * DEFINE_SAMPLE_BANK_PTR(index, medium, cachePolicy)"  "\n"
            " */"                                                    "\n"
             // clang-format on
     );
@@ -173,7 +173,7 @@ usage(const char *progname)
             // clang-format off
            "%s: Generate code tables for audio data"                            "\n"
            "Usage:"                                                             "\n"
-           "    %s -banks     <samplebank_table.h> <samplebank xml files...>"   "\n",
+           "    %s --banks    <samplebank_table.h> <samplebank xml files...>"   "\n",
             // clang-format on
             progname, progname);
     return EXIT_FAILURE;
@@ -191,7 +191,7 @@ main(int argc, char **argv)
 
     const char *mode = argv[1];
 
-    if (strequ(mode, "-banks")) {
+    if (strequ(mode, "--banks")) {
         if (argc < 4)
             return usage(progname);
 
