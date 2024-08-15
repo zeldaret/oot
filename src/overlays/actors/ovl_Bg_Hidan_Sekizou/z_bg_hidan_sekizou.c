@@ -295,9 +295,9 @@ void BgHidanSekizou_Update(Actor* thisx, PlayState* play2) {
     }
 }
 
-Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, f32 arg4, f32 arg5, s16 arg6,
+Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* mtx, f32 arg4, f32 arg5, s16 arg6,
                    Gfx* arg7) {
-    f32 temp_f0;
+    MtxF* mtx2;
     f32 temp_f2;
     f32 phi_f12;
 
@@ -312,14 +312,15 @@ Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, 
     gDPSetPrimColor(arg7++, 0, 1, 255, 255, 0, 150);
     gDPSetEnvColor(arg7++, 255, 0, 0, 255);
 
-    arg3->xx = arg3->yy = arg3->zz = (0.7f * phi_f12) + 0.5f;
+    mtx2 = mtx;
+    mtx2->xx = mtx2->yy = mtx2->zz = (0.7f * phi_f12) + 0.5f;
 
-    temp_f2 = (arg3->xx * 10.0f * phi_f12) + 20.0f;
-    arg3->xw = (temp_f2 * arg4) + this->dyna.actor.world.pos.x;
-    arg3->yw = this->dyna.actor.world.pos.y + 30.0f + (.7f * phi_f12);
-    arg3->zw = (temp_f2 * arg5) + this->dyna.actor.world.pos.z;
+    temp_f2 = ((mtx2->xx * 10.0f) * phi_f12) + 20.0f;
+    mtx2->xw = (temp_f2 * arg4) + this->dyna.actor.world.pos.x;
+    mtx2->yw = (this->dyna.actor.world.pos.y + 30.0f) + (.7f * phi_f12);
+    mtx2->zw = (temp_f2 * arg5) + this->dyna.actor.world.pos.z;
     gSPMatrix(arg7++,
-              Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(arg3, "../z_bg_hidan_sekizou.c", 711),
+              Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(mtx2, "../z_bg_hidan_sekizou.c", 711),
                                GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
