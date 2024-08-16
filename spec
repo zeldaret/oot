@@ -20,6 +20,9 @@ beginseg
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
     include "$(BUILD_DIR)/src/boot/yaz0.o"
     include "$(BUILD_DIR)/src/boot/z_locale.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/boot/cic6105.o"
+#endif
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/boot/assert.o"
 #endif
