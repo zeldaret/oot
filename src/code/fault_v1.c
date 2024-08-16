@@ -86,10 +86,10 @@ FaultMgr_v1 gFaultMgr;
 
 STACK(sFaultStack, 0x400);  // B_80122138_unknown
 StackEntry sFaultStackInfo; // B_80122538_unknown
-struct FaultCursorCoords B_80122558_unknown;
+struct FaultCursorCoords B_80122558;
 
-volatile s32 sFaultExit; // fault_exit
-volatile s32 sFaultMsgId; // fault_msg_id
+volatile s32 sFaultExit;          // fault_exit
+volatile s32 sFaultMsgId;         // fault_msg_id
 volatile s32 sFaultDisplayEnable; // fault_display_enable
 OSThread* sFaultFaultedThread;    // cur faulted thread
 s32 B_80122570_unknown[0x10];
@@ -98,9 +98,9 @@ void Fault_SleepImpl(u32 ms) {
     Sleep_Msec(ms);
 }
 
-void func_800ADC5C_unknown(void);
+void Fault_WaitInputImpl(void);
 #ifdef NON_MATCHING
-void func_800ADC5C_unknown(void) {
+void Fault_WaitInputImpl(void) {
     do {
         Fault_SleepImpl(0x10);
         PadMgr_RequestPadData(&gPadMgr, &sFaultInputs, 0);
@@ -109,15 +109,14 @@ void func_800ADC5C_unknown(void) {
 }
 
 #else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/func_800ADC5C_unknown.s")
+#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_WaitInputImpl.s")
 #endif
 
-void func_800ADCD8_unknown(void) {
-    func_800ADC5C_unknown();
+void Fault_WaitInput(void) {
+    Fault_WaitInputImpl();
 }
 
-// Fault_DrawRec
-void func_800ADD14_unknown(s32 x, s32 y, s32 w, s32 h, u16 color) {
+void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 color) {
     s32 temp_a3;
     s32 i;
     s32 j;
@@ -136,12 +135,11 @@ void func_800ADD14_unknown(s32 x, s32 y, s32 w, s32 h, u16 color) {
     osWritebackDCacheAll();
 }
 
-void func_800ADDF0_unknown(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    func_800ADD14_unknown(arg0, arg1, arg2, arg3, 1);
+void Fault_DrawRecBlack(s32 x, s32 y, s32 w, s32 h) {
+    Fault_DrawRec(x, y, w, h, GPACK_RGBA5551(0, 0, 0, 1));
 }
 
-// Fault_DrawChar
-void func_800ADE30_unknown(s32 x, s32 y, char c) {
+void Fault_DrawCharImpl(s32 x, s32 y, char c) {
     u32* dataPtr;
     s32 shift = c % 4;
     s32 i;
@@ -170,41 +168,41 @@ void func_800ADE30_unknown(s32 x, s32 y, char c) {
     osWritebackDCacheAll();
 }
 
-void func_800ADF4C_unknown(s32 arg0, s32 arg1, u8 arg2) {
-    func_800ADE30_unknown(arg0, arg1, arg2);
+void Fault_DrawChar(s32 x, s32 y, u8 c) {
+    Fault_DrawCharImpl(x, y, c);
 }
 
-void func_800ADF90_unknown(u16 arg0) {
-    func_800ADD14_unknown(22, 16, 8, 1, arg0);
+void Fault_DrawCornerRec(u16 color) {
+    Fault_DrawRec(22, 16, 8, 1, color);
 }
 
-void func_800ADFE4_unknown(void) {
-    func_800ADF90_unknown(0xF801);
+void Fault_DrawCornerRecRed(void) {
+    Fault_DrawCornerRec(GPACK_RGBA5551(255, 0, 0, 1));
 }
 
-void func_800AE020_unknown(void) {
-    func_800ADF90_unknown(0xFFC1);
+void Fault_DrawCornerRecYellow(void) {
+    Fault_DrawCornerRec(GPACK_RGBA5551(255, 255, 0, 1));
 }
 
-void func_800AE05C_unknown(void) {
+void func_800AE05C(void) {
 }
 
-void* func_800AE064_unknown(void* arg, const char* str, size_t len) {
+void* Fault_PrintCallbackDraw(void* arg, const char* str, size_t len) {
     struct FaultCursorCoords* coords = arg;
 
     for (; len != 0; len--, str++) {
         if (*str == 0xA) {
             coords->unk0 = 320;
         } else {
-            func_800ADF4C_unknown(coords->unk0, coords->unk4, *str);
+            Fault_DrawChar(coords->unk0, coords->unk4, *str);
             coords->unk0 += 6;
         }
         if (coords->unk0 >= 277) {
             coords->unk0 = 22;
             coords->unk4 += 8;
             if (coords->unk4 >= 209) {
-                func_800ADC5C_unknown();
-                func_800ADDF0_unknown(22, 16, 276, 208);
+                Fault_WaitInputImpl();
+                Fault_DrawRecBlack(22, 16, 276, 208);
                 coords->unk4 = 16;
             }
         }
@@ -212,7 +210,7 @@ void* func_800AE064_unknown(void* arg, const char* str, size_t len) {
     return coords;
 }
 
-void func_800AE170_unknown(s32 x, s32 y, const char* fmt, ...) {
+void Fault_DrawText(s32 x, s32 y, const char* fmt, ...) {
     va_list args;
     struct FaultCursorCoords sp1C;
 
@@ -220,44 +218,42 @@ void func_800AE170_unknown(s32 x, s32 y, const char* fmt, ...) {
 
     sp1C.unk0 = x - 8;
     sp1C.unk4 = y;
-    _Printf(func_800AE064_unknown, &sp1C, fmt, args);
+    _Printf(Fault_PrintCallbackDraw, &sp1C, fmt, args);
 
     va_end(args);
 }
 
-void func_800AE1E0_unknown(s32 arg0, s32 arg1) {
-    B_80122558_unknown.unk0 = arg0;
-    B_80122558_unknown.unk4 = arg1;
+void func_800AE1E0(s32 arg0, s32 arg1) {
+    B_80122558.unk0 = arg0;
+    B_80122558.unk4 = arg1;
 }
 
-void func_800AE1F8_unknown(void) {
-    func_800ADDF0_unknown(0x16, 0x10, 0x114, 0xD0);
-    B_80122558_unknown.unk0 = 0x16;
-    B_80122558_unknown.unk4 = 0x10;
+void func_800AE1F8(void) {
+    Fault_DrawRecBlack(0x16, 0x10, 0x114, 0xD0);
+    B_80122558.unk0 = 0x16;
+    B_80122558.unk4 = 0x10;
 }
 
-void func_800AE258_unknown(const char* fmt, ...) {
+void func_800AE258(const char* fmt, ...) {
     va_list args;
 
     va_start(args, fmt);
-    _Printf(func_800AE064_unknown, &B_80122558_unknown, fmt, args);
+    _Printf(Fault_PrintCallbackDraw, &B_80122558, fmt, args);
     va_end(args);
 }
 
-// Fault_PrintFReg
-void func_800AE2B8_unknown(s32 x, s32 y, s32 idx, f32* value) {
+void Fault_PrintFReg(s32 x, s32 y, s32 idx, f32* value) {
     u32 raw = *(u32*)value;
     s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
 
     if (((exp >= -0x7E) && (exp < 0x80)) || (raw == 0)) {
-        func_800AE170_unknown(x, y, "F%02d:%.7e", idx, *value);
+        Fault_DrawText(x, y, "F%02d:%.7e", idx, *value);
     } else {
-        func_800AE170_unknown(x, y, "F%02d:-------------", idx);
+        Fault_DrawText(x, y, "F%02d:-------------", idx);
     }
 }
 
-// Fault_LogFReg
-void func_800AE35C_unknown(s32 idx, f32* value) {
+void Fault_LogFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
     s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
 
@@ -268,16 +264,15 @@ void func_800AE35C_unknown(s32 idx, f32* value) {
     }
 }
 
-// Fault_PrintFPCSR
-void func_800AE408_unknown(s32 x, s32 y, s32 value) {
+void Fault_PrintFPCSR(s32 x, s32 y, s32 value) {
     s32 i;
     u32 mask = 0x20000;
 
-    func_800AE170_unknown(x, y, "FPCSR:%08xH", value);
+    Fault_DrawText(x, y, "FPCSR:%08xH", value);
 
     for (i = 0; i < 6; i++) {
         if (value & mask) {
-            func_800AE170_unknown(x + 100, y, "(%s)", sFpExceptionNames[i]);
+            Fault_DrawText(x + 100, y, "(%s)", sFpExceptionNames[i]);
             break;
         }
 
@@ -285,8 +280,7 @@ void func_800AE408_unknown(s32 x, s32 y, s32 value) {
     }
 }
 
-// Fault_LogFPCSR
-void func_800AE4C0_unknown(s32 value) {
+void Fault_LogFPCSR(s32 value) {
     s32 i;
     u32 mask = 0x20000;
 
@@ -302,8 +296,7 @@ void func_800AE4C0_unknown(s32 value) {
     }
 }
 
-// Fault_PrintThreadContext
-void func_800AE558_unknown(OSThread* thread) {
+void Fault_PrintThreadContext(OSThread* thread) {
     __OSThreadContext* ctx = &thread->context;
     s32 y;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
@@ -315,68 +308,68 @@ void func_800AE558_unknown(OSThread* thread) {
         causeStrIdx = 0x11;
     }
 
-    func_800ADDF0_unknown(0x16, 0x10, 0x114, 0x18);
+    Fault_DrawRecBlack(0x16, 0x10, 0x114, 0x18);
 
     y = 20;
-    func_800AE170_unknown(0x1E, y, "THREAD:%d (%d:%s)", thread->id, causeStrIdx, sExceptionNames[causeStrIdx]);
+    Fault_DrawText(0x1E, y, "THREAD:%d (%d:%s)", thread->id, causeStrIdx, sExceptionNames[causeStrIdx]);
 
     y += 9;
-    func_800AE170_unknown(0x1E, y, "PC:%08xH   SR:%08xH   VA:%08xH", ctx->pc, ctx->sr, ctx->badvaddr);
-
-    y += 13;
-    func_800ADDF0_unknown(0x16, 0x28, 0x114, 0xB8);
-    func_800AE170_unknown(0x1E, y, "AT:%08xH   V0:%08xH   V1:%08xH", (u32)ctx->at, (u32)ctx->v0, (u32)ctx->v1);
-    y += 9;
-    func_800AE170_unknown(0x1E, y, "A0:%08xH   A1:%08xH   A2:%08xH", (u32)ctx->a0, (u32)ctx->a1, (u32)ctx->a2);
-    y += 9;
-    func_800AE170_unknown(0x1E, y, "A3:%08xH   T0:%08xH   T1:%08xH", (u32)ctx->a3, (u32)ctx->t0, (u32)ctx->t1);
-    y += 9;
-    func_800AE170_unknown(0x1E, y, "T2:%08xH   T3:%08xH   T4:%08xH", (u32)ctx->t2, (u32)ctx->t3, (u32)ctx->t4);
-    y += 9;
-    func_800AE170_unknown(0x1E, y, "T5:%08xH   T6:%08xH   T7:%08xH", (u32)ctx->t5, (u32)ctx->t6, (u32)ctx->t7);
-    y += 9;
-    func_800AE170_unknown(0x1E, y, "S0:%08xH   S1:%08xH   S2:%08xH", (u32)ctx->s0, (u32)ctx->s1, (u32)ctx->s2);
-    y += 9;
-    func_800AE170_unknown(0x1E, y, "S3:%08xH   S4:%08xH   S5:%08xH", (u32)ctx->s3, (u32)ctx->s4, (u32)ctx->s5);
-    y += 9;
-    func_800AE170_unknown(0x1E, y, "S6:%08xH   S7:%08xH   T8:%08xH", (u32)ctx->s6, (u32)ctx->s7, (u32)ctx->t8);
-    y += 9;
-    func_800AE170_unknown(0x1E, y, "T9:%08xH   GP:%08xH   SP:%08xH", (u32)ctx->t9, (u32)ctx->gp, (u32)ctx->sp);
-    y += 9;
-    func_800AE170_unknown(0x1E, y, "S8:%08xH   RA:%08xH   LO:%08xH", (u32)ctx->s8, (u32)ctx->ra, (u32)ctx->lo);
+    Fault_DrawText(0x1E, y, "PC:%08xH   SR:%08xH   VA:%08xH", ctx->pc, ctx->sr, ctx->badvaddr);
 
     y += 13;
-    func_800AE408_unknown(0x1E, y, ctx->fpcsr);
+    Fault_DrawRecBlack(0x16, 0x28, 0x114, 0xB8);
+    Fault_DrawText(0x1E, y, "AT:%08xH   V0:%08xH   V1:%08xH", (u32)ctx->at, (u32)ctx->v0, (u32)ctx->v1);
+    y += 9;
+    Fault_DrawText(0x1E, y, "A0:%08xH   A1:%08xH   A2:%08xH", (u32)ctx->a0, (u32)ctx->a1, (u32)ctx->a2);
+    y += 9;
+    Fault_DrawText(0x1E, y, "A3:%08xH   T0:%08xH   T1:%08xH", (u32)ctx->a3, (u32)ctx->t0, (u32)ctx->t1);
+    y += 9;
+    Fault_DrawText(0x1E, y, "T2:%08xH   T3:%08xH   T4:%08xH", (u32)ctx->t2, (u32)ctx->t3, (u32)ctx->t4);
+    y += 9;
+    Fault_DrawText(0x1E, y, "T5:%08xH   T6:%08xH   T7:%08xH", (u32)ctx->t5, (u32)ctx->t6, (u32)ctx->t7);
+    y += 9;
+    Fault_DrawText(0x1E, y, "S0:%08xH   S1:%08xH   S2:%08xH", (u32)ctx->s0, (u32)ctx->s1, (u32)ctx->s2);
+    y += 9;
+    Fault_DrawText(0x1E, y, "S3:%08xH   S4:%08xH   S5:%08xH", (u32)ctx->s3, (u32)ctx->s4, (u32)ctx->s5);
+    y += 9;
+    Fault_DrawText(0x1E, y, "S6:%08xH   S7:%08xH   T8:%08xH", (u32)ctx->s6, (u32)ctx->s7, (u32)ctx->t8);
+    y += 9;
+    Fault_DrawText(0x1E, y, "T9:%08xH   GP:%08xH   SP:%08xH", (u32)ctx->t9, (u32)ctx->gp, (u32)ctx->sp);
+    y += 9;
+    Fault_DrawText(0x1E, y, "S8:%08xH   RA:%08xH   LO:%08xH", (u32)ctx->s8, (u32)ctx->ra, (u32)ctx->lo);
 
     y += 13;
-    func_800AE2B8_unknown(0x1E, y, 0, &ctx->fp0.f.f_even);
-    func_800AE2B8_unknown(0xA0, y, 2, &ctx->fp2.f.f_even);
+    Fault_PrintFPCSR(0x1E, y, ctx->fpcsr);
+
+    y += 13;
+    Fault_PrintFReg(0x1E, y, 0, &ctx->fp0.f.f_even);
+    Fault_PrintFReg(0xA0, y, 2, &ctx->fp2.f.f_even);
     y += 9;
-    func_800AE2B8_unknown(0x1E, y, 4, &ctx->fp4.f.f_even);
-    func_800AE2B8_unknown(0xA0, y, 6, &ctx->fp6.f.f_even);
+    Fault_PrintFReg(0x1E, y, 4, &ctx->fp4.f.f_even);
+    Fault_PrintFReg(0xA0, y, 6, &ctx->fp6.f.f_even);
     y += 9;
-    func_800AE2B8_unknown(0x1E, y, 8, &ctx->fp8.f.f_even);
-    func_800AE2B8_unknown(0xA0, y, 0xA, &ctx->fp10.f.f_even);
+    Fault_PrintFReg(0x1E, y, 8, &ctx->fp8.f.f_even);
+    Fault_PrintFReg(0xA0, y, 0xA, &ctx->fp10.f.f_even);
     y += 9;
-    func_800AE2B8_unknown(0x1E, y, 0xC, &ctx->fp12.f.f_even);
-    func_800AE2B8_unknown(0xA0, y, 0xE, &ctx->fp14.f.f_even);
+    Fault_PrintFReg(0x1E, y, 0xC, &ctx->fp12.f.f_even);
+    Fault_PrintFReg(0xA0, y, 0xE, &ctx->fp14.f.f_even);
     y += 9;
-    func_800AE2B8_unknown(0x1E, y, 0x10, &ctx->fp16.f.f_even);
-    func_800AE2B8_unknown(0xA0, y, 0x12, &ctx->fp18.f.f_even);
+    Fault_PrintFReg(0x1E, y, 0x10, &ctx->fp16.f.f_even);
+    Fault_PrintFReg(0xA0, y, 0x12, &ctx->fp18.f.f_even);
     y += 9;
-    func_800AE2B8_unknown(0x1E, y, 0x14, &ctx->fp20.f.f_even);
-    func_800AE2B8_unknown(0xA0, y, 0x16, &ctx->fp22.f.f_even);
+    Fault_PrintFReg(0x1E, y, 0x14, &ctx->fp20.f.f_even);
+    Fault_PrintFReg(0xA0, y, 0x16, &ctx->fp22.f.f_even);
     y += 9;
-    func_800AE2B8_unknown(0x1E, y, 0x18, &ctx->fp24.f.f_even);
-    func_800AE2B8_unknown(0xA0, y, 0x1A, &ctx->fp26.f.f_even);
+    Fault_PrintFReg(0x1E, y, 0x18, &ctx->fp24.f.f_even);
+    Fault_PrintFReg(0xA0, y, 0x1A, &ctx->fp26.f.f_even);
     y += 9;
-    func_800AE2B8_unknown(0x1E, y, 0x1C, &ctx->fp28.f.f_even);
-    func_800AE2B8_unknown(0xA0, y, 0x1E, &ctx->fp30.f.f_even);
+    Fault_PrintFReg(0x1E, y, 0x1C, &ctx->fp28.f.f_even);
+    Fault_PrintFReg(0xA0, y, 0x1E, &ctx->fp30.f.f_even);
 
     osWritebackDCacheAll();
 }
 
-void func_800AE998_unknown(OSThread* thread) {
+void Fault_LogThreadContext(OSThread* thread) {
     __OSThreadContext* ctx = &thread->context;
     s16 causeStrIdx = ((u32)thread->context.cause >> 2) & 0x1F;
 
@@ -402,36 +395,35 @@ void func_800AE998_unknown(OSThread* thread) {
     osSyncPrintf("S8:%08xH   RA:%08xH   LO:%08xH\n", (u32)ctx->s8, (u32)ctx->ra, (u32)ctx->lo);
     osSyncPrintf("\n");
 
-    func_800AE4C0_unknown((s32)ctx->fpcsr);
+    Fault_LogFPCSR((s32)ctx->fpcsr);
     osSyncPrintf("\n");
-    func_800AE35C_unknown(0, &ctx->fp0.f.f_even);
-    func_800AE35C_unknown(2, &ctx->fp2.f.f_even);
+    Fault_LogFReg(0, &ctx->fp0.f.f_even);
+    Fault_LogFReg(2, &ctx->fp2.f.f_even);
     osSyncPrintf("\n");
-    func_800AE35C_unknown(4, &ctx->fp4.f.f_even);
-    func_800AE35C_unknown(6, &ctx->fp6.f.f_even);
+    Fault_LogFReg(4, &ctx->fp4.f.f_even);
+    Fault_LogFReg(6, &ctx->fp6.f.f_even);
     osSyncPrintf("\n");
-    func_800AE35C_unknown(8, &ctx->fp8.f.f_even);
-    func_800AE35C_unknown(0xA, &ctx->fp10.f.f_even);
+    Fault_LogFReg(8, &ctx->fp8.f.f_even);
+    Fault_LogFReg(0xA, &ctx->fp10.f.f_even);
     osSyncPrintf("\n");
-    func_800AE35C_unknown(0xC, &ctx->fp12.f.f_even);
-    func_800AE35C_unknown(0xE, &ctx->fp14.f.f_even);
+    Fault_LogFReg(0xC, &ctx->fp12.f.f_even);
+    Fault_LogFReg(0xE, &ctx->fp14.f.f_even);
     osSyncPrintf("\n");
-    func_800AE35C_unknown(0x10, &ctx->fp16.f.f_even);
-    func_800AE35C_unknown(0x12, &ctx->fp18.f.f_even);
+    Fault_LogFReg(0x10, &ctx->fp16.f.f_even);
+    Fault_LogFReg(0x12, &ctx->fp18.f.f_even);
     osSyncPrintf("\n");
-    func_800AE35C_unknown(0x14, &ctx->fp20.f.f_even);
-    func_800AE35C_unknown(0x16, &ctx->fp22.f.f_even);
+    Fault_LogFReg(0x14, &ctx->fp20.f.f_even);
+    Fault_LogFReg(0x16, &ctx->fp22.f.f_even);
     osSyncPrintf("\n");
-    func_800AE35C_unknown(0x18, &ctx->fp24.f.f_even);
-    func_800AE35C_unknown(0x1A, &ctx->fp26.f.f_even);
+    Fault_LogFReg(0x18, &ctx->fp24.f.f_even);
+    Fault_LogFReg(0x1A, &ctx->fp26.f.f_even);
     osSyncPrintf("\n");
-    func_800AE35C_unknown(0x1C, &ctx->fp28.f.f_even);
-    func_800AE35C_unknown(0x1E, &ctx->fp30.f.f_even);
+    Fault_LogFReg(0x1C, &ctx->fp28.f.f_even);
+    Fault_LogFReg(0x1E, &ctx->fp30.f.f_even);
     osSyncPrintf("\n");
 }
 
-// Fault_FindFaultedThread
-OSThread* func_800AEC94_unknown(void) {
+OSThread* Fault_FindFaultedThread(void) {
     OSThread* thread = __osGetActiveQueue();
 
     // OS_PRIORITY_THREADTAIL indicates the end of the thread queue
@@ -445,10 +437,10 @@ OSThread* func_800AEC94_unknown(void) {
     return NULL;
 }
 
-void func_800AED1C_unknown(void);
+void Fault_WaitForButtonCombo(void);
 #ifdef NON_MATCHING
 
-void func_800AED1C_unknown(void) {
+void Fault_WaitForButtonCombo(void) {
     Input* inputs = sFaultInputs;
     u16 btnPress;
     u16 btnCur;
@@ -464,7 +456,7 @@ void func_800AED1C_unknown(void) {
     count = 0;
     while (x != 0xB) {
         if ((count % 30) == 0) {
-            func_800AE020_unknown();
+            Fault_DrawCornerRecYellow();
         }
         count++;
 
@@ -608,21 +600,21 @@ void func_800AED1C_unknown(void) {
 }
 
 #else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/func_800AED1C_unknown.s")
+#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_WaitForButtonCombo.s")
 #endif
 
 extern s32 D_80105A90_unknown; // Arena_failcnt
 
-void func_800AF0E0_unknown(void) {
+void func_800AF0E0(void) {
     s32 var_s0;
 
-    func_800ADDF0_unknown(0x16, 0x10, 0x114, 0xD0);
-    func_800AE170_unknown(0x28, 0x1E, "SegmentBaseAddress");
+    Fault_DrawRecBlack(0x16, 0x10, 0x114, 0xD0);
+    Fault_DrawText(0x28, 0x1E, "SegmentBaseAddress");
 
     for (var_s0 = 0; var_s0 < 0x10; var_s0++) {
-        func_800AE170_unknown(0x28, 0x28 + 8 * var_s0, "%2d:%08x", var_s0, gSegments[var_s0]);
+        Fault_DrawText(0x28, 0x28 + 8 * var_s0, "%2d:%08x", var_s0, gSegments[var_s0]);
     }
-    func_800AE170_unknown(0x28, 0xB4, "Arena_failcnt = %d", D_80105A90_unknown);
+    Fault_DrawText(0x28, 0xB4, "Arena_failcnt = %d", D_80105A90_unknown);
 }
 
 void func_800AF1C4_unknown(const char* title, void* memory, void* arg2) {
@@ -632,19 +624,19 @@ void func_800AF1C4_unknown(const char* title, void* memory, void* arg2) {
     u32* ptr;
 
     ptr = (u32*)((u32)memory & ~3);
-    func_800ADDF0_unknown(0x16, 0x10, 0x114, 0xD0);
+    Fault_DrawRecBlack(0x16, 0x10, 0x114, 0xD0);
     if (title != NULL) {
         effectiveTitle = title;
     } else {
         effectiveTitle = "PrintDump";
     }
-    func_800AE170_unknown(0x24, 0x12, "%s %08x", effectiveTitle, ptr);
+    Fault_DrawText(0x24, 0x12, "%s %08x", effectiveTitle, ptr);
     if ((u32)ptr >= 0x80000000) {
         if ((u32)ptr <= 0x80400000) {
             for (y = 28; y != 226; y += 9) {
-                func_800AE170_unknown(28, y, "%06x", ptr);
+                Fault_DrawText(28, y, "%06x", ptr);
                 for (x = 82; x < 290; x += 52) {
-                    func_800AE170_unknown(x, y, "%08x", *(ptr++));
+                    Fault_DrawText(x, y, "%08x", *(ptr++));
                 }
             }
         }
@@ -670,11 +662,11 @@ void func_800AF370_unknown(OSThread* arg0) {
 void func_800AF3DC_unknown(void) {
     s32 i;
 
-    func_800ADDF0_unknown(0x16, 0x10, 0x114, 0xD0);
-    func_800AE170_unknown(0x24, 0x12, "ROM DEBUG");
+    Fault_DrawRecBlack(0x16, 0x10, 0x114, 0xD0);
+    Fault_DrawText(0x24, 0x12, "ROM DEBUG");
 
     for (i = 0; i < 0x10; i++) {
-        func_800AE170_unknown(((i % 4) * 0x34) + 0x52, ((i / 4) * 9) + 0x1C, "%08x", B_80122570_unknown[i]);
+        Fault_DrawText(((i % 4) * 0x34) + 0x52, ((i / 4) * 9) + 0x1C, "%08x", B_80122570_unknown[i]);
     }
 }
 
@@ -751,10 +743,10 @@ void func_800AF720_unknown(void) {
     i = 0;
     while (client != NULL) {
         if (client->callback != NULL) {
-            func_800ADDF0_unknown(0x16, 0x10, 0x114, 0xD0);
-            func_800AE170_unknown(0x1E, 0x14, "CallBack (%d) %08x %08x %08x", i++, client, client->arg0, client->arg1);
+            Fault_DrawRecBlack(0x16, 0x10, 0x114, 0xD0);
+            Fault_DrawText(0x1E, 0x14, "CallBack (%d) %08x %08x %08x", i++, client, client->arg0, client->arg1);
             ((void (*)(void*, void*))client->callback)(client->arg0, client->arg1);
-            func_800ADCD8_unknown();
+            Fault_WaitInput();
         }
         client = client->next;
     }
@@ -782,32 +774,32 @@ void func_800AF7F0_unknown(void* arg0) {
             var_s0 = __osGetCurrFaultedThread();
             osSyncPrintf("__osGetCurrFaultedThread()=%08x\n", var_s0);
             if (var_s0 == NULL) {
-                var_s0 = func_800AEC94_unknown();
+                var_s0 = Fault_FindFaultedThread();
                 osSyncPrintf("FindFaultedThread()=%08x\n", var_s0);
             }
         } while (var_s0 == NULL);
         sFaultFaultedThread = var_s0;
-        func_800AE998_unknown(var_s0);
+        Fault_LogThreadContext(var_s0);
         osSyncPrintf("%d %s %d:%s = %d\n", osGetThreadId(NULL), "fault.c", 0x5AE, "fault_display_enable",
                      sFaultDisplayEnable);
         while (!sFaultDisplayEnable) {
             Fault_SleepImpl(0x3E8U);
         }
         Fault_SleepImpl(0x1F4U);
-        func_800ADFE4_unknown();
-        func_800AED1C_unknown();
+        Fault_DrawCornerRecRed();
+        Fault_WaitForButtonCombo();
         do {
             func_800AF558_unknown();
-            func_800AE558_unknown(var_s0);
-            func_800ADCD8_unknown();
-            func_800AF0E0_unknown();
-            func_800ADCD8_unknown();
+            Fault_PrintThreadContext(var_s0);
+            Fault_WaitInput();
+            func_800AF0E0();
+            Fault_WaitInput();
             func_800AF3DC_unknown();
-            func_800ADCD8_unknown();
+            Fault_WaitInput();
             func_800AF370_unknown(var_s0);
-            func_800ADCD8_unknown();
+            Fault_WaitInput();
             func_800AF304_unknown(var_s0);
-            func_800ADCD8_unknown();
+            Fault_WaitInput();
             func_800AF720_unknown();
         } while (!sFaultExit);
         while (!sFaultExit) {}
@@ -842,14 +834,14 @@ void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
         Fault_SleepImpl(1000);
     }
     Fault_SleepImpl(500);
-    func_800AED1C_unknown();
+    Fault_WaitForButtonCombo();
     do {
         func_800AF558_unknown();
-        func_800ADDF0_unknown(0x16, 0x10, 0x114, 0x22);
-        func_800AE170_unknown(0x18, 0x12, "HungUp on Thread %d", osGetThreadId(NULL));
-        func_800AE170_unknown(0x18, 0x1C, "%s", exp1 != NULL ? exp1 : "(NULL)");
-        func_800AE170_unknown(0x18, 0x26, "%s", exp2 != NULL ? exp2 : "(NULL)");
-        func_800ADCD8_unknown();
+        Fault_DrawRecBlack(0x16, 0x10, 0x114, 0x22);
+        Fault_DrawText(0x18, 0x12, "HungUp on Thread %d", osGetThreadId(NULL));
+        Fault_DrawText(0x18, 0x1C, "%s", exp1 != NULL ? exp1 : "(NULL)");
+        Fault_DrawText(0x18, 0x26, "%s", exp2 != NULL ? exp2 : "(NULL)");
+        Fault_WaitInput();
         func_800AF720_unknown();
     } while (true);
 }
