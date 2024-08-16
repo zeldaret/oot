@@ -69,6 +69,7 @@ s32 FaultDrawer_VPrintf(const char* fmt, va_list args);
 s32 FaultDrawer_Printf(const char* fmt, ...);
 void FaultDrawer_DrawText(s32 x, s32 y, const char* fmt, ...);
 
+#if PLATFORM_GC
 typedef struct FaultMgr {
     /* 0x000 */ OSThread thread;
     /* 0x1B0 */ char unk_1B0[0x600]; // probably an unused internal thread stack for `Fault_ClientRunTask`/`clientThreadSp`
@@ -89,5 +90,6 @@ typedef struct FaultMgr {
 } FaultMgr; // size = 0x850
 
 extern FaultMgr gFaultMgr;
+#endif
 
 #endif

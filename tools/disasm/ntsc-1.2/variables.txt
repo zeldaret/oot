@@ -12,3 +12,6 @@ gSaveContext = 0x8011AC80; // size:0x1428 type:SaveContext
 gRegEditor = 0x8011C0B0; // size:0x4 type:RegEditor*
 gSegments = 0x80121508; // size:0x40
 _string_n64dd_c = 0x801D9680; // size:0x1 type:char
+gPadMgr = 0x8011DBD0; // size:0x468 type:PadMgr
+gFaultMgr = 0x80121B60; // size:0x5D8 type:FaultMgr_v1
+sFaultInputs = 0x80121B00; // size:0x60 type:Input[4]

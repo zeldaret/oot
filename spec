@@ -492,9 +492,6 @@ beginseg
 #endif
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/code/fault_v1.o"
-    include "$(BUILD_DIR)/src/code/fault_v1.data.o"
-    //include "$(BUILD_DIR)/src/code/fault_v1.rodata.o" // rodata partially defined by functions asm. missing rodata syms are in undefined_syms.txt (for now)
-    include "$(BUILD_DIR)/src/code/fault_v1.bss.o"
 #else
     include "$(BUILD_DIR)/src/code/fault_v2.o"
     include "$(BUILD_DIR)/src/code/fault_drawer.o"

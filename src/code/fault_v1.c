@@ -2,36 +2,119 @@
 #include "terminal.h"
 #include "alloca.h"
 
+typedef struct FaultMgr_v1 {
+    OSThread thread;
+    char unk1B0[0x400];
+    OSMesgQueue B_80122110_unknown;
+    OSMesg msgBuf;
+    s32 unk5CC_fbPtr;
+    u16 unk5D0_fbWidth; // "B_80122130_unknown"
+    u16 unk5D2_fbHeight;
+    FaultClient* B_80122134_unknown;
+} FaultMgr_v1; // size = 0x5D8
+
+struct FaultCursorCoords {
+    s32 unk0; // x
+    s32 unk4; // y
+};
+
+// D_800FF560_unknown TODO incbin
+u32 sFaultDrawerFont[] = {
+    0x00DFFD00, 0x0AEEFFA0, 0x0DF22DD0, 0x06611DC0, 0x01122DD0, 0x06719900, 0x011EED10, 0x077EF700, 0x01562990,
+    0x05589760, 0x0DD22990, 0x05599770, 0x04DFFD40, 0x026EF700, 0x00000000, 0x00000000, 0x08BFFB00, 0x0EFFFFC0,
+    0x0BF00FB0, 0x0FF00330, 0x0FF00FF0, 0x0FF00220, 0x0CFBBF60, 0x0FFCCE20, 0x0DD44FF0, 0x0FF00220, 0x0FF00FF0,
+    0x0FF00330, 0x0CFBBF40, 0x0EF77740, 0x00000000, 0x00000000, 0x00DFFD00, 0x0AEEFFA0, 0x0DF22DD0, 0x06611DC0,
+    0x01122DD0, 0x06719900, 0x011EED10, 0x077EF700, 0x01562990, 0x05589760, 0x0DD22990, 0x05599770, 0x04DFFD40,
+    0x026EF700, 0x00000000, 0x00000000, 0x08BFFB00, 0x000DE000, 0x0BF00FB0, 0x005DE600, 0x0FF00FF0, 0x055CC660,
+    0x0CFBBF60, 0x773FF377, 0x0DD44FF0, 0xBB3FF3BB, 0x0FF00FF0, 0x099CCAA0, 0x0CFBBF40, 0x009DEA00, 0x00000000,
+    0x000DE000, 0x04C22C40, 0x028D5020, 0x0CCAACC0, 0x21F91710, 0x04C22C40, 0x12493400, 0x00820800, 0x01975110,
+    0x088A8880, 0x04615241, 0x00800800, 0x43117530, 0x00A20800, 0x60055600, 0x00000000, 0x04400040, 0x00221100,
+    0x00000080, 0x000FB000, 0x00000880, 0x040DA400, 0x00008800, 0x08CDE880, 0x022AA220, 0x08CDE880, 0x02AA2220,
+    0x040DA400, 0x0CD10000, 0x000FB000, 0x8C510000, 0x00221100, 0x81100000, 0x00DFFD00, 0x0AEEFFA0, 0x0DF22DD0,
+    0x06611DC0, 0x01122DD0, 0x06719900, 0x011EED10, 0x077EF700, 0x01562990, 0x05589760, 0x0DD22990, 0x05599770,
+    0x04DFFD40, 0x026EF700, 0x00000000, 0x00000000, 0x00333300, 0x04489980, 0x033CC330, 0x00CD1088, 0x033CC330,
+    0x02BF62A8, 0x00333320, 0x01104C80, 0x01100330, 0x0015C800, 0x033CC330, 0x02673220, 0x003FF300, 0x04409900,
+    0x00880000, 0x00000000, 0x05DFFD10, 0x07FFFF60, 0x1CE00EC1, 0x0FF00990, 0x1EE11661, 0x0FF00110, 0x1EF45621,
+    0x0FF66710, 0x1EF23661, 0x0FF08990, 0x1EF10FE1, 0x0FF00990, 0x16ECCE21, 0x07FBBB20, 0x01111110, 0x00000000,
+    0x09B66FD0, 0x27D88E60, 0x0992ED10, 0x2FF02EE0, 0x099AE510, 0x2FF62EE0, 0x099B7510, 0x2FD64EE0, 0x0DDAE510,
+    0x2FD04EE0, 0x0DD2ED10, 0x2FD00EE0, 0x09F66F90, 0x27D99F70, 0x00000000, 0x00000000, 0x07FFFF00, 0x8F711FF0,
+    0x2FD00FF0, 0x8F711FF0, 0x2FD00770, 0x8E611EE0, 0x27DDDF60, 0x8E691EE0, 0x27764AA0, 0x8EE99EE0, 0x2FD06E80,
+    0x8AE7FEA0, 0x07FA8E60, 0x88277A80, 0x00000000, 0x00000000, 0x077CCFF0, 0x13266011, 0x077CCFF0, 0x03766510,
+    0x0239D720, 0x04533540, 0x002FF200, 0x01133110, 0x005FB100, 0x00033000, 0x055EE550, 0x01133110, 0x055EEDD0,
+    0x02233000, 0x00088880, 0x8AABB888, 0x00001100, 0x00044510, 0x04623320, 0x00440110, 0x04C89AA0, 0x00EEAB10,
+    0x0CE66720, 0x0EF55FB0, 0x0EE00660, 0x0BF62B90, 0x0EE00660, 0x03FC8990, 0x04EEEEA0, 0x00773BB0, 0x00000000,
+    0x08888800, 0x09900000, 0x00111000, 0x09922440, 0x00011000, 0x09908800, 0x26EFDE20, 0x099BB540, 0x2EC33CE2,
+    0x0D9A2550, 0x2EC33CE2, 0x0DDAA550, 0x2EC33CE2, 0x09D6ED10, 0x26CBBC62, 0x00000000, 0x00000000, 0x00000000,
+    0x00000000, 0x00000000, 0x00011000, 0x05FBFFE0, 0x8E6116E8, 0x0FF40330, 0x8F7117F8, 0x07FC8B30, 0x8E6996E8,
+    0x05733BA0, 0x8A6DD6A8, 0x0DD88A20, 0x08A779B2, 0x01100220, 0x00000000, 0x00000080, 0x8A011000, 0x00000800,
+    0x80A11000, 0x07744F70, 0x80A99000, 0x0231DF20, 0x84E60004, 0x0027DA20, 0xC8AA4C40, 0x00573B20, 0x00A11800,
+    0x05546F50, 0x00A99800, 0x02222080, 0x02001888,
+};
+
+// D_800FF960_unknown
+const char* sExceptionNames[] = {
+    "Interrupt",
+    "TLB modification",
+    "TLB exception on load",
+    "TLB exception on store",
+    "Address error on load",
+    "Address error on store",
+    "Bus error on inst.",
+    "Bus error on data",
+    "System call exception",
+    "Breakpoint exception",
+    "Reserved instruction",
+    "Coprocessor unusable",
+    "Arithmetic overflow",
+    "Trap exception",
+    "Virtual coherency on inst.",
+    "Floating point exception",
+    "Watchpoint exception",
+    "Virtual coherency on data",
+};
+
+// D_800FF9A8_unknown
+const char* sFpExceptionNames[] = {
+    "Unimplemented operation", "Invalid operation", "Division by zero", "Overflow", "Underflow", "Inexact operation",
+};
+
+u16 sFaultFontColor = GPACK_RGBA5551(255, 255, 255, 1);
+
+Input sFaultInputs[MAXCONTROLLERS];
+
+FaultMgr_v1 gFaultMgr;
+
+STACK(sFaultStack, 0x400);  // B_80122138_unknown
+StackEntry sFaultStackInfo; // B_80122538_unknown
+struct FaultCursorCoords B_80122558_unknown;
+
+volatile s32 sFaultExit; // fault_exit
+volatile s32 sFaultMsgId; // fault_msg_id
+volatile s32 sFaultDisplayEnable; // fault_display_enable
+OSThread* sFaultFaultedThread;    // cur faulted thread
+s32 B_80122570_unknown[0x10];
+
 void Fault_SleepImpl(u32 ms) {
     Sleep_Msec(ms);
 }
 
-extern Input B_80121B00_unknown;
-
+void func_800ADC5C_unknown(void);
 #ifdef NON_MATCHING
 void func_800ADC5C_unknown(void) {
     do {
         Fault_SleepImpl(0x10);
-        PadMgr_RequestPadData(&gPadMgr, &B_80121B00_unknown, 0);
-    } while (!CHECK_BTN_ANY(B_80121B00_unknown.press.button,
+        PadMgr_RequestPadData(&gPadMgr, &sFaultInputs, 0);
+    } while (!CHECK_BTN_ANY(sFaultInputs.press.button,
                             (BTN_A | BTN_B | BTN_START | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP)));
 }
 
 #else
-void func_800ADC5C_unknown(void);
 #pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/func_800ADC5C_unknown.s")
 #endif
 
 void func_800ADCD8_unknown(void) {
     func_800ADC5C_unknown();
 }
-
-extern struct {
-    char unk0[0x5CC];
-    s32 unk5CC_fbPtr;
-    u16 unk5D0_fbWidth; // "B_80122130_unknown"
-    FaultClient* B_80122134_unknown;
-} B_80121B60_unknown;
 
 // Fault_DrawRec
 void func_800ADD14_unknown(s32 x, s32 y, s32 w, s32 h, u16 color) {
@@ -40,7 +123,7 @@ void func_800ADD14_unknown(s32 x, s32 y, s32 w, s32 h, u16 color) {
     s32 j;
     u16* fbPtr;
 
-    fbPtr = (void*)((B_80121B60_unknown.unk5D0_fbWidth * y * 2) + B_80121B60_unknown.unk5CC_fbPtr + (x * 2));
+    fbPtr = (void*)((gFaultMgr.unk5D0_fbWidth * y * 2) + gFaultMgr.unk5CC_fbPtr + (x * 2));
 
     for (i = 0; i < h; i++) {
         j = 0;
@@ -48,7 +131,7 @@ void func_800ADD14_unknown(s32 x, s32 y, s32 w, s32 h, u16 color) {
             *fbPtr = color;
             fbPtr++;
         }
-        fbPtr += (B_80121B60_unknown.unk5D0_fbWidth - w);
+        fbPtr += (gFaultMgr.unk5D0_fbWidth - w);
     }
     osWritebackDCacheAll();
 }
@@ -57,20 +140,17 @@ void func_800ADDF0_unknown(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_800ADD14_unknown(arg0, arg1, arg2, arg3, 1);
 }
 
-extern s32 D_800FF560_unknown[];
-extern u16 D_800FF9C0_unknown;
-
 // Fault_DrawChar
 void func_800ADE30_unknown(s32 x, s32 y, char c) {
-    s32* dataPtr;
+    u32* dataPtr;
     s32 shift = c % 4;
     s32 i;
     s32 j;
     u16* fbPtr;
     u32 data;
 
-    dataPtr = D_800FF560_unknown + ((c / 8 * 0x10) + ((c & 4) >> 2));
-    fbPtr = (void*)((B_80121B60_unknown.unk5D0_fbWidth * y * 2) + B_80121B60_unknown.unk5CC_fbPtr + (x * 2));
+    dataPtr = (u32*)sFaultDrawerFont + ((c / 8 * 0x10) + ((c & 4) >> 2));
+    fbPtr = (void*)((gFaultMgr.unk5D0_fbWidth * y * 2) + gFaultMgr.unk5CC_fbPtr + (x * 2));
 
     for (i = 0; i < 8; i++) {
         u32 mask;
@@ -79,13 +159,13 @@ void func_800ADE30_unknown(s32 x, s32 y, char c) {
         data = *dataPtr;
         for (j = 0; j < 8; j++) {
             if (mask & data) {
-                *fbPtr = D_800FF9C0_unknown;
+                *fbPtr = sFaultFontColor;
             }
             fbPtr++;
             mask >>= 4;
         }
         dataPtr += 2;
-        fbPtr += B_80121B60_unknown.unk5D0_fbWidth - 8;
+        fbPtr += gFaultMgr.unk5D0_fbWidth - 8;
     }
     osWritebackDCacheAll();
 }
@@ -108,11 +188,6 @@ void func_800AE020_unknown(void) {
 
 void func_800AE05C_unknown(void) {
 }
-
-struct FaultCursorCoords {
-    s32 unk0; // x
-    s32 unk4; // y
-};
 
 void* func_800AE064_unknown(void* arg, const char* str, size_t len) {
     struct FaultCursorCoords* coords = arg;
@@ -149,8 +224,6 @@ void func_800AE170_unknown(s32 x, s32 y, const char* fmt, ...) {
 
     va_end(args);
 }
-
-extern struct FaultCursorCoords B_80122558_unknown; // type?
 
 void func_800AE1E0_unknown(s32 arg0, s32 arg1) {
     B_80122558_unknown.unk0 = arg0;
@@ -195,8 +268,6 @@ void func_800AE35C_unknown(s32 idx, f32* value) {
     }
 }
 
-extern const char* D_800FF9A8_unknown[]; // sFpExceptionNames
-
 // Fault_PrintFPCSR
 void func_800AE408_unknown(s32 x, s32 y, s32 value) {
     s32 i;
@@ -206,7 +277,7 @@ void func_800AE408_unknown(s32 x, s32 y, s32 value) {
 
     for (i = 0; i < 6; i++) {
         if (value & mask) {
-            func_800AE170_unknown(x + 100, y, "(%s)", D_800FF9A8_unknown[i]);
+            func_800AE170_unknown(x + 100, y, "(%s)", sFpExceptionNames[i]);
             break;
         }
 
@@ -223,7 +294,7 @@ void func_800AE4C0_unknown(s32 value) {
 
     for (i = 0; i < 6; i++) {
         if (value & mask) {
-            osSyncPrintf("(%s)\n", D_800FF9A8_unknown[i]);
+            osSyncPrintf("(%s)\n", sFpExceptionNames[i]);
             break;
         }
 
@@ -231,7 +302,6 @@ void func_800AE4C0_unknown(s32 value) {
     }
 }
 
-extern const char* D_800FF960_unknown[]; // sExceptionNames
 // Fault_PrintThreadContext
 void func_800AE558_unknown(OSThread* thread) {
     __OSThreadContext* ctx = &thread->context;
@@ -248,7 +318,7 @@ void func_800AE558_unknown(OSThread* thread) {
     func_800ADDF0_unknown(0x16, 0x10, 0x114, 0x18);
 
     y = 20;
-    func_800AE170_unknown(0x1E, y, "THREAD:%d (%d:%s)", thread->id, causeStrIdx, D_800FF960_unknown[causeStrIdx]);
+    func_800AE170_unknown(0x1E, y, "THREAD:%d (%d:%s)", thread->id, causeStrIdx, sExceptionNames[causeStrIdx]);
 
     y += 9;
     func_800AE170_unknown(0x1E, y, "PC:%08xH   SR:%08xH   VA:%08xH", ctx->pc, ctx->sr, ctx->badvaddr);
@@ -318,7 +388,7 @@ void func_800AE998_unknown(OSThread* thread) {
     }
 
     osSyncPrintf("\n");
-    osSyncPrintf("THREAD ID:%d (%d:%s)\n", thread->id, causeStrIdx, D_800FF960_unknown[causeStrIdx]);
+    osSyncPrintf("THREAD ID:%d (%d:%s)\n", thread->id, causeStrIdx, sExceptionNames[causeStrIdx]);
     osSyncPrintf("PC:%08xH   SR:%08xH   VA:%08xH\n", ctx->pc, ctx->sr, ctx->badvaddr);
     osSyncPrintf("AT:%08xH   V0:%08xH   V1:%08xH\n", (u32)ctx->at, (u32)ctx->v0, (u32)ctx->v1);
     osSyncPrintf("A0:%08xH   A1:%08xH   A2:%08xH\n", (u32)ctx->a0, (u32)ctx->a1, (u32)ctx->a2);
@@ -375,10 +445,11 @@ OSThread* func_800AEC94_unknown(void) {
     return NULL;
 }
 
+void func_800AED1C_unknown(void);
 #ifdef NON_MATCHING
 
 void func_800AED1C_unknown(void) {
-    Input* input = &B_80121B00_unknown;
+    Input* inputs = sFaultInputs;
     u16 btnPress;
     u16 btnCur;
     OSTime comboStartTime;
@@ -398,9 +469,9 @@ void func_800AED1C_unknown(void) {
         count++;
 
         Fault_SleepImpl(1000 / 60);
-        PadMgr_RequestPadData(&gPadMgr, input, 0);
-        btnCur = input->cur.button;
-        btnPress = input->press.button;
+        PadMgr_RequestPadData(&gPadMgr, inputs, 0);
+        btnCur = inputs[0].cur.button;
+        btnPress = inputs[0].press.button;
         if ((btnCur == 0) && (y == 1)) {
             y = 0;
             osSyncPrintf("x=%d y=%d\n", x, y);
@@ -427,8 +498,8 @@ void func_800AED1C_unknown(void) {
                     break;
 
                 case 0x2:
-                    x = 3;
                     if (btnPress == BTN_CDOWN) {
+                        x = 3;
                         y = 1;
                     } else {
                         x = 0;
@@ -444,8 +515,8 @@ void func_800AED1C_unknown(void) {
                     break;
 
                 case 0x4:
-                    x = 5;
                     if (btnPress == BTN_DDOWN) {
+                        x = 5;
                         y = 1;
                     } else {
                         x = 0;
@@ -461,8 +532,8 @@ void func_800AED1C_unknown(void) {
                     break;
 
                 case 0x6:
-                    x = 7;
                     if (btnPress == BTN_CLEFT) {
+                        x = 7;
                         y = 1;
                     } else {
                         x = 0;
@@ -478,8 +549,8 @@ void func_800AED1C_unknown(void) {
                     break;
 
                 case 0x8:
-                    x = 9;
                     if (btnPress == BTN_DRIGHT) {
+                        x = 9;
                         y = 1;
                     } else {
                         x = 0;
@@ -540,7 +611,7 @@ void func_800AED1C_unknown(void) {
 #pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/func_800AED1C_unknown.s")
 #endif
 
-extern s32 D_80105A90_unknown;
+extern s32 D_80105A90_unknown; // Arena_failcnt
 
 void func_800AF0E0_unknown(void) {
     s32 var_s0;
@@ -596,8 +667,6 @@ void func_800AF370_unknown(OSThread* arg0) {
     }
 }
 
-extern s32 B_80122570_unknown[];
-
 void func_800AF3DC_unknown(void) {
     s32 i;
 
@@ -614,18 +683,18 @@ void func_800AF4DC_unknown(OSThread* thread) {
     thread->context.fpcsr = 0;
     thread->context.pc += 4;
     *(s32*)thread->context.pc = 0xD;
-    osWritebackDCache(thread->context.pc, 4);
-    osInvalICache(thread->context.pc, 4);
+    osWritebackDCache((void*)thread->context.pc, 4);
+    osInvalICache((void*)thread->context.pc, 4);
     osStartThread(thread);
 }
 
 void func_800AF558_unknown(void) {
     osViBlack(false);
     if (osViGetCurrentFramebuffer() >= (void*)0x80100000) {
-        B_80121B60_unknown.unk5CC_fbPtr = osViGetCurrentFramebuffer();
+        gFaultMgr.unk5CC_fbPtr = (s32)osViGetCurrentFramebuffer();
     } else {
-        B_80121B60_unknown.unk5CC_fbPtr = (void*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
-        osViSwapBuffer((void*)B_80121B60_unknown.unk5CC_fbPtr);
+        gFaultMgr.unk5CC_fbPtr = (s32)(void*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
+        osViSwapBuffer((void*)gFaultMgr.unk5CC_fbPtr);
     }
 }
 
@@ -639,8 +708,8 @@ void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1
     client->callback = callback;
     client->arg0 = arg0;
     client->arg1 = arg1;
-    client->next = B_80121B60_unknown.B_80122134_unknown;
-    B_80121B60_unknown.B_80122134_unknown = client;
+    client->next = gFaultMgr.B_80122134_unknown;
+    gFaultMgr.B_80122134_unknown = client;
 
     osSetIntMask(savedIntMask);
 }
@@ -649,44 +718,145 @@ void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1
 #pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_AddClient.s")
 #endif
 
-#ifdef NON_MATCHING
-//
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_RemoveClient.s")
-#endif
+void Fault_RemoveClient(FaultClient* client) {
+    u32 temp_a0;
+    FaultClient* var_v1;
+    FaultClient* var_a1;
 
-#ifdef NON_MATCHING
-//
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/func_800AF720_unknown.s")
-#endif
+    var_v1 = gFaultMgr.B_80122134_unknown;
+    var_a1 = NULL;
+    temp_a0 = osSetIntMask(1);
+    while (var_v1 != NULL) {
+        if (var_v1 == client) {
+            if (var_a1 != NULL) {
+                var_a1->next = client->next;
+            } else {
+                gFaultMgr.B_80122134_unknown = client->next;
+            }
+            break;
+        } else {
+            var_a1 = var_v1;
+            var_v1 = var_v1->next;
+        }
+    }
+    osSetIntMask(temp_a0);
+}
 
-#ifdef NON_MATCHING
-//
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/func_800AF7F0_unknown.s")
-#endif
+void func_800AF720_unknown(void) {
+    s32 temp_a3;
+    s32 i;
+    FaultClient* client;
 
-#ifdef NON_MATCHING
-//
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_SetFrameBuffer.s")
-#endif
+    client = gFaultMgr.B_80122134_unknown;
+    i = 0;
+    while (client != NULL) {
+        if (client->callback != NULL) {
+            func_800ADDF0_unknown(0x16, 0x10, 0x114, 0xD0);
+            func_800AE170_unknown(0x1E, 0x14, "CallBack (%d) %08x %08x %08x", i++, client, client->arg0, client->arg1);
+            ((void (*)(void*, void*))client->callback)(client->arg0, client->arg1);
+            func_800ADCD8_unknown();
+        }
+        client = client->next;
+    }
+}
 
-#ifdef NON_MATCHING
-//
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_Init.s")
-#endif
+void func_800AF7F0_unknown(void* arg0) {
+    OSMesg sp54;
+    OSThread* var_s0;
 
-#ifdef NON_MATCHING
-//
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_AddHungupAndCrashImpl.s")
-#endif
+    osSetEventMesg(0xAU, &gFaultMgr.B_80122110_unknown, (OSMesg)1);
+    osSetEventMesg(0xCU, &gFaultMgr.B_80122110_unknown, (OSMesg)2);
+    while (true) {
+        do {
+            osRecvMesg(&gFaultMgr.B_80122110_unknown, &sp54, 1);
+            if (sp54 == (OSMesg)1) {
+                sFaultMsgId = 1;
+                osSyncPrintf("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n");
+            } else if (sp54 == (OSMesg)2) {
+                sFaultMsgId = 2;
+                osSyncPrintf("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n");
+            } else {
+                sFaultMsgId = 3;
+                osSyncPrintf("フォルトマネージャ:不明なメッセージを受信しました\n");
+            }
+            var_s0 = __osGetCurrFaultedThread();
+            osSyncPrintf("__osGetCurrFaultedThread()=%08x\n", var_s0);
+            if (var_s0 == NULL) {
+                var_s0 = func_800AEC94_unknown();
+                osSyncPrintf("FindFaultedThread()=%08x\n", var_s0);
+            }
+        } while (var_s0 == NULL);
+        sFaultFaultedThread = var_s0;
+        func_800AE998_unknown(var_s0);
+        osSyncPrintf("%d %s %d:%s = %d\n", osGetThreadId(NULL), "fault.c", 0x5AE, "fault_display_enable",
+                     sFaultDisplayEnable);
+        while (!sFaultDisplayEnable) {
+            Fault_SleepImpl(0x3E8U);
+        }
+        Fault_SleepImpl(0x1F4U);
+        func_800ADFE4_unknown();
+        func_800AED1C_unknown();
+        do {
+            func_800AF558_unknown();
+            func_800AE558_unknown(var_s0);
+            func_800ADCD8_unknown();
+            func_800AF0E0_unknown();
+            func_800ADCD8_unknown();
+            func_800AF3DC_unknown();
+            func_800ADCD8_unknown();
+            func_800AF370_unknown(var_s0);
+            func_800ADCD8_unknown();
+            func_800AF304_unknown(var_s0);
+            func_800ADCD8_unknown();
+            func_800AF720_unknown();
+        } while (!sFaultExit);
+        while (!sFaultExit) {}
+        func_800AF4DC_unknown(var_s0);
+    }
+}
 
-#ifdef NON_MATCHING
-//
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_AddHungupAndCrash.s")
-#endif
+void Fault_SetFrameBuffer(void* fb, u16 w, u16 h) {
+    gFaultMgr.unk5CC_fbPtr = (s32)fb;
+    gFaultMgr.unk5D0_fbWidth = w;
+    gFaultMgr.unk5D2_fbHeight = h;
+}
+
+void Fault_Init(void) {
+    sFaultDisplayEnable = 1;
+    gFaultMgr.unk5CC_fbPtr = (osMemSize | 0x80000000) + 0xFFFDA800;
+    gFaultMgr.unk5D0_fbWidth = 0x140;
+    gFaultMgr.unk5D2_fbHeight = 0x10;
+    gFaultMgr.B_80122134_unknown = 0;
+    osCreateMesgQueue(&gFaultMgr.B_80122110_unknown, &gFaultMgr.msgBuf, 1);
+    StackCheck_Init(&sFaultStackInfo, sFaultStack, STACK_TOP(sFaultStack), 0U, 0x100, "fault");
+    osCreateThread(&gFaultMgr.thread, 2, func_800AF7F0_unknown, NULL, STACK_TOP(sFaultStack), 0x7F);
+    osStartThread(&gFaultMgr.thread);
+}
+
+void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
+    sFaultMsgId = 4;
+    osSyncPrintf("HungUp on Thread %d", osGetThreadId(NULL));
+    osSyncPrintf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
+    osSyncPrintf("%s\n", exp2 != NULL ? exp2 : "(NULL)");
+    while (sFaultDisplayEnable == 0) {
+        Fault_SleepImpl(1000);
+    }
+    Fault_SleepImpl(500);
+    func_800AED1C_unknown();
+    do {
+        func_800AF558_unknown();
+        func_800ADDF0_unknown(0x16, 0x10, 0x114, 0x22);
+        func_800AE170_unknown(0x18, 0x12, "HungUp on Thread %d", osGetThreadId(NULL));
+        func_800AE170_unknown(0x18, 0x1C, "%s", exp1 != NULL ? exp1 : "(NULL)");
+        func_800AE170_unknown(0x18, 0x26, "%s", exp2 != NULL ? exp2 : "(NULL)");
+        func_800ADCD8_unknown();
+        func_800AF720_unknown();
+    } while (true);
+}
+
+void Fault_AddHungupAndCrash(const char* file, int line) {
+    char sp18[256];
+
+    sprintf(sp18, "HungUp %s:%d", file, line);
+    Fault_AddHungupAndCrashImpl(sp18, NULL);
+}
