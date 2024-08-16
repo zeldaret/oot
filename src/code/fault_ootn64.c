@@ -431,25 +431,25 @@ OSThread* Fault_FindFaultedThread(void) {
     return NULL;
 }
 
-void Fault_WaitForButtonCombo(void);
-#ifdef NON_MATCHING
-// https://decomp.me/scratch/Yc86d
-
 void Fault_WaitForButtonCombo(void) {
     Input* inputs = sFaultInputs;
-    u16 btnPress;
-    u16 btnCur;
+    s32 btnPress;
+    s32 btnCur;
     OSTime comboStartTime;
     s32 x;
     s32 y;
     s32 count;
+    s32 pad[4];
 
-    osSyncPrintf("\x1b[37mKeyWaitB (ＬＲＺ \x1b[37m上\x1b[33m下 \x1b[33m上\x1b[37m下 \x1b[37m左\x1b[33m左 "
-                 "\x1b[33m右\x1b[37m右 \x1b[32mＢ\x1b[34mＡ\x1b[31mSTART\x1b[37m)\x1b[m\n");
+    osSyncPrintf(
+        VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
+            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
+                                                                                                                                                     "\n");
     x = 0;
     y = 0;
     count = 0;
     while (x != 0xB) {
+        if ((count % 30) == 1) {}
         if ((count % 30) == 0) {
             Fault_DrawCornerRecYellow();
         }
@@ -593,10 +593,6 @@ void Fault_WaitForButtonCombo(void) {
         }
     }
 }
-
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_ootn64/Fault_WaitForButtonCombo.s")
-#endif
 
 extern s32 D_80105A90_unknown; // Arena_failcnt
 
