@@ -83,13 +83,13 @@ FaultMgr gFaultMgr;
 
 STACK(sFaultStack, 0x400);
 StackEntry sFaultStackInfo;
-struct FaultCursorCoords B_80122558;
+struct FaultCursorCoords sFaultCursorPos;
 
 vs32 sFaultExit;
 vs32 gFaultMsgId;
 vs32 sFaultDisplayEnable;
 OSThread* sFaultFaultedThread;
-s32 B_80122570_unknown[0x10];
+s32 B_80122570[0x10];
 
 void Fault_SleepImpl(u32 ms) {
     Sleep_Msec(ms);
@@ -223,21 +223,21 @@ void Fault_DrawText(s32 x, s32 y, const char* fmt, ...) {
 }
 
 void Fault_SetCursor(s32 x, s32 y) {
-    B_80122558.x = x;
-    B_80122558.y = y;
+    sFaultCursorPos.x = x;
+    sFaultCursorPos.y = y;
 }
 
 void func_800AE1F8(void) {
-    Fault_DrawRecBlack(0x16, 0x10, 0x114, 0xD0);
-    B_80122558.x = 0x16;
-    B_80122558.y = 0x10;
+    Fault_DrawRecBlack(22, 16, 276, 208);
+    sFaultCursorPos.x = 22;
+    sFaultCursorPos.y = 16;
 }
 
 void Fault_Printf(const char* fmt, ...) {
     va_list args;
 
     va_start(args, fmt);
-    _Printf(Fault_PrintCallbackDraw, &B_80122558, fmt, args);
+    _Printf(Fault_PrintCallbackDraw, &sFaultCursorPos, fmt, args);
     va_end(args);
 }
 
@@ -300,70 +300,70 @@ void Fault_PrintThreadContext(OSThread* thread) {
     s32 y;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
 
-    if (causeStrIdx == 0x17) {
-        causeStrIdx = 0x10;
+    if (causeStrIdx == 23) {
+        causeStrIdx = 16;
     }
-    if (causeStrIdx == 0x1F) {
-        causeStrIdx = 0x11;
+    if (causeStrIdx == 31) {
+        causeStrIdx = 17;
     }
 
-    Fault_DrawRecBlack(0x16, 0x10, 0x114, 0x18);
+    Fault_DrawRecBlack(22, 16, 276, 24);
 
     y = 20;
-    Fault_DrawText(0x1E, y, "THREAD:%d (%d:%s)", thread->id, causeStrIdx, sExceptionNames[causeStrIdx]);
+    Fault_DrawText(30, y, "THREAD:%d (%d:%s)", thread->id, causeStrIdx, sExceptionNames[causeStrIdx]);
 
     y += 9;
-    Fault_DrawText(0x1E, y, "PC:%08xH   SR:%08xH   VA:%08xH", ctx->pc, ctx->sr, ctx->badvaddr);
-
-    y += 13;
-    Fault_DrawRecBlack(0x16, 0x28, 0x114, 0xB8);
-    Fault_DrawText(0x1E, y, "AT:%08xH   V0:%08xH   V1:%08xH", (u32)ctx->at, (u32)ctx->v0, (u32)ctx->v1);
-    y += 9;
-    Fault_DrawText(0x1E, y, "A0:%08xH   A1:%08xH   A2:%08xH", (u32)ctx->a0, (u32)ctx->a1, (u32)ctx->a2);
-    y += 9;
-    Fault_DrawText(0x1E, y, "A3:%08xH   T0:%08xH   T1:%08xH", (u32)ctx->a3, (u32)ctx->t0, (u32)ctx->t1);
-    y += 9;
-    Fault_DrawText(0x1E, y, "T2:%08xH   T3:%08xH   T4:%08xH", (u32)ctx->t2, (u32)ctx->t3, (u32)ctx->t4);
-    y += 9;
-    Fault_DrawText(0x1E, y, "T5:%08xH   T6:%08xH   T7:%08xH", (u32)ctx->t5, (u32)ctx->t6, (u32)ctx->t7);
-    y += 9;
-    Fault_DrawText(0x1E, y, "S0:%08xH   S1:%08xH   S2:%08xH", (u32)ctx->s0, (u32)ctx->s1, (u32)ctx->s2);
-    y += 9;
-    Fault_DrawText(0x1E, y, "S3:%08xH   S4:%08xH   S5:%08xH", (u32)ctx->s3, (u32)ctx->s4, (u32)ctx->s5);
-    y += 9;
-    Fault_DrawText(0x1E, y, "S6:%08xH   S7:%08xH   T8:%08xH", (u32)ctx->s6, (u32)ctx->s7, (u32)ctx->t8);
-    y += 9;
-    Fault_DrawText(0x1E, y, "T9:%08xH   GP:%08xH   SP:%08xH", (u32)ctx->t9, (u32)ctx->gp, (u32)ctx->sp);
-    y += 9;
-    Fault_DrawText(0x1E, y, "S8:%08xH   RA:%08xH   LO:%08xH", (u32)ctx->s8, (u32)ctx->ra, (u32)ctx->lo);
+    Fault_DrawText(30, y, "PC:%08xH   SR:%08xH   VA:%08xH", ctx->pc, ctx->sr, ctx->badvaddr);
 
     y += 13;
-    Fault_PrintFPCSR(0x1E, y, ctx->fpcsr);
+    Fault_DrawRecBlack(22, 40, 276, 184);
+    Fault_DrawText(30, y, "AT:%08xH   V0:%08xH   V1:%08xH", (u32)ctx->at, (u32)ctx->v0, (u32)ctx->v1);
+    y += 9;
+    Fault_DrawText(30, y, "A0:%08xH   A1:%08xH   A2:%08xH", (u32)ctx->a0, (u32)ctx->a1, (u32)ctx->a2);
+    y += 9;
+    Fault_DrawText(30, y, "A3:%08xH   T0:%08xH   T1:%08xH", (u32)ctx->a3, (u32)ctx->t0, (u32)ctx->t1);
+    y += 9;
+    Fault_DrawText(30, y, "T2:%08xH   T3:%08xH   T4:%08xH", (u32)ctx->t2, (u32)ctx->t3, (u32)ctx->t4);
+    y += 9;
+    Fault_DrawText(30, y, "T5:%08xH   T6:%08xH   T7:%08xH", (u32)ctx->t5, (u32)ctx->t6, (u32)ctx->t7);
+    y += 9;
+    Fault_DrawText(30, y, "S0:%08xH   S1:%08xH   S2:%08xH", (u32)ctx->s0, (u32)ctx->s1, (u32)ctx->s2);
+    y += 9;
+    Fault_DrawText(30, y, "S3:%08xH   S4:%08xH   S5:%08xH", (u32)ctx->s3, (u32)ctx->s4, (u32)ctx->s5);
+    y += 9;
+    Fault_DrawText(30, y, "S6:%08xH   S7:%08xH   T8:%08xH", (u32)ctx->s6, (u32)ctx->s7, (u32)ctx->t8);
+    y += 9;
+    Fault_DrawText(30, y, "T9:%08xH   GP:%08xH   SP:%08xH", (u32)ctx->t9, (u32)ctx->gp, (u32)ctx->sp);
+    y += 9;
+    Fault_DrawText(30, y, "S8:%08xH   RA:%08xH   LO:%08xH", (u32)ctx->s8, (u32)ctx->ra, (u32)ctx->lo);
 
     y += 13;
-    Fault_PrintFReg(0x1E, y, 0, &ctx->fp0.f.f_even);
-    Fault_PrintFReg(0xA0, y, 2, &ctx->fp2.f.f_even);
+    Fault_PrintFPCSR(30, y, ctx->fpcsr);
+
+    y += 13;
+    Fault_PrintFReg(30, y, 0, &ctx->fp0.f.f_even);
+    Fault_PrintFReg(160, y, 2, &ctx->fp2.f.f_even);
     y += 9;
-    Fault_PrintFReg(0x1E, y, 4, &ctx->fp4.f.f_even);
-    Fault_PrintFReg(0xA0, y, 6, &ctx->fp6.f.f_even);
+    Fault_PrintFReg(30, y, 4, &ctx->fp4.f.f_even);
+    Fault_PrintFReg(160, y, 6, &ctx->fp6.f.f_even);
     y += 9;
-    Fault_PrintFReg(0x1E, y, 8, &ctx->fp8.f.f_even);
-    Fault_PrintFReg(0xA0, y, 10, &ctx->fp10.f.f_even);
+    Fault_PrintFReg(30, y, 8, &ctx->fp8.f.f_even);
+    Fault_PrintFReg(160, y, 10, &ctx->fp10.f.f_even);
     y += 9;
-    Fault_PrintFReg(0x1E, y, 12, &ctx->fp12.f.f_even);
-    Fault_PrintFReg(0xA0, y, 14, &ctx->fp14.f.f_even);
+    Fault_PrintFReg(30, y, 12, &ctx->fp12.f.f_even);
+    Fault_PrintFReg(160, y, 14, &ctx->fp14.f.f_even);
     y += 9;
-    Fault_PrintFReg(0x1E, y, 16, &ctx->fp16.f.f_even);
-    Fault_PrintFReg(0xA0, y, 18, &ctx->fp18.f.f_even);
+    Fault_PrintFReg(30, y, 16, &ctx->fp16.f.f_even);
+    Fault_PrintFReg(160, y, 18, &ctx->fp18.f.f_even);
     y += 9;
-    Fault_PrintFReg(0x1E, y, 20, &ctx->fp20.f.f_even);
-    Fault_PrintFReg(0xA0, y, 22, &ctx->fp22.f.f_even);
+    Fault_PrintFReg(30, y, 20, &ctx->fp20.f.f_even);
+    Fault_PrintFReg(160, y, 22, &ctx->fp22.f.f_even);
     y += 9;
-    Fault_PrintFReg(0x1E, y, 24, &ctx->fp24.f.f_even);
-    Fault_PrintFReg(0xA0, y, 26, &ctx->fp26.f.f_even);
+    Fault_PrintFReg(30, y, 24, &ctx->fp24.f.f_even);
+    Fault_PrintFReg(160, y, 26, &ctx->fp26.f.f_even);
     y += 9;
-    Fault_PrintFReg(0x1E, y, 28, &ctx->fp28.f.f_even);
-    Fault_PrintFReg(0xA0, y, 30, &ctx->fp30.f.f_even);
+    Fault_PrintFReg(30, y, 28, &ctx->fp28.f.f_even);
+    Fault_PrintFReg(160, y, 30, &ctx->fp30.f.f_even);
 
     osWritebackDCacheAll();
 }
@@ -657,8 +657,8 @@ void func_800AF3DC(void) {
     Fault_DrawRecBlack(22, 16, 276, 208);
     Fault_DrawText(36, 18, "ROM DEBUG");
 
-    for (i = 0; i < ARRAY_COUNT(B_80122570_unknown); i++) {
-        Fault_DrawText(((i % 4) * 52) + 82, ((i / 4) * 9) + 28, "%08x", B_80122570_unknown[i]);
+    for (i = 0; i < ARRAY_COUNT(B_80122570); i++) {
+        Fault_DrawText(((i % 4) * 52) + 82, ((i / 4) * 9) + 28, "%08x", B_80122570[i]);
     }
 }
 
