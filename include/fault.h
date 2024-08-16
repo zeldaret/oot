@@ -32,11 +32,13 @@ typedef struct FaultClient {
     /* 0x0C */ void* arg1;
 } FaultClient; // size = 0x10
 
+#if FAULT_VERSION == FAULT_OOTGC
 typedef struct FaultAddrConvClient {
     /* 0x00 */ struct FaultAddrConvClient* next;
     /* 0x04 */ void* callback;
     /* 0x08 */ void* arg;
 } FaultAddrConvClient; // size = 0xC
+#endif
 
 // Initialization
 
@@ -59,38 +61,20 @@ void Fault_RemoveAddrConvClient(FaultAddrConvClient* client);
 
 // For use in Fault Client callbacks
 
-#if FAULT_VERSION == FAULT_OOTGC
-
-void Fault_WaitForInput(void);
-
-#else
-
-// TODO revisit when graph.c matches
-#define Fault_WaitForInput Fault_WaitInput
-void Fault_WaitInput(void);
-
-#endif
-
 void Fault_SetFrameBuffer(void* fb, u16 w, u16 h);
 
 #if FAULT_VERSION == FAULT_OOTN64
 
-// TODO revisit when __osMalloc.c matches
-#define FaultDrawer_SetFontColor(color) (void)0
-
-// TODO revisit when z_actor_dlftbls.c matches
-#define FaultDrawer_SetCharPad(padW, padH) (void)0
-
 void Fault_SetCursor(s32 x, s32 y);
-#define FaultDrawer_SetCursor Fault_SetCursor
-
 void Fault_Printf(const char* fmt, ...); // TODO return type?
-#define FaultDrawer_Printf Fault_Printf
-
 void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
+#define FaultDrawer_SetCursor Fault_SetCursor
+#define FaultDrawer_Printf Fault_Printf
 #define FaultDrawer_DrawText Fault_DrawText
 
 #elif FAULT_VERSION == FAULT_OOTGC
+
+void Fault_WaitForInput(void);
 
 void FaultDrawer_SetForeColor(u16 color);
 void FaultDrawer_SetBackColor(u16 color);
