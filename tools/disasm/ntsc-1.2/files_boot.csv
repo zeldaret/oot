@@ -126,7 +126,7 @@ offset,vram,.bss
 72F0,80007750,src/boot/idle
 7F00,80008360,src/boot/z_std_dma
 8670,80008AD0,src/boot/yaz0
-8A80,80008EE0,src/boot/z_locale
+8A80,80008EE0,src/boot/cic6105
 8AA0,80008F00,src/libultra/io/driverominit
 8B20,80008F80,src/libultra/io/piacs
 8B40,80008FA0,src/libultra/os/initialize
