@@ -25,9 +25,9 @@ def get_c_file(directory):
                 return file
 
 
-def import_c_file(in_file):
+def import_c_file(in_file, version):
     in_file = os.path.relpath(in_file, root_dir)
-    cpp_command = ["gcc", "-nostdinc", "-E", "-P", "-Iinclude", "-Iinclude/libc", "-Isrc", "-undef", "-DM2CTX", "-D__sgi", "-D_LANGUAGE_C",
+    cpp_command = ["gcc", "-nostdinc", "-E", "-P", "-Iinclude", "-Iinclude/libc", "-Isrc", f"-Ibuild/{version}", "-I.", f"-Iextracted/{version}", "-undef", "-DM2CTX", "-D__sgi", "-D_LANGUAGE_C",
                    "-DNON_MATCHING", "-D_Static_assert(x, y)=", "-D__attribute__(x)=", in_file]
     try:
         return subprocess.check_output(cpp_command, cwd=root_dir, encoding="utf-8")
@@ -45,7 +45,10 @@ def main():
                                      description="Creates a ctx.c file for mips2c. "
                                      "Output will be saved as oot/ctx.c")
     parser.add_argument('filepath', help="path of c file to be processed")
+    parser.add_argument("-v", "--oot-version", dest="oot_version", required=True)
     args = parser.parse_args()
+
+    version = args.oot_version
 
     if args.filepath:
         c_file_path = args.filepath
@@ -60,7 +63,7 @@ def main():
         c_file_path = os.path.join(c_dir_path, c_file)
         print("Using file: {}".format(c_file_path))
 
-    output = import_c_file(c_file_path)
+    output = import_c_file(c_file_path, version)
 
     with open(os.path.join(root_dir, "ctx.c"), "w", encoding="UTF-8") as f:
         f.write(output)

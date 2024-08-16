@@ -95,21 +95,16 @@ void Fault_SleepImpl(u32 ms) {
     Sleep_Msec(ms);
 }
 
-void Fault_WaitInputImpl(void);
-#ifdef NON_MATCHING
-// https://decomp.me/scratch/u7bNE
-
 void Fault_WaitInputImpl(void) {
+    Input* inputs = sFaultInputs;
+    u16 btnPress;
+
     do {
         Fault_SleepImpl(0x10);
-        PadMgr_RequestPadData(&gPadMgr, sFaultInputs, 0);
-    } while (!CHECK_BTN_ANY(sFaultInputs[0].press.button,
-                            (BTN_A | BTN_B | BTN_START | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP)));
+        PadMgr_RequestPadData(&gPadMgr, inputs, 0);
+        btnPress = inputs[0].press.button;
+    } while (!CHECK_BTN_ANY(btnPress, (BTN_A | BTN_B | BTN_START | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP)));
 }
-
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_ootn64/Fault_WaitInputImpl.s")
-#endif
 
 void Fault_WaitInput(void) {
     Fault_WaitInputImpl();
@@ -682,26 +677,20 @@ void func_800AF558(void) {
     }
 }
 
-#ifdef NON_MATCHING
-// https://decomp.me/scratch/vvVUM
-
 void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1) {
-    OSIntMask savedIntMask;
+    FaultMgr* faultMgr = &gFaultMgr;
+    OSIntMask mask;
 
-    savedIntMask = osSetIntMask(1);
+    mask = osSetIntMask(OS_IM_NONE);
 
     client->callback = callback;
     client->arg0 = arg0;
     client->arg1 = arg1;
-    client->next = gFaultMgr.clients;
-    gFaultMgr.clients = client;
+    client->next = faultMgr->clients;
+    faultMgr->clients = client;
 
-    osSetIntMask(savedIntMask);
+    osSetIntMask(mask);
 }
-
-#else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_ootn64/Fault_AddClient.s")
-#endif
 
 void Fault_RemoveClient(FaultClient* client) {
     u32 mask;
