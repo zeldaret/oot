@@ -108,7 +108,7 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk
 
 #if OOT_DEBUG
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
-        PRINTF("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 233, enIk->unk_2FF);
+        PRINTF("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 233);
         return;
     }
 #endif
@@ -174,7 +174,7 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
 
 #if OOT_DEBUG
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
-        PRINTF("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 362, enIk->unk_2FF);
+        PRINTF("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 362);
         return;
     }
 #endif
