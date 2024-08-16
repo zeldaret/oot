@@ -493,7 +493,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
 #endif
 #if FAULT_VERSION == FAULT_OOTN64
-    include "$(BUILD_DIR)/src/code/fault_ootn64.o"
+    include "$(BUILD_DIR)/src/code/fault_n64.o"
 #elif FAULT_VERSION == FAULT_OOTGC
     include "$(BUILD_DIR)/src/code/fault_ootgc.o"
     include "$(BUILD_DIR)/src/code/fault_ootgc_drawer.o"

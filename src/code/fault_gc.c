@@ -453,7 +453,7 @@ void Fault_DrawCornerRec(u16 color) {
 
 void Fault_PrintFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
+    s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
     if ((exp >= -0x7E && exp < 0x80) || raw == 0) {
         FaultDrawer_Printf("F%02d:%14.7e ", idx, *value);
@@ -465,7 +465,7 @@ void Fault_PrintFReg(s32 idx, f32* value) {
 
 void Fault_LogFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
+    s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
     if ((exp >= -0x7E && exp < 0x80) || raw == 0) {
         osSyncPrintf("F%02d:%14.7e ", idx, *value);
@@ -670,10 +670,12 @@ void Fault_WaitForButtonCombo(void) {
     if (1) {}
     if (1) {}
 
+    // KeyWaitB (LRZ Up Down Up Down Left Left Right Right B A START)
     osSyncPrintf(
         VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
             YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
                                                                                                                                                      "\n");
+    // KeyWaitB'(LR Left Right START)
     osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
         WHITE) ")" VT_RST "\n");
 
@@ -1178,9 +1180,11 @@ void Fault_ThreadEntry(void* arg) {
 
             if (msg == FAULT_MSG_CPU_BREAK) {
                 sFaultInstance->msgId = (u32)FAULT_MSG_CPU_BREAK;
+                // Fault Manager: OS_EVENT_CPU_BREAK received
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n");
             } else if (msg == FAULT_MSG_FAULT) {
                 sFaultInstance->msgId = (u32)FAULT_MSG_FAULT;
+                // Fault Manager: OS_EVENT_FAULT received
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n");
             } else if (msg == FAULT_MSG_UNK) {
                 Fault_UpdatePad();
@@ -1188,6 +1192,7 @@ void Fault_ThreadEntry(void* arg) {
                 continue;
             } else {
                 sFaultInstance->msgId = (u32)FAULT_MSG_UNK;
+                // Fault Manager: Unknown message received
                 osSyncPrintf("フォルトマネージャ:不明なメッセージを受信しました\n");
             }
 

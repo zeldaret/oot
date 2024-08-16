@@ -618,15 +618,10 @@ class GlobalAsmBlock:
             emitting_double = True
         elif line.startswith('.space'):
             self.add_sized(int(line.split()[1], 0), real_line)
-        elif line.startswith('.balign'):
+        elif line.startswith('.balign') or line.startswith('.align'):
             align = int(line.split()[1])
             if align != 4:
                 self.fail("only .balign 4 is supported", real_line)
-            self.align4()
-        elif line.startswith('.align'):
-            align = int(line.split()[1])
-            if align != 2:
-                self.fail("only .align 2 is supported", real_line)
             self.align4()
         elif line.startswith('.asci'):
             z = (line.startswith('.asciz') or line.startswith('.asciiz'))
@@ -636,8 +631,6 @@ class GlobalAsmBlock:
         elif line.startswith('.half'):
             self.align2()
             self.add_sized(2*len(line.split(',')), real_line)
-        elif line.startswith('.size'):
-            pass
         elif line.startswith('.'):
             # .macro, ...
             self.fail("asm directive not supported", real_line)

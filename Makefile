@@ -358,9 +358,9 @@ ASSET_C_FILES_COMMITTED := $(filter-out %.inc.c,$(foreach dir,$(ASSET_BIN_DIRS_C
 SRC_C_FILES   := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c)))
 
 ifeq ($(PLATFORM),N64)
-SRC_C_FILES := $(filter-out src/code/fault_ootgc.c src/code/fault_ootgc_drawer.c,$(SRC_C_FILES))
+SRC_C_FILES := $(filter-out src/code/fault_gc.c src/code/fault_gc_drawer.c,$(SRC_C_FILES))
 else
-SRC_C_FILES := $(filter-out src/code/fault_ootn64.c,$(SRC_C_FILES))
+SRC_C_FILES := $(filter-out src/code/fault_n64.c,$(SRC_C_FILES))
 endif
 
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
@@ -425,11 +425,11 @@ $(BUILD_DIR)/src/code/relocation.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/sleep.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/src/code/fault_ootn64.o: CFLAGS += -trapuv
-$(BUILD_DIR)/src/code/fault_ootgc.o: CFLAGS += -trapuv
-$(BUILD_DIR)/src/code/fault_ootgc.o: OPTFLAGS := -O2 -g3
-$(BUILD_DIR)/src/code/fault_ootgc_drawer.o: CFLAGS += -trapuv
-$(BUILD_DIR)/src/code/fault_ootgc_drawer.o: OPTFLAGS := -O2 -g3
+$(BUILD_DIR)/src/code/fault_n64.o: CFLAGS += -trapuv
+$(BUILD_DIR)/src/code/fault_gc.o: CFLAGS += -trapuv
+$(BUILD_DIR)/src/code/fault_gc.o: OPTFLAGS := -O2 -g3
+$(BUILD_DIR)/src/code/fault_gc_drawer.o: CFLAGS += -trapuv
+$(BUILD_DIR)/src/code/fault_gc_drawer.o: OPTFLAGS := -O2 -g3
 
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 
@@ -774,6 +774,3 @@ endif
 
 # Print target for debugging
 print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
-
-build/ntsc-1.2/src/code/fault_ootn64.o: src/code/fault_ootn64.c
-	$(PYTHON) tools/asm_processor/build.py tools/ido_recomp/$(DETECTED_OS)/7.1/cc -- $(AS) $(ASFLAGS) -- -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<

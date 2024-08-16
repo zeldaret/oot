@@ -13,10 +13,10 @@ typedef struct FaultMgr {
     FaultClient* clients;
 } FaultMgr; // size = 0x5D8
 
-struct FaultCursorCoords {
+typedef struct FaultCursorCoords {
     s32 x;
     s32 y;
-}; // size = 0x8
+} FaultCursorCoords; // size = 0x8
 
 u32 sFaultDrawerFont[] = {
     0x00DFFD00, 0x0AEEFFA0, 0x0DF22DD0, 0x06611DC0, 0x01122DD0, 0x06719900, 0x011EED10, 0x077EF700, 0x01562990,
@@ -83,7 +83,7 @@ FaultMgr gFaultMgr;
 
 STACK(sFaultStack, 0x400);
 StackEntry sFaultStackInfo;
-struct FaultCursorCoords sFaultCursorPos;
+FaultCursorCoords sFaultCursorPos;
 
 vs32 sFaultExit;
 vs32 gFaultMsgId;
@@ -111,12 +111,11 @@ void Fault_WaitInput(void) {
 }
 
 void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 color) {
-    s32 temp_a3;
     s32 i;
     s32 j;
     u16* fbPtr;
 
-    fbPtr = (void*)((gFaultMgr.fbWidth * y * 2) + gFaultMgr.framebuffer + (x * 2));
+    fbPtr = (void*)(gFaultMgr.framebuffer + (gFaultMgr.fbWidth * y * 2) + (x * 2));
 
     for (i = 0; i < h; i++) {
         j = 0;
@@ -124,7 +123,7 @@ void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 color) {
             *fbPtr = color;
             fbPtr++;
         }
-        fbPtr += (gFaultMgr.fbWidth - w);
+        fbPtr += gFaultMgr.fbWidth - w;
     }
     osWritebackDCacheAll();
 }
@@ -142,7 +141,7 @@ void Fault_DrawCharImpl(s32 x, s32 y, char c) {
     u32 data;
 
     dataPtr = (u32*)sFaultDrawerFont + ((c / 8 * 0x10) + ((c & 4) >> 2));
-    fbPtr = (void*)((gFaultMgr.fbWidth * y * 2) + gFaultMgr.framebuffer + (x * 2));
+    fbPtr = (void*)(gFaultMgr.framebuffer + (gFaultMgr.fbWidth * y * 2) + (x * 2));
 
     for (i = 0; i < 8; i++) {
         u32 mask;
@@ -182,10 +181,10 @@ void func_800AE05C(void) {
 }
 
 void* Fault_PrintCallbackDraw(void* arg, const char* str, size_t len) {
-    struct FaultCursorCoords* coords = arg;
+    FaultCursorCoords* coords = arg;
 
     for (; len != 0; len--, str++) {
-        if (*str == 0xA) {
+        if (*str == '\n') {
             coords->x = 320;
         } else {
             Fault_DrawChar(coords->x, coords->y, *str);
@@ -206,7 +205,7 @@ void* Fault_PrintCallbackDraw(void* arg, const char* str, size_t len) {
 
 void Fault_DrawText(s32 x, s32 y, const char* fmt, ...) {
     va_list args;
-    struct FaultCursorCoords coords;
+    FaultCursorCoords coords;
 
     va_start(args, fmt);
 
@@ -238,7 +237,7 @@ void Fault_Printf(const char* fmt, ...) {
 
 void Fault_PrintFReg(s32 x, s32 y, s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
+    s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
     if (((exp >= -0x7E) && (exp < 0x80)) || (raw == 0)) {
         Fault_DrawText(x, y, "F%02d:%.7e", idx, *value);
@@ -249,7 +248,7 @@ void Fault_PrintFReg(s32 x, s32 y, s32 idx, f32* value) {
 
 void Fault_LogFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
+    s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
     if (((exp >= -0x7E) && (exp < 0x80)) || (raw == 0)) {
         osSyncPrintf("F%02d:%.7e     ", idx, *value);
@@ -441,6 +440,7 @@ void Fault_WaitForButtonCombo(void) {
     s32 count;
     s32 pad[4];
 
+    // KeyWaitB (LRZ Up Down Up Down Left Left Right Right B A START)
     osSyncPrintf(
         VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
             YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
@@ -448,7 +448,7 @@ void Fault_WaitForButtonCombo(void) {
     x = 0;
     y = 0;
     count = 0;
-    while (x != 0xB) {
+    while (x != 11) {
         if ((count % 30) == 1) {}
         if ((count % 30) == 0) {
             Fault_DrawCornerRecYellow();
@@ -468,7 +468,7 @@ void Fault_WaitForButtonCombo(void) {
                 osSyncPrintf("x=%d y=%d\n", x, y);
             }
             switch (x) {
-                case 0x0:
+                case 0:
                     if ((btnCur == (BTN_Z | BTN_L | BTN_R)) && (btnPress == BTN_Z)) {
                         x = 1;
                         y = 1;
@@ -484,7 +484,7 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
 
-                case 0x2:
+                case 2:
                     if (btnPress == BTN_CDOWN) {
                         x = 3;
                         y = 1;
@@ -493,7 +493,7 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
 
-                case 0x3:
+                case 3:
                     if (btnPress == BTN_CUP) {
                         x = 4;
                     } else {
@@ -501,7 +501,7 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
 
-                case 0x4:
+                case 4:
                     if (btnPress == BTN_DDOWN) {
                         x = 5;
                         y = 1;
@@ -510,7 +510,7 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
 
-                case 0x5:
+                case 5:
                     if (btnPress == BTN_DLEFT) {
                         x = 6;
                     } else {
@@ -518,7 +518,7 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
 
-                case 0x6:
+                case 6:
                     if (btnPress == BTN_CLEFT) {
                         x = 7;
                         y = 1;
@@ -527,7 +527,7 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
 
-                case 0x7:
+                case 7:
                     if (btnPress == BTN_CRIGHT) {
                         x = 8;
                     } else {
@@ -535,7 +535,7 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
 
-                case 0x8:
+                case 8:
                     if (btnPress == BTN_DRIGHT) {
                         x = 9;
                         y = 1;
@@ -544,41 +544,42 @@ void Fault_WaitForButtonCombo(void) {
                     }
                     break;
 
-                case 0x9:
+                case 9:
                     if (btnPress == (BTN_A | BTN_B)) {
-                        x = 0xA;
+                        x = 10;
                     } else if (btnPress == BTN_A) {
-                        x = 0x5B;
+                        x = 91;
                     } else if (btnPress == BTN_B) {
-                        x = 0x5C;
+                        x = 92;
                     } else {
                         x = 0;
                     }
                     break;
 
-                case 0x5B:
+                case 91:
                     if (btnPress == BTN_B) {
-                        x = 0xA;
+                        x = 10;
                     } else {
                         x = 0;
                     }
                     break;
 
-                case 0x5C:
+                case 92:
                     if (btnPress == BTN_A) {
-                        x = 0xA;
+                        x = 10;
                     } else {
                         x = 0;
                     }
                     break;
 
-                case 0xA:
+                case 10:
                     if ((btnCur == (BTN_A | BTN_B | BTN_START)) && (btnPress == BTN_START)) {
-                        f32 comboTimeS = OS_CYCLES_TO_USEC(osGetTime() - comboStartTime) / 1000000.0f;
+                        f32 comboTimeSeconds = OS_CYCLES_TO_USEC(osGetTime() - comboStartTime) / 1000000.0f;
 
-                        osSyncPrintf("入力時間 %f 秒\n", comboTimeS);
-                        if (comboTimeS <= 50.0f) {
-                            x = 0xB;
+                        // Input time %f seconds
+                        osSyncPrintf("入力時間 %f 秒\n", comboTimeSeconds);
+                        if (comboTimeSeconds <= 50.0f) {
+                            x = 11;
                         } else {
                             x = 0;
                         }
@@ -611,7 +612,7 @@ void func_800AF0E0(void) {
 void Fault_DrawMemDumpContents(const char* title, void* memory, u32 arg2) {
     s32 x;
     s32 y;
-    u32* ptr = (u32*)((u32)memory & ~3);
+    u32* ptr = (u32*)((uintptr_t)memory & ~3);
 
     Fault_DrawRecBlack(22, 16, 276, 208);
     Fault_DrawText(36, 18, "%s %08x", title != NULL ? title : "PrintDump", ptr);
@@ -626,16 +627,16 @@ void Fault_DrawMemDumpContents(const char* title, void* memory, u32 arg2) {
     }
 }
 
-void Fault_DrawMemDumpPC(OSThread* arg0) {
-    u32* pc = (u32*)arg0->context.pc;
+void Fault_DrawMemDumpPC(OSThread* thread) {
+    u32* pc = (u32*)thread->context.pc;
 
     if ((pc >= (u32*)0x80000020) && (pc <= (u32*)0x80400000)) {
         Fault_DrawMemDumpContents("PC Trace", pc - 0x20, 0);
     }
 }
 
-void Fault_DrawMemDumpSP(OSThread* arg0) {
-    u32* sp = (u32*)(u32)arg0->context.sp;
+void Fault_DrawMemDumpSP(OSThread* thread) {
+    u32* sp = (u32*)(u32)thread->context.sp;
 
     if ((sp >= (u32*)0x80000020) && (sp <= (u32*)0x80400000)) {
         Fault_DrawMemDumpContents("Stack Trace", sp, 0);
@@ -693,7 +694,7 @@ void Fault_RemoveClient(FaultClient* client) {
     FaultClient* iterClient = gFaultMgr.clients;
     FaultClient* lastClient = NULL;
 
-    mask = osSetIntMask(1);
+    mask = osSetIntMask(OS_IM_NONE);
     while (iterClient != NULL) {
         if (iterClient == client) {
             if (lastClient != NULL) {
@@ -711,7 +712,6 @@ void Fault_RemoveClient(FaultClient* client) {
 }
 
 void Fault_ProcessClients(void) {
-    s32 temp_a3;
     s32 i;
     FaultClient* client;
 
@@ -743,12 +743,15 @@ void Fault_ThreadEntry(void* arg0) {
             osRecvMesg(&gFaultMgr.queue, &msg, OS_MESG_BLOCK);
             if (msg == FAULT_MSG_CPU_BREAK) {
                 gFaultMsgId = (s32)FAULT_MSG_CPU_BREAK;
+                // Fault Manager: OS_EVENT_CPU_BREAK received
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n");
             } else if (msg == FAULT_MSG_FAULT) {
                 gFaultMsgId = (s32)FAULT_MSG_FAULT;
+                // Fault Manager: OS_EVENT_FAULT received
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n");
             } else {
                 gFaultMsgId = (s32)FAULT_MSG_UNK;
+                // Fault Manager: Unknown message received
                 osSyncPrintf("フォルトマネージャ:不明なメッセージを受信しました\n");
             }
             faultedThread = __osGetCurrFaultedThread();
