@@ -363,7 +363,9 @@ def determine_base_bss_ordering(
     build_bss_symbols: list[BssSymbol],
     bss_section: BssSection,
 ) -> list[BssSymbol]:
-    # Assume that the lowest address is the start of the BSS section
+    # For the baserom, assume that the lowest address is the start of the BSS section. This might
+    # not be true if the first BSS variable is not referenced, but fortunately this doesn't seem
+    # to happen in practice for the files which typically have BSS ordering issues.
     base_start_address = min(p.base_value for p in bss_section.pointers)
 
     found_symbols: dict[str, BssSymbol] = {}
