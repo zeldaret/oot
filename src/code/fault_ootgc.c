@@ -355,7 +355,6 @@ void Fault_Sleep(u32 msec) {
 }
 
 #ifndef AVOID_UB
-#define PadMgr_RequestPadData PadMgr_RequestPadData_bad
 void PadMgr_RequestPadData(Input* inputs, s32 gameRequest);
 #endif
 
