@@ -495,8 +495,8 @@ beginseg
 #if FAULT_VERSION == FAULT_OOTN64
     include "$(BUILD_DIR)/src/code/fault_n64.o"
 #elif FAULT_VERSION == FAULT_OOTGC
-    include "$(BUILD_DIR)/src/code/fault_ootgc.o"
-    include "$(BUILD_DIR)/src/code/fault_ootgc_drawer.o"
+    include "$(BUILD_DIR)/src/code/fault_gc.o"
+    include "$(BUILD_DIR)/src/code/fault_gc_drawer.o"
 #endif
     include "$(BUILD_DIR)/src/code/kanread.o"
 #if OOT_DEBUG
