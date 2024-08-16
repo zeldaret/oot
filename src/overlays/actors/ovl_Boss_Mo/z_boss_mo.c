@@ -2258,7 +2258,10 @@ void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
     if (player->actor.parent != NULL) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     }
+
+#if PLATFORM_GC
     BossMo_Unknown();
+#endif
 }
 
 void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
@@ -3046,6 +3049,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_boss_mo.c", 7482);
 }
 
+#if PLATFORM_GC
 void BossMo_Unknown(void) {
     // Appears to be a test function for sound effects.
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
@@ -3599,3 +3603,4 @@ void BossMo_Unknown(void) {
         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, BREG(35));
     }
 }
+#endif
