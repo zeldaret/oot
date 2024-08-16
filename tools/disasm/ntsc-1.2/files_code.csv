@@ -108,7 +108,7 @@ DB80,8001F260,src/code/z_actor
 9BD80,800AD460,src/code/irqmgr
 9C3A0,800ADA80,src/code/code_n64dd_800AD410
 9C450,800ADB30,src/code/code_n64dd_800AD4C0
-9C540,800ADC20,src/code/fault_v1
+9C540,800ADC20,src/code/fault_ootn64
 9E710,800AFDF0,src/code/kanread
 9F1F0,800B08D0,src/audio/lib/synthesis
 A2380,800B3A60,src/audio/lib/heap
@@ -276,7 +276,7 @@ EDD90,800FF470,src/code/sys_ucode
 EDDA0,800FF480,src/code/sys_rumble
 EDDB0,800FF490,src/code/irqmgr
 EDDD0,800FF4B0,src/code/code_n64dd_800AD4C0
-EE280,800FF960,src/code/fault_v1
+EE280,800FF960,src/code/fault_ootn64
 EE300,800FF9E0,src/audio/lib/data
 F0710,80101DF0,src/audio/lib/synthesis
 F0740,80101E20,src/audio/lib/load
@@ -363,7 +363,7 @@ F7E00,801094E0,src/code/sys_math3d
 F7E90,80109570,src/code/sys_math_atan
 F7EA0,80109580,src/code/sys_matrix
 F7ED0,801095B0,src/code/irqmgr
-F7EF0,801095D0,src/code/fault_v1
+F7EF0,801095D0,src/code/fault_ootn64
 F8780,80109E60,src/audio/lib/synthesis
 F87A0,80109E80,src/audio/lib/heap
 F87D0,80109EB0,src/audio/lib/load
@@ -440,7 +440,7 @@ offset,vram,.bss
 1103F0,80121AD0,src/code/sys_matrix
 110400,80121AE0,src/code/code_n64dd_800AD410
 110410,80121AF0,src/code/code_n64dd_800AD4C0
-110420,80121B00,src/code/fault_v1
+110420,80121B00,src/code/fault_ootn64
 110EF0,801225D0,src/audio/lib/load
 110FB0,80122690,src/audio/general
 1111B0,80122890,src/audio/sfx

@@ -2,6 +2,8 @@
  * ROM spec file
  */
 
+#include "include/versions.h"
+
 beginseg
     name "makerom"
     include "$(BUILD_DIR)/src/makerom/rom_header.o"
@@ -490,11 +492,11 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
 #endif
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/code/fault_v1.o"
-#else
-    include "$(BUILD_DIR)/src/code/fault_v2.o"
-    include "$(BUILD_DIR)/src/code/fault_drawer.o"
+#if FAULT_VERSION == FAULT_OOTN64
+    include "$(BUILD_DIR)/src/code/fault_ootn64.o"
+#elif FAULT_VERSION == FAULT_OOTGC
+    include "$(BUILD_DIR)/src/code/fault_ootgc.o"
+    include "$(BUILD_DIR)/src/code/fault_ootgc_drawer.o"
 #endif
     include "$(BUILD_DIR)/src/code/kanread.o"
 #if OOT_DEBUG

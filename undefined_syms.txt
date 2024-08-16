@@ -13,10 +13,4 @@ D_06000000 = 0x06000000;
 
 #if PLATFORM_N64
 D_80105A90_unknown = 0x80105A90;
-
-// TODO more urgent than the rest
-FaultDrawer_Printf = 0x80000000;
-FaultDrawer_SetCursor = 0x80000000;
-FaultDrawer_SetFontColor = 0x80000000;
-FaultDrawer_SetCharPad = 0x80000000;
 #endif

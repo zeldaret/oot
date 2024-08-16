@@ -2,23 +2,22 @@
 #include "terminal.h"
 #include "alloca.h"
 
-typedef struct FaultMgr_v1 {
+typedef struct FaultMgr {
     OSThread thread;
-    char unk1B0[0x400];
-    OSMesgQueue B_80122110_unknown;
-    OSMesg msgBuf;
-    s32 unk5CC_fbPtr;
-    u16 unk5D0_fbWidth; // "B_80122130_unknown"
-    u16 unk5D2_fbHeight;
-    FaultClient* B_80122134_unknown;
-} FaultMgr_v1; // size = 0x5D8
+    char unk_1B0[0x400];
+    OSMesgQueue queue;
+    OSMesg msg;
+    s32 framebuffer;
+    u16 fbWidth;
+    u16 fbDepth;
+    FaultClient* clients;
+} FaultMgr; // size = 0x5D8
 
 struct FaultCursorCoords {
-    s32 unk0; // x
-    s32 unk4; // y
-};
+    s32 x;
+    s32 y;
+}; // size = 0x8
 
-// D_800FF560_unknown TODO incbin
 u32 sFaultDrawerFont[] = {
     0x00DFFD00, 0x0AEEFFA0, 0x0DF22DD0, 0x06611DC0, 0x01122DD0, 0x06719900, 0x011EED10, 0x077EF700, 0x01562990,
     0x05589760, 0x0DD22990, 0x05599770, 0x04DFFD40, 0x026EF700, 0x00000000, 0x00000000, 0x08BFFB00, 0x0EFFFFC0,
@@ -51,7 +50,6 @@ u32 sFaultDrawerFont[] = {
     0x05546F50, 0x00A99800, 0x02222080, 0x02001888,
 };
 
-// D_800FF960_unknown
 const char* sExceptionNames[] = {
     "Interrupt",
     "TLB modification",
@@ -73,7 +71,6 @@ const char* sExceptionNames[] = {
     "Virtual coherency on data",
 };
 
-// D_800FF9A8_unknown
 const char* sFpExceptionNames[] = {
     "Unimplemented operation", "Invalid operation", "Division by zero", "Overflow", "Underflow", "Inexact operation",
 };
@@ -82,16 +79,16 @@ u16 sFaultFontColor = GPACK_RGBA5551(255, 255, 255, 1);
 
 Input sFaultInputs[MAXCONTROLLERS];
 
-FaultMgr_v1 gFaultMgr;
+FaultMgr gFaultMgr;
 
-STACK(sFaultStack, 0x400);  // B_80122138_unknown
-StackEntry sFaultStackInfo; // B_80122538_unknown
+STACK(sFaultStack, 0x400);
+StackEntry sFaultStackInfo;
 struct FaultCursorCoords B_80122558;
 
-volatile s32 sFaultExit;          // fault_exit
-volatile s32 sFaultMsgId;         // fault_msg_id
-volatile s32 sFaultDisplayEnable; // fault_display_enable
-OSThread* sFaultFaultedThread;    // cur faulted thread
+vs32 sFaultExit;
+vs32 gFaultMsgId;
+vs32 sFaultDisplayEnable;
+OSThread* sFaultFaultedThread;
 s32 B_80122570_unknown[0x10];
 
 void Fault_SleepImpl(u32 ms) {
@@ -109,7 +106,7 @@ void Fault_WaitInputImpl(void) {
 }
 
 #else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_WaitInputImpl.s")
+#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_ootn64/Fault_WaitInputImpl.s")
 #endif
 
 void Fault_WaitInput(void) {
@@ -122,7 +119,7 @@ void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 color) {
     s32 j;
     u16* fbPtr;
 
-    fbPtr = (void*)((gFaultMgr.unk5D0_fbWidth * y * 2) + gFaultMgr.unk5CC_fbPtr + (x * 2));
+    fbPtr = (void*)((gFaultMgr.fbWidth * y * 2) + gFaultMgr.framebuffer + (x * 2));
 
     for (i = 0; i < h; i++) {
         j = 0;
@@ -130,7 +127,7 @@ void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 color) {
             *fbPtr = color;
             fbPtr++;
         }
-        fbPtr += (gFaultMgr.unk5D0_fbWidth - w);
+        fbPtr += (gFaultMgr.fbWidth - w);
     }
     osWritebackDCacheAll();
 }
@@ -148,7 +145,7 @@ void Fault_DrawCharImpl(s32 x, s32 y, char c) {
     u32 data;
 
     dataPtr = (u32*)sFaultDrawerFont + ((c / 8 * 0x10) + ((c & 4) >> 2));
-    fbPtr = (void*)((gFaultMgr.unk5D0_fbWidth * y * 2) + gFaultMgr.unk5CC_fbPtr + (x * 2));
+    fbPtr = (void*)((gFaultMgr.fbWidth * y * 2) + gFaultMgr.framebuffer + (x * 2));
 
     for (i = 0; i < 8; i++) {
         u32 mask;
@@ -163,7 +160,7 @@ void Fault_DrawCharImpl(s32 x, s32 y, char c) {
             mask >>= 4;
         }
         dataPtr += 2;
-        fbPtr += gFaultMgr.unk5D0_fbWidth - 8;
+        fbPtr += gFaultMgr.fbWidth - 8;
     }
     osWritebackDCacheAll();
 }
@@ -192,18 +189,18 @@ void* Fault_PrintCallbackDraw(void* arg, const char* str, size_t len) {
 
     for (; len != 0; len--, str++) {
         if (*str == 0xA) {
-            coords->unk0 = 320;
+            coords->x = 320;
         } else {
-            Fault_DrawChar(coords->unk0, coords->unk4, *str);
-            coords->unk0 += 6;
+            Fault_DrawChar(coords->x, coords->y, *str);
+            coords->x += 6;
         }
-        if (coords->unk0 >= 277) {
-            coords->unk0 = 22;
-            coords->unk4 += 8;
-            if (coords->unk4 >= 209) {
+        if (coords->x >= 277) {
+            coords->x = 22;
+            coords->y += 8;
+            if (coords->y >= 209) {
                 Fault_WaitInputImpl();
                 Fault_DrawRecBlack(22, 16, 276, 208);
-                coords->unk4 = 16;
+                coords->y = 16;
             }
         }
     }
@@ -212,29 +209,29 @@ void* Fault_PrintCallbackDraw(void* arg, const char* str, size_t len) {
 
 void Fault_DrawText(s32 x, s32 y, const char* fmt, ...) {
     va_list args;
-    struct FaultCursorCoords sp1C;
+    struct FaultCursorCoords coords;
 
     va_start(args, fmt);
 
-    sp1C.unk0 = x - 8;
-    sp1C.unk4 = y;
-    _Printf(Fault_PrintCallbackDraw, &sp1C, fmt, args);
+    coords.x = x - 8;
+    coords.y = y;
+    _Printf(Fault_PrintCallbackDraw, &coords, fmt, args);
 
     va_end(args);
 }
 
-void func_800AE1E0(s32 arg0, s32 arg1) {
-    B_80122558.unk0 = arg0;
-    B_80122558.unk4 = arg1;
+void Fault_SetCursor(s32 x, s32 y) {
+    B_80122558.x = x;
+    B_80122558.y = y;
 }
 
 void func_800AE1F8(void) {
     Fault_DrawRecBlack(0x16, 0x10, 0x114, 0xD0);
-    B_80122558.unk0 = 0x16;
-    B_80122558.unk4 = 0x10;
+    B_80122558.x = 0x16;
+    B_80122558.y = 0x10;
 }
 
-void func_800AE258(const char* fmt, ...) {
+void Fault_Printf(const char* fmt, ...) {
     va_list args;
 
     va_start(args, fmt);
@@ -600,7 +597,7 @@ void Fault_WaitForButtonCombo(void) {
 }
 
 #else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_WaitForButtonCombo.s")
+#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_ootn64/Fault_WaitForButtonCombo.s")
 #endif
 
 extern s32 D_80105A90_unknown; // Arena_failcnt
@@ -617,7 +614,7 @@ void func_800AF0E0(void) {
     Fault_DrawText(0x28, 0xB4, "Arena_failcnt = %d", D_80105A90_unknown);
 }
 
-void func_800AF1C4_unknown(const char* title, void* memory, void* arg2) {
+void Fault_DrawMemDumpContents(const char* title, void* memory, u32 arg2) {
     const char* effectiveTitle;
     s32 x;
     s32 y;
@@ -643,23 +640,23 @@ void func_800AF1C4_unknown(const char* title, void* memory, void* arg2) {
     }
 }
 
-void func_800AF304_unknown(OSThread* arg0) {
+void Fault_DrawMemDumpPC(OSThread* arg0) {
     u32* temp_v0 = (u32*)arg0->context.pc;
 
     if ((temp_v0 >= (u32*)0x80000020) && (temp_v0 <= (u32*)0x80400000)) {
-        func_800AF1C4_unknown("PC Trace", temp_v0 - 0x20, NULL);
+        Fault_DrawMemDumpContents("PC Trace", temp_v0 - 0x20, 0);
     }
 }
 
-void func_800AF370_unknown(OSThread* arg0) {
+void Fault_DrawMemDumpSP(OSThread* arg0) {
     u32* temp_t7 = (u32*)(u32)arg0->context.sp;
 
     if ((temp_t7 >= (u32*)0x80000020) && (temp_t7 <= (u32*)0x80400000)) {
-        func_800AF1C4_unknown("Stack Trace", temp_t7, NULL);
+        Fault_DrawMemDumpContents("Stack Trace", temp_t7, 0);
     }
 }
 
-void func_800AF3DC_unknown(void) {
+void func_800AF3DC(void) {
     s32 i;
 
     Fault_DrawRecBlack(0x16, 0x10, 0x114, 0xD0);
@@ -670,23 +667,23 @@ void func_800AF3DC_unknown(void) {
     }
 }
 
-void func_800AF4DC_unknown(OSThread* thread) {
+void Fault_ResumeThread(OSThread* thread) {
     thread->context.cause = 0;
     thread->context.fpcsr = 0;
     thread->context.pc += 4;
-    *(s32*)thread->context.pc = 0xD;
+    *(u32*)thread->context.pc = 0x0000000D;
     osWritebackDCache((void*)thread->context.pc, 4);
     osInvalICache((void*)thread->context.pc, 4);
     osStartThread(thread);
 }
 
-void func_800AF558_unknown(void) {
+void func_800AF558(void) {
     osViBlack(false);
     if (osViGetCurrentFramebuffer() >= (void*)0x80100000) {
-        gFaultMgr.unk5CC_fbPtr = (s32)osViGetCurrentFramebuffer();
+        gFaultMgr.framebuffer = (s32)osViGetCurrentFramebuffer();
     } else {
-        gFaultMgr.unk5CC_fbPtr = (s32)(void*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
-        osViSwapBuffer((void*)gFaultMgr.unk5CC_fbPtr);
+        gFaultMgr.framebuffer = (s32)(void*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
+        osViSwapBuffer((void*)gFaultMgr.framebuffer);
     }
 }
 
@@ -700,14 +697,14 @@ void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1
     client->callback = callback;
     client->arg0 = arg0;
     client->arg1 = arg1;
-    client->next = gFaultMgr.B_80122134_unknown;
-    gFaultMgr.B_80122134_unknown = client;
+    client->next = gFaultMgr.clients;
+    gFaultMgr.clients = client;
 
     osSetIntMask(savedIntMask);
 }
 
 #else
-#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_v1/Fault_AddClient.s")
+#pragma GLOBAL_ASM("expected/build/ntsc-1.2/functions/src/code/fault_ootn64/Fault_AddClient.s")
 #endif
 
 void Fault_RemoveClient(FaultClient* client) {
@@ -715,7 +712,7 @@ void Fault_RemoveClient(FaultClient* client) {
     FaultClient* var_v1;
     FaultClient* var_a1;
 
-    var_v1 = gFaultMgr.B_80122134_unknown;
+    var_v1 = gFaultMgr.clients;
     var_a1 = NULL;
     temp_a0 = osSetIntMask(1);
     while (var_v1 != NULL) {
@@ -723,7 +720,7 @@ void Fault_RemoveClient(FaultClient* client) {
             if (var_a1 != NULL) {
                 var_a1->next = client->next;
             } else {
-                gFaultMgr.B_80122134_unknown = client->next;
+                gFaultMgr.clients = client->next;
             }
             break;
         } else {
@@ -734,12 +731,12 @@ void Fault_RemoveClient(FaultClient* client) {
     osSetIntMask(temp_a0);
 }
 
-void func_800AF720_unknown(void) {
+void Fault_ProcessClients(void) {
     s32 temp_a3;
     s32 i;
     FaultClient* client;
 
-    client = gFaultMgr.B_80122134_unknown;
+    client = gFaultMgr.clients;
     i = 0;
     while (client != NULL) {
         if (client->callback != NULL) {
@@ -752,23 +749,23 @@ void func_800AF720_unknown(void) {
     }
 }
 
-void func_800AF7F0_unknown(void* arg0) {
+void Fault_ThreadEntry(void* arg0) {
     OSMesg sp54;
     OSThread* var_s0;
 
-    osSetEventMesg(0xAU, &gFaultMgr.B_80122110_unknown, (OSMesg)1);
-    osSetEventMesg(0xCU, &gFaultMgr.B_80122110_unknown, (OSMesg)2);
+    osSetEventMesg(0xAU, &gFaultMgr.queue, (OSMesg)1);
+    osSetEventMesg(0xCU, &gFaultMgr.queue, (OSMesg)2);
     while (true) {
         do {
-            osRecvMesg(&gFaultMgr.B_80122110_unknown, &sp54, 1);
+            osRecvMesg(&gFaultMgr.queue, &sp54, 1);
             if (sp54 == (OSMesg)1) {
-                sFaultMsgId = 1;
+                gFaultMsgId = 1;
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n");
             } else if (sp54 == (OSMesg)2) {
-                sFaultMsgId = 2;
+                gFaultMsgId = 2;
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n");
             } else {
-                sFaultMsgId = 3;
+                gFaultMsgId = 3;
                 osSyncPrintf("フォルトマネージャ:不明なメッセージを受信しました\n");
             }
             var_s0 = __osGetCurrFaultedThread();
@@ -789,44 +786,44 @@ void func_800AF7F0_unknown(void* arg0) {
         Fault_DrawCornerRecRed();
         Fault_WaitForButtonCombo();
         do {
-            func_800AF558_unknown();
+            func_800AF558();
             Fault_PrintThreadContext(var_s0);
             Fault_WaitInput();
             func_800AF0E0();
             Fault_WaitInput();
-            func_800AF3DC_unknown();
+            func_800AF3DC();
             Fault_WaitInput();
-            func_800AF370_unknown(var_s0);
+            Fault_DrawMemDumpSP(var_s0);
             Fault_WaitInput();
-            func_800AF304_unknown(var_s0);
+            Fault_DrawMemDumpPC(var_s0);
             Fault_WaitInput();
-            func_800AF720_unknown();
+            Fault_ProcessClients();
         } while (!sFaultExit);
         while (!sFaultExit) {}
-        func_800AF4DC_unknown(var_s0);
+        Fault_ResumeThread(var_s0);
     }
 }
 
 void Fault_SetFrameBuffer(void* fb, u16 w, u16 h) {
-    gFaultMgr.unk5CC_fbPtr = (s32)fb;
-    gFaultMgr.unk5D0_fbWidth = w;
-    gFaultMgr.unk5D2_fbHeight = h;
+    gFaultMgr.framebuffer = (s32)fb;
+    gFaultMgr.fbWidth = w;
+    gFaultMgr.fbDepth = h;
 }
 
 void Fault_Init(void) {
     sFaultDisplayEnable = 1;
-    gFaultMgr.unk5CC_fbPtr = (osMemSize | 0x80000000) + 0xFFFDA800;
-    gFaultMgr.unk5D0_fbWidth = 0x140;
-    gFaultMgr.unk5D2_fbHeight = 0x10;
-    gFaultMgr.B_80122134_unknown = 0;
-    osCreateMesgQueue(&gFaultMgr.B_80122110_unknown, &gFaultMgr.msgBuf, 1);
+    gFaultMgr.framebuffer = (osMemSize | 0x80000000) + 0xFFFDA800;
+    gFaultMgr.fbWidth = 0x140;
+    gFaultMgr.fbDepth = 0x10;
+    gFaultMgr.clients = 0;
+    osCreateMesgQueue(&gFaultMgr.queue, &gFaultMgr.msg, 1);
     StackCheck_Init(&sFaultStackInfo, sFaultStack, STACK_TOP(sFaultStack), 0U, 0x100, "fault");
-    osCreateThread(&gFaultMgr.thread, 2, func_800AF7F0_unknown, NULL, STACK_TOP(sFaultStack), 0x7F);
+    osCreateThread(&gFaultMgr.thread, 2, Fault_ThreadEntry, NULL, STACK_TOP(sFaultStack), 0x7F);
     osStartThread(&gFaultMgr.thread);
 }
 
 void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
-    sFaultMsgId = 4;
+    gFaultMsgId = 4;
     osSyncPrintf("HungUp on Thread %d", osGetThreadId(NULL));
     osSyncPrintf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
     osSyncPrintf("%s\n", exp2 != NULL ? exp2 : "(NULL)");
@@ -836,13 +833,13 @@ void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     Fault_SleepImpl(500);
     Fault_WaitForButtonCombo();
     do {
-        func_800AF558_unknown();
+        func_800AF558();
         Fault_DrawRecBlack(0x16, 0x10, 0x114, 0x22);
         Fault_DrawText(0x18, 0x12, "HungUp on Thread %d", osGetThreadId(NULL));
         Fault_DrawText(0x18, 0x1C, "%s", exp1 != NULL ? exp1 : "(NULL)");
         Fault_DrawText(0x18, 0x26, "%s", exp2 != NULL ? exp2 : "(NULL)");
         Fault_WaitInput();
-        func_800AF720_unknown();
+        Fault_ProcessClients();
     } while (true);
 }
 
