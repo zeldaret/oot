@@ -123,6 +123,17 @@ typedef VecSphGeo VecGeo;
 #define BINANG_TO_RAD_ALT(binang) (((f32)(binang) / (f32)0x8000) * M_PI)
 #define BINANG_TO_RAD_ALT2(binang) (((f32)(binang) * M_PI) / 0x8000)
 
+// Angle conversion macros required for matching. These were probably the original macros used, but
+// we prefer DEG_TO_BINANG/RAD_TO_BINANG where possible to avoid possible undefined behavior with input
+// values outside of [-180, 180) degrees or [-PI, PI) radians.
+#if PLATFORM_N64
+#define DEG_TO_BINANG2(degrees) (f32)((degrees) * (0x8000 / 180.0f))
+#define RAD_TO_BINANG2(radians) (f32)((radians) * (0x8000 / M_PI))
+#else
+#define DEG_TO_BINANG2(degrees) (s32)((degrees) * (0x8000 / 180.0f))
+#define RAD_TO_BINANG2(radians) (s32)((radians) * (0x8000 / M_PI))
+#endif
+
 // Angle conversion macros (Camera)
 // these two angle conversion macros are slightly inaccurate
 #define CAM_DEG_TO_BINANG(degrees) (s16)TRUNCF_BINANG((degrees) * 182.04167f + .5f)
