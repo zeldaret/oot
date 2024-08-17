@@ -1415,7 +1415,7 @@ void DemoGj_Init(Actor* thisx, PlayState* play) {
 
         default:
             // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
-            PRINTF(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play, this);
+            PRINTF(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
             Actor_Kill(&this->dyna.actor);
     }
 }
