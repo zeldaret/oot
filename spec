@@ -562,15 +562,21 @@ beginseg
     include "$(BUILD_DIR)/src/audio/sequence.o"
     include "$(BUILD_DIR)/src/audio/data.o"
     include "$(BUILD_DIR)/src/audio/session_config.o"
-    include "$(BUILD_DIR)/src/code/logseverity.o"
+#if !PLATFORM_N64
+    include "$(BUILD_DIR)/src/code/logseverity_gc.o"
+#endif
     include "$(BUILD_DIR)/src/code/gfxprint.o"
     include "$(BUILD_DIR)/src/code/rcp_utils.o"
-    include "$(BUILD_DIR)/src/code/loadfragment2.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/code/loadfragment2_n64.o"
+#else
+    include "$(BUILD_DIR)/src/code/loadfragment2_gc.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/mtxuty-cvt.o"
 #endif
-    include "$(BUILD_DIR)/src/code/relocation.o"
-    include "$(BUILD_DIR)/src/code/load.o"
+    include "$(BUILD_DIR)/src/code/relocation_gc.o"
+    include "$(BUILD_DIR)/src/code/load_gc.o"
+#endif
     include "$(BUILD_DIR)/src/code/code_800FC620.o"
     include "$(BUILD_DIR)/src/code/padutils.o"
     include "$(BUILD_DIR)/src/code/padsetup.o"

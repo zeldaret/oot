@@ -60,7 +60,7 @@ void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlReloc
     u32 relocatedValue = 0;
     uintptr_t unrelocatedAddress = 0;
     uintptr_t relocatedAddress = 0;
-    s32 pad;
+    uintptr_t vramu32 = (uintptr_t)vramStart;
 
     if (gOverlayLogSeverity >= 3) {
         PRINTF("DoRelocation(%08x, %08x, %08x)\n", allocatedRamAddr, ovlRelocs, vramStart);
@@ -88,7 +88,7 @@ void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlReloc
 
                 // Check address is valid for relocation
                 if ((*relocDataP & 0x0F000000) == 0) {
-                    relocOffset = *relocDataP - (uintptr_t)vramStart;
+                    relocOffset = *relocDataP - vramu32;
                     relocatedValue = relocOffset + allocu32;
                     relocatedAddress = relocatedValue;
                     unrelocatedAddress = relocData;
@@ -101,7 +101,7 @@ void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlReloc
                 // Extract the address from the target field of the J-type MIPS instruction.
                 // Relocate the address and update the instruction.
                 if (1) {
-                    relocOffset = PHYS_TO_K0(MIPS_JUMP_TARGET(*relocDataP)) - (uintptr_t)vramStart;
+                    relocOffset = PHYS_TO_K0(MIPS_JUMP_TARGET(*relocDataP)) - vramu32;
                     unrelocatedAddress = PHYS_TO_K0(MIPS_JUMP_TARGET(*relocDataP));
                     relocatedValue = (*relocDataP & 0xFC000000) | (((allocu32 + relocOffset) & 0x0FFFFFFF) >> 2);
                     relocatedAddress = PHYS_TO_K0(MIPS_JUMP_TARGET(relocatedValue));
@@ -130,7 +130,7 @@ void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlReloc
 
                 // Check address is valid for relocation
                 if ((((*regValP << 0x10) + (s16)*relocDataP) & 0x0F000000) == 0) {
-                    relocOffset = ((*regValP << 0x10) + (s16)*relocDataP) - (uintptr_t)vramStart;
+                    relocOffset = ((*regValP << 0x10) + (s16)*relocDataP) - vramu32;
                     isLoNeg = ((relocOffset + allocu32) & 0x8000) ? 1 : 0; // adjust for signed immediate
                     unrelocatedAddress = (*luiInstRef << 0x10) + (s16)relocData;
                     *luiInstRef =
@@ -154,7 +154,7 @@ void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlReloc
             case R_MIPS_LO16 << RELOC_TYPE_SHIFT:
                 if (gOverlayLogSeverity >= 3) {
                     PRINTF("%02d %08x %08x %08x ", dbg, relocDataP, relocatedValue, relocatedAddress);
-                    PRINTF(" %08x %08x %08x %08x\n", (uintptr_t)relocDataP + (uintptr_t)vramStart - allocu32, relocData,
+                    PRINTF(" %08x %08x %08x %08x\n", (uintptr_t)relocDataP + vramu32 - allocu32, relocData,
                            unrelocatedAddress, relocOffset);
                 }
                 // Adding a break prevents matching
