@@ -2813,7 +2813,8 @@ void Interface_DrawItemButtons(PlayState* play) {
         if (IS_PAUSED(&play->pauseCtx)) {
             // Start Button Texture, Color & Label
             gDPPipeSync(OVERLAY_DISP++);
-            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 120, 120, interfaceCtx->startAlpha);
+            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, START_BUTTON_R, START_BUTTON_G, START_BUTTON_B,
+                            interfaceCtx->startAlpha);
 
 #if OOT_NTSC
             gSPTextureRectangle(OVERLAY_DISP++, 132 << 2, 17 << 2, (132 + 22) << 2, 39 << 2, G_TX_RENDERTILE, 0, 0,
@@ -3258,9 +3259,9 @@ void Interface_Draw(PlayState* play) {
         }
 
         svar2 = rupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
-        svar5 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
+        svar4 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
-        for (svar1 = 0, svar3 = 42; svar1 < svar5; svar1++, svar2++, svar3 += 8) {
+        for (svar1 = 0, svar3 = 42; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
             OVERLAY_DISP =
                 Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar2])), 8,
                               16, svar3, 206, 8, 16, 1 << 10, 1 << 10);

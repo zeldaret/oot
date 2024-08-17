@@ -186,6 +186,16 @@ typedef struct InterfaceContext {
 #define C_UP_BUTTON_X 254
 #define C_UP_BUTTON_Y 16
 
+#if PLATFORM_N64
+#define START_BUTTON_R 200
+#define START_BUTTON_G 0
+#define START_BUTTON_B 0
+#else
+#define START_BUTTON_R 120
+#define START_BUTTON_G 120
+#define START_BUTTON_B 120
+#endif
+
 /**
  * These are the colors for the hearts in the interface. The prim color is the red color of the heart
  * for the base hearts, while the prim color for the double defense hearts is the white outline. The
