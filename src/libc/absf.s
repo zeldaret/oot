@@ -11,4 +11,5 @@
 LEAF(absf)
     abs.s       $f0, $f12
     jr          $ra
+     nop
 END(absf)

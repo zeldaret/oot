@@ -11,4 +11,5 @@
 LEAF(sqrt)
     sqrt.d      $f0, $f12
     jr          $ra
+     nop
 END(sqrt)
