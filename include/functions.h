@@ -4,7 +4,6 @@
 #include "z64.h"
 #include "macros.h"
 
-void cleararena(void);
 void bootproc(void);
 void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
@@ -47,6 +46,9 @@ s32 osSendMesg(OSMesgQueue* mq, OSMesg msg, s32 flag);
 void osStopThread(OSThread* thread);
 void osViExtendVStart(u32 value);
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag);
+#if PLATFORM_N64
+void osInitialize(void);
+#endif
 void __osInitialize_common(void);
 void __osInitialize_autodetect(void);
 void __osEnqueueAndYield(OSThread**);

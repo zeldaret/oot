@@ -1,5 +1,5 @@
 entrypoint = 0x80000400; // type:func
-cleararena = 0x80000460; // type:func
+bootclear = 0x80000460; // type:func
 bootproc = 0x80000498; // type:func
 Main_ThreadEntry = 0x800005A0; // type:func
 Idle_ThreadEntry = 0x8000063C; // type:func
@@ -27,7 +27,7 @@ func_800015E8_unknown = 0x800015E8; // type:func
 func_8000161C_unknown = 0x8000161C; // type:func
 func_80001640_unknown = 0x80001640; // type:func
 func_80001714_unknown = 0x80001714; // type:func
-func_80001720_unknown = 0x80001720; // type:func
+func_80001720 = 0x80001720; // type:func
 osSyncPrintfUnused = 0x80001750; // type:func
 osSyncPrintf = 0x8000176C; // type:func
 rmonPrintf = 0x80001788; // type:func
