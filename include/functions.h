@@ -48,6 +48,12 @@ void osViExtendVStart(u32 value);
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag);
 #if PLATFORM_N64
 void osInitialize(void);
+#else
+#define osInitialize()           \
+{                                \
+    __osInitialize_common();     \
+    __osInitialize_autodetect(); \
+}
 #endif
 void __osInitialize_common(void);
 void __osInitialize_autodetect(void);

@@ -18,13 +18,9 @@ void bootproc(void) {
     osMemSize = osGetMemSize();
 #if PLATFORM_N64
     func_80001720();
+#endif
     bootclear();
     osInitialize();
-#else
-    bootclear();
-    __osInitialize_common();
-    __osInitialize_autodetect();
-#endif
 
     gCartHandle = osCartRomInit();
     osDriveRomInit();

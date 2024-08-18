@@ -11,16 +11,14 @@ void Locale_Init(void) {
     u8 countryCode;
 
     osEPiReadIo(gCartHandle, 0x3C, (u32*)regionInfo);
+
+    countryCode = regionInfo[2];
 #else
     u8 countryCode;
 
     osEPiReadIo(gCartHandle, 0x38, &sCartInfo.mediaFormat);
     osEPiReadIo(gCartHandle, 0x3C, &sCartInfo.regionInfo);
-#endif
 
-#if PLATFORM_N64
-    countryCode = regionInfo[2];
-#else
     countryCode = sCartInfo.countryCode;
 #endif
 
