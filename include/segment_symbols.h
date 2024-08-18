@@ -648,7 +648,6 @@ DECLARE_ROM_SEGMENT(spot20_room_0)
 
 DECLARE_ROM_SEGMENT(ganon_tou_room_0)
 
-#if OOT_DEBUG
 DECLARE_ROM_SEGMENT(test01_room_0)
 
 DECLARE_ROM_SEGMENT(besitu_room_0)
@@ -670,6 +669,5 @@ DECLARE_ROM_SEGMENT(testroom_room_1)
 DECLARE_ROM_SEGMENT(testroom_room_2)
 DECLARE_ROM_SEGMENT(testroom_room_3)
 DECLARE_ROM_SEGMENT(testroom_room_4)
-#endif
 
 #endif
