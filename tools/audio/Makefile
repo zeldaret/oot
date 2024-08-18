@@ -1,4 +1,4 @@
-PROGRAMS := sbc
+PROGRAMS := atblgen sbc
 
 ifeq ($(shell which xml2-config),)
   $(error xml2-config not found. Did you install libxml2-dev?)
@@ -30,11 +30,14 @@ format:
 	$(CLANG_FORMAT) $(FORMAT_ARGS) $(shell find . -maxdepth 1 -type f -name "*.[ch]")
 	$(MAKE) -C sampleconv format
 
-sbc_SOURCES := samplebank_compiler.c samplebank.c aifc.c xml.c util.c
+atblgen_SOURCES := audio_tablegen.c samplebank.c xml.c util.c
+sbc_SOURCES     := samplebank_compiler.c samplebank.c aifc.c xml.c util.c
 
-sbc_CFLAGS := $(XML_CFLAGS)
+atblgen_CFLAGS := $(XML_CFLAGS)
+sbc_CFLAGS     := $(XML_CFLAGS)
 
-sbc_LDFLAGS := $(XML_LDFLAGS)
+atblgen_LDFLAGS := $(XML_LDFLAGS)
+sbc_LDFLAGS     := $(XML_LDFLAGS)
 
 define COMPILE =
 $(1): $($1_SOURCES)

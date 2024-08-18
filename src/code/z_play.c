@@ -4,6 +4,8 @@
 
 #include "z64frame_advance.h"
 
+#pragma increment_block_number "gc-eu:24 gc-eu-mq:24 gc-jp:24 gc-jp-ce:24 gc-jp-mq:24 gc-us:24 gc-us-mq:24"
+
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
 VisMono gPlayVisMono;
