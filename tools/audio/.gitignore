@@ -1,4 +1,6 @@
 __pycache__/
 
 atblgen
+elfpatch
 sbc
+sfc

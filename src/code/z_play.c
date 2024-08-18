@@ -1,10 +1,10 @@
+#pragma increment_block_number "gc-eu:17 gc-eu-mq:17 gc-jp:21 gc-jp-ce:21 gc-jp-mq:21 gc-us:21 gc-us-mq:21"
+
 #include "global.h"
 #include "quake.h"
 #include "terminal.h"
 
 #include "z64frame_advance.h"
-
-#pragma increment_block_number "gc-eu:24 gc-eu-mq:24 gc-jp:28 gc-jp-ce:28 gc-jp-mq:28 gc-us:28 gc-us-mq:28"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;

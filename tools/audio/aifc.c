@@ -16,11 +16,6 @@
 #include "aifc.h"
 #include "util.h"
 
-#define CC4_CHECK(buf, str) \
-    ((buf)[0] == (str)[0] && (buf)[1] == (str)[1] && (buf)[2] == (str)[2] && (buf)[3] == (str)[3])
-
-#define CC4(c1, c2, c3, c4) (((c1) << 24) | ((c2) << 16) | ((c3) << 8) | (c4))
-
 #define FREAD(file, data, size)                                                                      \
     do {                                                                                             \
         if (fread((data), (size), 1, (file)) != 1) {                                                 \
