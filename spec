@@ -69,7 +69,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
-#if OOT_DEBUG || COMPILER_GCC
+#if OOT_DEBUG || defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
@@ -579,7 +579,7 @@ beginseg
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
 #endif
-#if !OOT_DEBUG && !COMPILER_GCC
+#if !OOT_DEBUG && !defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
@@ -641,7 +641,7 @@ beginseg
     include "$(BUILD_DIR)/src/libc/sqrt.o"
     include "$(BUILD_DIR)/src/libc/absf.o"
     include "$(BUILD_DIR)/src/libc/fmodf.o"
-#if !COMPILER_GCC
+#ifndef COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
 #endif
