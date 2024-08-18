@@ -438,14 +438,6 @@ $(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
 $(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
 $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
-ifeq ($(DEBUG),1)
-$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
-$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
-else
-$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2
-endif
-
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
