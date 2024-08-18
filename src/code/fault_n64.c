@@ -617,7 +617,7 @@ void Fault_DrawMemDumpContents(const char* title, void* memory, u32 arg2) {
     Fault_DrawRecBlack(22, 16, 276, 208);
     Fault_DrawText(36, 18, "%s %08x", title != NULL ? title : "PrintDump", ptr);
 
-    if ((ptr >= (u32*)0x80000000) && (ptr <= (u32*)0x80400000)) {
+    if (((uintptr_t)ptr >= 0x80000000) && ((uintptr_t)ptr <= 0x80400000)) {
         for (y = 28; y != 226; y += 9) {
             Fault_DrawText(28, y, "%06x", ptr);
             for (x = 82; x < 290; x += 52) {
@@ -630,7 +630,7 @@ void Fault_DrawMemDumpContents(const char* title, void* memory, u32 arg2) {
 void Fault_DrawMemDumpPC(OSThread* thread) {
     u32* pc = (u32*)thread->context.pc;
 
-    if ((pc >= (u32*)0x80000020) && (pc <= (u32*)0x80400000)) {
+    if (((uintptr_t)pc >= 0x80000020) && ((uintptr_t)pc <= 0x80400000)) {
         Fault_DrawMemDumpContents("PC Trace", pc - 0x20, 0);
     }
 }
@@ -638,7 +638,7 @@ void Fault_DrawMemDumpPC(OSThread* thread) {
 void Fault_DrawMemDumpSP(OSThread* thread) {
     u32* sp = (u32*)(u32)thread->context.sp;
 
-    if ((sp >= (u32*)0x80000020) && (sp <= (u32*)0x80400000)) {
+    if (((uintptr_t)sp >= 0x80000020) && ((uintptr_t)sp <= 0x80400000)) {
         Fault_DrawMemDumpContents("Stack Trace", sp, 0);
     }
 }
@@ -666,7 +666,7 @@ void Fault_ResumeThread(OSThread* thread) {
 
 void func_800AF558(void) {
     osViBlack(false);
-    if (osViGetCurrentFramebuffer() >= (void*)0x80100000) {
+    if ((uintptr_t)osViGetCurrentFramebuffer() >= 0x80100000) {
         gFaultMgr.framebuffer = (s32)osViGetCurrentFramebuffer();
     } else {
         gFaultMgr.framebuffer = (s32)(void*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
