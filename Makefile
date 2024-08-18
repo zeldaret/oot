@@ -424,13 +424,9 @@ $(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 
 ifeq ($(DEBUG),1)
-$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -g
-$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -g
-$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -g
+$(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 else
-$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O2
 endif
 
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2

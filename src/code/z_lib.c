@@ -16,7 +16,7 @@
  * - the arguments are in a different order,
  * - `val` is a `u8` instead of the standard `s32`.
  *
- * @see There are two other memsets in this codebase, __osMemset(), MemSet()
+ * @see There are two other memsets in this codebase, memset(), MemSet()
  *
  * @param dest address to start at
  * @param len number of bytes to write

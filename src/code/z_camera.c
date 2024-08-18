@@ -7449,7 +7449,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     s16 curUID;
     s16 j;
 
-    __osMemset(camera, 0, sizeof(Camera));
+    memset(camera, 0, sizeof(Camera));
     if (sInitRegs) {
         s32 i;
 

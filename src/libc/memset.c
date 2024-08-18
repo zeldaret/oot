@@ -11,7 +11,7 @@
  *
  * @return dest
  */
-void* __osMemset(void* dest, s32 val, size_t len) {
+void* memset(void* dest, s32 val, size_t len) {
     u8* ptr = dest;
 
     while (len--) {

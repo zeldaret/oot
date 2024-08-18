@@ -128,6 +128,8 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/setwatchlo.o"
     include "$(BUILD_DIR)/data/rsp_boot.text.o"
 #ifdef COMPILER_GCC
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
     include "$(BUILD_DIR)/src/gcc_fix/missing_gcc_functions.o"
 #endif
 endseg
@@ -636,11 +638,13 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
-    include "$(BUILD_DIR)/src/libultra/libc/sqrt.o"
-    include "$(BUILD_DIR)/src/libultra/libc/absf.o"
-    include "$(BUILD_DIR)/src/code/fmodf.o"
-    include "$(BUILD_DIR)/src/code/__osMemset.o"
-    include "$(BUILD_DIR)/src/code/__osMemmove.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
+    include "$(BUILD_DIR)/src/libc/absf.o"
+    include "$(BUILD_DIR)/src/libc/fmodf.o"
+#if !COMPILER_GCC
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
+#endif
     // For some reason, the data sections of these files are placed here near the
     // rodata sections of the other files
     include_data_only_within_rodata "$(BUILD_DIR)/src/code/z_message.o"
