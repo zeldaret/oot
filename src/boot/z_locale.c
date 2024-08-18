@@ -3,7 +3,6 @@
 #include "terminal.h"
 
 s32 gCurrentRegion = 0;
-LocaleCartInfo sCartInfo;
 
 void Locale_Init(void) {
 #if PLATFORM_N64
@@ -14,6 +13,7 @@ void Locale_Init(void) {
 
     countryCode = regionInfo[2];
 #else
+    static LocaleCartInfo sCartInfo;
     u8 countryCode;
 
     osEPiReadIo(gCartHandle, 0x38, &sCartInfo.mediaFormat);
