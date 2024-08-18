@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-FileCopyrightText: 2024 Dragorn421
+# SPDX-FileCopyrightText: © 2024 ZeldaRET
 # SPDX-License-Identifier: CC0-1.0
 
 import argparse
@@ -25,9 +25,7 @@ class FileSection:
     vma_start: int
 
 
-LABELS_TYPES = {
-    "@branchlabel",
-}
+LABELS_TYPES = {"@branchlabel", "@jumptablelabel"}
 
 
 def main():
@@ -57,19 +55,19 @@ def main():
         "-r",
         type=lambda v: int(v, 0),
         default=0,
-        help="show symbols within this range from the target (at least)",
+        help="show symbols within this range around the target (at least)",
     )
     parser.add_argument(
         "--file",
         "-f",
         action="store_true",
-        help="show symbols within the file section of the target (at least)",
+        help="show symbols within the same file and section as the target (at least)",
     )
     parser.add_argument(
         "--labels",
         "-l",
         action="store_true",
-        help="also show label symbols",
+        help="also show branch and jump table labels symbols",
     )
     args = parser.parse_args()
 
@@ -182,14 +180,11 @@ def main():
 
             print_sym = is_near_target or (
                 args.file
+                and fs.vma_start <= target_vma
                 and (
-                    fs.vma_start
-                    <= target_vma
-                    < (
-                        filesections[i_fs + 1].vma_start
-                        if i_fs + 1 < len(filesections)
-                        else 0x1_0000_0000
-                    )
+                    target_vma < filesections[i_fs + 1].vma_start
+                    if i_fs + 1 < len(filesections)
+                    else True
                 )
             )
             if not print_sym and fs_printed:
