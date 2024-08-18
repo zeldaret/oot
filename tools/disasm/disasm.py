@@ -117,9 +117,12 @@ def main():
     print()
     print("Analyzing done.")
 
-    print("Writing disassembled sections...")
     output_dir: Path = args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    context.saveContextToFile(output_dir / "context.csv")
+
+    print("Writing disassembled sections...")
     for i, file_splits in enumerate(all_file_splits):
         f = i / len(all_file_splits)
         spimdisasm.common.Utils.printQuietless(
