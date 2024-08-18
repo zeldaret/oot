@@ -5,6 +5,7 @@
 import argparse
 import csv
 import dataclasses
+from pathlib import Path
 from typing import Optional
 
 
@@ -81,7 +82,13 @@ def main():
 
     syms_by_section_by_file = dict[str, dict[str, list[Sym]]]()
 
-    with open(f"expected/build/{args.version}/context.csv") as f:
+    context_csv_p = Path(f"expected/build/{args.version}/context.csv")
+    if not context_csv_p.exists():
+        print(f"Context file does not exist: {context_csv_p}")
+        print(f"Hint: run `make VERSION={args.version} disasm`")
+        exit(1)
+
+    with context_csv_p.open() as f:
         for e in csv.DictReader(f):
             if e["category"] != "symbol":
                 continue
