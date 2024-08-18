@@ -205,7 +205,7 @@ def main():
                     if not is_first_fs_sym:
                         print(f"{indent}...")
                 print(
-                    f"{indent}{sym.name} 0x{sym.value:X} ROM:{sym.vrom}"
+                    f"{indent}{sym.name} 0x{sym.value:X} ROM:0x{sym.vrom:X}"
                     + (f" ({sym.type})" if sym.type else "")
                     + (f" (sz=0x{sym.size:X})" if sym.size else "")
                 )
