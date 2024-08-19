@@ -110,7 +110,7 @@ typedef struct FaultMgr {
     /* 0x7DC */ FaultAddrConvClient* addrConvClients;
     /* 0x7E0 */ char unk_7E0[0x4];
     /* 0x7E4 */ Input inputs[MAXCONTROLLERS];
-    /* 0x844 */ void* fb;
+    /* 0x844 */ u16* fb;
     /* 0x848 */ void* clientThreadSp;
 } FaultMgr; // size = 0x850
 
