@@ -357,12 +357,6 @@ ASSET_C_FILES_EXTRACTED := $(filter-out %.inc.c,$(foreach dir,$(ASSET_BIN_DIRS_E
 ASSET_C_FILES_COMMITTED := $(filter-out %.inc.c,$(foreach dir,$(ASSET_BIN_DIRS_COMMITTED),$(wildcard $(dir)/*.c)))
 SRC_C_FILES   := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c)))
 
-ifeq ($(PLATFORM),N64)
-SRC_C_FILES := $(filter-out src/code/fault_gc.c src/code/fault_gc_drawer.c,$(SRC_C_FILES))
-else
-SRC_C_FILES := $(filter-out src/code/fault_n64.c,$(SRC_C_FILES))
-endif
-
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(SRC_C_FILES:.c=.o),$(BUILD_DIR)/$f) \

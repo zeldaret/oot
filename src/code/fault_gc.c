@@ -40,6 +40,13 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
+
+// Include versions.h first and redefine FAULT_VERSION
+// This allows this file to compile even when versions.h uses FAULT_OOTN64
+#include "versions.h"
+#undef FAULT_VERSION
+#define FAULT_VERSION FAULT_OOTGC
+
 #include "global.h"
 #include "fault.h"
 #include "terminal.h"

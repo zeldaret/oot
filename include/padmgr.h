@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "irqmgr.h"
+#include "versions.h"
 
 typedef enum ControllerPakType {
     CONT_PAK_NONE,
@@ -50,9 +51,9 @@ void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, 
 
 // Fetching inputs
 
-// This function cannot be prototyped here without AVOID_UB because it is called incorrectly in fault.c (see bug in
-// `Fault_PadCallback`)
-#if PLATFORM_N64 || defined(AVOID_UB)
+// This function cannot be prototyped here in all configurations because it is called incorrectly in fault_gc.c
+// (see bug in `Fault_PadCallback`)
+#if FAULT_VERSION == FAULT_OOTN64 || defined(AVOID_UB)
 void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 gameRequest);
 #endif
 

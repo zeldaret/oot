@@ -1,3 +1,9 @@
+// Include versions.h first and redefine FAULT_VERSION
+// This allows this file to compile even when versions.h uses FAULT_OOTGC
+#include "versions.h"
+#undef FAULT_VERSION
+#define FAULT_VERSION FAULT_OOTN64
+
 #include "global.h"
 #include "fault.h"
 #include "terminal.h"
