@@ -1,5 +1,8 @@
 #include "global.h"
 #include "boot.h"
+#if PLATFORM_N64
+#include "cic6105.h"
+#endif
 
 StackEntry sBootThreadInfo;
 OSThread sIdleThread;
@@ -15,9 +18,11 @@ void bootproc(void) {
     StackCheck_Init(&sBootThreadInfo, sBootThreadStack, STACK_TOP(sBootThreadStack), 0, -1, "boot");
 
     osMemSize = osGetMemSize();
+#if PLATFORM_N64
+    func_80001720();
+#endif
     bootclear();
-    __osInitialize_common();
-    __osInitialize_autodetect();
+    osInitialize();
 
     gCartHandle = osCartRomInit();
     osDriveRomInit();
