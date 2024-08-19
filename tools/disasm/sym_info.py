@@ -73,10 +73,17 @@ def main():
     args = parser.parse_args()
 
     sym_or_vma = args.sym_or_vma
-    try:
-        target_sym_name = None
-        target_vma = int(sym_or_vma, 16)
-    except ValueError:
+    if "_" in sym_or_vma:
+        # special case to avoid parsing e.g. `D_80123456` as hexadecimal 0xD80123456
+        sym_or_vma_is_sym = True
+    else:
+        try:
+            target_sym_name = None
+            target_vma = int(sym_or_vma, 16)
+            sym_or_vma_is_sym = False
+        except ValueError:
+            sym_or_vma_is_sym = True
+    if sym_or_vma_is_sym:
         target_sym_name = sym_or_vma
         target_vma = None
 
@@ -128,7 +135,10 @@ def main():
     if target_vma is None:
         parser.error(f"No symbol '{target_sym_name}'")
     else:
-        print(f"{target_sym_name} = 0x{target_vma:08X}")
+        if target_sym_name is not None:
+            print(f"{target_sym_name} = 0x{target_vma:08X}")
+
+    del target_sym_name
 
     filesections = list[FileSection]()
 
