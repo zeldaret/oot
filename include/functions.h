@@ -1732,7 +1732,7 @@ void guMtxF2L(MtxF* m1, Mtx* m2);
 void* osViGetCurrentFramebuffer(void);
 s32 __osSpSetPc(void* pc);
 f32 absf(f32);
-void* memset(void* dest, s32 val, size_t len);
+void* memset(void* dest, int val, size_t len);
 void* memmove(void* dest, const void* src, size_t len);
 void Message_UpdateOcarinaMemoryGame(PlayState* play);
 u8 Message_ShouldAdvance(PlayState* play);
