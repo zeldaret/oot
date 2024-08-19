@@ -487,7 +487,7 @@ void EnIshi_DrawLarge(EnIshi* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ishi.c", 1055);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ishi.c", 1055);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);
 

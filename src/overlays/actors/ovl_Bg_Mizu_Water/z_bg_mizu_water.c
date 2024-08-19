@@ -341,7 +341,7 @@ void BgMizuWater_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1,
                                 0, -gameplayFrames * 1, 32, 32));
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_mizu_water.c", 749);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_mizu_water.c", 749);
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
 

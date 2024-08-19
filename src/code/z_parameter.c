@@ -3007,7 +3007,7 @@ void Interface_DrawActionButton(PlayState* play) {
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
     Matrix_RotateX(interfaceCtx->unk_1F4 / 10000.0f, MTXMODE_APPLY);
 
-    gSPMATRIX_SET_NEW(OVERLAY_DISP++, play->state.gfxCtx, "../z_parameter.c", 3177);
+    MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_parameter.c", 3177);
     gSPVertex(OVERLAY_DISP++, &interfaceCtx->actionVtx[0], 4, 0);
 
     gDPLoadTextureBlock(OVERLAY_DISP++, gButtonBackgroundTex, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
@@ -3374,7 +3374,7 @@ void Interface_Draw(PlayState* play) {
         Matrix_Translate(0.0f, 0.0f, R_A_LABEL_Z(gSaveContext.language) / 10.0f, MTXMODE_NEW);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateX(interfaceCtx->unk_1F4 / 10000.0f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(OVERLAY_DISP++, play->state.gfxCtx, "../z_parameter.c", 3701);
+        MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_parameter.c", 3701);
         gSPVertex(OVERLAY_DISP++, &interfaceCtx->actionVtx[4], 4, 0);
 
         if ((interfaceCtx->unk_1EC < 2) || (interfaceCtx->unk_1EC == 3)) {

@@ -62,7 +62,7 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
     Matrix_RotateX(BINANG_TO_RAD(0xBB8), MTXMODE_APPLY);
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
     Matrix_RotateZ(0.0f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_end_title.c", 412);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_end_title.c", 412);
     gSPDisplayList(POLY_XLU_DISP++, sTriforceDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_end_title.c", 417);

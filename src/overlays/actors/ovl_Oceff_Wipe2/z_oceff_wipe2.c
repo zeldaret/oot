@@ -96,7 +96,7 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_wipe2.c", 400);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_wipe2.c", 400);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 100, 0, 128);

@@ -165,7 +165,7 @@ void BgMoriKaitenkabe_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 352);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 352);
 
     gSPDisplayList(POLY_OPA_DISP++, gMoriKaitenkabeDL);
 

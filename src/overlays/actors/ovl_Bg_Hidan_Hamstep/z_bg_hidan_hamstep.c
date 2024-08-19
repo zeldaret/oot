@@ -403,7 +403,7 @@ void BgHidanHamstep_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 787);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 787);
 
     if (PARAMS_GET_U(thisx->params, 0, 8) == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStoneStep1DL);

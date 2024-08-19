@@ -216,7 +216,7 @@ void ObjComb_Draw(Actor* thisx, PlayState* play) {
     Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_comb.c", 394);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_comb.c", 394);
 
     gSPDisplayList(POLY_OPA_DISP++, gFieldBeehiveDL);
 

@@ -294,7 +294,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play2) {
             Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
 
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_eff_dust.c", 449);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_dust.c", 449);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
         }
 
@@ -350,7 +350,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2) {
 
             Matrix_ReplaceRotation(&play->billboardMtxF);
 
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_eff_dust.c", 506);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_dust.c", 506);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
         }
 

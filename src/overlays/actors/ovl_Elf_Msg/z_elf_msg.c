@@ -186,7 +186,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
     }
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg.c", 448);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg.c", 448);
     gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
 
     if (PARAMS_GET_NOSHIFT(thisx->params, 14, 1)) {

@@ -133,7 +133,7 @@ void EnStream_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_stream.c", 295);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_stream.c", 299);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_stream.c", 299);
     multipliedFrames = frames * 20;
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 30, -multipliedFrames, 0x40, 0x40, 1,

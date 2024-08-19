@@ -369,7 +369,7 @@ void func_8088BC40(PlayState* play, BgHidanRock* this) {
     Matrix_Scale(6.0f, this->unk_16C, 6.0f, MTXMODE_APPLY);
 
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sVerticalFlamesTexs[play->gameplayFrames & 7]));
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_hidan_rock.c", 853);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_hidan_rock.c", 853);
     gSPDisplayList(POLY_XLU_DISP++, gFireTempleBigVerticalFlameDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_hidan_rock.c", 857);

@@ -606,7 +606,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, PlayState* play) {
     }
 
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_wallmas.c", 1421);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_wallmas.c", 1421);
     gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_wallmas.c", 1426);
@@ -635,7 +635,7 @@ void EnWallMas_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
         Matrix_RotateZ(DEG_TO_RAD(15), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
 
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_wallmas.c", 1489);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_wallmas.c", 1489);
         gSPDisplayList(POLY_OPA_DISP++, gWallmasterFingerDL);
 
         Matrix_Pop();

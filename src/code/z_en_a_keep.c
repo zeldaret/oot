@@ -353,7 +353,7 @@ void EnAObj_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 1, 60, 60, 60, 50);
     }
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_a_keep.c", 712);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_a_keep.c", 712);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[type]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_a_keep.c", 715);

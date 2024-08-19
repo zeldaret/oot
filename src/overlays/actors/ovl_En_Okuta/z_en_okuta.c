@@ -715,7 +715,7 @@ void EnOkuta_Draw(Actor* thisx, PlayState* play) {
 
         Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD(this->actor.home.rot.z), MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_okuta.c", 1657);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_okuta.c", 1657);
         gSPDisplayList(POLY_OPA_DISP++, gOctorokProjectileDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_okuta.c", 1662);

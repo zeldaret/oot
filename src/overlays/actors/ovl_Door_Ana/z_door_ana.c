@@ -177,7 +177,7 @@ void DoorAna_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_door_ana.c", 440);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_door_ana.c", 446);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_door_ana.c", 446);
     gSPDisplayList(POLY_XLU_DISP++, gGrottoDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_door_ana.c", 449);

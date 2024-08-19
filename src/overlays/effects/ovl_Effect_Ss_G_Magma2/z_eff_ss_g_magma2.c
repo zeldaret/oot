@@ -86,7 +86,7 @@ void EffectSsGMagma2_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
     gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_g_magma2.c", 282);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_g_magma2.c", 282);
 
     if (this->rDrawMode == 0) {
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_61);

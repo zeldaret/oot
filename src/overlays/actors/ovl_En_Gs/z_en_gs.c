@@ -587,7 +587,7 @@ void EnGs_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateZ(BINANG_TO_RAD(this->unk_1A0[1].z), MTXMODE_APPLY);
         }
 
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_gs.c", 1064);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_gs.c", 1064);
         gSPDisplayList(POLY_OPA_DISP++, gGossipStoneMaterialDL);
 
         if (this->unk_19E & 4) {
@@ -606,7 +606,7 @@ void EnGs_Draw(Actor* thisx, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_gs.c", 1087);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_gs.c", 1087);
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14,
                                         0x20, 0x80));

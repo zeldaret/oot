@@ -36,7 +36,7 @@ void SkelAnime_DrawLimbLod(PlayState* play, s32 limbIndex, void** skeleton, Vec3
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, limbIndex, &dList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 805);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 805);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -92,7 +92,7 @@ void SkelAnime_DrawLod(PlayState* play, void** skeleton, Vec3s* jointTable, Over
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, 1, &dList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 881);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 881);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -254,7 +254,7 @@ void SkelAnime_DrawLimbOpa(PlayState* play, s32 limbIndex, void** skeleton, Vec3
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, limbIndex, &dList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 1103);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 1103);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -308,7 +308,7 @@ void SkelAnime_DrawOpa(PlayState* play, void** skeleton, Vec3s* jointTable, Over
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, 1, &dList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 1176);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 1176);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -519,7 +519,7 @@ Gfx* SkelAnime_DrawLimb(PlayState* play, s32 limbIndex, void** skeleton, Vec3s* 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, limbIndex, &dList, &pos, &rot, arg, &gfx)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMATRIX_SET_NEW(gfx++, play->state.gfxCtx, "../z_skelanime.c", 1489);
+            MATRIX_FINALIZE_AND_LOAD(gfx++, play->state.gfxCtx, "../z_skelanime.c", 1489);
             gSPDisplayList(gfx++, dList);
         }
     }
@@ -575,7 +575,7 @@ Gfx* SkelAnime_Draw(PlayState* play, void** skeleton, Vec3s* jointTable, Overrid
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, 1, &dList, &pos, &rot, arg, &gfx)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMATRIX_SET_NEW(gfx++, play->state.gfxCtx, "../z_skelanime.c", 1558);
+            MATRIX_FINALIZE_AND_LOAD(gfx++, play->state.gfxCtx, "../z_skelanime.c", 1558);
             gSPDisplayList(gfx++, dList);
         }
     }

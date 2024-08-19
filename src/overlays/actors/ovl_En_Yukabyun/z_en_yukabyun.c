@@ -150,7 +150,7 @@ void EnYukabyun_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[this->unk_152]));
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_yukabyun.c", 373);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_yukabyun.c", 373);
     gSPDisplayList(POLY_OPA_DISP++, gFloorTileEnemyDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_yukabyun.c", 378);

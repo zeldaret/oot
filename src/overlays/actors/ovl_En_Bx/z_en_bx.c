@@ -216,7 +216,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 16, 16, 1, 0,
                                 (play->gameplayFrames * -10) % 128, 32, 32));
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bx.c", 478);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bx.c", 478);
 
     if (PARAMS_GET_NOSHIFT(this->actor.params, 7, 1)) {
         func_809D1D0C(&this->actor, play);

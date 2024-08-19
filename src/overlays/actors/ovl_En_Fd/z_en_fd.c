@@ -905,7 +905,7 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fd.c", 2006);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fd.c", 2006);
         idx = eff->timer * (8.0f / eff->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
@@ -941,7 +941,7 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fd.c", 2064);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fd.c", 2064);
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
     }
 

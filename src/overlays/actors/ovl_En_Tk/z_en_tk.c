@@ -112,7 +112,7 @@ void EnTkEff_Draw(EnTk* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->size, eff->size, 1.0f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_tk_eff.c", 140);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_tk_eff.c", 140);
 
         imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustTextures) / eff->timeTotal);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTextures[imageIdx]));

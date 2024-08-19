@@ -247,7 +247,7 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, alpha * 0.1f);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_treemouth.c", 932);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_treemouth.c", 932);
     gSPDisplayList(POLY_OPA_DISP++, gDekuTreeMouthDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_treemouth.c", 937);

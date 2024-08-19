@@ -122,7 +122,7 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot03_taki.c", 325);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot03_taki.c", 325);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 

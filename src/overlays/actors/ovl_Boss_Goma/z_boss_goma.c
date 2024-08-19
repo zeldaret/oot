@@ -2005,7 +2005,7 @@ s32 BossGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
                 if (*dList != NULL) {
                     Matrix_Push();
                     Matrix_Scale(this->eyeIrisScaleX, this->eyeIrisScaleY, 1.0f, MTXMODE_APPLY);
-                    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_goma.c", 4815);
+                    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_goma.c", 4815);
                     gSPDisplayList(POLY_OPA_DISP++, *dList);
                     Matrix_Pop();
                 }
@@ -2025,7 +2025,7 @@ s32 BossGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
                 Matrix_Scale(this->tailLimbsScale[limbIndex - BOSSGOMA_LIMB_TAIL4],
                              this->tailLimbsScale[limbIndex - BOSSGOMA_LIMB_TAIL4],
                              this->tailLimbsScale[limbIndex - BOSSGOMA_LIMB_TAIL4], MTXMODE_APPLY);
-                gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_goma.c", 4836);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_goma.c", 4836);
                 gSPDisplayList(POLY_OPA_DISP++, *dList);
                 Matrix_Pop();
             }

@@ -194,7 +194,7 @@ void EnZo_DrawEffectsRipples(EnZo* this, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->color.a);
         Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
         Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_zo_eff.c", 242);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_zo_eff.c", 242);
         gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesModelDL);
     }
 
@@ -228,7 +228,7 @@ void EnZo_DrawEffectsBubbles(EnZo* this, PlayState* play) {
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_zo_eff.c", 281);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_zo_eff.c", 281);
         gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesModelDL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 286);
@@ -258,7 +258,7 @@ void EnZo_DrawEffectsSplashes(EnZo* this, PlayState* play) {
         Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_zo_eff.c", 325);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_zo_eff.c", 325);
 
         gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesModelDL);
     }

@@ -160,7 +160,7 @@ void BgMizuShutter_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mizu_shutter.c", 410);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mizu_shutter.c", 415);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mizu_shutter.c", 415);
 
     if (this->displayList != NULL) {
         gSPDisplayList(POLY_OPA_DISP++, this->displayList);

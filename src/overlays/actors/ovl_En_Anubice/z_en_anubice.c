@@ -484,7 +484,7 @@ void EnAnubice_PostLimbDraw(struct PlayState* play, s32 limbIndex, Gfx** dList, 
     if (limbIndex == ANUBICE_LIMB_HEAD) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_anubice.c", 853);
 
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_anubice.c", 856);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_anubice.c", 856);
         gSPDisplayList(POLY_XLU_DISP++, gAnubiceEyesDL);
         Matrix_MultVec3f(&pos, &this->headPos);
 

@@ -125,7 +125,7 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
 #endif
 
                 Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_lmap_mark.c", 272);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_lmap_mark.c", 272);
                 Matrix_Pop();
 
                 gSPVertex(POLY_OPA_DISP++, mapMarkData->vtx, mapMarkData->vtxCount, 0);

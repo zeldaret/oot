@@ -104,7 +104,7 @@ void EnGanonOrgan_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_OPA_DISP++, 0x09, EnGanonOrgan_EmptyDList(play->state.gfxCtx));
     }
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ganon_organ.c", 221);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ganon_organ.c", 221);
 
     gSPDisplayList(POLY_OPA_DISP++, sRoomOrganAndFloorDL);
     gSPDisplayList(POLY_OPA_DISP++, sRoomStatuesDL);

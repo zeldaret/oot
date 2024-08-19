@@ -482,7 +482,7 @@ void EnArrow_Draw(Actor* thisx, PlayState* play) {
         Matrix_RotateZ((this->actor.speed == 0.0f) ? 0.0f : BINANG_TO_RAD((play->gameplayFrames & 0xFF) * 4000),
                        MTXMODE_APPLY);
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_arrow.c", 1374);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_arrow.c", 1374);
         gSPDisplayList(POLY_XLU_DISP++, gEffSparklesDL);
         Matrix_Pop();
         Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_APPLY);

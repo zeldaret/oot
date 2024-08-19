@@ -113,7 +113,7 @@ void EffectSsEnIce_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(BINANG_TO_RAD(this->rYaw), MTXMODE_APPLY);
     Matrix_RotateX(BINANG_TO_RAD(this->rPitch), MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_eff_en_ice.c", 261);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_en_ice.c", 261);
 
     hiliteLightDir.x = 89.8f;
     hiliteLightDir.y = 0.0f;

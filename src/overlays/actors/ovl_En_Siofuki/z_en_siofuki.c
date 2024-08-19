@@ -286,7 +286,7 @@ void EnSiofuki_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Translate(0.0f, this->unk_170, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_siofuki.c", 662);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_siofuki.c", 662);
     x = gameplayFrames * 15;
     y = gameplayFrames * -15;
     gSPSegment(POLY_XLU_DISP++, 0x08,

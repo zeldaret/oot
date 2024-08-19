@@ -108,7 +108,7 @@ void BgInGate_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_ingate.c", 245);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_ingate.c", 245);
 
     gSPDisplayList(POLY_OPA_DISP++, gIngoGateDL);
 

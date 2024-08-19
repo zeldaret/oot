@@ -152,10 +152,10 @@ void BgHaka_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_haka.c", 406);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_haka.c", 406);
     gSPDisplayList(POLY_OPA_DISP++, gGravestoneStoneDL);
     Matrix_Translate(0.0f, 0.0f, thisx->minVelocityY * 10.0f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_haka.c", 416);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_haka.c", 416);
     gSPDisplayList(POLY_XLU_DISP++, gGravestoneEarthDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_haka.c", 421);

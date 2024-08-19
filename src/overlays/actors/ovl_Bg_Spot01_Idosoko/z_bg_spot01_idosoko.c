@@ -73,7 +73,7 @@ void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoBOTWStoneDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 171);

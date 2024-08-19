@@ -545,7 +545,7 @@ void EnGb_DrawCagedSouls(EnGb* this, PlayState* play) {
         }
         Matrix_Scale(0.007f, 0.007f, 1.0f, MTXMODE_APPLY);
 
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_gb.c", 955);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_gb.c", 955);
         gSPDisplayList(POLY_XLU_DISP++, gPoeSellerCagedSoulDL);
 
         Matrix_Pop();

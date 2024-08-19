@@ -935,7 +935,7 @@ Gfx* DoorShutter_DrawJabuJabuDoor(PlayState* play, DoorShutter* this, Gfx* gfx) 
             Matrix_Scale(1.0f, yScale, 1.0f, MTXMODE_APPLY);
         }
 
-        gSPMATRIX_SET_NEW(gfx++, play->state.gfxCtx, "../z_door_shutter.c", 1991);
+        MATRIX_FINALIZE_AND_LOAD(gfx++, play->state.gfxCtx, "../z_door_shutter.c", 1991);
         gSPDisplayList(gfx++, sJabuDoorDLists[i]);
 
         angle -= 2 * M_PI / ARRAY_COUNT(sJabuDoorDLists);
@@ -1004,7 +1004,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255.0f * scale); // no purpose?
                 Matrix_Translate(0, 0, gfxInfo->barsOffsetZ, MTXMODE_APPLY);
                 Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_door_shutter.c", 2069);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_door_shutter.c", 2069);
                 gSPDisplayList(POLY_OPA_DISP++, gfxInfo->barsDL);
             }
         } else {
@@ -1025,12 +1025,12 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
             } else if (this->doorType == SHUTTER_BOSS) {
                 gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBossDoorTextures[this->bossDoorTexIndex]));
             }
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_door_shutter.c", 2109);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_door_shutter.c", 2109);
             gSPDisplayList(POLY_OPA_DISP++, gfxInfo->doorDL);
             if (this->barsClosedAmount != 0.0f && gfxInfo->barsDL != NULL) {
                 Matrix_Translate(0, gfxInfo->barsOpenOffsetY * (1.0f - this->barsClosedAmount), gfxInfo->barsOffsetZ,
                                  MTXMODE_APPLY);
-                gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_door_shutter.c", 2119);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_door_shutter.c", 2119);
                 gSPDisplayList(POLY_OPA_DISP++, gfxInfo->barsDL);
             }
         }

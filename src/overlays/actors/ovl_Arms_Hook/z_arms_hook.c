@@ -328,7 +328,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
 
         func_80090480(play, &this->collider, &this->hookInfo, &hookNewTip, &hookNewBase);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_arms_hook.c", 895);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_arms_hook.c", 895);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotTipDL);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
         Math_Vec3f_Diff(&player->unk_3C8, &this->actor.world.pos, &sp78);
@@ -337,7 +337,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
         Matrix_RotateY(Math_FAtan2F(sp78.x, sp78.z), MTXMODE_APPLY);
         Matrix_RotateX(Math_FAtan2F(-sp78.y, sp5C), MTXMODE_APPLY);
         Matrix_Scale(0.015f, 0.015f, sqrtf(SQ(sp78.y) + sp58) * 0.01f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_arms_hook.c", 910);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_arms_hook.c", 910);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotChainDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_arms_hook.c", 913);

@@ -1045,7 +1045,7 @@ void EnPoh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     Collider_UpdateSpheres(limbIndex, &this->colliderSph);
     if (this->actionFunc == func_80ADF15C && this->unk_198 >= 2 && limbIndex == this->info->unk_7) {
-        gSPMATRIX_SET_NEW((*gfxP)++, play->state.gfxCtx, "../z_en_poh.c", 2460);
+        MATRIX_FINALIZE_AND_LOAD((*gfxP)++, play->state.gfxCtx, "../z_en_poh.c", 2460);
         gSPDisplayList((*gfxP)++, this->info->burnDisplayList);
     }
     if (limbIndex == this->info->unk_6) {
@@ -1087,7 +1087,7 @@ void EnPoh_DrawRegular(Actor* thisx, PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
     Matrix_Put(&this->unk_368);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_poh.c", 2676);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_poh.c", 2676);
     gSPDisplayList(POLY_OPA_DISP++, this->info->lanternDisplayList);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_poh.c", 2681);
 }
@@ -1137,7 +1137,7 @@ void EnPoh_DrawComposer(Actor* thisx, PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
     Matrix_Put(&this->unk_368);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_poh.c", 2787);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_poh.c", 2787);
     gSPDisplayList(POLY_OPA_DISP++, this->info->lanternDisplayList);
     gSPDisplayList(POLY_OPA_DISP++, gPoeComposerLanternBottomDL);
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1166,7 +1166,7 @@ void EnPoh_DrawSoul(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_OPA_DISP++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
         Lights_PointGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                                 this->actor.world.pos.z, this->envColor.r, this->envColor.g, this->envColor.b, 200);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_poh.c", 2854);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_poh.c", 2854);
         gSPDisplayList(POLY_OPA_DISP++, this->info->lanternDisplayList);
         if (this->infoIdx == EN_POH_INFO_COMPOSER) {
             Color_RGBA8* envColor = (this->actor.params == EN_POH_SHARP) ? &D_80AE1B4C : &D_80AE1B50;
@@ -1186,7 +1186,7 @@ void EnPoh_DrawSoul(Actor* thisx, PlayState* play) {
                         this->info->primColor.b, this->lightColor.a);
         gDPSetEnvColor(POLY_XLU_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
         Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000) * 9.58738e-05f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_poh.c", 2910);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_poh.c", 2910);
         gSPDisplayList(POLY_XLU_DISP++, this->info->soulDisplayList);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_poh.c", 2916);

@@ -135,7 +135,7 @@ void func_808C0EEC(BgZg* this, PlayState* play) {
     OPEN_DISPS(localGfxCtx, "../z_bg_zg.c", 311);
 
     Gfx_SetupDL_25Opa(localGfxCtx);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, localGfxCtx, "../z_bg_zg.c", 315);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, localGfxCtx, "../z_bg_zg.c", 315);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseBarsDL);
 
     CLOSE_DISPS(localGfxCtx, "../z_bg_zg.c", 320);

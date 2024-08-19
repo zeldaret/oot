@@ -162,7 +162,7 @@ void OceffStorm_Draw(Actor* thisx, PlayState* play) {
     vtxPtr[0].v.cn[3] = vtxPtr[6].v.cn[3] = vtxPtr[16].v.cn[3] = vtxPtr[25].v.cn[3] = this->vtxAlpha >> 1;
     vtxPtr[10].v.cn[3] = vtxPtr[22].v.cn[3] = this->vtxAlpha;
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_storm.c", 498);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_storm.c", 498);
 
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 4, (0 - scroll) * 8,

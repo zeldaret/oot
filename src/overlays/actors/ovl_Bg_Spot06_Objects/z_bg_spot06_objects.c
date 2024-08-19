@@ -432,7 +432,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot06_objects.c", 850);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot06_objects.c", 850);
 
     gameplayFrames = play->state.frames;
 

@@ -132,7 +132,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
 
     Matrix_Push();
     Matrix_Scale(0.8f, 0.8f, 0.8f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_efc_erupc.c", 321);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_efc_erupc.c", 321);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
         if ((play->csCtx.actorCues[1] != NULL) && (play->csCtx.actorCues[1]->id == 2)) {
@@ -141,7 +141,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
     }
     Matrix_Pop();
     Matrix_Scale(3.4f, 3.4f, 3.4f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_efc_erupc.c", 333);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_efc_erupc.c", 333);
     if (play->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
@@ -175,7 +175,7 @@ void EfcErupc_DrawEffects(EfcErupcEffect* effect, PlayState* play) {
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_efc_erupc.c", 393);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_efc_erupc.c", 393);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_0027D8);
         }
     }

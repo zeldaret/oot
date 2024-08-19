@@ -1029,7 +1029,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(effect->roll, MTXMODE_APPLY);
 
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_bg_dy_yoseizo.c", 1810);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_bg_dy_yoseizo.c", 1810);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleModelDL));
         }
     }

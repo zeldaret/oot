@@ -189,7 +189,7 @@ void EnLight_Draw(Actor* thisx, PlayState* play) {
     }
 
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_light.c", 488);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_light.c", 488);
     gSPDisplayList(POLY_XLU_DISP++, dList);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_light.c", 491);

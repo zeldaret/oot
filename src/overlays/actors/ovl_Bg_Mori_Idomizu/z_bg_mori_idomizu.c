@@ -165,7 +165,7 @@ void BgMoriIdomizu_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_mori_idomizu.c", 360);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_mori_idomizu.c", 360);
 
     gSPSegment(POLY_XLU_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 

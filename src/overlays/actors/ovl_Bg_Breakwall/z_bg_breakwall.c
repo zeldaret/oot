@@ -297,7 +297,7 @@ void BgBreakwall_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_breakwall.c", 767);
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_breakwall.c", 771);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_breakwall.c", 771);
         gSPDisplayList(POLY_OPA_DISP++, this->bombableWallDList);
 
         if (this->colType >= 0) {

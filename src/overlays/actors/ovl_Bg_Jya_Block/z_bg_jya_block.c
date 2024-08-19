@@ -68,7 +68,7 @@ void BgJyaBlock_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gPushBlockGrayTex));
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_jya_block.c", 153);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_jya_block.c", 153);
     gDPSetEnvColor(POLY_OPA_DISP++, 232, 210, 176, 255);
     gSPDisplayList(POLY_OPA_DISP++, gPushBlockDL);
 

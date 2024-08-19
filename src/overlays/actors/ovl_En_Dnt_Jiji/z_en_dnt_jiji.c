@@ -439,7 +439,7 @@ void EnDntJiji_Draw(Actor* thisx, PlayState* play) {
     Matrix_Pop();
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dnt_jiji.c", 1040);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dnt_jiji.c", 1040);
     gSPDisplayList(POLY_OPA_DISP++, gDntJijiFlowerDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_jiji.c", 1043);
 }

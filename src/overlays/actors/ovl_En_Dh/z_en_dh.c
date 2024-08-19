@@ -579,7 +579,7 @@ void EnDh_Draw(Actor* thisx, PlayState* play) {
         Matrix_Translate(0.0f, -this->actor.shape.yOffset, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(this->dirtWaveSpread * 0.01f, this->dirtWaveHeight * 0.01f, this->dirtWaveSpread * 0.01f,
                      MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_dh.c", 1160);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_dh.c", 1160);
         gSPDisplayList(POLY_XLU_DISP++, object_dh_DL_007FC0);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dh.c", 1166);

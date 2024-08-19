@@ -237,7 +237,7 @@ void EnPoDesert_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, color.r, color.g, color.b, 255);
-            gSPMATRIX_SET_NEW((*gfxP)++, play->state.gfxCtx, "../z_en_po_desert.c", 523);
+            MATRIX_FINALIZE_AND_LOAD((*gfxP)++, play->state.gfxCtx, "../z_en_po_desert.c", 523);
             gSPDisplayList((*gfxP)++, gPoeFieldLanternDL);
             gSPDisplayList((*gfxP)++, gPoeFieldLanternTopDL);
             gDPPipeSync((*gfxP)++);

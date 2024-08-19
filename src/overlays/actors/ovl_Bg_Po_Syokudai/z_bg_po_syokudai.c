@@ -150,7 +150,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_po_syokudai.c", 315);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_po_syokudai.c", 319);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_po_syokudai.c", 319);
     gSPDisplayList(POLY_OPA_DISP++, gGoldenTorchDL);
 
     if (Flags_GetSwitch(play, this->actor.params)) {
@@ -179,7 +179,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
             MTXMODE_APPLY);
         Matrix_Scale(0.0027f, 0.0027f, 0.0027f, MTXMODE_APPLY);
 
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_po_syokudai.c", 368);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_po_syokudai.c", 368);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_po_syokudai.c", 373);

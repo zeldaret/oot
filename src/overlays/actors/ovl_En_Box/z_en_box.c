@@ -548,14 +548,14 @@ void EnBox_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     s32 pad;
 
     if (limbIndex == 1) {
-        gSPMATRIX_SET_NEW((*gfx)++, play->state.gfxCtx, "../z_en_box.c", 1492);
+        MATRIX_FINALIZE_AND_LOAD((*gfx)++, play->state.gfxCtx, "../z_en_box.c", 1492);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
             gSPDisplayList((*gfx)++, gTreasureChestChestFrontDL);
         } else {
             gSPDisplayList((*gfx)++, gTreasureChestBossKeyChestFrontDL);
         }
     } else if (limbIndex == 3) {
-        gSPMATRIX_SET_NEW((*gfx)++, play->state.gfxCtx, "../z_en_box.c", 1502);
+        MATRIX_FINALIZE_AND_LOAD((*gfx)++, play->state.gfxCtx, "../z_en_box.c", 1502);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
             gSPDisplayList((*gfx)++, gTreasureChestChestSideAndLidDL);
         } else {

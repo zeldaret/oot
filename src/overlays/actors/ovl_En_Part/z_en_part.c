@@ -313,7 +313,7 @@ void EnPart_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (this->displayList != NULL) {
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_part.c", 696);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_part.c", 696);
         gSPDisplayList(POLY_OPA_DISP++, this->displayList);
     }
 

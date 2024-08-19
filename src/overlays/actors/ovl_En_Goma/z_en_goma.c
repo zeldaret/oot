@@ -820,20 +820,20 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateY(-(this->eggSquishAngle * 0.15f), MTXMODE_APPLY);
             Matrix_Translate(0.0f, this->eggYOffset, 0.0f, MTXMODE_APPLY);
             Matrix_RotateX(this->eggPitch, MTXMODE_APPLY);
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_goma.c", 2101);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_goma.c", 2101);
             gSPDisplayList(POLY_OPA_DISP++, gObjectGolEggDL);
             Matrix_Pop();
             break;
 
         case ENGOMA_HATCH_DEBRIS:
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_goma.c", 2107);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_goma.c", 2107);
             gSPDisplayList(POLY_OPA_DISP++, gBrownFragmentDL);
             break;
 
         case ENGOMA_BOSSLIMB:
             if (this->bossLimbDL != NULL) {
                 gSPSegment(POLY_OPA_DISP++, 0x08, EnGoma_NoBackfaceCullingDlist(play->state.gfxCtx));
-                gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_goma.c", 2114);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_goma.c", 2114);
                 gSPDisplayList(POLY_OPA_DISP++, this->bossLimbDL);
             }
             break;

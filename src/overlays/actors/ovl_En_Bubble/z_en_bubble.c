@@ -420,7 +420,7 @@ void EnBubble_Draw(Actor* thisx, PlayState* play) {
         Matrix_Scale(this->graphicEccentricity + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD(-(f32)play->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
 
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bubble.c", 1220);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bubble.c", 1220);
         gSPDisplayList(POLY_XLU_DISP++, gBubbleDL);
     }
 

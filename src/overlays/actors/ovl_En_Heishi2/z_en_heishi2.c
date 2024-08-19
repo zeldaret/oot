@@ -831,7 +831,7 @@ void EnHeishi2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 void EnHeishi2_DrawKingGuard(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1772);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_heishi2.c", 1774);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_heishi2.c", 1774);
     gSPDisplayList(POLY_OPA_DISP++, gHeishiKingGuardDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1777);

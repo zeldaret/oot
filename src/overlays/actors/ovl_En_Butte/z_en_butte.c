@@ -129,7 +129,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
     Matrix_SetTranslateRotateYXZ(this->actor.focus.pos.x + sp5C.x, this->actor.focus.pos.y + sp5C.y,
                                  this->actor.focus.pos.z + sp5C.z, &camDir);
     Matrix_Scale(sTransformationEffectScale, sTransformationEffectScale, sTransformationEffectScale, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_choo.c", 317);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_choo.c", 317);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffFlash1DL));

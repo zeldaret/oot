@@ -165,7 +165,7 @@ void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg2.c", 362);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg2.c", 362);
     gSPDisplayList(POLY_XLU_DISP++, D_809ADC38);
     gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
 

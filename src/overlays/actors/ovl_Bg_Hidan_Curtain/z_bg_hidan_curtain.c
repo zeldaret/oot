@@ -253,7 +253,7 @@ void BgHidanCurtain_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, this->texScroll & 0x7F, 0, 0x20, 0x40, 1, 0,
                                 (this->texScroll * -0xF) & 0xFF, 0x20, 0x40));
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_hidan_curtain.c", 698);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_hidan_curtain.c", 698);
 
     gSPDisplayList(POLY_XLU_DISP++, gEffFireCircleDL);
 

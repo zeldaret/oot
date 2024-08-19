@@ -79,7 +79,7 @@ void EnTana_DrawWoodenShelves(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_tana.c", 148);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tana.c", 152);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tana.c", 152);
     gSPDisplayList(POLY_OPA_DISP++, sShelfDLists[thisx->params]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_tana.c", 157);
@@ -92,7 +92,7 @@ void EnTana_DrawStoneShelves(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sStoneTextures[thisx->params]));
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tana.c", 169);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tana.c", 169);
     gSPDisplayList(POLY_OPA_DISP++, sShelfDLists[thisx->params]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_tana.c", 174);

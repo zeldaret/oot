@@ -744,7 +744,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
         if ((thisx->params <= TAILPASARAN_HEAD) || (thisx->params == TAILPASARAN_HEAD_DYING)) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1459);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1459);
             gSPDisplayList(POLY_OPA_DISP++, gTailpasaranHeadDL);
 
             Matrix_Translate(0.0f, 0.0f, 8.0f, MTXMODE_APPLY);
@@ -760,7 +760,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gTailpasaranTailSegmentTex));
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1480);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1480);
             gSPDisplayList(POLY_XLU_DISP++, gTailpasaranTailSegmentDL);
         }
     }

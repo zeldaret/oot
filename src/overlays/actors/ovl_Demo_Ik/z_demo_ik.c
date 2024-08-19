@@ -266,11 +266,11 @@ void DemoIk_Type1PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     if (limbIndex == 1) {
         switch (this->actor.params) {
             case 0:
-                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inArmer.c", 390);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inArmer.c", 390);
                 gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
                 break;
             case 2:
-                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inArmer.c", 396);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inArmer.c", 396);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
                 break;
         }
@@ -421,19 +421,19 @@ void DemoIk_Type2PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     if (limbIndex == 1 && (frame >= 30.0f)) {
         switch (this->actor.params) {
             case 3:
-                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 274);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 274);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_017028);
                 break;
             case 4:
-                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 280);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 280);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_017170);
                 break;
             case 5:
-                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 286);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 286);
                 gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
                 break;
             default:
-                gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 292);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 292);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
                 break;
         }

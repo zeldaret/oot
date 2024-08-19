@@ -366,10 +366,10 @@ void EnBom_Draw(Actor* thisx, PlayState* play) {
         Matrix_ReplaceRotation(&play->billboardMtxF);
         func_8002EBCC(thisx, play, 0);
 
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bom.c", 928);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bom.c", 928);
         gSPDisplayList(POLY_OPA_DISP++, gBombCapDL);
         Matrix_RotateZYX(0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bom.c", 934);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bom.c", 934);
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);

@@ -101,7 +101,7 @@ void DemoShd_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_shd.c", 729);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_shd.c", 729);
     gSPDisplayList(POLY_XLU_DISP++, D_809932D0);
 
     if (this->unk_14C & 1) {

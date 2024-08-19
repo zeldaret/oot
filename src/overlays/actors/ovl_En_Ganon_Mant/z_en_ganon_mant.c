@@ -361,7 +361,7 @@ void EnGanonMant_DrawCloak(PlayState* play, EnGanonMant* this) {
 
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ganon_mant.c", 572);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ganon_mant.c", 572);
 
     // set texture
     gSPDisplayList(POLY_OPA_DISP++, gMantMaterialDL);

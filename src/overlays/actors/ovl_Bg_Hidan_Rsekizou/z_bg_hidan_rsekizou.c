@@ -232,7 +232,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568);
     gSPDisplayList(POLY_OPA_DISP++, gFireTempleSpinningFlamethrowerDL);
     Matrix_MtxFCopy(&mf, &gMtxFClear);
 

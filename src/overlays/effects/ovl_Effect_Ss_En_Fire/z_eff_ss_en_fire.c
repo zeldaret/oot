@@ -78,7 +78,7 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     scale = Math_SinS(this->life * 0x333) * (this->rScale * 0.00005f);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_eff_en_fire.c", 180);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_eff_en_fire.c", 180);
 
     redGreen = this->life - 5;
 

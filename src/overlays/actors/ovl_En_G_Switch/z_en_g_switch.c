@@ -463,7 +463,7 @@ void EnGSwitch_DrawPot(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 918);
 
         Gfx_SetupDL_25Opa(play2->state.gfxCtx);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_g_switch.c", 925);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_g_switch.c", 925);
         gSPDisplayList(POLY_OPA_DISP++, object_tsubo_DL_0017C0);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 928);
     }
@@ -481,7 +481,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 951);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         func_8002EBCC(&this->actor, play, 0);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_g_switch.c", 957);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_g_switch.c", 957);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 961);
@@ -564,7 +564,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, PlayState* play) {
             Matrix_RotateX(effect->rot.x, MTXMODE_APPLY);
             Matrix_RotateY(effect->rot.y, MTXMODE_APPLY);
             Matrix_RotateZ(effect->rot.z, MTXMODE_APPLY);
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_g_switch.c", 1088);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_g_switch.c", 1088);
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[effect->colorIdx]));
             gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         }

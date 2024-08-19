@@ -81,7 +81,7 @@ void EffectSsHahen_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_RotateY(this->rYaw * 0.01f, MTXMODE_APPLY);
     Matrix_RotateX(this->rPitch * 0.01f, MTXMODE_APPLY);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_eff_hahen.c", 228);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_eff_hahen.c", 228);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPDisplayList(POLY_OPA_DISP++, this->gfx);
 
@@ -104,7 +104,7 @@ void EffectSsHahen_DrawGray(PlayState* play, u32 index, EffectSs* this) {
     Matrix_RotateY(this->rYaw * 0.01f, MTXMODE_APPLY);
     Matrix_RotateX(this->rPitch * 0.01f, MTXMODE_APPLY);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_eff_hahen.c", 271);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_eff_hahen.c", 271);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetCombineLERP(POLY_OPA_DISP++, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0, SHADE, 0,
                       PRIMITIVE, 0);

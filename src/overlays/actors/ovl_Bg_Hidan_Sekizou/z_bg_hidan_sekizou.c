@@ -397,7 +397,7 @@ void BgHidanSekizou_Draw(Actor* thisx, PlayState* play2) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 827);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 831);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 831);
     if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStationaryFlamethrowerShortDL);
     } else {

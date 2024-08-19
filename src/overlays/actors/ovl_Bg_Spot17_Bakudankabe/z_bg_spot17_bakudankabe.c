@@ -131,7 +131,7 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 273);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 273);
 
     r = (r >> 1) + 0xC0;
     g = (g >> 1) + 0xC0;
@@ -146,7 +146,7 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 290);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 290);
     gSPDisplayList(POLY_XLU_DISP++, gCraterBombableWallCracksDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 295);

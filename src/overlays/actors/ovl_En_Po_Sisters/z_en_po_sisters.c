@@ -1302,7 +1302,7 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     s32 pad;
 
     if (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8 && limbIndex == 9) {
-        gSPMATRIX_SET_NEW((*gfxP)++, play->state.gfxCtx, "../z_en_po_sisters.c", 2876);
+        MATRIX_FINALIZE_AND_LOAD((*gfxP)++, play->state.gfxCtx, "../z_en_po_sisters.c", 2876);
         gSPDisplayList((*gfxP)++, gPoSistersBurnDL);
     }
     if (limbIndex == 8 && this->actionFunc != func_80ADB2B8) {
@@ -1366,7 +1366,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     }
     if (!(this->unk_199 & 0x80)) {
         Matrix_Put(&this->unk_2F8);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_sisters.c", 3034);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_sisters.c", 3034);
         gSPDisplayList(POLY_OPA_DISP++, gPoSistersTorchDL);
     }
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -1408,7 +1408,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
             phi_f20 = CLAMP(phi_f20, 0.5f, 0.8f) * 0.007f;
         }
         Matrix_Scale(phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_po_sisters.c", 3132);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_po_sisters.c", 3132);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_sisters.c", 3139);

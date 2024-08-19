@@ -104,7 +104,7 @@ void EnSkjneedle_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_skj_needle.c", 200);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_skj_needle.c", 205);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_skj_needle.c", 205);
     gSPDisplayList(POLY_OPA_DISP++, gSkullKidNeedleDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_skj_needle.c", 210);

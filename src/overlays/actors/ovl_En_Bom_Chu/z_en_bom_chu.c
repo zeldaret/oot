@@ -508,7 +508,7 @@ void EnBomChu_Draw(Actor* thisx, PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 9.0f + (colorIntensity * 209.0f), 9.0f + (colorIntensity * 34.0f),
                    35.0f + (colorIntensity * -35.0f), 255);
     Matrix_Translate(this->visualJitter * (1.0f / BOMBCHU_SCALE), 0.0f, 0.0f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bom_chu.c", 956);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bom_chu.c", 956);
     gSPDisplayList(POLY_OPA_DISP++, gBombchuDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bom_chu.c", 961);

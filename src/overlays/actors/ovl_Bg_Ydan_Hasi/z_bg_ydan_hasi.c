@@ -183,7 +183,7 @@ void BgYdanHasi_Draw(Actor* thisx, PlayState* play) {
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -play->gameplayFrames % 128,
                                     play->gameplayFrames % 128, 0x20, 0x20, 1, play->gameplayFrames % 128,
                                     play->gameplayFrames % 128, 0x20, 0x20));
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_ydan_hasi.c", 592);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_ydan_hasi.c", 592);
         gSPDisplayList(POLY_XLU_DISP++, gDTWaterPlaneDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 597);

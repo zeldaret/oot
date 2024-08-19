@@ -351,7 +351,7 @@ void func_80AF9C70(u8* shadowTexture, Player* player, PlayState* play) {
             20.0f;
     Matrix_Translate(tempx, 0.0f, tempz, MTXMODE_APPLY);
     Matrix_Scale(((BREG(56) - 250) / 1000.0f) + 0.6f, 1.0f, ((BREG(59) - 250) / 1000.0f) + 0.6f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_sda.c", 860);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_sda.c", 860);
     gSPDisplayList(POLY_XLU_DISP++, D_80AFA3D8);
     gDPLoadTextureBlock(POLY_XLU_DISP++, shadowTexture, G_IM_FMT_I, G_IM_SIZ_8b, 0x40, 0x40, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
@@ -359,7 +359,7 @@ void func_80AF9C70(u8* shadowTexture, Player* player, PlayState* play) {
 
     for (phi_s1 = 0; phi_s1 < KREG(78); phi_s1++) {
         Matrix_Scale((KREG(79) / 100.0f) + 1.0f, 1.0f, (KREG(79) / 100.0f) + 1.0f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_sda.c", 877);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_sda.c", 877);
         gSPDisplayList(POLY_XLU_DISP++, D_80AFA3F8);
     }
     PRINTF("SDA D 2\n");

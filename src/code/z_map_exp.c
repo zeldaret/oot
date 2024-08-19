@@ -334,7 +334,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
         Matrix_RotateX(-1.6f, MTXMODE_APPLY);
         tempX = (0x7FFF - player->actor.shape.rot.y) / 0x400;
         Matrix_RotateY(tempX / 10.0f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(OVERLAY_DISP++, play->state.gfxCtx, "../z_map_exp.c", 585);
+        MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_map_exp.c", 585);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 0, 255);
         gSPDisplayList(OVERLAY_DISP++, gCompassArrowDL);
@@ -347,7 +347,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
         Matrix_Scale(VREG(9) / 100.0f, VREG(9) / 100.0f, VREG(9) / 100.0f, MTXMODE_APPLY);
         Matrix_RotateX(VREG(52) / 10.0f, MTXMODE_APPLY);
         Matrix_RotateY(sPlayerInitialDirection / 10.0f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(OVERLAY_DISP++, play->state.gfxCtx, "../z_map_exp.c", 603);
+        MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_map_exp.c", 603);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0xFF, 200, 0, 0, 255);
         gSPDisplayList(OVERLAY_DISP++, gCompassArrowDL);

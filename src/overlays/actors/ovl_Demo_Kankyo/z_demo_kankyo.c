@@ -625,7 +625,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
             }
 
             Matrix_Translate(translateX, translateY, translateZ, MTXMODE_APPLY);
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1344);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1344);
             POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_star_field_DL_000080);
         }
@@ -647,7 +647,7 @@ void DemoKankyo_DrawRock(Actor* thisx, PlayState* play) {
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
     gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1404);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1404);
     gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1409);
@@ -677,7 +677,7 @@ void DemoKankyo_DrawClouds(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 255);
         gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
         gDPSetColorDither(POLY_XLU_DISP++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1461);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1461);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust5Tex));
 
         Gfx_SetupDL_61Xlu(play->state.gfxCtx);
@@ -697,10 +697,10 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Translate(-this->unk_150[0].unk_18, 0.0f, 0.0f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1492);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1492);
     gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007440);
     Matrix_Translate(this->unk_150[0].unk_18 + this->unk_150[0].unk_18, 0.0f, 0.0f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1497);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1497);
     gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007578);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1501);
@@ -716,7 +716,7 @@ void DemoKankyo_DrawLightPlane(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TexScroll(play->state.gfxCtx, 0, play->state.frames & 0x7F, 64, 32));
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1529);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 1529);
         gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_008390);
     }
 
@@ -878,7 +878,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_Mult(&play2->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(this->unk_150[i].unk_24), MTXMODE_APPLY);
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 2011);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 2011);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
             this->unk_150[i].unk_24 += 0x190;
         }
@@ -981,7 +981,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play) {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(this->unk_150[i].unk_24), MTXMODE_APPLY);
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 2572);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kankyo.c", 2572);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
             this->unk_150[i].unk_24 += 0x190;
         }

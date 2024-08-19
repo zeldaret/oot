@@ -255,7 +255,7 @@ extern struct GraphicsContext* __gfxCtx;
 
 #endif /* OOT_DEBUG */
 
-#define gSPMATRIX_SET_NEW(pkt, gfxCtx, file, line) \
+#define MATRIX_FINALIZE_AND_LOAD(pkt, gfxCtx, file, line) \
     gSPMatrix(pkt, MATRIX_FINALIZE(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
 
 #if OOT_NTSC

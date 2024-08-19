@@ -133,7 +133,7 @@ void BgMenkuriEye_Draw(Actor* thisx, PlayState* play) {
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_menkuri_eye.c", 331);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_menkuri_eye.c", 331);
 
     gSPDisplayList(POLY_XLU_DISP++, gGTGEyeStatueEyeDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_menkuri_eye.c", 335);

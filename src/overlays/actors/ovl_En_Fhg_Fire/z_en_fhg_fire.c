@@ -713,7 +713,7 @@ void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->fwork[FHGFIRE_ALPHA]);
         gDPSetEnvColor(POLY_XLU_DISP++, 165, 255, 75, 0);
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1745);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1745);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gPhantomLightningBlastDL));
     } else if ((this->actor.params == FHGFIRE_SPEAR_LIGHT) || (this->actor.params == FHGFIRE_ENERGY_BALL)) {
         PRINTF("yari hikari draw 1\n");
@@ -728,7 +728,7 @@ void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
         }
         gDPPipeSync(POLY_XLU_DISP++);
         Matrix_RotateZ((this->actor.shape.rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1801);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1801);
         gSPDisplayList(POLY_XLU_DISP++, gPhantomEnergyBallDL);
     } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT) ||
                (this->actor.params == FHGFIRE_WARP_DEATH)) {
@@ -736,7 +736,7 @@ void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (u8)this->fwork[FHGFIRE_WARP_ALPHA]);
         gDPSetEnvColor(POLY_XLU_DISP++, 90, 50, 95, (s8)(this->fwork[FHGFIRE_WARP_ALPHA] * 0.5f));
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1833);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1833);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (s16)this->fwork[FHGFIRE_WARP_TEX_1_X],
                                     (s16)this->fwork[FHGFIRE_WARP_TEX_1_Y], 0x40, 0x40, 1,
@@ -750,7 +750,7 @@ void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->fwork[FHGFIRE_ALPHA]);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 30, 0);
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1892);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1892);
         gSPDisplayList(POLY_XLU_DISP++, gPhantomLightningDL);
         PRINTF("FF DRAW 2\n");
     }

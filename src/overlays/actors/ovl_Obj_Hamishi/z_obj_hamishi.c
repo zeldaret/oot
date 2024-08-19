@@ -198,7 +198,7 @@ void ObjHamishi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_hamishi.c", 404);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_hamishi.c", 404);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 170, 130, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);
 

@@ -172,7 +172,7 @@ void EnNutsball_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
     Matrix_RotateZ(this->actor.home.rot.z * 9.58738e-05f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_nutsball.c", 333);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_nutsball.c", 333);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[NUTSBALL_GET_TYPE(&this->actor)]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_nutsball.c", 337);

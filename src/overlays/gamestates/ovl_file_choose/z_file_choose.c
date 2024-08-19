@@ -1194,7 +1194,7 @@ void FileSelect_ConfigModeDraw(GameState* thisx) {
             Matrix_RotateX(this->windowRot / 100.0f, MTXMODE_APPLY);
         }
 
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_choose.c", 2282);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_choose.c", 2282);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[0], 32, 0);
         gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow1DL);
@@ -1221,7 +1221,7 @@ void FileSelect_ConfigModeDraw(GameState* thisx) {
         Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
         Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
         Matrix_RotateX((this->windowRot - 314.0f) / 100.0f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_choose.c", 2316);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_choose.c", 2316);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[0], 32, 0);
         gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow1DL);
@@ -1249,7 +1249,7 @@ void FileSelect_ConfigModeDraw(GameState* thisx) {
         Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
         Matrix_RotateX((this->windowRot - 314.0f) / 100.0f, MTXMODE_APPLY);
 
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_choose.c", 2337);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_choose.c", 2337);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowVtx[0], 32, 0);
         gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow1DL);
@@ -1602,7 +1602,7 @@ void FileSelect_SelectModeDraw(GameState* thisx) {
     Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
     Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
     Matrix_RotateX(this->windowRot / 100.0f, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_choose.c", 2810);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_choose.c", 2810);
 
     gSPVertex(POLY_OPA_DISP++, &this->windowVtx[0], 32, 0);
     gSPDisplayList(POLY_OPA_DISP++, gFileSelWindow1DL);

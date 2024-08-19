@@ -503,7 +503,7 @@ void EnExItem_DrawKey(EnExItem* this, PlayState* play, s32 index) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ex_item.c", 880);
 
     Gfx_SetupDL_41Opa(play->state.gfxCtx);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ex_item.c", 887);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ex_item.c", 887);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(keySegments[index]));
     gSPDisplayList(POLY_OPA_DISP++, gItemDropDL);
 

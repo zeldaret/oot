@@ -862,7 +862,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateX(-pauseCtx->unk_1F4 / 100.0f, MTXMODE_APPLY);
 
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1173);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1173);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
                                                           SELECT_ITEM_TEXS(gSaveContext.language));
@@ -879,7 +879,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateZ(pauseCtx->unk_1F8 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(1.57f, MTXMODE_APPLY);
 
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1196);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1196);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
                                                           EQUIPMENT_TEXS(gSaveContext.language));
@@ -897,7 +897,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateX(pauseCtx->unk_200 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(3.14f, MTXMODE_APPLY);
 
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1220);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1220);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
                                                           QUEST_STATUS_TEXS(gSaveContext.language));
@@ -915,7 +915,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateZ(-pauseCtx->unk_1FC / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(-1.57f, MTXMODE_APPLY);
 
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1243);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1243);
 
             POLY_OPA_DISP =
                 KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, MAP_TEXS(gSaveContext.language));
@@ -943,7 +943,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateX(-pauseCtx->unk_1F4 / 100.0f, MTXMODE_APPLY);
 
-                gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1281);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1281);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
                                                               SELECT_ITEM_TEXS(gSaveContext.language));
@@ -957,7 +957,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_RotateZ(-pauseCtx->unk_1FC / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(-1.57f, MTXMODE_APPLY);
 
-                gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1303);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1303);
 
                 POLY_OPA_DISP =
                     KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, MAP_TEXS(gSaveContext.language));
@@ -988,7 +988,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_RotateX(pauseCtx->unk_200 / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(3.14f, MTXMODE_APPLY);
 
-                gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1343);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1343);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
                                                               QUEST_STATUS_TEXS(gSaveContext.language));
@@ -1006,7 +1006,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_RotateZ(pauseCtx->unk_1F8 / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(1.57f, MTXMODE_APPLY);
 
-                gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1367);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1367);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
                                                               EQUIPMENT_TEXS(gSaveContext.language));
@@ -1056,7 +1056,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateY(1.57f, MTXMODE_APPLY);
         }
 
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1424);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1424);
 
         if (IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
@@ -1313,7 +1313,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     Matrix_Translate(0.0f, 0.0f, -144.0f, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 1755);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 1755);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 90, 100, 130, 255);
     gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[0], 16, 0);

@@ -237,7 +237,7 @@ void MagicFire_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 255, 200, 0, (u8)(this->alphaMultiplier * 255));
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, (u8)(this->alphaMultiplier * 255));
         Matrix_Scale(0.15f, 0.15f, 0.15f, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_magic_fire.c", 715);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_magic_fire.c", 715);
         gDPPipeSync(POLY_XLU_DISP++);
         gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
         gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);

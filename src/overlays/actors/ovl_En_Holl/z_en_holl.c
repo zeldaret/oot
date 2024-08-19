@@ -429,7 +429,7 @@ void EnHoll_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateY(M_PI, MTXMODE_APPLY);
         }
 
-        gSPMATRIX_SET_NEW(gfxP++, play->state.gfxCtx, "../z_en_holl.c", 824);
+        MATRIX_FINALIZE_AND_LOAD(gfxP++, play->state.gfxCtx, "../z_en_holl.c", 824);
         gDPSetPrimColor(gfxP++, 0, 0, 0, 0, 0, (u8)this->planeAlpha);
         gSPDisplayList(gfxP++, sPlaneDL);
 

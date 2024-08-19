@@ -391,7 +391,7 @@ void EnPoRelay_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
                                   this->lightColor.b, 200);
     } else if (limbIndex == 8) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 916);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_relay.c", 918);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_relay.c", 918);
         gSPDisplayList(POLY_OPA_DISP++, gDampeHaloDL);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 922);
     }

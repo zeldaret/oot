@@ -1616,7 +1616,7 @@ void EnSkj_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         Matrix_Push();
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_skj.c", 2430);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_skj.c", 2430);
         gSPDisplayList(POLY_OPA_DISP++, gSkullKidSkullMaskDL);
         Matrix_Pop();
     }

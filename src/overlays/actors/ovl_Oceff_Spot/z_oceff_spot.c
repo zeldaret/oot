@@ -154,7 +154,7 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_spot.c", 469);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_spot.c", 469);
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * (-2), 32,
                                                      32, 1, 0, scroll * (-8), 32, 32));

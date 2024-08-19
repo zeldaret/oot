@@ -173,7 +173,7 @@ void BgSpot09Obj_Draw(Actor* thisx, PlayState* play) {
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot09_obj.c", 391);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot09_obj.c", 391);
         gSPDisplayList(POLY_XLU_DISP++, gCarpentersTentEntranceDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot09_obj.c", 396);

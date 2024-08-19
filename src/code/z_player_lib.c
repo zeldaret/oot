@@ -1437,7 +1437,7 @@ void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
         Matrix_Translate(sp74.x, sp74.y, sp74.z, MTXMODE_NEW);
         Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
 
-        gSPMATRIX_SET_NEW(OVERLAY_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2587);
+        MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2587);
         gSPSegment(OVERLAY_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         gSPDisplayList(OVERLAY_DISP++, gLinkAdultHookshotReticleDL);
 
@@ -1507,7 +1507,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_RotateZYX(-0x8000, 0, 0x4000, MTXMODE_APPLY);
             Matrix_Scale(1.0f, this->unk_85C, 1.0f, MTXMODE_APPLY);
 
-            gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2653);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2653);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildLinkDekuStickDL);
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2656);
@@ -1532,7 +1532,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2710);
 
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2712);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2712);
             gDPSetEnvColor(POLY_XLU_DISP++, bottleColor->r, bottleColor->g, bottleColor->b, 0);
             gSPDisplayList(POLY_XLU_DISP++, sBottleDLists[((void)0, gSaveContext.save.linkAge)]);
 
@@ -1610,7 +1610,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 Matrix_RotateZ(this->unk_858 * -0.2f, MTXMODE_APPLY);
             }
 
-            gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2804);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2804);
             gSPDisplayList(POLY_XLU_DISP++, stringData->dList);
 
             Matrix_Pop();

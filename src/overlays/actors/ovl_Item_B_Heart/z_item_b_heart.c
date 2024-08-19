@@ -94,12 +94,12 @@ void ItemBHeart_Draw(Actor* thisx, PlayState* play) {
 
     if (flag) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_item_b_heart.c", 551);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_item_b_heart.c", 551);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartBorderDL);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartContainerDL);
     } else {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_item_b_heart.c", 557);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_item_b_heart.c", 557);
         gSPDisplayList(POLY_OPA_DISP++, gGiHeartBorderDL);
         gSPDisplayList(POLY_OPA_DISP++, gGiHeartContainerDL);
     }

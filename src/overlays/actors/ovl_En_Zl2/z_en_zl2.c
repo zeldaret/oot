@@ -568,7 +568,7 @@ void EnZl2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
                 Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
                 Matrix_RotateZYX(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
                 Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
-                gSPMATRIX_SET_NEW((*gfx)++, play->state.gfxCtx, "../z_en_zl2.c", 1253);
+                MATRIX_FINALIZE_AND_LOAD((*gfx)++, play->state.gfxCtx, "../z_en_zl2.c", 1253);
                 gSPDisplayList((*gfx)++, gZelda2OcarinaDL);
             }
             Matrix_Pop();

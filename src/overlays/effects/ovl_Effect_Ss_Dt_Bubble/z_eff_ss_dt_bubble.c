@@ -81,7 +81,7 @@ void EffectSsDtBubble_Draw(PlayState* play, u32 index, EffectSs* this) {
     scale = this->rScale * 0.004f;
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_dt_bubble.c", 213);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_dt_bubble.c", 213);
     Gfx_SetupDL_25Xlu2(gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                     (this->rPrimColorA * this->life) / this->rLifespan);

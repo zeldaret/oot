@@ -143,7 +143,7 @@ void BgGndFiremeiro_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 280);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 282);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 282);
     gSPDisplayList(POLY_OPA_DISP++, gFireTrialPlatformDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 285);

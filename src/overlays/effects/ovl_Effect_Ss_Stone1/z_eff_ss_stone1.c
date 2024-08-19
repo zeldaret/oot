@@ -62,7 +62,7 @@ void EffectSsStone1_Draw(PlayState* play, u32 index, EffectSs* this) {
     scale = (mfW < 1500.0f) ? 3.0f : (mfW / 1500.0f) * 3.0f;
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_stone1.c", 168);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_stone1.c", 168);
     Gfx_SetupDL_61Xlu(gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(drawParams->texture));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, drawParams->primColor.r, drawParams->primColor.g, drawParams->primColor.b,

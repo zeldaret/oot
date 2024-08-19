@@ -396,7 +396,7 @@ void EnFireRock_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
     gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
-    gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_fire_rock.c", 768);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_fire_rock.c", 768);
     gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fire_rock.c", 773);
 }

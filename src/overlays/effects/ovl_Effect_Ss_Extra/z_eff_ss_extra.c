@@ -69,7 +69,7 @@ void EffectSsExtra_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_ReplaceRotation(&play->billboardMtxF);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_eff_ss_extra.c", 186);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_eff_ss_extra.c", 186);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rScoreIdx]));
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_yabusame_point_DL_000DC0));
 

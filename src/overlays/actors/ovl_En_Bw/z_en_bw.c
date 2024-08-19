@@ -828,7 +828,7 @@ s32 EnBw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             Matrix_RotateZ(-(this->unk_258 * 0.1f), MTXMODE_APPLY);
             Matrix_RotateY(-(this->unk_258 * 0.13f), MTXMODE_APPLY);
             Matrix_RotateX(-(this->unk_258 * 0.115f), MTXMODE_APPLY);
-            gSPMATRIX_SET_NEW((*gfx)++, play->state.gfxCtx, "../z_en_bw.c", 1388);
+            MATRIX_FINALIZE_AND_LOAD((*gfx)++, play->state.gfxCtx, "../z_en_bw.c", 1388);
             gSPDisplayList((*gfx)++, *dList);
             Matrix_Pop();
             return 1;
@@ -889,7 +889,7 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, 255);
     Matrix_Scale(this->unk_248 * 0.01f, this->unk_248 * 0.01f, this->unk_248 * 0.01f, MTXMODE_APPLY);
     Matrix_ReplaceRotation(&play->billboardMtxF);
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bw.c", 1500);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bw.c", 1500);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
     if (this->iceTimer != 0) {

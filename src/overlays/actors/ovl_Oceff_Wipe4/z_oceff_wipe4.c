@@ -95,7 +95,7 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_wipe4.c", 324);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_wipe4.c", 324);
 
     if (this->actor.params == OCEFF_WIPE4_UNUSED) {
         gSPDisplayList(POLY_XLU_DISP++, sUnusedMaterialDL);
