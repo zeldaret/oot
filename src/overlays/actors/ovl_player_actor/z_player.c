@@ -82,9 +82,9 @@ typedef enum AnimSfxType {
     // the following 4 types ignore the value of `AnimSfxEntry.sfxId` and always play a specific sound
     // they also apply the iron boots offset if needed
     /* 5 */ ANIMSFX_TYPE_LANDING, // landing sound
-    /* 6 */ ANIMSFX_TYPE_RUNNING, // walking sound (as if link was moving with speed 6)
+    /* 6 */ ANIMSFX_TYPE_RUNNING, // walking sound (as if link was moving fast)
     /* 7 */ ANIMSFX_TYPE_JUMPING, // jumping sound
-    /* 8 */ ANIMSFX_TYPE_WALKING, // walking sound (as if link was standing still)
+    /* 8 */ ANIMSFX_TYPE_WALKING, // walking sound (as if link was moving slow)
 
     /* 9 */ ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET // `AnimSfxEntry.sfxId` is also ignored (probably ladder related)
 } AnimSfxType;
