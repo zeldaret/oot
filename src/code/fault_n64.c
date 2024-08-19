@@ -13,7 +13,7 @@ typedef struct FaultMgr {
     char unk_1B0[0x400];
     OSMesgQueue queue;
     OSMesg msg;
-    u16* framebuffer;
+    u16* fb;
     u16 fbWidth;
     u16 fbDepth;
     FaultClient* clients;
@@ -121,7 +121,7 @@ void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 color) {
     s32 j;
     u16* fbPtr;
 
-    fbPtr = gFaultMgr.framebuffer + (gFaultMgr.fbWidth * y) + x;
+    fbPtr = gFaultMgr.fb + (gFaultMgr.fbWidth * y) + x;
 
     for (i = 0; i < h; i++) {
         j = 0;
@@ -147,7 +147,7 @@ void Fault_DrawCharImpl(s32 x, s32 y, char c) {
     u32 data;
 
     dataPtr = (u32*)sFaultDrawerFont + ((c / 8 * 0x10) + ((c & 4) >> 2));
-    fbPtr = gFaultMgr.framebuffer + (gFaultMgr.fbWidth * y) + x;
+    fbPtr = gFaultMgr.fb + (gFaultMgr.fbWidth * y) + x;
 
     for (i = 0; i < 8; i++) {
         u32 mask;
@@ -673,10 +673,10 @@ void Fault_ResumeThread(OSThread* thread) {
 void func_800AF558(void) {
     osViBlack(false);
     if ((uintptr_t)osViGetCurrentFramebuffer() >= 0x80100000) {
-        gFaultMgr.framebuffer = osViGetCurrentFramebuffer();
+        gFaultMgr.fb = osViGetCurrentFramebuffer();
     } else {
-        gFaultMgr.framebuffer = (u16*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
-        osViSwapBuffer(gFaultMgr.framebuffer);
+        gFaultMgr.fb = (u16*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
+        osViSwapBuffer(gFaultMgr.fb);
     }
 }
 
@@ -797,14 +797,14 @@ void Fault_ThreadEntry(void* arg0) {
 }
 
 void Fault_SetFrameBuffer(void* fb, u16 w, u16 h) {
-    gFaultMgr.framebuffer = fb;
+    gFaultMgr.fb = fb;
     gFaultMgr.fbWidth = w;
     gFaultMgr.fbDepth = h;
 }
 
 void Fault_Init(void) {
     sFaultDisplayEnable = 1;
-    gFaultMgr.framebuffer = (u16*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
+    gFaultMgr.fb = (u16*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
     gFaultMgr.fbWidth = SCREEN_WIDTH;
     gFaultMgr.fbDepth = 16;
     gFaultMgr.clients = 0;
