@@ -201,7 +201,7 @@ extern struct GraphicsContext* __gfxCtx;
 
 #define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
 #define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx, file, line)
-#define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx, file, line)
+#define MATRIX_FINALIZE(gfxCtx, file, line) Matrix_Finalize(gfxCtx, file, line)
 #define MATRIX_CHECK_FLOATS(mtx, file, line) Matrix_CheckFloats(mtx, file, line)
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
@@ -234,7 +234,7 @@ extern struct GraphicsContext* __gfxCtx;
 
 #define GRAPH_ALLOC(gfxCtx, size) ((void*)((gfxCtx)->polyOpa.d = (Gfx*)((u8*)(gfxCtx)->polyOpa.d - ALIGN16(size))))
 #define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx)
-#define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx)
+#define MATRIX_FINALIZE(gfxCtx, file, line) Matrix_Finalize(gfxCtx)
 #define MATRIX_CHECK_FLOATS(mtx, file, line) (mtx)
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSync(ram, vrom, size)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg)
@@ -256,7 +256,7 @@ extern struct GraphicsContext* __gfxCtx;
 #endif /* OOT_DEBUG */
 
 #define gSPMATRIX_SET_NEW(pkt, gfxCtx, file, line) \
-    gSPMatrix(pkt, MATRIX_NEW(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
+    gSPMatrix(pkt, MATRIX_FINALIZE(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
 
 #if OOT_NTSC
 #define LANGUAGE_ARRAY(jpn, eng, ger, fra) { jpn, eng }

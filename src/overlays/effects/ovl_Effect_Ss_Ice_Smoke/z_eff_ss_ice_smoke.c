@@ -79,7 +79,7 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
         scale = this->rScale * 0.0001f;
         Matrix_Scale(scale, scale, 1.0f, MTXMODE_APPLY);
 
-        mtx = MATRIX_NEW(play->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 196);
+        mtx = MATRIX_FINALIZE(play->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 196);
 
         if (mtx != NULL) {
             if (1) {}

@@ -1282,10 +1282,10 @@ void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 #if OOT_DEBUG
 Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line);
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, const char* file, int line);
+Mtx* Matrix_Finalize(GraphicsContext* gfxCtx, const char* file, int line);
 #else
 Mtx* Matrix_ToMtx(Mtx* dest);
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx);
+Mtx* Matrix_Finalize(GraphicsContext* gfxCtx);
 #endif
 void Matrix_MultVec3f(Vec3f* src, Vec3f* dest);
 void Matrix_MtxFCopy(MtxF* dest, MtxF* src);

@@ -171,7 +171,7 @@ void EnNwc_DrawChicks(EnNwc* this, PlayState* play) {
 
             Matrix_SetTranslateRotateYXZ(chick->pos.x, chick->pos.y + chick->height, chick->pos.z, &chick->rot);
             Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-            mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_nwc.c", 346);
+            mtx = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_nwc.c", 346);
             gDPSetEnvColor(dList1++, 0, 100, 255, 255);
             gSPMatrix(dList1++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(dList1++, gCuccoChickBodyDL);
