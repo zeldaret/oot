@@ -6,6 +6,7 @@
 #include "padmgr.h"
 #include "versions.h"
 
+#if FAULT_VERSION == FAULT_OOTGC
 // These are the same as the 3-bit ansi color codes
 #define FAULT_COLOR_BLACK      0
 #define FAULT_COLOR_RED        1
@@ -24,6 +25,7 @@
 
 #define FAULT_ESC '\x1A'
 #define FAULT_COLOR(n) "\x1A" FAULT_COLOR_EXPAND_AND_STRINGIFY(FAULT_COLOR_ ## n)
+#endif
 
 typedef struct FaultClient {
     /* 0x00 */ struct FaultClient* next;
