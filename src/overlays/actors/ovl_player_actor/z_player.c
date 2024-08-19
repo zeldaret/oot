@@ -79,13 +79,13 @@ typedef enum AnimSfxType {
     /* 2 */ ANIMSFX_TYPE_WITH_FLOOR_OFFSET,
     /* 3 */ ANIMSFX_TYPE_WITH_FLOOR_AND_AGE_OFFSETS,
     /* 4 */ ANIMSFX_TYPE_WITH_AGE_OFFSET,
-    //the following 4 types ignore the value of sfxId and alwats play a specific sound (taking iron boots into account)
-    /* 5 */ ANIMSFX_TYPE_LANDING,   //landing sound
-    /* 6 */ ANIMSFX_TYPE_WALKING_1, //walking sound (as if link was moving with speed 6)
-    /* 7 */ ANIMSFX_TYPE_JUMPING,   //jumping sound
-    /* 8 */ ANIMSFX_TYPE_WALKING_2, //walking sound (as if link was standing still)
+    // the following 4 types ignore the value of sfxId and alwats play a specific sound (taking iron boots into account)
+    /* 5 */ ANIMSFX_TYPE_LANDING,   // landing sound
+    /* 6 */ ANIMSFX_TYPE_WALKING_1, // walking sound (as if link was moving with speed 6)
+    /* 7 */ ANIMSFX_TYPE_JUMPING,   // jumping sound
+    /* 8 */ ANIMSFX_TYPE_WALKING_2, // walking sound (as if link was standing still)
 
-    /* 9 */ ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET //sfxId is also ignored (probably ladder related)
+    /* 9 */ ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET // sfxId is also ignored (probably ladder related)
 } AnimSfxType;
 
 #define ANIMSFX_SHIFT_TYPE(type) ((type) << 11)
@@ -1149,8 +1149,10 @@ static AnimSfxEntry D_80853DF8[] = {
 };
 
 static AnimSfxEntry D_80853DFC[] = {
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 44) },  { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 48) },
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 52) },  { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 56) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 44) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 48) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 52) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 56) },
     { NA_SE_PL_CALM_HIT, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 60) },
 };
 
@@ -1761,7 +1763,7 @@ void Player_RequestRumble(Player* this, s32 sourceStrength, s32 duration, s32 de
     }
 }
 
-//the age offset isn't applied if this is called by dark link
+// the age offset isn't applied if this is called by dark link
 void Player_PlaySfxWithAgeOffset(Player* this, u16 sfxId) {
     if (this->actor.category == ACTORCAT_PLAYER) {
         Player_PlaySfx(this, sfxId + this->ageProperties->unk_92);
@@ -12573,10 +12575,14 @@ static u8 D_80854998[2][2] = {
 static Vec3s D_8085499C = { -69, 7146, -266 };
 
 static AnimSfxEntry D_808549A4[] = {
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 48) },  { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 58) },
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 68) },  { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 92) },
-    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 110) }, { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 126) },
-    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 132) }, { NA_SE_PL_CALM_PAT, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 136) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 48) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 58) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 68) },
+    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 92) },
+    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 110) },
+    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 126) },
+    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 132) },
+    { NA_SE_PL_CALM_PAT, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 136) },
 };
 
 void Player_Action_8084CC98(Player* this, PlayState* play) {
