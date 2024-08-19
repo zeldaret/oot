@@ -101,7 +101,7 @@ void Fault_SleepImpl(u32 ms) {
     Sleep_Msec(ms);
 }
 
-void Fault_WaitInputImpl(void) {
+void Fault_WaitForInputImpl(void) {
     Input* inputs = sFaultInputs;
     u16 btnPress;
 
@@ -112,8 +112,8 @@ void Fault_WaitInputImpl(void) {
     } while (!CHECK_BTN_ANY(btnPress, (BTN_A | BTN_B | BTN_START | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP)));
 }
 
-void Fault_WaitInput(void) {
-    Fault_WaitInputImpl();
+void Fault_WaitForInput(void) {
+    Fault_WaitForInputImpl();
 }
 
 void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 color) {
@@ -200,7 +200,7 @@ void* Fault_PrintCallbackDraw(void* arg, const char* str, size_t len) {
             coords->x = 22;
             coords->y += 8;
             if (coords->y >= 209) {
-                Fault_WaitInputImpl();
+                Fault_WaitForInputImpl();
                 Fault_DrawRecBlack(22, 16, 276, 208);
                 coords->y = 16;
             }
@@ -729,7 +729,7 @@ void Fault_ProcessClients(void) {
             Fault_DrawRecBlack(22, 16, 276, 208);
             Fault_DrawText(30, 20, "CallBack (%d) %08x %08x %08x", i++, client, client->arg0, client->arg1);
             ((void (*)(void*, void*))client->callback)(client->arg0, client->arg1);
-            Fault_WaitInput();
+            Fault_WaitForInput();
         }
         client = client->next;
     }
@@ -781,15 +781,15 @@ void Fault_ThreadEntry(void* arg0) {
         do {
             func_800AF558();
             Fault_PrintThreadContext(faultedThread);
-            Fault_WaitInput();
+            Fault_WaitForInput();
             func_800AF0E0();
-            Fault_WaitInput();
+            Fault_WaitForInput();
             func_800AF3DC();
-            Fault_WaitInput();
+            Fault_WaitForInput();
             Fault_DrawMemDumpSP(faultedThread);
-            Fault_WaitInput();
+            Fault_WaitForInput();
             Fault_DrawMemDumpPC(faultedThread);
-            Fault_WaitInput();
+            Fault_WaitForInput();
             Fault_ProcessClients();
         } while (!sFaultExit);
         while (!sFaultExit) {}
@@ -832,7 +832,7 @@ void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
         Fault_DrawText(24, 18, "HungUp on Thread %d", osGetThreadId(NULL));
         Fault_DrawText(24, 28, "%s", exp1 != NULL ? exp1 : "(NULL)");
         Fault_DrawText(24, 38, "%s", exp2 != NULL ? exp2 : "(NULL)");
-        Fault_WaitInput();
+        Fault_WaitForInput();
         Fault_ProcessClients();
     } while (true);
 }

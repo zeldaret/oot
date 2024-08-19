@@ -65,6 +65,8 @@ void Fault_RemoveAddrConvClient(FaultAddrConvClient* client);
 
 void Fault_SetFrameBuffer(void* fb, u16 w, u16 h);
 
+void Fault_WaitForInput(void);
+
 #if FAULT_VERSION == FAULT_OOTN64
 
 // Not implemented. Silently noop-ing is fine, these are not essential for functionality.
@@ -79,8 +81,6 @@ void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
 #define FaultDrawer_DrawText Fault_DrawText
 
 #elif FAULT_VERSION == FAULT_OOTGC
-
-void Fault_WaitForInput(void);
 
 void FaultDrawer_SetForeColor(u16 color);
 void FaultDrawer_SetBackColor(u16 color);
