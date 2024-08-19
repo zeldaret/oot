@@ -1,6 +1,6 @@
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
-#include "alloca.h"
 
 typedef struct FaultMgr {
     OSThread thread;

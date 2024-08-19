@@ -5,6 +5,7 @@
  * the crash screen implemented by fault.c
  */
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 
 typedef struct FaultDrawer {

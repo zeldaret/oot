@@ -1,6 +1,10 @@
 #include "global.h"
+#if OOT_DEBUG
+#include "fault.h"
+#endif
 #include "quake.h"
 #include "terminal.h"
+#include "versions.h"
 
 #include "z64frame_advance.h"
 

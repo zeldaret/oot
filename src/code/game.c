@@ -1,4 +1,7 @@
 #include "global.h"
+#if OOT_DEBUG
+#include "fault.h"
+#endif
 #include "terminal.h"
 
 SpeedMeter D_801664D0;

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 
 #define FILL_ALLOC_BLOCK_FLAG (1 << 0)

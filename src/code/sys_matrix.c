@@ -1,4 +1,7 @@
 #include "global.h"
+#if OOT_DEBUG
+#include "fault.h"
+#endif
 
 // clang-format off
 Mtx gMtxClear = gdSPDefMtx(

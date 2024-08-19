@@ -52,7 +52,6 @@
 #include "regs.h"
 #include "irqmgr.h"
 #include "padmgr.h"
-#include "fault.h"
 #include "sched.h"
 #include "rumble.h"
 #include "mempak.h"

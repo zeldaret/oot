@@ -1,4 +1,5 @@
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234

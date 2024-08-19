@@ -1,4 +1,5 @@
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 
 extern u8 _buffersSegmentEnd[];

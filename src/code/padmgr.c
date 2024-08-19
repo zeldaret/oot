@@ -29,6 +29,7 @@
  * done while waiting for this operation to complete.
  */
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 
 #define PADMGR_LOG(controllerNum, msg)                              \
