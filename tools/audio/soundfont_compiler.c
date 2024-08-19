@@ -245,7 +245,7 @@ read_envelopes_info(soundfont *sf, xmlNodePtr envelopes)
             // Ensure name is unique
             LL_FOREACH(envelope_data *, envdata2, sf->envelopes) {
                 if (envdata2->name != NULL && strequ(envdata->name, envdata2->name))
-                    error("Duplicate envelope name %s\n", envdata->name);
+                    error("Duplicate envelope name %s (second occurrence on line %d)", envdata->name, env->line);
             }
 
             envelope_point *pts = (envelope_point *)(envdata + 1);
@@ -367,13 +367,15 @@ read_instrs_info(soundfont *sf, xmlNodePtr instrs)
             // Check program number, midi program number range is 0-127 but the audio driver reserves 126 and 127 for
             // sfx and percussion so the range we allow is 0-125
             if (instr->program_number >= 126)
-                error("Program numbers must be in the range 0-125 (got %u)", instr->program_number);
+                error("Program numbers must be in the range 0-125 (got %u on line %d)", instr->program_number,
+                      instr_node->line);
 
             // Ensure program number is unique
             unsigned upper = instr->program_number >> 5 & 3;
             unsigned lower = instr->program_number & 0x1F;
             if (sf->program_number_bitset[upper] & (1 << lower))
-                error("Duplicate program number %u", instr->program_number);
+                error("Duplicate program number %u (second occurrence on line %d)", instr->program_number,
+                      instr_node->line);
             sf->program_number_bitset[upper] |= (1 << lower);
 
             if (instr->program_number >= sf->info.num_instruments)
@@ -381,13 +383,13 @@ read_instrs_info(soundfont *sf, xmlNodePtr instrs)
 
             // Check name
             if (instr->name == NULL)
-                error("Instrument must be named");
+                error("Instrument must be named (line %d)", instr_node->line);
         }
 
         // Check envelope
         instr->envelope = sf_get_envelope(sf, instr->envelope_name);
         if (instr->envelope == NULL)
-            error("Bad envelope name %s (line %d)\n", instr->envelope_name, instr_node->line);
+            error("Bad envelope name %s (line %d)", instr->envelope_name, instr_node->line);
 
         // Validate optionals
         if (instr->release == RELEASE_UNSET)
@@ -398,10 +400,11 @@ read_instrs_info(soundfont *sf, xmlNodePtr instrs)
             // one of RangeLo or RangeHi
 
             if (instr->sample_low_end == INSTR_LO_NONE && instr->sample_high_start == INSTR_HI_NONE)
-                error("epic fail");
+                error("Instrument has no mid sample but also does not define a low or high sample (line %d)",
+                      instr_node->line);
 
             if (instr_node->children == NULL)
-                error("Sample list is empty\n");
+                error("Instrument sample list is empty, must specify at least one sample (line %d)", instr_node->line);
 
             bool seen_low = false;
             bool seen_mid = false;
@@ -433,7 +436,7 @@ read_instrs_info(soundfont *sf, xmlNodePtr instrs)
                     name_ptr = &instr->sample_name_low;
 
                     if (instr->sample_low_end == INSTR_LO_NONE)
-                        error("Useless Low sample specified (RangeLo is 0)");
+                        error("Useless Low sample specified (RangeLo is 0) (line %d)", instr_sample_node->line);
                 } else if (strequ(attr_name, "Mid")) {
                     seen = &seen_mid;
                     name_ptr = &instr->sample_name_mid;
@@ -442,7 +445,7 @@ read_instrs_info(soundfont *sf, xmlNodePtr instrs)
                     name_ptr = &instr->sample_name_high;
 
                     if (instr->sample_high_start == INSTR_HI_NONE)
-                        error("Useless High sample specified (RangeHi is 0)");
+                        error("Useless High sample specified (RangeHi is 127) (line %d)", instr_sample_node->line);
                 } else {
                     error("Unexpected attribute name for instrument sample (line %d)", instr_sample_node->line);
                 }
@@ -458,11 +461,11 @@ read_instrs_info(soundfont *sf, xmlNodePtr instrs)
             }
 
             if (!seen_mid && instr->sample_low_end != instr->sample_high_start)
-                error("Unset-but-used Mid sample");
+                error("Unset-but-used Mid sample (line %d)", instr_node->line);
             if (!seen_low && instr->sample_low_end != 0)
-                error("Unset-but-used Low sample");
+                error("Unset-but-used Low sample (line %d)", instr_node->line);
             if (!seen_high && instr->sample_high_start != 0)
-                error("Unset-but-used High sample");
+                error("Unset-but-used High sample (line %d)", instr_node->line);
         }
 
         if (instr->sample_name_low != NULL) {
@@ -571,7 +574,7 @@ read_drums_info(soundfont *sf, xmlNodePtr drums)
 
         drum->envelope = sf_get_envelope(sf, drum->envelope_name);
         if (drum->envelope == NULL)
-            error("Bad envelope name %s (line %d)\n", drum->envelope_name, drum_node->line);
+            error("Bad envelope name %s (line %d)", drum->envelope_name, drum_node->line);
 
         // validate optionals
         if (drum->release == RELEASE_UNSET)
@@ -579,16 +582,16 @@ read_drums_info(soundfont *sf, xmlNodePtr drums)
 
         if (drum->note == NOTE_UNSET) {
             if (drum->note_start == NOTE_UNSET || drum->note_end == NOTE_UNSET)
-                error("Incomplete note range specification\n");
+                error("Incomplete note range specification (line %d)", drum_node->line);
         } else {
             if (drum->note_start != NOTE_UNSET || drum->note_end != NOTE_UNSET)
-                error("Overspecified note range\n");
+                error("Overspecified note range (line %d)", drum_node->line);
 
             drum->note_start = drum->note_end = drum->note;
         }
 
         if (drum->note_end < drum->note_start)
-            error("Invalid drum note range: %d - %d", drum->note_start, drum->note_end);
+            error("Invalid drum note range: [%d - %d] (line %d)", drum->note_start, drum->note_end, drum_node->line);
 
         drum->sample = sample_data_forname(sf, drum->sample_name);
         if (drum->sample == NULL)
@@ -604,7 +607,7 @@ read_drums_info(soundfont *sf, xmlNodePtr drums)
             if (drum->sample->aifc.has_inst) {
                 drum->base_note = drum->sample->base_note;
             } else {
-                error("No basenote for drum");
+                error("No basenote for drum (line %d)", drum_node->line);
             }
         }
 
@@ -722,7 +725,7 @@ read_samples_info(soundfont *sf, xmlNodePtr samples)
 
         const char *sample_path = samplebank_path_forname(sb, sample->name);
         if (sample_path == NULL)
-            error("Bad sample name"); // TODO
+            error("Bad sample name %s, does it exist in the samplebank? (line %d)", sample->name, sample_node->line);
 
         aifc_read(&sample->aifc, sample_path, NULL, NULL);
 
@@ -733,11 +736,11 @@ read_samples_info(soundfont *sf, xmlNodePtr samples)
             if (sample->aifc.has_inst)
                 sample->base_note = midinote_to_z64note(sample->aifc.basenote);
             else
-                error("No basenote"); // TODO
+                error("No basenote for sample %s (line %d)", sample->name, sample_node->line);
         }
 
         if (!sample->aifc.has_book)
-            error("No book"); // TODO
+            error("No vadpcm codebook for sample %s (line %d)", sample->name, sample_node->line);
 
         // link
         if (sf->samples == NULL) {
@@ -772,13 +775,13 @@ void
 read_match_padding(soundfont *sf, xmlNodePtr padding_decl)
 {
     if (padding_decl->properties != NULL)
-        error("Unexpected attributes line %d\n", padding_decl->line);
+        error("Unexpected properties for MatchPadding declaration (line %d)", padding_decl->line);
 
     if (padding_decl->children == NULL || padding_decl->children->content == NULL)
-        error("No data\n");
+        error("No data declared for MatchPadding (line %d)", padding_decl->line);
 
     if (padding_decl->children->next != NULL)
-        error("Malformed padding data\n");
+        error("Unexpected layout for MatchPadding declaration (line %d)", padding_decl->line);
 
     const char *data_str = XMLSTR_TO_STR(padding_decl->children->content);
     size_t data_len = strlen(data_str);
@@ -796,16 +799,16 @@ read_match_padding(soundfont *sf, xmlNodePtr padding_decl)
         }
 
         if (must_be_delimiter)
-            error("Malformed padding data (1, %ld)\n", i);
+            error("Malformed padding data, expected a space or comma at position %ld", i);
 
         if (data_str[i + 0] != '0' || data_str[i + 1] != 'x')
-            error("Malformed padding data (2, %ld)\n", i);
+            error("Malformed padding data, expected an 0x prefix at position %ld", i);
 
         char c1 = toupper(data_str[i + 2]);
         char c2 = toupper(data_str[i + 3]);
 
         if (!is_hex(c1) || !is_hex(c2))
-            error("Malformed padding data (3, %ld)\n", i);
+            error("Malformed padding data, expected hexadecimal digits at position %ld", i + 2);
 
         padding[k++] = (from_hex(c1) << 4) | from_hex(c2);
         must_be_delimiter = true;
@@ -1383,7 +1386,8 @@ emit_c_drums(FILE *out, soundfont *sf)
         // Write each structure while building the drum pointer table
 
         if (drum->note_end + 1 > 64)
-            error("Bad drum range");
+            error("Bad drum range for drum spanning %d to %d, should be within 0 to 63", drum->note_start,
+                  drum->note_end);
 
         for (size_t note_offset = 0; note_offset < length; note_offset++) {
             size_t ptr_offset = drum->note_start + note_offset;
@@ -1410,7 +1414,7 @@ emit_c_drums(FILE *out, soundfont *sf)
 
     size_t table_len = max_note + 1;
     if (table_len > 64)
-        error("Bad drum pointer table length");
+        error("Bad drum pointer table length %lu, should be at most 64", table_len);
 
     fprintf(out, "NO_REORDER DATA ALIGNED(16) Drum* SF%d_DRUMS_PTR_LIST[%lu] = {\n", sf->info.index, table_len);
 

@@ -52,7 +52,7 @@ tablegen_samplebanks(const char *sb_hdr_out, const char **samplebanks_paths, int
 
         xmlDocPtr document = xmlReadFile(path, NULL, XML_PARSE_NONET);
         if (document == NULL)
-            error("Could not read xml file \"%s\"\n", path);
+            error("Could not read xml file \"%s\"", path);
 
         read_samplebank_xml(&samplebanks[i], document);
     }
@@ -123,7 +123,7 @@ tablegen_samplebanks(const char *sb_hdr_out, const char **samplebanks_paths, int
 
     for (size_t i = 0; i < indices_len; i++) {
         if (index_info[i].index_type == INDEX_NONE)
-            error("Missing samplebank index %lu", i);
+            error("No samplebank for index %lu", i);
     }
 
     // Emit the table
@@ -181,7 +181,7 @@ validate_samplebank_index(samplebank *sb, int ptr_idx)
             }
         }
         if (!found)
-            warning("Invalid pointer indirect: %d for samplebank %s\n", ptr_idx, sb->name);
+            warning("Invalid pointer indirect: %d for samplebank %s", ptr_idx, sb->name);
 
         return ptr_idx;
     } else {
@@ -203,7 +203,7 @@ tablegen_soundfonts(const char *sf_hdr_out, char **soundfonts_paths, int num_sou
 
         xmlDocPtr document = xmlReadFile(path, NULL, XML_PARSE_NONET);
         if (document == NULL)
-            error("Could not read xml file \"%s\"\n", path);
+            error("Could not read xml file \"%s\"", path);
 
         xmlNodePtr root = xmlDocGetRootElement(document);
         if (!strequ(XMLSTR_TO_STR(root->name), "Soundfont"))
@@ -245,7 +245,7 @@ tablegen_soundfonts(const char *sf_hdr_out, char **soundfonts_paths, int num_sou
         // Add info
 
         if (finfo[sf->info.index].soundfont != NULL)
-            error("Duplicate soundfont indices");
+            error("Overlapping soundfont indices, saw index %u more than once", sf->info.index);
 
         finfo[sf->info.index].soundfont = &soundfonts[i];
         finfo[sf->info.index].normal_bank_index = normal_idx;

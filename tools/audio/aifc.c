@@ -481,7 +481,7 @@ aifc_read(aifc_data *af, const char *path, uint8_t *match_buf, size_t *match_buf
         long read_size = ftell(in) - start - 8;
 
         if (read_size > chunk_size)
-            error("overran chunk: %lu vs %u\n", read_size, chunk_size);
+            error("overran chunk: %lu vs %u", read_size, chunk_size);
         else if (read_size < chunk_size)
             warning("did not read entire %.*s chunk: %lu vs %u", 4, cc4, read_size, chunk_size);
 
