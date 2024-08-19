@@ -9,3 +9,11 @@ D_0F000000 = 0x0F000000;
 
 // z_bg_mjin
 D_06000000 = 0x06000000;
+
+#if PLATFORM_N64
+
+// boot_main.c
+func_80001720 = 0x80001720;
+osInitialize = 0x80003230;
+
+#endif

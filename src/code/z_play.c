@@ -1,4 +1,4 @@
-#pragma increment_block_number "gc-eu:17 gc-eu-mq:17 gc-jp:21 gc-jp-ce:21 gc-jp-mq:21 gc-us:21 gc-us-mq:21"
+#pragma increment_block_number "gc-eu:17 gc-eu-mq:17 gc-jp:17 gc-jp-ce:17 gc-jp-mq:17 gc-us:17 gc-us-mq:17"
 
 #include "global.h"
 #include "quake.h"
