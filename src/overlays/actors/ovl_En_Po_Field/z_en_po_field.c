@@ -153,7 +153,7 @@ void EnPoField_Init(Actor* thisx, PlayState* play) {
         sSpawnPositions[sNumSpawned].x = this->actor.world.pos.x;
         sSpawnPositions[sNumSpawned].y = this->actor.world.pos.y;
         sSpawnPositions[sNumSpawned].z = this->actor.world.pos.z;
-        sSpawnSwitchFlags[sNumSpawned] = this->actor.params & 0xFF;
+        sSpawnSwitchFlags[sNumSpawned] = PARAMS_GET_U(this->actor.params, 0, 8);
         sNumSpawned++;
     }
     if (sNumSpawned >= 2) {

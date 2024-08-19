@@ -341,7 +341,7 @@ void GameState_Update(GameState* gameState) {
 void GameState_InitArena(GameState* gameState, size_t size) {
     void* arena;
 
-    PRINTF("ハイラル確保 サイズ＝%u バイト\n"); // "Hyrule reserved size = %u bytes"
+    PRINTF("ハイラル確保 サイズ＝%u バイト\n", size); // "Hyrule reserved size = %u bytes"
     arena = GAME_ALLOC_MALLOC(&gameState->alloc, size, "../game.c", 992);
 
     if (arena != NULL) {

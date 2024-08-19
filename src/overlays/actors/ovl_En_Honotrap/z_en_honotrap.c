@@ -142,7 +142,7 @@ void EnHonotrap_GetNormal(Vec3f* normal, Vec3f* vec) {
     f32 magnitude = Math3D_Vec3fMagnitude(vec);
 
     if (magnitude < 0.001f) {
-        PRINTF("Warning : vector size zero (%s %d)\n", "../z_en_honotrap.c", 328, normal);
+        PRINTF("Warning : vector size zero (%s %d)\n", "../z_en_honotrap.c", 328);
 
         normal->x = normal->y = 0.0f;
         normal->z = 1.0f;

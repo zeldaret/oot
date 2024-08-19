@@ -142,7 +142,7 @@ void EnVm_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->colliderQuad1, thisx, &sQuadInit1);
     Collider_InitQuad(play, &this->colliderQuad2);
     Collider_SetQuad(play, &this->colliderQuad2, thisx, &sQuadInit2);
-    this->beamSightRange = (thisx->params >> 8) * 40.0f;
+    this->beamSightRange = PARAMS_GET_NOMASK(thisx->params, 8) * 40.0f;
     thisx->params &= 0xFF;
     thisx->naviEnemyId = NAVI_ENEMY_BEAMOS;
 

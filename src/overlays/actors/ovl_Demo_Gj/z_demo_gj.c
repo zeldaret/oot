@@ -77,23 +77,23 @@ typedef void (*DemoGjDrawFunc)(DemoGj*, PlayState*);
 
 // bits 11-15
 s32 DemoGj_GetCollectibleType(DemoGj* this) {
-    s32 params = this->dyna.actor.params >> 0xB;
+    s32 type = PARAMS_GET_U(this->dyna.actor.params, 11, 5);
 
-    return params & 0x1F;
+    return type;
 }
 
 // bits 8-10
 s32 DemoGj_GetCollectibleAmount(DemoGj* this) {
-    s32 params = this->dyna.actor.params >> 0x8;
+    s32 amount = PARAMS_GET_U(this->dyna.actor.params, 8, 3);
 
-    return params & 7;
+    return amount;
 }
 
 // bits 0-7
 s32 DemoGj_GetType(DemoGj* this) {
-    s32 params = this->dyna.actor.params;
+    s32 type = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
 
-    return params & 0xFF;
+    return type;
 }
 
 void DemoGj_InitCylinder(DemoGj* this, PlayState* play, ColliderCylinder* cylinder,
@@ -1415,7 +1415,7 @@ void DemoGj_Init(Actor* thisx, PlayState* play) {
 
         default:
             // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
-            PRINTF(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play, this);
+            PRINTF(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
             Actor_Kill(&this->dyna.actor);
     }
 }

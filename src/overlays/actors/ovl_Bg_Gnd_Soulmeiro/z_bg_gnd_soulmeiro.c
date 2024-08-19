@@ -65,12 +65,12 @@ void BgGndSoulmeiro_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actionFunc = NULL;
 
-    switch (this->actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 8)) {
         case 0:
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
             this->actionFunc = func_8087B284;
-            if (Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
 
                 Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, this->actor.world.pos.x, this->actor.world.pos.y,
                             this->actor.world.pos.z, 0, 0, 0, 9);
@@ -83,7 +83,7 @@ void BgGndSoulmeiro_Init(Actor* thisx, PlayState* play) {
             break;
         case 1:
         case 2:
-            if (Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
                 this->actor.draw = BgGndSoulmeiro_Draw;
             } else {
                 this->actor.draw = NULL;
@@ -96,7 +96,7 @@ void BgGndSoulmeiro_Init(Actor* thisx, PlayState* play) {
 void BgGndSoulmeiro_Destroy(Actor* thisx, PlayState* play) {
     BgGndSoulmeiro* this = (BgGndSoulmeiro*)thisx;
 
-    if ((this->actor.params & 0xFF) == 0) {
+    if (PARAMS_GET_U(this->actor.params, 0, 8) == 0) {
         Collider_DestroyCylinder(play, &this->collider);
     }
 }
@@ -112,13 +112,13 @@ void func_8087AF38(BgGndSoulmeiro* this, PlayState* play) {
     }
 
     if (this->unk_198 == 20) {
-        Flags_SetSwitch(play, (thisx->params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(thisx->params, 8, 6));
         thisx->draw = NULL;
     }
 
     // This should be this->unk_198 == 0, this is required to match
     if (!this->unk_198) {
-        Flags_SetSwitch(play, (thisx->params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(thisx->params, 8, 6));
         Actor_Kill(&this->actor);
         Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z, 0,
                     0, 0, 9);
@@ -162,7 +162,7 @@ void func_8087AF38(BgGndSoulmeiro* this, PlayState* play) {
 void func_8087B284(BgGndSoulmeiro* this, PlayState* play) {
     s32 pad;
 
-    if (!Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+    if (!Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         this->actor.draw = BgGndSoulmeiro_Draw;
         if (this->collider.base.acFlags & AC_HIT) {
             Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -177,7 +177,7 @@ void func_8087B284(BgGndSoulmeiro* this, PlayState* play) {
 }
 
 void func_8087B350(BgGndSoulmeiro* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         this->actor.draw = BgGndSoulmeiro_Draw;
     } else {
         this->actor.draw = NULL;
@@ -198,7 +198,7 @@ void BgGndSoulmeiro_Draw(Actor* thisx, PlayState* play) {
         gSpiritTrialLightSourceDL,
         gSpiritTrialLightFloorDL,
     };
-    s32 params = thisx->params & 0xFF;
+    s32 params = PARAMS_GET_U(thisx->params, 0, 8);
 
     if (1) {}
 

@@ -144,7 +144,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     }
 
     // Double doors
-    if (ENDOOR_IS_DOUBLE_DOOR(&this->actor)) {
+    if (ENDOOR_GET_IS_DOUBLE_DOOR(&this->actor)) {
         EnDoor* other;
 
         xOffset = Math_CosS(this->actor.shape.rot.y) * 30.0f;
@@ -152,7 +152,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
         other = (EnDoor*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DOOR,
                                             this->actor.world.pos.x + xOffset, this->actor.world.pos.y,
                                             this->actor.world.pos.z - zOffset, 0, this->actor.shape.rot.y + 0x8000, 0,
-                                            this->actor.params & ~ENDOOR_PARAMS_DOUBLE_DOOR_FLAG);
+                                            this->actor.params & ~ENDOOR_PARAMS_IS_DOUBLE_DOOR_MASK);
         if (other != NULL) {
             other->unk_192 = 1;
         }

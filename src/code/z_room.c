@@ -429,7 +429,7 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
     }
 
     player = GET_PLAYER(play);
-    player->actor.params = (player->actor.params & 0xFF00) | bgCamIndex;
+    player->actor.params = PARAMS_GET_NOSHIFT(player->actor.params, 8, 8) | bgCamIndex;
 
     bgEntry = SEGMENTED_TO_VIRTUAL(roomShapeImageMulti->backgrounds);
     for (i = 0; i < roomShapeImageMulti->numBackgrounds; i++) {

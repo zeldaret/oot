@@ -1,6 +1,9 @@
 #ifndef Z64_AUDIO_H
 #define Z64_AUDIO_H
 
+#include "ultra64.h"
+#include "sequence.h"
+
 typedef void (*AudioCustomUpdateFunction)(void);
 
 
@@ -109,6 +112,14 @@ typedef enum AudioCacheType {
     /* 2 */ CACHE_EITHER,
     /* 3 */ CACHE_PERMANENT
 } AudioCacheType;
+
+typedef enum AudioCacheLoadType {
+    /* 0 */ CACHE_LOAD_PERMANENT,
+    /* 1 */ CACHE_LOAD_PERSISTENT,
+    /* 2 */ CACHE_LOAD_TEMPORARY,
+    /* 3 */ CACHE_LOAD_EITHER,
+    /* 4 */ CACHE_LOAD_EITHER_NOSYNC
+} AudioCacheLoadType;
 
 typedef enum AudioLoadStatus {
     /* 0 */ LOAD_STATUS_NOT_LOADED, // the entry data is not loaded
@@ -807,6 +818,13 @@ typedef struct AudioSlowLoad {
     /* 0x4C */ OSIoMesg ioMesg;
 } AudioSlowLoad; // size = 0x64
 
+typedef struct AudioTableHeader {
+    /* 0x00 */ s16 numEntries;
+    /* 0x02 */ s16 unkMediumParam;
+    /* 0x04 */ uintptr_t romAddr;
+    /* 0x08 */ char pad[0x8];
+} AudioTableHeader; // size = 0x10
+
 typedef struct AudioTableEntry {
     /* 0x00 */ u32 romAddr;
     /* 0x04 */ u32 size;
@@ -818,10 +836,7 @@ typedef struct AudioTableEntry {
 } AudioTableEntry; // size = 0x10
 
 typedef struct AudioTable {
-    /* 0x00 */ s16 numEntries;
-    /* 0x02 */ s16 unkMediumParam;
-    /* 0x04 */ u32 romAddr;
-    /* 0x08 */ char pad[0x8];
+    /* 0x00 */ AudioTableHeader header;
     /* 0x10 */ AudioTableEntry entries[1]; // (dynamic size)
 } AudioTable; // size >= 0x20
 

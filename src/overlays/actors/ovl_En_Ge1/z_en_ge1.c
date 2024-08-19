@@ -103,7 +103,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
 
     this->actor.uncullZoneForward = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
 
-    switch (this->actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 8)) {
 
         case GE1_TYPE_GATE_GUARD:
             this->hairstyle = GE1_HAIR_SPIKY;
@@ -329,7 +329,7 @@ void EnGe1_WaitTillOpened_GTGGuard(EnGe1* this, PlayState* play) {
 void EnGe1_Open_GTGGuard(EnGe1* this, PlayState* play) {
     if (this->stateFlags & GE1_STATE_IDLE_ANIM) {
         this->actionFunc = EnGe1_WaitTillOpened_GTGGuard;
-        Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         this->cutsceneTimer = 50;
         Message_CloseTextbox(play);
     } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
@@ -422,7 +422,7 @@ void EnGe1_WaitUntilGateOpened_GateOp(EnGe1* this, PlayState* play) {
 void EnGe1_OpenGate_GateOp(EnGe1* this, PlayState* play) {
     if (this->stateFlags & GE1_STATE_IDLE_ANIM) {
         this->actionFunc = EnGe1_WaitUntilGateOpened_GateOp;
-        Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         this->cutsceneTimer = 50;
         Message_CloseTextbox(play);
     } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
@@ -444,7 +444,7 @@ void EnGe1_SetupOpenGate_GateOp(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_CheckGate_GateOp(EnGe1* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         EnGe1_SetTalkAction(this, play, 0x6018, 100.0f, EnGe1_WaitGateOpen_GateOp);
     } else {
         EnGe1_SetTalkAction(this, play, 0x6017, 100.0f, EnGe1_SetupOpenGate_GateOp);

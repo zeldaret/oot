@@ -20,6 +20,9 @@ beginseg
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
     include "$(BUILD_DIR)/src/boot/yaz0.o"
     include "$(BUILD_DIR)/src/boot/z_locale.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/boot/cic6105.o"
+#endif
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/boot/assert.o"
 #endif
@@ -147,7 +150,13 @@ endseg
 
 beginseg
     name "Audiotable"
-    include "$(BUILD_DIR)/baserom/Audiotable.o"
+    address 0
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_0.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_2.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_3.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_4.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_5.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_6.o"
 endseg
 
 #if OOT_NTSC
@@ -474,6 +483,10 @@ beginseg
     include "$(BUILD_DIR)/src/code/sys_rumble.o"
     include "$(BUILD_DIR)/src/code/code_800D31A0.o"
     include "$(BUILD_DIR)/src/code/irqmgr.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/code/code_n64dd_800AD410.o"
+    include "$(BUILD_DIR)/src/code/code_n64dd_800AD4C0.o"
+#endif
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
 #endif
@@ -636,6 +649,7 @@ beginseg
     include_no_data "$(BUILD_DIR)/src/code/z_game_over.o"
     include "$(BUILD_DIR)/src/code/z_construct.o"
     include "$(BUILD_DIR)/data/audio_tables.rodata.o"
+    include "$(BUILD_DIR)/src/audio/tables/samplebank_table.o"
     include "$(BUILD_DIR)/data/rsp.text.o"
     include "$(BUILD_DIR)/data/rsp.rodata.o"
 endseg

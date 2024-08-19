@@ -4,7 +4,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-// BgBdanSwitch.actor.params & 0xFF
 typedef enum BgBdanSwitchType {
     /* 0x00 */ BLUE,
     /* 0x01 */ YELLOW_HEAVY,

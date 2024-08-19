@@ -220,7 +220,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.health = 8;
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     this->eyeIndex = 0;
     this->unk_2F4 = 10.0f; // Set and not used

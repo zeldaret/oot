@@ -159,7 +159,7 @@ void ObjKibako2_Idle(ObjKibako2* this, PlayState* play) {
 void ObjKibako2_Kill(ObjKibako2* this, PlayState* play) {
     s16 params = this->dyna.actor.params;
 
-    if ((params & 0x8000) == 0) {
+    if (PARAMS_GET_NOSHIFT(params, 15, 1) == 0) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
                     this->dyna.actor.world.pos.z, 0, this->dyna.actor.shape.rot.y, 0, params | 0x8000);
     }

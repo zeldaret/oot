@@ -66,9 +66,9 @@ void ObjElevator_Init(Actor* thisx, PlayState* play) {
     f32 temp_f0;
 
     func_80B92B08(this, play, &object_d_elevator_Col_000360, DYNA_TRANSFORM_POS);
-    Actor_SetScale(thisx, sScales[thisx->params & 1]);
+    Actor_SetScale(thisx, sScales[PARAMS_GET_U(thisx->params, 0, 1)]);
     Actor_ProcessInitChain(thisx, sInitChain);
-    temp_f0 = (thisx->params >> 8) & 0xF;
+    temp_f0 = PARAMS_GET_U(thisx->params, 8, 4);
     this->unk_16C = temp_f0 + temp_f0;
     func_80B92C5C(this);
     PRINTF("(Dungeon Elevator)(arg_data 0x%04x)\n", thisx->params);
@@ -91,7 +91,7 @@ void func_80B92C80(ObjElevator* this, PlayState* play) {
     if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) && !(this->unk_170 & DYNA_INTERACT_PLAYER_ON_TOP)) {
         sub = thisx->world.pos.y - thisx->home.pos.y;
         if (fabsf(sub) < 0.1f) {
-            this->unk_168 = thisx->home.pos.y + ((thisx->params >> 0xC) & 0xF) * 80.0f;
+            this->unk_168 = thisx->home.pos.y + (PARAMS_GET_U(thisx->params, 12, 4)) * 80.0f;
         } else {
             this->unk_168 = thisx->home.pos.y;
         }

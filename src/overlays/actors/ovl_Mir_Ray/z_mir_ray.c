@@ -136,7 +136,7 @@ void MirRay_MakeShieldLight(MirRay* this, PlayState* play) {
                               player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->sourceEndRad,
                               this->poolEndRad)) {
 
-        if (dataEntry->params & 8) { // Light beams from mirrors
+        if (PARAMS_GET_NOSHIFT(dataEntry->params, 3, 1)) { // Light beams from mirrors
             Math_Vec3f_Diff(&player->actor.world.pos, &this->sourcePt, &reflectionPt);
         } else { // Light beams from windows
             Math_Vec3f_Diff(&this->poolPt, &this->sourcePt, &reflectionPt);
@@ -207,10 +207,10 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     this->shieldCorners[5].x = 758.0f;
     this->shieldCorners[5].y = -800.0f;
 
-    if (dataEntry->params & 2) {
+    if (PARAMS_GET_NOSHIFT(dataEntry->params, 1, 1)) {
         Collider_InitJntSph(play, &this->colliderSph);
         Collider_SetJntSph(play, &this->colliderSph, &this->actor, &sJntSphInit, &this->colliderSphItem);
-        if (!(dataEntry->params & 4)) { // Beams not from mirrors
+        if (!PARAMS_GET_NOSHIFT(dataEntry->params, 2, 1)) { // Beams not from mirrors
             MirRay_SetupCollider(this);
         }
     }
