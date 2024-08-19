@@ -334,7 +334,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
     xDiff = waypointPos.x - this->actor.world.pos.x;
     zDiff = waypointPos.z - this->actor.world.pos.z;
 
-    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
+    this->yawToWaypoint = RAD_TO_BINANG2(Math_FAtan2F(xDiff, zDiff));
     this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
 
     while ((this->distToWaypoint <= 10.44f) && (this->unk_1E8 != 0)) {
@@ -379,7 +379,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
         xDiff = waypointPos.x - this->actor.world.pos.x;
         zDiff = waypointPos.z - this->actor.world.pos.z;
 
-        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
+        this->yawToWaypoint = RAD_TO_BINANG2(Math_FAtan2F(xDiff, zDiff));
         this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
     }
 
