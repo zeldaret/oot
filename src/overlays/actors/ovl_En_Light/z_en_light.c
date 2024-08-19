@@ -16,7 +16,7 @@ void EnLight_Update(Actor* thisx, PlayState* play);
 void EnLight_Draw(Actor* thisx, PlayState* play);
 void EnLight_UpdateSwitch(Actor* thisx, PlayState* play);
 
-ActorInit En_Light_InitVars = {
+ActorProfile En_Light_Profile = {
     /**/ ACTOR_EN_LIGHT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -28,7 +28,7 @@ ActorInit En_Light_InitVars = {
     /**/ EnLight_Draw,
 };
 
-typedef struct {
+typedef struct FlameParams {
     /* 0x00 */ Color_RGBA8 primColor;
     /* 0x04 */ Color_RGB8 envColor;
     /* 0x07 */ u8 scale;

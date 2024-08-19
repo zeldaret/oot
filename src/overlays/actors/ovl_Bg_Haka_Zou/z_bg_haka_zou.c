@@ -10,7 +10,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum ShadowTempleAssetsType {
     /* 0x0 */ STA_GIANT_BIRD_STATUE,
     /* 0x1 */ STA_BOMBABLE_SKULL_WALL,
     /* 0x2 */ STA_BOMBABLE_RUBBLE,
@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-ActorInit Bg_Haka_Zou_InitVars = {
+ActorProfile Bg_Haka_Zou_Profile = {
     /**/ ACTOR_BG_HAKA_ZOU,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

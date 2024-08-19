@@ -21,7 +21,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-ActorInit Bg_Mori_Idomizu_InitVars = {
+ActorProfile Bg_Mori_Idomizu_Profile = {
     /**/ ACTOR_BG_MORI_IDOMIZU,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

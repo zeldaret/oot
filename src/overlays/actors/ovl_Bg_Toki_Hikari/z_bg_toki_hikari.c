@@ -21,7 +21,7 @@ void func_808BA22C(BgTokiHikari* this, PlayState* play);
 void func_808BA274(BgTokiHikari* this, PlayState* play);
 void func_808BA2CC(BgTokiHikari* this, PlayState* play);
 
-ActorInit Bg_Toki_Hikari_InitVars = {
+ActorProfile Bg_Toki_Hikari_Profile = {
     /**/ ACTOR_BG_TOKI_HIKARI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -82,7 +82,7 @@ void BgTokiHikari_Draw(Actor* thisx, PlayState* play) {
 }
 
 void func_808BA018(BgTokiHikari* this, PlayState* play) {
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 246);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -93,9 +93,9 @@ void func_808BA018(BgTokiHikari* this, PlayState* play) {
     } else {
         gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007E20);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPSegment(POLY_XLU_DISP++, 8, Gfx_TexScroll(play->state.gfxCtx, 0, play->gameplayFrames % 128, 64, 32));
+        gSPSegment(POLY_XLU_DISP++, 8, Gfx_TexScroll(play->state.gfxCtx, 0, play2->gameplayFrames % 128, 64, 32));
 
-        gSPSegment(POLY_XLU_DISP++, 9, Gfx_TexScroll(play->state.gfxCtx, 0, play->gameplayFrames % 128, 64, 32));
+        gSPSegment(POLY_XLU_DISP++, 9, Gfx_TexScroll(play->state.gfxCtx, 0, play2->gameplayFrames % 128, 64, 32));
 
         gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_toki_hikari.c", 278);
 

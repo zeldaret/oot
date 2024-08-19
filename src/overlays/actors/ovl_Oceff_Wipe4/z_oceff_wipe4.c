@@ -14,7 +14,7 @@ void OceffWipe4_Destroy(Actor* thisx, PlayState* play);
 void OceffWipe4_Update(Actor* thisx, PlayState* play);
 void OceffWipe4_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Oceff_Wipe4_InitVars = {
+ActorProfile Oceff_Wipe4_Profile = {
     /**/ ACTOR_OCEFF_WIPE4,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

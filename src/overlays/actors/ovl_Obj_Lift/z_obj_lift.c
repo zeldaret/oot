@@ -24,7 +24,7 @@ void ObjLift_Wait(ObjLift* this, PlayState* play);
 void ObjLift_Shake(ObjLift* this, PlayState* play);
 void ObjLift_Fall(ObjLift* this, PlayState* play);
 
-ActorInit Obj_Lift_InitVars = {
+ActorProfile Obj_Lift_Profile = {
     /**/ ACTOR_OBJ_LIFT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -38,7 +38,7 @@ ActorInit Obj_Lift_InitVars = {
 
 static s16 sFallTimerDurations[] = { 0, 10, 20, 30, 40, 50, 60 };
 
-typedef struct {
+typedef struct ObjLiftFramgentScale {
     /* 0x00 */ s16 x;
     /* 0x02 */ s16 z;
 } ObjLiftFramgentScale; // size = 0x4

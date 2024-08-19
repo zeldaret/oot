@@ -27,7 +27,7 @@ void func_809AABF0(PlayState* play, u32 index, EffectSs* this);
 void func_809AACAC(PlayState* play, u32 index, EffectSs* this);
 void func_809AAD6C(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_KiraKira_InitVars = {
+EffectSsProfile Effect_Ss_KiraKira_Profile = {
     EFFECT_SS_KIRAKIRA,
     EffectSsKiraKira_Init,
 };

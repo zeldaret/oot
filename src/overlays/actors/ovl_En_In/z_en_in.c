@@ -24,7 +24,7 @@ void func_80A7A940(EnIn* this, PlayState* play);
 void func_80A7AA40(EnIn* this, PlayState* play);
 void func_80A7A4BC(EnIn* this, PlayState* play);
 
-ActorInit En_In_InitVars = {
+ActorProfile En_In_Profile = {
     /**/ ACTOR_EN_IN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnInAnimation {
     /* 0 */ ENIN_ANIM_0,
     /* 1 */ ENIN_ANIM_1,
     /* 2 */ ENIN_ANIM_2,
@@ -503,7 +503,7 @@ void EnIn_Destroy(Actor* thisx, PlayState* play) {
 }
 
 // This function does not actually wait since it waits for OBJECT_IN,
-// but the object is already loaded at this point from being set in the ActorInit data
+// but the object is already loaded at this point from being set in the ActorProfile data
 void EnIn_WaitForObject(EnIn* this, PlayState* play) {
     s32 sp3C = 0;
 

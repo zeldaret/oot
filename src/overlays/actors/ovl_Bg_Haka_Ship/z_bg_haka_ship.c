@@ -21,7 +21,7 @@ void BgHakaShip_SetupCrash(BgHakaShip* this, PlayState* play);
 void BgHakaShip_CrashShake(BgHakaShip* this, PlayState* play);
 void BgHakaShip_CrashFall(BgHakaShip* this, PlayState* play);
 
-ActorInit Bg_Haka_Ship_InitVars = {
+ActorProfile Bg_Haka_Ship_Profile = {
     /**/ ACTOR_BG_HAKA_SHIP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -9,7 +9,7 @@
  * ((params >> 8) & 0x3F) == 0x3F means no switch flag is checked / set
  */
 
-typedef struct {
+typedef struct DoorKillerTextureEntry {
     /* 0x00 */ s16 objectId;
     /* 0x04 */ void* texture;
 } DoorKillerTextureEntry; // size 0x8

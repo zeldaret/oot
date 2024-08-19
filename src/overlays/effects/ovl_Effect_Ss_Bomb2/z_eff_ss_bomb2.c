@@ -24,7 +24,7 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBomb2_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Bomb2_InitVars = {
+EffectSsProfile Effect_Ss_Bomb2_Profile = {
     EFFECT_SS_BOMB2,
     EffectSsBomb2_Init,
 };
@@ -94,8 +94,6 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (1) {}
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 345);
 }
 
@@ -159,8 +157,6 @@ void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (1) {}
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 456);
 }
 

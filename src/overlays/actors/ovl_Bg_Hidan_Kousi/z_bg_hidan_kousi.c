@@ -23,7 +23,7 @@ void func_80889D28(BgHidanKousi* this, PlayState* play);
 
 static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
-ActorInit Bg_Hidan_Kousi_InitVars = {
+ActorProfile Bg_Hidan_Kousi_Profile = {
     /**/ ACTOR_BG_HIDAN_KOUSI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

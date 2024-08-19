@@ -15,7 +15,7 @@ void BgSpot17Funen_Update(Actor* thisx, PlayState* play);
 void func_808B746C(Actor* thisx, PlayState* play);
 void func_808B7478(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Spot17_Funen_InitVars = {
+ActorProfile Bg_Spot17_Funen_Profile = {
     /**/ ACTOR_BG_SPOT17_FUNEN,
     /**/ ACTORCAT_SWITCH,
     /**/ FLAGS,
@@ -65,8 +65,6 @@ void func_808B7478(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (0 - play->gameplayFrames) & 0x7F, 0x20, 0x20,
                                 1, 0, (0 - play->gameplayFrames) & 0x7F, 0x20, 0x20));
     gSPDisplayList(POLY_XLU_DISP++, gCraterSmokeConeDL);
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot17_funen.c", 176);
 }

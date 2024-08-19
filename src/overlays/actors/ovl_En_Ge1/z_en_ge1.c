@@ -15,7 +15,7 @@
 #define GE1_STATE_IDLE_ANIM (1 << 2)
 #define GE1_STATE_STOP_FIDGET (1 << 3)
 
-typedef enum {
+typedef enum EnGe1Hairstyle {
     /* 00 */ GE1_HAIR_BOB,
     /* 01 */ GE1_HAIR_STRAIGHT,
     /* 02 */ GE1_HAIR_SPIKY
@@ -39,7 +39,7 @@ void EnGe1_Wait_Archery(EnGe1* this, PlayState* play);
 void EnGe1_CueUpAnimation(EnGe1* this);
 void EnGe1_StopFidget(EnGe1* this);
 
-ActorInit En_Ge1_InitVars = {
+ActorProfile En_Ge1_Profile = {
     /**/ ACTOR_EN_GE1,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

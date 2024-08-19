@@ -24,7 +24,7 @@ u32 EffectSsBlast_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
 void EffectSsBlast_Update(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBlast_Draw(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Blast_InitVars = {
+EffectSsProfile Effect_Ss_Blast_Profile = {
     EFFECT_SS_BLAST,
     EffectSsBlast_Init,
 };

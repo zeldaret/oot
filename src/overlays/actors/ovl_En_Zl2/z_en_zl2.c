@@ -87,7 +87,7 @@ static EnZl2DrawFunc sDrawFuncs[] = {
     func_80B525D4,
 };
 
-ActorInit En_Zl2_InitVars = {
+ActorProfile En_Zl2_Profile = {
     /**/ ACTOR_EN_ZL2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

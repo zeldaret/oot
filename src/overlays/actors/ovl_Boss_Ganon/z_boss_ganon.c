@@ -45,7 +45,7 @@ void BossGanon_UpdateEffects(PlayState* play);
 
 s32 BossGanon_CheckFallingPlatforms(BossGanon* this, PlayState* play, Vec3f* checkPos);
 
-ActorInit Boss_Ganon_InitVars = {
+ActorProfile Boss_Ganon_Profile = {
     /**/ ACTOR_BOSS_GANON,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -100,21 +100,19 @@ static ColliderCylinderInit sLightBallCylinderInit = {
 static u8 D_808E4C58[] = { 0, 12, 10, 12, 14, 16, 12, 14, 16, 12, 14, 16, 12, 14, 16, 10, 16, 14 };
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-// For retail BSS ordering, the block number of sGanondorf must be 0 or just above.
-
-// TODO: There's probably a way to do this with less padding by spreading the variables out and moving
-// data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number 50
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 static EnGanonMant* sCape;
 
-#pragma increment_block_number 200
+// TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
+// data around. It would be easier if we had more options for controlling BSS ordering in debug.
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
 
-#pragma increment_block_number 200
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192"
 
 static BossGanon* sGanondorf;
 
@@ -122,7 +120,7 @@ static EnZl3* sZelda;
 
 #define BOSSGANON_EFFECT_COUNT 200
 
-typedef struct {
+typedef struct GanondorfEffect {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 timer;
     /* 0x04 */ Vec3f pos;
@@ -504,7 +502,7 @@ void BossGanon_SetupIntroCutscene(BossGanon* this, PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct CutsceneCameraPosition {
     /* 0x00 */ Vec3s eye;
     /* 0x06 */ Vec3s at;
 } CutsceneCameraPosition; // size = 0x12
@@ -3512,8 +3510,6 @@ void BossGanon_DrawBigMagicCharge(BossGanon* this, PlayState* play) {
             Matrix_Pop();
         }
 
-        if (1) {}
-
         CLOSE_DISPS(gfxCtx, "../z_boss_ganon.c", 7721);
     }
 }
@@ -4163,8 +4159,6 @@ void BossGanon_LightBall_Draw(Actor* thisx, PlayState* play) {
         gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_ganon.c", 9907);
         gSPDisplayList(POLY_XLU_DISP++, gGanondorfSquareDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon.c", 9911);
 }

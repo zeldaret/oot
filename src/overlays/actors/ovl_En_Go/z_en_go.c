@@ -34,7 +34,7 @@ void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
 void EnGo_UpdateEffects(EnGo* this);
 void EnGo_DrawEffects(EnGo* this, PlayState* play);
 
-ActorInit En_Go_InitVars = {
+ActorProfile En_Go_Profile = {
     /**/ ACTOR_EN_GO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -68,7 +68,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnGoAnimation {
     /* 0 */ ENGO_ANIM_0,
     /* 1 */ ENGO_ANIM_1,
     /* 2 */ ENGO_ANIM_2,

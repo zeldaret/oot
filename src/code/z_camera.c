@@ -4,9 +4,7 @@
 #include "terminal.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-// For retail BSS ordering, the block number of D_8015BD7C
-// must be between 88 and 123 inclusive.
-#pragma increment_block_number 26
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
@@ -3632,7 +3630,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     return 1;
 }
 
-#pragma increment_block_number 100
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;
@@ -7043,7 +7041,7 @@ s32 Camera_Special5(Camera* camera) {
     return true;
 }
 
-typedef enum {
+typedef enum CamElevatorPlatform {
     /* 0 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR, // ACTOR_BG_HIDAN_ROCK
     /* 1 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER,  // ACTOR_BG_HIDAN_FSLIFT
     /* 2 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER,  // ACTOR_BG_HIDAN_SYOKU

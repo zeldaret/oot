@@ -14,7 +14,7 @@ void EnGanonOrgan_Destroy(Actor* thisx, PlayState* play);
 void EnGanonOrgan_Update(Actor* thisx, PlayState* play);
 void EnGanonOrgan_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Ganon_Organ_InitVars = {
+ActorProfile En_Ganon_Organ_Profile = {
     /**/ ACTOR_EN_GANON_ORGAN,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

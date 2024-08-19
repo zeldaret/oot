@@ -10,7 +10,7 @@
 
 #define FLAGS 0
 
-typedef enum {
+typedef enum PoeFlameColor {
     POE_FLAME_PURPLE, // Meg
     POE_FLAME_RED,    // Joelle
     POE_FLAME_BLUE,   // Beth
@@ -58,7 +58,7 @@ static Color_RGBA8 sEnvColors[] = {
     { 0, 150, 0, 255 },
 };
 
-ActorInit Bg_Po_Syokudai_InitVars = {
+ActorProfile Bg_Po_Syokudai_Profile = {
     /**/ ACTOR_BG_PO_SYOKUDAI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

@@ -62,7 +62,7 @@ void DemoEffect_SetStartPosFromCue(DemoEffect* this, PlayState* play, s32 cueCha
 void DemoEffect_SetPosRotFromCue(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing);
 void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChannel, f32 speed);
 
-ActorInit Demo_Effect_InitVars = {
+ActorProfile Demo_Effect_Profile = {
     /**/ ACTOR_DEMO_EFFECT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

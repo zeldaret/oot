@@ -33,7 +33,7 @@ f32 func_808C50A8(BossDodongo* this, PlayState* play);
 void BossDodongo_DrawEffects(PlayState* play);
 void BossDodongo_UpdateEffects(PlayState* play);
 
-ActorInit Boss_Dodongo_InitVars = {
+ActorProfile Boss_Dodongo_Profile = {
     /**/ ACTOR_EN_DODONGO,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,

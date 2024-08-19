@@ -18,7 +18,7 @@ void BgHidanFslift_Idle(BgHidanFslift* this, PlayState* play);
 void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play);
 void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play);
 
-ActorInit Bg_Hidan_Fslift_InitVars = {
+ActorProfile Bg_Hidan_Fslift_Profile = {
     /**/ ACTOR_BG_HIDAN_FSLIFT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

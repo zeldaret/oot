@@ -1,7 +1,7 @@
 #include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-typedef struct {
+typedef struct DebugDispObjectInfo {
     /* 0x00 */ s16 drawType;  // indicates which draw function to use when displaying the object
     /* 0x04 */ void* drawArg; // segment address (display list or texture) passed to the draw function when called
 } DebugDispObjectInfo;        // size = 0x8

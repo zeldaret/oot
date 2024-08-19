@@ -9,7 +9,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum WindmillSetpiecesMode {
     /* 0 */ WINDMILL_ROTATING_GEAR,
     /* 1 */ WINDMILL_DAMPE_STONE_DOOR
 } WindmillSetpiecesMode;
@@ -26,7 +26,7 @@ void BgRelayObjects_DoNothing(BgRelayObjects* this, PlayState* play);
 void func_808A932C(BgRelayObjects* this, PlayState* play);
 void func_808A939C(BgRelayObjects* this, PlayState* play);
 
-ActorInit Bg_Relay_Objects_InitVars = {
+ActorProfile Bg_Relay_Objects_Profile = {
     /**/ ACTOR_BG_RELAY_OBJECTS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

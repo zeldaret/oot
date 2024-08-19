@@ -17,7 +17,7 @@ void BgMizuWater_Draw(Actor* thisx, PlayState* play);
 void BgMizuWater_WaitForAction(BgMizuWater* this, PlayState* play);
 void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play);
 
-typedef struct {
+typedef struct WaterLevel {
     s32 switchFlag;
     s32 yDiff;
 } WaterLevel;
@@ -29,7 +29,7 @@ static WaterLevel sWaterLevels[] = {
     { WATER_TEMPLE_WATER_F1_FLAG, WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_F3_Y },
 };
 
-ActorInit Bg_Mizu_Water_InitVars = {
+ActorProfile Bg_Mizu_Water_Profile = {
     /**/ ACTOR_BG_MIZU_WATER,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -42,7 +42,7 @@ void func_8086DCE8(BgBdanSwitch* this, PlayState* play);
 void func_8086DDA8(BgBdanSwitch* this);
 void func_8086DDC0(BgBdanSwitch* this, PlayState* play);
 
-ActorInit Bg_Bdan_Switch_InitVars = {
+ActorProfile Bg_Bdan_Switch_Profile = {
     /**/ ACTOR_BG_BDAN_SWITCH,
     /**/ ACTORCAT_SWITCH,
     /**/ FLAGS,

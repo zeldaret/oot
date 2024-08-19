@@ -1,6 +1,6 @@
 #include "global.h"
 
-typedef enum {
+typedef enum TransitionWipeDirection {
     /* 0 */ TRANS_WIPE_DIR_IN,
     /* 1 */ TRANS_WIPE_DIR_OUT
 } TransitionWipeDirection;

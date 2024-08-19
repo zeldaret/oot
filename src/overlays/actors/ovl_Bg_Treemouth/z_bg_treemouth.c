@@ -29,7 +29,7 @@ extern CutsceneData D_808BD2A0[];
 extern CutsceneData D_808BD520[];
 extern CutsceneData D_808BD790[];
 
-ActorInit Bg_Treemouth_InitVars = {
+ActorProfile Bg_Treemouth_Profile = {
     /**/ ACTOR_BG_TREEMOUTH,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

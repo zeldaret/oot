@@ -69,7 +69,7 @@ void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 239);
 }
 
-typedef enum {
+typedef enum RoomCullableDebugMode {
     /* 0 */ ROOM_CULL_DEBUG_MODE_OFF,
     /* 1 */ ROOM_CULL_DEBUG_MODE_UP_TO_TARGET,
     /* 2 */ ROOM_CULL_DEBUG_MODE_ONLY_TARGET

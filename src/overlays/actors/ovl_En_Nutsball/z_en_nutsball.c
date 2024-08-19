@@ -22,7 +22,7 @@ void EnNutsball_Draw(Actor* thisx, PlayState* play);
 void func_80ABBB34(EnNutsball* this, PlayState* play);
 void func_80ABBBA8(EnNutsball* this, PlayState* play);
 
-ActorInit En_Nutsball_InitVars = {
+ActorProfile En_Nutsball_Profile = {
     /**/ ACTOR_EN_NUTSBALL,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

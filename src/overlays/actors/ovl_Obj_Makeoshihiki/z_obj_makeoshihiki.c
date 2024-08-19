@@ -13,7 +13,7 @@
 void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play);
 void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Makeoshihiki_InitVars = {
+ActorProfile Obj_Makeoshihiki_Profile = {
     /**/ ACTOR_OBJ_MAKEOSHIHIKI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -25,7 +25,7 @@ ActorInit Obj_Makeoshihiki_InitVars = {
     /**/ ObjMakeoshihiki_Draw,
 };
 
-typedef struct {
+typedef struct BlockConfig {
     /* 0x00 */ Vec3f posVecs[3];
     /* 0x24 */ u8 unk_24[3];
     /* 0x27 */ u8 color;

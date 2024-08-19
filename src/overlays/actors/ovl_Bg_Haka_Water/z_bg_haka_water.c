@@ -18,7 +18,7 @@ void BgHakaWater_LowerWater(BgHakaWater* this, PlayState* play);
 void BgHakaWater_Wait(BgHakaWater* this, PlayState* play);
 void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, PlayState* play);
 
-ActorInit Bg_Haka_Water_InitVars = {
+ActorProfile Bg_Haka_Water_Profile = {
     /**/ ACTOR_BG_HAKA_WATER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

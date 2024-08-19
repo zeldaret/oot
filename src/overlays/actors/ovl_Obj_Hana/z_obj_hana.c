@@ -14,7 +14,7 @@ void ObjHana_Destroy(Actor* thisx, PlayState* play);
 void ObjHana_Update(Actor* thisx, PlayState* play);
 void ObjHana_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Hana_InitVars = {
+ActorProfile Obj_Hana_Profile = {
     /**/ ACTOR_OBJ_HANA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -48,7 +48,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
-typedef struct {
+typedef struct HanaParams {
     /* 0x00 */ Gfx* dList;
     /* 0x04 */ f32 scale;
     /* 0x08 */ f32 yOffset;

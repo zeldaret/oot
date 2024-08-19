@@ -25,7 +25,7 @@ u32 EffectSsFireTail_Init(PlayState* play, u32 index, EffectSs* this, void* init
 void EffectSsFireTail_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsFireTail_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Fire_Tail_InitVars = {
+EffectSsProfile Effect_Ss_Fire_Tail_Profile = {
     EFFECT_SS_FIRE_TAIL,
     EffectSsFireTail_Init,
 };

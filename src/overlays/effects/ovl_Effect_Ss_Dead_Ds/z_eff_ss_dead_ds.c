@@ -21,7 +21,7 @@ u32 EffectSsDeadDs_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsDeadDs_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsDeadDs_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Dead_Ds_InitVars = {
+EffectSsProfile Effect_Ss_Dead_Ds_Profile = {
     EFFECT_SS_DEAD_DS,
     EffectSsDeadDs_Init,
 };

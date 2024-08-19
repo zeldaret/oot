@@ -143,7 +143,7 @@ static ColliderCylinderInit sTailCylinderInit = {
     { 15, 20, -15, { 0, 0, 0 } },
 };
 
-typedef enum {
+typedef enum EnWfDamageEffect {
     /*  0 */ ENWF_DMGEFF_NONE,
     /*  1 */ ENWF_DMGEFF_STUN,
     /*  6 */ ENWF_DMGEFF_ICE_MAGIC = 6,
@@ -187,7 +187,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
 };
 
-ActorInit En_Wf_InitVars = {
+ActorProfile En_Wf_Profile = {
     /**/ ACTOR_EN_WF,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

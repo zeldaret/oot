@@ -22,7 +22,7 @@ u32 EffectSsSibuki2_Init(PlayState* play, u32 index, EffectSs* this, void* initP
 void EffectSsSibuki2_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsSibuki2_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Sibuki2_InitVars = {
+EffectSsProfile Effect_Ss_Sibuki2_Profile = {
     EFFECT_SS_SIBUKI2,
     EffectSsSibuki2_Init,
 };

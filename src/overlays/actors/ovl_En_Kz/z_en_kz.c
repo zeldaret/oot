@@ -22,7 +22,7 @@ void EnKz_Wait(EnKz* this, PlayState* play);
 void EnKz_SetupGetItem(EnKz* this, PlayState* play);
 void EnKz_StartTimer(EnKz* this, PlayState* play);
 
-ActorInit En_Kz_InitVars = {
+ActorProfile En_Kz_Profile = {
     /**/ ACTOR_EN_KZ,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -56,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnKzAnimation {
     /* 0 */ ENKZ_ANIM_0,
     /* 1 */ ENKZ_ANIM_1,
     /* 2 */ ENKZ_ANIM_2

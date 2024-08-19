@@ -15,7 +15,7 @@ void EnStream_Update(Actor* thisx, PlayState* play);
 void EnStream_Draw(Actor* thisx, PlayState* play);
 void EnStream_WaitForPlayer(EnStream* this, PlayState* play);
 
-ActorInit En_Stream_InitVars = {
+ActorProfile En_Stream_Profile = {
     /**/ ACTOR_EN_STREAM,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

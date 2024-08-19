@@ -16,7 +16,7 @@ void BgJyaBigmirror_Draw(Actor* thisx, PlayState* play);
 
 static u8 sIsSpawned = false;
 
-ActorInit Bg_Jya_Bigmirror_InitVars = {
+ActorProfile Bg_Jya_Bigmirror_Profile = {
     /**/ ACTOR_BG_JYA_BIGMIRROR,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -28,7 +28,7 @@ ActorInit Bg_Jya_Bigmirror_InitVars = {
     /**/ BgJyaBigmirror_Draw,
 };
 
-typedef struct {
+typedef struct BigMirrorDataEntry {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 params;
     /* 0x0E */ s16 solvedRotY;
@@ -224,7 +224,6 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, PlayState* play) {
     gSPDisplayList(POLY_XLU_DISP++, gBigMirror1DL);
 
     if (lift != NULL) {
-        if (1) {}
         Matrix_SetTranslateRotateYXZ(lift->world.pos.x, lift->world.pos.y, lift->world.pos.z, &D_80893F4C);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467);

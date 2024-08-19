@@ -2,7 +2,7 @@
 #include "global.h"
 #include "terminal.h"
 
-typedef struct {
+typedef struct SfxRequest {
     /* 0x00 */ u16 sfxId;
     /* 0x04 */ Vec3f* pos;
     /* 0x08 */ u8 token;
@@ -11,7 +11,7 @@ typedef struct {
     /* 0x14 */ s8* reverbAdd;
 } SfxRequest; // size = 0x18
 
-typedef struct {
+typedef struct UnusedBankLerp {
     /* 0x00 */ f32 value;
     /* 0x04 */ f32 target;
     /* 0x08 */ f32 step;

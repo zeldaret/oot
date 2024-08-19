@@ -29,7 +29,7 @@ void EnKarebaba_Dead(EnKarebaba* this, PlayState* play);
 void EnKarebaba_Regrow(EnKarebaba* this, PlayState* play);
 void EnKarebaba_Upright(EnKarebaba* this, PlayState* play);
 
-ActorInit En_Karebaba_InitVars = {
+ActorProfile En_Karebaba_Profile = {
     /**/ ACTOR_EN_KAREBABA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

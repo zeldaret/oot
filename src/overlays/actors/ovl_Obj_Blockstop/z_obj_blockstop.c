@@ -13,7 +13,7 @@ void ObjBlockstop_Init(Actor* thisx, PlayState* play);
 void ObjBlockstop_Destroy(Actor* thisx, PlayState* play);
 void ObjBlockstop_Update(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Blockstop_InitVars = {
+ActorProfile Obj_Blockstop_Profile = {
     /**/ ACTOR_OBJ_BLOCKSTOP,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

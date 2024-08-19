@@ -94,7 +94,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-ActorInit En_Go2_InitVars = {
+ActorProfile En_Go2_Profile = {
     /**/ ACTOR_EN_GO2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -125,7 +125,7 @@ static f32 sPlayerTrackingYOffsets[14][2] = {
     { 20.0f, 20.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f },
 };
 
-typedef enum {
+typedef enum EnGo2Animation {
     /*  0 */ ENGO2_ANIM_0,
     /*  1 */ ENGO2_ANIM_1,
     /*  2 */ ENGO2_ANIM_2,

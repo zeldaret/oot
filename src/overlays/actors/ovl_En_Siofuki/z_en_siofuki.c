@@ -18,7 +18,7 @@ void func_80AFC34C(EnSiofuki* this, PlayState* play);
 void func_80AFC544(EnSiofuki* this, PlayState* play);
 void func_80AFC478(EnSiofuki* this, PlayState* play);
 
-ActorInit En_Siofuki_InitVars = {
+ActorProfile En_Siofuki_Profile = {
     /**/ ACTOR_EN_SIOFUKI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -292,8 +292,6 @@ void EnSiofuki_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, x, y, 64, 64, 1, x, y, 64, 64));
     gSPDisplayList(POLY_XLU_DISP++, object_siofuki_DL_000B70);
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_siofuki.c", 674);
 

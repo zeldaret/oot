@@ -5,7 +5,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum EnDodongoActionState {
     DODONGO_SWEEP_TAIL,
     DODONGO_SWALLOW_BOMB,
     DODONGO_DEATH,
@@ -36,7 +36,7 @@ void EnDodongo_Stunned(EnDodongo* this, PlayState* play);
 void EnDodongo_Death(EnDodongo* this, PlayState* play);
 void EnDodongo_SweepTail(EnDodongo* this, PlayState* play);
 
-ActorInit En_Dodongo_InitVars = {
+ActorProfile En_Dodongo_Profile = {
     /**/ ACTOR_EN_DODONGO,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

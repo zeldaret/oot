@@ -20,7 +20,7 @@ void func_80A50518(EnGuest* this, PlayState* play);
 void func_80A5057C(EnGuest* this, PlayState* play);
 void func_80A505CC(Actor* thisx, PlayState* play);
 
-ActorInit En_Guest_InitVars = {
+ActorProfile En_Guest_Profile = {
     /**/ ACTOR_EN_GUEST,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

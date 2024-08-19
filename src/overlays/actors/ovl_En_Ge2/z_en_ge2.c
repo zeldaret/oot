@@ -15,13 +15,13 @@
 #define GE2_STATE_CAPTURING (1 << 3)
 #define GE2_STATE_TALKED (1 << 4)
 
-typedef enum {
+typedef enum EnGe2Type {
     /* 0 */ GE2_TYPE_PATROLLING,
     /* 1 */ GE2_TYPE_STATIONARY,
     /* 2 */ GE2_TYPE_GERUDO_CARD_GIVER
 } EnGe2Type;
 
-typedef enum {
+typedef enum EnGe2Action {
     /* 0 */ GE2_ACTION_WALK,
     /* 1 */ GE2_ACTION_ABOUTTURN,
     /* 2 */ GE2_ACTION_TURNPLAYERSPOTTED,
@@ -55,7 +55,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play);
 void EnGe2_UpdateAfterTalk(Actor* thisx, PlayState* play);
 void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2);
 
-ActorInit En_Ge2_InitVars = {
+ActorProfile En_Ge2_Profile = {
     /**/ ACTOR_EN_GE2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

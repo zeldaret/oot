@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum RunningManAnimIndex {
     /* 0 */ RM2_ANIM_RUN,
     /* 1 */ RM2_ANIM_SIT,
     /* 2 */ RM2_ANIM_SIT_WAIT,
@@ -20,7 +20,7 @@ typedef enum {
     /* 6 */ RM2_ANIM_HAPPY    // plays when you sell him the bunny hood
 } RunningManAnimIndex;
 
-typedef enum {
+typedef enum RunningManMouthTex {
     /* 0 */ RM2_MOUTH_CLOSED,
     /* 1 */ RM2_MOUTH_OPEN
 } RunningManMouthTex;
@@ -35,7 +35,7 @@ void func_80AAF668(EnMm2* this, PlayState* play);
 s32 EnMm2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-ActorInit En_Mm2_InitVars = {
+ActorProfile En_Mm2_Profile = {
     /**/ ACTOR_EN_MM2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

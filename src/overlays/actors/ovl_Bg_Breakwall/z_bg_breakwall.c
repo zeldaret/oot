@@ -11,7 +11,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef struct {
+typedef struct BombableWallInfo {
     /* 0x00 */ CollisionHeader* colHeader;
     /* 0x04 */ Gfx* dList;
     /* 0x08 */ s8 colType;
@@ -26,7 +26,7 @@ void BgBreakwall_WaitForObject(BgBreakwall* this, PlayState* play);
 void BgBreakwall_Wait(BgBreakwall* this, PlayState* play);
 void BgBreakwall_LavaCoverMove(BgBreakwall* this, PlayState* play);
 
-ActorInit Bg_Breakwall_InitVars = {
+ActorProfile Bg_Breakwall_Profile = {
     /**/ ACTOR_BG_BREAKWALL,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

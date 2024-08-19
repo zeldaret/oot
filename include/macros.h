@@ -1,6 +1,16 @@
 #ifndef MACROS_H
 #define MACROS_H
 
+// OOT versions in build order
+#define OOT_GC_JP 1
+#define OOT_GC_JP_MQ 2
+#define OOT_GC_US 3
+#define OOT_GC_US_MQ 4
+#define OOT_GC_EU_MQ_DBG 5
+#define OOT_GC_EU 6
+#define OOT_GC_EU_MQ 7
+#define OOT_GC_JP_CE 8
+
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
@@ -98,7 +108,12 @@
                                 ? gSaveContext.save.info.equips.buttonItems[(button) + 1]       \
                                 : ITEM_NONE)
 
+#if PLATFORM_N64
+#define CHECK_BTN_ALL(state, combo) (((state) & (combo)) == (combo))
+#else
 #define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
+#endif
+
 #define CHECK_BTN_ANY(state, combo) (((state) & (combo)) != 0)
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
@@ -177,9 +192,11 @@ extern struct GraphicsContext* __gfxCtx;
         (void)__gfxCtx;                \
         Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
-#define CLOSE_DISPS(gfxCtx, file, line)                 \
-        Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
-    }                                                   \
+#define CLOSE_DISPS(gfxCtx, file, line)                     \
+        do {                                                \
+            Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
+        } while (0);                                        \
+    }                                                       \
     (void)0
 
 #define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
@@ -211,7 +228,7 @@ extern struct GraphicsContext* __gfxCtx;
         s32 __dispPad
 
 #define CLOSE_DISPS(gfxCtx, file, line) \
-    (void)0;                            \
+        do {} while (0);                \
     }                                   \
     (void)0
 
@@ -240,6 +257,12 @@ extern struct GraphicsContext* __gfxCtx;
 
 #define gSPMATRIX_SET_NEW(pkt, gfxCtx, file, line) \
     gSPMatrix(pkt, MATRIX_NEW(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
+
+#if OOT_NTSC
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { jpn, eng }
+#else
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { eng, ger, fra }
+#endif
 
 /**
  * `x` vertex x

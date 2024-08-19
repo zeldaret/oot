@@ -20,7 +20,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play);
 void ElfMsg_CallNaviCuboid(ElfMsg* this, PlayState* play);
 void ElfMsg_CallNaviCylinder(ElfMsg* this, PlayState* play);
 
-ActorInit Elf_Msg_InitVars = {
+ActorProfile Elf_Msg_Profile = {
     /**/ ACTOR_ELF_MSG,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

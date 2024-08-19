@@ -26,7 +26,7 @@ void EffectSsEnIce_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsEnIce_Update(PlayState* play, u32 index, EffectSs* this);
 void EffectSsEnIce_UpdateFlying(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_En_Ice_InitVars = {
+EffectSsProfile Effect_Ss_En_Ice_Profile = {
     EFFECT_SS_EN_ICE,
     EffectSsEnIce_Init,
 };

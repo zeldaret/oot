@@ -49,7 +49,7 @@ static ColliderJntSphInit sColliderInit = {
     sJntSphElementsInit,
 };
 
-ActorInit En_Butte_InitVars = {
+ActorProfile En_Butte_Profile = {
     /**/ ACTOR_EN_BUTTE,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -61,7 +61,7 @@ ActorInit En_Butte_InitVars = {
     /**/ EnButte_Draw,
 };
 
-typedef struct {
+typedef struct EnButteFlightParams {
     /* 0x00 */ s16 minTime;
     /* 0x02 */ s16 maxTime;
     /* 0x04 */ f32 speedXZTarget;

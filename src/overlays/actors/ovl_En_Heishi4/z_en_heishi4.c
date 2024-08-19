@@ -21,7 +21,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play);
 void func_80A56A50(EnHeishi4* this, PlayState* play);
 void func_80A56ACC(EnHeishi4* this, PlayState* play);
 
-ActorInit En_Heishi4_InitVars = {
+ActorProfile En_Heishi4_Profile = {
     /**/ ACTOR_EN_HEISHI4,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

@@ -16,7 +16,7 @@ void EnBoom_Draw(Actor* thisx, PlayState* play);
 
 void EnBoom_Fly(EnBoom* this, PlayState* play);
 
-ActorInit En_Boom_InitVars = {
+ActorProfile En_Boom_Profile = {
     /**/ ACTOR_EN_BOOM,
     /**/ ACTORCAT_MISC,
     /**/ FLAGS,
@@ -270,8 +270,6 @@ void EnBoom_Draw(Actor* thisx, PlayState* play) {
 
     gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_boom.c", 601);
     gSPDisplayList(POLY_OPA_DISP++, gBoomerangRefDL);
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_boom.c", 604);
 }

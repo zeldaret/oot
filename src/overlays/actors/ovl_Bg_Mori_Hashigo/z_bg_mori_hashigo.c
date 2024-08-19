@@ -24,7 +24,7 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
-ActorInit Bg_Mori_Hashigo_InitVars = {
+ActorProfile Bg_Mori_Hashigo_Profile = {
     /**/ ACTOR_BG_MORI_HASHIGO,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -286,7 +286,6 @@ void BgMoriHashigo_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hashigo.c", 516);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    if (1) {}
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
     gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_hashigo.c", 521);

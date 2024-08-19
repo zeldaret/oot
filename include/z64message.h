@@ -6,7 +6,7 @@
 struct OcarinaStaff;
 struct Actor;
 
-typedef enum {
+typedef enum TextBoxIcon {
     /* 0 */ TEXTBOX_ICON_TRIANGLE,
     /* 1 */ TEXTBOX_ICON_SQUARE,
     /* 2 */ TEXTBOX_ICON_ARROW
@@ -23,7 +23,38 @@ typedef enum {
 // TODO get these properties from the textures themselves
 #define MESSAGE_TEXTURE_STATIC_TEX_SIZE 0x900
 
-typedef enum {
+// Macros for generating characters in the filename encoding (specified by message 0xFFFC
+// and loaded by Font_LoadOrderedFont). For example, FILENAME_UPPERCASE('A') will encode
+// the character 'A'.
+#if OOT_NTSC
+#define FILENAME_DIGIT(c)                   ((c) - '0')
+// 0x0A - 0x59: hiragana
+// 0x5A - 0xAA: katakana
+#define FILENAME_UPPERCASE(c)               ((c) - 'A' + 0xAB)
+#define FILENAME_LOWERCASE(c)               ((c) - 'a' + 0xC5)
+#define FILENAME_SPACE                      0xDF
+// 0xE0: unknown
+#define FILENAME_QUESTION_MARK              0xE1
+#define FILENAME_EXCLAMATION_MARK           0xE2
+#define FILENAME_COLON                      0xE3
+#define FILENAME_DASH                       0xE4
+#define FILENAME_LEFT_PARENTHESES           0xE5
+#define FILENAME_RIGHT_PARENTHESES          0xE6
+#define FILENAME_DAKUTEN                    0xE7
+#define FILENAME_HANDAKUTEN                 0xE8
+#define FILENAME_COMMA                      0xE9
+#define FILENAME_PERIOD                     0xEA
+#define FILENAME_SLASH                      0xEB
+#else
+#define FILENAME_DIGIT(c)                   ((c) - '0')
+#define FILENAME_UPPERCASE(c)               ((c) - 'A' + 0x0A)
+#define FILENAME_LOWERCASE(c)               ((c) - 'a' + 0x24)
+#define FILENAME_SPACE                      0x3E
+#define FILENAME_DASH                       0x3F
+#define FILENAME_PERIOD                     0x40
+#endif
+
+typedef enum MessageMode {
     /* 0x00 */ MSGMODE_NONE,
     /* 0x01 */ MSGMODE_TEXT_START,
     /* 0x02 */ MSGMODE_TEXT_BOX_GROWING,
@@ -146,7 +177,7 @@ typedef enum MaskReactionSet {
     /* 0x3C */ MASK_REACTION_SET_MAX
 } MaskReactionSet;
 
-typedef enum {
+typedef enum TextState {
     /*  0 */ TEXT_STATE_NONE,
     /*  1 */ TEXT_STATE_DONE_HAS_NEXT,
     /*  2 */ TEXT_STATE_CLOSING,
@@ -160,7 +191,7 @@ typedef enum {
     /* 10 */ TEXT_STATE_AWAITING_NEXT
 } TextState;
 
-typedef struct {
+typedef struct Font {
     /* 0x0000 */ u32 msgOffset;
     /* 0x0004 */ u32 msgLength;
     union {
@@ -190,7 +221,7 @@ typedef struct {
 #define TEXTBOX_ENDTYPE_EVENT       0x50
 #define TEXTBOX_ENDTYPE_FADING      0x60
 
-typedef struct {
+typedef struct MessageContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ Font font;
     /* 0xE2B0 */ u8* textboxSegment; // original name: "fukidashiSegment"
@@ -204,8 +235,10 @@ typedef struct {
     /* 0xE2FE */ u8 textBoxPos; // text box position
     /* 0xE300 */ s32 msgLength; // original name : "msg_data"
     /* 0xE304 */ u8 msgMode; // original name: "msg_mode"
-    /* 0xE305 */ char unk_E305[0x1];
-    /* 0xE306 */ u8 msgBufDecoded[200]; // decoded message buffer, may be smaller than this
+    /* 0xE306 */ union {
+        u8 msgBufDecoded[200];
+        u16 msgBufDecodedWide[100];
+    };
     /* 0xE3CE */ u16 msgBufPos; // original name : "rdp"
     /* 0xE3D0 */ u16 unk_E3D0; // unused, only ever set to 0
     /* 0xE3D2 */ u16 textDrawPos; // draw all decoded characters up to this buffer position

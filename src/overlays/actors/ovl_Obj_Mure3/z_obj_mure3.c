@@ -19,7 +19,7 @@ void func_80B9AF64(ObjMure3* this, PlayState* play);
 void func_80B9AFEC(ObjMure3* this);
 void func_80B9AFFC(ObjMure3* this, PlayState* play);
 
-ActorInit Obj_Mure3_InitVars = {
+ActorProfile Obj_Mure3_Profile = {
     /**/ ACTOR_OBJ_MURE3,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -27,7 +27,7 @@
 // This is called "adjusted" for now.
 #define PLAYER_ANIM_ADJUSTED_SPEED (2.0f / 3.0f)
 
-typedef struct {
+typedef struct GetItemEntry {
     /* 0x00 */ u8 itemId;
     /* 0x01 */ u8 field; // various bit-packed data
     /* 0x02 */ s8 gi;    // defines the draw id and chest opening animation
@@ -44,24 +44,24 @@ typedef struct {
 #define GET_ITEM_NONE \
     { ITEM_NONE, 0, 0, 0, OBJECT_INVALID }
 
-typedef struct {
+typedef struct ExplosiveInfo {
     /* 0x00 */ u8 itemId;
     /* 0x02 */ s16 actorId;
 } ExplosiveInfo; // size = 0x04
 
-typedef struct {
+typedef struct BottleCatchInfo {
     /* 0x00 */ s16 actorId;
     /* 0x02 */ u8 itemId;
     /* 0x03 */ u8 itemAction;
     /* 0x04 */ u8 textId;
 } BottleCatchInfo; // size = 0x06
 
-typedef struct {
+typedef struct BottleDropInfo {
     /* 0x00 */ s16 actorId;
     /* 0x02 */ s16 actorParams;
 } BottleDropInfo; // size = 0x04
 
-typedef struct {
+typedef struct FallImpactInfo {
     /* 0x00 */ s8 damage;
     /* 0x01 */ u8 rumbleStrength;
     /* 0x02 */ u8 rumbleDuration;
@@ -69,12 +69,12 @@ typedef struct {
     /* 0x04 */ u16 sfxId;
 } FallImpactInfo; // size = 0x06
 
-typedef struct {
+typedef struct SpecialRespawnInfo {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yaw;
 } SpecialRespawnInfo; // size = 0x10
 
-typedef enum {
+typedef enum AnimSfxType {
     /* 1 */ ANIMSFX_TYPE_1 = 1,
     /* 2 */ ANIMSFX_TYPE_2,
     /* 3 */ ANIMSFX_TYPE_3,
@@ -93,29 +93,29 @@ typedef enum {
 #define ANIMSFX_GET_TYPE(data) ((data)&0x7800)
 #define ANIMSFX_GET_FRAME(data) ((data)&0x7FF)
 
-typedef struct {
+typedef struct AnimSfxEntry {
     /* 0x00 */ u16 sfxId;
     /* 0x02 */ s16 data;
 } AnimSfxEntry; // size = 0x04
 
-typedef struct {
+typedef struct struct_808551A4 {
     /* 0x00 */ u16 unk_00;
     /* 0x02 */ s16 unk_02;
 } struct_808551A4; // size = 0x04
 
-typedef struct {
+typedef struct ItemChangeInfo {
     /* 0x00 */ LinkAnimationHeader* anim;
     /* 0x04 */ u8 changeFrame;
 } ItemChangeInfo; // size = 0x08
 
-typedef struct {
+typedef struct struct_80854554 {
     /* 0x00 */ LinkAnimationHeader* unk_00;
     /* 0x04 */ LinkAnimationHeader* unk_04;
     /* 0x08 */ u8 unk_08;
     /* 0x09 */ u8 unk_09;
 } struct_80854554; // size = 0x0C
 
-typedef struct {
+typedef struct struct_80854190 {
     /* 0x00 */ LinkAnimationHeader* unk_00;
     /* 0x04 */ LinkAnimationHeader* unk_04;
     /* 0x08 */ LinkAnimationHeader* unk_08;
@@ -123,13 +123,13 @@ typedef struct {
     /* 0x0D */ u8 unk_0D;
 } struct_80854190; // size = 0x10
 
-typedef struct {
+typedef struct struct_80854578 {
     /* 0x00 */ LinkAnimationHeader* anim;
     /* 0x04 */ f32 unk_04;
     /* 0x04 */ f32 unk_08;
 } struct_80854578; // size = 0x0C
 
-typedef struct {
+typedef struct struct_80854B18 {
     /* 0x00 */ s8 type;
     /* 0x04 */ union {
         void* ptr;
@@ -354,22 +354,19 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 
 // .bss part 1
 
-// For retail BSS ordering, the block number of sDogSpawnPos in Player_Update
-// must be between 0 and 53 inclusive.
-
-// TODO: There's probably a way to do this with less padding by spreading the variables out and moving
-// data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number 30
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 static s32 D_80858AA0;
 
-#pragma increment_block_number 250
+// TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
+// data around. It would be easier if we had more options for controlling BSS ordering in debug.
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 static s32 D_80858AA4;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
-#pragma increment_block_number 50
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192"
 
 // .data
 
@@ -1398,7 +1395,7 @@ static void (*sItemActionInitFuncs[])(PlayState* play, Player* this) = {
     Player_InitDefaultIA,        // PLAYER_IA_LENS_OF_TRUTH
 };
 
-typedef enum {
+typedef enum ItemChangeType {
     /*  0 */ PLAYER_ITEM_CHG_0,
     /*  1 */ PLAYER_ITEM_CHG_1,
     /*  2 */ PLAYER_ITEM_CHG_2,
@@ -2008,7 +2005,8 @@ void Player_AnimReplacePlayOnceAdjusted(PlayState* play, Player* this, LinkAnima
 
 void Player_AnimReplaceNormalPlayOnceAdjusted(PlayState* play, Player* this, LinkAnimationHeader* anim) {
     Player_AnimReplacePlayOnceAdjusted(play, this, anim,
-                                       ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE);
+                                       ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                           ANIM_FLAG_ADJUST_STARTING_POS);
 }
 
 void Player_AnimReplacePlayLoopSetSpeed(PlayState* play, Player* this, LinkAnimationHeader* anim, s32 flags,
@@ -2027,7 +2025,8 @@ void Player_AnimReplacePlayLoopAdjusted(PlayState* play, Player* this, LinkAnima
 
 void Player_AnimReplaceNormalPlayLoopAdjusted(PlayState* play, Player* this, LinkAnimationHeader* anim) {
     Player_AnimReplacePlayLoopAdjusted(play, this, anim,
-                                       ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE);
+                                       ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                           ANIM_FLAG_ADJUST_STARTING_POS);
 }
 
 void Player_ProcessControlStick(PlayState* play, Player* this) {
@@ -3400,7 +3399,7 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_hook_fly_start);
         Player_AnimReplaceApplyFlags(play, this,
                                      ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
-                                         ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                         ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
         func_80832224(this);
         this->yaw = this->actor.shape.rot.y;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
@@ -3763,7 +3762,7 @@ s32 Player_GetMovementSpeedAndYaw(Player* this, f32* outSpeedTarget, s16* outYaw
     }
 }
 
-typedef enum {
+typedef enum ActionChangeIndex {
     /*  0 */ PLAYER_ACTION_CHG_0,
     /*  1 */ PLAYER_ACTION_CHG_1,
     /*  2 */ PLAYER_ACTION_CHG_2,
@@ -3927,7 +3926,7 @@ s32 Player_TryActionChangeList(PlayState* play, Player* this, s8* actionChangeLi
     return false;
 }
 
-typedef enum {
+typedef enum PlayerActionInterruptResult {
     /* -1 */ PLAYER_INTERRUPT_NONE = -1,
     /*  0 */ PLAYER_INTERRUPT_NEW_ACTION,
     /*  1 */ PLAYER_INTERRUPT_MOVE
@@ -5056,7 +5055,7 @@ s32 Player_ActionChange_1(Player* this, PlayState* play) {
                 func_80832224(this);
                 Player_AnimReplaceApplyFlags(play, this,
                                              ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
-                                                 ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
+                                                 ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
                                                  ANIM_FLAG_OVERRIDE_MOVEMENT);
 
                 // If this door is the second half of a double door (spawned as child)
@@ -5367,9 +5366,9 @@ s32 func_8083A6AC(Player* this, PlayState* play) {
 
                 this->stateFlags1 |= PLAYER_STATE1_21;
                 Player_AnimReplaceApplyFlags(play, this,
-                                             ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
-                                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
-                                                 ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                             ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
+                                                 ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                                 ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 
                 this->av2.actionVar2 = -1;
                 this->av1.actionVar1 = sp50;
@@ -6062,7 +6061,7 @@ s32 Player_ActionChange_11(Player* this, PlayState* play) {
             LinkAnimation_Change(play, &this->skelAnime, anim, 1.0f, frame, frame, ANIMMODE_ONCE, 0.0f);
 
             if (Player_IsChildWithHylianShield(this)) {
-                Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_PLAYER_2);
+                Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT);
             }
 
             Player_PlaySfx(this, NA_SE_IT_SHIELD_POSTURE);
@@ -6724,7 +6723,7 @@ s32 Player_ActionChange_3(Player* this, PlayState* play) {
         Player_AnimPlayOnce(play, this, D_80854578[temp].anim);
         Player_AnimReplaceApplyFlags(play, this,
                                      ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
-                                         ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                         ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 
         this->actor.parent = this->rideActor;
         func_80832224(this);
@@ -6892,8 +6891,8 @@ s32 Player_ActionChange_2(Player* this, PlayState* play) {
                     Player_AnimPlayOnceAdjusted(play, this, this->ageProperties->unk_98);
                     Player_AnimReplaceApplyFlags(play, this,
                                                  ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
-                                                     ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                                     ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                                     ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT |
+                                                     ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
                     chest->unk_1F4 = 1;
                     Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_SLOW_CHEST_CS);
                 } else {
@@ -7069,10 +7068,10 @@ s32 func_8083EC18(Player* this, PlayState* play, u32 wallFlags) {
                     func_80832224(this);
                     Math_Vec3f_Copy(&this->actor.prevPos, &this->actor.world.pos);
                     Player_AnimPlayOnce(play, this, anim);
-                    Player_AnimReplaceApplyFlags(play, this,
-                                                 ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
-                                                     ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
-                                                     ANIM_FLAG_OVERRIDE_MOVEMENT);
+                    Player_AnimReplaceApplyFlags(
+                        play, this,
+                        ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT |
+                            ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 
                     return true;
                 }
@@ -7152,8 +7151,9 @@ s32 Player_TryEnteringCrawlspace(Player* this, PlayState* play, u32 interactWall
                 this->actor.prevPos = this->actor.world.pos;
                 Player_AnimPlayOnce(play, this, &gPlayerAnim_link_child_tunnel_start);
                 Player_AnimReplaceApplyFlags(play, this,
-                                             ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                             ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT |
+                                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_ADJUST_STARTING_POS |
+                                                 ANIM_FLAG_OVERRIDE_MOVEMENT);
 
                 return true;
             }
@@ -7242,8 +7242,9 @@ s32 Player_TryLeavingCrawlspace(Player* this, PlayState* play) {
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 Player_AnimPlayOnce(play, this, &gPlayerAnim_link_child_tunnel_end);
                 Player_AnimReplaceApplyFlags(play, this,
-                                             ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                             ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT |
+                                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_ADJUST_STARTING_POS |
+                                                 ANIM_FLAG_OVERRIDE_MOVEMENT);
                 OnePointCutscene_Init(play, 9601, 999, NULL, CAM_ID_MAIN);
             } else {
                 // Leaving a crawlspace backwards
@@ -7252,8 +7253,9 @@ s32 Player_TryLeavingCrawlspace(Player* this, PlayState* play) {
                                      Animation_GetLastFrame(&gPlayerAnim_link_child_tunnel_start), 0.0f, ANIMMODE_ONCE,
                                      0.0f);
                 Player_AnimReplaceApplyFlags(play, this,
-                                             ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                             ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT |
+                                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_ADJUST_STARTING_POS |
+                                                 ANIM_FLAG_OVERRIDE_MOVEMENT);
                 OnePointCutscene_Init(play, 9602, 999, NULL, CAM_ID_MAIN);
             }
 
@@ -8661,7 +8663,7 @@ void Player_Action_80843188(Player* this, PlayState* play) {
                     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_clink_normal_defense_ALL, 1.0f,
                                          Animation_GetLastFrame(&gPlayerAnim_clink_normal_defense_ALL), 0.0f,
                                          ANIMMODE_ONCE, 0.0f);
-                    Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_PLAYER_2);
+                    Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT);
                 } else {
                     if (this->itemAction < 0) {
                         func_8008EC70(this);
@@ -9751,7 +9753,7 @@ void Player_Action_80846120(Player* this, PlayState* play) {
         this->heldActor = &heavyBlock->dyna.actor;
         this->actor.child = &heavyBlock->dyna.actor;
         heavyBlock->dyna.actor.parent = &this->actor;
-        func_8002DBD0(&heavyBlock->dyna.actor, &heavyBlock->unk_164, &this->leftHandPos);
+        Actor_WorldToActorCoords(&heavyBlock->dyna.actor, &heavyBlock->unk_164, &this->leftHandPos);
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 229.0f)) {
         Actor* heldActor = this->heldActor;
 
@@ -9972,7 +9974,8 @@ void func_808467D4(PlayState* play, Player* this) {
                          0.0f);
     Player_AnimReplaceApplyFlags(play, this,
                                  ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
-                                     ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                     ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                     ANIM_FLAG_OVERRIDE_MOVEMENT);
     if (LINK_IS_ADULT) {
         func_80846720(play, this, 0);
     }
@@ -9983,7 +9986,7 @@ void func_808468A8(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F9A0, 0);
     Player_AnimReplaceApplyFlags(play, this,
                                  ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
-                                     ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                     ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
 void func_808468E8(PlayState* play, Player* this) {
@@ -10107,7 +10110,11 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     Player_SetEquipmentData(play, this);
     this->prevBoots = this->currentBoots;
     Player_InitCommon(this, play, gPlayerSkelHeaders[((void)0, gSaveContext.save.linkAge)]);
-    this->giObjectSegment = (void*)(((uintptr_t)ZELDA_ARENA_MALLOC(0x3008, "../z_player.c", 17175) + 8) & ~0xF);
+    // `giObjectSegment` is used for both "get item" objects and title cards. The maximum size for
+    // get item objects is 0x2000 (see the assert in func_8083AE40), and the maximum size for
+    // title cards is 0x1000 * LANGUAGE_MAX since each title card image includes all languages.
+    this->giObjectSegment =
+        (void*)(((uintptr_t)ZELDA_ARENA_MALLOC(0x1000 * LANGUAGE_MAX + 8, "../z_player.c", 17175) + 8) & ~0xF);
 
     respawnFlag = gSaveContext.respawnFlag;
 
@@ -11139,7 +11146,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             Player_AnimPlayOnce(play, this, &gPlayerAnim_link_uma_wait_1);
             Player_AnimReplaceApplyFlags(play, this,
                                          ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
-                                             ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                             ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
             this->av2.actionVar2 = 99;
         }
 
@@ -11350,8 +11357,9 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         if (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_SETMOVE) {
             AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime,
-                                       (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) ? 1.0f
-                                                                                        : this->ageProperties->unk_08);
+                                       (this->skelAnime.moveFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT)
+                                           ? 1.0f
+                                           : this->ageProperties->unk_08);
         }
 
         Player_UpdateShapeYaw(this, play);
@@ -11517,7 +11525,7 @@ skip_update:;
     }
 }
 
-typedef struct {
+typedef struct BunnyEarKinematics {
     /* 0x0 */ Vec3s rot;
     /* 0x6 */ Vec3s angVel;
 } BunnyEarKinematics; // size = 0xC
@@ -11600,8 +11608,6 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
             gSPDisplayList(POLY_XLU_DISP++, gHoverBootsCircleDL);
         }
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_player.c", 19328);
 }
@@ -14547,8 +14553,8 @@ void func_808510D4(PlayState* play, Player* this, void* anim) {
 
 void func_808510F4(PlayState* play, Player* this, void* anim) {
     Player_AnimReplacePlayOnce(play, this, anim,
-                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
-                                   ANIM_FLAG_OVERRIDE_MOVEMENT);
+                               ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                   ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
 void func_80851114(PlayState* play, Player* this, void* anim) {
@@ -14557,8 +14563,8 @@ void func_80851114(PlayState* play, Player* this, void* anim) {
 
 void func_80851134(PlayState* play, Player* this, void* anim) {
     Player_AnimReplacePlayLoop(play, this, anim,
-                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
-                                   ANIM_FLAG_OVERRIDE_MOVEMENT);
+                               ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                   ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
 void func_80851154(PlayState* play, Player* this, void* anim) {
@@ -14805,7 +14811,8 @@ void func_808519EC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Player_AnimPlayOnceAdjusted(play, this, this->ageProperties->unk_9C);
     Player_AnimReplaceApplyFlags(play, this,
                                  ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
-                                     ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                     ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                     ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
 static struct_808551A4 D_808551A4[] = {
@@ -14916,21 +14923,22 @@ void func_80851E28(PlayState* play, Player* this, CsCmdActorCue* cue) {
 
 void func_80851E64(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Player_AnimReplacePlayOnceAdjusted(play, this, &gPlayerAnim_link_swimer_swim_get,
-                                       ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                       ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_ADJUST_STARTING_POS |
+                                           ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
 void func_80851E90(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Player_AnimReplacePlayOnce(play, this, &gPlayerAnim_clink_op3_negaeri,
-                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
-                                   ANIM_FLAG_OVERRIDE_MOVEMENT);
+                               ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                   ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
     func_80832698(this, NA_SE_VO_LI_GROAN);
 }
 
 void func_80851ECC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         Player_AnimReplacePlayLoop(play, this, &gPlayerAnim_clink_op3_wait2,
-                                   ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
-                                       ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                   ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                       ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
     }
 }
 
@@ -14957,8 +14965,8 @@ static AnimSfxEntry D_808551BC[] = {
 void func_80851FB0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         Player_AnimReplacePlayLoop(play, this, &gPlayerAnim_clink_op3_wait3,
-                                   ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
-                                       ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                   ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_PLAYER_SETMOVE |
+                                       ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
         this->av2.actionVar2 = 1;
     } else if (this->av2.actionVar2 == 0) {
         Player_ProcessAnimSfxList(this, D_808551BC);
@@ -14982,8 +14990,9 @@ void func_80852048(PlayState* play, Player* this, CsCmdActorCue* cue) {
 
 void func_80852080(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Player_AnimReplacePlayOnceAdjusted(play, this, &gPlayerAnim_clink_demo_futtobi,
-                                       ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
-                                           ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+                                       ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT |
+                                           ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_ADJUST_STARTING_POS |
+                                           ANIM_FLAG_OVERRIDE_MOVEMENT);
     func_80832698(this, NA_SE_VO_LI_FALL_L);
 }
 
@@ -15031,8 +15040,8 @@ void func_80852234(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Player_AnimReplaceApplyFlags(play, this,
-                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_OVERRIDE_MOVEMENT);
+    Player_AnimReplaceApplyFlags(
+        play, this, ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
 void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -15270,7 +15279,8 @@ void func_80852B4C(PlayState* play, Player* this, CsCmdActorCue* cue, struct_808
         arg3->func(play, this, cue);
     }
 
-    if ((D_80858AA0 & ANIM_FLAG_PLAYER_2) && !(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2)) {
+    if ((D_80858AA0 & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) &&
+        !(this->skelAnime.moveFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT)) {
         this->skelAnime.morphTable[0].y /= this->ageProperties->unk_08;
         D_80858AA0 = 0;
     }
@@ -15464,8 +15474,8 @@ void func_80853148(PlayState* play, Actor* actor) {
             }
 
             if (this->skelAnime.animation == &gPlayerAnim_link_normal_backspace) {
-                Player_AnimReplaceApplyFlags(play, this,
-                                             ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE);
+                Player_AnimReplaceApplyFlags(
+                    play, this, ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_ADJUST_STARTING_POS);
             }
 
             func_80832224(this);

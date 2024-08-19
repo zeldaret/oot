@@ -20,7 +20,7 @@ void EnMs_Talk(EnMs* this, PlayState* play);
 void EnMs_Sell(EnMs* this, PlayState* play);
 void EnMs_TalkAfterPurchase(EnMs* this, PlayState* play);
 
-ActorInit En_Ms_InitVars = {
+ActorProfile En_Ms_Profile = {
     /**/ ACTOR_EN_MS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

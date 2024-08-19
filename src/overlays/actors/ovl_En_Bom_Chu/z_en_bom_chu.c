@@ -15,7 +15,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, PlayState* play);
 void EnBomChu_Move(EnBomChu* this, PlayState* play);
 void EnBomChu_WaitForKill(EnBomChu* this, PlayState* play);
 
-ActorInit En_Bom_Chu_InitVars = {
+ActorProfile En_Bom_Chu_Profile = {
     /**/ ACTOR_EN_BOM_CHU,
     /**/ ACTORCAT_EXPLOSIVE,
     /**/ FLAGS,

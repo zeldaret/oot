@@ -1,4 +1,5 @@
 #include "rom_header.h"
+#include "region.h"
 
 /* 0x00 */ ENDIAN_IDENTIFIER
 /* 0x01 */ PI_DOMAIN_1_CFG(64, 18, 7, 3)
@@ -9,7 +10,17 @@
 /* 0x18 */ PADDING(8)
 /* 0x20 */ ROM_NAME("THE LEGEND OF ZELDA")
 /* 0x34 */ PADDING(7)
+#if OOT_NTSC
+/* 0x3B */ MEDIUM(CARTRIDGE_EXPANDABLE)
+#else
 /* 0x3B */ MEDIUM(CARTRIDGE)
+#endif
 /* 0x3C */ GAME_ID("ZL")
+#if OOT_REGION == REGION_US
+/* 0x3E */ REGION(US)
+#elif OOT_REGION == REGION_JP
+/* 0x3E */ REGION(JP)
+#elif OOT_REGION == REGION_EU
 /* 0x3E */ REGION(PAL)
+#endif
 /* 0x3F */ GAME_REVISION(15)

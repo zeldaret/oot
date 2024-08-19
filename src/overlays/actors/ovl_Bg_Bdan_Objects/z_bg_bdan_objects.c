@@ -10,12 +10,12 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum BgBdanObjectsPropertyGetter {
     JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0 = 0,
     JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1 = 3,
     JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
 } BgBdanObjectsPropertyGetter;
-typedef enum {
+typedef enum BgBdanObjectsPropertySetter {
     JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1 = 1,
     JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON0 = 2,
     JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
@@ -43,7 +43,7 @@ void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_FallToLowerPos(BgBdanObjects* this, PlayState* play);
 
-ActorInit Bg_Bdan_Objects_InitVars = {
+ActorProfile Bg_Bdan_Objects_Profile = {
     /**/ ACTOR_BG_BDAN_OBJECTS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

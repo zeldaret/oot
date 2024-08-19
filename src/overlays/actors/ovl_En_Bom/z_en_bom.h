@@ -20,7 +20,7 @@ typedef struct EnBom {
     /* 0x0204 */ EnBomActionFunc actionFunc;
 } EnBom; // size = 0x0208
 
-typedef enum {
+typedef enum EnBomType {
     /* 0x00 */ BOMB_BODY,
     /* 0x01 */ BOMB_EXPLOSION
 } EnBomType;

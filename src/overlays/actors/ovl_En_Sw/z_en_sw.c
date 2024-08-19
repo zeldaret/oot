@@ -20,7 +20,7 @@ void func_80B0D3AC(EnSw* this, PlayState* play);
 void func_80B0DB00(EnSw* this, PlayState* play);
 void func_80B0D878(EnSw* this, PlayState* play);
 
-ActorInit En_Sw_InitVars = {
+ActorProfile En_Sw_Profile = {
     /**/ ACTOR_EN_SW,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -47,7 +47,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80B0F074 = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnSwAnimation {
     /* 0 */ ENSW_ANIM_0,
     /* 1 */ ENSW_ANIM_1,
     /* 2 */ ENSW_ANIM_2,

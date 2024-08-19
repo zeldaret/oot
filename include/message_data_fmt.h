@@ -5,9 +5,6 @@
 #include "z64item.h" // For item ids
 #include "sfx.h" // For sfx ids
 
-#define TEXT_LANG_US_JP 0
-#define TEXT_LANG_EU    1
-
 /*
  * Text control characters
  */
@@ -79,10 +76,42 @@
 #define MESSAGE_WIDE_TIME                  0x81A1
 
 /*
+ * Message character constants
+ */
+
+// Non-Wide (nes/ger/fra)
+
+#define MESSAGE_CHAR_SPACE                               0x20 // ' '
+
+// Wide (jpn)
+
+#define MESSAGE_WIDE_CHAR_SPACE                          0x8140 // '　'
+#define MESSAGE_WIDE_CHAR_TOUTEN                         0x8141 // '、'
+#define MESSAGE_WIDE_CHAR_KUTEN                          0x8142 // '。'
+#define MESSAGE_WIDE_CHAR_PERIOD                         0x8144 // '．'
+#define MESSAGE_WIDE_CHAR_NAKATEN                        0x8145 // '・'
+#define MESSAGE_WIDE_CHAR_QUESTION_MARK                  0x8148 // '？'
+#define MESSAGE_WIDE_CHAR_EXCLAMATION_MARK               0x8149 // '！'
+#define MESSAGE_WIDE_CHAR_CIRCUMFLEX_ACCENT              0x814F // '＾'
+#define MESSAGE_WIDE_CHAR_DOUBLE_QUOTATION_MARK_LEFT     0x8167 // '“'
+#define MESSAGE_WIDE_CHAR_DOUBLE_QUOTATION_MARK_RIGHT    0x8168 // '”'
+#define MESSAGE_WIDE_CHAR_PARENTHESES_LEFT               0x8169 // '（'
+#define MESSAGE_WIDE_CHAR_PARENTHESES_RIGHT              0x816A // '）'
+#define MESSAGE_WIDE_CHAR_KAGIKAKKO_LEFT                 0x8175 // '「'
+#define MESSAGE_WIDE_CHAR_KAGIKAKKO_RIGHT                0x8176 // '」'
+#define MESSAGE_WIDE_CHAR_NUMBER_SIGN                    0x8194 // '＃'
+#define MESSAGE_WIDE_CHAR_ASTERISK                       0x8196 // '＊'
+#define MESSAGE_WIDE_CHAR_ZERO                           0x824F // '０'
+#define MESSAGE_WIDE_CHAR_ONE                            0x8250 // '１'
+#define MESSAGE_WIDE_CHAR_HOURS                          0x8E9E // '時'
+#define MESSAGE_WIDE_CHAR_SECONDS                        0x9562 // '秒'
+#define MESSAGE_WIDE_CHAR_MINUTES                        0x95AA // '分'
+
+/*
  *  Colors
  */
 
-typedef enum {
+typedef enum TextColor {
     TEXT_COLOR_DEFAULT,
     TEXT_COLOR_RED,
     TEXT_COLOR_ADJUSTABLE,
@@ -97,12 +126,12 @@ typedef enum {
  * Background
  */
 
-typedef enum {
+typedef enum TextboxBackgroundIndex {
     TEXTBOX_BG_X_LEFT,
     TEXTBOX_BG_X_RIGHT
 } TextboxBackgroundIndex;
 
-typedef enum {
+typedef enum TextboxBackgroundForegroundColor {
     TEXTBOX_BG_FGCOL_WHITE,
     TEXTBOX_BG_FGCOL_DARK_RED,
     TEXTBOX_BG_FGCOL_ORANGE,
@@ -113,14 +142,14 @@ typedef enum {
     TEXTBOX_BG_FGCOL_WHITE_7
 } TextboxBackgroundForegroundColor;
 
-typedef enum {
+typedef enum TextboxBackgroundBackgroundColor {
     TEXTBOX_BG_BGCOL_BLACK,
     TEXTBOX_BG_BGCOL_GOLD,
     TEXTBOX_BG_BGCOL_BLACK_2,
     TEXTBOX_BG_BGCOL_BLACK_3
 } TextboxBackgroundBackgroundColor;
 
-typedef enum {
+typedef enum TextboxBackgroundYOffsetIndex {
     TEXTBOX_BG_Y_OFFSET_1,
     TEXTBOX_BG_Y_OFFSET_2
 } TextboxBackgroundYOffsetIndex;

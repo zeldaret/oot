@@ -29,7 +29,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play);
 void EnVali_Frozen(EnVali* this, PlayState* play);
 void EnVali_ReturnToLurk(EnVali* this, PlayState* play);
 
-ActorInit En_Vali_InitVars = {
+ActorProfile En_Vali_Profile = {
     /**/ ACTOR_EN_VALI,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -83,7 +83,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 
-typedef enum {
+typedef enum BariDamageEffect {
     /* 0x0 */ BARI_DMGEFF_NONE,
     /* 0x1 */ BARI_DMGEFF_STUN,
     /* 0x2 */ BARI_DMGEFF_FIRE,

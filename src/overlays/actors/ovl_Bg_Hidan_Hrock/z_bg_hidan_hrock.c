@@ -18,7 +18,7 @@ void func_8088960C(BgHidanHrock* this, PlayState* play);
 void func_808896B8(BgHidanHrock* this, PlayState* play);
 void func_808894A4(BgHidanHrock* this, PlayState* play);
 
-ActorInit Bg_Hidan_Hrock_InitVars = {
+ActorProfile Bg_Hidan_Hrock_Profile = {
     /**/ ACTOR_BG_HIDAN_HROCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

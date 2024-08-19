@@ -20,7 +20,7 @@ void EffectSsHahen_DrawGray(PlayState* play, u32 index, EffectSs* this);
 void EffectSsHahen_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsHahen_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Hahen_InitVars = {
+EffectSsProfile Effect_Ss_Hahen_Profile = {
     EFFECT_SS_HAHEN,
     EffectSsHahen_Init,
 };

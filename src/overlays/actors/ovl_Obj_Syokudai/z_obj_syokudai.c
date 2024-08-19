@@ -16,7 +16,7 @@ void ObjSyokudai_Destroy(Actor* thisx, PlayState* play);
 void ObjSyokudai_Update(Actor* thisx, PlayState* play2);
 void ObjSyokudai_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Syokudai_InitVars = {
+ActorProfile Obj_Syokudai_Profile = {
     /**/ ACTOR_OBJ_SYOKUDAI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -281,8 +281,6 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
             flameScale = this->litTimer / 20.0f;
         }
         flameScale *= 0.0027f;
-
-        if (1) {}
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 

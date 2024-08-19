@@ -15,7 +15,7 @@ void EnCs_Wait(EnCs* this, PlayState* play);
 s32 EnCs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnCs_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-ActorInit En_Cs_InitVars = {
+ActorProfile En_Cs_Profile = {
     /**/ ACTOR_EN_CS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -84,7 +84,7 @@ static DamageTable sDamageTable[] = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef enum {
+typedef enum EnCsAnimation {
     /* 0 */ ENCS_ANIM_0,
     /* 1 */ ENCS_ANIM_1,
     /* 2 */ ENCS_ANIM_2,

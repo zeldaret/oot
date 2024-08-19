@@ -22,7 +22,7 @@ void func_809FEC70(EnDu* this, PlayState* play);
 void func_809FECE4(EnDu* this, PlayState* play);
 void func_809FEB08(EnDu* this, PlayState* play);
 
-ActorInit En_Du_InitVars = {
+ActorProfile En_Du_Profile = {
     /**/ ACTOR_EN_DU,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -56,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnDuAnimation {
     /*  0 */ ENDU_ANIM_0,
     /*  1 */ ENDU_ANIM_1,
     /*  2 */ ENDU_ANIM_2,

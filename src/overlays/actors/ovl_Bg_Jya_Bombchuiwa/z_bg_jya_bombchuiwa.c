@@ -14,7 +14,7 @@ void func_808949B8(BgJyaBombchuiwa* this, PlayState* play);
 void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, PlayState* play);
 void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, PlayState* play);
 
-ActorInit Bg_Jya_Bombchuiwa_InitVars = {
+ActorProfile Bg_Jya_Bombchuiwa_Profile = {
     /**/ ACTOR_BG_JYA_BOMBCHUIWA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

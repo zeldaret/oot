@@ -72,7 +72,7 @@ void ObjBean_WaitForStepOff(ObjBean* this, PlayState* play);
 
 static ObjBean* D_80B90E30 = NULL;
 
-ActorInit Obj_Bean_InitVars = {
+ActorProfile Obj_Bean_Profile = {
     /**/ ACTOR_OBJ_BEAN,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -104,7 +104,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 64, 30, -31, { 0, 0, 0 } },
 };
 
-typedef struct {
+typedef struct BeenSpeedInfo {
     f32 velocity;
     f32 accel;
 } BeenSpeedInfo;

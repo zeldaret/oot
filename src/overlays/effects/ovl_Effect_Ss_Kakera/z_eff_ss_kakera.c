@@ -26,7 +26,7 @@ void EffectSsKakera_Update(PlayState* play, u32 index, EffectSs* this);
 
 void func_809A9BA8(EffectSs* this, PlayState* play);
 
-EffectSsInit Effect_Ss_Kakera_InitVars = {
+EffectSsProfile Effect_Ss_Kakera_Profile = {
     EFFECT_SS_KAKERA,
     EffectSsKakera_Init,
 };

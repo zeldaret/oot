@@ -30,7 +30,7 @@ void EnReeba_Die(EnReeba* this, PlayState* play);
 void EnReeba_Stunned(EnReeba* this, PlayState* play);
 void EnReeba_StunDie(EnReeba* this, PlayState* play);
 
-typedef enum {
+typedef enum LeeverDamageEffect {
     /* 0x00 */ LEEVER_DMGEFF_NONE, // used by anything that cant kill the Leever
     /* 0x01 */ LEEVER_DMGEFF_UNK,  // used by "unknown 1" attack
     /* 0x03 */ LEEVER_DMGEFF_ICE = 3,
@@ -75,7 +75,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, LEEVER_DMGEFF_NONE),
 };
 
-ActorInit En_Reeba_InitVars = {
+ActorProfile En_Reeba_Profile = {
     /**/ ACTOR_EN_REEBA,
     /**/ ACTORCAT_MISC,
     /**/ FLAGS,

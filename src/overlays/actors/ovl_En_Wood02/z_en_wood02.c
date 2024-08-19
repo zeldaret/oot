@@ -18,13 +18,13 @@ void EnWood02_Draw(Actor* thisx, PlayState* play);
  * WOOD_SPAWN_SPAWNER is also used by some individual trees: EnWood02_Update also checks for parent before running any
  * despawning code.
  *  */
-typedef enum {
+typedef enum WoodSpawnType {
     /* 0 */ WOOD_SPAWN_NORMAL,
     /* 1 */ WOOD_SPAWN_SPAWNED,
     /* 2 */ WOOD_SPAWN_SPAWNER
 } WoodSpawnType;
 
-typedef enum {
+typedef enum WoodDrawType {
     /* 0 */ WOOD_DRAW_TREE_CONICAL,
     /* 1 */ WOOD_DRAW_TREE_OVAL,
     /* 2 */ WOOD_DRAW_TREE_KAKARIKO_ADULT,
@@ -33,7 +33,7 @@ typedef enum {
     /* 5 */ WOOD_DRAW_LEAF_YELLOW
 } WoodDrawType;
 
-ActorInit En_Wood02_InitVars = {
+ActorProfile En_Wood02_Profile = {
     /**/ ACTOR_EN_WOOD02,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

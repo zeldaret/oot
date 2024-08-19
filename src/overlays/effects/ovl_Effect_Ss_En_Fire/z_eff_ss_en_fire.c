@@ -22,7 +22,7 @@ u32 EffectSsEnFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsEnFire_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_En_Fire_InitVars = {
+EffectSsProfile Effect_Ss_En_Fire_Profile = {
     EFFECT_SS_EN_FIRE,
     EffectSsEnFire_Init,
 };
@@ -102,12 +102,12 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     CLOSE_DISPS(gfxCtx, "../z_eff_en_fire.c", 213);
 }
 
-typedef struct {
+typedef struct FireActorF {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3f firePos[10];
 } FireActorF;
 
-typedef struct {
+typedef struct FireActorS {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3s firePos[10];
 } FireActorS;

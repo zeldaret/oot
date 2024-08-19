@@ -100,6 +100,14 @@
 #define R_TEXTBOX_TEXHEIGHT                      YREG(17)
 #define R_TEXTBOX_WIDTH                          YREG(22)
 #define R_TEXTBOX_HEIGHT                         YREG(23)
+#if OOT_NTSC
+#define R_KALEIDO_UNK1(i)                        YREG(48 + (i))
+#define R_KALEIDO_UNK2(i)                        YREG(50 + (i))
+#define R_KALEIDO_UNK3(i)                        YREG(52 + (i))
+#define R_KALEIDO_UNK4(i)                        YREG(54 + (i))
+#define R_KALEIDO_UNK5(i)                        YREG(56 + (i))
+#define R_KALEIDO_UNK6(i)                        YREG(58 + (i))
+#endif
 #define R_TEXTBOX_ICON_XPOS                      YREG(71)
 #define R_TEXTBOX_ICON_YPOS                      YREG(72)
 #define R_TEXTBOX_ICON_DIMENSION                 YREG(75)
@@ -112,9 +120,18 @@
 #define R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON     ZREG(13)
 #define R_C_BTN_COLOR(i)                         ZREG(39 + (i))
 #define R_B_BTN_COLOR(i)                         ZREG(43 + (i))
+#if OOT_NTSC
+#define R_START_LABEL_SCALE                      ZREG(48)
+#define R_START_LABEL_DD(i)                      ZREG(49 + (i))
+#define R_START_LABEL_WIDTH                      ZREG(51)
+#define R_START_LABEL_HEIGHT                     ZREG(52)
+#define R_START_LABEL_Y(i)                       ZREG(53 + (i))
+#define R_START_LABEL_X(i)                       ZREG(55 + (i))
+#else
 #define R_START_LABEL_DD(i)                      ZREG(48 + (i))
 #define R_START_LABEL_Y(i)                       ZREG(51 + (i))
 #define R_START_LABEL_X(i)                       ZREG(54 + (i))
+#endif
 #define R_C_UP_BTN_X                             ZREG(62)
 #define R_C_UP_BTN_Y                             ZREG(63)
 #define R_START_BTN_X                            ZREG(68)
@@ -164,11 +181,27 @@
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)
 #define R_ROOM_CULL_DEBUG_TARGET                 iREG(89)
 #define R_B_LABEL_DD                             WREG(0)
+#if OOT_NTSC
+#define R_B_LABEL_SCALE(i)                       WREG(8 + (i))
+#define R_B_LABEL_X(i)                           WREG(10 + (i))
+#define R_B_LABEL_Y(i)                           WREG(12 + (i))
+#define R_A_LABEL_Z(i)                           WREG(14 + (i))
+#endif
 #define R_OW_MINIMAP_X                           WREG(29)
 #define R_OW_MINIMAP_Y                           WREG(30)
 #define R_MINIMAP_DISABLED                       WREG(31)
+#if OOT_PAL
+#define R_B_LABEL_SCALE(i)                       WREG(37 + (i))
 #define R_B_LABEL_X(i)                           WREG(40 + (i))
 #define R_B_LABEL_Y(i)                           WREG(43 + (i))
+#define R_A_LABEL_Z(i)                           WREG(46 + (i))
+#define R_KALEIDO_UNK1(i)                        WREG(49 + (i))
+#define R_KALEIDO_UNK2(i)                        WREG(52 + (i))
+#define R_KALEIDO_UNK3(i)                        WREG(55 + (i))
+#define R_KALEIDO_UNK4(i)                        WREG(58 + (i))
+#define R_KALEIDO_UNK5(i)                        WREG(61 + (i))
+#define R_KALEIDO_UNK6(i)                        WREG(64 + (i))
+#endif
 #define R_DGN_MINIMAP_X                          WREG(68)
 #define R_DGN_MINIMAP_Y                          WREG(69)
 #define R_TEXTBOX_X                              VREG(0)
@@ -210,7 +243,7 @@
 
 #define R_HREG_MODE  HREG(80) // see `HRegMode` for mode options
 
-typedef enum {
+typedef enum HRegMode {
     /*  6 */ HREG_MODE_PRINT_HILITE_INFO = 6, // print hilite information
     /*  7 */ HREG_MODE_UCODE_DISAS, // various controls for the ucode disas system
     /*  8 */ HREG_MODE_PRINT_MEMORY, // print memory at a specified address
@@ -353,7 +386,7 @@ typedef enum {
 #define R_VI_CUR_ADDI_SCAN_LINES   HREG(83)
 #define R_VI_CUR_Y_SCALE_MODE      HREG(84)
 
-typedef struct {
+typedef struct RegEditor {
     /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page
     /* 0x04 */ s32  regGroup; // Indexed from 0 to `REG_GROUPS`-1. Each group has its own character to identify it.
     /* 0x08 */ s32  regCur; // Selected reg, indexed from 0 as the page start

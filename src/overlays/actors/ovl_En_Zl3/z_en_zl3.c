@@ -2788,7 +2788,7 @@ void EnZl3_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-ActorInit En_Zl3_InitVars = {
+ActorProfile En_Zl3_Profile = {
     /**/ ACTOR_EN_ZL3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

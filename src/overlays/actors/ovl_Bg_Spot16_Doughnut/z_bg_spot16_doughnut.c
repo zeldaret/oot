@@ -18,7 +18,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Spot16_Doughnut_InitVars = {
+ActorProfile Bg_Spot16_Doughnut_Profile = {
     /**/ ACTOR_BG_SPOT16_DOUGHNUT,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -124,8 +124,6 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 210);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-
-    if (1) {}
 
     gSPMATRIX_SET_NEW(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213);
     if (this->fireFlag & 1) {

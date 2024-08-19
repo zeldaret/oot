@@ -8,7 +8,7 @@
 #define SSH_STATE_ATTACKED (1 << 3)
 #define SSH_STATE_SPIN (1 << 4)
 
-typedef enum {
+typedef enum EnSshAnimation {
     SSH_ANIM_UNK0, // Unused animation. Possibly being knocked back?
     SSH_ANIM_UP,
     SSH_ANIM_WAIT,
@@ -30,7 +30,7 @@ void EnSsh_Start(EnSsh* this, PlayState* play);
 
 #include "assets/overlays/ovl_En_Ssh/ovl_En_Ssh.c"
 
-ActorInit En_Ssh_InitVars = {
+ActorProfile En_Ssh_Profile = {
     /**/ ACTOR_EN_SSH,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

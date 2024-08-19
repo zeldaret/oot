@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum EnJjEyeState {
     /* 0 */ JABUJABU_EYE_OPEN,
     /* 1 */ JABUJABU_EYE_HALF,
     /* 2 */ JABUJABU_EYE_CLOSED,
@@ -28,7 +28,7 @@ void EnJj_WaitForFish(EnJj* this, PlayState* play);
 void EnJj_BeginCutscene(EnJj* this, PlayState* play);
 void EnJj_RemoveDust(EnJj* this, PlayState* play);
 
-ActorInit En_Jj_InitVars = {
+ActorProfile En_Jj_Profile = {
     /**/ ACTOR_EN_JJ,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

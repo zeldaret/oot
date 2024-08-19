@@ -77,7 +77,7 @@ void SkelCurve_SetAnim(SkelCurve* skelCurve, CurveAnimationHeader* animation, f3
     skelCurve->animation = animation;
 }
 
-typedef enum {
+typedef enum SkelCurveVecType {
     /* 0 */ SKELCURVE_VEC_TYPE_SCALE,
     /* 1 */ SKELCURVE_VEC_TYPE_ROTATION,
     /* 2 */ SKELCURVE_VEC_TYPE_POSIITON,
@@ -161,8 +161,6 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
     SkelCurveLimb* limb = SEGMENTED_TO_VIRTUAL(skelCurve->skeleton[limbIndex]);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 279);
-
-    if (1) {}
 
     Matrix_Push();
 
