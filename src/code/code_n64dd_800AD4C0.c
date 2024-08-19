@@ -1,7 +1,6 @@
 #include "global.h"
 #include "n64dd.h"
 
-
 n64ddStruct_80121AF0* B_80121AF0;
 
 n64ddStruct_80121AF0* func_800ADB30(n64ddStruct_80121AF0* arg0) {
