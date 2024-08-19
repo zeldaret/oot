@@ -20,7 +20,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, PlayState* play);
 void BgJyaMegami_SetupExplode(BgJyaMegami* this);
 void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play);
 
-ActorInit Bg_Jya_Megami_InitVars = {
+ActorProfile Bg_Jya_Megami_Profile = {
     /**/ ACTOR_BG_JYA_MEGAMI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -38,8 +38,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00200000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, -600, -200 }, 60 }, 100 },
@@ -59,7 +59,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef struct {
+typedef struct BgJyaMegamiPieceInit {
     /* 0x00 */ Vec3f unk_00;
     /* 0x0C */ f32 velX;
     /* 0x10 */ s16 rotVelX;
@@ -161,7 +161,7 @@ void BgJyaMegami_Init(Actor* thisx, PlayState* play) {
 
     BgJyaMegami_InitDynaPoly(this, play, &GMegamiCol, 0);
     BgJyaMegami_InitCollider(this, play);
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
     } else {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -195,7 +195,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, PlayState* play) {
         this->lightTimer--;
     }
     if (this->lightTimer > 40) {
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         BgJyaMegami_SetupExplode(this);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
         OnePointCutscene_Init(play, 3440, -99, &this->dyna.actor, CAM_ID_MAIN);
@@ -217,10 +217,11 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, PlayState* play) {
 
 void BgJyaMegami_SetupExplode(BgJyaMegami* this) {
     u32 i;
+    Vec3f* pos = &this->dyna.actor.world.pos;
 
     this->actionFunc = BgJyaMegami_Explode;
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
-        Math_Vec3f_Copy(&this->pieces[i].pos, &this->dyna.actor.world.pos);
+        Math_Vec3f_Copy(&this->pieces[i].pos, pos);
         this->pieces[i].vel.x = sPiecesInit[i].velX;
     }
     this->explosionTimer = 0;

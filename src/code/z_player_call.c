@@ -17,7 +17,7 @@ void Player_Destroy(Actor* thisx, PlayState* play);
 void Player_Update(Actor* thisx, PlayState* play);
 void Player_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Player_InitVars = {
+ActorProfile Player_Profile = {
     /**/ ACTOR_PLAYER,
     /**/ ACTORCAT_PLAYER,
     /**/ FLAGS,

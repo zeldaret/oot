@@ -43,7 +43,7 @@ void EnGoroiwa_MoveUp(EnGoroiwa* this, PlayState* play);
 void EnGoroiwa_SetupMoveDown(EnGoroiwa* this);
 void EnGoroiwa_MoveDown(EnGoroiwa* this, PlayState* play);
 
-ActorInit En_Goroiwa_InitVars = {
+ActorProfile En_Goroiwa_Profile = {
     /**/ ACTOR_EN_GOROIWA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -61,8 +61,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
@@ -84,14 +84,20 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 
-static f32 sUnused[] = { 10.0f, 9.2f };
+static f32 sSpeeds[] = { 10.0f, 9.2f };
+
+#if OOT_DEBUG
+#define EN_GOROIWA_SPEED(this) (R_EN_GOROIWA_SPEED * 0.01f)
+#else
+#define EN_GOROIWA_SPEED(this) sSpeeds[(this)->isInKokiri]
+#endif
 
 void EnGoroiwa_UpdateCollider(EnGoroiwa* this) {
     static f32 yOffsets[] = { 0.0f, 59.5f };
     Sphere16* worldSphere = &this->collider.elements[0].dim.worldSphere;
 
     worldSphere->center.x = this->actor.world.pos.x;
-    worldSphere->center.y = this->actor.world.pos.y + yOffsets[(this->actor.params >> 10) & 1];
+    worldSphere->center.y = this->actor.world.pos.y + yOffsets[PARAMS_GET_U(this->actor.params, 10, 1)];
     worldSphere->center.z = this->actor.world.pos.z;
 }
 
@@ -129,15 +135,19 @@ s32 EnGoroiwa_Vec3fNormalize(Vec3f* ret, Vec3f* a) {
 void EnGoroiwa_SetSpeed(EnGoroiwa* this, PlayState* play) {
     if (play->sceneId == SCENE_KOKIRI_FOREST) {
         this->isInKokiri = true;
+#if OOT_DEBUG
         R_EN_GOROIWA_SPEED = 920;
+#endif
     } else {
         this->isInKokiri = false;
+#if OOT_DEBUG
         R_EN_GOROIWA_SPEED = 1000;
+#endif
     }
 }
 
 void EnGoroiwa_FaceNextWaypoint(EnGoroiwa* this, PlayState* play) {
-    Path* path = &play->pathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 8)];
     Vec3s* nextPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3f nextPosF;
 
@@ -149,8 +159,8 @@ void EnGoroiwa_FaceNextWaypoint(EnGoroiwa* this, PlayState* play) {
 }
 
 void EnGoroiwa_GetPrevWaypointDiff(EnGoroiwa* this, PlayState* play, Vec3f* dest) {
-    s16 loopMode = (this->actor.params >> 8) & 3;
-    Path* path = &play->pathList[this->actor.params & 0xFF];
+    s16 loopMode = PARAMS_GET_U(this->actor.params, 8, 2);
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 8)];
     s16 prevWaypoint = this->currentWaypoint - this->pathDirection;
     Vec3s* prevPointPos;
     Vec3s* currentPointPos;
@@ -177,7 +187,7 @@ void EnGoroiwa_GetPrevWaypointDiff(EnGoroiwa* this, PlayState* play, Vec3f* dest
 }
 
 void EnGoroiw_CheckEndOfPath(EnGoroiwa* this) {
-    s16 loopMode = (this->actor.params >> 8) & 3;
+    s16 loopMode = PARAMS_GET_U(this->actor.params, 8, 2);
 
     if (this->nextWaypoint < 0) {
         if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY || loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK) {
@@ -215,14 +225,14 @@ void EnGoroiwa_ReverseDirection(EnGoroiwa* this) {
 }
 
 void EnGoroiwa_InitPath(EnGoroiwa* this, PlayState* play) {
-    this->endWaypoint = play->pathList[this->actor.params & 0xFF].count - 1;
+    this->endWaypoint = play->pathList[PARAMS_GET_U(this->actor.params, 0, 8)].count - 1;
     this->currentWaypoint = 0;
     this->nextWaypoint = 1;
     this->pathDirection = 1;
 }
 
 void EnGoroiwa_TeleportToWaypoint(EnGoroiwa* this, PlayState* play, s32 waypoint) {
-    Path* path = &play->pathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 8)];
     Vec3s* pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + waypoint;
 
     this->actor.world.pos.x = pointPos->x;
@@ -237,16 +247,18 @@ void EnGoroiwa_InitRotation(EnGoroiwa* this) {
 
 s32 EnGoroiwa_GetAscendDirection(EnGoroiwa* this, PlayState* play) {
     s32 pad;
-    Path* path = &play->pathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 8)];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
 
     if (nextPointPos->x == currentPointPos->x && nextPointPos->z == currentPointPos->z) {
+#if OOT_DEBUG
         if (nextPointPos->y == currentPointPos->y) {
             // "Error: Invalid path data (points overlap)"
             PRINTF("Error : レールデータ不正(点が重なっている)");
             PRINTF("(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 559, this->actor.params);
         }
+#endif
 
         if (nextPointPos->y > currentPointPos->y) {
             return 1;
@@ -299,9 +311,9 @@ s32 EnGoroiwa_MoveAndFall(EnGoroiwa* this, PlayState* play) {
     s32 pad;
     Vec3s* nextPointPos;
 
-    Math_StepToF(&this->actor.speed, R_EN_GOROIWA_SPEED * 0.01f, 0.3f);
+    Math_StepToF(&this->actor.speed, EN_GOROIWA_SPEED(this), 0.3f);
     Actor_UpdateVelocityXZGravity(&this->actor);
-    path = &play->pathList[this->actor.params & 0xFF];
+    path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 8)];
     nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     result = true;
     result &= Math_StepToF(&this->actor.world.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x));
@@ -311,7 +323,7 @@ s32 EnGoroiwa_MoveAndFall(EnGoroiwa* this, PlayState* play) {
 }
 
 s32 EnGoroiwa_Move(EnGoroiwa* this, PlayState* play) {
-    Path* path = &play->pathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 8)];
     s32 pad;
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
@@ -322,7 +334,7 @@ s32 EnGoroiwa_Move(EnGoroiwa* this, PlayState* play) {
     nextPointPosF.x = nextPointPos->x;
     nextPointPosF.y = nextPointPos->y;
     nextPointPosF.z = nextPointPos->z;
-    Math_StepToF(&this->actor.speed, R_EN_GOROIWA_SPEED * 0.01f, 0.3f);
+    Math_StepToF(&this->actor.speed, EN_GOROIWA_SPEED(this), 0.3f);
     if (Math3D_Vec3fDistSq(&nextPointPosF, &this->actor.world.pos) < SQ(5.0f)) {
         Math_Vec3f_Diff(&nextPointPosF, &this->actor.world.pos, &posDiff);
     } else {
@@ -343,10 +355,10 @@ s32 EnGoroiwa_Move(EnGoroiwa* this, PlayState* play) {
 
 s32 EnGoroiwa_MoveUpToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     s32 pad;
-    Path* path = &play->pathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 8)];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
 
-    Math_StepToF(&this->actor.velocity.y, (R_EN_GOROIWA_SPEED * 0.01f) * 0.5f, 0.18f);
+    Math_StepToF(&this->actor.velocity.y, EN_GOROIWA_SPEED(this) * 0.5f, 0.18f);
     this->actor.world.pos.x = nextPointPos->x;
     this->actor.world.pos.z = nextPointPos->z;
     return Math_StepToF(&this->actor.world.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
@@ -354,7 +366,7 @@ s32 EnGoroiwa_MoveUpToNextWaypoint(EnGoroiwa* this, PlayState* play) {
 
 s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
     s32 pad;
-    Path* path = &play->pathList[this->actor.params & 0xFF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 8)];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     f32 nextPointY;
     f32 thisY;
@@ -435,7 +447,6 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, PlayState* play) {
     Vec3f rollAxis;
     Vec3f unitRollAxis;
     MtxF mtx;
-    Vec3f unusedDiff;
 
     if (this->stateFlags & ENGOROIWA_RETAIN_ROT_SPEED) {
         rollAngleDiff = this->prevRollAngleDiff;
@@ -446,6 +457,8 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, PlayState* play) {
     rollAngleDiff *= this->rollRotSpeed;
     rollAxisPtr = &rollAxis;
     if (this->stateFlags & ENGOROIWA_RETAIN_ROT_SPEED) {
+        Vec3f unusedDiff;
+
         /*
          * EnGoroiwa_GetPrevWaypointDiff has no side effects and its result goes unused,
          * its result was probably meant to be used instead of the actor's velocity in the
@@ -472,7 +485,7 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, PlayState* play) {
 }
 
 void EnGoroiwa_NextWaypoint(EnGoroiwa* this, PlayState* play) {
-    s16 loopMode = (this->actor.params >> 8) & 3;
+    s16 loopMode = PARAMS_GET_U(this->actor.params, 8, 2);
 
     EnGoroiwa_SetNextWaypoint(this);
 
@@ -496,7 +509,7 @@ void EnGoroiwa_SpawnFragments(EnGoroiwa* this, PlayState* play) {
     f32 cos1;
     f32 sin1;
     f32 sin2;
-    s16 yOffsetIdx = (this->actor.params >> 10) & 1;
+    s16 yOffsetIdx = PARAMS_GET_U(this->actor.params, 10, 1);
     s32 i;
 
     for (i = 0, angle1 = 0; i < 16; i++, angle1 += 0x4E20) {
@@ -535,7 +548,7 @@ void EnGoroiwa_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnGoroiwa_InitCollider(this, play);
-    pathIdx = this->actor.params & 0xFF;
+    pathIdx = PARAMS_GET_U(this->actor.params, 0, 8);
     if (pathIdx == 0xFF) {
         // "Error: Invalid arg_data"
         PRINTF("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 1033, this->actor.params);
@@ -549,7 +562,8 @@ void EnGoroiwa_Init(Actor* thisx, PlayState* play) {
         return;
     }
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-    ActorShape_Init(&this->actor.shape, yOffsets[(this->actor.params >> 10) & 1], ActorShadow_DrawCircle, 9.4f);
+    ActorShape_Init(&this->actor.shape, yOffsets[PARAMS_GET_U(this->actor.params, 10, 1)], ActorShadow_DrawCircle,
+                    9.4f);
     this->actor.shape.shadowAlpha = 200;
     EnGoroiwa_SetSpeed(this, play);
     EnGoroiwa_InitPath(this, play);
@@ -558,8 +572,9 @@ void EnGoroiwa_Init(Actor* thisx, PlayState* play) {
     EnGoroiwa_FaceNextWaypoint(this, play);
     EnGoroiwa_SetupRoll(this);
     // "(Goroiwa)"
-    PRINTF("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params, this->actor.params & 0xFF,
-           (this->actor.params >> 8) & 3, (this->actor.params >> 10) & 1, this->actor.home.rot.z & 1);
+    PRINTF("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params,
+           PARAMS_GET_U(this->actor.params, 0, 8), PARAMS_GET_U(this->actor.params, 8, 2),
+           PARAMS_GET_U(this->actor.params, 10, 1), this->actor.home.rot.z & 1);
 }
 
 void EnGoroiwa_Destroy(Actor* thisx, PlayState* play2) {
@@ -589,7 +604,7 @@ void EnGoroiwa_Roll(EnGoroiwa* this, PlayState* play) {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
         if (yawDiff > -0x4000 && yawDiff < 0x4000) {
             this->stateFlags |= ENGOROIWA_PLAYER_IN_THE_WAY;
-            if (((this->actor.params >> 10) & 1) || (this->actor.home.rot.z & 1) != 1) {
+            if (PARAMS_GET_U(this->actor.params, 10, 1) || (this->actor.home.rot.z & 1) != 1) {
                 EnGoroiwa_ReverseDirection(this);
                 EnGoroiwa_FaceNextWaypoint(this, play);
             }
@@ -598,13 +613,13 @@ void EnGoroiwa_Roll(EnGoroiwa* this, PlayState* play) {
         PRINTF(VT_FGCOL(CYAN));
         PRINTF("Player ぶっ飛ばし\n"); // "Player knocked down"
         PRINTF(VT_RST);
-        onHitSetupFuncs[(this->actor.params >> 10) & 1](this);
+        onHitSetupFuncs[PARAMS_GET_U(this->actor.params, 10, 1)](this);
         Player_PlaySfx(GET_PLAYER(play), NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
             this->collisionDisabledTimer = 50;
         }
-    } else if (moveFuncs[(this->actor.params >> 10) & 1](this, play)) {
-        loopMode = (this->actor.params >> 8) & 3;
+    } else if (moveFuncs[PARAMS_GET_U(this->actor.params, 10, 1)](this, play)) {
+        loopMode = PARAMS_GET_U(this->actor.params, 8, 2);
         if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK &&
             (this->nextWaypoint == 0 || this->nextWaypoint == this->endWaypoint)) {
             EnGoroiwa_SpawnFragments(this, play);
@@ -613,7 +628,7 @@ void EnGoroiwa_Roll(EnGoroiwa* this, PlayState* play) {
         if ((loopMode == ENGOROIWA_LOOPMODE_ROUNDTRIP) &&
             (this->currentWaypoint == 0 || this->currentWaypoint == this->endWaypoint)) {
             EnGoroiwa_SetupWait(this);
-        } else if (!((this->actor.params >> 10) & 1) && this->currentWaypoint != 0 &&
+        } else if (!PARAMS_GET_U(this->actor.params, 10, 1) && this->currentWaypoint != 0 &&
                    this->currentWaypoint != this->endWaypoint) {
             ascendDirection = EnGoroiwa_GetAscendDirection(this, play);
             if (ascendDirection > 0) {
@@ -729,7 +744,7 @@ void EnGoroiwa_Update(Actor* thisx, PlayState* play) {
             this->collisionDisabledTimer--;
         }
         this->actionFunc(this, play);
-        switch ((this->actor.params >> 10) & 1) {
+        switch (PARAMS_GET_U(this->actor.params, 10, 1)) {
             case 1:
                 Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f,
                                         UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);

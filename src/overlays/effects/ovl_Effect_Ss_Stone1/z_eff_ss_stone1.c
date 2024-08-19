@@ -13,12 +13,12 @@ u32 EffectSsStone1_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsStone1_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsStone1_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Stone1_InitVars = {
+EffectSsProfile Effect_Ss_Stone1_Profile = {
     EFFECT_SS_STONE1,
     EffectSsStone1_Init,
 };
 
-typedef struct {
+typedef struct EffStoneDrawInfo {
     /* 0x00 */ void* texture;
     /* 0x04 */ Color_RGBA8 primColor;
     /* 0x08 */ Color_RGBA8 envColor;
@@ -62,7 +62,6 @@ void EffectSsStone1_Draw(PlayState* play, u32 index, EffectSs* this) {
     scale = (mfW < 1500.0f) ? 3.0f : (mfW / 1500.0f) * 3.0f;
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    if (1) {}
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_ss_stone1.c", 168),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Gfx_SetupDL_61Xlu(gfxCtx);

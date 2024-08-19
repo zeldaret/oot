@@ -8,7 +8,7 @@ struct EnIn;
 
 typedef void (*EnInActionFunc)(struct EnIn*, PlayState*);
 
-typedef enum {
+typedef enum IngoLimb {
     /* 0x00 */ INGO_LIMB_NONE,
     /* 0x01 */ INGO_LIMB_ROOT,
     /* 0x02 */ INGO_LEFT_THIGH_LIMB,

@@ -18,7 +18,7 @@ void ObjBombiwa_Draw(Actor* thisx, PlayState* play);
 
 void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play);
 
-ActorInit Obj_Bombiwa_InitVars = {
+ActorProfile Obj_Bombiwa_Profile = {
     /**/ ACTOR_OBJ_BOMBIWA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -43,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4FC1FFFE, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 55, 70, 0, { 0 } },
@@ -74,7 +74,7 @@ void ObjBombiwa_InitCollision(Actor* thisx, PlayState* play) {
 void ObjBombiwa_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     ObjBombiwa_InitCollision(thisx, play);
-    if ((Flags_GetSwitch(play, thisx->params & 0x3F) != 0)) {
+    if ((Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6)) != 0)) {
         Actor_Kill(thisx);
     } else {
         CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
@@ -125,11 +125,11 @@ void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if ((func_80033684(play, &this->actor) != NULL) ||
-        ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HAMMER))) {
+        ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HAMMER))) {
         ObjBombiwa_Break(this, play);
-        Flags_SetSwitch(play, this->actor.params & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6));
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
-        if (((this->actor.params >> 0xF) & 1) != 0) {
+        if (PARAMS_GET_U(this->actor.params, 15, 1) != 0) {
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
         Actor_Kill(&this->actor);

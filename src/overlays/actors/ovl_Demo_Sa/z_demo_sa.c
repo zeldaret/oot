@@ -44,7 +44,7 @@ void DemoSa_DrawNothing(DemoSa* this, PlayState* play);
 void DemoSa_DrawOpa(DemoSa* this, PlayState* play);
 void DemoSa_DrawXlu(DemoSa* this, PlayState* play);
 
-typedef enum {
+typedef enum SariaEyeState {
     /* 0 */ SARIA_EYE_OPEN,
     /* 1 */ SARIA_EYE_HALF,
     /* 2 */ SARIA_EYE_CLOSED,
@@ -52,7 +52,7 @@ typedef enum {
     /* 4 */ SARIA_EYE_SAD
 } SariaEyeState;
 
-typedef enum {
+typedef enum SariaMouthState {
     /* 0 */ SARIA_MOUTH_CLOSED2,
     /* 1 */ SARIA_MOUTH_SUPRISED,
     /* 2 */ SARIA_MOUTH_CLOSED,
@@ -69,9 +69,10 @@ static void* sMouthTextures[] = {
     gSariaMouthSmilingOpenTex, gSariaMouthFrowningTex,
 };
 
+#if OOT_DEBUG
 static u32 D_80990108 = 0;
+#endif
 
-#pragma asmproc recurse
 #include "z_demo_sa_cutscene_data.inc.c"
 
 static DemoSaActionFunc sActionFuncs[] = {
@@ -86,7 +87,7 @@ static DemoSaDrawFunc sDrawFuncs[] = {
     DemoSa_DrawXlu,
 };
 
-ActorInit Demo_Sa_InitVars = {
+ActorProfile Demo_Sa_Profile = {
     /**/ ACTOR_DEMO_SA,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -127,6 +128,7 @@ void DemoSa_SetMouthIndex(DemoSa* this, s16 mouthIndex) {
     this->mouthIndex = mouthIndex;
 }
 
+#if OOT_DEBUG
 void func_8098E530(DemoSa* this) {
     this->action = 7;
     this->drawConfig = 0;
@@ -150,6 +152,7 @@ void func_8098E554(DemoSa* this, PlayState* play) {
         *something = 1;
     }
 }
+#endif
 
 void func_8098E5C8(DemoSa* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
@@ -161,7 +164,9 @@ s32 DemoSa_UpdateSkelAnime(DemoSa* this) {
 
 CsCmdActorCue* DemoSa_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
 
     return NULL;
@@ -439,7 +444,9 @@ void func_8098F050(DemoSa* this, PlayState* play) {
 
 void func_8098F0E8(DemoSa* this, PlayState* play) {
     func_8098EEA8(this, play);
+#if OOT_DEBUG
     func_8098E554(this, play);
+#endif
 }
 
 void func_8098F118(DemoSa* this, PlayState* play) {
@@ -447,7 +454,9 @@ void func_8098F118(DemoSa* this, PlayState* play) {
     DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098EEFC(this, play);
+#if OOT_DEBUG
     func_8098E554(this, play);
+#endif
 }
 
 void func_8098F16C(DemoSa* this, PlayState* play) {
@@ -455,7 +464,9 @@ void func_8098F16C(DemoSa* this, PlayState* play) {
     DemoSa_UpdateSkelAnime(this);
     func_8098EDB0(this);
     func_8098F050(this, play);
+#if OOT_DEBUG
     func_8098E554(this, play);
+#endif
 }
 
 void DemoSa_DrawXlu(DemoSa* this, PlayState* play) {

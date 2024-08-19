@@ -7,7 +7,7 @@
 struct EnBw;
 typedef void (*EnBwActionFunc)(struct EnBw*, PlayState*);
 
-typedef enum {
+typedef enum TorchSlugLimb {
     /*  0 */ TORCH_SLUG_LIMB_NONE,
     /*  1 */ TORCH_SLUG_LIMB_BODY,
     /*  2 */ TORCH_SLUG_LIMB_LEFT_EYESTALK_ROOT_ROOT,

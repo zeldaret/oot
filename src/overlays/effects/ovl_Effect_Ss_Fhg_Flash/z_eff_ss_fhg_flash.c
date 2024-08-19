@@ -20,7 +20,7 @@ void EffectSsFhgFlash_UpdateLightBall(PlayState* play, u32 index, EffectSs* this
 void EffectSsFhgFlash_DrawShock(PlayState* play, u32 index, EffectSs* this);
 void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Fhg_Flash_InitVars = {
+EffectSsProfile Effect_Ss_Fhg_Flash_Profile = {
     EFFECT_SS_FHG_FLASH,
     EffectSsFhgFlash_Init,
 };

@@ -20,6 +20,7 @@
 #include "z64curve.h"
 #include "z64scene.h"
 #include "z64effect.h"
+#include "z64game_over.h"
 #include "z64item.h"
 #include "z64animation.h"
 #include "z64animation_legacy.h"
@@ -28,11 +29,13 @@
 #include "z64map_mark.h"
 #include "z64message.h"
 #include "z64pause.h"
+#include "z64play.h"
 #include "z64skin.h"
 #include "z64game.h"
 #include "z64transition.h"
 #include "z64transition_instances.h"
 #include "z64interface.h"
+#include "z64sfx_source.h"
 #include "z64skybox.h"
 #include "z64sram.h"
 #include "z64view.h"
@@ -44,6 +47,7 @@
 #include "sfx.h"
 #include "color.h"
 #include "gfxprint.h"
+#include "z_lib.h"
 #include "ichain.h"
 #include "regs.h"
 #include "irqmgr.h"
@@ -58,14 +62,13 @@
 #include "gfx.h"
 #include "jpeg.h"
 #include "prerender.h"
+#include "rand.h"
+#include "sys_math.h"
+#include "sys_math3d.h"
+#include "fp_math.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
-
-#define REGION_NULL 0
-#define REGION_JP 1
-#define REGION_US 2
-#define REGION_EU 3
 
 #define THREAD_PRI_IDLE_INIT    10
 #define THREAD_PRI_MAIN_INIT    10
@@ -96,203 +99,31 @@
 #define STACK_TOP(stack) \
     ((u8*)(stack) + sizeof(stack))
 
-// NOTE: Once we start supporting other builds, this can be changed with an ifdef
-#define REGION_NATIVE REGION_EU
-
-typedef struct {
-    /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page
-    /* 0x04 */ s32  regGroup; // Indexed from 0 to `REG_GROUPS`-1. Each group has its own character to identify it.
-    /* 0x08 */ s32  regCur; // Selected reg, indexed from 0 as the page start
-    /* 0x0C */ s32  dPadInputPrev;
-    /* 0x10 */ s32  inputRepeatTimer;
-    /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
-} RegEditor; // size = 0x15D4
-
-typedef struct {
-    /* 0x00 */ u8   seqId;
-    /* 0x01 */ u8   natureAmbienceId;
-} SequenceContext; // size = 0x2
-
-typedef struct {
-    /* 0x00 */ s32 enabled;
-    /* 0x04 */ s32 timer;
-} FrameAdvanceContext; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ Vec3f    pos;
-    /* 0x0C */ f32      unk_0C; // radius?
-    /* 0x10 */ Color_RGB8 color;
-} TargetContextEntry; // size = 0x14
-
-typedef struct {
-    /* 0x00 */ Vec3f    naviRefPos; // possibly wrong
-    /* 0x0C */ Vec3f    targetCenterPos;
-    /* 0x18 */ Color_RGBAf naviInner;
-    /* 0x28 */ Color_RGBAf naviOuter;
-    /* 0x38 */ Actor*   arrowPointedActor;
-    /* 0x3C */ Actor*   targetedActor;
-    /* 0x40 */ f32      unk_40;
-    /* 0x44 */ f32      unk_44;
-    /* 0x48 */ s16      unk_48;
-    /* 0x4A */ u8       activeCategory;
-    /* 0x4B */ u8       unk_4B;
-    /* 0x4C */ s8       unk_4C;
-    /* 0x4D */ char     unk_4D[0x03];
-    /* 0x50 */ TargetContextEntry arr_50[3];
-    /* 0x8C */ Actor*   unk_8C;
-    /* 0x90 */ Actor*   bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
-    /* 0x94 */ Actor*   unk_94;
-} TargetContext; // size = 0x98
-
-typedef struct {
-    /* 0x00 */ void*      texture;
-    /* 0x04 */ s16      x;
-    /* 0x06 */ s16      y;
-    /* 0x08 */ u8       width;
-    /* 0x09 */ u8       height;
-    /* 0x0A */ u8       durationTimer; // how long the title card appears for before fading
-    /* 0x0B */ u8       delayTimer; // how long the title card waits to appear
-    /* 0x0C */ s16      alpha;
-    /* 0x0E */ s16      intensity;
-} TitleCardContext; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ s32    length; // number of actors loaded of this category
-    /* 0x04 */ Actor* head; // pointer to head of the linked list of this category (most recent actor added)
-} ActorListEntry; // size = 0x08
-
-typedef struct {
-    /* 0x0000 */ u8     freezeFlashTimer;
-    /* 0x0001 */ char   unk_01[0x01];
-    /* 0x0002 */ u8     unk_02;
-    /* 0x0003 */ u8     lensActive;
-    /* 0x0004 */ char   unk_04[0x04];
-    /* 0x0008 */ u8     total; // total number of actors loaded
-    /* 0x000C */ ActorListEntry actorLists[ACTORCAT_MAX];
-    /* 0x006C */ TargetContext targetCtx;
-    struct {
-        /* 0x0104 */ u32    swch;
-        /* 0x0108 */ u32    tempSwch;
-        /* 0x010C */ u32    unk0;
-        /* 0x0110 */ u32    unk1;
-        /* 0x0114 */ u32    chest;
-        /* 0x0118 */ u32    clear;
-        /* 0x011C */ u32    tempClear;
-        /* 0x0120 */ u32    collect;
-        /* 0x0124 */ u32    tempCollect;
-    }                   flags;
-    /* 0x0128 */ TitleCardContext titleCtx;
-    /* 0x0138 */ char   unk_138[0x04];
-    /* 0x013C */ void*  absoluteSpace; // Space used to allocate actor overlays with alloc type ACTOROVL_ALLOC_ABSOLUTE
-} ActorContext; // size = 0x140
-
-typedef struct {
-    /* 0x00 */ u16 countdown;
-    /* 0x04 */ Vec3f worldPos;
-    /* 0x10 */ Vec3f projectedPos;
-} SfxSource; // size = 0x1C
-
-typedef struct {
+typedef struct KaleidoMgrOverlay {
     /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ uintptr_t vromStart;
-    /* 0x08 */ uintptr_t vromEnd;
+    /* 0x04 */ RomFile file;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
     /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
     /* 0x18 */ const char* name;
 } KaleidoMgrOverlay; // size = 0x1C
 
-typedef enum {
+typedef enum KaleidoOverlayType {
     /* 0 */ KALEIDO_OVL_KALEIDO_SCOPE,
     /* 1 */ KALEIDO_OVL_PLAYER_ACTOR,
     /* 2 */ KALEIDO_OVL_MAX
 } KaleidoOverlayType;
 
-typedef enum {
-    /* 00 */ GAMEOVER_INACTIVE,
-    /* 01 */ GAMEOVER_DEATH_START,
-    /* 02 */ GAMEOVER_DEATH_WAIT_GROUND, // wait for link to fall and hit the ground
-    /* 03 */ GAMEOVER_DEATH_DELAY_MENU, // wait for 1 second before showing the game over menu
-    /* 04 */ GAMEOVER_DEATH_MENU, // do nothing while kaleidoscope handles the game over menu
-    /* 20 */ GAMEOVER_REVIVE_START = 20,
-    /* 21 */ GAMEOVER_REVIVE_RUMBLE,
-    /* 22 */ GAMEOVER_REVIVE_WAIT_GROUND, // wait for link to fall and hit the ground
-    /* 23 */ GAMEOVER_REVIVE_WAIT_FAIRY, // wait for the fairy to rise all the way up out of links body
-    /* 24 */ GAMEOVER_REVIVE_FADE_OUT // fade out the game over lights as link is revived and gets back up
-} GameOverState;
-
-typedef struct {
-    /* 0x00 */ u16 state;
-} GameOverContext; // size = 0x2
-
-typedef enum {
-    /* 0 */ LENS_MODE_HIDE_ACTORS, // lens actors are visible by default, and hidden by using lens (for example, fake walls)
-    /* 1 */ LENS_MODE_SHOW_ACTORS // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
+typedef enum LensMode {
+    /* 0 */ LENS_MODE_SHOW_ACTORS, // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
+    /* 1 */ LENS_MODE_HIDE_ACTORS // lens actors are visible by default, and hidden by using lens (for example, fake walls)
 } LensMode;
 
-typedef enum {
-    /* 0 */ ROOM_BEHAVIOR_TYPE1_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE1_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE1_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE1_3, // unused
-    /* 4 */ ROOM_BEHAVIOR_TYPE1_4, // unused
-    /* 5 */ ROOM_BEHAVIOR_TYPE1_5
-} RoomBehaviorType1;
-
-typedef enum {
-    /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE2_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE2_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE2_3,
-    /* 4 */ ROOM_BEHAVIOR_TYPE2_4,
-    /* 5 */ ROOM_BEHAVIOR_TYPE2_5,
-    /* 6 */ ROOM_BEHAVIOR_TYPE2_6
-} RoomBehaviorType2;
-
-typedef struct {
-    /* 0x00 */ s8   num;
-    /* 0x01 */ u8   unk_01;
-    /* 0x02 */ u8   behaviorType2;
-    /* 0x03 */ u8   behaviorType1;
-    /* 0x04 */ s8   echo;
-    /* 0x05 */ u8   lensMode;
-    /* 0x08 */ RoomShape* roomShape; // original name: "ground_shape"
-    /* 0x0C */ void* segment;
-    /* 0x10 */ char unk_10[0x4];
-} Room; // size = 0x14
-
-typedef struct {
-    /* 0x00 */ Room  curRoom;
-    /* 0x14 */ Room  prevRoom;
-    /* 0x28 */ void* bufPtrs[2];
-    /* 0x30 */ u8    unk_30;
-    /* 0x31 */ s8    status;
-    /* 0x34 */ void* unk_34;
-    /* 0x38 */ DmaRequest dmaRequest;
-    /* 0x58 */ OSMesgQueue loadQueue;
-    /* 0x70 */ OSMesg loadMsg;
-    /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
-} RoomContext; // size = 0x78
-
-#define SAC_ENABLE (1 << 0)
-
-typedef struct {
-    /* 0x000 */ s16 colATCount;
-    /* 0x002 */ u16 sacFlags;
-    /* 0x004 */ Collider* colAT[COLLISION_CHECK_AT_MAX];
-    /* 0x0CC */ s32 colACCount;
-    /* 0x0D0 */ Collider* colAC[COLLISION_CHECK_AC_MAX];
-    /* 0x1C0 */ s32 colOCCount;
-    /* 0x1C4 */ Collider* colOC[COLLISION_CHECK_OC_MAX];
-    /* 0x28C */ s32 colLineCount;
-    /* 0x290 */ OcLine* colLine[COLLISION_CHECK_OC_LINE_MAX];
-} CollisionCheckContext; // size = 0x29C
-
-typedef struct {
+typedef struct SetupState {
     /* 0x00 */ GameState state;
 } SetupState; // size = 0xA4
 
-typedef struct {
+typedef struct ConsoleLogoState {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
@@ -310,7 +141,7 @@ typedef struct {
 
 struct MapSelectState;
 
-typedef struct {
+typedef struct SceneSelectEntry {
     /* 0x00 */ char* name;
     /* 0x04 */ void (*loadFunc)(struct MapSelectState*, s32);
     /* 0x08 */ s32 entranceIndex;
@@ -338,25 +169,20 @@ typedef struct MapSelectState {
     /* 0x0238 */ u8* staticSegment;
 } MapSelectState; // size = 0x240
 
-typedef struct {
+typedef struct SampleState {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
 } SampleState; // size = 0x1D0
 
-typedef struct {
+typedef struct QuestHintCmd {
     /* 0x00 */ u8 byte0;
     /* 0x01 */ u8 byte1;
     /* 0x02 */ u8 byte2;
     /* 0x03 */ u8 byte3;
 } QuestHintCmd; // size = 0x4
 
-typedef struct {
-    /* 0x00 */ u8 numActors;
-    /* 0x04 */ TransitionActorEntry* list;
-} TransitionActorContext; // size = 0x8
-
-typedef enum {
+typedef enum PauseBgPreRenderState {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
     /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
     /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
@@ -364,105 +190,26 @@ typedef enum {
     /* 4 */ PAUSE_BG_PRERENDER_MAX
 } PauseBgPreRenderState;
 
-typedef enum {
+typedef enum TransitionTileState {
     /* 0 */ TRANS_TILE_OFF, // Inactive, do nothing
     /* 1 */ TRANS_TILE_SETUP, // Save the necessary buffers
     /* 2 */ TRANS_TILE_PROCESS, // Initialize the transition
     /* 3 */ TRANS_TILE_READY // The transition is ready, so will update and draw each frame
 } TransitionTileState;
 
-typedef struct PlayState {
-    /* 0x00000 */ GameState state;
-    /* 0x000A4 */ s16 sceneId;
-    /* 0x000A6 */ u8 sceneDrawConfig;
-    /* 0x000A7 */ char unk_A7[0x9];
-    /* 0x000B0 */ void* sceneSegment;
-    /* 0x000B8 */ View view;
-    /* 0x001E0 */ Camera mainCamera;
-    /* 0x0034C */ Camera subCameras[NUM_CAMS - CAM_ID_SUB_FIRST];
-    /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
-    /* 0x007A0 */ s16 activeCamId;
-    /* 0x007A2 */ s16 nextCamId;
-    /* 0x007A4 */ SequenceContext sequenceCtx;
-    /* 0x007A8 */ LightContext lightCtx;
-    /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
-    /* 0x007C0 */ CollisionContext colCtx;
-    /* 0x01C24 */ ActorContext actorCtx;
-    /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
-    /* 0x01DB4 */ SfxSource sfxSources[16];
-    /* 0x01F74 */ SramContext sramCtx;
-    /* 0x01F78 */ SkyboxContext skyboxCtx;
-    /* 0x020D8 */ MessageContext msgCtx; // "message"
-    /* 0x104F0 */ InterfaceContext interfaceCtx; // "parameter"
-    /* 0x10760 */ PauseContext pauseCtx;
-    /* 0x10A20 */ GameOverContext gameOverCtx;
-    /* 0x10A24 */ EnvironmentContext envCtx;
-    /* 0x10B20 */ AnimationContext animationCtx;
-    /* 0x117A4 */ ObjectContext objectCtx;
-    /* 0x11CBC */ RoomContext roomCtx;
-    /* 0x11D34 */ TransitionActorContext transiActorCtx;
-    /* 0x11D3C */ void (*playerInit)(Player* player, struct PlayState* play, FlexSkeletonHeader* skelHeader);
-    /* 0x11D40 */ void (*playerUpdate)(Player* player, struct PlayState* play, Input* input);
-    /* 0x11D44 */ int (*isPlayerDroppingFish)(struct PlayState* play);
-    /* 0x11D48 */ s32 (*startPlayerFishing)(struct PlayState* play);
-    /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, Player* player);
-    /* 0x11D50 */ s32 (*tryPlayerCsAction)(struct PlayState* play, Actor* actor, s32 csAction);
-    /* 0x11D54 */ void (*func_11D54)(Player* player, struct PlayState* play);
-    /* 0x11D58 */ s32 (*damagePlayer)(struct PlayState* play, s32 damage);
-    /* 0x11D5C */ void (*talkWithPlayer)(struct PlayState* play, Actor* actor);
-    /* 0x11D60 */ MtxF viewProjectionMtxF;
-    /* 0x11DA0 */ MtxF billboardMtxF;
-    /* 0x11DE0 */ Mtx* billboardMtx;
-    /* 0x11DE4 */ u32 gameplayFrames;
-    /* 0x11DE8 */ u8 linkAgeOnLoad;
-    /* 0x11DE9 */ u8 haltAllActors;
-    /* 0x11DEA */ u8 spawn;
-    /* 0x11DEB */ u8 numActorEntries;
-    /* 0x11DEC */ u8 numRooms;
-    /* 0x11DF0 */ RomFile* roomList;
-    /* 0x11DF4 */ ActorEntry* playerEntry;
-    /* 0x11DF8 */ ActorEntry* actorEntryList;
-    /* 0x11DFC */ void* unk_11DFC;
-    /* 0x11E00 */ Spawn* spawnList;
-    /* 0x11E04 */ s16* exitList;
-    /* 0x11E08 */ Path* pathList;
-    /* 0x11E0C */ QuestHintCmd* naviQuestHints;
-    /* 0x11E10 */ void* specialEffects;
-    /* 0x11E14 */ u8 skyboxId;
-    /* 0x11E15 */ s8 transitionTrigger; // "fade_direction"
-    /* 0x11E16 */ s16 unk_11E16;
-    /* 0x11E18 */ s16 bgCoverAlpha;
-    /* 0x11E1A */ s16 nextEntranceIndex;
-    /* 0x11E1C */ char unk_11E1C[0x40];
-    /* 0x11E5C */ s8 shootingGalleryStatus;
-    /* 0x11E5D */ s8 bombchuBowlingStatus; // "bombchu_game_flag"
-    /* 0x11E5E */ u8 transitionType;
-    /* 0x11E60 */ CollisionCheckContext colChkCtx;
-    /* 0x120FC */ u16 cutsceneFlags[20];
-    /* 0x12124 */ PreRender pauseBgPreRender;
-    /* 0x12174 */ char unk_12174[0x53];
-    /* 0x121C7 */ s8 unk_121C7;
-    /* 0x121C8 */ TransitionContext transitionCtx;
-    /* 0x12418 */ char unk_12418[0x3];
-    /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
-    /* 0x1241C */ TransitionFade transitionFadeFlash; // Transition fade instance which flashes screen, see R_TRANS_FADE_FLASH_ALPHA_STEP
-    /* 0x12428 */ char unk_12428[0x3];
-    /* 0x1242B */ u8 viewpoint; // toggleable camera setting by shops or player. Is also equal to the bgCamIndex + 1
-    /* 0x1242C */ SceneTableEntry* loadedScene;
-    /* 0x12430 */ char unk_12430[0xE8];
-} PlayState; // size = 0x12518
-
-typedef struct {
+typedef struct TitleSetupState {
     /* 0x0000 */ GameState state;
     /* 0x00A8 */ View view;
 } TitleSetupState; // size = 0x1D0
 
-typedef struct {
+typedef struct FileSelectState {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ Vtx* windowVtx;
     /* 0x000A8 */ u8* staticSegment;
     /* 0x000AC */ u8* parameterSegment;
+#if OOT_PAL
     /* 0x000B0 */ char unk_B0[0x8];
+#endif
     /* 0x000B8 */ View view;
     /* 0x001E0 */ SramContext sramCtx;
     /* 0x001E4 */ char unk_1E4[0x4];
@@ -481,7 +228,9 @@ typedef struct {
     /* 0x1CA1C */ u32 questItems[3];
     /* 0x1CA28 */ s16 n64ddFlags[3];
     /* 0x1CA2E */ s8 defense[3];
+#if OOT_PAL
     /* 0x1CA32 */ u16 health[3];
+#endif
     /* 0x1CA38 */ s16 buttonIndex;
     /* 0x1CA3A */ s16 confirmButtonIndex; // 0: yes, 1: quit
     /* 0x1CA3C */ s16 menuMode;
@@ -550,16 +299,15 @@ typedef struct {
     (((field) >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) \
      & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
 
-typedef struct {
+typedef struct EntranceInfo {
     /* 0x00 */ s8  sceneId;
     /* 0x01 */ s8  spawn;
     /* 0x02 */ u16 field;
 } EntranceInfo; // size = 0x4
 
-typedef struct {
+typedef struct GameStateOverlay {
     /* 0x00 */ void*     loadedRamAddr;
-    /* 0x04 */ uintptr_t vromStart; // if applicable
-    /* 0x08 */ uintptr_t vromEnd;   // if applicable
+    /* 0x04 */ RomFile   file;      // if applicable
     /* 0x0C */ void*     vramStart; // if applicable
     /* 0x10 */ void*     vramEnd;   // if applicable
     /* 0x14 */ void*     unk_14;
@@ -571,13 +319,13 @@ typedef struct {
     /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
 
-typedef struct {
+typedef struct PreNMIState {
     /* 0x00 */ GameState state;
     /* 0xA4 */ u32       timer;
     /* 0xA8 */ UNK_TYPE4 unk_A8;
 } PreNMIState; // size = 0xAC
 
-typedef enum {
+typedef enum FloorID {
     /*  1 */ F_8F = 1,
     /*  2 */ F_7F,
     /*  3 */ F_6F,
@@ -599,7 +347,7 @@ typedef enum {
 // All arrays pointed in this struct are indexed by "map indices"
 // In dungeons, the map index corresponds to the dungeon index (which also indexes keys, items, etc)
 // In overworld areas, the map index corresponds to the overworld area index (spot 00, 01, etc)
-typedef struct {
+typedef struct MapData {
     /* 0x00 */ s16 (*floorTexIndexOffset)[8]; // dungeon texture index offset by floor
     /* 0x04 */ s16*  bossFloor; // floor the boss is on
     /* 0x08 */ s16 (*roomPalette)[32]; // map palette by room
@@ -648,7 +396,7 @@ typedef struct DebugDispObject {
     /* 0x28 */ struct DebugDispObject* next;
 } DebugDispObject; // size = 0x2C
 
-typedef enum {
+typedef enum MatrixMode {
     /* 0 */ MTXMODE_NEW,  // generates a new matrix
     /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
@@ -663,13 +411,13 @@ typedef struct StackEntry {
     /* 0x18 */ const char* name;
 } StackEntry;
 
-typedef enum {
+typedef enum StackStatus {
     /* 0 */ STACK_STATUS_OK,
     /* 1 */ STACK_STATUS_WARNING,
     /* 2 */ STACK_STATUS_OVERFLOW
 } StackStatus;
 
-typedef struct {
+typedef struct ISVDbg {
     /* 0x00 */ u32 magic; // IS64
     /* 0x04 */ u32 get;
     /* 0x08 */ u8 unk_08[0x14-0x08];
@@ -678,7 +426,7 @@ typedef struct {
     /* 0x20 */ u8 data[0x10000-0x20];
 } ISVDbg;
 
-typedef struct {
+typedef struct LocaleCartInfo {
     /* 0x00 */ char name[0x18];
     /* 0x18 */ u32 mediaFormat;
     /* 0x1C */ union {
@@ -691,7 +439,7 @@ typedef struct {
     };
 } LocaleCartInfo; // size = 0x20
 
-typedef struct {
+typedef struct Yaz0Header {
     /* 0x00 */ char magic[4]; // Yaz0
     /* 0x04 */ u32 decSize;
     /* 0x08 */ u32 compInfoOffset; // only used in mio0
@@ -717,7 +465,7 @@ typedef struct ArenaNode {
     /* 0x0C */ struct ArenaNode* prev;
 #if OOT_DEBUG // TODO: This debug info is also present in N64 retail builds
     /* 0x10 */ const char* filename;
-    /* 0x14 */ s32 line;
+    /* 0x14 */ int line;
     /* 0x18 */ OSId threadId;
     /* 0x1C */ Arena* arena;
     /* 0x20 */ OSTime time;
@@ -738,7 +486,7 @@ typedef struct ArenaNode {
 #define R_MIPS_LO16 6
 
 /* Reloc section id, must fit in 2 bits otherwise the relocation format must be modified */
-typedef enum {
+typedef enum RelocSectionId {
     /* 0 */ RELOC_SECTION_NULL,
     /* 1 */ RELOC_SECTION_TEXT,
     /* 2 */ RELOC_SECTION_DATA,
@@ -755,21 +503,26 @@ typedef struct OverlayRelocationSection {
     /* 0x14 */ u32 relocations[1]; // size is nRelocations
 } OverlayRelocationSection; // size >= 0x18
 
-typedef struct {
+// This struct is used at osAppNMIBuffer which is not at an 8-byte aligned address. This causes an unaligned access
+// crash if the OSTime variables use 64-bit load/store instructions, which is the case in any MIPS ABI other than O32
+// where 64-bit load/store instructions are emulated with 2x 32-bit load/store instructions. The alignment attribute
+// conveys that this structure will not always be 8-bytes aligned, allowing a modern compiler to generate non-crashing
+// code for accessing these. This is not an issue in the original compiler as it only output O32 ABI code.
+ALIGNED(4) typedef struct PreNmiBuff {
     /* 0x00 */ u32 resetting;
     /* 0x04 */ u32 resetCount;
     /* 0x08 */ OSTime duration;
     /* 0x10 */ OSTime resetTime;
 } PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
-typedef enum {
+typedef enum ViModeEditState {
     /* 0 */ VI_MODE_EDIT_STATE_INACTIVE,
     /* 1 */ VI_MODE_EDIT_STATE_ACTIVE,
     /* 2 */ VI_MODE_EDIT_STATE_2, // active, more adjustments
     /* 3 */ VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
 } ViModeEditState;
 
-typedef struct {
+typedef struct ViMode {
     /* 0x00 */ OSViMode customViMode;
     /* 0x50 */ s32 viHeight;
     /* 0x54 */ s32 viWidth;

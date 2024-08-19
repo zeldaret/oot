@@ -1,0 +1,8 @@
+<!-- This file is only for extraction of vanilla data. For other purposes see assets/audio/samplebanks/ -->
+<SampleBank Name="SampleBank_4" Index="4">
+    <Sample Name="SAMPLE_4_0" FileName="Sample0" Offset="0x000000" SampleRate="24000" BaseNote="C4"/>
+    <Sample Name="SAMPLE_4_1" FileName="Sample1" Offset="0x006410" SampleRate="32000" BaseNote="AF5"/>
+    <Sample Name="SAMPLE_4_2" FileName="Sample2" Offset="0x0072D0" SampleRate="32000" BaseNote="E4"/>
+    <Sample Name="SAMPLE_4_3" FileName="Sample3" Offset="0x008230" SampleRate="32000" BaseNote="E3"/>
+    <Sample Name="SAMPLE_4_4" FileName="Sample4" Offset="0x009030" SampleRate="32000" BaseNote="DF4"/>
+</SampleBank>

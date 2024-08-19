@@ -1,0 +1,264 @@
+{
+    "configurations": [
+        {
+            "name": "oot-ntsc-1.2",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/ntsc-1.2",
+                ".",
+                "extracted/ntsc-1.2"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=OOT_NTSC_1_2",
+                "OOT_REGION=REGION_JP",
+                "PLATFORM_N64=1",
+                "PLATFORM_GC=0",
+                "OOT_NTSC=1",
+                "OOT_MQ=0",
+                "OOT_DEBUG=0",
+                "NDEBUG",
+                "F3DEX_GBI_2"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "oot-gc-jp",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/gc-jp",
+                ".",
+                "extracted/gc-jp"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=OOT_GC_JP",
+                "OOT_REGION=REGION_JP",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=1",
+                "OOT_NTSC=1",
+                "OOT_MQ=0",
+                "OOT_DEBUG=0",
+                "NDEBUG",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "oot-gc-jp-mq",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/gc-jp-mq",
+                ".",
+                "extracted/gc-jp-mq"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=OOT_GC_JP_MQ",
+                "OOT_REGION=REGION_JP",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=1",
+                "OOT_NTSC=1",
+                "OOT_MQ=1",
+                "OOT_DEBUG=0",
+                "NDEBUG",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "oot-gc-us",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/gc-us",
+                ".",
+                "extracted/gc-us"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=OOT_GC_US",
+                "OOT_REGION=REGION_US",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=1",
+                "OOT_NTSC=1",
+                "OOT_MQ=0",
+                "OOT_DEBUG=0",
+                "NDEBUG",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "oot-gc-us-mq",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/gc-us-mq",
+                ".",
+                "extracted/gc-us-mq"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=OOT_GC_US_MQ",
+                "OOT_REGION=REGION_US",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=1",
+                "OOT_NTSC=1",
+                "OOT_MQ=1",
+                "OOT_DEBUG=0",
+                "NDEBUG",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "oot-gc-eu-mq-dbg",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/gc-eu-mq-dbg",
+                ".",
+                "extracted/gc-eu-mq-dbg"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=OOT_GC_EU_MQ_DBG",
+                "OOT_REGION=REGION_EU",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=1",
+                "OOT_PAL=1",
+                "OOT_MQ=1",
+                "OOT_DEBUG=1",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE",
+                "GBI_DEBUG"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "oot-gc-eu",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/gc-eu",
+                ".",
+                "extracted/gc-eu"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=OOT_GC_EU",
+                "OOT_REGION=REGION_EU",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=1",
+                "OOT_PAL=1",
+                "OOT_MQ=0",
+                "OOT_DEBUG=0",
+                "NDEBUG",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "oot-gc-eu-mq",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/gc-eu-mq",
+                ".",
+                "extracted/gc-eu-mq"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=OOT_GC_EU_MQ",
+                "OOT_REGION=REGION_EU",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=1",
+                "OOT_PAL=1",
+                "OOT_MQ=1",
+                "OOT_DEBUG=0",
+                "NDEBUG",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "oot-gc-jp-ce",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/gc-jp-ce",
+                ".",
+                "extracted/gc-jp-ce"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=OOT_GC_JP_CE",
+                "OOT_REGION=REGION_JP",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=1",
+                "OOT_NTSC=1",
+                "OOT_MQ=0",
+                "OOT_DEBUG=0",
+                "NDEBUG",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE"
+            ],
+            "cStandard": "gnu89"
+        },
+    ],
+    "version": 4
+}

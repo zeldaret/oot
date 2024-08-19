@@ -464,10 +464,11 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     }
 
     if (pauseCtx->state == PAUSE_STATE_MAIN) {
+        sp21A += 4;
+
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-        sp21A += 4;
         if ((pauseCtx->cursorSpecialPos == 0) && (sp216 >= 6) && (sp216 < 0x12)) {
             if ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) || (pauseCtx->mainState == PAUSE_MAIN_STATE_5) ||
                 (pauseCtx->mainState == PAUSE_MAIN_STATE_8)) {
@@ -484,7 +485,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
 
             if (pauseCtx->ocarinaStaff->pos != 0) {
-                if (D_8082A11C + 1 == pauseCtx->ocarinaStaff->pos) {
+                if (D_8082A11C == (pauseCtx->ocarinaStaff->pos - 1)) {
                     D_8082A11C++;
                     D_8082A124[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->buttonIndex;
                 }
@@ -660,16 +661,16 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
             }
 
-            phi_s0 = 0;
+            cursorItem = 0;
             for (sp21A = 0; sp21A < 3; sp21A++, sp218 += 4) {
-                if ((sp21A >= 2) || (sp208[sp21A] != 0) || (phi_s0 != 0)) {
+                if ((sp21A >= 2) || (sp208[sp21A] != 0) || (cursorItem != 0)) {
                     gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gCounterDigit0Tex + (8 * 16 * sp208[sp21A])), G_IM_FMT_I,
                                         G_IM_SIZ_8b, 8, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                     gSP1Quadrangle(POLY_OPA_DISP++, sp218, sp218 + 2, sp218 + 3, sp218 + 1, 0);
 
-                    phi_s0 = 1;
+                    cursorItem = 1;
                 }
             }
         }

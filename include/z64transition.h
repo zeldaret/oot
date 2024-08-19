@@ -9,7 +9,7 @@
 #define TRANS_TRIGGER_START 20 // start transition (exiting an area)
 #define TRANS_TRIGGER_END -20 // transition is ending (arriving in a new area)
 
-typedef enum {
+typedef enum TransitionMode {
     /*  0 */ TRANS_MODE_OFF,
     /*  1 */ TRANS_MODE_SETUP,
     /*  2 */ TRANS_MODE_INSTANCE_INIT,
@@ -30,7 +30,7 @@ typedef enum {
     /* 17 */ TRANS_MODE_CS_BLACK_FILL
 } TransitionMode;
 
-typedef enum {
+typedef enum TransitionType {
     /*  0 */ TRANS_TYPE_WIPE,
     /*  1 */ TRANS_TYPE_TRIFORCE,
     /*  2 */ TRANS_TYPE_FADE_BLACK,
@@ -62,7 +62,7 @@ typedef enum {
 
 #define TRANS_TYPE_CIRCLE(appearance, color, speed) ((1 << 5) | ((color & 3) << 3) | ((appearance & 3) << 1) | (speed & 1))
 
-typedef struct {
+typedef struct TransitionContext {
     union {
         TransitionFade fade;
         TransitionCircle circle;

@@ -25,7 +25,7 @@ void BgJya1flift_DelayMove(BgJya1flift* this, PlayState* play);
 
 static u8 sIsSpawned = false;
 
-ActorInit Bg_Jya_1flift_InitVars = {
+ActorProfile Bg_Jya_1flift_Profile = {
     /**/ ACTOR_BG_JYA_1FLIFT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -50,8 +50,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 70, 80, -82, { 0, 0, 0 } },
@@ -69,17 +69,20 @@ static InitChainEntry sInitChain[] = {
 void BgJya1flift_InitDynapoly(BgJya1flift* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         // "Warning : move BG login failed"
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 179,
                this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgJya1flift_InitCollision(Actor* thisx, PlayState* play) {
@@ -102,7 +105,7 @@ void BgJya1flift_Init(Actor* thisx, PlayState* play) {
     BgJya1flift_InitDynapoly(this, play, &g1fliftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     BgJya1flift_InitCollision(thisx, play);
-    if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         LINK_AGE_IN_YEARS == YEARS_ADULT ? BgJya1flift_ChangeDirection(this) : BgJya1flift_SetupDoNothing(this);
     } else {
         BgJya1flift_SetupWaitForSwitch(this);
@@ -128,7 +131,7 @@ void BgJya1flift_SetupWaitForSwitch(BgJya1flift* this) {
 }
 
 void BgJya1flift_WaitForSwitch(BgJya1flift* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         BgJya1flift_ChangeDirection(this);
     }
 }

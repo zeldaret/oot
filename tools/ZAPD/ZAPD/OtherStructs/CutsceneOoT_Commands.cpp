@@ -6,6 +6,8 @@
 #include "Utils/BitConverter.h"
 #include "Utils/StringHelper.h"
 
+#include "ZCutscene.h"
+
 /**** GENERIC ****/
 
 // Specific for command lists where each entry has size 0x30 bytes
@@ -13,7 +15,7 @@ const std::unordered_map<CutsceneOoT_CommandType, CsCommandListDescriptor> csCom
 	{CutsceneOoT_CommandType::CS_CMD_MISC,
      {"CS_MISC", "(%s, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 	{CutsceneOoT_CommandType::CS_CMD_LIGHT_SETTING,
-     {"CS_LIGHT_SETTING", "(0x%02X, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
+     {"CS_LIGHT_SETTING", "(0x%02X, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 	{CutsceneOoT_CommandType::CS_CMD_START_SEQ,
      {"CS_START_SEQ", "(%s, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i)"}},
 	{CutsceneOoT_CommandType::CS_CMD_STOP_SEQ,
@@ -139,9 +141,11 @@ std::string CutsceneOoTCommand_CameraPoint::GetBodySourceCode() const
 	if (continueFlag != 0)
 		continueMacro = "CS_CAM_STOP";
 
-	return StringHelper::Sprintf("CS_CAM_POINT(%s, 0x%02X, %i, %ff, %i, %i, %i, 0x%04X)",
-	                             continueMacro.c_str(), cameraRoll, nextPointFrame, viewAngle, posX,
-	                             posY, posZ, unused);
+	return StringHelper::Sprintf(
+		"CS_CAM_POINT(%s, 0x%02X, %i, %s, %i, %i, %i, 0x%04X)", continueMacro.c_str(), cameraRoll,
+		nextPointFrame,
+		ZCutscene::GetCsEncodedFloat(viewAngle, Globals::Instance->floatType, false).c_str(), posX,
+		posY, posZ, unused);
 }
 
 size_t CutsceneOoTCommand_CameraPoint::GetRawSize() const
@@ -334,27 +338,34 @@ CutsceneOoTSubCommandEntry_ActorCue::CutsceneOoTSubCommandEntry_ActorCue(
 	normalY = BitConverter::ToFloatBE(rawData, rawDataIndex + 0x28);
 	normalZ = BitConverter::ToFloatBE(rawData, rawDataIndex + 0x2C);
 }
-
 std::string CutsceneOoTSubCommandEntry_ActorCue::GetBodySourceCode() const
 {
 	EnumData* enumData = &Globals::Instance->cfg.enumData;
+
+	std::string normalXStr =
+		ZCutscene::GetCsEncodedFloat(normalX, Globals::Instance->floatType, true);
+	std::string normalYStr =
+		ZCutscene::GetCsEncodedFloat(normalY, Globals::Instance->floatType, true);
+	std::string normalZStr =
+		ZCutscene::GetCsEncodedFloat(normalZ, Globals::Instance->floatType, true);
 
 	if (static_cast<CutsceneOoT_CommandType>(commandID) ==
 	    CutsceneOoT_CommandType::CS_CMD_PLAYER_CUE)
 	{
 		return StringHelper::Sprintf("CS_PLAYER_CUE(%s, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
-		                             "%i, %i, %i, %i, %.8ef, %.8ef, %.8ef)",
+		                             "%i, %i, %i, %i, %s, %s, %s)",
 		                             enumData->playerCueId[base].c_str(), startFrame, endFrame,
 		                             rotX, rotY, rotZ, startPosX, startPosY, startPosZ, endPosX,
-		                             endPosY, endPosZ, normalX, normalY, normalZ);
+		                             endPosY, endPosZ, normalXStr.c_str(), normalYStr.c_str(),
+		                             normalZStr.c_str());
 	}
 	else
 	{
 		return StringHelper::Sprintf("CS_ACTOR_CUE(%i, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
-		                             "%i, %i, %i, %i, %.8ef, %.8ef, %.8ef)",
+		                             "%i, %i, %i, %i, %s, %s, %s)",
 		                             base, startFrame, endFrame, rotX, rotY, rotZ, startPosX,
-		                             startPosY, startPosZ, endPosX, endPosY, endPosZ, normalX,
-		                             normalY, normalZ);
+		                             startPosY, startPosZ, endPosX, endPosY, endPosZ,
+		                             normalXStr.c_str(), normalYStr.c_str(), normalZStr.c_str());
 	}
 }
 

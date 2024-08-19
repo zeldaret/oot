@@ -11,9 +11,9 @@
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
 
-// Init Vars declarations (also used in the table below)
-#define DEFINE_ACTOR(name, _1, _2, _3) extern ActorInit name##_InitVars;
-#define DEFINE_ACTOR_INTERNAL(name, _1, _2, _3) extern ActorInit name##_InitVars;
+// Profile declarations (also used in the table below)
+#define DEFINE_ACTOR(name, _1, _2, _3) extern ActorProfile name##_Profile;
+#define DEFINE_ACTOR_INTERNAL(name, _1, _2, _3) extern ActorProfile name##_Profile;
 #define DEFINE_ACTOR_UNSET(_0)
 
 #include "tables/actor_table.h"
@@ -23,19 +23,46 @@
 #undef DEFINE_ACTOR_UNSET
 
 // Actor Overlay Table definition
-#define DEFINE_ACTOR(name, _1, allocType, nameString) \
-    { (uintptr_t)_ovl_##name##SegmentRomStart,        \
-      (uintptr_t)_ovl_##name##SegmentRomEnd,          \
-      _ovl_##name##SegmentStart,                      \
-      _ovl_##name##SegmentEnd,                        \
-      NULL,                                           \
-      &name##_InitVars,                               \
-      nameString,                                     \
-      allocType,                                      \
-      0 },
+#if OOT_DEBUG
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString) \
-    { 0, 0, NULL, NULL, NULL, &name##_InitVars, nameString, allocType, 0 },
+#define DEFINE_ACTOR(name, _1, allocType, nameString) \
+    {                                                 \
+        ROM_FILE(ovl_##name),                         \
+        _ovl_##name##SegmentStart,                    \
+        _ovl_##name##SegmentEnd,                      \
+        NULL,                                         \
+        &name##_Profile,                              \
+        nameString,                                   \
+        allocType,                                    \
+        0,                                            \
+    },
+
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString)                       \
+    {                                                                                \
+        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_Profile, nameString, allocType, 0, \
+    },
+
+#else
+
+// Actor name is set to NULL in retail builds
+#define DEFINE_ACTOR(name, _1, allocType, _3) \
+    {                                         \
+        ROM_FILE(ovl_##name),                 \
+        _ovl_##name##SegmentStart,            \
+        _ovl_##name##SegmentEnd,              \
+        NULL,                                 \
+        &name##_Profile,                      \
+        NULL,                                 \
+        allocType,                            \
+        0,                                    \
+    },
+
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                         \
+    {                                                                          \
+        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_Profile, NULL, allocType, 0, \
+    },
+
+#endif
 
 #define DEFINE_ACTOR_UNSET(_0) { 0 },
 
@@ -60,8 +87,8 @@ void ActorOverlayTable_LogPrint(void) {
     PRINTF("RomStart RomEnd   SegStart SegEnd   allocp   profile  segname\n");
 
     for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < (u32)gMaxActorId; i++, overlayEntry++) {
-        PRINTF("%08x %08x %08x %08x %08x %08x %s\n", overlayEntry->vromStart, overlayEntry->vromEnd,
-               overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr, &overlayEntry->initInfo->id,
+        PRINTF("%08x %08x %08x %08x %08x %08x %s\n", overlayEntry->file.vromStart, overlayEntry->file.vromEnd,
+               overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr, &overlayEntry->profile->id,
                overlayEntry->name != NULL ? overlayEntry->name : "?");
     }
 #endif

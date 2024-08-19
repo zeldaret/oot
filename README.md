@@ -5,13 +5,13 @@
 [jenkins]: https://jenkins.deco.mp/job/OOT/job/main
 [jenkins-badge]: https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.deco.mp%2Fjob%2FOOT%2Fjob%2Fmain
 
-[progress]: https://zelda64.dev/games/oot
-[progress-badge]: https://img.shields.io/endpoint?url=https://zelda64.dev/assets/csv/progress-oot-shield.json
+[progress]: https://zelda.deco.mp/games/oot
+[progress-badge]: https://img.shields.io/endpoint?url=https://zelda.deco.mp/assets/csv/progress-oot-shield.json
 
 [contributors]: https://github.com/zeldaret/oot/graphs/contributors
 [contributors-badge]: https://img.shields.io/github/contributors/zeldaret/oot
 
-[discord]: https://discord.zelda64.dev
+[discord]: https://discord.zelda.deco.mp
 [discord-badge]: https://img.shields.io/discord/688807550715560050?color=%237289DA&logo=discord&logoColor=%23FFFFFF
 
 ```diff
@@ -23,19 +23,19 @@ the codebase can drastically change at any time. Also note that some parts of th
 'shiftable' yet, so modifying them could be difficult at this point.
 ```
 
-This is a WIP **decompilation** of ***The Legend of Zelda: Ocarina of Time***. The purpose of the project is to recreate a source code base for the game from scratch, using information found inside the game along with static and/or dynamic analysis. **It is not producing a PC port.** For more information you can get in touch with the team on our [Discord server](https://discord.zelda64.dev).
+This is a WIP **decompilation** of ***The Legend of Zelda: Ocarina of Time***. The purpose of the project is to recreate a source code base for the game from scratch, using information found inside the game along with static and/or dynamic analysis. **It is not producing a PC port.** For more information you can get in touch with the team on our [Discord server][discord].
 
 The only build currently supported is Master Quest (Debug), but other versions are planned to be supported.
 
 It builds the following ROM:
 
-* oot-gc-eu-mq-dbg.z64 `md5: f0b7f35375f9cc8ca1b2d59d78e35405`
+* oot-gc-eu-mq-dbg.z64 `md5: 75e344f41c26ec2ec5ad92caa9e25629`
 
 **Note: This repository does not include any of the assets necessary to build the ROM. A prior copy of the game is required to extract the needed assets.**
 
-**Website:** <https://zelda64.dev>
+**Website:** <https://zelda.deco.mp>
 
-**Discord:** <https://discord.zelda64.dev>
+**Discord:** <https://discord.zelda.deco.mp>
 
 ## Installation
 
@@ -55,7 +55,7 @@ For Windows 10 or 11, install WSL and a distribution by following this
 [WSL Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install).
 We recommend using Ubuntu 20.04 as the Linux distribution.
 
-For older versions of Windows, install a Linux VM or refer to either [Cygwin](docs/BUILDING_CYGWIN.md) or [Docker](docs/BUILDING_DOCKER.md) instructions.
+For older versions of Windows, install a Linux VM or refer to [Docker](docs/BUILDING_DOCKER.md) instructions.
 
 
 ### Linux (Native or under WSL / VM)
@@ -71,12 +71,13 @@ The build process has the following package requirements:
 * python3-pip
 * python3-venv
 * libpng-dev
+* libxml2-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu python3 python3-pip python3-venv libpng-dev
+sudo apt-get install git build-essential binutils-mips-linux-gnu python3 python3-pip python3-venv libpng-dev libxml2-dev
 ```
 
 If you are using GCC as the compiler for Ocarina of Time, you will also need:
@@ -103,6 +104,7 @@ cd oot
 #### 3. Prepare a base ROM
 
 Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder.
+If you are under WSL, you can run the command `explorer.exe .` to open the current directory in the Windows file explorer.
 
 Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
 
@@ -115,7 +117,7 @@ make setup
 ```
 
 This downloads some dependencies (from pip), and compiles tools for the build process.
-Then it generates a new ROM "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64" that will have the overdump removed and the header patched.
+Then it generates a new ROM `baseroms/gc-eu-mq-dbg/baserom-decompressed.z64` that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
 #### 5. Build the ROM
@@ -154,4 +156,4 @@ Both of these have the disadvantage that the ordering of the terminal output is 
 All contributions are welcome. This is a group effort, and even small contributions can make a difference.
 Some tasks also don't require much knowledge to get started.
 
-Most discussions happen on our [Discord Server](https://discord.zelda64.dev), where you are welcome to ask if you need help getting started, or if you have any questions regarding this project and other decompilation projects.
+Most discussions happen on our [Discord Server][discord], where you are welcome to ask if you need help getting started, or if you have any questions regarding this project and other decompilation projects.

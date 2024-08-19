@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum PeahatType {
     /* -1 */ PEAHAT_TYPE_GROUNDED = -1,
     /*  0 */ PEAHAT_TYPE_FLYING = 0,
     /*  1 */ PEAHAT_TYPE_LARVA = 1

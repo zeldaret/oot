@@ -1,0 +1,19 @@
+<!-- This file is only for extraction of vanilla data. For other purposes see assets/audio/soundfonts/ -->
+<SoundFont Name="Soundfont_31" Index="31">
+    <Envelopes>
+        <Envelope Name="Env0"/>
+        <Envelope Name="Env1"/>
+        <Envelope Name="Env2"/>
+        <Envelope Name="Env3"/>
+        <Envelope Name="Env4"/>
+        <Envelope Name="Env5"/>
+    </Envelopes>
+    <Instruments>
+        <Instrument ProgramNumber="1" Name="INST_1"/>
+        <Instrument ProgramNumber="2" Name="INST_2"/>
+        <Instrument ProgramNumber="3" Name="INST_3"/>
+        <Instrument ProgramNumber="7" Name="INST_7"/>
+        <Instrument ProgramNumber="4" Name="INST_4"/>
+        <Instrument ProgramNumber="5" Name="INST_5"/>
+    </Instruments>
+</SoundFont>

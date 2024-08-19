@@ -12,7 +12,7 @@ void EnMFire1_Init(Actor* thisx, PlayState* play);
 void EnMFire1_Destroy(Actor* thisx, PlayState* play);
 void EnMFire1_Update(Actor* thisx, PlayState* play);
 
-ActorInit En_M_Fire1_InitVars = {
+ActorProfile En_M_Fire1_Profile = {
     /**/ ACTOR_EN_M_FIRE1,
     /**/ ACTORCAT_MISC,
     /**/ FLAGS,
@@ -37,8 +37,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK2,
         { 0x00000001, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { 200, 200, 0, { 0 } },

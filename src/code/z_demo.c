@@ -3,6 +3,8 @@
 #include "z64camera.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
+
+#include "assets/scenes/overworld/ganon_tou/ganon_tou_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot01/spot01_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
@@ -24,7 +26,6 @@
 #include "assets/scenes/dungeons/ddan/ddan_scene.h"
 #include "assets/scenes/dungeons/ydan/ydan_scene.h"
 #include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
-#include "assets/scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 
@@ -58,7 +59,7 @@ CutsceneHandler sScriptedCutsceneHandlers[] = {
     CutsceneHandler_RunScript,   // CS_STATE_RUN_UNSTOPPABLE
 };
 
-typedef enum {
+typedef enum TitleDemoDestination {
     /* 0 */ TITLE_DEMO_SPIRIT_TEMPLE,
     /* 1 */ TITLE_DEMO_DEATH_MOUNTAIN_CRATER,
     /* 2 */ TITLE_DEMO_GANONDORF_HORSE
@@ -66,7 +67,7 @@ typedef enum {
 
 u8 sTitleDemoDestination = TITLE_DEMO_SPIRIT_TEMPLE;
 
-typedef struct {
+typedef struct EntranceCutscene {
     /* 0x00 */ u16 entrance;      // entrance index upon which the cutscene should trigger
     /* 0x02 */ u8 ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
     /* 0x03 */ u8 flag;           // eventChkInf flag bound to the entrance cutscene
@@ -118,6 +119,8 @@ void* sUnusedEntranceCsList[] = {
 u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
+
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
@@ -2204,7 +2207,8 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
 
 void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
     if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
-        if (OOT_DEBUG && BREG(0) != 0) {
+#if OOT_DEBUG
+        if (BREG(0) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
 
@@ -2220,13 +2224,19 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_demo.c", 4108);
         }
+#endif
+
         csCtx->curFrame++;
 
-        if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
+#if OOT_DEBUG
+        if (R_USE_DEBUG_CUTSCENE) {
             Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScript);
         } else {
             Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
         }
+#else
+        Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
+#endif
     }
 }
 

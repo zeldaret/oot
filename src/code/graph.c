@@ -14,8 +14,13 @@ OSTime sGraphPrevUpdateEndTime;
  */
 OSTime sGraphPrevTaskTimeStart;
 
+#if OOT_DEBUG
 FaultClient sGraphFaultClient;
+#endif
+
 CfbInfo sGraphCfbInfos[3];
+
+#if OOT_DEBUG
 FaultClient sGraphUcodeFaultClient;
 
 UCodeInfo D_8012D230[3] = {
@@ -30,7 +35,6 @@ UCodeInfo D_8012D248[3] = {
     { UCODE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
 
-#if OOT_DEBUG
 void Graph_FaultClient(void) {
     void* nextFb = osViGetNextFramebuffer();
     void* newFb = (SysCfb_GetFbPtr(0) != nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
@@ -155,7 +159,9 @@ void Graph_Destroy(GraphicsContext* gfxCtx) {
 }
 
 void Graph_TaskSet00(GraphicsContext* gfxCtx) {
+#if OOT_DEBUG
     static Gfx* sPrevTaskWorkBuffer = NULL;
+#endif
     static s32 sGraphCfbInfoIdx = 0;
 
     OSTime timeNow;
@@ -239,8 +245,6 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
         task->yield_data_ptr = gGfxSPTaskYieldBuffer;
-
-        if (1) {}
 
         task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
@@ -362,14 +366,22 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
             PRINTF("%c", BEL);
             // "Dynamic area head is destroyed"
             PRINTF(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);
+#if PLATFORM_N64
+            Fault_AddHungupAndCrash("../graph.c", 951);
+#else
             Fault_AddHungupAndCrash("../graph.c", 1070);
+#endif
         }
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
             PRINTF("%c", BEL);
             // "Dynamic region tail is destroyed"
             PRINTF(VT_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" VT_RST);
+#if PLATFORM_N64
+            Fault_AddHungupAndCrash("../graph.c", 957);
+#else
             Fault_AddHungupAndCrash("../graph.c", 1076);
+#endif
         }
     }
 
@@ -456,10 +468,13 @@ void Graph_ThreadEntry(void* arg0) {
         if (gameState == NULL) {
 #if OOT_DEBUG
             char faultMsg[0x50];
+
             PRINTF("確保失敗\n"); // "Failure to secure"
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
+#elif PLATFORM_N64
+            Fault_AddHungupAndCrash("../graph.c", 1081);
 #else
             Fault_AddHungupAndCrash("../graph.c", 1200);
 #endif
@@ -501,7 +516,7 @@ void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
 }
 
 #if OOT_DEBUG
-void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {
+void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line) {
     if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_LOG_MODE != 4) {
         dispRefs[0] = gfxCtx->polyOpa.p;
         dispRefs[1] = gfxCtx->polyXlu.p;
@@ -513,7 +528,7 @@ void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, 
     }
 }
 
-void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {
+void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line) {
     if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_LOG_MODE != 4) {
         if (dispRefs[0] + 1 == gfxCtx->polyOpa.p) {
             gfxCtx->polyOpa.p = dispRefs[0];

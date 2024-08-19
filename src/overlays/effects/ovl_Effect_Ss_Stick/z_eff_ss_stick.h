@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
+typedef struct EffectSsStickInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yaw;
 } EffectSsStickInitParams; // size = 0x10

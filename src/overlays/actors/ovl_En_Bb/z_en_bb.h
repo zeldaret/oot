@@ -46,7 +46,7 @@ typedef struct EnBb {
     /* 0x0324 */ Actor* targetActor;
 } EnBb; // size = 0x0328
 
-typedef enum {
+typedef enum EnBbType {
     ENBB_GREEN_BIG = -5,
     ENBB_GREEN,
     ENBB_WHITE,

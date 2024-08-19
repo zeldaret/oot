@@ -350,68 +350,68 @@
         <DList Name="gTwinrovaBroomFireTrailDL" Offset="0x2E098"/>
 
         <!-- Twinrova Title Card -->
-        <Texture Name="gTwinrovaTitleCardTex" OutName="twinrova_title_card" Format="ia8" Width="128" Height="120" Offset="0x2E170"/>
+        <Texture Name="gTwinrovaTitleCardTex" OutName="twinrova_title_card" Format="ia8" Width="128" Height="80" Offset="0x2E170"/>
 
         <!-- Twinrova Limbs -->
-        <Limb Name="gTwinrovaPelvisLimb" LimbType="Standard" Offset="0x31D70"/>
-        <Limb Name="gTwinrovaSash1Limb" LimbType="Standard" Offset="0x31D7C"/>
-        <Limb Name="gTwinrovaSash2Limb" LimbType="Standard" Offset="0x31D88"/>
-        <Limb Name="gTwinrovaSash3Limb" LimbType="Standard" Offset="0x31D94"/>
-        <Limb Name="gTwinrovaSash4Limb" LimbType="Standard" Offset="0x31DA0"/>
-        <Limb Name="gTwinrovaLeftThighLimb" LimbType="Standard" Offset="0x31DAC"/>
-        <Limb Name="gTwinrovaLeftShinLimb" LimbType="Standard" Offset="0x31DB8"/>
-        <Limb Name="gTwinrovaLeftFootLimb" LimbType="Standard" Offset="0x31DC4"/>
-        <Limb Name="gTwinrovaRightThighLimb" LimbType="Standard" Offset="0x31DD0"/>
-        <Limb Name="gTwinrovaRightShinLimb" LimbType="Standard" Offset="0x31DDC"/>
-        <Limb Name="gTwinrovaRightFootLimb" LimbType="Standard" Offset="0x31DE8"/>
-        <Limb Name="gTwinrovaTorsoLimb" LimbType="Standard" Offset="0x31DF4"/>
-        <Limb Name="gTwinrovaLeftBreastLimb" LimbType="Standard" Offset="0x31E00"/>
-        <Limb Name="gTwinrovaRightBreastLimb" LimbType="Standard" Offset="0x31E0C"/>
-        <Limb Name="gTwinrovaHairIceTrailLimb" LimbType="Standard" Offset="0x31E18"/>
-        <Limb Name="gTwinrovaHairIceJetLimb" LimbType="Standard" Offset="0x31E24"/>
-        <Limb Name="gTwinrovaHairFireJetLimb" LimbType="Standard" Offset="0x31E30"/>
-        <Limb Name="gTwinrovaHairFireTrailLimb" LimbType="Standard" Offset="0x31E3C"/>
-        <Limb Name="gTwinrovaLeftHairBunLimb" LimbType="Standard" Offset="0x31E48"/>
-        <Limb Name="gTwinrovaRightHairBunLimb" LimbType="Standard" Offset="0x31E54"/>
-        <Limb Name="gTwinrovaHeadLimb" LimbType="Standard" Offset="0x31E60"/>
-        <Limb Name="gTwinrovaRightBraidStartLimb" LimbType="Standard" Offset="0x31E6C"/>
-        <Limb Name="gTwinrovaRightBraidEndLimb" LimbType="Standard" Offset="0x31E78"/>
-        <Limb Name="gTwinrovaLeftBraidStartLimb" LimbType="Standard" Offset="0x31E84"/>
-        <Limb Name="gTwinrovaLeftBraidEndLimb" LimbType="Standard" Offset="0x31E90"/>
-        <Limb Name="gTwinrovaLeftShoulderLimb" LimbType="Standard" Offset="0x31E9C"/>
-        <Limb Name="gTwinrovaLeftUpperArmLimb" LimbType="Standard" Offset="0x31EA8"/>
-        <Limb Name="gTwinrovaLeftForearmLimb" LimbType="Standard" Offset="0x31EB4"/>
-        <Limb Name="gTwinrovaLeftSleeveStartLimb" LimbType="Standard" Offset="0x31EC0"/>
-        <Limb Name="gTwinrovaLeftSleeveEndLimb" LimbType="Standard" Offset="0x31ECC"/>
-        <Limb Name="gTwinrovaBroomIceTrailLimb" LimbType="Standard" Offset="0x31ED8"/>
-        <Limb Name="gTwinrovaBroomIceJetLimb" LimbType="Standard" Offset="0x31EE4"/>
-        <Limb Name="gTwinrovaLeftHandLimb" LimbType="Standard" Offset="0x31EF0"/>
-        <Limb Name="gTwinrovaLeftBroomLimb" LimbType="Standard" Offset="0x31EFC"/>
-        <Limb Name="gTwinrovaRightShoulderLimb" LimbType="Standard" Offset="0x31F08"/>
-        <Limb Name="gTwinrovaRightUpperArmLimb" LimbType="Standard" Offset="0x31F14"/>
-        <Limb Name="gTwinrovaRightForearmLimb" LimbType="Standard" Offset="0x31F20"/>
-        <Limb Name="gTwinrovaRightSleeveStartLimb" LimbType="Standard" Offset="0x31F2C"/>
-        <Limb Name="gTwinrovaRightSleeveEndLimb" LimbType="Standard" Offset="0x31F38"/>
-        <Limb Name="gTwinrovaRightBroomLimb" LimbType="Standard" Offset="0x31F44"/>
-        <Limb Name="gTwinrovaBroomFireJetLimb" LimbType="Standard" Offset="0x31F50"/>
-        <Limb Name="gTwinrovaBroomFireTrailLimb" LimbType="Standard" Offset="0x31F5C"/>
-        <Limb Name="gTwinrovaRightHandLimb" LimbType="Standard" Offset="0x31F68"/>
+        <Limb Name="gTwinrovaPelvisLimb" LimbType="Standard" Offset="0x30970"/>
+        <Limb Name="gTwinrovaSash1Limb" LimbType="Standard" Offset="0x3097C"/>
+        <Limb Name="gTwinrovaSash2Limb" LimbType="Standard" Offset="0x30988"/>
+        <Limb Name="gTwinrovaSash3Limb" LimbType="Standard" Offset="0x30994"/>
+        <Limb Name="gTwinrovaSash4Limb" LimbType="Standard" Offset="0x309A0"/>
+        <Limb Name="gTwinrovaLeftThighLimb" LimbType="Standard" Offset="0x309AC"/>
+        <Limb Name="gTwinrovaLeftShinLimb" LimbType="Standard" Offset="0x309B8"/>
+        <Limb Name="gTwinrovaLeftFootLimb" LimbType="Standard" Offset="0x309C4"/>
+        <Limb Name="gTwinrovaRightThighLimb" LimbType="Standard" Offset="0x309D0"/>
+        <Limb Name="gTwinrovaRightShinLimb" LimbType="Standard" Offset="0x309DC"/>
+        <Limb Name="gTwinrovaRightFootLimb" LimbType="Standard" Offset="0x309E8"/>
+        <Limb Name="gTwinrovaTorsoLimb" LimbType="Standard" Offset="0x309F4"/>
+        <Limb Name="gTwinrovaLeftBreastLimb" LimbType="Standard" Offset="0x30A00"/>
+        <Limb Name="gTwinrovaRightBreastLimb" LimbType="Standard" Offset="0x30A0C"/>
+        <Limb Name="gTwinrovaHairIceTrailLimb" LimbType="Standard" Offset="0x30A18"/>
+        <Limb Name="gTwinrovaHairIceJetLimb" LimbType="Standard" Offset="0x30A24"/>
+        <Limb Name="gTwinrovaHairFireJetLimb" LimbType="Standard" Offset="0x30A30"/>
+        <Limb Name="gTwinrovaHairFireTrailLimb" LimbType="Standard" Offset="0x30A3C"/>
+        <Limb Name="gTwinrovaLeftHairBunLimb" LimbType="Standard" Offset="0x30A48"/>
+        <Limb Name="gTwinrovaRightHairBunLimb" LimbType="Standard" Offset="0x30A54"/>
+        <Limb Name="gTwinrovaHeadLimb" LimbType="Standard" Offset="0x30A60"/>
+        <Limb Name="gTwinrovaRightBraidStartLimb" LimbType="Standard" Offset="0x30A6C"/>
+        <Limb Name="gTwinrovaRightBraidEndLimb" LimbType="Standard" Offset="0x30A78"/>
+        <Limb Name="gTwinrovaLeftBraidStartLimb" LimbType="Standard" Offset="0x30A84"/>
+        <Limb Name="gTwinrovaLeftBraidEndLimb" LimbType="Standard" Offset="0x30A90"/>
+        <Limb Name="gTwinrovaLeftShoulderLimb" LimbType="Standard" Offset="0x30A9C"/>
+        <Limb Name="gTwinrovaLeftUpperArmLimb" LimbType="Standard" Offset="0x30AA8"/>
+        <Limb Name="gTwinrovaLeftForearmLimb" LimbType="Standard" Offset="0x30AB4"/>
+        <Limb Name="gTwinrovaLeftSleeveStartLimb" LimbType="Standard" Offset="0x30AC0"/>
+        <Limb Name="gTwinrovaLeftSleeveEndLimb" LimbType="Standard" Offset="0x30ACC"/>
+        <Limb Name="gTwinrovaBroomIceTrailLimb" LimbType="Standard" Offset="0x30AD8"/>
+        <Limb Name="gTwinrovaBroomIceJetLimb" LimbType="Standard" Offset="0x30AE4"/>
+        <Limb Name="gTwinrovaLeftHandLimb" LimbType="Standard" Offset="0x30AF0"/>
+        <Limb Name="gTwinrovaLeftBroomLimb" LimbType="Standard" Offset="0x30AFC"/>
+        <Limb Name="gTwinrovaRightShoulderLimb" LimbType="Standard" Offset="0x30B08"/>
+        <Limb Name="gTwinrovaRightUpperArmLimb" LimbType="Standard" Offset="0x30B14"/>
+        <Limb Name="gTwinrovaRightForearmLimb" LimbType="Standard" Offset="0x30B20"/>
+        <Limb Name="gTwinrovaRightSleeveStartLimb" LimbType="Standard" Offset="0x30B2C"/>
+        <Limb Name="gTwinrovaRightSleeveEndLimb" LimbType="Standard" Offset="0x30B38"/>
+        <Limb Name="gTwinrovaRightBroomLimb" LimbType="Standard" Offset="0x30B44"/>
+        <Limb Name="gTwinrovaBroomFireJetLimb" LimbType="Standard" Offset="0x30B50"/>
+        <Limb Name="gTwinrovaBroomFireTrailLimb" LimbType="Standard" Offset="0x30B5C"/>
+        <Limb Name="gTwinrovaRightHandLimb" LimbType="Standard" Offset="0x30B68"/>
 
         <!-- Twinrova Skeleton -->
-        <Skeleton Name="gTwinrovaSkel" Type="Flex" LimbType="Standard" Offset="0x32020"/>
+        <Skeleton Name="gTwinrovaSkel" Type="Flex" LimbType="Standard" Offset="0x30C20"/>
 
         <!-- Twinrova Animations -->
-        <Animation Name="gTwinrovaHoverAnim" Offset="0x32BF8"/> <!-- Original name is "btW_fly" -->
-        <Animation Name="gTwinrovaChargedAttackHitAnim" Offset="0x338F0"/> <!-- Original name is "btW_hit" -->
-        <Animation Name="gTwinrovaStunStartAnim" Offset="0x343B4"/> <!-- Original name is "btW_hit_to_mahi" -->
-        <Animation Name="gTwinrovaStunLoopAnim" Offset="0x35030"/> <!-- Original name is "btW_mahi" ("paralysis, stupor") -->
-        <Animation Name="gTwinrovaStunEndAnim" Offset="0x35988"/> <!-- Original name is "btW_mahi_to_fly" -->
-        <Animation Name="gTwinrovaWindUpAnim" Offset="0x36FBC"/> <!-- Original name is "btW_preatack" -->
-        <Animation Name="gTwinrovaIntroAnim" Offset="0x38E2C"/> <!-- Original name is "btW_start" -->
-        <Animation Name="gTwinrovaLaughAnim" Offset="0x3A2D0"/> <!-- Original name is "btW_ufufu" ("tee-hee") -->
+        <Animation Name="gTwinrovaHoverAnim" Offset="0x317F8"/> <!-- Original name is "btW_fly" -->
+        <Animation Name="gTwinrovaChargedAttackHitAnim" Offset="0x324F0"/> <!-- Original name is "btW_hit" -->
+        <Animation Name="gTwinrovaStunStartAnim" Offset="0x32FB4"/> <!-- Original name is "btW_hit_to_mahi" -->
+        <Animation Name="gTwinrovaStunLoopAnim" Offset="0x33C30"/> <!-- Original name is "btW_mahi" ("paralysis, stupor") -->
+        <Animation Name="gTwinrovaStunEndAnim" Offset="0x34588"/> <!-- Original name is "btW_mahi_to_fly" -->
+        <Animation Name="gTwinrovaWindUpAnim" Offset="0x35BBC"/> <!-- Original name is "btW_preatack" -->
+        <Animation Name="gTwinrovaIntroAnim" Offset="0x37A2C"/> <!-- Original name is "btW_start" -->
+        <Animation Name="gTwinrovaLaughAnim" Offset="0x38ED0"/> <!-- Original name is "btW_ufufu" ("tee-hee") -->
 
         <!-- Assets for an unused red boulder -->
-        <DList Name="gTwinrovaUnusedBoulderDL" Offset="0x3A680"/>
-        <Texture Name="gTwinrovaUnusedBoulderTex" OutName="twinrova_unused_boulder" Format="rgba16" Width="32" Height="32" Offset="0x3A7B0"/>
+        <DList Name="gTwinrovaUnusedBoulderDL" Offset="0x39280"/>
+        <Texture Name="gTwinrovaUnusedBoulderTex" OutName="twinrova_unused_boulder" Format="rgba16" Width="32" Height="32" Offset="0x393B0"/>
     </File>
 </Root>

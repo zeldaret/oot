@@ -31,8 +31,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000090, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_NONE,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 20, 18, 2, { 0, 0, 0 } },
@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 D_80AFBADC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-ActorInit En_Si_InitVars = {
+ActorProfile En_Si_Profile = {
     /**/ ACTOR_EN_SI,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -128,7 +128,7 @@ void func_80AFB950(EnSi* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) != TEXT_STATE_CLOSING) {
         player->actor.freezeTimer = 10;
     } else {
-        SET_GS_FLAGS((this->actor.params & 0x1F00) >> 8, this->actor.params & 0xFF);
+        SET_GS_FLAGS(PARAMS_GET_S(this->actor.params, 8, 5), PARAMS_GET_S(this->actor.params, 0, 8));
         Actor_Kill(&this->actor);
     }
 }

@@ -12,7 +12,7 @@ struct OcarinaStaff;
 #define PAUSE_CURSOR_PAGE_LEFT 10
 #define PAUSE_CURSOR_PAGE_RIGHT 11
 
-typedef enum {
+typedef enum PauseMenuPage {
     /* 0x00 */ PAUSE_ITEM,
     /* 0x01 */ PAUSE_MAP,
     /* 0x02 */ PAUSE_QUEST,
@@ -20,13 +20,40 @@ typedef enum {
     /* 0x04 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
 
+// The XZ coordinates in which direction each pause page is at
+// e.g. the item page is in the -z direction
+/*
+ *      <   item   >
+ *
+ *   ^                ^
+ *              x
+ * equip     o-->    map
+ *           |
+ *   v     z v        v
+ *
+ *      <   quest  >
+ */
+#define PAUSE_ITEM_X (0)
+#define PAUSE_ITEM_Z (-1)
+#define PAUSE_MAP_X (1)
+#define PAUSE_MAP_Z (0)
+#define PAUSE_QUEST_X (0)
+#define PAUSE_QUEST_Z (1)
+#define PAUSE_EQUIP_X (-1)
+#define PAUSE_EQUIP_Z (0)
+
+// The pause camera looks at x=0,z=0,
+// with the eye being PAUSE_EYE_DIST away in the direction opposite to the active page,
+// which results in the camera being pointed (through x=0,z=0) towards the active page.
+#define PAUSE_EYE_DIST (64.0f)
+
 #define PAUSE_EQUIP_PLAYER_WIDTH 64
 #define PAUSE_EQUIP_PLAYER_HEIGHT 112
 
 #define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
 
-typedef enum {
+typedef enum PauseState {
     /*  0 */ PAUSE_STATE_OFF,
     /*  1 */ PAUSE_STATE_WAIT_LETTERBOX, // Request no letterboxing and wait for it.
     /*  2 */ PAUSE_STATE_WAIT_BG_PRERENDER, // Wait for the pause background prerender to be done.
@@ -56,9 +83,9 @@ typedef enum {
     (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != 0))
 
 // Sub-states of PAUSE_STATE_MAIN
-typedef enum {
+typedef enum PauseMainState {
     /* 0 */ PAUSE_MAIN_STATE_IDLE,
-    /* 1 */ PAUSE_MAIN_STATE_1,
+    /* 1 */ PAUSE_MAIN_STATE_SWITCHING_PAGE,
     /* 2 */ PAUSE_MAIN_STATE_2,
     /* 3 */ PAUSE_MAIN_STATE_3,
     /* 4 */ PAUSE_MAIN_STATE_4,
@@ -69,7 +96,7 @@ typedef enum {
     /* 9 */ PAUSE_MAIN_STATE_9
 } PauseMainState;
 
-typedef struct {
+typedef struct PauseContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ u8* iconItemSegment;
     /* 0x012C */ u8* iconItem24Segment;
@@ -98,9 +125,9 @@ typedef struct {
     /* 0x01D6 */ u16 debugState;
     /* 0x01D8 */ Vec3f eye;
     /* 0x01E4 */ u16 mainState;
-    /* 0x01E6 */ u16 mode;
+    /* 0x01E6 */ u16 nextPageMode; // During a page switch, indicates the page before switching and the direction to scroll in. Value is `(2 * prev pageIndex) + (scroll left ? 1 : 0)`
     /* 0x01E8 */ u16 pageIndex; // "kscp_pos"
-    /* 0x01EA */ u16 unk_1EA;
+    /* 0x01EA */ u16 pageSwitchTimer;
     /* 0x01EC */ u16 unk_1EC;
     /* 0x01F0 */ f32 unk_1F0;
     /* 0x01F4 */ f32 unk_1F4;
@@ -139,7 +166,7 @@ typedef struct {
     /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 
-// Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
+// Note that z_kaleido_scope.c assumes that the dimensions and texture format here also matches the dimensions and
 // texture format for ITEM_NAME_TEX_*
 #define MAP_NAME_TEX1_WIDTH 128
 #define MAP_NAME_TEX1_HEIGHT 16
@@ -153,12 +180,12 @@ typedef struct {
 #define PAUSE_MAP_MARK_CHEST 0
 #define PAUSE_MAP_MARK_BOSS 1
 
-typedef struct {
+typedef struct PauseMapMarkPoint {
     /* 0x00 */ s16 chestFlag; // chest icon is only displayed if this flag is not set for the current room, -1 for no flag
     /* 0x04 */ f32 x, y; // coordinates to place the icon (top-left corner)
 } PauseMapMarkPoint; // size = 0x0C
 
-typedef struct {
+typedef struct PauseMapMarkData {
     /* 0x00 */ s16 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ const Vtx* vtx;

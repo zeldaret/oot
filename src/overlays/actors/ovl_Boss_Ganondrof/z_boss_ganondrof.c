@@ -14,7 +14,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum BossGanondrofDeathState {
     /* 0 */ NOT_DEAD,
     /* 1 */ DEATH_START,
     /* 2 */ DEATH_THROES,
@@ -24,24 +24,24 @@ typedef enum {
     /* 6 */ DEATH_FINISH
 } BossGanondrofDeathState;
 
-typedef enum {
+typedef enum BossGanondrofThrowAction {
     /* 0 */ THROW_NORMAL,
     /* 1 */ THROW_SLOW
 } BossGanondrofThrowAction;
 
-typedef enum {
+typedef enum BossGanondrofStunnedAction {
     /* 0 */ STUNNED_FALL,
     /* 1 */ STUNNED_GROUND
 } BossGanondrofStunnedAction;
 
-typedef enum {
+typedef enum BossGanondrofChargeAction {
     /* 0 */ CHARGE_WINDUP,
     /* 1 */ CHARGE_START,
     /* 2 */ CHARGE_ATTACK,
     /* 3 */ CHARGE_FINISH
 } BossGanondrofChargeAction;
 
-typedef enum {
+typedef enum BossGanondrofDeathAction {
     /* 0 */ DEATH_SPASM,
     /* 1 */ DEATH_LIMP,
     /* 2 */ DEATH_HUNCHED
@@ -69,7 +69,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Stunned(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Death(BossGanondrof* this, PlayState* play);
 
-ActorInit Boss_Ganondrof_InitVars = {
+ActorProfile Boss_Ganondrof_Profile = {
     /**/ ACTOR_BOSS_GANONDROF,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -94,8 +94,8 @@ static ColliderCylinderInit sCylinderInitBody = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0xFFCFFFFE, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 30, 90, -50, { 0, 0, 0 } },
@@ -114,8 +114,8 @@ static ColliderCylinderInit sCylinderInitSpear = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x30 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 30, -20, { 0, 0, 0 } },
@@ -1239,14 +1239,14 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
             }
             if (this->flyMode != GND_FLY_PAINTING) {
                 if (acHit && (this->actionFunc != BossGanondrof_Stunned) &&
-                    (acHitElem->toucher.dmgFlags & DMG_RANGED)) {
+                    (acHitElem->atDmgInfo.dmgFlags & DMG_RANGED)) {
                     Actor_PlaySfx(&this->actor, NA_SE_NONE);
                     PRINTF("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
                     if (this->returnCount == 0) {
                         u8 dmg;
                         u8 canKill = false;
-                        s32 dmgFlags = acHitElem->toucher.dmgFlags;
+                        s32 dmgFlags = acHitElem->atDmgInfo.dmgFlags;
 
                         if (dmgFlags & DMG_HOOKSHOT) {
                             return;
@@ -1273,7 +1273,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                 } else {
                     Actor_PlaySfx(&this->actor, NA_SE_NONE);
                 }
-            } else if (acHit && (acHitElem->toucher.dmgFlags & DMG_RANGED)) {
+            } else if (acHit && (acHitElem->atDmgInfo.dmgFlags & DMG_RANGED)) {
                 this->work[GND_INVINC_TIMER] = 10;
                 this->actor.colChkInfo.health -= 2;
                 horse->hitTimer = 20;
@@ -1293,8 +1293,8 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
     s32 pad2;
     s16 i;
     s32 pad;
-    BossGanondrof* this = (BossGanondrof*)thisx;
     EnfHG* horse;
+    BossGanondrof* this = (BossGanondrof*)thisx;
 
     PRINTF("MOVE START %d\n", this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_10;
@@ -1303,8 +1303,8 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->work[GND_VARIANCE_TIMER]++;
     horse = (EnfHG*)this->actor.child;
+    this->work[GND_VARIANCE_TIMER]++;
     PRINTF("MOVE START EEEEEEEEEEEEEEEEEEEEEE%d\n", this->actor.params);
 
     this->actionFunc(this, play);

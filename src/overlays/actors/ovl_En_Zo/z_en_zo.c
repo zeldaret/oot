@@ -9,7 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
-typedef enum {
+typedef enum EnZoEffectType {
     /* 0 */ ENZO_EFFECT_NONE,
     /* 1 */ ENZO_EFFECT_RIPPLE,
     /* 2 */ ENZO_EFFECT_SPLASH,
@@ -60,7 +60,7 @@ void EnZo_SpawnBubble(EnZo* this, Vec3f* pos) {
             continue;
         }
 
-        waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
+        waterSurface = this->actor.world.pos.y + this->actor.depthInWater;
 
         if (!(waterSurface <= pos->y)) {
             effect->type = ENZO_EFFECT_BUBBLE;
@@ -127,7 +127,7 @@ void EnZo_UpdateEffectsBubbles(EnZo* this) {
             effect->pos.y += effect->vel.y;
 
             // Bubbles turn into ripples when they reach the surface
-            waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
+            waterSurface = this->actor.world.pos.y + this->actor.depthInWater;
             if (waterSurface <= effect->pos.y) {
                 effect->type = ENZO_EFFECT_NONE;
                 effect->pos.y = waterSurface;
@@ -158,7 +158,7 @@ void EnZo_UpdateEffectsSplashes(EnZo* this) {
             }
 
             // Splash particles turn into ripples when they hit the surface
-            waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
+            waterSurface = this->actor.world.pos.y + this->actor.depthInWater;
             if (effect->pos.y < waterSurface) {
                 effect->type = ENZO_EFFECT_NONE;
                 effect->pos.y = waterSurface;
@@ -172,7 +172,7 @@ void EnZo_UpdateEffectsSplashes(EnZo* this) {
 void EnZo_DrawEffectsRipples(EnZo* this, PlayState* play) {
     EnZoEffect* effect;
     s16 i;
-    u8 materialFlag;
+    s16 materialFlag;
 
     effect = this->effects;
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 217);
@@ -272,7 +272,7 @@ void EnZo_TreadWaterRipples(EnZo* this, f32 scale, f32 targetScale, u8 alpha) {
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
     pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    pos.y = this->actor.world.pos.y + this->actor.depthInWater;
     pos.z = this->actor.world.pos.z;
     EnZo_SpawnRipple(this, &pos, scale, targetScale, alpha);
 }
@@ -290,8 +290,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 26, 64, 0, { 0, 0, 0 } },
@@ -299,7 +299,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-ActorInit En_Zo_InitVars = {
+ActorProfile En_Zo_Profile = {
     /**/ ACTOR_EN_ZO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -311,7 +311,7 @@ ActorInit En_Zo_InitVars = {
     /**/ EnZo_Draw,
 };
 
-typedef enum {
+typedef enum EnZoAnimation {
     /* 0 */ ENZO_ANIM_0,
     /* 1 */ ENZO_ANIM_1,
     /* 2 */ ENZO_ANIM_2,
@@ -351,7 +351,7 @@ void EnZo_SpawnSplashes(EnZo* this) {
         pos = this->actor.world.pos;
         pos.x += vel.x * 6.0f;
         pos.z += vel.z * 6.0f;
-        pos.y += this->actor.yDistToWater;
+        pos.y += this->actor.depthInWater;
         EnZo_SpawnSplash(this, &pos, &vel, 0.08f);
     }
 }
@@ -363,7 +363,7 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
         return textId;
     }
 
-    switch (thisx->params & 0x3F) {
+    switch (PARAMS_GET_U(thisx->params, 0, 6)) {
         case 8:
             if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x402A;
@@ -527,7 +527,7 @@ s32 EnZo_PlayerInProximity(EnZo* this, PlayState* play) {
     f32 hDist;
 
     surfacePos.x = this->actor.world.pos.x;
-    surfacePos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    surfacePos.y = this->actor.world.pos.y + this->actor.depthInWater;
     surfacePos.z = this->actor.world.pos.z;
 
     hDist = Math_Vec3f_DistXZ(&surfacePos, &player->actor.world.pos);
@@ -581,7 +581,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInit);
 
-    if (LINK_IS_ADULT && ((this->actor.params & 0x3F) == 8)) {
+    if (LINK_IS_ADULT && (PARAMS_GET_U(this->actor.params, 0, 6) == 8)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -596,7 +596,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-    if (this->actor.yDistToWater < 54.0f || (this->actor.params & 0x3F) == 8) {
+    if (this->actor.depthInWater < 54.0f || PARAMS_GET_U(this->actor.params, 0, 6) == 8) {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         this->actor.shape.shadowScale = 24.0f;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_1);
@@ -642,7 +642,7 @@ void EnZo_Submerged(EnZo* this, PlayState* play) {
 }
 
 void EnZo_Surface(EnZo* this, PlayState* play) {
-    if (this->actor.yDistToWater < 54.0f) {
+    if (this->actor.depthInWater < 54.0f) {
         Actor_PlaySfx(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_3);
@@ -650,7 +650,7 @@ void EnZo_Surface(EnZo* this, PlayState* play) {
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
-    } else if (this->actor.yDistToWater < 80.0f) {
+    } else if (this->actor.depthInWater < 80.0f) {
         Math_ApproachF(&this->actor.velocity.y, 2.0f, 0.4f, 0.6f);
         Math_ApproachF(&this->alpha, 255.0f, 0.3f, 10.0f);
     }
@@ -665,7 +665,7 @@ void EnZo_TreadWater(EnZo* this, PlayState* play) {
     }
     EnZo_SetAnimation(this);
 
-    Math_ApproachF(&this->actor.velocity.y, this->actor.yDistToWater < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
+    Math_ApproachF(&this->actor.velocity.y, this->actor.depthInWater < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
     if (this->rippleTimer != 0) {
         this->rippleTimer--;
         if ((this->rippleTimer == 3) || (this->rippleTimer == 6)) {
@@ -705,7 +705,7 @@ void EnZo_Dive(EnZo* this, PlayState* play) {
         return;
     }
 
-    if (this->actor.yDistToWater > 80.0f || this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
+    if (this->actor.depthInWater > 80.0f || this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_ApproachF(&this->actor.velocity.y, -1.0f, 0.4f, 0.6f);
         Math_ApproachF(&this->alpha, 0.0f, 0.3f, 10.0f);
     }

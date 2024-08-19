@@ -9,8 +9,8 @@
 
 #define FLAGS 0
 
-#define BGICESHELTER_GET_TYPE(thisx) (((thisx)->params >> 8) & 7)
-#define BGICESHELTER_NO_SWITCH_FLAG(thisx) (((thisx)->params >> 6) & 1)
+#define BGICESHELTER_GET_TYPE(thisx) PARAMS_GET_U((thisx)->params, 8, 3)
+#define BGICESHELTER_NO_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 6, 1)
 
 void BgIceShelter_Init(Actor* thisx, PlayState* play);
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play);
@@ -23,7 +23,7 @@ void BgIceShelter_SetupMelt(BgIceShelter* this);
 void BgIceShelter_Idle(BgIceShelter* this, PlayState* play);
 void BgIceShelter_Melt(BgIceShelter* this, PlayState* play);
 
-ActorInit Bg_Ice_Shelter_InitVars = {
+ActorProfile Bg_Ice_Shelter_Profile = {
     /**/ ACTOR_BG_ICE_SHELTER,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -53,8 +53,8 @@ static ColliderCylinderInit sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 0, 0, 0, { 0, 0, 0 } },
@@ -73,8 +73,8 @@ static ColliderCylinderInit sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4FC1FFF6, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 0, 0, 0, { 0, 0, 0 } },
@@ -115,17 +115,20 @@ void BgIceShelter_InitColliders(BgIceShelter* this, PlayState* play) {
 void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         // "Warning : move BG registration failed"
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 362,
                this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgIceShelter_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
@@ -144,7 +147,6 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgIceShelter_Init(Actor* thisx, PlayState* play) {
-    static Vec3f kzIceScale = { 0.18f, 0.27f, 0.24f };
     BgIceShelter* this = (BgIceShelter*)thisx;
     s16 type = BGICESHELTER_GET_TYPE(&this->dyna.actor);
 
@@ -158,7 +160,9 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
     }
 
     if (type == RED_ICE_KING_ZORA) {
-        Math_Vec3f_Copy(&this->dyna.actor.scale, &kzIceScale);
+        static Vec3f sKingZoraRedIceScale = { 0.18f, 0.27f, 0.24f };
+
+        Math_Vec3f_Copy(&this->dyna.actor.scale, &sKingZoraRedIceScale);
     } else {
         Actor_SetScale(&this->dyna.actor, sRedIceScales[type]);
     }
@@ -179,7 +183,8 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     // The only red ice actor in the game that doesn't use a switch flag is the one for King Zora
-    if (!BGICESHELTER_NO_SWITCH_FLAG(&this->dyna.actor) && (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F))) {
+    if (!BGICESHELTER_NO_SWITCH_FLAG(&this->dyna.actor) &&
+        (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -428,7 +433,7 @@ void BgIceShelter_Melt(BgIceShelter* this, PlayState* play) {
 
     if (this->alpha <= 0) {
         if (!BGICESHELTER_NO_SWITCH_FLAG(&this->dyna.actor)) {
-            Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+            Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         }
 
         if (type == RED_ICE_KING_ZORA) {

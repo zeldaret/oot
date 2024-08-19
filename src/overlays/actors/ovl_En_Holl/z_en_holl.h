@@ -4,8 +4,8 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define ENHOLL_GET_TYPE(thisx) (((thisx)->params >> 6) & 7)
-#define ENHOLL_GET_SWITCH_FLAG(thisx) ((thisx)->params & 0x3F)
+#define ENHOLL_GET_TYPE(thisx)          PARAMS_GET_U((thisx)->params, 6, 3)
+#define ENHOLL_GET_SWITCH_FLAG(thisx)   PARAMS_GET_U((thisx)->params, 0, 6)
 
 /**
  * Two kinds of holls:
@@ -23,7 +23,7 @@
  *   Bg Cover: The background geometry (e.g. room geometry but not actors) fades black as the player approaches.
  *   Invisible: Approaching the holl does not cause any particular visual effect.
  */
-typedef enum {
+typedef enum EnHollType {
     /* 0 */ ENHOLL_H_VISIBLE_NARROW,
     /* 1 */ ENHOLL_V_DOWN_BGCOVER_LARGE, // Only allows downwards transitions. 500 units radius. Used in fire temple drops.
     /* 2 */ ENHOLL_V_INVISIBLE,

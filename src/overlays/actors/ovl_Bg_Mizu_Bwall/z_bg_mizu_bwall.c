@@ -19,7 +19,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_Break(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_DoNothing(BgMizuBwall* this, PlayState* play);
 
-ActorInit Bg_Mizu_Bwall_InitVars = {
+ActorProfile Bg_Mizu_Bwall_Profile = {
     /**/ ACTOR_BG_MIZU_BWALL,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -37,8 +37,8 @@ static ColliderTrisElementInit sTrisElementInitFloor[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { -40.0f, 0.0f, -40.0f }, { -40.0f, 0.0f, 40.0f }, { 40.0f, 0.0f, 40.0f } } },
@@ -48,8 +48,8 @@ static ColliderTrisElementInit sTrisElementInitFloor[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { -40.0f, 0.0f, -40.0f }, { 40.0f, 0.0f, 40.0f }, { 40.0f, 0.0f, -40.0f } } },
@@ -75,8 +75,8 @@ static ColliderTrisElementInit sTrisElementInitRutoWall[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 0.0f, 116.0f, 0.0f }, { 0.0f, 0.0f, 70.0f }, { 0.0f, 0.0f, -70.0f } } },
@@ -102,8 +102,8 @@ static ColliderTrisElementInit sTrisElementInitWall[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 0.0f, 120.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 60.0f, 0.0f, 0.0f } } },
@@ -113,8 +113,8 @@ static ColliderTrisElementInit sTrisElementInitWall[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 0.0f, 120.0f, 0.0f }, { 60.0f, 0.0f, 0.0f }, { 60.0f, 120.0f, 0.0f } } },
@@ -176,14 +176,21 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->yRot = this->dyna.actor.world.pos.y;
-    this->dList = sDLists[(u16)this->dyna.actor.params & 0xF];
+    this->dList = sDLists[PARAMS_GET_U((u16)this->dyna.actor.params, 0, 4)];
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-    CollisionHeader_GetVirtual(sColHeaders[(u16)this->dyna.actor.params & 0xF], &colHeader);
+    CollisionHeader_GetVirtual(sColHeaders[PARAMS_GET_U((u16)this->dyna.actor.params, 0, 4)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    switch ((u16)this->dyna.actor.params & 0xF) {
-        case MIZUBWALL_FLOOR:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+    switch (PARAMS_GET_U((u16)this->dyna.actor.params, 0, 4)) {
+        case MIZUBWALL_FLOOR: {
+            f32 sin;
+            f32 cos;
+            s32 i;
+            s32 j;
+            Vec3f offset;
+            Vec3f vtx[3];
+
+            if (Flags_GetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 8, 6))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -194,12 +201,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                            this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
-                    s32 i;
-                    s32 j;
-                    Vec3f offset;
-                    Vec3f vtx[3];
+                    sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
@@ -217,8 +220,16 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 }
             }
             break;
-        case MIZUBWALL_RUTO_ROOM:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+        }
+        case MIZUBWALL_RUTO_ROOM: {
+            f32 sin;
+            f32 cos;
+            s32 i;
+            s32 j;
+            Vec3f offset;
+            Vec3f vtx[3];
+
+            if (Flags_GetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 8, 6))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -229,12 +240,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                            this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
-                    s32 i;
-                    s32 j;
-                    Vec3f offset;
-                    Vec3f vtx[3];
+                    sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitRutoWall); i++) {
                         for (j = 0; j < 3; j++) {
@@ -252,8 +259,16 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 }
             }
             break;
-        case MIZUBWALL_UNUSED:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+        }
+        case MIZUBWALL_UNUSED: {
+            f32 sin;
+            f32 cos;
+            s32 i;
+            s32 j;
+            Vec3f offset;
+            Vec3f vtx[3];
+
+            if (Flags_GetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 8, 6))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -264,12 +279,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                            this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
-                    s32 i;
-                    s32 j;
-                    Vec3f offset;
-                    Vec3f vtx[3];
+                    sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
@@ -289,8 +300,16 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 }
             }
             break;
-        case MIZUBWALL_STINGER_ROOM_1:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+        }
+        case MIZUBWALL_STINGER_ROOM_1: {
+            f32 sin;
+            f32 cos;
+            s32 i;
+            s32 j;
+            Vec3f offset;
+            Vec3f vtx[3];
+
+            if (Flags_GetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 8, 6))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -302,12 +321,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                            this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
-                    s32 i;
-                    s32 j;
-                    Vec3f offset;
-                    Vec3f vtx[3];
+                    sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
@@ -327,8 +342,16 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 }
             }
             break;
-        case MIZUBWALL_STINGER_ROOM_2:
-            if (Flags_GetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
+        }
+        case MIZUBWALL_STINGER_ROOM_2: {
+            f32 sin;
+            f32 cos;
+            s32 i;
+            s32 j;
+            Vec3f offset;
+            Vec3f vtx[3];
+
+            if (Flags_GetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 8, 6))) {
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
@@ -340,12 +363,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                            this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
-                    s32 i;
-                    s32 j;
-                    Vec3f offset;
-                    Vec3f vtx[3];
+                    sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
@@ -365,6 +384,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 }
             }
             break;
+        }
     }
 }
 
@@ -377,9 +397,8 @@ void BgMizuBwall_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgMizuBwall_SetAlpha(BgMizuBwall* this, PlayState* play) {
-    f32 waterLevel = play->colCtx.colHeader->waterBoxes[2].ySurface;
-
-    if (play->colCtx.colHeader->waterBoxes) {}
+    WaterBox* waterBoxes = play->colCtx.colHeader->waterBoxes;
+    f32 waterLevel = waterBoxes[2].ySurface;
 
     if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
         this->scrollAlpha1 = 255;
@@ -425,7 +444,7 @@ void BgMizuBwall_SpawnDebris(BgMizuBwall* this, PlayState* play) {
     Vec3f debrisOffsets[15];
 
     for (i = 0; i < ARRAY_COUNT(debrisOffsets); i++) {
-        switch ((u16)this->dyna.actor.params & 0xF) {
+        switch (PARAMS_GET_U((u16)this->dyna.actor.params, 0, 4)) {
             case MIZUBWALL_FLOOR:
                 debrisOffsets[i].x = (Rand_ZeroOne() * 80.0f) - 40.0f;
                 debrisOffsets[i].y = Rand_ZeroOne() * 0;
@@ -465,7 +484,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play) {
     BgMizuBwall_SetAlpha(this, play);
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Flags_SetSwitch(play, ((u16)this->dyna.actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U((u16)this->dyna.actor.params, 8, 6));
         this->breakTimer = 1;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->dList = NULL;
@@ -503,7 +522,6 @@ void BgMizuBwall_Draw(Actor* thisx, PlayState* play2) {
     u32 frames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mizu_bwall.c", 1095);
-    if (1) {}
     frames = play->gameplayFrames;
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

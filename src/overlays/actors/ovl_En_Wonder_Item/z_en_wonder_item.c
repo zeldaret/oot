@@ -34,14 +34,14 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 20, 30, 0, { 0, 0, 0 } },
 };
 
-ActorInit En_Wonder_Item_InitVars = {
+ActorProfile En_Wonder_Item_Profile = {
     /**/ ACTOR_EN_WONDER_ITEM,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -52,6 +52,8 @@ ActorInit En_Wonder_Item_InitVars = {
     /**/ EnWonderItem_Update,
     /**/ NULL,
 };
+
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 static Vec3f sTagPointsFree[9];
 static Vec3f sTagPointsOrdered[9];
@@ -122,9 +124,9 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
 
-    this->wonderMode = (this->actor.params >> 0xB) & 0x1F;
-    this->itemDrop = (this->actor.params >> 6) & 0x1F;
-    this->switchFlag = this->actor.params & 0x3F;
+    this->wonderMode = PARAMS_GET_U(this->actor.params, 11, 5);
+    this->itemDrop = PARAMS_GET_U(this->actor.params, 6, 5);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
@@ -159,7 +161,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
             colTypeIndex = this->actor.world.rot.z & 0xFF;
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.elem.bumper.dmgFlags = damageFlags[colTypeIndex];
+            this->collider.elem.acDmgInfo.dmgFlags = damageFlags[colTypeIndex];
             this->collider.dim.radius = 20;
             this->collider.dim.height = 30;
             this->updateFunc = EnWonderItem_InteractSwitch;
@@ -188,7 +190,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
         case WONDERITEM_BOMB_SOLDIER:
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.elem.bumper.dmgFlags = DMG_SLINGSHOT;
+            this->collider.elem.acDmgInfo.dmgFlags = DMG_SLINGSHOT;
             this->unkPos = this->actor.world.pos;
             this->collider.dim.radius = 35;
             this->collider.dim.height = 75;
@@ -206,15 +208,18 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
 
 void EnWonderItem_MultitagFree(EnWonderItem* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 prevTagFlags = this->tagFlags;
+    s16 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
+    f32 dx;
+    f32 dy;
+    f32 dz;
 
     for (i = 0, mask = 1; i < this->numTagPoints; i++, mask <<= 1) {
         if (!(prevTagFlags & mask)) {
-            f32 dx = player->actor.world.pos.x - sTagPointsFree[i].x;
-            f32 dy = player->actor.world.pos.y - sTagPointsFree[i].y;
-            f32 dz = player->actor.world.pos.z - sTagPointsFree[i].z;
+            dx = player->actor.world.pos.x - sTagPointsFree[i].x;
+            dy = player->actor.world.pos.y - sTagPointsFree[i].y;
+            dz = player->actor.world.pos.z - sTagPointsFree[i].z;
 
             if (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 50.0f) {
                 this->tagFlags |= mask;
@@ -222,11 +227,14 @@ void EnWonderItem_MultitagFree(EnWonderItem* this, PlayState* play) {
                 this->timer = this->timerMod + 81;
                 return;
             }
+
+#if OOT_DEBUG
             if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsFree[i].x, sTagPointsFree[i].y, sTagPointsFree[i].z,
                                        this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
                                        1.0f, 1.0f, 0, 255, 0, 255, 4, play->state.gfxCtx);
             }
+#endif
         }
     }
     if (this->timer == 1) {
@@ -269,15 +277,18 @@ void EnWonderItem_ProximitySwitch(EnWonderItem* this, PlayState* play) {
 
 void EnWonderItem_MultitagOrdered(EnWonderItem* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 prevTagFlags = this->tagFlags;
+    s16 prevTagFlags = this->tagFlags;
     s32 i;
     s32 mask;
+    f32 dx;
+    f32 dy;
+    f32 dz;
 
     for (i = 0, mask = 1; i < this->numTagPoints; i++, mask <<= 1) {
         if (!(prevTagFlags & mask)) {
-            f32 dx = player->actor.world.pos.x - sTagPointsOrdered[i].x;
-            f32 dy = player->actor.world.pos.y - sTagPointsOrdered[i].y;
-            f32 dz = player->actor.world.pos.z - sTagPointsOrdered[i].z;
+            dx = player->actor.world.pos.x - sTagPointsOrdered[i].x;
+            dy = player->actor.world.pos.y - sTagPointsOrdered[i].y;
+            dz = player->actor.world.pos.z - sTagPointsOrdered[i].z;
 
             if (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 50.0f) {
                 if (prevTagFlags & mask) {
@@ -292,11 +303,15 @@ void EnWonderItem_MultitagOrdered(EnWonderItem* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-            } else if (BREG(0) != 0) {
+            }
+
+#if OOT_DEBUG
+            if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsOrdered[i].x, sTagPointsOrdered[i].y, sTagPointsOrdered[i].z,
                                        this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
                                        1.0f, 1.0f, 0, 0, 255, 255, 4, play->state.gfxCtx);
             }
+#endif
         }
     }
     if (this->timer == 1) {
@@ -358,7 +373,8 @@ void EnWonderItem_Update(Actor* thisx, PlayState* play) {
     if (this->wonderMode > 12) {
         colorIndex = 0;
     }
-    if (BREG(0) != 0) {
+
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, debugArrowColors[colorIndex], debugArrowColors[colorIndex + 1],

@@ -3,7 +3,7 @@
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
-typedef struct {
+typedef struct SfxPlayerState {
     /* 0x0 */ f32 vol;
     /* 0x4 */ f32 freqScale;
     /* 0x8 */ s8 reverb;
@@ -13,7 +13,7 @@ typedef struct {
     /* 0xC */ u8 combFilterGain;
 } SfxPlayerState;
 
-typedef enum {
+typedef enum SfxChannelIndex {
     /* 0x0 */ SFX_CHANNEL_PLAYER0, // SfxPlayerBank
     /* 0x1 */ SFX_CHANNEL_PLAYER1,
     /* 0x2 */ SFX_CHANNEL_PLAYER2,
@@ -32,20 +32,20 @@ typedef enum {
     /* 0xF */ SFX_CHANNEL_VOICE1
 } SfxChannelIndex; // playerIdx = 2
 
-typedef struct {
+typedef struct FreqLerp {
     /* 0x0 */ f32 value;
     /* 0x4 */ f32 target;
     /* 0x8 */ f32 step;
     /* 0xC */ s32 remainingFrames;
 } FreqLerp;
 
-typedef struct {
+typedef struct NatureAmbienceDataIO {
     /* 0x0 */ u16 playerIO;
     /* 0x2 */ u16 channelMask;
     /* 0x4 */ u8 channelIO[3 * 33 + 1];
 } NatureAmbienceDataIO; // size = 0x68
 
-typedef enum {
+typedef enum AudioDebugPage {
     /* 0x0 */ PAGE_NON,
     /* 0x1 */ PAGE_SOUND_CONTROL,
     /* 0x2 */ PAGE_SPEC_INFO, // unused
@@ -66,7 +66,7 @@ typedef enum {
 
 #define SCROLL_PRINT_BUF_SIZE 25
 
-typedef struct {
+typedef struct OcarinaStick {
     s8 x;
     s8 y;
 } OcarinaStick;
@@ -100,7 +100,11 @@ f32 D_801305E4[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/
 f32 D_801305F4 = 1.0f;
 u8 sGanonsTowerLevelsVol[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
 u8 sEnterGanonsTowerTimer = 0;
+#if OOT_DEBUG
 s8 sSoundMode = SOUNDMODE_SURROUND;
+#else
+s8 sSoundMode = SOUNDMODE_STEREO;
+#endif
 s8 D_80130608 = 0;
 s8 sAudioCutsceneFlag = 0;
 s8 sSpecReverb = 0;
@@ -123,7 +127,10 @@ u8 sAudioBaseFilter2 = 0;
 u8 sAudioExtraFilter2 = 0;
 Vec3f* sSariaBgmPtr = NULL;
 f32 D_80130650 = 2000.0f;
+
+#if OOT_DEBUG
 u8 sSeqModeInput = 0;
+#endif
 
 #define SEQ_FLAG_ENEMY (1 << 0) // Allows enemy bgm
 #define SEQ_FLAG_FANFARE (1 << 1)
@@ -1212,8 +1219,10 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
     { 0, { 0 } },
 };
 
+#if OOT_DEBUG
 u32 sAudioUpdateStartTime;
 u32 sAudioUpdateEndTime;
+#endif
 f32 D_8016B7A8;
 f32 D_8016B7AC;
 f32 D_8016B7B0;
@@ -1223,20 +1232,26 @@ FreqLerp sWaterfallFreqScaleLerp;
 f32 D_8016B7D8;
 s8 D_8016B7DC;
 f32 D_8016B7E0;
+#if OOT_DEBUG
 u16 D_8016B7E4;
 struct {
     char str[5];
     u16 num;
 } sAudioScrPrtBuf[SCROLL_PRINT_BUF_SIZE];
+#endif
 u8 sRiverSoundMainBgmVol;
 u8 sRiverSoundMainBgmCurrentVol;
 u8 sRiverSoundMainBgmLower;
 u8 sRiverSoundMainBgmRestore;
 u8 sGanonsTowerVol;
 SfxPlayerState sSfxChannelState[0x10];
+#if OOT_DEBUG
 char sBinToStrBuf[0x20];
+#endif
 u8 sMalonSingingTimer;
+#if OOT_DEBUG
 u8 sAudioSpecPeakNumNotes[0x12];
+#endif
 u8 sMalonSingingDisabled;
 u8 D_8016B9F3;
 u8 sFanfareStartTimer;
@@ -1251,7 +1266,6 @@ u32 sOcarinaInputButtonCur;
 u32 sOcarinaInputButtonStart;
 u32 sOcarinaInputButtonPrev;
 s32 sOcarinaInputButtonPress;
-s32 sOcarinaUnused;
 u8 sCurOcarinaSongWithoutMusicStaff[8];
 u8 sOcarinaWithoutMusicStaffPos;
 u8 sOcarinaHasStartedSong;
@@ -1264,8 +1278,10 @@ u16 sMusicStaffCurHeldLength[OCARINA_SONG_MAX];
 u16 sMusicStaffExpectedLength[OCARINA_SONG_MAX];
 u8 sMusicStaffExpectedPitch[OCARINA_SONG_MAX];
 OcarinaNote sScarecrowsLongSongSecondNote;
+#if OOT_DEBUG
 u8 sIsMalonSinging;
 f32 sMalonSingingDist;
+#endif
 
 void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
 

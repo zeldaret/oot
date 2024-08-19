@@ -9,7 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum EnGeldBAction {
     /*  0 */ GELDB_WAIT,
     /*  1 */ GELDB_DEFEAT,
     /*  2 */ GELDB_DAMAGED,
@@ -69,7 +69,7 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play);
 void EnGeldB_Sidestep(EnGeldB* this, PlayState* play);
 void EnGeldB_Defeated(EnGeldB* this, PlayState* play);
 
-ActorInit En_GeldB_InitVars = {
+ActorProfile En_GeldB_Profile = {
     /**/ ACTOR_EN_GELDB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -94,8 +94,8 @@ static ColliderCylinderInit sBodyCylInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 50, 0, { 0, 0, 0 } },
@@ -107,8 +107,8 @@ static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
             ELEMTYPE_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
@@ -118,8 +118,8 @@ static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
             ELEMTYPE_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
@@ -152,14 +152,14 @@ static ColliderQuadInit sSwordQuadInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum EnGeldBDamageEffects {
     /* 0x0 */ GELDB_DMG_NORMAL,
     /* 0x1 */ GELDB_DMG_STUN,
     /* 0x6 */ GELDB_DMG_UNK_6 = 0x6,
@@ -228,7 +228,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
     thisx->naviEnemyId = NAVI_ENEMY_GERUDO_THIEF;
-    this->keyFlag = thisx->params & 0xFF00;
+    this->keyFlag = PARAMS_GET_NOSHIFT(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     this->blinkState = 0;
     this->unkFloat = 10.0f;
@@ -274,7 +274,6 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
     Actor* thisx = &this->actor;
     s16 angleToWall;
     s16 angleToLink;
-    Actor* bomb;
 
     angleToWall = thisx->wallYaw - thisx->shape.rot.y;
     angleToWall = ABS(angleToWall);
@@ -306,22 +305,29 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
             EnGeldB_SetupRollBack(this);
             return true;
         }
-    } else if ((bomb = Actor_FindNearby(play, thisx, -1, ACTORCAT_EXPLOSIVE, 80.0f)) != NULL) {
-        thisx->shape.rot.y = thisx->world.rot.y = thisx->yawTowardsPlayer;
-        if (((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall < 0x2EE0)) || (bomb->id == ACTOR_EN_BOM_CHU)) {
-            if ((bomb->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(thisx, bomb) < 80.0f) &&
-                ((s16)(thisx->shape.rot.y - (bomb->world.rot.y - 0x8000)) < 0x3E80)) {
-                EnGeldB_SetupJump(this);
-                return true;
+    } else {
+        Actor* bomb = Actor_FindNearby(play, thisx, -1, ACTORCAT_EXPLOSIVE, 80.0f);
+
+        if (bomb != NULL) {
+            thisx->shape.rot.y = thisx->world.rot.y = thisx->yawTowardsPlayer;
+            if (((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall < 0x2EE0)) ||
+                (bomb->id == ACTOR_EN_BOM_CHU)) {
+                if ((bomb->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(thisx, bomb) < 80.0f) &&
+                    ((s16)(thisx->shape.rot.y - (bomb->world.rot.y - 0x8000)) < 0x3E80)) {
+                    EnGeldB_SetupJump(this);
+                    return true;
+                } else {
+                    EnGeldB_SetupSidestep(this, play);
+                    return true;
+                }
             } else {
-                EnGeldB_SetupSidestep(this, play);
+                EnGeldB_SetupRollBack(this);
                 return true;
             }
-        } else {
-            EnGeldB_SetupRollBack(this);
-            return true;
         }
-    } else if (arg2) {
+    }
+
+    if (arg2) {
         if (angleToLink >= 0x1B58) {
             EnGeldB_SetupSidestep(this, play);
             return true;
@@ -1561,7 +1567,6 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2672);
-    if (1) {}
 
     if ((this->spinAttackState >= 2) && SkelAnime_Update(&this->skelAnime)) {
         if (this->spinAttackState == 2) {

@@ -21,7 +21,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play);
 void func_80A56A50(EnHeishi4* this, PlayState* play);
 void func_80A56ACC(EnHeishi4* this, PlayState* play);
 
-ActorInit En_Heishi4_InitVars = {
+ActorProfile En_Heishi4_Profile = {
     /**/ ACTOR_EN_HEISHI4,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -48,8 +48,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 33, 40, 0, { 0, 0, 0 } },
@@ -59,7 +59,7 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
     EnHeishi4* this = (EnHeishi4*)thisx;
 
     Actor_SetScale(thisx, 0.01f);
-    this->type = thisx->params & 0xFF;
+    this->type = PARAMS_GET_U(thisx->params, 0, 8);
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->pos = thisx->world.pos;
     thisx->targetMode = 6;
@@ -80,7 +80,7 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
     this->collider.dim.radius = 15;
     this->collider.dim.height = 70;
     switch (this->type) {
-        case HEISHI4_AT_KAKRIKO_ENTRANCE:
+        case HEISHI4_AT_KAKARIKO_ENTRANCE:
         case HEISHI4_AT_IMPAS_HOUSE:
             this->actionFunc = func_80A56328;
             break;
@@ -93,11 +93,11 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = func_80A56544;
             break;
     }
-    this->unk_27C = (thisx->params >> 8) & 0xFF;
+    this->unk_27C = PARAMS_GET_U(thisx->params, 8, 8);
     PRINTF("\n\n");
     PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
     PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n" VT_RST, this->type);
-    PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, (thisx->params >> 8) & 0xF);
+    PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, PARAMS_GET_U(thisx->params, 8, 4));
     PRINTF("\n\n");
 }
 
@@ -211,6 +211,8 @@ void func_80A56614(EnHeishi4* this, PlayState* play) {
 }
 
 void func_80A5673C(EnHeishi4* this, PlayState* play) {
+    f32 frames;
+
     if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
         PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
@@ -219,7 +221,7 @@ void func_80A5673C(EnHeishi4* this, PlayState* play) {
     this->unk_284 = 0;
     if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
         if (!GET_INFTABLE(INFTABLE_6C)) {
-            f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
+            frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
             Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
                              -10.0f);
             this->actor.textId = 0x7007;
@@ -302,7 +304,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
     }
     if (MaskReaction_GetTextId(play, sMaskReactionSets[reactionOffset]) != 0) {
         if (this->unk_2B4 == 0) {
-            if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
+            if ((this->type == HEISHI4_AT_KAKARIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
                 this->actionFunc = func_80A563BC;
                 return;
             }
@@ -313,7 +315,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
         }
     } else {
         if (this->unk_2B4 != 0) {
-            if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
+            if ((this->type == HEISHI4_AT_KAKARIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
                 this->actionFunc = func_80A563BC;
                 return;
             }
@@ -324,7 +326,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
         }
     }
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
+        if ((this->type == HEISHI4_AT_KAKARIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
             this->unk_284 = 1;
             this->actionFunc = func_80A563BC;
             return;

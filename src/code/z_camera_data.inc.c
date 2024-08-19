@@ -1,18 +1,18 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
+typedef struct CameraModeValue {
     s16 val;
     s16 dataType;
 } CameraModeValue;
 
-typedef struct {
+typedef struct CameraMode {
     s16 funcIdx;
     s16 valueCnt;
     CameraModeValue* values;
 } CameraMode;
 
-typedef struct {
+typedef struct CameraSetting {
     union {
         u32 unk_00;
         struct {
@@ -26,6 +26,8 @@ typedef struct {
 
 /*==================================================================*/
 // Data
+
+#if OOT_DEBUG
 s16 sOREGInit[] = {
     0,     // OREG(0)
     1,     // OREG(1)
@@ -83,6 +85,7 @@ s16 sOREGInit[] = {
 };
 
 s16 sOREGInitCnt = ARRAY_COUNT(sOREGInit);
+#endif
 
 s16 sCamDataRegsInit[CAM_DATA_MAX] = {
     -20, // CAM_DATA_Y_OFFSET
@@ -116,6 +119,7 @@ s16 sCamDataRegsInit[CAM_DATA_MAX] = {
 
 s16 sCamDataRegsInitCount = ARRAY_COUNT(sCamDataRegsInit);
 
+#if OOT_DEBUG
 char sCameraSettingNames[][12] = {
     "NONE      ",  // CAM_SET_NONE
     "NORMAL0    ", // CAM_SET_NORMAL0
@@ -208,6 +212,7 @@ char sCameraModeNames[][12] = {
     "PUSHPULL   ", // CAM_MODE_PUSH_PULL
     "BOOKEEPON  ", // CAM_MODE_FOLLOW_BOOMERANG
 };
+#endif
 
 /**
  *=====================================================================
@@ -2556,7 +2561,11 @@ s32 (*sCameraFunctions[])(Camera*) = {
 s32 sInitRegs = 1;
 
 s32 gDebugCamEnabled = false;
+
+#if OOT_DEBUG
 s32 sDbgModeIdx = -1;
+#endif
+
 s16 sNextUID = 0;
 
 s32 sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 1);
@@ -2579,6 +2588,7 @@ s32 D_8011D3F0 = 0;
 
 s32 sDemo5PrevAction12Frame = -16;
 
+#if OOT_DEBUG
 char sCameraFunctionNames[][8] = {
     "NONE   ", // CAM_FUNC_NONE
     "NORM0()", // CAM_FUNC_NORM0
@@ -2653,6 +2663,7 @@ char sCameraFunctionNames[][8] = {
     "SPEC9()", // CAM_FUNC_SPEC9
     "",        "", "", "", "",
 };
+#endif
 
 VecSph D_8011D658[] = {
     { 50.0f, 0xEE3A, 0xD558 },
@@ -2668,371 +2679,10 @@ Vec3f D_8011D678[] = {
     { 0.0f, 3.0f, -3.0 },
 };
 
-/*******************************************************
- * OnePoint initalization values for Attention Cutscenes (Demo5)
- ********************************************************/
-s32 sDemo5PrevSfxFrame = -200;
-
-// target is player, far from eye
-OnePointCsFull D_8011D6AC[] = {
-    {
-        // viewFlags & 0x00FF (at): 2, atTarget is view lookAt + atInit
-        // viewFlags & 0xFF00 (eye): none
-        // action: 15, copy at, eye, roll, fov to camera
-        // result: eye remains in the same location, at is View's lookAt
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0002,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { 0.0f, 0.0f, 0.0f },
-        { 0.0f, 0.0f, 0.0f },
-    },
-    {
-        // viewFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
-        // viewFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
-        // action: interpolate eye and at.
-        // result: eye and at's y interpolate to become +20 from their current location.
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0303,
-        19,
-        0,
-        45.0f,
-        1.0f,
-        { 0.0f, 20.0f, 0.0f },
-        { 0.0f, 20.0f, 0.0f },
-    },
-    {
-        // viewFlags & 0x00FF (at): 0 none
-        // viewFlags & 0xFF00 (eye): 0 none
-        // action: 18, copy this camera to default camera.
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0000,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { -1.0f, -1.0f, -1.0f },
-        { -1.0f, -1.0f, -1.0f },
-    },
-};
-
-// target is player close to current eye
-OnePointCsFull D_8011D724[] = {
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x2424,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { 0.0f, 0.0f, 0.0f },
-        { 0.0f, 10.0f, -20.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x2121,
-        19,
-        0,
-        50.0f,
-        1.0f,
-        { 0.0f, -10.0f, 0.0f },
-        { 0.0f, 0.0f, 60.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0000,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { -1.0f, -1.0f, -1.0f },
-        { -1.0f, -1.0f, -1.0f },
-    },
-};
-
-// target is close to player
-OnePointCsFull D_8011D79C[] = {
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0002,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { 0.0f, 0.0f, 0.0f },
-        { 0.0f, 0.0f, 0.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0303,
-        19,
-        0,
-        45.0f,
-        1.0f,
-        { 0.0f, -20.0f, 0.0f },
-        { 0.0f, -10.0f, 5.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0303,
-        9,
-        0,
-        60.0f,
-        1.0f,
-        { 0.0f, 10.0f, 0.0f },
-        { 0.0f, 10.0f, 0.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0000,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { -1.0f, -1.0f, -1.0f },
-        { -1.0f, -1.0f, -1.0f },
-    },
-};
-
-// target is within 300 units of eye, and player is within 30 units of eye
-OnePointCsFull D_8011D83C[] = {
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x2141,
-        20,
-        0,
-        45.0f,
-        0.2f,
-        { 0.0f, 0.0f, 10.0f },
-        { 0.0f, 0.0f, 10.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0000,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { -1.0f, -1.0f, -1.0f },
-        { -1.0f, -1.0f, -1.0f },
-    },
-};
-
-// target is within 700 units of eye, angle between player/eye and target/eye is less than
-// 76.9 degrees.  The x/y coordinates of the target on screen is between (21, 41) and (300, 200),
-// and the player is farther than 30 units of the eye
-OnePointCsFull D_8011D88C[] = {
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0303,
-        20,
-        0,
-        45.0f,
-        1.0f,
-        { 0.0f, 0.0f, 0.0f },
-        { 0.0f, 0.0f, 0.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0000,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { -1.0f, -1.0f, -1.0f },
-        { -1.0f, -1.0f, -1.0f },
-    },
-};
-
-// same as above, but the target is NOT within the screen area.
-OnePointCsFull D_8011D8DC[] = {
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0404,
-        20,
-        1,
-        50.0f,
-        1.0f,
-        { 0.0f, 5.0f, 10.0f },
-        { 0.0f, 10.0f, -80.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x2121,
-        5,
-        0,
-        60.0f,
-        1.0f,
-        { 0.0f, 5.0f, 0.0f },
-        { 5.0f, 5.0f, -200.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0000,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { -1.0f, -1.0f, -1.0f },
-        { -1.0f, -1.0f, -1.0f },
-    },
-};
-
-// target is a door.
-OnePointCsFull D_8011D954[] = {
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0xC1C1,
-        20,
-        0,
-        60.0f,
-        1.0f,
-        { 0.0f, 0.0f, 50.0f },
-        { 0.0f, 0.0f, 250.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x05B1,
-        5,
-        0,
-        60.0f,
-        0.1f,
-        { 0.0f, 10.0f, 50.0f },
-        { 0.0f, 10.0f, 100.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x2121,
-        5,
-        2,
-        60.0f,
-        1.0f,
-        { 0.0f, 10.0f, 0.0f },
-        { 0.0f, 20.0f, -150.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0000,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { -1.0f, -1.0f, -1.0f },
-        { -1.0f, -1.0f, -1.0f },
-    },
-};
-
-// otherwise
-OnePointCsFull D_8011D9F4[] = {
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0504,
-        20,
-        2,
-        60.0f,
-        1.0f,
-        { 0.0f, 5.0f, 50.0f },
-        { 0.0f, 20.0f, 300.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x2121,
-        5,
-        2,
-        60.0f,
-        1.0f,
-        { 0.0f, 10.0f, 0.0f },
-        { 0.0f, 20.0f, -150.0f },
-    },
-    {
-        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        ONEPOINT_CS_INIT_FIELD_NONE,
-        0x0000,
-        1,
-        0,
-        60.0f,
-        1.0f,
-        { -1.0f, -1.0f, -1.0f },
-        { -1.0f, -1.0f, -1.0f },
-    },
-};
-
-typedef enum {
-    /* 0 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR, // ACTOR_BG_HIDAN_ROCK
-    /* 1 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER,  // ACTOR_BG_HIDAN_FSLIFT
-    /* 2 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER,  // ACTOR_BG_HIDAN_SYOKU
-    /* 3 */ CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE   // ACTOR_BG_JYA_1FLIFT
-} CamElevatorPlatform;
-
-Vec3f sCamElevatorPlatformLowerEyePoints[] = {
-    { 3050.0f, 700.0f, 0.0f },     // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
-    { 1755.0f, 3415.0f, -380.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
-    { -3120.0f, 3160.0f, 245.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
-    { 0.0f, -10.0f, 240.0f },      // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
-};
-
-Vec3f sCamElevatorPlatformUpperEyePoints[] = {
-    { 3160.0f, 2150.0f, 0.0f },    // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
-    { 1515.0f, 4130.0f, -835.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
-    { -3040.0f, 4135.0f, 230.0f }, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
-    { -50.0f, 600.0f, -75.0f },    // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
-};
-
-// Trigger player y position to swap eye points
-f32 sCamElevatorPlatformTogglePosY[] = {
-    1570.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
-    3680.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
-    3700.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
-    395.0f,  // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
-};
-
-f32 sCamElevatorPlatformFovRollParam[] = {
-    320.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
-    320.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
-    320.0f, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
-    0.0f,   // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
-};
-
-s16 sCamElevatorPlatformRolls[] = {
-    -2000, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR
-    -1000, // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER
-    0,     // CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER
-    0      // CAM_ELEVATOR_PLATFORM_SPIRIT_TEMPLE_ENTRANCE
-};
-
-// unused
-s32 D_8011DAF4 = 0;
-s32 D_8011DAF8 = 0;
-
-s16 D_8011DAFC[] = {
-    CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,
-};
-
 PlayState* D_8015BD7C;
+
+#if OOT_DEBUG
 DebugCam D_8015BD80;
+#endif
+
 CollisionPoly* playerFloorPoly;

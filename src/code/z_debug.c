@@ -1,13 +1,13 @@
 #include "global.h"
 
-typedef struct {
+typedef struct DebugCamTextBufferEntry {
     /* 0x0 */ u8 x;
     /* 0x1 */ u8 y;
     /* 0x2 */ u8 colorIndex;
     /* 0x3 */ char text[21];
 } DebugCamTextBufferEntry; // size = 0x18
 
-typedef struct {
+typedef struct InputCombo {
     /* 0x0 */ u16 hold;
     /* 0x2 */ u16 press;
 } InputCombo; // size = 0x4
@@ -29,6 +29,7 @@ Color_RGBA8 sDebugCamTextColors[] = {
     { 128, 255, 32, 128 },  // DEBUG_CAM_TEXT_GREEN
 };
 
+#if OOT_DEBUG
 InputCombo sRegGroupInputCombos[REG_GROUPS] = {
     { BTN_L, BTN_CUP },        //  REG
     { BTN_L, BTN_CLEFT },      // SREG
@@ -93,6 +94,7 @@ char sRegGroupChars[REG_GROUPS] = {
     'k', // kREG
     'b', // bREG
 };
+#endif
 
 void Regs_Init(void) {
     s32 i;
@@ -305,8 +307,6 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
     gSPEndDisplayList(gfx++);
     Gfx_Close(opaStart, gfx);
     POLY_OPA_DISP = gfx;
-
-    if (1) {}
 
     CLOSE_DISPS(gfxCtx, "../z_debug.c", 664);
 

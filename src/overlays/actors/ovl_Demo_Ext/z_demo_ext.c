@@ -10,13 +10,13 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum DemoExtAction {
     /* 0x00 */ EXT_WAIT,
     /* 0x01 */ EXT_MAINTAIN,
     /* 0x02 */ EXT_DISPELL
 } DemoExtAction;
 
-typedef enum {
+typedef enum DemoExtDrawMode {
     /* 0x00 */ EXT_DRAW_NOTHING,
     /* 0x01 */ EXT_DRAW_VORTEX
 } DemoExtDrawMode;
@@ -52,7 +52,9 @@ void DemoExt_PlayVortexSFX(DemoExt* this) {
 
 CsCmdActorCue* DemoExt_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.actorCues[cueChannel];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
 
     return NULL;
@@ -234,7 +236,7 @@ void DemoExt_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-ActorInit Demo_Ext_InitVars = {
+ActorProfile Demo_Ext_Profile = {
     /**/ ACTOR_DEMO_EXT,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

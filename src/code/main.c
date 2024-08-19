@@ -1,9 +1,13 @@
 #include "global.h"
 #include "terminal.h"
 
+extern u8 _buffersSegmentEnd[];
+
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
+
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
@@ -29,7 +33,8 @@ OSMesg sSerialMsgBuf[1];
 void Main_LogSystemHeap(void) {
     PRINTF(VT_FGCOL(GREEN));
     // "System heap size% 08x (% dKB) Start address% 08x"
-    PRINTF("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", gSystemHeapSize, gSystemHeapSize / 1024, gSystemHeap);
+    PRINTF("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", gSystemHeapSize, gSystemHeapSize / 1024,
+           _buffersSegmentEnd);
     PRINTF(VT_RST);
 }
 #endif
@@ -48,7 +53,7 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
     SysCfb_Init(0);
-    systemHeapStart = (uintptr_t)gSystemHeap;
+    systemHeapStart = (uintptr_t)_buffersSegmentEnd;
     fb = (uintptr_t)SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - systemHeapStart;
     // "System heap initalization"

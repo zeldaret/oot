@@ -14,7 +14,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play);
 static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
 static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
-ActorInit En_Encount1_InitVars = {
+ActorProfile En_Encount1_Profile = {
     /**/ ACTOR_EN_ENCOUNT1,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -44,12 +44,14 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    this->spawnType = (this->actor.params >> 0xB) & 0x1F;
-    this->maxCurSpawns = (this->actor.params >> 6) & 0x1F;
-    this->maxTotalSpawns = this->actor.params & 0x3F;
+    this->spawnType = PARAMS_GET_U(this->actor.params, 11, 5);
+    this->maxCurSpawns = PARAMS_GET_U(this->actor.params, 6, 5);
+    this->maxTotalSpawns = PARAMS_GET_U(this->actor.params, 0, 6);
     this->curNumSpawn = this->totalNumSpawn = 0;
     spawnRange = 120.0f + (40.0f * this->actor.world.rot.z);
     this->spawnRange = spawnRange;
+
+    if (1) {}
 
     PRINTF("\n\n");
     // "It's an enemy spawner!"
@@ -270,8 +272,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
-                if ((player->actor.yDistToWater != BGCHECK_Y_MIN) &&
-                    (floorY < (player->actor.world.pos.y - player->actor.yDistToWater))) {
+                if ((player->actor.depthInWater != BGCHECK_Y_MIN) &&
+                    (floorY < (player->actor.world.pos.y - player->actor.depthInWater))) {
                     break;
                 }
                 spawnPos.y = floorY;
@@ -322,7 +324,7 @@ void EnEncount1_Update(Actor* thisx, PlayState* play) {
 
     this->updateFunc(this, play);
 
-    if (BREG(0) != 0) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         if (this->outOfRangeTimer != 0) {
             if ((this->outOfRangeTimer & 1) == 0) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
