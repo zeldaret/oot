@@ -829,18 +829,14 @@ void ArenaImpl_FaultClient(Arena* arena) {
                 allocatedSize += iter->size;
             }
         } else {
-#if FAULT_VERSION == FAULT_OOTGC
             FaultDrawer_SetFontColor(0xF801);
-#endif
             FaultDrawer_Printf("%08x Block Invalid\n", iter);
             next = NULL;
         }
         iter = next;
     }
 
-#if FAULT_VERSION == FAULT_OOTGC
     FaultDrawer_SetFontColor(0x7F1);
-#endif
     FaultDrawer_Printf("Total Alloc Block Size  %08x\n", allocatedSize);
     FaultDrawer_Printf("Total Free Block Size   %08x\n", freeSize);
     FaultDrawer_Printf("Largest Free Block Size %08x\n", maxFree);

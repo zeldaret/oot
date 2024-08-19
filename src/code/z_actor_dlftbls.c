@@ -100,9 +100,7 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
     u32 overlaySize;
     s32 i;
 
-#if FAULT_VERSION == FAULT_OOTGC
     FaultDrawer_SetCharPad(-2, 0);
-#endif
 
     FaultDrawer_Printf("actor_dlftbls %u\n", gMaxActorId);
     FaultDrawer_Printf("No. RamStart- RamEnd cn  Name\n");

@@ -65,6 +65,10 @@ void Fault_SetFrameBuffer(void* fb, u16 w, u16 h);
 
 #if FAULT_VERSION == FAULT_OOTN64
 
+// Not implemented. Silently noop-ing is fine, these are not essential for functionality.
+#define FaultDrawer_SetFontColor(color) (void)0
+#define FaultDrawer_SetCharPad(padW, padH) (void)0
+
 void Fault_SetCursor(s32 x, s32 y);
 s32 Fault_Printf(const char* fmt, ...);
 void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
