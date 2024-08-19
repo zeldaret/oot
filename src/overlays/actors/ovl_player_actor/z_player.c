@@ -79,13 +79,14 @@ typedef enum AnimSfxType {
     /* 2 */ ANIMSFX_TYPE_WITH_FLOOR_OFFSET,
     /* 3 */ ANIMSFX_TYPE_WITH_FLOOR_AND_AGE_OFFSETS,
     /* 4 */ ANIMSFX_TYPE_WITH_AGE_OFFSET,
-    // the following 4 types ignore the value of sfxId and alwats play a specific sound (taking iron boots into account)
-    /* 5 */ ANIMSFX_TYPE_LANDING,   // landing sound
-    /* 6 */ ANIMSFX_TYPE_WALKING_1, // walking sound (as if link was moving with speed 6)
-    /* 7 */ ANIMSFX_TYPE_JUMPING,   // jumping sound
-    /* 8 */ ANIMSFX_TYPE_WALKING_2, // walking sound (as if link was standing still)
+    // the following 4 types ignore the value of `AnimSfxEntry.sfxId` and always play a specific sound
+    // they also apply the iron boots offset if needed
+    /* 5 */ ANIMSFX_TYPE_LANDING, // landing sound
+    /* 6 */ ANIMSFX_TYPE_RUNNING, // walking sound (as if link was moving with speed 6)
+    /* 7 */ ANIMSFX_TYPE_JUMPING, // jumping sound
+    /* 8 */ ANIMSFX_TYPE_WALKING, // walking sound (as if link was standing still)
 
-    /* 9 */ ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET // sfxId is also ignored (probably ladder related)
+    /* 9 */ ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET // `AnimSfxEntry.sfxId` is also ignored (probably ladder related)
 } AnimSfxType;
 
 #define ANIMSFX_SHIFT_TYPE(type) ((type) << 11)
@@ -1157,9 +1158,9 @@ static AnimSfxEntry D_80853DFC[] = {
 };
 
 static AnimSfxEntry D_80853E10[] = {
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 25) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 30) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 44) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 48) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 52) }, { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 56) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 25) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 30) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 44) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 48) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 52) }, { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 56) },
 };
 
 static AnimSfxEntry D_80853E28[] = {
@@ -1870,11 +1871,11 @@ void Player_ProcessAnimSfxList(Player* this, AnimSfxEntry* entry) {
                 Player_PlaySfxWithAgeOffset(this, entry->sfxId);
             } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_LANDING)) {
                 Player_PlayLandingSfx(this);
-            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_WALKING_1)) {
+            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_RUNNING)) {
                 Player_PlayWalkingSfx(this, 6.0f);
             } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_JUMPING)) {
                 Player_PlayJumpingSfx(this);
-            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_WALKING_2)) {
+            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_WALKING)) {
                 Player_PlayWalkingSfx(this, 0.0f);
             } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET)) {
                 func_800F4010(&this->actor.projectedPos,
@@ -8802,8 +8803,8 @@ void Player_Action_80843954(Player* this, PlayState* play) {
 }
 
 static AnimSfxEntry D_808545DC[] = {
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 20) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 30) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 20) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 30) },
 };
 
 void Player_Action_80843A38(Player* this, PlayState* play) {
@@ -8867,9 +8868,9 @@ void func_80843AE8(PlayState* play, Player* this) {
 
 static AnimSfxEntry D_808545F0[] = {
     { NA_SE_PL_BOUND, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_FLOOR_OFFSET, 60) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 140) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 164) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 170) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 140) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 164) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 170) },
 };
 
 void Player_Action_80843CEC(Player* this, PlayState* play) {
@@ -12386,11 +12387,11 @@ void Player_Action_8084C5F8(Player* this, PlayState* play) {
 }
 
 static AnimSfxEntry D_808548B4[] = {
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 40) },   { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 48) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 56) },   { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 64) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 72) },   { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 80) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 88) },   { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 96) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 104) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 40) },   { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 48) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 56) },   { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 64) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 72) },   { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 80) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 88) },   { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 96) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 104) },
 };
 
 /**
@@ -12421,11 +12422,11 @@ void Player_Action_8084C760(Player* this, PlayState* play) {
 }
 
 static AnimSfxEntry D_808548D8[] = {
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 10) },  { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 18) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 26) },  { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 34) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 52) },  { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 60) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 68) },  { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 76) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 84) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 10) },  { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 18) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 26) },  { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 34) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 52) },  { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 60) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 68) },  { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 76) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 84) },
 };
 
 /**
@@ -14171,18 +14172,18 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
                 static AnimSfxEntry D_80854A80[] = {
                     { NA_SE_PL_SKIP, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 20) },
                     { NA_SE_VO_LI_SWORD_N, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 20) },
-                    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 26) },
+                    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 26) },
                 };
 
                 Player_ProcessAnimSfxList(this, D_80854A80);
             } else if (this->av2.actionVar2 == 1) {
                 static AnimSfxEntry D_80854A8C[][2] = {
                     {
-                        { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 20) },
+                        { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 20) },
                         { NA_SE_VO_LI_MAGIC_FROL, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 30) },
                     },
                     {
-                        { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 20) },
+                        { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 20) },
                         { NA_SE_VO_LI_MAGIC_NALE, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 44) },
                     },
                     {
@@ -14295,14 +14296,14 @@ static AnimSfxEntry D_80854AF0[] = {
 
 static AnimSfxEntry D_80854B00[] = {
     { NA_SE_VO_LI_SURPRISE, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 3) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 15) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 24) },
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 30) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 15) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 24) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 30) },
     { NA_SE_VO_LI_FALL_L, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 31) },
 };
 
 static AnimSfxEntry D_80854B14[] = {
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 10) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 10) },
 };
 
 static struct_80854B18 D_80854B18[PLAYER_CSACTION_MAX] = {
@@ -14736,8 +14737,8 @@ void func_80851688(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 static AnimSfxEntry D_80855188[] = {
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 42) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 48) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 42) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 48) },
 };
 
 void func_80851750(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -14832,8 +14833,8 @@ static struct_808551A4 D_808551A4[] = {
 };
 
 static AnimSfxEntry D_808551AC[] = {
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 29) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 39) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 29) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 39) },
 };
 
 void func_80851A50(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -15071,8 +15072,8 @@ void func_80852298(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 static AnimSfxEntry D_808551E0[] = {
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 10) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 24) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 10) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 24) },
 };
 
 void func_80852328(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -15080,8 +15081,8 @@ void func_80852328(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 static AnimSfxEntry D_808551E8[] = {
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 15) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_2, 35) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 15) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 35) },
 };
 
 void func_80852358(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -15109,8 +15110,8 @@ void func_80852414(PlayState* play, Player* this, LinkAnimationHeader* anim, Ani
 }
 
 static AnimSfxEntry D_808551F0[] = {
-    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 15) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING_1, 33) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 15) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 33) },
 };
 
 void func_80852450(PlayState* play, Player* this, CsCmdActorCue* cue) {
