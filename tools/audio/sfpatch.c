@@ -10,6 +10,12 @@
 #include "elf32.h"
 #include "util.h"
 
+/**
+ * Converts symbols defined in an ELF file to ABS symbols so their values remain
+ * unchanged after linking against them. This is used for soundfonts as references
+ * to symbols defined in the soundfont should remain file-relative even after the
+ * final link.
+ */
 int
 main(int argc, char **argv)
 {

@@ -878,19 +878,19 @@ emit_c_header(FILE *out, soundfont *sf)
     uint32_t pos = 0;
 
     if (sf->drums != NULL)
-        fprintf(out, "NO_REORDER DATA Drum** SF%d_DRUMS_PTR_LIST_PTR = SF%d_DRUMS_PTR_LIST;\n", sf->info.index,
+        fprintf(out, "NO_REORDER SECTION_DATA Drum** SF%d_DRUMS_PTR_LIST_PTR = SF%d_DRUMS_PTR_LIST;\n", sf->info.index,
                 sf->info.index);
     else
-        fprintf(out, "NO_REORDER DATA Drum** SF%d_DRUMS_PTR_LIST_PTR = NULL;\n", sf->info.index);
+        fprintf(out, "NO_REORDER SECTION_DATA Drum** SF%d_DRUMS_PTR_LIST_PTR = NULL;\n", sf->info.index);
 
     pos += 4;
     size += 4;
 
     if (sf->sfx != NULL)
-        fprintf(out, "NO_REORDER DATA SoundEffect* SF%d_SFX_LIST_PTR = SF%d_SFX_LIST;\n", sf->info.index,
+        fprintf(out, "NO_REORDER SECTION_DATA SoundEffect* SF%d_SFX_LIST_PTR = SF%d_SFX_LIST;\n", sf->info.index,
                 sf->info.index);
     else
-        fprintf(out, "NO_REORDER DATA SoundEffect* SF%d_SFX_LIST_PTR = NULL;\n", sf->info.index);
+        fprintf(out, "NO_REORDER SECTION_DATA SoundEffect* SF%d_SFX_LIST_PTR = NULL;\n", sf->info.index);
 
     pos += 4;
     size += 4;
@@ -906,7 +906,7 @@ emit_c_header(FILE *out, soundfont *sf)
             instr_names[instr->program_number] = instr->name;
         }
 
-        fprintf(out, "NO_REORDER DATA Instrument* SF%d_INSTRUMENT_PTR_LIST[] = {\n", sf->info.index);
+        fprintf(out, "NO_REORDER SECTION_DATA Instrument* SF%d_INSTRUMENT_PTR_LIST[] = {\n", sf->info.index);
 
         for (unsigned i = 0; i < sf->info.num_instruments; i++) {
             if (instr_names[i] == NULL)
@@ -1040,19 +1040,19 @@ emit_c_samples(FILE *out, soundfont *sf)
 
         fprintf(out,
                 // clang-format off
-               "NO_REORDER DATA ALIGNED(16) Sample SF%d_%s_HEADER = {"  "\n"
+               "NO_REORDER SECTION_DATA ALIGNED(16) Sample SF%d_%s_HEADER = {"  "\n"
                "    "
 #ifdef SFC_MM
                 // MM has an extra unused field in the sample structure compared to OoT
                    "%d, "
 #endif
-                   "%s, %d, %s, %s,"                                    "\n"
-               "    0x%06lX,"                                           "\n"
-               "    %s_%s_Off,"                                         "\n"
-               "    &SF%d_%s_LOOP,"                                     "\n"
-               "    &SF%d_%s_BOOK,"                                     "\n"
-               "};"                                                     "\n"
-                                                                        "\n",
+                   "%s, %d, %s, %s,"                                            "\n"
+               "    0x%06lX,"                                                   "\n"
+               "    %s_%s_Off,"                                                 "\n"
+               "    &SF%d_%s_LOOP,"                                             "\n"
+               "    &SF%d_%s_BOOK,"                                             "\n"
+               "};"                                                             "\n"
+                                                                                "\n",
                 // clang-format on
                 sf->info.index, sample->name,
 #ifdef SFC_MM
@@ -1072,10 +1072,10 @@ emit_c_samples(FILE *out, soundfont *sf)
 
             fprintf(out,
                     // clang-format off
-                   "NO_REORDER DATA ALIGNED(16) AdpcmBookHeader SF%d_%s_BOOK_HEADER = {"    "\n"
-                   "    %d, %d,"                                                            "\n"
-                   "};"                                                                     "\n"
-                   "NO_REORDER DATA AdpcmBookData SF%d_%s_BOOK_DATA = {"                    "\n",
+                   "NO_REORDER SECTION_DATA ALIGNED(16) AdpcmBookHeader SF%d_%s_BOOK_HEADER = {"    "\n"
+                   "    %d, %d,"                                                                    "\n"
+                   "};"                                                                             "\n"
+                   "NO_REORDER SECTION_DATA AdpcmBookData SF%d_%s_BOOK_DATA = {"                    "\n",
                     // clang-format on
                     sf->info.index, bookname, sample->aifc.book.order, sample->aifc.book.npredictors, sf->info.index,
                     bookname);
@@ -1144,11 +1144,11 @@ emit_c_samples(FILE *out, soundfont *sf)
 
             fprintf(out,
                     // clang-format off
-                   "NO_REORDER DATA ALIGNED(16) AdpcmLoopHeader SF%d_%s_LOOP_HEADER = {"    "\n"
-                   "    %u, %u, %u, 0,"                                                     "\n"
-                   "};"                                                                     "\n"
-                   "#pragma weak SF%d_%s_LOOP = SF%d_%s_LOOP_HEADER"                        "\n"
-                                                                                            "\n",
+                   "NO_REORDER SECTION_DATA ALIGNED(16) AdpcmLoopHeader SF%d_%s_LOOP_HEADER = {"    "\n"
+                   "    %u, %u, %u, 0,"                                                             "\n"
+                   "};"                                                                             "\n"
+                   "#pragma weak SF%d_%s_LOOP = SF%d_%s_LOOP_HEADER"                                "\n"
+                                                                                                    "\n",
                     // clang-format on
                     sf->info.index, sample->name, start, end, count, sf->info.index, sample->name, sf->info.index,
                     sample->name);
@@ -1171,16 +1171,16 @@ emit_c_samples(FILE *out, soundfont *sf)
 
             fprintf(out,
                     // clang-format off
-                   "NO_REORDER DATA ALIGNED(16) AdpcmLoop SF%d_%s_LOOP = {"         "\n"
-                   "    { %u, %u, %s, %u },"                                        "\n"
-                   "    {"                                                          "\n"
-                   "        (s16)0x%04X, (s16)0x%04X, (s16)0x%04X, (s16)0x%04X,"    "\n"
-                   "        (s16)0x%04X, (s16)0x%04X, (s16)0x%04X, (s16)0x%04X,"    "\n"
-                   "        (s16)0x%04X, (s16)0x%04X, (s16)0x%04X, (s16)0x%04X,"    "\n"
-                   "        (s16)0x%04X, (s16)0x%04X, (s16)0x%04X, (s16)0x%04X,"    "\n"
-                   "    },"                                                         "\n"
-                   "};"                                                             "\n"
-                                                                                    "\n",
+                   "NO_REORDER SECTION_DATA ALIGNED(16) AdpcmLoop SF%d_%s_LOOP = {"     "\n"
+                   "    { %u, %u, %s, %u },"                                            "\n"
+                   "    {"                                                              "\n"
+                   "        (s16)0x%04X, (s16)0x%04X, (s16)0x%04X, (s16)0x%04X,"        "\n"
+                   "        (s16)0x%04X, (s16)0x%04X, (s16)0x%04X, (s16)0x%04X,"        "\n"
+                   "        (s16)0x%04X, (s16)0x%04X, (s16)0x%04X, (s16)0x%04X,"        "\n"
+                   "        (s16)0x%04X, (s16)0x%04X, (s16)0x%04X, (s16)0x%04X,"        "\n"
+                   "    },"                                                             "\n"
+                   "};"                                                                 "\n"
+                                                                                        "\n",
                     // clang-format on
                     sf->info.index, sample->name, sample->aifc.loop.start, sample->aifc.loop.end, count_str,
                     frame_count, (uint16_t)sample->aifc.loop.state[0], (uint16_t)sample->aifc.loop.state[1],
@@ -1219,20 +1219,20 @@ emit_c_envelopes(FILE *out, soundfont *sf)
 
             fprintf(out,
                     // clang-format off
-                   "NO_REORDER DATA ALIGNED(16) EnvelopePoint SF%d_ENV_EMPTY_%lu[] = {"     "\n"
-                   "    { 0, 0, },"                                                         "\n"
-                   "    { 0, 0, },"                                                         "\n"
-                   "    { 0, 0, },"                                                         "\n"
-                   "    { 0, 0, },"                                                         "\n"
-                   "};"                                                                     "\n"
-                                                                                            "\n",
+                   "NO_REORDER SECTION_DATA ALIGNED(16) EnvelopePoint SF%d_ENV_EMPTY_%lu[] = {"     "\n"
+                   "    { 0, 0, },"                                                                 "\n"
+                   "    { 0, 0, },"                                                                 "\n"
+                   "    { 0, 0, },"                                                                 "\n"
+                   "    { 0, 0, },"                                                                 "\n"
+                   "};"                                                                             "\n"
+                                                                                                    "\n",
                     // clang-format on
                     sf->info.index, empty_num);
 
             empty_num++;
             size += 0x10;
         } else {
-            fprintf(out, "NO_REORDER DATA ALIGNED(16) EnvelopePoint SF%d_%s[] = {\n", sf->info.index, envdata->name);
+            fprintf(out, "NO_REORDER SECTION_DATA ALIGNED(16) EnvelopePoint SF%d_%s[] = {\n", sf->info.index, envdata->name);
 
             // Write all points
             for (size_t j = 0; j < envdata->n_points; j++) {
@@ -1285,10 +1285,10 @@ emit_c_instruments(FILE *out, soundfont *sf)
 
     LL_FOREACH(instr_data *, instr, sf->instruments) {
         if (instr->unused) {
-            fprintf(out, "NO_REORDER DATA Instrument SF%d_INSTR_UNUSED_%lu = {\n", sf->info.index, unused_instr_num);
+            fprintf(out, "NO_REORDER SECTION_DATA Instrument SF%d_INSTR_UNUSED_%lu = {\n", sf->info.index, unused_instr_num);
             unused_instr_num++;
         } else {
-            fprintf(out, "NO_REORDER DATA Instrument SF%d_%s = {\n", sf->info.index, instr->name);
+            fprintf(out, "NO_REORDER SECTION_DATA Instrument SF%d_%s = {\n", sf->info.index, instr->name);
         }
 
         char nlo[5];
@@ -1370,15 +1370,15 @@ emit_c_drums(FILE *out, soundfont *sf)
 
         fprintf(out,
                 // clang-format off
-               "#define SF%d_%s_ENTRY(tuning) \\"           "\n"
-               "    { \\"                                   "\n"
-               "        %d, \\"                             "\n"
-               "        %d, \\"                             "\n"
-               "        false, \\"                          "\n"
-               "        { &SF%d_%s_HEADER, (tuning) }, \\"  "\n"
-               "        SF%d_%s, \\"                        "\n"
-               "    }"                                      "\n"
-               "NO_REORDER DATA Drum SF%d_%s[%lu] = {"      "\n",
+               "#define SF%d_%s_ENTRY(tuning) \\"               "\n"
+               "    { \\"                                       "\n"
+               "        %d, \\"                                 "\n"
+               "        %d, \\"                                 "\n"
+               "        false, \\"                              "\n"
+               "        { &SF%d_%s_HEADER, (tuning) }, \\"      "\n"
+               "        SF%d_%s, \\"                            "\n"
+               "    }"                                          "\n"
+               "NO_REORDER SECTION_DATA Drum SF%d_%s[%lu] = {"  "\n",
                 // clang-format on
                 sf->info.index, drum->name, drum->release, drum->pan, sf->info.index, drum->sample->name,
                 sf->info.index, drum->envelope->name, sf->info.index, drum->name, length);
@@ -1416,7 +1416,7 @@ emit_c_drums(FILE *out, soundfont *sf)
     if (table_len > 64)
         error("Bad drum pointer table length %lu, should be at most 64", table_len);
 
-    fprintf(out, "NO_REORDER DATA ALIGNED(16) Drum* SF%d_DRUMS_PTR_LIST[%lu] = {\n", sf->info.index, table_len);
+    fprintf(out, "NO_REORDER SECTION_DATA ALIGNED(16) Drum* SF%d_DRUMS_PTR_LIST[%lu] = {\n", sf->info.index, table_len);
 
     for (size_t i = 0; i < table_len; i++) {
         if (ptr_table[i].name == NULL) {
@@ -1451,7 +1451,7 @@ emit_c_effects(FILE *out, soundfont *sf)
 
     // Effects are all contained in the same array. We write empty <Effect/> entries as NULL entries in this array.
 
-    fprintf(out, "NO_REORDER DATA ALIGNED(16) SoundEffect SF%d_SFX_LIST[] = {\n", sf->info.index);
+    fprintf(out, "NO_REORDER SECTION_DATA ALIGNED(16) SoundEffect SF%d_SFX_LIST[] = {\n", sf->info.index);
 
     LL_FOREACH(sfx_data *, sfx, sf->sfx) {
         if (sfx->sample != NULL)
@@ -1481,7 +1481,7 @@ emit_c_match_padding(FILE *out, soundfont *sf, size_t size)
 
         fprintf(out, "// MATCH PADDING\n\n");
 
-        fprintf(out, "NO_REORDER DATA u8 SF%d_MATCH_PADDING[] = {\n", sf->info.index);
+        fprintf(out, "NO_REORDER SECTION_DATA u8 SF%d_MATCH_PADDING[] = {\n", sf->info.index);
         for (size_t i = 0; i < amount; i++)
             fprintf(out, "    0x%02X,\n", sf->match_padding[i]);
         fprintf(out, "};\n\n");
@@ -1497,7 +1497,7 @@ emit_c_match_padding(FILE *out, soundfont *sf, size_t size)
 
             // pad to given size
             size_t amount = sf->info.pad_to_size - size;
-            fprintf(out, "NO_REORDER DATA u8 SF%d_MATCH_PADDING_TO_SIZE[%lu] = { 0 };\n", sf->info.index, amount);
+            fprintf(out, "NO_REORDER SECTION_DATA u8 SF%d_MATCH_PADDING_TO_SIZE[%lu] = { 0 };\n", sf->info.index, amount);
         }
     }
 }

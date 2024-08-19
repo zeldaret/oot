@@ -1,4 +1,4 @@
-PROGRAMS := atblgen elfpatch sbc sfc
+PROGRAMS := atblgen sfpatch sbc sfc
 
 ifeq ($(shell which xml2-config),)
   $(error xml2-config not found. Did you install libxml2-dev?)
@@ -31,7 +31,7 @@ format:
 	$(MAKE) -C sampleconv format
 
 atblgen_SOURCES  := audio_tablegen.c samplebank.c soundfont.c xml.c util.c
-elfpatch_SOURCES := elfpatch.c util.c
+sfpatch_SOURCES  := sfpatch.c util.c
 sbc_SOURCES      := samplebank_compiler.c samplebank.c aifc.c xml.c util.c
 sfc_SOURCES      := soundfont_compiler.c samplebank.c soundfont.c aifc.c xml.c util.c
 

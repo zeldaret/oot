@@ -2,12 +2,9 @@
 #define SOUNDFONT_FILE_H
 
 #include "libc/stdbool.h"
-#include "../alignment.h"
-#include "../attributes.h"
-#include "../z64audio.h"
-
-// Force all declarations into .data for modern compilers
-#define DATA __attribute__((section(".data")))
+#include "alignment.h"
+#include "attributes.h"
+#include "z64audio.h"
 
 // Envelope definitions
 
