@@ -1577,7 +1577,9 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                     this->actionFunc = EnGo2_CurledUp;
                 }
             } else {
+#if PLATFORM_GC
                 CLEAR_INFTABLE(INFTABLE_10C);
+#endif
                 this->collider.dim.height = (D_80A4816C[PARAMS_GET_S(this->actor.params, 0, 5)].height * 0.6f);
                 EnGo2_SetupRolling(this, play);
                 this->isAwake = true;

@@ -36,10 +36,6 @@ incbins:
     segment: code
     vram: 0x80114220
     size: 0x6F0
-  - name: gSampleBankTable
-    segment: code
-    vram: 0x80114910
-    size: 0x80
   - name: aspMainData
     segment: code
     vram: 0x80114990

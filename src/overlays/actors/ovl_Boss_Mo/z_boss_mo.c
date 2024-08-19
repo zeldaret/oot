@@ -57,7 +57,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play);
 void BossMo_SetupTentacle(BossMo* this, PlayState* play);
 void BossMo_Tentacle(BossMo* this, PlayState* play);
 
-void BossMo_Unknown(void);
+void BossMo_SfxTest(void);
 
 typedef enum BossMoEffectType {
     /* 0 */ MO_FX_NONE,
@@ -188,7 +188,7 @@ s32 BossMo_NearLand(Vec3f* pos, f32 margin) {
 
 void BossMo_SpawnRipple(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 maxScale, s16 maxAlpha, s16 countLimit,
                         u8 type) {
-    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
     for (i = 0; i < countLimit; i++, effect++) {
@@ -196,8 +196,8 @@ void BossMo_SpawnRipple(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 maxScal
             effect->stopTimer = 0;
             effect->type = type;
             effect->pos = *pos;
-            effect->vel = zeroVec;
-            effect->accel = zeroVec;
+            effect->vel = sZeroVec;
+            effect->accel = sZeroVec;
             effect->scale = scale * 0.0025f;
             effect->fwork[MO_FX_MAX_SIZE] = maxScale * 0.0025f;
             if (scale > 300.0f) {
@@ -2258,7 +2258,10 @@ void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
     if (player->actor.parent != NULL) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     }
-    BossMo_Unknown();
+
+#if PLATFORM_GC
+    BossMo_SfxTest();
+#endif
 }
 
 void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
@@ -2440,7 +2443,7 @@ static Gfx* sTentDLists[41] = {
 };
 
 void BossMo_DrawTentacle(BossMo* this, PlayState* play) {
-    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
     s16 i;
     s16 notCut;
     s16 index;
@@ -2540,9 +2543,9 @@ void BossMo_DrawTentacle(BossMo* this, PlayState* play) {
             Matrix_Pop();
         }
 
-        Matrix_MultVec3f(&zeroVec, &this->tentPos[i]);
+        Matrix_MultVec3f(&sZeroVec, &this->tentPos[i]);
         if (i == 36) {
-            Matrix_MultVec3f(&zeroVec, &this->actor.focus.pos);
+            Matrix_MultVec3f(&sZeroVec, &this->actor.focus.pos);
         }
         if (i == 24) {
             MtxF sp98;
@@ -3046,9 +3049,10 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_boss_mo.c", 7482);
 }
 
-void BossMo_Unknown(void) {
+#if PLATFORM_GC
+void BossMo_SfxTest(void) {
     // Appears to be a test function for sound effects.
-    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
     static u16 unkSfx[] = {
         // Walking
         NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT,
@@ -3592,10 +3596,11 @@ void BossMo_Unknown(void) {
     if (BREG(32) != 0) {
         BREG(32)--;
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
-        Sfx_PlaySfxAtPos(&zeroVec, unkSfx[BREG(33)]);
+        Sfx_PlaySfxAtPos(&sZeroVec, unkSfx[BREG(33)]);
     }
     if (BREG(34) != 0) {
         BREG(34) = 0;
         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, BREG(35));
     }
 }
+#endif
