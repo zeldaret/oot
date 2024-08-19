@@ -2,6 +2,8 @@
 #include "z64dma.h"
 #include "n64dd.h"
 
+s8 func_801C7740_unknown(void);
+
 void func_800ADA80(void) {
     if (!B_80121AE0) {
         DmaMgr_RequestSync(func_801C7740_unknown, (uintptr_t)D_00B8ADA0, D_00B9DA70 - D_00B8ADA0);

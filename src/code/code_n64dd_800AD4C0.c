@@ -24,7 +24,7 @@ void func_800ADB8C(void) {
 
 n64ddStruct_800FF4B0_pointers* func_800ADBD0(void) {
     D_800FF4B0.unk_04 = 0;
-    D_800FF4B0.unk_08 = (RegEditor*)gRegEditor;
+    D_800FF4B0.unk_08 = gRegEditor;
     D_800FF4B0.unk_88 = &gSaveContext;
     return &D_800FF4B0;
 }
