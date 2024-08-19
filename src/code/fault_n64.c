@@ -604,8 +604,6 @@ void Fault_WaitForButtonCombo(void) {
     }
 }
 
-extern s32 D_80105A90_unknown; // Arena_failcnt
-
 void func_800AF0E0(void) {
     s32 i;
 
@@ -615,7 +613,7 @@ void func_800AF0E0(void) {
     for (i = 0; i < ARRAY_COUNT(gSegments); i++) {
         Fault_DrawText(40, 40 + 8 * i, "%2d:%08x", i, gSegments[i]);
     }
-    Fault_DrawText(40, 180, "Arena_failcnt = %d", D_80105A90_unknown);
+    Fault_DrawText(40, 180, "Arena_failcnt = %d", gTotalAllocFailures);
 }
 
 void Fault_DrawMemDumpContents(const char* title, void* memory, u32 arg2) {

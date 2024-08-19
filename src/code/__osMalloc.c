@@ -54,12 +54,12 @@
 #define CHECK_FREE_BLOCK(arena, node) (void)0
 
 // Number of allocation failures across all arenas.
-u32 sTotalAllocFailures = 0;
+u32 gTotalAllocFailures = 0; // "Arena_failcnt"
 
 #define CHECK_ALLOC_FAILURE(arena, ptr) \
     do {                                \
         if ((ptr) == NULL) {            \
-            sTotalAllocFailures++;      \
+            gTotalAllocFailures++;      \
             (arena)->allocFailures++;   \
         }                               \
     } while (0)

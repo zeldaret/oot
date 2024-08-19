@@ -9,8 +9,3 @@ D_0F000000 = 0x0F000000;
 
 // z_bg_mjin
 D_06000000 = 0x06000000;
-
-
-#if PLATFORM_N64
-D_80105A90_unknown = 0x80105A90;
-#endif
