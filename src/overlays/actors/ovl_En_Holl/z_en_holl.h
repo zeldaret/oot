@@ -4,8 +4,8 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define ENHOLL_GET_TYPE(thisx) (((thisx)->params >> 6) & 7)
-#define ENHOLL_GET_SWITCH_FLAG(thisx) ((thisx)->params & 0x3F)
+#define ENHOLL_GET_TYPE(thisx)          PARAMS_GET_U((thisx)->params, 6, 3)
+#define ENHOLL_GET_SWITCH_FLAG(thisx)   PARAMS_GET_U((thisx)->params, 0, 6)
 
 /**
  * Two kinds of holls:

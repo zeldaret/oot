@@ -470,7 +470,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     if (this->actionFunc == EnKarebaba_DeadItemDrop) {
-        if (this->actor.params > 40 || (this->actor.params & 1)) {
+        if (this->actor.params > 40 || PARAMS_GET_U(this->actor.params, 0, 1)) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
             gSPMATRIX_SET_NEW(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1066);
             gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStickDropDL);

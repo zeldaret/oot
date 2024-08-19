@@ -173,7 +173,7 @@ void EnMm_Init(Actor* thisx, PlayState* play) {
                      Animation_GetLastFrame(sAnimationInfo[RM_ANIM_RUN].animation), sAnimationInfo[RM_ANIM_RUN].mode,
                      sAnimationInfo[RM_ANIM_RUN].morphFrames);
 
-    this->path = this->actor.params & 0xFF;
+    this->path = PARAMS_GET_U(this->actor.params, 0, 8);
     this->unk_1F0 = 2;
     this->unk_1E8 = 0;
     this->actor.targetMode = 2;
@@ -334,7 +334,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
     xDiff = waypointPos.x - this->actor.world.pos.x;
     zDiff = waypointPos.z - this->actor.world.pos.z;
 
-    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
+    this->yawToWaypoint = RAD_TO_BINANG2(Math_FAtan2F(xDiff, zDiff));
     this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
 
     while ((this->distToWaypoint <= 10.44f) && (this->unk_1E8 != 0)) {
@@ -379,7 +379,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
         xDiff = waypointPos.x - this->actor.world.pos.x;
         zDiff = waypointPos.z - this->actor.world.pos.z;
 
-        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
+        this->yawToWaypoint = RAD_TO_BINANG2(Math_FAtan2F(xDiff, zDiff));
         this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
     }
 

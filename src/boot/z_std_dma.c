@@ -581,7 +581,11 @@ void DmaMgr_Init(void) {
         PRINTF("_bootSegmentRomStart(%08x) != dma_rom_ad[0].rom_b(%08x)\n", _bootSegmentRomStart,
                gDmaDataTable[0].file.vromEnd);
         //! @bug The main code file where fault.c resides is not yet loaded
+#if PLATFORM_N64
+        Fault_AddHungupAndCrash("../z_std_dma.c", 840);
+#else
         Fault_AddHungupAndCrash("../z_std_dma.c", 1055);
+#endif
     }
 
     // Start the DMA manager

@@ -2659,7 +2659,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
         sp4C = 200.0f;
         BossVa_Spark(play, this, 1, 125, 15.0f, 7.0f, SPARK_TETHER, 1.0f, true);
         this->actor.flags &= ~ACTOR_FLAG_0;
-        if (this->actor.params & 1) {
+        if (PARAMS_GET_U(this->actor.params, 0, 1)) {
             sp4C = -200.0f;
         }
 

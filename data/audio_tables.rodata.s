@@ -17,6 +17,3 @@ glabel gSequenceFontTable
 
 glabel gSequenceTable
     .incbin "incbin/gSequenceTable"
-
-glabel gSampleBankTable
-    .incbin "incbin/gSampleBankTable"

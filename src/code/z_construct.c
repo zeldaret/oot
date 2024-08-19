@@ -177,16 +177,20 @@ void Interface_Init(PlayState* play) {
     interfaceCtx->unk_23C = interfaceCtx->unk_242 = 0;
 
     R_ITEM_BTN_X(0) = B_BUTTON_X;
-    R_B_BTN_COLOR(0) = 255;
-    R_B_BTN_COLOR(1) = 30;
-    R_B_BTN_COLOR(2) = 30;
+
+    R_B_BTN_COLOR(0) = B_BUTTON_R;
+    R_B_BTN_COLOR(1) = B_BUTTON_G;
+    R_B_BTN_COLOR(2) = B_BUTTON_B;
+
     R_ITEM_ICON_X(0) = B_BUTTON_X;
     R_ITEM_AMMO_X(0) = B_BUTTON_X + 2;
+
     R_A_BTN_X = A_BUTTON_X;
     R_A_ICON_X = A_BUTTON_X;
-    R_A_BTN_COLOR(0) = 0;
-    R_A_BTN_COLOR(1) = 200;
-    R_A_BTN_COLOR(2) = 50;
+
+    R_A_BTN_COLOR(0) = A_BUTTON_R;
+    R_A_BTN_COLOR(1) = A_BUTTON_G;
+    R_A_BTN_COLOR(2) = A_BUTTON_B;
 }
 
 #define TEXTBOX_SEGMENT_SIZE \

@@ -66,6 +66,7 @@ void VisZBuf_Destroy(VisZBuf* this) {
 
 void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
+    s32 pad;
     u16* zbufFrag = D_0E000000;
     s32 fmt;
     s32 y;

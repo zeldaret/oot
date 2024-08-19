@@ -121,7 +121,7 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
     s32 floorBgId;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->numShots = (thisx->params >> 8) & 0xFF;
+    this->numShots = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     if (thisx->params == 0) {
         SkelAnime_Init(play, &this->skelAnime, &gOctorokSkel, &gOctorokAppearAnim, this->jointTable, this->morphTable,

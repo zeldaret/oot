@@ -138,7 +138,7 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, PlayState* play) {
         thisx->world.rot.y = thisx->shape.rot.y = thisx->home.rot.y;
         Sfx_PlaySfxCentered2(NA_SE_EV_STONEDOOR_STOP);
     } else {
-        rotY = this->rotYdeg * (0x10000 / 360.0f);
+        rotY = DEG_TO_BINANG(this->rotYdeg);
         thisx->world.rot.y = thisx->shape.rot.y = thisx->home.rot.y + rotY;
         Sfx_PlaySfxCentered2(NA_SE_EV_WALL_SLIDE - SFX_FLAG);
     }

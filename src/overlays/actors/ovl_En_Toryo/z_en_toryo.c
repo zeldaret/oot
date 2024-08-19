@@ -367,7 +367,7 @@ void EnToryo_Update(Actor* thisx, PlayState* play) {
         }
 
         rot = thisx->yawTowardsPlayer - thisx->shape.rot.y;
-        if ((rot < 14563.0f) && (rot > -14563.0f)) {
+        if ((rot < DEG_TO_BINANG2(80.0f)) && (rot > DEG_TO_BINANG2(-80.0f))) {
             Npc_TrackPoint(thisx, &this->interactInfo, 0, NPC_TRACKING_HEAD_AND_TORSO);
         } else {
             Npc_TrackPoint(thisx, &this->interactInfo, 0, NPC_TRACKING_NONE);

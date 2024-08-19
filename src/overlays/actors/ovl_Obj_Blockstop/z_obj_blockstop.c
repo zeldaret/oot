@@ -50,8 +50,8 @@ void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI) {
-            if ((dynaPolyActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_ON ||
-                (dynaPolyActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
+            if (PARAMS_GET_U(dynaPolyActor->actor.params, 0, 4) == PUSHBLOCK_HUGE_START_ON ||
+                PARAMS_GET_U(dynaPolyActor->actor.params, 0, 4) == PUSHBLOCK_HUGE_START_OFF) {
                 Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             } else {
                 Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);

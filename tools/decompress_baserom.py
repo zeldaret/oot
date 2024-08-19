@@ -10,6 +10,7 @@ import hashlib
 import io
 from pathlib import Path
 import struct
+from typing import Iterable
 
 import crunch64
 import ipl3checksum
@@ -101,10 +102,10 @@ def get_str_hash(byte_array):
     return str(hashlib.md5(byte_array).hexdigest())
 
 
-def check_existing_rom(rom_path: Path, correct_str_hash: str):
+def check_existing_rom(rom_path: Path, correct_str_hashes: Iterable[str]):
     # If the baserom exists and is correct, we don't need to change anything
     if rom_path.exists():
-        if get_str_hash(rom_path.read_bytes()) == correct_str_hash:
+        if get_str_hash(rom_path.read_bytes()) in correct_str_hashes:
             return True
     return False
 
@@ -176,12 +177,17 @@ def main():
     config = version_config.load_version_config(version)
     dmadata_start = config.dmadata_start
 
-    compressed_str_hash = (
-        (baserom_dir / "checksum-compressed.md5").read_text().split()[0]
-    )
-    decompressed_str_hash = (baserom_dir / "checksum.md5").read_text().split()[0]
+    compressed_str_hashes = []
+    decompressed_str_hashes = []
+    for checksum_stem in config.checksums:
+        compressed_str_hashes.append(
+            (baserom_dir / f"{checksum_stem}-compressed.md5").read_text().split()[0]
+        )
+        decompressed_str_hashes.append(
+            (baserom_dir / f"{checksum_stem}.md5").read_text().split()[0]
+        )
 
-    if check_existing_rom(uncompressed_path, decompressed_str_hash):
+    if check_existing_rom(uncompressed_path, decompressed_str_hashes):
         print("Found valid baserom - exiting early")
         return
 
@@ -220,12 +226,12 @@ def main():
     # Check to see if the ROM is a "vanilla" ROM
     str_hash = get_str_hash(file_content)
     if version == "gc-eu-mq-dbg":
-        correct_str_hash = decompressed_str_hash
+        correct_str_hashes = decompressed_str_hashes
     else:
-        correct_str_hash = compressed_str_hash
-    if str_hash != correct_str_hash:
+        correct_str_hashes = compressed_str_hashes
+    if str_hash not in correct_str_hashes:
         print(
-            f"Error: Expected a hash of {correct_str_hash} but got {str_hash}. The baserom has probably been tampered, find a new one"
+            f"Error: Expected a hash of {' or '.join(correct_str_hashes)} but got {str_hash}. The baserom has probably been tampered, find a new one"
         )
 
         if version == "gc-eu-mq-dbg":
@@ -247,9 +253,9 @@ def main():
 
     # Double check the hash
     str_hash = get_str_hash(file_content)
-    if str_hash != decompressed_str_hash:
+    if str_hash not in decompressed_str_hashes:
         print(
-            f"Error: Expected a hash of {decompressed_str_hash} after decompression but got {str_hash}!"
+            f"Error: Expected a hash of {' or '.join(decompressed_str_hashes)} after decompression but got {str_hash}!"
         )
         exit(1)
 

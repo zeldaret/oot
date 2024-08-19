@@ -52,7 +52,7 @@ void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
     s32 i;
 
     Math_Vec3f_Copy(vec, &this->actor.world.pos);
-    for (i = 1; i < D_80B9A818[this->actor.params & 3]; i++) {
+    for (i = 1; i < D_80B9A818[PARAMS_GET_U(this->actor.params, 0, 2)]; i++) {
         Math_Vec3f_Copy(vec + i, &this->actor.world.pos);
         (vec + i)->x += (80.0f * Math_SinS((i - 1) * 0x2000));
         (vec + i)->z += (80.0f * Math_CosS((i - 1) * 0x2000));
@@ -67,7 +67,7 @@ static Mure2sScatteredShrubInfo sScatteredShrubInfo[] = {
 void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
     s32 i;
 
-    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
+    for (i = 0; i < D_80B9A818[PARAMS_GET_U(this->actor.params, 0, 2)]; i++) {
         Math_Vec3f_Copy(vec + i, &this->actor.world.pos);
         (vec + i)->x += (sScatteredShrubInfo[i].radius * Math_CosS(sScatteredShrubInfo[i].angle));
         (vec + i)->z -= (sScatteredShrubInfo[i].radius * Math_SinS(sScatteredShrubInfo[i].angle));
@@ -77,7 +77,7 @@ void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
 void ObjMure2_SetPosRockCircle(Vec3f* vec, ObjMure2* this) {
     s32 i;
 
-    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
+    for (i = 0; i < D_80B9A818[PARAMS_GET_U(this->actor.params, 0, 2)]; i++) {
         Math_Vec3f_Copy(vec + i, &this->actor.world.pos);
         (vec + i)->x += (80.0f * Math_SinS(i * 0x2000));
         (vec + i)->z += (80.0f * Math_CosS(i * 0x2000));
@@ -86,12 +86,12 @@ void ObjMure2_SetPosRockCircle(Vec3f* vec, ObjMure2* this) {
 
 void ObjMure2_SetActorSpawnParams(s16* params, ObjMure2* this) {
     static s16 actorSpawnParams[] = { 0, 0, 0 };
-    s16 dropTable = (this->actor.params >> 8) & 0xF;
+    s16 dropTable = PARAMS_GET_U(this->actor.params, 8, 4);
 
     if (dropTable >= 13) {
         dropTable = 0;
     }
-    *params = actorSpawnParams[this->actor.params & 3] & 0xF0FF;
+    *params = actorSpawnParams[PARAMS_GET_U(this->actor.params, 0, 2)] & 0xF0FF;
     *params |= (dropTable << 8);
 }
 
@@ -101,7 +101,7 @@ void ObjMure2_SpawnActors(ObjMure2* this, PlayState* play) {
         ObjMure2_SetPosShrubScattered,
         ObjMure2_SetPosRockCircle,
     };
-    s32 actorNum = this->actor.params & 3;
+    s32 actorNum = PARAMS_GET_U(this->actor.params, 0, 2);
     s32 i;
     Vec3f spawnPos[12];
     s16 params;
@@ -130,7 +130,7 @@ void ObjMure2_SpawnActors(ObjMure2* this, PlayState* play) {
 void ObjMure2_CleanupAndDie(ObjMure2* this, PlayState* play) {
     s32 i;
 
-    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
+    for (i = 0; i < D_80B9A818[PARAMS_GET_U(this->actor.params, 0, 2)]; i++) {
         if (((this->currentActorNum >> i) & 1) == 0) {
             if (this->actorSpawnPtrList[i] != NULL) {
                 if (Actor_HasParent(this->actorSpawnPtrList[i], play)) {
@@ -149,7 +149,7 @@ void ObjMure2_CleanupAndDie(ObjMure2* this, PlayState* play) {
 void func_80B9A534(ObjMure2* this) {
     s32 i;
 
-    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
+    for (i = 0; i < D_80B9A818[PARAMS_GET_U(this->actor.params, 0, 2)]; i++) {
         if (this->actorSpawnPtrList[i] != NULL && (((this->currentActorNum >> i) & 1) == 0) &&
             (this->actorSpawnPtrList[i]->update == NULL)) {
             this->currentActorNum |= (1 << i);
@@ -188,7 +188,7 @@ void func_80B9A658(ObjMure2* this) {
 
 void func_80B9A668(ObjMure2* this, PlayState* play) {
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) <
-        (sDistSquared1[this->actor.params & 3] * this->unk_184)) {
+        (sDistSquared1[PARAMS_GET_U(this->actor.params, 0, 2)] * this->unk_184)) {
         this->actor.flags |= ACTOR_FLAG_4;
         ObjMure2_SpawnActors(this, play);
         func_80B9A6E8(this);
@@ -201,7 +201,7 @@ void func_80B9A6E8(ObjMure2* this) {
 
 void func_80B9A6F8(ObjMure2* this, PlayState* play) {
     func_80B9A534(this);
-    if ((sDistSquared2[this->actor.params & 3] * this->unk_184) <=
+    if ((sDistSquared2[PARAMS_GET_U(this->actor.params, 0, 2)] * this->unk_184) <=
         Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         ObjMure2_CleanupAndDie(this, play);

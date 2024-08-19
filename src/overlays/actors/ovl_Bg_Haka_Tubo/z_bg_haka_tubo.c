@@ -197,7 +197,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play) {
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             // Drops a small key and sets a collect flag
-            collectibleParams = ((this->dyna.actor.params & 0x3F) << 8) | ITEM00_SMALL_KEY;
+            collectibleParams = (PARAMS_GET_U(this->dyna.actor.params, 0, 6) << 8) | ITEM00_SMALL_KEY;
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
         if (collectibleParams != -1) {

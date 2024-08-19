@@ -4,6 +4,8 @@
 
 #include "z64frame_advance.h"
 
+#pragma increment_block_number "gc-eu:24 gc-eu-mq:24 gc-jp:24 gc-jp-ce:24 gc-jp-mq:24 gc-us:24 gc-us-mq:24"
+
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
 VisMono gPlayVisMono;
@@ -443,7 +445,7 @@ void Play_Init(GameState* thisx) {
     Camera_InitDataUsingPlayer(&this->mainCamera, player);
     Camera_RequestMode(&this->mainCamera, CAM_MODE_NORMAL);
 
-    playerStartBgCamIndex = player->actor.params & 0xFF;
+    playerStartBgCamIndex = PARAMS_GET_U(player->actor.params, 0, 8);
     if (playerStartBgCamIndex != 0xFF) {
         PRINTF("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);

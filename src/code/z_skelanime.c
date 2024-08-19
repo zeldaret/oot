@@ -41,8 +41,6 @@ void SkelAnime_DrawLimbLod(PlayState* play, s32 limbIndex, void** skeleton, Vec3
         }
     }
 
-    if (1) {}
-
     if (postLimbDraw != NULL) {
         postLimbDraw(play, limbIndex, &dList, &rot, arg);
     }
@@ -260,8 +258,6 @@ void SkelAnime_DrawLimbOpa(PlayState* play, s32 limbIndex, void** skeleton, Vec3
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
-
-    if (1) {}
 
     if (postLimbDraw != NULL) {
         postLimbDraw(play, limbIndex, &dList, &rot, arg);
@@ -855,9 +851,14 @@ AnimTask* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
     return task;
 }
 
+#if PLATFORM_N64
+#define LINK_ANIMATION_OFFSET(addr, offset) \
+    (((uintptr_t)_link_animetionSegmentRomStart) + SEGMENT_OFFSET(addr) + (offset))
+#else
 #define LINK_ANIMATION_OFFSET(addr, offset)                                                                         \
     (((uintptr_t)_link_animetionSegmentRomStart) + ((uintptr_t)(addr)) - ((uintptr_t)_link_animetionSegmentStart) + \
      (offset))
+#endif
 
 /**
  * Creates a task which will load a single frame of animation data from the link_animetion file.

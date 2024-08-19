@@ -74,7 +74,7 @@ void BgHakaGate_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     DynaPolyActor_Init(&this->dyna, 0);
     if (thisx->params == BGHAKAGATE_SKULL) {
@@ -194,7 +194,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, PlayState* play) {
     this->vTurnRateDeg10 = CLAMP_MAX(this->vTurnRateDeg10, 5);
     turnFinished = Math_StepToS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
     turnAngle = this->vTurnAngleDeg10 * this->vTurnDirection;
-    this->dyna.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
+    this->dyna.actor.shape.rot.y = DEG_TO_BINANG((this->vRotYDeg10 + turnAngle) * 0.1f);
     if ((player->stateFlags2 & PLAYER_STATE2_4) && (sStatueDistToPlayer > 0.0f)) {
         player->actor.world.pos.x =
             this->dyna.actor.home.pos.x +
