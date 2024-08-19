@@ -720,6 +720,10 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
 # Audio
 
 AUDIO_BUILD_DEBUG ?= 0
+ifeq ($(AUDIO_BUILD_DEBUG),1)
+  # for debugging only, make soundfonts depend on samplebanks so they can be linked against
+  $(BUILD_DIR)/assets/audio/soundfonts/%.o: $(SAMPLEBANK_O_FILES)
+endif
 
 # first build samples...
 
@@ -783,7 +787,7 @@ $(BUILD_DIR)/assets/audio/soundfonts/%.c $(BUILD_DIR)/assets/audio/soundfonts/%.
 
 -include $(SOUNDFONT_DEP_FILES)
 
-$(BUILD_DIR)/assets/audio/soundfonts/%.o: $(BUILD_DIR)/assets/audio/soundfonts/%.c $(BUILD_DIR)/assets/audio/soundfonts/%.name #$(SAMPLEBANK_O_FILES) # (for debugging only)
+$(BUILD_DIR)/assets/audio/soundfonts/%.o: $(BUILD_DIR)/assets/audio/soundfonts/%.c $(BUILD_DIR)/assets/audio/soundfonts/%.name
 # compile c to unlinked object
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -I include/audio -o $(@:.o=.tmp) $<
 # partial link
