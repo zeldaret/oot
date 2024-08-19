@@ -233,12 +233,15 @@ void func_800AE1F8(void) {
     sFaultCursorPos.y = 16;
 }
 
-void Fault_Printf(const char* fmt, ...) {
+s32 Fault_Printf(const char* fmt, ...) {
+    s32 ret;
     va_list args;
 
     va_start(args, fmt);
-    _Printf(Fault_PrintCallbackDraw, &sFaultCursorPos, fmt, args);
+    ret = _Printf(Fault_PrintCallbackDraw, &sFaultCursorPos, fmt, args);
     va_end(args);
+
+    return ret;
 }
 
 void Fault_PrintFReg(s32 x, s32 y, s32 idx, f32* value) {

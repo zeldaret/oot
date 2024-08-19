@@ -66,7 +66,7 @@ void Fault_SetFrameBuffer(void* fb, u16 w, u16 h);
 #if FAULT_VERSION == FAULT_OOTN64
 
 void Fault_SetCursor(s32 x, s32 y);
-void Fault_Printf(const char* fmt, ...); // TODO return type?
+s32 Fault_Printf(const char* fmt, ...);
 void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
 #define FaultDrawer_SetCursor Fault_SetCursor
 #define FaultDrawer_Printf Fault_Printf
