@@ -105,7 +105,7 @@ void AudioMgr_ThreadEntry(void* arg) {
     IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, &audioMgr->interruptQueue);
 
     // Spin waiting for events
-    while (true) {
+    for (;;) {
         osRecvMesg(&audioMgr->interruptQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
 
         switch (*msg) {

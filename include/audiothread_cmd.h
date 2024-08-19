@@ -6,7 +6,7 @@
  * from the external graph thread to the internal audio thread
  */
 
-typedef enum {
+typedef enum AudioThreadCmdOp {
     // Channel Commands
     /* 0x00 */ AUDIOCMD_OP_NOOP,
     /* 0x01 */ AUDIOCMD_OP_CHANNEL_SET_VOL_SCALE,
@@ -428,7 +428,7 @@ typedef enum {
 /**
  * Unmute all sequence players
  *
- * @param restartNotes (s32) if set to 1, then notes with the `MUTE_BEHAVIOR_STOP_SAMPLES` flag set 
+ * @param restartNotes (s32) if set to 1, then notes with the `MUTE_BEHAVIOR_STOP_SAMPLES` flag set
  * are marked as finished for all seqPlayers
  */
 #define AUDIOCMD_GLOBAL_UNMUTE(restartNotes) \

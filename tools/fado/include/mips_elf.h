@@ -476,9 +476,9 @@ typedef struct {
 /* Relocation table entry with addend (in section of type SHT_RELA).  */
 
 typedef struct {
-    Elf32_Addr  r_offset;   /* Address */
-    Elf32_Word  r_info;     /* Relocation type and symbol index */
-    Elf32_Sword r_addend;   /* Addend */
+    Elf32_Addr r_offset;  /* Address */
+    Elf32_Word r_info;    /* Relocation type and symbol index */
+    Elf32_Sword r_addend; /* Addend */
 } Elf32_Rela;
 
 /* How to extract and insert information held in the r_info field.  */

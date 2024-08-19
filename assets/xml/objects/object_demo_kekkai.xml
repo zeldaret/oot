@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_demo_kekkai" Segment="6">
         <!-- Demo_Kekkai -->
         <DList Name="gTowerBarrierDL" Offset="0x4930"/>

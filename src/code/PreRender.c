@@ -267,7 +267,7 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
-                    G_AC_NONE | G_ZS_PRIM | G_RM_PASS | G_RM_OPA_CI2);
+                    G_AC_NONE | G_ZS_PRIM | G_RM_OPA_CI | G_RM_OPA_CI2);
 
     // Set the combiner to draw the texture as-is, discarding alpha channel
     gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 0, 0, 0, 0, 0, 0, 0, TEXEL0, 0, 0, 0, 0);
@@ -659,11 +659,12 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
         }
     }
 
-    // The background color is determined by averaging the penultimate minimum and maximum pixels, and subtracting the
+    // The background color is determined by adding the penultimate minimum and maximum pixels, and subtracting the
     // ForeGround color:
-    //      BackGround = (pMax + pMin) - (ForeGround) * 2
+    //      BackGround = (pMax + pMin) - ForeGround
 
     // OutputColor = cvg * ForeGround + (1.0 - cvg) * BackGround
+    //             = ForeGround + (1.0 - cvg) * (BackGround - ForeGround)
     invCvg = 7 - buffCvg[7];
     outR = buffR[7] + ((s32)(invCvg * (pmaxR + pminR - (buffR[7] * 2)) + 4) >> 3);
     outG = buffG[7] + ((s32)(invCvg * (pmaxG + pminG - (buffG[7] * 2)) + 4) >> 3);
@@ -681,6 +682,14 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
     (((a2) >= (a1)) ? (((a3) >= (a2)) ? (a2) : (((a1) >= (a3)) ? (a1) : (a3))) \
                     : (((a2) >= (a3)) ? (a2) : (((a3) >= (a1)) ? (a1) : (a3))))
 
+#if OOT_DEBUG
+#define R_HREG_MODE_DEBUG R_HREG_MODE
+#else
+#define R_HREG_MODE_DEBUG ((void)0, 0)
+#endif
+
+#define PRERENDER_DIVOT_CONTROL (R_HREG_MODE_DEBUG == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0)
+
 /**
  * Applies the Video Interface divot filter to an image.
  *
@@ -696,7 +705,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
 void PreRender_DivotFilter(PreRender* this) {
     s32 x;
     s32 y;
-    s32 pad1;
+    s32 cvg;
     u8* buffR = alloca(this->width);
     u8* buffG = alloca(this->width);
     u8* buffB = alloca(this->width);
@@ -704,14 +713,14 @@ void PreRender_DivotFilter(PreRender* this) {
     s32 pxR;
     s32 pxG;
     s32 pxB;
+    Color_RGBA16 pxIn;
+    Color_RGBA16 pxOut;
 
     for (y = 0; y < this->height; y++) {
         // The divot filter is applied row-by-row as it only needs to use pixels that are horizontally adjacent
 
         // Decompose each pixel into color channels
         for (x = 0; x < this->width; x++) {
-            Color_RGBA16 pxIn;
-
             pxIn.rgba = this->fbufSave[x + y * this->width];
             buffR[x] = pxIn.r;
             buffG[x] = pxIn.g;
@@ -721,8 +730,7 @@ void PreRender_DivotFilter(PreRender* this) {
         // Apply the divot filter itself. For pixels with partial coverage, the filter selects the median value from a
         // window of 3 pixels in a horizontal row and uses that as the value for the center pixel.
         for (x = 1; x < this->width - 1; x++) {
-            Color_RGBA16 pxOut;
-            s32 cvg = this->cvgSave[x + y * this->width];
+            cvg = this->cvgSave[x + y * this->width];
 
             // Reject pixels with full coverage. The hardware video filter divot circuit checks if all 3 pixels in the
             // window have partial coverage, here only the center pixel is checked.
@@ -732,11 +740,10 @@ void PreRender_DivotFilter(PreRender* this) {
             }
 
             // This condition is checked before entering this function, it will always pass if it runs.
-            if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
-                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {}
+            if (PRERENDER_DIVOT_CONTROL != 0) {
+                if (PRERENDER_DIVOT_CONTROL != 0) {}
 
-                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
-                    PRERENDER_DIVOT_PARTIAL_CVG_RED) {
+                if (PRERENDER_DIVOT_CONTROL == PRERENDER_DIVOT_PARTIAL_CVG_RED) {
                     // Fill the pixel with full red, likely for debugging
                     pxR = 31;
                     pxG = 0;
@@ -747,8 +754,7 @@ void PreRender_DivotFilter(PreRender* this) {
                     u8* windowG = &buffG[x - 1];
                     u8* windowB = &buffB[x - 1];
 
-                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
-                        PRERENDER_DIVOT_PRINT_COLOR) {
+                    if (PRERENDER_DIVOT_CONTROL == PRERENDER_DIVOT_PRINT_COLOR) {
                         PRINTF("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", windowR[0], windowR[1],
                                windowR[2], MEDIAN3(windowR[0], windowR[1], windowR[2]), windowG[0], windowG[1],
                                windowG[2], MEDIAN3(windowG[0], windowG[1], windowG[2]), windowB[0], windowB[1],
@@ -758,8 +764,7 @@ void PreRender_DivotFilter(PreRender* this) {
                     // Sample the median value from the 3 pixel wide window
 
                     // (Both blocks contain the same code)
-                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
-                        PRERENDER_DIVOT_ALTERNATE_COLOR) {
+                    if (PRERENDER_DIVOT_CONTROL == PRERENDER_DIVOT_ALTERNATE_COLOR) {
                         pxR = MEDIAN3(windowR[0], windowR[1], windowR[2]);
                         pxG = MEDIAN3(windowG[0], windowG[1], windowG[2]);
                         pxB = MEDIAN3(windowB[0], windowB[1], windowB[2]);
@@ -803,11 +808,9 @@ void PreRender_ApplyFilters(PreRender* this) {
             }
         }
 
-#if OOT_DEBUG
-        if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
+        if (PRERENDER_DIVOT_CONTROL != 0) {
             // Apply divot filter
             PreRender_DivotFilter(this);
         }
-#endif
     }
 }

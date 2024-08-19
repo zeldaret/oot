@@ -17,7 +17,7 @@ void ObjKibako2_Draw(Actor* thisx, PlayState* play);
 void ObjKibako2_Idle(ObjKibako2* this, PlayState* play);
 void ObjKibako2_Kill(ObjKibako2* this, PlayState* play);
 
-ActorInit Obj_Kibako2_InitVars = {
+ActorProfile Obj_Kibako2_Profile = {
     /**/ ACTOR_OBJ_KIBAKO2,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -42,8 +42,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x40000040, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 31, 48, 0, { 0, 0, 0 } },
@@ -159,7 +159,7 @@ void ObjKibako2_Idle(ObjKibako2* this, PlayState* play) {
 void ObjKibako2_Kill(ObjKibako2* this, PlayState* play) {
     s16 params = this->dyna.actor.params;
 
-    if ((params & 0x8000) == 0) {
+    if (PARAMS_GET_NOSHIFT(params, 15, 1) == 0) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
                     this->dyna.actor.world.pos.z, 0, this->dyna.actor.shape.rot.y, 0, params | 0x8000);
     }

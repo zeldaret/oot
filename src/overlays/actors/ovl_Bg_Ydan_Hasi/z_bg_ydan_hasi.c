@@ -21,7 +21,7 @@ void BgYdanHasi_MoveWater(BgYdanHasi* this, PlayState* play);
 void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, PlayState* play);
 void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, PlayState* play);
 
-ActorInit Bg_Ydan_Hasi_InitVars = {
+ActorProfile Bg_Ydan_Hasi_Profile = {
     /**/ ACTOR_BG_YDAN_HASI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -44,8 +44,8 @@ void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
     WaterBox* waterBox;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->type = ((thisx->params >> 8) & 0x3F);
-    thisx->params &= 0xFF;
+    this->type = PARAMS_GET_U(thisx->params, 8, 6);
+    thisx->params = PARAMS_GET_U(thisx->params, 0, 8);
     waterBox = &play->colCtx.colHeader->waterBoxes[1];
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (thisx->params == HASI_WATER) {
@@ -171,10 +171,10 @@ void BgYdanHasi_Update(Actor* thisx, PlayState* play) {
 
 void BgYdanHasi_Draw(Actor* thisx, PlayState* play) {
     static Gfx* dLists[] = { gDTSlidingPlatformDL, gDTWaterPlaneDL, gDTRisingPlatformsDL };
-    BgYdanHasi* this = (BgYdanHasi*)thisx;
+    s16 params = thisx->params;
 
-    if (this->dyna.actor.params == HASI_WATER_BLOCK || this->dyna.actor.params == HASI_THREE_BLOCKS) {
-        Gfx_DrawDListOpa(play, dLists[this->dyna.actor.params]);
+    if (params == HASI_WATER_BLOCK || params == HASI_THREE_BLOCKS) {
+        Gfx_DrawDListOpa(play, dLists[params]);
     } else {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 577);
 

@@ -142,8 +142,8 @@ void View_GetViewport(View* view, Viewport* viewport) {
 
 void View_ApplyLetterbox(View* view) {
     GraphicsContext* gfxCtx = view->gfxCtx;
-    s32 letterboxSize;
     s32 pillarboxSize;
+    s32 letterboxSize;
     s32 ulx;
     s32 uly;
     s32 lrx;
@@ -380,6 +380,7 @@ s32 View_ApplyPerspective(View* view) {
     if (QREG(88) & 2) {
         s32 i;
         MtxF mf;
+
         Matrix_MtxToMtxF(view->viewingPtr, &mf);
 
         PRINTF("viewing\n");
@@ -399,9 +400,9 @@ s32 View_ApplyPerspective(View* view) {
 }
 
 s32 View_ApplyOrtho(View* view) {
+    GraphicsContext* gfxCtx = view->gfxCtx;
     Vp* vp;
     Mtx* projection;
-    GraphicsContext* gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 726);
 

@@ -17,7 +17,7 @@ void func_80AF683C(EnSa* this, PlayState* play);
 void func_80AF68E4(EnSa* this, PlayState* play);
 void func_80AF6B20(EnSa* this, PlayState* play);
 
-typedef enum {
+typedef enum SariaEyeState {
     /* 0 */ SARIA_EYE_OPEN,
     /* 1 */ SARIA_EYE_HALF,
     /* 2 */ SARIA_EYE_CLOSED,
@@ -25,7 +25,7 @@ typedef enum {
     /* 4 */ SARIA_EYE_SAD
 } SariaEyeState;
 
-typedef enum {
+typedef enum SariaMouthState {
     /* 0 */ SARIA_MOUTH_CLOSED2,
     /* 1 */ SARIA_MOUTH_SUPRISED,
     /* 2 */ SARIA_MOUTH_CLOSED,
@@ -33,7 +33,7 @@ typedef enum {
     /* 4 */ SARIA_MOUTH_FROWNING
 } SariaMouthState;
 
-ActorInit En_Sa_InitVars = {
+ActorProfile En_Sa_Profile = {
     /**/ ACTOR_EN_SA,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -58,8 +58,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 46, 0, { 0, 0, 0 } },
@@ -67,7 +67,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnSaAnimation1 {
     /*  0 */ ENSA_ANIM1_0,
     /*  1 */ ENSA_ANIM1_1,
     /*  2 */ ENSA_ANIM1_2,
@@ -97,7 +97,7 @@ static AnimationFrameCountInfo sAnimationInfo1[] = {
     { &gSariaPlayingOcarinaAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
 };
 
-typedef enum {
+typedef enum EnSaAnimation2 {
     /* 0 */ ENSA_ANIM2_0,
     /* 1 */ ENSA_ANIM2_1,
     /* 2 */ ENSA_ANIM2_2,
@@ -613,10 +613,12 @@ void func_80AF6448(EnSa* this, PlayState* play) {
 }
 
 void func_80AF67D0(EnSa* this, PlayState* play) {
-    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
-        this->actionFunc = func_80AF6448;
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        return;
     }
+
+    Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
+    this->actionFunc = func_80AF6448;
 }
 
 void func_80AF683C(EnSa* this, PlayState* play) {

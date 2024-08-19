@@ -18,7 +18,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play);
 void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play);
 void BgDdanKd_DoNothing(BgDdanKd* this, PlayState* play);
 
-ActorInit Bg_Ddan_Kd_InitVars = {
+ActorProfile Bg_Ddan_Kd_Profile = {
     /**/ ACTOR_BG_DDAN_KD,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -43,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 245, 180, -400, { 0, 0, 0 } },

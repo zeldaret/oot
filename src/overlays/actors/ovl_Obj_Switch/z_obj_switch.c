@@ -10,10 +10,11 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-#define OBJSWITCH_TYPE(thisx) ((thisx)->params & 7)
-#define OBJSWITCH_SUBTYPE(thisx) (((thisx)->params >> 4) & 7)
-#define OBJSWITCH_SWITCH_FLAG(thisx) (((thisx)->params >> 8) & 0x3F)
-#define OBJSWITCH_FROZEN(thisx) (((thisx)->params >> 7) & 1)
+#define OBJSWITCH_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 3)
+#define OBJSWITCH_SUBTYPE(thisx) PARAMS_GET_U((thisx)->params, 4, 3)
+#define OBJSWITCH_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 6)
+#define OBJSWITCH_FROZEN(thisx) PARAMS_GET_U((thisx)->params, 7, 1)
+
 #define OBJSWITCH_FROZEN_FLAG (1 << 7)
 
 void ObjSwitch_Init(Actor* thisx, PlayState* play);
@@ -50,7 +51,7 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play);
 void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play);
 
-ActorInit Obj_Switch_InitVars = {
+ActorProfile Obj_Switch_Profile = {
     /**/ ACTOR_OBJ_SWITCH,
     /**/ ACTORCAT_SWITCH,
     /**/ FLAGS,
@@ -76,8 +77,8 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { -20.0f, 19.0f, -20.0f }, { -20.0f, 19.0f, 20.0f }, { 20.0f, 19.0f, 20.0f } } },
@@ -87,8 +88,8 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 20.0f, 19.0f, 20.0f }, { 20.0f, 19.0f, -20.0f }, { -20.0f, 19.0f, -20.0f } } },
@@ -114,8 +115,8 @@ static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
             ELEMTYPE_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 0.0f, 23.0f, 8.5f }, { -23.0f, 0.0f, 8.5f }, { 0.0f, -23.0f, 8.5f } } },
@@ -125,8 +126,8 @@ static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 0.0f, 23.0f, 8.5f }, { 0.0f, -23.0f, 8.5f }, { 23.0f, 0.0f, 8.5f } } },
@@ -152,8 +153,8 @@ static ColliderJntSphElementInit sCrystalJntSphElementInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xEFC1FFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { 0, 300, 0 }, 20 }, 100 },
@@ -192,17 +193,20 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 rotY) {
 void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if OOT_DEBUG
     if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
         // "Warning : move BG registration failure"
         PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_switch.c", 531,
                this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void ObjSwitch_InitJntSphCollider(ObjSwitch* this, PlayState* play, ColliderJntSphInit* colliderJntSphInit) {
@@ -287,11 +291,8 @@ void ObjSwitch_UpdateTwoTexScrollXY(ObjSwitch* this) {
 
 void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     ObjSwitch* this = (ObjSwitch*)thisx;
-    s32 isSwitchFlagSet;
-    s32 type;
-
-    isSwitchFlagSet = Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor));
-    type = OBJSWITCH_TYPE(&this->dyna.actor);
+    s32 isSwitchFlagSet = Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor));
+    s32 type = OBJSWITCH_TYPE(&this->dyna.actor);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         ObjSwitch_InitDynaPoly(this, play, &gFloorSwitchCol, DYNA_TRANSFORM_POS);
@@ -738,7 +739,7 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-void ObjSwitch_DrawFloor(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawFloor(Actor* thisx, PlayState* play) {
     static Gfx* floorSwitchDLists[] = {
         gFloorSwitch1DL, // OBJSWITCH_SUBTYPE_ONCE
         gFloorSwitch3DL, // OBJSWITCH_SUBTYPE_TOGGLE
@@ -746,14 +747,14 @@ void ObjSwitch_DrawFloor(ObjSwitch* this, PlayState* play) {
         gFloorSwitch2DL, // OBJSWITCH_SUBTYPE_HOLD_INVERTED
     };
 
-    Gfx_DrawDListOpa(play, floorSwitchDLists[OBJSWITCH_SUBTYPE(&this->dyna.actor)]);
+    Gfx_DrawDListOpa(play, floorSwitchDLists[OBJSWITCH_SUBTYPE(thisx)]);
 }
 
-void ObjSwitch_DrawFloorRusty(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawFloorRusty(Actor* thisx, PlayState* play) {
     Gfx_DrawDListOpa(play, gRustyFloorSwitchDL);
 }
 
-void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawEye(Actor* thisx, PlayState* play) {
     static void* eyeTextures[][4] = {
         // OBJSWITCH_SUBTYPE_ONCE
         { gEyeSwitchGoldOpenTex, gEyeSwitchGoldOpeningTex, gEyeSwitchGoldClosingTex, gEyeSwitchGoldClosedTex },
@@ -764,7 +765,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
         gEyeSwitch1DL, // OBJSWITCH_SUBTYPE_ONCE
         gEyeSwitch2DL, // OBJSWITCH_SUBTYPE_TOGGLE
     };
-    s32 pad;
+    ObjSwitch* this = (ObjSwitch*)thisx;
     s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
@@ -778,7 +779,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1471);
 }
 
-void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawCrystal(Actor* thisx, PlayState* play) {
     static Gfx* xluDLists[] = {
         gCrystalSwitchCoreXluDL,    // OBJSWITCH_SUBTYPE_ONCE
         gCrystalSwitchDiamondXluDL, // OBJSWITCH_SUBTYPE_TOGGLE
@@ -793,14 +794,11 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
         NULL,                       // OBJSWITCH_SUBTYPE_HOLD_INVERTED
         gCrystalSwitchCoreOpaDL     // OBJSWITCH_SUBTYPE_SYNC
     };
-    s32 pad1;
-    s32 pad2;
-    s32 subType;
+    ObjSwitch* this = (ObjSwitch*)thisx;
+    s32 pad;
+    s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
-    subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
     func_8002ED80(&this->dyna.actor, play, 0);
-
-    if (1) {}
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1494);
 
@@ -830,7 +828,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1533);
 }
 
-static ObjSwitchActionFunc sDrawFuncs[] = {
+static ObjSwitchDrawFunc sDrawFuncs[] = {
     ObjSwitch_DrawFloor,      // OBJSWITCH_TYPE_FLOOR
     ObjSwitch_DrawFloorRusty, // OBJSWITCH_TYPE_FLOOR_RUSTY
     ObjSwitch_DrawEye,        // OBJSWITCH_TYPE_EYE
@@ -839,7 +837,5 @@ static ObjSwitchActionFunc sDrawFuncs[] = {
 };
 
 void ObjSwitch_Draw(Actor* thisx, PlayState* play) {
-    ObjSwitch* this = (ObjSwitch*)thisx;
-
-    sDrawFuncs[OBJSWITCH_TYPE(&this->dyna.actor)](this, play);
+    sDrawFuncs[OBJSWITCH_TYPE(thisx)](thisx, play);
 }

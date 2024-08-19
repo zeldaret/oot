@@ -17,7 +17,7 @@ void BgBomGuard_Update(Actor* thisx, PlayState* play);
 
 void func_8086E638(BgBomGuard* this, PlayState* play);
 
-ActorInit Bg_Bom_Guard_InitVars = {
+ActorProfile Bg_Bom_Guard_Profile = {
     /**/ ACTOR_BG_BOM_GUARD,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

@@ -19,7 +19,7 @@
 #define OS_SC_RCP_MASK  (OS_SC_NEEDS_RDP | OS_SC_NEEDS_RSP)
 #define OS_SC_TYPE_MASK (OS_SC_NEEDS_RDP | OS_SC_NEEDS_RSP | OS_SC_DRAM_DLIST)
 
-typedef struct {
+typedef struct CfbInfo {
     /* 0x00 */ u16* framebuffer;    // current framebuffer
     /* 0x04 */ u16* swapBuffer;     // framebuffer to swap to
     /* 0x08 */ OSViMode* viMode;
@@ -43,7 +43,7 @@ typedef struct OSScTask {
     /* 0x60 */ OSTime totalTime;
 } OSScTask; // size = 0x68
 
-typedef struct {
+typedef struct Scheduler {
     /* 0x0000 */ OSMesgQueue  interruptQueue;
     /* 0x0018 */ OSMesg       interruptMsgBuf[8];
     /* 0x0038 */ OSMesgQueue  cmdQueue;         // queue for receiving OSScTask pointers

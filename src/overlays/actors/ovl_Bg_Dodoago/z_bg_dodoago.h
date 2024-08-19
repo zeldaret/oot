@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum BgDodoagoEye {
     /* 0 */ BGDODOAGO_EYE_LEFT,
     /* 1 */ BGDODOAGO_EYE_RIGHT
 } BgDodoagoEye;

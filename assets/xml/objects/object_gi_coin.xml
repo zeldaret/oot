@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_coin" Segment="6">
         <DList Name="gGiYellowCoinColorDL" Offset="0x0560"/>
         <DList Name="gGiRedCoinColorDL" Offset="0x0580"/>

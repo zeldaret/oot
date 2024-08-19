@@ -4,17 +4,22 @@
 #include "ultra64.h"
 #include "z64math.h"
 
-typedef enum {
+typedef enum Language {
+#if OOT_NTSC
+    /* 0 */ LANGUAGE_JPN,
+    /* 1 */ LANGUAGE_ENG,
+#else
     /* 0 */ LANGUAGE_ENG,
     /* 1 */ LANGUAGE_GER,
     /* 2 */ LANGUAGE_FRA,
-    /* 3 */ LANGUAGE_MAX
+#endif
+    /*   */ LANGUAGE_MAX
 } Language;
 
 // `_FORCE` means that this request will respond to `forceRisingButtonAlphas`.
 // If set, the buttons will also raise alphas but will also account for disabled buttons
 
-typedef enum {
+typedef enum HudVisibilityMode {
     /*  0 */ HUD_VISIBILITY_NO_CHANGE,
     /*  1 */ HUD_VISIBILITY_NOTHING,
     /*  2 */ HUD_VISIBILITY_NOTHING_ALT, // Identical to HUD_VISIBILITY_NOTHING
@@ -33,7 +38,7 @@ typedef enum {
     /* 52 */ HUD_VISIBILITY_NOTHING_INSTANT = 52
 } HudVisibilityMode;
 
-typedef enum {
+typedef enum MagicState {
     /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay
     /* 0x1 */ MAGIC_STATE_CONSUME_SETUP, // Sets the speed at which magic border flashes
     /* 0x2 */ MAGIC_STATE_CONSUME, // Consume magic until target is reached or no more magic is available
@@ -47,7 +52,7 @@ typedef enum {
     /* 0xA */ MAGIC_STATE_ADD // Add requested magic
 } MagicState;
 
-typedef enum {
+typedef enum MagicChangeType {
     /* 0 */ MAGIC_CONSUME_NOW, // Consume Magic immediately without preview
     /* 1 */ MAGIC_CONSUME_WAIT_NO_PREVIEW, // Sets consume target but waits to consume. No yellow magic preview to target consumption. Unused
     /* 2 */ MAGIC_CONSUME_NOW_ALT, // Identical behaviour to MAGIC_CONSUME_NOW. Unused
@@ -59,13 +64,13 @@ typedef enum {
 #define MAGIC_NORMAL_METER 0x30
 #define MAGIC_DOUBLE_METER (2 * MAGIC_NORMAL_METER)
 
-typedef struct {
+typedef struct ItemEquips {
     /* 0x00 */ u8 buttonItems[4];
     /* 0x04 */ u8 cButtonSlots[3];
     /* 0x08 */ u16 equipment; // a mask where each nibble corresponds to a type of equipment `EquipmentType`, and each nibble is a piece `EquipValue*`
 } ItemEquips; // size = 0x0A
 
-typedef struct {
+typedef struct Inventory {
     /* 0x00 */ u8 items[24];
     /* 0x18 */ s8 ammo[16];
     /* 0x28 */ u16 equipment; // a mask where each nibble corresponds to a type of equipment `EquipmentType`, and each bit to an owned piece `EquipInv*`
@@ -77,7 +82,7 @@ typedef struct {
     /* 0x5C */ s16 gsTokens;
 } Inventory; // size = 0x5E
 
-typedef struct {
+typedef struct SavedSceneFlags {
     /* 0x00 */ u32 chest;
     /* 0x04 */ u32 swch;
     /* 0x08 */ u32 clear;
@@ -87,7 +92,7 @@ typedef struct {
     /* 0x18 */ u32 floors;
 } SavedSceneFlags; // size = 0x1C
 
-typedef struct {
+typedef struct HorseData {
     /* 0x00 */ s16 sceneId;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ s16 angle;
@@ -99,14 +104,14 @@ typedef struct {
  * "return": coming from the ground
  * "top": coming from the air
  */
-typedef enum {
+typedef enum RespawnMode {
     /* 0x00 */ RESPAWN_MODE_DOWN,   /* Normal Void Outs */
     /* 0x01 */ RESPAWN_MODE_RETURN, /* Grotto Returnpoints */
     /* 0x02 */ RESPAWN_MODE_TOP,    /* Farore's Wind */
     /* 0x03 */ RESPAWN_MODE_MAX
 } RespawnMode;
 
-typedef struct {
+typedef struct RespawnData {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yaw;
     /* 0x0E */ s16 playerParams;
@@ -117,7 +122,7 @@ typedef struct {
     /* 0x18 */ u32 tempCollectFlags;
 } RespawnData; // size = 0x1C
 
-typedef struct {
+typedef struct FaroresWindData {
     /* 0x00 */ Vec3i pos;
     /* 0x0C */ s32 yaw;
     /* 0x10 */ s32 playerParams;
@@ -128,7 +133,7 @@ typedef struct {
     /* 0x24 */ s32 tempCollectFlags;
 } FaroresWindData; // size = 0x28
 
-typedef enum {
+typedef enum TimerState {
     /* 0x0 */ TIMER_STATE_OFF,
     /* 0x1 */ TIMER_STATE_ENV_HAZARD_INIT, // Init env timer that counts down, total time based on health, resets on void-out, kills at 0
     /* 0x2 */ TIMER_STATE_ENV_HAZARD_PREVIEW, // Display initial time, keep it fixed at the screen center
@@ -146,7 +151,7 @@ typedef enum {
     /* 0xF */ TIMER_STATE_UP_FREEZE  // Stop counting the timer
 } TimerState;
 
-typedef enum {
+typedef enum SubTimerState {
     /* 0x0 */ SUBTIMER_STATE_OFF,
     /* 0x1 */ SUBTIMER_STATE_DOWN_INIT, // Init timer that counts down
     /* 0x2 */ SUBTIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
@@ -160,7 +165,7 @@ typedef enum {
     /* 0xA */ SUBTIMER_STATE_UP_TICK // Counting up
 } SubTimerState;
 
-typedef enum {
+typedef enum TimerId {
     /* 0 */ TIMER_ID_MAIN, // Takes priority in both counting and drawing. See `timerState` and `timerSeconds`
     /* 1 */ TIMER_ID_SUB, // See `subTimerState` and `subTimerSeconds`
     /* 2 */ TIMER_ID_MAX
@@ -172,7 +177,7 @@ typedef enum {
 #define ENV_HAZARD_TEXT_TRIGGER_UNDERWATER (1 << 1)
 
 // offsets in SavePlayerData and SaveContext/Save
-typedef struct {
+typedef struct SavePlayerData {
     /* 0x00  0x001C */ char newf[6]; // string "ZELDAZ"
     /* 0x06  0x0022 */ u16 deaths;
     /* 0x08  0x0024 */ char playerName[8];
@@ -198,7 +203,7 @@ typedef struct {
 } SavePlayerData;
 
 // offsets in SaveInfo and SaveContext/Save
-typedef struct {
+typedef struct SaveInfo {
     /* 0x0000  0x001C */ SavePlayerData playerData; // "S_Private"
     /* 0x004C  0x0068 */ ItemEquips equips;
     /* 0x0058  0x0074 */ Inventory inventory;
@@ -224,7 +229,7 @@ typedef struct {
     /* 0x1336  0x1352 */ u16 checksum; // "check_sum"
 } SaveInfo;
 
-typedef struct {
+typedef struct Save {
     /* 0x00 */ s32 entranceIndex;
     /* 0x04 */ s32 linkAge; // 0: Adult; 1: Child (see enum `LinkAge`)
     /* 0x08 */ s32 cutsceneIndex;
@@ -235,7 +240,7 @@ typedef struct {
     /* 0x1C */ SaveInfo info; // "information"
 } Save;
 
-typedef struct {
+typedef struct SaveContext {
     /* 0x0000 */ Save save; // "memory"
     /* 0x1354 */ s32 fileNum; // "file_no"
     /* 0x1358 */ char unk_1358[0x0004];
@@ -300,12 +305,12 @@ typedef struct {
     /* 0x1424 */ s16 healthAccumulator;
 } SaveContext; // size = 0x1428
 
-typedef enum {
+typedef enum ButtonStatus {
     /* 0x00 */ BTN_ENABLED,
     /* 0xFF */ BTN_DISABLED = 0xFF
 } ButtonStatus;
 
-typedef enum {
+typedef enum ChamberCutsceneNum {
     /* 0 */ CHAMBER_CS_FOREST,
     /* 1 */ CHAMBER_CS_FIRE,
     /* 2 */ CHAMBER_CS_WATER,
@@ -314,7 +319,7 @@ typedef enum {
     /* 5 */ CHAMBER_CS_LIGHT
 } ChamberCutsceneNum;
 
-typedef enum {
+typedef enum HighScores {
     /* 0x00 */ HS_HBA,          // horseback archery
     /* 0x01 */ HS_POE_POINTS,
     /* 0x02 */ HS_FISHING,
@@ -336,21 +341,21 @@ typedef enum {
 #define HS_FISH_CHEAT_ADULT 0x80000000 // used Sinking Lure as adult to catch record fish
 #define HS_FISH_PLAYED 0x10000 // incremented for every play. controls weather.
 
-typedef enum {
+typedef enum SunsSongState {
     /* 0 */ SUNSSONG_INACTIVE,
     /* 1 */ SUNSSONG_START, // the suns ocarina effect signals that the song has finished playing
     /* 2 */ SUNSSONG_SPEED_TIME, // suns was played where time passes, speed up the advancement of time
     /* 3 */ SUNSSONG_SPECIAL // time does not advance, but signals the song was played. used for freezing redeads
 } SunsSongState;
 
-typedef enum {
+typedef enum GameMode {
     /* 0 */ GAMEMODE_NORMAL,
     /* 1 */ GAMEMODE_TITLE_SCREEN,
     /* 2 */ GAMEMODE_FILE_SELECT, // Note: only instance type transitions swap to file select
     /* 3 */ GAMEMODE_END_CREDITS
 } GameMode;
 
-typedef enum {
+typedef enum SceneLayer {
     /* 0 */ SCENE_LAYER_CHILD_DAY,
     /* 1 */ SCENE_LAYER_CHILD_NIGHT,
     /* 2 */ SCENE_LAYER_ADULT_DAY,
@@ -360,7 +365,7 @@ typedef enum {
 
 #define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
 
-typedef enum {
+typedef enum LinkAge {
     /* 0 */ LINK_AGE_ADULT,
     /* 1 */ LINK_AGE_CHILD
 } LinkAge;
@@ -815,7 +820,7 @@ typedef enum {
 #define EVENTINF_HORSES_0A ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
 #define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
 
-typedef enum {
+typedef enum EventInfHorsesState {
     /* 0 */ EVENTINF_HORSES_STATE_0,
     /* 1 */ EVENTINF_HORSES_STATE_1,
     /* 2 */ EVENTINF_HORSES_STATE_2,

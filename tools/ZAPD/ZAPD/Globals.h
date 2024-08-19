@@ -16,6 +16,15 @@ enum class VerbosityLevel
 	VERBOSITY_DEBUG
 };
 
+enum class CsFloatType
+{
+	HexOnly,
+	FloatOnly,
+	HexAndFloat,
+	HexAndCommentedFloatLeft,
+	HexAndCommentedFloatRight,
+};
+
 class Globals
 {
 public:
@@ -31,6 +40,10 @@ public:
 	ZFileMode fileMode;
 	fs::path baseRomPath, inputPath, outputPath, sourceOutputPath, cfgPath;
 	TextureType texType;
+	CsFloatType floatType = CsFloatType::FloatOnly;
+	int64_t baseAddress = -1;
+	int64_t startOffset = -1;
+	int64_t endOffset = -1;
 	ZGame game;
 	GameConfig cfg;
 	bool verboseUnaccounted = false;

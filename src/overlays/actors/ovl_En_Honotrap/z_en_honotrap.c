@@ -14,7 +14,7 @@
 #define HONOTRAP_AC_ACTIVE (1 << 1)
 #define HONOTRAP_OC_ACTIVE (1 << 2)
 
-typedef enum {
+typedef enum EnHonotrapEyeState {
     /* 0 */ HONOTRAP_EYE_OPEN,
     /* 1 */ HONOTRAP_EYE_HALF,
     /* 2 */ HONOTRAP_EYE_CLOSE,
@@ -48,7 +48,7 @@ void EnHonotrap_FlameChase(EnHonotrap* this, PlayState* play);
 void EnHonotrap_SetupFlameVanish(EnHonotrap* this);
 void EnHonotrap_FlameVanish(EnHonotrap* this, PlayState* play);
 
-ActorInit En_Honotrap_InitVars = {
+ActorProfile En_Honotrap_Profile = {
     /**/ ACTOR_EN_HONOTRAP,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -66,8 +66,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 0.0f, 23.0f, 8.5f }, { -23.0f, 0.0f, 8.5f }, { 0.0f, -23.0f, 8.5f } } },
@@ -77,8 +77,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 0.0f, 23.0f, 8.5f }, { 0.0f, -23.0f, 8.5f }, { 23.0f, 0.0f, 8.5f } } },
@@ -111,8 +111,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x01, 0x04 },
         { 0x00100000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 10, 25, 0, { 0, 0, 0 } },
@@ -142,7 +142,7 @@ void EnHonotrap_GetNormal(Vec3f* normal, Vec3f* vec) {
     f32 magnitude = Math3D_Vec3fMagnitude(vec);
 
     if (magnitude < 0.001f) {
-        PRINTF("Warning : vector size zero (%s %d)\n", "../z_en_honotrap.c", 328, normal);
+        PRINTF("Warning : vector size zero (%s %d)\n", "../z_en_honotrap.c", 328);
 
         normal->x = normal->y = 0.0f;
         normal->z = 1.0f;

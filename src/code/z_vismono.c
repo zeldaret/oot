@@ -79,7 +79,7 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_IA16 | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_1PRIMITIVE,
-                    G_AC_NONE | G_ZS_PRIM | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_CLD_SURF2);
+                    G_AC_NONE | G_ZS_PRIM | G_RM_PASS | G_RM_CLD_SURF2);
     // First color cycle sums texel 1 alpha and texel 0 color
     // By using IA16 palettes, this means summing A (from the IA16 color texel 1 maps to)
     // with I (from the IA16 color texel 0 maps to)

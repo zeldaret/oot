@@ -22,7 +22,7 @@ void EnKz_Wait(EnKz* this, PlayState* play);
 void EnKz_SetupGetItem(EnKz* this, PlayState* play);
 void EnKz_StartTimer(EnKz* this, PlayState* play);
 
-ActorInit En_Kz_InitVars = {
+ActorProfile En_Kz_Profile = {
     /**/ ACTOR_EN_KZ,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -47,8 +47,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 80, 120, 0, { 0, 0, 0 } },
@@ -56,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnKzAnimation {
     /* 0 */ ENKZ_ANIM_0,
     /* 1 */ ENKZ_ANIM_1,
     /* 2 */ ENKZ_ANIM_2
@@ -281,11 +281,11 @@ s32 EnKz_FollowPath(EnKz* this, PlayState* play) {
     f32 pathDiffX;
     f32 pathDiffZ;
 
-    if ((this->actor.params & 0xFF00) == 0xFF00) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 8, 8) == 0xFF00) {
         return 0;
     }
 
-    path = &play->pathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->waypoint;
 
@@ -307,11 +307,11 @@ s32 EnKz_SetMovedPos(EnKz* this, PlayState* play) {
     Path* path;
     Vec3s* lastPointPos;
 
-    if ((this->actor.params & 0xFF00) == 0xFF00) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 8, 8) == 0xFF00) {
         return 0;
     }
 
-    path = &play->pathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
     lastPointPos = SEGMENTED_TO_VIRTUAL(path->points);
     lastPointPos += path->count - 1;
 

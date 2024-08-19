@@ -6,7 +6,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum Encount2State {
     /* 0x0 */ ENCOUNT2_INACTIVE,
     /* 0x1 */ ENCOUNT2_ACTIVE_DEATH_MOUNTAIN,
     /* 0x2 */ ENCOUNT2_ACTIVE_GANONS_TOWER
@@ -23,7 +23,7 @@ void EnEncount2_SpawnEffect(EnEncount2* this, Vec3f* position, f32 scale);
 void EnEncount2_DrawEffects(Actor* thisx, PlayState* play);
 void EnEncount2_UpdateEffects(EnEncount2* this, PlayState* play);
 
-ActorInit En_Encount2_InitVars = {
+ActorProfile En_Encount2_Profile = {
     /**/ ACTOR_EN_ENCOUNT2,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -338,9 +338,9 @@ void EnEncount2_UpdateEffects(EnEncount2* this, PlayState* play) {
 }
 
 void EnEncount2_DrawEffects(Actor* thisx, PlayState* play) {
+    GraphicsContext* gfxCtx = play->state.gfxCtx;
     EnEncount2* this = (EnEncount2*)thisx;
     EnEncount2Effect* effect = this->effects;
-    GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 i;
     s32 objectSlot;
 

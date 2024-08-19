@@ -39,7 +39,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Hide(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Return(EnDntJiji* this, PlayState* play);
 
-ActorInit En_Dnt_Jiji_InitVars = {
+ActorProfile En_Dnt_Jiji_Profile = {
     /**/ ACTOR_EN_DNT_JIJI,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -64,8 +64,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 30, 80, 0, { 0, 0, 0 } },

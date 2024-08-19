@@ -17,7 +17,7 @@ void BgDdanJd_Draw(Actor* thisx, PlayState* play);
 void BgDdanJd_Idle(BgDdanJd* this, PlayState* play);
 void BgDdanJd_Move(BgDdanJd* this, PlayState* play);
 
-ActorInit Bg_Ddan_Jd_InitVars = {
+ActorProfile Bg_Ddan_Jd_Profile = {
     /**/ ACTOR_BG_DDAN_JD,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -33,7 +33,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-typedef enum {
+typedef enum BgDdanJdState {
     /* 0 */ STATE_GO_BOTTOM,
     /* 1 */ STATE_GO_MIDDLE_FROM_BOTTOM,
     /* 2 */ STATE_GO_MIDDLE_FROM_TOP,

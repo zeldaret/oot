@@ -7,7 +7,7 @@
 #include "global.h"
 #include "terminal.h"
 
-typedef struct {
+typedef struct FaultDrawer {
     /* 0x00 */ u16* fb;
     /* 0x04 */ u16 w;
     /* 0x06 */ u16 h;
@@ -99,15 +99,8 @@ FaultDrawer sFaultDrawerDefault = {
     NULL,
 };
 
-#ifndef NON_MATCHING
-// TODO: match .bss (has reordering issues)
-extern FaultDrawer sFaultDrawer;
-extern char D_8016B6BC[0x24];
-#else
-// Non-matching version for struct shiftability
 FaultDrawer sFaultDrawer;
-char D_8016B6BC[0x24];
-#endif
+char D_8016B6C0[0x20];
 
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled) {
     sFaultDrawer.osSyncPrintfEnabled = enabled;

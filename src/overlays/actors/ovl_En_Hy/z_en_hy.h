@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum EnHyType {
     /*  0 */ ENHY_TYPE_AOB,
     /*  1 */ ENHY_TYPE_COB,
     /*  2 */ ENHY_TYPE_AHG_2,

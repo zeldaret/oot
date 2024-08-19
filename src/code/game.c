@@ -6,10 +6,11 @@ VisCvg sVisCvg;
 VisZBuf sVisZBuf;
 VisMono sVisMono;
 ViMode sViMode;
+
+#if OOT_DEBUG
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
 
-#if OOT_DEBUG
 void GameState_FaultPrint(void) {
     static char sBtnChars[] = "ABZSuldr*+LRudlr";
     s32 i;
@@ -196,8 +197,6 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     Gfx_Close(polyOpaP, newDList);
     POLY_OPA_DISP = newDList;
 
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../game.c", 800);
 
     Debug_DrawText(gfxCtx);
@@ -236,8 +235,6 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     gSPEndDisplayList(newDlist++);
     Gfx_Close(polyOpaP, newDlist);
     POLY_OPA_DISP = newDlist;
-
-    if (1) {}
 
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }
@@ -344,7 +341,7 @@ void GameState_Update(GameState* gameState) {
 void GameState_InitArena(GameState* gameState, size_t size) {
     void* arena;
 
-    PRINTF("ハイラル確保 サイズ＝%u バイト\n"); // "Hyrule reserved size = %u bytes"
+    PRINTF("ハイラル確保 サイズ＝%u バイト\n", size); // "Hyrule reserved size = %u bytes"
     arena = GAME_ALLOC_MALLOC(&gameState->alloc, size, "../game.c", 992);
 
     if (arena != NULL) {
@@ -408,7 +405,10 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     gameState->destroy = NULL;
     gameState->running = 1;
     startTime = osGetTime();
-    gameState->size = gameState->init = 0;
+
+    // Thse assignments must be written this way for matching and to avoid a warning due to casting a pointer to an
+    // integer without a cast. This assigns init = NULL and size = 0.
+    gameState->size = (u32)(gameState->init = NULL);
 
     {
         s32 requiredScopeTemp;
@@ -494,7 +494,7 @@ u32 GameState_IsRunning(GameState* gameState) {
 }
 
 #if OOT_DEBUG
-void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
+void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int line) {
     void* ret;
 
     if (THA_IsCrash(&gameState->tha)) {

@@ -22,7 +22,7 @@ extern CutsceneData D_808BB2F0[];
 extern CutsceneData D_808BB7A0[];
 extern CutsceneData D_808BBD90[];
 
-ActorInit Bg_Toki_Swd_InitVars = {
+ActorProfile Bg_Toki_Swd_Profile = {
     /**/ ACTOR_BG_TOKI_SWD,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -47,8 +47,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 10, 70, 0, { 0 } },

@@ -14,7 +14,7 @@ void EndTitle_Update(Actor* thisx, PlayState* play);
 void EndTitle_DrawFull(Actor* thisx, PlayState* play);
 void EndTitle_DrawNintendoLogo(Actor* thisx, PlayState* play);
 
-ActorInit End_Title_InitVars = {
+ActorProfile End_Title_Profile = {
     /**/ ACTOR_END_TITLE,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -31,9 +31,7 @@ ActorInit End_Title_InitVars = {
 void EndTitle_Init(Actor* thisx, PlayState* play) {
     EndTitle* this = (EndTitle*)thisx;
 
-    this->endAlpha = 0;
-    this->tlozAlpha = 0;
-    this->ootAlpha = 0;
+    this->endAlpha = this->tlozAlpha = this->ootAlpha = 0;
     if (this->actor.params == 1) {
         this->actor.draw = EndTitle_DrawNintendoLogo;
     }

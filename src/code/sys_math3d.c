@@ -1,5 +1,11 @@
-#include "global.h"
+#include "ultra64.h"
+#include "z_lib.h"
+#include "z64math.h"
 #include "terminal.h"
+#include "macros.h"
+#include "sys_math3d.h"
+
+#pragma increment_block_number "gc-eu:108 gc-eu-mq:108 gc-jp:108 gc-jp-ce:108 gc-jp-mq:108 gc-us:108 gc-us-mq:108"
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);
@@ -2143,11 +2149,3 @@ s32 Math3D_YZInSphere(Sphere16* sphere, f32 y, f32 z) {
     }
     return false;
 }
-
-#if OOT_DEBUG
-void Math3D_DrawSphere(PlayState* play, Sphere16* sph) {
-}
-
-void Math3D_DrawCylinder(PlayState* play, Cylinder16* cyl) {
-}
-#endif

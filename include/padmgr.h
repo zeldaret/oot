@@ -4,13 +4,13 @@
 #include "ultra64.h"
 #include "irqmgr.h"
 
-typedef enum {
+typedef enum ControllerPakType {
     CONT_PAK_NONE,
     CONT_PAK_RUMBLE,
     CONT_PAK_OTHER
 } ControllerPakType;
 
-typedef struct {
+typedef struct Input {
     /* 0x00 */ OSContPad cur;
     /* 0x06 */ OSContPad prev;
     /* 0x0C */ OSContPad press; // X/Y store delta from last frame
@@ -43,8 +43,6 @@ typedef struct PadMgr {
     /* 0x0460 */ void (*retraceCallback)(struct PadMgr* padMgr, void* arg);
     /* 0x0464 */ void* retraceCallbackArg;
 } PadMgr; // size = 0x468
-
-extern PadMgr gPadMgr;
 
 // Initialization
 

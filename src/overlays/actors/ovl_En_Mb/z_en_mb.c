@@ -16,7 +16,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum EnMbType {
     /* -1 */ ENMB_TYPE_SPEAR_GUARD = -1,
     /*  0 */ ENMB_TYPE_CLUB,
     /*  1 */ ENMB_TYPE_SPEAR_PATROL
@@ -29,7 +29,7 @@ typedef enum {
 #define ENMB_ATTACK_CLUB_LEFT 3
 
 /* Spear and Club moblins use a different skeleton but the limbs are organized the same */
-typedef enum {
+typedef enum EnMbLimb {
     /*  1 */ ENMB_LIMB_ROOT = 1,
     /*  3 */ ENMB_LIMB_WAIST = 3,
     /*  6 */ ENMB_LIMB_CHEST = 6,
@@ -53,7 +53,7 @@ void EnMb_Destroy(Actor* thisx, PlayState* play);
 void EnMb_Update(Actor* thisx, PlayState* play);
 void EnMb_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Mb_InitVars = {
+ActorProfile En_Mb_Profile = {
     /**/ ACTOR_EN_MB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -102,8 +102,8 @@ static ColliderCylinderInit sBodyColliderInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -115,8 +115,8 @@ static ColliderTrisElementInit sFrontShieldingTrisInit[2] = {
             ELEMTYPE_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO,
             OCELEM_NONE,
         },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
@@ -126,8 +126,8 @@ static ColliderTrisElementInit sFrontShieldingTrisInit[2] = {
             ELEMTYPE_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO,
             OCELEM_NONE,
         },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
@@ -160,14 +160,14 @@ static ColliderQuadInit sAttackColliderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum EnMbDamageEffect {
     /* 0x0 */ ENMB_DMGEFF_IGNORE,
     /* 0x1 */ ENMB_DMGEFF_STUN,
     /* 0x5 */ ENMB_DMGEFF_FREEZE = 0x5,
@@ -296,7 +296,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             this->actor.uncullZoneScale = 800.0f;
             this->actor.uncullZoneDownward = 1800.0f;
             this->playerDetectionRange = 710.0f;
-            this->attackCollider.elem.toucher.dmgFlags = DMG_UNBLOCKABLE;
+            this->attackCollider.elem.atDmgInfo.dmgFlags = DMG_UNBLOCKABLE;
 
             relYawFromPlayer =
                 this->actor.world.rot.y - Math_Vec3f_Yaw(&this->actor.world.pos, &player->actor.world.pos);
@@ -316,7 +316,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
                                this->morphTable, 28);
 
             Actor_SetScale(&this->actor, 0.014f);
-            this->path = (thisx->params & 0xFF00) >> 8;
+            this->path = PARAMS_GET_S(thisx->params, 8, 8);
             this->actor.params = ENMB_TYPE_SPEAR_PATROL;
             this->waypoint = 0;
             this->actor.colChkInfo.health = 1;
@@ -1052,13 +1052,13 @@ void EnMb_ClubDamaged(EnMb* this, PlayState* play) {
 }
 
 void EnMb_ClubDamagedWhileKneeling(EnMb* this, PlayState* play) {
-    s32 pad;
-
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer3 != 0) {
             this->timer3--;
             if (this->timer3 == 0) {
                 if (this->timer1 == 0) {
+                    s32 pad;
+
                     Animation_Change(&this->skelAnime, &gEnMbClubStandUpAnim, 3.0f, 0.0f,
                                      Animation_GetLastFrame(&gEnMbClubStandUpAnim), ANIMMODE_ONCE_INTERP, 0.0f);
                     this->timer1 = 1;

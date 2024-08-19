@@ -8,7 +8,7 @@ struct DemoKankyo;
 
 typedef void (*DemoKankyoActionFunc)(struct DemoKankyo*, PlayState*);
 
-typedef enum {
+typedef enum DemoKankyoType {
     /* 0x00 */ DEMOKANKYO_BLUE_RAIN,
     /* 0x01 */ DEMOKANKYO_BLUE_RAIN_2,
     /* 0x02 */ DEMOKANKYO_ROCK_1,
@@ -29,7 +29,7 @@ typedef enum {
     /* 0x11 */ DEMOKANKYO_SPARKLES
 } DemoKankyoType;
 
-typedef struct {
+typedef struct DemoKankyoUnk150 {
     /* 0x00 */ Vec3f unk_0;
     /* 0x0C */ Vec3f unk_C;
     /* 0x18 */ f32 unk_18;     // For Door of Time, this is the amount to translate it by used for when it's opening

@@ -100,7 +100,7 @@ void ArenaImpl_UnsetCheckFreeBlock(Arena* arena) {
     arena->flag &= ~CHECK_FREE_BLOCK_FLAG;
 }
 
-void ArenaImpl_SetDebugInfo(ArenaNode* node, const char* file, s32 line, Arena* arena) {
+void ArenaImpl_SetDebugInfo(ArenaNode* node, const char* file, int line, Arena* arena) {
     node->filename = file;
     node->line = line;
     node->threadId = osGetThreadId(NULL);
@@ -254,7 +254,7 @@ void __osMalloc_FreeBlockTest(Arena* arena, ArenaNode* node) {
     }
 }
 
-void* __osMalloc_NoLockDebug(Arena* arena, u32 size, const char* file, s32 line) {
+void* __osMalloc_NoLockDebug(Arena* arena, u32 size, const char* file, int line) {
     ArenaNode* iter;
     u32 blockSize;
     ArenaNode* newNode;
@@ -299,7 +299,7 @@ void* __osMalloc_NoLockDebug(Arena* arena, u32 size, const char* file, s32 line)
     return alloc;
 }
 
-void* __osMallocDebug(Arena* arena, u32 size, const char* file, s32 line) {
+void* __osMallocDebug(Arena* arena, u32 size, const char* file, int line) {
     void* alloc;
 
     ArenaImpl_Lock(arena);
@@ -309,7 +309,7 @@ void* __osMallocDebug(Arena* arena, u32 size, const char* file, s32 line) {
     return alloc;
 }
 
-void* __osMallocRDebug(Arena* arena, u32 size, const char* file, s32 line) {
+void* __osMallocRDebug(Arena* arena, u32 size, const char* file, int line) {
     ArenaNode* iter;
     ArenaNode* newNode;
     u32 blockSize;
@@ -528,7 +528,7 @@ void __osFree(Arena* arena, void* ptr) {
 }
 
 #if OOT_DEBUG
-void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
+void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, int line) {
     ArenaNode* node;
     ArenaNode* next;
     ArenaNode* prev;
@@ -586,7 +586,7 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
     }
 }
 
-void __osFreeDebug(Arena* arena, void* ptr, const char* file, s32 line) {
+void __osFreeDebug(Arena* arena, void* ptr, const char* file, int line) {
     ArenaImpl_Lock(arena);
     __osFree_NoLockDebug(arena, ptr, file, line);
     ArenaImpl_Unlock(arena);
@@ -695,7 +695,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
 }
 
 #if OOT_DEBUG
-void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, s32 line) {
+void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, int line) {
     return __osRealloc(arena, ptr, newSize);
 }
 #endif
@@ -852,7 +852,11 @@ u32 __osCheckArena(Arena* arena) {
     while (iter != NULL) {
         if (iter && iter->magic == NODE_MAGIC) {
             // "Oops!! (%08x %08x)"
+#if OOT_DEBUG
             osSyncPrintf(VT_COL(RED, WHITE) "おおっと！！ (%08x %08x)\n" VT_RST, iter, iter->magic);
+#else
+            osSyncPrintf("おおっと！！ (%08x %08x)\n", iter, iter->magic);
+#endif
             error = 1;
             break;
         }

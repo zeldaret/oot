@@ -32,7 +32,7 @@ static void* sTextures[] = {
     object_kingdodongo_Tex_0308E0,
 };
 
-EffectSsInit Effect_Ss_G_Magma2_InitVars = {
+EffectSsProfile Effect_Ss_G_Magma2_Profile = {
     EFFECT_SS_G_MAGMA2,
     EffectSsGMagma2_Init,
 };

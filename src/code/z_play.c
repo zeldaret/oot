@@ -2,17 +2,27 @@
 #include "quake.h"
 #include "terminal.h"
 
+#include "z64frame_advance.h"
+
+#pragma increment_block_number "gc-eu:24 gc-eu-mq:24 gc-jp:24 gc-jp-ce:24 gc-jp-mq:24 gc-us:24 gc-us-mq:24"
+
+TransitionTile gTransitionTile;
+s32 gTransitionTileState;
+VisMono gPlayVisMono;
+Color_RGBA8_u32 gVisMonoColor;
+
+#if OOT_DEBUG
+FaultClient D_801614B8;
+#endif
+
+s16 sTransitionFillTimer;
+
+#if OOT_DEBUG
 void* gDebugCutsceneScript = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
-Input* D_8012D1F8 = NULL;
+#endif
 
-TransitionTile sTransitionTile;
-s32 gTransitionTileState;
-VisMono sPlayVisMono;
-Color_RGBA8_u32 gVisMonoColor;
-FaultClient D_801614B8;
-s16 sTransitionFillTimer;
-u64 sDebugCutsceneScriptBuf[0xA00];
+Input* D_8012D1F8 = NULL;
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
@@ -160,7 +170,13 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
+#if OOT_VERSION < OOT_GC_EU_MQ_DBG
+                HUNGUP_AND_CRASH("../z_play.c", 2287);
+#elif OOT_VERSION < OOT_GC_JP_CE
                 HUNGUP_AND_CRASH("../z_play.c", 2290);
+#else
+                HUNGUP_AND_CRASH("../z_play.c", 2293);
+#endif
                 break;
         }
     }
@@ -193,7 +209,7 @@ void Play_Destroy(GameState* thisx) {
     CollisionCheck_DestroyContext(this, &this->colChkCtx);
 
     if (gTransitionTileState == TRANS_TILE_READY) {
-        TransitionTile_Destroy(&sTransitionTile);
+        TransitionTile_Destroy(&gTransitionTile);
         gTransitionTileState = TRANS_TILE_OFF;
     }
 
@@ -205,7 +221,7 @@ void Play_Destroy(GameState* thisx) {
 
     Letterbox_Destroy();
     TransitionFade_Destroy(&this->transitionFadeFlash);
-    VisMono_Destroy(&sPlayVisMono);
+    VisMono_Destroy(&gPlayVisMono);
 
     if (gSaveContext.save.linkAge != this->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
@@ -278,7 +294,7 @@ void Play_Init(GameState* thisx) {
     Effect_InitContext(this);
     EffectSs_InitInfo(this, 0x55);
     CollisionCheck_InitContext(this, &this->colChkCtx);
-    AnimationContext_Reset(&this->animationCtx);
+    AnimTaskQueue_Reset(&this->animTaskQueue);
     Cutscene_InitContext(this, &this->csCtx);
 
     if (gSaveContext.nextCutsceneIndex != 0xFFEF) {
@@ -403,7 +419,7 @@ void Play_Init(GameState* thisx) {
     TransitionFade_SetType(&this->transitionFadeFlash, TRANS_INSTANCE_TYPE_FADE_FLASH);
     TransitionFade_SetColor(&this->transitionFadeFlash, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&this->transitionFadeFlash);
-    VisMono_Init(&sPlayVisMono);
+    VisMono_Init(&gPlayVisMono);
     gVisMonoColor.a = 0;
     CutsceneFlags_UnsetAll(this);
 
@@ -429,7 +445,7 @@ void Play_Init(GameState* thisx) {
     Camera_InitDataUsingPlayer(&this->mainCamera, player);
     Camera_RequestMode(&this->mainCamera, CAM_MODE_NORMAL);
 
-    playerStartBgCamIndex = player->actor.params & 0xFF;
+    playerStartBgCamIndex = PARAMS_GET_U(player->actor.params, 0, 8);
     if (playerStartBgCamIndex != 0xFF) {
         PRINTF("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);
@@ -445,13 +461,16 @@ void Play_Init(GameState* thisx) {
 
     Interface_SetSceneRestrictions(this);
     Environment_PlaySceneSequence(this);
-    gSaveContext.seqId = this->sequenceCtx.seqId;
-    gSaveContext.natureAmbienceId = this->sequenceCtx.natureAmbienceId;
+    gSaveContext.seqId = this->sceneSequences.seqId;
+    gSaveContext.natureAmbienceId = this->sceneSequences.natureAmbienceId;
     func_8002DF18(this, GET_PLAYER(this));
-    AnimationContext_Update(this, &this->animationCtx);
+    AnimTaskQueue_Update(this, &this->animTaskQueue);
     gSaveContext.respawnFlag = 0;
 
-    if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
+#if OOT_DEBUG
+    if (R_USE_DEBUG_CUTSCENE) {
+        static u64 sDebugCutsceneScriptBuf[0xA00];
+
         gDebugCutsceneScript = sDebugCutsceneScriptBuf;
         PRINTF("\nkawauso_data=[%x]", gDebugCutsceneScript);
 
@@ -459,6 +478,7 @@ void Play_Init(GameState* thisx) {
         // Presumably the ROM was larger at a previous point in development when this debug feature was used.
         DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutsceneScript, sizeof(sDebugCutsceneScriptBuf));
     }
+#endif
 }
 
 void Play_Update(PlayState* this) {
@@ -511,18 +531,18 @@ void Play_Update(PlayState* this) {
         if (gTransitionTileState != TRANS_TILE_OFF) {
             switch (gTransitionTileState) {
                 case TRANS_TILE_PROCESS:
-                    if (TransitionTile_Init(&sTransitionTile, 10, 7) == NULL) {
+                    if (TransitionTile_Init(&gTransitionTile, 10, 7) == NULL) {
                         PRINTF("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
                         gTransitionTileState = TRANS_TILE_OFF;
                     } else {
-                        sTransitionTile.zBuffer = (u16*)gZBuffer;
+                        gTransitionTile.zBuffer = (u16*)gZBuffer;
                         gTransitionTileState = TRANS_TILE_READY;
                         R_UPDATE_RATE = 1;
                     }
                     break;
 
                 case TRANS_TILE_READY:
-                    TransitionTile_Update(&sTransitionTile);
+                    TransitionTile_Update(&gTransitionTile);
                     break;
 
                 default:
@@ -677,7 +697,7 @@ void Play_Update(PlayState* this) {
                             this->transitionMode = TRANS_MODE_OFF;
 
                             if (gTransitionTileState == TRANS_TILE_READY) {
-                                TransitionTile_Destroy(&sTransitionTile);
+                                TransitionTile_Destroy(&gTransitionTile);
                                 gTransitionTileState = TRANS_TILE_OFF;
                                 R_UPDATE_RATE = 3;
                             }
@@ -873,7 +893,7 @@ void Play_Update(PlayState* this) {
             isPaused = IS_PAUSED(&this->pauseCtx);
 
             PLAY_LOG(3555);
-            AnimationContext_Reset(&this->animationCtx);
+            AnimTaskQueue_Reset(&this->animTaskQueue);
 
             if (!OOT_DEBUG) {}
 
@@ -990,7 +1010,7 @@ void Play_Update(PlayState* this) {
             Interface_Update(this);
 
             PLAY_LOG(3765);
-            AnimationContext_Update(this, &this->animationCtx);
+            AnimTaskQueue_Update(this, &this->animTaskQueue);
 
             PLAY_LOG(3771);
             SfxSource_UpdateAll(this);
@@ -1125,8 +1145,8 @@ void Play_Draw(PlayState* this) {
             TransitionFade_Draw(&this->transitionFadeFlash, &gfxP);
 
             if (gVisMonoColor.a > 0) {
-                sPlayVisMono.vis.primColor.rgba = gVisMonoColor.rgba;
-                VisMono_Draw(&sPlayVisMono, &gfxP);
+                gPlayVisMono.vis.primColor.rgba = gVisMonoColor.rgba;
+                VisMono_Draw(&gPlayVisMono, &gfxP);
             }
 
             gSPEndDisplayList(gfxP++);
@@ -1137,7 +1157,7 @@ void Play_Draw(PlayState* this) {
         if (gTransitionTileState == TRANS_TILE_READY) {
             Gfx* sp88 = POLY_OPA_DISP;
 
-            TransitionTile_Draw(&sTransitionTile, &sp88);
+            TransitionTile_Draw(&gTransitionTile, &sp88);
             POLY_OPA_DISP = sp88;
             goto Play_Draw_DrawOverlayElements;
         }

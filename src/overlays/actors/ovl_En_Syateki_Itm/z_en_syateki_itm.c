@@ -6,7 +6,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum EnSyatekItemRound {
     SYATEKI_ROUND_GREEN_APPEAR,
     SYATEKI_ROUND_BLUE_SEQUENTIAL,
     SYATEKI_ROUND_GREEN_THROW,
@@ -27,7 +27,7 @@ void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, PlayState* play);
 void EnSyatekiItm_CleanupGame(EnSyatekiItm* this, PlayState* play);
 void EnSyatekiItm_EndGame(EnSyatekiItm* this, PlayState* play);
 
-ActorInit En_Syateki_Itm_InitVars = {
+ActorProfile En_Syateki_Itm_Profile = {
     /**/ ACTOR_EN_SYATEKI_ITM,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -342,7 +342,8 @@ void EnSyatekiItm_Update(Actor* thisx, PlayState* play) {
     if (this->unkTimer != 0) {
         this->unkTimer--;
     }
-    if (BREG(0)) {
+
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);

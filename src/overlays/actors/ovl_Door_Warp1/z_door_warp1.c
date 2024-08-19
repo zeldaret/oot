@@ -32,7 +32,7 @@ void DoorWarp1_DoNothing(DoorWarp1* this, PlayState* play);
 void DoorWarp1_ChooseInitialAction(DoorWarp1* this, PlayState* play);
 void DoorWarp1_FloatPlayer(DoorWarp1* this, PlayState* play);
 
-ActorInit Door_Warp1_InitVars = {
+ActorProfile Door_Warp1_Profile = {
     /**/ ACTOR_DOOR_WARP1,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -167,7 +167,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
                    gSaveContext.save.entranceIndex == ENTR_DESERT_COLOSSUS_8 ||
                    gSaveContext.save.entranceIndex == ENTR_GRAVEYARD_8) &&
                  !IS_CUTSCENE_LAYER) ||
-                (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
+                PARAMS_GET_NOSHIFT(GET_PLAYER(play)->actor.params, 8, 4) != 0x200) {
                 Actor_Kill(&this->actor);
             }
             if (Actor_WorldDistXZToActor(&player->actor, &this->actor) > 100.0f) {
@@ -456,12 +456,10 @@ s32 DoorWarp1_PlayerInRange(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_ChildWarpIdle(DoorWarp1* this, PlayState* play) {
-    Player* player;
-
     Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (DoorWarp1_PlayerInRange(this, play)) {
-        player = GET_PLAYER(play);
+        Player* player = GET_PLAYER(play);
 
         Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -830,12 +828,10 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_Destination(DoorWarp1* this, PlayState* play) {
-    f32 alphaFrac;
+    f32 alphaFrac = 1.0f;
 
-    this->warpTimer++;
     this->unk_194 = 5.0f;
-
-    alphaFrac = 1.0f;
+    this->warpTimer++;
     if (this->warpTimer < 20) {
         alphaFrac = this->warpTimer / 20.f;
     } else if (this->warpTimer >= 60) {

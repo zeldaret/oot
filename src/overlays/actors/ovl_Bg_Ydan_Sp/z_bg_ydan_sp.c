@@ -19,12 +19,12 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play);
 void BgYdanSp_BurnWallWeb(BgYdanSp* this, PlayState* play);
 void BgYdanSp_WallWebIdle(BgYdanSp* this, PlayState* play);
 
-typedef enum {
+typedef enum BgYdanSpType {
     /* 0 */ WEB_FLOOR,
     /* 1 */ WEB_WALL
 } BgYdanSpType;
 
-ActorInit Bg_Ydan_Sp_InitVars = {
+ActorProfile Bg_Ydan_Sp_Profile = {
     /**/ ACTOR_BG_YDAN_SP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -42,8 +42,8 @@ static ColliderTrisElementInit sTrisItemsInit[2] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x00 },
             { 0x00020800, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 75.0f, -8.0f, 75.0f }, { -75.0f, -8.0f, 75.0f }, { -75.0f, -8.0f, -75.0f } } },
@@ -53,8 +53,8 @@ static ColliderTrisElementInit sTrisItemsInit[2] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x00, 0x00 },
             { 0x00020800, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 140.0f, 288.8f, 0.0f }, { -140.0f, 288.0f, 0.0f }, { -140.0f, 0.0f, 0.0f } } },
@@ -91,9 +91,9 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
     f32 nSinsX;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->isDestroyedSwitchFlag = thisx->params & 0x3F;
-    this->burnSwitchFlag = (thisx->params >> 6) & 0x3F;
-    this->dyna.actor.params = (thisx->params >> 0xC) & 0xF;
+    this->isDestroyedSwitchFlag = PARAMS_GET_U(thisx->params, 0, 6);
+    this->burnSwitchFlag = PARAMS_GET_U(thisx->params, 6, 6);
+    this->dyna.actor.params = PARAMS_GET_U(thisx->params, 12, 4);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Collider_InitTris(play, &this->trisCollider);
     Collider_SetTris(play, &this->trisCollider, &this->dyna.actor, &sTrisInit, this->trisColliderItems);
@@ -395,7 +395,7 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, PlayState* play) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, play);
     } else if (player->heldItemAction == PLAYER_IA_DEKU_STICK && player->unk_860 != 0) {
-        func_8002DBD0(&this->dyna.actor, &sp30, &player->meleeWeaponInfo[0].tip);
+        Actor_WorldToActorCoords(&this->dyna.actor, &sp30, &player->meleeWeaponInfo[0].tip);
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
             OnePointCutscene_Init(play, 3020, 40, &this->dyna.actor, CAM_ID_MAIN);
             Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->meleeWeaponInfo[0].tip);
@@ -417,6 +417,7 @@ void BgYdanSp_Draw(Actor* thisx, PlayState* play) {
     MtxF mtxF;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_sp.c", 781);
+
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (thisx->params == WEB_WALL) {
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ydan_sp.c", 787),

@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 /**
  * memcpy: copies `len` bytes from memory starting at `src` to memory starting at `dest`. Expects the memory

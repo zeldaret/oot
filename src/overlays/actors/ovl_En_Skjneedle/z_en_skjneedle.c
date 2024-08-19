@@ -16,7 +16,7 @@ void EnSkjneedle_Draw(Actor* thisx, PlayState* play);
 
 s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);
 
-ActorInit En_Skjneedle_InitVars = {
+ActorProfile En_Skjneedle_Profile = {
     /**/ ACTOR_EN_SKJNEEDLE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -40,8 +40,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 10, 4, -2, { 0, 0, 0 } },

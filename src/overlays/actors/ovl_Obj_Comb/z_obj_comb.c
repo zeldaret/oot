@@ -20,7 +20,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, PlayState* play);
 void ObjComb_SetupWait(ObjComb* this);
 void ObjComb_Wait(ObjComb* this, PlayState* play);
 
-ActorInit Obj_Comb_InitVars = {
+ActorProfile Obj_Comb_Profile = {
     /**/ ACTOR_OBJ_COMB,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -38,8 +38,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4001FFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { 0, 0, 0 }, 15 }, 100 },
@@ -128,14 +128,14 @@ void ObjComb_Break(ObjComb* this, PlayState* play) {
 }
 
 void ObjComb_ChooseItemDrop(ObjComb* this, PlayState* play) {
-    s16 params = this->actor.params & 0x1F;
+    s16 params = PARAMS_GET_U(this->actor.params, 0, 5);
 
     if ((params > 0) || (params < ITEM00_MAX)) { // conditional always true. May have been intended to be &&
         if (params == ITEM00_HEART_PIECE) {
-            if (Flags_GetCollectible(play, (this->actor.params >> 8) & 0x3F)) {
+            if (Flags_GetCollectible(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
                 params = -1;
             } else {
-                params = (params | (((this->actor.params >> 8) & 0x3F) << 8));
+                params = (params | (PARAMS_GET_U(this->actor.params, 8, 6) << 8));
             }
         } else if (Rand_ZeroOne() < 0.5f) {
             params = -1;
@@ -176,7 +176,7 @@ void ObjComb_Wait(ObjComb* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        dmgFlags = this->collider.elements[0].base.acHitElem->toucher.dmgFlags;
+        dmgFlags = this->collider.elements[0].base.acHitElem->atDmgInfo.dmgFlags;
         if (dmgFlags & (DMG_HAMMER | DMG_ARROW | DMG_SLINGSHOT | DMG_DEKU_STICK)) {
             this->unk_1B0 = 1500;
         } else {

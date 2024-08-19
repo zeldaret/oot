@@ -62,7 +62,7 @@ void DemoEffect_SetStartPosFromCue(DemoEffect* this, PlayState* play, s32 cueCha
 void DemoEffect_SetPosRotFromCue(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing);
 void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChannel, f32 speed);
 
-ActorInit Demo_Effect_InitVars = {
+ActorProfile Demo_Effect_Profile = {
     /**/ ACTOR_DEMO_EFFECT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -170,8 +170,8 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     DemoEffect* crystalLight;
     DemoEffect* lightRing;
 
-    effectType = (this->actor.params & 0x00FF);
-    lightEffect = ((this->actor.params & 0xF000) >> 12);
+    effectType = PARAMS_GET_S(this->actor.params, 0, 8);
+    lightEffect = PARAMS_GET_S(this->actor.params, 12, 4);
 
     PRINTF(VT_FGCOL(CYAN) " no = %d\n" VT_RST, effectType);
 
@@ -504,7 +504,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
 
 void DemoEffect_Destroy(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    s32 effectType = (this->actor.params & 0x00FF);
+    s32 effectType = PARAMS_GET_S(this->actor.params, 0, 8);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_MASTERSWORD || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE ||
         effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
@@ -661,7 +661,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
  * 3) Timeblock is cleared with the Song of Time (Large and Small have different versions of Timewarp)
  */
 void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
-    s32 effectType = (this->actor.params & 0x00FF);
+    s32 effectType = PARAMS_GET_S(this->actor.params, 0, 8);
 
     if (!SkelCurve_Init(play, &this->skelCurve, &gTimeWarpSkel, &gTimeWarpAnim)) {
         ASSERT(0, "0", "../z_demo_effect.c", 1283);
@@ -773,7 +773,7 @@ void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, PlayState* play) {
         shrinkProgress = (100 - this->timeWarp.shrinkTimer) * 0.010f;
         scale = shrinkProgress * 0.14f;
 
-        if ((this->actor.params & 0x00FF) == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
+        if (PARAMS_GET_S(this->actor.params, 0, 8) == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
             scale *= 0.6f;
         }
 
@@ -1016,7 +1016,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
     u16 pad;
     s32 isLargeSize;
 
-    isLargeSize = ((this->actor.params & 0x0F00) >> 8);
+    isLargeSize = PARAMS_GET_S(this->actor.params, 8, 4);
 
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
         DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
@@ -1808,21 +1808,21 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
 
 void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    u8* alpha;
-    Gfx* disp;
+    uintptr_t flashDList = (uintptr_t)gEffFlash1DL;
+    s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2842);
 
     if (!DemoEffect_CheckForCue(this, play, 1)) {
-
         if (this->light.flicker == 0) {
             this->light.flicker = 1;
         } else {
-            disp = (Gfx*)(uintptr_t)gEffFlash1DL; // necessary to match but probably fake
-            alpha = &this->light.alpha;
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+            // `(*this).light.alpha` is probably fake and indicates that `alpha`
+            // may have been part of an array (possibly a "workbuf" array
+            // instead of the union of structs we have now).
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
-                            this->primXluColor[2], *alpha);
+                            this->primXluColor[2], (*this).light.alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
             Matrix_Scale(((this->light.scaleFlag & 1) * 0.05f) + 1.0f, ((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
                          ((this->light.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
@@ -1831,14 +1831,13 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
             Matrix_RotateZ(DEG_TO_RAD(this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2866),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-            if (disp) {};
-            gSPDisplayList(POLY_XLU_DISP++, disp);
+            gSPDisplayList(POLY_XLU_DISP++, flashDList);
             Matrix_Pop();
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(-(f32)this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_effect.c", 2874),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, disp);
+            gSPDisplayList(POLY_XLU_DISP++, flashDList);
         }
     }
 
@@ -2004,9 +2003,9 @@ s32 DemoEffect_OverrideLimbDrawTimeWarp(PlayState* play, SkelCurve* skelCurve, s
 }
 
 void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
-    DemoEffect* this = (DemoEffect*)thisx;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    u8 effectType = (this->actor.params & 0x00FF);
+    DemoEffect* this = (DemoEffect*)thisx;
+    u8 effectType = PARAMS_GET_S(this->actor.params, 0, 8);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
         CutsceneFlags_Get(play, 1) || IS_CUTSCENE_LAYER || gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {

@@ -36,11 +36,15 @@ void Arg_SetExporter(int& i, char* argv[]);
 void Arg_EnableGCCCompat(int& i, char* argv[]);
 void Arg_ForceStatic(int& i, char* argv[]);
 void Arg_ForceUnaccountedStatic(int& i, char* argv[]);
+void Arg_CsFloatMode(int& i, char* argv[]);
+void Arg_BaseAddress(int& i, char* argv[]);
+void Arg_StartOffset(int& i, char* argv[]);
+void Arg_EndOffset(int& i, char* argv[]);
 
 int main(int argc, char* argv[]);
 
 bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path& outPath,
-           ZFileMode fileMode);
+		   ZFileMode fileMode);
 
 void ParseArgs(int& argc, char* argv[]);
 
@@ -114,7 +118,7 @@ int main(int argc, char* argv[])
 		returnCode = HandleExtract(fileMode, exporterSet);
 	else if (fileMode == ZFileMode::BuildTexture)
 		BuildAssetTexture(Globals::Instance->inputPath, Globals::Instance->texType,
-		                  Globals::Instance->outputPath);
+						  Globals::Instance->outputPath);
 	else if (fileMode == ZFileMode::BuildBackground)
 		BuildAssetBackground(Globals::Instance->inputPath, Globals::Instance->outputPath);
 	else if (fileMode == ZFileMode::BuildBlob)
@@ -125,7 +129,7 @@ int main(int argc, char* argv[])
 }
 
 bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path& outPath,
-           ZFileMode fileMode)
+		   ZFileMode fileMode)
 {
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLError eResult = doc.LoadFile(xmlFilePath.string().c_str());
@@ -134,7 +138,7 @@ bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path
 	{
 		// TODO: use XMLDocument::ErrorIDToName to get more specific error messages here
 		HANDLE_ERROR(WarningType::InvalidXML,
-		             StringHelper::Sprintf("invalid XML file: '%s'", xmlFilePath.c_str()), "");
+					 StringHelper::Sprintf("invalid XML file: '%s'", xmlFilePath.c_str()), "");
 		return false;
 	}
 
@@ -149,7 +153,7 @@ bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path
 	}
 
 	for (tinyxml2::XMLElement* child = root->FirstChildElement(); child != NULL;
-	     child = child->NextSiblingElement())
+		 child = child->NextSiblingElement())
 	{
 		if (std::string_view(child->Name()) == "File")
 		{
@@ -252,6 +256,10 @@ void ParseArgs(int& argc, char* argv[])
 		{"--static", &Arg_ForceStatic},
 		{"-us", &Arg_ForceUnaccountedStatic},
 		{"--unaccounted-static", &Arg_ForceUnaccountedStatic},
+		{"--cs-float", &Arg_CsFloatMode},
+		{"--base-address", &Arg_BaseAddress},
+		{"--start-offset", &Arg_StartOffset},
+		{"--end-offset", &Arg_EndOffset},
 	};
 
 	for (int32_t i = 2; i < argc; i++)
@@ -392,6 +400,62 @@ void Arg_ForceUnaccountedStatic([[maybe_unused]] int& i, [[maybe_unused]] char* 
 	Globals::Instance->forceUnaccountedStatic = true;
 }
 
+void Arg_CsFloatMode([[maybe_unused]] int& i, [[maybe_unused]] char* argv[])
+{
+	i++;
+	if (std::strcmp(argv[i], "hex") == 0)
+	{
+		Globals::Instance->floatType = CsFloatType::HexOnly;
+	}
+	else if (std::strcmp(argv[i], "float") == 0)
+	{
+		Globals::Instance->floatType = CsFloatType::FloatOnly;
+	}
+	else if (std::strcmp(argv[i], "both") == 0)
+	{
+		Globals::Instance->floatType = CsFloatType::HexAndFloat;
+	}
+	else if (std::strcmp(argv[i], "hex-commented-left") == 0)
+	{
+		Globals::Instance->floatType = CsFloatType::HexAndCommentedFloatLeft;
+	}
+	else if (std::strcmp(argv[i], "hex-commented-right") == 0)
+	{
+		Globals::Instance->floatType = CsFloatType::HexAndCommentedFloatRight;
+	}
+	else
+	{
+		Globals::Instance->floatType = CsFloatType::FloatOnly;
+		HANDLE_WARNING(
+			WarningType::Always, "Invalid CS Float Type",
+			StringHelper::Sprintf("Invalid CS float type entered. Expected \"hex\", \"float\", "
+								  "\"both\", \"hex-commented-left\" or \"hex-commented-right\". "
+								  "Got %s.\n Defaulting to \"float\".",
+								  argv[i]));
+	}
+}
+
+uint32_t ParseU32Hex(char* str)
+{
+	static_assert(sizeof(uint32_t) <= sizeof(unsigned long));
+	return (uint32_t)std::stoul(str, nullptr, 16);
+}
+
+void Arg_BaseAddress(int& i, char* argv[])
+{
+	Globals::Instance->baseAddress = ParseU32Hex(argv[++i]);
+}
+
+void Arg_StartOffset(int& i, char* argv[])
+{
+	Globals::Instance->startOffset = ParseU32Hex(argv[++i]);
+}
+
+void Arg_EndOffset(int& i, char* argv[])
+{
+	Globals::Instance->endOffset = ParseU32Hex(argv[++i]);
+}
+
 int HandleExtract(ZFileMode fileMode, ExporterSet* exporterSet)
 {
 	bool procFileModeSuccess = false;
@@ -412,14 +476,14 @@ int HandleExtract(ZFileMode fileMode, ExporterSet* exporterSet)
 				printf("Parsing external file from config: '%s'\n", externalXmlFilePath.c_str());
 
 			parseSuccessful = Parse(externalXmlFilePath, Globals::Instance->baseRomPath,
-			                        extFile.outPath, ZFileMode::ExternalFile);
+									extFile.outPath, ZFileMode::ExternalFile);
 
 			if (!parseSuccessful)
 				return 1;
 		}
 
 		parseSuccessful = Parse(Globals::Instance->inputPath, Globals::Instance->baseRomPath,
-		                        Globals::Instance->outputPath, fileMode);
+								Globals::Instance->outputPath, fileMode);
 		if (!parseSuccessful)
 			return 1;
 	}
