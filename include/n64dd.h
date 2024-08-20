@@ -6,13 +6,15 @@
 struct RegEditor;
 struct SaveContext;
 
+// TODO Use the specific pointer types instead of void*
 typedef struct n64ddStruct_800FF4B0_pointers {
-    char unk_00[4];
-    s32 unk_04;
+    void* unk_00;
+    void* unk_04;
     struct RegEditor* unk_08;
-    char unk_0C[0x7C];
+    void* unk_0C[31];
     struct SaveContext* unk_88;
-} n64ddStruct_800FF4B0_pointers; // size = ?
+    void* unk_8C[9];
+} n64ddStruct_800FF4B0_pointers; // size = 0xB0
 
 struct n64ddStruct_80121AF0;
 struct PlayState;

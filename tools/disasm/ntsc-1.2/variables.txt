@@ -21,4 +21,4 @@ _n64ddSegmentRomStart = 0x00B8ADA0;
 _n64ddSegmentRomEnd = 0x00B9DA70;
 D_801DA410 = 0x801DA410;
 D_801E8090 = 0x801E8090;
-D_800FF4B0 = 0x800FF4B0;
+D_800FF4B0 = 0x800FF4B0; // size:0xB0 type:n64ddStruct_800FF4B0_pointers
