@@ -3098,6 +3098,7 @@ Regs_InitDataImpl = 0x800E2704; // type:func
 Regs_InitData = 0x800E35D0; // type:func
 njpgdspMainTextStart = 0x800E7200; // type:func
 func_801C7740_unknown = 0x801C7740; // type:func
+func_801C8510_unknown = 0x801C8510; // type:func
 n64dd_SetDiskVersion = 0x801C8808; // type:func
 ConsoleLogo_Calc = 0x80800000; // type:func
 ConsoleLogo_SetupView = 0x8080009C; // type:func

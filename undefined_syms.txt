@@ -17,7 +17,12 @@ func_80001720 = 0x80001720;
 osInitialize = 0x80003230;
 
 // code_n64dd_800AD410.c
+func_800ADCD8_unknown = 0x800ADCD8;
+func_800AE170_unknown = 0x800AE170;
+osGetIntMask = 0x800CFBB0;
+osSetTime = 0x800D3660;
 func_801C7740_unknown = 0x801C7740;
+func_801C8510_unknown = 0x801C8510;
 D_801DA410 = 0x801DA410;
 D_801E8090 = 0x801E8090;
 
