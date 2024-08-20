@@ -656,6 +656,15 @@ beginseg
     include "$(BUILD_DIR)/data/rsp.rodata.o"
 endseg
 
+#if PLATFORM_N64
+beginseg
+    // TODO
+    name "n64dd"
+    address 0x801C7740
+    include "$(BUILD_DIR)/baserom/n64dd.o"
+endseg
+#endif
+
 beginseg
     name "buffers"
     flags NOLOAD
