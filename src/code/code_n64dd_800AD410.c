@@ -9,6 +9,10 @@ DECLARE_BSS_SEGMENT(n64dd)
 
 s8 func_801C7740_unknown(void);
 
+u8 B_80121AE0;
+s8 B_80121AE1;
+u8 B_80121AE2;
+
 void func_800ADA80(void) {
     if (!B_80121AE0) {
         DmaMgr_RequestSync(_n64ddSegmentStart, (uintptr_t)_n64ddSegmentRomStart,
