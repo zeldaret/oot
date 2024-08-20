@@ -130,7 +130,7 @@ void func_808BA274(BgTokiHikari* this, PlayState* play) {
 
 void func_808BA2CC(Actor* thisx, PlayState* play) {
     BgTokiHikari* this = (BgTokiHikari*)thisx;
-    PlayState* play2 = (PlayState*)play;
+    s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 350);
     Matrix_Translate(0.0f, 276.0f, 1122.0f, MTXMODE_NEW);

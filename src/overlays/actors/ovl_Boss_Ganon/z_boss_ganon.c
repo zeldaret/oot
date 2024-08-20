@@ -4817,7 +4817,7 @@ static u8 sLightningEnvColors[13][3] = {
     { 128, 46, 208 }, { 114, 23, 231 },  { 100, 0, 255 },
 };
 
-static u8 sUnknown[0xC] = { 0 };
+static s32 sUnknown[3] = { 0 };
 
 void BossGanon_DrawEffects(PlayState* play) {
     u8 materialFlag = 0;
