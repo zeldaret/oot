@@ -42,10 +42,6 @@ extern u8 B_80121AE0;
 extern s8 B_80121AE1;
 extern u8 B_80121AE2;
 
-// rom?
-extern char D_00B8ADA0[];
-extern char D_00B9DA70[];
-
 extern char D_801DA410; // type ?
 extern char D_801E8090; // type ?
 
