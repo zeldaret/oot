@@ -133,7 +133,7 @@ BCA20,800CE100,src/code/fp
 BCB80,800CE260,src/code/system_malloc
 BCDF0,800CE4D0,src/code/rand
 BCEF0,800CE5D0,src/code/__osMalloc
-BD8A0,800CEF80,src/libultra/libc/sprintf
+BD8A0,800CEF80,src/boot/sprintf
 BD970,800CF050,src/code/printutils
 BD9D0,800CF0B0,src/code/jpegutils
 BDEE0,800CF5C0,src/code/jpegdecoder

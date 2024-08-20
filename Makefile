@@ -399,7 +399,9 @@ $(shell mkdir -p $(foreach dir, \
 endif
 
 ifeq ($(COMPILER),ido)
+$(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/boot/logutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/boot/sprintf.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/code/__osMalloc.o: OPTFLAGS := -O2

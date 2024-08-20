@@ -529,7 +529,7 @@
 #define VI_CTRL_ANTIALIAS_MODE_2    0x00200 // Bit [9:8] anti-alias mode: AA disabled, resampling enabled, operate as if everything is covered
 #define VI_CTRL_ANTIALIAS_MODE_3    0x00300 // Bit [9:8] anti-alias mode: AA disabled, resampling disabled, replicate pixels
 #define VI_CTRL_PIXEL_ADV_MASK      0x0F000 // [15:12] pixel advance mode
-#define VI_CTRL_PIXEL_ADV(n)        (((n) << 12) & VI_CTRL_PIXEL_ADV_MASK) // Bit [15:12] pixel advance mode: Always 3 on N64
+#define VI_CTRL_PIXEL_ADV_3         0x03000 // Bit [15:12] pixel advance mode: Always 3 on N64
 #define VI_CTRL_DITHER_FILTER_ON    0x10000 // 16: dither-filter mode
 
 /*

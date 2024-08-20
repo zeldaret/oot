@@ -47,5 +47,5 @@ void guRotate(Mtx* m, f32 a, f32 x, f32 y, f32 z) {
     f32 mf[4][4];
 
     guRotateF(mf, a, x, y, z);
-    guMtxF2L((MtxF*)mf, m);
+    guMtxF2L(mf, m);
 }

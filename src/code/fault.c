@@ -47,6 +47,8 @@
 #pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:0 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64" \
                                "gc-us-mq:64"
 
+extern void __osCleanupThread(void);
+
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);
 void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 color);
@@ -140,7 +142,8 @@ void Fault_ClientRunTask(FaultClientTask* task) {
 
     // Await done
     while (true) {
-        osSetTimer(&timer, OS_SEC_TO_CYCLES(1), 0, &queue, (OSMesg)timerMsgVal);
+        // Wait for 1 second
+        osSetTimer(&timer, OS_USEC_TO_CYCLES(1000000), 0, &queue, (OSMesg)timerMsgVal);
         osRecvMesg(&queue, &recMsg, OS_MESG_BLOCK);
 
         if (recMsg != (OSMesg)666) {
@@ -632,8 +635,8 @@ void Fault_LogThreadContext(OSThread* thread) {
 OSThread* Fault_FindFaultedThread(void) {
     OSThread* thread = __osGetActiveQueue();
 
-    // OS_PRIORITY_THREADTAIL indicates the end of the thread queue
-    while (thread->priority != OS_PRIORITY_THREADTAIL) {
+    // -1 indicates the end of the thread queue
+    while (thread->priority != -1) {
         if (thread->priority > OS_PRIORITY_IDLE && thread->priority < OS_PRIORITY_APPMAX &&
             (thread->flags & (OS_FLAG_CPU_BREAK | OS_FLAG_FAULT))) {
             return thread;
@@ -649,7 +652,7 @@ void Fault_Wait5Seconds(void) {
 
     do {
         Fault_Sleep(1000 / 60);
-    } while ((osGetTime() - start) < OS_SEC_TO_CYCLES(5) + 1);
+    } while ((osGetTime() - start) <= OS_USEC_TO_CYCLES(5000000)); // 5 seconds
 
     sFaultInstance->autoScroll = true;
 }

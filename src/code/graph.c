@@ -176,6 +176,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     {
         CfbInfo* cfb;
 
+        // Schedule 3 second RCP timeout
         osSetTimer(&timer, OS_USEC_TO_CYCLES(3000000), 0, &gfxCtx->queue, (OSMesg)666);
 
         osRecvMesg(&gfxCtx->queue, &msg, OS_MESG_BLOCK);

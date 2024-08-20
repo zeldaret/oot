@@ -27,12 +27,12 @@ beginseg
     include "$(BUILD_DIR)/src/boot/assert.o"
 #endif
     include "$(BUILD_DIR)/src/boot/is_debug.o"
-    include "$(BUILD_DIR)/src/libultra/io/driverominit.o"
+    include "$(BUILD_DIR)/src/boot/driverominit.o"
     include "$(BUILD_DIR)/src/boot/mio0.o"
     include "$(BUILD_DIR)/src/boot/stackcheck.o"
     include "$(BUILD_DIR)/src/boot/logutils.o"
 #if OOT_DEBUG
-    include "$(BUILD_DIR)/src/libultra/libc/sprintf.o"
+    include "$(BUILD_DIR)/src/boot/sprintf.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
     include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
@@ -536,7 +536,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/rand.o"
     include "$(BUILD_DIR)/src/code/__osMalloc.o"
 #if !OOT_DEBUG
-    include "$(BUILD_DIR)/src/libultra/libc/sprintf.o"
+    include "$(BUILD_DIR)/src/boot/sprintf.o"
 #endif
     include "$(BUILD_DIR)/src/code/printutils.o"
     include "$(BUILD_DIR)/src/code/sleep.o"

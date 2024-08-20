@@ -1,6 +1,6 @@
 #include "global.h"
 
-__OSThreadTail __osThreadTail = { NULL, OS_PRIORITY_THREADTAIL };
+__OSThreadTail __osThreadTail = { NULL, -1 };
 OSThread* __osRunQueue = (OSThread*)&__osThreadTail;
 OSThread* __osActiveQueue = (OSThread*)&__osThreadTail;
 OSThread* __osRunningThread = NULL;

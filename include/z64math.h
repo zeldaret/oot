@@ -7,6 +7,11 @@
 #define SQ(x) ((x)*(x))
 #define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
 
+typedef union FloatInt {
+    f32 f;
+    s32 i;
+} FloatInt;
+
 typedef struct Vec2f {
     f32 x, y;
 } Vec2f; // size = 0x08
