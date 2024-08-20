@@ -460,8 +460,8 @@ f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type);
 void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration);
-Hilite* func_800342EC(Vec3f* object, PlayState* play);
-Hilite* func_8003435C(Vec3f* object, PlayState* play);
+void func_800342EC(Vec3f* object, PlayState* play);
+void func_8003435C(Vec3f* object, PlayState* play);
 s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
                       NpcGetTextIdFunc getTextId, NpcUpdateTalkStateFunc updateTalkState);
 s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex);

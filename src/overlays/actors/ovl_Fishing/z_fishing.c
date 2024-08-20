@@ -4770,25 +4770,23 @@ void Fishing_DrawGroupFishes(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 8048);
 
     for (i = 0; i < GROUP_FISH_COUNT; i++, fish++) {
-        if (fish->type == FS_GROUP_FISH_NONE) {
-            continue;
-        }
+        if (fish->type != FS_GROUP_FISH_NONE) {
+            if (!materialFlag) {
+                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
+                materialFlag++;
+            }
 
-        if (!materialFlag) {
-            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
-            materialFlag++;
-        }
+            if (fish->shouldDraw) {
+                Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
+                Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
 
-        if (fish->shouldDraw) {
-            Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
-            Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
-            Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
-            Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
-
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_fishing.c", 8093),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_fishing.c", 8093),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
+            }
         }
     }
 
@@ -5830,8 +5828,7 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    if ((this->actor.projectedPos.z < 1500.0f) &&
-        (fabsf(this->actor.projectedPos.x) < (100.0f + this->actor.projectedPos.z))) {
+    if ((thisx->projectedPos.z < 1500.0f) && (fabsf(thisx->projectedPos.x) < (100.0f + thisx->projectedPos.z))) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFishingOwnerEyeTexs[this->unk_160]));
 
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

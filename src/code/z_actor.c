@@ -3832,24 +3832,24 @@ void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s1
     actor->colorFilterTimer = duration;
 }
 
-Hilite* func_800342EC(Vec3f* object, PlayState* play) {
+void func_800342EC(Vec3f* object, PlayState* play) {
     Vec3f lightDir;
 
     lightDir.x = play->envCtx.dirLight1.params.dir.x;
     lightDir.y = play->envCtx.dirLight1.params.dir.y;
     lightDir.z = play->envCtx.dirLight1.params.dir.z;
 
-    return func_8002EABC(object, &play->view.eye, &lightDir, play->state.gfxCtx);
+    func_8002EABC(object, &play->view.eye, &lightDir, play->state.gfxCtx);
 }
 
-Hilite* func_8003435C(Vec3f* object, PlayState* play) {
+void func_8003435C(Vec3f* object, PlayState* play) {
     Vec3f lightDir;
 
     lightDir.x = play->envCtx.dirLight1.params.dir.x;
     lightDir.y = play->envCtx.dirLight1.params.dir.y;
     lightDir.z = play->envCtx.dirLight1.params.dir.z;
 
-    return func_8002EB44(object, &play->view.eye, &lightDir, play->state.gfxCtx);
+    func_8002EB44(object, &play->view.eye, &lightDir, play->state.gfxCtx);
 }
 
 /**
