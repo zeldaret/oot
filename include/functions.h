@@ -4,7 +4,6 @@
 #include "z64.h"
 #include "macros.h"
 
-void cleararena(void);
 void bootproc(void);
 void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
@@ -47,6 +46,15 @@ s32 osSendMesg(OSMesgQueue* mq, OSMesg msg, s32 flag);
 void osStopThread(OSThread* thread);
 void osViExtendVStart(u32 value);
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag);
+#if PLATFORM_N64
+void osInitialize(void);
+#else
+#define osInitialize()           \
+{                                \
+    __osInitialize_common();     \
+    __osInitialize_autodetect(); \
+}
+#endif
 void __osInitialize_common(void);
 void __osInitialize_autodetect(void);
 void __osEnqueueAndYield(OSThread**);
@@ -452,8 +460,8 @@ f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type);
 void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration);
-Hilite* func_800342EC(Vec3f* object, PlayState* play);
-Hilite* func_8003435C(Vec3f* object, PlayState* play);
+void func_800342EC(Vec3f* object, PlayState* play);
+void func_8003435C(Vec3f* object, PlayState* play);
 s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
                       NpcGetTextIdFunc getTextId, NpcUpdateTalkStateFunc updateTalkState);
 s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex);
@@ -1732,8 +1740,8 @@ void guMtxF2L(MtxF* m1, Mtx* m2);
 void* osViGetCurrentFramebuffer(void);
 s32 __osSpSetPc(void* pc);
 f32 absf(f32);
-void* __osMemset(void* dest, s32 val, size_t len);
-void* __osMemmove(void* dest, const void* src, size_t len);
+void* memset(void* dest, int val, size_t len);
+void* memmove(void* dest, const void* src, size_t len);
 void Message_UpdateOcarinaMemoryGame(PlayState* play);
 u8 Message_ShouldAdvance(PlayState* play);
 void Message_CloseTextbox(PlayState*);
