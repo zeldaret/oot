@@ -378,7 +378,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         size = systemMaxFree - 0x10;
     }
 
-    PRINTF(T("ハイラル再確保 サイズ＝%u バイト\n", "Hyral reallocate size = %u bytes\n"), size);
+    PRINTF(T("ハイラル再確保 サイズ＝%u バイト\n", "Hyrule reallocate size = %u bytes\n"), size);
 
     gameArena = GAME_ALLOC_MALLOC(alloc, size, "../game.c", 1033);
     if (gameArena != NULL) {
@@ -386,7 +386,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         PRINTF(T("ハイラル再確保成功\n", "Successful reacquisition of Hyrule\n"));
     } else {
         THA_Init(&gameState->tha, NULL, 0);
-        PRINTF(T("ハイラル再確保失敗\n", "Failure to secure Hyral\n"));
+        PRINTF(T("ハイラル再確保失敗\n", "Failure to secure Hyrule\n"));
 
 #if OOT_DEBUG
         SystemArena_Display();
@@ -502,7 +502,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int l
         ret = NULL;
     } else if ((u32)THA_GetRemaining(&gameState->tha) < size) {
         PRINTF(T("滅亡寸前のハイラルには %d バイトの余力もない（滅亡まであと %d バイト）\n",
-                 "Hyral on the verge of extinction does not have %d bytes left (%d bytes until extinction)\n"),
+                 "Hyrule on the verge of extinction does not have %d bytes left (%d bytes until extinction)\n"),
                size, THA_GetRemaining(&gameState->tha));
         ret = NULL;
     } else {
