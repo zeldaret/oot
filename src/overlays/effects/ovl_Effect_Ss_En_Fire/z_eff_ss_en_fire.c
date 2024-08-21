@@ -68,6 +68,7 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     f32 scale;
     s16 camYaw;
     s32 pad[3];
+    s16 intensity;
     s16 redGreen;
 
     OPEN_DISPS(gfxCtx, "../z_eff_en_fire.c", 169);
@@ -81,12 +82,13 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_eff_en_fire.c", 180),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    redGreen = this->life - 5;
+    intensity = this->life - 5;
 
-    if (redGreen < 0) {
-        redGreen = 0;
+    if (intensity < 0) {
+        intensity = 0;
     }
 
+    redGreen = intensity;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, redGreen * 12.7f, 0, 0, 0);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x0, 0x80, redGreen * 12.7f, redGreen * 12.7f, 0, 255);
