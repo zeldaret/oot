@@ -79,10 +79,10 @@ typedef enum AnimSfxType {
     /* 2 */ ANIMSFX_TYPE_FLOOR,
     /* 3 */ ANIMSFX_TYPE_FLOOR_BY_AGE,
     /* 4 */ ANIMSFX_TYPE_VOICE,
-    /* 5 */ ANIMSFX_TYPE_LANDING, // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
-    /* 6 */ ANIMSFX_TYPE_RUNNING, // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
-    /* 7 */ ANIMSFX_TYPE_JUMPING, // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
-    /* 8 */ ANIMSFX_TYPE_WALKING, // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
+    /* 5 */ ANIMSFX_TYPE_LANDING,                // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
+    /* 6 */ ANIMSFX_TYPE_RUNNING,                // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
+    /* 7 */ ANIMSFX_TYPE_JUMPING,                // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
+    /* 8 */ ANIMSFX_TYPE_WALKING,                // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
     /* 9 */ ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET // `AnimSfxEntry.sfxId` is ignored. Only used in the intro cutscene.
 } AnimSfxType;
 
