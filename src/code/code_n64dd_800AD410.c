@@ -12,6 +12,7 @@ s8 func_801C7740_unknown(void);
 u8 B_80121AE0;
 s8 B_80121AE1;
 u8 B_80121AE2;
+vu8 B_80121AE4;
 
 void func_800ADA80(void) {
     if (!B_80121AE0) {

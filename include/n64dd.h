@@ -1,6 +1,8 @@
 #ifndef N64DD_H
 #define N64DD_H
 
+#include "ultra64.h"
+#include "z64dma.h"
 #include "z64scene.h"
 
 struct RegEditor;
@@ -27,6 +29,7 @@ typedef struct n64ddStruct_80121AF0 {
     void (*unk_40)(void);
     char unk_44[0x28];
     void (*unk_6C)(struct PlayState*, SceneDrawConfigFunc*);
+    s32 (*unk_70)(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
 } n64ddStruct_80121AF0; // size = ?
 
 void func_800ADA80(void);
@@ -43,6 +46,7 @@ extern n64ddStruct_80121AF0* B_80121AF0;
 extern u8 B_80121AE0;
 extern s8 B_80121AE1;
 extern u8 B_80121AE2;
+extern vu8 B_80121AE4;
 
 extern char D_801DA410; // type ?
 extern char D_801E8090; // type ?
