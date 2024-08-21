@@ -166,6 +166,8 @@ s16 gOcarinaSongItemMap[] = {
     OCARINA_SONG_SARIAS,   OCARINA_SONG_SUNS,    OCARINA_SONG_TIME,     OCARINA_SONG_STORMS,
 };
 
+#pragma increment_block_number "gc-eu:128"
+
 s32 sCharTexSize;
 s32 sCharTexScale;
 s16 sOcarinaButtonAPrimR;
