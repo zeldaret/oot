@@ -170,8 +170,8 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     DemoEffect* crystalLight;
     DemoEffect* lightRing;
 
-    effectType = (this->actor.params & 0x00FF);
-    lightEffect = ((this->actor.params & 0xF000) >> 12);
+    effectType = PARAMS_GET_S(this->actor.params, 0, 8);
+    lightEffect = PARAMS_GET_S(this->actor.params, 12, 4);
 
     PRINTF(VT_FGCOL(CYAN) " no = %d\n" VT_RST, effectType);
 
@@ -504,7 +504,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
 
 void DemoEffect_Destroy(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    s32 effectType = (this->actor.params & 0x00FF);
+    s32 effectType = PARAMS_GET_S(this->actor.params, 0, 8);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_MASTERSWORD || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE ||
         effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
@@ -661,7 +661,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
  * 3) Timeblock is cleared with the Song of Time (Large and Small have different versions of Timewarp)
  */
 void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
-    s32 effectType = (this->actor.params & 0x00FF);
+    s32 effectType = PARAMS_GET_S(this->actor.params, 0, 8);
 
     if (!SkelCurve_Init(play, &this->skelCurve, &gTimeWarpSkel, &gTimeWarpAnim)) {
         ASSERT(0, "0", "../z_demo_effect.c", 1283);
@@ -773,7 +773,7 @@ void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, PlayState* play) {
         shrinkProgress = (100 - this->timeWarp.shrinkTimer) * 0.010f;
         scale = shrinkProgress * 0.14f;
 
-        if ((this->actor.params & 0x00FF) == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
+        if (PARAMS_GET_S(this->actor.params, 0, 8) == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
             scale *= 0.6f;
         }
 
@@ -1016,7 +1016,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
     u16 pad;
     s32 isLargeSize;
 
-    isLargeSize = ((this->actor.params & 0x0F00) >> 8);
+    isLargeSize = PARAMS_GET_S(this->actor.params, 8, 4);
 
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
         DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
@@ -2005,7 +2005,7 @@ s32 DemoEffect_OverrideLimbDrawTimeWarp(PlayState* play, SkelCurve* skelCurve, s
 void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     DemoEffect* this = (DemoEffect*)thisx;
-    u8 effectType = (this->actor.params & 0x00FF);
+    u8 effectType = PARAMS_GET_S(this->actor.params, 0, 8);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
         CutsceneFlags_Get(play, 1) || IS_CUTSCENE_LAYER || gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {

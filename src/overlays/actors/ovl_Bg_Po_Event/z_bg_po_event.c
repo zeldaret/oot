@@ -196,8 +196,8 @@ void BgPoEvent_Init(Actor* thisx, PlayState* play) {
     BgPoEvent* this = (BgPoEvent*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->type = (thisx->params >> 8) & 0xF;
-    this->index = (thisx->params >> 0xC) & 0xF;
+    this->type = PARAMS_GET_U(thisx->params, 8, 4);
+    this->index = PARAMS_GET_U(thisx->params, 12, 4);
     thisx->params &= 0x3F;
 
     if (this->type >= 2) {

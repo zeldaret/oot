@@ -1,4 +1,4 @@
-#include "macros.h"
+#include "versions.h"
 
 #if PLATFORM_N64
 const char gBuildTeam[] = "zelda@srd44";

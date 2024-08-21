@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum FlashState {
     /* 0x00 */ FLASH_NONE,
     /* 0x01 */ FLASH_GROW,
     /* 0x02 */ FLASH_SHRINK

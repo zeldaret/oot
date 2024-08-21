@@ -120,7 +120,7 @@ static EnZl3* sZelda;
 
 #define BOSSGANON_EFFECT_COUNT 200
 
-typedef struct {
+typedef struct GanondorfEffect {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 timer;
     /* 0x04 */ Vec3f pos;
@@ -502,7 +502,7 @@ void BossGanon_SetupIntroCutscene(BossGanon* this, PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct CutsceneCameraPosition {
     /* 0x00 */ Vec3s eye;
     /* 0x06 */ Vec3s at;
 } CutsceneCameraPosition; // size = 0x12
@@ -4805,16 +4805,19 @@ static void* sLightningTextures[] = {
     gGanondorfLightning12Tex,
 };
 
-static u8 sLightningPrimColors[] = {
-    0,   0,   0,   255, 255, 255, 231, 250, 231, 208, 245, 208, 185, 240, 185, 162, 235, 162, 139, 230,
-    139, 115, 225, 115, 92,  220, 92,  69,  215, 69,  46,  210, 46,  23,  205, 23,  0,   200, 0,
+static u8 sLightningPrimColors[13][3] = {
+    { 0, 0, 0 },       { 255, 255, 255 }, { 231, 250, 231 }, { 208, 245, 208 }, { 185, 240, 185 },
+    { 162, 235, 162 }, { 139, 230, 139 }, { 115, 225, 115 }, { 92, 220, 92 },   { 69, 215, 69 },
+    { 46, 210, 46 },   { 23, 205, 23 },   { 0, 200, 0 },
 };
 
-static u8 sLightningEnvColors[] = {
-    0,   0,   0,   255, 255, 0,   240, 231, 23,  226, 208, 46,  212, 185, 69,  198, 162, 92,
-    184, 139, 115, 170, 115, 139, 156, 92,  162, 142, 69,  185, 128, 46,  208, 114, 23,  231,
-    100, 0,   255, 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+static u8 sLightningEnvColors[13][3] = {
+    { 0, 0, 0 },      { 255, 255, 0 },   { 240, 231, 23 },  { 226, 208, 46 }, { 212, 185, 69 },
+    { 198, 162, 92 }, { 184, 139, 115 }, { 170, 115, 139 }, { 156, 92, 162 }, { 142, 69, 185 },
+    { 128, 46, 208 }, { 114, 23, 231 },  { 100, 0, 255 },
 };
+
+static s32 sUnknown[3] = { 0 };
 
 void BossGanon_DrawEffects(PlayState* play) {
     u8 materialFlag = 0;
@@ -4926,11 +4929,10 @@ void BossGanon_DrawEffects(PlayState* play) {
     for (i = 0; i < 150; i++, eff++) {
         if (eff->type == GDF_EFF_LIGHTNING) {
             gDPPipeSync(POLY_XLU_DISP++);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, sLightningPrimColors[(eff->timer * 3) + 0],
-                            sLightningPrimColors[(eff->timer * 3) + 1], sLightningPrimColors[(eff->timer * 3) + 2],
-                            255);
-            gDPSetEnvColor(POLY_XLU_DISP++, sLightningEnvColors[(eff->timer * 3) + 0],
-                           sLightningEnvColors[(eff->timer * 3) + 1], sLightningEnvColors[(eff->timer * 3) + 2], 0);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, sLightningPrimColors[eff->timer][0],
+                            sLightningPrimColors[eff->timer][1], sLightningPrimColors[eff->timer][2], 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, sLightningEnvColors[eff->timer][0], sLightningEnvColors[eff->timer][1],
+                           sLightningEnvColors[eff->timer][2], 0);
             Matrix_Translate(sGanondorf->unk_260.x, sGanondorf->unk_260.y, sGanondorf->unk_260.z, MTXMODE_NEW);
             Matrix_RotateY(eff->unk_48, MTXMODE_APPLY);
             Matrix_RotateZ(eff->unk_3C, MTXMODE_APPLY);

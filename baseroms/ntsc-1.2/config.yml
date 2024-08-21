@@ -1,3 +1,6 @@
+checksums:
+  - checksum-JP
+  - checksum-US
 dmadata_start: 0x7960
 text_lang_pal: false
 incbins:
@@ -33,10 +36,6 @@ incbins:
     segment: code
     vram: 0x80114220
     size: 0x6F0
-  - name: gSampleBankTable
-    segment: code
-    vram: 0x80114910
-    size: 0x80
   - name: aspMainData
     segment: code
     vram: 0x80114990

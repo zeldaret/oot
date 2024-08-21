@@ -33,7 +33,7 @@ extern u8 gAreaGsFlags[];
 #define PAGE_BG_QUAD_TEX_WIDTH 80
 #define PAGE_BG_QUAD_TEX_HEIGHT 32
 
-typedef enum {
+typedef enum QuestQuad {
     // 0 to 24 matches the `QuestItem` enum
     // Notes showing the correct song
     /* 25 */ QUAD_QUEST_SONG_NOTE_A1 = QUEST_HEART_PIECE + 1,
@@ -79,7 +79,7 @@ typedef enum {
 #define EQUIP_GRID_SELECTED_QUAD_HEIGHT (EQUIP_GRID_QUAD_HEIGHT - (2 * EQUIP_GRID_SELECTED_QUAD_MARGIN))
 #define EQUIP_GRID_SELECTED_QUAD_TEX_SIZE 32 // both width and height
 
-typedef enum {
+typedef enum EquipQuad {
     // Grid of upgrades and equips, left column is upgrades, others are equips, with one row per equip type
     // Row 0
     /*  0 */ QUAD_EQUIP_UPG_BULLETBAG_QUIVER,
@@ -118,7 +118,7 @@ typedef enum {
 #define WORLD_MAP_IMAGE_FRAG_HEIGHT ((TMEM_SIZE / 2) / (WORLD_MAP_IMAGE_WIDTH * G_IM_SIZ_8b_BYTES))
 #define WORLD_MAP_IMAGE_FRAG_NUM (((WORLD_MAP_IMAGE_HEIGHT - 1) / WORLD_MAP_IMAGE_FRAG_HEIGHT) + 1)
 
-typedef enum {
+typedef enum MapQuad {
     /*  0 */ QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW,
     /*  1 */ QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD,
     /*  2 */ QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH,
@@ -173,7 +173,7 @@ typedef enum {
 #define ITEM_AMMO_UNITS_QUAD_OFFSET_X 6
 #define ITEM_AMMO_UNITS_QUAD_OFFSET_Y 0
 
-typedef enum {
+typedef enum ItemQuad {
     // 0..23 are the ITEM_GRID_ROWS*ITEM_GRID_COLS item grid
     // The values follow the `InventorySlot` enum
     /*  0 */ QUAD_ITEM_GRID_FIRST,
@@ -203,7 +203,7 @@ typedef enum {
     /* 41 */ QUAD_ITEM_MAX
 } ItemQuad;
 
-typedef enum {
+typedef enum PromptQuad {
     /* 0 */ QUAD_PROMPT_MESSAGE,
     /* 1 */ QUAD_PROMPT_CURSOR_LEFT,
     /* 2 */ QUAD_PROMPT_CURSOR_RIGHT,

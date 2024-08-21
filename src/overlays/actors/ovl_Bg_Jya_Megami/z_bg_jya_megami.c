@@ -59,7 +59,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef struct {
+typedef struct BgJyaMegamiPieceInit {
     /* 0x00 */ Vec3f unk_00;
     /* 0x0C */ f32 velX;
     /* 0x10 */ s16 rotVelX;
@@ -161,7 +161,7 @@ void BgJyaMegami_Init(Actor* thisx, PlayState* play) {
 
     BgJyaMegami_InitDynaPoly(this, play, &GMegamiCol, 0);
     BgJyaMegami_InitCollider(this, play);
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
     } else {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -195,7 +195,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, PlayState* play) {
         this->lightTimer--;
     }
     if (this->lightTimer > 40) {
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         BgJyaMegami_SetupExplode(this);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
         OnePointCutscene_Init(play, 3440, -99, &this->dyna.actor, CAM_ID_MAIN);

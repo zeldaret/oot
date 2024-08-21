@@ -10,6 +10,8 @@
 #include "overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
 
 #define vParity actionVar
@@ -24,7 +26,7 @@
 #define ROOM_CENTER_Y 0.0f
 #define ROOM_CENTER_Z 0.0f
 
-typedef enum {
+typedef enum BossSstHandState {
     /*  0 */ HAND_WAIT,
     /*  1 */ HAND_BEAT,
     /*  2 */ HAND_RETREAT,
@@ -39,7 +41,7 @@ typedef enum {
     /* 11 */ HAND_DEATH
 } BossSstHandState;
 
-typedef enum {
+typedef enum BossSstEffectMode {
     /* 0 */ BONGO_NULL,
     /* 1 */ BONGO_ICE,
     /* 2 */ BONGO_SHOCKWAVE,
@@ -3150,7 +3152,7 @@ void BossSst_UpdateEffects(Actor* thisx, PlayState* play) {
 }
 
 void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
     BossSst* this = (BossSst*)thisx;
     s32 i;
     BossSstEffect* effect;
@@ -3161,15 +3163,15 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         if (this->effectMode == BONGO_ICE) {
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, play->gameplayFrames % 256, 0x20, 0x10,
-                                        1, 0, (play->gameplayFrames * 2) % 256, 0x40, 0x20));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, play2->gameplayFrames % 256, 0x20, 0x10,
+                                        1, 0, (play2->gameplayFrames * 2) % 256, 0x40, 0x20));
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, this->effects[0].alpha);
             gSPDisplayList(POLY_XLU_DISP++, gBongoIceCrystalDL);
 
             for (i = 0; i < 18; i++) {
                 effect = &this->effects[i];
                 if (effect->move) {
-                    func_8003435C(&effect->pos, play);
+                    func_8003435C(&effect->pos, play2);
                     if (this->effects[0].status != 0) {
                         Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                     } else {
@@ -3191,8 +3193,8 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
 
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->gameplayFrames % 128, 0, 0x20, 0x40,
-                                        1, 0, (play->gameplayFrames * -15) % 256, 0x20, 0x40));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play2->gameplayFrames % 128, 0, 0x20, 0x40,
+                                        1, 0, (play2->gameplayFrames * -15) % 256, 0x20, 0x40));
 
             for (i = 0; i < 3; i++, scaleY -= 0.001f) {
                 effect = &this->effects[i];

@@ -5,7 +5,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
-typedef enum {
+typedef enum EnSyatekiManGameResult {
     /* 0 */ SYATEKI_RESULT_NONE,
     /* 1 */ SYATEKI_RESULT_WINNER,
     /* 2 */ SYATEKI_RESULT_ALMOST,
@@ -13,7 +13,7 @@ typedef enum {
     /* 4 */ SYATEKI_RESULT_REFUSE
 } EnSyatekiManGameResult;
 
-typedef enum {
+typedef enum EnSyatekiManTextIdx {
     /* 0 */ SYATEKI_TEXT_CHOICE,
     /* 1 */ SYATEKI_TEXT_START_GAME,
     /* 2 */ SYATEKI_TEXT_NO_RUPEES,
@@ -430,7 +430,7 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, PlayState* play) {
             this->gameResult = SYATEKI_RESULT_NONE;
             this->actionFunc = EnSyatekiMan_WaitForGame;
             // "Let's try again! Baby!"
-            PRINTF(VT_FGCOL(BLUE) "再挑戦だぜ！ベイビー！" VT_RST "\n", this);
+            PRINTF(VT_FGCOL(BLUE) "再挑戦だぜ！ベイビー！" VT_RST "\n");
         }
     }
 }

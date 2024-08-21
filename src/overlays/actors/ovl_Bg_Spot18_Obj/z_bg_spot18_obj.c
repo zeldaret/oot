@@ -101,13 +101,13 @@ s32 func_808B8910(BgSpot18Obj* this, PlayState* play) {
         return 0;
     }
 
-    switch (D_808B90F0[this->dyna.actor.params & 0xF][age]) {
+    switch (D_808B90F0[PARAMS_GET_U(this->dyna.actor.params, 0, 4)][age]) {
         case 0:
         case 1:
-            if (D_808B90F0[this->dyna.actor.params & 0xF][age] == 0) {
+            if (D_808B90F0[PARAMS_GET_U(this->dyna.actor.params, 0, 4)][age] == 0) {
                 PRINTF("出現しない Object (0x%04x)\n", this->dyna.actor.params);
             }
-            return D_808B90F0[this->dyna.actor.params & 0xF][age];
+            return D_808B90F0[PARAMS_GET_U(this->dyna.actor.params, 0, 4)][age];
         case 2:
             PRINTF("Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 202,
                    this->dyna.actor.params);
@@ -120,7 +120,7 @@ s32 func_808B8910(BgSpot18Obj* this, PlayState* play) {
 }
 
 s32 func_808B8A5C(BgSpot18Obj* this, PlayState* play) {
-    Actor_SetScale(&this->dyna.actor, D_808B90F4[this->dyna.actor.params & 0xF]);
+    Actor_SetScale(&this->dyna.actor, D_808B90F4[PARAMS_GET_U(this->dyna.actor.params, 0, 4)]);
     return 1;
 }
 
@@ -129,13 +129,13 @@ s32 func_808B8A98(BgSpot18Obj* this, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
-    CollisionHeader_GetVirtual(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
+    CollisionHeader_GetVirtual(D_808B90FC[PARAMS_GET_U(this->dyna.actor.params, 0, 4)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     return 1;
 }
 
 s32 func_808B8B08(BgSpot18Obj* this, PlayState* play) {
-    this->dyna.actor.flags |= D_808B9104[this->dyna.actor.params & 0xF];
+    this->dyna.actor.flags |= D_808B9104[PARAMS_GET_U(this->dyna.actor.params, 0, 4)];
     return 1;
 }
 
@@ -155,7 +155,7 @@ s32 func_808B8BB4(BgSpot18Obj* this, PlayState* play) {
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         func_808B9030(this);
-    } else if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+    } else if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
         func_808B9030(this);
         this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
@@ -172,8 +172,8 @@ s32 func_808B8C90(BgSpot18Obj* this, PlayState* play) {
 }
 
 s32 func_808B8CC8(BgSpot18Obj* this, PlayState* play) {
-    if ((D_808B913C[this->dyna.actor.params & 0xF] != NULL) &&
-        (!D_808B913C[this->dyna.actor.params & 0xF](this, play))) {
+    if ((D_808B913C[PARAMS_GET_U(this->dyna.actor.params, 0, 4)] != NULL) &&
+        (!D_808B913C[PARAMS_GET_U(this->dyna.actor.params, 0, 4)](this, play))) {
         return 0;
     }
     return 1;
@@ -255,7 +255,7 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
         this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
@@ -281,5 +281,5 @@ void BgSpot18Obj_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgSpot18Obj_Draw(Actor* thisx, PlayState* play) {
-    Gfx_DrawDListOpa(play, sDlists[thisx->params & 0xF]);
+    Gfx_DrawDListOpa(play, sDlists[PARAMS_GET_U(thisx->params, 0, 4)]);
 }

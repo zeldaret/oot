@@ -9,7 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum EnTorch2ActionStates {
     /* 0 */ ENTORCH2_WAIT,
     /* 1 */ ENTORCH2_ATTACK,
     /* 2 */ ENTORCH2_DEATH,

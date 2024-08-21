@@ -8,7 +8,7 @@ struct EnWf;
 
 typedef void (*EnWfActionFunc)(struct EnWf*, PlayState*);
 
-typedef enum {
+typedef enum EnWfLimb {
     /*  0 */ WOLFOS_LIMB_NONE,
     /*  1 */ WOLFOS_LIMB_ROOT,
     /*  2 */ WOLFOS_LIMB_BACK_LEFT_THIGH,
@@ -34,7 +34,7 @@ typedef enum {
     /* 22 */ WOLFOS_LIMB_MAX
 } EnWfLimb;
 
-typedef enum {
+typedef enum EnWfAction {
     /*  0 */ WOLFOS_ACTION_WAIT_TO_APPEAR,
     /*  2 */ WOLFOS_ACTION_DIE = 2,
     /*  3 */ WOLFOS_ACTION_DAMAGED,
@@ -83,7 +83,7 @@ typedef struct EnWf {
     /* 0x04D4 */ Vec3s unk_4D4;
 } EnWf; // size = 0x04DC
 
-typedef enum {
+typedef enum EnWfType {
     /* 0 */ WOLFOS_NORMAL,
     /* 1 */ WOLFOS_WHITE
 } EnWfType;

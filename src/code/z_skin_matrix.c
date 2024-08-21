@@ -589,7 +589,7 @@ Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src) {
     Mtx* mtx = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
 
     if (mtx == NULL) {
-        PRINTF("Skin_Matrix_to_Mtx_new() 確保失敗:NULLを返して終了\n", mtx);
+        PRINTF("Skin_Matrix_to_Mtx_new() 確保失敗:NULLを返して終了\n");
         return NULL;
     }
     SkinMatrix_MtxFToMtx(src, mtx);

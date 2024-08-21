@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum EnSiofukiType {
     /* 0x00 */ EN_SIOFUKI_RAISING,
     /* 0x01 */ EN_SIOFUKI_LOWERING
 } EnSiofukiType;

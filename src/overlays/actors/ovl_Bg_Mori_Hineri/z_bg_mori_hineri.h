@@ -6,6 +6,9 @@
 
 struct BgMoriHineri;
 
+// Due to a unique access pattern, this param cannot use the generic "PARAMS_GET_U" macros
+#define TWISTED_HALLWAY_GET_PARAM_15(thisx) (((thisx)->params & (NBITS_TO_MASK(1) << (15))) >> ((15) - (1)))
+
 typedef void (*BgMoriHineriActionFunc)(struct BgMoriHineri*, PlayState*);
 
 typedef struct BgMoriHineri {

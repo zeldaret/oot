@@ -69,6 +69,12 @@ class Pointer:
     build_value: int
 
 
+@dataclass
+class BssSection:
+    start_address: int
+    pointers: list[Pointer]
+
+
 # Read relocations from an ELF file section
 def read_relocs(object_path: Path, section_name: str) -> list[Reloc]:
     with open(object_path, "rb") as f:
@@ -169,7 +175,7 @@ def get_file_pointers_worker(file: mapfile_parser.mapfile.File) -> list[Pointer]
 
 # Compare pointers between the baserom and the current build, returning a dictionary from
 # C files to a list of pointers into their BSS sections
-def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
+def compare_pointers(version: str) -> dict[Path, BssSection]:
     mapfile_path = Path(f"build/{version}/oot-{version}.map")
     if not mapfile_path.exists():
         raise FixBssException(f"Could not open {mapfile_path}")
@@ -235,7 +241,7 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
     pointers.sort(key=lambda p: p.base_value)
 
     # Go through sections and collect differences
-    pointers_by_file = {}
+    bss_sections = {}
     for mapfile_segment in source_code_segments:
         for file in mapfile_segment:
             if not file.sectionType == ".bss":
@@ -246,13 +252,11 @@ def compare_pointers(version: str) -> dict[Path, list[Pointer]]:
                 for p in pointers
                 if file.vram <= p.build_value < file.vram + file.size
             ]
-            if not pointers_in_section:
-                continue
 
             c_file = file.filepath.relative_to(f"build/{version}").with_suffix(".c")
-            pointers_by_file[c_file] = pointers_in_section
+            bss_sections[c_file] = BssSection(file.vram, pointers_in_section)
 
-    return pointers_by_file
+    return bss_sections
 
 
 @dataclass
@@ -356,16 +360,18 @@ def predict_bss_ordering(variables: list[BssVariable]) -> list[BssSymbol]:
 # Match up BSS variables between the baserom and the build using the pointers from relocations.
 # Note that we may not be able to match all variables if a variable is not referenced by any pointer.
 def determine_base_bss_ordering(
-    build_bss_symbols: list[BssSymbol], pointers: list[Pointer]
+    build_bss_symbols: list[BssSymbol],
+    bss_section: BssSection,
 ) -> list[BssSymbol]:
-    # Assume that the lowest address is the start of the BSS section
-    base_section_start = min(p.base_value for p in pointers)
-    build_section_start = min(p.build_value for p in pointers)
+    # For the baserom, assume that the lowest address is the start of the BSS section. This might
+    # not be true if the first BSS variable is not referenced, but in practice this doesn't seem
+    # to happen for the files which typically have BSS ordering issues.
+    base_start_address = min(p.base_value for p in bss_section.pointers)
 
     found_symbols: dict[str, BssSymbol] = {}
-    for p in pointers:
-        base_offset = p.base_value - base_section_start
-        build_offset = p.build_value - build_section_start
+    for p in bss_section.pointers:
+        base_offset = p.base_value - base_start_address
+        build_offset = p.build_value - bss_section.start_address
 
         new_symbol = None
         new_offset = 0
@@ -599,7 +605,7 @@ def update_source_file(version_to_update: str, file: Path, new_pragmas: list[Pra
 
 def process_file(
     file: Path,
-    pointers: list[Pointer],
+    bss_section: BssSection,
     make_log: list[str],
     dry_run: bool,
     version: str,
@@ -628,10 +634,10 @@ def process_file(
             f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}"
         )
 
-    if not pointers:
+    if not bss_section.pointers:
         raise FixBssException(f"No pointers to BSS found in ROM for {file}")
 
-    base_bss_symbols = determine_base_bss_ordering(build_bss_symbols, pointers)
+    base_bss_symbols = determine_base_bss_ordering(build_bss_symbols, bss_section)
     print("Baserom BSS ordering:")
     for symbol in base_bss_symbols:
         print(
@@ -709,17 +715,19 @@ def main():
     args = parser.parse_args()
     version = args.oot_version
 
-    pointers_by_file = compare_pointers(version)
+    bss_sections = compare_pointers(version)
 
     files_with_reordering = []
-    for file, pointers in pointers_by_file.items():
+    for file, bss_section in bss_sections.items():
+        if not bss_section.pointers:
+            continue
         # Try to detect if the section is shifted by comparing the lowest
         # address among any pointer into the section between base and build
-        base_min_address = min(p.base_value for p in pointers)
-        build_min_address = min(p.build_value for p in pointers)
+        base_min_address = min(p.base_value for p in bss_section.pointers)
+        build_min_address = min(p.build_value for p in bss_section.pointers)
         if not all(
             p.build_value - build_min_address == p.base_value - base_min_address
-            for p in pointers
+            for p in bss_section.pointers
         ):
             files_with_reordering.append(file)
 
@@ -747,7 +755,7 @@ def main():
                 process_file_worker,
                 (
                     file,
-                    pointers_by_file.get(file, []),
+                    bss_sections[file],
                     make_log,
                     args.dry_run,
                     version,

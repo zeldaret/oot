@@ -21,7 +21,7 @@
 
 #define PROCESS_SCRIPT_END -1
 
-typedef enum {
+typedef enum PortamentoMode {
     /* 0 */ PORTAMENTO_MODE_OFF,
     /* 1 */ PORTAMENTO_MODE_1,
     /* 2 */ PORTAMENTO_MODE_2,

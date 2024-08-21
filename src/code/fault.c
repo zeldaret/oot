@@ -85,7 +85,7 @@ STACK(sFaultStack, 0x600);
 StackEntry sFaultThreadInfo;
 FaultMgr gFaultMgr;
 
-typedef struct {
+typedef struct FaultClientTask {
     /* 0x00 */ s32 (*callback)(void*, void*);
     /* 0x04 */ void* arg0;
     /* 0x08 */ void* arg1;

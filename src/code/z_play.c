@@ -1,8 +1,11 @@
 #include "global.h"
 #include "quake.h"
 #include "terminal.h"
+#include "versions.h"
 
 #include "z64frame_advance.h"
+
+#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -443,7 +446,7 @@ void Play_Init(GameState* thisx) {
     Camera_InitDataUsingPlayer(&this->mainCamera, player);
     Camera_RequestMode(&this->mainCamera, CAM_MODE_NORMAL);
 
-    playerStartBgCamIndex = player->actor.params & 0xFF;
+    playerStartBgCamIndex = PARAMS_GET_U(player->actor.params, 0, 8);
     if (playerStartBgCamIndex != 0xFF) {
         PRINTF("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);

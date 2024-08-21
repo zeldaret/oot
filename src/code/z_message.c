@@ -2,6 +2,9 @@
 #include "message_data_static.h"
 #include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
+#include "versions.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 s16 sTextFade = false; // original name: key_off_flag ?
 

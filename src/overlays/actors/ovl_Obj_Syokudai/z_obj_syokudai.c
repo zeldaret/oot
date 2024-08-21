@@ -81,14 +81,14 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
     static u8 sColTypesStand[] = { 0x09, 0x0B, 0x0B };
     s32 pad;
     ObjSyokudai* this = (ObjSyokudai*)thisx;
-    s32 torchType = this->actor.params & 0xF000;
+    s32 torchType = PARAMS_GET_NOSHIFT(this->actor.params, 12, 4);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
 
     Collider_InitCylinder(play, &this->colliderStand);
     Collider_SetCylinder(play, &this->colliderStand, &this->actor, &sCylInitStand);
-    this->colliderStand.base.colType = sColTypesStand[this->actor.params >> 0xC];
+    this->colliderStand.base.colType = sColTypesStand[PARAMS_GET_NOMASK(this->actor.params, 12)];
 
     Collider_InitCylinder(play, &this->colliderFlame);
     Collider_SetCylinder(play, &this->colliderFlame, &this->actor, &sCylInitFlame);
@@ -99,7 +99,8 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
                             this->actor.world.pos.z, 255, 255, 180, -1);
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
 
-    if ((this->actor.params & 0x400) || ((torchType != 2) && Flags_GetSwitch(play, this->actor.params & 0x3F))) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 10, 1) ||
+        ((torchType != 2) && Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6)))) {
         this->litTimer = -1;
     }
 
@@ -120,9 +121,9 @@ void ObjSyokudai_Destroy(Actor* thisx, PlayState* play) {
 void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     ObjSyokudai* this = (ObjSyokudai*)thisx;
-    s32 torchCount = (this->actor.params >> 6) & 0xF;
-    s32 switchFlag = this->actor.params & 0x3F;
-    s32 torchType = this->actor.params & 0xF000;
+    s32 torchCount = PARAMS_GET_U(this->actor.params, 6, 4);
+    s32 switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
+    s32 torchType = PARAMS_GET_NOSHIFT(this->actor.params, 12, 4);
     s32 litTimeScale;
     WaterBox* dummy;
     f32 waterSurface;
@@ -153,7 +154,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
     } else {
         player = GET_PLAYER(play);
         interactionType = 0;
-        if (this->actor.params & 0x400) {
+        if (PARAMS_GET_NOSHIFT(this->actor.params, 10, 1)) {
             this->litTimer = -1;
         }
         if (torchCount != 0) {
@@ -263,7 +264,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
     ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 timerMax;
 
-    timerMax = (((this->actor.params >> 6) & 0xF) * 50) + 100;
+    timerMax = PARAMS_GET_U(this->actor.params, 6, 4) * 50 + 100;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_syokudai.c", 707);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -271,7 +272,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_syokudai.c", 714),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, displayLists[(u16)this->actor.params >> 0xC]);
+    gSPDisplayList(POLY_OPA_DISP++, displayLists[PARAMS_GET_NOMASK((u16)this->actor.params, 12)]);
 
     if (this->litTimer != 0) {
         f32 flameScale = 1.0f;

@@ -30,7 +30,7 @@ ActorProfile Obj_Makekinsuta_Profile = {
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play) {
     ObjMakekinsuta* this = (ObjMakekinsuta*)thisx;
 
-    if ((this->actor.params & 0x6000) == 0x4000) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 13, 2) == 0x4000) {
         PRINTF(VT_FGCOL(BLUE));
         // "Gold Star Enemy(arg_data %x)"
         PRINTF("金スタ発生敵(arg_data %x)\n", this->actor.params);

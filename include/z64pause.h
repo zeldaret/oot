@@ -12,7 +12,7 @@ struct OcarinaStaff;
 #define PAUSE_CURSOR_PAGE_LEFT 10
 #define PAUSE_CURSOR_PAGE_RIGHT 11
 
-typedef enum {
+typedef enum PauseMenuPage {
     /* 0x00 */ PAUSE_ITEM,  // -z
     /* 0x01 */ PAUSE_MAP,   // +x
     /* 0x02 */ PAUSE_QUEST, // +z
@@ -55,7 +55,7 @@ typedef enum {
 #define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
 
-typedef enum {
+typedef enum PauseState {
     /*  0 */ PAUSE_STATE_OFF,
     /*  1 */ PAUSE_STATE_WAIT_LETTERBOX, // Request no letterboxing and wait for it.
     /*  2 */ PAUSE_STATE_WAIT_BG_PRERENDER, // Wait for the pause background prerender to be done.
@@ -85,7 +85,7 @@ typedef enum {
     (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != 0))
 
 // Sub-states of PAUSE_STATE_MAIN
-typedef enum {
+typedef enum PauseMainState {
     /* 0 */ PAUSE_MAIN_STATE_IDLE,
     /* 1 */ PAUSE_MAIN_STATE_SWITCHING_PAGE,
     /* 2 */ PAUSE_MAIN_STATE_SONG_PLAYBACK,
@@ -98,7 +98,7 @@ typedef enum {
     /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START
 } PauseMainState;
 
-typedef enum {
+typedef enum PauseSavePromptState {
     /* 0 */ PAUSE_SAVE_PROMPT_STATE_APPEARING,
     /* 1 */ PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE,
     /* 2 */ PAUSE_SAVE_PROMPT_STATE_CLOSING,
@@ -108,7 +108,7 @@ typedef enum {
     /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT
 } PauseSavePromptState;
 
-typedef enum {
+typedef enum PauseCursorQuad {
     /* 0 */ PAUSE_QUAD_CURSOR_TL,
     /* 1 */ PAUSE_QUAD_CURSOR_TR,
     /* 2 */ PAUSE_QUAD_CURSOR_BL,
@@ -117,7 +117,7 @@ typedef enum {
     /* 5 */ PAUSE_QUAD_CURSOR_MAX
 } PauseCursorQuad;
 
-typedef enum{
+typedef enum WorldMapPoint {
     /*  0 */ WORLD_MAP_POINT_HAUNTED_WASTELAND,
     /*  1 */ WORLD_MAP_POINT_GERUDOS_FORTRESS,
     /*  2 */ WORLD_MAP_POINT_GERUDO_VALLEY,
@@ -135,13 +135,13 @@ typedef enum{
 
 #define TRADE_QUEST_LOCATION_NONE 0xFF
 
-typedef enum{
+typedef enum WorldMapPointState {
     /* 0 */ WORLD_MAP_POINT_STATE_HIDE,
     /* 1 */ WORLD_MAP_POINT_STATE_SHOW,
     /* 2 */ WORLD_MAP_POINT_STATE_HIGHLIGHT
 } WorldMapPointState;
 
-typedef struct {
+typedef struct PauseContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ u8* iconItemSegment;
     /* 0x012C */ u8* iconItem24Segment;
@@ -225,12 +225,12 @@ typedef struct {
 #define PAUSE_MAP_MARK_CHEST 0
 #define PAUSE_MAP_MARK_BOSS 1
 
-typedef struct {
+typedef struct PauseMapMarkPoint {
     /* 0x00 */ s16 chestFlag; // chest icon is only displayed if this flag is not set for the current room, -1 for no flag
     /* 0x04 */ f32 x, y; // coordinates to place the icon (top-left corner)
 } PauseMapMarkPoint; // size = 0x0C
 
-typedef struct {
+typedef struct PauseMapMarkData {
     /* 0x00 */ s16 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ const Vtx* vtx;
