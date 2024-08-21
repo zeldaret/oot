@@ -22,6 +22,8 @@
 #include "fault.h"
 #include "terminal.h"
 
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
+
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
 OSMesg sDmaMgrMsgBuf[32];

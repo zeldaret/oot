@@ -2,16 +2,18 @@
 #include "fault.h"
 #include "terminal.h"
 
-#if OOT_DEBUG
+#if PLATFORM_N64 || OOT_DEBUG
 f32 LogUtils_CheckFloatRange(const char* exp, int line, const char* valueName, f32 value, const char* minName, f32 min,
                              const char* maxName, f32 max) {
     if (value < min || max < value) {
-        PRINTF("%s %d: range error %s(%f) < %s(%f) < %s(%f)\n", exp, line, minName, min, valueName, value, maxName,
-               max);
+        osSyncPrintf("%s %d: range error %s(%f) < %s(%f) < %s(%f)\n", exp, line, minName, min, valueName, value,
+                     maxName, max);
     }
     return value;
 }
+#endif
 
+#if OOT_DEBUG
 s32 LogUtils_CheckIntRange(const char* exp, int line, const char* valueName, s32 value, const char* minName, s32 min,
                            const char* maxName, s32 max) {
     if (value < min || max < value) {
@@ -106,11 +108,15 @@ void LogUtils_LogThreadId(const char* name, int line) {
 void LogUtils_HungupThread(const char* name, int line) {
     OSId threadId = osGetThreadId(NULL);
 
-    PRINTF("*** HungUp in thread %d, [%s:%d] ***\n", threadId, name, line);
+#if PLATFORM_N64 || OOT_DEBUG
+    osSyncPrintf("*** HungUp in thread %d, [%s:%d] ***\n", threadId, name, line);
+#endif
     Fault_AddHungupAndCrash(name, line);
 }
 
 void LogUtils_ResetHungup(void) {
-    PRINTF("*** Reset ***\n");
+#if PLATFORM_N64 || OOT_DEBUG
+    osSyncPrintf("*** Reset ***\n");
+#endif
     Fault_AddHungupAndCrash("Reset", 0);
 }

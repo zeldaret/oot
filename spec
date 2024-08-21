@@ -71,7 +71,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
-#if OOT_DEBUG || COMPILER_GCC
+#if OOT_DEBUG || defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
@@ -130,6 +130,8 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/setwatchlo.o"
     include "$(BUILD_DIR)/data/rsp_boot.text.o"
 #ifdef COMPILER_GCC
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
     include "$(BUILD_DIR)/src/gcc_fix/missing_gcc_functions.o"
 #endif
 endseg
@@ -583,7 +585,7 @@ beginseg
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
 #endif
-#if !OOT_DEBUG && !COMPILER_GCC
+#if !OOT_DEBUG && !defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
@@ -642,23 +644,32 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
-    include "$(BUILD_DIR)/src/libultra/libc/sqrt.o"
-    include "$(BUILD_DIR)/src/libultra/libc/absf.o"
-    include "$(BUILD_DIR)/src/code/fmodf.o"
-    include "$(BUILD_DIR)/src/code/__osMemset.o"
-    include "$(BUILD_DIR)/src/code/__osMemmove.o"
-    // For some reason, the data sections of these files are placed here near the
-    // rodata sections of the other files
-    include_data_only_within_rodata "$(BUILD_DIR)/src/code/z_message.o"
-    include_data_only_within_rodata "$(BUILD_DIR)/src/code/z_game_over.o"
-    include_no_data "$(BUILD_DIR)/src/code/z_message.o"
-    include_no_data "$(BUILD_DIR)/src/code/z_game_over.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
+    include "$(BUILD_DIR)/src/libc/absf.o"
+    include "$(BUILD_DIR)/src/libc/fmodf.o"
+#ifndef COMPILER_GCC
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
+#endif
+    // For some reason, the data sections of z_message and z_game_over are
+    // placed near the rodata sections of other files, so we first build this
+    // combined object before the final link.
+    include "$(BUILD_DIR)/src/code/z_message_z_game_over.o"
     include "$(BUILD_DIR)/src/code/z_construct.o"
     include "$(BUILD_DIR)/data/audio_tables.rodata.o"
     include "$(BUILD_DIR)/src/audio/tables/samplebank_table.o"
     include "$(BUILD_DIR)/data/rsp.text.o"
     include "$(BUILD_DIR)/data/rsp.rodata.o"
 endseg
+
+#if PLATFORM_N64
+beginseg
+    // TODO
+    name "n64dd"
+    address 0x801C7740
+    include "$(BUILD_DIR)/baserom/n64dd.o"
+endseg
+#endif
 
 beginseg
     name "buffers"

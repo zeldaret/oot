@@ -107,6 +107,8 @@ FaultDrawer sFaultDrawerDefault = {
     NULL,
 };
 
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
+
 FaultDrawer sFaultDrawer;
 char D_8016B6C0[0x20];
 
