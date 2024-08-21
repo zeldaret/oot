@@ -4,6 +4,8 @@
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
+#pragma increment_block_number "gc-eu-mq:128"
+
 /**
  * The time at which the previous `Graph_Update` ended.
  */

@@ -3,6 +3,7 @@
 #include "global.h"
 #include "quake.h"
 #include "terminal.h"
+#include "versions.h"
 
 #include "z64frame_advance.h"
 
