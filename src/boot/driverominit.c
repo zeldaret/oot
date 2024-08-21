@@ -1,9 +1,5 @@
 #include "global.h"
 
-extern OSPiHandle* __osCurrentHandle[];
-extern void __osPiGetAccess(void);
-extern void __osPiRelAccess(void);
-
 OSPiHandle __DriveRomHandle;
 
 OSPiHandle* osDriveRomInit(void) {
