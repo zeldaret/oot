@@ -641,7 +641,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
 
             if (pauseCtx->ocarinaStaff->pos != 0) {
-                if (sPlayedSongBtnsNum  == (pauseCtx->ocarinaStaff->pos-1)) {
+                if (sPlayedSongBtnsNum == (pauseCtx->ocarinaStaff->pos - 1)) {
                     sPlayedSongBtnsNum++;
                     sPlayedSongBtns[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->buttonIndex;
                 }
