@@ -9,7 +9,7 @@
 
 typedef union FloatInt {
     f32 f;
-    s32 i;
+    u32 i;
 } FloatInt;
 
 typedef struct Vec2f {
