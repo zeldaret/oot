@@ -244,8 +244,7 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
 
     PRINTF("%c", BEL);
     PRINTF(VT_FGCOL(RED));
-    // "DMA Fatal Error"
-    PRINTF("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n",
+    PRINTF(T("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n", "DMA Fatal Error (%s)\nROM:%X RAM:%X SIZE:%X %s\n"),
            errorDesc != NULL ? errorDesc : (errorName != NULL ? errorName : "???"), vrom, ram, size,
            filename != NULL ? filename : "???");
 
@@ -433,8 +432,7 @@ void DmaMgr_ThreadEntry(void* arg) {
     OSMesg msg;
     DmaRequest* req;
 
-    // "DMA manager thread execution start"
-    PRINTF("ＤＭＡマネージャスレッド実行開始\n");
+    PRINTF(T("ＤＭＡマネージャスレッド実行開始\n", "DMA manager thread execution start\n"));
 
     while (true) {
         // Wait for DMA Requests to arrive from other threads
@@ -460,8 +458,7 @@ void DmaMgr_ThreadEntry(void* arg) {
         }
     }
 
-    // "DMA manager thread execution end"
-    PRINTF("ＤＭＡマネージャスレッド実行終了\n");
+    PRINTF(T("ＤＭＡマネージャスレッド実行終了\n", "DMA manager thread execution end\n"));
 }
 
 /**
@@ -503,8 +500,8 @@ s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size,
         sDmaMgrQueueFullLogged++;
         PRINTF("%c", BEL);
         PRINTF(VT_FGCOL(RED));
-        // "dmaEntryMsgQ is full. Reconsider your queue size."
-        PRINTF("dmaEntryMsgQが一杯です。キューサイズの再検討をおすすめします。");
+        PRINTF(T("dmaEntryMsgQが一杯です。キューサイズの再検討をおすすめします。",
+                 "dmaEntryMsgQ is full. Reconsider your queue size."));
         LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgBuf), "../z_std_dma.c",
                 952);
         PRINTF(VT_RST);
