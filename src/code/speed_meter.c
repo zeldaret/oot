@@ -1,23 +1,4 @@
-#if 1
-// TODO figure out bss here and wth fix_bss.py is doing (my skill issue?)
-
-#include "ultra64.h"
-
-extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
-extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
-extern volatile OSTime gRSPAudioTimeTotal;
-extern volatile OSTime gRSPGfxTimeTotal;
-extern volatile OSTime gRDPTimeTotal;
-extern volatile OSTime gGraphUpdatePeriod;
-extern volatile OSTime gAudioThreadUpdateTimeStart;
-extern volatile OSTime gAudioThreadUpdateTimeAcc;
-extern volatile OSTime gRSPAudioTimeAcc;
-extern volatile OSTime gRSPGfxTimeAcc;
-extern volatile OSTime gRSPOtherTimeAcc;
-extern volatile OSTime D_8016A578;
-extern volatile OSTime gRDPTimeAcc;
-extern struct SpeedMeterTimeEntry* sSpeedMeterTimeEntryPtr;
-#endif
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 #include "global.h"
 #include "terminal.h"
