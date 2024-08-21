@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "z64map_mark.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
 typedef struct MapMarkInfo {

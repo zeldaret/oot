@@ -26,7 +26,6 @@
 #include "z64animation_legacy.h"
 #include "z64dma.h"
 #include "z64math.h"
-#include "z64map_mark.h"
 #include "z64message.h"
 #include "z64pause.h"
 #include "z64play.h"
