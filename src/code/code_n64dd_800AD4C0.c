@@ -4,8 +4,6 @@
 
 // TODO functions of unknown prototype
 extern char func_801C8510_unknown[];
-extern char func_800AE170_unknown[];
-extern char func_800ADCD8_unknown[];
 extern char osGetIntMask[];
 extern char osSetTime[];
 
@@ -15,8 +13,8 @@ n64ddStruct_800FF4B0_pointers D_800FF4B0 = {
     NULL,
     Fault_RemoveClient,
     Fault_AddClient,
-    func_800AE170_unknown,
-    func_800ADCD8_unknown,
+    FaultDrawer_DrawText,
+    Fault_WaitForInput,
     Fault_AddHungupAndCrashImpl,
     Fault_AddHungupAndCrash,
     func_800ADC08,
