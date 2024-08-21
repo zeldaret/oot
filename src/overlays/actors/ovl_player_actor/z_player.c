@@ -75,18 +75,15 @@ typedef struct SpecialRespawnInfo {
 } SpecialRespawnInfo; // size = 0x10
 
 typedef enum AnimSfxType {
-    /* 1 */ ANIMSFX_TYPE_NO_OFFSET = 1,
-    /* 2 */ ANIMSFX_TYPE_WITH_FLOOR_OFFSET,
-    /* 3 */ ANIMSFX_TYPE_WITH_FLOOR_AND_AGE_OFFSETS,
-    /* 4 */ ANIMSFX_TYPE_WITH_AGE_OFFSET,
-    // the following 4 types ignore the value of `AnimSfxEntry.sfxId` and always play a specific sound
-    // they also apply the iron boots offset if needed
-    /* 5 */ ANIMSFX_TYPE_LANDING, // landing sound
-    /* 6 */ ANIMSFX_TYPE_RUNNING, // walking sound (as if link was moving fast)
-    /* 7 */ ANIMSFX_TYPE_JUMPING, // jumping sound
-    /* 8 */ ANIMSFX_TYPE_WALKING, // walking sound (as if link was moving slow)
-
-    /* 9 */ ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET // `AnimSfxEntry.sfxId` is also ignored (probably ladder related)
+    /* 1 */ ANIMSFX_TYPE_GENERAL = 1,
+    /* 2 */ ANIMSFX_TYPE_FLOOR,
+    /* 3 */ ANIMSFX_TYPE_FLOOR_BY_AGE,
+    /* 4 */ ANIMSFX_TYPE_VOICE,
+    /* 5 */ ANIMSFX_TYPE_LANDING, // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
+    /* 6 */ ANIMSFX_TYPE_RUNNING, // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
+    /* 7 */ ANIMSFX_TYPE_JUMPING, // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
+    /* 8 */ ANIMSFX_TYPE_WALKING, // `AnimSfxEntry.sfxId` is ignored. Adjusted for Iron Boots if needed.
+    /* 9 */ ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET // `AnimSfxEntry.sfxId` is ignored. Only used in the intro cutscene.
 } AnimSfxType;
 
 #define ANIMSFX_SHIFT_TYPE(type) ((type) << 11)
@@ -1134,27 +1131,27 @@ static LinkAnimationHeader* D_80853D7C[][2] = {
 };
 
 static AnimSfxEntry D_80853DEC[] = {
-    { NA_SE_VO_LI_SNEEZE, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 8) },
+    { NA_SE_VO_LI_SNEEZE, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 8) },
 };
 
 static AnimSfxEntry D_80853DF0[] = {
-    { NA_SE_VO_LI_SWEAT, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 18) },
+    { NA_SE_VO_LI_SWEAT, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 18) },
 };
 
 static AnimSfxEntry D_80853DF4[] = {
-    { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 13) },
+    { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 13) },
 };
 
 static AnimSfxEntry D_80853DF8[] = {
-    { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 10) },
+    { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 10) },
 };
 
 static AnimSfxEntry D_80853DFC[] = {
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 44) },
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 48) },
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 52) },
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 56) },
-    { NA_SE_PL_CALM_HIT, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 60) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 44) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 48) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 52) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 56) },
+    { NA_SE_PL_CALM_HIT, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 60) },
 };
 
 static AnimSfxEntry D_80853E10[] = {
@@ -1164,25 +1161,25 @@ static AnimSfxEntry D_80853E10[] = {
 };
 
 static AnimSfxEntry D_80853E28[] = {
-    { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 16) },
-    { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 20) },
-    { NA_SE_IT_SHIELD_POSTURE, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 70) },
+    { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 16) },
+    { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 20) },
+    { NA_SE_IT_SHIELD_POSTURE, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 70) },
 };
 
 static AnimSfxEntry D_80853E34[] = {
-    { NA_SE_IT_HAMMER_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 10) },
-    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 10) },
-    { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 22) },
-    { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 22) },
+    { NA_SE_IT_HAMMER_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 10) },
+    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 10) },
+    { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 22) },
+    { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 22) },
 };
 
 static AnimSfxEntry D_80853E44[] = {
-    { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 39) },
-    { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 39) },
+    { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 39) },
+    { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 39) },
 };
 
 static AnimSfxEntry D_80853E4C[] = {
-    { NA_SE_VO_LI_RELAX, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 20) },
+    { NA_SE_VO_LI_RELAX, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 20) },
 };
 
 static AnimSfxEntry* D_80853E50[] = {
@@ -1861,13 +1858,13 @@ void Player_ProcessAnimSfxList(Player* this, AnimSfxEntry* entry) {
         s32 type = ANIMSFX_GET_TYPE(absData);
 
         if (LinkAnimation_OnFrame(&this->skelAnime, fabsf(ANIMSFX_GET_FRAME(absData)))) {
-            if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_NO_OFFSET)) {
+            if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_GENERAL)) {
                 Player_PlaySfx(this, entry->sfxId);
-            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_WITH_FLOOR_OFFSET)) {
+            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_FLOOR)) {
                 Player_PlaySfxWithFloorOffset(this, entry->sfxId);
-            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_WITH_FLOOR_AND_AGE_OFFSETS)) {
+            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_FLOOR_BY_AGE)) {
                 Player_PlaySfxWithFloorAndAgeOffsets(this, entry->sfxId);
-            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_WITH_AGE_OFFSET)) {
+            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_VOICE)) {
                 Player_PlaySfxWithAgeOffset(this, entry->sfxId);
             } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_LANDING)) {
                 Player_PlayLandingSfx(this);
@@ -8867,7 +8864,7 @@ void func_80843AE8(PlayState* play, Player* this) {
 }
 
 static AnimSfxEntry D_808545F0[] = {
-    { NA_SE_PL_BOUND, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_FLOOR_OFFSET, 60) },
+    { NA_SE_PL_BOUND, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 60) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 140) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 164) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 170) },
@@ -9102,9 +9099,9 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
 }
 
 static AnimSfxEntry D_8085460C[] = {
-    { NA_SE_VO_LI_SWORD_N, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 1) },
-    { NA_SE_PL_WALK_GROUND, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_FLOOR_AND_AGE_OFFSETS, 6) },
-    { NA_SE_PL_ROLL, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 6) },
+    { NA_SE_VO_LI_SWORD_N, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 1) },
+    { NA_SE_PL_WALK_GROUND, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR_BY_AGE, 6) },
+    { NA_SE_PL_ROLL, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 6) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 18) },
 };
 
@@ -9744,8 +9741,8 @@ void Player_Action_80846050(Player* this, PlayState* play) {
 }
 
 static AnimSfxEntry D_8085461C[] = {
-    { NA_SE_VO_LI_SWORD_L, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 49) },
-    { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 230) },
+    { NA_SE_VO_LI_SWORD_L, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 49) },
+    { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 230) },
 };
 
 void Player_Action_80846120(Player* this, PlayState* play) {
@@ -12005,8 +12002,8 @@ void func_8084B840(PlayState* play, Player* this, f32 arg2) {
 }
 
 static AnimSfxEntry D_80854870[] = {
-    { NA_SE_PL_SLIP, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_FLOOR_OFFSET, 3) },
-    { NA_SE_PL_SLIP, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_FLOOR_OFFSET, 21) },
+    { NA_SE_PL_SLIP, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 3) },
+    { NA_SE_PL_SLIP, -ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 21) },
 };
 
 void Player_Action_8084B898(Player* this, PlayState* play) {
@@ -12046,8 +12043,8 @@ void Player_Action_8084B898(Player* this, PlayState* play) {
 }
 
 static AnimSfxEntry D_80854878[] = {
-    { NA_SE_PL_SLIP, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_FLOOR_OFFSET, 4) },
-    { NA_SE_PL_SLIP, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_FLOOR_OFFSET, 24) },
+    { NA_SE_PL_SLIP, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 4) },
+    { NA_SE_PL_SLIP, -ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 24) },
 };
 
 static Vec3f D_80854880 = { 0.0f, 26.0f, -40.0f };
@@ -12338,9 +12335,9 @@ static f32 D_80854898[] = { 10.0f, 20.0f };
 static f32 D_808548A0[] = { 40.0f, 50.0f };
 
 static AnimSfxEntry D_808548A8[] = {
-    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 10) },
-    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 20) },
-    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 30) },
+    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 10) },
+    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 20) },
+    { NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 30) },
 };
 
 void Player_Action_8084C5F8(Player* this, PlayState* play) {
@@ -12576,14 +12573,14 @@ static u8 D_80854998[2][2] = {
 static Vec3s D_8085499C = { -69, 7146, -266 };
 
 static AnimSfxEntry D_808549A4[] = {
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 48) },
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 58) },
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 68) },
-    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 92) },
-    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 110) },
-    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 126) },
-    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 132) },
-    { NA_SE_PL_CALM_PAT, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 136) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 48) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 58) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 68) },
+    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 92) },
+    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 110) },
+    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 126) },
+    { NA_SE_PL_CALM_PAT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 132) },
+    { NA_SE_PL_CALM_PAT, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 136) },
 };
 
 void Player_Action_8084CC98(Player* this, PlayState* play) {
@@ -12762,8 +12759,8 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
 
 static AnimSfxEntry D_808549C4[] = {
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 0) },
-    { NA_SE_PL_GET_OFF_HORSE, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 10) },
-    { NA_SE_PL_SLIPDOWN, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 25) },
+    { NA_SE_PL_GET_OFF_HORSE, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 10) },
+    { NA_SE_PL_SLIPDOWN, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 25) },
 };
 
 void Player_Action_8084D3E4(Player* this, PlayState* play) {
@@ -12797,7 +12794,7 @@ void Player_Action_8084D3E4(Player* this, PlayState* play) {
 }
 
 static AnimSfxEntry D_808549D0[] = {
-    { NA_SE_PL_SWIM, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 0) },
+    { NA_SE_PL_SWIM, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 0) },
 };
 
 void func_8084D530(Player* this, f32* arg1, f32 arg2, s16 arg3) {
@@ -13220,8 +13217,8 @@ void Player_Action_8084E604(Player* this, PlayState* play) {
 
 static AnimSfxEntry D_808549E0[] = {
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_JUMPING, 87) },
-    { NA_SE_VO_LI_CLIMB_END, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 87) },
-    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 69) },
+    { NA_SE_VO_LI_CLIMB_END, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 87) },
+    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 69) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 123) },
 };
 
@@ -13296,7 +13293,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
 }
 
 static AnimSfxEntry D_808549F0[] = {
-    { NA_SE_IT_MASTER_SWORD_SWING, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 60) },
+    { NA_SE_IT_MASTER_SWORD_SWING, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 60) },
 };
 
 void func_8084E988(Player* this) {
@@ -13304,7 +13301,7 @@ void func_8084E988(Player* this) {
 }
 
 static AnimSfxEntry D_808549F4[] = {
-    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 5) },
+    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 5) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 15) },
 };
 
@@ -13487,8 +13484,8 @@ static BottleDropInfo D_80854A28[] = {
 };
 
 static AnimSfxEntry D_80854A34[] = {
-    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 38) },
-    { NA_SE_EV_BOTTLE_CAP_OPEN, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 40) },
+    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 38) },
+    { NA_SE_EV_BOTTLE_CAP_OPEN, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 40) },
 };
 
 void Player_Action_8084EFC0(Player* this, PlayState* play) {
@@ -13512,7 +13509,7 @@ void Player_Action_8084EFC0(Player* this, PlayState* play) {
 }
 
 static AnimSfxEntry D_80854A3C[] = {
-    { NA_SE_PL_PUT_OUT_ITEM, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 30) },
+    { NA_SE_PL_PUT_OUT_ITEM, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 30) },
 };
 
 void Player_Action_8084F104(Player* this, PlayState* play) {
@@ -14170,8 +14167,8 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
         } else if (this->av1.actionVar1 >= 0) {
             if (this->av2.actionVar2 == 0) {
                 static AnimSfxEntry D_80854A80[] = {
-                    { NA_SE_PL_SKIP, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 20) },
-                    { NA_SE_VO_LI_SWORD_N, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 20) },
+                    { NA_SE_PL_SKIP, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 20) },
+                    { NA_SE_VO_LI_SWORD_N, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 20) },
                     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 26) },
                 };
 
@@ -14180,15 +14177,15 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
                 static AnimSfxEntry D_80854A8C[][2] = {
                     {
                         { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 20) },
-                        { NA_SE_VO_LI_MAGIC_FROL, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 30) },
+                        { NA_SE_VO_LI_MAGIC_FROL, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 30) },
                     },
                     {
                         { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 20) },
-                        { NA_SE_VO_LI_MAGIC_NALE, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 44) },
+                        { NA_SE_VO_LI_MAGIC_NALE, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 44) },
                     },
                     {
-                        { NA_SE_VO_LI_MAGIC_ATTACK, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 20) },
-                        { NA_SE_IT_SWORD_SWING_HARD, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 20) },
+                        { NA_SE_VO_LI_MAGIC_ATTACK, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 20) },
+                        { NA_SE_IT_SWORD_SWING_HARD, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 20) },
                     },
                 };
 
@@ -14289,17 +14286,17 @@ static void (*D_80854AA4[])(PlayState*, Player*, void*) = {
 
 static AnimSfxEntry D_80854AF0[] = {
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 34) },
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 45) },
-    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 51) },
-    { NA_SE_PL_CALM_HIT, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 64) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 45) },
+    { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 51) },
+    { NA_SE_PL_CALM_HIT, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 64) },
 };
 
 static AnimSfxEntry D_80854B00[] = {
-    { NA_SE_VO_LI_SURPRISE, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 3) },
+    { NA_SE_VO_LI_SURPRISE, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 3) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 15) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 24) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 30) },
-    { NA_SE_VO_LI_FALL_L, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 31) },
+    { NA_SE_VO_LI_FALL_L, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 31) },
 };
 
 static AnimSfxEntry D_80854B14[] = {
@@ -14910,7 +14907,7 @@ void func_80851D2C(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 static AnimSfxEntry D_808551B8[] = {
-    { NA_SE_IT_SWORD_PICKOUT, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 12) },
+    { NA_SE_IT_SWORD_PICKOUT, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 12) },
 };
 
 void func_80851D80(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -14969,9 +14966,9 @@ void func_80851F84(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 static AnimSfxEntry D_808551BC[] = {
-    { NA_SE_VO_LI_RELAX, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_AGE_OFFSET, 35) },
-    { NA_SE_PL_SLIPDOWN, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 236) },
-    { NA_SE_PL_SLIPDOWN, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 256) },
+    { NA_SE_VO_LI_RELAX, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 35) },
+    { NA_SE_PL_SLIPDOWN, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 236) },
+    { NA_SE_PL_SLIPDOWN, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 256) },
 };
 
 void func_80851FB0(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -14989,7 +14986,7 @@ void func_80851FB0(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 static AnimSfxEntry D_808551C8[] = {
-    { NA_SE_PL_LAND + SURFACE_SFX_OFFSET_WOOD, ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 67) },
+    { NA_SE_PL_LAND + SURFACE_SFX_OFFSET_WOOD, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 67) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET, 84) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET, 90) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_UNKNOWN_WITH_AGE_OFFSET, 96) },
@@ -15025,8 +15022,8 @@ void func_808520BC(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 static AnimSfxEntry D_808551D8[] = {
-    { NA_SE_PL_BOUND, ANIMSFX_DATA(ANIMSFX_TYPE_WITH_FLOOR_OFFSET, 20) },
-    { NA_SE_PL_BOUND, -ANIMSFX_DATA(ANIMSFX_TYPE_WITH_FLOOR_OFFSET, 30) },
+    { NA_SE_PL_BOUND, ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 20) },
+    { NA_SE_PL_BOUND, -ANIMSFX_DATA(ANIMSFX_TYPE_FLOOR, 30) },
 };
 
 void func_80852174(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -15119,7 +15116,7 @@ void func_80852450(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 static AnimSfxEntry D_808551F8[] = {
-    { NA_SE_PL_KNOCK, -ANIMSFX_DATA(ANIMSFX_TYPE_NO_OFFSET, 78) },
+    { NA_SE_PL_KNOCK, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 78) },
 };
 
 void func_80852480(PlayState* play, Player* this, CsCmdActorCue* cue) {
