@@ -11,7 +11,7 @@
  *
  * @return dest
  */
-void* __osMemmove(void* dest, const void* src, size_t len) {
+void* memmove(void* dest, const void* src, size_t len) {
     u8* d = dest;
     const u8* s = src;
 

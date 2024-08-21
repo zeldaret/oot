@@ -25,15 +25,15 @@
 
 #define FILL_ALLOC_BLOCK(arena, alloc, size)   \
     if ((arena)->flag & FILL_ALLOC_BLOCK_FLAG) \
-    __osMemset(alloc, BLOCK_ALLOC_MAGIC, size)
+    memset(alloc, BLOCK_ALLOC_MAGIC, size)
 
 #define FILL_FREE_BLOCK_HEADER(arena, node)   \
     if ((arena)->flag & FILL_FREE_BLOCK_FLAG) \
-    __osMemset(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode))
+    memset(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode))
 
 #define FILL_FREE_BLOCK_CONTENTS(arena, node) \
     if ((arena)->flag & FILL_FREE_BLOCK_FLAG) \
-    __osMemset((void*)((u32)(node) + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, (node)->size)
+    memset((void*)((u32)(node) + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, (node)->size)
 
 #define CHECK_FREE_BLOCK(arena, node)          \
     if ((arena)->flag & CHECK_FREE_BLOCK_FLAG) \
@@ -179,7 +179,7 @@ void __osMallocAddBlock(Arena* arena, void* start, s32 size) {
 
         if (size2 > (s32)sizeof(ArenaNode)) {
 #if OOT_DEBUG
-            __osMemset(firstNode, BLOCK_UNINIT_MAGIC, size2);
+            memset(firstNode, BLOCK_UNINIT_MAGIC, size2);
 #endif
             firstNode->next = NULL;
             firstNode->prev = NULL;
@@ -210,7 +210,7 @@ void ArenaImpl_RemoveAllBlocks(Arena* arena) {
     iter = arena->head;
     while (iter != NULL) {
         next = NODE_GET_NEXT(iter);
-        __osMemset(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode));
+        memset(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode));
         iter = next;
     }
 
@@ -635,7 +635,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
                 }
                 node->next = newNext;
                 node->size = newSize;
-                __osMemmove(node->next, next, sizeof(ArenaNode));
+                memmove(node->next, next, sizeof(ArenaNode));
             } else {
                 // "Allocate a new memory block and move the contents"
                 osSyncPrintf("新たにメモリブロックを確保して内容を移動します\n");

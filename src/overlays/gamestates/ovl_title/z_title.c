@@ -6,6 +6,7 @@
 
 #include "global.h"
 #include "alloca.h"
+#include "versions.h"
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
 #if OOT_DEBUG

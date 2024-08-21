@@ -472,7 +472,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 i;
     MirRayShieldReflection reflection[6];
-    s32 temp;
+    s32 pad;
 
     this->reflectIntensity = 0.0f;
     if ((D_80B8E670 == 0) && !this->unLit && Player_HasMirrorShieldSetToDraw(play)) {
@@ -484,7 +484,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_Scale(1.0f, 1.0f, this->reflectIntensity * 5.0f, MTXMODE_APPLY);
             MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_mir_ray.c", 972);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(temp = this->reflectIntensity * 100.0f));
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s32)(this->reflectIntensity * 100.0f) & 0xFF);
             gSPDisplayList(POLY_XLU_DISP++, gShieldBeamGlowDL);
             MirRay_SetupReflectionPolys(this, play, reflection);
             MirRay_RemoveSimilarReflections(reflection);

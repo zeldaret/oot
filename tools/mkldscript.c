@@ -64,13 +64,10 @@ static void write_ld_script(FILE *fout)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (!seg->includes[j].dataOnlyWithinRodata)
-            {
-                fprintf(fout, "            %s (.text)\n", seg->includes[j].fpath);
-                if (seg->includes[j].linkerPadding != 0)
-                    fprintf(fout, "            . += 0x%X;\n", seg->includes[j].linkerPadding);
-                fprintf(fout, "        . = ALIGN(0x10);\n");
-            }
+            fprintf(fout, "            %s (.text)\n", seg->includes[j].fpath);
+            if (seg->includes[j].linkerPadding != 0)
+                fprintf(fout, "            . += 0x%X;\n", seg->includes[j].linkerPadding);
+            fprintf(fout, "        . = ALIGN(0x10);\n");
         }
 
         fprintf(fout, "        _%sSegmentTextEnd = .;\n", seg->name);
@@ -81,9 +78,8 @@ static void write_ld_script(FILE *fout)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (!seg->includes[j].dataOnlyWithinRodata && !seg->includes[j].noData)
-                fprintf(fout, "            %s (.data)\n"
-                              "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.data)\n"
+                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
         }
 
         fprintf(fout, "        _%sSegmentDataEnd = .;\n", seg->name);
@@ -94,10 +90,6 @@ static void write_ld_script(FILE *fout)
 
         for (j = 0; j < seg->includesCount; j++)
         {
-            if (seg->includes[j].dataOnlyWithinRodata)
-                fprintf(fout, "            %s (.data)\n"
-                              "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
-
             // Compilers other than IDO, such as GCC, produce different sections such as
             // the ones named directly below. These sections do not contain values that
             // need relocating, but we need to ensure that the base .rodata section
@@ -106,12 +98,11 @@ static void write_ld_script(FILE *fout)
             // the beginning of the entire rodata area in order to remain consistent.
             // Inconsistencies will lead to various .rodata reloc crashes as a result of
             // either missing relocs or wrong relocs.
-            if (!seg->includes[j].dataOnlyWithinRodata)
-                fprintf(fout, "            %s (.rodata)\n"
-                            "            %s (.rodata.str*)\n"
-                            "            %s (.rodata.cst*)\n"
-                            "        . = ALIGN(0x10);\n",
-                        seg->includes[j].fpath, seg->includes[j].fpath, seg->includes[j].fpath);
+            fprintf(fout, "            %s (.rodata)\n"
+                        "            %s (.rodata.str*)\n"
+                        "            %s (.rodata.cst*)\n"
+                        "        . = ALIGN(0x10);\n",
+                    seg->includes[j].fpath, seg->includes[j].fpath, seg->includes[j].fpath);
         }
 
         fprintf(fout, "        _%sSegmentRoDataEnd = .;\n", seg->name);
@@ -121,17 +112,15 @@ static void write_ld_script(FILE *fout)
         fprintf(fout, "        _%sSegmentSDataStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            if (!seg->includes[j].dataOnlyWithinRodata)
-                fprintf(fout, "            %s (.sdata)\n"
-                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.sdata)\n"
+                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         fprintf(fout, "        _%sSegmentSDataEnd = .;\n", seg->name);
 
         fprintf(fout, "        _%sSegmentOvlStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            if (!seg->includes[j].dataOnlyWithinRodata)
-                fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.ovl)\n", seg->includes[j].fpath);
 
         fprintf(fout, "        _%sSegmentOvlEnd = .;\n", seg->name);
 
@@ -159,24 +148,20 @@ static void write_ld_script(FILE *fout)
                       seg->name, seg->name, seg->name, seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            if (!seg->includes[j].dataOnlyWithinRodata)
-                fprintf(fout, "            %s (.sbss)\n"
-                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.sbss)\n"
+                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         for (j = 0; j < seg->includesCount; j++)
-            if (!seg->includes[j].dataOnlyWithinRodata)
-                fprintf(fout, "            %s (.scommon)\n"
-                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.scommon)\n"
+                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         for (j = 0; j < seg->includesCount; j++)
-            if (!seg->includes[j].dataOnlyWithinRodata)
-                fprintf(fout, "            %s (.bss)\n"
-                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (.bss)\n"
+                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         for (j = 0; j < seg->includesCount; j++)
-            if (!seg->includes[j].dataOnlyWithinRodata)
-                fprintf(fout, "            %s (COMMON)\n"
-                            "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
+            fprintf(fout, "            %s (COMMON)\n"
+                        "        . = ALIGN(0x10);\n", seg->includes[j].fpath);
 
         fprintf(fout, "        . = ALIGN(0x10);\n"
                       "        _%sSegmentBssEnd = .;\n"

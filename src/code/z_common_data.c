@@ -1,5 +1,6 @@
 #include "global.h"
 #include "region.h"
+#include "versions.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 

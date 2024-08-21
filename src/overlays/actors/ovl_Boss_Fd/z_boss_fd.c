@@ -1952,7 +1952,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
     SkelAnime_DrawOpa(play, this->skelAnimeHead.skeleton, this->skelAnimeHead.jointTable, BossFd_OverrideHeadDraw,
                       BossFd_PostHeadDraw, &this->actor);
     PRINTF("SK\n");
-    {
+    if (1) {
         Vec3f spB0 = { 0.0f, 1700.0f, 7000.0f };
         Vec3f spA4 = { -1000.0f, 700.0f, 7000.0f };
 

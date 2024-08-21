@@ -438,7 +438,7 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
         }
     }
     if (this->unk_19F == 4) {
-        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, DEG_TO_BINANG2(90.0f), 3640.0f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, DEG_TO_BINANG2(90.0f), DEG_TO_BINANG2(20.0f));
         this->unk_1A0[0].y += (s16)this->unk_1E8;
         if (tmpf1 == 0.0f) {
 

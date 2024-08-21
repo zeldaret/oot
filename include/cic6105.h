@@ -5,4 +5,6 @@
 
 extern u32 B_80008EE0;
 
+void func_80001720(void);
+
 #endif

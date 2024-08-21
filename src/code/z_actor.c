@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
@@ -3828,24 +3828,24 @@ void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s1
     actor->colorFilterTimer = duration;
 }
 
-Hilite* func_800342EC(Vec3f* object, PlayState* play) {
+void func_800342EC(Vec3f* object, PlayState* play) {
     Vec3f lightDir;
 
     lightDir.x = play->envCtx.dirLight1.params.dir.x;
     lightDir.y = play->envCtx.dirLight1.params.dir.y;
     lightDir.z = play->envCtx.dirLight1.params.dir.z;
 
-    return func_8002EABC(object, &play->view.eye, &lightDir, play->state.gfxCtx);
+    func_8002EABC(object, &play->view.eye, &lightDir, play->state.gfxCtx);
 }
 
-Hilite* func_8003435C(Vec3f* object, PlayState* play) {
+void func_8003435C(Vec3f* object, PlayState* play) {
     Vec3f lightDir;
 
     lightDir.x = play->envCtx.dirLight1.params.dir.x;
     lightDir.y = play->envCtx.dirLight1.params.dir.y;
     lightDir.z = play->envCtx.dirLight1.params.dir.z;
 
-    return func_8002EB44(object, &play->view.eye, &lightDir, play->state.gfxCtx);
+    func_8002EB44(object, &play->view.eye, &lightDir, play->state.gfxCtx);
 }
 
 /**
