@@ -622,9 +622,9 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
             for (i = newChecksum = j = 0; i < CHECKSUM_SIZE; i++, offset += 2) {
                 newChecksum += *ptr++;
             }
-            PRINTF(
-                T("\n（Ｂ）ＳＡＶＥチェックサム計算  j=%x  mmm=%x  ", "\n(B) SAVE checksum calculation  j=%x  mmm=%x  "),
-                newChecksum, oldChecksum);
+            PRINTF(T("\n（Ｂ）ＳＡＶＥチェックサム計算  j=%x  mmm=%x  ",
+                     "\n(B) SAVE checksum calculation  j=%x  mmm=%x  "),
+                   newChecksum, oldChecksum);
 
             if (newChecksum != oldChecksum) {
                 // backup save didnt work, make new save
