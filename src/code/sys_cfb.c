@@ -1,6 +1,6 @@
 #include "global.h"
 
-#pragma increment_block_number "gc-eu-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 uintptr_t sSysCfbFbPtr[2];
 uintptr_t sSysCfbEnd;
