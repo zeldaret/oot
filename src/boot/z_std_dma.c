@@ -190,8 +190,7 @@ s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     ASSERT(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
 
     if (gDmaMgrVerbose == 10) {
-        PRINTF(T("%10lld サウンドＤＭＡ %08x %08x %08x (%d)\n", // FORMAT TEST: A comment here forces strings to align
-                 "%10lld Sound DMA %08x %08x %08x (%d)\n"),
+        PRINTF(T("%10lld サウンドＤＭＡ %08x %08x %08x (%d)\n", "%10lld Sound DMA %08x %08x %08x (%d)\n"),
                OS_CYCLES_TO_USEC(osGetTime()), mb->dramAddr, mb->devAddr, mb->size, MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
 
@@ -250,10 +249,7 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
 
     PRINTF("%c", BEL);
     PRINTF(VT_FGCOL(RED));
-    // FORMAT TEST
-/// PRINTF(T("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n", "DMA Fatal Error (%s)\nROM:%X RAM:%X SIZE:%X %s\n"), // no comment
-    PRINTF(T("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n", // Comment
-             "DMA Fatal Error (%s)\nROM:%X RAM:%X SIZE:%X %s\n"),
+    PRINTF(T("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n", "DMA Fatal Error (%s)\nROM:%X RAM:%X SIZE:%X %s\n"),
            errorDesc != NULL ? errorDesc : (errorName != NULL ? errorName : "???"), vrom, ram, size,
            filename != NULL ? filename : "???");
 
