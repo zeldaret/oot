@@ -10,7 +10,7 @@ s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
 
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192"
 
 PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
@@ -155,7 +155,9 @@ void Main(void* arg) {
 
         osRecvMesg(&irqMgrMsgQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
         if (msg == NULL) {
+#if PLATFORM_N64
             if (1) {}
+#endif
             break;
         }
         if (*msg == OS_SC_PRE_NMI_MSG) {

@@ -217,6 +217,7 @@ extern volatile OSTime gRSPGfxTimeAcc;
 extern volatile OSTime gRSPOtherTimeAcc;
 extern volatile OSTime D_8016A578;
 extern volatile OSTime gRDPTimeAcc;
+extern struct SpeedMeterTimeEntry* sSpeedMeterTimeEntryPtr; // declared here purely for bss ordering reasons
 
 extern SfxBankEntry D_8016BAD0[9];
 extern SfxBankEntry D_8016BC80[12];
