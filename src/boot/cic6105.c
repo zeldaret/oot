@@ -7,7 +7,7 @@
 void func_800AE1E0_unknown(s32, s32);
 void func_800AE258_unknown(const char*, ...);
 
-s32 func_80001714_unknown(void);
+s32 func_80001714(void);
 
 struct struct_800067C0 D_800067C0_unknown = {
     0x00000004,
@@ -31,19 +31,19 @@ struct struct_800067C0 D_800067C0_unknown = {
 
 u32 B_80008EE0;
 s32 B_80008EE4_unknown;
-FaultClient B_80008EE8_unknown;
+FaultClient sCIC6105FaultClient;
 s32 B_80008EF8_unknown;
 s32 B_80008EFC_unknown;
 
-void func_800014D0_unknown(void) {
+void func_800014D0(void) {
     R_AUDIOMGR_DEBUG_LEVEL = AUDIOMGR_DEBUG_LEVEL_NO_RSP;
 }
 
-void func_800014E8_unknown(void) {
+void func_800014E8(void) {
     R_AUDIOMGR_DEBUG_LEVEL = AUDIOMGR_DEBUG_LEVEL_NONE;
 }
 
-void func_800014FC_unknown_ciccfltclient(void) {
+void CIC6105_FaultClient(void) {
     s32 spStatus;
 
     spStatus = IO_READ(SP_STATUS_REG);
@@ -59,18 +59,18 @@ void func_800014FC_unknown_ciccfltclient(void) {
     func_800AE1E0_unknown(56, 192);
     func_800AE258_unknown("[Date:%s]", gBuildDate);
     func_800AE1E0_unknown(96, 32);
-    func_800AE258_unknown("I LOVE YOU %08x", func_80001714_unknown());
+    func_800AE258_unknown("I LOVE YOU %08x", func_80001714());
 }
 
-void func_800015E8_unknown_ciccinit(void) {
-    Fault_AddClient(&B_80008EE8_unknown, func_800014FC_unknown_ciccfltclient, NULL, NULL);
+void CIC6105_AddFaultClient(void) {
+    Fault_AddClient(&sCIC6105FaultClient, CIC6105_FaultClient, NULL, NULL);
 }
 
-void func_8000161C_unknown_ciccdeinit(void) {
-    Fault_RemoveClient(&B_80008EE8_unknown);
+void CIC6105_RemoveFaultClient(void) {
+    Fault_RemoveClient(&sCIC6105FaultClient);
 }
 
-void func_80001640_unknown(void) {
+void func_80001640(void) {
     struct_80001640_sp38 sp38;
     OSMesgQueue queue;
     OSMesg msg;
@@ -87,10 +87,10 @@ void func_80001640_unknown(void) {
     osRecvMesg(&queue, NULL, 1);
     B_80008EF8_unknown = IO_READ(SP_DMEM_START + 0xFF4);
     B_80008EFC_unknown = IO_READ(SP_DMEM_START + 0xFFC);
-    func_80001714_unknown();
+    func_80001714();
 }
 
-s32 func_80001714_unknown(void) {
+s32 func_80001714(void) {
     return 0;
 }
 

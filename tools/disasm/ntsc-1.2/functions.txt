@@ -21,13 +21,13 @@ Yaz0_DecompressImpl = 0x8000127C; // type:func
 Yaz0_Decompress = 0x800013E4; // type:func
 Locale_Init = 0x80001430; // type:func
 Locale_ResetRegion = 0x800014BC; // type:func
-func_800014D0_unknown; // type:func
-func_800014E8_unknown = 0x800014E8; // type:func
-func_800014FC_unknown_ciccfltclient = 0x800014FC; // type:func
-func_800015E8_unknown_ciccinit = 0x800015E8; // type:func
-func_8000161C_unknown_ciccdeinit = 0x8000161C; // type:func
-func_80001640_unknown = 0x80001640; // type:func
-func_80001714_unknown = 0x80001714; // type:func
+func_800014D0; // type:func
+func_800014E8 = 0x800014E8; // type:func
+CIC6105_FaultClient = 0x800014FC; // type:func
+CIC6105_AddFaultClient = 0x800015E8; // type:func
+CIC6105_RemoveFaultClient = 0x8000161C; // type:func
+func_80001640 = 0x80001640; // type:func
+func_80001714 = 0x80001714; // type:func
 func_80001720 = 0x80001720; // type:func
 osSyncPrintfUnused = 0x80001750; // type:func
 osSyncPrintf = 0x8000176C; // type:func

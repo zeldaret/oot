@@ -35,9 +35,9 @@ typedef struct struct_80001640_sp38 {
 
 extern u32 B_80008EE0;
 
-void func_800015E8_unknown_ciccinit(void);
-void func_8000161C_unknown_ciccdeinit(void);
-void func_80001640_unknown(void);
+void CIC6105_AddFaultClient(void);
+void CIC6105_RemoveFaultClient(void);
+void func_80001640(void);
 void func_80001720(void);
 
 #endif

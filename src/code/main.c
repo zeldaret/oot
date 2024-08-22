@@ -131,8 +131,8 @@ void Main(void* arg) {
     Sched_Init(&gScheduler, STACK_TOP(sSchedStack), THREAD_PRI_SCHED, gViConfigModeType, 1, &gIrqMgr);
 
 #if PLATFORM_N64
-    func_800015E8_unknown_ciccinit();
-    func_80001640_unknown();
+    CIC6105_AddFaultClient();
+    func_80001640();
 #endif
 
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQueue);
@@ -168,7 +168,7 @@ void Main(void* arg) {
     osDestroyThread(&sGraphThread);
     RcpUtils_Reset();
 #if PLATFORM_N64
-    func_8000161C_unknown_ciccdeinit();
+    CIC6105_RemoveFaultClient();
 #endif
     PRINTF("mainproc 実行終了\n"); // "End of execution"
 }
