@@ -1,8 +1,6 @@
 #include "global.h"
 #include "cic6105.h"
 #include "fault.h"
-#include "regs.h"
-#include "variables.h"
 
 // TODO N64 fault.c functions
 void func_800AE1E0_unknown(s32, s32);
@@ -10,24 +8,10 @@ void func_800AE258_unknown(const char*, ...);
 
 s32 func_80001714(void);
 
-struct_800067C0 D_800067C0_unknown = {
-    0x00000004,
-    0x00000000,
-    rspbootTextStart,
-    0x000003E8,
-    // this rspbootTextEnd may be func_80006720_unknown ?
-    rspbootTextEnd,
-    0x00000020,
-    gBuildTeam,
-    0x00000008,
-    0x00000000,
-    0x00000000,
-    0x00000000,
-    0x00000000,
-    0x00000000,
-    0x00000000,
-    0x00000000,
-    0x00000000,
+extern u64 cic6105ucodeTextStart[];
+
+OSTask D_800067C0_unknown = {
+    4, 0, rspbootTextStart, 0x3E8, cic6105ucodeTextStart, 0x20, (u64*)gBuildTeam, 8, NULL, 0, NULL, 0, NULL, 0, NULL, 0,
 };
 
 u32 B_80008EE0;
@@ -72,18 +56,18 @@ void CIC6105_RemoveFaultClient(void) {
 }
 
 void func_80001640(void) {
-    struct_80001640_sp38 sp38;
+    OSScTask sp38;
     OSMesgQueue queue;
     OSMesg msg;
 
     osCreateMesgQueue(&queue, &msg, 1);
-    sp38.unk_00 = 0;
-    sp38.unk_08 = 2;
-    sp38.unk_50 = &queue;
-    sp38.unk_54 = 0;
-    sp38.unk_0C = 0;
-    sp38.unk_10 = D_800067C0_unknown;
-    osSendMesg(&gScheduler.cmdQueue, &sp38.unk_00, 1);
+    sp38.next = NULL;
+    sp38.flags = OS_SC_NEEDS_RSP;
+    sp38.msgQueue = &queue;
+    sp38.msg = (OSMesg)0;
+    sp38.framebuffer = 0;
+    sp38.list = D_800067C0_unknown;
+    osSendMesg(&gScheduler.cmdQueue, &sp38, OS_MESG_BLOCK);
     Sched_Notify(&gScheduler);
     osRecvMesg(&queue, NULL, 1);
     B_80008EF8_unknown = IO_READ(SP_DMEM_START + 0xFF4);

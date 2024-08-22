@@ -45,5 +45,6 @@ sGraphStack = 0x8011E468;
 sGraphThread = 0x8011E2B8;
 rspbootTextStart = 0x800065C0;
 rspbootTextEnd = 0x80006720;
+cic6105ucodeTextStart = 0x80006720;
 gBuildTeam = 0x80006D30;
 gBuildDate = 0x80006D3C;

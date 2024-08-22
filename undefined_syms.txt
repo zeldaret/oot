@@ -17,6 +17,7 @@ func_80001720 = 0x80001720;
 osInitialize = 0x80003230;
 
 // cic6105.c
+cic6105ucodeTextStart = 0x80006720;
 func_800AE258_unknown = 0x800AE258;
 func_800AE1E0_unknown = 0x800AE1E0;
 
