@@ -2,6 +2,16 @@
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
+#if PLATFORM_N64
+#define KALEIDO_COLOR_COLLECT_UNK_R 80
+#define KALEIDO_COLOR_COLLECT_UNK_G 150
+#define KALEIDO_COLOR_COLLECT_UNK_B 255
+#else
+#define KALEIDO_COLOR_COLLECT_UNK_R 80
+#define KALEIDO_COLOR_COLLECT_UNK_G 255
+#define KALEIDO_COLOR_COLLECT_UNK_B 150
+#endif
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     static s16 D_8082A070[][4] = {
         { 255, 0, 0, 255 },
@@ -511,11 +521,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     gDPPipeSync(POLY_OPA_DISP++);
 
                     if (D_8082A124[sp218] == 0) {
-#if PLATFORM_N64
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, D_8082A150[sp218]);
-#else
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, D_8082A150[sp218]);
-#endif
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_COLLECT_UNK_R, KALEIDO_COLOR_COLLECT_UNK_G,
+                                        KALEIDO_COLOR_COLLECT_UNK_B, D_8082A150[sp218]);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, D_8082A150[sp218]);
                     }
@@ -546,11 +553,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
                 if (pauseCtx->mainState == PAUSE_MAIN_STATE_8) {
                     if (gOcarinaSongButtons[sp224].buttonsIndex[phi_s7] == OCARINA_BTN_A) {
-#if PLATFORM_N64
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, 200);
-#else
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, 200);
-#endif
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_COLLECT_UNK_R, KALEIDO_COLOR_COLLECT_UNK_G,
+                                        KALEIDO_COLOR_COLLECT_UNK_B, 200);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, 200);
                     }
@@ -605,11 +609,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     gDPPipeSync(POLY_OPA_DISP++);
 
                     if (D_8082A124[phi_s7] == 0) {
-#if PLATFORM_N64
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, D_8082A150[phi_s7]);
-#else
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, D_8082A150[phi_s7]);
-#endif
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_COLLECT_UNK_R, KALEIDO_COLOR_COLLECT_UNK_G,
+                                        KALEIDO_COLOR_COLLECT_UNK_B, D_8082A150[phi_s7]);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, D_8082A150[phi_s7]);
                     }
