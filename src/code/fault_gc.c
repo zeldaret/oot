@@ -42,10 +42,10 @@
  */
 
 // Include versions.h first and redefine FAULT_VERSION
-// This allows this file to compile even when versions.h uses FAULT_OOTN64
+// This allows this file to compile even when versions.h uses FAULT_N64
 #include "versions.h"
 #undef FAULT_VERSION
-#define FAULT_VERSION FAULT_OOTGC
+#define FAULT_VERSION FAULT_GC
 
 #include "global.h"
 #include "fault.h"

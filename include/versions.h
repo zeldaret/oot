@@ -12,12 +12,12 @@
 #define OOT_GC_EU_MQ 8
 #define OOT_GC_JP_CE 9
 
-#define FAULT_OOTN64 2 // in OoT N64
-#define FAULT_OOTGC 3  // in OoT GC
+#define FAULT_N64 1 // in OoT N64
+#define FAULT_GC 2  // in OoT GC
 #if PLATFORM_N64
-#define FAULT_VERSION FAULT_OOTN64
+#define FAULT_VERSION FAULT_N64
 #else
-#define FAULT_VERSION FAULT_OOTGC
+#define FAULT_VERSION FAULT_GC
 #endif
 
 #endif

@@ -494,9 +494,9 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
 #endif
-#if FAULT_VERSION == FAULT_OOTN64
+#if FAULT_VERSION == FAULT_N64
     include "$(BUILD_DIR)/src/code/fault_n64.o"
-#elif FAULT_VERSION == FAULT_OOTGC
+#elif FAULT_VERSION == FAULT_GC
     include "$(BUILD_DIR)/src/code/fault_gc.o"
     include "$(BUILD_DIR)/src/code/fault_gc_drawer.o"
 #endif

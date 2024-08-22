@@ -53,7 +53,7 @@ void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, 
 
 // This function cannot be prototyped here in all configurations because it is called incorrectly in fault_gc.c
 // (see bug in `Fault_PadCallback`)
-#if FAULT_VERSION == FAULT_OOTN64 || defined(AVOID_UB)
+#if FAULT_VERSION == FAULT_N64 || defined(AVOID_UB)
 void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 gameRequest);
 #endif
 

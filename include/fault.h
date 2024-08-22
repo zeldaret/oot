@@ -6,7 +6,7 @@
 #include "padmgr.h"
 #include "versions.h"
 
-#if FAULT_VERSION == FAULT_OOTGC
+#if FAULT_VERSION == FAULT_GC
 // These are the same as the 3-bit ansi color codes
 #define FAULT_COLOR_BLACK      0
 #define FAULT_COLOR_RED        1
@@ -34,7 +34,7 @@ typedef struct FaultClient {
     /* 0x0C */ void* arg1;
 } FaultClient; // size = 0x10
 
-#if FAULT_VERSION == FAULT_OOTGC
+#if FAULT_VERSION == FAULT_GC
 typedef struct FaultAddrConvClient {
     /* 0x00 */ struct FaultAddrConvClient* next;
     /* 0x04 */ void* callback;
@@ -56,7 +56,7 @@ NORETURN void Fault_AddHungupAndCrash(const char* file, int line);
 void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1);
 void Fault_RemoveClient(FaultClient* client);
 
-#if FAULT_VERSION == FAULT_OOTGC
+#if FAULT_VERSION == FAULT_GC
 void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* arg);
 void Fault_RemoveAddrConvClient(FaultAddrConvClient* client);
 #endif
@@ -67,7 +67,7 @@ void Fault_SetFrameBuffer(void* fb, u16 w, u16 h);
 
 void Fault_WaitForInput(void);
 
-#if FAULT_VERSION == FAULT_OOTN64
+#if FAULT_VERSION == FAULT_N64
 
 // Not implemented. Silently noop-ing is fine, these are not essential for functionality.
 #define FaultDrawer_SetFontColor(color) (void)0
@@ -80,7 +80,7 @@ void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
 #define FaultDrawer_Printf Fault_Printf
 #define FaultDrawer_DrawText Fault_DrawText
 
-#elif FAULT_VERSION == FAULT_OOTGC
+#elif FAULT_VERSION == FAULT_GC
 
 void FaultDrawer_SetForeColor(u16 color);
 void FaultDrawer_SetBackColor(u16 color);
@@ -93,13 +93,13 @@ void FaultDrawer_DrawText(s32 x, s32 y, const char* fmt, ...);
 
 #endif
 
-#if FAULT_VERSION == FAULT_OOTN64
+#if FAULT_VERSION == FAULT_N64
 
 extern vs32 gFaultMsgId;
 
 #define FAULT_MSG_ID gFaultMsgId
 
-#elif FAULT_VERSION == FAULT_OOTGC
+#elif FAULT_VERSION == FAULT_GC
 
 typedef struct FaultMgr {
     /* 0x000 */ OSThread thread;
