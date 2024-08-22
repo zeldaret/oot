@@ -6,7 +6,7 @@
 struct OcarinaStaff;
 struct Actor;
 
-typedef enum {
+typedef enum TextBoxIcon {
     /* 0 */ TEXTBOX_ICON_TRIANGLE,
     /* 1 */ TEXTBOX_ICON_SQUARE,
     /* 2 */ TEXTBOX_ICON_ARROW
@@ -54,7 +54,7 @@ typedef enum {
 #define FILENAME_PERIOD                     0x40
 #endif
 
-typedef enum {
+typedef enum MessageMode {
     /* 0x00 */ MSGMODE_NONE,
     /* 0x01 */ MSGMODE_TEXT_START,
     /* 0x02 */ MSGMODE_TEXT_BOX_GROWING,
@@ -177,7 +177,7 @@ typedef enum MaskReactionSet {
     /* 0x3C */ MASK_REACTION_SET_MAX
 } MaskReactionSet;
 
-typedef enum {
+typedef enum TextState {
     /*  0 */ TEXT_STATE_NONE,
     /*  1 */ TEXT_STATE_DONE_HAS_NEXT,
     /*  2 */ TEXT_STATE_CLOSING,
@@ -191,7 +191,7 @@ typedef enum {
     /* 10 */ TEXT_STATE_AWAITING_NEXT
 } TextState;
 
-typedef struct {
+typedef struct Font {
     /* 0x0000 */ u32 msgOffset;
     /* 0x0004 */ u32 msgLength;
     union {
@@ -221,7 +221,7 @@ typedef struct {
 #define TEXTBOX_ENDTYPE_EVENT       0x50
 #define TEXTBOX_ENDTYPE_FADING      0x60
 
-typedef struct {
+typedef struct MessageContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ Font font;
     /* 0xE2B0 */ u8* textboxSegment; // original name: "fukidashiSegment"

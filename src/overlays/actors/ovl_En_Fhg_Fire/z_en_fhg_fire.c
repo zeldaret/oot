@@ -13,19 +13,19 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum StrikeMode {
     /*  0 */ STRIKE_INIT,
     /* 10 */ STRIKE_BURST = 10,
     /* 11 */ STRIKE_TRAILS
 } StrikeMode;
 
-typedef enum {
+typedef enum TrailMode {
     /* 0 */ TRAIL_INIT,
     /* 1 */ TRAIL_APPEAR,
     /* 2 */ TRAIL_DISSIPATE
 } TrailMode;
 
-typedef enum {
+typedef enum BallKillMode {
     /* 0 */ BALL_FIZZLE,
     /* 1 */ BALL_BURST,
     /* 2 */ BALL_IMPACT

@@ -33,10 +33,6 @@ incbins:
     segment: code
     vram: 0x801108A0
     size: 0x6F0
-  - name: gSampleBankTable
-    segment: code
-    vram: 0x80110F90
-    size: 0x80
   - name: aspMainData
     segment: code
     vram: 0x80111010
@@ -63,6 +59,10 @@ variables:
   sGerMessageEntryTable: 0x8010BA18
   sFraMessageEntryTable: 0x8010DB28
   sStaffMessageEntryTable: 0x8010FC38
+  gSoundFontTable: 0x80110470
+  gSequenceFontTable: 0x801106E0
+  gSequenceTable: 0x801108A0
+  gSampleBankTable: 0x80110F90
   sShadowTex: 0x80A72FA0
 assets:
 - name: code/fbdemo_circle
@@ -526,7 +526,7 @@ assets:
 - name: objects/object_ma2
   xml_path: assets/xml/objects/object_ma2.xml
 - name: objects/object_mag
-  xml_path: assets/xml/objects/object_mag_mq.xml
+  xml_path: assets/xml/objects/object_mag_v3_mq.xml
 - name: objects/object_mamenoki
   xml_path: assets/xml/objects/object_mamenoki.xml
 - name: objects/object_mastergolon
@@ -936,9 +936,9 @@ assets:
   start_offset: 0x6E0
   end_offset: 0x4088
 - name: overlays/ovl_file_choose
-  xml_path: assets/xml/overlays/ovl_file_choose.xml
+  xml_path: assets/xml/overlays/ovl_file_choose_pal.xml
   start_offset: 0xD740
-  end_offset: 0xDF80
+  end_offset: 0xE010
 - name: overlays/ovl_Magic_Dark
   xml_path: assets/xml/overlays/ovl_Magic_Dark.xml
   start_offset: 0xC90
@@ -1212,7 +1212,7 @@ assets:
 - name: textures/message_texture_static
   xml_path: assets/xml/textures/message_texture_static.xml
 - name: textures/nes_font_static
-  xml_path: assets/xml/textures/nes_font_static.xml
+  xml_path: assets/xml/textures/nes_font_static_v2.xml
 - name: textures/nintendo_rogo_static
   xml_path: assets/xml/textures/nintendo_rogo_static.xml
 - name: textures/parameter_static

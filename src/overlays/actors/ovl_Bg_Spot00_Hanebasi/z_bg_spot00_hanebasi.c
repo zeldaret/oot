@@ -10,7 +10,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum DrawbridgeType {
     /* -1 */ DT_DRAWBRIDGE = -1,
     /*  0 */ DT_CHAIN_1,
     /*  1 */ DT_CHAIN_2

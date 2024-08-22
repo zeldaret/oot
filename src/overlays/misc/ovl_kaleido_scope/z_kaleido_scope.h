@@ -25,6 +25,15 @@ extern u8 gAreaGsFlags[];
 #define CHECK_AGE_REQ_ITEM(item) \
     ((gItemAgeReqs[item] == AGE_REQ_NONE) || (gItemAgeReqs[item] == ((void)0, gSaveContext.save.linkAge)))
 
+// Each page's background is made of a 3x5 grid of quads
+#define PAGE_BG_COLS 3
+#define PAGE_BG_ROWS 5
+#define PAGE_BG_QUADS (PAGE_BG_COLS * PAGE_BG_ROWS)
+#define PAGE_BG_QUAD_WIDTH 80
+#define PAGE_BG_QUAD_HEIGHT 32
+#define PAGE_BG_QUAD_TEX_WIDTH 80
+#define PAGE_BG_QUAD_TEX_HEIGHT 32
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
 void KaleidoScope_DrawDebugEditor(PlayState* play);

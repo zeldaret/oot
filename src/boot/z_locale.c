@@ -2,14 +2,27 @@
 #include "region.h"
 #include "terminal.h"
 
-u32 gCurrentRegion = 0;
-LocaleCartInfo sCartInfo;
+s32 gCurrentRegion = 0;
 
 void Locale_Init(void) {
+#if PLATFORM_N64
+    ALIGNED(4) u8 regionInfo[4];
+    u8 countryCode;
+
+    osEPiReadIo(gCartHandle, 0x3C, (u32*)regionInfo);
+
+    countryCode = regionInfo[2];
+#else
+    static LocaleCartInfo sCartInfo;
+    u8 countryCode;
+
     osEPiReadIo(gCartHandle, 0x38, &sCartInfo.mediaFormat);
     osEPiReadIo(gCartHandle, 0x3C, &sCartInfo.regionInfo);
 
-    switch (sCartInfo.countryCode) {
+    countryCode = sCartInfo.countryCode;
+#endif
+
+    switch (countryCode) {
         case 'J': // "NTSC-J (Japan)"
             gCurrentRegion = REGION_JP;
             break;
@@ -22,7 +35,11 @@ void Locale_Init(void) {
         default:
             PRINTF(VT_COL(RED, WHITE));
             PRINTF("z_locale_init: 日本用かアメリカ用か判別できません\n");
+#if PLATFORM_N64
+            LogUtils_HungupThread("../z_locale.c", 101);
+#else
             LogUtils_HungupThread("../z_locale.c", 118);
+#endif
             PRINTF(VT_RST);
             break;
     }

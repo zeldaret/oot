@@ -12,7 +12,7 @@ typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec
 
 #define SAC_ENABLE (1 << 0)
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64"
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64"
 
 #if OOT_DEBUG
 /**
@@ -1602,12 +1602,12 @@ s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
     return true;
 }
 
-typedef struct {
+typedef struct HitInfo {
     /* 0x0 */ u8 blood;
     /* 0x1 */ u8 effect;
 } HitInfo; // size = 0x2
 
-typedef enum {
+typedef enum ColChkBloodType {
     /* 0 */ BLOOD_NONE,
     /* 1 */ BLOOD_BLUE,
     /* 2 */ BLOOD_GREEN,
@@ -1616,7 +1616,7 @@ typedef enum {
     /* 5 */ BLOOD_RED2
 } ColChkBloodType;
 
-typedef enum {
+typedef enum ColChkHitType {
     /* 0 */ HIT_WHITE,
     /* 1 */ HIT_DUST,
     /* 2 */ HIT_RED,
@@ -2687,13 +2687,13 @@ void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx) {
     CollisionCheck_SetHitEffects(play, colChkCtx);
 }
 
-typedef enum {
+typedef enum ColChkMassType {
     /* 0 */ MASSTYPE_IMMOVABLE,
     /* 1 */ MASSTYPE_HEAVY,
     /* 2 */ MASSTYPE_NORMAL
 } ColChkMassType;
 
-#pragma increment_block_number "gc-eu:252 gc-eu-mq:252"
+#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252"
 
 /**
  * Get mass type. Immovable colliders cannot be pushed, while heavy colliders can only be pushed by heavy and immovable

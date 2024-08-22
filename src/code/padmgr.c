@@ -31,13 +31,12 @@
 #include "global.h"
 #include "terminal.h"
 
-#define PADMGR_LOG(controllerNum, msg)                              \
-    if (OOT_DEBUG) {                                                \
-        PRINTF(VT_FGCOL(YELLOW));                                   \
-        /* padmgr: Controller %d: %s */                             \
-        PRINTF("padmgr: %dコン: %s\n", (controllerNum) + 1, (msg)); \
-        PRINTF(VT_RST);                                             \
-    }                                                               \
+#define PADMGR_LOG(controllerNum, msg)                                                                \
+    if (OOT_DEBUG) {                                                                                  \
+        PRINTF(VT_FGCOL(YELLOW));                                                                     \
+        PRINTF(T("padmgr: %dコン: %s\n", "padmgr: Controller %d: %s\n"), (controllerNum) + 1, (msg)); \
+        PRINTF(VT_RST);                                                                               \
+    }                                                                                                 \
     (void)0
 
 #define LOG_SEVERITY_NOLOG 0
@@ -73,17 +72,18 @@ OSMesgQueue* PadMgr_AcquireSerialEventQueue(PadMgr* padMgr) {
 #endif
 
     if (gPadMgrLogSeverity >= LOG_SEVERITY_VERBOSE) {
-        // "serialMsgQ Waiting for lock"
-        PRINTF("%2d %d serialMsgQロック待ち         %08x %08x          %08x\n", osGetThreadId(NULL),
-               MQ_GET_COUNT(&padMgr->serialLockQueue), padMgr, &padMgr->serialLockQueue, &serialEventQueue);
+        PRINTF(T("%2d %d serialMsgQロック待ち         %08x %08x          %08x\n",
+                 "%2d %d serialMsgQ Waiting for lock         %08x %08x          %08x\n"),
+               osGetThreadId(NULL), MQ_GET_COUNT(&padMgr->serialLockQueue), padMgr, &padMgr->serialLockQueue,
+               &serialEventQueue);
     }
 
     osRecvMesg(&padMgr->serialLockQueue, (OSMesg*)&serialEventQueue, OS_MESG_BLOCK);
 
     if (gPadMgrLogSeverity >= LOG_SEVERITY_VERBOSE) {
-        // "serialMsgQ Locked"
-        PRINTF("%2d %d serialMsgQをロックしました                     %08x\n", osGetThreadId(NULL),
-               MQ_GET_COUNT(&padMgr->serialLockQueue), serialEventQueue);
+        PRINTF(T("%2d %d serialMsgQをロックしました                     %08x\n",
+                 "%2d %d serialMsgQ Locked                     %08x\n"),
+               osGetThreadId(NULL), MQ_GET_COUNT(&padMgr->serialLockQueue), serialEventQueue);
     }
 
     return serialEventQueue;
@@ -98,17 +98,17 @@ OSMesgQueue* PadMgr_AcquireSerialEventQueue(PadMgr* padMgr) {
  */
 void PadMgr_ReleaseSerialEventQueue(PadMgr* padMgr, OSMesgQueue* serialEventQueue) {
     if (gPadMgrLogSeverity >= LOG_SEVERITY_VERBOSE) {
-        // "serialMsgQ Unlock"
-        PRINTF("%2d %d serialMsgQロック解除します   %08x %08x %08x\n", osGetThreadId(NULL),
-               MQ_GET_COUNT(&padMgr->serialLockQueue), padMgr, &padMgr->serialLockQueue, serialEventQueue);
+        PRINTF(T("%2d %d serialMsgQロック解除します   %08x %08x %08x\n", "%2d %d serialMsgQ Unlock   %08x %08x %08x\n"),
+               osGetThreadId(NULL), MQ_GET_COUNT(&padMgr->serialLockQueue), padMgr, &padMgr->serialLockQueue,
+               serialEventQueue);
     }
 
     osSendMesg(&padMgr->serialLockQueue, (OSMesg)serialEventQueue, OS_MESG_BLOCK);
 
     if (gPadMgrLogSeverity >= LOG_SEVERITY_VERBOSE) {
-        // "serialMsgQ Unlocked"
-        PRINTF("%2d %d serialMsgQロック解除しました %08x %08x %08x\n", osGetThreadId(NULL),
-               MQ_GET_COUNT(&padMgr->serialLockQueue), padMgr, &padMgr->serialLockQueue, serialEventQueue);
+        PRINTF(T("%2d %d serialMsgQロック解除しました %08x %08x %08x\n", "%2d %d serialMsgQ Unlocked %08x %08x %08x\n"),
+               osGetThreadId(NULL), MQ_GET_COUNT(&padMgr->serialLockQueue), padMgr, &padMgr->serialLockQueue,
+               serialEventQueue);
     }
 }
 
@@ -334,7 +334,11 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
             default:
                 // Unknown error response
                 LOG_HEX("padnow1->errno", pad->errno, "../padmgr.c", 396);
+#if PLATFORM_N64
+                Fault_AddHungupAndCrash("../padmgr.c", 382);
+#else
                 Fault_AddHungupAndCrash("../padmgr.c", 397);
+#endif
                 break;
         }
 
@@ -397,8 +401,8 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
                 mask |= 1 << i;
             } else {
                 LOG_HEX("this->pad_status[i].type", padMgr->padStatus[i].type, "../padmgr.c", 458);
-                // "An unknown type of controller is connected"
-                PRINTF("知らない種類のコントローラが接続されています\n");
+                PRINTF(T("知らない種類のコントローラが接続されています\n",
+                         "An unknown type of controller is connected\n"));
             }
         }
     }
@@ -472,13 +476,13 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
     s16* msg = NULL;
     s32 exit;
 
-    PRINTF("コントローラスレッド実行開始\n"); // "Controller thread execution start"
+    PRINTF(T("コントローラスレッド実行開始\n", "Controller thread execution start"));
 
     exit = false;
     while (!exit) {
         if (gPadMgrLogSeverity >= LOG_SEVERITY_VERBOSE && MQ_IS_EMPTY(&padMgr->interruptQueue)) {
-            // "Waiting for controller thread event"
-            PRINTF("コントローラスレッドイベント待ち %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
+            PRINTF(T("コントローラスレッドイベント待ち %lld\n", "Waiting for controller thread event %lld\n"),
+                   OS_CYCLES_TO_USEC(osGetTime()));
         }
 
         osRecvMesg(&padMgr->interruptQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
@@ -507,11 +511,11 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
 
     IrqMgr_RemoveClient(padMgr->irqMgr, &padMgr->irqClient);
 
-    PRINTF("コントローラスレッド実行終了\n"); // "Controller thread execution end"
+    PRINTF(T("コントローラスレッド実行終了\n", "Controller thread execution end\n"));
 }
 
 void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack) {
-    PRINTF("パッドマネージャ作成 padmgr_Create()\n"); // "Pad Manager creation"
+    PRINTF(T("パッドマネージャ作成 padmgr_Create()\n", "Pad Manager creation padmgr_Create()\n"));
 
     bzero(padMgr, sizeof(PadMgr));
     padMgr->irqMgr = irqMgr;

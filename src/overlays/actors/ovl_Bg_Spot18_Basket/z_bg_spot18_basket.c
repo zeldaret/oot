@@ -144,7 +144,7 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.home.pos.y += 0.01f;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
 
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
         func_808B7BB0(this);
         return;
     }
@@ -174,7 +174,7 @@ void func_808B7AEC(BgSpot18Basket* this) {
 }
 
 void func_808B7AFC(BgSpot18Basket* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
         OnePointCutscene_Init(play, 4220, 80, &this->dyna.actor, CAM_ID_MAIN);
         func_808B7B58(this);
     }
@@ -382,15 +382,15 @@ void func_808B81A0(BgSpot18Basket* this, PlayState* play) {
                 }
             }
         } else if (this->unk_218 == 2) {
-            if ((this->unk_21A != 0) || Flags_GetCollectible(play, (actor->params & 0x3F))) {
+            if ((this->unk_21A != 0) || Flags_GetCollectible(play, PARAMS_GET_U(actor->params, 0, 6))) {
                 collectible = Item_DropCollectible(play, &tempVector, ITEM00_RUPEE_PURPLE);
                 if (collectible != NULL) {
                     collectible->actor.velocity.y = 11.0f;
                     collectible->actor.world.rot.y = D_808B85E4[1];
                 }
             } else {
-                collectible =
-                    Item_DropCollectible(play, &tempVector, ((actor->params & 0x3F) << 8) | ITEM00_HEART_PIECE);
+                collectible = Item_DropCollectible(play, &tempVector,
+                                                   (PARAMS_GET_U(actor->params, 0, 6) << 8) | ITEM00_HEART_PIECE);
                 if (collectible != NULL) {
                     collectible->actor.velocity.y = 11.0f;
                     collectible->actor.world.rot.y = D_808B85E4[1];

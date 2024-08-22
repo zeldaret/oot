@@ -10,7 +10,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum ShadowTempleAssetsType {
     /* 0x0 */ STA_GIANT_BIRD_STATUE,
     /* 0x1 */ STA_BOMBABLE_SKULL_WALL,
     /* 0x2 */ STA_BOMBABLE_RUBBLE,
@@ -77,7 +77,7 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (thisx->params == STA_UNKNOWN) {

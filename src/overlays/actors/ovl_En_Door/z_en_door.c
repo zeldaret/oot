@@ -44,13 +44,13 @@ ActorProfile En_Door_Profile = {
     /**/ EnDoor_Draw,
 };
 
-typedef struct {
+typedef struct EnDoorInfo {
     /* 0x00 */ s16 sceneId;
     /* 0x02 */ u8 dListIndex;
     /* 0x04 */ s16 objectId;
 } EnDoorInfo;
 
-typedef enum {
+typedef enum EnDoorDListIndex {
     /* 0 */ DOOR_DL_DEFAULT,
     /* 1 */ DOOR_DL_FIRE_TEMPLE,
     /* 2 */ DOOR_DL_WATER_TEMPLE,
@@ -144,7 +144,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     }
 
     // Double doors
-    if (ENDOOR_IS_DOUBLE_DOOR(&this->actor)) {
+    if (ENDOOR_GET_IS_DOUBLE_DOOR(&this->actor)) {
         EnDoor* other;
 
         xOffset = Math_CosS(this->actor.shape.rot.y) * 30.0f;
@@ -152,7 +152,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
         other = (EnDoor*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DOOR,
                                             this->actor.world.pos.x + xOffset, this->actor.world.pos.y,
                                             this->actor.world.pos.z - zOffset, 0, this->actor.shape.rot.y + 0x8000, 0,
-                                            this->actor.params & ~ENDOOR_PARAMS_DOUBLE_DOOR_FLAG);
+                                            this->actor.params & ~ENDOOR_PARAMS_IS_DOUBLE_DOOR_MASK);
         if (other != NULL) {
             other->unk_192 = 1;
         }
@@ -220,7 +220,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
     Vec3f playerPosRelToDoor;
 
     doorType = ENDOOR_GET_TYPE(&this->actor);
-    func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
     if (this->playerIsOpening) {
         this->actionFunc = EnDoor_Open;
         Animation_PlayOnceSetSpeed(&this->skelAnime, sDoorAnims[this->openAnim],

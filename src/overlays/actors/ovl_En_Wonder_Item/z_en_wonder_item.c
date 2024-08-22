@@ -53,7 +53,7 @@ ActorProfile En_Wonder_Item_Profile = {
     /**/ NULL,
 };
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 static Vec3f sTagPointsFree[9];
 static Vec3f sTagPointsOrdered[9];
@@ -124,9 +124,9 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
 
-    this->wonderMode = (this->actor.params >> 0xB) & 0x1F;
-    this->itemDrop = (this->actor.params >> 6) & 0x1F;
-    this->switchFlag = this->actor.params & 0x3F;
+    this->wonderMode = PARAMS_GET_U(this->actor.params, 11, 5);
+    this->itemDrop = PARAMS_GET_U(this->actor.params, 6, 5);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }

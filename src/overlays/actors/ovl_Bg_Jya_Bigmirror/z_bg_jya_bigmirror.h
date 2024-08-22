@@ -14,7 +14,7 @@
 
 struct BgJyaBigmirror;
 
-typedef struct {
+typedef struct BigmirrorCobra {
     /* 0x00 */ BgJyaCobra* cobra;
     /* 0x04 */ s16 rotY;
 } BigmirrorCobra; // size = 0x08

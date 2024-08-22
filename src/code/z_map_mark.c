@@ -2,7 +2,7 @@
 #include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
-typedef struct {
+typedef struct MapMarkInfo {
     /* 0x00 */ void* texture;
     /* 0x04 */ u32 imageFormat;
     /* 0x08 */ u32 imageSize;
@@ -14,7 +14,7 @@ typedef struct {
     /* 0x20 */ u32 dtdy;
 } MapMarkInfo; // size = 0x24
 
-typedef struct {
+typedef struct MapMarkDataOverlay {
     /* 0x00 */ void* loadedRamAddr; // original name: "allocp"
     /* 0x04 */ RomFile file;
     /* 0x0C */ void* vramStart;

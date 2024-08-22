@@ -24,7 +24,7 @@ View* View_New(GraphicsContext* gfxCtx) {
     View* view = SYSTEM_ARENA_MALLOC(sizeof(View), "../z_view.c", 285);
 
     if (view != NULL) {
-        __osMemset(view, 0, sizeof(View));
+        memset(view, 0, sizeof(View));
         View_Init(view, gfxCtx);
     }
 
@@ -142,8 +142,8 @@ void View_GetViewport(View* view, Viewport* viewport) {
 
 void View_ApplyLetterbox(View* view) {
     GraphicsContext* gfxCtx = view->gfxCtx;
-    s32 letterboxSize;
     s32 pillarboxSize;
+    s32 letterboxSize;
     s32 ulx;
     s32 uly;
     s32 lrx;
@@ -400,9 +400,9 @@ s32 View_ApplyPerspective(View* view) {
 }
 
 s32 View_ApplyOrtho(View* view) {
+    GraphicsContext* gfxCtx = view->gfxCtx;
     Vp* vp;
     Mtx* projection;
-    GraphicsContext* gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 726);
 

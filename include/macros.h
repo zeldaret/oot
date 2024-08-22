@@ -1,21 +1,18 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-// OOT versions in build order
-#define OOT_GC_JP 1
-#define OOT_GC_JP_MQ 2
-#define OOT_GC_US 3
-#define OOT_GC_US_MQ 4
-#define OOT_GC_EU_MQ_DBG 5
-#define OOT_GC_EU 6
-#define OOT_GC_EU_MQ 7
-#define OOT_GC_JP_CE 8
-
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
 #define BAD_RETURN(type) void
 #endif
+
+/**
+ * The T macro holds translations in English for original debug strings written in Japanese.
+ * The translated strings match the original debug strings, they are only direct translations.
+ * For example, any original name is left as is rather than being replaced with the name in the codebase.
+ */
+#define T(jp, en) jp
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
@@ -108,7 +105,12 @@
                                 ? gSaveContext.save.info.equips.buttonItems[(button) + 1]       \
                                 : ITEM_NONE)
 
+#if PLATFORM_N64
+#define CHECK_BTN_ALL(state, combo) (((state) & (combo)) == (combo))
+#else
 #define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
+#endif
+
 #define CHECK_BTN_ANY(state, combo) (((state) & (combo)) != 0)
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
@@ -187,9 +189,11 @@ extern struct GraphicsContext* __gfxCtx;
         (void)__gfxCtx;                \
         Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
-#define CLOSE_DISPS(gfxCtx, file, line)                 \
-        Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
-    }                                                   \
+#define CLOSE_DISPS(gfxCtx, file, line)                     \
+        do {                                                \
+            Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
+        } while (0);                                        \
+    }                                                       \
     (void)0
 
 #define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
@@ -221,7 +225,7 @@ extern struct GraphicsContext* __gfxCtx;
         s32 __dispPad
 
 #define CLOSE_DISPS(gfxCtx, file, line) \
-    (void)0;                            \
+        do {} while (0);                \
     }                                   \
     (void)0
 
@@ -249,9 +253,9 @@ extern struct GraphicsContext* __gfxCtx;
 #endif /* OOT_DEBUG */
 
 #if OOT_NTSC
-#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { jpn, nes }
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { jpn, eng }
 #else
-#define LANGUAGE_ARRAY(jpn, nes, ger, fra) { nes, ger, fra }
+#define LANGUAGE_ARRAY(jpn, eng, ger, fra) { eng, ger, fra }
 #endif
 
 /**

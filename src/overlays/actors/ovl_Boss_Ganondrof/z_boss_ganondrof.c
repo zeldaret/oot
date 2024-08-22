@@ -14,7 +14,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum BossGanondrofDeathState {
     /* 0 */ NOT_DEAD,
     /* 1 */ DEATH_START,
     /* 2 */ DEATH_THROES,
@@ -24,24 +24,24 @@ typedef enum {
     /* 6 */ DEATH_FINISH
 } BossGanondrofDeathState;
 
-typedef enum {
+typedef enum BossGanondrofThrowAction {
     /* 0 */ THROW_NORMAL,
     /* 1 */ THROW_SLOW
 } BossGanondrofThrowAction;
 
-typedef enum {
+typedef enum BossGanondrofStunnedAction {
     /* 0 */ STUNNED_FALL,
     /* 1 */ STUNNED_GROUND
 } BossGanondrofStunnedAction;
 
-typedef enum {
+typedef enum BossGanondrofChargeAction {
     /* 0 */ CHARGE_WINDUP,
     /* 1 */ CHARGE_START,
     /* 2 */ CHARGE_ATTACK,
     /* 3 */ CHARGE_FINISH
 } BossGanondrofChargeAction;
 
-typedef enum {
+typedef enum BossGanondrofDeathAction {
     /* 0 */ DEATH_SPASM,
     /* 1 */ DEATH_LIMP,
     /* 2 */ DEATH_HUNCHED
@@ -1520,7 +1520,6 @@ void BossGanondrof_Draw(Actor* thisx, PlayState* play) {
                       BossGanondrof_PostLimbDraw, this);
     PRINTF("DRAW 22\n");
     POLY_OPA_DISP = Play_SetFog(play, POLY_OPA_DISP);
-    if (1) {}
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganondrof.c", 3814);
     PRINTF("DRAW END %d\n", this->actor.params);
 }

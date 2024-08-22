@@ -153,7 +153,7 @@ void EnPoField_Init(Actor* thisx, PlayState* play) {
         sSpawnPositions[sNumSpawned].x = this->actor.world.pos.x;
         sSpawnPositions[sNumSpawned].y = this->actor.world.pos.y;
         sSpawnPositions[sNumSpawned].z = this->actor.world.pos.z;
-        sSpawnSwitchFlags[sNumSpawned] = this->actor.params & 0xFF;
+        sSpawnSwitchFlags[sNumSpawned] = PARAMS_GET_U(this->actor.params, 0, 8);
         sNumSpawned++;
     }
     if (sNumSpawned >= 2) {
@@ -796,8 +796,6 @@ void EnPoField_DrawFlame(EnPoField* this, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
-        if (1) {}
-
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_field.c", 1712);
     }
 }
@@ -999,8 +997,6 @@ void EnPoField_DrawSoul(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gPoeFieldSoulDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_field.c", 2149);
     EnPoField_DrawFlame(this, play);

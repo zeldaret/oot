@@ -3,7 +3,7 @@
 
 #include "tha.h"
 
-typedef union {
+typedef union TwoHeadGfxArena {
     /* 0x00 */ TwoHeadArena tha;
     struct {       // Same as TwoHeadArena, with different types and field names for the head and tail pointers
         /* 0x00 */ size_t size;

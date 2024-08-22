@@ -16,7 +16,7 @@ typedef struct EnJsjutan {
     /* 0x0175 */ u8 unk_175; // setup flag?
 } EnJsjutan; // size = 0x0178
 
-typedef enum {
+typedef enum EnJsjutanType {
     /* 0 */ ENJSJUTAN_TYPE_00,
     /* 1 */ ENJSJUTAN_TYPE_01
 } EnJsjutanType;

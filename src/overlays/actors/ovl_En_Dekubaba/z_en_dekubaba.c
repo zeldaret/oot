@@ -136,7 +136,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum DekuBabaDamageEffect {
     /* 0x0 */ DEKUBABA_DMGEFF_NONE,
     /* 0x1 */ DEKUBABA_DMGEFF_DEKUNUT,
     /* 0x2 */ DEKUBABA_DMGEFF_FIRE,
@@ -1278,7 +1278,6 @@ void EnDekubaba_Draw(Actor* thisx, PlayState* play) {
     EnDekubaba* this = (EnDekubaba*)thisx;
     f32 scale;
 
-    if (1) {}
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2752);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 

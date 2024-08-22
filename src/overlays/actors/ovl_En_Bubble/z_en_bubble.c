@@ -405,7 +405,7 @@ void EnBubble_Update(Actor* thisx, PlayState* play) {
 
 void EnBubble_Draw(Actor* thisx, PlayState* play) {
     EnBubble* this = (EnBubble*)thisx;
-    u32 pad;
+    PlayState* play2 = (PlayState*)play;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bubble.c", 1175);
 
@@ -413,7 +413,7 @@ void EnBubble_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         Math_SmoothStepToF(&this->graphicRotSpeed, 16.0f, 0.2f, 1000.0f, 0.0f);
         Math_SmoothStepToF(&this->graphicEccentricity, 0.08f, 0.2f, 1000.0f, 0.0f);
-        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_ReplaceRotation(&play2->billboardMtxF);
 
         Matrix_Scale(this->expansionWidth + 1.0f, this->expansionHeight + 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD((f32)play->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
@@ -424,8 +424,6 @@ void EnBubble_Draw(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gBubbleDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bubble.c", 1226);
 

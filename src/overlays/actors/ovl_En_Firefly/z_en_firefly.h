@@ -24,7 +24,7 @@ typedef struct EnFirefly {
     /* 0x0344 */ ColliderJntSphElement colliderItems[1];
 } EnFirefly; // size = 0x0374
 
-typedef enum {
+typedef enum KeeseType {
     /* 0 */ KEESE_FIRE_FLY,
     /* 1 */ KEESE_FIRE_PERCH,
     /* 2 */ KEESE_NORMAL_FLY,

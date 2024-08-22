@@ -14,20 +14,20 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum BossFdIntroFlyState {
     /* 0 */ INTRO_FLY_EMERGE,
     /* 1 */ INTRO_FLY_HOLE,
     /* 2 */ INTRO_FLY_CAMERA,
     /* 3 */ INTRO_FLY_RETRAT
 } BossFdIntroFlyState;
 
-typedef enum {
+typedef enum BossFdManeIndex {
     /* 0 */ MANE_CENTER,
     /* 1 */ MANE_RIGHT,
     /* 2 */ MANE_LEFT
 } BossFdManeIndex;
 
-typedef enum {
+typedef enum BossFdEyeState {
     /* 0 */ EYE_OPEN,
     /* 1 */ EYE_HALF,
     /* 2 */ EYE_CLOSED
@@ -1959,7 +1959,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
     SkelAnime_DrawOpa(play, this->skelAnimeHead.skeleton, this->skelAnimeHead.jointTable, BossFd_OverrideHeadDraw,
                       BossFd_PostHeadDraw, &this->actor);
     PRINTF("SK\n");
-    {
+    if (1) {
         Vec3f spB0 = { 0.0f, 1700.0f, 7000.0f };
         Vec3f spA4 = { -1000.0f, 700.0f, 7000.0f };
 

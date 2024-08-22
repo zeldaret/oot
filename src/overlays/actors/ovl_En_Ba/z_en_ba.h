@@ -8,7 +8,7 @@ struct EnBa;
 
 typedef void (*EnBaActionFunc)(struct EnBa*, PlayState*);
 
-typedef enum {
+typedef enum EnBaType {
     /* 0x00 */ EN_BA_TENTACLE_RED,
     /* 0x01 */ EN_BA_TENTACLE_GREEN,
     /* 0x02 */ EN_BA_TENTACLE_GRAY,

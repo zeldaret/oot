@@ -44,7 +44,7 @@ void DoorGerudo_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gGerudoCellDoorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
-    if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         this->actionFunc = func_8099485C;
         thisx->world.pos.y = thisx->home.pos.y + 200.0f;
     } else {
@@ -67,7 +67,7 @@ f32 func_809946BC(PlayState* play, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg
     playerPos.x = player->actor.world.pos.x;
     playerPos.y = player->actor.world.pos.y + arg2;
     playerPos.z = player->actor.world.pos.z;
-    func_8002DBD0(&this->dyna.actor, &sp1C, &playerPos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &sp1C, &playerPos);
 
     if ((arg3 < fabsf(sp1C.x)) || (arg4 < fabsf(sp1C.y))) {
         return MAXFLOAT;
@@ -100,7 +100,7 @@ void func_8099485C(DoorGerudo* this, PlayState* play) {
     if (this->isActive) {
         this->actionFunc = func_8099496C;
         gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
     } else {
         s32 direction = func_80994750(this, play);
@@ -110,7 +110,7 @@ void func_8099485C(DoorGerudo* this, PlayState* play) {
 
             if (gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                 player->naviTextId = -0x203;
-            } else if (!Flags_GetCollectible(play, (this->dyna.actor.params >> 8) & 0x1F)) {
+            } else if (!Flags_GetCollectible(play, PARAMS_GET_U(this->dyna.actor.params, 8, 5))) {
                 player->naviTextId = -0x225;
             } else {
                 player->doorType = PLAYER_DOORTYPE_SLIDING;

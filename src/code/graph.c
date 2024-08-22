@@ -184,7 +184,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         if (msg == (OSMesg)666) {
 #if OOT_DEBUG
             PRINTF(VT_FGCOL(RED));
-            PRINTF("RCPが帰ってきませんでした。"); // "RCP did not return."
+            PRINTF(T("RCPが帰ってきませんでした。", "RCP did not return."));
             PRINTF(VT_RST);
 
             LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
@@ -245,8 +245,6 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
         task->yield_data_ptr = gGfxSPTaskYieldBuffer;
-
-        if (1) {}
 
         task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
@@ -366,36 +364,44 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         if (pool->headMagic != GFXPOOL_HEAD_MAGIC) {
             //! @bug (?) : "problem = true;" may be missing
             PRINTF("%c", BEL);
-            // "Dynamic area head is destroyed"
-            PRINTF(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);
+            PRINTF(VT_COL(RED, WHITE) T("ダイナミック領域先頭が破壊されています\n", "Dynamic area head is destroyed\n")
+                       VT_RST);
+#if PLATFORM_N64
+            Fault_AddHungupAndCrash("../graph.c", 951);
+#else
             Fault_AddHungupAndCrash("../graph.c", 1070);
+#endif
         }
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
             PRINTF("%c", BEL);
-            // "Dynamic region tail is destroyed"
-            PRINTF(VT_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" VT_RST);
+            PRINTF(VT_COL(RED, WHITE)
+                       T("ダイナミック領域末尾が破壊されています\n", "Dynamic region tail is destroyed\n") VT_RST);
+#if PLATFORM_N64
+            Fault_AddHungupAndCrash("../graph.c", 957);
+#else
             Fault_AddHungupAndCrash("../graph.c", 1076);
+#endif
         }
     }
 
     if (THGA_IsCrash(&gfxCtx->polyOpa)) {
         problem = true;
         PRINTF("%c", BEL);
-        // "Zelda 0 is dead"
-        PRINTF(VT_COL(RED, WHITE) "ゼルダ0は死んでしまった(graph_alloc is empty)\n" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) T("ゼルダ0は死んでしまった(graph_alloc is empty)\n",
+                                    "Zelda 0 is dead (graph_alloc is empty)\n") VT_RST);
     }
     if (THGA_IsCrash(&gfxCtx->polyXlu)) {
         problem = true;
         PRINTF("%c", BEL);
-        // "Zelda 1 is dead"
-        PRINTF(VT_COL(RED, WHITE) "ゼルダ1は死んでしまった(graph_alloc is empty)\n" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) T("ゼルダ1は死んでしまった(graph_alloc is empty)\n",
+                                    "Zelda 1 is dead (graph_alloc is empty)\n") VT_RST);
     }
     if (THGA_IsCrash(&gfxCtx->overlay)) {
         problem = true;
         PRINTF("%c", BEL);
-        // "Zelda 4 is dead"
-        PRINTF(VT_COL(RED, WHITE) "ゼルダ4は死んでしまった(graph_alloc is empty)\n" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) T("ゼルダ4は死んでしまった(graph_alloc is empty)\n",
+                                    "Zelda 4 is dead (graph_alloc is empty)\n") VT_RST);
     }
 
     if (!problem) {
@@ -432,8 +438,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     }
 
     if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->inPreNMIState) {
-        // "To reset mode"
-        PRINTF(VT_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) T("PRE-NMIによりリセットモードに移行します\n",
+                                       "PRE-NMI causes the system to transition to reset mode\n") VT_RST);
         SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIState);
         gameState->running = false;
     }
@@ -447,7 +453,7 @@ void Graph_ThreadEntry(void* arg0) {
     GameStateOverlay* nextOvl = &gGameStateOverlayTable[GAMESTATE_SETUP];
     GameStateOverlay* ovl;
 
-    PRINTF("グラフィックスレッド実行開始\n"); // "Start graphic thread execution"
+    PRINTF(T("グラフィックスレッド実行開始\n", "Start graphic thread execution\n"));
     Graph_Init(&gfxCtx);
 
     while (nextOvl != NULL) {
@@ -455,7 +461,7 @@ void Graph_ThreadEntry(void* arg0) {
         Overlay_LoadGameState(ovl);
 
         size = ovl->instanceSize;
-        PRINTF("クラスサイズ＝%dバイト\n", size); // "Class size = %d bytes"
+        PRINTF(T("クラスサイズ＝%dバイト\n", "Class size = %d bytes\n"), size);
 
         gameState = SYSTEM_ARENA_MALLOC(size, "../graph.c", 1196);
 
@@ -463,10 +469,12 @@ void Graph_ThreadEntry(void* arg0) {
 #if OOT_DEBUG
             char faultMsg[0x50];
 
-            PRINTF("確保失敗\n"); // "Failure to secure"
+            PRINTF(T("確保失敗\n", "Failure to secure\n"));
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
+#elif PLATFORM_N64
+            Fault_AddHungupAndCrash("../graph.c", 1081);
 #else
             Fault_AddHungupAndCrash("../graph.c", 1200);
 #endif
@@ -484,7 +492,7 @@ void Graph_ThreadEntry(void* arg0) {
         Overlay_FreeGameState(ovl);
     }
     Graph_Destroy(&gfxCtx);
-    PRINTF("グラフィックスレッド実行終了\n"); // "End of graphic thread execution"
+    PRINTF(T("グラフィックスレッド実行終了\n", "End of graphic thread execution\n"));
 }
 
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size) {

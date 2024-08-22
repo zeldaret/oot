@@ -31,7 +31,7 @@ APPLY_OPTS = "--format --style=file"
 # Compiler options used with Clang-Tidy
 # Normal warnings are disabled with -Wno-everything to focus only on tidying
 INCLUDES = "-Iinclude -Isrc -Ibuild/gc-eu-mq-dbg -I."
-DEFINES = "-D_LANGUAGE_C -DNON_MATCHING"
+DEFINES = "-D_LANGUAGE_C -DNON_MATCHING -DF3DEX_GBI_2"
 COMPILER_OPTS = f"-fno-builtin -std=gnu90 -m32 -Wno-everything {INCLUDES} {DEFINES}"
 
 

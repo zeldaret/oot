@@ -13,137 +13,503 @@
 #include "terminal.h"
 
 #if OOT_NTSC
-static void* sEquipmentJPNTexs[] = {
-    gPauseEquipment00Tex,    gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
-    gPauseEquipment10JPNTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
-    gPauseEquipment20Tex,    gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
-};
-static void* sSelectItemJPNTexs[] = {
-    gPauseSelectItem00JPNTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
-    gPauseSelectItem04Tex,    gPauseSelectItem10JPNTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
-    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20JPNTex, gPauseSelectItem21Tex,
-    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
-};
-static void* sMapJPNTexs[] = {
-    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
-    gPauseMap10JPNTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
-    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
-};
-static void* sQuestStatusJPNTexs[] = {
-    gPauseQuestStatus00JPNTex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex,    gPauseQuestStatus03Tex,
-    gPauseQuestStatus04Tex,    gPauseQuestStatus10JPNTex, gPauseQuestStatus11Tex,    gPauseQuestStatus12Tex,
-    gPauseQuestStatus13Tex,    gPauseQuestStatus14Tex,    gPauseQuestStatus20JPNTex, gPauseQuestStatus21Tex,
-    gPauseQuestStatus22Tex,    gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
-};
-static void* sSaveJPNTexs[] = {
-    gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
-    gPauseSave10JPNTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
-    gPauseSave20Tex,    gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
-};
-#else
-static void* sEquipmentFRATexs[] = {
-    gPauseEquipment00FRATex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
-    gPauseEquipment10FRATex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
-    gPauseEquipment20FRATex, gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
-};
-static void* sSelectItemFRATexs[] = {
-    gPauseSelectItem00FRATex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
-    gPauseSelectItem04Tex,    gPauseSelectItem10FRATex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
-    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20FRATex, gPauseSelectItem21Tex,
-    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
-};
-static void* sMapFRATexs[] = {
-    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
-    gPauseMap10FRATex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
-    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
-};
-static void* sQuestStatusFRATexs[] = {
-    gPauseQuestStatus00Tex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex, gPauseQuestStatus03Tex,
-    gPauseQuestStatus04Tex, gPauseQuestStatus10FRATex, gPauseQuestStatus11Tex, gPauseQuestStatus12Tex,
-    gPauseQuestStatus13Tex, gPauseQuestStatus14Tex,    gPauseQuestStatus20Tex, gPauseQuestStatus21Tex,
-    gPauseQuestStatus22Tex, gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
-};
-static void* sSaveFRATexs[] = {
-    gPauseSave00FRATex, gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
-    gPauseSave10FRATex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
-    gPauseSave20FRATex, gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
+
+// Japanese
+
+static void* sEquipPageBgQuadsJPNTexs[] = {
+    // column 1
+    gPauseEquipment00Tex,
+    gPauseEquipment01Tex,
+    gPauseEquipment02Tex,
+    gPauseEquipment03Tex,
+    gPauseEquipment04Tex,
+    // column 2
+    gPauseEquipment10JPNTex,
+    gPauseEquipment11Tex,
+    gPauseEquipment12Tex,
+    gPauseEquipment13Tex,
+    gPauseEquipment14Tex,
+    // column 3
+    gPauseEquipment20Tex,
+    gPauseEquipment21Tex,
+    gPauseEquipment22Tex,
+    gPauseEquipment23Tex,
+    gPauseEquipment24Tex,
 };
 
-static void* sEquipmentGERTexs[] = {
-    gPauseEquipment00GERTex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
-    gPauseEquipment10GERTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
-    gPauseEquipment20GERTex, gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
+static void* sItemPageBgQuadsJPNTexs[] = {
+    // column 1
+    gPauseSelectItem00JPNTex,
+    gPauseSelectItem01Tex,
+    gPauseSelectItem02Tex,
+    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,
+    // column 2
+    gPauseSelectItem10JPNTex,
+    gPauseSelectItem11Tex,
+    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,
+    gPauseSelectItem14Tex,
+    // column 3
+    gPauseSelectItem20JPNTex,
+    gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,
+    gPauseSelectItem23Tex,
+    gPauseSelectItem24Tex,
 };
-static void* sSelectItemGERTexs[] = {
-    gPauseSelectItem00GERTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
-    gPauseSelectItem04Tex,    gPauseSelectItem10GERTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
-    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20GERTex, gPauseSelectItem21Tex,
-    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
+
+static void* sMapPageBgQuadsJPNTexs[] = {
+    // column 1
+    gPauseMap00Tex,
+    gPauseMap01Tex,
+    gPauseMap02Tex,
+    gPauseMap03Tex,
+    gPauseMap04Tex,
+    // column 2
+    gPauseMap10JPNTex,
+    gPauseMap11Tex,
+    gPauseMap12Tex,
+    gPauseMap13Tex,
+    gPauseMap14Tex,
+    // column 3
+    gPauseMap20Tex,
+    gPauseMap21Tex,
+    gPauseMap22Tex,
+    gPauseMap23Tex,
+    gPauseMap24Tex,
 };
-static void* sMapGERTexs[] = {
-    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
-    gPauseMap10GERTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
-    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
+
+static void* sQuestPageBgQuadsJPNTexs[] = {
+    // column 1
+    gPauseQuestStatus00JPNTex,
+    gPauseQuestStatus01Tex,
+    gPauseQuestStatus02Tex,
+    gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex,
+    // column 2
+    gPauseQuestStatus10JPNTex,
+    gPauseQuestStatus11Tex,
+    gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex,
+    gPauseQuestStatus14Tex,
+    // column 3
+    gPauseQuestStatus20JPNTex,
+    gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex,
+    gPauseQuestStatus23Tex,
+    gPauseQuestStatus24Tex,
 };
-static void* sQuestStatusGERTexs[] = {
-    gPauseQuestStatus00Tex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex, gPauseQuestStatus03Tex,
-    gPauseQuestStatus04Tex, gPauseQuestStatus10GERTex, gPauseQuestStatus11Tex, gPauseQuestStatus12Tex,
-    gPauseQuestStatus13Tex, gPauseQuestStatus14Tex,    gPauseQuestStatus20Tex, gPauseQuestStatus21Tex,
-    gPauseQuestStatus22Tex, gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
+
+static void* sSavePromptBgQuadsJPNTexs[] = {
+    // column 1
+    gPauseSave00Tex,
+    gPauseSave01Tex,
+    gPauseSave02Tex,
+    gPauseSave03Tex,
+    gPauseSave04Tex,
+    // column 2
+    gPauseSave10JPNTex,
+    gPauseSave11Tex,
+    gPauseSave12Tex,
+    gPauseSave13Tex,
+    gPauseSave14Tex,
+    // column 3
+    gPauseSave20Tex,
+    gPauseSave21Tex,
+    gPauseSave22Tex,
+    gPauseSave23Tex,
+    gPauseSave24Tex,
 };
-static void* sSaveGERTexs[] = {
-    gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
-    gPauseSave10GERTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
-    gPauseSave20GERTex, gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
+
+#else
+
+// French
+
+static void* sEquipPageBgQuadsFRATexs[] = {
+    // column 1
+    gPauseEquipment00FRATex,
+    gPauseEquipment01Tex,
+    gPauseEquipment02Tex,
+    gPauseEquipment03Tex,
+    gPauseEquipment04Tex,
+    // column 2
+    gPauseEquipment10FRATex,
+    gPauseEquipment11Tex,
+    gPauseEquipment12Tex,
+    gPauseEquipment13Tex,
+    gPauseEquipment14Tex,
+    // column 3
+    gPauseEquipment20FRATex,
+    gPauseEquipment21Tex,
+    gPauseEquipment22Tex,
+    gPauseEquipment23Tex,
+    gPauseEquipment24Tex,
 };
+
+static void* sItemPageBgQuadsFRATexs[] = {
+    // column 1
+    gPauseSelectItem00FRATex,
+    gPauseSelectItem01Tex,
+    gPauseSelectItem02Tex,
+    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,
+    // column 2
+    gPauseSelectItem10FRATex,
+    gPauseSelectItem11Tex,
+    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,
+    gPauseSelectItem14Tex,
+    // column 3
+    gPauseSelectItem20FRATex,
+    gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,
+    gPauseSelectItem23Tex,
+    gPauseSelectItem24Tex,
+};
+
+static void* sMapPageBgQuadsFRATexs[] = {
+    // column 1
+    gPauseMap00Tex,
+    gPauseMap01Tex,
+    gPauseMap02Tex,
+    gPauseMap03Tex,
+    gPauseMap04Tex,
+    // column 2
+    gPauseMap10FRATex,
+    gPauseMap11Tex,
+    gPauseMap12Tex,
+    gPauseMap13Tex,
+    gPauseMap14Tex,
+    // column 3
+    gPauseMap20Tex,
+    gPauseMap21Tex,
+    gPauseMap22Tex,
+    gPauseMap23Tex,
+    gPauseMap24Tex,
+};
+
+static void* sQuestPageBgQuadsFRATexs[] = {
+    // column 1
+    gPauseQuestStatus00Tex,
+    gPauseQuestStatus01Tex,
+    gPauseQuestStatus02Tex,
+    gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex,
+    // column 2
+    gPauseQuestStatus10FRATex,
+    gPauseQuestStatus11Tex,
+    gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex,
+    gPauseQuestStatus14Tex,
+    // column 3
+    gPauseQuestStatus20Tex,
+    gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex,
+    gPauseQuestStatus23Tex,
+    gPauseQuestStatus24Tex,
+};
+
+static void* sSavePromptBgQuadsFRATexs[] = {
+    // column 1
+    gPauseSave00FRATex,
+    gPauseSave01Tex,
+    gPauseSave02Tex,
+    gPauseSave03Tex,
+    gPauseSave04Tex,
+    // column 2
+    gPauseSave10FRATex,
+    gPauseSave11Tex,
+    gPauseSave12Tex,
+    gPauseSave13Tex,
+    gPauseSave14Tex,
+    // column 3
+    gPauseSave20FRATex,
+    gPauseSave21Tex,
+    gPauseSave22Tex,
+    gPauseSave23Tex,
+    gPauseSave24Tex,
+};
+
+// German
+
+static void* sEquipPageBgQuadsGERTexs[] = {
+    // column 1
+    gPauseEquipment00GERTex,
+    gPauseEquipment01Tex,
+    gPauseEquipment02Tex,
+    gPauseEquipment03Tex,
+    gPauseEquipment04Tex,
+    // column 2
+    gPauseEquipment10GERTex,
+    gPauseEquipment11Tex,
+    gPauseEquipment12Tex,
+    gPauseEquipment13Tex,
+    gPauseEquipment14Tex,
+    // column 3
+    gPauseEquipment20GERTex,
+    gPauseEquipment21Tex,
+    gPauseEquipment22Tex,
+    gPauseEquipment23Tex,
+    gPauseEquipment24Tex,
+};
+
+static void* sItemPageBgQuadsGERTexs[] = {
+    // column 1
+    gPauseSelectItem00GERTex,
+    gPauseSelectItem01Tex,
+    gPauseSelectItem02Tex,
+    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,
+    // column 2
+    gPauseSelectItem10GERTex,
+    gPauseSelectItem11Tex,
+    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,
+    gPauseSelectItem14Tex,
+    // column 3
+    gPauseSelectItem20GERTex,
+    gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,
+    gPauseSelectItem23Tex,
+    gPauseSelectItem24Tex,
+};
+
+static void* sMapPageBgQuadsGERTexs[] = {
+    // column 1
+    gPauseMap00Tex,
+    gPauseMap01Tex,
+    gPauseMap02Tex,
+    gPauseMap03Tex,
+    gPauseMap04Tex,
+    // column 2
+    gPauseMap10GERTex,
+    gPauseMap11Tex,
+    gPauseMap12Tex,
+    gPauseMap13Tex,
+    gPauseMap14Tex,
+    // column 3
+    gPauseMap20Tex,
+    gPauseMap21Tex,
+    gPauseMap22Tex,
+    gPauseMap23Tex,
+    gPauseMap24Tex,
+};
+
+static void* sQuestPageBgQuadsGERTexs[] = {
+    // column 1
+    gPauseQuestStatus00Tex,
+    gPauseQuestStatus01Tex,
+    gPauseQuestStatus02Tex,
+    gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex,
+    // column 2
+    gPauseQuestStatus10GERTex,
+    gPauseQuestStatus11Tex,
+    gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex,
+    gPauseQuestStatus14Tex,
+    // column 3
+    gPauseQuestStatus20Tex,
+    gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex,
+    gPauseQuestStatus23Tex,
+    gPauseQuestStatus24Tex,
+};
+
+static void* sSavePromptBgQuadsGERTexs[] = {
+    // column 1
+    gPauseSave00Tex,
+    gPauseSave01Tex,
+    gPauseSave02Tex,
+    gPauseSave03Tex,
+    gPauseSave04Tex,
+    // column 2
+    gPauseSave10GERTex,
+    gPauseSave11Tex,
+    gPauseSave12Tex,
+    gPauseSave13Tex,
+    gPauseSave14Tex,
+    // column 3
+    gPauseSave20GERTex,
+    gPauseSave21Tex,
+    gPauseSave22Tex,
+    gPauseSave23Tex,
+    gPauseSave24Tex,
+};
+
 #endif
 
-static void* sEquipmentENGTexs[] = {
-    gPauseEquipment00Tex,    gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
-    gPauseEquipment10ENGTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
-    gPauseEquipment20Tex,    gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
+// English
+
+static void* sEquipPageBgQuadsENGTexs[] = {
+    // column 1
+    gPauseEquipment00Tex,
+    gPauseEquipment01Tex,
+    gPauseEquipment02Tex,
+    gPauseEquipment03Tex,
+    gPauseEquipment04Tex,
+    // column 2
+    gPauseEquipment10ENGTex,
+    gPauseEquipment11Tex,
+    gPauseEquipment12Tex,
+    gPauseEquipment13Tex,
+    gPauseEquipment14Tex,
+    // column 3
+    gPauseEquipment20Tex,
+    gPauseEquipment21Tex,
+    gPauseEquipment22Tex,
+    gPauseEquipment23Tex,
+    gPauseEquipment24Tex,
 };
-static void* sSelectItemENGTexs[] = {
-    gPauseSelectItem00ENGTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
-    gPauseSelectItem04Tex,    gPauseSelectItem10ENGTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
-    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20ENGTex, gPauseSelectItem21Tex,
-    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
+
+static void* sItemPageBgQuadsENGTexs[] = {
+    // column 1
+    gPauseSelectItem00ENGTex,
+    gPauseSelectItem01Tex,
+    gPauseSelectItem02Tex,
+    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,
+    // column 2
+    gPauseSelectItem10ENGTex,
+    gPauseSelectItem11Tex,
+    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,
+    gPauseSelectItem14Tex,
+    // column 3
+    gPauseSelectItem20ENGTex,
+    gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,
+    gPauseSelectItem23Tex,
+    gPauseSelectItem24Tex,
 };
-static void* sMapENGTexs[] = {
-    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
-    gPauseMap10ENGTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
-    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
+
+static void* sMapPageBgQuadsENGTexs[] = {
+    // column 1
+    gPauseMap00Tex,
+    gPauseMap01Tex,
+    gPauseMap02Tex,
+    gPauseMap03Tex,
+    gPauseMap04Tex,
+    // column 2
+    gPauseMap10ENGTex,
+    gPauseMap11Tex,
+    gPauseMap12Tex,
+    gPauseMap13Tex,
+    gPauseMap14Tex,
+    // column 3
+    gPauseMap20Tex,
+    gPauseMap21Tex,
+    gPauseMap22Tex,
+    gPauseMap23Tex,
+    gPauseMap24Tex,
 };
-static void* sQuestStatusENGTexs[] = {
-    gPauseQuestStatus00ENGTex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex,    gPauseQuestStatus03Tex,
-    gPauseQuestStatus04Tex,    gPauseQuestStatus10ENGTex, gPauseQuestStatus11Tex,    gPauseQuestStatus12Tex,
-    gPauseQuestStatus13Tex,    gPauseQuestStatus14Tex,    gPauseQuestStatus20ENGTex, gPauseQuestStatus21Tex,
-    gPauseQuestStatus22Tex,    gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
+
+static void* sQuestPageBgQuadsENGTexs[] = {
+    // column 1
+    gPauseQuestStatus00ENGTex,
+    gPauseQuestStatus01Tex,
+    gPauseQuestStatus02Tex,
+    gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex,
+    // column 2
+    gPauseQuestStatus10ENGTex,
+    gPauseQuestStatus11Tex,
+    gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex,
+    gPauseQuestStatus14Tex,
+    // column 3
+    gPauseQuestStatus20ENGTex,
+    gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex,
+    gPauseQuestStatus23Tex,
+    gPauseQuestStatus24Tex,
 };
-static void* sSaveENGTexs[] = {
-    gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
-    gPauseSave10ENGTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
-    gPauseSave20Tex,    gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
+
+static void* sSavePromptBgQuadsENGTexs[] = {
+    // column 1
+    gPauseSave00Tex,
+    gPauseSave01Tex,
+    gPauseSave02Tex,
+    gPauseSave03Tex,
+    gPauseSave04Tex,
+    // column 2
+    gPauseSave10ENGTex,
+    gPauseSave11Tex,
+    gPauseSave12Tex,
+    gPauseSave13Tex,
+    gPauseSave14Tex,
+    // column 3
+    gPauseSave20Tex,
+    gPauseSave21Tex,
+    gPauseSave22Tex,
+    gPauseSave23Tex,
+    gPauseSave24Tex,
 };
 
 static void* sGameOverTexs[] = {
-    gPauseSave00Tex,     gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
-    gPauseGameOver10Tex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
-    gPauseSave20Tex,     gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
+    // column 1
+    gPauseSave00Tex,
+    gPauseSave01Tex,
+    gPauseSave02Tex,
+    gPauseSave03Tex,
+    gPauseSave04Tex,
+    // column 2
+    gPauseGameOver10Tex,
+    gPauseSave11Tex,
+    gPauseSave12Tex,
+    gPauseSave13Tex,
+    gPauseSave14Tex,
+    // column 3
+    gPauseSave20Tex,
+    gPauseSave21Tex,
+    gPauseSave22Tex,
+    gPauseSave23Tex,
+    gPauseSave24Tex,
 };
 
-static void* sEquipmentTexs[] =
-    LANGUAGE_ARRAY(sEquipmentJPNTexs, sEquipmentENGTexs, sEquipmentGERTexs, sEquipmentFRATexs);
+#if OOT_NTSC
+#define EQUIPMENT_TEXS(language) ((language) != LANGUAGE_JPN ? sEquipPageBgQuadsENGTexs : sEquipPageBgQuadsJPNTexs)
+#define SELECT_ITEM_TEXS(language) ((language) != LANGUAGE_JPN ? sItemPageBgQuadsENGTexs : sItemPageBgQuadsJPNTexs)
+#define MAP_TEXS(language) ((language) != LANGUAGE_JPN ? sMapPageBgQuadsENGTexs : sMapPageBgQuadsJPNTexs)
+#define QUEST_STATUS_TEXS(language) ((language) != LANGUAGE_JPN ? sQuestPageBgQuadsENGTexs : sQuestPageBgQuadsJPNTexs)
+#define SAVE_TEXS(language) ((language) != LANGUAGE_JPN ? sSavePromptBgQuadsENGTexs : sSavePromptBgQuadsJPNTexs)
+#else
+static void* sEquipPageBgQuadsTexs[] = {
+    sEquipPageBgQuadsENGTexs,
+    sEquipPageBgQuadsGERTexs,
+    sEquipPageBgQuadsFRATexs,
+};
 
-static void* sSelectItemTexs[] =
-    LANGUAGE_ARRAY(sSelectItemJPNTexs, sSelectItemENGTexs, sSelectItemGERTexs, sSelectItemFRATexs);
+static void* sItemPageBgQuadsTexs[] = {
+    sItemPageBgQuadsENGTexs,
+    sItemPageBgQuadsGERTexs,
+    sItemPageBgQuadsFRATexs,
+};
 
-static void* sMapTexs[] = LANGUAGE_ARRAY(sMapJPNTexs, sMapENGTexs, sMapGERTexs, sMapFRATexs);
+static void* sMapPageBgQuadsTexs[] = {
+    sMapPageBgQuadsENGTexs,
+    sMapPageBgQuadsGERTexs,
+    sMapPageBgQuadsFRATexs,
+};
 
-static void* sQuestStatusTexs[] =
-    LANGUAGE_ARRAY(sQuestStatusJPNTexs, sQuestStatusENGTexs, sQuestStatusGERTexs, sQuestStatusFRATexs);
+static void* sQuestPageBgQuadsTexs[] = {
+    sQuestPageBgQuadsENGTexs,
+    sQuestPageBgQuadsGERTexs,
+    sQuestPageBgQuadsFRATexs,
+};
 
-static void* sSaveTexs[] = LANGUAGE_ARRAY(sSaveJPNTexs, sSaveENGTexs, sSaveGERTexs, sSaveFRATexs);
+static void* sSavePromptBgQuadsTexs[] = {
+    sSavePromptBgQuadsENGTexs,
+    sSavePromptBgQuadsGERTexs,
+    sSavePromptBgQuadsFRATexs,
+};
+
+#define EQUIPMENT_TEXS(language) (sEquipPageBgQuadsTexs[(language)])
+#define SELECT_ITEM_TEXS(language) (sItemPageBgQuadsTexs[(language)])
+#define MAP_TEXS(language) (sMapPageBgQuadsTexs[(language)])
+#define QUEST_STATUS_TEXS(language) (sQuestPageBgQuadsTexs[(language)])
+#define SAVE_TEXS(language) (sSavePromptBgQuadsTexs[(language)])
+#endif
 
 s16 D_8082AAEC[] = {
     32, 112, 32, 48, 32, 32, 32, 48, 32, 64, 32, 48, 48, 48, 48, 64, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 80, 64,
@@ -588,6 +954,9 @@ void KaleidoScope_SetupPageSwitch(PauseContext* pauseCtx, u8 pt) {
         pauseCtx->cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
+#if OOT_NTSC
+    gSaveContext.buttonStatus[0] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][0];
+#endif
     gSaveContext.buttonStatus[1] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][1];
     gSaveContext.buttonStatus[2] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][2];
     gSaveContext.buttonStatus[3] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][3];
@@ -678,6 +1047,7 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 985);
 }
 
+// Draw 15 (PAGE_BG_QUADS) quads with IA8 80x32 textures
 Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
     s32 i;
     s32 j;
@@ -685,11 +1055,13 @@ Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
     gSPVertex(gfx++, vertices, 32, 0);
 
     i = 0;
+
     j = 0;
     while (j < 32) {
         gDPPipeSync(gfx++);
-        gDPLoadTextureBlock(gfx++, textures[i], G_IM_FMT_IA, G_IM_SIZ_8b, 80, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(gfx++, textures[i], G_IM_FMT_IA, G_IM_SIZ_8b, PAGE_BG_QUAD_TEX_WIDTH,
+                            PAGE_BG_QUAD_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(gfx++, j, j + 2, j + 3, j + 1, 0);
 
         j += 4;
@@ -701,8 +1073,9 @@ Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
     j = 0;
     while (j < 28) {
         gDPPipeSync(gfx++);
-        gDPLoadTextureBlock(gfx++, textures[i], G_IM_FMT_IA, G_IM_SIZ_8b, 80, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(gfx++, textures[i], G_IM_FMT_IA, G_IM_SIZ_8b, PAGE_BG_QUAD_TEX_WIDTH,
+                            PAGE_BG_QUAD_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(gfx++, j, j + 2, j + 3, j + 1, 0);
 
         j += 4;
@@ -832,7 +1205,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
-                                                          sSelectItemTexs[gSaveContext.language]);
+                                                          SELECT_ITEM_TEXS(gSaveContext.language));
 
             KaleidoScope_DrawItemSelect(play);
         }
@@ -850,7 +1223,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
-                                                          sEquipmentTexs[gSaveContext.language]);
+                                                          EQUIPMENT_TEXS(gSaveContext.language));
 
             KaleidoScope_DrawEquipment(play);
         }
@@ -869,7 +1242,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
-                                                          sQuestStatusTexs[gSaveContext.language]);
+                                                          QUEST_STATUS_TEXS(gSaveContext.language));
 
             KaleidoScope_DrawQuestStatus(play, gfxCtx);
         }
@@ -888,7 +1261,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP =
-                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, sMapTexs[gSaveContext.language]);
+                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, MAP_TEXS(gSaveContext.language));
 
             if (sInDungeonScene) {
                 KaleidoScope_DrawDungeonMap(play, gfxCtx);
@@ -917,7 +1290,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
-                                                              sSelectItemTexs[gSaveContext.language]);
+                                                              SELECT_ITEM_TEXS(gSaveContext.language));
 
                 KaleidoScope_DrawItemSelect(play);
                 break;
@@ -932,7 +1305,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP =
-                    KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, sMapTexs[gSaveContext.language]);
+                    KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, MAP_TEXS(gSaveContext.language));
 
                 if (sInDungeonScene) {
                     KaleidoScope_DrawDungeonMap(play, gfxCtx);
@@ -964,7 +1337,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
-                                                              sQuestStatusTexs[gSaveContext.language]);
+                                                              QUEST_STATUS_TEXS(gSaveContext.language));
 
                 KaleidoScope_DrawQuestStatus(play, gfxCtx);
 
@@ -983,7 +1356,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
-                                                              sEquipmentTexs[gSaveContext.language]);
+                                                              EQUIPMENT_TEXS(gSaveContext.language));
 
                 KaleidoScope_DrawEquipment(play);
 
@@ -1037,7 +1410,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
         } else { // PAUSE_STATE_SAVE_PROMPT
             POLY_OPA_DISP =
-                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sSaveTexs[gSaveContext.language]);
+                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, SAVE_TEXS(gSaveContext.language));
         }
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->saveVtx[60], 32, 0);
@@ -1132,9 +1505,9 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         LANGUAGE_ARRAY(gPauseToSelectItemJPNTex, gPauseToSelectItemENGTex, gPauseToSelectItemGERTex,
                        gPauseToSelectItemFRATex),
     };
-    static u16 D_8082ADD8[3] = { 56, 88, 80 };
-    static u16 D_8082ADE0[3] = { 64, 88, 72 };
-    static u16 D_8082ADE8[3] = { 80, 104, 112 };
+    static u16 D_8082ADD8[] = LANGUAGE_ARRAY(56, 56, 88, 80);
+    static u16 D_8082ADE0[] = LANGUAGE_ARRAY(48, 64, 88, 72);
+    static u16 D_8082ADE8[] = LANGUAGE_ARRAY(96, 80, 104, 112);
     static s16 D_8082ADF0[][4] = {
         { 180, 210, 255, 220 },
         { 100, 100, 150, 220 },
@@ -1415,13 +1788,14 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[16], 8, 0);
 
         if (pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) {
-            pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = WREG(61 + gSaveContext.language);
+            pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
+                R_KALEIDO_UNK5(gSaveContext.language);
 
             pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                 pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
 
             pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
-                pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
+                pauseCtx->infoPanelVtx[16].v.ob[0] + R_KALEIDO_UNK2(gSaveContext.language);
 
             pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
                 pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADE0[gSaveContext.language];
@@ -1461,13 +1835,13 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         } else {
             if ((u32)pauseCtx->pageIndex == PAUSE_ITEM) {
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                    WREG(49 + gSaveContext.language);
+                    R_KALEIDO_UNK1(gSaveContext.language);
 
                 pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                     pauseCtx->infoPanelVtx[16].v.ob[0] + 48;
 
                 pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
-                    pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(58 + gSaveContext.language);
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + R_KALEIDO_UNK4(gSaveContext.language);
 
                 pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
                     pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADD8[gSaveContext.language];
@@ -1490,13 +1864,13 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                        (pauseCtx->cursorSlot[PAUSE_QUEST] <= 0x11)) {
                 if (pauseCtx->namedItem != PAUSE_ITEM_NONE) {
                     pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                        WREG(55 + gSaveContext.language);
+                        R_KALEIDO_UNK3(gSaveContext.language);
 
                     pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                         pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
 
                     pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
-                        pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
+                        pauseCtx->infoPanelVtx[16].v.ob[0] + R_KALEIDO_UNK2(gSaveContext.language);
 
 #if OOT_PAL
                     if (gSaveContext.language == LANGUAGE_GER) {
@@ -1523,13 +1897,13 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 }
             } else if (pauseCtx->pageIndex == PAUSE_EQUIP) {
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                    WREG(64 + gSaveContext.language);
+                    R_KALEIDO_UNK6(gSaveContext.language);
 
                 pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                     pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
 
                 pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
-                    pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + R_KALEIDO_UNK2(gSaveContext.language);
 
                 pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
                     pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADD8[gSaveContext.language];
@@ -1670,15 +2044,15 @@ void KaleidoScope_SetView(PauseContext* pauseCtx, f32 x, f32 y, f32 z) {
                VIEW_ALL | VIEW_FORCE_VIEWING | VIEW_FORCE_VIEWPORT | VIEW_FORCE_PROJECTION_PERSPECTIVE);
 }
 
-static u8 D_8082AE48[][4] = {
+static u8 sPageBgColorRed[][4] = {
     { 10, 70, 70, 10 },   { 10, 90, 90, 10 },   { 80, 140, 140, 80 },
     { 80, 120, 120, 80 }, { 80, 140, 140, 80 }, { 50, 110, 110, 50 },
 };
-static u8 D_8082AE60[][4] = {
+static u8 sPageBgColorGreen[][4] = {
     { 50, 100, 100, 50 }, { 50, 100, 100, 50 }, { 40, 60, 60, 40 },
     { 80, 120, 120, 80 }, { 40, 60, 60, 40 },   { 50, 110, 110, 50 },
 };
-static u8 D_8082AE78[][4] = {
+static u8 sPageBgColorBlue[][4] = {
     { 80, 130, 130, 80 }, { 40, 60, 60, 40 }, { 30, 60, 60, 30 },
     { 50, 70, 70, 50 },   { 30, 60, 60, 30 }, { 50, 110, 110, 50 },
 };
@@ -1806,7 +2180,7 @@ static s16 D_8082B0E4[] = {
     0x0019, 0x000D, 0x0001, 0x0001, 0x000D, 0x0015, 0x000F, 0x000D, 0x000C, 0x0001, 0x0000,
 };
 
-s16 func_80823A0C(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) {
+s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) {
     static s16 D_8082B110 = 0;
     static s16 D_8082B114 = 1;
     static s16 D_8082B118 = 0;
@@ -1815,58 +2189,63 @@ s16 func_80823A0C(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) {
     s16* ptr2;
     s16* ptr3;
     s16* ptr4;
-    s16 phi_s2;
-    s16 phi_t0;
-    s16 phi_a1;
-    s16 phi_a2;
-    s16 phi_t3;
-    s16 phi_t1;
+    s16 bufIAfterPageSections;
+    s16 pageBgQuadX;
+    s16 pageBgQuadY;
+    s16 i;
+    s16 j;
+    s16 bufI;
 
-    phi_t0 = -200;
+    // Vertices for KaleidoScope_DrawPageSections
 
-    for (phi_t1 = 0, phi_t3 = 0; phi_t3 < 3; phi_t3++) {
-        phi_t0 += 80;
+    pageBgQuadX = 0 - (PAGE_BG_COLS * PAGE_BG_QUAD_WIDTH) / 2 - PAGE_BG_QUAD_WIDTH;
 
-        for (phi_a1 = 80, phi_a2 = 0; phi_a2 < 5; phi_a2++, phi_t1 += 4, phi_a1 -= 32) {
-            vtx[phi_t1 + 0].v.ob[0] = vtx[phi_t1 + 2].v.ob[0] = phi_t0;
+    for (bufI = 0, j = 0; j < 3; j++) {
+        pageBgQuadX += PAGE_BG_QUAD_WIDTH;
 
-            vtx[phi_t1 + 1].v.ob[0] = vtx[phi_t1 + 3].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] + 80;
+        for (pageBgQuadY = (PAGE_BG_ROWS * PAGE_BG_QUAD_HEIGHT) / 2, i = 0; i < 5;
+             i++, bufI += 4, pageBgQuadY -= PAGE_BG_QUAD_HEIGHT) {
+            vtx[bufI + 0].v.ob[0] = vtx[bufI + 2].v.ob[0] = pageBgQuadX;
 
-            vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = phi_a1 + pauseCtx->offsetY;
+            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + PAGE_BG_QUAD_WIDTH;
 
-            vtx[phi_t1 + 2].v.ob[1] = vtx[phi_t1 + 3].v.ob[1] = vtx[phi_t1 + 0].v.ob[1] - 32;
+            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = pageBgQuadY + pauseCtx->offsetY;
 
-            vtx[phi_t1 + 0].v.ob[2] = vtx[phi_t1 + 1].v.ob[2] = vtx[phi_t1 + 2].v.ob[2] = vtx[phi_t1 + 3].v.ob[2] = 0;
+            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - PAGE_BG_QUAD_HEIGHT;
 
-            vtx[phi_t1 + 0].v.flag = 0;
-            vtx[phi_t1 + 1].v.flag = 0;
-            vtx[phi_t1 + 2].v.flag = 0;
-            vtx[phi_t1 + 3].v.flag = 0;
+            vtx[bufI + 0].v.ob[2] = vtx[bufI + 1].v.ob[2] = vtx[bufI + 2].v.ob[2] = vtx[bufI + 3].v.ob[2] = 0;
 
-            vtx[phi_t1 + 0].v.tc[0] = vtx[phi_t1 + 0].v.tc[1] = vtx[phi_t1 + 1].v.tc[1] = vtx[phi_t1 + 2].v.tc[0] = 0;
+            vtx[bufI + 0].v.flag = 0;
+            vtx[bufI + 1].v.flag = 0;
+            vtx[bufI + 2].v.flag = 0;
+            vtx[bufI + 3].v.flag = 0;
 
-            vtx[phi_t1 + 1].v.tc[0] = vtx[phi_t1 + 3].v.tc[0] = 0xA00;
+            vtx[bufI + 0].v.tc[0] = vtx[bufI + 0].v.tc[1] = vtx[bufI + 1].v.tc[1] = vtx[bufI + 2].v.tc[0] = 0;
 
-            vtx[phi_t1 + 2].v.tc[1] = vtx[phi_t1 + 3].v.tc[1] = 0x400;
+            vtx[bufI + 1].v.tc[0] = vtx[bufI + 3].v.tc[0] = PAGE_BG_QUAD_TEX_WIDTH * (1 << 5);
 
-            vtx[phi_t1 + 0].v.cn[0] = vtx[phi_t1 + 2].v.cn[0] = D_8082AE48[arg2][phi_t3 + 0];
+            vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = PAGE_BG_QUAD_TEX_HEIGHT * (1 << 5);
 
-            vtx[phi_t1 + 0].v.cn[1] = vtx[phi_t1 + 2].v.cn[1] = D_8082AE60[arg2][phi_t3 + 0];
+            vtx[bufI + 0].v.cn[0] = vtx[bufI + 2].v.cn[0] = sPageBgColorRed[arg2][j + 0];
 
-            vtx[phi_t1 + 0].v.cn[2] = vtx[phi_t1 + 2].v.cn[2] = D_8082AE78[arg2][phi_t3 + 0];
+            vtx[bufI + 0].v.cn[1] = vtx[bufI + 2].v.cn[1] = sPageBgColorGreen[arg2][j + 0];
 
-            vtx[phi_t1 + 1].v.cn[0] = vtx[phi_t1 + 3].v.cn[0] = D_8082AE48[arg2][phi_t3 + 1];
+            vtx[bufI + 0].v.cn[2] = vtx[bufI + 2].v.cn[2] = sPageBgColorBlue[arg2][j + 0];
 
-            vtx[phi_t1 + 1].v.cn[1] = vtx[phi_t1 + 3].v.cn[1] = D_8082AE60[arg2][phi_t3 + 1];
+            vtx[bufI + 1].v.cn[0] = vtx[bufI + 3].v.cn[0] = sPageBgColorRed[arg2][j + 1];
 
-            vtx[phi_t1 + 1].v.cn[2] = vtx[phi_t1 + 3].v.cn[2] = D_8082AE78[arg2][phi_t3 + 1];
+            vtx[bufI + 1].v.cn[1] = vtx[bufI + 3].v.cn[1] = sPageBgColorGreen[arg2][j + 1];
 
-            vtx[phi_t1 + 0].v.cn[3] = vtx[phi_t1 + 2].v.cn[3] = vtx[phi_t1 + 1].v.cn[3] = vtx[phi_t1 + 3].v.cn[3] =
+            vtx[bufI + 1].v.cn[2] = vtx[bufI + 3].v.cn[2] = sPageBgColorBlue[arg2][j + 1];
+
+            vtx[bufI + 0].v.cn[3] = vtx[bufI + 2].v.cn[3] = vtx[bufI + 1].v.cn[3] = vtx[bufI + 3].v.cn[3] =
                 pauseCtx->alpha;
         }
     }
 
-    phi_s2 = phi_t1;
+    bufIAfterPageSections = bufI;
+
+    //
 
     if (arg3 != 0) {
         ptr1 = D_8082B000[arg2];
@@ -1874,54 +2253,53 @@ s16 func_80823A0C(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) {
         ptr3 = D_8082B030[arg2];
         ptr4 = D_8082B048[arg2];
 
-        for (phi_t3 = 0; phi_t3 < arg3; phi_t3++, phi_t1 += 4) {
-            vtx[phi_t1 + 2].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] = ptr1[phi_t3];
+        for (j = 0; j < arg3; j++, bufI += 4) {
+            vtx[bufI + 2].v.ob[0] = vtx[bufI + 0].v.ob[0] = ptr1[j];
 
-            vtx[phi_t1 + 1].v.ob[0] = vtx[phi_t1 + 3].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] + ptr2[phi_t3];
+            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + ptr2[j];
 
             if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
-                vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = ptr3[phi_t3] + pauseCtx->offsetY;
+                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = ptr3[j] + pauseCtx->offsetY;
             } else {
-                vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = YREG(60 + phi_t3) + pauseCtx->offsetY;
+                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = YREG(60 + j) + pauseCtx->offsetY;
             }
 
-            vtx[phi_t1 + 2].v.ob[1] = vtx[phi_t1 + 3].v.ob[1] = vtx[phi_t1 + 0].v.ob[1] - ptr4[phi_t3];
+            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - ptr4[j];
 
-            vtx[phi_t1 + 0].v.ob[2] = vtx[phi_t1 + 1].v.ob[2] = vtx[phi_t1 + 2].v.ob[2] = vtx[phi_t1 + 3].v.ob[2] = 0;
+            vtx[bufI + 0].v.ob[2] = vtx[bufI + 1].v.ob[2] = vtx[bufI + 2].v.ob[2] = vtx[bufI + 3].v.ob[2] = 0;
 
-            vtx[phi_t1 + 0].v.flag = vtx[phi_t1 + 1].v.flag = vtx[phi_t1 + 2].v.flag = vtx[phi_t1 + 3].v.flag = 0;
+            vtx[bufI + 0].v.flag = vtx[bufI + 1].v.flag = vtx[bufI + 2].v.flag = vtx[bufI + 3].v.flag = 0;
 
-            vtx[phi_t1 + 0].v.tc[0] = vtx[phi_t1 + 0].v.tc[1] = vtx[phi_t1 + 1].v.tc[1] = vtx[phi_t1 + 2].v.tc[0] = 0;
+            vtx[bufI + 0].v.tc[0] = vtx[bufI + 0].v.tc[1] = vtx[bufI + 1].v.tc[1] = vtx[bufI + 2].v.tc[0] = 0;
 
-            vtx[phi_t1 + 1].v.tc[0] = vtx[phi_t1 + 3].v.tc[0] = ptr2[phi_t3] << 5;
+            vtx[bufI + 1].v.tc[0] = vtx[bufI + 3].v.tc[0] = ptr2[j] << 5;
 
-            vtx[phi_t1 + 2].v.tc[1] = vtx[phi_t1 + 3].v.tc[1] = ptr4[phi_t3] << 5;
+            vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = ptr4[j] << 5;
 
-            vtx[phi_t1 + 0].v.cn[0] = vtx[phi_t1 + 2].v.cn[0] = vtx[phi_t1 + 0].v.cn[1] = vtx[phi_t1 + 2].v.cn[1] =
-                vtx[phi_t1 + 0].v.cn[2] = vtx[phi_t1 + 2].v.cn[2] = vtx[phi_t1 + 1].v.cn[0] = vtx[phi_t1 + 3].v.cn[0] =
-                    vtx[phi_t1 + 1].v.cn[1] = vtx[phi_t1 + 3].v.cn[1] = vtx[phi_t1 + 1].v.cn[2] =
-                        vtx[phi_t1 + 3].v.cn[2] = 255;
+            vtx[bufI + 0].v.cn[0] = vtx[bufI + 2].v.cn[0] = vtx[bufI + 0].v.cn[1] = vtx[bufI + 2].v.cn[1] =
+                vtx[bufI + 0].v.cn[2] = vtx[bufI + 2].v.cn[2] = vtx[bufI + 1].v.cn[0] = vtx[bufI + 3].v.cn[0] =
+                    vtx[bufI + 1].v.cn[1] = vtx[bufI + 3].v.cn[1] = vtx[bufI + 1].v.cn[2] = vtx[bufI + 3].v.cn[2] = 255;
 
-            vtx[phi_t1 + 0].v.cn[3] = vtx[phi_t1 + 2].v.cn[3] = vtx[phi_t1 + 1].v.cn[3] = vtx[phi_t1 + 3].v.cn[3] =
+            vtx[bufI + 0].v.cn[3] = vtx[bufI + 2].v.cn[3] = vtx[bufI + 1].v.cn[3] = vtx[bufI + 3].v.cn[3] =
                 pauseCtx->alpha;
         }
 
         if (arg2 == 4) {
-            phi_t1 -= 12;
+            bufI -= 12;
 
-            phi_t3 = gSaveContext.worldMapArea;
+            j = gSaveContext.worldMapArea;
 
-            vtx[phi_t1 + 0].v.ob[0] = vtx[phi_t1 + 2].v.ob[0] = D_8082B060[phi_t3];
+            vtx[bufI + 0].v.ob[0] = vtx[bufI + 2].v.ob[0] = D_8082B060[j];
 
-            if (phi_t3) {}
+            if (j) {}
 
-            vtx[phi_t1 + 1].v.ob[0] = vtx[phi_t1 + 3].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] + D_8082B08C[phi_t3];
+            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + D_8082B08C[j];
 
-            vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = D_8082B0B8[phi_t3] + pauseCtx->offsetY;
+            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = D_8082B0B8[j] + pauseCtx->offsetY;
 
-            vtx[phi_t1 + 2].v.ob[1] = vtx[phi_t1 + 3].v.ob[1] = vtx[phi_t1 + 0].v.ob[1] - D_8082B0E4[phi_t3];
+            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - D_8082B0E4[j];
 
-            phi_t1 += 12;
+            bufI += 12;
 
             if (pauseCtx->tradeQuestLocation != 0xFF) {
                 if (D_8082B114 == 0) {
@@ -1941,40 +2319,37 @@ s16 func_80823A0C(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) {
                     D_8082B114--;
                 }
 
-                phi_t3 = phi_s2 + (pauseCtx->tradeQuestLocation * 4) + 64;
-                phi_a2 = phi_s2 + 116;
+                j = bufIAfterPageSections + (pauseCtx->tradeQuestLocation * 4) + 64;
+                i = bufIAfterPageSections + 116;
 
-                vtx[phi_a2 + 0].v.ob[0] = vtx[phi_a2 + 2].v.ob[0] = vtx[phi_t3 + 0].v.ob[0];
+                vtx[i + 0].v.ob[0] = vtx[i + 2].v.ob[0] = vtx[j + 0].v.ob[0];
 
-                vtx[phi_a2 + 1].v.ob[0] = vtx[phi_a2 + 3].v.ob[0] = vtx[phi_a2 + 0].v.ob[0] + 8;
+                vtx[i + 1].v.ob[0] = vtx[i + 3].v.ob[0] = vtx[i + 0].v.ob[0] + 8;
 
-                vtx[phi_a2 + 0].v.ob[1] = vtx[phi_a2 + 1].v.ob[1] = vtx[phi_t3 + 0].v.ob[1] - D_8082B110 + 10;
+                vtx[i + 0].v.ob[1] = vtx[i + 1].v.ob[1] = vtx[j + 0].v.ob[1] - D_8082B110 + 10;
 
-                vtx[phi_a2 + 0].v.ob[2] = vtx[phi_a2 + 1].v.ob[2] = vtx[phi_a2 + 2].v.ob[2] = vtx[phi_a2 + 3].v.ob[2] =
-                    0;
+                vtx[i + 0].v.ob[2] = vtx[i + 1].v.ob[2] = vtx[i + 2].v.ob[2] = vtx[i + 3].v.ob[2] = 0;
 
-                vtx[phi_a2 + 2].v.ob[1] = vtx[phi_a2 + 3].v.ob[1] = vtx[phi_a2 + 0].v.ob[1] - 8;
+                vtx[i + 2].v.ob[1] = vtx[i + 3].v.ob[1] = vtx[i + 0].v.ob[1] - 8;
 
-                vtx[phi_a2 + 0].v.flag = vtx[phi_a2 + 1].v.flag = vtx[phi_a2 + 2].v.flag = vtx[phi_a2 + 3].v.flag = 0;
+                vtx[i + 0].v.flag = vtx[i + 1].v.flag = vtx[i + 2].v.flag = vtx[i + 3].v.flag = 0;
 
-                vtx[phi_t1].v.tc[0] = vtx[phi_t1].v.tc[1] = vtx[phi_a2 + 1].v.tc[1] = vtx[phi_a2 + 2].v.tc[0] = 0;
+                vtx[bufI].v.tc[0] = vtx[bufI].v.tc[1] = vtx[i + 1].v.tc[1] = vtx[i + 2].v.tc[0] = 0;
 
-                vtx[phi_a2 + 1].v.tc[0] = vtx[phi_a2 + 3].v.tc[0] = 0x100;
+                vtx[i + 1].v.tc[0] = vtx[i + 3].v.tc[0] = 0x100;
 
-                vtx[phi_a2 + 2].v.tc[1] = vtx[phi_a2 + 3].v.tc[1] = 0x100;
+                vtx[i + 2].v.tc[1] = vtx[i + 3].v.tc[1] = 0x100;
 
-                vtx[phi_a2 + 0].v.cn[0] = vtx[phi_a2 + 2].v.cn[0] = vtx[phi_a2 + 0].v.cn[1] = vtx[phi_a2 + 2].v.cn[1] =
-                    vtx[phi_a2 + 0].v.cn[2] = vtx[phi_a2 + 2].v.cn[2] = vtx[phi_a2 + 1].v.cn[0] =
-                        vtx[phi_a2 + 3].v.cn[0] = vtx[phi_a2 + 1].v.cn[1] = vtx[phi_a2 + 3].v.cn[1] =
-                            vtx[phi_a2 + 1].v.cn[2] = vtx[phi_a2 + 3].v.cn[2] = 255;
+                vtx[i + 0].v.cn[0] = vtx[i + 2].v.cn[0] = vtx[i + 0].v.cn[1] = vtx[i + 2].v.cn[1] = vtx[i + 0].v.cn[2] =
+                    vtx[i + 2].v.cn[2] = vtx[i + 1].v.cn[0] = vtx[i + 3].v.cn[0] = vtx[i + 1].v.cn[1] =
+                        vtx[i + 3].v.cn[1] = vtx[i + 1].v.cn[2] = vtx[i + 3].v.cn[2] = 255;
 
-                vtx[phi_a2 + 0].v.cn[3] = vtx[phi_a2 + 2].v.cn[3] = vtx[phi_a2 + 1].v.cn[3] = vtx[phi_a2 + 3].v.cn[3] =
-                    pauseCtx->alpha;
+                vtx[i + 0].v.cn[3] = vtx[i + 2].v.cn[3] = vtx[i + 1].v.cn[3] = vtx[i + 3].v.cn[3] = pauseCtx->alpha;
             }
         }
     }
 
-    return phi_t1;
+    return bufI;
 }
 
 static s16 D_8082B11C[] = { 0, 4, 8, 12, 24, 32, 56 };
@@ -1999,7 +2374,7 @@ static s16 D_8082B1F8[] = {
     48, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
 };
 
-void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
+void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 phi_t1;
     s16 phi_t2;
@@ -2015,15 +2390,15 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->offsetY = 80;
     }
 
-    pauseCtx->itemPageVtx = GRAPH_ALLOC(gfxCtx, 60 * sizeof(Vtx));
-    func_80823A0C(play, pauseCtx->itemPageVtx, 0, 0);
+    pauseCtx->itemPageVtx = GRAPH_ALLOC(gfxCtx, (PAGE_BG_QUADS * 4) * sizeof(Vtx));
+    KaleidoScope_SetPageVertices(play, pauseCtx->itemPageVtx, 0, 0);
 
-    pauseCtx->equipPageVtx = GRAPH_ALLOC(gfxCtx, 60 * sizeof(Vtx));
-    func_80823A0C(play, pauseCtx->equipPageVtx, 1, 0);
+    pauseCtx->equipPageVtx = GRAPH_ALLOC(gfxCtx, (PAGE_BG_QUADS * 4) * sizeof(Vtx));
+    KaleidoScope_SetPageVertices(play, pauseCtx->equipPageVtx, 1, 0);
 
     if (!sInDungeonScene) {
-        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, 248 * sizeof(Vtx));
-        phi_t3 = func_80823A0C(play, pauseCtx->mapPageVtx, 4, 32);
+        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + 47) * 4) * sizeof(Vtx));
+        phi_t3 = KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, 4, 32);
 
         for (phi_t2 = 0, phi_t5 = 58; phi_t2 < 15; phi_t2++, phi_t3 += 4, phi_t5 -= 9) {
             pauseCtx->mapPageVtx[phi_t3 + 2].v.ob[0] = -108;
@@ -2068,12 +2443,12 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
 
         pauseCtx->mapPageVtx[phi_t3 - 2].v.tc[1] = pauseCtx->mapPageVtx[phi_t3 - 1].v.tc[1] = 0x40;
     } else {
-        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, 128 * sizeof(Vtx));
-        func_80823A0C(play, pauseCtx->mapPageVtx, 2, 17);
+        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + 17) * 4) * sizeof(Vtx));
+        KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, 2, 17);
     }
 
-    pauseCtx->questPageVtx = GRAPH_ALLOC(gfxCtx, 60 * sizeof(Vtx));
-    func_80823A0C(play, pauseCtx->questPageVtx, 3, 0);
+    pauseCtx->questPageVtx = GRAPH_ALLOC(gfxCtx, (PAGE_BG_QUADS * 4) * sizeof(Vtx));
+    KaleidoScope_SetPageVertices(play, pauseCtx->questPageVtx, 3, 0);
 
     pauseCtx->cursorVtx = GRAPH_ALLOC(gfxCtx, 20 * sizeof(Vtx));
 
@@ -2439,8 +2814,8 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
 
     pauseCtx->infoPanelVtx = GRAPH_ALLOC(gfxCtx, 28 * sizeof(Vtx));
 
-    pauseCtx->saveVtx = GRAPH_ALLOC(gfxCtx, 80 * sizeof(Vtx));
-    func_80823A0C(play, pauseCtx->saveVtx, 5, 5);
+    pauseCtx->saveVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + 5) * 4) * sizeof(Vtx));
+    KaleidoScope_SetPageVertices(play, pauseCtx->saveVtx, 5, 5);
 }
 
 void KaleidoScope_DrawGameOver(PlayState* play) {
@@ -2510,7 +2885,7 @@ void KaleidoScope_Draw(PlayState* play) {
         KaleidoScope_SetView(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
 
         Gfx_SetupDL_42Opa(play->state.gfxCtx);
-        KaleidoScope_InitVertices(play, play->state.gfxCtx);
+        KaleidoScope_SetVertices(play, play->state.gfxCtx);
         KaleidoScope_DrawPages(play, play->state.gfxCtx);
 
         Gfx_SetupDL_42Opa(play->state.gfxCtx);
@@ -2675,7 +3050,9 @@ void KaleidoScope_UpdateCursorSize(PlayState* play) {
 
 void KaleidoScope_LoadDungeonMap(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
+#if OOT_PAL
     s32 pad;
+#endif
 
     DMA_REQUEST_SYNC(interfaceCtx->mapSegment,
                      (uintptr_t)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 0) * MAP_48x85_TEX_SIZE),
@@ -3190,6 +3567,9 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->state = PAUSE_STATE_CLOSING;
                         WREG(2) = -6240;
                         func_800F64E0(0);
+#if OOT_NTSC
+                        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
+#endif
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         pauseCtx->nextPageMode = 0;
                         pauseCtx->promptChoice = 0;
@@ -3335,6 +3715,9 @@ void KaleidoScope_Update(PlayState* play) {
                             WREG(2) = -6240;
                             YREG(8) = pauseCtx->unk_204;
                             func_800F64E0(0);
+#if OOT_NTSC
+                            AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
+#endif
                         } else {
                             Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -3356,6 +3739,9 @@ void KaleidoScope_Update(PlayState* play) {
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
+#if OOT_NTSC
+                        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
+#endif
                     }
                     break;
 

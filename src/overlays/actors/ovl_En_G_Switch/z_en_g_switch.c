@@ -14,7 +14,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum GSwitchMoveState {
     /* 0 */ MOVE_TARGET,
     /* 1 */ MOVE_HOME
 } GSwitchMoveState;
@@ -82,8 +82,8 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
 
     if (play) {}
 
-    this->type = (this->actor.params >> 0xC) & 0xF;
-    this->switchFlag = this->actor.params & 0x3F;
+    this->type = PARAMS_GET_U(this->actor.params, 12, 4);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
     this->numEffects = EN_GSWITCH_EFFECT_COUNT;
     // "index"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
@@ -95,7 +95,9 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             // "parent switch spawn"
             PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
             sCollectedCount = 0;
-            this->silverCount = this->actor.params >> 6;
+            // Ideally the following two lines would be
+            // this->silverCount = PARAMS_GET_U(this->actor.params, 6, 6);
+            this->silverCount = PARAMS_GET_NOMASK(this->actor.params, 6);
             this->silverCount &= 0x3F;
             // "maximum number of checks"
             PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
@@ -454,15 +456,13 @@ void EnGSwitch_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnGSwitch_DrawPot(Actor* thisx, PlayState* play) {
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
     EnGSwitch* this = (EnGSwitch*)thisx;
 
     if (!this->broken) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 918);
 
-        if (1) {}
-
-        Gfx_SetupDL_25Opa(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play2->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_g_switch.c", 925),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, object_tsubo_DL_0017C0);
@@ -475,10 +475,9 @@ static void* sRupeeTextures[] = {
 };
 
 void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
     EnGSwitch* this = (EnGSwitch*)thisx;
 
-    if (1) {}
     if (!this->broken) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 951);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -490,7 +489,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
     if (this->type == ENGSWITCH_TARGET_RUPEE) {
-        EnGSwitch_DrawEffects(this, play);
+        EnGSwitch_DrawEffects(this, play2);
     }
 }
 

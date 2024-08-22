@@ -9,6 +9,7 @@ extern Mtx D_01000000;
 extern u32 osTvType;
 extern u32 osRomBase;
 extern u32 osResetType;
+extern u32 osCicId;
 extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 
@@ -19,6 +20,7 @@ extern u32 gViConfigFeatures;
 extern f32 gViConfigXScale;
 extern f32 gViConfigYScale;
 extern OSPiHandle* gCartHandle;
+extern s32 gCurrentRegion;
 extern u32 __osPiAccessQueueEnabled;
 extern OSViMode osViModePalLan1;
 extern s32 osViClock;
@@ -169,7 +171,7 @@ extern s16 gOcarinaSongItemMap[];
 extern u8 gSoundFontTable[];
 extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
-extern u8 gSampleBankTable[];
+extern AudioTable gSampleBankTable;
 
 extern SaveContext gSaveContext;
 

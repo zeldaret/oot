@@ -39,7 +39,7 @@ typedef struct EnDodongo {
     /* 0x05A8 */ ColliderJntSphElement sphElements[6];
 } EnDodongo; // size = 0x0728
 
-typedef enum {
+typedef enum EnDodongoParam {
     EN_DODONGO_NORMAL = -1,
     EN_DODONGO_SMOKE_DEATH
 } EnDodongoParam;

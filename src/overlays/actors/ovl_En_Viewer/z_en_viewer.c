@@ -95,7 +95,7 @@ void EnViewer_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnViewer_SetupAction(this, EnViewer_InitImpl);
     sHorseSfxPlayed = false;
-    type = this->actor.params >> 8;
+    type = PARAMS_GET_NOMASK(this->actor.params, 8);
     this->unused = 0;
     this->state = 0;
     this->isVisible = false;
@@ -114,7 +114,7 @@ void EnViewer_Destroy(Actor* thisx, PlayState* play) {
 
 void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, PlayState* play, void* skeletonHeaderSeg,
                                        AnimationHeader* anim) {
-    s16 type = this->actor.params >> 8;
+    s16 type = PARAMS_GET_NOMASK(this->actor.params, 8);
 
     if (type == ENVIEWER_TYPE_2_ZELDA || type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF ||
         type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF || type == ENVIEWER_TYPE_9_GANONDORF) {
@@ -142,7 +142,7 @@ void EnViewer_InitAnimHorse(EnViewer* this, PlayState* play, void* skeletonHeade
     u8 type;
 
     Skin_Init(play, &this->skin, skeletonHeaderSeg, anim);
-    type = this->actor.params >> 8;
+    type = PARAMS_GET_NOMASK(this->actor.params, 8);
     if (!(type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF ||
           type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF ||
           type == ENVIEWER_TYPE_9_GANONDORF)) {
@@ -166,7 +166,7 @@ static ActorShadowFunc sShadowDrawFuncs[] = {
 };
 
 void EnViewer_InitImpl(EnViewer* this, PlayState* play) {
-    EnViewerInitData* initData = &sInitData[this->actor.params >> 8];
+    EnViewerInitData* initData = &sInitData[PARAMS_GET_NOMASK(this->actor.params, 8)];
     s32 skelObjectSlot = Object_GetSlot(&play->objectCtx, initData->skeletonObject);
 
     ASSERT(skelObjectSlot >= 0, "bank_ID >= 0", "../z_en_viewer.c", 576);
@@ -194,7 +194,7 @@ void EnViewer_InitImpl(EnViewer* this, PlayState* play) {
 static s16 sTimer = 0;
 
 void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
-    u8 type = this->actor.params >> 8;
+    u8 type = PARAMS_GET_NOMASK(this->actor.params, 8);
     u16 csCurFrame;
     s32 animationEnded;
 
@@ -534,7 +534,7 @@ void EnViewer_DrawGanondorf(EnViewer* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1405);
 
-    type = this->actor.params >> 8;
+    type = PARAMS_GET_NOMASK(this->actor.params, 8);
 
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_5_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF ||
         type == ENVIEWER_TYPE_8_GANONDORF) {
@@ -704,7 +704,7 @@ void EnViewer_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_viewer.c", 1760);
     if (this->isVisible) {
-        type = this->actor.params >> 8;
+        type = PARAMS_GET_NOMASK(this->actor.params, 8);
         if (type <= ENVIEWER_TYPE_2_ZELDA) { // zelda's horse, impa and zelda
             if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL) {
                 Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -723,7 +723,7 @@ void EnViewer_UpdatePosition(EnViewer* this, PlayState* play) {
     Vec3f startPos;
     Vec3f endPos;
     f32 lerpFactor;
-    s16 type = this->actor.params >> 8;
+    s16 type = PARAMS_GET_NOMASK(this->actor.params, 8);
 
     if (type <= ENVIEWER_TYPE_2_ZELDA) { // zelda's horse, impa and zelda
         if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL &&
@@ -872,7 +872,7 @@ void EnViewer_UpdateGanondorfCape(PlayState* play, EnViewer* this) {
     Vec3f forearmModelOffset;
     Vec3f forearmWorldOffset;
 
-    if ((this->actor.params >> 8) != ENVIEWER_TYPE_5_GANONDORF) {
+    if (PARAMS_GET_NOMASK(this->actor.params, 8) != ENVIEWER_TYPE_5_GANONDORF) {
         return;
     }
 

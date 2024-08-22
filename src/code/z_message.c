@@ -2,6 +2,9 @@
 #include "message_data_static.h"
 #include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
+#include "versions.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 s16 sTextFade = false; // original name: key_off_flag ?
 
@@ -3850,7 +3853,9 @@ void Message_DrawDebugText(PlayState* play, Gfx** p) {
 void Message_Draw(PlayState* play) {
     Gfx* plusOne;
     Gfx* polyOpaP;
-
+#if OOT_VERSION < OOT_GC_US
+    s32 pad;
+#endif
 #if OOT_DEBUG
     s16 watchVar;
 #endif
@@ -3868,7 +3873,6 @@ void Message_Draw(PlayState* play) {
         Gfx_Close(polyOpaP, plusOne);
         POLY_OPA_DISP = plusOne;
     }
-    if (1) {}
 #endif
 
     plusOne = Gfx_Open(polyOpaP = POLY_OPA_DISP);
@@ -3901,6 +3905,9 @@ void Message_Update(PlayState* play) {
         0x0400, 0x0400, 0x0200, 0x0000, 0x1038, 0x0008, 0x200A, 0x088B, 0x0007, 0x0009, 0x000A, 0x107E, 0x2008, 0x2007,
         0x0015, 0x0016, 0x0017, 0x0003, 0x0000, 0x270B, 0x00C8, 0x012C, 0x012D, 0xFFDA, 0x0014, 0x0016, 0x0014, 0x0016,
     };
+#if OOT_VERSION < OOT_GC_US
+    static s32 sUnknown = 0;
+#endif
     static u8 D_80153D74 = 0;
     MessageContext* msgCtx = &play->msgCtx;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
@@ -3911,6 +3918,9 @@ void Message_Update(PlayState* play) {
     s16 averageY;
     s16 playerFocusScreenPosY;
     s16 actorFocusScreenPosY;
+#if OOT_VERSION < OOT_GC_US
+    s32 pad[2];
+#endif
 
 #if OOT_DEBUG
     if (BREG(0) != 0) {

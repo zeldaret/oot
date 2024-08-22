@@ -1,7 +1,7 @@
 #include "z_kaleido_scope.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
-typedef struct {
+typedef struct PauseMapMarkInfo {
     /* 0x00 */ void* texture;
     /* 0x04 */ u32 imageFormat;
     /* 0x08 */ u32 imageSize;
