@@ -1,5 +1,8 @@
 #include "global.h"
+#include "cic6105.h"
+#include "n64dd.h"
 #include "terminal.h"
+#include "versions.h"
 
 extern u8 _buffersSegmentEnd[];
 
@@ -11,9 +14,24 @@ u32 gSystemHeapSize = 0;
 
 PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
+#if PLATFORM_N64
+struct_8011D9B0 B_8011D9B0_unknown;
+#endif
 PadMgr gPadMgr;
+#if PLATFORM_N64
+// these bss syms entirely guessed by spimdisasm for now, may be wrong/not match
+char B_8011DBD4_unknown[0x2AA];
+u8 B_8011DE7E_unknown;
+s8 B_8011DE7F_unknown;
+s8 B_8011DE80_unknown;
+char B_8011DE81_unknown[0x1AF];
+char B_8011E030_unknown[0x4];
+char B_8011E034_unknown[0x4];
+#endif
 IrqMgr gIrqMgr;
+#if PLATFORM_GC
 uintptr_t gSegments[NUM_SEGMENTS];
+#endif
 OSThread sGraphThread;
 STACK(sGraphStack, 0x1800);
 STACK(sSchedStack, 0x600);
@@ -25,6 +43,9 @@ StackEntry sSchedStackInfo;
 StackEntry sAudioStackInfo;
 StackEntry sPadMgrStackInfo;
 StackEntry sIrqMgrStackInfo;
+#if PLATFORM_N64
+uintptr_t gSegments[NUM_SEGMENTS];
+#endif
 AudioMgr gAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
@@ -52,8 +73,20 @@ void Main(void* arg) {
     gAppNmiBufferPtr = (PreNmiBuff*)osAppNMIBuffer;
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
+#if PLATFORM_N64
+    func_800ADA80();
+    if ((u8)B_80121AE1 != 0) {
+        systemHeapStart = (uintptr_t)&D_801E8090;
+        SysCfb_Init(1);
+    } else {
+        func_800ADAF8();
+        systemHeapStart = (uintptr_t)_buffersSegmentEnd; // D_801C7720_unknown
+        SysCfb_Init(0);
+    }
+#else
     SysCfb_Init(0);
     systemHeapStart = (uintptr_t)_buffersSegmentEnd;
+#endif
     fb = (uintptr_t)SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - systemHeapStart;
     // "System heap initalization"
@@ -97,6 +130,11 @@ void Main(void* arg) {
     StackCheck_Init(&sSchedStackInfo, sSchedStack, STACK_TOP(sSchedStack), 0, 0x100, "sched");
     Sched_Init(&gScheduler, STACK_TOP(sSchedStack), THREAD_PRI_SCHED, gViConfigModeType, 1, &gIrqMgr);
 
+#if PLATFORM_N64
+    func_800015E8_unknown_ciccinit();
+    func_80001640_unknown();
+#endif
+
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQueue);
 
     StackCheck_Init(&sAudioStackInfo, sAudioStack, STACK_TOP(sAudioStack), 0, 0x100, "audio");
@@ -117,6 +155,7 @@ void Main(void* arg) {
 
         osRecvMesg(&irqMgrMsgQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
         if (msg == NULL) {
+            if (1) {}
             break;
         }
         if (*msg == OS_SC_PRE_NMI_MSG) {
@@ -128,5 +167,8 @@ void Main(void* arg) {
     PRINTF("mainproc 後始末\n"); // "Cleanup"
     osDestroyThread(&sGraphThread);
     RcpUtils_Reset();
+#if PLATFORM_N64
+    func_8000161C_unknown_ciccdeinit();
+#endif
     PRINTF("mainproc 実行終了\n"); // "End of execution"
 }

@@ -16,6 +16,10 @@ D_06000000 = 0x06000000;
 func_80001720 = 0x80001720;
 osInitialize = 0x80003230;
 
+// cic6105.c
+func_800AE258_unknown = 0x800AE258;
+func_800AE1E0_unknown = 0x800AE1E0;
+
 // code_n64dd_800AD410.c
 func_800ADCD8_unknown = 0x800ADCD8;
 func_800AE170_unknown = 0x800AE170;
