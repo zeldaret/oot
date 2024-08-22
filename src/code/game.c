@@ -1,4 +1,5 @@
 #include "global.h"
+#include "__osMalloc.h"
 #if OOT_DEBUG
 #include "fault.h"
 #endif

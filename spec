@@ -578,7 +578,11 @@ beginseg
     include "$(BUILD_DIR)/src/code/fp.o"
     include "$(BUILD_DIR)/src/code/system_malloc.o"
     include "$(BUILD_DIR)/src/code/rand.o"
-    include "$(BUILD_DIR)/src/code/__osMalloc.o"
+#if OSMALLOC_VERSION == OSMALLOC_N64
+    include "$(BUILD_DIR)/src/code/__osMalloc_n64.o"
+#else
+    include "$(BUILD_DIR)/src/code/__osMalloc_gc.o"
+#endif
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/boot/sprintf.o"
 #endif

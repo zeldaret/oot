@@ -18,6 +18,7 @@
 
 #define FAULT_N64 1 // in OoT N64
 #define FAULT_GC 2  // in OoT GC
+
 #if PLATFORM_N64
 #define FAULT_VERSION FAULT_N64
 #else
@@ -30,6 +31,15 @@
 #define RAND_VERSION RAND_N64
 #else
 #define RAND_VERSION RAND_GC
+#endif
+
+#define OSMALLOC_N64 1 // in OoT N64
+#define OSMALLOC_GC 2  // in OoT GC
+
+#if PLATFORM_N64
+#define OSMALLOC_VERSION OSMALLOC_N64
+#else
+#define OSMALLOC_VERSION OSMALLOC_GC
 #endif
 
 #endif

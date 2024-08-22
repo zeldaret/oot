@@ -1,4 +1,5 @@
 #include "global.h"
+#include "__osMalloc.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2
@@ -176,6 +177,6 @@ void SystemArena_Cleanup(void) {
     __osMallocCleanup(&gSystemArena);
 }
 
-u8 SystemArena_IsInitialized(void) {
+s32 SystemArena_IsInitialized(void) {
     return __osMallocIsInitialized(&gSystemArena);
 }
