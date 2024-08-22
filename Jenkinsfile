@@ -24,6 +24,15 @@ pipeline {
                 sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
             }
         }
+        stage('Build ntsc-1.2, check disasm metadata') {
+            steps {
+                sh 'ln -s /usr/local/etc/roms/oot-ntsc-1.2.z64 baseroms/ntsc-1.2/baserom.z64'
+                sh 'make -j setup VERSION=ntsc-1.2'
+                sh 'make -j RUN_CC_CHECK=0 VERSION=ntsc-1.2'
+                sh '.venv/bin/python3 tools/check_disasm_metadata_unksyms.py -v ntsc-1.2'
+                sh 'make clean assetclean VERSION=ntsc-1.2'
+            }
+        }
         // The ROMs are built in an order that maximizes compiler flags coverage in a "fail fast" approach.
         // Specifically we start with a retail ROM for BSS ordering, and make sure we cover all of
         // NTSC/PAL/MQ/DEBUG as quickly as possible.
