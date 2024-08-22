@@ -25,6 +25,7 @@ extern u8 gAreaGsFlags[];
 #define CHECK_AGE_REQ_ITEM(item) \
     ((gItemAgeReqs[item] == AGE_REQ_NONE) || (gItemAgeReqs[item] == ((void)0, gSaveContext.save.linkAge)))
 
+// Each page's background is made of a 3x5 grid of quads
 #define PAGE_BG_COLS 3
 #define PAGE_BG_ROWS 5
 #define PAGE_BG_QUADS (PAGE_BG_COLS * PAGE_BG_ROWS)
