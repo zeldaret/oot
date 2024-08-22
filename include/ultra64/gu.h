@@ -5,6 +5,9 @@
 
 #define GU_PI 3.1415926
 
+#define FTOFIX32(x) (s32)((x) * (f32)0x00010000)
+#define FIX32TOF(x) ((f32)(x) * (1.0f / (f32)0x00010000))
+
 #define ROUND(x) (s32)(((x) >= 0.0) ? ((x) + 0.5) : ((x) - 0.5))
 
 typedef union du {

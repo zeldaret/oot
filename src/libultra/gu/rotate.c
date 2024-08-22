@@ -8,9 +8,11 @@ void guRotateF(f32 m[4][4], f32 a, f32 x, f32 y, f32 z) {
     f32 bc;
     f32 ca;
     f32 t;
+#if !PLATFORM_N64
     f32 xs;
     f32 ys;
     f32 zs;
+#endif
 
     guNormalize(&x, &y, &z);
 
@@ -25,9 +27,15 @@ void guRotateF(f32 m[4][4], f32 a, f32 x, f32 y, f32 z) {
 
     guMtxIdentF(m);
 
+#if PLATFORM_N64
+#define xs (x * sine)
+#define ys (y * sine)
+#define zs (z * sine)
+#else
     xs = x * sine;
     ys = y * sine;
     zs = z * sine;
+#endif
 
     t = x * x;
     m[0][0] = (1 - t) * cosine + t;
@@ -47,5 +55,6 @@ void guRotate(Mtx* m, f32 a, f32 x, f32 y, f32 z) {
     f32 mf[4][4];
 
     guRotateF(mf, a, x, y, z);
-    guMtxF2L((MtxF*)mf, m);
+
+    guMtxF2L(mf, m);
 }

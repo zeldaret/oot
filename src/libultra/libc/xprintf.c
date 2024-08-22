@@ -40,7 +40,7 @@
 char spaces[] = "                                ";
 char zeroes[] = "00000000000000000000000000000000";
 
-void _Putfld(_Pft*, va_list*, char, char*);
+static void _Putfld(_Pft*, va_list*, char, char*);
 
 int _Printf(PrintCallback pfn, void* arg, const char* fmt, va_list ap) {
     _Pft x;
@@ -121,7 +121,7 @@ int _Printf(PrintCallback pfn, void* arg, const char* fmt, va_list ap) {
     }
 }
 
-void _Putfld(_Pft* px, va_list* pap, char code, char* ac) {
+static void _Putfld(_Pft* px, va_list* pap, char code, char* ac) {
     px->n0 = px->nz0 = px->n1 = px->nz1 = px->n2 = px->nz2 = 0;
 
     switch (code) {

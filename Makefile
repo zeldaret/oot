@@ -429,6 +429,9 @@ ifeq ($(PLATFORM),N64)
 $(BUILD_DIR)/src/code/z_rumble.o: CFLAGS += -DNO_SQRTF_INTRINSIC
 endif
 
+$(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
+$(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
+
 ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 else
@@ -448,27 +451,56 @@ endif
 $(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
 $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
+$(BUILD_DIR)/src/libultra/%.o: CC := $(CC_OLD)
+
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: MIPS_VERSION := -mips3 -32
 
+ifeq ($(PLATFORM),N64)
+$(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O3
+$(BUILD_DIR)/src/libultra/io/%.o: OPTFLAGS := -O1
+$(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O3
 $(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O1
+
+$(BUILD_DIR)/src/libultra/io/aisetfreq.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/cartrominit.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/contpfs.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/contramread.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/contramwrite.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/contreaddata.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/crc.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/devmgr.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/epiread.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/epiwrite.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/epirawdma.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/epirawread.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/epirawwrite.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/motor.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/pfsselectbank.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/pimgr.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/pirawdma.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/sirawdma.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/sirawread.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/sirawwrite.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/sprawdma.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/vimgr.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/visetspecial.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/io/viswapcontext.o: OPTFLAGS := -O2
+
+$(BUILD_DIR)/src/libultra/gu/lookat.o: CFLAGS += -DNO_SQRTF_INTRINSIC
+$(BUILD_DIR)/src/libultra/gu/lookathil.o: CFLAGS += -DNO_SQRTF_INTRINSIC
+$(BUILD_DIR)/src/libultra/gu/normalize.o: CFLAGS += -DNO_SQRTF_INTRINSIC
+else
+$(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/io/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/libultra/rmon/%.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O1
+endif
 
 $(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
-
-$(BUILD_DIR)/src/libultra/gu/%.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/libultra/io/%.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/libultra/libc/%.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/libultra/os/%.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/libultra/rmon/%.o: CC := $(CC_OLD)
-
-$(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
-$(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
 # For using asm_processor on some files:
 #$(BUILD_DIR)/.../%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
