@@ -1,8 +1,10 @@
 #include "global.h"
-#include "cic6105.h"
-#include "n64dd.h"
 #include "terminal.h"
 #include "versions.h"
+#if PLATFORM_N64
+#include "cic6105.h"
+#include "n64dd.h"
+#endif
 
 extern u8 _buffersSegmentEnd[];
 
@@ -18,20 +20,8 @@ Scheduler gScheduler;
 struct_8011D9B0 B_8011D9B0_unknown;
 #endif
 PadMgr gPadMgr;
-#if PLATFORM_N64
-// these bss syms entirely guessed by spimdisasm for now, may be wrong/not match
-char B_8011DBD4_unknown[0x2AA];
-u8 B_8011DE7E_unknown;
-s8 B_8011DE7F_unknown;
-s8 B_8011DE80_unknown;
-char B_8011DE81_unknown[0x1AF];
-char B_8011E030_unknown[0x4];
-char B_8011E034_unknown[0x4];
-#endif
 IrqMgr gIrqMgr;
-#if PLATFORM_GC
 uintptr_t gSegments[NUM_SEGMENTS];
-#endif
 OSThread sGraphThread;
 STACK(sGraphStack, 0x1800);
 STACK(sSchedStack, 0x600);
@@ -43,9 +33,6 @@ StackEntry sSchedStackInfo;
 StackEntry sAudioStackInfo;
 StackEntry sPadMgrStackInfo;
 StackEntry sIrqMgrStackInfo;
-#if PLATFORM_N64
-uintptr_t gSegments[NUM_SEGMENTS];
-#endif
 AudioMgr gAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
@@ -155,14 +142,13 @@ void Main(void* arg) {
 
         osRecvMesg(&irqMgrMsgQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
         if (msg == NULL) {
-#if PLATFORM_N64
-            if (1) {}
-#endif
             break;
         }
-        if (*msg == OS_SC_PRE_NMI_MSG) {
-            PRINTF("main.c: リセットされたみたいだよ\n"); // "Looks like it's been reset"
-            PreNmiBuff_SetReset(gAppNmiBufferPtr);
+        switch (*msg) {
+            case OS_SC_PRE_NMI_MSG:
+                PRINTF("main.c: リセットされたみたいだよ\n"); // "Looks like it's been reset"
+                PreNmiBuff_SetReset(gAppNmiBufferPtr);
+                break;
         }
     }
 

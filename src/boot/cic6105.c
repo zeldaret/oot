@@ -9,7 +9,7 @@ void func_800AE258_unknown(const char*, ...);
 
 s32 func_80001714(void);
 
-struct struct_800067C0 D_800067C0_unknown = {
+struct_800067C0 D_800067C0_unknown = {
     0x00000004,
     0x00000000,
     rspbootTextStart,
