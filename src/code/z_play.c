@@ -434,7 +434,7 @@ void Play_Init(GameState* thisx) {
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
     // Busyloop until the room loads
-    while (!Room_HandleLoadCallbacks(this, &this->roomCtx)) {
+    while (!Room_ProcessNewRoomRequest(this, &this->roomCtx)) {
         ; // Empty Loop
     }
 
@@ -918,7 +918,7 @@ void Play_Update(PlayState* this) {
                     }
                 } else {
                     PLAY_LOG(3606);
-                    Room_HandleLoadCallbacks(this, &this->roomCtx);
+                    Room_ProcessNewRoomRequest(this, &this->roomCtx);
 
                     PLAY_LOG(3612);
                     CollisionCheck_AT(this, &this->colChkCtx);
@@ -1497,7 +1497,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
 
     Play_InitScene(this, spawn);
 
-    size = Room_AllocateAndLoad(this, &this->roomCtx);
+    size = Room_SetupFirstRoom(this, &this->roomCtx);
 
     PRINTF("ROOM SIZE=%fK\n", size / 1024.0f);
 }

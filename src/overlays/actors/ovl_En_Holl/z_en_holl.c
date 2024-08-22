@@ -198,12 +198,12 @@ void EnHoll_HorizontalVisibleNarrow(EnHoll* this, PlayState* play) {
             if (play->roomCtx.prevRoom.num >= 0 && play->roomCtx.status == 0) {
                 this->actor.room = play->transitionActors.list[transitionActorIndex].sides[this->side].room;
                 EnHoll_SwapRooms(play);
-                Room_LeavePrevRoom(play, &play->roomCtx);
+                Room_ExitPreviousRoom(play, &play->roomCtx);
             }
         } else {
             this->actor.room = play->transitionActors.list[transitionActorIndex].sides[this->side ^ 1].room;
             if (play->roomCtx.prevRoom.num < 0) {
-                Room_StartRoomTransition(play, &play->roomCtx, this->actor.room);
+                Room_LoadNewRoom(play, &play->roomCtx, this->actor.room);
             } else {
                 this->planeAlpha =
                     (255.0f / (sHorizontalVisibleNarrowTriggerDists[triggerDistsIndex][2] -
@@ -246,7 +246,7 @@ void EnHoll_HorizontalInvisible(EnHoll* this, PlayState* play) {
         if (isKokiriLayer8) {}
         if (this->actor.room != play->roomCtx.curRoom.num) {
             if (room) {}
-            if (Room_StartRoomTransition(play, &play->roomCtx, this->actor.room)) {
+            if (Room_LoadNewRoom(play, &play->roomCtx, this->actor.room)) {
                 EnHoll_SetupAction(this, EnHoll_WaitRoomLoaded);
             }
         }
@@ -277,7 +277,7 @@ void EnHoll_VerticalDownBgCoverLarge(EnHoll* this, PlayState* play) {
             Math_SmoothStepToF(&player->actor.world.pos.x, this->actor.world.pos.x, 1.0f, 50.0f, 10.0f);
             Math_SmoothStepToF(&player->actor.world.pos.z, this->actor.world.pos.z, 1.0f, 50.0f, 10.0f);
             if (this->actor.room != play->roomCtx.curRoom.num &&
-                Room_StartRoomTransition(play, &play->roomCtx, this->actor.room)) {
+                Room_LoadNewRoom(play, &play->roomCtx, this->actor.room)) {
                 EnHoll_SetupAction(this, EnHoll_WaitRoomLoaded);
                 this->resetBgCoverAlpha = true;
                 player->actor.speed = 0.0f;
@@ -310,7 +310,7 @@ void EnHoll_VerticalBgCover(EnHoll* this, PlayState* play) {
 
             this->actor.room = play->transitionActors.list[transitionActorIndex].sides[side].room;
             if (this->actor.room != play->roomCtx.curRoom.num &&
-                Room_StartRoomTransition(play, &play->roomCtx, this->actor.room)) {
+                Room_LoadNewRoom(play, &play->roomCtx, this->actor.room)) {
                 EnHoll_SetupAction(this, EnHoll_WaitRoomLoaded);
                 this->resetBgCoverAlpha = true;
             }
@@ -336,7 +336,7 @@ void EnHoll_VerticalInvisible(EnHoll* this, PlayState* play) {
             side = (this->actor.yDistToPlayer > 0.0f) ? 0 : 1;
             this->actor.room = play->transitionActors.list[transitionActorIndex].sides[side].room;
             if (this->actor.room != play->roomCtx.curRoom.num &&
-                Room_StartRoomTransition(play, &play->roomCtx, this->actor.room)) {
+                Room_LoadNewRoom(play, &play->roomCtx, this->actor.room)) {
                 EnHoll_SetupAction(this, EnHoll_WaitRoomLoaded);
             }
         }
@@ -377,7 +377,7 @@ void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play) {
 
                 this->actor.room = play->transitionActors.list[transitionActorIndex].sides[side].room;
                 if (this->actor.room != play->roomCtx.curRoom.num &&
-                    Room_StartRoomTransition(play, &play->roomCtx, this->actor.room)) {
+                    Room_LoadNewRoom(play, &play->roomCtx, this->actor.room)) {
                     EnHoll_SetupAction(this, EnHoll_WaitRoomLoaded);
                 }
             }
@@ -392,7 +392,7 @@ void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play) {
 
 void EnHoll_WaitRoomLoaded(EnHoll* this, PlayState* play) {
     if (!EnHoll_IsKokiriLayer8() && play->roomCtx.status == 0) {
-        Room_LeavePrevRoom(play, &play->roomCtx);
+        Room_ExitPreviousRoom(play, &play->roomCtx);
         if (play->bgCoverAlpha == 0) {
             this->resetBgCoverAlpha = false;
         }

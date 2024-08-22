@@ -3003,7 +3003,7 @@ void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx) {
     s32 i;
 
     transitionActor = play->transitionActors.list;
-    numActors = play->transitionActors.num;
+    numActors = play->transitionActors.count;
 
     for (i = 0; i < numActors; i++) {
         if (transitionActor->id >= 0) {
@@ -3018,7 +3018,7 @@ void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx) {
                             (i << TRANSITION_ACTOR_PARAMS_INDEX_SHIFT) + transitionActor->params);
 
                 transitionActor->id = -transitionActor->id;
-                numActors = play->transitionActors.num;
+                numActors = play->transitionActors.count;
             }
         }
         transitionActor++;

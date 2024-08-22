@@ -5103,7 +5103,7 @@ s32 Player_ActionChange_1(Player* this, PlayState* play) {
                                 .room;
 
                 if ((frontRoom >= 0) && (frontRoom != play->roomCtx.curRoom.num)) {
-                    Room_StartRoomTransition(play, &play->roomCtx, frontRoom);
+                    Room_LoadNewRoom(play, &play->roomCtx, frontRoom);
                 }
             }
 
@@ -9701,7 +9701,7 @@ void Player_Action_80845EF8(Player* this, PlayState* play) {
         } else {
             func_8083C0E8(this, play);
             if (play->roomCtx.prevRoom.num >= 0) {
-                Room_LeavePrevRoom(play, &play->roomCtx);
+                Room_ExitPreviousRoom(play, &play->roomCtx);
             }
             Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
             Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0xDFF);

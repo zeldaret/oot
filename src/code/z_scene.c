@@ -231,7 +231,7 @@ BAD_RETURN(s32) Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
 }
 
 BAD_RETURN(s32) Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
-    play->roomList.num = cmd->roomList.length;
+    play->roomList.count = cmd->roomList.length;
     play->roomList.romFiles = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
 }
 
@@ -328,12 +328,12 @@ BAD_RETURN(s32) Scene_CommandPathList(PlayState* play, SceneCmd* cmd) {
 }
 
 BAD_RETURN(s32) Scene_CommandTransitionActorEntryList(PlayState* play, SceneCmd* cmd) {
-    play->transitionActors.num = cmd->transiActorList.length;
+    play->transitionActors.count = cmd->transiActorList.length;
     play->transitionActors.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.data);
 }
 
 void Scene_ResetTransitionActorList(GameState* state, TransitionActorList* transitionActors) {
-    transitionActors->num = 0;
+    transitionActors->count = 0;
 }
 
 BAD_RETURN(s32) Scene_CommandLightSettingsList(PlayState* play, SceneCmd* cmd) {

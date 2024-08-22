@@ -530,7 +530,12 @@ void Room_Init(PlayState* play, Room* room) {
     room->segment = NULL;
 }
 
-u32 Room_AllocateAndLoad(PlayState* play, RoomContext* roomCtx) {
+/**
+ * @brief Allocates memory for rooms and fetches the first room that the player will spawn into.
+ *
+ * @return u32 size of the buffer reserved for room data
+ */
+u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
     u32 roomBufferSize = 0;
     u32 roomSize;
     s32 i;
@@ -546,7 +551,7 @@ u32 Room_AllocateAndLoad(PlayState* play, RoomContext* roomCtx) {
     {
         RomFile* roomList = play->roomList.romFiles;
 
-        for (i = 0; i < play->roomList.num; i++) {
+        for (i = 0; i < play->roomList.count; i++) {
             roomSize = roomList[i].vromEnd - roomList[i].vromStart;
             PRINTF("ROOM%d size=%d\n", i, roomSize);
             if (roomBufferSize < roomSize) {
@@ -556,13 +561,13 @@ u32 Room_AllocateAndLoad(PlayState* play, RoomContext* roomCtx) {
     }
 
     // If there any rooms are connected, find their combined size and update roomBufferSize if larger
-    if ((u32)play->transitionActors.num != 0) {
+    if ((u32)play->transitionActors.count != 0) {
         RomFile* roomList = play->roomList.romFiles;
         TransitionActorEntry* transitionActor = &play->transitionActors.list[0];
 
-        LOG_NUM("game_play->room_rom_address.num", play->roomList.num, "../z_room.c", 912);
+        LOG_NUM("game_play->room_rom_address.num", play->roomList.count, "../z_room.c", 912);
 
-        for (j = 0; j < play->transitionActors.num; j++) {
+        for (j = 0; j < play->transitionActors.count; j++) {
             frontRoom = transitionActor->sides[0].room;
             backRoom = transitionActor->sides[1].room;
             frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
@@ -595,14 +600,30 @@ u32 Room_AllocateAndLoad(PlayState* play, RoomContext* roomCtx) {
                                              : play->spawnList[play->spawn].room;
 
     // Load into a room for the first time
-    //! Since curRoom was initialized to null in Play_InitScene, the previous room will be null and Room_LeavePrevRoom
-    //! doesn't need to be called to complete the transition.
-    Room_StartRoomTransition(play, roomCtx, frontRoom);
+    //! Since curRoom was initialized to (room -1, segment NULL) in Play_InitScene, the previous room will be reset to
+    //! the nulled state when this function completes
+    Room_LoadNewRoom(play, roomCtx, frontRoom);
 
     return roomBufferSize;
 }
 
-s32 Room_StartRoomTransition(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
+/**
+ * Tries to create an asyncronous request to transfer room data into memory.
+ * If successful, the requested room will be loaded into memory and becomes the new current room; the room that was
+ * current before becomes the previous room.
+ *
+ * Room_LoadNewRoom will be blocked from loading new rooms until Room_ProcessNewRoomRequest completes room
+ * initialization.
+ *
+ * Calling Room_LoadNewRoom outside of Room_SetupFirstRoom will allow for two rooms being initialized simultaneously.
+ * This lets an actor control how the transition between the two rooms is handled. Calling Room_ExitPreviousRoom
+ * afterward will finalize the room swap.
+ *
+ * @param roomNum is the id of the room to load. roomNum must NOT be the same id as curRoom.num, since this will create
+ * duplicate actor instances that cannot be cleaned up by calling Room_ExitPreviousRoom
+ * @returns bool false if the request could not be created.
+ */
+s32 Room_LoadNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
     if (roomCtx->status == 0) {
         u32 size;
 
@@ -611,7 +632,7 @@ s32 Room_StartRoomTransition(PlayState* play, RoomContext* roomCtx, s32 roomNum)
         roomCtx->curRoom.segment = NULL;
         roomCtx->status = 1;
 
-        ASSERT(roomNum < play->roomList.num, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
+        ASSERT(roomNum < play->roomList.count, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
         size = play->roomList.romFiles[roomNum].vromEnd - play->roomList.romFiles[roomNum].vromStart;
         roomCtx->roomRequestAddr = (void*)ALIGN16((uintptr_t)roomCtx->bufPtrs[roomCtx->activeBufPage] -
@@ -628,7 +649,13 @@ s32 Room_StartRoomTransition(PlayState* play, RoomContext* roomCtx, s32 roomNum)
     return false;
 }
 
-s32 Room_HandleLoadCallbacks(PlayState* play, RoomContext* roomCtx) {
+/**
+ * Completes room initialization for the requested room by calling Room_LoadNewRoom.
+ * This function does not block the thread if the room data is still being transferred.
+ *
+ * @returns bool false if a dma transfer is in progress.
+ */
+s32 Room_ProcessNewRoomRequest(PlayState* play, RoomContext* roomCtx) {
     if (roomCtx->status == 1) {
         if (osRecvMesg(&roomCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
             roomCtx->status = 0;
@@ -639,11 +666,11 @@ s32 Room_HandleLoadCallbacks(PlayState* play, RoomContext* roomCtx) {
             Player_SetBootData(play, GET_PLAYER(play));
             Actor_SpawnTransitionActors(play, &play->actorCtx);
         } else {
-            return 0;
+            return false;
         }
     }
 
-    return 1;
+    return true;
 }
 
 void Room_Draw(PlayState* play, Room* room, u32 flags) {
@@ -655,7 +682,14 @@ void Room_Draw(PlayState* play, Room* room, u32 flags) {
     }
 }
 
-void Room_LeavePrevRoom(PlayState* play, RoomContext* roomCtx) {
+/**
+ * Leaves the previous room, freeing up resources.
+ *
+ * When a new room is created with Room_LoadNewRoom, the previous room remains in memory so that the two rooms can be
+ * swapped in a seamless manner with actors like ACTOR_EN_HOLL. Room_ExitPreviousRoom completes the swap by deleting the
+ * previous room, killing all actors that do not belong to the current room.
+ */
+void Room_ExitPreviousRoom(PlayState* play, RoomContext* roomCtx) {
     roomCtx->prevRoom.num = -1;
     roomCtx->prevRoom.segment = NULL;
     func_80031B14(play, &play->actorCtx);

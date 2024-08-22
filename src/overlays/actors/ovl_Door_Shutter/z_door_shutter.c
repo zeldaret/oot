@@ -811,7 +811,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
             play->roomCtx.prevRoom = tempRoom;
             play->roomCtx.activeBufPage ^= 1;
         }
-        Room_LeavePrevRoom(play, &play->roomCtx);
+        Room_ExitPreviousRoom(play, &play->roomCtx);
         Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0x0EFF);
     }
     this->isActive = false;
