@@ -189,7 +189,6 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
         if not (
             mapfile_segment.name.startswith("..boot")
             or mapfile_segment.name.startswith("..code")
-            or mapfile_segment.name.startswith("..buffers")
             or mapfile_segment.name.startswith("..ovl_")
         ):
             continue
@@ -253,7 +252,13 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
                 if file.vram <= p.build_value < file.vram + file.size
             ]
 
-            c_file = file.filepath.relative_to(f"build/{version}").with_suffix(".c")
+            object_file = file.filepath.relative_to(f"build/{version}")
+            # Hack to handle the combined z_message_z_game_over.o file.
+            # Fortunately z_game_over has no BSS so we can just analyze z_message instead.
+            if str(object_file) == "src/code/z_message_z_game_over.o":
+                object_file = Path("src/code/z_message.o")
+
+            c_file = object_file.with_suffix(".c")
             bss_sections[c_file] = BssSection(file.vram, pointers_in_section)
 
     return bss_sections
@@ -393,7 +398,13 @@ def determine_base_bss_ordering(
                 addend_str = ""
             raise FixBssException(
                 f"Could not find BSS symbol for pointer {p.name}{addend_str} "
-                f"(base address 0x{p.base_value:08X}, build address 0x{p.build_value:08X})"
+                f"(base address 0x{p.base_value:08X}, build address 0x{p.build_value:08X}). Is the build up-to-date?"
+            )
+
+        if new_offset < 0:
+            raise FixBssException(
+                f"BSS symbol {new_symbol.name} found at negative offset in the baserom "
+                f"(-0x{-new_offset:04X}). Is the build up-to-date?"
             )
 
         if new_symbol.name in found_symbols:
@@ -401,7 +412,7 @@ def determine_base_bss_ordering(
             existing_offset = found_symbols[new_symbol.name].offset
             if new_offset != existing_offset:
                 raise FixBssException(
-                    f"BSS symbol {new_symbol.name} found at conflicting offsets in this baserom "
+                    f"BSS symbol {new_symbol.name} found at conflicting offsets in the baserom "
                     f"(0x{existing_offset:04X} and 0x{new_offset:04X}). Is the build up-to-date?"
                 )
         else:
@@ -771,11 +782,11 @@ def main():
         num_successes = sum(file_result.successful() for file_result in file_results)
         if num_successes == len(file_results):
             print()
-            print(f"Updated {num_successes}/{len(file_results)} files.")
+            print(f"Processed {num_successes}/{len(file_results)} files.")
         else:
             print()
             print(
-                f"{colorama.Fore.RED}Updated {num_successes}/{len(file_results)} files.{colorama.Fore.RESET}"
+                f"{colorama.Fore.RED}Processed {num_successes}/{len(file_results)} files.{colorama.Fore.RESET}"
             )
             sys.exit(1)
 
