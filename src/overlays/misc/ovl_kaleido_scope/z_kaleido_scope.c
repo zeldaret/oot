@@ -36,6 +36,7 @@ static void* sEquipPageBgQuadsJPNTexs[] = {
     gPauseEquipment23Tex,
     gPauseEquipment24Tex,
 };
+
 static void* sItemPageBgQuadsJPNTexs[] = {
     // column 1
     gPauseSelectItem00JPNTex,
@@ -56,6 +57,7 @@ static void* sItemPageBgQuadsJPNTexs[] = {
     gPauseSelectItem23Tex,
     gPauseSelectItem24Tex,
 };
+
 static void* sMapPageBgQuadsJPNTexs[] = {
     // column 1
     gPauseMap00Tex,
@@ -76,6 +78,7 @@ static void* sMapPageBgQuadsJPNTexs[] = {
     gPauseMap23Tex,
     gPauseMap24Tex,
 };
+
 static void* sQuestPageBgQuadsJPNTexs[] = {
     // column 1
     gPauseQuestStatus00JPNTex,
@@ -96,6 +99,7 @@ static void* sQuestPageBgQuadsJPNTexs[] = {
     gPauseQuestStatus23Tex,
     gPauseQuestStatus24Tex,
 };
+
 static void* sSavePromptBgQuadsJPNTexs[] = {
     // column 1
     gPauseSave00Tex,
@@ -141,6 +145,7 @@ static void* sEquipPageBgQuadsFRATexs[] = {
     gPauseEquipment23Tex,
     gPauseEquipment24Tex,
 };
+
 static void* sItemPageBgQuadsFRATexs[] = {
     // column 1
     gPauseSelectItem00FRATex,
@@ -161,6 +166,7 @@ static void* sItemPageBgQuadsFRATexs[] = {
     gPauseSelectItem23Tex,
     gPauseSelectItem24Tex,
 };
+
 static void* sMapPageBgQuadsFRATexs[] = {
     // column 1
     gPauseMap00Tex,
@@ -181,6 +187,7 @@ static void* sMapPageBgQuadsFRATexs[] = {
     gPauseMap23Tex,
     gPauseMap24Tex,
 };
+
 static void* sQuestPageBgQuadsFRATexs[] = {
     // column 1
     gPauseQuestStatus00Tex,
@@ -201,6 +208,7 @@ static void* sQuestPageBgQuadsFRATexs[] = {
     gPauseQuestStatus23Tex,
     gPauseQuestStatus24Tex,
 };
+
 static void* sSavePromptBgQuadsFRATexs[] = {
     // column 1
     gPauseSave00FRATex,
@@ -244,6 +252,7 @@ static void* sEquipPageBgQuadsGERTexs[] = {
     gPauseEquipment23Tex,
     gPauseEquipment24Tex,
 };
+
 static void* sItemPageBgQuadsGERTexs[] = {
     // column 1
     gPauseSelectItem00GERTex,
@@ -264,6 +273,7 @@ static void* sItemPageBgQuadsGERTexs[] = {
     gPauseSelectItem23Tex,
     gPauseSelectItem24Tex,
 };
+
 static void* sMapPageBgQuadsGERTexs[] = {
     // column 1
     gPauseMap00Tex,
@@ -284,6 +294,7 @@ static void* sMapPageBgQuadsGERTexs[] = {
     gPauseMap23Tex,
     gPauseMap24Tex,
 };
+
 static void* sQuestPageBgQuadsGERTexs[] = {
     // column 1
     gPauseQuestStatus00Tex,
@@ -304,6 +315,7 @@ static void* sQuestPageBgQuadsGERTexs[] = {
     gPauseQuestStatus23Tex,
     gPauseQuestStatus24Tex,
 };
+
 static void* sSavePromptBgQuadsGERTexs[] = {
     // column 1
     gPauseSave00Tex,
@@ -324,6 +336,7 @@ static void* sSavePromptBgQuadsGERTexs[] = {
     gPauseSave23Tex,
     gPauseSave24Tex,
 };
+
 #endif
 
 // English
@@ -348,6 +361,7 @@ static void* sEquipPageBgQuadsENGTexs[] = {
     gPauseEquipment23Tex,
     gPauseEquipment24Tex,
 };
+
 static void* sItemPageBgQuadsENGTexs[] = {
     // column 1
     gPauseSelectItem00ENGTex,
@@ -368,6 +382,7 @@ static void* sItemPageBgQuadsENGTexs[] = {
     gPauseSelectItem23Tex,
     gPauseSelectItem24Tex,
 };
+
 static void* sMapPageBgQuadsENGTexs[] = {
     // column 1
     gPauseMap00Tex,
@@ -388,6 +403,7 @@ static void* sMapPageBgQuadsENGTexs[] = {
     gPauseMap23Tex,
     gPauseMap24Tex,
 };
+
 static void* sQuestPageBgQuadsENGTexs[] = {
     // column 1
     gPauseQuestStatus00ENGTex,
@@ -408,6 +424,7 @@ static void* sQuestPageBgQuadsENGTexs[] = {
     gPauseQuestStatus23Tex,
     gPauseQuestStatus24Tex,
 };
+
 static void* sSavePromptBgQuadsENGTexs[] = {
     // column 1
     gPauseSave00Tex,
