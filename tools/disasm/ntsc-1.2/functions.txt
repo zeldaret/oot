@@ -21,7 +21,7 @@ Yaz0_DecompressImpl = 0x8000127C; // type:func
 Yaz0_Decompress = 0x800013E4; // type:func
 Locale_Init = 0x80001430; // type:func
 Locale_ResetRegion = 0x800014BC; // type:func
-func_800014D0; // type:func
+func_800014D0 = 0x800014D0; // type:func
 func_800014E8 = 0x800014E8; // type:func
 CIC6105_FaultClient = 0x800014FC; // type:func
 CIC6105_AddFaultClient = 0x800015E8; // type:func
