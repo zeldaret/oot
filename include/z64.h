@@ -540,11 +540,4 @@ typedef struct ViMode {
     /* 0x84 */ u32 unk_84;
 } ViMode; // size = 0x88
 
-typedef struct struct_8011D9B0 {
-    OSMesgQueue unk_000;
-    char unk_018[0x208];
-} struct_8011D9B0; // size = 0x220
-
-extern struct_8011D9B0 B_8011D9B0_unknown;
-
 #endif

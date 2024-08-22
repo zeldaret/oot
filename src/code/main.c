@@ -12,13 +12,10 @@ s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192"
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224"
 
 PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
-#if PLATFORM_N64
-struct_8011D9B0 B_8011D9B0_unknown;
-#endif
 PadMgr gPadMgr;
 IrqMgr gIrqMgr;
 uintptr_t gSegments[NUM_SEGMENTS];
@@ -67,7 +64,7 @@ void Main(void* arg) {
         SysCfb_Init(1);
     } else {
         func_800ADAF8();
-        systemHeapStart = (uintptr_t)_buffersSegmentEnd; // D_801C7720_unknown
+        systemHeapStart = (uintptr_t)_buffersSegmentEnd;
         SysCfb_Init(0);
     }
 #else

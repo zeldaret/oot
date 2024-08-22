@@ -2,6 +2,7 @@
 #include "cic6105.h"
 #include "fault.h"
 #include "regs.h"
+#include "variables.h"
 
 // TODO N64 fault.c functions
 void func_800AE1E0_unknown(s32, s32);
@@ -82,7 +83,7 @@ void func_80001640(void) {
     sp38.unk_54 = 0;
     sp38.unk_0C = 0;
     sp38.unk_10 = D_800067C0_unknown;
-    osSendMesg(&B_8011D9B0_unknown.unk_000, &sp38.unk_00, 1);
+    osSendMesg(&gScheduler.cmdQueue, &sp38.unk_00, 1);
     Sched_Notify(&gScheduler);
     osRecvMesg(&queue, NULL, 1);
     B_80008EF8_unknown = IO_READ(SP_DMEM_START + 0xFF4);
