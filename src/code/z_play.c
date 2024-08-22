@@ -5,7 +5,7 @@
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-eu:248 gc-eu-mq:248 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252"
+#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;

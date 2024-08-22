@@ -1,4 +1,4 @@
-#pragma increment_block_number "gc-eu:128" "gc-eu-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 #include "global.h"
 #include "terminal.h"

@@ -143,7 +143,7 @@ void Main(void* arg) {
         }
         switch (*msg) {
             case OS_SC_PRE_NMI_MSG:
-            PRINTF(T("main.c: リセットされたみたいだよ\n", "main.c: Looks like it's been reset\n"));
+                PRINTF(T("main.c: リセットされたみたいだよ\n", "main.c: Looks like it's been reset\n"));
                 PreNmiBuff_SetReset(gAppNmiBufferPtr);
                 break;
         }
