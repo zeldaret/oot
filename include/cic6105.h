@@ -33,7 +33,7 @@ typedef struct struct_80001640_sp38 {
     /* 0x58 */ char unk_58[16];
 } struct_80001640_sp38; // size = 0x68
 
-extern u32 B_80008EE0;
+extern s32 B_80008EE0;
 
 void CIC6105_AddFaultClient(void);
 void CIC6105_RemoveFaultClient(void);
