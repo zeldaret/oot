@@ -237,6 +237,9 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
         // Turn head
         case GELDB_LIMB_HEAD:
             rot->x += this->headRot.y;
+#if PLATFORM_N64
+            break;
+#else
             FALLTHROUGH;
         // This is a hack to fix the color-changing clothes this Gerudo has on N64 versions
         default:
@@ -261,6 +264,7 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
             }
             CLOSE_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 566);
             break;
+#endif
     }
     return false;
 }
