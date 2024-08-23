@@ -484,10 +484,7 @@ void func_80AEEA48_unknown(Gfx** gfxP, s16 arg1, s16 arg2, u32 arg3) {
 
         gDPPipeSync(gfx++);
         gDPSetCycleType(gfx++, G_CYC_1CYCLE);
-        // G_RM_XLU_SURF ?
-        gDPSetRenderMode(gfx++, GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA),
-                         GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA) | IM_RD | CVG_DST_FULL | ZMODE_OPA |
-                             FORCE_BL);
+        gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
         gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                           ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetPrimColor(gfx++, 0x00, 0x00, 255, 255, 255, arg3);
@@ -588,7 +585,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     if ((s16)this->mainAlpha != 0) {
         EnMag_DrawImageRGBA32(&gfx, 160 + LOGO_X_SHIFT, 100, (u8*)gTitleZeldaShieldLogoTex, 160, 160);
 #if PLATFORM_N64
-        func_80AEEA48_unknown(&gfx, 0xA0, 0x64, (u32)this->mainAlpha);
+        func_80AEEA48_unknown(&gfx, 160, 100, (u32)this->mainAlpha);
 #endif
     }
 
