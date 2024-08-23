@@ -18,14 +18,14 @@ u32 __osFinalrom;
 
 #if PLATFORM_N64
 
-#define INITIALIZE_FUNC osInitialize
+#define OSINITIALIZE_FUNC osInitialize
 #define SPEED_PARAM_FUNC createSpeedParam
 
 static void SPEED_PARAM_FUNC(void);
 
 #else
 
-#define INITIALIZE_FUNC __osInitialize_common
+#define OSINITIALIZE_FUNC __osInitialize_common
 #define SPEED_PARAM_FUNC __createSpeedParam
 
 void SPEED_PARAM_FUNC(void) {
@@ -44,7 +44,7 @@ void SPEED_PARAM_FUNC(void) {
 
 #endif
 
-void INITIALIZE_FUNC(void) {
+void OSINITIALIZE_FUNC(void) {
     u32 pifdata;
 #if PLATFORM_N64
     u32 clock = 0;
