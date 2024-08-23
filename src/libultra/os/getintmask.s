@@ -18,18 +18,9 @@
  *   are not returned here. The global interrupt mask is OS-internal and is not
  *   expected to change during runtime.
  *
- * @bug Some usage of the global interrupt mask is broken both in here and in the
- *       exception handler routines.
- *      While a thread is running, the C0_SR interrupt enable bits contain the
- *       interrupt enable bits for the current thread masked by the global
- *       interrupt mask. There is an attempt to recover only the original interrupt
- *       enable bits belonging to the thread itself using the operation
- *          (SR | ~__OSGlobalIntMask).
- *      However, this does not work as intended and can cause interrupts to
- *       appear enabled when not intended to be. The same issue is present for the
- *       RCP interrupt enable bits in MI_INTR_MASK_REG.
- *      This does not cause issues in practice as __OSGlobalIntMask is almost always
- *       OS_IM_ALL, so the operation is usually simply (SR | 0).
+ * @bug Some usage of the global interrupt mask is broken both in the
+ *       get/set interrupt mask routines and in the exception handler routines.
+ *       See the comment for osSetIntMask for more details.
  */
 LEAF(osGetIntMask)
     // Extract interrupt enable bits from current SR

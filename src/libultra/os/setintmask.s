@@ -99,8 +99,8 @@ ENDDATA(__osRcpImTable)
  *  The returned value is the previous interrupt enable mask so that it can be
  *   restored later.
  *
- * @bug Some usage of the global interrupt mask is broken both in here and in the
- *       exception handler routines.
+ * @bug Some usage of the global interrupt mask is broken both in the
+ *       get/set interrupt mask routines and in the exception handler routines.
  *      While a thread is running, the C0_SR interrupt enable bits contain the
  *       interrupt enable bits for the current thread masked by the global
  *       interrupt mask. There is an attempt to recover only the original interrupt
