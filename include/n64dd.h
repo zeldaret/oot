@@ -46,6 +46,7 @@ extern n64ddStruct_80121AF0* B_80121AF0;
 extern u8 B_80121AE0;
 extern s8 B_80121AE1;
 extern u8 B_80121AE2;
+extern vu8 B_80121AE3;
 extern vu8 B_80121AE4;
 
 extern char D_801DA410; // type ?
