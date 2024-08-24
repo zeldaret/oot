@@ -1,3 +1,6 @@
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 #include "z_kaleido_scope.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
@@ -11,6 +14,16 @@
 #endif
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "terminal.h"
+
+#if PLATFORM_N64
+#define KALEIDO_COLOR_PROMPT_UNK_R 100
+#define KALEIDO_COLOR_PROMPT_UNK_G 100
+#define KALEIDO_COLOR_PROMPT_UNK_B 255
+#else
+#define KALEIDO_COLOR_PROMPT_UNK_R 100
+#define KALEIDO_COLOR_PROMPT_UNK_G 255
+#define KALEIDO_COLOR_PROMPT_UNK_B 100
+#endif
 
 #if OOT_NTSC
 
@@ -1422,7 +1435,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0,
                               0, PRIMITIVE, 0);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 255, 100, VREG(61));
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_PROMPT_UNK_R, KALEIDO_COLOR_PROMPT_UNK_G,
+                            KALEIDO_COLOR_PROMPT_UNK_B, VREG(61));
 
             if (pauseCtx->promptChoice == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gPromptCursorLeftDL);
@@ -1439,32 +1453,36 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             POLY_OPA_DISP =
                 KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48, 16, 16);
-        } else if ((pauseCtx->state != PAUSE_STATE_SAVE_PROMPT) || (pauseCtx->unk_1EC < 4)) {
-            if ((pauseCtx->state != PAUSE_STATE_15) &&
-                ((pauseCtx->state == PAUSE_STATE_16) || (pauseCtx->state == PAUSE_STATE_17))) {
-                POLY_OPA_DISP =
-                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sContinuePromptTexs[gSaveContext.language], 152, 16, 0);
+        } else if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) && (pauseCtx->unk_1EC >= 4)) ||
+                   pauseCtx->state == PAUSE_STATE_15) {
+#if PLATFORM_N64
+            POLY_OPA_DISP =
+                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSaveConfirmationTexs[gSaveContext.language], 152, 16, 0);
+#endif
+        } else if (((pauseCtx->state == PAUSE_STATE_16) || (pauseCtx->state == PAUSE_STATE_17))) {
+            POLY_OPA_DISP =
+                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sContinuePromptTexs[gSaveContext.language], 152, 16, 0);
 
-                gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0,
-                                  TEXEL0, 0, PRIMITIVE, 0);
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 255, 100, VREG(61));
+            gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0,
+                              0, PRIMITIVE, 0);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_PROMPT_UNK_R, KALEIDO_COLOR_PROMPT_UNK_G,
+                            KALEIDO_COLOR_PROMPT_UNK_B, VREG(61));
 
-                if (pauseCtx->promptChoice == 0) {
-                    gSPDisplayList(POLY_OPA_DISP++, gPromptCursorLeftDL);
-                } else {
-                    gSPDisplayList(POLY_OPA_DISP++, gPromptCursorRightDL);
-                }
-
-                gDPPipeSync(POLY_OPA_DISP++);
-                gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
-
-                POLY_OPA_DISP =
-                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][0], 48, 16, 12);
-
-                POLY_OPA_DISP =
-                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48, 16, 16);
+            if (pauseCtx->promptChoice == 0) {
+                gSPDisplayList(POLY_OPA_DISP++, gPromptCursorLeftDL);
+            } else {
+                gSPDisplayList(POLY_OPA_DISP++, gPromptCursorRightDL);
             }
+
+            gDPPipeSync(POLY_OPA_DISP++);
+            gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
+
+            POLY_OPA_DISP =
+                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][0], 48, 16, 12);
+
+            POLY_OPA_DISP =
+                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48, 16, 16);
         }
 
         gDPPipeSync(POLY_OPA_DISP++);
@@ -3050,7 +3068,7 @@ void KaleidoScope_UpdateCursorSize(PlayState* play) {
 
 void KaleidoScope_LoadDungeonMap(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
-#if OOT_PAL
+#if PLATFORM_N64 || OOT_PAL
     s32 pad;
 #endif
 
@@ -3069,7 +3087,16 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
 
     PRINTF("ＭＡＰ ＤＭＡ = %d\n", play->interfaceCtx.mapPaletteIndex);
 
+#if PLATFORM_N64
+    if (B_80121AF0 != NULL && B_80121AF0->unk_44 != NULL && B_80121AF0->unk_44(play)) {
+
+    } else {
+        KaleidoScope_LoadDungeonMap(play);
+    }
+#else
     KaleidoScope_LoadDungeonMap(play);
+#endif
+
     Map_SetFloorPalettesData(play, pauseCtx->dungeonMapSlot - 3);
 
     if ((play->sceneId >= SCENE_DEKU_TREE) && (play->sceneId <= SCENE_TREASURE_BOX_SHOP)) {
@@ -3567,7 +3594,7 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->state = PAUSE_STATE_CLOSING;
                         WREG(2) = -6240;
                         func_800F64E0(0);
-#if OOT_NTSC
+#if PLATFORM_GC && OOT_NTSC
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
 #endif
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
@@ -3715,7 +3742,7 @@ void KaleidoScope_Update(PlayState* play) {
                             WREG(2) = -6240;
                             YREG(8) = pauseCtx->unk_204;
                             func_800F64E0(0);
-#if OOT_NTSC
+#if PLATFORM_GC && OOT_NTSC
                             AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
 #endif
                         } else {
@@ -3726,7 +3753,11 @@ void KaleidoScope_Update(PlayState* play) {
                             gSaveContext.save.info.playerData.savedSceneId = play->sceneId;
                             Sram_WriteSave(&play->sramCtx);
                             pauseCtx->unk_1EC = 4;
+#if PLATFORM_N64
+                            D_8082B25C = 90;
+#else
                             D_8082B25C = 3;
+#endif
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_START) ||
                                CHECK_BTN_ALL(input->press.button, BTN_B)) {
@@ -3739,7 +3770,7 @@ void KaleidoScope_Update(PlayState* play) {
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
-#if OOT_NTSC
+#if PLATFORM_GC && OOT_NTSC
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
 #endif
                     }
@@ -3983,7 +4014,11 @@ void KaleidoScope_Update(PlayState* play) {
                     gSaveContext.save.info.playerData.savedSceneId = play->sceneId;
                     Sram_WriteSave(&play->sramCtx);
                     pauseCtx->state = PAUSE_STATE_15;
+#if PLATFORM_N64
+                    D_8082B25C = 90;
+#else
                     D_8082B25C = 3;
+#endif
                 }
             }
             break;
