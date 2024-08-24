@@ -425,6 +425,10 @@ $(BUILD_DIR)/src/code/fault_drawer.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 
+ifeq ($(PLATFORM),N64)
+$(BUILD_DIR)/src/code/z_rumble.o: CFLAGS += -DNO_SQRTF_INTRINSIC
+endif
+
 ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 else
@@ -435,6 +439,10 @@ $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 
 # Use signed chars instead of unsigned for this audio file (needed to match AudioDebug_ScrPrt)
 $(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
+
+ifeq ($(PLATFORM),N64)
+$(BUILD_DIR)/src/audio/general.o: CFLAGS += -DNO_SQRTF_INTRINSIC
+endif
 
 # Put string literals in .data for some audio files (needed to match these files with literals)
 $(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
