@@ -2,6 +2,16 @@
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
+#if PLATFORM_N64
+#define KALEIDO_COLOR_COLLECT_UNK_R 80
+#define KALEIDO_COLOR_COLLECT_UNK_G 150
+#define KALEIDO_COLOR_COLLECT_UNK_B 255
+#else
+#define KALEIDO_COLOR_COLLECT_UNK_R 80
+#define KALEIDO_COLOR_COLLECT_UNK_G 255
+#define KALEIDO_COLOR_COLLECT_UNK_B 150
+#endif
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     static s16 D_8082A070[][4] = {
         { 255, 0, 0, 255 },
@@ -71,7 +81,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     s16 sp21A;
     s16 sp218;
     s16 sp216;
-    s16 pad1;
+    s16 phi_s7;
     s16 phi_v1;
     s16 pad2;
     s16 cursorItem;
@@ -186,9 +196,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                         pauseCtx->ocarinaSongIdx = gOcarinaSongItemMap[sp216 - QUEST_SONG_MINUET];
                         D_8082A120 = 10;
 
-                        for (phi_s3 = 0; phi_s3 < 8; phi_s3++) {
-                            D_8082A124[phi_s3] = 0xFF;
-                            D_8082A150[phi_s3] = 0;
+                        for (phi_s7 = 0; phi_s7 < 8; phi_s7++) {
+                            D_8082A124[phi_s7] = 0xFF;
+                            D_8082A150[phi_s7] = 0;
                         }
 
                         D_8082A11C = 0;
@@ -267,9 +277,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->cursorColorSet = 8;
 
             if (--D_8082A120 == 0) {
-                for (phi_s3 = 0; phi_s3 < 8; phi_s3++) {
-                    D_8082A124[phi_s3] = 0xFF;
-                    D_8082A150[phi_s3] = 0;
+                for (phi_s7 = 0; phi_s7 < 8; phi_s7++) {
+                    D_8082A124[phi_s7] = 0xFF;
+                    D_8082A150[phi_s7] = 0;
                 }
 
                 D_8082A11C = 0;
@@ -490,7 +500,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     D_8082A124[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->buttonIndex;
                 }
 
-                for (sp218 = 0, phi_s3 = 0; sp218 < 8; sp218++, phi_s3 += 4, sp21A += 4) {
+                for (sp218 = 0, phi_s7 = 0; sp218 < 8; sp218++, phi_s7 += 4, sp21A += 4) {
                     if (D_8082A124[sp218] == 0xFF) {
                         break;
                     }
@@ -511,7 +521,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     gDPPipeSync(POLY_OPA_DISP++);
 
                     if (D_8082A124[sp218] == 0) {
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, D_8082A150[sp218]);
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_COLLECT_UNK_R, KALEIDO_COLOR_COLLECT_UNK_G,
+                                        KALEIDO_COLOR_COLLECT_UNK_B, D_8082A150[sp218]);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, D_8082A150[sp218]);
                     }
@@ -531,9 +542,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             sp224 = pauseCtx->ocarinaSongIdx;
             sp226 = gOcarinaSongButtons[sp224].numButtons;
 
-            for (sp218 = sp21A, phi_s3 = 0; phi_s3 < sp226; phi_s3++, sp21A += 4) {
+            for (sp218 = sp21A, phi_s7 = 0; phi_s7 < sp226; phi_s7++, sp21A += 4) {
                 pauseCtx->questVtx[sp21A + 0].v.ob[1] = pauseCtx->questVtx[sp21A + 1].v.ob[1] =
-                    VREG(21 + gOcarinaSongButtons[sp224].buttonsIndex[phi_s3]);
+                    VREG(21 + gOcarinaSongButtons[sp224].buttonsIndex[phi_s7]);
 
                 pauseCtx->questVtx[sp21A + 2].v.ob[1] = pauseCtx->questVtx[sp21A + 3].v.ob[1] =
                     pauseCtx->questVtx[sp21A + 0].v.ob[1] - 12;
@@ -541,8 +552,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 gDPPipeSync(POLY_OPA_DISP++);
 
                 if (pauseCtx->mainState == PAUSE_MAIN_STATE_8) {
-                    if (gOcarinaSongButtons[sp224].buttonsIndex[phi_s3] == OCARINA_BTN_A) {
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, 200);
+                    if (gOcarinaSongButtons[sp224].buttonsIndex[phi_s7] == OCARINA_BTN_A) {
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_COLLECT_UNK_R, KALEIDO_COLOR_COLLECT_UNK_G,
+                                        KALEIDO_COLOR_COLLECT_UNK_B, 200);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, 200);
                     }
@@ -554,7 +566,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
                 gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
-                gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[gOcarinaSongButtons[sp224].buttonsIndex[phi_s3]],
+                gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[gOcarinaSongButtons[sp224].buttonsIndex[phi_s7]],
                                     G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -576,37 +588,38 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 }
 
                 sp21A = sp218 + 32;
-                phi_s3 = 0;
-                for (; phi_s3 < 8; phi_s3++, sp21A += 4) {
-                    if (D_8082A124[phi_s3] == 0xFF) {
+                phi_s7 = 0;
+                for (; phi_s7 < 8; phi_s7++, sp21A += 4) {
+                    if (D_8082A124[phi_s7] == 0xFF) {
                         continue;
                     }
 
-                    if (D_8082A150[phi_s3] != 255) {
-                        D_8082A150[phi_s3] += VREG(50);
-                        if (D_8082A150[phi_s3] >= 255) {
-                            D_8082A150[phi_s3] = 255;
+                    if (D_8082A150[phi_s7] != 255) {
+                        D_8082A150[phi_s7] += VREG(50);
+                        if (D_8082A150[phi_s7] >= 255) {
+                            D_8082A150[phi_s7] = 255;
                         }
                     }
                     pauseCtx->questVtx[sp21A + 0].v.ob[1] = pauseCtx->questVtx[sp21A + 1].v.ob[1] =
-                        VREG(21 + D_8082A124[phi_s3]);
+                        VREG(21 + D_8082A124[phi_s7]);
 
                     pauseCtx->questVtx[sp21A + 2].v.ob[1] = pauseCtx->questVtx[sp21A + 3].v.ob[1] =
                         pauseCtx->questVtx[sp21A + 0].v.ob[1] - 12;
 
                     gDPPipeSync(POLY_OPA_DISP++);
 
-                    if (D_8082A124[phi_s3] == 0) {
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, D_8082A150[phi_s3]);
+                    if (D_8082A124[phi_s7] == 0) {
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_COLLECT_UNK_R, KALEIDO_COLOR_COLLECT_UNK_G,
+                                        KALEIDO_COLOR_COLLECT_UNK_B, D_8082A150[phi_s7]);
                     } else {
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, D_8082A150[phi_s3]);
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, D_8082A150[phi_s7]);
                     }
 
                     gDPSetEnvColor(POLY_OPA_DISP++, 10, 10, 10, 0);
 
                     gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
-                    gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[D_8082A124[phi_s3]], G_IM_FMT_IA, G_IM_SIZ_8b, 16,
+                    gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[D_8082A124[phi_s7]], G_IM_FMT_IA, G_IM_SIZ_8b, 16,
                                         16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -614,9 +627,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 }
 
                 if (pauseCtx->mainState == PAUSE_MAIN_STATE_4) {
-                    for (phi_s3 = 0; phi_s3 < 8; phi_s3++) {
-                        D_8082A124[phi_s3] = 0xFF;
-                        D_8082A150[phi_s3] = 0;
+                    for (phi_s7 = 0; phi_s7 < 8; phi_s7++) {
+                        D_8082A124[phi_s7] = 0xFF;
+                        D_8082A150[phi_s7] = 0;
                     }
 
                     D_8082A11C = 0;
@@ -652,8 +665,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[164], 24, 0);
 
-        for (phi_s3 = 0, sp218 = 0, sp21A = 0; phi_s3 < 2; phi_s3++) {
-            if (phi_s3 == 0) {
+        for (phi_s7 = 0, sp218 = 0, sp21A = 0; phi_s7 < 2; phi_s7++) {
+            if (phi_s7 == 0) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, pauseCtx->alpha);
             } else if (gSaveContext.save.info.inventory.gsTokens == 100) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 200, 50, 50, pauseCtx->alpha);

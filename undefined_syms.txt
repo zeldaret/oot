@@ -29,4 +29,10 @@ D_801E8090 = 0x801E8090;
 // z_en_mag.c
 func_801C79BC_unknown = 0x801C79BC;
 
+// z_title.c
+func_800014E8_unknown = 0x800014E8;
+func_801C8090_unknown = 0x801C8090;
+func_801C7BC4_unknown = 0x801C7BC4;
+func_801C7ED0_unknown = 0x801C7ED0;
+
 #endif
