@@ -26,4 +26,10 @@ func_801C8510_unknown = 0x801C8510;
 D_801DA410 = 0x801DA410;
 D_801E8090 = 0x801E8090;
 
+// z_title.c
+func_800014E8_unknown = 0x800014E8;
+func_801C8090_unknown = 0x801C8090;
+func_801C7BC4_unknown = 0x801C7BC4;
+func_801C7ED0_unknown = 0x801C7ED0;
+
 #endif

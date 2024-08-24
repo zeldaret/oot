@@ -20,6 +20,7 @@
  */
 #include "global.h"
 #include "terminal.h"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
@@ -112,8 +113,9 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size) {
         ioMsg.size = buffSize;
 
         if (gDmaMgrVerbose == 10) {
-            PRINTF("%10lld " T("ノーマルＤＭＡ", "Normal DMA") " %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
-                   ioMsg.dramAddr, ioMsg.devAddr, ioMsg.size, MQ_GET_COUNT(&gPiMgrCmdQueue));
+            PRINTF(T("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", "%10lld Normal DMA %08x %08x %08x (%d)\n"),
+                   OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr, ioMsg.devAddr, ioMsg.size,
+                   MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
 
         ret = osEPiStartDma(gCartHandle, &ioMsg, OS_READ);
@@ -122,14 +124,14 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size) {
         }
 
         if (gDmaMgrVerbose == 10) {
-            PRINTF("%10lld " T("ノーマルＤＭＡ", "Normal DMA") " START (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
-                   MQ_GET_COUNT(&gPiMgrCmdQueue));
+            PRINTF(T("%10lld ノーマルＤＭＡ START (%d)\n", "%10lld Normal DMA START (%d)\n"),
+                   OS_CYCLES_TO_USEC(osGetTime()), MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
 
         osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
         if (gDmaMgrVerbose == 10) {
-            PRINTF("%10lld " T("ノーマルＤＭＡ", "Normal DMA") " END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
-                   MQ_GET_COUNT(&gPiMgrCmdQueue));
+            PRINTF(T("%10lld ノーマルＤＭＡ END (%d)\n", "%10lld Normal DMA END (%d)\n"),
+                   OS_CYCLES_TO_USEC(osGetTime()), MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
 
         size -= buffSize;
@@ -148,8 +150,9 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size) {
     ioMsg.size = size;
 
     if (gDmaMgrVerbose == 10) {
-        PRINTF("%10lld " T("ノーマルＤＭＡ", "Normal DMA") " %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
-               ioMsg.dramAddr, ioMsg.devAddr, ioMsg.size, MQ_GET_COUNT(&gPiMgrCmdQueue));
+        PRINTF(T("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", "%10lld Normal DMA %08x %08x %08x (%d)\n"),
+               OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr, ioMsg.devAddr, ioMsg.size,
+               MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
 
     ret = osEPiStartDma(gCartHandle, &ioMsg, OS_READ);
@@ -159,7 +162,7 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size) {
 
     osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
     if (gDmaMgrVerbose == 10) {
-        PRINTF("%10lld " T("ノーマルＤＭＡ", "Normal DMA") " END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
+        PRINTF(T("%10lld ノーマルＤＭＡ END (%d)\n", "%10lld Normal DMA END (%d)\n"), OS_CYCLES_TO_USEC(osGetTime()),
                MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
 
@@ -188,8 +191,8 @@ s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     ASSERT(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
 
     if (gDmaMgrVerbose == 10) {
-        PRINTF("%10lld " T("サウンドＤＭＡ", "Sound DMA") " %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
-               mb->dramAddr, mb->devAddr, mb->size, MQ_GET_COUNT(&gPiMgrCmdQueue));
+        PRINTF(T("%10lld サウンドＤＭＡ %08x %08x %08x (%d)\n", "%10lld Sound DMA %08x %08x %08x (%d)\n"),
+               OS_CYCLES_TO_USEC(osGetTime()), mb->dramAddr, mb->devAddr, mb->size, MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
 
     ret = osEPiStartDma(pihandle, mb, direction);
@@ -247,7 +250,7 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
 
     PRINTF("%c", BEL);
     PRINTF(VT_FGCOL(RED));
-    PRINTF(T("DMA致命的エラー(%s)\n", "DMA Fatal Error (%s)\n") "ROM:%X RAM:%X SIZE:%X %s\n",
+    PRINTF(T("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n", "DMA Fatal Error (%s)\nROM:%X RAM:%X SIZE:%X %s\n"),
            errorDesc != NULL ? errorDesc : (errorName != NULL ? errorName : "???"), vrom, ram, size,
            filename != NULL ? filename : "???");
 
@@ -428,7 +431,9 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
             DmaMgr_DmaRomToRam(vrom, ram, size);
 
             if (0) {
-                PRINTF("No Press ROM:%08X RAM:%08X SIZE:%08X (" T("非公式", "informal") ")\n", vrom, ram, size);
+                PRINTF(T("No Press ROM:%08X RAM:%08X SIZE:%08X (非公式)\n",
+                         "No Press ROM:%08X RAM:%08X SIZE:%08X (informal)\n"),
+                       vrom, ram, size);
             }
         }
     }

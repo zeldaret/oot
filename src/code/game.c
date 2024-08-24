@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 SpeedMeter D_801664D0;
 VisCvg sVisCvg;

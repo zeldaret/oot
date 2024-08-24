@@ -14,7 +14,7 @@
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:171 gc-eu-mq:171 gc-jp:173 gc-jp-ce:173 gc-jp-mq:173 gc-us:173 gc-us-mq:173"
+#pragma increment_block_number "gc-eu:168 gc-eu-mq:168 gc-jp:170 gc-jp-ce:170 gc-jp-mq:170 gc-us:170 gc-us-mq:170"
 
 #define FLAGS ACTOR_FLAG_4
 

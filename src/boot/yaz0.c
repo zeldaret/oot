@@ -1,4 +1,5 @@
 #include "global.h"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 ALIGNED(16) u8 sYaz0DataBuffer[0x400];
 u8* sYaz0DataBufferEnd;

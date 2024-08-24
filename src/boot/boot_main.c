@@ -3,6 +3,7 @@
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 StackEntry sBootThreadInfo;
 OSThread sIdleThread;
