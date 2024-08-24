@@ -25,6 +25,22 @@
 #define KALEIDO_COLOR_PROMPT_UNK_B 100
 #endif
 
+typedef enum {
+    /* 0 */ VTX_PAGE_ITEM,
+    /* 1 */ VTX_PAGE_EQUIP,
+    /* 2 */ VTX_PAGE_MAP_DUNGEON,
+    /* 3 */ VTX_PAGE_QUEST,
+    /* 4 */ VTX_PAGE_MAP_WORLD,
+    /* 5 */ VTX_PAGE_PROMPT
+} VtxPageInit;
+
+#define VTX_PAGE_ITEM_QUADS 0         // VTX_PAGE_ITEM
+#define VTX_PAGE_EQUIP_QUADS 0        // VTX_PAGE_EQUIP
+#define VTX_PAGE_MAP_DUNGEON_QUADS 17 // VTX_PAGE_MAP_DUNGEON
+#define VTX_PAGE_QUEST_QUADS 0        // VTX_PAGE_QUEST
+#define VTX_PAGE_MAP_WORLD_QUADS 32   // VTX_PAGE_MAP_WORLD
+#define VTX_PAGE_PROMPT_QUADS 5       // VTX_PAGE_PROMPT
+
 #if OOT_NTSC
 
 // Japanese
@@ -524,11 +540,11 @@ static void* sSavePromptBgQuadsTexs[] = {
 #define SAVE_TEXS(language) (sSavePromptBgQuadsTexs[(language)])
 #endif
 
-s16 D_8082AAEC[] = {
+s16 gVtxPageMapWorldQuadsWidth[VTX_PAGE_MAP_WORLD_QUADS] = {
     32, 112, 32, 48, 32, 32, 32, 48, 32, 64, 32, 48, 48, 48, 48, 64, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 80, 64,
 };
 
-s16 D_8082AB2C[] = {
+s16 gVtxPageMapWorldQuadsHeight[VTX_PAGE_MAP_WORLD_QUADS] = {
     24, 72, 13, 22, 19, 20, 19, 27, 14, 26, 22, 21, 49, 32, 45, 60, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 32, 8,
 };
 
@@ -2063,150 +2079,147 @@ void KaleidoScope_SetView(PauseContext* pauseCtx, f32 x, f32 y, f32 z) {
 }
 
 static u8 sPageBgColorRed[][4] = {
-    { 10, 70, 70, 10 },   { 10, 90, 90, 10 },   { 80, 140, 140, 80 },
-    { 80, 120, 120, 80 }, { 80, 140, 140, 80 }, { 50, 110, 110, 50 },
+    { 10, 70, 70, 10 },   // VTX_PAGE_ITEM
+    { 10, 90, 90, 10 },   // VTX_PAGE_EQUIP
+    { 80, 140, 140, 80 }, // VTX_PAGE_MAP_DUNGEON
+    { 80, 120, 120, 80 }, // VTX_PAGE_QUEST
+    { 80, 140, 140, 80 }, // VTX_PAGE_MAP_WORLD
+    { 50, 110, 110, 50 }, // VTX_PAGE_PROMPT
 };
 static u8 sPageBgColorGreen[][4] = {
-    { 50, 100, 100, 50 }, { 50, 100, 100, 50 }, { 40, 60, 60, 40 },
-    { 80, 120, 120, 80 }, { 40, 60, 60, 40 },   { 50, 110, 110, 50 },
+    { 50, 100, 100, 50 }, // VTX_PAGE_ITEM
+    { 50, 100, 100, 50 }, // VTX_PAGE_EQUIP
+    { 40, 60, 60, 40 },   // VTX_PAGE_MAP_DUNGEON
+    { 80, 120, 120, 80 }, // VTX_PAGE_QUEST
+    { 40, 60, 60, 40 },   // VTX_PAGE_MAP_WORLD
+    { 50, 110, 110, 50 }, // VTX_PAGE_PROMPT
 };
 static u8 sPageBgColorBlue[][4] = {
-    { 80, 130, 130, 80 }, { 40, 60, 60, 40 }, { 30, 60, 60, 30 },
-    { 50, 70, 70, 50 },   { 30, 60, 60, 30 }, { 50, 110, 110, 50 },
+    { 80, 130, 130, 80 }, // VTX_PAGE_ITEM
+    { 40, 60, 60, 40 },   // VTX_PAGE_EQUIP
+    { 30, 60, 60, 30 },   // VTX_PAGE_MAP_DUNGEON
+    { 50, 70, 70, 50 },   // VTX_PAGE_QUEST
+    { 30, 60, 60, 30 },   // VTX_PAGE_MAP_WORLD
+    { 50, 110, 110, 50 }, // VTX_PAGE_PROMPT
 };
 
-static s16 D_8082AE90[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AE94[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AE98[] = {
+// CLAMP_MIN(*, 1) because C arrays can't have 0 length
+static s16 sVtxPageItemQuadsX[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
+static s16 sVtxPageEquipQuadsX[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
+static s16 sVtxPageMapDungeonQuadsX[VTX_PAGE_MAP_DUNGEON_QUADS] = {
     0xFFDC, 0x000C, 0xFFEE, 0x0046, 0x0046, 0x0046, 0xFFA8, 0xFFA8, 0xFFA8,
-    0xFFA8, 0xFFA8, 0xFFA8, 0xFFA8, 0xFFA8, 0xFF96, 0xFFC2, 0xFFD8, 0x0000,
+    0xFFA8, 0xFFA8, 0xFFA8, 0xFFA8, 0xFFA8, 0xFF96, 0xFFC2, 0xFFD8,
 };
-static s16 D_8082AEBC[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AEC0[] = {
+static s16 sVtxPageQuestQuadsX[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
+static s16 sVtxPageMapWorldQuadsX[VTX_PAGE_MAP_WORLD_QUADS] = {
     0x002F, 0xFFCF, 0xFFEF, 0xFFF1, 0xFFF7, 0x0018, 0x002B, 0x000E, 0x0009, 0x0026, 0x0052,
     0x0047, 0xFFB4, 0xFFA9, 0xFF94, 0xFFCA, 0xFFA3, 0xFFBD, 0xFFC8, 0xFFDF, 0xFFF6, 0x0001,
     0x000E, 0x0018, 0x0023, 0x003A, 0x004A, 0x0059, 0x0000, 0xFFC6, 0x0013, 0x001C,
 };
-static s16 D_8082AF00[] = {
-    0xFFB4, 0xFFC6, 0x000A, 0xFFC6, 0x000A, 0x0000,
+static s16 sVtxPagePromptQuadsX[VTX_PAGE_PROMPT_QUADS] = {
+    0xFFB4, 0xFFC6, 0x000A, 0xFFC6, 0x000A,
 };
-static s16 D_8082AF0C[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AF10[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AF14[] = {
+static s16 sVtxPageItemQuadsWidth[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
+static s16 sVtxPageEquipQuadsWidth[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
+static s16 sVtxPageMapDungeonQuadsWidth[VTX_PAGE_MAP_DUNGEON_QUADS] = {
     0x0030, 0x0030, 0x0060, 0x0018, 0x0018, 0x0018, 0x0018, 0x0018, 0x0018,
-    0x0018, 0x0018, 0x0018, 0x0018, 0x0018, 0x0010, 0x0010, 0x0018, 0x0000,
+    0x0018, 0x0018, 0x0018, 0x0018, 0x0018, 0x0010, 0x0010, 0x0018,
 };
-static s16 D_8082AF38[] = {
-    0x0000,
-    0x0000,
+static s16 sVtxPageQuestQuadsWidth[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
+static s16 sVtxPagePromptQuadsWidth[VTX_PAGE_PROMPT_QUADS] = {
+    0x0098, 0x0030, 0x0030, 0x0030, 0x0030,
 };
-static s16 D_8082AF3C[] = {
-    0x0098, 0x0030, 0x0030, 0x0030, 0x0030, 0x0000,
-};
-static s16 D_8082AF48[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AF4C[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AF50[] = {
+static s16 sVtxPageItemQuadsY[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
+static s16 sVtxPageEquipQuadsY[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
+static s16 sVtxPageMapDungeonQuadsY[VTX_PAGE_MAP_DUNGEON_QUADS] = {
     0x001C, 0x001C, 0x002E, 0x001C, 0xFFFE, 0xFFE0, 0x0032, 0x0024, 0x0016,
-    0x0008, 0xFFFA, 0xFFEC, 0xFFDE, 0xFFD0, 0x0012, 0x0012, 0x0032, 0x0000,
+    0x0008, 0xFFFA, 0xFFEC, 0xFFDE, 0xFFD0, 0x0012, 0x0012, 0x0032,
 };
-static s16 D_8082AF74[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AF78[] = {
+static s16 sVtxPageQuestQuadsY[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
+static s16 sVtxPageMapWorldQuadsY[VTX_PAGE_MAP_WORLD_QUADS] = {
     0x000F, 0x0028, 0x000B, 0x002D, 0x0034, 0x0025, 0x0024, 0x0039, 0x0036, 0x0021, 0x001F,
     0x002D, 0x0020, 0x002A, 0x0031, 0xFFF6, 0x001F, 0x001B, 0x000F, 0xFFCF, 0x0008, 0x0026,
     0x0007, 0x002F, 0x001E, 0x0001, 0xFFF7, 0x0019, 0x0000, 0x0001, 0xFFE0, 0xFFE6,
 };
-static s16 D_8082AFB8[] = {
-    0x0024, 0x000A, 0x000A, 0xFFFA, 0xFFFA, 0x0000,
+static s16 sVtxPagePromptQuadsY[VTX_PAGE_PROMPT_QUADS] = {
+    0x0024, 0x000A, 0x000A, 0xFFFA, 0xFFFA,
 };
-static s16 D_8082AFC4[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AFC8[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AFCC[] = {
+static s16 sVtxPageItemQuadsHeight[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
+static s16 sVtxPageEquipQuadsHeight[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
+static s16 sVtxPageMapDungeonQuadsHeight[VTX_PAGE_MAP_DUNGEON_QUADS] = {
     0x0055, 0x0055, 0x0010, 0x0018, 0x0018, 0x0018, 0x0010, 0x0010, 0x0010,
-    0x0010, 0x0010, 0x0010, 0x0010, 0x0010, 0x0010, 0x0010, 0x0018, 0x0000,
+    0x0010, 0x0010, 0x0010, 0x0010, 0x0010, 0x0010, 0x0010, 0x0018,
 };
-static s16 D_8082AFF0[] = {
-    0x0000,
-    0x0000,
-};
-static s16 D_8082AFF4[] = {
-    0x0010, 0x0030, 0x0030, 0x0010, 0x0010, 0x0000,
+static s16 sVtxPageQuestQuadsHeight[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
+static s16 sVtxPagePromptQuadsHeight[VTX_PAGE_PROMPT_QUADS] = {
+    0x0010, 0x0030, 0x0030, 0x0010, 0x0010,
 };
 
-static s16* D_8082B000[] = {
-    D_8082AE90, D_8082AE94, D_8082AE98, D_8082AEBC, D_8082AEC0, D_8082AF00,
+static s16* sVtxPageQuadsX[] = {
+    sVtxPageItemQuadsX,       // VTX_PAGE_ITEM
+    sVtxPageEquipQuadsX,      // VTX_PAGE_EQUIP
+    sVtxPageMapDungeonQuadsX, // VTX_PAGE_MAP_DUNGEON
+    sVtxPageQuestQuadsX,      // VTX_PAGE_QUEST
+    sVtxPageMapWorldQuadsX,   // VTX_PAGE_MAP_WORLD
+    sVtxPagePromptQuadsX,     // VTX_PAGE_PROMPT
 };
 
-static s16* D_8082B018[] = {
-    D_8082AF0C, D_8082AF10, D_8082AF14, D_8082AF38, D_8082AAEC, D_8082AF3C,
+static s16* sVtxPageQuadsWidth[] = {
+    sVtxPageItemQuadsWidth,       // VTX_PAGE_ITEM
+    sVtxPageEquipQuadsWidth,      // VTX_PAGE_EQUIP
+    sVtxPageMapDungeonQuadsWidth, // VTX_PAGE_MAP_DUNGEON
+    sVtxPageQuestQuadsWidth,      // VTX_PAGE_QUEST
+    gVtxPageMapWorldQuadsWidth,   // VTX_PAGE_MAP_WORLD
+    sVtxPagePromptQuadsWidth,     // VTX_PAGE_PROMPT
 };
 
-static s16* D_8082B030[] = {
-    D_8082AF48, D_8082AF4C, D_8082AF50, D_8082AF74, D_8082AF78, D_8082AFB8,
+static s16* sVtxPageQuadsY[] = {
+    sVtxPageItemQuadsY,       // VTX_PAGE_ITEM
+    sVtxPageEquipQuadsY,      // VTX_PAGE_EQUIP
+    sVtxPageMapDungeonQuadsY, // VTX_PAGE_MAP_DUNGEON
+    sVtxPageQuestQuadsY,      // VTX_PAGE_QUEST
+    sVtxPageMapWorldQuadsY,   // VTX_PAGE_MAP_WORLD
+    sVtxPagePromptQuadsY,     // VTX_PAGE_PROMPT
 };
 
-static s16* D_8082B048[] = {
-    D_8082AFC4, D_8082AFC8, D_8082AFCC, D_8082AFF0, D_8082AB2C, D_8082AFF4,
+static s16* sVtxPageQuadsHeight[] = {
+    sVtxPageItemQuadsHeight,       // VTX_PAGE_ITEM
+    sVtxPageEquipQuadsHeight,      // VTX_PAGE_EQUIP
+    sVtxPageMapDungeonQuadsHeight, // VTX_PAGE_MAP_DUNGEON
+    sVtxPageQuestQuadsHeight,      // VTX_PAGE_QUEST
+    gVtxPageMapWorldQuadsHeight,   // VTX_PAGE_MAP_WORLD
+    sVtxPagePromptQuadsHeight,     // VTX_PAGE_PROMPT
 };
 
-static s16 D_8082B060[] = {
+static s16 sVtxMapWorldAreaX[] = {
     0xFFC6, 0x000B, 0x001E, 0x001E, 0x000F, 0x0026, 0xFFC2, 0x003C, 0x003D, 0xFFB2, 0xFED4,
     0xFFAA, 0xFFBF, 0xFED4, 0xFED4, 0xFFEB, 0x000E, 0x000D, 0x0014, 0xFFDE, 0xFED4, 0x0000,
 };
 
-static s16 D_8082B08C[] = {
+static s16 sVtxMapWorldAreaWidth[] = {
     0x0059, 0x0014, 0x000E, 0x0023, 0x0020, 0x0011, 0x0032, 0x0010, 0x0015, 0x0014, 0xFFFF,
     0x0020, 0x0010, 0xFFFF, 0xFFFF, 0x0013, 0x0013, 0x0015, 0x0010, 0x0014, 0xFFFF, 0x0000,
 };
 
-static s16 D_8082B0B8[] = {
+static s16 sVtxMapWorldAreaY[] = {
     0x0001, 0x000F, 0x0014, 0x0009, 0xFFE2, 0xFFEF, 0xFFDE, 0x000F, 0x001E, 0x0001, 0xFED4,
     0x002A, 0x0007, 0xFED4, 0xFED4, 0x0018, 0x0024, 0x0035, 0x0025, 0xFFF3, 0xFED4, 0x0000,
 };
 
-static s16 D_8082B0E4[] = {
+static s16 sVtxMapWorldAreaHeight[] = {
     0x0024, 0x000F, 0x0010, 0x0017, 0x0017, 0x0010, 0x0018, 0x000D, 0x0011, 0x0012, 0x0001,
     0x0019, 0x000D, 0x0001, 0x0001, 0x000D, 0x0015, 0x000F, 0x000D, 0x000C, 0x0001, 0x0000,
 };
 
-s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) {
+s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 numQuads) {
     static s16 D_8082B110 = 0;
     static s16 D_8082B114 = 1;
     static s16 D_8082B118 = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
-    s16* ptr1;
-    s16* ptr2;
-    s16* ptr3;
-    s16* ptr4;
+    s16* quadsX;
+    s16* quadsWidth;
+    s16* quadsY;
+    s16* quadsHeight;
     s16 bufIAfterPageSections;
     s16 pageBgQuadX;
     s16 pageBgQuadY;
@@ -2244,17 +2257,17 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) 
 
             vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = PAGE_BG_QUAD_TEX_HEIGHT * (1 << 5);
 
-            vtx[bufI + 0].v.cn[0] = vtx[bufI + 2].v.cn[0] = sPageBgColorRed[arg2][j + 0];
+            vtx[bufI + 0].v.cn[0] = vtx[bufI + 2].v.cn[0] = sPageBgColorRed[vtxPage][j + 0];
 
-            vtx[bufI + 0].v.cn[1] = vtx[bufI + 2].v.cn[1] = sPageBgColorGreen[arg2][j + 0];
+            vtx[bufI + 0].v.cn[1] = vtx[bufI + 2].v.cn[1] = sPageBgColorGreen[vtxPage][j + 0];
 
-            vtx[bufI + 0].v.cn[2] = vtx[bufI + 2].v.cn[2] = sPageBgColorBlue[arg2][j + 0];
+            vtx[bufI + 0].v.cn[2] = vtx[bufI + 2].v.cn[2] = sPageBgColorBlue[vtxPage][j + 0];
 
-            vtx[bufI + 1].v.cn[0] = vtx[bufI + 3].v.cn[0] = sPageBgColorRed[arg2][j + 1];
+            vtx[bufI + 1].v.cn[0] = vtx[bufI + 3].v.cn[0] = sPageBgColorRed[vtxPage][j + 1];
 
-            vtx[bufI + 1].v.cn[1] = vtx[bufI + 3].v.cn[1] = sPageBgColorGreen[arg2][j + 1];
+            vtx[bufI + 1].v.cn[1] = vtx[bufI + 3].v.cn[1] = sPageBgColorGreen[vtxPage][j + 1];
 
-            vtx[bufI + 1].v.cn[2] = vtx[bufI + 3].v.cn[2] = sPageBgColorBlue[arg2][j + 1];
+            vtx[bufI + 1].v.cn[2] = vtx[bufI + 3].v.cn[2] = sPageBgColorBlue[vtxPage][j + 1];
 
             vtx[bufI + 0].v.cn[3] = vtx[bufI + 2].v.cn[3] = vtx[bufI + 1].v.cn[3] = vtx[bufI + 3].v.cn[3] =
                 pauseCtx->alpha;
@@ -2265,24 +2278,24 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) 
 
     //
 
-    if (arg3 != 0) {
-        ptr1 = D_8082B000[arg2];
-        ptr2 = D_8082B018[arg2];
-        ptr3 = D_8082B030[arg2];
-        ptr4 = D_8082B048[arg2];
+    if (numQuads != 0) {
+        quadsX = sVtxPageQuadsX[vtxPage];
+        quadsWidth = sVtxPageQuadsWidth[vtxPage];
+        quadsY = sVtxPageQuadsY[vtxPage];
+        quadsHeight = sVtxPageQuadsHeight[vtxPage];
 
-        for (j = 0; j < arg3; j++, bufI += 4) {
-            vtx[bufI + 2].v.ob[0] = vtx[bufI + 0].v.ob[0] = ptr1[j];
+        for (j = 0; j < numQuads; j++, bufI += 4) {
+            vtx[bufI + 2].v.ob[0] = vtx[bufI + 0].v.ob[0] = quadsX[j];
 
-            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + ptr2[j];
+            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + quadsWidth[j];
 
             if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
-                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = ptr3[j] + pauseCtx->offsetY;
+                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = quadsY[j] + pauseCtx->offsetY;
             } else {
                 vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = YREG(60 + j) + pauseCtx->offsetY;
             }
 
-            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - ptr4[j];
+            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - quadsHeight[j];
 
             vtx[bufI + 0].v.ob[2] = vtx[bufI + 1].v.ob[2] = vtx[bufI + 2].v.ob[2] = vtx[bufI + 3].v.ob[2] = 0;
 
@@ -2290,9 +2303,9 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) 
 
             vtx[bufI + 0].v.tc[0] = vtx[bufI + 0].v.tc[1] = vtx[bufI + 1].v.tc[1] = vtx[bufI + 2].v.tc[0] = 0;
 
-            vtx[bufI + 1].v.tc[0] = vtx[bufI + 3].v.tc[0] = ptr2[j] << 5;
+            vtx[bufI + 1].v.tc[0] = vtx[bufI + 3].v.tc[0] = quadsWidth[j] << 5;
 
-            vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = ptr4[j] << 5;
+            vtx[bufI + 2].v.tc[1] = vtx[bufI + 3].v.tc[1] = quadsHeight[j] << 5;
 
             vtx[bufI + 0].v.cn[0] = vtx[bufI + 2].v.cn[0] = vtx[bufI + 0].v.cn[1] = vtx[bufI + 2].v.cn[1] =
                 vtx[bufI + 0].v.cn[2] = vtx[bufI + 2].v.cn[2] = vtx[bufI + 1].v.cn[0] = vtx[bufI + 3].v.cn[0] =
@@ -2302,20 +2315,22 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) 
                 pauseCtx->alpha;
         }
 
-        if (arg2 == 4) {
+        if (vtxPage == VTX_PAGE_MAP_WORLD) {
+            // For world map page, initialize vtx beyond VTX_PAGE_MAP_WORLD_QUADS
+
             bufI -= 12;
 
             j = gSaveContext.worldMapArea;
 
-            vtx[bufI + 0].v.ob[0] = vtx[bufI + 2].v.ob[0] = D_8082B060[j];
+            vtx[bufI + 0].v.ob[0] = vtx[bufI + 2].v.ob[0] = sVtxMapWorldAreaX[j];
 
             if (j) {}
 
-            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + D_8082B08C[j];
+            vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + sVtxMapWorldAreaWidth[j];
 
-            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = D_8082B0B8[j] + pauseCtx->offsetY;
+            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = sVtxMapWorldAreaY[j] + pauseCtx->offsetY;
 
-            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - D_8082B0E4[j];
+            vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - sVtxMapWorldAreaHeight[j];
 
             bufI += 12;
 
@@ -2354,9 +2369,9 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 arg2, s16 arg3) 
 
                 vtx[bufI].v.tc[0] = vtx[bufI].v.tc[1] = vtx[i + 1].v.tc[1] = vtx[i + 2].v.tc[0] = 0;
 
-                vtx[i + 1].v.tc[0] = vtx[i + 3].v.tc[0] = 0x100;
+                vtx[i + 1].v.tc[0] = vtx[i + 3].v.tc[0] = 8 * (1 << 5);
 
-                vtx[i + 2].v.tc[1] = vtx[i + 3].v.tc[1] = 0x100;
+                vtx[i + 2].v.tc[1] = vtx[i + 3].v.tc[1] = 8 * (1 << 5);
 
                 vtx[i + 0].v.cn[0] = vtx[i + 2].v.cn[0] = vtx[i + 0].v.cn[1] = vtx[i + 2].v.cn[1] = vtx[i + 0].v.cn[2] =
                     vtx[i + 2].v.cn[2] = vtx[i + 1].v.cn[0] = vtx[i + 3].v.cn[0] = vtx[i + 1].v.cn[1] =
@@ -2408,15 +2423,15 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->offsetY = 80;
     }
 
-    pauseCtx->itemPageVtx = GRAPH_ALLOC(gfxCtx, (PAGE_BG_QUADS * 4) * sizeof(Vtx));
-    KaleidoScope_SetPageVertices(play, pauseCtx->itemPageVtx, 0, 0);
+    pauseCtx->itemPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_ITEM_QUADS) * 4) * sizeof(Vtx));
+    KaleidoScope_SetPageVertices(play, pauseCtx->itemPageVtx, VTX_PAGE_ITEM, VTX_PAGE_ITEM_QUADS);
 
-    pauseCtx->equipPageVtx = GRAPH_ALLOC(gfxCtx, (PAGE_BG_QUADS * 4) * sizeof(Vtx));
-    KaleidoScope_SetPageVertices(play, pauseCtx->equipPageVtx, 1, 0);
+    pauseCtx->equipPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_EQUIP_QUADS) * 4) * sizeof(Vtx));
+    KaleidoScope_SetPageVertices(play, pauseCtx->equipPageVtx, VTX_PAGE_EQUIP, VTX_PAGE_EQUIP_QUADS);
 
     if (!sInDungeonScene) {
-        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + 47) * 4) * sizeof(Vtx));
-        phi_t3 = KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, 4, 32);
+        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_WORLD_QUADS + 15) * 4) * sizeof(Vtx));
+        phi_t3 = KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_WORLD, VTX_PAGE_MAP_WORLD_QUADS);
 
         for (phi_t2 = 0, phi_t5 = 58; phi_t2 < 15; phi_t2++, phi_t3 += 4, phi_t5 -= 9) {
             pauseCtx->mapPageVtx[phi_t3 + 2].v.ob[0] = -108;
@@ -2461,12 +2476,12 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
 
         pauseCtx->mapPageVtx[phi_t3 - 2].v.tc[1] = pauseCtx->mapPageVtx[phi_t3 - 1].v.tc[1] = 0x40;
     } else {
-        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + 17) * 4) * sizeof(Vtx));
-        KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, 2, 17);
+        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_DUNGEON_QUADS) * 4) * sizeof(Vtx));
+        KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_DUNGEON, VTX_PAGE_MAP_DUNGEON_QUADS);
     }
 
-    pauseCtx->questPageVtx = GRAPH_ALLOC(gfxCtx, (PAGE_BG_QUADS * 4) * sizeof(Vtx));
-    KaleidoScope_SetPageVertices(play, pauseCtx->questPageVtx, 3, 0);
+    pauseCtx->questPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_QUEST_QUADS) * 4) * sizeof(Vtx));
+    KaleidoScope_SetPageVertices(play, pauseCtx->questPageVtx, VTX_PAGE_QUEST, VTX_PAGE_QUEST_QUADS);
 
     pauseCtx->cursorVtx = GRAPH_ALLOC(gfxCtx, 20 * sizeof(Vtx));
 
@@ -2832,8 +2847,8 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
 
     pauseCtx->infoPanelVtx = GRAPH_ALLOC(gfxCtx, 28 * sizeof(Vtx));
 
-    pauseCtx->saveVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + 5) * 4) * sizeof(Vtx));
-    KaleidoScope_SetPageVertices(play, pauseCtx->saveVtx, 5, 5);
+    pauseCtx->saveVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_PROMPT_QUADS) * 4) * sizeof(Vtx));
+    KaleidoScope_SetPageVertices(play, pauseCtx->saveVtx, VTX_PAGE_PROMPT, VTX_PAGE_PROMPT_QUADS);
 }
 
 void KaleidoScope_DrawGameOver(PlayState* play) {
