@@ -475,12 +475,11 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
 // TODO n64dd functions
 s32 func_801C79BC_unknown(void);
 
-// TODO does not match, some regalloc diffs. https://decomp.me/scratch/H8OK5
 void func_80AEEA48_unknown(Gfx** gfxP, s16 arg1, s16 arg2, u32 arg3) {
     if ((B_80121AE2 != 0) && (func_801C79BC_unknown() != 0)) {
         Gfx* gfx = *gfxP;
-        s32 temp_a3;
-        s32 temp_t0;
+        s32 temp_a3 = (arg1 + 0x40) << 2;
+        s32 temp_t0 = (arg2 + 5) << 2;
 
         gDPPipeSync(gfx++);
         gDPSetCycleType(gfx++, G_CYC_1CYCLE);
@@ -491,10 +490,8 @@ void func_80AEEA48_unknown(Gfx** gfxP, s16 arg1, s16 arg2, u32 arg3) {
         gDPSetEnvColor(gfx++, 48, 36, 146, 255);
         gDPLoadTextureBlock(gfx++, gTitleDiskTex, G_IM_FMT_IA, G_IM_SIZ_8b, 48, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
-        temp_a3 = arg1 + 0x40;
-        temp_t0 = arg2 + 5;
-        gSPTextureRectangle(gfx++, temp_a3 << 2, temp_t0 << 2, (temp_a3 << 2) + 0xC0, (temp_t0 << 2) + 0x40,
-                            G_TX_RENDERTILE, 0, 0, (1 << 10), (1 << 10));
+        gSPTextureRectangle(gfx++, temp_a3, temp_t0, temp_a3 + (48 << 2), temp_t0 + (16 << 2), G_TX_RENDERTILE, 0, 0,
+                            (1 << 10), (1 << 10));
         gDPPipeSync(gfx++);
         gDPSetCycleType(gfx++, G_CYC_2CYCLE);
 
