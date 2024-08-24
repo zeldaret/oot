@@ -274,7 +274,7 @@ extern struct GraphicsContext* __gfxCtx;
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
 
 #define gDPSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
-    do {                                                                                                               \
+    _DW({                                                                                                              \
         gDPPipeSync(pkt);                                                                                              \
         gDPTileSync(pkt);                                                                                              \
         gDPSetTile(pkt, fmt, siz, (((width)*siz##_TILE_BYTES) + 7) >> 3, 0, G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, \
@@ -284,6 +284,6 @@ extern struct GraphicsContext* __gfxCtx;
                    cms, masks, shifts);                                                                                \
         gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,                                \
                        ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
-    } while (0)
+    })
 
 #endif
