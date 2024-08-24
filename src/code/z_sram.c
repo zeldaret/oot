@@ -857,7 +857,7 @@ void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
-    PRINTF(("ＣＬＥＡＲ終了\n", "CLEAR END\n"));
+    PRINTF(T("ＣＬＥＡＲ終了\n", "CLEAR END\n"));
 }
 
 void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx) {
