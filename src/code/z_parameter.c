@@ -1113,8 +1113,9 @@ void Interface_SetSceneRestrictions(PlayState* play) {
     interfaceCtx->restrictions.bButton = 0;
     interfaceCtx->restrictions.hGauge = 0;
 
-    // "Data settings related to button display scene_data_ID=%d\n"
-    PRINTF("ボタン表示関係データ設定 scene_data_ID=%d\n", play->sceneId);
+    PRINTF(
+        T("ボタン表示関係データ設定 scene_data_ID=%d\n", "Data settings related to button display scene_data_ID=%d\n"),
+        play->sceneId);
 
     do {
         sceneId = (u8)play->sceneId;
@@ -1381,7 +1382,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST];
 
         PRINTF(VT_FGCOL(YELLOW));
-        PRINTF("封印 = %x\n", gSaveContext.save.info.inventory.questItems); // "Seals = %x"
+        PRINTF(T("封印 = %x\n", "Seals = %x\n"), gSaveContext.save.info.inventory.questItems);
         PRINTF(VT_RST);
 
         if (item == ITEM_MEDALLION_WATER) {
@@ -1393,10 +1394,10 @@ u8 Item_Give(PlayState* play, u8 item) {
         gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
 
         PRINTF(VT_FGCOL(YELLOW));
-        PRINTF("楽譜 = %x\n", gSaveContext.save.info.inventory.questItems); // "Musical scores = %x"
-        // "Musical scores = %x (%x) (%x)"
-        PRINTF("楽譜 = %x (%x) (%x)\n", gSaveContext.save.info.inventory.questItems,
-               gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET], gBitFlags[item - ITEM_SONG_MINUET]);
+        PRINTF(T("楽譜 = %x\n", "Musical scores = %x\n"), gSaveContext.save.info.inventory.questItems);
+        PRINTF(T("楽譜 = %x (%x) (%x)\n", "Musical scores = %x (%x) (%x)\n"),
+               gSaveContext.save.info.inventory.questItems, gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET],
+               gBitFlags[item - ITEM_SONG_MINUET]);
         PRINTF(VT_RST);
 
         return ITEM_NONE;
@@ -1404,7 +1405,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD];
 
         PRINTF(VT_FGCOL(YELLOW));
-        PRINTF("精霊石 = %x\n", gSaveContext.save.info.inventory.questItems); // "Spiritual Stones = %x"
+        PRINTF(T("精霊石 = %x\n", "Spiritual Stones = %x\n"), gSaveContext.save.info.inventory.questItems);
         PRINTF(VT_RST);
 
         return ITEM_NONE;
@@ -1412,7 +1413,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY];
 
         PRINTF(VT_FGCOL(YELLOW));
-        PRINTF("アイテム = %x\n", gSaveContext.save.info.inventory.questItems); // "Items = %x"
+        PRINTF(T("アイテム = %x\n", "Items = %x\n"), gSaveContext.save.info.inventory.questItems);
         PRINTF(VT_RST);
 
         return ITEM_NONE;
@@ -1421,8 +1422,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         gSaveContext.save.info.inventory.gsTokens++;
 
         PRINTF(VT_FGCOL(YELLOW));
-        // "N Coins = %x(%d)"
-        PRINTF("Ｎコイン = %x(%d)\n", gSaveContext.save.info.inventory.questItems,
+        PRINTF(T("Ｎコイン = %x(%d)\n", "N Coins = %x(%d)\n"), gSaveContext.save.info.inventory.questItems,
                gSaveContext.save.info.inventory.gsTokens);
         PRINTF(VT_RST);
 
@@ -1613,9 +1613,8 @@ u8 Item_Give(PlayState* play, u8 item) {
         if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 1);
             AMMO(ITEM_DEKU_NUT) += sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5];
-            // "Deku Nuts %d(%d)=%d BS_count=%d"
-            PRINTF("デクの実 %d(%d)=%d  BS_count=%d\n", item, ITEM_DEKU_NUTS_5, item - ITEM_DEKU_NUTS_5,
-                   sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5]);
+            PRINTF(T("デクの実 %d(%d)=%d  BS_count=%d\n", "Deku Nuts %d(%d)=%d  BS_count=%d\n"), item, ITEM_DEKU_NUTS_5,
+                   item - ITEM_DEKU_NUTS_5, sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5]);
         } else {
             AMMO(ITEM_DEKU_NUT) += sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5];
             if (AMMO(ITEM_DEKU_NUT) > CUR_CAPACITY(UPG_DEKU_NUTS)) {
@@ -1624,8 +1623,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         }
         item = ITEM_DEKU_NUT;
     } else if (item == ITEM_BOMB) {
-        // "Bomb  Bomb  Bomb  Bomb Bomb   Bomb Bomb"
-        PRINTF(" 爆弾  爆弾  爆弾  爆弾 爆弾   爆弾 爆弾 \n");
+        PRINTF(T(" 爆弾  爆弾  爆弾  爆弾 爆弾   爆弾 爆弾 \n", "Bomb  Bomb  Bomb  Bomb Bomb   Bomb Bomb\n"));
         if ((AMMO(ITEM_BOMB) += 1) > CUR_CAPACITY(UPG_BOMB_BAG)) {
             AMMO(ITEM_BOMB) = CUR_CAPACITY(UPG_BOMB_BAG);
         }
@@ -1666,7 +1664,7 @@ u8 Item_Give(PlayState* play, u8 item) {
             AMMO(ITEM_BOW) = CUR_CAPACITY(UPG_QUIVER);
         }
 
-        PRINTF("%d本  Item_MaxGet=%d\n", AMMO(ITEM_BOW), CUR_CAPACITY(UPG_QUIVER));
+        PRINTF(T("%d本  Item_MaxGet=%d\n", "%d books  Item_MaxGet=%d\n"), AMMO(ITEM_BOW), CUR_CAPACITY(UPG_QUIVER));
 
         return ITEM_BOW;
     } else if (item == ITEM_SLINGSHOT) {
@@ -1730,7 +1728,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         gSaveContext.save.info.playerData.health += 0x10;
         return ITEM_NONE;
     } else if (item == ITEM_RECOVERY_HEART) {
-        PRINTF("回復ハート回復ハート回復ハート\n"); // "Recovery Heart"
+        PRINTF(T("回復ハート回復ハート回復ハート\n", "Recovery Heart Recovery Heart Recovery Heart\n"));
         Health_ChangeBy(play, 0x10);
         return item;
     } else if (item == ITEM_MAGIC_JAR_SMALL) {
@@ -1788,8 +1786,8 @@ u8 Item_Give(PlayState* play, u8 item) {
 
             for (i = 0; i < 4; i++) {
                 if (gSaveContext.save.info.inventory.items[temp + i] == ITEM_BOTTLE_EMPTY) {
-                    // "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
-                    PRINTF("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
+                    PRINTF(T("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
+                             "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d\n"),
                            gSaveContext.save.info.equips.cButtonSlots[0], gSaveContext.save.info.equips.cButtonSlots[1],
                            gSaveContext.save.info.equips.cButtonSlots[2], temp + i, item);
 
@@ -1939,8 +1937,8 @@ u8 Item_CheckObtainability(u8 item) {
     } else if (item == ITEM_RECOVERY_HEART) {
         return ITEM_RECOVERY_HEART;
     } else if ((item == ITEM_MAGIC_JAR_SMALL) || (item == ITEM_MAGIC_JAR_BIG)) {
-        // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
-        PRINTF("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
+        PRINTF(T("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", "Magic Pot Get_Inf_Table( 25, 0x0100)=%d\n"),
+               GET_INFTABLE(INFTABLE_198));
         if (!GET_INFTABLE(INFTABLE_198)) {
             return ITEM_NONE;
         } else {
@@ -2003,7 +2001,7 @@ s32 Inventory_ReplaceItem(PlayState* play, u16 oldItem, u16 newItem) {
     for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.inventory.items); i++) {
         if (gSaveContext.save.info.inventory.items[i] == oldItem) {
             gSaveContext.save.info.inventory.items[i] = newItem;
-            PRINTF("アイテム消去(%d)\n", i); // "Item Purge (%d)"
+            PRINTF(T("アイテム消去(%d)\n", "Item Purge (%d)\n"), i);
             for (i = 1; i < 4; i++) {
                 if (gSaveContext.save.info.equips.buttonItems[i] == oldItem) {
                     gSaveContext.save.info.equips.buttonItems[i] = newItem;
@@ -2079,7 +2077,7 @@ s32 Inventory_ConsumeFairy(PlayState* play) {
                     break;
                 }
             }
-            PRINTF("妖精使用＝%d\n", bottleSlot); // "Fairy Usage＝%d"
+            PRINTF(T("妖精使用＝%d\n", "Fairy Usage=%d\n"), bottleSlot);
             gSaveContext.save.info.inventory.items[bottleSlot + i] = ITEM_BOTTLE_EMPTY;
             return true;
         }
@@ -2197,16 +2195,15 @@ s32 Health_ChangeBy(PlayState* play, s16 amount) {
     u16 heartCount;
     u16 healthLevel;
 
-    // "＊＊＊＊＊ Fluctuation=%d (now=%d, max=%d) ＊＊＊"
-    PRINTF("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", amount, gSaveContext.save.info.playerData.health,
-           gSaveContext.save.info.playerData.healthCapacity);
+    PRINTF(T("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", "*****  Fluctuation=%d (now=%d, max=%d)  ***"), amount,
+           gSaveContext.save.info.playerData.health, gSaveContext.save.info.playerData.healthCapacity);
 
     // clang-format off
     if (amount > 0) { Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (gSaveContext.save.info.playerData.isDoubleDefenseAcquired && (amount < 0)) {
         amount >>= 1;
-        PRINTF("ハート減少半分！！＝%d\n", amount); // "Heart decrease halved!!＝%d"
+        PRINTF(T("ハート減少半分！！＝%d\n", "Heart decrease halved!! = %d\n"),  amount);
     }
     // clang-format on
 
@@ -2229,8 +2226,8 @@ s32 Health_ChangeBy(PlayState* play, s16 amount) {
         }
     }
 
-    // "Life=%d ＊＊＊  %d ＊＊＊＊＊＊"
-    PRINTF("  ライフ=%d  ＊＊＊  %d  ＊＊＊＊＊＊\n", gSaveContext.save.info.playerData.health, healthLevel);
+    PRINTF(T("  ライフ=%d  ＊＊＊  %d  ＊＊＊＊＊＊\n", "  Life=%d  ***  %d  ******\n"),
+           gSaveContext.save.info.playerData.health, healthLevel);
 
     if (gSaveContext.save.info.playerData.health <= 0) {
         gSaveContext.save.info.playerData.health = 0;
@@ -2249,8 +2246,8 @@ void Rupees_ChangeBy(s16 rupeeChange) {
 }
 
 void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
-    // "Item = (%d)    Amount = (%d + %d)"
-    PRINTF("アイテム = (%d)    数 = (%d + %d)  ", item, AMMO(item), ammoChange);
+    PRINTF(T("アイテム = (%d)    数 = (%d + %d)  ", "Item = (%d)    Amount = (%d + %d)  "), item, AMMO(item),
+           ammoChange);
 
     if (item == ITEM_DEKU_STICK) {
         AMMO(ITEM_DEKU_STICK) += ammoChange;
@@ -2304,7 +2301,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
         AMMO(ITEM_MAGIC_BEAN) += ammoChange;
     }
 
-    PRINTF("合計 = (%d)\n", AMMO(item)); // "Total = (%d)"
+    PRINTF(T("合計 = (%d)\n", "Total = (%d)\n"), AMMO(item));
 }
 
 void Magic_Fill(PlayState* play) {
@@ -2480,8 +2477,8 @@ void Magic_Update(PlayState* play) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
 
-            // "Storage  MAGIC_NOW=%d (%d)"
-            PRINTF("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.save.info.playerData.magic, gSaveContext.magicFillTarget);
+            PRINTF(T("蓄電  MAGIC_NOW=%d (%d)\n", "Storage  MAGIC_NOW=%d (%d)\n"),
+                   gSaveContext.save.info.playerData.magic, gSaveContext.magicFillTarget);
 
             if (gSaveContext.save.info.playerData.magic >= gSaveContext.magicFillTarget) {
                 gSaveContext.save.info.playerData.magic = gSaveContext.magicFillTarget;
@@ -4167,8 +4164,7 @@ void Interface_Update(PlayState* play) {
                 Audio_PlaySfxGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
-                // "Rupee Amount MAX = %d"
-                PRINTF("ルピー数ＭＡＸ = %d\n", CUR_CAPACITY(UPG_WALLET));
+                PRINTF(T("ルピー数ＭＡＸ = %d\n", "Rupee Amount MAX = %d\n"), CUR_CAPACITY(UPG_WALLET));
                 gSaveContext.save.info.playerData.rupees = CUR_CAPACITY(UPG_WALLET);
                 gSaveContext.rupeeAccumulator = 0;
             }
@@ -4248,7 +4244,7 @@ void Interface_Update(PlayState* play) {
             gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.isDoubleMagicAcquired + 1;
             gSaveContext.magicState = MAGIC_STATE_STEP_CAPACITY;
             PRINTF(VT_FGCOL(YELLOW));
-            PRINTF("魔法スター─────ト！！！！！！！！！\n"); // "Magic Start!!!!!!!!!"
+            PRINTF(T("魔法スター─────ト！！！！！！！！！\n", "Magic Start!!!!!!!!!\n"));
             PRINTF("MAGIC_MAX=%d\n", gSaveContext.save.info.playerData.magicLevel);
             PRINTF("MAGIC_NOW=%d\n", gSaveContext.save.info.playerData.magic);
             PRINTF("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);

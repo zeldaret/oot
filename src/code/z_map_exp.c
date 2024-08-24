@@ -28,9 +28,10 @@ void Map_SetPaletteData(PlayState* play, s16 room) {
     }
 
     PRINTF(VT_FGCOL(YELLOW));
-    // "PALETE Set"
-    PRINTF("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n", paletteIndex, room,
-           mapIndex, gSaveContext.save.info.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteIndex);
+    PRINTF(T("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n",
+             "PALETE Set 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n"),
+           paletteIndex, room, mapIndex, gSaveContext.save.info.sceneFlags[mapIndex].rooms,
+           interfaceCtx->mapPaletteIndex);
     PRINTF(VT_RST);
 
     interfaceCtx->mapPalette[paletteIndex * 2] = 2;
@@ -155,9 +156,9 @@ void Map_InitData(PlayState* play, s16 room) {
         case SCENE_SPIRIT_TEMPLE_BOSS:
         case SCENE_SHADOW_TEMPLE_BOSS:
             PRINTF(VT_FGCOL(YELLOW));
-            // "Deku Tree Dungeon MAP Texture DMA"
-            PRINTF("デクの樹ダンジョンＭＡＰ テクスチャＤＭＡ(%x) scene_id_offset=%d  VREG(30)=%d\n", room, mapIndex,
-                   VREG(30));
+            PRINTF(T("デクの樹ダンジョンＭＡＰ テクスチャＤＭＡ(%x) scene_id_offset=%d  VREG(30)=%d\n",
+                     "Deku Tree Dungeon MAP Texture DMA(%x) scene_id_offset=%d  VREG(30)=%d\n"),
+                   room, mapIndex, VREG(30));
             PRINTF(VT_RST);
             DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
                              (uintptr_t)_map_i_staticSegmentRomStart +
@@ -166,7 +167,7 @@ void Map_InitData(PlayState* play, s16 room) {
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];
             Map_SetFloorPalettesData(play, VREG(30));
-            PRINTF("ＭＡＰ 各階ＯＮチェック\n"); // "MAP Individual Floor ON Check"
+            PRINTF(T("ＭＡＰ 各階ＯＮチェック\n", "MAP Individual Floor ON Check\n"));
             break;
     }
 }
@@ -204,7 +205,7 @@ void Map_InitRoomData(PlayState* play, s16 room) {
                 interfaceCtx->unk_25A = mapIndex;
                 Map_SetPaletteData(play, room);
                 PRINTF(VT_FGCOL(YELLOW));
-                PRINTF("部屋部屋＝%d\n", room); // "Room Room = %d"
+                PRINTF(T("部屋部屋＝%d\n", "Room Room = %d\n"), room);
                 PRINTF(VT_RST);
                 Map_InitData(play, room);
                 break;
@@ -233,9 +234,9 @@ void Map_Init(PlayState* play) {
     interfaceCtx->unk_25A = -1;
 
     interfaceCtx->mapSegment = GAME_STATE_ALLOC(&play->state, 0x1000, "../z_map_exp.c", 457);
-    // "ＭＡＰ texture initialization scene_data_ID=%d mapSegment=%x"
-    PRINTF("\n\n\nＭＡＰ テクスチャ初期化   scene_data_ID=%d\nmapSegment=%x\n\n", play->sceneId,
-           interfaceCtx->mapSegment);
+    PRINTF(T("\n\n\nＭＡＰ テクスチャ初期化   scene_data_ID=%d\nmapSegment=%x\n\n",
+             "\n\n\nMAP texture initialization   scene_data_ID=%d\nmapSegment=%x\n\n"),
+           play->sceneId, interfaceCtx->mapSegment);
     ASSERT(interfaceCtx->mapSegment != NULL, "parameter->mapSegment != NULL", "../z_map_exp.c", 459);
 
     switch (play->sceneId) {
@@ -556,9 +557,9 @@ void Map_Update(PlayState* play) {
                 }
 
                 if (interfaceCtx->mapRoomNum != sLastRoomNum) {
-                    // "Current floor = %d Current room = %x Number of rooms = %d"
-                    PRINTF("現在階＝%d  現在部屋＝%x  部屋数＝%d\n", floor, interfaceCtx->mapRoomNum,
-                           gMapData->switchEntryCount[mapIndex]);
+                    PRINTF(T("現在階＝%d  現在部屋＝%x  部屋数＝%d\n",
+                             "Current floor = %d  Current room = %x  Number of rooms = %d\n"),
+                           floor, interfaceCtx->mapRoomNum, gMapData->switchEntryCount[mapIndex]);
                     sLastRoomNum = interfaceCtx->mapRoomNum;
                 }
 
@@ -567,8 +568,7 @@ void Map_Update(PlayState* play) {
                         (floor == gMapData->switchFromFloor[mapIndex][i])) {
                         interfaceCtx->mapRoomNum = gMapData->switchToRoom[mapIndex][i];
                         PRINTF(VT_FGCOL(YELLOW));
-                        // "Layer switching = %x"
-                        PRINTF("階層切替＝%x\n", interfaceCtx->mapRoomNum);
+                        PRINTF(T("階層切替＝%x\n", "Layer switching = %x\n"), interfaceCtx->mapRoomNum);
                         PRINTF(VT_RST);
                         Map_InitData(play, interfaceCtx->mapRoomNum);
                         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;

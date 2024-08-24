@@ -4,6 +4,16 @@
 
 #define SONG_MAX_LENGTH 8
 
+#if PLATFORM_N64
+#define KALEIDO_COLOR_COLLECT_UNK_R 80
+#define KALEIDO_COLOR_COLLECT_UNK_G 150
+#define KALEIDO_COLOR_COLLECT_UNK_B 255
+#else
+#define KALEIDO_COLOR_COLLECT_UNK_R 80
+#define KALEIDO_COLOR_COLLECT_UNK_G 255
+#define KALEIDO_COLOR_COLLECT_UNK_B 150
+#endif
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     static s16 sHpPrimColors[][4] = {
         { 255, 0, 0, 255 },
@@ -667,7 +677,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     gDPPipeSync(POLY_OPA_DISP++);
 
                     if (sPlayedSongBtns[j] == OCARINA_BTN_A) {
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, sPlayedSongBtnsAlpha[j]);
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_COLLECT_UNK_R, KALEIDO_COLOR_COLLECT_UNK_G,
+                                        KALEIDO_COLOR_COLLECT_UNK_B, sPlayedSongBtnsAlpha[j]);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, sPlayedSongBtnsAlpha[j]);
                     }
@@ -707,7 +718,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
                 if (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG) {
                     if (gOcarinaSongButtons[stepGreen].buttonsIndex[i] == OCARINA_BTN_A) {
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, 200);
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_COLLECT_UNK_R, KALEIDO_COLOR_COLLECT_UNK_G,
+                                        KALEIDO_COLOR_COLLECT_UNK_B, 200);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, 200);
                     }
@@ -768,7 +780,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     gDPPipeSync(POLY_OPA_DISP++);
 
                     if (sPlayedSongBtns[i] == OCARINA_BTN_A) {
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, sPlayedSongBtnsAlpha[i]);
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_COLLECT_UNK_R, KALEIDO_COLOR_COLLECT_UNK_G,
+                                        KALEIDO_COLOR_COLLECT_UNK_B, sPlayedSongBtnsAlpha[i]);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, sPlayedSongBtnsAlpha[i]);
                     }
