@@ -1594,8 +1594,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                     (pauseCtx->savePromptState >= PAUSE_SAVE_PROMPT_STATE_SAVED)) ||
                    pauseCtx->state == PAUSE_STATE_15) {
 #if PLATFORM_N64
-            POLY_OPA_DISP =
-                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSaveConfirmationTexs[gSaveContext.language], 152, 16, 0);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSaveConfirmationTexs[gSaveContext.language],
+                                                        152, 16, QUAD_PROMPT_MESSAGE * 4);
 #endif
         } else if ((pauseCtx->state == PAUSE_STATE_16) || (pauseCtx->state == PAUSE_STATE_17)) {
 
@@ -4299,7 +4299,7 @@ void KaleidoScope_Update(PlayState* play) {
                             sDelayTimer = 90;
 #else
                             sDelayTimer = 3;
-#endif                            
+#endif
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_START) ||
                                CHECK_BTN_ALL(input->press.button, BTN_B)) {
