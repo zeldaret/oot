@@ -146,7 +146,7 @@ void Fault_DrawCharImpl(s32 x, s32 y, char c) {
     u16* fbPtr;
     u32 data;
 
-    dataPtr = (u32*)sFaultDrawerFont + ((c / 8 * 0x10) + ((c & 4) >> 2));
+    dataPtr = sFaultDrawerFont + ((c / 8 * 0x10) + ((c & 4) >> 2));
     fbPtr = gFaultMgr.fb + (gFaultMgr.fbWidth * y) + x;
 
     for (i = 0; i < 8; i++) {
@@ -196,10 +196,10 @@ void* Fault_PrintCallbackDraw(void* arg, const char* str, size_t len) {
             Fault_DrawChar(coords->x, coords->y, *str);
             coords->x += 6;
         }
-        if (coords->x >= 277) {
+        if (coords->x > 276) {
             coords->x = 22;
             coords->y += 8;
-            if (coords->y >= 209) {
+            if (coords->y > 208) {
                 Fault_WaitForInputImpl();
                 Fault_DrawRecBlack(22, 16, 276, 208);
                 coords->y = 16;
@@ -248,7 +248,7 @@ void Fault_PrintFReg(s32 x, s32 y, s32 idx, f32* value) {
     u32 raw = *(u32*)value;
     s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
-    if (((exp >= -0x7E) && (exp < 0x80)) || (raw == 0)) {
+    if (((exp > -127) && (exp <= 127)) || (raw == 0)) {
         Fault_DrawText(x, y, "F%02d:%.7e", idx, *value);
     } else {
         Fault_DrawText(x, y, "F%02d:-------------", idx);
@@ -303,10 +303,10 @@ void Fault_PrintThreadContext(OSThread* thread) {
     s32 y;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
 
-    if (causeStrIdx == 23) {
+    if (causeStrIdx == (EXC_WATCH >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 16;
     }
-    if (causeStrIdx == 31) {
+    if (causeStrIdx == (EXC_VCED >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 17;
     }
 
@@ -624,8 +624,8 @@ void Fault_DrawMemDumpContents(const char* title, void* memory, u32 arg2) {
     Fault_DrawRecBlack(22, 16, 276, 208);
     Fault_DrawText(36, 18, "%s %08x", title != NULL ? title : "PrintDump", ptr);
 
-    if (((uintptr_t)ptr >= 0x80000000) && ((uintptr_t)ptr <= 0x80400000)) {
-        for (y = 28; y != 226; y += 9) {
+    if (((uintptr_t)ptr >= PHYS_TO_K0(0x000000)) && ((uintptr_t)ptr <= PHYS_TO_K0(0x400000))) {
+        for (y = 28; y < 226; y += 9) {
             Fault_DrawText(28, y, "%06x", ptr);
             for (x = 82; x < 290; x += 52) {
                 Fault_DrawText(x, y, "%08x", *(ptr++));
