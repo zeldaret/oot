@@ -51,7 +51,8 @@ void KaleidoManager_Init(PlayState* play) {
     }
 
     PRINTF(VT_FGCOL(GREEN));
-    PRINTF("KaleidoArea の最大サイズは %d バイトを確保します\n", largestSize);
+    PRINTF(T("KaleidoArea の最大サイズは %d バイトを確保します\n", "The maximum size of KaleidoArea is %d bytes\n"),
+           largestSize);
     PRINTF(VT_RST);
 
     sKaleidoAreaPtr = GAME_STATE_ALLOC(&play->state, largestSize, "../z_kaleido_manager.c", 150);
@@ -91,7 +92,7 @@ void* KaleidoManager_GetRamAddr(void* vram) {
             //! @bug Probably missing iter++ here
         }
 
-        PRINTF("異常\n"); // "Abnormal"
+        PRINTF(T("異常\n", "Abnormal\n"));
         return NULL;
     }
 

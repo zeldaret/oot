@@ -26,3 +26,7 @@ gPadMgr = 0x8011DBD0; // size:0x468 type:PadMgr
 gFaultMgr = 0x80121B60; // size:0x5D8 type:FaultMgr_v1
 sFaultInputs = 0x80121B00; // size:0x60 type:Input[4]
 gTotalAllocFailures = 0x80105A90; // size:0x4 type:u32
+gBitFlags = 0x800F9240; // size:0x80 type:u32[32]
+gSfxDefaultPos = 0x801049D4; // size:0xC type:Vec3f
+gSfxDefaultFreqAndVolScale = 0x801049E0; // size:0x4 type:f32
+gSfxDefaultReverb = 0x801049E8; // size:0x1 type:s8

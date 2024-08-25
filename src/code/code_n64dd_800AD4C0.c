@@ -67,10 +67,8 @@ n64ddStruct_80121AF0* func_800ADB30(n64ddStruct_80121AF0* arg0) {
 }
 
 void func_800ADB8C(void) {
-    if (B_80121AF0 != NULL) {
-        if (B_80121AF0->unk_04 != NULL) {
-            B_80121AF0->unk_04();
-        }
+    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_04 != NULL)) {
+        B_80121AF0->unk_04();
     }
     B_80121AF0 = NULL;
 }

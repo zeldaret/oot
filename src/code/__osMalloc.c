@@ -746,9 +746,9 @@ void __osDisplayArena(Arena* arena) {
     freeSize = 0;
     allocatedSize = 0;
 
-    osSyncPrintf("アリーナの内容 (0x%08x)\n", arena); // "Arena contents (0x%08x)"
-    // "Memory node range status size [time s ms us ns: TID: src: line]"
-    osSyncPrintf("メモリブロック範囲 status サイズ  [時刻  s ms us ns: TID:src:行]\n");
+    osSyncPrintf(T("アリーナの内容 (0x%08x)\n", "Arena contents (0x%08x)\n"), arena);
+    osSyncPrintf(T("メモリブロック範囲 status サイズ  [時刻  s ms us ns: TID:src:行]\n",
+                   "Memory node range status size [time s ms us ns: TID:src:line]\n"));
 
     iter = arena->head;
     while (iter != NULL) {
@@ -756,8 +756,7 @@ void __osDisplayArena(Arena* arena) {
             next = iter->next;
             osSyncPrintf("%08x-%08x%c %s %08x", iter, ((u32)iter + sizeof(ArenaNode) + iter->size),
                          (next == NULL) ? '$' : (iter != next->prev ? '!' : ' '),
-                         iter->isFree ? "空き" : "確保", //? "Free" : "Secure"
-                         iter->size);
+                         iter->isFree ? T("空き", "Free") : T("確保", "Secure"), iter->size);
 
             if (!iter->isFree) {
                 osSyncPrintf(" [%016llu:%2d:%s:%d]", OS_CYCLES_TO_NSEC(iter->time), iter->threadId,
@@ -781,12 +780,10 @@ void __osDisplayArena(Arena* arena) {
         iter = next;
     }
 
-    // "Total reserved node size 0x%08x bytes"
-    osSyncPrintf("確保ブロックサイズの合計 0x%08x バイト\n", allocatedSize);
-    // "Total free node size 0x%08x bytes"
-    osSyncPrintf("空きブロックサイズの合計 0x%08x バイト\n", freeSize);
-    // "Maximum free node size 0x%08x bytes"
-    osSyncPrintf("最大空きブロックサイズ   0x%08x バイト\n", maxFree);
+    osSyncPrintf(T("確保ブロックサイズの合計 0x%08x バイト\n", "Total reserved node size 0x%08x bytes\n"),
+                 allocatedSize);
+    osSyncPrintf(T("空きブロックサイズの合計 0x%08x バイト\n", "Total free node size 0x%08x bytes\n"), freeSize);
+    osSyncPrintf(T("最大空きブロックサイズ   0x%08x バイト\n", "Maximum free node size 0x%08x bytes\n"), maxFree);
 
     ArenaImpl_Unlock(arena);
 }
@@ -847,16 +844,17 @@ u32 __osCheckArena(Arena* arena) {
     u32 error = 0;
 
     ArenaImpl_Lock(arena);
-    // "Checking the contents of the arena. . ． (%08x)"
-    osSyncPrintf("アリーナの内容をチェックしています．．． (%08x)\n", arena);
+    osSyncPrintf(
+        T("アリーナの内容をチェックしています．．． (%08x)\n", "Checking the contents of the arena... (%08x)\n"),
+        arena);
     iter = arena->head;
     while (iter != NULL) {
         if (iter && iter->magic == NODE_MAGIC) {
-            // "Oops!! (%08x %08x)"
 #if OOT_DEBUG
-            osSyncPrintf(VT_COL(RED, WHITE) "おおっと！！ (%08x %08x)\n" VT_RST, iter, iter->magic);
+            osSyncPrintf(VT_COL(RED, WHITE) T("おおっと！！ (%08x %08x)\n", "Oops!! (%08x %08x)\n") VT_RST, iter,
+                         iter->magic);
 #else
-            osSyncPrintf("おおっと！！ (%08x %08x)\n", iter, iter->magic);
+            osSyncPrintf(T("おおっと！！ (%08x %08x)\n", "Oops!! (%08x %08x)\n"), iter, iter->magic);
 #endif
             error = 1;
             break;
@@ -864,7 +862,7 @@ u32 __osCheckArena(Arena* arena) {
         iter = NODE_GET_NEXT(iter);
     }
     if (error == 0) {
-        osSyncPrintf("アリーナはまだ、いけそうです\n"); // "The arena is still going well"
+        osSyncPrintf(T("アリーナはまだ、いけそうです\n", "The arena is still going well\n"));
     }
     ArenaImpl_Unlock(arena);
 
