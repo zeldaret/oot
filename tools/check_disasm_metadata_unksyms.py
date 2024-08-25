@@ -11,7 +11,13 @@ import mapfile_parser
 
 # symbols listed here will not be reported as unknown
 IGNORE_NTSC_1_2_SYMS_MISSING = """
-func_800ADC5C_unknown  func_800ADE30_unknown  func_80AEEA48_unknown  func_80800AD0_unknown  func_80800B08_unknown  func_800AF4DC_unknown  func_800CDDF8_unknown  func_800014E8_unknown  func_800AE558_unknown  n64dd_SetDiskVersion  func_800AE064_unknown  func_800AE1E0_unknown  func_800014FC_unknown  func_800ADFE4_unknown  func_800CDDC4_unknown  __osReallocDebug  guTranslateF  func_800AF0E0_unknown  createSpeedParam  func_800AE2B8_unknown  AudioDebug_ProcessInput  func_800AF304_unknown  func_800AE020_unknown  func_800AE05C_unknown  func_800AE408_unknown  func_8000161C_unknown  func_800AF558_unknown  func_800AED1C_unknown  func_80001640_unknown  func_800ADF4C_unknown  func_800015E8_unknown  func_800ADF90_unknown  func_800ADD14_unknown  func_800AE998_unknown  __osMallocDebug  func_800AE4C0_unknown  func_800AF3DC_unknown  func_800AF1C4_unknown  func_8009D434_unknown  func_800AE35C_unknown  func_800FF334  func_800AF720_unknown  func_800AF370_unknown  func_800AE258_unknown  guScaleF  DmaMgr_StrCmp  func_800AF7F0_unknown  func_80001714_unknown  func_800AEC94_unknown  __osFreeDebug  guMtxL2F  func_800ADDF0_unknown  __osMallocRDebug  func_800AE1F8_unknown  osEPiWriteIo
+func_800ADC5C_unknown  func_800ADE30_unknown  func_80AEEA48_unknown  func_80800AD0_unknown  func_80800B08_unknown  func_800AF4DC_unknown  func_800CDDF8_unknown  func_800014E8_unknown  func_800AE558_unknown  func_800AE064_unknown  func_800AE1E0_unknown  func_800014FC_unknown  func_800ADFE4_unknown  func_800CDDC4_unknown  func_800AF0E0_unknown  func_800AE2B8_unknown  func_800AF304_unknown  func_800AE020_unknown  func_800AE05C_unknown  func_800AE408_unknown  func_8000161C_unknown  func_800AF558_unknown  func_800AED1C_unknown  func_80001640_unknown  func_800ADF4C_unknown  func_800015E8_unknown  func_800ADF90_unknown  func_800ADD14_unknown  func_800AE998_unknown  func_800AE4C0_unknown  func_800AF3DC_unknown  func_800AF1C4_unknown  func_8009D434_unknown  func_800AE35C_unknown  func_800AF720_unknown  func_800AF370_unknown  func_800AE258_unknown  func_800AF7F0_unknown  func_80001714_unknown  func_800AEC94_unknown  func_800ADDF0_unknown  func_800AE1F8_unknown
+__osReallocDebug  __osMallocRDebug  __osFreeDebug  __osMallocDebug
+guTranslateF  guScaleF  guMtxL2F
+osEPiWriteIo  createSpeedParam
+AudioDebug_ProcessInput
+func_800FF334
+n64dd_SetDiskVersion
 sJpegTask  _n64ddSegmentRomStart  _n64ddSegmentRomEnd  _n64ddSegmentStart  _string_n64dd_c
 """.split()
 
