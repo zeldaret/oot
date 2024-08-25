@@ -22,3 +22,7 @@ _n64ddSegmentRomEnd = 0x00B9DA70;
 D_801DA410 = 0x801DA410;
 D_801E8090 = 0x801E8090;
 D_800FF4B0 = 0x800FF4B0; // size:0xB0 type:n64ddStruct_800FF4B0_pointers
+gBitFlags = 0x800F9240; // size:0x80 type:u32[32]
+gSfxDefaultPos = 0x801049D4; // size:0xC type:Vec3f
+gSfxDefaultFreqAndVolScale = 0x801049E0; // size:0x4 type:f32
+gSfxDefaultReverb = 0x801049E8; // size:0x1 type:s8

@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "z64dma.h"
+#include "z64pause.h"
 #include "z64scene.h"
 
 struct RegEditor;
@@ -24,10 +25,13 @@ struct PlayState;
 typedef struct n64ddStruct_80121AF0 {
     void (*unk_00)(n64ddStruct_800FF4B0_pointers*, struct n64ddStruct_80121AF0*);
     void (*unk_04)(void);
-    char unk_08[0x34];
+    char unk_08[0x2C];
+    void (*unk_34)(PauseMapMarksData**);
+    void (*unk_38)(PauseMapMarksData**);
     void (*unk_3C)(void);
     void (*unk_40)(void);
-    char unk_44[0x28];
+    s32 (*unk_44)(struct PlayState*);
+    char unk_48[0x24];
     void (*unk_6C)(struct PlayState*, SceneDrawConfigFunc*);
     s32 (*unk_70)(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
 } n64ddStruct_80121AF0; // size = ?
