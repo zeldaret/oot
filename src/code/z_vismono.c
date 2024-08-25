@@ -73,7 +73,6 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     s32 y;
     s32 height = VISMONO_CFBFRAG_HEIGHT;
     u16* cfbFrag = D_0F000000;
-    u32 tileWidth;
 
     gDPPipeSync(gfx++);
     // `G_TT_IA16`: use color-indexed images, and IA16 palettes
@@ -93,21 +92,19 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
 
-        tileWidth = SCREEN_WIDTH * 2;
-
         // Set texel 0 to be a CI8 image with width `SCREEN_WIDTH * 2` and height `VISMONO_CFBFRAG_HEIGHT`
         // Its position in texture image space is shifted along +S by 2
-        gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, tileWidth * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, G_TX_RENDERTILE, 0,
-                   G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
-        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 2 << 2, 0, (tileWidth + 1) << 2, (VISMONO_CFBFRAG_HEIGHT - 1) << 2);
+        gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2 * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, G_TX_RENDERTILE,
+                   0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
+        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 2 << 2, 0, ((SCREEN_WIDTH * 2) + 1) << 2, (height - 1) << 2);
 
         // Set texel 1 to be a CI8 image with width `SCREEN_WIDTH * 2` and height `VISMONO_CFBFRAG_HEIGHT`
         // Its position in texture image space is shifted along +S by 1
         // Note the palette index for this tile has also been incremented from 0 to 1, however the palette index is
         // ignored for CI8 texture sampling.
-        gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, tileWidth * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, 1, 1,
+        gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2 * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, 1, 1,
                    G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
-        gDPSetTileSize(gfx++, 1, 1 << 2, 0, tileWidth << 2, (VISMONO_CFBFRAG_HEIGHT - 1) << 2);
+        gDPSetTileSize(gfx++, 1, 1 << 2, 0, (SCREEN_WIDTH * 2) << 2, (height - 1) << 2);
 
         // Draw a `SCREEN_WIDTH` wide, `height` high rectangle.
         // Texture coordinate T (vertical) starts at 0 and changes by one each line (dtdy = 1)
