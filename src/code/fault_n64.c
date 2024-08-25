@@ -268,7 +268,7 @@ void Fault_LogFReg(s32 idx, f32* value) {
 
 void Fault_PrintFPCSR(s32 x, s32 y, s32 value) {
     s32 i;
-    u32 mask = 0x20000;
+    u32 mask = FPCSR_CE;
 
     Fault_DrawText(x, y, "FPCSR:%08xH", value);
 
@@ -284,7 +284,7 @@ void Fault_PrintFPCSR(s32 x, s32 y, s32 value) {
 
 void Fault_LogFPCSR(s32 value) {
     s32 i;
-    u32 mask = 0x20000;
+    u32 mask = FPCSR_CE;
 
     osSyncPrintf("FPCSR:%08xH  ", value);
 
