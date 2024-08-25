@@ -475,19 +475,20 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
 
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (node == NULL || node->magic != NODE_MAGIC) {
-        // "__osFree: Unauthorized release (%08x)"
-        PRINTF(VT_COL(RED, WHITE) "__osFree:不正解放(%08x)\n" VT_RST, ptr);
+        PRINTF(VT_COL(RED, WHITE) T("__osFree:不正解放(%08x)\n", "__osFree: Unauthorized release (%08x)\n") VT_RST,
+               ptr);
         return;
     }
     if (node->isFree) {
-        PRINTF(VT_COL(RED, WHITE) "__osFree:二重解放(%08x)\n" VT_RST, ptr); // "__osFree: Double release (%08x)"
+        PRINTF(VT_COL(RED, WHITE) T("__osFree:二重解放(%08x)\n", "__osFree: Double release (%08x)\n") VT_RST, ptr);
         return;
     }
 #if OOT_DEBUG
     if (arena != node->arena && arena != NULL) {
-        // "__osFree:Tried to release in a different way than when it was secured (%08x:%08x)"
-        PRINTF(VT_COL(RED, WHITE) "__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n" VT_RST, arena,
-               node->arena);
+        PRINTF(VT_COL(RED, WHITE)
+                   T("__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n",
+                     "__osFree:Tried to release in a different way than when it was secured (%08x:%08x)\n") VT_RST,
+               arena, node->arena);
         return;
     }
 #endif
@@ -540,19 +541,22 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, int line) {
 
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (node == NULL || node->magic != NODE_MAGIC) {
-        // "__osFree: Unauthorized release (%08x)"
-        PRINTF(VT_COL(RED, WHITE) "__osFree:不正解放(%08x) [%s:%d ]\n" VT_RST, ptr, file, line);
+        PRINTF(VT_COL(RED, WHITE)
+                   T("__osFree:不正解放(%08x) [%s:%d ]\n", "__osFree: Unauthorized release (%08x) [%s:%d ]\n") VT_RST,
+               ptr, file, line);
         return;
     }
     if (node->isFree) {
-        // "__osFree: Double release (%08x)"
-        PRINTF(VT_COL(RED, WHITE) "__osFree:二重解放(%08x) [%s:%d ]\n" VT_RST, ptr, file, line);
+        PRINTF(VT_COL(RED, WHITE) T("__osFree:二重解放(%08x) [%s:%d ]\n", "__osFree: Double release (%08x) [%s:%d ]\n")
+                   VT_RST,
+               ptr, file, line);
         return;
     }
     if (arena != node->arena && arena != NULL) {
-        // "__osFree:Tried to release in a different way than when it was secured (%08x:%08x)"
-        PRINTF(VT_COL(RED, WHITE) "__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n" VT_RST, arena,
-               node->arena);
+        PRINTF(VT_COL(RED, WHITE)
+                   T("__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n",
+                     "__osFree:Tried to release in a different way than when it was secured (%08x:%08x)\n") VT_RST,
+               arena, node->arena);
         return;
     }
 
