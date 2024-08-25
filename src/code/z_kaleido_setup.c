@@ -177,20 +177,16 @@ void KaleidoSetup_Init(PlayState* play) {
     View_Init(&pauseCtx->view, play->state.gfxCtx);
 
 #if PLATFORM_N64
-    if (B_80121AF0 != NULL) {
-        if (B_80121AF0->unk_3C != NULL) {
-            B_80121AF0->unk_3C();
-        }
+    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_3C != NULL)) {
+        B_80121AF0->unk_3C();
     }
 #endif
 }
 
 void KaleidoSetup_Destroy(PlayState* play) {
 #if PLATFORM_N64
-    if (B_80121AF0 != NULL) {
-        if (B_80121AF0->unk_40 != NULL) {
-            B_80121AF0->unk_40();
-        }
+    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_40 != NULL)) {
+        B_80121AF0->unk_40();
     }
 #endif
 }
