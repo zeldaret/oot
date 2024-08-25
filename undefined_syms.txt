@@ -31,6 +31,9 @@ func_801C8510_unknown = 0x801C8510;
 D_801DA410 = 0x801DA410;
 D_801E8090 = 0x801E8090;
 
+// z_en_mag.c
+func_801C79BC_unknown = 0x801C79BC;
+
 // z_setup.c
 n64dd_SetDiskVersion = 0x801C8808;
 

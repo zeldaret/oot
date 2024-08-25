@@ -6,6 +6,9 @@
 
 #include "z_en_mag.h"
 #include "assets/objects/object_mag/object_mag.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 #include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -255,8 +258,13 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
 
     if (this->globalState == MAG_STATE_FADE_IN) {
         if (this->effectFadeInState == 0) {
+#if PLATFORM_N64
+            this->effectPrimLodFrac += 0.8f;
+            this->effectAlpha += 6.375f;
+#else
             this->effectAlpha += 6.375f;
             this->effectPrimLodFrac += 0.8f;
+#endif
 
             this->effectPrimColor[0] += 6.375f;
             this->effectPrimColor[1] += 3.875f;
@@ -280,6 +288,9 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
                 this->effectFadeInState = 1;
             }
         } else if (this->effectFadeInState == 1) {
+#if PLATFORM_N64
+            this->effectPrimLodFrac += 2.4f;
+#endif
 #if !OOT_MQ
             this->effectPrimColor[2] += -2.125f;
             this->effectEnvColor[1] += -3.875f;
@@ -287,8 +298,9 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
             this->effectPrimColor[0] += -2.125f;
             this->effectEnvColor[0] += -1.375f;
 #endif
-
+#if !PLATFORM_N64
             this->effectPrimLodFrac += 2.4f;
+#endif
 
             this->effectFadeInTimer--;
 
@@ -459,6 +471,35 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
     *gfxP = gfx;
 }
 
+#if PLATFORM_N64
+// TODO n64dd functions
+s32 func_801C79BC_unknown(void);
+
+void func_80AEEA48_unknown(Gfx** gfxP, s16 arg1, s16 arg2, u32 arg3) {
+    if ((B_80121AE2 != 0) && (func_801C79BC_unknown() != 0)) {
+        Gfx* gfx = *gfxP;
+        s32 temp_a3 = (arg1 + 0x40) << 2;
+        s32 temp_t0 = (arg2 + 5) << 2;
+
+        gDPPipeSync(gfx++);
+        gDPSetCycleType(gfx++, G_CYC_1CYCLE);
+        gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+        gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
+                          ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetPrimColor(gfx++, 0x00, 0x00, 255, 255, 255, arg3);
+        gDPSetEnvColor(gfx++, 48, 36, 146, 255);
+        gDPLoadTextureBlock(gfx++, gTitleDiskTex, G_IM_FMT_IA, G_IM_SIZ_8b, 48, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
+        gSPTextureRectangle(gfx++, temp_a3, temp_t0, temp_a3 + (48 << 2), temp_t0 + (16 << 2), G_TX_RENDERTILE, 0, 0,
+                            (1 << 10), (1 << 10));
+        gDPPipeSync(gfx++);
+        gDPSetCycleType(gfx++, G_CYC_2CYCLE);
+
+        *gfxP = gfx;
+    }
+}
+#endif
+
 void EnMag_DrawCharTexture(Gfx** gfxP, u8* texture, s32 rectLeft, s32 rectTop) {
     Gfx* gfx = *gfxP;
 
@@ -540,6 +581,9 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
     if ((s16)this->mainAlpha != 0) {
         EnMag_DrawImageRGBA32(&gfx, 160 + LOGO_X_SHIFT, 100, (u8*)gTitleZeldaShieldLogoTex, 160, 160);
+#if PLATFORM_N64
+        func_80AEEA48_unknown(&gfx, 160, 100, (u32)this->mainAlpha);
+#endif
     }
 
     Gfx_SetupDL_39Ptr(&gfx);
@@ -641,7 +685,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
     if ((s16)this->copyrightAlpha != 0) {
 #if PLATFORM_N64
-        gDPLoadTextureBlock(gfx++, gTitleCopyright1998Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0,
+        gDPLoadTextureBlock(gfx++, gTitleCopyright1998Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 128, 16, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
 #elif OOT_VERSION < OOT_GC_US
@@ -664,7 +708,11 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                             G_TX_NOLOD, G_TX_NOLOD);
 #endif
 
+#if PLATFORM_N64
+        gSPTextureRectangle(gfx++, 94 << 2, 198 << 2, 222 << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+#else
         gSPTextureRectangle(gfx++, 78 << 2, 198 << 2, 238 << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+#endif
     }
 
     if (gSaveContext.fileNum == 0xFEDC) {
