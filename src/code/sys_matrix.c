@@ -19,6 +19,8 @@ MtxF gMtxFClear = {
 };
 // clang-format on
 
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
+
 MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"
 

@@ -1,6 +1,11 @@
 #include "global.h"
 #include "fault.h"
 #include "terminal.h"
+#include "versions.h"
+#if PLATFORM_N64
+#include "cic6105.h"
+#include "n64dd.h"
+#endif
 
 extern u8 _buffersSegmentEnd[];
 
@@ -53,8 +58,20 @@ void Main(void* arg) {
     gAppNmiBufferPtr = (PreNmiBuff*)osAppNMIBuffer;
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
+#if PLATFORM_N64
+    func_800ADA80();
+    if ((u8)B_80121AE1 != 0) {
+        systemHeapStart = (uintptr_t)&D_801E8090;
+        SysCfb_Init(1);
+    } else {
+        func_800ADAF8();
+        systemHeapStart = (uintptr_t)_buffersSegmentEnd;
+        SysCfb_Init(0);
+    }
+#else
     SysCfb_Init(0);
     systemHeapStart = (uintptr_t)_buffersSegmentEnd;
+#endif
     fb = (uintptr_t)SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - systemHeapStart;
     PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initalization %08x-%08x %08x\n"), systemHeapStart,
@@ -98,6 +115,11 @@ void Main(void* arg) {
     StackCheck_Init(&sSchedStackInfo, sSchedStack, STACK_TOP(sSchedStack), 0, 0x100, "sched");
     Sched_Init(&gScheduler, STACK_TOP(sSchedStack), THREAD_PRI_SCHED, gViConfigModeType, 1, &gIrqMgr);
 
+#if PLATFORM_N64
+    CIC6105_AddFaultClient();
+    func_80001640();
+#endif
+
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQueue);
 
     StackCheck_Init(&sAudioStackInfo, sAudioStack, STACK_TOP(sAudioStack), 0, 0x100, "audio");
@@ -120,14 +142,19 @@ void Main(void* arg) {
         if (msg == NULL) {
             break;
         }
-        if (*msg == OS_SC_PRE_NMI_MSG) {
-            PRINTF(T("main.c: リセットされたみたいだよ\n", "main.c: Looks like it's been reset\n"));
-            PreNmiBuff_SetReset(gAppNmiBufferPtr);
+        switch (*msg) {
+            case OS_SC_PRE_NMI_MSG:
+                PRINTF(T("main.c: リセットされたみたいだよ\n", "main.c: Looks like it's been reset\n"));
+                PreNmiBuff_SetReset(gAppNmiBufferPtr);
+                break;
         }
     }
 
     PRINTF(T("mainproc 後始末\n", "mainproc Cleanup\n"));
     osDestroyThread(&sGraphThread);
     RcpUtils_Reset();
+#if PLATFORM_N64
+    CIC6105_RemoveFaultClient();
+#endif
     PRINTF(T("mainproc 実行終了\n", "mainproc End of execution\n"));
 }
