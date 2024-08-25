@@ -153,6 +153,10 @@ void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Schedule
     audioMgr->irqMgr = irqMgr;
     audioMgr->rspTask = NULL;
 
+#if PLATFORM_N64
+    R_AUDIOMGR_DEBUG_LEVEL = 1;
+#endif
+
     osCreateMesgQueue(&audioMgr->taskDoneQueue, &audioMgr->taskDoneMsg, 1);
     osCreateMesgQueue(&audioMgr->interruptQueue, audioMgr->interruptMsgBuf, ARRAY_COUNT(audioMgr->interruptMsgBuf));
     osCreateMesgQueue(&audioMgr->initQueue, &audioMgr->initMsg, 1);
