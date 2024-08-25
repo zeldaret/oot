@@ -772,19 +772,19 @@ void TitleCard_Update(PlayState* play, TitleCardContext* titleCtx) {
 void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
     s32 width;
     s32 height;
-    s32 unused;
-    s32 titleX;
     s32 doubleWidth;
-    s32 titleY;
-    s32 titleSecondY;
+    s32 titleX1;
+    s32 titleX2;
+    s32 titleY1;
+    s32 titleY2;
     s32 textureLanguageOffset;
 
     if (titleCtx->alpha != 0) {
         width = titleCtx->width;
         height = titleCtx->height;
         doubleWidth = width * 2;
-        titleX = (titleCtx->x * 4) - (width * 2);
-        titleY = (titleCtx->y * 4) - (height * 2);
+        titleX1 = (titleCtx->x * 4) - (width * 2);
+        titleY1 = (titleCtx->y * 4) - (height * 2);
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2824);
 
@@ -797,8 +797,13 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
 #else
         textureLanguageOffset = width * height * gSaveContext.language;
 #endif
-        height = (width * height > 0x1000) ? 0x1000 / width : height;
-        titleSecondY = titleY + (height * 4);
+
+        if (width * height > 0x1000) {
+            height = 0x1000 / width;
+        }
+
+        titleX2 = titleX1 + (doubleWidth * 2);
+        titleY2 = titleY1 + (height * 4);
 
         OVERLAY_DISP = Gfx_SetupDL_52NoCD(OVERLAY_DISP);
 
@@ -809,8 +814,8 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
                             width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, titleX, titleY, ((doubleWidth * 2) + titleX) - 4, titleY + (height * 4) - 1,
-                            G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(OVERLAY_DISP++, titleX1, titleY1, titleX2 - 4, titleY2 - 1, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                            1 << 10);
 
         height = titleCtx->height - height;
 
@@ -820,8 +825,8 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
                                 G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                 G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(OVERLAY_DISP++, titleX, titleSecondY, ((doubleWidth * 2) + titleX) - 4,
-                                titleSecondY + (height * 4) - 1, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            gSPTextureRectangle(OVERLAY_DISP++, titleX1, titleY2, titleX2 - 4, titleY2 + (height * 4) - 1,
+                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         }
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 2880);
