@@ -212,8 +212,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
                 gSPDisplayList(POLY_XLU_DISP++, dList);
             }
         } else {
-            // "FcSkeletonInfo_draw_child (): Not supported"
-            PRINTF("FcSkeletonInfo_draw_child():未対応\n");
+            PRINTF(T("FcSkeletonInfo_draw_child():未対応\n", "FcSkeletonInfo_draw_child(): Not supported\n"));
         }
     }
 
