@@ -558,9 +558,9 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[188], 32, 0);
 
     for (j = t = i = 0; i < 8; i++, t++, j += 4) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, (u8*)gWorldMapImageTex + t * 216 * 9, G_IM_FMT_CI, G_IM_SIZ_8b, 216, 9,
-                            0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK,
-                            G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, (u8*)gWorldMapImageTex + t * 216 * 9, G_IM_FMT_CI, G_IM_SIZ_8b, 216, 9, 0,
+                            G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
 
         gSP1Quadrangle(POLY_OPA_DISP++, j, j + 2, j + 3, j + 1, 0);
     }
@@ -568,9 +568,9 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[220], 28, 0);
 
     for (j = i = 0; i < 6; i++, t++, j += 4) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, (u8*)gWorldMapImageTex + t * 216 * 9, G_IM_FMT_CI, G_IM_SIZ_8b, 216, 9,
-                            0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK,
-                            G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, (u8*)gWorldMapImageTex + t * 216 * 9, G_IM_FMT_CI, G_IM_SIZ_8b, 216, 9, 0,
+                            G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
 
         gSP1Quadrangle(POLY_OPA_DISP++, j, j + 2, j + 3, j + 1, 0);
     }
