@@ -36,6 +36,18 @@ typedef struct ArenaNode {
 #endif
 } ArenaNode; // size = 0x30 (N64 and GC debug), size = 0x10 (GC retail)
 
+#if PLATFORM_N64
+#define DECLARE_INTERRUPT_MASK OSIntMask __mask;
+#define CLEAR_INTERRUPTS() __mask = osSetIntMask(OS_IM_NONE)
+#define DISABLE_INTERRUPTS() __mask = osSetIntMask(OS_IM_NONE)
+#define RESTORE_INTERRUPTS() osSetIntMask(__mask)
+#else
+#define DECLARE_INTERRUPT_MASK
+#define CLEAR_INTERRUPTS() (void)0
+#define DISABLE_INTERRUPTS() (void)0
+#define RESTORE_INTERRUPTS() (void)0
+#endif
+
 void __osMallocInit(Arena* arena, void* start, s32 size);
 void __osMallocCleanup(Arena* arena);
 s32 __osMallocIsInitialized(Arena* arena);

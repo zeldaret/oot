@@ -7,16 +7,6 @@
 
 Arena gSystemArena;
 
-#if PLATFORM_N64
-#define DECLARE_INTERRUPT_MASK OSIntMask __mask;
-#define DISABLE_INTERRUPTS() __mask = osSetIntMask(OS_IM_NONE)
-#define RESTORE_INTERRUPTS() osSetIntMask(__mask)
-#else
-#define DECLARE_INTERRUPT_MASK
-#define DISABLE_INTERRUPTS() (void)0
-#define RESTORE_INTERRUPTS() (void)0
-#endif
-
 #if OOT_DEBUG
 s32 gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
 
