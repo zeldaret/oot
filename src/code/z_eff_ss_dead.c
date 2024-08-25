@@ -30,20 +30,24 @@ void func_80026400(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
     Gfx* displayListHead;
     f32 cos;
 
-    if (arg3 != 0) {
-        OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 141);
-
-        cos = Math_CosS((0x4000 / arg3) * arg2);
-        displayListHead = POLY_OPA_DISP;
-
-        gDPPipeSync(displayListHead++);
-        gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
-        gSPFogPosition(displayListHead++, 0, (s16)(2800.0f * ABS(cos)) + 1700);
-
-        POLY_OPA_DISP = displayListHead;
-
-        CLOSE_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 153);
+#if PLATFORM_GC
+    if (arg3 == 0) {
+        return;
     }
+#endif
+
+    OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 141);
+
+    cos = Math_CosS((0x4000 / arg3) * arg2);
+    displayListHead = POLY_OPA_DISP;
+
+    gDPPipeSync(displayListHead++);
+    gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
+    gSPFogPosition(displayListHead++, 0, (s16)(2800.0f * ABS(cos)) + 1700);
+
+    POLY_OPA_DISP = displayListHead;
+
+    CLOSE_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 153);
 }
 
 void func_80026608(PlayState* play) {
