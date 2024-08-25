@@ -10,7 +10,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
 
     if ((this != NULL) && (initParams != NULL)) {
         if ((initParams->uDiv == 0) || (initParams->vDiv == 0)) {
-            PRINTF("spark():u_div,v_div 0では困る。\n"); // "u_div,v_div 0 is not good."
+            PRINTF(T("spark():u_div,v_div 0では困る。\n", "spark():u_div,v_div 0 is not good.\n"));
             return;
         }
 
@@ -55,7 +55,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
 
         this->numElements = (this->uDiv * this->vDiv) + 2;
         if (this->numElements > ARRAY_COUNT(this->elements)) {
-            PRINTF("table_sizeオーバー\n"); // "over table_size"
+            PRINTF(T("table_sizeオーバー\n", "over table_size\n"));
             return;
         }
 
@@ -172,8 +172,8 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
         vertices = GRAPH_ALLOC(gfxCtx, this->numElements * sizeof(Vtx[4]));
         if (vertices == NULL) {
-            // "Memory Allocation Failure graph_malloc"
-            PRINTF("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n");
+            PRINTF(T("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n",
+                     "EffectSparkInfo_disp(): Memory Allocation Failure graph_malloc\n"));
             goto end;
         }
 
