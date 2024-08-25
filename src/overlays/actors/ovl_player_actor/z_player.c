@@ -1130,23 +1130,23 @@ static LinkAnimationHeader* D_80853D7C[][2] = {
     { &gPlayerAnim_link_wait_itemD2_20f, &gPlayerAnim_link_wait_itemD2_20f }
 };
 
-static AnimSfxEntry D_80853DEC[] = {
+static AnimSfxEntry sIdleSneezeSfxEntry[] = {
     { NA_SE_VO_LI_SNEEZE, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 8) },
 };
 
-static AnimSfxEntry D_80853DF0[] = {
+static AnimSfxEntry sIdleSweatSfxEntry[] = {
     { NA_SE_VO_LI_SWEAT, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 18) },
 };
 
-static AnimSfxEntry D_80853DF4[] = {
+static AnimSfxEntry sIdleUnknown1SfxEntry[] = {
     { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 13) },
 };
 
-static AnimSfxEntry D_80853DF8[] = {
+static AnimSfxEntry sIdleUnknown2SfxEntry[] = {
     { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 10) },
 };
 
-static AnimSfxEntry D_80853DFC[] = {
+static AnimSfxEntry sIdleBeltSfxEntry[] = {
     { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 44) },
     { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 48) },
     { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 52) },
@@ -1154,41 +1154,73 @@ static AnimSfxEntry D_80853DFC[] = {
     { NA_SE_PL_CALM_HIT, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 60) },
 };
 
-static AnimSfxEntry D_80853E10[] = {
+static AnimSfxEntry sIdleFootTappingSfxEntry[] = {
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 25) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 30) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 44) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 48) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 52) }, { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 56) },
 };
 
-static AnimSfxEntry D_80853E28[] = {
+static AnimSfxEntry sIdleShieldPostureSfxEntry[] = {
     { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 16) },
     { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 20) },
     { NA_SE_IT_SHIELD_POSTURE, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 70) },
 };
 
-static AnimSfxEntry D_80853E34[] = {
+static AnimSfxEntry sIdleUnknown3SfxEntry[] = {
     { NA_SE_IT_HAMMER_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 10) },
     { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 10) },
     { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 22) },
     { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 22) },
 };
 
-static AnimSfxEntry D_80853E44[] = {
+static AnimSfxEntry sIdleSwordThrustSfxEntry[] = {
     { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 39) },
     { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 39) },
 };
 
-static AnimSfxEntry D_80853E4C[] = {
+static AnimSfxEntry sIdleRelaxSfxEntry[] = {
     { NA_SE_VO_LI_RELAX, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 20) },
 };
 
-static AnimSfxEntry* D_80853E50[] = {
-    D_80853DEC, D_80853DF0, D_80853DF4, D_80853DF8, D_80853DFC, D_80853E10,
-    D_80853E28, D_80853E34, D_80853E44, D_80853E4C, NULL,
+typedef enum {
+    /* 0x0 */ IDLE_ANIMATION_NONE,
+    /* 0x1 */ IDLE_ANIMATION_SNEEZE,
+    /* 0x2 */ IDLE_ANIMATION_SWEAT,
+    /* 0x3 */ IDLE_ANIMATION_UNKNOWN_1,
+    /* 0x4 */ IDLE_ANIMATION_UNKNOWN_2,
+    /* 0x5 */ IDLE_ANIMATION_BELT,
+    /* 0x6 */ IDLE_ANIMATION_FOOT_TAPPING,
+    /* 0x7 */ IDLE_ANIMATION_SHIELD_POSTURE,
+    /* 0x8 */ IDLE_ANIMATION_UNKNOWN_3,
+    /* 0x9 */ IDLE_ANIMATION_SWORD_THRUST,
+    /* 0xA */ IDLE_ANIMATION_RELAX,
+    /* 0xB */ IDLE_ANIMATION_MAX
+} IdleAnimationIndex;
+
+static AnimSfxEntry* sIdleSfxEntries[] = {
+    /* IDLE_ANIMATION_SNEEZE         */ sIdleSneezeSfxEntry,
+    /* IDLE_ANIMATION_SWEAT          */ sIdleSweatSfxEntry,
+    /* IDLE_ANIMATION_UNKNOWN_1      */ sIdleUnknown1SfxEntry,
+    /* IDLE_ANIMATION_UNKNOWN_2      */ sIdleUnknown2SfxEntry,
+    /* IDLE_ANIMATION_BELT           */ sIdleBeltSfxEntry,
+    /* IDLE_ANIMATION_FOOT_TAPPING   */ sIdleFootTappingSfxEntry,
+    /* IDLE_ANIMATION_SHIELD_POSTURE */ sIdleShieldPostureSfxEntry,
+    /* IDLE_ANIMATION_UNKNOWN_3      */ sIdleUnknown3SfxEntry,
+    /* IDLE_ANIMATION_SWORD_THRUST   */ sIdleSwordThrustSfxEntry,
+    /* IDLE_ANIMATION_RELAX          */ sIdleRelaxSfxEntry,         NULL,
 };
 
-static u8 D_80853E7C[] = {
-    0, 0, 1, 1, 2, 2, 2, 2, 10, 10, 10, 10, 10, 10, 3, 3, 4, 4, 8, 8, 5, 5, 6, 6, 7, 7, 9, 9, 0,
+static u8 sIdleSfxEntryIndices[] = {
+    IDLE_ANIMATION_NONE,           IDLE_ANIMATION_NONE,           IDLE_ANIMATION_SNEEZE,
+    IDLE_ANIMATION_SNEEZE,         IDLE_ANIMATION_SWEAT,          IDLE_ANIMATION_SWEAT,
+    IDLE_ANIMATION_SWEAT,          IDLE_ANIMATION_SWEAT,          IDLE_ANIMATION_RELAX,
+    IDLE_ANIMATION_RELAX,          IDLE_ANIMATION_RELAX,          IDLE_ANIMATION_RELAX,
+    IDLE_ANIMATION_RELAX,          IDLE_ANIMATION_RELAX,          IDLE_ANIMATION_UNKNOWN_1,
+    IDLE_ANIMATION_UNKNOWN_1,      IDLE_ANIMATION_UNKNOWN_2,      IDLE_ANIMATION_UNKNOWN_2,
+    IDLE_ANIMATION_UNKNOWN_3,      IDLE_ANIMATION_UNKNOWN_3,      IDLE_ANIMATION_BELT,
+    IDLE_ANIMATION_BELT,           IDLE_ANIMATION_FOOT_TAPPING,   IDLE_ANIMATION_FOOT_TAPPING,
+    IDLE_ANIMATION_SHIELD_POSTURE, IDLE_ANIMATION_SHIELD_POSTURE, IDLE_ANIMATION_SWORD_THRUST,
+    IDLE_ANIMATION_SWORD_THRUST,   IDLE_ANIMATION_NONE,
 };
 
 // Used to map item IDs to item actions
@@ -2094,9 +2126,9 @@ s32 func_80833350(Player* this) {
     return -1;
 }
 
-void func_808333FC(Player* this, s32 arg1) {
-    if (D_80853E7C[arg1] != 0) {
-        Player_ProcessAnimSfxList(this, D_80853E50[D_80853E7C[arg1] - 1]);
+void Player_ProcessIdleAnimSfxList(Player* this, s32 arg1) {
+    if (sIdleSfxEntryIndices[arg1] != IDLE_ANIMATION_NONE) {
+        Player_ProcessAnimSfxList(this, sIdleSfxEntries[sIdleSfxEntryIndices[arg1] - 1]);
     }
 }
 
@@ -7749,7 +7781,7 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
     sp40 = LinkAnimation_Update(play, &this->skelAnime);
 
     if (sp44 > 0) {
-        func_808333FC(this, sp44 - 1);
+        Player_ProcessIdleAnimSfxList(this, sp44 - 1);
     }
 
     if (sp40 != 0) {
