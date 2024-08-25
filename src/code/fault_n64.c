@@ -375,10 +375,10 @@ void Fault_LogThreadContext(OSThread* thread) {
     __OSThreadContext* ctx = &thread->context;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
 
-    if (causeStrIdx == 23) {
+    if (causeStrIdx == (EXC_WATCH >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 16;
     }
-    if (causeStrIdx == 31) {
+    if (causeStrIdx == (EXC_VCED >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 17;
     }
 
@@ -664,8 +664,8 @@ void func_800AF3DC(void) {
 void Fault_ResumeThread(OSThread* thread) {
     thread->context.cause = 0;
     thread->context.fpcsr = 0;
-    thread->context.pc += 4;
-    *(u32*)thread->context.pc = 0x0000000D;
+    thread->context.pc += sizeof(u32);
+    *(u32*)thread->context.pc = 0x0000000D; // write in a break instruction
     osWritebackDCache((void*)thread->context.pc, 4);
     osInvalICache((void*)thread->context.pc, 4);
     osStartThread(thread);
@@ -838,8 +838,8 @@ void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
 }
 
 void Fault_AddHungupAndCrash(const char* file, int line) {
-    char sp18[256];
+    char msg[256];
 
-    sprintf(sp18, "HungUp %s:%d", file, line);
-    Fault_AddHungupAndCrashImpl(sp18, NULL);
+    sprintf(msg, "HungUp %s:%d", file, line);
+    Fault_AddHungupAndCrashImpl(msg, NULL);
 }

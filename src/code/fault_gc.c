@@ -463,7 +463,7 @@ void Fault_PrintFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
     s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
-    if ((exp >= -0x7E && exp < 0x80) || raw == 0) {
+    if ((exp > -127 && exp <= 127) || raw == 0) {
         FaultDrawer_Printf("F%02d:%14.7e ", idx, *value);
     } else {
         // Print subnormal floats as their ieee-754 hex representation
@@ -475,7 +475,7 @@ void Fault_LogFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
     s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
-    if ((exp >= -0x7E && exp < 0x80) || raw == 0) {
+    if ((exp > -127 && exp <= 127) || raw == 0) {
         osSyncPrintf("F%02d:%14.7e ", idx, *value);
     } else {
         osSyncPrintf("F%02d:  %08x(16) ", idx, *(u32*)value);
@@ -518,10 +518,10 @@ void Fault_PrintThreadContext(OSThread* thread) {
     __OSThreadContext* ctx;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
 
-    if (causeStrIdx == 23) { // Watchpoint
+    if (causeStrIdx == (EXC_WATCH >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 16;
     }
-    if (causeStrIdx == 31) { // Virtual coherency on data
+    if (causeStrIdx == (EXC_VCED >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 17;
     }
 
@@ -580,10 +580,10 @@ void Fault_LogThreadContext(OSThread* thread) {
     __OSThreadContext* ctx;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
 
-    if (causeStrIdx == 23) { // Watchpoint
+    if (causeStrIdx == (EXC_WATCH >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 16;
     }
-    if (causeStrIdx == 31) { // Virtual coherency on data
+    if (causeStrIdx == (EXC_VCED >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 17;
     }
 
@@ -1114,7 +1114,7 @@ void Fault_ResumeThread(OSThread* thread) {
     thread->context.cause = 0;
     thread->context.fpcsr = 0;
     thread->context.pc += sizeof(u32);
-    *((u32*)thread->context.pc) = 0x0000000D; // write in a break instruction
+    *(u32*)thread->context.pc = 0x0000000D; // write in a break instruction
     osWritebackDCache((void*)thread->context.pc, 4);
     osInvalICache((void*)thread->context.pc, 4);
     osStartThread(thread);
