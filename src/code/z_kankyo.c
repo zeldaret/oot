@@ -450,8 +450,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     if (Object_GetSlot(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
         play->envCtx.sunMoonDisabled = true;
-        // "Sun setting other than field keep! So forced release!"
-        PRINTF(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) T("\n\nフィールド常駐以外、太陽設定！よって強制解除！\n",
+                                       "\n\nSun setting other than field keep! So forced release!\n") VT_RST);
     }
 
     gCustomLensFlareOn = false;
@@ -568,8 +568,8 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
     decelDurationF = (s32)decelDuration;
 
     if ((startFrameF >= endFrameF) || (accelDurationF + decelDurationF > totalFrames)) {
-        // "The frame relation between end_frame and start_frame is wrong!!!"
-        PRINTF(VT_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) T("\nend_frameとstart_frameのフレーム関係がおかしい!!!",
+                                    "\nThe frame relation between end_frame and start_frame is wrong!!!") VT_RST);
         PRINTF(VT_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" VT_RST);
 
         return 0.0f;
@@ -717,8 +717,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
 #if OOT_DEBUG
         if (newSkybox1Index == 0xFF) {
-            // "Environment VR data acquisition failed! Report to Sasaki!"
-            PRINTF(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
+            PRINTF(VT_COL(RED, WHITE) T("\n環境ＶＲデータ取得失敗！ ささきまでご報告を！",
+                                        "\nEnvironment VR data acquisition failed! Report to Sasaki!") VT_RST);
         }
 #endif
 
@@ -804,8 +804,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex) {
     if (waterLightsIndex == WATERBOX_LIGHT_INDEX_NONE) {
         waterLightsIndex = 0;
-        // "Underwater color is not set in the water poly data!"
-        PRINTF(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) T("\n水ポリゴンデータに水中カラーが設定されておりません!",
+                                       "\nUnderwater color is not set in the water poly data!") VT_RST);
     }
 
     if (play->envCtx.lightMode == LIGHT_MODE_TIME) {
@@ -1140,11 +1140,11 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 #if OOT_DEBUG
                     if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                         envCtx->numLightSettings) {
-                        // "The color palette setting seems to be wrong!"
-                        PRINTF(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
+                        PRINTF(VT_COL(RED, WHITE) T("\nカラーパレットの設定がおかしいようです！",
+                                                    "\nThe color palette setting seems to be wrong!") VT_RST);
 
-                        // "Palette setting = [] Last palette number = []"
-                        PRINTF(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
+                        PRINTF(VT_COL(RED, WHITE) T("\n設定パレット＝[%d] 最後パレット番号＝[%d]\n",
+                                                    "\nPalette setting = [%d] Last palette number = [%d]\n") VT_RST,
                                sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting,
                                envCtx->numLightSettings - 1);
                     }
@@ -1219,12 +1219,12 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
 #if OOT_DEBUG
             if (envCtx->lightSetting >= envCtx->numLightSettings) {
-                // "The color palette seems to be wrong!"
-                PRINTF("\n" VT_FGCOL(RED) "カラーパレットがおかしいようです！");
+                PRINTF("\n" VT_FGCOL(RED)
+                           T("カラーパレットがおかしいようです！", "The color palette seems to be wrong!"));
 
-                // "Palette setting = [] Last palette number = []"
-                PRINTF("\n" VT_FGCOL(YELLOW) "設定パレット＝[%d] パレット数＝[%d]\n" VT_RST, envCtx->lightSetting,
-                       envCtx->numLightSettings);
+                PRINTF("\n" VT_FGCOL(YELLOW) T("設定パレット＝[%d] パレット数＝[%d]\n",
+                                               "Palette setting = [%d] Last palette number = [%d]\n") VT_RST,
+                       envCtx->lightSetting, envCtx->numLightSettings);
             }
 #endif
         }
@@ -2073,9 +2073,9 @@ void Environment_PlaySceneSequence(PlayState* play) {
             Audio_PlayNatureAmbienceSequence(play->sceneSequences.natureAmbienceId);
         }
     } else if (play->sceneSequences.natureAmbienceId == NATURE_ID_NONE) {
-        // "BGM Configuration"
-        PRINTF("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", play->sceneSequences.seqId,
-               ((void)0, gSaveContext.seqId));
+        PRINTF(T("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n",
+                 "\n\n\nBGM Configuration game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n"),
+               play->sceneSequences.seqId, ((void)0, gSaveContext.seqId));
         if (((void)0, gSaveContext.seqId) != play->sceneSequences.seqId) {
             Audio_PlaySceneSequence(play->sceneSequences.seqId);
         }
@@ -2103,9 +2103,9 @@ void Environment_PlaySceneSequence(PlayState* play) {
     }
 
     PRINTF("\n-----------------\n", ((void)0, gSaveContext.forcedSeqId));
-    PRINTF("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.forcedSeqId)); // "Forced BGM"
+    PRINTF(T("\n 強制ＢＧＭ=[%d]", "\n Forced BGM=[%d]"), ((void)0, gSaveContext.forcedSeqId));
     PRINTF("\n     ＢＧＭ=[%d]", play->sceneSequences.seqId);
-    PRINTF("\n     エンブ=[%d]", play->sceneSequences.natureAmbienceId);
+    PRINTF(T("\n     エンブ=[%d]", "\n      Embed=[%d]"), play->sceneSequences.natureAmbienceId);
     PRINTF("\n     status=[%d]", play->envCtx.timeSeqState);
 
     Audio_SetEnvReverb(play->roomCtx.curRoom.echo);

@@ -235,6 +235,7 @@ class UcodeOp:
     lexlev: int
     i1: int
     args: list[int]
+    const: Optional[int]
     string: Optional[bytes]
 
 
@@ -425,15 +426,28 @@ def parse_ucode(ucode: bytes) -> list[UcodeOp]:
             args.append(int.from_bytes(ucode[pos : pos + 4], "big"))
             pos += 4
 
+        const = None
         string = None
         if info.has_const:
-            string_length = int.from_bytes(ucode[pos : pos + 4], "big")
+            const = int.from_bytes(ucode[pos : pos + 4], "big")
             pos += 8
             if dtype in (9, 12, 13, 14, 16) or info.name == "comm":
-                string = ucode[pos : pos + string_length]
-                pos += (string_length + 7) & ~7
+                string = ucode[pos : pos + const]
+                pos += (const + 7) & ~7
 
-        ops.append(UcodeOp(opcode, info.name, mtype, dtype, lexlev, i1, args, string))
+        ops.append(
+            UcodeOp(
+                opcode,
+                info.name,
+                mtype,
+                dtype,
+                lexlev,
+                i1,
+                args,
+                const,
+                string,
+            )
+        )
     return ops
 
 
@@ -444,6 +458,8 @@ def print_ucode(ucode: list[UcodeOp]):
             f"{op.opcode_name:<4} mtype={op.mtype:X} dtype={op.dtype:X} lexlev={op.lexlev} i1={op.i1} args={args}",
             end="",
         )
+        if op.const is not None:
+            print(f" const=0x{op.const:X}", end="")
         if op.string is not None:
             print(f" string={op.string!r}", end="")
         print()

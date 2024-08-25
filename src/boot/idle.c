@@ -21,34 +21,38 @@ f32 gViConfigYScale = 1.0;
 void Main_ThreadEntry(void* arg) {
     OSTime time;
 
-    PRINTF("mainx 実行開始\n");
+    PRINTF(T("mainx 実行開始\n", "mainx execution started\n"));
     DmaMgr_Init();
-    PRINTF("codeセグメントロード中...");
+    PRINTF(T("codeセグメントロード中...", "code segment loading..."));
     time = osGetTime();
     DMA_REQUEST_SYNC(_codeSegmentStart, (uintptr_t)_codeSegmentRomStart, _codeSegmentRomEnd - _codeSegmentRomStart,
                      "../idle.c", 238);
     time -= osGetTime();
-    PRINTF("\rcodeセグメントロード中...完了\n");
-    PRINTF("転送時間 %6.3f\n");
+    PRINTF(T("\rcodeセグメントロード中...完了\n", "\rcode segment loading... Done\n"));
+    PRINTF(T("転送時間 %6.3f\n", "Transfer time %6.3f\n"));
     bzero(_codeSegmentBssStart, _codeSegmentBssEnd - _codeSegmentBssStart);
-    PRINTF("codeセグメントBSSクリア完了\n");
+    PRINTF(T("codeセグメントBSSクリア完了\n", "code segment BSS cleared\n"));
     Main(arg);
-    PRINTF("mainx 実行終了\n");
+    PRINTF(T("mainx 実行終了\n", "mainx execution finished\n"));
 }
 
 void Idle_ThreadEntry(void* arg) {
-    PRINTF("アイドルスレッド(idleproc)実行開始\n");
-    PRINTF("作製者    : %s\n", gBuildTeam);
-    PRINTF("作成日時  : %s\n", gBuildDate);
+    PRINTF(T("アイドルスレッド(idleproc)実行開始\n", "Idle thread (idleproc) execution started\n"));
+    PRINTF(T("作製者    : %s\n", "Created by: %s\n"), gBuildTeam);
+    PRINTF(T("作成日時  : %s\n", "Created   : %s\n"), gBuildDate);
     PRINTF("MAKEOPTION: %s\n", gBuildMakeOption);
     PRINTF(VT_FGCOL(GREEN));
-    PRINTF("ＲＡＭサイズは %d キロバイトです(osMemSize/osGetMemSize)\n", (s32)osMemSize / 1024);
-    PRINTF("_bootSegmentEnd(%08x) 以降のＲＡＭ領域はクリアされました(boot)\n", _bootSegmentEnd);
-    PRINTF("Ｚバッファのサイズは %d キロバイトです\n", 0x96);
-    PRINTF("ダイナミックバッファのサイズは %d キロバイトです\n", 0x92);
-    PRINTF("ＦＩＦＯバッファのサイズは %d キロバイトです\n", 0x60);
-    PRINTF("ＹＩＥＬＤバッファのサイズは %d キロバイトです\n", 3);
-    PRINTF("オーディオヒープのサイズは %d キロバイトです\n",
+    PRINTF(T("ＲＡＭサイズは %d キロバイトです(osMemSize/osGetMemSize)\n",
+             "RAM size is %d kilobytes (osMemSize/osGetMemSize)\n"),
+           (s32)osMemSize / 1024);
+    PRINTF(T("_bootSegmentEnd(%08x) 以降のＲＡＭ領域はクリアされました(boot)\n",
+             "The RAM area after _bootSegmentEnd(%08x) has been cleared (boot)\n"),
+           _bootSegmentEnd);
+    PRINTF(T("Ｚバッファのサイズは %d キロバイトです\n", "Z buffer size is %d kilobytes\n"), 0x96);
+    PRINTF(T("ダイナミックバッファのサイズは %d キロバイトです\n", "The dynamic buffer size is %d kilobytes\n"), 0x92);
+    PRINTF(T("ＦＩＦＯバッファのサイズは %d キロバイトです\n", "FIFO buffer size is %d kilobytes\n"), 0x60);
+    PRINTF(T("ＹＩＥＬＤバッファのサイズは %d キロバイトです\n", "YIELD buffer size is %d kilobytes\n"), 3);
+    PRINTF(T("オーディオヒープのサイズは %d キロバイトです\n", "Audio heap size is %d kilobytes\n"),
            ((intptr_t)&gAudioHeap[ARRAY_COUNT(gAudioHeap)] - (intptr_t)gAudioHeap) / 1024);
     PRINTF(VT_RST);
 
