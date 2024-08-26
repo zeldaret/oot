@@ -1198,17 +1198,17 @@ typedef enum {
 } IdleAnimationSfxIndex;
 
 static AnimSfxEntry* sIdleSfxEntries[] = {
-    /* IDLE_ANIMATION_SFX_SNEEZE         */ sIdleSneezeSfx,
-    /* IDLE_ANIMATION_SFX_SWEAT          */ sIdleSweatSfx,
-    /* IDLE_ANIMATION_SFX_HEAT_1         */ sIdleHeat1Sfx,
-    /* IDLE_ANIMATION_SFX_HEAT_2         */ sIdleHeat2Sfx,
-    /* IDLE_ANIMATION_SFX_BELT           */ sIdleBeltSfx,
-    /* IDLE_ANIMATION_SFX_FOOT_TAPPING   */ sIdleFootTappingSfx,
-    /* IDLE_ANIMATION_SFX_SHIELD_POSTURE */ sIdleShieldPostureSfx,
-    /* IDLE_ANIMATION_SFX_UNKNOWN        */ sIdleUnknownSfx,
-    /* IDLE_ANIMATION_SFX_SWORD_THRUST   */ sIdleSwordThrustSfx,
-    /* IDLE_ANIMATION_SFX_RELAX          */ sIdleRelaxSfx,
-    /* IDLE_ANIMATION_SFX_MAX            */ NULL,
+    sIdleSneezeSfx,        // IDLE_ANIMATION_SFX_SNEEZE
+    sIdleSweatSfx,         // IDLE_ANIMATION_SFX_SWEAT
+    sIdleHeat1Sfx,         // IDLE_ANIMATION_SFX_HEAT_1
+    sIdleHeat2Sfx,         // IDLE_ANIMATION_SFX_HEAT_2
+    sIdleBeltSfx,          // IDLE_ANIMATION_SFX_BELT
+    sIdleFootTappingSfx,   // IDLE_ANIMATION_SFX_FOOT_TAPPING
+    sIdleShieldPostureSfx, // IDLE_ANIMATION_SFX_SHIELD_POSTURE
+    sIdleUnknownSfx,       // IDLE_ANIMATION_SFX_UNKNOWN
+    sIdleSwordThrustSfx,   // IDLE_ANIMATION_SFX_SWORD_THRUST
+    sIdleRelaxSfx,         // IDLE_ANIMATION_SFX_RELAX
+    NULL,                  // IDLE_ANIMATION_SFX_MAX
 };
 
 static u8 sIdleSfxEntryIndices[] = {
