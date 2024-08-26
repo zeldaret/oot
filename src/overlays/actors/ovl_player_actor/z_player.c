@@ -1130,23 +1130,23 @@ static LinkAnimationHeader* sIdleAnimations[][2] = {
     { &gPlayerAnim_link_wait_itemD2_20f, &gPlayerAnim_link_wait_itemD2_20f }
 };
 
-static AnimSfxEntry sIdleSneezeSfxEntry[] = {
+static AnimSfxEntry sIdleSneezeSfx[] = {
     { NA_SE_VO_LI_SNEEZE, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 8) },
 };
 
-static AnimSfxEntry sIdleSweatSfxEntry[] = {
+static AnimSfxEntry sIdleSweatSfx[] = {
     { NA_SE_VO_LI_SWEAT, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 18) },
 };
 
-static AnimSfxEntry sIdleHeat1SfxEntry[] = {
+static AnimSfxEntry sIdleHeat1Sfx[] = {
     { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 13) },
 };
 
-static AnimSfxEntry sIdleHeat2SfxEntry[] = {
+static AnimSfxEntry sIdleHeat2Sfx[] = {
     { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 10) },
 };
 
-static AnimSfxEntry sIdleBeltSfxEntry[] = {
+static AnimSfxEntry sIdleBeltSfx[] = {
     { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 44) },
     { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 48) },
     { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 52) },
@@ -1154,93 +1154,93 @@ static AnimSfxEntry sIdleBeltSfxEntry[] = {
     { NA_SE_PL_CALM_HIT, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 60) },
 };
 
-static AnimSfxEntry sIdleFootTappingSfxEntry[] = {
+static AnimSfxEntry sIdleFootTappingSfx[] = {
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 25) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 30) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 44) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 48) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 52) }, { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 56) },
 };
 
-static AnimSfxEntry sIdleShieldPostureSfxEntry[] = {
+static AnimSfxEntry sIdleShieldPostureSfx[] = {
     { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 16) },
     { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 20) },
     { NA_SE_IT_SHIELD_POSTURE, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 70) },
 };
 
-static AnimSfxEntry sIdleUnknownSfxEntry[] = {
+static AnimSfxEntry sIdleUnknownSfx[] = {
     { NA_SE_IT_HAMMER_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 10) },
     { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 10) },
     { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 22) },
     { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 22) },
 };
 
-static AnimSfxEntry sIdleSwordThrustSfxEntry[] = {
+static AnimSfxEntry sIdleSwordThrustSfx[] = {
     { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 39) },
     { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 39) },
 };
 
-static AnimSfxEntry sIdleRelaxSfxEntry[] = {
+static AnimSfxEntry sIdleRelaxSfx[] = {
     { NA_SE_VO_LI_RELAX, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 20) },
 };
 
 typedef enum {
-    /* 0x0 */ IDLE_ANIMATION_SFX_ENTRY_NONE,
-    /* 0x1 */ IDLE_ANIMATION_SFX_ENTRY_SNEEZE,
-    /* 0x2 */ IDLE_ANIMATION_SFX_ENTRY_SWEAT,
-    /* 0x3 */ IDLE_ANIMATION_SFX_ENTRY_HEAT_1,
-    /* 0x4 */ IDLE_ANIMATION_SFX_ENTRY_HEAT_2,
-    /* 0x5 */ IDLE_ANIMATION_SFX_ENTRY_BELT,
-    /* 0x6 */ IDLE_ANIMATION_SFX_ENTRY_FOOT_TAPPING,
-    /* 0x7 */ IDLE_ANIMATION_SFX_ENTRY_SHIELD_POSTURE,
-    /* 0x8 */ IDLE_ANIMATION_SFX_ENTRY_UNKNOWN,
-    /* 0x9 */ IDLE_ANIMATION_SFX_ENTRY_SWORD_THRUST,
-    /* 0xA */ IDLE_ANIMATION_SFX_ENTRY_RELAX,
-    /* 0xB */ IDLE_ANIMATION_SFX_ENTRY_MAX
-} IdleAnimationSfxEntryIndex;
+    /* 0x0 */ IDLE_ANIMATION_SFX_NONE,
+    /* 0x1 */ IDLE_ANIMATION_SFX_SNEEZE,
+    /* 0x2 */ IDLE_ANIMATION_SFX_SWEAT,
+    /* 0x3 */ IDLE_ANIMATION_SFX_HEAT_1,
+    /* 0x4 */ IDLE_ANIMATION_SFX_HEAT_2,
+    /* 0x5 */ IDLE_ANIMATION_SFX_BELT,
+    /* 0x6 */ IDLE_ANIMATION_SFX_FOOT_TAPPING,
+    /* 0x7 */ IDLE_ANIMATION_SFX_SHIELD_POSTURE,
+    /* 0x8 */ IDLE_ANIMATION_SFX_UNKNOWN,
+    /* 0x9 */ IDLE_ANIMATION_SFX_SWORD_THRUST,
+    /* 0xA */ IDLE_ANIMATION_SFX_RELAX,
+    /* 0xB */ IDLE_ANIMATION_SFX_MAX
+} IdleAnimationSfxIndex;
 
 static AnimSfxEntry* sIdleSfxEntries[] = {
-    /* IDLE_ANIMATION_SFX_ENTRY_SNEEZE         */ sIdleSneezeSfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_SWEAT          */ sIdleSweatSfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_HEAT_1         */ sIdleHeat1SfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_HEAT_2         */ sIdleHeat2SfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_BELT           */ sIdleBeltSfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_FOOT_TAPPING   */ sIdleFootTappingSfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_SHIELD_POSTURE */ sIdleShieldPostureSfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_UNKNOWN        */ sIdleUnknownSfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_SWORD_THRUST   */ sIdleSwordThrustSfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_RELAX          */ sIdleRelaxSfxEntry,
-    /* IDLE_ANIMATION_SFX_ENTRY_MAX            */ NULL,
+    /* IDLE_ANIMATION_SFX_SNEEZE         */ sIdleSneezeSfx,
+    /* IDLE_ANIMATION_SFX_SWEAT          */ sIdleSweatSfx,
+    /* IDLE_ANIMATION_SFX_HEAT_1         */ sIdleHeat1Sfx,
+    /* IDLE_ANIMATION_SFX_HEAT_2         */ sIdleHeat2Sfx,
+    /* IDLE_ANIMATION_SFX_BELT           */ sIdleBeltSfx,
+    /* IDLE_ANIMATION_SFX_FOOT_TAPPING   */ sIdleFootTappingSfx,
+    /* IDLE_ANIMATION_SFX_SHIELD_POSTURE */ sIdleShieldPostureSfx,
+    /* IDLE_ANIMATION_SFX_UNKNOWN        */ sIdleUnknownSfx,
+    /* IDLE_ANIMATION_SFX_SWORD_THRUST   */ sIdleSwordThrustSfx,
+    /* IDLE_ANIMATION_SFX_RELAX          */ sIdleRelaxSfx,
+    /* IDLE_ANIMATION_SFX_MAX            */ NULL,
 };
 
 static u8 sIdleSfxEntryIndices[] = {
-    /* gPlayerAnim_link_normal_wait_typeA_20f  */ IDLE_ANIMATION_SFX_ENTRY_NONE,
-    /* gPlayerAnim_link_normal_waitF_typeA_20f */ IDLE_ANIMATION_SFX_ENTRY_NONE,
-    /* gPlayerAnim_link_normal_wait_typeC_20f  */ IDLE_ANIMATION_SFX_ENTRY_SNEEZE,
-    /* gPlayerAnim_link_normal_waitF_typeC_20f */ IDLE_ANIMATION_SFX_ENTRY_SNEEZE,
-    /* gPlayerAnim_link_normal_wait_typeB_20f  */ IDLE_ANIMATION_SFX_ENTRY_SWEAT,
-    /* gPlayerAnim_link_normal_waitF_typeB_20f */ IDLE_ANIMATION_SFX_ENTRY_SWEAT,
-    /* gPlayerAnim_link_normal_wait_typeB_20f  */ IDLE_ANIMATION_SFX_ENTRY_SWEAT,
-    /* gPlayerAnim_link_normal_waitF_typeB_20f */ IDLE_ANIMATION_SFX_ENTRY_SWEAT,
-    /* gPlayerAnim_link_wait_typeD_20f         */ IDLE_ANIMATION_SFX_ENTRY_RELAX,
-    /* gPlayerAnim_link_waitF_typeD_20f        */ IDLE_ANIMATION_SFX_ENTRY_RELAX,
-    /* gPlayerAnim_link_wait_typeD_20f         */ IDLE_ANIMATION_SFX_ENTRY_RELAX,
-    /* gPlayerAnim_link_waitF_typeD_20f        */ IDLE_ANIMATION_SFX_ENTRY_RELAX,
-    /* gPlayerAnim_link_wait_typeD_20f         */ IDLE_ANIMATION_SFX_ENTRY_RELAX,
-    /* gPlayerAnim_link_waitF_typeD_20f        */ IDLE_ANIMATION_SFX_ENTRY_RELAX,
-    /* gPlayerAnim_link_wait_heat1_20f         */ IDLE_ANIMATION_SFX_ENTRY_HEAT_1,
-    /* gPlayerAnim_link_waitF_heat1_20f        */ IDLE_ANIMATION_SFX_ENTRY_HEAT_1,
-    /* gPlayerAnim_link_wait_heat2_20f         */ IDLE_ANIMATION_SFX_ENTRY_HEAT_2,
-    /* gPlayerAnim_link_waitF_heat2_20f        */ IDLE_ANIMATION_SFX_ENTRY_HEAT_2,
-    /* gPlayerAnim_link_wait_itemD1_20f        */ IDLE_ANIMATION_SFX_ENTRY_UNKNOWN,
-    /* gPlayerAnim_link_wait_itemD1_20f        */ IDLE_ANIMATION_SFX_ENTRY_UNKNOWN,
-    /* gPlayerAnim_link_wait_itemA_20f         */ IDLE_ANIMATION_SFX_ENTRY_BELT,
-    /* gPlayerAnim_link_waitF_itemA_20f        */ IDLE_ANIMATION_SFX_ENTRY_BELT,
-    /* gPlayerAnim_link_wait_itemB_20f         */ IDLE_ANIMATION_SFX_ENTRY_FOOT_TAPPING,
-    /* gPlayerAnim_link_waitF_itemB_20f        */ IDLE_ANIMATION_SFX_ENTRY_FOOT_TAPPING,
-    /* gPlayerAnim_link_wait_itemC_20f         */ IDLE_ANIMATION_SFX_ENTRY_SHIELD_POSTURE,
-    /* gPlayerAnim_link_wait_itemC_20f         */ IDLE_ANIMATION_SFX_ENTRY_SHIELD_POSTURE,
-    /* gPlayerAnim_link_wait_itemD2_20f        */ IDLE_ANIMATION_SFX_ENTRY_SWORD_THRUST,
-    /* gPlayerAnim_link_wait_itemD2_20f        */ IDLE_ANIMATION_SFX_ENTRY_SWORD_THRUST,
-    /*                                         */ IDLE_ANIMATION_SFX_ENTRY_NONE,
+    /* gPlayerAnim_link_normal_wait_typeA_20f  */ IDLE_ANIMATION_SFX_NONE,
+    /* gPlayerAnim_link_normal_waitF_typeA_20f */ IDLE_ANIMATION_SFX_NONE,
+    /* gPlayerAnim_link_normal_wait_typeC_20f  */ IDLE_ANIMATION_SFX_SNEEZE,
+    /* gPlayerAnim_link_normal_waitF_typeC_20f */ IDLE_ANIMATION_SFX_SNEEZE,
+    /* gPlayerAnim_link_normal_wait_typeB_20f  */ IDLE_ANIMATION_SFX_SWEAT,
+    /* gPlayerAnim_link_normal_waitF_typeB_20f */ IDLE_ANIMATION_SFX_SWEAT,
+    /* gPlayerAnim_link_normal_wait_typeB_20f  */ IDLE_ANIMATION_SFX_SWEAT,
+    /* gPlayerAnim_link_normal_waitF_typeB_20f */ IDLE_ANIMATION_SFX_SWEAT,
+    /* gPlayerAnim_link_wait_typeD_20f         */ IDLE_ANIMATION_SFX_RELAX,
+    /* gPlayerAnim_link_waitF_typeD_20f        */ IDLE_ANIMATION_SFX_RELAX,
+    /* gPlayerAnim_link_wait_typeD_20f         */ IDLE_ANIMATION_SFX_RELAX,
+    /* gPlayerAnim_link_waitF_typeD_20f        */ IDLE_ANIMATION_SFX_RELAX,
+    /* gPlayerAnim_link_wait_typeD_20f         */ IDLE_ANIMATION_SFX_RELAX,
+    /* gPlayerAnim_link_waitF_typeD_20f        */ IDLE_ANIMATION_SFX_RELAX,
+    /* gPlayerAnim_link_wait_heat1_20f         */ IDLE_ANIMATION_SFX_HEAT_1,
+    /* gPlayerAnim_link_waitF_heat1_20f        */ IDLE_ANIMATION_SFX_HEAT_1,
+    /* gPlayerAnim_link_wait_heat2_20f         */ IDLE_ANIMATION_SFX_HEAT_2,
+    /* gPlayerAnim_link_waitF_heat2_20f        */ IDLE_ANIMATION_SFX_HEAT_2,
+    /* gPlayerAnim_link_wait_itemD1_20f        */ IDLE_ANIMATION_SFX_UNKNOWN,
+    /* gPlayerAnim_link_wait_itemD1_20f        */ IDLE_ANIMATION_SFX_UNKNOWN,
+    /* gPlayerAnim_link_wait_itemA_20f         */ IDLE_ANIMATION_SFX_BELT,
+    /* gPlayerAnim_link_waitF_itemA_20f        */ IDLE_ANIMATION_SFX_BELT,
+    /* gPlayerAnim_link_wait_itemB_20f         */ IDLE_ANIMATION_SFX_FOOT_TAPPING,
+    /* gPlayerAnim_link_waitF_itemB_20f        */ IDLE_ANIMATION_SFX_FOOT_TAPPING,
+    /* gPlayerAnim_link_wait_itemC_20f         */ IDLE_ANIMATION_SFX_SHIELD_POSTURE,
+    /* gPlayerAnim_link_wait_itemC_20f         */ IDLE_ANIMATION_SFX_SHIELD_POSTURE,
+    /* gPlayerAnim_link_wait_itemD2_20f        */ IDLE_ANIMATION_SFX_SWORD_THRUST,
+    /* gPlayerAnim_link_wait_itemD2_20f        */ IDLE_ANIMATION_SFX_SWORD_THRUST,
+    /*                                         */ IDLE_ANIMATION_SFX_NONE,
 };
 
 // Used to map item IDs to item actions
@@ -2147,7 +2147,7 @@ s32 func_80833350(Player* this) {
 }
 
 void Player_ProcessIdleAnimSfxList(Player* this, s32 arg1) {
-    if (sIdleSfxEntryIndices[arg1] != IDLE_ANIMATION_SFX_ENTRY_NONE) {
+    if (sIdleSfxEntryIndices[arg1] != IDLE_ANIMATION_SFX_NONE) {
         Player_ProcessAnimSfxList(this, sIdleSfxEntries[sIdleSfxEntryIndices[arg1] - 1]);
     }
 }
