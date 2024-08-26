@@ -28,6 +28,7 @@ void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* 
 void* ZeldaArena_Malloc(u32 size) {
     void* ptr = __osMalloc(&sZeldaArena, size);
 
+    // TODO re-evaluate "secure" as a translation (in this file and others using "確保")
     ZELDA_ARENA_CHECK_POINTER(ptr, size, "zelda_malloc", T("確保", "Secure"));
     return ptr;
 }
