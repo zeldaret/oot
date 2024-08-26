@@ -4275,7 +4275,9 @@ void Message_SetTables(void) {
 
     sStaffMessageEntryTablePtr = sStaffMessageEntryTable;
 
+#if PLATFORM_N64
     if ((B_80121AF0 != NULL) && (B_80121AF0->unk_58 != NULL)) {
         B_80121AF0->unk_58(&sJpnMessageEntryTablePtr, &sNesMessageEntryTablePtr, &sStaffMessageEntryTablePtr);
     }
+#endif
 }
