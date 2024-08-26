@@ -2575,6 +2575,9 @@ void Message_StartTextbox(PlayState* play, u16 textId, Actor* actor) {
 void Message_ContinueTextbox(PlayState* play, u16 textId) {
     s32 pad;
     MessageContext* msgCtx = &play->msgCtx;
+#if PLATFORM_N64
+    s32 pad2[3];
+#endif
 
     PRINTF(VT_FGCOL(GREEN));
     // "Message"
