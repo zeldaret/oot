@@ -2834,10 +2834,9 @@ void Message_SetView(View* view) {
         Message_DrawTextWide(play, gfx);                         \
     } else {                                                     \
         Message_DrawText(play, gfx);                             \
-    }                                                            \
-    (void)0
+    }
 #else
-#define DRAW_TEXT(play, gfx, isCredits) Message_DrawText(play, gfx)
+#define DRAW_TEXT(play, gfx, isCredits) Message_DrawText(play, gfx);
 #endif
 
 /**
@@ -2922,7 +2921,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     for (j = 0, i = 0; i < 48; i++, j += FONT_CHAR_TEX_SIZE) {
                         Font_LoadCharWide(&play->msgCtx.font, MESSAGE_WIDE_CHAR_SPACE, j);
                     }
-                    DRAW_TEXT(play, &gfx, sTextIsCredits);
+                    DRAW_TEXT(play, &gfx, sTextIsCredits)
                 }
                 break;
             case MSGMODE_TEXT_DISPLAYING:
@@ -3053,7 +3052,6 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
                         }
-                        if (msgCtx->ocarinaStaff == NULL) {} // fake
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
                     } else {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
