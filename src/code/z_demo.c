@@ -2421,15 +2421,15 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
     }
 }
 
-extern char D_800F0454_unknown[];
-
 void Cutscene_SetScript(PlayState* play, void* script) {
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_78 != NULL) &&
-        B_80121AF0->unk_78(play, script, sCutscenesUnknownList)) {
-        return;
+    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_78 != NULL)) {
+        if (B_80121AF0->unk_78(play, script, sCutscenesUnknownList)) {
+            return;
+        }
     }
 #endif
+
     if (SEGMENT_NUMBER(script) != 0) {
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(script);
     } else {
