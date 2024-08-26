@@ -814,8 +814,8 @@ endif
 $(BUILD_DIR)/assets/audio/samplebank_table.h: $(SAMPLEBANK_BUILD_XMLS)
 	$(ATBLGEN) --banks $@ $^
 
-$(BUILD_DIR)/assets/audio/soundfont_table.h: $(SOUNDFONT_BUILD_XMLS)
-	$(ATBLGEN) --fonts $@ $^
+$(BUILD_DIR)/assets/audio/soundfont_table.h: $(SOUNDFONT_BUILD_XMLS) $(SAMPLEBANK_BUILD_XMLS)
+	$(ATBLGEN) --fonts $@ $(SOUNDFONT_BUILD_XMLS)
 
 # build the tables into objects, move data -> rodata
 

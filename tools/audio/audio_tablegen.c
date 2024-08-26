@@ -168,7 +168,7 @@ tablegen_samplebanks(const char *sb_hdr_out, const char **samplebanks_paths, int
 /* Soundfonts */
 
 static int
-validate_samplebank_index(samplebank *sb, int ptr_idx)
+validate_samplebank_index(soundfont *sf, samplebank *sb, int ptr_idx)
 {
     if (ptr_idx != -1) {
         // Validate pointer index
@@ -181,7 +181,7 @@ validate_samplebank_index(samplebank *sb, int ptr_idx)
             }
         }
         if (!found)
-            warning("Invalid pointer indirect: %d for samplebank %s", ptr_idx, sb->name);
+            warning("In Soundfont %s: Invalid pointer indirect %d for samplebank %s", sf->info.name, ptr_idx, sb->name);
 
         return ptr_idx;
     } else {
@@ -236,11 +236,11 @@ tablegen_soundfonts(const char *sf_hdr_out, char **soundfonts_paths, int num_sou
 
         // Resolve samplebank indices
 
-        int normal_idx = validate_samplebank_index(&sf->sb, sf->info.pointer_index);
+        int normal_idx = validate_samplebank_index(sf, &sf->sb, sf->info.pointer_index);
 
         int dd_idx = 255;
         if (sf->info.bank_path_dd != NULL)
-            dd_idx = validate_samplebank_index(&sf->sbdd, sf->info.pointer_index_dd);
+            dd_idx = validate_samplebank_index(sf, &sf->sbdd, sf->info.pointer_index_dd);
 
         // Add info
 
