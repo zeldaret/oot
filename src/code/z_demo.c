@@ -1,6 +1,9 @@
 #include "global.h"
 #include "quake.h"
 #include "z64camera.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 
@@ -111,7 +114,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_KOKIRI_FOREST_12, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutCs },
 };
 
-void* sUnusedEntranceCsList[] = {
+void* sCutscenesUnknownList[] = {
     gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
@@ -1702,6 +1705,9 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
 
 void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdText* cmd) {
     u8 dialogState;
+#if PLATFORM_N64
+    s32 pad;
+#endif
     s16 endFrame;
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
@@ -2415,7 +2421,15 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
     }
 }
 
+extern char D_800F0454_unknown[];
+
 void Cutscene_SetScript(PlayState* play, void* script) {
+#if PLATFORM_N64
+    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_78 != NULL) &&
+        B_80121AF0->unk_78(play, script, sCutscenesUnknownList)) {
+        return;
+    }
+#endif
     if (SEGMENT_NUMBER(script) != 0) {
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(script);
     } else {
