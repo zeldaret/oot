@@ -12,4 +12,13 @@
 #define OOT_GC_EU_MQ 8
 #define OOT_GC_JP_CE 9
 
+#define RAND_N64 1
+#define RAND_GC 2
+
+#if PLATFORM_N64
+#define RAND_VERSION RAND_N64
+#else
+#define RAND_VERSION RAND_GC
+#endif
+
 #endif

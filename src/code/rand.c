@@ -42,6 +42,7 @@
  * @note Original name: qrand.c
  */
 #include "rand.h"
+#include "versions.h"
 
 #define RAND_MULTIPLIER 1664525
 #define RAND_INCREMENT 1013904223
@@ -53,12 +54,14 @@
  */
 static u32 sRandInt = 1;
 
+#if RAND_VERSION == RAND_GC
 /**
  * Space to store a value to be re-interpreted as a float.
  *
  * @note Orignal name: __qrand_itemp
  */
 static fu sRandFloat;
+#endif
 
 /**
  * Gets the next integer in the sequence of pseudo-random numbers.
@@ -66,7 +69,14 @@ static fu sRandFloat;
  * @note Original name: qrand
  */
 u32 Rand_Next(void) {
+#if RAND_VERSION == RAND_N64
+    u32 next = sRandInt * RAND_MULTIPLIER + RAND_INCREMENT;
+
+    sRandInt = next;
+    return next;
+#else
     return sRandInt = sRandInt * RAND_MULTIPLIER + RAND_INCREMENT;
+#endif
 }
 
 /**
@@ -88,12 +98,22 @@ void Rand_Seed(u32 seed) {
  * @note Original name: fqrand
  */
 f32 Rand_ZeroOne(void) {
+#if RAND_VERSION == RAND_N64
+    fu v;
+    f32 vf;
+
+    v.i = (Rand_Next() & 0x007FFFFF) | 0x3F800000;
+    vf = v.f - 1.0f;
+    return vf;
+#else
     sRandInt = sRandInt * RAND_MULTIPLIER + RAND_INCREMENT;
     // Samples the upper 23 bits to avoid effectively reducing the LCG period.
     sRandFloat.i = (sRandInt >> 9) | 0x3F800000;
     return sRandFloat.f - 1.0f;
+#endif
 }
 
+#if RAND_VERSION == RAND_GC
 /**
  * Returns a pseudo-random floating-point number between -0.5f and 0.5f by the same manner in which Rand_ZeroOne
  * generates its result.
@@ -107,6 +127,7 @@ f32 Rand_Centered(void) {
     sRandFloat.i = (sRandInt >> 9) | 0x3F800000;
     return sRandFloat.f - 1.5f;
 }
+#endif
 
 //! All functions below are unused variants of the above four, that use a provided random number variable instead of the
 //! internal `sRandInt`
@@ -141,12 +162,23 @@ u32 Rand_Next_Variable(u32* rndNum) {
  * @note Original name: fqrand_r
  */
 f32 Rand_ZeroOne_Variable(u32* rndNum) {
+#if RAND_VERSION == RAND_N64
+    fu v;
+    f32 vf;
+    u32 next = Rand_Next_Variable(rndNum);
+
+    v.i = (next & 0x007FFFFF) | 0x3F800000;
+    vf = v.f - 1.0f;
+    return vf;
+#else
     u32 next = (*rndNum) * RAND_MULTIPLIER + RAND_INCREMENT;
 
     sRandFloat.i = ((*rndNum = next) >> 9) | 0x3F800000;
     return sRandFloat.f - 1.0f;
+#endif
 }
 
+#if RAND_VERSION == RAND_GC
 /**
  * Generates the next pseudo-random floating-point number between -0.5f and 0.5f from the provided rndNum.
  *
@@ -160,3 +192,4 @@ f32 Rand_Centered_Variable(u32* rndNum) {
     sRandFloat.i = ((*rndNum = next) >> 9) | 0x3F800000;
     return sRandFloat.f - 1.5f;
 }
+#endif
