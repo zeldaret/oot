@@ -692,8 +692,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         pointPulseEnvColor[0] = pointEnvColors[pointPulseStage][0];
         pointPulseEnvColor[1] = pointEnvColors[pointPulseStage][1];
         pointPulseEnvColor[2] = pointEnvColors[pointPulseStage][2];
-        pointPulseStage ^= 1;
         pointPulseTimer = 20;
+        pointPulseStage ^= 1;
     }
 
     Gfx_SetupDL_42Opa(gfxCtx);
