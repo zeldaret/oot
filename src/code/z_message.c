@@ -3,6 +3,9 @@
 #include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "versions.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
@@ -2456,20 +2459,41 @@ void Message_OpenText(PlayState* play, u16 textId) {
     if (sTextIsCredits) {
         Message_FindCreditsMessage(play, textId);
         msgCtx->msgLength = font->msgLength;
-        DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
-                         font->msgLength, "../z_message_PAL.c", 1954);
+#if PLATFORM_N64
+        if ((B_80121AF0 != NULL) && (B_80121AF0->unk_60 != NULL) && B_80121AF0->unk_60(&play->msgCtx.font)) {
+
+        } else
+#endif
+        {
+            DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
+                             font->msgLength, "../z_message_PAL.c", 1954);
+        }
     } else {
 #if OOT_NTSC
         if (gSaveContext.language == LANGUAGE_JPN) {
             Message_FindMessageJPN(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
-                               font->msgLength);
+#if PLATFORM_N64
+            if ((B_80121AF0 != NULL) && (B_80121AF0->unk_64 != NULL) && B_80121AF0->unk_64(&play->msgCtx.font)) {
+
+            } else
+#endif
+            {
+                DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
+                                   font->msgLength);
+            }
         } else {
             Message_FindMessageNES(play, textId);
             msgCtx->msgLength = font->msgLength;
-            DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
-                               font->msgLength);
+#if PLATFORM_N64
+            if ((B_80121AF0 != NULL) && (B_80121AF0->unk_68 != NULL) && B_80121AF0->unk_68(&play->msgCtx.font)) {
+
+            } else
+#endif
+            {
+                DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+                                   font->msgLength);
+            }
         }
 #else
         if (gSaveContext.language == LANGUAGE_ENG) {

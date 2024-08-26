@@ -31,7 +31,10 @@ typedef struct n64ddStruct_80121AF0 {
     void (*unk_3C)(void);
     void (*unk_40)(void);
     s32 (*unk_44)(struct PlayState*);
-    char unk_48[0x24];
+    char unk_48[0x18];
+    s32 (*unk_60)(struct Font*);
+    s32 (*unk_64)(struct Font*);
+    s32 (*unk_68)(struct Font*);
     void (*unk_6C)(struct PlayState*, SceneDrawConfigFunc*);
     s32 (*unk_70)(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
 } n64ddStruct_80121AF0; // size = ?
