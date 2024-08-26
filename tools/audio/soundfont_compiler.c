@@ -1232,7 +1232,8 @@ emit_c_envelopes(FILE *out, soundfont *sf)
             empty_num++;
             size += 0x10;
         } else {
-            fprintf(out, "NO_REORDER SECTION_DATA ALIGNED(16) EnvelopePoint SF%d_%s[] = {\n", sf->info.index, envdata->name);
+            fprintf(out, "NO_REORDER SECTION_DATA ALIGNED(16) EnvelopePoint SF%d_%s[] = {\n", sf->info.index,
+                    envdata->name);
 
             // Write all points
             for (size_t j = 0; j < envdata->n_points; j++) {
@@ -1285,7 +1286,8 @@ emit_c_instruments(FILE *out, soundfont *sf)
 
     LL_FOREACH(instr_data *, instr, sf->instruments) {
         if (instr->unused) {
-            fprintf(out, "NO_REORDER SECTION_DATA Instrument SF%d_INSTR_UNUSED_%lu = {\n", sf->info.index, unused_instr_num);
+            fprintf(out, "NO_REORDER SECTION_DATA Instrument SF%d_INSTR_UNUSED_%lu = {\n", sf->info.index,
+                    unused_instr_num);
             unused_instr_num++;
         } else {
             fprintf(out, "NO_REORDER SECTION_DATA Instrument SF%d_%s = {\n", sf->info.index, instr->name);
@@ -1497,7 +1499,8 @@ emit_c_match_padding(FILE *out, soundfont *sf, size_t size)
 
             // pad to given size
             size_t amount = sf->info.pad_to_size - size;
-            fprintf(out, "NO_REORDER SECTION_DATA u8 SF%d_MATCH_PADDING_TO_SIZE[%lu] = { 0 };\n", sf->info.index, amount);
+            fprintf(out, "NO_REORDER SECTION_DATA u8 SF%d_MATCH_PADDING_TO_SIZE[%lu] = { 0 };\n", sf->info.index,
+                    amount);
         }
     }
 }

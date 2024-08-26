@@ -182,7 +182,7 @@ typedef struct AdpcmLoopHeader {
     /* 0x04 */ u32 end; // s16 sample position where the loop ends
     /* 0x08 */ u32 count; // The number of times the loop is played before the sound completes. Setting count to -1 indicates that the loop should play indefinitely.
     /* 0x0C */ char unk_0C[0x4];
-} AdpcmLoopHeader;
+} AdpcmLoopHeader; // size = 0x10
 
 typedef struct AdpcmLoop {
     /* 0x00 */ AdpcmLoopHeader header;
@@ -192,7 +192,7 @@ typedef struct AdpcmLoop {
 typedef struct AdpcmBookHeader {
     /* 0x00 */ s32 order;
     /* 0x04 */ s32 numPredictors;
-} AdpcmBookHeader;
+} AdpcmBookHeader; // size = 0x8
 
 /**
  * The procedure used to design the codeBook is based on an adaptive clustering algorithm.
