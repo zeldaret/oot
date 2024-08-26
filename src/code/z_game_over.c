@@ -61,7 +61,12 @@ void GameOver_Update(PlayState* play) {
                 }
             }
 
+#if OOT_VERSION < PAL_1_1
+            gSaveContext.nayrusLoveTimer = 0;
+#else
             gSaveContext.nayrusLoveTimer = 2000;
+#endif
+
             gSaveContext.save.info.playerData.naviTimer = 0;
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
