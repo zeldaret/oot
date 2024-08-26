@@ -134,8 +134,8 @@ VENV := .venv
 MAKE = make
 CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
-# Converts e.g. ntsc-1.0 to OOT_NTSC_1_0
-VERSION_MACRO := OOT_$(shell echo $(VERSION) | tr a-z-. A-Z__)
+# Converts e.g. ntsc-1.0 to NTSC_1_0
+VERSION_MACRO := $(shell echo $(VERSION) | tr a-z-. A-Z__)
 CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO)
 CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
 

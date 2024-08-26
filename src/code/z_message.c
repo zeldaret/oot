@@ -3853,7 +3853,7 @@ void Message_DrawDebugText(PlayState* play, Gfx** p) {
 void Message_Draw(PlayState* play) {
     Gfx* plusOne;
     Gfx* polyOpaP;
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
     s32 pad;
 #endif
 #if OOT_DEBUG
@@ -3905,7 +3905,7 @@ void Message_Update(PlayState* play) {
         0x0400, 0x0400, 0x0200, 0x0000, 0x1038, 0x0008, 0x200A, 0x088B, 0x0007, 0x0009, 0x000A, 0x107E, 0x2008, 0x2007,
         0x0015, 0x0016, 0x0017, 0x0003, 0x0000, 0x270B, 0x00C8, 0x012C, 0x012D, 0xFFDA, 0x0014, 0x0016, 0x0014, 0x0016,
     };
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
     static s32 sUnknown = 0;
 #endif
     static u8 D_80153D74 = 0;
@@ -3918,7 +3918,7 @@ void Message_Update(PlayState* play) {
     s16 averageY;
     s16 playerFocusScreenPosY;
     s16 actorFocusScreenPosY;
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
     s32 pad[2];
 #endif
 
