@@ -154,7 +154,7 @@ void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Schedule
     audioMgr->rspTask = NULL;
 
 #if PLATFORM_N64
-    R_AUDIOMGR_DEBUG_LEVEL = 1;
+    R_AUDIOMGR_DEBUG_LEVEL = AUDIOMGR_DEBUG_LEVEL_NO_RSP;
 #endif
 
     osCreateMesgQueue(&audioMgr->taskDoneQueue, &audioMgr->taskDoneMsg, 1);
