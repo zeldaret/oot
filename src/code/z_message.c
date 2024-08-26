@@ -6,6 +6,16 @@
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
+#if PLATFORM_N64
+#define OCARINA_BUTTON_A_PRIM_R 80
+#define OCARINA_BUTTON_A_PRIM_G 150
+#define OCARINA_BUTTON_A_PRIM_B 255
+#else
+#define OCARINA_BUTTON_A_PRIM_R 80
+#define OCARINA_BUTTON_A_PRIM_G 255
+#define OCARINA_BUTTON_A_PRIM_B 150
+#endif
+
 s16 sTextFade = false; // original name: key_off_flag ?
 
 u8 D_8014B2F4 = 0;
@@ -191,9 +201,9 @@ void Message_ResetOcarinaNoteState(void) {
     sOcarinaButtonAlphaValues[0] = sOcarinaButtonAlphaValues[1] = sOcarinaButtonAlphaValues[2] =
         sOcarinaButtonAlphaValues[3] = sOcarinaButtonAlphaValues[4] = sOcarinaButtonAlphaValues[5] =
             sOcarinaButtonAlphaValues[6] = sOcarinaButtonAlphaValues[7] = sOcarinaButtonAlphaValues[8] = 0;
-    sOcarinaButtonAPrimR = 80;
-    sOcarinaButtonAPrimG = 255;
-    sOcarinaButtonAPrimB = 150;
+    sOcarinaButtonAPrimR = OCARINA_BUTTON_A_PRIM_R;
+    sOcarinaButtonAPrimG = OCARINA_BUTTON_A_PRIM_G;
+    sOcarinaButtonAPrimB = OCARINA_BUTTON_A_PRIM_B;
     sOcarinaButtonAEnvR = 10;
     sOcarinaButtonAEnvG = 10;
     sOcarinaButtonAEnvB = 10;
@@ -297,6 +307,7 @@ void Message_DrawTextChar(PlayState* play, void* textureImage, Gfx** p) {
     Gfx* gfx = *p;
     s16 x = msgCtx->textPosX;
     s16 y = msgCtx->textPosY;
+    s32 pad;
 
     gDPPipeSync(gfx++);
 
