@@ -4271,4 +4271,8 @@ void Message_SetTables(void) {
 #endif
 
     sStaffMessageEntryTablePtr = sStaffMessageEntryTable;
+
+    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_58 != NULL)) {
+        B_80121AF0->unk_58(&sJpnMessageEntryTablePtr, &sNesMessageEntryTablePtr, &sStaffMessageEntryTablePtr);
+    }
 }
