@@ -32,7 +32,7 @@ typedef struct n64ddStruct_80121AF0 {
     void (*unk_40)(void);
     s32 (*unk_44)(struct PlayState*);
     char unk_48[0x10];
-    void (*unk_58)(struct MessageTableEntry**,struct MessageTableEntry**,struct MessageTableEntry**);
+    void (*unk_58)(struct MessageTableEntry**, struct MessageTableEntry**, struct MessageTableEntry**);
     char unk_5C[0x4];
     s32 (*unk_60)(struct Font*);
     s32 (*unk_64)(struct Font*);
