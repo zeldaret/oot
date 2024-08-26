@@ -151,6 +151,10 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     u8 sp1C4;
     f32 ratio;
 
+#if PLATFORM_N64
+    if (1) {}
+#endif
+
     OPEN_DISPS(gfxCtx, "../z_eff_spark.c", 293);
 
     if (this != NULL) {
@@ -222,6 +226,10 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             vertices[j].v.tc[0] = 0;
             vertices[j].v.tc[1] = 1024;
             vertices[j].v.flag = 0;
+
+#if PLATFORM_N64
+            if (0) {}
+#endif
 
             vertices[j + 1].v.ob[0] = 32;
             vertices[j + 1].v.ob[1] = 32;
