@@ -549,6 +549,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         HREG(13) = 5300;
     }
 #else
+    // Same as `HREG(15) == 0` case above
     gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_POINT);
 
     gDPLoadTLUT_pal256(POLY_OPA_DISP++, gWorldMapImageTLUT);
