@@ -1,4 +1,5 @@
 #include "global.h"
+#include "versions.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2) {
@@ -421,7 +422,9 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
         vtx[0].v.cn[2] = sp78.b;
         vtx[0].v.cn[3] = sp78.a;
 
-        if (1) {} // Necessary to match
+#if OOT_VERSION == OOT_GC_EU_MQ_DBG
+        if (1) {}
+#endif
 
         sp60.x = sp8C.x;
         sp60.y = sp8C.y;
@@ -460,6 +463,9 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
         vtx[3].v.ob[0] = sp54.x;
         vtx[3].v.ob[1] = sp54.y;
         vtx[3].v.ob[2] = sp54.z;
+#if PLATFORM_N64
+        if (1) {}
+#endif
         vtx[3].v.cn[0] = sp78.r;
         vtx[3].v.cn[1] = sp78.g;
         vtx[3].v.cn[2] = sp78.b;
@@ -771,7 +777,9 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
                 gDPPipeSync(POLY_XLU_DISP++);
             }
 
-            if (1) {} // Necessary to match
+#if OOT_VERSION == OOT_GC_EU_MQ_DBG
+            if (1) {}
+#endif
 
             gSPVertex(POLY_XLU_DISP++, &vtx[j], 4, 0);
             gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
