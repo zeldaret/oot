@@ -19,7 +19,7 @@ import shlex
 import sys
 import time
 import traceback
-from typing import BinaryIO, Iterator
+from typing import BinaryIO, Iterator, Tuple
 
 from ido_block_numbers import (
     generate_make_log,
@@ -189,7 +189,6 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
         if not (
             mapfile_segment.name.startswith("..boot")
             or mapfile_segment.name.startswith("..code")
-            or mapfile_segment.name.startswith("..buffers")
             or mapfile_segment.name.startswith("..ovl_")
         ):
             continue
@@ -253,7 +252,13 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
                 if file.vram <= p.build_value < file.vram + file.size
             ]
 
-            c_file = file.filepath.relative_to(f"build/{version}").with_suffix(".c")
+            object_file = file.filepath.relative_to(f"build/{version}")
+            # Hack to handle the combined z_message_z_game_over.o file.
+            # Fortunately z_game_over has no BSS so we can just analyze z_message instead.
+            if str(object_file) == "src/code/z_message_z_game_over.o":
+                object_file = Path("src/code/z_message.o")
+
+            c_file = object_file.with_suffix(".c")
             bss_sections[c_file] = BssSection(file.vram, pointers_in_section)
 
     return bss_sections
@@ -273,6 +278,7 @@ class BssVariable:
     name: str
     size: int
     align: int
+    referenced_in_data: bool
 
 
 # A BSS variable with its offset in the compiled .bss section
@@ -282,6 +288,7 @@ class BssSymbol:
     offset: int
     size: int
     align: int
+    referenced_in_data: bool
 
 
 INCREMENT_BLOCK_NUMBER_RE = re.compile(r"increment_block_number_(\d+)_(\d+)")
@@ -314,6 +321,8 @@ def find_bss_variables(
     bss_variables = []
     init_block_numbers = set(op.i1 for op in ucode if op.opcode_name == "init")
     last_function_name = None
+    # Block numbers referenced in .data or .rodata (in order of appearance)
+    referenced_in_data_block_numbers = []
 
     for op in ucode:
         # gsym: file-level global symbol
@@ -335,11 +344,28 @@ def find_bss_variables(
             if size >= 8:
                 align = 8
 
-            bss_variables.append(BssVariable(block_number, name, size, align))
+            referenced_in_data = block_number in referenced_in_data_block_numbers
+            bss_variables.append(
+                BssVariable(block_number, name, size, align, referenced_in_data)
+            )
+        elif op.opcode_name == "init":
+            if op.dtype == 10:  # Ndt, "non-local label"
+                assert op.const is not None
+                referenced_in_data_block_numbers.append(op.const)
         elif op.opcode_name == "ent":
             last_function_name = symbol_table[op.i1].name
 
-    bss_variables.sort(key=lambda var: var.block_number)
+    # Sort any variables referenced in .data or .rodata first. For the others, sort by block number
+    # so it looks like the original ordering in the source code (it doesn't matter since
+    # predict_bss_ordering will sort them again anyway.
+    def sort_key(var: BssVariable) -> Tuple[int, int]:
+        if var.referenced_in_data:
+            index = referenced_in_data_block_numbers.index(var.block_number)
+        else:
+            index = len(referenced_in_data_block_numbers)
+        return (index, var.block_number)
+
+    bss_variables.sort(key=sort_key)
     return bss_variables
 
 
@@ -347,12 +373,24 @@ def find_bss_variables(
 def predict_bss_ordering(variables: list[BssVariable]) -> list[BssSymbol]:
     bss_symbols = []
     offset = 0
-    # Sort by block number mod 256 (for ties, the original order is preserved)
-    for var in sorted(variables, key=lambda var: var.block_number % 256):
+
+    # For variables referenced in .data or .rodata, keep the original order.
+    referenced_in_data = [var for var in variables if var.referenced_in_data]
+
+    # For the others, sort by block number mod 256. For ties, sort by block number.
+    not_referenced_in_data = [var for var in variables if not var.referenced_in_data]
+    not_referenced_in_data.sort(
+        key=lambda var: (var.block_number % 256, var.block_number)
+    )
+
+    sorted_variables = referenced_in_data + not_referenced_in_data
+    for var in sorted_variables:
         size = var.size
         align = var.align
         offset = (offset + align - 1) & ~(align - 1)
-        bss_symbols.append(BssSymbol(var.name, offset, size, align))
+        bss_symbols.append(
+            BssSymbol(var.name, offset, size, align, var.referenced_in_data)
+        )
         offset += size
     return bss_symbols
 
@@ -363,9 +401,6 @@ def determine_base_bss_ordering(
     build_bss_symbols: list[BssSymbol],
     bss_section: BssSection,
 ) -> list[BssSymbol]:
-    # For the baserom, assume that the lowest address is the start of the BSS section. This might
-    # not be true if the first BSS variable is not referenced, but in practice this doesn't seem
-    # to happen for the files which typically have BSS ordering issues.
     base_start_address = min(p.base_value for p in bss_section.pointers)
 
     found_symbols: dict[str, BssSymbol] = {}
@@ -393,7 +428,13 @@ def determine_base_bss_ordering(
                 addend_str = ""
             raise FixBssException(
                 f"Could not find BSS symbol for pointer {p.name}{addend_str} "
-                f"(base address 0x{p.base_value:08X}, build address 0x{p.build_value:08X})"
+                f"(base address 0x{p.base_value:08X}, build address 0x{p.build_value:08X}). Is the build up-to-date?"
+            )
+
+        if new_offset < 0:
+            raise FixBssException(
+                f"BSS symbol {new_symbol.name} found at negative offset in the baserom "
+                f"(-0x{-new_offset:04X}). Is the build up-to-date?"
             )
 
         if new_symbol.name in found_symbols:
@@ -401,12 +442,16 @@ def determine_base_bss_ordering(
             existing_offset = found_symbols[new_symbol.name].offset
             if new_offset != existing_offset:
                 raise FixBssException(
-                    f"BSS symbol {new_symbol.name} found at conflicting offsets in this baserom "
+                    f"BSS symbol {new_symbol.name} found at conflicting offsets in the baserom "
                     f"(0x{existing_offset:04X} and 0x{new_offset:04X}). Is the build up-to-date?"
                 )
         else:
             found_symbols[new_symbol.name] = BssSymbol(
-                new_symbol.name, new_offset, new_symbol.size, new_symbol.align
+                new_symbol.name,
+                new_offset,
+                new_symbol.size,
+                new_symbol.align,
+                new_symbol.referenced_in_data,
             )
 
     return list(sorted(found_symbols.values(), key=lambda symbol: symbol.offset))
@@ -481,7 +526,13 @@ def solve_bss_ordering(
                 if var.block_number >= pragma.block_number:
                     new_block_number += new_amount - pragma.amount
             new_bss_variables.append(
-                BssVariable(new_block_number, var.name, var.size, var.align)
+                BssVariable(
+                    new_block_number,
+                    var.name,
+                    var.size,
+                    var.align,
+                    var.referenced_in_data,
+                )
             )
 
         # Predict new BSS and check if new ordering matches
@@ -624,14 +675,14 @@ def process_file(
     for var in bss_variables:
         i = var.block_number
         print(
-            f"  {i:>6} [{i%256:>3}]: size=0x{var.size:04X} align=0x{var.align:X} {var.name}"
+            f"  {i:>6} [{i%256:>3}]: size=0x{var.size:04X} align=0x{var.align:X} referenced_in_data={str(var.referenced_in_data):<5} {var.name}"
         )
 
     build_bss_symbols = predict_bss_ordering(bss_variables)
     print("Current build BSS ordering:")
     for symbol in build_bss_symbols:
         print(
-            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}"
+            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} referenced_in_data={str(symbol.referenced_in_data):<5} {symbol.name}"
         )
 
     if not bss_section.pointers:
@@ -641,7 +692,7 @@ def process_file(
     print("Baserom BSS ordering:")
     for symbol in base_bss_symbols:
         print(
-            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} {symbol.name}"
+            f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} referenced_in_data={str(symbol.referenced_in_data):<5} {symbol.name}"
         )
 
     pragmas = find_pragmas(symbol_table)
@@ -721,10 +772,16 @@ def main():
     for file, bss_section in bss_sections.items():
         if not bss_section.pointers:
             continue
-        # Try to detect if the section is shifted by comparing the lowest
-        # address among any pointer into the section between base and build
+        # The following heuristic doesn't work for z_locale, since the first pointer into BSS is not
+        # at the start of the section. Fortunately z_locale either has one BSS variable (in GC versions)
+        # or none (in N64 versions), so we can just skip it.
+        if str(file) == "src/boot/z_locale.c":
+            continue
+        # For the baserom, assume that the lowest address is the start of the BSS section. This might
+        # not be true if the first BSS variable is not referenced, but in practice this doesn't happen
+        # (except for z_locale above).
         base_min_address = min(p.base_value for p in bss_section.pointers)
-        build_min_address = min(p.build_value for p in bss_section.pointers)
+        build_min_address = bss_section.start_address
         if not all(
             p.build_value - build_min_address == p.base_value - base_min_address
             for p in bss_section.pointers
@@ -771,11 +828,11 @@ def main():
         num_successes = sum(file_result.successful() for file_result in file_results)
         if num_successes == len(file_results):
             print()
-            print(f"Updated {num_successes}/{len(file_results)} files.")
+            print(f"Processed {num_successes}/{len(file_results)} files.")
         else:
             print()
             print(
-                f"{colorama.Fore.RED}Updated {num_successes}/{len(file_results)} files.{colorama.Fore.RESET}"
+                f"{colorama.Fore.RED}Processed {num_successes}/{len(file_results)} files.{colorama.Fore.RESET}"
             )
             sys.exit(1)
 

@@ -195,10 +195,10 @@ C4A80,800D6160,src/libultra/os/getcurrfaultedthread
 C4A90,800D6170,src/libultra/libc/llcvt
 C4CA0,800D6380,src/libultra/io/vigetcurrframebuf
 C4CE0,800D63C0,src/libultra/io/spsetpc
-C4D20,800D6400,src/libultra/libc/sqrt
-C4D30,800D6410,src/code/fmodf
-C4D80,800D6460,src/code/__osMemset
-C4DB0,800D6490,src/code/__osMemmove
+C4D20,800D6400,src/libc/sqrt
+C4D30,800D6410,src/libc/fmodf
+C4D80,800D6460,src/libc/memset
+C4DB0,800D6490,src/libc/memmove
 C4E40,800D6520,src/code/z_message
 D0620,800E1D00,src/code/z_game_over
 D0B60,800E2240,src/code/z_construct

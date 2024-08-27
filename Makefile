@@ -134,8 +134,8 @@ VENV := .venv
 MAKE = make
 CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
-# Converts e.g. ntsc-1.0 to OOT_NTSC_1_0
-VERSION_MACRO := OOT_$(shell echo $(VERSION) | tr a-z-. A-Z__)
+# Converts e.g. ntsc-1.0 to NTSC_1_0
+VERSION_MACRO := $(shell echo $(VERSION) | tr a-z-. A-Z__)
 CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO)
 CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
 
@@ -445,14 +445,14 @@ $(BUILD_DIR)/src/code/fault_drawer.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 
+ifeq ($(PLATFORM),N64)
+$(BUILD_DIR)/src/code/z_rumble.o: CFLAGS += -DNO_SQRTF_INTRINSIC
+endif
+
 ifeq ($(DEBUG),1)
-$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -g
-$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -g
-$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -g
+$(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 else
-$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O2
 endif
 
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
@@ -460,17 +460,13 @@ $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 # Use signed chars instead of unsigned for this audio file (needed to match AudioDebug_ScrPrt)
 $(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
 
+ifeq ($(PLATFORM),N64)
+$(BUILD_DIR)/src/audio/general.o: CFLAGS += -DNO_SQRTF_INTRINSIC
+endif
+
 # Put string literals in .data for some audio files (needed to match these files with literals)
 $(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
 $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
-
-ifeq ($(DEBUG),1)
-$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
-$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
-else
-$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2
-endif
 
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32

@@ -1,21 +1,18 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-// OOT versions in build order
-#define OOT_GC_JP 1
-#define OOT_GC_JP_MQ 2
-#define OOT_GC_US 3
-#define OOT_GC_US_MQ 4
-#define OOT_GC_EU_MQ_DBG 5
-#define OOT_GC_EU 6
-#define OOT_GC_EU_MQ 7
-#define OOT_GC_JP_CE 8
-
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
 #define BAD_RETURN(type) void
 #endif
+
+/**
+ * The T macro holds translations in English for original debug strings written in Japanese.
+ * The translated strings match the original debug strings, they are only direct translations.
+ * For example, any original name is left as is rather than being replaced with the name in the codebase.
+ */
+#define T(jp, en) jp
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))

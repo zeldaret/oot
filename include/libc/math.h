@@ -42,7 +42,9 @@ f32 fabsf(f32 f);
 #endif
 
 f32 sqrtf(f32 f);
-#ifdef __sgi
+// IDO has a sqrtf intrinsic, but in N64 versions it's not used for some files.
+// For these files we define NO_SQRTF_INTRINSIC to use the sqrtf function instead.
+#if defined(__sgi) && !defined(NO_SQRTF_INTRINSIC)
 #pragma intrinsic(sqrtf)
 #endif
 
