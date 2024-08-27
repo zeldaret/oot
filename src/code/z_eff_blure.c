@@ -12,7 +12,7 @@ void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2) {
     if (this != NULL) {
         numElements = this->numElements;
         if (numElements >= 16) {
-            PRINTF(T("ブラ─頂点追加処理:テーブルオーバー %d\n", "Blure vertex addition processing: Table over %d\n"),
+            PRINTF(T("ブラ─頂点追加処理:テーブルオーバー %d\n", "Blur - vertex addition processing: Table over %d\n"),
                    numElements);
             return;
         }
@@ -81,7 +81,7 @@ void EffectBlure_AddSpace(EffectBlure* this) {
     if (this != NULL) {
         numElements = this->numElements;
         if (numElements >= 16) {
-            PRINTF(T("ブラ─空白追加処理:テーブルオーバー %d\n", "Blure space addition processing: Table over %d\n"),
+            PRINTF(T("ブラ─空白追加処理:テーブルオーバー %d\n", "Blur - space addition processing: Table over %d\n"),
                    numElements);
             return;
         }
@@ -852,7 +852,7 @@ void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
 
         vtx = GRAPH_ALLOC(gfxCtx, vtxCount * sizeof(Vtx));
         if (vtx == NULL) {
-            PRINTF(T("ブラ─表示:頂点確保できず。強制終了\n", "Vertices cannot be secured. Forced termination\n"));
+            PRINTF(T("ブラ─表示:頂点確保できず。強制終了\n", "Blur - display: vertices cannot be secured. Forced termination\n"));
             return;
         }
 
@@ -945,7 +945,7 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
             vtx = GRAPH_ALLOC(gfxCtx, sizeof(Vtx[32]));
             if (vtx == NULL) {
-                PRINTF(T("ブラ─表示:頂点テーブル確保できず\n", "Blure display: Vertex table could not be secured\n"));
+                PRINTF(T("ブラ─表示:頂点テーブル確保できず\n", "Blur - display: vertex table could not be secured\n"));
             } else {
                 j = 0;
                 for (i = 0; i < this->numElements; i++) {

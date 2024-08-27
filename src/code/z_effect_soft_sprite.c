@@ -205,7 +205,7 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
                          "EffectSoftSprite2_makeEffect():zelda_malloc_r() The memory of %d byte cannot be\n"
                          "secured. Therefore, the program\n"
                          "cannot be loaded. What a dangerous situation!\n"
-                         "Naturally, effects will not produced either.\n"),
+                         "Naturally, effects will not be produced either.\n"),
                        overlaySize);
                 PRINTF(VT_RST);
                 return;
