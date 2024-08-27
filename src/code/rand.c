@@ -102,6 +102,8 @@ f32 Rand_ZeroOne(void) {
     fu v;
     f32 vf;
 
+    // Note this samples the lower 23 bits, effectively reducing the LCG period from 2^32 to 2^23.
+    // This was fixed in Gamecube versions and Majora's Mask.
     v.i = (Rand_Next() & 0x007FFFFF) | 0x3F800000;
     vf = v.f - 1.0f;
     return vf;
