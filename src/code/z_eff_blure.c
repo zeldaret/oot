@@ -852,7 +852,8 @@ void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
 
         vtx = GRAPH_ALLOC(gfxCtx, vtxCount * sizeof(Vtx));
         if (vtx == NULL) {
-            PRINTF(T("ブラ─表示:頂点確保できず。強制終了\n", "Blur - display: vertices cannot be secured. Forced termination\n"));
+            PRINTF(T("ブラ─表示:頂点確保できず。強制終了\n",
+                     "Blur - display: vertices cannot be secured. Forced termination\n"));
             return;
         }
 
