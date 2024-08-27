@@ -12,14 +12,12 @@ s32 gDebugArenaLogSeverity = LOG_SEVERITY_ERROR;
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action) {
     if (ptr == NULL) {
         if (gDebugArenaLogSeverity >= LOG_SEVERITY_ERROR) {
-            // "%s: %u bytes %s failed\n"
-            PRINTF("%s: %u バイトの%sに失敗しました\n", name, size, action);
+            PRINTF(T("%s: %u バイトの%sに失敗しました\n", "%s: %u bytes %s failed\n"), name, size, action);
             __osDisplayArena(&sDebugArena);
             return;
         }
     } else if (gDebugArenaLogSeverity >= LOG_SEVERITY_VERBOSE) {
-        // "%s: %u bytes %s succeeded\n"
-        PRINTF("%s: %u バイトの%sに成功しました\n", name, size, action);
+        PRINTF(T("%s: %u バイトの%sに成功しました\n", "%s: %u bytes %s succeeded\n"), name, size, action);
     }
 }
 
