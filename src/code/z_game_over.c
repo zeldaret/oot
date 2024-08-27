@@ -1,6 +1,7 @@
 #include "z64game_over.h"
 
 #include "global.h"
+#include "versions.h"
 
 void GameOver_Init(PlayState* play) {
     play->gameOverCtx.state = GAMEOVER_INACTIVE;
