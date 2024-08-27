@@ -132,8 +132,10 @@ u8 sGfxPrintFontData[(16 * 256) / 2] = {
     0x1B, 0xAA, 0x40, 0x21, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
+#if PLATFORM_N64
 // Can be used to set GFXP_FLAG_ENLARGE by default
 static u8 sDefaultSpecialFlags;
+#endif
 
 void GfxPrint_Setup(GfxPrint* this) {
     s32 width = 16;
