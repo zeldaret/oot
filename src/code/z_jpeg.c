@@ -178,14 +178,22 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                 case MARKER_SOF: {
                     // Start of Frame, stores important metadata of the image.
                     // Only used for extracting the sampling factors (ctx->mode).
-                    PRINTF("MARKER_SOF   %d "
-                           "精度%02x " // "accuracy"
-                           "垂直%d "   // "vertical"
-                           "水平%d "   // "horizontal"
-                           "compo%02x "
-                           "(1:Y)%d (H0=2,V0=1(422) or 2(420))%02x (量子化テーブル)%02x "
-                           "(2:Cb)%d (H1=1,V1=1)%02x (量子化テーブル)%02x "
-                           "(3:Cr)%d (H2=1,V2=1)%02x (量子化テーブル)%02x\n",
+                    PRINTF(T("MARKER_SOF   %d "
+                             "精度%02x "
+                             "垂直%d "
+                             "水平%d "
+                             "compo%02x "
+                             "(1:Y)%d (H0=2,V0=1(422) or 2(420))%02x (量子化テーブル)%02x "
+                             "(2:Cb)%d (H1=1,V1=1)%02x (量子化テーブル)%02x "
+                             "(3:Cr)%d (H2=1,V2=1)%02x (量子化テーブル)%02x\n",
+                             "MARKER_SOF   %d "
+                             "accuracy%02x "
+                             "vertical%d "
+                             "horizontal%d "
+                             "compo%02x "
+                             "(1:Y)%d (H0=2,V0=1(422) or 2(420))%02x (quantization tables)%02x "
+                             "(2:Cb)%d (H1=1,V1=1)%02x (quantization tables)%02x "
+                             "(3:Cr)%d (H2=1,V2=1)%02x (quantization tables)%02x\n"),
                            Jpeg_GetUnalignedU16(ptr),
                            ptr[2],                        // precision
                            Jpeg_GetUnalignedU16(ptr + 3), // height
