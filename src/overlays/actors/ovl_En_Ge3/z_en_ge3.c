@@ -6,6 +6,7 @@
 
 #include "z_en_ge3.h"
 #include "assets/objects/object_geldb/object_geldb.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
