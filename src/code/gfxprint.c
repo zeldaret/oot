@@ -1,5 +1,11 @@
 #include "global.h"
 
+#if PLATFORM_N64
+#define GFXPRINT_PRINTF osSyncPrintf
+#else
+#define GFXPRINT_PRINTF PRINTF
+#endif
+
 u16 sGfxPrintFontTLUT[64] = {
     0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000,
     0xFFFF, 0x0000, 0xFFFF, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0x0000, 0x0000,
@@ -210,6 +216,10 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
     if (this->flags & GFXP_FLAG_SHADOW) {
         gDPSetColor(this->dList++, G_SETPRIMCOLOR, 0);
 
+#if PLATFORM_N64
+        gSPTextureRectangle(this->dList++, this->posX + 4, this->posY + 4, this->posX + 4 + 32, this->posY + 4 + 32,
+                            tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
+#else
         if (this->flags & GFXP_FLAG_ENLARGE) {
             gSPTextureRectangle(this->dList++, (this->posX + 4) << 1, (this->posY + 4) << 1, (this->posX + 4 + 32) << 1,
                                 (this->posY + 4 + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 9,
@@ -218,10 +228,15 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
             gSPTextureRectangle(this->dList++, this->posX + 4, this->posY + 4, this->posX + 4 + 32, this->posY + 4 + 32,
                                 tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
         }
+#endif
 
         gDPSetColor(this->dList++, G_SETPRIMCOLOR, this->color.rgba);
     }
 
+#if PLATFORM_N64
+    gSPTextureRectangle(this->dList++, this->posX, this->posY, this->posX + 32, this->posY + 32, tile,
+                        (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
+#else
     if (this->flags & GFXP_FLAG_ENLARGE) {
         gSPTextureRectangle(this->dList++, this->posX << 1, this->posY << 1, (this->posX + 32) << 1,
                             (this->posY + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 9, 1 << 9);
@@ -229,26 +244,32 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
         gSPTextureRectangle(this->dList++, this->posX, this->posY, this->posX + 32, this->posY + 32, tile,
                             (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
     }
+#endif
 
     this->posX += GFX_CHAR_X_SPACING << 2;
 }
 
 void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
+#if PLATFORM_N64
+#define CHAR_PARAM c
+#else
+#define CHAR_PARAM charParam
     u8 charParam = c;
+#endif
 
     if (c == ' ') {
         this->posX += GFX_CHAR_X_SPACING << 2;
     } else if (c > ' ' && c < 0x7F) {
-        GfxPrint_PrintCharImpl(this, charParam);
+        GfxPrint_PrintCharImpl(this, c);
     } else if (c >= 0xA0 && c < 0xE0) {
         if (this->flags & GFXP_FLAG_HIRAGANA) {
             if (c < 0xC0) {
-                charParam = c - 0x20;
+                CHAR_PARAM = c - 0x20;
             } else {
-                charParam = c + 0x20;
+                CHAR_PARAM = c + 0x20;
             }
         }
-        GfxPrint_PrintCharImpl(this, charParam);
+        GfxPrint_PrintCharImpl(this, CHAR_PARAM);
     } else {
         switch (c) {
             case '\0':
@@ -325,11 +346,13 @@ void GfxPrint_Init(GfxPrint* this) {
     this->flags |= GFXP_FLAG_SHADOW;
     this->flags |= GFXP_FLAG_UPDATE;
 
+#if PLATFORM_GC
     if (sDefaultSpecialFlags & GFXP_FLAG_ENLARGE) {
         this->flags |= GFXP_FLAG_ENLARGE;
     } else {
         this->flags &= ~GFXP_FLAG_ENLARGE;
     }
+#endif
 }
 
 void GfxPrint_Destroy(GfxPrint* this) {
@@ -341,7 +364,7 @@ void GfxPrint_Open(GfxPrint* this, Gfx* dList) {
         this->dList = dList;
         GfxPrint_Setup(this);
     } else {
-        PRINTF("gfxprint_open:２重オープンです\n");
+        GFXPRINT_PRINTF("gfxprint_open:２重オープンです\n");
     }
 }
 
@@ -349,7 +372,9 @@ Gfx* GfxPrint_Close(GfxPrint* this) {
     Gfx* ret;
 
     this->flags &= ~GFXP_FLAG_OPEN;
+#if PLATFORM_GC
     gDPPipeSync(this->dList++);
+#endif
     ret = this->dList;
     this->dList = NULL;
 
