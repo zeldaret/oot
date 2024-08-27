@@ -461,13 +461,12 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
     vtx[3].v.ob[0] = sp54.x;
     vtx[3].v.ob[1] = sp54.y;
     vtx[3].v.ob[2] = sp54.z;
-#if PLATFORM_N64
-    if (1) {}
-#endif
     vtx[3].v.cn[0] = sp78.r;
     vtx[3].v.cn[1] = sp78.g;
     vtx[3].v.cn[2] = sp78.b;
     vtx[3].v.cn[3] = sp78.a;
+
+    if (1) {}
 
     gSPVertex(POLY_XLU_DISP++, vtx, 4, 0);
     gSP2Triangles(POLY_XLU_DISP++, 0, 1, 2, 0, 0, 2, 3, 0);
