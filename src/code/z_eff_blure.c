@@ -422,7 +422,7 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
         vtx[0].v.cn[2] = sp78.b;
         vtx[0].v.cn[3] = sp78.a;
 
-#if OOT_VERSION == OOT_GC_EU_MQ_DBG
+#if OOT_VERSION == GC_EU_MQ_DBG
         if (1) {}
 #endif
 
@@ -777,7 +777,7 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
                 gDPPipeSync(POLY_XLU_DISP++);
             }
 
-#if OOT_VERSION == OOT_GC_EU_MQ_DBG
+#if OOT_VERSION == GC_EU_MQ_DBG
             if (1) {}
 #endif
 
