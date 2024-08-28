@@ -97,7 +97,7 @@ void* DebugArena_Calloc(u32 num, u32 size) {
 
 #if OOT_DEBUG
 void DebugArena_Display(void) {
-    // ("Zelda" should probably have been changed to "Debug")
+    // Likely copypasted from ZeldaArena_Display, should say "Debug"
     PRINTF(T("ゼルダヒープ表示\n", "Zelda heap display\n"));
     __osDisplayArena(&sDebugArena);
 }
