@@ -82,6 +82,7 @@ const char* sFpExceptionNames[] = {
 };
 
 u16 sFaultFontColor = GPACK_RGBA5551(255, 255, 255, 1);
+s32 D_800FF9C4[7] = {0}; // Unused (file padding?)
 
 Input sFaultInputs[MAXCONTROLLERS];
 
@@ -95,7 +96,8 @@ vs32 sFaultExit;
 vs32 gFaultMsgId;
 vs32 sFaultDisplayEnable;
 OSThread* sFaultFaultedThread;
-s32 B_80122570[0x10];
+s32 B_80122570[16];
+s32 B_801225B0[8]; // Unused (file padding?)
 
 void Fault_SleepImpl(u32 ms) {
     Sleep_Msec(ms);
