@@ -1,12 +1,10 @@
-// Include versions.h first and redefine FAULT_VERSION
-// This allows this file to compile even when versions.h uses FAULT_GC
-#include "versions.h"
-#undef FAULT_VERSION
-#define FAULT_VERSION FAULT_N64
-
 #include "global.h"
+#include "__osMalloc.h"
 #include "fault.h"
 #include "terminal.h"
+#include "versions.h"
+
+#if FAULT_VERSION == FAULT_N64
 
 typedef struct FaultMgr {
     OSThread thread;
@@ -845,3 +843,5 @@ void Fault_AddHungupAndCrash(const char* file, int line) {
     sprintf(msg, "HungUp %s:%d", file, line);
     Fault_AddHungupAndCrashImpl(msg, NULL);
 }
+
+#endif

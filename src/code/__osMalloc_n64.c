@@ -1,12 +1,9 @@
-// Include versions.h first and redefine OSMALLOC_VERSION
-// This allows this file to compile even when versions.h uses OSMALLOC_GC
-#include "versions.h"
-#undef OSMALLOC_VERSION
-#define OSMALLOC_VERSION OSMALLOC_N64
-
 #include "global.h"
 #include "__osMalloc.h"
-#include "terminal.h"
+#include "fault.h"
+#include "versions.h"
+
+#if OSMALLOC_VERSION == OSMALLOC_N64
 
 #define NODE_MAGIC 0x7373
 
@@ -456,3 +453,5 @@ s32 __osCheckArena(Arena* arena) {
 u8 ArenaImpl_GetAllocFailures(Arena* arena) {
     return arena->allocFailures;
 }
+
+#endif

@@ -1,13 +1,10 @@
-// Include versions.h first and redefine OSMALLOC_VERSION
-// This allows this file to compile even when versions.h uses OSMALLOC_N64
-#include "versions.h"
-#undef OSMALLOC_VERSION
-#define OSMALLOC_VERSION OSMALLOC_GC
-
 #include "global.h"
 #include "__osMalloc.h"
 #include "fault.h"
 #include "terminal.h"
+#include "versions.h"
+
+#if OSMALLOC_VERSION == OSMALLOC_GC
 
 #define FILL_ALLOC_BLOCK_FLAG (1 << 0)
 #define FILL_FREE_BLOCK_FLAG (1 << 1)
@@ -894,4 +891,6 @@ s32 __osCheckArena(Arena* arena) {
 u8 ArenaImpl_GetAllocFailures(Arena* arena) {
     return arena->allocFailures;
 }
+#endif
+
 #endif
