@@ -19,6 +19,7 @@ AudioDebug_ProcessInput
 func_800FF334
 n64dd_SetDiskVersion
 sJpegTask  _n64ddSegmentRomStart  _n64ddSegmentRomEnd  _n64ddSegmentStart  _string_n64dd_c
+_Putfld  _Ldunscale  _Genld
 """.split()
 
 
