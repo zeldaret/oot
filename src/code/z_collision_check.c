@@ -5,6 +5,8 @@
 
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64"
+
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
 typedef void (*ColChkVsFunc)(PlayState*, CollisionCheckContext*, Collider*, Collider*);
@@ -2193,6 +2195,8 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
+#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252"
+
 void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
     static TriNorm tri2;
@@ -2693,8 +2697,6 @@ typedef enum ColChkMassType {
     /* 1 */ MASSTYPE_HEAVY,
     /* 2 */ MASSTYPE_NORMAL
 } ColChkMassType;
-
-#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252"
 
 /**
  * Get mass type. Immovable colliders cannot be pushed, while heavy colliders can only be pushed by heavy and immovable

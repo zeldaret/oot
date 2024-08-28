@@ -1,4 +1,5 @@
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 #include "versions.h"
 #if PLATFORM_N64

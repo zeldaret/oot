@@ -439,10 +439,12 @@ $(BUILD_DIR)/src/code/relocation.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/sleep.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/src/code/fault.o: CFLAGS += -trapuv
-$(BUILD_DIR)/src/code/fault.o: OPTFLAGS := -O2 -g3
-$(BUILD_DIR)/src/code/fault_drawer.o: CFLAGS += -trapuv
-$(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
+$(BUILD_DIR)/src/code/fault_n64.o: CFLAGS += -trapuv
+$(BUILD_DIR)/src/code/fault_gc.o: CFLAGS += -trapuv
+$(BUILD_DIR)/src/code/fault_gc.o: OPTFLAGS := -O2 -g3
+$(BUILD_DIR)/src/code/fault_gc_drawer.o: CFLAGS += -trapuv
+$(BUILD_DIR)/src/code/fault_gc_drawer.o: OPTFLAGS := -O2 -g3
+
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 
 ifeq ($(PLATFORM),N64)

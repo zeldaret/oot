@@ -1,4 +1,5 @@
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 
 #if PLATFORM_N64 || OOT_DEBUG
