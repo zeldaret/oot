@@ -5,8 +5,8 @@
 #include "global.h"
 
 extern u8 gAmmoItems[];
-extern s16 D_8082AAEC[];
-extern s16 D_8082AB2C[];
+extern s16 gVtxPageMapWorldQuadsWidth[];
+extern s16 gVtxPageMapWorldQuadsHeight[];
 extern u8 gSlotAgeReqs[];
 extern u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4];
 extern u8 gItemAgeReqs[];

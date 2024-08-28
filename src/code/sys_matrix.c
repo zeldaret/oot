@@ -1,4 +1,7 @@
 #include "global.h"
+#if OOT_DEBUG
+#include "fault.h"
+#endif
 
 // clang-format off
 Mtx gMtxClear = gdSPDefMtx(
@@ -15,6 +18,8 @@ MtxF gMtxFClear = {
     0.0f, 0.0f, 0.0f, 1.0f,
 };
 // clang-format on
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
 
 MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"

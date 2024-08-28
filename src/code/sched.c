@@ -40,10 +40,13 @@
  * @see irqmgr.c
  */
 #include "global.h"
+#include "fault.h"
 
 #define RSP_DONE_MSG 667
 #define RDP_DONE_MSG 668
 #define NOTIFY_MSG 670 // original name: ENTRY_MSG
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 OSTime sRSPGfxTimeStart;
 OSTime sRSPAudioTimeStart;

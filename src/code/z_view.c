@@ -648,8 +648,9 @@ s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ) {
 
     if (error != 0) {
         PRINTF(VT_FGCOL(RED));
-        // "Is too large"
-        PRINTF("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n", eyeX, eyeY, eyeZ, error);
+        PRINTF(T("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n",
+                 "eye is too large eye=[%8.3f %8.3f %8.3f] error=%d\n"),
+               eyeX, eyeY, eyeZ, error);
         PRINTF(VT_RST);
     }
 
