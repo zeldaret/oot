@@ -220,7 +220,7 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                     break;
                 }
                 default: {
-                    PRINTF("マーカー不明 %02x\n", ptr[-1]); // "Unknown marker"
+                    PRINTF(T("マーカー不明 %02x\n", "Unknown marker %02x\n"), ptr[-1]);
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
@@ -256,8 +256,9 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Wait for synchronization of fifo buffer"
-    PRINTF("*** fifoバッファの同期待ち time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** fifoバッファの同期待ち time = %6.3f ms ***\n",
+             "*** Wait for synchronization of fifo buffer time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     ctx.workBuf = workBuff;
     Jpeg_ParseMarkers(data, &ctx);
@@ -265,8 +266,9 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Check markers for each segment"
-    PRINTF("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n",
+             "*** Check markers for each segment time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dqtCount) {
         case 1:
@@ -289,8 +291,8 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Create quantization table"
-    PRINTF("*** 量子化テーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** 量子化テーブル作成 time = %6.3f ms ***\n", "*** Create quantization table time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dhtCount) {
         case 1:
@@ -319,8 +321,8 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Huffman table creation"
-    PRINTF("*** ハフマンテーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** ハフマンテーブル作成 time = %6.3f ms ***\n", "*** Huffman table creation time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     decoder.imageData = ctx.imageData;
     decoder.mode = ctx.mode;
@@ -356,8 +358,8 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Unfold & draw"
-    PRINTF("*** 展開 & 描画 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** 展開 & 描画 time = %6.3f ms ***\n", "*** Unfold & draw time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     return 0;
 }

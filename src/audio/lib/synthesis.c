@@ -796,7 +796,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     } else {
         sample = noteSubEu->tunedSample->sample;
         loopInfo = sample->loop;
-        loopEndPos = loopInfo->end;
+        loopEndPos = loopInfo->header.end;
         sampleAddr = (u32)sample->sampleAddr;
         resampledTempLen = 0;
 
@@ -829,7 +829,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     if (1) {}
                     if (1) {}
                     if (1) {}
-                    nEntries = SAMPLES_PER_FRAME * sample->book->order * sample->book->numPredictors;
+                    nEntries = SAMPLES_PER_FRAME * sample->book->header.order * sample->book->header.numPredictors;
                     aLoadADPCM(cmd++, nEntries, gAudioCtx.curLoadedBook);
                 }
             }
@@ -861,7 +861,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                         nSamplesInFirstFrame = nSamplesUntilLoopEnd;
                     }
                     nFramesToDecode = (nSamplesToDecode + SAMPLES_PER_FRAME - 1) / SAMPLES_PER_FRAME;
-                    if (loopInfo->count != 0) {
+                    if (loopInfo->header.count != 0) {
                         // Loop around and restart
                         restart = true;
                     } else {
@@ -1019,7 +1019,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 } else {
                     if (restart) {
                         synthState->restart = true;
-                        synthState->samplePosInt = loopInfo->start;
+                        synthState->samplePosInt = loopInfo->header.start;
                     } else {
                         synthState->samplePosInt += nSamplesToProcess;
                     }

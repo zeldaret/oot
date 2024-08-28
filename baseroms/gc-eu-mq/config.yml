@@ -21,10 +21,6 @@ incbins:
     segment: code
     vram: 0x800E3A10
     size: 0xAF0
-  - name: gSoundFontTable
-    segment: code
-    vram: 0x80110470
-    size: 0x270
   - name: gSequenceFontTable
     segment: code
     vram: 0x801106E0
