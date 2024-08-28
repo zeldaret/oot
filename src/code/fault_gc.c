@@ -48,9 +48,10 @@
 #define FAULT_VERSION FAULT_GC
 
 #include "global.h"
-#include "fault.h"
-#include "terminal.h"
 #include "alloca.h"
+#include "fault.h"
+#include "stack.h"
+#include "terminal.h"
 
 #pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:222 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64" \
                                "gc-us-mq:64"
