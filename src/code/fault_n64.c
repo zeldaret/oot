@@ -82,7 +82,7 @@ const char* sFpExceptionNames[] = {
 };
 
 u16 sFaultFontColor = GPACK_RGBA5551(255, 255, 255, 1);
-s32 D_800FF9C4[7] = {0}; // Unused (file padding?)
+s32 D_800FF9C4[7] = { 0 }; // Unused (file padding?)
 
 Input sFaultInputs[MAXCONTROLLERS];
 
