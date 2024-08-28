@@ -486,7 +486,7 @@ aiff_aifc_common_read(container_data *out, FILE *in, UNUSED bool matching, uint3
         long read_size = ftell(in) - start - 8;
 
         if (read_size > chunk_size)
-            error("overran chunk: %lu vs %u\n", read_size, chunk_size);
+            error("overran chunk: %lu vs %u", read_size, chunk_size);
         else if (read_size < chunk_size)
             warning("did not read entire %.*s chunk: %lu vs %u", 4, cc4, read_size, chunk_size);
 
@@ -589,7 +589,7 @@ aiff_aifc_common_write(container_data *in, const char *path, bool aifc, bool mat
 {
     FILE *out = fopen(path, "wb");
     if (out == NULL)
-        error("Failed to open %s for writing\n", path);
+        error("Failed to open %s for writing", path);
 
     const char *aifc_head = "FORM\0\0\0\0AIFC";
     const char *aiff_head = "FORM\0\0\0\0AIFF";
