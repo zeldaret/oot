@@ -8,24 +8,27 @@
 .balign 16
 
 /**
- * s32 Kanji_OffsetFromShiftJIS(s32 sjis);
+ * s32 LeoGetKAdr(s32 sjis);
  *
- * Returns the offset of the glyph texture data in the file `kanji` corresponding
- * to a given 2-byte Shift-JIS codepoint. No range validity check is carried out.
+ * Returns the storage offset address into the N64 Disk Drive mask ROM for
+ * a kanji character corresponding to a given 2-byte Shift-JIS codepoint.
+ * An error value -1 will be returned if `sjis` is outside the range 0x8140 to 0x9872.
  *
  * A nice Shift-JIS codepoint table: https://uic.io/en/charset/show/shift_jis/
- * The file `kanji` contains the 'Level 1' kanji (0x889F-0x9872), and a reworked
+ * The Mask ROM contains the 'Level 1' kanji (0x889F-0x9872), and a reworked
  * version of the non-kanji section that includes extra English and Hylian glyphs.
  *
- * @note This function assumes that its argument is a valid Shift-JIS codepoint;
- * there is no range protection at all.
- *
  * @param sjis Shift-JIS Codepoint of glyph.
- * @return s32 offset into `kanji` file.
- *
- * @remark Almost identical to "LeoGetKadr" from libleo.
+ * @return s32 Storage offset address into the N64 Disk Drive mask ROM.
  */
-LEAF(Kanji_OffsetFromShiftJIS)
+LEAF(LeoGetKAdr)
+    // Check if the codepoint is in the range 0x8140 to 0x9872.
+    li      $at, 0x8140
+    slt     $at, $a0, $at
+    bnez    $at, .out_of_range
+    li      $at, 0x9873
+    slt     $at, $a0, $at
+    beqz    $at, .out_of_range
     // Characters with codepoints >= 0x8800 are kanji. Arrangement is regular,
     // so convert index directly.
     li      $at, 0x8800
@@ -76,24 +79,34 @@ LEAF(Kanji_OffsetFromShiftJIS)
     mflo    $a2
 .nonkanji_lower_halfblock:
     add     $a3, $a3, $a2
-    lui     $a2, %hi(sKanreadNonKanjiIndices)
+    lui     $a2, %hi(sLeoNonKanjiIndices)
     sll     $a3, $a3, 1
-    addiu   $a2, %lo(sKanreadNonKanjiIndices)
+    addiu   $a2, %lo(sLeoNonKanjiIndices)
     add     $a3, $a3, $a2
     lh      $a2, ($a3)
     jr      $ra
      sll    $v0, $a2, 7
-     // returns sKanreadNonKanjiIndices[(adjusted byte2) + (adjusted byte1) * 0xBC] * FONT_CHAR_TEX_SIZE
-END(Kanji_OffsetFromShiftJIS)
+     // returns sLeoNonKanjiIndices[(adjusted byte2) + (adjusted byte1) * 0xBC] * FONT_CHAR_TEX_SIZE
+.out_of_range:
+    jr      $ra
+     li     $v0, -1
+END(LeoGetKAdr)
 
 /**
  * Nearly equivalent C code (Equivalent for all valid input, will behave differently on overflow due to the use of `add` in the original):
  *
- * extern u16 sKanreadNonKanjiIndices[];
+ * extern u16 sLeoNonKanjiIndices[];
  *
- * s32 Kanji_OffsetFromShiftJIS(s32 sjis) {
- *     u32 byte1 = (u32)sjis >> 8;
- *     u32 byte2 = sjis & 0xFF;
+ * s32 LeoGetKAdr(s32 sjis) {
+ *     u32 byte1;
+ *     u32 byte2;
+ *
+ *     if (sjis < 0x8140 || sjis > 0x9872) {
+ *         return -1;
+ *     }
+ *
+ *     byte1 = (u32)sjis >> 8;
+ *     byte2 = sjis & 0xFF;
  *
  *     byte2 -= 0x40;
  *     if (byte2 >= 0x40) {
@@ -105,7 +118,7 @@ END(Kanji_OffsetFromShiftJIS)
  *         return (0x30A + byte2 + byte1 * 0xBC) * FONT_CHAR_TEX_SIZE;
  *     } else {
  *         byte1 -= 0x81;
- *         return sKanreadNonKanjiIndices[byte2 + byte1 * 0xBC] * FONT_CHAR_TEX_SIZE;
+ *         return sLeoNonKanjiIndices[byte2 + byte1 * 0xBC] * FONT_CHAR_TEX_SIZE;
  *     }
  * }
  */
@@ -115,7 +128,7 @@ END(Kanji_OffsetFromShiftJIS)
  * with space for the missing 0x__7F,0x__FD,0x__FE,0x__FF entries, and split
  * into blocks by high byte.
  */
-DATA(sKanreadNonKanjiIndices)
+DATA(sLeoNonKanjiIndices)
 //                 0x___0  0x___1  0x___2  0x___3  0x___4  0x___5  0x___6  0x___7  0x___8  0x___9  0x___A  0x___B  0x___C  0x___D  0x___E  0x___F
 /* 0x814_ */ .half 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F
 /* 0x815_ */ .half 0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F
@@ -213,4 +226,4 @@ DATA(sKanreadNonKanjiIndices)
 /* 0x87D_ */ .half 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
 /* 0x87E_ */ .half 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0303, 0x0304, 0x0305, 0x0306, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
 /* 0x87F_ */ .half 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0307, 0x0308, 0x0309
-ENDDATA(sKanreadNonKanjiIndices)
+ENDDATA(sLeoNonKanjiIndices)
