@@ -241,7 +241,8 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 #if OOT_VERSION >= PAL_1_1
             FALLTHROUGH;
         default:
-            // This is a hack to fix the color-changing clothes this Gerudo has on before below PAL 1.1
+            // This is a hack to fix a bug present before PAL 1.1, where the actor's clothes can change color
+            // depending on what was drawn earlier in the frame.
             OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 547);
             switch (limbIndex) {
                 case GELDB_LIMB_NECK:
