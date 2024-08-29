@@ -79,14 +79,14 @@ LEAF(LeoGetKAdr)
     mflo    $a2
 .nonkanji_lower_halfblock:
     add     $a3, $a3, $a2
-    lui     $a2, %hi(sLeoNonKanjiIndices)
+    lui     $a2, %hi(kantbl)
     sll     $a3, $a3, 1
-    addiu   $a2, %lo(sLeoNonKanjiIndices)
+    addiu   $a2, %lo(kantbl)
     add     $a3, $a3, $a2
     lh      $a2, ($a3)
     jr      $ra
      sll    $v0, $a2, 7
-     // returns sLeoNonKanjiIndices[(adjusted byte2) + (adjusted byte1) * 0xBC] * FONT_CHAR_TEX_SIZE
+     // returns kantbl[(adjusted byte2) + (adjusted byte1) * 0xBC] * FONT_CHAR_TEX_SIZE
 .out_of_range:
     jr      $ra
      li     $v0, -1
@@ -95,7 +95,7 @@ END(LeoGetKAdr)
 /**
  * Nearly equivalent C code (Equivalent for all valid input, will behave differently on overflow due to the use of `add` in the original):
  *
- * extern u16 sLeoNonKanjiIndices[];
+ * extern u16 kantbl[];
  *
  * int LeoGetKAdr(int sjis) {
  *     u32 byte1;
@@ -118,7 +118,7 @@ END(LeoGetKAdr)
  *         return (0x30A + byte2 + byte1 * 0xBC) * FONT_CHAR_TEX_SIZE;
  *     } else {
  *         byte1 -= 0x81;
- *         return sLeoNonKanjiIndices[byte2 + byte1 * 0xBC] * FONT_CHAR_TEX_SIZE;
+ *         return kantbl[byte2 + byte1 * 0xBC] * FONT_CHAR_TEX_SIZE;
  *     }
  * }
  */
@@ -128,7 +128,7 @@ END(LeoGetKAdr)
  * with space for the missing 0x__7F,0x__FD,0x__FE,0x__FF entries, and split
  * into blocks by high byte.
  */
-DATA(sLeoNonKanjiIndices)
+DATA(kantbl)
 //                 0x___0  0x___1  0x___2  0x___3  0x___4  0x___5  0x___6  0x___7  0x___8  0x___9  0x___A  0x___B  0x___C  0x___D  0x___E  0x___F
 /* 0x814_ */ .half 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F
 /* 0x815_ */ .half 0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F
@@ -226,4 +226,4 @@ DATA(sLeoNonKanjiIndices)
 /* 0x87D_ */ .half 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
 /* 0x87E_ */ .half 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0303, 0x0304, 0x0305, 0x0306, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
 /* 0x87F_ */ .half 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0307, 0x0308, 0x0309
-ENDDATA(sLeoNonKanjiIndices)
+ENDDATA(kantbl)

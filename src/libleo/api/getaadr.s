@@ -12,9 +12,9 @@ LEAF(LeoGetAAdr)
      slti   $at, $a0, 0x908
     beqz    $at, .out_of_range
      nop
-    lui     $v1, %hi(sLeoGetAAdrTable)
+    lui     $v1, %hi(asc2tbl)
     sll     $t0, $a0, 2
-    addiu   $v1, %lo(sLeoGetAAdrTable)
+    addiu   $v1, %lo(asc2tbl)
     add     $t1, $t0, $v1
     lbu     $t8, 2($t1)
     lhu     $t9, 0($t1)
@@ -39,7 +39,7 @@ LEAF(LeoGetAAdr)
      li     $v0, -1
 END(LeoGetAAdr)
 
-DATA(sLeoGetAAdrTable)
+DATA(asc2tbl)
 .word 0x00009D14, 0x00232A14, 0x00296314, 0x002F8A14, 0x00457E18, 0x0063CA14, 0x0084AA14, 0x00A03314
 .word 0x00A45E14, 0x00BB4E14, 0x00CA6514, 0x00D3770E, 0x00E33302, 0x00E78108, 0x00EB2102, 0x00EC6C14
 .word 0x01008A14, 0x01163A14, 0x01217A14, 0x01377A14, 0x014D8A14, 0x01638A14, 0x01798A14, 0x018F7A14
@@ -329,4 +329,4 @@ DATA(sLeoGetAAdrTable)
 .word 0xC8A90F17, 0xC8E9960E, 0xC8FB7810, 0xC90D960E, 0xC91F7810, 0xC9319E14, 0xC957F810, 0xC97B9E16
 .word 0xC9A1F810, 0xC9C5CC14, 0xC9ECDC16, 0xCA1ADC14, 0xCA48DC14, 0xCA76EF16, 0xCAAE070F, 0xCACE070F
 .word 0xCAEE8F16, 0xCB0EED14, 0xCB3FED14, 0xCB70ED14, 0xCBA1EF16, 0xCBD9CB12, 0xCBFDCB12, 0xCC21CB12
-ENDDATA(sLeoGetAAdrTable)
+ENDDATA(asc2tbl)
