@@ -205,6 +205,7 @@ extern PreNmiBuff* gAppNmiBufferPtr;
 extern uintptr_t gSegments[NUM_SEGMENTS];
 extern Scheduler gScheduler;
 extern PadMgr gPadMgr;
+extern IrqMgr gIrqMgr;
 extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
 extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
 extern volatile OSTime gRSPAudioTimeTotal;

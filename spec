@@ -779,7 +779,16 @@ endseg
 #if PLATFORM_N64
 beginseg
     name "n64dd"
-    // TODO: remaining n64dd files
+    include "$(BUILD_DIR)/src/n64dd/z_n64dd.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_data_buffer.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_801C8000.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_801C8940.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_801C9440.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_801C9B70.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_error_headers.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_error_bodies.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_error_textures.o"
+    include "$(BUILD_DIR)/src/n64dd/n64dd_801CA0B0.o"
     include "$(BUILD_DIR)/src/libleo/api/readwrite.o"
     include "$(BUILD_DIR)/src/libleo/leo/leofunc.o"
     include "$(BUILD_DIR)/src/libleo/leo/leoram.o"

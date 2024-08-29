@@ -74,6 +74,8 @@
 #define THREAD_PRI_DMAMGR_LOW   10  // Used when decompressing files
 #define THREAD_PRI_GRAPH        11
 #define THREAD_PRI_AUDIOMGR     12
+#define THREAD_PRI_N64DD        13
+#define THREAD_PRI_DDMSG        13
 #define THREAD_PRI_PADMGR       14
 #define THREAD_PRI_MAIN         15
 #define THREAD_PRI_SCHED        15
@@ -88,6 +90,8 @@
 #define THREAD_ID_GRAPH       4
 #define THREAD_ID_SCHED       5
 #define THREAD_ID_PADMGR      7
+#define THREAD_ID_N64DD       8
+#define THREAD_ID_DDMSG       9
 #define THREAD_ID_AUDIOMGR   10
 #define THREAD_ID_DMAMGR     18
 #define THREAD_ID_IRQMGR     19
