@@ -197,9 +197,9 @@ s32 LeoReadRTC(LEOCmd* cmdBlock, OSMesgQueue* mq);
 s32 LeoModeSelectAsync(LEOCmd* cmdBlock, u32 standby, u32 sleep, OSMesgQueue* mq);
 
 // Font routines
-s32 LeoGetKAdr(s32 sjis);
-s32 LeoGetAAdr(s32 code, s32* dx, s32* dy, s32* cy);
-s32 LeoGetAAdr2(u32 ccode, s32* dx, s32* dy, s32* cy);
+int LeoGetKAdr(int sjis);
+int LeoGetAAdr(int code, int* dx, int* dy, int* cy);
+int LeoGetAAdr2(u32 ccode, int* dx, int* dy, int* cy);
 
 // Boot function
 void LeoBootGame(void* entry);

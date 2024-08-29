@@ -143,9 +143,9 @@ void leoInitUnit_atten(void);
 
 s32 __leoSetReset(void);
 
-void leoRead_common(u32 offset);
+void leoRead_common(unsigned int offset);
 
-s32 leoC2_Correction(void);
+int leoC2_Correction(void);
 
 void leoSet_mseq(u16 rwmode);
 

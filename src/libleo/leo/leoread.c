@@ -12,7 +12,7 @@ void leoRead(void) {
 
 extern OSMesgQueue LEOc2ctrl_que;
 
-void leoRead_common(u32 offset) {
+void leoRead_common(unsigned int offset) {
     u32 tg_lba = LEOcur_command->data.readWrite.lba;
     u32 tg_blocks = LEOcur_command->data.readWrite.transferBlks;
     u32 message;

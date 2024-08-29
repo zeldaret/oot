@@ -7,8 +7,8 @@ void leoC2_single_ecc(void);
 void leoC2_double_ecc(void);
 void leoC2_3_ecc(void);
 void leoC2_4_ecc(void);
-s32 leoAlpha_mult(s32 i, s32 k);
-s32 leoAlpha_div(s32 i, s32 k);
+int leoAlpha_mult(int i, int k);
+int leoAlpha_div(int i, int k);
 
 extern u8 LEO_TempBuffer[0xE8];
 
@@ -74,7 +74,7 @@ const u8 glog[512] = {
 
 block_param_form LEOc2_param;
 
-s32 leoC2_Correction(void) {
+int leoC2_Correction(void) {
     switch (LEOc2_param.err_num) {
         case 0:
             break;
@@ -99,7 +99,7 @@ s32 leoC2_Correction(void) {
 // static
 void leoC2_single_ecc(void) {
     u8* pointer;
-    u32 byte;
+    unsigned int byte;
     u8* p_s;
 
     if (LEOc2_param.err_pos[0] < 0x55) {
@@ -115,15 +115,15 @@ void leoC2_single_ecc(void) {
 
 // static
 void leoC2_double_ecc(void) {
-    u32 s0;
-    u32 error_k;
+    unsigned int s0;
+    unsigned int error_k;
     u8* pointer1;
     u8* pointer2;
-    u32 k;
-    u32 m;
-    u32 a;
-    u32 d;
-    u32 byte;
+    unsigned int k;
+    unsigned int m;
+    unsigned int a;
+    unsigned int d;
+    unsigned int byte;
     u8* p_s;
 
     k = 0x58 - LEOc2_param.err_pos[0];
@@ -168,27 +168,27 @@ c2_2_1:
 
 // static
 void leoC2_3_ecc(void) {
-    u32 s0;
-    u32 error_i;
-    u32 error_j;
-    u32 error_k;
+    unsigned int s0;
+    unsigned int error_i;
+    unsigned int error_j;
+    unsigned int error_k;
     u8* pointer1;
     u8* pointer2;
     u8* pointer3;
-    u32 byte;
-    u32 ii;
-    u32 jj;
-    u32 kk;
-    u32 c;
-    u32 f;
-    u32 o;
-    u32 b;
-    u32 d;
-    u32 h;
-    u32 a;
-    u32 e;
-    u32 g;
-    u32 p;
+    unsigned int byte;
+    unsigned int ii;
+    unsigned int jj;
+    unsigned int kk;
+    unsigned int c;
+    unsigned int f;
+    unsigned int o;
+    unsigned int b;
+    unsigned int d;
+    unsigned int h;
+    unsigned int a;
+    unsigned int e;
+    unsigned int g;
+    unsigned int p;
     u8* p_s;
 
     ii = 0x58 - LEOc2_param.err_pos[0];
@@ -284,44 +284,44 @@ c2_3_1:
 
 // static
 void leoC2_4_ecc(void) {
-    u32 s0;
-    u32 R0;
-    u32 R1;
-    u32 R2;
-    u32 R3;
+    unsigned int s0;
+    unsigned int R0;
+    unsigned int R1;
+    unsigned int R2;
+    unsigned int R3;
     u8* pointer1;
     u8* pointer2;
     u8* pointer3;
     u8* pointer4;
-    u32 aa;
-    u32 bb;
-    u32 dd;
-    u32 ee;
-    u32 gg;
-    u32 hh;
-    u32 pp;
-    u32 qq;
-    u32 ll;
-    u32 ii;
-    u32 jj;
-    u32 kk;
-    u32 byte;
-    u32 s;
-    u32 a;
-    u32 e;
-    u32 g;
-    u32 p;
-    u32 c;
-    u32 f;
-    u32 o;
-    u32 r;
-    u32 t;
-    u32 u;
-    u32 v;
-    u32 b;
-    u32 d;
-    u32 h;
-    u32 q;
+    unsigned int aa;
+    unsigned int bb;
+    unsigned int dd;
+    unsigned int ee;
+    unsigned int gg;
+    unsigned int hh;
+    unsigned int pp;
+    unsigned int qq;
+    unsigned int ll;
+    unsigned int ii;
+    unsigned int jj;
+    unsigned int kk;
+    unsigned int byte;
+    unsigned int s;
+    unsigned int a;
+    unsigned int e;
+    unsigned int g;
+    unsigned int p;
+    unsigned int c;
+    unsigned int f;
+    unsigned int o;
+    unsigned int r;
+    unsigned int t;
+    unsigned int u;
+    unsigned int v;
+    unsigned int b;
+    unsigned int d;
+    unsigned int h;
+    unsigned int q;
     u8* p_s;
 
     ii = 0x58 - LEOc2_param.err_pos[0];
@@ -477,7 +477,7 @@ c2_4_1:
 }
 
 // static
-s32 leoAlpha_mult(s32 i, s32 k) {
+int leoAlpha_mult(int i, int k) {
     if (i == 0 || k == 0) {
         return 0;
     }
@@ -485,7 +485,7 @@ s32 leoAlpha_mult(s32 i, s32 k) {
 }
 
 // static
-s32 leoAlpha_div(s32 i, s32 k) {
+int leoAlpha_div(int i, int k) {
     if (i == 0 || k == 0) {
         return 0;
     }

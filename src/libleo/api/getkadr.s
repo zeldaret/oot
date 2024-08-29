@@ -8,7 +8,7 @@
 .balign 16
 
 /**
- * s32 LeoGetKAdr(s32 sjis);
+ * int LeoGetKAdr(int sjis);
  *
  * Returns the storage offset address into the N64 Disk Drive mask ROM for
  * a kanji character corresponding to a given 2-byte Shift-JIS codepoint.
@@ -19,7 +19,7 @@
  * version of the non-kanji section that includes extra English and Hylian glyphs.
  *
  * @param sjis Shift-JIS Codepoint of glyph.
- * @return s32 Storage offset address into the N64 Disk Drive mask ROM.
+ * @return int Storage offset address into the N64 Disk Drive mask ROM.
  */
 LEAF(LeoGetKAdr)
     // Check if the codepoint is in the range 0x8140 to 0x9872.
@@ -97,7 +97,7 @@ END(LeoGetKAdr)
  *
  * extern u16 sLeoNonKanjiIndices[];
  *
- * s32 LeoGetKAdr(s32 sjis) {
+ * int LeoGetKAdr(int sjis) {
  *     u32 byte1;
  *     u32 byte2;
  *
