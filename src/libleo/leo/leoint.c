@@ -21,7 +21,7 @@ void leointerrupt(void* arg) {
     u32 result;
     u32 tg_blocks;
 
-    osCreateMesgQueue(&LEOc2ctrl_que, (OSMesg)&LEOc2ctrl_que_buf, 1);
+    osCreateMesgQueue(&LEOc2ctrl_que, (OSMesg*)&LEOc2ctrl_que_buf, 1);
 
     while (true) {
         osStopThread(&LEOinterruptThread);

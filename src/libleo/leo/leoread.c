@@ -45,7 +45,7 @@ void leoRead_common(unsigned int offset) {
     osStartThread(&LEOinterruptThread);
 
     for (;;) {
-        osRecvMesg(&LEOcontrol_que, (OSMesg)&message, OS_MESG_BLOCK);
+        osRecvMesg(&LEOcontrol_que, (OSMesg*)&message, OS_MESG_BLOCK);
 
         switch (message) {
             case 0x90000:
