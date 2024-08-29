@@ -589,7 +589,14 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
 #endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/os/getintmask.o"
+#endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/scale.o"
+#else
     include "$(BUILD_DIR)/src/libultra/mgu/scale.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/sinf.o"
     include "$(BUILD_DIR)/src/libultra/gu/sins.o"
     include "$(BUILD_DIR)/src/libultra/io/sptask.o"
@@ -605,7 +612,12 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
 #endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/mtxutil.o"
+#endif
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxidentf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
@@ -613,7 +625,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/gu/sqrtf.o"
@@ -627,13 +641,19 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/position.o"
     include "$(BUILD_DIR)/src/libultra/io/sptaskyielded.o"
     include "$(BUILD_DIR)/src/libultra/gu/rotate.o"
     include "$(BUILD_DIR)/src/libultra/io/aisetfreq.o"
     include "$(BUILD_DIR)/src/libultra/os/getactivequeue.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/normalize.o"
+#else
     include "$(BUILD_DIR)/src/libultra/mgu/normalize.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
 #if OOT_DEBUG
@@ -643,6 +663,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
     include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
     include "$(BUILD_DIR)/src/libultra/gu/coss.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/os/settime.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
@@ -656,7 +679,11 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/translate.o"
+#else
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
@@ -678,7 +705,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/spsetstat.o"
     include "$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o"
     include "$(BUILD_DIR)/src/libultra/os/getcurrfaultedthread.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxf2l.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"

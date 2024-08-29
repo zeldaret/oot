@@ -138,7 +138,7 @@ BD970,800CF050,src/code/printutils
 BD9D0,800CF0B0,src/code/jpegutils
 BDEE0,800CF5C0,src/code/jpegdecoder
 BE4D0,800CFBB0,src/libultra/os/getintmask
-BE530,800CFC10,src/libultra/mgu/scale
+BE530,800CFC10,src/libultra/gu/scale
 BE5D0,800CFCB0,src/libultra/gu/sinf
 BE790,800CFE70,src/libultra/gu/sins
 BE800,800CFEE0,src/libultra/io/sptask
@@ -165,7 +165,7 @@ C17A0,800D2E80,src/libultra/io/sptaskyielded
 C1820,800D2F00,src/libultra/gu/rotate
 C1A10,800D30F0,src/libultra/io/aisetfreq
 C1B60,800D3240,src/libultra/os/getactivequeue
-C1B70,800D3250,src/libultra/mgu/normalize
+C1B70,800D3250,src/libultra/gu/normalize
 C1C00,800D32E0,src/libultra/io/dpgetstat
 C1C10,800D32F0,src/libultra/io/dpsetstat
 C1C20,800D3300,src/libultra/gu/ortho
@@ -177,7 +177,7 @@ C2020,800D3700,src/libultra/gu/us2dex
 C21A0,800D3880,src/libultra/io/pfsselectbank
 C2220,800D3900,src/libultra/io/contsetch
 C2290,800D3970,src/libultra/io/aigetlen
-C22A0,800D3980,src/libultra/mgu/translate
+C22A0,800D3980,src/libultra/gu/translate
 C2340,800D3A20,src/libultra/io/contramwrite
 C2590,800D3C70,src/libultra/io/pfsgetstatus
 C27C0,800D3EA0,src/libultra/io/contpfs
