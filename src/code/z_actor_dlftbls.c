@@ -1,4 +1,5 @@
 #include "global.h"
+#include "fault.h"
 
 // Linker symbol declarations (used in the table below)
 #define DEFINE_ACTOR(name, _1, _2, _3) DECLARE_OVERLAY_SEGMENT(name)

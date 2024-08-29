@@ -2,6 +2,8 @@
  * ROM spec file
  */
 
+#include "include/versions.h"
+
 beginseg
     name "makerom"
     include "$(BUILD_DIR)/src/makerom/rom_header.o"
@@ -141,8 +143,46 @@ endseg
 
 beginseg
     name "Audiobank"
-    address 0x10 // fake RAM address to avoid map lookup inaccuracies
-    include "$(BUILD_DIR)/baserom/Audiobank.o"
+    address 0
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_0.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_1.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_2.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_3.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_4.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_5.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_6.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_7.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_8.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_9.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_10.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_11.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_12.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_13.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_14.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_15.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_16.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_17.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_18.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_19.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_20.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_21.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_22.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_23.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_24.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_25.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_26.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_27.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_28.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_29.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_30.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_31.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_32.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_33.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_34.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_35.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_36.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_37.o"
+    include "$(BUILD_DIR)/assets/audio/audiobank_padding.o"
 endseg
 
 beginseg
@@ -492,8 +532,12 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
 #endif
-    include "$(BUILD_DIR)/src/code/fault.o"
-    include "$(BUILD_DIR)/src/code/fault_drawer.o"
+#if FAULT_VERSION == FAULT_N64
+    include "$(BUILD_DIR)/src/code/fault_n64.o"
+#elif FAULT_VERSION == FAULT_GC
+    include "$(BUILD_DIR)/src/code/fault_gc.o"
+    include "$(BUILD_DIR)/src/code/fault_gc_drawer.o"
+#endif
     include "$(BUILD_DIR)/src/code/kanread.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
@@ -545,7 +589,14 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
 #endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/os/getintmask.o"
+#endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/scale.o"
+#else
     include "$(BUILD_DIR)/src/libultra/mgu/scale.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/sinf.o"
     include "$(BUILD_DIR)/src/libultra/gu/sins.o"
     include "$(BUILD_DIR)/src/libultra/io/sptask.o"
@@ -561,7 +612,12 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
 #endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/mtxutil.o"
+#endif
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxidentf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
@@ -569,7 +625,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/gu/sqrtf.o"
@@ -583,13 +641,19 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/position.o"
     include "$(BUILD_DIR)/src/libultra/io/sptaskyielded.o"
     include "$(BUILD_DIR)/src/libultra/gu/rotate.o"
     include "$(BUILD_DIR)/src/libultra/io/aisetfreq.o"
     include "$(BUILD_DIR)/src/libultra/os/getactivequeue.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/normalize.o"
+#else
     include "$(BUILD_DIR)/src/libultra/mgu/normalize.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
 #if OOT_DEBUG
@@ -599,6 +663,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
     include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
     include "$(BUILD_DIR)/src/libultra/gu/coss.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/os/settime.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
@@ -612,7 +679,11 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/translate.o"
+#else
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
@@ -634,7 +705,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/spsetstat.o"
     include "$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o"
     include "$(BUILD_DIR)/src/libultra/os/getcurrfaultedthread.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxf2l.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
@@ -650,6 +723,7 @@ beginseg
     // combined object before the final link.
     include "$(BUILD_DIR)/src/code/z_message_z_game_over.o"
     include "$(BUILD_DIR)/src/code/z_construct.o"
+    include "$(BUILD_DIR)/src/audio/tables/soundfont_table.o"
     include "$(BUILD_DIR)/data/audio_tables.rodata.o"
     include "$(BUILD_DIR)/src/audio/tables/samplebank_table.o"
     include "$(BUILD_DIR)/data/rsp.text.o"

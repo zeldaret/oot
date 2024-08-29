@@ -1,11 +1,15 @@
+
 #include "global.h"
+#if OOT_DEBUG
+#include "fault.h"
+#endif
 #include "quake.h"
 #include "terminal.h"
 #include "versions.h"
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
+#pragma increment_block_number "gc-eu:8 gc-eu-mq:8 gc-jp:8 gc-jp-ce:8 gc-jp-mq:8 gc-us:8 gc-us-mq:8"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
