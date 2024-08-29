@@ -10,8 +10,8 @@ s32 LeoTestUnitReady(u8* status) {
         return -1;
     }
 
-    if ((IO_READ(PI_STATUS_REG) & 1) != 0) {
-        return 8;
+    if (IO_READ(PI_STATUS_REG) & PI_STATUS_DMA_BUSY) {
+        return LEO_ERROR_BUSY;
     }
 
     cmdBlock.header.command = 3;
@@ -24,5 +24,5 @@ s32 LeoTestUnitReady(u8* status) {
     while (cmdBlock.header.status == 8) {}
 
     *status = cmdBlock.test;
-    return cmdBlock.header.sense;
+    return GET_ERROR(cmdBlock);
 }

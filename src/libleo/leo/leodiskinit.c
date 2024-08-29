@@ -11,13 +11,13 @@ OSPiHandle* __osDiskHandle;
 OSPiHandle* osLeoDiskInit(void) {
     u32 saveMask;
 
-    __LeoDiskHandle.type = 2;
+    __LeoDiskHandle.type = DEVICE_TYPE_64DD;
     __LeoDiskHandle.baseAddress = (u32)OS_PHYSICAL_TO_K1(ASIC_C2_BUFF);
     __LeoDiskHandle.latency = 3;
     __LeoDiskHandle.pulse = 6;
     __LeoDiskHandle.pageSize = 6;
     __LeoDiskHandle.relDuration = 2;
-    __LeoDiskHandle.domain = 1;
+    __LeoDiskHandle.domain = PI_DOMAIN2;
     __LeoDiskHandle.speed = 0;
 
     bzero(&__LeoDiskHandle.transferInfo, sizeof(__OSTranxInfo));

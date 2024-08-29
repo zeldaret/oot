@@ -49,7 +49,7 @@ s32 LeoCACreateLeoManager(s32 comPri, s32 intPri, OSMesg* cmdBuf, s32 cmdMsgCnt)
     while (cmdBlockInq.header.status == 8) {}
 
     if (cmdBlockInq.header.status != 0) {
-        return cmdBlockInq.header.sense;
+        return GET_ERROR(cmdBlockInq);
     }
 
     __leoVersion.driver = cmdBlockInq.version;

@@ -271,28 +271,28 @@ u32 leochk_err_reg(void) {
     osEPiWriteIo(LEOPiInfo, ASIC_BM_CTL, LEOasic_bm_ctl_shadow);
 
     if (sense & 0x04000000) {
-        return 0x31;
+        return LEO_ERROR_EJECTED_ILLEGALLY_RESUME;
     }
 
     if (sense & 0x10000000) {
-        return 4;
+        return LEO_ERROR_DATA_PHASE_ERROR;
     }
 
     if (sense & (0x40000000 | 0x2000000)) {
         if (LEOrw_flags & 0x8000) {
-            return 0x16;
+            return LEO_ERROR_WRITE_FAULT;
         }
-        return 0x17;
+        return LEO_ERROR_UNRECOVERED_READ_ERROR;
     }
 
     if (sense & 0x80000000) {
-        return 0x18;
+        return LEO_ERROR_NO_REFERENCE_POSITION_FOUND;
     }
 
     osEPiReadIo(LEOPiInfo, ASIC_CUR_TK, &index_status);
     if ((index_status & 0x60000000) == 0x60000000) {
-        return 0x19;
+        return LEO_ERROR_TRACK_FOLLOWING_ERROR;
     }
 
-    return 0x18;
+    return LEO_ERROR_NO_REFERENCE_POSITION_FOUND;
 }

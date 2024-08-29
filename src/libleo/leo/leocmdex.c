@@ -260,5 +260,5 @@ u8 leoRead_system_area(void) {
 sys_read_end:
     LEOcur_command = backup_pointer;
     LEOcur_command->header.sense = dummy_cmd.header.sense;
-    return LEOcur_command->header.sense;
+    return GET_ERROR(*LEOcur_command);
 }
