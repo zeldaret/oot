@@ -16,9 +16,16 @@
 #define GC_EU_MQ      12
 #define GC_JP_CE      13
 
-#define RAND_N64 1
-#define RAND_GC 2
+#define FAULT_N64 1 // in OoT N64
+#define FAULT_GC 2  // in OoT GC
+#if PLATFORM_N64
+#define FAULT_VERSION FAULT_N64
+#else
+#define FAULT_VERSION FAULT_GC
+#endif
 
+#define RAND_N64 1 // in OoT N64
+#define RAND_GC 2  // in OoT GC
 #if PLATFORM_N64
 #define RAND_VERSION RAND_N64
 #else

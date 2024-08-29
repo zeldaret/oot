@@ -40,11 +40,19 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
+
+// Include versions.h first and redefine FAULT_VERSION
+// This allows this file to compile even when versions.h uses FAULT_N64
+#include "versions.h"
+#undef FAULT_VERSION
+#define FAULT_VERSION FAULT_GC
+
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 #include "alloca.h"
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:0 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64" \
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:222 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64" \
                                "gc-us-mq:64"
 
 void FaultDrawer_Init(void);
@@ -453,9 +461,9 @@ void Fault_DrawCornerRec(u16 color) {
 
 void Fault_PrintFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
+    s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
-    if ((exp >= -0x7E && exp < 0x80) || raw == 0) {
+    if ((exp > -127 && exp <= 127) || raw == 0) {
         FaultDrawer_Printf("F%02d:%14.7e ", idx, *value);
     } else {
         // Print subnormal floats as their ieee-754 hex representation
@@ -465,9 +473,9 @@ void Fault_PrintFReg(s32 idx, f32* value) {
 
 void Fault_LogFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
+    s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
-    if ((exp >= -0x7E && exp < 0x80) || raw == 0) {
+    if ((exp > -127 && exp <= 127) || raw == 0) {
         osSyncPrintf("F%02d:%14.7e ", idx, *value);
     } else {
         osSyncPrintf("F%02d:  %08x(16) ", idx, *(u32*)value);
@@ -510,10 +518,10 @@ void Fault_PrintThreadContext(OSThread* thread) {
     __OSThreadContext* ctx;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
 
-    if (causeStrIdx == 23) { // Watchpoint
+    if (causeStrIdx == (EXC_WATCH >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 16;
     }
-    if (causeStrIdx == 31) { // Virtual coherency on data
+    if (causeStrIdx == (EXC_VCED >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 17;
     }
 
@@ -572,10 +580,10 @@ void Fault_LogThreadContext(OSThread* thread) {
     __OSThreadContext* ctx;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
 
-    if (causeStrIdx == 23) { // Watchpoint
+    if (causeStrIdx == (EXC_WATCH >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 16;
     }
-    if (causeStrIdx == 31) { // Virtual coherency on data
+    if (causeStrIdx == (EXC_VCED >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 17;
     }
 
@@ -670,10 +678,12 @@ void Fault_WaitForButtonCombo(void) {
     if (1) {}
     if (1) {}
 
+    // KeyWaitB (LRZ Up Down Up Down Left Left Right Right B A START)
     osSyncPrintf(
         VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
             YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
                                                                                                                                                      "\n");
+    // KeyWaitB'(LR Left Right START)
     osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
         WHITE) ")" VT_RST "\n");
 
@@ -1104,7 +1114,7 @@ void Fault_ResumeThread(OSThread* thread) {
     thread->context.cause = 0;
     thread->context.fpcsr = 0;
     thread->context.pc += sizeof(u32);
-    *((u32*)thread->context.pc) = 0x0000000D; // write in a break instruction
+    *(u32*)thread->context.pc = 0x0000000D; // write in a break instruction
     osWritebackDCache((void*)thread->context.pc, 4);
     osInvalICache((void*)thread->context.pc, 4);
     osStartThread(thread);
@@ -1178,9 +1188,11 @@ void Fault_ThreadEntry(void* arg) {
 
             if (msg == FAULT_MSG_CPU_BREAK) {
                 sFaultInstance->msgId = (u32)FAULT_MSG_CPU_BREAK;
+                // Fault Manager: OS_EVENT_CPU_BREAK received
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n");
             } else if (msg == FAULT_MSG_FAULT) {
                 sFaultInstance->msgId = (u32)FAULT_MSG_FAULT;
+                // Fault Manager: OS_EVENT_FAULT received
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n");
             } else if (msg == FAULT_MSG_UNK) {
                 Fault_UpdatePad();
@@ -1188,6 +1200,7 @@ void Fault_ThreadEntry(void* arg) {
                 continue;
             } else {
                 sFaultInstance->msgId = (u32)FAULT_MSG_UNK;
+                // Fault Manager: Unknown message received
                 osSyncPrintf("フォルトマネージャ:不明なメッセージを受信しました\n");
             }
 

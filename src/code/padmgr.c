@@ -29,6 +29,7 @@
  * done while waiting for this operation to complete.
  */
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 
 #define PADMGR_LOG(controllerNum, msg)                                                                \
@@ -236,7 +237,7 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
         if (osMotorInit(serialEventQueue, &padMgr->rumblePfs[i], i) == 0) {
             // If there is a rumble pak attached to this controller, stop it
 
-            if (gFaultMgr.msgId == 0 && padMgr->rumbleOnTimer != 0) {
+            if (FAULT_MSG_ID == 0 && padMgr->rumbleOnTimer != 0) {
                 PADMGR_LOG(i, T("振動パック 停止", "Stop rumble pak"));
             }
             osMotorStop(&padMgr->rumblePfs[i]);
@@ -399,7 +400,7 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
     }
     padMgr->validCtrlrsMask = mask;
 
-    if (gFaultMgr.msgId != 0) {
+    if (FAULT_MSG_ID != 0) {
         // If fault is active, no rumble
         PadMgr_RumbleStop(padMgr);
     } else if (padMgr->rumbleOffTimer > 0) {
