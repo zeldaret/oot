@@ -42,10 +42,8 @@ void leomain(void* arg0) {
     LEOPiDmaParam.hdr.pri = 1;
     LEOPiDmaParam.hdr.retQueue = &LEOdma_que;
     osEPiReadIo(LEOPiInfo, ASIC_STATUS, &cur_status);
-    if (!(cur_status & 0x400000)) {
-        if ((cur_status & 0x06800000)) {
-            leoDrive_reset();
-        }
+    if (!(cur_status & 0x400000) && (cur_status & 0x06800000)) {
+        leoDrive_reset();
     }
 
     while (true) {
