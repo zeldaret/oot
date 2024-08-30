@@ -2,9 +2,8 @@
 #include "__osMalloc.h"
 #include "fault.h"
 #include "terminal.h"
-#include "versions.h"
 
-#if FAULT_VERSION == FAULT_N64
+#if PLATFORM_N64
 
 typedef struct FaultMgr {
     OSThread thread;

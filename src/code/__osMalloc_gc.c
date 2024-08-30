@@ -2,9 +2,8 @@
 #include "__osMalloc.h"
 #include "fault.h"
 #include "terminal.h"
-#include "versions.h"
 
-#if OSMALLOC_VERSION == OSMALLOC_GC
+#if PLATFORM_GC
 
 #define FILL_ALLOC_BLOCK_FLAG (1 << 0)
 #define FILL_FREE_BLOCK_FLAG (1 << 1)

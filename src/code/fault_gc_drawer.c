@@ -4,16 +4,11 @@
  * Implements routines for drawing text with a fixed font directly to a framebuffer, used in displaying
  * the crash screen implemented by fault.c
  */
-
-// Include versions.h first and redefine FAULT_VERSION
-// This allows this file to compile even when versions.h uses FAULT_N64
-#include "versions.h"
-#undef FAULT_VERSION
-#define FAULT_VERSION FAULT_GC
-
 #include "global.h"
 #include "fault.h"
 #include "terminal.h"
+
+#if PLATFORM_GC
 
 typedef struct FaultDrawer {
     /* 0x00 */ u16* fb;
@@ -348,3 +343,5 @@ void FaultDrawer_Init(void) {
     bcopy(&sFaultDrawerDefault, &sFaultDrawer, sizeof(FaultDrawer));
     sFaultDrawer.fb = (u16*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
 }
+
+#endif

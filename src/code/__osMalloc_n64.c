@@ -1,9 +1,8 @@
 #include "global.h"
 #include "__osMalloc.h"
 #include "fault.h"
-#include "versions.h"
 
-#if OSMALLOC_VERSION == OSMALLOC_N64
+#if PLATFORM_N64
 
 #define NODE_MAGIC 0x7373
 
