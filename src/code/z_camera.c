@@ -6031,20 +6031,20 @@ s32 Camera_Demo3(Camera* camera) {
                  CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_R) ||
                  CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_Z)) &&
                 (camera->stateFlags & CAM_STATE_EXTERNAL_FINISHED)) {
-                goto skipeyeUpdate;
-            }
-            FALLTHROUGH;
+                    // clang-format off
+        // Note: default for switch inside if statement
         default:
-            camera->stateFlags |= (CAM_STATE_CHECK_BG | CAM_STATE_CAM_FUNC_FINISH);
-            camera->stateFlags &= ~CAM_STATE_EXTERNAL_FINISHED;
-            if (camera->prevBgCamIndex < 0) {
-                Camera_RequestSettingImpl(camera, camera->prevSetting, CAM_REQUEST_SETTING_IGNORE_PRIORITY);
-            } else {
-                Camera_RequestBgCam(camera, camera->prevBgCamIndex);
-                camera->prevBgCamIndex = -1;
+                    // clang-format on
+                    camera->stateFlags |= (CAM_STATE_CHECK_BG | CAM_STATE_CAM_FUNC_FINISH);
+                    camera->stateFlags &= ~CAM_STATE_EXTERNAL_FINISHED;
+                    if (camera->prevBgCamIndex < 0) {
+                        Camera_RequestSettingImpl(camera, camera->prevSetting, CAM_REQUEST_SETTING_IGNORE_PRIORITY);
+                    } else {
+                        Camera_RequestBgCam(camera, camera->prevBgCamIndex);
+                        camera->prevBgCamIndex = -1;
+                    }
+                    sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
             }
-            sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
-        skipeyeUpdate:
             skipUpdateEye = true;
             break;
     }
@@ -6066,8 +6066,6 @@ s32 Camera_Demo3(Camera* camera) {
     } else if (rwData->animFrame == 228) {
         camera->animState = 4;
     }
-
-    if (1) {}
 
     if (!skipUpdateEye) {
         eyeOffset.r = Camera_LERPCeilF(eyeOffset.r, eyeAtOffset.r, rwData->unk_0C, 2.0f);
