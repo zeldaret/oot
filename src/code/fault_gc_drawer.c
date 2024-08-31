@@ -344,7 +344,7 @@ void Fault_WritebackFBDCache(void) {
     osWritebackDCache(sFaultDrawer.fb, sFaultDrawer.w * sFaultDrawer.h * sizeof(u16));
 }
 
-void Fault_Init(void) {
+void Fault_InitDrawer(void) {
     bcopy(&sFaultDrawerDefault, &sFaultDrawer, sizeof(FaultDrawer));
     sFaultDrawer.fb = (u16*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
 }

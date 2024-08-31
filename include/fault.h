@@ -79,6 +79,7 @@ void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
 
 #elif FAULT_VERSION == FAULT_GC
 
+void Fault_InitDrawer(void);
 void Fault_SetForeColor(u16 color);
 void Fault_SetBackColor(u16 color);
 void Fault_SetFontColor(u16 color);

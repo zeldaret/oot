@@ -1277,7 +1277,7 @@ void Fault_SetFrameBuffer(void* fb, u16 w, u16 h) {
 void Fault_Init(void) {
     sFaultInstance = &gFaultMgr;
     bzero(sFaultInstance, sizeof(FaultMgr));
-    Fault_Init();
+    Fault_InitDrawer();
     Fault_SetInputCallback(Fault_WaitForInput);
     sFaultInstance->exit = false;
     sFaultInstance->msgId = 0;
