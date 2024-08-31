@@ -67,29 +67,23 @@ void Fault_SetFrameBuffer(void* fb, u16 w, u16 h);
 
 void Fault_WaitForInput(void);
 
-#if FAULT_VERSION == FAULT_N64
-
-// Not implemented. Silently noop-ing is fine, these are not essential for functionality.
-#define FaultDrawer_SetFontColor(color) (void)0
-#define FaultDrawer_SetCharPad(padW, padH) (void)0
-
 void Fault_SetCursor(s32 x, s32 y);
 s32 Fault_Printf(const char* fmt, ...);
 void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
-#define FaultDrawer_SetCursor Fault_SetCursor
-#define FaultDrawer_Printf Fault_Printf
-#define FaultDrawer_DrawText Fault_DrawText
+
+#if FAULT_VERSION == FAULT_N64
+
+// Not implemented. Silently noop-ing is fine, these are not essential for functionality.
+#define Fault_SetFontColor(color) (void)0
+#define Fault_SetCharPad(padW, padH) (void)0
 
 #elif FAULT_VERSION == FAULT_GC
 
-void FaultDrawer_SetForeColor(u16 color);
-void FaultDrawer_SetBackColor(u16 color);
-void FaultDrawer_SetFontColor(u16 color);
-void FaultDrawer_SetCharPad(s8 padW, s8 padH);
-void FaultDrawer_SetCursor(s32 x, s32 y);
-s32 FaultDrawer_VPrintf(const char* fmt, va_list args);
-s32 FaultDrawer_Printf(const char* fmt, ...);
-void FaultDrawer_DrawText(s32 x, s32 y, const char* fmt, ...);
+void Fault_SetForeColor(u16 color);
+void Fault_SetBackColor(u16 color);
+void Fault_SetFontColor(u16 color);
+void Fault_SetCharPad(s8 padW, s8 padH);
+s32 Fault_VPrintf(const char* fmt, va_list args);
 
 #endif
 
