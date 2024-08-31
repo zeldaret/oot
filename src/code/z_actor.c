@@ -310,13 +310,12 @@ void Target_SetNaviState(TargetContext* targetCtx, Actor* actor, s32 actorCatego
 }
 
 void Target_Init(TargetContext* targetCtx, Actor* actor, PlayState* play) {
-    targetCtx->arrowPointedActor = NULL;
-    targetCtx->targetedActor = NULL;
-    targetCtx->unk_40 = 0.0f;
-    targetCtx->unk_8C = NULL;
-    targetCtx->bgmEnemy = NULL;
+    targetCtx->arrowPointedActor = targetCtx->targetedActor = targetCtx->unk_8C = targetCtx->bgmEnemy = NULL;
+
     targetCtx->unk_4B = 0;
     targetCtx->unk_4C = 0;
+    targetCtx->unk_40 = 0.0f;
+
     Target_SetNaviState(targetCtx, actor, actor->category, play);
     Target_InitReticle(targetCtx, actor->category, play);
 }

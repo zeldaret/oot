@@ -572,7 +572,7 @@ typedef enum NaviEnemy {
 } NaviEnemy;
 
 // A set of 4 triangles which appear as a ring around an actor when the player Z-Targets it
-typedef struct {
+typedef struct LockOnReticle {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ f32 radius; // distance towards the center of the locked on actor
     /* 0x10 */ Color_RGB8 color;
