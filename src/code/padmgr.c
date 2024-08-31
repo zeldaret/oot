@@ -395,7 +395,7 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
                 } else {
                     LOG_HEX("this->pad_status[i].type", padMgr->padStatus[i].type, "../padmgr.c", 458);
                     PRINTF(T("知らない種類のコントローラが接続されています\n",
-                            "An unknown type of controller is connected\n"));
+                             "An unknown type of controller is connected\n"));
                 }
             }
         }
