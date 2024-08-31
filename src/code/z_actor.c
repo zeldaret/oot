@@ -329,13 +329,12 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
         LockOnReticle* reticle;
         Player* player = GET_PLAYER(play);
         s16 alpha;
-        f32 temp1;
+        f32 projectdPosScale;
         Vec3f projectedPos;
         s32 numReticles;
         f32 invW;
         s32 i;
         s32 curReticle;
-        f32 projectdPosScale;
         f32 lockOnScaleX;
         s32 triangleIndex;
 
