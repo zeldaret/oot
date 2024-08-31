@@ -571,11 +571,12 @@ typedef enum NaviEnemy {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
-typedef struct TargetContextEntry {
+// A set of 4 triangles which appear as a ring around an actor when the player Z-Targets it
+typedef struct {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ f32 unk_0C; // radius?
+    /* 0x0C */ f32 radius; // distance towards the center of the locked on actor
     /* 0x10 */ Color_RGB8 color;
-} TargetContextEntry; // size = 0x14
+} LockOnReticle; // size = 0x14
 
 typedef struct TargetContext {
     /* 0x00 */ Vec3f naviRefPos; // possibly wrong
@@ -585,13 +586,13 @@ typedef struct TargetContext {
     /* 0x38 */ Actor* arrowPointedActor;
     /* 0x3C */ Actor* targetedActor;
     /* 0x40 */ f32 unk_40;
-    /* 0x44 */ f32 unk_44;
+    /* 0x44 */ f32 reticleRadius;
     /* 0x48 */ s16 unk_48;
     /* 0x4A */ u8 activeCategory;
     /* 0x4B */ u8 unk_4B;
     /* 0x4C */ s8 unk_4C;
     /* 0x4D */ char unk_4D[0x03];
-    /* 0x50 */ TargetContextEntry arr_50[3];
+    /* 0x50 */ LockOnReticle lockOnReticles[3];
     /* 0x8C */ Actor* unk_8C;
     /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
     /* 0x94 */ Actor* unk_94;

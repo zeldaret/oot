@@ -236,19 +236,25 @@ void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedIn
     *cappedInvWDest = (*cappedInvWDest < 1.0f) ? 1.0f : (1.0f / *cappedInvWDest);
 }
 
-typedef struct NaviColor {
+typedef struct TargetColor {
     /* 0x00 */ Color_RGBA8 inner;
     /* 0x04 */ Color_RGBA8 outer;
-} NaviColor; // size = 0x8
+} TargetColor; // size = 0x8
 
-NaviColor sNaviColorList[] = {
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
-    { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
-    { { 150, 150, 255, 255 }, { 150, 150, 255, 0 } }, { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
+TargetColor sTargetColorList[ACTORCAT_MAX + 1] = {
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG
+    { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     // ACTORCAT_PLAYER
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_EXPLOSIVE
+    { { 150, 150, 255, 255 }, { 150, 150, 255, 0 } }, // ACTORCAT_NPC
+    { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },     // ACTORCAT_ENEMY
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_PROP
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_ITEMACTION
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_MISC
+    { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },     // ACTORCAT_BOSS
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_DOOR
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_CHEST
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // unused extra entry
 };
 
 // unused
@@ -256,57 +262,63 @@ Gfx D_80115FF0[] = {
     gsSPEndDisplayList(),
 };
 
-void func_8002BE64(TargetContext* targetCtx, s32 index, f32 arg2, f32 arg3, f32 arg4) {
-    targetCtx->arr_50[index].pos.x = arg2;
-    targetCtx->arr_50[index].pos.y = arg3;
-    targetCtx->arr_50[index].pos.z = arg4;
-    targetCtx->arr_50[index].unk_0C = targetCtx->unk_44;
+void Target_SetReticlePos(TargetContext* targetCtx, s32 reticleNum, f32 x, f32 y, f32 z) {
+    targetCtx->lockOnReticles[reticleNum].pos.x = x;
+    targetCtx->lockOnReticles[reticleNum].pos.y = y;
+    targetCtx->lockOnReticles[reticleNum].pos.z = z;
+
+    targetCtx->lockOnReticles[reticleNum].radius = targetCtx->reticleRadius;
 }
 
-void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, PlayState* play) {
-    TargetContextEntry* entry;
-    NaviColor* naviColor;
+void Target_InitReticle(TargetContext* targetCtx, s32 actorCategory, PlayState* play) {
+    LockOnReticle* reticle;
+    TargetColor* reticleColor = &sTargetColorList[actorCategory];
     s32 i;
 
     Math_Vec3f_Copy(&targetCtx->targetCenterPos, &play->view.eye);
-    targetCtx->unk_44 = 500.0f;
-    targetCtx->unk_48 = 0x100;
 
-    naviColor = &sNaviColorList[actorCategory];
+    targetCtx->reticleRadius = 500.0f;
+    targetCtx->unk_48 = 256;
 
-    entry = &targetCtx->arr_50[0];
-    for (i = 0; i < ARRAY_COUNT(targetCtx->arr_50); i++) {
-        func_8002BE64(targetCtx, i, 0.0f, 0.0f, 0.0f);
-        entry->color.r = naviColor->inner.r;
-        entry->color.g = naviColor->inner.g;
-        entry->color.b = naviColor->inner.b;
-        entry++;
+    reticle = &targetCtx->lockOnReticles[0];
+
+    for (i = 0; i < ARRAY_COUNT(targetCtx->lockOnReticles); i++, reticle++) {
+        Target_SetReticlePos(targetCtx, i, 0.0f, 0.0f, 0.0f);
+
+        reticle->color.r = reticleColor->inner.r;
+        reticle->color.g = reticleColor->inner.g;
+        reticle->color.b = reticleColor->inner.b;
     }
 }
 
-void Actor_SetNaviToActor(TargetContext* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
-    NaviColor* naviColor = &sNaviColorList[actorCategory];
+void Target_SetNaviState(TargetContext* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
+    TargetColor* targetColor = &sTargetColorList[actorCategory];
+
     targetCtx->naviRefPos.x = actor->focus.pos.x;
     targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
     targetCtx->naviRefPos.z = actor->focus.pos.z;
-    targetCtx->naviInner.r = naviColor->inner.r;
-    targetCtx->naviInner.g = naviColor->inner.g;
-    targetCtx->naviInner.b = naviColor->inner.b;
-    targetCtx->naviInner.a = naviColor->inner.a;
-    targetCtx->naviOuter.r = naviColor->outer.r;
-    targetCtx->naviOuter.g = naviColor->outer.g;
-    targetCtx->naviOuter.b = naviColor->outer.b;
-    targetCtx->naviOuter.a = naviColor->outer.a;
+
+    targetCtx->naviInner.r = targetColor->inner.r;
+    targetCtx->naviInner.g = targetColor->inner.g;
+    targetCtx->naviInner.b = targetColor->inner.b;
+    targetCtx->naviInner.a = targetColor->inner.a;
+
+    targetCtx->naviOuter.r = targetColor->outer.r;
+    targetCtx->naviOuter.g = targetColor->outer.g;
+    targetCtx->naviOuter.b = targetColor->outer.b;
+    targetCtx->naviOuter.a = targetColor->outer.a;
 }
 
-void func_8002C0C0(TargetContext* targetCtx, Actor* actor, PlayState* play) {
-    targetCtx->arrowPointedActor = targetCtx->targetedActor = targetCtx->unk_8C = targetCtx->bgmEnemy = NULL;
-
+void Target_Init(TargetContext* targetCtx, Actor* actor, PlayState* play) {
+    targetCtx->arrowPointedActor = NULL;
+    targetCtx->targetedActor = NULL;
+    targetCtx->unk_40 = 0.0f;
+    targetCtx->unk_8C = NULL;
+    targetCtx->bgmEnemy = NULL;
     targetCtx->unk_4B = 0;
     targetCtx->unk_4C = 0;
-    targetCtx->unk_40 = 0.0f;
-    Actor_SetNaviToActor(targetCtx, actor, actor->category, play);
-    func_8002BE98(targetCtx, actor->category, play);
+    Target_SetNaviState(targetCtx, actor, actor->category, play);
+    Target_InitReticle(targetCtx, actor->category, play);
 }
 
 void func_8002C124(TargetContext* targetCtx, PlayState* play) {
@@ -315,7 +327,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2029);
 
     if (targetCtx->unk_48 != 0) {
-        TargetContextEntry* entry;
+        LockOnReticle* entry;
         Player* player;
         s16 spCE;
         f32 var1;
@@ -340,7 +352,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
 
         if (actor != NULL) {
             Math_Vec3f_Copy(&targetCtx->targetCenterPos, &actor->focus.pos);
-            var1 = (500.0f - targetCtx->unk_44) / 420.0f;
+            var1 = (500.0f - targetCtx->reticleRadius) / 420.0f;
         } else {
             targetCtx->unk_48 -= 120;
             if (targetCtx->unk_48 < 0) {
@@ -364,19 +376,19 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
             targetCtx->unk_4C = 2;
         }
 
-        func_8002BE64(targetCtx, targetCtx->unk_4C, projTargetCenter.x, projTargetCenter.y, projTargetCenter.z);
+        Target_SetReticlePos(targetCtx, targetCtx->unk_4C, projTargetCenter.x, projTargetCenter.y, projTargetCenter.z);
 
         if (!(player->stateFlags1 & PLAYER_STATE1_6) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_SetupDL(OVERLAY_DISP, SETUPDL_57);
 
             for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++, spAC = (spAC + 1) % 3) {
-                entry = &targetCtx->arr_50[spAC];
+                entry = &targetCtx->lockOnReticles[spAC];
 
-                if (entry->unk_0C < 500.0f) {
-                    if (entry->unk_0C <= 120.0f) {
+                if (entry->radius < 500.0f) {
+                    if (entry->radius <= 120.0f) {
                         var2 = 0.15f;
                     } else {
-                        var2 = ((entry->unk_0C - 120.0f) * 0.001f) + 0.15f;
+                        var2 = ((entry->radius - 120.0f) * 0.001f) + 0.15f;
                     }
 
                     Matrix_Translate(entry->pos.x, entry->pos.y, 0.0f, MTXMODE_NEW);
@@ -389,7 +401,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
                     for (i = 0; i < 4; i++) {
                         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
                         Matrix_Push();
-                        Matrix_Translate(entry->unk_0C, entry->unk_0C, 0.0f, MTXMODE_APPLY);
+                        Matrix_Translate(entry->radius, entry->radius, 0.0f, MTXMODE_APPLY);
                         gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2116),
                                   G_MTX_MODELVIEW | G_MTX_LOAD);
                         gSPDisplayList(OVERLAY_DISP++, gZTargetLockOnTriangleDL);
@@ -407,7 +419,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
 
     actor = targetCtx->unk_94;
     if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_27)) {
-        NaviColor* naviColor = &sNaviColorList[actor->category];
+        TargetColor* naviColor = &sTargetColorList[actor->category];
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_7);
 
@@ -475,7 +487,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
         targetCtx->naviRefPos.y += temp3 * temp1;
         targetCtx->naviRefPos.z += temp4 * temp1;
     } else {
-        Actor_SetNaviToActor(targetCtx, unkActor, actorCategory, play);
+        Target_SetNaviState(targetCtx, unkActor, actorCategory, play);
     }
 
     if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
@@ -490,7 +502,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
         if (actorArg != targetCtx->targetedActor) {
             s32 lockOnSfxId;
 
-            func_8002BE98(targetCtx, actorArg->category, play);
+            Target_InitReticle(targetCtx, actorArg->category, play);
             targetCtx->targetedActor = actorArg;
 
             if (actorArg->id == ACTOR_EN_BOOM) {
@@ -507,19 +519,19 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
         targetCtx->targetCenterPos.z = actorArg->world.pos.z;
 
         if (targetCtx->unk_4B == 0) {
-            f32 temp5 = (500.0f - targetCtx->unk_44) * 3.0f;
+            f32 temp5 = (500.0f - targetCtx->reticleRadius) * 3.0f;
             f32 temp6 = (temp5 < 30.0f) ? 30.0f : ((100.0f < temp5) ? 100.0f : temp5);
 
-            if (Math_StepToF(&targetCtx->unk_44, 80.0f, temp6) != 0) {
+            if (Math_StepToF(&targetCtx->reticleRadius, 80.0f, temp6) != 0) {
                 targetCtx->unk_4B++;
             }
         } else {
             targetCtx->unk_4B = (targetCtx->unk_4B + 3) | 0x80;
-            targetCtx->unk_44 = 120.0f;
+            targetCtx->reticleRadius = 120.0f;
         }
     } else {
         targetCtx->targetedActor = NULL;
-        Math_StepToF(&targetCtx->unk_44, 500.0f, 80.0f);
+        Math_StepToF(&targetCtx->reticleRadius, 500.0f, 80.0f);
     }
 }
 
@@ -2137,7 +2149,7 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
     actorCtx->absoluteSpace = NULL;
 
     Actor_SpawnEntry(actorCtx, playerEntry, play);
-    func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, play);
+    Target_Init(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, play);
     func_8002FA60(play);
 }
 
