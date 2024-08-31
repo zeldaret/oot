@@ -278,14 +278,19 @@ void __osFree(Arena* arena, void* ptr) {
 
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (!NODE_IS_VALID(node)) {
+        (void)T("__osFree:不正解放(%08x)\n", "__osFree: Unauthorized release (%08x)\n");
         osSetIntMask(OS_IM_ALL);
         return;
     }
     if (node->isFree) {
+        (void)T("__osFree:二重解放(%08x)\n", "__osFree: Double release (%08x)\n");
         osSetIntMask(OS_IM_ALL);
         return;
     }
-    if (arena != node->arena && arena != NULL) {}
+    if (arena != node->arena && arena != NULL) {
+        (void)T("__osFree:arena(%08x)が__osMallocのarena(%08x)と一致しない\n",
+                "__osFree:arena(%08x) and __osMalloc:arena(%08x) do not match\n");
+    }
 
     node->isFree = true;
     SET_DEBUG_INFO(node, NULL, 0, arena);
@@ -326,14 +331,19 @@ void __osFreeDebug(Arena* arena, void* ptr, const char* file, int line) {
 
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (!NODE_IS_VALID(node)) {
+        (void)T("__osFree:不正解放(%08x)\n", "__osFree: Unauthorized release (%08x)\n");
         osSetIntMask(OS_IM_ALL);
         return;
     }
     if (node->isFree) {
+        (void)T("__osFree:二重解放(%08x)\n", "__osFree: Double release (%08x)\n");
         osSetIntMask(OS_IM_ALL);
         return;
     }
-    if (arena != node->arena && arena != NULL) {}
+    if (arena != node->arena && arena != NULL) {
+        (void)T("__osFree:arena(%08x)が__osMallocのarena(%08x)と一致しない\n",
+                "__osFree:arena(%08x) and __osMalloc:arena(%08x) do not match\n");
+    }
 
     node->isFree = true;
     SET_DEBUG_INFO(node, file, line, arena);
@@ -370,6 +380,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
     ArenaNode* newNext;
     u32 sizeDiff;
 
+    (void)"__osRealloc(%08x, %d)\n";
     osSetIntMask(OS_IM_ALL);
 
     if (ptr == NULL) {
@@ -381,6 +392,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
         newSize = ALIGN16(newSize);
         node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
         if (newSize == node->size) {
+            // Do nothing
         } else if (node->size < newSize) {
             next = NODE_GET_NEXT(node);
             sizeDiff = newSize - node->size;
@@ -401,6 +413,9 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
                 }
                 ptr = newAlloc;
             }
+        } else if (newSize < node->size) {
+            (void)T("メモリブロックの縮小機能はまだインプリメントしていません\n",
+                    "Memory block shrinking functionality is not yet implemented\n");
         }
     }
 
@@ -438,14 +453,17 @@ void ArenaImpl_GetSizes(Arena* arena, u32* outMaxFree, u32* outFree, u32* outAll
 s32 __osCheckArena(Arena* arena) {
     ArenaNode* iter;
 
+    (void)T("アリーナの内容をチェックしています．．． (%08x)\n", "Checking the arena contents... (%08x)\n");
     iter = arena->head;
     while (iter != NULL) {
-        if (NODE_IS_VALID(iter)) {
+        if (!NODE_IS_VALID(iter)) {
+            (void)T("おおっと！！ (%08x %08x)\n", "Oops!! (%08x %08x)\n");
             return 1;
         }
         iter = NODE_GET_NEXT(iter);
     }
 
+    (void)T("アリーナはまだ、いけそうです\n", "The arena is still going well\n");
     return 0;
 }
 
