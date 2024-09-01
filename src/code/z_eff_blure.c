@@ -399,76 +399,78 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
     if (vtx == NULL) {
         PRINTF(T("z_eff_blure.c::SQ_NoInterpolate_disp() 頂点確保できず。\n",
                  "z_eff_blure.c::SQ_NoInterpolate_disp() Vertices cannot be secured.\n"));
-    } else {
-        vtx[0].v = baseVtx;
-        vtx[1].v = baseVtx;
-        vtx[2].v = baseVtx;
-        vtx[3].v = baseVtx;
-
-        ratio = (f32)elem->timer / (f32)this->elemDuration;
-        EffectBlure_GetComputedValues(this, index, ratio, &sp8C, &sp84, &sp7C, &sp78);
-
-        sp60.x = sp84.x;
-        sp60.y = sp84.y;
-        sp60.z = sp84.z;
-        Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
-        Math_Vec3f_Scale(&sp54, 10.0f);
-        vtx[0].v.ob[0] = sp54.x;
-        vtx[0].v.ob[1] = sp54.y;
-        vtx[0].v.ob[2] = sp54.z;
-        vtx[0].v.cn[0] = sp78.r;
-        vtx[0].v.cn[1] = sp78.g;
-        vtx[0].v.cn[2] = sp78.b;
-        vtx[0].v.cn[3] = sp78.a;
-
-        if (1) {} // Necessary to match
-
-        sp60.x = sp8C.x;
-        sp60.y = sp8C.y;
-        sp60.z = sp8C.z;
-        Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
-        Math_Vec3f_Scale(&sp54, 10.0f);
-        vtx[1].v.ob[0] = sp54.x;
-        vtx[1].v.ob[1] = sp54.y;
-        vtx[1].v.ob[2] = sp54.z;
-        vtx[1].v.cn[0] = sp7C.r;
-        vtx[1].v.cn[1] = sp7C.g;
-        vtx[1].v.cn[2] = sp7C.b;
-        vtx[1].v.cn[3] = sp7C.a;
-
-        ratio = (f32)(elem + 1)->timer / (f32)this->elemDuration;
-        EffectBlure_GetComputedValues(this, index + 1, ratio, &sp8C, &sp84, &sp7C, &sp78);
-
-        sp60.x = sp8C.x;
-        sp60.y = sp8C.y;
-        sp60.z = sp8C.z;
-        Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
-        Math_Vec3f_Scale(&sp54, 10.0f);
-        vtx[2].v.ob[0] = sp54.x;
-        vtx[2].v.ob[1] = sp54.y;
-        vtx[2].v.ob[2] = sp54.z;
-        vtx[2].v.cn[0] = sp7C.r;
-        vtx[2].v.cn[1] = sp7C.g;
-        vtx[2].v.cn[2] = sp7C.b;
-        vtx[2].v.cn[3] = sp7C.a;
-
-        sp60.x = sp84.x;
-        sp60.y = sp84.y;
-        sp60.z = sp84.z;
-        Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
-        Math_Vec3f_Scale(&sp54, 10.0f);
-        vtx[3].v.ob[0] = sp54.x;
-        vtx[3].v.ob[1] = sp54.y;
-        vtx[3].v.ob[2] = sp54.z;
-        vtx[3].v.cn[0] = sp78.r;
-        vtx[3].v.cn[1] = sp78.g;
-        vtx[3].v.cn[2] = sp78.b;
-        vtx[3].v.cn[3] = sp78.a;
-
-        gSPVertex(POLY_XLU_DISP++, vtx, 4, 0);
-        gSP2Triangles(POLY_XLU_DISP++, 0, 1, 2, 0, 0, 2, 3, 0);
+        goto end;
     }
 
+    vtx[0].v = baseVtx;
+    vtx[1].v = baseVtx;
+    vtx[2].v = baseVtx;
+    vtx[3].v = baseVtx;
+
+    ratio = (f32)elem->timer / (f32)this->elemDuration;
+    EffectBlure_GetComputedValues(this, index, ratio, &sp8C, &sp84, &sp7C, &sp78);
+
+    sp60.x = sp84.x;
+    sp60.y = sp84.y;
+    sp60.z = sp84.z;
+    Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
+    Math_Vec3f_Scale(&sp54, 10.0f);
+    vtx[0].v.ob[0] = sp54.x;
+    vtx[0].v.ob[1] = sp54.y;
+    vtx[0].v.ob[2] = sp54.z;
+    vtx[0].v.cn[0] = sp78.r;
+    vtx[0].v.cn[1] = sp78.g;
+    vtx[0].v.cn[2] = sp78.b;
+    vtx[0].v.cn[3] = sp78.a;
+
+    sp60.x = sp8C.x;
+    sp60.y = sp8C.y;
+    sp60.z = sp8C.z;
+    Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
+    Math_Vec3f_Scale(&sp54, 10.0f);
+    vtx[1].v.ob[0] = sp54.x;
+    vtx[1].v.ob[1] = sp54.y;
+    vtx[1].v.ob[2] = sp54.z;
+    vtx[1].v.cn[0] = sp7C.r;
+    vtx[1].v.cn[1] = sp7C.g;
+    vtx[1].v.cn[2] = sp7C.b;
+    vtx[1].v.cn[3] = sp7C.a;
+
+    ratio = (f32)(elem + 1)->timer / (f32)this->elemDuration;
+    EffectBlure_GetComputedValues(this, index + 1, ratio, &sp8C, &sp84, &sp7C, &sp78);
+
+    sp60.x = sp8C.x;
+    sp60.y = sp8C.y;
+    sp60.z = sp8C.z;
+    Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
+    Math_Vec3f_Scale(&sp54, 10.0f);
+    vtx[2].v.ob[0] = sp54.x;
+    vtx[2].v.ob[1] = sp54.y;
+    vtx[2].v.ob[2] = sp54.z;
+    vtx[2].v.cn[0] = sp7C.r;
+    vtx[2].v.cn[1] = sp7C.g;
+    vtx[2].v.cn[2] = sp7C.b;
+    vtx[2].v.cn[3] = sp7C.a;
+
+    sp60.x = sp84.x;
+    sp60.y = sp84.y;
+    sp60.z = sp84.z;
+    Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
+    Math_Vec3f_Scale(&sp54, 10.0f);
+    vtx[3].v.ob[0] = sp54.x;
+    vtx[3].v.ob[1] = sp54.y;
+    vtx[3].v.ob[2] = sp54.z;
+    vtx[3].v.cn[0] = sp78.r;
+    vtx[3].v.cn[1] = sp78.g;
+    vtx[3].v.cn[2] = sp78.b;
+    vtx[3].v.cn[3] = sp78.a;
+
+    if (1) {}
+
+    gSPVertex(POLY_XLU_DISP++, vtx, 4, 0);
+    gSP2Triangles(POLY_XLU_DISP++, 0, 1, 2, 0, 0, 2, 3, 0);
+
+end:
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 932);
 }
 
@@ -759,9 +761,6 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
         MtxF sp94;
         f32 scale;
         s32 i;
-        s32 j;
-
-        j = 0;
 
         for (i = 0; i < this->numElements - 1; i++) {
             if (this->drawMode == 1) {
@@ -771,9 +770,7 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
                 gDPPipeSync(POLY_XLU_DISP++);
             }
 
-            if (1) {} // Necessary to match
-
-            gSPVertex(POLY_XLU_DISP++, &vtx[j], 4, 0);
+            gSPVertex(POLY_XLU_DISP++, &vtx[4 * i], 4, 0);
             gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
 
             if (this->flags & 4) {
@@ -806,13 +803,11 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
                     }
 
                     gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                    gSPVertex(POLY_XLU_DISP++, &vtx[j], 4, 0);
+                    gSPVertex(POLY_XLU_DISP++, &vtx[4 * i], 4, 0);
                     gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
                     gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 }
             }
-
-            j += 4;
         }
     }
 

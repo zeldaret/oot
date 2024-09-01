@@ -2,10 +2,6 @@
 #include "cic6105.h"
 #include "fault.h"
 
-// TODO N64 fault.c functions
-void func_800AE1E0_unknown(s32, s32);
-void func_800AE258_unknown(const char*, ...);
-
 s32 func_80001714(void);
 
 extern u64 cic6105ucodeTextStart[];
@@ -32,19 +28,19 @@ void CIC6105_FaultClient(void) {
     s32 spStatus;
 
     spStatus = IO_READ(SP_STATUS_REG);
-    func_800AE1E0_unknown(48, 200);
+    FaultDrawer_SetCursor(48, 200);
     if (spStatus & SP_STATUS_SIG7) {
-        func_800AE258_unknown("OCARINA %08x %08x", B_80008EF8, B_80008EFC);
+        FaultDrawer_Printf("OCARINA %08x %08x", B_80008EF8, B_80008EFC);
     } else {
-        func_800AE258_unknown("LEGEND %08x %08x", B_80008EF8, B_80008EFC);
+        FaultDrawer_Printf("LEGEND %08x %08x", B_80008EF8, B_80008EFC);
     }
-    func_800AE1E0_unknown(40, 184);
-    func_800AE258_unknown("ROM_F");
-    func_800AE258_unknown(" [Creator:%s]", gBuildTeam);
-    func_800AE1E0_unknown(56, 192);
-    func_800AE258_unknown("[Date:%s]", gBuildDate);
-    func_800AE1E0_unknown(96, 32);
-    func_800AE258_unknown("I LOVE YOU %08x", func_80001714());
+    FaultDrawer_SetCursor(40, 184);
+    FaultDrawer_Printf("ROM_F");
+    FaultDrawer_Printf(" [Creator:%s]", gBuildTeam);
+    FaultDrawer_SetCursor(56, 192);
+    FaultDrawer_Printf("[Date:%s]", gBuildDate);
+    FaultDrawer_SetCursor(96, 32);
+    FaultDrawer_Printf("I LOVE YOU %08x", func_80001714());
 }
 
 void CIC6105_AddFaultClient(void) {
