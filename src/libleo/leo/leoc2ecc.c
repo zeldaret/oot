@@ -140,6 +140,7 @@ void leoC2_double_ecc(void) {
         goto c2_2_1;
     }
     return;
+
 c2_2_2:
     pointer2 = &LEOc2_param.pntr[(LEOc2_param.err_pos[1] + 1) * byte];
 c2_2_1:
@@ -234,6 +235,7 @@ void leoC2_3_ecc(void) {
         goto c2_3_1;
     }
     return;
+
 c2_3_3:
     pointer3 = &LEOc2_param.pntr[(LEOc2_param.err_pos[2] + 1) * byte];
 c2_3_2:
