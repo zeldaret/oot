@@ -30,5 +30,4 @@ void leoSeek(void) {
 
     LEOcur_command->header.sense = sense_code;
     LEOcur_command->header.status = LEO_SENSE_DIAGNOSTIC_FAILURE;
-    return;
 }

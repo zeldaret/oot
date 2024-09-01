@@ -33,5 +33,4 @@ void leoStart_stop(void) {
 
     LEOcur_command->header.sense = sense_code;
     LEOcur_command->header.status = 2;
-    return;
 }
