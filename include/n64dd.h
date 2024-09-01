@@ -21,11 +21,13 @@ typedef struct n64ddStruct_800FF4B0_pointers {
 
 struct n64ddStruct_80121AF0;
 struct PlayState;
+struct RoomContext;
 
 typedef struct n64ddStruct_80121AF0 {
     void (*unk_00)(n64ddStruct_800FF4B0_pointers*, struct n64ddStruct_80121AF0*);
     void (*unk_04)(void);
-    char unk_08[0x2C];
+    void (*unk_08)(struct PlayState* play, struct RoomContext* roomCtx, s32 roomNum);
+    char unk_0C[0x28];
     void (*unk_34)(PauseMapMarksData**);
     void (*unk_38)(PauseMapMarksData**);
     void (*unk_3C)(void);
