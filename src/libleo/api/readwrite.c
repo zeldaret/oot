@@ -29,5 +29,5 @@ s32 LeoReadWrite(LEOCmd* cmdBlock, s32 direction, u32 LBA, void* vAddr, u32 nLBA
     cmdBlock->data.readWrite.buffPtr = vAddr;
 
     leoCommand(cmdBlock);
-    return 0;
+    return LEO_ERROR_GOOD;
 }

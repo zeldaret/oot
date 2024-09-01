@@ -34,5 +34,5 @@ s32 LeoSpdlMotor(LEOCmd* cmdBlock, u8 mode, OSMesgQueue* mq) {
     }
 
     leoCommand(cmdBlock);
-    return 0;
+    return LEO_ERROR_GOOD;
 }
