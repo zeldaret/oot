@@ -56,8 +56,7 @@ void leoCommand(void* cmd_blk_addr) {
         ((LEOCmd*)cmd_blk_addr)->header.status = LEO_STATUS_CHECK_CONDITION;
         ((LEOCmd*)cmd_blk_addr)->header.sense = LEO_SENSE_WAITING_NMI;
         if ((((LEOCmd*)cmd_blk_addr)->header.control & LEO_CONTROL_POST) != 0) {
-            osSendMesg(((LEOCmd*)cmd_blk_addr)->header.post, (OSMesg)LEO_SENSE_WAITING_NMI,
-                       OS_MESG_BLOCK); // Presumably
+            osSendMesg(((LEOCmd*)cmd_blk_addr)->header.post, (OSMesg)LEO_SENSE_WAITING_NMI, OS_MESG_BLOCK);
         }
         return;
     }
