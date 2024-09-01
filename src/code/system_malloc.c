@@ -1,5 +1,5 @@
 #include "global.h"
-#include "__osMalloc.h"
+#include "osMalloc.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2
