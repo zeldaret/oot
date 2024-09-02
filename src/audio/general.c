@@ -3,6 +3,14 @@
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
+#if PLATFORM_GC
+#define AUDIO_PRINTF osSyncPrintf
+#elif IDO_PRINTF_WORKAROUND
+#define AUDIO_PRINTF(args) (void)0
+#else
+#define AUDIO_PRINTF(format, ...) (void)0
+#endif
+
 typedef struct SfxPlayerState {
     /* 0x0 */ f32 vol;
     /* 0x4 */ f32 freqScale;
@@ -850,10 +858,13 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 };
 
+#if PLATFORM_GC
 u32 sOcarinaAllowedButtonMask = (BTN_A | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP);
 s32 sOcarinaAButtonMap = BTN_A;
 s32 sOcarinaCUpButtonMap = BTN_CUP;
 s32 sOcarinaCDownButtonMap = BTN_CDOWN;
+#endif
+
 u8 sIsOcarinaInputEnabled = false;
 s8 sOcarinaInstrumentId = OCARINA_INSTRUMENT_OFF;
 u8 sCurOcarinaPitch = OCARINA_PITCH_NONE;
@@ -1297,35 +1308,35 @@ s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol);
 
 // =========== Audio Ocarina ===========
 
-#if PLATFORM_GC
+#if PLATFORM_N64
 
-#define OCARINA_ALLOWED_BUTTON_MASK (sOcarinaAllowedButtonMask)
-#define OCARINA_A_MAP (sOcarinaAButtonMap)
-#define OCARINA_CUP_MAP (sOcarinaCUpButtonMap)
-#define OCARINA_CDOWN_MAP (sOcarinaCDownButtonMap)
+#define OCARINA_ALLOWED_BUTTON_MASK (BTN_A | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP)
+#define OCARINA_A_MAP BTN_A
+#define OCARINA_CUP_MAP BTN_CUP
+#define OCARINA_CDOWN_MAP BTN_CDOWN
+
+#else
+
+#define OCARINA_ALLOWED_BUTTON_MASK sOcarinaAllowedButtonMask
+#define OCARINA_A_MAP sOcarinaAButtonMap
+#define OCARINA_CUP_MAP sOcarinaCUpButtonMap
+#define OCARINA_CDOWN_MAP sOcarinaCDownButtonMap
 
 void AudioOcarina_SetCustomButtonMapping(u8 useCustom) {
     if (!useCustom) {
-        osSyncPrintf("AUDIO : Ocarina Control Assign Normal\n");
+        AUDIO_PRINTF("AUDIO : Ocarina Control Assign Normal\n");
         OCARINA_ALLOWED_BUTTON_MASK = (BTN_A | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
         OCARINA_A_MAP = BTN_A;
         OCARINA_CUP_MAP = BTN_CUP;
         OCARINA_CDOWN_MAP = BTN_CDOWN;
     } else {
-        osSyncPrintf("AUDIO : Ocarina Control Assign Custom\n");
+        AUDIO_PRINTF("AUDIO : Ocarina Control Assign Custom\n");
         OCARINA_ALLOWED_BUTTON_MASK = (BTN_A | BTN_B | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
         OCARINA_A_MAP = BTN_B;
         OCARINA_CUP_MAP = BTN_CDOWN;
         OCARINA_CDOWN_MAP = BTN_A;
     }
 }
-
-#else
-
-#define OCARINA_ALLOWED_BUTTON_MASK (BTN_A | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP)
-#define OCARINA_A_MAP (BTN_A)
-#define OCARINA_CUP_MAP (BTN_CUP)
-#define OCARINA_CDOWN_MAP (BTN_CDOWN)
 
 #endif
 
@@ -1716,37 +1727,27 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
 
         // Interprets and transforms controller input into ocarina buttons and notes
         if (CHECK_BTN_ANY(sOcarinaInputButtonPress, OCARINA_A_MAP)) {
-#if PLATFORM_GC
-            osSyncPrintf("Presss NA_KEY_D4 %08x\n", OCARINA_A_MAP);
-#endif
+            AUDIO_PRINTF("Presss NA_KEY_D4 %08x\n", OCARINA_A_MAP);
             sCurOcarinaPitch = OCARINA_PITCH_D4;
             sCurOcarinaButtonIndex = OCARINA_BTN_A;
 
         } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, OCARINA_CDOWN_MAP)) {
-#if PLATFORM_GC
-            osSyncPrintf("Presss NA_KEY_F4 %08x\n", OCARINA_CDOWN_MAP);
-#endif
+            AUDIO_PRINTF("Presss NA_KEY_F4 %08x\n", OCARINA_CDOWN_MAP);
             sCurOcarinaPitch = OCARINA_PITCH_F4;
             sCurOcarinaButtonIndex = OCARINA_BTN_C_DOWN;
 
         } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, BTN_CRIGHT)) {
-#if PLATFORM_GC
-            osSyncPrintf("Presss NA_KEY_A4 %08x\n", BTN_CRIGHT);
-#endif
+            AUDIO_PRINTF("Presss NA_KEY_A4 %08x\n", BTN_CRIGHT);
             sCurOcarinaPitch = OCARINA_PITCH_A4;
             sCurOcarinaButtonIndex = OCARINA_BTN_C_RIGHT;
 
         } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, BTN_CLEFT)) {
-#if PLATFORM_GC
-            osSyncPrintf("Presss NA_KEY_B4 %08x\n", BTN_CLEFT);
-#endif
+            AUDIO_PRINTF("Presss NA_KEY_B4 %08x\n", BTN_CLEFT);
             sCurOcarinaPitch = OCARINA_PITCH_B4;
             sCurOcarinaButtonIndex = OCARINA_BTN_C_LEFT;
 
         } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, OCARINA_CUP_MAP)) {
-#if PLATFORM_GC
-            osSyncPrintf("Presss NA_KEY_D5 %08x\n", OCARINA_CUP_MAP);
-#endif
+            AUDIO_PRINTF("Presss NA_KEY_D5 %08x\n", OCARINA_CUP_MAP);
             sCurOcarinaPitch = OCARINA_PITCH_D5;
             sCurOcarinaButtonIndex = OCARINA_BTN_C_UP;
         }
@@ -1927,13 +1928,19 @@ void AudioOcarina_PlaybackSong(void) {
             sRelativeNotePlaybackVolume = sNotePlaybackVolume / 127.0f;
         }
 
-// Update vibrato
-        if (PLATFORM_N64 || (sNotePlaybackVibrato != sPlaybackSong[sPlaybackNotePos].vibrato))
-        {
+#if PLATFORM_N64
+        // Update vibrato
+        sNotePlaybackVibrato = sPlaybackSong[sPlaybackNotePos].vibrato;
+        // Sets vibrato to io port 6
+        AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 6, sNotePlaybackVibrato);
+#else
+        // Update vibrato
+        if (sNotePlaybackVibrato != sPlaybackSong[sPlaybackNotePos].vibrato) {
             sNotePlaybackVibrato = sPlaybackSong[sPlaybackNotePos].vibrato;
             // Sets vibrato to io port 6
             AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 6, sNotePlaybackVibrato);
         }
+#endif
 
         // Update bend
         if (sNotePlaybackBend != sPlaybackSong[sPlaybackNotePos].bend) {
@@ -2214,18 +2221,21 @@ void AudioOcarina_RecordSong(void) {
         } else if (sRecordOcarinaVolume != sCurOcarinaVolume) {
             noteChanged = true;
         } else if (sRecordOcarinaVibrato != sCurOcarinaVibrato) {
-            if (PLATFORM_GC || sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
+#if PLATFORM_N64
+            if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
                 noteChanged = true;
             }
+#else
+            noteChanged = true;
+#endif
         } else if (sRecordOcarinaBendIndex != sCurOcarinaBendIndex) {
 #if PLATFORM_N64
-            if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN)
-#else
-            if (1)
-#endif
-            {
+            if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
                 noteChanged = true;
             }
+#else
+            noteChanged = true;
+#endif
         }
 
         if (noteChanged) {
@@ -2696,7 +2706,6 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
             }
             FALLTHROUGH;
         case BANK_OCARINA:
-            // TODO: sqrtf is being processed as intrinsic, but should not be for matching NTSC 1.2
             entry->dist = sqrtf(entry->dist * SFX_DIST_SCALING);
 
             vol = Audio_ComputeSfxVolume(bankId, entryIdx) * *entry->vol;
@@ -3251,7 +3260,6 @@ void Audio_PlaySariaBgm(Vec3f* pos, u16 seqId, u16 distMax) {
         return;
     }
 
-    // TODO: sqrtf is being processed as intrinsic, but should not be for matching NTSC 1.2
     dist = sqrtf(SQ(pos->z) + SQ(pos->x));
     if (sSariaBgmPtr == NULL) {
         sSariaBgmPtr = pos;
@@ -3308,10 +3316,12 @@ void Audio_PlaySceneSequence(u16 seqId) {
             AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
         }
 
-        if (PLATFORM_N64 && (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED)) {
+#if PLATFORM_N64
+        if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) {
             Audio_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
             AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
         }
+#endif
 
         if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_RESUME_PREV) && (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME)) {
             // Resume the sequence from the point where it left off last time it was played in the scene
@@ -3451,7 +3461,6 @@ void func_800F5B58(void) {
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         } else {
 #if PLATFORM_N64
-            // TODO: Can't do (PLATFORM_N64 &&) because `sPrevAmbienceSeqId` isn't defined
             if (sPrevMainBgmSeqId == NA_BGM_NATURE_AMBIENCE) {
                 sPrevMainBgmSeqId = sPrevAmbienceSeqId;
             }
@@ -3611,18 +3620,18 @@ void Audio_SetSequenceMode(u8 seqMode) {
                 }
 
                 sPrevSeqMode = seqMode + 0x80;
-            }
+            } else {
 #if PLATFORM_N64
-            else if (seqMode == SEQ_MODE_ENEMY) {
-                // If both seqMode = sPrevSeqMode = SEQ_MODE_ENEMY
-                if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) == NA_BGM_DISABLED) && (seqId != NA_BGM_DISABLED) &&
-                    (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_ENEMY)) {
-                    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, 10, 8, NA_BGM_ENEMY);
-                    sPrevSeqMode = seqMode + 0x80;
+                if (seqMode == SEQ_MODE_ENEMY) {
+                    // If both seqMode = sPrevSeqMode = SEQ_MODE_ENEMY
+                    if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) == NA_BGM_DISABLED) && (seqId != NA_BGM_DISABLED) &&
+                        (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_ENEMY)) {
+                        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, 10, 8, NA_BGM_ENEMY);
+                        sPrevSeqMode = seqMode + 0x80;
+                    }
                 }
-            }
 #endif
-
+            }
         } else {
             // Hyrule Field will play slightly different background music depending on whether player is standing
             // still or moving. This is the logic to determine the transition between those two states
@@ -3661,6 +3670,7 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
 
             sAudioEnemyVol = ((350.0f - adjDist) * 127.0f) / 350.0f;
             Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_BGM_SUB, sAudioEnemyVol, 10);
+
 #if PLATFORM_N64
             if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId > NA_BGM_NATURE_AMBIENCE)
 #else
@@ -3670,6 +3680,7 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, (0x7F - sAudioEnemyVol), 10);
             }
         }
+
 #if PLATFORM_N64
         if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId > NA_BGM_NATURE_AMBIENCE)
 #else

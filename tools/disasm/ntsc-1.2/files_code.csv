@@ -445,8 +445,8 @@ offset,vram,.bss
 110FB0,80122690,src/audio/general
 1111B0,80122890,src/audio/sfx
 1139C0,801250A0,src/audio/sequence
-1146E0,80125DC0,src/audio/data
-114780,80125E60,src/audio/session_config
+114780,80125E60,src/audio/data
+114820,80125F00,src/audio/session_config
 11AC90,8012C370,src/code/system_malloc
 11ACA0,8012C380,src/code/jpegdecoder
 11ACB0,8012C390,src/libultra/io/sptask

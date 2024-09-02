@@ -438,7 +438,6 @@ void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     s32 finished = 0;
 
 #if PLATFORM_N64
-    // TODO: Should the stack be included inside `PLATFORM_N64`? (does not affect matching)
     if (seqPlayer->finished == 1) {
         finished = 1;
     }

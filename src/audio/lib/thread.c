@@ -18,16 +18,17 @@ AudioTask* AudioThread_Update(void) {
 
 #if PLATFORM_N64
 static s32 sMaxAbiCmdCnt = 0x80;
+static AudioTask* sWaitingAudioTask = NULL;
 #endif
 
 /**
  * This is Audio_Update for the audio thread
  */
 AudioTask* AudioThread_UpdateImpl(void) {
-#if PLATFORM_GC
+#if !PLATFORM_N64
     static s32 sMaxAbiCmdCnt = 0x80;
-#endif
     static AudioTask* sWaitingAudioTask = NULL;
+#endif
     u32 samplesRemainingInAi;
     s32 abiCmdCnt;
     s32 pad;
