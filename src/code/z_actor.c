@@ -3190,7 +3190,7 @@ void Target_FindTargetableActorInCategory(PlayState* play, ActorContext* actorCt
                                               &lineTestResultPos, &poly, true, true, true, true, &bgId) ||
                      SurfaceType_IsIgnoredByProjectiles(&play->colCtx, poly, bgId))) {
                     if (actor->targetPriority != 0) {
-                        // Lower priority values are considered higher priority
+                        // Lower values are considered higher priority
                         if (actor->targetPriority < sHighestTargetablePriority) {
                             sPrioritizedTargetableActor = actor;
                             sHighestTargetablePriority = actor->targetPriority;
@@ -3216,10 +3216,10 @@ u8 sTargetableCategorySearchOrder[] = {
  * Search for the nearest targetable actor by iterating through most actor categories.
  * See `Target_FindTargetableActorInCategory` for more details on search criteria.
  *
- * The actor found is stored in the targetableP parameter, which is also returned.
+ * The actor found is stored in the `targetableActorP` parameter, which is also returned.
  * It may be NULL if no actor that fulfills the criteria is found.
  */
-Actor* Target_FindTargetableActor(PlayState* play, ActorContext* actorCtx, Actor** targetableP, Player* player) {
+Actor* Target_FindTargetableActor(PlayState* play, ActorContext* actorCtx, Actor** targetableActorP, Player* player) {
     s32 i;
     u8* category;
 
@@ -3249,12 +3249,12 @@ Actor* Target_FindTargetableActor(PlayState* play, ActorContext* actorCtx, Actor
     }
 
     if (sNearestTargetableActor == NULL) {
-        *targetableP = sPrioritizedTargetableActor;
+        *targetableActorP = sPrioritizedTargetableActor;
     } else {
-        *targetableP = sNearestTargetableActor;
+        *targetableActorP = sNearestTargetableActor;
     }
 
-    return *targetableP;
+    return *targetableActorP;
 }
 
 /**
