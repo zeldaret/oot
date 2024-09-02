@@ -388,7 +388,8 @@ void Play_Init(GameState* thisx) {
 #endif
 
 #if PLATFORM_N64
-    if (!(B_80121AF0 != NULL && B_80121AF0->unk_54 != NULL && B_80121AF0->unk_54(this))) {
+    if ((B_80121AF0 != NULL && B_80121AF0->unk_54 != NULL && B_80121AF0->unk_54(this))) {
+    } else {
         Cutscene_HandleEntranceTriggers(this);
     }
 #else
