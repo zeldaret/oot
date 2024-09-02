@@ -4,16 +4,19 @@
 #include "ultra64.h"
 #include "z64pause.h"
 #include "z64scene.h"
+#include "z64map_mark.h"
 
 struct Font;
 struct GameState;
-union Gfx;
+struct MapData;
 struct MessageTableEntry;
 struct PlayState;
 struct RegEditor;
 struct RoomContext;
 struct SaveContext;
 struct Scene;
+
+union Gfx;
 
 // TODO Use the specific pointer types instead of void*
 typedef struct n64ddStruct_800FEE70_pointers {
@@ -32,7 +35,13 @@ typedef struct n64ddStruct_80121220 {
     void (*unk_0C)(struct PlayState* play);
     void (*unk_10)(struct PlayState* play);
     void (*unk_14)(struct PlayState* play);
-    char unk_18[0x1C];
+    s32 (*unk_18)(struct MapData**);
+    s32 (*unk_1C)(struct MapData**);
+    s32 (*unk_20)(struct MapData*);
+    s32 (*unk_24)(void);
+    s32 (*unk_28)(struct PlayState*);
+    s32 (*unk_2C)(MapMarkData***);
+    s32 (*unk_30)(MapMarkData***);
     void (*unk_34)(PauseMapMarksData**);
     void (*unk_38)(PauseMapMarksData**);
     void (*unk_3C)(void);

@@ -2,6 +2,9 @@
 #include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/textures/parameter_static/parameter_static.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 MapData* gMapData;
 
@@ -160,10 +163,22 @@ void Map_InitData(PlayState* play, s16 room) {
                      "Deku Tree Dungeon MAP Texture DMA(%x) scene_id_offset=%d  VREG(30)=%d\n"),
                    room, mapIndex, VREG(30));
             PRINTF(VT_RST);
+
+#if PLATFORM_N64
+            if ((B_80121220 != NULL) && (B_80121220->unk_28 != NULL) && B_80121220->unk_28(play)) {
+            } else {
+                DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
+                             (uintptr_t)_map_i_staticSegmentRomStart +
+                                 ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
+                             MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
+            }
+#else
             DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
                              (uintptr_t)_map_i_staticSegmentRomStart +
                                  ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
                              MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
+#endif
+
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];
             Map_SetFloorPalettesData(play, VREG(30));
@@ -221,6 +236,16 @@ void Map_InitRoomData(PlayState* play, s16 room) {
 
 void Map_Destroy(PlayState* play) {
     MapMark_ClearPointers(play);
+
+#if PLATFORM_N64
+        if ((B_80121220 != NULL) && (B_80121220->unk_24 != NULL)) {
+            B_80121220->unk_24();
+        }
+        if ((B_80121220 != NULL) && (B_80121220->unk_1C != NULL)) {
+            B_80121220->unk_1C(&gMapData);
+        }
+#endif
+
     gMapData = NULL;
 }
 
@@ -229,6 +254,12 @@ void Map_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     gMapData = &gMapDataTable;
+
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_18 != NULL)) {
+        B_80121220->unk_18(&gMapData);
+    }
+#endif
 
     interfaceCtx->unk_258 = -1;
     interfaceCtx->unk_25A = -1;
@@ -303,6 +334,11 @@ void Map_Init(PlayState* play) {
                 R_COMPASS_OFFSET_X = gMapData->dgnCompassInfo[mapIndex][2];
                 R_COMPASS_OFFSET_Y = gMapData->dgnCompassInfo[mapIndex][3];
                 R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE = gMapData->dgnTexIndexBase[mapIndex];
+#if PLATFORM_N64
+                if ((B_80121220 != NULL) && (B_80121220->unk_20 != NULL)) {
+                    B_80121220->unk_20(gMapData);
+                }
+#endif
                 Map_InitRoomData(play, play->roomCtx.curRoom.num);
                 MapMark_Init(play);
             }
