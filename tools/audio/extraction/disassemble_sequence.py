@@ -36,15 +36,8 @@ There are some additional subtleties for handling padding and uncommon sections 
 
 For tables used in `dyncall`s, we have to rely on external information to provide the location and size of tables as
 there is no reliable heuristic for identifying table sizes.
-"""
 
-from dataclasses import dataclass
-from enum import Enum, auto
-from typing import Callable, Dict, List, Tuple
 
-from .audiobank_file import AudiobankFile
-
-"""
 TODO
 
 sequence beginning with testchan 0 is a buffer (?)
@@ -52,6 +45,12 @@ OR any ldseq is an array and an array of 0 is a buffer (?)
 
 detect section overlaps and mark them as bugged in the output
 """
+
+from dataclasses import dataclass
+from enum import Enum, auto
+from typing import Callable, Dict, List, Optional, Tuple
+
+from .audiobank_file import AudiobankFile
 
 pitch_names = (
     "A0", "BF0", "B0", "C1", "DF1", "D1", "EF1", "E1", "F1", "GF1", "G1", "AF1", "A1", "BF1", "B1", "C2",
@@ -79,14 +78,18 @@ VERSION_ALL = (MMLVersion.OOT, MMLVersion.MM)
 #
 
 class SqSection(Enum):
-    SEQ = auto()
-    CHAN = auto()
-    LAYER = auto()
-    ARRAY = auto()
-    TABLE = auto()
-    ENVELOPE = auto()
-    FILTER = auto()
-    UNKNOWN = auto()
+    SEQ      = ("SEQ", ".sequence")
+    CHAN     = ("CHAN", ".channel")
+    LAYER    = ("LAYER", ".layer")
+    ARRAY    = ("ARRAY", ".array")
+    TABLE    = ("TABLE", ".table")
+    ENVELOPE = ("ENVELOPE", ".envelope")
+    FILTER   = ("FILTER", ".filter")
+    UNKNOWN  = ("UNK", "")
+
+    def __init__(self, prefix, lbl_prefix):
+        self.prefix = prefix
+        self.lbl_prefix = lbl_prefix
 
 SECTION_ALL = (SqSection.SEQ, SqSection.CHAN, SqSection.LAYER)
 
@@ -276,17 +279,7 @@ class ArgAddr(ArgHex16):
                     value = start
                     break
 
-        prefix = {
-            SqSection.SEQ      : "SEQ",
-            SqSection.CHAN     : "CHAN",
-            SqSection.LAYER    : "LAYER",
-            SqSection.ARRAY    : "ARRAY",
-            SqSection.TABLE    : "TABLE",
-            SqSection.ENVELOPE : "ENVELOPE",
-            SqSection.FILTER   : "FILTER",
-            SqSection.UNKNOWN  : "UNK",
-        }[target_section]
-
+        prefix = target_section.prefix
         if addend != 0:
             return f"{prefix}_{value:04X} + {maybe_hex(addend)}"
         else:
@@ -366,8 +359,6 @@ class ArgFilterPtr(ArgAddr):
 
 class ArgTblPtr(ArgAddr):
     def analyze(self, disas):
-        # if disas.pos in (0x5FD0,):
-        #     return
         disas.add_ref(self.value, SqSection.TABLE, big=True)
 
     def emit(self, disas):
@@ -614,7 +605,7 @@ class SequenceFragment:
         self.disas = disas
 
     def __str__(self):
-        return f"Fragment ({self.section}) [{self.start}, {self.end}]" # , {{{self.data}}}
+        return f"Fragment ({self.section}) [{self.start}, {self.end}]"
 
     def __lt__(self, other):
         return self.start < other.start
@@ -624,7 +615,6 @@ class SequenceFragment:
         if frag1 == frag2:
             return frag1
 
-        # assert frag1.section == frag2.section , "Tried to merge fragments of different section"
         if frag1.section != frag2.section:
             return None
 
@@ -637,7 +627,6 @@ class SequenceFragment:
         min_end = min(frag1.end, frag2.end)
         max_end = max(frag1.end, frag2.end)
 
-        # assert max_start <= min_end , "Tried to merge disjoint fragments"
         if max_start > min_end:
             return None
 
@@ -654,10 +643,20 @@ class SequenceFragment:
 
         return SequenceFragment(frag1.disas, frag1.section, data1[:max_start] + data2, min_start, max_end)
 
+@dataclass
+class SequenceTableSpec:
+    start_offset : int
+    num_entries : int
+    addend : int
+    sectype : SqSection
+
+    def contains_loc(self, pos):
+        return pos in range(self.start_offset, self.start_offset + 2 * self.num_entries)
+
 class SequenceDisassembler:
 
-    def __init__(self, seq_num : int, data : bytes, tables, cmds : Tuple[MMLCmd], version : MMLVersion, outpath : str,
-                 seq_name : str, used_fonts : List[AudiobankFile], all_seq_names):
+    def __init__(self, seq_num : int, data : bytes, tables : Optional[Tuple[SequenceTableSpec]], cmds : Tuple[MMLCmd],
+                 version : MMLVersion, outpath : str, seq_name : str, used_fonts : List[AudiobankFile], all_seq_names):
         self.seq_num = seq_num
         self.seq_name = seq_name
         self.used_fonts = used_fonts
@@ -681,8 +680,8 @@ class SequenceDisassembler:
             SqSection.LAYER : {},
         }
 
-        # preprocess command list into dictionary, possibly duplicating into several id keys if any lsbits are used
-        # as an arg
+        # preprocess command list into dictionary, possibly duplicating into
+        # several id keys if any lsbits are used as an arg
         for cmd in cmds:
             # ignore commands not in this version
             if version not in cmd.version:
@@ -724,7 +723,7 @@ class SequenceDisassembler:
         self.decode_list = []
         self.all_seen = []
 
-        self.tables = tables
+        self.tables : Optional[Tuple[SequenceTableSpec]] = tables
         self.table_cache = set()
 
         self.addends = {}
@@ -785,19 +784,15 @@ class SequenceDisassembler:
 
     def add_ref(self, value, section=None, big=False):
         if section is None:
-            # print(f"TODO Unhandled addr ref 0x{value:04X}")
             self.add_branch_target(value, SqSection.UNKNOWN)
             return
 
         self.add_branch_target(value, section, big=big)
 
-        # print(f"Referenced {section} at 0x{value:04X}")
         self.add_job(value, section, self.cur_section)
 
     def add_job(self, value, section, from_section=None):
         if value not in self.all_seen:
-            # print(f"New job {section} at 0x{value:04X}")
-
             self.all_seen.append(value)
             self.decode_list.append((value, section, from_section or section))
 
@@ -857,30 +852,27 @@ class SequenceDisassembler:
             self.decode_list.append((self.pos, self.cur_section, self.cur_section))
 
     def analyze_table(self):
-        # print(f"Table from {self.refd_from} at 0x{self.pos:04X}")
-
         assert self.tables is not None, "Found a table but no table spec provided."
 
-        for offset, num_entries, addend, section in self.tables:
-            if self.pos in range(offset, offset + 2 * num_entries):
+        for table_spec in self.tables:
+            if table_spec.contains_loc(self.pos):
                 break
         else:
             assert False , f"Found table at {self.pos:04X} but no entry number provided"
 
-        start_pos = self.pos = offset
+        start_pos = self.pos = table_spec.offset
         if start_pos in self.table_cache:
             return
 
-        for _ in range(num_entries):
+        for _ in range(table_spec.num_entries):
             curpos = self.pos
-            cur = self.read_u16() - addend
+            cur = self.read_u16() - table_spec.addend
             if cur >= len(self.data) - 1:
                 assert False , "Bad table pointer"
-            # print(hex(cur))
 
-            self.add_branch_target(cur, section, big=True)
-            self.add_job(cur, section, section)
-            self.register_addend(curpos, addend)
+            self.add_branch_target(cur, table_spec.sectype, big=True)
+            self.add_job(cur, table_spec.sectype, table_spec.sectype)
+            self.register_addend(curpos, table_spec.addend)
 
         self.fragments.append(SequenceFragment(self, self.cur_section, self.data[start_pos:self.pos], start_pos, self.pos))
         self.table_cache.add(start_pos)
@@ -888,7 +880,7 @@ class SequenceDisassembler:
     def analyze_array(self):
         start_pos = self.pos
 
-        # TODO better heuristic than just hardcoding 16 lmao
+        # TODO better heuristic than just hardcoding 16...
         # it would be better to wait until later to resize arrays though, up to the next identified fragment
         # ARRAY + UNK + OTHER -> ARRAY + OTHER
         for _ in range(16):
@@ -905,7 +897,6 @@ class SequenceDisassembler:
         self.fragments.append(SequenceFragment(self, self.cur_section, self.data[start_pos:self.pos], start_pos, self.pos))
 
     def analyze_envelope(self):
-        # print(f"Envelope from {self.refd_from} at 0x{self.pos:04X}")
         start_pos = self.pos
 
         while True: # dangerous
@@ -993,12 +984,9 @@ class SequenceDisassembler:
                     if frag.end == first_zero_idx:
                         prev_frag = frag
                         prev_frag_idx = i
-                        # print("prev", i, file=sys.stderr)
                     elif frag.start == last_zero_idx:
                         next_frag = frag
                         next_frag_idx = i
-                        # print("next", i, file=sys.stderr)
-                        # print(self.fragments[prev_frag_idx + 1], file=sys.stderr)
 
                 # SEQ + UNK -> SEQ
                 if prev_frag is not None:
@@ -1060,36 +1048,15 @@ class SequenceDisassembler:
     #   disas helpers
     #
 
-    def label_section_prefix(self, section):
-        return {
-            SqSection.SEQ      : f"SEQ",
-            SqSection.CHAN     : f"CHAN",
-            SqSection.LAYER    : f"LAYER",
-            SqSection.ARRAY    : f"ARRAY",
-            SqSection.TABLE    : f"TABLE",
-            SqSection.ENVELOPE : f"ENVELOPE",
-            SqSection.FILTER   : f"FILTER",
-            SqSection.UNKNOWN  : f"UNK",
-        }[section]
-
     def label_name(self, value, section, force_big=False):
         if value in self.big_labels or force_big:
-            prefix = {
-                SqSection.SEQ      : ".sequence ",
-                SqSection.CHAN     : ".channel ",
-                SqSection.LAYER    : ".layer ",
-                SqSection.ARRAY    : ".array ",
-                SqSection.TABLE    : ".table ",
-                SqSection.ENVELOPE : ".envelope ",
-                SqSection.FILTER   : ".filter ",
-                SqSection.UNKNOWN  : "",
-            }[section]
+            lbl_prefix = section.lbl_prefix + " "
             suffix = ""
         else:
-            prefix = ""
+            lbl_prefix = ""
             suffix = ":"
 
-        return f"{prefix}{self.label_section_prefix(section)}_{value:04X}{suffix}"
+        return f"{lbl_prefix}{section.prefix}_{value:04X}{suffix}"
 
     def emit_branch_target_real(self, outfile, value, section, force_big=False):
         if section is SqSection.UNKNOWN:
@@ -1104,8 +1071,6 @@ class SequenceDisassembler:
         did_emit = False
         for b_tgt in self.branch_targets:
             if b_tgt in range(start,end):
-                #print(b_tgt, self.branch_targets[b_tgt])
-                # assert self.cur_section == b_sect
                 self.emit_branch_target_real(outfile, start, self.branch_targets[b_tgt], force_big)
                 did_emit = True
         return did_emit
@@ -1170,16 +1135,7 @@ class SequenceDisassembler:
 
             ent = self.read_u16() - addend
 
-            # outfile.write(".balign 2\n\n")
             self.emit_branch_target(outfile, start_pos, self.pos)
-
-            #found_sectype = None
-            #for offset,_,_,section_type in self.tables:
-            #    if offset == base_pos:
-            #        found_sectype = section_type
-            #        break
-            #else:
-            #    assert False
 
             section = self.branch_targets.get(ent, None)
 
@@ -1193,7 +1149,7 @@ class SequenceDisassembler:
                 addend_str = ""
 
             # TODO proper label name
-            outfile.write(f"    entry {self.label_section_prefix(section)}_{ent:04X}{addend_str}\n")
+            outfile.write(f"    entry {section.prefix}_{ent:04X}{addend_str}\n")
 
         outfile.write("\n")
 
@@ -1204,8 +1160,6 @@ class SequenceDisassembler:
 
         assert all(b == 0 for b in frag.data)
         assert align == 0
-
-        # outfile.write(".balign 16\n\n")
 
         for n in range(num_filters):
             self.emit_branch_target_real(outfile, start_pos + n * 2 * 8, SqSection.FILTER, force_big=True)
@@ -1237,7 +1191,6 @@ class SequenceDisassembler:
                 self.emit_branch_target_real(outfile, self.pos, frag.section)
 
         outfile.write("\n")
-        #assert self.pos == frag.end, f"{self.pos:X} {frag.end:X}"
 
     def disas_array(self, frag : SequenceFragment, outfile):
         self.emit_branch_target(outfile, frag.start, frag.end)
@@ -1252,8 +1205,6 @@ class SequenceDisassembler:
 
     def disas_unknown(self, frag : SequenceFragment, outfile):
         start_pos = self.pos
-
-        # emit_branch_target(start_pos, frag.end)
 
         prev = start_pos
         for b_tgt in sorted(self.branch_targets):

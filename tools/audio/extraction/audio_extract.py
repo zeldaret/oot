@@ -4,7 +4,7 @@
 #   Extract audio files
 #
 
-import os, shutil, time
+import multiprocessing, os, shutil, time
 from dataclasses import dataclass
 from multiprocessing.pool import ThreadPool
 from typing import Dict, List, Tuple, Union
@@ -14,7 +14,7 @@ from xml.etree.ElementTree import Element
 from .audio_tables import AudioCodeTable, AudioCodeTableEntry, AudioStorageMedium
 from .audiotable import AudioTableData, AudioTableFile, AudioTableSample
 from .audiobank_file import AudiobankFile
-from .disassemble_sequence import CMD_SPEC, SequenceDisassembler, MMLVersion
+from .disassemble_sequence import CMD_SPEC, SequenceDisassembler, SequenceTableSpec, MMLVersion
 from .util import align, debugm, error, incbin, program_get, XMLWriter
 
 @dataclass
@@ -37,8 +37,8 @@ class GameVersionInfo:
     fake_banks             : Dict[int, int]
     # Contains audiotable indices that suffer from a buffer clearing bug
     audiotable_buffer_bugs : Tuple[int]
-    # Sequence disassembly hacks
-    seq_disas_hacks        : Dict[int, Tuple[Tuple[int]]]
+    # Sequence disassembly table specs
+    seq_disas_tables       : Dict[int, Tuple[SequenceTableSpec]]
 
 SAMPLECONV_PATH = f"{os.path.dirname(os.path.realpath(__file__))}/../sampleconv/sampleconv"
 
@@ -178,7 +178,7 @@ def disassemble_one_sequence(extracted_dir : str, version_info : GameVersionInfo
                              enum_names : List[str], id : int, data : bytes, name : str, filename : str,
                              fonts : memoryview):
     out_filename = f"{extracted_dir}/assets/audio/sequences/{filename}.seq"
-    disas = SequenceDisassembler(id, data, version_info.seq_disas_hacks.get(id, None), CMD_SPEC,
+    disas = SequenceDisassembler(id, data, version_info.seq_disas_tables.get(id, None), CMD_SPEC,
                                  version_info.mml_version, out_filename, name,
                                  [soundfonts[i] for i in fonts], enum_names)
     disas.analyze()
@@ -205,6 +205,8 @@ def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_in
 
     all_fonts = []
     disas_jobs = []
+
+    t = time.time()
 
     for i,entry in enumerate(sequence_table):
         entry : AudioCodeTableEntry
@@ -246,6 +248,8 @@ def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_in
             # Write extraction xml entry
             if write_xml:
                 xml = XMLWriter()
+
+                xml.write_comment("This file is only for extraction of vanilla data.")
 
                 xml.write_element("Sequence", {
                     "Name" : sequence_name,
@@ -295,13 +299,11 @@ def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_in
 
     # Disassemble to text
 
-    with ThreadPool(processes=os.cpu_count()) as pool:
-        # multiprocess sequence disassembly
-        async_results = [pool.apply_async(disassemble_one_sequence,
-                                          args=(extracted_dir, version_info, soundfonts, seq_enum_names, *job)) 
-                         for job in disas_jobs]
-        # block until done
-        [res.get() for res in async_results]
+    for job in disas_jobs:
+        disassemble_one_sequence(extracted_dir, version_info, soundfonts, seq_enum_names, *job)
+
+    dt = time.time() - t
+    print(f"Sequences extraction took {dt:.3f}")
 
 def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : str, read_xml : bool, write_xml : bool):
     print("Setting up...")
@@ -458,5 +460,3 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
 
     extract_sequences(audioseq_seg, extracted_dir, version_info, write_xml, sequence_table, sequence_font_table,
                       sequence_xmls, soundfonts)
-
-    print("Done")
