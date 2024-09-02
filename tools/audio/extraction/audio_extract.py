@@ -4,7 +4,7 @@
 #   Extract audio files
 #
 
-import multiprocessing, os, shutil, time
+import os, shutil, time
 from dataclasses import dataclass
 from multiprocessing.pool import ThreadPool
 from typing import Dict, List, Tuple, Union
