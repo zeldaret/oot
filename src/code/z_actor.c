@@ -1548,8 +1548,8 @@ PosRot Actor_GetWorldPosShapeRot(Actor* actor) {
  * This distance will be adjusted smaller if Player is already targeting an actor.
  * In this case, the more Player is facing the actor, the smaller the distance is adjusted.
  */
-f32 Target_AdjustedDistToPlayerSq(Actor* actor, Player* player, s16 arg2) {
-    s16 yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - arg2;
+f32 Target_AdjustedDistToPlayerSq(Actor* actor, Player* player, s16 playerShapeYaw) {
+    s16 yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - playerShapeYaw;
     s16 yawTempAbs = ABS(yawTemp);
 
     if (player->unk_664 != NULL) {
