@@ -460,7 +460,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
         (player->controlStickDirections[player->controlStickDataIndex] == PLAYER_STICK_DIR_BACKWARD)) {
         targetCtx->arrowHoverActor = NULL;
     } else {
-        func_80032AF0(play, &play->actorCtx, &unkActor, player);
+        Target_FindTargetableActor(play, &play->actorCtx, &unkActor, player);
         targetCtx->arrowHoverActor = unkActor;
     }
 
@@ -1542,7 +1542,13 @@ PosRot Actor_GetWorldPosShapeRot(Actor* actor) {
     return worldPosRot;
 }
 
-f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
+/**
+ * Returns the squared xyz distance from the actor to Player.
+ *
+ * This distance will be adjusted smaller if Player is already targeting an actor.
+ * In this case, the more Player is facing the actor, the smaller the distance is adjusted.
+ */
+f32 Target_AdjustedDistToPlayerSq(Actor* actor, Player* player, s16 arg2) {
     s16 yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - arg2;
     s16 yawTempAbs = ABS(yawTemp);
 
@@ -1550,17 +1556,23 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
         if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_27)) {
             return MAXFLOAT;
         } else {
-            f32 ret =
+            f32 adjDistSq;
+
+            // Linear scaling, yaw being 90 degrees means it will return the original distance.
+            // 0 degrees will adjust to 60% of the distance.
+            adjDistSq =
                 actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
 
-            return ret;
+            return adjDistSq;
         }
     }
 
+    // An actor will not be considered targetable if Player is facing more than ~60 degrees away
     if (yawTempAbs > 0x2AAA) {
         return MAXFLOAT;
     }
 
+    // Unadjusted distSq
     return actor->xyzDistToPlayerSq;
 }
 
@@ -1572,14 +1584,17 @@ typedef struct TargetRangeParams {
 #define TARGET_RANGE(range, leash) \
     { SQ(range), (f32)range / leash }
 
-TargetRangeParams D_80115FF8[] = {
+TargetRangeParams sTargetRanges[] = {
     TARGET_RANGE(70, 140),   TARGET_RANGE(170, 255),    TARGET_RANGE(280, 5600),      TARGET_RANGE(350, 525),
     TARGET_RANGE(700, 1050), TARGET_RANGE(1000, 1500),  TARGET_RANGE(100, 105.36842), TARGET_RANGE(140, 163.33333),
     TARGET_RANGE(240, 576),  TARGET_RANGE(280, 280000),
 };
 
-u32 func_8002F090(Actor* actor, f32 arg1) {
-    return arg1 < D_80115FF8[actor->targetMode].rangeSq;
+/**
+ * Checks if an actor at distance `distSq` is inside the range specified by its targetMode
+ */
+u32 Target_ActorIsInRange(Actor* actor, f32 distSq) {
+    return distSq < sTargetRanges[actor->targetMode].rangeSq;
 }
 
 s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
@@ -1598,7 +1613,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
             dist = actor->xyzDistToPlayerSq;
         }
 
-        return !func_8002F090(actor, D_80115FF8[actor->targetMode].leashScale * dist);
+        return !Target_ActorIsInRange(actor, sTargetRanges[actor->targetMode].leashScale * dist);
     }
 
     return false;
@@ -3102,58 +3117,87 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     return newHead;
 }
 
-int func_80032880(PlayState* play, Actor* actor) {
-    s16 sp1E;
-    s16 sp1C;
+/**
+ * Checks that an actor is on-screen enough to be considered targetable.
+ *
+ * Note that the screen bounds checks are larger than the actual screen region
+ * to give room for error.
+ */
+int Target_InTargetableScreenRegion(PlayState* play, Actor* actor) {
+    s16 x;
+    s16 y;
 
-    Actor_GetScreenPos(play, actor, &sp1E, &sp1C);
+    Actor_GetScreenPos(play, actor, &x, &y);
 
-    return (sp1E > -20) && (sp1E < 340) && (sp1C > -160) && (sp1C < 400);
+#define X_LEEWAY 20
+#define Y_LEEWAY 160
+
+    return (x > 0 - X_LEEWAY) && (x < SCREEN_WIDTH + X_LEEWAY) && (y > 0 - Y_LEEWAY) && (y < SCREEN_HEIGHT + Y_LEEWAY);
 }
 
-Actor* D_8015BBE8;
-Actor* D_8015BBEC;
-f32 D_8015BBF0;
-f32 sbgmEnemyDistSq;
-s32 D_8015BBF8;
-s16 D_8015BBFC;
+Actor* sNearestTargetableActor;
+Actor* sPrioritizedTargetableActor;
+f32 sNearestTargetableActorDistSq;
+f32 sBgmEnemyDistSq;
+s32 sHighestTargetablePriority;
+s16 sTargetPlayerRotY;
 
-void func_800328D4(PlayState* play, ActorContext* actorCtx, Player* player, u32 actorCategory) {
-    f32 var;
+/**
+ * Search for targetable actors within the specified category.
+ *
+ * For an actor to be considered targetable it needs to:
+ * - Have a non-NULL update function (still active)
+ * - Not be player (this is technically a redundant check because the PLAYER category is never searched)
+ * - Be targetable (specified by ACTOR_FLAG_0)
+ * - Not be the already targeted actor
+ * - Be the closest targetable actor found so far
+ * - Be within range, specified by targetMode
+ * - Be roughly on-screen
+ * - Not be blocked by a surface
+ *
+ * If an actor has a priority value set and the value is the lowest found so far, it will be set as the prioritized
+ * targetable actor. Otherwise, it is set as the nearest targetable actor.
+ *
+ * This function is expected to be called with almost every actor category in each cycle. On a new cycle its global
+ * variables must be reset by the caller, otherwise the information of the previous cycle will be retained.
+ */
+void Target_FindTargetableActorInCategory(PlayState* play, ActorContext* actorCtx, Player* player, u32 actorCategory) {
+    f32 distSq;
     Actor* actor;
-    Actor* sp84;
-    CollisionPoly* sp80;
-    s32 sp7C;
-    Vec3f sp70;
+    Actor* unk_664;
+    CollisionPoly* poly;
+    s32 bgId;
+    Vec3f lineTestResultPos;
 
     actor = actorCtx->actorLists[actorCategory].head;
-    sp84 = player->unk_664;
+    unk_664 = player->unk_664;
 
     while (actor != NULL) {
         if ((actor->update != NULL) && ((Player*)actor != player) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0)) {
-
-            // This block below is for determining the closest actor to player in determining the volume
-            // used while playing enemy background music
+            // Enemy background music actor is updated here, despite not being too related to the Target system
             if ((actorCategory == ACTORCAT_ENEMY) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) &&
-                (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sbgmEnemyDistSq)) {
+                (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sBgmEnemyDistSq)) {
                 actorCtx->targetCtx.bgmEnemy = actor;
-                sbgmEnemyDistSq = actor->xyzDistToPlayerSq;
+                sBgmEnemyDistSq = actor->xyzDistToPlayerSq;
             }
 
-            if (actor != sp84) {
-                var = func_8002EFC0(actor, player, D_8015BBFC);
-                if ((var < D_8015BBF0) && func_8002F090(actor, var) && func_80032880(play, actor) &&
-                    (!BgCheck_CameraLineTest1(&play->colCtx, &player->actor.focus.pos, &actor->focus.pos, &sp70, &sp80,
-                                              1, 1, 1, 1, &sp7C) ||
-                     SurfaceType_IsIgnoredByProjectiles(&play->colCtx, sp80, sp7C))) {
+            if (actor != unk_664) {
+                distSq = Target_AdjustedDistToPlayerSq(actor, player, sTargetPlayerRotY);
+
+                if ((distSq < sNearestTargetableActorDistSq) && Target_ActorIsInRange(actor, distSq) &&
+                    Target_InTargetableScreenRegion(play, actor) &&
+                    (!BgCheck_CameraLineTest1(&play->colCtx, &player->actor.focus.pos, &actor->focus.pos,
+                                              &lineTestResultPos, &poly, true, true, true, true, &bgId) ||
+                     SurfaceType_IsIgnoredByProjectiles(&play->colCtx, poly, bgId))) {
                     if (actor->targetPriority != 0) {
-                        if (actor->targetPriority < D_8015BBF8) {
-                            D_8015BBEC = actor;
-                            D_8015BBF8 = actor->targetPriority;
+                        // Lower priority values are considered higher priority
+                        if (actor->targetPriority < sHighestTargetablePriority) {
+                            sPrioritizedTargetableActor = actor;
+                            sHighestTargetablePriority = actor->targetPriority;
                         }
                     } else {
-                        D_8015BBE8 = actor;
-                        D_8015BBF0 = var;
+                        sNearestTargetableActor = actor;
+                        sNearestTargetableActorDistSq = distSq;
                     }
                 }
             }
@@ -3163,45 +3207,54 @@ void func_800328D4(PlayState* play, ActorContext* actorCtx, Player* player, u32 
     }
 }
 
-u8 D_801160A0[] = {
+u8 sTargetableCategorySearchOrder[] = {
     ACTORCAT_BOSS,  ACTORCAT_ENEMY,  ACTORCAT_BG,   ACTORCAT_EXPLOSIVE, ACTORCAT_NPC,  ACTORCAT_ITEMACTION,
     ACTORCAT_CHEST, ACTORCAT_SWITCH, ACTORCAT_PROP, ACTORCAT_MISC,      ACTORCAT_DOOR, ACTORCAT_SWITCH,
 };
 
-Actor* func_80032AF0(PlayState* play, ActorContext* actorCtx, Actor** actorPtr, Player* player) {
+/**
+ * Search for the nearest targetable actor by iterating through most actor categories.
+ * See `Target_FindTargetableActorInCategory` for more details on search criteria.
+ *
+ * The actor found is stored in the targetableP parameter, which is also returned.
+ * It may be NULL if no actor that fulfills the criteria is found.
+ */
+Actor* Target_FindTargetableActor(PlayState* play, ActorContext* actorCtx, Actor** targetableP, Player* player) {
     s32 i;
-    u8* entry;
+    u8* category;
 
-    D_8015BBE8 = D_8015BBEC = NULL;
-    D_8015BBF0 = sbgmEnemyDistSq = MAXFLOAT;
-    D_8015BBF8 = 0x7FFFFFFF;
+    sNearestTargetableActor = sPrioritizedTargetableActor = NULL;
+    sNearestTargetableActorDistSq = sBgmEnemyDistSq = MAXFLOAT;
+    sHighestTargetablePriority = INT32_MAX;
 
     if (!Player_InCsMode(play)) {
-        entry = &D_801160A0[0];
-
+        category = &sTargetableCategorySearchOrder[0];
         actorCtx->targetCtx.bgmEnemy = NULL;
-        D_8015BBFC = player->actor.shape.rot.y;
+        sTargetPlayerRotY = player->actor.shape.rot.y;
 
+        // Search the first 3 actor categories first for a targetable actor
+        // These are Boss, Enemy, and Bg, in order.
         for (i = 0; i < 3; i++) {
-            func_800328D4(play, actorCtx, player, *entry);
-            entry++;
+            Target_FindTargetableActorInCategory(play, actorCtx, player, *category);
+            category++;
         }
 
-        if (D_8015BBE8 == NULL) {
-            for (; i < ARRAY_COUNT(D_801160A0); i++) {
-                func_800328D4(play, actorCtx, player, *entry);
-                entry++;
+        // If no actor in the above categories was found, then try searching in the remaining categories
+        if (sNearestTargetableActor == NULL) {
+            for (; i < ARRAY_COUNT(sTargetableCategorySearchOrder); i++) {
+                Target_FindTargetableActorInCategory(play, actorCtx, player, *category);
+                category++;
             }
         }
     }
 
-    if (D_8015BBE8 == NULL) {
-        *actorPtr = D_8015BBEC;
+    if (sNearestTargetableActor == NULL) {
+        *targetableP = sPrioritizedTargetableActor;
     } else {
-        *actorPtr = D_8015BBE8;
+        *targetableP = sNearestTargetableActor;
     }
 
-    return *actorPtr;
+    return *targetableP;
 }
 
 /**
