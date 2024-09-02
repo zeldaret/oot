@@ -228,7 +228,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
     thisx->naviEnemyId = NAVI_ENEMY_GERUDO_THIEF;
-    this->keyFlag = thisx->params & 0xFF00;
+    this->keyFlag = PARAMS_GET_NOSHIFT(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     this->blinkState = 0;
     this->unkFloat = 10.0f;

@@ -95,7 +95,7 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
         case JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
-            PRINTF("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n");
+            PRINTF("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n", arg1);
             return -1;
     }
 }
@@ -112,7 +112,7 @@ void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
             SET_INFTABLE(INFTABLE_146);
             break;
         default:
-            PRINTF("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n");
+            PRINTF("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n", arg1);
     }
 }
 
@@ -123,7 +123,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-    this->var.switchFlag = (thisx->params >> 8) & 0x3F;
+    this->var.switchFlag = PARAMS_GET_U(thisx->params, 8, 6);
     thisx->params &= 0xFF;
     if (thisx->params == JABU_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
         thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;

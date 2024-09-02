@@ -32,8 +32,7 @@ void Interface_Init(PlayState* play) {
 
     parameterSize = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
 
-    // "Permanent PARAMETER Segment = %x"
-    PRINTF("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
+    PRINTF(T("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", "Permanent PARAMETER Segment = %x\n"), parameterSize);
 
     interfaceCtx->parameterSegment = GAME_STATE_ALLOC(&play->state, parameterSize, "../z_construct.c", 159);
 
@@ -45,7 +44,7 @@ void Interface_Init(PlayState* play) {
 
     interfaceCtx->doActionSegment = GAME_STATE_ALLOC(&play->state, 3 * DO_ACTION_TEX_SIZE, "../z_construct.c", 166);
 
-    PRINTF("ＤＯアクション テクスチャ初期=%x\n", 3 * DO_ACTION_TEX_SIZE); // "DO Action Texture Initialization"
+    PRINTF(T("ＤＯアクション テクスチャ初期=%x\n", "DO Action Texture Initialization = %x\n"), 3 * DO_ACTION_TEX_SIZE);
     PRINTF("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
@@ -91,8 +90,8 @@ void Interface_Init(PlayState* play) {
 
     interfaceCtx->iconItemSegment = GAME_STATE_ALLOC(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
 
-    // "Icon Item Texture Initialization = %x"
-    PRINTF("アイコンアイテム テクスチャ初期=%x\n", ICON_ITEM_SEGMENT_SIZE);
+    PRINTF(T("アイコンアイテム テクスチャ初期=%x\n", "Icon Item Texture Initialization = %x\n"),
+           ICON_ITEM_SEGMENT_SIZE);
     PRINTF("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
@@ -165,11 +164,12 @@ void Interface_Init(PlayState* play) {
 
     if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE)) {
         gSaveContext.timerState = TIMER_STATE_OFF;
-        // "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timerState);
+        PRINTF(T("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n",
+                 "Timer Stop!!!!!!!!!!!!!!!!!!!!!  = %d\n"),
+               gSaveContext.timerState);
     }
 
-    PRINTF("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"
+    PRINTF(T("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", "Parameter Area = %x\n"), parameterSize + 0x5300);
 
     Health_InitMeter(play);
     Map_Init(play);
@@ -177,16 +177,20 @@ void Interface_Init(PlayState* play) {
     interfaceCtx->unk_23C = interfaceCtx->unk_242 = 0;
 
     R_ITEM_BTN_X(0) = B_BUTTON_X;
-    R_B_BTN_COLOR(0) = 255;
-    R_B_BTN_COLOR(1) = 30;
-    R_B_BTN_COLOR(2) = 30;
+
+    R_B_BTN_COLOR(0) = B_BUTTON_R;
+    R_B_BTN_COLOR(1) = B_BUTTON_G;
+    R_B_BTN_COLOR(2) = B_BUTTON_B;
+
     R_ITEM_ICON_X(0) = B_BUTTON_X;
     R_ITEM_AMMO_X(0) = B_BUTTON_X + 2;
+
     R_A_BTN_X = A_BUTTON_X;
     R_A_ICON_X = A_BUTTON_X;
-    R_A_BTN_COLOR(0) = 0;
-    R_A_BTN_COLOR(1) = 200;
-    R_A_BTN_COLOR(2) = 50;
+
+    R_A_BTN_COLOR(0) = A_BUTTON_R;
+    R_A_BTN_COLOR(1) = A_BUTTON_G;
+    R_A_BTN_COLOR(2) = A_BUTTON_B;
 }
 
 #define TEXTBOX_SEGMENT_SIZE \
@@ -211,7 +215,7 @@ void Message_Init(PlayState* play) {
 
     PRINTF("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
 
-    PRINTF("吹き出しgame_alloc=%x\n", TEXTBOX_SEGMENT_SIZE); // "Textbox game_alloc=%x"
+    PRINTF(T("吹き出しgame_alloc=%x\n", "Textbox game_alloc=%x\n"), TEXTBOX_SEGMENT_SIZE);
     ASSERT(msgCtx->textboxSegment != NULL, "message->fukidashiSegment != NULL", "../z_construct.c", 352);
 
     Font_LoadOrderedFont(&play->msgCtx.font);

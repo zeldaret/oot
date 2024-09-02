@@ -105,7 +105,7 @@ void BgJya1flift_Init(Actor* thisx, PlayState* play) {
     BgJya1flift_InitDynapoly(this, play, &g1fliftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     BgJya1flift_InitCollision(thisx, play);
-    if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         LINK_AGE_IN_YEARS == YEARS_ADULT ? BgJya1flift_ChangeDirection(this) : BgJya1flift_SetupDoNothing(this);
     } else {
         BgJya1flift_SetupWaitForSwitch(this);
@@ -131,7 +131,7 @@ void BgJya1flift_SetupWaitForSwitch(BgJya1flift* this) {
 }
 
 void BgJya1flift_WaitForSwitch(BgJya1flift* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         BgJya1flift_ChangeDirection(this);
     }
 }

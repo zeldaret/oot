@@ -1,16 +1,19 @@
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 
-#if OOT_DEBUG
+#if PLATFORM_N64 || OOT_DEBUG
 f32 LogUtils_CheckFloatRange(const char* exp, int line, const char* valueName, f32 value, const char* minName, f32 min,
                              const char* maxName, f32 max) {
     if (value < min || max < value) {
-        PRINTF("%s %d: range error %s(%f) < %s(%f) < %s(%f)\n", exp, line, minName, min, valueName, value, maxName,
-               max);
+        osSyncPrintf("%s %d: range error %s(%f) < %s(%f) < %s(%f)\n", exp, line, minName, min, valueName, value,
+                     maxName, max);
     }
     return value;
 }
+#endif
 
+#if OOT_DEBUG
 s32 LogUtils_CheckIntRange(const char* exp, int line, const char* valueName, s32 value, const char* minName, s32 min,
                            const char* maxName, s32 max) {
     if (value < min || max < value) {
@@ -81,19 +84,24 @@ void LogUtils_CheckBoundary(const char* name, s32 value, s32 unk, const char* fi
     u32 mask = (unk - 1);
 
     if (value & mask) {
-        PRINTF(VT_COL(RED, WHITE) "%s %d:%s(%08x) は バウンダリ(%d)違反です\n" VT_RST, file, line, name, value, unk);
+        PRINTF(VT_COL(RED, WHITE) T("%s %d:%s(%08x) は バウンダリ(%d)違反です\n",
+                                    "%s %d:%s(%08x) is a boundary (%d) violation\n") VT_RST,
+               file, line, name, value, unk);
     }
 }
 
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, int line) {
     if (ptr == NULL) {
-        PRINTF(VT_COL(RED, WHITE) "%s %d:%s は はヌルポインタです\n" VT_RST, file, line, exp);
+        PRINTF(VT_COL(RED, WHITE) T("%s %d:%s は はヌルポインタです\n", "%s %d:%s is a null pointer\n") VT_RST, file,
+               line, exp);
     }
 }
 
 void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, int line) {
     if (ptr == NULL || (u32)ptr < 0x80000000 || (0x80000000 + osMemSize) <= (u32)ptr) {
-        PRINTF(VT_COL(RED, WHITE) "%s %d:ポインタ %s(%08x) が異常です\n" VT_RST, file, line, exp, ptr);
+        PRINTF(VT_COL(RED, WHITE) T("%s %d:ポインタ %s(%08x) が異常です\n", "%s %d: Pointer %s(%08x) is invalid\n")
+                   VT_RST,
+               file, line, exp, ptr);
     }
 }
 
@@ -105,11 +113,15 @@ void LogUtils_LogThreadId(const char* name, int line) {
 void LogUtils_HungupThread(const char* name, int line) {
     OSId threadId = osGetThreadId(NULL);
 
-    PRINTF("*** HungUp in thread %d, [%s:%d] ***\n", threadId, name, line);
+#if PLATFORM_N64 || OOT_DEBUG
+    osSyncPrintf("*** HungUp in thread %d, [%s:%d] ***\n", threadId, name, line);
+#endif
     Fault_AddHungupAndCrash(name, line);
 }
 
 void LogUtils_ResetHungup(void) {
-    PRINTF("*** Reset ***\n");
+#if PLATFORM_N64 || OOT_DEBUG
+    osSyncPrintf("*** Reset ***\n");
+#endif
     Fault_AddHungupAndCrash("Reset", 0);
 }

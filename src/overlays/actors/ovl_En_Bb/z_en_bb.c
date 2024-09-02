@@ -319,15 +319,15 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->elements);
 
-    this->actionState = thisx->params >> 8;
+    this->actionState = PARAMS_GET_NOMASK(thisx->params, 8);
 
-    if (thisx->params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
         thisx->params |= 0xFF00;
     }
     if (thisx->params <= ENBB_BLUE) {
         ActorShape_Init(&thisx->shape, 200.0f, ActorShadow_DrawCircle, 35.0f);
     }
-    if (thisx->params & 0xFF00) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 8, 8)) {
         this->timer = 0;
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;

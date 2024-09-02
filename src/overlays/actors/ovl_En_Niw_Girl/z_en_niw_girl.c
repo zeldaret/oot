@@ -65,7 +65,7 @@ void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }
-    this->path = ((this->actor.params >> 8) & 0xFF);
+    this->path = PARAMS_GET_U(this->actor.params, 8, 8);
     this->actor.gravity = -3.0f;
     Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
     vec2.x = vec2.y = vec2.z = 0.0f;

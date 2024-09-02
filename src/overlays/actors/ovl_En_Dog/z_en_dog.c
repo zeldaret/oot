@@ -190,7 +190,7 @@ s8 EnDog_CanFollow(EnDog* this, PlayState* play) {
         if (gSaveContext.dogParams != 0) {
             return 0;
         }
-        gSaveContext.dogParams = (this->actor.params & 0x7FFF);
+        gSaveContext.dogParams = PARAMS_GET_S(this->actor.params, 0, 15);
         return 1;
     }
 
@@ -248,12 +248,12 @@ void EnDog_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gDogSkel, NULL, this->jointTable, this->morphTable, 13);
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_0);
 
-    if ((this->actor.params & 0x8000) == 0) {
-        this->actor.params = (this->actor.params & 0xF0FF) | ((((this->actor.params & 0x0F00) >> 8) + 1) << 8);
+    if (!PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
+        this->actor.params = (this->actor.params & ~(0xF << 8)) | ((PARAMS_GET_S(this->actor.params, 8, 4) + 1) << 8);
     }
 
     followingDog = ((gSaveContext.dogParams & 0x0F00) >> 8);
-    if (followingDog == ((this->actor.params & 0x0F00) >> 8) && ((this->actor.params & 0x8000) == 0)) {
+    if (followingDog == PARAMS_GET_S(this->actor.params, 8, 4) && !PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -264,16 +264,16 @@ void EnDog_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;
-    this->path = Path_GetByIndex(play, (this->actor.params & 0x00F0) >> 4, 0xF);
+    this->path = Path_GetByIndex(play, PARAMS_GET_S(this->actor.params, 4, 4), 0xF);
 
     switch (play->sceneId) {
         case SCENE_MARKET_NIGHT:
-            if ((!gSaveContext.dogIsLost) && (((this->actor.params & 0x0F00) >> 8) == 1)) {
+            if ((!gSaveContext.dogIsLost) && PARAMS_GET_S(this->actor.params, 8, 4) == 1) {
                 Actor_Kill(&this->actor);
             }
             break;
         case SCENE_DOG_LADY_HOUSE: // Richard's Home
-            if (!(this->actor.params & 0x8000)) {
+            if (!PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
                 if (!gSaveContext.dogIsLost) {
                     this->nextBehavior = DOG_SIT;
                     this->actionFunc = EnDog_Wait;
@@ -287,7 +287,7 @@ void EnDog_Init(Actor* thisx, PlayState* play) {
             break;
     }
 
-    if (this->actor.params & 0x8000) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
         this->nextBehavior = DOG_WALK;
         this->actionFunc = EnDog_FollowPlayer;
     } else {
@@ -477,8 +477,9 @@ void EnDog_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetEnvColor(POLY_OPA_DISP++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
-                   colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
+    gDPSetEnvColor(POLY_OPA_DISP++, colors[PARAMS_GET_S(this->actor.params, 0, 4)].r,
+                   colors[PARAMS_GET_S(this->actor.params, 0, 4)].g, colors[PARAMS_GET_S(this->actor.params, 0, 4)].b,
+                   colors[PARAMS_GET_S(this->actor.params, 0, 4)].a);
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, this);

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "fault.h"
 #include "quake.h"
 #include "terminal.h"
 
@@ -8,7 +9,7 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
@@ -235,19 +236,25 @@ void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedIn
     *cappedInvWDest = (*cappedInvWDest < 1.0f) ? 1.0f : (1.0f / *cappedInvWDest);
 }
 
-typedef struct NaviColor {
+typedef struct TargetColor {
     /* 0x00 */ Color_RGBA8 inner;
     /* 0x04 */ Color_RGBA8 outer;
-} NaviColor; // size = 0x8
+} TargetColor; // size = 0x8
 
-NaviColor sNaviColorList[] = {
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
-    { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
-    { { 150, 150, 255, 255 }, { 150, 150, 255, 0 } }, { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },
+TargetColor sTargetColorList[ACTORCAT_MAX + 1] = {
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG
+    { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     // ACTORCAT_PLAYER
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_EXPLOSIVE
+    { { 150, 150, 255, 255 }, { 150, 150, 255, 0 } }, // ACTORCAT_NPC
+    { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },     // ACTORCAT_ENEMY
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_PROP
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_ITEMACTION
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_MISC
+    { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },     // ACTORCAT_BOSS
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_DOOR
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_CHEST
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // unused extra entry
 };
 
 // unused
@@ -255,140 +262,155 @@ Gfx D_80115FF0[] = {
     gsSPEndDisplayList(),
 };
 
-void func_8002BE64(TargetContext* targetCtx, s32 index, f32 arg2, f32 arg3, f32 arg4) {
-    targetCtx->arr_50[index].pos.x = arg2;
-    targetCtx->arr_50[index].pos.y = arg3;
-    targetCtx->arr_50[index].pos.z = arg4;
-    targetCtx->arr_50[index].unk_0C = targetCtx->unk_44;
+void Target_SetReticlePos(TargetContext* targetCtx, s32 reticleNum, f32 x, f32 y, f32 z) {
+    targetCtx->lockOnReticles[reticleNum].pos.x = x;
+    targetCtx->lockOnReticles[reticleNum].pos.y = y;
+    targetCtx->lockOnReticles[reticleNum].pos.z = z;
+
+    targetCtx->lockOnReticles[reticleNum].radius = targetCtx->reticleRadius;
 }
 
-void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, PlayState* play) {
-    TargetContextEntry* entry;
-    NaviColor* naviColor;
+void Target_InitReticle(TargetContext* targetCtx, s32 actorCategory, PlayState* play) {
+    LockOnReticle* reticle;
+    TargetColor* reticleColor = &sTargetColorList[actorCategory];
     s32 i;
 
-    Math_Vec3f_Copy(&targetCtx->targetCenterPos, &play->view.eye);
-    targetCtx->unk_44 = 500.0f;
-    targetCtx->unk_48 = 0x100;
+    Math_Vec3f_Copy(&targetCtx->lockOnPos, &play->view.eye);
 
-    naviColor = &sNaviColorList[actorCategory];
+    targetCtx->reticleRadius = 500.0f;
+    targetCtx->reticleFadeAlphaControl = 256;
 
-    entry = &targetCtx->arr_50[0];
-    for (i = 0; i < ARRAY_COUNT(targetCtx->arr_50); i++) {
-        func_8002BE64(targetCtx, i, 0.0f, 0.0f, 0.0f);
-        entry->color.r = naviColor->inner.r;
-        entry->color.g = naviColor->inner.g;
-        entry->color.b = naviColor->inner.b;
-        entry++;
+    reticle = &targetCtx->lockOnReticles[0];
+
+    for (i = 0; i < ARRAY_COUNT(targetCtx->lockOnReticles); i++, reticle++) {
+        Target_SetReticlePos(targetCtx, i, 0.0f, 0.0f, 0.0f);
+
+        reticle->color.r = reticleColor->inner.r;
+        reticle->color.g = reticleColor->inner.g;
+        reticle->color.b = reticleColor->inner.b;
     }
 }
 
-void Actor_SetNaviToActor(TargetContext* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
-    NaviColor* naviColor = &sNaviColorList[actorCategory];
+void Target_SetNaviState(TargetContext* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
+    TargetColor* targetColor = &sTargetColorList[actorCategory];
+
     targetCtx->naviRefPos.x = actor->focus.pos.x;
     targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
     targetCtx->naviRefPos.z = actor->focus.pos.z;
-    targetCtx->naviInner.r = naviColor->inner.r;
-    targetCtx->naviInner.g = naviColor->inner.g;
-    targetCtx->naviInner.b = naviColor->inner.b;
-    targetCtx->naviInner.a = naviColor->inner.a;
-    targetCtx->naviOuter.r = naviColor->outer.r;
-    targetCtx->naviOuter.g = naviColor->outer.g;
-    targetCtx->naviOuter.b = naviColor->outer.b;
-    targetCtx->naviOuter.a = naviColor->outer.a;
+
+    targetCtx->naviInner.r = targetColor->inner.r;
+    targetCtx->naviInner.g = targetColor->inner.g;
+    targetCtx->naviInner.b = targetColor->inner.b;
+    targetCtx->naviInner.a = targetColor->inner.a;
+
+    targetCtx->naviOuter.r = targetColor->outer.r;
+    targetCtx->naviOuter.g = targetColor->outer.g;
+    targetCtx->naviOuter.b = targetColor->outer.b;
+    targetCtx->naviOuter.a = targetColor->outer.a;
 }
 
-void func_8002C0C0(TargetContext* targetCtx, Actor* actor, PlayState* play) {
-    targetCtx->arrowPointedActor = targetCtx->targetedActor = targetCtx->unk_8C = targetCtx->bgmEnemy = NULL;
+void Target_Init(TargetContext* targetCtx, Actor* actor, PlayState* play) {
+    targetCtx->arrowPointedActor = targetCtx->lockOnActor = targetCtx->unk_8C = targetCtx->bgmEnemy = NULL;
 
-    targetCtx->unk_4B = 0;
-    targetCtx->unk_4C = 0;
+    targetCtx->reticleSpinCounter = 0;
+    targetCtx->curReticle = 0;
     targetCtx->unk_40 = 0.0f;
-    Actor_SetNaviToActor(targetCtx, actor, actor->category, play);
-    func_8002BE98(targetCtx, actor->category, play);
+
+    Target_SetNaviState(targetCtx, actor, actor->category, play);
+    Target_InitReticle(targetCtx, actor->category, play);
 }
 
-void func_8002C124(TargetContext* targetCtx, PlayState* play) {
-    Actor* actor = targetCtx->targetedActor;
+void Target_Draw(TargetContext* targetCtx, PlayState* play) {
+    Actor* actor = targetCtx->lockOnActor;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2029);
 
-    if (targetCtx->unk_48 != 0) {
-        TargetContextEntry* entry;
-        Player* player;
-        s16 spCE;
-        f32 var1;
-        Vec3f projTargetCenter;
-        s32 spB8;
-        f32 projTargetCappedInvW;
-        s32 spB0;
-        s32 spAC;
-        f32 var2;
+    if (targetCtx->reticleFadeAlphaControl != 0) {
+        LockOnReticle* reticle;
+        Player* player = GET_PLAYER(play);
+        s16 alpha;
+        f32 projectdPosScale;
+        Vec3f projectedPos;
+        s32 numReticles;
+        f32 invW;
         s32 i;
+        s32 curReticle;
+        f32 lockOnScaleX;
+        s32 triangleIndex;
 
-        player = GET_PLAYER(play);
+        alpha = 255;
+        projectdPosScale = 1.0f;
 
-        spCE = 0xFF;
-        var1 = 1.0f;
-
-        if (targetCtx->unk_4B != 0) {
-            spB8 = 1;
+        if (targetCtx->reticleSpinCounter != 0) {
+            // Reticle is spinning so it is active, only need to draw one
+            numReticles = 1;
         } else {
-            spB8 = 3;
+            // Use multiple reticles for the motion blur effect from the reticle
+            // quickly zooming in on an actor from off screen
+            numReticles = ARRAY_COUNT(targetCtx->lockOnReticles);
         }
 
         if (actor != NULL) {
-            Math_Vec3f_Copy(&targetCtx->targetCenterPos, &actor->focus.pos);
-            var1 = (500.0f - targetCtx->unk_44) / 420.0f;
+            Math_Vec3f_Copy(&targetCtx->lockOnPos, &actor->focus.pos);
+            projectdPosScale = (500.0f - targetCtx->reticleRadius) / 420.0f;
         } else {
-            targetCtx->unk_48 -= 120;
-            if (targetCtx->unk_48 < 0) {
-                targetCtx->unk_48 = 0;
+            // Not locked on, start fading out
+            targetCtx->reticleFadeAlphaControl -= 120;
+
+            if (targetCtx->reticleFadeAlphaControl < 0) {
+                targetCtx->reticleFadeAlphaControl = 0;
             }
-            spCE = targetCtx->unk_48;
+
+            // `reticleFadeAlphaControl` is only used as an alpha when fading out.
+            // Otherwise it defaults to 255, set above.
+            alpha = targetCtx->reticleFadeAlphaControl;
         }
 
-        Actor_ProjectPos(play, &targetCtx->targetCenterPos, &projTargetCenter, &projTargetCappedInvW);
+        Actor_ProjectPos(play, &targetCtx->lockOnPos, &projectedPos, &invW);
 
-        projTargetCenter.x = (160 * (projTargetCenter.x * projTargetCappedInvW)) * var1;
-        projTargetCenter.x = CLAMP(projTargetCenter.x, -320.0f, 320.0f);
+        projectedPos.x = ((SCREEN_WIDTH / 2) * (projectedPos.x * invW)) * projectdPosScale;
+        projectedPos.x = CLAMP(projectedPos.x, -SCREEN_WIDTH, SCREEN_WIDTH);
 
-        projTargetCenter.y = (120 * (projTargetCenter.y * projTargetCappedInvW)) * var1;
-        projTargetCenter.y = CLAMP(projTargetCenter.y, -240.0f, 240.0f);
+        projectedPos.y = ((SCREEN_HEIGHT / 2) * (projectedPos.y * invW)) * projectdPosScale;
+        projectedPos.y = CLAMP(projectedPos.y, -SCREEN_HEIGHT, SCREEN_HEIGHT);
 
-        projTargetCenter.z = projTargetCenter.z * var1;
+        projectedPos.z *= projectdPosScale;
 
-        targetCtx->unk_4C--;
-        if (targetCtx->unk_4C < 0) {
-            targetCtx->unk_4C = 2;
+        targetCtx->curReticle--;
+
+        if (targetCtx->curReticle < 0) {
+            targetCtx->curReticle = ARRAY_COUNT(targetCtx->lockOnReticles) - 1;
         }
 
-        func_8002BE64(targetCtx, targetCtx->unk_4C, projTargetCenter.x, projTargetCenter.y, projTargetCenter.z);
+        Target_SetReticlePos(targetCtx, targetCtx->curReticle, projectedPos.x, projectedPos.y, projectedPos.z);
 
         if (!(player->stateFlags1 & PLAYER_STATE1_6) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_SetupDL(OVERLAY_DISP, SETUPDL_57);
 
-            for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++, spAC = (spAC + 1) % 3) {
-                entry = &targetCtx->arr_50[spAC];
+            for (i = 0, curReticle = targetCtx->curReticle; i < numReticles;
+                 i++, curReticle = (curReticle + 1) % ARRAY_COUNT(targetCtx->lockOnReticles)) {
+                reticle = &targetCtx->lockOnReticles[curReticle];
 
-                if (entry->unk_0C < 500.0f) {
-                    if (entry->unk_0C <= 120.0f) {
-                        var2 = 0.15f;
+                if (reticle->radius < 500.0f) {
+                    if (reticle->radius <= 120.0f) {
+                        lockOnScaleX = 0.15f;
                     } else {
-                        var2 = ((entry->unk_0C - 120.0f) * 0.001f) + 0.15f;
+                        lockOnScaleX = ((reticle->radius - 120.0f) * 0.001f) + 0.15f;
                     }
 
-                    Matrix_Translate(entry->pos.x, entry->pos.y, 0.0f, MTXMODE_NEW);
-                    Matrix_Scale(var2, 0.15f, 1.0f, MTXMODE_APPLY);
+                    Matrix_Translate(reticle->pos.x, reticle->pos.y, 0.0f, MTXMODE_NEW);
+                    Matrix_Scale(lockOnScaleX, 0.15f, 1.0f, MTXMODE_APPLY);
 
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b, (u8)spCE);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, reticle->color.r, reticle->color.g, reticle->color.b,
+                                    (u8)alpha);
 
-                    Matrix_RotateZ((targetCtx->unk_4B & 0x7F) * (M_PI / 64), MTXMODE_APPLY);
+                    Matrix_RotateZ((targetCtx->reticleSpinCounter & 0x7F) * (M_PI / 64), MTXMODE_APPLY);
 
-                    for (i = 0; i < 4; i++) {
+                    // Draw the 4 triangles that make up the reticle
+                    for (triangleIndex = 0; triangleIndex < 4; triangleIndex++) {
                         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
                         Matrix_Push();
-                        Matrix_Translate(entry->unk_0C, entry->unk_0C, 0.0f, MTXMODE_APPLY);
+                        Matrix_Translate(reticle->radius, reticle->radius, 0.0f, MTXMODE_APPLY);
                         gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2116),
                                   G_MTX_MODELVIEW | G_MTX_LOAD);
                         gSPDisplayList(OVERLAY_DISP++, gZTargetLockOnTriangleDL);
@@ -396,17 +418,19 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
                     }
                 }
 
-                spCE -= 0xFF / 3;
-                if (spCE < 0) {
-                    spCE = 0;
+                alpha -= 255 / ARRAY_COUNT(targetCtx->lockOnReticles);
+
+                if (alpha < 0) {
+                    alpha = 0;
                 }
             }
         }
     }
 
-    actor = targetCtx->unk_94;
+    actor = targetCtx->arrowHoverActor;
+
     if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_27)) {
-        NaviColor* naviColor = &sNaviColorList[actor->category];
+        TargetColor* arrowColor = &sTargetColorList[actor->category];
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_7);
 
@@ -415,7 +439,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
         Matrix_RotateY(BINANG_TO_RAD((u16)(play->gameplayFrames * 3000)), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, arrowColor->inner.r, arrowColor->inner.g, arrowColor->inner.b, 255);
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2153), G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, gZTargetArrowDL);
     }
@@ -434,10 +458,10 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
 
     if ((player->unk_664 != NULL) &&
         (player->controlStickDirections[player->controlStickDataIndex] == PLAYER_STICK_DIR_BACKWARD)) {
-        targetCtx->unk_94 = NULL;
+        targetCtx->arrowHoverActor = NULL;
     } else {
         func_80032AF0(play, &play->actorCtx, &unkActor, player);
-        targetCtx->unk_94 = unkActor;
+        targetCtx->arrowHoverActor = unkActor;
     }
 
     if (targetCtx->unk_8C != NULL) {
@@ -474,10 +498,10 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
         targetCtx->naviRefPos.y += temp3 * temp1;
         targetCtx->naviRefPos.z += temp4 * temp1;
     } else {
-        Actor_SetNaviToActor(targetCtx, unkActor, actorCategory, play);
+        Target_SetNaviState(targetCtx, unkActor, actorCategory, play);
     }
 
-    if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
+    if ((actorArg != NULL) && (targetCtx->reticleSpinCounter == 0)) {
         Actor_ProjectPos(play, &actorArg->focus.pos, &projectedFocusPos, &cappedInvWDest);
         if (((projectedFocusPos.z <= 0.0f) || (1.0f <= fabsf(projectedFocusPos.x * cappedInvWDest))) ||
             (1.0f <= fabsf(projectedFocusPos.y * cappedInvWDest))) {
@@ -486,14 +510,14 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
     }
 
     if (actorArg != NULL) {
-        if (actorArg != targetCtx->targetedActor) {
+        if (actorArg != targetCtx->lockOnActor) {
             s32 lockOnSfxId;
 
-            func_8002BE98(targetCtx, actorArg->category, play);
-            targetCtx->targetedActor = actorArg;
+            Target_InitReticle(targetCtx, actorArg->category, play);
+            targetCtx->lockOnActor = actorArg;
 
             if (actorArg->id == ACTOR_EN_BOOM) {
-                targetCtx->unk_48 = 0;
+                targetCtx->reticleFadeAlphaControl = 0;
             }
 
             lockOnSfxId = CHECK_FLAG_ALL(actorArg->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
@@ -501,24 +525,24 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
             Sfx_PlaySfxCentered(lockOnSfxId);
         }
 
-        targetCtx->targetCenterPos.x = actorArg->world.pos.x;
-        targetCtx->targetCenterPos.y = actorArg->world.pos.y - (actorArg->shape.yOffset * actorArg->scale.y);
-        targetCtx->targetCenterPos.z = actorArg->world.pos.z;
+        targetCtx->lockOnPos.x = actorArg->world.pos.x;
+        targetCtx->lockOnPos.y = actorArg->world.pos.y - (actorArg->shape.yOffset * actorArg->scale.y);
+        targetCtx->lockOnPos.z = actorArg->world.pos.z;
 
-        if (targetCtx->unk_4B == 0) {
-            f32 temp5 = (500.0f - targetCtx->unk_44) * 3.0f;
+        if (targetCtx->reticleSpinCounter == 0) {
+            f32 temp5 = (500.0f - targetCtx->reticleRadius) * 3.0f;
             f32 temp6 = (temp5 < 30.0f) ? 30.0f : ((100.0f < temp5) ? 100.0f : temp5);
 
-            if (Math_StepToF(&targetCtx->unk_44, 80.0f, temp6) != 0) {
-                targetCtx->unk_4B++;
+            if (Math_StepToF(&targetCtx->reticleRadius, 80.0f, temp6) != 0) {
+                targetCtx->reticleSpinCounter++;
             }
         } else {
-            targetCtx->unk_4B = (targetCtx->unk_4B + 3) | 0x80;
-            targetCtx->unk_44 = 120.0f;
+            targetCtx->reticleSpinCounter = (targetCtx->reticleSpinCounter + 3) | 0x80;
+            targetCtx->reticleRadius = 120.0f;
         }
     } else {
-        targetCtx->targetedActor = NULL;
-        Math_StepToF(&targetCtx->unk_44, 500.0f, 80.0f);
+        targetCtx->lockOnActor = NULL;
+        Math_StepToF(&targetCtx->reticleRadius, 500.0f, 80.0f);
     }
 }
 
@@ -2136,7 +2160,7 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
     actorCtx->absoluteSpace = NULL;
 
     Actor_SpawnEntry(actorCtx, playerEntry, play);
-    func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, play);
+    Target_Init(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, play);
     func_8002FA60(play);
 }
 
@@ -2301,8 +2325,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
     if ((actor == NULL) || (player->unk_66C < 5)) {
         actor = NULL;
-        if (actorCtx->targetCtx.unk_4B != 0) {
-            actorCtx->targetCtx.unk_4B = 0;
+        if (actorCtx->targetCtx.reticleSpinCounter != 0) {
+            actorCtx->targetCtx.reticleSpinCounter = 0;
             Sfx_PlaySfxCentered(NA_SE_SY_LOCK_OFF);
         }
     }
@@ -3685,8 +3709,6 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 8120);
 
-    if (0) {} // Necessary to match
-
     POLY_OPA_DISP = Gfx_SetupDL(POLY_OPA_DISP, SETUPDL_44);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, alpha);
@@ -3834,24 +3856,24 @@ void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s1
     actor->colorFilterTimer = duration;
 }
 
-Hilite* func_800342EC(Vec3f* object, PlayState* play) {
+void func_800342EC(Vec3f* object, PlayState* play) {
     Vec3f lightDir;
 
     lightDir.x = play->envCtx.dirLight1.params.dir.x;
     lightDir.y = play->envCtx.dirLight1.params.dir.y;
     lightDir.z = play->envCtx.dirLight1.params.dir.z;
 
-    return func_8002EABC(object, &play->view.eye, &lightDir, play->state.gfxCtx);
+    func_8002EABC(object, &play->view.eye, &lightDir, play->state.gfxCtx);
 }
 
-Hilite* func_8003435C(Vec3f* object, PlayState* play) {
+void func_8003435C(Vec3f* object, PlayState* play) {
     Vec3f lightDir;
 
     lightDir.x = play->envCtx.dirLight1.params.dir.x;
     lightDir.y = play->envCtx.dirLight1.params.dir.y;
     lightDir.z = play->envCtx.dirLight1.params.dir.z;
 
-    return func_8002EB44(object, &play->view.eye, &lightDir, play->state.gfxCtx);
+    func_8002EB44(object, &play->view.eye, &lightDir, play->state.gfxCtx);
 }
 
 /**

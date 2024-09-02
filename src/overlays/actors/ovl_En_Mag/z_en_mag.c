@@ -5,7 +5,12 @@
  */
 
 #include "z_en_mag.h"
+#include "versions.h"
 #include "assets/objects/object_mag/object_mag.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -28,7 +33,7 @@ ActorProfile En_Mag_Profile = {
 
 static s16 sDelayTimer = 0;
 
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
 void EnMag_ResetSram(void) {
     static u8 buffer[0x2000];
 
@@ -137,7 +142,7 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
 void EnMag_Destroy(Actor* thisx, PlayState* play) {
 }
 
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
 void EnMag_CheckSramResetCode(PlayState* play, EnMag* this) {
     static s32 sSramResetCode[] = {
         BTN_DUP, BTN_DDOWN,  BTN_DLEFT, BTN_DRIGHT, BTN_START, BTN_B, BTN_CDOWN,
@@ -185,7 +190,7 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
     s32 pad[2];
     EnMag* this = (EnMag*)thisx;
 
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
     EnMag_CheckSramResetCode(play, this);
 #endif
 
@@ -254,8 +259,13 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
 
     if (this->globalState == MAG_STATE_FADE_IN) {
         if (this->effectFadeInState == 0) {
+#if PLATFORM_N64
+            this->effectPrimLodFrac += 0.8f;
+            this->effectAlpha += 6.375f;
+#else
             this->effectAlpha += 6.375f;
             this->effectPrimLodFrac += 0.8f;
+#endif
 
             this->effectPrimColor[0] += 6.375f;
             this->effectPrimColor[1] += 3.875f;
@@ -279,6 +289,9 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
                 this->effectFadeInState = 1;
             }
         } else if (this->effectFadeInState == 1) {
+#if PLATFORM_N64
+            this->effectPrimLodFrac += 2.4f;
+#endif
 #if !OOT_MQ
             this->effectPrimColor[2] += -2.125f;
             this->effectEnvColor[1] += -3.875f;
@@ -286,8 +299,9 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
             this->effectPrimColor[0] += -2.125f;
             this->effectEnvColor[0] += -1.375f;
 #endif
-
+#if !PLATFORM_N64
             this->effectPrimLodFrac += 2.4f;
+#endif
 
             this->effectFadeInTimer--;
 
@@ -416,16 +430,17 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
     curTexture = source;
     rectLeft = centerX - (width / 2);
     rectTop = centerY - (height / 2);
-    textureHeight = 4096 / (width << 2);
     remainingSize = (width * height) << 2;
+    textureHeight = 4096 / (width << 2);
     textureSize = (width * textureHeight) << 2;
     textureCount = remainingSize / textureSize;
     if ((remainingSize % textureSize) != 0) {
         textureCount += 1;
     }
 
-    gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, width, textureHeight, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                     G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
+                     G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                     G_TX_NOLOD);
 
     remainingSize -= textureSize;
 
@@ -446,7 +461,7 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
                 textureHeight = remainingSize / (s32)(width << 2);
                 remainingSize -= textureSize;
 
-                gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, width, textureHeight, 0,
+                gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
                                  G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                                  G_TX_NOLOD, G_TX_NOLOD);
             }
@@ -457,6 +472,35 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
 
     *gfxP = gfx;
 }
+
+#if PLATFORM_N64
+// TODO n64dd functions
+s32 func_801C79BC_unknown(void);
+
+void func_80AEEA48_unknown(Gfx** gfxP, s16 arg1, s16 arg2, u32 arg3) {
+    if ((B_80121AE2 != 0) && (func_801C79BC_unknown() != 0)) {
+        Gfx* gfx = *gfxP;
+        s32 temp_a3 = (arg1 + 0x40) << 2;
+        s32 temp_t0 = (arg2 + 5) << 2;
+
+        gDPPipeSync(gfx++);
+        gDPSetCycleType(gfx++, G_CYC_1CYCLE);
+        gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+        gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
+                          ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetPrimColor(gfx++, 0x00, 0x00, 255, 255, 255, arg3);
+        gDPSetEnvColor(gfx++, 48, 36, 146, 255);
+        gDPLoadTextureBlock(gfx++, gTitleDiskTex, G_IM_FMT_IA, G_IM_SIZ_8b, 48, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
+        gSPTextureRectangle(gfx++, temp_a3, temp_t0, temp_a3 + (48 << 2), temp_t0 + (16 << 2), G_TX_RENDERTILE, 0, 0,
+                            (1 << 10), (1 << 10));
+        gDPPipeSync(gfx++);
+        gDPSetCycleType(gfx++, G_CYC_2CYCLE);
+
+        *gfxP = gfx;
+    }
+}
+#endif
 
 void EnMag_DrawCharTexture(Gfx** gfxP, u8* texture, s32 rectLeft, s32 rectTop) {
     Gfx* gfx = *gfxP;
@@ -539,6 +583,9 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
     if ((s16)this->mainAlpha != 0) {
         EnMag_DrawImageRGBA32(&gfx, 160 + LOGO_X_SHIFT, 100, (u8*)gTitleZeldaShieldLogoTex, 160, 160);
+#if PLATFORM_N64
+        func_80AEEA48_unknown(&gfx, 160, 100, (u32)this->mainAlpha);
+#endif
     }
 
     Gfx_SetupDL_39Ptr(&gfx);
@@ -581,9 +628,9 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 #if OOT_MQ
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->subAlpha);
-#if OOT_VERSION == OOT_GC_JP_MQ
+#if OOT_VERSION == GC_JP_MQ
         EnMag_DrawImageRGBA32(&gfx, 235, 149, (u8*)gTitleUraLogoTex, 40, 40);
-#elif OOT_VERSION == OOT_GC_US_MQ
+#elif OOT_VERSION == GC_US_MQ
         if (gSaveContext.language == LANGUAGE_JPN) {
             EnMag_DrawImageRGBA32(&gfx, 235, 149, (u8*)gTitleUraLogoTex, 40, 40);
         } else {
@@ -640,10 +687,10 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
     if ((s16)this->copyrightAlpha != 0) {
 #if PLATFORM_N64
-        gDPLoadTextureBlock(gfx++, gTitleCopyright1998Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0,
+        gDPLoadTextureBlock(gfx++, gTitleCopyright1998Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 128, 16, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
-#elif OOT_VERSION < OOT_GC_US
+#elif OOT_VERSION < GC_US
         gDPLoadTextureBlock(gfx++, gTitleCopyright19982002Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
@@ -663,7 +710,11 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                             G_TX_NOLOD, G_TX_NOLOD);
 #endif
 
+#if PLATFORM_N64
+        gSPTextureRectangle(gfx++, 94 << 2, 198 << 2, 222 << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+#else
         gSPTextureRectangle(gfx++, 78 << 2, 198 << 2, 238 << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+#endif
     }
 
     if (gSaveContext.fileNum == 0xFEDC) {

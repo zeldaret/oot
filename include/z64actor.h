@@ -571,30 +571,31 @@ typedef enum NaviEnemy {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
-typedef struct TargetContextEntry {
+// A set of 4 triangles which appear as a ring around an actor when the player Z-Targets it
+typedef struct LockOnReticle {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ f32 unk_0C; // radius?
+    /* 0x0C */ f32 radius; // distance towards the center of the locked on actor
     /* 0x10 */ Color_RGB8 color;
-} TargetContextEntry; // size = 0x14
+} LockOnReticle; // size = 0x14
 
 typedef struct TargetContext {
     /* 0x00 */ Vec3f naviRefPos; // possibly wrong
-    /* 0x0C */ Vec3f targetCenterPos;
+    /* 0x0C */ Vec3f lockOnPos;
     /* 0x18 */ Color_RGBAf naviInner;
     /* 0x28 */ Color_RGBAf naviOuter;
     /* 0x38 */ Actor* arrowPointedActor;
-    /* 0x3C */ Actor* targetedActor;
+    /* 0x3C */ Actor* lockOnActor;
     /* 0x40 */ f32 unk_40;
-    /* 0x44 */ f32 unk_44;
-    /* 0x48 */ s16 unk_48;
+    /* 0x44 */ f32 reticleRadius;
+    /* 0x48 */ s16 reticleFadeAlphaControl;
     /* 0x4A */ u8 activeCategory;
-    /* 0x4B */ u8 unk_4B;
-    /* 0x4C */ s8 unk_4C;
+    /* 0x4B */ u8 reticleSpinCounter;
+    /* 0x4C */ s8 curReticle; // indexes lockOnReticles[]
     /* 0x4D */ char unk_4D[0x03];
-    /* 0x50 */ TargetContextEntry arr_50[3];
+    /* 0x50 */ LockOnReticle lockOnReticles[3];
     /* 0x8C */ Actor* unk_8C;
     /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
-    /* 0x94 */ Actor* unk_94;
+    /* 0x94 */ Actor* arrowHoverActor;
 } TargetContext; // size = 0x98
 
 typedef struct TitleCardContext {
@@ -640,9 +641,6 @@ typedef struct ActorContext {
     /* 0x138 */ char unk_138[0x04];
     /* 0x13C */ void* absoluteSpace; // Space used to allocate actor overlays with alloc type ACTOROVL_ALLOC_ABSOLUTE
 } ActorContext; // size = 0x140
-
-#define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
-#define GET_TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)
 
 // EnDoor and DoorKiller share openAnim and playerIsOpening
 // Due to alignment, a substruct cannot be used in the structs of these actors.
@@ -709,5 +707,34 @@ typedef struct NpcInteractInfo {
     /* 0x18 */ Vec3f trackPos;
     /* 0x24 */ char unk_24[0x4];
 } NpcInteractInfo; // size = 0x28
+
+// Converts a number of bits to a bitmask, helper for params macros
+// e.g. 3 becomes 0b111 (7)
+#define NBITS_TO_MASK(n) \
+    ((1 << (n)) - 1)
+
+// Extracts the `n`-bit value at position `s` in `p`, shifts then masks
+// Unsigned variant, no possibility of sign extension
+#define PARAMS_GET_U(p, s, n) \
+    (((p) >> (s)) & NBITS_TO_MASK(n))
+
+// Extracts the `n`-bit value at position `s` in `p`, masks then shifts
+// Signed variant, possibility of sign extension
+#define PARAMS_GET_S(p, s, n) \
+    (((p) & (NBITS_TO_MASK(n) << (s))) >> (s))
+
+// Extracts all bits past position `s` in `p`
+#define PARAMS_GET_NOMASK(p, s) \
+    ((p) >> (s))
+
+// Extracts the `n`-bit value at position `s` in `p` without shifting it from its current position
+#define PARAMS_GET_NOSHIFT(p, s, n) \
+    ((p) & (NBITS_TO_MASK(n) << (s)))
+
+// Generates a bitmask for bit position `s` of length `n`
+#define PARAMS_MAKE_MASK(s, n) PARAMS_GET_NOSHIFT(~0, s, n)
+
+#define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
+#define GET_TRANSITION_ACTOR_INDEX(actor) PARAMS_GET_NOMASK((u16)(actor)->params, 10)
 
 #endif

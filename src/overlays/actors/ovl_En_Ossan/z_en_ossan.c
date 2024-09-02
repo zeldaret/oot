@@ -16,6 +16,18 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
+#if PLATFORM_N64
+#define CURSOR_COLOR_R 0
+#define CURSOR_COLOR_G 80
+#define CURSOR_COLOR_B 255
+#define CURSOR_COLOR_A 255
+#else
+#define CURSOR_COLOR_R 0
+#define CURSOR_COLOR_G 255
+#define CURSOR_COLOR_B 80
+#define CURSOR_COLOR_A 255
+#endif
+
 void EnOssan_Init(Actor* thisx, PlayState* play);
 void EnOssan_Destroy(Actor* thisx, PlayState* play);
 void EnOssan_Update(Actor* thisx, PlayState* play);
@@ -1882,10 +1894,10 @@ void EnOssan_UpdateCursorAnim(EnOssan* this) {
             this->cursorAnimState = 0;
         }
     }
-    this->cursorColorR = ColChanMix(0, 0.0f, t);
-    this->cursorColorG = ColChanMix(255, 80.0f, t);
-    this->cursorColorB = ColChanMix(80, 0.0f, t);
-    this->cursorColorA = ColChanMix(255, 0.0f, t);
+    this->cursorColorR = ColChanMix(CURSOR_COLOR_R, 0.0f, t);
+    this->cursorColorG = ColChanMix(CURSOR_COLOR_G, 80.0f, t);
+    this->cursorColorB = ColChanMix(CURSOR_COLOR_B, 0.0f, t);
+    this->cursorColorA = ColChanMix(CURSOR_COLOR_A, 0.0f, t);
     this->cursorAnimTween = t;
 }
 
@@ -2142,10 +2154,10 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
 
         this->cursorIndex = 0;
         this->cursorZ = 1.5f;
-        this->cursorColorR = 0;
-        this->cursorColorG = 255;
-        this->cursorColorB = 80;
-        this->cursorColorA = 255;
+        this->cursorColorR = CURSOR_COLOR_R;
+        this->cursorColorG = CURSOR_COLOR_G;
+        this->cursorColorB = CURSOR_COLOR_B;
+        this->cursorColorA = CURSOR_COLOR_A;
         this->cursorAnimTween = 0;
 
         this->cursorAnimState = 0;

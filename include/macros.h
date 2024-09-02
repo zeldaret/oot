@@ -1,21 +1,18 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-// OOT versions in build order
-#define OOT_GC_JP 1
-#define OOT_GC_JP_MQ 2
-#define OOT_GC_US 3
-#define OOT_GC_US_MQ 4
-#define OOT_GC_EU_MQ_DBG 5
-#define OOT_GC_EU 6
-#define OOT_GC_EU_MQ 7
-#define OOT_GC_JP_CE 8
-
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
 #define BAD_RETURN(type) void
 #endif
+
+/**
+ * The T macro holds translations in English for original debug strings written in Japanese.
+ * The translated strings match the original debug strings, they are only direct translations.
+ * For example, any original name is left as is rather than being replaced with the name in the codebase.
+ */
+#define T(jp, en) jp
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
@@ -276,17 +273,24 @@ extern struct GraphicsContext* __gfxCtx;
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
 
-#define gDPSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
-    do {                                                                                                               \
-        gDPPipeSync(pkt);                                                                                              \
-        gDPTileSync(pkt);                                                                                              \
-        gDPSetTile(pkt, fmt, siz, (((width)*siz##_TILE_BYTES) + 7) >> 3, 0, G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, \
-                   masks, shifts);                                                                                     \
-        gDPTileSync(pkt);                                                                                              \
-        gDPSetTile(pkt, fmt, siz, (((width)*siz##_TILE_BYTES) + 7) >> 3, 0, G_TX_RENDERTILE, pal, cmt, maskt, shiftt,  \
-                   cms, masks, shifts);                                                                                \
-        gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,                                \
-                       ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
-    } while (0)
+#define gDPSetTileCustom(pkt, fmt, siz, uls, ult, lrs, lrt, pal,        \
+                         cms, cmt, masks, maskt, shifts, shiftt)        \
+_DW({                                                                   \
+    gDPPipeSync(pkt);                                                   \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_TILE_BYTES) + 7) >> 3), 0,       \
+        G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, masks,               \
+        shifts);                                                        \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_LINE_BYTES) + 7) >> 3), 0,       \
+        G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks, shifts);  \
+    gDPSetTileSize(pkt, G_TX_RENDERTILE,                                \
+        (uls) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (ult) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrs) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrt) << G_TEXTURE_IMAGE_FRAC);                                 \
+})
 
 #endif

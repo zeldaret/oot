@@ -360,7 +360,7 @@ void EnSkj_SetNaviId(EnSkj* this) {
 }
 
 void EnSkj_Init(Actor* thisx, PlayState* play2) {
-    s16 type = (thisx->params >> 0xA) & 0x3F;
+    s16 type = PARAMS_GET_U(thisx->params, 10, 6);
     EnSkj* this = (EnSkj*)thisx;
     PlayState* play = play2;
     s32 pad;

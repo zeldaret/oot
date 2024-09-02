@@ -120,7 +120,7 @@ void func_8086D0EC(BgBdanSwitch* this) {
         this->unk_1CC += 0xFA0;
     }
 
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
@@ -143,7 +143,7 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
     s16 type;
     s32 flag;
 
-    type = this->dyna.actor.params & 0xFF;
+    type = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (type == YELLOW_TALL_1 || type == YELLOW_TALL_2) {
         this->dyna.actor.scale.z = 0.05f;
@@ -169,7 +169,7 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
             break;
     }
 
-    flag = Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+    flag = Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
 
     switch (type) {
         case BLUE:
@@ -206,7 +206,7 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
 void BgBdanSwitch_Destroy(Actor* thisx, PlayState* play) {
     BgBdanSwitch* this = (BgBdanSwitch*)thisx;
 
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
@@ -223,9 +223,9 @@ void func_8086D4B4(BgBdanSwitch* this, PlayState* play) {
     s32 pad;
     s32 type;
 
-    if (!Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
-        type = this->dyna.actor.params & 0xFF;
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+    if (!Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
+        type = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
         if (type == BLUE || type == YELLOW_TALL_2) {
             OnePointCutscene_AttentionSetSfx(play, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         } else {
@@ -235,9 +235,9 @@ void func_8086D4B4(BgBdanSwitch* this, PlayState* play) {
 }
 
 void func_8086D548(BgBdanSwitch* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
-        Flags_UnsetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
-        if ((this->dyna.actor.params & 0xFF) == YELLOW_TALL_2) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
+        Flags_UnsetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
+        if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == YELLOW_TALL_2) {
             OnePointCutscene_AttentionSetSfx(play, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
@@ -249,7 +249,7 @@ void func_8086D5C4(BgBdanSwitch* this) {
 }
 
 void func_8086D5E0(BgBdanSwitch* this, PlayState* play) {
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case BLUE:
             if (func_800435B4(&this->dyna)) {
                 func_8086D67C(this);
@@ -288,7 +288,7 @@ void func_8086D730(BgBdanSwitch* this) {
 }
 
 void func_8086D754(BgBdanSwitch* this, PlayState* play) {
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case BLUE:
             if (!func_800435B4(&this->dyna)) {
                 if (this->unk_1D8 <= 0) {
@@ -300,7 +300,7 @@ void func_8086D754(BgBdanSwitch* this, PlayState* play) {
             }
             break;
         case YELLOW:
-            if (!Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+            if (!Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
                 func_8086D7FC(this);
             }
             break;
@@ -410,7 +410,7 @@ void func_8086DB4C(BgBdanSwitch* this) {
 }
 
 void func_8086DB68(BgBdanSwitch* this, PlayState* play) {
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         default:
             return;
         case YELLOW_TALL_1:
@@ -451,9 +451,9 @@ void func_8086DCCC(BgBdanSwitch* this) {
 }
 
 void func_8086DCE8(BgBdanSwitch* this, PlayState* play) {
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case YELLOW_TALL_1:
-            if (!Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+            if (!Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
                 func_8086DDA8(this);
             }
             break;
@@ -473,7 +473,8 @@ void func_8086DDA8(BgBdanSwitch* this) {
 }
 
 void func_8086DDC0(BgBdanSwitch* this, PlayState* play) {
-    if ((((this->dyna.actor.params & 0xFF) != YELLOW_TALL_2) || (func_8005B198() == this->dyna.actor.category)) ||
+    if (((PARAMS_GET_U(this->dyna.actor.params, 0, 8) != YELLOW_TALL_2) ||
+         (func_8005B198() == this->dyna.actor.category)) ||
         (this->unk_1DA <= 0)) {
         this->unk_1C8 += 0.3f;
         if (this->unk_1C8 >= 2.0f) {
@@ -493,7 +494,7 @@ void BgBdanSwitch_Update(Actor* thisx, PlayState* play) {
     }
     this->actionFunc(this, play);
     func_8086D0EC(this);
-    type = this->dyna.actor.params & 0xFF;
+    type = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
     if (type != 3 && type != 4) {
         this->unk_1D8--;
     } else {
@@ -519,7 +520,7 @@ void func_8086DF58(BgBdanSwitch* this, PlayState* play, Gfx* dlist) {
 void BgBdanSwitch_Draw(Actor* thisx, PlayState* play) {
     BgBdanSwitch* this = (BgBdanSwitch*)thisx;
 
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case YELLOW_HEAVY:
         case YELLOW:
             func_8086DF58(this, play, gJabuYellowFloorSwitchDL);

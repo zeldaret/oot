@@ -20,8 +20,8 @@
  *
  */
 
-#define DOORSHUTTER_GET_TYPE(actor) (((actor)->params >> 6) & 0xF)
-#define DOORSHUTTER_GET_SWITCH_FLAG(actor) ((actor)->params & 0x3F)
+#define DOORSHUTTER_GET_TYPE(actor)        PARAMS_GET_U((actor)->params, 6, 4)
+#define DOORSHUTTER_GET_SWITCH_FLAG(actor) PARAMS_GET_U((actor)->params, 0, 6)
 
 #define DOORSHUTTER_PARAMS(type, switchFlag) ((((type) & 0xF) << 6) | ((switchFlag) & 0x3F))
 

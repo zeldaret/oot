@@ -519,14 +519,14 @@ void GetItem_DrawSkullToken(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawEggOrMedallion(PlayState* play, s16 drawId) {
-    s32 pad;
+    DrawItemTableEntry* entry = &sDrawItemTable[drawId];
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 772);
 
     Gfx_SetupDL_26Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_draw.c", 776), G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, sDrawItemTable[drawId].dlists[0]);
-    gSPDisplayList(POLY_OPA_DISP++, sDrawItemTable[drawId].dlists[1]);
+    gSPDisplayList(POLY_OPA_DISP++, entry->dlists[0]);
+    gSPDisplayList(POLY_OPA_DISP++, entry->dlists[1]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_draw.c", 783);
 }
@@ -664,14 +664,14 @@ void GetItem_DrawOpa0Xlu1(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawXlu01(PlayState* play, s16 drawId) {
-    s32 pad;
+    DrawItemTableEntry* entry = &sDrawItemTable[drawId];
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 998);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_draw.c", 1002), G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[0]);
-    gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[1]);
+    gSPDisplayList(POLY_XLU_DISP++, entry->dlists[0]);
+    gSPDisplayList(POLY_XLU_DISP++, entry->dlists[1]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_draw.c", 1008);
 }
@@ -801,20 +801,20 @@ void GetItem_DrawScale(PlayState* play, s16 drawId) {
 }
 
 void GetItem_DrawBulletBag(PlayState* play, s16 drawId) {
-    s32 pad;
+    DrawItemTableEntry* entry = &sDrawItemTable[drawId];
 
     OPEN_DISPS(play->state.gfxCtx, "../z_draw.c", 1188);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_draw.c", 1192), G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, sDrawItemTable[drawId].dlists[1]);
-    gSPDisplayList(POLY_OPA_DISP++, sDrawItemTable[drawId].dlists[0]);
+    gSPDisplayList(POLY_OPA_DISP++, entry->dlists[1]);
+    gSPDisplayList(POLY_OPA_DISP++, entry->dlists[0]);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_draw.c", 1200), G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[2]);
-    gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[3]);
-    gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[4]);
+    gSPDisplayList(POLY_XLU_DISP++, entry->dlists[2]);
+    gSPDisplayList(POLY_XLU_DISP++, entry->dlists[3]);
+    gSPDisplayList(POLY_XLU_DISP++, entry->dlists[4]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_draw.c", 1207);
 }

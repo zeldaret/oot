@@ -4,8 +4,8 @@
 
 #define BUFF_LEN 0x20
 
-short _Ldunscale(short*, _Pft*);
-void _Genld(_Pft*, char, char*, short, short);
+static short _Ldunscale(short*, _Pft*);
+static void _Genld(_Pft*, char, char*, short, short);
 
 static const double pows[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 10e127L, 10e255L };
 
@@ -156,7 +156,7 @@ void _Ldtob(_Pft* args, char code) {
     _Genld((_Pft*)args, code, ptr, nsig, exp);
 }
 
-short _Ldunscale(short* pex, _Pft* px) {
+static short _Ldunscale(short* pex, _Pft* px) {
     unsigned short* ps = (unsigned short*)px;
     short xchar = (ps[_D0] & _DMASK) >> _DOFF;
 
@@ -176,7 +176,7 @@ short _Ldunscale(short* pex, _Pft* px) {
     }
 }
 
-void _Genld(_Pft* px, char code, char* p, short nsig, short xexp) {
+static void _Genld(_Pft* px, char code, char* p, short nsig, short xexp) {
     const char point = '.';
 
     if (nsig <= 0) {

@@ -151,9 +151,9 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 8;
     this->alpha = this->unk_31D = 255;
-    this->rdFlags = REDEAD_GET_FLAGS(thisx);
+    this->rdFlags = REDEAD_GET_RDFLAGS(thisx);
 
-    if (this->actor.params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 7, 1)) {
         this->actor.params |= 0xFF00;
     } else {
         this->actor.params &= 0xFF;

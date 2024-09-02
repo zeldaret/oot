@@ -316,7 +316,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
                                this->morphTable, 28);
 
             Actor_SetScale(&this->actor, 0.014f);
-            this->path = (thisx->params & 0xFF00) >> 8;
+            this->path = PARAMS_GET_S(thisx->params, 8, 8);
             this->actor.params = ENMB_TYPE_SPEAR_PATROL;
             this->waypoint = 0;
             this->actor.colChkInfo.health = 1;

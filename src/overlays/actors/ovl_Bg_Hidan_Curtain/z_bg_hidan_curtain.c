@@ -72,7 +72,7 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
 
     PRINTF("Curtain (arg_data 0x%04x)\n", this->actor.params);
     Actor_SetFocus(&this->actor, 20.0f);
-    this->type = (thisx->params >> 0xC) & 0xF;
+    this->type = PARAMS_GET_U(thisx->params, 12, 4);
     if (this->type > 6) {
         // "Type is not set"
         PRINTF("Error : object のタイプが設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_hidan_curtain.c", 352,
@@ -83,7 +83,7 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
 
     this->size = ((this->type == 2) || (this->type == 4)) ? 1 : 0;
     hcParams = &sHCParams[this->size];
-    this->treasureFlag = (thisx->params >> 6) & 0x3F;
+    this->treasureFlag = PARAMS_GET_U(thisx->params, 6, 6);
     thisx->params &= 0x3F;
 
     if (OOT_DEBUG && ((this->actor.params < 0) || (this->actor.params > 0x3F))) {

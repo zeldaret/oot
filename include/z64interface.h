@@ -1,6 +1,8 @@
 #ifndef Z64INTERFACE_H
 #define Z64INTERFACE_H
 
+#include "z64view.h"
+
 extern u8 _icon_item_staticSegmentRomStart[];
 extern u8 _icon_item_24_staticSegmentRomStart[];
 
@@ -144,13 +146,33 @@ typedef struct InterfaceContext {
 } InterfaceContext; // size = 0x270
 
 /**
- * Button HUD Positions (Upper Left)
+ * Button HUD positions and colors
  */
 #define A_BUTTON_X 186
 #define A_BUTTON_Y 9
 
+#if PLATFORM_N64
+#define A_BUTTON_R 90
+#define A_BUTTON_G 90
+#define A_BUTTON_B 255
+#else
+#define A_BUTTON_R 0
+#define A_BUTTON_G 200
+#define A_BUTTON_B 50
+#endif
+
 #define B_BUTTON_X 160
 #define B_BUTTON_Y 17
+
+#if PLATFORM_N64
+#define B_BUTTON_R 0
+#define B_BUTTON_G 150
+#define B_BUTTON_B 0
+#else
+#define B_BUTTON_R 255
+#define B_BUTTON_G 30
+#define B_BUTTON_B 30
+#endif
 
 #define C_LEFT_BUTTON_X 227
 #define C_LEFT_BUTTON_Y 18
@@ -163,6 +185,16 @@ typedef struct InterfaceContext {
 
 #define C_UP_BUTTON_X 254
 #define C_UP_BUTTON_Y 16
+
+#if PLATFORM_N64
+#define START_BUTTON_R 200
+#define START_BUTTON_G 0
+#define START_BUTTON_B 0
+#else
+#define START_BUTTON_R 120
+#define START_BUTTON_G 120
+#define START_BUTTON_B 120
+#endif
 
 /**
  * These are the colors for the hearts in the interface. The prim color is the red color of the heart

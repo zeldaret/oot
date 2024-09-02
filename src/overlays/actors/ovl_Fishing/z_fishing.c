@@ -10,8 +10,11 @@
 #include "assets/objects/object_fish/object_fish.h"
 #include "ichain.h"
 #include "terminal.h"
+#if PLATFORM_N64
+#include "cic6105.h"
+#endif
 
-#pragma increment_block_number "gc-eu:205 gc-eu-mq:205 gc-jp:207 gc-jp-ce:207 gc-jp-mq:207 gc-us:207 gc-us-mq:207"
+#pragma increment_block_number "gc-eu:174 gc-eu-mq:174 gc-jp:176 gc-jp-ce:176 gc-jp-mq:176 gc-us:176 gc-us-mq:176"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -852,7 +855,14 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
     if (thisx->params < EN_FISH_PARAM) {
         FishingGroupFish* fish;
 
+#if PLATFORM_N64
+        // Anti-piracy check, if the check fails the line can't be reeled in if
+        // a fish is caught and the fish will always let go after 50 frames.
+        sReelLock = !(B_80008EE0 == 0xAD090010);
+#else
         sReelLock = 0;
+#endif
+
         sFishingMain = this;
         Collider_InitJntSph(play, &sFishingMain->collider);
         Collider_SetJntSph(play, &sFishingMain->collider, thisx, &sJntSphInit, sFishingMain->colliderElements);
@@ -4760,25 +4770,23 @@ void Fishing_DrawGroupFishes(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 8048);
 
     for (i = 0; i < GROUP_FISH_COUNT; i++, fish++) {
-        if (fish->type == FS_GROUP_FISH_NONE) {
-            continue;
-        }
+        if (fish->type != FS_GROUP_FISH_NONE) {
+            if (!materialFlag) {
+                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
+                materialFlag++;
+            }
 
-        if (!materialFlag) {
-            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
-            materialFlag++;
-        }
+            if (fish->shouldDraw) {
+                Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
+                Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
 
-        if (fish->shouldDraw) {
-            Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
-            Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
-            Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
-            Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
-
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_fishing.c", 8093),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_fishing.c", 8093),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
+            }
         }
     }
 
@@ -5820,8 +5828,7 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    if ((this->actor.projectedPos.z < 1500.0f) &&
-        (fabsf(this->actor.projectedPos.x) < (100.0f + this->actor.projectedPos.z))) {
+    if ((thisx->projectedPos.z < 1500.0f) && (fabsf(thisx->projectedPos.x) < (100.0f + thisx->projectedPos.z))) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFishingOwnerEyeTexs[this->unk_160]));
 
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

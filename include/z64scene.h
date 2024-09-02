@@ -1,10 +1,17 @@
 #ifndef Z64SCENE_H
 #define Z64SCENE_H
 
-#include "z64.h"
-#include "z64dma.h" // for RomFile
+#include "macros.h"
+#include "ultra64.h"
+#include "z64bgcheck.h"
+#include "z64dma.h"
+#include "z64environment.h"
+#include "z64light.h"
+#include "z64math.h"
 
 #include "command_macros_base.h"
+
+struct PlayState;
 
 typedef struct SceneTableEntry {
     /* 0x00 */ RomFile sceneFile;
@@ -498,6 +505,8 @@ typedef enum SceneDrawConfig {
     /* 52 */ SDC_INSIDE_GANONS_CASTLE_COLLAPSE,
     /* 53 */ SDC_MAX
 } SceneDrawConfig;
+
+typedef void (*SceneDrawConfigFunc)(struct PlayState*);
 
 // R_SCENE_CAM_TYPE values
 #define SCENE_CAM_TYPE_DEFAULT 0

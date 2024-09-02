@@ -21,10 +21,6 @@ incbins:
     segment: code
     vram: 0x800E6090
     size: 0xAF0
-  - name: gSoundFontTable
-    segment: code
-    vram: 0x80112C60
-    size: 0x270
   - name: gSequenceFontTable
     segment: code
     vram: 0x80112ED0
@@ -33,10 +29,6 @@ incbins:
     segment: code
     vram: 0x80113090
     size: 0x6F0
-  - name: gSampleBankTable
-    segment: code
-    vram: 0x80113780
-    size: 0x80
   - name: aspMainData
     segment: code
     vram: 0x80113800

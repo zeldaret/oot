@@ -169,7 +169,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
 
     spawnType = WOOD_SPAWN_NORMAL;
     actorScale = 1.0f;
-    this->unk_14C = (this->actor.params >> 8) & 0xFF;
+    this->unk_14C = PARAMS_GET_U(this->actor.params, 8, 8);
 
     if (this->actor.home.rot.z != 0) {
         this->actor.home.rot.z = (this->actor.home.rot.z << 8) | this->unk_14C;

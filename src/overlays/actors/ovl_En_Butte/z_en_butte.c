@@ -154,7 +154,7 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    if ((this->actor.params & 1) == 1) {
+    if (PARAMS_GET_U(this->actor.params, 0, 1) == 1) {
         this->actor.uncullZoneScale = 200.0f;
     }
 
@@ -268,7 +268,7 @@ void EnButte_FlyAround(EnButte* this, PlayState* play) {
         EnButte_SelectFlightParams(this, &sFlyAroundParams[this->flightParamsIdx]);
     }
 
-    if (((this->actor.params & 1) == 1) && (player->heldItemAction == PLAYER_IA_DEKU_STICK) &&
+    if ((PARAMS_GET_U(this->actor.params, 0, 1) == 1) && (player->heldItemAction == PLAYER_IA_DEKU_STICK) &&
         (this->swordDownTimer <= 0) &&
         ((Math3D_Dist2DSq(player->actor.world.pos.x, player->actor.world.pos.z, this->actor.home.pos.x,
                           this->actor.home.pos.z) < SQ(120.0f)) ||
@@ -396,7 +396,7 @@ void EnButte_Update(Actor* thisx, PlayState* play) {
     this->unk_25E += 0x1000;
     this->unk_260 += 0x600;
 
-    if ((this->actor.params & 1) == 1) {
+    if (PARAMS_GET_U(this->actor.params, 0, 1) == 1) {
         if (GET_PLAYER(play)->meleeWeaponState == 0) {
             if (this->swordDownTimer > 0) {
                 this->swordDownTimer--;
@@ -427,7 +427,7 @@ void EnButte_Draw(Actor* thisx, PlayState* play) {
         Collider_UpdateSpheres(0, &this->collider);
     }
 
-    if (((this->actor.params & 1) == 1) && (this->actionFunc == EnButte_TransformIntoFairy)) {
+    if ((PARAMS_GET_U(this->actor.params, 0, 1) == 1) && (this->actionFunc == EnButte_TransformIntoFairy)) {
         EnButte_DrawTransformationEffect(this, play);
     }
 }

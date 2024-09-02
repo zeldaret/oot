@@ -144,7 +144,7 @@ void EnCs_Init(Actor* thisx, PlayState* play) {
                      sAnimationInfo[ENCS_ANIM_0].morphFrames);
 
     this->actor.targetMode = 6;
-    this->path = this->actor.params & 0xFF;
+    this->path = PARAMS_GET_U(this->actor.params, 0, 8);
     this->unk_1EC = 0; // This variable is unused anywhere else
     this->talkState = 0;
     this->currentAnimIndex = -1;

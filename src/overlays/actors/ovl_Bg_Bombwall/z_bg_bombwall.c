@@ -122,7 +122,7 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     Actor_SetScale(&this->dyna.actor, 0.1f);
 
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         func_8086EE94(this, play);
     } else {
         BgBombwall_InitDynapoly(this, play);
@@ -213,7 +213,7 @@ void func_8086ED70(BgBombwall* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         func_8086EDFC(this, play);
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
     } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
@@ -232,7 +232,7 @@ void func_8086EE40(BgBombwall* this, PlayState* play) {
     } else {
         func_8086EE94(this, play);
 
-        if (((this->dyna.actor.params >> 0xF) & 1) != 0) {
+        if (PARAMS_GET_U(this->dyna.actor.params, 15, 1) != 0) {
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
     }

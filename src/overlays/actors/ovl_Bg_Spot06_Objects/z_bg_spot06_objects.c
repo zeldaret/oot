@@ -96,8 +96,8 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    this->switchFlag = thisx->params & 0xFF;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 0, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
 
     PRINTF("spot06 obj nthisx->arg_data=[%d]", thisx->params);
 

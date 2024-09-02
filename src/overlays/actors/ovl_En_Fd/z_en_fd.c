@@ -10,9 +10,6 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
 
-#define FLG_COREDEAD (0x4000)
-#define FLG_COREDONE (0x8000)
-
 void EnFd_Init(Actor* thisx, PlayState* play);
 void EnFd_Destroy(Actor* thisx, PlayState* play);
 void EnFd_Update(Actor* thisx, PlayState* play);
@@ -237,7 +234,7 @@ void EnFd_SpawnChildFire(EnFd* this, PlayState* play, s16 fireCnt, s16 color) {
     s32 i;
 
     for (i = 0; i < fireCnt; i++) {
-        s16 angle = (s16)((((i * 360.0f) / fireCnt) * (0x10000 / 360.0f))) + this->actor.yawTowardsPlayer;
+        s16 angle = DEG_TO_BINANG((i * 360.0f) / fireCnt) + this->actor.yawTowardsPlayer;
         Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FD_FIRE, this->actor.world.pos.x,
                            this->actor.world.pos.y, this->actor.world.pos.z, 0, angle, 0, (color << 0xF) | i);
     }
@@ -627,6 +624,9 @@ void EnFd_Run(EnFd* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speed, 8.0f, 0.1f, 1.0f, 0.0f);
 }
 
+#define FLG_COREDEAD (0x4000)
+#define FLG_COREDONE (0x8000)
+
 /**
  * En_Fw will set `this` params when it is done with its action.
  * It will set FLG_COREDONE when the core has returned to `this`'s initial
@@ -638,9 +638,9 @@ void EnFd_WaitForCore(EnFd* this, PlayState* play) {
         if (this->spinTimer == 0) {
             Actor_Kill(&this->actor);
         }
-    } else if (this->actor.params & FLG_COREDONE) {
+    } else if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) { // FLG_COREDONE
         this->actionFunc = EnFd_Reappear;
-    } else if (this->actor.params & FLG_COREDEAD) {
+    } else if (PARAMS_GET_NOSHIFT(this->actor.params, 14, 1)) { // FLG_COREDEAD
         this->actor.params = 0;
         this->spinTimer = 30;
     }

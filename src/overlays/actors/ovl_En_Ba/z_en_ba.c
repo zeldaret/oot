@@ -104,7 +104,7 @@ void EnBa_Init(Actor* thisx, PlayState* play) {
     }
 
     this->actor.targetMode = 4;
-    this->upperParams = (thisx->params >> 8) & 0xFF;
+    this->upperParams = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (this->actor.params < EN_BA_DEAD_BLOB) {

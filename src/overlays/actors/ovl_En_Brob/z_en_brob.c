@@ -70,18 +70,17 @@ void EnBrob_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->colliders[1]);
     Collider_SetCylinder(play, &this->colliders[1], &this->dyna.actor, &sCylinderInit);
     CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
-
-    if (((thisx->params >> 8) & 0xFF) == 0) {
+    if (PARAMS_GET_U(thisx->params, 8, 8) == 0) {
         Actor_SetScale(&this->dyna.actor, 0.01f);
         thisx->params &= 0xFF;
         if (thisx->params != 0xFF) {
-            thisx->scale.y *= (thisx->params & 0xFF) * (1.0f / 30.0f);
+            thisx->scale.y *= PARAMS_GET_U(thisx->params, 0, 8) * (1.0f / 30.0f);
         }
     } else {
         Actor_SetScale(&this->dyna.actor, 0.005f);
         thisx->params &= 0xFF;
         if (thisx->params != 0xFF) {
-            thisx->scale.y *= (thisx->params & 0xFF) * (2.0f / 30.0f);
+            thisx->scale.y *= PARAMS_GET_U(thisx->params, 0, 8) * (2.0f / 30.0f);
         }
     }
 

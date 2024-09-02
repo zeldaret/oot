@@ -152,13 +152,13 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
     s32 noKill = true;
     s32 isFree = false;
 
-    if ((this->actor.params & 3) == 0 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(0))) {
+    if (PARAMS_GET_U(this->actor.params, 0, 2) == 0 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(0))) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 1 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(1))) {
+    } else if (PARAMS_GET_U(this->actor.params, 0, 2) == 1 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(1))) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 2 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(2))) {
+    } else if (PARAMS_GET_U(this->actor.params, 0, 2) == 2 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(2))) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 3 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(3))) {
+    } else if (PARAMS_GET_U(this->actor.params, 0, 2) == 3 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(3))) {
         isFree = true;
     }
 
@@ -200,7 +200,7 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
         this->stateFlags |= ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2;
         this->actionFunc = EnDaiku_Jailed;
     } else {
-        if ((this->actor.params & 3) == 1 || (this->actor.params & 3) == 3) {
+        if (PARAMS_GET_U(this->actor.params, 0, 2) == 1 || PARAMS_GET_U(this->actor.params, 0, 2) == 3) {
             EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_SIT, &this->currentAnimIndex);
             this->stateFlags |= ENDAIKU_STATEFLAG_1;
         } else {
@@ -295,7 +295,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                     this->actor.textId = 0x6007;
                 }
             } else if (play->sceneId == SCENE_CARPENTERS_TENT) {
-                switch (this->actor.params & 3) {
+                switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
                     case 0:
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                             this->actor.textId = 0x6060;
@@ -378,7 +378,7 @@ void EnDaiku_Jailed(EnDaiku* this, PlayState* play) {
 void EnDaiku_WaitFreedom(EnDaiku* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (Flags_GetSwitch(play, this->actor.params >> 8 & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         EnDaiku_UpdateText(this, play);
     }
@@ -400,14 +400,14 @@ void EnDaiku_InitEscape(EnDaiku* this, PlayState* play) {
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
     gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] |=
-        EVENTCHKINF_CARPENTERS_FREE_MASK(this->actor.params & 3);
+        EVENTCHKINF_CARPENTERS_FREE_MASK(PARAMS_GET_U(this->actor.params, 0, 2));
 
     this->actor.gravity = -1.0f;
-    this->escapeSubCamTimer = sEscapeSubCamParams[this->actor.params & 3].maxFramesActive;
+    this->escapeSubCamTimer = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].maxFramesActive;
     EnDaiku_InitSubCamera(this, play);
 
     exitLoop = false;
-    path = &play->pathList[this->actor.params >> 4 & 0xF];
+    path = &play->pathList[PARAMS_GET_U(this->actor.params, 4, 4)];
     while (!exitLoop) {
         pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
         dx = pointPos->x - this->actor.world.pos.x;
@@ -444,11 +444,11 @@ void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
     Vec3f eyePosDeltaWorld;
 
     this->subCamActive = true;
-    this->escapeSubCamTimer = sEscapeSubCamParams[this->actor.params & 3].maxFramesActive;
+    this->escapeSubCamTimer = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].maxFramesActive;
 
-    eyePosDeltaLocal.x = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.x;
-    eyePosDeltaLocal.y = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.y;
-    eyePosDeltaLocal.z = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.z;
+    eyePosDeltaLocal.x = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].eyePosDeltaLocal.x;
+    eyePosDeltaLocal.y = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].eyePosDeltaLocal.y;
+    eyePosDeltaLocal.z = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].eyePosDeltaLocal.z;
     Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_NEW);
     Matrix_MultVec3f(&eyePosDeltaLocal, &eyePosDeltaWorld);
 
@@ -524,7 +524,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play) {
     f32 dxz;
     Vec3s* pointPos;
 
-    path = &play->pathList[this->actor.params >> 4 & 0xF];
+    path = &play->pathList[PARAMS_GET_U(this->actor.params, 4, 4)];
     pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
     dx = pointPos->x - this->actor.world.pos.x;
     dz = pointPos->z - this->actor.world.pos.z;
@@ -594,13 +594,13 @@ void EnDaiku_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    if ((thisx->params & 3) == 0) {
+    if (PARAMS_GET_U(thisx->params, 0, 2) == 0) {
         gDPSetEnvColor(POLY_OPA_DISP++, 170, 10, 70, 255);
-    } else if ((thisx->params & 3) == 1) {
+    } else if (PARAMS_GET_U(thisx->params, 0, 2) == 1) {
         gDPSetEnvColor(POLY_OPA_DISP++, 170, 200, 255, 255);
-    } else if ((thisx->params & 3) == 2) {
+    } else if (PARAMS_GET_U(thisx->params, 0, 2) == 2) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 230, 70, 255);
-    } else if ((thisx->params & 3) == 3) {
+    } else if (PARAMS_GET_U(thisx->params, 0, 2) == 3) {
         gDPSetEnvColor(POLY_OPA_DISP++, 200, 0, 150, 255);
     }
 
@@ -637,7 +637,7 @@ void EnDaiku_PostLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3s* rot, vo
 
     if (limb == 15) { // head
         Matrix_MultVec3f(&targetPosHeadLocal, &this->actor.focus.pos);
-        gSPDisplayList(POLY_OPA_DISP++, hairDLists[this->actor.params & 3]);
+        gSPDisplayList(POLY_OPA_DISP++, hairDLists[PARAMS_GET_U(this->actor.params, 0, 2)]);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_daiku.c", 1330);

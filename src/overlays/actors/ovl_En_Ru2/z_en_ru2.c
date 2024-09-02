@@ -127,15 +127,15 @@ void func_80AF2608(EnRu2* this) {
 }
 
 s32 func_80AF2690(EnRu2* this) {
-    s32 params_shift = this->actor.params >> 8;
+    s32 params_shift = PARAMS_GET_U(this->actor.params, 8, 8);
 
-    return params_shift & 0xFF;
+    return params_shift;
 }
 
 s32 func_80AF26A0(EnRu2* this) {
-    s16 params = this->actor.params;
+    s32 params = PARAMS_GET_U(this->actor.params, 0, 8);
 
-    return params & 0xFF;
+    return params;
 }
 
 #if OOT_DEBUG

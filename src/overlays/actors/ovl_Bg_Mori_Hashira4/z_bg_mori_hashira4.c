@@ -71,7 +71,7 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
-    this->switchFlag = (this->dyna.actor.params >> 8) & 0x3F;
+    this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 8, 6);
     this->dyna.actor.params &= 0xFF;
 
     if (this->dyna.actor.params == 0) {

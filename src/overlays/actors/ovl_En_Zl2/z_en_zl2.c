@@ -447,17 +447,25 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
 s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     s32 pad;
     EnZl2* this = (EnZl2*)thisx;
-    Mtx* sp74;
-    MtxF sp34;
-    Vec3s sp2C;
-    s16 pad2;
-    s16* unk_1DC = this->unk_1DC;
 
     if (limbIndex == 14) {
-        sp74 = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 7);
+        Mtx* sp74 = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 7);
+        MtxF sp34;
+        Vec3s sp2C;
+        s16 pad2;
+        s16* unk_1DC = this->unk_1DC;
+
         gSPSegment((*gfx)++, 0x0C, sp74);
 
         Matrix_Push();
+
+#if PLATFORM_N64
+        // Anti-piracy check, Zelda's hair is misshapen if the check fails
+        if (osCicId != 6105) {
+            Matrix_Scale(2.0f, 0.5f, 2.0f, MTXMODE_APPLY);
+        }
+#endif
+
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
         Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
