@@ -176,6 +176,7 @@ size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, voi
 
     Overlay_Relocate(allocatedRamAddr, ovlRelocs, vramStart);
 
+    // Casts suggest bssSize struct variable was an s32, but needs to be a u32 for the GC versions
     if ((s32)ovlRelocs->bssSize != 0) {
         if (gOverlayLogSeverity >= 3) {
             osSyncPrintf(T("BSS領域をクリアします(%08x-%08x)\n", "Clear BSS area (%08x-%08x)\n"), end,
