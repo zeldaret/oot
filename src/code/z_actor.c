@@ -554,7 +554,7 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* curLockOnAct
 
         if (targetCtx->reticleSpinCounter == 0) {
             f32 step = (500.0f - targetCtx->reticleRadius) * 3.0f;
-            f32 reticleZoomStep = (step < 30.0f) ? 30.0f : ((100.0f < step) ? 100.0f : step);
+            f32 reticleZoomStep = CLAMP(step, 30.0f, 100.0f);
 
             if (Math_StepToF(&targetCtx->reticleRadius, 80.0f, reticleZoomStep)) {
                 // Non-zero counter indicates the reticle is done zooming in
