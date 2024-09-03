@@ -512,6 +512,9 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* curLockOnAct
         Target_SetNaviState(targetCtx, actor, category, play);
     }
 
+    // Release lock-on if the actor is off screen.
+    // The camera is always moving toward the locked-on actor, so it seems difficult
+    // to move the actor off screen, if its even possible.
     if ((curLockOnActor != NULL) && (targetCtx->reticleSpinCounter == 0)) {
         Actor_ProjectPos(play, &curLockOnActor->focus.pos, &projectedFocusPos, &cappedInvWDest);
 
@@ -530,7 +533,10 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* curLockOnAct
             targetCtx->reticleActor = curLockOnActor;
 
             if (curLockOnActor->id == ACTOR_EN_BOOM) {
-                // Don't draw the reticle when locked onto the boomerang
+                // Don't draw the reticle when locked onto the boomerang.
+                // Note that it isn't possible to lock onto the boomerang, so this code doesn't do anything.
+                // This implies that the boomerang camera lock may have been implemented with Z-Targeting at one point,
+                // but was eventually implemented as its own camera mode instead.
                 targetCtx->reticleFadeAlphaControl = 0;
             }
 
