@@ -431,7 +431,7 @@ Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, PlayState* play
 void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx);
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, PlayState* play);
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play);
-Actor* func_80032AF0(PlayState* play, ActorContext* actorCtx, Actor** actorPtr, Player* player);
+Actor* Target_FindTargetableActor(PlayState* play, ActorContext* actorCtx, Actor** targetableActorP, Player* player);
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
 void Enemy_StartFinishingBlow(PlayState* play, Actor* actor);
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play);
