@@ -1,5 +1,6 @@
 #include "global.h"
 #include "boot.h"
+#include "stack.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif

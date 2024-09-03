@@ -6,6 +6,7 @@
 
 #include "global.h"
 #include "fault.h"
+#include "stack.h"
 #include "terminal.h"
 
 typedef struct FaultMgr {

@@ -524,6 +524,9 @@ $(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O1
 endif
 
+$(BUILD_DIR)/src/libleo/%.o: CC := $(CC_OLD)
+$(BUILD_DIR)/src/libleo/%.o: OPTFLAGS := -O2
+
 $(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
 
 # For using asm_processor on some files:
