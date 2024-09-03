@@ -1544,11 +1544,9 @@ PosRot Actor_GetWorldPosShapeRot(Actor* actor) {
 
 /**
  * Returns the squared xyz distance from the actor to Player.
- *
- * This distance will be adjusted smaller if Player is already targeting an actor.
- * In this case, the more Player is facing the actor, the smaller the distance is adjusted.
+ * This distance will be weighted if Player is already targeting another actor.
  */
-f32 Target_AdjustedDistToPlayerSq(Actor* actor, Player* player, s16 playerShapeYaw) {
+f32 Target_WeightedDistToPlayerSq(Actor* actor, Player* player, s16 playerShapeYaw) {
     s16 yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - playerShapeYaw;
     s16 yawTempAbs = ABS(yawTemp);
 
@@ -1558,8 +1556,9 @@ f32 Target_AdjustedDistToPlayerSq(Actor* actor, Player* player, s16 playerShapeY
         } else {
             f32 adjDistSq;
 
-            // Linear scaling, yaw being 90 degrees means it will return the original distance.
-            // 0 degrees will adjust to 60% of the distance.
+            // The distance returned is scaled down as the player faces more toward the actor.
+            // At 90 degrees, 100% of the original distance will be returned.
+            // This scales down linearly to 60% when facing 0 degrees away.
             adjDistSq =
                 actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
 
@@ -1572,7 +1571,7 @@ f32 Target_AdjustedDistToPlayerSq(Actor* actor, Player* player, s16 playerShapeY
         return MAXFLOAT;
     }
 
-    // Unadjusted distSq
+    // Unweighted distSq
     return actor->xyzDistToPlayerSq;
 }
 
@@ -3182,7 +3181,7 @@ void Target_FindTargetableActorInCategory(PlayState* play, ActorContext* actorCt
             }
 
             if (actor != unk_664) {
-                distSq = Target_AdjustedDistToPlayerSq(actor, player, sTargetPlayerRotY);
+                distSq = Target_WeightedDistToPlayerSq(actor, player, sTargetPlayerRotY);
 
                 if ((distSq < sNearestTargetableActorDistSq) && Target_ActorIsInRange(actor, distSq) &&
                     Target_InTargetableScreenRegion(play, actor) &&
