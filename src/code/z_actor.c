@@ -275,9 +275,9 @@ void Target_InitReticle(TargetContext* targetCtx, s32 actorCategory, PlayState* 
     TargetColor* reticleColor = &sTargetColorList[actorCategory];
     s32 i;
 
-    Math_Vec3f_Copy(&targetCtx->lockOnPos, &play->view.eye);
+    Math_Vec3f_Copy(&targetCtx->reticlePos, &play->view.eye);
 
-    targetCtx->reticleRadius = 500.0f;
+    targetCtx->reticleRadius = 500.0f; // radius starts wide to zoom in on the actor
     targetCtx->reticleFadeAlphaControl = 256;
 
     reticle = &targetCtx->lockOnReticles[0];
@@ -294,34 +294,36 @@ void Target_InitReticle(TargetContext* targetCtx, s32 actorCategory, PlayState* 
 void Target_SetNaviState(TargetContext* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
     TargetColor* targetColor = &sTargetColorList[actorCategory];
 
-    targetCtx->naviRefPos.x = actor->focus.pos.x;
-    targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
-    targetCtx->naviRefPos.z = actor->focus.pos.z;
+    targetCtx->naviHoverPos.x = actor->focus.pos.x;
+    targetCtx->naviHoverPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
+    targetCtx->naviHoverPos.z = actor->focus.pos.z;
 
-    targetCtx->naviInner.r = targetColor->inner.r;
-    targetCtx->naviInner.g = targetColor->inner.g;
-    targetCtx->naviInner.b = targetColor->inner.b;
-    targetCtx->naviInner.a = targetColor->inner.a;
+    targetCtx->naviInnerColor.r = targetColor->inner.r;
+    targetCtx->naviInnerColor.g = targetColor->inner.g;
+    targetCtx->naviInnerColor.b = targetColor->inner.b;
+    targetCtx->naviInnerColor.a = targetColor->inner.a;
 
-    targetCtx->naviOuter.r = targetColor->outer.r;
-    targetCtx->naviOuter.g = targetColor->outer.g;
-    targetCtx->naviOuter.b = targetColor->outer.b;
-    targetCtx->naviOuter.a = targetColor->outer.a;
+    targetCtx->naviOuterColor.r = targetColor->outer.r;
+    targetCtx->naviOuterColor.g = targetColor->outer.g;
+    targetCtx->naviOuterColor.b = targetColor->outer.b;
+    targetCtx->naviOuterColor.a = targetColor->outer.a;
 }
 
 void Target_Init(TargetContext* targetCtx, Actor* actor, PlayState* play) {
-    targetCtx->arrowPointedActor = targetCtx->lockOnActor = targetCtx->unk_8C = targetCtx->bgmEnemy = NULL;
+    targetCtx->naviHoverActor = targetCtx->reticleActor = targetCtx->forcedLockOnActor = targetCtx->bgmEnemy = NULL;
 
     targetCtx->reticleSpinCounter = 0;
     targetCtx->curReticle = 0;
-    targetCtx->unk_40 = 0.0f;
+    targetCtx->naviMoveProgressFactor = 0.0f;
 
     Target_SetNaviState(targetCtx, actor, actor->category, play);
     Target_InitReticle(targetCtx, actor->category, play);
 }
 
 void Target_Draw(TargetContext* targetCtx, PlayState* play) {
-    Actor* actor = targetCtx->lockOnActor;
+    Actor* actor; // used for both the reticle and arrow
+
+    actor = targetCtx->reticleActor;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2029);
 
@@ -351,7 +353,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
         }
 
         if (actor != NULL) {
-            Math_Vec3f_Copy(&targetCtx->lockOnPos, &actor->focus.pos);
+            Math_Vec3f_Copy(&targetCtx->reticlePos, &actor->focus.pos);
             projectdPosScale = (500.0f - targetCtx->reticleRadius) / 420.0f;
         } else {
             // Not locked on, start fading out
@@ -366,7 +368,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
             alpha = targetCtx->reticleFadeAlphaControl;
         }
 
-        Actor_ProjectPos(play, &targetCtx->lockOnPos, &projectedPos, &invW);
+        Actor_ProjectPos(play, &targetCtx->reticlePos, &projectedPos, &invW);
 
         projectedPos.x = ((SCREEN_WIDTH / 2) * (projectedPos.x * invW)) * projectdPosScale;
         projectedPos.x = CLAMP(projectedPos.x, -SCREEN_WIDTH, SCREEN_WIDTH);
@@ -447,101 +449,122 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 2158);
 }
 
-void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, PlayState* play) {
+void Target_Update(TargetContext* targetCtx, Player* player, Actor* curLockOnActor, PlayState* play) {
     s32 pad;
-    Actor* unkActor;
-    s32 actorCategory;
+    Actor* actor;
+    s32 category;
     Vec3f projectedFocusPos;
     f32 cappedInvWDest;
 
-    unkActor = NULL;
+    actor = NULL;
 
     if ((player->unk_664 != NULL) &&
         (player->controlStickDirections[player->controlStickDataIndex] == PLAYER_STICK_DIR_BACKWARD)) {
+        // Holding backward on the control stick prevents an arrow appearing over the next targetable actor.
+        // This helps escape a targeting loop when using Switch Targeting, but note that this still works for
+        // Hold Targeting as well.
         targetCtx->arrowHoverActor = NULL;
     } else {
-        Target_FindTargetableActor(play, &play->actorCtx, &unkActor, player);
-        targetCtx->arrowHoverActor = unkActor;
+        // Find the next targetable actor and draw an arrow over it
+        Target_FindTargetableActor(play, &play->actorCtx, &actor, player);
+        targetCtx->arrowHoverActor = actor;
     }
 
-    if (targetCtx->unk_8C != NULL) {
-        unkActor = targetCtx->unk_8C;
-        targetCtx->unk_8C = NULL;
-    } else if (actorArg != NULL) {
-        unkActor = actorArg;
+    if (targetCtx->forcedLockOnActor != NULL) {
+        // This lock-on actor takes precedence over anything else
+        // (this feature is never used in practice)
+        actor = targetCtx->forcedLockOnActor;
+        targetCtx->forcedLockOnActor = NULL;
+    } else if (curLockOnActor != NULL) {
+        // Stay locked-on to the same actor
+        actor = curLockOnActor;
     }
 
-    if (unkActor != NULL) {
-        actorCategory = unkActor->category;
+    if (actor != NULL) {
+        category = actor->category;
     } else {
-        actorCategory = player->actor.category;
+        category = player->actor.category;
     }
 
-    if ((unkActor != targetCtx->arrowPointedActor) || (actorCategory != targetCtx->activeCategory)) {
-        targetCtx->arrowPointedActor = unkActor;
-        targetCtx->activeCategory = actorCategory;
-        targetCtx->unk_40 = 1.0f;
+    if ((actor != targetCtx->naviHoverActor) || (category != targetCtx->naviHoverActorCategory)) {
+        // Set Navi to hover over a new actor
+        targetCtx->naviHoverActor = actor;
+        targetCtx->naviHoverActorCategory = category;
+        targetCtx->naviMoveProgressFactor = 1.0f;
     }
 
-    if (unkActor == NULL) {
-        unkActor = &player->actor;
+    if (actor == NULL) {
+        // Setting the actor to Player will make Navi return to him
+        actor = &player->actor;
     }
 
-    if (Math_StepToF(&targetCtx->unk_40, 0.0f, 0.25f) == 0) {
-        f32 temp1 = 0.25f / targetCtx->unk_40;
-        f32 temp2 = unkActor->world.pos.x - targetCtx->naviRefPos.x;
-        f32 temp3 =
-            (unkActor->world.pos.y + (unkActor->targetArrowOffset * unkActor->scale.y)) - targetCtx->naviRefPos.y;
-        f32 temp4 = unkActor->world.pos.z - targetCtx->naviRefPos.z;
+    if (!Math_StepToF(&targetCtx->naviMoveProgressFactor, 0.0f, 0.25f)) {
+        f32 moveScale = 0.25f / targetCtx->naviMoveProgressFactor;
+        f32 x = actor->world.pos.x - targetCtx->naviHoverPos.x;
+        f32 y = (actor->world.pos.y + (actor->targetArrowOffset * actor->scale.y)) - targetCtx->naviHoverPos.y;
+        f32 z = actor->world.pos.z - targetCtx->naviHoverPos.z;
 
-        targetCtx->naviRefPos.x += temp2 * temp1;
-        targetCtx->naviRefPos.y += temp3 * temp1;
-        targetCtx->naviRefPos.z += temp4 * temp1;
+        targetCtx->naviHoverPos.x += x * moveScale;
+        targetCtx->naviHoverPos.y += y * moveScale;
+        targetCtx->naviHoverPos.z += z * moveScale;
     } else {
-        Target_SetNaviState(targetCtx, unkActor, actorCategory, play);
+        // Set Navi pos and color after reaching destination
+        Target_SetNaviState(targetCtx, actor, category, play);
     }
 
-    if ((actorArg != NULL) && (targetCtx->reticleSpinCounter == 0)) {
-        Actor_ProjectPos(play, &actorArg->focus.pos, &projectedFocusPos, &cappedInvWDest);
+    if ((curLockOnActor != NULL) && (targetCtx->reticleSpinCounter == 0)) {
+        Actor_ProjectPos(play, &curLockOnActor->focus.pos, &projectedFocusPos, &cappedInvWDest);
+
         if (((projectedFocusPos.z <= 0.0f) || (1.0f <= fabsf(projectedFocusPos.x * cappedInvWDest))) ||
             (1.0f <= fabsf(projectedFocusPos.y * cappedInvWDest))) {
-            actorArg = NULL;
+            curLockOnActor = NULL;
         }
     }
 
-    if (actorArg != NULL) {
-        if (actorArg != targetCtx->lockOnActor) {
+    if (curLockOnActor != NULL) {
+        if (curLockOnActor != targetCtx->reticleActor) {
             s32 lockOnSfxId;
 
-            Target_InitReticle(targetCtx, actorArg->category, play);
-            targetCtx->lockOnActor = actorArg;
+            // Set up a new lock-on
+            Target_InitReticle(targetCtx, curLockOnActor->category, play);
+            targetCtx->reticleActor = curLockOnActor;
 
-            if (actorArg->id == ACTOR_EN_BOOM) {
+            if (curLockOnActor->id == ACTOR_EN_BOOM) {
+                // Don't draw the reticle when locked onto the boomerang
                 targetCtx->reticleFadeAlphaControl = 0;
             }
 
-            lockOnSfxId = CHECK_FLAG_ALL(actorArg->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
-                                                                                       : NA_SE_SY_LOCK_ON_HUMAN;
+            lockOnSfxId = CHECK_FLAG_ALL(curLockOnActor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
+                                                                                             : NA_SE_SY_LOCK_ON_HUMAN;
             Sfx_PlaySfxCentered(lockOnSfxId);
         }
 
-        targetCtx->lockOnPos.x = actorArg->world.pos.x;
-        targetCtx->lockOnPos.y = actorArg->world.pos.y - (actorArg->shape.yOffset * actorArg->scale.y);
-        targetCtx->lockOnPos.z = actorArg->world.pos.z;
+        // Update reticle
+
+        targetCtx->reticlePos.x = curLockOnActor->world.pos.x;
+        targetCtx->reticlePos.y =
+            curLockOnActor->world.pos.y - (curLockOnActor->shape.yOffset * curLockOnActor->scale.y);
+        targetCtx->reticlePos.z = curLockOnActor->world.pos.z;
 
         if (targetCtx->reticleSpinCounter == 0) {
-            f32 temp5 = (500.0f - targetCtx->reticleRadius) * 3.0f;
-            f32 temp6 = (temp5 < 30.0f) ? 30.0f : ((100.0f < temp5) ? 100.0f : temp5);
+            f32 step = (500.0f - targetCtx->reticleRadius) * 3.0f;
+            f32 reticleZoomStep = (step < 30.0f) ? 30.0f : ((100.0f < step) ? 100.0f : step);
 
-            if (Math_StepToF(&targetCtx->reticleRadius, 80.0f, temp6) != 0) {
+            if (Math_StepToF(&targetCtx->reticleRadius, 80.0f, reticleZoomStep)) {
+                // Non-zero counter indicates the reticle is done zooming in
                 targetCtx->reticleSpinCounter++;
             }
         } else {
+            // Finished zooming in, spin the reticle around the lock-on actor
+
+            // 0x80 is or'd to avoid a value of zero.
+            // This rotation value gets multiplied by 0x200, which multiplied by 0x80 gives a full turn (0x10000)
             targetCtx->reticleSpinCounter = (targetCtx->reticleSpinCounter + 3) | 0x80;
             targetCtx->reticleRadius = 120.0f;
         }
     } else {
-        targetCtx->lockOnActor = NULL;
+        // Expand the reticle radius quickly as the lock-on is released
+        targetCtx->reticleActor = NULL;
         Math_StepToF(&targetCtx->reticleRadius, 500.0f, 80.0f);
     }
 }
@@ -2339,13 +2362,14 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
     if ((actor == NULL) || (player->unk_66C < 5)) {
         actor = NULL;
+
         if (actorCtx->targetCtx.reticleSpinCounter != 0) {
             actorCtx->targetCtx.reticleSpinCounter = 0;
             Sfx_PlaySfxCentered(NA_SE_SY_LOCK_OFF);
         }
     }
 
-    func_8002C7BC(&actorCtx->targetCtx, player, actor, play);
+    Target_Update(&actorCtx->targetCtx, player, actor, play);
     TitleCard_Update(play, &actorCtx->titleCtx);
     DynaPoly_UpdateBgActorTransforms(play, &play->colCtx.dyna);
 }
@@ -3085,12 +3109,12 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
         Camera_RequestMode(Play_GetCamera(play, Play_GetActiveCamId(play)), CAM_MODE_NORMAL);
     }
 
-    if (actor == actorCtx->targetCtx.arrowPointedActor) {
-        actorCtx->targetCtx.arrowPointedActor = NULL;
+    if (actor == actorCtx->targetCtx.naviHoverActor) {
+        actorCtx->targetCtx.naviHoverActor = NULL;
     }
 
-    if (actor == actorCtx->targetCtx.unk_8C) {
-        actorCtx->targetCtx.unk_8C = NULL;
+    if (actor == actorCtx->targetCtx.forcedLockOnActor) {
+        actorCtx->targetCtx.forcedLockOnActor = NULL;
     }
 
     if (actor == actorCtx->targetCtx.bgmEnemy) {

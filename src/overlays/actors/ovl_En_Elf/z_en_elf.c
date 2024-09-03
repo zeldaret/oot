@@ -838,7 +838,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
     Vec3f nextPos;
     Vec3f prevPos;
     Player* player = GET_PLAYER(play);
-    Actor* arrowPointedActor;
+    Actor* naviHoverActor;
     f32 xScale;
     f32 distFromPlayerHat;
 
@@ -935,11 +935,11 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
                 break;
             default:
                 func_80A029A8(this, 1);
-                nextPos = play->actorCtx.targetCtx.naviRefPos;
+                nextPos = play->actorCtx.targetCtx.naviHoverPos;
                 nextPos.y += (1500.0f * this->actor.scale.y);
-                arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
+                naviHoverActor = play->actorCtx.targetCtx.naviHoverActor;
 
-                if (arrowPointedActor != NULL) {
+                if (naviHoverActor != NULL) {
                     func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
 
                     if (this->actor.speed >= 5.0f) {
@@ -1000,12 +1000,12 @@ void EnElf_ChangeColor(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* cu
 }
 
 void func_80A04414(EnElf* this, PlayState* play) {
-    Actor* arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
+    Actor* naviHoverActor = play->actorCtx.targetCtx.naviHoverActor;
     Player* player = GET_PLAYER(play);
     f32 transitionRate;
     u16 sfxId;
 
-    if (play->actorCtx.targetCtx.unk_40 != 0.0f) {
+    if (play->actorCtx.targetCtx.naviMoveProgressFactor != 0.0f) {
         this->unk_2C6 = 0;
         this->unk_29C = 1.0f;
 
@@ -1015,34 +1015,34 @@ void func_80A04414(EnElf* this, PlayState* play) {
 
     } else {
         if (this->unk_2C6 == 0) {
-            if ((arrowPointedActor == NULL) ||
-                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &play->actorCtx.targetCtx.naviRefPos) < 50.0f)) {
+            if ((naviHoverActor == NULL) ||
+                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &play->actorCtx.targetCtx.naviHoverPos) < 50.0f)) {
                 this->unk_2C6 = 1;
             }
         } else if (this->unk_29C != 0.0f) {
             if (Math_StepToF(&this->unk_29C, 0.0f, 0.25f) != 0) {
-                this->innerColor = play->actorCtx.targetCtx.naviInner;
-                this->outerColor = play->actorCtx.targetCtx.naviOuter;
+                this->innerColor = play->actorCtx.targetCtx.naviInnerColor;
+                this->outerColor = play->actorCtx.targetCtx.naviOuterColor;
             } else {
                 transitionRate = 0.25f / this->unk_29C;
-                EnElf_ChangeColor(&this->innerColor, &play->actorCtx.targetCtx.naviInner, &this->innerColor,
+                EnElf_ChangeColor(&this->innerColor, &play->actorCtx.targetCtx.naviInnerColor, &this->innerColor,
                                   transitionRate);
-                EnElf_ChangeColor(&this->outerColor, &play->actorCtx.targetCtx.naviOuter, &this->outerColor,
+                EnElf_ChangeColor(&this->outerColor, &play->actorCtx.targetCtx.naviOuterColor, &this->outerColor,
                                   transitionRate);
             }
         }
     }
 
     if (this->fairyFlags & 1) {
-        if ((arrowPointedActor == NULL) || (player->unk_664 == NULL)) {
+        if ((naviHoverActor == NULL) || (player->unk_664 == NULL)) {
             this->fairyFlags ^= 1;
         }
     } else {
-        if ((arrowPointedActor != NULL) && (player->unk_664 != NULL)) {
-            if (arrowPointedActor->category == ACTORCAT_NPC) {
+        if ((naviHoverActor != NULL) && (player->unk_664 != NULL)) {
+            if (naviHoverActor->category == ACTORCAT_NPC) {
                 sfxId = NA_SE_VO_NAVY_HELLO;
             } else {
-                sfxId = (arrowPointedActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
+                sfxId = (naviHoverActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
             }
 
             if (this->unk_2C7 == 0) {
@@ -1056,7 +1056,7 @@ void func_80A04414(EnElf* this, PlayState* play) {
 
 void func_80A0461C(EnElf* this, PlayState* play) {
     s32 temp;
-    Actor* arrowPointedActor;
+    Actor* naviHoverActor;
     Player* player = GET_PLAYER(play);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
@@ -1081,7 +1081,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
         }
 
     } else {
-        arrowPointedActor = play->actorCtx.targetCtx.arrowPointedActor;
+        naviHoverActor = play->actorCtx.targetCtx.naviHoverActor;
 
         // `R_SCENE_CAM_TYPE` is not a bit field, but this conditional checks for a specific bit.
         // This `& 0x10` check will pass for either `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT`, `SCENE_CAM_TYPE_FIXED`, or
@@ -1092,8 +1092,8 @@ void func_80A0461C(EnElf* this, PlayState* play) {
             ((R_SCENE_CAM_TYPE & 0x10) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
             temp = 12;
             this->unk_2C0 = 100;
-        } else if (arrowPointedActor == NULL || arrowPointedActor->category == ACTORCAT_NPC) {
-            if (arrowPointedActor != NULL) {
+        } else if (naviHoverActor == NULL || naviHoverActor->category == ACTORCAT_NPC) {
+            if (naviHoverActor != NULL) {
                 this->unk_2C0 = 100;
                 player->stateFlags2 |= PLAYER_STATE2_20;
                 temp = 0;
@@ -1219,20 +1219,18 @@ void func_80A04D90(EnElf* this, PlayState* play) {
 void func_80A04DE4(EnElf* this, PlayState* play) {
     Vec3f headCopy;
     Player* player = GET_PLAYER(play);
-    Vec3f naviRefPos;
+    Vec3f pos;
 
     if (this->fairyFlags & 0x10) {
-        naviRefPos = play->actorCtx.targetCtx.naviRefPos;
+        pos = play->actorCtx.targetCtx.naviHoverPos;
 
         if ((player->unk_664 == NULL) || (&player->actor == player->unk_664) || (&this->actor == player->unk_664)) {
-            naviRefPos.x =
-                player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
-            naviRefPos.y = player->bodyPartsPos[PLAYER_BODYPART_HEAD].y + 5.0f;
-            naviRefPos.z =
-                player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
+            pos.x = player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
+            pos.y = player->bodyPartsPos[PLAYER_BODYPART_HEAD].y + 5.0f;
+            pos.z = player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
         }
 
-        this->actor.focus.pos = naviRefPos;
+        this->actor.focus.pos = pos;
         this->fairyFlags &= ~0x10;
     }
 
