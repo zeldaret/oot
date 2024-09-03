@@ -106,7 +106,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
-#if OOT_DEBUG
+#if PLATFORM_N64 || OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
@@ -734,15 +734,6 @@ beginseg
     include "$(BUILD_DIR)/data/rsp.rodata.o"
 endseg
 
-#if PLATFORM_N64
-beginseg
-    // TODO
-    name "n64dd"
-    address 0x801C7740
-    include "$(BUILD_DIR)/baserom/n64dd.o"
-endseg
-#endif
-
 beginseg
     name "buffers"
     flags NOLOAD
@@ -751,6 +742,53 @@ beginseg
     include "$(BUILD_DIR)/src/buffers/gfxbuffers.o"
     include "$(BUILD_DIR)/src/buffers/audio_heap.o"
 endseg
+
+#if PLATFORM_N64
+beginseg
+    name "n64dd"
+    // TODO: remaining n64dd files
+    include "$(BUILD_DIR)/src/libleo/api/readwrite.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leofunc.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoram.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoint.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leocmdex.o"
+    include "$(BUILD_DIR)/src/libleo/api/getaadr2.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoread.o"
+    include "$(BUILD_DIR)/src/libleo/api/lbatobyte.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoinquiry.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leodiskinit.o"
+    include "$(BUILD_DIR)/src/libleo/api/seek.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leord_diskid.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leomecha.o"
+    include "$(BUILD_DIR)/src/libleo/api/spdlmotor.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leo_tbl.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leotempbuffer.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoc2_syndrome.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoc2ecc.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leomseq_tbl.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leomotor.o"
+    include "$(BUILD_DIR)/src/libleo/api/driveexist.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leomode_sel.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leord_capa.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoutil.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leorezero.o"
+    include "$(BUILD_DIR)/src/libleo/api/clearqueue.o"
+    include "$(BUILD_DIR)/src/libleo/api/bytetolba.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoreset.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leotranslat.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leotimer.o"
+    include "$(BUILD_DIR)/src/libleo/api/getkadr.o"
+    include "$(BUILD_DIR)/src/libleo/api/getaadr.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoglobals.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leowrite.o"
+    include "$(BUILD_DIR)/src/libleo/api/cjcreateleomanager.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leointerrupt.o"
+    include "$(BUILD_DIR)/src/libleo/api/cacreateleomanager.o"
+    include "$(BUILD_DIR)/src/libleo/api/testunitready.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leotestunit.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoseek.o"
+endseg
+#endif
 
 beginseg
     name "ovl_title"

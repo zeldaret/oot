@@ -46,9 +46,8 @@
 #include "global.h"
 #include "alloca.h"
 #include "fault.h"
+#include "stack.h"
 #include "terminal.h"
-
-#if PLATFORM_GC
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);

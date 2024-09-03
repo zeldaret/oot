@@ -92,12 +92,6 @@
 #define THREAD_ID_DMAMGR     18
 #define THREAD_ID_IRQMGR     19
 
-#define STACK(stack, size) \
-    u64 stack[ALIGN8(size) / sizeof(u64)]
-
-#define STACK_TOP(stack) \
-    ((u8*)(stack) + sizeof(stack))
-
 typedef struct KaleidoMgrOverlay {
     /* 0x00 */ void* loadedRamAddr;
     /* 0x04 */ RomFile file;
