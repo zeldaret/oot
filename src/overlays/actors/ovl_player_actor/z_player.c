@@ -3578,7 +3578,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                 CHECK_BTN_ALL(sControlInput->press.button, BTN_Z)) {
 
                 if (this->actor.category == ACTORCAT_PLAYER) {
-                    actorToTarget = play->actorCtx.targetCtx.arrowPointedActor;
+                    actorToTarget = play->actorCtx.targetCtx.naviHoverActor;
                 } else {
                     actorToTarget = &GET_PLAYER(play)->actor;
                 }
@@ -10360,7 +10360,7 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                         doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemAction >= PLAYER_IA_SWORD_MASTER) ||
                                ((this->stateFlags2 & PLAYER_STATE2_20) &&
-                                (play->actorCtx.targetCtx.arrowPointedActor == NULL))) {
+                                (play->actorCtx.targetCtx.naviHoverActor == NULL))) {
                         doAction = DO_ACTION_PUTAWAY;
                     }
                 }

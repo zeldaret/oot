@@ -571,31 +571,30 @@ typedef enum NaviEnemy {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
-// A set of 4 triangles which appear as a ring around an actor when the player Z-Targets it
+// A set of 4 triangles which appear as a ring around an actor when locked-on
 typedef struct LockOnReticle {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ f32 radius; // distance towards the center of the locked on actor
+    /* 0x0C */ f32 radius; // distance towards the center of the locked-on actor
     /* 0x10 */ Color_RGB8 color;
 } LockOnReticle; // size = 0x14
 
 typedef struct TargetContext {
-    /* 0x00 */ Vec3f naviRefPos; // possibly wrong
-    /* 0x0C */ Vec3f lockOnPos;
-    /* 0x18 */ Color_RGBAf naviInner;
-    /* 0x28 */ Color_RGBAf naviOuter;
-    /* 0x38 */ Actor* arrowPointedActor;
-    /* 0x3C */ Actor* lockOnActor;
-    /* 0x40 */ f32 unk_40;
-    /* 0x44 */ f32 reticleRadius;
-    /* 0x48 */ s16 reticleFadeAlphaControl;
-    /* 0x4A */ u8 activeCategory;
-    /* 0x4B */ u8 reticleSpinCounter;
-    /* 0x4C */ s8 curReticle; // indexes lockOnReticles[]
-    /* 0x4D */ char unk_4D[0x03];
-    /* 0x50 */ LockOnReticle lockOnReticles[3];
-    /* 0x8C */ Actor* unk_8C;
-    /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
-    /* 0x94 */ Actor* arrowHoverActor;
+    /* 0x00 */ Vec3f naviHoverPos; // Navi's current hover position
+    /* 0x0C */ Vec3f reticlePos; // Main reticle pos which each `LockOnReticle` instance can reference
+    /* 0x18 */ Color_RGBAf naviInnerColor; // Navi inner color, based on actor category
+    /* 0x28 */ Color_RGBAf naviOuterColor; // Navi outer color, based on actor category
+    /* 0x38 */ Actor* naviHoverActor;  // The actor that Navi hovers over
+    /* 0x3C */ Actor* reticleActor; // Actor to draw a reticle over
+    /* 0x40 */ f32 naviMoveProgressFactor; // Controls Navi so she can smootly transition to an actor
+    /* 0x44 */ f32 reticleRadius; // Main reticle radius value which each `LockOnReticle` instance can reference
+    /* 0x48 */ s16 reticleFadeAlphaControl; // Set and fade the reticle alpha; Non-zero values control if it should draw
+    /* 0x4A */ u8 naviHoverActorCategory; // Category of the actor Navi is currently hovering over
+    /* 0x4B */ u8 reticleSpinCounter; // Counts up when a reticle is active, used for the spinning animation
+    /* 0x4C */ s8 curReticle; // Indexes lockOnReticles[]
+    /* 0x50 */ LockOnReticle lockOnReticles[3]; // Multiple reticles are used for a motion-blur effect
+    /* 0x8C */ Actor* forcedLockOnActor; // Forces lock-on to this actor when set (never used in practice)
+    /* 0x90 */ Actor* bgmEnemy; // The nearest actor which can trigger enemy background music
+    /* 0x94 */ Actor* arrowHoverActor; // Actor to draw an arrow over
 } TargetContext; // size = 0x98
 
 typedef struct TitleCardContext {
