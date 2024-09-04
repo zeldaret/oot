@@ -1252,7 +1252,7 @@ vadpcm_dec(container_data *ctnr, UNUSED const codec_spec *codec, const enc_dec_o
                     assert(memcmp(input, encoded, frame_size) == 0);
                 } else {
                     fails++;
-                    error("FAIL [%d/%d]\n", cur_pos, nSamples);
+                    error("FAIL [%d/%d]", cur_pos, nSamples);
                 }
 
                 // Bring the match closer to the original decode (not strictly
@@ -1284,7 +1284,7 @@ vadpcm_dec(container_data *ctnr, UNUSED const codec_spec *codec, const enc_dec_o
     }
 
     if (fails != 0)
-        error("Decoding failures: %d\n", fails);
+        error("Decoding failures: %d", fails);
 
     // Convert VADPCM loop to regular loop, if it exists
 

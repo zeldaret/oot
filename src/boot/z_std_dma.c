@@ -19,6 +19,8 @@
  * to be uncompressed and the request queue and address translation is skipped.
  */
 #include "global.h"
+#include "fault.h"
+#include "stack.h"
 #include "terminal.h"
 #if PLATFORM_N64
 #include "n64dd.h"
@@ -345,15 +347,8 @@ const char* DmaMgr_GetFileName(uintptr_t vrom) {
     return ret;
 #elif PLATFORM_N64
     return "??";
-    // Unused strings
-    (void)"";
-    (void)"kanji";
-    (void)"";
-    (void)"link_animetion";
 #elif PLATFORM_GC
     return "";
-    // Unused strings
-    (void)"";
 #endif
 }
 
@@ -371,6 +366,9 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
 #if OOT_DEBUG
     // Get the filename (for debugging)
     filename = DmaMgr_GetFileName(vrom);
+#elif PLATFORM_GC
+    // An unused empty string is defined in .rodata of GameCube retail builds, suggesting it was used near here.
+    filename = "";
 #endif
 
     // Iterate through the DMA data table until the region containing the vrom address for this request is found
@@ -378,6 +376,15 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
     while (iter->file.vromEnd != 0) {
         if (vrom >= iter->file.vromStart && vrom < iter->file.vromEnd) {
             // Found the region this request falls into
+
+#if PLATFORM_N64
+            // Based on the MM Debug ROM, these strings are part of the condition for the empty if statement below,
+            // as `... && DmaMgr_StrCmp("", "kanji") != 0 && DmaMgr_StrCmp("", "link_animetion") != 0`
+            (void)"";
+            (void)"kanji";
+            (void)"";
+            (void)"link_animetion";
+#endif
 
             if (0) {
                 // The string is defined in .rodata of debug builds but not used, suggesting a debug print is here

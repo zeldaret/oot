@@ -2,6 +2,7 @@
 #define VARIABLES_H
 
 #include "z64.h"
+#include "osMalloc.h"
 #include "segment_symbols.h"
 
 extern Mtx D_01000000;
@@ -168,7 +169,7 @@ extern s32 __osPfsLastChannel;
 extern const TempoData gTempoData;
 extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
-extern u8 gSoundFontTable[];
+extern AudioTable gSoundFontTable;
 extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
@@ -235,7 +236,6 @@ extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
 extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 
-extern u32 __osMalloc_FreeBlockTest_Enable;
 extern Arena gSystemArena;
 extern OSPifRam __osContPifRam;
 extern u8 __osContLastCmd;

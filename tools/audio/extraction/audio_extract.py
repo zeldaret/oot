@@ -6,7 +6,6 @@
 
 import os, shutil, time
 from dataclasses import dataclass
-from enum import auto, Enum
 from multiprocessing.pool import ThreadPool
 from typing import Dict, List, Tuple, Union
 from xml.etree import ElementTree
@@ -15,11 +14,8 @@ from xml.etree.ElementTree import Element
 from .audio_tables import AudioCodeTable, AudioCodeTableEntry, AudioStorageMedium
 from .audiotable import AudioTableData, AudioTableFile, AudioTableSample
 from .audiobank_file import AudiobankFile
-from .util import align, debugm, error, incbin, program_get
-
-class MMLVersion(Enum):
-    OOT = auto()
-    MM = auto()
+from .disassemble_sequence import CMD_SPEC, SequenceDisassembler, SequenceTableSpec, MMLVersion
+from .util import align, debugm, error, incbin, program_get, XMLWriter
 
 @dataclass
 class GameVersionInfo:
@@ -41,6 +37,8 @@ class GameVersionInfo:
     fake_banks             : Dict[int, int]
     # Contains audiotable indices that suffer from a buffer clearing bug
     audiotable_buffer_bugs : Tuple[int]
+    # Sequence disassembly table specs
+    seq_disas_tables       : Dict[int, Tuple[SequenceTableSpec]]
 
 SAMPLECONV_PATH = f"{os.path.dirname(os.path.realpath(__file__))}/../sampleconv/sampleconv"
 
@@ -176,6 +174,137 @@ def extract_samplebank(pool : ThreadPool, extracted_dir : str, sample_banks : Li
     if not BASEROM_DEBUG:
         shutil.rmtree(f"{base_path}/aifc")
 
+def disassemble_one_sequence(extracted_dir : str, version_info : GameVersionInfo, soundfonts : List[AudiobankFile],
+                             enum_names : List[str], id : int, data : bytes, name : str, filename : str,
+                             fonts : memoryview):
+    out_filename = f"{extracted_dir}/assets/audio/sequences/{filename}.seq"
+    disas = SequenceDisassembler(id, data, version_info.seq_disas_tables.get(id, None), CMD_SPEC,
+                                 version_info.mml_version, out_filename, name,
+                                 [soundfonts[i] for i in fonts], enum_names)
+    disas.analyze()
+    disas.emit()
+
+def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_info : GameVersionInfo, write_xml : bool,
+                      sequence_table : AudioCodeTable, sequence_font_table : memoryview,
+                      sequence_xmls : Dict[int, Element], soundfonts : List[AudiobankFile]):
+
+    sequence_font_table_cvg = [0] * len(sequence_font_table)
+
+    seq_enum_names = version_info.seq_enum_names
+    handwritten_sequences = version_info.handwritten_sequences
+
+    # We should have as many enum names as sequences that require extraction
+    assert len(seq_enum_names) == len(sequence_table)
+
+    if BASEROM_DEBUG:
+        os.makedirs(f"{extracted_dir}/baserom_audiotest/audioseq_files", exist_ok=True)
+
+    os.makedirs(f"{extracted_dir}/assets/audio/sequences", exist_ok=True)
+    if write_xml:
+        os.makedirs(f"assets/xml/audio/sequences", exist_ok=True)
+
+    all_fonts = []
+    disas_jobs = []
+
+    t = time.time()
+
+    for i,entry in enumerate(sequence_table):
+        entry : AudioCodeTableEntry
+
+        # extract font indices
+        font_data_offset = (sequence_font_table[2 * i + 0] << 8) | (sequence_font_table[2 * i + 1])
+        num_fonts = sequence_font_table[font_data_offset]
+        font_data_offset += 1
+        fonts = sequence_font_table[font_data_offset:font_data_offset+num_fonts]
+
+        all_fonts.append(fonts)
+
+        # mark coverage for sequence font table
+        sequence_font_table_cvg[2 * i + 0] = 1
+        sequence_font_table_cvg[2 * i + 1] = 1
+        for j in range(font_data_offset-1,font_data_offset+num_fonts):
+            sequence_font_table_cvg[j] = 1
+
+        if entry.size != 0:
+            # Real sequence, queue extraction
+
+            seq_data = bytearray(entry.data(audioseq_seg, sequence_table.rom_addr))
+
+            ext = ".prg" if i in handwritten_sequences else ""
+
+            if BASEROM_DEBUG:
+                # Extract original sequence binary for comparison
+                with open(f"{extracted_dir}/baserom_audiotest/audioseq_files/seq_{i}{ext}.aseq", "wb") as outfile:
+                    outfile.write(seq_data)
+
+            extraction_xml = sequence_xmls.get(i, None)
+            if extraction_xml is None:
+                sequence_filename = f"seq_{i}"
+                sequence_name = f"Sequence_{i}"
+            else:
+                sequence_filename = extraction_xml[0]
+                sequence_name = extraction_xml[1].attrib["Name"]
+
+            # Write extraction xml entry
+            if write_xml:
+                xml = XMLWriter()
+
+                xml.write_comment("This file is only for extraction of vanilla data.")
+
+                xml.write_element("Sequence", {
+                    "Name" : sequence_name,
+                    "Index" : i,
+                })
+
+                with open(f"assets/xml/audio/sequences/{sequence_filename}.xml", "w") as outfile:
+                    outfile.write(str(xml))
+
+            if i in handwritten_sequences:
+                # skip "handwritten" sequences
+                continue
+
+            disas_jobs.append((i, seq_data, sequence_name, sequence_filename, fonts))
+        else:
+            # Pointer to another sequence, checked later
+            pass
+
+    # Check full coverage
+    try:
+        if align(sequence_font_table_cvg.index(0), 16) != len(sequence_font_table_cvg):
+            # does not pad to full size, fail
+            assert False, "Sequence font table missing data"
+        # pads to full size, good
+    except ValueError:
+        pass # fully covered, good
+
+    # Check consistency of font data for the same sequence accessed via pointers
+
+    for i,entry in enumerate(sequence_table):
+        entry : AudioCodeTableEntry
+
+        # Fonts for this entry
+        fonts = all_fonts[i]
+
+        if entry.size != 0:
+            # real, ignore
+            pass
+        else:
+            # pointer, check that the fonts for this entry are the same as the fonts for the other
+            j = entry.rom_addr
+
+            fonts2 = all_fonts[j]
+
+            assert fonts == fonts2, \
+                   f"Font mismatch: Pointer {i} against Real {j}. This is a limitation of the build process."
+
+    # Disassemble to text
+
+    for job in disas_jobs:
+        disassemble_one_sequence(extracted_dir, version_info, soundfonts, seq_enum_names, *job)
+
+    dt = time.time() - t
+    print(f"Sequences extraction took {dt:.3f}")
+
 def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : str, read_xml : bool, write_xml : bool):
     print("Setting up...")
 
@@ -184,6 +313,7 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
     code_seg = None
     audiotable_seg = None
     audiobank_seg = None
+    audioseq_seg = None
 
     with open(f"{extracted_dir}/baserom/code", "rb") as infile:
         code_seg = memoryview(infile.read())
@@ -193,6 +323,9 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
 
     with open(f"{extracted_dir}/baserom/Audiobank", "rb") as infile:
         audiobank_seg = memoryview(infile.read())
+
+    with open(f"{extracted_dir}/baserom/Audioseq", "rb") as infile:
+        audioseq_seg = memoryview(infile.read())
 
     # ==================================================================================================================
     # Collect audio tables
@@ -318,3 +451,12 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
         # write the extraction xml if specified
         if write_xml:
             sf.write_extraction_xml(f"assets/xml/audio/soundfonts/{sf.file_name}.xml")
+
+    # ==================================================================================================================
+    # Extract sequences
+    # ==================================================================================================================
+
+    print("Extracting sequences...")
+
+    extract_sequences(audioseq_seg, extracted_dir, version_info, write_xml, sequence_table, sequence_font_table,
+                      sequence_xmls, soundfonts)

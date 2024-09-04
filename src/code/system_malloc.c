@@ -1,4 +1,5 @@
 #include "global.h"
+#include "osMalloc.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2
@@ -27,7 +28,12 @@ void SystemArena_CheckPointer(void* ptr, u32 size, const char* name, const char*
 #endif
 
 void* SystemArena_Malloc(u32 size) {
-    void* ptr = __osMalloc(&gSystemArena, size);
+    DECLARE_INTERRUPT_MASK
+    void* ptr;
+
+    DISABLE_INTERRUPTS();
+    ptr = __osMalloc(&gSystemArena, size);
+    RESTORE_INTERRUPTS();
 
     SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc", "確保"); // "Secure"
     return ptr;
@@ -35,7 +41,12 @@ void* SystemArena_Malloc(u32 size) {
 
 #if OOT_DEBUG
 void* SystemArena_MallocDebug(u32 size, const char* file, int line) {
-    void* ptr = __osMallocDebug(&gSystemArena, size, file, line);
+    DECLARE_INTERRUPT_MASK
+    void* ptr;
+
+    DISABLE_INTERRUPTS();
+    ptr = __osMallocDebug(&gSystemArena, size, file, line);
+    RESTORE_INTERRUPTS();
 
     SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_DEBUG", "確保"); // "Secure"
     return ptr;
@@ -43,7 +54,12 @@ void* SystemArena_MallocDebug(u32 size, const char* file, int line) {
 #endif
 
 void* SystemArena_MallocR(u32 size) {
-    void* ptr = __osMallocR(&gSystemArena, size);
+    DECLARE_INTERRUPT_MASK
+    void* ptr;
+
+    DISABLE_INTERRUPTS();
+    ptr = __osMallocR(&gSystemArena, size);
+    RESTORE_INTERRUPTS();
 
     SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r", "確保"); // "Secure"
     return ptr;
@@ -51,7 +67,12 @@ void* SystemArena_MallocR(u32 size) {
 
 #if OOT_DEBUG
 void* SystemArena_MallocRDebug(u32 size, const char* file, int line) {
-    void* ptr = __osMallocRDebug(&gSystemArena, size, file, line);
+    DECLARE_INTERRUPT_MASK
+    void* ptr;
+
+    DISABLE_INTERRUPTS();
+    ptr = __osMallocRDebug(&gSystemArena, size, file, line);
+    RESTORE_INTERRUPTS();
 
     SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r_DEBUG", "確保"); // "Secure"
     return ptr;
@@ -59,34 +80,56 @@ void* SystemArena_MallocRDebug(u32 size, const char* file, int line) {
 #endif
 
 void* SystemArena_Realloc(void* ptr, u32 newSize) {
+    DECLARE_INTERRUPT_MASK
+
+    DISABLE_INTERRUPTS();
     ptr = __osRealloc(&gSystemArena, ptr, newSize);
+    RESTORE_INTERRUPTS();
+
     SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc", "再確保"); // "Re-securing"
     return ptr;
 }
 
 #if OOT_DEBUG
 void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line) {
+    DECLARE_INTERRUPT_MASK
+
+    DISABLE_INTERRUPTS();
     ptr = __osReallocDebug(&gSystemArena, ptr, newSize, file, line);
+    RESTORE_INTERRUPTS();
+
     SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc_DEBUG", "再確保"); // "Re-securing"
     return ptr;
 }
 #endif
 
 void SystemArena_Free(void* ptr) {
+    DECLARE_INTERRUPT_MASK
+
+    DISABLE_INTERRUPTS();
     __osFree(&gSystemArena, ptr);
+    RESTORE_INTERRUPTS();
 }
 
 #if OOT_DEBUG
 void SystemArena_FreeDebug(void* ptr, const char* file, int line) {
+    DECLARE_INTERRUPT_MASK
+
+    DISABLE_INTERRUPTS();
     __osFreeDebug(&gSystemArena, ptr, file, line);
+    RESTORE_INTERRUPTS();
 }
 #endif
 
 void* SystemArena_Calloc(u32 num, u32 size) {
+    DECLARE_INTERRUPT_MASK
     void* ret;
     u32 n = num * size;
 
+    DISABLE_INTERRUPTS();
     ret = __osMalloc(&gSystemArena, n);
+    RESTORE_INTERRUPTS();
+
     if (ret != NULL) {
         bzero(ret, n);
     }
@@ -124,6 +167,6 @@ void SystemArena_Cleanup(void) {
     __osMallocCleanup(&gSystemArena);
 }
 
-u8 SystemArena_IsInitialized(void) {
+s32 SystemArena_IsInitialized(void) {
     return __osMallocIsInitialized(&gSystemArena);
 }
