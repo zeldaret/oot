@@ -197,7 +197,7 @@ typedef enum WorldMapArea {
     /* 17 */ WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER,
     /* 18 */ WORLD_MAP_AREA_GORON_CITY,
     /* 19 */ WORLD_MAP_AREA_LON_LON_RANCH,
-    /* 20 */ WORLD_MAP_AREA_20, // hakasitarelay and a lon lon ranch cutscene, gQuestionMarkPositionNameENGTex
+    /* 20 */ WORLD_MAP_AREA_QUESTION_MARK, // Windmill/Dampé's Grave (and a Lon Lon Ranch cutscene). Labeled as "?"
     /* 21 */ WORLD_MAP_AREA_GANONS_CASTLE,
     /* 22 */ WORLD_MAP_AREA_MAX // also grottos and fairy's/great fairy's fountains (scenes with varying locations)
 } WorldMapArea;

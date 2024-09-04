@@ -419,7 +419,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         24,   // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
         11,   // WORLD_MAP_AREA_GORON_CITY
         -17,  // WORLD_MAP_AREA_LON_LON_RANCH
-        37,   // WORLD_MAP_AREA_20
+        37,   // WORLD_MAP_AREA_QUESTION_MARK
         -6,   // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static s16 areaBoxWidths[] = {
@@ -443,7 +443,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         32, // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
         32, // WORLD_MAP_AREA_GORON_CITY
         32, // WORLD_MAP_AREA_LON_LON_RANCH
-        16, // WORLD_MAP_AREA_20
+        16, // WORLD_MAP_AREA_QUESTION_MARK
         32, // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static s16 areaBoxPosY[] = {
@@ -467,7 +467,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         58,  // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
         56,  // WORLD_MAP_AREA_GORON_CITY
         12,  // WORLD_MAP_AREA_LON_LON_RANCH
-        36,  // WORLD_MAP_AREA_20
+        36,  // WORLD_MAP_AREA_QUESTION_MARK
         50,  // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static s16 areaBoxHeights[] = {
@@ -491,7 +491,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         13, // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
         17, // WORLD_MAP_AREA_GORON_CITY
         17, // WORLD_MAP_AREA_LON_LON_RANCH
-        16, // WORLD_MAP_AREA_20
+        16, // WORLD_MAP_AREA_QUESTION_MARK
         17, // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static void* areaBoxTexs[] = {
@@ -515,7 +515,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gWorldMapAreaBox4Tex, // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
         gWorldMapAreaBox3Tex, // WORLD_MAP_AREA_GORON_CITY
         gWorldMapAreaBox3Tex, // WORLD_MAP_AREA_LON_LON_RANCH
-        gWorldMapAreaBox8Tex, // WORLD_MAP_AREA_20
+        gWorldMapAreaBox8Tex, // WORLD_MAP_AREA_QUESTION_MARK
         gWorldMapAreaBox3Tex, // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static void* currentPosTitleTexs[] = LANGUAGE_ARRAY(gPauseCurrentPositionJPNTex, gPauseCurrentPositionENGTex,
