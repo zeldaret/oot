@@ -382,7 +382,7 @@ void func_8002ED80(Actor* actor, PlayState* play, s32 flag);
 PosRot Actor_GetFocus(Actor* actor);
 PosRot Actor_GetWorld(Actor* actor);
 PosRot Actor_GetWorldPosShapeRot(Actor* actor);
-s32 func_8002F0C8(Actor* actor, Player* player, s32 flag);
+s32 Target_ShouldReleaseLockOn(Actor* actor, Player* player, s32 flag);
 s32 Actor_TalkOfferAccepted(Actor* actor, PlayState* play);
 s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRange, u32 exchangeItemId);
 s32 Actor_OfferTalkExchangeEquiCylinder(Actor* actor, PlayState* play, f32 radius, u32 exchangeItemId);
