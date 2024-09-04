@@ -21,10 +21,10 @@ void GameState_FaultPrint(void) {
     s32 i;
 
     PRINTF("last_button=%04x\n", sLastButtonPressed);
-    FaultDrawer_DrawText(120, 180, "%08x", sLastButtonPressed);
+    Fault_DrawText(120, 180, "%08x", sLastButtonPressed);
     for (i = 0; i < ARRAY_COUNT(sBtnChars); i++) {
         if (sLastButtonPressed & (1 << i)) {
-            FaultDrawer_DrawText((i * 8) + 120, 190, "%c", sBtnChars[i]);
+            Fault_DrawText((i * 8) + 120, 190, "%c", sBtnChars[i]);
         }
     }
 }

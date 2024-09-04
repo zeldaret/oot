@@ -28,19 +28,19 @@ void CIC6105_FaultClient(void) {
     s32 spStatus;
 
     spStatus = IO_READ(SP_STATUS_REG);
-    FaultDrawer_SetCursor(48, 200);
+    Fault_SetCursor(48, 200);
     if (spStatus & SP_STATUS_SIG7) {
-        FaultDrawer_Printf("OCARINA %08x %08x", B_80008EF8, B_80008EFC);
+        Fault_Printf("OCARINA %08x %08x", B_80008EF8, B_80008EFC);
     } else {
-        FaultDrawer_Printf("LEGEND %08x %08x", B_80008EF8, B_80008EFC);
+        Fault_Printf("LEGEND %08x %08x", B_80008EF8, B_80008EFC);
     }
-    FaultDrawer_SetCursor(40, 184);
-    FaultDrawer_Printf("ROM_F");
-    FaultDrawer_Printf(" [Creator:%s]", gBuildTeam);
-    FaultDrawer_SetCursor(56, 192);
-    FaultDrawer_Printf("[Date:%s]", gBuildDate);
-    FaultDrawer_SetCursor(96, 32);
-    FaultDrawer_Printf("I LOVE YOU %08x", func_80001714());
+    Fault_SetCursor(40, 184);
+    Fault_Printf("ROM_F");
+    Fault_Printf(" [Creator:%s]", gBuildTeam);
+    Fault_SetCursor(56, 192);
+    Fault_Printf("[Date:%s]", gBuildDate);
+    Fault_SetCursor(96, 32);
+    Fault_Printf("I LOVE YOU %08x", func_80001714());
 }
 
 void CIC6105_AddFaultClient(void) {
