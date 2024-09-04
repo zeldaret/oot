@@ -42,7 +42,6 @@
  * @note Original name: qrand.c
  */
 #include "rand.h"
-#include "versions.h"
 
 #define RAND_MULTIPLIER 1664525
 #define RAND_INCREMENT 1013904223
@@ -54,7 +53,7 @@
  */
 static u32 sRandInt = 1;
 
-#if RAND_VERSION == RAND_GC
+#if PLATFORM_GC
 /**
  * Space to store a value to be re-interpreted as a float.
  *
@@ -69,7 +68,7 @@ static fu sRandFloat;
  * @note Original name: qrand
  */
 u32 Rand_Next(void) {
-#if RAND_VERSION == RAND_N64
+#if PLATFORM_N64
     u32 next = sRandInt * RAND_MULTIPLIER + RAND_INCREMENT;
 
     sRandInt = next;
@@ -98,7 +97,7 @@ void Rand_Seed(u32 seed) {
  * @note Original name: fqrand
  */
 f32 Rand_ZeroOne(void) {
-#if RAND_VERSION == RAND_N64
+#if PLATFORM_N64
     fu v;
     f32 vf;
 
@@ -115,7 +114,7 @@ f32 Rand_ZeroOne(void) {
 #endif
 }
 
-#if RAND_VERSION == RAND_GC
+#if PLATFORM_GC
 /**
  * Returns a pseudo-random floating-point number between -0.5f and 0.5f by the same manner in which Rand_ZeroOne
  * generates its result.
@@ -164,7 +163,7 @@ u32 Rand_Next_Variable(u32* rndNum) {
  * @note Original name: fqrand_r
  */
 f32 Rand_ZeroOne_Variable(u32* rndNum) {
-#if RAND_VERSION == RAND_N64
+#if PLATFORM_N64
     fu v;
     f32 vf;
     u32 next = Rand_Next_Variable(rndNum);
@@ -180,7 +179,7 @@ f32 Rand_ZeroOne_Variable(u32* rndNum) {
 #endif
 }
 
-#if RAND_VERSION == RAND_GC
+#if PLATFORM_GC
 /**
  * Generates the next pseudo-random floating-point number between -0.5f and 0.5f from the provided rndNum.
  *
