@@ -40,19 +40,27 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
+#pragma increment_block_number "gc-eu:240 gc-eu-mq:240 gc-eu-mq-dbg:224 gc-jp:240 gc-jp-ce:240 gc-jp-mq:240 gc-us:240" \
+                               "gc-us-mq:240"
+
+// Include versions.h first and redefine FAULT_VERSION
+// This allows this file to compile even when versions.h uses FAULT_N64
+#include "versions.h"
+#undef FAULT_VERSION
+#define FAULT_VERSION FAULT_GC
+
 #include "global.h"
-#include "terminal.h"
 #include "alloca.h"
+#include "fault.h"
+#include "stack.h"
+#include "terminal.h"
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-eu-mq-dbg:0 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64" \
-                               "gc-us-mq:64"
-
-void FaultDrawer_Init(void);
-void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);
-void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 color);
-void FaultDrawer_FillScreen(void);
-void FaultDrawer_SetInputCallback(void (*callback)(void));
-void FaultDrawer_SetDrawerFB(void* fb, u16 w, u16 h);
+void Fault_Init(void);
+void Fault_SetOsSyncPrintfEnabled(u32 enabled);
+void Fault_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 color);
+void Fault_FillScreen(void);
+void Fault_SetInputCallback(void (*callback)(void));
+void Fault_SetDrawerFB(void* fb, u16 w, u16 h);
 
 const char* sExceptionNames[] = {
     "Interrupt",
@@ -413,11 +421,11 @@ u32 Fault_WaitForInputImpl(void) {
             }
 
             if (pressedBtn == BTN_DUP) {
-                FaultDrawer_SetOsSyncPrintfEnabled(true);
+                Fault_SetOsSyncPrintfEnabled(true);
             }
 
             if (pressedBtn == BTN_DDOWN) {
-                FaultDrawer_SetOsSyncPrintfEnabled(false);
+                Fault_SetOsSyncPrintfEnabled(false);
             }
         }
     }
@@ -430,21 +438,21 @@ void Fault_WaitForInput(void) {
 }
 
 void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 color) {
-    FaultDrawer_DrawRecImpl(x, y, x + w - 1, y + h - 1, color);
+    Fault_DrawRecImpl(x, y, x + w - 1, y + h - 1, color);
 }
 
 void Fault_FillScreenBlack(void) {
-    FaultDrawer_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
-    FaultDrawer_SetBackColor(GPACK_RGBA5551(0, 0, 0, 1));
-    FaultDrawer_FillScreen();
-    FaultDrawer_SetBackColor(GPACK_RGBA5551(0, 0, 0, 0));
+    Fault_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
+    Fault_SetBackColor(GPACK_RGBA5551(0, 0, 0, 1));
+    Fault_FillScreen();
+    Fault_SetBackColor(GPACK_RGBA5551(0, 0, 0, 0));
 }
 
 void Fault_FillScreenRed(void) {
-    FaultDrawer_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
-    FaultDrawer_SetBackColor(GPACK_RGBA5551(240, 0, 0, 1));
-    FaultDrawer_FillScreen();
-    FaultDrawer_SetBackColor(GPACK_RGBA5551(0, 0, 0, 0));
+    Fault_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
+    Fault_SetBackColor(GPACK_RGBA5551(240, 0, 0, 1));
+    Fault_FillScreen();
+    Fault_SetBackColor(GPACK_RGBA5551(0, 0, 0, 0));
 }
 
 void Fault_DrawCornerRec(u16 color) {
@@ -453,21 +461,21 @@ void Fault_DrawCornerRec(u16 color) {
 
 void Fault_PrintFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
+    s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
-    if ((exp >= -0x7E && exp < 0x80) || raw == 0) {
-        FaultDrawer_Printf("F%02d:%14.7e ", idx, *value);
+    if ((exp > -127 && exp <= 127) || raw == 0) {
+        Fault_Printf("F%02d:%14.7e ", idx, *value);
     } else {
         // Print subnormal floats as their ieee-754 hex representation
-        FaultDrawer_Printf("F%02d:  %08x(16) ", idx, raw);
+        Fault_Printf("F%02d:  %08x(16) ", idx, raw);
     }
 }
 
 void Fault_LogFReg(s32 idx, f32* value) {
     u32 raw = *(u32*)value;
-    s32 exp = ((raw & 0x7F800000) >> 0x17) - 0x7F;
+    s32 exp = ((raw & 0x7F800000) >> 23) - 127;
 
-    if ((exp >= -0x7E && exp < 0x80) || raw == 0) {
+    if ((exp > -127 && exp <= 127) || raw == 0) {
         osSyncPrintf("F%02d:%14.7e ", idx, *value);
     } else {
         osSyncPrintf("F%02d:  %08x(16) ", idx, *(u32*)value);
@@ -478,18 +486,18 @@ void Fault_PrintFPCSR(u32 value) {
     s32 i;
     u32 flag = FPCSR_CE;
 
-    FaultDrawer_Printf("FPCSR:%08xH ", value);
+    Fault_Printf("FPCSR:%08xH ", value);
 
     // Go through each of the six causes and print the name of
     // the first cause that is set
     for (i = 0; i < ARRAY_COUNT(sFpExceptionNames); i++) {
         if (value & flag) {
-            FaultDrawer_Printf("(%s)", sFpExceptionNames[i]);
+            Fault_Printf("(%s)", sFpExceptionNames[i]);
             break;
         }
         flag >>= 1;
     }
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
 }
 
 void Fault_LogFPCSR(u32 value) {
@@ -510,72 +518,72 @@ void Fault_PrintThreadContext(OSThread* thread) {
     __OSThreadContext* ctx;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
 
-    if (causeStrIdx == 23) { // Watchpoint
+    if (causeStrIdx == (EXC_WATCH >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 16;
     }
-    if (causeStrIdx == 31) { // Virtual coherency on data
+    if (causeStrIdx == (EXC_VCED >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 17;
     }
 
-    FaultDrawer_FillScreen();
-    FaultDrawer_SetCharPad(-2, 4);
-    FaultDrawer_SetCursor(22, 20);
+    Fault_FillScreen();
+    Fault_SetCharPad(-2, 4);
+    Fault_SetCursor(22, 20);
 
     ctx = &thread->context;
-    FaultDrawer_Printf("THREAD:%d (%d:%s)\n", thread->id, causeStrIdx, sExceptionNames[causeStrIdx]);
-    FaultDrawer_SetCharPad(-1, 0);
+    Fault_Printf("THREAD:%d (%d:%s)\n", thread->id, causeStrIdx, sExceptionNames[causeStrIdx]);
+    Fault_SetCharPad(-1, 0);
 
-    FaultDrawer_Printf("PC:%08xH SR:%08xH VA:%08xH\n", (u32)ctx->pc, (u32)ctx->sr, (u32)ctx->badvaddr);
-    FaultDrawer_Printf("AT:%08xH V0:%08xH V1:%08xH\n", (u32)ctx->at, (u32)ctx->v0, (u32)ctx->v1);
-    FaultDrawer_Printf("A0:%08xH A1:%08xH A2:%08xH\n", (u32)ctx->a0, (u32)ctx->a1, (u32)ctx->a2);
-    FaultDrawer_Printf("A3:%08xH T0:%08xH T1:%08xH\n", (u32)ctx->a3, (u32)ctx->t0, (u32)ctx->t1);
-    FaultDrawer_Printf("T2:%08xH T3:%08xH T4:%08xH\n", (u32)ctx->t2, (u32)ctx->t3, (u32)ctx->t4);
-    FaultDrawer_Printf("T5:%08xH T6:%08xH T7:%08xH\n", (u32)ctx->t5, (u32)ctx->t6, (u32)ctx->t7);
-    FaultDrawer_Printf("S0:%08xH S1:%08xH S2:%08xH\n", (u32)ctx->s0, (u32)ctx->s1, (u32)ctx->s2);
-    FaultDrawer_Printf("S3:%08xH S4:%08xH S5:%08xH\n", (u32)ctx->s3, (u32)ctx->s4, (u32)ctx->s5);
-    FaultDrawer_Printf("S6:%08xH S7:%08xH T8:%08xH\n", (u32)ctx->s6, (u32)ctx->s7, (u32)ctx->t8);
-    FaultDrawer_Printf("T9:%08xH GP:%08xH SP:%08xH\n", (u32)ctx->t9, (u32)ctx->gp, (u32)ctx->sp);
-    FaultDrawer_Printf("S8:%08xH RA:%08xH LO:%08xH\n\n", (u32)ctx->s8, (u32)ctx->ra, (u32)ctx->lo);
+    Fault_Printf("PC:%08xH SR:%08xH VA:%08xH\n", (u32)ctx->pc, (u32)ctx->sr, (u32)ctx->badvaddr);
+    Fault_Printf("AT:%08xH V0:%08xH V1:%08xH\n", (u32)ctx->at, (u32)ctx->v0, (u32)ctx->v1);
+    Fault_Printf("A0:%08xH A1:%08xH A2:%08xH\n", (u32)ctx->a0, (u32)ctx->a1, (u32)ctx->a2);
+    Fault_Printf("A3:%08xH T0:%08xH T1:%08xH\n", (u32)ctx->a3, (u32)ctx->t0, (u32)ctx->t1);
+    Fault_Printf("T2:%08xH T3:%08xH T4:%08xH\n", (u32)ctx->t2, (u32)ctx->t3, (u32)ctx->t4);
+    Fault_Printf("T5:%08xH T6:%08xH T7:%08xH\n", (u32)ctx->t5, (u32)ctx->t6, (u32)ctx->t7);
+    Fault_Printf("S0:%08xH S1:%08xH S2:%08xH\n", (u32)ctx->s0, (u32)ctx->s1, (u32)ctx->s2);
+    Fault_Printf("S3:%08xH S4:%08xH S5:%08xH\n", (u32)ctx->s3, (u32)ctx->s4, (u32)ctx->s5);
+    Fault_Printf("S6:%08xH S7:%08xH T8:%08xH\n", (u32)ctx->s6, (u32)ctx->s7, (u32)ctx->t8);
+    Fault_Printf("T9:%08xH GP:%08xH SP:%08xH\n", (u32)ctx->t9, (u32)ctx->gp, (u32)ctx->sp);
+    Fault_Printf("S8:%08xH RA:%08xH LO:%08xH\n\n", (u32)ctx->s8, (u32)ctx->ra, (u32)ctx->lo);
 
     Fault_PrintFPCSR(ctx->fpcsr);
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
 
     Fault_PrintFReg(0, &ctx->fp0.f.f_even);
     Fault_PrintFReg(2, &ctx->fp2.f.f_even);
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
     Fault_PrintFReg(4, &ctx->fp4.f.f_even);
     Fault_PrintFReg(6, &ctx->fp6.f.f_even);
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
     Fault_PrintFReg(8, &ctx->fp8.f.f_even);
     Fault_PrintFReg(10, &ctx->fp10.f.f_even);
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
     Fault_PrintFReg(12, &ctx->fp12.f.f_even);
     Fault_PrintFReg(14, &ctx->fp14.f.f_even);
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
     Fault_PrintFReg(16, &ctx->fp16.f.f_even);
     Fault_PrintFReg(18, &ctx->fp18.f.f_even);
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
     Fault_PrintFReg(20, &ctx->fp20.f.f_even);
     Fault_PrintFReg(22, &ctx->fp22.f.f_even);
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
     Fault_PrintFReg(24, &ctx->fp24.f.f_even);
     Fault_PrintFReg(26, &ctx->fp26.f.f_even);
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
     Fault_PrintFReg(28, &ctx->fp28.f.f_even);
     Fault_PrintFReg(30, &ctx->fp30.f.f_even);
-    FaultDrawer_Printf("\n");
+    Fault_Printf("\n");
 
-    FaultDrawer_SetCharPad(0, 0);
+    Fault_SetCharPad(0, 0);
 }
 
 void Fault_LogThreadContext(OSThread* thread) {
     __OSThreadContext* ctx;
     s16 causeStrIdx = _SHIFTR((u32)thread->context.cause, 2, 5);
 
-    if (causeStrIdx == 23) { // Watchpoint
+    if (causeStrIdx == (EXC_WATCH >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 16;
     }
-    if (causeStrIdx == 31) { // Virtual coherency on data
+    if (causeStrIdx == (EXC_VCED >> CAUSE_EXCSHIFT)) {
         causeStrIdx = 17;
     }
 
@@ -670,15 +678,17 @@ void Fault_WaitForButtonCombo(void) {
     if (1) {}
     if (1) {}
 
+    // KeyWaitB (LRZ Up Down Up Down Left Left Right Right B A START)
     osSyncPrintf(
         VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
             YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
                                                                                                                                                      "\n");
+    // KeyWaitB'(LR Left Right START)
     osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
         WHITE) ")" VT_RST "\n");
 
-    FaultDrawer_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
-    FaultDrawer_SetBackColor(GPACK_RGBA5551(0, 0, 0, 1));
+    Fault_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
+    Fault_SetBackColor(GPACK_RGBA5551(0, 0, 0, 1));
 
     state = 0;
     s1 = 0;
@@ -828,21 +838,21 @@ void Fault_DrawMemDumpContents(const char* title, uintptr_t addr, u32 arg2) {
 
     // Reset screen
     Fault_FillScreenBlack();
-    FaultDrawer_SetCharPad(-2, 0);
+    Fault_SetCharPad(-2, 0);
 
-    FaultDrawer_DrawText(36, 18, "%s %08x", title != NULL ? title : "PrintDump", alignedAddr);
+    Fault_DrawText(36, 18, "%s %08x", title != NULL ? title : "PrintDump", alignedAddr);
 
     // Draw memory page contents
     if (alignedAddr >= K0BASE && alignedAddr < K2BASE) {
         for (y = 0; y < 22; y++) {
-            FaultDrawer_DrawText(24, 28 + y * 9, "%06x", writeAddr);
+            Fault_DrawText(24, 28 + y * 9, "%06x", writeAddr);
             for (x = 0; x < 4; x++) {
-                FaultDrawer_DrawText(82 + x * 52, 28 + y * 9, "%08x", *writeAddr++);
+                Fault_DrawText(82 + x * 52, 28 + y * 9, "%08x", *writeAddr++);
             }
         }
     }
 
-    FaultDrawer_SetCharPad(0, 0);
+    Fault_SetCharPad(0, 0);
 }
 
 /**
@@ -1065,15 +1075,15 @@ void Fault_DrawStackTrace(OSThread* thread, s32 x, s32 y, s32 height) {
     uintptr_t pc = thread->context.pc;
     uintptr_t addr;
 
-    FaultDrawer_DrawText(x, y, "SP       PC       (VPC)");
+    Fault_DrawText(x, y, "SP       PC       (VPC)");
 
     // Backtrace from the current function to the start of the thread
     for (line = 1; line < height && (ra != 0 || sp != 0) && pc != (uintptr_t)__osCleanupThread; line++) {
-        FaultDrawer_DrawText(x, y + line * 8, "%08x %08x", sp, pc);
+        Fault_DrawText(x, y + line * 8, "%08x %08x", sp, pc);
         // Convert relocated address to virtual address if applicable
         addr = Fault_ConvertAddress(pc);
         if (addr != 0) {
-            FaultDrawer_Printf(" -> %08x", addr);
+            Fault_Printf(" -> %08x", addr);
         }
         // Search one function for the previous function
         Fault_WalkStack(&sp, &pc, &ra);
@@ -1104,7 +1114,7 @@ void Fault_ResumeThread(OSThread* thread) {
     thread->context.cause = 0;
     thread->context.fpcsr = 0;
     thread->context.pc += sizeof(u32);
-    *((u32*)thread->context.pc) = 0x0000000D; // write in a break instruction
+    *(u32*)thread->context.pc = 0x0000000D; // write in a break instruction
     osWritebackDCache((void*)thread->context.pc, 4);
     osInvalICache((void*)thread->context.pc, 4);
     osStartThread(thread);
@@ -1128,7 +1138,7 @@ void Fault_DisplayFrameBuffer(void) {
     }
 
     osViSwapBuffer(fb);
-    FaultDrawer_SetDrawerFB(fb, SCREEN_WIDTH, SCREEN_HEIGHT);
+    Fault_SetDrawerFB(fb, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 /**
@@ -1142,10 +1152,10 @@ void Fault_ProcessClients(void) {
     while (client != NULL) {
         if (client->callback != NULL) {
             Fault_FillScreenBlack();
-            FaultDrawer_SetCharPad(-2, 0);
-            FaultDrawer_Printf(FAULT_COLOR(DARK_GRAY) "CallBack (%d) %08x %08x %08x\n" FAULT_COLOR(WHITE), idx++,
-                               client, client->arg0, client->arg1);
-            FaultDrawer_SetCharPad(0, 0);
+            Fault_SetCharPad(-2, 0);
+            Fault_Printf(FAULT_COLOR(DARK_GRAY) "CallBack (%d) %08x %08x %08x\n" FAULT_COLOR(WHITE), idx++, client,
+                         client->arg0, client->arg1);
+            Fault_SetCharPad(0, 0);
             Fault_ProcessClient(client->callback, client->arg0, client->arg1);
             Fault_WaitForInput();
             Fault_DisplayFrameBuffer();
@@ -1178,9 +1188,11 @@ void Fault_ThreadEntry(void* arg) {
 
             if (msg == FAULT_MSG_CPU_BREAK) {
                 sFaultInstance->msgId = (u32)FAULT_MSG_CPU_BREAK;
+                // Fault Manager: OS_EVENT_CPU_BREAK received
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n");
             } else if (msg == FAULT_MSG_FAULT) {
                 sFaultInstance->msgId = (u32)FAULT_MSG_FAULT;
+                // Fault Manager: OS_EVENT_FAULT received
                 osSyncPrintf("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n");
             } else if (msg == FAULT_MSG_UNK) {
                 Fault_UpdatePad();
@@ -1188,6 +1200,7 @@ void Fault_ThreadEntry(void* arg) {
                 continue;
             } else {
                 sFaultInstance->msgId = (u32)FAULT_MSG_UNK;
+                // Fault Manager: Unknown message received
                 osSyncPrintf("フォルトマネージャ:不明なメッセージを受信しました\n");
             }
 
@@ -1222,8 +1235,8 @@ void Fault_ThreadEntry(void* arg) {
 
         // Set auto-scrolling and default colors
         sFaultInstance->autoScroll = true;
-        FaultDrawer_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
-        FaultDrawer_SetBackColor(GPACK_RGBA5551(0, 0, 0, 0));
+        Fault_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
+        Fault_SetBackColor(GPACK_RGBA5551(0, 0, 0, 0));
 
         // Draw pages
         do {
@@ -1233,7 +1246,7 @@ void Fault_ThreadEntry(void* arg) {
             Fault_WaitForInput();
             // Stack trace page
             Fault_FillScreenBlack();
-            FaultDrawer_DrawText(120, 16, "STACK TRACE");
+            Fault_DrawText(120, 16, "STACK TRACE");
             Fault_DrawStackTrace(faultedThread, 36, 24, 22);
             Fault_LogStackTrace(faultedThread, 50);
             Fault_WaitForInput();
@@ -1243,10 +1256,10 @@ void Fault_ThreadEntry(void* arg) {
             Fault_DrawMemDump(faultedThread->context.pc - 0x100, (uintptr_t)faultedThread->context.sp, 0, 0);
             // End page
             Fault_FillScreenRed();
-            FaultDrawer_DrawText(64, 80, "    CONGRATURATIONS!    ");
-            FaultDrawer_DrawText(64, 90, "All Pages are displayed.");
-            FaultDrawer_DrawText(64, 100, "       THANK YOU!       ");
-            FaultDrawer_DrawText(64, 110, " You are great debugger!");
+            Fault_DrawText(64, 80, "    CONGRATURATIONS!    ");
+            Fault_DrawText(64, 90, "All Pages are displayed.");
+            Fault_DrawText(64, 100, "       THANK YOU!       ");
+            Fault_DrawText(64, 110, " You are great debugger!");
             Fault_WaitForInput();
         } while (!sFaultInstance->exit);
 
@@ -1258,14 +1271,14 @@ void Fault_ThreadEntry(void* arg) {
 
 void Fault_SetFrameBuffer(void* fb, u16 w, u16 h) {
     sFaultInstance->fb = fb;
-    FaultDrawer_SetDrawerFB(fb, w, h);
+    Fault_SetDrawerFB(fb, w, h);
 }
 
 void Fault_Init(void) {
     sFaultInstance = &gFaultMgr;
     bzero(sFaultInstance, sizeof(FaultMgr));
-    FaultDrawer_Init();
-    FaultDrawer_SetInputCallback(Fault_WaitForInput);
+    Fault_InitDrawer();
+    Fault_SetInputCallback(Fault_WaitForInput);
     sFaultInstance->exit = false;
     sFaultInstance->msgId = 0;
     sFaultInstance->faultHandlerEnabled = false;
@@ -1289,9 +1302,9 @@ void Fault_HungupFaultClient(const char* exp1, const char* exp2) {
     osSyncPrintf("HungUp on Thread %d\n", osGetThreadId(NULL));
     osSyncPrintf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
     osSyncPrintf("%s\n", exp2 != NULL ? exp2 : "(NULL)");
-    FaultDrawer_Printf("HungUp on Thread %d\n", osGetThreadId(NULL));
-    FaultDrawer_Printf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
-    FaultDrawer_Printf("%s\n", exp2 != NULL ? exp2 : "(NULL)");
+    Fault_Printf("HungUp on Thread %d\n", osGetThreadId(NULL));
+    Fault_Printf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
+    Fault_Printf("%s\n", exp2 != NULL ? exp2 : "(NULL)");
 }
 
 /**
