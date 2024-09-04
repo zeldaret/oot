@@ -5813,9 +5813,8 @@ s32 Camera_Demo1(Camera* camera) {
             rwData->keyframe = 0;
             rwData->curFrame = 0.0f;
             camera->animState++;
-            // "absolute" : "relative"
             PRINTF(VT_SGR("1") "%06u:" VT_RST " camera: spline demo: start %s \n", camera->play->state.frames,
-                   *relativeToPlayer == 0 ? "絶対" : "相対");
+                   *relativeToPlayer == 0 ? T("絶対", "absolute") : T("相対", "relative"));
 
 #if OOT_DEBUG
             if (PREG(93)) {
