@@ -833,13 +833,14 @@ def main():
     parser.add_argument(
         "-v",
         "--version",
+        dest="oot_version",
         required=True,
         help="OOT version",
     )
     args = parser.parse_args()
 
     baserom_segments_dir : Path = args.baserom_segments_dir
-    version : str = args.version
+    version : str = args.oot_version
     output_dir : Path = args.output_dir
 
     config = version_config.load_version_config(version)

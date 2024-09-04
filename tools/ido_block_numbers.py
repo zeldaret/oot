@@ -528,7 +528,8 @@ def main():
     parser.add_argument("filename", metavar="FILE", type=Path, help="C source file")
     parser.add_argument(
         "-v",
-        "--oot-version",
+        "--version",
+        dest="oot_version",
         type=str,
         default="gc-eu-mq-dbg",
         help="OOT version (default: gc-eu-mq-dbg)",

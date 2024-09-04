@@ -28,6 +28,7 @@ def main():
     parser.add_argument(
         "-v",
         "--version",
+        dest="oot_version",
         required=True,
         help="OOT version",
     )
@@ -43,7 +44,7 @@ def main():
 
     rom_data = memoryview(args.rom.read_bytes())
 
-    config = version_config.load_version_config(args.version)
+    config = version_config.load_version_config(args.oot_version)
     dmadata_start = args.dmadata_start or config.dmadata_start
     dma_names = config.dmadata_segments.keys()
 

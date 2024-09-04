@@ -30,13 +30,14 @@ def main():
     parser.add_argument(
         "-v",
         "--version",
+        dest="oot_version",
         required=True,
         help="OOT version",
     )
 
     args = parser.parse_args()
 
-    config = version_config.load_version_config(args.version)
+    config = version_config.load_version_config(args.oot_version)
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     for incbin in config.incbins:

@@ -744,8 +744,9 @@ def main():
         "the current build are due to BSS ordering."
     )
     parser.add_argument(
-        "--oot-version",
         "-v",
+        "--version",
+        dest="oot_version",
         type=str,
         required=True,
         help="OOT version",
