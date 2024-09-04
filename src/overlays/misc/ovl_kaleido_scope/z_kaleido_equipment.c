@@ -120,22 +120,22 @@ void KaleidoScope_ProcessPlayerPreRender(PlayState* play);
 void KaleidoScope_DrawEquipment(PlayState* play) {
     static s16 sEquipTimer = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
+    InterfaceContext* interfaceCtx = &play->interfaceCtx;
     Input* input = &play->state.input[0];
     u16 i;
     u16 j;
     u16 k;
     u16 bit;
+    u16 rowStart;
     u16 temp;
     u16 point;
-    u16 rowStart;
-    u16 pad;
     s16 cursorMoveResult;
-    u16 cursorItem;
     u16 cursorSlot;
-    s16 cursorPoint;
+    u16 cursorItem;
     s16 cursorX;
     s16 cursorY;
-    volatile s16 oldCursorPoint;
+    s16 oldCursorPoint;
+    s16 cursorPoint;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_equipment.c", 219);
 
@@ -170,7 +170,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             cursorY = pauseCtx->cursorY[PAUSE_EQUIP];
 
             cursorMoveResult = 0;
-            while (cursorMoveResult == 0) {
+            do {
                 if (pauseCtx->stickAdjX < -30) {
                     if (pauseCtx->cursorX[PAUSE_EQUIP] != 0) {
                         pauseCtx->cursorX[PAUSE_EQUIP]--;
@@ -254,15 +254,13 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 } else {
                     cursorMoveResult = 4;
                 }
-            }
+            } while (cursorMoveResult == 0);
 
             cursorPoint = pauseCtx->cursorPoint[PAUSE_EQUIP];
             cursorY = pauseCtx->cursorY[PAUSE_EQUIP];
 
-            if (cursorMoveResult) {}
-
             cursorMoveResult = 0;
-            while (cursorMoveResult == 0) {
+            do {
                 if (pauseCtx->stickAdjY > 30) {
                     if (pauseCtx->cursorY[PAUSE_EQUIP] != 0) {
                         pauseCtx->cursorY[PAUSE_EQUIP]--;
@@ -306,7 +304,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 } else {
                     cursorMoveResult = 4;
                 }
-            }
+            } while (cursorMoveResult == 0);
         } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
             if (pauseCtx->stickAdjX > 30) {
                 pauseCtx->nameDisplayTimer = 0;
@@ -340,19 +338,15 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
                     cursorY = cursorY + 1;
                     cursorPoint = cursorPoint + 4;
-                    if (cursorY < 4) {
-                        continue;
+                    if (cursorY >= 4) {
+                        cursorY = 0;
+                        cursorPoint = cursorX + 1;
+                        cursorX = cursorPoint;
+                        if (cursorX >= 4) {
+                            KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_RIGHT);
+                            break;
+                        }
                     }
-
-                    cursorY = 0;
-                    cursorPoint = cursorX + 1;
-                    cursorX = cursorPoint;
-                    if (cursorX < 4) {
-                        continue;
-                    }
-
-                    KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_RIGHT);
-                    break;
                 }
             }
         } else {
@@ -381,19 +375,15 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
                     cursorY = cursorY + 1;
                     cursorPoint = cursorPoint + 4;
-                    if (cursorY < 4) {
-                        continue;
+                    if (cursorY >= 4) {
+                        cursorY = 0;
+                        cursorPoint = cursorX - 1;
+                        cursorX = cursorPoint;
+                        if (cursorX < 0) {
+                            KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_LEFT);
+                            break;
+                        }
                     }
-
-                    cursorY = 0;
-                    cursorPoint = cursorX - 1;
-                    cursorX = cursorPoint;
-                    if (cursorX >= 0) {
-                        continue;
-                    }
-
-                    KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_LEFT);
-                    break;
                 }
             }
         }
@@ -599,7 +589,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08, pauseCtx->iconItemSegment);
     gSPSegment(POLY_OPA_DISP++, 0x09, pauseCtx->iconItem24Segment);
     gSPSegment(POLY_OPA_DISP++, 0x0A, pauseCtx->nameSegment);
-    gSPSegment(POLY_OPA_DISP++, 0x0B, play->interfaceCtx.mapSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x0B, interfaceCtx->mapSegment);
     gSPSegment(POLY_OPA_DISP++, 0x0C, pauseCtx->iconItemAltSegment);
 
     Gfx_SetupDL_42Opa(play->state.gfxCtx);
