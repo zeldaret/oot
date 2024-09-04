@@ -469,7 +469,7 @@ void Play_Init(GameState* thisx) {
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
     // Busyloop until the room loads
-    while (!Room_ProcessNewRoomRequest(this, &this->roomCtx)) {
+    while (!Room_ProcessRoomRequest(this, &this->roomCtx)) {
         ; // Empty Loop
     }
 
@@ -951,7 +951,7 @@ void Play_Update(PlayState* this) {
                     }
                 } else {
                     PLAY_LOG(3606);
-                    Room_ProcessNewRoomRequest(this, &this->roomCtx);
+                    Room_ProcessRoomRequest(this, &this->roomCtx);
 
                     PLAY_LOG(3612);
                     CollisionCheck_AT(this, &this->colChkCtx);

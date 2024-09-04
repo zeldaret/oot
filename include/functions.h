@@ -1045,10 +1045,10 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
                            u16 tlutCount, f32 offsetX, f32 offsetY);
 void Room_Init(PlayState* play, Room* room);
 u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx);
-s32 Room_LoadNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum);
-s32 Room_ProcessNewRoomRequest(PlayState* play, RoomContext* roomCtx);
+s32 Room_RequestNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum);
+s32 Room_ProcessRoomRequest(PlayState* play, RoomContext* roomCtx);
 void Room_Draw(PlayState* play, Room* room, u32 flags);
-void Room_ExitPreviousRoom(PlayState* play, RoomContext* roomCtx);
+void Room_FinishRoomChange(PlayState* play, RoomContext* roomCtx);
 void Sample_Destroy(GameState* thisx);
 void Sample_Init(GameState* thisx);
 void Inventory_ChangeEquipment(s16 equipment, u16 value);

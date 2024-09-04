@@ -611,7 +611,7 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
     // Load into a room for the first time
     //! Since curRoom was initialized to (room -1, segment NULL) in Play_InitScene, the previous room will be reset to
     //! the nulled state when this function completes
-    Room_LoadNewRoom(play, roomCtx, frontRoom);
+    Room_RequestNewRoom(play, roomCtx, frontRoom);
 
     return roomBufferSize;
 }
@@ -621,18 +621,18 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
  * If successful, the requested room will be loaded into memory and becomes the new current room; the room that was
  * current before becomes the previous room.
  *
- * Room_LoadNewRoom will be blocked from loading new rooms until Room_ProcessNewRoomRequest completes room
+ * Room_RequestNewRoom will be blocked from loading new rooms until Room_ProcessRoomRequest completes room
  * initialization.
  *
- * Calling Room_LoadNewRoom outside of Room_SetupFirstRoom will allow for two rooms being initialized simultaneously.
- * This lets an actor control how the transition between the two rooms is handled. Calling Room_ExitPreviousRoom
- * afterward will finalize the room swap.
+ * Calling Room_RequestNewRoom outside of Room_SetupFirstRoom will allow for two rooms being initialized simultaneously.
+ * This allows an actor like ACTOR_EN_HOLL to seamlessly swap the two rooms as the player moves between them. Calling
+ * Room_FinishRoomChange afterward will finalize the room swap.
  *
  * @param roomNum is the id of the room to load. roomNum must NOT be the same id as curRoom.num, since this will create
- * duplicate actor instances that cannot be cleaned up by calling Room_ExitPreviousRoom
+ * duplicate actor instances that cannot be cleaned up by calling Room_FinishRoomChange
  * @returns bool false if the request could not be created.
  */
-s32 Room_LoadNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
+s32 Room_RequestNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
     if (roomCtx->status == 0) {
         u32 size;
 
@@ -670,12 +670,12 @@ s32 Room_LoadNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
 }
 
 /**
- * Completes room initialization for the requested room by calling Room_LoadNewRoom.
+ * Completes room initialization for the requested room by calling Room_RequestNewRoom.
  * This function does not block the thread if the room data is still being transferred.
  *
  * @returns bool false if a dma transfer is in progress.
  */
-s32 Room_ProcessNewRoomRequest(PlayState* play, RoomContext* roomCtx) {
+s32 Room_ProcessRoomRequest(PlayState* play, RoomContext* roomCtx) {
     if (roomCtx->status == 1) {
         if (osRecvMesg(&roomCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
             roomCtx->status = 0;
@@ -703,15 +703,16 @@ void Room_Draw(PlayState* play, Room* room, u32 flags) {
 }
 
 /**
- * Leaves the previous room, freeing up resources.
+ * Finalizes a swap between two rooms.
  *
- * When a new room is created with Room_LoadNewRoom, the previous room remains in memory so that the two rooms can be
- * swapped in a seamless manner with actors like ACTOR_EN_HOLL. Room_ExitPreviousRoom completes the swap by deleting the
- * previous room, killing all actors that do not belong to the current room.
+ * When a new room is created with Room_RequestNewRoom, the previous room and it's actors remains in memory. This allows
+ * an actor like ACTOR_EN_HOLL to seamlessly swap the two rooms as the player moves between them.
  */
-void Room_ExitPreviousRoom(PlayState* play, RoomContext* roomCtx) {
+void Room_FinishRoomChange(PlayState* play, RoomContext* roomCtx) {
+    // Delete the previous room
     roomCtx->prevRoom.num = -1;
     roomCtx->prevRoom.segment = NULL;
+
     func_80031B14(play, &play->actorCtx);
     Actor_SpawnTransitionActors(play, &play->actorCtx);
     Map_InitRoomData(play, roomCtx->curRoom.num);
