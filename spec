@@ -547,9 +547,9 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
 #endif
-#if FAULT_VERSION == FAULT_N64
+#if PLATFORM_N64
     include "$(BUILD_DIR)/src/code/fault_n64.o"
-#elif FAULT_VERSION == FAULT_GC
+#else
     include "$(BUILD_DIR)/src/code/fault_gc.o"
     include "$(BUILD_DIR)/src/code/fault_gc_drawer.o"
 #endif
@@ -604,7 +604,11 @@ beginseg
     include "$(BUILD_DIR)/src/code/fp.o"
     include "$(BUILD_DIR)/src/code/system_malloc.o"
     include "$(BUILD_DIR)/src/code/rand.o"
-    include "$(BUILD_DIR)/src/code/__osMalloc.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/code/__osMalloc_n64.o"
+#else
+    include "$(BUILD_DIR)/src/code/__osMalloc_gc.o"
+#endif
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/boot/sprintf.o"
 #endif

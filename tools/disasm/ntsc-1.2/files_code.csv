@@ -132,7 +132,7 @@ BC670,800CDD50,src/code/fp_math
 BCA20,800CE100,src/code/fp
 BCB80,800CE260,src/code/system_malloc
 BCDF0,800CE4D0,src/code/rand
-BCEF0,800CE5D0,src/code/__osMalloc
+BCEF0,800CE5D0,src/code/__osMalloc_n64
 BD8A0,800CEF80,src/boot/sprintf
 BD970,800CF050,src/code/printutils
 BD9D0,800CF0B0,src/code/jpegutils
@@ -292,7 +292,8 @@ F3AD0,801051B0,src/code/gfxprint
 F4380,80105A60,src/code/loadfragment2_n64
 F4390,80105A70,src/code/code_800FC620
 F43A0,80105A80,src/code/rand
-F43B0,80105A90,src/code/__osMalloc
+F43B0,80105A90,src/code/__osMalloc_n64
+F43C0,80105AA0,src/boot/sprintf
 F4400,80105AE0,src/libultra/gu/sins
 F4C00,801062E0,src/libultra/io/siacs
 F4C10,801062F0,src/libultra/io/controller
@@ -379,6 +380,7 @@ F9190,8010A870,src/code/gfxprint
 F91D0,8010A8B0,src/code/rcp_utils
 F9320,8010AA00,src/code/loadfragment2_n64
 F94C0,8010ABA0,src/code/fp_math
+F94E0,8010ABC0,src/code/__osMalloc_n64
 F9690,8010AD70,src/libultra/gu/sinf
 F96E0,8010ADC0,src/libultra/gu/perspective
 F96F0,8010ADD0,src/libultra/gu/lookathil

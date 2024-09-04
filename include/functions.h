@@ -863,7 +863,7 @@ void ZeldaArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void ZeldaArena_Check(void);
 void ZeldaArena_Init(void* start, u32 size);
 void ZeldaArena_Cleanup(void);
-u8 ZeldaArena_IsInitialized(void);
+s32 ZeldaArena_IsInitialized(void);
 #if OOT_DEBUG
 void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* ZeldaArena_MallocDebug(u32 size, const char* file, int line);
@@ -1324,7 +1324,7 @@ void DebugArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void DebugArena_Check(void);
 void DebugArena_Init(void* start, u32 size);
 void DebugArena_Cleanup(void);
-u8 DebugArena_IsInitialized(void);
+s32 DebugArena_IsInitialized(void);
 #if OOT_DEBUG
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* DebugArena_MallocDebug(u32 size, const char* file, int line);
@@ -1594,31 +1594,13 @@ void SystemArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void SystemArena_Check(void);
 void SystemArena_Init(void* start, u32 size);
 void SystemArena_Cleanup(void);
-u8 SystemArena_IsInitialized(void);
+s32 SystemArena_IsInitialized(void);
 #if OOT_DEBUG
 void* SystemArena_MallocDebug(u32 size, const char* file, int line);
 void* SystemArena_MallocRDebug(u32 size, const char* file, int line);
 void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line);
 void SystemArena_FreeDebug(void* ptr, const char* file, int line);
 void SystemArena_Display(void);
-#endif
-
-void __osMallocInit(Arena* arena, void* start, u32 size);
-void __osMallocAddBlock(Arena* arena, void* start, s32 size);
-void __osMallocCleanup(Arena* arena);
-u8 __osMallocIsInitialized(Arena* arena);
-void* __osMalloc(Arena* arena, u32 size);
-void* __osMallocR(Arena* arena, u32 size);
-void __osFree(Arena* arena, void* ptr);
-void* __osRealloc(Arena* arena, void* ptr, u32 newSize);
-void ArenaImpl_GetSizes(Arena* arena, u32* outMaxFree, u32* outFree, u32* outAlloc);
-u32 __osCheckArena(Arena* arena);
-#if OOT_DEBUG
-void* __osMallocDebug(Arena* arena, u32 size, const char* file, int line);
-void* __osMallocRDebug(Arena* arena, u32 size, const char* file, int line);
-void __osFreeDebug(Arena* arena, void* ptr, const char* file, int line);
-void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, int line);
-void __osDisplayArena(Arena* arena);
 #endif
 s32 PrintUtils_VPrintf(PrintCallback* pfn, const char* fmt, va_list args);
 s32 PrintUtils_Printf(PrintCallback* pfn, const char* fmt, ...);
