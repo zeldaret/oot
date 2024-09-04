@@ -1034,11 +1034,11 @@ void func_80A04414(EnElf* this, PlayState* play) {
     }
 
     if (this->fairyFlags & 1) {
-        if ((naviHoverActor == NULL) || (player->unk_664 == NULL)) {
+        if ((naviHoverActor == NULL) || (player->focusActor == NULL)) {
             this->fairyFlags ^= 1;
         }
     } else {
-        if ((naviHoverActor != NULL) && (player->unk_664 != NULL)) {
+        if ((naviHoverActor != NULL) && (player->focusActor != NULL)) {
             if (naviHoverActor->category == ACTORCAT_NPC) {
                 sfxId = NA_SE_VO_NAVY_HELLO;
             } else {
@@ -1224,7 +1224,8 @@ void func_80A04DE4(EnElf* this, PlayState* play) {
     if (this->fairyFlags & 0x10) {
         pos = play->actorCtx.targetCtx.naviHoverPos;
 
-        if ((player->unk_664 == NULL) || (&player->actor == player->unk_664) || (&this->actor == player->unk_664)) {
+        if ((player->focusActor == NULL) || (&player->actor == player->focusActor) ||
+            (&this->actor == player->focusActor)) {
             pos.x = player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
             pos.y = player->bodyPartsPos[PLAYER_BODYPART_HEAD].y + 5.0f;
             pos.z = player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
@@ -1376,7 +1377,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
     EnElf* this = (EnElf*)thisx;
 
     if (player->naviTextId == 0) {
-        if (player->unk_664 == NULL) {
+        if (player->focusActor == NULL) {
 #if OOT_DEBUG
             if (((gSaveContext.save.info.playerData.naviTimer >= 600) &&
                  (gSaveContext.save.info.playerData.naviTimer <= 3000)) ||
