@@ -188,7 +188,7 @@ typedef struct RoomContext {
     /* 0x28 */ void* bufPtrs[2]; // Start and end pointers for the room buffer. Can be split into two pages, where page 0 is allocated from the start pointer and page 1 is allocated from the end pointer.
     /* 0x30 */ u8 activeBufPage; // 0 - First page in memory, 1 - Last page in memory
     /* 0x31 */ s8 status; // 0 - Free for new room request, 1 - DmaRequest for a new room is in progress
-    /* 0x34 */ void* roomRequestAddr; // ram pointer to where the requested room segment will be stored
+    /* 0x34 */ void* roomRequestAddr; // Pointer to where the requested room segment will be stored
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
