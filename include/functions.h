@@ -28,8 +28,6 @@ void Mio0_Decompress(u8* src, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
-u32 StackCheck_GetState(StackEntry* entry);
-u32 StackCheck_CheckAll(void);
 u32 StackCheck_Check(StackEntry* entry);
 #if OOT_DEBUG
 void LogUtils_LogHexDump(void* ptr, s32 size0);
