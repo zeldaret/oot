@@ -4,7 +4,7 @@
 
 #define BOSS_GANON2_EFFECT_COUNT 100
 
-typedef struct {
+typedef struct BossGanon2Effect {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 unk_01;
     /* 0x04 */ Vec3f position;

@@ -117,7 +117,5 @@ void DemoShd_Draw(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_XLU_DISP++, D_809934B8);
     }
 
-    if (1) {} // Necessary to match
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_shd.c", 762);
 }

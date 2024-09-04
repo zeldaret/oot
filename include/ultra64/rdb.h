@@ -71,7 +71,7 @@
 #include "ultratypes.h"
 
 /* Structure for debug port */
-typedef struct {
+typedef struct rdbPacket {
     u32 type   : 6;     /* 0: invalid, 1: print, 2: debug */
     u32 length : 2;     /* 1, 2, or 3 */
     char buf[3];        /* character buffer */

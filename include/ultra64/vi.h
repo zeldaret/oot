@@ -13,7 +13,7 @@
 #define OS_VI_DITHER_FILTER_ON  0x0040
 #define OS_VI_DITHER_FILTER_OFF 0x0080
 
-typedef struct {
+typedef struct OSViCommonRegs {
     /* 0x00 */ u32 ctrl;
     /* 0x04 */ u32 width;
     /* 0x08 */ u32 burst;
@@ -25,7 +25,7 @@ typedef struct {
     /* 0x20 */ u32 vCurrent;
 } OSViCommonRegs; // size = 0x20
 
-typedef struct {
+typedef struct OSViFieldRegs {
     /* 0x00 */ u32 origin;
     /* 0x04 */ u32 yScale;
     /* 0x08 */ u32 vStart;
@@ -33,19 +33,19 @@ typedef struct {
     /* 0x10 */ u32 vIntr;
 } OSViFieldRegs; // size = 0x14
 
-typedef struct {
+typedef struct OSViMode {
     /* 0x00 */ u8 type;
     /* 0x04 */ OSViCommonRegs comRegs;
     /* 0x24 */ OSViFieldRegs fldRegs[2];
 } OSViMode; // size = 0x4C
 
-typedef struct {
+typedef struct __OSViScale {
     /* 0x0 */ f32 factor;
     /* 0x4 */ u16 offset;
     /* 0x8 */ u32 scale;
 } __OSViScale; // size = 0x0C
 
-typedef struct {
+typedef struct OSViContext {
     /* 0x00 */ u16 state;
     /* 0x02 */ u16 retraceCount;
     /* 0x04 */ void* framep;

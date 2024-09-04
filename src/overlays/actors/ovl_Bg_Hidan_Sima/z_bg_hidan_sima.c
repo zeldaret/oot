@@ -226,9 +226,9 @@ void BgHidanSima_Update(Actor* thisx, PlayState* play) {
 
 Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     MtxF mtxF;
-    s32 phi_s5;
     s32 s3;
     s32 v0;
+    s32 phi_s5;
     f32 cos;
     f32 sin;
     s32 pad[2];

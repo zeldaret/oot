@@ -1,18 +1,26 @@
 #include "global.h"
 
+#if PLATFORM_N64 || OOT_DEBUG
+#define RCP_UTILS_PRINTF osSyncPrintf
+#elif IDO_PRINTF_WORKAROUND
+#define RCP_UTILS_PRINTF(args) (void)0
+#else
+#define RCP_UTILS_PRINTF(format, ...) (void)0
+#endif
+
 #define printSpStatus(x, name) \
     if (x & SP_STATUS_##name)  \
-    PRINTF(#name " ")
+    RCP_UTILS_PRINTF(#name " ")
 
 #define printDpStatus(x, name) \
     if (x & DPC_STATUS_##name) \
-    PRINTF(#name " ")
+    RCP_UTILS_PRINTF(#name " ")
 
 void RcpUtils_PrintRegisterStatus(void) {
     u32 spStatus = __osSpGetStatus();
     u32 dpStatus = osDpGetStatus();
 
-    PRINTF("osSpGetStatus=%08x: ", spStatus);
+    RCP_UTILS_PRINTF("osSpGetStatus=%08x: ", spStatus);
     printSpStatus(spStatus, HALT);
     printSpStatus(spStatus, BROKE);
     printSpStatus(spStatus, DMA_BUSY);
@@ -28,9 +36,9 @@ void RcpUtils_PrintRegisterStatus(void) {
     printSpStatus(spStatus, SIG5);
     printSpStatus(spStatus, SIG6);
     printSpStatus(spStatus, SIG7);
-    PRINTF("\n");
+    RCP_UTILS_PRINTF("\n");
 
-    PRINTF("osDpGetStatus=%08x:", dpStatus);
+    RCP_UTILS_PRINTF("osDpGetStatus=%08x:", dpStatus);
     printDpStatus(dpStatus, XBUS_DMEM_DMA);
     printDpStatus(dpStatus, FREEZE);
     printDpStatus(dpStatus, FLUSH);
@@ -42,7 +50,7 @@ void RcpUtils_PrintRegisterStatus(void) {
     printDpStatus(dpStatus, DMA_BUSY);
     printDpStatus(dpStatus, END_VALID);
     printDpStatus(dpStatus, START_VALID);
-    PRINTF("\n");
+    RCP_UTILS_PRINTF("\n");
 }
 
 void RcpUtils_Reset(void) {

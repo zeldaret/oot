@@ -10,10 +10,11 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-#define OBJSWITCH_TYPE(thisx) ((thisx)->params & 7)
-#define OBJSWITCH_SUBTYPE(thisx) (((thisx)->params >> 4) & 7)
-#define OBJSWITCH_SWITCH_FLAG(thisx) (((thisx)->params >> 8) & 0x3F)
-#define OBJSWITCH_FROZEN(thisx) (((thisx)->params >> 7) & 1)
+#define OBJSWITCH_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 3)
+#define OBJSWITCH_SUBTYPE(thisx) PARAMS_GET_U((thisx)->params, 4, 3)
+#define OBJSWITCH_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 6)
+#define OBJSWITCH_FROZEN(thisx) PARAMS_GET_U((thisx)->params, 7, 1)
+
 #define OBJSWITCH_FROZEN_FLAG (1 << 7)
 
 void ObjSwitch_Init(Actor* thisx, PlayState* play);
@@ -290,11 +291,8 @@ void ObjSwitch_UpdateTwoTexScrollXY(ObjSwitch* this) {
 
 void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     ObjSwitch* this = (ObjSwitch*)thisx;
-    s32 isSwitchFlagSet;
-    s32 type;
-
-    isSwitchFlagSet = Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor));
-    type = OBJSWITCH_TYPE(&this->dyna.actor);
+    s32 isSwitchFlagSet = Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor));
+    s32 type = OBJSWITCH_TYPE(&this->dyna.actor);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         ObjSwitch_InitDynaPoly(this, play, &gFloorSwitchCol, DYNA_TRANSFORM_POS);
@@ -741,7 +739,7 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-void ObjSwitch_DrawFloor(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawFloor(Actor* thisx, PlayState* play) {
     static Gfx* floorSwitchDLists[] = {
         gFloorSwitch1DL, // OBJSWITCH_SUBTYPE_ONCE
         gFloorSwitch3DL, // OBJSWITCH_SUBTYPE_TOGGLE
@@ -749,14 +747,14 @@ void ObjSwitch_DrawFloor(ObjSwitch* this, PlayState* play) {
         gFloorSwitch2DL, // OBJSWITCH_SUBTYPE_HOLD_INVERTED
     };
 
-    Gfx_DrawDListOpa(play, floorSwitchDLists[OBJSWITCH_SUBTYPE(&this->dyna.actor)]);
+    Gfx_DrawDListOpa(play, floorSwitchDLists[OBJSWITCH_SUBTYPE(thisx)]);
 }
 
-void ObjSwitch_DrawFloorRusty(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawFloorRusty(Actor* thisx, PlayState* play) {
     Gfx_DrawDListOpa(play, gRustyFloorSwitchDL);
 }
 
-void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawEye(Actor* thisx, PlayState* play) {
     static void* eyeTextures[][4] = {
         // OBJSWITCH_SUBTYPE_ONCE
         { gEyeSwitchGoldOpenTex, gEyeSwitchGoldOpeningTex, gEyeSwitchGoldClosingTex, gEyeSwitchGoldClosedTex },
@@ -767,7 +765,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
         gEyeSwitch1DL, // OBJSWITCH_SUBTYPE_ONCE
         gEyeSwitch2DL, // OBJSWITCH_SUBTYPE_TOGGLE
     };
-    s32 pad;
+    ObjSwitch* this = (ObjSwitch*)thisx;
     s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
@@ -781,7 +779,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1471);
 }
 
-void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawCrystal(Actor* thisx, PlayState* play) {
     static Gfx* xluDLists[] = {
         gCrystalSwitchCoreXluDL,    // OBJSWITCH_SUBTYPE_ONCE
         gCrystalSwitchDiamondXluDL, // OBJSWITCH_SUBTYPE_TOGGLE
@@ -796,14 +794,11 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
         NULL,                       // OBJSWITCH_SUBTYPE_HOLD_INVERTED
         gCrystalSwitchCoreOpaDL     // OBJSWITCH_SUBTYPE_SYNC
     };
-    s32 pad1;
-    s32 pad2;
-    s32 subType;
+    ObjSwitch* this = (ObjSwitch*)thisx;
+    s32 pad;
+    s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
-    subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
     func_8002ED80(&this->dyna.actor, play, 0);
-
-    if (1) {}
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1494);
 
@@ -833,7 +828,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1533);
 }
 
-static ObjSwitchActionFunc sDrawFuncs[] = {
+static ObjSwitchDrawFunc sDrawFuncs[] = {
     ObjSwitch_DrawFloor,      // OBJSWITCH_TYPE_FLOOR
     ObjSwitch_DrawFloorRusty, // OBJSWITCH_TYPE_FLOOR_RUSTY
     ObjSwitch_DrawEye,        // OBJSWITCH_TYPE_EYE
@@ -842,7 +837,5 @@ static ObjSwitchActionFunc sDrawFuncs[] = {
 };
 
 void ObjSwitch_Draw(Actor* thisx, PlayState* play) {
-    ObjSwitch* this = (ObjSwitch*)thisx;
-
-    sDrawFuncs[OBJSWITCH_TYPE(&this->dyna.actor)](this, play);
+    sDrawFuncs[OBJSWITCH_TYPE(thisx)](thisx, play);
 }

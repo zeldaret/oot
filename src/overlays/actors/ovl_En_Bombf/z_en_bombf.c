@@ -508,7 +508,5 @@ void EnBombf_Draw(Actor* thisx, PlayState* play) {
         Collider_UpdateSpheres(0, &this->explosionCollider);
     }
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bombf.c", 1063);
 }

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "osMalloc.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2
@@ -12,14 +13,12 @@ s32 gDebugArenaLogSeverity = LOG_SEVERITY_ERROR;
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action) {
     if (ptr == NULL) {
         if (gDebugArenaLogSeverity >= LOG_SEVERITY_ERROR) {
-            // "%s: %u bytes %s failed\n"
-            PRINTF("%s: %u バイトの%sに失敗しました\n", name, size, action);
+            PRINTF(T("%s: %u バイトの%sに失敗しました\n", "%s: %u bytes %s failed\n"), name, size, action);
             __osDisplayArena(&sDebugArena);
             return;
         }
     } else if (gDebugArenaLogSeverity >= LOG_SEVERITY_VERBOSE) {
-        // "%s: %u bytes %s succeeded\n"
-        PRINTF("%s: %u バイトの%sに成功しました\n", name, size, action);
+        PRINTF(T("%s: %u バイトの%sに成功しました\n", "%s: %u bytes %s succeeded\n"), name, size, action);
     }
 }
 
@@ -99,8 +98,8 @@ void* DebugArena_Calloc(u32 num, u32 size) {
 
 #if OOT_DEBUG
 void DebugArena_Display(void) {
-    // "Zelda heap display" ("Zelda" should probably have been changed to "Debug")
-    PRINTF("ゼルダヒープ表示\n");
+    // Likely copypasted from ZeldaArena_Display, should say "Debug"
+    PRINTF(T("ゼルダヒープ表示\n", "Zelda heap display\n"));
     __osDisplayArena(&sDebugArena);
 }
 #endif
@@ -127,6 +126,6 @@ void DebugArena_Cleanup(void) {
     __osMallocCleanup(&sDebugArena);
 }
 
-u8 DebugArena_IsInitialized(void) {
+s32 DebugArena_IsInitialized(void) {
     return __osMallocIsInitialized(&sDebugArena);
 }

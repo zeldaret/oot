@@ -17,7 +17,7 @@ typedef struct EnWood02 {
 
 // Types with SPAWNED in the name are those that can be managed by a spawner, however the actor allows you to spawn them
 // on their own without a spawner as well.
-typedef enum {
+typedef enum WoodType {
     /* 0x00 */ WOOD_TREE_CONICAL_LARGE,
     /* 0x01 */ WOOD_TREE_CONICAL_MEDIUM,
     /* 0x02 */ WOOD_TREE_CONICAL_SMALL,

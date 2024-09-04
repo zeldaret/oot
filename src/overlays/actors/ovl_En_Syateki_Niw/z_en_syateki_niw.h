@@ -8,7 +8,7 @@ struct EnSyatekiNiw;
 
 typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, PlayState*);
 
-typedef struct {
+typedef struct EnSyatekiNiwEffect {
     /* 0x00 */ u8    state;
     /* 0x0C */ Vec3f pos;
     /* 0x10 */ Vec3f vel;
@@ -70,7 +70,7 @@ typedef struct EnSyatekiNiw {
     /* 0x0348 */ EnSyatekiNiwEffect effects[EN_SYATEKI_NIW_EFFECT_COUNT]; // feather particles
 } EnSyatekiNiw; // size = 0x0460
 
-typedef enum {
+typedef enum EnSyatekiMinigame {
     SYATEKI_MINIGAME_ARCHERY, // unused archery game behavior
     SYATEKI_MINIGAME_ALLEY // Bombchu Alley behavior
 } EnSyatekiMinigame;

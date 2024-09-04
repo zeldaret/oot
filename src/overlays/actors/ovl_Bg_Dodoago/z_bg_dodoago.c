@@ -118,7 +118,7 @@ void BgDodoago_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
 
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         BgDodoago_SetupAction(this, BgDodoago_DoNothing);
         this->dyna.actor.shape.rot.x = 0x1333;
         play->roomCtx.unk_74[BGDODOAGO_EYE_LEFT] = play->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT] = 255;
@@ -156,7 +156,7 @@ void BgDodoago_WaitExplosives(BgDodoago* this, PlayState* play) {
 
         if (((play->roomCtx.unk_74[BGDODOAGO_EYE_LEFT] == 255) && (this->state == BGDODOAGO_EYE_RIGHT)) ||
             ((play->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT] == 255) && (this->state == BGDODOAGO_EYE_LEFT))) {
-            Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+            Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
             this->state = 0;
             Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -296,9 +296,9 @@ void BgDodoago_Update(Actor* thisx, PlayState* play) {
         }
     } else {
         sTimer++;
-        Flags_GetSwitch(play, this->dyna.actor.params & 0x3F);
+        Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         if (!sDisableBombCatcher && sTimer > 140) {
-            if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
                 // this prevents clearing the actor's parent pointer, effectively disabling the bomb catcher
                 sDisableBombCatcher++;
             } else {

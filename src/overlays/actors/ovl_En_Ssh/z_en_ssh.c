@@ -8,7 +8,7 @@
 #define SSH_STATE_ATTACKED (1 << 3)
 #define SSH_STATE_SPIN (1 << 4)
 
-typedef enum {
+typedef enum EnSshAnimation {
     SSH_ANIM_UNK0, // Unused animation. Possibly being knocked back?
     SSH_ANIM_UP,
     SSH_ANIM_WAIT,

@@ -2,7 +2,7 @@
 #include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
-typedef struct {
+typedef struct MapMarkInfo {
     /* 0x00 */ void* texture;
     /* 0x04 */ u32 imageFormat;
     /* 0x08 */ u32 imageSize;
@@ -14,7 +14,7 @@ typedef struct {
     /* 0x20 */ u32 dtdy;
 } MapMarkInfo; // size = 0x24
 
-typedef struct {
+typedef struct MapMarkDataOverlay {
     /* 0x00 */ void* loadedRamAddr; // original name: "allocp"
     /* 0x04 */ RomFile file;
     /* 0x0C */ void* vramStart;
@@ -72,8 +72,8 @@ void MapMark_DrawForDungeon(PlayState* play) {
     interfaceCtx = &play->interfaceCtx;
 
     if ((gMapData != NULL) && (play->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon])) {
-        // "Room number exceeded, yikes %d/%d  MapMarkDraw processing interrupted"
-        PRINTF(VT_COL(RED, WHITE) "部屋番号がオーバーしてるで,ヤバイで %d/%d  \nMapMarkDraw の処理を中断します\n",
+        PRINTF(VT_COL(RED, WHITE) T("部屋番号がオーバーしてるで,ヤバイで %d/%d  \nMapMarkDraw の処理を中断します\n",
+                                    "Room number exceeded, yikes %d/%d  \nMapMarkDraw processing interrupted\n"),
                VT_RST, play->interfaceCtx.mapRoomNum, gMapData->dgnMinimapCount[dungeon]);
         return;
     }

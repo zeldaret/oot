@@ -63,7 +63,7 @@ void BgSpot12Saku_Init(Actor* thisx, PlayState* play) {
 
     func_808B3420(this, play, &gGerudoFortressGTGShutterCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         func_808B3714(this);
     } else {
         func_808B3550(this);
@@ -84,7 +84,7 @@ void func_808B3550(BgSpot12Saku* this) {
 }
 
 void func_808B357C(BgSpot12Saku* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         func_808B35E4(this);
         this->timer = 20;
         OnePointCutscene_Init(play, 4170, -99, &this->dyna.actor, CAM_ID_MAIN);

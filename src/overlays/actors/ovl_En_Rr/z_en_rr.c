@@ -15,7 +15,7 @@
 #define RR_MOUTH 4
 #define RR_BASE 0
 
-typedef enum {
+typedef enum EnRrReachState {
     /* 0 */ REACH_NONE,
     /* 1 */ REACH_EXTEND,
     /* 2 */ REACH_STOP,
@@ -24,7 +24,7 @@ typedef enum {
     /* 5 */ REACH_CLOSE
 } EnRrReachState;
 
-typedef enum {
+typedef enum EnRrDamageEffect {
     /* 0x0 */ RR_DMG_NONE,
     /* 0x1 */ RR_DMG_STUN,
     /* 0x2 */ RR_DMG_FIRE,
@@ -37,7 +37,7 @@ typedef enum {
     /* 0xF */ RR_DMG_NORMAL
 } EnRrDamageEffect;
 
-typedef enum {
+typedef enum EnRrDropType {
     /* 0 */ RR_DROP_RANDOM_RUPEE,
     /* 1 */ RR_DROP_MAGIC,
     /* 2 */ RR_DROP_ARROW,
@@ -901,20 +901,18 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
         s32 offIndex;
 
         this->actor.colorFilterTimer++;
-        if ((effectTimer & 1) != 0) {
-            return;
-        }
+        if ((effectTimer & 1) == 0) {
+            segIndex = 4 - (effectTimer >> 2);
+            offIndex = (effectTimer >> 1) & 3;
 
-        segIndex = 4 - (effectTimer >> 2);
-        offIndex = (effectTimer >> 1) & 3;
-
-        effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
-        effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
-        effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
-        if (this->actor.colorFilterParams & 0x4000) {
-            EffectSsEnFire_SpawnVec3f(play, &this->actor, &effectPos, 100, 0, 0, -1);
-        } else {
-            EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255, 3.0f);
+            effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
+            effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
+            effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
+            if (this->actor.colorFilterParams & 0x4000) {
+                EffectSsEnFire_SpawnVec3f(play, &this->actor, &effectPos, 100, 0, 0, -1);
+            } else {
+                EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255, 3.0f);
+            }
         }
     }
 }

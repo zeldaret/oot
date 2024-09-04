@@ -51,23 +51,19 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
 }
 
 void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
     void* objectPtr;
     Mtx* mtx;
     f32 scale;
     s32 objectSlot;
 
-    objectPtr = play->objectCtx.slots[this->rObjectSlot].segment;
+    objectPtr = play2->objectCtx.slots[this->rObjectSlot].segment;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 155);
 
-#if !OOT_DEBUG
-    if (1) {}
-#endif
+    objectSlot = Object_GetSlot(&play2->objectCtx, OBJECT_FZ);
 
-    objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_FZ);
-
-    if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
+    if ((objectSlot >= 0) && Object_IsLoaded(&play2->objectCtx, objectSlot)) {
         gDPPipeSync(POLY_XLU_DISP++);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
@@ -79,13 +75,14 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, this->life * 3, this->life * 15, 32, 64, 1, 0,
                                     0, 32, 32));
         Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
-        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_ReplaceRotation(&play2->billboardMtxF);
         scale = this->rScale * 0.0001f;
         Matrix_Scale(scale, scale, 1.0f, MTXMODE_APPLY);
 
         mtx = MATRIX_NEW(play->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 196);
 
         if (mtx != NULL) {
+            if (1) {}
             gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamDL));
         }

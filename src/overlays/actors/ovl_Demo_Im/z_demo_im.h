@@ -9,7 +9,7 @@ struct DemoIm;
 typedef void (*DemoImActionFunc)(struct DemoIm*, PlayState*);
 typedef void (*DemoImDrawFunc)(struct DemoIm*, PlayState*);
 
-typedef enum {
+typedef enum ImpaLimb {
     /* 0x00 */ IMPA_LIMB_NONE,
     /* 0x01 */ IMPA_LIMB_ROOT,
     /* 0x02 */ IMPA_LIMB_TORSO,

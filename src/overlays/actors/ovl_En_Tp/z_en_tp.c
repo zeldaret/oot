@@ -29,7 +29,7 @@ void EnTp_Head_Wait(EnTp* this, PlayState* play);
 void EnTp_Head_SetupBurrowReturnHome(EnTp* this);
 void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play);
 
-typedef enum {
+typedef enum TailpasaranAction {
     /* 0 */ TAILPASARAN_ACTION_FRAGMENT_FADE,
     /* 1 */ TAILPASARAN_ACTION_DIE,
     /* 2 */ TAILPASARAN_ACTION_TAIL_FOLLOWHEAD,
@@ -78,7 +78,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef enum {
+typedef enum TailpasaranDamageEffect {
     /* 00 */ TAILPASARAN_DMGEFF_NONE,
     /* 01 */ TAILPASARAN_DMGEFF_DEKUNUT,
     /* 14 */ TAILPASARAN_DMGEFF_SHOCKING = 14, // Kills the Tailpasaran but shocks Player

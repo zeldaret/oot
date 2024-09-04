@@ -6,7 +6,7 @@
 
 struct EnMd;
 
-typedef enum {
+typedef enum EnMdLimb {
     ENMD_LIMB_NONE,
     ENMD_LIMB_ROOT,
     ENMD_LIMB_WAIST,

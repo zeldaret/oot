@@ -20,7 +20,7 @@ EffectSsProfile Effect_Ss_Stick_Profile = {
     EffectSsStick_Init,
 };
 
-typedef struct {
+typedef struct StickDrawInfo {
     /* 0x00 */ s16 objectId;
     /* 0x04 */ Gfx* displayList;
 } StickDrawInfo;

@@ -15,14 +15,14 @@ void MagicFire_Draw(Actor* thisx, PlayState* play);
 
 void MagicFire_UpdateBeforeCast(Actor* thisx, PlayState* play);
 
-typedef enum {
+typedef enum MagicFireAction {
     /* 0x00 */ DF_ACTION_INITIALIZE,
     /* 0x01 */ DF_ACTION_EXPAND_SLOWLY,
     /* 0x02 */ DF_ACTION_STOP_EXPANDING,
     /* 0x03 */ DF_ACTION_EXPAND_QUICKLY
 } MagicFireAction;
 
-typedef enum {
+typedef enum MagicFireScreenTint {
     /* 0x00 */ DF_SCREEN_TINT_NONE,
     /* 0x01 */ DF_SCREEN_TINT_FADE_IN,
     /* 0x02 */ DF_SCREEN_TINT_MAINTAIN,

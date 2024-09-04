@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum HakaTrapType {
     /* 0x00 */ HAKA_TRAP_GUILLOTINE_SLOW,
     /* 0x01 */ HAKA_TRAP_SPIKED_BOX,
     /* 0x02 */ HAKA_TRAP_SPIKED_WALL,

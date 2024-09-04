@@ -119,7 +119,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum DamageEffect {
     /* 00 */ PEAHAT_DMG_EFF_ATTACK = 0,
     /* 06 */ PEAHAT_DMG_EFF_LIGHT_ICE_ARROW = 6,
     /* 12 */ PEAHAT_DMG_EFF_FIRE = 12,
@@ -163,7 +163,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
 };
 
-typedef enum {
+typedef enum PeahatState {
     /* 00 */ PEAHAT_STATE_DYING,
     /* 01 */ PEAHAT_STATE_EXPLODE,
     /* 03 */ PEAHAT_STATE_3 = 3,

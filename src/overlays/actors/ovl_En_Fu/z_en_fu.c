@@ -66,7 +66,7 @@ static Vec3f sMtxSrc = {
     0.0f,
 };
 
-typedef enum {
+typedef enum EnFuFace {
     /* 0x00 */ FU_FACE_CALM,
     /* 0x01 */ FU_FACE_MAD
 } EnFuFace;

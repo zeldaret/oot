@@ -141,7 +141,7 @@ static s16 sMaskShopItems[8] = {
 
 static u16 sMaskShopFreeToBorrowTextIds[5] = { 0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB };
 
-typedef struct {
+typedef struct ShopItemEntry {
     /* 0x00 */ s16 objID;
     /* 0x02 */ s16 giDrawId;
     /* 0x04 */ void (*hiliteFunc)(Actor*, PlayState*, s32);

@@ -17,7 +17,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play);
 s32 MirRay_CheckInFrustum(Vec3f* vecA, Vec3f* vecB, f32 pointx, f32 pointy, f32 pointz, s16 radiusA, s16 radiusB);
 
 // Locations of light beams in sMirRayData
-typedef enum {
+typedef enum MirRayBeamLocations {
     /* 0 */ MIRRAY_SPIRIT_BOMBCHUIWAROOM_DOWNLIGHT,
     /* 1 */ MIRRAY_SPIRIT_SUNBLOCKROOM_DOWNLIGHT,
     /* 2 */ MIRRAY_SPIRIT_SINGLECOBRAROOM_DOWNLIGHT,
@@ -136,7 +136,7 @@ void MirRay_MakeShieldLight(MirRay* this, PlayState* play) {
                               player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->sourceEndRad,
                               this->poolEndRad)) {
 
-        if (dataEntry->params & 8) { // Light beams from mirrors
+        if (PARAMS_GET_NOSHIFT(dataEntry->params, 3, 1)) { // Light beams from mirrors
             Math_Vec3f_Diff(&player->actor.world.pos, &this->sourcePt, &reflectionPt);
         } else { // Light beams from windows
             Math_Vec3f_Diff(&this->poolPt, &this->sourcePt, &reflectionPt);
@@ -207,10 +207,10 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     this->shieldCorners[5].x = 758.0f;
     this->shieldCorners[5].y = -800.0f;
 
-    if (dataEntry->params & 2) {
+    if (PARAMS_GET_NOSHIFT(dataEntry->params, 1, 1)) {
         Collider_InitJntSph(play, &this->colliderSph);
         Collider_SetJntSph(play, &this->colliderSph, &this->actor, &sJntSphInit, &this->colliderSphItem);
-        if (!(dataEntry->params & 4)) { // Beams not from mirrors
+        if (!PARAMS_GET_NOSHIFT(dataEntry->params, 2, 1)) { // Beams not from mirrors
             MirRay_SetupCollider(this);
         }
     }
@@ -472,7 +472,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 i;
     MirRayShieldReflection reflection[6];
-    s32 temp;
+    s32 pad;
 
     this->reflectIntensity = 0.0f;
     if ((D_80B8E670 == 0) && !this->unLit && Player_HasMirrorShieldSetToDraw(play)) {
@@ -485,7 +485,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
             Matrix_Scale(1.0f, 1.0f, this->reflectIntensity * 5.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(temp = this->reflectIntensity * 100.0f));
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s32)(this->reflectIntensity * 100.0f) & 0xFF);
             gSPDisplayList(POLY_XLU_DISP++, gShieldBeamGlowDL);
             MirRay_SetupReflectionPolys(this, play, reflection);
             MirRay_RemoveSimilarReflections(reflection);

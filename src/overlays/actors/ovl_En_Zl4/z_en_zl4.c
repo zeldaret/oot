@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum EnZl4CutsceneState {
     /* 0 */ ZL4_CS_WAIT,
     /* 1 */ ZL4_CS_START,
     /* 2 */ ZL4_CS_MEET,
@@ -22,7 +22,7 @@ typedef enum {
     /* 8 */ ZL4_CS_PLAN
 } EnZl4CutsceneState;
 
-typedef enum {
+typedef enum EnZl4EyeExpression {
     /* 0 */ ZL4_EYES_NEUTRAL,
     /* 1 */ ZL4_EYES_SHUT,
     /* 2 */ ZL4_EYES_LOOK_LEFT,
@@ -32,14 +32,14 @@ typedef enum {
     /* 6 */ ZL4_EYES_OPEN
 } EnZl4EyeExpression;
 
-typedef enum {
+typedef enum EnZl4MouthExpression {
     /* 0 */ ZL4_MOUTH_NEUTRAL,
     /* 1 */ ZL4_MOUTH_HAPPY,
     /* 2 */ ZL4_MOUTH_WORRIED,
     /* 3 */ ZL4_MOUTH_SURPRISED
 } EnZl4MouthExpression;
 
-typedef enum {
+typedef enum EnZl4EyeState {
     /* 0 */ ZL4_EYE_OPEN,
     /* 1 */ ZL4_EYE_BLINK,
     /* 2 */ ZL4_EYE_SHUT,
@@ -92,7 +92,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnZl4Animation {
     /*  0 */ ZL4_ANIM_0,
     /*  1 */ ZL4_ANIM_1,
     /*  2 */ ZL4_ANIM_2,

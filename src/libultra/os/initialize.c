@@ -1,6 +1,6 @@
 #include "global.h"
 
-typedef struct {
+typedef struct __osExceptionVector {
     u32 inst1; // lui     $k0, %hi(__osException)
     u32 inst2; // addiu   $k0, $k0, %lo(__osException)
     u32 inst3; // jr      $k0
@@ -16,7 +16,19 @@ OSHWIntr __OSGlobalIntMask = OS_IM_ALL;
 
 u32 __osFinalrom;
 
-void __createSpeedParam(void) {
+#if PLATFORM_N64
+
+#define OSINITIALIZE_FUNC osInitialize
+#define SPEED_PARAM_FUNC createSpeedParam
+
+static void SPEED_PARAM_FUNC(void);
+
+#else
+
+#define OSINITIALIZE_FUNC __osInitialize_common
+#define SPEED_PARAM_FUNC __createSpeedParam
+
+void SPEED_PARAM_FUNC(void) {
     __Dom1SpeedParam.type = DEVICE_TYPE_INIT;
     __Dom1SpeedParam.latency = IO_READ(PI_BSD_DOM1_LAT_REG);
     __Dom1SpeedParam.pulse = IO_READ(PI_BSD_DOM1_PWD_REG);
@@ -30,13 +42,20 @@ void __createSpeedParam(void) {
     __Dom2SpeedParam.relDuration = IO_READ(PI_BSD_DOM2_RLS_REG);
 }
 
-void __osInitialize_common(void) {
+#endif
+
+void OSINITIALIZE_FUNC(void) {
     u32 pifdata;
+#if PLATFORM_N64
+    u32 clock = 0;
+#endif
 
     __osFinalrom = true;
     __osSetSR(__osGetSR() | SR_CU1);
     __osSetFpcCsr(FPCSR_FS | FPCSR_EV);
+#if !PLATFORM_N64
     __osSetWatchLo(0x04900000);
+#endif
 
     while (__osSiRawReadIo((void*)(PIF_RAM_END - 3), &pifdata)) {
         ;
@@ -52,7 +71,7 @@ void __osInitialize_common(void) {
 
     osWritebackDCache((void*)K0BASE, E_VEC - K0BASE + sizeof(__osExceptionVector));
     osInvalICache((void*)K0BASE, E_VEC - K0BASE + sizeof(__osExceptionVector));
-    __createSpeedParam();
+    SPEED_PARAM_FUNC();
     osUnmapTLBAll();
     osMapTLBRdb();
 
@@ -82,5 +101,21 @@ void __osInitialize_common(void) {
     IO_WRITE(AI_BITRATE_REG, AI_MAX_BIT_RATE - 1);
 }
 
+#if PLATFORM_N64
+static void SPEED_PARAM_FUNC(void) {
+    __Dom1SpeedParam.type = DEVICE_TYPE_INIT;
+    __Dom1SpeedParam.latency = IO_READ(PI_BSD_DOM1_LAT_REG);
+    __Dom1SpeedParam.pulse = IO_READ(PI_BSD_DOM1_PWD_REG);
+    __Dom1SpeedParam.pageSize = IO_READ(PI_BSD_DOM1_PGS_REG);
+    __Dom1SpeedParam.relDuration = IO_READ(PI_BSD_DOM1_RLS_REG);
+
+    __Dom2SpeedParam.type = DEVICE_TYPE_INIT;
+    __Dom2SpeedParam.latency = IO_READ(PI_BSD_DOM2_LAT_REG);
+    __Dom2SpeedParam.pulse = IO_READ(PI_BSD_DOM2_PWD_REG);
+    __Dom2SpeedParam.pageSize = IO_READ(PI_BSD_DOM2_PGS_REG);
+    __Dom2SpeedParam.relDuration = IO_READ(PI_BSD_DOM2_RLS_REG);
+}
+#else
 void __osInitialize_autodetect(void) {
 }
+#endif

@@ -126,10 +126,10 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
 void EnKusa_DropCollectible(EnKusa* this, PlayState* play) {
     s16 dropParams;
 
-    switch (this->actor.params & 3) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
         case ENKUSA_TYPE_0:
         case ENKUSA_TYPE_2:
-            dropParams = (this->actor.params >> 8) & 0xF;
+            dropParams = PARAMS_GET_U(this->actor.params, 8, 4);
 
             if (dropParams >= 0xD) {
                 dropParams = 0;
@@ -253,7 +253,7 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[thisx->params & 3]);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[PARAMS_GET_U(thisx->params, 0, 2)]);
 
     if (this->requiredObjectSlot < 0) {
         // "Bank danger!"
@@ -307,11 +307,11 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
         EnKusa_DropCollectible(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
 
-        if ((this->actor.params >> 4) & 1) {
+        if (PARAMS_GET_U(this->actor.params, 4, 1)) {
             EnKusa_SpawnBugs(this, play);
         }
 
-        if ((this->actor.params & 3) == ENKUSA_TYPE_0) {
+        if (PARAMS_GET_U(this->actor.params, 0, 2) == ENKUSA_TYPE_0) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -379,7 +379,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
         }
         EnKusa_SpawnFragments(this, play);
         EnKusa_DropCollectible(this, play);
-        switch (this->actor.params & 3) {
+        switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
             case ENKUSA_TYPE_0:
             case ENKUSA_TYPE_2:
                 Actor_Kill(&this->actor);
@@ -424,7 +424,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
 }
 
 void EnKusa_SetupCut(EnKusa* this) {
-    switch (this->actor.params & 3) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
         case ENKUSA_TYPE_2:
             EnKusa_SetupAction(this, EnKusa_DoNothing);
             break;
@@ -504,6 +504,6 @@ void EnKusa_Draw(Actor* thisx, PlayState* play) {
     if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
         Gfx_DrawDListOpa(play, object_kusa_DL_0002E0);
     } else {
-        Gfx_DrawDListOpa(play, dLists[thisx->params & 3]);
+        Gfx_DrawDListOpa(play, dLists[PARAMS_GET_U(thisx->params, 0, 2)]);
     }
 }

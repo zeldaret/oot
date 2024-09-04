@@ -62,7 +62,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 9, 28, -20, 30 };
 
-typedef enum {
+typedef enum BiriDamageEffect {
     /* 0x0 */ BIRI_DMGEFF_NONE,
     /* 0x1 */ BIRI_DMGEFF_DEKUNUT,
     /* 0x2 */ BIRI_DMGEFF_FIRE,

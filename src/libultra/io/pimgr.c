@@ -1,4 +1,5 @@
 #include "global.h"
+#include "stack.h"
 #include "ultra64/internal.h"
 
 OSDevMgr __osPiDevMgr = { 0 };

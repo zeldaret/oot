@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum SpinningScytheTrapMode {
     /* 0 */ SCYTHE_TRAP_SHADOW_TEMPLE,
     /* 1 */ SCYTHE_TRAP_SHADOW_TEMPLE_INVISIBLE,
     /* 2 */ SCYTHE_TRAP_ICE_CAVERN
@@ -138,8 +138,8 @@ void BgHakaSgami_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
-    this->unk_151 = thisx->params & 0xFF;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->unk_151 = PARAMS_GET_U(thisx->params, 0, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
 
     if (this->unk_151 != 0) {
         thisx->flags |= ACTOR_FLAG_REACT_TO_LENS;

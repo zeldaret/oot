@@ -16,6 +16,18 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
+#if PLATFORM_N64
+#define CURSOR_COLOR_R 0
+#define CURSOR_COLOR_G 80
+#define CURSOR_COLOR_B 255
+#define CURSOR_COLOR_A 255
+#else
+#define CURSOR_COLOR_R 0
+#define CURSOR_COLOR_G 255
+#define CURSOR_COLOR_B 80
+#define CURSOR_COLOR_A 255
+#endif
+
 void EnOssan_Init(Actor* thisx, PlayState* play);
 void EnOssan_Destroy(Actor* thisx, PlayState* play);
 void EnOssan_Update(Actor* thisx, PlayState* play);
@@ -157,7 +169,7 @@ static char* sShopkeeperPrintName[] = {
 };
 #endif
 
-typedef struct {
+typedef struct ShopkeeperObjInfo {
     /* 0x00 */ s16 objId;
     /* 0x02 */ s16 unk_02;
     /* 0x04 */ s16 unk_04;
@@ -188,7 +200,7 @@ static f32 sShopkeeperScale[] = {
     0.01f, 0.011f, 0.0105f, 0.011f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f,
 };
 
-typedef struct {
+typedef struct ShopItem {
     /* 0x00 */ s16 shopItemIndex;
     /* 0x02 */ s16 xOffset;
     /* 0x04 */ s16 yOffset;
@@ -1882,10 +1894,10 @@ void EnOssan_UpdateCursorAnim(EnOssan* this) {
             this->cursorAnimState = 0;
         }
     }
-    this->cursorColorR = ColChanMix(0, 0.0f, t);
-    this->cursorColorG = ColChanMix(255, 80.0f, t);
-    this->cursorColorB = ColChanMix(80, 0.0f, t);
-    this->cursorColorA = ColChanMix(255, 0.0f, t);
+    this->cursorColorR = ColChanMix(CURSOR_COLOR_R, 0.0f, t);
+    this->cursorColorG = ColChanMix(CURSOR_COLOR_G, 80.0f, t);
+    this->cursorColorB = ColChanMix(CURSOR_COLOR_B, 0.0f, t);
+    this->cursorColorA = ColChanMix(CURSOR_COLOR_A, 0.0f, t);
     this->cursorAnimTween = t;
 }
 
@@ -2142,10 +2154,10 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
 
         this->cursorIndex = 0;
         this->cursorZ = 1.5f;
-        this->cursorColorR = 0;
-        this->cursorColorG = 255;
-        this->cursorColorB = 80;
-        this->cursorColorA = 255;
+        this->cursorColorR = CURSOR_COLOR_R;
+        this->cursorColorG = CURSOR_COLOR_G;
+        this->cursorColorB = CURSOR_COLOR_B;
+        this->cursorColorA = CURSOR_COLOR_A;
         this->cursorAnimTween = 0;
 
         this->cursorAnimState = 0;

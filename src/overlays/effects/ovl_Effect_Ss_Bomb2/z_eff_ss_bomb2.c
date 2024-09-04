@@ -94,8 +94,6 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (1) {}
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 345);
 }
 
@@ -160,8 +158,6 @@ void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (1) {}
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 456);
 }
 
