@@ -2,12 +2,12 @@
 #define N64DD_H
 
 #include "ultra64.h"
+#include "z64pause.h"
 #include "z64scene.h"
 
 struct GameState;
 union Gfx;
 struct PlayState;
-struct PauseMapMarksData;
 struct RegEditor;
 struct RoomContext;
 struct SaveContext;
@@ -33,8 +33,8 @@ typedef struct n64ddStruct_80121AF0 {
     void (*unk_10)(struct PlayState* play);
     void (*unk_14)(struct PlayState* play);
     char unk_18[0x1C];
-    void (*unk_34)(struct PauseMapMarksData**);
-    void (*unk_38)(struct PauseMapMarksData**);
+    void (*unk_34)(PauseMapMarksData**);
+    void (*unk_38)(PauseMapMarksData**);
     void (*unk_3C)(void);
     void (*unk_40)(void);
     s32 (*unk_44)(struct PlayState*);
