@@ -542,7 +542,7 @@ void Room_Init(PlayState* play, Room* room) {
 }
 
 /**
- * @brief Allocates memory for rooms and fetches the first room that the player will spawn into.
+ * Allocates memory for rooms and fetches the first room that the player will spawn into.
  *
  * @return u32 size of the buffer reserved for room data
  */
@@ -609,8 +609,8 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
                                              : play->spawnList[play->spawn].room;
 
     // Load into a room for the first time.
-    // Since curRoom was initialized to (room -1, segment NULL) in Play_InitScene, the previous room
-    // the nulled state when this function completes
+    // Since curRoom was initialized to `room` = -1 and `segment` = NULL in Play_InitScene, the previous room
+    // will also be initialized to the nulled state when this function completes.
     Room_RequestNewRoom(play, roomCtx, frontRoom);
 
     return roomBufferSize;
