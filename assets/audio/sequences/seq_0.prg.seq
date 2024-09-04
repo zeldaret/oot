@@ -3,9 +3,9 @@
 #include "Soundfont_0.h"
 
 // Provide the sfx ids for use as constants
-#define DEFINE_SFX(lblName, sfxId, priority, decay, rand, flags1, flags2) \
-    .internal sfxId;                                                      \
-    .set sfxId, __SFX_ID_CTR;                                             \
+#define DEFINE_SFX(channel, sfxId, importance, distParam, randParam, flags) \
+    .internal sfxId;                                                        \
+    .set sfxId, __SFX_ID_CTR;                                               \
     .set __SFX_ID_CTR, __SFX_ID_CTR + 1
 
 .set NA_SE_NONE, 0
