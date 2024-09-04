@@ -2410,10 +2410,10 @@ static s16 D_8082B1F8[] = {
 void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 x;
+    s16 y;
     s16 i;
     s16 j;
     s16 k;
-    s16 y;
 
     pauseCtx->offsetY = 0;
 
