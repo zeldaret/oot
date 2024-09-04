@@ -151,27 +151,27 @@ typedef struct InterfaceContext {
 #define A_BUTTON_X 186
 #define A_BUTTON_Y 9
 
-#if PLATFORM_N64
-#define A_BUTTON_R 90
-#define A_BUTTON_G 90
-#define A_BUTTON_B 255
-#else
+#if PLATFORM_GC
 #define A_BUTTON_R 0
 #define A_BUTTON_G 200
 #define A_BUTTON_B 50
+#else
+#define A_BUTTON_R 90
+#define A_BUTTON_G 90
+#define A_BUTTON_B 255
 #endif
 
 #define B_BUTTON_X 160
 #define B_BUTTON_Y 17
 
-#if PLATFORM_N64
-#define B_BUTTON_R 0
-#define B_BUTTON_G 150
-#define B_BUTTON_B 0
-#else
+#if PLATFORM_GC
 #define B_BUTTON_R 255
 #define B_BUTTON_G 30
 #define B_BUTTON_B 30
+#else
+#define B_BUTTON_R 0
+#define B_BUTTON_G 150
+#define B_BUTTON_B 0
 #endif
 
 #define C_LEFT_BUTTON_X 227
@@ -186,14 +186,14 @@ typedef struct InterfaceContext {
 #define C_UP_BUTTON_X 254
 #define C_UP_BUTTON_Y 16
 
-#if PLATFORM_N64
-#define START_BUTTON_R 200
-#define START_BUTTON_G 0
-#define START_BUTTON_B 0
-#else
+#if PLATFORM_GC
 #define START_BUTTON_R 120
 #define START_BUTTON_G 120
 #define START_BUTTON_B 120
+#else
+#define START_BUTTON_R 200
+#define START_BUTTON_G 0
+#define START_BUTTON_B 0
 #endif
 
 /**

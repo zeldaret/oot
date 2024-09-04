@@ -15,14 +15,14 @@
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "terminal.h"
 
-#if PLATFORM_N64
-#define KALEIDO_COLOR_PROMPT_UNK_R 100
-#define KALEIDO_COLOR_PROMPT_UNK_G 100
-#define KALEIDO_COLOR_PROMPT_UNK_B 255
-#else
+#if PLATFORM_GC
 #define KALEIDO_COLOR_PROMPT_UNK_R 100
 #define KALEIDO_COLOR_PROMPT_UNK_G 255
 #define KALEIDO_COLOR_PROMPT_UNK_B 100
+#else
+#define KALEIDO_COLOR_PROMPT_UNK_R 100
+#define KALEIDO_COLOR_PROMPT_UNK_G 100
+#define KALEIDO_COLOR_PROMPT_UNK_B 255
 #endif
 
 typedef enum {
@@ -3583,7 +3583,7 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->state = PAUSE_STATE_CLOSING;
                         WREG(2) = -6240;
                         func_800F64E0(0);
-#if PLATFORM_GC && OOT_NTSC
+#if !PLATFORM_N64 && OOT_NTSC
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
 #endif
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
@@ -3731,7 +3731,7 @@ void KaleidoScope_Update(PlayState* play) {
                             WREG(2) = -6240;
                             YREG(8) = pauseCtx->unk_204;
                             func_800F64E0(0);
-#if PLATFORM_GC && OOT_NTSC
+#if !PLATFORM_N64 && OOT_NTSC
                             AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
 #endif
                         } else {
@@ -3759,7 +3759,7 @@ void KaleidoScope_Update(PlayState* play) {
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
-#if PLATFORM_GC && OOT_NTSC
+#if !PLATFORM_N64 && OOT_NTSC
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
 #endif
                     }

@@ -16,15 +16,15 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-#if PLATFORM_N64
-#define CURSOR_COLOR_R 0
-#define CURSOR_COLOR_G 80
-#define CURSOR_COLOR_B 255
-#define CURSOR_COLOR_A 255
-#else
+#if PLATFORM_GC
 #define CURSOR_COLOR_R 0
 #define CURSOR_COLOR_G 255
 #define CURSOR_COLOR_B 80
+#define CURSOR_COLOR_A 255
+#else
+#define CURSOR_COLOR_R 0
+#define CURSOR_COLOR_G 80
+#define CURSOR_COLOR_B 255
 #define CURSOR_COLOR_A 255
 #endif
 

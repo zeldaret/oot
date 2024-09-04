@@ -2261,7 +2261,7 @@ void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
     BossMo_SfxTest();
 #endif
 }
@@ -3051,7 +3051,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_boss_mo.c", 7482);
 }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 void BossMo_SfxTest(void) {
     // Appears to be a test function for sound effects.
     static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
