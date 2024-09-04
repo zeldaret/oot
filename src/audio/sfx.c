@@ -530,7 +530,7 @@ void Audio_StopSfxByBank(u8 bankId) {
     Audio_RemoveMatchingSfxRequests(0, &cmp);
 }
 
-void Audio_CheckAndCleanSfxBank(u8 bankId, Vec3f* pos) {
+void Audio_RemoveSfxFromBankByPos(u8 bankId, Vec3f* pos) {
     SfxBankEntry* entry;
     u8 entryIndex = gSfxBanks[bankId][0].next;
     u8 prevEntryIndex = 0;
@@ -554,7 +554,7 @@ void Audio_CheckAndCleanSfxBank(u8 bankId, Vec3f* pos) {
 void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos) {
     SfxBankEntry cmp;
 
-    Audio_CheckAndCleanSfxBank(bankId, pos);
+    Audio_RemoveSfxFromBankByPos(bankId, pos);
     cmp.sfxId = bankId << 12;
     cmp.posX = &pos->x;
     Audio_RemoveMatchingSfxRequests(1, &cmp);
