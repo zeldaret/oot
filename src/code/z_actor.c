@@ -1623,7 +1623,7 @@ TargetRangeParams sTargetRanges[] = {
 
 /**
  * Checks if an actor at `distSq` is inside the range specified by its `targetMode`.
- * 
+ *
  * Note that this gets used for both the target range check and for the lock-on leash range check.
  * Despite how the data is presented in `sTargetRanges`, the leash range is stored as a scale factor value.
  * When checking the leash range, this scale factor is applied to the input distance and checked against
@@ -1636,10 +1636,10 @@ u32 Target_ActorIsInRange(Actor* actor, f32 distSq) {
 /**
  * Returns true if an actor lock-on should be released.
  * This function does not actually release the lock-on, as that is Player's responsibility.
- * 
+ *
  * If an actor's update function is NULL or `ACTOR_FLAG_0` is unset, the lock-on should be released.
- * 
- * There is also a check for Player exceeding the lock-on leash distance. 
+ *
+ * There is also a check for Player exceeding the lock-on leash distance.
  * Note that this check will be ignored if `ignoreLeash` is true.
  *
  */
