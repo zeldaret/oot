@@ -608,16 +608,16 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
     frontRoom = gSaveContext.respawnFlag > 0 ? ((void)0, gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex)
                                              : play->spawnList[play->spawn].room;
 
-    // Load into a room for the first time
-    //! Since curRoom was initialized to (room -1, segment NULL) in Play_InitScene, the previous room will be reset to
-    //! the nulled state when this function completes
+    // Load into a room for the first time.
+    // Since curRoom was initialized to (room -1, segment NULL) in Play_InitScene, the previous room
+    // the nulled state when this function completes
     Room_RequestNewRoom(play, roomCtx, frontRoom);
 
     return roomBufferSize;
 }
 
 /**
- * Tries to create an asyncronous request to transfer room data into memory.
+ * Tries to create an asynchronous request to transfer room data into memory.
  * If successful, the requested room will be loaded into memory and becomes the new current room; the room that was
  * current before becomes the previous room.
  *
@@ -670,7 +670,7 @@ s32 Room_RequestNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
 }
 
 /**
- * Completes room initialization for the requested room by calling Room_RequestNewRoom.
+ * Completes room initialization for the room requested by a call to Room_RequestNewRoom.
  * This function does not block the thread if the room data is still being transferred.
  *
  * @returns bool false if a dma transfer is in progress.
@@ -705,7 +705,7 @@ void Room_Draw(PlayState* play, Room* room, u32 flags) {
 /**
  * Finalizes a swap between two rooms.
  *
- * When a new room is created with Room_RequestNewRoom, the previous room and it's actors remains in memory. This allows
+ * When a new room is created with Room_RequestNewRoom, the previous room and its actors remain in memory. This allows
  * an actor like ACTOR_EN_HOLL to seamlessly swap the two rooms as the player moves between them.
  */
 void Room_FinishRoomChange(PlayState* play, RoomContext* roomCtx) {
