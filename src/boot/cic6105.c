@@ -4,10 +4,8 @@
 
 s32 func_80001714(void);
 
-extern u64 cic6105ucodeTextStart[];
-
 OSTask D_800067C0_unknown = {
-    4, 0, rspbootTextStart, 0x3E8, cic6105ucodeTextStart, 0x20, (u64*)gBuildTeam, 8, NULL, 0, NULL, 0, NULL, 0, NULL, 0,
+    4, 0, rspbootTextStart, 0x3E8, cic6105TextStart, 0x20, (u64*)gBuildTeam, 8, NULL, 0, NULL, 0, NULL, 0, NULL, 0,
 };
 
 s32 B_80008EE0;

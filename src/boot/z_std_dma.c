@@ -197,8 +197,8 @@ s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     ASSERT(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
 
 #if PLATFORM_N64
-    if (B_80121AE2) {
-        while (B_80121AE4) {
+    if (D_80121212) {
+        while (D_80121214) {
             Sleep_Msec(1000);
         }
     }
@@ -538,8 +538,8 @@ s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size,
 #endif
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_70 != NULL)) {
-        if (B_80121AF0->unk_70(req, ram, vrom, size, unk, queue, msg) != 0) {
+    if ((B_80121220 != NULL) && (B_80121220->unk_70 != NULL)) {
+        if (B_80121220->unk_70(req, ram, vrom, size, unk, queue, msg) != 0) {
             return 0;
         }
     }

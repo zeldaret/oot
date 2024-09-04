@@ -60,12 +60,12 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
 #if PLATFORM_N64
-    func_800ADA80();
-    if ((u8)B_80121AE1 != 0) {
-        systemHeapStart = (uintptr_t)&D_801E8090;
+    func_800AD410();
+    if (D_80121211 != 0) {
+        systemHeapStart = (uintptr_t)&_n64ddSegmentEnd;
         SysCfb_Init(1);
     } else {
-        func_800ADAF8();
+        func_800AD488();
         systemHeapStart = (uintptr_t)_buffersSegmentEnd;
         SysCfb_Init(0);
     }

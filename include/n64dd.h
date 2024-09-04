@@ -10,20 +10,20 @@ struct RegEditor;
 struct SaveContext;
 
 // TODO Use the specific pointer types instead of void*
-typedef struct n64ddStruct_800FF4B0_pointers {
+typedef struct n64ddStruct_800FEE70_pointers {
     void* unk_00;
     void* unk_04;
     struct RegEditor* unk_08;
     void* unk_0C[31];
     struct SaveContext* unk_88;
     void* unk_8C[9];
-} n64ddStruct_800FF4B0_pointers; // size = 0xB0
+} n64ddStruct_800FEE70_pointers; // size = 0xB0
 
-struct n64ddStruct_80121AF0;
+struct n64ddStruct_80121220;
 struct PlayState;
 
-typedef struct n64ddStruct_80121AF0 {
-    void (*unk_00)(n64ddStruct_800FF4B0_pointers*, struct n64ddStruct_80121AF0*);
+typedef struct n64ddStruct_80121220 {
+    void (*unk_00)(n64ddStruct_800FEE70_pointers*, struct n64ddStruct_80121220*);
     void (*unk_04)(void);
     char unk_08[0x2C];
     void (*unk_34)(PauseMapMarksData**);
@@ -36,26 +36,33 @@ typedef struct n64ddStruct_80121AF0 {
     s32 (*unk_70)(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
     char unk_74[4];
     s32 (*unk_78)(struct PlayState*, void*, void*);
-} n64ddStruct_80121AF0; // size = ?
+} n64ddStruct_80121220; // size = ?
 
-void func_800ADA80(void);
-void func_800ADAF8(void);
-n64ddStruct_80121AF0* func_800ADB30(n64ddStruct_80121AF0* arg0);
-void func_800ADB8C(void);
-n64ddStruct_800FF4B0_pointers* func_800ADBD0(void);
-void func_800ADC00(void);
-void func_800ADC08(s32 arg0, s32 arg1, s32 arg2);
+void func_800AD410(void);
+void func_800AD488(void);
+n64ddStruct_80121220* func_800AD4C0(n64ddStruct_80121220* arg0);
+void func_800AD51C(void);
+n64ddStruct_800FEE70_pointers* func_800AD560(void);
+void func_800AD590(void);
+void func_800AD598(s32 arg0, s32 arg1, s32 arg2);
 
-extern n64ddStruct_800FF4B0_pointers D_800FF4B0;
-extern n64ddStruct_80121AF0* B_80121AF0;
+u32 func_801C6E80(void);
+void func_801C6EA0(union Gfx** gfxP);
+s32 func_801C70FC(void);
+void func_801C7268(void);
+s32 func_801C7658(void);
+s32 func_801C7818(void);
+void func_801C7C1C(void* dest, s32 offset, s32 size);
+void func_801C7E78(void);
+void n64dd_SetDiskVersion(s32 arg0);
 
-extern u8 B_80121AE0;
-extern s8 B_80121AE1;
-extern u8 B_80121AE2;
-extern vu8 B_80121AE3;
-extern vu8 B_80121AE4;
+extern n64ddStruct_800FEE70_pointers D_800FEE70;
+extern n64ddStruct_80121220* B_80121220;
 
-extern char D_801DA410; // type ?
-extern char D_801E8090; // type ?
+extern u8 D_80121210;
+extern u8 D_80121211;
+extern u8 D_80121212;
+extern vu8 D_80121213;
+extern vu8 D_80121214;
 
 #endif
