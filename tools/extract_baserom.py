@@ -21,18 +21,15 @@ def main():
         "rom", metavar="ROM", type=Path, help="Path to uncompressed ROM"
     )
     parser.add_argument(
-        "-v",
-        "--oot-version",
-        required=True,
-        help="OOT version",
+        "output_dir",
+        type=Path,
+        help="Output directory for segments",
     )
     parser.add_argument(
-        "-o",
-        "--output-dir",
-        dest="output_dir",
-        type=Path,
+        "-v",
+        "--version",
         required=True,
-        help="Output directory for segments",
+        help="OOT version",
     )
     parser.add_argument(
         "--dmadata-start",
@@ -46,7 +43,7 @@ def main():
 
     rom_data = memoryview(args.rom.read_bytes())
 
-    config = version_config.load_version_config(args.oot_version)
+    config = version_config.load_version_config(args.version)
     dmadata_start = args.dmadata_start or config.dmadata_start
     dma_names = config.dmadata_segments.keys()
 

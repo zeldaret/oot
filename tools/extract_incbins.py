@@ -18,30 +18,25 @@ def main():
         description="Extract incbin pieces from an uncompressed ROM."
     )
     parser.add_argument(
-        "--baserom-segments",
-        dest="baserom_segments_dir",
+        "baserom_segments_dir",
         type=Path,
-        required=True,
         help="Directory of uncompressed ROM segments",
     )
     parser.add_argument(
-        "-v",
-        "--oot-version",
-        required=True,
-        help="OOT version",
+        "output_dir",
+        type=Path,
+        help="Output directory for incbin pieces",
     )
     parser.add_argument(
-        "-o",
-        "--output-dir",
-        dest="output_dir",
-        type=Path,
+        "-v",
+        "--version",
         required=True,
-        help="Output directory for incbin pieces",
+        help="OOT version",
     )
 
     args = parser.parse_args()
 
-    config = version_config.load_version_config(args.oot_version)
+    config = version_config.load_version_config(args.version)
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     for incbin in config.incbins:

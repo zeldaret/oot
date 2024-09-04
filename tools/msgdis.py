@@ -821,30 +821,25 @@ def collect_messages(message_tables : List[Optional[MessageTableDesc]], baserom_
 def main():
     parser = argparse.ArgumentParser(description="Extract text from the baserom into .h files")
     parser.add_argument(
-        "--baserom-segments",
-        dest="baserom_segments_dir",
+        "baserom_segments_dir",
         type=Path,
-        required=True,
         help="Directory of uncompressed ROM segments",
     )
     parser.add_argument(
-        "-v",
-        "--oot-version",
-        required=True,
-        help="OOT version",
+        "output_dir",
+        type=Path,
+        help="Output directory to place files in",
     )
     parser.add_argument(
-        "-o",
-        "--output-dir",
-        dest="output_dir",
-        type=Path,
+        "-v",
+        "--version",
         required=True,
-        help="Output directory to place files in",
+        help="OOT version",
     )
     args = parser.parse_args()
 
     baserom_segments_dir : Path = args.baserom_segments_dir
-    version : str = args.oot_version
+    version : str = args.version
     output_dir : Path = args.output_dir
 
     config = version_config.load_version_config(version)

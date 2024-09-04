@@ -116,21 +116,16 @@ def processZAPDArgs(argsZ):
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
     parser.add_argument(
-        "--baserom-segments",
-        dest="baserom_segments_dir",
+        "baserom_segments_dir",
         type=Path,
-        required=True,
         help="Directory of uncompressed ROM segments",
     )
-    parser.add_argument("-v", "--oot-version", dest="oot_version", help="OOT game version", default="gc-eu-mq-dbg")
     parser.add_argument(
-        "-o",
-        "--output-dir",
-        dest="output_dir",
+        "output_dir",
         type=Path,
-        required=True,
         help="Output directory to place files in",
     )
+    parser.add_argument("-v", "--version", dest="oot_version", help="OOT game version", default="gc-eu-mq-dbg")
     parser.add_argument("-s", "--single", help="Extract a single asset by name, e.g. objects/gameplay_keep")
     parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones (overwriting current files).", action="store_true")
     parser.add_argument("-j", "--jobs", help="Number of cpu cores to extract with.")
