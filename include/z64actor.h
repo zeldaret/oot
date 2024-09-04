@@ -601,7 +601,7 @@ typedef enum {
     /*  0 */ TARGET_MODE_0,
     /*  1 */ TARGET_MODE_1,
     /*  2 */ TARGET_MODE_2,
-    /*  3 */ TARGET_MODE_3,
+    /*  3 */ TARGET_MODE_3, // Used as the default for new actors
     /*  4 */ TARGET_MODE_4,
     /*  5 */ TARGET_MODE_5,
     /*  6 */ TARGET_MODE_6,
