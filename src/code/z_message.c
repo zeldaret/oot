@@ -2463,12 +2463,14 @@ void Message_OpenText(PlayState* play, u16 textId) {
 #if PLATFORM_N64
         if ((B_80121AF0 != NULL) && (B_80121AF0->unk_60 != NULL) && B_80121AF0->unk_60(&play->msgCtx.font)) {
 
-        } else
-#endif
-        {
-            DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
-                             font->msgLength, "../z_message_PAL.c", 1954);
+        } else {
+            DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
+                               font->msgLength);
         }
+#else
+        DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
+                         font->msgLength, "../z_message_PAL.c", 1954);
+#endif
     } else {
 #if OOT_NTSC
         if (gSaveContext.language == LANGUAGE_JPN) {
@@ -2477,24 +2479,28 @@ void Message_OpenText(PlayState* play, u16 textId) {
 #if PLATFORM_N64
             if ((B_80121AF0 != NULL) && (B_80121AF0->unk_64 != NULL) && B_80121AF0->unk_64(&play->msgCtx.font)) {
 
-            } else
-#endif
-            {
+            } else {
                 DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
                                    font->msgLength);
             }
+#else
+            DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
+                               font->msgLength);
+#endif
         } else {
             Message_FindMessageNES(play, textId);
             msgCtx->msgLength = font->msgLength;
 #if PLATFORM_N64
             if ((B_80121AF0 != NULL) && (B_80121AF0->unk_68 != NULL) && B_80121AF0->unk_68(&play->msgCtx.font)) {
 
-            } else
-#endif
-            {
+            } else {
                 DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                                    font->msgLength);
             }
+#else
+            DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+                               font->msgLength);
+#endif
         }
 #else
         if (gSaveContext.language == LANGUAGE_ENG) {
@@ -2830,14 +2836,11 @@ void Message_SetView(View* view) {
 }
 
 #if OOT_NTSC
-#define DRAW_TEXT(play, gfx, isCredits)                          \
-    if (gSaveContext.language == LANGUAGE_JPN && !(isCredits)) { \
-        Message_DrawTextWide(play, gfx);                         \
-    } else {                                                     \
-        Message_DrawText(play, gfx);                             \
-    }
+#define DRAW_TEXT(play, gfx, isCredits)                                                         \
+    ((gSaveContext.language == LANGUAGE_JPN) && !(isCredits)) ? Message_DrawTextWide(play, gfx) \
+                                                              : Message_DrawText(play, gfx)
 #else
-#define DRAW_TEXT(play, gfx, isCredits) Message_DrawText(play, gfx);
+#define DRAW_TEXT(play, gfx, isCredits) Message_DrawText(play, gfx)
 #endif
 
 /**
@@ -2922,7 +2925,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     for (j = 0, i = 0; i < 48; i++, j += FONT_CHAR_TEX_SIZE) {
                         Font_LoadCharWide(&play->msgCtx.font, MESSAGE_WIDE_CHAR_SPACE, j);
                     }
-                    DRAW_TEXT(play, &gfx, sTextIsCredits)
+                    DRAW_TEXT(play, &gfx, sTextIsCredits);
                 }
                 break;
             case MSGMODE_TEXT_DISPLAYING:
