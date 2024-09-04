@@ -451,7 +451,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
 
 void Target_Update(TargetContext* targetCtx, Player* player, Actor* playerFocusActor, PlayState* play) {
     s32 pad;
-    Actor* actor; // used for both the navi hover actor and reticle actor
+    Actor* actor; // used for both the Navi hover actor and reticle actor
     s32 category;
     Vec3f projectedFocusPos;
     f32 cappedInvWDest;
