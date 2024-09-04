@@ -565,7 +565,7 @@ void Audio_StopSfxByPos(Vec3f* pos) {
     SfxBankEntry cmp;
 
     for (i = 0; i < ARRAY_COUNT(gSfxBanks); i++) {
-        Audio_CheckAndCleanSfxBank(i, pos);
+        Audio_RemoveSfxFromBankByPos(i, pos);
     }
     cmp.posX = &pos->x;
     Audio_RemoveMatchingSfxRequests(2, &cmp);
