@@ -596,7 +596,6 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/code/relocation_gc.o"
     include "$(BUILD_DIR)/src/code/load_gc.o"
-#endif
     include "$(BUILD_DIR)/src/code/code_800FC620.o"
     include "$(BUILD_DIR)/src/code/padutils.o"
     include "$(BUILD_DIR)/src/code/padsetup.o"
