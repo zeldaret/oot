@@ -432,13 +432,14 @@ $(BUILD_DIR)/src/code/rand.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/load.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/loadfragment2.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/loadfragment2_n64.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/load_gc.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/loadfragment2_gc.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/padsetup.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/padutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/printutils.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/relocation.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/relocation_gc.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/code/fault_n64.o: CFLAGS += -trapuv
@@ -523,6 +524,9 @@ $(BUILD_DIR)/src/libultra/io/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O1
 endif
+
+$(BUILD_DIR)/src/libleo/%.o: CC := $(CC_OLD)
+$(BUILD_DIR)/src/libleo/%.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
 
