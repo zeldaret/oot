@@ -1,5 +1,6 @@
 #include "global.h"
 #include "fault.h"
+#include "osMalloc.h"
 #include "terminal.h"
 #if PLATFORM_N64
 #include "n64dd.h"

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "osMalloc.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2
@@ -125,6 +126,6 @@ void DebugArena_Cleanup(void) {
     __osMallocCleanup(&sDebugArena);
 }
 
-u8 DebugArena_IsInitialized(void) {
+s32 DebugArena_IsInitialized(void) {
     return __osMallocIsInitialized(&sDebugArena);
 }

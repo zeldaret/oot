@@ -2,6 +2,7 @@
 #define VARIABLES_H
 
 #include "z64.h"
+#include "osMalloc.h"
 #include "segment_symbols.h"
 
 extern Mtx D_01000000;
@@ -234,7 +235,6 @@ extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
 extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 
-extern u32 __osMalloc_FreeBlockTest_Enable;
 extern Arena gSystemArena;
 extern OSPifRam __osContPifRam;
 extern u8 __osContLastCmd;
@@ -247,7 +247,5 @@ extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 byt
 extern u64 gGfxSPTaskStack[SP_DRAM_STACK_SIZE64]; // 0x400 bytes
 extern GfxPool gGfxPools[2]; // 0x24820 bytes
 extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
-
-extern u32 gTotalAllocFailures;
 
 #endif

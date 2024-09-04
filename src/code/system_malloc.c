@@ -1,20 +1,11 @@
 #include "global.h"
+#include "osMalloc.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2
 #define LOG_SEVERITY_VERBOSE 3
 
 Arena gSystemArena;
-
-#if PLATFORM_N64
-#define DECLARE_INTERRUPT_MASK OSIntMask __mask;
-#define DISABLE_INTERRUPTS() __mask = osSetIntMask(OS_IM_NONE)
-#define RESTORE_INTERRUPTS() osSetIntMask(__mask)
-#else
-#define DECLARE_INTERRUPT_MASK
-#define DISABLE_INTERRUPTS() (void)0
-#define RESTORE_INTERRUPTS() (void)0
-#endif
 
 #if OOT_DEBUG
 s32 gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
@@ -176,6 +167,6 @@ void SystemArena_Cleanup(void) {
     __osMallocCleanup(&gSystemArena);
 }
 
-u8 SystemArena_IsInitialized(void) {
+s32 SystemArena_IsInitialized(void) {
     return __osMallocIsInitialized(&gSystemArena);
 }

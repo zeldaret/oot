@@ -2884,11 +2884,11 @@ static s16 sQuestQuadsSize[] = {
 
 void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     PauseContext* pauseCtx = &play->pauseCtx;
-    s16 vtx_x_;
+    s16 x;
+    s16 y;
     s16 i;
     s16 j;
     s16 k;
-    s16 vtx_y;
 
     pauseCtx->offsetY = 0;
 
@@ -2914,13 +2914,13 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_WORLD_QUADS + WORLD_MAP_IMAGE_FRAG_NUM) * 4) * sizeof(Vtx));
         j = KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_WORLD, VTX_PAGE_MAP_WORLD_QUADS);
 
-        for (i = 0, vtx_y = 58; i < WORLD_MAP_IMAGE_FRAG_NUM; i++, j += 4, vtx_y -= WORLD_MAP_IMAGE_FRAG_HEIGHT) {
+        for (i = 0, y = 58; i < WORLD_MAP_IMAGE_FRAG_NUM; i++, j += 4, y -= WORLD_MAP_IMAGE_FRAG_HEIGHT) {
             pauseCtx->mapPageVtx[j + 0].v.ob[0] = pauseCtx->mapPageVtx[j + 2].v.ob[0] = 0 - (WORLD_MAP_IMAGE_WIDTH / 2);
 
             pauseCtx->mapPageVtx[j + 1].v.ob[0] = pauseCtx->mapPageVtx[j + 3].v.ob[0] =
                 pauseCtx->mapPageVtx[j + 0].v.ob[0] + WORLD_MAP_IMAGE_WIDTH;
 
-            pauseCtx->mapPageVtx[j + 0].v.ob[1] = pauseCtx->mapPageVtx[j + 1].v.ob[1] = vtx_y + pauseCtx->offsetY;
+            pauseCtx->mapPageVtx[j + 0].v.ob[1] = pauseCtx->mapPageVtx[j + 1].v.ob[1] = y + pauseCtx->offsetY;
 
             pauseCtx->mapPageVtx[j + 2].v.ob[1] = pauseCtx->mapPageVtx[j + 3].v.ob[1] =
                 pauseCtx->mapPageVtx[j + 0].v.ob[1] - WORLD_MAP_IMAGE_FRAG_HEIGHT;
@@ -2997,17 +2997,17 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
 
     // QUAD_ITEM_GRID_FIRST..QUAD_ITEM_GRID_LAST
 
-    for (k = 0, i = 0, vtx_y = (ITEM_GRID_ROWS * ITEM_GRID_CELL_HEIGHT) / 2 - 6; k < ITEM_GRID_ROWS;
-         k++, vtx_y -= ITEM_GRID_CELL_HEIGHT) {
-        for (vtx_x_ = 0 - (ITEM_GRID_COLS * ITEM_GRID_CELL_WIDTH) / 2, j = 0; j < ITEM_GRID_COLS;
-             j++, i += 4, vtx_x_ += ITEM_GRID_CELL_WIDTH) {
-            pauseCtx->itemVtx[i + 0].v.ob[0] = pauseCtx->itemVtx[i + 2].v.ob[0] = vtx_x_ + ITEM_GRID_QUAD_MARGIN;
+    for (k = 0, i = 0, y = (ITEM_GRID_ROWS * ITEM_GRID_CELL_HEIGHT) / 2 - 6; k < ITEM_GRID_ROWS;
+         k++, y -= ITEM_GRID_CELL_HEIGHT) {
+        for (x = 0 - (ITEM_GRID_COLS * ITEM_GRID_CELL_WIDTH) / 2, j = 0; j < ITEM_GRID_COLS;
+             j++, i += 4, x += ITEM_GRID_CELL_WIDTH) {
+            pauseCtx->itemVtx[i + 0].v.ob[0] = pauseCtx->itemVtx[i + 2].v.ob[0] = x + ITEM_GRID_QUAD_MARGIN;
 
             pauseCtx->itemVtx[i + 1].v.ob[0] = pauseCtx->itemVtx[i + 3].v.ob[0] =
                 pauseCtx->itemVtx[i + 0].v.ob[0] + ITEM_GRID_QUAD_WIDTH;
 
             pauseCtx->itemVtx[i + 0].v.ob[1] = pauseCtx->itemVtx[i + 1].v.ob[1] =
-                vtx_y + pauseCtx->offsetY - ITEM_GRID_QUAD_MARGIN;
+                y + pauseCtx->offsetY - ITEM_GRID_QUAD_MARGIN;
 
             pauseCtx->itemVtx[i + 2].v.ob[1] = pauseCtx->itemVtx[i + 3].v.ob[1] =
                 pauseCtx->itemVtx[i + 0].v.ob[1] - ITEM_GRID_QUAD_HEIGHT;
@@ -3155,8 +3155,8 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     // QUAD_EQUIP_UPG_SCALE, QUAD_EQUIP_BOOTS_KOKIRI, QUAD_EQUIP_BOOTS_IRON, QUAD_EQUIP_BOOTS_HOVER
 
     // for each row
-    for (k = 0, i = 0, vtx_y = (EQUIP_TYPE_MAX * EQUIP_GRID_CELL_HEIGHT) / 2 - 6; i < EQUIP_TYPE_MAX;
-         i++, vtx_y -= EQUIP_GRID_CELL_HEIGHT) {
+    for (k = 0, i = 0, y = (EQUIP_TYPE_MAX * EQUIP_GRID_CELL_HEIGHT) / 2 - 6; i < EQUIP_TYPE_MAX;
+         i++, y -= EQUIP_GRID_CELL_HEIGHT) {
         // for each column
         for (j = 0; j < 4; j++, k += 4) {
             pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] =
@@ -3166,7 +3166,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->equipVtx[k + 0].v.ob[0] + EQUIP_GRID_QUAD_WIDTH;
 
             pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] =
-                vtx_y + pauseCtx->offsetY - EQUIP_GRID_QUAD_MARGIN;
+                y + pauseCtx->offsetY - EQUIP_GRID_QUAD_MARGIN;
 
             pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] =
                 pauseCtx->equipVtx[k + 0].v.ob[1] - EQUIP_GRID_QUAD_HEIGHT;
@@ -3239,15 +3239,15 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
 
     // QUAD_EQUIP_PLAYER_FIRST..QUAD_EQUIP_PLAYER_LAST
 
-    vtx_x_ = PAUSE_EQUIP_PLAYER_HEIGHT;
-    vtx_y = 50;
+    x = PAUSE_EQUIP_PLAYER_HEIGHT;
+    y = 50;
     while (true) {
         pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] = -64;
 
         pauseCtx->equipVtx[k + 1].v.ob[0] = pauseCtx->equipVtx[k + 3].v.ob[0] =
             pauseCtx->equipVtx[k + 0].v.ob[0] + PAUSE_EQUIP_PLAYER_WIDTH;
 
-        pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = vtx_y + pauseCtx->offsetY;
+        pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = y + pauseCtx->offsetY;
 
         pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] =
             pauseCtx->equipVtx[k + 0].v.ob[1] - PAUSE_EQUIP_PLAYER_FRAG_HEIGHT;
@@ -3275,10 +3275,10 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->equipVtx[k + 0].v.cn[3] = pauseCtx->equipVtx[k + 1].v.cn[3] = pauseCtx->equipVtx[k + 2].v.cn[3] =
             pauseCtx->equipVtx[k + 3].v.cn[3] = pauseCtx->alpha;
 
-        vtx_x_ -= PAUSE_EQUIP_PLAYER_FRAG_HEIGHT;
-        vtx_y -= PAUSE_EQUIP_PLAYER_FRAG_HEIGHT;
+        x -= PAUSE_EQUIP_PLAYER_FRAG_HEIGHT;
+        y -= PAUSE_EQUIP_PLAYER_FRAG_HEIGHT;
 
-        if (vtx_x_ < 0) {
+        if (x < 0) {
             pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] =
                 pauseCtx->equipVtx[k + 0].v.ob[1] - (PAUSE_EQUIP_PLAYER_HEIGHT % PAUSE_EQUIP_PLAYER_FRAG_HEIGHT);
 
