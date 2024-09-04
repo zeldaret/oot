@@ -83,7 +83,7 @@ void EnHintnuts_Init(Actor* thisx, PlayState* play) {
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        Actor_SetTextWithPrefix(play, &this->actor, (this->actor.params >> 8) & 0xFF);
+        Actor_SetTextWithPrefix(play, &this->actor, PARAMS_GET_U(this->actor.params, 8, 8));
         this->textIdCopy = this->actor.textId;
         this->actor.params &= 0xFF;
         sPuzzleCounter = 0;

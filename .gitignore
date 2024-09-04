@@ -3,12 +3,15 @@ __pycache__/
 .pyc
 .DS_Store
 
-# Text editor remnants
+# IDE files
 .vscode/
 .vs/
 .idea/
+.cache/
+compile_commands.json
 
 # Project-specific ignores
+.make_options.mk
 extracted/
 build/
 expected/

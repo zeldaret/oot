@@ -20,7 +20,7 @@
 #define INGORACE_SET_TIMER (1 << 1)
 #define INGORACE_INGO_MOVE (1 << 2)
 
-typedef enum {
+typedef enum HorseGameIngoRaceResult {
     /* 0 */ INGORACE_NO_RESULT,
     /* 1 */ INGORACE_PLAYER_WIN,
     /* 2 */ INGORACE_INGO_WIN,
@@ -35,7 +35,7 @@ typedef enum {
 #define MALONRACE_PLAYER_START (1 << 5)
 #define MALONRACE_PLAYER_ON_MARK (1 << 6)
 
-typedef enum {
+typedef enum HorseGameMalonRaceResult {
     /* 0 */ MALONRACE_NO_RESULT,
     /* 1 */ MALONRACE_SUCCESS,
     /* 2 */ MALONRACE_TIME_UP,

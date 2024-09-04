@@ -6,7 +6,7 @@
 struct Input;
 struct PlayState;
 
-typedef struct {
+typedef struct FrameAdvanceContext {
     /* 0x0 */ s32 enabled;
     /* 0x4 */ s32 timer;
 } FrameAdvanceContext; // size = 0x8

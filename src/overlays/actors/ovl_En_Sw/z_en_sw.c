@@ -53,7 +53,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80B0F074 = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnSwAnimation {
     /* 0 */ ENSW_ANIM_0,
     /* 1 */ ENSW_ANIM_1,
     /* 2 */ ENSW_ANIM_2,
@@ -231,20 +231,18 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
     s32 pad;
 
-    if (thisx->params & 0x8000) {
-        // special case of "Gold Type" macro
-        phi_v0 = (((thisx->params - 0x8000) & 0xE000) >> 0xD) + 1;
-        thisx->params = (thisx->params & 0x1FFF) | (phi_v0 << 0xD);
+    if (PARAMS_GET_NOSHIFT(thisx->params, 15, 1)) {}
+        phi_v0 = PARAMS_GET_S(thisx->params - 0x8000, 13, 3) + 1;
+        thisx->params = PARAMS_GET_S(thisx->params, 0, 13) | (phi_v0 << 0xD);
     }
 
     if (ENSW_GET_TYPE(thisx) > SW_TYPE_NORMAL) {
-        // shift the token ID
-        phi_v0 = ((thisx->params & 0x1F00) >> 8) - 1;
-        thisx->params = (thisx->params & 0xE0FF) | (phi_v0 << 8);
+        phi_v0 = PARAMS_GET_S(thisx->params, 8, 5) - 1;
+        thisx->params = (thisx->params & ~(0x1F << 8)) | (phi_v0 << 8);
     }
 
     // Check to see if this gold skull token has already been retrieved.
-    if (GET_GS_FLAGS((thisx->params & 0x1F00) >> 8) & (thisx->params & 0xFF)) {
+    if (GET_GS_FLAGS(PARAMS_GET_S(thisx->params, 8, 5)) & PARAMS_GET_S(thisx->params, 0, 8)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -386,7 +384,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
     }
 
     return false;
-}
+} 
 
 void EnSw_SetCollider(EnSw* this, PlayState* play) {
     if ((ENSW_GET_TYPE_EN(this) > SW_TYPE_NORMAL) && (this->actionFunc != EnSw_Crawl)) {

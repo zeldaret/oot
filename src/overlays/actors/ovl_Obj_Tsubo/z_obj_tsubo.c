@@ -83,10 +83,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjTsubo_SpawnCollectible(ObjTsubo* this, PlayState* play) {
-    s16 dropParams = this->actor.params & 0x1F;
+    s16 dropParams = PARAMS_GET_U(this->actor.params, 0, 5);
 
     if ((dropParams >= 0) && (dropParams < ITEM00_MAX)) {
-        Item_DropCollectible(play, &this->actor.world.pos, (dropParams | (((this->actor.params >> 9) & 0x3F) << 8)));
+        Item_DropCollectible(play, &this->actor.world.pos, dropParams | (PARAMS_GET_U(this->actor.params, 9, 6) << 8));
     }
 }
 
@@ -135,7 +135,7 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[PARAMS_GET_U(this->actor.params, 8, 1)]);
     if (this->requiredObjectSlot < 0) {
         PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
         Actor_Kill(&this->actor);
@@ -183,7 +183,8 @@ void ObjTsubo_AirBreak(ObjTsubo* this, PlayState* play) {
         }
         EffectSsKakera_Spawn(play, &pos, &velocity, &this->actor.world.pos, -240, arg5, 10, 10, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
-                             sObjectIds[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+                             sObjectIds[PARAMS_GET_U(this->actor.params, 8, 1)],
+                             D_80BA1B8C[PARAMS_GET_U(this->actor.params, 8, 1)]);
     }
     func_80033480(play, &this->actor.world.pos, 30.0f, 4, 20, 50, 1);
 }
@@ -212,7 +213,8 @@ void ObjTsubo_WaterBreak(ObjTsubo* this, PlayState* play) {
         phi_s0 = (Rand_ZeroOne() < .2f) ? 64 : 32;
         EffectSsKakera_Spawn(play, &pos, &velocity, &this->actor.world.pos, -180, phi_s0, 30, 30, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 70, KAKERA_COLOR_NONE,
-                             sObjectIds[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+                             sObjectIds[PARAMS_GET_U(this->actor.params, 8, 1)],
+                             D_80BA1B8C[PARAMS_GET_U(this->actor.params, 8, 1)]);
     }
 }
 
@@ -338,5 +340,5 @@ void ObjTsubo_Update(Actor* thisx, PlayState* play) {
 }
 
 void ObjTsubo_Draw(Actor* thisx, PlayState* play) {
-    Gfx_DrawDListOpa(play, D_80BA1B84[(thisx->params >> 8) & 1]);
+    Gfx_DrawDListOpa(play, D_80BA1B84[PARAMS_GET_U(thisx->params, 8, 1)]);
 }

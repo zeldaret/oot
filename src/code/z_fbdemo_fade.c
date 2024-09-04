@@ -1,12 +1,12 @@
 #include "global.h"
 #include "terminal.h"
 
-typedef enum {
+typedef enum TransitionFadeDirection {
     /* 0 */ TRANS_FADE_DIR_IN,
     /* 1 */ TRANS_FADE_DIR_OUT
 } TransitionFadeDirection;
 
-typedef enum {
+typedef enum TransitionFadeType {
     /* 0 */ TRANS_FADE_TYPE_NONE,
     /* 1 */ TRANS_FADE_TYPE_ONE_WAY,
     /* 2 */ TRANS_FADE_TYPE_FLASH
@@ -68,8 +68,8 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
                 this->isDone = true;
             }
             if ((u32)gSaveContext.transFadeDuration == 0) {
-                // "Divide by 0! Zero is included in ZCommonGet fade_speed"
-                PRINTF(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
+                PRINTF(VT_COL(RED, WHITE) T("０除算! ZCommonGet fade_speed に０がはいってる",
+                                            "Divide by 0! Zero is included in ZCommonGet fade_speed") VT_RST);
             }
 
             alpha = (255.0f * this->timer) / ((void)0, gSaveContext.transFadeDuration);
@@ -101,7 +101,12 @@ void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx;
     Color_RGBA8_u32* color = &this->color;
 
-    if (color->a > 0) {
+#if PLATFORM_N64
+    if (color->a != 0)
+#else
+    if (color->a > 0)
+#endif
+    {
         gfx = *gfxP;
         gSPDisplayList(gfx++, sTransFadeSetupDL);
         gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, color->a);

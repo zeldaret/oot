@@ -12,12 +12,12 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef struct {
+typedef struct EnfHGPainting {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yRot;
 } EnfHGPainting; // size = 0x10
 
-typedef enum {
+typedef enum EnfHGIntroState {
     /*  0 */ INTRO_WAIT,
     /*  1 */ INTRO_START,
     /*  2 */ INTRO_FENCE,

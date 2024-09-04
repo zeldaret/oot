@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
+typedef struct EffectSsExtraInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
@@ -12,7 +12,7 @@ typedef struct {
     /* 0x26 */ s16 scoreIdx;
 } EffectSsExtraInitParams; // size = 0x28
 
-typedef enum {
+typedef enum ExtraScoreIdx {
     /* 0 */ EXTRA_SCORE_30,
     /* 1 */ EXTRA_SCORE_60,
     /* 2 */ EXTRA_SCORE_100

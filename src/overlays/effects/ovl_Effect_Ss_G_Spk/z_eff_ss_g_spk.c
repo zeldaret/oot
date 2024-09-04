@@ -101,8 +101,6 @@ void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (1) {}
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_spk.c", 255);
 }
 

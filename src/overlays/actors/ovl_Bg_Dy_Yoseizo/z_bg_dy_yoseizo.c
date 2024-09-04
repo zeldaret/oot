@@ -13,13 +13,13 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
-typedef enum {
+typedef enum BgDyYoseizoRewardType {
     /* 0 */ FAIRY_UPGRADE_MAGIC,
     /* 1 */ FAIRY_UPGRADE_DOUBLE_MAGIC,
     /* 2 */ FAIRY_UPGRADE_DOUBLE_DEFENSE
 } BgDyYoseizoRewardType;
 
-typedef enum {
+typedef enum BgDyYoseizoSpellType {
     /* 0 */ FAIRY_SPELL_FARORES_WIND,
     /* 1 */ FAIRY_SPELL_DINS_FIRE,
     /* 2 */ FAIRY_SPELL_NAYRUS_LOVE

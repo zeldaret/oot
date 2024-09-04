@@ -83,7 +83,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 
-typedef enum {
+typedef enum BariDamageEffect {
     /* 0x0 */ BARI_DMGEFF_NONE,
     /* 0x1 */ BARI_DMGEFF_STUN,
     /* 0x2 */ BARI_DMGEFF_FIRE,
@@ -347,7 +347,7 @@ void EnVali_FloatIdle(EnVali* this, PlayState* play) {
 
     curFrame = ((curFrame > 40) ? (80 - curFrame) : curFrame);
 
-    this->actor.shape.rot.y += (s16)((curFrame + 4) * 0.4f * (0x10000 / 360.0f));
+    this->actor.shape.rot.y += DEG_TO_BINANG((curFrame + 4) * 0.4f);
     if (this->actor.xzDistToPlayer > 250.0f) {
         EnVali_SetupReturnToLurk(this);
     }

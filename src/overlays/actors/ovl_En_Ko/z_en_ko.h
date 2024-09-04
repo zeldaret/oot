@@ -32,7 +32,7 @@ typedef struct EnKo {
     /* 0x0304 */ s16 unk_304[16];
 } EnKo; // size = 0x0324
 
-typedef enum {
+typedef enum KokiriChildren {
     ENKO_TYPE_CHILD_0,
     ENKO_TYPE_CHILD_1,
     ENKO_TYPE_CHILD_2,
@@ -49,7 +49,7 @@ typedef enum {
     ENKO_TYPE_CHILD_MAX
 } KokiriChildren;
 
-typedef enum {
+typedef enum KokiriForestQuestState {
     ENKO_FQS_CHILD_START,
     ENKO_FQS_CHILD_STONE,
     ENKO_FQS_CHILD_SARIA,

@@ -20,6 +20,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 class VersionConfig:
     # Version name
     version: str
+    checksums: list[str]
     # ROM offset to start of DMA table
     dmadata_start: int
     # Whether the languages are PAL (EN/DE/FR) or not (JP/EN)
@@ -89,6 +90,7 @@ def load_version_config(version: str) -> VersionConfig:
 
     return VersionConfig(
         version=version,
+        checksums=config.get("checksums", ["checksum"]),
         dmadata_start=config["dmadata_start"],
         text_lang_pal=config["text_lang_pal"],
         dmadata_segments=load_dmadata_segments(version),

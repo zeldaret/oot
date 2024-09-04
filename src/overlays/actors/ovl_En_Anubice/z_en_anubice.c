@@ -57,7 +57,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 29, 103, 0, { 0, 0, 0 } },
 };
 
-typedef enum {
+typedef enum AnubiceDamageEffect {
     /* 0x0 */ ANUBICE_DMGEFF_NONE,
     /* 0x2 */ ANUBICE_DMGEFF_FIRE = 2,
     /* 0xF */ ANUBICE_DMGEFF_0xF = 0xF // Treated the same as ANUBICE_DMGEFF_NONE in code

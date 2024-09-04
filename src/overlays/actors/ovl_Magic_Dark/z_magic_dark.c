@@ -240,10 +240,10 @@ void MagicDark_DiamondDraw(Actor* thisx, PlayState* play) {
 }
 
 void MagicDark_OrbDraw(Actor* thisx, PlayState* play) {
-    MagicDark* this = (MagicDark*)thisx;
+    PlayState* play2 = (PlayState*)play;
     Vec3f pos;
-    Player* player = GET_PLAYER(play);
-    s32 pad;
+    Player* player = GET_PLAYER(play2);
+    MagicDark* this = (MagicDark*)thisx;
     f32 sp6C = play->state.frames & 0x1F;
 
     if (this->timer < 32) {
@@ -263,11 +263,11 @@ void MagicDark_OrbDraw(Actor* thisx, PlayState* play) {
         return;
     }
 
-    pos.x -= (this->actor.scale.x * 300.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))) *
-              Math_CosS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play))));
-    pos.y -= (this->actor.scale.x * 300.0f * Math_SinS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play))));
-    pos.z -= (this->actor.scale.x * 300.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))) *
-              Math_CosS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play))));
+    pos.x -= (this->actor.scale.x * 300.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play2))) *
+              Math_CosS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play2))));
+    pos.y -= (this->actor.scale.x * 300.0f * Math_SinS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play2))));
+    pos.z -= (this->actor.scale.x * 300.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play2))) *
+              Math_CosS(Camera_GetCamDirPitch(GET_ACTIVE_CAM(play2))));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_magic_dark.c", 619);
 
@@ -276,7 +276,7 @@ void MagicDark_OrbDraw(Actor* thisx, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 255);
     Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
+    Matrix_Mult(&play2->billboardMtxF, MTXMODE_APPLY);
     Matrix_Push();
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_magic_dark.c", 632),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

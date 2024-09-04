@@ -4,13 +4,13 @@
 #include "sched.h"
 #include "z64audio.h"
 
-typedef enum {
+typedef enum AudioMgrDebugLevel {
     /* 0 */ AUDIOMGR_DEBUG_LEVEL_NONE,
     /* 1 */ AUDIOMGR_DEBUG_LEVEL_NO_RSP,
     /* 2 */ AUDIOMGR_DEBUG_LEVEL_NO_UPDATE
 } AudioMgrDebugLevel;
 
-typedef struct {
+typedef struct AudioMgr {
     /* 0x0000 */ IrqMgr* irqMgr;
     /* 0x0004 */ Scheduler* sched;
     /* 0x0008 */ OSScTask audioTask;

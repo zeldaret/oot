@@ -11,7 +11,7 @@
 
 #define FLAGS 0
 
-typedef enum {
+typedef enum ChangerChestSide {
     /* 0 */ CHEST_LEFT,
     /* 1 */ CHEST_RIGHT
 } ChangerChestSide;

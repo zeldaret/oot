@@ -10,7 +10,7 @@ typedef void (*EnViewerActionFunc)(struct EnViewer*, PlayState*);
 typedef void (*EnViewerDrawFunc)(struct EnViewer*, PlayState*);
 typedef void (*EnViewerInitAnimFunc)(struct EnViewer*, PlayState*, void*, AnimationHeader*);
 
-typedef enum {
+typedef enum EnViewerType {
     /* 0 */ ENVIEWER_TYPE_0_HORSE_ZELDA,
     /* 1 */ ENVIEWER_TYPE_1_IMPA,
     /* 2 */ ENVIEWER_TYPE_2_ZELDA,
@@ -23,20 +23,20 @@ typedef enum {
     /* 9 */ ENVIEWER_TYPE_9_GANONDORF
 } EnViewerType;
 
-typedef enum {
+typedef enum EnViewerDrawType {
     /* 0 */ ENVIEWER_DRAW_GANONDORF,
     /* 1 */ ENVIEWER_DRAW_HORSE,
     /* 2 */ ENVIEWER_DRAW_ZELDA,
     /* 3 */ ENVIEWER_DRAW_IMPA
 } EnViewerDrawType;
 
-typedef enum {
+typedef enum EnViewerShadowType {
     /* 0 */ ENVIEWER_SHADOW_NONE,
     /* 1 */ ENVIEWER_SHADOW_CIRCLE,
     /* 2 */ ENVIEWER_SHADOW_HORSE
 } EnViewerShadowType;
 
-typedef struct {
+typedef struct EnViewerInitData {
     /* 0x00 */ s16 skeletonObject;
     /* 0x02 */ s16 animObject;
     /* 0x04 */ u8 scale; // divided by 100.0f
@@ -48,7 +48,7 @@ typedef struct {
     /* 0x10 */ AnimationHeader* anim;
 } EnViewerInitData; // size = 0x14
 
-typedef struct {
+typedef struct EnViewerFireEffect {
     /* 0x00 */ Vec3f startPos;
     /* 0x0C */ Vec3f endPos;
     /* 0x18 */ Vec3f pos;
@@ -58,7 +58,7 @@ typedef struct {
     /* 0x30 */ u8 state;
 } EnViewerFireEffect; // size = 0x34
 
-typedef enum {
+typedef enum YoungGanondorfLimb {
     /*  0 */ YOUNG_GANONDORF_LIMB_NONE,
     /*  1 */ YOUNG_GANONDORF_LIMB_ROOT,
     /*  2 */ YOUNG_GANONDORF_LIMB_TORSO,

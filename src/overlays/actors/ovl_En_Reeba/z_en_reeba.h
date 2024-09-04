@@ -30,7 +30,7 @@ typedef struct EnReeba {
     /* 0x0290 */ ColliderCylinder collider;
 } EnReeba; // size = 0x02DC
 
-typedef enum {
+typedef enum LeeverType {
     /* 0 */ LEEVER_TYPE_SMALL,
     /* 1 */ LEEVER_TYPE_BIG
 } LeeverType;

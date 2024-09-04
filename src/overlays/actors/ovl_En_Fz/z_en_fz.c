@@ -722,8 +722,6 @@ void EnFz_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fz.c", 1167);
 
-    if (1) {}
-
     if (this->actor.colChkInfo.health == 0) {
         index = 2;
     }

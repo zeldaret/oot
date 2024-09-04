@@ -38,7 +38,7 @@ static s16 sTearSizesSmall[] = {
     0, 0, 0, 0, 0, 0, 0,
 };
 
-typedef struct {
+typedef struct TearShape {
     s16* tearAreaSizes;
     s16 count;
 } TearShape; // size = 0x8

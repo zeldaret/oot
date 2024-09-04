@@ -17,6 +17,7 @@ def SignalHandler(sig, frame):
     # Don't exit immediately to update the extracted assets file.
 
 def ExtractFile(assetConfig: version_config.AssetConfig, outputPath: Path, outputSourcePath: Path):
+    name = assetConfig.name
     xmlPath = assetConfig.xml_path
     version = globalVersionConfig.version
     if globalAbort.is_set():
@@ -31,15 +32,15 @@ def ExtractFile(assetConfig: version_config.AssetConfig, outputPath: Path, outpu
 
     execStr = f"{zapdPath} e -eh -i {xmlPath} -b extracted/{version}/baserom -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
 
-    if "code" in xmlPath.parts or "overlays" in xmlPath.parts:
+    if name.startswith("code/") or name.startswith("overlays/"):
         assert assetConfig.start_offset is not None
         assert assetConfig.end_offset is not None
 
         execStr += f" --start-offset 0x{assetConfig.start_offset:X}"
         execStr += f" --end-offset 0x{assetConfig.end_offset:X}"
 
-    if "overlays" in xmlPath.parts:
-        overlayName = xmlPath.stem
+    if name.startswith("overlays/"):
+        overlayName = name.split("/")[1]
         baseAddress = globalVersionConfig.dmadata_segments[overlayName].vram + assetConfig.start_offset
 
         execStr += f" --base-address 0x{baseAddress:X}"

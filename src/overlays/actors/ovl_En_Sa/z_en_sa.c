@@ -17,7 +17,7 @@ void func_80AF683C(EnSa* this, PlayState* play);
 void func_80AF68E4(EnSa* this, PlayState* play);
 void func_80AF6B20(EnSa* this, PlayState* play);
 
-typedef enum {
+typedef enum SariaEyeState {
     /* 0 */ SARIA_EYE_OPEN,
     /* 1 */ SARIA_EYE_HALF,
     /* 2 */ SARIA_EYE_CLOSED,
@@ -25,7 +25,7 @@ typedef enum {
     /* 4 */ SARIA_EYE_SAD
 } SariaEyeState;
 
-typedef enum {
+typedef enum SariaMouthState {
     /* 0 */ SARIA_MOUTH_CLOSED2,
     /* 1 */ SARIA_MOUTH_SUPRISED,
     /* 2 */ SARIA_MOUTH_CLOSED,
@@ -67,7 +67,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnSaAnimation1 {
     /*  0 */ ENSA_ANIM1_0,
     /*  1 */ ENSA_ANIM1_1,
     /*  2 */ ENSA_ANIM1_2,
@@ -97,7 +97,7 @@ static AnimationFrameCountInfo sAnimationInfo1[] = {
     { &gSariaPlayingOcarinaAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
 };
 
-typedef enum {
+typedef enum EnSaAnimation2 {
     /* 0 */ ENSA_ANIM2_0,
     /* 1 */ ENSA_ANIM2_1,
     /* 2 */ ENSA_ANIM2_2,

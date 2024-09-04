@@ -8,71 +8,71 @@ struct DemoEffect;
 
 typedef void (*DemoEffectFunc)(struct DemoEffect*, PlayState*);
 
-typedef struct {
+typedef struct DemoEffectFireBall {
     /* 0x00 */ u8 timer;
 } DemoEffectFireBall;
 
-typedef struct {
+typedef struct DemoEffectBlueOrb {
     /* 0x00 */ u8 alpha;
     /* 0x01 */ u8 scale;
     /* 0x02 */ u8 pad;
     /* 0x04 */ s16 rotation;
 } DemoEffectBlueOrb;
 
-typedef struct {
+typedef struct DemoEffectLight {
     /* 0x00 */ u8 alpha;
     /* 0x01 */ u8 scaleFlag;
     /* 0x02 */ u8 flicker;
     /* 0x04 */ s16 rotation;
 } DemoEffectLight;
 
-typedef struct {
+typedef struct DemoEffectLgtShower {
     /* 0x00 */ u8 alpha;
 } DemoEffectLgtShower;
 
-typedef struct {
+typedef struct DemoEffectGodLgt {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 lightRingSpawnDelay;
     /* 0x02 */ u8 rotation;
     /* 0x04 */ s16 lightRingSpawnTimer;
 } DemoEffectGodLgt;
 
-typedef struct {
+typedef struct DemoEffectLightRing {
     /* 0x00 */ u8 timerIncrement;
     /* 0x01 */ u8 alpha;
     /* 0x02 */ u8 pad;
     /* 0x04 */ s16 timer;
 } DemoEffectLightRing;
 
-typedef struct {
+typedef struct DemoEffectTriforceSpot {
     /* 0x00 */ u8 triforceSpotOpacity;
     /* 0x01 */ u8 lightColumnOpacity;
     /* 0x02 */ u8 crystalLightOpacity;
     /* 0x04 */ s16 rotation;
 } DemoEffectTriforceSpot;
 
-typedef struct {
+typedef struct DemoEffectGetItem {
     /* 0x00 */ u8 isPositionInit;
     /* 0x01 */ u8 isLoaded;
     /* 0x02 */ u8 drawId;
     /* 0x04 */ s16 rotation;
 } DemoEffectGetItem;
 
-typedef struct {
+typedef struct DemoEffectTimeWarp {
     /* 0x00 */ u8 pad;
     /* 0x01 */ u8 pad2;
     /* 0x02 */ u8 pad3;
     /* 0x04 */ s16 shrinkTimer;
 } DemoEffectTimeWarp;
 
-typedef struct {
+typedef struct DemoEffectJewel {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 isPositionInit;
     /* 0x02 */ u8 alpha;
     /* 0x04 */ s16 timer;
 } DemoEffectJewel;
 
-typedef struct {
+typedef struct DemoEffectDust {
     /* 0x00 */ u8 timer;
 } DemoEffectDust;
 
@@ -108,7 +108,7 @@ typedef struct DemoEffect {
 } DemoEffect; // size = 0x01A0
 
 // These names come from the objects that correspond to this actor type.
-typedef enum {
+typedef enum DemoEffectType {
     /* 0x00 */ DEMO_EFFECT_CRYSTAL_LIGHT,
     /* 0x01 */ DEMO_EFFECT_FIRE_BALL,
     /* 0x02 */ DEMO_EFFECT_BLUE_ORB, // Object is in GAMEPLAY_KEEP. Not a name from object. It's a blue orb.
@@ -138,7 +138,7 @@ typedef enum {
     /* 0x1A */ DEMO_EFFECT_MAX_TYPE
 } DemoEffectType;
 
-typedef enum {
+typedef enum DemoEffectLightColor {
     /* 0x00 */ DEMO_EFFECT_LIGHT_RED,
     /* 0x01 */ DEMO_EFFECT_LIGHT_BLUE,
     /* 0x02 */ DEMO_EFFECT_LIGHT_GREEN,
@@ -148,7 +148,7 @@ typedef enum {
     /* 0x06 */ DEMO_EFFECT_LIGHT_GREEN2
 } DemoEffectLightColor;
 
-typedef enum {
+typedef enum DemoEffectGodLgtType {
     /* 0x00 */ GOD_LGT_DIN,
     /* 0x01 */ GOD_LGT_NAYRU,
     /* 0x02 */ GOD_LGT_FARORE

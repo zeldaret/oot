@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
+typedef struct EffectSsIcePieceInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ f32 scale;
     /* 0x10 */ Vec3f velocity;

@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
+typedef enum WallmasType {
     /* 0x00 */ WMT_TIMER,
     /* 0x01 */ WMT_PROXIMITY,
     /* 0x02 */ WMT_FLAG

@@ -7,7 +7,7 @@
 
 struct Player;
 
-typedef enum {
+typedef enum PlayerSword {
     /* 0 */ PLAYER_SWORD_NONE,
     /* 1 */ PLAYER_SWORD_KOKIRI,
     /* 2 */ PLAYER_SWORD_MASTER,
@@ -15,7 +15,7 @@ typedef enum {
     /* 4 */ PLAYER_SWORD_MAX
 } PlayerSword;
 
-typedef enum {
+typedef enum PlayerShield {
     /* 0x00 */ PLAYER_SHIELD_NONE,
     /* 0x01 */ PLAYER_SHIELD_DEKU,
     /* 0x02 */ PLAYER_SHIELD_HYLIAN,
@@ -23,14 +23,14 @@ typedef enum {
     /* 0x04 */ PLAYER_SHIELD_MAX
 } PlayerShield;
 
-typedef enum {
+typedef enum PlayerTunic {
     /* 0x00 */ PLAYER_TUNIC_KOKIRI,
     /* 0x01 */ PLAYER_TUNIC_GORON,
     /* 0x02 */ PLAYER_TUNIC_ZORA,
     /* 0x03 */ PLAYER_TUNIC_MAX
 } PlayerTunic;
 
-typedef enum {
+typedef enum PlayerBoots {
     /* 0x00 */ PLAYER_BOOTS_KOKIRI,
     /* 0x01 */ PLAYER_BOOTS_IRON,
     /* 0x02 */ PLAYER_BOOTS_HOVER,
@@ -41,7 +41,7 @@ typedef enum {
     /* 0x06 */ PLAYER_BOOTS_MAX
 } PlayerBoots;
 
-typedef enum {
+typedef enum PlayerStrength {
     /* 0x00 */ PLAYER_STR_NONE,
     /* 0x01 */ PLAYER_STR_BRACELET,
     /* 0x02 */ PLAYER_STR_SILVER_G,
@@ -49,7 +49,7 @@ typedef enum {
     /* 0x04 */ PLAYER_STR_MAX
 } PlayerStrength;
 
-typedef enum {
+typedef enum PlayerMask {
     /* 0x00 */ PLAYER_MASK_NONE,
     /* 0x01 */ PLAYER_MASK_KEATON,
     /* 0x02 */ PLAYER_MASK_SKULL,
@@ -62,7 +62,7 @@ typedef enum {
     /* 0x09 */ PLAYER_MASK_MAX
 } PlayerMask;
 
-typedef enum {
+typedef enum PlayerEnvHazard {
     /* 0x0 */ PLAYER_ENV_HAZARD_NONE,
     /* 0x1 */ PLAYER_ENV_HAZARD_HOTROOM,
     /* 0x2 */ PLAYER_ENV_HAZARD_UNDERWATER_FLOOR,
@@ -70,7 +70,7 @@ typedef enum {
     /* 0x4 */ PLAYER_ENV_HAZARD_UNDERWATER_FREE
 } PlayerEnvHazard;
 
-typedef enum {
+typedef enum PlayerItemAction {
     /* 0x00 */ PLAYER_IA_NONE,
     /* 0x01 */ PLAYER_IA_SWORD_CS, // Hold sword without shield in hand. The sword is not useable.
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
@@ -141,7 +141,7 @@ typedef enum {
     /* 0x43 */ PLAYER_IA_MAX
 } PlayerItemAction;
 
-typedef enum {
+typedef enum PlayerLimb {
     /* 0x00 */ PLAYER_LIMB_NONE,
     /* 0x01 */ PLAYER_LIMB_ROOT,
     /* 0x02 */ PLAYER_LIMB_WAIST,
@@ -167,7 +167,7 @@ typedef enum {
     /* 0x16 */ PLAYER_LIMB_MAX
 } PlayerLimb;
 
-typedef enum {
+typedef enum PlayerBodyPart {
     /* 0x00 */ PLAYER_BODYPART_WAIST,      // PLAYER_LIMB_WAIST
     /* 0x01 */ PLAYER_BODYPART_R_THIGH,    // PLAYER_LIMB_R_THIGH
     /* 0x02 */ PLAYER_BODYPART_R_SHIN,     // PLAYER_LIMB_R_SHIN
@@ -189,7 +189,7 @@ typedef enum {
     /* 0x12 */ PLAYER_BODYPART_MAX
 } PlayerBodyPart;
 
-typedef enum {
+typedef enum PlayerMeleeWeaponAnimation {
     /*  0 */ PLAYER_MWA_FORWARD_SLASH_1H,
     /*  1 */ PLAYER_MWA_FORWARD_SLASH_2H,
     /*  2 */ PLAYER_MWA_FORWARD_COMBO_1H,
@@ -221,7 +221,7 @@ typedef enum {
     /* 28 */ PLAYER_MWA_MAX
 } PlayerMeleeWeaponAnimation;
 
-typedef enum {
+typedef enum PlayerDoorType {
     /* -1 */ PLAYER_DOORTYPE_AJAR = -1,
     /*  0 */ PLAYER_DOORTYPE_NONE,
     /*  1 */ PLAYER_DOORTYPE_HANDLE,
@@ -229,13 +229,13 @@ typedef enum {
     /*  3 */ PLAYER_DOORTYPE_FAKE
 } PlayerDoorType;
 
-typedef enum {
+typedef enum PlayerFacePart {
     /* 0 */ PLAYER_FACEPART_EYES,
     /* 1 */ PLAYER_FACEPART_MOUTH,
     /* 2 */ PLAYER_FACEPART_MAX
 } PlayerFacePart;
 
-typedef enum {
+typedef enum PlayerEyes {
     /* 0 */ PLAYER_EYES_OPEN,
     /* 1 */ PLAYER_EYES_HALF,
     /* 2 */ PLAYER_EYES_CLOSED,
@@ -247,7 +247,7 @@ typedef enum {
     /* 8 */ PLAYER_EYES_MAX
 } PlayerEyes;
 
-typedef enum {
+typedef enum PlayerMouth {
     /* 0 */ PLAYER_MOUTH_CLOSED,
     /* 1 */ PLAYER_MOUTH_HALF,
     /* 2 */ PLAYER_MOUTH_OPEN,
@@ -255,7 +255,7 @@ typedef enum {
     /* 4 */ PLAYER_MOUTH_MAX
 } PlayerMouth;
 
-typedef enum {
+typedef enum PlayerFace {
     /*  0 */ PLAYER_FACE_NEUTRAL,                   // eyes open and mouth closed
     /*  1 */ PLAYER_FACE_NEUTRAL_BLINKING_HALF,     // eyes half open and mouth closed
     /*  2 */ PLAYER_FACE_NEUTRAL_BLINKING_CLOSED,   // eyes and mouth closed
@@ -275,7 +275,7 @@ typedef enum {
     /* 16 */ PLAYER_FACE_MAX
 } PlayerFace;
 
-typedef enum {
+typedef enum PlayerModelGroup {
     /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `Player_OverrideLimbDrawPause`)
     /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD,  //hold sword only. used for holding sword only as child link with hylian shield equipped
     /* 0x02 */ PLAYER_MODELGROUP_SWORD_AND_SHIELD, // hold sword and shield or just sword if no shield is equipped
@@ -295,7 +295,7 @@ typedef enum {
     /* 0x10 */ PLAYER_MODELGROUP_MAX
 } PlayerModelGroup;
 
-typedef enum {
+typedef enum PlayerModelGroupEntry {
     /* 0x00 */ PLAYER_MODELGROUPENTRY_ANIM,
     /* 0x01 */ PLAYER_MODELGROUPENTRY_LEFT_HAND,
     /* 0x02 */ PLAYER_MODELGROUPENTRY_RIGHT_HAND,
@@ -304,7 +304,7 @@ typedef enum {
     /* 0x05 */ PLAYER_MODELGROUPENTRY_MAX
 } PlayerModelGroupEntry;
 
-typedef enum {
+typedef enum PlayerModelType {
     // left hand
     /* 0x00 */ PLAYER_MODELTYPE_LH_OPEN, // empty open hand
     /* 0x01 */ PLAYER_MODELTYPE_LH_CLOSED, // empty closed hand
@@ -334,7 +334,7 @@ typedef enum {
     /* 0xFF */ PLAYER_MODELTYPE_RH_FF = 0xFF // disable shield collider, cutscene-specific
 } PlayerModelType;
 
-typedef enum {
+typedef enum PlayerAnimType {
     /* 0x00 */ PLAYER_ANIMTYPE_0,
     /* 0x01 */ PLAYER_ANIMTYPE_1,
     /* 0x02 */ PLAYER_ANIMTYPE_2,
@@ -347,7 +347,7 @@ typedef enum {
 /**
  * Temporary names, derived from original animation names in `D_80853914`
  */
-typedef enum {
+typedef enum PlayerAnimGroup {
     /* 0x00 */ PLAYER_ANIMGROUP_wait,
     /* 0x01 */ PLAYER_ANIMGROUP_walk,
     /* 0x02 */ PLAYER_ANIMGROUP_run,
@@ -399,7 +399,7 @@ typedef enum {
 #define LIMB_BUF_COUNT(limbCount) ((ALIGN16((limbCount) * sizeof(Vec3s)) + sizeof(Vec3s) - 1) / sizeof(Vec3s))
 #define PLAYER_LIMB_BUF_COUNT LIMB_BUF_COUNT(PLAYER_LIMB_MAX)
 
-typedef enum {
+typedef enum PlayerCsAction {
     /* 0x00 */ PLAYER_CSACTION_NONE,
     /* 0x01 */ PLAYER_CSACTION_1,
     /* 0x02 */ PLAYER_CSACTION_2,
@@ -506,7 +506,7 @@ typedef enum {
     /* 0x67 */ PLAYER_CSACTION_MAX
 } PlayerCsAction;
 
-typedef enum {
+typedef enum PlayerCueId {
     /* 0x00 */ PLAYER_CUEID_NONE,
     /* 0x01 */ PLAYER_CUEID_1,
     /* 0x02 */ PLAYER_CUEID_2,
@@ -588,7 +588,7 @@ typedef enum {
     /* 0x4E */ PLAYER_CUEID_MAX
 } PlayerCueId;
 
-typedef enum {
+typedef enum PlayerLedgeClimbType {
     /* 0 */ PLAYER_LEDGE_CLIMB_NONE,
     /* 1 */ PLAYER_LEDGE_CLIMB_1,
     /* 2 */ PLAYER_LEDGE_CLIMB_2,
@@ -596,7 +596,7 @@ typedef enum {
     /* 4 */ PLAYER_LEDGE_CLIMB_4
 } PlayerLedgeClimbType;
 
-typedef enum {
+typedef enum PlayerStickDirection {
     /* -1 */ PLAYER_STICK_DIR_NONE = -1,
     /*  0 */ PLAYER_STICK_DIR_FORWARD,
     /*  1 */ PLAYER_STICK_DIR_LEFT,
@@ -604,7 +604,7 @@ typedef enum {
     /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 
-typedef struct {
+typedef struct PlayerAgeProperties {
     /* 0x00 */ f32 ceilingCheckHeight;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
@@ -640,7 +640,7 @@ typedef struct {
     /* 0xCC */ LinkAnimationHeader* unk_CC[2];
 } PlayerAgeProperties; // size = 0xD4
 
-typedef struct {
+typedef struct WeaponInfo {
     /* 0x00 */ s32 active;
     /* 0x04 */ Vec3f tip;
     /* 0x10 */ Vec3f base;

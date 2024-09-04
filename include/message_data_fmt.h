@@ -111,7 +111,7 @@
  *  Colors
  */
 
-typedef enum {
+typedef enum TextColor {
     TEXT_COLOR_DEFAULT,
     TEXT_COLOR_RED,
     TEXT_COLOR_ADJUSTABLE,
@@ -126,12 +126,12 @@ typedef enum {
  * Background
  */
 
-typedef enum {
+typedef enum TextboxBackgroundIndex {
     TEXTBOX_BG_X_LEFT,
     TEXTBOX_BG_X_RIGHT
 } TextboxBackgroundIndex;
 
-typedef enum {
+typedef enum TextboxBackgroundForegroundColor {
     TEXTBOX_BG_FGCOL_WHITE,
     TEXTBOX_BG_FGCOL_DARK_RED,
     TEXTBOX_BG_FGCOL_ORANGE,
@@ -142,14 +142,14 @@ typedef enum {
     TEXTBOX_BG_FGCOL_WHITE_7
 } TextboxBackgroundForegroundColor;
 
-typedef enum {
+typedef enum TextboxBackgroundBackgroundColor {
     TEXTBOX_BG_BGCOL_BLACK,
     TEXTBOX_BG_BGCOL_GOLD,
     TEXTBOX_BG_BGCOL_BLACK_2,
     TEXTBOX_BG_BGCOL_BLACK_3
 } TextboxBackgroundBackgroundColor;
 
-typedef enum {
+typedef enum TextboxBackgroundYOffsetIndex {
     TEXTBOX_BG_Y_OFFSET_1,
     TEXTBOX_BG_Y_OFFSET_2
 } TextboxBackgroundYOffsetIndex;

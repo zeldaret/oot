@@ -8,7 +8,7 @@ struct ObjLightswitch;
 
 typedef void (*ObjLightswitchActionFunc)(struct ObjLightswitch*, PlayState*);
 
-typedef enum {
+typedef enum ObjLightswitch_Type {
     /* 0 */ OBJLIGHTSWITCH_TYPE_STAY_ON, // doesn't turn off unless the switch flag is cleared some other way
     /* 1 */ OBJLIGHTSWITCH_TYPE_1,       // turns on and off
     /* 2 */ OBJLIGHTSWITCH_TYPE_2,       // turns on and off

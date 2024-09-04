@@ -17,7 +17,7 @@ typedef struct DemoTreLgt {
     /* 0x0178 */ u8 status;
 } DemoTreLgt; // size = 0x017C
 
-typedef enum {
+typedef enum DemoTreLgtAction {
     /* 0x00 */ DEMO_TRE_LGT_ACTION_WAIT, // wait until animation is needed
     /* 0x01 */ DEMO_TRE_LGT_ACTION_ANIMATE
 } DemoTreLgtAction;

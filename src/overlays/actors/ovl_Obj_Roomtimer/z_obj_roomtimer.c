@@ -29,18 +29,12 @@ ActorProfile Obj_Roomtimer_Profile = {
 
 void ObjRoomtimer_Init(Actor* thisx, PlayState* play) {
     ObjRoomtimer* this = (ObjRoomtimer*)thisx;
-    s16 params = this->actor.params;
 
-    this->switchFlag = (params >> 10) & 0x3F;
-    this->actor.params = params & 0x3FF;
-    params = this->actor.params;
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 10, 6);
+    this->actor.params = PARAMS_GET_U(this->actor.params, 0, 10);
 
-    if (params != 0x3FF) {
-        if (params > 600) {
-            this->actor.params = 600;
-        } else {
-            this->actor.params = params;
-        }
+    if (this->actor.params != 0x3FF) {
+        this->actor.params = CLAMP_MAX(this->actor.params, 600);
     }
 
     this->actionFunc = func_80B9D054;

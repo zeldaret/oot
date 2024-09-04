@@ -13,7 +13,7 @@ typedef struct BgSstFloor {
     /* 0x0168 */ s16 drumHeight;
 } BgSstFloor; // size = 0x016C
 
-typedef enum {
+typedef enum BgSstFloorParams {
     /* 0 */ BONGOFLOOR_REST,
     /* 1 */ BONGOFLOOR_HIT
 } BgSstFloorParams;

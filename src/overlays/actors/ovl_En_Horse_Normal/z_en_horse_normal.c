@@ -10,17 +10,17 @@
 
 #define FLAGS 0
 
-typedef struct {
+typedef struct EnHorseNormalUnkStruct1 {
     Vec3s pos;
     u8 unk_06; // this may be a s16 if the always-0 following byte is actually not padding
 } EnHorseNormalUnkStruct1;
 
-typedef struct {
+typedef struct EnHorseNormalUnkStruct2 {
     s32 len;
     EnHorseNormalUnkStruct1* items;
 } EnHorseNormalUnkStruct2;
 
-typedef enum {
+typedef enum EnHorseNormalAction {
     /* 0x00 */ HORSE_CYCLE_ANIMATIONS,
     /* 0x01 */ HORSE_WANDER,
     /* 0x02 */ HORSE_WAIT,
@@ -259,7 +259,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
         Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     }
-    if ((this->actor.params & 0xF0) == 0x10 && (this->actor.params & 0xF) != 0xF) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x10 && PARAMS_GET_U(this->actor.params, 0, 4) != 0xF) {
         func_80A6B91C(this, play);
     } else {
         func_80A6BC48(this);
@@ -286,7 +286,7 @@ void func_80A6B91C(EnHorseNormal* this, PlayState* play) {
 }
 
 void EnHorseNormal_FollowPath(EnHorseNormal* this, PlayState* play) {
-    Path* path = &play->pathList[this->actor.params & 0xF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 4)];
     Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     f32 dx;
     f32 dz;

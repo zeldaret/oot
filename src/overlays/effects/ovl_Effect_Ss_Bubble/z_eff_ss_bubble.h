@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
+typedef struct EffectSsBubbleInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ f32 yPosOffset;
     /* 0x10 */ f32 yPosRandScale;

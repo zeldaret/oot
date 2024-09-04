@@ -1,0 +1,10 @@
+<!-- This file is only for extraction of vanilla data. For other purposes see assets/audio/samplebanks/ -->
+<SampleBank Name="SampleBank_6" Index="6">
+    <Sample Name="SAMPLE_6_0" FileName="Sample0" Offset="0x000000" SampleRate="32000" BaseNote="C4"/>
+    <Sample Name="SAMPLE_6_1" FileName="Sample1" Offset="0x00B0D0" SampleRate="32000" BaseNote="BF2"/>
+    <Sample Name="SAMPLE_6_2" FileName="Sample2" Offset="0x00E120" SampleRate="32000" BaseNote="C4"/>
+    <Sample Name="SAMPLE_6_3" FileName="Sample3" Offset="0x0103E0" SampleRate="22050" BaseNote="BF4"/>
+    <Sample Name="SAMPLE_6_4" FileName="Sample4" Offset="0x012EB0" SampleRate="32000" BaseNote="C4"/>
+    <Sample Name="SAMPLE_6_5" FileName="Sample5" Offset="0x01D3E0" SampleRate="24000" BaseNote="C4"/>
+    <Sample Name="SAMPLE_6_6" FileName="Sample6" Offset="0x022EE0" SampleRate="24000" BaseNote="C4"/>
+</SampleBank>
