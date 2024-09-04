@@ -218,7 +218,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             this->skelAnime.playSpeed = 0.0f;
             this->actor.world.pos.x = (Math_SinS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.x;
             this->actor.world.pos.z = (Math_CosS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.z;
-            if ((this->actor.xzDistToPlayer <= 120.0f) || Actor_IsTargeted(play, &this->actor) ||
+            if ((this->actor.xzDistToPlayer <= 120.0f) || Actor_IsLockedOn(play, &this->actor) ||
                 (attackItem != NULL)) {
                 if (attackItem != NULL) {
                     sDodgeRollState = 1;
@@ -355,7 +355,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                             if ((this->meleeWeaponState == 0) && (sCounterState == 0) &&
                                 (player->invincibilityTimer == 0) &&
                                 (player->meleeWeaponAnimation == PLAYER_MWA_STAB_1H) &&
-                                (this->actor.xzDistToPlayer <= 85.0f) && Actor_IsTargeted(play, &this->actor)) {
+                                (this->actor.xzDistToPlayer <= 85.0f) && Actor_IsLockedOn(play, &this->actor)) {
 
                                 sStickTilt = 0.0f;
                                 sSwordJumpState = 1;
@@ -407,7 +407,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                         sStickAngle = thisx->yawTowardsPlayer;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
                             (ABS(sp5A) >= 0x7800) &&
-                            (this->actor.isTargeted || !(player->stateFlags1 & PLAYER_STATE1_22))) {
+                            (this->actor.isLockedOn || !(player->stateFlags1 & PLAYER_STATE1_22))) {
                             EnTorch2_SwingSword(play, input, this);
                         } else {
                             f32 sp50 = 0.0f;
@@ -422,7 +422,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                             } else if (this->actor.xzDistToPlayer <= 50 + sp50) {
                                 sStickTilt = 127.0f;
                                 sStickAngle = this->actor.yawTowardsPlayer;
-                                if (!this->actor.isTargeted) {
+                                if (!this->actor.isLockedOn) {
                                     Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
                                 }
                             } else if (this->actor.xzDistToPlayer > 100.0f + sp50) {
@@ -432,7 +432,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                                     (this->actor.xzDistToPlayer >= 280.0f)) {
                                     sStickTilt = 127.0f;
                                     sStickAngle = this->actor.yawTowardsPlayer;
-                                    if (!this->actor.isTargeted) {
+                                    if (!this->actor.isLockedOn) {
                                         Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328,
                                                            0);
                                     }
@@ -443,7 +443,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                                        !EnTorch2_SwingSword(play, input, this)) {
                                 sStickAngle = this->actor.yawTowardsPlayer;
                                 sStickTilt = 127.0f;
-                                if (!this->actor.isTargeted) {
+                                if (!this->actor.isLockedOn) {
                                     Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
                                 }
                             }
