@@ -45,7 +45,7 @@ def main():
                                      description="Creates a ctx.c file for mips2c. "
                                      "Output will be saved as oot/ctx.c")
     parser.add_argument('filepath', help="path of c file to be processed")
-    parser.add_argument("-v", "--oot-version", dest="oot_version", required=True)
+    parser.add_argument("-v", "--version", dest="oot_version", required=True)
     args = parser.parse_args()
 
     version = args.oot_version

@@ -91,6 +91,7 @@ s32 __osEPiRawReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
 void osViSwapBuffer(void* frameBufPtr);
 s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dramAddr, size_t size);
 OSTime osGetTime(void);
+void osSetTime(OSTime time);
 void __osTimerServicesInit(void);
 void __osTimerInterrupt(void);
 void __osSetTimerIntr(OSTime time);

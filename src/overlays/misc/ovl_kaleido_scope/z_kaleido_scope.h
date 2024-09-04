@@ -114,6 +114,7 @@ typedef enum EquipQuad {
     /* 28 */ QUAD_EQUIP_MAX = QUAD_EQUIP_PLAYER_LAST + 4 + 1
 } EquipQuad;
 
+// The world map image is split into a number of quad fragments for drawing
 #define WORLD_MAP_IMAGE_WIDTH 216
 #define WORLD_MAP_IMAGE_HEIGHT 128
 #define WORLD_MAP_IMAGE_FRAG_HEIGHT ((TMEM_SIZE / 2) / (WORLD_MAP_IMAGE_WIDTH * G_IM_SIZ_8b_BYTES))

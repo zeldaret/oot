@@ -3629,7 +3629,7 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
     PRINTF("ＭＡＰ ＤＭＡ = %d\n", play->interfaceCtx.mapPaletteIndex);
 
 #if PLATFORM_N64
-    if (B_80121AF0 != NULL && B_80121AF0->unk_44 != NULL && B_80121AF0->unk_44(play)) {
+    if (B_80121220 != NULL && B_80121220->unk_44 != NULL && B_80121220->unk_44(play)) {
 
     } else {
         KaleidoScope_LoadDungeonMap(play);

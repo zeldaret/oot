@@ -15,7 +15,6 @@ beginseg
     name "boot"
     address 0x80000460
     include "$(BUILD_DIR)/src/boot/boot_main.o"
-    include "$(BUILD_DIR)/data/unk_800093F0.data.o"
     include "$(BUILD_DIR)/data/unk_80009410.data.o"
     include "$(BUILD_DIR)/src/boot/idle.o"
     include "$(BUILD_DIR)/src/boot/viconfig.o"
@@ -144,6 +143,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/boot/build.o"
     include "$(BUILD_DIR)/data/rsp_boot.text.o"
+    include "$(BUILD_DIR)/data/cic6105.text.o"
 #ifdef COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"

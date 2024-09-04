@@ -12,6 +12,8 @@
 
 extern u64 rspbootTextStart[], rspbootTextEnd[];
 
+extern u64 cic6105TextStart[], cic6105TextEnd[];
+
 extern u64 aspMainTextStart[], aspMainTextEnd[];
 extern u64 aspMainDataStart[], aspMainDataEnd[];
 
