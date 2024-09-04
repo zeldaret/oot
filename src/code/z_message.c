@@ -2461,7 +2461,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         Message_FindCreditsMessage(play, textId);
         msgCtx->msgLength = font->msgLength;
 #if PLATFORM_N64
-        if ((B_80121AF0 != NULL) && (B_80121AF0->unk_60 != NULL) && B_80121AF0->unk_60(&play->msgCtx.font)) {
+        if ((B_80121220 != NULL) && (B_80121220->unk_60 != NULL) && B_80121220->unk_60(&play->msgCtx.font)) {
 
         } else {
             DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
@@ -2477,7 +2477,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
             Message_FindMessageJPN(play, textId);
             msgCtx->msgLength = font->msgLength;
 #if PLATFORM_N64
-            if ((B_80121AF0 != NULL) && (B_80121AF0->unk_64 != NULL) && B_80121AF0->unk_64(&play->msgCtx.font)) {
+            if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_64(&play->msgCtx.font)) {
 
             } else {
                 DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
@@ -2491,7 +2491,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
             Message_FindMessageNES(play, textId);
             msgCtx->msgLength = font->msgLength;
 #if PLATFORM_N64
-            if ((B_80121AF0 != NULL) && (B_80121AF0->unk_68 != NULL) && B_80121AF0->unk_68(&play->msgCtx.font)) {
+            if ((B_80121220 != NULL) && (B_80121220->unk_68 != NULL) && B_80121220->unk_68(&play->msgCtx.font)) {
 
             } else {
                 DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
@@ -4278,8 +4278,8 @@ void Message_SetTables(void) {
     sStaffMessageEntryTablePtr = sStaffMessageEntryTable;
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_58 != NULL)) {
-        B_80121AF0->unk_58(&sJpnMessageEntryTablePtr, &sNesMessageEntryTablePtr, &sStaffMessageEntryTablePtr);
+    if ((B_80121220 != NULL) && (B_80121220->unk_58 != NULL)) {
+        B_80121220->unk_58(&sJpnMessageEntryTablePtr, &sNesMessageEntryTablePtr, &sStaffMessageEntryTablePtr);
     }
 #endif
 }
