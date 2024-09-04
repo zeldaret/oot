@@ -5,6 +5,7 @@
  */
 
 #include "z_en_mag.h"
+#include "versions.h"
 #include "assets/objects/object_mag/object_mag.h"
 #if PLATFORM_N64
 #include "n64dd.h"
@@ -32,7 +33,7 @@ ActorProfile En_Mag_Profile = {
 
 static s16 sDelayTimer = 0;
 
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
 void EnMag_ResetSram(void) {
     static u8 buffer[0x2000];
 
@@ -141,7 +142,7 @@ void EnMag_Init(Actor* thisx, PlayState* play) {
 void EnMag_Destroy(Actor* thisx, PlayState* play) {
 }
 
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
 void EnMag_CheckSramResetCode(PlayState* play, EnMag* this) {
     static s32 sSramResetCode[] = {
         BTN_DUP, BTN_DDOWN,  BTN_DLEFT, BTN_DRIGHT, BTN_START, BTN_B, BTN_CDOWN,
@@ -189,7 +190,7 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
     s32 pad[2];
     EnMag* this = (EnMag*)thisx;
 
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
     EnMag_CheckSramResetCode(play, this);
 #endif
 
@@ -429,16 +430,17 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
     curTexture = source;
     rectLeft = centerX - (width / 2);
     rectTop = centerY - (height / 2);
-    textureHeight = 4096 / (width << 2);
     remainingSize = (width * height) << 2;
+    textureHeight = 4096 / (width << 2);
     textureSize = (width * textureHeight) << 2;
     textureCount = remainingSize / textureSize;
     if ((remainingSize % textureSize) != 0) {
         textureCount += 1;
     }
 
-    gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, width, textureHeight, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                     G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
+                     G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                     G_TX_NOLOD);
 
     remainingSize -= textureSize;
 
@@ -459,7 +461,7 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
                 textureHeight = remainingSize / (s32)(width << 2);
                 remainingSize -= textureSize;
 
-                gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, width, textureHeight, 0,
+                gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
                                  G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                                  G_TX_NOLOD, G_TX_NOLOD);
             }
@@ -626,9 +628,9 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 #if OOT_MQ
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->subAlpha);
-#if OOT_VERSION == OOT_GC_JP_MQ
+#if OOT_VERSION == GC_JP_MQ
         EnMag_DrawImageRGBA32(&gfx, 235, 149, (u8*)gTitleUraLogoTex, 40, 40);
-#elif OOT_VERSION == OOT_GC_US_MQ
+#elif OOT_VERSION == GC_US_MQ
         if (gSaveContext.language == LANGUAGE_JPN) {
             EnMag_DrawImageRGBA32(&gfx, 235, 149, (u8*)gTitleUraLogoTex, 40, 40);
         } else {
@@ -688,7 +690,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
         gDPLoadTextureBlock(gfx++, gTitleCopyright1998Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 128, 16, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
-#elif OOT_VERSION < OOT_GC_US
+#elif OOT_VERSION < GC_US
         gDPLoadTextureBlock(gfx++, gTitleCopyright19982002Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);

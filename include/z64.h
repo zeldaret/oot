@@ -52,7 +52,6 @@
 #include "regs.h"
 #include "irqmgr.h"
 #include "padmgr.h"
-#include "fault.h"
 #include "sched.h"
 #include "rumble.h"
 #include "mempak.h"
@@ -92,12 +91,6 @@
 #define THREAD_ID_AUDIOMGR   10
 #define THREAD_ID_DMAMGR     18
 #define THREAD_ID_IRQMGR     19
-
-#define STACK(stack, size) \
-    u64 stack[ALIGN8(size) / sizeof(u64)]
-
-#define STACK_TOP(stack) \
-    ((u8*)(stack) + sizeof(stack))
 
 typedef struct KaleidoMgrOverlay {
     /* 0x00 */ void* loadedRamAddr;

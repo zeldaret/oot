@@ -77,7 +77,7 @@ void Font_LoadOrderedFont(Font* font) {
     fontBufIndex = 0;
     for (codePointIndex = 0; font->msgBuf[codePointIndex] != MESSAGE_END; codePointIndex++) {
         if (codePointIndex > (len * 1)) {
-            PRINTF("ＥＲＲＯＲ！！  エラー！！！  error───！！！！\n");
+            PRINTF(T("ＥＲＲＯＲ！！  エラー！！！  error───！！！！\n", "ERROR!!  Error!!!  error───!!!!\n"));
             return;
         }
 
