@@ -321,7 +321,7 @@ void Target_Init(TargetContext* targetCtx, Actor* actor, PlayState* play) {
 }
 
 void Target_Draw(TargetContext* targetCtx, PlayState* play) {
-    Actor* actor; // used for both the reticle and arrow
+    Actor* actor; // used for both the reticle actor and arrow hover actor
 
     actor = targetCtx->reticleActor;
 
@@ -386,7 +386,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
 
         Target_SetReticlePos(targetCtx, targetCtx->curReticle, projectedPos.x, projectedPos.y, projectedPos.z);
 
-        if (!(player->stateFlags1 & PLAYER_STATE1_6) || (actor != player->unk_664)) {
+        if (!(player->stateFlags1 & PLAYER_STATE1_6) || (actor != player->focusActor)) {
             OVERLAY_DISP = Gfx_SetupDL(OVERLAY_DISP, SETUPDL_57);
 
             for (i = 0, curReticle = targetCtx->curReticle; i < numReticles;
@@ -449,16 +449,16 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 2158);
 }
 
-void Target_Update(TargetContext* targetCtx, Player* player, Actor* curLockOnActor, PlayState* play) {
+void Target_Update(TargetContext* targetCtx, Player* player, Actor* playerFocusActor, PlayState* play) {
     s32 pad;
-    Actor* actor;
+    Actor* actor; // used for both the navi hover actor and reticle actor
     s32 category;
     Vec3f projectedFocusPos;
     f32 cappedInvWDest;
 
     actor = NULL;
 
-    if ((player->unk_664 != NULL) &&
+    if ((player->focusActor != NULL) &&
         (player->controlStickDirections[player->controlStickDataIndex] == PLAYER_STICK_DIR_BACKWARD)) {
         // Holding backward on the control stick prevents an arrow appearing over the next targetable actor.
         // This helps escape a targeting loop when using Switch Targeting, but note that this still works for
@@ -475,9 +475,9 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* curLockOnAct
         // (this feature is never used in practice)
         actor = targetCtx->forcedLockOnActor;
         targetCtx->forcedLockOnActor = NULL;
-    } else if (curLockOnActor != NULL) {
+    } else if (playerFocusActor != NULL) {
         // Stay locked-on to the same actor
-        actor = curLockOnActor;
+        actor = playerFocusActor;
     }
 
     if (actor != NULL) {
@@ -512,27 +512,30 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* curLockOnAct
         Target_SetNaviState(targetCtx, actor, category, play);
     }
 
-    // Release lock-on if the actor is off screen.
-    // The camera is always moving toward the locked-on actor, so it seems difficult
-    // to move the actor off screen, if its even possible.
-    if ((curLockOnActor != NULL) && (targetCtx->reticleSpinCounter == 0)) {
-        Actor_ProjectPos(play, &curLockOnActor->focus.pos, &projectedFocusPos, &cappedInvWDest);
+    if ((playerFocusActor != NULL) && (targetCtx->reticleSpinCounter == 0)) {
+        Actor_ProjectPos(play, &playerFocusActor->focus.pos, &projectedFocusPos, &cappedInvWDest);
 
         if (((projectedFocusPos.z <= 0.0f) || (1.0f <= fabsf(projectedFocusPos.x * cappedInvWDest))) ||
             (1.0f <= fabsf(projectedFocusPos.y * cappedInvWDest))) {
-            curLockOnActor = NULL;
+            // Release the reticle if the actor is off screen.
+            // It is possible to move far enough away from an actor that it goes off screen, despite being
+            // locked onto it. In this case the reticle will release, but the lock-on will remain
+            // because Player is still updating focusActor.
+            // It is unclear if this is intentional, or if it is a bug and the lock-on as a whole is supposed
+            // to release.
+            playerFocusActor = NULL;
         }
     }
 
-    if (curLockOnActor != NULL) {
-        if (curLockOnActor != targetCtx->reticleActor) {
+    if (playerFocusActor != NULL) {
+        if (playerFocusActor != targetCtx->reticleActor) {
             s32 lockOnSfxId;
 
-            // Set up a new lock-on
-            Target_InitReticle(targetCtx, curLockOnActor->category, play);
-            targetCtx->reticleActor = curLockOnActor;
+            // Set up a new reticle
+            Target_InitReticle(targetCtx, playerFocusActor->category, play);
+            targetCtx->reticleActor = playerFocusActor;
 
-            if (curLockOnActor->id == ACTOR_EN_BOOM) {
+            if (playerFocusActor->id == ACTOR_EN_BOOM) {
                 // Don't draw the reticle when locked onto the boomerang.
                 // Note that it isn't possible to lock onto the boomerang, so this code doesn't do anything.
                 // This implies that the boomerang camera lock may have been implemented with Z-Targeting at one point,
@@ -540,17 +543,17 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* curLockOnAct
                 targetCtx->reticleFadeAlphaControl = 0;
             }
 
-            lockOnSfxId = CHECK_FLAG_ALL(curLockOnActor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
-                                                                                             : NA_SE_SY_LOCK_ON_HUMAN;
+            lockOnSfxId = CHECK_FLAG_ALL(playerFocusActor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
+                                                                                               : NA_SE_SY_LOCK_ON_HUMAN;
             Sfx_PlaySfxCentered(lockOnSfxId);
         }
 
         // Update reticle
 
-        targetCtx->reticlePos.x = curLockOnActor->world.pos.x;
+        targetCtx->reticlePos.x = playerFocusActor->world.pos.x;
         targetCtx->reticlePos.y =
-            curLockOnActor->world.pos.y - (curLockOnActor->shape.yOffset * curLockOnActor->scale.y);
-        targetCtx->reticlePos.z = curLockOnActor->world.pos.z;
+            playerFocusActor->world.pos.y - (playerFocusActor->shape.yOffset * playerFocusActor->scale.y);
+        targetCtx->reticlePos.z = playerFocusActor->world.pos.z;
 
         if (targetCtx->reticleSpinCounter == 0) {
             f32 step = (500.0f - targetCtx->reticleRadius) * 3.0f;
@@ -569,7 +572,7 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* curLockOnAct
             targetCtx->reticleRadius = 120.0f;
         }
     } else {
-        // Expand the reticle radius quickly as the lock-on is released
+        // Expand the radius quickly as the reticle is released
         targetCtx->reticleActor = NULL;
         Math_StepToF(&targetCtx->reticleRadius, 500.0f, 80.0f);
     }
@@ -1579,7 +1582,7 @@ f32 Target_WeightedDistToPlayerSq(Actor* actor, Player* player, s16 playerShapeY
     s16 yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - playerShapeYaw;
     s16 yawTempAbs = ABS(yawTemp);
 
-    if (player->unk_664 != NULL) {
+    if (player->focusActor != NULL) {
         if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_27)) {
             return MAXFLOAT;
         } else {
@@ -1635,7 +1638,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
         s16 abs_var = ABS(var);
         f32 dist;
 
-        if ((player->unk_664 == NULL) && (abs_var > 0x2AAA)) {
+        if ((player->focusActor == NULL) && (abs_var > 0x2AAA)) {
             dist = MAXFLOAT;
         } else {
             dist = actor->xyzDistToPlayerSq;
@@ -2330,13 +2333,13 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                 actor->flags &= ~ACTOR_FLAG_24;
 
                 if ((DECR(actor->freezeTimer) == 0) && (actor->flags & (ACTOR_FLAG_4 | ACTOR_FLAG_6))) {
-                    if (actor == player->unk_664) {
+                    if (actor == player->focusActor) {
                         actor->isTargeted = true;
                     } else {
                         actor->isTargeted = false;
                     }
 
-                    if ((actor->targetPriority != 0) && (player->unk_664 == NULL)) {
+                    if ((actor->targetPriority != 0) && (player->focusActor == NULL)) {
                         actor->targetPriority = 0;
                     }
 
@@ -2359,7 +2362,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         }
     }
 
-    actor = player->unk_664;
+    actor = player->focusActor;
 
     if ((actor != NULL) && (actor->update == NULL)) {
         actor = NULL;
@@ -3110,7 +3113,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
 
     ACTOR_DEBUG_PRINTF("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
 
-    if ((player != NULL) && (actor == player->unk_664)) {
+    if ((player != NULL) && (actor == player->focusActor)) {
         func_8008EDF0(player);
         Camera_RequestMode(Play_GetCamera(play, Play_GetActiveCamId(play)), CAM_MODE_NORMAL);
     }
@@ -3193,13 +3196,13 @@ s16 sTargetPlayerRotY;
 void Target_FindTargetableActorInCategory(PlayState* play, ActorContext* actorCtx, Player* player, u32 actorCategory) {
     f32 distSq;
     Actor* actor;
-    Actor* unk_664;
+    Actor* playerFocusActor;
     CollisionPoly* poly;
     s32 bgId;
     Vec3f lineTestResultPos;
 
     actor = actorCtx->actorLists[actorCategory].head;
-    unk_664 = player->unk_664;
+    playerFocusActor = player->focusActor;
 
     while (actor != NULL) {
         if ((actor->update != NULL) && ((Player*)actor != player) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0)) {
@@ -3210,7 +3213,7 @@ void Target_FindTargetableActorInCategory(PlayState* play, ActorContext* actorCt
                 sBgmEnemyDistSq = actor->xyzDistToPlayerSq;
             }
 
-            if (actor != unk_664) {
+            if (actor != playerFocusActor) {
                 distSq = Target_WeightedDistToPlayerSq(actor, player, sTargetPlayerRotY);
 
                 if ((distSq < sNearestTargetableActorDistSq) && Target_ActorIsInRange(actor, distSq) &&
