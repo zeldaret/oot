@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_medal" Segment="6">
         <DList Name="gGiForestMedallionFaceDL" Offset="0x0CB0"/>
         <DList Name="gGiMedallionDL" Offset="0x0E18"/>

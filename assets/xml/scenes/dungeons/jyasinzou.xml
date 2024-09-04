@@ -1,9 +1,11 @@
 <Root>
     <File Name="jyasinzou_scene" Segment="2">
-        <Path Name="jyasinzou_scenePathList_00049C" Offset="0x049C" NumPaths="5"/>
-        <Texture Name="gSpiritTempleDayEntranceTex" OutName="day_entrance" Format="ia16" Width="8" Height="128" Offset="0x18920"/>
-        <Texture Name="gSpiritTempleNightEntranceTex" OutName="night_entrance" Format="ia16" Width="8" Height="128" Offset="0x18020"/>
+        <Path Name="jyasinzou_scenePathList_0004C0" Offset="0x04C0" NumPaths="6"/>
+        <Texture Name="gSpiritTempleDayEntranceTex" OutName="day_entrance" Format="ia16" Width="8" Height="128" Offset="0x18940"/>
+        <Texture Name="gSpiritTempleNightEntranceTex" OutName="night_entrance" Format="ia16" Width="8" Height="128" Offset="0x18040"/>
         <Scene Name="jyasinzou_scene" Offset="0x0"/>
+        <Scene Name="jyasinzou_scene_unused1" Offset="0x17220"/>
+        <Scene Name="jyasinzou_scene_unused2" Offset="0x17710"/>
     </File>
     <File Name="jyasinzou_room_0" Segment="3">
         <Room Name="jyasinzou_room_0" Offset="0x0"/>

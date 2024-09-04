@@ -6,6 +6,7 @@
 
 .balign 16
 
+#if PLATFORM_GC
 DATA(qNaN0x3FFFFF)
     .word 0x7FBFFFFF
 ENDDATA(qNaN0x3FFFFF)
@@ -17,6 +18,7 @@ ENDDATA(qNaN0x10000)
 DATA(sNaN0x3FFFFF)
     .word 0x7FFFFFFF
 ENDDATA(sNaN0x3FFFFF)
+#endif
 
 .section .text
 

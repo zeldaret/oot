@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_map" Segment="6">
         <DList Name="gGiDungeonMapDL" Offset="0x03C0"/>
         <DList Name="gGiStoneOfAgonyDL" Offset="0x0B70"/>

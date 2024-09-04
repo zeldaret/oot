@@ -10,9 +10,6 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
 
-#define FLG_COREDEAD (0x4000)
-#define FLG_COREDONE (0x8000)
-
 void EnFd_Init(Actor* thisx, PlayState* play);
 void EnFd_Destroy(Actor* thisx, PlayState* play);
 void EnFd_Update(Actor* thisx, PlayState* play);
@@ -30,7 +27,7 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play);
 void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play);
 void EnFd_Land(EnFd* this, PlayState* play);
 
-ActorInit En_Fd_InitVars = {
+ActorProfile En_Fd_Profile = {
     /**/ ACTOR_EN_FD,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -48,8 +45,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040088, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 21, { { 1600, 0, 0 }, 5 }, 300 },
@@ -59,8 +56,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 12, { { 1600, 0, 0 }, 5 }, 400 },
@@ -70,8 +67,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 14, { { 800, 0, 0 }, 4 }, 300 },
@@ -81,8 +78,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 15, { { 1600, 0, 0 }, 4 }, 300 },
@@ -92,8 +89,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 16, { { 2000, 0, 0 }, 4 }, 300 },
@@ -103,8 +100,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 17, { { 800, 0, 0 }, 4 }, 300 },
@@ -114,8 +111,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 18, { { 1600, 0, 0 }, 4 }, 300 },
@@ -125,8 +122,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 19, { { 2000, 0, 0 }, 4 }, 300 },
@@ -136,8 +133,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 4, { { 2200, 0, 0 }, 4 }, 400 },
@@ -147,8 +144,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 4, { { 5000, 0, 0 }, 4 }, 300 },
@@ -158,8 +155,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 8, { { 2200, 0, 0 }, 4 }, 400 },
@@ -169,8 +166,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 8, { { 5000, 0, 0 }, 4 }, 300 },
@@ -192,7 +189,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnFdAnimation {
     /* 0 */ ENFD_ANIM_0,
     /* 1 */ ENFD_ANIM_1,
     /* 2 */ ENFD_ANIM_2,
@@ -237,7 +234,7 @@ void EnFd_SpawnChildFire(EnFd* this, PlayState* play, s16 fireCnt, s16 color) {
     s32 i;
 
     for (i = 0; i < fireCnt; i++) {
-        s16 angle = (s16)((((i * 360.0f) / fireCnt) * (0x10000 / 360.0f))) + this->actor.yawTowardsPlayer;
+        s16 angle = DEG_TO_BINANG((i * 360.0f) / fireCnt) + this->actor.yawTowardsPlayer;
         Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FD_FIRE, this->actor.world.pos.x,
                            this->actor.world.pos.y, this->actor.world.pos.z, 0, angle, 0, (color << 0xF) | i);
     }
@@ -283,7 +280,7 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
             return false;
         }
         elem = &this->collider.elements[0].base;
-        if (elem->acHitElem != NULL && (elem->acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
+        if (elem->acHitElem != NULL && (elem->acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
             return false;
         }
 
@@ -627,6 +624,9 @@ void EnFd_Run(EnFd* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speed, 8.0f, 0.1f, 1.0f, 0.0f);
 }
 
+#define FLG_COREDEAD (0x4000)
+#define FLG_COREDONE (0x8000)
+
 /**
  * En_Fw will set `this` params when it is done with its action.
  * It will set FLG_COREDONE when the core has returned to `this`'s initial
@@ -638,9 +638,9 @@ void EnFd_WaitForCore(EnFd* this, PlayState* play) {
         if (this->spinTimer == 0) {
             Actor_Kill(&this->actor);
         }
-    } else if (this->actor.params & FLG_COREDONE) {
+    } else if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) { // FLG_COREDONE
         this->actionFunc = EnFd_Reappear;
-    } else if (this->actor.params & FLG_COREDEAD) {
+    } else if (PARAMS_GET_NOSHIFT(this->actor.params, 14, 1)) { // FLG_COREDEAD
         this->actor.params = 0;
         this->spinTimer = 30;
     }
@@ -771,13 +771,12 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
     EnFd_DrawEffectsFlames(this, play);
     Matrix_Pop();
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
-        if (1) {}
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        clampedHealth = CLAMP(thisx->colChkInfo.health - 1, 0, 23);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth / 8].r, primColors[clampedHealth / 8].g,
-                        primColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
-        gDPSetEnvColor(POLY_XLU_DISP++, envColors[clampedHealth / 8].r, envColors[clampedHealth / 8].g,
-                       envColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
+        clampedHealth = CLAMP(thisx->colChkInfo.health - 1, 0, 23) / 8;
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth].r, primColors[clampedHealth].g,
+                        primColors[clampedHealth].b, (u8)this->fadeAlpha);
+        gDPSetEnvColor(POLY_XLU_DISP++, envColors[clampedHealth].r, envColors[clampedHealth].g,
+                       envColors[clampedHealth].b, (u8)this->fadeAlpha);
         gSPSegment(POLY_XLU_DISP++, 0x8,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                     0xFF - (u8)(frames * 6), 8, 0x40));
@@ -788,6 +787,9 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                EnFd_OverrideLimbDraw, EnFd_PostLimbDraw, this, POLY_XLU_DISP);
     }
+
+    if (this->fadeAlpha) {}
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fd.c", 1822);
 }
 
@@ -875,9 +877,10 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
     static void* dustTextures[] = {
         gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
-    s32 materialFlag;
     s16 i;
     s16 idx;
+    s16 pad;
+    s16 materialFlag;
     EnFdEffect* eff = this->effects;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fd.c", 1969);

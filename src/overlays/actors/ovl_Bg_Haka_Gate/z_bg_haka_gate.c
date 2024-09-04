@@ -52,7 +52,7 @@ static f32 sStatueDistToPlayer = 0;
 
 static s16 sStatueRotY;
 
-ActorInit Bg_Haka_Gate_InitVars = {
+ActorProfile Bg_Haka_Gate_Profile = {
     /**/ ACTOR_BG_HAKA_GATE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -74,7 +74,7 @@ void BgHakaGate_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     DynaPolyActor_Init(&this->dyna, 0);
     if (thisx->params == BGHAKAGATE_SKULL) {
@@ -194,7 +194,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, PlayState* play) {
     this->vTurnRateDeg10 = CLAMP_MAX(this->vTurnRateDeg10, 5);
     turnFinished = Math_StepToS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
     turnAngle = this->vTurnAngleDeg10 * this->vTurnDirection;
-    this->dyna.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
+    this->dyna.actor.shape.rot.y = DEG_TO_BINANG((this->vRotYDeg10 + turnAngle) * 0.1f);
     if ((player->stateFlags2 & PLAYER_STATE2_4) && (sStatueDistToPlayer > 0.0f)) {
         player->actor.world.pos.x =
             this->dyna.actor.home.pos.x +
@@ -315,8 +315,6 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, PlayState* play) {
     if (this->vFlameScale > 0) {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_haka_gate.c", 716);
 
-        if (1) {}
-
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
@@ -327,6 +325,7 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, PlayState* play) {
         Matrix_Translate(thisx->world.pos.x, thisx->world.pos.y + 15.0f, thisx->world.pos.z, MTXMODE_NEW);
         Matrix_RotateY(BINANG_TO_RAD(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))), MTXMODE_APPLY);
         scale = this->vFlameScale * 0.00001f;
+
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka_gate.c", 744),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

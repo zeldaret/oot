@@ -8,7 +8,7 @@ struct EnZo;
 
 #define EN_ZO_EFFECT_COUNT 15
 
-typedef struct {
+typedef struct EnZoEffect {
     /* 0x00 */ u8 type;
     /* 0x04 */ f32 scale;
     /* 0x08 */ f32 targetScale;

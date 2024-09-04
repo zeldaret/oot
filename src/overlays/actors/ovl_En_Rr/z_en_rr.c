@@ -15,7 +15,7 @@
 #define RR_MOUTH 4
 #define RR_BASE 0
 
-typedef enum {
+typedef enum EnRrReachState {
     /* 0 */ REACH_NONE,
     /* 1 */ REACH_EXTEND,
     /* 2 */ REACH_STOP,
@@ -24,7 +24,7 @@ typedef enum {
     /* 5 */ REACH_CLOSE
 } EnRrReachState;
 
-typedef enum {
+typedef enum EnRrDamageEffect {
     /* 0x0 */ RR_DMG_NONE,
     /* 0x1 */ RR_DMG_STUN,
     /* 0x2 */ RR_DMG_FIRE,
@@ -37,7 +37,7 @@ typedef enum {
     /* 0xF */ RR_DMG_NORMAL
 } EnRrDamageEffect;
 
-typedef enum {
+typedef enum EnRrDropType {
     /* 0 */ RR_DROP_RANDOM_RUPEE,
     /* 1 */ RR_DROP_MAGIC,
     /* 2 */ RR_DROP_ARROW,
@@ -64,7 +64,7 @@ void EnRr_Death(EnRr* this, PlayState* play);
 void EnRr_Retreat(EnRr* this, PlayState* play);
 void EnRr_Stunned(EnRr* this, PlayState* play);
 
-ActorInit En_Rr_InitVars = {
+ActorProfile En_Rr_Profile = {
     /**/ ACTOR_EN_RR,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -76,10 +76,12 @@ ActorInit En_Rr_InitVars = {
     /**/ EnRr_Draw,
 };
 
+#if OOT_DEBUG
 static char* sDropNames[] = {
     // "type 7", "small magic jar", "arrow", "fairy", "20 rupees", "50 rupees"
     "タイプ７  ", "魔法の壷小", "矢        ", "妖精      ", "20ルピー  ", "50ルピー  ",
 };
+#endif
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
@@ -93,8 +95,8 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 30, 55, 0, { 0, 0, 0 } },
@@ -112,8 +114,8 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 20, -10, { 0, 0, 0 } },
@@ -337,8 +339,8 @@ void EnRr_SetupDamage(EnRr* this) {
     s32 i;
 
     this->reachState = 0;
-    this->actionTimer = 20;
     this->segMoveRate = 0.0f;
+    this->actionTimer = 20;
     this->segPhaseVelTarget = 2500.0f;
     this->pulseSizeTarget = 0.0f;
     this->wobbleSizeTarget = 0.0f;
@@ -417,9 +419,9 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
         this->collider2.base.acFlags &= ~AC_HIT;
         // "Kakin" (not sure what this means)
         PRINTF(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
-        hitPos.x = this->collider2.elem.bumper.hitPos.x;
-        hitPos.y = this->collider2.elem.bumper.hitPos.y;
-        hitPos.z = this->collider2.elem.bumper.hitPos.z;
+        hitPos.x = this->collider2.elem.acDmgInfo.hitPos.x;
+        hitPos.y = this->collider2.elem.acDmgInfo.hitPos.y;
+        hitPos.z = this->collider2.elem.acDmgInfo.hitPos.z;
         CollisionCheck_SpawnShieldParticlesMetal2(play, &hitPos);
     } else {
         if (this->collider1.base.acFlags & AC_HIT) {
@@ -427,9 +429,9 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
 
             this->collider1.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 0) {
-                hitPos.x = this->collider1.elem.bumper.hitPos.x;
-                hitPos.y = this->collider1.elem.bumper.hitPos.y;
-                hitPos.z = this->collider1.elem.bumper.hitPos.z;
+                hitPos.x = this->collider1.elem.acDmgInfo.hitPos.x;
+                hitPos.y = this->collider1.elem.acDmgInfo.hitPos.y;
+                hitPos.z = this->collider1.elem.acDmgInfo.hitPos.z;
                 CollisionCheck_BlueBlood(play, NULL, &hitPos);
             }
             switch (this->actor.colChkInfo.damageEffect) {
@@ -899,20 +901,18 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
         s32 offIndex;
 
         this->actor.colorFilterTimer++;
-        if ((effectTimer & 1) != 0) {
-            return;
-        }
+        if ((effectTimer & 1) == 0) {
+            segIndex = 4 - (effectTimer >> 2);
+            offIndex = (effectTimer >> 1) & 3;
 
-        segIndex = 4 - (effectTimer >> 2);
-        offIndex = (effectTimer >> 1) & 3;
-
-        effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
-        effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
-        effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
-        if (this->actor.colorFilterParams & 0x4000) {
-            EffectSsEnFire_SpawnVec3f(play, &this->actor, &effectPos, 100, 0, 0, -1);
-        } else {
-            EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255, 3.0f);
+            effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
+            effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
+            effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
+            if (this->actor.colorFilterParams & 0x4000) {
+                EffectSsEnFire_SpawnVec3f(play, &this->actor, &effectPos, 100, 0, 0, -1);
+            } else {
+                EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255, 3.0f);
+            }
         }
     }
 }

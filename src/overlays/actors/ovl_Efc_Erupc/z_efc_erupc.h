@@ -10,7 +10,7 @@ typedef void (*EfcErupcActionFunc)(struct EfcErupc*, PlayState*);
 
 #define EFC_ERUPC_EFFECT_COUNT 100
 
-typedef struct {
+typedef struct EfcErupcEffect {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f vel;
     /* 0x18 */ Vec3f accel;

@@ -268,24 +268,79 @@ public:
 
 // TODO: MM cutscene camera command is implemented as a placeholder until we better understand how
 // it works
-class CutsceneSubCommandEntry_Camera : public CutsceneSubCommandEntry
+
+class CutsceneSubCommandEntry_SplineCamPoint : public CutsceneSubCommandEntry
 {
 public:
-	uint32_t unk_08;
+	uint8_t interpType;
+	uint8_t weight;
+	uint16_t duration;
 
-	CutsceneSubCommandEntry_Camera(const std::vector<uint8_t>& rawData, offset_t rawDataIndex);
+	uint16_t posX;
+	uint16_t posY;
+
+	uint16_t posZ;
+	uint16_t relTo;
+
+	CutsceneSubCommandEntry_SplineCamPoint(const std::vector<uint8_t>& rawData,
+	                                       offset_t rawDataIndex);
 
 	std::string GetBodySourceCode() const override;
 
 	size_t GetRawSize() const override;
 };
 
-class CutsceneMMCommand_Camera : public CutsceneCommand
+class CutsceneSubCommandEntry_SplineMiscPoint : public CutsceneSubCommandEntry
 {
 public:
-	CutsceneMMCommand_Camera(const std::vector<uint8_t>& rawData, offset_t rawDataIndex);
+	uint16_t unused0;
+	uint16_t roll;
+	uint16_t fov;
+	uint16_t unused1;
+
+	CutsceneSubCommandEntry_SplineMiscPoint(const std::vector<uint8_t>& rawData,
+	                                        offset_t rawDataIndex);
+
+	std::string GetBodySourceCode() const override;
+
+	size_t GetRawSize() const override;
+};
+
+class CutsceneSubCommandEntry_SplineFooter : public CutsceneSubCommandEntry
+{
+public:
+	CutsceneSubCommandEntry_SplineFooter(const std::vector<uint8_t>& rawData,
+	                                     offset_t rawDataIndex);
+
+	std::string GetBodySourceCode() const override;
+
+	size_t GetRawSize() const override;
+};
+
+class CutsceneSubCommandEntry_SplineHeader : public CutsceneSubCommandEntry
+{
+public:
+	uint16_t numEntries;
+	uint16_t unused0;
+	uint16_t unused1;
+	uint16_t duration;
+	CutsceneSubCommandEntry_SplineHeader(const std::vector<uint8_t>& rawData,
+	                                     offset_t rawDataIndex);
+
+	std::string GetBodySourceCode() const override;
+
+	size_t GetRawSize() const override;
+};
+
+class CutsceneMMCommand_Spline : public CutsceneCommand
+{
+public:
+	uint32_t numHeaders;
+	uint32_t totalCommands;
+	CutsceneMMCommand_Spline(const std::vector<uint8_t>& rawData, offset_t rawDataIndex);
 
 	std::string GetCommandMacro() const override;
+	size_t GetCommandSize() const override;
 };
 
 /**** TRANSITION GENERAL ****/

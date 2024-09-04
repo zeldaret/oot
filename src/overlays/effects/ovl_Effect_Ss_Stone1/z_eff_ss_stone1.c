@@ -13,12 +13,12 @@ u32 EffectSsStone1_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsStone1_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsStone1_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Stone1_InitVars = {
+EffectSsProfile Effect_Ss_Stone1_Profile = {
     EFFECT_SS_STONE1,
     EffectSsStone1_Init,
 };
 
-typedef struct {
+typedef struct EffStoneDrawInfo {
     /* 0x00 */ void* texture;
     /* 0x04 */ Color_RGBA8 primColor;
     /* 0x08 */ Color_RGBA8 envColor;

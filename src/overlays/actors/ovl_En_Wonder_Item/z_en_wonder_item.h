@@ -18,7 +18,7 @@ typedef struct EnWonderItem {
     /* 0x015A */ s16 dropCount;
     /* 0x015C */ s16 timer;
     /* 0x015E */ s16 tagFlags;
-    /* 0x015A */ s16 tagCount;
+    /* 0x0160 */ s16 tagCount;
     /* 0x0162 */ s16 switchFlag;
     /* 0x0164 */ char unk_164[4];
     /* 0x0168 */ s16 nextTag;
@@ -29,7 +29,7 @@ typedef struct EnWonderItem {
     /* 0x01CC */ char unk_1CC[4];
 } EnWonderItem; // size = 0x01D0
 
-typedef enum {
+typedef enum EnWonderItemMode {
     /* 0 */ WONDERITEM_MULTITAG_FREE,
     /* 1 */ WONDERITEM_TAG_POINT_FREE,
     /* 2 */ WONDERITEM_PROXIMITY_DROP,
@@ -42,7 +42,7 @@ typedef enum {
     /* 9 */ WONDERITEM_ROLL_DROP
 } EnWonderItemMode;
 
-typedef enum {
+typedef enum EnWonderItemDrop {
     /* 0 */ WONDERITEM_DROP_NUTS,
     /* 1 */ WONDERITEM_DROP_HEART_PIECE,
     /* 2 */ WONDERITEM_DROP_MAGIC_LARGE,

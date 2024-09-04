@@ -24,7 +24,7 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBomb2_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Bomb2_InitVars = {
+EffectSsProfile Effect_Ss_Bomb2_Profile = {
     EFFECT_SS_BOMB2,
     EffectSsBomb2_Init,
 };
@@ -94,8 +94,6 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (1) {}
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 345);
 }
 
@@ -124,6 +122,7 @@ void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
     scale = this->rScale * 0.01f;
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
+    if (1) {}
     SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
     SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
 
@@ -159,8 +158,6 @@ void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (1) {}
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 456);
 }
 

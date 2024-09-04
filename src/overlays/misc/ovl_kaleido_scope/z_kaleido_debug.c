@@ -124,13 +124,13 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
                       PRIMITIVE, 0);
 
     gfxRef = POLY_OPA_DISP;
-    gfx = Graph_GfxPlusOne(gfxRef);
+    gfx = Gfx_Open(gfxRef);
     gSPDisplayList(OVERLAY_DISP++, gfx);
 
     KaleidoScope_DrawDebugEditorText(&gfx);
 
     gSPEndDisplayList(gfx++);
-    Graph_BranchDlist(gfxRef, gfx);
+    Gfx_Close(gfxRef, gfx);
     POLY_OPA_DISP = gfx;
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -605,6 +605,11 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
                 } else if (curSection == 0x5B) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                         gSaveContext.save.info.inventory.gsTokens++;
+#if PLATFORM_N64
+                        if (gSaveContext.save.info.inventory.gsTokens >= 100) {
+                            gSaveContext.save.info.inventory.gsTokens = 100;
+                        }
+#endif
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN) ||
                                CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
                         gSaveContext.save.info.inventory.gsTokens--;

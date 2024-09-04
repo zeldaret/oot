@@ -17,7 +17,7 @@ void EnAnubiceTag_Draw(Actor* thisx, PlayState* play);
 void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, PlayState* play);
 void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, PlayState* play);
 
-ActorInit En_Anubice_Tag_InitVars = {
+ActorProfile En_Anubice_Tag_Profile = {
     /**/ ACTOR_EN_ANUBICE_TAG,
     /**/ ACTORCAT_SWITCH,
     /**/ FLAGS,
@@ -99,7 +99,7 @@ void EnAnubiceTag_Update(Actor* thisx, PlayState* play) {
 void EnAnubiceTag_Draw(Actor* thisx, PlayState* play) {
     EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
-    if (BREG(0) != 0) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);

@@ -285,8 +285,7 @@ u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment) {
     s32 pad;
     u16 equipValue = gSaveContext.save.info.equips.equipment & gEquipMasks[equipment];
 
-    // "Erasing equipment item = %d  zzz=%d"
-    PRINTF("装備アイテム抹消 = %d  zzz=%d\n", equipment, equipValue);
+    PRINTF(T("装備アイテム抹消 = %d  zzz=%d\n", "Erasing equipment item = %d  zzz=%d\n"), equipment, equipValue);
 
     if (equipValue) {
         equipValue >>= gEquipShifts[equipment];

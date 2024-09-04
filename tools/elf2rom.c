@@ -33,12 +33,6 @@ static bool parse_number(const char *str, int *num)
     return endptr > str;
 }
 
-static unsigned int round_up(unsigned int num, unsigned int multiple)
-{
-    num += multiple - 1;
-    return num / multiple * multiple;
-}
-
 static char *sprintf_alloc(const char *fmt, ...)
 {
     va_list args;
@@ -163,11 +157,10 @@ static void parse_input_file(const char *filename)
     free(syms);
 }
 
-// Writes the N64 ROM, padding the file size to a multiple of 1 MiB
+// Writes the N64 ROM
 static void write_rom_file(const char *filename, int cicType)
 {
-    size_t fileSize = round_up(g_romSize, 0x100000);
-    uint8_t *buffer = calloc(fileSize, 1);
+    uint8_t *buffer = calloc(g_romSize, 1);
     int i;
     uint32_t chksum[2];
 
@@ -179,16 +172,13 @@ static void write_rom_file(const char *filename, int cicType)
         memcpy(buffer + g_romSegments[i].romStart, g_romSegments[i].data, size);
     }
 
-    // pad the remaining space with 0xFF
-    memset(buffer + g_romSize, 0xFF, fileSize - g_romSize);
-
     // write checksum
     if (!n64chksum_calculate(buffer, cicType, chksum))
         util_fatal_error("invalid cic type %i", cicType);
     util_write_uint32_be(buffer + 0x10, chksum[0]);
     util_write_uint32_be(buffer + 0x14, chksum[1]);
 
-    util_write_whole_file(filename, buffer, fileSize);
+    util_write_whole_file(filename, buffer, g_romSize);
     free(buffer);
 }
 

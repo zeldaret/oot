@@ -95,7 +95,7 @@ void EnSkj_SetupWaitInRange(EnSkj* this);
 #define songFailTimer multiuseTimer
 #define battleExitTimer multiuseTimer
 
-typedef enum {
+typedef enum SkullKidAnim {
     /* 0 */ SKJ_ANIM_BACKFLIP,
     /* 1 */ SKJ_ANIM_SHOOT_NEEDLE,
     /* 2 */ SKJ_ANIM_PLAY_FLUTE,
@@ -108,18 +108,18 @@ typedef enum {
     /* 9 */ SKJ_ANIM_WAIT
 } SkullKidAnim;
 
-typedef enum {
+typedef enum SkullKidStumpSide {
     /* 0 */ SKULL_KID_LEFT,
     /* 1 */ SKULL_KID_RIGHT
 } SkullKidStumpSide;
 
-typedef enum {
+typedef enum SkullKidOcarinaGameState {
     /* 0 */ SKULL_KID_OCARINA_WAIT,
     /* 1 */ SKULL_KID_OCARINA_PLAY_NOTES,
     /* 2 */ SKULL_KID_OCARINA_LEAVE_GAME
 } SkullKidOcarinaGameState;
 
-typedef enum {
+typedef enum SkullKidAction {
     /* 00 */ SKJ_ACTION_FADE,
     /* 01 */ SKJ_ACTION_WAIT_TO_SHOOT_NEEDLE,
     /* 02 */ SKJ_ACTION_SARIA_SONG_IDLE,
@@ -151,7 +151,7 @@ typedef enum {
     /* 28 */ SKJ_ACTION_OCARINA_GAME_LEAVE
 } SkullKidAction;
 
-typedef struct {
+typedef struct EnSkjUnkStruct {
     u8 unk_0;
     EnSkj* skullkid;
 } EnSkjUnkStruct;
@@ -159,7 +159,7 @@ typedef struct {
 static EnSkjUnkStruct sSmallStumpSkullKid = { 0, NULL };
 static EnSkjUnkStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
-ActorInit En_Skj_InitVars = {
+ActorProfile En_Skj_Profile = {
     /**/ ACTOR_EN_SKJ,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -183,8 +183,8 @@ static ColliderCylinderInitType1 D_80B01678 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x0, 0x08 },
         { 0xFFCFFFFF, 0x0, 0x0 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 8, 48, 0, { 0, 0, 0 } },
@@ -360,11 +360,10 @@ void EnSkj_SetNaviId(EnSkj* this) {
 }
 
 void EnSkj_Init(Actor* thisx, PlayState* play2) {
-    s16 type = (thisx->params >> 0xA) & 0x3F;
+    s16 type = PARAMS_GET_U(thisx->params, 10, 6);
     EnSkj* this = (EnSkj*)thisx;
     PlayState* play = play2;
     s32 pad;
-    Player* player;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     switch (type) {
@@ -445,13 +444,18 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             this->actor.gravity = -1.0f;
             EnSkj_CalculateCenter(this);
 
-            player = GET_PLAYER(play);
-            PRINTF("Player_X : %f\n", player->actor.world.pos.x);
-            PRINTF("Player_Z : %f\n", player->actor.world.pos.z);
-            PRINTF("World_X  : %f\n", this->actor.world.pos.x);
-            PRINTF("World_Z  : %f\n", this->actor.world.pos.z);
-            PRINTF("Center_X : %f\n", this->center.x);
-            PRINTF("Center_Z : %f\n\n", this->center.z);
+#if OOT_DEBUG
+            {
+                Player* player = GET_PLAYER(play);
+
+                PRINTF("Player_X : %f\n", player->actor.world.pos.x);
+                PRINTF("Player_Z : %f\n", player->actor.world.pos.z);
+                PRINTF("World_X  : %f\n", this->actor.world.pos.x);
+                PRINTF("World_Z  : %f\n", this->actor.world.pos.z);
+                PRINTF("Center_X : %f\n", this->center.x);
+                PRINTF("Center_Z : %f\n\n", this->center.z);
+            }
+#endif
 
             break;
     }
@@ -581,9 +585,9 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         switch (this->actor.colChkInfo.damageEffect) {
             case 0xF:
-                effectPos.x = this->collider.elem.bumper.hitPos.x;
-                effectPos.y = this->collider.elem.bumper.hitPos.y;
-                effectPos.z = this->collider.elem.bumper.hitPos.z;
+                effectPos.x = this->collider.elem.acDmgInfo.hitPos.x;
+                effectPos.y = this->collider.elem.acDmgInfo.hitPos.y;
+                effectPos.z = this->collider.elem.acDmgInfo.hitPos.z;
 
                 EnSkj_SpawnBlood(play, &effectPos);
                 EffectSsHitMark_SpawnFixedScale(play, 1, &effectPos);
@@ -1345,7 +1349,7 @@ void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, PlayState* play) {
 
     D_80B01EA0 = Actor_TalkOfferAccepted(&this->actor, play);
 
-    if (BREG(0) != 0) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
@@ -1502,15 +1506,15 @@ void EnSkj_OfferNextRound(EnSkj* this, PlayState* play) {
 }
 
 void EnSkj_WaitForOfferResponse(EnSkj* this, PlayState* play) {
-    Player* player;
-
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
-            case 0: // yes
-                player = GET_PLAYER(play);
+            case 0: { // yes
+                Player* player = GET_PLAYER(play);
+
                 player->stateFlags3 |= PLAYER_STATE3_5; // makes player take ocarina out right away after closing box
                 this->actionFunc = EnSkj_SetupWaitForOcarina;
                 break;
+            }
             case 1: // no
                 this->actionFunc = EnSkj_CleanupOcarinaGame;
                 break;
@@ -1587,11 +1591,13 @@ void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, PlayState* play) {
     this->actor.focus.pos.y = -90.0f;
     this->actor.focus.pos.z = 450.0f;
 
+#if OOT_DEBUG
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
     }
+#endif
 
     this->actionFunc(this, play);
 

@@ -16,24 +16,38 @@ static void write_dmadata_table(FILE *fout)
 {
     int i;
 
-    for (i = 0; i < g_segmentsCount; i++)
+    for (i = 0; i < g_segmentsCount; i++) {
+        // Don't emit dma entry for segments set with NOLOAD
+        if (g_segments[i].flags & FLAG_NOLOAD) {
+            continue;
+        }
+
         fprintf(fout, "DEFINE_DMA_ENTRY(%s, \"%s\")\n", g_segments[i].name, g_segments[i].name);
+    }
 }
 
 static void write_compress_ranges(FILE *fout)
 {
     int i;
+    int rom_index = 0;
     bool continue_list = false;
     int stride_first = -1;
 
     for (i = 0; i < g_segmentsCount; i++) {
-        if (g_segments[i].compress) {
-            if (stride_first == -1)
-                stride_first = i;
+        bool compress = g_segments[i].compress;
+
+        // Don't consider segments set with NOLOAD when calculating indices
+        if (g_segments[i].flags & FLAG_NOLOAD) {
+            continue;
         }
-        if (!g_segments[i].compress || i == g_segmentsCount - 1) {
+
+        if (compress) {
+            if (stride_first == -1)
+                stride_first = rom_index;
+        }
+        if (!compress || i == g_segmentsCount - 1) {
             if (stride_first != -1) {
-                int stride_last = i - 1;
+                int stride_last = compress ? rom_index : rom_index - 1;
                 if (continue_list) {
                     fprintf(fout, ",");
                 }
@@ -46,6 +60,8 @@ static void write_compress_ranges(FILE *fout)
                 stride_first = -1;
             }
         }
+
+        rom_index++;
     }
 }
 

@@ -28,7 +28,7 @@ typedef struct DemoGj {
  * bits  8-10: The amount of collectible that will be dropped when killed.
  * bits  0- 7: A value of the enum DemoGjType.
  */
-typedef enum {
+typedef enum DemoGjType {
     /* 04 */ DEMOGJ_TYPE_AROUNDARENA = 4, // This is the indestructible rubble around the arena. This actor keeps alive the whole fight.
     /* 08 */ DEMOGJ_TYPE_RUBBLE_PILE_1 = 8, // DEMOGJ_TYPE_RUBBLE_PILE_X are the rubbles from where Ganondorf rises. When he transforms into Ganon these are removed from the scene (Actor_Kill).
     /* 09 */ DEMOGJ_TYPE_RUBBLE_PILE_2,

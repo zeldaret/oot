@@ -1,18 +1,26 @@
-/*
- * The Legend of Zelda: Ocarina of Time ROM header
- */
+#include "rom_header.h"
+#include "region.h"
 
-.byte  0x80, 0x37, 0x12, 0x40   /* PI BSD Domain 1 register */
-.word  0x0000000F               /* Clockrate setting */
-.word  0x80000400               /* Entrypoint function (`entrypoint`) */
-.word  0x0000144C               /* Revision */
-.word  0x917D18F6               /* Checksum 1 */
-.word  0x69BC5453               /* Checksum 2 */
-.word  0x00000000               /* Unknown */
-.word  0x00000000               /* Unknown */
-.ascii "THE LEGEND OF ZELDA "   /* Internal ROM name */
-.word  0x00000000               /* Unknown */
-.word  0x0000004E               /* Cartridge */
-.ascii "ZL"                     /* Cartridge ID */
-.ascii "P"                      /* Region */
-.byte  0x0F                     /* Version */
+/* 0x00 */ ENDIAN_IDENTIFIER
+/* 0x01 */ PI_DOMAIN_1_CFG(64, 18, 7, 3)
+/* 0x04 */ SYSTEM_CLOCK_RATE_SETTING(0xF)
+/* 0x08 */ ENTRYPOINT(0x80000400)
+/* 0x0C */ LIBULTRA_VERSION(2, 0, L)
+/* 0x10 */ CHECKSUM()
+/* 0x18 */ PADDING(8)
+/* 0x20 */ ROM_NAME("THE LEGEND OF ZELDA")
+/* 0x34 */ PADDING(7)
+#if OOT_NTSC
+/* 0x3B */ MEDIUM(CARTRIDGE_EXPANDABLE)
+#else
+/* 0x3B */ MEDIUM(CARTRIDGE)
+#endif
+/* 0x3C */ GAME_ID("ZL")
+#if OOT_REGION == REGION_US
+/* 0x3E */ REGION(US)
+#elif OOT_REGION == REGION_JP
+/* 0x3E */ REGION(JP)
+#elif OOT_REGION == REGION_EU
+/* 0x3E */ REGION(PAL)
+#endif
+/* 0x3F */ GAME_REVISION(15)

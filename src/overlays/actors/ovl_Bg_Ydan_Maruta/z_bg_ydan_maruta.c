@@ -20,7 +20,7 @@ void func_808BF078(BgYdanMaruta* this, PlayState* play);
 void func_808BF108(BgYdanMaruta* this, PlayState* play);
 void func_808BF1EC(BgYdanMaruta* this, PlayState* play);
 
-ActorInit Bg_Ydan_Maruta_InitVars = {
+ActorProfile Bg_Ydan_Maruta_Profile = {
     /**/ ACTOR_BG_YDAN_MARUTA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -38,8 +38,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000004, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_WOOD,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_WOOD,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 220.0f, -10.0f, 0.0f }, { 220.0f, 10.0f, 0.0f }, { -220.0f, 10.0f, 0.0f } } },
@@ -49,8 +49,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000004, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_WOOD,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_WOOD,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 16.0f, 0.0f, 0.0f }, { 16.0f, 135.0f, 0.0f }, { -16.0f, 135.0f, 0.0f } } },
@@ -88,8 +88,8 @@ void BgYdanMaruta_Init(Actor* thisx, PlayState* play) {
     Collider_InitTris(play, &this->collider);
     Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->elements);
 
-    this->switchFlag = this->dyna.actor.params & 0xFFFF;
-    thisx->params = (thisx->params >> 8) & 0xFF; // thisx is required to match here
+    this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 16);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8); // thisx is required to match here
 
     if (this->dyna.actor.params == 0) {
         triInit = &sTrisElementsInit[0];

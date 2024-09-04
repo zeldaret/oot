@@ -29,8 +29,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 64, 0, { 0, 0, 0 } },
@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-ActorInit En_Tg_InitVars = {
+ActorProfile En_Tg_Profile = {
     /**/ ACTOR_EN_TG,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

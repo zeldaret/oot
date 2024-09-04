@@ -18,13 +18,13 @@ void EnWood02_Draw(Actor* thisx, PlayState* play);
  * WOOD_SPAWN_SPAWNER is also used by some individual trees: EnWood02_Update also checks for parent before running any
  * despawning code.
  *  */
-typedef enum {
+typedef enum WoodSpawnType {
     /* 0 */ WOOD_SPAWN_NORMAL,
     /* 1 */ WOOD_SPAWN_SPAWNED,
     /* 2 */ WOOD_SPAWN_SPAWNER
 } WoodSpawnType;
 
-typedef enum {
+typedef enum WoodDrawType {
     /* 0 */ WOOD_DRAW_TREE_CONICAL,
     /* 1 */ WOOD_DRAW_TREE_OVAL,
     /* 2 */ WOOD_DRAW_TREE_KAKARIKO_ADULT,
@@ -33,7 +33,7 @@ typedef enum {
     /* 5 */ WOOD_DRAW_LEAF_YELLOW
 } WoodDrawType;
 
-ActorInit En_Wood02_InitVars = {
+ActorProfile En_Wood02_Profile = {
     /**/ ACTOR_EN_WOOD02,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -58,8 +58,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK5,
         { 0x00000000, 0x00, 0x00 },
         { 0x0FC0074A, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 18, 60, 0, { 0, 0, 0 } },
@@ -169,7 +169,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
 
     spawnType = WOOD_SPAWN_NORMAL;
     actorScale = 1.0f;
-    this->unk_14C = (this->actor.params >> 8) & 0xFF;
+    this->unk_14C = PARAMS_GET_U(this->actor.params, 8, 8);
 
     if (this->actor.home.rot.z != 0) {
         this->actor.home.rot.z = (this->actor.home.rot.z << 8) | this->unk_14C;
@@ -306,18 +306,13 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     EnWood02* this = (EnWood02*)thisx;
     f32 wobbleAmplitude;
-    u8 new_var;
-    u8 phi_v0;
-    s32 pad;
-    Vec3f dropsSpawnPt;
-    s32 i;
-    s32 leavesParams;
 
     // Despawn extra trees in a group if out of range
     if ((this->spawnType == WOOD_SPAWN_SPAWNED) && (this->actor.parent != NULL)) {
         if (!(this->actor.flags & ACTOR_FLAG_6)) {
-            new_var = this->unk_14E[0];
-            phi_v0 = 0;
+            u8 new_var = this->unk_14E[0];
+            u8 phi_v0 = 0;
+            s32 pad;
 
             if (this->unk_14C < 0) {
                 phi_v0 = 0x80;
@@ -338,7 +333,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
         }
 
         if (this->actor.home.rot.y != 0) {
-            dropsSpawnPt = this->actor.world.pos;
+            Vec3f dropsSpawnPt = this->actor.world.pos;
+
             dropsSpawnPt.y += 200.0f;
 
             if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
@@ -355,7 +351,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
 
             // Spawn falling leaves
             if (this->unk_14C >= -1) {
-                leavesParams = WOOD_LEAF_GREEN;
+                s32 i;
+                s32 leavesParams = WOOD_LEAF_GREEN;
 
                 if ((this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNER) ||
                     (this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNED)) {

@@ -21,7 +21,7 @@ void func_8088E760(BgHidanSima* this, PlayState* play);
 void func_8088E7A8(BgHidanSima* this, PlayState* play);
 void func_8088E90C(BgHidanSima* this);
 
-ActorInit Bg_Hidan_Sima_InitVars = {
+ActorProfile Bg_Hidan_Sima_Profile = {
     /**/ ACTOR_BG_HIDAN_SIMA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -39,8 +39,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 1, { { 0, 40, 100 }, 22 }, 100 },
@@ -50,8 +50,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 1, { { 0, 40, 145 }, 30 }, 100 },
@@ -226,9 +226,9 @@ void BgHidanSima_Update(Actor* thisx, PlayState* play) {
 
 Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     MtxF mtxF;
-    s32 phi_s5;
     s32 s3;
     s32 v0;
+    s32 phi_s5;
     f32 cos;
     f32 sin;
     s32 pad[2];

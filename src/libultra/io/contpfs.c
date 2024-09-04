@@ -4,6 +4,8 @@
 s32 __osPfsInodeCacheChannel = -1;
 u8 __osPfsInodeCacheBank = 250;
 
+__OSInode __osPfsInodeCache;
+
 u16 __osSumcalc(u8* ptr, s32 length) {
     s32 i;
     u32 sum = 0;

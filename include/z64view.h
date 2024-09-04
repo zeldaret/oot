@@ -5,14 +5,14 @@
 
 struct GraphicsContext;
 
-typedef struct {
+typedef struct Viewport {
     /* 0x0 */ s32 topY;    // uly (upper left y)
     /* 0x4 */ s32 bottomY; // lry (lower right y)
     /* 0x8 */ s32 leftX;   // ulx (upper left x)
     /* 0xC */ s32 rightX;  // lrx (lower right x)
 } Viewport; // size = 0x10
 
-typedef struct {
+typedef struct View {
     /* 0x000 */ s32 magic; // string literal "VIEW" / 0x56494557
     /* 0x004 */ struct GraphicsContext* gfxCtx;
     /* 0x008 */ Viewport viewport;
@@ -48,5 +48,11 @@ typedef struct {
 #define VIEW_FORCE_VIEWPORT (VIEW_VIEWPORT << 4)
 #define VIEW_FORCE_PROJECTION_PERSPECTIVE (VIEW_PROJECTION_PERSPECTIVE << 4)
 #define VIEW_FORCE_PROJECTION_ORTHO (VIEW_PROJECTION_ORTHO << 4)
+
+#if OOT_DEBUG
+#define VIEW_ERROR_CHECK_EYE_POS(x, y, z) View_ErrorCheckEyePosition((x), (y), (z))
+#else
+#define VIEW_ERROR_CHECK_EYE_POS(x, y, z) (void)0
+#endif
 
 #endif

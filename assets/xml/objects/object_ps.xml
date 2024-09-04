@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_ps" Segment="6">
         <Animation Name="gPoeSellerIdleAnim" Offset="0x049C"/>
         <Texture Name="gPoeSellerMetalFrameTex" OutName="poe_seller_metal_frame" Format="rgba16" Width="8" Height="8" Offset="0x5A80"/>

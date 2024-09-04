@@ -1,7 +1,7 @@
 #include "global.h"
 
 // clang-format off
-s16 gSawtoothWaveSample[] = {
+ALIGNED(16) s16 gSawtoothWaveSample[] = {
     // Frequency of 1
     0,      1023,   2047,   3071,   4095,   5119,   6143,   7167,
     8191,   9215,   10239,  11263,  12287,  13311,  14335,  15359,
@@ -43,7 +43,7 @@ s16 gSawtoothWaveSample[] = {
     0,      8191,   16383,  24575,  -32767, -24575, -16383, -8191,
 };
 
-s16 gTriangleWaveSample[] = {
+ALIGNED(16) s16 gTriangleWaveSample[] = {
     // Frequency of 1
     0,      2047,   4095,   6143,   8191,   10239,  12287,  14335,
     16383,  18431,  20479,  22527,  24575,  26623,  28671,  30719,
@@ -85,7 +85,7 @@ s16 gTriangleWaveSample[] = {
     0,      16383,  32767,  16383,  0,      -16383, -32767, -16383,
 };
 
-s16 gSineWaveSample[] = {
+ALIGNED(16) s16 gSineWaveSample[] = {
     // Frequency of 1
     0,      3211,   6392,   9511,   12539,  15446,  18204,  20787,
     23169,  25329,  27244,  28897,  30272,  31356,  32137,  32609,
@@ -127,7 +127,7 @@ s16 gSineWaveSample[] = {
     0,      23169,  32767,  23169,  0,      -23169, -32767, -23169,
 };
 
-s16 gSquareWaveSample[] = {
+ALIGNED(16) s16 gSquareWaveSample[] = {
     // Frequency of 1
     0,      0,      0,      0,      0,      0,      0,      0,
     0,      0,      0,      0,      0,      0,      0,      0,
@@ -169,7 +169,7 @@ s16 gSquareWaveSample[] = {
     0,      0,      32767,  32767,  0,      0,      -32767, -32767,
 };
 
-s16 gWhiteNoiseSample[] = {
+ALIGNED(16) s16 gWhiteNoiseSample[] = {
     // Frequency of 1
     0,      -25689, -25791, 27803,  -27568, -21030, 22174,  6298,
     27071,  -18531, 28649,  2284,   3380,   6890,   -12682, -21114,
@@ -212,7 +212,7 @@ s16 gWhiteNoiseSample[] = {
 };
 
 // Sine White Noise?
-s16 D_8012EA90[] = {
+ALIGNED(16) s16 D_8012EA90[] = {
     // Frequency of 1
     0,      16316,  20148,  20257,  27209,  -32657, 29264,  27259,
     -29394, -21494, -26410, 30770,  30033,  29130,  20206,  14129,
@@ -255,7 +255,7 @@ s16 D_8012EA90[] = {
 };
 
 // Pulse Wave (duty cycle = 12.5%)
-s16 gEighthPulseWaveSample[] = {
+ALIGNED(16) s16 gEighthPulseWaveSample[] = {
     // Frequency of 1
     0,      0,      0,      0,      0,      0, 0,      0,
     0,      0,      0,      0,      0,      0, 0,      0,
@@ -298,7 +298,7 @@ s16 gEighthPulseWaveSample[] = {
 };
 
 // Pulse Wave (duty cycle = 25%)
-s16 gQuarterPulseWaveSample[] = {
+ALIGNED(16) s16 gQuarterPulseWaveSample[] = {
     // Frequency of 1
     0,      0,      0,      0,      0,      0,      0,      0,
     0,      0,      0,      0,      0,      0,      0,      0,
@@ -686,7 +686,7 @@ f32 gDefaultPanVolume[] = {
     0.086471f, 0.074143f, 0.061803f, 0.049454f, 0.037097f, 0.024734f, 0.012368f, 0.0f,
 };
 
-s16 gLowPassFilterData[16 * 8] = {
+ALIGNED(16) s16 gLowPassFilterData[16 * 8] = {
     /* 0x0 */ 0,     0,     0,    32767, 0,    0,     0,     0, // Identity filter (delta function)
     /* 0x1 */ 3854,  4188,  4398, 4469,  4398, 4188,  3854,  3416,
     /* 0x2 */ 3415,  4314,  4915, 5126,  4915, 4314,  3415,  2351,
@@ -705,7 +705,7 @@ s16 gLowPassFilterData[16 * 8] = {
     /* 0xF */ 841,   -853,  863,  26829, 863,  -853,  841,   -820,
 };
 
-s16 gHighPassFilterData[15 * 8] = {
+ALIGNED(16) s16 gHighPassFilterData[15 * 8] = {
     /* 0x0 */ -289,  -291,  -289,  30736, -289,  -291,  -289,  -290,
     /* 0x1 */ -464,  -467,  -467,  29506, -467,  -467,  -464,  -463,
     /* 0x2 */ -662,  -670,  -672,  28101, -672,  -670,  -662,  -656,
@@ -723,7 +723,7 @@ s16 gHighPassFilterData[15 * 8] = {
     /* 0xE */ -772,  -3,    -6985, 17240, -6985, -3,    -772,  -3,
 };
 
-s16 D_80130418[8 * 8] = {
+ALIGNED(16) s16 D_80130418[8 * 8] = {
     /* 0x0 */ 0,      6392,   12539,  18204,  23169,  27244,  30272,  32137,
     /* 0x1 */ 32767,  32137,  30272,  27244,  23169,  18204,  12539,  6392,
     /* 0x2 */ 0,      -3211,  -6392,  -9511,  -12539, -15446, -18204, -20787,

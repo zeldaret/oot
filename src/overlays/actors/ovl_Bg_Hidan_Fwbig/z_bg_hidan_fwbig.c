@@ -11,7 +11,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum HidanFwbigMoveState {
     /* 0 */ FWBIG_MOVE,
     /* 1 */ FWBIG_RESET,
     /* 2 */ FWBIG_KILL
@@ -31,7 +31,7 @@ void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, PlayState* play);
 void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, PlayState* play);
 void BgHidanFwbig_Move(BgHidanFwbig* this, PlayState* play);
 
-ActorInit Bg_Hidan_Fwbig_InitVars = {
+ActorProfile Bg_Hidan_Fwbig_Profile = {
     /**/ ACTOR_BG_HIDAN_FWBIG,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -56,8 +56,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 30, 130, 0, { 0, 0, 0 } },
@@ -76,7 +76,7 @@ void BgHidanFwbig_Init(Actor* thisx, PlayState* play2) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->direction = (u16)(thisx->params >> 8);
+    this->direction = (u16)PARAMS_GET_NOMASK(thisx->params, 8);
     thisx->params &= 0xFF;
     if (this->direction != 0) {
         this->actor.home.pos.x = 1560.0f;
@@ -195,25 +195,25 @@ void BgHidanFwbig_Move(BgHidanFwbig* this, PlayState* play) {
 
 void BgHidanFwbig_MoveCollider(BgHidanFwbig* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Vec3f projPos;
+    Vec3f playerRelativePos;
     f32 cs;
     f32 sn;
 
-    func_8002DBD0(&this->actor, &projPos, &player->actor.world.pos);
-    projPos.z = ((projPos.z >= 0.0f) ? 1.0f : -1.0f) * 25.0f * -1.0f;
+    Actor_WorldToActorCoords(&this->actor, &playerRelativePos, &player->actor.world.pos);
+    playerRelativePos.z = ((playerRelativePos.z >= 0.0f) ? 1.0f : -1.0f) * 25.0f * -1.0f;
     if (this->direction == 0) {
-        projPos.x = CLAMP(projPos.x, -360.0f, 360.0f);
+        playerRelativePos.x = CLAMP(playerRelativePos.x, -360.0f, 360.0f);
     } else {
-        projPos.x = CLAMP(projPos.x, -500.0f, 500.0f);
+        playerRelativePos.x = CLAMP(playerRelativePos.x, -500.0f, 500.0f);
     }
 
     sn = Math_SinS(this->actor.shape.rot.y);
     cs = Math_CosS(this->actor.shape.rot.y);
-    this->collider.dim.pos.x = this->actor.world.pos.x + (projPos.x * cs) + (projPos.z * sn);
-    this->collider.dim.pos.z = this->actor.world.pos.z - (projPos.x * sn) + (projPos.z * cs);
+    this->collider.dim.pos.x = this->actor.world.pos.x + (playerRelativePos.x * cs) + (playerRelativePos.z * sn);
+    this->collider.dim.pos.z = this->actor.world.pos.z - (playerRelativePos.x * sn) + (playerRelativePos.z * cs);
     this->collider.dim.pos.y = this->actor.world.pos.y;
 
-    this->actor.world.rot.y = (projPos.z < 0.0f) ? this->actor.shape.rot.y : this->actor.shape.rot.y + 0x8000;
+    this->actor.world.rot.y = (playerRelativePos.z < 0.0f) ? this->actor.shape.rot.y : this->actor.shape.rot.y + 0x8000;
 }
 
 void BgHidanFwbig_Update(Actor* thisx, PlayState* play) {

@@ -49,13 +49,13 @@ typedef struct EnDivingGame {
     /* 0x034C */ ColliderCylinder collider;
 } EnDivingGame; // size = 0x0398
 
-typedef enum {
+typedef enum EnDivingGamePhase {
     /* 0 */ ENDIVINGGAME_PHASE_ENDED,
     /* 1 */ ENDIVINGGAME_PHASE_1, // Player has not received the scale.
     /* 2 */ ENDIVINGGAME_PHASE_2 // Player got the scale and there are 10 rupees thrown.
 } EnDivingGamePhase;
 
-typedef enum {
+typedef enum EnDivingGameState {
     /* 0 */ ENDIVINGGAME_STATE_NOTPLAYING,
     /* 1 */ ENDIVINGGAME_STATE_AWARDPRIZE, // Waiting to give the scale to player.
     /* 2 */ ENDIVINGGAME_STATE_PLAYING

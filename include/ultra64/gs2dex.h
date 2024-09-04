@@ -91,7 +91,7 @@ typedef	struct	{
 
 } uObjScaleBg_t;	/* 40 bytes */
 
-typedef union {
+typedef union uObjBg {
   uObjBg_t        b;
   uObjScaleBg_t   s;
   long long int   force_structure_alignment;
@@ -103,7 +103,7 @@ typedef union {
 #define	G_OBJ_FLAG_FLIPS	1<<0		/* inversion to S-direction */
 #define	G_OBJ_FLAG_FLIPT	1<<4		/* nversion to T-direction */
 
-typedef struct {
+typedef struct uObjSprite_t {
   s16  objX;		/* s10.2 OBJ x-coordinate of upper-left end */
   u16  scaleW;		/* u5.10 Scaling of u5.10 width direction   */
   u16  imageW;		/* u10.5 width of u10.5 texture (length of S-direction) */
@@ -120,7 +120,7 @@ typedef struct {
   u8   imageFlags;	/* The display flag - G_OBJ_FLAG_FLIP* */
 } uObjSprite_t;		/* 24 bytes */
 
-typedef union {
+typedef union uObjSprite {
   uObjSprite_t      s;
   long long int   force_structure_alignment;
 } uObjSprite;
@@ -128,25 +128,25 @@ typedef union {
 /*---------------------------------------------------------------------------*
  *	2D Matrix
  *---------------------------------------------------------------------------*/
-typedef struct {
+typedef struct uObjMtx_t {
   s32   A, B, C, D;     /* s15.16 */
   s16   X, Y;           /* s10.2  */
   u16   BaseScaleX;	/* u5.10  */
   u16   BaseScaleY;	/* u5.10  */
 } uObjMtx_t;		/* 24 bytes */
 
-typedef union {
+typedef union uObjMtx {
   uObjMtx_t	m;
   long long int force_structure_alignment;
 } uObjMtx;
 
-typedef struct {
+typedef struct uObjSubMtx_t {
   s16   X, Y;           /* s10.2  */
   u16   BaseScaleX;	/* u5.10  */
   u16   BaseScaleY;	/* u5.10  */
 } uObjSubMtx_t;		/* 8 bytes */
 
-typedef union {
+typedef union uObjSubMtx {
   uObjSubMtx_t	m;
   long long int force_structure_alignment;
 } uObjSubMtx;
@@ -200,7 +200,7 @@ typedef	struct	{
   u32	mask;		/* STATE mask  */
 } uObjTxtrTLUT_t;		/* 24 bytes */
 
-typedef union {
+typedef union uObjTxtr {
   uObjTxtrBlock_t      block;
   uObjTxtrTile_t       tile;
   uObjTxtrTLUT_t       tlut;

@@ -19,7 +19,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, PlayState* play);
 void func_80AB94D0(EnNiwGirl* this, PlayState* play);
 void func_80AB9210(EnNiwGirl* this, PlayState* play);
 
-ActorInit En_Niw_Girl_InitVars = {
+ActorProfile En_Niw_Girl_Profile = {
     /**/ ACTOR_EN_NIW_GIRL,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -44,8 +44,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 10, 30, 0, { 0, 0, 0 } },
@@ -65,7 +65,7 @@ void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }
-    this->path = ((this->actor.params >> 8) & 0xFF);
+    this->path = PARAMS_GET_U(this->actor.params, 8, 8);
     this->actor.gravity = -3.0f;
     Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
     vec2.x = vec2.y = vec2.z = 0.0f;

@@ -30,7 +30,7 @@ void EnDekunuts_BeDamaged(EnDekunuts* this, PlayState* play);
 void EnDekunuts_BeStunned(EnDekunuts* this, PlayState* play);
 void EnDekunuts_Die(EnDekunuts* this, PlayState* play);
 
-ActorInit En_Dekunuts_InitVars = {
+ActorProfile En_Dekunuts_Profile = {
     /**/ ACTOR_EN_DEKUNUTS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -55,8 +55,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 18, 32, 0, { 0, 0, 0 } },
@@ -119,7 +119,7 @@ void EnDekunuts_Init(Actor* thisx, PlayState* play) {
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
-        this->shotsPerRound = ((thisx->params >> 8) & 0xFF);
+        this->shotsPerRound = PARAMS_GET_U(thisx->params, 8, 8);
         thisx->params &= 0xFF;
         if ((this->shotsPerRound == 0xFF) || (this->shotsPerRound == 0)) {
             this->shotsPerRound = 1;
@@ -204,7 +204,7 @@ void EnDekunuts_SetupGasp(EnDekunuts* this) {
 
 void EnDekunuts_SetupBeDamaged(EnDekunuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsDamageAnim, -3.0f);
-    if (this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+    if (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;

@@ -9,14 +9,14 @@
 
 #define FLAGS ACTOR_FLAG_9
 
-typedef enum {
+typedef enum LakeHyliaObjectsType {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
     /* 0x1 */ LHO_WATER_TEMPLE_ENTRANCE_LOCK,
     /* 0x2 */ LHO_WATER_PLANE,
     /* 0x3 */ LHO_ICE_BLOCK
 } LakeHyliaObjectsType;
 
-typedef enum {
+typedef enum LakeHyliaWaterBoxIndices {
     /* 0x0 */ LHWB_GERUDO_VALLEY_RIVER_UPPER, // entrance from Gerudo Valley
     /* 0x1 */ LHWB_GERUDO_VALLEY_RIVER_LOWER, // river flowing from Gerudo Valley
     /* 0x2 */ LHWB_MAIN_1,                    // main water box
@@ -44,7 +44,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* play);
 
-ActorInit Bg_Spot06_Objects_InitVars = {
+ActorProfile Bg_Spot06_Objects_Profile = {
     /**/ ACTOR_BG_SPOT06_OBJECTS,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -62,8 +62,8 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000080, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 1, { { 0, 0, -160 }, 18 }, 100 },
@@ -96,8 +96,8 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    this->switchFlag = thisx->params & 0xFF;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 0, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
 
     PRINTF("spot06 obj nthisx->arg_data=[%d]", thisx->params);
 
@@ -111,10 +111,11 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
             if (LINK_IS_ADULT && Flags_GetSwitch(play, this->switchFlag)) {
                 thisx->world.pos.y = thisx->home.pos.y + 120.0f;
                 this->actionFunc = BgSpot06Objects_DoNothing;
-
             } else {
                 this->actionFunc = BgSpot06Objects_GateWaitForSwitch;
             }
+
+            if (1) {}
 
             break;
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
@@ -309,7 +310,7 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, PlayState* play) {
         }
 
         EffectSsGSplash_Spawn(play, &this->dyna.actor.world.pos, NULL, NULL, 1, 700);
-        this->collider.elements->dim.worldSphere.radius = 45;
+        this->collider.elements[0].dim.worldSphere.radius = 45;
         this->actionFunc = BgSpot06Objects_LockPullOutward;
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

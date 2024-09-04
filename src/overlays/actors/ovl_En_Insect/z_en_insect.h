@@ -39,7 +39,7 @@ typedef struct EnInsect {
     /* 0x032A */ u8 unk_32A;
 } EnInsect; // size = 0x032C
 
-typedef enum {
+typedef enum EnInsectType {
     /* 0 */ INSECT_TYPE_PERMANENT,
     /* 1 */ INSECT_TYPE_SPAWNED,
     /* 2 */ INSECT_TYPE_FIRST_DROPPED,

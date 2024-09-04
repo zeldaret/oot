@@ -15,14 +15,14 @@ void MagicFire_Draw(Actor* thisx, PlayState* play);
 
 void MagicFire_UpdateBeforeCast(Actor* thisx, PlayState* play);
 
-typedef enum {
+typedef enum MagicFireAction {
     /* 0x00 */ DF_ACTION_INITIALIZE,
     /* 0x01 */ DF_ACTION_EXPAND_SLOWLY,
     /* 0x02 */ DF_ACTION_STOP_EXPANDING,
     /* 0x03 */ DF_ACTION_EXPAND_QUICKLY
 } MagicFireAction;
 
-typedef enum {
+typedef enum MagicFireScreenTint {
     /* 0x00 */ DF_SCREEN_TINT_NONE,
     /* 0x01 */ DF_SCREEN_TINT_FADE_IN,
     /* 0x02 */ DF_SCREEN_TINT_MAINTAIN,
@@ -30,7 +30,7 @@ typedef enum {
     /* 0x04 */ DF_SCREEN_TINT_FINISHED
 } MagicFireScreenTint;
 
-ActorInit Magic_Fire_InitVars = {
+ActorProfile Magic_Fire_Profile = {
     /**/ ACTOR_MAGIC_FIRE,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -57,8 +57,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00020000, 0x00, 0x01 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { 9, 9, 0, { 0, 0, 0 } },
@@ -133,9 +133,9 @@ void MagicFire_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->action == DF_ACTION_EXPAND_SLOWLY) {
-        this->collider.elem.toucher.damage = this->actionTimer + 25;
+        this->collider.elem.atDmgInfo.damage = this->actionTimer + 25;
     } else if (this->action == DF_ACTION_STOP_EXPANDING) {
-        this->collider.elem.toucher.damage = this->actionTimer;
+        this->collider.elem.atDmgInfo.damage = this->actionTimer;
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);
     this->collider.dim.radius = (this->actor.scale.x * 325.0f);

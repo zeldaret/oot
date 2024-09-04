@@ -16,7 +16,7 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play);
 
 void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play);
 
-ActorInit Obj_Dekujr_InitVars = {
+ActorProfile Obj_Dekujr_Profile = {
     /**/ ACTOR_OBJ_DEKUJR,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_demo_6k" Segment="6">
         <Texture Name="object_demo_6k_Tex_000000" OutName="tex_00000000" Format="i8" Width="64" Height="64" Offset="0x0"/>
         <DList Name="object_demo_6k_DL_001040" Offset="0x1040"/>

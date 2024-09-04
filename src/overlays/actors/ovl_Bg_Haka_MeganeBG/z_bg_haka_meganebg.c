@@ -23,7 +23,7 @@ void func_8087E288(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E34C(BgHakaMeganeBG* this, PlayState* play);
 
-ActorInit Bg_Haka_MeganeBG_InitVars = {
+ActorProfile Bg_Haka_MeganeBG_Profile = {
     /**/ ACTOR_BG_HAKA_MEGANEBG,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -59,7 +59,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->unk_168 = (thisx->params >> 8) & 0xFF;
+    this->unk_168 = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (thisx->params == 2) {

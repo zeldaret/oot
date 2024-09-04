@@ -15,7 +15,7 @@ void FireRock_WaitOnFloor(EnFireRock* this, PlayState* play);
 void EnFireRock_Fall(EnFireRock* this, PlayState* play);
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play);
 
-ActorInit En_Fire_Rock_InitVars = {
+ActorProfile En_Fire_Rock_Profile = {
     /**/ ACTOR_EN_FIRE_ROCK,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -40,8 +40,8 @@ static ColliderCylinderInit D_80A12CA0 = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x09, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 30, 30, -10, { 0, 0, 0 } },
@@ -60,8 +60,8 @@ static ColliderCylinderInit D_80A12CCC = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x01, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 30, 30, -10, { 0, 0, 0 } },
@@ -283,7 +283,8 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, PlayState* play) {
     } else {
         this->playerNearby = 0;
     }
-    if (BREG(0) != 0) {
+
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 255, 0, 255, 4, play->state.gfxCtx);
@@ -309,6 +310,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
     s16 setCollision;
     Player* player = GET_PLAYER(play);
     Actor* playerActor = &GET_PLAYER(play)->actor;
+    f32 temp;
 
     if (this->timer2 != 0) {
         this->timer2--;
@@ -319,8 +321,6 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->type != FIRE_ROCK_CEILING_SPOT_SPAWNER) {
-        f32 temp;
-
         this->rockRotation.x += this->angularVelocity.x;
         this->rockRotation.y += this->angularVelocity.y;
         this->rockRotation.z += this->angularVelocity.z;

@@ -16,7 +16,7 @@ void BgSpot01Fusya_Draw(Actor* thisx, PlayState* play);
 
 void func_808AAA50(BgSpot01Fusya* this, PlayState* play);
 
-ActorInit Bg_Spot01_Fusya_InitVars = {
+ActorProfile Bg_Spot01_Fusya_Profile = {
     /**/ ACTOR_BG_SPOT01_FUSYA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

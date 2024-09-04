@@ -55,6 +55,10 @@ enum class ZResourceType
 	Vector,
 	Vertex,
 	Waterbox,
+	KeyFrameFlexLimb,
+	KeyFrameStandardLimb,
+	KeyFrameSkel,
+	KeyFrameAnimation,
 };
 
 class ResourceAttribute

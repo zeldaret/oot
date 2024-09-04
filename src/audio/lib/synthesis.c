@@ -5,7 +5,7 @@
 #define DMEM_TEMP 0x3C0
 #define DMEM_UNCOMPRESSED_NOTE 0x580
 #define DMEM_HAAS_TEMP 0x5C0
-#define DMEM_SCRATCH2 0x760              // = DMEM_TEMP + DMEM_2CH_SIZE + a bit more
+#define DMEM_COMB_TEMP 0x760             // = DMEM_TEMP + DMEM_2CH_SIZE + a bit more
 #define DMEM_COMPRESSED_ADPCM_DATA 0x940 // = DMEM_LEFT_CH
 #define DMEM_LEFT_CH 0x940
 #define DMEM_RIGHT_CH 0xAE0
@@ -14,7 +14,7 @@
 #define DMEM_WET_LEFT_CH 0xC80
 #define DMEM_WET_RIGHT_CH 0xE20 // = DMEM_WET_LEFT_CH + DMEM_1CH_SIZE
 
-typedef enum {
+typedef enum HaasEffectDelaySide {
     /* 0 */ HAAS_EFFECT_DELAY_NONE,
     /* 1 */ HAAS_EFFECT_DELAY_LEFT, // Delay left channel so that right channel is heard first
     /* 2 */ HAAS_EFFECT_DELAY_RIGHT // Delay right channel so that left channel is heard first
@@ -38,14 +38,14 @@ u32 sEnvMixerOp = _SHIFTL(A_ENVMIXER, 24, 8);
 
 // Store the left dry channel in a temp space to be delayed to produce the haas effect
 u32 sEnvMixerLeftHaasDmemDests =
-    MK_CMD(DMEM_HAAS_TEMP >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
+    AUDIO_MK_CMD(DMEM_HAAS_TEMP >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
 
 // Store the right dry channel in a temp space to be delayed to produce the haas effect
 u32 sEnvMixerRightHaasDmemDests =
-    MK_CMD(DMEM_LEFT_CH >> 4, DMEM_HAAS_TEMP >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
+    AUDIO_MK_CMD(DMEM_LEFT_CH >> 4, DMEM_HAAS_TEMP >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
 
 u32 sEnvMixerDefaultDmemDests =
-    MK_CMD(DMEM_LEFT_CH >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
+    AUDIO_MK_CMD(DMEM_LEFT_CH >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
 
 u16 D_801304B0[] = {
     0x7FFF, 0xD001, 0x3FFF, 0xF001, 0x5FFF, 0x9001, 0x7FFF, 0x8001,
@@ -158,32 +158,32 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
     SynthesisReverb* reverb;
 
     cmdP = cmdStart;
-    for (i = gAudioCtx.audioBufferParameters.updatesPerFrame; i > 0; i--) {
+    for (i = gAudioCtx.audioBufferParameters.ticksPerUpdate; i > 0; i--) {
         AudioSeq_ProcessSequences(i - 1);
-        func_800DB03C(gAudioCtx.audioBufferParameters.updatesPerFrame - i);
+        func_800DB03C(gAudioCtx.audioBufferParameters.ticksPerUpdate - i);
     }
 
     aiBufP = aiStart;
     gAudioCtx.curLoadedBook = NULL;
 
-    for (i = gAudioCtx.audioBufferParameters.updatesPerFrame; i > 0; i--) {
+    for (i = gAudioCtx.audioBufferParameters.ticksPerUpdate; i > 0; i--) {
         if (i == 1) {
             chunkLen = aiBufLen;
-        } else if ((aiBufLen / i) >= gAudioCtx.audioBufferParameters.samplesPerUpdateMax) {
-            chunkLen = gAudioCtx.audioBufferParameters.samplesPerUpdateMax;
-        } else if (gAudioCtx.audioBufferParameters.samplesPerUpdateMin >= (aiBufLen / i)) {
-            chunkLen = gAudioCtx.audioBufferParameters.samplesPerUpdateMin;
+        } else if ((aiBufLen / i) >= gAudioCtx.audioBufferParameters.samplesPerTickMax) {
+            chunkLen = gAudioCtx.audioBufferParameters.samplesPerTickMax;
+        } else if (gAudioCtx.audioBufferParameters.samplesPerTickMin >= (aiBufLen / i)) {
+            chunkLen = gAudioCtx.audioBufferParameters.samplesPerTickMin;
         } else {
-            chunkLen = gAudioCtx.audioBufferParameters.samplesPerUpdate;
+            chunkLen = gAudioCtx.audioBufferParameters.samplesPerTick;
         }
 
         for (j = 0; j < gAudioCtx.numSynthesisReverbs; j++) {
             if (gAudioCtx.synthesisReverbs[j].useReverb) {
-                AudioSynth_InitNextRingBuf(chunkLen, gAudioCtx.audioBufferParameters.updatesPerFrame - i, j);
+                AudioSynth_InitNextRingBuf(chunkLen, gAudioCtx.audioBufferParameters.ticksPerUpdate - i, j);
             }
         }
 
-        cmdP = AudioSynth_DoOneAudioUpdate(aiBufP, chunkLen, cmdP, gAudioCtx.audioBufferParameters.updatesPerFrame - i);
+        cmdP = AudioSynth_DoOneAudioUpdate(aiBufP, chunkLen, cmdP, gAudioCtx.audioBufferParameters.ticksPerUpdate - i);
         aiBufLen -= chunkLen;
         aiBufP += 2 * chunkLen;
     }
@@ -203,7 +203,7 @@ void func_800DB2C0(s32 updateIndex, s32 noteIndex) {
     NoteSubEu* noteSubEu;
     s32 i;
 
-    for (i = updateIndex + 1; i < gAudioCtx.audioBufferParameters.updatesPerFrame; i++) {
+    for (i = updateIndex + 1; i < gAudioCtx.audioBufferParameters.ticksPerUpdate; i++) {
         noteSubEu = &gAudioCtx.noteSubsEu[(gAudioCtx.numNotes * i) + noteIndex];
         if (!noteSubEu->bitField0.needsInit) {
             noteSubEu->bitField0.enabled = false;
@@ -643,7 +643,13 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
             aMix(cmd++, DMEM_2CH_SIZE >> 4, reverb->decayRatio + 0x8000, DMEM_WET_LEFT_CH, DMEM_WET_LEFT_CH);
 
             // Leak reverb between the left and right channels
-            if (reverb->leakRtl != 0 || reverb->leakLtr != 0) {
+
+#if PLATFORM_N64
+            if (((reverb->leakRtl != 0) || (reverb->leakLtr != 0)) && (gAudioCtx.soundMode != SOUNDMODE_MONO))
+#else
+            if ((reverb->leakRtl != 0) || (reverb->leakLtr != 0))
+#endif
+            {
                 cmd = AudioSynth_LeakReverb(cmd, reverb);
             }
 
@@ -717,7 +723,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 frameIndex;
     s32 skipBytes;
     s32 temp_v1_6;
-    void* buf;
+    s16* combFilterState;
     s32 nSamplesToDecode;
     u32 sampleAddr;
     u32 samplesLenFixedPoint;
@@ -740,12 +746,12 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 resampledTempLen;
     u16 sampleDmemBeforeResampling;
     s32 sampleDataOffset;
-    s32 thing;
+    s32 combFilterDmem;
     s32 s5;
     Note* note;
     u32 numSamplesToLoad;
-    u16 unk7;
-    u16 unkE;
+    u16 combFilterSize;
+    u16 combFilterGain;
     s16* filter;
     s32 bookOffset;
     s32 finished;
@@ -769,7 +775,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         synthState->prevHaasEffectRightDelaySize = 0;
         synthState->reverbVol = noteSubEu->reverbVol;
         synthState->numParts = 0;
-        synthState->unk_1A = 1;
+        synthState->combFilterNeedsInit = true;
         note->noteSubEu.bitField0.finished = false;
         finished = false;
     }
@@ -778,6 +784,13 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     nParts = noteSubEu->bitField1.hasTwoParts + 1;
     samplesLenFixedPoint = (resamplingRateFixedPoint * aiBufLen * 2) + synthState->samplePosFrac;
     numSamplesToLoad = samplesLenFixedPoint >> 16;
+
+#if PLATFORM_N64
+    if (numSamplesToLoad == 0) {
+        skipBytes = false;
+    }
+#endif
+
     synthState->samplePosFrac = samplesLenFixedPoint & 0xFFFF;
 
     // Partially-optimized out no-op ifs required for matching. SM64 decomp
@@ -796,7 +809,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     } else {
         sample = noteSubEu->tunedSample->sample;
         loopInfo = sample->loop;
-        loopEndPos = loopInfo->end;
+        loopEndPos = loopInfo->header.end;
         sampleAddr = (u32)sample->sampleAddr;
         resampledTempLen = 0;
 
@@ -829,7 +842,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     if (1) {}
                     if (1) {}
                     if (1) {}
-                    nEntries = SAMPLES_PER_FRAME * sample->book->order * sample->book->numPredictors;
+                    nEntries = SAMPLES_PER_FRAME * sample->book->header.order * sample->book->header.numPredictors;
                     aLoadADPCM(cmd++, nEntries, gAudioCtx.curLoadedBook);
                 }
             }
@@ -861,7 +874,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                         nSamplesInFirstFrame = nSamplesUntilLoopEnd;
                     }
                     nFramesToDecode = (nSamplesToDecode + SAMPLES_PER_FRAME - 1) / SAMPLES_PER_FRAME;
-                    if (loopInfo->count != 0) {
+                    if (loopInfo->header.count != 0) {
                         // Loop around and restart
                         restart = true;
                     } else {
@@ -1019,7 +1032,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 } else {
                     if (restart) {
                         synthState->restart = true;
-                        synthState->samplePosInt = loopInfo->start;
+                        synthState->samplePosInt = loopInfo->header.start;
                     } else {
                         synthState->samplePosInt += nSamplesToProcess;
                     }
@@ -1089,23 +1102,26 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         AudioSynth_LoadFilterBuffer(cmd++, flags, DMEM_TEMP, synthState->synthesisBuffers->mixEnvelopeState);
     }
 
-    unk7 = noteSubEu->unk_07;
-    unkE = noteSubEu->unk_0E;
-    buf = synthState->synthesisBuffers->unkState;
-    if (unk7 != 0 && noteSubEu->unk_0E != 0) {
-        AudioSynth_DMemMove(cmd++, DMEM_TEMP, DMEM_SCRATCH2, aiBufLen * SAMPLE_SIZE);
-        thing = DMEM_SCRATCH2 - unk7;
-        if (synthState->unk_1A != 0) {
-            AudioSynth_ClearBuffer(cmd++, thing, unk7);
-            synthState->unk_1A = 0;
+    // Apply the comb filter to the mono-signal by taking the signal with a small temporal offset,
+    // and adding it back to itself
+    combFilterSize = noteSubEu->combFilterSize;
+    combFilterGain = noteSubEu->combFilterGain;
+    combFilterState = synthState->synthesisBuffers->combFilterState;
+    if ((combFilterSize != 0) && (noteSubEu->combFilterGain != 0)) {
+        AudioSynth_DMemMove(cmd++, DMEM_TEMP, DMEM_COMB_TEMP, aiBufLen * SAMPLE_SIZE);
+        combFilterDmem = DMEM_COMB_TEMP - combFilterSize;
+        if (synthState->combFilterNeedsInit) {
+            AudioSynth_ClearBuffer(cmd++, combFilterDmem, combFilterSize);
+            synthState->combFilterNeedsInit = false;
         } else {
-            AudioSynth_LoadBuffer(cmd++, thing, unk7, buf);
+            AudioSynth_LoadBuffer(cmd++, combFilterDmem, combFilterSize, combFilterState);
         }
-        AudioSynth_SaveBuffer(cmd++, DMEM_TEMP + (aiBufLen * SAMPLE_SIZE) - unk7, unk7, buf);
-        AudioSynth_Mix(cmd++, (aiBufLen * (s32)SAMPLE_SIZE) >> 4, unkE, DMEM_SCRATCH2, thing);
-        AudioSynth_DMemMove(cmd++, thing, DMEM_TEMP, aiBufLen * SAMPLE_SIZE);
+        AudioSynth_SaveBuffer(cmd++, DMEM_TEMP + (aiBufLen * SAMPLE_SIZE) - combFilterSize, combFilterSize,
+                              combFilterState);
+        AudioSynth_Mix(cmd++, (aiBufLen * (s32)SAMPLE_SIZE) >> 4, combFilterGain, DMEM_COMB_TEMP, combFilterDmem);
+        AudioSynth_DMemMove(cmd++, combFilterDmem, DMEM_TEMP, aiBufLen * SAMPLE_SIZE);
     } else {
-        synthState->unk_1A = 1;
+        synthState->combFilterNeedsInit = true;
     }
 
     if ((noteSubEu->haasEffectLeftDelaySize != 0) || (synthState->prevHaasEffectLeftDelaySize != 0)) {

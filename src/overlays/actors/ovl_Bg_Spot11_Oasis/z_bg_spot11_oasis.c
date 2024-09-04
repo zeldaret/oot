@@ -20,7 +20,7 @@ void func_808B29F0(BgSpot11Oasis* this, PlayState* play);
 void func_808B2AA8(BgSpot11Oasis* this);
 void func_808B2AB8(BgSpot11Oasis* this, PlayState* play);
 
-ActorInit Bg_Spot11_Oasis_InitVars = {
+ActorProfile Bg_Spot11_Oasis_Profile = {
     /**/ ACTOR_BG_SPOT11_OASIS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -125,7 +125,6 @@ void BgSpot11Oasis_Update(Actor* thisx, PlayState* play) {
     BgSpot11Oasis* this = (BgSpot11Oasis*)thisx;
     s32 pad;
     u32 gameplayFrames;
-    Vec3f sp30;
 
     this->actionFunc(this, play);
     if (this->actionFunc == func_808B2980) {
@@ -136,6 +135,8 @@ void BgSpot11Oasis_Update(Actor* thisx, PlayState* play) {
     if (this->unk_150 && (this->actor.projectedPos.z < 400.0f) && (this->actor.projectedPos.z > -40.0f)) {
         gameplayFrames = play->gameplayFrames;
         if (gameplayFrames & 4) {
+            Vec3f sp30;
+
             Math_Vec3f_Sum(&this->actor.world.pos, &D_808B2E34[this->unk_151], &sp30);
             EffectSsBubble_Spawn(play, &sp30, 0.0f, 15.0f, 50.0f, (Rand_ZeroOne() * 0.12f) + 0.02f);
             if (Rand_ZeroOne() < 0.3f) {

@@ -18,7 +18,7 @@ void func_80891CF4(BgIceShutter* this, PlayState* play);
 void func_80891D6C(BgIceShutter* this, PlayState* play);
 void func_80891DD4(BgIceShutter* this, PlayState* play);
 
-ActorInit Bg_Ice_Shutter_InitVars = {
+ActorProfile Bg_Ice_Shutter_Profile = {
     /**/ ACTOR_BG_ICE_SHUTTER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -49,13 +49,12 @@ void BgIceShutter_Init(Actor* thisx, PlayState* play) {
     f32 sp24;
     CollisionHeader* colHeader;
     s32 sp28;
-    f32 temp_f6;
 
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
-    sp28 = this->dyna.actor.params & 0xFF;
-    this->dyna.actor.params = (this->dyna.actor.params >> 8) & 0xFF;
+    sp28 = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
+    this->dyna.actor.params = PARAMS_GET_U(this->dyna.actor.params, 8, 8);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002854, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (sp28 == 2) {
@@ -78,7 +77,8 @@ void BgIceShutter_Init(Actor* thisx, PlayState* play) {
     }
 
     if (sp28 == 2) {
-        temp_f6 = Math_SinS(this->dyna.actor.shape.rot.x) * 50.0f;
+        f32 temp_f6 = Math_SinS(this->dyna.actor.shape.rot.x) * 50.0f;
+
         this->dyna.actor.focus.pos.x =
             (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.home.pos.x;
         this->dyna.actor.focus.pos.y = this->dyna.actor.home.pos.y;

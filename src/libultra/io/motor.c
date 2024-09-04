@@ -4,7 +4,7 @@
 
 OSPifRam __MotorDataBuf[MAXCONTROLLERS];
 
-s32 __osMotorAccess(OSPfs* pfs, u32 vibrate) {
+s32 __osMotorAccess(OSPfs* pfs, s32 vibrate) {
     s32 i;
     s32 ret;
     u8* ptr = (u8*)&__MotorDataBuf[pfs->channel];

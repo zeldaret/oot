@@ -21,7 +21,7 @@ void BgHidanFirewall_Erupt(BgHidanFirewall* this, PlayState* play);
 void BgHidanFirewall_Collide(BgHidanFirewall* this, PlayState* play);
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, PlayState* play);
 
-ActorInit Bg_Hidan_Firewall_InitVars = {
+ActorProfile Bg_Hidan_Firewall_Profile = {
     /**/ ACTOR_BG_HIDAN_FIREWALL,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -46,8 +46,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 30, 83, 0, { 0 } },
@@ -58,8 +58,7 @@ static CollisionCheckInfoInit sColChkInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
 void BgHidanFirewall_Init(Actor* thisx, PlayState* play) {
     BgHidanFirewall* this = (BgHidanFirewall*)thisx;
 
-    this->actor.scale.x = 0.12f;
-    this->actor.scale.z = 0.12f;
+    this->actor.scale.x = this->actor.scale.z = 0.12f;
     this->actor.scale.y = 0.01f;
 
     this->unk_150 = 0;
@@ -82,12 +81,12 @@ void BgHidanFirewall_Destroy(Actor* thisx, PlayState* play) {
 
 s32 BgHidanFirewall_CheckProximity(BgHidanFirewall* this, PlayState* play) {
     Player* player;
-    Vec3f distance;
+    Vec3f playerRelativePos;
 
     player = GET_PLAYER(play);
-    func_8002DBD0(&this->actor, &distance, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &playerRelativePos, &player->actor.world.pos);
 
-    if (fabsf(distance.x) < 100.0f && fabsf(distance.z) < 120.0f) {
+    if (fabsf(playerRelativePos.x) < 100.0f && fabsf(playerRelativePos.z) < 120.0f) {
         return 1;
     }
     return 0;
@@ -138,39 +137,39 @@ void BgHidanFirewall_Collide(BgHidanFirewall* this, PlayState* play) {
 
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, PlayState* play) {
     Player* player;
-    Vec3f sp30;
+    Vec3f playerRelativePos;
     f32 temp_ret;
     f32 sp28;
     f32 phi_f0;
 
     player = GET_PLAYER(play);
 
-    func_8002DBD0(&this->actor, &sp30, &player->actor.world.pos);
-    if (sp30.x < -70.0f) {
-        sp30.x = -70.0f;
+    Actor_WorldToActorCoords(&this->actor, &playerRelativePos, &player->actor.world.pos);
+    if (playerRelativePos.x < -70.0f) {
+        playerRelativePos.x = -70.0f;
     } else {
-        if (70.0f < sp30.x) {
+        if (70.0f < playerRelativePos.x) {
             phi_f0 = 70.0f;
         } else {
-            phi_f0 = sp30.x;
+            phi_f0 = playerRelativePos.x;
         }
-        sp30.x = phi_f0;
+        playerRelativePos.x = phi_f0;
     }
     if (this->actor.params == 0) {
-        if (0.0f < sp30.z) {
-            sp30.z = -25.0f;
+        if (0.0f < playerRelativePos.z) {
+            playerRelativePos.z = -25.0f;
             this->actor.params = -1;
         } else {
-            sp30.z = 25.0f;
+            playerRelativePos.z = 25.0f;
             this->actor.params = 1;
         }
     } else {
-        sp30.z = this->actor.params * 25.0f;
+        playerRelativePos.z = this->actor.params * 25.0f;
     }
     sp28 = Math_SinS(this->actor.shape.rot.y);
     temp_ret = Math_CosS(this->actor.shape.rot.y);
-    this->collider.dim.pos.x = this->actor.world.pos.x + sp30.x * temp_ret + sp30.z * sp28;
-    this->collider.dim.pos.z = this->actor.world.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
+    this->collider.dim.pos.x = this->actor.world.pos.x + playerRelativePos.x * temp_ret + playerRelativePos.z * sp28;
+    this->collider.dim.pos.z = this->actor.world.pos.z - playerRelativePos.x * sp28 + playerRelativePos.z * temp_ret;
 }
 
 void BgHidanFirewall_Update(Actor* thisx, PlayState* play) {

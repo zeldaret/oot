@@ -2,21 +2,8 @@
 #define Z64CUTSCENE_H
 
 #include "ultra64.h"
+#include "z64math.h"
 
-/**
- * Special type for blocks of cutscene data, asm-processor checks
- * arrays for CutsceneData type and converts floats within the array
- * to their IEEE-754 representation. The array must close with };
- * on its own line.
- *
- * Files that contain this type that are included in other C files
- * must be preceded by a '#pragma asmproc recurse' qualifier to
- * inform asm-processor that it must recursively process that include.
- *
- * Example:
- * #pragma asmproc recurse
- * #include "file.c"
- */
 typedef union CutsceneData {
     s32 i;
     f32 f;
@@ -24,7 +11,7 @@ typedef union CutsceneData {
     s8  b[4];
 } CutsceneData;
 
-typedef enum {
+typedef enum CutsceneState {
     /* 0 */ CS_STATE_IDLE,
     /* 1 */ CS_STATE_START,
     /* 2 */ CS_STATE_RUN,
@@ -32,7 +19,7 @@ typedef enum {
     /* 4 */ CS_STATE_RUN_UNSTOPPABLE
 } CutsceneState;
 
-typedef enum {
+typedef enum CutsceneCmd {
     /* 0x0001 */ CS_CMD_CAM_EYE_SPLINE = 0x01,
     /* 0x0002 */ CS_CMD_CAM_AT_SPLINE,
     /* 0x0003 */ CS_CMD_MISC,
@@ -164,7 +151,7 @@ typedef enum {
     /* 0xFFFF */ CS_CMD_END = 0xFFFF
 } CutsceneCmd;
 
-typedef enum {
+typedef enum CutsceneMiscType {
     /* 0x00 */ CS_MISC_UNIMPLEMENTED_0,
     /* 0x01 */ CS_MISC_RAIN,
     /* 0x02 */ CS_MISC_LIGHTNING,
@@ -203,7 +190,7 @@ typedef enum {
     /* 0x23 */ CS_MISC_LONG_SCARECROW_SONG
 } CutsceneMiscType;
 
-typedef enum {
+typedef enum CutsceneTextType {
     /* 0x00 */ CS_TEXT_NORMAL,
     /* 0x01 */ CS_TEXT_CHOICE,
     /* 0x02 */ CS_TEXT_OCARINA_ACTION,
@@ -211,12 +198,12 @@ typedef enum {
     /* 0x04 */ CS_TEXT_ZORA_SAPPHIRE // use `altTextId1` in the sapphire cutscene if ruby is already obtained
 } CutsceneTextType;
 
-typedef enum {
+typedef enum CutsceneFadeOutSeqPlayer {
     /* 0x03 */ CS_FADE_OUT_FANFARE = 3,
     /* 0x04 */ CS_FADE_OUT_BGM_MAIN
 } CutsceneFadeOutSeqPlayer;
 
-typedef enum {
+typedef enum CutsceneTransitionType {
     /* 0x01 */ CS_TRANS_GRAY_FILL_IN = 1, // has hardcoded sounds for some scenes
     /* 0x02 */ CS_TRANS_BLUE_FILL_IN,
     /* 0x03 */ CS_TRANS_RED_FILL_OUT,
@@ -232,7 +219,7 @@ typedef enum {
     /* 0x0D */ CS_TRANS_BLACK_FILL_IN_FROM_HALF
 } CutsceneTransitionType;
 
-typedef enum {
+typedef enum CutsceneDestination {
     /* 0x00 */ CS_DEST_UNIMPLEMENTED_0,
     /* 0x01 */ CS_DEST_CUTSCENE_MAP_GANON_HORSE,
     /* 0x02 */ CS_DEST_CUTSCENE_MAP_THREE_GODDESSES,
@@ -355,7 +342,7 @@ typedef enum {
     /* 0x77 */ CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneDestination;
 
-typedef union {
+typedef union CsCmdCam {
     struct {
         /* 0x00 */ u16 unused0;
         /* 0x02 */ u16 startFrame;
@@ -365,7 +352,7 @@ typedef union {
 } CsCmdCam; // size = 0x8
 
 
-typedef union {
+typedef union CsCmdMisc {
     struct {
         /* 0x00 */ u16 type;
         /* 0x02 */ u16 startFrame;
@@ -374,7 +361,7 @@ typedef union {
     s32 _words[12];
 } CsCmdMisc; // size = 0x30
 
-typedef union {
+typedef union CsCmdLightSetting {
     struct {
         /* 0x00 */ u8 unused0;
         /* 0x01 */ u8 settingPlusOne;
@@ -384,7 +371,7 @@ typedef union {
     s32 _words[12];
 } CsCmdLightSetting; // size = 0x30
 
-typedef union {
+typedef union CsCmdStartSeq {
     struct {
         /* 0x00 */ u8 unused0;
         /* 0x01 */ u8 seqIdPlusOne;
@@ -394,7 +381,7 @@ typedef union {
     s32 _words[12];
 } CsCmdStartSeq; // size = 0x30
 
-typedef union {
+typedef union CsCmdStopSeq {
     struct {
         /* 0x00 */ u8 unused0;
         /* 0x01 */ u8 seqIdPlusOne;
@@ -404,7 +391,7 @@ typedef union {
     s32 _words[12];
 } CsCmdStopSeq; // size = 0x30
 
-typedef union {
+typedef union CsCmdFadeOutSeq {
     struct {
         /* 0x00 */ u16 seqPlayer;
         /* 0x02 */ u16 startFrame;
@@ -413,7 +400,7 @@ typedef union {
     s32 _words[12];
 } CsCmdFadeOutSeq; // size = 0x30
 
-typedef union {
+typedef union CsCmdRumble {
     struct {
         /* 0x00 */ u16 unused0;
         /* 0x02 */ u16 startFrame;
@@ -425,7 +412,7 @@ typedef union {
     s32 _words[3];
 } CsCmdRumble; // size = 0xC
 
-typedef union {
+typedef union CsCmdTime {
     struct {
         /* 0x00 */ u16 unused0;
         /* 0x02 */ u16 startFrame;
@@ -436,7 +423,7 @@ typedef union {
     s32 _words[3];
 } CsCmdTime; // size = 0xC
 
-typedef union {
+typedef union CsCmdDestination {
     struct {
         /* 0x00 */ u16 destination;
         /* 0x02 */ u16 startFrame;
@@ -445,7 +432,7 @@ typedef union {
     s32 _words[2];
 } CsCmdDestination; // size = 0x8
 
-typedef union {
+typedef union CsCmdText {
     struct {
         /* 0x00 */ u16 textId; // can also be an ocarina action for `CS_TEXT_OCARINA_ACTION`
         /* 0x02 */ u16 startFrame;
@@ -459,7 +446,7 @@ typedef union {
 
 #define CS_TEXT_ID_NONE 0xFFFF
 
-typedef union {
+typedef union CsCmdTransition {
     struct {
         /* 0x00 */ u16 type;
         /* 0x02 */ u16 startFrame;
@@ -468,7 +455,7 @@ typedef union {
     s32 _words[2];
 } CsCmdTransition; // size = 0x8
 
-typedef union {
+typedef union CsCmdActorCue {
     struct {
         /* 0x00 */ u16 id; // "dousa"
         /* 0x02 */ u16 startFrame;
@@ -480,7 +467,7 @@ typedef union {
     s32 _words[12];
 } CsCmdActorCue; // size = 0x30
 
-typedef union {
+typedef union CutsceneCameraPoint {
     struct {
         /* 0x00 */ s8 continueFlag;
         /* 0x01 */ s8 cameraRoll;
@@ -496,20 +483,20 @@ typedef union {
 
 #define CS_CAM_DATA_NOT_APPLIED 0xFFFF
 
-typedef struct {
+typedef struct CutsceneCameraDirection {
     /* 0x00 */ Vec3f at;
     /* 0x0C */ Vec3f eye;
     /* 0x18 */ s16 roll;
     /* 0x1A */ s16 fov;
 } CutsceneCameraDirection; // size = 0x1C
 
-typedef struct {
+typedef struct CutsceneCameraMove {
     /* 0x0 */ CutsceneCameraPoint* atPoints;
     /* 0x4 */ CutsceneCameraPoint* eyePoints;
     /* 0x8 */ s16 relativeToPlayer;
 } CutsceneCameraMove; // size = 0xC
 
-typedef struct {
+typedef struct CutsceneContext {
     /* 0x00 */ char  unk_00[0x4];
     /* 0x04 */ void* script;
     /* 0x08 */ u8 state;

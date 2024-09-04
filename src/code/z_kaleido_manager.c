@@ -1,11 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 
-#define KALEIDO_OVERLAY(name, nameString)                                                     \
-    {                                                                                         \
-        NULL, (uintptr_t)_ovl_##name##SegmentRomStart, (uintptr_t)_ovl_##name##SegmentRomEnd, \
-            _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, 0, nameString,                \
-    }
+#define KALEIDO_OVERLAY(name, nameString) \
+    { NULL, ROM_FILE(ovl_##name), _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, 0, nameString, }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
     KALEIDO_OVERLAY(kaleido_scope, "kaleido_scope"),
@@ -20,7 +17,7 @@ void KaleidoManager_LoadOvl(KaleidoMgrOverlay* ovl) {
     LOG_UTILS_CHECK_NULL_POINTER("KaleidoArea_allocp", sKaleidoAreaPtr, "../z_kaleido_manager.c", 99);
 
     ovl->loadedRamAddr = sKaleidoAreaPtr;
-    Overlay_Load(ovl->vromStart, ovl->vromEnd, ovl->vramStart, ovl->vramEnd, ovl->loadedRamAddr);
+    Overlay_Load(ovl->file.vromStart, ovl->file.vromEnd, ovl->vramStart, ovl->vramEnd, ovl->loadedRamAddr);
 
     PRINTF(VT_FGCOL(GREEN));
     PRINTF("OVL(k):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", ovl->vramStart, ovl->vramEnd, ovl->loadedRamAddr,
@@ -54,7 +51,8 @@ void KaleidoManager_Init(PlayState* play) {
     }
 
     PRINTF(VT_FGCOL(GREEN));
-    PRINTF("KaleidoArea の最大サイズは %d バイトを確保します\n", largestSize);
+    PRINTF(T("KaleidoArea の最大サイズは %d バイトを確保します\n", "The maximum size of KaleidoArea is %d bytes\n"),
+           largestSize);
     PRINTF(VT_RST);
 
     sKaleidoAreaPtr = GAME_STATE_ALLOC(&play->state, largestSize, "../z_kaleido_manager.c", 150);
@@ -80,9 +78,10 @@ void KaleidoManager_Destroy(void) {
 void* KaleidoManager_GetRamAddr(void* vram) {
     KaleidoMgrOverlay* iter = gKaleidoMgrCurOvl;
     KaleidoMgrOverlay* ovl = iter;
-    u32 i;
 
     if (ovl == NULL) {
+        u32 i;
+
         iter = &gKaleidoMgrOverlayTable[0];
         for (i = 0; i < ARRAY_COUNT(gKaleidoMgrOverlayTable); i++) {
             if (((uintptr_t)vram >= (uintptr_t)iter->vramStart) && ((uintptr_t)iter->vramEnd >= (uintptr_t)vram)) {
@@ -93,7 +92,7 @@ void* KaleidoManager_GetRamAddr(void* vram) {
             //! @bug Probably missing iter++ here
         }
 
-        PRINTF("異常\n"); // "Abnormal"
+        PRINTF(T("異常\n", "Abnormal\n"));
         return NULL;
     }
 

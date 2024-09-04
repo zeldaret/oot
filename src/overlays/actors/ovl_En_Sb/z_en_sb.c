@@ -25,7 +25,7 @@ void EnSb_Lunge(EnSb* this, PlayState* play);
 void EnSb_Bounce(EnSb* this, PlayState* play);
 void EnSb_Cooldown(EnSb* this, PlayState* play);
 
-ActorInit En_Sb_InitVars = {
+ActorProfile En_Sb_Profile = {
     /**/ ACTOR_EN_SB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -97,7 +97,7 @@ static Vec3f sFlamePosOffsets[] = {
     { 0.0f, 0.0f, -5.0f },
 };
 
-typedef enum {
+typedef enum ShellbladeBehavior {
     /* 0x00 */ SHELLBLADE_OPEN,
     /* 0x01 */ SHELLBLADE_WAIT_CLOSED,
     /* 0x02 */ SHELLBLADE_WAIT_OPEN,
@@ -135,7 +135,7 @@ void EnSb_Destroy(Actor* thisx, PlayState* play) {
 void EnSb_SpawnBubbles(PlayState* play, EnSb* this) {
     s32 i;
 
-    if (this->actor.yDistToWater > 0) {
+    if (this->actor.depthInWater > 0) {
         for (i = 0; i < 10; i++) {
             EffectSsBubble_Spawn(play, &this->actor.world.pos, 10.0f, 10.0f, 30.0f, 0.25f);
         }
@@ -166,7 +166,7 @@ void EnSb_SetupWaitOpen(EnSb* this) {
 
 void EnSb_SetupLunge(EnSb* this) {
     f32 frameCount = Animation_GetLastFrame(&object_sb_Anim_000124);
-    f32 playbackSpeed = this->actor.yDistToWater > 0.0f ? 1.0f : 0.0f;
+    f32 playbackSpeed = this->actor.depthInWater > 0.0f ? 1.0f : 0.0f;
 
     Animation_Change(&this->skelAnime, &object_sb_Anim_000124, playbackSpeed, 0.0f, frameCount, ANIMMODE_ONCE, 0);
     this->behavior = SHELLBLADE_LUNGE;
@@ -189,7 +189,7 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     }
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     if (changeSpeed) {
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->actor.speed = -5.0f;
             if (this->actor.velocity.y < 0.0f) {
                 this->actor.velocity.y = 2.1f;
@@ -254,7 +254,7 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
 
     if (this->actor.shape.rot.y == invertedYaw) {
         this->actor.world.rot.y = this->attackYaw;
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->actor.velocity.y = 3.0f;
             this->actor.speed = 5.0f;
             this->actor.gravity = -0.35f;
@@ -274,7 +274,7 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
 void EnSb_Lunge(EnSb* this, PlayState* play) {
     Math_StepToF(&this->actor.speed, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH)) {
-        if (!(this->actor.yDistToWater > 0.0f)) {
+        if (!(this->actor.depthInWater > 0.0f)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
@@ -295,7 +295,7 @@ void EnSb_Bounce(EnSb* this, PlayState* play) {
         if (this->bouncesLeft != 0) {
             this->bouncesLeft--;
             this->timer = 1;
-            if (this->actor.yDistToWater > 0.0f) {
+            if (this->actor.depthInWater > 0.0f) {
                 this->actor.velocity.y = 3.0f;
                 this->actor.speed = 5.0f;
                 this->actor.gravity = -0.35f;
@@ -388,7 +388,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
                 FALLTHROUGH;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.elem.bumper.hitPos.y - this->actor.world.pos.y;
+                    hitY = this->collider.elem.acDmgInfo.hitPos.y - this->actor.world.pos.y;
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -406,7 +406,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
             case 1:  // hookshot/longshot
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.elem.bumper.hitPos.y - this->actor.world.pos.y;
+                    hitY = this->collider.elem.acDmgInfo.hitPos.y - this->actor.world.pos.y;
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -430,9 +430,9 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
 
         // if player attack didn't do damage, play recoil sound effect and spawn sparks
         if (!tookDamage) {
-            hitPoint.x = this->collider.elem.bumper.hitPos.x;
-            hitPoint.y = this->collider.elem.bumper.hitPos.y;
-            hitPoint.z = this->collider.elem.bumper.hitPos.z;
+            hitPoint.x = this->collider.elem.acDmgInfo.hitPos.x;
+            hitPoint.y = this->collider.elem.acDmgInfo.hitPos.y;
+            hitPoint.z = this->collider.elem.acDmgInfo.hitPos.z;
             CollisionCheck_SpawnShieldParticlesMetal2(play, &hitPoint);
         }
     }
@@ -445,7 +445,7 @@ void EnSb_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if (this->isDead) {
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->actor.params = 4;
         } else {
             this->actor.params = 1;

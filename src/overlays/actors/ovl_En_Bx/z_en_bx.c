@@ -14,7 +14,7 @@ void EnBx_Destroy(Actor* thisx, PlayState* play);
 void EnBx_Update(Actor* thisx, PlayState* play);
 void EnBx_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Bx_InitVars = {
+ActorProfile En_Bx_Profile = {
     /**/ ACTOR_EN_BX,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -39,8 +39,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK1,
         { 0xFFCFFFFF, 0x03, 0x04 },
         { 0xFFCFFFFF, 0x01, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 60, 100, 100, { 0, 0, 0 } },
@@ -59,8 +59,8 @@ static ColliderQuadInit sQuadInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x03, 0x04 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -99,7 +99,7 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_14C = 0;
     thisx->uncullZoneDownward = 2000.0f;
-    if (Flags_GetSwitch(play, (thisx->params >> 8) & 0xFF)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 8, 8))) {
         Actor_Kill(&this->actor);
     }
     thisx->params &= 0xFF;
@@ -141,7 +141,7 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
             (&player->actor == this->collider.base.ac) || (&player->actor == this->colliderQuad.base.at)) {
             tmp33 = player->invincibilityTimer & 0xFF;
             tmp32 = thisx->world.rot.y;
-            if (!(thisx->params & 0x80)) {
+            if (!PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
                 tmp32 = thisx->yawTowardsPlayer;
             }
             if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac) &&
@@ -190,7 +190,7 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-    if (thisx->params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderQuad.base);
     }
 }
@@ -205,20 +205,21 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, 4 * sizeof(Mtx));
     s16 i;
+    s16 off;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bx.c", 464);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, mtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[this->actor.params & 0x7F]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[PARAMS_GET_U(this->actor.params, 0, 7)]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 16, 16, 1, 0,
                                 (play->gameplayFrames * -10) % 128, 32, 32));
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bx.c", 478),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->actor.params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 7, 1)) {
         func_809D1D0C(&this->actor, play);
     }
 
@@ -226,7 +227,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     thisx->scale.z = thisx->scale.x = (Math_CosS(this->unk_14E) * 0.0075f) + 0.015f;
 
     for (i = 3; i >= 0; i--) {
-        s16 off = (0x2000 * i);
+        off = (0x2000 * i);
 
         this->unk_184[i].z = this->unk_184[i].x = (Math_CosS(this->unk_14E + off) * 0.0075f) + 0.015f;
         this->unk_1B4[i].x = thisx->shape.rot.x;

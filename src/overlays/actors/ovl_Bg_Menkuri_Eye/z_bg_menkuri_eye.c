@@ -14,7 +14,7 @@ void BgMenkuriEye_Destroy(Actor* thisx, PlayState* play);
 void BgMenkuriEye_Update(Actor* thisx, PlayState* play);
 void BgMenkuriEye_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Menkuri_Eye_InitVars = {
+ActorProfile Bg_Menkuri_Eye_Profile = {
     /**/ ACTOR_BG_MENKURI_EYE,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -34,8 +34,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F820, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 1, { { 0, 0, 0 }, 14 }, 100 },

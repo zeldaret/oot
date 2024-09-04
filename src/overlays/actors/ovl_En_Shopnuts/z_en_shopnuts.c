@@ -21,7 +21,7 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, PlayState* play);
 void EnShopnuts_Burrow(EnShopnuts* this, PlayState* play);
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, PlayState* play);
 
-ActorInit En_Shopnuts_InitVars = {
+ActorProfile En_Shopnuts_Profile = {
     /**/ ACTOR_EN_SHOPNUTS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -46,8 +46,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 40, 0, { 0, 0, 0 } },

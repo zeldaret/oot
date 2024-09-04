@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # SPDX-FileCopyrightText: 2024 zeldaret
 # SPDX-License-Identifier: CC0-1.0
 
@@ -6,64 +8,13 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import dataclasses
-import struct
 import time
 import multiprocessing
 import multiprocessing.pool
 
 import crunch64
 
-
-STRUCT_IIII = struct.Struct(">IIII")
-
-
-@dataclasses.dataclass
-class DmaEntry:
-    """
-    A Python counterpart to the dmadata entry struct:
-    ```c
-    typedef struct {
-        /* 0x00 */ uintptr_t vromStart;
-        /* 0x04 */ uintptr_t vromEnd;
-        /* 0x08 */ uintptr_t romStart;
-        /* 0x0C */ uintptr_t romEnd;
-    } DmaEntry;
-    ```
-    """
-
-    vromStart: int
-    vromEnd: int
-    romStart: int
-    romEnd: int
-
-    def __repr__(self):
-        return (
-            "DmaEntry("
-            f"vromStart=0x{self.vromStart:08X}, "
-            f"vromEnd=0x{self.vromEnd:08X}, "
-            f"romStart=0x{self.romStart:08X}, "
-            f"romEnd=0x{self.romEnd:08X}"
-            ")"
-        )
-
-    SIZE_BYTES = STRUCT_IIII.size
-
-    def to_bin(self, data: memoryview):
-        STRUCT_IIII.pack_into(
-            data,
-            0,
-            self.vromStart,
-            self.vromEnd,
-            self.romStart,
-            self.romEnd,
-        )
-
-    @staticmethod
-    def from_bin(data: memoryview):
-        return DmaEntry(*STRUCT_IIII.unpack_from(data))
-
-
-DMA_ENTRY_ZERO = DmaEntry(0, 0, 0, 0)
+import dmadata
 
 
 def align(v: int):
@@ -73,15 +24,16 @@ def align(v: int):
 
 @dataclasses.dataclass
 class RomSegment:
-    vromStart: int
-    vromEnd: int
+    vrom_start: int
+    vrom_end: int
     is_compressed: bool
+    is_syms: bool
     data: memoryview | None
     data_async: multiprocessing.pool.AsyncResult | None
 
     @property
     def uncompressed_size(self):
-        return self.vromEnd - self.vromStart
+        return self.vrom_end - self.vrom_start
 
 
 # Make interrupting the compression with ^C less jank
@@ -94,15 +46,13 @@ def set_sigint_ignored():
 
 def compress_rom(
     rom_data: memoryview,
-    dmadata_offset_start: int,
-    dmadata_offset_end: int,
+    dmadata_start: int,
     compress_entries_indices: set[int],
     n_threads: int = None,
 ):
     """
     rom_data: the uncompressed rom data
-    dmadata_offset_start: the offset in the rom where the dmadata starts (inclusive)
-    dmadata_offset_end: the offset in the rom where the dmadata ends (exclusive)
+    dmadata_start: the offset in the rom where the dmadata starts
     compress_entries_indices: the indices in the dmadata of the segments that should be compressed
     n_threads: how many cores to use for compression
     """
@@ -110,18 +60,18 @@ def compress_rom(
     # Segments of the compressed rom (not all are compressed)
     compressed_rom_segments: list[RomSegment] = []
 
+    dma_entries = dmadata.read_dmadata(rom_data, dmadata_start)
+    # We sort the DMA entries by ROM start because `compress_entries_indices`
+    # refers to indices in ROM order, but the uncompressed dmadata might not be
+    # in ROM order.
+    dma_entries.sort(key=lambda dma_entry: dma_entry.vrom_start)
+
     with multiprocessing.Pool(n_threads, initializer=set_sigint_ignored) as p:
         # Extract each segment from the input rom
-        for entry_index, dmadata_offset in enumerate(
-            range(dmadata_offset_start, dmadata_offset_end, DmaEntry.SIZE_BYTES)
-        ):
-            dma_entry = DmaEntry.from_bin(rom_data[dmadata_offset:])
-            if dma_entry == DMA_ENTRY_ZERO:
-                continue
-
-            segment_rom_start = dma_entry.romStart
-            segment_rom_end = dma_entry.romStart + (
-                dma_entry.vromEnd - dma_entry.vromStart
+        for entry_index, dma_entry in enumerate(dma_entries):
+            segment_rom_start = dma_entry.rom_start
+            segment_rom_end = dma_entry.rom_start + (
+                dma_entry.vrom_end - dma_entry.vrom_start
             )
             segment_data_uncompressed = rom_data[segment_rom_start:segment_rom_end]
 
@@ -139,16 +89,14 @@ def compress_rom(
 
             compressed_rom_segments.append(
                 RomSegment(
-                    dma_entry.vromStart,
-                    dma_entry.vromEnd,
+                    dma_entry.vrom_start,
+                    dma_entry.vrom_end,
                     is_compressed,
+                    dma_entry.is_syms(),
                     segment_data,
                     segment_data_async,
                 )
             )
-
-        # Technically optional but required for matching.
-        compressed_rom_segments.sort(key=lambda segment: segment.vromStart)
 
         # Wait on compression of all compressed segments
         waiting_on_segments = [
@@ -208,7 +156,7 @@ def compress_rom(
         * pad_to_multiple_of
     )
     compressed_rom_data = memoryview(bytearray(compressed_rom_size_padded))
-    compressed_rom_dma_entries: list[DmaEntry] = []
+    compressed_rom_dma_entries: list[dmadata.DmaEntry] = []
     rom_offset = 0
     for segment in compressed_rom_segments:
         assert segment.data is not None
@@ -220,16 +168,22 @@ def compress_rom(
         assert i <= len(compressed_rom_data)
         compressed_rom_data[segment_rom_start:i] = segment.data
 
+        rom_offset = segment_rom_end
+
+        if segment.is_syms:
+            segment_rom_start = 0xFFFFFFFF
+            segment_rom_end = 0xFFFFFFFF
+        elif not segment.is_compressed:
+            segment_rom_end = 0
+
         compressed_rom_dma_entries.append(
-            DmaEntry(
-                segment.vromStart,
-                segment.vromEnd,
+            dmadata.DmaEntry(
+                segment.vrom_start,
+                segment.vrom_end,
                 segment_rom_start,
-                segment_rom_end if segment.is_compressed else 0,
+                segment_rom_end,
             )
         )
-
-        rom_offset = segment_rom_end
 
     assert rom_offset == compressed_rom_size
     # Pad the compressed rom with the pattern matching the baseroms
@@ -237,13 +191,10 @@ def compress_rom(
         compressed_rom_data[i] = i % 256
 
     # Write the new dmadata
-    dmadata_offset = dmadata_offset_start
+    offset = dmadata_start
     for dma_entry in compressed_rom_dma_entries:
-        assert dmadata_offset + DmaEntry.SIZE_BYTES <= dmadata_offset_end
-
-        dma_entry.to_bin(compressed_rom_data[dmadata_offset:])
-
-        dmadata_offset += DmaEntry.SIZE_BYTES
+        dma_entry.to_bin(compressed_rom_data[offset:])
+        offset += dmadata.DmaEntry.SIZE_BYTES
 
     return compressed_rom_data
 
@@ -263,13 +214,12 @@ def main():
         help="path of the compressed rom to write out",
     )
     parser.add_argument(
-        "--dma-range",
-        dest="dma_range",
+        "--dmadata-start",
+        dest="dmadata_start",
+        type=lambda s: int(s, 16),
         required=True,
         help=(
-            "The dmadata location in the rom, in format"
-            " 'start_inclusive-end_exclusive' and using hexadecimal offsets"
-            " (e.g. '0x12f70-0x19030')."
+            "The dmadata location in the rom, as a hexadecimal offset (e.g. 0x12f70)."
         ),
     )
     parser.add_argument(
@@ -298,13 +248,7 @@ def main():
 
     out_rom_p = Path(args.out_rom)
 
-    dma_range_str: str = args.dma_range
-    dma_range_ends_str = dma_range_str.split("-")
-    assert len(dma_range_ends_str) == 2, dma_range_str
-    dmadata_offset_start, dmadata_offset_end = (
-        int(v_str, 16) for v_str in dma_range_ends_str
-    )
-    assert dmadata_offset_start < dmadata_offset_end, dma_range_str
+    dmadata_start = args.dmadata_start
 
     compress_ranges_str: str = args.compress_ranges
     compress_entries_indices = set()
@@ -330,8 +274,7 @@ def main():
     in_rom_data = in_rom_p.read_bytes()
     out_rom_data = compress_rom(
         memoryview(in_rom_data),
-        dmadata_offset_start,
-        dmadata_offset_end,
+        dmadata_start,
         compress_entries_indices,
         n_threads,
     )

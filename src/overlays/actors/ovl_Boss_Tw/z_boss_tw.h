@@ -8,7 +8,7 @@ struct BossTw;
 
 typedef void (*BossTwActionFunc)(struct BossTw* this, PlayState* play);
 
-typedef enum {
+typedef enum TwWork {
     /*  0 */ CS_TIMER_1,
     /*  1 */ CS_TIMER_2,
     /*  2 */ TW_PLLR_IDX,
@@ -25,7 +25,7 @@ typedef enum {
     /* 13 */ WORK_MAX
 } TwWork;
 
-typedef enum {
+typedef enum TwFwork {
     /*  0 */ OUTR_CRWN_TX_X1,
     /*  1 */ OUTR_CRWN_TX_X2,
     /*  2 */ INNR_CRWN_TX_X1,
@@ -55,7 +55,7 @@ typedef enum {
     /* 26 */ FWORK_MAX
 } TwFwork;
 
-typedef enum {
+typedef enum TwinrovaKotakeKoumeLimb {
     /*  0 */ TWINROVA_KOTAKE_KOUME_LIMB_NONE,
     /*  1 */ TWINROVA_KOTAKE_KOUME_LIMB_PELVIS,
     /*  2 */ TWINROVA_KOTAKE_KOUME_LIMB_LEFT_THIGH,
@@ -86,7 +86,7 @@ typedef enum {
     /* 27 */ TWINROVA_KOTAKE_KOUME_LIMB_MAX
 } TwinrovaKotakeKoumeLimb;
 
-typedef enum {
+typedef enum TwinrovaLimb {
     /*  0 */ TWINROVA_LIMB_NONE,
     /*  1 */ TWINROVA_LIMB_PELVIS,
     /*  2 */ TWINROVA_LIMB_SASH_1,

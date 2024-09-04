@@ -16,7 +16,7 @@ void EnMk_Draw(Actor* thisx, PlayState* play);
 
 void EnMk_Wait(EnMk* this, PlayState* play);
 
-ActorInit En_Mk_InitVars = {
+ActorProfile En_Mk_Profile = {
     /**/ ACTOR_EN_MK,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -41,8 +41,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0, 0, 0 } },
@@ -314,7 +314,7 @@ void EnMk_Update(Actor* thisx, PlayState* play) {
         if (player->currentBoots == PLAYER_BOOTS_IRON) {
             this->flags |= 8;
         } else if (player->stateFlags2 & PLAYER_STATE2_10) {
-            swimFlag = player->actor.yDistToWater;
+            swimFlag = player->actor.depthInWater;
 
             if (swimFlag > 0) {
                 if (swimFlag >= 320) {

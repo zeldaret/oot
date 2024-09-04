@@ -14,7 +14,7 @@ void EnHata_Destroy(Actor* thisx, PlayState* play);
 void EnHata_Update(Actor* thisx, PlayState* play2);
 void EnHata_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Hata_InitVars = {
+ActorProfile En_Hata_Profile = {
     /**/ ACTOR_EN_HATA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -40,8 +40,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000080, 0x00, 0x00 },
-        TOUCH_NONE | TOUCH_SFX_NORMAL,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_NONE | ATELEM_SFX_NORMAL,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 16, 246, 0, { 0, 0, 0 } },

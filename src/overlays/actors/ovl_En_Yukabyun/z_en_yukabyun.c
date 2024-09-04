@@ -18,7 +18,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play);
 void func_80B43AD4(EnYukabyun* this, PlayState* play);
 void func_80B43B6C(EnYukabyun* this, PlayState* play);
 
-ActorInit En_Yukabyun_InitVars = {
+ActorProfile En_Yukabyun_Profile = {
     /**/ ACTOR_EN_YUKABYUN,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -43,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_HARD,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_HARD,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 28, 8, 0, { 0, 0, 0 } },

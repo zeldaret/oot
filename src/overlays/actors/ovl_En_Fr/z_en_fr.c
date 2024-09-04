@@ -83,12 +83,12 @@ sEnFrPointers.flags = 12
      - Deactivate frogs, frogs will jump back into the water
 */
 
-typedef struct {
+typedef struct EnFrPointers {
     u8 flags;
     EnFr* frogs[5];
 } EnFrPointers;
 
-typedef struct {
+typedef struct LogSpotToFromWater {
     f32 xzDist;
     f32 yaw;
     f32 yDist;
@@ -133,7 +133,7 @@ static s32 sSongToFrog[] = {
     FROG_PURPLE, FROG_WHITE, FROG_YELLOW, FROG_BLUE, FROG_RED,
 };
 
-ActorInit En_Fr_InitVars = {
+ActorProfile En_Fr_Profile = {
     /**/ ACTOR_EN_FR,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -723,20 +723,17 @@ void EnFr_ListeningToOcarinaNotes(EnFr* this, PlayState* play) {
 }
 
 void EnFr_ChildSong(EnFr* this, PlayState* play) {
-    EnFr* frog;
-    u8 songIndex;
-
     if (this->jumpCounter < 48) {
         if (this->jumpCounter % 4 == 0) {
             EnFr_SetupJumpingUp(this, sJumpOrder[(this->jumpCounter >> 2) & 7]);
         }
     } else {
-        songIndex = this->songIndex;
-        if (songIndex == FROG_STORMS) {
+        if (this->songIndex == FROG_STORMS) {
             this->actor.textId = 0x40AA;
             EnFr_SetupReward(this, play, false);
-        } else if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
-            frog = sEnFrPointers.frogs[sSongToFrog[songIndex]];
+        } else if (!FROG_HAS_SONG_BEEN_PLAYED(this->songIndex)) {
+            EnFr* frog = sEnFrPointers.frogs[sSongToFrog[this->songIndex]];
+
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             if (frog->actionFunc == EnFr_ChooseJumpFromLogSpot) {
                 frog->isJumpingUp = true;
@@ -800,10 +797,10 @@ void EnFr_CheckOcarinaInputFrogSong(u8 ocarinaNote) {
 
 void EnFr_DeactivateButterfly(void) {
     s32 frogIndex;
-    EnFr* frog;
 
     for (frogIndex = 0; frogIndex < ARRAY_COUNT(sEnFrPointers.frogs); frogIndex++) {
-        frog = sEnFrPointers.frogs[frogIndex];
+        EnFr* frog = sEnFrPointers.frogs[frogIndex];
+
         frog->isButterflyDrawn = false;
     }
 }
@@ -863,21 +860,18 @@ void EnFr_OcarinaMistake(EnFr* this, PlayState* play) {
 }
 
 void EnFr_ContinueFrogSong(EnFr* this, PlayState* play) {
-    s32 counter;
-    EnFr* frog;
-    s32 i;
-
     if (this->frogSongTimer == 0) {
         EnFr_OcarinaMistake(this, play);
     } else {
         this->frogSongTimer--;
         if (play->msgCtx.msgMode == MSGMODE_FROGS_PLAYING) {
-            counter = 0;
+            s32 counter = 0;
+            s32 i;
+
             for (i = 0; i < ARRAY_COUNT(sEnFrPointers.frogs); i++) {
-                frog = sEnFrPointers.frogs[i];
-                if (frog != NULL && frog->actionFunc == EnFr_ChooseJumpFromLogSpot) {
-                    continue;
-                } else {
+                EnFr* frog = sEnFrPointers.frogs[i];
+
+                if (frog == NULL || frog->actionFunc != EnFr_ChooseJumpFromLogSpot) {
                     counter++;
                 }
             }
@@ -971,8 +965,6 @@ void EnFr_SetReward(EnFr* this, PlayState* play) {
 }
 
 void EnFr_Deactivate(EnFr* this, PlayState* play) {
-    EnFr* frogLoop1;
-    EnFr* frogLoop2;
     s32 frogIndex;
 
     // Originally was going to have separate butterfly actor
@@ -983,28 +975,30 @@ void EnFr_Deactivate(EnFr* this, PlayState* play) {
     }
 
     for (frogIndex = 0; frogIndex < ARRAY_COUNT(sEnFrPointers.frogs); frogIndex++) {
-        frogLoop1 = sEnFrPointers.frogs[frogIndex];
-        if (frogLoop1 == NULL) {
+        EnFr* frog = sEnFrPointers.frogs[frogIndex];
+
+        if (frog == NULL) {
             PRINTF(VT_COL(RED, WHITE));
             // "There are no frogs!?"
             PRINTF("%s[%d]カエルがいない！？\n", "../z_en_fr.c", 1604);
             PRINTF(VT_RST);
             return;
-        } else if (frogLoop1->isDeactivating != true) {
+        } else if (frog->isDeactivating != true) {
             return;
         }
     }
 
     for (frogIndex = 0; frogIndex < ARRAY_COUNT(sEnFrPointers.frogs); frogIndex++) {
-        frogLoop2 = sEnFrPointers.frogs[frogIndex];
-        if (frogLoop2 == NULL) {
+        EnFr* frog = sEnFrPointers.frogs[frogIndex];
+
+        if (frog == NULL) {
             PRINTF(VT_COL(RED, WHITE));
             // "There are no frogs!?"
             PRINTF("%s[%d]カエルがいない！？\n", "../z_en_fr.c", 1618);
             PRINTF(VT_RST);
             return;
         }
-        frogLoop2->isDeactivating = false;
+        frog->isDeactivating = false;
     }
 
     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
@@ -1035,11 +1029,12 @@ void EnFr_SetIdle(EnFr* this, PlayState* play) {
 void EnFr_UpdateIdle(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
 
-    if (BREG(0)) {
+    if (OOT_DEBUG && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
     }
+
     this->jumpCounter++;
     this->actionFunc(this, play);
 }

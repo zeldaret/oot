@@ -23,7 +23,7 @@ void EnNy_SetupDie(EnNy* this, PlayState* play);
 void EnNy_DrawDeathEffect(Actor* thisx, PlayState* play);
 void func_80ABD3B8(EnNy* this, f32, f32);
 
-ActorInit En_Ny_InitVars = {
+ActorProfile En_Ny_Profile = {
     /**/ ACTOR_EN_NY,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -41,8 +41,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0xFFCFFFFF, 0x04, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { 0, 0, 0 }, 15 }, 100 },
@@ -139,8 +139,8 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
         PRINTF("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
         PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         this->actor.colChkInfo.mass = 0xFF;
-        this->collider.base.colType = COLTYPE_METAL;
         this->actor.update = EnNy_UpdateUnused;
+        this->collider.base.colType = COLTYPE_METAL;
     }
 }
 
@@ -152,7 +152,7 @@ void EnNy_Destroy(Actor* thisx, PlayState* play) {
 void func_80ABCD40(EnNy* this) {
     f32 temp;
 
-    temp = (this->actor.yDistToWater > 0.0f) ? 0.7f : 1.0f;
+    temp = (this->actor.depthInWater > 0.0f) ? 0.7f : 1.0f;
     this->unk_1E8 = 2.8f * temp;
 }
 
@@ -224,7 +224,7 @@ void EnNy_Move(EnNy* this, PlayState* play) {
     f32 yawDiff;
     s32 stoneTimer;
 
-    if (!(this->unk_1F0 < this->actor.yDistToWater)) {
+    if (!(this->unk_1F0 < this->actor.depthInWater)) {
         func_8002F974(&this->actor, NA_SE_EN_NYU_MOVE - SFX_FLAG);
     }
     func_80ABCD40(this);
@@ -238,7 +238,7 @@ void EnNy_Move(EnNy* this, PlayState* play) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         yawDiff = Math_FAtan2F(this->actor.yDistToPlayer, this->actor.xzDistToPlayer);
         this->actor.speed = fabsf(cosf(yawDiff) * this->unk_1E8);
-        if (this->unk_1F0 < this->actor.yDistToWater) {
+        if (this->unk_1F0 < this->actor.depthInWater) {
             this->unk_1EC = sinf(yawDiff) * this->unk_1E8;
         }
     }
@@ -252,7 +252,7 @@ void EnNy_TurnToStone(EnNy* this, PlayState* play) {
     if (phi_f0 <= 0.25f) {
         phi_f0 = 0.25f;
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-            if (!(this->unk_1F0 < this->actor.yDistToWater)) {
+            if (!(this->unk_1F0 < this->actor.depthInWater)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
             }
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
@@ -305,9 +305,9 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
     } else {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            effectPos.x = this->collider.elements[0].base.bumper.hitPos.x;
-            effectPos.y = this->collider.elements[0].base.bumper.hitPos.y;
-            effectPos.z = this->collider.elements[0].base.bumper.hitPos.z;
+            effectPos.x = this->collider.elements[0].base.acDmgInfo.hitPos.x;
+            effectPos.y = this->collider.elements[0].base.acDmgInfo.hitPos.y;
+            effectPos.z = this->collider.elements[0].base.acDmgInfo.hitPos.z;
             if ((this->unk_1E0 == 0.25f) && (this->unk_1D4 == 0xFF)) {
                 switch (this->actor.colChkInfo.damageEffect) {
                     case 0xE:
@@ -346,9 +346,9 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
 void func_80ABD3B8(EnNy* this, f32 arg1, f32 arg2) {
     if (this->unk_1E8 == 0.0f) {
         this->actor.gravity = -0.4f;
-    } else if (!(arg1 < this->actor.yDistToWater)) {
+    } else if (!(arg1 < this->actor.depthInWater)) {
         this->actor.gravity = -0.4f;
-    } else if (arg2 < this->actor.yDistToWater) {
+    } else if (arg2 < this->actor.depthInWater) {
         this->actor.gravity = 0.0;
         if (this->unk_1EC < this->actor.velocity.y) {
             this->actor.velocity.y -= 0.4f;
@@ -368,7 +368,6 @@ void EnNy_Update(Actor* thisx, PlayState* play) {
     EnNy* this = (EnNy*)thisx;
     f32 temp_f20;
     f32 temp_f22;
-    s32 i;
 
     this->timer++;
     temp_f20 = this->unk_1E0 - 0.25f;
@@ -391,6 +390,8 @@ void EnNy_Update(Actor* thisx, PlayState* play) {
     this->unk_1F0 = temp_f22;
     this->actor.world.pos.y += temp_f22;
     if (EnNy_CollisionCheck(this, play) != 0) {
+        s32 i;
+
         for (i = 0; i < 8; i++) {
             this->unk_1F8[i].x = (Rand_CenteredFloat(20.0f) + this->actor.world.pos.x);
             this->unk_1F8[i].y = (Rand_CenteredFloat(20.0f) + this->actor.world.pos.y);
@@ -417,7 +418,7 @@ void EnNy_SetupDie(EnNy* this, PlayState* play) {
     Vec3f effectAccel = { 0.0f, 0.1f, 0.0f };
 
     if (this->timer >= 2) {
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             for (i = 0; i < 10; i++) {
                 effectPos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;
                 effectPos.y = Rand_CenteredFloat(30.0f) + this->actor.world.pos.y;
@@ -452,7 +453,7 @@ void EnNy_SetupDie(EnNy* this, PlayState* play) {
 void EnNy_Die(EnNy* this, PlayState* play) {
     s32 i;
 
-    if (this->actor.yDistToWater > 0.0f) {
+    if (this->actor.depthInWater > 0.0f) {
         for (i = 0; i < 8; i += 1) {
             this->unk_1F8[i].x += this->unk_1F8[i + 8].x;
             this->unk_1F8[i].y += this->unk_1F8[i + 8].y;

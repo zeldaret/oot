@@ -20,7 +20,7 @@ void EnAObj_SetupBlockRot(EnAObj* this, s16 type);
 void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
 void EnAObj_SetupBlock(EnAObj* this, s16 type);
 
-ActorInit En_A_Obj_InitVars = {
+ActorProfile En_A_Obj_Profile = {
     /**/ ACTOR_EN_A_OBJ,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -45,8 +45,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 25, 60, 0, { 0, 0, 0 } },
@@ -80,7 +80,7 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
     EnAObj* this = (EnAObj*)thisx;
     f32 shadowScale = 6.0f;
 
-    this->textId = (thisx->params >> 8) & 0xFF;
+    this->textId = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     switch (thisx->params) {

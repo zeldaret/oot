@@ -25,7 +25,7 @@ typedef struct EnArrow {
     /* 0x025C */ EnArrowActionFunc actionFunc;
 } EnArrow; // size = 0x0260
 
-typedef enum {
+typedef enum ArrowType {
     /* -10 */ ARROW_CS_NUT = -10, // cutscene deku nuts are allowed to update in blocking mode
     /*  -1 */ ARROW_NORMAL_SILENT = -1, // normal arrow that does not make a sound when being shot
     /*   0 */ ARROW_NORMAL_LIT, // normal arrow lit on fire

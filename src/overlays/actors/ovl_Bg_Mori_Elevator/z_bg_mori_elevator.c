@@ -19,7 +19,7 @@ void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-ActorInit Bg_Mori_Elevator_InitVars = {
+ActorProfile Bg_Mori_Elevator_Profile = {
     /**/ ACTOR_BG_MORI_ELEVATOR,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -88,27 +88,31 @@ void BgMoriElevator_Init(Actor* thisx, PlayState* play) {
 
     this->unk_172 = sIsSpawned;
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
+
+#if OOT_DEBUG
     if (this->moriTexObjectSlot < 0) {
         Actor_Kill(thisx);
         // "Forest Temple obj elevator Bank Danger!"
         PRINTF("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
-    } else {
-        switch (sIsSpawned) {
-            case false:
-                // "Forest Temple elevator CT"
-                PRINTF("森の神殿 elevator CT\n");
-                sIsSpawned = true;
-                this->dyna.actor.room = -1;
-                Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-                DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-                CollisionHeader_GetVirtual(&gMoriElevatorCol, &colHeader);
-                this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
-                BgMoriElevator_SetupWaitAfterInit(this);
-                break;
-            case true:
-                Actor_Kill(thisx);
-                break;
-        }
+        return;
+    }
+#endif
+
+    switch (sIsSpawned) {
+        case false:
+            // "Forest Temple elevator CT"
+            PRINTF("森の神殿 elevator CT\n");
+            sIsSpawned = true;
+            this->dyna.actor.room = -1;
+            Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+            DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
+            CollisionHeader_GetVirtual(&gMoriElevatorCol, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+            BgMoriElevator_SetupWaitAfterInit(this);
+            break;
+        case true:
+            Actor_Kill(thisx);
+            break;
     }
 }
 
@@ -135,7 +139,7 @@ void BgMoriElevator_SetupWaitAfterInit(BgMoriElevator* this) {
 
 void BgMoriElevator_WaitAfterInit(BgMoriElevator* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot)) {
-        if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+        if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
             if (play->roomCtx.curRoom.num == 2) {
                 this->dyna.actor.world.pos.y = 73.0f;
                 BgMoriElevator_SetupSetPosition(this);
@@ -210,12 +214,12 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, PlayState* play) {
     } else if ((play->roomCtx.curRoom.num == 17) && (-275.0f < this->dyna.actor.world.pos.y)) {
         this->targetY = -779.0f;
         BgMoriElevator_StopMovement(this);
-    } else if ((play->roomCtx.curRoom.num == 2) && Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) &&
+    } else if ((play->roomCtx.curRoom.num == 2) && Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) &&
                (this->unk_16C == 0)) {
         this->targetY = 73.0f;
         func_808A1C30(this);
-    } else if ((play->roomCtx.curRoom.num == 2) && !Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) &&
-               (this->unk_16C != 0)) {
+    } else if ((play->roomCtx.curRoom.num == 2) &&
+               !Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) && (this->unk_16C != 0)) {
         this->targetY = 233.0f;
         func_808A1CF4(this, play);
     }
@@ -245,7 +249,7 @@ void BgMoriElevator_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
     this->unk_170 = this->dyna.interactFlags;
-    this->unk_16C = Flags_GetSwitch(play, (thisx->params & 0x3F));
+    this->unk_16C = Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6));
 }
 
 void BgMoriElevator_Draw(Actor* thisx, PlayState* play) {

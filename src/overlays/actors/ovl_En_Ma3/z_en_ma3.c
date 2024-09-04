@@ -20,7 +20,7 @@ s32 func_80AA2F28(EnMa3* this);
 void EnMa3_UpdateEyes(EnMa3* this);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
-ActorInit En_Ma3_InitVars = {
+ActorProfile En_Ma3_Profile = {
     /**/ ACTOR_EN_MA3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -45,8 +45,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 46, 0, { 0, 0, 0 } },
@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnMa3Animation {
     /* 0 */ ENMA3_ANIM_0,
     /* 1 */ ENMA3_ANIM_1,
     /* 2 */ ENMA3_ANIM_2,

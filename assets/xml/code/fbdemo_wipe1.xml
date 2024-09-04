@@ -1,10 +1,10 @@
 <Root>
-    <File Name="code" OutName="z_fbdemo_wipe1" RangeStart="0x10E2A0" RangeEnd="0x10EC30">
-        <Array Name="sTransWipeVtx" Count="25" Offset="0x10E2A0">
+    <File Name="code" OutName="z_fbdemo_wipe1">
+        <Array Name="sTransWipeVtx" Count="25" Offset="0x0">
             <Vtx/>
         </Array>
-        <Texture Name="sTransWipeTex" OutName="trans_wipe" Format="i4" Width="64" Height="64" Offset="0x10E430"/>
+        <Texture Name="sTransWipeTex" OutName="trans_wipe" Format="i4" Width="64" Height="64" Offset="0x190"/>
         <!-- ZAPD isn't finding symbols correctly, instead finding them much later in `code`-->
-        <!-- <DList Name="sTransWipeDL" Offset="0x10EC30"/> -->
+        <!-- <DList Name="sTransWipeDL" Offset="0x990"/> -->
     </File>
 </Root>

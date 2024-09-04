@@ -25,7 +25,7 @@ typedef struct EnDntDemo {
     /* 0x01FC */ struct EnDntJiji* leader;
 } EnDntDemo; // size = 0x0200
 
-typedef enum {
+typedef enum EnDntSignal {
     /* 0 */ DNT_SIGNAL_NONE,
     /* 1 */ DNT_SIGNAL_LOOK,
     /* 2 */ DNT_SIGNAL_CELEBRATE,
@@ -35,27 +35,27 @@ typedef enum {
     /* 6 */ DNT_SIGNAL_UNUSED
 } EnDntSignal;
 
-typedef enum {
+typedef enum EnDntLeaderAction {
     /* 0 */ DNT_LEADER_ACTION_NONE,
     /* 1 */ DNT_LEADER_ACTION_UP,
     /* 2 */ DNT_LEADER_ACTION_UNUSED,
     /* 3 */ DNT_LEADER_ACTION_ATTACK
 } EnDntLeaderAction;
 
-typedef enum {
+typedef enum EnDntLeaderSignal {
     /* 0 */ DNT_LEADER_SIGNAL_NONE,
     /* 1 */ DNT_LEADER_SIGNAL_UP,
     /* 2 */ DNT_LEADER_SIGNAL_BURROW,
     /* 3 */ DNT_LEADER_SIGNAL_RETURN
 } EnDntLeaderSignal;
 
-typedef enum {
+typedef enum EnDntPrize {
     /* 0 */ DNT_PRIZE_NONE,
     /* 1 */ DNT_PRIZE_NUTS,
     /* 2 */ DNT_PRIZE_STICK
 } EnDntPrize;
 
-typedef enum {
+typedef enum EnDntAction {
     /* 0 */ DNT_ACTION_NONE,
     /* 1 */ DNT_ACTION_DANCE,
     /* 2 */ DNT_ACTION_ATTACK,

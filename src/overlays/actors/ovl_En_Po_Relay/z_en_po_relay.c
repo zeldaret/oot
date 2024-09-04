@@ -33,7 +33,7 @@ static Vec3s D_80AD8C30[] = {
     { 0x0B4E, 0xFE66, 0xF87E }, { 0x0B4A, 0xFE66, 0xF97A }, { 0x0B4A, 0xFE98, 0xF9FC }, { 0x0BAE, 0xFE98, 0xF9FC },
 };
 
-ActorInit En_Po_Relay_InitVars = {
+ActorProfile En_Po_Relay_Profile = {
     /**/ ACTOR_EN_PO_RELAY,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -58,8 +58,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 30, 52, 0, { 0, 0, 0 } },
@@ -290,8 +290,6 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
     Vec3f vec;
     f32 multiplier;
     s32 pad;
-    Vec3f sp60;
-    s32 pad1;
 
     this->actionTimer++;
     if (this->actionTimer < 8) {
@@ -323,6 +321,9 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
     }
     if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {
         if (this->hookshotSlotFull != 0) {
+            Vec3f sp60;
+            s32 pad1;
+
             sp60.x = this->actor.world.pos.x;
             sp60.y = this->actor.floorHeight;
             sp60.z = this->actor.world.pos.z;
@@ -384,7 +385,6 @@ void EnPoRelay_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 128);
         gSPDisplayList(POLY_OPA_DISP++, gDampeLanternDL);
-        if (1) {}
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 901);
         Matrix_MultVec3f(&D_80AD8D48, &vec);
         Lights_PointNoGlowSetInfo(&this->lightInfo, vec.x, vec.y, vec.z, this->lightColor.r, this->lightColor.g,

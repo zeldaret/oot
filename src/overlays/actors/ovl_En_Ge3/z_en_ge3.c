@@ -6,6 +6,7 @@
 
 #include "z_en_ge3.h"
 #include "assets/objects/object_geldb/object_geldb.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -18,7 +19,7 @@ void EnGe3_WaitLookAtPlayer(EnGe3* this, PlayState* play);
 void EnGe3_ForceTalk(EnGe3* this, PlayState* play);
 void EnGe3_UpdateWhenNotTalking(Actor* thisx, PlayState* play);
 
-ActorInit En_Ge3_InitVars = {
+ActorProfile En_Ge3_Profile = {
     /**/ ACTOR_EN_GE3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -43,8 +44,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000722, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 50, 0, { 0, 0, 0 } },
@@ -237,9 +238,11 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
         // Turn head
         case GELDB_LIMB_HEAD:
             rot->x += this->headRot.y;
+#if OOT_VERSION >= PAL_1_1
             FALLTHROUGH;
-        // This is a hack to fix the color-changing clothes this Gerudo has on N64 versions
         default:
+            // This is a hack to fix a bug present before PAL 1.1, where the actor's clothes can change color
+            // depending on what was drawn earlier in the frame.
             OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 547);
             switch (limbIndex) {
                 case GELDB_LIMB_NECK:
@@ -260,6 +263,7 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
                     break;
             }
             CLOSE_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 566);
+#endif
             break;
     }
     return false;

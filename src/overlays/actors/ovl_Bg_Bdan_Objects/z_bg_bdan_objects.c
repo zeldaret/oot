@@ -10,12 +10,12 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum BgBdanObjectsPropertyGetter {
     JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0 = 0,
     JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1 = 3,
     JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
 } BgBdanObjectsPropertyGetter;
-typedef enum {
+typedef enum BgBdanObjectsPropertySetter {
     JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1 = 1,
     JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON0 = 2,
     JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
@@ -43,7 +43,7 @@ void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_FallToLowerPos(BgBdanObjects* this, PlayState* play);
 
-ActorInit Bg_Bdan_Objects_InitVars = {
+ActorProfile Bg_Bdan_Objects_Profile = {
     /**/ ACTOR_BG_BDAN_OBJECTS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -68,8 +68,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_HARD,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_HARD,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { 0x00BB, 0x0050, 0x0000, { 0 } },
@@ -95,7 +95,7 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
         case JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
-            PRINTF("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n");
+            PRINTF("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n", arg1);
             return -1;
     }
 }
@@ -112,7 +112,7 @@ void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
             SET_INFTABLE(INFTABLE_146);
             break;
         default:
-            PRINTF("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n");
+            PRINTF("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n", arg1);
     }
 }
 
@@ -123,7 +123,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-    this->var.switchFlag = (thisx->params >> 8) & 0x3F;
+    this->var.switchFlag = PARAMS_GET_U(thisx->params, 8, 6);
     thisx->params &= 0xFF;
     if (thisx->params == JABU_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
         thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;

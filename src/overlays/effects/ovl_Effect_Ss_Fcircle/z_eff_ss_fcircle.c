@@ -17,7 +17,7 @@ u32 EffectSsFcircle_Init(PlayState* play, u32 index, EffectSs* this, void* initP
 void EffectSsFcircle_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsFcircle_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Fcircle_InitVars = {
+EffectSsProfile Effect_Ss_Fcircle_Profile = {
     EFFECT_SS_FCIRCLE,
     EffectSsFcircle_Init,
 };

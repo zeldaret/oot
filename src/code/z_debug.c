@@ -1,16 +1,18 @@
 #include "global.h"
 
-typedef struct {
+typedef struct DebugCamTextBufferEntry {
     /* 0x0 */ u8 x;
     /* 0x1 */ u8 y;
     /* 0x2 */ u8 colorIndex;
     /* 0x3 */ char text[21];
 } DebugCamTextBufferEntry; // size = 0x18
 
-typedef struct {
+typedef struct InputCombo {
     /* 0x0 */ u16 hold;
     /* 0x2 */ u16 press;
 } InputCombo; // size = 0x4
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 RegEditor* gRegEditor;
 
@@ -29,6 +31,7 @@ Color_RGBA8 sDebugCamTextColors[] = {
     { 128, 255, 32, 128 },  // DEBUG_CAM_TEXT_GREEN
 };
 
+#if OOT_DEBUG
 InputCombo sRegGroupInputCombos[REG_GROUPS] = {
     { BTN_L, BTN_CUP },        //  REG
     { BTN_L, BTN_CLEFT },      // SREG
@@ -93,6 +96,7 @@ char sRegGroupChars[REG_GROUPS] = {
     'k', // kREG
     'b', // bREG
 };
+#endif
 
 void Regs_Init(void) {
     s32 i;
@@ -153,6 +157,7 @@ void DebugCamera_DrawScreenText(GfxPrint* printer) {
     }
 }
 
+#if OOT_DEBUG
 /**
  * Updates the state of the Reg Editor according to user input.
  * Also contains a controller rumble test that can be interfaced with via related REGs.
@@ -269,6 +274,7 @@ void Regs_DrawEditor(GfxPrint* printer) {
         }
     }
 }
+#endif
 
 /**
  * Draws the Reg Editor and Debug Camera text on screen
@@ -283,7 +289,7 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
 
     GfxPrint_Init(&printer);
     opaStart = POLY_OPA_DISP;
-    gfx = Graph_GfxPlusOne(POLY_OPA_DISP);
+    gfx = Gfx_Open(POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, gfx);
     GfxPrint_Open(&printer, gfx);
 
@@ -291,18 +297,18 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
         DebugCamera_DrawScreenText(&printer);
     }
 
+#if OOT_DEBUG
     if (gRegEditor->regPage != 0) {
         Regs_DrawEditor(&printer);
     }
+#endif
 
     sDebugCamTextEntryCount = 0;
 
     gfx = GfxPrint_Close(&printer);
     gSPEndDisplayList(gfx++);
-    Graph_BranchDlist(opaStart, gfx);
+    Gfx_Close(opaStart, gfx);
     POLY_OPA_DISP = gfx;
-
-    if (1) {}
 
     CLOSE_DISPS(gfxCtx, "../z_debug.c", 664);
 

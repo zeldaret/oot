@@ -27,7 +27,7 @@ extern CutsceneData D_80B4C5D0[];
 
 #include "z_en_zl1_camera_data.inc.c"
 
-ActorInit En_Zl1_InitVars = {
+ActorProfile En_Zl1_Profile = {
     /**/ ACTOR_EN_ZL1,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -52,8 +52,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 46, 0, { 0, 0, 0 } },
@@ -345,8 +345,8 @@ void func_80B4B834(CsCmdActorCue* cue, Vec3f* dest) {
 }
 
 void func_80B4B874(EnZl1* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ;
+    AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80B4B8B4(EnZl1* this, PlayState* play) {

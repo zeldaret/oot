@@ -16,7 +16,7 @@
 #define vMoveAngleY actionVar2
 #define vFlameTimer actionVar2
 
-typedef enum {
+typedef enum EnBbAction {
     /* 0 */ BB_DAMAGE,
     /* 1 */ BB_KILL,
     /* 2 */ BB_FLAME_TRAIL,
@@ -29,24 +29,24 @@ typedef enum {
     /* 9 */ BB_GREEN
 } EnBbAction;
 
-typedef enum {
+typedef enum EnBbMoveMode {
     /* 0 */ BBMOVE_NORMAL,
     /* 1 */ BBMOVE_NOCLIP,
     /* 2 */ BBMOVE_HIDDEN
 } EnBbMoveMode;
 
-typedef enum {
+typedef enum EnBbBlueActionState {
     /* 0 */ BBBLUE_NORMAL,
     /* 1 */ BBBLUE_AGGRO
 } EnBbBlueActionState;
 
-typedef enum {
+typedef enum EnBbRedActionState {
     /* 0 */ BBRED_WAIT,
     /* 1 */ BBRED_ATTACK,
     /* 2 */ BBRED_HIDE
 } EnBbRedActionState;
 
-typedef enum {
+typedef enum EnBbGreenActionState {
     /* 0 */ BBGREEN_FLAME_ON,
     /* 1 */ BBGREEN_FLAME_OFF
 } EnBbGreenActionState;
@@ -195,7 +195,7 @@ static DamageTable sDamageTableWhite = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-ActorInit En_Bb_InitVars = {
+ActorProfile En_Bb_Profile = {
     /**/ ACTOR_EN_BB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -213,8 +213,8 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { 0, -120, 0 }, 4 }, 300 },
@@ -291,9 +291,10 @@ void EnBb_SpawnFlameTrail(PlayState* play, EnBb* this, s16 startAtZero) {
 
 void EnBb_KillFlameTrail(EnBb* this) {
     Actor* actor = &this->actor;
+    Actor* nextActor;
 
     while (actor->child != NULL) {
-        Actor* nextActor = actor->child;
+        nextActor = actor->child;
 
         if (nextActor->id == ACTOR_EN_BB) {
             nextActor->parent = NULL;
@@ -318,21 +319,21 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->elements);
 
-    this->actionState = thisx->params >> 8;
+    this->actionState = PARAMS_GET_NOMASK(thisx->params, 8);
 
-    if (thisx->params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
         thisx->params |= 0xFF00;
     }
     if (thisx->params <= ENBB_BLUE) {
         ActorShape_Init(&thisx->shape, 200.0f, ActorShadow_DrawCircle, 35.0f);
     }
-    if (thisx->params & 0xFF00) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 8, 8)) {
         this->timer = 0;
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
-        this->collider.elements[0].base.toucherFlags = TOUCH_ON | TOUCH_SFX_HARD;
-        this->collider.elements[0].base.toucher.dmgFlags = DMG_DEFAULT;
-        this->collider.elements[0].base.toucher.damage = 8;
+        this->collider.elements[0].base.atElemFlags = ATELEM_ON | ATELEM_SFX_HARD;
+        this->collider.elements[0].base.atDmgInfo.dmgFlags = DMG_DEFAULT;
+        this->collider.elements[0].base.atDmgInfo.damage = 8;
         this->bobSize = this->actionState * 20.0f;
         this->flamePrimAlpha = 255;
         this->moveMode = BBMOVE_NORMAL;
@@ -350,7 +351,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
-                this->collider.elements[0].base.toucher.effect = 1;
+                this->collider.elements[0].base.atDmgInfo.effect = 1;
                 EnBb_SetupRed(play, this);
                 break;
             case ENBB_WHITE:
@@ -408,10 +409,10 @@ void EnBb_Destroy(Actor* thisx, PlayState* play) {
 void EnBb_SetupFlameTrail(EnBb* this) {
     this->action = BB_FLAME_TRAIL;
     this->moveMode = BBMOVE_NOCLIP;
-    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.speed = 0.0f;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnBb_SetupAction(this, EnBb_FlameTrail);
 }
 
@@ -1154,7 +1155,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, false);
         switch (this->dmgEffect) {
             case 7:
-                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage;
                 FALLTHROUGH;
             case 5:
                 this->fireIceTimer = 0x30;
@@ -1164,7 +1165,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
-                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->atDmgInfo.damage;
                 break;
             case 8:
             case 9:
@@ -1247,10 +1248,10 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
         this->actor.focus.pos = this->actor.world.pos;
-        this->collider.elements->dim.worldSphere.center.x = this->actor.world.pos.x;
-        this->collider.elements->dim.worldSphere.center.y =
+        this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
+        this->collider.elements[0].dim.worldSphere.center.y =
             this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y);
-        this->collider.elements->dim.worldSphere.center.z = this->actor.world.pos.z;
+        this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
 
         if ((this->action > BB_KILL) && ((this->actor.speed != 0.0f) || (this->action == BB_GREEN))) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

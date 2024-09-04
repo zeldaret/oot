@@ -17,7 +17,7 @@ void BgMizuWater_Draw(Actor* thisx, PlayState* play);
 void BgMizuWater_WaitForAction(BgMizuWater* this, PlayState* play);
 void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play);
 
-typedef struct {
+typedef struct WaterLevel {
     s32 switchFlag;
     s32 yDiff;
 } WaterLevel;
@@ -29,7 +29,7 @@ static WaterLevel sWaterLevels[] = {
     { WATER_TEMPLE_WATER_F1_FLAG, WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_F3_Y },
 };
 
-ActorInit Bg_Mizu_Water_InitVars = {
+ActorProfile Bg_Mizu_Water_Profile = {
     /**/ ACTOR_BG_MIZU_WATER,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -53,6 +53,7 @@ static InitChainEntry sInitChain[] = {
 u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, PlayState* play) {
     u32 ret;
 
+#if OOT_DEBUG
     if (bREG(0) != 0) {
         switch (bREG(1)) {
             case 0:
@@ -67,6 +68,8 @@ u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, PlayState* play) {
         }
         bREG(0) = 0;
     }
+#endif
+
     if (Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG) && (switchFlag != WATER_TEMPLE_WATER_F1_FLAG)) {
         ret = 3;
     } else if (Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG) && (switchFlag != WATER_TEMPLE_WATER_F2_FLAG)) {
@@ -95,8 +98,8 @@ void BgMizuWater_Init(Actor* thisx, PlayState* play) {
     s32 waterLevelActionIndex;
 
     waterBoxes = play->colCtx.colHeader->waterBoxes;
-    this->type = this->actor.params & 0xFF;
-    this->switchFlag = (this->actor.params >> 8) & 0xFF;
+    this->type = PARAMS_GET_U(this->actor.params, 0, 8);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 8, 8);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     initialActorY = this->actor.world.pos.y;
     this->baseY = initialActorY;
@@ -297,10 +300,13 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
     s32 unk1;
     s32 pad;
 
+#if OOT_DEBUG
     if (bREG(15) == 0) {
         PRINTF("%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
                Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG), Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
     }
+#endif
+
     if (this->type == 0) {
         posY = this->actor.world.pos.y;
         unk0 = 0;

@@ -17,7 +17,7 @@ void func_80AA204C(EnMa2* this, PlayState* play);
 void func_80AA20E4(EnMa2* this, PlayState* play);
 void func_80AA21C8(EnMa2* this, PlayState* play);
 
-ActorInit En_Ma2_InitVars = {
+ActorProfile En_Ma2_Profile = {
     /**/ ACTOR_EN_MA2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -42,8 +42,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 46, 0, { 0, 0, 0 } },
@@ -51,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnMa2Animation {
     /* 0 */ ENMA2_ANIM_0,
     /* 1 */ ENMA2_ANIM_1,
     /* 2 */ ENMA2_ANIM_2,
@@ -264,8 +264,8 @@ void func_80AA204C(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (player->stateFlags2 & PLAYER_STATE2_24) {
-        player->unk_6A8 = &this->actor;
         player->stateFlags2 |= PLAYER_STATE2_25;
+        player->unk_6A8 = &this->actor;
         Message_StartOcarina(play, OCARINA_ACTION_CHECK_EPONA);
         this->actionFunc = func_80AA20E4;
     } else if (this->actor.xzDistToPlayer < 30.0f + this->collider.dim.radius) {

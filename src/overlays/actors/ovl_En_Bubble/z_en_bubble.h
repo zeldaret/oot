@@ -27,8 +27,8 @@ typedef struct EnBubble {
     /* 0x0228 */ u8 bounceCount;
     /* 0x022C */ Vec3f bounceDirection;
     /* 0x0238 */ Vec3f velocityFromBounce;
-    /* 0x0244 */ Vec3f normalizedBumpVelocity;
-    /* 0x0250 */ Vec3f velocityFromBump;
+    /* 0x0244 */ Vec3f normalizedAttackerVelocity;
+    /* 0x0250 */ Vec3f velocityFromAttack;
     /* 0x025C */ f32 sinkSpeed;
 } EnBubble; // size = 0x0260
 

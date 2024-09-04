@@ -15,7 +15,7 @@ void EnStream_Update(Actor* thisx, PlayState* play);
 void EnStream_Draw(Actor* thisx, PlayState* play);
 void EnStream_WaitForPlayer(EnStream* this, PlayState* play);
 
-ActorInit En_Stream_InitVars = {
+ActorProfile En_Stream_Profile = {
     /**/ ACTOR_EN_STREAM,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -38,7 +38,7 @@ void EnStream_SetupAction(EnStream* this, EnStreamActionFunc actionFunc) {
 void EnStream_Init(Actor* thisx, PlayState* play) {
     EnStream* this = (EnStream*)thisx;
 
-    this->unk_150 = thisx->params & 0xFF;
+    this->unk_150 = PARAMS_GET_U(thisx->params, 0, 8);
     Actor_ProcessInitChain(thisx, sInitChain);
     if ((this->unk_150 != 0) && (this->unk_150 == 1)) {
         thisx->scale.y = 0.01f;

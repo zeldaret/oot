@@ -26,7 +26,7 @@ void EffectSsDtBubble_Update(PlayState* play, u32 index, EffectSs* this);
 static Color_RGBA8 sPrimColors[] = { { 255, 255, 100, 255 }, { 150, 255, 255, 255 }, { 100, 255, 255, 255 } };
 static Color_RGBA8 sEnvColors[] = { { 170, 0, 0, 255 }, { 0, 100, 0, 255 }, { 0, 0, 255, 255 } };
 
-EffectSsInit Effect_Ss_Dt_Bubble_InitVars = {
+EffectSsProfile Effect_Ss_Dt_Bubble_Profile = {
     EFFECT_SS_DT_BUBBLE,
     EffectSsDtBubble_Init,
 };

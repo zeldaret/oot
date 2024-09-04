@@ -15,7 +15,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, PlayState* play);
 void EnBomChu_Move(EnBomChu* this, PlayState* play);
 void EnBomChu_WaitForKill(EnBomChu* this, PlayState* play);
 
-ActorInit En_Bom_Chu_InitVars = {
+ActorProfile En_Bom_Chu_Profile = {
     /**/ ACTOR_EN_BOM_CHU,
     /**/ ACTORCAT_EXPLOSIVE,
     /**/ FLAGS,
@@ -33,8 +33,8 @@ static ColliderJntSphElementInit sJntSphElemInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 1, { { 0, 0, 0 }, 12 }, 100 },
@@ -114,7 +114,7 @@ void EnBomChu_Explode(EnBomChu* this, PlayState* play) {
     this->timer = 1;
     this->actor.speed = 0.0f;
 
-    if (this->actor.yDistToWater > 0.0f) {
+    if (this->actor.depthInWater > 0.0f) {
         for (i = 0; i < 40; i++) {
             EffectSsBubble_Spawn(play, &this->actor.world.pos, 1.0f, 5.0f, 30.0f, 0.25f);
         }
@@ -452,9 +452,9 @@ void EnBomChu_Update(Actor* thisx, PlayState* play2) {
 
         if (WaterBox_GetSurface1(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterY,
                                  &waterBox)) {
-            this->actor.yDistToWater = waterY - this->actor.world.pos.y;
+            this->actor.depthInWater = waterY - this->actor.world.pos.y;
 
-            if (this->actor.yDistToWater < 0.0f) {
+            if (this->actor.depthInWater < 0.0f) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
                     EnBomChu_SpawnRipples(this, play, waterY);
                 }
@@ -471,7 +471,7 @@ void EnBomChu_Update(Actor* thisx, PlayState* play2) {
             }
         } else {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER;
-            this->actor.yDistToWater = BGCHECK_Y_MIN;
+            this->actor.depthInWater = BGCHECK_Y_MIN;
         }
     }
 }

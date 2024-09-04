@@ -31,14 +31,14 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000004, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 15, 15, 0, { 0, 0, 0 } },
 };
 
-ActorInit Item_Shield_InitVars = {
+ActorProfile Item_Shield_Profile = {
     /**/ ACTOR_ITEM_SHIELD,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

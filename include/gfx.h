@@ -9,7 +9,7 @@
 // Texture memory size, 4 KiB
 #define TMEM_SIZE 0x1000
 
-typedef struct {
+typedef struct GfxPool {
     /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
     /* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
     /* 0x0BF08 */ Gfx polyXluBuffer[0x800];
@@ -51,7 +51,7 @@ typedef struct GraphicsContext {
     /* 0x02FC */ char unk_2FC[0x04];
 } GraphicsContext; // size = 0x300
 
-typedef enum {
+typedef enum SetupDL {
     /*  0 */ SETUPDL_0,
     /*  1 */ SETUPDL_1,
     /*  2 */ SETUPDL_2,
@@ -131,12 +131,12 @@ typedef enum {
 #define UCODE_UNK       2
 #define UCODE_S2DEX     3
 
-typedef struct {
+typedef struct UCodeInfo {
     /* 0x00 */ u32 type;
     /* 0x04 */ void* ptr;
 } UCodeInfo; // size = 0x8
 
-typedef struct {
+typedef struct UCodeDisas {
     /* 0x00 */ uintptr_t segments[NUM_SEGMENTS];
     /* 0x40 */ Gfx* dlStack[18];
     /* 0x88 */ s32 dlDepth;

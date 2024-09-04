@@ -14,7 +14,7 @@ void EnPubox_Destroy(Actor* thisx, PlayState* play);
 void EnPubox_Update(Actor* thisx, PlayState* play);
 void EnPubox_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Pu_box_InitVars = {
+ActorProfile En_Pu_box_Profile = {
     /**/ ACTOR_EN_PU_BOX,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

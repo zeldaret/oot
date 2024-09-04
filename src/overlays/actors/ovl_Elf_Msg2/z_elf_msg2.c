@@ -12,13 +12,15 @@
 void ElfMsg2_Init(Actor* thisx, PlayState* play);
 void ElfMsg2_Destroy(Actor* thisx, PlayState* play);
 void ElfMsg2_Update(Actor* thisx, PlayState* play);
+#if OOT_DEBUG
 void ElfMsg2_Draw(Actor* thisx, PlayState* play);
+#endif
 
 s32 ElfMsg2_GetMessageId(ElfMsg2* this);
 void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play);
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, PlayState* play);
 
-ActorInit Elf_Msg2_InitVars = {
+ActorProfile Elf_Msg2_Profile = {
     /**/ ACTOR_ELF_MSG2,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -27,7 +29,11 @@ ActorInit Elf_Msg2_InitVars = {
     /**/ ElfMsg2_Init,
     /**/ ElfMsg2_Destroy,
     /**/ ElfMsg2_Update,
+#if OOT_DEBUG
     /**/ ElfMsg2_Draw,
+#else
+    /**/ NULL,
+#endif
 };
 
 static InitChainEntry sInitChain[] = {
@@ -47,21 +53,21 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, PlayState* play) {
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 171); // "Mutual destruction"
-        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(play, ((this->actor.params >> 8) & 0x3F));
+        if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && Flags_GetClear(play, this->actor.room)) {
         LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182); // "Mutual destruction 2"
-        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(play, ((this->actor.params >> 8) & 0x3F));
+        if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
+    } else if (PARAMS_GET_U(this->actor.params, 8, 6) == 0x3F) {
         return 0;
-    } else if (Flags_GetSwitch(play, ((this->actor.params >> 8) & 0x3F))) {
+    } else if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 192); // "Mutual destruction"
         Actor_Kill(&this->actor);
         return 1;
@@ -93,7 +99,7 @@ void ElfMsg2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 ElfMsg2_GetMessageId(ElfMsg2* this) {
-    return (this->actor.params & 0xFF) + 0x100;
+    return PARAMS_GET_U(this->actor.params, 0, 8) + 0x100;
 }
 
 /**
@@ -106,7 +112,7 @@ void ElfMsg2_WaitForTextClose(ElfMsg2* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         if (this->actor.world.rot.z != 1) {
             Actor_Kill(&this->actor);
-            switchFlag = (this->actor.params >> 8) & 0x3F;
+            switchFlag = PARAMS_GET_U(this->actor.params, 8, 6);
             if (switchFlag != 0x3F) {
                 Flags_SetSwitch(play, switchFlag);
             }
@@ -147,6 +153,7 @@ void ElfMsg2_Update(Actor* thisx, PlayState* play) {
     }
 }
 
+#if OOT_DEBUG
 #include "assets/overlays/ovl_Elf_Msg2/ovl_Elf_Msg2.c"
 
 void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
@@ -165,3 +172,4 @@ void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_elf_msg2.c", 367);
 }
+#endif

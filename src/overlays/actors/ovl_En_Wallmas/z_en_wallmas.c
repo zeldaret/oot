@@ -38,7 +38,7 @@ void EnWallmas_WaitForSwitchFlag(EnWallmas* this, PlayState* play);
 void EnWallmas_Stun(EnWallmas* this, PlayState* play);
 void EnWallmas_Walk(EnWallmas* this, PlayState* play);
 
-ActorInit En_Wallmas_InitVars = {
+ActorProfile En_Wallmas_Profile = {
     /**/ ACTOR_EN_WALLMAS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -63,8 +63,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0 } },
@@ -124,8 +124,8 @@ void EnWallmas_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->switchFlag = (u8)(thisx->params >> 0x8);
-    thisx->params &= 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 0, 8);
 
     if (thisx->params == WMT_FLAG) {
         if (Flags_GetSwitch(play, this->switchFlag) != 0) {
@@ -219,7 +219,7 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
 
 void EnWallmas_SetupTakeDamage(EnWallmas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
-    if (this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+    if (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;

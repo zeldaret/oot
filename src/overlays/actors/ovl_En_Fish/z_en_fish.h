@@ -23,7 +23,7 @@ typedef struct EnFish {
     /* 0x0250 */ s32 unk_250; // Set to 0 or 5, arg5 of Actor_UpdateBgCheckInfo
 } EnFish; // size = 0x0254
 
-typedef enum {
+typedef enum EnFishType {
     /* -1 */ FISH_SWIMMING_RESPAWNING = -1, // Used in Zora's Domain; code only uses not 0 or 1, runs away from Player
     /*  0 */ FISH_DROPPED,
     /*  1 */ FISH_SWIMMING_UNIQUE // Used in grottos

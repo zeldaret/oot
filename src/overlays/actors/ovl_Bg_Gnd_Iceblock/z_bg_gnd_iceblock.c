@@ -9,7 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum BgGndIceblockAction {
     /* 0 */ GNDICE_IDLE,
     /* 1 */ GNDICE_FALL,
     /* 2 */ GNDICE_HOLE
@@ -23,7 +23,7 @@ void BgGndIceblock_Draw(Actor* thisx, PlayState* play);
 void BgGndIceblock_Idle(BgGndIceblock* this, PlayState* play);
 void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play);
 
-ActorInit Bg_Gnd_Iceblock_InitVars = {
+ActorProfile Bg_Gnd_Iceblock_Profile = {
     /**/ ACTOR_BG_GND_ICEBLOCK,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

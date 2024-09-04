@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_shield_2" Segment="6">
         <DList Name="gGiHylianShieldDL" Offset="0x0C70"/>
     </File>

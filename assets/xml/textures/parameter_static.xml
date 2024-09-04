@@ -29,7 +29,7 @@
         <Texture Name="gOcarinaBtnIconCLeftTex" OutName="ocarina_c_left" Format="ia8" Width="16" Height="16" Offset="0x2C40"/>
         <Texture Name="gOcarinaBtnIconCUpTex" OutName="ocarina_c_up" Format="ia8" Width="16" Height="16" Offset="0x2D40"/>
         <Texture Name="gOcarinaTrebleClefTex" OutName="ocarina_treble_clef" Format="i4" Width="16" Height="32" Offset="0x2E40"/>
-        <Texture Name="gNaviCUpJPTex" OutName="navi_c_up_jp" Format="ia4" Width="32" Height="8" Offset="0x2F40"/>
+        <Texture Name="gNaviCUpJPNTex" OutName="navi_c_up_jpn" Format="ia4" Width="32" Height="8" Offset="0x2F40"/>
         <Texture Name="gNaviCUpENGTex" OutName="navi_c_up_eng" Format="ia4" Width="32" Height="8" Offset="0x2FC0"/>
         <Texture Name="gCounterDigit0Tex" OutName="counter_digit_0" Format="i8" Width="8" Height="16" Offset="0x3040"/>
         <Texture Name="gCounterDigit1Tex" OutName="counter_digit_1" Format="i8" Width="8" Height="16" Offset="0x30C0"/>

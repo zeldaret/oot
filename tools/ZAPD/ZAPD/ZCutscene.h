@@ -10,6 +10,8 @@
 #include "ZFile.h"
 #include "ZResource.h"
 
+enum class CsFloatType;
+
 class ZCutscene : public ZResource
 {
 public:
@@ -26,6 +28,8 @@ public:
 
 	std::string GetSourceTypeName() const override;
 	ZResourceType GetResourceType() const override;
+
+	static std::string GetCsEncodedFloat(float f, CsFloatType type, bool useSciNotation);
 
 	int32_t numCommands;
 	int32_t endFrame;

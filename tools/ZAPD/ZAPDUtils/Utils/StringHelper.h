@@ -30,6 +30,21 @@ public:
 		return result;
 	}
 
+	static std::string Join(const std::vector<std::string> parts, const std::string& delimiter)
+	{
+		std::string result;
+
+		for (size_t i = 0; i < parts.size(); i++)
+		{
+			result += parts[i];
+
+			if (i != parts.size() - 1)
+				result += delimiter;
+		}
+
+		return result;
+	}
+
 	static std::string Strip(std::string s, const std::string& delimiter)
 	{
 		size_t pos = 0;

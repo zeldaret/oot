@@ -1,3 +1,6 @@
+build_system = "make"
+compiler_type = "ido"  # adjusts default weights for permuting
+
 [preserve_macros]
 "g[DS]P.*" = "void"
 "gDma.*" = "void"
@@ -8,14 +11,25 @@ LOG = "void"
 SET_FULLSCREEN_VIEWPORT = "void"
 OPEN_DISPS = "void"
 CLOSE_DISPS = "void"
+GRAPH_ALLOC = "void*"
+LOG_UTILS_CHECK_NULL_POINTER = "void"
+WORK_DISP = "void*"
+POLY_OPA_DISP = "void*"
+POLY_XLU_DISP = "void*"
+OVERLAY_DISP = "void*"
+"G_MTX_.*" = "int"
 ABS = "int"
 SQ = "int"
 CLAMP = "int"
 
+# If changing to not preserve these, add a check for the permuter to IDO_PRINTF_WORKAROUND,
+# so that modern CPP (used by the permuter import) does not error on the IDO-specific hack.
+# For example:
+# #define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !PERMUTER && !M2CTX)
+PRINTF = "void"
+SCHED_DEBUG_PRINTF = "void"
+ACTOR_DEBUG_PRINTF = "void"
+
 [decompme.compilers]
-"tools/ido_recomp/linux/7.1/cc" = "ido7.1"
-"tools/ido_recomp/macos/7.1/cc" = "ido7.1"
-"tools/ido_recomp/windows/7.1/cc" = "ido7.1"
-"tools/ido_recomp/linux/5.3/cc" = "ido5.3"
-"tools/ido_recomp/macos/5.3/cc" = "ido5.3"
-"tools/ido_recomp/windows/5.3/cc" = "ido5.3"
+"tools/ido_recomp/*/7.1/cc" = "ido7.1"
+"tools/ido_recomp/*/5.3/cc" = "ido5.3"

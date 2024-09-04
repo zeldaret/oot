@@ -11,7 +11,7 @@ u32 EffectSsGFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
 void EffectSsGFire_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsGFire_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_G_Fire_InitVars = {
+EffectSsProfile Effect_Ss_G_Fire_Profile = {
     EFFECT_SS_G_FIRE,
     EffectSsGFire_Init,
 };

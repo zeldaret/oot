@@ -23,7 +23,7 @@ void BgJyaGoroiwa_SetupMove(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateRotation(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this);
 
-ActorInit Bg_Jya_Goroiwa_InitVars = {
+ActorProfile Bg_Jya_Goroiwa_Profile = {
     /**/ ACTOR_BG_JYA_GOROIWA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -41,8 +41,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 0, { { 0, 0, 0 }, 58 }, 100 },

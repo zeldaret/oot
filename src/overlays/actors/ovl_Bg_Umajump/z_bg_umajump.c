@@ -14,7 +14,7 @@ void BgUmaJump_Destroy(Actor* thisx, PlayState* play);
 void BgUmaJump_Update(Actor* thisx, PlayState* play);
 void BgUmaJump_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Umajump_InitVars = {
+ActorProfile Bg_Umajump_Profile = {
     /**/ ACTOR_BG_UMAJUMP,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

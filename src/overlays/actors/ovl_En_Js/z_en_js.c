@@ -16,7 +16,7 @@ void EnJs_Draw(Actor* thisx, PlayState* play);
 
 void func_80A89304(EnJs* this, PlayState* play);
 
-ActorInit En_Js_InitVars = {
+ActorProfile En_Js_Profile = {
     /**/ ACTOR_EN_JS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -41,8 +41,8 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0, 0, 0 } },

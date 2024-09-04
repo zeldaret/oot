@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_nwc" Segment="6">
         <Texture Name="gCuccoChickBodyTex" OutName="body" Format="rgba16" Width="32" Height="32" Offset="0x0"/>
         <Texture Name="gCuccoChickEyeTex" OutName="eye" Format="rgba16" Width="16" Height="16" Offset="0x8E0"/>

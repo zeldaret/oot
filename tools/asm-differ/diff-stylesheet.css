@@ -1,0 +1,67 @@
+table.diff {
+    border: none;
+    font-family: Monospace;
+    white-space: pre;
+}
+tr.data-ref {
+    background-color: gray;
+}
+.immediate {
+    color: lightblue;
+}
+.stack {
+    color: yellow;
+}
+.register {
+    color: yellow;
+}
+.delay-slot {
+    font-weight: bold;
+    color: gray;
+}
+.diff-change {
+    color: lightblue;
+}
+.diff-add {
+    color: green;
+}
+.diff-remove {
+    color: red;
+}
+.source-filename {
+    font-weight: bold;
+}
+.source-function {
+    font-weight: bold;
+    text-decoration: underline;
+}
+.source-other {
+    font-style: italic;
+}
+.rotation-0 {
+    color: magenta;
+}
+.rotation-1 {
+    color: cyan;
+}
+.rotation-2 {
+    color: green;
+}
+.rotation-3 {
+    color: red;
+}
+.rotation-4 {
+    color: yellow;
+}
+.rotation-5 {
+    color: pink;
+}
+.rotation-6 {
+    color: blue;
+}
+.rotation-7 {
+    color: lime;
+}
+.rotation-8 {
+    color: gray;
+}

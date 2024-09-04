@@ -5,8 +5,14 @@
 
 void osSyncPrintf(const char* fmt, ...);
 
-void bzero(void* __s, size_t __n);
-int bcmp(const void* __sl, const void* __s2, size_t __n);
-void bcopy(const void* __src, void* __dest, size_t __n);
+#ifdef __GNUC__
+void bzero(void* __s, unsigned int __n);
+int bcmp(const void* __sl, const void* __s2, unsigned int __n);
+void bcopy(const void* __src, void* __dest, unsigned int __n);
+#else
+void bzero(void* __s, int __n);
+int bcmp(const void* __sl, const void* __s2, int __n);
+void bcopy(const void* __src, void* __dest, int __n);
+#endif
 
 #endif

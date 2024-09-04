@@ -43,7 +43,7 @@ static void* D_80BA5900[] = {
     gEffSunGraveSpark5Tex, gEffSunGraveSpark6Tex, gEffSunGraveSpark7Tex, gEffSunGraveSpark8Tex,
 };
 
-ActorInit Object_Kankyo_InitVars = {
+ActorProfile Object_Kankyo_Profile = {
     /**/ ACTOR_OBJECT_KANKYO,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -692,7 +692,6 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
                     break;
             }
 
-            if (1) {}
             if (1) {}
             Matrix_Translate(this->effects[i].base.x + this->effects[i].pos.x,
                              this->effects[i].base.y + this->effects[i].pos.y,

@@ -9,7 +9,7 @@ struct EnXc;
 typedef void (*EnXcActionFunc)(struct EnXc*, PlayState*);
 typedef void (*EnXcDrawFunc)(struct Actor*, PlayState*);
 
-typedef enum {
+typedef enum EnXcType {
     /* 0 */ SHEIK_TYPE_0,
     /* 1 */ SHEIK_TYPE_1,
     /* 2 */ SHEIK_TYPE_2,
@@ -22,7 +22,7 @@ typedef enum {
     /* 9 */ SHEIK_TYPE_9
 } EnXcType;
 
-typedef enum {
+typedef enum EnXcDrawMode {
     /* 0 */ SHEIK_DRAW_NOTHING,
     /* 1 */ SHEIK_DRAW_DEFAULT,
     /* 2 */ SHEIK_DRAW_PULLING_OUT_HARP,
@@ -31,7 +31,7 @@ typedef enum {
     /* 5 */ SHEIK_DRAW_SQUINT
 } EnXcDrawMode;
 
-typedef enum {
+typedef enum EnXcAction {
     /* 00 */ SHEIK_ACTION_INIT,
     /* 01 */ SHEIK_ACTION_WAIT,
     /* 02 */ SHEIK_ACTION_GRACEFUL_FALL,
