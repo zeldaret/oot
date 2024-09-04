@@ -2385,8 +2385,8 @@ void Actor_FaultPrint(Actor* actor, char* command) {
     char* name;
 
     if ((actor == NULL) || (actor->overlayEntry == NULL)) {
-        FaultDrawer_SetCursor(48, 24);
-        FaultDrawer_Printf("ACTOR NAME is NULL");
+        Fault_SetCursor(48, 24);
+        Fault_Printf("ACTOR NAME is NULL");
     }
 
 #if OOT_DEBUG
@@ -2402,8 +2402,8 @@ void Actor_FaultPrint(Actor* actor, char* command) {
         PRINTF("コメント:%s\n", command); // "Command:%s"
     }
 
-    FaultDrawer_SetCursor(48, 24);
-    FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, name);
+    Fault_SetCursor(48, 24);
+    Fault_Printf("ACTOR NAME %08x:%s", actor, name);
 }
 
 void Actor_Draw(PlayState* play, Actor* actor) {

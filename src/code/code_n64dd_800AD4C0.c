@@ -8,7 +8,7 @@ n64ddStruct_800FEE70_pointers D_800FEE70 = {
     NULL,
     Fault_RemoveClient,
     Fault_AddClient,
-    FaultDrawer_DrawText,
+    Fault_DrawText,
     Fault_WaitForInput,
     Fault_AddHungupAndCrashImpl,
     Fault_AddHungupAndCrash,

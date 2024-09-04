@@ -2,12 +2,16 @@
 #define N64DD_H
 
 #include "ultra64.h"
-#include "z64dma.h"
 #include "z64pause.h"
 #include "z64scene.h"
 
+struct GameState;
+union Gfx;
+struct PlayState;
 struct RegEditor;
+struct RoomContext;
 struct SaveContext;
+struct Scene;
 
 // TODO Use the specific pointer types instead of void*
 typedef struct n64ddStruct_800FEE70_pointers {
@@ -19,22 +23,26 @@ typedef struct n64ddStruct_800FEE70_pointers {
     void* unk_8C[9];
 } n64ddStruct_800FEE70_pointers; // size = 0xB0
 
-struct n64ddStruct_80121220;
-struct PlayState;
-
 typedef struct n64ddStruct_80121220 {
     void (*unk_00)(n64ddStruct_800FEE70_pointers*, struct n64ddStruct_80121220*);
     void (*unk_04)(void);
-    char unk_08[0x2C];
+    void (*unk_08)(struct PlayState* play, struct RoomContext* roomCtx, s32 roomNum);
+    void (*unk_0C)(struct PlayState* play);
+    void (*unk_10)(struct PlayState* play);
+    void (*unk_14)(struct PlayState* play);
+    char unk_18[0x1C];
     void (*unk_34)(PauseMapMarksData**);
     void (*unk_38)(PauseMapMarksData**);
     void (*unk_3C)(void);
     void (*unk_40)(void);
     s32 (*unk_44)(struct PlayState*);
-    char unk_48[0x24];
+    struct SceneTableEntry* (*unk_48)(s32 sceneId, struct SceneTableEntry* sceneTable);
+    char unk_4C[0x08];
+    s32 (*unk_54)(struct PlayState*);
+    char unk_58[0x14];
     void (*unk_6C)(struct PlayState*, SceneDrawConfigFunc*);
-    s32 (*unk_70)(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
-    char unk_74[4];
+    s32 (*unk_70)(struct DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
+    void (*unk_74)(struct GameState*);
     s32 (*unk_78)(struct PlayState*, void*, void*);
 } n64ddStruct_80121220; // size = ?
 
