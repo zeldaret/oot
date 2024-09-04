@@ -4,8 +4,21 @@
 #include "versions.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "versions.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+
+#if PLATFORM_N64
+#define OCARINA_BUTTON_A_PRIM_R 80
+#define OCARINA_BUTTON_A_PRIM_G 150
+#define OCARINA_BUTTON_A_PRIM_B 255
+#else
+#define OCARINA_BUTTON_A_PRIM_R 80
+#define OCARINA_BUTTON_A_PRIM_G 255
+#define OCARINA_BUTTON_A_PRIM_B 150
+#endif
 
 s16 sTextFade = false; // original name: key_off_flag ?
 
@@ -194,9 +207,9 @@ void Message_ResetOcarinaNoteState(void) {
     sOcarinaButtonAlphaValues[0] = sOcarinaButtonAlphaValues[1] = sOcarinaButtonAlphaValues[2] =
         sOcarinaButtonAlphaValues[3] = sOcarinaButtonAlphaValues[4] = sOcarinaButtonAlphaValues[5] =
             sOcarinaButtonAlphaValues[6] = sOcarinaButtonAlphaValues[7] = sOcarinaButtonAlphaValues[8] = 0;
-    sOcarinaButtonAPrimR = 80;
-    sOcarinaButtonAPrimG = 255;
-    sOcarinaButtonAPrimB = 150;
+    sOcarinaButtonAPrimR = OCARINA_BUTTON_A_PRIM_R;
+    sOcarinaButtonAPrimG = OCARINA_BUTTON_A_PRIM_G;
+    sOcarinaButtonAPrimB = OCARINA_BUTTON_A_PRIM_B;
     sOcarinaButtonAEnvR = 10;
     sOcarinaButtonAEnvG = 10;
     sOcarinaButtonAEnvB = 10;
@@ -300,6 +313,7 @@ void Message_DrawTextChar(PlayState* play, void* textureImage, Gfx** p) {
     Gfx* gfx = *p;
     s16 x = msgCtx->textPosX;
     s16 y = msgCtx->textPosY;
+    s32 pad;
 
     gDPPipeSync(gfx++);
 
@@ -2448,20 +2462,47 @@ void Message_OpenText(PlayState* play, u16 textId) {
     if (sTextIsCredits) {
         Message_FindCreditsMessage(play, textId);
         msgCtx->msgLength = font->msgLength;
+#if PLATFORM_N64
+        if ((B_80121220 != NULL) && (B_80121220->unk_60 != NULL) && B_80121220->unk_60(&play->msgCtx.font)) {
+
+        } else {
+            DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
+                               font->msgLength);
+        }
+#else
         DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
                          font->msgLength, "../z_message_PAL.c", 1954);
+#endif
     } else {
 #if OOT_NTSC
         if (gSaveContext.language == LANGUAGE_JPN) {
             Message_FindMessageJPN(play, textId);
             msgCtx->msgLength = font->msgLength;
+#if PLATFORM_N64
+            if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_64(&play->msgCtx.font)) {
+
+            } else {
+                DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
+                                   font->msgLength);
+            }
+#else
             DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
                                font->msgLength);
+#endif
         } else {
             Message_FindMessageNES(play, textId);
             msgCtx->msgLength = font->msgLength;
+#if PLATFORM_N64
+            if ((B_80121220 != NULL) && (B_80121220->unk_68 != NULL) && B_80121220->unk_68(&play->msgCtx.font)) {
+
+            } else {
+                DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+                                   font->msgLength);
+            }
+#else
             DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                                font->msgLength);
+#endif
         }
 #else
         if (gSaveContext.language == LANGUAGE_ENG) {
@@ -2543,6 +2584,9 @@ void Message_StartTextbox(PlayState* play, u16 textId, Actor* actor) {
 void Message_ContinueTextbox(PlayState* play, u16 textId) {
     s32 pad;
     MessageContext* msgCtx = &play->msgCtx;
+#if PLATFORM_N64
+    s32 pad2[3];
+#endif
 
     PRINTF(VT_FGCOL(GREEN));
     // "Message"
@@ -2794,13 +2838,9 @@ void Message_SetView(View* view) {
 }
 
 #if OOT_NTSC
-#define DRAW_TEXT(play, gfx, isCredits)                          \
-    if (gSaveContext.language == LANGUAGE_JPN && !(isCredits)) { \
-        Message_DrawTextWide(play, gfx);                         \
-    } else {                                                     \
-        Message_DrawText(play, gfx);                             \
-    }                                                            \
-    (void)0
+#define DRAW_TEXT(play, gfx, isCredits)                                                         \
+    ((gSaveContext.language == LANGUAGE_JPN) && !(isCredits)) ? Message_DrawTextWide(play, gfx) \
+                                                              : Message_DrawText(play, gfx)
 #else
 #define DRAW_TEXT(play, gfx, isCredits) Message_DrawText(play, gfx)
 #endif
@@ -3018,7 +3058,6 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
                         }
-                        if (msgCtx->ocarinaStaff == NULL) {} // fake
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
                     } else {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
@@ -4239,4 +4278,10 @@ void Message_SetTables(void) {
 #endif
 
     sStaffMessageEntryTablePtr = sStaffMessageEntryTable;
+
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_58 != NULL)) {
+        B_80121220->unk_58(&sJpnMessageEntryTablePtr, &sNesMessageEntryTablePtr, &sStaffMessageEntryTablePtr);
+    }
+#endif
 }
