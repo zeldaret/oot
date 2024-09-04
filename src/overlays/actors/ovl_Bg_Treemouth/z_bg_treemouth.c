@@ -143,7 +143,7 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play) {
             if (Flags_GetEventChkInf(EVENTCHKINF_0C)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
                     this->dyna.actor.flags |= ACTOR_FLAG_0;
-                    if (this->dyna.actor.isTargeted) {
+                    if (this->dyna.actor.isLockedOn) {
                         this->dyna.actor.flags &= ~ACTOR_FLAG_0;
                         play->csCtx.script = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
