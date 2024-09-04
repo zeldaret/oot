@@ -1,5 +1,9 @@
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -295,6 +299,7 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
 
     bg = (uObjBg*)(gfx + 1);
     gSPBranchList(gfx, (Gfx*)(bg + 1));
+    gfx = (Gfx*)(bg + 1);
 
     bg->b.imageX = 0;
     bg->b.imageW = width * (1 << 2);
@@ -308,8 +313,6 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     bg->b.imageSiz = siz;
     bg->b.imagePal = 0;
     bg->b.imageFlip = 0;
-
-    gfx = (Gfx*)(bg + 1);
 
     if (fmt == G_IM_FMT_CI) {
         gDPLoadTLUT(gfx++, tlutCount, 256, tlut);
@@ -441,7 +444,11 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
     PRINTF(VT_COL(RED, WHITE) T("z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n",
                                 "z_room.c: Data consistent with camera id does not exist camid=%d\n") VT_RST,
            bgCamIndex);
+#if PLATFORM_N64
+    Fault_AddHungupAndCrash("../z_room.c", 721);
+#else
     LogUtils_HungupThread("../z_room.c", 726);
+#endif
 
     return NULL;
 }
@@ -521,7 +528,11 @@ void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     } else if (roomShape->amountType == ROOM_SHAPE_IMAGE_AMOUNT_MULTI) {
         Room_DrawImageMulti(play, room, flags);
     } else {
+#if PLATFORM_N64
+        Fault_AddHungupAndCrash("../z_room.c", 836);
+#else
         LogUtils_HungupThread("../z_room.c", 841);
+#endif
     }
 }
 
@@ -637,10 +648,21 @@ s32 Room_LoadNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
                                                   ((size + 8) * roomCtx->activeBufPage + 7));
 
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
+
+#if PLATFORM_N64
+        if ((B_80121AF0 != NULL) && (B_80121AF0->unk_08 != NULL)) {
+            B_80121AF0->unk_08(play, roomCtx, roomNum);
+        } else {
+            DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->roomRequestAddr,
+                              play->roomList.romFiles[roomNum].vromStart, size, 0, &roomCtx->loadQueue, NULL,
+                              "../z_room.c", 1036);
+        }
+#else
         DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->roomRequestAddr, play->roomList.romFiles[roomNum].vromStart,
                           size, 0, &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
-        roomCtx->activeBufPage ^= 1;
+#endif
 
+        roomCtx->activeBufPage ^= 1;
         return true;
     }
 
