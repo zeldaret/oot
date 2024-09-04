@@ -84,9 +84,9 @@ FD0,80001430,src/boot/z_locale
 60C0,80006520,src/libultra/os/sethwintrroutine
 6130,80006590,src/libultra/os/gethwintrroutine
 6160,800065C0,data/rsp_boot.text
+62E0,80006740,data/cic6105.text
 
 offset,vram,.data
-62E0,80006740,data/unk_80009410.data
 6310,80006770,src/boot/idle
 6330,80006790,src/boot/viconfig
 6340,800067A0,src/boot/z_std_dma

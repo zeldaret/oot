@@ -602,7 +602,7 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
 }
 
 void func_8008EDF0(Player* this) {
-    this->unk_664 = NULL;
+    this->focusActor = NULL;
     this->stateFlags2 &= ~PLAYER_STATE2_13;
 }
 
@@ -624,7 +624,7 @@ void func_8008EEAC(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
 
     func_8008EE08(this);
-    this->unk_664 = actor;
+    this->focusActor = actor;
     this->unk_684 = actor;
     this->stateFlags1 |= PLAYER_STATE1_16;
     Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);

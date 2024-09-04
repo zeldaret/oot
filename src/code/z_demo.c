@@ -2423,8 +2423,8 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
 
 void Cutscene_SetScript(PlayState* play, void* script) {
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_78 != NULL)) {
-        if (B_80121AF0->unk_78(play, script, sCutscenesUnknownList)) {
+    if ((B_80121220 != NULL) && (B_80121220->unk_78 != NULL)) {
+        if (B_80121220->unk_78(play, script, sCutscenesUnknownList)) {
             return;
         }
     }

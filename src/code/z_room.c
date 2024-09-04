@@ -650,8 +650,8 @@ s32 Room_RequestNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
 
 #if PLATFORM_N64
-        if ((B_80121AF0 != NULL) && (B_80121AF0->unk_08 != NULL)) {
-            B_80121AF0->unk_08(play, roomCtx, roomNum);
+        if ((B_80121220 != NULL) && (B_80121220->unk_08 != NULL)) {
+            B_80121220->unk_08(play, roomCtx, roomNum);
         } else {
             DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->roomRequestAddr,
                               play->roomList.romFiles[roomNum].vromStart, size, 0, &roomCtx->loadQueue, NULL,

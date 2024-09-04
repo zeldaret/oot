@@ -425,7 +425,8 @@ $(BUILD_DIR)/src/boot/sleep.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/boot/sprintf.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/src/code/__osMalloc.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMalloc_n64.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMalloc_gc.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/code_800FC620.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/fp_math.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/rand.o: OPTFLAGS := -O2
@@ -595,10 +596,10 @@ setup-audio:
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 --oot-version $(VERSION) -o $(EXTRACTED_DIR)/baserom
-	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom --oot-version $(VERSION) -o $(EXTRACTED_DIR)/incbin
-	$(PYTHON) tools/msgdis.py $(VERSION)
-	$(PYTHON) extract_assets.py -v $(VERSION) -j$(N_THREADS)
+	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 $(EXTRACTED_DIR)/baserom -v $(VERSION)
+	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/incbin -v $(VERSION)
+	$(PYTHON) tools/msgdis.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/text -v $(VERSION)
+	$(PYTHON) extract_assets.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/assets -v $(VERSION) -j$(N_THREADS)
 	$(AUDIO_EXTRACT) -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
 
 disasm:

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "osMalloc.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2
@@ -124,6 +125,6 @@ void ZeldaArena_Cleanup(void) {
     __osMallocCleanup(&sZeldaArena);
 }
 
-u8 ZeldaArena_IsInitialized(void) {
+s32 ZeldaArena_IsInitialized(void) {
     return __osMallocIsInitialized(&sZeldaArena);
 }

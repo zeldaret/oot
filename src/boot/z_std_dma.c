@@ -197,8 +197,8 @@ s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     ASSERT(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
 
 #if PLATFORM_N64
-    if (B_80121AE2) {
-        while (B_80121AE4) {
+    if (D_80121212) {
+        while (D_80121214) {
             Sleep_Msec(1000);
         }
     }
@@ -347,15 +347,8 @@ const char* DmaMgr_GetFileName(uintptr_t vrom) {
     return ret;
 #elif PLATFORM_N64
     return "??";
-    // Unused strings
-    (void)"";
-    (void)"kanji";
-    (void)"";
-    (void)"link_animetion";
 #elif PLATFORM_GC
     return "";
-    // Unused strings
-    (void)"";
 #endif
 }
 
@@ -373,6 +366,9 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
 #if OOT_DEBUG
     // Get the filename (for debugging)
     filename = DmaMgr_GetFileName(vrom);
+#elif PLATFORM_GC
+    // An unused empty string is defined in .rodata of GameCube retail builds, suggesting it was used near here.
+    filename = "";
 #endif
 
     // Iterate through the DMA data table until the region containing the vrom address for this request is found
@@ -380,6 +376,15 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
     while (iter->file.vromEnd != 0) {
         if (vrom >= iter->file.vromStart && vrom < iter->file.vromEnd) {
             // Found the region this request falls into
+
+#if PLATFORM_N64
+            // Based on the MM Debug ROM, these strings are part of the condition for the empty if statement below,
+            // as `... && DmaMgr_StrCmp("", "kanji") != 0 && DmaMgr_StrCmp("", "link_animetion") != 0`
+            (void)"";
+            (void)"kanji";
+            (void)"";
+            (void)"link_animetion";
+#endif
 
             if (0) {
                 // The string is defined in .rodata of debug builds but not used, suggesting a debug print is here
@@ -538,8 +543,8 @@ s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size,
 #endif
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_70 != NULL)) {
-        if (B_80121AF0->unk_70(req, ram, vrom, size, unk, queue, msg) != 0) {
+    if ((B_80121220 != NULL) && (B_80121220->unk_70 != NULL)) {
+        if (B_80121220->unk_70(req, ram, vrom, size, unk, queue, msg) != 0) {
             return 0;
         }
     }
