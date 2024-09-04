@@ -3,7 +3,6 @@
 #include "n64dd.h"
 
 // TODO functions of unknown prototype
-extern char func_801C8510_unknown[];
 extern char osGetIntMask[];
 extern char osSetTime[];
 
