@@ -33,6 +33,9 @@ beginseg
     include "$(BUILD_DIR)/src/boot/mio0.o"
     include "$(BUILD_DIR)/src/boot/stackcheck.o"
     include "$(BUILD_DIR)/src/boot/logutils.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/boot/sleep.o"
+#endif
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/boot/sprintf.o"
 #endif
@@ -42,14 +45,22 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/viextendvstart.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
     include "$(BUILD_DIR)/src/libultra/os/recvmesg.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/initialize.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/libc/ll.o"
     include "$(BUILD_DIR)/src/libultra/os/exceptasm.o"
     include "$(BUILD_DIR)/src/libultra/os/thread.o"
     include "$(BUILD_DIR)/src/libultra/os/destroythread.o"
     include "$(BUILD_DIR)/src/libultra/libc/bzero.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/parameters.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/createthread.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/os/initialize.o"
+    include "$(BUILD_DIR)/src/libultra/os/parameters.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/setsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getsr.o"
     include "$(BUILD_DIR)/src/libultra/os/writebackdcache.o"
@@ -84,7 +95,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/epirawread.o"
     include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawdma.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/gettime.o"
     include "$(BUILD_DIR)/src/libultra/os/timerintr.o"
     include "$(BUILD_DIR)/src/libultra/os/getcount.o"
@@ -118,7 +131,6 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
 #endif
-    include "$(BUILD_DIR)/src/boot/build.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawwrite.o"
     include "$(BUILD_DIR)/src/libultra/io/vimgr.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrcontext.o"
@@ -127,7 +139,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/visetxscale.o"
     include "$(BUILD_DIR)/src/libultra/os/sethwintrroutine.o"
     include "$(BUILD_DIR)/src/libultra/os/gethwintrroutine.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/setwatchlo.o"
+#endif
+    include "$(BUILD_DIR)/src/boot/build.o"
     include "$(BUILD_DIR)/data/rsp_boot.text.o"
 #ifdef COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memset.o"
@@ -542,7 +557,9 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
 #endif
-    pad_text // on GameCube, NTSC 1.0 and "0.9" prerelease
+#if OOT_VERSION <= NTSC_1_0 || PLATFORM_GC
+    pad_text
+#endif
     include "$(BUILD_DIR)/src/audio/lib/data.o"
     include "$(BUILD_DIR)/src/audio/lib/synthesis.o"
     include "$(BUILD_DIR)/src/audio/lib/heap.o"
@@ -554,32 +571,35 @@ beginseg
     include "$(BUILD_DIR)/src/audio/lib/effects.o"
     include "$(BUILD_DIR)/src/audio/lib/seqplayer.o"
     include "$(BUILD_DIR)/src/audio/general.o"
-#if !OOT_DEBUG
-    pad_text // on retail GameCube
+#if PLATFORM_GC && !OOT_DEBUG
+    pad_text
 #endif
     include "$(BUILD_DIR)/src/audio/sfx_params.o"
     include "$(BUILD_DIR)/src/audio/sfx.o"
     include "$(BUILD_DIR)/src/audio/sequence.o"
     include "$(BUILD_DIR)/src/audio/data.o"
     include "$(BUILD_DIR)/src/audio/session_config.o"
-#if !PLATFORM_N64
-    include "$(BUILD_DIR)/src/code/logseverity_gc.o"
-#endif
+#if PLATFORM_N64
     include "$(BUILD_DIR)/src/code/gfxprint.o"
     include "$(BUILD_DIR)/src/code/rcp_utils.o"
-#if PLATFORM_N64
     include "$(BUILD_DIR)/src/code/loadfragment2_n64.o"
+    include "$(BUILD_DIR)/src/code/padutils.o"
+    include "$(BUILD_DIR)/src/code/code_800FC620.o"
+    include "$(BUILD_DIR)/src/code/padsetup.o"
 #else
+    include "$(BUILD_DIR)/src/code/logseverity_gc.o"
+    include "$(BUILD_DIR)/src/code/gfxprint.o"
+    include "$(BUILD_DIR)/src/code/rcp_utils.o"
     include "$(BUILD_DIR)/src/code/loadfragment2_gc.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/mtxuty-cvt.o"
 #endif
     include "$(BUILD_DIR)/src/code/relocation_gc.o"
     include "$(BUILD_DIR)/src/code/load_gc.o"
-#endif
     include "$(BUILD_DIR)/src/code/code_800FC620.o"
     include "$(BUILD_DIR)/src/code/padutils.o"
     include "$(BUILD_DIR)/src/code/padsetup.o"
+#endif
     include "$(BUILD_DIR)/src/code/fp_math.o"
     include "$(BUILD_DIR)/src/code/fp.o"
     include "$(BUILD_DIR)/src/code/system_malloc.o"
@@ -589,7 +609,9 @@ beginseg
     include "$(BUILD_DIR)/src/boot/sprintf.o"
 #endif
     include "$(BUILD_DIR)/src/code/printutils.o"
-    include "$(BUILD_DIR)/src/code/sleep.o"
+#if !PLATFORM_N64
+    include "$(BUILD_DIR)/src/boot/sleep.o"
+#endif
     include "$(BUILD_DIR)/src/code/jpegutils.o"
     include "$(BUILD_DIR)/src/code/jpegdecoder.o"
 #if OOT_DEBUG
@@ -696,6 +718,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
 #endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/contramread.o"
     include "$(BUILD_DIR)/src/libultra/io/crc.o"
 #if !OOT_DEBUG
@@ -718,7 +743,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
     include "$(BUILD_DIR)/src/libc/sqrt.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libc/absf.o"
+#endif
     include "$(BUILD_DIR)/src/libc/fmodf.o"
 #ifndef COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memset.o"

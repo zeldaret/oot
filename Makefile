@@ -421,6 +421,7 @@ endif
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/boot/logutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/boot/sleep.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/boot/sprintf.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
 
@@ -439,7 +440,6 @@ $(BUILD_DIR)/src/code/padsetup.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/padutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/printutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/relocation_gc.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/sleep.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/code/fault_n64.o: CFLAGS += -trapuv
