@@ -1,11 +1,5 @@
 #include "global.h"
 
-#if PLATFORM_N64
-#define GFXPRINT_PRINTF osSyncPrintf
-#else
-#define GFXPRINT_PRINTF PRINTF
-#endif
-
 u16 sGfxPrintFontTLUT[64] = {
     0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000,
     0xFFFF, 0x0000, 0xFFFF, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0x0000, 0x0000,
@@ -366,7 +360,9 @@ void GfxPrint_Open(GfxPrint* this, Gfx* dList) {
         this->dList = dList;
         GfxPrint_Setup(this);
     } else {
-        GFXPRINT_PRINTF("gfxprint_open:２重オープンです\n");
+#if PLATFORM_N64 || OOT_DEBUG
+        osSyncPrintf("gfxprint_open:２重オープンです\n");
+#endif
     }
 }
 
