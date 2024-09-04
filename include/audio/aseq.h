@@ -1173,7 +1173,7 @@ $reladdr\@:
 
 /**
  * sustain <value:u8>
- * 
+ *
  *  Sets the adsr sustain value for this channel.
  */
 .macro sustain value
@@ -1298,7 +1298,7 @@ $reladdr\@:
 /**
  * runseq <seqPlayer:u8> <seqId:u8>
  *
- *  Plays the sequence seqId on seqPlayer 
+ *  Plays the sequence seqId on seqPlayer
  */
 .macro runseq seqPlayer, seqId
     _wr_cmd_id  runseq, 0xC4,,,,,,,, 0, 0
@@ -1793,7 +1793,7 @@ $reladdr\@:
 
 /**
  * notepan <pan:u8>
- * 
+ *
  *  Sets the pan for this layer. A value of 64 is center.
  */
 .macro notepan pan
