@@ -7,11 +7,11 @@ C90,800010F0,src/boot/yaz0
 FD0,80001430,src/boot/z_locale
 1070,800014D0,src/boot/cic6105
 12F0,80001750,src/boot/is_debug
-1350,800017B0,src/libultra/io/driverominit
+1350,800017B0,src/boot/driverominit
 1530,80001990,src/boot/mio0
 15E0,80001A40,src/boot/stackcheck
 17F0,80001C50,src/boot/logutils
-1910,80001D70,src/code/sleep
+1910,80001D70,src/boot/sleep
 1AB0,80001F10,src/libultra/io/piacs
 1B70,80001FD0,src/libultra/os/sendmesg
 1CC0,80002120,src/libultra/os/stopthread
@@ -92,7 +92,7 @@ offset,vram,.data
 6340,800067A0,src/boot/z_std_dma
 6350,800067B0,src/boot/z_locale
 6360,800067C0,src/boot/cic6105
-63A0,80006800,src/libultra/io/driverominit
+63A0,80006800,src/boot/driverominit
 63B0,80006810,src/boot/stackcheck
 63C0,80006820,src/libultra/io/piacs
 63D0,80006830,src/libultra/io/vimodepallan1
@@ -127,7 +127,7 @@ offset,vram,.bss
 7F00,80008360,src/boot/z_std_dma
 8670,80008AD0,src/boot/yaz0
 8A80,80008EE0,src/boot/cic6105
-8AA0,80008F00,src/libultra/io/driverominit
+8AA0,80008F00,src/boot/driverominit
 8B20,80008F80,src/libultra/io/piacs
 8B40,80008FA0,src/libultra/os/initialize
 8B50,80008FB0,src/libultra/io/pimgr

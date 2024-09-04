@@ -24,6 +24,15 @@ pipeline {
                 sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
             }
         }
+        stage('Build ntsc-1.2, check disasm metadata') {
+            steps {
+                sh 'ln -s /usr/local/etc/roms/oot-ntsc-1.2-us.z64 baseroms/ntsc-1.2/baserom.z64'
+                sh 'make -j setup VERSION=ntsc-1.2'
+                sh 'make -j VERSION=ntsc-1.2'
+                sh '.venv/bin/python3 tools/check_disasm_metadata_unksyms.py -v ntsc-1.2'
+                sh 'make clean assetclean VERSION=ntsc-1.2'
+            }
+        }
         // The ROMs are built in an order that maximizes compiler flags coverage in a "fail fast" approach.
         // Specifically we start with a retail ROM for BSS ordering, and make sure we cover all of
         // NTSC/PAL/MQ/DEBUG as quickly as possible.
@@ -31,7 +40,7 @@ pipeline {
             steps {
                 sh 'ln -s /usr/local/etc/roms/oot-gc-jp.z64 baseroms/gc-jp/baserom.z64'
                 sh 'make -j setup VERSION=gc-jp'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-jp'
+                sh 'make -j VERSION=gc-jp'
                 sh 'make clean assetclean VERSION=gc-jp'
             }
         }
@@ -39,7 +48,7 @@ pipeline {
             steps {
                 sh 'ln -s /usr/local/etc/roms/oot-gc-eu-mq.z64 baseroms/gc-eu-mq/baserom.z64'
                 sh 'make -j setup VERSION=gc-eu-mq'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-eu-mq'
+                sh 'make -j VERSION=gc-eu-mq'
                 sh 'make clean assetclean VERSION=gc-eu-mq'
             }
         }
@@ -47,7 +56,7 @@ pipeline {
             steps {
                 sh 'ln -s /usr/local/etc/roms/oot-gc-eu-mq-dbg.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
                 sh 'make -j setup VERSION=gc-eu-mq-dbg'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-eu-mq-dbg'
+                sh 'make -j VERSION=gc-eu-mq-dbg'
                 sh 'make clean assetclean VERSION=gc-eu-mq-dbg'
             }
         }
@@ -55,7 +64,7 @@ pipeline {
             steps {
                 sh 'ln -s /usr/local/etc/roms/oot-gc-us.z64 baseroms/gc-us/baserom.z64'
                 sh 'make -j setup VERSION=gc-us'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-us'
+                sh 'make -j VERSION=gc-us'
                 sh 'make clean assetclean VERSION=gc-us'
             }
         }
@@ -63,7 +72,7 @@ pipeline {
             steps {
                 sh 'ln -s /usr/local/etc/roms/oot-gc-jp-ce.z64 baseroms/gc-jp-ce/baserom.z64'
                 sh 'make -j setup VERSION=gc-jp-ce'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-jp-ce'
+                sh 'make -j VERSION=gc-jp-ce'
                 sh 'make clean assetclean VERSION=gc-jp-ce'
             }
         }
@@ -71,7 +80,7 @@ pipeline {
             steps {
                 sh 'ln -s /usr/local/etc/roms/oot-gc-eu.z64 baseroms/gc-eu/baserom.z64'
                 sh 'make -j setup VERSION=gc-eu'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-eu'
+                sh 'make -j VERSION=gc-eu'
                 sh 'make clean assetclean VERSION=gc-eu'
             }
         }
@@ -79,7 +88,7 @@ pipeline {
             steps {
                 sh 'ln -s /usr/local/etc/roms/oot-gc-jp-mq.z64 baseroms/gc-jp-mq/baserom.z64'
                 sh 'make -j setup VERSION=gc-jp-mq'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-jp-mq'
+                sh 'make -j VERSION=gc-jp-mq'
                 sh 'make clean assetclean VERSION=gc-jp-mq'
             }
         }
@@ -87,7 +96,7 @@ pipeline {
             steps {
                 sh 'ln -s /usr/local/etc/roms/oot-gc-us-mq.z64 baseroms/gc-us-mq/baserom.z64'
                 sh 'make -j setup VERSION=gc-us-mq'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-us-mq'
+                sh 'make -j VERSION=gc-us-mq'
                 sh 'make clean assetclean VERSION=gc-us-mq'
             }
         }

@@ -41,8 +41,17 @@ f32 fabsf(f32 f);
 #define fabsf(f) __builtin_fabsf((f32)(f))
 #endif
 
-f32 sqrtf(f32 f);
+f64 fabs(f64 f);
 #ifdef __sgi
+#pragma intrinsic(fabs)
+#else
+#define fabs(f) __builtin_fabs((f64)(f))
+#endif
+
+f32 sqrtf(f32 f);
+// IDO has a sqrtf intrinsic, but in N64 versions it's not used for some files.
+// For these files we define NO_SQRTF_INTRINSIC to use the sqrtf function instead.
+#if defined(__sgi) && !defined(NO_SQRTF_INTRINSIC)
 #pragma intrinsic(sqrtf)
 #endif
 
@@ -51,8 +60,10 @@ f64 sqrt(f64 f);
 #pragma intrinsic(sqrt)
 #endif
 
+#if PLATFORM_GC
 extern float qNaN0x3FFFFF;
 extern float qNaN0x10000;
 extern float sNaN0x3FFFFF;
+#endif
 
 #endif

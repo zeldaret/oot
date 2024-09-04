@@ -34,7 +34,8 @@ void Locale_Init(void) {
             break;
         default:
             PRINTF(VT_COL(RED, WHITE));
-            PRINTF("z_locale_init: 日本用かアメリカ用か判別できません\n");
+            PRINTF(T("z_locale_init: 日本用かアメリカ用か判別できません\n",
+                     "z_locale_init: Can't tell if it's for Japan or America\n"));
 #if PLATFORM_N64
             LogUtils_HungupThread("../z_locale.c", 101);
 #else
@@ -44,7 +45,8 @@ void Locale_Init(void) {
             break;
     }
 
-    PRINTF("z_locale_init:日本用かアメリカ用か３コンで判断させる\n");
+    PRINTF(T("z_locale_init:日本用かアメリカ用か３コンで判断させる\n",
+             "z_locale_init: Determine whether it is for Japan or America using 3 controls\n"));
 }
 
 void Locale_ResetRegion(void) {

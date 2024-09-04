@@ -8,6 +8,13 @@
 #include "global.h"
 #include "terminal.h"
 #include "alloca.h"
+#include "z64.h"
+
+#if PLATFORM_N64
+#include "n64dd.h"
+// TODO n64dd functions
+void n64dd_SetDiskVersion(s32);
+#endif
 
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;
@@ -43,6 +50,20 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
     this->state.running = false;
     SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
+
+#if PLATFORM_N64
+void func_80800AD0_unknown(MapSelectState* this, s32 arg1) {
+    if (B_80121AE2 != 0) {
+        n64dd_SetDiskVersion(1);
+    }
+}
+
+void func_80800B08_unknown(MapSelectState* this, s32 arg1) {
+    if (B_80121AE2 != 0) {
+        n64dd_SetDiskVersion(0);
+    }
+}
+#endif
 
 // "Translation" (Actual name)
 static SceneSelectEntry sScenes[] = {
@@ -288,6 +309,10 @@ static SceneSelectEntry sScenes[] = {
 #endif
     // "title" (Title Screen)
     { "title", (void*)MapSelect_LoadTitle, 0 },
+#if PLATFORM_N64
+    { "64DD TEST  n64dd_SetDiskVersion(1)", (void*)func_80800AD0_unknown, 0 },
+    { "64DD TEST2 n64dd_SetDiskVersion(0)", (void*)func_80800B08_unknown, 0 },
+#endif
 };
 
 void MapSelect_UpdateMenu(MapSelectState* this) {
