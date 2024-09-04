@@ -28,8 +28,6 @@ void Mio0_Decompress(u8* src, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
-u32 StackCheck_GetState(StackEntry* entry);
-u32 StackCheck_CheckAll(void);
 u32 StackCheck_Check(StackEntry* entry);
 #if OOT_DEBUG
 void LogUtils_LogHexDump(void* ptr, s32 size0);
@@ -1341,6 +1339,7 @@ void UCodeDisas_RegisterUCode(UCodeDisas*, s32, UCodeInfo*);
 void UCodeDisas_SetCurUCode(UCodeDisas*, void*);
 Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);
 void AudioHeap_DiscardFont(s32 fontId);
+void AudioHeap_ReleaseNotesForFont(s32 fontId);
 void AudioHeap_DiscardSequence(s32 seqId);
 void AudioHeap_WritebackDCache(void* ramAddr, u32 size);
 void* AudioHeap_AllocZeroedAttemptExternal(AudioAllocPool* pool, u32 size);

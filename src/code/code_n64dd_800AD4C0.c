@@ -3,7 +3,6 @@
 #include "n64dd.h"
 
 // TODO functions of unknown prototype
-extern char func_801C8510_unknown[];
 extern char osGetIntMask[];
 extern char osSetTime[];
 
@@ -13,7 +12,7 @@ n64ddStruct_800FF4B0_pointers D_800FF4B0 = {
     NULL,
     Fault_RemoveClient,
     Fault_AddClient,
-    FaultDrawer_DrawText,
+    Fault_DrawText,
     Fault_WaitForInput,
     Fault_AddHungupAndCrashImpl,
     Fault_AddHungupAndCrash,

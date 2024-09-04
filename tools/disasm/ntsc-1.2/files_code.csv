@@ -124,7 +124,7 @@ B70B0,800C8790,src/audio/sfx
 B8F00,800CA5E0,src/audio/sequence
 BAB20,800CC200,src/code/gfxprint
 BB720,800CCE00,src/code/rcp_utils
-BBA50,800CD130,src/code/load
+BBA50,800CD130,src/code/loadfragment2_n64
 BBF00,800CD5E0,src/code/padutils
 BC110,800CD7F0,src/code/code_800FC620
 BC530,800CDC10,src/code/padsetup
@@ -289,7 +289,7 @@ F1EF0,801035D0,src/audio/sfx_params
 F32C0,801049A0,src/audio/data
 F3330,80104A10,src/audio/session_config
 F3AD0,801051B0,src/code/gfxprint
-F4380,80105A60,src/code/logseverity
+F4380,80105A60,src/code/loadfragment2_n64
 F4390,80105A70,src/code/code_800FC620
 F43A0,80105A80,src/code/rand
 F43B0,80105A90,src/code/__osMalloc_n64
@@ -378,7 +378,7 @@ F9100,8010A7E0,src/audio/sequence
 F9180,8010A860,src/audio/session_config
 F9190,8010A870,src/code/gfxprint
 F91D0,8010A8B0,src/code/rcp_utils
-F9320,8010AA00,src/code/load
+F9320,8010AA00,src/code/loadfragment2_n64
 F94C0,8010ABA0,src/code/fp_math
 F94E0,8010ABC0,src/code/__osMalloc_n64
 F9690,8010AD70,src/libultra/gu/sinf
@@ -447,8 +447,8 @@ offset,vram,.bss
 110FB0,80122690,src/audio/general
 1111B0,80122890,src/audio/sfx
 1139C0,801250A0,src/audio/sequence
-1146E0,80125DC0,src/audio/data
-114780,80125E60,src/audio/session_config
+114780,80125E60,src/audio/data
+114820,80125F00,src/audio/session_config
 11AC90,8012C370,src/code/system_malloc
 11ACA0,8012C380,src/code/jpegdecoder
 11ACB0,8012C390,src/libultra/io/sptask

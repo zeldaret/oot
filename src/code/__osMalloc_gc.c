@@ -812,9 +812,9 @@ void ArenaImpl_FaultClient(Arena* arena) {
     ArenaNode* iter;
     ArenaNode* next;
 
-    FaultDrawer_Printf("ARENA INFO (0x%08x)\n", arena);
+    Fault_Printf("ARENA INFO (0x%08x)\n", arena);
     if (!__osMallocIsInitialized(arena)) {
-        FaultDrawer_Printf("Arena is uninitalized\n", arena);
+        Fault_Printf("Arena is uninitalized\n", arena);
         return;
     }
 
@@ -822,16 +822,16 @@ void ArenaImpl_FaultClient(Arena* arena) {
     freeSize = 0;
     allocatedSize = 0;
 
-    FaultDrawer_Printf("Memory Block Region status size\n");
+    Fault_Printf("Memory Block Region status size\n");
 
     iter = arena->head;
     while (iter != NULL) {
         if (iter != NULL && iter->magic == NODE_MAGIC) {
             next = iter->next;
-            FaultDrawer_Printf("%08x-%08x%c %s %08x", iter, ((u32)iter + sizeof(ArenaNode) + iter->size),
-                               (!next) ? '$' : (iter != next->prev ? '!' : ' '), iter->isFree ? "F" : "A", iter->size);
+            Fault_Printf("%08x-%08x%c %s %08x", iter, ((u32)iter + sizeof(ArenaNode) + iter->size),
+                         (!next) ? '$' : (iter != next->prev ? '!' : ' '), iter->isFree ? "F" : "A", iter->size);
 
-            FaultDrawer_Printf("\n");
+            Fault_Printf("\n");
 
             if (iter->isFree) {
                 freeSize += iter->size;
@@ -842,17 +842,17 @@ void ArenaImpl_FaultClient(Arena* arena) {
                 allocatedSize += iter->size;
             }
         } else {
-            FaultDrawer_SetFontColor(0xF801);
-            FaultDrawer_Printf("%08x Block Invalid\n", iter);
+            Fault_SetFontColor(0xF801);
+            Fault_Printf("%08x Block Invalid\n", iter);
             next = NULL;
         }
         iter = next;
     }
 
-    FaultDrawer_SetFontColor(0x7F1);
-    FaultDrawer_Printf("Total Alloc Block Size  %08x\n", allocatedSize);
-    FaultDrawer_Printf("Total Free Block Size   %08x\n", freeSize);
-    FaultDrawer_Printf("Largest Free Block Size %08x\n", maxFree);
+    Fault_SetFontColor(0x7F1);
+    Fault_Printf("Total Alloc Block Size  %08x\n", allocatedSize);
+    Fault_Printf("Total Free Block Size   %08x\n", freeSize);
+    Fault_Printf("Largest Free Block Size %08x\n", maxFree);
 }
 
 s32 __osCheckArena(Arena* arena) {

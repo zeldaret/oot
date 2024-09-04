@@ -1,9 +1,10 @@
 #include "global.h"
-#if OOT_DEBUG
 #include "fault.h"
-#endif
 #include "osMalloc.h"
 #include "terminal.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
@@ -22,10 +23,10 @@ void GameState_FaultPrint(void) {
     s32 i;
 
     PRINTF("last_button=%04x\n", sLastButtonPressed);
-    FaultDrawer_DrawText(120, 180, "%08x", sLastButtonPressed);
+    Fault_DrawText(120, 180, "%08x", sLastButtonPressed);
     for (i = 0; i < ARRAY_COUNT(sBtnChars); i++) {
         if (sLastButtonPressed & (1 << i)) {
-            FaultDrawer_DrawText((i * 8) + 120, 190, "%c", sBtnChars[i]);
+            Fault_DrawText((i * 8) + 120, 190, "%c", sBtnChars[i]);
         }
     }
 }
@@ -71,7 +72,11 @@ void GameState_SetFBFilter(Gfx** gfxP) {
 }
 
 void func_800C4344(GameState* gameState) {
-#if OOT_DEBUG
+#if PLATFORM_N64
+    if (B_80121AE2 != 0) {
+        func_801C86F0_unknown();
+    }
+#elif OOT_DEBUG
     Input* selectedInput;
     s32 hexDumpSize;
     u16 inputCompareValue;
@@ -239,6 +244,12 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     newDlist = Gfx_Open(polyOpaP = POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, newDlist);
 
+#if PLATFORM_N64
+    if (B_80121AE2 != 0) {
+        func_801C7760_unknown(&newDlist);
+    }
+#endif
+
     gSPEndDisplayList(newDlist++);
     Gfx_Close(polyOpaP, newDlist);
     POLY_OPA_DISP = newDlist;
@@ -258,6 +269,15 @@ void GameState_Update(GameState* gameState) {
     GameState_SetFrameBuffer(gfxCtx);
 
     gameState->main(gameState);
+
+#if PLATFORM_N64
+    if (B_80121AE2 != 0) {
+        func_801C86F0_unknown();
+    }
+    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_74 != NULL)) {
+        B_80121AF0->unk_74(gameState);
+    }
+#endif
 
     func_800C4344(gameState);
 
@@ -357,7 +377,11 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     } else {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル確保失敗\n", "Failure to secure Hyrule\n"));
+#if PLATFORM_N64
+        HUNGUP_AND_CRASH("../game.c", 985);
+#else
         HUNGUP_AND_CRASH("../game.c", 999);
+#endif
     }
 }
 
@@ -397,7 +421,12 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 #if OOT_DEBUG
         SystemArena_Display();
 #endif
+
+#if PLATFORM_N64
+        HUNGUP_AND_CRASH("../game.c", 1030);
+#else
         HUNGUP_AND_CRASH("../game.c", 1044);
+#endif
     }
 }
 
