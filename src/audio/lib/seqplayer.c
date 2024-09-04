@@ -435,6 +435,14 @@ void AudioSeq_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer) {
 }
 
 void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
+    s32 finished = 0;
+
+#if PLATFORM_N64
+    if (seqPlayer->finished == 1) {
+        finished = 1;
+    }
+#endif
+
     AudioSeq_SequencePlayerDisableChannels(seqPlayer, 0xFFFF);
     Audio_NotePoolClear(&seqPlayer->notePool);
     if (!seqPlayer->enabled) {
@@ -449,6 +457,11 @@ void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     }
 
     if (AudioLoad_IsFontLoadComplete(seqPlayer->defaultFont)) {
+#if PLATFORM_N64
+        if (finished == 1) {
+            AudioHeap_ReleaseNotesForFont(seqPlayer->defaultFont);
+        }
+#endif
         AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, LOAD_STATUS_MAYBE_DISCARDABLE);
     }
 
@@ -946,7 +959,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
 
     if (layer->delay == 0) {
         if (layer->tunedSample != NULL) {
-            time = layer->tunedSample->sample->loop->end;
+            time = layer->tunedSample->sample->loop->header.end;
         } else {
             time = 0.0f;
         }

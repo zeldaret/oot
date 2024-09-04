@@ -9,9 +9,6 @@
 
 .balign 16
 
-glabel gSoundFontTable
-    .incbin "incbin/gSoundFontTable"
-
 glabel gSequenceFontTable
     .incbin "incbin/gSequenceFontTable"
 

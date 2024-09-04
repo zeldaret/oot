@@ -40,9 +40,9 @@ extern OSViContext* __osViCurr;
 extern OSViContext* __osViNext;
 extern OSViMode osViModeFpalLan1;
 extern u32 __additional_scanline;
-extern u8 gBuildTeam[];
-extern u8 gBuildDate[];
-extern u8 gBuildMakeOption[];
+extern const char gBuildTeam[];
+extern const char gBuildDate[];
+extern const char gBuildMakeOption[];
 extern OSMesgQueue gPiMgrCmdQueue;
 extern OSViMode gViConfigMode;
 extern u8 gViConfigModeType;
@@ -168,7 +168,7 @@ extern s32 __osPfsLastChannel;
 extern const TempoData gTempoData;
 extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
-extern u8 gSoundFontTable[];
+extern AudioTable gSoundFontTable;
 extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
@@ -247,5 +247,7 @@ extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 byt
 extern u64 gGfxSPTaskStack[SP_DRAM_STACK_SIZE64]; // 0x400 bytes
 extern GfxPool gGfxPools[2]; // 0x24820 bytes
 extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
+
+extern u32 gTotalAllocFailures;
 
 #endif

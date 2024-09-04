@@ -812,7 +812,7 @@ static s16 sQuestItemFlags[] = {
     QUEST_MEDALLION_WATER, QUEST_MEDALLION_SPIRIT, QUEST_MEDALLION_SHADOW, QUEST_MEDALLION_LIGHT,
 };
 
-#if OOT_NTSC && OOT_VERSION < OOT_GC_JP_CE
+#if OOT_NTSC && OOT_VERSION < GC_JP_CE
 static void* sSaveXTextures[] = { gFileSelSaveXJPNTex, gFileSelSaveXENGTex };
 #endif
 

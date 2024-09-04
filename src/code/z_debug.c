@@ -1,6 +1,6 @@
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 typedef struct DebugCamTextBufferEntry {
     /* 0x0 */ u8 x;
@@ -13,6 +13,8 @@ typedef struct InputCombo {
     /* 0x0 */ u16 hold;
     /* 0x2 */ u16 press;
 } InputCombo; // size = 0x4
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 RegEditor* gRegEditor;
 

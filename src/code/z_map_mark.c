@@ -72,8 +72,8 @@ void MapMark_DrawForDungeon(PlayState* play) {
     interfaceCtx = &play->interfaceCtx;
 
     if ((gMapData != NULL) && (play->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon])) {
-        // "Room number exceeded, yikes %d/%d  MapMarkDraw processing interrupted"
-        PRINTF(VT_COL(RED, WHITE) "部屋番号がオーバーしてるで,ヤバイで %d/%d  \nMapMarkDraw の処理を中断します\n",
+        PRINTF(VT_COL(RED, WHITE) T("部屋番号がオーバーしてるで,ヤバイで %d/%d  \nMapMarkDraw の処理を中断します\n",
+                                    "Room number exceeded, yikes %d/%d  \nMapMarkDraw processing interrupted\n"),
                VT_RST, play->interfaceCtx.mapRoomNum, gMapData->dgnMinimapCount[dungeon]);
         return;
     }

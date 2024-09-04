@@ -120,8 +120,9 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
     s16 tagIndex;
 
     PRINTF("\n\n");
-    // "Mysterious mystery, very mysterious"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n",
+                             "☆☆☆☆☆ Mysterious mystery, very mysterious \t   ☆☆☆☆☆ %x\n") VT_RST,
+           this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
 
     this->wonderMode = PARAMS_GET_U(this->actor.params, 11, 5);
@@ -328,8 +329,8 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HEISHI2, this->actor.world.pos.x, this->actor.world.pos.y,
                         this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0, 9) != NULL) {
-            // "Careless soldier spawned"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Careless soldier spawned ☆☆☆☆☆ \n")
+                       VT_RST);
         }
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(play, this->switchFlag);
