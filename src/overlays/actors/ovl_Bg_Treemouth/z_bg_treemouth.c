@@ -42,10 +42,8 @@ ActorProfile Bg_Treemouth_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 8000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE), ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 8000, ICHAIN_CONTINUE),  ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
@@ -243,7 +241,7 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (gSaveContext.sceneLayer == 6) {
-        alpha = (play->roomCtx.unk_74[0] + 0x1F4);
+        alpha = (play->roomCtx.drawParams[0] + 0x1F4);
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, alpha * 0.1f);
