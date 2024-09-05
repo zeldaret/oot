@@ -98,19 +98,47 @@ void ActorOverlayTable_LogPrint(void) {
 void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
     ActorOverlay* overlayEntry;
     u32 overlaySize;
+    uintptr_t ramStart;
+    uintptr_t ramEnd;
+    u32 offset;
+#if PLATFORM_N64
+    uintptr_t pc = gFaultFaultedThread != NULL ? gFaultFaultedThread->context.pc : 0;
+    uintptr_t ra = gFaultFaultedThread != NULL ? gFaultFaultedThread->context.ra : 0;
+    u32 i;
+#else
     s32 i;
+#endif
 
+#if PLATFORM_N64
+    func_800AE1F8();
+
+    Fault_Printf("actor_dlftbls %u\n", gMaxActorId);
+    Fault_Printf("No.  RamStart-RamEnd   Offset\n");
+#else
     Fault_SetCharPad(-2, 0);
 
     Fault_Printf("actor_dlftbls %u\n", gMaxActorId);
     Fault_Printf("No. RamStart- RamEnd cn  Name\n");
+#endif
 
     for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxActorId; i++, overlayEntry++) {
         overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
-        if (overlayEntry->loadedRamAddr != NULL) {
-            Fault_Printf("%3d %08x-%08x %3d %s\n", i, overlayEntry->loadedRamAddr,
-                         (uintptr_t)overlayEntry->loadedRamAddr + overlaySize, overlayEntry->numLoaded,
+        ramStart = (u32)overlayEntry->loadedRamAddr;
+        ramEnd = ramStart + overlaySize;
+        offset = (uintptr_t)overlayEntry->vramStart - ramStart;
+        if (ramStart != 0) {
+#if PLATFORM_N64
+            Fault_Printf("%3d %08x-%08x %08x", i, ramStart, ramEnd, offset);
+            if (ramStart <= pc && pc < ramEnd) {
+                Fault_Printf(" PC:%08x", pc + offset);
+            } else if (ramStart <= ra && ra < ramEnd) {
+                Fault_Printf(" RA:%08x", ra + offset);
+            }
+            Fault_Printf("\n");
+#else
+            Fault_Printf("%3d %08x-%08x %3d %s\n", i, ramStart, ramEnd, overlayEntry->numLoaded,
                          (OOT_DEBUG && overlayEntry->name != NULL) ? overlayEntry->name : "");
+#endif
         }
     }
 }

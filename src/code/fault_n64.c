@@ -93,7 +93,7 @@ FaultCursorCoords sFaultCursorPos;
 vs32 sFaultExit;
 vs32 gFaultMsgId;
 vs32 sFaultDisplayEnable;
-OSThread* sFaultFaultedThread;
+volatile OSThread* gFaultFaultedThread;
 s32 B_80122570[16];
 s32 B_801225B0[8]; // Unused (file padding?)
 
@@ -768,7 +768,7 @@ void Fault_ThreadEntry(void* arg0) {
                 osSyncPrintf("FindFaultedThread()=%08x\n", faultedThread);
             }
         } while (faultedThread == NULL);
-        sFaultFaultedThread = faultedThread;
+        gFaultFaultedThread = faultedThread;
         Fault_LogThreadContext(faultedThread);
         osSyncPrintf("%d %s %d:%s = %d\n", osGetThreadId(NULL), "fault.c", 1454, "fault_display_enable",
                      sFaultDisplayEnable);
