@@ -20,10 +20,4 @@ u64 gN64DDPleaseReadManualTexs[2][0x2800 / sizeof(u64)] = {
     },
 };
 
-#else
-
-// Stub out missing assets
-u64 gN64DDError41Texs[2][0x600 / sizeof(u64)] = { 0 };
-u64 gN64DDPleaseReadManualTexs[2][0x2800 / sizeof(u64)] = { 0 };
-
 #endif
