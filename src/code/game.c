@@ -533,7 +533,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int l
     void* ret;
 
     if (THA_IsCrash(&gameState->tha)) {
-        PRINTF("ハイラルは滅亡している\n");
+        PRINTF(T("ハイラルは滅亡している\n", "Hyrule is destroyed\n"));
         ret = NULL;
     } else if ((u32)THA_GetRemaining(&gameState->tha) < size) {
         PRINTF(T("滅亡寸前のハイラルには %d バイトの余力もない（滅亡まであと %d バイト）\n",
