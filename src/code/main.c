@@ -14,7 +14,7 @@ s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
 
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224"
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:208 gc-jp:208 gc-jp-ce:208 gc-jp-mq:208 gc-us:208 gc-us-mq:208"
 
 PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
