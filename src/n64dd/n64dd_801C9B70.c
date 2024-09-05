@@ -6,7 +6,7 @@ u8 B_801E1580[0x2800];
 u8 B_801E3D80[0x1400];
 
 /**
- * @brief Converts a number in decimal to a hexadecimal number with the same digits, e.g. 1234 -> 0x1234.
+ * Converts a number in decimal to a hexadecimal number with the same digits, e.g. 1234 -> 0x1234.
  *
  * Will only work on nonnegative numbers.
  *

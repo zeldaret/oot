@@ -49,7 +49,7 @@ u16 func_801C9514(u16 eucjpCh) {
 }
 
 /**
- * @brief Converts a JIS X 0208 codepoint to a Shift-JIS one.
+ * Converts a JIS X 0208 codepoint to a Shift-JIS one.
  *
  * @param jisCodepoint Two bytes, each between 0x21 and 0x7E, packed big-endian into a short.
  * @return u16 Shift-JIS character representation (expected to be big-endian)
