@@ -92,7 +92,7 @@ void EnFu_Init(Actor* thisx, PlayState* play) {
         this->skelanime.playSpeed = 2.0f;
     }
     this->behaviorFlags = 0;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
 }
 
 void EnFu_Destroy(Actor* thisx, PlayState* play) {

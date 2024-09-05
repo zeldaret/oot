@@ -127,7 +127,7 @@ void EnToryo_Init(Actor* thisx, PlayState* play) {
                      Animation_GetLastFrame(sEnToryoAnimation.animation), sEnToryoAnimation.mode,
                      sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
     this->actionFunc = EnToryo_Idle;
 }
 

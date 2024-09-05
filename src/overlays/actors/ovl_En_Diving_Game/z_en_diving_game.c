@@ -93,7 +93,7 @@ void EnDivingGame_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         D_809EF0B0 = true;
-        this->actor.targetMode = 0;
+        this->actor.targetMode = TARGET_MODE_0;
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = func_809EDCB0;
     }

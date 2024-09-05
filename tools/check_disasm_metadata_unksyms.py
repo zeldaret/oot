@@ -35,7 +35,7 @@ def get_ldscript_syms(ldscript_p: Path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--oot-version", "-v", required=True)
+    parser.add_argument("-v", "--version", dest="oot_version", required=True)
     args = parser.parse_args()
 
     version = args.oot_version
