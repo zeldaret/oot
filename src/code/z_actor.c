@@ -882,7 +882,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     Actor_SetFocus(actor, 0.0f);
     Math_Vec3f_Copy(&actor->prevPos, &actor->world.pos);
     Actor_SetScale(actor, 0.01f);
-    actor->targetMode = 3;
+    actor->targetMode = TARGET_MODE_3;
     actor->minVelocityY = -20.0f;
     actor->xyzDistToPlayerSq = MAXFLOAT;
     actor->naviEnemyId = NAVI_ENEMY_NONE;
@@ -1615,10 +1615,17 @@ typedef struct TargetRangeParams {
 #define TARGET_RANGE(range, leash) \
     { SQ(range), (f32)range / leash }
 
-TargetRangeParams sTargetRanges[] = {
-    TARGET_RANGE(70, 140),   TARGET_RANGE(170, 255),    TARGET_RANGE(280, 5600),      TARGET_RANGE(350, 525),
-    TARGET_RANGE(700, 1050), TARGET_RANGE(1000, 1500),  TARGET_RANGE(100, 105.36842), TARGET_RANGE(140, 163.33333),
-    TARGET_RANGE(240, 576),  TARGET_RANGE(280, 280000),
+TargetRangeParams sTargetRanges[TARGET_MODE_MAX] = {
+    TARGET_RANGE(70, 140),        // TARGET_MODE_0
+    TARGET_RANGE(170, 255),       // TARGET_MODE_1
+    TARGET_RANGE(280, 5600),      // TARGET_MODE_2
+    TARGET_RANGE(350, 525),       // TARGET_MODE_3
+    TARGET_RANGE(700, 1050),      // TARGET_MODE_4
+    TARGET_RANGE(1000, 1500),     // TARGET_MODE_5
+    TARGET_RANGE(100, 105.36842), // TARGET_MODE_6
+    TARGET_RANGE(140, 163.33333), // TARGET_MODE_7
+    TARGET_RANGE(240, 576),       // TARGET_MODE_8
+    TARGET_RANGE(280, 280000),    // TARGET_MODE_9
 };
 
 /**
@@ -1680,7 +1687,7 @@ s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRan
     Player* player = GET_PLAYER(play);
 
     if ((player->actor.flags & ACTOR_FLAG_TALK) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
-        (!actor->isTargeted &&
+        (!actor->isLockedOn &&
          ((yRange < fabsf(actor->yDistToPlayer)) || (player->talkActorDistance < actor->xzDistToPlayer) ||
           (xzRange < actor->xzDistToPlayer)))) {
         return false;
@@ -2334,9 +2341,9 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
                 if ((DECR(actor->freezeTimer) == 0) && (actor->flags & (ACTOR_FLAG_4 | ACTOR_FLAG_6))) {
                     if (actor == player->focusActor) {
-                        actor->isTargeted = true;
+                        actor->isLockedOn = true;
                     } else {
-                        actor->isTargeted = false;
+                        actor->isLockedOn = false;
                     }
 
                     if ((actor->targetPriority != 0) && (player->focusActor == NULL)) {
@@ -3745,12 +3752,12 @@ s16 Actor_TestFloorInDirection(Actor* actor, PlayState* play, f32 distance, s16 
 }
 
 /**
- * Returns true if the player is targeting the provided actor
+ * Returns true if the player is locked onto the specified actor
  */
-s32 Actor_IsTargeted(PlayState* play, Actor* actor) {
+s32 Actor_IsLockedOn(PlayState* play, Actor* actor) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_4) && actor->isTargeted) {
+    if ((player->stateFlags1 & PLAYER_STATE1_4) && actor->isLockedOn) {
         return true;
     } else {
         return false;
@@ -3758,12 +3765,12 @@ s32 Actor_IsTargeted(PlayState* play, Actor* actor) {
 }
 
 /**
- * Returns true if the player is targeting an actor other than the provided actor
+ * Returns true if the player is locked onto an actor other than the specified actor
  */
-s32 Actor_OtherIsTargeted(PlayState* play, Actor* actor) {
+s32 Actor_OtherIsLockedOn(PlayState* play, Actor* actor) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_4) && !actor->isTargeted) {
+    if ((player->stateFlags1 & PLAYER_STATE1_4) && !actor->isLockedOn) {
         return true;
     } else {
         return false;
@@ -5904,7 +5911,7 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
         return false;
     }
 
-    if ((actor->xyzDistToPlayerSq > SQ(160.0f)) && !actor->isTargeted) {
+    if ((actor->xyzDistToPlayerSq > SQ(160.0f)) && !actor->isLockedOn) {
         return false;
     }
 

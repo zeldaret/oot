@@ -358,13 +358,32 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
 void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     static void* cloudTexs[] = {
-        gWorldMapCloud16Tex, gWorldMapCloud15Tex, gWorldMapCloud14Tex, gWorldMapCloud13Tex,
-        gWorldMapCloud12Tex, gWorldMapCloud11Tex, gWorldMapCloud10Tex, gWorldMapCloud9Tex,
-        gWorldMapCloud8Tex,  gWorldMapCloud7Tex,  gWorldMapCloud6Tex,  gWorldMapCloud5Tex,
-        gWorldMapCloud4Tex,  gWorldMapCloud3Tex,  gWorldMapCloud2Tex,  gWorldMapCloud1Tex,
+        gWorldMapCloudSacredForestMeadowTex, gWorldMapCloudHyruleFieldTex,
+        gWorldMapCloudLonLonRanchTex,        gWorldMapCloudMarketTex,
+        gWorldMapCloudHyruleCastleTex,       gWorldMapCloudKakarikoVillageTex,
+        gWorldMapCloudGraveyardTex,          gWorldMapCloudDeathMountainTrailTex,
+        gWorldMapCloudGoronCityTex,          gWorldMapCloudZorasRiverTex,
+        gWorldMapCloudZorasDomainTex,        gWorldMapCloudZorasFountainTex,
+        gWorldMapCloudGerudoValleyTex,       gWorldMapCloudGerudosFortressTex,
+        gWorldMapCloudDesertColossusTex,     gWorldMapCloudLakeHyliaTex,
     };
     static u16 cloudFlagNums[] = {
-        0x05, 0x00, 0x13, 0x0E, 0x0F, 0x01, 0x02, 0x10, 0x12, 0x03, 0x07, 0x08, 0x09, 0x0C, 0x0B, 0x06,
+        WORLD_MAP_AREA_SACRED_FOREST_MEADOW,
+        WORLD_MAP_AREA_HYRULE_FIELD,
+        WORLD_MAP_AREA_LON_LON_RANCH,
+        WORLD_MAP_AREA_MARKET,
+        WORLD_MAP_AREA_HYRULE_CASTLE,
+        WORLD_MAP_AREA_KAKARIKO_VILLAGE,
+        WORLD_MAP_AREA_GRAVEYARD,
+        WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL,
+        WORLD_MAP_AREA_GORON_CITY,
+        WORLD_MAP_AREA_ZORAS_RIVER,
+        WORLD_MAP_AREA_ZORAS_DOMAIN,
+        WORLD_MAP_AREA_ZORAS_FOUNTAIN,
+        WORLD_MAP_AREA_GERUDO_VALLEY,
+        WORLD_MAP_AREA_GERUDOS_FORTRESS,
+        WORLD_MAP_AREA_DESERT_COLOSSUS,
+        WORLD_MAP_AREA_LAKE_HYLIA,
     };
     static s16 pointPulsePrimColor[] = { 0, 0, 255 };
     static s16 pointPrimColors[][3] = {
@@ -380,23 +399,124 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     static s16 pointPulseTimer = 20;
     static s16 D_8082A5B8[] = { 64, 64, 64, 28 };
     static s16 areaBoxPosX[] = {
-        -41, 19, 44, 40, 49, 51, -49, 83, 80, -67, 50, -109, -76, -86, -10, -6, 19, 24, 11, -17, 37, -6,
+        -41,  // WORLD_MAP_AREA_HYRULE_FIELD
+        19,   // WORLD_MAP_AREA_KAKARIKO_VILLAGE
+        44,   // WORLD_MAP_AREA_GRAVEYARD
+        40,   // WORLD_MAP_AREA_ZORAS_RIVER
+        49,   // WORLD_MAP_AREA_KOKIRI_FOREST
+        51,   // WORLD_MAP_AREA_SACRED_FOREST_MEADOW
+        -49,  // WORLD_MAP_AREA_LAKE_HYLIA
+        83,   // WORLD_MAP_AREA_ZORAS_DOMAIN
+        80,   // WORLD_MAP_AREA_ZORAS_FOUNTAIN
+        -67,  // WORLD_MAP_AREA_GERUDO_VALLEY
+        50,   // WORLD_MAP_AREA_LOST_WOODS
+        -109, // WORLD_MAP_AREA_DESERT_COLOSSUS
+        -76,  // WORLD_MAP_AREA_GERUDOS_FORTRESS
+        -86,  // WORLD_MAP_AREA_HAUNTED_WASTELAND
+        -10,  // WORLD_MAP_AREA_MARKET
+        -6,   // WORLD_MAP_AREA_HYRULE_CASTLE
+        19,   // WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL
+        24,   // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
+        11,   // WORLD_MAP_AREA_GORON_CITY
+        -17,  // WORLD_MAP_AREA_LON_LON_RANCH
+        37,   // WORLD_MAP_AREA_QUESTION_MARK
+        -6,   // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static s16 areaBoxWidths[] = {
-        96, 32, 32, 48, 48, 32, 48, 32, 32, 32, 16, 32, 32, 16, 32, 32, 32, 32, 32, 32, 16, 32,
+        96, // WORLD_MAP_AREA_HYRULE_FIELD
+        32, // WORLD_MAP_AREA_KAKARIKO_VILLAGE
+        32, // WORLD_MAP_AREA_GRAVEYARD
+        48, // WORLD_MAP_AREA_ZORAS_RIVER
+        48, // WORLD_MAP_AREA_KOKIRI_FOREST
+        32, // WORLD_MAP_AREA_SACRED_FOREST_MEADOW
+        48, // WORLD_MAP_AREA_LAKE_HYLIA
+        32, // WORLD_MAP_AREA_ZORAS_DOMAIN
+        32, // WORLD_MAP_AREA_ZORAS_FOUNTAIN
+        32, // WORLD_MAP_AREA_GERUDO_VALLEY
+        16, // WORLD_MAP_AREA_LOST_WOODS
+        32, // WORLD_MAP_AREA_DESERT_COLOSSUS
+        32, // WORLD_MAP_AREA_GERUDOS_FORTRESS
+        16, // WORLD_MAP_AREA_HAUNTED_WASTELAND
+        32, // WORLD_MAP_AREA_MARKET
+        32, // WORLD_MAP_AREA_HYRULE_CASTLE
+        32, // WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL
+        32, // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
+        32, // WORLD_MAP_AREA_GORON_CITY
+        32, // WORLD_MAP_AREA_LON_LON_RANCH
+        16, // WORLD_MAP_AREA_QUESTION_MARK
+        32, // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static s16 areaBoxPosY[] = {
-        30, 36, 35, 26, 7, 11, -31, 30, 38, 23, 2, 42, 40, 32, 38, 50, 57, 58, 56, 12, 36, 50,
+        30,  // WORLD_MAP_AREA_HYRULE_FIELD
+        36,  // WORLD_MAP_AREA_KAKARIKO_VILLAGE
+        35,  // WORLD_MAP_AREA_GRAVEYARD
+        26,  // WORLD_MAP_AREA_ZORAS_RIVER
+        7,   // WORLD_MAP_AREA_KOKIRI_FOREST
+        11,  // WORLD_MAP_AREA_SACRED_FOREST_MEADOW
+        -31, // WORLD_MAP_AREA_LAKE_HYLIA
+        30,  // WORLD_MAP_AREA_ZORAS_DOMAIN
+        38,  // WORLD_MAP_AREA_ZORAS_FOUNTAIN
+        23,  // WORLD_MAP_AREA_GERUDO_VALLEY
+        2,   // WORLD_MAP_AREA_LOST_WOODS
+        42,  // WORLD_MAP_AREA_DESERT_COLOSSUS
+        40,  // WORLD_MAP_AREA_GERUDOS_FORTRESS
+        32,  // WORLD_MAP_AREA_HAUNTED_WASTELAND
+        38,  // WORLD_MAP_AREA_MARKET
+        50,  // WORLD_MAP_AREA_HYRULE_CASTLE
+        57,  // WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL
+        58,  // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
+        56,  // WORLD_MAP_AREA_GORON_CITY
+        12,  // WORLD_MAP_AREA_LON_LON_RANCH
+        36,  // WORLD_MAP_AREA_QUESTION_MARK
+        50,  // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static s16 areaBoxHeights[] = {
-        59, 19, 13, 19, 38, 17, 38, 17, 13, 26, 16, 26, 26, 16, 19, 17, 26, 13, 17, 17, 16, 17,
+        59, // WORLD_MAP_AREA_HYRULE_FIELD
+        19, // WORLD_MAP_AREA_KAKARIKO_VILLAGE
+        13, // WORLD_MAP_AREA_GRAVEYARD
+        19, // WORLD_MAP_AREA_ZORAS_RIVER
+        38, // WORLD_MAP_AREA_KOKIRI_FOREST
+        17, // WORLD_MAP_AREA_SACRED_FOREST_MEADOW
+        38, // WORLD_MAP_AREA_LAKE_HYLIA
+        17, // WORLD_MAP_AREA_ZORAS_DOMAIN
+        13, // WORLD_MAP_AREA_ZORAS_FOUNTAIN
+        26, // WORLD_MAP_AREA_GERUDO_VALLEY
+        16, // WORLD_MAP_AREA_LOST_WOODS
+        26, // WORLD_MAP_AREA_DESERT_COLOSSUS
+        26, // WORLD_MAP_AREA_GERUDOS_FORTRESS
+        16, // WORLD_MAP_AREA_HAUNTED_WASTELAND
+        19, // WORLD_MAP_AREA_MARKET
+        17, // WORLD_MAP_AREA_HYRULE_CASTLE
+        26, // WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL
+        13, // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
+        17, // WORLD_MAP_AREA_GORON_CITY
+        17, // WORLD_MAP_AREA_LON_LON_RANCH
+        16, // WORLD_MAP_AREA_QUESTION_MARK
+        17, // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static void* areaBoxTexs[] = {
-        gWorldMapAreaBox7Tex, gWorldMapAreaBox1Tex, gWorldMapAreaBox4Tex, gWorldMapAreaBox6Tex, gWorldMapAreaBox2Tex,
-        gWorldMapAreaBox3Tex, gWorldMapAreaBox2Tex, gWorldMapAreaBox3Tex, gWorldMapAreaBox4Tex, gWorldMapAreaBox5Tex,
-        gWorldMapAreaBox8Tex, gWorldMapAreaBox5Tex, gWorldMapAreaBox5Tex, gWorldMapAreaBox8Tex, gWorldMapAreaBox1Tex,
-        gWorldMapAreaBox3Tex, gWorldMapAreaBox5Tex, gWorldMapAreaBox4Tex, gWorldMapAreaBox3Tex, gWorldMapAreaBox3Tex,
-        gWorldMapAreaBox8Tex, gWorldMapAreaBox3Tex,
+        gWorldMapAreaBox7Tex, // WORLD_MAP_AREA_HYRULE_FIELD
+        gWorldMapAreaBox1Tex, // WORLD_MAP_AREA_KAKARIKO_VILLAGE
+        gWorldMapAreaBox4Tex, // WORLD_MAP_AREA_GRAVEYARD
+        gWorldMapAreaBox6Tex, // WORLD_MAP_AREA_ZORAS_RIVER
+        gWorldMapAreaBox2Tex, // WORLD_MAP_AREA_KOKIRI_FOREST
+        gWorldMapAreaBox3Tex, // WORLD_MAP_AREA_SACRED_FOREST_MEADOW
+        gWorldMapAreaBox2Tex, // WORLD_MAP_AREA_LAKE_HYLIA
+        gWorldMapAreaBox3Tex, // WORLD_MAP_AREA_ZORAS_DOMAIN
+        gWorldMapAreaBox4Tex, // WORLD_MAP_AREA_ZORAS_FOUNTAIN
+        gWorldMapAreaBox5Tex, // WORLD_MAP_AREA_GERUDO_VALLEY
+        gWorldMapAreaBox8Tex, // WORLD_MAP_AREA_LOST_WOODS
+        gWorldMapAreaBox5Tex, // WORLD_MAP_AREA_DESERT_COLOSSUS
+        gWorldMapAreaBox5Tex, // WORLD_MAP_AREA_GERUDOS_FORTRESS
+        gWorldMapAreaBox8Tex, // WORLD_MAP_AREA_HAUNTED_WASTELAND
+        gWorldMapAreaBox1Tex, // WORLD_MAP_AREA_MARKET
+        gWorldMapAreaBox3Tex, // WORLD_MAP_AREA_HYRULE_CASTLE
+        gWorldMapAreaBox5Tex, // WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL
+        gWorldMapAreaBox4Tex, // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
+        gWorldMapAreaBox3Tex, // WORLD_MAP_AREA_GORON_CITY
+        gWorldMapAreaBox3Tex, // WORLD_MAP_AREA_LON_LON_RANCH
+        gWorldMapAreaBox8Tex, // WORLD_MAP_AREA_QUESTION_MARK
+        gWorldMapAreaBox3Tex, // WORLD_MAP_AREA_GANONS_CASTLE
     };
     static void* currentPosTitleTexs[] = LANGUAGE_ARRAY(gPauseCurrentPositionJPNTex, gPauseCurrentPositionENGTex,
                                                         gPauseCurrentPositionGERTex, gPauseCurrentPositionFRATex);
@@ -615,7 +735,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    if (gSaveContext.worldMapArea < 22) {
+    if (gSaveContext.worldMapArea < WORLD_MAP_AREA_MAX) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_POINT);
 
@@ -749,7 +869,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     }
 
-    if (gSaveContext.worldMapArea < 22) {
+    if (gSaveContext.worldMapArea < WORLD_MAP_AREA_MAX) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
