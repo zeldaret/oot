@@ -16,8 +16,6 @@ struct RoomContext;
 struct SaveContext;
 struct Scene;
 
-union Gfx;
-
 // TODO Use the specific pointer types instead of void*
 typedef struct n64ddStruct_800FEE70_pointers {
     void* unk_00;
@@ -70,7 +68,7 @@ void func_800AD590(void);
 void func_800AD598(s32 arg0, s32 arg1, s32 arg2);
 
 u32 func_801C6E80(void);
-void func_801C6EA0(union Gfx** gfxP);
+void func_801C6EA0(Gfx** gfxP);
 s32 func_801C70FC(void);
 void func_801C7268(void);
 s32 func_801C7658(void);
