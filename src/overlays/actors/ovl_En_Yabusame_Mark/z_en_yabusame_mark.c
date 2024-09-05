@@ -34,7 +34,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-ActorInit En_Yabusame_Mark_InitVars = {
+ActorProfile En_Yabusame_Mark_Profile = {
     /**/ ACTOR_EN_YABUSAME_MARK,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -82,7 +82,7 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->typeIndex = this->actor.params;
-    this->actor.targetMode = 5;
+    this->actor.targetMode = TARGET_MODE_5;
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
     switch (this->typeIndex) {
         case 0:

@@ -26,7 +26,7 @@ void func_80B332B4(EnWeiyer* this, PlayState* play);
 void func_80B33338(EnWeiyer* this, PlayState* play);
 void func_80B3349C(EnWeiyer* this, PlayState* play);
 
-ActorInit En_Weiyer_InitVars = {
+ActorProfile En_Weiyer_Profile = {
     /**/ ACTOR_EN_WEIYER,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

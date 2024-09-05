@@ -16,7 +16,7 @@ void EnSkjneedle_Draw(Actor* thisx, PlayState* play);
 
 s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);
 
-ActorInit En_Skjneedle_InitVars = {
+ActorProfile En_Skjneedle_Profile = {
     /**/ ACTOR_EN_SKJNEEDLE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -48,7 +48,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 

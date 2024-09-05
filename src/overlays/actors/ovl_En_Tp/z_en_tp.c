@@ -29,7 +29,7 @@ void EnTp_Head_Wait(EnTp* this, PlayState* play);
 void EnTp_Head_SetupBurrowReturnHome(EnTp* this);
 void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play);
 
-typedef enum {
+typedef enum TailpasaranAction {
     /* 0 */ TAILPASARAN_ACTION_FRAGMENT_FADE,
     /* 1 */ TAILPASARAN_ACTION_DIE,
     /* 2 */ TAILPASARAN_ACTION_TAIL_FOLLOWHEAD,
@@ -39,7 +39,7 @@ typedef enum {
     /* 9 */ TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME
 } TailpasaranAction;
 
-ActorInit En_Tp_InitVars = {
+ActorProfile En_Tp_Profile = {
     /**/ ACTOR_EN_TP,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -78,7 +78,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef enum {
+typedef enum TailpasaranDamageEffect {
     /* 00 */ TAILPASARAN_DMGEFF_NONE,
     /* 01 */ TAILPASARAN_DMGEFF_DEKUNUT,
     /* 14 */ TAILPASARAN_DMGEFF_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
@@ -136,7 +136,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     s32 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.targetMode = 3;
+    this->actor.targetMode = TARGET_MODE_3;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
     this->unk_150 = 0;

@@ -16,7 +16,7 @@ void EnVbBall_Destroy(Actor* thisx, PlayState* play);
 void EnVbBall_Update(Actor* thisx, PlayState* play2);
 void EnVbBall_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Vb_Ball_InitVars = {
+ActorProfile En_Vb_Ball_Profile = {
     /**/ 0,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -134,7 +134,7 @@ void EnVbBall_UpdateBones(EnVbBall* this, PlayState* play) {
         this->actor.velocity.x = sinf(angle) * 10.0f;
         this->actor.velocity.z = cosf(angle) * 10.0f;
         this->actor.velocity.y *= -0.5f;
-        if (this->actor.params & 1) {
+        if (PARAMS_GET_U(this->actor.params, 0, 1)) {
             Audio_PlaySfxGeneral(NA_SE_EN_VALVAISA_LAND, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }

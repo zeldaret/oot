@@ -28,7 +28,7 @@ void EnBili_Die(EnBili* this, PlayState* play);
 void EnBili_Stunned(EnBili* this, PlayState* play);
 void EnBili_Frozen(EnBili* this, PlayState* play);
 
-ActorInit En_Bili_InitVars = {
+ActorProfile En_Bili_Profile = {
     /**/ ACTOR_EN_BILI,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -62,7 +62,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 9, 28, -20, 30 };
 
-typedef enum {
+typedef enum BiriDamageEffect {
     /* 0x0 */ BIRI_DMGEFF_NONE,
     /* 0x1 */ BIRI_DMGEFF_DEKUNUT,
     /* 0x2 */ BIRI_DMGEFF_FIRE,

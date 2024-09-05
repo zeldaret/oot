@@ -21,7 +21,7 @@ void ArrowLight_Hit(ArrowLight* this, PlayState* play);
 
 #include "assets/overlays/ovl_Arrow_Light/ovl_Arrow_Light.c"
 
-ActorInit Arrow_Light_InitVars = {
+ActorProfile Arrow_Light_Profile = {
     /**/ ACTOR_ARROW_LIGHT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

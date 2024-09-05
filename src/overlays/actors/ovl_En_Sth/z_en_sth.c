@@ -22,7 +22,7 @@ void EnSth_ParentRewardObtainedWait(EnSth* this, PlayState* play);
 void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play);
 void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play);
 
-ActorInit En_Sth_InitVars = {
+ActorProfile En_Sth_Profile = {
     /**/ ACTOR_EN_STH,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -131,7 +131,7 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
     EnSth_SetupAction(this, EnSth_WaitForObject);
     this->actor.draw = NULL;
     this->unk_2B2 = 0;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
 }
 
 void EnSth_SetupShapeColliderUpdate2AndDraw(EnSth* this, PlayState* play) {

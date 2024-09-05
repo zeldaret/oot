@@ -394,7 +394,7 @@ void EnRl_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-ActorInit En_Rl_InitVars = {
+ActorProfile En_Rl_Profile = {
     /**/ ACTOR_EN_RL,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

@@ -30,7 +30,7 @@ void EnReeba_Die(EnReeba* this, PlayState* play);
 void EnReeba_Stunned(EnReeba* this, PlayState* play);
 void EnReeba_StunDie(EnReeba* this, PlayState* play);
 
-typedef enum {
+typedef enum LeeverDamageEffect {
     /* 0x00 */ LEEVER_DMGEFF_NONE, // used by anything that cant kill the Leever
     /* 0x01 */ LEEVER_DMGEFF_UNK,  // used by "unknown 1" attack
     /* 0x03 */ LEEVER_DMGEFF_ICE = 3,
@@ -75,7 +75,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, LEEVER_DMGEFF_NONE),
 };
 
-ActorInit En_Reeba_InitVars = {
+ActorProfile En_Reeba_Profile = {
     /**/ ACTOR_EN_REEBA,
     /**/ ACTORCAT_MISC,
     /**/ FLAGS,
@@ -113,7 +113,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
     s32 surfaceType;
 
     this->actor.naviEnemyId = NAVI_ENEMY_LEEVER;
-    this->actor.targetMode = 3;
+    this->actor.targetMode = TARGET_MODE_3;
     this->actor.gravity = -3.5f;
     this->actor.focus.pos = this->actor.world.pos;
     SkelAnime_Init(play, &this->skelanime, &object_reeba_Skel_001EE8, &object_reeba_Anim_0001E4, this->jointTable,

@@ -46,7 +46,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-ActorInit En_Kakasi3_InitVars = {
+ActorProfile En_Kakasi3_Profile = {
     /**/ ACTOR_EN_KAKASI3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -71,7 +71,7 @@ void EnKakasi3_Init(Actor* thisx, PlayState* play) {
     PRINTF("\n\n");
     // "Obonur" -- Related to the name of the scarecrow (Bonooru)
     PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

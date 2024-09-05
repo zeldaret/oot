@@ -14,7 +14,7 @@ void EnJsjutan_Destroy(Actor* thisx, PlayState* play);
 void EnJsjutan_Update(Actor* thisx, PlayState* play2);
 void EnJsjutan_Draw(Actor* thisx, PlayState* play2);
 
-ActorInit En_Jsjutan_InitVars = {
+ActorProfile En_Jsjutan_Profile = {
     /**/ ACTOR_EN_JSJUTAN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

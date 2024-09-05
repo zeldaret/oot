@@ -16,7 +16,7 @@ void BgSpot07Taki_Draw(Actor* thisx, PlayState* play);
 
 void BgSpot07Taki_DoNothing(BgSpot07Taki* this, PlayState* play);
 
-ActorInit Bg_Spot07_Taki_InitVars = {
+ActorProfile Bg_Spot07_Taki_Profile = {
     /**/ ACTOR_BG_SPOT07_TAKI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -24,7 +24,7 @@ void EnIceHono_SetupActionDroppedFlame(EnIceHono* this);
 void EnIceHono_SetupActionSpreadFlames(EnIceHono* this);
 void EnIceHono_SetupActionSmallFlame(EnIceHono* this);
 
-ActorInit En_Ice_Hono_InitVars = {
+ActorProfile En_Ice_Hono_Profile = {
     /**/ ACTOR_EN_ICE_HONO,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -77,10 +77,8 @@ static ColliderCylinderInit sCylinderInitDroppedFlame = {
 };
 
 static InitChainEntry sInitChainCapturableFlame[] = {
-    ICHAIN_U8(targetMode, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 60, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_0, ICHAIN_CONTINUE), ICHAIN_F32(targetArrowOffset, 60, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),  ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 

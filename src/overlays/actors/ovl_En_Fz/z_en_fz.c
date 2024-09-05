@@ -45,7 +45,7 @@ void EnFz_SpawnIceSmokeFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* ac
 void EnFz_UpdateIceSmoke(EnFz* this, PlayState* play);
 void EnFz_DrawEffects(EnFz* this, PlayState* play);
 
-ActorInit En_Fz_InitVars = {
+ActorProfile En_Fz_Profile = {
     /**/ ACTOR_EN_FZ,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -151,7 +151,7 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_FREEZARD, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
@@ -721,8 +721,6 @@ void EnFz_Draw(Actor* thisx, PlayState* play) {
     index = (6 - this->actor.colChkInfo.health) >> 1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fz.c", 1167);
-
-    if (1) {}
 
     if (this->actor.colChkInfo.health == 0) {
         index = 2;

@@ -23,7 +23,7 @@ void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel);
 void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 
-ActorInit En_Tr_InitVars = {
+ActorProfile En_Tr_Profile = {
     /**/ ACTOR_EN_TR,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

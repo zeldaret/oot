@@ -16,7 +16,7 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play);
 
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
-ActorInit Bg_Sst_Floor_InitVars = {
+ActorProfile Bg_Sst_Floor_Profile = {
     /**/ ACTOR_BG_SST_FLOOR,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -42,7 +42,7 @@ void EnGoma_SetupLand(EnGoma* this);
 void EnGoma_SetupJump(EnGoma* this);
 void EnGoma_SetupStunned(EnGoma* this, PlayState* play);
 
-ActorInit En_Goma_InitVars = {
+ActorProfile En_Goma_Profile = {
     /**/ ACTOR_BOSS_GOMA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -98,7 +98,7 @@ static u8 sSpawnNum = 0;
 static Vec3f sDeadEffectVel = { 0.0f, 0.0f, 0.0f };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_3, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GOHMA_LARVA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 20, ICHAIN_STOP),
@@ -756,6 +756,7 @@ s32 EnGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
                    255);
 
     if (limbIndex == GOMA_LIMB_EYE_IRIS_ROOT1) {
+        if (1) {}
         rot->x += this->eyePitch;
         rot->y += this->eyeYaw;
     } else if (limbIndex == GOMA_LIMB_BODY && this->hurtTimer != 0) {

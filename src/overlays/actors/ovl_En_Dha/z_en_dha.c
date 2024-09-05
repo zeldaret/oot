@@ -23,7 +23,7 @@ void EnDha_SetupDeath(EnDha* this);
 void EnDha_Die(EnDha* this, PlayState* play);
 void EnDha_UpdateHealth(EnDha* this, PlayState* play);
 
-ActorInit En_Dha_InitVars = {
+ActorProfile En_Dha_Profile = {
     /**/ ACTOR_EN_DHA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

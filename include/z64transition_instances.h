@@ -4,12 +4,12 @@
 #include "ultra64.h"
 #include "color.h"
 
-typedef struct {
+typedef struct TransitionTileVtxData {
     /* 0x0 */ f32 x;
     /* 0x4 */ f32 y;
 } TransitionTileVtxData; // size = 0x8
 
-typedef struct {
+typedef struct TransitionTile {
     /* 0x00 */ s32 cols;
     /* 0x04 */ s32 rows;
     /* 0x08 */ s32 frame;
@@ -23,12 +23,12 @@ typedef struct {
     /* 0xDC */ u16* zBuffer;
 } TransitionTile; // size = 0xE0
 
-typedef enum {
+typedef enum TransitionInstanceType {
     /* 1 */ TRANS_INSTANCE_TYPE_FILL_OUT = 1,
     /* 2 */ TRANS_INSTANCE_TYPE_FILL_IN
 } TransitionInstanceType;
 
-typedef struct {
+typedef struct TransitionWipe {
     /* 0x000 */ Color_RGBA8_u32 color;
     /* 0x004 */ Color_RGBA8_u32 unkColor;
     /* 0x008 */ u8 direction;
@@ -44,7 +44,7 @@ typedef struct {
 
 #define TRANS_INSTANCE_TYPE_FADE_FLASH 3
 
-typedef struct {
+typedef struct TransitionFade {
     /* 0x000 */ u8 type;
     /* 0x001 */ u8 isDone;
     /* 0x002 */ u8 direction;
@@ -52,26 +52,26 @@ typedef struct {
     /* 0x008 */ u16 timer;
 } TransitionFade; // size = 0xC
 
-typedef enum {
+typedef enum TransitionCircleAppearance {
     /* 0 */ TCA_NORMAL,
     /* 1 */ TCA_WAVE,
     /* 2 */ TCA_RIPPLE,
     /* 3 */ TCA_STARBURST
 } TransitionCircleAppearance;
 
-typedef enum {
+typedef enum TransitionCircleColor {
     /* 0 */ TCC_BLACK,
     /* 1 */ TCC_WHITE,
     /* 2 */ TCC_GRAY,
     /* 3 */ TCC_SPECIAL // color varies depending on appearance. unused and appears broken
 } TransitionCircleColor;
 
-typedef enum {
+typedef enum TransitionCircleSpeed {
     /* 0 */ TCS_FAST,
     /* 1 */ TCS_SLOW
 } TransitionCircleSpeed;
 
-typedef struct {
+typedef struct TransitionCircle {
     /* 0x000 */ Color_RGBA8_u32 color;
     /* 0x004 */ Color_RGBA8_u32 unkColor;
     /* 0x008 */ s32 texX;
@@ -90,7 +90,7 @@ typedef struct {
     /* 0x0A8 */ Mtx modelView[2][3];
 } TransitionCircle; // size = 0x228
 
-typedef struct {
+typedef struct TransitionTriforce {
     /* 0x000 */ Color_RGBA8_u32 color;
     /* 0x004 */ f32 transPos;
     /* 0x008 */ f32 step;

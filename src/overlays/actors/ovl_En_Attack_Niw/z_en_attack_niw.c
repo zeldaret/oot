@@ -19,7 +19,7 @@ void func_809B5670(EnAttackNiw* this, PlayState* play);
 void func_809B5C18(EnAttackNiw* this, PlayState* play);
 void func_809B59B0(EnAttackNiw* this, PlayState* play);
 
-ActorInit En_Attack_Niw_InitVars = {
+ActorProfile En_Attack_Niw_Profile = {
     /**/ ACTOR_EN_ATTACK_NIW,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -32,7 +32,7 @@ ActorInit En_Attack_Niw_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 1, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_1, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };

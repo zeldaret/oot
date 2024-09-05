@@ -5,16 +5,14 @@
 
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
+
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
 typedef void (*ColChkVsFunc)(PlayState*, CollisionCheckContext*, Collider*, Collider*);
 typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
 
 #define SAC_ENABLE (1 << 0)
-
-// For retail BSS ordering, the block number of sparkInit in CollisionCheck_BlueBlood
-// must be between 183 and 255 inclusive.
-#pragma increment_block_number 50
 
 #if OOT_DEBUG
 /**
@@ -354,7 +352,7 @@ s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJnt
     if (dest->elements == NULL) {
         dest->count = 0;
         PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjJntSph_set():zelda_malloc()出来ません。\n"); // "Can not."
+        PRINTF(T("ClObjJntSph_set():zelda_malloc()出来ません。\n", "ClObjJntSph_set():zelda_malloc() Can not.\n"));
         PRINTF(VT_RST);
         return false;
     }
@@ -382,7 +380,7 @@ s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* a
     if (dest->elements == NULL) {
         dest->count = 0;
         PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjJntSph_set3():zelda_malloc_出来ません。\n"); // "Can not."
+        PRINTF(T("ClObjJntSph_set3():zelda_malloc_出来ません。\n", "ClObjJntSph_set3():zelda_malloc_ Can not.\n"));
         PRINTF(VT_RST);
         return false;
     }
@@ -410,7 +408,7 @@ s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor,
     if (dest->elements == NULL) {
         dest->count = 0;
         PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjJntSph_set5():zelda_malloc出来ません\n"); // "Can not."
+        PRINTF(T("ClObjJntSph_set5():zelda_malloc出来ません\n", "ClObjJntSph_set5():zelda_malloc Can not\n"));
         PRINTF(VT_RST);
         return false;
     }
@@ -716,7 +714,7 @@ s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor
     if (dest->elements == NULL) {
         dest->count = 0;
         PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjTris_set3():zelda_malloc()出来ません\n"); // "Can not."
+        PRINTF(T("ClObjTris_set3():zelda_malloc()出来ません\n", "ClObjTris_set3():zelda_malloc() Can not\n"));
         PRINTF(VT_RST);
         return false;
     }
@@ -742,7 +740,7 @@ s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, Col
 
     if (dest->elements == NULL) {
         PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjTris_set5():zelda_malloc出来ません\n"); // "Can not."
+        PRINTF(T("ClObjTris_set5():zelda_malloc出来ません\n", "ClObjTris_set5():zelda_malloc Can not\n"));
         PRINTF(VT_RST);
         dest->count = 0;
         return false;
@@ -1172,8 +1170,8 @@ s32 CollisionCheck_SetAT(PlayState* play, CollisionCheckContext* colChkCtx, Coll
         return -1;
     }
     if (colChkCtx->colATCount >= COLLISION_CHECK_AT_MAX) {
-        // "Index exceeded and cannot add more"
-        PRINTF("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
+        PRINTF(T("CollisionCheck_setAT():インデックスがオーバーして追加不能\n",
+                 "CollisionCheck_setAT(): Index exceeded and cannot add more\n"));
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1200,15 +1198,16 @@ s32 CollisionCheck_SetAT_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
         if (!(index < colChkCtx->colATCount)) {
-            // "You are trying to register a location that is larger than the total number of data."
-            PRINTF("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n");
+            PRINTF(T("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n",
+                     "CollisionCheck_setAT_SAC(): You are trying to register a location that is larger than the total "
+                     "number of data.\n"));
             return -1;
         }
         colChkCtx->colAT[index] = collider;
     } else {
         if (!(colChkCtx->colATCount < COLLISION_CHECK_AT_MAX)) {
-            // "Index exceeded and cannot add more"
-            PRINTF("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
+            PRINTF(T("CollisionCheck_setAT():インデックスがオーバーして追加不能\n",
+                     "CollisionCheck_setAT(): Index exceeded and cannot add more\n"));
             return -1;
         }
         index = colChkCtx->colATCount;
@@ -1240,8 +1239,8 @@ s32 CollisionCheck_SetAC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
         return -1;
     }
     if (colChkCtx->colACCount >= COLLISION_CHECK_AC_MAX) {
-        // "Index exceeded and cannot add more"
-        PRINTF("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
+        PRINTF(T("CollisionCheck_setAC():インデックスがオーバして追加不能\n",
+                 "CollisionCheck_setAC(): Index exceeded and cannot add more\n"));
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1268,15 +1267,16 @@ s32 CollisionCheck_SetAC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
         if (!(index < colChkCtx->colACCount)) {
-            // "You are trying to register a location that is larger than the total number of data."
-            PRINTF("CollisionCheck_setAC_SAC():全データ数より大きいところに登録しようとしている。\n");
+            PRINTF(T("CollisionCheck_setAC_SAC():全データ数より大きいところに登録しようとしている。\n",
+                     "CollisionCheck_setAC_SAC(): You are trying to register a location that is larger than the total "
+                     "number of data.\n"));
             return -1;
         }
         colChkCtx->colAC[index] = collider;
     } else {
         if (!(colChkCtx->colACCount < COLLISION_CHECK_AC_MAX)) {
-            // "Index exceeded and cannot add more"
-            PRINTF("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
+            PRINTF(T("CollisionCheck_setAC():インデックスがオーバして追加不能\n",
+                     "CollisionCheck_setAC(): Index exceeded and cannot add more\n"));
             return -1;
         }
         index = colChkCtx->colACCount;
@@ -1310,8 +1310,8 @@ s32 CollisionCheck_SetOC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
         return -1;
     }
     if (colChkCtx->colOCCount >= COLLISION_CHECK_OC_MAX) {
-        // "Index exceeded and cannot add more"
-        PRINTF("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
+        PRINTF(T("CollisionCheck_setOC():インデックスがオーバして追加不能\n",
+                 "CollisionCheck_setOC(): Index exceeded and cannot add more\n"));
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1338,16 +1338,17 @@ s32 CollisionCheck_SetOC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
         if (!(index < colChkCtx->colOCCount)) {
-            // "You are trying to register a location that is larger than the total number of data."
-            PRINTF("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n");
+            PRINTF(T("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n",
+                     "CollisionCheck_setOC_SAC(): You are trying to register a location that is larger than the total "
+                     "number of data.\n"));
             return -1;
         }
         //! @bug Should be colOC
         colChkCtx->colAT[index] = collider;
     } else {
         if (!(colChkCtx->colOCCount < COLLISION_CHECK_OC_MAX)) {
-            // "Index exceeded and cannot add more"
-            PRINTF("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
+            PRINTF(T("CollisionCheck_setOC():インデックスがオーバして追加不能\n",
+                     "CollisionCheck_setOC(): Index exceeded and cannot add more\n"));
             return -1;
         }
         index = colChkCtx->colOCCount;
@@ -1368,8 +1369,8 @@ s32 CollisionCheck_SetOCLine(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     Collider_ResetLineOC(play, collider);
     if (!(colChkCtx->colLineCount < COLLISION_CHECK_OC_LINE_MAX)) {
-        // "Index exceeded and cannot add more"
-        PRINTF("CollisionCheck_setOCLine():インデックスがオーバして追加不能\n");
+        PRINTF(T("CollisionCheck_setOCLine():インデックスがオーバして追加不能\n",
+                 "CollisionCheck_setOCLine(): Index exceeded and cannot add more\n"));
         return -1;
     }
     index = colChkCtx->colLineCount;
@@ -1604,12 +1605,12 @@ s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
     return true;
 }
 
-typedef struct {
+typedef struct HitInfo {
     /* 0x0 */ u8 blood;
     /* 0x1 */ u8 effect;
 } HitInfo; // size = 0x2
 
-typedef enum {
+typedef enum ColChkBloodType {
     /* 0 */ BLOOD_NONE,
     /* 1 */ BLOOD_BLUE,
     /* 2 */ BLOOD_GREEN,
@@ -1618,7 +1619,7 @@ typedef enum {
     /* 5 */ BLOOD_RED2
 } ColChkBloodType;
 
-typedef enum {
+typedef enum ColChkHitType {
     /* 0 */ HIT_WHITE,
     /* 1 */ HIT_DUST,
     /* 2 */ HIT_RED,
@@ -2194,6 +2195,8 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
+#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252"
+
 void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
     static TriNorm tri2;
@@ -2688,13 +2691,11 @@ void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx) {
     CollisionCheck_SetHitEffects(play, colChkCtx);
 }
 
-typedef enum {
+typedef enum ColChkMassType {
     /* 0 */ MASSTYPE_IMMOVABLE,
     /* 1 */ MASSTYPE_HEAVY,
     /* 2 */ MASSTYPE_NORMAL
 } ColChkMassType;
-
-#pragma increment_block_number 253
 
 /**
  * Get mass type. Immovable colliders cannot be pushed, while heavy colliders can only be pushed by heavy and immovable
@@ -2976,8 +2977,8 @@ void CollisionCheck_OC(PlayState* play, CollisionCheckContext* colChkCtx) {
             }
             vsFunc = sOCVsFuncs[(*leftColP)->shape][(*rightColP)->shape];
             if (vsFunc == NULL) {
-                // "Not compatible"
-                PRINTF("CollisionCheck_OC():未対応 %d, %d\n", (*leftColP)->shape, (*rightColP)->shape);
+                PRINTF(T("CollisionCheck_OC():未対応 %d, %d\n", "CollisionCheck_OC(): Not compatible %d, %d\n"),
+                       (*leftColP)->shape, (*rightColP)->shape);
                 continue;
             }
             vsFunc(play, colChkCtx, *leftColP, *rightColP);
@@ -3238,8 +3239,9 @@ s32 CollisionCheck_LineOC(PlayState* play, CollisionCheckContext* colChkCtx, Vec
         }
         lineCheck = sOCLineCheckFuncs[(*col)->shape];
         if (lineCheck == NULL) {
-            // "type %d not supported"
-            PRINTF("CollisionCheck_generalLineOcCheck():未対応 %dタイプ\n", (*col)->shape);
+            PRINTF(T("CollisionCheck_generalLineOcCheck():未対応 %dタイプ\n",
+                     "CollisionCheck_generalLineOcCheck(): type %d not supported\n"),
+                   (*col)->shape);
         } else {
             result = lineCheck(play, colChkCtx, (*col), a, b);
             if (result) {

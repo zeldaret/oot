@@ -15,7 +15,7 @@ void EnOE2_Draw(Actor* thisx, PlayState* play);
 
 void EnOE2_DoNothing(EnOE2* this, PlayState* play);
 
-ActorInit En_OE2_InitVars = {
+ActorProfile En_OE2_Profile = {
     /**/ ACTOR_EN_OE2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

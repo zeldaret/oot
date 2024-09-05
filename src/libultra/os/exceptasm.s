@@ -448,6 +448,13 @@ pi:
     andi    $t1, $s1, MI_INTR_PI
     beqz    $t1, dp
      nop
+#if PLATFORM_N64
+    // Clear interrupt and mask out pi interrupt
+    li      $t1, PI_STATUS_CLR_INTR
+    lui     $at, %hi(PHYS_TO_K1(PI_STATUS_REG))
+    andi    $s1, $s1, (MI_INTR_SP | MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_DP)
+    sw      $t1, %lo(PHYS_TO_K1(PI_STATUS_REG))($at)
+#else
     // Clear interrupt
     li      $t1, PI_STATUS_CLR_INTR
     lui     $at, %hi(PHYS_TO_K1(PI_STATUS_REG))
@@ -468,6 +475,7 @@ pi:
     // If the callback returns non-zero, don't post a pi event message
     bnez    $v0, skip_pi_mesg
      nop
+#endif
 no_pi_callback:
     // Post pi event message
     jal     send_mesg
@@ -847,10 +855,12 @@ LEAF(__osPopThread)
      sw     $t9, ($a0)
 END(__osPopThread)
 
+#if !PLATFORM_N64
 LEAF(__osNop)
     jr      $ra
      nop
 END(__osNop)
+#endif
 
 /**
  *  void __osDispatchThread(void);

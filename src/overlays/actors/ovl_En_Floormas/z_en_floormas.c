@@ -44,7 +44,7 @@ void EnFloormas_Stand(EnFloormas* this, PlayState* play);
 void EnFloormas_BigDecideAction(EnFloormas* this, PlayState* play);
 void EnFloormas_Charge(EnFloormas* this, PlayState* play);
 
-ActorInit En_Floormas_InitVars = {
+ActorProfile En_Floormas_Profile = {
     /**/ ACTOR_EN_FLOORMAS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -133,7 +133,7 @@ void EnFloormas_Init(Actor* thisx, PlayState* play2) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->zOffset = -1600;
-    invisble = this->actor.params & SPAWN_INVISIBLE;
+    invisble = PARAMS_GET_NOSHIFT(this->actor.params, 15, 1); // SPAWN_INVISIBLE
 
     // s16 cast needed
     this->actor.params &= (s16) ~(SPAWN_INVISIBLE);

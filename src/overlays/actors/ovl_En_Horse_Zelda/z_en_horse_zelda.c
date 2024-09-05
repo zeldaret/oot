@@ -18,7 +18,7 @@ void EnHorseZelda_Stop(EnHorseZelda* this, PlayState* play);
 void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play);
 void EnHorseZelda_SetupStop(EnHorseZelda* this);
 
-ActorInit En_Horse_Zelda_InitVars = {
+ActorProfile En_Horse_Zelda_Profile = {
     /**/ ACTOR_EN_HORSE_ZELDA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -82,7 +82,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
-typedef struct {
+typedef struct HorsePosSpeed {
     /* 0x0 */ Vec3s pos;
     /* 0x6 */ u8 speedXZ;
 } HorsePosSpeed; // size = 0x8

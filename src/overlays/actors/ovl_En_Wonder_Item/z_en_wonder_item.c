@@ -41,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 30, 0, { 0, 0, 0 } },
 };
 
-ActorInit En_Wonder_Item_InitVars = {
+ActorProfile En_Wonder_Item_Profile = {
     /**/ ACTOR_EN_WONDER_ITEM,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -53,7 +53,7 @@ ActorInit En_Wonder_Item_InitVars = {
     /**/ NULL,
 };
 
-#pragma increment_block_number 129
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 static Vec3f sTagPointsFree[9];
 static Vec3f sTagPointsOrdered[9];
@@ -120,17 +120,18 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
     s16 tagIndex;
 
     PRINTF("\n\n");
-    // "Mysterious mystery, very mysterious"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n",
+                             "☆☆☆☆☆ Mysterious mystery, very mysterious \t   ☆☆☆☆☆ %x\n") VT_RST,
+           this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
 
-    this->wonderMode = (this->actor.params >> 0xB) & 0x1F;
-    this->itemDrop = (this->actor.params >> 6) & 0x1F;
-    this->switchFlag = this->actor.params & 0x3F;
+    this->wonderMode = PARAMS_GET_U(this->actor.params, 11, 5);
+    this->itemDrop = PARAMS_GET_U(this->actor.params, 6, 5);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    this->actor.targetMode = 1;
+    this->actor.targetMode = TARGET_MODE_1;
     if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         Actor_Kill(&this->actor);
@@ -328,8 +329,8 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HEISHI2, this->actor.world.pos.x, this->actor.world.pos.y,
                         this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0, 9) != NULL) {
-            // "Careless soldier spawned"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Careless soldier spawned ☆☆☆☆☆ \n")
+                       VT_RST);
         }
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(play, this->switchFlag);

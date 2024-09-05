@@ -18,7 +18,7 @@ void EnClearTag_CreateFlashEffect(PlayState* play, Vec3f* position, f32 scale, f
 
 void EnClearTag_CalculateFloorTangent(EnClearTag* this);
 
-ActorInit En_Clear_Tag_InitVars = {
+ActorProfile En_Clear_Tag_Profile = {
     /**/ ACTOR_EN_CLEAR_TAG,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -251,7 +251,7 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
     } else { // Initialize the Arwing.
         this->actor.flags |= ACTOR_FLAG_0;
-        this->actor.targetMode = 5;
+        this->actor.targetMode = TARGET_MODE_5;
         Collider_SetCylinder(play, &this->collider, &this->actor, &sArwingCylinderInit);
         this->actor.colChkInfo.health = 3;
 

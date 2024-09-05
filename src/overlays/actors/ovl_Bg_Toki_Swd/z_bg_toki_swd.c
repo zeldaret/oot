@@ -22,7 +22,7 @@ extern CutsceneData D_808BB2F0[];
 extern CutsceneData D_808BB7A0[];
 extern CutsceneData D_808BBD90[];
 
-ActorInit Bg_Toki_Swd_InitVars = {
+ActorProfile Bg_Toki_Swd_Profile = {
     /**/ ACTOR_BG_TOKI_SWD,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

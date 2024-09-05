@@ -12,7 +12,7 @@ struct Actor;
  * Bases for all shapes of colliders
  */
 
-typedef enum {
+typedef enum ColliderType {
     /*  0 */ COLTYPE_HIT0, // Blue blood, white hitmark
     /*  1 */ COLTYPE_HIT1, // No blood, dust hitmark
     /*  2 */ COLTYPE_HIT2, // Green blood, dust hitmark
@@ -29,7 +29,7 @@ typedef enum {
     /* 13 */ COLTYPE_TREE
 } ColliderType;
 
-typedef enum {
+typedef enum ColliderShape {
     /* 0 */ COLSHAPE_JNTSPH,
     /* 1 */ COLSHAPE_CYLINDER,
     /* 2 */ COLSHAPE_TRIS,
@@ -37,7 +37,7 @@ typedef enum {
     /* 4 */ COLSHAPE_MAX
 } ColliderShape;
 
-typedef struct {
+typedef struct Collider {
     /* 0x00 */ struct Actor* actor; // Attached actor
     /* 0x04 */ struct Actor* at; // Actor attached to what it collided with as an AT collider.
     /* 0x08 */ struct Actor* ac; // Actor attached to what it collided with as an AC collider.
@@ -50,7 +50,7 @@ typedef struct {
     /* 0x15 */ u8 shape; // See `ColliderShape` enum
 } Collider; // size = 0x18
 
-typedef struct {
+typedef struct ColliderInit {
     /* 0x00 */ u8 colType;
     /* 0x01 */ u8 atFlags;
     /* 0x02 */ u8 acFlags;
@@ -59,7 +59,7 @@ typedef struct {
     /* 0x05 */ u8 shape;
 } ColliderInit; // size = 0x06
 
-typedef struct {
+typedef struct ColliderInitType1 {
     /* 0x00 */ u8 colType;
     /* 0x01 */ u8 atFlags;
     /* 0x02 */ u8 acFlags;
@@ -67,7 +67,7 @@ typedef struct {
     /* 0x04 */ u8 shape;
 } ColliderInitType1; // size = 0x05
 
-typedef struct {
+typedef struct ColliderInitToActor {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ u8 atFlags;
     /* 0x05 */ u8 acFlags;
@@ -75,20 +75,20 @@ typedef struct {
     /* 0x07 */ u8 shape;
 } ColliderInitToActor; // size = 0x08
 
-typedef struct {
+typedef struct ColliderElementDamageInfoAT {
     /* 0x00 */ u32 dmgFlags; // Damage types dealt by this collider element as AT.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 damage; // Damage
 } ColliderElementDamageInfoAT; // size = 0x08
 
-typedef struct {
+typedef struct ColliderElementDamageInfoAC {
     /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
     /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderElementDamageInfoAC; // size = 0x0C
 
-typedef struct {
+typedef struct ColliderElementDamageInfoACInit {
     /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
@@ -100,7 +100,7 @@ typedef struct {
  * are == or !=. Will probably need more actors decomped to truly
  * understand what this is.
  */
-typedef enum {
+typedef enum ElementType {
     /* 0 */ ELEMTYPE_UNK0,
     /* 1 */ ELEMTYPE_UNK1,
     /* 2 */ ELEMTYPE_UNK2,
@@ -124,7 +124,7 @@ typedef struct ColliderElement {
     /* 0x24 */ struct ColliderElement* acHitElem; // element that hit the AC collider
 } ColliderElement; // size = 0x28
 
-typedef struct {
+typedef struct ColliderElementInit {
     /* 0x00 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
     /* 0x04 */ ColliderElementDamageInfoAT atDmgInfo; // Damage properties when acting as an AT collider
     /* 0x0C */ ColliderElementDamageInfoACInit acDmgInfo; // Damage properties when acting as an AC collider
@@ -139,19 +139,19 @@ typedef struct {
 
 // collider structs
 
-typedef struct {
+typedef struct ColliderJntSphElementDim {
     /* 0x00 */ Sphere16 modelSphere; // model space sphere
     /* 0x08 */ Sphere16 worldSphere; // world space sphere
     /* 0x10 */ f32 scale; // world space sphere = model * scale * 0.01
     /* 0x14 */ u8 limb; // attached limb
 } ColliderJntSphElementDim; // size = 0x18
 
-typedef struct {
+typedef struct ColliderJntSphElement {
     /* 0x00 */ ColliderElement base;
     /* 0x28 */ ColliderJntSphElementDim dim;
 } ColliderJntSphElement; // size = 0x40
 
-typedef struct {
+typedef struct ColliderJntSph {
     /* 0x00 */ Collider base;
     /* 0x18 */ s32 count;
     /* 0x1C */ ColliderJntSphElement* elements;
@@ -159,30 +159,30 @@ typedef struct {
 
 // init data structs
 
-typedef struct {
+typedef struct ColliderJntSphElementDimInit {
     /* 0x00 */ u8 limb; // attached limb
     /* 0x02 */ Sphere16 modelSphere; // model space sphere
     /* 0x0A */ s16 scale; // world space sphere = model * scale * 0.01
 } ColliderJntSphElementDimInit; // size = 0x0C
 
-typedef struct {
+typedef struct ColliderJntSphElementInit {
     /* 0x00 */ ColliderElementInit base;
     /* 0x18 */ ColliderJntSphElementDimInit dim;
 } ColliderJntSphElementInit; // size = 0x24
 
-typedef struct {
+typedef struct ColliderJntSphInit {
     /* 0x00 */ ColliderInit base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphElementInit* elements;
 } ColliderJntSphInit; // size = 0x10
 
-typedef struct {
+typedef struct ColliderJntSphInitType1 {
     /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphElementInit* elements;
 } ColliderJntSphInitType1; // size = 0x10
 
-typedef struct {
+typedef struct ColliderJntSphInitToActor {
     /* 0x00 */ ColliderInitToActor base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphElementInit* elements;
@@ -194,7 +194,7 @@ typedef struct {
 
 // collider structs
 
-typedef struct {
+typedef struct ColliderCylinder {
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderElement elem;
     /* 0x40 */ Cylinder16 dim;
@@ -202,19 +202,19 @@ typedef struct {
 
 // init data structs
 
-typedef struct {
+typedef struct ColliderCylinderInit {
     /* 0x00 */ ColliderInit base;
     /* 0x08 */ ColliderElementInit elem;
     /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInit; // size = 0x2C
 
-typedef struct {
+typedef struct ColliderCylinderInitType1 {
     /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ ColliderElementInit elem;
     /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInitType1; // size = 0x2C
 
-typedef struct {
+typedef struct ColliderCylinderInitToActor {
     /* 0x00 */ ColliderInitToActor base;
     /* 0x08 */ ColliderElementInit elem;
     /* 0x20 */ Cylinder16 dim;
@@ -226,12 +226,12 @@ typedef struct {
 
 // collider structs
 
-typedef struct {
+typedef struct ColliderTrisElement {
     /* 0x00 */ ColliderElement base;
     /* 0x28 */ TriNorm dim;
 } ColliderTrisElement; // size = 0x5C
 
-typedef struct {
+typedef struct ColliderTris {
     /* 0x00 */ Collider base;
     /* 0x18 */ s32 count;
     /* 0x1C */ ColliderTrisElement* elements;
@@ -239,22 +239,22 @@ typedef struct {
 
 // init data structs
 
-typedef struct {
+typedef struct ColliderTrisElementDimInit {
     /* 0x00 */ Vec3f vtx[3];
 } ColliderTrisElementDimInit; // size = 0x24
 
-typedef struct {
+typedef struct ColliderTrisElementInit {
     /* 0x00 */ ColliderElementInit base;
     /* 0x18 */ ColliderTrisElementDimInit dim;
 } ColliderTrisElementInit; // size = 0x3C
 
-typedef struct {
+typedef struct ColliderTrisInit {
     /* 0x00 */ ColliderInit base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderTrisElementInit* elements;
 } ColliderTrisInit; // size = 0x10
 
-typedef struct {
+typedef struct ColliderTrisInitType1 {
     /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderTrisElementInit* elements;
@@ -266,14 +266,14 @@ typedef struct {
 
 // collider structs
 
-typedef struct {
+typedef struct ColliderQuadDim {
     /* 0x00 */ Vec3f quad[4];
     /* 0x30 */ Vec3s dcMid; // midpoint of vectors d, c
     /* 0x36 */ Vec3s baMid; // midpoint of vectors b, a
     /* 0x3C */ f32 acDistSq; // distance to nearest AC collision this frame, squared.
 } ColliderQuadDim; // size = 0x40
 
-typedef struct {
+typedef struct ColliderQuad {
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderElement elem;
     /* 0x40 */ ColliderQuadDim dim;
@@ -281,17 +281,17 @@ typedef struct {
 
 // init data structs
 
-typedef struct {
+typedef struct ColliderQuadDimInit {
     /* 0x00 */ Vec3f quad[4];
 } ColliderQuadDimInit; // size = 0x30
 
-typedef struct {
+typedef struct ColliderQuadInit {
     /* 0x00 */ ColliderInit base;
     /* 0x08 */ ColliderElementInit elem;
     /* 0x20 */ ColliderQuadDimInit dim;
 } ColliderQuadInit; // size = 0x50
 
-typedef struct {
+typedef struct ColliderQuadInitType1 {
     /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ ColliderElementInit elem;
     /* 0x20 */ ColliderQuadDimInit dim;
@@ -301,7 +301,7 @@ typedef struct {
  * Line collider
  */
 
-typedef struct {
+typedef struct OcLine {
     /* 0x00 */ Linef line;
     /* 0x18 */ u16 ocFlags;
 } OcLine; // size = 0x1C

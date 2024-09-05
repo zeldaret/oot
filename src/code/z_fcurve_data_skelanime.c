@@ -77,7 +77,7 @@ void SkelCurve_SetAnim(SkelCurve* skelCurve, CurveAnimationHeader* animation, f3
     skelCurve->animation = animation;
 }
 
-typedef enum {
+typedef enum SkelCurveVecType {
     /* 0 */ SKELCURVE_VEC_TYPE_SCALE,
     /* 1 */ SKELCURVE_VEC_TYPE_ROTATION,
     /* 2 */ SKELCURVE_VEC_TYPE_POSIITON,
@@ -162,8 +162,6 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 279);
 
-    if (1) {}
-
     Matrix_Push();
 
     if ((overrideLimbDraw == NULL) ||
@@ -214,8 +212,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
                 gSPDisplayList(POLY_XLU_DISP++, dList);
             }
         } else {
-            // "FcSkeletonInfo_draw_child (): Not supported"
-            PRINTF("FcSkeletonInfo_draw_child():未対応\n");
+            PRINTF(T("FcSkeletonInfo_draw_child():未対応\n", "FcSkeletonInfo_draw_child(): Not supported\n"));
         }
     }
 

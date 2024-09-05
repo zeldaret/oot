@@ -8,7 +8,7 @@ struct EnMa3;
 
 typedef void (*EnMa3ActionFunc)(struct EnMa3*, PlayState*);
 
-typedef enum {
+typedef enum AdultMalonLimb {
     /* 0x00 */ MALON_ADULT_LIMB_NONE,
     /* 0x01 */ MALON_ADULT_LIMB_ROOT,
     /* 0x02 */ MALON_ADULT_LIMB_LOWER_CONTROL,

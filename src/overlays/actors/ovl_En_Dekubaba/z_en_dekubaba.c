@@ -29,7 +29,7 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, PlayState* play);
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-ActorInit En_Dekubaba_InitVars = {
+ActorProfile En_Dekubaba_Profile = {
     /**/ ACTOR_EN_DEKUBABA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -136,7 +136,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum DekuBabaDamageEffect {
     /* 0x0 */ DEKUBABA_DMGEFF_NONE,
     /* 0x1 */ DEKUBABA_DMGEFF_DEKUNUT,
     /* 0x2 */ DEKUBABA_DMGEFF_FIRE,
@@ -249,7 +249,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sBigDekuBabaDamageTable, &sColChkInfoInit);
         this->actor.colChkInfo.health = 4;
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
-        this->actor.targetMode = 2;
+        this->actor.targetMode = TARGET_MODE_2;
     } else {
         this->size = 1.0f;
 
@@ -263,7 +263,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDekuBabaDamageTable, &sColChkInfoInit);
         this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
-        this->actor.targetMode = 1;
+        this->actor.targetMode = TARGET_MODE_1;
     }
 
     EnDekubaba_SetupWait(this);
@@ -1278,7 +1278,6 @@ void EnDekubaba_Draw(Actor* thisx, PlayState* play) {
     EnDekubaba* this = (EnDekubaba*)thisx;
     f32 scale;
 
-    if (1) {}
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dekubaba.c", 2752);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 

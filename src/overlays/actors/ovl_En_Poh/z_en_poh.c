@@ -42,7 +42,7 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play);
 
 static s16 D_80AE1A50 = 0;
 
-ActorInit En_Poh_InitVars = {
+ActorProfile En_Poh_Profile = {
     /**/ ACTOR_EN_POH,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -883,7 +883,7 @@ void EnPoh_UpdateVisibility(EnPoh* this) {
             this->visibilityTimer--;
         }
         if (this->lightColor.a == 255) {
-            if (this->actor.isTargeted) {
+            if (this->actor.isLockedOn) {
                 this->unk_194++;
                 this->unk_194 = CLAMP_MAX(this->unk_194, 20);
             } else {

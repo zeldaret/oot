@@ -12,7 +12,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum BossFd2CutsceneState {
     /* 0 */ DEATH_START,
     /* 1 */ DEATH_RETREAT,
     /* 2 */ DEATH_HANDOFF,
@@ -21,7 +21,7 @@ typedef enum {
     /* 5 */ DEATH_FINISH
 } BossFd2CutsceneState;
 
-typedef enum {
+typedef enum BossFd2EyeState {
     /* 0 */ EYE_OPEN,
     /* 1 */ EYE_HALF,
     /* 2 */ EYE_CLOSED
@@ -46,7 +46,7 @@ void BossFd2_Damaged(BossFd2* this, PlayState* play);
 void BossFd2_Death(BossFd2* this, PlayState* play);
 void BossFd2_Wait(BossFd2* this, PlayState* play);
 
-ActorInit Boss_Fd2_InitVars = {
+ActorProfile Boss_Fd2_Profile = {
     /**/ ACTOR_BOSS_FD2,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -67,7 +67,7 @@ static Vec3f sHoleLocations[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_VOLVAGIA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),

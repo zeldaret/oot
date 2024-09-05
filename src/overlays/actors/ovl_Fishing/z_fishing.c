@@ -10,9 +10,11 @@
 #include "assets/objects/object_fish/object_fish.h"
 #include "ichain.h"
 #include "terminal.h"
+#if PLATFORM_N64
+#include "cic6105.h"
+#endif
 
-// For retail BSS ordering, the block number of sStreamSfxProjectedPos must be 0.
-#pragma increment_block_number 184
+#pragma increment_block_number "gc-eu:162 gc-eu-mq:162 gc-jp:164 gc-jp-ce:164 gc-jp-mq:164 gc-us:164 gc-us-mq:164"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -31,14 +33,14 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2);
 void Fishing_DrawFish(Actor* thisx, PlayState* play);
 void Fishing_DrawOwner(Actor* thisx, PlayState* play);
 
-typedef struct {
+typedef struct FishingFishInit {
     /* 0x00 */ u8 isLoach;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ u8 baseLength;
     /* 0x0C */ f32 perception;
 } FishingFishInit; // size = 0x10
 
-typedef enum {
+typedef enum FishingEffectType {
     /* 0x00 */ FS_EFF_NONE,
     /* 0x01 */ FS_EFF_RIPPLE,
     /* 0x02 */ FS_EFF_DUST_SPLASH,
@@ -52,7 +54,7 @@ typedef enum {
 
 #define FISHING_EFFECT_COUNT 130
 
-typedef struct {
+typedef struct FishingEffect {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f vel;
     /* 0x18 */ Vec3f accel;
@@ -68,7 +70,7 @@ typedef struct {
 
 #define POND_PROP_COUNT 140
 
-typedef enum {
+typedef enum FishingPropType {
     /* 0x00 */ FS_PROP_NONE,
     /* 0x01 */ FS_PROP_REED,
     /* 0x02 */ FS_PROP_LILY_PAD,
@@ -77,12 +79,12 @@ typedef enum {
     /* 0x23 */ FS_PROP_INIT_STOP = 0x23
 } FishingPropType;
 
-typedef struct {
+typedef struct FishingPropInit {
     /* 0x00 */ u8 type;
     /* 0x02 */ Vec3s pos;
 } FishingPropInit; // size = 0x08
 
-typedef struct {
+typedef struct FishingProp {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ f32 rotX;
     /* 0x10 */ f32 rotY;
@@ -97,14 +99,14 @@ typedef struct {
     /* 0x38 */ f32 drawDistance;
 } FishingProp; // size = 0x3C
 
-typedef enum {
+typedef enum FishingGroupFishType {
     /* 0x00 */ FS_GROUP_FISH_NONE,
     /* 0x01 */ FS_GROUP_FISH_NORMAL
 } FishingGroupFishType;
 
 #define GROUP_FISH_COUNT 60
 
-typedef struct {
+typedef struct FishingGroupFish {
     /* 0x00 */ u8 type;
     /* 0x02 */ s16 timer;
     /* 0x04 */ Vec3f pos;
@@ -122,7 +124,7 @@ typedef struct {
     /* 0x44 */ u8 shouldDraw;
 } FishingGroupFish; // size = 0x48
 
-typedef enum {
+typedef enum FishingLureTypes {
     /* 0x00 */ FS_LURE_STOCK,
     /* 0x01 */ FS_LURE_UNK, // hinted at with an "== 1"
     /* 0x02 */ FS_LURE_SINKING
@@ -131,7 +133,7 @@ typedef enum {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
-ActorInit Fishing_InitVars = {
+ActorProfile Fishing_Profile = {
     /**/ ACTOR_FISHING,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -167,7 +169,7 @@ static s32 sFishingTimePlayed = 0;
 
 static s16 sOwnerTheftTimer = 0;
 
-typedef enum {
+typedef enum FishingOwnerHair {
     /* 0x00 */ FS_OWNER_BALD,
     /* 0x01 */ FS_OWNER_CAPPED,
     /* 0x02 */ FS_OWNER_HAIR
@@ -827,7 +829,7 @@ static FishingFishInit sFishInits[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
@@ -853,7 +855,14 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
     if (thisx->params < EN_FISH_PARAM) {
         FishingGroupFish* fish;
 
+#if PLATFORM_N64
+        // Anti-piracy check, if the check fails the line can't be reeled in if
+        // a fish is caught and the fish will always let go after 50 frames.
+        sReelLock = !(B_80008EE0 == 0xAD090010);
+#else
         sReelLock = 0;
+#endif
+
         sFishingMain = this;
         Collider_InitJntSph(play, &sFishingMain->collider);
         Collider_SetJntSph(play, &sFishingMain->collider, thisx, &sJntSphInit, sFishingMain->colliderElements);
@@ -1020,7 +1029,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
     if (thisx->params == EN_FISH_AQUARIUM) {
         this->fishState = 100;
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
-        thisx->targetMode = 0;
+        thisx->targetMode = TARGET_MODE_0;
         thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     } else {
@@ -4556,8 +4565,6 @@ void Fishing_DrawPondProps(PlayState* play) {
 
     Matrix_Pop();
 
-    if (1) {}
-
     CLOSE_DISPS(play->state.gfxCtx, "../z_fishing.c", 7805);
 }
 
@@ -4763,25 +4770,23 @@ void Fishing_DrawGroupFishes(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 8048);
 
     for (i = 0; i < GROUP_FISH_COUNT; i++, fish++) {
-        if (fish->type == FS_GROUP_FISH_NONE) {
-            continue;
-        }
+        if (fish->type != FS_GROUP_FISH_NONE) {
+            if (!materialFlag) {
+                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
+                materialFlag++;
+            }
 
-        if (!materialFlag) {
-            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
-            materialFlag++;
-        }
+            if (fish->shouldDraw) {
+                Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
+                Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
 
-        if (fish->shouldDraw) {
-            Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
-            Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
-            Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
-            Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
-
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_fishing.c", 8093),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_fishing.c", 8093),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
+            }
         }
     }
 
@@ -5759,8 +5764,18 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sStreamSfxPos, &sStreamSfxProjectedPos, &sProjectedW);
 
     Sfx_PlaySfxAtPos(&sStreamSfxProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
-    // convert length to weight. Theoretical max of 59 lbs (127^2*.0036+.5)
+
+#if OOT_NTSC
+    if (gSaveContext.language == LANGUAGE_JPN) {
+        gSaveContext.minigameScore = sFishLengthToWeigh;
+    } else {
+        // Convert length to weight. Theoretical max of 59 lbs (127^2*.0036+.5)
+        gSaveContext.minigameScore = (SQ((f32)sFishLengthToWeigh) * 0.0036f) + 0.5f;
+    }
+#else
+    // Same as above, but for PAL
     gSaveContext.minigameScore = (SQ((f32)sFishLengthToWeigh) * 0.0036f) + 0.5f;
+#endif
 
 #if OOT_DEBUG
     if (BREG(26) != 0) {
@@ -5813,8 +5828,7 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    if ((this->actor.projectedPos.z < 1500.0f) &&
-        (fabsf(this->actor.projectedPos.x) < (100.0f + this->actor.projectedPos.z))) {
+    if ((thisx->projectedPos.z < 1500.0f) && (fabsf(thisx->projectedPos.x) < (100.0f + thisx->projectedPos.z))) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFishingOwnerEyeTexs[this->unk_160]));
 
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

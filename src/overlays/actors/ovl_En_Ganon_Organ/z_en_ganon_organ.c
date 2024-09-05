@@ -14,7 +14,7 @@ void EnGanonOrgan_Destroy(Actor* thisx, PlayState* play);
 void EnGanonOrgan_Update(Actor* thisx, PlayState* play);
 void EnGanonOrgan_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Ganon_Organ_InitVars = {
+ActorProfile En_Ganon_Organ_Profile = {
     /**/ ACTOR_EN_GANON_ORGAN,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -65,11 +65,9 @@ Gfx* func_80A280BC(GraphicsContext* gfxCtx, BossGanon* dorf) {
     displayList = GRAPH_ALLOC(gfxCtx, 4 * sizeof(Gfx));
     displayListHead = displayList;
     gDPPipeSync(displayListHead++);
-    if (1) {}
-    if (1) {}
     gDPSetEnvColor(displayListHead++, 25, 20, 0, dorf->organAlpha);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
-    gSPEndDisplayList(displayListHead);
+    gSPEndDisplayList(displayListHead++);
     return displayList;
 }
 
@@ -79,13 +77,10 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
 
     displayList = GRAPH_ALLOC(gfxCtx, 4 * sizeof(Gfx));
     displayListHead = displayList;
-
     gDPPipeSync(displayListHead++);
-    if (1) {}
-    if (1) {}
     gDPSetEnvColor(displayListHead++, 0, 0, 0, dorf->organAlpha);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
-    gSPEndDisplayList(displayListHead);
+    gSPEndDisplayList(displayListHead++);
     return displayList;
 }
 

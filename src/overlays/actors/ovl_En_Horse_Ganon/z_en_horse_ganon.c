@@ -9,7 +9,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef struct {
+typedef struct unk_D_80A69248 {
     /* 0x0 */ Vec3s unk_0;
     /* 0x6 */ u8 unk_6;
 } unk_D_80A69248; // size = 0x8
@@ -23,7 +23,7 @@ void func_80A68AC4(EnHorseGanon* this);
 void func_80A68AF0(EnHorseGanon* this, PlayState* play);
 void func_80A68DB0(EnHorseGanon* this, PlayState* play);
 
-ActorInit En_Horse_Ganon_InitVars = {
+ActorProfile En_Horse_Ganon_Profile = {
     /**/ ACTOR_EN_HORSE_GANON,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,

@@ -17,7 +17,7 @@ u32 EffectSsIcePiece_Init(PlayState* play, u32 index, EffectSs* this, void* init
 void EffectSsIcePiece_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsIcePiece_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Ice_Piece_InitVars = {
+EffectSsProfile Effect_Ss_Ice_Piece_Profile = {
     EFFECT_SS_ICE_PIECE,
     EffectSsIcePiece_Init,
 };

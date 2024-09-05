@@ -38,7 +38,7 @@ void EnWallmas_WaitForSwitchFlag(EnWallmas* this, PlayState* play);
 void EnWallmas_Stun(EnWallmas* this, PlayState* play);
 void EnWallmas_Walk(EnWallmas* this, PlayState* play);
 
-ActorInit En_Wallmas_InitVars = {
+ActorProfile En_Wallmas_Profile = {
     /**/ ACTOR_EN_WALLMAS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -124,8 +124,8 @@ void EnWallmas_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->switchFlag = (u8)(thisx->params >> 0x8);
-    thisx->params &= 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 0, 8);
 
     if (thisx->params == WMT_FLAG) {
         if (Flags_GetSwitch(play, this->switchFlag) != 0) {
@@ -608,8 +608,6 @@ void EnWallmas_DrawXlu(EnWallmas* this, PlayState* play) {
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }

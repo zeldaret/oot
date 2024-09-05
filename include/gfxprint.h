@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "color.h"
 
-typedef struct {
+typedef struct GfxPrint {
     /* 0x00 */ PrintCallback callback;
     /* 0x04 */ Gfx* dList;
     /* 0x08 */ u16 posX;
@@ -34,7 +34,9 @@ typedef struct {
 #define GFXP_FLAG_RAINBOW  (1 << 1)
 #define GFXP_FLAG_SHADOW   (1 << 2)
 #define GFXP_FLAG_UPDATE   (1 << 3)
+#if PLATFORM_GC
 #define GFXP_FLAG_ENLARGE  (1 << 6)
+#endif
 #define GFXP_FLAG_OPEN     (1 << 7)
 
 #endif

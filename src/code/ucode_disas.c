@@ -1,28 +1,28 @@
 #include "global.h"
 
-typedef struct {
+typedef struct F3dzexConst {
     /* 0x00 */ u32 value;
     /* 0x04 */ const char* name;
 } F3dzexConst; // size = 0x8
 
-typedef struct {
+typedef struct F3dzexFlag {
     /* 0x00 */ u32 value;
     /* 0x04 */ const char* setName;
     /* 0x08 */ const char* unsetName;
 } F3dzexFlag; // size = 0x0C
 
-typedef struct {
+typedef struct F3dzexRenderMode {
     /* 0x00 */ const char* name;
     /* 0x04 */ u32 value;
     /* 0x08 */ u32 mask;
 } F3dzexRenderMode; // size = 0x0C
 
-typedef struct {
+typedef struct F3dzexSetModeMacroValue {
     /* 0x00 */ const char* name;
     /* 0x04 */ u32 value;
 } F3dzexSetModeMacroValue; // size = 0x8
 
-typedef struct {
+typedef struct F3dzexSetModeMacro {
     /* 0x00 */ const char* name;
     /* 0x04 */ u32 shift;
     /* 0x08 */ u32 len;
@@ -69,7 +69,7 @@ F3dzexFlag sUCodeDisasMtxFlags[] = {
     F3DZEX_FLAG(G_MTX_PUSH, G_MTX_NOPUSH),
 };
 
-typedef enum {
+typedef enum CombinerArg {
     COMBINER_A = 1,
     COMBINER_B,
     COMBINER_C,

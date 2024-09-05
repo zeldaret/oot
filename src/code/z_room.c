@@ -1,5 +1,9 @@
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -69,7 +73,7 @@ void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 239);
 }
 
-typedef enum {
+typedef enum RoomCullableDebugMode {
     /* 0 */ ROOM_CULL_DEBUG_MODE_OFF,
     /* 1 */ ROOM_CULL_DEBUG_MODE_UP_TO_TARGET,
     /* 2 */ ROOM_CULL_DEBUG_MODE_ONLY_TARGET
@@ -262,25 +266,24 @@ s32 Room_DecodeJpeg(void* data) {
     OSTime time;
 
     if (*(u32*)data == JPEG_MARKER) {
-        PRINTF("JPEGデータを展開します\n");        // "Expanding jpeg data"
-        PRINTF("JPEGデータアドレス %08x\n", data); // "Jpeg data address %08x"
-        // "Work buffer address (Z buffer) %08x"
-        PRINTF("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
+        PRINTF(T("JPEGデータを展開します\n", "Expanding jpeg data\n"));
+        PRINTF(T("JPEGデータアドレス %08x\n", "Jpeg data address %08x\n"), data);
+        PRINTF(T("ワークバッファアドレス（Ｚバッファ）%08x\n", "Work buffer address (Z buffer) %08x\n"), gZBuffer);
 
         time = osGetTime();
         if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
             time = osGetTime() - time;
 
-            // "Success... I think. time = %6.3f ms"
-            PRINTF("成功…だと思う。 time = %6.3f ms \n", OS_CYCLES_TO_USEC(time) / 1000.0f);
-            // "Writing back to original address from work buffer."
-            PRINTF("ワークバッファから元のアドレスに書き戻します。\n");
-            // "If the original buffer size isn't at least 150kB, it will be out of control."
-            PRINTF("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
+            PRINTF(T("成功…だと思う。 time = %6.3f ms \n", "Success... I think. time = %6.3f ms\n"),
+                   OS_CYCLES_TO_USEC(time) / 1000.0f);
+            PRINTF(T("ワークバッファから元のアドレスに書き戻します。\n",
+                     "Writing back to original address from work buffer.\n"));
+            PRINTF(T("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n",
+                     "If the original buffer size isn't at least 150kB, it will be out of control.\n"));
 
             bcopy(gZBuffer, data, sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
         } else {
-            PRINTF("失敗！なんで〜\n"); // "Failure! Why is it 〜"
+            PRINTF(T("失敗！なんで〜\n", "Failure! Why is it ~\n"));
         }
     }
 
@@ -296,6 +299,7 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
 
     bg = (uObjBg*)(gfx + 1);
     gSPBranchList(gfx, (Gfx*)(bg + 1));
+    gfx = (Gfx*)(bg + 1);
 
     bg->b.imageX = 0;
     bg->b.imageW = width * (1 << 2);
@@ -309,8 +313,6 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     bg->b.imageSiz = siz;
     bg->b.imagePal = 0;
     bg->b.imageFlip = 0;
-
-    gfx = (Gfx*)(bg + 1);
 
     if (fmt == G_IM_FMT_CI) {
         gDPLoadTLUT(gfx++, tlutCount, 256, tlut);
@@ -429,7 +431,7 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
     }
 
     player = GET_PLAYER(play);
-    player->actor.params = (player->actor.params & 0xFF00) | bgCamIndex;
+    player->actor.params = PARAMS_GET_NOSHIFT(player->actor.params, 8, 8) | bgCamIndex;
 
     bgEntry = SEGMENTED_TO_VIRTUAL(roomShapeImageMulti->backgrounds);
     for (i = 0; i < roomShapeImageMulti->numBackgrounds; i++) {
@@ -439,9 +441,14 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
         bgEntry++;
     }
 
-    // "z_room.c: Data consistent with camera id does not exist camid=%d"
-    PRINTF(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, bgCamIndex);
+    PRINTF(VT_COL(RED, WHITE) T("z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n",
+                                "z_room.c: Data consistent with camera id does not exist camid=%d\n") VT_RST,
+           bgCamIndex);
+#if PLATFORM_N64
+    Fault_AddHungupAndCrash("../z_room.c", 721);
+#else
     LogUtils_HungupThread("../z_room.c", 726);
+#endif
 
     return NULL;
 }
@@ -521,7 +528,11 @@ void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     } else if (roomShape->amountType == ROOM_SHAPE_IMAGE_AMOUNT_MULTI) {
         Room_DrawImageMulti(play, room, flags);
     } else {
+#if PLATFORM_N64
+        Fault_AddHungupAndCrash("../z_room.c", 836);
+#else
         LogUtils_HungupThread("../z_room.c", 841);
+#endif
     }
 }
 
@@ -577,14 +588,12 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     }
 
     PRINTF(VT_FGCOL(YELLOW));
-    // "Room buffer size=%08x(%5.1fK)"
-    PRINTF("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
+    PRINTF(T("部屋バッファサイズ=%08x(%5.1fK)\n", "Room buffer size=%08x(%5.1fK)\n"), maxRoomSize,
+           maxRoomSize / 1024.0f);
     roomCtx->bufPtrs[0] = GAME_STATE_ALLOC(&play->state, maxRoomSize, "../z_room.c", 946);
-    // "Room buffer initial pointer=%08x"
-    PRINTF("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
+    PRINTF(T("部屋バッファ開始ポインタ=%08x\n", "Room buffer initial pointer=%08x\n"), roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((uintptr_t)roomCtx->bufPtrs[0] + maxRoomSize);
-    // "Room buffer end pointer=%08x"
-    PRINTF("部屋バッファ終了ポインタ=%08x\n", roomCtx->bufPtrs[1]);
+    PRINTF(T("部屋バッファ終了ポインタ=%08x\n", "Room buffer end pointer=%08x\n"), roomCtx->bufPtrs[1]);
     PRINTF(VT_RST);
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
@@ -612,10 +621,20 @@ s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
             (void*)ALIGN16((uintptr_t)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
 
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
+
+#if PLATFORM_N64
+        if ((B_80121220 != NULL) && (B_80121220->unk_08 != NULL)) {
+            B_80121220->unk_08(play, roomCtx, roomNum);
+        } else {
+            DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->unk_34, play->roomList[roomNum].vromStart, size, 0,
+                              &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
+        }
+#else
         DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->unk_34, play->roomList[roomNum].vromStart, size, 0,
                           &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
-        roomCtx->unk_30 ^= 1;
+#endif
 
+        roomCtx->unk_30 ^= 1;
         return true;
     }
 

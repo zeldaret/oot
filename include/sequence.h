@@ -1,7 +1,7 @@
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
 
-typedef enum {
+typedef enum SeqId {
     /* 0x00 */ NA_BGM_GENERAL_SFX,      // General Sound Effects
     /* 0x01 */ NA_BGM_NATURE_AMBIENCE,  // Environmental nature background sounds
     /* 0x02 */ NA_BGM_FIELD_LOGIC,      // Hyrule Field
@@ -117,21 +117,21 @@ typedef enum {
     /* 0xFFFF */ NA_BGM_DISABLED = 0xFFFF
 } SeqId;
 
-typedef enum {
+typedef enum SequencePlayerId {
     /* 0 */ SEQ_PLAYER_BGM_MAIN,
     /* 1 */ SEQ_PLAYER_FANFARE,
     /* 2 */ SEQ_PLAYER_SFX,
     /* 3 */ SEQ_PLAYER_BGM_SUB
 } SequencePlayerId;
 
-typedef enum {
+typedef enum SequenceMode {
     /* 0 */ SEQ_MODE_DEFAULT,
     /* 1 */ SEQ_MODE_ENEMY,
     /* 2 */ SEQ_MODE_STILL, // Not moving or first-person view
     /* 3 */ SEQ_MODE_IGNORE
 } SequenceMode;
 
-typedef enum {
+typedef enum SequenceCutsceneEffects {
     /* 0x0 */ SEQ_CS_EFFECTS_SWORD_GLOW, // Master sword glow
     /* 0x1 */ SEQ_CS_EFFECTS_SHEIK_TRANSFORM, // Sheik's transformation to Zelda
     /* 0x2 */ SEQ_CS_EFFECTS_SAGE_SEAL, // Sages accumulating their power
@@ -150,7 +150,7 @@ typedef enum {
     /* 0xF */ SEQ_CS_EFFECTS_RAINFALL // Rain with thunder effects
 } SequenceCutsceneEffects;
 
-typedef enum {
+typedef enum ChannelIOPort {
     /* 0x0 */ CHANNEL_IO_PORT_0,
     /* 0x1 */ CHANNEL_IO_PORT_1,
     /* 0x2 */ CHANNEL_IO_PORT_2,
@@ -161,7 +161,7 @@ typedef enum {
     /* 0x7 */ CHANNEL_IO_PORT_7
 } ChannelIOPort;
 
-typedef enum {
+typedef enum VolumeScaleIndex {
     /* 0 */ VOL_SCALE_INDEX_BGM_MAIN,
     /* 1 */ VOL_SCALE_INDEX_FANFARE,
     /* 2 */ VOL_SCALE_INDEX_SFX,
@@ -169,7 +169,7 @@ typedef enum {
     /* 4 */ VOL_SCALE_INDEX_MAX
 } VolumeScaleIndex; // May be worth using SequencePlayerId instead
 
-typedef struct {
+typedef struct ActiveSequenceChannelData {
     /* 0x00 */ f32 volCur;
     /* 0x04 */ f32 volTarget;
     /* 0x08 */ f32 volStep;
@@ -180,7 +180,7 @@ typedef struct {
     /* 0x1C */ u16 freqScaleTimer;
 } ActiveSequenceChannelData; // size = 0x20
 
-typedef struct {
+typedef struct ActiveSequence {
     /* 0x000 */ f32 volCur;
     /* 0x004 */ f32 volTarget;
     /* 0x008 */ f32 volStep;
@@ -208,7 +208,7 @@ typedef struct {
     /* 0x260 */ u8 isWaitingForFonts; // This name comes from MM
 } ActiveSequence; // size = 0x264
 
-typedef enum {
+typedef enum NatureChannelIndex {
     /* 0x0 */ NATURE_CHANNEL_STREAM_0,
     /* 0x1 */ NATURE_CHANNEL_CRITTER_0,
     /* 0x2 */ NATURE_CHANNEL_CRITTER_1,
@@ -224,7 +224,7 @@ typedef enum {
     /* 0xF */ NATURE_CHANNEL_LIGHTNING
 } NatureChannelIndex; // seqPlayerIndex = 0 (Overlaps with main bgm)
 
-typedef enum {
+typedef enum NatureAmbienceId {
     /* 0x00 */ NATURE_ID_GENERAL_NIGHT,
     /* 0x01 */ NATURE_ID_MARKET_ENTRANCE,
     /* 0x02 */ NATURE_ID_KAKARIKO_REGION,
@@ -248,14 +248,14 @@ typedef enum {
     /* 0xFF */ NATURE_ID_DISABLED = 0xFF
 } NatureAmbienceId;
 
-typedef enum {
+typedef enum NatureStreamId {
     /* 0x00 */ NATURE_STREAM_RUSHING_WATER,
     /* 0x01 */ NATURE_STREAM_HOWLING_WIND,
     /* 0x02 */ NATURE_STREAM_SCREECHING_WIND,
     /* 0x03 */ NATURE_STREAM_SCREECHING_WIND_ALT1
 } NatureStreamId;
 
-typedef enum {
+typedef enum NatureAmimalId {
     /* 0x00 */ NATURE_CRITTER_BIRD_CHIRP_1,
     /* 0x01 */ NATURE_CRITTER_TAP,
     /* 0x02 */ NATURE_CRITTER_BIRD_CHIRP_2,

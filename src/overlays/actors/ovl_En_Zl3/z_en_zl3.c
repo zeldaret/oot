@@ -726,21 +726,21 @@ void EnZl3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 s32 func_80B54DB4(EnZl3* this) {
-    s32 params = this->actor.params >> 8;
+    s32 params = PARAMS_GET_U(this->actor.params, 8, 8);
 
-    return params & 0xFF;
+    return params;
 }
 
 s32 func_80B54DC4(EnZl3* this) {
-    s32 params = this->actor.params >> 4;
+    s32 params = PARAMS_GET_U(this->actor.params, 4, 4);
 
-    return params & 0xF;
+    return params;
 }
 
 s32 func_80B54DD4(EnZl3* this) {
-    s32 params = this->actor.params;
+    s32 params = PARAMS_GET_U(this->actor.params, 0, 4);
 
-    return params & 0xF;
+    return params;
 }
 
 void func_80B54DE0(EnZl3* this, PlayState* play) {
@@ -2788,7 +2788,7 @@ void EnZl3_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-ActorInit En_Zl3_InitVars = {
+ActorProfile En_Zl3_Profile = {
     /**/ ACTOR_EN_ZL3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

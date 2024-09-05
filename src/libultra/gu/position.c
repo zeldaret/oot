@@ -50,5 +50,5 @@ void guPosition(Mtx* m, f32 rot, f32 pitch, f32 yaw, f32 scale, f32 x, f32 y, f3
 
     guPositionF(mf, rot, pitch, yaw, scale, x, y, z);
 
-    guMtxF2L((MtxF*)mf, m);
+    guMtxF2L(mf, m);
 }

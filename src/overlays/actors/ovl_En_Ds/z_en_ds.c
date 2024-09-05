@@ -16,7 +16,7 @@ void EnDs_Draw(Actor* thisx, PlayState* play);
 
 void EnDs_Wait(EnDs* this, PlayState* play);
 
-ActorInit En_Ds_InitVars = {
+ActorProfile En_Ds_Profile = {
     /**/ ACTOR_EN_DS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -41,7 +41,7 @@ void EnDs_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.013f);
 
     this->actionFunc = EnDs_Wait;
-    this->actor.targetMode = 1;
+    this->actor.targetMode = TARGET_MODE_1;
     this->unk_1E8 = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_1E4 = 0.0f;

@@ -16,7 +16,7 @@ void EnHs2_Update(Actor* thisx, PlayState* play);
 void EnHs2_Draw(Actor* thisx, PlayState* play);
 void func_80A6F1A4(EnHs2* this, PlayState* play);
 
-ActorInit En_Hs2_InitVars = {
+ActorProfile En_Hs2_Profile = {
     /**/ ACTOR_EN_HS2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -63,7 +63,7 @@ void EnHs2_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" VT_RST);
     this->actionFunc = func_80A6F1A4;
     this->unk_2A8 = 0;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
 }
 
 void EnHs2_Destroy(Actor* thisx, PlayState* play) {

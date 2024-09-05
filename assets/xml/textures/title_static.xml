@@ -15,7 +15,7 @@
         <Texture Name="gFileSelShadowMedallionTex" OutName="shadow_medallion" Format="ia8" Width="16" Height="16" Offset="0x2D80"/>
         <Texture Name="gFileSelLightMedallionTex" OutName="light_medallion" Format="ia8" Width="16" Height="16" Offset="0x2E80"/>
 
-        <Texture Name="gFileSelWhichFile1JPNTex" OutName="which_file_1_jpn" Format="ia8" Width="128" Height="16" Offset="0x2F80"/>
+        <Texture Name="gFileSelCopyWhichFileJPNTex" OutName="copy_which_file_jpn" Format="ia8" Width="128" Height="16" Offset="0x2F80"/>
         <Texture Name="gFileSelCopyToWhichFileJPNTex" OutName="copy_to_which_file_jpn" Format="ia8" Width="128" Height="16" Offset="0x3780"/>
         <Texture Name="gFileSelAreYouSureJPNTex" OutName="are_you_sure_jpn" Format="ia8" Width="128" Height="16" Offset="0x3F80"/>
         <Texture Name="gFileSelFileCopiedJPNTex" OutName="file_copied_jpn" Format="ia8" Width="128" Height="16" Offset="0x4780"/>

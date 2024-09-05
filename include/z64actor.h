@@ -24,7 +24,7 @@ typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*
 typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
 typedef s16 (*NpcUpdateTalkStateFunc)(struct PlayState*, struct Actor*);
 
-typedef struct {
+typedef struct ActorProfile {
     /* 0x00 */ s16 id;
     /* 0x02 */ u8 category; // Classifies actor and determines when it will update or draw
     /* 0x04 */ u32 flags;
@@ -34,7 +34,7 @@ typedef struct {
     /* 0x14 */ ActorFunc destroy; // Destructor
     /* 0x18 */ ActorFunc update; // Update Function
     /* 0x1C */ ActorFunc draw; // Draw function
-} ActorInit; // size = 0x20
+} ActorProfile; // size = 0x20
 
 /**
  * @see ACTOROVL_ALLOC_ABSOLUTE
@@ -85,29 +85,29 @@ typedef struct {
  */
 #define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
-typedef struct {
+typedef struct ActorOverlay {
     /* 0x00 */ RomFile file;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x14 */ ActorInit* initInfo;
+    /* 0x14 */ ActorProfile* profile;
     /* 0x18 */ char* name;
     /* 0x1C */ u16 allocType; // See `ACTOROVL_ALLOC_` defines
     /* 0x1E */ s8 numLoaded; // original name: "clients"
 } ActorOverlay; // size = 0x20
 
-typedef struct {
+typedef struct DamageTable {
     u8 table[32];
 } DamageTable;
 
-typedef struct {
+typedef struct CollisionCheckInfoInit {
     /* 0x00 */ u8 health;
     /* 0x02 */ s16 cylRadius;
     /* 0x04 */ s16 cylHeight;
     /* 0x06 */ u8 mass;
 } CollisionCheckInfoInit;
 
-typedef struct {
+typedef struct CollisionCheckInfoInit2 {
     /* 0x00 */ u8 health;
     /* 0x02 */ s16 cylRadius;
     /* 0x04 */ s16 cylHeight;
@@ -115,7 +115,7 @@ typedef struct {
     /* 0x08 */ u8 mass;
 } CollisionCheckInfoInit2;
 
-typedef struct {
+typedef struct CollisionCheckInfo {
     /* 0x00 */ DamageTable* damageTable;
     /* 0x04 */ Vec3f displacement; // Amount to correct actor velocity by when colliding into a body
     /* 0x10 */ s16 cylRadius; // Used for various purposes
@@ -129,7 +129,7 @@ typedef struct {
     /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
 } CollisionCheckInfo; // size = 0x1C
 
-typedef struct {
+typedef struct ActorShape {
     /* 0x00 */ Vec3s rot; // Current actor shape rotation
     /* 0x06 */ s16 face; // Used to index eyes and mouth textures. Only used by player
     /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units
@@ -140,22 +140,22 @@ typedef struct {
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
-// 
+//
 #define ACTOR_FLAG_0 (1 << 0)
 
-// 
+//
 #define ACTOR_FLAG_2 (1 << 2)
 
-// 
+//
 #define ACTOR_FLAG_3 (1 << 3)
 
-// 
+//
 #define ACTOR_FLAG_4 (1 << 4)
 
-// 
+//
 #define ACTOR_FLAG_5 (1 << 5)
 
-// 
+//
 #define ACTOR_FLAG_6 (1 << 6)
 
 // hidden or revealed by Lens of Truth (depending on room lensMode)
@@ -166,64 +166,64 @@ typedef struct {
 // Actor will retain this flag until `Actor_TalkOfferAccepted` is called or manually turned off by the actor
 #define ACTOR_FLAG_TALK (1 << 8)
 
-// 
+//
 #define ACTOR_FLAG_9 (1 << 9)
 
-// 
+//
 #define ACTOR_FLAG_10 (1 << 10)
 
-// 
+//
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
 
 // Actor will not shake when a quake occurs
 #define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)
 
-// 
+//
 #define ACTOR_FLAG_13 (1 << 13)
 
-// 
+//
 #define ACTOR_FLAG_14 (1 << 14)
 
-// 
+//
 #define ACTOR_FLAG_15 (1 << 15)
 
-// 
+//
 #define ACTOR_FLAG_16 (1 << 16)
 
-// 
+//
 #define ACTOR_FLAG_17 (1 << 17)
 
-// 
+//
 #define ACTOR_FLAG_18 (1 << 18)
 
-// 
+//
 #define ACTOR_FLAG_19 (1 << 19)
 
-// 
+//
 #define ACTOR_FLAG_20 (1 << 20)
 
-// 
+//
 #define ACTOR_FLAG_21 (1 << 21)
 
 // ignores point lights but not directional lights (such as environment lights)
 #define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22)
 
-// 
+//
 #define ACTOR_FLAG_23 (1 << 23)
 
-// 
+//
 #define ACTOR_FLAG_24 (1 << 24)
 
-// 
+//
 #define ACTOR_FLAG_25 (1 << 25)
 
-// 
+//
 #define ACTOR_FLAG_26 (1 << 26)
 
-// 
+//
 #define ACTOR_FLAG_27 (1 << 27)
 
-// 
+//
 #define ACTOR_FLAG_28 (1 << 28)
 
 #define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
@@ -287,7 +287,7 @@ typedef struct Actor {
     /* 0x0F8 */ f32 uncullZoneScale; // Amount to increase the uncull zone scale by (in projected space)
     /* 0x0FC */ f32 uncullZoneDownward; // Amount to increase uncull zone downward by (in projected space)
     /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle
-    /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player
+    /* 0x10C */ u8 isLockedOn; // Set to true if the actor is currently locked-on by Player
     /* 0x10D */ u8 targetPriority; // Lower values have higher priority. Resets to 0 when player stops targeting
     /* 0x10E */ u16 textId; // Text ID to pass to player/display when interacting with the actor
     /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically
@@ -310,7 +310,7 @@ typedef struct Actor {
 #endif
 } Actor; // size = 0x14C
 
-typedef enum {
+typedef enum ActorFootIndex {
     /* 0 */ FOOT_LEFT,
     /* 1 */ FOOT_RIGHT
 } ActorFootIndex;
@@ -344,7 +344,7 @@ typedef struct DynaPolyActor {
     /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164
 
-typedef struct {
+typedef struct BodyBreak {
     /* 0x00 */ MtxF* matrices;
     /* 0x04 */ s16* objectSlots;
     /* 0x08 */ s16 count;
@@ -357,7 +357,7 @@ typedef struct {
 #define BODYBREAK_STATUS_READY -1
 #define BODYBREAK_STATUS_FINISHED 0
 
-typedef enum {
+typedef enum Item00Type {
     /* 0x00 */ ITEM00_RUPEE_GREEN,
     /* 0x01 */ ITEM00_RUPEE_BLUE,
     /* 0x02 */ ITEM00_RUPEE_RED,
@@ -406,7 +406,7 @@ typedef struct EnItem00 {
 } EnItem00; // size = 0x1AC
 
 // Only A_OBJ_SIGNPOST_OBLONG and A_OBJ_SIGNPOST_ARROW are used in room files.
-typedef enum {
+typedef enum AObjType {
     /* 0x00 */ A_OBJ_BLOCK_SMALL,
     /* 0x01 */ A_OBJ_BLOCK_LARGE,
     /* 0x02 */ A_OBJ_BLOCK_HUGE,
@@ -439,7 +439,7 @@ typedef struct EnAObj {
     /* 0x17C */ ColliderCylinder collider;
 } EnAObj; // size = 0x1C8
 
-typedef enum {
+typedef enum ActorCategory {
     /* 0x00 */ ACTORCAT_SWITCH,
     /* 0x01 */ ACTORCAT_BG,
     /* 0x02 */ ACTORCAT_PLAYER,
@@ -459,7 +459,7 @@ typedef enum {
 #define DEFINE_ACTOR_INTERNAL(_0, enum, _2, _3) enum,
 #define DEFINE_ACTOR_UNSET(enum) enum,
 
-typedef enum {
+typedef enum ActorID {
     #include "tables/actor_table.h"
     /* 0x0192 */ ACTOR_ID_MAX // originally "ACTOR_DLF_MAX"
 } ActorID;
@@ -468,13 +468,13 @@ typedef enum {
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
 
-typedef enum {
+typedef enum DoorLockType {
     DOORLOCK_NORMAL,
     DOORLOCK_BOSS,
     DOORLOCK_NORMAL_SPIRIT
 } DoorLockType;
 
-typedef enum {
+typedef enum NaviEnemy {
     /* 0x00 */ NAVI_ENEMY_DEFAULT,
     /* 0x01 */ NAVI_ENEMY_GOHMA,
     /* 0x02 */ NAVI_ENEMY_GOHMA_EGG,
@@ -571,31 +571,45 @@ typedef enum {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
-typedef struct TargetContextEntry {
+// A set of 4 triangles which appear as a ring around an actor when locked-on
+typedef struct LockOnReticle {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ f32 unk_0C; // radius?
+    /* 0x0C */ f32 radius; // distance towards the center of the locked-on actor
     /* 0x10 */ Color_RGB8 color;
-} TargetContextEntry; // size = 0x14
+} LockOnReticle; // size = 0x14
 
 typedef struct TargetContext {
-    /* 0x00 */ Vec3f naviRefPos; // possibly wrong
-    /* 0x0C */ Vec3f targetCenterPos;
-    /* 0x18 */ Color_RGBAf naviInner;
-    /* 0x28 */ Color_RGBAf naviOuter;
-    /* 0x38 */ Actor* arrowPointedActor;
-    /* 0x3C */ Actor* targetedActor;
-    /* 0x40 */ f32 unk_40;
-    /* 0x44 */ f32 unk_44;
-    /* 0x48 */ s16 unk_48;
-    /* 0x4A */ u8 activeCategory;
-    /* 0x4B */ u8 unk_4B;
-    /* 0x4C */ s8 unk_4C;
-    /* 0x4D */ char unk_4D[0x03];
-    /* 0x50 */ TargetContextEntry arr_50[3];
-    /* 0x8C */ Actor* unk_8C;
-    /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
-    /* 0x94 */ Actor* unk_94;
+    /* 0x00 */ Vec3f naviHoverPos; // Navi's current hover position
+    /* 0x0C */ Vec3f reticlePos; // Main reticle pos which each `LockOnReticle` instance can reference
+    /* 0x18 */ Color_RGBAf naviInnerColor; // Navi inner color, based on actor category
+    /* 0x28 */ Color_RGBAf naviOuterColor; // Navi outer color, based on actor category
+    /* 0x38 */ Actor* naviHoverActor;  // The actor that Navi hovers over
+    /* 0x3C */ Actor* reticleActor; // Actor to draw a reticle over
+    /* 0x40 */ f32 naviMoveProgressFactor; // Controls Navi so she can smootly transition to an actor
+    /* 0x44 */ f32 reticleRadius; // Main reticle radius value which each `LockOnReticle` instance can reference
+    /* 0x48 */ s16 reticleFadeAlphaControl; // Set and fade the reticle alpha; Non-zero values control if it should draw
+    /* 0x4A */ u8 naviHoverActorCategory; // Category of the actor Navi is currently hovering over
+    /* 0x4B */ u8 reticleSpinCounter; // Counts up when a reticle is active, used for the spinning animation
+    /* 0x4C */ s8 curReticle; // Indexes lockOnReticles[]
+    /* 0x50 */ LockOnReticle lockOnReticles[3]; // Multiple reticles are used for a motion-blur effect
+    /* 0x8C */ Actor* forcedLockOnActor; // Forces lock-on to this actor when set (never used in practice)
+    /* 0x90 */ Actor* bgmEnemy; // The nearest actor which can trigger enemy background music
+    /* 0x94 */ Actor* arrowHoverActor; // Actor to draw an arrow over
 } TargetContext; // size = 0x98
+
+typedef enum {
+    /*  0 */ TARGET_MODE_0,
+    /*  1 */ TARGET_MODE_1,
+    /*  2 */ TARGET_MODE_2,
+    /*  3 */ TARGET_MODE_3, // Used as the default for new actors
+    /*  4 */ TARGET_MODE_4,
+    /*  5 */ TARGET_MODE_5,
+    /*  6 */ TARGET_MODE_6,
+    /*  7 */ TARGET_MODE_7,
+    /*  8 */ TARGET_MODE_8,
+    /*  9 */ TARGET_MODE_9,
+    /* 10 */ TARGET_MODE_MAX
+} TargetMode;
 
 typedef struct TitleCardContext {
     /* 0x00 */ void* texture;
@@ -641,9 +655,6 @@ typedef struct ActorContext {
     /* 0x13C */ void* absoluteSpace; // Space used to allocate actor overlays with alloc type ACTOROVL_ALLOC_ABSOLUTE
 } ActorContext; // size = 0x140
 
-#define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
-#define GET_TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)
-
 // EnDoor and DoorKiller share openAnim and playerIsOpening
 // Due to alignment, a substruct cannot be used in the structs of these actors.
 #define DOOR_ACTOR_BASE               \
@@ -666,7 +677,7 @@ typedef struct SlidingDoorActorBase {
     /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;
 } SlidingDoorActorBase;
 
-typedef enum {
+typedef enum DoorOpenAnim {
     /* 0x00 */ DOOR_OPEN_ANIM_ADULT_L,
     /* 0x01 */ DOOR_OPEN_ANIM_CHILD_L,
     /* 0x02 */ DOOR_OPEN_ANIM_ADULT_R,
@@ -683,14 +694,14 @@ typedef enum {
 #define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
 #define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
 
-typedef enum {
+typedef enum NpcTalkState {
     /* 0x0 */ NPC_TALK_STATE_IDLE, // NPC not currently talking to player
     /* 0x1 */ NPC_TALK_STATE_TALKING, // NPC is currently talking to player
     /* 0x2 */ NPC_TALK_STATE_ACTION, // An NPC-defined action triggered in the conversation
     /* 0x3 */ NPC_TALK_STATE_ITEM_GIVEN // NPC finished giving an item and text box is done
 } NpcTalkState;
 
-typedef enum {
+typedef enum NpcTrackingMode {
     /* 0x0 */ NPC_TRACKING_PLAYER_AUTO_TURN, // Determine tracking mode based on player position, see Npc_UpdateAutoTurn
     /* 0x1 */ NPC_TRACKING_NONE, // Don't track the target (usually the player)
     /* 0x2 */ NPC_TRACKING_HEAD_AND_TORSO, // Track target by turning the head and the torso
@@ -698,7 +709,7 @@ typedef enum {
     /* 0x4 */ NPC_TRACKING_FULL_BODY // Track target by turning the body, torso and head
 } NpcTrackingMode;
 
-typedef struct {
+typedef struct NpcInteractInfo {
     /* 0x00 */ s16 talkState;
     /* 0x02 */ s16 trackingMode;
     /* 0x04 */ s16 autoTurnTimer;
@@ -709,5 +720,34 @@ typedef struct {
     /* 0x18 */ Vec3f trackPos;
     /* 0x24 */ char unk_24[0x4];
 } NpcInteractInfo; // size = 0x28
+
+// Converts a number of bits to a bitmask, helper for params macros
+// e.g. 3 becomes 0b111 (7)
+#define NBITS_TO_MASK(n) \
+    ((1 << (n)) - 1)
+
+// Extracts the `n`-bit value at position `s` in `p`, shifts then masks
+// Unsigned variant, no possibility of sign extension
+#define PARAMS_GET_U(p, s, n) \
+    (((p) >> (s)) & NBITS_TO_MASK(n))
+
+// Extracts the `n`-bit value at position `s` in `p`, masks then shifts
+// Signed variant, possibility of sign extension
+#define PARAMS_GET_S(p, s, n) \
+    (((p) & (NBITS_TO_MASK(n) << (s))) >> (s))
+
+// Extracts all bits past position `s` in `p`
+#define PARAMS_GET_NOMASK(p, s) \
+    ((p) >> (s))
+
+// Extracts the `n`-bit value at position `s` in `p` without shifting it from its current position
+#define PARAMS_GET_NOSHIFT(p, s, n) \
+    ((p) & (NBITS_TO_MASK(n) << (s)))
+
+// Generates a bitmask for bit position `s` of length `n`
+#define PARAMS_MAKE_MASK(s, n) PARAMS_GET_NOSHIFT(~0, s, n)
+
+#define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
+#define GET_TRANSITION_ACTOR_INDEX(actor) PARAMS_GET_NOMASK((u16)(actor)->params, 10)
 
 #endif

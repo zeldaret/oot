@@ -26,7 +26,7 @@ void func_80A2FC0C(EnGb* this, PlayState* play);
 void EnGb_DrawCagedSouls(EnGb* this, PlayState* play);
 void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play);
 
-ActorInit En_Gb_InitVars = {
+ActorProfile En_Gb_Profile = {
     /**/ ACTOR_EN_GB,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -121,7 +121,7 @@ static ColliderCylinderInitType1 sBottlesCylindersInit[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 6, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_6, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2200, ICHAIN_STOP),
 };
 

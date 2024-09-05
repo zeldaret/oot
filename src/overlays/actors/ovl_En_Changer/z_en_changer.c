@@ -11,7 +11,7 @@
 
 #define FLAGS 0
 
-typedef enum {
+typedef enum ChangerChestSide {
     /* 0 */ CHEST_LEFT,
     /* 1 */ CHEST_RIGHT
 } ChangerChestSide;
@@ -24,7 +24,7 @@ void EnChanger_Wait(EnChanger* this, PlayState* play);
 void EnChanger_OpenChests(EnChanger* this, PlayState* play);
 void EnChanger_SetHeartPieceFlag(EnChanger* this, PlayState* play);
 
-ActorInit En_Changer_InitVars = {
+ActorProfile En_Changer_Profile = {
     /**/ ACTOR_EN_CHANGER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

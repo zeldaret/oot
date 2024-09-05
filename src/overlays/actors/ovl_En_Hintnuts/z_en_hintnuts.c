@@ -27,7 +27,7 @@ void EnHintnuts_Talk(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Leave(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play);
 
-ActorInit En_Hintnuts_InitVars = {
+ActorProfile En_Hintnuts_Profile = {
     /**/ ACTOR_EN_HINTNUTS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -83,7 +83,7 @@ void EnHintnuts_Init(Actor* thisx, PlayState* play) {
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        Actor_SetTextWithPrefix(play, &this->actor, (this->actor.params >> 8) & 0xFF);
+        Actor_SetTextWithPrefix(play, &this->actor, PARAMS_GET_U(this->actor.params, 8, 8));
         this->textIdCopy = this->actor.textId;
         this->actor.params &= 0xFF;
         sPuzzleCounter = 0;
@@ -323,7 +323,7 @@ void EnHintnuts_BeginFreeze(EnHintnuts* this, PlayState* play) {
 
 void EnHintnuts_CheckProximity(EnHintnuts* this, PlayState* play) {
     if (this->actor.category != ACTORCAT_ENEMY) {
-        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
+        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isLockedOn) {
             this->actor.flags |= ACTOR_FLAG_16;
         } else {
             this->actor.flags &= ~ACTOR_FLAG_16;

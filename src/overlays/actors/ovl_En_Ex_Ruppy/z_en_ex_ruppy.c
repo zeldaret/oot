@@ -28,7 +28,7 @@ static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
-ActorInit En_Ex_Ruppy_InitVars = {
+ActorProfile En_Ex_Ruppy_Profile = {
     /**/ ACTOR_EN_EX_RUPPY,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -302,7 +302,7 @@ void EnExRuppy_Kill(EnExRuppy* this, PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct EnExRuppyParentActor {
     /* 0x000 */ Actor actor;
     /* 0x14C */ char unk_14C[0x11A];
     /* 0x226 */ s16 unk_226;

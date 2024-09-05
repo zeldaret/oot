@@ -33,7 +33,7 @@ void func_809EEA00(EnDivingGame* this, PlayState* play);
 void func_809EEA90(EnDivingGame* this, PlayState* play);
 void func_809EEAF8(EnDivingGame* this, PlayState* play);
 
-ActorInit En_Diving_Game_InitVars = {
+ActorProfile En_Diving_Game_Profile = {
     /**/ ACTOR_EN_DIVING_GAME,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -93,7 +93,7 @@ void EnDivingGame_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         D_809EF0B0 = true;
-        this->actor.targetMode = 0;
+        this->actor.targetMode = TARGET_MODE_0;
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = func_809EDCB0;
     }

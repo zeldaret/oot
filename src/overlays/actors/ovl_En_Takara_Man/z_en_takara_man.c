@@ -22,7 +22,7 @@ void func_80B17934(EnTakaraMan* this, PlayState* play);
 void func_80B17A6C(EnTakaraMan* this, PlayState* play);
 void func_80B17AC4(EnTakaraMan* this, PlayState* play);
 
-ActorInit En_Takara_Man_InitVars = {
+ActorProfile En_Takara_Man_Profile = {
     /**/ ACTOR_EN_TAKARA_MAN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -66,7 +66,7 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
     this->originalRoomNum = thisx->room;
     thisx->room = -1;
     thisx->world.rot.y = thisx->shape.rot.y = -0x4E20;
-    thisx->targetMode = 1;
+    thisx->targetMode = TARGET_MODE_1;
     this->actionFunc = func_80B176E0;
 }
 

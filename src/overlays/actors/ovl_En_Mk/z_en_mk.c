@@ -16,7 +16,7 @@ void EnMk_Draw(Actor* thisx, PlayState* play);
 
 void EnMk_Wait(EnMk* this, PlayState* play);
 
-ActorInit En_Mk_InitVars = {
+ActorProfile En_Mk_Profile = {
     /**/ ACTOR_EN_MK,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -66,7 +66,7 @@ void EnMk_Init(Actor* thisx, PlayState* play) {
     this->actionFunc = EnMk_Wait;
     this->flags = 0;
     this->swimFlag = 0;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
 
     if (GET_ITEMGETINF(ITEMGETINF_10)) {
         this->flags |= 4;

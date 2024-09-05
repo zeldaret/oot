@@ -35,7 +35,7 @@ void EnEiyer_Die(EnEiyer* this, PlayState* play);
 void EnEiyer_Dead(EnEiyer* this, PlayState* play);
 void EnEiyer_Stunned(EnEiyer* this, PlayState* play);
 
-ActorInit En_Eiyer_InitVars = {
+ActorProfile En_Eiyer_Profile = {
     /**/ ACTOR_EN_EIYER,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,

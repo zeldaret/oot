@@ -31,7 +31,7 @@ static void* D_808AD850[] = {
     object_spot02_objects_Tex_0102B0, object_spot02_objects_Tex_010EB0, object_spot02_objects_Tex_011AB0,
 };
 
-ActorInit Bg_Spot02_Objects_InitVars = {
+ActorProfile Bg_Spot02_Objects_Profile = {
     /**/ ACTOR_BG_SPOT02_OBJECTS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -53,8 +53,8 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
-    this->unk_16B = (u16)(thisx->params >> 8);
-    thisx->params = (u16)(thisx->params & 0xFF);
+    this->unk_16B = (u16)PARAMS_GET_NOMASK(thisx->params, 8);
+    thisx->params = (u16)PARAMS_GET_U(thisx->params, 0, 8);
 
     switch (thisx->params) {
         case 0:

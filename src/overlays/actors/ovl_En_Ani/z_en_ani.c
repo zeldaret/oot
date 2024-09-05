@@ -26,7 +26,7 @@ void func_809B0994(EnAni* this, PlayState* play);
 void func_809B0A28(EnAni* this, PlayState* play);
 void func_809B0A6C(EnAni* this, PlayState* play);
 
-ActorInit En_Ani_InitVars = {
+ActorProfile En_Ani_Profile = {
     /**/ ACTOR_EN_ANI,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

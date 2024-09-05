@@ -11,7 +11,7 @@ u32 EffectSsGMagma_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsGMagma_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsGMagma_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_G_Magma_InitVars = {
+EffectSsProfile Effect_Ss_G_Magma_Profile = {
     EFFECT_SS_G_MAGMA,
     EffectSsGMagma_Init,
 };

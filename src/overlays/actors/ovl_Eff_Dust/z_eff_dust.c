@@ -22,7 +22,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, PlayState* play);
 void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play2);
 void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2);
 
-ActorInit Eff_Dust_InitVars = {
+ActorProfile Eff_Dust_Profile = {
     /**/ ACTOR_EFF_DUST,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

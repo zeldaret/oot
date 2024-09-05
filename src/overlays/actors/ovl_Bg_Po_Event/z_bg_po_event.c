@@ -28,7 +28,7 @@ void BgPoEvent_PaintingAppear(BgPoEvent* this, PlayState* play);
 void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, PlayState* play);
 
-ActorInit Bg_Po_Event_InitVars = {
+ActorProfile Bg_Po_Event_Profile = {
     /**/ ACTOR_BG_PO_EVENT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -196,8 +196,8 @@ void BgPoEvent_Init(Actor* thisx, PlayState* play) {
     BgPoEvent* this = (BgPoEvent*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->type = (thisx->params >> 8) & 0xF;
-    this->index = (thisx->params >> 0xC) & 0xF;
+    this->type = PARAMS_GET_U(thisx->params, 8, 4);
+    this->index = PARAMS_GET_U(thisx->params, 12, 4);
     thisx->params &= 0x3F;
 
     if (this->type >= 2) {

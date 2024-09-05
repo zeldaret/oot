@@ -3,7 +3,9 @@
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-typedef struct {
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+
+typedef struct BowSlingshotStringData {
     /* 0x00 */ Gfx* dList;
     /* 0x04 */ Vec3f pos;
 } BowSlingshotStringData; // size = 0x10
@@ -90,7 +92,7 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
     PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_LENS_OF_TRUTH
 };
 
-typedef struct {
+typedef struct EnvHazardTextTriggerEntry {
     /* 0x0 */ u8 flag;
     /* 0x2 */ u16 textId;
 } EnvHazardTextTriggerEntry; // size = 0x4
@@ -600,7 +602,7 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
 }
 
 void func_8008EDF0(Player* this) {
-    this->unk_664 = NULL;
+    this->focusActor = NULL;
     this->stateFlags2 &= ~PLAYER_STATE2_13;
 }
 
@@ -622,7 +624,7 @@ void func_8008EEAC(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
 
     func_8008EE08(this);
-    this->unk_664 = actor;
+    this->focusActor = actor;
     this->unk_684 = actor;
     this->stateFlags1 |= PLAYER_STATE1_16;
     Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);
@@ -1125,13 +1127,14 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         sCurBodyPartPos = &this->bodyPartsPos[0] - 1;
 
         if (!LINK_IS_ADULT) {
-            if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) ||
+            if (!(this->skelAnime.moveFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
                 (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_XZ)) {
                 pos->x *= 0.64f;
                 pos->z *= 0.64f;
             }
 
-            if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) || (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_Y)) {
+            if (!(this->skelAnime.moveFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
+                (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_Y)) {
                 pos->y *= 0.64f;
             }
         }
@@ -1522,6 +1525,11 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             func_80090A28(this, spE4);
             func_800906D4(play, this, spE4);
         } else if ((*dList != NULL) && (this->leftHandType == PLAYER_MODELTYPE_LH_BOTTLE)) {
+            //! @bug When Player is actively using shield, the `itemAction` value will be set to -1.
+            //! If shield is used at the same time a bottle is in hand, `Player_ActionToBottle` will
+            //! return -1, which results in an out of bounds access behind the `sBottleColors` array.
+            //! A value of -1 happens to access `gLinkChildBottleDL` (0x06018478). The last 3 bytes of
+            //! this pointer are read as a color, which results in a dark teal color used for the bottle.
             Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemAction)];
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2710);

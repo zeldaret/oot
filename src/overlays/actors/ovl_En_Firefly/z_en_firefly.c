@@ -28,13 +28,13 @@ void EnFirefly_FrozenFall(EnFirefly* this, PlayState* play);
 void EnFirefly_Perch(EnFirefly* this, PlayState* play);
 void EnFirefly_DisturbDiveAttack(EnFirefly* this, PlayState* play);
 
-typedef enum {
+typedef enum KeeseAuraType {
     /* 0 */ KEESE_AURA_NONE,
     /* 1 */ KEESE_AURA_FIRE,
     /* 2 */ KEESE_AURA_ICE
 } KeeseAuraType;
 
-ActorInit En_Firefly_InitVars = {
+ActorProfile En_Firefly_Profile = {
     /**/ ACTOR_EN_FIREFLY,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -112,7 +112,7 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
-    ICHAIN_F32(minVelocityY, -4, ICHAIN_CONTINUE),    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(minVelocityY, -4, ICHAIN_CONTINUE),    ICHAIN_U8(targetMode, TARGET_MODE_2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 4000, ICHAIN_STOP),
 };
 
@@ -146,7 +146,7 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
-    if ((this->actor.params & 0x8000) != 0) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1) != 0) {
         this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
         if (1) {}
         this->actor.draw = EnFirefly_DrawInvisible;

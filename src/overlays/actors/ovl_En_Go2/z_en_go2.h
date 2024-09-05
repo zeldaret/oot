@@ -9,7 +9,7 @@ struct EnGo2;
 
 typedef void (*EnGo2ActionFunc)(struct EnGo2*, PlayState*);
 
-typedef enum {
+typedef enum GoronType {
     /* 0x00 */ GORON_CITY_ROLLING_BIG,
     /* 0x01 */ GORON_CITY_LINK,
     /* 0x02 */ GORON_DMT_BIGGORON,
@@ -41,7 +41,7 @@ typedef enum {
 // /* 0x0B */ GORON_FIRE_HIGHEST
 
 
-typedef struct {
+typedef struct EnGo2DataStruct1 {
     s16 unused;
     s16 yDist;
     s16 xzDist;
@@ -49,14 +49,14 @@ typedef struct {
     s16 height;
 } EnGo2DataStruct1; // size = 0xA
 
-typedef struct {
+typedef struct EnGo2DataStruct2 {
     f32 shape_unk_10;
     f32 scale;
     s8 actor_unk_1F;
     f32 interactRange;
 } EnGo2DataStruct2; // size = 0x10
 
-typedef struct {
+typedef struct EnGo2DustEffectData {
     u8 initialTimer;
     f32 scale;
     f32 scaleStep;

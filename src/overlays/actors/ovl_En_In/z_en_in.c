@@ -24,7 +24,7 @@ void func_80A7A940(EnIn* this, PlayState* play);
 void func_80A7AA40(EnIn* this, PlayState* play);
 void func_80A7A4BC(EnIn* this, PlayState* play);
 
-ActorInit En_In_InitVars = {
+ActorProfile En_In_Profile = {
     /**/ ACTOR_EN_IN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnInAnimation {
     /* 0 */ ENIN_ANIM_0,
     /* 1 */ ENIN_ANIM_1,
     /* 2 */ ENIN_ANIM_2,
@@ -503,7 +503,7 @@ void EnIn_Destroy(Actor* thisx, PlayState* play) {
 }
 
 // This function does not actually wait since it waits for OBJECT_IN,
-// but the object is already loaded at this point from being set in the ActorInit data
+// but the object is already loaded at this point from being set in the ActorProfile data
 void EnIn_WaitForObject(EnIn* this, PlayState* play) {
     s32 sp3C = 0;
 
@@ -518,7 +518,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
             return;
         }
         Actor_SetScale(&this->actor, 0.01f);
-        this->actor.targetMode = 6;
+        this->actor.targetMode = TARGET_MODE_6;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80A7A4BC;
 
@@ -577,7 +577,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                         gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
                         break;
                     case EVENTINF_HORSES_STATE_1:
-                        this->actor.targetMode = 3;
+                        this->actor.targetMode = TARGET_MODE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
                         Interface_SetTimer(60);
@@ -593,7 +593,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                         break;
                     case EVENTINF_HORSES_STATE_5:
                     case EVENTINF_HORSES_STATE_6:
-                        this->actor.targetMode = 3;
+                        this->actor.targetMode = TARGET_MODE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;

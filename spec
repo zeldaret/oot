@@ -2,6 +2,8 @@
  * ROM spec file
  */
 
+#include "include/versions.h"
+
 beginseg
     name "makerom"
     include "$(BUILD_DIR)/src/makerom/rom_header.o"
@@ -13,23 +15,28 @@ beginseg
     name "boot"
     address 0x80000460
     include "$(BUILD_DIR)/src/boot/boot_main.o"
-    include "$(BUILD_DIR)/data/unk_800093F0.data.o"
     include "$(BUILD_DIR)/data/unk_80009410.data.o"
     include "$(BUILD_DIR)/src/boot/idle.o"
     include "$(BUILD_DIR)/src/boot/viconfig.o"
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
     include "$(BUILD_DIR)/src/boot/yaz0.o"
     include "$(BUILD_DIR)/src/boot/z_locale.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/boot/cic6105.o"
+#endif
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/boot/assert.o"
 #endif
     include "$(BUILD_DIR)/src/boot/is_debug.o"
-    include "$(BUILD_DIR)/src/libultra/io/driverominit.o"
+    include "$(BUILD_DIR)/src/boot/driverominit.o"
     include "$(BUILD_DIR)/src/boot/mio0.o"
     include "$(BUILD_DIR)/src/boot/stackcheck.o"
     include "$(BUILD_DIR)/src/boot/logutils.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/boot/sleep.o"
+#endif
 #if OOT_DEBUG
-    include "$(BUILD_DIR)/src/libultra/libc/sprintf.o"
+    include "$(BUILD_DIR)/src/boot/sprintf.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
     include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
@@ -37,14 +44,22 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/viextendvstart.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
     include "$(BUILD_DIR)/src/libultra/os/recvmesg.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/initialize.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/libc/ll.o"
     include "$(BUILD_DIR)/src/libultra/os/exceptasm.o"
     include "$(BUILD_DIR)/src/libultra/os/thread.o"
     include "$(BUILD_DIR)/src/libultra/os/destroythread.o"
     include "$(BUILD_DIR)/src/libultra/libc/bzero.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/parameters.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/createthread.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/os/initialize.o"
+    include "$(BUILD_DIR)/src/libultra/os/parameters.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/setsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getsr.o"
     include "$(BUILD_DIR)/src/libultra/os/writebackdcache.o"
@@ -66,7 +81,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
-#if OOT_DEBUG || COMPILER_GCC
+#if OOT_DEBUG || defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
@@ -79,7 +94,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/epirawread.o"
     include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawdma.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/gettime.o"
     include "$(BUILD_DIR)/src/libultra/os/timerintr.o"
     include "$(BUILD_DIR)/src/libultra/os/getcount.o"
@@ -101,7 +118,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
-#if OOT_DEBUG
+#if PLATFORM_N64 || OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
@@ -113,7 +130,6 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
 #endif
-    include "$(BUILD_DIR)/src/boot/build.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawwrite.o"
     include "$(BUILD_DIR)/src/libultra/io/vimgr.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrcontext.o"
@@ -122,9 +138,15 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/visetxscale.o"
     include "$(BUILD_DIR)/src/libultra/os/sethwintrroutine.o"
     include "$(BUILD_DIR)/src/libultra/os/gethwintrroutine.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/setwatchlo.o"
+#endif
+    include "$(BUILD_DIR)/src/boot/build.o"
     include "$(BUILD_DIR)/data/rsp_boot.text.o"
+    include "$(BUILD_DIR)/data/cic6105.text.o"
 #ifdef COMPILER_GCC
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
     include "$(BUILD_DIR)/src/gcc_fix/missing_gcc_functions.o"
 #endif
 endseg
@@ -136,8 +158,46 @@ endseg
 
 beginseg
     name "Audiobank"
-    address 0x10 // fake RAM address to avoid map lookup inaccuracies
-    include "$(BUILD_DIR)/baserom/Audiobank.o"
+    address 0
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_0.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_1.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_2.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_3.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_4.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_5.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_6.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_7.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_8.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_9.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_10.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_11.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_12.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_13.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_14.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_15.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_16.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_17.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_18.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_19.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_20.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_21.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_22.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_23.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_24.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_25.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_26.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_27.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_28.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_29.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_30.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_31.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_32.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_33.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_34.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_35.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_36.o"
+    include "$(BUILD_DIR)/assets/audio/soundfonts/Soundfont_37.o"
+    include "$(BUILD_DIR)/assets/audio/audiobank_padding.o"
 endseg
 
 beginseg
@@ -147,11 +207,27 @@ endseg
 
 beginseg
     name "Audiotable"
-    include "$(BUILD_DIR)/baserom/Audiotable.o"
+    address 0
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_0.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_2.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_3.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_4.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_5.o"
+    include "$(BUILD_DIR)/assets/audio/samplebanks/SampleBank_6.o"
 endseg
+
+#if OOT_NTSC
+beginseg
+    name "kanji"
+    include "$(BUILD_DIR)/assets/textures/kanji/kanji.o"
+endseg
+#endif
 
 beginseg
     name "link_animetion"
+#if OOT_NTSC
+    romalign 0x1000
+#endif
     include "$(BUILD_DIR)/assets/misc/link_animetion/link_animetion.o"
     number 7
 endseg
@@ -194,6 +270,16 @@ beginseg
     number 12
 endseg
 
+#if OOT_NTSC
+beginseg
+    name "icon_item_jpn_static"
+    compress
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/textures/icon_item_jpn_static/icon_item_jpn_static.o"
+    number 13
+endseg
+#endif
+
 beginseg
     name "icon_item_nes_static"
     compress
@@ -202,6 +288,7 @@ beginseg
     number 13
 endseg
 
+#if OOT_PAL
 beginseg
     name "icon_item_ger_static"
     compress
@@ -217,6 +304,7 @@ beginseg
     include "$(BUILD_DIR)/assets/textures/icon_item_fra_static/icon_item_fra_static.o"
     number 13
 endseg
+#endif
 
 beginseg
     name "item_name_static"
@@ -260,6 +348,15 @@ beginseg
     number 10
 endseg
 
+#if OOT_NTSC
+beginseg
+    name "jpn_message_data_static"
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/text/jpn_message_data_static.o"
+    number 8
+endseg
+#endif
+
 beginseg
     name "nes_message_data_static"
     romalign 0x1000
@@ -267,6 +364,7 @@ beginseg
     number 7
 endseg
 
+#if OOT_PAL
 beginseg
     name "ger_message_data_static"
     romalign 0x1000
@@ -280,6 +378,7 @@ beginseg
     include "$(BUILD_DIR)/assets/text/fra_message_data_static.o"
     number 7
 endseg
+#endif
 
 beginseg
     name "staff_message_data_static"
@@ -441,16 +540,26 @@ beginseg
     include "$(BUILD_DIR)/src/code/sys_rumble.o"
     include "$(BUILD_DIR)/src/code/code_800D31A0.o"
     include "$(BUILD_DIR)/src/code/irqmgr.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/code/code_n64dd_800AD410.o"
+    include "$(BUILD_DIR)/src/code/code_n64dd_800AD4C0.o"
+#endif
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
 #endif
-    include "$(BUILD_DIR)/src/code/fault.o"
-    include "$(BUILD_DIR)/src/code/fault_drawer.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/code/fault_n64.o"
+#else
+    include "$(BUILD_DIR)/src/code/fault_gc.o"
+    include "$(BUILD_DIR)/src/code/fault_gc_drawer.o"
+#endif
     include "$(BUILD_DIR)/src/code/kanread.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
 #endif
-    pad_text // on GameCube, NTSC 1.0 and "0.9" prerelease
+#if OOT_VERSION <= NTSC_1_0 || PLATFORM_GC
+    pad_text
+#endif
     include "$(BUILD_DIR)/src/audio/lib/data.o"
     include "$(BUILD_DIR)/src/audio/lib/synthesis.o"
     include "$(BUILD_DIR)/src/audio/lib/heap.o"
@@ -462,42 +571,64 @@ beginseg
     include "$(BUILD_DIR)/src/audio/lib/effects.o"
     include "$(BUILD_DIR)/src/audio/lib/seqplayer.o"
     include "$(BUILD_DIR)/src/audio/general.o"
-#if !OOT_DEBUG
-    pad_text // on retail GameCube
+#if PLATFORM_GC && !OOT_DEBUG
+    pad_text
 #endif
     include "$(BUILD_DIR)/src/audio/sfx_params.o"
     include "$(BUILD_DIR)/src/audio/sfx.o"
     include "$(BUILD_DIR)/src/audio/sequence.o"
     include "$(BUILD_DIR)/src/audio/data.o"
     include "$(BUILD_DIR)/src/audio/session_config.o"
-    include "$(BUILD_DIR)/src/code/logseverity.o"
+#if PLATFORM_N64
     include "$(BUILD_DIR)/src/code/gfxprint.o"
     include "$(BUILD_DIR)/src/code/rcp_utils.o"
-    include "$(BUILD_DIR)/src/code/loadfragment2.o"
+    include "$(BUILD_DIR)/src/code/loadfragment2_n64.o"
+    include "$(BUILD_DIR)/src/code/padutils.o"
+    include "$(BUILD_DIR)/src/code/code_800FC620.o"
+    include "$(BUILD_DIR)/src/code/padsetup.o"
+#else
+    include "$(BUILD_DIR)/src/code/logseverity_gc.o"
+    include "$(BUILD_DIR)/src/code/gfxprint.o"
+    include "$(BUILD_DIR)/src/code/rcp_utils.o"
+    include "$(BUILD_DIR)/src/code/loadfragment2_gc.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/mtxuty-cvt.o"
 #endif
-    include "$(BUILD_DIR)/src/code/relocation.o"
-    include "$(BUILD_DIR)/src/code/load.o"
+    include "$(BUILD_DIR)/src/code/relocation_gc.o"
+    include "$(BUILD_DIR)/src/code/load_gc.o"
     include "$(BUILD_DIR)/src/code/code_800FC620.o"
     include "$(BUILD_DIR)/src/code/padutils.o"
     include "$(BUILD_DIR)/src/code/padsetup.o"
+#endif
     include "$(BUILD_DIR)/src/code/fp_math.o"
     include "$(BUILD_DIR)/src/code/fp.o"
     include "$(BUILD_DIR)/src/code/system_malloc.o"
     include "$(BUILD_DIR)/src/code/rand.o"
-    include "$(BUILD_DIR)/src/code/__osMalloc.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/code/__osMalloc_n64.o"
+#else
+    include "$(BUILD_DIR)/src/code/__osMalloc_gc.o"
+#endif
 #if !OOT_DEBUG
-    include "$(BUILD_DIR)/src/libultra/libc/sprintf.o"
+    include "$(BUILD_DIR)/src/boot/sprintf.o"
 #endif
     include "$(BUILD_DIR)/src/code/printutils.o"
-    include "$(BUILD_DIR)/src/code/sleep.o"
+#if !PLATFORM_N64
+    include "$(BUILD_DIR)/src/boot/sleep.o"
+#endif
     include "$(BUILD_DIR)/src/code/jpegutils.o"
     include "$(BUILD_DIR)/src/code/jpegdecoder.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
 #endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/os/getintmask.o"
+#endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/scale.o"
+#else
     include "$(BUILD_DIR)/src/libultra/mgu/scale.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/sinf.o"
     include "$(BUILD_DIR)/src/libultra/gu/sins.o"
     include "$(BUILD_DIR)/src/libultra/io/sptask.o"
@@ -513,7 +644,12 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
 #endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/mtxutil.o"
+#endif
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxidentf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
@@ -521,7 +657,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/gu/sqrtf.o"
@@ -531,17 +669,23 @@ beginseg
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
 #endif
-#if !OOT_DEBUG && !COMPILER_GCC
+#if !OOT_DEBUG && !defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/position.o"
     include "$(BUILD_DIR)/src/libultra/io/sptaskyielded.o"
     include "$(BUILD_DIR)/src/libultra/gu/rotate.o"
     include "$(BUILD_DIR)/src/libultra/io/aisetfreq.o"
     include "$(BUILD_DIR)/src/libultra/os/getactivequeue.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/normalize.o"
+#else
     include "$(BUILD_DIR)/src/libultra/mgu/normalize.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
 #if OOT_DEBUG
@@ -551,6 +695,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
     include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
     include "$(BUILD_DIR)/src/libultra/gu/coss.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/os/settime.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
@@ -564,12 +711,19 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/gu/translate.o"
+#else
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
 #if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+#endif
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/contramread.o"
     include "$(BUILD_DIR)/src/libultra/io/crc.o"
@@ -586,23 +740,29 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/spsetstat.o"
     include "$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o"
     include "$(BUILD_DIR)/src/libultra/os/getcurrfaultedthread.o"
+#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxf2l.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
-    include "$(BUILD_DIR)/src/libultra/libc/sqrt.o"
-    include "$(BUILD_DIR)/src/libultra/libc/absf.o"
-    include "$(BUILD_DIR)/src/code/fmodf.o"
-    include "$(BUILD_DIR)/src/code/__osMemset.o"
-    include "$(BUILD_DIR)/src/code/__osMemmove.o"
-    // For some reason, the data sections of these files are placed here near the
-    // rodata sections of the other files
-    include_data_only_within_rodata "$(BUILD_DIR)/src/code/z_message_PAL.o"
-    include_data_only_within_rodata "$(BUILD_DIR)/src/code/z_game_over.o"
-    include_no_data "$(BUILD_DIR)/src/code/z_message_PAL.o"
-    include_no_data "$(BUILD_DIR)/src/code/z_game_over.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
+#if !PLATFORM_N64
+    include "$(BUILD_DIR)/src/libc/absf.o"
+#endif
+    include "$(BUILD_DIR)/src/libc/fmodf.o"
+#ifndef COMPILER_GCC
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
+#endif
+    // For some reason, the data sections of z_message and z_game_over are
+    // placed near the rodata sections of other files, so we first build this
+    // combined object before the final link.
+    include "$(BUILD_DIR)/src/code/z_message_z_game_over.o"
     include "$(BUILD_DIR)/src/code/z_construct.o"
+    include "$(BUILD_DIR)/src/audio/tables/soundfont_table.o"
     include "$(BUILD_DIR)/data/audio_tables.rodata.o"
+    include "$(BUILD_DIR)/src/audio/tables/samplebank_table.o"
     include "$(BUILD_DIR)/data/rsp.text.o"
     include "$(BUILD_DIR)/data/rsp.rodata.o"
 endseg
@@ -615,6 +775,53 @@ beginseg
     include "$(BUILD_DIR)/src/buffers/gfxbuffers.o"
     include "$(BUILD_DIR)/src/buffers/audio_heap.o"
 endseg
+
+#if PLATFORM_N64
+beginseg
+    name "n64dd"
+    // TODO: remaining n64dd files
+    include "$(BUILD_DIR)/src/libleo/api/readwrite.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leofunc.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoram.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoint.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leocmdex.o"
+    include "$(BUILD_DIR)/src/libleo/api/getaadr2.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoread.o"
+    include "$(BUILD_DIR)/src/libleo/api/lbatobyte.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoinquiry.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leodiskinit.o"
+    include "$(BUILD_DIR)/src/libleo/api/seek.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leord_diskid.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leomecha.o"
+    include "$(BUILD_DIR)/src/libleo/api/spdlmotor.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leo_tbl.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leotempbuffer.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoc2_syndrome.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoc2ecc.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leomseq_tbl.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leomotor.o"
+    include "$(BUILD_DIR)/src/libleo/api/driveexist.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leomode_sel.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leord_capa.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoutil.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leorezero.o"
+    include "$(BUILD_DIR)/src/libleo/api/clearqueue.o"
+    include "$(BUILD_DIR)/src/libleo/api/bytetolba.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoreset.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leotranslat.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leotimer.o"
+    include "$(BUILD_DIR)/src/libleo/api/getkadr.o"
+    include "$(BUILD_DIR)/src/libleo/api/getaadr.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoglobals.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leowrite.o"
+    include "$(BUILD_DIR)/src/libleo/api/cjcreateleomanager.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leointerrupt.o"
+    include "$(BUILD_DIR)/src/libleo/api/cacreateleomanager.o"
+    include "$(BUILD_DIR)/src/libleo/api/testunitready.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leotestunit.o"
+    include "$(BUILD_DIR)/src/libleo/leo/leoseek.o"
+endseg
+#endif
 
 beginseg
     name "ovl_title"
@@ -643,7 +850,7 @@ beginseg
     compress
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_nameset_data.o"
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o"
-    include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_nameset_PAL.o"
+    include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_nameset.o"
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/ovl_file_choose_reloc.o"
 endseg
@@ -655,9 +862,9 @@ beginseg
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_debug.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_equipment.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_item.o"
-    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_map_PAL.o"
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_map.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_prompt.o"
-    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
+    include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope.o"
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark.o"
 #if !OOT_MQ
     include "$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_lmap_mark_data.o"

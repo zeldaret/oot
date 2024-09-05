@@ -18,7 +18,7 @@ void EnHs_Draw(Actor* thisx, PlayState* play);
 void func_80A6E9AC(EnHs* this, PlayState* play);
 void func_80A6E6B0(EnHs* this, PlayState* play);
 
-ActorInit En_Hs_InitVars = {
+ActorProfile En_Hs_Profile = {
     /**/ ACTOR_EN_HS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -89,7 +89,7 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
     }
 
     this->unk_2A8 = 0;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
 }
 
 void EnHs_Destroy(Actor* thisx, PlayState* play) {

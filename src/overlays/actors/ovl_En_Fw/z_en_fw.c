@@ -24,7 +24,7 @@ void EnFw_Run(EnFw* this, PlayState* play);
 void EnFw_JumpToParentInitPos(EnFw* this, PlayState* play);
 void EnFw_TurnToParentInitPos(EnFw* this, PlayState* play);
 
-ActorInit En_Fw_InitVars = {
+ActorProfile En_Fw_Profile = {
     /**/ ACTOR_EN_FW,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -65,7 +65,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnFwAnimation {
     /* 0 */ ENFW_ANIM_0,
     /* 1 */ ENFW_ANIM_1,
     /* 2 */ ENFW_ANIM_2

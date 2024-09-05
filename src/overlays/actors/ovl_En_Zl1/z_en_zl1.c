@@ -27,7 +27,7 @@ extern CutsceneData D_80B4C5D0[];
 
 #include "z_en_zl1_camera_data.inc.c"
 
-ActorInit En_Zl1_InitVars = {
+ActorProfile En_Zl1_Profile = {
     /**/ ACTOR_EN_ZL1,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -85,7 +85,7 @@ void EnZl1_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     Actor_SetScale(&this->actor, 0.01f);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    this->actor.targetMode = 0;
+    this->actor.targetMode = TARGET_MODE_0;
 
     if (IS_CUTSCENE_LAYER) {
         frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);

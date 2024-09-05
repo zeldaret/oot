@@ -14,20 +14,20 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum BossFdIntroFlyState {
     /* 0 */ INTRO_FLY_EMERGE,
     /* 1 */ INTRO_FLY_HOLE,
     /* 2 */ INTRO_FLY_CAMERA,
     /* 3 */ INTRO_FLY_RETRAT
 } BossFdIntroFlyState;
 
-typedef enum {
+typedef enum BossFdManeIndex {
     /* 0 */ MANE_CENTER,
     /* 1 */ MANE_RIGHT,
     /* 2 */ MANE_LEFT
 } BossFdManeIndex;
 
-typedef enum {
+typedef enum BossFdEyeState {
     /* 0 */ EYE_OPEN,
     /* 1 */ EYE_HALF,
     /* 2 */ EYE_CLOSED
@@ -44,7 +44,7 @@ void BossFd_Wait(BossFd* this, PlayState* play);
 void BossFd_UpdateEffects(BossFd* this, PlayState* play);
 void BossFd_DrawBody(PlayState* play, BossFd* this);
 
-ActorInit Boss_Fd_InitVars = {
+ActorProfile Boss_Fd_Profile = {
     /**/ ACTOR_BOSS_FD,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -59,7 +59,7 @@ ActorInit Boss_Fd_InitVars = {
 #include "z_boss_fd_colchk.inc.c"
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_VOLVAGIA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
@@ -1959,7 +1959,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
     SkelAnime_DrawOpa(play, this->skelAnimeHead.skeleton, this->skelAnimeHead.jointTable, BossFd_OverrideHeadDraw,
                       BossFd_PostHeadDraw, &this->actor);
     PRINTF("SK\n");
-    {
+    if (1) {
         Vec3f spB0 = { 0.0f, 1700.0f, 7000.0f };
         Vec3f spA4 = { -1000.0f, 700.0f, 7000.0f };
 

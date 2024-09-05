@@ -19,7 +19,7 @@ void EnBird_Move(EnBird* this, PlayState* play);
 void EnBird_Idle(EnBird* this, PlayState* play);
 void EnBird_SetupIdle(EnBird* this, s16 params);
 
-ActorInit En_Bird_InitVars = {
+ActorProfile En_Bird_Profile = {
     /**/ ACTOR_EN_BIRD,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

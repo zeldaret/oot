@@ -36,7 +36,7 @@ static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
     func_808AB700,
 };
 
-ActorInit Bg_Spot01_Idohashira_InitVars = {
+ActorProfile Bg_Spot01_Idohashira_Profile = {
     /**/ ACTOR_BG_SPOT01_IDOHASHIRA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

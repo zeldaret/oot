@@ -2,6 +2,7 @@
 #define VARIABLES_H
 
 #include "z64.h"
+#include "osMalloc.h"
 #include "segment_symbols.h"
 
 extern Mtx D_01000000;
@@ -9,6 +10,7 @@ extern Mtx D_01000000;
 extern u32 osTvType;
 extern u32 osRomBase;
 extern u32 osResetType;
+extern u32 osCicId;
 extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 
@@ -19,6 +21,7 @@ extern u32 gViConfigFeatures;
 extern f32 gViConfigXScale;
 extern f32 gViConfigYScale;
 extern OSPiHandle* gCartHandle;
+extern s32 gCurrentRegion;
 extern u32 __osPiAccessQueueEnabled;
 extern OSViMode osViModePalLan1;
 extern s32 osViClock;
@@ -38,9 +41,9 @@ extern OSViContext* __osViCurr;
 extern OSViContext* __osViNext;
 extern OSViMode osViModeFpalLan1;
 extern u32 __additional_scanline;
-extern u8 gBuildTeam[];
-extern u8 gBuildDate[];
-extern u8 gBuildMakeOption[];
+extern const char gBuildTeam[];
+extern const char gBuildDate[];
+extern const char gBuildMakeOption[];
 extern OSMesgQueue gPiMgrCmdQueue;
 extern OSViMode gViConfigMode;
 extern u8 gViConfigModeType;
@@ -166,10 +169,10 @@ extern s32 __osPfsLastChannel;
 extern const TempoData gTempoData;
 extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
-extern u8 gSoundFontTable[];
+extern AudioTable gSoundFontTable;
 extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
-extern u8 gSampleBankTable[];
+extern AudioTable gSampleBankTable;
 
 extern SaveContext gSaveContext;
 
@@ -232,7 +235,6 @@ extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
 extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 
-extern u32 __osMalloc_FreeBlockTest_Enable;
 extern Arena gSystemArena;
 extern OSPifRam __osContPifRam;
 extern u8 __osContLastCmd;

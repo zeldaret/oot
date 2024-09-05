@@ -4,7 +4,6 @@
 #include "z64.h"
 #include "macros.h"
 
-void cleararena(void);
 void bootproc(void);
 void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
@@ -29,8 +28,6 @@ void Mio0_Decompress(u8* src, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
-u32 StackCheck_GetState(StackEntry* entry);
-u32 StackCheck_CheckAll(void);
 u32 StackCheck_Check(StackEntry* entry);
 #if OOT_DEBUG
 void LogUtils_LogHexDump(void* ptr, s32 size0);
@@ -47,6 +44,15 @@ s32 osSendMesg(OSMesgQueue* mq, OSMesg msg, s32 flag);
 void osStopThread(OSThread* thread);
 void osViExtendVStart(u32 value);
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag);
+#if PLATFORM_N64
+void osInitialize(void);
+#else
+#define osInitialize()           \
+{                                \
+    __osInitialize_common();     \
+    __osInitialize_autodetect(); \
+}
+#endif
 void __osInitialize_common(void);
 void __osInitialize_autodetect(void);
 void __osEnqueueAndYield(OSThread**);
@@ -85,6 +91,7 @@ s32 __osEPiRawReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
 void osViSwapBuffer(void* frameBufPtr);
 s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dramAddr, size_t size);
 OSTime osGetTime(void);
+void osSetTime(OSTime time);
 void __osTimerServicesInit(void);
 void __osTimerInterrupt(void);
 void __osSetTimerIntr(OSTime time);
@@ -302,7 +309,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play);
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos);
 void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedInvWDest);
-void func_8002C124(TargetContext* targetCtx, PlayState* play);
+void Target_Draw(TargetContext* targetCtx, PlayState* play);
 s32 Flags_GetSwitch(PlayState* play, s32 flag);
 void Flags_SetSwitch(PlayState* play, s32 flag);
 void Flags_UnsetSwitch(PlayState* play, s32 flag);
@@ -343,7 +350,7 @@ s16 Actor_WorldPitchTowardActor(Actor* actorA, Actor* actorB);
 s16 Actor_WorldPitchTowardPoint(Actor* actor, Vec3f* refPoint);
 f32 Actor_WorldDistXZToActor(Actor* actorA, Actor* actorB);
 f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint);
-void func_8002DBD0(Actor* actor, Vec3f* dest, Vec3f* pos);
+void Actor_WorldToActorCoords(Actor* actor, Vec3f* dest, Vec3f* pos);
 f32 Actor_HeightDiff(Actor* actorA, Actor* actorB);
 f32 Player_GetHeight(Player* player);
 f32 func_8002DCE4(Player* player);
@@ -423,7 +430,7 @@ Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, PlayState* play
 void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx);
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, PlayState* play);
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play);
-Actor* func_80032AF0(PlayState* play, ActorContext* actorCtx, Actor** actorPtr, Player* player);
+Actor* Target_FindTargetableActor(PlayState* play, ActorContext* actorCtx, Actor** targetableActorP, Player* player);
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
 void Enemy_StartFinishingBlow(PlayState* play, Actor* actor);
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play);
@@ -440,8 +447,8 @@ Actor* Actor_GetProjectileActor(PlayState* play, Actor* refActor, f32 radius);
 void Actor_ChangeCategory(PlayState* play, ActorContext* actorCtx, Actor* actor, u8 actorCategory);
 void Actor_SetTextWithPrefix(PlayState* play, Actor* actor, s16 baseTextId);
 s16 Actor_TestFloorInDirection(Actor* actor, PlayState* play, f32 distance, s16 angle);
-s32 Actor_IsTargeted(PlayState* play, Actor* actor);
-s32 Actor_OtherIsTargeted(PlayState* play, Actor* actor);
+s32 Actor_IsLockedOn(PlayState* play, Actor* actor);
+s32 Actor_OtherIsLockedOn(PlayState* play, Actor* actor);
 f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
 void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play);
 void Actor_RequestQuake(PlayState* play, s16 y, s16 duration);
@@ -452,8 +459,8 @@ f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type);
 void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration);
-Hilite* func_800342EC(Vec3f* object, PlayState* play);
-Hilite* func_8003435C(Vec3f* object, PlayState* play);
+void func_800342EC(Vec3f* object, PlayState* play);
+void func_8003435C(Vec3f* object, PlayState* play);
 s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
                       NpcGetTextIdFunc getTextId, NpcUpdateTalkStateFunc updateTalkState);
 s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex);
@@ -776,7 +783,8 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize);
 void KaleidoSetup_Update(PlayState* play);
 void KaleidoSetup_Init(PlayState* play);
 void KaleidoSetup_Destroy(PlayState* play);
-void func_8006EE50(Font* font, u16 arg1, u16 arg2);
+s32 Kanji_OffsetFromShiftJIS(s32 character);
+void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);
 void Font_LoadOrderedFont(Font* font);
@@ -855,7 +863,7 @@ void ZeldaArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void ZeldaArena_Check(void);
 void ZeldaArena_Init(void* start, u32 size);
 void ZeldaArena_Cleanup(void);
-u8 ZeldaArena_IsInitialized(void);
+s32 ZeldaArena_IsInitialized(void);
 #if OOT_DEBUG
 void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* ZeldaArena_MallocDebug(u32 size, const char* file, int line);
@@ -1311,7 +1319,7 @@ void DebugArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void DebugArena_Check(void);
 void DebugArena_Init(void* start, u32 size);
 void DebugArena_Cleanup(void);
-u8 DebugArena_IsInitialized(void);
+s32 DebugArena_IsInitialized(void);
 #if OOT_DEBUG
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* DebugArena_MallocDebug(u32 size, const char* file, int line);
@@ -1327,6 +1335,7 @@ void UCodeDisas_RegisterUCode(UCodeDisas*, s32, UCodeInfo*);
 void UCodeDisas_SetCurUCode(UCodeDisas*, void*);
 Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);
 void AudioHeap_DiscardFont(s32 fontId);
+void AudioHeap_ReleaseNotesForFont(s32 fontId);
 void AudioHeap_DiscardSequence(s32 seqId);
 void AudioHeap_WritebackDCache(void* ramAddr, u32 size);
 void* AudioHeap_AllocZeroedAttemptExternal(AudioAllocPool* pool, u32 size);
@@ -1580,31 +1589,13 @@ void SystemArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
 void SystemArena_Check(void);
 void SystemArena_Init(void* start, u32 size);
 void SystemArena_Cleanup(void);
-u8 SystemArena_IsInitialized(void);
+s32 SystemArena_IsInitialized(void);
 #if OOT_DEBUG
 void* SystemArena_MallocDebug(u32 size, const char* file, int line);
 void* SystemArena_MallocRDebug(u32 size, const char* file, int line);
 void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line);
 void SystemArena_FreeDebug(void* ptr, const char* file, int line);
 void SystemArena_Display(void);
-#endif
-
-void __osMallocInit(Arena* arena, void* start, u32 size);
-void __osMallocAddBlock(Arena* arena, void* start, s32 size);
-void __osMallocCleanup(Arena* arena);
-u8 __osMallocIsInitialized(Arena* arena);
-void* __osMalloc(Arena* arena, u32 size);
-void* __osMallocR(Arena* arena, u32 size);
-void __osFree(Arena* arena, void* ptr);
-void* __osRealloc(Arena* arena, void* ptr, u32 newSize);
-void ArenaImpl_GetSizes(Arena* arena, u32* outMaxFree, u32* outFree, u32* outAlloc);
-u32 __osCheckArena(Arena* arena);
-#if OOT_DEBUG
-void* __osMallocDebug(Arena* arena, u32 size, const char* file, int line);
-void* __osMallocRDebug(Arena* arena, u32 size, const char* file, int line);
-void __osFreeDebug(Arena* arena, void* ptr, const char* file, int line);
-void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, int line);
-void __osDisplayArena(Arena* arena);
 #endif
 s32 PrintUtils_VPrintf(PrintCallback* pfn, const char* fmt, va_list args);
 s32 PrintUtils_Printf(PrintCallback* pfn, const char* fmt, ...);
@@ -1663,7 +1654,7 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* check);
 s32 __osGetId(OSPfs* pfs);
 s32 __osCheckId(OSPfs* pfs);
 s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank);
-void guMtxL2F(MtxF* m1, Mtx* m2);
+void guMtxL2F(f32 mf[4][4], Mtx* m);
 s32 osPfsFindFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32* fileNo);
 s32 osAfterPreNMI(void);
 s32 osContStartQuery(OSMesgQueue* mq);
@@ -1714,7 +1705,7 @@ u32 __osSpGetStatus(void);
 void __osSpSetStatus(u32 status);
 void osWritebackDCacheAll(void);
 OSThread* __osGetCurrFaultedThread(void);
-void guMtxF2L(MtxF* m1, Mtx* m2);
+void guMtxF2L(f32 mf[4][4], Mtx* m);
 // ? __d_to_ll(?);
 // ? __f_to_ll(?);
 // ? __d_to_ull(?);
@@ -1726,8 +1717,8 @@ void guMtxF2L(MtxF* m1, Mtx* m2);
 void* osViGetCurrentFramebuffer(void);
 s32 __osSpSetPc(void* pc);
 f32 absf(f32);
-void* __osMemset(void* dest, s32 val, size_t len);
-void* __osMemmove(void* dest, const void* src, size_t len);
+void* memset(void* dest, int val, size_t len);
+void* memmove(void* dest, const void* src, size_t len);
 void Message_UpdateOcarinaMemoryGame(PlayState* play);
 u8 Message_ShouldAdvance(PlayState* play);
 void Message_CloseTextbox(PlayState*);

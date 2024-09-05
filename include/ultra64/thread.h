@@ -27,7 +27,7 @@
 typedef s32 OSPri;
 typedef s32 OSId;
 
-typedef union {
+typedef union __OSfp {
     struct {
         /* 0x00 */ f32 f_odd;
         /* 0x04 */ f32 f_even;
@@ -35,7 +35,7 @@ typedef union {
     f64 d;
 } __OSfp; // size = 0x08
 
-typedef struct {
+typedef struct __OSThreadContext {
     /* 0x000 */ u64 at, v0, v1, a0, a1, a2, a3;
     /* 0x038 */ u64 t0, t1, t2, t3, t4, t5, t6, t7;
     /* 0x078 */ u64 s0, s1, s2, s3, s4, s5, s6, s7;
@@ -47,7 +47,7 @@ typedef struct {
     /* 0x150 */ __OSfp fp16, fp18, fp20, fp22, fp24, fp26, fp28, fp30;
 } __OSThreadContext; // size = 0x190
 
-typedef struct {
+typedef struct __OSThreadprofile {
     /* 0x00 */ u32 flag;
     /* 0x04 */ u32 count;
     /* 0x08 */ u64 time;
@@ -66,7 +66,7 @@ typedef struct OSThread {
     /* 0x20 */ __OSThreadContext context;
 } OSThread; // size = 0x1B0
 
-typedef struct {
+typedef struct __OSThreadTail {
     OSThread* next;
     OSPri priority;
 } __OSThreadTail; // size = 0x8

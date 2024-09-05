@@ -25,7 +25,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play);
 void func_80ABA654(EnNiwLady* this, PlayState* play);
 void func_80ABAD7C(EnNiwLady* this, PlayState* play);
 
-ActorInit En_Niw_Lady_InitVars = {
+ActorProfile En_Niw_Lady_Profile = {
     /**/ ACTOR_EN_NIW_LADY,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -165,7 +165,7 @@ void func_80AB9F24(EnNiwLady* this, PlayState* play) {
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         this->unk_272 = 0;
-        this->actor.targetMode = 6;
+        this->actor.targetMode = TARGET_MODE_6;
         this->actor.draw = EnNiwLady_Draw;
         switch (this->unk_278) {
             case 0:

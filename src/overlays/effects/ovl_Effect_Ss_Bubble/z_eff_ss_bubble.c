@@ -13,7 +13,7 @@ u32 EffectSsBubble_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsBubble_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBubble_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Bubble_InitVars = {
+EffectSsProfile Effect_Ss_Bubble_Profile = {
     EFFECT_SS_BUBBLE,
     EffectSsBubble_Init,
 };

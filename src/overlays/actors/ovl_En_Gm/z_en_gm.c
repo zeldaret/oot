@@ -26,7 +26,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, PlayState* play);
 void func_80A3DF00(EnGm* this, PlayState* play);
 void func_80A3DF60(EnGm* this, PlayState* play);
 
-ActorInit En_Gm_InitVars = {
+ActorProfile En_Gm_Profile = {
     /**/ ACTOR_EN_GM,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -58,7 +58,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 

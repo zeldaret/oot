@@ -16,7 +16,7 @@ typedef struct BgHeavyBlock {
     /* 0x0174 */ BgHeavyBlockActionFunc actionFunc;
 } BgHeavyBlock; // size = 0x0178
 
-typedef enum {
+typedef enum HeavyBlockType {
     /* 0x00 */ HEAVYBLOCK_UNBREAKABLE,
     /* 0x01 */ HEAVYBLOCK_BREAKABLE,
     /* 0x02 */ HEAVYBLOCK_BIG_PIECE,
