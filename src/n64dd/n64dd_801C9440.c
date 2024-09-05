@@ -1,3 +1,4 @@
+// Some text-handling functions
 #include "global.h"
 #include "n64dd.h"
 

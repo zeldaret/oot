@@ -1,3 +1,4 @@
+// Does some command processing
 #include "global.h"
 #include "n64dd.h"
 #include "versions.h"

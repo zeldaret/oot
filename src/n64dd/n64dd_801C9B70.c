@@ -1,3 +1,4 @@
+// User-facing error handling
 #include "global.h"
 #include "n64dd.h"
 

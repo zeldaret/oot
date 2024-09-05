@@ -1,3 +1,4 @@
+// Lower-level command processing in a background thread
 #include "global.h"
 #include "n64dd.h"
 

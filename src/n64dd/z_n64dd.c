@@ -1,3 +1,5 @@
+// Main interface for the 64DD from the rest of the game. Starts background
+// threads and provides functions to submit commands to them.
 #include "global.h"
 #include "fault.h"
 #include "n64dd.h"
