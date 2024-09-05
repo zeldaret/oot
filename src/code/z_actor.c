@@ -1629,29 +1629,46 @@ TargetRangeParams sTargetRanges[TARGET_MODE_MAX] = {
 };
 
 /**
- * Checks if an actor at distance `distSq` is inside the range specified by its targetMode
+ * Checks if an actor at `distSq` is inside the range specified by its `targetMode`.
+ *
+ * Note that this gets used for both the target range check and for the lock-on leash range check.
+ * Despite how the data is presented in `sTargetRanges`, the leash range is stored as a scale factor value.
+ * When checking the leash range, this scale factor is applied to the input distance and checked against
+ * the base `rangeSq` value, which was used to initiate the lock-on in the first place.
  */
 u32 Target_ActorIsInRange(Actor* actor, f32 distSq) {
     return distSq < sTargetRanges[actor->targetMode].rangeSq;
 }
 
-s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
+/**
+ * Returns true if an actor lock-on should be released.
+ * This function does not actually release the lock-on, as that is Player's responsibility.
+ *
+ * If an actor's update function is NULL or `ACTOR_FLAG_0` is unset, the lock-on should be released.
+ *
+ * There is also a check for Player exceeding the lock-on leash distance.
+ * Note that this check will be ignored if `ignoreLeash` is true.
+ *
+ */
+s32 Target_ShouldReleaseLockOn(Actor* actor, Player* player, s32 ignoreLeash) {
     if ((actor->update == NULL) || !(actor->flags & ACTOR_FLAG_0)) {
         return true;
     }
 
-    if (!flag) {
-        s16 var = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
-        s16 abs_var = ABS(var);
-        f32 dist;
+    if (!ignoreLeash) {
+        s16 yawDiff = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
+        s16 yawDiffAbs = ABS(yawDiff);
+        f32 distSq;
 
-        if ((player->focusActor == NULL) && (abs_var > 0x2AAA)) {
-            dist = MAXFLOAT;
+        if ((player->focusActor == NULL) && (yawDiffAbs > 0x2AAA)) {
+            // This function is only called (and is only relevant) when `player->focusActor != NULL`.
+            // This is unreachable.
+            distSq = MAXFLOAT;
         } else {
-            dist = actor->xyzDistToPlayerSq;
+            distSq = actor->xyzDistToPlayerSq;
         }
 
-        return !Target_ActorIsInRange(actor, sTargetRanges[actor->targetMode].leashScale * dist);
+        return !Target_ActorIsInRange(actor, sTargetRanges[actor->targetMode].leashScale * distSq);
     }
 
     return false;
@@ -1972,7 +1989,7 @@ void func_8002F994(Actor* actor, s32 timer) {
 // Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
 s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (SurfaceType_GetFloorType(&play->colCtx, poly, bgId) == FLOOR_TYPE_8) {
-        play->roomCtx.unk_74[0] = 1;
+        play->roomCtx.drawParams[0] = 1;
         CollisionCheck_BlueBlood(play, NULL, pos);
         Actor_PlaySfx(actor, NA_SE_IT_WALL_HIT_BUYO);
         return true;
@@ -3079,8 +3096,8 @@ void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx) {
     u8 numActors;
     s32 i;
 
-    transitionActor = play->transiActorCtx.list;
-    numActors = play->transiActorCtx.numActors;
+    transitionActor = play->transitionActors.list;
+    numActors = play->transitionActors.count;
 
     for (i = 0; i < numActors; i++) {
         if (transitionActor->id >= 0) {
@@ -3095,7 +3112,7 @@ void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx) {
                             (i << TRANSITION_ACTOR_PARAMS_INDEX_SHIFT) + transitionActor->params);
 
                 transitionActor->id = -transitionActor->id;
-                numActors = play->transiActorCtx.numActors;
+                numActors = play->transitionActors.count;
             }
         }
         transitionActor++;

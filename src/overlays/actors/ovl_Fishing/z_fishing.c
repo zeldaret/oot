@@ -14,7 +14,7 @@
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:157 gc-eu-mq:157 gc-jp:159 gc-jp-ce:159 gc-jp-mq:159 gc-us:159 gc-us-mq:159"
+#pragma increment_block_number "gc-eu:154 gc-eu-mq:154 gc-jp:156 gc-jp-ce:156 gc-jp-mq:156 gc-us:156 gc-us-mq:156"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -920,10 +920,10 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
 
         sFishGameNumber = (HIGH_SCORE(HS_FISHING) & (HS_FISH_PLAYED * 255)) >> 0x10;
         if ((sFishGameNumber & 7) == 7) {
-            play->roomCtx.unk_74[0] = 90;
+            play->roomCtx.drawParams[0] = 90;
             sFishingFoggy = 1;
         } else {
-            play->roomCtx.unk_74[0] = 40;
+            play->roomCtx.drawParams[0] = 40;
             sFishingFoggy = 0;
         }
 
