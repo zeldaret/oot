@@ -168,9 +168,9 @@ void Map_InitData(PlayState* play, s16 room) {
             if ((B_80121220 != NULL) && (B_80121220->unk_28 != NULL) && B_80121220->unk_28(play)) {
             } else {
                 DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
-                             (uintptr_t)_map_i_staticSegmentRomStart +
-                                 ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
-                             MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
+                                 (uintptr_t)_map_i_staticSegmentRomStart +
+                                     ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
+                                 MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
             }
 #else
             DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
@@ -238,12 +238,12 @@ void Map_Destroy(PlayState* play) {
     MapMark_ClearPointers(play);
 
 #if PLATFORM_N64
-        if ((B_80121220 != NULL) && (B_80121220->unk_24 != NULL)) {
-            B_80121220->unk_24();
-        }
-        if ((B_80121220 != NULL) && (B_80121220->unk_1C != NULL)) {
-            B_80121220->unk_1C(&gMapData);
-        }
+    if ((B_80121220 != NULL) && (B_80121220->unk_24 != NULL)) {
+        B_80121220->unk_24();
+    }
+    if ((B_80121220 != NULL) && (B_80121220->unk_1C != NULL)) {
+        B_80121220->unk_1C(&gMapData);
+    }
 #endif
 
     gMapData = NULL;
