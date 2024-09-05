@@ -105,7 +105,7 @@ void func_808BA018(Actor* thisx, PlayState* play) {
 }
 
 void func_808BA204(BgTokiHikari* this, PlayState* play) {
-    if (play->roomCtx.unk_74[1] != 0) {
+    if (play->roomCtx.drawParams[1] != 0) {
         this->actionFunc = func_808BA22C;
     }
 }

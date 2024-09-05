@@ -1044,12 +1044,12 @@ void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3);
 void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 tlutMode,
                            u16 tlutCount, f32 offsetX, f32 offsetY);
-void func_80096FD4(PlayState* play, Room* room);
-u32 func_80096FE8(PlayState* play, RoomContext* roomCtx);
-s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum);
-s32 func_800973FC(PlayState* play, RoomContext* roomCtx);
+void Room_Init(PlayState* play, Room* room);
+u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx);
+s32 Room_RequestNewRoom(PlayState* play, RoomContext* roomCtx, s32 roomNum);
+s32 Room_ProcessRoomRequest(PlayState* play, RoomContext* roomCtx);
 void Room_Draw(PlayState* play, Room* room, u32 flags);
-void func_80097534(PlayState* play, RoomContext* roomCtx);
+void Room_FinishRoomChange(PlayState* play, RoomContext* roomCtx);
 void Sample_Destroy(GameState* thisx);
 void Sample_Init(GameState* thisx);
 void Inventory_ChangeEquipment(s16 equipment, u16 value);
@@ -1061,7 +1061,7 @@ s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId);
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot);
 void func_800981B8(ObjectContext* objectCtx);
 s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd);
-void TransitionActor_InitContext(GameState* state, TransitionActorContext* transiActorCtx);
+void Scene_ResetTransitionActorList(GameState* state, TransitionActorList* transitionActors);
 void Scene_SetTransitionForNextEntrance(PlayState* play);
 void Scene_Draw(PlayState* play);
 

@@ -236,7 +236,7 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_TOKI, this->actor.world.pos.x,
                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x0000);
             } else {
-                play->roomCtx.unk_74[1] = 0xFF;
+                play->roomCtx.drawParams[1] = 0xFF;
                 Actor_Kill(&this->actor);
             }
             break;
