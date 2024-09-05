@@ -176,6 +176,32 @@ typedef enum TimerId {
 #define ENV_HAZARD_TEXT_TRIGGER_HOTROOM (1 << 0)
 #define ENV_HAZARD_TEXT_TRIGGER_UNDERWATER (1 << 1)
 
+typedef enum WorldMapArea {
+    /*  0 */ WORLD_MAP_AREA_HYRULE_FIELD,
+    /*  1 */ WORLD_MAP_AREA_KAKARIKO_VILLAGE,
+    /*  2 */ WORLD_MAP_AREA_GRAVEYARD,
+    /*  3 */ WORLD_MAP_AREA_ZORAS_RIVER,
+    /*  4 */ WORLD_MAP_AREA_KOKIRI_FOREST,
+    /*  5 */ WORLD_MAP_AREA_SACRED_FOREST_MEADOW,
+    /*  6 */ WORLD_MAP_AREA_LAKE_HYLIA,
+    /*  7 */ WORLD_MAP_AREA_ZORAS_DOMAIN,
+    /*  8 */ WORLD_MAP_AREA_ZORAS_FOUNTAIN,
+    /*  9 */ WORLD_MAP_AREA_GERUDO_VALLEY,
+    /* 10 */ WORLD_MAP_AREA_LOST_WOODS,
+    /* 11 */ WORLD_MAP_AREA_DESERT_COLOSSUS,
+    /* 12 */ WORLD_MAP_AREA_GERUDOS_FORTRESS,
+    /* 13 */ WORLD_MAP_AREA_HAUNTED_WASTELAND,
+    /* 14 */ WORLD_MAP_AREA_MARKET,
+    /* 15 */ WORLD_MAP_AREA_HYRULE_CASTLE,
+    /* 16 */ WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL,
+    /* 17 */ WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER,
+    /* 18 */ WORLD_MAP_AREA_GORON_CITY,
+    /* 19 */ WORLD_MAP_AREA_LON_LON_RANCH,
+    /* 20 */ WORLD_MAP_AREA_QUESTION_MARK, // Windmill/Dampé's Grave (and a Lon Lon Ranch cutscene). Labeled as "?"
+    /* 21 */ WORLD_MAP_AREA_GANONS_CASTLE,
+    /* 22 */ WORLD_MAP_AREA_MAX // also grottos and fairy's/great fairy's fountains (scenes with varying locations)
+} WorldMapArea;
+
 // offsets in SavePlayerData and SaveContext/Save
 typedef struct SavePlayerData {
     /* 0x00  0x001C */ char newf[6]; // string "ZELDAZ"

@@ -287,7 +287,7 @@ typedef struct Actor {
     /* 0x0F8 */ f32 uncullZoneScale; // Amount to increase the uncull zone scale by (in projected space)
     /* 0x0FC */ f32 uncullZoneDownward; // Amount to increase uncull zone downward by (in projected space)
     /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle
-    /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player
+    /* 0x10C */ u8 isLockedOn; // Set to true if the actor is currently locked-on by Player
     /* 0x10D */ u8 targetPriority; // Lower values have higher priority. Resets to 0 when player stops targeting
     /* 0x10E */ u16 textId; // Text ID to pass to player/display when interacting with the actor
     /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically
@@ -571,31 +571,45 @@ typedef enum NaviEnemy {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
-typedef struct TargetContextEntry {
+// A set of 4 triangles which appear as a ring around an actor when locked-on
+typedef struct LockOnReticle {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ f32 unk_0C; // radius?
+    /* 0x0C */ f32 radius; // distance towards the center of the locked-on actor
     /* 0x10 */ Color_RGB8 color;
-} TargetContextEntry; // size = 0x14
+} LockOnReticle; // size = 0x14
 
 typedef struct TargetContext {
-    /* 0x00 */ Vec3f naviRefPos; // possibly wrong
-    /* 0x0C */ Vec3f targetCenterPos;
-    /* 0x18 */ Color_RGBAf naviInner;
-    /* 0x28 */ Color_RGBAf naviOuter;
-    /* 0x38 */ Actor* arrowPointedActor;
-    /* 0x3C */ Actor* targetedActor;
-    /* 0x40 */ f32 unk_40;
-    /* 0x44 */ f32 unk_44;
-    /* 0x48 */ s16 unk_48;
-    /* 0x4A */ u8 activeCategory;
-    /* 0x4B */ u8 unk_4B;
-    /* 0x4C */ s8 unk_4C;
-    /* 0x4D */ char unk_4D[0x03];
-    /* 0x50 */ TargetContextEntry arr_50[3];
-    /* 0x8C */ Actor* unk_8C;
-    /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
-    /* 0x94 */ Actor* unk_94;
+    /* 0x00 */ Vec3f naviHoverPos; // Navi's current hover position
+    /* 0x0C */ Vec3f reticlePos; // Main reticle pos which each `LockOnReticle` instance can reference
+    /* 0x18 */ Color_RGBAf naviInnerColor; // Navi inner color, based on actor category
+    /* 0x28 */ Color_RGBAf naviOuterColor; // Navi outer color, based on actor category
+    /* 0x38 */ Actor* naviHoverActor;  // The actor that Navi hovers over
+    /* 0x3C */ Actor* reticleActor; // Actor to draw a reticle over
+    /* 0x40 */ f32 naviMoveProgressFactor; // Controls Navi so she can smootly transition to an actor
+    /* 0x44 */ f32 reticleRadius; // Main reticle radius value which each `LockOnReticle` instance can reference
+    /* 0x48 */ s16 reticleFadeAlphaControl; // Set and fade the reticle alpha; Non-zero values control if it should draw
+    /* 0x4A */ u8 naviHoverActorCategory; // Category of the actor Navi is currently hovering over
+    /* 0x4B */ u8 reticleSpinCounter; // Counts up when a reticle is active, used for the spinning animation
+    /* 0x4C */ s8 curReticle; // Indexes lockOnReticles[]
+    /* 0x50 */ LockOnReticle lockOnReticles[3]; // Multiple reticles are used for a motion-blur effect
+    /* 0x8C */ Actor* forcedLockOnActor; // Forces lock-on to this actor when set (never used in practice)
+    /* 0x90 */ Actor* bgmEnemy; // The nearest actor which can trigger enemy background music
+    /* 0x94 */ Actor* arrowHoverActor; // Actor to draw an arrow over
 } TargetContext; // size = 0x98
+
+typedef enum {
+    /*  0 */ TARGET_MODE_0,
+    /*  1 */ TARGET_MODE_1,
+    /*  2 */ TARGET_MODE_2,
+    /*  3 */ TARGET_MODE_3, // Used as the default for new actors
+    /*  4 */ TARGET_MODE_4,
+    /*  5 */ TARGET_MODE_5,
+    /*  6 */ TARGET_MODE_6,
+    /*  7 */ TARGET_MODE_7,
+    /*  8 */ TARGET_MODE_8,
+    /*  9 */ TARGET_MODE_9,
+    /* 10 */ TARGET_MODE_MAX
+} TargetMode;
 
 typedef struct TitleCardContext {
     /* 0x00 */ void* texture;

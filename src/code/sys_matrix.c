@@ -1,4 +1,7 @@
 #include "global.h"
+#if OOT_DEBUG
+#include "fault.h"
+#endif
 
 // clang-format off
 Mtx gMtxClear = gdSPDefMtx(
@@ -15,6 +18,8 @@ MtxF gMtxFClear = {
     0.0f, 0.0f, 0.0f, 1.0f,
 };
 // clang-format on
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"
@@ -1015,7 +1020,7 @@ void Matrix_SetTranslateUniformScaleMtx(Mtx* mtx, f32 scale, f32 translateX, f32
     MtxF mf;
 
     Matrix_SetTranslateUniformScaleMtxF(&mf, scale, translateX, translateY, translateZ);
-    guMtxF2L(&mf, mtx);
+    guMtxF2L(mf.mf, mtx);
 }
 
 void Matrix_SetTranslateUniformScaleMtx2(Mtx* mtx, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {

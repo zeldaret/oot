@@ -1,6 +1,9 @@
 #include "global.h"
 #include "quake.h"
 #include "z64camera.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 
@@ -111,7 +114,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_KOKIRI_FOREST_12, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutCs },
 };
 
-void* sUnusedEntranceCsList[] = {
+void* sCutscenesUnknownList[] = {
     gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
@@ -202,7 +205,7 @@ void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx) {
     }
 
     if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE)) {
-        PRINTF("\nデモ開始要求 発令！"); // "Cutscene start request announcement!"
+        PRINTF(T("\nデモ開始要求 発令！", "\nDemo start request issued!"));
         gSaveContext.save.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
@@ -577,7 +580,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
 
-        PRINTF("\n分岐先指定！！=[%d]番", cmd->destination); // "Future fork designation=No. [%d]"
+        PRINTF(T("\n分岐先指定！！=[%d]番", "\nBranch destination specified!!=[%d]"), cmd->destination);
 
         // `forceRisingButtonAlphas` has a secondary purpose, which is to signal to the title screen actor
         // that it should display immediately. This occurs when a title screen cutscene that is not the main
@@ -1702,6 +1705,9 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
 
 void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdText* cmd) {
     u8 dialogState;
+#if PLATFORM_N64
+    s32 pad;
+#endif
     s16 endFrame;
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
@@ -2257,7 +2263,7 @@ void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
             csCtx->actorCues[i] = NULL;
         }
 
-        PRINTF("\n\n\n\n\nやっぱりここかいな"); // "Right here, huh"
+        PRINTF(T("\n\n\n\n\nやっぱりここかいな", "\n\n\n\n\nThis is it after all"));
 
         gSaveContext.save.cutsceneIndex = 0;
         gSaveContext.gameMode = GAMEMODE_NORMAL;
@@ -2416,6 +2422,14 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
 }
 
 void Cutscene_SetScript(PlayState* play, void* script) {
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_78 != NULL)) {
+        if (B_80121220->unk_78(play, script, sCutscenesUnknownList)) {
+            return;
+        }
+    }
+#endif
+
     if (SEGMENT_NUMBER(script) != 0) {
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(script);
     } else {

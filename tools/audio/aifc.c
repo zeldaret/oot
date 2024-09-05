@@ -16,11 +16,6 @@
 #include "aifc.h"
 #include "util.h"
 
-#define CC4_CHECK(buf, str) \
-    ((buf)[0] == (str)[0] && (buf)[1] == (str)[1] && (buf)[2] == (str)[2] && (buf)[3] == (str)[3])
-
-#define CC4(c1, c2, c3, c4) (((c1) << 24) | ((c2) << 16) | ((c3) << 8) | (c4))
-
 #define FREAD(file, data, size)                                                                      \
     do {                                                                                             \
         if (fread((data), (size), 1, (file)) != 1) {                                                 \
@@ -486,7 +481,7 @@ aifc_read(aifc_data *af, const char *path, uint8_t *match_buf, size_t *match_buf
         long read_size = ftell(in) - start - 8;
 
         if (read_size > chunk_size)
-            error("overran chunk: %lu vs %u\n", read_size, chunk_size);
+            error("overran chunk: %lu vs %u", read_size, chunk_size);
         else if (read_size < chunk_size)
             warning("did not read entire %.*s chunk: %lu vs %u", 4, cc4, read_size, chunk_size);
 
