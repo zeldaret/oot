@@ -2,14 +2,14 @@
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
-#if PLATFORM_GC
-#define KALEIDO_COLOR_COLLECT_UNK_R 80
-#define KALEIDO_COLOR_COLLECT_UNK_G 255
-#define KALEIDO_COLOR_COLLECT_UNK_B 150
-#else
+#if !PLATFORM_GC
 #define KALEIDO_COLOR_COLLECT_UNK_R 80
 #define KALEIDO_COLOR_COLLECT_UNK_G 150
 #define KALEIDO_COLOR_COLLECT_UNK_B 255
+#else
+#define KALEIDO_COLOR_COLLECT_UNK_R 80
+#define KALEIDO_COLOR_COLLECT_UNK_G 255
+#define KALEIDO_COLOR_COLLECT_UNK_B 150
 #endif
 
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {

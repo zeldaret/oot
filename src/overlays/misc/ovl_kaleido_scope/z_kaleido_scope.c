@@ -15,14 +15,14 @@
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "terminal.h"
 
-#if PLATFORM_GC
-#define KALEIDO_COLOR_PROMPT_UNK_R 100
-#define KALEIDO_COLOR_PROMPT_UNK_G 255
-#define KALEIDO_COLOR_PROMPT_UNK_B 100
-#else
+#if !PLATFORM_GC
 #define KALEIDO_COLOR_PROMPT_UNK_R 100
 #define KALEIDO_COLOR_PROMPT_UNK_G 100
 #define KALEIDO_COLOR_PROMPT_UNK_B 255
+#else
+#define KALEIDO_COLOR_PROMPT_UNK_R 100
+#define KALEIDO_COLOR_PROMPT_UNK_G 255
+#define KALEIDO_COLOR_PROMPT_UNK_B 100
 #endif
 
 typedef enum {
