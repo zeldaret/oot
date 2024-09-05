@@ -109,7 +109,7 @@ void Fault_WaitForInputImpl(void) {
         Fault_SleepImpl(0x10);
         PadMgr_RequestPadData(&gPadMgr, inputs, 0);
         btnPress = inputs[0].press.button;
-    } while (!CHECK_BTN_ANY(btnPress, (BTN_A | BTN_B | BTN_START | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP)));
+    } while (!CHECK_BTN_ANY(btnPress, (BTN_A | BTN_B | BTN_START | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT)));
 }
 
 void Fault_WaitForInput(void) {
