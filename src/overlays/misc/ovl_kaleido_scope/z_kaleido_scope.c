@@ -2192,23 +2192,103 @@ static s16* sVtxPageQuadsHeight[] = {
 };
 
 static s16 sVtxMapWorldAreaX[] = {
-    0xFFC6, 0x000B, 0x001E, 0x001E, 0x000F, 0x0026, 0xFFC2, 0x003C, 0x003D, 0xFFB2, 0xFED4,
-    0xFFAA, 0xFFBF, 0xFED4, 0xFED4, 0xFFEB, 0x000E, 0x000D, 0x0014, 0xFFDE, 0xFED4, 0x0000,
+    -58,  // WORLD_MAP_AREA_HYRULE_FIELD
+    11,   // WORLD_MAP_AREA_KAKARIKO_VILLAGE
+    30,   // WORLD_MAP_AREA_GRAVEYARD
+    30,   // WORLD_MAP_AREA_ZORAS_RIVER
+    15,   // WORLD_MAP_AREA_KOKIRI_FOREST
+    38,   // WORLD_MAP_AREA_SACRED_FOREST_MEADOW
+    -62,  // WORLD_MAP_AREA_LAKE_HYLIA
+    60,   // WORLD_MAP_AREA_ZORAS_DOMAIN
+    61,   // WORLD_MAP_AREA_ZORAS_FOUNTAIN
+    -78,  // WORLD_MAP_AREA_GERUDO_VALLEY
+    -300, // WORLD_MAP_AREA_LOST_WOODS
+    -86,  // WORLD_MAP_AREA_DESERT_COLOSSUS
+    -65,  // WORLD_MAP_AREA_GERUDOS_FORTRESS
+    -300, // WORLD_MAP_AREA_HAUNTED_WASTELAND
+    -300, // WORLD_MAP_AREA_MARKET
+    -21,  // WORLD_MAP_AREA_HYRULE_CASTLE
+    14,   // WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL
+    13,   // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
+    20,   // WORLD_MAP_AREA_GORON_CITY
+    -34,  // WORLD_MAP_AREA_LON_LON_RANCH
+    -300, // WORLD_MAP_AREA_QUESTION_MARK
+    0,    // WORLD_MAP_AREA_GANONS_CASTLE
 };
 
 static s16 sVtxMapWorldAreaWidth[] = {
-    0x0059, 0x0014, 0x000E, 0x0023, 0x0020, 0x0011, 0x0032, 0x0010, 0x0015, 0x0014, 0xFFFF,
-    0x0020, 0x0010, 0xFFFF, 0xFFFF, 0x0013, 0x0013, 0x0015, 0x0010, 0x0014, 0xFFFF, 0x0000,
+    89, // WORLD_MAP_AREA_HYRULE_FIELD
+    20, // WORLD_MAP_AREA_KAKARIKO_VILLAGE
+    14, // WORLD_MAP_AREA_GRAVEYARD
+    35, // WORLD_MAP_AREA_ZORAS_RIVER
+    32, // WORLD_MAP_AREA_KOKIRI_FOREST
+    17, // WORLD_MAP_AREA_SACRED_FOREST_MEADOW
+    50, // WORLD_MAP_AREA_LAKE_HYLIA
+    16, // WORLD_MAP_AREA_ZORAS_DOMAIN
+    21, // WORLD_MAP_AREA_ZORAS_FOUNTAIN
+    20, // WORLD_MAP_AREA_GERUDO_VALLEY
+    -1, // WORLD_MAP_AREA_LOST_WOODS
+    32, // WORLD_MAP_AREA_DESERT_COLOSSUS
+    16, // WORLD_MAP_AREA_GERUDOS_FORTRESS
+    -1, // WORLD_MAP_AREA_HAUNTED_WASTELAND
+    -1, // WORLD_MAP_AREA_MARKET
+    19, // WORLD_MAP_AREA_HYRULE_CASTLE
+    19, // WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL
+    21, // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
+    16, // WORLD_MAP_AREA_GORON_CITY
+    20, // WORLD_MAP_AREA_LON_LON_RANCH
+    -1, // WORLD_MAP_AREA_QUESTION_MARK
+    0,  // WORLD_MAP_AREA_GANONS_CASTLE
 };
 
 static s16 sVtxMapWorldAreaY[] = {
-    0x0001, 0x000F, 0x0014, 0x0009, 0xFFE2, 0xFFEF, 0xFFDE, 0x000F, 0x001E, 0x0001, 0xFED4,
-    0x002A, 0x0007, 0xFED4, 0xFED4, 0x0018, 0x0024, 0x0035, 0x0025, 0xFFF3, 0xFED4, 0x0000,
+    1,    // WORLD_MAP_AREA_HYRULE_FIELD
+    15,   // WORLD_MAP_AREA_KAKARIKO_VILLAGE
+    20,   // WORLD_MAP_AREA_GRAVEYARD
+    9,    // WORLD_MAP_AREA_ZORAS_RIVER
+    -30,  // WORLD_MAP_AREA_KOKIRI_FOREST
+    -17,  // WORLD_MAP_AREA_SACRED_FOREST_MEADOW
+    -34,  // WORLD_MAP_AREA_LAKE_HYLIA
+    15,   // WORLD_MAP_AREA_ZORAS_DOMAIN
+    30,   // WORLD_MAP_AREA_ZORAS_FOUNTAIN
+    1,    // WORLD_MAP_AREA_GERUDO_VALLEY
+    -300, // WORLD_MAP_AREA_LOST_WOODS
+    42,   // WORLD_MAP_AREA_DESERT_COLOSSUS
+    7,    // WORLD_MAP_AREA_GERUDOS_FORTRESS
+    -300, // WORLD_MAP_AREA_HAUNTED_WASTELAND
+    -300, // WORLD_MAP_AREA_MARKET
+    24,   // WORLD_MAP_AREA_HYRULE_CASTLE
+    36,   // WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL
+    53,   // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
+    37,   // WORLD_MAP_AREA_GORON_CITY
+    -13,  // WORLD_MAP_AREA_LON_LON_RANCH
+    -300, // WORLD_MAP_AREA_QUESTION_MARK
+    0,    // WORLD_MAP_AREA_GANONS_CASTLE
 };
 
 static s16 sVtxMapWorldAreaHeight[] = {
-    0x0024, 0x000F, 0x0010, 0x0017, 0x0017, 0x0010, 0x0018, 0x000D, 0x0011, 0x0012, 0x0001,
-    0x0019, 0x000D, 0x0001, 0x0001, 0x000D, 0x0015, 0x000F, 0x000D, 0x000C, 0x0001, 0x0000,
+    36, // WORLD_MAP_AREA_HYRULE_FIELD
+    15, // WORLD_MAP_AREA_KAKARIKO_VILLAGE
+    16, // WORLD_MAP_AREA_GRAVEYARD
+    23, // WORLD_MAP_AREA_ZORAS_RIVER
+    23, // WORLD_MAP_AREA_KOKIRI_FOREST
+    16, // WORLD_MAP_AREA_SACRED_FOREST_MEADOW
+    24, // WORLD_MAP_AREA_LAKE_HYLIA
+    13, // WORLD_MAP_AREA_ZORAS_DOMAIN
+    17, // WORLD_MAP_AREA_ZORAS_FOUNTAIN
+    18, // WORLD_MAP_AREA_GERUDO_VALLEY
+    1,  // WORLD_MAP_AREA_LOST_WOODS
+    25, // WORLD_MAP_AREA_DESERT_COLOSSUS
+    13, // WORLD_MAP_AREA_GERUDOS_FORTRESS
+    1,  // WORLD_MAP_AREA_HAUNTED_WASTELAND
+    1,  // WORLD_MAP_AREA_MARKET
+    13, // WORLD_MAP_AREA_HYRULE_CASTLE
+    21, // WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL
+    15, // WORLD_MAP_AREA_DEATH_MOUNTAIN_CRATER
+    13, // WORLD_MAP_AREA_GORON_CITY
+    12, // WORLD_MAP_AREA_LON_LON_RANCH
+    1,  // WORLD_MAP_AREA_QUESTION_MARK
+    0,  // WORLD_MAP_AREA_GANONS_CASTLE
 };
 
 s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 numQuads) {
@@ -2430,20 +2510,20 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     KaleidoScope_SetPageVertices(play, pauseCtx->equipPageVtx, VTX_PAGE_EQUIP, VTX_PAGE_EQUIP_QUADS);
 
     if (!sInDungeonScene) {
-        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_WORLD_QUADS + 15) * 4) * sizeof(Vtx));
+        pauseCtx->mapPageVtx = GRAPH_ALLOC(
+            gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_WORLD_QUADS + WORLD_MAP_IMAGE_FRAG_NUM) * 4) * sizeof(Vtx));
         j = KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_WORLD, VTX_PAGE_MAP_WORLD_QUADS);
 
-        for (i = 0, y = 58; i < 15; i++, j += 4, y -= 9) {
-            pauseCtx->mapPageVtx[j + 2].v.ob[0] = -108;
-            pauseCtx->mapPageVtx[j + 0].v.ob[0] = pauseCtx->mapPageVtx[j + 2].v.ob[0];
+        for (i = 0, y = 58; i < WORLD_MAP_IMAGE_FRAG_NUM; i++, j += 4, y -= WORLD_MAP_IMAGE_FRAG_HEIGHT) {
+            pauseCtx->mapPageVtx[j + 0].v.ob[0] = pauseCtx->mapPageVtx[j + 2].v.ob[0] = 0 - (WORLD_MAP_IMAGE_WIDTH / 2);
 
             pauseCtx->mapPageVtx[j + 1].v.ob[0] = pauseCtx->mapPageVtx[j + 3].v.ob[0] =
-                pauseCtx->mapPageVtx[j + 0].v.ob[0] + 216;
+                pauseCtx->mapPageVtx[j + 0].v.ob[0] + WORLD_MAP_IMAGE_WIDTH;
 
             pauseCtx->mapPageVtx[j + 0].v.ob[1] = pauseCtx->mapPageVtx[j + 1].v.ob[1] = y + pauseCtx->offsetY;
 
             pauseCtx->mapPageVtx[j + 2].v.ob[1] = pauseCtx->mapPageVtx[j + 3].v.ob[1] =
-                pauseCtx->mapPageVtx[j + 0].v.ob[1] - 9;
+                pauseCtx->mapPageVtx[j + 0].v.ob[1] - WORLD_MAP_IMAGE_FRAG_HEIGHT;
 
             pauseCtx->mapPageVtx[j + 0].v.ob[2] = pauseCtx->mapPageVtx[j + 1].v.ob[2] =
                 pauseCtx->mapPageVtx[j + 2].v.ob[2] = pauseCtx->mapPageVtx[j + 3].v.ob[2] = 0;
@@ -2454,9 +2534,11 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->mapPageVtx[j + 0].v.tc[0] = pauseCtx->mapPageVtx[j + 0].v.tc[1] =
                 pauseCtx->mapPageVtx[j + 1].v.tc[1] = pauseCtx->mapPageVtx[j + 2].v.tc[0] = 0;
 
-            pauseCtx->mapPageVtx[j + 1].v.tc[0] = pauseCtx->mapPageVtx[j + 3].v.tc[0] = 0x1B00;
+            pauseCtx->mapPageVtx[j + 1].v.tc[0] = pauseCtx->mapPageVtx[j + 3].v.tc[0] =
+                WORLD_MAP_IMAGE_WIDTH * (1 << 5);
 
-            pauseCtx->mapPageVtx[j + 2].v.tc[1] = pauseCtx->mapPageVtx[j + 3].v.tc[1] = 0x120;
+            pauseCtx->mapPageVtx[j + 2].v.tc[1] = pauseCtx->mapPageVtx[j + 3].v.tc[1] =
+                WORLD_MAP_IMAGE_FRAG_HEIGHT * (1 << 5);
 
             pauseCtx->mapPageVtx[j + 0].v.cn[0] = pauseCtx->mapPageVtx[j + 2].v.cn[0] =
                 pauseCtx->mapPageVtx[j + 0].v.cn[1] = pauseCtx->mapPageVtx[j + 2].v.cn[1] =
@@ -2470,9 +2552,10 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
 
         pauseCtx->mapPageVtx[j - 2].v.ob[1] = pauseCtx->mapPageVtx[j - 1].v.ob[1] =
-            pauseCtx->mapPageVtx[j - 4].v.ob[1] - 2;
+            pauseCtx->mapPageVtx[j - 4].v.ob[1] - (WORLD_MAP_IMAGE_HEIGHT % WORLD_MAP_IMAGE_FRAG_HEIGHT);
 
-        pauseCtx->mapPageVtx[j - 2].v.tc[1] = pauseCtx->mapPageVtx[j - 1].v.tc[1] = 0x40;
+        pauseCtx->mapPageVtx[j - 2].v.tc[1] = pauseCtx->mapPageVtx[j - 1].v.tc[1] =
+            (WORLD_MAP_IMAGE_HEIGHT % WORLD_MAP_IMAGE_FRAG_HEIGHT) * (1 << 5);
     } else {
         pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_DUNGEON_QUADS) * 4) * sizeof(Vtx));
         KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_DUNGEON, VTX_PAGE_MAP_DUNGEON_QUADS);
@@ -3074,7 +3157,7 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
     PRINTF("ＭＡＰ ＤＭＡ = %d\n", play->interfaceCtx.mapPaletteIndex);
 
 #if PLATFORM_N64
-    if (B_80121AF0 != NULL && B_80121AF0->unk_44 != NULL && B_80121AF0->unk_44(play)) {
+    if (B_80121220 != NULL && B_80121220->unk_44 != NULL && B_80121220->unk_44(play)) {
 
     } else {
         KaleidoScope_LoadDungeonMap(play);
@@ -3266,7 +3349,7 @@ void KaleidoScope_Update(PlayState* play) {
             Interface_SetDoAction(play, DO_ACTION_DECIDE);
             PRINTF("サイズ＝%x\n", size2 + size1 + size0 + size + 0x800);
 
-            if (((void)0, gSaveContext.worldMapArea) < 22) {
+            if (((void)0, gSaveContext.worldMapArea) < WORLD_MAP_AREA_MAX) {
 #if OOT_NTSC
                 if (gSaveContext.language == LANGUAGE_JPN) {
                     DmaMgr_RequestSync(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
@@ -3418,7 +3501,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[7] = 1;
             }
 
-            if (gBitFlags[1] & gSaveContext.save.info.worldMapAreaData) {
+            if (gBitFlags[WORLD_MAP_AREA_KAKARIKO_VILLAGE] & gSaveContext.save.info.worldMapAreaData) {
                 pauseCtx->worldMapPoints[8] = 1;
             }
 
@@ -3454,7 +3537,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[8] = 1;
             }
 
-            if (gBitFlags[10] & gSaveContext.save.info.worldMapAreaData) {
+            if (gBitFlags[WORLD_MAP_AREA_LOST_WOODS] & gSaveContext.save.info.worldMapAreaData) {
                 pauseCtx->worldMapPoints[9] = 1;
             }
 

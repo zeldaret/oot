@@ -21,17 +21,16 @@ def main():
         "rom", metavar="ROM", type=Path, help="Path to uncompressed ROM"
     )
     parser.add_argument(
-        "-v",
-        "--oot-version",
-        required=True,
-        help="OOT version",
+        "output_dir",
+        type=Path,
+        help="Output directory for segments",
     )
     parser.add_argument(
-        "-o",
-        "--output-dir",
-        type=Path,
+        "-v",
+        "--version",
+        dest="oot_version",
         required=True,
-        help="Output directory for segments",
+        help="OOT version",
     )
     parser.add_argument(
         "--dmadata-start",

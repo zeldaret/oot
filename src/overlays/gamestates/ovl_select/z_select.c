@@ -12,8 +12,6 @@
 
 #if PLATFORM_N64
 #include "n64dd.h"
-// TODO n64dd functions
-void n64dd_SetDiskVersion(s32);
 #endif
 
 void MapSelect_LoadTitle(MapSelectState* this) {
@@ -54,13 +52,13 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
 
 #if PLATFORM_N64
 void func_80800AD0_unknown(MapSelectState* this, s32 arg1) {
-    if (B_80121AE2 != 0) {
+    if (D_80121212 != 0) {
         n64dd_SetDiskVersion(1);
     }
 }
 
 void func_80800B08_unknown(MapSelectState* this, s32 arg1) {
-    if (B_80121AE2 != 0) {
+    if (D_80121212 != 0) {
         n64dd_SetDiskVersion(0);
     }
 }

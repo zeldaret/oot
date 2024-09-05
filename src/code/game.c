@@ -73,8 +73,8 @@ void GameState_SetFBFilter(Gfx** gfxP) {
 
 void func_800C4344(GameState* gameState) {
 #if PLATFORM_N64
-    if (B_80121AE2 != 0) {
-        func_801C86F0_unknown();
+    if (D_80121212 != 0) {
+        func_801C7E78();
     }
 #elif OOT_DEBUG
     Input* selectedInput;
@@ -245,8 +245,8 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     gSPDisplayList(OVERLAY_DISP++, newDlist);
 
 #if PLATFORM_N64
-    if (B_80121AE2 != 0) {
-        func_801C7760_unknown(&newDlist);
+    if (D_80121212 != 0) {
+        func_801C6EA0(&newDlist);
     }
 #endif
 
@@ -271,11 +271,11 @@ void GameState_Update(GameState* gameState) {
     gameState->main(gameState);
 
 #if PLATFORM_N64
-    if (B_80121AE2 != 0) {
-        func_801C86F0_unknown();
+    if (D_80121212 != 0) {
+        func_801C7E78();
     }
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_74 != NULL)) {
-        B_80121AF0->unk_74(gameState);
+    if ((B_80121220 != NULL) && (B_80121220->unk_74 != NULL)) {
+        B_80121220->unk_74(gameState);
     }
 #endif
 

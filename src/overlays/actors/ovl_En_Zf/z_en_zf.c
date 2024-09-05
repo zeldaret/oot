@@ -282,7 +282,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     f32 posDiff;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    thisx->targetMode = 3;
+    thisx->targetMode = TARGET_MODE_3;
     this->clearFlag = PARAMS_GET_S(thisx->params, 8, 8);
     /* Strip the top byte of params */
     thisx->params &= 0xFF;
@@ -539,7 +539,7 @@ s16 EnZf_FindNextPlatformTowardsPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, Pl
 
 // Player not targeting this or another EnZf?
 s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
-    Actor* targetedActor;
+    Actor* playerFocusActor;
     Player* player = GET_PLAYER(play);
 
     if (this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) {             // miniboss
@@ -549,20 +549,20 @@ s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
             return true;
         }
     } else {
-        if (!Actor_OtherIsTargeted(play, &this->actor)) {
+        if (!Actor_OtherIsLockedOn(play, &this->actor)) {
             return true;
         }
         if (this->actor.params == ENZF_TYPE_DINOLFOS) {
-            targetedActor = player->unk_664;
-            if (targetedActor == NULL) {
+            playerFocusActor = player->focusActor;
+            if (playerFocusActor == NULL) {
                 return false;
             } else {
-                if (targetedActor->category != ACTORCAT_ENEMY) {
+                if (playerFocusActor->category != ACTORCAT_ENEMY) {
                     return true;
                 }
-                if (targetedActor->id != ACTOR_EN_ZF) {
+                if (playerFocusActor->id != ACTOR_EN_ZF) {
                     return false;
-                } else if (targetedActor->colorFilterTimer != 0) {
+                } else if (playerFocusActor->colorFilterTimer != 0) {
                     return true;
                 }
             }
@@ -836,7 +836,7 @@ void EnZf_ApproachPlayer(EnZf* this, PlayState* play) {
             }
         }
 
-        if (Actor_OtherIsTargeted(play, &this->actor)) {
+        if (Actor_OtherIsLockedOn(play, &this->actor)) {
             sp40 = 100.0f;
         }
 
@@ -897,7 +897,7 @@ void EnZf_ApproachPlayer(EnZf* this, PlayState* play) {
 
             if ((this->actor.xzDistToPlayer < 180.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
                 Actor_IsFacingPlayer(&this->actor, 0x71C)) {
-                if (Actor_IsTargeted(play, &this->actor)) {
+                if (Actor_IsLockedOn(play, &this->actor)) {
                     if (Rand_ZeroOne() < 0.1f) {
                         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                         EnZf_SetupJumpForward(this);
@@ -1113,7 +1113,7 @@ void func_80B463E4(EnZf* this, PlayState* play) {
             }
         }
 
-        if (Actor_OtherIsTargeted(play, &this->actor)) {
+        if (Actor_OtherIsLockedOn(play, &this->actor)) {
             baseRange = 100.0f;
         }
 
@@ -1224,7 +1224,7 @@ void EnZf_Slash(EnZf* this, PlayState* play) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                         func_80B483E4(this, play);
                     } else if (player->stateFlags1 & (PLAYER_STATE1_4 | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
-                        if (this->actor.isTargeted) {
+                        if (this->actor.isLockedOn) {
                             EnZf_SetupSlash(this);
                         } else {
                             func_80B483E4(this, play);
@@ -1827,7 +1827,7 @@ void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x4000;
 
-    if (Actor_OtherIsTargeted(play, &this->actor)) {
+    if (Actor_OtherIsLockedOn(play, &this->actor)) {
         baseRange = 100.0f;
     }
 
