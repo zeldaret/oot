@@ -3540,7 +3540,7 @@ s32 func_80836AB8(Player* this, s32 arg1) {
 
 // Update things related to Z Targeting
 void func_80836BEC(Player* this, PlayState* play) {
-    s32 sp1C = 0;
+    s32 ignoreLeash = false;
     s32 zTrigPressed = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
     Actor* actorToTarget;
     s32 pad;
@@ -3567,7 +3567,7 @@ void func_80836BEC(Player* this, PlayState* play) {
     }
 
     if (this->unk_66C >= 6) {
-        sp1C = 1;
+        ignoreLeash = true;
     }
 
     cond = func_8083224C(play);
@@ -3614,7 +3614,7 @@ void func_80836BEC(Player* this, PlayState* play) {
 
             if (this->focusActor != NULL) {
                 if ((this->actor.category == ACTORCAT_PLAYER) && (this->focusActor != this->unk_684) &&
-                    func_8002F0C8(this->focusActor, this, sp1C)) {
+                    Target_ShouldReleaseLockOn(this->focusActor, this, ignoreLeash)) {
                     func_8008EDF0(this);
                     this->stateFlags1 |= PLAYER_STATE1_30;
                 } else if (this->focusActor != NULL) {
