@@ -4,6 +4,7 @@
 #
 
 import argparse, re, struct
+from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple, TypeVar
 
 import version_config
@@ -188,16 +189,6 @@ def remove_comments(text : str) -> str:
 
 def read4(data : bytes, p : int) -> int:
     return struct.unpack(">I", data[p:p+4])[0]
-
-def read_baserom_segment(version : str, name : str) -> bytes:
-    data = None
-    with open(f"extracted/{version}/baserom/{name}", "rb") as infile:
-        data = infile.read()
-    return data
-
-def write_output_file(version : str, name : str, contents : str):
-    with open(f"extracted/{version}/text/{name}", "w") as outfile:
-        outfile.write(contents)
 
 def read_sfx_ids():
     sfx_tables = (
@@ -760,7 +751,7 @@ class MessageEntry:
 
         return out
 
-def collect_messages(message_tables : List[Optional[MessageTableDesc]], version : str,
+def collect_messages(message_tables : List[Optional[MessageTableDesc]], baserom_segments_dir : Path,
                      config : version_config.VersionConfig, code_vram : int, code_bin : bytes):
 
     messages : Dict[int,MessageEntry] = {}
@@ -771,7 +762,7 @@ def collect_messages(message_tables : List[Optional[MessageTableDesc]], version 
         if desc is None:
             continue
 
-        baserom_seg = read_baserom_segment(version, desc.seg_name)
+        baserom_seg = (baserom_segments_dir / desc.seg_name).read_bytes()
         code_offset = config.variables[desc.table_name] - code_vram
 
         if desc.parent is None:
@@ -829,17 +820,35 @@ def collect_messages(message_tables : List[Optional[MessageTableDesc]], version 
 
 def main():
     parser = argparse.ArgumentParser(description="Extract text from the baserom into .h files")
-    parser.add_argument("version", help="OoT version")
+    parser.add_argument(
+        "baserom_segments_dir",
+        type=Path,
+        help="Directory of uncompressed ROM segments",
+    )
+    parser.add_argument(
+        "output_dir",
+        type=Path,
+        help="Output directory to place files in",
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        dest="oot_version",
+        required=True,
+        help="OOT version",
+    )
     args = parser.parse_args()
 
-    version : str = args.version
+    baserom_segments_dir : Path = args.baserom_segments_dir
+    version : str = args.oot_version
+    output_dir : Path = args.output_dir
 
     config = version_config.load_version_config(version)
     code_vram = config.dmadata_segments["code"].vram
 
     # print(hex(code_vram))
 
-    code_bin = read_baserom_segment(version, "code")
+    code_bin = (baserom_segments_dir / "code").read_bytes()
 
     sfx_ids = read_sfx_ids()
     jpn_decoder = MessageDecoderJPN(sfx_ids)
@@ -861,8 +870,8 @@ def main():
         message_tables[3]   = None
         message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
 
-    messages = collect_messages(message_tables, version, config, code_vram, code_bin)
-    staff_messages = collect_messages([message_table_staff], version, config, code_vram, code_bin)
+    messages = collect_messages(message_tables, baserom_segments_dir, config, code_vram, code_bin)
+    staff_messages = collect_messages([message_table_staff], baserom_segments_dir, config, code_vram, code_bin)
 
     message_data = []
 
@@ -875,8 +884,8 @@ def main():
     message_data = "\n".join(message_data)
     message_data_staff = "\n".join(staff_messages[text_id].decode() for text_id in sorted(staff_messages.keys()))
 
-    write_output_file(version, "message_data.h", message_data)
-    write_output_file(version, "message_data_staff.h", message_data_staff)
+    (output_dir / "message_data.h").write_text(message_data)
+    (output_dir / "message_data_staff.h").write_text(message_data_staff)
 
 if __name__ == "__main__":
     main()
