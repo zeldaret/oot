@@ -52,7 +52,6 @@
 #include "regs.h"
 #include "irqmgr.h"
 #include "padmgr.h"
-#include "fault.h"
 #include "sched.h"
 #include "rumble.h"
 #include "mempak.h"
@@ -93,12 +92,6 @@
 #define THREAD_ID_DMAMGR     18
 #define THREAD_ID_IRQMGR     19
 
-#define STACK(stack, size) \
-    u64 stack[ALIGN8(size) / sizeof(u64)]
-
-#define STACK_TOP(stack) \
-    ((u8*)(stack) + sizeof(stack))
-
 typedef struct KaleidoMgrOverlay {
     /* 0x00 */ void* loadedRamAddr;
     /* 0x04 */ RomFile file;
@@ -128,13 +121,13 @@ typedef struct ConsoleLogoState {
     /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
     /* 0x01D0 */ SramContext sramCtx;
-    /* 0x01D4 */ u16 unk_1D4; // not used in mq dbg (some sort of timer that doesn't seem to affect anything)
+    /* 0x01D4 */ s16 unk_1D4;
     /* 0x01D6 */ s16 coverAlpha;
-    /* 0x01D8 */ s16 addAlpha; // not used in mq dbg
-    /* 0x01DA */ u16 visibleDuration; // not used in mq dbg
+    /* 0x01D8 */ s16 addAlpha;
+    /* 0x01DA */ s16 visibleDuration;
     /* 0x01DC */ s16 ult;
     /* 0x01DE */ s16 uls;
-    /* 0x01E0 */ char unk_1E0[0x01];
+    /* 0x01E0 */ u8 unk_1E0;
     /* 0x01E1 */ u8 exit;
     /* 0x01E2 */ char unk_1E2[0x06];
 } ConsoleLogoState; // size = 0x1E8
@@ -445,33 +438,6 @@ typedef struct Yaz0Header {
     /* 0x08 */ u32 compInfoOffset; // only used in mio0
     /* 0x0C */ u32 uncompDataOffset; // only used in mio0
 } Yaz0Header; // size = 0x10
-
-struct ArenaNode;
-
-typedef struct Arena {
-    /* 0x00 */ struct ArenaNode* head;
-    /* 0x04 */ void* start;
-    /* 0x08 */ OSMesgQueue lockQueue;
-    /* 0x20 */ u8 allocFailures; // only used in non-debug builds
-    /* 0x21 */ u8 isInit;
-    /* 0x22 */ u8 flag;
-} Arena; // size = 0x24
-
-typedef struct ArenaNode {
-    /* 0x00 */ s16 magic;
-    /* 0x02 */ s16 isFree;
-    /* 0x04 */ u32 size;
-    /* 0x08 */ struct ArenaNode* next;
-    /* 0x0C */ struct ArenaNode* prev;
-#if OOT_DEBUG // TODO: This debug info is also present in N64 retail builds
-    /* 0x10 */ const char* filename;
-    /* 0x14 */ int line;
-    /* 0x18 */ OSId threadId;
-    /* 0x1C */ Arena* arena;
-    /* 0x20 */ OSTime time;
-    /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
-#endif
-} ArenaNode; // size = 0x30
 
 /* Relocation entry field getters */
 #define RELOC_SECTION(reloc)   ((reloc) >> 30)

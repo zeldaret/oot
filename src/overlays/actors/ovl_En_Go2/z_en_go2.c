@@ -3,6 +3,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 #include "quake.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -1576,7 +1577,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                     this->actionFunc = EnGo2_CurledUp;
                 }
             } else {
-#if PLATFORM_GC
+#if OOT_VERSION >= PAL_1_1
                 CLEAR_INFTABLE(INFTABLE_10C);
 #endif
                 this->collider.dim.height = (D_80A4816C[PARAMS_GET_S(this->actor.params, 0, 5)].height * 0.6f);

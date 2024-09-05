@@ -7,6 +7,13 @@
 #define BAD_RETURN(type) void
 #endif
 
+/**
+ * The T macro holds translations in English for original debug strings written in Japanese.
+ * The translated strings match the original debug strings, they are only direct translations.
+ * For example, any original name is left as is rather than being replaced with the name in the codebase.
+ */
+#define T(jp, en) jp
+
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
 
@@ -207,7 +214,6 @@ extern struct GraphicsContext* __gfxCtx;
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_FreeDebug(size, file, line)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) LogUtils_CheckNullPointer(exp, ptr, file, line)
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) LogUtils_CheckValidPointer(exp, ptr, file, line)
-#define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)
 #define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_MallocDebug(alloc, size, file, line)
 
 #else
@@ -240,10 +246,15 @@ extern struct GraphicsContext* __gfxCtx;
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_Free(size)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) (void)0
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) (void)0
-#define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)
 #define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_Malloc(alloc, size)
 
-#endif /* OOT_DEBUG */
+#endif
+
+#if PLATFORM_N64 || OOT_DEBUG
+#define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)
+#else
+#define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)
+#endif
 
 #define MATRIX_FINALIZE_AND_LOAD(pkt, gfxCtx, file, line) \
     gSPMatrix(pkt, MATRIX_FINALIZE(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
@@ -269,17 +280,24 @@ extern struct GraphicsContext* __gfxCtx;
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
 
-#define gDPSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
-    do {                                                                                                               \
-        gDPPipeSync(pkt);                                                                                              \
-        gDPTileSync(pkt);                                                                                              \
-        gDPSetTile(pkt, fmt, siz, (((width)*siz##_TILE_BYTES) + 7) >> 3, 0, G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, \
-                   masks, shifts);                                                                                     \
-        gDPTileSync(pkt);                                                                                              \
-        gDPSetTile(pkt, fmt, siz, (((width)*siz##_TILE_BYTES) + 7) >> 3, 0, G_TX_RENDERTILE, pal, cmt, maskt, shiftt,  \
-                   cms, masks, shifts);                                                                                \
-        gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,                                \
-                       ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
-    } while (0)
+#define gDPSetTileCustom(pkt, fmt, siz, uls, ult, lrs, lrt, pal,        \
+                         cms, cmt, masks, maskt, shifts, shiftt)        \
+_DW({                                                                   \
+    gDPPipeSync(pkt);                                                   \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_TILE_BYTES) + 7) >> 3), 0,       \
+        G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, masks,               \
+        shifts);                                                        \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_LINE_BYTES) + 7) >> 3), 0,       \
+        G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks, shifts);  \
+    gDPSetTileSize(pkt, G_TX_RENDERTILE,                                \
+        (uls) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (ult) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrs) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrt) << G_TEXTURE_IMAGE_FRAC);                                 \
+})
 
 #endif

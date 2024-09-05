@@ -148,7 +148,7 @@ void EnAnubice_Init(Actor* thisx, PlayState* play) {
     this->focusHeightOffset = 0.0f;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->home = this->actor.world.pos;
-    this->actor.targetMode = 3;
+    this->actor.targetMode = TARGET_MODE_3;
     this->actionFunc = EnAnubice_FindFlameCircles;
 }
 

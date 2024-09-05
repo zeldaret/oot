@@ -1,4 +1,5 @@
 #include "global.h"
+#include "fault.h"
 
 NORETURN void __assert(const char* assertion, const char* file, int line) {
     char msg[256];

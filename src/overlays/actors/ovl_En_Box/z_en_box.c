@@ -66,7 +66,7 @@ static AnimationHeader* sAnimations[4] = { &gTreasureChestAnim_00024C, &gTreasur
                                            &gTreasureChestAnim_00043C, &gTreasureChestAnim_00043C };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 0, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, TARGET_MODE_0, ICHAIN_STOP),
 };
 
 static UNK_TYPE sUnused;

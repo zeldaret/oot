@@ -143,7 +143,7 @@ void EnCs_Init(Actor* thisx, PlayState* play) {
                      Animation_GetLastFrame(sAnimationInfo[ENCS_ANIM_0].animation), sAnimationInfo[ENCS_ANIM_0].mode,
                      sAnimationInfo[ENCS_ANIM_0].morphFrames);
 
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
     this->path = PARAMS_GET_U(this->actor.params, 0, 8);
     this->unk_1EC = 0; // This variable is unused anywhere else
     this->talkState = 0;

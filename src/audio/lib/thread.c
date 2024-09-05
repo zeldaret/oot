@@ -16,12 +16,19 @@ AudioTask* AudioThread_Update(void) {
     return AudioThread_UpdateImpl();
 }
 
+#if PLATFORM_N64
+static s32 sMaxAbiCmdCnt = 0x80;
+static AudioTask* sWaitingAudioTask = NULL;
+#endif
+
 /**
  * This is Audio_Update for the audio thread
  */
 AudioTask* AudioThread_UpdateImpl(void) {
+#if !PLATFORM_N64
     static s32 sMaxAbiCmdCnt = 0x80;
     static AudioTask* sWaitingAudioTask = NULL;
+#endif
     u32 samplesRemainingInAi;
     s32 abiCmdCnt;
     s32 pad;
@@ -795,7 +802,7 @@ s32 func_800E6590(s32 seqPlayerIndex, s32 channelIndex, s32 layerIndex) {
                 if (tunedSample == NULL) {
                     return 0;
                 }
-                loopEnd = tunedSample->sample->loop->end;
+                loopEnd = tunedSample->sample->loop->header.end;
                 samplePos = note->synthesisState.samplePosInt;
                 return loopEnd - samplePos;
             }

@@ -1108,7 +1108,7 @@ void func_80ADBF58(EnPoSisters* this, PlayState* play) {
 }
 
 void func_80ADC034(EnPoSisters* this, PlayState* play) {
-    if (this->actor.isTargeted && this->unk_22E.a == 255) {
+    if (this->actor.isLockedOn && this->unk_22E.a == 255) {
         if (this->unk_197 != 0) {
             this->unk_197--;
         }

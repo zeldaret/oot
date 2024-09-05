@@ -196,8 +196,8 @@ SceneDrawConfigFunc sSceneDrawConfigs[SDC_MAX] = {
 };
 
 void Scene_Draw(PlayState* play) {
-    if (B_80121AF0 != NULL && B_80121AF0->unk_6C != NULL) {
-        B_80121AF0->unk_6C(play, sSceneDrawConfigs);
+    if ((B_80121220 != NULL) && (B_80121220->unk_6C != NULL)) {
+        B_80121220->unk_6C(play, sSceneDrawConfigs);
         return;
     }
 

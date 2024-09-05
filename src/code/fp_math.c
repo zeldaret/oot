@@ -1,7 +1,9 @@
 #include "z64math.h"
 #include "macros.h"
 
+#if PLATFORM_GC
 s32 gUseAtanContFrac;
+#endif
 
 /**
  * @param angle radians
@@ -22,6 +24,16 @@ f32 Math_FCeilF(f32 x) {
     return ceilf(x);
 }
 
+#if PLATFORM_N64
+f64 Math_FAbs(f64 x) {
+    return x < 0.0 ? -x : x;
+}
+
+f32 Math_FAbsF(f32 x) {
+    return x < 0.0f ? -x : x;
+}
+#endif
+
 f32 Math_FRoundF(f32 x) {
     return roundf(x);
 }
@@ -34,6 +46,7 @@ f32 Math_FNearbyIntF(f32 x) {
     return nearbyintf(x);
 }
 
+#if PLATFORM_GC
 /* Arctangent approximation using a Taylor series (one quadrant) */
 f32 Math_FAtanTaylorQF(f32 x) {
     static const f32 coeffs[] = {
@@ -89,6 +102,7 @@ f32 Math_FAtanTaylorF(f32 x) {
         return -q;
     }
 }
+#endif
 
 /* Arctangent approximation using a continued fraction */
 f32 Math_FAtanContFracF(f32 x) {
@@ -98,6 +112,17 @@ f32 Math_FAtanContFracF(f32 x) {
     f32 sq;
     s32 i;
 
+#if PLATFORM_N64
+    if (x > 1.0f) {
+        sector = 1;
+        x = 1.0f / x;
+    } else if (x < -1.0f) {
+        sector = -1;
+        x = 1.0f / x;
+    } else {
+        sector = 0;
+    }
+#else
     if (x >= -1.0f && x <= 1.0f) {
         sector = 0;
     } else if (x > 1.0f) {
@@ -109,16 +134,35 @@ f32 Math_FAtanContFracF(f32 x) {
     } else {
         return qNaN0x10000;
     }
+#endif
 
     sq = SQ(x);
     conv = 0.0f;
+
+#if PLATFORM_N64
+    z = 24.0f;
+    i = 24;
+#else
     z = 8.0f;
-    for (i = 8; i != 0; i--) {
+    i = 8;
+#endif
+
+    while (i != 0) {
         conv = SQ(z) * sq / (2.0f * z + 1.0f + conv);
         z -= 1.0f;
+        i--;
     }
-    conv = x / (1.0f + conv);
 
+#if PLATFORM_N64
+    if (sector > 0) {
+        return M_PI / 2 - (x / (1.0f + conv));
+    } else if (sector < 0) {
+        return -M_PI / 2 - (x / (1.0f + conv));
+    } else {
+        return x / (1.0f + conv);
+    }
+#else
+    conv = x / (1.0f + conv);
     if (sector == 0) {
         return conv;
     } else if (sector > 0) {
@@ -126,8 +170,10 @@ f32 Math_FAtanContFracF(f32 x) {
     } else {
         return -M_PI / 2 - conv;
     }
+#endif
 }
 
+#if PLATFORM_GC
 /**
  * @return arctan(x) in radians, in (-pi/2,pi/2) range
  */
@@ -138,11 +184,33 @@ f32 Math_FAtanF(f32 x) {
         return Math_FAtanContFracF(x);
     }
 }
+#endif
 
 /**
  * @return angle to (x,y) from vector (1,0) around (0,0) in radians, in (-pi,pi] range
  */
 f32 Math_FAtan2F(f32 y, f32 x) {
+#if PLATFORM_N64
+    if (y == 0.0f && x == 0.0f) {
+        return 0.0f;
+    }
+
+    if (x == 0.0f) {
+        if (y < 0.0f) {
+            return -M_PI / 2;
+        } else {
+            return M_PI / 2;
+        }
+    } else if (x < 0.0f) {
+        if (y < 0.0f) {
+            return -(M_PI - Math_FAtanContFracF(fabs(y / x)));
+        } else {
+            return M_PI - Math_FAtanContFracF(fabs(y / x));
+        }
+    } else { // x > 0.0f
+        return Math_FAtanContFracF(y / x);
+    }
+#else
     if (x == 0.0f) {
         if (y == 0.0f) {
             return 0.0f;
@@ -155,11 +223,14 @@ f32 Math_FAtan2F(f32 y, f32 x) {
         }
     } else if (x >= 0.0f) {
         return Math_FAtanF(y / x);
-    } else if (y < 0.0f) {
-        return Math_FAtanF(y / x) - M_PI;
-    } else {
-        return M_PI - Math_FAtanF(-(y / x));
+    } else { // x < 0.0f
+        if (y < 0.0f) {
+            return Math_FAtanF(y / x) - M_PI;
+        } else {
+            return M_PI - Math_FAtanF(-(y / x));
+        }
     }
+#endif
 }
 
 /**

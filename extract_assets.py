@@ -30,7 +30,7 @@ def ExtractFile(assetConfig: version_config.AssetConfig, outputPath: Path, outpu
     outputPath.mkdir(parents=True, exist_ok=True)
     outputSourcePath.mkdir(parents=True, exist_ok=True)
 
-    execStr = f"{zapdPath} e -eh -i {xmlPath} -b extracted/{version}/baserom -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
+    execStr = f"{zapdPath} e -eh -i {xmlPath} -b {globalBaseromSegmentsDir} -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
 
     if name.startswith("code/") or name.startswith("overlays/"):
         assert assetConfig.start_offset is not None
@@ -63,8 +63,7 @@ def ExtractFunc(assetConfig: version_config.AssetConfig):
     xml_path = assetConfig.xml_path
     xml_path_str = str(xml_path)
 
-    version = globalVersionConfig.version
-    outPath = Path("extracted") / version / "assets" / objectName
+    outPath = globalOutputDir / objectName
     outSourcePath = outPath
 
     if xml_path_str in globalExtractedAssetsTracker:
@@ -84,17 +83,21 @@ def ExtractFunc(assetConfig: version_config.AssetConfig):
             globalExtractedAssetsTracker[xml_path_str] = globalManager.dict()
         globalExtractedAssetsTracker[xml_path_str]["timestamp"] = currentTimeStamp
 
-def initializeWorker(versionConfig: version_config.VersionConfig, abort, unaccounted: bool, extractedAssetsTracker: dict, manager):
+def initializeWorker(versionConfig: version_config.VersionConfig, abort, unaccounted: bool, extractedAssetsTracker: dict, manager, baseromSegmentsDir: Path, outputDir: Path):
     global globalVersionConfig
     global globalAbort
     global globalUnaccounted
     global globalExtractedAssetsTracker
     global globalManager
+    global globalBaseromSegmentsDir
+    global globalOutputDir
     globalVersionConfig = versionConfig
     globalAbort = abort
     globalUnaccounted = unaccounted
     globalExtractedAssetsTracker = extractedAssetsTracker
     globalManager = manager
+    globalBaseromSegmentsDir = baseromSegmentsDir
+    globalOutputDir = outputDir
 
 def processZAPDArgs(argsZ):
     badZAPDArg = False
@@ -112,7 +115,17 @@ def processZAPDArgs(argsZ):
 
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
-    parser.add_argument("-v", "--oot-version", dest="oot_version", help="OOT game version", default="gc-eu-mq-dbg")
+    parser.add_argument(
+        "baserom_segments_dir",
+        type=Path,
+        help="Directory of uncompressed ROM segments",
+    )
+    parser.add_argument(
+        "output_dir",
+        type=Path,
+        help="Output directory to place files in",
+    )
+    parser.add_argument("-v", "--version", dest="oot_version", help="OOT game version", default="gc-eu-mq-dbg")
     parser.add_argument("-s", "--single", help="Extract a single asset by name, e.g. objects/gameplay_keep")
     parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones (overwriting current files).", action="store_true")
     parser.add_argument("-j", "--jobs", help="Number of cpu cores to extract with.")
@@ -120,7 +133,10 @@ def main():
     parser.add_argument("-Z", help="Pass the argument on to ZAPD, e.g. `-ZWunaccounted` to warn about unaccounted blocks in XMLs. Each argument should be passed separately, *without* the leading dash.", metavar="ZAPD_ARG", action="append")
     args = parser.parse_args()
 
+    baseromSegmentsDir: Path = args.baserom_segments_dir
     version: str = args.oot_version
+    outputDir: Path = args.output_dir
+
     versionConfig = version_config.load_version_config(version)
 
     global ZAPDArgs
@@ -131,7 +147,7 @@ def main():
     manager = multiprocessing.Manager()
     signal.signal(signal.SIGINT, SignalHandler)
 
-    extraction_times_p = Path("extracted") / version / "assets_extraction_times.json"
+    extraction_times_p = outputDir / "assets_extraction_times.json"
     extractedAssetsTracker = manager.dict()
     if extraction_times_p.exists() and not args.force:
         with extraction_times_p.open(encoding='utf-8') as f:
@@ -148,7 +164,7 @@ def main():
             print(f"Error. Asset {singleAssetName} not found in config.", file=os.sys.stderr)
             exit(1)
 
-        initializeWorker(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager)
+        initializeWorker(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager, baseromSegmentsDir, outputDir)
         # Always extract if -s is used.
         xml_path_str = str(assetConfig.xml_path)
         if xml_path_str in extractedAssetsTracker:
@@ -167,13 +183,13 @@ def main():
                 mp_context = multiprocessing.get_context("fork")
             except ValueError as e:
                 raise CannotMultiprocessError() from e
-            with mp_context.Pool(numCores, initializer=initializeWorker, initargs=(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
+            with mp_context.Pool(numCores, initializer=initializeWorker, initargs=(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager, baseromSegmentsDir, outputDir)) as p:
                 p.map(ExtractFunc, versionConfig.assets)
         except (multiprocessing.ProcessError, TypeError, CannotMultiprocessError):
             print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
             print("Disabling mutliprocessing.", file=os.sys.stderr)
 
-            initializeWorker(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager)
+            initializeWorker(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager, baseromSegmentsDir, outputDir)
             for assetConfig in versionConfig.assets:
                 ExtractFunc(assetConfig)
 
