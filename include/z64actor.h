@@ -597,6 +597,20 @@ typedef struct TargetContext {
     /* 0x94 */ Actor* arrowHoverActor; // Actor to draw an arrow over
 } TargetContext; // size = 0x98
 
+typedef enum {
+    /*  0 */ TARGET_MODE_0,
+    /*  1 */ TARGET_MODE_1,
+    /*  2 */ TARGET_MODE_2,
+    /*  3 */ TARGET_MODE_3, // Used as the default for new actors
+    /*  4 */ TARGET_MODE_4,
+    /*  5 */ TARGET_MODE_5,
+    /*  6 */ TARGET_MODE_6,
+    /*  7 */ TARGET_MODE_7,
+    /*  8 */ TARGET_MODE_8,
+    /*  9 */ TARGET_MODE_9,
+    /* 10 */ TARGET_MODE_MAX
+} TargetMode;
+
 typedef struct TitleCardContext {
     /* 0x00 */ void* texture;
     /* 0x04 */ s16 x;

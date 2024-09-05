@@ -882,7 +882,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     Actor_SetFocus(actor, 0.0f);
     Math_Vec3f_Copy(&actor->prevPos, &actor->world.pos);
     Actor_SetScale(actor, 0.01f);
-    actor->targetMode = 3;
+    actor->targetMode = TARGET_MODE_3;
     actor->minVelocityY = -20.0f;
     actor->xyzDistToPlayerSq = MAXFLOAT;
     actor->naviEnemyId = NAVI_ENEMY_NONE;
@@ -1615,10 +1615,17 @@ typedef struct TargetRangeParams {
 #define TARGET_RANGE(range, leash) \
     { SQ(range), (f32)range / leash }
 
-TargetRangeParams sTargetRanges[] = {
-    TARGET_RANGE(70, 140),   TARGET_RANGE(170, 255),    TARGET_RANGE(280, 5600),      TARGET_RANGE(350, 525),
-    TARGET_RANGE(700, 1050), TARGET_RANGE(1000, 1500),  TARGET_RANGE(100, 105.36842), TARGET_RANGE(140, 163.33333),
-    TARGET_RANGE(240, 576),  TARGET_RANGE(280, 280000),
+TargetRangeParams sTargetRanges[TARGET_MODE_MAX] = {
+    TARGET_RANGE(70, 140),        // TARGET_MODE_0
+    TARGET_RANGE(170, 255),       // TARGET_MODE_1
+    TARGET_RANGE(280, 5600),      // TARGET_MODE_2
+    TARGET_RANGE(350, 525),       // TARGET_MODE_3
+    TARGET_RANGE(700, 1050),      // TARGET_MODE_4
+    TARGET_RANGE(1000, 1500),     // TARGET_MODE_5
+    TARGET_RANGE(100, 105.36842), // TARGET_MODE_6
+    TARGET_RANGE(140, 163.33333), // TARGET_MODE_7
+    TARGET_RANGE(240, 576),       // TARGET_MODE_8
+    TARGET_RANGE(280, 280000),    // TARGET_MODE_9
 };
 
 /**
