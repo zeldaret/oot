@@ -167,10 +167,10 @@ void Map_InitData(PlayState* play, s16 room) {
 #if PLATFORM_N64
             if ((B_80121220 != NULL) && (B_80121220->unk_28 != NULL) && B_80121220->unk_28(play)) {
             } else {
-                DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
-                                 (uintptr_t)_map_i_staticSegmentRomStart +
-                                     ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
-                                 MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
+                DmaMgr_RequestSync(play->interfaceCtx.mapSegment,
+                                   (uintptr_t)_map_i_staticSegmentRomStart +
+                                       ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
+                                   MAP_I_TEX_SIZE);
             }
 #else
             DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
