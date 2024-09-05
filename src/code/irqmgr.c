@@ -164,7 +164,7 @@ void IrqMgr_HandlePreNMI(IrqMgr* irqMgr) {
     sIrqMgrResetTime = irqMgr->resetTime = osGetTime();
 
     // Schedule a PRENMI450 message to be handled in 450ms
-    osSetTimer(&irqMgr->timer, OS_MSEC_TO_CYCLES(450), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI450_MSG);
+    osSetTimer(&irqMgr->timer, OS_USEC_TO_CYCLES(450000), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI450_MSG);
     IrqMgr_JamMesgToClients(irqMgr, (OSMesg)&irqMgr->prenmiMsg);
 }
 
@@ -190,7 +190,7 @@ void IrqMgr_HandlePreNMI450(IrqMgr* irqMgr) {
     irqMgr->resetStatus = IRQ_RESET_STATUS_NMI;
 
     // Schedule a PRENMI480 message to be handled in 30ms
-    osSetTimer(&irqMgr->timer, OS_MSEC_TO_CYCLES(30), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI480_MSG);
+    osSetTimer(&irqMgr->timer, OS_USEC_TO_CYCLES(30000), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI480_MSG);
     // Send the NMI event to clients
     IrqMgr_SendMesgToClients(irqMgr, (OSMesg)&irqMgr->nmiMsg);
 }
@@ -199,7 +199,7 @@ void IrqMgr_HandlePreNMI480(IrqMgr* irqMgr) {
     u32 result;
 
     // Schedule a PRENMI500 message to be handled in 20ms
-    osSetTimer(&irqMgr->timer, OS_MSEC_TO_CYCLES(20), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI500_MSG);
+    osSetTimer(&irqMgr->timer, OS_USEC_TO_CYCLES(20000), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI500_MSG);
 
     result = osAfterPreNMI();
     if (result != 0) {
@@ -207,7 +207,7 @@ void IrqMgr_HandlePreNMI480(IrqMgr* irqMgr) {
         // osAfterPreNMI failed, try again in 1ms
         //! @bug setting the same timer for a second time without letting the first one complete breaks
         //! the timer linked list
-        osSetTimer(&irqMgr->timer, OS_MSEC_TO_CYCLES(1), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI480_MSG);
+        osSetTimer(&irqMgr->timer, OS_USEC_TO_CYCLES(1000), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI480_MSG);
     }
 }
 
