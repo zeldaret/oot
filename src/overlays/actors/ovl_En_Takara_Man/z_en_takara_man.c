@@ -66,7 +66,7 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
     this->originalRoomNum = thisx->room;
     thisx->room = -1;
     thisx->world.rot.y = thisx->shape.rot.y = -0x4E20;
-    thisx->targetMode = 1;
+    thisx->targetMode = TARGET_MODE_1;
     this->actionFunc = func_80B176E0;
 }
 
