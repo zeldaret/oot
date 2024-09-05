@@ -426,13 +426,12 @@ s32 func_801C7A1C(struct_801E0D18* arg0) {
 
     func_801C7A10(&arg0->diskId);
     if (!B_801DBFF0) {
-        if (
 #if OOT_NTSC
-            bcmp(arg0->diskId.gameName, "EZLJ", 4) == 0 || bcmp(arg0->diskId.gameName, "EZLE", 4) == 0
+        if (bcmp(arg0->diskId.gameName, "EZLJ", 4) == 0 || bcmp(arg0->diskId.gameName, "EZLE", 4) == 0)
 #else
-            bcmp(arg0->diskId.gameName, "EZLP", 4) == 0
+        if (bcmp(arg0->diskId.gameName, "EZLP", 4) == 0)
 #endif
-        ) {
+        {
             B_801DBFD0 = arg0->diskId;
             B_801DBFF0 = true;
             B_801D9DC8 = 1;
