@@ -144,7 +144,8 @@ void Fault_ClientRunTask(FaultClientTask* task) {
 
     // Await done
     while (true) {
-        osSetTimer(&timer, OS_SEC_TO_CYCLES(1), 0, &queue, (OSMesg)timerMsgVal);
+        // Wait for 1 second
+        osSetTimer(&timer, OS_USEC_TO_CYCLES(1000000), 0, &queue, (OSMesg)timerMsgVal);
         osRecvMesg(&queue, &recMsg, OS_MESG_BLOCK);
 
         if (recMsg != (OSMesg)666) {
@@ -653,7 +654,7 @@ void Fault_Wait5Seconds(void) {
 
     do {
         Fault_Sleep(1000 / 60);
-    } while ((osGetTime() - start) < OS_SEC_TO_CYCLES(5) + 1);
+    } while ((osGetTime() - start) <= OS_USEC_TO_CYCLES(5000000)); // 5 seconds
 
     sFaultInstance->autoScroll = true;
 }
