@@ -7,7 +7,7 @@
 
 extern s32 gScreenWidth;
 extern s32 gScreenHeight;
-extern size_t gSystemHeapSize;
+extern u32 gSystemHeapSize;
 
 extern uintptr_t gSegments[NUM_SEGMENTS];
 extern OSThread gGraphThread;
