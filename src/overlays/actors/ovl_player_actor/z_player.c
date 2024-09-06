@@ -3480,7 +3480,7 @@ void Player_UpdateShapeYaw(Player* this, PlayState* play) {
         Actor* focusActor = this->focusActor;
 
         if ((focusActor != NULL) &&
-            ((play->actorCtx.targetCtx.reticleSpinCounter != 0) || (this->actor.category != ACTORCAT_PLAYER))) {
+            ((play->actorCtx.attention.reticleSpinCounter != 0) || (this->actor.category != ACTORCAT_PLAYER))) {
             Math_ScaledStepToS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &focusActor->focus.pos),
                                4000);
         } else if ((this->stateFlags1 & PLAYER_STATE1_17) &&
@@ -3578,7 +3578,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                 CHECK_BTN_ALL(sControlInput->press.button, BTN_Z)) {
 
                 if (this->actor.category == ACTORCAT_PLAYER) {
-                    actorToTarget = play->actorCtx.targetCtx.naviHoverActor;
+                    actorToTarget = play->actorCtx.attention.naviHoverActor;
                 } else {
                     actorToTarget = &GET_PLAYER(play)->actor;
                 }
@@ -3588,7 +3588,7 @@ void func_80836BEC(Player* this, PlayState* play) {
 
                 if ((actorToTarget != NULL) && !(actorToTarget->flags & ACTOR_FLAG_27)) {
                     if ((actorToTarget == this->focusActor) && (this->actor.category == ACTORCAT_PLAYER)) {
-                        actorToTarget = play->actorCtx.targetCtx.arrowHoverActor;
+                        actorToTarget = play->actorCtx.attention.arrowHoverActor;
                     }
 
                     if (actorToTarget != this->focusActor) {
@@ -3749,7 +3749,7 @@ s32 Player_GetMovementSpeedAndYaw(Player* this, f32* outSpeedTarget, s16* outYaw
         *outYawTarget = this->actor.shape.rot.y;
 
         if (this->focusActor != NULL) {
-            if ((play->actorCtx.targetCtx.reticleSpinCounter != 0) && !(this->stateFlags2 & PLAYER_STATE2_6)) {
+            if ((play->actorCtx.attention.reticleSpinCounter != 0) && !(this->stateFlags2 & PLAYER_STATE2_6)) {
                 *outYawTarget = Math_Vec3f_Yaw(&this->actor.world.pos, &this->focusActor->focus.pos);
                 return false;
             }
@@ -10360,7 +10360,7 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                         doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemAction >= PLAYER_IA_SWORD_MASTER) ||
                                ((this->stateFlags2 & PLAYER_STATE2_20) &&
-                                (play->actorCtx.targetCtx.naviHoverActor == NULL))) {
+                                (play->actorCtx.attention.naviHoverActor == NULL))) {
                         doAction = DO_ACTION_PUTAWAY;
                     }
                 }
@@ -10804,9 +10804,9 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
             seqMode = SEQ_MODE_STILL;
         }
 
-        if (play->actorCtx.targetCtx.bgmEnemy != NULL) {
+        if (play->actorCtx.attention.bgmEnemy != NULL) {
             seqMode = SEQ_MODE_ENEMY;
-            Audio_SetBgmEnemyVolume(sqrtf(play->actorCtx.targetCtx.bgmEnemy->xyzDistToPlayerSq));
+            Audio_SetBgmEnemyVolume(sqrtf(play->actorCtx.attention.bgmEnemy->xyzDistToPlayerSq));
         }
 
         if (play->sceneId != SCENE_FISHING_POND) {

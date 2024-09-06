@@ -648,7 +648,7 @@ typedef struct ActorContext {
     /* 0x004 */ char unk_04[0x04];
     /* 0x008 */ u8 total; // total number of actors loaded
     /* 0x00C */ ActorListEntry actorLists[ACTORCAT_MAX];
-    /* 0x06C */ Attention targetCtx;
+    /* 0x06C */ Attention attention;
     /* 0x104 */ ActorContextSceneFlags flags;
     /* 0x128 */ TitleCardContext titleCtx;
     /* 0x138 */ char unk_138[0x04];
