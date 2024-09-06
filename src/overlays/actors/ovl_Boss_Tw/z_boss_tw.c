@@ -3412,7 +3412,7 @@ void func_80942C70(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_tw.c", 6765);
 
     if (this->beamDist == 0.0f) {
-        goto end;
+        goto close_disps;
     }
 
     Matrix_Push();
@@ -3452,7 +3452,7 @@ void func_80942C70(Actor* thisx, PlayState* play) {
 
     Matrix_Pop();
 
-end:
+close_disps:
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_tw.c", 6878);
 }
 
