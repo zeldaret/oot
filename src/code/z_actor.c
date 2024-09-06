@@ -461,7 +461,7 @@ void Attention_Update(Attention* attention, Player* player, Actor* playerFocusAc
     if ((player->focusActor != NULL) &&
         (player->controlStickDirections[player->controlStickDataIndex] == PLAYER_STICK_DIR_BACKWARD)) {
         // Holding backward on the control stick prevents an arrow appearing over the next lock-on actor.
-        // This helps escape a targeting loop when using Switch Targeting, but note that this still works for
+        // This helps escape a lock-on loop when using Switch Targeting, but note that this still works for
         // Hold Targeting as well.
         attention->arrowHoverActor = NULL;
     } else {
@@ -3197,7 +3197,7 @@ Actor* sPrioritizedAttentionActor;
 f32 sNearestAttentionActorDistSq;
 f32 sBgmEnemyDistSq;
 s32 sHighestAttentionPriority;
-s16 sTargetPlayerRotY;
+s16 sAttentionPlayerRotY;
 
 /**
  * Search for attention actors within the specified category.
@@ -3231,7 +3231,7 @@ void Attention_FindActorInCategory(PlayState* play, ActorContext* actorCtx, Play
 
     while (actor != NULL) {
         if ((actor->update != NULL) && ((Player*)actor != player) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0)) {
-            // Enemy background music actor is updated here, despite not being too related to the Target system
+            // Enemy background music actor is updated here, despite not being too related to the Attention system
             if ((actorCategory == ACTORCAT_ENEMY) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) &&
                 (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sBgmEnemyDistSq)) {
                 actorCtx->attention.bgmEnemy = actor;
@@ -3239,7 +3239,7 @@ void Attention_FindActorInCategory(PlayState* play, ActorContext* actorCtx, Play
             }
 
             if (actor != playerFocusActor) {
-                distSq = Attention_WeightedDistToPlayerSq(actor, player, sTargetPlayerRotY);
+                distSq = Attention_WeightedDistToPlayerSq(actor, player, sAttentionPlayerRotY);
 
                 if ((distSq < sNearestAttentionActorDistSq) && Attention_ActorIsInRange(actor, distSq) &&
                     Attention_ActorOnScreen(play, actor) &&
@@ -3287,7 +3287,7 @@ Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** atte
     if (!Player_InCsMode(play)) {
         category = &sAttentionCategorySearchOrder[0];
         actorCtx->attention.bgmEnemy = NULL;
-        sTargetPlayerRotY = player->actor.shape.rot.y;
+        sAttentionPlayerRotY = player->actor.shape.rot.y;
 
         // Search the first 3 actor categories first for an attention actor
         // These are Boss, Enemy, and Bg, in order.
