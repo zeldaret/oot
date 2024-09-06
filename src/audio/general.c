@@ -1297,6 +1297,9 @@ OcarinaNote sScarecrowsLongSongSecondNote;
 #if OOT_DEBUG
 u8 sIsMalonSinging;
 f32 sMalonSingingDist;
+
+#include "debug_bss.inc.c"
+
 #endif
 
 void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
