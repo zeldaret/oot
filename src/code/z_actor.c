@@ -3272,10 +3272,10 @@ u8 sTargetableCategorySearchOrder[] = {
  * Search for the nearest targetable actor by iterating through most actor categories.
  * See `Attention_FindActorInCategory` for more details on search criteria.
  *
- * The actor found is stored in the `targetableActorP` parameter, which is also returned.
+ * The actor found is stored in the `attentionActorP` parameter, which is also returned.
  * It may be NULL if no actor that fulfills the criteria is found.
  */
-Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** targetableActorP, Player* player) {
+Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** attentionActorP, Player* player) {
     s32 i;
     u8* category;
 
@@ -3305,12 +3305,12 @@ Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** targ
     }
 
     if (sNearestTargetableActor == NULL) {
-        *targetableActorP = sPrioritizedTargetableActor;
+        *attentionActorP = sPrioritizedTargetableActor;
     } else {
-        *targetableActorP = sNearestTargetableActor;
+        *attentionActorP = sNearestTargetableActor;
     }
 
-    return *targetableActorP;
+    return *attentionActorP;
 }
 
 /**
