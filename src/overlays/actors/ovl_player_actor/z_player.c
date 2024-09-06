@@ -3614,7 +3614,7 @@ void func_80836BEC(Player* this, PlayState* play) {
 
             if (this->focusActor != NULL) {
                 if ((this->actor.category == ACTORCAT_PLAYER) && (this->focusActor != this->unk_684) &&
-                    Target_ShouldReleaseLockOn(this->focusActor, this, ignoreLeash)) {
+                    Attention_ShouldReleaseLockOn(this->focusActor, this, ignoreLeash)) {
                     func_8008EDF0(this);
                     this->stateFlags1 |= PLAYER_STATE1_30;
                 } else if (this->focusActor != NULL) {
