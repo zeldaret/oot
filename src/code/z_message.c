@@ -3487,8 +3487,8 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     msgCtx->stateTimer = 10;
                     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     Message_CloseTextbox(play);
-                    PRINTF(T("録音終了！！！！！！！！！録音終了\n",
-                             "Recording complete!!!!!!!!! Recording Complete\n"));
+                    PRINTF(
+                        T("録音終了！！！！！！！！！録音終了\n", "Recording complete!!!!!!!!! Recording Complete\n"));
                     PRINTF(VT_FGCOL(YELLOW));
                     PRINTF("\n====================================================================\n");
                     MemCpy(gSaveContext.save.info.scarecrowLongSong, gScarecrowLongSongPtr,
