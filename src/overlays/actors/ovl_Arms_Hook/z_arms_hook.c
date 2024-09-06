@@ -287,7 +287,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         } else if (CHECK_BTN_ANY(play->state.input[0].press.button,
-                                 (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN))) {
+                                 (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT))) {
             this->timer = 0;
         }
     }
