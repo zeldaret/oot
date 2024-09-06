@@ -579,6 +579,7 @@ typedef enum NaviEnemy {
  *     - Making Navi fly over to certain actors of interest (can be lock-on actors, but may also not be)
  *     - Displaying an arrow over an actor that can be locked onto
  *     - Displaying a reticle over the current lock-on actor
+ *     - Playing enemy background music if a hostile actor is nearby
  *
  * This system does not handle the actual lock-on implementation.
  * That is the responsibility of Player via `player->focusActor` and the camera.
