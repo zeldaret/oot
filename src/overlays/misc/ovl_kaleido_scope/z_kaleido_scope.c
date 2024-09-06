@@ -25,6 +25,16 @@
 #define KALEIDO_COLOR_PROMPT_UNK_B 100
 #endif
 
+#if !PLATFORM_GC
+#define KALEIDO_COLOR_CURSOR_UNK_R 0
+#define KALEIDO_COLOR_CURSOR_UNK_G 50
+#define KALEIDO_COLOR_CURSOR_UNK_B 255
+#else
+#define KALEIDO_COLOR_CURSOR_UNK_R 0
+#define KALEIDO_COLOR_CURSOR_UNK_G 255
+#define KALEIDO_COLOR_CURSOR_UNK_B 50
+#endif
+
 typedef enum {
     /* 0 */ VTX_PAGE_ITEM,
     /* 1 */ VTX_PAGE_EQUIP,
@@ -804,7 +814,7 @@ static void* sCursorTexs[] = {
 static s16 sCursorColors[][3] = {
     { 255, 255, 255 },
     { 255, 255, 0 },
-    { 0, 255, 50 },
+    { KALEIDO_COLOR_CURSOR_UNK_R, KALEIDO_COLOR_CURSOR_UNK_G, KALEIDO_COLOR_CURSOR_UNK_B },
 };
 
 static void* sSavePromptTexs[] =
@@ -1116,8 +1126,18 @@ Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
 
 void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
     static s16 D_8082ACF4[][3] = {
-        { 0, 0, 0 }, { 0, 0, 0 },     { 0, 0, 0 },    { 0, 0, 0 }, { 255, 255, 0 }, { 0, 0, 0 },
-        { 0, 0, 0 }, { 255, 255, 0 }, { 0, 255, 50 }, { 0, 0, 0 }, { 0, 0, 0 },     { 0, 255, 50 },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 255, 255, 0 },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 255, 255, 0 },
+        { KALEIDO_COLOR_CURSOR_UNK_R, KALEIDO_COLOR_CURSOR_UNK_G, KALEIDO_COLOR_CURSOR_UNK_B },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { KALEIDO_COLOR_CURSOR_UNK_R, KALEIDO_COLOR_CURSOR_UNK_G, KALEIDO_COLOR_CURSOR_UNK_B },
     };
     static s16 D_8082AD3C = 20;
     static s16 D_8082AD40 = 0;
