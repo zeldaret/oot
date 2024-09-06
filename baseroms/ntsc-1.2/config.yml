@@ -11,18 +11,22 @@ incbins:
   - name: rspbootText
     segment: boot
     vram: 0x800065C0
-    size: 0xD0
+    size: 0x160
   - name: aspMainText
     segment: code
     vram: 0x800E3600
     size: 0xFB0
-  - name: gspS2DEX2d_fifoText
+  - name: gspF3DZEX2_NoN_PosLight_fifoText
     segment: code
     vram: 0x800E45B0
+    size: 0x1390
+  - name: gspS2DEX2d_fifoText
+    segment: code
+    vram: 0x800E5940
     size: 0x18C0
   - name: njpgdspMainText
     segment: code
-    vram: 0x800E5E70
+    vram: 0x800E7200
     size: 0xAF0
   - name: gSequenceFontTable
     segment: code
@@ -36,21 +40,17 @@ incbins:
     segment: code
     vram: 0x80114990
     size: 0x2E0
-  - name: gspF3DZEX2_NoN_PosLight_fifoText
-    segment: code
-    vram: 0x80114C70
-    size: 0x1630
   - name: gspF3DZEX2_NoN_PosLight_fifoData
     segment: code
-    vram: 0x801162A0
+    vram: 0x80114C70
     size: 0x420
   - name: gspS2DEX2d_fifoData
     segment: code
-    vram: 0x801166C0
+    vram: 0x80115090
     size: 0x390
   - name: njpgdspMainData
     segment: code
-    vram: 0x80116A50
+    vram: 0x80115420
     size: 0x60
 variables:
   gMtxClear: 0x800FF3F0
