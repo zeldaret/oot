@@ -859,7 +859,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
 };
 
 #if PLATFORM_GC
-u32 sOcarinaAllowedButtonMask = (BTN_A | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP);
+u32 sOcarinaAllowedButtonMask = (BTN_A | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
 s32 sOcarinaAButtonMap = BTN_A;
 s32 sOcarinaCUpButtonMap = BTN_CUP;
 s32 sOcarinaCDownButtonMap = BTN_CDOWN;
@@ -1310,7 +1310,7 @@ s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol);
 
 #if PLATFORM_N64
 
-#define OCARINA_ALLOWED_BUTTON_MASK (BTN_A | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP)
+#define OCARINA_ALLOWED_BUTTON_MASK (BTN_A | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT)
 #define OCARINA_A_MAP BTN_A
 #define OCARINA_CUP_MAP BTN_CUP
 #define OCARINA_CDOWN_MAP BTN_CDOWN
