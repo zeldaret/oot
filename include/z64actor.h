@@ -571,6 +571,19 @@ typedef enum NaviEnemy {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
+/**
+ * Attention System
+ * 
+ * The Attention System's responsibility is to bring specific actors to the player's attention.
+ * This includes:
+ *     - Making Navi fly over to certain actors of interest (can be lock-on actors, but may also not be)
+ *     - Displaying an arrow over an actor that can be locked onto
+ *     - Displaying a reticle over the current lock-on actor
+ * 
+ * This system does not handle the actual lock-on implementation.
+ * That is the responsibility of Player via `player->focusActor` and the camera.
+ */
+
 // A set of 4 triangles which appear as a ring around an actor when locked-on
 typedef struct LockOnReticle {
     /* 0x00 */ Vec3f pos;
