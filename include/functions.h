@@ -1258,8 +1258,8 @@ void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
 #endif
-Gfx* Gfx_Open(Gfx* gfx);
-Gfx* Gfx_Close(Gfx* gfx, Gfx* dst);
+Gfx* Gfx_Open(Gfx* gfxDisp);
+Gfx* Gfx_Close(Gfx* gfxDisp, Gfx* gfx);
 void* Gfx_Alloc(Gfx** gfxP, u32 size);
 ListAlloc* ListAlloc_Init(ListAlloc* this);
 void* ListAlloc_Alloc(ListAlloc* this, u32 size);
