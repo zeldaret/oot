@@ -3208,7 +3208,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                 if (msgCtx->stateTimer == 0) {
                     R_OCARINA_BUTTONS_YPOS_OFFSET = 1;
                     if (msgCtx->msgMode == MSGMODE_SONG_PLAYBACK_FAIL) {
-                        PRINTF(T("ここここここ\n", "kokokokokoko\n"));
+                        PRINTF(T("ここここここ\n", "Here here here\n"));
                         Message_ContinueTextbox(play, 0x88B); // red X background
                         Message_Decode(play);
                         msgCtx->msgMode = MSGMODE_SONG_PLAYBACK_NOTES_DROP;
