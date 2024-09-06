@@ -237,9 +237,9 @@ void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedIn
 }
 
 typedef struct AttentionColor {
-    /* 0x00 */ Color_RGBA8 primary; // Used for Navi's inner color, lock-on arrow, and lock-on reticle
+    /* 0x00 */ Color_RGBA8 primary;   // Used for Navi's inner color, lock-on arrow, and lock-on reticle
     /* 0x04 */ Color_RGBA8 secondary; // Used for Navi's outer color
-} AttentionColor; // size = 0x8
+} AttentionColor;                     // size = 0x8
 
 AttentionColor sAttentionColors[ACTORCAT_MAX + 1] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH
@@ -441,7 +441,8 @@ void Attention_Draw(Attention* attention, PlayState* play) {
         Matrix_RotateY(BINANG_TO_RAD((u16)(play->gameplayFrames * 3000)), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, attentionColor->primary.r, attentionColor->primary.g, attentionColor->primary.b, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, attentionColor->primary.r, attentionColor->primary.g,
+                        attentionColor->primary.b, 255);
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2153), G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, gLockOnArrowDL);
     }
