@@ -3417,7 +3417,7 @@ void func_80942C70(Actor* thisx, PlayState* play) {
 
     Matrix_Push();
     gSPSegment(POLY_XLU_DISP++, 0xC,
-                Gfx_TexScroll(play->state.gfxCtx, 0, (u8)(this->work[CS_TIMER_1] * -0xF), 0x20, 0x40));
+               Gfx_TexScroll(play->state.gfxCtx, 0, (u8)(this->work[CS_TIMER_1] * -0xF), 0x20, 0x40));
     alpha = this->beamScale * 100.0f * 255.0f;
 
     if (this->actor.params == TW_KOUME) {
@@ -3434,19 +3434,19 @@ void func_80942C70(Actor* thisx, PlayState* play) {
     Matrix_RotateZ(this->beamRoll, MTXMODE_APPLY);
     Matrix_Scale(this->beamScale, this->beamScale, (this->beamDist * 0.01f * 98.0f) / 20000.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_tw.c", 6846),
-                G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+              G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaBeamDL));
 
     if (this->beamReflectionDist > 10.0f) {
         Matrix_Translate(this->beamReflectionOrigin.x, this->beamReflectionOrigin.y, this->beamReflectionOrigin.z,
-                            MTXMODE_NEW);
+                         MTXMODE_NEW);
         Matrix_RotateY(this->beamReflectionYaw, MTXMODE_APPLY);
         Matrix_RotateX(this->beamReflectionPitch, MTXMODE_APPLY);
         Matrix_RotateZ(this->beamRoll, MTXMODE_APPLY);
         Matrix_Scale(this->beamScale, this->beamScale, (this->beamReflectionDist * 0.01f * 100.0f) / 20000.0f,
-                        MTXMODE_APPLY);
+                     MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_tw.c", 6870),
-                    G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
+                  G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gTwinrovaBeamDL));
     }
 
