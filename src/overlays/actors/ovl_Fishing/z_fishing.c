@@ -5,6 +5,7 @@
  */
 
 #include "z_fishing.h"
+#include "global.h"
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"

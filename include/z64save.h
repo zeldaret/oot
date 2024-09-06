@@ -331,6 +331,8 @@ typedef struct SaveContext {
     /* 0x1424 */ s16 healthAccumulator;
 } SaveContext; // size = 0x1428
 
+extern SaveContext gSaveContext;
+
 typedef enum ButtonStatus {
     /* 0x00 */ BTN_ENABLED,
     /* 0xFF */ BTN_DISABLED = 0xFF
