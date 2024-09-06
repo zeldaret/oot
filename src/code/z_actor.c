@@ -460,12 +460,12 @@ void Attention_Update(Attention* attention, Player* player, Actor* playerFocusAc
 
     if ((player->focusActor != NULL) &&
         (player->controlStickDirections[player->controlStickDataIndex] == PLAYER_STICK_DIR_BACKWARD)) {
-        // Holding backward on the control stick prevents an arrow appearing over the next targetable actor.
+        // Holding backward on the control stick prevents an arrow appearing over the next lock-on actor.
         // This helps escape a targeting loop when using Switch Targeting, but note that this still works for
         // Hold Targeting as well.
         attention->arrowHoverActor = NULL;
     } else {
-        // Find the next targetable actor and draw an arrow over it
+        // Find the next attention actor so Navi and an arrow can hover over it (if applicable)
         Attention_FindActor(play, &play->actorCtx, &actor, player);
         attention->arrowHoverActor = actor;
     }
@@ -476,7 +476,8 @@ void Attention_Update(Attention* attention, Player* player, Actor* playerFocusAc
         actor = attention->forcedLockOnActor;
         attention->forcedLockOnActor = NULL;
     } else if (playerFocusActor != NULL) {
-        // Stay locked-on to the same actor
+        // Stay locked-on to the same actor, if there is one.
+        // This also makes Navi fly over to the current focus actor, if there is one.
         actor = playerFocusActor;
     }
 
@@ -882,7 +883,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     Actor_SetFocus(actor, 0.0f);
     Math_Vec3f_Copy(&actor->prevPos, &actor->world.pos);
     Actor_SetScale(actor, 0.01f);
-    actor->targetMode = TARGET_MODE_3;
+    actor->attentionRangeType = TARGET_MODE_3;
     actor->minVelocityY = -20.0f;
     actor->xyzDistToPlayerSq = MAXFLOAT;
     actor->naviEnemyId = NAVI_ENEMY_NONE;
@@ -1576,7 +1577,7 @@ PosRot Actor_GetWorldPosShapeRot(Actor* actor) {
 
 /**
  * Returns the squared xyz distance from the actor to Player.
- * This distance will be weighted if Player is already targeting another actor.
+ * This distance will be weighted if Player is already locked onto another actor.
  */
 f32 Attention_WeightedDistToPlayerSq(Actor* actor, Player* player, s16 playerShapeYaw) {
     s16 yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - playerShapeYaw;
@@ -1598,7 +1599,7 @@ f32 Attention_WeightedDistToPlayerSq(Actor* actor, Player* player, s16 playerSha
         }
     }
 
-    // An actor will not be considered targetable if Player is facing more than ~60 degrees away
+    // Player has to be facing less than ~60 degrees away from the actor
     if (yawTempAbs > 0x2AAA) {
         return MAXFLOAT;
     }
@@ -1629,7 +1630,7 @@ TargetRangeParams sTargetRanges[TARGET_MODE_MAX] = {
 };
 
 /**
- * Checks if an actor at `distSq` is inside the range specified by its `targetMode`.
+ * Checks if an actor at `distSq` is inside the range specified by its `attentionRangeType`.
  *
  * Note that this gets used for both the target range check and for the lock-on leash range check.
  * Despite how the data is presented in `sTargetRanges`, the leash range is stored as a scale factor value.
@@ -1637,7 +1638,7 @@ TargetRangeParams sTargetRanges[TARGET_MODE_MAX] = {
  * the base `rangeSq` value, which was used to initiate the lock-on in the first place.
  */
 u32 Attention_ActorIsInRange(Actor* actor, f32 distSq) {
-    return distSq < sTargetRanges[actor->targetMode].rangeSq;
+    return distSq < sTargetRanges[actor->attentionRangeType].rangeSq;
 }
 
 /**
@@ -1668,7 +1669,7 @@ s32 Attention_ShouldReleaseLockOn(Actor* actor, Player* player, s32 ignoreLeash)
             distSq = actor->xyzDistToPlayerSq;
         }
 
-        return !Attention_ActorIsInRange(actor, sTargetRanges[actor->targetMode].leashScale * distSq);
+        return !Attention_ActorIsInRange(actor, sTargetRanges[actor->attentionRangeType].leashScale * distSq);
     }
 
     return false;
@@ -3174,7 +3175,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
 }
 
 /**
- * Checks that an actor is on-screen enough to be considered targetable.
+ * Checks that an actor is on-screen enough to be considered an attention actor.
  *
  * Note that the screen bounds checks are larger than the actual screen region
  * to give room for error.
@@ -3199,20 +3200,20 @@ s32 sHighestAttentionPriority;
 s16 sTargetPlayerRotY;
 
 /**
- * Search for targetable actors within the specified category.
+ * Search for attention actors within the specified category.
  *
- * For an actor to be considered targetable it needs to:
+ * To be considered an attention actor the actor needs to:
  * - Have a non-NULL update function (still active)
  * - Not be player (this is technically a redundant check because the PLAYER category is never searched)
- * - Be targetable (specified by ACTOR_FLAG_0)
- * - Not be the already targeted actor
- * - Be the closest targetable actor found so far
- * - Be within range, specified by targetMode
+ * - Have `ACTOR_FLAG_0` set
+ * - Not be the current focus actor
+ * - Be the closest attention actor found so far
+ * - Be within range, specified by attentionRangeType
  * - Be roughly on-screen
  * - Not be blocked by a surface
  *
  * If an actor has a priority value set and the value is the lowest found so far, it will be set as the prioritized
- * targetable actor. Otherwise, it is set as the nearest targetable actor.
+ * attention actor. Otherwise, it is set as the nearest attention actor.
  *
  * This function is expected to be called with almost every actor category in each cycle. On a new cycle its global
  * variables must be reset by the caller, otherwise the information of the previous cycle will be retained.
@@ -3269,7 +3270,7 @@ u8 sAttentionCategorySearchOrder[] = {
 };
 
 /**
- * Search for the nearest targetable actor by iterating through most actor categories.
+ * Search for the nearest attention actor by iterating through most actor categories.
  * See `Attention_FindActorInCategory` for more details on search criteria.
  *
  * The actor found is stored in the `attentionActorP` parameter, which is also returned.
@@ -3288,7 +3289,7 @@ Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** atte
         actorCtx->attention.bgmEnemy = NULL;
         sTargetPlayerRotY = player->actor.shape.rot.y;
 
-        // Search the first 3 actor categories first for a targetable actor
+        // Search the first 3 actor categories first for an attention actor
         // These are Boss, Enemy, and Bg, in order.
         for (i = 0; i < 3; i++) {
             Attention_FindActorInCategory(play, actorCtx, player, *category);
