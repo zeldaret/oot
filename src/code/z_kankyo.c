@@ -972,18 +972,19 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
 #if OOT_DEBUG
         if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
-            Gfx* displayList;
-            Gfx* prevDisplayList;
+            Gfx* tempGfxDisp;
+            Gfx* lockedGfxDisp;
 
             OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1682);
 
-            prevDisplayList = POLY_OPA_DISP;
-            displayList = Gfx_Open(POLY_OPA_DISP);
-            gSPDisplayList(OVERLAY_DISP++, displayList);
-            Environment_PrintDebugInfo(play, &displayList);
-            gSPEndDisplayList(displayList++);
-            Gfx_Close(prevDisplayList, displayList);
-            POLY_OPA_DISP = displayList;
+            tempGfxDisp = Gfx_Open(lockedGfxDisp = POLY_OPA_DISP);
+            gSPDisplayList(OVERLAY_DISP++, tempGfxDisp);
+            Environment_PrintDebugInfo(play, &tempGfxDisp);
+
+            gSPEndDisplayList(tempGfxDisp++);
+            Gfx_Close(lockedGfxDisp, tempGfxDisp);
+            POLY_OPA_DISP = tempGfxDisp;
+
             CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1690);
         }
 #endif

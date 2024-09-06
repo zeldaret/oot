@@ -98,8 +98,8 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     static s32 heldDBtnTimer = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
-    Gfx* gfx;
-    Gfx* gfxRef;
+    Gfx* tempGfxDisp;
+    Gfx* lockedGfxDisp;
     s16 spD8[4];
     s16 slot;
     s16 i;
@@ -123,15 +123,14 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                       PRIMITIVE, 0);
 
-    gfxRef = POLY_OPA_DISP;
-    gfx = Gfx_Open(gfxRef);
-    gSPDisplayList(OVERLAY_DISP++, gfx);
+    tempGfxDisp = Gfx_Open(lockedGfxDisp = POLY_OPA_DISP);
+    gSPDisplayList(OVERLAY_DISP++, tempGfxDisp);
 
-    KaleidoScope_DrawDebugEditorText(&gfx);
+    KaleidoScope_DrawDebugEditorText(&tempGfxDisp);
 
-    gSPEndDisplayList(gfx++);
-    Gfx_Close(gfxRef, gfx);
-    POLY_OPA_DISP = gfx;
+    gSPEndDisplayList(tempGfxDisp++);
+    Gfx_Close(lockedGfxDisp, tempGfxDisp);
+    POLY_OPA_DISP = tempGfxDisp;
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 0, 0, 255);

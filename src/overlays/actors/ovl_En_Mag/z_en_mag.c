@@ -803,20 +803,19 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
 void EnMag_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
-    Gfx* gfx;
-    Gfx* gfxRef;
+    Gfx* tempGfxDisp;
+    Gfx* lockedGfxDisp;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_mag.c", 1151);
 
-    gfxRef = POLY_OPA_DISP;
-    gfx = Gfx_Open(gfxRef);
-    gSPDisplayList(OVERLAY_DISP++, gfx);
+    tempGfxDisp = Gfx_Open(lockedGfxDisp = POLY_OPA_DISP);
+    gSPDisplayList(OVERLAY_DISP++, tempGfxDisp);
 
-    EnMag_DrawInner(thisx, play, &gfx);
+    EnMag_DrawInner(thisx, play, &tempGfxDisp);
 
-    gSPEndDisplayList(gfx++);
-    Gfx_Close(gfxRef, gfx);
-    POLY_OPA_DISP = gfx;
+    gSPEndDisplayList(tempGfxDisp++);
+    Gfx_Close(lockedGfxDisp, tempGfxDisp);
+    POLY_OPA_DISP = tempGfxDisp;
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_mag.c", 1161);
 }
