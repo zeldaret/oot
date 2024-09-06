@@ -416,7 +416,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             }
 
             if ((type > 0) && (type < 3)) {
-                this->actor.attentionRangeType = 7;
+                this->actor.attentionRangeType = ATTENTION_RANGE_7;
                 this->posCopy = this->actor.world.pos;
                 sOcarinaMinigameSkullKids[type - 1].unk_0 = 1;
                 sOcarinaMinigameSkullKids[type - 1].skullkid = this;
