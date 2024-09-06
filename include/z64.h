@@ -66,6 +66,7 @@
 #include "sys_math.h"
 #include "sys_math3d.h"
 #include "fp_math.h"
+#include "main.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
