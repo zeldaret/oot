@@ -308,7 +308,7 @@ void EnDodongo_Init(Actor* thisx, PlayState* play) {
     EnDodongo* this = (EnDodongo*)thisx;
     EffectBlureInit1 blureInit;
 
-    this->actor.attentionRangeType = TARGET_MODE_3;
+    this->actor.attentionRangeType = ATTENTION_RANGE_3;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->bombSmokePrimColor.r = this->bombSmokePrimColor.g = this->bombSmokeEnvColor.r = 255;
     this->bombSmokePrimColor.a = this->bombSmokeEnvColor.a = 200;

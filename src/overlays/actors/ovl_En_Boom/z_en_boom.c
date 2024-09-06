@@ -49,7 +49,7 @@ static ColliderQuadInit sQuadInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(attentionRangeType, TARGET_MODE_5, ICHAIN_CONTINUE),
+    ICHAIN_S8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_VEC3S(shape.rot, 0, ICHAIN_STOP),
 };
 

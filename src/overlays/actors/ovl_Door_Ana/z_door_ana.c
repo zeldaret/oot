@@ -79,7 +79,7 @@ void DoorAna_Init(Actor* thisx, PlayState* play) {
     } else {
         DoorAna_SetupAction(this, DoorAna_WaitOpen);
     }
-    this->actor.attentionRangeType = TARGET_MODE_0;
+    this->actor.attentionRangeType = ATTENTION_RANGE_0;
 }
 
 void DoorAna_Destroy(Actor* thisx, PlayState* play) {
@@ -145,9 +145,9 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
                 this->actor.xzDistToPlayer <= 15.0f && -50.0f <= this->actor.yDistToPlayer &&
                 this->actor.yDistToPlayer <= 15.0f) {
                 player->stateFlags1 |= PLAYER_STATE1_31;
-                this->actor.attentionRangeType = TARGET_MODE_1;
+                this->actor.attentionRangeType = ATTENTION_RANGE_1;
             } else {
-                this->actor.attentionRangeType = TARGET_MODE_0;
+                this->actor.attentionRangeType = ATTENTION_RANGE_0;
             }
         }
     }

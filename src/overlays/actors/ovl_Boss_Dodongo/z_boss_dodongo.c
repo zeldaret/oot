@@ -48,7 +48,7 @@ ActorProfile Boss_Dodongo_Profile = {
 #include "z_boss_dodongo_data.inc.c"
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(attentionRangeType, TARGET_MODE_5, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_KING_DODONGO, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000.0f, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 8200.0f, ICHAIN_STOP),

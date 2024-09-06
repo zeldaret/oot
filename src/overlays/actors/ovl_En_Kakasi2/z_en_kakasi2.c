@@ -69,7 +69,7 @@ void EnKakasi2_Init(Actor* thisx, PlayState* play) {
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    this->actor.attentionRangeType = TARGET_MODE_4;
+    this->actor.attentionRangeType = ATTENTION_RANGE_4;
     this->maxSpawnDistance.x = (spawnRangeY * 40.0f) + 40.0f;
     this->maxSpawnDistance.y = (spawnRangeXZ * 40.0f) + 40.0f;
 

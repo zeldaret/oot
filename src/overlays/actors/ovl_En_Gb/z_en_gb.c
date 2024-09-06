@@ -121,7 +121,7 @@ static ColliderCylinderInitType1 sBottlesCylindersInit[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(attentionRangeType, TARGET_MODE_6, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_6, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2200, ICHAIN_STOP),
 };
 

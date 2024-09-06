@@ -131,7 +131,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    this->actor.attentionRangeType = TARGET_MODE_1;
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         Actor_Kill(&this->actor);

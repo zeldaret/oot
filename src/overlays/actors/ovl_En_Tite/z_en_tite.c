@@ -177,7 +177,7 @@ void EnTite_Init(Actor* thisx, PlayState* play) {
     EnTite* this = (EnTite*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    thisx->attentionRangeType = TARGET_MODE_3;
+    thisx->attentionRangeType = ATTENTION_RANGE_3;
     Actor_SetScale(thisx, 0.01f);
     SkelAnime_Init(play, &this->skelAnime, &object_tite_Skel_003A20, &object_tite_Anim_0012E4, this->jointTable,
                    this->morphTable, 25);

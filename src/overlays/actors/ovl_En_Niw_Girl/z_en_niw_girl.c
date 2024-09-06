@@ -61,7 +61,7 @@ void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gNiwGirlSkel, &gNiwGirlRunAnim, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.attentionRangeType = TARGET_MODE_6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }

@@ -251,7 +251,7 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
     } else { // Initialize the Arwing.
         this->actor.flags |= ACTOR_FLAG_0;
-        this->actor.attentionRangeType = TARGET_MODE_5;
+        this->actor.attentionRangeType = ATTENTION_RANGE_5;
         Collider_SetCylinder(play, &this->collider, &this->actor, &sArwingCylinderInit);
         this->actor.colChkInfo.health = 3;
 

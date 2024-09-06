@@ -601,17 +601,17 @@ typedef struct Attention {
 // and there are so many different combinations.
 // Each type has a comment of the form "attention range / lock-on leash range"
 typedef enum AttentionRangeType {
-    /*  0 */ TARGET_MODE_0, // 70   / 140
-    /*  1 */ TARGET_MODE_1, // 170  / 255
-    /*  2 */ TARGET_MODE_2, // 280  / 5600
-    /*  3 */ TARGET_MODE_3, // 350  / 525   (default)
-    /*  4 */ TARGET_MODE_4, // 700  / 1050
-    /*  5 */ TARGET_MODE_5, // 1000 / 1500
-    /*  6 */ TARGET_MODE_6, // 100  / 105.36842
-    /*  7 */ TARGET_MODE_7, // 140  / 163.33333
-    /*  8 */ TARGET_MODE_8, // 240  / 576
-    /*  9 */ TARGET_MODE_9, // 280  / 280000
-    /* 10 */ TARGET_MODE_MAX
+    /*  0 */ ATTENTION_RANGE_0, // 70   / 140
+    /*  1 */ ATTENTION_RANGE_1, // 170  / 255
+    /*  2 */ ATTENTION_RANGE_2, // 280  / 5600
+    /*  3 */ ATTENTION_RANGE_3, // 350  / 525   (default)
+    /*  4 */ ATTENTION_RANGE_4, // 700  / 1050
+    /*  5 */ ATTENTION_RANGE_5, // 1000 / 1500
+    /*  6 */ ATTENTION_RANGE_6, // 100  / 105.36842
+    /*  7 */ ATTENTION_RANGE_7, // 140  / 163.33333
+    /*  8 */ ATTENTION_RANGE_8, // 240  / 576
+    /*  9 */ ATTENTION_RANGE_9, // 280  / 280000
+    /* 10 */ ATTENTION_RANGE_MAX
 } AttentionRangeType;
 
 typedef struct TitleCardContext {

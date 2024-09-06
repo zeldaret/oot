@@ -77,7 +77,7 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     }
 
     this->prizeSelect = (s16)Rand_ZeroFloat(4.99f);
-    this->actor.attentionRangeType = TARGET_MODE_1;
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     this->actionFunc = EnBomBowlMan_SetupWaitAsleep;
 }
 

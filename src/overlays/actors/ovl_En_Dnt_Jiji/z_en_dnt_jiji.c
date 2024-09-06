@@ -84,7 +84,7 @@ void EnDntJiji_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
-    this->actor.attentionRangeType = TARGET_MODE_6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->actionFunc = EnDntJiji_SetFlower;
     this->actor.gravity = -2.0f;
 }

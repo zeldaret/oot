@@ -102,7 +102,7 @@ void EnGs_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     CollisionCheck_SetInfo2(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
 
-    thisx->attentionRangeType = TARGET_MODE_6;
+    thisx->attentionRangeType = ATTENTION_RANGE_6;
     this->unk_1D8 = thisx->world.pos;
     this->actionFunc = func_80A4F734;
     this->unk_1B4[0].x = 1.0f;
