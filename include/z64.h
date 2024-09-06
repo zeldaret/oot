@@ -5,6 +5,7 @@
 #include "ultra64/gs2dex.h"
 #include "attributes.h"
 #include "audiomgr.h"
+#include "controller.h"
 #include "z64save.h"
 #include "z64light.h"
 #include "z64bgcheck.h"

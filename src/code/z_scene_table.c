@@ -289,12 +289,12 @@ void Scene_DrawConfigDodongosCavern(PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x0B, displayListHead);
     gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 255, 255, 255, play->roomCtx.unk_74[BGDODOAGO_EYE_LEFT]);
+    gDPSetEnvColor(displayListHead++, 255, 255, 255, play->roomCtx.drawParams[BGDODOAGO_EYE_LEFT]);
     gSPEndDisplayList(displayListHead++);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, displayListHead);
     gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 255, 255, 255, play->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT]);
+    gDPSetEnvColor(displayListHead++, 255, 255, 255, play->roomCtx.drawParams[BGDODOAGO_EYE_RIGHT]);
     gSPEndDisplayList(displayListHead++);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4956);
@@ -306,7 +306,7 @@ void Scene_DrawConfigTempleOfTime(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5069);
 
-    temp = play->roomCtx.unk_74[0] / 255.0f;
+    temp = play->roomCtx.drawParams[0] / 255.0f;
 
     gSPSegment(POLY_XLU_DISP++, 0x08, displayListHead);
     gSPSegment(POLY_OPA_DISP++, 0x08, displayListHead);
@@ -323,7 +323,7 @@ void Scene_DrawConfigTempleOfTime(PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x0A, displayListHead);
     gSPSegment(POLY_XLU_DISP++, 0x0A, displayListHead);
     gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 0, 0, 0, play->roomCtx.unk_74[0]);
+    gDPSetEnvColor(displayListHead++, 0, 0, 0, play->roomCtx.drawParams[0]);
     gSPEndDisplayList(displayListHead++);
 
     gSPSegment(POLY_OPA_DISP++, 0x0B, displayListHead);
@@ -331,7 +331,7 @@ void Scene_DrawConfigTempleOfTime(PlayState* play) {
     gDPSetPrimColor(displayListHead++, 0, 0, 89 + (u8)(166.0f * temp), 89 + (u8)(166.0f * temp),
                     89 + (u8)(166.0f * temp), 255);
     gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 0, 0, 0, play->roomCtx.unk_74[0]);
+    gDPSetEnvColor(displayListHead++, 0, 0, 0, play->roomCtx.drawParams[0]);
     gSPEndDisplayList(displayListHead++);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, displayListHead);
@@ -339,13 +339,13 @@ void Scene_DrawConfigTempleOfTime(PlayState* play) {
     gDPSetPrimColor(displayListHead++, 0, 0, 255 + (u8)(179.0f * temp), 255 + (u8)(179.0f * temp),
                     255 + (u8)(179.0f * temp), 255);
     gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 0, 0, 0, play->roomCtx.unk_74[0]);
+    gDPSetEnvColor(displayListHead++, 0, 0, 0, play->roomCtx.drawParams[0]);
     gSPEndDisplayList(displayListHead++);
 
     gSPSegment(POLY_OPA_DISP++, 0x0D, displayListHead);
     gSPSegment(POLY_XLU_DISP++, 0x0D, displayListHead);
     gDPPipeSync(displayListHead++);
-    gDPSetEnvColor(displayListHead++, 0, 0, 0, play->roomCtx.unk_74[1]);
+    gDPSetEnvColor(displayListHead++, 0, 0, 0, play->roomCtx.drawParams[1]);
     gSPEndDisplayList(displayListHead);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5145);
@@ -539,8 +539,8 @@ void Scene_DrawConfigWaterTemple(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5535);
 
-    spB0 = (play->roomCtx.unk_74[1] >> 8) & 0xFF;
-    spAC = play->roomCtx.unk_74[1] & 0xFF;
+    spB0 = (play->roomCtx.drawParams[1] >> 8) & 0xFF;
+    spAC = play->roomCtx.drawParams[1] & 0xFF;
     gameplayFrames = play->gameplayFrames;
 
 #if !OOT_MQ
@@ -613,7 +613,7 @@ void Scene_DrawConfigWaterTempleBoss(PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, play->roomCtx.unk_74[0]);
+    gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, play->roomCtx.drawParams[0]);
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 145);
@@ -913,7 +913,7 @@ void Scene_DrawConfigFishingPond(PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScrollPrimColor(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128,
                                          32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32, 255, 255,
-                                         255, play->roomCtx.unk_74[0] + 127));
+                                         255, play->roomCtx.drawParams[0] + 127));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1093,16 +1093,16 @@ void Scene_DrawConfigHyruleField(PlayState* play) {
         gSPEndDisplayList(displayListHead++);
     } else {
         if (gSaveContext.save.dayTime > CLOCK_TIME(18, 30)) {
-            if (play->roomCtx.unk_74[0] != 255) {
-                Math_StepToS(&play->roomCtx.unk_74[0], 255, 5);
+            if (play->roomCtx.drawParams[0] != 255) {
+                Math_StepToS(&play->roomCtx.drawParams[0], 255, 5);
             }
         } else if (gSaveContext.save.dayTime >= CLOCK_TIME(6, 0)) {
-            if (play->roomCtx.unk_74[0] != 0) {
-                Math_StepToS(&play->roomCtx.unk_74[0], 0, 10);
+            if (play->roomCtx.drawParams[0] != 0) {
+                Math_StepToS(&play->roomCtx.drawParams[0], 0, 10);
             }
         }
 
-        gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, play->roomCtx.unk_74[0]);
+        gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, play->roomCtx.drawParams[0]);
         gSPDisplayList(displayListHead++, spot00_room_0DL_012B20);
         gSPEndDisplayList(displayListHead++);
     }
@@ -1187,9 +1187,9 @@ void Scene_DrawConfigKokiriForest(PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
     if (gSaveContext.sceneLayer == 4) {
-        spA3 = 255 - (u8)play->roomCtx.unk_74[0];
+        spA3 = 255 - (u8)play->roomCtx.drawParams[0];
     } else if (gSaveContext.sceneLayer == 6) {
-        spA0 = play->roomCtx.unk_74[0] + 500;
+        spA0 = play->roomCtx.drawParams[0] + 500;
     } else if ((!IS_CUTSCENE_LAYER || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)) {
         spA0 = 2150;
     }
@@ -1206,8 +1206,8 @@ void Scene_DrawConfigKokiriForest(PlayState* play) {
     gSPEndDisplayList(displayListHead++);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C,
-               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (s16)(-play->roomCtx.unk_74[0] * 0.02f), 32, 16,
-                                1, 0, (s16)(-play->roomCtx.unk_74[0] * 0.02f), 32, 16));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (s16)(-play->roomCtx.drawParams[0] * 0.02f), 32,
+                                16, 1, 0, (s16)(-play->roomCtx.drawParams[0] * 0.02f), 32, 16));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7044);
 }
@@ -1218,16 +1218,16 @@ void Scene_DrawConfigLakeHylia(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7058);
 
     if (IS_CUTSCENE_LAYER || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69))) {
-        play->roomCtx.unk_74[0] = 87;
+        play->roomCtx.drawParams[0] = 87;
     }
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames, gameplayFrames, 32, 32, 1,
-                                        0, 0, 32, 32, 0, 0, 0, play->roomCtx.unk_74[0] + 168));
+                                        0, 0, 32, 32, 0, 0, 0, play->roomCtx.drawParams[0] + 168));
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, -gameplayFrames, -gameplayFrames, 32, 32,
-                                        1, 0, 0, 16, 64, 0, 0, 0, play->roomCtx.unk_74[0] + 168));
+                                        1, 0, 0, 16, 64, 0, 0, 0, play->roomCtx.drawParams[0] + 168));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 128);
@@ -1341,12 +1341,12 @@ void Scene_DrawConfigLostWoods(PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
 
-    if ((play->roomCtx.unk_74[0] == 0) && (INV_CONTENT(ITEM_COJIRO) == ITEM_COJIRO)) {
-        if (play->roomCtx.unk_74[1] == 50) {
+    if ((play->roomCtx.drawParams[0] == 0) && (INV_CONTENT(ITEM_COJIRO) == ITEM_COJIRO)) {
+        if (play->roomCtx.drawParams[1] == 50) {
             Player_PlaySfx(GET_PLAYER(play), NA_SE_EV_CHICKEN_CRY_M);
-            play->roomCtx.unk_74[0] = 1;
+            play->roomCtx.drawParams[0] = 1;
         }
-        play->roomCtx.unk_74[1]++;
+        play->roomCtx.drawParams[1]++;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7309);
@@ -1441,16 +1441,16 @@ void Scene_DrawConfigDeathMountainTrail(PlayState* play) {
         gSPEndDisplayList(displayListHead++);
     } else {
         if (gSaveContext.save.dayTime > CLOCK_TIME(18, 0)) {
-            if (play->roomCtx.unk_74[0] != 255) {
-                Math_StepToS(&play->roomCtx.unk_74[0], 255, 5);
+            if (play->roomCtx.drawParams[0] != 255) {
+                Math_StepToS(&play->roomCtx.drawParams[0], 255, 5);
             }
         } else if (gSaveContext.save.dayTime >= CLOCK_TIME(6, 0)) {
-            if (play->roomCtx.unk_74[0] != 0) {
-                Math_StepToS(&play->roomCtx.unk_74[0], 0, 10);
+            if (play->roomCtx.drawParams[0] != 0) {
+                Math_StepToS(&play->roomCtx.drawParams[0], 0, 10);
             }
         }
 
-        gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, play->roomCtx.unk_74[0]);
+        gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, play->roomCtx.drawParams[0]);
         gSPDisplayList(displayListHead++, spot16_room_0DL_00AA48);
         gSPEndDisplayList(displayListHead++);
     }
@@ -1604,27 +1604,27 @@ void Scene_DrawConfigJabuJabu(PlayState* play) {
                                 1.f + (1 * temp * Math_CosS(D_8012A39C)));
         View_SetDistortionSpeed(&play->view, 0.95f);
 
-        switch (play->roomCtx.unk_74[0]) {
+        switch (play->roomCtx.drawParams[0]) {
             case 0:
                 break;
             case 1:
-                if (play->roomCtx.unk_74[1] < 1200) {
-                    play->roomCtx.unk_74[1] += 200;
+                if (play->roomCtx.drawParams[1] < 1200) {
+                    play->roomCtx.drawParams[1] += 200;
                 } else {
-                    play->roomCtx.unk_74[0]++;
+                    play->roomCtx.drawParams[0]++;
                 }
                 break;
             case 2:
-                if (play->roomCtx.unk_74[1] > 0) {
-                    play->roomCtx.unk_74[1] -= 30;
+                if (play->roomCtx.drawParams[1] > 0) {
+                    play->roomCtx.drawParams[1] -= 30;
                 } else {
-                    play->roomCtx.unk_74[1] = 0;
-                    play->roomCtx.unk_74[0] = 0;
+                    play->roomCtx.drawParams[1] = 0;
+                    play->roomCtx.drawParams[0] = 0;
                 }
                 break;
         }
 
-        D_8012A398 += 0.15f + (play->roomCtx.unk_74[1] * 0.001f);
+        D_8012A398 += 0.15f + (play->roomCtx.drawParams[1] * 0.001f);
     }
 
     if (play->roomCtx.curRoom.num == 2) {
