@@ -42,6 +42,7 @@
  * @note Original name: qrand.c
  */
 #include "rand.h"
+#include "z64math.h"
 
 #define RAND_MULTIPLIER 1664525
 #define RAND_INCREMENT 1013904223
@@ -59,7 +60,7 @@ static u32 sRandInt = 1;
  *
  * @note Orignal name: __qrand_itemp
  */
-static fu sRandFloat;
+static FloatInt sRandFloat;
 #endif
 
 /**
