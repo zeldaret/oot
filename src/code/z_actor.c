@@ -1632,7 +1632,7 @@ AttentionRangeParams sAttentionRanges[ATTENTION_RANGE_MAX] = {
 /**
  * Checks if an actor at `distSq` is inside the range specified by its `attentionRangeType`.
  *
- * Note that this gets used for both the target range check and for the lock-on leash range check.
+ * Note that this gets used for both the attention range check and for the lock-on leash range check.
  * Despite how the data is presented in `sAttentionRanges`, the leash range is stored as a scale factor value.
  * When checking the leash range, this scale factor is applied to the input distance and checked against
  * the base `attentionRangeSq` value, which was used to initiate the lock-on in the first place.
