@@ -10,7 +10,7 @@
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
-#if PLATFORM_N64
+#if !PLATFORM_GC
 #define OCARINA_BUTTON_A_PRIM_R 80
 #define OCARINA_BUTTON_A_PRIM_G 150
 #define OCARINA_BUTTON_A_PRIM_B 255
