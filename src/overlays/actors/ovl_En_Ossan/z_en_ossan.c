@@ -325,7 +325,7 @@ static EnOssanGetGirlAParamsFunc sShopItemReplaceFunc[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 500, ICHAIN_STOP),
 };
 
 // When selecting an item to buy, this is the position the item moves to

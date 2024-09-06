@@ -217,7 +217,7 @@ static DamageTable sBigDekuBabaDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 1500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 1500, ICHAIN_STOP),
 };
 
 void EnDekubaba_Init(Actor* thisx, PlayState* play) {

@@ -84,7 +84,7 @@ static ColliderCylinderInit sHeadColliderInit = {
 static CollisionCheckInfoInit sColCheckInfoInit = { 1, 15, 80, MASS_HEAVY };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2500, ICHAIN_CONTINUE),
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_1, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_WITHERED_DEKU_BABA, ICHAIN_STOP),
 };

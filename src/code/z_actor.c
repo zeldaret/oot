@@ -295,7 +295,7 @@ void Attention_SetNaviState(Attention* attention, Actor* actor, s32 actorCategor
     AttentionColor* attentionColor = &sAttentionColors[actorCategory];
 
     attention->naviHoverPos.x = actor->focus.pos.x;
-    attention->naviHoverPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
+    attention->naviHoverPos.y = actor->focus.pos.y + (actor->lockOnArrowOffset * actor->scale.y);
     attention->naviHoverPos.z = actor->focus.pos.z;
 
     attention->naviInnerColor.r = attentionColor->primary.r;
@@ -436,7 +436,7 @@ void Attention_Draw(Attention* attention, PlayState* play) {
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_7);
 
-        Matrix_Translate(actor->focus.pos.x, actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y) + 17.0f,
+        Matrix_Translate(actor->focus.pos.x, actor->focus.pos.y + (actor->lockOnArrowOffset * actor->scale.y) + 17.0f,
                          actor->focus.pos.z, MTXMODE_NEW);
         Matrix_RotateY(BINANG_TO_RAD((u16)(play->gameplayFrames * 3000)), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
@@ -502,7 +502,7 @@ void Attention_Update(Attention* attention, Player* player, Actor* playerFocusAc
     if (!Math_StepToF(&attention->naviMoveProgressFactor, 0.0f, 0.25f)) {
         f32 moveScale = 0.25f / attention->naviMoveProgressFactor;
         f32 x = actor->world.pos.x - attention->naviHoverPos.x;
-        f32 y = (actor->world.pos.y + (actor->targetArrowOffset * actor->scale.y)) - attention->naviHoverPos.y;
+        f32 y = (actor->world.pos.y + (actor->lockOnArrowOffset * actor->scale.y)) - attention->naviHoverPos.y;
         f32 z = actor->world.pos.z - attention->naviHoverPos.z;
 
         attention->naviHoverPos.x += x * moveScale;
