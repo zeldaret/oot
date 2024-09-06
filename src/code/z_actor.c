@@ -236,12 +236,12 @@ void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedIn
     *cappedInvWDest = (*cappedInvWDest < 1.0f) ? 1.0f : (1.0f / *cappedInvWDest);
 }
 
-typedef struct TargetColor {
+typedef struct AttentionColor {
     /* 0x00 */ Color_RGBA8 inner;
     /* 0x04 */ Color_RGBA8 outer;
-} TargetColor; // size = 0x8
+} AttentionColor; // size = 0x8
 
-TargetColor sTargetColorList[ACTORCAT_MAX + 1] = {
+AttentionColor sAttentionColors[ACTORCAT_MAX + 1] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG
     { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     // ACTORCAT_PLAYER
@@ -272,7 +272,7 @@ void Attention_SetReticlePos(Attention* attention, s32 reticleNum, f32 x, f32 y,
 
 void Attention_InitReticle(Attention* attention, s32 actorCategory, PlayState* play) {
     LockOnReticle* reticle;
-    TargetColor* reticleColor = &sTargetColorList[actorCategory];
+    AttentionColor* attentionColor = &sAttentionColors[actorCategory];
     s32 i;
 
     Math_Vec3f_Copy(&attention->reticlePos, &play->view.eye);
@@ -285,28 +285,28 @@ void Attention_InitReticle(Attention* attention, s32 actorCategory, PlayState* p
     for (i = 0; i < ARRAY_COUNT(attention->lockOnReticles); i++, reticle++) {
         Attention_SetReticlePos(attention, i, 0.0f, 0.0f, 0.0f);
 
-        reticle->color.r = reticleColor->inner.r;
-        reticle->color.g = reticleColor->inner.g;
-        reticle->color.b = reticleColor->inner.b;
+        reticle->color.r = attentionColor->inner.r;
+        reticle->color.g = attentionColor->inner.g;
+        reticle->color.b = attentionColor->inner.b;
     }
 }
 
 void Attention_SetNaviState(Attention* attention, Actor* actor, s32 actorCategory, PlayState* play) {
-    TargetColor* targetColor = &sTargetColorList[actorCategory];
+    AttentionColor* attentionColor = &sAttentionColors[actorCategory];
 
     attention->naviHoverPos.x = actor->focus.pos.x;
     attention->naviHoverPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
     attention->naviHoverPos.z = actor->focus.pos.z;
 
-    attention->naviInnerColor.r = targetColor->inner.r;
-    attention->naviInnerColor.g = targetColor->inner.g;
-    attention->naviInnerColor.b = targetColor->inner.b;
-    attention->naviInnerColor.a = targetColor->inner.a;
+    attention->naviInnerColor.r = attentionColor->inner.r;
+    attention->naviInnerColor.g = attentionColor->inner.g;
+    attention->naviInnerColor.b = attentionColor->inner.b;
+    attention->naviInnerColor.a = attentionColor->inner.a;
 
-    attention->naviOuterColor.r = targetColor->outer.r;
-    attention->naviOuterColor.g = targetColor->outer.g;
-    attention->naviOuterColor.b = targetColor->outer.b;
-    attention->naviOuterColor.a = targetColor->outer.a;
+    attention->naviOuterColor.r = attentionColor->outer.r;
+    attention->naviOuterColor.g = attentionColor->outer.g;
+    attention->naviOuterColor.b = attentionColor->outer.b;
+    attention->naviOuterColor.a = attentionColor->outer.a;
 }
 
 void Attention_Init(Attention* attention, Actor* actor, PlayState* play) {
@@ -432,7 +432,7 @@ void Attention_Draw(Attention* attention, PlayState* play) {
     actor = attention->arrowHoverActor;
 
     if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_27)) {
-        TargetColor* arrowColor = &sTargetColorList[actor->category];
+        AttentionColor* attentionColor = &sAttentionColors[actor->category];
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_7);
 
@@ -441,7 +441,7 @@ void Attention_Draw(Attention* attention, PlayState* play) {
         Matrix_RotateY(BINANG_TO_RAD((u16)(play->gameplayFrames * 3000)), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, arrowColor->inner.r, arrowColor->inner.g, arrowColor->inner.b, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, attentionColor->inner.r, attentionColor->inner.g, attentionColor->inner.b, 255);
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2153), G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, gZTargetArrowDL);
     }
