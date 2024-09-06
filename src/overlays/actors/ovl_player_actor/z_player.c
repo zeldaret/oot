@@ -3618,7 +3618,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                     func_8008EDF0(this);
                     this->stateFlags1 |= PLAYER_STATE1_30;
                 } else if (this->focusActor != NULL) {
-                    this->focusActor->targetPriority = 40;
+                    this->focusActor->attentionPriority = 40;
                 }
             } else if (this->unk_684 != NULL) {
                 this->focusActor = this->unk_684;

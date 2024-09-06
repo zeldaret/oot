@@ -2364,8 +2364,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                         actor->isLockedOn = false;
                     }
 
-                    if ((actor->targetPriority != 0) && (player->focusActor == NULL)) {
-                        actor->targetPriority = 0;
+                    if ((actor->attentionPriority != 0) && (player->focusActor == NULL)) {
+                        actor->attentionPriority = 0;
                     }
 
                     Actor_SetObjectDependency(play, actor);
@@ -3246,11 +3246,11 @@ void Attention_FindActorInCategory(PlayState* play, ActorContext* actorCtx, Play
                     (!BgCheck_CameraLineTest1(&play->colCtx, &player->actor.focus.pos, &actor->focus.pos,
                                               &lineTestResultPos, &poly, true, true, true, true, &bgId) ||
                      SurfaceType_IsIgnoredByProjectiles(&play->colCtx, poly, bgId))) {
-                    if (actor->targetPriority != 0) {
+                    if (actor->attentionPriority != 0) {
                         // Lower values are considered higher priority
-                        if (actor->targetPriority < sHighestAttentionPriority) {
+                        if (actor->attentionPriority < sHighestAttentionPriority) {
                             sPrioritizedAttentionActor = actor;
-                            sHighestAttentionPriority = actor->targetPriority;
+                            sHighestAttentionPriority = actor->attentionPriority;
                         }
                     } else {
                         sNearestAttentionActor = actor;
