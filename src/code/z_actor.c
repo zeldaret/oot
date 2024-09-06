@@ -466,7 +466,7 @@ void Attention_Update(Attention* attention, Player* player, Actor* playerFocusAc
         attention->arrowHoverActor = NULL;
     } else {
         // Find the next targetable actor and draw an arrow over it
-        Attention_FindTargetableActor(play, &play->actorCtx, &actor, player);
+        Attention_FindActor(play, &play->actorCtx, &actor, player);
         attention->arrowHoverActor = actor;
     }
 
@@ -3217,7 +3217,7 @@ s16 sTargetPlayerRotY;
  * This function is expected to be called with almost every actor category in each cycle. On a new cycle its global
  * variables must be reset by the caller, otherwise the information of the previous cycle will be retained.
  */
-void Attention_FindTargetableActorInCategory(PlayState* play, ActorContext* actorCtx, Player* player, u32 actorCategory) {
+void Attention_FindActorInCategory(PlayState* play, ActorContext* actorCtx, Player* player, u32 actorCategory) {
     f32 distSq;
     Actor* actor;
     Actor* playerFocusActor;
@@ -3270,12 +3270,12 @@ u8 sTargetableCategorySearchOrder[] = {
 
 /**
  * Search for the nearest targetable actor by iterating through most actor categories.
- * See `Attention_FindTargetableActorInCategory` for more details on search criteria.
+ * See `Attention_FindActorInCategory` for more details on search criteria.
  *
  * The actor found is stored in the `targetableActorP` parameter, which is also returned.
  * It may be NULL if no actor that fulfills the criteria is found.
  */
-Actor* Attention_FindTargetableActor(PlayState* play, ActorContext* actorCtx, Actor** targetableActorP, Player* player) {
+Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** targetableActorP, Player* player) {
     s32 i;
     u8* category;
 
@@ -3291,14 +3291,14 @@ Actor* Attention_FindTargetableActor(PlayState* play, ActorContext* actorCtx, Ac
         // Search the first 3 actor categories first for a targetable actor
         // These are Boss, Enemy, and Bg, in order.
         for (i = 0; i < 3; i++) {
-            Attention_FindTargetableActorInCategory(play, actorCtx, player, *category);
+            Attention_FindActorInCategory(play, actorCtx, player, *category);
             category++;
         }
 
         // If no actor in the above categories was found, then try searching in the remaining categories
         if (sNearestTargetableActor == NULL) {
             for (; i < ARRAY_COUNT(sTargetableCategorySearchOrder); i++) {
-                Attention_FindTargetableActorInCategory(play, actorCtx, player, *category);
+                Attention_FindActorInCategory(play, actorCtx, player, *category);
                 category++;
             }
         }
