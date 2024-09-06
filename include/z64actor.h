@@ -257,7 +257,7 @@ typedef struct Actor {
     /* 0x008 */ PosRot home; // Initial position/rotation when spawned. Can be used for other purposes
     /* 0x01C */ s16 params; // Configurable variable set by the actor's spawn data; original name: "args_data"
     /* 0x01E */ s8 objectSlot; // Object slot (in ObjectContext) corresponding to the actor's object; original name: "bank"
-    /* 0x01F */ s8 attentionRangeType; // Controls how far the actor can be targeted from and how far it can stay locked on
+    /* 0x01F */ s8 attentionRangeType; // Controls the attention actor range and the lock-on leash range. See `AttentionRangeType`.
     /* 0x020 */ u16 sfx; // SFX ID to play. Sfx plays when value is set, then is cleared the following update cycle
     /* 0x024 */ PosRot world; // Position/rotation in the world
     /* 0x038 */ PosRot focus; // Target reticle focuses on this position. For player this represents head pos and rot
@@ -597,19 +597,22 @@ typedef struct Attention {
     /* 0x94 */ Actor* arrowHoverActor; // Actor to draw an arrow over
 } Attention; // size = 0x98
 
-typedef enum {
-    /*  0 */ TARGET_MODE_0,
-    /*  1 */ TARGET_MODE_1,
-    /*  2 */ TARGET_MODE_2,
-    /*  3 */ TARGET_MODE_3, // Used as the default for new actors
-    /*  4 */ TARGET_MODE_4,
-    /*  5 */ TARGET_MODE_5,
-    /*  6 */ TARGET_MODE_6,
-    /*  7 */ TARGET_MODE_7,
-    /*  8 */ TARGET_MODE_8,
-    /*  9 */ TARGET_MODE_9,
+// It is difficult to give each type a name because it is numerically based
+// and there are so many different combinations.
+// Each type has a comment of the form "attention range / lock-on leash range"
+typedef enum AttentionRangeType {
+    /*  0 */ TARGET_MODE_0, // 70   / 140
+    /*  1 */ TARGET_MODE_1, // 170  / 255
+    /*  2 */ TARGET_MODE_2, // 280  / 5600
+    /*  3 */ TARGET_MODE_3, // 350  / 525   (default)
+    /*  4 */ TARGET_MODE_4, // 700  / 1050
+    /*  5 */ TARGET_MODE_5, // 1000 / 1500
+    /*  6 */ TARGET_MODE_6, // 100  / 105.36842
+    /*  7 */ TARGET_MODE_7, // 140  / 163.33333
+    /*  8 */ TARGET_MODE_8, // 240  / 576
+    /*  9 */ TARGET_MODE_9, // 280  / 280000
     /* 10 */ TARGET_MODE_MAX
-} TargetMode;
+} AttentionRangeType;
 
 typedef struct TitleCardContext {
     /* 0x00 */ void* texture;
