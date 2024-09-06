@@ -123,7 +123,7 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
 
     for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxActorId; i++, overlayEntry++) {
         overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
-        ramStart = (u32)overlayEntry->loadedRamAddr;
+        ramStart = (uintptr_t)overlayEntry->loadedRamAddr;
         ramEnd = ramStart + overlaySize;
         offset = (uintptr_t)overlayEntry->vramStart - ramStart;
         if (ramStart != 0) {
