@@ -34,7 +34,7 @@ typedef struct GfxPrint {
 #define GFXP_FLAG_RAINBOW  (1 << 1)
 #define GFXP_FLAG_SHADOW   (1 << 2)
 #define GFXP_FLAG_UPDATE   (1 << 3)
-#if PLATFORM_GC
+#if !PLATFORM_N64
 #define GFXP_FLAG_ENLARGE  (1 << 6)
 #endif
 #define GFXP_FLAG_OPEN     (1 << 7)
