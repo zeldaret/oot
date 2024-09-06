@@ -578,7 +578,7 @@ typedef struct LockOnReticle {
     /* 0x10 */ Color_RGB8 color;
 } LockOnReticle; // size = 0x14
 
-typedef struct TargetContext {
+typedef struct Attention {
     /* 0x00 */ Vec3f naviHoverPos; // Navi's current hover position
     /* 0x0C */ Vec3f reticlePos; // Main reticle pos which each `LockOnReticle` instance can reference
     /* 0x18 */ Color_RGBAf naviInnerColor; // Navi inner color, based on actor category
@@ -595,7 +595,7 @@ typedef struct TargetContext {
     /* 0x8C */ Actor* forcedLockOnActor; // Forces lock-on to this actor when set (never used in practice)
     /* 0x90 */ Actor* bgmEnemy; // The nearest actor which can trigger enemy background music
     /* 0x94 */ Actor* arrowHoverActor; // Actor to draw an arrow over
-} TargetContext; // size = 0x98
+} Attention; // size = 0x98
 
 typedef enum {
     /*  0 */ TARGET_MODE_0,
@@ -648,7 +648,7 @@ typedef struct ActorContext {
     /* 0x004 */ char unk_04[0x04];
     /* 0x008 */ u8 total; // total number of actors loaded
     /* 0x00C */ ActorListEntry actorLists[ACTORCAT_MAX];
-    /* 0x06C */ TargetContext targetCtx;
+    /* 0x06C */ Attention targetCtx;
     /* 0x104 */ ActorContextSceneFlags flags;
     /* 0x128 */ TitleCardContext titleCtx;
     /* 0x138 */ char unk_138[0x04];

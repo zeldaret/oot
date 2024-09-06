@@ -262,7 +262,7 @@ Gfx D_80115FF0[] = {
     gsSPEndDisplayList(),
 };
 
-void Target_SetReticlePos(TargetContext* targetCtx, s32 reticleNum, f32 x, f32 y, f32 z) {
+void Target_SetReticlePos(Attention* targetCtx, s32 reticleNum, f32 x, f32 y, f32 z) {
     targetCtx->lockOnReticles[reticleNum].pos.x = x;
     targetCtx->lockOnReticles[reticleNum].pos.y = y;
     targetCtx->lockOnReticles[reticleNum].pos.z = z;
@@ -270,7 +270,7 @@ void Target_SetReticlePos(TargetContext* targetCtx, s32 reticleNum, f32 x, f32 y
     targetCtx->lockOnReticles[reticleNum].radius = targetCtx->reticleRadius;
 }
 
-void Target_InitReticle(TargetContext* targetCtx, s32 actorCategory, PlayState* play) {
+void Target_InitReticle(Attention* targetCtx, s32 actorCategory, PlayState* play) {
     LockOnReticle* reticle;
     TargetColor* reticleColor = &sTargetColorList[actorCategory];
     s32 i;
@@ -291,7 +291,7 @@ void Target_InitReticle(TargetContext* targetCtx, s32 actorCategory, PlayState* 
     }
 }
 
-void Target_SetNaviState(TargetContext* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
+void Target_SetNaviState(Attention* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
     TargetColor* targetColor = &sTargetColorList[actorCategory];
 
     targetCtx->naviHoverPos.x = actor->focus.pos.x;
@@ -309,7 +309,7 @@ void Target_SetNaviState(TargetContext* targetCtx, Actor* actor, s32 actorCatego
     targetCtx->naviOuterColor.a = targetColor->outer.a;
 }
 
-void Target_Init(TargetContext* targetCtx, Actor* actor, PlayState* play) {
+void Target_Init(Attention* targetCtx, Actor* actor, PlayState* play) {
     targetCtx->naviHoverActor = targetCtx->reticleActor = targetCtx->forcedLockOnActor = targetCtx->bgmEnemy = NULL;
 
     targetCtx->reticleSpinCounter = 0;
@@ -320,7 +320,7 @@ void Target_Init(TargetContext* targetCtx, Actor* actor, PlayState* play) {
     Target_InitReticle(targetCtx, actor->category, play);
 }
 
-void Target_Draw(TargetContext* targetCtx, PlayState* play) {
+void Target_Draw(Attention* targetCtx, PlayState* play) {
     Actor* actor; // used for both the reticle actor and arrow hover actor
 
     actor = targetCtx->reticleActor;
@@ -449,7 +449,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 2158);
 }
 
-void Target_Update(TargetContext* targetCtx, Player* player, Actor* playerFocusActor, PlayState* play) {
+void Target_Update(Attention* targetCtx, Player* player, Actor* playerFocusActor, PlayState* play) {
     s32 pad;
     Actor* actor; // used for both the Navi hover actor and reticle actor
     s32 category;

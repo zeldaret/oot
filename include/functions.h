@@ -309,7 +309,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play);
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos);
 void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedInvWDest);
-void Target_Draw(TargetContext* targetCtx, PlayState* play);
+void Target_Draw(Attention* targetCtx, PlayState* play);
 s32 Flags_GetSwitch(PlayState* play, s32 flag);
 void Flags_SetSwitch(PlayState* play, s32 flag);
 void Flags_UnsetSwitch(PlayState* play, s32 flag);
