@@ -415,7 +415,7 @@ void Attention_Draw(Attention* attention, PlayState* play) {
                         Matrix_Translate(reticle->radius, reticle->radius, 0.0f, MTXMODE_APPLY);
                         gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2116),
                                   G_MTX_MODELVIEW | G_MTX_LOAD);
-                        gSPDisplayList(OVERLAY_DISP++, gZTargetLockOnTriangleDL);
+                        gSPDisplayList(OVERLAY_DISP++, gLockOnReticleTriangleDL);
                         Matrix_Pop();
                     }
                 }
@@ -443,7 +443,7 @@ void Attention_Draw(Attention* attention, PlayState* play) {
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, attentionColor->primary.r, attentionColor->primary.g, attentionColor->primary.b, 255);
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2153), G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, gZTargetArrowDL);
+        gSPDisplayList(POLY_XLU_DISP++, gLockOnArrowDL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 2158);
