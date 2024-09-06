@@ -13,7 +13,7 @@ s32 B_801E0F70;
  * @param bytes Array 2 bytes to test
  * @return boolean
  */
-s32 func_801C9440(u8* bytes) {
+int func_801C9440(u8* bytes) {
     // This is every possible first byte. May make more sense what was intended with the font files?
     if (((*bytes >= 0x8E) && (*bytes <= 0xFE)) || ((*bytes != 0x8F) && (*bytes != 0xA0))) {
         bytes++;
@@ -28,7 +28,7 @@ s32 func_801C9440(u8* bytes) {
  * @param bytes Array containing a pair of bytes to test
  * @return boolean
  */
-s32 func_801C9494(u8* bytes) {
+int func_801C9494(u8* bytes) {
     // Allowable first bytes.
     if (((*bytes >= 0x81) && (*bytes <= 0x9F)) || ((*bytes >= 0xE0) && (*bytes <= 0xFC))) {
         bytes++;
