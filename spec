@@ -780,6 +780,7 @@ endseg
 beginseg
     name "n64dd"
     compress
+    align 0x40
     include "$(BUILD_DIR)/src/n64dd/z_n64dd.o"
     include "$(BUILD_DIR)/src/n64dd/n64dd_data_buffer.o"
     include "$(BUILD_DIR)/src/n64dd/n64dd_801C8000.o"
