@@ -1608,37 +1608,37 @@ f32 Attention_WeightedDistToPlayerSq(Actor* actor, Player* player, s16 playerSha
     return actor->xyzDistToPlayerSq;
 }
 
-typedef struct TargetRangeParams {
-    /* 0x0 */ f32 rangeSq;
-    /* 0x4 */ f32 leashScale;
-} TargetRangeParams; // size = 0x8
+typedef struct AttentionRangeParams {
+    /* 0x0 */ f32 attentionRangeSq;
+    /* 0x4 */ f32 lockOnLeashScale;
+} AttentionRangeParams; // size = 0x8
 
-#define TARGET_RANGE(range, leash) \
-    { SQ(range), (f32)range / leash }
+#define ATTENTION_RANGES(range, lockOnLeashRange) \
+    { SQ(range), (f32)range / lockOnLeashRange }
 
-TargetRangeParams sTargetRanges[ATTENTION_RANGE_MAX] = {
-    TARGET_RANGE(70, 140),        // ATTENTION_RANGE_0
-    TARGET_RANGE(170, 255),       // ATTENTION_RANGE_1
-    TARGET_RANGE(280, 5600),      // ATTENTION_RANGE_2
-    TARGET_RANGE(350, 525),       // ATTENTION_RANGE_3
-    TARGET_RANGE(700, 1050),      // ATTENTION_RANGE_4
-    TARGET_RANGE(1000, 1500),     // ATTENTION_RANGE_5
-    TARGET_RANGE(100, 105.36842), // ATTENTION_RANGE_6
-    TARGET_RANGE(140, 163.33333), // ATTENTION_RANGE_7
-    TARGET_RANGE(240, 576),       // ATTENTION_RANGE_8
-    TARGET_RANGE(280, 280000),    // ATTENTION_RANGE_9
+AttentionRangeParams sAttentionRanges[ATTENTION_RANGE_MAX] = {
+    ATTENTION_RANGES(70, 140),        // ATTENTION_RANGE_0
+    ATTENTION_RANGES(170, 255),       // ATTENTION_RANGE_1
+    ATTENTION_RANGES(280, 5600),      // ATTENTION_RANGE_2
+    ATTENTION_RANGES(350, 525),       // ATTENTION_RANGE_3
+    ATTENTION_RANGES(700, 1050),      // ATTENTION_RANGE_4
+    ATTENTION_RANGES(1000, 1500),     // ATTENTION_RANGE_5
+    ATTENTION_RANGES(100, 105.36842), // ATTENTION_RANGE_6
+    ATTENTION_RANGES(140, 163.33333), // ATTENTION_RANGE_7
+    ATTENTION_RANGES(240, 576),       // ATTENTION_RANGE_8
+    ATTENTION_RANGES(280, 280000),    // ATTENTION_RANGE_9
 };
 
 /**
  * Checks if an actor at `distSq` is inside the range specified by its `attentionRangeType`.
  *
  * Note that this gets used for both the target range check and for the lock-on leash range check.
- * Despite how the data is presented in `sTargetRanges`, the leash range is stored as a scale factor value.
+ * Despite how the data is presented in `sAttentionRanges`, the leash range is stored as a scale factor value.
  * When checking the leash range, this scale factor is applied to the input distance and checked against
- * the base `rangeSq` value, which was used to initiate the lock-on in the first place.
+ * the base `attentionRangeSq` value, which was used to initiate the lock-on in the first place.
  */
 u32 Attention_ActorIsInRange(Actor* actor, f32 distSq) {
-    return distSq < sTargetRanges[actor->attentionRangeType].rangeSq;
+    return distSq < sAttentionRanges[actor->attentionRangeType].attentionRangeSq;
 }
 
 /**
@@ -1669,7 +1669,7 @@ s32 Attention_ShouldReleaseLockOn(Actor* actor, Player* player, s32 ignoreLeash)
             distSq = actor->xyzDistToPlayerSq;
         }
 
-        return !Attention_ActorIsInRange(actor, sTargetRanges[actor->attentionRangeType].leashScale * distSq);
+        return !Attention_ActorIsInRange(actor, sAttentionRanges[actor->attentionRangeType].lockOnLeashScale * distSq);
     }
 
     return false;
