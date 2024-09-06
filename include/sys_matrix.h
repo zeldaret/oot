@@ -42,13 +42,26 @@ void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, 
 /* Conversion and allocation operations */
 
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
+
 #if OOT_DEBUG
+
 Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line);
 Mtx* Matrix_NewMtx(struct GraphicsContext* gfxCtx, const char* file, int line);
 MtxF* Matrix_CheckFloats(MtxF* mf, const char* file, int line);
+
+#define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx, file, line)
+#define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx, file, line)
+#define MATRIX_CHECK_FLOATS(mtx, file, line) Matrix_CheckFloats(mtx, file, line)
+
 #else
+
 Mtx* Matrix_ToMtx(Mtx* dest);
 Mtx* Matrix_NewMtx(struct GraphicsContext* gfxCtx);
+
+#define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx)
+#define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx)
+#define MATRIX_CHECK_FLOATS(mtx, file, line) (mtx)
+
 #endif
 
 /* Vector operations */
