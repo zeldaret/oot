@@ -3179,7 +3179,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
  * Note that the screen bounds checks are larger than the actual screen region
  * to give room for error.
  */
-int Attention_InTargetableScreenRegion(PlayState* play, Actor* actor) {
+int Attention_ActorOnScreen(PlayState* play, Actor* actor) {
     s16 x;
     s16 y;
 
@@ -3191,11 +3191,11 @@ int Attention_InTargetableScreenRegion(PlayState* play, Actor* actor) {
     return (x > 0 - X_LEEWAY) && (x < SCREEN_WIDTH + X_LEEWAY) && (y > 0 - Y_LEEWAY) && (y < SCREEN_HEIGHT + Y_LEEWAY);
 }
 
-Actor* sNearestTargetableActor;
-Actor* sPrioritizedTargetableActor;
-f32 sNearestTargetableActorDistSq;
+Actor* sNearestAttentionActor;
+Actor* sPrioritizedAttentionActor;
+f32 sNearestAttentionActorDistSq;
 f32 sBgmEnemyDistSq;
-s32 sHighestTargetablePriority;
+s32 sHighestAttentionPriority;
 s16 sTargetPlayerRotY;
 
 /**
@@ -3240,20 +3240,20 @@ void Attention_FindActorInCategory(PlayState* play, ActorContext* actorCtx, Play
             if (actor != playerFocusActor) {
                 distSq = Attention_WeightedDistToPlayerSq(actor, player, sTargetPlayerRotY);
 
-                if ((distSq < sNearestTargetableActorDistSq) && Attention_ActorIsInRange(actor, distSq) &&
-                    Attention_InTargetableScreenRegion(play, actor) &&
+                if ((distSq < sNearestAttentionActorDistSq) && Attention_ActorIsInRange(actor, distSq) &&
+                    Attention_ActorOnScreen(play, actor) &&
                     (!BgCheck_CameraLineTest1(&play->colCtx, &player->actor.focus.pos, &actor->focus.pos,
                                               &lineTestResultPos, &poly, true, true, true, true, &bgId) ||
                      SurfaceType_IsIgnoredByProjectiles(&play->colCtx, poly, bgId))) {
                     if (actor->targetPriority != 0) {
                         // Lower values are considered higher priority
-                        if (actor->targetPriority < sHighestTargetablePriority) {
-                            sPrioritizedTargetableActor = actor;
-                            sHighestTargetablePriority = actor->targetPriority;
+                        if (actor->targetPriority < sHighestAttentionPriority) {
+                            sPrioritizedAttentionActor = actor;
+                            sHighestAttentionPriority = actor->targetPriority;
                         }
                     } else {
-                        sNearestTargetableActor = actor;
-                        sNearestTargetableActorDistSq = distSq;
+                        sNearestAttentionActor = actor;
+                        sNearestAttentionActorDistSq = distSq;
                     }
                 }
             }
@@ -3263,7 +3263,7 @@ void Attention_FindActorInCategory(PlayState* play, ActorContext* actorCtx, Play
     }
 }
 
-u8 sTargetableCategorySearchOrder[] = {
+u8 sAttentionCategorySearchOrder[] = {
     ACTORCAT_BOSS,  ACTORCAT_ENEMY,  ACTORCAT_BG,   ACTORCAT_EXPLOSIVE, ACTORCAT_NPC,  ACTORCAT_ITEMACTION,
     ACTORCAT_CHEST, ACTORCAT_SWITCH, ACTORCAT_PROP, ACTORCAT_MISC,      ACTORCAT_DOOR, ACTORCAT_SWITCH,
 };
@@ -3279,12 +3279,12 @@ Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** atte
     s32 i;
     u8* category;
 
-    sNearestTargetableActor = sPrioritizedTargetableActor = NULL;
-    sNearestTargetableActorDistSq = sBgmEnemyDistSq = MAXFLOAT;
-    sHighestTargetablePriority = INT32_MAX;
+    sNearestAttentionActor = sPrioritizedAttentionActor = NULL;
+    sNearestAttentionActorDistSq = sBgmEnemyDistSq = MAXFLOAT;
+    sHighestAttentionPriority = INT32_MAX;
 
     if (!Player_InCsMode(play)) {
-        category = &sTargetableCategorySearchOrder[0];
+        category = &sAttentionCategorySearchOrder[0];
         actorCtx->attention.bgmEnemy = NULL;
         sTargetPlayerRotY = player->actor.shape.rot.y;
 
@@ -3296,18 +3296,18 @@ Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** atte
         }
 
         // If no actor in the above categories was found, then try searching in the remaining categories
-        if (sNearestTargetableActor == NULL) {
-            for (; i < ARRAY_COUNT(sTargetableCategorySearchOrder); i++) {
+        if (sNearestAttentionActor == NULL) {
+            for (; i < ARRAY_COUNT(sAttentionCategorySearchOrder); i++) {
                 Attention_FindActorInCategory(play, actorCtx, player, *category);
                 category++;
             }
         }
     }
 
-    if (sNearestTargetableActor == NULL) {
-        *attentionActorP = sPrioritizedTargetableActor;
+    if (sNearestAttentionActor == NULL) {
+        *attentionActorP = sPrioritizedAttentionActor;
     } else {
-        *attentionActorP = sNearestTargetableActor;
+        *attentionActorP = sNearestAttentionActor;
     }
 
     return *attentionActorP;
