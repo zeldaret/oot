@@ -10,7 +10,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "terminal.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -2261,7 +2261,7 @@ void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
     BossMo_SfxTest();
 #endif
 }
@@ -3051,7 +3051,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_boss_mo.c", 7482);
 }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 void BossMo_SfxTest(void) {
     // Appears to be a test function for sound effects.
     static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };

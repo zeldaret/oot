@@ -3,7 +3,7 @@
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 #define AUDIO_PRINTF osSyncPrintf
 #elif IDO_PRINTF_WORKAROUND
 #define AUDIO_PRINTF(args) (void)0
@@ -858,7 +858,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 };
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 u32 sOcarinaAllowedButtonMask = (BTN_A | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
 s32 sOcarinaAButtonMap = BTN_A;
 s32 sOcarinaCUpButtonMap = BTN_CUP;
@@ -1297,6 +1297,11 @@ OcarinaNote sScarecrowsLongSongSecondNote;
 #if OOT_DEBUG
 u8 sIsMalonSinging;
 f32 sMalonSingingDist;
+u32 sDebugPadHold;
+u32 sDebugPadBtnLast;
+u32 sDebugPadPress;
+s32 sAudioUpdateTaskStart;
+s32 sAudioUpdateTaskEnd;
 #endif
 
 void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);

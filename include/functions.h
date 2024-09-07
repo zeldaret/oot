@@ -645,99 +645,7 @@ void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* d
                           UNK_TYPE arg6);
 s32 func_8005B198(void);
 s16 Camera_SetFinishedFlag(Camera* camera);
-DamageTable* DamageTable_Get(s32 index);
-void DamageTable_Clear(DamageTable* table);
-#if OOT_DEBUG
-void Collider_DrawRedPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
-void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
-#endif
-s32 Collider_InitJntSph(PlayState* play, ColliderJntSph* jntSph);
-s32 Collider_FreeJntSph(PlayState* play, ColliderJntSph* jntSph);
-s32 Collider_DestroyJntSph(PlayState* play, ColliderJntSph* jntSph);
-s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJntSphInitToActor* src);
-s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* actor,
-                                 ColliderJntSphInitType1* src);
-s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src);
-s32 Collider_SetJntSph(PlayState* play, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
-                       ColliderJntSphElement* jntSphElements);
-s32 Collider_ResetJntSphAT(PlayState* play, Collider* col);
-s32 Collider_ResetJntSphAC(PlayState* play, Collider* col);
-s32 Collider_ResetJntSphOC(PlayState* play, Collider* col);
-s32 Collider_InitCylinder(PlayState* play, ColliderCylinder* cyl);
-s32 Collider_DestroyCylinder(PlayState* play, ColliderCylinder* cyl);
-s32 Collider_SetCylinderToActor(PlayState* play, ColliderCylinder* dest, ColliderCylinderInitToActor* src);
-s32 Collider_SetCylinderType1(PlayState* play, ColliderCylinder* dest, Actor* actor, ColliderCylinderInitType1* src);
-s32 Collider_SetCylinder(PlayState* play, ColliderCylinder* dest, Actor* actor, ColliderCylinderInit* src);
-s32 Collider_ResetCylinderAT(PlayState* play, Collider* col);
-s32 Collider_ResetCylinderAC(PlayState* play, Collider* col);
-s32 Collider_ResetCylinderOC(PlayState* play, Collider* col);
-s32 Collider_InitTris(PlayState* play, ColliderTris* tris);
-s32 Collider_FreeTris(PlayState* play, ColliderTris* tris);
-s32 Collider_DestroyTris(PlayState* play, ColliderTris* tris);
-s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor, ColliderTrisInitType1* src);
-s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, ColliderTrisInit* src);
-s32 Collider_SetTris(PlayState* play, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
-                     ColliderTrisElement* trisElements);
-s32 Collider_ResetTrisAT(PlayState* play, Collider* col);
-s32 Collider_ResetTrisAC(PlayState* play, Collider* col);
-s32 Collider_ResetTrisOC(PlayState* play, Collider* col);
-s32 Collider_InitQuad(PlayState* play, ColliderQuad* quad);
-s32 Collider_DestroyQuad(PlayState* play, ColliderQuad* quad);
-s32 Collider_SetQuadType1(PlayState* play, ColliderQuad* dest, Actor* actor, ColliderQuadInitType1* src);
-s32 Collider_SetQuad(PlayState* play, ColliderQuad* dest, Actor* actor, ColliderQuadInit* src);
-s32 Collider_ResetQuadAT(PlayState* play, Collider* col);
-s32 Collider_ResetQuadAC(PlayState* play, Collider* col);
-s32 Collider_ResetQuadOC(PlayState* play, Collider* col);
-s32 Collider_InitLine(PlayState* play, OcLine* line);
-s32 Collider_DestroyLine(PlayState* play, OcLine* line);
-s32 Collider_SetLinePoints(PlayState* play, OcLine* ocLine, Vec3f* a, Vec3f* b);
-s32 Collider_SetLine(PlayState* play, OcLine* dest, OcLine* src);
-s32 Collider_ResetLineOC(PlayState* play, OcLine* line);
-void CollisionCheck_InitContext(PlayState* play, CollisionCheckContext* colChkCtx);
-void CollisionCheck_DestroyContext(PlayState* play, CollisionCheckContext* colChkCtx);
-void CollisionCheck_ClearContext(PlayState* play, CollisionCheckContext* colChkCtx);
-void CollisionCheck_EnableSAC(PlayState* play, CollisionCheckContext* colChkCtx);
-void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx);
-#if OOT_DEBUG
-void Collider_Draw(PlayState* play, Collider* col);
-void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChkCtx);
-#endif
-s32 CollisionCheck_SetAT(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider);
-s32 CollisionCheck_SetAT_SAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index);
-s32 CollisionCheck_SetAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider);
-s32 CollisionCheck_SetAC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index);
-s32 CollisionCheck_SetOC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider);
-s32 CollisionCheck_SetOC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index);
-s32 CollisionCheck_SetOCLine(PlayState* play, CollisionCheckContext* colChkCtx, OcLine* collider);
-void CollisionCheck_BlueBlood(PlayState* play, Collider* collider, Vec3f* v);
-void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx);
-void CollisionCheck_OC(PlayState* play, CollisionCheckContext* colChkCtx);
-void CollisionCheck_InitInfo(CollisionCheckInfo* info);
-void CollisionCheck_ResetDamage(CollisionCheckInfo* info);
-void CollisionCheck_SetInfoNoDamageTable(CollisionCheckInfo* info, CollisionCheckInfoInit* init);
-void CollisionCheck_SetInfo(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init);
-void CollisionCheck_SetInfo2(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init);
-void CollisionCheck_SetInfoGetDamageTable(CollisionCheckInfo* info, s32 index, CollisionCheckInfoInit2* init);
-void CollisionCheck_Damage(PlayState* play, CollisionCheckContext* colChkCtx);
-s32 CollisionCheck_LineOCCheckAll(PlayState* play, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b);
-s32 CollisionCheck_LineOCCheck(PlayState* play, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
-                               Actor** exclusions, s32 numExclusions);
-void Collider_UpdateCylinder(Actor* actor, ColliderCylinder* cyl);
-void Collider_SetCylinderPosition(ColliderCylinder* cyl, Vec3s* pos);
-void Collider_SetQuadVertices(ColliderQuad* quad, Vec3f* a, Vec3f* b, Vec3f* c, Vec3f* d);
-void Collider_SetTrisVertices(ColliderTris* tris, s32 elemIndex, Vec3f* a, Vec3f* b, Vec3f* c);
-void Collider_SetTrisDim(PlayState* play, ColliderTris* tris, s32 elemIndex, ColliderTrisElementDimInit* src);
-void Collider_UpdateSpheres(s32 limb, ColliderJntSph* jntSph);
-void CollisionCheck_SpawnRedBlood(PlayState* play, Vec3f* v);
-void CollisionCheck_SpawnWaterDroplets(PlayState* play, Vec3f* v);
-void CollisionCheck_SpawnShieldParticles(PlayState* play, Vec3f* v);
-void CollisionCheck_SpawnShieldParticlesMetal(PlayState* play, Vec3f* v);
-void CollisionCheck_SpawnShieldParticlesMetalSfx(PlayState* play, Vec3f* v, Vec3f* pos);
-void CollisionCheck_SpawnShieldParticlesMetal2(PlayState* play, Vec3f* v);
-void CollisionCheck_SpawnShieldParticlesWood(PlayState* play, Vec3f* v, Vec3f* actorPos);
-s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
-                                    Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
-u8 CollisionCheck_GetSwordDamage(s32 dmgFlags);
+
 void SaveContext_Init(void);
 s32 func_800635D0(s32);
 void Regs_Init(void);
@@ -1270,42 +1178,7 @@ void* SysCfb_GetFbEnd(void);
 
 void Math3D_DrawSphere(PlayState* play, Sphere16* sph);
 void Math3D_DrawCylinder(PlayState* play, Cylinder16* cyl);
-void Matrix_Init(GameState* gameState);
-void Matrix_Push(void);
-void Matrix_Pop(void);
-void Matrix_Get(MtxF* dest);
-void Matrix_Put(MtxF* src);
-void Matrix_Mult(MtxF* mf, u8 mode);
-void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode);
-void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode);
-void Matrix_RotateX(f32 x, u8 mode);
-void Matrix_RotateY(f32 y, u8 mode);
-void Matrix_RotateZ(f32 z, u8 mode);
-void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
-void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
-void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot);
-Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
-#if OOT_DEBUG
-Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line);
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, const char* file, int line);
-#else
-Mtx* Matrix_ToMtx(Mtx* dest);
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx);
-#endif
-void Matrix_MultVec3f(Vec3f* src, Vec3f* dest);
-void Matrix_MtxFCopy(MtxF* dest, MtxF* src);
-void Matrix_MtxToMtxF(Mtx* src, MtxF* dest);
-void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf);
-void Matrix_Transpose(MtxF* mf);
-void Matrix_ReplaceRotation(MtxF* mf);
-void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
-void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
-void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode);
-#if OOT_DEBUG
-MtxF* Matrix_CheckFloats(MtxF* mf, const char* file, int line);
-#endif
-void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
-                                  f32 translateZ);
+
 u64* SysUcode_GetUCodeBoot(void);
 size_t SysUcode_GetUCodeBootSize(void);
 u64* SysUcode_GetUCode(void);
