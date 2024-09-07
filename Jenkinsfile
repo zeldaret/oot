@@ -20,8 +20,10 @@ pipeline {
                 }
             }
             steps {
-                echo 'Checking formatting on modified files...'
-                sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    echo 'Checking formatting on modified files...'
+                    sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
+                }
             }
         }
         stage('Build ntsc-1.2, check disasm metadata') {
@@ -38,66 +40,70 @@ pipeline {
         // NTSC/PAL/MQ/DEBUG as quickly as possible.
         stage('Build gc-jp') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-jp.z64 baseroms/gc-jp/baserom.z64'
-                sh 'make -j$(nproc) setup VERSION=gc-jp'
-                sh 'make -j$(nproc) VERSION=gc-jp'
-                sh 'make clean assetclean VERSION=gc-jp'
-            }
+                script {
+                    build('gc-jp')
+                }
+           }
         }
         stage('Build gc-eu-mq') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-eu-mq.z64 baseroms/gc-eu-mq/baserom.z64'
-                sh 'make -j$(nproc) setup VERSION=gc-eu-mq'
-                sh 'make -j$(nproc) VERSION=gc-eu-mq'
-                sh 'make clean assetclean VERSION=gc-eu-mq'
+                script {
+                    build('gc-eu-mq')
+                }
             }
         }
         stage('Build gc-eu-mq-dbg') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-eu-mq-dbg.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
-                sh 'make -j$(nproc) setup VERSION=gc-eu-mq-dbg'
-                sh 'make -j$(nproc) VERSION=gc-eu-mq-dbg'
-                sh 'make clean assetclean VERSION=gc-eu-mq-dbg'
+                script {
+                    build('gc-eu-mq-dbg')
+                }
             }
         }
         stage('Build gc-us') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-us.z64 baseroms/gc-us/baserom.z64'
-                sh 'make -j$(nproc) setup VERSION=gc-us'
-                sh 'make -j$(nproc) VERSION=gc-us'
-                sh 'make clean assetclean VERSION=gc-us'
+                script {
+                    build('gc-us')
+                }
             }
         }
         stage('Build gc-jp-ce') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-jp-ce.z64 baseroms/gc-jp-ce/baserom.z64'
-                sh 'make -j$(nproc) setup VERSION=gc-jp-ce'
-                sh 'make -j$(nproc) VERSION=gc-jp-ce'
-                sh 'make clean assetclean VERSION=gc-jp-ce'
+                script {
+                    build('gc-jp-ce')
+                }
             }
         }
         stage('Build gc-eu') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-eu.z64 baseroms/gc-eu/baserom.z64'
-                sh 'make -j$(nproc) setup VERSION=gc-eu'
-                sh 'make -j$(nproc) VERSION=gc-eu'
-                sh 'make clean assetclean VERSION=gc-eu'
+                script {
+                    build('gc-eu')
+                }
             }
         }
         stage('Build gc-jp-mq') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-jp-mq.z64 baseroms/gc-jp-mq/baserom.z64'
-                sh 'make -j$(nproc) setup VERSION=gc-jp-mq'
-                sh 'make -j$(nproc) VERSION=gc-jp-mq'
-                sh 'make clean assetclean VERSION=gc-jp-mq'
+                script {
+                    build('gc-jp-mq')
+                }
             }
         }
         stage('Build gc-us-mq') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-us-mq.z64 baseroms/gc-us-mq/baserom.z64'
-                sh 'make -j$(nproc) setup VERSION=gc-us-mq'
-                sh 'make -j$(nproc) VERSION=gc-us-mq'
-                sh 'make clean assetclean VERSION=gc-us-mq'
+                script {
+                    build('gc-us-mq')
+                }
+            }
+        }
+        stage('Generate patch') {
+            when {
+                not {
+                    branch 'main'
+                }
+            }
+            steps {
+                sh 'git diff'
+                echo 'Generating patch...'
+                sh 'tools/generate_patch_from_jenkins.sh'
             }
         }
     }
@@ -113,5 +119,22 @@ pipeline {
                     disableDeferredWipeout: true,
                     notFailBuild: true)
         }
+    }
+}
+
+def build(String version) {
+    sh "ln -s /usr/local/etc/roms/oot-${version}.z64 baseroms/${version}/baserom.z64"
+    sh "make -j\$(nproc) setup VERSION=${version}"
+    try {
+        sh "make -j\$(nproc) VERSION=${version}"
+    } catch (e) {
+        echo "Build failed, attempting to fix BSS ordering..."
+        sh ".venv/bin/python3 tools/fix_bss.py -v ${version}"
+        // If fix_bss.py succeeds, continue the build, but ensure both the build and current stage are marked as failed
+        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+            sh 'exit 1'
+        }
+    } finally {
+        sh "make clean assetclean VERSION=${version}"
     }
 }
