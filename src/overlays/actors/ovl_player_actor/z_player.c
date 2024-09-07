@@ -3472,7 +3472,7 @@ s32 Player_SetupWaitForPutAway(PlayState* play, Player* this, AfterPutAwayFunc a
  *
  * There are 3 modes shape yaw can be updated with, based on player state:
  *     - Lock on:  Rotates Player to face the current lock on target.
- *     - Parallel: Rotates Player to face the current Parallel angle, set when Z-Targeting without lock-on
+ *     - Parallel: Rotates Player to face the current Parallel angle, set when Z-Targeting without an actor lock-on
  *     - Normal:   Rotates Player to face `this->yaw`, the direction he is currently moving
  */
 void Player_UpdateShapeYaw(Player* this, PlayState* play) {
