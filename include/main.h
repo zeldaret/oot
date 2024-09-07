@@ -9,11 +9,8 @@ extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern u32 gSystemHeapSize;
 
-extern uintptr_t gSegments[NUM_SEGMENTS];
 extern OSThread gGraphThread;
 
 void Main(void* arg);
-
-#define SEGMENTED_TO_VIRTUAL(addr) (void*)(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr) + K0BASE)
 
 #endif

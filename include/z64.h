@@ -68,6 +68,7 @@
 #include "fp_math.h"
 #include "sys_matrix.h"
 #include "main.h"
+#include "segmented_address.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
