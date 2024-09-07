@@ -7,8 +7,6 @@ extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern u32 gSystemHeapSize;
 
-extern OSThread gGraphThread;
-
 void Main(void* arg);
 
 #endif
