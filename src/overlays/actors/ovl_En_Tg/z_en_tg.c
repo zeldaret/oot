@@ -7,7 +7,7 @@
 #include "z_en_tg.h"
 #include "assets/objects/object_mu/object_mu.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnTg_Init(Actor* thisx, PlayState* play);
 void EnTg_Destroy(Actor* thisx, PlayState* play);

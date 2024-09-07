@@ -123,7 +123,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n",
                              "☆☆☆☆☆ Mysterious mystery, very mysterious \t   ☆☆☆☆☆ %x\n") VT_RST,
            this->actor.params);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
     this->wonderMode = PARAMS_GET_U(this->actor.params, 11, 5);
     this->itemDrop = PARAMS_GET_U(this->actor.params, 6, 5);
