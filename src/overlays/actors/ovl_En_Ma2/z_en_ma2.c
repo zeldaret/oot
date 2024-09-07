@@ -1,7 +1,7 @@
 #include "z_en_ma2.h"
 #include "assets/objects/object_ma2/object_ma2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void EnMa2_Init(Actor* thisx, PlayState* play);
 void EnMa2_Destroy(Actor* thisx, PlayState* play);

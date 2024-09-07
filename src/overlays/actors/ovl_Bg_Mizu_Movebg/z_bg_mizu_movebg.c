@@ -330,7 +330,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                 this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + offsetPos.x;
                 this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + offsetPos.y;
                 this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + offsetPos.z;
-                this->dyna.actor.child->flags &= ~ACTOR_FLAG_0;
+                this->dyna.actor.child->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
             break;
     }
