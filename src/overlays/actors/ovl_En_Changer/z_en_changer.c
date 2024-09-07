@@ -194,7 +194,7 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
                     ((this->rightChestNum & 0x1F) << 8) + (rightChestItem & 0xFF));
     }
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnChanger_Wait;
 }
 

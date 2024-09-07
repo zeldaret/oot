@@ -107,14 +107,19 @@ typedef struct ActorShape {
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
-//
-#define ACTOR_FLAG_0 (1 << 0)
+// Actor is discoverable by the Attention System. This enables Navi to fly over to the actor when it is in range.
+// The actor can also be locked onto (as long as `ACTOR_FLAG_LOCK_ON_DISABLED` is not set).
+#define ACTOR_FLAG_ATTENTION_ENABLED (1 << 0)
 
-//
-#define ACTOR_FLAG_2 (1 << 2)
+// Actor is hostile toward the Player. Player has specific "battle" behavior when locked onto hostile actors.
+// Enemy background music will also be played when the player is close enough to a hostile actor.
+// Note: This must be paired with `ACTOR_FLAG_ATTENTION_ENABLED` to have any effect.
+#define ACTOR_FLAG_HOSTILE (1 << 2)
 
-//
-#define ACTOR_FLAG_3 (1 << 3)
+// Actor is not hostile toward the player; Opposite flag of `ACTOR_FLAG_HOSTILE`.
+// Note that this flag doesn't have any effect on either the actor, or Player's behvaior. 
+// What actually matters is the presence or lack of `ACTOR_FLAG_HOSTILE`.
+#define ACTOR_FLAG_NEUTRAL (1 << 3)
 
 //
 #define ACTOR_FLAG_4 (1 << 4)
@@ -187,8 +192,9 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_26 (1 << 26)
 
-//
-#define ACTOR_FLAG_27 (1 << 27)
+// Player is not able to lock onto the actor.
+// Navi will still be able to fly over to the actor, assuming `ACTOR_FLAG_ATTENTION_ENABLED` is set.
+#define ACTOR_FLAG_LOCK_ON_DISABLED (1 << 27)
 
 //
 #define ACTOR_FLAG_28 (1 << 28)

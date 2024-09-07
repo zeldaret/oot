@@ -884,7 +884,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
 
         thisx->focus.pos = thisx->world.pos;
         thisx->focus.pos.y += 75.0f;
-        thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
 
         if (sLinkAge != LINK_AGE_CHILD) {
             if (HIGH_SCORE(HS_FISHING) & HS_FISH_STOLE_HAT) {
@@ -1030,7 +1030,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
         this->fishState = 100;
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
         thisx->attentionRangeType = ATTENTION_RANGE_0;
-        thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
         this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     } else {
         this->fishState = 10;
@@ -2907,7 +2907,7 @@ void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
 
     if (!this->isAquariumMessage) {
         if (this->aquariumWaitTimer == 0) {
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
 
             if (Actor_TalkOfferAccepted(&this->actor, play)) {
                 sFishLengthToWeigh = sFishingRecordLength;
@@ -2917,7 +2917,7 @@ void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
             }
         } else {
             this->aquariumWaitTimer--;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         }
     } else if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->isAquariumMessage = false;
@@ -2970,9 +2970,9 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
     if ((D_80B7E0B0 != 0) || (sSubCamId != SUB_CAM_ID_DONE) ||
         ((player->actor.world.pos.z > 1150.0f) && (this->fishState != 100))) {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         if (sRodCastState != 0) {
             if (D_80B7E0B2 == 0) {
                 this->actor.focus.pos = sLurePos;
@@ -3194,7 +3194,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             if (sLureEquipped == FS_LURE_SINKING) {
                 func_80B70ED4(this, input);
             } else {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
             break;
 
@@ -3231,7 +3231,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 if (sLureEquipped == FS_LURE_SINKING) {
                     func_80B70ED4(this, input);
                 } else {
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 }
             }
             break;
@@ -3277,7 +3277,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->fishTargetPos.z = Rand_ZeroFloat(50.0f);
             }
 
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             break;
 
         case -2:
@@ -3315,7 +3315,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 }
 
                 Math_ApproachF(&this->rotationStep, 2048.0f, 1.0f, 128.0f);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
             break;
 
@@ -5195,9 +5195,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((sOwnerTheftTimer != 0) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_5;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_5;
     }
 
     if ((this->actor.xzDistToPlayer < 120.0f) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {

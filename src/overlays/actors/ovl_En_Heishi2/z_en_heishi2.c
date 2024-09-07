@@ -12,7 +12,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnHeishi2_Init(Actor* thisx, PlayState* play);
 void EnHeishi2_Destroy(Actor* thisx, PlayState* play);
@@ -92,7 +92,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
 
     if ((this->type == 6) || (this->type == 9)) {
         this->actor.draw = EnHeishi2_DrawKingGuard;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
         if (this->type == 6) {
             this->actionFunc = EnHeishi2_DoNothing1;
@@ -112,7 +112,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(play, &this->collider);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
             this->actionFunc = func_80A544AC;
         }
     } else {
@@ -143,7 +143,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
                 // "Peep hole soldier!"
                 PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
                 Collider_DestroyCylinder(play, collider);
-                this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+                this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
                 this->actionFunc = EnHeishi_DoNothing2;
                 break;
         }
