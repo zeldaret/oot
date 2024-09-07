@@ -33,8 +33,11 @@ OSMesgQueue sDmaMgrMsgQueue;
 OSMesg sDmaMgrMsgBuf[32];
 OSThread sDmaMgrThread;
 STACK(sDmaMgrStack, 0x500);
+
+#if OOT_DEBUG
 const char* sDmaMgrCurFileName;
 s32 sDmaMgrCurFileLine;
+#endif
 
 u32 gDmaMgrVerbose = 0;
 size_t gDmaMgrDmaBuffSize = DMAMGR_DEFAULT_BUFSIZE;
