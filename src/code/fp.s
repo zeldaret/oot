@@ -6,7 +6,7 @@
 
 .balign 16
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 DATA(qNaN0x3FFFFF)
     .word 0x7FBFFFFF
 ENDDATA(qNaN0x3FFFFF)
