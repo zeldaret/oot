@@ -891,5 +891,6 @@ typedef enum EventInfHorsesState {
 #define EVENTINF_30 0x30
 
 
+extern SaveContext gSaveContext;
 
 #endif

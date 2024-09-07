@@ -19,7 +19,6 @@
 
 #define PHYSICAL_TO_VIRTUAL(addr) (void*)((uintptr_t)(addr) + 0x80000000)
 #define VIRTUAL_TO_PHYSICAL(addr) (uintptr_t)((u8*)(addr) - 0x80000000)
-#define SEGMENTED_TO_VIRTUAL(addr) PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr))
 
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define DECR(x) ((x) == 0 ? 0 : --(x))

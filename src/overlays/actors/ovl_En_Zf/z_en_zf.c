@@ -195,7 +195,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
 };
@@ -282,7 +282,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     f32 posDiff;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    thisx->targetMode = TARGET_MODE_3;
+    thisx->attentionRangeType = ATTENTION_RANGE_3;
     this->clearFlag = PARAMS_GET_S(thisx->params, 8, 8);
     /* Strip the top byte of params */
     thisx->params &= 0xFF;

@@ -11,13 +11,83 @@
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 #if !PLATFORM_GC
-#define OCARINA_BUTTON_A_PRIM_R 80
-#define OCARINA_BUTTON_A_PRIM_G 150
-#define OCARINA_BUTTON_A_PRIM_B 255
+#define OCARINA_BUTTON_A_PRIM_1_R 80
+#define OCARINA_BUTTON_A_PRIM_1_G 150
+#define OCARINA_BUTTON_A_PRIM_1_B 255
 #else
-#define OCARINA_BUTTON_A_PRIM_R 80
-#define OCARINA_BUTTON_A_PRIM_G 255
-#define OCARINA_BUTTON_A_PRIM_B 150
+#define OCARINA_BUTTON_A_PRIM_1_R 80
+#define OCARINA_BUTTON_A_PRIM_1_G 255
+#define OCARINA_BUTTON_A_PRIM_1_B 150
+#endif
+
+#if !PLATFORM_GC
+#define OCARINA_BUTTON_A_PRIM_2_R 100
+#define OCARINA_BUTTON_A_PRIM_2_G 200
+#define OCARINA_BUTTON_A_PRIM_2_B 255
+#else
+#define OCARINA_BUTTON_A_PRIM_2_R 100
+#define OCARINA_BUTTON_A_PRIM_2_G 255
+#define OCARINA_BUTTON_A_PRIM_2_B 200
+#endif
+
+#if !PLATFORM_GC
+#define OCARINA_BUTTON_A_ENV_1_R 10
+#define OCARINA_BUTTON_A_ENV_1_G 10
+#define OCARINA_BUTTON_A_ENV_1_B 10
+#else
+#define OCARINA_BUTTON_A_ENV_1_R 10
+#define OCARINA_BUTTON_A_ENV_1_G 10
+#define OCARINA_BUTTON_A_ENV_1_B 10
+#endif
+
+#if !PLATFORM_GC
+#define OCARINA_BUTTON_A_ENV_2_R 50
+#define OCARINA_BUTTON_A_ENV_2_G 50
+#define OCARINA_BUTTON_A_ENV_2_B 255
+#else
+#define OCARINA_BUTTON_A_ENV_2_R 50
+#define OCARINA_BUTTON_A_ENV_2_G 255
+#define OCARINA_BUTTON_A_ENV_2_B 50
+#endif
+
+#if !PLATFORM_GC
+#define OCARINA_ICON_PRIM_1_R 0
+#define OCARINA_ICON_PRIM_1_G 80
+#define OCARINA_ICON_PRIM_1_B 200
+#else
+#define OCARINA_ICON_PRIM_1_R 0
+#define OCARINA_ICON_PRIM_1_G 200
+#define OCARINA_ICON_PRIM_1_B 80
+#endif
+
+#if !PLATFORM_GC
+#define OCARINA_ICON_PRIM_2_R 50
+#define OCARINA_ICON_PRIM_2_G 130
+#define OCARINA_ICON_PRIM_2_B 255
+#else
+#define OCARINA_ICON_PRIM_2_R 50
+#define OCARINA_ICON_PRIM_2_G 255
+#define OCARINA_ICON_PRIM_2_B 130
+#endif
+
+#if !PLATFORM_GC
+#define OCARINA_ICON_ENV_1_R 0
+#define OCARINA_ICON_ENV_1_G 0
+#define OCARINA_ICON_ENV_1_B 0
+#else
+#define OCARINA_ICON_ENV_1_R 0
+#define OCARINA_ICON_ENV_1_G 0
+#define OCARINA_ICON_ENV_1_B 0
+#endif
+
+#if !PLATFORM_GC
+#define OCARINA_ICON_ENV_2_R 0
+#define OCARINA_ICON_ENV_2_G 130
+#define OCARINA_ICON_ENV_2_B 255
+#else
+#define OCARINA_ICON_ENV_2_R 0
+#define OCARINA_ICON_ENV_2_G 255
+#define OCARINA_ICON_ENV_2_B 130
 #endif
 
 s16 sTextFade = false; // original name: key_off_flag ?
@@ -205,9 +275,9 @@ void Message_ResetOcarinaNoteState(void) {
     sOcarinaButtonAlphaValues[0] = sOcarinaButtonAlphaValues[1] = sOcarinaButtonAlphaValues[2] =
         sOcarinaButtonAlphaValues[3] = sOcarinaButtonAlphaValues[4] = sOcarinaButtonAlphaValues[5] =
             sOcarinaButtonAlphaValues[6] = sOcarinaButtonAlphaValues[7] = sOcarinaButtonAlphaValues[8] = 0;
-    sOcarinaButtonAPrimR = OCARINA_BUTTON_A_PRIM_R;
-    sOcarinaButtonAPrimG = OCARINA_BUTTON_A_PRIM_G;
-    sOcarinaButtonAPrimB = OCARINA_BUTTON_A_PRIM_B;
+    sOcarinaButtonAPrimR = OCARINA_BUTTON_A_PRIM_1_R;
+    sOcarinaButtonAPrimG = OCARINA_BUTTON_A_PRIM_1_G;
+    sOcarinaButtonAPrimB = OCARINA_BUTTON_A_PRIM_1_B;
     sOcarinaButtonAEnvR = 10;
     sOcarinaButtonAEnvG = 10;
     sOcarinaButtonAEnvB = 10;
@@ -627,16 +697,16 @@ void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
 
 void Message_DrawTextboxIcon(PlayState* play, Gfx** p, s16 x, s16 y) {
     static s16 sIconPrimColors[][3] = {
-        { 0, 200, 80 },
-        { 50, 255, 130 },
+        { OCARINA_ICON_PRIM_1_R, OCARINA_ICON_PRIM_1_G, OCARINA_ICON_PRIM_1_B },
+        { OCARINA_ICON_PRIM_2_R, OCARINA_ICON_PRIM_2_G, OCARINA_ICON_PRIM_2_B },
     };
     static s16 sIconEnvColors[][3] = {
-        { 0, 0, 0 },
-        { 0, 255, 130 },
+        { OCARINA_ICON_ENV_1_R, OCARINA_ICON_ENV_1_G, OCARINA_ICON_ENV_1_B },
+        { OCARINA_ICON_ENV_2_R, OCARINA_ICON_ENV_2_G, OCARINA_ICON_ENV_2_B },
     };
-    static s16 sIconPrimR = 0;
-    static s16 sIconPrimG = 200;
-    static s16 sIconPrimB = 80;
+    static s16 sIconPrimR = OCARINA_ICON_PRIM_1_R;
+    static s16 sIconPrimG = OCARINA_ICON_PRIM_1_G;
+    static s16 sIconPrimB = OCARINA_ICON_PRIM_1_B;
     static s16 sIconFlashTimer = 12;
     static s16 sIconFlashColorIdx = 0;
     static s16 sIconEnvR = 0;
@@ -2839,12 +2909,12 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
         gOcarinaBtnIconCUpTex,    // OCARINA_BTN_C_UP
     };
     static s16 sOcarinaButtonAPrimColors[][3] = {
-        { 80, 255, 150 },
-        { 100, 255, 200 },
+        { OCARINA_BUTTON_A_PRIM_1_R, OCARINA_BUTTON_A_PRIM_1_G, OCARINA_BUTTON_A_PRIM_1_B },
+        { OCARINA_BUTTON_A_PRIM_2_R, OCARINA_BUTTON_A_PRIM_2_G, OCARINA_BUTTON_A_PRIM_2_B },
     };
     static s16 sOcarinaButtonAEnvColors[][3] = {
-        { 10, 10, 10 },
-        { 50, 255, 50 },
+        { OCARINA_BUTTON_A_ENV_1_R, OCARINA_BUTTON_A_ENV_1_G, OCARINA_BUTTON_A_ENV_1_B },
+        { OCARINA_BUTTON_A_ENV_2_R, OCARINA_BUTTON_A_ENV_2_G, OCARINA_BUTTON_A_ENV_2_B },
     };
     static s16 sOcarinaButtonCPrimColors[][3] = {
         { 255, 255, 50 },

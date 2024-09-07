@@ -235,7 +235,7 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 10, ICHAIN_STOP),
 };
 
 void EnBb_SetupAction(EnBb* this, EnBbActionFunc actionFunc) {

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_kanban.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_kanban/object_kanban.h"
 #include "terminal.h"
@@ -213,7 +214,7 @@ void EnKanban_Init(Actor* thisx, PlayState* play) {
 
     Actor_SetScale(&this->actor, 0.01f);
     if (this->actor.params != ENKANBAN_PIECE) {
-        this->actor.targetMode = TARGET_MODE_0;
+        this->actor.attentionRangeType = ATTENTION_RANGE_0;
         this->actor.flags |= ACTOR_FLAG_0;
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

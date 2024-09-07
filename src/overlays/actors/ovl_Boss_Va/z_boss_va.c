@@ -9,6 +9,8 @@
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 #define GET_BODY(this) ((BossVa*)(this)->actor.parent)
@@ -581,7 +583,7 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
     s16 warpId;
 
     Actor_SetScale(&this->actor, 0.1f);
-    this->actor.targetMode = TARGET_MODE_5;
+    this->actor.attentionRangeType = ATTENTION_RANGE_5;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     switch (this->actor.params) {

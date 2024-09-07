@@ -5,6 +5,7 @@
  */
 
 #include "z_fishing.h"
+#include "global.h"
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
@@ -14,7 +15,7 @@
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:146 gc-eu-mq:146 gc-jp:148 gc-jp-ce:148 gc-jp-mq:148 gc-us:148 gc-us-mq:148"
+#pragma increment_block_number "gc-eu:142 gc-eu-mq:142 gc-jp:144 gc-jp-ce:144 gc-jp-mq:144 gc-us:144 gc-us-mq:144"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -829,8 +830,8 @@ static FishingFishInit sFishInits[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 0, ICHAIN_STOP),
 };
 
 void Fishing_Init(Actor* thisx, PlayState* play2) {
@@ -1029,7 +1030,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
     if (thisx->params == EN_FISH_AQUARIUM) {
         this->fishState = 100;
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
-        thisx->targetMode = TARGET_MODE_0;
+        thisx->attentionRangeType = ATTENTION_RANGE_0;
         thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     } else {

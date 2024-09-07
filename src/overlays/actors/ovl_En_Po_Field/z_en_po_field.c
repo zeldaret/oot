@@ -127,7 +127,7 @@ static s32 sNumSpawned = 0;
 static Vec3f sFieldMiddle = { -1000.0f, 0.0f, 6500.0f };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 3200, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 3200, ICHAIN_STOP),
 };
 
 static Vec3f D_80AD7114 = { 0.0f, 3.0f, 0.0f };
