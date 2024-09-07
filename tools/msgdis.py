@@ -1435,20 +1435,6 @@ sfx_ids = {
     0x607F : "NA_SE_VO_DUMMY_0x7f",
 }
 
-# From https://stackoverflow.com/questions/241327/remove-c-and-c-comments-using-python
-def remove_comments(text : str) -> str:
-    def replacer(match : re.Match) -> str:
-        string : str = match.group(0)
-        if string.startswith("/"):
-            return " "  # note: a space and not an empty string
-        else:
-            return string
-
-    pattern = re.compile(
-        r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"', re.DOTALL | re.MULTILINE
-    )
-    return re.sub(pattern, replacer, text)
-
 def read4(data : bytes, p : int) -> int:
     return struct.unpack(">I", data[p:p+4])[0]
 
