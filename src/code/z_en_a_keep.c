@@ -145,14 +145,14 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
             thisx->textId = (this->textId & 0xFF) | 0x300;
-            thisx->targetArrowOffset = 500.0f;
+            thisx->lockOnArrowOffset = 500.0f;
             thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
             this->focusYoffset = 45.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
             thisx->colChkInfo.mass = MASS_IMMOVABLE;
-            thisx->targetMode = TARGET_MODE_0;
+            thisx->attentionRangeType = ATTENTION_RANGE_0;
             break;
         case A_OBJ_BOULDER_FRAGMENT:
             thisx->gravity = -1.5f;

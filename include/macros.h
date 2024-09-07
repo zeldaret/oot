@@ -160,35 +160,8 @@
     }                                      \
     (void)0
 
-struct GraphicsContext;
-
-extern struct GraphicsContext* __gfxCtx;
-
-#define WORK_DISP       __gfxCtx->work.p
-#define POLY_OPA_DISP   __gfxCtx->polyOpa.p
-#define POLY_XLU_DISP   __gfxCtx->polyXlu.p
-#define OVERLAY_DISP    __gfxCtx->overlay.p
-
 #if OOT_DEBUG
 
-// __gfxCtx shouldn't be used directly.
-// Use the DISP macros defined above when writing to display buffers.
-#define OPEN_DISPS(gfxCtx, file, line) \
-    {                                  \
-        GraphicsContext* __gfxCtx;     \
-        Gfx* dispRefs[4];              \
-        __gfxCtx = gfxCtx;             \
-        (void)__gfxCtx;                \
-        Graph_OpenDisps(dispRefs, gfxCtx, file, line)
-
-#define CLOSE_DISPS(gfxCtx, file, line)                     \
-        do {                                                \
-            Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
-        } while (0);                                        \
-    }                                                       \
-    (void)0
-
-#define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
 #define GAME_STATE_ALLOC(gameState, size, file, line) GameState_Alloc(gameState, size, file, line)
@@ -207,17 +180,6 @@ extern struct GraphicsContext* __gfxCtx;
 
 #else
 
-#define OPEN_DISPS(gfxCtx, file, line)      \
-    {                                       \
-        GraphicsContext* __gfxCtx = gfxCtx; \
-        s32 __dispPad
-
-#define CLOSE_DISPS(gfxCtx, file, line) \
-        do {} while (0);                \
-    }                                   \
-    (void)0
-
-#define GRAPH_ALLOC(gfxCtx, size) ((void*)((gfxCtx)->polyOpa.d = (Gfx*)((u8*)(gfxCtx)->polyOpa.d - ALIGN16(size))))
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSync(ram, vrom, size)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg)
 #define GAME_STATE_ALLOC(gameState, size, file, line) THA_AllocTailAlign16(&(gameState)->tha, size)

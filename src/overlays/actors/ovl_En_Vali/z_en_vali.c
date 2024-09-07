@@ -130,7 +130,7 @@ static DamageTable sDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BARI, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 5000, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5000, ICHAIN_STOP),
 };
 
 void EnVali_Init(Actor* thisx, PlayState* play) {
