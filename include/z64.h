@@ -62,6 +62,7 @@
 #include "gfx.h"
 #include "jpeg.h"
 #include "prerender.h"
+#include "rand.h"
 #include "libc64/qrand.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
