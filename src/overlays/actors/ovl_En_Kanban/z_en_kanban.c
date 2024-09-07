@@ -10,7 +10,7 @@
 #include "assets/objects/object_kanban/object_kanban.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 #define PART_UPPER_LEFT (1 << 0)
 #define PART_LEFT_UPPER (1 << 1)
@@ -215,7 +215,7 @@ void EnKanban_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
     if (this->actor.params != ENKANBAN_PIECE) {
         this->actor.attentionRangeType = ATTENTION_RANGE_0;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         PRINTF("KANBAN ARG    %x\n", this->actor.params);
@@ -287,7 +287,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                 this->zTargetTimer--;
             }
             if (this->zTargetTimer == 1) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
             if (this->partFlags == 0xFFFF) {
                 EnKanban_Message(this, play);
@@ -405,7 +405,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                         piece->direction = -1;
                     }
                     piece->airTimer = 100;
-                    piece->actor.flags &= ~ACTOR_FLAG_0;
+                    piece->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                     piece->actor.flags |= ACTOR_FLAG_25;
                     this->cutMarkTimer = 5;
                     Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_STRIKE);
@@ -417,7 +417,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer > 500.0f) {
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                 this->partFlags = 0xFFFF;
             }
             if (this->cutMarkTimer != 0) {
@@ -780,7 +780,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                 ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0) && (this->floorRot.x == 0.0f) &&
                 (this->floorRot.z == 0.0f)) {
                 signpost->partFlags |= this->partFlags;
-                signpost->actor.flags |= ACTOR_FLAG_0;
+                signpost->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                 Actor_Kill(&this->actor);
             }
         } break;
