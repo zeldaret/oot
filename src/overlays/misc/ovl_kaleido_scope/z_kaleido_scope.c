@@ -15,6 +15,8 @@
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "terminal.h"
 
+#pragma increment_block_number "ntsc-1.2:128"
+
 #if !PLATFORM_GC
 #define KALEIDO_COLOR_PROMPT_UNK_R 100
 #define KALEIDO_COLOR_PROMPT_UNK_G 100

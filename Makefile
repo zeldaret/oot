@@ -54,7 +54,6 @@ ifeq ($(VERSION),ntsc-1.2)
   PAL := 0
   MQ := 0
   DEBUG := 0
-  COMPARE := 0
 else ifeq ($(VERSION),gc-jp)
   REGION ?= JP
   PLATFORM := GC
