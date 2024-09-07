@@ -309,7 +309,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play);
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos);
 void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedInvWDest);
-void Target_Draw(TargetContext* targetCtx, PlayState* play);
+void Attention_Draw(Attention* attention, PlayState* play);
 s32 Flags_GetSwitch(PlayState* play, s32 flag);
 void Flags_SetSwitch(PlayState* play, s32 flag);
 void Flags_UnsetSwitch(PlayState* play, s32 flag);
@@ -382,7 +382,7 @@ void func_8002ED80(Actor* actor, PlayState* play, s32 flag);
 PosRot Actor_GetFocus(Actor* actor);
 PosRot Actor_GetWorld(Actor* actor);
 PosRot Actor_GetWorldPosShapeRot(Actor* actor);
-s32 Target_ShouldReleaseLockOn(Actor* actor, Player* player, s32 ignoreLeash);
+s32 Attention_ShouldReleaseLockOn(Actor* actor, Player* player, s32 ignoreLeash);
 s32 Actor_TalkOfferAccepted(Actor* actor, PlayState* play);
 s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRange, u32 exchangeItemId);
 s32 Actor_OfferTalkExchangeEquiCylinder(Actor* actor, PlayState* play, f32 radius, u32 exchangeItemId);
@@ -430,7 +430,7 @@ Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, PlayState* play
 void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx);
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, PlayState* play);
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play);
-Actor* Target_FindTargetableActor(PlayState* play, ActorContext* actorCtx, Actor** targetableActorP, Player* player);
+Actor* Attention_FindActor(PlayState* play, ActorContext* actorCtx, Actor** attentionActorP, Player* player);
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
 void Enemy_StartFinishingBlow(PlayState* play, Actor* actor);
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play);
@@ -1158,12 +1158,7 @@ void Graph_Destroy(GraphicsContext* gfxCtx);
 void Graph_TaskSet00(GraphicsContext* gfxCtx);
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
 void Graph_ThreadEntry(void*);
-void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
-void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
-#if OOT_DEBUG
-void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
-void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
-#endif
+
 Gfx* Gfx_Open(Gfx* gfx);
 Gfx* Gfx_Close(Gfx* gfx, Gfx* dst);
 void* Gfx_Alloc(Gfx** gfxP, u32 size);
