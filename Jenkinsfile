@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'oot'
+        label 'cadmic2'
     }
 
     stages {
