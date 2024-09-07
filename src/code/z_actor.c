@@ -772,19 +772,19 @@ void TitleCard_Update(PlayState* play, TitleCardContext* titleCtx) {
 void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
     s32 width;
     s32 height;
-    s32 unused;
-    s32 titleX;
     s32 doubleWidth;
-    s32 titleY;
-    s32 titleSecondY;
+    s32 titleX1;
+    s32 titleX2;
+    s32 titleY1;
+    s32 titleY2;
     s32 textureLanguageOffset;
 
     if (titleCtx->alpha != 0) {
         width = titleCtx->width;
         height = titleCtx->height;
         doubleWidth = width * 2;
-        titleX = (titleCtx->x * 4) - (width * 2);
-        titleY = (titleCtx->y * 4) - (height * 2);
+        titleX1 = (titleCtx->x * 4) - (width * 2);
+        titleY1 = (titleCtx->y * 4) - (height * 2);
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2824);
 
@@ -797,8 +797,13 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
 #else
         textureLanguageOffset = width * height * gSaveContext.language;
 #endif
-        height = (width * height > 0x1000) ? 0x1000 / width : height;
-        titleSecondY = titleY + (height * 4);
+
+        if (width * height > 0x1000) {
+            height = 0x1000 / width;
+        }
+
+        titleX2 = titleX1 + (doubleWidth * 2);
+        titleY2 = titleY1 + (height * 4);
 
         OVERLAY_DISP = Gfx_SetupDL_52NoCD(OVERLAY_DISP);
 
@@ -809,8 +814,8 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
                             width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, titleX, titleY, ((doubleWidth * 2) + titleX) - 4, titleY + (height * 4) - 1,
-                            G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(OVERLAY_DISP++, titleX1, titleY1, titleX2 - 4, titleY2 - 1, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                            1 << 10);
 
         height = titleCtx->height - height;
 
@@ -820,8 +825,8 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
                                 G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                 G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(OVERLAY_DISP++, titleX, titleSecondY, ((doubleWidth * 2) + titleX) - 4,
-                                titleSecondY + (height * 4) - 1, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            gSPTextureRectangle(OVERLAY_DISP++, titleX1, titleY2, titleX2 - 4, titleY2 + (height * 4) - 1,
+                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         }
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 2880);
@@ -911,8 +916,7 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
         overlayEntry = actor->overlayEntry;
         name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-        // "No Actor class destruct [%s]"
-        PRINTF("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
+        PRINTF(T("Ａｃｔｏｒクラス デストラクトがありません [%s]\n", "No Actor class destruct [%s]\n") VT_RST, name);
 #endif
     }
 }
@@ -1629,29 +1633,46 @@ TargetRangeParams sTargetRanges[TARGET_MODE_MAX] = {
 };
 
 /**
- * Checks if an actor at distance `distSq` is inside the range specified by its targetMode
+ * Checks if an actor at `distSq` is inside the range specified by its `targetMode`.
+ *
+ * Note that this gets used for both the target range check and for the lock-on leash range check.
+ * Despite how the data is presented in `sTargetRanges`, the leash range is stored as a scale factor value.
+ * When checking the leash range, this scale factor is applied to the input distance and checked against
+ * the base `rangeSq` value, which was used to initiate the lock-on in the first place.
  */
 u32 Target_ActorIsInRange(Actor* actor, f32 distSq) {
     return distSq < sTargetRanges[actor->targetMode].rangeSq;
 }
 
-s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
+/**
+ * Returns true if an actor lock-on should be released.
+ * This function does not actually release the lock-on, as that is Player's responsibility.
+ *
+ * If an actor's update function is NULL or `ACTOR_FLAG_0` is unset, the lock-on should be released.
+ *
+ * There is also a check for Player exceeding the lock-on leash distance.
+ * Note that this check will be ignored if `ignoreLeash` is true.
+ *
+ */
+s32 Target_ShouldReleaseLockOn(Actor* actor, Player* player, s32 ignoreLeash) {
     if ((actor->update == NULL) || !(actor->flags & ACTOR_FLAG_0)) {
         return true;
     }
 
-    if (!flag) {
-        s16 var = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
-        s16 abs_var = ABS(var);
-        f32 dist;
+    if (!ignoreLeash) {
+        s16 yawDiff = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
+        s16 yawDiffAbs = ABS(yawDiff);
+        f32 distSq;
 
-        if ((player->focusActor == NULL) && (abs_var > 0x2AAA)) {
-            dist = MAXFLOAT;
+        if ((player->focusActor == NULL) && (yawDiffAbs > 0x2AAA)) {
+            // This function is only called (and is only relevant) when `player->focusActor != NULL`.
+            // This is unreachable.
+            distSq = MAXFLOAT;
         } else {
-            dist = actor->xyzDistToPlayerSq;
+            distSq = actor->xyzDistToPlayerSq;
         }
 
-        return !Target_ActorIsInRange(actor, sTargetRanges[actor->targetMode].leashScale * dist);
+        return !Target_ActorIsInRange(actor, sTargetRanges[actor->targetMode].leashScale * distSq);
     }
 
     return false;
@@ -1972,7 +1993,7 @@ void func_8002F994(Actor* actor, s32 timer) {
 // Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
 s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (SurfaceType_GetFloorType(&play->colCtx, poly, bgId) == FLOOR_TYPE_8) {
-        play->roomCtx.unk_74[0] = 1;
+        play->roomCtx.drawParams[0] = 1;
         CollisionCheck_BlueBlood(play, NULL, pos);
         Actor_PlaySfx(actor, NA_SE_IT_WALL_HIT_BUYO);
         return true;
@@ -2403,13 +2424,13 @@ void Actor_FaultPrint(Actor* actor, char* command) {
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-    PRINTF("アクターの名前(%08x:%s)\n", actor, name); // "Actor name (%08x:%s)"
+    PRINTF(T("アクターの名前(%08x:%s)\n", "Actor name (%08x:%s)\n"), actor, name);
 #else
     name = "";
 #endif
 
     if (command != NULL) {
-        PRINTF("コメント:%s\n", command); // "Command:%s"
+        PRINTF(T("コメント:%s\n", "Command: %s\n"), command);
     }
 
     Fault_SetCursor(48, 24);
@@ -2813,7 +2834,7 @@ void func_80031C3C(ActorContext* actorCtx, PlayState* play) {
         }
     }
 
-    ACTOR_DEBUG_PRINTF("絶対魔法領域解放\n"); // "Absolute magic field deallocation"
+    ACTOR_DEBUG_PRINTF(T("絶対魔法領域解放\n", "Absolute magic field deallocation\n"));
 
     if (actorCtx->absoluteSpace != NULL) {
         ZELDA_ARENA_FREE(actorCtx->absoluteSpace, "../z_actor.c", 6731);
@@ -2883,24 +2904,24 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     PRINTF(VT_FGCOL(CYAN));
 
     if (actorOverlay->numLoaded == 0) {
-        ACTOR_DEBUG_PRINTF("アクタークライアントが０になりました\n"); // "Actor client is now 0"
+        ACTOR_DEBUG_PRINTF(T("アクタークライアントが０になりました\n", "Actor clients are now 0\n"));
 
         if (actorOverlay->loadedRamAddr != NULL) {
             if (actorOverlay->allocType & ACTOROVL_ALLOC_PERSISTENT) {
-                ACTOR_DEBUG_PRINTF("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
+                ACTOR_DEBUG_PRINTF(T("オーバーレイ解放しません\n", "Overlay will not be deallocated\n"));
             } else if (actorOverlay->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
-                // "Absolute magic field reserved, so deallocation will not occur"
-                ACTOR_DEBUG_PRINTF("絶対魔法領域確保なので解放しません\n");
+                ACTOR_DEBUG_PRINTF(T("絶対魔法領域確保なので解放しません\n",
+                                     "Absolute magic field reserved, so deallocation will not occur\n"));
                 actorOverlay->loadedRamAddr = NULL;
             } else {
-                ACTOR_DEBUG_PRINTF("オーバーレイ解放します\n"); // "Overlay deallocated"
+                ACTOR_DEBUG_PRINTF(T("オーバーレイ解放します\n", "Overlay deallocated\n"));
                 ZELDA_ARENA_FREE(actorOverlay->loadedRamAddr, "../z_actor.c", 6834);
                 actorOverlay->loadedRamAddr = NULL;
             }
         }
     } else {
-        // "%d of actor client remains"
-        ACTOR_DEBUG_PRINTF("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
+        ACTOR_DEBUG_PRINTF(T("アクタークライアントはあと %d 残っています\n", "%d of actor client remaining\n"),
+                           actorOverlay->numLoaded);
     }
 
     PRINTF(VT_RST);
@@ -2926,32 +2947,31 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
-    // "Actor class addition [%d:%s]"
-    ACTOR_DEBUG_PRINTF("アクタークラス追加 [%d:%s]\n", actorId, name);
+    ACTOR_DEBUG_PRINTF(T("アクタークラス追加 [%d:%s]\n", "Actor class addition [%d:%s]\n"), actorId, name);
 
     if (actorCtx->total > ACTOR_NUMBER_MAX) {
-        // "Ａｃｔｏｒ set number exceeded"
-        PRINTF(VT_COL(YELLOW, BLACK) "Ａｃｔｏｒセット数オーバー\n" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) T("Ａｃｔｏｒセット数オーバー\n", "Actor set number exceeded\n") VT_RST);
         return NULL;
     }
 
     if (overlayEntry->vramStart == NULL) {
-        ACTOR_DEBUG_PRINTF("オーバーレイではありません\n"); // "Not an overlay"
+        ACTOR_DEBUG_PRINTF(T("オーバーレイではありません\n", "Not an overlay\n"));
 
         profile = overlayEntry->profile;
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
-            ACTOR_DEBUG_PRINTF("既にロードされています\n"); // "Already loaded"
+            ACTOR_DEBUG_PRINTF(T("既にロードされています\n", "Already loaded\n"));
         } else {
             if (overlayEntry->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
                 ASSERT(overlaySize <= ACTOROVL_ABSOLUTE_SPACE_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c",
                        6934);
 
                 if (actorCtx->absoluteSpace == NULL) {
-                    // "AMF: absolute magic field"
-                    actorCtx->absoluteSpace = ZELDA_ARENA_MALLOC_R(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
-                    // "Absolute magic field reservation - %d bytes reserved"
-                    ACTOR_DEBUG_PRINTF("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
+                    actorCtx->absoluteSpace = ZELDA_ARENA_MALLOC_R(
+                        ACTOROVL_ABSOLUTE_SPACE_SIZE, T("AMF:絶対魔法領域", "AMF: absolute magic field"), 0);
+                    ACTOR_DEBUG_PRINTF(
+                        T("絶対魔法領域確保 %d バイト確保\n", "Absolute magic field allocation %d bytes allocated\n"),
+                        ACTOROVL_ABSOLUTE_SPACE_SIZE);
                 }
 
                 overlayEntry->loadedRamAddr = actorCtx->absoluteSpace;
@@ -2962,8 +2982,8 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             }
 
             if (overlayEntry->loadedRamAddr == NULL) {
-                // "Cannot reserve actor program memory"
-                PRINTF(VT_COL(RED, WHITE) "Ａｃｔｏｒプログラムメモリが確保できません\n" VT_RST);
+                PRINTF(VT_COL(RED, WHITE) T("Ａｃｔｏｒプログラムメモリが確保できません\n",
+                                            "Cannot reserve actor program memory\n") VT_RST);
                 return NULL;
             }
 
@@ -2992,9 +3012,9 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     if ((objectSlot < 0) ||
         ((profile->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
-        // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
-        PRINTF(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST, objectSlot,
-               profile->objectId);
+        PRINTF(VT_COL(RED, WHITE) T("データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n",
+                                    "No data bank!! <data bank=%d> (profilep->bank=%d)\n") VT_RST,
+               objectSlot, profile->objectId);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -3002,9 +3022,9 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     actor = ZELDA_ARENA_MALLOC(profile->instanceSize, name, 1);
 
     if (actor == NULL) {
-        // "Actor class cannot be reserved! %s <size＝%d bytes>"
-        PRINTF(VT_COL(RED, WHITE) "Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n", VT_RST, name,
-               profile->instanceSize);
+        PRINTF(VT_COL(RED, WHITE) T("Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n",
+                                    "Actor class cannot be reserved! %s <size=%d bytes>\n"),
+               VT_RST, name, profile->instanceSize);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -3015,8 +3035,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     if (1) {}
 
-    // "Actor client No. %d"
-    ACTOR_DEBUG_PRINTF("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
+    ACTOR_DEBUG_PRINTF(T("アクタークライアントは %d 個目です\n", "Actor client No. %d\n"), overlayEntry->numLoaded);
 
     Lib_MemSet((u8*)actor, profile->instanceSize, 0);
     actor->overlayEntry = overlayEntry;
@@ -3079,8 +3098,8 @@ void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx) {
     u8 numActors;
     s32 i;
 
-    transitionActor = play->transiActorCtx.list;
-    numActors = play->transiActorCtx.numActors;
+    transitionActor = play->transitionActors.list;
+    numActors = play->transitionActors.count;
 
     for (i = 0; i < numActors; i++) {
         if (transitionActor->id >= 0) {
@@ -3095,7 +3114,7 @@ void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx) {
                             (i << TRANSITION_ACTOR_PARAMS_INDEX_SHIFT) + transitionActor->params);
 
                 transitionActor->id = -transitionActor->id;
-                numActors = play->transiActorCtx.numActors;
+                numActors = play->transitionActors.count;
             }
         }
         transitionActor++;
@@ -3118,7 +3137,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-    ACTOR_DEBUG_PRINTF("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
+    ACTOR_DEBUG_PRINTF(T("アクタークラス削除 [%s]\n", "Actor class deleted [%s]\n"), name);
 
     if ((player != NULL) && (actor == player->focusActor)) {
         func_8008EDF0(player);
@@ -3145,7 +3164,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     ZELDA_ARENA_FREE(actor, "../z_actor.c", 7242);
 
     if (overlayEntry->vramStart == NULL) {
-        ACTOR_DEBUG_PRINTF("オーバーレイではありません\n"); // "Not an overlay"
+        ACTOR_DEBUG_PRINTF(T("オーバーレイではありません\n", "Not an overlay\n"));
     } else {
         ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
         ASSERT(overlayEntry->numLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);

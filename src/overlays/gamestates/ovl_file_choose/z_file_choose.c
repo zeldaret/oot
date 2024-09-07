@@ -3,6 +3,9 @@
 #include "versions.h"
 #include "assets/textures/title_static/title_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 static s16 sUnused = 106;
 
@@ -219,6 +222,14 @@ void FileSelect_UpdateMainMenu(GameState* thisx) {
             } else if (!this->n64ddFlags[this->buttonIndex]) {
                 Audio_PlaySfxGeneral(NA_SE_SY_FSEL_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            } else {
+#if PLATFORM_N64
+                if (D_80121212 != 0) {
+                    func_801C7268();
+                    // Setting ioData to 1 and writing it to ioPort 7 will skip the harp intro
+                    Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, NA_BGM_FILE_SELECT, 0, 7, 1);
+                }
+#endif
             }
         } else {
             if (this->warningLabel == FS_WARNING_NONE) {
@@ -824,13 +835,12 @@ static s16 sHeartEnvColors[2][3] = { { 50, 40, 60 }, { 255, 255, 255 } };
 void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
     FileSelectState* this = (FileSelectState*)thisx;
     Font* sp54 = &this->font;
-    s32 heartType;
-    s16 i;
+    s16 heartType;
     s16 vtxOffset;
+    s16 i;
     s16 j;
+    s16 k;
     s16 deathCountSplit[3];
-
-    if (1) {}
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1709);
 
@@ -860,8 +870,8 @@ void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
         FileSelect_SplitNumber(this->deaths[fileIndex], &deathCountSplit[0], &deathCountSplit[1], &deathCountSplit[2]);
 
         // draw death count
-        for (i = 0, vtxOffset = 0; i < 3; i++, vtxOffset += 4) {
-            FileSelect_DrawCharacter(this->state.gfxCtx, sp54->fontBuf + deathCountSplit[i] * FONT_CHAR_TEX_SIZE,
+        for (k = 0, vtxOffset = 0; k < 3; k++, vtxOffset += 4) {
+            FileSelect_DrawCharacter(this->state.gfxCtx, sp54->fontBuf + deathCountSplit[k] * FONT_CHAR_TEX_SIZE,
                                      vtxOffset);
         }
 
@@ -877,10 +887,10 @@ void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
         gDPSetEnvColor(POLY_OPA_DISP++, sHeartEnvColors[heartType][0], sHeartEnvColors[heartType][1],
                        sHeartEnvColors[heartType][2], 255);
 
-        i = this->healthCapacities[fileIndex] / 0x10;
+        k = this->healthCapacities[fileIndex] / 0x10;
 
         // draw hearts
-        for (vtxOffset = 0, j = 0; j < i; j++, vtxOffset += 4) {
+        for (vtxOffset = 0, j = 0; j < k; j++, vtxOffset += 4) {
             gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_8081284C[fileIndex] + vtxOffset] + 0x30, 4, 0);
 
             POLY_OPA_DISP = FileSelect_QuadTextureIA8(POLY_OPA_DISP, sHeartTextures[heartType], 0x10, 0x10, 0);
@@ -987,9 +997,9 @@ static void* sOptionsButtonTextures[] = LANGUAGE_ARRAY(gFileSelOptionsButtonJPNT
 void FileSelect_DrawWindowContents(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     s16 fileIndex;
-    s16 temp;
     s16 i;
     s16 quadVtxIndex;
+    s16 temp;
     s16 isActive;
     s16 pad;
 
@@ -1563,6 +1573,14 @@ void FileSelect_LoadGame(GameState* thisx) {
         gSaveContext.save.info.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SWORD];
         gSaveContext.save.info.inventory.equipment ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
     }
+
+#if PLATFORM_N64
+    if (D_80121212 != 0) {
+        s32 fileNum = gSaveContext.fileNum;
+
+        n64dd_SetDiskVersion(this->n64ddFlags[fileNum]);
+    }
+#endif
 }
 
 static void (*sSelectModeUpdateFuncs[])(GameState*) = {
@@ -1648,7 +1666,15 @@ void FileSelect_Main(GameState* thisx) {
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2898);
 
+#if PLATFORM_N64
+    if ((D_80121212 != 0) && (func_801C70FC() != 0)) {
+        this->n64ddFlag = 1;
+    } else {
+        this->n64ddFlag = 0;
+    }
+#else
     this->n64ddFlag = 0;
+#endif
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     gSPSegment(POLY_OPA_DISP++, 0x01, this->staticSegment);
@@ -1926,6 +1952,12 @@ void FileSelect_Init(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     u32 size = (uintptr_t)_title_staticSegmentRomEnd - (uintptr_t)_title_staticSegmentRomStart;
     s32 pad;
+
+#if PLATFORM_N64
+    if (D_80121212 != 0) {
+        func_801C7268();
+    }
+#endif
 
     SREG(30) = 1;
     PRINTF("SIZE=%x\n", size);

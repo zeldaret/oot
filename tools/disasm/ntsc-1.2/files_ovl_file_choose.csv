@@ -1,7 +1,7 @@
 offset,vram,.text
 0,80803880,src/overlays/gamestates/ovl_file_choose/z_file_copy_erase
 3040,808068C0,src/overlays/gamestates/ovl_file_choose/z_file_nameset
-8440,8080BCC0,z_file_choose
+8440,8080BCC0,src/overlays/gamestates/ovl_file_choose/z_file_choose
 
 offset,vram,.data
 EC50,808124D0,src/overlays/gamestates/ovl_file_choose/z_file_nameset_data

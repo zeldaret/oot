@@ -1,9 +1,9 @@
 <Root>
      <File Name="map_name_static" Segment="11">
 
-         <!-- Place names for each world map point -->
+        <!-- Place names for each world map point -->
 
-         <Texture Name="gHauntedWastelandPointNameJPNTex" OutName="haunted_wasteland_point_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x0"/>
+        <Texture Name="gHauntedWastelandPointNameJPNTex" OutName="haunted_wasteland_point_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x0"/>
         <Texture Name="gGerudosFortressPointNameJPNTex" OutName="gerudos_fortress_point_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x400"/>
         <Texture Name="gGerudoValleyPointNameJPNTex" OutName="gerudo_valley_point_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x800"/>
         <Texture Name="gHyliaLakesidePointNameJPNTex" OutName="hylia_lakeside_point_name_jpn" Format="ia4" Width="128" Height="16" Offset="0xC00"/>
@@ -29,7 +29,7 @@
         <Texture Name="gKokiriForestPointNameENGTex" OutName="kokiri_forest_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x5800"/>
         <Texture Name="gZorasDomainPointNameENGTex" OutName="zoras_domain_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x5C00"/>
 
-         <!-- Place names for each world map area -->
+        <!-- Place names for each world map area -->
 
         <Texture Name="gHyruleFieldPositionNameJPNTex" OutName="hyrule_field_position_name_jpn" Format="ia8" Width="80" Height="32" Offset="0x6000"/>
         <Texture Name="gKakarikoVillagePositionNameJPNTex" OutName="kakariko_village_position_name_jpn" Format="ia8" Width="80" Height="32" Offset="0x6A00"/>

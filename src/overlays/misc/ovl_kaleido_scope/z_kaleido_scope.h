@@ -120,6 +120,8 @@ typedef enum EquipQuad {
 #define WORLD_MAP_IMAGE_FRAG_HEIGHT ((TMEM_SIZE / 2) / (WORLD_MAP_IMAGE_WIDTH * G_IM_SIZ_8b_BYTES))
 #define WORLD_MAP_IMAGE_FRAG_NUM (((WORLD_MAP_IMAGE_HEIGHT - 1) / WORLD_MAP_IMAGE_FRAG_HEIGHT) + 1)
 
+// Clouds quads cover undiscovered areas.
+// Point quads are location markers. They can also be highlighted as a hint of where to go.
 typedef enum MapQuad {
     /*  0 */ QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW,
     /*  1 */ QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD,

@@ -753,7 +753,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 235, 235, 235, pauseCtx->alpha);
 
         for (k = 0; k < 15; k += 8) {
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[15 * 4 + k * 4], 32, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + k) * 4], 32, 0);
 
             for (j = i = 0; i < 8; i++, j += 4) {
                 if (!(gSaveContext.save.info.worldMapAreaData & gBitFlags[cloudFlagNums[k + i]])) {

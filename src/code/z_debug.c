@@ -170,7 +170,7 @@ void Regs_UpdateEditor(Input* input) {
     s32 increment;
     s32 i;
 
-    dPadInputCur = input->cur.button & (BTN_DUP | BTN_DLEFT | BTN_DRIGHT | BTN_DDOWN);
+    dPadInputCur = input->cur.button & (BTN_DUP | BTN_DDOWN | BTN_DLEFT | BTN_DRIGHT);
 
     if (CHECK_BTN_ALL(input->cur.button, BTN_L) || CHECK_BTN_ALL(input->cur.button, BTN_R) ||
         CHECK_BTN_ALL(input->cur.button, BTN_START)) {

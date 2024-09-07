@@ -15,7 +15,7 @@
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "terminal.h"
 
-#if PLATFORM_N64
+#if !PLATFORM_GC
 #define KALEIDO_COLOR_PROMPT_UNK_R 100
 #define KALEIDO_COLOR_PROMPT_UNK_G 100
 #define KALEIDO_COLOR_PROMPT_UNK_B 255
@@ -560,7 +560,7 @@ s16 gVtxPageMapWorldQuadsWidth[VTX_PAGE_MAP_WORLD_QUADS] = {
     8,   // WORLD_MAP_POINT_HAUNTED_WASTELAND
     8,   // WORLD_MAP_POINT_GERUDOS_FORTRESS
     8,   // WORLD_MAP_POINT_GERUDO_VALLEY
-    8,   // WORLD_MAP_POINT_HYLIA_LAKESIDE
+    8,   // WORLD_MAP_POINT_LAKE_HYLIA
     8,   // WORLD_MAP_POINT_LON_LON_RANCH
     8,   // WORLD_MAP_POINT_MARKET
     8,   // WORLD_MAP_POINT_HYRULE_FIELD
@@ -595,7 +595,7 @@ s16 gVtxPageMapWorldQuadsHeight[VTX_PAGE_MAP_WORLD_QUADS] = {
     8,  // WORLD_MAP_POINT_HAUNTED_WASTELAND
     8,  // WORLD_MAP_POINT_GERUDOS_FORTRESS
     8,  // WORLD_MAP_POINT_GERUDO_VALLEY
-    8,  // WORLD_MAP_POINT_HYLIA_LAKESIDE
+    8,  // WORLD_MAP_POINT_LAKE_HYLIA
     8,  // WORLD_MAP_POINT_LON_LON_RANCH
     8,  // WORLD_MAP_POINT_MARKET
     8,  // WORLD_MAP_POINT_HYRULE_FIELD
@@ -2148,12 +2148,12 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
                 // `texIndex` is a `WorldMapPoint` enum value
 
                 if (gSaveContext.language) { // != LANGUAGE_JPN for NTSC versions, LANGUAGE_ENG for PAL versions
-                    texIndex += 12;
+                    texIndex += WORLD_MAP_POINT_MAX;
                 }
 
 #if OOT_PAL
                 if (gSaveContext.language == LANGUAGE_FRA) {
-                    texIndex += 12;
+                    texIndex += WORLD_MAP_POINT_MAX;
                 }
 #endif
 
@@ -2303,7 +2303,7 @@ static s16 sVtxPageMapWorldQuadsX[VTX_PAGE_MAP_WORLD_QUADS] = {
     -93,  // WORLD_MAP_POINT_HAUNTED_WASTELAND
     -67,  // WORLD_MAP_POINT_GERUDOS_FORTRESS
     -56,  // WORLD_MAP_POINT_GERUDO_VALLEY
-    -33,  // WORLD_MAP_POINT_HYLIA_LAKESIDE
+    -33,  // WORLD_MAP_POINT_LAKE_HYLIA
     -10,  // WORLD_MAP_POINT_LON_LON_RANCH
     1,    // WORLD_MAP_POINT_MARKET
     14,   // WORLD_MAP_POINT_HYRULE_FIELD
@@ -2365,7 +2365,7 @@ static s16 sVtxPageMapWorldQuadsY[VTX_PAGE_MAP_WORLD_QUADS] = {
     31,  // WORLD_MAP_POINT_HAUNTED_WASTELAND
     27,  // WORLD_MAP_POINT_GERUDOS_FORTRESS
     15,  // WORLD_MAP_POINT_GERUDO_VALLEY
-    -49, // WORLD_MAP_POINT_HYLIA_LAKESIDE
+    -49, // WORLD_MAP_POINT_LAKE_HYLIA
     8,   // WORLD_MAP_POINT_LON_LON_RANCH
     38,  // WORLD_MAP_POINT_MARKET
     7,   // WORLD_MAP_POINT_HYRULE_FIELD
@@ -3918,13 +3918,13 @@ void KaleidoScope_Update(PlayState* play) {
             }
 
             if (CUR_UPG_VALUE(UPG_SCALE)) {
-                pauseCtx->worldMapPoints[WORLD_MAP_POINT_HYLIA_LAKESIDE] = WORLD_MAP_POINT_STATE_SHOW;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LAKE_HYLIA] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON)) {
-                pauseCtx->worldMapPoints[WORLD_MAP_POINT_HYLIA_LAKESIDE] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LAKE_HYLIA] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_WATER)) {
-                pauseCtx->worldMapPoints[WORLD_MAP_POINT_HYLIA_LAKESIDE] = WORLD_MAP_POINT_STATE_SHOW;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LAKE_HYLIA] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
@@ -4069,7 +4069,7 @@ void KaleidoScope_Update(PlayState* play) {
                     pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_ZORAS_DOMAIN;
                 }
                 if (i == ITEM_EYEBALL_FROG) {
-                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_HYLIA_LAKESIDE;
+                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_LAKE_HYLIA;
                 }
                 if ((i == ITEM_CLAIM_CHECK) && !gSaveContext.save.info.playerData.bgsFlag) {
                     pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_DEATH_MOUNTAIN;
@@ -4124,7 +4124,7 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->state = PAUSE_STATE_CLOSING;
                         R_PAUSE_OFFSET_VERTICAL = -6240;
                         func_800F64E0(0);
-#if PLATFORM_GC && OOT_NTSC
+#if !PLATFORM_N64 && OOT_NTSC
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
 #endif
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
@@ -4282,7 +4282,7 @@ void KaleidoScope_Update(PlayState* play) {
                             R_PAUSE_OFFSET_VERTICAL = -6240;
                             YREG(8) = pauseCtx->rollRotSavePrompt_;
                             func_800F64E0(0);
-#if PLATFORM_GC && OOT_NTSC
+#if !PLATFORM_N64 && OOT_NTSC
                             AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
 #endif
                         } else {
@@ -4315,7 +4315,7 @@ void KaleidoScope_Update(PlayState* play) {
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
-#if PLATFORM_GC && OOT_NTSC
+#if !PLATFORM_N64 && OOT_NTSC
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
 #endif
                     }
