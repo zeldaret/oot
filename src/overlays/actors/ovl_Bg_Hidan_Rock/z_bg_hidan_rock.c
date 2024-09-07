@@ -157,7 +157,7 @@ void func_8088B268(BgHidanRock* this, PlayState* play) {
                 this->timer = 5;
             }
 
-            func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
             this->dyna.unk_150 = 0.0f;

@@ -147,7 +147,7 @@ void EnBom_Move(EnBom* this, PlayState* play) {
     } else {
         Math_StepToF(&this->actor.speed, 0.0f, 1.0f);
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (this->actor.velocity.y < -3.0f)) {
-            func_8002F850(play, &this->actor);
+            Actor_PlaySfx_SurfaceBomb(play, &this->actor);
             this->actor.velocity.y *= -0.3f;
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         } else if (this->timer >= 4) {

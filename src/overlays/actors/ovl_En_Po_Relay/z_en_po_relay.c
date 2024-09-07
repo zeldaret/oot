@@ -167,7 +167,7 @@ void EnPoRelay_Idle(EnPoRelay* this, PlayState* play) {
         this->actor.textId = this->textId;
         Actor_OfferTalk(&this->actor, play, 250.0f);
     }
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
 void EnPoRelay_Talk(EnPoRelay* this, PlayState* play) {
@@ -177,7 +177,7 @@ void EnPoRelay_Talk(EnPoRelay* this, PlayState* play) {
         this->textId = this->actor.textId;
         EnPoRelay_SetupRace(this);
     }
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
 void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
@@ -249,7 +249,7 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
         }
     }
     this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
-    func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
 }
 
 void EnPoRelay_EndRace(EnPoRelay* this, PlayState* play) {
@@ -263,7 +263,7 @@ void EnPoRelay_EndRace(EnPoRelay* this, PlayState* play) {
         this->actor.textId = this->textId;
         Actor_OfferTalk(&this->actor, play, 250.0f);
     }
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
 void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
@@ -283,7 +283,7 @@ void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
         this->actionTimer = 0;
         this->actionFunc = EnPoRelay_DisappearAndReward;
     }
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
 void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {

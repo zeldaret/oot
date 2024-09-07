@@ -163,14 +163,10 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_18 (1 << 18)
 
-//
-#define ACTOR_FLAG_19 (1 << 19)
-
-//
-#define ACTOR_FLAG_20 (1 << 20)
-
-//
-#define ACTOR_FLAG_21 (1 << 21)
+// Flags controlling the use of `Actor.sfx`. Do not use directly.
+#define ACTOR_FLAG_SFX_ACTOR_POS_2 (1 << 19) // see Actor_PlaySfx_Flagged2
+#define ACTOR_AUDIO_FLAG_SFX_CENTERED_1 (1 << 20) // see Actor_PlaySfx_FlaggedCentered1
+#define ACTOR_AUDIO_FLAG_SFX_CENTERED_2 (1 << 21) // see Actor_PlaySfx_FlaggedCentered2
 
 // ignores point lights but not directional lights (such as environment lights)
 #define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22)
@@ -190,8 +186,8 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_27 (1 << 27)
 
-//
-#define ACTOR_FLAG_28 (1 << 28)
+// Flag controlling the use of `Actor.sfx`. Do not use directly. See Actor_PlaySfx_FlaggedTimer
+#define ACTOR_FLAG_SFX_TIMER (1 << 28)
 
 #define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
 #define COLORFILTER_GET_DURATION(colorFilterParams) ((colorFilterParams) & 0xFF)
