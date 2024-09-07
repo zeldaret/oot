@@ -81,7 +81,7 @@ void ElfMsg2_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!ElfMsg2_KillCheck(this, play)) {
         if ((this->actor.world.rot.x > 0) && (this->actor.world.rot.x < 8)) {
-            this->actor.targetMode = this->actor.world.rot.x - 1;
+            this->actor.attentionRangeType = this->actor.world.rot.x - 1;
         }
         Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.world.rot.y >= 0x41) {

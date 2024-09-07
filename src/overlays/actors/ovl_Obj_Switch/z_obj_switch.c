@@ -316,7 +316,7 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
 
     if (type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
         this->dyna.actor.flags |= ACTOR_FLAG_0;
-        this->dyna.actor.targetMode = TARGET_MODE_4;
+        this->dyna.actor.attentionRangeType = ATTENTION_RANGE_4;
     }
 
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
