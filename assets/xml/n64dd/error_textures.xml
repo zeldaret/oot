@@ -1,0 +1,8 @@
+<Root>
+    <File Name="n64dd" OutName="n64dd_error_textures">
+        <Texture Name="gN64DDError41JPNTex" OutName="n64dd_error_41_jpn" Format="i4" Width="192" Height="16" Offset="0x0"/>
+        <Texture Name="gN64DDError41ENGTex" OutName="n64dd_error_41_eng" Format="i4" Width="192" Height="16" Offset="0x600"/>
+        <Texture Name="gN64DDPleaseReadManualJPNTex" OutName="n64dd_please_read_manual_jpn" Format="i4" Width="320" Height="64" Offset="0xC00"/>
+        <Texture Name="gN64DDPleaseReadManualENGTex" OutName="n64dd_please_read_manual_eng" Format="i4" Width="320" Height="64" Offset="0x3400"/>
+    </File>
+</Root>

@@ -9,28 +9,3 @@ D_0F000000 = 0x0F000000;
 
 // z_bg_mjin
 D_06000000 = 0x06000000;
-
-#if PLATFORM_N64
-
-// code_n64dd_800AD410.c
-func_801C6E80 = 0x801C7740;
-func_801C7C1C = 0x801C8510;
-D_801DA410 = 0x801DA410;
-D_801E8090 = 0x801E8090;
-
-// game.c
-func_801C7E78 = 0x801C86F0;
-func_801C6EA0 = 0x801C7760;
-
-// z_en_mag.c
-func_801C70FC = 0x801C79BC;
-
-// z_setup.c
-n64dd_SetDiskVersion = 0x801C8808;
-
-// z_title.c
-func_801C7818 = 0x801C8090;
-func_801C7268 = 0x801C7BC4;
-func_801C7658 = 0x801C7ED0;
-
-#endif
