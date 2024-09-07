@@ -186,7 +186,7 @@ typedef struct PauseContext {
     /* 0x0262 */ s16 promptChoice; // save/continue choice: 0 = yes; 4 = no
     /* 0x0264 */ s16 ocarinaSongIdx;
     /* 0x0266 */ u8 worldMapPoints[20]; // indices: `WorldMapPoint` enum, values: `WorldMapPointState` enum
-    /* 0x027A */ u8 tradeQuestMarker;
+    /* 0x027A */ u8 tradeQuestMarker; // Can be either a `WorldMapPoint` value or `TRADE_QUEST_MARKER_NONE`
     /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 
