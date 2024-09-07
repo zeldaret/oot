@@ -3,8 +3,6 @@
 
 #include "ultra64.h"
 
-#include "stdint.h"
-
 extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern u32 gSystemHeapSize;
