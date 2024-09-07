@@ -150,7 +150,4 @@ typedef VecSphGeo VecGeo;
 #define SQXYZ(vec) ((vec).x * (vec).x + (vec).y * (vec).y + (vec).z * (vec).z)
 #define DOTXYZ(vec1, vec2) ((vec1).x * (vec2).x + (vec1).y * (vec2).y + (vec1).z * (vec2).z)
 
-f32 Rand_ZeroFloat(f32 f);
-f32 Rand_CenteredFloat(f32 f);
-
 #endif
