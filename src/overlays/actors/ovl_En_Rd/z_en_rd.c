@@ -1,7 +1,7 @@
 #include "z_en_rd.h"
 #include "assets/objects/object_rd/object_rd.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
 void EnRd_Init(Actor* thisx, PlayState* play);
 void EnRd_Destroy(Actor* thisx, PlayState* play);
@@ -382,7 +382,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
         Actor_IsFacingPlayer(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (play->grabPlayer(play, player)) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             EnRd_SetupGrab(this);
         }
     } else if (this->actor.params > REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING) {
@@ -580,7 +580,7 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0, 1.0f, 400.0f, 0.0f);
             }
             this->actor.attentionRangeType = ATTENTION_RANGE_0;
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->playerStunWaitTimer = 0xA;
             this->grabWaitTimer = 0xF;
             EnRd_SetupWalkToPlayer(this, play);
@@ -650,7 +650,7 @@ void EnRd_SetupDamaged(EnRd* this) {
         this->actor.speed = -2.0f;
     }
 
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_DAMAGE);
     this->action = REDEAD_ACTION_DAMAGED;
     EnRd_SetupAction(this, EnRd_Damaged);
@@ -685,7 +685,7 @@ void EnRd_SetupDead(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gGibdoRedeadDeathAnim, -1.0f);
     this->action = REDEAD_ACTION_DEAD;
     this->timer = 300;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_DEAD);
     EnRd_SetupAction(this, EnRd_Dead);

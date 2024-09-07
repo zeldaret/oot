@@ -1,6 +1,8 @@
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
 
+#include "ultra64.h"
+
 typedef enum SeqId {
     /* 0x00 */ NA_BGM_GENERAL_SFX,      // General Sound Effects
     /* 0x01 */ NA_BGM_NATURE_AMBIENCE,  // Environmental nature background sounds
@@ -322,5 +324,19 @@ typedef enum NatureAmimalId {
 #define NATURE_IO_STREAM_1_PORT4(data)        NATURE_CHANNEL_STREAM_1, CHANNEL_IO_PORT_4, data
 
 #define NATURE_IO_ENTRIES_END 0xFF
+
+// functions in sequence.c
+
+void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDuration);
+void Audio_StopSequence(u8 seqPlayerIndex, u16 fadeOutDuration);
+void Audio_QueueSeqCmd(u32 cmd);
+void Audio_ProcessSeqCmds(void);
+u16 Audio_GetActiveSeqId(u8 seqPlayerIndex);
+s32 Audio_IsSeqCmdNotQueued(u32 cmdVal, u32 cmdMask);
+void Audio_SetVolumeScale(u8 seqPlayerIndex, u8 scaleIndex, u8 targetVol, u8 volFadeTimer);
+void Audio_UpdateActiveSequences(void);
+u8 func_800FAD34(void);
+void Audio_ResetActiveSequences(void);
+void Audio_ResetActiveSequencesAndVolume(void);
 
 #endif
