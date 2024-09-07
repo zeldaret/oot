@@ -63,7 +63,7 @@ typedef enum MapQuad {
     // 16 to 27 follows the `WorldMapPoint` enum
     /* 27 */ QUAD_MAP_WORLD_POINT_LAST = QUAD_MAP_WORLD_POINT_FIRST + WORLD_MAP_POINT_MAX - 1,
     /* 28 */ QUAD_MAP_28,
-    /* 29 */ QUAD_MAP_TRADE_QUEST_LOCATION,
+    /* 29 */ QUAD_MAP_TRADE_QUEST_MARKER,
     /* 30 */ QUAD_MAP_30,
     /* 31 */ QUAD_MAP_31,
     /* 32 */ QUAD_MAP_WORLD_IMAGE_FIRST,

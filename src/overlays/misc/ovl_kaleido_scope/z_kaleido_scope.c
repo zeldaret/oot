@@ -580,7 +580,7 @@ s16 gVtxPageMapWorldQuadsWidth[VTX_PAGE_MAP_WORLD_QUADS] = {
     8,   // WORLD_MAP_POINT_KOKIRI_FOREST
     8,   // WORLD_MAP_POINT_ZORAS_DOMAIN
     8,   // QUAD_MAP_28
-    8,   // QUAD_MAP_TRADE_QUEST_LOCATION
+    8,   // QUAD_MAP_TRADE_QUEST_MARKER
     80,  // QUAD_MAP_30
     64,  // QUAD_MAP_31
 };
@@ -615,7 +615,7 @@ s16 gVtxPageMapWorldQuadsHeight[VTX_PAGE_MAP_WORLD_QUADS] = {
     8,  // WORLD_MAP_POINT_KOKIRI_FOREST
     8,  // WORLD_MAP_POINT_ZORAS_DOMAIN
     8,  // QUAD_MAP_28
-    16, // QUAD_MAP_TRADE_QUEST_LOCATION
+    16, // QUAD_MAP_TRADE_QUEST_MARKER
     32, // QUAD_MAP_30
     8,  // QUAD_MAP_31
 };
@@ -2225,7 +2225,7 @@ static s16 sVtxPageMapWorldQuadsX[VTX_PAGE_MAP_WORLD_QUADS] = {
     74,   // WORLD_MAP_POINT_KOKIRI_FOREST
     89,   // WORLD_MAP_POINT_ZORAS_DOMAIN
     0,    // QUAD_MAP_28
-    -58,  // QUAD_MAP_TRADE_QUEST_LOCATION
+    -58,  // QUAD_MAP_TRADE_QUEST_MARKER
     19,   // QUAD_MAP_30
     28,   // QUAD_MAP_31
 };
@@ -2279,7 +2279,7 @@ static s16 sVtxPageMapWorldQuadsY[VTX_PAGE_MAP_WORLD_QUADS] = {
     -9,  // WORLD_MAP_POINT_KOKIRI_FOREST
     25,  // WORLD_MAP_POINT_ZORAS_DOMAIN
     0,   // QUAD_MAP_28
-    1,   // QUAD_MAP_TRADE_QUEST_LOCATION
+    1,   // QUAD_MAP_TRADE_QUEST_MARKER
     -32, // QUAD_MAP_30
     -26, // QUAD_MAP_31
 };
@@ -2434,9 +2434,9 @@ static s16 sVtxMapWorldAreaHeight[] = {
 };
 
 s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 numQuads) {
-    static s16 sTradeQuestLocationBobY = 0;
-    static s16 sTradeQuestLocationBobTimer = 1;
-    static s16 sTradeQuestLocationBobState = 0;
+    static s16 sTradeQuestMarkerBobY = 0;
+    static s16 sTradeQuestMarkerBobTimer = 1;
+    static s16 sTradeQuestMarkerBobState = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     s16* quadsX;
     s16* quadsWidth;
@@ -2556,32 +2556,32 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
 
             bufI += 12;
 
-            if (pauseCtx->tradeQuestLocation != TRADE_QUEST_LOCATION_NONE) {
-                if (sTradeQuestLocationBobTimer == 0) {
-                    sTradeQuestLocationBobState++;
-                    switch (sTradeQuestLocationBobState) {
+            if (pauseCtx->tradeQuestMarker != TRADE_QUEST_MARKER_NONE) {
+                if (sTradeQuestMarkerBobTimer == 0) {
+                    sTradeQuestMarkerBobState++;
+                    switch (sTradeQuestMarkerBobState) {
                         case 1:
-                            sTradeQuestLocationBobY = 3;
-                            sTradeQuestLocationBobTimer = 8;
+                            sTradeQuestMarkerBobY = 3;
+                            sTradeQuestMarkerBobTimer = 8;
                             break;
                         case 2:
-                            sTradeQuestLocationBobY = 0;
-                            sTradeQuestLocationBobTimer = 6;
-                            sTradeQuestLocationBobState = 0;
+                            sTradeQuestMarkerBobY = 0;
+                            sTradeQuestMarkerBobTimer = 6;
+                            sTradeQuestMarkerBobState = 0;
                             break;
                     }
                 } else {
-                    sTradeQuestLocationBobTimer--;
+                    sTradeQuestMarkerBobTimer--;
                 }
 
-                j = bufIAfterPageSections + ((QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->tradeQuestLocation) * 4);
-                i = bufIAfterPageSections + (QUAD_MAP_TRADE_QUEST_LOCATION * 4);
+                j = bufIAfterPageSections + ((QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->tradeQuestMarker) * 4);
+                i = bufIAfterPageSections + (QUAD_MAP_TRADE_QUEST_MARKER * 4);
 
                 vtx[i + 0].v.ob[0] = vtx[i + 2].v.ob[0] = vtx[j + 0].v.ob[0];
 
                 vtx[i + 1].v.ob[0] = vtx[i + 3].v.ob[0] = vtx[i + 0].v.ob[0] + 8;
 
-                vtx[i + 0].v.ob[1] = vtx[i + 1].v.ob[1] = vtx[j + 0].v.ob[1] - sTradeQuestLocationBobY + 10;
+                vtx[i + 0].v.ob[1] = vtx[i + 1].v.ob[1] = vtx[j + 0].v.ob[1] - sTradeQuestMarkerBobY + 10;
 
                 vtx[i + 0].v.ob[2] = vtx[i + 1].v.ob[2] = vtx[i + 2].v.ob[2] = vtx[i + 3].v.ob[2] = 0;
 
@@ -3699,32 +3699,32 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            // Trade quest location
+            // Trade quest marker
 
-            pauseCtx->tradeQuestLocation = TRADE_QUEST_LOCATION_NONE;
+            pauseCtx->tradeQuestMarker = TRADE_QUEST_MARKER_NONE;
 
             i = INV_CONTENT(ITEM_TRADE_ADULT);
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
                 if ((i <= ITEM_POCKET_CUCCO) || (i == ITEM_ODD_MUSHROOM)) {
-                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_KAKARIKO_VILLAGE;
+                    pauseCtx->tradeQuestMarker = WORLD_MAP_POINT_KAKARIKO_VILLAGE;
                 }
                 if ((i == ITEM_COJIRO) || (i == ITEM_ODD_POTION)) {
-                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_LOST_WOODS;
+                    pauseCtx->tradeQuestMarker = WORLD_MAP_POINT_LOST_WOODS;
                 }
                 if (i == ITEM_POACHERS_SAW) {
-                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_GERUDO_VALLEY;
+                    pauseCtx->tradeQuestMarker = WORLD_MAP_POINT_GERUDO_VALLEY;
                 }
                 if ((i == ITEM_BROKEN_GORONS_SWORD) || (i == ITEM_EYE_DROPS)) {
-                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_DEATH_MOUNTAIN;
+                    pauseCtx->tradeQuestMarker = WORLD_MAP_POINT_DEATH_MOUNTAIN;
                 }
                 if (i == ITEM_PRESCRIPTION) {
-                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_ZORAS_DOMAIN;
+                    pauseCtx->tradeQuestMarker = WORLD_MAP_POINT_ZORAS_DOMAIN;
                 }
                 if (i == ITEM_EYEBALL_FROG) {
-                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_LAKE_HYLIA;
+                    pauseCtx->tradeQuestMarker = WORLD_MAP_POINT_LAKE_HYLIA;
                 }
                 if ((i == ITEM_CLAIM_CHECK) && !gSaveContext.save.info.playerData.bgsFlag) {
-                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_DEATH_MOUNTAIN;
+                    pauseCtx->tradeQuestMarker = WORLD_MAP_POINT_DEATH_MOUNTAIN;
                 }
             }
 

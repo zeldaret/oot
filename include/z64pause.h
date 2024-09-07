@@ -112,7 +112,7 @@ typedef enum WorldMapPoint {
     /* 12 */ WORLD_MAP_POINT_MAX
 } WorldMapPoint;
 
-#define TRADE_QUEST_LOCATION_NONE 0xFF
+#define TRADE_QUEST_MARKER_NONE 0xFF
 
 typedef enum WorldMapPointState {
     /* 0 */ WORLD_MAP_POINT_STATE_HIDE,
@@ -186,7 +186,7 @@ typedef struct PauseContext {
     /* 0x0262 */ s16 promptChoice; // save/continue choice: 0 = yes; 4 = no
     /* 0x0264 */ s16 ocarinaSongIdx;
     /* 0x0266 */ u8 worldMapPoints[20]; // indices: `WorldMapPoint` enum, values: `WorldMapPointState` enum
-    /* 0x027A */ u8 tradeQuestLocation;
+    /* 0x027A */ u8 tradeQuestMarker;
     /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 
