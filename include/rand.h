@@ -1,7 +1,6 @@
 #ifndef RAND_H
 #define RAND_H
 
-// For convenience
 #include "libc64/qrand.h"
 
 f32 Rand_ZeroFloat(f32 f);
