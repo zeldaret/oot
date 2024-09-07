@@ -1,5 +1,5 @@
-#ifndef RAND_H
-#define RAND_H
+#ifndef LIBC64_QRAND_H
+#define LIBC64_QRAND_H
 
 #include "ultra64.h"
 
