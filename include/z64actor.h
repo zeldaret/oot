@@ -117,7 +117,7 @@ typedef struct ActorShape {
 #define ACTOR_FLAG_HOSTILE (1 << 2)
 
 // Actor is not hostile toward the player; Opposite flag of `ACTOR_FLAG_HOSTILE`.
-// Note that this flag doesn't have any effect on either the actor, or Player's behvaior. 
+// Note that this flag doesn't have any effect on either the actor, or Player's behvaior.
 // What actually matters is the presence or lack of `ACTOR_FLAG_HOSTILE`.
 #define ACTOR_FLAG_NEUTRAL (1 << 3)
 

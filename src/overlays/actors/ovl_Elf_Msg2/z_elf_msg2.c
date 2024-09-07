@@ -88,7 +88,8 @@ void ElfMsg2_Init(Actor* thisx, PlayState* play) {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitUntilActivated);
         } else {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
+            this->actor.flags |=
+                ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
         this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
