@@ -40,6 +40,36 @@ extern u8 gAreaGsFlags[];
 #define WORLD_MAP_IMAGE_FRAG_HEIGHT ((TMEM_SIZE / 2) / (WORLD_MAP_IMAGE_WIDTH * G_IM_SIZ_8b_BYTES))
 #define WORLD_MAP_IMAGE_FRAG_NUM (((WORLD_MAP_IMAGE_HEIGHT - 1) / WORLD_MAP_IMAGE_FRAG_HEIGHT) + 1)
 
+// Clouds quads cover undiscovered areas.
+// Point quads are location markers. They can also be highlighted as a hint of where to go.
+typedef enum MapQuad {
+    /*  0 */ QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW,
+    /*  1 */ QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD,
+    /*  2 */ QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH,
+    /*  3 */ QUAD_MAP_WORLD_CLOUDS_MARKET,
+    /*  4 */ QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE,
+    /*  5 */ QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE,
+    /*  6 */ QUAD_MAP_WORLD_CLOUDS_GRAVEYARD,
+    /*  7 */ QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL,
+    /*  8 */ QUAD_MAP_WORLD_CLOUDS_GORON_CITY,
+    /*  9 */ QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER,
+    /* 10 */ QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN,
+    /* 11 */ QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN,
+    /* 12 */ QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY,
+    /* 13 */ QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS,
+    /* 14 */ QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS,
+    /* 15 */ QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA,
+    /* 16 */ QUAD_MAP_WORLD_POINT_FIRST,
+    // 16 to 27 follows the `WorldMapPoint` enum
+    /* 27 */ QUAD_MAP_WORLD_POINT_LAST = QUAD_MAP_WORLD_POINT_FIRST + WORLD_MAP_POINT_MAX - 1,
+    /* 28 */ QUAD_MAP_28,
+    /* 29 */ QUAD_MAP_29,
+    /* 30 */ QUAD_MAP_30,
+    /* 31 */ QUAD_MAP_31,
+    /* 32 */ QUAD_MAP_WORLD_IMAGE_FIRST,
+    /* 46 */ QUAD_MAP_WORLD_IMAGE_LAST = QUAD_MAP_WORLD_IMAGE_FIRST + WORLD_MAP_IMAGE_FRAG_NUM - 1
+} MapQuad;
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
 void KaleidoScope_DrawDebugEditor(PlayState* play);
