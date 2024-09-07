@@ -41,7 +41,7 @@ extern OSViContext* __osViCurr;
 extern OSViContext* __osViNext;
 extern OSViMode osViModeFpalLan1;
 extern u32 __additional_scanline;
-extern const char gBuildTeam[];
+extern const char gBuildCreator[];
 extern const char gBuildDate[];
 extern const char gBuildMakeOption[];
 extern OSMesgQueue gPiMgrCmdQueue;
