@@ -449,11 +449,14 @@ void Fault_WaitForButtonCombo(void) {
     s32 count;
     s32 pad[4];
 
-    // KeyWaitB (LRZ Up Down Up Down Left Left Right Right B A START)
-    osSyncPrintf(
-        VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
-            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
-                                                                                                                                                     "\n");
+    // "KeyWaitB (L R Z Up Down Up Down Left Left Right Right B A START)"
+    osSyncPrintf(VT_FGCOL(WHITE) T("KeyWaitB (ＬＲＺ ", "KeyWaitB (L R Z ") VT_FGCOL(WHITE) T("上", "Up ")
+                     VT_FGCOL(YELLOW) T("下 ", "Down ") VT_FGCOL(YELLOW) T("上", "Up ") VT_FGCOL(WHITE)
+                         T("下 ", "Down ") VT_FGCOL(WHITE) T("左", "Left ") VT_FGCOL(YELLOW) T("左 ", "Left ")
+                             VT_FGCOL(YELLOW) T("右", "Right ") VT_FGCOL(WHITE) T("右 ", "Right ") VT_FGCOL(GREEN)
+                                 T("Ｂ", "B ") VT_FGCOL(BLUE) T("Ａ", "A ")
+                                     VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST "\n");
+
     x = 0;
     y = 0;
     count = 0;
@@ -585,8 +588,7 @@ void Fault_WaitForButtonCombo(void) {
                     if ((btnCur == (BTN_A | BTN_B | BTN_START)) && (btnPress == BTN_START)) {
                         f32 comboTimeSeconds = OS_CYCLES_TO_USEC(osGetTime() - comboStartTime) / 1000000.0f;
 
-                        // Input time %f seconds
-                        osSyncPrintf("入力時間 %f 秒\n", comboTimeSeconds);
+                        osSyncPrintf(T("入力時間 %f 秒\n", "Input time %f seconds\n"), comboTimeSeconds);
                         if (comboTimeSeconds <= 50.0f) {
                             x = 11;
                         } else {
@@ -750,16 +752,16 @@ void Fault_ThreadEntry(void* arg0) {
             osRecvMesg(&gFaultMgr.queue, &msg, OS_MESG_BLOCK);
             if (msg == FAULT_MSG_CPU_BREAK) {
                 gFaultMsgId = (s32)FAULT_MSG_CPU_BREAK;
-                // Fault Manager: OS_EVENT_CPU_BREAK received
-                osSyncPrintf("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n");
+                osSyncPrintf(T("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n",
+                               "Fault Manager: OS_EVENT_CPU_BREAK received\n"));
             } else if (msg == FAULT_MSG_FAULT) {
                 gFaultMsgId = (s32)FAULT_MSG_FAULT;
-                // Fault Manager: OS_EVENT_FAULT received
-                osSyncPrintf("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n");
+                osSyncPrintf(
+                    T("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n", "Fault Manager: OS_EVENT_FAULT received\n"));
             } else {
                 gFaultMsgId = (s32)FAULT_MSG_UNK;
-                // Fault Manager: Unknown message received
-                osSyncPrintf("フォルトマネージャ:不明なメッセージを受信しました\n");
+                osSyncPrintf(T("フォルトマネージャ:不明なメッセージを受信しました\n",
+                               "Fault Manager: Unknown message received\n"));
             }
             faultedThread = __osGetCurrFaultedThread();
             osSyncPrintf("__osGetCurrFaultedThread()=%08x\n", faultedThread);

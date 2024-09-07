@@ -215,7 +215,9 @@ void Fault_AddClient(FaultClient* client, void* callback, void* arg0, void* arg1
 end:
     osSetIntMask(mask);
     if (alreadyExists) {
-        osSyncPrintf(VT_COL(RED, WHITE) "fault_AddClient: %08x は既にリスト中にある\n" VT_RST, client);
+        osSyncPrintf(VT_COL(RED, WHITE) T("fault_AddClient: %08x は既にリスト中にある\n",
+                                          "fault_AddClient: %08x is already in the list\n") VT_RST,
+                     client);
     }
 }
 
@@ -251,7 +253,9 @@ void Fault_RemoveClient(FaultClient* client) {
     osSetIntMask(mask);
 
     if (listIsEmpty) {
-        osSyncPrintf(VT_COL(RED, WHITE) "fault_RemoveClient: %08x リスト不整合です\n" VT_RST, client);
+        osSyncPrintf(VT_COL(RED, WHITE) T("fault_RemoveClient: %08x リスト不整合です\n",
+                                          "fault_RemoveClient: %08x list inconsistency\n") VT_RST,
+                     client);
     }
 }
 
@@ -293,7 +297,9 @@ void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* 
 end:
     osSetIntMask(mask);
     if (alreadyExists) {
-        osSyncPrintf(VT_COL(RED, WHITE) "fault_AddressConverterAddClient: %08x は既にリスト中にある\n" VT_RST, client);
+        osSyncPrintf(VT_COL(RED, WHITE) T("fault_AddressConverterAddClient: %08x は既にリスト中にある\n",
+                                          "fault_AddressConverterAddClient: %08x is already in the list\n") VT_RST,
+                     client);
     }
 }
 
@@ -327,7 +333,8 @@ void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
     osSetIntMask(mask);
 
     if (listIsEmpty) {
-        osSyncPrintf(VT_COL(RED, WHITE) "fault_AddressConverterRemoveClient: %08x は既にリスト中にある\n" VT_RST,
+        osSyncPrintf(VT_COL(RED, WHITE) T("fault_AddressConverterRemoveClient: %08x は既にリスト中にある\n",
+                                          "fault_AddressConverterRemoveClient: %08x is already in the list\n") VT_RST,
                      client);
     }
 }
@@ -675,14 +682,16 @@ void Fault_WaitForButtonCombo(void) {
     if (1) {}
     if (1) {}
 
-    // KeyWaitB (LRZ Up Down Up Down Left Left Right Right B A START)
-    osSyncPrintf(
-        VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
-            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
-                                                                                                                                                     "\n");
-    // KeyWaitB'(LR Left Right START)
-    osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
-        WHITE) ")" VT_RST "\n");
+    // "KeyWaitB (L R Z Up Down Up Down Left Left Right Right B A START)"
+    osSyncPrintf(VT_FGCOL(WHITE) T("KeyWaitB (ＬＲＺ ", "KeyWaitB (L R Z ") VT_FGCOL(WHITE) T("上", "Up ")
+                     VT_FGCOL(YELLOW) T("下 ", "Down ") VT_FGCOL(YELLOW) T("上", "Up ") VT_FGCOL(WHITE)
+                         T("下 ", "Down ") VT_FGCOL(WHITE) T("左", "Left ") VT_FGCOL(YELLOW) T("左 ", "Left ")
+                             VT_FGCOL(YELLOW) T("右", "Right ") VT_FGCOL(WHITE) T("右 ", "Right ") VT_FGCOL(GREEN)
+                                 T("Ｂ", "B ") VT_FGCOL(BLUE) T("Ａ", "A ")
+                                     VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST "\n");
+    // "KeyWaitB'(L R Left Right +START)"
+    osSyncPrintf(VT_FGCOL(WHITE) T("KeyWaitB'(ＬＲ左", "KeyWaitB'(L R Left ") VT_FGCOL(YELLOW) T("右 +", "Right +")
+                     VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST "\n");
 
     Fault_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
     Fault_SetBackColor(GPACK_RGBA5551(0, 0, 0, 1));
@@ -1185,20 +1194,20 @@ void Fault_ThreadEntry(void* arg) {
 
             if (msg == FAULT_MSG_CPU_BREAK) {
                 sFaultInstance->msgId = (u32)FAULT_MSG_CPU_BREAK;
-                // Fault Manager: OS_EVENT_CPU_BREAK received
-                osSyncPrintf("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n");
+                osSyncPrintf(T("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n",
+                               "Fault Manager: OS_EVENT_CPU_BREAK received\n"));
             } else if (msg == FAULT_MSG_FAULT) {
                 sFaultInstance->msgId = (u32)FAULT_MSG_FAULT;
-                // Fault Manager: OS_EVENT_FAULT received
-                osSyncPrintf("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n");
+                osSyncPrintf(
+                    T("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n", "Fault Manager: OS_EVENT_FAULT received\n"));
             } else if (msg == FAULT_MSG_UNK) {
                 Fault_UpdatePad();
                 faultedThread = NULL;
                 continue;
             } else {
                 sFaultInstance->msgId = (u32)FAULT_MSG_UNK;
-                // Fault Manager: Unknown message received
-                osSyncPrintf("フォルトマネージャ:不明なメッセージを受信しました\n");
+                osSyncPrintf(T("フォルトマネージャ:不明なメッセージを受信しました\n",
+                               "Fault Manager: Unknown message received\n"));
             }
 
             faultedThread = __osGetCurrFaultedThread();
