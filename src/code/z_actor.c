@@ -1985,7 +1985,8 @@ void Actor_PlaySfx_FlaggedCentered2(Actor* actor, u16 sfxId) {
  * Play a sfx at the actor's position using the shared flagged audio system
  */
 void Actor_PlaySfx_Flagged(Actor* actor, u16 sfxId) {
-    actor->flags &= ~(ACTOR_FLAG_SFX_ACTOR_POS_2 | ACTOR_AUDIO_FLAG_SFX_CENTERED_1 | ACTOR_AUDIO_FLAG_SFX_CENTERED_2 | ACTOR_FLAG_SFX_TIMER);
+    actor->flags &= ~(ACTOR_FLAG_SFX_ACTOR_POS_2 | ACTOR_AUDIO_FLAG_SFX_CENTERED_1 | ACTOR_AUDIO_FLAG_SFX_CENTERED_2 |
+                      ACTOR_FLAG_SFX_TIMER);
     actor->sfx = sfxId;
 }
 
