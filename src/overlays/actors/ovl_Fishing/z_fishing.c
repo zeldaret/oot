@@ -14,7 +14,7 @@
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:156 gc-eu-mq:156 gc-jp:158 gc-jp-ce:158 gc-jp-mq:158 gc-us:158 gc-us-mq:158"
+#pragma increment_block_number "gc-eu:148 gc-eu-mq:148 gc-jp:150 gc-jp-ce:150 gc-jp-mq:150 gc-us:150 gc-us-mq:150"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -829,8 +829,8 @@ static FishingFishInit sFishInits[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 0, ICHAIN_STOP),
 };
 
 void Fishing_Init(Actor* thisx, PlayState* play2) {
@@ -1029,7 +1029,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
     if (thisx->params == EN_FISH_AQUARIUM) {
         this->fishState = 100;
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
-        thisx->targetMode = TARGET_MODE_0;
+        thisx->attentionRangeType = ATTENTION_RANGE_0;
         thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     } else {
