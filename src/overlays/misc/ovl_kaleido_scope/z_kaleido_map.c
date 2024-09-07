@@ -873,9 +873,9 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         KaleidoScope_DrawCursor(play, PAUSE_MAP);
     }
 
-    gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[176], 16, 0);
+    gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + QUAD_MAP_TRADE_QUEST_MARKER) * 4], 16, 0);
 
-    if (pauseCtx->tradeQuestLocation != 0xFF) {
+    if (pauseCtx->tradeQuestMarker != TRADE_QUEST_MARKER_NONE) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, pointPulsePrimColor[0], 0, pauseCtx->alpha);

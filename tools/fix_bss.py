@@ -189,6 +189,7 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
         if not (
             mapfile_segment.name.startswith("..boot")
             or mapfile_segment.name.startswith("..code")
+            or mapfile_segment.name.startswith("..n64dd")
             or mapfile_segment.name.startswith("..ovl_")
         ):
             continue
