@@ -112,6 +112,8 @@ typedef enum WorldMapPoint {
     /* 12 */ WORLD_MAP_POINT_MAX
 } WorldMapPoint;
 
+#define TRADE_QUEST_LOCATION_NONE 0xFF
+
 typedef enum WorldMapPointState {
     /* 0 */ WORLD_MAP_POINT_STATE_HIDE,
     /* 1 */ WORLD_MAP_POINT_STATE_SHOW,

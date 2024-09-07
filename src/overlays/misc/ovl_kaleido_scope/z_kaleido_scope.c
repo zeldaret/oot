@@ -570,7 +570,7 @@ s16 gVtxPageMapWorldQuadsWidth[VTX_PAGE_MAP_WORLD_QUADS] = {
     8,   // WORLD_MAP_POINT_KOKIRI_FOREST
     8,   // WORLD_MAP_POINT_ZORAS_DOMAIN
     8,   // QUAD_MAP_28
-    8,   // QUAD_MAP_29
+    8,   // QUAD_MAP_TRADE_QUEST_LOCATION
     80,  // QUAD_MAP_30
     64,  // QUAD_MAP_31
 };
@@ -605,7 +605,7 @@ s16 gVtxPageMapWorldQuadsHeight[VTX_PAGE_MAP_WORLD_QUADS] = {
     8,  // WORLD_MAP_POINT_KOKIRI_FOREST
     8,  // WORLD_MAP_POINT_ZORAS_DOMAIN
     8,  // QUAD_MAP_28
-    16, // QUAD_MAP_29
+    16, // QUAD_MAP_TRADE_QUEST_LOCATION
     32, // QUAD_MAP_30
     8,  // QUAD_MAP_31
 };
@@ -2205,7 +2205,7 @@ static s16 sVtxPageMapWorldQuadsX[VTX_PAGE_MAP_WORLD_QUADS] = {
     74,   // WORLD_MAP_POINT_KOKIRI_FOREST
     89,   // WORLD_MAP_POINT_ZORAS_DOMAIN
     0,    // QUAD_MAP_28
-    -58,  // QUAD_MAP_29
+    -58,  // QUAD_MAP_TRADE_QUEST_LOCATION
     19,   // QUAD_MAP_30
     28,   // QUAD_MAP_31
 };
@@ -2259,7 +2259,7 @@ static s16 sVtxPageMapWorldQuadsY[VTX_PAGE_MAP_WORLD_QUADS] = {
     -9,  // WORLD_MAP_POINT_KOKIRI_FOREST
     25,  // WORLD_MAP_POINT_ZORAS_DOMAIN
     0,   // QUAD_MAP_28
-    1,   // QUAD_MAP_29
+    1,   // QUAD_MAP_TRADE_QUEST_LOCATION
     -32, // QUAD_MAP_30
     -26, // QUAD_MAP_31
 };
@@ -2414,9 +2414,9 @@ static s16 sVtxMapWorldAreaHeight[] = {
 };
 
 s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 numQuads) {
-    static s16 D_8082B110 = 0;
-    static s16 D_8082B114 = 1;
-    static s16 D_8082B118 = 0;
+    static s16 sTradeQuestLocationBobY = 0;
+    static s16 sTradeQuestLocationBobTimer = 1;
+    static s16 sTradeQuestLocationBobState = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
     s16* quadsX;
     s16* quadsWidth;
@@ -2536,32 +2536,32 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
 
             bufI += 12;
 
-            if (pauseCtx->tradeQuestLocation != 0xFF) {
-                if (D_8082B114 == 0) {
-                    D_8082B118++;
-                    switch (D_8082B118) {
+            if (pauseCtx->tradeQuestLocation != TRADE_QUEST_LOCATION_NONE) {
+                if (sTradeQuestLocationBobTimer == 0) {
+                    sTradeQuestLocationBobState++;
+                    switch (sTradeQuestLocationBobState) {
                         case 1:
-                            D_8082B110 = 3;
-                            D_8082B114 = 8;
+                            sTradeQuestLocationBobY = 3;
+                            sTradeQuestLocationBobTimer = 8;
                             break;
                         case 2:
-                            D_8082B110 = 0;
-                            D_8082B114 = 6;
-                            D_8082B118 = 0;
+                            sTradeQuestLocationBobY = 0;
+                            sTradeQuestLocationBobTimer = 6;
+                            sTradeQuestLocationBobState = 0;
                             break;
                     }
                 } else {
-                    D_8082B114--;
+                    sTradeQuestLocationBobTimer--;
                 }
 
-                j = bufIAfterPageSections + (pauseCtx->tradeQuestLocation * 4) + 64;
-                i = bufIAfterPageSections + 116;
+                j = bufIAfterPageSections + ((QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->tradeQuestLocation) * 4);
+                i = bufIAfterPageSections + (QUAD_MAP_TRADE_QUEST_LOCATION * 4);
 
                 vtx[i + 0].v.ob[0] = vtx[i + 2].v.ob[0] = vtx[j + 0].v.ob[0];
 
                 vtx[i + 1].v.ob[0] = vtx[i + 3].v.ob[0] = vtx[i + 0].v.ob[0] + 8;
 
-                vtx[i + 0].v.ob[1] = vtx[i + 1].v.ob[1] = vtx[j + 0].v.ob[1] - D_8082B110 + 10;
+                vtx[i + 0].v.ob[1] = vtx[i + 1].v.ob[1] = vtx[j + 0].v.ob[1] - sTradeQuestLocationBobY + 10;
 
                 vtx[i + 0].v.ob[2] = vtx[i + 1].v.ob[2] = vtx[i + 2].v.ob[2] = vtx[i + 3].v.ob[2] = 0;
 
@@ -3679,32 +3679,36 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            pauseCtx->tradeQuestLocation = 0xFF;
+            // Trade quest location
+
+            pauseCtx->tradeQuestLocation = TRADE_QUEST_LOCATION_NONE;
 
             i = INV_CONTENT(ITEM_TRADE_ADULT);
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
                 if ((i <= ITEM_POCKET_CUCCO) || (i == ITEM_ODD_MUSHROOM)) {
-                    pauseCtx->tradeQuestLocation = 8;
+                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_KAKARIKO_VILLAGE;
                 }
                 if ((i == ITEM_COJIRO) || (i == ITEM_ODD_POTION)) {
-                    pauseCtx->tradeQuestLocation = 9;
+                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_LOST_WOODS;
                 }
                 if (i == ITEM_POACHERS_SAW) {
-                    pauseCtx->tradeQuestLocation = 2;
+                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_GERUDO_VALLEY;
                 }
                 if ((i == ITEM_BROKEN_GORONS_SWORD) || (i == ITEM_EYE_DROPS)) {
-                    pauseCtx->tradeQuestLocation = 7;
+                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_DEATH_MOUNTAIN;
                 }
                 if (i == ITEM_PRESCRIPTION) {
-                    pauseCtx->tradeQuestLocation = 11;
+                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_ZORAS_DOMAIN;
                 }
                 if (i == ITEM_EYEBALL_FROG) {
-                    pauseCtx->tradeQuestLocation = 3;
+                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_LAKE_HYLIA;
                 }
-                if ((i == ITEM_CLAIM_CHECK) && (gSaveContext.save.info.playerData.bgsFlag == 0)) {
-                    pauseCtx->tradeQuestLocation = 7;
+                if ((i == ITEM_CLAIM_CHECK) && !gSaveContext.save.info.playerData.bgsFlag) {
+                    pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_DEATH_MOUNTAIN;
                 }
             }
+
+            // Next state
 
             pauseCtx->state = PAUSE_STATE_OPENING_1;
             break;
