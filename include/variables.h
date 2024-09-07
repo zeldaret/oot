@@ -60,10 +60,6 @@ extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_d
 extern s32 gMaxActorId; // original name: "MaxProfile"
 extern s32 gDebugCamEnabled;
 extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
-extern u8 gWeatherMode;
-extern u8 gLightConfigAfterUnderwater;
-extern u8 gInterruptSongOfStorms;
-extern u16 gTimeSpeed;
 extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
@@ -169,8 +165,6 @@ extern AudioTable gSoundFontTable;
 extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
-
-extern SaveContext gSaveContext;
 
 extern u8 gUseCutsceneCam;
 extern u16 D_8015FCCC;
