@@ -119,7 +119,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sOwlCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.minVelocityY = -10.0f;
-    this->actor.targetArrowOffset = 500.0f;
+    this->actor.lockOnArrowOffset = 500.0f;
     EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime2, &gOwlPerchAnim, 0.0f);
     this->actionFlags = this->unk_406 = this->unk_409 = 0;
     this->unk_405 = 4;

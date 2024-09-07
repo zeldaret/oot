@@ -842,7 +842,7 @@ void EnGo2_SetShape(EnGo2* this) {
 
     this->actor.shape.shadowScale = D_80A481F8[index].shape_unk_10;
     Actor_SetScale(&this->actor, D_80A481F8[index].scale);
-    this->actor.targetMode = D_80A481F8[index].actor_unk_1F;
+    this->actor.attentionRangeType = D_80A481F8[index].actor_unk_1F;
     this->interactRange = D_80A481F8[index].interactRange;
     this->interactRange += this->collider.dim.radius;
 }

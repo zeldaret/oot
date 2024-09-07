@@ -261,7 +261,7 @@ static AnimationHeader* sHandHangPoses[] = { &gBongoLeftHandHangPoseAnim, &gBong
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BONGO_BONGO, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 20, ICHAIN_STOP),
 };
 
@@ -308,7 +308,7 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
             this->actor.update = BossSst_UpdateHead;
             this->actor.draw = BossSst_DrawHead;
             this->radius = -650.0f;
-            this->actor.targetArrowOffset = 4000.0f;
+            this->actor.lockOnArrowOffset = 4000.0f;
             BossSst_HeadSetupLurk(this);
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
         }
@@ -328,7 +328,7 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
 
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 95.0f);
         this->handZPosMod = -3500;
-        this->actor.targetArrowOffset = 5000.0f;
+        this->actor.lockOnArrowOffset = 5000.0f;
         this->actor.flags &= ~ACTOR_FLAG_0;
         BossSst_HandSetupWait(this);
     }

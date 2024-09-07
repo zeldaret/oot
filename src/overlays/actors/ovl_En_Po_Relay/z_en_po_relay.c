@@ -69,7 +69,7 @@ static s32 D_80AD8D24 = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DAMPES_GHOST, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 1500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 1500, ICHAIN_STOP),
 };
 
 static Vec3f D_80AD8D30 = { 0.0f, 1.5f, 0.0f };

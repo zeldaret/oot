@@ -588,7 +588,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
 
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_2);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.targetMode = TARGET_MODE_6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->dialogRadius = this->collider.dim.radius + 30.0f;
     this->trackingMode = NPC_TRACKING_NONE;
     this->canSpeak = false;
