@@ -1297,6 +1297,11 @@ OcarinaNote sScarecrowsLongSongSecondNote;
 #if OOT_DEBUG
 u8 sIsMalonSinging;
 f32 sMalonSingingDist;
+u32 sDebugPadHold;
+u32 sDebugPadBtnLast;
+u32 sDebugPadPress;
+s32 sAudioUpdateTaskStart;
+s32 sAudioUpdateTaskEnd;
 #endif
 
 void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
