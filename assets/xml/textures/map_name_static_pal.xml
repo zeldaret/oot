@@ -1,5 +1,8 @@
 <Root>
      <File Name="map_name_static" Segment="11">
+
+        <!-- Place names for each world map point -->
+
         <Texture Name="gHauntedWastelandPointNameENGTex" OutName="haunted_wasteland_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x0"/>
         <Texture Name="gGerudosFortressPointNameENGTex" OutName="gerudos_fortress_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x400"/>
         <Texture Name="gGerudoValleyPointNameENGTex" OutName="gerudo_valley_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x800"/>
@@ -12,6 +15,7 @@
         <Texture Name="gLostWoodsPointNameENGTex" OutName="lost_woods_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2400"/>
         <Texture Name="gKokiriForestPointNameENGTex" OutName="kokiri_forest_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2800"/>
         <Texture Name="gZorasDomainPointNameENGTex" OutName="zoras_domain_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2c00"/>
+
         <Texture Name="gHauntedWastelandPointNameGERTex" OutName="haunted_wasteland_point_name_ger" Format="ia4" Width="128" Height="16" Offset="0x3000"/>
         <Texture Name="gGerudosFortressPointNameGERTex" OutName="gerudos_fortress_point_name_ger" Format="ia4" Width="128" Height="16" Offset="0x3400"/>
         <Texture Name="gGerudoValleyPointNameGERTex" OutName="gerudo_valley_point_name_ger" Format="ia4" Width="128" Height="16" Offset="0x3800"/>
@@ -24,6 +28,7 @@
         <Texture Name="gLostWoodsPointNameGERTex" OutName="lost_woods_point_name_ger" Format="ia4" Width="128" Height="16" Offset="0x5400"/>
         <Texture Name="gKokiriForestPointNameGERTex" OutName="kokiri_forest_point_name_ger" Format="ia4" Width="128" Height="16" Offset="0x5800"/>
         <Texture Name="gZorasDomainPointNameGERTex" OutName="zoras_domain_point_name_ger" Format="ia4" Width="128" Height="16" Offset="0x5c00"/>
+
         <Texture Name="gHauntedWastelandPointNameFRATex" OutName="haunted_wasteland_point_name_fra" Format="ia4" Width="128" Height="16" Offset="0x6000"/>
         <Texture Name="gGerudosFortressPointNameFRATex" OutName="gerudos_fortress_point_name_fra" Format="ia4" Width="128" Height="16" Offset="0x6400"/>
         <Texture Name="gGerudoValleyPointNameFRATex" OutName="gerudo_valley_point_name_fra" Format="ia4" Width="128" Height="16" Offset="0x6800"/>
@@ -36,6 +41,9 @@
         <Texture Name="gLostWoodsPointNameFRATex" OutName="lost_woods_point_name_fra" Format="ia4" Width="128" Height="16" Offset="0x8400"/>
         <Texture Name="gKokiriForestPointNameFRATex" OutName="kokiri_forest_point_name_fra" Format="ia4" Width="128" Height="16" Offset="0x8800"/>
         <Texture Name="gZorasDomainPointNameFRATex" OutName="zoras_domain_point_name_fra" Format="ia4" Width="128" Height="16" Offset="0x8c00"/>
+
+        <!-- Place names for each world map area -->
+
         <Texture Name="gHyruleFieldPositionNameENGTex" OutName="hyrule_field_position_name_eng" Format="ia8" Width="80" Height="32" Offset="0x9000"/>
         <Texture Name="gKakarikoVillagePositionNameENGTex" OutName="kakariko_village_position_name_eng" Format="ia8" Width="80" Height="32" Offset="0x9a00"/>
         <Texture Name="gGraveyardPositionNameENGTex" OutName="graveyard_position_name_eng" Format="ia8" Width="80" Height="32" Offset="0xa400"/>
@@ -58,6 +66,7 @@
         <Texture Name="gLonLonRanchPositionNameENGTex" OutName="lon_lon_ranch_position_name_eng" Format="ia8" Width="80" Height="32" Offset="0x14e00"/>
         <Texture Name="gQuestionMarkPositionNameENGTex" OutName="question_mark_position_name_eng" Format="ia8" Width="80" Height="32" Offset="0x15800"/>
         <Texture Name="gGanonsCastlePositionNameENGTex" OutName="ganons_castle_position_name_eng" Format="ia8" Width="80" Height="32" Offset="0x16200"/>
+
         <Texture Name="gHyruleFieldPositionNameGERTex" OutName="hyrule_field_position_name_ger" Format="ia8" Width="80" Height="32" Offset="0x16c00"/>
         <Texture Name="gKakarikoVillagePositionNameGERTex" OutName="kakariko_village_position_name_ger" Format="ia8" Width="80" Height="32" Offset="0x17600"/>
         <Texture Name="gGraveyardPositionNameGERTex" OutName="graveyard_position_name_ger" Format="ia8" Width="80" Height="32" Offset="0x18000"/>
@@ -80,6 +89,7 @@
         <Texture Name="gLonLonRanchPositionNameGERTex" OutName="lon_lon_ranch_position_name_ger" Format="ia8" Width="80" Height="32" Offset="0x22a00"/>
         <Texture Name="gQuestionMarkPositionNameGERTex" OutName="question_mark_position_name_ger" Format="ia8" Width="80" Height="32" Offset="0x23400"/>
         <Texture Name="gGanonsCastlePositionNameGERTex" OutName="ganons_castle_position_name_ger" Format="ia8" Width="80" Height="32" Offset="0x23e00"/>
+
         <Texture Name="gHyruleFieldPositionNameFRATex" OutName="hyrule_field_position_name_fra" Format="ia8" Width="80" Height="32" Offset="0x24800"/>
         <Texture Name="gKakarikoVillagePositionNameFRATex" OutName="kakariko_village_position_name_fra" Format="ia8" Width="80" Height="32" Offset="0x25200"/>
         <Texture Name="gGraveyardPositionNameFRATex" OutName="graveyard_position_name_fra" Format="ia8" Width="80" Height="32" Offset="0x25c00"/>

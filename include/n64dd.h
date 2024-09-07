@@ -4,10 +4,11 @@
 #include "ultra64.h"
 #include "z64pause.h"
 #include "z64scene.h"
+#include "z64map_mark.h"
 
 struct Font;
 struct GameState;
-union Gfx;
+struct MapData;
 struct MessageTableEntry;
 struct PlayState;
 struct RegEditor;
@@ -32,7 +33,13 @@ typedef struct n64ddStruct_80121220 {
     void (*unk_0C)(struct PlayState* play);
     void (*unk_10)(struct PlayState* play);
     void (*unk_14)(struct PlayState* play);
-    char unk_18[0x1C];
+    s32 (*unk_18)(struct MapData**);
+    s32 (*unk_1C)(struct MapData**);
+    s32 (*unk_20)(struct MapData*);
+    s32 (*unk_24)(void);
+    s32 (*unk_28)(struct PlayState*);
+    s32 (*unk_2C)(MapMarkData***);
+    s32 (*unk_30)(MapMarkData***);
     void (*unk_34)(PauseMapMarksData**);
     void (*unk_38)(PauseMapMarksData**);
     void (*unk_3C)(void);
@@ -61,7 +68,7 @@ void func_800AD590(void);
 void func_800AD598(s32 arg0, s32 arg1, s32 arg2);
 
 u32 func_801C6E80(void);
-void func_801C6EA0(union Gfx** gfxP);
+void func_801C6EA0(Gfx** gfxP);
 s32 func_801C70FC(void);
 void func_801C7268(void);
 s32 func_801C7658(void);

@@ -137,7 +137,7 @@ Gfx sDefaultDisplayList[] = {
     gsSPEndDisplayList(),
 };
 
-#if PLATFORM_N64 // Scene_Draw is at end of file in GC versions
+#if PLATFORM_N64 // Scene_Draw is at end of file in GC/iQue versions
 
 SceneDrawConfigFunc sSceneDrawConfigs[SDC_MAX] = {
     Scene_DrawConfigDefault,                     // SDC_DEFAULT
@@ -1693,7 +1693,7 @@ void Scene_DrawConfigBesitu(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7910);
 }
 
-#if PLATFORM_GC // Scene_Draw is at beginning of file in N64 versions
+#if !PLATFORM_N64 // Scene_Draw is at beginning of file in N64 versions
 
 SceneDrawConfigFunc sSceneDrawConfigs[SDC_MAX] = {
     Scene_DrawConfigDefault,                     // SDC_DEFAULT

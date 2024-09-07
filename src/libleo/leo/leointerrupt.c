@@ -9,7 +9,7 @@ extern OSHWIntr __OSGlobalIntMask;
 void __osLeoAbnormalResume(void);
 void __osLeoResume(void);
 
-STACK(leoDiskStack, 0xFF0);
+STACK(leoDiskStack, 0x1000);
 
 s32 __osLeoInterrupt(void) {
     u32 stat = 0;
