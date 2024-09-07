@@ -665,7 +665,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_14 (1 << 14)
 #define PLAYER_STATE1_15 (1 << 15)
 #define PLAYER_STATE1_16 (1 << 16)
-#define PLAYER_STATE1_17 (1 << 17)
+#define PLAYER_STATE1_PARALLEL (1 << 17)
 #define PLAYER_STATE1_18 (1 << 18)
 #define PLAYER_STATE1_19 (1 << 19)
 #define PLAYER_STATE1_20 (1 << 20)
