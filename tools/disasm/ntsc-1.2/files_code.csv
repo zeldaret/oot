@@ -131,7 +131,7 @@ BC530,800CDC10,src/code/padsetup
 BC670,800CDD50,src/code/fp_math
 BCA20,800CE100,src/code/fp
 BCB80,800CE260,src/code/system_malloc
-BCDF0,800CE4D0,src/code/rand
+BCDF0,800CE4D0,src/libc64/qrand
 BCEF0,800CE5D0,src/code/__osMalloc_n64
 BD8A0,800CEF80,src/boot/sprintf
 BD970,800CF050,src/code/printutils
@@ -291,7 +291,7 @@ F3330,80104A10,src/audio/session_config
 F3AD0,801051B0,src/code/gfxprint
 F4380,80105A60,src/code/loadfragment2_n64
 F4390,80105A70,src/code/code_800FC620
-F43A0,80105A80,src/code/rand
+F43A0,80105A80,src/libc64/qrand
 F43B0,80105A90,src/code/__osMalloc_n64
 F43C0,80105AA0,src/boot/sprintf
 F4400,80105AE0,src/libultra/gu/sins

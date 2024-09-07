@@ -606,7 +606,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/fp_math.o"
     include "$(BUILD_DIR)/src/code/fp.o"
     include "$(BUILD_DIR)/src/code/system_malloc.o"
-    include "$(BUILD_DIR)/src/code/rand.o"
+    include "$(BUILD_DIR)/src/libc64/qrand.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/code/__osMalloc_n64.o"
 #else
