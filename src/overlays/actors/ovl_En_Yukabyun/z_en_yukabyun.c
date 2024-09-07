@@ -52,7 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 16, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 16, ICHAIN_STOP),
 };
 
 static void* D_80B43F64[] = { gFloorTileEnemyTopTex, gFloorTileEnemyBottomTex };

@@ -233,7 +233,7 @@ static EnKoModelInfo sModelInfo[] = {
 };
 
 typedef struct EnKoInteractInfo {
-    /* 0x0 */ s8 targetMode;
+    /* 0x0 */ s8 attentionRangeType;
     /* 0x4 */ f32 lookDist; // extended by collider radius
     /* 0x8 */ f32 appearDist;
 } EnKoInteractInfo; // size = 0xC
@@ -1073,7 +1073,7 @@ void func_80A98CD8(EnKo* this) {
     s32 type = ENKO_TYPE;
     EnKoInteractInfo* info = &sInteractInfo[type];
 
-    this->actor.targetMode = info->targetMode;
+    this->actor.attentionRangeType = info->attentionRangeType;
     this->lookDist = info->lookDist;
     this->lookDist += this->collider.dim.radius;
     this->appearDist = info->appearDist;

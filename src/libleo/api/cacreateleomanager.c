@@ -1,4 +1,5 @@
 #include "global.h"
+#include "ultra64/asm.h"
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
@@ -25,7 +26,7 @@ s32 LeoCACreateLeoManager(s32 comPri, s32 intPri, OSMesg* cmdBuf, s32 cmdMsgCnt)
     driveRomHandle = osDriveRomInit();
     __leoActive = true;
 
-    __osSetHWIntrRoutine(OS_INTR_CART, __osLeoInterrupt, STACK_TOP(leoDiskStack));
+    __osSetHWIntrRoutine(OS_INTR_CART, __osLeoInterrupt, (u8*)STACK_TOP(leoDiskStack) - FRAMESZ(SZREG * NARGSAVE));
     leoInitialize(comPri, intPri, cmdBuf, cmdMsgCnt);
 
     if (osResetType == 1) { // NMI

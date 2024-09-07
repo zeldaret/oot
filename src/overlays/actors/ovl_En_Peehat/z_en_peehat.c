@@ -180,7 +180,7 @@ typedef enum PeahatState {
 } PeahatState;
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 700, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 700, ICHAIN_STOP),
 };
 
 void EnPeehat_SetupAction(EnPeehat* this, EnPeehatActionFunc actionFunc) {

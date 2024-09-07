@@ -175,7 +175,7 @@ static Color_RGBA8 D_80AE1B54 = { 90, 85, 50, 255 };
 static Color_RGBA8 D_80AE1B58 = { 100, 90, 100, 255 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 3200, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 3200, ICHAIN_STOP),
 };
 
 static Vec3f D_80AE1B60 = { 0.0f, 3.0f, 0.0f };

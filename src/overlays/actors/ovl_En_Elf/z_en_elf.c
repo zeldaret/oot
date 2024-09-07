@@ -935,9 +935,9 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
                 break;
             default:
                 func_80A029A8(this, 1);
-                nextPos = play->actorCtx.targetCtx.naviHoverPos;
+                nextPos = play->actorCtx.attention.naviHoverPos;
                 nextPos.y += (1500.0f * this->actor.scale.y);
-                naviHoverActor = play->actorCtx.targetCtx.naviHoverActor;
+                naviHoverActor = play->actorCtx.attention.naviHoverActor;
 
                 if (naviHoverActor != NULL) {
                     func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
@@ -1000,12 +1000,12 @@ void EnElf_ChangeColor(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* cu
 }
 
 void func_80A04414(EnElf* this, PlayState* play) {
-    Actor* naviHoverActor = play->actorCtx.targetCtx.naviHoverActor;
+    Actor* naviHoverActor = play->actorCtx.attention.naviHoverActor;
     Player* player = GET_PLAYER(play);
     f32 transitionRate;
     u16 sfxId;
 
-    if (play->actorCtx.targetCtx.naviMoveProgressFactor != 0.0f) {
+    if (play->actorCtx.attention.naviMoveProgressFactor != 0.0f) {
         this->unk_2C6 = 0;
         this->unk_29C = 1.0f;
 
@@ -1016,18 +1016,18 @@ void func_80A04414(EnElf* this, PlayState* play) {
     } else {
         if (this->unk_2C6 == 0) {
             if ((naviHoverActor == NULL) ||
-                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &play->actorCtx.targetCtx.naviHoverPos) < 50.0f)) {
+                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &play->actorCtx.attention.naviHoverPos) < 50.0f)) {
                 this->unk_2C6 = 1;
             }
         } else if (this->unk_29C != 0.0f) {
             if (Math_StepToF(&this->unk_29C, 0.0f, 0.25f) != 0) {
-                this->innerColor = play->actorCtx.targetCtx.naviInnerColor;
-                this->outerColor = play->actorCtx.targetCtx.naviOuterColor;
+                this->innerColor = play->actorCtx.attention.naviInnerColor;
+                this->outerColor = play->actorCtx.attention.naviOuterColor;
             } else {
                 transitionRate = 0.25f / this->unk_29C;
-                EnElf_ChangeColor(&this->innerColor, &play->actorCtx.targetCtx.naviInnerColor, &this->innerColor,
+                EnElf_ChangeColor(&this->innerColor, &play->actorCtx.attention.naviInnerColor, &this->innerColor,
                                   transitionRate);
-                EnElf_ChangeColor(&this->outerColor, &play->actorCtx.targetCtx.naviOuterColor, &this->outerColor,
+                EnElf_ChangeColor(&this->outerColor, &play->actorCtx.attention.naviOuterColor, &this->outerColor,
                                   transitionRate);
             }
         }
@@ -1081,7 +1081,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
         }
 
     } else {
-        naviHoverActor = play->actorCtx.targetCtx.naviHoverActor;
+        naviHoverActor = play->actorCtx.attention.naviHoverActor;
 
         // `R_SCENE_CAM_TYPE` is not a bit field, but this conditional checks for a specific bit.
         // This `& 0x10` check will pass for either `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT`, `SCENE_CAM_TYPE_FIXED`, or
@@ -1222,7 +1222,7 @@ void func_80A04DE4(EnElf* this, PlayState* play) {
     Vec3f pos;
 
     if (this->fairyFlags & 0x10) {
-        pos = play->actorCtx.targetCtx.naviHoverPos;
+        pos = play->actorCtx.attention.naviHoverPos;
 
         if ((player->focusActor == NULL) || (&player->actor == player->focusActor) ||
             (&this->actor == player->focusActor)) {

@@ -16,7 +16,7 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-#if PLATFORM_N64
+#if !PLATFORM_GC
 #define CURSOR_COLOR_R 0
 #define CURSOR_COLOR_G 80
 #define CURSOR_COLOR_B 255
@@ -324,8 +324,8 @@ static EnOssanGetGirlAParamsFunc sShopItemReplaceFunc[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, TARGET_MODE_2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 500, ICHAIN_STOP),
 };
 
 // When selecting an item to buy, this is the position the item moves to

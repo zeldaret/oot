@@ -248,7 +248,7 @@ static DamageTable sClubMoblinDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MOBLIN, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5300, ICHAIN_STOP),
 };
 
 void EnMb_SetupAction(EnMb* this, EnMbActionFunc actionFunc) {

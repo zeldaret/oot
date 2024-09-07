@@ -32,7 +32,7 @@ def ExtractFile(assetConfig: version_config.AssetConfig, outputPath: Path, outpu
 
     execStr = f"{zapdPath} e -eh -i {xmlPath} -b {globalBaseromSegmentsDir} -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
 
-    if name.startswith("code/") or name.startswith("overlays/"):
+    if name.startswith("code/") or name.startswith("n64dd/") or name.startswith("overlays/"):
         assert assetConfig.start_offset is not None
         assert assetConfig.end_offset is not None
 

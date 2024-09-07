@@ -7,10 +7,10 @@
 
 extern Mtx D_01000000;
 
-extern u32 osTvType;
-extern u32 osRomBase;
-extern u32 osResetType;
-extern u32 osCicId;
+extern void* osRomBase;
+extern s32 osTvType;
+extern s32 osResetType;
+extern s32 osCicId;
 extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 
@@ -41,7 +41,7 @@ extern OSViContext* __osViCurr;
 extern OSViContext* __osViNext;
 extern OSViMode osViModeFpalLan1;
 extern u32 __additional_scanline;
-extern const char gBuildTeam[];
+extern const char gBuildCreator[];
 extern const char gBuildDate[];
 extern const char gBuildMakeOption[];
 extern OSMesgQueue gPiMgrCmdQueue;
@@ -102,10 +102,6 @@ extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
 extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
 
-extern s32 gScreenWidth;
-extern s32 gScreenHeight;
-extern Mtx gMtxClear;
-extern MtxF gMtxFClear;
 #if OOT_DEBUG
 extern u32 gIsCtrlr2Valid;
 #endif
@@ -202,9 +198,9 @@ extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 
 extern PreNmiBuff* gAppNmiBufferPtr;
-extern uintptr_t gSegments[NUM_SEGMENTS];
 extern Scheduler gScheduler;
 extern PadMgr gPadMgr;
+extern IrqMgr gIrqMgr;
 extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
 extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
 extern volatile OSTime gRSPAudioTimeTotal;

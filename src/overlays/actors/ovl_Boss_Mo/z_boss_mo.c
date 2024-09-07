@@ -10,7 +10,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "terminal.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -294,10 +294,10 @@ static s16 sAttackRot[41] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MORPHA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 0, ICHAIN_STOP),
 };
 
 static Vec3f sAudioZeroVec = { 0.0f, 0.0f, 0.0f };
@@ -337,7 +337,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
         Flags_SetSwitch(play, 0x14);
         sMorphaCore = this;
         MO_WATER_LEVEL(play) = this->waterLevel = MO_WATER_LEVEL(play);
-        play->roomCtx.unk_74[0] = 0xA0;
+        play->roomCtx.drawParams[0] = 0xA0;
         play->specialEffects = sEffects;
         for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++) {
             sEffects[i].type = MO_FX_NONE;
@@ -357,7 +357,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 0.0f, -280.0f, 0.0f, 0, 0, 0,
                                WARP_DUNGEON_ADULT);
             Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, -200.0f, -280.0f, 0.0f, 0, 0, 0, 0);
-            play->roomCtx.unk_74[0] = 0xFF;
+            play->roomCtx.drawParams[0] = 0xFF;
             MO_WATER_LEVEL(play) = -500;
             return;
         }
@@ -1711,9 +1711,9 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
         }
     }
     if (sMorphaCore->waterLevel < -200.0f) {
-        play->roomCtx.unk_74[0]++;
-        if (play->roomCtx.unk_74[0] >= 0xFF) {
-            play->roomCtx.unk_74[0] = 0xFF;
+        play->roomCtx.drawParams[0]++;
+        if (play->roomCtx.drawParams[0] >= 0xFF) {
+            play->roomCtx.drawParams[0] = 0xFF;
         }
     }
     if (sMorphaCore->waterLevel < -250.0f) {
@@ -2261,7 +2261,7 @@ void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
     BossMo_SfxTest();
 #endif
 }
@@ -3051,7 +3051,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_boss_mo.c", 7482);
 }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 void BossMo_SfxTest(void) {
     // Appears to be a test function for sound effects.
     static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };

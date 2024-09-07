@@ -13,9 +13,15 @@
 glabel D_80009410
     .word osStopThread
     .word __osSetHWIntrRoutine
+#if PLATFORM_N64
+    .word osEPiWriteIo
+    .word osEPiReadIo
+#endif
     .word __osSetFpcCsr
     .word __osGetFpcCsr
     .word __osGetHWIntrRoutine
     .word __osSetHWIntrRoutine
     .word osViGetNextFramebuffer
+#if !PLATFORM_N64
     .word bcmp
+#endif
