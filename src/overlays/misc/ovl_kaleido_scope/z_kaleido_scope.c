@@ -541,11 +541,73 @@ static void* sSavePromptBgQuadsTexs[] = {
 #endif
 
 s16 gVtxPageMapWorldQuadsWidth[VTX_PAGE_MAP_WORLD_QUADS] = {
-    32, 112, 32, 48, 32, 32, 32, 48, 32, 64, 32, 48, 48, 48, 48, 64, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 80, 64,
+    32,  // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
+    112, // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
+    32,  // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
+    48,  // QUAD_MAP_WORLD_CLOUDS_MARKET
+    32,  // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
+    32,  // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
+    32,  // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
+    48,  // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+    32,  // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
+    64,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
+    32,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
+    48,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
+    48,  // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
+    48,  // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
+    48,  // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
+    64,  // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+    8,   // WORLD_MAP_POINT_HAUNTED_WASTELAND
+    8,   // WORLD_MAP_POINT_GERUDOS_FORTRESS
+    8,   // WORLD_MAP_POINT_GERUDO_VALLEY
+    8,   // WORLD_MAP_POINT_LAKE_HYLIA
+    8,   // WORLD_MAP_POINT_LON_LON_RANCH
+    8,   // WORLD_MAP_POINT_MARKET
+    8,   // WORLD_MAP_POINT_HYRULE_FIELD
+    8,   // WORLD_MAP_POINT_DEATH_MOUNTAIN
+    8,   // WORLD_MAP_POINT_KAKARIKO_VILLAGE
+    8,   // WORLD_MAP_POINT_LOST_WOODS
+    8,   // WORLD_MAP_POINT_KOKIRI_FOREST
+    8,   // WORLD_MAP_POINT_ZORAS_DOMAIN
+    8,   // QUAD_MAP_28
+    8,   // QUAD_MAP_29
+    80,  // QUAD_MAP_30
+    64,  // QUAD_MAP_31
 };
 
 s16 gVtxPageMapWorldQuadsHeight[VTX_PAGE_MAP_WORLD_QUADS] = {
-    24, 72, 13, 22, 19, 20, 19, 27, 14, 26, 22, 21, 49, 32, 45, 60, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 32, 8,
+    24, // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
+    72, // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
+    13, // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
+    22, // QUAD_MAP_WORLD_CLOUDS_MARKET
+    19, // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
+    20, // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
+    19, // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
+    27, // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+    14, // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
+    26, // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
+    22, // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
+    21, // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
+    49, // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
+    32, // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
+    45, // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
+    60, // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+    8,  // WORLD_MAP_POINT_HAUNTED_WASTELAND
+    8,  // WORLD_MAP_POINT_GERUDOS_FORTRESS
+    8,  // WORLD_MAP_POINT_GERUDO_VALLEY
+    8,  // WORLD_MAP_POINT_LAKE_HYLIA
+    8,  // WORLD_MAP_POINT_LON_LON_RANCH
+    8,  // WORLD_MAP_POINT_MARKET
+    8,  // WORLD_MAP_POINT_HYRULE_FIELD
+    8,  // WORLD_MAP_POINT_DEATH_MOUNTAIN
+    8,  // WORLD_MAP_POINT_KAKARIKO_VILLAGE
+    8,  // WORLD_MAP_POINT_LOST_WOODS
+    8,  // WORLD_MAP_POINT_KOKIRI_FOREST
+    8,  // WORLD_MAP_POINT_ZORAS_DOMAIN
+    8,  // QUAD_MAP_28
+    16, // QUAD_MAP_29
+    32, // QUAD_MAP_30
+    8,  // QUAD_MAP_31
 };
 
 /**
@@ -1963,48 +2025,50 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
 void KaleidoScope_UpdateNamePanel(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
-    u16 sp2A;
+    u16 texIndex;
 
     if ((pauseCtx->namedItem != pauseCtx->cursorItem[pauseCtx->pageIndex]) ||
         ((pauseCtx->pageIndex == PAUSE_MAP) && (pauseCtx->cursorSpecialPos != 0))) {
 
         pauseCtx->namedItem = pauseCtx->cursorItem[pauseCtx->pageIndex];
-        sp2A = pauseCtx->namedItem;
+        texIndex = pauseCtx->namedItem;
 
         osCreateMesgQueue(&pauseCtx->loadQueue, &pauseCtx->loadMsg, 1);
 
         if (pauseCtx->namedItem != PAUSE_ITEM_NONE) {
             if ((pauseCtx->pageIndex == PAUSE_MAP) && !sInDungeonScene) {
+                // `texIndex` is a `WorldMapPoint` enum value
+
                 if (gSaveContext.language) { // != LANGUAGE_JPN for NTSC versions, LANGUAGE_ENG for PAL versions
-                    sp2A += 12;
+                    texIndex += WORLD_MAP_POINT_MAX;
                 }
 
 #if OOT_PAL
                 if (gSaveContext.language == LANGUAGE_FRA) {
-                    sp2A += 12;
+                    texIndex += WORLD_MAP_POINT_MAX;
                 }
 #endif
 
                 DMA_REQUEST_SYNC(pauseCtx->nameSegment,
-                                 (uintptr_t)_map_name_staticSegmentRomStart + (sp2A * MAP_NAME_TEX1_SIZE),
+                                 (uintptr_t)_map_name_staticSegmentRomStart + (texIndex * MAP_NAME_TEX1_SIZE),
                                  MAP_NAME_TEX1_SIZE, "../z_kaleido_scope_PAL.c", 2093);
             } else {
                 PRINTF("zoom_name=%d\n", pauseCtx->namedItem);
 
                 if (gSaveContext.language) { // != LANGUAGE_JPN for NTSC versions, LANGUAGE_ENG for PAL versions
-                    sp2A += 123;
+                    texIndex += 123;
                 }
 
 #if OOT_PAL
                 if (gSaveContext.language == LANGUAGE_FRA) {
-                    sp2A += 123;
+                    texIndex += 123;
                 }
 #endif
 
-                PRINTF("J_N=%d  point=%d\n", gSaveContext.language, sp2A);
+                PRINTF("J_N=%d  point=%d\n", gSaveContext.language, texIndex);
 
                 DMA_REQUEST_SYNC(pauseCtx->nameSegment,
-                                 (uintptr_t)_item_name_staticSegmentRomStart + (sp2A * ITEM_NAME_TEX_SIZE),
+                                 (uintptr_t)_item_name_staticSegmentRomStart + (texIndex * ITEM_NAME_TEX_SIZE),
                                  ITEM_NAME_TEX_SIZE, "../z_kaleido_scope_PAL.c", 2120);
             }
 
@@ -2112,9 +2176,38 @@ static s16 sVtxPageMapDungeonQuadsX[VTX_PAGE_MAP_DUNGEON_QUADS] = {
 };
 static s16 sVtxPageQuestQuadsX[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
 static s16 sVtxPageMapWorldQuadsX[VTX_PAGE_MAP_WORLD_QUADS] = {
-    0x002F, 0xFFCF, 0xFFEF, 0xFFF1, 0xFFF7, 0x0018, 0x002B, 0x000E, 0x0009, 0x0026, 0x0052,
-    0x0047, 0xFFB4, 0xFFA9, 0xFF94, 0xFFCA, 0xFFA3, 0xFFBD, 0xFFC8, 0xFFDF, 0xFFF6, 0x0001,
-    0x000E, 0x0018, 0x0023, 0x003A, 0x004A, 0x0059, 0x0000, 0xFFC6, 0x0013, 0x001C,
+    47,   // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
+    -49,  // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
+    -17,  // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
+    -15,  // QUAD_MAP_WORLD_CLOUDS_MARKET
+    -9,   // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
+    24,   // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
+    43,   // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
+    14,   // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+    9,    // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
+    38,   // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
+    82,   // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
+    71,   // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
+    -76,  // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
+    -87,  // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
+    -108, // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
+    -54,  // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+    -93,  // WORLD_MAP_POINT_HAUNTED_WASTELAND
+    -67,  // WORLD_MAP_POINT_GERUDOS_FORTRESS
+    -56,  // WORLD_MAP_POINT_GERUDO_VALLEY
+    -33,  // WORLD_MAP_POINT_LAKE_HYLIA
+    -10,  // WORLD_MAP_POINT_LON_LON_RANCH
+    1,    // WORLD_MAP_POINT_MARKET
+    14,   // WORLD_MAP_POINT_HYRULE_FIELD
+    24,   // WORLD_MAP_POINT_DEATH_MOUNTAIN
+    35,   // WORLD_MAP_POINT_KAKARIKO_VILLAGE
+    58,   // WORLD_MAP_POINT_LOST_WOODS
+    74,   // WORLD_MAP_POINT_KOKIRI_FOREST
+    89,   // WORLD_MAP_POINT_ZORAS_DOMAIN
+    0,    // QUAD_MAP_28
+    -58,  // QUAD_MAP_29
+    19,   // QUAD_MAP_30
+    28,   // QUAD_MAP_31
 };
 static s16 sVtxPagePromptQuadsX[VTX_PAGE_PROMPT_QUADS] = {
     0xFFB4, 0xFFC6, 0x000A, 0xFFC6, 0x000A,
@@ -2137,9 +2230,38 @@ static s16 sVtxPageMapDungeonQuadsY[VTX_PAGE_MAP_DUNGEON_QUADS] = {
 };
 static s16 sVtxPageQuestQuadsY[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
 static s16 sVtxPageMapWorldQuadsY[VTX_PAGE_MAP_WORLD_QUADS] = {
-    0x000F, 0x0028, 0x000B, 0x002D, 0x0034, 0x0025, 0x0024, 0x0039, 0x0036, 0x0021, 0x001F,
-    0x002D, 0x0020, 0x002A, 0x0031, 0xFFF6, 0x001F, 0x001B, 0x000F, 0xFFCF, 0x0008, 0x0026,
-    0x0007, 0x002F, 0x001E, 0x0001, 0xFFF7, 0x0019, 0x0000, 0x0001, 0xFFE0, 0xFFE6,
+    15,  // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
+    40,  // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
+    11,  // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
+    45,  // QUAD_MAP_WORLD_CLOUDS_MARKET
+    52,  // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
+    37,  // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
+    36,  // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
+    57,  // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+    54,  // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
+    33,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
+    31,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
+    45,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
+    32,  // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
+    42,  // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
+    49,  // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
+    -10, // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+    31,  // WORLD_MAP_POINT_HAUNTED_WASTELAND
+    27,  // WORLD_MAP_POINT_GERUDOS_FORTRESS
+    15,  // WORLD_MAP_POINT_GERUDO_VALLEY
+    -49, // WORLD_MAP_POINT_LAKE_HYLIA
+    8,   // WORLD_MAP_POINT_LON_LON_RANCH
+    38,  // WORLD_MAP_POINT_MARKET
+    7,   // WORLD_MAP_POINT_HYRULE_FIELD
+    47,  // WORLD_MAP_POINT_DEATH_MOUNTAIN
+    30,  // WORLD_MAP_POINT_KAKARIKO_VILLAGE
+    1,   // WORLD_MAP_POINT_LOST_WOODS
+    -9,  // WORLD_MAP_POINT_KOKIRI_FOREST
+    25,  // WORLD_MAP_POINT_ZORAS_DOMAIN
+    0,   // QUAD_MAP_28
+    1,   // QUAD_MAP_29
+    -32, // QUAD_MAP_30
+    -26, // QUAD_MAP_31
 };
 static s16 sVtxPagePromptQuadsY[VTX_PAGE_PROMPT_QUADS] = {
     0x0024, 0x000A, 0x000A, 0xFFFA, 0xFFFA,
@@ -3397,198 +3519,164 @@ void KaleidoScope_Update(PlayState* play) {
             KaleidoScope_DrawPlayerWork(play);
             KaleidoScope_SetupPlayerPreRender(play);
 
+            // World map points
+
             for (i = 0; i < ARRAY_COUNT(pauseCtx->worldMapPoints); i++) {
-                pauseCtx->worldMapPoints[i] = 0;
+                pauseCtx->worldMapPoints[i] = WORLD_MAP_POINT_STATE_HIDE;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
-                pauseCtx->worldMapPoints[0] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_HAUNTED_WASTELAND] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
-                pauseCtx->worldMapPoints[0] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_HAUNTED_WASTELAND] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (INV_CONTENT(ITEM_LONGSHOT) == ITEM_LONGSHOT) {
-                pauseCtx->worldMapPoints[1] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDOS_FORTRESS] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
-                pauseCtx->worldMapPoints[1] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDOS_FORTRESS] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (GET_EVENTCHKINF(EVENTCHKINF_B2)) {
-                pauseCtx->worldMapPoints[2] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDO_VALLEY] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (INV_CONTENT(ITEM_LONGSHOT) == ITEM_LONGSHOT) {
-                pauseCtx->worldMapPoints[2] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDO_VALLEY] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
-                pauseCtx->worldMapPoints[2] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDO_VALLEY] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (CUR_UPG_VALUE(UPG_SCALE)) {
-                pauseCtx->worldMapPoints[3] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LAKE_HYLIA] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON)) {
-                pauseCtx->worldMapPoints[3] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LAKE_HYLIA] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_WATER)) {
-                pauseCtx->worldMapPoints[3] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LAKE_HYLIA] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
-                pauseCtx->worldMapPoints[4] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LON_LON_RANCH] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (INV_CONTENT(ITEM_OCARINA_FAIRY) != ITEM_NONE) {
-                pauseCtx->worldMapPoints[4] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LON_LON_RANCH] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
-                pauseCtx->worldMapPoints[4] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LON_LON_RANCH] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
-                pauseCtx->worldMapPoints[4] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LON_LON_RANCH] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-                pauseCtx->worldMapPoints[4] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LON_LON_RANCH] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
-                pauseCtx->worldMapPoints[5] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
-                pauseCtx->worldMapPoints[5] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (INV_CONTENT(ITEM_OCARINA_OF_TIME) == ITEM_OCARINA_OF_TIME) {
-                pauseCtx->worldMapPoints[5] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
-                pauseCtx->worldMapPoints[5] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) {
-                pauseCtx->worldMapPoints[5] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
 
             if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
-                pauseCtx->worldMapPoints[6] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_HYRULE_FIELD] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
-                pauseCtx->worldMapPoints[7] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_25)) {
-                pauseCtx->worldMapPoints[7] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
-                pauseCtx->worldMapPoints[7] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_49)) {
-                pauseCtx->worldMapPoints[7] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (gBitFlags[WORLD_MAP_AREA_KAKARIKO_VILLAGE] & gSaveContext.save.info.worldMapAreaData) {
-                pauseCtx->worldMapPoints[8] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-                pauseCtx->worldMapPoints[8] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
-                pauseCtx->worldMapPoints[8] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
-                pauseCtx->worldMapPoints[8] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
-                pauseCtx->worldMapPoints[8] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_SONG_STORMS)) {
-                pauseCtx->worldMapPoints[8] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_67)) {
-                pauseCtx->worldMapPoints[8] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_AA)) {
-                pauseCtx->worldMapPoints[8] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
-                pauseCtx->worldMapPoints[8] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (gBitFlags[WORLD_MAP_AREA_LOST_WOODS] & gSaveContext.save.info.worldMapAreaData) {
-                pauseCtx->worldMapPoints[9] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_0F)) {
-                pauseCtx->worldMapPoints[9] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
-                pauseCtx->worldMapPoints[9] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
-                pauseCtx->worldMapPoints[9] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_48)) {
-                pauseCtx->worldMapPoints[9] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            pauseCtx->worldMapPoints[10] = 2;
-
+            pauseCtx->worldMapPoints[WORLD_MAP_POINT_KOKIRI_FOREST] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
-                pauseCtx->worldMapPoints[10] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KOKIRI_FOREST] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_6E)) {
-                pauseCtx->worldMapPoints[10] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KOKIRI_FOREST] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_0F)) {
-                pauseCtx->worldMapPoints[10] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_KOKIRI_FOREST] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-                pauseCtx->worldMapPoints[11] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_25)) {
-                pauseCtx->worldMapPoints[11] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (GET_EVENTCHKINF(EVENTCHKINF_37)) {
-                pauseCtx->worldMapPoints[11] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
-
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
-                pauseCtx->worldMapPoints[11] = 2;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-
             if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON)) {
-                pauseCtx->worldMapPoints[11] = 1;
+                pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             pauseCtx->tradeQuestLocation = 0xFF;

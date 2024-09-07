@@ -66,6 +66,7 @@
 #include "sys_math.h"
 #include "sys_math3d.h"
 #include "fp_math.h"
+#include "sys_matrix.h"
 #include "main.h"
 
 #define SCREEN_WIDTH  320
@@ -390,11 +391,6 @@ typedef struct DebugDispObject {
     /* 0x24 */ s16   type;
     /* 0x28 */ struct DebugDispObject* next;
 } DebugDispObject; // size = 0x2C
-
-typedef enum MatrixMode {
-    /* 0 */ MTXMODE_NEW,  // generates a new matrix
-    /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
-} MatrixMode;
 
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;
