@@ -3604,6 +3604,7 @@ void func_80836BEC(Player* this, PlayState* play) {
 
                     if (nextLockOnActor != this->focusActor) {
                         // Set new lock-on
+                        
                         if (!isHoldTargeting) {
                             this->stateFlags2 |= PLAYER_STATE2_13;
                         }
@@ -3640,7 +3641,7 @@ void func_80836BEC(Player* this, PlayState* play) {
 
         if (this->focusActor != NULL) {
             this->stateFlags1 &= ~(PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL);
-            
+
             if ((this->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) ||
                 !CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)) {
                 this->stateFlags1 |= PLAYER_STATE1_16;
