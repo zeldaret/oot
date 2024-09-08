@@ -3589,7 +3589,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                 }
 
                 // Get saved Z Target setting.
-                // Dark Link uses Switch Targeting.
+                // Dark Link uses Hold Targeting.
                 isHoldTargeting = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
 
                 this->stateFlags1 |= PLAYER_STATE1_15;
