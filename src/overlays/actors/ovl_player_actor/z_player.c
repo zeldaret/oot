@@ -3595,7 +3595,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                 this->stateFlags1 |= PLAYER_STATE1_15;
 
                 if ((nextLockOnActor != NULL) && !(nextLockOnActor->flags & ACTOR_FLAG_LOCK_ON_DISABLED)) {
-                    
+
                     // Navi hovers over the current lock-on actor, so `nextLockOnActor` and `focusActor`
                     // will be the same if already locked on.
                     // In this case, `nextLockOnActor` will be the arrow hover actor instead.
@@ -3605,7 +3605,7 @@ void func_80836BEC(Player* this, PlayState* play) {
 
                     if (nextLockOnActor != this->focusActor) {
                         // Set new lock-on
-                        
+
                         if (!isHoldTargeting) {
                             this->stateFlags2 |= PLAYER_STATE2_13;
                         }
