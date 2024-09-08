@@ -33,10 +33,10 @@ beginseg
     include "$(BUILD_DIR)/src/boot/stackcheck.o"
     include "$(BUILD_DIR)/src/boot/logutils.o"
 #if PLATFORM_N64
-    include "$(BUILD_DIR)/src/boot/sleep.o"
+    include "$(BUILD_DIR)/src/libc64/sleep.o"
 #endif
 #if OOT_DEBUG
-    include "$(BUILD_DIR)/src/boot/sprintf.o"
+    include "$(BUILD_DIR)/src/libc64/sprintf.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
     include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
