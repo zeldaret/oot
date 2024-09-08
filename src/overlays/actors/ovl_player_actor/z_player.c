@@ -3540,23 +3540,23 @@ s32 func_80836AB8(Player* this, s32 arg1) {
     return var;
 }
 
-// Update things related to Z Targeting
+// Player_UpdateZTargeting
 void func_80836BEC(Player* this, PlayState* play) {
     s32 ignoreLeash = false;
-    s32 zTrigPressed = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
-    Actor* actorToTarget;
+    s32 zButtonHeld = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
+    Actor* nextLockOnActor;
     s32 pad;
-    s32 holdTarget;
-    s32 cond;
+    s32 usingHoldTargeting;
+    s32 isTalking;
 
-    if (!zTrigPressed) {
+    if (!zButtonHeld) {
         this->stateFlags1 &= ~PLAYER_STATE1_30;
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) || (this->csAction != PLAYER_CSACTION_NONE) ||
         (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->stateFlags3 & PLAYER_STATE3_7)) {
         this->unk_66C = 0;
-    } else if (zTrigPressed || (this->stateFlags2 & PLAYER_STATE2_13) || (this->unk_684 != NULL)) {
+    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_13) || (this->unk_684 != NULL)) {
         if (this->unk_66C <= 5) {
             this->unk_66C = 5;
         } else {
@@ -3572,36 +3572,49 @@ void func_80836BEC(Player* this, PlayState* play) {
         ignoreLeash = true;
     }
 
-    cond = func_8083224C(play);
-    if (cond || (this->unk_66C != 0) || (this->stateFlags1 & (PLAYER_STATE1_12 | PLAYER_STATE1_25))) {
-        if (!cond) {
+    isTalking = func_8083224C(play);
+
+    if (isTalking || (this->unk_66C != 0) || (this->stateFlags1 & (PLAYER_STATE1_12 | PLAYER_STATE1_25))) {
+        if (!isTalking) {
             if (!(this->stateFlags1 & PLAYER_STATE1_25) &&
                 ((this->heldItemAction != PLAYER_IA_FISHING_POLE) || (this->unk_860 == 0)) &&
                 CHECK_BTN_ALL(sControlInput->press.button, BTN_Z)) {
-
                 if (this->actor.category == ACTORCAT_PLAYER) {
-                    actorToTarget = play->actorCtx.attention.naviHoverActor;
+                    // The next lock-on actor defaults to the actor Navi is hovering over.
+                    // This may change to the arrow hover actor below.
+                    nextLockOnActor = play->actorCtx.attention.naviHoverActor;
                 } else {
-                    actorToTarget = &GET_PLAYER(play)->actor;
+                    // Dark Link will always lock onto the player.
+                    nextLockOnActor = &GET_PLAYER(play)->actor;
                 }
 
-                holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
+                // Get saved Z Target setting.
+                // Dark Link uses Hold Targeting.
+                usingHoldTargeting = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
+
                 this->stateFlags1 |= PLAYER_STATE1_15;
 
-                if ((actorToTarget != NULL) && !(actorToTarget->flags & ACTOR_FLAG_LOCK_ON_DISABLED)) {
-                    if ((actorToTarget == this->focusActor) && (this->actor.category == ACTORCAT_PLAYER)) {
-                        actorToTarget = play->actorCtx.attention.arrowHoverActor;
+                if ((nextLockOnActor != NULL) && !(nextLockOnActor->flags & ACTOR_FLAG_LOCK_ON_DISABLED)) {
+
+                    // Navi hovers over the current lock-on actor, so `nextLockOnActor` and `focusActor`
+                    // will be the same if already locked on.
+                    // In this case, `nextLockOnActor` will be the arrow hover actor instead.
+                    if ((nextLockOnActor == this->focusActor) && (this->actor.category == ACTORCAT_PLAYER)) {
+                        nextLockOnActor = play->actorCtx.attention.arrowHoverActor;
                     }
 
-                    if (actorToTarget != this->focusActor) {
-                        if (!holdTarget) {
+                    if (nextLockOnActor != this->focusActor) {
+                        // Set new lock-on
+
+                        if (!usingHoldTargeting) {
                             this->stateFlags2 |= PLAYER_STATE2_13;
                         }
-                        this->focusActor = actorToTarget;
+
+                        this->focusActor = nextLockOnActor;
                         this->unk_66C = 15;
                         this->stateFlags2 &= ~(PLAYER_STATE2_1 | PLAYER_STATE2_21);
                     } else {
-                        if (!holdTarget) {
+                        if (!usingHoldTargeting) {
                             func_8008EDF0(this);
                         }
                     }
@@ -3629,6 +3642,7 @@ void func_80836BEC(Player* this, PlayState* play) {
 
         if (this->focusActor != NULL) {
             this->stateFlags1 &= ~(PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL);
+
             if ((this->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) ||
                 !CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)) {
                 this->stateFlags1 |= PLAYER_STATE1_16;
