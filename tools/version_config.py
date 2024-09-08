@@ -98,3 +98,7 @@ def load_version_config(version: str) -> VersionConfig:
         variables=config["variables"],
         assets=assets,
     )
+
+
+def extracted_dir(version: str) -> Path:
+    return Path(f"extracted/{version}")

@@ -115,16 +115,6 @@ def processZAPDArgs(argsZ):
 
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
-    parser.add_argument(
-        "baserom_segments_dir",
-        type=Path,
-        help="Directory of uncompressed ROM segments",
-    )
-    parser.add_argument(
-        "output_dir",
-        type=Path,
-        help="Output directory to place files in",
-    )
     parser.add_argument("-v", "--version", dest="oot_version", help="OOT game version", default="gc-eu-mq-dbg")
     parser.add_argument("-s", "--single", help="Extract a single asset by name, e.g. objects/gameplay_keep")
     parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones (overwriting current files).", action="store_true")
@@ -133,11 +123,11 @@ def main():
     parser.add_argument("-Z", help="Pass the argument on to ZAPD, e.g. `-ZWunaccounted` to warn about unaccounted blocks in XMLs. Each argument should be passed separately, *without* the leading dash.", metavar="ZAPD_ARG", action="append")
     args = parser.parse_args()
 
-    baseromSegmentsDir: Path = args.baserom_segments_dir
     version: str = args.oot_version
-    outputDir: Path = args.output_dir
+    baseromSegmentsDir: Path = version_config.extracted_dir(version) / "baserom"
+    outputDir: Path = version_config.extracted_dir(version) / "assets"
 
-    args.output_dir.mkdir(parents=True, exist_ok=True)
+    outputDir.mkdir(parents=True, exist_ok=True)
 
     versionConfig = version_config.load_version_config(version)
 

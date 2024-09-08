@@ -2038,16 +2038,6 @@ def collect_messages(message_tables : List[Optional[MessageTableDesc]], baserom_
 def main():
     parser = argparse.ArgumentParser(description="Extract text from the baserom into .h files")
     parser.add_argument(
-        "baserom_segments_dir",
-        type=Path,
-        help="Directory of uncompressed ROM segments",
-    )
-    parser.add_argument(
-        "output_dir",
-        type=Path,
-        help="Output directory to place files in",
-    )
-    parser.add_argument(
         "-v",
         "--version",
         dest="oot_version",
@@ -2056,11 +2046,11 @@ def main():
     )
     args = parser.parse_args()
 
-    baserom_segments_dir : Path = args.baserom_segments_dir
     version : str = args.oot_version
-    output_dir : Path = args.output_dir
+    baserom_segments_dir : Path = version_config.extracted_dir(version) / "baserom"
+    output_dir : Path = version_config.extracted_dir(version) / "text"
 
-    args.output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     config = version_config.load_version_config(version)
     code_vram = config.dmadata_segments["code"].vram

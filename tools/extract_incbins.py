@@ -18,16 +18,6 @@ def main():
         description="Extract incbin pieces from an uncompressed ROM."
     )
     parser.add_argument(
-        "baserom_segments_dir",
-        type=Path,
-        help="Directory of uncompressed ROM segments",
-    )
-    parser.add_argument(
-        "output_dir",
-        type=Path,
-        help="Output directory for incbin pieces",
-    )
-    parser.add_argument(
         "-v",
         "--version",
         dest="oot_version",
@@ -37,18 +27,22 @@ def main():
 
     args = parser.parse_args()
 
-    config = version_config.load_version_config(args.oot_version)
+    version = args.oot_version
+    baserom_segments_dir = version_config.extracted_dir(version) / "baserom"
+    output_dir = version_config.extracted_dir(version) / "incbin"
 
-    args.output_dir.mkdir(parents=True, exist_ok=True)
+    config = version_config.load_version_config(version)
+
+    output_dir.mkdir(parents=True, exist_ok=True)
     for incbin in config.incbins:
-        incbin_path = args.output_dir / incbin.name
-        with open(args.baserom_segments_dir / incbin.segment, "rb") as f:
+        incbin_path = output_dir / incbin.name
+        with open(baserom_segments_dir / incbin.segment, "rb") as f:
             offset = incbin.vram - config.dmadata_segments[incbin.segment].vram
             f.seek(offset)
             incbin_data = f.read(incbin.size)
             incbin_path.write_bytes(incbin_data)
 
-    print(f"Extracted {len(config.incbins)} incbin pieces to {args.output_dir}")
+    print(f"Extracted {len(config.incbins)} incbin pieces to {output_dir}")
 
 
 if __name__ == "__main__":
