@@ -38,8 +38,6 @@
  * @note If sampling the LCG for a n-bit number it is important to use the upper n bits instead of the lower n bits of
  * the LCG output. The lower n bits only have a period of 2^n which may significantly worsen the quality of the
  * resulting random numbers compared to the quality of the full 32-bit result.
- *
- * @note Original name: qrand.c
  */
 #include "libc64/qrand.h"
 #include "z64math.h"
@@ -49,43 +47,35 @@
 
 /**
  * The latest generated random number, used to generate the next number in the sequence.
- *
- * @note Original name: __qrand_idum
  */
-static u32 sRandInt = 1;
+static u32 __qrand_idum = 1;
 
 #if !PLATFORM_N64
 /**
  * Space to store a value to be re-interpreted as a float.
- *
- * @note Orignal name: __qrand_itemp
  */
-static FloatInt sRandFloat;
+static FloatInt __qrand_itemp;
 #endif
 
 /**
  * Gets the next integer in the sequence of pseudo-random numbers.
- *
- * @note Original name: qrand
  */
-u32 Rand_Next(void) {
+u32 qrand(void) {
 #if PLATFORM_N64
-    u32 next = sRandInt * RAND_MULTIPLIER + RAND_INCREMENT;
+    u32 next = __qrand_idum * RAND_MULTIPLIER + RAND_INCREMENT;
 
-    sRandInt = next;
+    __qrand_idum = next;
     return next;
 #else
-    return sRandInt = sRandInt * RAND_MULTIPLIER + RAND_INCREMENT;
+    return __qrand_idum = __qrand_idum * RAND_MULTIPLIER + RAND_INCREMENT;
 #endif
 }
 
 /**
  * Seeds the pseudo-random number generator by providing a starting value.
- *
- * @note Original name: sqrand
  */
-void Rand_Seed(u32 seed) {
-    sRandInt = seed;
+void sqrand(u32 seed) {
+    __qrand_idum = seed;
 }
 
 /**
@@ -94,80 +84,70 @@ void Rand_Seed(u32 seed) {
  *
  * @note This technique for generating pseudo-random floats is recommended as a particularly fast but potentially
  *       non-portable generator in "Numerical Recipes in C: The Art of Scientic Computing", pp. 284-5.
- *
- * @note Original name: fqrand
  */
-f32 Rand_ZeroOne(void) {
+f32 fqrand(void) {
 #if PLATFORM_N64
     fu v;
     f32 vf;
 
     // Note this samples the lower 23 bits, effectively reducing the LCG period from 2^32 to 2^23.
     // This was fixed in Gamecube versions and Majora's Mask.
-    v.i = (Rand_Next() & 0x007FFFFF) | 0x3F800000;
+    v.i = (qrand() & 0x007FFFFF) | 0x3F800000;
     vf = v.f - 1.0f;
     return vf;
 #else
-    sRandInt = sRandInt * RAND_MULTIPLIER + RAND_INCREMENT;
+    __qrand_idum = __qrand_idum * RAND_MULTIPLIER + RAND_INCREMENT;
     // Samples the upper 23 bits to avoid effectively reducing the LCG period.
-    sRandFloat.i = (sRandInt >> 9) | 0x3F800000;
-    return sRandFloat.f - 1.0f;
+    __qrand_itemp.i = (__qrand_idum >> 9) | 0x3F800000;
+    return __qrand_itemp.f - 1.0f;
 #endif
 }
 
 #if !PLATFORM_N64
 /**
- * Returns a pseudo-random floating-point number between -0.5f and 0.5f by the same manner in which Rand_ZeroOne
+ * Returns a pseudo-random floating-point number between -0.5f and 0.5f by the same manner in which fqrand
  * generates its result.
  *
- * @see Rand_ZeroOne
- *
- * @note Original name: fqrand2
+ * @see fqrand
  */
-f32 Rand_Centered(void) {
-    sRandInt = sRandInt * RAND_MULTIPLIER + RAND_INCREMENT;
-    sRandFloat.i = (sRandInt >> 9) | 0x3F800000;
-    return sRandFloat.f - 1.5f;
+f32 fqrand2(void) {
+    __qrand_idum = __qrand_idum * RAND_MULTIPLIER + RAND_INCREMENT;
+    __qrand_itemp.i = (__qrand_idum >> 9) | 0x3F800000;
+    return __qrand_itemp.f - 1.5f;
 }
 #endif
 
 //! All functions below are unused variants of the above four, that use a provided random number variable instead of the
-//! internal `sRandInt`
+//! internal `__qrand_idum`
 
 /**
  * Seeds a pseudo-random number at rndNum with a provided starting value.
  *
- * @see Rand_Seed
- *
- * @note Original name: sqrand_r
+ * @see sqrand
  */
-void Rand_Seed_Variable(u32* rndNum, u32 seed) {
+void sqrand_r(u32* rndNum, u32 seed) {
     *rndNum = seed;
 }
 
 /**
  * Generates the next pseudo-random integer from the provided rndNum.
  *
- * @see Rand_Next
- *
- * @note Original name: qrand_r
+ * @see qrand
  */
-u32 Rand_Next_Variable(u32* rndNum) {
+u32 qrand_r(u32* rndNum) {
     return *rndNum = (*rndNum) * RAND_MULTIPLIER + RAND_INCREMENT;
 }
 
 /**
  * Generates the next pseudo-random floating-point number between 0.0f and 1.0f from the provided rndNum.
  *
- * @see Rand_ZeroOne
- *
- * @note Original name: fqrand_r
+ * @see fqrand
  */
-f32 Rand_ZeroOne_Variable(u32* rndNum) {
+f32 fqrand_r(u32* rndNum) {
 #if PLATFORM_N64
     fu v;
     f32 vf;
-    u32 next = Rand_Next_Variable(rndNum);
+    u32 next = qrand_r(rndNum);
 
     v.i = (next & 0x007FFFFF) | 0x3F800000;
     vf = v.f - 1.0f;
@@ -175,8 +155,8 @@ f32 Rand_ZeroOne_Variable(u32* rndNum) {
 #else
     u32 next = (*rndNum) * RAND_MULTIPLIER + RAND_INCREMENT;
 
-    sRandFloat.i = ((*rndNum = next) >> 9) | 0x3F800000;
-    return sRandFloat.f - 1.0f;
+    __qrand_itemp.i = ((*rndNum = next) >> 9) | 0x3F800000;
+    return __qrand_itemp.f - 1.0f;
 #endif
 }
 
@@ -184,14 +164,12 @@ f32 Rand_ZeroOne_Variable(u32* rndNum) {
 /**
  * Generates the next pseudo-random floating-point number between -0.5f and 0.5f from the provided rndNum.
  *
- * @see Rand_ZeroOne, Rand_Centered
- *
- * @note Original name: fqrand2_r
+ * @see fqrand, fqrand2
  */
-f32 Rand_Centered_Variable(u32* rndNum) {
+f32 fqrand2_r(u32* rndNum) {
     u32 next = (*rndNum) * RAND_MULTIPLIER + RAND_INCREMENT;
 
-    sRandFloat.i = ((*rndNum = next) >> 9) | 0x3F800000;
-    return sRandFloat.f - 1.5f;
+    __qrand_itemp.i = ((*rndNum = next) >> 9) | 0x3F800000;
+    return __qrand_itemp.f - 1.5f;
 }
 #endif
