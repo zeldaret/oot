@@ -238,7 +238,7 @@ void EnBombf_Move(EnBombf* this, PlayState* play) {
     } else {
         Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.5f, 0.0f);
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (this->actor.velocity.y < -6.0f)) {
-            func_8002F850(play, &this->actor);
+            Actor_PlaySfx_SurfaceBomb(play, &this->actor);
             this->actor.velocity.y *= -0.5f;
         } else if (this->timer >= 4) {
             Actor_OfferCarry(&this->actor, play);

@@ -7530,7 +7530,7 @@ void func_8084029C(Player* this, f32 arg1) {
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
         (this->hoverBootsTimer != 0)) {
-        func_8002F8F0(&this->actor, NA_SE_PL_HOBBERBOOTS_LV - SFX_FLAG);
+        Actor_PlaySfx_Flagged2(&this->actor, NA_SE_PL_HOBBERBOOTS_LV - SFX_FLAG);
     } else if (func_8084021C(this->unk_868, arg1, 29.0f, 10.0f) || func_8084021C(this->unk_868, arg1, 29.0f, 24.0f)) {
         Player_PlaySteppingSfx(this, this->speedXZ);
         if (this->speedXZ > 4.0f) {
@@ -9181,7 +9181,7 @@ void Player_Action_80844708(Player* this, PlayState* play) {
                 func_8083DF68(this, speedTarget, this->actor.shape.rot.y);
 
                 if (func_8084269C(play, this)) {
-                    func_8002F8F0(&this->actor, NA_SE_PL_ROLL_DUST - SFX_FLAG);
+                    Actor_PlaySfx_Flagged2(&this->actor, NA_SE_PL_ROLL_DUST - SFX_FLAG);
                 }
 
                 Player_ProcessAnimSfxList(this, D_8085460C);
@@ -10871,7 +10871,7 @@ void Player_UpdateBodyShock(PlayState* play, Player* this) {
         shockPos.z = (Rand_CenteredFloat(5.0f) + randBodyPart->z) - this->actor.world.pos.z;
 
         EffectSsFhgFlash_SpawnShock(play, &this->actor, &shockPos, shockScale, FHGFLASH_SHOCK_PLAYER);
-        func_8002F8F0(&this->actor, NA_SE_PL_SPARK - SFX_FLAG);
+        Actor_PlaySfx_Flagged2(&this->actor, NA_SE_PL_SPARK - SFX_FLAG);
     }
 }
 
@@ -13792,7 +13792,7 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
     }
 
     this->bodyShockTimer = 40;
-    func_8002F8F0(&this->actor, NA_SE_VO_LI_TAKEN_AWAY - SFX_FLAG + this->ageProperties->unk_92);
+    Actor_PlaySfx_Flagged2(&this->actor, NA_SE_VO_LI_TAKEN_AWAY - SFX_FLAG + this->ageProperties->unk_92);
 }
 
 #if OOT_DEBUG
