@@ -659,7 +659,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8)
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
-#define PLAYER_STATE1_11 (1 << 11)
+#define PLAYER_STATE1_ACTOR_CARRY (1 << 11)
 #define PLAYER_STATE1_12 (1 << 12)
 #define PLAYER_STATE1_13 (1 << 13)
 #define PLAYER_STATE1_14 (1 << 14)
