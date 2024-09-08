@@ -4014,7 +4014,7 @@ void KaleidoScope_Update(PlayState* play) {
                     break;
 
                 case PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU:
-                case PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT:
+                case PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_2:
                     pauseCtx->unk_204 += 314.0f / WREG(6);
                     WREG(16) += WREG(25) / WREG(6);
                     WREG(17) += WREG(26) / WREG(6);

@@ -103,7 +103,7 @@ typedef enum PauseSavePromptState {
     /* 3 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU,
     /* 4 */ PAUSE_SAVE_PROMPT_STATE_SAVED,
     /* 5 */ PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED,
-    /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT
+    /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_2 // unused
 } PauseSavePromptState;
 
 typedef enum PauseCursorQuad {
