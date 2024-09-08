@@ -80,7 +80,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play) {
         this->unk_150--;
     }
     if (this->unk_150 == 0) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE;
         this->actionfunc = func_80B43AD4;
     }
 }
@@ -122,7 +122,7 @@ void EnYukabyun_Update(Actor* thisx, PlayState* play) {
         this->collider.base.atFlags &= ~AT_HIT;
         this->collider.base.acFlags &= ~AC_HIT;
         this->collider.base.ocFlags1 &= ~OC1_HIT;
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
         this->actionfunc = EnYukabyun_Break;
     }

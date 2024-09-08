@@ -7,7 +7,7 @@
 #include "z_en_jsjutan.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play);
 void EnJsjutan_Destroy(Actor* thisx, PlayState* play);
@@ -40,7 +40,7 @@ void EnJsjutan_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* header = NULL;
 
-    this->dyna.actor.flags &= ~ACTOR_FLAG_0;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&sCol, &header);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, header);

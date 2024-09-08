@@ -60,10 +60,6 @@ extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_d
 extern s32 gMaxActorId; // original name: "MaxProfile"
 extern s32 gDebugCamEnabled;
 extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
-extern u8 gWeatherMode;
-extern u8 gLightConfigAfterUnderwater;
-extern u8 gInterruptSongOfStorms;
-extern u16 gTimeSpeed;
 extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
@@ -102,8 +98,6 @@ extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
 extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
 
-extern s32 gScreenWidth;
-extern s32 gScreenHeight;
 #if OOT_DEBUG
 extern u32 gIsCtrlr2Valid;
 #endif
@@ -172,8 +166,6 @@ extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
 
-extern SaveContext gSaveContext;
-
 extern u8 gUseCutsceneCam;
 extern u16 D_8015FCCC;
 extern char D_8015FCD0[20];
@@ -200,7 +192,6 @@ extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 
 extern PreNmiBuff* gAppNmiBufferPtr;
-extern uintptr_t gSegments[NUM_SEGMENTS];
 extern Scheduler gScheduler;
 extern PadMgr gPadMgr;
 extern IrqMgr gIrqMgr;

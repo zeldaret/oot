@@ -7,7 +7,7 @@
 #include "z_en_bili.h"
 #include "assets/objects/object_bl/object_bl.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
 
 void EnBili_Init(Actor* thisx, PlayState* play);
 void EnBili_Destroy(Actor* thisx, PlayState* play);
@@ -227,7 +227,7 @@ void EnBili_SetupBurnt(EnBili* this) {
 
 void EnBili_SetupDie(EnBili* this) {
     this->timer = 18;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnBili_Die;
     this->actor.speed = 0.0f;
 }
@@ -555,7 +555,7 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
             damageEffect = this->actor.colChkInfo.damageEffect;

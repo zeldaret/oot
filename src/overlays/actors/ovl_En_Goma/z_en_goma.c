@@ -4,7 +4,7 @@
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGoma_Init(Actor* thisx, PlayState* play);
 void EnGoma_Destroy(Actor* thisx, PlayState* play);
@@ -119,10 +119,10 @@ void EnGoma_Init(Actor* thisx, PlayState* play) {
         this->gomaType = ENGOMA_BOSSLIMB;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actionTimer = this->actor.params + 150;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else if (params >= 10) { // Debris when hatching
         this->actor.gravity = -1.3f;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionTimer = 50;
         this->gomaType = ENGOMA_HATCH_DEBRIS;
         this->eggScale = 1.0f;
@@ -366,7 +366,7 @@ void EnGoma_SetupDie(EnGoma* this) {
     }
 
     this->invincibilityTimer = 100;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void EnGoma_Die(EnGoma* this, PlayState* play) {

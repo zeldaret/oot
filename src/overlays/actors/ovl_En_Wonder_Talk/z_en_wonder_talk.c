@@ -7,7 +7,7 @@
 #include "z_en_wonder_talk.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnWonderTalk_Init(Actor* thisx, PlayState* play);
 void EnWonderTalk_Destroy(Actor* thisx, PlayState* play);
@@ -143,7 +143,7 @@ void func_80B3943C(EnWonderTalk* this, PlayState* play) {
                 this->actionFunc = func_80B395F0;
             } else {
                 if (this->switchFlag >= 0) {
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                     Flags_SetSwitch(play, this->switchFlag);
                 }
                 this->actionFunc = func_80B391CC;
@@ -175,7 +175,7 @@ void func_80B3943C(EnWonderTalk* this, PlayState* play) {
 void func_80B395F0(EnWonderTalk* this, PlayState* play) {
     if (this->unk_156 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         if (this->switchFlag >= 0) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             Flags_SetSwitch(play, this->switchFlag);
         }
         switch (this->unk_150) {

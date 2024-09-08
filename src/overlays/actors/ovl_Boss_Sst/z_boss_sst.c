@@ -12,7 +12,7 @@
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
 
 #define vParity actionVar
 #define vVanish actionVar
@@ -304,7 +304,7 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
             sHands[LEFT]->actor.child = &sHands[RIGHT]->actor;
             sHands[RIGHT]->actor.child = &sHands[LEFT]->actor;
 
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.update = BossSst_UpdateHead;
             this->actor.draw = BossSst_DrawHead;
             this->radius = -650.0f;
@@ -329,7 +329,7 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 95.0f);
         this->handZPosMod = -3500;
         this->actor.lockOnArrowOffset = 5000.0f;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         BossSst_HandSetupWait(this);
     }
 }
@@ -367,7 +367,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
     player->actor.world.pos.z = sRoomCenter.z;
     player->speedXZ = 0.0f;
     player->actor.shape.rot.y = -0x8000;
-    player->zTargetYaw = -0x8000;
+    player->parallelYaw = -0x8000;
     player->yaw = -0x8000;
     player->actor.velocity.y = 0.0f;
     player->fallStartHeight = 0;
@@ -403,8 +403,8 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        sHands[RIGHT]->actor.flags |= ACTOR_FLAG_0;
-        sHands[LEFT]->actor.flags |= ACTOR_FLAG_0;
+        sHands[RIGHT]->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+        sHands[LEFT]->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         player->stateFlags1 &= ~PLAYER_STATE1_5;
         Cutscene_StopManual(play, &play->csCtx);
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
@@ -427,7 +427,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
             player->actor.world.pos.z = sRoomCenter.z;
             player->speedXZ = 0;
             player->actor.shape.rot.y = -0x8000;
-            player->zTargetYaw = -0x8000;
+            player->parallelYaw = -0x8000;
             player->yaw = -0x8000;
         }
 
@@ -1401,7 +1401,7 @@ void BossSst_HandSetupRetreat(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, sHandHangPoses[this->actor.params], 10.0f);
     this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
     this->colliderJntSph.base.acFlags |= AC_ON;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     BossSst_HandSetInvulnerable(this, false);
     this->timer = 0;
     this->actionFunc = BossSst_HandRetreat;
@@ -2055,7 +2055,7 @@ void BossSst_HandShake(BossSst* this, PlayState* play) {
             this->timer = 80;
         }
     } else if (this->timer == 0) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         BossSst_HandSetupSlam(this);
     }
 }
@@ -2536,7 +2536,7 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
                 BossSst_HandSetupRetreat(OTHER_HAND(this));
             }
 
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             if (this->actor.colChkInfo.damageEffect == 3) {
                 BossSst_HandSetupFrozen(this);
             } else {
@@ -2678,9 +2678,9 @@ void BossSst_UpdateHead(Actor* thisx, PlayState* play) {
         ((this->actionFunc == BossSst_HeadReadyCharge) || (this->actionFunc == BossSst_HeadCharge) ||
          (this->actionFunc == BossSst_HeadFrozenHand) || (this->actionFunc == BossSst_HeadStunned) ||
          (this->actionFunc == BossSst_HeadVulnerable) || (this->actionFunc == BossSst_HeadDamage))) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
 
     if (this->actionFunc == BossSst_HeadCharge) {

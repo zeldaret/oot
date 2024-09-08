@@ -431,7 +431,7 @@ void Attention_Draw(Attention* attention, PlayState* play) {
 
     actor = attention->arrowHoverActor;
 
-    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_27)) {
+    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_LOCK_ON_DISABLED)) {
         AttentionColor* attentionColor = &sAttentionColors[actor->category];
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_7);
@@ -545,8 +545,9 @@ void Attention_Update(Attention* attention, Player* player, Actor* playerFocusAc
                 attention->reticleFadeAlphaControl = 0;
             }
 
-            lockOnSfxId = CHECK_FLAG_ALL(playerFocusActor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
-                                                                                               : NA_SE_SY_LOCK_ON_HUMAN;
+            lockOnSfxId = CHECK_FLAG_ALL(playerFocusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
+                              ? NA_SE_SY_LOCK_ON
+                              : NA_SE_SY_LOCK_ON_HUMAN;
             Sfx_PlaySfxCentered(lockOnSfxId);
         }
 
@@ -848,7 +849,7 @@ s32 TitleCard_Clear(PlayState* play, TitleCardContext* titleCtx) {
 void Actor_Kill(Actor* actor) {
     actor->draw = NULL;
     actor->update = NULL;
-    actor->flags &= ~ACTOR_FLAG_0;
+    actor->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void Actor_SetWorldToHome(Actor* actor) {
@@ -1589,7 +1590,7 @@ f32 Attention_WeightedDistToPlayerSq(Actor* actor, Player* player, s16 playerSha
     s16 yawTempAbs = ABS(yawTemp);
 
     if (player->focusActor != NULL) {
-        if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_27)) {
+        if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_LOCK_ON_DISABLED)) {
             return MAXFLOAT;
         } else {
             f32 adjDistSq;
@@ -1650,14 +1651,14 @@ u32 Attention_ActorIsInRange(Actor* actor, f32 distSq) {
  * Returns true if an actor lock-on should be released.
  * This function does not actually release the lock-on, as that is Player's responsibility.
  *
- * If an actor's update function is NULL or `ACTOR_FLAG_0` is unset, the lock-on should be released.
+ * If an actor's update function is NULL or `ACTOR_FLAG_ATTENTION_ENABLED` is unset, the lock-on should be released.
  *
  * There is also a check for Player exceeding the lock-on leash distance.
  * Note that this check will be ignored if `ignoreLeash` is true.
  *
  */
 s32 Attention_ShouldReleaseLockOn(Actor* actor, Player* player, s32 ignoreLeash) {
-    if ((actor->update == NULL) || !(actor->flags & ACTOR_FLAG_0)) {
+    if ((actor->update == NULL) || !(actor->flags & ACTOR_FLAG_ATTENTION_ENABLED)) {
         return true;
     }
 
@@ -3221,7 +3222,7 @@ s16 sAttentionPlayerRotY;
  * To be considered an attention actor the actor needs to:
  * - Have a non-NULL update function (still active)
  * - Not be player (this is technically a redundant check because the PLAYER category is never searched)
- * - Have `ACTOR_FLAG_0` set
+ * - Have `ACTOR_FLAG_ATTENTION_ENABLED` set
  * - Not be the current focus actor
  * - Be the closest attention actor found so far
  * - Be within range, specified by attentionRangeType
@@ -3246,8 +3247,10 @@ void Attention_FindActorInCategory(PlayState* play, ActorContext* actorCtx, Play
     playerFocusActor = player->focusActor;
 
     while (actor != NULL) {
-        if ((actor->update != NULL) && ((Player*)actor != player) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0)) {
-            if ((actorCategory == ACTORCAT_ENEMY) && CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) &&
+        if ((actor->update != NULL) && ((Player*)actor != player) &&
+            CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED)) {
+            if ((actorCategory == ACTORCAT_ENEMY) &&
+                CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE) &&
                 (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sBgmEnemyDistSq)) {
                 actorCtx->attention.bgmEnemy = actor;
                 sBgmEnemyDistSq = actor->xyzDistToPlayerSq;
@@ -4348,10 +4351,10 @@ s16 func_80034DD4(Actor* actor, PlayState* play, s16 arg2, f32 arg3) {
     }
 
     if (arg3 < var) {
-        actor->flags &= ~ACTOR_FLAG_0;
+        actor->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Math_SmoothStepToS(&arg2, 0, 6, 0x14, 1);
     } else {
-        actor->flags |= ACTOR_FLAG_0;
+        actor->flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         Math_SmoothStepToS(&arg2, 0xFF, 6, 0x14, 1);
     }
 

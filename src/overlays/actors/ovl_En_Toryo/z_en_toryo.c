@@ -7,7 +7,7 @@
 #include "z_en_toryo.h"
 #include "assets/objects/object_toryo/object_toryo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnToryo_Init(Actor* thisx, PlayState* play);
 void EnToryo_Destroy(Actor* thisx, PlayState* play);

@@ -8,7 +8,9 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
+#define FLAGS                                                                                                    \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_IGNORE_QUAKE | \
+     ACTOR_FLAG_14)
 
 void EnPoSisters_Init(Actor* thisx, PlayState* play);
 void EnPoSisters_Destroy(Actor* thisx, PlayState* play);
@@ -200,7 +202,7 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     this->unk_198 = 1;
     this->unk_199 = 32;
     this->unk_294 = 110.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (PARAMS_GET_NOSHIFT(this->actor.params, 12, 1)) {
         func_80ADA094(this, play);
     } else if (this->unk_194 == 0) {
@@ -376,7 +378,7 @@ void func_80AD99D4(EnPoSisters* this, PlayState* play) {
     this->actor.speed = 0.0f;
     this->actor.world.pos.y += 42.0f;
     this->actor.shape.yOffset = -6000.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk_199 = 0;
     this->actionFunc = func_80ADAFC0;
     OnePointCutscene_Init(play, 3190, 999, &this->actor, CAM_ID_MAIN);
@@ -426,7 +428,7 @@ void func_80AD9C24(EnPoSisters* this, PlayState* play) {
     Vec3f vec;
 
     this->actor.draw = NULL;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk_19C = 100;
     this->unk_199 = 32;
     this->collider.base.colType = COLTYPE_HIT3;
@@ -485,7 +487,7 @@ void func_80AD9F1C(EnPoSisters* this) {
     this->unk_19A = 300;
     this->unk_19C = 3;
     this->unk_199 |= 9;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = func_80ADB770;
 }
 
@@ -507,7 +509,7 @@ void func_80ADA028(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersSwayAnim, -3.0f);
     this->unk_22E.a = 255;
     this->unk_199 |= 0x15;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = func_80ADBBF4;
     this->actor.speed = 0.0f;
 }
@@ -997,7 +999,7 @@ void func_80ADB9F0(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_22E.a = 255;
         if (this->unk_194 == 3) {
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.home.pos.x = 1992.0f;
             this->actor.home.pos.z = -1440.0f;
             this->unk_199 |= 0x18;

@@ -151,7 +151,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     }
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 
@@ -213,7 +213,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             FALLTHROUGH;
         case 0xE:
             this->actor.colChkInfo.mass = 0;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             break;
         case 4:
             this->actor.gravity = 0.0f;
@@ -461,7 +461,7 @@ void func_80AB6450(EnNiw* this, PlayState* play) {
         this->sfxTimer1 = 30;
         this->path = 0;
         this->timer4 = 30;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.speed = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
@@ -483,7 +483,7 @@ void func_80AB6570(EnNiw* this, PlayState* play) {
             this->sfxTimer1 = 30;
             this->path = 0;
             this->timer4 = 30;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.speed = 0.0f;
             this->actionFunc = func_80AB6BF8;
             return;
@@ -644,7 +644,7 @@ void func_80AB6BF8(EnNiw* this, PlayState* play) {
         this->actor.shape.rot.z = 0;
         this->actor.shape.rot.y = this->actor.shape.rot.z;
         this->actor.shape.rot.x = this->actor.shape.rot.z;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = func_80AB6D08;
     }
     func_80AB5BF8(this, play, 2);
@@ -692,7 +692,7 @@ void func_80AB6D08(EnNiw* this, PlayState* play) {
         this->sfxTimer1 = 30;
         this->path = 0;
         this->timer4 = 30;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.speed = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
@@ -799,7 +799,7 @@ void func_80AB714C(EnNiw* this, PlayState* play) {
     if (this->timer5 == 0) {
         this->timer7 = 10;
         this->unk_2E4 = this->actor.yawTowardsPlayer;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = func_80AB7204;
     }
 

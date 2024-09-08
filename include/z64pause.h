@@ -96,6 +96,15 @@ typedef enum PauseMainState {
     /* 9 */ PAUSE_MAIN_STATE_9
 } PauseMainState;
 
+typedef enum PauseCursorQuad {
+    /* 0 */ PAUSE_QUAD_CURSOR_TL,
+    /* 1 */ PAUSE_QUAD_CURSOR_TR,
+    /* 2 */ PAUSE_QUAD_CURSOR_BL,
+    /* 3 */ PAUSE_QUAD_CURSOR_BR,
+    /* 4 */ PAUSE_QUAD_CURSOR_4,
+    /* 5 */ PAUSE_QUAD_CURSOR_MAX
+} PauseCursorQuad;
+
 typedef enum WorldMapPoint {
     /*  0 */ WORLD_MAP_POINT_HAUNTED_WASTELAND,
     /*  1 */ WORLD_MAP_POINT_GERUDOS_FORTRESS,

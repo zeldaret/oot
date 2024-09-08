@@ -6,7 +6,7 @@
 
 #include "z_en_shopnuts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnShopnuts_Init(Actor* thisx, PlayState* play);
 void EnShopnuts_Destroy(Actor* thisx, PlayState* play);
