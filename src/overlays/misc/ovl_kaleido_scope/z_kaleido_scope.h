@@ -70,6 +70,15 @@ typedef enum MapQuad {
     /* 46 */ QUAD_MAP_WORLD_IMAGE_LAST = QUAD_MAP_WORLD_IMAGE_FIRST + WORLD_MAP_IMAGE_FRAG_NUM - 1
 } MapQuad;
 
+typedef enum PromptQuad {
+    /* 0 */ QUAD_PROMPT_MESSAGE,
+    /* 1 */ QUAD_PROMPT_CURSOR_LEFT,
+    /* 2 */ QUAD_PROMPT_CURSOR_RIGHT,
+    /* 3 */ QUAD_PROMPT_CHOICE_YES,
+    /* 4 */ QUAD_PROMPT_CHOICE_NO,
+    /* 5 */ QUAD_PROMPT_MAX
+} PromptQuad;
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
 void KaleidoScope_DrawDebugEditor(PlayState* play);

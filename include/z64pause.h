@@ -96,6 +96,16 @@ typedef enum PauseMainState {
     /* 9 */ PAUSE_MAIN_STATE_9
 } PauseMainState;
 
+typedef enum PauseSavePromptState {
+    /* 0 */ PAUSE_SAVE_PROMPT_STATE_APPEARING,
+    /* 1 */ PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE,
+    /* 2 */ PAUSE_SAVE_PROMPT_STATE_CLOSING,
+    /* 3 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU,
+    /* 4 */ PAUSE_SAVE_PROMPT_STATE_SAVED,
+    /* 5 */ PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED,
+    /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT
+} PauseSavePromptState;
+
 typedef enum PauseCursorQuad {
     /* 0 */ PAUSE_QUAD_CURSOR_TL,
     /* 1 */ PAUSE_QUAD_CURSOR_TR,
@@ -148,7 +158,7 @@ typedef struct PauseContext {
     /* 0x0160 */ char unk_160[0x04];
     /* 0x0164 */ Vtx* questVtx;
     /* 0x0168 */ Vtx* cursorVtx;
-    /* 0x016C */ Vtx* saveVtx;
+    /* 0x016C */ Vtx* promptPageVtx;
     /* 0x0170 */ char unk_170[0x24];
     /* 0x0194 */ struct OcarinaStaff* ocarinaStaff;
     /* 0x0198 */ char unk_198[0x20];
@@ -161,7 +171,7 @@ typedef struct PauseContext {
     /* 0x01E6 */ u16 nextPageMode; // During a page switch, indicates the page before switching and the direction to scroll in. Value is `(2 * prev pageIndex) + (scroll left ? 1 : 0)`
     /* 0x01E8 */ u16 pageIndex; // "kscp_pos"
     /* 0x01EA */ u16 pageSwitchTimer;
-    /* 0x01EC */ u16 unk_1EC;
+    /* 0x01EC */ u16 savePromptState;
     /* 0x01F0 */ f32 unk_1F0;
     /* 0x01F4 */ f32 unk_1F4;
     /* 0x01F8 */ f32 unk_1F8;
