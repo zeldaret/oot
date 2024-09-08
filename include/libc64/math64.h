@@ -1,5 +1,5 @@
-#ifndef FP_MATH_H
-#define FP_MATH_H
+#ifndef LIBC64_MATH64_H
+#define LIBC64_MATH64_H
 
 #include "ultra64.h"
 

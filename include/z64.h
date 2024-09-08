@@ -66,11 +66,15 @@
 #include "libc64/qrand.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
-#include "fp_math.h"
+#include "libc64/math64.h"
 #include "sys_matrix.h"
 #include "main.h"
 #include "segmented_address.h"
 #include "stackcheck.h"
+#include "libc64/aprintf.h"
+#include "libc64/malloc.h"
+#include "libc64/sleep.h"
+#include "libc64/sprintf.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
