@@ -2314,7 +2314,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
 }
 
 s32 func_80833B2C(Player* this) {
-    if (this->stateFlags1 & (PLAYER_STATE1_16 | PLAYER_STATE1_17 | PLAYER_STATE1_30)) {
+    if (this->stateFlags1 & (PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL | PLAYER_STATE1_30)) {
         return 1;
     } else {
         return 0;
@@ -2983,15 +2983,16 @@ s32 func_80835588(Player* this, PlayState* play) {
     return true;
 }
 
-void func_808355DC(Player* this) {
-    this->stateFlags1 |= PLAYER_STATE1_17;
+void Player_SetParallel(Player* this) {
+    this->stateFlags1 |= PLAYER_STATE1_PARALLEL;
 
     if (!(this->skelAnime.moveFlags & ANIM_FLAG_OVERRIDE_MOVEMENT) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) && (sShapeYawToTouchedWall < 0x2000)) {
+        // snap to the wall
         this->yaw = this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
     }
 
-    this->zTargetYaw = this->actor.shape.rot.y;
+    this->parallelYaw = this->actor.shape.rot.y;
 }
 
 s32 func_80835644(PlayState* play, Player* this, Actor* arg2) {
@@ -3108,7 +3109,7 @@ s32 func_808359FC(Player* this, PlayState* play) {
             boomerang->returnTimer = 20;
             this->stateFlags1 |= PLAYER_STATE1_25;
             if (!func_8008E9C4(this)) {
-                func_808355DC(this);
+                Player_SetParallel(this);
             }
             this->unk_A73 = 4;
             Player_PlaySfx(this, NA_SE_IT_BOOMERANG_THROW);
@@ -3470,8 +3471,8 @@ s32 Player_SetupWaitForPutAway(PlayState* play, Player* this, AfterPutAwayFunc a
  * This does not affect the direction Player will move in.
  *
  * There are 3 modes shape yaw can be updated with, based on player state:
- *     - Lock on:  Rotates Player to face the lock on target.
- *     - Parallel: Rotates Player to face the Parallel angle, set by `func_808355DC` when Z is pressed.
+ *     - Lock on:  Rotates Player to face the current lock on target.
+ *     - Parallel: Rotates Player to face the current Parallel angle, set when Z-Targeting without an actor lock-on
  *     - Normal:   Rotates Player to face `this->yaw`, the direction he is currently moving
  */
 void Player_UpdateShapeYaw(Player* this, PlayState* play) {
@@ -3484,9 +3485,9 @@ void Player_UpdateShapeYaw(Player* this, PlayState* play) {
             ((play->actorCtx.attention.reticleSpinCounter != 0) || (this->actor.category != ACTORCAT_PLAYER))) {
             Math_ScaledStepToS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &focusActor->focus.pos),
                                4000);
-        } else if ((this->stateFlags1 & PLAYER_STATE1_17) &&
+        } else if ((this->stateFlags1 & PLAYER_STATE1_PARALLEL) &&
                    !(this->stateFlags2 & (PLAYER_STATE2_5 | PLAYER_STATE2_6))) {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, this->zTargetYaw, 4000);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, this->parallelYaw, 4000);
         }
     } else if (!(this->stateFlags2 & PLAYER_STATE2_6)) {
         Math_ScaledStepToS(&this->actor.shape.rot.y, this->yaw, 2000);
@@ -3561,7 +3562,7 @@ void func_80836BEC(Player* this, PlayState* play) {
         } else {
             this->unk_66C--;
         }
-    } else if (this->stateFlags1 & PLAYER_STATE1_17) {
+    } else if (this->stateFlags1 & PLAYER_STATE1_PARALLEL) {
         this->unk_66C = 0;
     } else if (this->unk_66C != 0) {
         this->unk_66C--;
@@ -3607,8 +3608,8 @@ void func_80836BEC(Player* this, PlayState* play) {
 
                     this->stateFlags1 &= ~PLAYER_STATE1_30;
                 } else {
-                    if (!(this->stateFlags1 & (PLAYER_STATE1_17 | PLAYER_STATE1_30))) {
-                        func_808355DC(this);
+                    if (!(this->stateFlags1 & (PLAYER_STATE1_PARALLEL | PLAYER_STATE1_30))) {
+                        Player_SetParallel(this);
                     }
                 }
             }
@@ -3627,13 +3628,13 @@ void func_80836BEC(Player* this, PlayState* play) {
         }
 
         if (this->focusActor != NULL) {
-            this->stateFlags1 &= ~(PLAYER_STATE1_16 | PLAYER_STATE1_17);
+            this->stateFlags1 &= ~(PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL);
             if ((this->stateFlags1 & PLAYER_STATE1_11) ||
                 !CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)) {
                 this->stateFlags1 |= PLAYER_STATE1_16;
             }
         } else {
-            if (this->stateFlags1 & PLAYER_STATE1_17) {
+            if (this->stateFlags1 & PLAYER_STATE1_PARALLEL) {
                 this->stateFlags2 &= ~PLAYER_STATE2_13;
             } else {
                 func_8008EE08(this);
@@ -3755,7 +3756,7 @@ s32 Player_GetMovementSpeedAndYaw(Player* this, f32* outSpeedTarget, s16* outYaw
                 return false;
             }
         } else if (func_80833B2C(this)) {
-            *outYawTarget = this->zTargetYaw;
+            *outYawTarget = this->parallelYaw;
         }
 
         return false;
@@ -5377,7 +5378,7 @@ s32 func_8083A6AC(Player* this, PlayState* play) {
                 this->av1.actionVar1 = sp50;
             } else {
                 this->stateFlags1 |= PLAYER_STATE1_13;
-                this->stateFlags1 &= ~PLAYER_STATE1_17;
+                this->stateFlags1 &= ~PLAYER_STATE1_PARALLEL;
             }
 
             Player_PlaySfx(this, NA_SE_PL_SLIPDOWN);
@@ -7411,7 +7412,7 @@ s32 func_8083FC68(Player* this, f32 arg1, s16 arg2) {
 }
 
 s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, PlayState* play) {
-    s16 sp2E = *arg2 - this->zTargetYaw;
+    s16 sp2E = *arg2 - this->parallelYaw;
     u16 sp2C = ABS(sp2E);
 
     if ((func_8002DD78(this) || func_808334B4(this)) && (this->focusActor == NULL)) {
@@ -9294,8 +9295,8 @@ void Player_Action_80844E68(Player* this, PlayState* play) {
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_80832DBC(this);
-        func_808355DC(this);
-        this->stateFlags1 &= ~PLAYER_STATE1_17;
+        Player_SetParallel(this);
+        this->stateFlags1 &= ~PLAYER_STATE1_PARALLEL;
         Player_AnimPlayLoop(play, this, D_80854360[Player_HoldsTwoHandedWeapon(this)]);
         this->av2.actionVar2 = -1;
     }
@@ -10772,7 +10773,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
                 } else {
                     camMode = CAM_MODE_LEDGE_HANG;
                 }
-            } else if (this->stateFlags1 & (PLAYER_STATE1_17 | PLAYER_STATE1_30)) {
+            } else if (this->stateFlags1 & (PLAYER_STATE1_PARALLEL | PLAYER_STATE1_30)) {
                 if (func_8002DD78(this) || func_808334B4(this)) {
                     camMode = CAM_MODE_Z_AIM;
                 } else if (this->stateFlags1 & PLAYER_STATE1_21) {
