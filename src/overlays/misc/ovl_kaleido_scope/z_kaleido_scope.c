@@ -49,7 +49,7 @@ typedef enum {
 #define VTX_PAGE_MAP_DUNGEON_QUADS 17         // VTX_PAGE_MAP_DUNGEON
 #define VTX_PAGE_QUEST_QUADS 0                // VTX_PAGE_QUEST
 #define VTX_PAGE_MAP_WORLD_QUADS 32           // VTX_PAGE_MAP_WORLD
-#define VTX_PAGE_PROMPT_QUADS QUAD_PROMPT_MAX // VTX_PAGE_PROMPT
+#define VTX_PAGE_PROMPT_QUADS PROMPT_QUAD_MAX // VTX_PAGE_PROMPT
 
 #if OOT_NTSC
 
@@ -1533,7 +1533,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
              (pauseCtx->savePromptState < PAUSE_SAVE_PROMPT_STATE_SAVED)) ||
             (pauseCtx->state == PAUSE_STATE_14)) {
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptMessageTexs[gSaveContext.language],
-                                                        152, 16, QUAD_PROMPT_MESSAGE * 4);
+                                                        152, 16, PROMPT_QUAD_MESSAGE * 4);
 
             gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0,
                               0, PRIMITIVE, 0);
@@ -1541,10 +1541,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                             KALEIDO_PROMPT_CURSOR_B, R_KALEIDO_PROMPT_CURSOR_ALPHA);
 
             if (pauseCtx->promptChoice == 0) {
-                // QUAD_PROMPT_CURSOR_LEFT
+                // PROMPT_QUAD_CURSOR_LEFT
                 gSPDisplayList(POLY_OPA_DISP++, gPromptCursorLeftDL);
             } else {
-                // QUAD_PROMPT_CURSOR_RIGHT
+                // PROMPT_QUAD_CURSOR_RIGHT
                 gSPDisplayList(POLY_OPA_DISP++, gPromptCursorRightDL);
             }
 
@@ -1553,20 +1553,20 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][0], 48,
-                                                        16, QUAD_PROMPT_CHOICE_YES * 4);
+                                                        16, PROMPT_QUAD_CHOICE_YES * 4);
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48,
-                                                        16, QUAD_PROMPT_CHOICE_NO * 4);
+                                                        16, PROMPT_QUAD_CHOICE_NO * 4);
         } else if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
                     (pauseCtx->savePromptState >= PAUSE_SAVE_PROMPT_STATE_SAVED)) ||
                    pauseCtx->state == PAUSE_STATE_15) {
 #if PLATFORM_N64
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSaveConfirmationTexs[gSaveContext.language],
-                                                        152, 16, QUAD_PROMPT_MESSAGE * 4);
+                                                        152, 16, PROMPT_QUAD_MESSAGE * 4);
 #endif
         } else if (((pauseCtx->state == PAUSE_STATE_16) || (pauseCtx->state == PAUSE_STATE_17))) {
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sContinuePromptTexs[gSaveContext.language], 152,
-                                                        16, QUAD_PROMPT_MESSAGE * 4);
+                                                        16, PROMPT_QUAD_MESSAGE * 4);
 
             gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0,
                               0, PRIMITIVE, 0);
@@ -1574,10 +1574,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                             KALEIDO_PROMPT_CURSOR_B, R_KALEIDO_PROMPT_CURSOR_ALPHA);
 
             if (pauseCtx->promptChoice == 0) {
-                // QUAD_PROMPT_CURSOR_LEFT
+                // PROMPT_QUAD_CURSOR_LEFT
                 gSPDisplayList(POLY_OPA_DISP++, gPromptCursorLeftDL);
             } else {
-                // QUAD_PROMPT_CURSOR_RIGHT
+                // PROMPT_QUAD_CURSOR_RIGHT
                 gSPDisplayList(POLY_OPA_DISP++, gPromptCursorRightDL);
             }
 
@@ -1586,10 +1586,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][0], 48,
-                                                        16, QUAD_PROMPT_CHOICE_YES * 4);
+                                                        16, PROMPT_QUAD_CHOICE_YES * 4);
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48,
-                                                        16, QUAD_PROMPT_CHOICE_NO * 4);
+                                                        16, PROMPT_QUAD_CHOICE_NO * 4);
         }
 
         gDPPipeSync(POLY_OPA_DISP++);
@@ -2239,11 +2239,11 @@ static s16 sVtxPageMapWorldQuadsX[VTX_PAGE_MAP_WORLD_QUADS] = {
     28,   // QUAD_MAP_31
 };
 static s16 sVtxPagePromptQuadsX[VTX_PAGE_PROMPT_QUADS] = {
-    -76, // QUAD_PROMPT_MESSAGE
-    -58, // QUAD_PROMPT_CURSOR_LEFT
-    10,  // QUAD_PROMPT_CURSOR_RIGHT
-    -58, // QUAD_PROMPT_CHOICE_YES
-    10,  // QUAD_PROMPT_CHOICE_NO
+    -76, // PROMPT_QUAD_MESSAGE
+    -58, // PROMPT_QUAD_CURSOR_LEFT
+    10,  // PROMPT_QUAD_CURSOR_RIGHT
+    -58, // PROMPT_QUAD_CHOICE_YES
+    10,  // PROMPT_QUAD_CHOICE_NO
 };
 static s16 sVtxPageItemQuadsWidth[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
 static s16 sVtxPageEquipQuadsWidth[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
@@ -2253,11 +2253,11 @@ static s16 sVtxPageMapDungeonQuadsWidth[VTX_PAGE_MAP_DUNGEON_QUADS] = {
 };
 static s16 sVtxPageQuestQuadsWidth[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
 static s16 sVtxPagePromptQuadsWidth[VTX_PAGE_PROMPT_QUADS] = {
-    152, // QUAD_PROMPT_MESSAGE
-    48,  // QUAD_PROMPT_CURSOR_LEFT
-    48,  // QUAD_PROMPT_CURSOR_RIGHT
-    48,  // QUAD_PROMPT_CHOICE_YES
-    48,  // QUAD_PROMPT_CHOICE_NO
+    152, // PROMPT_QUAD_MESSAGE
+    48,  // PROMPT_QUAD_CURSOR_LEFT
+    48,  // PROMPT_QUAD_CURSOR_RIGHT
+    48,  // PROMPT_QUAD_CHOICE_YES
+    48,  // PROMPT_QUAD_CHOICE_NO
 };
 static s16 sVtxPageItemQuadsY[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
 static s16 sVtxPageEquipQuadsY[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
@@ -2301,11 +2301,11 @@ static s16 sVtxPageMapWorldQuadsY[VTX_PAGE_MAP_WORLD_QUADS] = {
     -26, // QUAD_MAP_31
 };
 static s16 sVtxPagePromptQuadsY[VTX_PAGE_PROMPT_QUADS] = {
-    36, // QUAD_PROMPT_MESSAGE
-    10, // QUAD_PROMPT_CURSOR_LEFT
-    10, // QUAD_PROMPT_CURSOR_RIGHT
-    -6, // QUAD_PROMPT_CHOICE_YES
-    -6, // QUAD_PROMPT_CHOICE_NO
+    36, // PROMPT_QUAD_MESSAGE
+    10, // PROMPT_QUAD_CURSOR_LEFT
+    10, // PROMPT_QUAD_CURSOR_RIGHT
+    -6, // PROMPT_QUAD_CHOICE_YES
+    -6, // PROMPT_QUAD_CHOICE_NO
 };
 static s16 sVtxPageItemQuadsHeight[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
 static s16 sVtxPageEquipQuadsHeight[CLAMP_MIN(VTX_PAGE_EQUIP_QUADS, 1)] = { 0 };
@@ -2315,11 +2315,11 @@ static s16 sVtxPageMapDungeonQuadsHeight[VTX_PAGE_MAP_DUNGEON_QUADS] = {
 };
 static s16 sVtxPageQuestQuadsHeight[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
 static s16 sVtxPagePromptQuadsHeight[VTX_PAGE_PROMPT_QUADS] = {
-    16, // QUAD_PROMPT_MESSAGE
-    48, // QUAD_PROMPT_CURSOR_LEFT
-    48, // QUAD_PROMPT_CURSOR_RIGHT
-    16, // QUAD_PROMPT_CHOICE_YES
-    16, // QUAD_PROMPT_CHOICE_NO
+    16, // PROMPT_QUAD_MESSAGE
+    48, // PROMPT_QUAD_CURSOR_LEFT
+    48, // PROMPT_QUAD_CURSOR_RIGHT
+    16, // PROMPT_QUAD_CHOICE_YES
+    16, // PROMPT_QUAD_CHOICE_NO
 };
 
 static s16* sVtxPageQuadsX[] = {

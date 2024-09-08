@@ -71,12 +71,12 @@ typedef enum MapQuad {
 } MapQuad;
 
 typedef enum PromptQuad {
-    /* 0 */ QUAD_PROMPT_MESSAGE,
-    /* 1 */ QUAD_PROMPT_CURSOR_LEFT,
-    /* 2 */ QUAD_PROMPT_CURSOR_RIGHT,
-    /* 3 */ QUAD_PROMPT_CHOICE_YES,
-    /* 4 */ QUAD_PROMPT_CHOICE_NO,
-    /* 5 */ QUAD_PROMPT_MAX
+    /* 0 */ PROMPT_QUAD_MESSAGE,
+    /* 1 */ PROMPT_QUAD_CURSOR_LEFT,
+    /* 2 */ PROMPT_QUAD_CURSOR_RIGHT,
+    /* 3 */ PROMPT_QUAD_CHOICE_YES,
+    /* 4 */ PROMPT_QUAD_CHOICE_NO,
+    /* 5 */ PROMPT_QUAD_MAX
 } PromptQuad;
 
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
