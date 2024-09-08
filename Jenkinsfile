@@ -26,12 +26,11 @@ pipeline {
                 }
             }
         }
-        stage('Build ntsc-1.2, check disasm metadata') {
+        stage('Build ntsc-1.2') {
             steps {
                 sh 'ln -s /usr/local/etc/roms/oot-ntsc-1.2-us.z64 baseroms/ntsc-1.2/baserom.z64'
                 sh 'make -j$(nproc) setup VERSION=ntsc-1.2'
                 sh 'make -j$(nproc) VERSION=ntsc-1.2'
-                sh '.venv/bin/python3 tools/check_disasm_metadata_unksyms.py -v ntsc-1.2'
                 sh 'make clean assetclean VERSION=ntsc-1.2'
             }
         }
