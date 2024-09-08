@@ -665,7 +665,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_14 (1 << 14)
 #define PLAYER_STATE1_15 (1 << 15)
 #define PLAYER_STATE1_16 (1 << 16)
-#define PLAYER_STATE1_17 (1 << 17)
+#define PLAYER_STATE1_PARALLEL (1 << 17) // "Parallel" mode, Z-Target without an actor lock-on
 #define PLAYER_STATE1_18 (1 << 18)
 #define PLAYER_STATE1_19 (1 << 19)
 #define PLAYER_STATE1_20 (1 << 20)
@@ -838,7 +838,7 @@ typedef struct Player {
     /* 0x0837 */ u8 unk_837;
     /* 0x0838 */ f32 speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
     /* 0x083C */ s16 yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
-    /* 0x083E */ s16 zTargetYaw; // yaw relating to Z targeting/"parallel" mode
+    /* 0x083E */ s16 parallelYaw; // yaw in "parallel" mode, Z-Target without an actor lock-on
     /* 0x0840 */ u16 underwaterTimer;
     /* 0x0842 */ s8 meleeWeaponAnimation;
     /* 0x0843 */ s8 meleeWeaponState;

@@ -25,10 +25,6 @@ NORETURN void func_80002384(const char* exp, const char* file, int line);
 #endif
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
-void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
-                     const char* name);
-void StackCheck_Cleanup(StackEntry* entry);
-u32 StackCheck_Check(StackEntry* entry);
 #if OOT_DEBUG
 void LogUtils_LogHexDump(void* ptr, s32 size0);
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, int line);
@@ -685,7 +681,7 @@ void func_8006D0EC(PlayState* play, Player* player);
 void func_8006D684(PlayState* play, Player* player);
 void func_8006DC68(PlayState* play, Player* player);
 void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
-s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize);
+
 void KaleidoSetup_Update(PlayState* play);
 void KaleidoSetup_Init(PlayState* play);
 void KaleidoSetup_Destroy(PlayState* play);
@@ -1417,18 +1413,7 @@ void Sleep_Nsec(u32 nsec);
 void Sleep_Usec(u32 usec);
 void Sleep_Msec(u32 ms);
 void Sleep_Sec(u32 sec);
-void JpegUtils_ProcessQuantizationTable(u8* dqt, JpegQuantizationTable* qt, u8 count);
-s32 JpegUtils_ParseHuffmanCodesLengths(u8* ptr, u8* codesLengths);
-s32 JpegUtils_GetHuffmanCodes(u8* codesLengths, u16* codes);
-s32 JpegUtils_SetHuffmanTable(u8* data, JpegHuffmanTable* ht, u16* codes);
-u32 JpegUtils_ProcessHuffmanTableImpl(u8* data, JpegHuffmanTable* ht, u8* codesLengths, u16* codes, u8 isAc);
-u32 JpegUtils_ProcessHuffmanTable(u8* dht, JpegHuffmanTable* ht, u8* codesLengths, u16* codes, u8 count);
-void JpegUtils_SetHuffmanTableOld(u8* data, JpegHuffmanTableOld* ht, u8* codesLengths, u16* codes, s16 count, u8 isAc);
-u32 JpegUtils_ProcessHuffmanTableImplOld(u8* dht, JpegHuffmanTableOld* ht, u8* codesLengths, u16* codes);
-s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollowing, JpegDecoderState* state);
-s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, u16* mcu, s16* unk);
-s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* outZeroCount);
-u16 JpegDecoder_ReadBits(u8 len);
+
 s32 osPfsFreeBlocks(OSPfs* pfs, s32* leftoverBytes);
 void guScale(Mtx* m, f32 x, f32 y, f32 z);
 OSTask* _VirtualToPhysicalTask(OSTask* intp);
