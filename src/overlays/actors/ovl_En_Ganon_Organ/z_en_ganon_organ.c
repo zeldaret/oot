@@ -31,7 +31,7 @@ static u64 sForceAlignment = 0;
 #include "assets/overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
 void EnGanonOrgan_Init(Actor* thisx, PlayState* play) {
-    thisx->flags &= ~ACTOR_FLAG_0;
+    thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void EnGanonOrgan_Destroy(Actor* thisx, PlayState* play) {

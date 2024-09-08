@@ -233,6 +233,11 @@ typedef struct EnvironmentContext {
 extern u8 gSkyboxIsChanging;
 extern TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9];
 
+extern u8 gWeatherMode;
+extern u8 gLightConfigAfterUnderwater;
+extern u8 gInterruptSongOfStorms;
+extern u16 gTimeSpeed;
+
 void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, struct SkyboxContext* skyboxCtx);
 void Environment_DrawSkyboxFilters(struct PlayState* play);
 
