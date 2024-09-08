@@ -450,8 +450,6 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play);
 void Actor_RequestQuake(PlayState* play, s16 y, s16 duration);
 void Actor_RequestQuakeWithSpeed(PlayState* play, s16 y, s16 duration, s16 speed);
 void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 quakeY, s16 quakeDuration);
-f32 Rand_ZeroFloat(f32 f);
-f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type);
 void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration);

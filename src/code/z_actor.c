@@ -1,6 +1,7 @@
 #include "global.h"
 #include "fault.h"
 #include "quake.h"
+#include "rand.h"
 #include "terminal.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
