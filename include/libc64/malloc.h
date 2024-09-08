@@ -2,7 +2,7 @@
 #define LIBC64_MALLOC_H
 
 #include "ultra64.h"
-#include "osMalloc.h"
+#include "libc64/os_malloc.h"
 
 void* SystemArena_Malloc(u32 size);
 void* SystemArena_MallocR(u32 size);
