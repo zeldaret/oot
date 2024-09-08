@@ -5,6 +5,7 @@
 
 struct OcarinaStaff;
 struct Actor;
+struct PlayState;
 
 typedef enum TextBoxIcon {
     /* 0 */ TEXTBOX_ICON_TRIANGLE,
@@ -277,5 +278,18 @@ typedef struct MessageContext {
     /* 0xE40E */ s16 disableSunsSong; // disables Suns Song effect from occurring after song is played
     /* 0xE410 */ u8 lastOcarinaButtonIndex;
 } MessageContext; // size = 0xE418
+
+void Message_UpdateOcarinaMemoryGame(struct PlayState* play);
+u8 Message_ShouldAdvance(struct PlayState* play);
+void Message_CloseTextbox(struct PlayState*);
+void Message_StartTextbox(struct PlayState* play, u16 textId, struct Actor* actor);
+void Message_ContinueTextbox(struct PlayState* play, u16 textId);
+void Message_StartOcarina(struct PlayState* play, u16 ocarinaActionId);
+void Message_StartOcarinaSunsSongDisabled(struct PlayState* play, u16 ocarinaActionId);
+u8 Message_GetState(MessageContext* msgCtx);
+void Message_Draw(struct PlayState* play);
+void Message_Update(struct PlayState* play);
+void Message_SetTables(void);
+void Message_Init(struct PlayState* play);
 
 #endif
