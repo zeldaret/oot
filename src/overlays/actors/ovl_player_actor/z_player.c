@@ -3543,20 +3543,20 @@ s32 func_80836AB8(Player* this, s32 arg1) {
 // Player_UpdateZTargeting
 void func_80836BEC(Player* this, PlayState* play) {
     s32 ignoreLeash = false;
-    s32 zHeld = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
+    s32 zButtonHeld = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
     Actor* nextLockOnActor;
     s32 pad;
     s32 isHoldTargeting;
     s32 isTalking;
 
-    if (!zHeld) {
+    if (!zButtonHeld) {
         this->stateFlags1 &= ~PLAYER_STATE1_30;
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) || (this->csAction != PLAYER_CSACTION_NONE) ||
         (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->stateFlags3 & PLAYER_STATE3_7)) {
         this->unk_66C = 0;
-    } else if (zHeld || (this->stateFlags2 & PLAYER_STATE2_13) || (this->unk_684 != NULL)) {
+    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_13) || (this->unk_684 != NULL)) {
         if (this->unk_66C <= 5) {
             this->unk_66C = 5;
         } else {
@@ -3584,10 +3584,12 @@ void func_80836BEC(Player* this, PlayState* play) {
                     // This may change to the arrow hover actor below.
                     nextLockOnActor = play->actorCtx.attention.naviHoverActor;
                 } else {
-                    // Dark Link will always lock onto the player
+                    // Dark Link will always lock onto the player.
                     nextLockOnActor = &GET_PLAYER(play)->actor;
                 }
 
+                // Get saved Z Target setting.
+                // Dark Link uses Switch Targeting.
                 isHoldTargeting = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
 
                 this->stateFlags1 |= PLAYER_STATE1_15;
