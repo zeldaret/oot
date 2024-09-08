@@ -3546,7 +3546,7 @@ void func_80836BEC(Player* this, PlayState* play) {
     s32 zButtonHeld = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
     Actor* nextLockOnActor;
     s32 pad;
-    s32 isHoldTargeting;
+    s32 usingHoldTargeting;
     s32 isTalking;
 
     if (!zButtonHeld) {
@@ -3590,7 +3590,7 @@ void func_80836BEC(Player* this, PlayState* play) {
 
                 // Get saved Z Target setting.
                 // Dark Link uses Hold Targeting.
-                isHoldTargeting = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
+                usingHoldTargeting = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
 
                 this->stateFlags1 |= PLAYER_STATE1_15;
 
@@ -3606,7 +3606,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                     if (nextLockOnActor != this->focusActor) {
                         // Set new lock-on
 
-                        if (!isHoldTargeting) {
+                        if (!usingHoldTargeting) {
                             this->stateFlags2 |= PLAYER_STATE2_13;
                         }
 
@@ -3614,7 +3614,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                         this->unk_66C = 15;
                         this->stateFlags2 &= ~(PLAYER_STATE2_1 | PLAYER_STATE2_21);
                     } else {
-                        if (!isHoldTargeting) {
+                        if (!usingHoldTargeting) {
                             func_8008EDF0(this);
                         }
                     }
