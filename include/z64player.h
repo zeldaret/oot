@@ -649,17 +649,17 @@ typedef struct WeaponInfo {
 #define LEDGE_DIST_MAX 399.96002f
 
 #define PLAYER_STATE1_0 (1 << 0)
-#define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1)
+#define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1) // Bottle is swung; Bottle is active and can catch things
 #define PLAYER_STATE1_2 (1 << 2)
 #define PLAYER_STATE1_3 (1 << 3)
 #define PLAYER_STATE1_4 (1 << 4)
 #define PLAYER_STATE1_5 (1 << 5)
 #define PLAYER_STATE1_6 (1 << 6)
 #define PLAYER_STATE1_7 (1 << 7)
-#define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8)
+#define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
-#define PLAYER_STATE1_ACTOR_CARRY (1 << 11)
+#define PLAYER_STATE1_ACTOR_CARRY (1 << 11) // Currently carrying an actor
 #define PLAYER_STATE1_12 (1 << 12)
 #define PLAYER_STATE1_13 (1 << 13)
 #define PLAYER_STATE1_14 (1 << 14)
@@ -690,7 +690,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_6 (1 << 6)
 #define PLAYER_STATE2_7 (1 << 7)
 #define PLAYER_STATE2_8 (1 << 8)
-#define PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND (1 << 9)
+#define PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND (1 << 9) // Forces dirt footstep sounds regardless of current floor type
 #define PLAYER_STATE2_10 (1 << 10)
 #define PLAYER_STATE2_11 (1 << 11)
 #define PLAYER_STATE2_12 (1 << 12)
