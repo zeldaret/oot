@@ -107,12 +107,12 @@ typedef enum PauseSavePromptState {
 } PauseSavePromptState;
 
 typedef enum PauseCursorQuad {
-    /* 0 */ PAUSE_QUAD_CURSOR_TL,
-    /* 1 */ PAUSE_QUAD_CURSOR_TR,
-    /* 2 */ PAUSE_QUAD_CURSOR_BL,
-    /* 3 */ PAUSE_QUAD_CURSOR_BR,
-    /* 4 */ PAUSE_QUAD_CURSOR_4,
-    /* 5 */ PAUSE_QUAD_CURSOR_MAX
+    /* 0 */ PAUSE_CURSOR_QUAD_TL,
+    /* 1 */ PAUSE_CURSOR_QUAD_TR,
+    /* 2 */ PAUSE_CURSOR_QUAD_BL,
+    /* 3 */ PAUSE_CURSOR_QUAD_BR,
+    /* 4 */ PAUSE_CURSOR_QUAD_4,
+    /* 5 */ PAUSE_CURSOR_QUAD_MAX
 } PauseCursorQuad;
 
 typedef enum WorldMapPoint {
