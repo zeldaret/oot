@@ -1,6 +1,7 @@
 #include "global.h"
 #include "fault.h"
 #include "quake.h"
+#include "rand.h"
 #include "terminal.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
@@ -1102,7 +1103,7 @@ int func_8002DD78(Player* player) {
 int func_8002DDA8(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    return (player->stateFlags1 & PLAYER_STATE1_11) || func_8002DD78(player);
+    return (player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) || func_8002DD78(player);
 }
 
 s32 func_8002DDE4(PlayState* play) {
@@ -1810,7 +1811,7 @@ s32 Actor_OfferGetItem(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange
         Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (actor == player->talkActor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
-            (!(player->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_29)))) {
+            (!(player->stateFlags1 & (PLAYER_STATE1_ACTOR_CARRY | PLAYER_STATE1_29)))) {
             if ((actor->xzDistToPlayer < xzRange) && (fabsf(actor->yDistToPlayer) < yRange)) {
                 s16 yawDiff = actor->yawTowardsPlayer - player->actor.shape.rot.y;
                 s32 absYawDiff = ABS(yawDiff);
@@ -1879,7 +1880,7 @@ u32 Actor_SetRideActor(PlayState* play, Actor* horse, s32 mountSide) {
     Player* player = GET_PLAYER(play);
 
     if (!(player->stateFlags1 &
-          (PLAYER_STATE1_7 | PLAYER_STATE1_11 | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
+          (PLAYER_STATE1_7 | PLAYER_STATE1_ACTOR_CARRY | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
            PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21))) {
         player->rideActor = horse;
         player->mountSide = mountSide;
@@ -1938,7 +1939,7 @@ void Actor_PlaySfx(Actor* actor, u16 sfxId) {
     Sfx_PlaySfxAtPos(&actor->projectedPos, sfxId);
 }
 
-void func_8002F850(PlayState* play, Actor* actor) {
+void Actor_PlaySfx_SurfaceBomb(PlayState* play, Actor* actor) {
     s32 surfaceSfxOffset;
 
     if (actor->bgCheckFlags & BGCHECKFLAG_WATER) {
@@ -1955,32 +1956,45 @@ void func_8002F850(PlayState* play, Actor* actor) {
     Sfx_PlaySfxAtPos(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceSfxOffset);
 }
 
-void func_8002F8F0(Actor* actor, u16 sfxId) {
+/**
+ * Play a sfx at the actor's position using the shared flagged audio system
+ */
+void Actor_PlaySfx_Flagged2(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
-    actor->flags |= ACTOR_FLAG_19;
-    actor->flags &= ~(ACTOR_FLAG_20 | ACTOR_FLAG_21 | ACTOR_FLAG_28);
+    actor->flags |= ACTOR_FLAG_SFX_ACTOR_POS_2;
+    actor->flags &= ~(ACTOR_AUDIO_FLAG_SFX_CENTERED_1 | ACTOR_AUDIO_FLAG_SFX_CENTERED_2 | ACTOR_FLAG_SFX_TIMER);
 }
 
-void func_8002F91C(Actor* actor, u16 sfxId) {
+/**
+ * Play a sfx at the center of the screen using the shared flagged audio system
+ */
+void Actor_PlaySfx_FlaggedCentered1(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
-    actor->flags |= ACTOR_FLAG_20;
-    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_21 | ACTOR_FLAG_28);
+    actor->flags |= ACTOR_AUDIO_FLAG_SFX_CENTERED_1;
+    actor->flags &= ~(ACTOR_FLAG_SFX_ACTOR_POS_2 | ACTOR_AUDIO_FLAG_SFX_CENTERED_2 | ACTOR_FLAG_SFX_TIMER);
 }
 
-void func_8002F948(Actor* actor, u16 sfxId) {
+/**
+ * Play a sfx at the center of the screen using the shared flagged audio system
+ */
+void Actor_PlaySfx_FlaggedCentered2(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
-    actor->flags |= ACTOR_FLAG_21;
-    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_28);
+    actor->flags |= ACTOR_AUDIO_FLAG_SFX_CENTERED_2;
+    actor->flags &= ~(ACTOR_FLAG_SFX_ACTOR_POS_2 | ACTOR_AUDIO_FLAG_SFX_CENTERED_1 | ACTOR_FLAG_SFX_TIMER);
 }
 
-void func_8002F974(Actor* actor, u16 sfxId) {
-    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21 | ACTOR_FLAG_28);
+/**
+ * Play a sfx at the actor's position using the shared flagged audio system
+ */
+void Actor_PlaySfx_Flagged(Actor* actor, u16 sfxId) {
+    actor->flags &= ~(ACTOR_FLAG_SFX_ACTOR_POS_2 | ACTOR_AUDIO_FLAG_SFX_CENTERED_1 | ACTOR_AUDIO_FLAG_SFX_CENTERED_2 |
+                      ACTOR_FLAG_SFX_TIMER);
     actor->sfx = sfxId;
 }
 
-void func_8002F994(Actor* actor, s32 timer) {
-    actor->flags |= ACTOR_FLAG_28;
-    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21);
+void Actor_PlaySfx_FlaggedTimer(Actor* actor, s32 timer) {
+    actor->flags |= ACTOR_FLAG_SFX_TIMER;
+    actor->flags &= ~(ACTOR_FLAG_SFX_ACTOR_POS_2 | ACTOR_AUDIO_FLAG_SFX_CENTERED_1 | ACTOR_AUDIO_FLAG_SFX_CENTERED_2);
 
     // The sfx field is not used for an actual sound effect here.
     // Instead, it controls the tick speed of the timer sound effect.
@@ -2507,15 +2521,15 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     Fault_RemoveClient(&faultClient);
 }
 
-void func_80030ED8(Actor* actor) {
-    if (actor->flags & ACTOR_FLAG_19) {
+void Actor_UpdateFlaggedAudio(Actor* actor) {
+    if (actor->flags & ACTOR_FLAG_SFX_ACTOR_POS_2) {
         Audio_PlaySfxGeneral(actor->sfx, &actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-    } else if (actor->flags & ACTOR_FLAG_20) {
+    } else if (actor->flags & ACTOR_AUDIO_FLAG_SFX_CENTERED_1) {
         Sfx_PlaySfxCentered(actor->sfx);
-    } else if (actor->flags & ACTOR_FLAG_21) {
+    } else if (actor->flags & ACTOR_AUDIO_FLAG_SFX_CENTERED_2) {
         Sfx_PlaySfxCentered2(actor->sfx);
-    } else if (actor->flags & ACTOR_FLAG_28) {
+    } else if (actor->flags & ACTOR_FLAG_SFX_TIMER) {
         func_800F4C58(&gSfxDefaultPos, NA_SE_SY_TIMER - SFX_FLAG, (s8)(actor->sfx - 1));
     } else {
         Sfx_PlaySfxAtPos(&actor->projectedPos, actor->sfx);
@@ -2687,7 +2701,7 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
 
             if (!OOT_DEBUG || (HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {
                 if (actor->sfx != 0) {
-                    func_80030ED8(actor);
+                    Actor_UpdateFlaggedAudio(actor);
                 }
             }
 

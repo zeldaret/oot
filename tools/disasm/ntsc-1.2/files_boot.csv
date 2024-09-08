@@ -11,7 +11,7 @@ FD0,80001430,src/boot/z_locale
 1530,80001990,src/boot/mio0
 15E0,80001A40,src/boot/stackcheck
 17F0,80001C50,src/boot/logutils
-1910,80001D70,src/boot/sleep
+1910,80001D70,src/libc64/sleep
 1AB0,80001F10,src/libultra/io/piacs
 1B70,80001FD0,src/libultra/os/sendmesg
 1CC0,80002120,src/libultra/os/stopthread

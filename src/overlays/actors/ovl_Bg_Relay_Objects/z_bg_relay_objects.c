@@ -134,7 +134,7 @@ void func_808A91AC(BgRelayObjects* this, PlayState* play) {
         if (this->timer != 0) {
             this->timer--;
         }
-        func_8002F994(&this->dyna.actor, this->timer);
+        Actor_PlaySfx_FlaggedTimer(&this->dyna.actor, this->timer);
     }
     if ((this->timer == 0) || (this->unk_169 == play->roomCtx.curRoom.num)) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);

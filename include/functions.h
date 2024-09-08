@@ -25,10 +25,6 @@ NORETURN void func_80002384(const char* exp, const char* file, int line);
 #endif
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
-void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
-                     const char* name);
-void StackCheck_Cleanup(StackEntry* entry);
-u32 StackCheck_Check(StackEntry* entry);
 #if OOT_DEBUG
 void LogUtils_LogHexDump(void* ptr, s32 size0);
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, int line);
@@ -408,12 +404,12 @@ void func_8002F758(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, 
 void func_8002F7A0(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4);
 void Player_PlaySfx(Player* player, u16 sfxId);
 void Actor_PlaySfx(Actor* actor, u16 sfxId);
-void func_8002F850(PlayState* play, Actor* actor);
-void func_8002F8F0(Actor* actor, u16 sfxId);
-void func_8002F91C(Actor* actor, u16 sfxId);
-void func_8002F948(Actor* actor, u16 sfxId);
-void func_8002F974(Actor* actor, u16 sfxId);
-void func_8002F994(Actor* actor, s32 timer);
+void Actor_PlaySfx_SurfaceBomb(PlayState* play, Actor* actor);
+void Actor_PlaySfx_Flagged2(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_FlaggedCentered1(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_FlaggedCentered2(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_Flagged(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_FlaggedTimer(Actor* actor, s32 timer);
 s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos);
 void Actor_DisableLens(PlayState* play);
 void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* playerEntry);
@@ -454,8 +450,6 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play);
 void Actor_RequestQuake(PlayState* play, s16 y, s16 duration);
 void Actor_RequestQuakeWithSpeed(PlayState* play, s16 y, s16 duration, s16 speed);
 void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 quakeY, s16 quakeDuration);
-f32 Rand_ZeroFloat(f32 f);
-f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type);
 void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration);
@@ -687,7 +681,7 @@ void func_8006D0EC(PlayState* play, Player* player);
 void func_8006D684(PlayState* play, Player* player);
 void func_8006DC68(PlayState* play, Player* player);
 void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
-s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize);
+
 void KaleidoSetup_Update(PlayState* play);
 void KaleidoSetup_Init(PlayState* play);
 void KaleidoSetup_Destroy(PlayState* play);
@@ -1419,18 +1413,7 @@ void Sleep_Nsec(u32 nsec);
 void Sleep_Usec(u32 usec);
 void Sleep_Msec(u32 ms);
 void Sleep_Sec(u32 sec);
-void JpegUtils_ProcessQuantizationTable(u8* dqt, JpegQuantizationTable* qt, u8 count);
-s32 JpegUtils_ParseHuffmanCodesLengths(u8* ptr, u8* codesLengths);
-s32 JpegUtils_GetHuffmanCodes(u8* codesLengths, u16* codes);
-s32 JpegUtils_SetHuffmanTable(u8* data, JpegHuffmanTable* ht, u16* codes);
-u32 JpegUtils_ProcessHuffmanTableImpl(u8* data, JpegHuffmanTable* ht, u8* codesLengths, u16* codes, u8 isAc);
-u32 JpegUtils_ProcessHuffmanTable(u8* dht, JpegHuffmanTable* ht, u8* codesLengths, u16* codes, u8 count);
-void JpegUtils_SetHuffmanTableOld(u8* data, JpegHuffmanTableOld* ht, u8* codesLengths, u16* codes, s16 count, u8 isAc);
-u32 JpegUtils_ProcessHuffmanTableImplOld(u8* dht, JpegHuffmanTableOld* ht, u8* codesLengths, u16* codes);
-s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollowing, JpegDecoderState* state);
-s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, u16* mcu, s16* unk);
-s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* outZeroCount);
-u16 JpegDecoder_ReadBits(u8 len);
+
 s32 osPfsFreeBlocks(OSPfs* pfs, s32* leftoverBytes);
 void guScale(Mtx* m, f32 x, f32 y, f32 z);
 OSTask* _VirtualToPhysicalTask(OSTask* intp);

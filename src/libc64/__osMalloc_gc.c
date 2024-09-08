@@ -1,6 +1,6 @@
 #include "global.h"
 #include "fault.h"
-#include "osMalloc.h"
+#include "libc64/os_malloc.h"
 #include "terminal.h"
 
 #if PLATFORM_GC

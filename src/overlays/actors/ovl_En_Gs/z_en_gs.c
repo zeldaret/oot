@@ -353,7 +353,7 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
                           (s16)Rand_ZeroFloat(50.0f) + 200, 40, 15);
         }
 
-        func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
             this->actor.flags |= ACTOR_FLAG_4;
@@ -380,7 +380,7 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
             this->unk_19E |= 8;
             this->actionFunc = func_80A4F700;
         } else {
-            func_8002F974(&this->actor, NA_SE_EV_STONE_LAUNCH - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_STONE_LAUNCH - SFX_FLAG);
         }
 
         Actor_MoveXZGravity(&this->actor);
