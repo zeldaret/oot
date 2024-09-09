@@ -7,7 +7,7 @@
 #include "z_en_mu.h"
 #include "assets/objects/object_mu/object_mu.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnMu_Init(Actor* thisx, PlayState* play);
 void EnMu_Destroy(Actor* thisx, PlayState* play);
@@ -139,7 +139,7 @@ void EnMu_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &D_80AB0BD0);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AB0BFC);
-    this->actor.targetMode = TARGET_MODE_6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
     EnMu_Interact(this, play);
     EnMu_SetupAction(this, EnMu_Pose);

@@ -7,7 +7,7 @@
 #include "z_en_weiyer.h"
 #include "assets/objects/object_ei/object_ei.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnWeiyer_Init(Actor* thisx, PlayState* play);
 void EnWeiyer_Destroy(Actor* thisx, PlayState* play);
@@ -98,7 +98,7 @@ static DamageTable sDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_STINGER, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 3, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 2500, ICHAIN_STOP),
 };
 
 void EnWeiyer_Init(Actor* thisx, PlayState* play) {
@@ -571,7 +571,7 @@ void func_80B3368C(EnWeiyer* this, PlayState* play) {
             } else if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_DEAD);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 func_80B32724(this);
             } else {
                 func_80B325A0(this);

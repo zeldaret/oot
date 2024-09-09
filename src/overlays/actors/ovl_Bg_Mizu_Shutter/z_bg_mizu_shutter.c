@@ -138,7 +138,7 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play) {
 void BgMizuShutter_WaitForTimer(BgMizuShutter* this, PlayState* play) {
     if (this->timerMax != 0x3F * 20) {
         this->timer--;
-        func_8002F994(&this->dyna.actor, this->timer);
+        Actor_PlaySfx_FlaggedTimer(&this->dyna.actor, this->timer);
         if (this->timer == 0) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_CLOSE);
             Flags_UnsetSwitch(play, BGMIZUSHUTTER_GET_SWITCH(&this->dyna.actor));

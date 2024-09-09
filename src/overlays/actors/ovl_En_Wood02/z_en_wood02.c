@@ -70,7 +70,7 @@ static f32 sSpawnDistance[] = { 707.0f, 525.0f, 510.0f, 500.0f, 566.0f, 141.0f }
 static s16 sSpawnAngle[] = { 0x1FFF, 0x4C9E, 0x77F5, 0xA5C9, 0xD6C3, 0xA000 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5600, ICHAIN_STOP),
 };
 
 static Gfx* D_80B3BF54[] = {

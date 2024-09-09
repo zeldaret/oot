@@ -1,7 +1,7 @@
 #include "z_en_ny.h"
 #include "assets/objects/object_ny/object_ny.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnNy_Init(Actor* thisx, PlayState* play);
 void EnNy_Destroy(Actor* thisx, PlayState* play);
@@ -99,8 +99,8 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_SPIKE, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, TARGET_MODE_2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnNy_Init(Actor* thisx, PlayState* play) {
@@ -225,7 +225,7 @@ void EnNy_Move(EnNy* this, PlayState* play) {
     s32 stoneTimer;
 
     if (!(this->unk_1F0 < this->actor.depthInWater)) {
-        func_8002F974(&this->actor, NA_SE_EN_NYU_MOVE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_NYU_MOVE - SFX_FLAG);
     }
     func_80ABCD40(this);
     stoneTimer = this->stoneTimer;
@@ -331,7 +331,7 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
             this->stoneTimer = 0;
             if (this->actor.colChkInfo.health == 0) {
                 this->actor.shape.shadowAlpha = 0;
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 this->unk_1D0 = sp3F;
                 Enemy_StartFinishingBlow(play, &this->actor);
                 return 1;

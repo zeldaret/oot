@@ -8,7 +8,7 @@
 #include "assets/objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4)
 
 void EnBombf_Init(Actor* thisx, PlayState* play);
 void EnBombf_Destroy(Actor* thisx, PlayState* play);
@@ -109,7 +109,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
 
     thisx->colChkInfo.cylRadius = 10.0f;
     thisx->colChkInfo.cylHeight = 10;
-    thisx->targetMode = TARGET_MODE_0;
+    thisx->attentionRangeType = ATTENTION_RANGE_0;
 
     if (thisx->params == BOMBFLOWER_BODY) {
         this->timer = 140;
@@ -117,7 +117,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
         thisx->gravity = -1.5f;
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_EXPLOSIVE);
         thisx->colChkInfo.mass = 200;
-        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         EnBombf_SetupAction(this, EnBombf_Move);
     } else {
         thisx->colChkInfo.mass = MASS_IMMOVABLE;
@@ -157,13 +157,13 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 this->timer = 180;
                 this->flowerBombScale = 0.0f;
                 Actor_PlaySfx(&this->actor, NA_SE_PL_PULL_UP_ROCK);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             } else {
                 player->actor.child = NULL;
                 player->heldActor = NULL;
                 player->interactRangeActor = NULL;
                 this->actor.parent = NULL;
-                player->stateFlags1 &= ~PLAYER_STATE1_11;
+                player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
             }
         } else if (this->bombCollider.base.acFlags & AC_HIT) {
             this->bombCollider.base.acFlags &= ~AC_HIT;
@@ -175,7 +175,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                     bombFlower->isFuseEnabled = true;
                     bombFlower->timer = 0;
                     this->timer = 180;
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                     this->flowerBombScale = 0.0f;
                 }
             }
@@ -186,7 +186,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 if (bombFlower != NULL) {
                     bombFlower->timer = 100;
                     this->timer = 180;
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                     this->flowerBombScale = 0.0f;
                 }
             } else {
@@ -197,7 +197,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                     player->heldActor = NULL;
                     player->interactRangeActor = NULL;
                     this->actor.parent = NULL;
-                    player->stateFlags1 &= ~PLAYER_STATE1_11;
+                    player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
                     this->actor.world.pos = this->actor.home.pos;
                 }
             }
@@ -206,7 +206,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
         if (this->timer == 0) {
             this->flowerBombScale += 0.05f;
             if (this->flowerBombScale >= 1.0f) {
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             }
         }
 
@@ -215,7 +215,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
             this->actor.parent = NULL;
-            player->stateFlags1 &= ~PLAYER_STATE1_11;
+            player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
             this->actor.world.pos = this->actor.home.pos;
         }
     }
@@ -238,7 +238,7 @@ void EnBombf_Move(EnBombf* this, PlayState* play) {
     } else {
         Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.5f, 0.0f);
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (this->actor.velocity.y < -6.0f)) {
-            func_8002F850(play, &this->actor);
+            Actor_PlaySfx_SurfaceBomb(play, &this->actor);
             this->actor.velocity.y *= -0.5f;
         } else if (this->timer >= 4) {
             Actor_OfferCarry(&this->actor, play);
@@ -299,11 +299,11 @@ void EnBombf_Explode(EnBombf* this, PlayState* play) {
     if (this->timer == 0) {
         player = GET_PLAYER(play);
 
-        if ((player->stateFlags1 & PLAYER_STATE1_11) && (player->heldActor == &this->actor)) {
+        if ((player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
-            player->stateFlags1 &= ~PLAYER_STATE1_11;
+            player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
         }
 
         Actor_Kill(&this->actor);

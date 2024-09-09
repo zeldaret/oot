@@ -32,7 +32,7 @@ ActorProfile En_Bird_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5600, ICHAIN_STOP),
 };
 
 void EnBird_SetupAction(EnBird* this, EnBirdActionFunc actionFunc) {

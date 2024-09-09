@@ -8,7 +8,7 @@
 #include "assets/objects/object_fu/object_fu.h"
 #include "assets/scenes/indoors/hakasitarelay/hakasitarelay_scene.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 #define FU_RESET_LOOK_ANGLE (1 << 0)
 #define FU_WAIT (1 << 1)
@@ -92,7 +92,7 @@ void EnFu_Init(Actor* thisx, PlayState* play) {
         this->skelanime.playSpeed = 2.0f;
     }
     this->behaviorFlags = 0;
-    this->actor.targetMode = TARGET_MODE_6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
 }
 
 void EnFu_Destroy(Actor* thisx, PlayState* play) {

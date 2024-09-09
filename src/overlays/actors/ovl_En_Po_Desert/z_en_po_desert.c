@@ -54,7 +54,7 @@ static ColliderCylinderInit sColliderInit = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_POE_WASTELAND, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 3200, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 3200, ICHAIN_STOP),
 };
 
 void EnPoDesert_Init(Actor* thisx, PlayState* play) {
@@ -130,7 +130,7 @@ void EnPoDesert_UpdateSpeedModifier(EnPoDesert* this) {
 }
 
 void EnPoDesert_WaitForPlayer(EnPoDesert* this, PlayState* play) {
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     if (this->actor.xzDistToPlayer < 200.0f && (this->currentPathPoint != 2 || play->actorCtx.lensActive)) {
         if (this->currentPathPoint == 2) {
             if (Play_InCsMode(play)) {
@@ -161,7 +161,7 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, PlayState* play) {
     this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y + 0x8000, 5, 0x400);
     this->actor.speed = sinf(this->speedModifier * (M_PI / 32.0f)) * 2.5f + 5.5f;
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     this->targetY = this->actor.home.pos.y - ((temp_f20 * this->yDiff) / this->initDistToNextPoint);
     if (temp_f20 < 40.0f) {
         if (this->currentPathPoint != 0) {
@@ -197,11 +197,11 @@ void EnPoDesert_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     if (play->actorCtx.lensActive) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_REACT_TO_LENS;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_REACT_TO_LENS;
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     } else {
         this->actor.shape.shadowDraw = NULL;
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_REACT_TO_LENS);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_REACT_TO_LENS);
     }
 }
 

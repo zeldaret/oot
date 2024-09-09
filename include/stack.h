@@ -1,6 +1,8 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include "alignment.h"
+
 #define STACK(stack, size) \
     u64 stack[ALIGN8(size) / sizeof(u64)]
 

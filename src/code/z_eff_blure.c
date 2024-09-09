@@ -399,7 +399,7 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
     if (vtx == NULL) {
         PRINTF(T("z_eff_blure.c::SQ_NoInterpolate_disp() 頂点確保できず。\n",
                  "z_eff_blure.c::SQ_NoInterpolate_disp() Vertices cannot be secured.\n"));
-        goto end;
+        goto close_disps;
     }
 
     vtx[0].v = baseVtx;
@@ -470,7 +470,7 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
     gSPVertex(POLY_XLU_DISP++, vtx, 4, 0);
     gSP2Triangles(POLY_XLU_DISP++, 0, 1, 2, 0, 0, 2, 3, 0);
 
-end:
+close_disps:
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 932);
 }
 

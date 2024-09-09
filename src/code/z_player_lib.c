@@ -611,7 +611,7 @@ void func_8008EE08(Player* this) {
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
-        this->stateFlags1 &= ~(PLAYER_STATE1_15 | PLAYER_STATE1_16 | PLAYER_STATE1_17 | PLAYER_STATE1_18 |
+        this->stateFlags1 &= ~(PLAYER_STATE1_15 | PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL | PLAYER_STATE1_18 |
                                PLAYER_STATE1_19 | PLAYER_STATE1_30);
     } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_21))) {
         this->stateFlags1 |= PLAYER_STATE1_19;
@@ -1552,7 +1552,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_Get(&sp14C);
                     Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
-                } else if (this->stateFlags1 & PLAYER_STATE1_11) {
+                } else if (this->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
                     Vec3s spB8;
 
                     Matrix_Get(&sp14C);
@@ -1813,8 +1813,6 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
     gSPDisplayList(WORK_DISP++, POLY_OPA_DISP);
     gSPDisplayList(WORK_DISP++, POLY_XLU_DISP);
 
-    { s32 pad[2]; }
-
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1826,7 +1824,14 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
                     G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-    gSPLoadGeometryMode(POLY_OPA_DISP++, G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
+
+    // Also matches if some of the previous graphics commands are moved inside this block too. Possible macro?
+    if (1) {
+        s32 pad[2];
+
+        gSPLoadGeometryMode(POLY_OPA_DISP++, G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
+    }
+
     gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, width, height);
     gSPClipRatio(POLY_OPA_DISP++, FRUSTRATIO_1);
 

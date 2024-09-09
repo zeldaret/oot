@@ -6,6 +6,9 @@
 #include "z64math.h"
 #include "color.h"
 
+struct GraphicsContext;
+struct PlayState;
+
 typedef struct LightPoint {
     /* 0x0 */ s16 x;
     /* 0x2 */ s16 y;
@@ -61,5 +64,27 @@ typedef enum LightType {
 } LightType;
 
 typedef void (*LightsBindFunc)(Lights* lights, LightParams* params, Vec3f* vec);
+
+void Lights_PointSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, s32 type);
+void Lights_PointNoGlowSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius);
+void Lights_PointGlowSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius);
+void Lights_PointSetColorAndRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius);
+void Lights_DirectionalSetInfo(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8 b);
+void Lights_Reset(Lights* lights, u8 ambentR, u8 ambentG, u8 ambentB);
+void Lights_Draw(Lights* lights, struct GraphicsContext* gfxCtx);
+void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec);
+void LightContext_Init(struct PlayState* play, LightContext* lightCtx);
+void LightContext_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b);
+void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 zFar);
+Lights* LightContext_NewLights(LightContext* lightCtx, struct GraphicsContext* gfxCtx);
+void LightContext_InitList(struct PlayState* play, LightContext* lightCtx);
+void LightContext_DestroyList(struct PlayState* play, LightContext* lightCtx);
+LightNode* LightContext_InsertLight(struct PlayState* play, LightContext* lightCtx, LightInfo* info);
+void LightContext_RemoveLight(struct PlayState* play, LightContext* lightCtx, LightNode* node);
+Lights* Lights_NewAndDraw(struct GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g,
+                          u8 b, s8 x, s8 y, s8 z);
+Lights* Lights_New(struct GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB);
+void Lights_GlowCheck(struct PlayState* play);
+void Lights_DrawGlow(struct PlayState* play);
 
 #endif

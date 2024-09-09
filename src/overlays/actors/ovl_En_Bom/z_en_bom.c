@@ -79,7 +79,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_STOP),
 };
 
@@ -147,7 +147,7 @@ void EnBom_Move(EnBom* this, PlayState* play) {
     } else {
         Math_StepToF(&this->actor.speed, 0.0f, 1.0f);
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (this->actor.velocity.y < -3.0f)) {
-            func_8002F850(play, &this->actor);
+            Actor_PlaySfx_SurfaceBomb(play, &this->actor);
             this->actor.velocity.y *= -0.3f;
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         } else if (this->timer >= 4) {
@@ -207,11 +207,11 @@ void EnBom_Explode(EnBom* this, PlayState* play) {
     if (this->timer == 0) {
         player = GET_PLAYER(play);
 
-        if ((player->stateFlags1 & PLAYER_STATE1_11) && (player->heldActor == &this->actor)) {
+        if ((player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
-            player->stateFlags1 &= ~PLAYER_STATE1_11;
+            player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
         }
 
         Actor_Kill(&this->actor);

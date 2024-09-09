@@ -19,7 +19,7 @@ import shlex
 import sys
 import time
 import traceback
-from typing import BinaryIO, Iterator, Tuple
+from typing import BinaryIO, Iterator, Optional, Tuple
 
 from ido_block_numbers import (
     generate_make_log,
@@ -31,6 +31,17 @@ from ido_block_numbers import (
 
 import elftools.elf.elffile
 import mapfile_parser.mapfile
+
+
+# Set on program start since we replace sys.stdout in worker processes
+stdout_isatty = sys.stdout.isatty()
+
+
+def output(message: str = "", color: Optional[str] = None, end: str = "\n"):
+    if color and stdout_isatty:
+        print(f"{color}{message}{colorama.Fore.RESET}", end=end)
+    else:
+        print(message, end=end)
 
 
 def read_u32(f: BinaryIO, offset: int) -> int:
@@ -152,7 +163,19 @@ def get_file_pointers(
         else:
             assert False, "Invalid relocation"
 
-        pointers.append(Pointer(reloc.name, reloc.addend, base_value, build_value))
+        # For relocations against a global symbol, subtract the addend so that the pointer
+        # is for the start of the symbol. This can help deal with things like STACK_TOP
+        # (where the pointer is past the end of the symbol) or negative addends. If the
+        # relocation is against a section however, it's not useful to subtract the addend,
+        # so we keep it as-is and hope for the best.
+        if reloc.name.startswith("."):  # section
+            addend = reloc.addend
+        else:  # symbol
+            addend = 0
+            base_value -= reloc.addend
+            build_value -= reloc.addend
+
+        pointers.append(Pointer(reloc.name, addend, base_value, build_value))
     return pointers
 
 
@@ -189,14 +212,15 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
         if not (
             mapfile_segment.name.startswith("..boot")
             or mapfile_segment.name.startswith("..code")
+            or mapfile_segment.name.startswith("..n64dd")
             or mapfile_segment.name.startswith("..ovl_")
         ):
             continue
         source_code_segments.append(mapfile_segment)
 
     # Find all pointers with different values
-    if not sys.stdout.isatty():
-        print(f"Comparing pointers between baserom and build ...")
+    if not stdout_isatty:
+        output(f"Comparing pointers between baserom and build ...")
     pointers = []
     file_results = []
     with multiprocessing.Pool(
@@ -217,22 +241,22 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
         while True:
             time.sleep(0.010)
             num_files_done = sum(file_result.ready() for file_result in file_results)
-            if sys.stdout.isatty():
-                print(
+            if stdout_isatty:
+                output(
                     f"Comparing pointers between baserom and build ... {num_files_done:>{len(f'{num_files}')}}/{num_files}",
                     end="\r",
                 )
             if num_files_done == num_files:
                 break
-        if sys.stdout.isatty():
-            print("")
+        if stdout_isatty:
+            output("")
 
         # Collect results and check for errors
         for file_result in file_results:
             try:
                 pointers.extend(file_result.get())
             except FixBssException as e:
-                print(f"{colorama.Fore.RED}Error: {str(e)}{colorama.Fore.RESET}")
+                output(f"Error: {str(e)}", color=colorama.Fore.RED)
                 sys.exit(1)
 
     # Remove duplicates and sort by baserom address
@@ -661,27 +685,27 @@ def process_file(
     dry_run: bool,
     version: str,
 ):
-    print(f"{colorama.Fore.CYAN}Processing {file} ...{colorama.Fore.RESET}")
+    output(f"Processing {file} ...", color=colorama.Fore.CYAN)
 
     command_line = find_compiler_command_line(make_log, file)
     if command_line is None:
         raise FixBssException(f"Could not determine compiler command line for {file}")
 
-    print(f"Compiler command: {shlex.join(command_line)}")
+    output(f"Compiler command: {shlex.join(command_line)}")
     symbol_table, ucode = run_cfe(command_line, keep_files=False)
 
     bss_variables = find_bss_variables(symbol_table, ucode)
-    print("BSS variables:")
+    output("BSS variables:")
     for var in bss_variables:
         i = var.block_number
-        print(
+        output(
             f"  {i:>6} [{i%256:>3}]: size=0x{var.size:04X} align=0x{var.align:X} referenced_in_data={str(var.referenced_in_data):<5} {var.name}"
         )
 
     build_bss_symbols = predict_bss_ordering(bss_variables)
-    print("Current build BSS ordering:")
+    output("Current build BSS ordering:")
     for symbol in build_bss_symbols:
-        print(
+        output(
             f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} referenced_in_data={str(symbol.referenced_in_data):<5} {symbol.name}"
         )
 
@@ -689,9 +713,9 @@ def process_file(
         raise FixBssException(f"No pointers to BSS found in ROM for {file}")
 
     base_bss_symbols = determine_base_bss_ordering(build_bss_symbols, bss_section)
-    print("Baserom BSS ordering:")
+    output("Baserom BSS ordering:")
     for symbol in base_bss_symbols:
-        print(
+        output(
             f"  offset=0x{symbol.offset:04X} size=0x{symbol.size:04X} align=0x{symbol.align:X} referenced_in_data={str(symbol.referenced_in_data):<5} {symbol.name}"
         )
 
@@ -704,15 +728,15 @@ def process_file(
             f"Too many increment_block_number pragmas found in {file} (found {len(pragmas)}, max {max_pragmas})"
         )
 
-    print("Solving BSS ordering ...")
+    output("Solving BSS ordering ...")
     new_pragmas = solve_bss_ordering(pragmas, bss_variables, base_bss_symbols)
-    print("New increment_block_number amounts:")
+    output("New increment_block_number amounts:")
     for pragma in new_pragmas:
-        print(f"  line {pragma.line_number}: {pragma.amount}")
+        output(f"  line {pragma.line_number}: {pragma.amount}")
 
     if not dry_run:
         update_source_file(version, file, new_pragmas)
-        print(f"{colorama.Fore.GREEN}Updated {file}{colorama.Fore.RESET}")
+        output(f"Updated {file}", color=colorama.Fore.GREEN)
 
 
 def process_file_worker(*x):
@@ -724,17 +748,17 @@ def process_file_worker(*x):
         process_file(*x)
     except FixBssException as e:
         # exception with a message for the user
-        print(f"{colorama.Fore.RED}Error: {str(e)}{colorama.Fore.RESET}")
+        output(f"Error: {str(e)}", color=colorama.Fore.RED)
         raise
     except Exception as e:
         # "unexpected" exception, also print a trace for devs
-        print(f"{colorama.Fore.RED}Error: {str(e)}{colorama.Fore.RESET}")
+        output(f"Error: {str(e)}", color=colorama.Fore.RED)
         traceback.print_exc(file=sys.stdout)
         raise
     finally:
         sys.stdout = old_stdout
-        print()
-        print(fake_stdout.getvalue(), end="")
+        output()
+        output(fake_stdout.getvalue(), end="")
 
 
 def main():
@@ -773,14 +797,8 @@ def main():
     for file, bss_section in bss_sections.items():
         if not bss_section.pointers:
             continue
-        # The following heuristic doesn't work for z_locale, since the first pointer into BSS is not
-        # at the start of the section. Fortunately z_locale either has one BSS variable (in GC versions)
-        # or none (in N64 versions), so we can just skip it.
-        if str(file) == "src/boot/z_locale.c":
-            continue
         # For the baserom, assume that the lowest address is the start of the BSS section. This might
-        # not be true if the first BSS variable is not referenced, but in practice this doesn't happen
-        # (except for z_locale above).
+        # not be true if the first BSS variable is not referenced, but in practice this doesn't happen.
         base_min_address = min(p.base_value for p in bss_section.pointers)
         build_min_address = bss_section.start_address
         if not all(
@@ -790,20 +808,21 @@ def main():
             files_with_reordering.append(file)
 
     if files_with_reordering:
-        print("Files with BSS reordering:")
+        output("Files with BSS reordering:")
         for file in files_with_reordering:
-            print(f"  {file}")
+            output(f"  {file}")
     else:
-        print("No BSS reordering found.")
+        output("No BSS reordering found.")
 
     if args.files:
-        files_to_fix = args.files
+        # Ignore files that don't have a BSS section in the ROM
+        files_to_fix = [file for file in args.files if file in bss_sections]
     else:
         files_to_fix = files_with_reordering
     if not files_to_fix:
         return
 
-    print(f"Running make to find compiler command line ...")
+    output(f"Running make to find compiler command line ...")
     make_log = generate_make_log(version)
 
     with multiprocessing.Pool() as p:
@@ -828,12 +847,13 @@ def main():
         # Collect results and check for errors
         num_successes = sum(file_result.successful() for file_result in file_results)
         if num_successes == len(file_results):
-            print()
-            print(f"Processed {num_successes}/{len(file_results)} files.")
+            output()
+            output(f"Processed {num_successes}/{len(file_results)} files.")
         else:
-            print()
-            print(
-                f"{colorama.Fore.RED}Processed {num_successes}/{len(file_results)} files.{colorama.Fore.RESET}"
+            output()
+            output(
+                f"Processed {num_successes}/{len(file_results)} files.",
+                color=colorama.Fore.RED,
             )
             sys.exit(1)
 

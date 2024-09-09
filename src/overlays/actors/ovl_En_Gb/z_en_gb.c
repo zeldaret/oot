@@ -7,7 +7,7 @@
 #include "z_en_gb.h"
 #include "assets/objects/object_ps/object_ps.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnGb_Init(Actor* thisx, PlayState* play);
 void EnGb_Destroy(Actor* thisx, PlayState* play);
@@ -121,8 +121,8 @@ static ColliderCylinderInitType1 sBottlesCylindersInit[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, TARGET_MODE_6, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2200, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_6, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2200, ICHAIN_STOP),
 };
 
 // relative positions of poe souls

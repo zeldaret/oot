@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "assets/objects/object_dekunuts/object_dekunuts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 #define DEKUNUTS_FLOWER 10
 
@@ -102,7 +102,7 @@ static DamageTable sDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MAD_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 2600, ICHAIN_STOP),
 };
 
 void EnDekunuts_Init(Actor* thisx, PlayState* play) {
@@ -111,7 +111,7 @@ void EnDekunuts_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (thisx->params == DEKUNUTS_FLOWER) {
-        thisx->flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+        thisx->flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
     } else {
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
         SkelAnime_Init(play, &this->skelAnime, &gDekuNutsSkel, &gDekuNutsStandAnim, this->jointTable, this->morphTable,

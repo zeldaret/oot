@@ -416,7 +416,7 @@ void func_808B57E0(BgSpot16Bombstone* this, PlayState* play) {
                 OnePointCutscene_Init(play, 4180, sTimer, NULL, CAM_ID_MAIN);
             }
         }
-    } else if (player->stateFlags1 & PLAYER_STATE1_11) {
+    } else if (player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {

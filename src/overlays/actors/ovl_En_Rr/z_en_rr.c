@@ -8,7 +8,7 @@
 #include "assets/objects/object_rr/object_rr.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
 
 #define RR_MESSAGE_SHIELD (1 << 0)
 #define RR_MESSAGE_TUNIC (1 << 1)
@@ -158,8 +158,8 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_LIKE_LIKE, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, TARGET_MODE_2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnRr_Init(Actor* thisx, PlayState* play2) {
@@ -254,7 +254,7 @@ void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
     s32 i;
 
     this->grabTimer = 100;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->ocTimer = 8;
     this->hasPlayer = true;
     this->reachState = 0;
@@ -289,7 +289,7 @@ void EnRr_SetupReleasePlayer(EnRr* this, PlayState* play) {
     u8 shield;
     u8 tunic;
 
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->hasPlayer = false;
     this->ocTimer = 110;
     this->segMoveRate = 0.0f;
@@ -381,7 +381,7 @@ void EnRr_SetupDeath(EnRr* this) {
     }
     this->actionFunc = EnRr_Death;
     Actor_PlaySfx(&this->actor, NA_SE_EN_LIKE_DEAD);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void EnRr_SetupStunned(EnRr* this) {

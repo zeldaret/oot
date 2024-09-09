@@ -9,7 +9,7 @@
 #include "assets/objects/object_zo/object_zo.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 void EnDivingGame_Init(Actor* thisx, PlayState* play);
 void EnDivingGame_Destroy(Actor* thisx, PlayState* play);
@@ -93,7 +93,7 @@ void EnDivingGame_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         D_809EF0B0 = true;
-        this->actor.targetMode = TARGET_MODE_0;
+        this->actor.attentionRangeType = ATTENTION_RANGE_0;
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = func_809EDCB0;
     }

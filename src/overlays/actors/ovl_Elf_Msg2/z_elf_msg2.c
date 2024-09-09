@@ -81,14 +81,15 @@ void ElfMsg2_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!ElfMsg2_KillCheck(this, play)) {
         if ((this->actor.world.rot.x > 0) && (this->actor.world.rot.x < 8)) {
-            this->actor.targetMode = this->actor.world.rot.x - 1;
+            this->actor.attentionRangeType = this->actor.world.rot.x - 1;
         }
         Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.world.rot.y >= 0x41) {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitUntilActivated);
         } else {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
+            this->actor.flags |=
+                ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
         this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
@@ -140,7 +141,7 @@ void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play) {
     if ((this->actor.world.rot.y >= 0x41) && (this->actor.world.rot.y <= 0x80) &&
         (Flags_GetSwitch(play, (this->actor.world.rot.y - 0x41)))) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
         this->actor.textId = ElfMsg2_GetMessageId(this);
     }
 }

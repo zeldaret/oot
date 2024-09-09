@@ -7,7 +7,7 @@
 #include "z_en_zl1.h"
 #include "assets/objects/object_zl1/object_zl1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 void EnZl1_Init(Actor* thisx, PlayState* play);
 void EnZl1_Destroy(Actor* thisx, PlayState* play);
@@ -85,7 +85,7 @@ void EnZl1_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     Actor_SetScale(&this->actor, 0.01f);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    this->actor.targetMode = TARGET_MODE_0;
+    this->actor.attentionRangeType = ATTENTION_RANGE_0;
 
     if (IS_CUTSCENE_LAYER) {
         frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);

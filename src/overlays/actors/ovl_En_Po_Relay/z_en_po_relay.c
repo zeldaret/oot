@@ -8,7 +8,8 @@
 #include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 #include "assets/objects/object_tk/object_tk.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_16)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_16)
 
 void EnPoRelay_Init(Actor* thisx, PlayState* play);
 void EnPoRelay_Destroy(Actor* thisx, PlayState* play);
@@ -69,7 +70,7 @@ static s32 D_80AD8D24 = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DAMPES_GHOST, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 1500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 1500, ICHAIN_STOP),
 };
 
 static Vec3f D_80AD8D30 = { 0.0f, 1.5f, 0.0f };
@@ -140,14 +141,14 @@ void EnPoRelay_SetupRace(EnPoRelay* this) {
     Interface_SetTimer(0);
     this->hookshotSlotFull = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
     this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
-    this->actor.flags |= ACTOR_FLAG_27;
+    this->actor.flags |= ACTOR_FLAG_LOCK_ON_DISABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoRelay_Race;
 }
 
 void EnPoRelay_SetupEndRace(EnPoRelay* this) {
     this->actor.world.rot.y = this->actor.home.rot.y + 0xC000;
-    this->actor.flags &= ~ACTOR_FLAG_27;
+    this->actor.flags &= ~ACTOR_FLAG_LOCK_ON_DISABLED;
     this->actor.speed = 0.0f;
     this->actionFunc = EnPoRelay_EndRace;
 }
@@ -167,7 +168,7 @@ void EnPoRelay_Idle(EnPoRelay* this, PlayState* play) {
         this->actor.textId = this->textId;
         Actor_OfferTalk(&this->actor, play, 250.0f);
     }
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
 void EnPoRelay_Talk(EnPoRelay* this, PlayState* play) {
@@ -177,7 +178,7 @@ void EnPoRelay_Talk(EnPoRelay* this, PlayState* play) {
         this->textId = this->actor.textId;
         EnPoRelay_SetupRace(this);
     }
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
 void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
@@ -249,7 +250,7 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
         }
     }
     this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
-    func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
 }
 
 void EnPoRelay_EndRace(EnPoRelay* this, PlayState* play) {
@@ -263,7 +264,7 @@ void EnPoRelay_EndRace(EnPoRelay* this, PlayState* play) {
         this->actor.textId = this->textId;
         Actor_OfferTalk(&this->actor, play, 250.0f);
     }
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
 void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
@@ -283,7 +284,7 @@ void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
         this->actionTimer = 0;
         this->actionFunc = EnPoRelay_DisappearAndReward;
     }
-    func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
 void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {

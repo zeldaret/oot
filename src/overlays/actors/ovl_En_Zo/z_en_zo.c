@@ -7,7 +7,7 @@
 #include "z_en_zo.h"
 #include "assets/objects/object_zo/object_zo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 typedef enum EnZoEffectType {
     /* 0 */ ENZO_EFFECT_NONE,
@@ -588,7 +588,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
 
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_2);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.targetMode = TARGET_MODE_6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->dialogRadius = this->collider.dim.radius + 30.0f;
     this->trackingMode = NPC_TRACKING_NONE;
     this->canSpeak = false;
@@ -604,7 +604,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
         this->alpha = 255.0f;
         this->actionFunc = EnZo_Standing;
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = EnZo_Submerged;
     }
 }
@@ -646,7 +646,7 @@ void EnZo_Surface(EnZo* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_3);
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
@@ -696,7 +696,7 @@ void EnZo_Dive(EnZo* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         Actor_PlaySfx(&this->actor, NA_SE_EV_DIVE_WATER);
         EnZo_SpawnSplashes(this);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.velocity.y = -4.0f;
         this->skelAnime.playSpeed = 0.0f;
     }

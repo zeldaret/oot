@@ -1,7 +1,7 @@
 #include "z_en_fz.h"
 #include "assets/objects/object_fz/object_fz.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
 void EnFz_Init(Actor* thisx, PlayState* play);
 void EnFz_Destroy(Actor* thisx, PlayState* play);
@@ -151,8 +151,8 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_FREEZARD, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, TARGET_MODE_2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnFz_Init(Actor* thisx, PlayState* play) {
@@ -173,7 +173,7 @@ void EnFz_Init(Actor* thisx, PlayState* play) {
 
     Actor_SetScale(&this->actor, 0.008f);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unusedTimer1 = 0;
     this->unusedCounter = 0;
     this->updateBgInfo = true;
@@ -389,7 +389,7 @@ void EnFz_SetYawTowardsPlayer(EnFz* this) {
 void EnFz_SetupDisappear(EnFz* this) {
     this->state = 2;
     this->isFreezing = false;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnFz_Disappear;
 }
 
@@ -447,7 +447,7 @@ void EnFz_SetupAimForMove(EnFz* this) {
     this->timer = 40;
     this->updateBgInfo = true;
     this->isFreezing = true;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnFz_AimForMove;
     this->actor.gravity = -1.0f;
 }
@@ -510,7 +510,7 @@ void EnFz_BlowSmoke(EnFz* this, PlayState* play) {
     } else if (this->timer >= 11) {
         isTimerMod8 = false;
         primAlpha = 150;
-        func_8002F974(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
 
         if ((this->timer - 10) < 16) { // t < 26
             primAlpha = (this->timer * 10) - 100;
@@ -554,7 +554,7 @@ void EnFz_SetupDespawn(EnFz* this, PlayState* play) {
     this->updateBgInfo = true;
     this->isFreezing = false;
     this->isDespawning = true;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->isActive = false;
     this->timer = 60;
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
@@ -572,7 +572,7 @@ void EnFz_SetupMelt(EnFz* this) {
     this->state = 3;
     this->isFreezing = false;
     this->isDespawning = true;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.speed = 0.0f;
     this->speedXZ = 0.0f;
     this->actionFunc = EnFz_Melt;
@@ -603,7 +603,7 @@ void EnFz_SetupBlowSmokeStationary(EnFz* this) {
     this->timer = 40;
     this->updateBgInfo = true;
     this->isFreezing = true;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnFz_BlowSmokeStationary;
     this->actor.gravity = -1.0f;
 }
@@ -622,7 +622,7 @@ void EnFz_BlowSmokeStationary(EnFz* this, PlayState* play) {
     } else {
         isTimerMod8 = false;
         primAlpha = 150;
-        func_8002F974(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
 
         if ((this->counter & 0x3F) >= 48) {
             primAlpha = 630 - ((this->counter & 0x3F) * 10);

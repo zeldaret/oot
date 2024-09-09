@@ -7,7 +7,7 @@
 #include "z_en_floormas.h"
 #include "assets/objects/object_wallmaster/object_wallmaster.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_10)
 
 #define SPAWN_INVISIBLE 0x8000
 #define SPAWN_SMALL 0x10
@@ -115,7 +115,7 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_FLOORMASTER, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 5500, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 5500, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_STOP),
 };
 
@@ -144,7 +144,7 @@ void EnFloormas_Init(Actor* thisx, PlayState* play2) {
 
     if (this->actor.params == SPAWN_SMALL) {
         this->actor.draw = NULL;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = EnFloormas_SmallWait;
     } else {
         // spawn first small floormaster
@@ -345,7 +345,7 @@ void EnFloormas_SetupGrabLink(EnFloormas* this, Player* player) {
     f32 xzDelta;
 
     Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.0f, 36.0f, 45.0f, ANIMMODE_ONCE, -3.0f);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     EnFloormas_MakeInvulnerable(this);
@@ -384,7 +384,7 @@ void EnFloormas_SetupSmallWait(EnFloormas* this) {
     }
     this->actor.draw = NULL;
     this->actionFunc = EnFloormas_SmallWait;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4);
 }
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
@@ -580,7 +580,7 @@ void EnFloormas_Slide(EnFloormas* this, PlayState* play) {
 
     func_800286CC(play, &pos, &velocity, &accel, 450, 100);
 
-    func_8002F974(&this->actor, NA_SE_EN_FLOORMASTER_SLIDING - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLOORMASTER_SLIDING - SFX_FLAG);
 }
 
 void EnFloormas_Charge(EnFloormas* this, PlayState* play) {
@@ -662,7 +662,7 @@ void EnFloormas_Land(EnFloormas* this, PlayState* play) {
 void EnFloormas_Split(EnFloormas* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         if (SkelAnime_Update(&this->skelAnime)) {
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->smallActionTimer = 50;
             EnFloormas_SetupStand(this);
         }
@@ -804,7 +804,7 @@ void EnFloormas_GrabLink(EnFloormas* this, PlayState* play) {
 
         this->actor.shape.rot.x = 0;
         this->actor.velocity.y = 6.0f;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.speed = -3.0f;
         EnFloormas_SetupLand(this);
     } else {
@@ -927,7 +927,7 @@ void EnFloormas_Merge(EnFloormas* this, PlayState* play) {
             }
         }
     }
-    func_8002F974(&this->actor, NA_SE_EN_FLOORMASTER_RESTORE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLOORMASTER_RESTORE - SFX_FLAG);
 }
 
 void EnFloormas_SmallWait(EnFloormas* this, PlayState* play) {
@@ -996,7 +996,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
                         Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_DEAD);
                     }
                     Enemy_StartFinishingBlow(play, &this->actor);
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 } else if (this->actor.colChkInfo.damage != 0) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_DAMAGE);
                 }

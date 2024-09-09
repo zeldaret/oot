@@ -647,7 +647,7 @@
 
         <DList Name="gGameplayKeepDL_C8B0" Offset="0xC8B0"/>
 
-        <DList Name="gZTargetArrowDL" Offset="0xCC10"/>
+        <DList Name="gLockOnArrowDL" Offset="0xCC10"/>
         <Texture Name="gHilite3Tex" OutName="hilite_3" Format="i8" Width="8" Height="8" Offset="0xCD20"/>
         <DList Name="gEffFragments2DL" Offset="0xCE20"/>
 
@@ -968,7 +968,7 @@
         <DList Name="gKokiriDustMoteMaterialDL" Offset="0x52690"/>
         <DList Name="gKokiriDustMoteModelDL" Offset="0x526D8"/>
         <DList Name="gSunDL" Offset="0x526F0"/>
-        <DList Name="gZTargetLockOnTriangleDL" Offset="0x52980"/>
+        <DList Name="gLockOnReticleTriangleDL" Offset="0x52980"/>
         <DList Name="gEffFire1DL" Offset="0x52A10"/>
         <DList Name="gEffFire2DL" Offset="0x52AD0"/>
         <Texture Name="gDecorativeFlameMaskTex" OutName="eff_fire_mask" Format="i4" Width="32" Height="128" Offset="0x52B90"/>

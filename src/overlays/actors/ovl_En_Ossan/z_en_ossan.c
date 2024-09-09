@@ -14,7 +14,7 @@
 #include "assets/objects/object_masterzoora/object_masterzoora.h"
 #include "assets/objects/object_masterkokirihead/object_masterkokirihead.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 #if !PLATFORM_GC
 #define CURSOR_COLOR_R 0
@@ -324,8 +324,8 @@ static EnOssanGetGirlAParamsFunc sShopItemReplaceFunc[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, TARGET_MODE_2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 500, ICHAIN_STOP),
 };
 
 // When selecting an item to buy, this is the position the item moves to
@@ -2205,7 +2205,7 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
         this->blinkTimer = 20;
         this->eyeTextureIdx = 0;
         this->blinkFunc = EnOssan_WaitForBlink;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         EnOssan_SetupAction(this, EnOssan_MainActionFunc);
     }
 }

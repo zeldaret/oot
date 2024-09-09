@@ -230,7 +230,7 @@ void func_808B7BCC(BgSpot18Basket* this, PlayState* play) {
             }
         }
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 }
 
 void func_808B7D38(BgSpot18Basket* this) {
