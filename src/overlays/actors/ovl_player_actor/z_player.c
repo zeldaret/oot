@@ -1211,36 +1211,24 @@ static AnimSfxEntry* sIdleSfxEntries[] = {
     NULL,                  // IDLE_ANIMATION_SFX_MAX
 };
 
+/**
+ * The indices in this array correspond 1 to 1 with the entries of sIdleAnimations
+ * (the first one is gPlayerAnim_link_normal_wait_typeA_20f, the second one is gPlayerAnim_link_normal_waitF_typeA_20f
+ * and so on). There is also an extra IDLE_ANIMATION_SFX_NONE at the end that doesn't correspond to any animation.
+ *
+ * @see sIdleAnimations for all the animations that correspond to this array
+ */
 static u8 sIdleSfxEntryIndices[] = {
-    /* gPlayerAnim_link_normal_wait_typeA_20f  */ IDLE_ANIMATION_SFX_NONE,
-    /* gPlayerAnim_link_normal_waitF_typeA_20f */ IDLE_ANIMATION_SFX_NONE,
-    /* gPlayerAnim_link_normal_wait_typeC_20f  */ IDLE_ANIMATION_SFX_SNEEZE,
-    /* gPlayerAnim_link_normal_waitF_typeC_20f */ IDLE_ANIMATION_SFX_SNEEZE,
-    /* gPlayerAnim_link_normal_wait_typeB_20f  */ IDLE_ANIMATION_SFX_SWEAT,
-    /* gPlayerAnim_link_normal_waitF_typeB_20f */ IDLE_ANIMATION_SFX_SWEAT,
-    /* gPlayerAnim_link_normal_wait_typeB_20f  */ IDLE_ANIMATION_SFX_SWEAT,
-    /* gPlayerAnim_link_normal_waitF_typeB_20f */ IDLE_ANIMATION_SFX_SWEAT,
-    /* gPlayerAnim_link_wait_typeD_20f         */ IDLE_ANIMATION_SFX_RELAX,
-    /* gPlayerAnim_link_waitF_typeD_20f        */ IDLE_ANIMATION_SFX_RELAX,
-    /* gPlayerAnim_link_wait_typeD_20f         */ IDLE_ANIMATION_SFX_RELAX,
-    /* gPlayerAnim_link_waitF_typeD_20f        */ IDLE_ANIMATION_SFX_RELAX,
-    /* gPlayerAnim_link_wait_typeD_20f         */ IDLE_ANIMATION_SFX_RELAX,
-    /* gPlayerAnim_link_waitF_typeD_20f        */ IDLE_ANIMATION_SFX_RELAX,
-    /* gPlayerAnim_link_wait_heat1_20f         */ IDLE_ANIMATION_SFX_HEAT_1,
-    /* gPlayerAnim_link_waitF_heat1_20f        */ IDLE_ANIMATION_SFX_HEAT_1,
-    /* gPlayerAnim_link_wait_heat2_20f         */ IDLE_ANIMATION_SFX_HEAT_2,
-    /* gPlayerAnim_link_waitF_heat2_20f        */ IDLE_ANIMATION_SFX_HEAT_2,
-    /* gPlayerAnim_link_wait_itemD1_20f        */ IDLE_ANIMATION_SFX_UNKNOWN,
-    /* gPlayerAnim_link_wait_itemD1_20f        */ IDLE_ANIMATION_SFX_UNKNOWN,
-    /* gPlayerAnim_link_wait_itemA_20f         */ IDLE_ANIMATION_SFX_BELT,
-    /* gPlayerAnim_link_waitF_itemA_20f        */ IDLE_ANIMATION_SFX_BELT,
-    /* gPlayerAnim_link_wait_itemB_20f         */ IDLE_ANIMATION_SFX_FOOT_TAPPING,
-    /* gPlayerAnim_link_waitF_itemB_20f        */ IDLE_ANIMATION_SFX_FOOT_TAPPING,
-    /* gPlayerAnim_link_wait_itemC_20f         */ IDLE_ANIMATION_SFX_SHIELD_POSTURE,
-    /* gPlayerAnim_link_wait_itemC_20f         */ IDLE_ANIMATION_SFX_SHIELD_POSTURE,
-    /* gPlayerAnim_link_wait_itemD2_20f        */ IDLE_ANIMATION_SFX_SWORD_THRUST,
-    /* gPlayerAnim_link_wait_itemD2_20f        */ IDLE_ANIMATION_SFX_SWORD_THRUST,
-    /*                                         */ IDLE_ANIMATION_SFX_NONE,
+    IDLE_ANIMATION_SFX_NONE,           IDLE_ANIMATION_SFX_NONE,           IDLE_ANIMATION_SFX_SNEEZE,
+    IDLE_ANIMATION_SFX_SNEEZE,         IDLE_ANIMATION_SFX_SWEAT,          IDLE_ANIMATION_SFX_SWEAT,
+    IDLE_ANIMATION_SFX_SWEAT,          IDLE_ANIMATION_SFX_SWEAT,          IDLE_ANIMATION_SFX_RELAX,
+    IDLE_ANIMATION_SFX_RELAX,          IDLE_ANIMATION_SFX_RELAX,          IDLE_ANIMATION_SFX_RELAX,
+    IDLE_ANIMATION_SFX_RELAX,          IDLE_ANIMATION_SFX_RELAX,          IDLE_ANIMATION_SFX_HEAT_1,
+    IDLE_ANIMATION_SFX_HEAT_1,         IDLE_ANIMATION_SFX_HEAT_2,         IDLE_ANIMATION_SFX_HEAT_2,
+    IDLE_ANIMATION_SFX_UNKNOWN,        IDLE_ANIMATION_SFX_UNKNOWN,        IDLE_ANIMATION_SFX_BELT,
+    IDLE_ANIMATION_SFX_BELT,           IDLE_ANIMATION_SFX_FOOT_TAPPING,   IDLE_ANIMATION_SFX_FOOT_TAPPING,
+    IDLE_ANIMATION_SFX_SHIELD_POSTURE, IDLE_ANIMATION_SFX_SHIELD_POSTURE, IDLE_ANIMATION_SFX_SWORD_THRUST,
+    IDLE_ANIMATION_SFX_SWORD_THRUST,   IDLE_ANIMATION_SFX_NONE,
 };
 
 // Used to map item IDs to item actions
