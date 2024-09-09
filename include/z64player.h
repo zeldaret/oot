@@ -672,8 +672,8 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_21 (1 << 21)
 #define PLAYER_STATE1_22 (1 << 22)
 #define PLAYER_STATE1_23 (1 << 23)
-#define PLAYER_STATE1_24 (1 << 24)
-#define PLAYER_STATE1_25 (1 << 25)
+#define PLAYER_STATE1_USING_BOOMERANG (1 << 24) // Currently using the boomerang. This includes aiming, throwing, and catching.
+#define PLAYER_STATE1_BOOMERANG_THROWN (1 << 25) // Boomerang is flying in the air. Used to control the camera 
 #define PLAYER_STATE1_26 (1 << 26)
 #define PLAYER_STATE1_27 (1 << 27)
 #define PLAYER_STATE1_28 (1 << 28)

@@ -186,7 +186,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
                 }
             }
             // Set player flags and kill the boomerang beacause Link caught it.
-            player->stateFlags1 &= ~PLAYER_STATE1_25;
+            player->stateFlags1 &= ~PLAYER_STATE1_BOOMERANG_THROWN;
             Actor_Kill(&this->actor);
         }
     } else {
