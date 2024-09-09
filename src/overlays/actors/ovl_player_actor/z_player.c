@@ -3579,7 +3579,8 @@ void func_80836BEC(Player* this, PlayState* play) {
 
     isTalking = func_8083224C(play);
 
-    if (isTalking || (this->unk_66C != 0) || (this->stateFlags1 & (PLAYER_STATE1_12 | PLAYER_STATE1_BOOMERANG_THROWN))) {
+    if (isTalking || (this->unk_66C != 0) ||
+        (this->stateFlags1 & (PLAYER_STATE1_12 | PLAYER_STATE1_BOOMERANG_THROWN))) {
         if (!isTalking) {
             if (!(this->stateFlags1 & PLAYER_STATE1_BOOMERANG_THROWN) &&
                 ((this->heldItemAction != PLAYER_IA_FISHING_POLE) || (this->unk_860 == 0)) &&
