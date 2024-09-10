@@ -2316,7 +2316,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
 }
 
 s32 func_80833B2C(Player* this) {
-    if (this->stateFlags1 & (PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL | PLAYER_STATE1_30)) {
+    if (this->stateFlags1 & (PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL | PLAYER_STATE1_LOCK_ON_FORCED_RELEASE)) {
         return 1;
     } else {
         return 0;
@@ -3179,7 +3179,7 @@ s32 Player_SetupAction(PlayState* play, Player* this, PlayerActionFunc actionFun
     this->stateFlags1 &= ~(PLAYER_STATE1_2 | PLAYER_STATE1_6 | PLAYER_STATE1_26 | PLAYER_STATE1_28 | PLAYER_STATE1_29 |
                            PLAYER_STATE1_31);
     this->stateFlags2 &= ~(PLAYER_STATE2_19 | PLAYER_STATE2_27 | PLAYER_STATE2_28);
-    this->stateFlags3 &= ~(PLAYER_STATE3_1 | PLAYER_STATE3_3 | PLAYER_STATE3_7);
+    this->stateFlags3 &= ~(PLAYER_STATE3_1 | PLAYER_STATE3_3 | PLAYER_STATE3_FLYING_WITH_HOOKSHOT);
 
     this->av1.actionVar1 = 0;
     this->av2.actionVar2 = 0;
@@ -3404,7 +3404,7 @@ int Player_CanUpdateItems(Player* this) {
 s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & PLAYER_STATE1_23) && (this->actor.parent != NULL) && Player_HoldsHookshot(this)) {
         Player_SetupAction(play, this, Player_Action_80850AEC, 1);
-        this->stateFlags3 |= PLAYER_STATE3_7;
+        this->stateFlags3 |= PLAYER_STATE3_FLYING_WITH_HOOKSHOT;
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_hook_fly_start);
         Player_AnimReplaceApplyFlags(play, this,
                                      ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
@@ -3555,13 +3555,13 @@ void func_80836BEC(Player* this, PlayState* play) {
     s32 isTalking;
 
     if (!zButtonHeld) {
-        this->stateFlags1 &= ~PLAYER_STATE1_30;
+        this->stateFlags1 &= ~PLAYER_STATE1_LOCK_ON_FORCED_RELEASE;
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) || (this->csAction != PLAYER_CSACTION_NONE) ||
-        (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->stateFlags3 & PLAYER_STATE3_7)) {
+        (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT)) {
         this->unk_66C = 0;
-    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_13) || (this->unk_684 != NULL)) {
+    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_LOCK_ON_WITH_SWITCH) || (this->unk_684 != NULL)) {
         if (this->unk_66C <= 5) {
             this->unk_66C = 5;
         } else {
@@ -3598,7 +3598,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                 // Dark Link uses Hold Targeting.
                 usingHoldTargeting = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
 
-                this->stateFlags1 |= PLAYER_STATE1_15;
+                this->stateFlags1 |= PLAYER_STATE1_Z_TARGETING;
 
                 if ((nextLockOnActor != NULL) && !(nextLockOnActor->flags & ACTOR_FLAG_LOCK_ON_DISABLED)) {
 
@@ -3613,7 +3613,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                         // Set new lock-on
 
                         if (!usingHoldTargeting) {
-                            this->stateFlags2 |= PLAYER_STATE2_13;
+                            this->stateFlags2 |= PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
                         }
 
                         this->focusActor = nextLockOnActor;
@@ -3625,9 +3625,9 @@ void func_80836BEC(Player* this, PlayState* play) {
                         }
                     }
 
-                    this->stateFlags1 &= ~PLAYER_STATE1_30;
+                    this->stateFlags1 &= ~PLAYER_STATE1_LOCK_ON_FORCED_RELEASE;
                 } else {
-                    if (!(this->stateFlags1 & (PLAYER_STATE1_PARALLEL | PLAYER_STATE1_30))) {
+                    if (!(this->stateFlags1 & (PLAYER_STATE1_PARALLEL | PLAYER_STATE1_LOCK_ON_FORCED_RELEASE))) {
                         Player_SetParallel(this);
                     }
                 }
@@ -3637,7 +3637,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                 if ((this->actor.category == ACTORCAT_PLAYER) && (this->focusActor != this->unk_684) &&
                     Attention_ShouldReleaseLockOn(this->focusActor, this, ignoreLeash)) {
                     func_8008EDF0(this);
-                    this->stateFlags1 |= PLAYER_STATE1_30;
+                    this->stateFlags1 |= PLAYER_STATE1_LOCK_ON_FORCED_RELEASE;
                 } else if (this->focusActor != NULL) {
                     this->focusActor->attentionPriority = 40;
                 }
@@ -3655,7 +3655,7 @@ void func_80836BEC(Player* this, PlayState* play) {
             }
         } else {
             if (this->stateFlags1 & PLAYER_STATE1_PARALLEL) {
-                this->stateFlags2 &= ~PLAYER_STATE2_13;
+                this->stateFlags2 &= ~PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
             } else {
                 func_8008EE08(this);
             }
@@ -6020,7 +6020,7 @@ void func_8083C0E8(Player* this, PlayState* play) {
 }
 
 void func_8083C148(Player* this, PlayState* play) {
-    if (!(this->stateFlags3 & PLAYER_STATE3_7)) {
+    if (!(this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT)) {
         func_8083B010(this);
         if (this->stateFlags1 & PLAYER_STATE1_27) {
             func_80838F18(play, this);
@@ -10764,7 +10764,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
         if (this->csAction != PLAYER_CSACTION_NONE) {
             Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_NORMAL);
         } else if (!(this->stateFlags1 & PLAYER_STATE1_20)) {
-            if ((this->actor.parent != NULL) && (this->stateFlags3 & PLAYER_STATE3_7)) {
+            if ((this->actor.parent != NULL) && (this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT)) {
                 camMode = CAM_MODE_HOOKSHOT_FLY;
                 Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->actor.parent);
             } else if (Player_Action_8084377C == this->actionFunc) {
@@ -10795,7 +10795,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
                 } else {
                     camMode = CAM_MODE_LEDGE_HANG;
                 }
-            } else if (this->stateFlags1 & (PLAYER_STATE1_PARALLEL | PLAYER_STATE1_30)) {
+            } else if (this->stateFlags1 & (PLAYER_STATE1_PARALLEL | PLAYER_STATE1_LOCK_ON_FORCED_RELEASE)) {
                 if (func_8002DD78(this) || func_808334B4(this)) {
                     camMode = CAM_MODE_Z_AIM;
                 } else if (this->stateFlags1 & PLAYER_STATE1_21) {
@@ -11949,7 +11949,7 @@ void Player_Action_8084B530(Player* this, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_TALK;
 
         if (!CHECK_FLAG_ALL(this->talkActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)) {
-            this->stateFlags2 &= ~PLAYER_STATE2_13;
+            this->stateFlags2 &= ~PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
         }
 
         Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
@@ -15400,7 +15400,7 @@ s32 Player_StartFishing(PlayState* play) {
 
 s32 func_80852F38(PlayState* play, Player* this) {
     if (!Player_InBlockingCsMode(play, this) && (this->invincibilityTimer >= 0) && !func_8008F128(this) &&
-        !(this->stateFlags3 & PLAYER_STATE3_7)) {
+        !(this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT)) {
         func_80832564(play, this);
         Player_SetupAction(play, this, Player_Action_8084F308, 0);
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_re_dead_attack);

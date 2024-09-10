@@ -492,7 +492,7 @@ void Player_SetBootData(PlayState* play, Player* this) {
 int Player_InBlockingCsMode(PlayState* play, Player* this) {
     return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csAction != PLAYER_CSACTION_NONE) ||
            (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
-           (this->stateFlags3 & PLAYER_STATE3_7) ||
+           (this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT) ||
            ((gSaveContext.magicState != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemAction) >= 0));
 }
 
@@ -603,7 +603,7 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
 
 void func_8008EDF0(Player* this) {
     this->focusActor = NULL;
-    this->stateFlags2 &= ~PLAYER_STATE2_13;
+    this->stateFlags2 &= ~PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
 }
 
 void func_8008EE08(Player* this) {
@@ -611,8 +611,8 @@ void func_8008EE08(Player* this) {
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
-        this->stateFlags1 &= ~(PLAYER_STATE1_15 | PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL | PLAYER_STATE1_18 |
-                               PLAYER_STATE1_19 | PLAYER_STATE1_30);
+        this->stateFlags1 &= ~(PLAYER_STATE1_Z_TARGETING | PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL | PLAYER_STATE1_18 |
+                               PLAYER_STATE1_19 | PLAYER_STATE1_LOCK_ON_FORCED_RELEASE);
     } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_21))) {
         this->stateFlags1 |= PLAYER_STATE1_19;
     }
