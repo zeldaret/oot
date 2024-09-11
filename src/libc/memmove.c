@@ -1,4 +1,4 @@
-#include "global.h"
+#include "string.h"
 
 /**
  * memmove: copies `len` bytes from memory starting at `src` to memory starting at `dest`.
@@ -12,8 +12,8 @@
  * @return dest
  */
 void* memmove(void* dest, const void* src, size_t len) {
-    u8* d = dest;
-    const u8* s = src;
+    char* d = dest;
+    const char* s = src;
 
     if (d == s) {
         return dest;
