@@ -2,6 +2,7 @@
 #define Z64MESSAGE_H
 
 #include "z64view.h"
+#include "versions.h"
 
 struct OcarinaStaff;
 struct Actor;

@@ -1,6 +1,6 @@
 #include "global.h"
 #include "quake.h"
-
+#include "versions.h"
 #include "z64frame_advance.h"
 #if PLATFORM_N64
 #include "n64dd.h"
