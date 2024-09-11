@@ -157,8 +157,7 @@ void BgHidanKousi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_kousi.c", 354);
     gSPDisplayList(POLY_OPA_DISP++, sMetalFencesDLs[PARAMS_GET_U(thisx->params, 0, 8)]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_hidan_kousi.c", 359);

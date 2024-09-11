@@ -203,6 +203,9 @@
 #define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)
 #endif
 
+#define MATRIX_FINALIZE_AND_LOAD(pkt, gfxCtx, file, line) \
+    gSPMatrix(pkt, MATRIX_FINALIZE(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
+
 #if OOT_NTSC
 #define LANGUAGE_ARRAY(jpn, eng, ger, fra) { jpn, eng }
 #else
