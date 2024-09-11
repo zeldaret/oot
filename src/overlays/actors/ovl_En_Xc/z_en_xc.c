@@ -1395,7 +1395,7 @@ void func_80B3F3D8(void) {
     Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
 }
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:128 gc-jp-ce:128 gc-jp-mq:64 gc-us:128 gc-us-mq:64" \
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64" \
                                "ntsc-1.2:128"
 
 void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {

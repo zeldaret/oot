@@ -358,40 +358,40 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
 void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     static void* cloudTexs[] = {
-        gWorldMapCloudSacredForestMeadowTex, // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
-        gWorldMapCloudHyruleFieldTex,        // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
-        gWorldMapCloudLonLonRanchTex,        // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
-        gWorldMapCloudMarketTex,             // QUAD_MAP_WORLD_CLOUDS_MARKET
-        gWorldMapCloudHyruleCastleTex,       // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
-        gWorldMapCloudKakarikoVillageTex,    // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
-        gWorldMapCloudGraveyardTex,          // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
-        gWorldMapCloudDeathMountainTrailTex, // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
-        gWorldMapCloudGoronCityTex,          // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
-        gWorldMapCloudZorasRiverTex,         // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
-        gWorldMapCloudZorasDomainTex,        // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
-        gWorldMapCloudZorasFountainTex,      // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
-        gWorldMapCloudGerudoValleyTex,       // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
-        gWorldMapCloudGerudosFortressTex,    // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
-        gWorldMapCloudDesertColossusTex,     // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
-        gWorldMapCloudLakeHyliaTex,          // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+        gWorldMapCloudSacredForestMeadowTex, // WORLD_MAP_QUAD_CLOUDS_SACRED_FOREST_MEADOW
+        gWorldMapCloudHyruleFieldTex,        // WORLD_MAP_QUAD_CLOUDS_HYRULE_FIELD
+        gWorldMapCloudLonLonRanchTex,        // WORLD_MAP_QUAD_CLOUDS_LON_LON_RANCH
+        gWorldMapCloudMarketTex,             // WORLD_MAP_QUAD_CLOUDS_MARKET
+        gWorldMapCloudHyruleCastleTex,       // WORLD_MAP_QUAD_CLOUDS_HYRULE_CASTLE
+        gWorldMapCloudKakarikoVillageTex,    // WORLD_MAP_QUAD_CLOUDS_KAKARIKO_VILLAGE
+        gWorldMapCloudGraveyardTex,          // WORLD_MAP_QUAD_CLOUDS_GRAVEYARD
+        gWorldMapCloudDeathMountainTrailTex, // WORLD_MAP_QUAD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+        gWorldMapCloudGoronCityTex,          // WORLD_MAP_QUAD_CLOUDS_GORON_CITY
+        gWorldMapCloudZorasRiverTex,         // WORLD_MAP_QUAD_CLOUDS_ZORAS_RIVER
+        gWorldMapCloudZorasDomainTex,        // WORLD_MAP_QUAD_CLOUDS_ZORAS_DOMAIN
+        gWorldMapCloudZorasFountainTex,      // WORLD_MAP_QUAD_CLOUDS_ZORAS_FOUNTAIN
+        gWorldMapCloudGerudoValleyTex,       // WORLD_MAP_QUAD_CLOUDS_GERUDO_VALLEY
+        gWorldMapCloudGerudosFortressTex,    // WORLD_MAP_QUAD_CLOUDS_GERUDOS_FORTRESS
+        gWorldMapCloudDesertColossusTex,     // WORLD_MAP_QUAD_CLOUDS_DESERT_COLOSSUS
+        gWorldMapCloudLakeHyliaTex,          // WORLD_MAP_QUAD_CLOUDS_LAKE_HYLIA
     };
     static u16 cloudFlagNums[] = {
-        WORLD_MAP_AREA_SACRED_FOREST_MEADOW, // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
-        WORLD_MAP_AREA_HYRULE_FIELD,         // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
-        WORLD_MAP_AREA_LON_LON_RANCH,        // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
-        WORLD_MAP_AREA_MARKET,               // QUAD_MAP_WORLD_CLOUDS_MARKET
-        WORLD_MAP_AREA_HYRULE_CASTLE,        // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
-        WORLD_MAP_AREA_KAKARIKO_VILLAGE,     // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
-        WORLD_MAP_AREA_GRAVEYARD,            // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
-        WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL, // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
-        WORLD_MAP_AREA_GORON_CITY,           // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
-        WORLD_MAP_AREA_ZORAS_RIVER,          // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
-        WORLD_MAP_AREA_ZORAS_DOMAIN,         // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
-        WORLD_MAP_AREA_ZORAS_FOUNTAIN,       // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
-        WORLD_MAP_AREA_GERUDO_VALLEY,        // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
-        WORLD_MAP_AREA_GERUDOS_FORTRESS,     // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
-        WORLD_MAP_AREA_DESERT_COLOSSUS,      // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
-        WORLD_MAP_AREA_LAKE_HYLIA,           // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+        WORLD_MAP_AREA_SACRED_FOREST_MEADOW, // WORLD_MAP_QUAD_CLOUDS_SACRED_FOREST_MEADOW
+        WORLD_MAP_AREA_HYRULE_FIELD,         // WORLD_MAP_QUAD_CLOUDS_HYRULE_FIELD
+        WORLD_MAP_AREA_LON_LON_RANCH,        // WORLD_MAP_QUAD_CLOUDS_LON_LON_RANCH
+        WORLD_MAP_AREA_MARKET,               // WORLD_MAP_QUAD_CLOUDS_MARKET
+        WORLD_MAP_AREA_HYRULE_CASTLE,        // WORLD_MAP_QUAD_CLOUDS_HYRULE_CASTLE
+        WORLD_MAP_AREA_KAKARIKO_VILLAGE,     // WORLD_MAP_QUAD_CLOUDS_KAKARIKO_VILLAGE
+        WORLD_MAP_AREA_GRAVEYARD,            // WORLD_MAP_QUAD_CLOUDS_GRAVEYARD
+        WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL, // WORLD_MAP_QUAD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+        WORLD_MAP_AREA_GORON_CITY,           // WORLD_MAP_QUAD_CLOUDS_GORON_CITY
+        WORLD_MAP_AREA_ZORAS_RIVER,          // WORLD_MAP_QUAD_CLOUDS_ZORAS_RIVER
+        WORLD_MAP_AREA_ZORAS_DOMAIN,         // WORLD_MAP_QUAD_CLOUDS_ZORAS_DOMAIN
+        WORLD_MAP_AREA_ZORAS_FOUNTAIN,       // WORLD_MAP_QUAD_CLOUDS_ZORAS_FOUNTAIN
+        WORLD_MAP_AREA_GERUDO_VALLEY,        // WORLD_MAP_QUAD_CLOUDS_GERUDO_VALLEY
+        WORLD_MAP_AREA_GERUDOS_FORTRESS,     // WORLD_MAP_QUAD_CLOUDS_GERUDOS_FORTRESS
+        WORLD_MAP_AREA_DESERT_COLOSSUS,      // WORLD_MAP_QUAD_CLOUDS_DESERT_COLOSSUS
+        WORLD_MAP_AREA_LAKE_HYLIA,           // WORLD_MAP_QUAD_CLOUDS_LAKE_HYLIA
     };
     static s16 pointPulsePrimColor[] = { 0, 0, 255 };
     static s16 pointPrimColors[][3] = {
@@ -577,7 +577,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
             pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
             pauseCtx->cursorSlot[PAUSE_MAP] =
-                PAGE_BG_QUADS + QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
+                PAGE_BG_QUADS + WORLD_MAP_QUAD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
             KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
         } else {
             pauseCtx->cursorItem[PAUSE_MAP] = gSaveContext.worldMapArea + 0x18;
@@ -593,7 +593,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
                     pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                     pauseCtx->cursorSlot[PAUSE_MAP] =
-                        PAGE_BG_QUADS + QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
+                        PAGE_BG_QUADS + WORLD_MAP_QUAD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                     KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
                     Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -611,7 +611,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
                     pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                     pauseCtx->cursorSlot[PAUSE_MAP] =
-                        PAGE_BG_QUADS + QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
+                        PAGE_BG_QUADS + WORLD_MAP_QUAD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                     KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
                     Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -754,7 +754,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_POINT);
 
-        // Quad PAGE_BG_QUADS + QUAD_MAP_28
+        // Quad PAGE_BG_QUADS + WORLD_MAP_QUAD_28
 
         pauseCtx->mapPageVtx[172].v.ob[0] = pauseCtx->mapPageVtx[174].v.ob[0] =
             areaBoxPosX[((void)0, gSaveContext.worldMapArea)];
@@ -862,7 +862,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                 gDPSetEnvColor(POLY_OPA_DISP++, pointPulseEnvColor[0], pointPulseEnvColor[1], pointPulseEnvColor[2], 0);
             }
 
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + QUAD_MAP_WORLD_POINT_FIRST + i) * 4], 4,
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_POINT_FIRST + i) * 4], 4,
                       0);
 
             gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
@@ -873,7 +873,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         KaleidoScope_DrawCursor(play, PAUSE_MAP);
     }
 
-    gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + QUAD_MAP_TRADE_QUEST_MARKER) * 4], 16, 0);
+    gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_TRADE_QUEST_MARKER) * 4], 16, 0);
 
     if (pauseCtx->tradeQuestMarker != TRADE_QUEST_MARKER_NONE) {
         gDPPipeSync(POLY_OPA_DISP++);
