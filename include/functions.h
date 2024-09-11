@@ -1366,31 +1366,6 @@ s8 PadUtils_GetRelY(Input* input);
 void PadUtils_UpdateRelXY(Input* input);
 s32 PadSetup_Init(OSMesgQueue* mq, u8* outMask, OSContStatus* status);
 
-void* SystemArena_Malloc(u32 size);
-void* SystemArena_MallocR(u32 size);
-void* SystemArena_Realloc(void* ptr, u32 newSize);
-void SystemArena_Free(void* ptr);
-void* SystemArena_Calloc(u32 num, u32 size);
-void SystemArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
-void SystemArena_Check(void);
-void SystemArena_Init(void* start, u32 size);
-void SystemArena_Cleanup(void);
-s32 SystemArena_IsInitialized(void);
-#if OOT_DEBUG
-void* SystemArena_MallocDebug(u32 size, const char* file, int line);
-void* SystemArena_MallocRDebug(u32 size, const char* file, int line);
-void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line);
-void SystemArena_FreeDebug(void* ptr, const char* file, int line);
-void SystemArena_Display(void);
-#endif
-s32 PrintUtils_VPrintf(PrintCallback* pfn, const char* fmt, va_list args);
-s32 PrintUtils_Printf(PrintCallback* pfn, const char* fmt, ...);
-void Sleep_Cycles(OSTime cycles);
-void Sleep_Nsec(u32 nsec);
-void Sleep_Usec(u32 usec);
-void Sleep_Msec(u32 ms);
-void Sleep_Sec(u32 sec);
-
 s32 osPfsFreeBlocks(OSPfs* pfs, s32* leftoverBytes);
 void guScale(Mtx* m, f32 x, f32 y, f32 z);
 OSTask* _VirtualToPhysicalTask(OSTask* intp);
