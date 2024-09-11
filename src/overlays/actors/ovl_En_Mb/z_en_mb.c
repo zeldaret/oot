@@ -91,7 +91,7 @@ void EnMb_ClubDamaged(EnMb* this, PlayState* play);
 
 static ColliderCylinderInit sBodyColliderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -136,7 +136,7 @@ static ColliderTrisElementInit sFrontShieldingTrisInit[2] = {
 
 static ColliderTrisInit sFrontShieldingInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -149,7 +149,7 @@ static ColliderTrisInit sFrontShieldingInit = {
 
 static ColliderQuadInit sAttackColliderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,

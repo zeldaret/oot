@@ -59,7 +59,7 @@ ActorProfile Boss_Ganon_Profile = {
 
 static ColliderCylinderInit sDorfCylinderInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -79,7 +79,7 @@ static ColliderCylinderInit sDorfCylinderInit = {
 
 static ColliderCylinderInit sLightBallCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -2378,7 +2378,7 @@ void BossGanon_SetupBlock(BossGanon* this, PlayState* play) {
 }
 
 void BossGanon_Block(BossGanon* this, PlayState* play) {
-    this->collider.base.colType = 9;
+    this->collider.base.colMaterial = 9;
     SkelAnime_Update(&this->skelAnime);
     sCape->backPush = -9.0f;
     sCape->backSwayMagnitude = 0.25f;
@@ -2829,7 +2829,7 @@ void BossGanon_Update(Actor* thisx, PlayState* play2) {
         }
     }
 
-    this->collider.base.colType = 3;
+    this->collider.base.colMaterial = 3;
     sCape->gravity = -3.0f;
     this->shockGlow = false;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;

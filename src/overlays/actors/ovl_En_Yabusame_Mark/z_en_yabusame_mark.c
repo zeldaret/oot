@@ -16,7 +16,7 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play);
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,

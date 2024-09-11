@@ -56,7 +56,7 @@ static ColliderJntSphElementInit sJntSphElementInit = {
 
 static ColliderJntSphInitType1 sJntSphInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,

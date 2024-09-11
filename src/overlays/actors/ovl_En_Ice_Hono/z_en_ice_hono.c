@@ -38,7 +38,7 @@ ActorProfile En_Ice_Hono_Profile = {
 
 static ColliderCylinderInit sCylinderInitCapturableFlame = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylinderInitCapturableFlame = {
 
 static ColliderCylinderInit sCylinderInitDroppedFlame = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_OTHER,
         AC_NONE,
         OC1_ON | OC1_TYPE_2,

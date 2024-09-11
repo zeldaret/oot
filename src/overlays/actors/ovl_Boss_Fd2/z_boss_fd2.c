@@ -823,10 +823,10 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
     }
     if (!bossFd->faceExposed) {
         this->collider.elements[0].base.elemType = ELEMTYPE_UNK2;
-        this->collider.base.colType = COLTYPE_METAL;
+        this->collider.base.colMaterial = COL_MATERIAL_METAL;
     } else {
         this->collider.elements[0].base.elemType = ELEMTYPE_UNK3;
-        this->collider.base.colType = COLTYPE_HIT3;
+        this->collider.base.colMaterial = COL_MATERIAL_HIT3;
     }
 
     if (this->collider.elements[0].base.acElemFlags & ACELEM_HIT) {
