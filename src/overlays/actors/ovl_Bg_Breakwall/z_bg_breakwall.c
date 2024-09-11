@@ -14,7 +14,7 @@
 typedef struct BombableWallInfo {
     /* 0x00 */ CollisionHeader* colHeader;
     /* 0x04 */ Gfx* dList;
-    /* 0x08 */ s8 colMaterial;
+    /* 0x08 */ s8 colType;
 } BombableWallInfo;
 
 void BgBreakwall_Init(Actor* thisx, PlayState* play);
@@ -84,9 +84,9 @@ void BgBreakwall_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
     this->bombableWallDList = sBombableWallInfo[wallType].dList;
-    this->colMaterial = sBombableWallInfo[wallType].colMaterial;
+    this->colType = sBombableWallInfo[wallType].colType;
 
-    if (this->colMaterial == 1) {
+    if (this->colType == 1) {
         this->dyna.actor.world.rot.x = 0x4000;
     }
 
@@ -300,9 +300,9 @@ void BgBreakwall_Draw(Actor* thisx, PlayState* play) {
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_breakwall.c", 771);
         gSPDisplayList(POLY_OPA_DISP++, this->bombableWallDList);
 
-        if (this->colMaterial >= 0) {
+        if (this->colType >= 0) {
             Vec3f colQuad[4];
-            Vec3f* src = &sColQuadList[this->colMaterial][0];
+            Vec3f* src = &sColQuadList[this->colType][0];
             Vec3f* dst = &colQuad[0];
             s32 i;
 
