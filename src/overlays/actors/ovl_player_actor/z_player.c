@@ -14265,10 +14265,10 @@ void Player_Action_80850AEC(Player* this, PlayState* play) {
 
 void Player_Action_80850C68(Player* this, PlayState* play) {
     if ((this->av2.actionVar2 != 0) && ((this->unk_858 != 0.0f) || (this->unk_85C != 0.0f))) {
-        // 144-byte buffer, declared as a u64 array for proper alignment. LinkAnimation_BlendToMorph will round up
+        // 144-byte buffer, declared as a u64 array for 8-byte alignment. LinkAnimation_BlendToMorph will round up
         // the buffer address to the nearest 16-byte alignment before passing it to AnimTaskQueue_AddLoadPlayerFrame,
         // and AnimTaskQueue_AddLoadPlayerFrame requires space for `sizeof(Vec3s) * limbCount + 2` bytes. Link's
-        // skeleton has 22 limbs (including the root limb) and so we need 134 bytes of space, plus 8 bytes of margin for
+        // skeleton has 22 limbs (including the root limb) so we need 134 bytes of space, plus 8 bytes of margin for
         // the 16-byte alignment operation.
         static u64 D_80858AD8[18];
         f32 updateScale = R_UPDATE_RATE * 0.5f;
