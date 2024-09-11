@@ -71,6 +71,7 @@
 #include "main.h"
 #include "segmented_address.h"
 #include "stackcheck.h"
+#include "kaleido_manager.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -101,21 +102,6 @@
 #define THREAD_ID_AUDIOMGR   10
 #define THREAD_ID_DMAMGR     18
 #define THREAD_ID_IRQMGR     19
-
-typedef struct KaleidoMgrOverlay {
-    /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ RomFile file;
-    /* 0x0C */ void* vramStart;
-    /* 0x10 */ void* vramEnd;
-    /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
-    /* 0x18 */ const char* name;
-} KaleidoMgrOverlay; // size = 0x1C
-
-typedef enum KaleidoOverlayType {
-    /* 0 */ KALEIDO_OVL_KALEIDO_SCOPE,
-    /* 1 */ KALEIDO_OVL_PLAYER_ACTOR,
-    /* 2 */ KALEIDO_OVL_MAX
-} KaleidoOverlayType;
 
 typedef enum LensMode {
     /* 0 */ LENS_MODE_SHOW_ACTORS, // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
