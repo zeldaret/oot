@@ -188,7 +188,7 @@ void BgHidanFirewall_Update(Actor* thisx, PlayState* play) {
         BgHidanFirewall_ColliderFollowPlayer(this, play);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-        func_8002F974(&this->actor, NA_SE_EV_FIRE_PLATE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_FIRE_PLATE - SFX_FLAG);
     }
 }
 
@@ -207,8 +207,7 @@ void BgHidanFirewall_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFireballTexs[this->unk_150]));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x01, 255, 255, 0, 150);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_hidan_firewall.c", 458);
     gSPDisplayList(POLY_XLU_DISP++, gFireTempleFireballUpperHalfDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_hidan_firewall.c", 463);

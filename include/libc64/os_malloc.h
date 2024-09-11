@@ -1,5 +1,5 @@
-#ifndef OSMALLOC_H
-#define OSMALLOC_H
+#ifndef LIBC64_OS_MALLOC_H
+#define LIBC64_OS_MALLOC_H
 
 #include "ultra64.h"
 

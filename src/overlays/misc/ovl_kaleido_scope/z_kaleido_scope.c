@@ -867,10 +867,10 @@ u8 gAreaGsFlags[] = {
 };
 
 static void* sCursorTexs[] = {
-    gPauseMenuCursorTopLeftTex,
-    gPauseMenuCursorTopRightTex,
-    gPauseMenuCursorBottomLeftTex,
-    gPauseMenuCursorBottomRightTex,
+    gPauseMenuCursorTopLeftTex,     // PAUSE_QUAD_CURSOR_TL
+    gPauseMenuCursorTopRightTex,    // PAUSE_QUAD_CURSOR_TR
+    gPauseMenuCursorBottomLeftTex,  // PAUSE_QUAD_CURSOR_BL
+    gPauseMenuCursorBottomRightTex, // PAUSE_QUAD_CURSOR_BR
 };
 
 static s16 sCursorColors[][3] = {
@@ -1124,6 +1124,8 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
 
         if (pauseCtx->pageIndex == pageIndex) {
 
+            // Draw PAUSE_QUAD_CURSOR_TL, PAUSE_QUAD_CURSOR_TR, PAUSE_QUAD_CURSOR_BL, PAUSE_QUAD_CURSOR_BR
+
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -1312,8 +1314,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateX(-pauseCtx->unk_1F4 / 100.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1173),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1173);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
                                                           SELECT_ITEM_TEXS(gSaveContext.language));
@@ -1330,8 +1331,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateZ(pauseCtx->unk_1F8 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(1.57f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1196),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1196);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
                                                           EQUIPMENT_TEXS(gSaveContext.language));
@@ -1349,8 +1349,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateX(pauseCtx->unk_200 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(3.14f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1220),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1220);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
                                                           QUEST_STATUS_TEXS(gSaveContext.language));
@@ -1368,8 +1367,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateZ(-pauseCtx->unk_1FC / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(-1.57f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1243),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1243);
 
             POLY_OPA_DISP =
                 KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, MAP_TEXS(gSaveContext.language));
@@ -1397,8 +1395,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateX(-pauseCtx->unk_1F4 / 100.0f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1281),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1281);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
                                                               SELECT_ITEM_TEXS(gSaveContext.language));
@@ -1412,8 +1409,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_RotateZ(-pauseCtx->unk_1FC / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(-1.57f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1303),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1303);
 
                 POLY_OPA_DISP =
                     KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, MAP_TEXS(gSaveContext.language));
@@ -1444,8 +1440,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_RotateX(pauseCtx->unk_200 / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(3.14f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1343),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1343);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
                                                               QUEST_STATUS_TEXS(gSaveContext.language));
@@ -1463,8 +1458,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_RotateZ(pauseCtx->unk_1F8 / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(1.57f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1367),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1367);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
                                                               EQUIPMENT_TEXS(gSaveContext.language));
@@ -1514,8 +1508,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateY(1.57f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1424),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_kaleido_scope_PAL.c", 1424);
 
         if (IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
@@ -1777,8 +1770,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     Matrix_Translate(0.0f, 0.0f, -144.0f, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 1755),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 1755);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 90, 100, 130, 255);
     gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[0], 16, 0);
@@ -2706,9 +2698,9 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     pauseCtx->questPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_QUEST_QUADS) * 4) * sizeof(Vtx));
     KaleidoScope_SetPageVertices(play, pauseCtx->questPageVtx, VTX_PAGE_QUEST, VTX_PAGE_QUEST_QUADS);
 
-    pauseCtx->cursorVtx = GRAPH_ALLOC(gfxCtx, 20 * sizeof(Vtx));
+    pauseCtx->cursorVtx = GRAPH_ALLOC(gfxCtx, PAUSE_QUAD_CURSOR_MAX * 4 * sizeof(Vtx));
 
-    for (i = 0; i < 20; i++) {
+    for (i = 0; i < (PAUSE_QUAD_CURSOR_MAX * 4); i++) {
         pauseCtx->cursorVtx[i].v.ob[0] = pauseCtx->cursorVtx[i].v.ob[1] = pauseCtx->cursorVtx[i].v.ob[2] = 0;
 
         pauseCtx->cursorVtx[i].v.flag = 0;
@@ -2719,15 +2711,21 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->cursorVtx[i].v.cn[3] = 255;
     }
 
+    // PAUSE_QUAD_CURSOR_TL
     pauseCtx->cursorVtx[1].v.tc[0] = pauseCtx->cursorVtx[2].v.tc[1] = pauseCtx->cursorVtx[3].v.tc[0] =
-        pauseCtx->cursorVtx[3].v.tc[1] = pauseCtx->cursorVtx[5].v.tc[0] = pauseCtx->cursorVtx[6].v.tc[1] =
-            pauseCtx->cursorVtx[7].v.tc[0] = pauseCtx->cursorVtx[7].v.tc[1] = pauseCtx->cursorVtx[9].v.tc[0] =
-                pauseCtx->cursorVtx[10].v.tc[1] = pauseCtx->cursorVtx[11].v.tc[0] = pauseCtx->cursorVtx[11].v.tc[1] =
-                    pauseCtx->cursorVtx[13].v.tc[0] = pauseCtx->cursorVtx[14].v.tc[1] =
-                        pauseCtx->cursorVtx[15].v.tc[0] = pauseCtx->cursorVtx[15].v.tc[1] = 0x200;
-
+        pauseCtx->cursorVtx[3].v.tc[1]
+        // PAUSE_QUAD_CURSOR_TR
+        = pauseCtx->cursorVtx[5].v.tc[0] = pauseCtx->cursorVtx[6].v.tc[1] = pauseCtx->cursorVtx[7].v.tc[0] =
+            pauseCtx->cursorVtx[7].v.tc[1]
+        // PAUSE_QUAD_CURSOR_BL
+        = pauseCtx->cursorVtx[9].v.tc[0] = pauseCtx->cursorVtx[10].v.tc[1] = pauseCtx->cursorVtx[11].v.tc[0] =
+            pauseCtx->cursorVtx[11].v.tc[1]
+        // PAUSE_QUAD_CURSOR_BR
+        = pauseCtx->cursorVtx[13].v.tc[0] = pauseCtx->cursorVtx[14].v.tc[1] = pauseCtx->cursorVtx[15].v.tc[0] =
+            pauseCtx->cursorVtx[15].v.tc[1] = 16 * (1 << 5);
+    // PAUSE_QUAD_CURSOR_4
     pauseCtx->cursorVtx[17].v.tc[0] = pauseCtx->cursorVtx[18].v.tc[1] = pauseCtx->cursorVtx[19].v.tc[0] =
-        pauseCtx->cursorVtx[19].v.tc[1] = 0x400;
+        pauseCtx->cursorVtx[19].v.tc[1] = 32 * (1 << 5);
 
     pauseCtx->itemVtx = GRAPH_ALLOC(gfxCtx, 164 * sizeof(Vtx));
 
@@ -3192,88 +3190,96 @@ void KaleidoScope_UpdateOpening(PlayState* play) {
     }
 }
 
-void KaleidoScope_UpdateCursorSize(PlayState* play) {
+void KaleidoScope_UpdateCursorVtx(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
-    s32 temp1;
-    s32 temp2;
-    s32 temp3;
-    s32 temp4;
+    s32 tlOffsetX;
+    s32 tlOffsetY;
+    s32 rightOffsetX;
+    s32 bottomOffsetY;
 
     if (pauseCtx->cursorSpecialPos == 0) {
-        temp1 = -1;
-        temp2 = 1;
-        temp3 = 14;
-        temp4 = 14;
+        tlOffsetX = -1;
+        tlOffsetY = 1;
+        rightOffsetX = 14;
+        bottomOffsetY = 14;
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (!sInDungeonScene) {
-                temp1 = -6;
-                temp2 = 6;
-                temp3 = 4;
-                temp4 = 4;
+                tlOffsetX = -6;
+                tlOffsetY = 6;
+                rightOffsetX = 4;
+                bottomOffsetY = 4;
             } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] >= 3) {
-                temp1 = -6;
-                temp2 = 5;
-                temp4 = 7;
-                temp3 = 19;
+                tlOffsetX = -6;
+                tlOffsetY = 5;
+                bottomOffsetY = 7;
+                rightOffsetX = 19;
             } else {
-                temp1 = -3;
-                temp2 = 3;
-                temp3 = 13;
-                temp4 = 13;
+                tlOffsetX = -3;
+                tlOffsetY = 3;
+                rightOffsetX = 13;
+                bottomOffsetY = 13;
             }
         } else if (pauseCtx->pageIndex == PAUSE_QUEST) {
-            temp1 = -4;
-            temp2 = 4;
-            temp3 = 12;
-            temp4 = 12;
+            tlOffsetX = -4;
+            tlOffsetY = 4;
+            rightOffsetX = 12;
+            bottomOffsetY = 12;
             if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == 0x18) {
-                temp1 = -2;
-                temp2 = 2;
-                temp3 = 32;
-                temp4 = 32;
+                tlOffsetX = -2;
+                tlOffsetY = 2;
+                rightOffsetX = 32;
+                bottomOffsetY = 32;
             } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == 0x17) {
-                temp1 = -4;
-                temp2 = 4;
-                temp4 = 13;
-                temp3 = 34;
+                tlOffsetX = -4;
+                tlOffsetY = 4;
+                bottomOffsetY = 13;
+                rightOffsetX = 34;
             } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] < 6) {
-                temp1 = -1;
-                temp2 = 1;
-                temp3 = 10;
-                temp4 = 10;
+                tlOffsetX = -1;
+                tlOffsetY = 1;
+                rightOffsetX = 10;
+                bottomOffsetY = 10;
             } else if ((pauseCtx->cursorSlot[pauseCtx->pageIndex] >= 6) &&
                        (pauseCtx->cursorSlot[pauseCtx->pageIndex] < 0x12)) {
-                temp1 = -5;
-                temp2 = 3;
-                temp3 = 8;
-                temp4 = 8;
+                tlOffsetX = -5;
+                tlOffsetY = 3;
+                rightOffsetX = 8;
+                bottomOffsetY = 8;
             }
         }
     } else {
-        temp1 = -4;
-        temp2 = 4;
-        temp3 = 16;
-        temp4 = 16;
+        tlOffsetX = -4;
+        tlOffsetY = 4;
+        rightOffsetX = 16;
+        bottomOffsetY = 16;
     }
 
-    pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->cursorVtx[2].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + temp1;
+    // Move the quads according to the offsets set above,
+    // and the position of the cursor in `pauseCtx->cursorVtx[0].v.ob`
+    // (see `KaleidoScope_SetCursorPos` and other `PAUSE_QUAD_CURSOR_TL` uses)
+
+    // PAUSE_QUAD_CURSOR_TL
+    pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->cursorVtx[2].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + tlOffsetX;
     pauseCtx->cursorVtx[1].v.ob[0] = pauseCtx->cursorVtx[3].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + 16;
-    pauseCtx->cursorVtx[0].v.ob[1] = pauseCtx->cursorVtx[1].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] + temp2;
+    pauseCtx->cursorVtx[0].v.ob[1] = pauseCtx->cursorVtx[1].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] + tlOffsetY;
     pauseCtx->cursorVtx[2].v.ob[1] = pauseCtx->cursorVtx[3].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - 16;
 
-    pauseCtx->cursorVtx[4].v.ob[0] = pauseCtx->cursorVtx[6].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + temp3;
+    // PAUSE_QUAD_CURSOR_TR
+    pauseCtx->cursorVtx[4].v.ob[0] = pauseCtx->cursorVtx[6].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + rightOffsetX;
     pauseCtx->cursorVtx[5].v.ob[0] = pauseCtx->cursorVtx[7].v.ob[0] = pauseCtx->cursorVtx[4].v.ob[0] + 16;
     pauseCtx->cursorVtx[4].v.ob[1] = pauseCtx->cursorVtx[5].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1];
     pauseCtx->cursorVtx[6].v.ob[1] = pauseCtx->cursorVtx[7].v.ob[1] = pauseCtx->cursorVtx[4].v.ob[1] - 16;
 
+    // PAUSE_QUAD_CURSOR_BL
     pauseCtx->cursorVtx[8].v.ob[0] = pauseCtx->cursorVtx[10].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0];
     pauseCtx->cursorVtx[9].v.ob[0] = pauseCtx->cursorVtx[11].v.ob[0] = pauseCtx->cursorVtx[8].v.ob[0] + 16;
-    pauseCtx->cursorVtx[8].v.ob[1] = pauseCtx->cursorVtx[9].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - temp4;
+    pauseCtx->cursorVtx[8].v.ob[1] = pauseCtx->cursorVtx[9].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - bottomOffsetY;
     pauseCtx->cursorVtx[10].v.ob[1] = pauseCtx->cursorVtx[11].v.ob[1] = pauseCtx->cursorVtx[8].v.ob[1] - 16;
 
-    pauseCtx->cursorVtx[12].v.ob[0] = pauseCtx->cursorVtx[14].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + temp3;
+    // PAUSE_QUAD_CURSOR_BR
+    pauseCtx->cursorVtx[12].v.ob[0] = pauseCtx->cursorVtx[14].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + rightOffsetX;
     pauseCtx->cursorVtx[13].v.ob[0] = pauseCtx->cursorVtx[15].v.ob[0] = pauseCtx->cursorVtx[12].v.ob[0] + 16;
-    pauseCtx->cursorVtx[12].v.ob[1] = pauseCtx->cursorVtx[13].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - temp4;
+    pauseCtx->cursorVtx[12].v.ob[1] = pauseCtx->cursorVtx[13].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - bottomOffsetY;
     pauseCtx->cursorVtx[14].v.ob[1] = pauseCtx->cursorVtx[15].v.ob[1] = pauseCtx->cursorVtx[12].v.ob[1] - 16;
 }
 
@@ -3352,11 +3358,11 @@ void KaleidoScope_Update(PlayState* play) {
             (pauseCtx->state == PAUSE_STATE_MAIN)) {
             pauseCtx->stickAdjX = input->rel.stick_x;
             pauseCtx->stickAdjY = input->rel.stick_y;
-            KaleidoScope_UpdateCursorSize(play);
+            KaleidoScope_UpdateCursorVtx(play);
             KaleidoScope_HandlePageToggles(pauseCtx, input);
         } else if ((pauseCtx->pageIndex == PAUSE_QUEST) &&
                    ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) || (pauseCtx->mainState == PAUSE_MAIN_STATE_5))) {
-            KaleidoScope_UpdateCursorSize(play);
+            KaleidoScope_UpdateCursorVtx(play);
         }
 
         if (pauseCtx->state == PAUSE_STATE_MAIN) {

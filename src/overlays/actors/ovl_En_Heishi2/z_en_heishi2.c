@@ -12,7 +12,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnHeishi2_Init(Actor* thisx, PlayState* play);
 void EnHeishi2_Destroy(Actor* thisx, PlayState* play);
@@ -92,7 +92,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
 
     if ((this->type == 6) || (this->type == 9)) {
         this->actor.draw = EnHeishi2_DrawKingGuard;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
         if (this->type == 6) {
             this->actionFunc = EnHeishi2_DoNothing1;
@@ -112,7 +112,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(play, &this->collider);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
             this->actionFunc = func_80A544AC;
         }
     } else {
@@ -143,7 +143,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
                 // "Peep hole soldier!"
                 PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
                 Collider_DestroyCylinder(play, collider);
-                this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+                this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
                 this->actionFunc = EnHeishi_DoNothing2;
                 break;
         }
@@ -831,8 +831,7 @@ void EnHeishi2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 void EnHeishi2_DrawKingGuard(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1772);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_heishi2.c", 1774),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_heishi2.c", 1774);
     gSPDisplayList(POLY_OPA_DISP++, gHeishiKingGuardDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1777);
@@ -857,7 +856,7 @@ void EnHeishi2_Draw(Actor* thisx, PlayState* play2) {
             Matrix_Put(&this->mtxf_330);
             Matrix_Translate(-570.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(70), MTXMODE_APPLY);
-            mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
+            mtx = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx);

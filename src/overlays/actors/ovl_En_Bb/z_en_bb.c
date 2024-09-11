@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_Bb/object_Bb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_24)
 
 #define vBombHopPhase actionVar1
 #define vTrailIdx actionVar1
@@ -412,7 +412,7 @@ void EnBb_SetupFlameTrail(EnBb* this) {
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.speed = 0.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     EnBb_SetupAction(this, EnBb_FlameTrail);
 }
 
@@ -700,7 +700,7 @@ void EnBb_Down(EnBb* this, PlayState* play) {
                 this->moveMode = BBMOVE_HIDDEN;
                 this->timer = 10;
                 this->actionState++;
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 this->action = BB_RED;
                 EnBb_SetupAction(this, EnBb_Red);
                 return;
@@ -765,7 +765,7 @@ void EnBb_SetupRed(PlayState* play, EnBb* this) {
         this->actor.home.pos = this->actor.world.pos;
         this->actor.velocity.y = this->actor.gravity = this->actor.speed = 0.0f;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
     this->action = BB_RED;
     EnBb_SetupAction(this, EnBb_Red);
@@ -799,7 +799,7 @@ void EnBb_Red(EnBb* this, PlayState* play) {
         case BBRED_ATTACK:
             if (this->timer == 0) {
                 this->moveMode = BBMOVE_NORMAL;
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             }
             this->bobPhase += Rand_ZeroOne();
             Math_SmoothStepToF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
@@ -818,7 +818,7 @@ void EnBb_Red(EnBb* this, PlayState* play) {
                     this->moveMode = BBMOVE_HIDDEN;
                     this->timer = 10;
                     this->actionState++;
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 } else {
                     this->actor.velocity.y *= -1.06f;
                     if (this->actor.velocity.y > 13.0f) {
@@ -1128,7 +1128,7 @@ void EnBb_Stunned(EnBb* this, PlayState* play) {
                 EnBb_SetupDown(this);
             }
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             EnBb_SetupDeath(this, play);
         }
     }
@@ -1194,7 +1194,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                     }
                 }
                 if (this->actor.colChkInfo.health == 0) {
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                     if (this->actor.params == ENBB_RED) {
                         EnBb_KillFlameTrail(this);
                     }
@@ -1339,8 +1339,7 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
                 BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
                 MTXMODE_APPLY);
             Matrix_Scale(this->flameScaleX * 0.01f, this->flameScaleY * 0.01f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bb.c", 2106),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bb.c", 2106);
             gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
         } else {
             Matrix_MultVec3f(&blureBase1, &blureVtx1);

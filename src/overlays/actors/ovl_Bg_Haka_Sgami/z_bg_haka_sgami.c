@@ -8,7 +8,7 @@
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4)
 
 typedef enum SpinningScytheTrapMode {
     /* 0 */ SCYTHE_TRAP_SHADOW_TEMPLE,
@@ -170,7 +170,7 @@ void BgHakaSgami_Init(Actor* thisx, PlayState* play) {
 
     if (thisx->params == SCYTHE_TRAP_SHADOW_TEMPLE) {
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
-        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_ICE_OBJECTS);
         this->colliderScytheCenter.dim.radius = 30;
@@ -282,7 +282,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, PlayState* play) {
 
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderScythe.base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderScytheCenter.base);
-    func_8002F974(&this->actor, NA_SE_EV_ROLLCUTTER_MOTOR - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_ROLLCUTTER_MOTOR - SFX_FLAG);
 }
 
 void BgHakaSgami_Update(Actor* thisx, PlayState* play) {

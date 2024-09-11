@@ -2,7 +2,7 @@
 #include "assets/objects/object_cs/object_cs.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnCs_Init(Actor* thisx, PlayState* play);
 void EnCs_Destroy(Actor* thisx, PlayState* play);
@@ -477,7 +477,7 @@ void EnCs_Draw(Actor* thisx, PlayState* play) {
             Mtx* mtx;
 
             Matrix_Put(&this->spookyMaskMtx);
-            mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_cs.c", 1000);
+            mtx = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_cs.c", 1000);
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx - 7);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildSpookyMaskDL);

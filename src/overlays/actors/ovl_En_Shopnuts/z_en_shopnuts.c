@@ -6,7 +6,7 @@
 
 #include "z_en_shopnuts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnShopnuts_Init(Actor* thisx, PlayState* play);
 void EnShopnuts_Destroy(Actor* thisx, PlayState* play);
@@ -322,8 +322,7 @@ void EnShopnuts_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
     }
 
     Matrix_Scale(x, y, z, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_shopnuts.c", 714),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_shopnuts.c", 714);
     gSPDisplayList(POLY_OPA_DISP++, gBusinessScrubNoseDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_shopnuts.c", 717);

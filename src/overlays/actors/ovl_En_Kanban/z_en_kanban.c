@@ -5,11 +5,12 @@
  */
 
 #include "z_en_kanban.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_kanban/object_kanban.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 #define PART_UPPER_LEFT (1 << 0)
 #define PART_LEFT_UPPER (1 << 1)
@@ -214,7 +215,7 @@ void EnKanban_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
     if (this->actor.params != ENKANBAN_PIECE) {
         this->actor.attentionRangeType = ATTENTION_RANGE_0;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         PRINTF("KANBAN ARG    %x\n", this->actor.params);
@@ -286,7 +287,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                 this->zTargetTimer--;
             }
             if (this->zTargetTimer == 1) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
             if (this->partFlags == 0xFFFF) {
                 EnKanban_Message(this, play);
@@ -404,7 +405,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                         piece->direction = -1;
                     }
                     piece->airTimer = 100;
-                    piece->actor.flags &= ~ACTOR_FLAG_0;
+                    piece->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                     piece->actor.flags |= ACTOR_FLAG_25;
                     this->cutMarkTimer = 5;
                     Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_STRIKE);
@@ -416,7 +417,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer > 500.0f) {
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                 this->partFlags = 0xFFFF;
             }
             if (this->cutMarkTimer != 0) {
@@ -779,7 +780,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                 ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0) && (this->floorRot.x == 0.0f) &&
                 (this->floorRot.z == 0.0f)) {
                 signpost->partFlags |= this->partFlags;
-                signpost->actor.flags |= ACTOR_FLAG_0;
+                signpost->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                 Actor_Kill(&this->actor);
             }
         } break;
@@ -834,8 +835,7 @@ void EnKanban_Draw(Actor* thisx, PlayState* play) {
         Matrix_RotateX(BINANG_TO_RAD_ALT(this->spinRot.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD_ALT(this->spinRot.z), MTXMODE_APPLY);
         Matrix_Translate(this->offset.x, this->offset.y, this->offset.z - 100.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_kanban.c", 1715),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_kanban.c", 1715);
         for (i = 0; i < ARRAY_COUNT(sPartFlags); i++) {
             if (sPartFlags[i] & this->partFlags) {
                 gSPDisplayList(POLY_OPA_DISP++, sDisplayLists[i]);
@@ -843,8 +843,7 @@ void EnKanban_Draw(Actor* thisx, PlayState* play) {
         }
     } else {
         Matrix_Translate(0.0f, 0.0f, -100.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_kanban.c", 1725),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_kanban.c", 1725);
         if (this->partFlags == 0xFFFF) {
             gSPDisplayList(POLY_OPA_DISP++, gSignRectangularDL);
         } else {
@@ -863,8 +862,7 @@ void EnKanban_Draw(Actor* thisx, PlayState* play) {
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 255, this->cutMarkAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 150, 0);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_kanban.c", 1773),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_kanban.c", 1773);
             gSPDisplayList(POLY_XLU_DISP++, object_kanban_DL_001630);
         }
     }
@@ -902,8 +900,7 @@ void EnKanban_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateX(BINANG_TO_RAD_ALT(this->spinRot.x), MTXMODE_APPLY);
             Matrix_RotateY(BINANG_TO_RAD_ALT(this->spinRot.z), MTXMODE_APPLY);
             Matrix_Translate(this->offset.x, this->offset.y, this->offset.z, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_kanban.c", 1833),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_kanban.c", 1833);
 
             for (i = 0; i < 0x400; i++) {
                 if (sShadowTexFlags[i] & this->partFlags) {

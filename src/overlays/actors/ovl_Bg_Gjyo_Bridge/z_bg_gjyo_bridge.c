@@ -110,8 +110,7 @@ void BgGjyoBridge_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, -play2->gameplayFrames & 127, 32, 32, 1, 0,
                                 play2->gameplayFrames & 127, 32, 32));
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281);
 
     gSPDisplayList(POLY_XLU_DISP++, gRainbowBridgeDL);
 

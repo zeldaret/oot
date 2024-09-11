@@ -107,14 +107,19 @@ typedef struct ActorShape {
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
-//
-#define ACTOR_FLAG_0 (1 << 0)
+// Actor is discoverable by the Attention System. This enables Navi to hover over the actor when it is in range.
+// The actor can also be locked onto (as long as `ACTOR_FLAG_LOCK_ON_DISABLED` is not set).
+#define ACTOR_FLAG_ATTENTION_ENABLED (1 << 0)
 
-//
-#define ACTOR_FLAG_2 (1 << 2)
+// Actor is hostile toward the Player. Player has specific "battle" behavior when locked onto hostile actors.
+// Enemy background music will also be played when the player is close enough to a hostile actor.
+// Note: This must be paired with `ACTOR_FLAG_ATTENTION_ENABLED` to have any effect.
+#define ACTOR_FLAG_HOSTILE (1 << 2)
 
-//
-#define ACTOR_FLAG_3 (1 << 3)
+// Actor is not hostile toward the player; Opposite flag of `ACTOR_FLAG_HOSTILE`.
+// Note that this flag doesn't have any effect on either the actor, or Player's behvaior.
+// What actually matters is the presence or lack of `ACTOR_FLAG_HOSTILE`.
+#define ACTOR_FLAG_NEUTRAL (1 << 3)
 
 //
 #define ACTOR_FLAG_4 (1 << 4)
@@ -163,14 +168,10 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_18 (1 << 18)
 
-//
-#define ACTOR_FLAG_19 (1 << 19)
-
-//
-#define ACTOR_FLAG_20 (1 << 20)
-
-//
-#define ACTOR_FLAG_21 (1 << 21)
+// Flags controlling the use of `Actor.sfx`. Do not use directly.
+#define ACTOR_FLAG_SFX_ACTOR_POS_2 (1 << 19) // see Actor_PlaySfx_Flagged2
+#define ACTOR_AUDIO_FLAG_SFX_CENTERED_1 (1 << 20) // see Actor_PlaySfx_FlaggedCentered1
+#define ACTOR_AUDIO_FLAG_SFX_CENTERED_2 (1 << 21) // see Actor_PlaySfx_FlaggedCentered2
 
 // ignores point lights but not directional lights (such as environment lights)
 #define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22)
@@ -187,11 +188,12 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_26 (1 << 26)
 
-//
-#define ACTOR_FLAG_27 (1 << 27)
+// Player is not able to lock onto the actor.
+// Navi will still be able to hover over the actor, assuming `ACTOR_FLAG_ATTENTION_ENABLED` is set.
+#define ACTOR_FLAG_LOCK_ON_DISABLED (1 << 27)
 
-//
-#define ACTOR_FLAG_28 (1 << 28)
+// Flag controlling the use of `Actor.sfx`. Do not use directly. See Actor_PlaySfx_FlaggedTimer
+#define ACTOR_FLAG_SFX_TIMER (1 << 28)
 
 #define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
 #define COLORFILTER_GET_DURATION(colorFilterParams) ((colorFilterParams) & 0xFF)

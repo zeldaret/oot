@@ -6,6 +6,7 @@
 #include "z64view.h"
 
 struct OcarinaStaff;
+struct PlayState;
 
 #define PAUSE_ITEM_NONE 999
 
@@ -95,6 +96,15 @@ typedef enum PauseMainState {
     /* 8 */ PAUSE_MAIN_STATE_8,
     /* 9 */ PAUSE_MAIN_STATE_9
 } PauseMainState;
+
+typedef enum PauseCursorQuad {
+    /* 0 */ PAUSE_QUAD_CURSOR_TL,
+    /* 1 */ PAUSE_QUAD_CURSOR_TR,
+    /* 2 */ PAUSE_QUAD_CURSOR_BL,
+    /* 3 */ PAUSE_QUAD_CURSOR_BR,
+    /* 4 */ PAUSE_QUAD_CURSOR_4,
+    /* 5 */ PAUSE_QUAD_CURSOR_MAX
+} PauseCursorQuad;
 
 typedef enum WorldMapPoint {
     /*  0 */ WORLD_MAP_POINT_HAUNTED_WASTELAND,
@@ -219,5 +229,9 @@ typedef struct PauseMapMarkData {
 } PauseMapMarkData; // size = 0xA4
 
 typedef PauseMapMarkData PauseMapMarksData[3];
+
+void KaleidoSetup_Update(struct PlayState* play);
+void KaleidoSetup_Init(struct PlayState* play);
+void KaleidoSetup_Destroy(struct PlayState* play);
 
 #endif

@@ -7,7 +7,7 @@
 #include "z_obj_timeblock.h"
 #include "assets/objects/object_timeblock/object_timeblock.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void ObjTimeblock_Init(Actor* thisx, PlayState* play);
 void ObjTimeblock_Destroy(Actor* thisx, PlayState* play);
@@ -338,8 +338,7 @@ void ObjTimeblock_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_obj_timeblock.c", 762);
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_timeblock.c", 766),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_timeblock.c", 766);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, primColor->r, primColor->g, primColor->b, 255);
         gSPDisplayList(POLY_OPA_DISP++, gSongOfTimeBlockDL);
 

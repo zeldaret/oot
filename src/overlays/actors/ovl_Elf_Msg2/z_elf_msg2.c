@@ -88,7 +88,8 @@ void ElfMsg2_Init(Actor* thisx, PlayState* play) {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitUntilActivated);
         } else {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
+            this->actor.flags |=
+                ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
         this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
@@ -140,7 +141,7 @@ void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play) {
     if ((this->actor.world.rot.y >= 0x41) && (this->actor.world.rot.y <= 0x80) &&
         (Flags_GetSwitch(play, (this->actor.world.rot.y - 0x41)))) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
         this->actor.textId = ElfMsg2_GetMessageId(this);
     }
 }
@@ -165,8 +166,7 @@ void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_elf_msg2.c", 362),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg2.c", 362);
     gSPDisplayList(POLY_XLU_DISP++, D_809ADC38);
     gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
 

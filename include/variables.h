@@ -2,7 +2,7 @@
 #define VARIABLES_H
 
 #include "z64.h"
-#include "osMalloc.h"
+#include "libc64/os_malloc.h"
 #include "segment_symbols.h"
 
 extern Mtx D_01000000;
@@ -60,10 +60,6 @@ extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_d
 extern s32 gMaxActorId; // original name: "MaxProfile"
 extern s32 gDebugCamEnabled;
 extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
-extern u8 gWeatherMode;
-extern u8 gLightConfigAfterUnderwater;
-extern u8 gInterruptSongOfStorms;
-extern u16 gTimeSpeed;
 extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
@@ -98,8 +94,6 @@ extern u16 gSramSlotOffsets[];
 // 4 16-colors palettes
 extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
 extern u64 gMojiFontTex[]; // original name: "font_ff"
-extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
-extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
 
 #if OOT_DEBUG
@@ -170,8 +164,6 @@ extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
 
-extern SaveContext gSaveContext;
-
 extern u8 gUseCutsceneCam;
 extern u16 D_8015FCCC;
 extern char D_8015FCD0[20];
@@ -232,7 +224,6 @@ extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
 extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 
-extern Arena gSystemArena;
 extern OSPifRam __osContPifRam;
 extern u8 __osContLastCmd;
 extern u8 __osMaxControllers;

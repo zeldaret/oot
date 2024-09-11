@@ -105,7 +105,7 @@ void EnIceHono_InitCapturableFlame(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChainCapturableFlame);
     Actor_SetScale(&this->actor, 0.0074f);
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_SetFocus(&this->actor, 10.0f);
 
     Collider_InitCylinder(play, &this->collider);
@@ -221,7 +221,7 @@ void EnIceHono_CapturableFlame(EnIceHono* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 200.0f) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
-    func_8002F8F0(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
+    Actor_PlaySfx_Flagged2(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
 }
 
 void EnIceHono_SetupActionDroppedFlame(EnIceHono* this) {
@@ -348,7 +348,7 @@ void EnIceHono_Update(Actor* thisx, PlayState* play) {
         this->timer--;
     }
     if (this->actor.params == 0) {
-        func_8002F8F0(&this->actor, NA_SE_IT_FLAME - SFX_FLAG);
+        Actor_PlaySfx_Flagged2(&this->actor, NA_SE_IT_FLAME - SFX_FLAG);
     }
     if ((this->actor.params == -1) || (this->actor.params == 0)) {
         this->unk_154 += 0x1111;
@@ -391,8 +391,7 @@ void EnIceHono_Draw(Actor* thisx, PlayState* play) {
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
                    MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ice_hono.c", 718),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_ice_hono.c", 718);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ice_hono.c", 722);

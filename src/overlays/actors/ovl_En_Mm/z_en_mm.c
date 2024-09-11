@@ -8,7 +8,7 @@
 #include "assets/objects/object_mm/object_mm.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 typedef enum RunningManAnimIndex {
     /* 0 */ RM_ANIM_RUN,
@@ -531,7 +531,7 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             mtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 2);
 
             Matrix_Put(&this->unk_208);
-            mtx2 = MATRIX_NEW(play->state.gfxCtx, "../z_en_mm.c", 1111);
+            mtx2 = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_mm.c", 1111);
 
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);

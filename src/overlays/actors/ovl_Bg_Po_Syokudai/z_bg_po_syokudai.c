@@ -135,7 +135,7 @@ void BgPoSyokudai_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     if (Flags_GetSwitch(play, this->actor.params)) {
-        func_8002F974(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
     this->flameTextureScroll++;
 }
@@ -150,8 +150,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_po_syokudai.c", 315);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_po_syokudai.c", 319);
     gSPDisplayList(POLY_OPA_DISP++, gGoldenTorchDL);
 
     if (Flags_GetSwitch(play, this->actor.params)) {
@@ -180,8 +179,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
             MTXMODE_APPLY);
         Matrix_Scale(0.0027f, 0.0027f, 0.0027f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_po_syokudai.c", 368);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_po_syokudai.c", 373);

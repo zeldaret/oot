@@ -7,7 +7,7 @@
 #include "z_en_kz.h"
 #include "assets/objects/object_kz/object_kz.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnKz_Init(Actor* thisx, PlayState* play);
 void EnKz_Destroy(Actor* thisx, PlayState* play);
@@ -214,11 +214,11 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     yaw = Math_Vec3f_Yaw(&thisx->home.pos, &player->actor.world.pos);
     yaw -= thisx->shape.rot.y;
     if ((fabsf(yaw) > 1638.0f) || (thisx->xzDistToPlayer < 265.0f)) {
-        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         return false;
     }
 
-    thisx->flags |= ACTOR_FLAG_0;
+    thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED;
 
     Actor_GetScreenPos(play, thisx, &x, &y);
     if (!((x >= -30) && (x < 361) && (y >= -10) && (y < 241))) {

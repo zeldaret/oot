@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.h"
 #include "assets/objects/object_skj/object_skj.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnSkj_Init(Actor* thisx, PlayState* play2);
 void EnSkj_Destroy(Actor* thisx, PlayState* play);
@@ -373,7 +373,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
             this->actor.update = EnSkj_SariasSongShortStumpUpdate;
-            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+            this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
             this->actor.flags |= 0;
             Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
             break;
@@ -384,7 +384,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
             this->actor.update = EnSkj_OcarinaMinigameShortStumpUpdate;
-            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+            this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
             this->actor.flags |= 0;
             Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
             this->actor.focus.pos.x = 1230.0f;
@@ -406,8 +406,8 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             SkelAnime_InitFlex(play, &this->skelAnime, &gSkullKidSkel, &gSkullKidPlayFluteAnim, this->jointTable,
                                this->morphTable, 19);
             if ((type >= 0) && (type < 3)) {
-                this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
-                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+                this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_NPC);
             }
 
@@ -1211,14 +1211,14 @@ void EnSkj_SariasSongWaitForTextClear(EnSkj* this, PlayState* play) {
 }
 
 void EnSkj_OcarinaGameSetupWaitForPlayer(EnSkj* this) {
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
     EnSkj_SetupAction(this, SKJ_ACTION_OCARINA_GAME_WAIT_FOR_PLAYER);
 }
 
 void EnSkj_OcarinaGameWaitForPlayer(EnSkj* this, PlayState* play) {
     if (this->playerInRange) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         EnSkj_SetupAction(this, SKJ_ACTION_OCARINA_GAME_IDLE);
     }
 }
@@ -1616,8 +1616,7 @@ void EnSkj_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         Matrix_Push();
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_skj.c", 2430),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_skj.c", 2430);
         gSPDisplayList(POLY_OPA_DISP++, gSkullKidSkullMaskDL);
         Matrix_Pop();
     }
