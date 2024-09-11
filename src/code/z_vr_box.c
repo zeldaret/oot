@@ -69,10 +69,10 @@ s32 Skybox_CalculateFace256(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 roomVtxS
     s32 k;
     u16 index;
     s16 m;
+    s16 l;
     s16 ult;
     s16 uls;
     s16 vtxIdx;
-    s16 l;
     s32 xPoints[9 * 5];
     s32 yPoints[9 * 5];
     s32 zPoints[9 * 5];
@@ -303,6 +303,8 @@ s32 Skybox_CalculateFace128(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 roomVtxS
             }
             break;
     }
+
+    if (1) {}
 
     // Select gfx buffer
     skyboxCtx->gfx = &skyboxCtx->dListBuf[2 * faceNum][0];

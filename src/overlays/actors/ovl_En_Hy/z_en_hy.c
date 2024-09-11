@@ -15,7 +15,7 @@
 #include "assets/objects/object_cob/object_cob.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 void EnHy_Init(Actor* thisx, PlayState* play);
 void EnHy_Destroy(Actor* thisx, PlayState* play);
@@ -323,7 +323,7 @@ typedef struct EnHyInit2Info {
     /* 0x00 */ f32 shadowScale;
     /* 0x04 */ Vec3f modelOffset;
     /* 0x10 */ f32 scale;
-    /* 0x14 */ s8 targetMode;
+    /* 0x14 */ s8 attentionRangeType;
     /* 0x18 */ f32 interactRange;
 } EnHyInit2Info; // size = 0x1C
 
@@ -701,7 +701,7 @@ void EnHy_InitSetProperties(EnHy* this) {
 
     this->actor.shape.shadowScale = sInit2Info[type].shadowScale;
     Actor_SetScale(&this->actor, sInit2Info[type].scale);
-    this->actor.targetMode = sInit2Info[type].targetMode;
+    this->actor.attentionRangeType = sInit2Info[type].attentionRangeType;
     this->modelOffset = sInit2Info[type].modelOffset;
     this->interactRange = sInit2Info[type].interactRange;
     this->interactRange += this->collider.dim.radius;

@@ -2,6 +2,7 @@
 
 #include "stdbool.h"
 
+#include "controller.h"
 #include "padmgr.h"
 #include "macros.h"
 

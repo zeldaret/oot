@@ -1,5 +1,5 @@
-#ifndef OSMALLOC_H
-#define OSMALLOC_H
+#ifndef LIBC64_OS_MALLOC_H
+#define LIBC64_OS_MALLOC_H
 
 #include "ultra64.h"
 
@@ -11,7 +11,7 @@ typedef struct Arena {
 #if PLATFORM_N64
     /* 0x08 */ u32 size;
     /* 0x0C */ u8 allocFailures;
-#else
+#elif PLATFORM_GC
     /* 0x08 */ OSMesgQueue lockQueue;
     /* 0x20 */ u8 allocFailures; // only used in non-debug builds
     /* 0x21 */ u8 isInit;

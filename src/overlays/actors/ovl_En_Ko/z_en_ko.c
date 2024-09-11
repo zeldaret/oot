@@ -11,7 +11,7 @@
 #include "assets/objects/object_kw1/object_kw1.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 #define ENKO_TYPE PARAMS_GET_S(this->actor.params, 0, 8)
 #define ENKO_PATH PARAMS_GET_S(this->actor.params, 8, 8)
@@ -233,7 +233,7 @@ static EnKoModelInfo sModelInfo[] = {
 };
 
 typedef struct EnKoInteractInfo {
-    /* 0x0 */ s8 targetMode;
+    /* 0x0 */ s8 attentionRangeType;
     /* 0x4 */ f32 lookDist; // extended by collider radius
     /* 0x8 */ f32 appearDist;
 } EnKoInteractInfo; // size = 0xC
@@ -1073,7 +1073,7 @@ void func_80A98CD8(EnKo* this) {
     s32 type = ENKO_TYPE;
     EnKoInteractInfo* info = &sInteractInfo[type];
 
-    this->actor.targetMode = info->targetMode;
+    this->actor.attentionRangeType = info->attentionRangeType;
     this->lookDist = info->lookDist;
     this->lookDist += this->collider.dim.radius;
     this->appearDist = info->appearDist;
@@ -1105,9 +1105,9 @@ void func_80A98DB4(EnKo* this, PlayState* play) {
 
     Math_SmoothStepToF(&this->modelAlpha, (this->appearDist < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
     if (this->modelAlpha < 10.0f) {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 

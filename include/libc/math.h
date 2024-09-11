@@ -60,7 +60,7 @@ f64 sqrt(f64 f);
 #pragma intrinsic(sqrt)
 #endif
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 extern float qNaN0x3FFFFF;
 extern float qNaN0x10000;
 extern float sNaN0x3FFFFF;

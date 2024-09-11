@@ -1,9 +1,9 @@
 #include "versions.h"
 
 #if PLATFORM_N64
-const char gBuildTeam[] = "zelda@srd44";
+const char gBuildCreator[] = "zelda@srd44";
 #else
-const char gBuildTeam[] = "zelda@srd022j";
+const char gBuildCreator[] = "zelda@srd022j";
 #endif
 
 #if OOT_VERSION == NTSC_1_2

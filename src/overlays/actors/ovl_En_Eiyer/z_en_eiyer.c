@@ -1,7 +1,7 @@
 #include "z_en_eiyer.h"
 #include "assets/objects/object_ei/object_ei.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnEiyer_Init(Actor* thisx, PlayState* play);
 void EnEiyer_Destroy(Actor* thisx, PlayState* play);
@@ -107,7 +107,7 @@ static DamageTable sDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_STINGER, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 2500, ICHAIN_STOP),
 };
 
 /**
@@ -200,7 +200,7 @@ void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
 
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_IGNORE_QUAKE);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_IGNORE_QUAKE);
     this->actor.shape.shadowScale = 0.0f;
     this->actor.shape.yOffset = 0.0f;
     this->actionFunc = EnEiyer_AppearFromGround;
@@ -216,11 +216,11 @@ void EnEiyer_SetupUnderground(EnEiyer* this) {
 
     this->collider.base.acFlags |= AC_ON;
     this->actor.flags &= ~ACTOR_FLAG_4;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void EnEiyer_SetupInactive(EnEiyer* this) {
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actionFunc = EnEiyer_Inactive;
 }
@@ -445,7 +445,7 @@ void EnEiyer_Glide(EnEiyer* this, PlayState* play) {
         EnEiyer_SetupStartAttack(this);
     }
 
-    func_8002F974(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
 }
 
 void EnEiyer_StartAttack(EnEiyer* this, PlayState* play) {
@@ -469,7 +469,7 @@ void EnEiyer_StartAttack(EnEiyer* this, PlayState* play) {
     this->actor.world.rot.x = -this->actor.shape.rot.x;
     Math_StepToF(&this->actor.speed, 5.0f, 0.3f);
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 2, 0x71C);
-    func_8002F974(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
 }
 
 void EnEiyer_DiveAttack(EnEiyer* this, PlayState* play) {
@@ -484,7 +484,7 @@ void EnEiyer_DiveAttack(EnEiyer* this, PlayState* play) {
         this->collider.base.atFlags &= ~(AT_ON | AT_HIT);
     }
 
-    func_8002F974(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
 }
 
 void EnEiyer_Land(EnEiyer* this, PlayState* play) {
@@ -608,7 +608,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_DEAD);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
             // If underground, one hit kill
@@ -672,7 +672,7 @@ void EnEiyer_Update(Actor* thisx, PlayState* play) {
         }
     }
 
-    if (this->actor.flags & ACTOR_FLAG_0) {
+    if (this->actor.flags & ACTOR_FLAG_ATTENTION_ENABLED) {
         this->actor.focus.pos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.y = this->actor.world.pos.y;

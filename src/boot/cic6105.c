@@ -5,7 +5,7 @@
 s32 func_80001714(void);
 
 OSTask D_800067C0_unknown = {
-    4, 0, rspbootTextStart, 0x3E8, cic6105TextStart, 0x20, (u64*)gBuildTeam, 8, NULL, 0, NULL, 0, NULL, 0, NULL, 0,
+    4, 0, rspbootTextStart, 0x3E8, cic6105TextStart, 0x20, (u64*)gBuildCreator, 8, NULL, 0, NULL, 0, NULL, 0, NULL, 0,
 };
 
 s32 B_80008EE0;
@@ -34,7 +34,7 @@ void CIC6105_FaultClient(void) {
     }
     Fault_SetCursor(40, 184);
     Fault_Printf("ROM_F");
-    Fault_Printf(" [Creator:%s]", gBuildTeam);
+    Fault_Printf(" [Creator:%s]", gBuildCreator);
     Fault_SetCursor(56, 192);
     Fault_Printf("[Date:%s]", gBuildDate);
     Fault_SetCursor(96, 32);
