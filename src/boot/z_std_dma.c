@@ -27,30 +27,31 @@
 #endif
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:114"
+                               "ntsc-1.2:111"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
 OSMesg sDmaMgrMsgBuf[32];
-OSThread sDmaMgrThread;
-STACK(sDmaMgrStack, 0x500);
-
-#if OOT_DEBUG
-const char* sDmaMgrCurFileName;
-s32 sDmaMgrCurFileLine;
-#endif
 
 u32 gDmaMgrVerbose = 0;
 size_t gDmaMgrDmaBuffSize = DMAMGR_DEFAULT_BUFSIZE;
 u32 sDmaMgrIsRomCompressed = false;
 
+OSThread sDmaMgrThread;
+STACK(sDmaMgrStack, 0x500);
+
+#if OOT_DEBUG
+
+const char* sDmaMgrCurFileName;
+s32 sDmaMgrCurFileLine;
+
 // dmadata filenames
 #define DEFINE_DMA_ENTRY(_0, nameString) nameString,
 
-#if OOT_DEBUG
 const char* sDmaMgrFileNames[] = {
 #include "tables/dmadata_table.h"
 };
+
 #endif
 
 #undef DEFINE_DMA_ENTRY

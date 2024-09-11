@@ -9,7 +9,7 @@
 #endif
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:115"
+                               "ntsc-1.2:112"
 
 #if !PLATFORM_GC
 #define OCARINA_BUTTON_A_PRIM_1_R 80
@@ -90,6 +90,9 @@
 #define OCARINA_ICON_ENV_2_G 255
 #define OCARINA_ICON_ENV_2_B 130
 #endif
+
+s32 sCharTexSize;
+s32 sCharTexScale;
 
 s16 sTextFade = false; // original name: key_off_flag ?
 
@@ -251,8 +254,6 @@ s16 gOcarinaSongItemMap[] = {
     OCARINA_SONG_SARIAS,   OCARINA_SONG_SUNS,    OCARINA_SONG_TIME,     OCARINA_SONG_STORMS,
 };
 
-s32 sCharTexSize;
-s32 sCharTexScale;
 s16 sOcarinaButtonAPrimR;
 s16 sOcarinaButtonAPrimB;
 s16 sOcarinaButtonAPrimG;
