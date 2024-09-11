@@ -170,7 +170,7 @@ void func_8089B870(BgJyaZurerukabe* this, PlayState* play) {
     }
 
     D_8089B9C0[this->unk_168] = D_8089BA08[this->unk_168] * this->unk_16E;
-    func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 }
 
 void BgJyaZurerukabe_Update(Actor* thisx, PlayState* play) {

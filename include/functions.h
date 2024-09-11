@@ -25,10 +25,6 @@ NORETURN void func_80002384(const char* exp, const char* file, int line);
 #endif
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
-void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
-                     const char* name);
-void StackCheck_Cleanup(StackEntry* entry);
-u32 StackCheck_Check(StackEntry* entry);
 #if OOT_DEBUG
 void LogUtils_LogHexDump(void* ptr, s32 size0);
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, int line);
@@ -408,12 +404,12 @@ void func_8002F758(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, 
 void func_8002F7A0(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4);
 void Player_PlaySfx(Player* player, u16 sfxId);
 void Actor_PlaySfx(Actor* actor, u16 sfxId);
-void func_8002F850(PlayState* play, Actor* actor);
-void func_8002F8F0(Actor* actor, u16 sfxId);
-void func_8002F91C(Actor* actor, u16 sfxId);
-void func_8002F948(Actor* actor, u16 sfxId);
-void func_8002F974(Actor* actor, u16 sfxId);
-void func_8002F994(Actor* actor, s32 timer);
+void Actor_PlaySfx_SurfaceBomb(PlayState* play, Actor* actor);
+void Actor_PlaySfx_Flagged2(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_FlaggedCentered1(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_FlaggedCentered2(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_Flagged(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_FlaggedTimer(Actor* actor, s32 timer);
 s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos);
 void Actor_DisableLens(PlayState* play);
 void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* playerEntry);
@@ -454,8 +450,6 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play);
 void Actor_RequestQuake(PlayState* play, s16 y, s16 duration);
 void Actor_RequestQuakeWithSpeed(PlayState* play, s16 y, s16 duration, s16 speed);
 void Actor_RequestQuakeAndRumble(Actor* actor, PlayState* play, s16 quakeY, s16 quakeDuration);
-f32 Rand_ZeroFloat(f32 f);
-f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type);
 void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration);
@@ -687,10 +681,7 @@ void func_8006D0EC(PlayState* play, Player* player);
 void func_8006D684(PlayState* play, Player* player);
 void func_8006DC68(PlayState* play, Player* player);
 void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
-s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize);
-void KaleidoSetup_Update(PlayState* play);
-void KaleidoSetup_Init(PlayState* play);
-void KaleidoSetup_Destroy(PlayState* play);
+
 s32 Kanji_OffsetFromShiftJIS(s32 character);
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
@@ -1058,16 +1049,6 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam);
 void DebugCamera_Reset(Camera* cam, DebugCam* debugCam);
 void func_800BB0A0(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, f32* point0, f32* point1, f32* point2, f32* point3);
 s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s16* keyFrame, f32* curFrame);
-void KaleidoManager_LoadOvl(KaleidoMgrOverlay* ovl);
-void KaleidoManager_ClearOvl(KaleidoMgrOverlay* ovl);
-void KaleidoManager_Init(PlayState* play);
-void KaleidoManager_Destroy(void);
-void* KaleidoManager_GetRamAddr(void* vram);
-void KaleidoScopeCall_LoadPlayer(void);
-void KaleidoScopeCall_Init(PlayState* play);
-void KaleidoScopeCall_Destroy(PlayState* play);
-void KaleidoScopeCall_Update(PlayState* play);
-void KaleidoScopeCall_Draw(PlayState* play);
 
 s32 func_800C0D34(PlayState* this, Actor* actor, s16* yaw);
 s32 func_800C0DB4(PlayState* this, Vec3f* pos);
@@ -1126,7 +1107,6 @@ void* SysCfb_GetFbEnd(void);
 
 void Math3D_DrawSphere(PlayState* play, Sphere16* sph);
 void Math3D_DrawCylinder(PlayState* play, Cylinder16* cyl);
-
 u64* SysUcode_GetUCodeBoot(void);
 size_t SysUcode_GetUCodeBootSize(void);
 u64* SysUcode_GetUCode(void);
@@ -1356,15 +1336,6 @@ void Audio_InitSound(void);
 void func_800F7170(void);
 void func_800F71BC(s32 arg0);
 
-void GfxPrint_SetColor(GfxPrint* this, u32 r, u32 g, u32 b, u32 a);
-void GfxPrint_SetPosPx(GfxPrint* this, s32 x, s32 y);
-void GfxPrint_SetPos(GfxPrint* this, s32 x, s32 y);
-void GfxPrint_SetBasePosPx(GfxPrint* this, s32 x, s32 y);
-void GfxPrint_Init(GfxPrint* this);
-void GfxPrint_Destroy(GfxPrint* this);
-void GfxPrint_Open(GfxPrint* this, Gfx* dList);
-Gfx* GfxPrint_Close(GfxPrint* this);
-s32 GfxPrint_Printf(GfxPrint* this, const char* fmt, ...);
 void RcpUtils_PrintRegisterStatus(void);
 void RcpUtils_Reset(void);
 void* Overlay_AllocateAndLoad(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd);
@@ -1395,42 +1366,6 @@ s8 PadUtils_GetRelY(Input* input);
 void PadUtils_UpdateRelXY(Input* input);
 s32 PadSetup_Init(OSMesgQueue* mq, u8* outMask, OSContStatus* status);
 
-void* SystemArena_Malloc(u32 size);
-void* SystemArena_MallocR(u32 size);
-void* SystemArena_Realloc(void* ptr, u32 newSize);
-void SystemArena_Free(void* ptr);
-void* SystemArena_Calloc(u32 num, u32 size);
-void SystemArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
-void SystemArena_Check(void);
-void SystemArena_Init(void* start, u32 size);
-void SystemArena_Cleanup(void);
-s32 SystemArena_IsInitialized(void);
-#if OOT_DEBUG
-void* SystemArena_MallocDebug(u32 size, const char* file, int line);
-void* SystemArena_MallocRDebug(u32 size, const char* file, int line);
-void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line);
-void SystemArena_FreeDebug(void* ptr, const char* file, int line);
-void SystemArena_Display(void);
-#endif
-s32 PrintUtils_VPrintf(PrintCallback* pfn, const char* fmt, va_list args);
-s32 PrintUtils_Printf(PrintCallback* pfn, const char* fmt, ...);
-void Sleep_Cycles(OSTime cycles);
-void Sleep_Nsec(u32 nsec);
-void Sleep_Usec(u32 usec);
-void Sleep_Msec(u32 ms);
-void Sleep_Sec(u32 sec);
-void JpegUtils_ProcessQuantizationTable(u8* dqt, JpegQuantizationTable* qt, u8 count);
-s32 JpegUtils_ParseHuffmanCodesLengths(u8* ptr, u8* codesLengths);
-s32 JpegUtils_GetHuffmanCodes(u8* codesLengths, u16* codes);
-s32 JpegUtils_SetHuffmanTable(u8* data, JpegHuffmanTable* ht, u16* codes);
-u32 JpegUtils_ProcessHuffmanTableImpl(u8* data, JpegHuffmanTable* ht, u8* codesLengths, u16* codes, u8 isAc);
-u32 JpegUtils_ProcessHuffmanTable(u8* dht, JpegHuffmanTable* ht, u8* codesLengths, u16* codes, u8 count);
-void JpegUtils_SetHuffmanTableOld(u8* data, JpegHuffmanTableOld* ht, u8* codesLengths, u16* codes, s16 count, u8 isAc);
-u32 JpegUtils_ProcessHuffmanTableImplOld(u8* dht, JpegHuffmanTableOld* ht, u8* codesLengths, u16* codes);
-s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollowing, JpegDecoderState* state);
-s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, u16* mcu, s16* unk);
-s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* outZeroCount);
-u16 JpegDecoder_ReadBits(u8 len);
 s32 osPfsFreeBlocks(OSPfs* pfs, s32* leftoverBytes);
 void guScale(Mtx* m, f32 x, f32 y, f32 z);
 OSTask* _VirtualToPhysicalTask(OSTask* intp);
@@ -1532,11 +1467,7 @@ void guMtxF2L(f32 mf[4][4], Mtx* m);
 void* osViGetCurrentFramebuffer(void);
 s32 __osSpSetPc(void* pc);
 f32 absf(f32);
-void* memset(void* dest, int val, size_t len);
-void* memmove(void* dest, const void* src, size_t len);
 
-void Interface_Destroy(PlayState* play);
-void Interface_Init(PlayState* play);
 void Regs_InitData(PlayState* play);
 
 void Setup_Init(GameState* thisx);
