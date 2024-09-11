@@ -41,7 +41,8 @@
  *
  * @note Original name: qrand.c
  */
-#include "rand.h"
+#include "libc64/qrand.h"
+#include "z64math.h"
 
 #define RAND_MULTIPLIER 1664525
 #define RAND_INCREMENT 1013904223
@@ -53,13 +54,13 @@
  */
 static u32 sRandInt = 1;
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 /**
  * Space to store a value to be re-interpreted as a float.
  *
  * @note Orignal name: __qrand_itemp
  */
-static fu sRandFloat;
+static FloatInt sRandFloat;
 #endif
 
 /**
@@ -114,7 +115,7 @@ f32 Rand_ZeroOne(void) {
 #endif
 }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 /**
  * Returns a pseudo-random floating-point number between -0.5f and 0.5f by the same manner in which Rand_ZeroOne
  * generates its result.
@@ -179,7 +180,7 @@ f32 Rand_ZeroOne_Variable(u32* rndNum) {
 #endif
 }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 /**
  * Generates the next pseudo-random floating-point number between -0.5f and 0.5f from the provided rndNum.
  *

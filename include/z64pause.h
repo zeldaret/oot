@@ -6,6 +6,7 @@
 #include "z64view.h"
 
 struct OcarinaStaff;
+struct PlayState;
 
 #define PAUSE_ITEM_NONE 999
 
@@ -96,6 +97,39 @@ typedef enum PauseMainState {
     /* 9 */ PAUSE_MAIN_STATE_9
 } PauseMainState;
 
+typedef enum PauseCursorQuad {
+    /* 0 */ PAUSE_QUAD_CURSOR_TL,
+    /* 1 */ PAUSE_QUAD_CURSOR_TR,
+    /* 2 */ PAUSE_QUAD_CURSOR_BL,
+    /* 3 */ PAUSE_QUAD_CURSOR_BR,
+    /* 4 */ PAUSE_QUAD_CURSOR_4,
+    /* 5 */ PAUSE_QUAD_CURSOR_MAX
+} PauseCursorQuad;
+
+typedef enum WorldMapPoint {
+    /*  0 */ WORLD_MAP_POINT_HAUNTED_WASTELAND,
+    /*  1 */ WORLD_MAP_POINT_GERUDOS_FORTRESS,
+    /*  2 */ WORLD_MAP_POINT_GERUDO_VALLEY,
+    /*  3 */ WORLD_MAP_POINT_LAKE_HYLIA,
+    /*  4 */ WORLD_MAP_POINT_LON_LON_RANCH,
+    /*  5 */ WORLD_MAP_POINT_MARKET,
+    /*  6 */ WORLD_MAP_POINT_HYRULE_FIELD,
+    /*  7 */ WORLD_MAP_POINT_DEATH_MOUNTAIN,
+    /*  8 */ WORLD_MAP_POINT_KAKARIKO_VILLAGE,
+    /*  9 */ WORLD_MAP_POINT_LOST_WOODS,
+    /* 10 */ WORLD_MAP_POINT_KOKIRI_FOREST,
+    /* 11 */ WORLD_MAP_POINT_ZORAS_DOMAIN,
+    /* 12 */ WORLD_MAP_POINT_MAX
+} WorldMapPoint;
+
+#define TRADE_QUEST_MARKER_NONE 0xFF
+
+typedef enum WorldMapPointState {
+    /* 0 */ WORLD_MAP_POINT_STATE_HIDE,
+    /* 1 */ WORLD_MAP_POINT_STATE_SHOW,
+    /* 2 */ WORLD_MAP_POINT_STATE_HIGHLIGHT
+} WorldMapPointState;
+
 typedef struct PauseContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ u8* iconItemSegment;
@@ -161,8 +195,8 @@ typedef struct PauseContext {
     /* 0x0260 */ s16 cursorColorSet; // 0 = white; 4 = yellow; 8 = green
     /* 0x0262 */ s16 promptChoice; // save/continue choice: 0 = yes; 4 = no
     /* 0x0264 */ s16 ocarinaSongIdx;
-    /* 0x0266 */ u8 worldMapPoints[20]; // 0 = hidden; 1 = displayed; 2 = highlighted
-    /* 0x027A */ u8 tradeQuestLocation;
+    /* 0x0266 */ u8 worldMapPoints[20]; // indices: `WorldMapPoint` enum, values: `WorldMapPointState` enum
+    /* 0x027A */ u8 tradeQuestMarker; // Can be either a `WorldMapPoint` value or `TRADE_QUEST_MARKER_NONE`
     /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 
@@ -195,5 +229,9 @@ typedef struct PauseMapMarkData {
 } PauseMapMarkData; // size = 0xA4
 
 typedef PauseMapMarkData PauseMapMarksData[3];
+
+void KaleidoSetup_Update(struct PlayState* play);
+void KaleidoSetup_Init(struct PlayState* play);
+void KaleidoSetup_Destroy(struct PlayState* play);
 
 #endif

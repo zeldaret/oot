@@ -71,7 +71,7 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
     Vec3f sp48 = { 0.015f, 0.015f, 0.015f };
     Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
     static InitChainEntry sInitChain[] = {
-        ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
+        ICHAIN_F32(lockOnArrowOffset, 5300, ICHAIN_STOP),
     };
     s32 i;
     s32 pad;
@@ -216,8 +216,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 16, 16, 1, 0,
                                 (play->gameplayFrames * -10) % 128, 32, 32));
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bx.c", 478),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bx.c", 478);
 
     if (PARAMS_GET_NOSHIFT(this->actor.params, 7, 1)) {
         func_809D1D0C(&this->actor, play);
