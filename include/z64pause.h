@@ -97,6 +97,7 @@ typedef enum PauseMainState {
     /* 9 */ PAUSE_MAIN_STATE_9
 } PauseMainState;
 
+// Sub-states of PAUSE_STATE_SAVE_PROMPT
 typedef enum PauseSavePromptState {
     /* 0 */ PAUSE_SAVE_PROMPT_STATE_APPEARING,
     /* 1 */ PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE,
@@ -159,7 +160,7 @@ typedef struct PauseContext {
     /* 0x0160 */ char unk_160[0x04];
     /* 0x0164 */ Vtx* questVtx;
     /* 0x0168 */ Vtx* cursorVtx;
-    /* 0x016C */ Vtx* promptPageVtx;
+    /* 0x016C */ Vtx* promptPageVtx; // Used by both the pause menu save prompt and the gameover prompt
     /* 0x0170 */ char unk_170[0x24];
     /* 0x0194 */ struct OcarinaStaff* ocarinaStaff;
     /* 0x0198 */ char unk_198[0x20];
