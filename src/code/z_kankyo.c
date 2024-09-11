@@ -1577,7 +1577,9 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
                sqrtf((SQ(lookDirX) + SQ(lookDirY) + SQ(lookDirZ)) * (SQ(posDirX) + SQ(posDirY) + SQ(posDirZ)));
 
     lensFlareAlphaScaleTarget = cosAngle * 3.5f;
-    lensFlareAlphaScaleTarget = CLAMP_MAX(lensFlareAlphaScaleTarget, 1.0f);
+    if (lensFlareAlphaScaleTarget > 1.0f) {
+        lensFlareAlphaScaleTarget = 1.0f;
+    }
 
     if (!isSun) {
         lensFlareAlphaScaleTarget = cosAngle;
@@ -1625,7 +1627,9 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
 
             alpha *= 1.0f - fogInfluence;
 
+#if !PLATFORM_N64
             if (1) {}
+#endif
 
             if (!(isOffScreen ^ 0)) {
                 Math_SmoothStepToF(&envCtx->lensFlareAlphaScale, lensFlareAlphaScaleTarget, 0.5f, 0.05f, 0.001f);
