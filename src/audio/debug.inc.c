@@ -1,9 +1,3 @@
-u32 sDebugPadHold;
-u32 sDebugPadBtnLast;
-u32 sDebugPadPress;
-s32 sAudioUpdateTaskStart;
-s32 sAudioUpdateTaskEnd;
-
 f32 D_80131C8C = 0.0f;
 f32 sAudioUpdateDuration = 0.0f;
 f32 sAudioUpdateDurationMax = 0.0f;

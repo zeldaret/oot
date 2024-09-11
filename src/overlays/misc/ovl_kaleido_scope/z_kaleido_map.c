@@ -150,7 +150,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot;
                 pauseCtx->cursorX[PAUSE_MAP] = 0;
                 j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
-                KaleidoScope_SetCursorVtx(pauseCtx, j, pauseCtx->mapPageVtx);
+                KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
@@ -181,7 +181,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
                 PRINTF("kscope->cursor_point====%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
                 j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
-                KaleidoScope_SetCursorVtx(pauseCtx, j, pauseCtx->mapPageVtx);
+                KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
@@ -203,7 +203,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP];
 
         j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
-        KaleidoScope_SetCursorVtx(pauseCtx, j, pauseCtx->mapPageVtx);
+        KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
 
         if (pauseCtx->cursorX[PAUSE_MAP] == 0) {
             pauseCtx->mapPageVtx[j + 0].v.ob[0] = pauseCtx->mapPageVtx[j + 2].v.ob[0] =
@@ -358,32 +358,40 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
 void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     static void* cloudTexs[] = {
-        gWorldMapCloudSacredForestMeadowTex, gWorldMapCloudHyruleFieldTex,
-        gWorldMapCloudLonLonRanchTex,        gWorldMapCloudMarketTex,
-        gWorldMapCloudHyruleCastleTex,       gWorldMapCloudKakarikoVillageTex,
-        gWorldMapCloudGraveyardTex,          gWorldMapCloudDeathMountainTrailTex,
-        gWorldMapCloudGoronCityTex,          gWorldMapCloudZorasRiverTex,
-        gWorldMapCloudZorasDomainTex,        gWorldMapCloudZorasFountainTex,
-        gWorldMapCloudGerudoValleyTex,       gWorldMapCloudGerudosFortressTex,
-        gWorldMapCloudDesertColossusTex,     gWorldMapCloudLakeHyliaTex,
+        gWorldMapCloudSacredForestMeadowTex, // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
+        gWorldMapCloudHyruleFieldTex,        // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
+        gWorldMapCloudLonLonRanchTex,        // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
+        gWorldMapCloudMarketTex,             // QUAD_MAP_WORLD_CLOUDS_MARKET
+        gWorldMapCloudHyruleCastleTex,       // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
+        gWorldMapCloudKakarikoVillageTex,    // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
+        gWorldMapCloudGraveyardTex,          // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
+        gWorldMapCloudDeathMountainTrailTex, // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+        gWorldMapCloudGoronCityTex,          // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
+        gWorldMapCloudZorasRiverTex,         // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
+        gWorldMapCloudZorasDomainTex,        // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
+        gWorldMapCloudZorasFountainTex,      // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
+        gWorldMapCloudGerudoValleyTex,       // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
+        gWorldMapCloudGerudosFortressTex,    // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
+        gWorldMapCloudDesertColossusTex,     // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
+        gWorldMapCloudLakeHyliaTex,          // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
     };
     static u16 cloudFlagNums[] = {
-        WORLD_MAP_AREA_SACRED_FOREST_MEADOW,
-        WORLD_MAP_AREA_HYRULE_FIELD,
-        WORLD_MAP_AREA_LON_LON_RANCH,
-        WORLD_MAP_AREA_MARKET,
-        WORLD_MAP_AREA_HYRULE_CASTLE,
-        WORLD_MAP_AREA_KAKARIKO_VILLAGE,
-        WORLD_MAP_AREA_GRAVEYARD,
-        WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL,
-        WORLD_MAP_AREA_GORON_CITY,
-        WORLD_MAP_AREA_ZORAS_RIVER,
-        WORLD_MAP_AREA_ZORAS_DOMAIN,
-        WORLD_MAP_AREA_ZORAS_FOUNTAIN,
-        WORLD_MAP_AREA_GERUDO_VALLEY,
-        WORLD_MAP_AREA_GERUDOS_FORTRESS,
-        WORLD_MAP_AREA_DESERT_COLOSSUS,
-        WORLD_MAP_AREA_LAKE_HYLIA,
+        WORLD_MAP_AREA_SACRED_FOREST_MEADOW, // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
+        WORLD_MAP_AREA_HYRULE_FIELD,         // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
+        WORLD_MAP_AREA_LON_LON_RANCH,        // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
+        WORLD_MAP_AREA_MARKET,               // QUAD_MAP_WORLD_CLOUDS_MARKET
+        WORLD_MAP_AREA_HYRULE_CASTLE,        // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
+        WORLD_MAP_AREA_KAKARIKO_VILLAGE,     // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
+        WORLD_MAP_AREA_GRAVEYARD,            // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
+        WORLD_MAP_AREA_DEATH_MOUNTAIN_TRAIL, // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+        WORLD_MAP_AREA_GORON_CITY,           // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
+        WORLD_MAP_AREA_ZORAS_RIVER,          // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
+        WORLD_MAP_AREA_ZORAS_DOMAIN,         // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
+        WORLD_MAP_AREA_ZORAS_FOUNTAIN,       // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
+        WORLD_MAP_AREA_GERUDO_VALLEY,        // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
+        WORLD_MAP_AREA_GERUDOS_FORTRESS,     // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
+        WORLD_MAP_AREA_DESERT_COLOSSUS,      // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
+        WORLD_MAP_AREA_LAKE_HYLIA,           // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
     };
     static s16 pointPulsePrimColor[] = { 0, 0, 255 };
     static s16 pointPrimColors[][3] = {
@@ -544,12 +552,13 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
                 do {
                     pauseCtx->cursorPoint[PAUSE_WORLD_MAP]++;
-                    if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] > 11) {
-                        pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 11;
+                    if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] >= WORLD_MAP_POINT_MAX) {
+                        pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = WORLD_MAP_POINT_MAX - 1;
                         KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_RIGHT);
                         break;
                     }
-                } while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] == 0);
+                } while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
+                         WORLD_MAP_POINT_STATE_HIDE);
             } else if (pauseCtx->stickAdjX < -30) {
                 D_8082A6D4 = 0;
 
@@ -560,14 +569,16 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                         KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_LEFT);
                         break;
                     }
-                } while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] == 0);
+                } while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
+                         WORLD_MAP_POINT_STATE_HIDE);
             } else {
                 D_8082A6D4++;
             }
 
             pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
-            pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP] + 0x1F;
-            KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
+            pauseCtx->cursorSlot[PAUSE_MAP] =
+                PAGE_BG_QUADS + QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
+            KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
         } else {
             pauseCtx->cursorItem[PAUSE_MAP] = gSaveContext.worldMapArea + 0x18;
             if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
@@ -575,29 +586,33 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                     pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 0;
                     pauseCtx->cursorSpecialPos = 0;
 
-                    while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] == 0) {
+                    while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
+                           WORLD_MAP_POINT_STATE_HIDE) {
                         pauseCtx->cursorPoint[PAUSE_WORLD_MAP]++;
                     }
 
                     pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
-                    pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP] + 0x1F;
-                    KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
+                    pauseCtx->cursorSlot[PAUSE_MAP] =
+                        PAGE_BG_QUADS + QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
+                    KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
                     Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     D_8082A6D4 = 0;
                 }
             } else {
                 if (pauseCtx->stickAdjX < -30) {
-                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 11;
+                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = WORLD_MAP_POINT_MAX - 1;
                     pauseCtx->cursorSpecialPos = 0;
 
-                    while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] == 0) {
+                    while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
+                           WORLD_MAP_POINT_STATE_HIDE) {
                         pauseCtx->cursorPoint[PAUSE_WORLD_MAP]--;
                     }
 
                     pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
-                    pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP] + 0x1F;
-                    KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
+                    pauseCtx->cursorSlot[PAUSE_MAP] =
+                        PAGE_BG_QUADS + QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
+                    KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
                     Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     D_8082A6D4 = 0;
@@ -605,7 +620,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
             }
         }
 
-        if (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] == 0) {
+        if (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] == WORLD_MAP_POINT_STATE_HIDE) {
             pauseCtx->cursorItem[PAUSE_MAP] = PAUSE_ITEM_NONE;
         }
 
@@ -720,7 +735,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 235, 235, 235, pauseCtx->alpha);
 
         for (k = 0; k < 15; k += 8) {
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[60 + k * 4], 32, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + k) * 4], 32, 0);
 
             for (j = i = 0; i < 8; i++, j += 4) {
                 if (!(gSaveContext.save.info.worldMapAreaData & gBitFlags[cloudFlagNums[k + i]])) {
@@ -738,6 +753,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     if (gSaveContext.worldMapArea < WORLD_MAP_AREA_MAX) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_POINT);
+
+        // Quad PAGE_BG_QUADS + QUAD_MAP_28
 
         pauseCtx->mapPageVtx[172].v.ob[0] = pauseCtx->mapPageVtx[174].v.ob[0] =
             areaBoxPosX[((void)0, gSaveContext.worldMapArea)];
@@ -831,21 +848,22 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     gDPLoadTextureBlock(POLY_OPA_DISP++, gWorldMapDotTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0, G_TX_WRAP | G_TX_NOMIRROR,
                         G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-    for (j = i = 0; i < 12; i++, t++, j += 4) {
-        if (pauseCtx->worldMapPoints[i] != 0) {
+    for (j = i = 0; i < WORLD_MAP_POINT_MAX; i++, t++, j += 4) {
+        if (pauseCtx->worldMapPoints[i] != WORLD_MAP_POINT_STATE_HIDE) {
             gDPPipeSync(POLY_OPA_DISP++);
 
-            if (pauseCtx->worldMapPoints[i] == 1) {
+            if (pauseCtx->worldMapPoints[i] == WORLD_MAP_POINT_STATE_SHOW) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pointPrimColors[0][0], pointPrimColors[0][1],
                                 pointPrimColors[0][2], pauseCtx->alpha);
                 gDPSetEnvColor(POLY_OPA_DISP++, pointEnvColors[0][0], pointEnvColors[0][1], pointEnvColors[0][2], 0);
-            } else {
+            } else { // WORLD_MAP_POINT_STATE_HIGHLIGHT
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pointPulsePrimColor[0], pointPulsePrimColor[1],
                                 pointPulsePrimColor[2], pauseCtx->alpha);
                 gDPSetEnvColor(POLY_OPA_DISP++, pointPulseEnvColor[0], pointPulseEnvColor[1], pointPulseEnvColor[2], 0);
             }
 
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[124 + i * 4], 4, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + QUAD_MAP_WORLD_POINT_FIRST + i) * 4], 4,
+                      0);
 
             gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
         }
@@ -855,9 +873,9 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         KaleidoScope_DrawCursor(play, PAUSE_MAP);
     }
 
-    gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[176], 16, 0);
+    gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + QUAD_MAP_TRADE_QUEST_MARKER) * 4], 16, 0);
 
-    if (pauseCtx->tradeQuestLocation != 0xFF) {
+    if (pauseCtx->tradeQuestMarker != TRADE_QUEST_MARKER_NONE) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, pointPulsePrimColor[0], 0, pauseCtx->alpha);

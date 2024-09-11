@@ -1,5 +1,5 @@
+#include "libc64/sprintf.h"
 #include "stdarg.h"
-#include "stdio.h"
 #include "string.h"
 #include "ultra64/xstdio.h"
 

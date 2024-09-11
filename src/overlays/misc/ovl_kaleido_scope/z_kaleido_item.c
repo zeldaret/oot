@@ -68,13 +68,13 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
     CLOSE_DISPS(gfxCtx, "../z_kaleido_item.c", 116);
 }
 
-void KaleidoScope_SetCursorVtx(PauseContext* pauseCtx, u16 index, Vtx* vtx) {
+void KaleidoScope_SetCursorPos(PauseContext* pauseCtx, u16 index, Vtx* vtx) {
     pauseCtx->cursorVtx[0].v.ob[0] = vtx[index].v.ob[0];
     pauseCtx->cursorVtx[0].v.ob[1] = vtx[index].v.ob[1];
 }
 
-void KaleidoScope_SetItemCursorVtx(PauseContext* pauseCtx) {
-    KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_ITEM] * 4, pauseCtx->itemVtx);
+void KaleidoScope_SetItemCursorPos(PauseContext* pauseCtx) {
+    KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_ITEM] * 4, pauseCtx->itemVtx);
 }
 
 void KaleidoScope_DrawItemSelect(PlayState* play) {
@@ -334,7 +334,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
             if (cursorItem != PAUSE_ITEM_NONE) {
                 index = cursorSlot * 4; // required to match?
-                KaleidoScope_SetCursorVtx(pauseCtx, index, pauseCtx->itemVtx);
+                KaleidoScope_SetCursorPos(pauseCtx, index, pauseCtx->itemVtx);
 
                 if ((pauseCtx->debugState == 0) && (pauseCtx->state == PAUSE_STATE_MAIN) &&
                     (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
@@ -401,7 +401,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
         }
     } else if ((pauseCtx->mainState == PAUSE_MAIN_STATE_3) && (pauseCtx->pageIndex == PAUSE_ITEM)) {
         //! @bug cursorSlot is uninitialized
-        KaleidoScope_SetCursorVtx(pauseCtx, cursorSlot * 4, pauseCtx->itemVtx);
+        KaleidoScope_SetCursorPos(pauseCtx, cursorSlot * 4, pauseCtx->itemVtx);
         pauseCtx->cursorColorSet = 4;
     }
 
