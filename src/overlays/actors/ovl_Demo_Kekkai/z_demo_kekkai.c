@@ -178,7 +178,7 @@ void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play) {
         }
     }
     if (!(this->sfxFlag & 1)) {
-        func_8002F974(&this->actor, NA_SE_EV_TOWER_BARRIER - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TOWER_BARRIER - SFX_FLAG);
     }
 }
 
@@ -226,7 +226,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
         this->orbScale = 0.0f;
     }
     if (this->orbScale != 0.0f) {
-        func_8002F974(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
     }
     this->timer++;
 }
@@ -260,7 +260,7 @@ void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play) {
         gSaveContext.cutsceneTrigger = 1;
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider2.base);
-    func_8002F974(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
 }
 
 void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {

@@ -410,7 +410,7 @@ void BgPoEvent_BlockPush(BgPoEvent* this, PlayState* play) {
         BgPoEvent_CheckBlock(this);
         BgPoEvent_CheckBlock((BgPoEvent*)this->dyna.actor.parent);
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
 void BgPoEvent_BlockReset(BgPoEvent* this, PlayState* play) {
