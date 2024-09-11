@@ -6,6 +6,7 @@
 #include "z64view.h"
 
 struct OcarinaStaff;
+struct PlayState;
 
 #define PAUSE_ITEM_NONE 999
 
@@ -238,5 +239,9 @@ typedef struct PauseMapMarkData {
 } PauseMapMarkData; // size = 0xA4
 
 typedef PauseMapMarkData PauseMapMarksData[3];
+
+void KaleidoSetup_Update(struct PlayState* play);
+void KaleidoSetup_Init(struct PlayState* play);
+void KaleidoSetup_Destroy(struct PlayState* play);
 
 #endif

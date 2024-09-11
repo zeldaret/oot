@@ -73,8 +73,7 @@ void BgSpot01Idomizu_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot01_idomizu.c", 232),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot01_idomizu.c", 232);
 
     frames = play->state.frames;
     gSPSegment(POLY_XLU_DISP++, 0x08,

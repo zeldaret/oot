@@ -169,7 +169,11 @@ u8 sSeqModeInput = 0;
 #define SEQ_FLAG_NO_AMBIENCE (1 << 7)
 
 u8 sSeqFlags[] = {
-    SEQ_FLAG_FANFARE,                        // NA_BGM_GENERAL_SFX
+#if PLATFORM_N64
+    SEQ_FLAG_FANFARE | SEQ_FLAG_ENEMY, // NA_BGM_GENERAL_SFX
+#else
+    SEQ_FLAG_FANFARE, // NA_BGM_GENERAL_SFX
+#endif
     SEQ_FLAG_ENEMY,                          // NA_BGM_NATURE_BACKGROUND
     0,                                       // NA_BGM_FIELD_LOGIC
     0,                                       // NA_BGM_FIELD_INIT

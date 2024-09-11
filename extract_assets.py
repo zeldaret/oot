@@ -137,6 +137,8 @@ def main():
     version: str = args.oot_version
     outputDir: Path = args.output_dir
 
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+
     versionConfig = version_config.load_version_config(version)
 
     global ZAPDArgs
