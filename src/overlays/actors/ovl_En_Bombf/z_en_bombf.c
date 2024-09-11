@@ -163,7 +163,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 player->heldActor = NULL;
                 player->interactRangeActor = NULL;
                 this->actor.parent = NULL;
-                player->stateFlags1 &= ~PLAYER_STATE1_11;
+                player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
             }
         } else if (this->bombCollider.base.acFlags & AC_HIT) {
             this->bombCollider.base.acFlags &= ~AC_HIT;
@@ -197,7 +197,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                     player->heldActor = NULL;
                     player->interactRangeActor = NULL;
                     this->actor.parent = NULL;
-                    player->stateFlags1 &= ~PLAYER_STATE1_11;
+                    player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
                     this->actor.world.pos = this->actor.home.pos;
                 }
             }
@@ -215,7 +215,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
             this->actor.parent = NULL;
-            player->stateFlags1 &= ~PLAYER_STATE1_11;
+            player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
             this->actor.world.pos = this->actor.home.pos;
         }
     }
@@ -238,7 +238,7 @@ void EnBombf_Move(EnBombf* this, PlayState* play) {
     } else {
         Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.5f, 0.0f);
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (this->actor.velocity.y < -6.0f)) {
-            func_8002F850(play, &this->actor);
+            Actor_PlaySfx_SurfaceBomb(play, &this->actor);
             this->actor.velocity.y *= -0.5f;
         } else if (this->timer >= 4) {
             Actor_OfferCarry(&this->actor, play);
@@ -299,11 +299,11 @@ void EnBombf_Explode(EnBombf* this, PlayState* play) {
     if (this->timer == 0) {
         player = GET_PLAYER(play);
 
-        if ((player->stateFlags1 & PLAYER_STATE1_11) && (player->heldActor == &this->actor)) {
+        if ((player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
-            player->stateFlags1 &= ~PLAYER_STATE1_11;
+            player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
         }
 
         Actor_Kill(&this->actor);

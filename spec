@@ -33,10 +33,10 @@ beginseg
     include "$(BUILD_DIR)/src/boot/stackcheck.o"
     include "$(BUILD_DIR)/src/boot/logutils.o"
 #if PLATFORM_N64
-    include "$(BUILD_DIR)/src/boot/sleep.o"
+    include "$(BUILD_DIR)/src/libc64/sleep.o"
 #endif
 #if OOT_DEBUG
-    include "$(BUILD_DIR)/src/boot/sprintf.o"
+    include "$(BUILD_DIR)/src/libc64/sprintf.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
     include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
@@ -614,21 +614,21 @@ beginseg
     include "$(BUILD_DIR)/src/code/padutils.o"
     include "$(BUILD_DIR)/src/code/padsetup.o"
 #endif
-    include "$(BUILD_DIR)/src/code/fp_math.o"
-    include "$(BUILD_DIR)/src/code/fp.o"
-    include "$(BUILD_DIR)/src/code/system_malloc.o"
-    include "$(BUILD_DIR)/src/code/rand.o"
+    include "$(BUILD_DIR)/src/libc64/math64.o"
+    include "$(BUILD_DIR)/src/libc64/fp.o"
+    include "$(BUILD_DIR)/src/libc64/malloc.o"
+    include "$(BUILD_DIR)/src/libc64/qrand.o"
 #if PLATFORM_N64
-    include "$(BUILD_DIR)/src/code/__osMalloc_n64.o"
+    include "$(BUILD_DIR)/src/libc64/__osMalloc_n64.o"
 #else
-    include "$(BUILD_DIR)/src/code/__osMalloc_gc.o"
+    include "$(BUILD_DIR)/src/libc64/__osMalloc_gc.o"
 #endif
 #if !OOT_DEBUG
-    include "$(BUILD_DIR)/src/boot/sprintf.o"
+    include "$(BUILD_DIR)/src/libc64/sprintf.o"
 #endif
-    include "$(BUILD_DIR)/src/code/printutils.o"
+    include "$(BUILD_DIR)/src/libc64/aprintf.o"
 #if !PLATFORM_N64
-    include "$(BUILD_DIR)/src/boot/sleep.o"
+    include "$(BUILD_DIR)/src/libc64/sleep.o"
 #endif
     include "$(BUILD_DIR)/src/code/jpegutils.o"
     include "$(BUILD_DIR)/src/code/jpegdecoder.o"

@@ -41,7 +41,7 @@
  *
  * @note Original name: qrand.c
  */
-#include "rand.h"
+#include "libc64/qrand.h"
 #include "z64math.h"
 
 #define RAND_MULTIPLIER 1664525

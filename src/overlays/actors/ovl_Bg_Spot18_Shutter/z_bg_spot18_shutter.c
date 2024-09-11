@@ -109,7 +109,7 @@ void func_808B9698(BgSpot18Shutter* this, PlayState* play) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 
@@ -125,7 +125,7 @@ void func_808B971C(BgSpot18Shutter* this, PlayState* play) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 
