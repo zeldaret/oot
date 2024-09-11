@@ -1,7 +1,10 @@
 #ifndef Z64INTERFACE_H
 #define Z64INTERFACE_H
 
+#include "z64dma.h"
 #include "z64view.h"
+
+struct PlayState;
 
 extern u8 _icon_item_staticSegmentRomStart[];
 extern u8 _icon_item_24_staticSegmentRomStart[];
@@ -151,7 +154,7 @@ typedef struct InterfaceContext {
 #define A_BUTTON_X 186
 #define A_BUTTON_Y 9
 
-#if PLATFORM_N64
+#if !PLATFORM_GC
 #define A_BUTTON_R 90
 #define A_BUTTON_G 90
 #define A_BUTTON_B 255
@@ -164,7 +167,7 @@ typedef struct InterfaceContext {
 #define B_BUTTON_X 160
 #define B_BUTTON_Y 17
 
-#if PLATFORM_N64
+#if !PLATFORM_GC
 #define B_BUTTON_R 0
 #define B_BUTTON_G 150
 #define B_BUTTON_B 0
@@ -186,7 +189,7 @@ typedef struct InterfaceContext {
 #define C_UP_BUTTON_X 254
 #define C_UP_BUTTON_Y 16
 
-#if PLATFORM_N64
+#if !PLATFORM_GC
 #define START_BUTTON_R 200
 #define START_BUTTON_G 0
 #define START_BUTTON_B 0
@@ -241,5 +244,36 @@ typedef struct InterfaceContext {
 #define HEARTS_DROWN_ENV_R 0
 #define HEARTS_DROWN_ENV_G 0
 #define HEARTS_DROWN_ENV_B 255
+
+void Interface_ChangeHudVisibilityMode(u16 hudVisibilityMode);
+void Interface_SetSceneRestrictions(struct PlayState* play);
+void Inventory_SwapAgeEquipment(void);
+void Interface_InitHorsebackArchery(struct PlayState* play);
+void func_800849EC(struct PlayState* play);
+void Interface_LoadItemIcon1(struct PlayState* play, u16 button);
+void Interface_LoadItemIcon2(struct PlayState* play, u16 button);
+void func_80084BF4(struct PlayState* play, u16 flag);
+u8 Item_Give(struct PlayState* play, u8 item);
+u8 Item_CheckObtainability(u8 item);
+void Inventory_DeleteItem(u16 item, u16 invSlot);
+s32 Inventory_ReplaceItem(struct PlayState* play, u16 oldItem, u16 newItem);
+s32 Inventory_HasEmptyBottle(void);
+s32 Inventory_HasSpecificBottle(u8 bottleItem);
+void Inventory_UpdateBottleItem(struct PlayState* play, u8 item, u8 button);
+s32 Inventory_ConsumeFairy(struct PlayState* play);
+void Interface_SetDoAction(struct PlayState* play, u16 action);
+void Interface_SetNaviCall(struct PlayState* play, u16 naviCallState);
+void Interface_LoadActionLabelB(struct PlayState* play, u16 action);
+s32 Health_ChangeBy(struct PlayState* play, s16 amount);
+void Rupees_ChangeBy(s16 rupeeChange);
+void Inventory_ChangeAmmo(s16 item, s16 ammoChange);
+void Magic_Fill(struct PlayState* play);
+void Magic_Reset(struct PlayState* play);
+s32 Magic_RequestChange(struct PlayState* play, s16 amount, s16 type);
+void Interface_SetSubTimer(s16 seconds);
+void Interface_SetSubTimerToFinalSecond(struct PlayState* play);
+void Interface_SetTimer(s16 seconds);
+void Interface_Draw(struct PlayState* play);
+void Interface_Update(struct PlayState* play);
 
 #endif

@@ -77,8 +77,10 @@ static ColliderCylinderInit sCylinderInitDroppedFlame = {
 };
 
 static InitChainEntry sInitChainCapturableFlame[] = {
-    ICHAIN_U8(targetMode, TARGET_MODE_0, ICHAIN_CONTINUE), ICHAIN_F32(targetArrowOffset, 60, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),  ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_0, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 60, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
@@ -103,7 +105,7 @@ void EnIceHono_InitCapturableFlame(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChainCapturableFlame);
     Actor_SetScale(&this->actor, 0.0074f);
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_SetFocus(&this->actor, 10.0f);
 
     Collider_InitCylinder(play, &this->collider);
@@ -219,7 +221,7 @@ void EnIceHono_CapturableFlame(EnIceHono* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 200.0f) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
-    func_8002F8F0(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
+    Actor_PlaySfx_Flagged2(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
 }
 
 void EnIceHono_SetupActionDroppedFlame(EnIceHono* this) {
@@ -346,7 +348,7 @@ void EnIceHono_Update(Actor* thisx, PlayState* play) {
         this->timer--;
     }
     if (this->actor.params == 0) {
-        func_8002F8F0(&this->actor, NA_SE_IT_FLAME - SFX_FLAG);
+        Actor_PlaySfx_Flagged2(&this->actor, NA_SE_IT_FLAME - SFX_FLAG);
     }
     if ((this->actor.params == -1) || (this->actor.params == 0)) {
         this->unk_154 += 0x1111;

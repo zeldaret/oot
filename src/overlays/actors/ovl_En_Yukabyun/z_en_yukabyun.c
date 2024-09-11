@@ -52,7 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 16, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 16, ICHAIN_STOP),
 };
 
 static void* D_80B43F64[] = { gFloorTileEnemyTopTex, gFloorTileEnemyBottomTex };
@@ -80,7 +80,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play) {
         this->unk_150--;
     }
     if (this->unk_150 == 0) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE;
         this->actionfunc = func_80B43AD4;
     }
 }
@@ -94,7 +94,7 @@ void func_80B43AD4(EnYukabyun* this, PlayState* play) {
         this->actionfunc = func_80B43B6C;
     }
     Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 1.0f);
-    func_8002F974(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
 }
 
 void func_80B43B6C(EnYukabyun* this, PlayState* play) {
@@ -103,7 +103,7 @@ void func_80B43B6C(EnYukabyun* this, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_8002F974(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
 }
 
 void EnYukabyun_Break(EnYukabyun* this, PlayState* play) {
@@ -122,7 +122,7 @@ void EnYukabyun_Update(Actor* thisx, PlayState* play) {
         this->collider.base.atFlags &= ~AT_HIT;
         this->collider.base.acFlags &= ~AC_HIT;
         this->collider.base.ocFlags1 &= ~OC1_HIT;
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
         this->actionfunc = EnYukabyun_Break;
     }

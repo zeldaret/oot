@@ -238,7 +238,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
             }
 
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 5.0f)) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
                 Message_CloseTextbox(play);
             }
@@ -253,7 +253,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
                 this->targetY = this->baseY;
             }
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 1.0f)) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[6].ySurface = this->actor.world.pos.y;
@@ -265,7 +265,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
                 this->targetY = this->baseY;
             }
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 1.0f)) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[8].ySurface = this->actor.world.pos.y;
@@ -277,7 +277,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
                 this->targetY = this->baseY;
             }
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 1.0f)) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[16].ySurface = this->actor.world.pos.y;
@@ -286,10 +286,10 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
 
     if (this->targetY < this->actor.world.pos.y) {
         Rumble_Request(0.0f, 120, 20, 10);
-        func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else if (this->targetY > this->actor.world.pos.y) {
         Rumble_Request(0.0f, 120, 20, 10);
-        func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
 }
 
@@ -323,7 +323,7 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
             unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) *
                                (255 - 160));
         }
-        play->roomCtx.unk_74[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
+        play->roomCtx.drawParams[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
     }
 
     this->actionFunc(this, play);

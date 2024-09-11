@@ -1,6 +1,6 @@
 #include "z_en_clear_tag.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnClearTag_Init(Actor* thisx, PlayState* play);
 void EnClearTag_Destroy(Actor* thisx, PlayState* play);
@@ -250,8 +250,8 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
         Collider_SetCylinder(play, &this->collider, &this->actor, &sLaserCylinderInit);
         Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
     } else { // Initialize the Arwing.
-        this->actor.flags |= ACTOR_FLAG_0;
-        this->actor.targetMode = TARGET_MODE_5;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+        this->actor.attentionRangeType = ATTENTION_RANGE_5;
         Collider_SetCylinder(play, &this->collider, &this->actor, &sArwingCylinderInit);
         this->actor.colChkInfo.health = 3;
 
@@ -537,7 +537,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                         if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
                             this->drawMode = CLEAR_TAG_DRAW_MODE_EFFECT;
                             this->deathTimer = 70;
-                            this->actor.flags &= ~ACTOR_FLAG_0;
+                            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                         } else {
                             Actor_Kill(&this->actor);
                         }

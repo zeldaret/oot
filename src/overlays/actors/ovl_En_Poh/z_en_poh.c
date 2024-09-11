@@ -8,7 +8,7 @@
 #include "assets/objects/object_poh/object_poh.h"
 #include "assets/objects/object_po_composer/object_po_composer.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoh_Init(Actor* thisx, PlayState* play);
 void EnPoh_Destroy(Actor* thisx, PlayState* play);
@@ -175,7 +175,7 @@ static Color_RGBA8 D_80AE1B54 = { 90, 85, 50, 255 };
 static Color_RGBA8 D_80AE1B58 = { 100, 90, 100, 255 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 3200, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 3200, ICHAIN_STOP),
 };
 
 static Vec3f D_80AE1B60 = { 0.0f, 3.0f, 0.0f };
@@ -315,7 +315,7 @@ void func_80ADE368(EnPoh* this) {
 
 void EnPoh_SetupInitialAction(EnPoh* this) {
     this->lightColor.a = 0;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (this->infoIdx == EN_POH_INFO_NORMAL) {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &gPoeAppearAnim, 0.0f);
         this->actionFunc = func_80ADEF38;
@@ -333,7 +333,7 @@ void func_80ADE48C(EnPoh* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->unk_198 = 0;
     this->actor.naviEnemyId = NAVI_ENEMY_NONE;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = func_80ADF15C;
 }
 
@@ -435,7 +435,7 @@ void EnPoh_Talk(EnPoh* this, PlayState* play) {
     }
     this->unk_198 = 200;
     this->unk_195 = 32;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = func_80ADFE80;
 }
 
@@ -488,7 +488,7 @@ void func_80ADEAC4(EnPoh* this, PlayState* play) {
         EnPoh_SetupIdle(this);
     }
     if (this->lightColor.a == 255) {
-        func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     }
 }
 
@@ -510,7 +510,7 @@ void EnPoh_Idle(EnPoh* this, PlayState* play) {
         }
     }
     if (this->lightColor.a == 255) {
-        func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     }
 }
 
@@ -539,7 +539,7 @@ void func_80ADEC9C(EnPoh* this, PlayState* play) {
         EnPoh_SetupAttack(this);
     }
     if (this->lightColor.a == 255) {
-        func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     }
 }
 
@@ -578,7 +578,7 @@ void func_80ADEF38(EnPoh* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->lightColor.a = 255;
         this->visibilityTimer = Rand_S16Offset(700, 300);
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         EnPoh_SetupIdle(this);
     } else if (this->skelAnime.curFrame > 10.0f) {
         this->lightColor.a = ((this->skelAnime.curFrame - 10.0f) * 0.05f) * 255.0f;
@@ -593,7 +593,7 @@ void EnPoh_ComposerAppear(EnPoh* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->lightColor.a = 255;
         this->visibilityTimer = Rand_S16Offset(700, 300);
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         EnPoh_SetupIdle(this);
     } else {
         this->lightColor.a = CLAMP_MAX((s32)(this->skelAnime.curFrame * 25.5f), 255);
@@ -708,7 +708,7 @@ void func_80ADF894(EnPoh* this, PlayState* play) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         EnPoh_SetupIdle(this);
     }
-    func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
 }
 
 void EnPoh_Death(EnPoh* this, PlayState* play) {
@@ -808,7 +808,7 @@ void EnPoh_TalkRegular(EnPoh* this, PlayState* play) {
     if (this->actor.textId != 0x5005) {
         func_80ADFA90(this, -13);
     } else {
-        func_8002F974(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
     }
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) {
         if (Message_ShouldAdvance(play)) {
@@ -834,7 +834,7 @@ void EnPoh_TalkRegular(EnPoh* this, PlayState* play) {
 }
 
 void EnPoh_TalkComposer(EnPoh* this, PlayState* play) {
-    func_8002F974(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) {
         if (Message_ShouldAdvance(play)) {
             if (play->msgCtx.choiceIndex == 0) {

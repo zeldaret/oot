@@ -51,7 +51,7 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnExItem* this = (EnExItem*)thisx;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->type = PARAMS_GET_U(this->actor.params, 0, 8);
     this->unusedParam = PARAMS_GET_U(this->actor.params, 8, 8);
     PRINTF("\n\n");

@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_24)
 
 #define GROUND_HOVER_HEIGHT 75.0f
 #define MAX_LARVA 3
@@ -180,7 +180,7 @@ typedef enum PeahatState {
 } PeahatState;
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 700, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 700, ICHAIN_STOP),
 };
 
 void EnPeehat_SetupAction(EnPeehat* this, EnPeehatActionFunc actionFunc) {
@@ -223,7 +223,7 @@ void EnPeehat_Init(Actor* thisx, PlayState* play) {
             this->xzDistToRise = 2800.0f;
             this->xzDistMax = 1400.0f;
             EnPeehat_Flying_SetStateGround(this);
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             break;
         case PEAHAT_TYPE_LARVA:
             this->actor.scale.x = this->actor.scale.z = 0.006f;
@@ -322,7 +322,7 @@ void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
 
 void EnPeehat_Ground_StateGround(EnPeehat* this, PlayState* play) {
     if (IS_DAY) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         if (this->riseDelayTimer == 0) {
             if (this->actor.xzDistToPlayer < this->xzDistToRise) {
                 EnPeehat_Ground_SetStateRise(this);
@@ -332,7 +332,7 @@ void EnPeehat_Ground_StateGround(EnPeehat* this, PlayState* play) {
             this->riseDelayTimer--;
         }
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 50.0f, 0.0f);
         if (this->unk_2D4 != 0) {
             this->unk_2D4--;

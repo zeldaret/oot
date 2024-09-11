@@ -7,7 +7,7 @@
 #include "z_en_ds.h"
 #include "assets/objects/object_ds/object_ds.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnDs_Init(Actor* thisx, PlayState* play);
 void EnDs_Destroy(Actor* thisx, PlayState* play);
@@ -41,9 +41,9 @@ void EnDs_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.013f);
 
     this->actionFunc = EnDs_Wait;
-    this->actor.targetMode = TARGET_MODE_1;
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     this->unk_1E8 = 0;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk_1E4 = 0.0f;
 }
 

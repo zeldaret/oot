@@ -61,8 +61,8 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_lights.c", 339);
 
-    gSPNumLights(POLY_OPA_DISP++, lights->numLights);
-    gSPNumLights(POLY_XLU_DISP++, lights->numLights);
+    gSPNumLights(POLY_OPA_DISP++, (u32)lights->numLights);
+    gSPNumLights(POLY_XLU_DISP++, (u32)lights->numLights);
 
     light = &lights->l.l[0];
     i = 0;

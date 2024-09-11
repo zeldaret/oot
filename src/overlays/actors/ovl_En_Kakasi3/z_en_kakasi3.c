@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_ka/object_ka.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_25)
 
 void EnKakasi3_Init(Actor* thisx, PlayState* play);
 void EnKakasi3_Destroy(Actor* thisx, PlayState* play);
@@ -71,7 +71,7 @@ void EnKakasi3_Init(Actor* thisx, PlayState* play) {
     PRINTF("\n\n");
     // "Obonur" -- Related to the name of the scarecrow (Bonooru)
     PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
-    this->actor.targetMode = TARGET_MODE_6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

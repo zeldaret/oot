@@ -1,7 +1,7 @@
 #include "z_en_okuta.h"
 #include "assets/objects/object_okuta/object_okuta.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnOkuta_Init(Actor* thisx, PlayState* play);
 void EnOkuta_Destroy(Actor* thisx, PlayState* play);
@@ -110,7 +110,7 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_OCTOROK, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 6500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 6500, ICHAIN_STOP),
 };
 
 void EnOkuta_Init(Actor* thisx, PlayState* play) {
@@ -145,7 +145,7 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
         EnOkuta_SetupWaitToAppear(this);
     } else {
         ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawCircle, 18.0f);
-        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         thisx->flags |= ACTOR_FLAG_4;
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, thisx, &sProjectileColliderInit);
@@ -197,7 +197,7 @@ void EnOkuta_SpawnRipple(EnOkuta* this, PlayState* play) {
 
 void EnOkuta_SetupWaitToAppear(EnOkuta* this) {
     this->actor.draw = NULL;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnOkuta_WaitToAppear;
     this->actor.world.pos.y = this->actor.home.pos.y;
 }
@@ -205,7 +205,7 @@ void EnOkuta_SetupWaitToAppear(EnOkuta* this) {
 void EnOkuta_SetupAppear(EnOkuta* this, PlayState* play) {
     this->actor.draw = EnOkuta_Draw;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Animation_PlayOnce(&this->skelAnime, &gOctorokAppearAnim);
     EnOkuta_SpawnBubbles(this, play);
     this->actionFunc = EnOkuta_Appear;
@@ -559,7 +559,7 @@ void EnOkuta_ColliderCheck(EnOkuta* this, PlayState* play) {
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             Enemy_StartFinishingBlow(play, &this->actor);
             this->actor.colChkInfo.health = 0;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             if (this->actor.colChkInfo.damageEffect == 3) {
                 EnOkuta_SetupFreeze(this);
             } else {

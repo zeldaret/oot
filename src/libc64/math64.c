@@ -1,7 +1,7 @@
 #include "z64math.h"
 #include "macros.h"
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 s32 gUseAtanContFrac;
 #endif
 
@@ -46,7 +46,7 @@ f32 Math_FNearbyIntF(f32 x) {
     return nearbyintf(x);
 }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 /* Arctangent approximation using a Taylor series (one quadrant) */
 f32 Math_FAtanTaylorQF(f32 x) {
     static const f32 coeffs[] = {
@@ -173,7 +173,7 @@ f32 Math_FAtanContFracF(f32 x) {
 #endif
 }
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 /**
  * @return arctan(x) in radians, in (-pi/2,pi/2) range
  */

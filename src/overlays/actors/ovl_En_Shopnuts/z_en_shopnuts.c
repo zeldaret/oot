@@ -6,7 +6,7 @@
 
 #include "z_en_shopnuts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnShopnuts_Init(Actor* thisx, PlayState* play);
 void EnShopnuts_Destroy(Actor* thisx, PlayState* play);
@@ -58,7 +58,7 @@ static CollisionCheckInfoInit sColChkInfoInit = { 1, 20, 40, MASS_HEAVY };
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BUSINESS_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 2600, ICHAIN_STOP),
 };
 
 void EnShopnuts_Init(Actor* thisx, PlayState* play) {

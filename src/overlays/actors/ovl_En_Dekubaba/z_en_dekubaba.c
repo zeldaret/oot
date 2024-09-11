@@ -3,7 +3,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnDekubaba_Init(Actor* thisx, PlayState* play);
 void EnDekubaba_Destroy(Actor* thisx, PlayState* play);
@@ -217,7 +217,7 @@ static DamageTable sBigDekuBabaDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 1500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 1500, ICHAIN_STOP),
 };
 
 void EnDekubaba_Init(Actor* thisx, PlayState* play) {
@@ -249,7 +249,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sBigDekuBabaDamageTable, &sColChkInfoInit);
         this->actor.colChkInfo.health = 4;
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
-        this->actor.targetMode = TARGET_MODE_2;
+        this->actor.attentionRangeType = ATTENTION_RANGE_2;
     } else {
         this->size = 1.0f;
 
@@ -263,7 +263,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDekuBabaDamageTable, &sColChkInfoInit);
         this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
-        this->actor.targetMode = TARGET_MODE_1;
+        this->actor.attentionRangeType = ATTENTION_RANGE_1;
     }
 
     EnDekubaba_SetupWait(this);
@@ -955,7 +955,7 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, PlayState* play) {
             ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speed = 0.0f;
-            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+            this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
             EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
                                      this->size * 5.0f, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         }

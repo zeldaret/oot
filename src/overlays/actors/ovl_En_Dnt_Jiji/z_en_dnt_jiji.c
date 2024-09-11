@@ -10,7 +10,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 void EnDntJiji_Init(Actor* thisx, PlayState* play);
 void EnDntJiji_Destroy(Actor* thisx, PlayState* play);
@@ -82,9 +82,9 @@ void EnDntJiji_Init(Actor* thisx, PlayState* play) {
     PRINTF("\n\n");
     // "Deku Scrub mask show elder"
     PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.colChkInfo.mass = 0xFF;
-    this->actor.targetMode = TARGET_MODE_6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->actionFunc = EnDntJiji_SetFlower;
     this->actor.gravity = -2.0f;
 }
@@ -116,7 +116,7 @@ void EnDntJiji_Wait(EnDntJiji* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if ((this->timer == 1) && (this->actor.xzDistToPlayer < 150.0f) && !Play_InCsMode(play) &&
-        !(player->stateFlags1 & PLAYER_STATE1_11)) {
+        !(player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY)) {
         OnePointCutscene_Init(play, 2230, -99, &this->actor, CAM_ID_MAIN);
         this->timer = 0;
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
@@ -221,7 +221,7 @@ void EnDntJiji_SetupCower(EnDntJiji* this, PlayState* play) {
     } else {
         this->getItemId = GI_DEKU_NUT_UPGRADE_40;
     }
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.textId = 0x10DB;
     this->unused = 5;
     this->actionFunc = EnDntJiji_Cower;
@@ -302,7 +302,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play) {
                 this->stage->leaderSignal = DNT_SIGNAL_RETURN;
             }
         }
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         if (!this->unburrow) {
             this->actionFunc = EnDntJiji_SetupHide;
         } else {

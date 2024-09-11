@@ -196,7 +196,7 @@ void BgHidanCurtain_WaitForTimer(BgHidanCurtain* this, PlayState* play) {
         this->actionFunc = BgHidanCurtain_TurnOn;
     }
     if ((this->type == 1) || (this->type == 3)) {
-        func_8002F994(&this->actor, this->timer);
+        Actor_PlaySfx_FlaggedTimer(&this->actor, this->timer);
     }
 }
 
@@ -230,7 +230,7 @@ void BgHidanCurtain_Update(Actor* thisx, PlayState* play2) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
             if (!IS_CUTSCENE_LAYER) {
-                func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
+                Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
             }
         } else if ((this->type == 1) && Flags_GetTreasure(play, this->treasureFlag)) {
             Actor_Kill(&this->actor);
