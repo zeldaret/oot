@@ -2060,6 +2060,8 @@ def main():
     version : str = args.oot_version
     output_dir : Path = args.output_dir
 
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+
     config = version_config.load_version_config(version)
     code_vram = config.dmadata_segments["code"].vram
 
