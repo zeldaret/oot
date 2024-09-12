@@ -1306,6 +1306,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             }
         }
 
+        // Draw non-active pages (not the one being looked at)
+
         if (pauseCtx->pageIndex) { // pageIndex != PAUSE_ITEM
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
@@ -1385,6 +1387,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 KaleidoScope_DrawWorldMap(play, gfxCtx);
             }
         }
+
+        // Update and draw the active page being looked at
 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
@@ -1471,6 +1475,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 break;
         }
     }
+
+    // Update and draw prompt (save or gameover)
 
     Gfx_SetupDL_42Opa(gfxCtx);
 
