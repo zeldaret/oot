@@ -33,7 +33,7 @@ ActorProfile En_Po_Desert_Profile = {
 
 static ColliderCylinderInit sColliderInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,

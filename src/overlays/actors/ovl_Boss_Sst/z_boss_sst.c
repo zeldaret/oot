@@ -2509,10 +2509,10 @@ void BossSst_HandSetDamage(BossSst* this, s32 damage) {
 void BossSst_HandSetInvulnerable(BossSst* this, s32 isInv) {
     this->colliderJntSph.base.acFlags &= ~AC_HIT;
     if (isInv) {
-        this->colliderJntSph.base.colType = COLTYPE_HARD;
+        this->colliderJntSph.base.colMaterial = COL_MATERIAL_HARD;
         this->colliderJntSph.base.acFlags |= AC_HARD;
     } else {
-        this->colliderJntSph.base.colType = COLTYPE_HIT0;
+        this->colliderJntSph.base.colMaterial = COL_MATERIAL_HIT0;
         this->colliderJntSph.base.acFlags &= ~AC_HARD;
     }
 }
@@ -2522,7 +2522,7 @@ void BossSst_HeadSfx(BossSst* this, u16 sfxId) {
 }
 
 void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
-    if ((this->colliderJntSph.base.acFlags & AC_HIT) && (this->colliderJntSph.base.colType != COLTYPE_HARD)) {
+    if ((this->colliderJntSph.base.acFlags & AC_HIT) && (this->colliderJntSph.base.colMaterial != COL_MATERIAL_HARD)) {
         s32 bothHands = true;
 
         this->colliderJntSph.base.acFlags &= ~AC_HIT;

@@ -71,7 +71,7 @@ void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -83,7 +83,7 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
 
 static ColliderCylinderInitType1 sCylinderInit2 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,

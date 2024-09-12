@@ -26,7 +26,7 @@ ActorProfile En_M_Thunder_Profile = {
 
 static ColliderCylinderInit D_80AA0420 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,

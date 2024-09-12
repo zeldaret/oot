@@ -29,7 +29,7 @@ ActorProfile En_Fire_Rock_Profile = {
 
 static ColliderCylinderInit D_80A12CA0 = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -49,7 +49,7 @@ static ColliderCylinderInit D_80A12CA0 = {
 
 static ColliderCylinderInit D_80A12CCC = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,

@@ -103,7 +103,7 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
     this->meleeWeaponQuads[0].base.atFlags = this->meleeWeaponQuads[1].base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->meleeWeaponQuads[0].base.acFlags = this->meleeWeaponQuads[1].base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
-    this->meleeWeaponQuads[0].base.colType = this->meleeWeaponQuads[1].base.colType = COLTYPE_METAL;
+    this->meleeWeaponQuads[0].base.colMaterial = this->meleeWeaponQuads[1].base.colMaterial = COL_MATERIAL_METAL;
     this->meleeWeaponQuads[0].elem.atDmgInfo.damage = this->meleeWeaponQuads[1].elem.atDmgInfo.damage = 8;
     this->meleeWeaponQuads[0].elem.acElemFlags = this->meleeWeaponQuads[1].elem.acElemFlags = ACELEM_ON;
     this->shieldQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
@@ -697,10 +697,10 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         sDodgeRollState = (this->invincibilityTimer > 0) ? 2 : 0;
     }
     if (this->invincibilityTimer != 0) {
-        this->cylinder.base.colType = COLTYPE_NONE;
+        this->cylinder.base.colMaterial = COL_MATERIAL_NONE;
         this->cylinder.elem.elemType = ELEMTYPE_UNK5;
     } else {
-        this->cylinder.base.colType = COLTYPE_HIT5;
+        this->cylinder.base.colMaterial = COL_MATERIAL_HIT5;
         this->cylinder.elem.elemType = ELEMTYPE_UNK1;
     }
     /*

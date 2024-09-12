@@ -204,7 +204,7 @@ ActorProfile Boss_Va_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -238,7 +238,7 @@ static ColliderJntSphElementInit sJntSphElementsInitSupport[1] = {
 
 static ColliderJntSphInit sJntSphInitSupport = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -265,7 +265,7 @@ static ColliderJntSphElementInit sJntSphElementsInitBari[1] = {
 
 static ColliderJntSphInit sJntSphInitBari = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -278,7 +278,7 @@ static ColliderJntSphInit sJntSphInitBari = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,

@@ -133,7 +133,7 @@ static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
 
 static ColliderCylinderInit sCylinderInitBlasts = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ALL,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -153,7 +153,7 @@ static ColliderCylinderInit sCylinderInitBlasts = {
 
 static ColliderCylinderInit sCylinderInitKoumeKotake = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -173,7 +173,7 @@ static ColliderCylinderInit sCylinderInitKoumeKotake = {
 
 static ColliderCylinderInit sCylinderInitTwinrova = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -1438,7 +1438,7 @@ void BossTw_SetupSpin(BossTw* this, PlayState* play) {
 
 void BossTw_Spin(BossTw* this, PlayState* play) {
     if (this->timers[0] != 0) {
-        this->collider.base.colType = COLTYPE_METAL;
+        this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->actor.shape.rot.y -= 0x3000;
 
         if ((this->timers[0] % 4) == 0) {
@@ -2848,7 +2848,7 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
     s16 i;
     s32 pad;
 
-    this->collider.base.colType = COLTYPE_HIT3;
+    this->collider.base.colMaterial = COL_MATERIAL_HIT3;
     Math_ApproachF(&this->fogR, play->lightCtx.fogColor[0], 1.0f, 10.0f);
     Math_ApproachF(&this->fogG, play->lightCtx.fogColor[1], 1.0f, 10.0f);
     Math_ApproachF(&this->fogB, play->lightCtx.fogColor[2], 1.0f, 10.0f);
@@ -2976,7 +2976,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
 
     this->actor.flags &= ~ACTOR_FLAG_10;
     this->unk_5F8 = 0;
-    this->collider.base.colType = COLTYPE_HIT3;
+    this->collider.base.colMaterial = COL_MATERIAL_HIT3;
 
     Math_ApproachF(&this->fogR, play->lightCtx.fogColor[0], 1.0f, 10.0f);
     Math_ApproachF(&this->fogG, play->lightCtx.fogColor[1], 1.0f, 10.0f);
@@ -5397,7 +5397,7 @@ void BossTw_TwinrovaSetupSpin(BossTw* this, PlayState* play) {
 void BossTw_TwinrovaSpin(BossTw* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->timers[0] != 0) {
-        this->collider.base.colType = COLTYPE_METAL;
+        this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->actor.shape.rot.y -= 0x3000;
 
         if ((this->timers[0] % 4) == 0) {
