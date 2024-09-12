@@ -16,7 +16,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#pragma increment_block_number "ntsc-1.2:128"
+#pragma increment_block_number "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #if !PLATFORM_GC
 #define KALEIDO_PROMPT_CURSOR_R 100

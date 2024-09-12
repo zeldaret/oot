@@ -2201,7 +2201,7 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
 }
 
 #pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
-                               "ntsc-1.2:252"
+                               "ntsc-1.2:252 pal-1.0:252 pal-1.1:252"
 
 void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
