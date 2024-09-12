@@ -174,12 +174,12 @@ typedef struct PauseContext {
     /* 0x01E8 */ u16 pageIndex; // "kscp_pos"
     /* 0x01EA */ u16 pageSwitchTimer;
     /* 0x01EC */ u16 savePromptState;
-    /* 0x01F0 */ f32 unk_1F0;
-    /* 0x01F4 */ f32 unk_1F4;
-    /* 0x01F8 */ f32 unk_1F8;
-    /* 0x01FC */ f32 unk_1FC;
-    /* 0x0200 */ f32 unk_200;
-    /* 0x0204 */ f32 unk_204; // "angle_s"
+    /* 0x01F0 */ f32 promptOffsetDepth;
+    /* 0x01F4 */ f32 itemPageRoll;
+    /* 0x01F8 */ f32 equipPageRoll;
+    /* 0x01FC */ f32 mapPageRoll;
+    /* 0x0200 */ f32 questPageRoll;
+    /* 0x0204 */ f32 promptRoll; // "angle_s"
     /* 0x0208 */ u16 alpha;
     /* 0x020A */ s16 offsetY;
     /* 0x020C */ char unk_20C[0x08];
