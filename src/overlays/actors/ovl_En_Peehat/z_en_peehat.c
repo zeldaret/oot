@@ -54,7 +54,7 @@ ActorProfile En_Peehat_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_WOOD,
+        COL_MATERIAL_WOOD,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -88,7 +88,7 @@ static ColliderJntSphElementInit sJntSphElemInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -101,7 +101,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_NONE,

@@ -83,7 +83,7 @@ ActorProfile En_GeldB_Profile = {
 
 static ColliderCylinderInit sBodyCylInit = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -128,7 +128,7 @@ static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
 
 static ColliderTrisInit sBlockTrisInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -141,7 +141,7 @@ static ColliderTrisInit sBlockTrisInit = {
 
 static ColliderQuadInit sSwordQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,

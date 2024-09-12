@@ -16,13 +16,13 @@
 #include "terminal.h"
 
 #if !PLATFORM_GC
-#define KALEIDO_COLOR_PROMPT_UNK_R 100
-#define KALEIDO_COLOR_PROMPT_UNK_G 100
-#define KALEIDO_COLOR_PROMPT_UNK_B 255
+#define KALEIDO_PROMPT_CURSOR_R 100
+#define KALEIDO_PROMPT_CURSOR_G 100
+#define KALEIDO_PROMPT_CURSOR_B 255
 #else
-#define KALEIDO_COLOR_PROMPT_UNK_R 100
-#define KALEIDO_COLOR_PROMPT_UNK_G 255
-#define KALEIDO_COLOR_PROMPT_UNK_B 100
+#define KALEIDO_PROMPT_CURSOR_R 100
+#define KALEIDO_PROMPT_CURSOR_G 255
+#define KALEIDO_PROMPT_CURSOR_B 100
 #endif
 
 #if !PLATFORM_GC
@@ -49,7 +49,7 @@ typedef enum {
 #define VTX_PAGE_MAP_DUNGEON_QUADS 17         // VTX_PAGE_MAP_DUNGEON
 #define VTX_PAGE_QUEST_QUADS 0                // VTX_PAGE_QUEST
 #define VTX_PAGE_MAP_WORLD_QUADS 32           // VTX_PAGE_MAP_WORLD
-#define VTX_PAGE_PROMPT_QUADS QUAD_PROMPT_MAX // VTX_PAGE_PROMPT
+#define VTX_PAGE_PROMPT_QUADS PROMPT_QUAD_MAX // VTX_PAGE_PROMPT
 
 #if OOT_NTSC
 
@@ -551,22 +551,22 @@ static void* sSavePromptBgQuadsTexs[] = {
 #endif
 
 s16 gVtxPageMapWorldQuadsWidth[VTX_PAGE_MAP_WORLD_QUADS] = {
-    32,  // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
-    112, // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
-    32,  // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
-    48,  // QUAD_MAP_WORLD_CLOUDS_MARKET
-    32,  // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
-    32,  // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
-    32,  // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
-    48,  // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
-    32,  // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
-    64,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
-    32,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
-    48,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
-    48,  // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
-    48,  // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
-    48,  // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
-    64,  // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+    32,  // WORLD_MAP_QUAD_CLOUDS_SACRED_FOREST_MEADOW
+    112, // WORLD_MAP_QUAD_CLOUDS_HYRULE_FIELD
+    32,  // WORLD_MAP_QUAD_CLOUDS_LON_LON_RANCH
+    48,  // WORLD_MAP_QUAD_CLOUDS_MARKET
+    32,  // WORLD_MAP_QUAD_CLOUDS_HYRULE_CASTLE
+    32,  // WORLD_MAP_QUAD_CLOUDS_KAKARIKO_VILLAGE
+    32,  // WORLD_MAP_QUAD_CLOUDS_GRAVEYARD
+    48,  // WORLD_MAP_QUAD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+    32,  // WORLD_MAP_QUAD_CLOUDS_GORON_CITY
+    64,  // WORLD_MAP_QUAD_CLOUDS_ZORAS_RIVER
+    32,  // WORLD_MAP_QUAD_CLOUDS_ZORAS_DOMAIN
+    48,  // WORLD_MAP_QUAD_CLOUDS_ZORAS_FOUNTAIN
+    48,  // WORLD_MAP_QUAD_CLOUDS_GERUDO_VALLEY
+    48,  // WORLD_MAP_QUAD_CLOUDS_GERUDOS_FORTRESS
+    48,  // WORLD_MAP_QUAD_CLOUDS_DESERT_COLOSSUS
+    64,  // WORLD_MAP_QUAD_CLOUDS_LAKE_HYLIA
     8,   // WORLD_MAP_POINT_HAUNTED_WASTELAND
     8,   // WORLD_MAP_POINT_GERUDOS_FORTRESS
     8,   // WORLD_MAP_POINT_GERUDO_VALLEY
@@ -579,29 +579,29 @@ s16 gVtxPageMapWorldQuadsWidth[VTX_PAGE_MAP_WORLD_QUADS] = {
     8,   // WORLD_MAP_POINT_LOST_WOODS
     8,   // WORLD_MAP_POINT_KOKIRI_FOREST
     8,   // WORLD_MAP_POINT_ZORAS_DOMAIN
-    8,   // QUAD_MAP_28
-    8,   // QUAD_MAP_TRADE_QUEST_MARKER
-    80,  // QUAD_MAP_30
-    64,  // QUAD_MAP_31
+    8,   // WORLD_MAP_QUAD_28
+    8,   // WORLD_MAP_QUAD_TRADE_QUEST_MARKER
+    80,  // WORLD_MAP_QUAD_30
+    64,  // WORLD_MAP_QUAD_31
 };
 
 s16 gVtxPageMapWorldQuadsHeight[VTX_PAGE_MAP_WORLD_QUADS] = {
-    24, // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
-    72, // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
-    13, // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
-    22, // QUAD_MAP_WORLD_CLOUDS_MARKET
-    19, // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
-    20, // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
-    19, // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
-    27, // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
-    14, // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
-    26, // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
-    22, // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
-    21, // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
-    49, // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
-    32, // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
-    45, // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
-    60, // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+    24, // WORLD_MAP_QUAD_CLOUDS_SACRED_FOREST_MEADOW
+    72, // WORLD_MAP_QUAD_CLOUDS_HYRULE_FIELD
+    13, // WORLD_MAP_QUAD_CLOUDS_LON_LON_RANCH
+    22, // WORLD_MAP_QUAD_CLOUDS_MARKET
+    19, // WORLD_MAP_QUAD_CLOUDS_HYRULE_CASTLE
+    20, // WORLD_MAP_QUAD_CLOUDS_KAKARIKO_VILLAGE
+    19, // WORLD_MAP_QUAD_CLOUDS_GRAVEYARD
+    27, // WORLD_MAP_QUAD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+    14, // WORLD_MAP_QUAD_CLOUDS_GORON_CITY
+    26, // WORLD_MAP_QUAD_CLOUDS_ZORAS_RIVER
+    22, // WORLD_MAP_QUAD_CLOUDS_ZORAS_DOMAIN
+    21, // WORLD_MAP_QUAD_CLOUDS_ZORAS_FOUNTAIN
+    49, // WORLD_MAP_QUAD_CLOUDS_GERUDO_VALLEY
+    32, // WORLD_MAP_QUAD_CLOUDS_GERUDOS_FORTRESS
+    45, // WORLD_MAP_QUAD_CLOUDS_DESERT_COLOSSUS
+    60, // WORLD_MAP_QUAD_CLOUDS_LAKE_HYLIA
     8,  // WORLD_MAP_POINT_HAUNTED_WASTELAND
     8,  // WORLD_MAP_POINT_GERUDOS_FORTRESS
     8,  // WORLD_MAP_POINT_GERUDO_VALLEY
@@ -614,10 +614,10 @@ s16 gVtxPageMapWorldQuadsHeight[VTX_PAGE_MAP_WORLD_QUADS] = {
     8,  // WORLD_MAP_POINT_LOST_WOODS
     8,  // WORLD_MAP_POINT_KOKIRI_FOREST
     8,  // WORLD_MAP_POINT_ZORAS_DOMAIN
-    8,  // QUAD_MAP_28
-    16, // QUAD_MAP_TRADE_QUEST_MARKER
-    32, // QUAD_MAP_30
-    8,  // QUAD_MAP_31
+    8,  // WORLD_MAP_QUAD_28
+    16, // WORLD_MAP_QUAD_TRADE_QUEST_MARKER
+    32, // WORLD_MAP_QUAD_30
+    8,  // WORLD_MAP_QUAD_31
 };
 
 /**
@@ -868,10 +868,10 @@ u8 gAreaGsFlags[] = {
 };
 
 static void* sCursorTexs[] = {
-    gPauseMenuCursorTopLeftTex,     // PAUSE_QUAD_CURSOR_TL
-    gPauseMenuCursorTopRightTex,    // PAUSE_QUAD_CURSOR_TR
-    gPauseMenuCursorBottomLeftTex,  // PAUSE_QUAD_CURSOR_BL
-    gPauseMenuCursorBottomRightTex, // PAUSE_QUAD_CURSOR_BR
+    gPauseMenuCursorTopLeftTex,     // PAUSE_CURSOR_QUAD_TL
+    gPauseMenuCursorTopRightTex,    // PAUSE_CURSOR_QUAD_TR
+    gPauseMenuCursorBottomLeftTex,  // PAUSE_CURSOR_QUAD_BL
+    gPauseMenuCursorBottomRightTex, // PAUSE_CURSOR_QUAD_BR
 };
 
 static s16 sCursorColors[][3] = {
@@ -1128,7 +1128,7 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
 
         if (pauseCtx->pageIndex == pageIndex) {
 
-            // Draw PAUSE_QUAD_CURSOR_TL, PAUSE_QUAD_CURSOR_TR, PAUSE_QUAD_CURSOR_BL, PAUSE_QUAD_CURSOR_BR
+            // Draw PAUSE_CURSOR_QUAD_TL, PAUSE_CURSOR_QUAD_TR, PAUSE_CURSOR_QUAD_BL, PAUSE_CURSOR_QUAD_BR
 
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -1567,18 +1567,18 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             (pauseCtx->state == PAUSE_STATE_14)) {
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptMessageTexs[gSaveContext.language],
-                                                        152, 16, QUAD_PROMPT_MESSAGE * 4);
+                                                        152, 16, PROMPT_QUAD_MESSAGE * 4);
 
             gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0,
                               0, PRIMITIVE, 0);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_PROMPT_UNK_R, KALEIDO_COLOR_PROMPT_UNK_G,
-                            KALEIDO_COLOR_PROMPT_UNK_B, R_KALEIDO_PROMPT_CURSOR_ALPHA);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_PROMPT_CURSOR_R, KALEIDO_PROMPT_CURSOR_G,
+                            KALEIDO_PROMPT_CURSOR_B, R_KALEIDO_PROMPT_CURSOR_ALPHA);
 
             if (pauseCtx->promptChoice == 0) {
-                // QUAD_PROMPT_CURSOR_LEFT
+                // PROMPT_QUAD_CURSOR_LEFT
                 gSPDisplayList(POLY_OPA_DISP++, gPromptCursorLeftDL);
             } else {
-                // QUAD_PROMPT_CURSOR_RIGHT
+                // PROMPT_QUAD_CURSOR_RIGHT
                 gSPDisplayList(POLY_OPA_DISP++, gPromptCursorRightDL);
             }
 
@@ -1587,32 +1587,31 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][0], 48,
-                                                        16, QUAD_PROMPT_CHOICE_YES * 4);
+                                                        16, PROMPT_QUAD_CHOICE_YES * 4);
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48,
-                                                        16, QUAD_PROMPT_CHOICE_NO * 4);
+                                                        16, PROMPT_QUAD_CHOICE_NO * 4);
         } else if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
                     (pauseCtx->savePromptState >= PAUSE_SAVE_PROMPT_STATE_SAVED)) ||
                    pauseCtx->state == PAUSE_STATE_15) {
 #if PLATFORM_N64
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSaveConfirmationTexs[gSaveContext.language],
-                                                        152, 16, QUAD_PROMPT_MESSAGE * 4);
+                                                        152, 16, PROMPT_QUAD_MESSAGE * 4);
 #endif
-        } else if ((pauseCtx->state == PAUSE_STATE_16) || (pauseCtx->state == PAUSE_STATE_17)) {
-
+        } else if (((pauseCtx->state == PAUSE_STATE_16) || (pauseCtx->state == PAUSE_STATE_17))) {
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sContinuePromptTexs[gSaveContext.language], 152,
-                                                        16, QUAD_PROMPT_MESSAGE * 4);
+                                                        16, PROMPT_QUAD_MESSAGE * 4);
 
             gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0,
                               0, PRIMITIVE, 0);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_COLOR_PROMPT_UNK_R, KALEIDO_COLOR_PROMPT_UNK_G,
-                            KALEIDO_COLOR_PROMPT_UNK_B, R_KALEIDO_PROMPT_CURSOR_ALPHA);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, KALEIDO_PROMPT_CURSOR_R, KALEIDO_PROMPT_CURSOR_G,
+                            KALEIDO_PROMPT_CURSOR_B, R_KALEIDO_PROMPT_CURSOR_ALPHA);
 
             if (pauseCtx->promptChoice == 0) {
-                // QUAD_PROMPT_CURSOR_LEFT
+                // PROMPT_QUAD_CURSOR_LEFT
                 gSPDisplayList(POLY_OPA_DISP++, gPromptCursorLeftDL);
             } else {
-                // QUAD_PROMPT_CURSOR_RIGHT
+                // PROMPT_QUAD_CURSOR_RIGHT
                 gSPDisplayList(POLY_OPA_DISP++, gPromptCursorRightDL);
             }
 
@@ -1621,10 +1620,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][0], 48,
-                                                        16, QUAD_PROMPT_CHOICE_YES * 4);
+                                                        16, PROMPT_QUAD_CHOICE_YES * 4);
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48,
-                                                        16, QUAD_PROMPT_CHOICE_NO * 4);
+                                                        16, PROMPT_QUAD_CHOICE_NO * 4);
         }
 
         gDPPipeSync(POLY_OPA_DISP++);
@@ -2284,22 +2283,22 @@ static s16 sVtxPageMapDungeonQuadsX[VTX_PAGE_MAP_DUNGEON_QUADS] = {
 };
 static s16 sVtxPageQuestQuadsX[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
 static s16 sVtxPageMapWorldQuadsX[VTX_PAGE_MAP_WORLD_QUADS] = {
-    47,   // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
-    -49,  // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
-    -17,  // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
-    -15,  // QUAD_MAP_WORLD_CLOUDS_MARKET
-    -9,   // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
-    24,   // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
-    43,   // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
-    14,   // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
-    9,    // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
-    38,   // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
-    82,   // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
-    71,   // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
-    -76,  // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
-    -87,  // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
-    -108, // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
-    -54,  // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+    47,   // WORLD_MAP_QUAD_CLOUDS_SACRED_FOREST_MEADOW
+    -49,  // WORLD_MAP_QUAD_CLOUDS_HYRULE_FIELD
+    -17,  // WORLD_MAP_QUAD_CLOUDS_LON_LON_RANCH
+    -15,  // WORLD_MAP_QUAD_CLOUDS_MARKET
+    -9,   // WORLD_MAP_QUAD_CLOUDS_HYRULE_CASTLE
+    24,   // WORLD_MAP_QUAD_CLOUDS_KAKARIKO_VILLAGE
+    43,   // WORLD_MAP_QUAD_CLOUDS_GRAVEYARD
+    14,   // WORLD_MAP_QUAD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+    9,    // WORLD_MAP_QUAD_CLOUDS_GORON_CITY
+    38,   // WORLD_MAP_QUAD_CLOUDS_ZORAS_RIVER
+    82,   // WORLD_MAP_QUAD_CLOUDS_ZORAS_DOMAIN
+    71,   // WORLD_MAP_QUAD_CLOUDS_ZORAS_FOUNTAIN
+    -76,  // WORLD_MAP_QUAD_CLOUDS_GERUDO_VALLEY
+    -87,  // WORLD_MAP_QUAD_CLOUDS_GERUDOS_FORTRESS
+    -108, // WORLD_MAP_QUAD_CLOUDS_DESERT_COLOSSUS
+    -54,  // WORLD_MAP_QUAD_CLOUDS_LAKE_HYLIA
     -93,  // WORLD_MAP_POINT_HAUNTED_WASTELAND
     -67,  // WORLD_MAP_POINT_GERUDOS_FORTRESS
     -56,  // WORLD_MAP_POINT_GERUDO_VALLEY
@@ -2312,17 +2311,17 @@ static s16 sVtxPageMapWorldQuadsX[VTX_PAGE_MAP_WORLD_QUADS] = {
     58,   // WORLD_MAP_POINT_LOST_WOODS
     74,   // WORLD_MAP_POINT_KOKIRI_FOREST
     89,   // WORLD_MAP_POINT_ZORAS_DOMAIN
-    0,    // QUAD_MAP_28
-    -58,  // QUAD_MAP_TRADE_QUEST_MARKER
-    19,   // QUAD_MAP_30
-    28,   // QUAD_MAP_31
+    0,    // WORLD_MAP_QUAD_28
+    -58,  // WORLD_MAP_QUAD_TRADE_QUEST_MARKER
+    19,   // WORLD_MAP_QUAD_30
+    28,   // WORLD_MAP_QUAD_31
 };
 static s16 sVtxPagePromptQuadsX[VTX_PAGE_PROMPT_QUADS] = {
-    -76, // QUAD_PROMPT_MESSAGE
-    -58, // QUAD_PROMPT_CURSOR_LEFT
-    10,  // QUAD_PROMPT_CURSOR_RIGHT
-    -58, // QUAD_PROMPT_CHOICE_YES
-    10,  // QUAD_PROMPT_CHOICE_NO
+    -76, // PROMPT_QUAD_MESSAGE
+    -58, // PROMPT_QUAD_CURSOR_LEFT
+    10,  // PROMPT_QUAD_CURSOR_RIGHT
+    -58, // PROMPT_QUAD_CHOICE_YES
+    10,  // PROMPT_QUAD_CHOICE_NO
 };
 
 static s16 sVtxPageItemQuadsWidth[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
@@ -2332,11 +2331,11 @@ static s16 sVtxPageMapDungeonQuadsWidth[VTX_PAGE_MAP_DUNGEON_QUADS] = {
 };
 static s16 sVtxPageQuestQuadsWidth[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
 static s16 sVtxPagePromptQuadsWidth[VTX_PAGE_PROMPT_QUADS] = {
-    152, // QUAD_PROMPT_MESSAGE
-    48,  // QUAD_PROMPT_CURSOR_LEFT
-    48,  // QUAD_PROMPT_CURSOR_RIGHT
-    48,  // QUAD_PROMPT_CHOICE_YES
-    48,  // QUAD_PROMPT_CHOICE_NO
+    152, // PROMPT_QUAD_MESSAGE
+    48,  // PROMPT_QUAD_CURSOR_LEFT
+    48,  // PROMPT_QUAD_CURSOR_RIGHT
+    48,  // PROMPT_QUAD_CHOICE_YES
+    48,  // PROMPT_QUAD_CHOICE_NO
 };
 
 static s16 sVtxPageItemQuadsY[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
@@ -2346,22 +2345,22 @@ static s16 sVtxPageMapDungeonQuadsY[VTX_PAGE_MAP_DUNGEON_QUADS] = {
 };
 static s16 sVtxPageQuestQuadsY[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
 static s16 sVtxPageMapWorldQuadsY[VTX_PAGE_MAP_WORLD_QUADS] = {
-    15,  // QUAD_MAP_WORLD_CLOUDS_SACRED_FOREST_MEADOW
-    40,  // QUAD_MAP_WORLD_CLOUDS_HYRULE_FIELD
-    11,  // QUAD_MAP_WORLD_CLOUDS_LON_LON_RANCH
-    45,  // QUAD_MAP_WORLD_CLOUDS_MARKET
-    52,  // QUAD_MAP_WORLD_CLOUDS_HYRULE_CASTLE
-    37,  // QUAD_MAP_WORLD_CLOUDS_KAKARIKO_VILLAGE
-    36,  // QUAD_MAP_WORLD_CLOUDS_GRAVEYARD
-    57,  // QUAD_MAP_WORLD_CLOUDS_DEATH_MOUNTAIN_TRAIL
-    54,  // QUAD_MAP_WORLD_CLOUDS_GORON_CITY
-    33,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_RIVER
-    31,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_DOMAIN
-    45,  // QUAD_MAP_WORLD_CLOUDS_ZORAS_FOUNTAIN
-    32,  // QUAD_MAP_WORLD_CLOUDS_GERUDO_VALLEY
-    42,  // QUAD_MAP_WORLD_CLOUDS_GERUDOS_FORTRESS
-    49,  // QUAD_MAP_WORLD_CLOUDS_DESERT_COLOSSUS
-    -10, // QUAD_MAP_WORLD_CLOUDS_LAKE_HYLIA
+    15,  // WORLD_MAP_QUAD_CLOUDS_SACRED_FOREST_MEADOW
+    40,  // WORLD_MAP_QUAD_CLOUDS_HYRULE_FIELD
+    11,  // WORLD_MAP_QUAD_CLOUDS_LON_LON_RANCH
+    45,  // WORLD_MAP_QUAD_CLOUDS_MARKET
+    52,  // WORLD_MAP_QUAD_CLOUDS_HYRULE_CASTLE
+    37,  // WORLD_MAP_QUAD_CLOUDS_KAKARIKO_VILLAGE
+    36,  // WORLD_MAP_QUAD_CLOUDS_GRAVEYARD
+    57,  // WORLD_MAP_QUAD_CLOUDS_DEATH_MOUNTAIN_TRAIL
+    54,  // WORLD_MAP_QUAD_CLOUDS_GORON_CITY
+    33,  // WORLD_MAP_QUAD_CLOUDS_ZORAS_RIVER
+    31,  // WORLD_MAP_QUAD_CLOUDS_ZORAS_DOMAIN
+    45,  // WORLD_MAP_QUAD_CLOUDS_ZORAS_FOUNTAIN
+    32,  // WORLD_MAP_QUAD_CLOUDS_GERUDO_VALLEY
+    42,  // WORLD_MAP_QUAD_CLOUDS_GERUDOS_FORTRESS
+    49,  // WORLD_MAP_QUAD_CLOUDS_DESERT_COLOSSUS
+    -10, // WORLD_MAP_QUAD_CLOUDS_LAKE_HYLIA
     31,  // WORLD_MAP_POINT_HAUNTED_WASTELAND
     27,  // WORLD_MAP_POINT_GERUDOS_FORTRESS
     15,  // WORLD_MAP_POINT_GERUDO_VALLEY
@@ -2374,17 +2373,17 @@ static s16 sVtxPageMapWorldQuadsY[VTX_PAGE_MAP_WORLD_QUADS] = {
     1,   // WORLD_MAP_POINT_LOST_WOODS
     -9,  // WORLD_MAP_POINT_KOKIRI_FOREST
     25,  // WORLD_MAP_POINT_ZORAS_DOMAIN
-    0,   // QUAD_MAP_28
-    1,   // QUAD_MAP_TRADE_QUEST_MARKER
-    -32, // QUAD_MAP_30
-    -26, // QUAD_MAP_31
+    0,   // WORLD_MAP_QUAD_28
+    1,   // WORLD_MAP_QUAD_TRADE_QUEST_MARKER
+    -32, // WORLD_MAP_QUAD_30
+    -26, // WORLD_MAP_QUAD_31
 };
 static s16 sVtxPagePromptQuadsY[VTX_PAGE_PROMPT_QUADS] = {
-    36, // QUAD_PROMPT_MESSAGE
-    10, // QUAD_PROMPT_CURSOR_LEFT
-    10, // QUAD_PROMPT_CURSOR_RIGHT
-    -6, // QUAD_PROMPT_CHOICE_YES
-    -6, // QUAD_PROMPT_CHOICE_NO
+    36, // PROMPT_QUAD_MESSAGE
+    10, // PROMPT_QUAD_CURSOR_LEFT
+    10, // PROMPT_QUAD_CURSOR_RIGHT
+    -6, // PROMPT_QUAD_CHOICE_YES
+    -6, // PROMPT_QUAD_CHOICE_NO
 };
 
 static s16 sVtxPageItemQuadsHeight[CLAMP_MIN(VTX_PAGE_ITEM_QUADS, 1)] = { 0 };
@@ -2394,11 +2393,11 @@ static s16 sVtxPageMapDungeonQuadsHeight[VTX_PAGE_MAP_DUNGEON_QUADS] = {
 };
 static s16 sVtxPageQuestQuadsHeight[CLAMP_MIN(VTX_PAGE_QUEST_QUADS, 1)] = { 0 };
 static s16 sVtxPagePromptQuadsHeight[VTX_PAGE_PROMPT_QUADS] = {
-    16, // QUAD_PROMPT_MESSAGE
-    48, // QUAD_PROMPT_CURSOR_LEFT
-    48, // QUAD_PROMPT_CURSOR_RIGHT
-    16, // QUAD_PROMPT_CHOICE_YES
-    16, // QUAD_PROMPT_CHOICE_NO
+    16, // PROMPT_QUAD_MESSAGE
+    48, // PROMPT_QUAD_CURSOR_LEFT
+    48, // PROMPT_QUAD_CURSOR_RIGHT
+    16, // PROMPT_QUAD_CHOICE_YES
+    16, // PROMPT_QUAD_CHOICE_NO
 };
 
 static s16* sVtxPageQuadsX[] = {
@@ -2646,7 +2645,7 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
         if (vtxPage == VTX_PAGE_MAP_WORLD) {
             // For world map page, initialize vtx beyond VTX_PAGE_MAP_WORLD_QUADS
 
-            bufI -= ((VTX_PAGE_MAP_WORLD_QUADS - QUAD_MAP_TRADE_QUEST_MARKER) * 4);
+            bufI -= ((VTX_PAGE_MAP_WORLD_QUADS - WORLD_MAP_QUAD_TRADE_QUEST_MARKER) * 4);
 
             j = gSaveContext.worldMapArea;
 
@@ -2680,8 +2679,8 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
                     sTradeQuestMarkerBobTimer--;
                 }
 
-                j = bufIAfterPageSections + ((QUAD_MAP_WORLD_POINT_FIRST + pauseCtx->tradeQuestMarker) * 4);
-                i = bufIAfterPageSections + (QUAD_MAP_TRADE_QUEST_MARKER * 4);
+                j = bufIAfterPageSections + ((WORLD_MAP_QUAD_POINT_FIRST + pauseCtx->tradeQuestMarker) * 4);
+                i = bufIAfterPageSections + (WORLD_MAP_QUAD_TRADE_QUEST_MARKER * 4);
 
                 vtx[i + 0].v.ob[0] = vtx[i + 2].v.ob[0] = vtx[j + 0].v.ob[0];
 
@@ -2964,9 +2963,9 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     pauseCtx->questPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_QUEST_QUADS) * 4) * sizeof(Vtx));
     KaleidoScope_SetPageVertices(play, pauseCtx->questPageVtx, VTX_PAGE_QUEST, VTX_PAGE_QUEST_QUADS);
 
-    pauseCtx->cursorVtx = GRAPH_ALLOC(gfxCtx, (PAUSE_QUAD_CURSOR_MAX * 4) * sizeof(Vtx));
+    pauseCtx->cursorVtx = GRAPH_ALLOC(gfxCtx, (PAUSE_CURSOR_QUAD_MAX * 4) * sizeof(Vtx));
 
-    for (i = 0; i < (PAUSE_QUAD_CURSOR_MAX * 4); i++) {
+    for (i = 0; i < (PAUSE_CURSOR_QUAD_MAX * 4); i++) {
         pauseCtx->cursorVtx[i].v.ob[0] = pauseCtx->cursorVtx[i].v.ob[1] = pauseCtx->cursorVtx[i].v.ob[2] = 0;
 
         pauseCtx->cursorVtx[i].v.flag = 0;
@@ -2977,19 +2976,19 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->cursorVtx[i].v.cn[3] = 255;
     }
 
-    // PAUSE_QUAD_CURSOR_TL
+    // PAUSE_CURSOR_QUAD_TL
     pauseCtx->cursorVtx[1].v.tc[0] = pauseCtx->cursorVtx[2].v.tc[1] = pauseCtx->cursorVtx[3].v.tc[0] =
         pauseCtx->cursorVtx[3].v.tc[1]
-        // PAUSE_QUAD_CURSOR_TR
+        // PAUSE_CURSOR_QUAD_TR
         = pauseCtx->cursorVtx[5].v.tc[0] = pauseCtx->cursorVtx[6].v.tc[1] = pauseCtx->cursorVtx[7].v.tc[0] =
             pauseCtx->cursorVtx[7].v.tc[1]
-        // PAUSE_QUAD_CURSOR_BL
+        // PAUSE_CURSOR_QUAD_BL
         = pauseCtx->cursorVtx[9].v.tc[0] = pauseCtx->cursorVtx[10].v.tc[1] = pauseCtx->cursorVtx[11].v.tc[0] =
             pauseCtx->cursorVtx[11].v.tc[1]
-        // PAUSE_QUAD_CURSOR_BR
+        // PAUSE_CURSOR_QUAD_BR
         = pauseCtx->cursorVtx[13].v.tc[0] = pauseCtx->cursorVtx[14].v.tc[1] = pauseCtx->cursorVtx[15].v.tc[0] =
             pauseCtx->cursorVtx[15].v.tc[1] = 16 * (1 << 5);
-    // PAUSE_QUAD_CURSOR_4
+    // PAUSE_CURSOR_QUAD_4
     pauseCtx->cursorVtx[17].v.tc[0] = pauseCtx->cursorVtx[18].v.tc[1] = pauseCtx->cursorVtx[19].v.tc[0] =
         pauseCtx->cursorVtx[19].v.tc[1] = 32 * (1 << 5);
 
@@ -3580,27 +3579,27 @@ void KaleidoScope_UpdateCursorVtx(PlayState* play) {
 
     // Move the quads according to the offsets set above,
     // and the position of the cursor in `pauseCtx->cursorVtx[0].v.ob`
-    // (see `KaleidoScope_SetCursorPos` and other `PAUSE_QUAD_CURSOR_TL` uses)
+    // (see `KaleidoScope_SetCursorPos` and other `PAUSE_CURSOR_QUAD_TL` uses)
 
-    // PAUSE_QUAD_CURSOR_TL
+    // PAUSE_CURSOR_QUAD_TL
     pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->cursorVtx[2].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + tlOffsetX;
     pauseCtx->cursorVtx[1].v.ob[0] = pauseCtx->cursorVtx[3].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + 16;
     pauseCtx->cursorVtx[0].v.ob[1] = pauseCtx->cursorVtx[1].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] + tlOffsetY;
     pauseCtx->cursorVtx[2].v.ob[1] = pauseCtx->cursorVtx[3].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - 16;
 
-    // PAUSE_QUAD_CURSOR_TR
+    // PAUSE_CURSOR_QUAD_TR
     pauseCtx->cursorVtx[4].v.ob[0] = pauseCtx->cursorVtx[6].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + rightOffsetX;
     pauseCtx->cursorVtx[5].v.ob[0] = pauseCtx->cursorVtx[7].v.ob[0] = pauseCtx->cursorVtx[4].v.ob[0] + 16;
     pauseCtx->cursorVtx[4].v.ob[1] = pauseCtx->cursorVtx[5].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1];
     pauseCtx->cursorVtx[6].v.ob[1] = pauseCtx->cursorVtx[7].v.ob[1] = pauseCtx->cursorVtx[4].v.ob[1] - 16;
 
-    // PAUSE_QUAD_CURSOR_BL
+    // PAUSE_CURSOR_QUAD_BL
     pauseCtx->cursorVtx[8].v.ob[0] = pauseCtx->cursorVtx[10].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0];
     pauseCtx->cursorVtx[9].v.ob[0] = pauseCtx->cursorVtx[11].v.ob[0] = pauseCtx->cursorVtx[8].v.ob[0] + 16;
     pauseCtx->cursorVtx[8].v.ob[1] = pauseCtx->cursorVtx[9].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - bottomOffsetY;
     pauseCtx->cursorVtx[10].v.ob[1] = pauseCtx->cursorVtx[11].v.ob[1] = pauseCtx->cursorVtx[8].v.ob[1] - 16;
 
-    // PAUSE_QUAD_CURSOR_BR
+    // PAUSE_CURSOR_QUAD_BR
     pauseCtx->cursorVtx[12].v.ob[0] = pauseCtx->cursorVtx[14].v.ob[0] = pauseCtx->cursorVtx[0].v.ob[0] + rightOffsetX;
     pauseCtx->cursorVtx[13].v.ob[0] = pauseCtx->cursorVtx[15].v.ob[0] = pauseCtx->cursorVtx[12].v.ob[0] + 16;
     pauseCtx->cursorVtx[12].v.ob[1] = pauseCtx->cursorVtx[13].v.ob[1] = pauseCtx->cursorVtx[0].v.ob[1] - bottomOffsetY;
@@ -4340,7 +4339,7 @@ void KaleidoScope_Update(PlayState* play) {
                     break;
 
                 case PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU:
-                case PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT:
+                case PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_2:
                     pauseCtx->rollRotSavePrompt_ += 314.0f / R_PAUSE_UI_ANIMS_DURATION;
                     R_PAUSE_CURSOR_LEFT_X += R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
                     R_PAUSE_CURSOR_RIGHT_X += R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;

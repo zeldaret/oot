@@ -11,6 +11,7 @@
 #include "assets/objects/object_fish/object_fish.h"
 #include "ichain.h"
 #include "terminal.h"
+#include "versions.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif
@@ -338,7 +339,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_TYPE_ENEMY,
         AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,

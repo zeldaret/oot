@@ -56,7 +56,7 @@ ActorProfile En_Goma_Profile = {
 
 static ColliderCylinderInit D_80A4B7A0 = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -76,7 +76,7 @@ static ColliderCylinderInit D_80A4B7A0 = {
 
 static ColliderCylinderInit D_80A4B7CC = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,

@@ -58,7 +58,7 @@ static ColliderTrisElementInit sTrisElementInitFloor[2] = {
 
 static ColliderTrisInit sTrisInitFloor = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -85,7 +85,7 @@ static ColliderTrisElementInit sTrisElementInitRutoWall[1] = {
 
 static ColliderTrisInit sTrisInitRutoWall = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -123,7 +123,7 @@ static ColliderTrisElementInit sTrisElementInitWall[2] = {
 
 static ColliderTrisInit sTrisInitUnusedWall = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -136,7 +136,7 @@ static ColliderTrisInit sTrisInitUnusedWall = {
 
 static ColliderTrisInit sTrisInitStingerWall = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,

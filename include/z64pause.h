@@ -99,6 +99,7 @@ typedef enum PauseMainState {
     /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START
 } PauseMainState;
 
+// Sub-states of PAUSE_STATE_SAVE_PROMPT
 typedef enum PauseSavePromptState {
     /* 0 */ PAUSE_SAVE_PROMPT_STATE_APPEARING,
     /* 1 */ PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE,
@@ -106,16 +107,16 @@ typedef enum PauseSavePromptState {
     /* 3 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU,
     /* 4 */ PAUSE_SAVE_PROMPT_STATE_SAVED,
     /* 5 */ PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED,
-    /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_ALT
+    /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_2 // unused
 } PauseSavePromptState;
 
 typedef enum PauseCursorQuad {
-    /* 0 */ PAUSE_QUAD_CURSOR_TL,
-    /* 1 */ PAUSE_QUAD_CURSOR_TR,
-    /* 2 */ PAUSE_QUAD_CURSOR_BL,
-    /* 3 */ PAUSE_QUAD_CURSOR_BR,
-    /* 4 */ PAUSE_QUAD_CURSOR_4,
-    /* 5 */ PAUSE_QUAD_CURSOR_MAX
+    /* 0 */ PAUSE_CURSOR_QUAD_TL,
+    /* 1 */ PAUSE_CURSOR_QUAD_TR,
+    /* 2 */ PAUSE_CURSOR_QUAD_BL,
+    /* 3 */ PAUSE_CURSOR_QUAD_BR,
+    /* 4 */ PAUSE_CURSOR_QUAD_4,
+    /* 5 */ PAUSE_CURSOR_QUAD_MAX
 } PauseCursorQuad;
 
 typedef enum WorldMapPoint {
@@ -161,7 +162,7 @@ typedef struct PauseContext {
     /* 0x0160 */ char unk_160[0x04];
     /* 0x0164 */ Vtx* questVtx;
     /* 0x0168 */ Vtx* cursorVtx;
-    /* 0x016C */ Vtx* promptPageVtx;
+    /* 0x016C */ Vtx* promptPageVtx; // Used by both the pause menu save prompt and the gameover prompt
     /* 0x0170 */ char unk_170[0x24];
     /* 0x0194 */ struct OcarinaStaff* ocarinaStaff;
     /* 0x0198 */ char unk_198[0x20];

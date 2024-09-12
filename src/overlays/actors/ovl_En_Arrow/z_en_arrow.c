@@ -33,7 +33,7 @@ ActorProfile En_Arrow_Profile = {
 
 static ColliderQuadInit sColliderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,

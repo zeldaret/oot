@@ -44,7 +44,7 @@ ActorProfile En_Ssh_Profile = {
 
 static ColliderCylinderInit sCylinderInit1 = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -66,7 +66,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 0, 0, 0, MASS_IMMOVABLE };
 
 static ColliderCylinderInit sCylinderInit2 = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -100,7 +100,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -205,7 +205,7 @@ void EnSsh_InitColliders(EnSsh* this, PlayState* play) {
     this->colCylinder[1].elem.acDmgInfo.dmgFlags =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
         ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
-    this->colCylinder[2].base.colType = COLTYPE_METAL;
+    this->colCylinder[2].base.colMaterial = COL_MATERIAL_METAL;
     this->colCylinder[2].elem.acElemFlags = ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO;
     this->colCylinder[2].elem.elemType = ELEMTYPE_UNK2;
     this->colCylinder[2].elem.acDmgInfo.dmgFlags =

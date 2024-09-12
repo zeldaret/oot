@@ -173,7 +173,7 @@ ActorProfile En_Skj_Profile = {
 
 static ColliderCylinderInitType1 D_80B01678 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,

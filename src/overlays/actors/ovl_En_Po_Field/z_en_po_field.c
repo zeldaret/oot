@@ -48,7 +48,7 @@ ActorProfile En_Po_Field_Profile = {
 
 static ColliderCylinderInit D_80AD7080 = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -68,7 +68,7 @@ static ColliderCylinderInit D_80AD7080 = {
 
 static ColliderCylinderInit D_80AD70AC = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
