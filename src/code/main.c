@@ -13,6 +13,7 @@ extern struct IrqMgr gIrqMgr;
 
 #include "global.h"
 #include "fault.h"
+#include "segmented_address.h"
 #include "stack.h"
 #include "terminal.h"
 #include "versions.h"
