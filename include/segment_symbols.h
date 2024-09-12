@@ -1,6 +1,7 @@
 #ifndef SEGMENT_SYMBOLS_H
 #define SEGMENT_SYMBOLS_H
 
+#include "versions.h"
 #include "z64.h"
 
 #define DECLARE_SEGMENT(name)          \

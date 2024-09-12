@@ -1,6 +1,7 @@
 // Some text-handling functions
 #include "global.h"
 #include "n64dd.h"
+#include "versions.h"
 
 void (*D_801D2EC0)(void*, uintptr_t, size_t) = NULL;
 

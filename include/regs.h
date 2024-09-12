@@ -1,6 +1,8 @@
 #ifndef REGS_H
 #define REGS_H
 
+#include "versions.h"
+
 #define REG_GROUPS 29 // number of REG groups, i.e. REG, SREG, OREG, etc.
 #define REG_PAGES 6
 #define REGS_PER_PAGE 16
