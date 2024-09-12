@@ -6,6 +6,8 @@
 #include "stack.h"
 #include "versions.h"
 
+#pragma increment_block_number "ntsc-1.2:128"
+
 typedef struct struct_801D9C30 {
     /* 0x000 */ s32 unk_000;       // disk start
     /* 0x004 */ s32 unk_004;       // disk end

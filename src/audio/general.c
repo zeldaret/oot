@@ -1273,7 +1273,6 @@ u8 sFanfareStartTimer;
 u16 sFanfareSeqId;
 
 #if PLATFORM_N64
-// TODO: Unsure where in bss this is located
 u16 sPrevAmbienceSeqId;
 #endif
 
