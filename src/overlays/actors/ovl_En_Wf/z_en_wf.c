@@ -46,7 +46,7 @@ s32 EnWf_DodgeRanged(PlayState* play, EnWf* this);
 static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -57,7 +57,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -68,7 +68,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK1,
+            ELEM_MATERIAL_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -79,7 +79,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK1,
+            ELEM_MATERIAL_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -113,7 +113,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -133,7 +133,7 @@ static ColliderCylinderInit sTailCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,

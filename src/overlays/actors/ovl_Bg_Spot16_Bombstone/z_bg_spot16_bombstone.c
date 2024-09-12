@@ -36,7 +36,7 @@ static s16 D_808B5DD8[][10] = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFF6, 0x00, 0x00 },
             ATELEM_NONE,
@@ -70,7 +70,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,

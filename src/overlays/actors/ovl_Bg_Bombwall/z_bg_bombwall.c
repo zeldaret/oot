@@ -23,7 +23,7 @@ void func_8086EE94(BgBombwall* this, PlayState* play);
 static ColliderTrisElementInit sTrisElementsInit[3] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000048, 0x00, 0x00 },
             ATELEM_NONE,
@@ -34,7 +34,7 @@ static ColliderTrisElementInit sTrisElementsInit[3] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000048, 0x00, 0x00 },
             ATELEM_NONE,
@@ -45,7 +45,7 @@ static ColliderTrisElementInit sTrisElementsInit[3] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000048, 0x00, 0x00 },
             ATELEM_NONE,

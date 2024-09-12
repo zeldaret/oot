@@ -180,7 +180,7 @@ static ColliderCylinderInitType1 D_80B01678 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x0, 0x08 },
         { 0xFFCFFFFF, 0x0, 0x0 },
         ATELEM_ON | ATELEM_SFX_NORMAL,

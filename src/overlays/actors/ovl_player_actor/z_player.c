@@ -9902,7 +9902,7 @@ static ColliderCylinderInit D_80854624 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -9922,7 +9922,7 @@ static ColliderQuadInit D_80854650 = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000100, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -9942,7 +9942,7 @@ static ColliderQuadInit D_808546A0 = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00100000, 0x00, 0x00 },
         { 0xDFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,

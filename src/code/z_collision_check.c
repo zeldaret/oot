@@ -190,7 +190,7 @@ s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC
 s32 Collider_InitElement(PlayState* play, ColliderElement* elem) {
     static ColliderElement init = {
         { 0, 0, 0 },   { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
-        ELEMTYPE_UNK0, ATELEM_NONE,
+        ELEM_MATERIAL_UNK0, ATELEM_NONE,
         ACELEM_NONE,   OCELEM_NONE,
         NULL,          NULL,
         NULL,          NULL,
@@ -209,7 +209,7 @@ s32 Collider_DestroyElement(PlayState* play, ColliderElement* elem) {
 }
 
 s32 Collider_SetElement(PlayState* play, ColliderElement* elem, ColliderElementInit* elemInit) {
-    elem->elemType = elemInit->elemType;
+    elem->elemMaterial = elemInit->elemMaterial;
     Collider_SetElementDamageInfoAT(play, &elem->atDmgInfo, &elemInit->atDmgInfo);
     Collider_SetElementDamageInfoAC(play, &elem->acDmgInfo, &elemInit->acDmgInfo);
     elem->atElemFlags = elemInit->atElemFlags;
@@ -1584,20 +1584,20 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
 }
 
 /**
- * Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemType.
+ * Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemMaterial.
  */
 s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
     if (atCol->actor != NULL && atCol->actor->category == ACTORCAT_PLAYER) {
-        if (acElem->elemType == ELEMTYPE_UNK0) {
+        if (acElem->elemMaterial == ELEM_MATERIAL_UNK0) {
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        } else if (acElem->elemType == ELEMTYPE_UNK1) {
+        } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK1) {
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &atCol->actor->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        } else if (acElem->elemType == ELEMTYPE_UNK2) {
+        } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK2) {
             Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        } else if (acElem->elemType == ELEMTYPE_UNK3) {
+        } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK3) {
             Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }

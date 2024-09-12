@@ -3,7 +3,7 @@
 static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     {
         {
-            ELEMTYPE_UNK3,
+            ELEM_MATERIAL_UNK3,
             { 0xFFCFFFFF, 0x00, 0x20 },
             { 0xFFCDFFFE, 0x00, 0x00 },
             ATELEM_NONE,
@@ -14,7 +14,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x20 },
             { 0xFFCDFFFE, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -25,7 +25,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x20 },
             { 0xFFCDFFFE, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -36,7 +36,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x20 },
             { 0xFFCDFFFE, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -47,7 +47,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x20 },
             { 0xFFCDFFFE, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -58,7 +58,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x20 },
             { 0xFFCDFFFE, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -69,7 +69,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x20 },
             { 0xFFCDFFFE, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -80,7 +80,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x20 },
             { 0xFFCDFFFE, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -91,7 +91,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x20 },
             { 0xFFCDFFFE, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,

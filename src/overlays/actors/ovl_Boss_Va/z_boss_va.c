@@ -212,7 +212,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFEF, 0x03, 0x08 },
         { 0x00000010, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -225,7 +225,7 @@ static ColliderCylinderInit sCylinderInit = {
 static ColliderJntSphElementInit sJntSphElementsInitSupport[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000010, 0x00, 0x00 },
             ATELEM_NONE,
@@ -252,7 +252,7 @@ static ColliderJntSphInit sJntSphInitSupport = {
 static ColliderJntSphElementInit sJntSphElementsInitBari[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x03, 0x04 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -286,7 +286,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x20000000, 0x03, 0x04 },
         { 0x00000010, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
