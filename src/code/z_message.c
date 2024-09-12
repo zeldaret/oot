@@ -4323,9 +4323,11 @@ void Message_SetTables(void) {
 
     sStaffMessageEntryTablePtr = sStaffMessageEntryTable;
 
-#if PLATFORM_N64
+#if PLATFORM_N64 && OOT_NTSC
     if ((B_80121220 != NULL) && (B_80121220->unk_58 != NULL)) {
         B_80121220->unk_58(&sJpnMessageEntryTablePtr, &sNesMessageEntryTablePtr, &sStaffMessageEntryTablePtr);
     }
+#elif PLATFORM_N64 && OOT_PAL
+    // TODO: implement PAL version
 #endif
 }
