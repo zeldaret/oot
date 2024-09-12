@@ -1,6 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 
+#pragma increment_block_number "ntsc-1.2:152"
+
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
 s32 BgCheck_PosInStaticBoundingBox(CollisionContext* colCtx, Vec3f* pos);

@@ -18,6 +18,7 @@ ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER ?= ido
 # Target game version. Currently the following versions are supported:
+#   ntsc-1.2       N64 NTSC 1.2 (Japan/US depending on REGION)
 #   gc-jp          GameCube Japan
 #   gc-jp-mq       GameCube Japan Master Quest
 #   gc-jp-ce       GameCube Japan (Collector's Edition disc)
@@ -27,7 +28,7 @@ COMPILER ?= ido
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 # The following versions are work-in-progress and not yet matching:
-#   ntsc-1.2       N64 NTSC 1.2 (Japan/US depending on REGION)
+#   (none currently)
 VERSION ?= gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS ?= $(shell nproc)
@@ -51,57 +52,38 @@ ifeq ($(VERSION),ntsc-1.2)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  PAL := 0
-  MQ := 0
   DEBUG := 0
-  COMPARE := 0
 else ifeq ($(VERSION),gc-jp)
   REGION ?= JP
   PLATFORM := GC
-  PAL := 0
-  MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-jp-mq)
   REGION ?= JP
   PLATFORM := GC
-  PAL := 0
-  MQ := 1
   DEBUG := 0
 else ifeq ($(VERSION),gc-jp-ce)
   REGION ?= JP
   PLATFORM := GC
-  PAL := 0
-  MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-us)
   REGION ?= US
   PLATFORM := GC
-  PAL := 0
-  MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-us-mq)
   REGION ?= US
   PLATFORM := GC
-  PAL := 0
-  MQ := 1
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
   PLATFORM := GC
-  PAL := 1
-  MQ := 0
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu-mq)
   REGION ?= EU
   PLATFORM := GC
-  PAL := 1
-  MQ := 1
   DEBUG := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
   PLATFORM := GC
-  PAL := 1
-  MQ := 1
   DEBUG := 1
 else
 $(error Unsupported version $(VERSION))
@@ -145,18 +127,6 @@ else ifeq ($(PLATFORM),GC)
   CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=1
 else
   $(error Unsupported platform $(PLATFORM))
-endif
-
-ifeq ($(PAL),0)
-  CPP_DEFINES += -DOOT_NTSC=1
-else
-  CPP_DEFINES += -DOOT_PAL=1
-endif
-
-ifeq ($(MQ),0)
-  CPP_DEFINES += -DOOT_MQ=0
-else
-  CPP_DEFINES += -DOOT_MQ=1
 endif
 
 ifeq ($(DEBUG),1)
@@ -353,8 +323,8 @@ SOUNDFONT_O_FILES      := $(foreach f,$(SOUNDFONT_BUILD_XMLS),$(f:.xml=.o))
 SOUNDFONT_HEADERS      := $(foreach f,$(SOUNDFONT_BUILD_XMLS),$(f:.xml=.h))
 SOUNDFONT_DEP_FILES    := $(foreach f,$(SOUNDFONT_O_FILES),$(f:.o=.d))
 
-# create extracted directories
-$(shell mkdir -p $(EXTRACTED_DIR) $(EXTRACTED_DIR)/assets $(EXTRACTED_DIR)/text)
+# create extracted directory
+$(shell mkdir -p $(EXTRACTED_DIR))
 
 ASSET_BIN_DIRS_EXTRACTED := $(shell find $(EXTRACTED_DIR)/assets -type d)
 ASSET_BIN_DIRS_COMMITTED := $(shell find assets -type d -not -path "assets/xml*" -not -path assets/text)

@@ -56,7 +56,7 @@ static Gfx* D_80BA1B8C[] = { gPotFragmentDL, object_tsubo_DL_001960 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_PLAYER,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,

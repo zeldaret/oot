@@ -1,4 +1,5 @@
 #include "global.h"
+#include "versions.h"
 
 void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
@@ -647,10 +648,10 @@ void Regs_InitDataImpl(void) {
     VREG(57) = 255;
     VREG(58) = 255;
     VREG(59) = 255;
-    VREG(60) = 20;
-    VREG(61) = 100;
-    VREG(62) = 0;
-    VREG(63) = 10;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER_BASE = 20;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA = 100;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_STATE = 0;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER = 10;
     R_ITEM_AMMO_X(1) = C_LEFT_BUTTON_X + 1;
     R_ITEM_AMMO_X(2) = C_DOWN_BUTTON_X + 1;
     R_ITEM_AMMO_X(3) = C_RIGHT_BUTTON_X + 1;

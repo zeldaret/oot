@@ -2,6 +2,7 @@
 #define Z64SAVE_H
 
 #include "ultra64.h"
+#include "versions.h"
 #include "z64math.h"
 
 typedef enum Language {

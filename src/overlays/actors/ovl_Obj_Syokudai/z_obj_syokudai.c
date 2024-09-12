@@ -30,7 +30,7 @@ ActorProfile Obj_Syokudai_Profile = {
 
 static ColliderCylinderInit sCylInitStand = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -50,7 +50,7 @@ static ColliderCylinderInit sCylInitStand = {
 
 static ColliderCylinderInit sCylInitFlame = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -78,7 +78,7 @@ static InitChainEntry sInitChain[] = {
 static s32 sLitTorchCount;
 
 void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
-    static u8 sColTypesStand[] = { 0x09, 0x0B, 0x0B };
+    static u8 sColMaterialsStand[] = { COL_MATERIAL_METAL, COL_MATERIAL_WOOD, COL_MATERIAL_WOOD };
     s32 pad;
     ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 torchType = PARAMS_GET_NOSHIFT(this->actor.params, 12, 4);
@@ -88,7 +88,7 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
 
     Collider_InitCylinder(play, &this->colliderStand);
     Collider_SetCylinder(play, &this->colliderStand, &this->actor, &sCylInitStand);
-    this->colliderStand.base.colType = sColTypesStand[PARAMS_GET_NOMASK(this->actor.params, 12)];
+    this->colliderStand.base.colMaterial = sColMaterialsStand[PARAMS_GET_NOMASK(this->actor.params, 12)];
 
     Collider_InitCylinder(play, &this->colliderFlame);
     Collider_SetCylinder(play, &this->colliderFlame, &this->actor, &sCylInitFlame);
@@ -269,8 +269,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_syokudai.c", 707);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_syokudai.c", 714),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_syokudai.c", 714);
 
     gSPDisplayList(POLY_OPA_DISP++, displayLists[PARAMS_GET_NOMASK((u16)this->actor.params, 12)]);
 
@@ -300,8 +299,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
             MTXMODE_APPLY);
         Matrix_Scale(flameScale, flameScale, flameScale, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_syokudai.c", 745),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_obj_syokudai.c", 745);
 
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }

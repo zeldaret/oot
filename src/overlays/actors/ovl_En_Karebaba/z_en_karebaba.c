@@ -43,7 +43,7 @@ ActorProfile En_Karebaba_Profile = {
 
 static ColliderCylinderInit sBodyColliderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -63,7 +63,7 @@ static ColliderCylinderInit sBodyColliderInit = {
 
 static ColliderCylinderInit sHeadColliderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -123,7 +123,7 @@ void EnKarebaba_Destroy(Actor* thisx, PlayState* play) {
 void EnKarebaba_ResetCollider(EnKarebaba* this) {
     this->bodyCollider.dim.radius = 7;
     this->bodyCollider.dim.height = 25;
-    this->bodyCollider.base.colType = COLTYPE_HARD;
+    this->bodyCollider.base.colMaterial = COL_MATERIAL_HARD;
     this->bodyCollider.base.acFlags |= AC_HARD;
     this->bodyCollider.elem.acDmgInfo.dmgFlags = DMG_DEFAULT;
     this->headCollider.dim.height = 25;
@@ -153,7 +153,7 @@ void EnKarebaba_SetupAwaken(EnKarebaba* this) {
 void EnKarebaba_SetupUpright(EnKarebaba* this) {
     if (this->actionFunc != EnKarebaba_Spin) {
         Actor_SetScale(&this->actor, 0.01f);
-        this->bodyCollider.base.colType = COLTYPE_HIT6;
+        this->bodyCollider.base.colMaterial = COL_MATERIAL_HIT6;
         this->bodyCollider.base.acFlags &= ~AC_HARD;
         this->bodyCollider.elem.acDmgInfo.dmgFlags =
             !LINK_IS_ADULT ? ((DMG_SWORD | DMG_BOOMERANG) & ~DMG_JUMP_MASTER) : (DMG_SWORD | DMG_BOOMERANG);
@@ -450,8 +450,7 @@ void EnKarebaba_DrawBaseShadow(EnKarebaba* this, PlayState* play) {
     func_80038A28(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
     Matrix_Scale(0.15f, 1.0f, 0.15f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_karebaba.c", 1029),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1029);
     gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_karebaba.c", 1034);
@@ -473,8 +472,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc == EnKarebaba_DeadItemDrop) {
         if (this->actor.params > 40 || PARAMS_GET_U(this->actor.params, 0, 1)) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_karebaba.c", 1066),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1066);
             gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStickDropDL);
         }
     } else if (this->actionFunc != EnKarebaba_Dead) {
@@ -499,8 +497,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
 
         for (i = 0; i < stemSections; i++) {
             Matrix_Translate(0.0f, 0.0f, -2000.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_karebaba.c", 1116),
-                      G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1116);
             gSPDisplayList(POLY_OPA_DISP++, stemDLists[i]);
 
             if (i == 0 && this->actionFunc == EnKarebaba_Dying) {
@@ -520,14 +517,12 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
 
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(BINANG_TO_RAD(this->actor.home.rot.y), MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_karebaba.c", 1144),
-              G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1144);
     gSPDisplayList(POLY_OPA_DISP++, gDekuBabaBaseLeavesDL);
 
     if (this->actionFunc == EnKarebaba_Dying) {
         Matrix_RotateZYX(-0x4000, (s16)(this->actor.shape.rot.y - this->actor.home.rot.y), 0, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_karebaba.c", 1155),
-                  G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_karebaba.c", 1155);
         gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBaseDL);
     }
 

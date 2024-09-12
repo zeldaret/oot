@@ -58,7 +58,7 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -71,7 +71,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static ColliderCylinderInit sCylinderInit[] = {
     { {
-          COLTYPE_HARD,
+          COL_MATERIAL_HARD,
           AT_ON | AT_TYPE_ENEMY,
           AC_ON | AC_HARD | AC_TYPE_PLAYER,
           OC1_ON | OC1_TYPE_ALL,
@@ -88,7 +88,7 @@ static ColliderCylinderInit sCylinderInit[] = {
       },
       { 50, 100, 0, { 30, 0, 12 } } },
     { {
-          COLTYPE_HARD,
+          COL_MATERIAL_HARD,
           AT_ON | AT_TYPE_ENEMY,
           AC_ON | AC_HARD | AC_TYPE_PLAYER,
           OC1_ON | OC1_TYPE_ALL,
