@@ -175,11 +175,11 @@ typedef struct PauseContext {
     /* 0x01EA */ u16 pageSwitchTimer;
     /* 0x01EC */ u16 savePromptState;
     /* 0x01F0 */ f32 promptOffsetDepth; // Offset position of the prompt away from the camera
-    /* 0x01F4 */ f32 itemPageRoll; // Rotation of the item page around its local horizontal/sideways axis
-    /* 0x01F8 */ f32 equipPageRoll; // Ditto for the equip page
-    /* 0x01FC */ f32 mapPageRoll; // Ditto for the map page
-    /* 0x0200 */ f32 questPageRoll; // Ditto for the quest page
-    /* 0x0204 */ f32 promptRoll; // Ditto for the prompt. "angle_s"
+    /* 0x01F4 */ f32 itemPagePitch; // Rotation of the item page around its local horizontal/sideways axis
+    /* 0x01F8 */ f32 equipPagePitch; // Ditto for the equip page
+    /* 0x01FC */ f32 mapPagePitch; // Ditto for the map page
+    /* 0x0200 */ f32 questPagePitch; // Ditto for the quest page
+    /* 0x0204 */ f32 promptPitch; // Ditto for the prompt. "angle_s"
     /* 0x0208 */ u16 alpha;
     /* 0x020A */ s16 offsetY;
     /* 0x020C */ char unk_20C[0x08];
