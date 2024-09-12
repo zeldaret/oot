@@ -18,34 +18,23 @@ def main():
         description="Extract segments from an uncompressed ROM, based on its dmadata."
     )
     parser.add_argument(
-        "rom", metavar="ROM", type=Path, help="Path to uncompressed ROM"
-    )
-    parser.add_argument(
-        "output_dir",
-        type=Path,
-        help="Output directory for segments",
-    )
-    parser.add_argument(
         "-v",
         "--version",
         dest="oot_version",
         required=True,
         help="OOT version",
     )
-    parser.add_argument(
-        "--dmadata-start",
-        type=lambda s: int(s, 16),
-        help=(
-            "Override dmadata location for non-matching ROMs, as a hexadecimal offset (e.g. 0x12F70)"
-        ),
-    )
 
     args = parser.parse_args()
 
-    rom_data = memoryview(args.rom.read_bytes())
+    version = args.oot_version
+    output_dir = version_config.extracted_dir(version) / "baserom"
+    rom = version_config.baserom_dir(version) / "baserom-decompressed.z64"
 
-    config = version_config.load_version_config(args.oot_version)
-    dmadata_start = args.dmadata_start or config.dmadata_start
+    rom_data = memoryview(rom.read_bytes())
+
+    config = version_config.load_version_config(version)
+    dmadata_start = config.dmadata_start
     dma_names = config.dmadata_segments.keys()
 
     dma_entries = dmadata.read_dmadata(rom_data, dmadata_start)
@@ -56,7 +45,7 @@ def main():
         )
         exit(1)
 
-    args.output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
     for dma_name, dma_entry in zip(dma_names, dma_entries):
         if dma_entry.is_syms():
             segment_rom_start = dma_entry.vrom_start
@@ -71,10 +60,10 @@ def main():
         )
 
         segment_data = rom_data[segment_rom_start:segment_rom_end]
-        segment_path = args.output_dir / dma_name
+        segment_path = output_dir / dma_name
         segment_path.write_bytes(segment_data)
 
-    print(f"Extracted {len(dma_entries)} segments to {args.output_dir}")
+    print(f"Extracted {len(dma_entries)} segments to {output_dir}")
 
 
 if __name__ == "__main__":

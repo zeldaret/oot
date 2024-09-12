@@ -204,7 +204,6 @@ PYTHON     ?= $(VENV)/bin/python3
 BUILD_DIR_REPLACE := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
 # Audio tools
-AUDIO_EXTRACT := $(PYTHON) tools/audio_extraction.py
 SAMPLECONV    := tools/audio/sampleconv/sampleconv
 SBC           := tools/audio/sbc
 SFC           := tools/audio/sfc
@@ -553,18 +552,14 @@ venv:
 	$(PYTHON) -m pip install -U pip
 	$(PYTHON) -m pip install -U -r requirements.txt
 
-# TODO this is a temporary rule for testing audio, to be removed
-setup-audio:
-	$(AUDIO_EXTRACT) -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
-
 setup: venv
 	$(MAKE) -C tools
-	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 $(EXTRACTED_DIR)/baserom -v $(VERSION)
+	$(PYTHON) tools/decompress_baserom.py -v $(VERSION)
+	$(PYTHON) tools/extract_baserom.py -v $(VERSION)
 	$(PYTHON) tools/extract_incbins.py -v $(VERSION)
 	$(PYTHON) tools/msgdis.py -v $(VERSION)
-	$(PYTHON) extract_assets.py -v $(VERSION) -j$(N_THREADS)
-	$(AUDIO_EXTRACT) -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
+	$(PYTHON) extract_assets.py -j$(N_THREADS) -v $(VERSION)
+	$(PYTHON) tools/audio_extraction.py --read-xml -v $(VERSION)
 
 disasm:
 	$(RM) -r $(EXPECTED_DIR)

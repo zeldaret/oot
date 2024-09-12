@@ -100,5 +100,9 @@ def load_version_config(version: str) -> VersionConfig:
     )
 
 
+def baserom_dir(version: str) -> Path:
+    return Path(f"baseroms/{version}")
+
+
 def extracted_dir(version: str) -> Path:
     return Path(f"extracted/{version}")

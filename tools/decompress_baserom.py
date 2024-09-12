@@ -158,16 +158,20 @@ def main():
     parser = argparse.ArgumentParser(
         description="Convert a rom that uses dmadata to an uncompressed one."
     )
+
     parser.add_argument(
-        "version",
-        help="Version of the game to decompress.",
+        "-v",
+        "--version",
+        dest="oot_version",
+        required=True,
+        help="OOT version",
     )
 
     args = parser.parse_args()
 
-    version = args.version
+    version = args.oot_version
 
-    baserom_dir = Path(f"baseroms/{version}")
+    baserom_dir = version_config.baserom_dir(version)
     if not baserom_dir.exists():
         print(f"Error: Unknown version '{version}'.")
         exit(1)
