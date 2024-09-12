@@ -189,11 +189,16 @@ s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC
 
 s32 Collider_InitElement(PlayState* play, ColliderElement* elem) {
     static ColliderElement init = {
-        { 0, 0, 0 },   { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
-        ELEM_MATERIAL_UNK0, ATELEM_NONE,
-        ACELEM_NONE,   OCELEM_NONE,
-        NULL,          NULL,
-        NULL,          NULL,
+        { 0, 0, 0 },
+        { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
+        ELEM_MATERIAL_UNK0,
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_NONE,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
     };
 
     *elem = init;
