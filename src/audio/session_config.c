@@ -1,6 +1,5 @@
 #include "global.h"
 
-u8 D_8016F0E0[0xA0]; // unused
 AudioContext gAudioCtx;
 AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 s32 D_801755D8[3]; // unused
@@ -19,7 +18,11 @@ const TempoData gTempoData = {
 // Sizes of everything on the init pool
 #define AI_BUFFERS_SIZE (AIBUF_SIZE * ARRAY_COUNT(gAudioCtx.aiBuffers))
 #define SOUNDFONT_LIST_SIZE (NUM_SOUNDFONTS * sizeof(SoundFont))
+#if PLATFORM_N64
+#define PERMANENT_POOL_SIZE (SFX_SEQ_SIZE + SFX_SOUNDFONT_1_SIZE + SFX_SOUNDFONT_2_SIZE + 0x10)
+#else
 #define PERMANENT_POOL_SIZE (SFX_SEQ_SIZE + SFX_SOUNDFONT_1_SIZE + SFX_SOUNDFONT_2_SIZE)
+#endif
 
 const AudioHeapInitSizes gAudioHeapInitSizes = {
     ALIGN16(sizeof(gAudioHeap) - 0x100),                                  // audio heap size

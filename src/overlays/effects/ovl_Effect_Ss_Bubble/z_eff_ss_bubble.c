@@ -13,7 +13,7 @@ u32 EffectSsBubble_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsBubble_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBubble_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Bubble_InitVars = {
+EffectSsProfile Effect_Ss_Bubble_Profile = {
     EFFECT_SS_BUBBLE,
     EffectSsBubble_Init,
 };
@@ -45,8 +45,7 @@ void EffectSsBubble_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_ss_bubble.c", 167),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_eff_ss_bubble.c", 167);
     Gfx_SetupDL_25Opa(gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
     gDPSetEnvColor(POLY_OPA_DISP++, 150, 150, 150, 0);

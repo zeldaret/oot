@@ -11,7 +11,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play);
 void ArmsHook_Wait(ArmsHook* this, PlayState* play);
 void ArmsHook_Shoot(ArmsHook* this, PlayState* play);
 
-ActorInit Arms_Hook_InitVars = {
+ActorProfile Arms_Hook_Profile = {
     /**/ ACTOR_ARMS_HOOK,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -25,7 +25,7 @@ ActorInit Arms_Hook_InitVars = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -146,7 +146,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         return;
     }
 
-    func_8002F8F0(&player->actor, NA_SE_IT_HOOKSHOT_CHAIN - SFX_FLAG);
+    Actor_PlaySfx_Flagged2(&player->actor, NA_SE_IT_HOOKSHOT_CHAIN - SFX_FLAG);
     ArmsHook_CheckForCancel(this);
 
     if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
@@ -287,7 +287,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         } else if (CHECK_BTN_ANY(play->state.input[0].press.button,
-                                 (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN))) {
+                                 (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT))) {
             this->timer = 0;
         }
     }
@@ -328,8 +328,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
 
         func_80090480(play, &this->collider, &this->hookInfo, &hookNewTip, &hookNewBase);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_arms_hook.c", 895),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_arms_hook.c", 895);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotTipDL);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
         Math_Vec3f_Diff(&player->unk_3C8, &this->actor.world.pos, &sp78);
@@ -338,8 +337,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
         Matrix_RotateY(Math_FAtan2F(sp78.x, sp78.z), MTXMODE_APPLY);
         Matrix_RotateX(Math_FAtan2F(-sp78.y, sp5C), MTXMODE_APPLY);
         Matrix_Scale(0.015f, 0.015f, sqrtf(SQ(sp78.y) + sp58) * 0.01f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_arms_hook.c", 910),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_arms_hook.c", 910);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotChainDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_arms_hook.c", 913);

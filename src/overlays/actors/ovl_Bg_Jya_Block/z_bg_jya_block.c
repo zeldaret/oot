@@ -14,7 +14,7 @@ void BgJyaBlock_Destroy(Actor* thisx, PlayState* play);
 void BgJyaBlock_Update(Actor* thisx, PlayState* play);
 void BgJyaBlock_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Jya_Block_InitVars = {
+ActorProfile Bg_Jya_Block_Profile = {
     /**/ ACTOR_BG_JYA_BLOCK,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -43,7 +43,7 @@ void BgJyaBlock_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    if ((LINK_AGE_IN_YEARS != YEARS_CHILD) || !Flags_GetSwitch(play, thisx->params & 0x3F)) {
+    if ((LINK_AGE_IN_YEARS != YEARS_CHILD) || !Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -68,8 +68,7 @@ void BgJyaBlock_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gPushBlockGrayTex));
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_jya_block.c", 153),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_jya_block.c", 153);
     gDPSetEnvColor(POLY_OPA_DISP++, 232, 210, 176, 255);
     gSPDisplayList(POLY_OPA_DISP++, gPushBlockDL);
 

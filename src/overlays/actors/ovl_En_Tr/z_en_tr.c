@@ -23,7 +23,7 @@ void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel);
 void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 
-ActorInit En_Tr_InitVars = {
+ActorProfile En_Tr_Profile = {
     /**/ ACTOR_EN_TR,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -135,7 +135,7 @@ void EnTr_CrySpellcast(EnTr* this, PlayState* play) {
     } else if (this->actor.child != NULL) {
         this->actor.child = NULL;
     }
-    func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
 void EnTr_DoNothing(EnTr* this, PlayState* play) {
@@ -170,7 +170,7 @@ void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
                     EnTr_SetRotFromCue(this, play, this->cueChannel);
                     break;
             }
-            func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
         }
     }
 }
@@ -200,7 +200,7 @@ void EnTr_FlyKidnapCutscene(EnTr* this, PlayState* play) {
             }
 
             if (play->csCtx.curFrame < 670) {
-                func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
+                Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
             }
         }
     }
@@ -291,7 +291,7 @@ void EnTr_Reappear(EnTr* this, PlayState* play) {
     if (this->timer > 0) {
         this->timer--;
     }
-    func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
 void EnTr_WaitToReappear(EnTr* this, PlayState* play) {

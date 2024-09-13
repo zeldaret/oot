@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_liquid" Segment="6">
         <DList Name="gGiGreenPotColorDL" Offset="0x1270"/>
         <DList Name="gGiRedPotColorDL" Offset="0x1290"/>

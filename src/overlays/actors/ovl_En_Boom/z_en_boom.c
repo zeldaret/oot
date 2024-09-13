@@ -16,7 +16,7 @@ void EnBoom_Draw(Actor* thisx, PlayState* play);
 
 void EnBoom_Fly(EnBoom* this, PlayState* play);
 
-ActorInit En_Boom_InitVars = {
+ActorProfile En_Boom_Profile = {
     /**/ ACTOR_EN_BOOM,
     /**/ ACTORCAT_MISC,
     /**/ FLAGS,
@@ -30,7 +30,7 @@ ActorInit En_Boom_InitVars = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -49,7 +49,7 @@ static ColliderQuadInit sQuadInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_S8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_VEC3S(shape.rot, 0, ICHAIN_STOP),
 };
 
@@ -150,7 +150,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
     // Set xyz speed, move forward, and play the boomerang sound effect
     Actor_SetProjectileSpeed(&this->actor, 12.0f);
     Actor_MoveXZGravity(&this->actor);
-    func_8002F974(&this->actor, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
 
     // If the boomerang collides with EnItem00 or a Skulltula token, set grabbed pointer to pick it up
     collided = this->collider.base.atFlags & AT_HIT;
@@ -186,7 +186,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
                 }
             }
             // Set player flags and kill the boomerang beacause Link caught it.
-            player->stateFlags1 &= ~PLAYER_STATE1_25;
+            player->stateFlags1 &= ~PLAYER_STATE1_BOOMERANG_THROWN;
             Actor_Kill(&this->actor);
         }
     } else {
@@ -268,11 +268,8 @@ void EnBoom_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_RotateY(BINANG_TO_RAD(this->activeTimer * 12000), MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_boom.c", 601),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_boom.c", 601);
     gSPDisplayList(POLY_OPA_DISP++, gBoomerangRefDL);
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_boom.c", 604);
 }

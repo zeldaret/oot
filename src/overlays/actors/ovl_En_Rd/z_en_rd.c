@@ -1,7 +1,7 @@
 #include "z_en_rd.h"
 #include "assets/objects/object_rd/object_rd.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
 void EnRd_Init(Actor* thisx, PlayState* play);
 void EnRd_Destroy(Actor* thisx, PlayState* play);
@@ -29,7 +29,7 @@ void EnRd_Damaged(EnRd* this, PlayState* play);
 void EnRd_Dead(EnRd* this, PlayState* play);
 void EnRd_Stunned(EnRd* this, PlayState* play);
 
-typedef enum {
+typedef enum EnRdAction {
     /*  0 */ REDEAD_ACTION_IDLE,
     /*  1 */ REDEAD_ACTION_STUNNED,
     /*  2 */ REDEAD_ACTION_WALK_TO_HOME,
@@ -44,7 +44,7 @@ typedef enum {
     /* 11 */ REDEAD_ACTION_RISE_FROM_COFFIN
 } EnRdAction;
 
-typedef enum {
+typedef enum EnRdGrabState {
     /* 0 */ REDEAD_GRAB_START,
     /* 1 */ REDEAD_GRAB_INITIAL_DAMAGE,
     /* 2 */ REDEAD_GRAB_ATTACK,
@@ -52,7 +52,7 @@ typedef enum {
     /* 4 */ REDEAD_GRAB_END
 } EnRdGrabState;
 
-ActorInit En_Rd_InitVars = {
+ActorProfile En_Rd_Profile = {
     /**/ ACTOR_EN_RD,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -66,7 +66,7 @@ ActorInit En_Rd_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -84,7 +84,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-typedef enum {
+typedef enum EnRdDamageEffect {
     /* 0x0 */ REDEAD_DMGEFF_NONE,              // Does not interact with the Gibdo/Redead at all
     /* 0x1 */ REDEAD_DMGEFF_HOOKSHOT,          // Stuns the Gibdo/Redead
     /* 0x6 */ REDEAD_DMGEFF_ICE_MAGIC = 0x6,   // Does not interact with the Gibdo/Redead at all
@@ -129,7 +129,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
 };
@@ -142,7 +142,7 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
     EnRd* this = (EnRd*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->actor.targetMode = 0;
+    this->actor.attentionRangeType = ATTENTION_RANGE_0;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     this->upperBodyYRotation = this->headYRotation = 0;
@@ -151,9 +151,9 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 8;
     this->alpha = this->unk_31D = 255;
-    this->rdFlags = REDEAD_GET_FLAGS(thisx);
+    this->rdFlags = REDEAD_GET_RDFLAGS(thisx);
 
-    if (this->actor.params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 7, 1)) {
         this->actor.params |= 0xFF00;
     } else {
         this->actor.params &= 0xFF;
@@ -382,7 +382,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
         Actor_IsFacingPlayer(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (play->grabPlayer(play, player)) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             EnRd_SetupGrab(this);
         }
     } else if (this->actor.params > REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING) {
@@ -434,7 +434,7 @@ void EnRd_WalkToHome(EnRd* this, PlayState* play) {
                                  PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
         !(player->stateFlags2 & PLAYER_STATE2_7) &&
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
-        this->actor.targetMode = 0;
+        this->actor.attentionRangeType = ATTENTION_RANGE_0;
         EnRd_SetupWalkToPlayer(this, play);
     } else if (this->actor.params > REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING) {
         if (this->actor.parent != NULL) {
@@ -579,8 +579,8 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
             if (!LINK_IS_ADULT) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0, 1.0f, 400.0f, 0.0f);
             }
-            this->actor.targetMode = 0;
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.attentionRangeType = ATTENTION_RANGE_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->playerStunWaitTimer = 0xA;
             this->grabWaitTimer = 0xF;
             EnRd_SetupWalkToPlayer(this, play);
@@ -650,7 +650,7 @@ void EnRd_SetupDamaged(EnRd* this) {
         this->actor.speed = -2.0f;
     }
 
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_DAMAGE);
     this->action = REDEAD_ACTION_DAMAGED;
     EnRd_SetupAction(this, EnRd_Damaged);
@@ -685,7 +685,7 @@ void EnRd_SetupDead(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gGibdoRedeadDeathAnim, -1.0f);
     this->action = REDEAD_ACTION_DEAD;
     this->timer = 300;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_DEAD);
     EnRd_SetupAction(this, EnRd_Dead);
@@ -993,8 +993,6 @@ void EnRd_Draw(Actor* thisx, PlayState* play) {
 
         func_80033C30(&thisPos, &sShadowScale, this->alpha, play);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_rd.c", 1735);
 }

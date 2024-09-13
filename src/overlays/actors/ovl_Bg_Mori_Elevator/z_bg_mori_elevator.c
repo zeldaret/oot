@@ -19,7 +19,7 @@ void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-ActorInit Bg_Mori_Elevator_InitVars = {
+ActorProfile Bg_Mori_Elevator_Profile = {
     /**/ ACTOR_BG_MORI_ELEVATOR,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -139,7 +139,7 @@ void BgMoriElevator_SetupWaitAfterInit(BgMoriElevator* this) {
 
 void BgMoriElevator_WaitAfterInit(BgMoriElevator* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot)) {
-        if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+        if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
             if (play->roomCtx.curRoom.num == 2) {
                 this->dyna.actor.world.pos.y = 73.0f;
                 BgMoriElevator_SetupSetPosition(this);
@@ -214,12 +214,12 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, PlayState* play) {
     } else if ((play->roomCtx.curRoom.num == 17) && (-275.0f < this->dyna.actor.world.pos.y)) {
         this->targetY = -779.0f;
         BgMoriElevator_StopMovement(this);
-    } else if ((play->roomCtx.curRoom.num == 2) && Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) &&
+    } else if ((play->roomCtx.curRoom.num == 2) && Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) &&
                (this->unk_16C == 0)) {
         this->targetY = 73.0f;
         func_808A1C30(this);
-    } else if ((play->roomCtx.curRoom.num == 2) && !Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) &&
-               (this->unk_16C != 0)) {
+    } else if ((play->roomCtx.curRoom.num == 2) &&
+               !Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) && (this->unk_16C != 0)) {
         this->targetY = 233.0f;
         func_808A1CF4(this, play);
     }
@@ -249,7 +249,7 @@ void BgMoriElevator_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
     this->unk_170 = this->dyna.interactFlags;
-    this->unk_16C = Flags_GetSwitch(play, (thisx->params & 0x3F));
+    this->unk_16C = Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6));
 }
 
 void BgMoriElevator_Draw(Actor* thisx, PlayState* play) {
@@ -260,8 +260,7 @@ void BgMoriElevator_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_elevator.c", 580);
     gSPDisplayList(POLY_OPA_DISP++, gMoriElevatorDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_mori_elevator.c", 584);

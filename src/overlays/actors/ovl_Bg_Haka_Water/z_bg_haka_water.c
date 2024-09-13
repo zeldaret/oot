@@ -18,7 +18,7 @@ void BgHakaWater_LowerWater(BgHakaWater* this, PlayState* play);
 void BgHakaWater_Wait(BgHakaWater* this, PlayState* play);
 void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, PlayState* play);
 
-ActorInit Bg_Haka_Water_InitVars = {
+ActorProfile Bg_Haka_Water_Profile = {
     /**/ ACTOR_BG_HAKA_WATER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -85,9 +85,9 @@ void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, PlayState* play) {
     }
 
     if (this->actor.home.pos.y < this->actor.world.pos.y) {
-        func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else {
-        func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
 
     if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.5f) != 0) {
@@ -125,8 +125,7 @@ void BgHakaWater_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->gameplayFrames % 128,
                                 play->gameplayFrames % 128, 32, 32, 1, 0, (0 - play->gameplayFrames) % 128, 32, 32));
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka_water.c", 312),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_haka_water.c", 312);
     gSPDisplayList(POLY_XLU_DISP++, gBotwWaterRingDL);
 
     Matrix_Translate(0.0f, 92.0f, -1680.0f, MTXMODE_NEW);
@@ -138,8 +137,7 @@ void BgHakaWater_Draw(Actor* thisx, PlayState* play) {
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (u8)(5.1f * temp));
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka_water.c", 328),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_haka_water.c", 328);
     gSPDisplayList(POLY_XLU_DISP++, gBotwWaterFallDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_haka_water.c", 332);

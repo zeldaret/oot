@@ -126,7 +126,7 @@ static ColliderJntSphElementInit sJntSphItemsInitHand[11] = {
 
 static ColliderJntSphInit sJntSphInitHand = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_TYPE_ALL,
@@ -263,7 +263,7 @@ static ColliderJntSphElementInit sJntSphItemsInitHead[11] = {
 
 static ColliderJntSphInit sJntSphInitHead = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_TYPE_ENEMY,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_TYPE_ALL,
@@ -276,7 +276,7 @@ static ColliderJntSphInit sJntSphInitHead = {
 
 static ColliderCylinderInit sCylinderInitHead = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_NONE | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -296,7 +296,7 @@ static ColliderCylinderInit sCylinderInitHead = {
 
 static ColliderCylinderInit sCylinderInitHand = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,

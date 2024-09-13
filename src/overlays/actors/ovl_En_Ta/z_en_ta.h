@@ -12,13 +12,13 @@ typedef void (*EnTaActionFunc)(struct EnTa*, PlayState*);
 typedef void (*EnTaBlinkFunc)(struct EnTa*);
 typedef void (*EnTaAnimFunc)(struct EnTa*);
 
-typedef enum {
+typedef enum EnTaType {
     /* 0xFFFF */ ENTA_CHILD_ERA = -1,
     /* 0x0001 */ ENTA_IN_KAKARIKO = 1,
     /* 0x0002 */ ENTA_RETURNED_FROM_KAKARIKO
  } EnTaType;
 
-typedef enum {
+typedef enum EnTaLimb {
     /* 0x00 */ ENTA_LIMB_NONE,
     /* 0x01 */ ENTA_LIMB_ROOT,
     /* 0x02 */ ENTA_LIMB_LEFT_THIGH,

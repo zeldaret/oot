@@ -17,7 +17,7 @@ void BgHidanDalm_Draw(Actor* thisx, PlayState* play);
 void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play);
 void BgHidanDalm_Shrink(BgHidanDalm* this, PlayState* play);
 
-ActorInit Bg_Hidan_Dalm_InitVars = {
+ActorProfile Bg_Hidan_Dalm_Profile = {
     /**/ ACTOR_BG_HIDAN_DALM,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -78,7 +78,7 @@ static ColliderTrisElementInit sTrisElementInit[4] = {
 
 static ColliderTrisInit sTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -106,7 +106,7 @@ void BgHidanDalm_Init(Actor* thisx, PlayState* play) {
     Collider_InitTris(play, &this->collider);
     Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
 
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     if (Flags_GetSwitch(play, this->switchFlag)) {
         Actor_Kill(thisx);

@@ -19,7 +19,7 @@ void EnBlkobj_SpawnDarkLink(EnBlkobj* this, PlayState* play);
 void EnBlkobj_DarkLinkFight(EnBlkobj* this, PlayState* play);
 void EnBlkobj_DoNothing(EnBlkobj* this, PlayState* play);
 
-ActorInit En_Blkobj_InitVars = {
+ActorProfile En_Blkobj_Profile = {
     /**/ ACTOR_EN_BLKOBJ,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -159,8 +159,7 @@ void EnBlkobj_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(
         POLY_XLU_DISP++, 0x0D,
         Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames, 0, 32, 32, 1, gameplayFrames, 0, 32, 32));
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_blkobj.c", 363),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_blkobj.c", 363);
 
     if (this->alpha != 0) {
         EnBlkobj_DrawAlpha(play, gIllusionRoomNormalDL, this->alpha);

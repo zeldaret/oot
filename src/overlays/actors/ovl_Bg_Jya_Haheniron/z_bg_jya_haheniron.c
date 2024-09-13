@@ -22,7 +22,7 @@ void BgJyaHaheniron_PillarCrumble(BgJyaHaheniron* this, PlayState* play);
 void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this);
 void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, PlayState* play);
 
-ActorInit Bg_Jya_Haheniron_InitVars = {
+ActorProfile Bg_Jya_Haheniron_Profile = {
     /**/ ACTOR_BG_JYA_HAHENIRON,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -50,7 +50,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON,
         OC1_NONE,

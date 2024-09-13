@@ -22,7 +22,7 @@ void ObjKibako_Held(ObjKibako* this, PlayState* play);
 void ObjKibako_SetupThrown(ObjKibako* this);
 void ObjKibako_Thrown(ObjKibako* this, PlayState* play);
 
-ActorInit Obj_Kibako_InitVars = {
+ActorProfile Obj_Kibako_Profile = {
     /**/ ACTOR_OBJ_KIBAKO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -36,7 +36,7 @@ ActorInit Obj_Kibako_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -66,9 +66,9 @@ static InitChainEntry sInitChain[] = {
 void ObjKibako_SpawnCollectible(ObjKibako* this, PlayState* play) {
     s16 collectible;
 
-    collectible = this->actor.params & 0x1F;
+    collectible = PARAMS_GET_U(this->actor.params, 0, 5);
     if ((collectible >= 0) && (collectible < ITEM00_MAX)) {
-        Item_DropCollectible(play, &this->actor.world.pos, collectible | (((this->actor.params >> 8) & 0x3F) << 8));
+        Item_DropCollectible(play, &this->actor.world.pos, collectible | (PARAMS_GET_U(this->actor.params, 8, 6) << 8));
     }
 }
 

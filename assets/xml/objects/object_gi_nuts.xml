@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_nuts" Segment="6">
         <DList Name="gGiNutDL" Offset="0x0E90"/>
     </File>

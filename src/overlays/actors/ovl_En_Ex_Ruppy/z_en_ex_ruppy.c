@@ -28,7 +28,7 @@ static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
-ActorInit En_Ex_Ruppy_InitVars = {
+ActorProfile En_Ex_Ruppy_Profile = {
     /**/ ACTOR_EN_EX_RUPPY,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -105,7 +105,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             this->unk_15A = this->actor.world.rot.z;
             this->actor.world.rot.z = 0;
             this->timer = 30;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_DropIntoWater;
             break;
 
@@ -123,7 +123,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
 
@@ -145,13 +145,13 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
 
         case 4: // Progress markers in the shooting gallery
             this->actor.gravity = -3.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             Actor_SetScale(&this->actor, 0.01f);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = -700.0f;
@@ -302,7 +302,7 @@ void EnExRuppy_Kill(EnExRuppy* this, PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct EnExRuppyParentActor {
     /* 0x000 */ Actor actor;
     /* 0x14C */ char unk_14C[0x11A];
     /* 0x226 */ s16 unk_226;
@@ -387,8 +387,7 @@ void EnExRuppy_Draw(Actor* thisx, PlayState* play) {
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         func_8002EBCC(thisx, play, 0);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ex_ruppy.c", 780);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(rupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
 

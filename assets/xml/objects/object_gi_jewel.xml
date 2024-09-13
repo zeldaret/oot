@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_jewel" Segment="6">
         <Texture Name="gGiKokiriEmeraldScintillationTex" OutName="kokiri_emerald_scintillation" Format="i4" Width="64" Height="64" Offset="0x0000"/>
         <DList Name="gGiKokiriEmeraldSettingDL" Offset="0x10E0"/>

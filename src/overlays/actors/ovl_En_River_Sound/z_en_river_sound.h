@@ -13,7 +13,7 @@ typedef struct EnRiverSound {
     /* 0x014E */ s16 pathIndex;
 } EnRiverSound; // size = 0x0150
 
-typedef enum {
+typedef enum RiverSoundType {
     /* 0x00 */ RS_RIVER_DEFAULT_LOW_FREQ,
     /* 0x01 */ RS_SMALL_WATERFALL,
     /* 0x02 */ RS_LAVA_BUBBLES_1,

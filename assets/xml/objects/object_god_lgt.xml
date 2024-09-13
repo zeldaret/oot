@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_god_lgt" Segment="6">
         <DList Name="gGoldenGoddessAuraDL" Offset="0x0330"/>
         <Texture Name="gGoldenGoddessAuraHTailTex" OutName="golden_goddess_aura_tail" Format="i8" Width="32" Height="32" Offset="0x0530"/>

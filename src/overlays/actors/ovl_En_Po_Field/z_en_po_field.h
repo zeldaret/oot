@@ -8,12 +8,12 @@ struct EnPoField;
 
 typedef void (*EnPoFieldActionFunc)(struct EnPoField*, PlayState*);
 
-typedef enum {
+typedef enum EnPoFieldSize {
     EN_PO_FIELD_SMALL,
     EN_PO_FIELD_BIG
 } EnPoFieldSize;
 
-typedef struct {
+typedef struct EnPoFieldInfo {
     /* 0x0000 */ Color_RGB8 primColor;
     /* 0x0003 */ Color_RGB8 lightColor;
     /* 0x0006 */ Color_RGB8 envColor;

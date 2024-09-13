@@ -24,7 +24,7 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play);
 void func_808B3274(BgSpot12Gate* this);
 void func_808B3298(BgSpot12Gate* this, PlayState* play);
 
-ActorInit Bg_Spot12_Gate_InitVars = {
+ActorProfile Bg_Spot12_Gate_Profile = {
     /**/ ACTOR_BG_SPOT12_GATE,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -67,7 +67,7 @@ void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         func_808B3274(this);
     } else {
         func_808B30C0(this);
@@ -86,7 +86,7 @@ void func_808B30C0(BgSpot12Gate* this) {
 }
 
 void func_808B30D8(BgSpot12Gate* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         func_808B3134(this);
         OnePointCutscene_Init(play, 4160, -99, &this->dyna.actor, CAM_ID_MAIN);
     }
@@ -125,7 +125,7 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play) {
 
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }
 }
 

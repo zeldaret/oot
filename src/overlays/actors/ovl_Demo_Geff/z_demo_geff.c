@@ -42,7 +42,7 @@ static DemoGeffDrawFunc sDrawFuncs[] = {
     func_80978344,
 };
 
-ActorInit Demo_Geff_InitVars = {
+ActorProfile Demo_Geff_Profile = {
     /**/ ACTOR_DEMO_GEFF,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -76,7 +76,8 @@ void func_80977EA8(PlayState* play, Gfx* dlist) {
 
     Gfx_SetupDL_25Opa(gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_geff.c", 183), G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_FINALIZE(gfxCtx, "../z_demo_geff.c", 183),
+              G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, dlist);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 

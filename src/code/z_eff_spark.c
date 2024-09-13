@@ -10,7 +10,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
 
     if ((this != NULL) && (initParams != NULL)) {
         if ((initParams->uDiv == 0) || (initParams->vDiv == 0)) {
-            PRINTF("spark():u_div,v_div 0では困る。\n"); // "u_div,v_div 0 is not good."
+            PRINTF(T("spark():u_div,v_div 0では困る。\n", "spark():u_div,v_div 0 is not good.\n"));
             return;
         }
 
@@ -55,7 +55,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
 
         this->numElements = (this->uDiv * this->vDiv) + 2;
         if (this->numElements > ARRAY_COUNT(this->elements)) {
-            PRINTF("table_sizeオーバー\n"); // "over table_size"
+            PRINTF(T("table_sizeオーバー\n", "over table_size\n"));
             return;
         }
 
@@ -172,9 +172,9 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
         vertices = GRAPH_ALLOC(gfxCtx, this->numElements * sizeof(Vtx[4]));
         if (vertices == NULL) {
-            // "Memory Allocation Failure graph_malloc"
-            PRINTF("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n");
-            goto end;
+            PRINTF(T("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n",
+                     "EffectSparkInfo_disp(): Memory Allocation Failure graph_malloc\n"));
+            goto close_disps;
         }
 
         j = 0;
@@ -222,45 +222,47 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             vertices[j].v.tc[0] = 0;
             vertices[j].v.tc[1] = 1024;
             vertices[j].v.flag = 0;
+            j++;
 
-            vertices[j + 1].v.ob[0] = 32;
-            vertices[j + 1].v.ob[1] = 32;
-            vertices[j + 1].v.ob[2] = 0;
-            vertices[j + 1].v.cn[0] = sp1CF;
-            vertices[j + 1].v.cn[1] = sp1CE;
-            vertices[j + 1].v.cn[2] = sp1CD;
-            vertices[j + 1].v.cn[3] = sp1CC;
-            vertices[j + 1].v.tc[0] = 1024;
-            vertices[j + 1].v.tc[1] = 0;
-            vertices[j + 1].v.flag = 0;
+            vertices[j].v.ob[0] = 32;
+            vertices[j].v.ob[1] = 32;
+            vertices[j].v.ob[2] = 0;
+            vertices[j].v.cn[0] = sp1CF;
+            vertices[j].v.cn[1] = sp1CE;
+            vertices[j].v.cn[2] = sp1CD;
+            vertices[j].v.cn[3] = sp1CC;
+            vertices[j].v.tc[0] = 1024;
+            vertices[j].v.tc[1] = 0;
+            vertices[j].v.flag = 0;
+            j++;
 
-            vertices[j + 2].v.ob[0] = -32;
-            vertices[j + 2].v.ob[1] = 32;
-            vertices[j + 2].v.ob[2] = 0;
-            vertices[j + 2].v.cn[0] = sp1CB;
-            vertices[j + 2].v.cn[1] = sp1CA;
-            vertices[j + 2].v.cn[2] = sp1C9;
-            vertices[j + 2].v.cn[3] = sp1C8;
-            vertices[j + 2].v.tc[0] = 0;
-            vertices[j + 2].v.tc[1] = 0;
-            vertices[j + 2].v.flag = 0;
+            vertices[j].v.ob[0] = -32;
+            vertices[j].v.ob[1] = 32;
+            vertices[j].v.ob[2] = 0;
+            vertices[j].v.cn[0] = sp1CB;
+            vertices[j].v.cn[1] = sp1CA;
+            vertices[j].v.cn[2] = sp1C9;
+            vertices[j].v.cn[3] = sp1C8;
+            vertices[j].v.tc[0] = 0;
+            vertices[j].v.tc[1] = 0;
+            vertices[j].v.flag = 0;
+            j++;
 
-            vertices[j + 3].v.ob[0] = 32;
-            vertices[j + 3].v.ob[1] = -32;
-            vertices[j + 3].v.ob[2] = 0;
-            vertices[j + 3].v.cn[0] = sp1C7;
-            vertices[j + 3].v.cn[1] = sp1C6;
-            vertices[j + 3].v.cn[2] = sp1C5;
-            vertices[j + 3].v.cn[3] = sp1C4;
-            vertices[j + 3].v.tc[0] = 1024;
-            vertices[j + 3].v.tc[1] = 1024;
-            vertices[j + 3].v.flag = 0;
-
-            j += 4;
+            vertices[j].v.ob[0] = 32;
+            vertices[j].v.ob[1] = -32;
+            vertices[j].v.ob[2] = 0;
+            vertices[j].v.cn[0] = sp1C7;
+            vertices[j].v.cn[1] = sp1C6;
+            vertices[j].v.cn[2] = sp1C5;
+            vertices[j].v.cn[3] = sp1C4;
+            vertices[j].v.tc[0] = 1024;
+            vertices[j].v.tc[1] = 1024;
+            vertices[j].v.flag = 0;
+            j++;
 
             mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp12C);
             if (mtx == NULL) {
-                goto end;
+                goto close_disps;
             }
 
             gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -271,6 +273,6 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
     }
 
-end:
+close_disps:
     CLOSE_DISPS(gfxCtx, "../z_eff_spark.c", 498);
 }

@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_zo" Segment="6">
         <Skeleton Name="gZoraSkel" Type="Flex" LimbType="Standard" Offset="0xBFA8"/>
 

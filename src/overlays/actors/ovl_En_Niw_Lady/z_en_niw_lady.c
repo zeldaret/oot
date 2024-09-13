@@ -4,7 +4,7 @@
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
 
 void EnNiwLady_Init(Actor* thisx, PlayState* play);
 void EnNiwLady_Destroy(Actor* thisx, PlayState* play);
@@ -25,7 +25,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play);
 void func_80ABA654(EnNiwLady* this, PlayState* play);
 void func_80ABAD7C(EnNiwLady* this, PlayState* play);
 
-ActorInit En_Niw_Lady_InitVars = {
+ActorProfile En_Niw_Lady_Profile = {
     /**/ ACTOR_EN_NIW_LADY,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -48,7 +48,7 @@ static s16 D_80ABB3B4[] = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -165,7 +165,7 @@ void func_80AB9F24(EnNiwLady* this, PlayState* play) {
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         this->unk_272 = 0;
-        this->actor.targetMode = 6;
+        this->actor.attentionRangeType = ATTENTION_RANGE_6;
         this->actor.draw = EnNiwLady_Draw;
         switch (this->unk_278) {
             case 0:

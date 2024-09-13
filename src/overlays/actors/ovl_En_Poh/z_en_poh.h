@@ -8,19 +8,19 @@ struct EnPoh;
 
 typedef void (*EnPohActionFunc)(struct EnPoh*, PlayState*);
 
-typedef enum {
+typedef enum EnPohType {
     EN_POH_NORMAL,
     EN_POH_RUPEE,
     EN_POH_SHARP,
     EN_POH_FLAT
 } EnPohType;
 
-typedef enum {
+typedef enum EnPohInfoType {
     EN_POH_INFO_NORMAL,
     EN_POH_INFO_COMPOSER
 } EnPohInfoType;
 
-typedef struct {
+typedef struct EnPohInfo {
     /* 0x0000 */ Color_RGB8 primColor;
     /* 0x0003 */ Color_RGB8 lightColor;
     /* 0x0006 */ u8 unk_6; // limb index

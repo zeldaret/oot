@@ -3,14 +3,15 @@
 
 #include "ultra64.h"
 #include "irqmgr.h"
+#include "versions.h"
 
-typedef enum {
+typedef enum ControllerPakType {
     CONT_PAK_NONE,
     CONT_PAK_RUMBLE,
     CONT_PAK_OTHER
 } ControllerPakType;
 
-typedef struct {
+typedef struct Input {
     /* 0x00 */ OSContPad cur;
     /* 0x06 */ OSContPad prev;
     /* 0x0C */ OSContPad press; // X/Y store delta from last frame
@@ -50,9 +51,9 @@ void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, 
 
 // Fetching inputs
 
-// This function cannot be prototyped here without AVOID_UB because it is called incorrectly in fault.c (see bug in
-// `Fault_PadCallback`)
-#ifdef AVOID_UB
+// This function cannot be prototyped here in all configurations because it is called incorrectly in fault_gc.c
+// (see bug in `Fault_PadCallback`)
+#if PLATFORM_N64 || defined(AVOID_UB)
 void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 gameRequest);
 #endif
 
@@ -99,5 +100,7 @@ void PadMgr_RumbleSet(PadMgr* padMgr, u8* enable);
         (padmgr)->retraceCallbackArg = NULL;                                                \
     }                                                                                       \
     (void)0
+
+extern PadMgr gPadMgr;
 
 #endif

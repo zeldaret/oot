@@ -18,7 +18,7 @@ void func_808B4930(BgSpot15Saku* this, PlayState* play);
 void func_808B4978(BgSpot15Saku* this, PlayState* play);
 void func_808B4A04(BgSpot15Saku* this, PlayState* play);
 
-ActorInit Bg_Spot15_Saku_InitVars = {
+ActorProfile Bg_Spot15_Saku_Profile = {
     /**/ ACTOR_BG_SPOT15_SAKU,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -98,8 +98,7 @@ void BgSpot15Saku_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot15_saku.c", 263);
     gSPDisplayList(POLY_XLU_DISP++, gLonLonCorralFenceDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot15_saku.c", 268);

@@ -1,7 +1,7 @@
 #include "z_en_bigokuta.h"
 #include "assets/objects/object_bigokuta/object_bigokuta.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play);
 void EnBigokuta_Destroy(Actor* thisx, PlayState* play);
@@ -30,7 +30,7 @@ static Color_RGBA8 sEffectPrimColor = { 255, 255, 255, 255 };
 static Color_RGBA8 sEffectEnvColor = { 100, 255, 255, 255 };
 static Vec3f sEffectPosAccel = { 0.0f, 0.0f, 0.0f };
 
-ActorInit En_Bigokuta_InitVars = {
+ActorProfile En_Bigokuta_Profile = {
     /**/ ACTOR_EN_BIGOKUTA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -58,7 +58,7 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -71,7 +71,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static ColliderCylinderInit sCylinderInit[] = {
     { {
-          COLTYPE_HARD,
+          COL_MATERIAL_HARD,
           AT_ON | AT_TYPE_ENEMY,
           AC_ON | AC_HARD | AC_TYPE_PLAYER,
           OC1_ON | OC1_TYPE_ALL,
@@ -88,7 +88,7 @@ static ColliderCylinderInit sCylinderInit[] = {
       },
       { 50, 100, 0, { 30, 0, 12 } } },
     { {
-          COLTYPE_HARD,
+          COL_MATERIAL_HARD,
           AT_ON | AT_TYPE_ENEMY,
           AC_ON | AC_HARD | AC_TYPE_PLAYER,
           OC1_ON | OC1_TYPE_ALL,
@@ -144,8 +144,8 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BIGOCTO, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 33, ICHAIN_STOP),
@@ -165,7 +165,7 @@ void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, &this->element);
 
-    this->collider.elements->dim.worldSphere.radius = this->collider.elements->dim.modelSphere.radius;
+    this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
 
     for (i = 0; i < ARRAY_COUNT(sCylinderInit); i++) {
         Collider_InitCylinder(play, &this->cylinder[i]);
@@ -244,7 +244,7 @@ void func_809BCF68(EnBigokuta* this, PlayState* play) {
     }
     EffectSsGSplash_Spawn(play, &effectPos, NULL, NULL, 1, 800);
     if (this->actionFunc != func_809BE4A4) {
-        func_8002F974(&this->actor, NA_SE_EN_DAIOCTA_SPLASH - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_DAIOCTA_SPLASH - SFX_FLAG);
     }
 }
 
@@ -383,7 +383,7 @@ void func_809BD6B8(EnBigokuta* this) {
 void func_809BD768(EnBigokuta* this) {
     this->unk_194 = Rand_ZeroOne() < 0.5f ? -1 : 1;
     this->unk_19A = 0;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->cylinder[0].base.atFlags &= ~AT_ON;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_SINK);
     this->actionFunc = func_809BE4A4;
@@ -498,7 +498,7 @@ void func_809BDC08(EnBigokuta* this, PlayState* play) {
     }
 
     phi_v1 = (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) - 180.0f) * (8.0f / 15);
-    func_8002DBD0(&this->actor, &sp28, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &sp28, &player->actor.world.pos);
     if (fabsf(sp28.x) > 263.0f || ((sp28.z > 0.0f) && !Actor_IsFacingPlayer(&this->actor, 0x1B00) &&
                                    !Player_IsFacingActor(&this->actor, 0x2000, play))) {
         phi_v1 -= 0x80;
@@ -684,7 +684,7 @@ void func_809BE4A4(EnBigokuta* this, PlayState* play) {
 
 void func_809BE518(EnBigokuta* this, PlayState* play) {
     if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 10.0f)) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         func_809BD3F8(this);
     }
 }
@@ -694,14 +694,14 @@ void func_809BE568(EnBigokuta* this) {
     f32 sin = Math_SinS(this->actor.shape.rot.y);
     f32 cos = Math_CosS(this->actor.shape.rot.y);
 
-    this->collider.elements->dim.worldSphere.center.x =
-        (this->collider.elements->dim.modelSphere.center.z * sin) +
-        (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
-    this->collider.elements->dim.worldSphere.center.z =
-        (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.center.z * cos)) -
-        (this->collider.elements->dim.modelSphere.center.x * sin);
-    this->collider.elements->dim.worldSphere.center.y =
-        this->collider.elements->dim.modelSphere.center.y + this->actor.world.pos.y;
+    this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x +
+                                                          (this->collider.elements[0].dim.modelSphere.center.x * cos) +
+                                                          (this->collider.elements[0].dim.modelSphere.center.z * sin);
+    this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z +
+                                                          (this->collider.elements[0].dim.modelSphere.center.z * cos) -
+                                                          (this->collider.elements[0].dim.modelSphere.center.x * sin);
+    this->collider.elements[0].dim.worldSphere.center.y =
+        this->actor.world.pos.y + this->collider.elements[0].dim.modelSphere.center.y;
 
     for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
         this->cylinder[i].dim.pos.x =
@@ -837,7 +837,6 @@ s32 EnBigokuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
             gDPPipeSync(POLY_OPA_DISP++);
 
             gDPSetEnvColor(POLY_OPA_DISP++, temp_f0, temp_f0, temp_f0, 255);
-            if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_en_bigokuta.c", 1945);
         }
     } else if (limbIndex == 10) {
@@ -849,7 +848,6 @@ s32 EnBigokuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
         }
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, intensity, intensity, intensity, intensity);
-        if (1) {}
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_bigokuta.c", 1972);
     } else if (limbIndex == 17 && this->actionFunc == func_809BE26C) {
         if (this->unk_198 < 5) {

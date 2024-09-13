@@ -7,7 +7,7 @@
 #include "z_en_kz.h"
 #include "assets/objects/object_kz/object_kz.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnKz_Init(Actor* thisx, PlayState* play);
 void EnKz_Destroy(Actor* thisx, PlayState* play);
@@ -22,7 +22,7 @@ void EnKz_Wait(EnKz* this, PlayState* play);
 void EnKz_SetupGetItem(EnKz* this, PlayState* play);
 void EnKz_StartTimer(EnKz* this, PlayState* play);
 
-ActorInit En_Kz_InitVars = {
+ActorProfile En_Kz_Profile = {
     /**/ ACTOR_EN_KZ,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -36,7 +36,7 @@ ActorInit En_Kz_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -56,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnKzAnimation {
     /* 0 */ ENKZ_ANIM_0,
     /* 1 */ ENKZ_ANIM_1,
     /* 2 */ ENKZ_ANIM_2
@@ -214,11 +214,11 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     yaw = Math_Vec3f_Yaw(&thisx->home.pos, &player->actor.world.pos);
     yaw -= thisx->shape.rot.y;
     if ((fabsf(yaw) > 1638.0f) || (thisx->xzDistToPlayer < 265.0f)) {
-        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         return false;
     }
 
-    thisx->flags |= ACTOR_FLAG_0;
+    thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED;
 
     Actor_GetScreenPos(play, thisx, &x, &y);
     if (!((x >= -30) && (x < 361) && (y >= -10) && (y < 241))) {
@@ -281,11 +281,11 @@ s32 EnKz_FollowPath(EnKz* this, PlayState* play) {
     f32 pathDiffX;
     f32 pathDiffZ;
 
-    if ((this->actor.params & 0xFF00) == 0xFF00) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 8, 8) == 0xFF00) {
         return 0;
     }
 
-    path = &play->pathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->waypoint;
 
@@ -307,11 +307,11 @@ s32 EnKz_SetMovedPos(EnKz* this, PlayState* play) {
     Path* path;
     Vec3s* lastPointPos;
 
-    if ((this->actor.params & 0xFF00) == 0xFF00) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 8, 8) == 0xFF00) {
         return 0;
     }
 
-    path = &play->pathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
     lastPointPos = SEGMENTED_TO_VIRTUAL(path->points);
     lastPointPos += path->count - 1;
 
@@ -332,7 +332,7 @@ void EnKz_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.01);
-    this->actor.targetMode = 3;
+    this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_0);
 

@@ -32,7 +32,7 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play);
 
-ActorInit En_Ex_Item_InitVars = {
+ActorProfile En_Ex_Item_Profile = {
     /**/ ACTOR_EN_EX_ITEM,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -51,9 +51,9 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnExItem* this = (EnExItem*)thisx;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
-    this->type = this->actor.params & 0xFF;
-    this->unusedParam = (this->actor.params >> 8) & 0xFF;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+    this->type = PARAMS_GET_U(this->actor.params, 0, 8);
+    this->unusedParam = PARAMS_GET_U(this->actor.params, 8, 8);
     PRINTF("\n\n");
     // "What will come out?"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->type);
@@ -122,11 +122,11 @@ void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         // "End of transfer"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        PRINTF(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+        PRINTF(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params);
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = EnExItem_Draw;
         this->stopRotate = false;
@@ -503,8 +503,7 @@ void EnExItem_DrawKey(EnExItem* this, PlayState* play, s32 index) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ex_item.c", 880);
 
     Gfx_SetupDL_41Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ex_item.c", 887),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ex_item.c", 887);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(keySegments[index]));
     gSPDisplayList(POLY_OPA_DISP++, gItemDropDL);
 

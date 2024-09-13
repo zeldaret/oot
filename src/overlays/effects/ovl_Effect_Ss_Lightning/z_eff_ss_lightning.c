@@ -24,7 +24,7 @@ u32 EffectSsLightning_Init(PlayState* play, u32 index, EffectSs* this, void* ini
 void EffectSsLightning_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsLightning_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Lightning_InitVars = {
+EffectSsProfile Effect_Ss_Lightning_Profile = {
     EFFECT_SS_LIGHTNING,
     EffectSsLightning_Init,
 };

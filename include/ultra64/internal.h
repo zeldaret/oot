@@ -3,7 +3,7 @@
 
 #include "pi.h"
 
-typedef struct {
+typedef struct OSDevMgr {
     /* 0x00 */ u32 active;
     /* 0x04 */ OSThread* thread;
     /* 0x08 */ OSMesgQueue* cmdQueue;

@@ -18,7 +18,7 @@ s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play);
 s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play);
 s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play);
 
-ActorInit Bg_Spot09_Obj_InitVars = {
+ActorProfile Bg_Spot09_Obj_Profile = {
     /**/ ACTOR_BG_SPOT09_OBJ,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -173,8 +173,7 @@ void BgSpot09Obj_Draw(Actor* thisx, PlayState* play) {
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot09_obj.c", 391);
         gSPDisplayList(POLY_XLU_DISP++, gCarpentersTentEntranceDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot09_obj.c", 396);

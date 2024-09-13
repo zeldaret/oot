@@ -9,7 +9,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum WindmillSetpiecesMode {
     /* 0 */ WINDMILL_ROTATING_GEAR,
     /* 1 */ WINDMILL_DAMPE_STONE_DOOR
 } WindmillSetpiecesMode;
@@ -26,7 +26,7 @@ void BgRelayObjects_DoNothing(BgRelayObjects* this, PlayState* play);
 void func_808A932C(BgRelayObjects* this, PlayState* play);
 void func_808A939C(BgRelayObjects* this, PlayState* play);
 
-ActorInit Bg_Relay_Objects_InitVars = {
+ActorProfile Bg_Relay_Objects_Profile = {
     /**/ ACTOR_BG_RELAY_OBJECTS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -50,8 +50,8 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->switchFlag = thisx->params & 0x3F;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 0, 6);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
         CollisionHeader_GetVirtual(&gWindmillRotatingPlatformCol, &colHeader);
@@ -134,7 +134,7 @@ void func_808A91AC(BgRelayObjects* this, PlayState* play) {
         if (this->timer != 0) {
             this->timer--;
         }
-        func_8002F994(&this->dyna.actor, this->timer);
+        Actor_PlaySfx_FlaggedTimer(&this->dyna.actor, this->timer);
     }
     if ((this->timer == 0) || (this->unk_169 == play->roomCtx.curRoom.num)) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);

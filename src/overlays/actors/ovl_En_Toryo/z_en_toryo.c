@@ -7,7 +7,7 @@
 #include "z_en_toryo.h"
 #include "assets/objects/object_toryo/object_toryo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
 
 void EnToryo_Init(Actor* thisx, PlayState* play);
 void EnToryo_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +18,7 @@ void EnToryo_Idle(EnToryo* this, PlayState* play);
 s32 EnToryo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnToryo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-ActorInit En_Toryo_InitVars = {
+ActorProfile En_Toryo_Profile = {
     /**/ ACTOR_EN_TORYO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -32,7 +32,7 @@ ActorInit En_Toryo_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -127,7 +127,7 @@ void EnToryo_Init(Actor* thisx, PlayState* play) {
                      Animation_GetLastFrame(sEnToryoAnimation.animation), sEnToryoAnimation.mode,
                      sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->actionFunc = EnToryo_Idle;
 }
 
@@ -367,7 +367,7 @@ void EnToryo_Update(Actor* thisx, PlayState* play) {
         }
 
         rot = thisx->yawTowardsPlayer - thisx->shape.rot.y;
-        if ((rot < 14563.0f) && (rot > -14563.0f)) {
+        if ((rot < DEG_TO_BINANG2(80.0f)) && (rot > DEG_TO_BINANG2(-80.0f))) {
             Npc_TrackPoint(thisx, &this->interactInfo, 0, NPC_TRACKING_HEAD_AND_TORSO);
         } else {
             Npc_TrackPoint(thisx, &this->interactInfo, 0, NPC_TRACKING_NONE);

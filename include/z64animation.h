@@ -16,14 +16,14 @@ struct SkelAnime;
 
 #define LIMB_DONE 0xFF
 
-typedef struct {
+typedef struct StandardLimb {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
     /* 0x08 */ Gfx* dList;
 } StandardLimb; // size = 0xC
 
-typedef struct {
+typedef struct LodLimb {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
@@ -31,13 +31,13 @@ typedef struct {
 } LodLimb; // size = 0x10
 
 // Model has limbs with only rigid meshes
-typedef struct {
+typedef struct SkeletonHeader {
     /* 0x00 */ void** segment;
     /* 0x04 */ u8 limbCount;
 } SkeletonHeader; // size = 0x8
 
 // Model has limbs with flexible meshes
-typedef struct {
+typedef struct FlexSkeletonHeader {
     /* 0x00 */ SkeletonHeader sh;
     /* 0x08 */ u8 dListCount;
 } FlexSkeletonHeader; // size = 0xC
@@ -47,22 +47,22 @@ typedef struct {
  */
 
 // Index into the frame data table.
-typedef struct {
+typedef struct JointIndex {
     /* 0x00 */ u16 x;
     /* 0x02 */ u16 y;
     /* 0x04 */ u16 z;
 } JointIndex; // size = 0x06
 
-typedef struct {
+typedef struct AnimationHeaderCommon {
     /* 0x00 */ s16 frameCount;
 } AnimationHeaderCommon;
 
-typedef struct {
+typedef struct LinkAnimationHeader {
     /* 0x00 */ AnimationHeaderCommon common;
     /* 0x04 */ void* segment;
 } LinkAnimationHeader; // size = 0x8
 
-typedef struct {
+typedef struct AnimationHeader {
     /* 0x00 */ AnimationHeaderCommon common;
     /* 0x04 */ s16* frameData; // "tbl"
     /* 0x08 */ JointIndex* jointIndices; // "ref_tbl"
@@ -73,7 +73,7 @@ typedef struct {
  * SkelAnime
  */
 
-typedef enum {
+typedef enum AnimationMode {
     /* 0 */ ANIMMODE_LOOP,
     /* 1 */ ANIMMODE_LOOP_INTERP,
     /* 2 */ ANIMMODE_ONCE,
@@ -82,18 +82,72 @@ typedef enum {
     /* 5 */ ANIMMODE_LOOP_PARTIAL_INTERP
 } AnimationMode;
 
-typedef enum {
+typedef enum AnimationTapers {
     /* -1 */ ANIMTAPER_DECEL = -1,
     /*  0 */ ANIMTAPER_NONE,
     /*  1 */ ANIMTAPER_ACCEL
 } AnimationTapers;
 
-#define ANIM_FLAG_0 (1 << 0) // (no effect outside of player) Related to scaling an animation from/to child/adult
+// This flag seems like it was intended to be paired with `ANIM_FLAG_UPDATE_Y` to control
+// XZ movement based on the current animation.
+// However, this flag is not checked by the Skelanime system. XZ movement will always occur
+// regardless of the current state of this flag, as long as the "Actor Move" Anim Task is in use.
+// The name of this flag is speculative based on its usage in Player and in other actors.
+//
+// In practice, this flag only affects the scaling of Player's XZ position based on age.
+#define ANIM_FLAG_UPDATE_XZ (1 << 0)
+
+// Enables the movement of an actor in the Y-axis based on the current animation.
+// This only has an effect if the "Actor Move" Anim Task is in use.
+//
+// This animation-driven movement does not replace "normal" movement from other sources
+// such as speed/velocity and collisions. The actor should stop updating other sources of movement
+// as required if they are preventing the animation from playing as intended.
+// An option is to implement and use `ANIM_FLAG_OVERRIDE_MOVEMENT`.
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
-#define ANIM_FLAG_PLAYER_2 (1 << 2) // (player-only) Related to scaling an animation from/to child/adult
-#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) // (player-only) Call AnimationContext_SetMoveActor
-#define ANIM_FLAG_NO_MOVE (1 << 4)
-#define ANIM_FLAG_PLAYER_7 (1 << 7) // (player-only)
+
+// When this flag is set, Player's root limb position adjustment as child is disabled.
+// Many of Player's animations are originally created for Adult Link. When playing those
+// animations as Child Link without any adjustment, he will appear to be floating in the air.
+// To fix this, Child Link's root position is scaled down by default to fit his smaller size.
+// However, if an animation is created specifically for Child Link, it is desirable to disable
+// this scaling of the root position by using this flag.
+// Note that this flag will be ignored if `ANIM_FLAG_UPDATE_XZ` or `ANIM_FLAG_UPDATE_Y` are also
+// set. The adjustment will be applied in this case regardless of this flag being enabled.
+#define ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT (1 << 2)
+
+// (player-only) Call AnimTaskQueue_AddActorMove
+#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3)
+
+// When this flag is set, movement in all axes will not be applied for one frame. The flag
+// is unset automatically after one use, so movement can resume. The intent is for this flag to be used
+// when changing between two different animations.
+// In some contexts, disabling the first frame of movement is necessary for a seamless transition.
+//
+// Depending on specific implementations, an actor may choose to reset `prevTransl` to `baseTransl` when
+// starting a new animation. This is helpful when an animation's translation data starts at the "origin"
+// (in this case, the origin refers to `baseTransl`, in model space).
+// Some animations have translation data that does not begin at the "origin". This is common when a
+// longer sequence of animation is broken up into different parts as seperate animations.
+// In this case, when one animation starts its translation at the same position where a different animation
+// left off, resetting `prevTransl` is not desirable. This will cause the actor's position to noticeably change
+// when the translation data from the first frame of the new animation is applied.
+//
+// When this flag is used during a transition between two animations, the first frame of movement is not applied.
+// This allows the actor's world postiion to stay at the same location as where the previous animation ended.
+// Because translations are calculated as a difference from the current and previous frame, all subsequent
+// frames have their translation occur relative to this new starting point.
+//
+// Note that for Player, this flag is only relevant when transitioning from an animation that was also using
+// animation translation. This is because of how `prevTransl` gets reset in `Player_AnimReplaceApplyFlags`.
+#define ANIM_FLAG_ADJUST_STARTING_POS (1 << 4)
+
+// Disables "normal" movement from sources like speed/velocity and collisions, which allows the
+// animation to have full control over the actor's movement.
+//
+// Note that individual actors are responsible for implementing the functionality of this flag.
+// In practice, Player is the only actor who implements this flag.
+#define ANIM_FLAG_OVERRIDE_MOVEMENT (1 << 7)
 
 typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // Number of limbs in the skeleton
@@ -199,7 +253,7 @@ void Animation_EndLoop(SkelAnime* skelAnime);
 void Animation_Reverse(SkelAnime* skelAnime);
 void Animation_SetMorph(struct PlayState* play, SkelAnime* skelAnime, f32 morphFrames);
 
-typedef struct {
+typedef struct AnimationInfo {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32 playSpeed;
     /* 0x08 */ f32 startFrame;
@@ -210,21 +264,21 @@ typedef struct {
 
 void Animation_ChangeByInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, s32 index);
 
-typedef struct {
+typedef struct AnimationFrameCountInfo {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32 frameCount;
     /* 0x08 */ u8 mode;
     /* 0x0C */ f32 morphFrames;
 } AnimationFrameCountInfo; // size = 0x10
 
-typedef struct {
+typedef struct AnimationSpeedInfo {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32 playSpeed;
     /* 0x08 */ u8 mode;
     /* 0x0C */ f32 morphFrames;
 } AnimationSpeedInfo; // size = 0x10
 
-typedef struct {
+typedef struct AnimationMinimalInfo {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ u8 mode;
     /* 0x08 */ f32 morphFrames;
@@ -239,95 +293,95 @@ s16 Animation_GetLength(void* animation);
 s16 Animation_GetLastFrame(void* animation);
 
 /*
- * Animation requests
+ * Animation Task Queue
  */
 
-typedef enum {
-    /* 0 */ ANIMENTRY_LOADFRAME,
-    /* 1 */ ANIMENTRY_COPYALL,
-    /* 2 */ ANIMENTRY_INTERP,
-    /* 3 */ ANIMENTRY_COPYTRUE,
-    /* 4 */ ANIMENTRY_COPYFALSE,
-    /* 5 */ ANIMENTRY_MOVEACTOR
-} AnimationType;
+typedef enum AnimTaskType {
+    /* 0 */ ANIMTASK_LOAD_PLAYER_FRAME,
+    /* 1 */ ANIMTASK_COPY,
+    /* 2 */ ANIMTASK_INTERP,
+    /* 3 */ ANIMTASK_COPY_USING_MAP,
+    /* 4 */ ANIMTASK_COPY_USING_MAP_INVERTED,
+    /* 5 */ ANIMTASK_ACTOR_MOVE
+} AnimTaskType;
 
-typedef struct {
-    /* 0x000 */ DmaRequest req;
-    /* 0x020 */ OSMesgQueue msgQueue;
-    /* 0x038 */ OSMesg msg;
-} AnimEntryLoadFrame; // size = 0x3C
+typedef struct AnimTaskLoadPlayerFrame {
+    /* 0x00 */ DmaRequest req;
+    /* 0x20 */ OSMesgQueue msgQueue;
+    /* 0x38 */ OSMesg msg;
+} AnimTaskLoadPlayerFrame; // size = 0x3C
 
-typedef struct {
-    /* 0x000 */ u8 queueFlag;
-    /* 0x001 */ u8 vecCount;
-    /* 0x004 */ Vec3s* dst;
-    /* 0x008 */ Vec3s* src;
-} AnimEntryCopyAll; // size = 0xC
+typedef struct AnimTaskCopy {
+    /* 0x00 */ u8 group;
+    /* 0x01 */ u8 vecCount;
+    /* 0x04 */ Vec3s* dest;
+    /* 0x08 */ Vec3s* src;
+} AnimTaskCopy; // size = 0xC
 
-typedef struct {
-    /* 0x000 */ u8 queueFlag;
-    /* 0x001 */ u8 vecCount;
-    /* 0x004 */ Vec3s* base;
-    /* 0x008 */ Vec3s* mod;
-    /* 0x00C */ f32 weight;
-} AnimEntryInterp; // size = 0x10
+typedef struct AnimTaskInterp {
+    /* 0x00 */ u8 group;
+    /* 0x01 */ u8 vecCount;
+    /* 0x04 */ Vec3s* base;
+    /* 0x08 */ Vec3s* mod;
+    /* 0x0C */ f32 weight;
+} AnimTaskInterp; // size = 0x10
 
-typedef struct {
-    /* 0x000 */ u8 queueFlag;
-    /* 0x001 */ u8 vecCount;
-    /* 0x004 */ Vec3s* dst;
-    /* 0x008 */ Vec3s* src;
-    /* 0x00C */ u8* copyFlag;
-} AnimEntryCopyTrue; // size = 0x10
+typedef struct AnimTaskCopyUsingMap {
+    /* 0x00 */ u8 group;
+    /* 0x01 */ u8 vecCount;
+    /* 0x04 */ Vec3s* dest;
+    /* 0x08 */ Vec3s* src;
+    /* 0x0C */ u8* limbCopyMap;
+} AnimTaskCopyUsingMap; // size = 0x10
 
-typedef struct {
-    /* 0x000 */ u8 queueFlag;
-    /* 0x001 */ u8 vecCount;
-    /* 0x004 */ Vec3s* dst;
-    /* 0x008 */ Vec3s* src;
-    /* 0x00C */ u8* copyFlag;
-} AnimEntryCopyFalse; // size = 0x10
+typedef struct AnimTaskCopyUsingMapInverted {
+    /* 0x00 */ u8 group;
+    /* 0x01 */ u8 vecCount;
+    /* 0x04 */ Vec3s* dest;
+    /* 0x08 */ Vec3s* src;
+    /* 0x0C */ u8* limbCopyMap;
+} AnimTaskCopyUsingMapInverted; // size = 0x10
 
-typedef struct {
-    /* 0x000 */ struct Actor* actor;
-    /* 0x004 */ struct SkelAnime* skelAnime;
-    /* 0x008 */ f32 diffScaleY;
-} AnimEntryMoveActor; // size = 0xC
+typedef struct AnimTaskActorMove {
+    /* 0x00 */ struct Actor* actor;
+    /* 0x04 */ struct SkelAnime* skelAnime;
+    /* 0x08 */ f32 diffScaleY;
+} AnimTaskActorMove; // size = 0xC
 
-typedef union {
-    AnimEntryLoadFrame load;
-    AnimEntryCopyAll copy;
-    AnimEntryInterp interp;
-    AnimEntryCopyTrue copy1;
-    AnimEntryCopyFalse copy0;
-    AnimEntryMoveActor move;
-} AnimationEntryData; // size = 0x3C
+typedef union AnimTaskData {
+    AnimTaskLoadPlayerFrame loadPlayerFrame;
+    AnimTaskCopy copy;
+    AnimTaskInterp interp;
+    AnimTaskCopyUsingMap copyUsingMap;
+    AnimTaskCopyUsingMapInverted copyUsingMapInverted;
+    AnimTaskActorMove actorMove;
+} AnimTaskData; // size = 0x3C
 
-typedef struct {
+typedef struct AnimTask {
     /* 0x00 */ u8 type;
-    /* 0x04 */ AnimationEntryData data;
-} AnimationEntry; // size = 0x40
+    /* 0x04 */ AnimTaskData data;
+} AnimTask; // size = 0x40
 
-#define ANIMATION_ENTRY_MAX 50
+#define ANIM_TASK_QUEUE_MAX 50
 
-typedef struct AnimationContext {
-    s16 animationCount;
-    AnimationEntry entries[ANIMATION_ENTRY_MAX];
-} AnimationContext; // size = 0xC84
+typedef struct AnimTaskQueue {
+    s16 count;
+    AnimTask tasks[ANIM_TASK_QUEUE_MAX];
+} AnimTaskQueue; // size = 0xC84
 
-void AnimationContext_SetLoadFrame(struct PlayState* play, LinkAnimationHeader* animation, s32 frame, s32 limbCount,
-                                   Vec3s* frameTable);
-void AnimationContext_SetCopyAll(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src);
-void AnimationContext_SetCopyTrue(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
-void AnimationContext_SetCopyFalse(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
-void AnimationContext_SetInterp(struct PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
-void AnimationContext_SetMoveActor(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
+void AnimTaskQueue_AddLoadPlayerFrame(struct PlayState* play, LinkAnimationHeader* animation, s32 frame, s32 limbCount,
+                                      Vec3s* frameTable);
+void AnimTaskQueue_AddCopy(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src);
+void AnimTaskQueue_AddInterp(struct PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
+void AnimTaskQueue_AddCopyUsingMap(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap);
+void AnimTaskQueue_AddCopyUsingMapInverted(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap);
+void AnimTaskQueue_AddActorMove(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
 
-void AnimationContext_SetNextQueue(struct PlayState* play);
-void AnimationContext_DisableQueue(struct PlayState* play);
+void AnimTaskQueue_SetNextGroup(struct PlayState* play);
+void AnimTaskQueue_DisableTransformTasksForGroup(struct PlayState* play);
 
-void AnimationContext_Reset(AnimationContext* animationCtx);
-void AnimationContext_Update(struct PlayState* play, AnimationContext* animationCtx);
+void AnimTaskQueue_Reset(AnimTaskQueue* animTaskQueue);
+void AnimTaskQueue_Update(struct PlayState* play, AnimTaskQueue* animTaskQueue);
 
 /*
  * Link animations

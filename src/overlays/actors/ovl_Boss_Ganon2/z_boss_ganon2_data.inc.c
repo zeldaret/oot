@@ -4,7 +4,7 @@
 
 #define BOSS_GANON2_EFFECT_COUNT 100
 
-typedef struct {
+typedef struct BossGanon2Effect {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 unk_01;
     /* 0x04 */ Vec3f position;
@@ -204,7 +204,7 @@ static ColliderJntSphElementInit sJntSphItemsInit1[] = {
 
 static ColliderJntSphInit sJntSphInit1 = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -242,7 +242,7 @@ static ColliderJntSphElementInit sJntSphItemsInit2[] = {
 
 static ColliderJntSphInit sJntSphInit2 = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,

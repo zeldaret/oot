@@ -7,6 +7,8 @@
 #include "z_en_zl2.h"
 #include "terminal.h"
 
+#include "z64frame_advance.h"
+
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/objects/object_zl2/object_zl2.h"
 #include "assets/objects/object_zl2_anime1/object_zl2_anime1.h"
@@ -85,7 +87,7 @@ static EnZl2DrawFunc sDrawFuncs[] = {
     func_80B525D4,
 };
 
-ActorInit En_Zl2_InitVars = {
+ActorProfile En_Zl2_Profile = {
     /**/ ACTOR_EN_ZL2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -445,17 +447,25 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
 s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     s32 pad;
     EnZl2* this = (EnZl2*)thisx;
-    Mtx* sp74;
-    MtxF sp34;
-    Vec3s sp2C;
-    s16 pad2;
-    s16* unk_1DC = this->unk_1DC;
 
     if (limbIndex == 14) {
-        sp74 = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 7);
+        Mtx* sp74 = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 7);
+        MtxF sp34;
+        Vec3s sp2C;
+        s16 pad2;
+        s16* unk_1DC = this->unk_1DC;
+
         gSPSegment((*gfx)++, 0x0C, sp74);
 
         Matrix_Push();
+
+#if PLATFORM_N64
+        // Anti-piracy check, Zelda's hair is misshapen if the check fails
+        if (osCicId != 6105) {
+            Matrix_Scale(2.0f, 0.5f, 2.0f, MTXMODE_APPLY);
+        }
+#endif
+
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
         Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
@@ -558,8 +568,7 @@ void EnZl2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
                 Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
                 Matrix_RotateZYX(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
                 Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
-                gSPMatrix((*gfx)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_zl2.c", 1253),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD((*gfx)++, play->state.gfxCtx, "../z_en_zl2.c", 1253);
                 gSPDisplayList((*gfx)++, gZelda2OcarinaDL);
             }
             Matrix_Pop();

@@ -25,7 +25,7 @@ typedef s16 (*callback2_80A3ED24)(PlayState*, struct EnGo*);
 
 #define EN_GO_EFFECT_COUNT 20
 
-typedef struct {
+typedef struct EnGoEffect {
     /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 timer;
     /* 0x0002 */ u8 initialTimer;

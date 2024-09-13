@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BossDodongo_Init(Actor* thisx, PlayState* play);
 void BossDodongo_Destroy(Actor* thisx, PlayState* play);
@@ -33,7 +33,7 @@ f32 func_808C50A8(BossDodongo* this, PlayState* play);
 void BossDodongo_DrawEffects(PlayState* play);
 void BossDodongo_UpdateEffects(PlayState* play);
 
-ActorInit Boss_Dodongo_InitVars = {
+ActorProfile Boss_Dodongo_Profile = {
     /**/ ACTOR_EN_DODONGO,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -48,10 +48,10 @@ ActorInit Boss_Dodongo_InitVars = {
 #include "z_boss_dodongo_data.inc.c"
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_KING_DODONGO, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000.0f, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 8200.0f, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 8200.0f, ICHAIN_STOP),
 };
 
 void func_808C1190(s16* arg0, u8* arg1, s16 arg2) {
@@ -217,7 +217,7 @@ void BossDodongo_Init(Actor* thisx, PlayState* play) {
         }
     }
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void BossDodongo_Destroy(Actor* thisx, PlayState* play) {
@@ -476,7 +476,7 @@ void BossDodongo_SetupWalk(BossDodongo* this) {
     this->unk_1AA = 0;
     this->actionFunc = BossDodongo_Walk;
     this->unk_1DA = 0;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk_1E4 = 0.0f;
 }
 
@@ -1085,8 +1085,7 @@ s32 BossDodongo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_RotateX(-(this->unk_25C[limbIndex] * 0.115f), MTXMODE_APPLY);
         }
 
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_dodongo.c", 3822),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_dodongo.c", 3822);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
 
@@ -1279,7 +1278,7 @@ void BossDodongo_SetupDeathCutscene(BossDodongo* this) {
     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_DEAD);
     this->unk_1DA = 0;
     this->csState = 0;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
     this->unk_1BC = 1;
     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
 }
@@ -1693,8 +1692,7 @@ void BossDodongo_DrawEffects(PlayState* play) {
             Matrix_Translate(eff->unk_00.x, eff->unk_00.y, eff->unk_00.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(eff->unk_2C, eff->unk_2C, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_dodongo.c", 5253),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_dodongo.c", 5253);
             gSPDisplayList(POLY_XLU_DISP++, object_kingdodongo_DL_009DD0);
         }
     }

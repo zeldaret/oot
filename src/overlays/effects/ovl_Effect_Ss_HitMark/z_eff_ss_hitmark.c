@@ -36,7 +36,7 @@ static void* sTextures[] = {
     gEffHitMark7Tex,  gEffHitMark8Tex,
 };
 
-EffectSsInit Effect_Ss_HitMark_InitVars = {
+EffectSsProfile Effect_Ss_HitMark_Profile = {
     EFFECT_SS_HITMARK,
     EffectSsHitMark_Init,
 };

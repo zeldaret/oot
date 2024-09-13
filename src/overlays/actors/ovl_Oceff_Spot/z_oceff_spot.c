@@ -16,7 +16,7 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play);
 
 void OceffSpot_GrowCylinder(OceffSpot* this, PlayState* play);
 
-ActorInit Oceff_Spot_InitVars = {
+ActorProfile Oceff_Spot_Profile = {
     /**/ ACTOR_OCEFF_SPOT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -154,8 +154,7 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_oceff_spot.c", 469),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_spot.c", 469);
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * (-2), 32,
                                                      32, 1, 0, scroll * (-8), 32, 32));

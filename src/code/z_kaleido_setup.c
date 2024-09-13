@@ -1,4 +1,7 @@
 #include "global.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 /*
  * The following three arrays are effectively unused.
@@ -57,6 +60,9 @@ f32 sKaleidoSetupRightPageEyeZ[] = {
 void KaleidoSetup_Update(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
+#if PLATFORM_N64
+    s32 pad;
+#endif
 
     if (!IS_PAUSED(pauseCtx) && play->gameOverCtx.state == GAMEOVER_INACTIVE &&
         play->transitionTrigger == TRANS_TRIGGER_OFF && play->transitionMode == TRANS_MODE_OFF &&
@@ -83,8 +89,8 @@ void KaleidoSetup_Update(PlayState* play) {
             // mainState is also overwritten later before being used.
             pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
 
-            //! @bug REG collision
-            if (R_START_LABEL_DD(0) == 0) {
+            //! @bug REG collision, ZREG(48) is also R_START_LABEL_SCALE for NTSC and R_START_LABEL_DD(0) for PAL
+            if (ZREG(48) == 0) {
                 // Never reached, unused, and the data would be wrong anyway
                 // (scrolling left from this would not bring to the initial page)
                 pauseCtx->eye.x = sKaleidoSetupUnusedEyeX[pauseCtx->pageIndex];
@@ -169,7 +175,18 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->cursorSpecialPos = 0;
 
     View_Init(&pauseCtx->view, play->state.gfxCtx);
+
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_3C != NULL)) {
+        B_80121220->unk_3C();
+    }
+#endif
 }
 
 void KaleidoSetup_Destroy(PlayState* play) {
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_40 != NULL)) {
+        B_80121220->unk_40();
+    }
+#endif
 }

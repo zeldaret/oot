@@ -2,74 +2,86 @@
 #define Z64MATH_H
 
 #include "ultra64.h"
+#include "math.h"
 
+#define SQ(x) ((x)*(x))
 #define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
 
-typedef struct {
+typedef union FloatInt {
+    f32 f;
+    u32 i;
+} FloatInt;
+
+typedef struct Vec2f {
     f32 x, y;
 } Vec2f; // size = 0x08
 
-typedef struct {
+typedef struct Vec3f {
     f32 x, y, z;
 } Vec3f; // size = 0x0C
 
-typedef struct {
+typedef struct Vec3us {
     u16 x, y, z;
 } Vec3us; // size = 0x06
 
-typedef struct {
+typedef struct Vec3s {
     s16 x, y, z;
 } Vec3s; // size = 0x06
 
-typedef struct {
+typedef struct Vec3i {
     s32 x, y, z;
 } Vec3i; // size = 0x0C
 
-typedef struct {
+typedef struct Sphere16 {
     Vec3s center;
     s16 radius;
 } Sphere16; // size = 0x08
 
-typedef struct {
+typedef struct Spheref {
     Vec3f center;
     f32 radius;
 } Spheref; // size = 0x10
 
-typedef struct {
+typedef struct PosRot {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ Vec3s rot;
+} PosRot; // size = 0x14
+
+typedef struct Plane {
     Vec3f normal;
     f32 originDist;
 } Plane; // size = 0x10
 
-typedef struct {
+typedef struct TriNorm {
     Vec3f vtx[3];
     Plane plane;
 } TriNorm; // size = 0x34
 
-typedef struct {
+typedef struct Cylinder16 {
     /* 0x0000 */ s16 radius;
     /* 0x0002 */ s16 height;
     /* 0x0004 */ s16 yShift;
     /* 0x0006 */ Vec3s pos;
 } Cylinder16; // size = 0x0C
 
-typedef struct {
+typedef struct Cylinderf {
     /* 0x00 */ f32 radius;
     /* 0x04 */ f32 height;
     /* 0x08 */ f32 yShift;
     /* 0x0C */ Vec3f pos;
 } Cylinderf; // size = 0x18
 
-typedef struct {
+typedef struct InfiniteLine {
     /* 0x0000 */ Vec3f point;
     /* 0x000C */ Vec3f dir;
 } InfiniteLine; // size = 0x18
 
-typedef struct {
+typedef struct Linef {
     /* 0x0000 */ Vec3f a;
     /* 0x000C */ Vec3f b;
 } Linef; // size = 0x18
 
-typedef struct {
+typedef struct VecSphGeo {
     /* 0x0 */ f32 r; // radius
     /* 0x4 */ s16 pitch; // depends on coordinate system. See below.
     /* 0x6 */ s16 yaw; // azimuthal angle
@@ -115,6 +127,22 @@ typedef VecSphGeo VecGeo;
 #define BINANG_TO_RAD(binang) ((f32)(binang) * (M_PI / 0x8000))
 #define BINANG_TO_RAD_ALT(binang) (((f32)(binang) / (f32)0x8000) * M_PI)
 #define BINANG_TO_RAD_ALT2(binang) (((f32)(binang) * M_PI) / 0x8000)
+
+// Angle conversion macros required for matching. These were probably the original macros used, but
+// we prefer DEG_TO_BINANG/RAD_TO_BINANG where possible to avoid possible undefined behavior with input
+// values outside of [-180, 180) degrees or [-PI, PI) radians.
+#if PLATFORM_N64
+#define DEG_TO_BINANG2(degrees) (f32)((degrees) * (0x8000 / 180.0f))
+#define RAD_TO_BINANG2(radians) (f32)((radians) * (0x8000 / M_PI))
+#else
+#define DEG_TO_BINANG2(degrees) (s32)((degrees) * (0x8000 / 180.0f))
+#define RAD_TO_BINANG2(radians) (s32)((radians) * (0x8000 / M_PI))
+#endif
+
+// Angle conversion macros (Camera)
+// these two angle conversion macros are slightly inaccurate
+#define CAM_DEG_TO_BINANG(degrees) (s16)TRUNCF_BINANG((degrees) * 182.04167f + .5f)
+#define CAM_BINANG_TO_DEG(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
 
 // Vector macros
 #define SQXZ(vec) ((vec).x * (vec).x + (vec).z * (vec).z)

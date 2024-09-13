@@ -7,7 +7,7 @@
 #include "z_en_st.h"
 #include "assets/objects/object_st/object_st.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnSt_Init(Actor* thisx, PlayState* play);
 void EnSt_Destroy(Actor* thisx, PlayState* play);
@@ -23,7 +23,7 @@ void EnSt_FinishBouncing(EnSt* this, PlayState* play);
 
 #include "assets/overlays/ovl_En_St/ovl_En_St.c"
 
-ActorInit En_St_InitVars = {
+ActorProfile En_St_Profile = {
     /**/ ACTOR_EN_ST,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -37,7 +37,7 @@ ActorInit En_St_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -59,7 +59,7 @@ static CollisionCheckInfoInit2 sColChkInit = { 2, 0, 0, 0, MASS_IMMOVABLE };
 
 static ColliderCylinderInit sCylinderInit2 = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -93,7 +93,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -104,7 +104,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef enum {
+typedef enum EnStAnimation {
     /* 0 */ ENST_ANIM_0,
     /* 1 */ ENST_ANIM_1,
     /* 2 */ ENST_ANIM_2,
@@ -291,7 +291,7 @@ void EnSt_InitColliders(EnSt* this, PlayState* play) {
         DMG_DEFAULT &
         ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
         ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
-    this->colCylinder[2].base.colType = COLTYPE_METAL;
+    this->colCylinder[2].base.colMaterial = COL_MATERIAL_METAL;
     this->colCylinder[2].elem.acElemFlags = ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO;
     this->colCylinder[2].elem.elemType = ELEMTYPE_UNK2;
     this->colCylinder[2].elem.acDmgInfo.dmgFlags =
@@ -467,7 +467,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
         return false;
     }
     Enemy_StartFinishingBlow(play, &this->actor);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->groundBounces = 3;
     this->deathTimer = 20;
     this->actor.gravity = -1.0f;

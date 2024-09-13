@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_9)
 
 void EnFw_Init(Actor* thisx, PlayState* play);
 void EnFw_Destroy(Actor* thisx, PlayState* play);
@@ -24,7 +24,7 @@ void EnFw_Run(EnFw* this, PlayState* play);
 void EnFw_JumpToParentInitPos(EnFw* this, PlayState* play);
 void EnFw_TurnToParentInitPos(EnFw* this, PlayState* play);
 
-ActorInit En_Fw_InitVars = {
+ActorProfile En_Fw_Profile = {
     /**/ ACTOR_EN_FW,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -52,7 +52,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -65,7 +65,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnFwAnimation {
     /* 0 */ ENFW_ANIM_0,
     /* 1 */ ENFW_ANIM_1,
     /* 2 */ ENFW_ANIM_2
@@ -480,8 +480,7 @@ void EnFw_DrawEffects(EnFw* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fw.c", 1229),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fw.c", 1229);
         idx = eff->timer * (8.0f / eff->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);

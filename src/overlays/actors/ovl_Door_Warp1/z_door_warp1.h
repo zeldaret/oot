@@ -6,7 +6,7 @@
 
 struct DoorWarp1;
 
-typedef enum {
+typedef enum DoorWarp1Type {
     /* -2 */ WARP_BLUE_CRYSTAL = -2,
     /* -1 */ WARP_DUNGEON_ADULT,
     /*  0 */ WARP_DUNGEON_CHILD,
@@ -22,7 +22,7 @@ typedef enum {
     /* 10 */ WARP_RED
 } DoorWarp1Type;
 
-typedef enum {
+typedef enum DoorWarp1RutoState {
     /* 0 */ WARP_BLUE_RUTO_STATE_INITIAL,   // initial, warp doesn't work yet
     /* 1 */ WARP_BLUE_RUTO_STATE_READY,     // set by ruto, warp can work now
     /* 2 */ WARP_BLUE_RUTO_STATE_ENTERED,   // set by warp, player has stepped into the warp

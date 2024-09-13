@@ -26,7 +26,7 @@ void EffectSsEnIce_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsEnIce_Update(PlayState* play, u32 index, EffectSs* this);
 void EffectSsEnIce_UpdateFlying(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_En_Ice_InitVars = {
+EffectSsProfile Effect_Ss_En_Ice_Profile = {
     EFFECT_SS_EN_ICE,
     EffectSsEnIce_Init,
 };
@@ -113,8 +113,7 @@ void EffectSsEnIce_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(BINANG_TO_RAD(this->rYaw), MTXMODE_APPLY);
     Matrix_RotateX(BINANG_TO_RAD(this->rPitch), MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_en_ice.c", 261),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_en_ice.c", 261);
 
     hiliteLightDir.x = 89.8f;
     hiliteLightDir.y = 0.0f;

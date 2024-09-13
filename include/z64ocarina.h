@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 
-typedef enum {
+typedef enum OcarinaSongId {
     /*  0 */ OCARINA_SONG_MINUET,
     /*  1 */ OCARINA_SONG_BOLERO,
     /*  2 */ OCARINA_SONG_SERENADE,
@@ -22,7 +22,7 @@ typedef enum {
     /* 14 */ OCARINA_SONG_SCARECROW_LONG = OCARINA_SONG_MAX // anything larger than 13 is considered the long scarecrow's song
 } OcarinaSongId;
 
-typedef enum {
+typedef enum OcarinaSongActionId {
     /* 0x00 */ OCARINA_ACTION_UNK_0, // acts like free play but never set
     /* 0x01 */ OCARINA_ACTION_FREE_PLAY,
     /* 0x02 */ OCARINA_ACTION_TEACH_MINUET, // Song demonstrations by teachers
@@ -75,7 +75,7 @@ typedef enum {
     /* 0x31 */ OCARINA_ACTION_CHECK_NOWARP_DONE
 } OcarinaSongActionId;
 
-typedef enum {
+typedef enum OcarinaMode {
     /* 0x00 */ OCARINA_MODE_00,
     /* 0x01 */ OCARINA_MODE_01,
     /* 0x02 */ OCARINA_MODE_02,
@@ -94,7 +94,7 @@ typedef enum {
     /* 0x0F */ OCARINA_MODE_0F
 } OcarinaMode;
 
-typedef enum {
+typedef enum OcarinaButtonIndex {
     /* 0 */ OCARINA_BTN_A,
     /* 1 */ OCARINA_BTN_C_DOWN,
     /* 2 */ OCARINA_BTN_C_RIGHT,
@@ -106,7 +106,7 @@ typedef enum {
 
 // Uses scientific pitch notation relative to middle C
 // https://en.wikipedia.org/wiki/Scientific_pitch_notation
-typedef enum {
+typedef enum OcarinaPitch {
     /* 0x0 */ OCARINA_PITCH_C4,
     /* 0x1 */ OCARINA_PITCH_DFLAT4,
     /* 0x2 */ OCARINA_PITCH_D4,
@@ -126,7 +126,7 @@ typedef enum {
     /* 0xFF */ OCARINA_PITCH_NONE = 0xFF
 } OcarinaPitch;
 
-typedef enum {
+typedef enum OcarinaInstrumentId {
     /* 0 */ OCARINA_INSTRUMENT_OFF,
     /* 1 */ OCARINA_INSTRUMENT_DEFAULT,
     /* 2 */ OCARINA_INSTRUMENT_MALON,
@@ -139,7 +139,7 @@ typedef enum {
     /* 8 */ OCARINA_INSTRUMENT_DEFAULT_COPY2 = OCARINA_INSTRUMENT_MAX + 1 // Unused but present in Sequence 0 table
 } OcarinaInstrumentId;
 
-typedef enum {
+typedef enum OcarinaRecordingState {
     /*    0 */ OCARINA_RECORD_OFF,
     /*    1 */ OCARINA_RECORD_SCARECROW_LONG,
     /*    2 */ OCARINA_RECORD_SCARECROW_SPAWN,
@@ -157,7 +157,7 @@ typedef enum {
  *      0x80 - BTN_R is pressed to raise note by a semitone
  */
 
-typedef struct {
+typedef struct OcarinaNote {
     /* 0x0 */ u8 pitch; // number of semitones above middle C
     /* 0x2 */ u16 length; // number of frames the note is sustained
     /* 0x4 */ u8 volume;
@@ -166,7 +166,7 @@ typedef struct {
     /* 0x7 */ u8 bFlat4Flag; // See note above
 } OcarinaNote;  // size = 0x8
 
-typedef struct {
+typedef struct OcarinaSongButtons {
     /* 0x0 */ u8 numButtons;
     /* 0x1 */ u8 buttonsIndex[8];
 } OcarinaSongButtons; // size = 0x9

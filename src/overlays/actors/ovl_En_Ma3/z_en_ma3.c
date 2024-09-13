@@ -7,7 +7,7 @@
 #include "z_en_ma3.h"
 #include "assets/objects/object_ma2/object_ma2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnMa3_Init(Actor* thisx, PlayState* play);
 void EnMa3_Destroy(Actor* thisx, PlayState* play);
@@ -20,7 +20,7 @@ s32 func_80AA2F28(EnMa3* this);
 void EnMa3_UpdateEyes(EnMa3* this);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
-ActorInit En_Ma3_InitVars = {
+ActorProfile En_Ma3_Profile = {
     /**/ ACTOR_EN_MA3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -34,7 +34,7 @@ ActorInit En_Ma3_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnMa3Animation {
     /* 0 */ ENMA3_ANIM_0,
     /* 1 */ ENMA3_ANIM_1,
     /* 2 */ ENMA3_ANIM_2,

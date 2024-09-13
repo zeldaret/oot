@@ -1,0 +1,34 @@
+<Root>
+    <File Name="ovl_file_choose">
+        <Array Name="D_80811BB0" Count="24" Offset="0x0" Static="Off">
+            <Vtx/>
+        </Array>
+        <Array Name="gCharPageHira" Count="65" Offset="0x180" Static="Off">
+            <Scalar Type="s16"/>
+        </Array>
+        <Array Name="gCharPageKata" Count="65" Offset="0x204" Static="Off">
+            <Scalar Type="s16"/>
+        </Array>
+        <Array Name="gCharPageEng" Count="65" Offset="0x288" Static="Off">
+            <Scalar Type="s16"/>
+        </Array>
+        <Array Name="gNextCharPage" Count="9" Offset="0x30C" Static="Off">
+            <Scalar Type="s16"/>
+        </Array>
+        <Array Name="D_80811D30" Count="16" Offset="0x320" Static="Off">
+            <Vtx/>
+        </Array>
+        <Array Name="D_80811F30" Count="32" Offset="0x420" Static="Off">
+            <Vtx/>
+        </Array>
+        <Array Name="gOptionsDividerTopVtx" Count="4" Offset="0x620" Static="Off">
+            <Vtx/>
+        </Array>
+        <Array Name="gOptionsDividerMiddleVtx" Count="4" Offset="0x660" Static="Off">
+            <Vtx/>
+        </Array>
+        <Array Name="gOptionsDividerBottomVtx" Count="4" Offset="0x6A0" Static="Off">
+            <Vtx/>
+        </Array>
+    </File>
+</Root>

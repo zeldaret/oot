@@ -31,7 +31,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play);
 
 static s32 sPlayerIsCaught = false;
 
-ActorInit En_Heishi1_InitVars = {
+ActorProfile En_Heishi1_Profile = {
     /**/ 0,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -72,8 +72,8 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play2) {
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable, 17);
 
-    this->type = (this->actor.params >> 8) & 0xFF;
-    this->path = this->actor.params & 0xFF;
+    this->type = PARAMS_GET_U(this->actor.params, 8, 8);
+    this->path = PARAMS_GET_U(this->actor.params, 0, 8);
 
     for (i = 0; i < ARRAY_COUNT(sAnimParamsInit[0]); i++) {
         this->animParams[i] = sAnimParamsInit[this->type][i];

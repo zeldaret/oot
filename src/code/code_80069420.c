@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 /**
  * memcpy: copies `len` bytes from memory starting at `src` to memory starting at `dest`. Expects the memory
@@ -27,7 +27,7 @@ void* MemCpy(void* dest, const void* src, s32 len) {
 /**
  * memset: sets `len` bytes to `val` starting at address `dest`.
  *
- * @see There are two other memsets in this codebase, Lib_MemSet(), __osMemset().
+ * @see There are two other memsets in this codebase, Lib_MemSet(), memset().
  * This one is unused.
  *
  * @param dest address to start at

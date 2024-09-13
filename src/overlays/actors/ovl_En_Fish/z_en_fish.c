@@ -53,7 +53,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -64,7 +64,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-ActorInit En_Fish_InitVars = {
+ActorProfile En_Fish_Profile = {
     /**/ ACTOR_EN_FISH,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

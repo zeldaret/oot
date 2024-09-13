@@ -23,7 +23,7 @@ struct DynaPolyActor;
 #define FUNC_80041EA4_STOP 8
 #define FUNC_80041EA4_VOID_OUT 12
 
-typedef struct {
+typedef struct ScaleRotPos {
     /* 0x00 */ Vec3f scale;
     /* 0x0C */ Vec3s rot;
     /* 0x14 */ Vec3f pos;
@@ -49,7 +49,7 @@ typedef struct {
 // flags for flags_vIB
 #define COLPOLY_IS_FLOOR_CONVEYOR (1 << 0)
 
-typedef struct {
+typedef struct CollisionPoly {
     /* 0x00 */ u16 type;
     union {
         u16 vtxData[3];
@@ -66,7 +66,7 @@ typedef struct {
     /* 0x0E */ s16 dist; // Plane distance from origin along the normal
 } CollisionPoly; // size = 0x10
 
-typedef struct {
+typedef struct BgCamInfo {
     /* 0x0 */ u16 setting; // camera setting described by CameraSettingType enum
     /* 0x2 */ s16 count; // only used when `bgCamFuncData` is a list of points used for crawlspaces
     /* 0x4 */ Vec3s* bgCamFuncData; // s16 data grouped in threes (ex. Vec3s), is usually of type `BgCamFuncData`, but can be a list of points of type `Vec3s` for crawlspaces
@@ -74,7 +74,7 @@ typedef struct {
 
 // The structure used for all instances of s16 data from `BgCamInfo` with the exception of crawlspaces.
 // See `Camera_Subj4` for Vec3s data usage in crawlspaces
-typedef struct {
+typedef struct BgCamFuncData {
     /* 0x00 */ Vec3s pos;
     /* 0x06 */ Vec3s rot;
     /* 0x0C */ s16 fov;
@@ -101,7 +101,7 @@ typedef struct {
      (((room)       & 0x3F) << 13) | \
      (((setFlag19)  &    1) << 19))
 
-typedef struct {
+typedef struct WaterBox {
     /* 0x00 */ s16 xMin;
     /* 0x02 */ s16 ySurface;
     /* 0x04 */ s16 zMin;
@@ -110,7 +110,7 @@ typedef struct {
     /* 0x0C */ u32 properties;
 } WaterBox; // size = 0x10
 
-typedef enum {
+typedef enum FloorType {
     /*  0 */ FLOOR_TYPE_0,
     /*  1 */ FLOOR_TYPE_1,
     /*  2 */ FLOOR_TYPE_2,
@@ -126,7 +126,7 @@ typedef enum {
     /* 12 */ FLOOR_TYPE_12
 } FloorType;
 
-typedef enum {
+typedef enum WallType {
     /*  0 */ WALL_TYPE_0,
     /*  1 */ WALL_TYPE_1,
     /*  2 */ WALL_TYPE_2,
@@ -152,7 +152,7 @@ typedef enum {
 #define WALL_FLAG_6 (1 << 6)
 #define WALL_FLAG_CRAWLSPACE (WALL_FLAG_CRAWLSPACE_1 | WALL_FLAG_CRAWLSPACE_2)
 
-typedef enum {
+typedef enum FloorProperty {
     /*  0 */ FLOOR_PROPERTY_0,
     /*  5 */ FLOOR_PROPERTY_5 = 5,
     /*  6 */ FLOOR_PROPERTY_6,
@@ -163,7 +163,7 @@ typedef enum {
     /* 12 */ FLOOR_PROPERTY_12
 } FloorProperty;
 
-typedef enum {
+typedef enum SurfaceSfxOffset {
     /*  0 */ SURFACE_SFX_OFFSET_DIRT,
     /*  1 */ SURFACE_SFX_OFFSET_SAND,
     /*  2 */ SURFACE_SFX_OFFSET_STONE,
@@ -182,7 +182,7 @@ typedef enum {
     /* 15 */ SURFACE_SFX_OFFSET_ICE
 } SurfaceSfxOffset;
 
-typedef enum {
+typedef enum SurfaceMaterial {
     /*  0 */ SURFACE_MATERIAL_DIRT,
     /*  1 */ SURFACE_MATERIAL_SAND,
     /*  2 */ SURFACE_MATERIAL_STONE,
@@ -200,13 +200,13 @@ typedef enum {
     /* 14 */ SURFACE_MATERIAL_MAX
 } SurfaceMaterial;
 
-typedef enum {
+typedef enum FloorEffect {
     /*  0 */ FLOOR_EFFECT_0,
     /*  1 */ FLOOR_EFFECT_1,
     /*  2 */ FLOOR_EFFECT_2
 } FloorEffect;
 
-typedef enum {
+typedef enum ConveyorSpeed {
     /*  0 */ CONVEYOR_SPEED_DISABLED,
     /*  1 */ CONVEYOR_SPEED_SLOW,
     /*  2 */ CONVEYOR_SPEED_MEDIUM,
@@ -237,11 +237,11 @@ typedef enum {
      (((conveyorDirection) & 0x3F) << 21) | \
      (((unk27)             &    1) << 27))
 
-typedef struct {
+typedef struct SurfaceType {
     u32 data[2];
 } SurfaceType;
 
-typedef struct {
+typedef struct CollisionHeader {
     /* 0x00 */ Vec3s minBounds; // minimum coordinates of poly bounding box
     /* 0x06 */ Vec3s maxBounds; // maximum coordinates of poly bounding box
     /* 0x0C */ u16 numVertices;
@@ -254,16 +254,16 @@ typedef struct {
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; // original name: BGDataInfo
 
-typedef struct {
+typedef struct SSNode {
     s16 polyId;
     u16 next; // next SSNode index
 } SSNode;
 
-typedef struct {
+typedef struct SSList {
     u16 head; // first SSNode index
 } SSList;
 
-typedef struct {
+typedef struct SSNodeList {
     /* 0x00 */ u16 max;          // original name: short_slist_node_size
     /* 0x02 */ u16 count;        // original name: short_slist_node_last_index
     /* 0x04 */ SSNode* tbl;      // original name: short_slist_node_tbl
@@ -271,26 +271,26 @@ typedef struct {
                                  // bg check, and set to 1 if that poly has already been tested.
 } SSNodeList;
 
-typedef struct {
+typedef struct DynaSSNodeList {
     SSNode* tbl;
     s32 count;
     s32 max;
 } DynaSSNodeList;
 
-typedef struct {
+typedef struct StaticLookup {
     SSList floor;
     SSList wall;
     SSList ceiling;
 } StaticLookup;
 
-typedef struct {
+typedef struct DynaLookup {
     u16 polyStartIndex;
     SSList ceiling;
     SSList wall;
     SSList floor;
 } DynaLookup;
 
-typedef struct {
+typedef struct BgActor {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ CollisionHeader* colHeader;
     /* 0x08 */ DynaLookup dynaLookup;
@@ -307,7 +307,7 @@ typedef struct {
 #define BGACTOR_COLLISION_DISABLED (1 << 2) // The collision of the bgActor is disabled
 #define BGACTOR_CEILING_COLLISION_DISABLED (1 << 3) // The ceilings in the collision of the bgActor are ignored
 
-typedef struct {
+typedef struct DynaCollisionContext {
     /* 0x0000 */ u8 bitFlag;
     /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
     /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX];
@@ -332,7 +332,7 @@ typedef struct CollisionContext {
     /* 0x1460 */ u32 memSize; // Size of all allocated memory plus CollisionContext
 } CollisionContext; // size = 0x1464
 
-typedef struct {
+typedef struct DynaRaycastDown {
     /* 0x00 */ struct PlayState* play;
     /* 0x04 */ struct CollisionContext* colCtx;
     /* 0x08 */ u16 xpFlags;
@@ -347,7 +347,7 @@ typedef struct {
     /* 0x2C */ SSList* ssList;
 } DynaRaycastDown;
 
-typedef struct {
+typedef struct DynaLineTest {
     /* 0x00 */ struct CollisionContext* colCtx;
     /* 0x04 */ u16 xpFlags;
     /* 0x08 */ DynaCollisionContext* dyna;

@@ -20,7 +20,7 @@ s32 ElfMsg2_GetMessageId(ElfMsg2* this);
 void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play);
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, PlayState* play);
 
-ActorInit Elf_Msg2_InitVars = {
+ActorProfile Elf_Msg2_Profile = {
     /**/ ACTOR_ELF_MSG2,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -53,21 +53,21 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, PlayState* play) {
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 171); // "Mutual destruction"
-        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(play, ((this->actor.params >> 8) & 0x3F));
+        if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && Flags_GetClear(play, this->actor.room)) {
         LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182); // "Mutual destruction 2"
-        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(play, ((this->actor.params >> 8) & 0x3F));
+        if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
+    } else if (PARAMS_GET_U(this->actor.params, 8, 6) == 0x3F) {
         return 0;
-    } else if (Flags_GetSwitch(play, ((this->actor.params >> 8) & 0x3F))) {
+    } else if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 192); // "Mutual destruction"
         Actor_Kill(&this->actor);
         return 1;
@@ -81,14 +81,15 @@ void ElfMsg2_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!ElfMsg2_KillCheck(this, play)) {
         if ((this->actor.world.rot.x > 0) && (this->actor.world.rot.x < 8)) {
-            this->actor.targetMode = this->actor.world.rot.x - 1;
+            this->actor.attentionRangeType = this->actor.world.rot.x - 1;
         }
         Actor_ProcessInitChain(thisx, sInitChain);
         if (this->actor.world.rot.y >= 0x41) {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitUntilActivated);
         } else {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
+            this->actor.flags |=
+                ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
         this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
@@ -99,7 +100,7 @@ void ElfMsg2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 ElfMsg2_GetMessageId(ElfMsg2* this) {
-    return (this->actor.params & 0xFF) + 0x100;
+    return PARAMS_GET_U(this->actor.params, 0, 8) + 0x100;
 }
 
 /**
@@ -112,7 +113,7 @@ void ElfMsg2_WaitForTextClose(ElfMsg2* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         if (this->actor.world.rot.z != 1) {
             Actor_Kill(&this->actor);
-            switchFlag = (this->actor.params >> 8) & 0x3F;
+            switchFlag = PARAMS_GET_U(this->actor.params, 8, 6);
             if (switchFlag != 0x3F) {
                 Flags_SetSwitch(play, switchFlag);
             }
@@ -140,7 +141,7 @@ void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play) {
     if ((this->actor.world.rot.y >= 0x41) && (this->actor.world.rot.y <= 0x80) &&
         (Flags_GetSwitch(play, (this->actor.world.rot.y - 0x41)))) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
         this->actor.textId = ElfMsg2_GetMessageId(this);
     }
 }
@@ -165,8 +166,7 @@ void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_elf_msg2.c", 362),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg2.c", 362);
     gSPDisplayList(POLY_XLU_DISP++, D_809ADC38);
     gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
 

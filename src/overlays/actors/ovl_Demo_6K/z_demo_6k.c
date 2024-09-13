@@ -37,7 +37,7 @@ void func_80968B70(Actor* thisx, PlayState* play);
 void func_80968FB0(Actor* thisx, PlayState* play);
 void func_809691BC(Demo6K* this, PlayState* play, s32 cueChannel);
 
-ActorInit Demo_6K_InitVars = {
+ActorProfile Demo_6K_Profile = {
     /**/ ACTOR_DEMO_6K,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -207,11 +207,11 @@ void Demo6K_WaitForObject(Demo6K* this, PlayState* play) {
 
 void func_80966E04(Demo6K* this, PlayState* play) {
     if (play->csCtx.curFrame > 214) {
-        func_8002F948(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
     }
 
     if (play->csCtx.curFrame > 264) {
-        func_8002F948(&this->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL) &&
@@ -222,8 +222,8 @@ void func_80966E04(Demo6K* this, PlayState* play) {
 
 void func_80966E98(Demo6K* this, PlayState* play) {
     if (play->csCtx.curFrame < 353) {
-        func_8002F948(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
-        func_8002F948(&this->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
     }
 
     if (play->csCtx.curFrame == 342) {
@@ -300,7 +300,7 @@ void func_8096712C(Demo6K* this, PlayState* play) {
     this->timer2++;
 
     if ((play->sceneId == SCENE_INSIDE_GANONS_CASTLE) && (play->csCtx.curFrame < D_8096932C[this->actor.params - 3])) {
-        func_8002F974(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
     }
 }
 
@@ -465,7 +465,7 @@ void func_80967AD0(Demo6K* this, PlayState* play) {
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[1] != NULL)) {
         if (play->csCtx.actorCues[1]->id == 2) {
             this->unk_170++;
-            func_8002F948(&this->actor, NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
+            Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
         }
 
         func_809691BC(this, play, 1);
@@ -571,27 +571,22 @@ void func_80967FFC(Actor* thisx, PlayState* play) {
 
     {
         s32 i;
-        s32 pad;
-        Color_RGB8 colors[6][2] = {
-            { { 255, 170, 255 }, { 255, 0, 100 } }, { { 255, 255, 170 }, { 0, 255, 0 } },
-            { { 255, 255, 170 }, { 255, 255, 0 } }, { { 255, 170, 255 }, { 50, 0, 255 } },
-            { { 255, 255, 170 }, { 255, 100, 0 } }, { { 170, 255, 255 }, { 0, 100, 255 } },
+        s32 j;
+        Color_RGB8 colors[12] = {
+            { 255, 170, 255 }, { 255, 0, 100 }, { 255, 255, 170 }, { 0, 255, 0 },   { 255, 255, 170 }, { 255, 255, 0 },
+            { 255, 170, 255 }, { 50, 0, 255 },  { 255, 255, 170 }, { 255, 100, 0 }, { 170, 255, 255 }, { 0, 100, 255 },
         };
 
         Matrix_RotateZ(-M_PI / 2, MTXMODE_APPLY);
 
-        for (i = 0; i < 6; i++) {
+        for (i = 0, j = 0; i < 6; i++, j += 2) {
             Matrix_RotateZ(M_PI / 3, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1115),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_6k.c", 1115);
             gDPPipeSync(POLY_XLU_DISP++);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, colors[i][0].r, colors[i][0].g, colors[i][0].b, 255);
-            gDPSetEnvColor(POLY_XLU_DISP++, colors[i][1].r, colors[i][1].g, colors[i][1].b, 255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, colors[j + 0].r, colors[j + 0].g, colors[j + 0].b, 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, colors[j + 1].r, colors[j + 1].g, colors[j + 1].b, 255);
             gSPDisplayList(POLY_XLU_DISP++, object_demo_6k_DL_0022B0);
         }
-
-        // required to avoid optimizing out i
-        if ((s16)i) {}
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1127);
@@ -628,8 +623,7 @@ void func_80968298(Actor* thisx, PlayState* play) {
     }
 
     Matrix_RotateX(-M_PI / 2, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1170),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_6k.c", 1170);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 210, 210, 210, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 100, 100, 100, 255);
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -638,8 +632,7 @@ void func_80968298(Actor* thisx, PlayState* play) {
                                 (timer1 * 12) & 0xFFF, 64, 32));
     gSPDisplayList(POLY_XLU_DISP++, object_demo_6k_DL_0039D0);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1189),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_6k.c", 1189);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 50, 50, 50, 255);
@@ -669,13 +662,11 @@ void func_8096865C(Actor* thisx, PlayState* play) {
         Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_RotateZ(DEG_TO_RAD(this->timer2 * 6), MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1230),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_6k.c", 1230);
         gSPDisplayList(POLY_XLU_DISP++, displayList);
         Matrix_Pop();
         Matrix_RotateZ(DEG_TO_RAD(-(f32)(this->timer2 * 6)), MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1236),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_6k.c", 1236);
         gSPDisplayList(POLY_XLU_DISP++, displayList);
     }
 
@@ -706,8 +697,7 @@ void func_809688C4(Actor* thisx, PlayState* play2) {
                          this->unk_234[i] * D_8096931C[(frames + i) & 3],
                          this->unk_234[i] * D_8096931C[(frames + i) & 3], MTXMODE_APPLY);
             Matrix_ReplaceRotation(&play->billboardMtxF);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1297),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_6k.c", 1297);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
             Matrix_Pop();
         }
@@ -725,15 +715,12 @@ void func_80968B70(Actor* thisx, PlayState* play) {
     u8 primColor[4];
     u8 envColor[3];
 
-    if (1) {}
-
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1316);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
     Matrix_RotateX(M_PI / 2, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1322),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_6k.c", 1322);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0xFF - ((timer2 * 2) & 0xFF), 0, 32, 32, 1,
                                 0xFF - ((timer2 * 2) & 0xFF), (timer2 * 15) & 0x3FF, 16, 64));
@@ -781,14 +768,12 @@ void func_80968FB0(Actor* thisx, PlayState* play) {
     scaleFactor = ((s16)D_809693CC[(frames * 4) & 0xF] * 0.01f) + 1.0f;
     Matrix_Scale(this->actor.scale.x * scaleFactor, this->actor.scale.y * scaleFactor,
                  this->actor.scale.z * scaleFactor, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1394),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_6k.c", 1394);
     gSPSegment(POLY_XLU_DISP++, 0x08, displayList);
     gDPPipeSync(displayList++);
-    if (displayList) {}
     gDPSetPrimColor(displayList++, 0, 0x80, 255, 255, 255, this->unk_293);
     gDPSetRenderMode(displayList++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
-    gSPEndDisplayList(displayList++);
+    gSPEndDisplayList(displayList);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 200, 0, 255);
     gSPDisplayList(POLY_XLU_DISP++, gGlowCircleSmallDL);
 

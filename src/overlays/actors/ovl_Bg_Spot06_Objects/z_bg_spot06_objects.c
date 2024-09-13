@@ -9,14 +9,14 @@
 
 #define FLAGS ACTOR_FLAG_9
 
-typedef enum {
+typedef enum LakeHyliaObjectsType {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
     /* 0x1 */ LHO_WATER_TEMPLE_ENTRANCE_LOCK,
     /* 0x2 */ LHO_WATER_PLANE,
     /* 0x3 */ LHO_ICE_BLOCK
 } LakeHyliaObjectsType;
 
-typedef enum {
+typedef enum LakeHyliaWaterBoxIndices {
     /* 0x0 */ LHWB_GERUDO_VALLEY_RIVER_UPPER, // entrance from Gerudo Valley
     /* 0x1 */ LHWB_GERUDO_VALLEY_RIVER_LOWER, // river flowing from Gerudo Valley
     /* 0x2 */ LHWB_MAIN_1,                    // main water box
@@ -44,7 +44,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, PlayState* play);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* play);
 
-ActorInit Bg_Spot06_Objects_InitVars = {
+ActorProfile Bg_Spot06_Objects_Profile = {
     /**/ ACTOR_BG_SPOT06_OBJECTS,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -72,7 +72,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -96,8 +96,8 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    this->switchFlag = thisx->params & 0xFF;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 0, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
 
     PRINTF("spot06 obj nthisx->arg_data=[%d]", thisx->params);
 
@@ -256,7 +256,7 @@ void BgSpot06Objects_GateOpen(BgSpot06Objects* this, PlayState* play) {
         this->timer = 0;
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -310,7 +310,7 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, PlayState* play) {
         }
 
         EffectSsGSplash_Spawn(play, &this->dyna.actor.world.pos, NULL, NULL, 1, 700);
-        this->collider.elements->dim.worldSphere.radius = 45;
+        this->collider.elements[0].dim.worldSphere.radius = 45;
         this->actionFunc = BgSpot06Objects_LockPullOutward;
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -432,8 +432,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot06_objects.c", 850),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot06_objects.c", 850);
 
     gameplayFrames = play->state.frames;
 
@@ -506,5 +505,5 @@ void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* pl
         play->colCtx.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = this->dyna.actor.world.pos.y;
     }
 
-    func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+    Actor_PlaySfx_FlaggedCentered2(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
 }

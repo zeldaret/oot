@@ -35,7 +35,7 @@ static BgZgDrawFunc sDrawFuncs[] = {
     func_808C0EEC,
 };
 
-ActorInit Bg_Zg_InitVars = {
+ActorProfile Bg_Zg_Profile = {
     /**/ ACTOR_BG_ZG,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -59,18 +59,28 @@ void func_808C0C50(BgZg* this) {
 }
 
 s32 func_808C0C98(BgZg* this, PlayState* play) {
-    s32 flag = (this->dyna.actor.params >> 8) & 0xFF;
+    s32 flag = PARAMS_GET_U(this->dyna.actor.params, 8, 8);
 
     return Flags_GetSwitch(play, flag);
 }
 
 s32 func_808C0CC8(BgZg* this) {
-    s32 flag = this->dyna.actor.params & 0xFF;
+    s32 flag = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
 
     return flag;
 }
 
 void func_808C0CD4(BgZg* this, PlayState* play) {
+#if PLATFORM_N64
+    // Anti-piracy check, bars will not open if the check fails.
+    // The address 0x000002E8 is near the start of RDRAM, and is written when IPL3 copies itself to
+    // RDRAM after RDRAM has been initialized. Specifically, this is an instruction from some
+    // embedded RSP code at offset 0x7F8 into IPL3 (0xC86E2000 disassembles to `lqv $v14[0], ($3)`).
+    if (IO_READ(0x000002E8) != 0xC86E2000) {
+        return;
+    }
+#endif
+
     if (func_808C0C98(this, play) != 0) {
         this->action = 1;
         func_808C0C50(this);
@@ -125,8 +135,7 @@ void func_808C0EEC(BgZg* this, PlayState* play) {
     OPEN_DISPS(localGfxCtx, "../z_bg_zg.c", 311);
 
     Gfx_SetupDL_25Opa(localGfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(localGfxCtx, "../z_bg_zg.c", 315),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, localGfxCtx, "../z_bg_zg.c", 315);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseBarsDL);
 
     CLOSE_DISPS(localGfxCtx, "../z_bg_zg.c", 320);

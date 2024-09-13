@@ -6,7 +6,7 @@
 
 #include "z_en_si.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_9)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_9)
 
 void EnSi_Init(Actor* thisx, PlayState* play);
 void EnSi_Destroy(Actor* thisx, PlayState* play);
@@ -20,7 +20,7 @@ void func_80AFB950(EnSi* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_NO_PUSH | OC1_TYPE_ALL,
@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 D_80AFBADC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-ActorInit En_Si_InitVars = {
+ActorProfile En_Si_Profile = {
     /**/ ACTOR_EN_SI,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -128,7 +128,7 @@ void func_80AFB950(EnSi* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) != TEXT_STATE_CLOSING) {
         player->actor.freezeTimer = 10;
     } else {
-        SET_GS_FLAGS((this->actor.params & 0x1F00) >> 8, this->actor.params & 0xFF);
+        SET_GS_FLAGS(PARAMS_GET_S(this->actor.params, 8, 5), PARAMS_GET_S(this->actor.params, 0, 8));
         Actor_Kill(&this->actor);
     }
 }

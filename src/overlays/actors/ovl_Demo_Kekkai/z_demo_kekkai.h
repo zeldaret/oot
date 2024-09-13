@@ -21,7 +21,7 @@ typedef struct DemoKekkai {
     /* 0x01F8 */ DemoKekkaiUpdateFunc updateFunc;
 } DemoKekkai; // size = 0x01FC
 
-typedef enum {
+typedef enum DemoKekkaiType {
     /* 0 */ KEKKAI_TOWER,
     /* 1 */ KEKKAI_WATER,
     /* 2 */ KEKKAI_LIGHT,

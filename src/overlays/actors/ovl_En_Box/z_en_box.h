@@ -11,7 +11,7 @@ struct EnBox;
 
 typedef void (*EnBoxActionFunc)(struct EnBox*, PlayState*);
 
-typedef enum {
+typedef enum EnBoxType {
     /*
     only values 1-11 are used explicitly, other values (like 0) default to another separate behavior
     */

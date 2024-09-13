@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "assets/objects/object_dekunuts/object_dekunuts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 #define DEKUNUTS_FLOWER 10
 
@@ -30,7 +30,7 @@ void EnDekunuts_BeDamaged(EnDekunuts* this, PlayState* play);
 void EnDekunuts_BeStunned(EnDekunuts* this, PlayState* play);
 void EnDekunuts_Die(EnDekunuts* this, PlayState* play);
 
-ActorInit En_Dekunuts_InitVars = {
+ActorProfile En_Dekunuts_Profile = {
     /**/ ACTOR_EN_DEKUNUTS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -44,7 +44,7 @@ ActorInit En_Dekunuts_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -102,7 +102,7 @@ static DamageTable sDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MAD_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 2600, ICHAIN_STOP),
 };
 
 void EnDekunuts_Init(Actor* thisx, PlayState* play) {
@@ -111,7 +111,7 @@ void EnDekunuts_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (thisx->params == DEKUNUTS_FLOWER) {
-        thisx->flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+        thisx->flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
     } else {
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
         SkelAnime_Init(play, &this->skelAnime, &gDekuNutsSkel, &gDekuNutsStandAnim, this->jointTable, this->morphTable,
@@ -119,7 +119,7 @@ void EnDekunuts_Init(Actor* thisx, PlayState* play) {
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
-        this->shotsPerRound = ((thisx->params >> 8) & 0xFF);
+        this->shotsPerRound = PARAMS_GET_U(thisx->params, 8, 8);
         thisx->params &= 0xFF;
         if ((this->shotsPerRound == 0xFF) || (this->shotsPerRound == 0)) {
             this->shotsPerRound = 1;

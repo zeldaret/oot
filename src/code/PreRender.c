@@ -80,7 +80,9 @@ void PreRender_CopyImage(PreRender* this, Gfx** gfxP, void* img, void* imgDst) {
         s32 lrt;
 
         // Make sure that we don't load past the end of the source image
-        nRows = MIN(rowsRemaining, nRows);
+        if (nRows > rowsRemaining) {
+            nRows = rowsRemaining;
+        }
 
         // Determine the upper and lower bounds of the rect to draw
         ult = curRow;
@@ -138,6 +140,7 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
         s32 ult;
         s32 lrt;
         s32 uly;
+        s32 lry;
 
         // Make sure that we don't load past the end of the source image
         if (nRows > rowsRemaining) {
@@ -148,6 +151,7 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
         ult = this->ulySave + curRow;
         lrt = ult + nRows - 1;
         uly = this->uly + curRow;
+        lry = uly + nRows - 1;
 
         // Load a horizontal strip of the source image in RGBA16 format
         gDPLoadTextureTile(gfx++, this->fbufSave, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->widthSave, this->height - 1,
@@ -155,7 +159,7 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
         // Draw that horizontal strip to the destination image, dsdx is 4 << 10 for COPY mode
-        gSPTextureRectangle(gfx++, this->ulx << 2, uly << 2, this->lrx << 2, (uly + nRows - 1) << 2, G_TX_RENDERTILE,
+        gSPTextureRectangle(gfx++, this->ulx << 2, uly << 2, this->lrx << 2, lry << 2, G_TX_RENDERTILE,
                             this->ulxSave << 5, ult << 5, 4 << 10, 1 << 10);
 
         curRow += nRows;
@@ -213,7 +217,9 @@ void func_800C170C(PreRender* this, Gfx** gfxP, void* buf, void* bufSave, u32 r,
         s32 lrt;
 
         // Make sure that we don't load past the end of the source image
-        nRows = MIN(rowsRemaining, nRows);
+        if (nRows > rowsRemaining) {
+            nRows = rowsRemaining;
+        }
 
         // Determine the upper and lower bounds of the rect to draw
         ult = curRow;
@@ -267,7 +273,7 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
-                    G_AC_NONE | G_ZS_PRIM | G_RM_PASS | G_RM_OPA_CI2);
+                    G_AC_NONE | G_ZS_PRIM | G_RM_OPA_CI | G_RM_OPA_CI2);
 
     // Set the combiner to draw the texture as-is, discarding alpha channel
     gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 0, 0, 0, 0, 0, 0, 0, TEXEL0, 0, 0, 0, 0);
@@ -455,15 +461,16 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
         curRow = 0;
         while (rowsRemaining > 0) {
             s32 uls = 0;
+            s32 ult = curRow;
             s32 lrs = this->width - 1;
-            s32 ult;
             s32 lrt;
 
             // Make sure that we don't load past the end of the source image
-            nRows = MIN(rowsRemaining, nRows);
+            if (nRows > rowsRemaining) {
+                nRows = rowsRemaining;
+            }
 
-            // Determine the upper and lower bounds of the rect to draw
-            ult = curRow;
+            // Determine the lower bound of the rect to draw
             lrt = curRow + nRows - 1;
 
             // Load the frame buffer line
@@ -471,10 +478,14 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
                              this->height, uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                              G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
+            rtile = rtile; // Fake match?
+
             // Load the coverage line
             gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, rtile, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height,
                              uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                              G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+            rtile = rtile; // Fake match?
 
             // Draw a texture for which the rgb channels come from the framebuffer and the alpha channel comes from
             // coverage, modulated by env color
@@ -659,11 +670,12 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
         }
     }
 
-    // The background color is determined by averaging the penultimate minimum and maximum pixels, and subtracting the
+    // The background color is determined by adding the penultimate minimum and maximum pixels, and subtracting the
     // ForeGround color:
-    //      BackGround = (pMax + pMin) - (ForeGround) * 2
+    //      BackGround = (pMax + pMin) - ForeGround
 
     // OutputColor = cvg * ForeGround + (1.0 - cvg) * BackGround
+    //             = ForeGround + (1.0 - cvg) * (BackGround - ForeGround)
     invCvg = 7 - buffCvg[7];
     outR = buffR[7] + ((s32)(invCvg * (pmaxR + pminR - (buffR[7] * 2)) + 4) >> 3);
     outG = buffG[7] + ((s32)(invCvg * (pmaxG + pminG - (buffG[7] * 2)) + 4) >> 3);

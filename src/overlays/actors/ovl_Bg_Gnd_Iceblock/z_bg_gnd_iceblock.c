@@ -9,7 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum BgGndIceblockAction {
     /* 0 */ GNDICE_IDLE,
     /* 1 */ GNDICE_FALL,
     /* 2 */ GNDICE_HOLE
@@ -23,7 +23,7 @@ void BgGndIceblock_Draw(Actor* thisx, PlayState* play);
 void BgGndIceblock_Idle(BgGndIceblock* this, PlayState* play);
 void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play);
 
-ActorInit Bg_Gnd_Iceblock_InitVars = {
+ActorProfile Bg_Gnd_Iceblock_Profile = {
     /**/ ACTOR_BG_GND_ICEBLOCK,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -339,7 +339,7 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
         pos.x = thisx->world.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) + (Math_CosS(this->dyna.unk_158) * spread);
         pos.z = thisx->world.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) - (Math_SinS(this->dyna.unk_158) * spread);
         func_8002829C(play, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
-        func_8002F974(thisx, NA_SE_PL_SLIP_ICE_LEVEL - SFX_FLAG);
+        Actor_PlaySfx_Flagged(thisx, NA_SE_PL_SLIP_ICE_LEVEL - SFX_FLAG);
     }
 }
 
