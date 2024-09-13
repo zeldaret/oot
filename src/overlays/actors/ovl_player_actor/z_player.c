@@ -3696,11 +3696,13 @@ void func_80836BEC(Player* this, PlayState* play) {
         if (this->focusActor != NULL) {
             this->stateFlags1 &= ~(PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS | PLAYER_STATE1_PARALLEL);
 
+            // Check if an actor is not hostile, aka "friendly", to set `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS`.
+            //
+            // When carrying another actor, `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS` will be set even if the actor
+            // is hostile. This is a special case to allow Player to have more freedom of movement and be able
+            // to throw a carried actor at the lock-on actor, even if it is hostile.
             if ((this->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) ||
                 !CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)) {
-                // It is possible to have `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS` and `PLAYER_STATE1_HOSTILE_LOCK_ON`
-                // set at the same time if Player is carrying an actor while also locked on to a hostile actor.
-                // It is unclear if this is intentional or a bug.
                 this->stateFlags1 |= PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS;
             }
         } else {
