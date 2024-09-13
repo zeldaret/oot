@@ -8,6 +8,7 @@
  */
 #include <assert.h>
 #include <ctype.h>
+#include <regex.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -20,35 +21,6 @@
 #include "elf32.h"
 #include "util.h"
 
-/* Utility */
-
-static bool
-is_xml(const char *path)
-{
-    size_t len = strlen(path);
-
-    if (len < 4)
-        return false;
-    if (path[len - 4] == '.' && tolower(path[len - 3]) == 'x' && tolower(path[len - 2]) == 'm' &&
-        tolower(path[len - 1]) == 'l')
-        return true;
-
-    return false;
-}
-
-static bool
-is_ofile(const char *path)
-{
-    size_t len = strlen(path);
-
-    if (len < 2)
-        return false;
-    if (path[len - 2] == '.' && tolower(path[len - 1]) == 'o')
-        return true;
-
-    return false;
-}
-
 /* Samplebanks */
 
 static int
@@ -60,8 +32,9 @@ tablegen_samplebanks(const char *sb_hdr_out, const char **samplebanks_paths, int
 
     for (int i = 0; i < num_samplebank_files; i++) {
         const char *path = samplebanks_paths[i];
+        size_t pathlen = strlen(path);
 
-        if (!is_xml(path))
+        if (!str_endswith(path, pathlen, ".xml"))
             error("Not an xml file? (\"%s\")", path);
 
         xmlDocPtr document = xmlReadFile(path, NULL, XML_PARSE_NONET);
@@ -203,7 +176,7 @@ validate_samplebank_index(soundfont *sf, samplebank *sb, int ptr_idx)
     }
 }
 
-int
+static int
 tablegen_soundfonts(const char *sf_hdr_out, char **soundfonts_paths, int num_soundfont_files)
 {
     soundfont *soundfonts = malloc(num_soundfont_files * sizeof(soundfont));
@@ -211,8 +184,9 @@ tablegen_soundfonts(const char *sf_hdr_out, char **soundfonts_paths, int num_sou
 
     for (int i = 0; i < num_soundfont_files; i++) {
         char *path = soundfonts_paths[i];
+        size_t pathlen = strlen(path);
 
-        if (!is_xml(path))
+        if (!str_endswith(path, pathlen, ".xml"))
             error("Not an xml file? (\"%s\")", path);
 
         xmlDocPtr document = xmlReadFile(path, NULL, XML_PARSE_NONET);
@@ -227,7 +201,6 @@ tablegen_soundfonts(const char *sf_hdr_out, char **soundfonts_paths, int num_sou
 
         // Transform the xml path into a header include path
         // Assumption: replacing .xml -> .h forms a valid header include path
-        size_t pathlen = strlen(path);
         path[pathlen - 3] = 'h';
         path[pathlen - 2] = '\0';
 
@@ -306,12 +279,16 @@ tablegen_soundfonts(const char *sf_hdr_out, char **soundfonts_paths, int num_sou
 
 /* Sequences */
 
+struct seq_order_entry {
+    const char *name;
+    const char *enum_name;
+    bool isptr;
+};
+
 struct seq_order {
     size_t num_sequences;
-    char **names;
-    char **enum_names;
-    bool *ptr_flags;
-    void *buf_ptr;
+    struct seq_order_entry *entries;
+    void *filedata;
 };
 
 static void
@@ -329,100 +306,77 @@ read_seq_order(struct seq_order *order, const char *path)
         if (*p == '\n') {
             total_size++;
         } else if (isspace(*p)) {
+            // There should be no whitespace in the input file besides newlines
             goto malformed;
         }
     }
 
-    // Make required allocations
-    char **name_list      = malloc(total_size * (sizeof(char *) + sizeof(char *) + sizeof(bool)));
-    char **enum_name_list = &name_list[total_size];
-    bool *ptr_flags       = (bool *)&enum_name_list[total_size];
+    // Alloc entries
+    struct seq_order_entry *entries = malloc(total_size * sizeof(struct seq_order_entry));
 
-    char *startp = filedata;
+    enum matchno {
+        MATCH_ALL,
+        MATCH_PTR,
+        MATCH_NAME,
+        MATCH_ENUM,
+        MATCH_NUM
+    };
+    regmatch_t match[MATCH_NUM];
+    regex_t re;
+    // Matches either
+    // (<c_identifier>,<c_identifier>)  for non-pointer entries
+    // or
+    // *(<c_identifier>,<c_identifier>) for pointer entries
+    const char *line_regexp = "^(\\*?)\\(([_a-zA-Z][_a-zA-Z0-9]*),([_a-zA-Z][_a-zA-Z0-9]*)\\)$";
 
-    size_t i = 0;
-    bool newline = true;
-    bool eol = false;
-    bool gotname = false;
-    for (char *p = filedata; *p != '\0'; p++) {
-        if (newline) {
-            // Started a new line, look for either an opening '(' or '*(', anything else is invalid.
+    int status = regcomp(&re, line_regexp, REG_EXTENDED);
+    assert(status == 0 && "Failed to compile sequence order regular expression?");
 
-            bool isptr = false;
-            if (*p == '*') {
-                p++;
-                isptr = true;
-            }
-            // Record whether it was a pointer or not
-            ptr_flags[i] = isptr;
-
-            // Should always have '(' here
-            if (*p != '(')
-                goto malformed;
-
-            // End of newline, start name
-            newline = false;
-            gotname = false;
-            startp = p + 1;
-            continue;
+    char *lstart = filedata;
+    for (size_t i = 0; i < total_size; i++) {
+        // find end of line
+        char *p = lstart;
+        while (*p != '\n') {
+            assert(*p != '\0');
+            p++;
         }
+        char *lend = p;
+        // null-terminate the line (replaces the newline)
+        *lend = '\0';
 
-        if (eol) {
-            // At end of line, only whitespace is permitted
-            if (!isspace(*p))
-                goto malformed;
-
-            // When we find the new line, return to newline state
-            if (*p == '\n') {
-                newline = true;
-                eol = false;
-            }
-            continue;
-        }
-
-        // Deal with middle of the line, of the form: "<name>,<enum_name>)"
-
-        // Whitespace is prohibited
-        if (isspace(*p))
+        // try to match the regular expression
+        status = regexec(&re, lstart, MATCH_NUM, match, 0);
+        if (status != 0) {
+            // failed to match, malformed input file
+            char ebuf[128];
+            regerror(status, &re, ebuf, sizeof(ebuf));
+            fprintf(stderr, "Failed to match line %lu: \"%s\"\nregexec error: \"%s\"\n", i, lstart, ebuf);
             goto malformed;
-
-        if (!gotname) {
-            // Haven't found name yet, wait for comma
-            if (*p == ',') {
-                // Record start pos
-                name_list[i] = startp;
-                // Null-terminate (replaces ',')
-                *p = '\0';
-                // Set new start pos for enum_name
-                startp = p + 1;
-                gotname = true;
-            }
-        } else {
-            // Have found name, now we want enum_name
-            if (*p == ')') {
-                // Record start pos
-                enum_name_list[i] = startp;
-                // Null-terminate (replaces ')')
-                *p = '\0';
-                // Enum name is the last thing we care about on this line, advance index
-                i++;
-                // Continue to eol handling
-                eol = true;
-            }
         }
+
+        // if the group is empty we're not a pointer, else we are
+        entries[i].isptr = match[MATCH_PTR].rm_so != match[MATCH_PTR].rm_eo;
+
+        // get the name
+        entries[i].name = &lstart[match[MATCH_NAME].rm_so];
+        lstart[match[MATCH_NAME].rm_eo] = '\0'; // replaces ,
+
+        // get the enum name
+        entries[i].enum_name = &lstart[match[MATCH_ENUM].rm_so];
+        lstart[match[MATCH_ENUM].rm_eo] = '\0'; // replaces )
+
+        // next line
+        lstart = lend + 1;
     }
-    // We should have found one entry for each line
-    assert(i == total_size);
+    assert(*lstart == '\0');
 
     // Write results
     order->num_sequences = total_size;
-    order->names = name_list;
-    order->enum_names = enum_name_list;
-    order->ptr_flags = ptr_flags;
-    order->buf_ptr = filedata; // so we can free it
+    order->entries = entries;
+    order->filedata = filedata;
     return;
 malformed:
-    error("Malformed sequence_order.in?");
+    error("Malformed %s?", path);
 }
 
 struct seqdata {
@@ -432,7 +386,7 @@ struct seqdata {
     size_t font_section_size;
 };
 
-int
+static int
 tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, const char **sequences_paths,
                    int num_sequence_files)
 {
@@ -441,10 +395,10 @@ tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, con
 
 #ifdef SEQ_DEBUG
     // Print the sequence order
-
-    printf("Sequence order:");
+    printf("Sequence order:\n");
     for (size_t i = 0; i < order.num_sequences; i++) {
-        printf("    name=\"%s\" enum=\"%s\" ptr=%d\n", order.names[i], order.enum_names[i], order.ptr_flags[i]);
+        printf("    name=\"%s\" enum=\"%s\" ptr=%d\n", order.entries[i].name, order.entries[i].enum_name,
+               order.entries[i].isptr);
     }
 #endif
 
@@ -455,7 +409,7 @@ tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, con
     for (int i = 0; i < num_sequence_files; i++) {
         const char *path = sequences_paths[i];
 
-        if (!is_ofile(path))
+        if (!str_endswith(path, strlen(path), ".o"))
             error("Not a .o file? (\"%s\")", path);
 
         // Open ELF file
@@ -506,18 +460,19 @@ tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, con
 
 #ifdef SEQ_DEBUG
     // Debugging: Print the findings for each sequence object
-    printf(                 "\n");
-    printf("Num files: %lu" "\n", num_sequence_files);
-    printf(                 "\n");
+    printf("\nNum files: %d\n\n", num_sequence_files);
 
-    for (size_t i = 0; i < num_sequence_files; i++) {
+    for (int i = 0; i < num_sequence_files; i++) {
         struct seqdata *seqdata = &file_data[i];
 
-        printf("    elf path    : \"%s\""   "\n", seqdata->elf_path);
-        printf("    name        : \"%s\""   "\n", seqdata->name);
-        printf("    font offset : 0x%X"     "\n", seqdata->font_section_offset);
-        printf("    num fonts   : %lu"      "\n", seqdata->font_section_size);
-        printf(                             "\n");
+        printf(
+            // clang-format off
+           "    elf path    : \"%s\""   "\n"
+           "    name        : \"%s\""   "\n"
+           "    font offset : 0x%X"     "\n"
+           "    num fonts   : %lu"      "\n\n",
+            // clang-format on
+            seqdata->elf_path, seqdata->name, seqdata->font_section_offset, seqdata->font_section_size);
     }
 #endif
 
@@ -527,11 +482,11 @@ tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, con
 
     for (size_t i = 0; i < order.num_sequences; i++) {
         // Skip pointers for now
-        if (order.ptr_flags[i])
+        if (order.entries[i].isptr)
             continue;
 
         // If it's not a pointer, "name" is the name as it appears in a sequence file, find it in the list of sequences
-        char *name = order.names[i];
+        const char *name = order.entries[i].name;
 
         // Find the object file with this name
         for (int j = 0; j < num_sequence_files; j++) {
@@ -547,18 +502,18 @@ tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, con
 
     for (size_t i = 0; i < order.num_sequences; i++) {
         // Now we only care about pointers
-        if (!order.ptr_flags[i])
+        if (!order.entries[i].isptr)
             continue;
 
         // If it's a pointer, "name" is the ENUM name of the sequence it points to
-        char *name = order.names[i];
+        const char *name = order.entries[i].name;
 
         for (size_t j = 0; j < order.num_sequences; j++) {
             // Skip pointers, the system doesn't allow multiple indirection so this must point to a non-pointer entry.
-            if (order.ptr_flags[j])
+            if (order.entries[j].isptr)
                 continue;
 
-            if (strequ(name, order.enum_names[j])) {
+            if (strequ(name, order.entries[j].enum_name)) {
                 // For pointers, we just duplicate the fonts for the original into the pointer entry.
                 // TODO ideally we would allow fonts to be different when a sequence is accessed by pointer, but how
                 // to supply this info?
@@ -571,7 +526,7 @@ tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, con
     // Make sure we found an object file for all declared sequences
     for (size_t i = 0; i < order.num_sequences; i++) {
         if (final_seqdata[i] == NULL)
-            error("Could not find object file for sequence %lu : %s", i, order.names[i]);
+            error("Could not find object file for sequence %lu : %s", i, order.entries[i].name);
     }
 
     // Write the sequence font table out

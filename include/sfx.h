@@ -57,7 +57,7 @@ typedef struct SfxBankEntry {
 
 #define DEFINE_SFX(_0, enum, _2, _3, _4, _5) enum,
 
-typedef enum {
+typedef enum SfxId {
     NA_SE_NONE, // Requesting a sfx with this id will play no sound
     NA_SE_PL_BASE = 0x7FF,
     #include "tables/sfx/playerbank_table.h"

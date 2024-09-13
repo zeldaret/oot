@@ -1,5 +1,50 @@
 /**
+ *  @file aseq.h
  *  Zelda64 Music Macro Language (MML) Assembler Definitions
+ *
+ *  This file implements the assembler for Zelda64 Music Macro Language. MML is an interpreted language that combines
+ *  general MIDI with arithmetic and control flow instructions.
+ *
+ *  There are multiple distinct sections:
+ *      - .sequence: The top level of the program, this is unique and executes sequentially.
+ *      - .channel: Spawned by the top-level sequence, there can be up to 16 channels active at any time that execute in
+ *                  parallel. Channels map directly to MIDI channels, control changes made in channels affect the notes
+ *                  in the layers spawned by the channel.
+ *      - .layer: Spawned by channels, up to 4 layers per channel. These execute in parallel. The purpose of layers is
+ *                to allow overlapping notes.
+ *      - .table: Contains dyntable labels.
+ *      - .array: Contains array-like data that can be read using sequence io instructions.
+ *      - .filter: Contains filter structures.
+ *      - .envelope: Contains envelope scripts.
+ *      - .buffer: Contains arbitrary data.
+ *
+ *  Execution begins in the sequence section at position 0 of the sequence with no channels or layers initialized.
+ *
+ *  Execution flows until it blocks on certain commands that induce delays for a fixed number of ticks, such as the
+ *  delay instructions or note instructions. If this happens in a channel or layer, the other channels/layers will
+ *  continue execution until they hit their own delays.
+ *
+ *  Sequences can self-modify. The ldseq, stseq and related instructions can perform loads and stores to any location
+ *  in a sequence, including the executable sections. This can be used to make up for the lack of registers and
+ *  arithmetic instructions by replacing immediate values in the instructions themselves.
+ *
+ *  The maximum call depth is 4. Call depth applies to both loops and subroutines. Loops are implemented like
+ *  subroutines in that starting a loop pushes a return address onto the call stack and reaching the end of the loop
+ *  decrements the loop counter. If the loop has iterations left, it jumps to the return address. When a loop completes
+ *  all the iterations or when the break instruction is executed the return address is popped from the call stack and
+ *  no jump occurs.
+ *
+ *  In the instruction descriptions, we use a number of conventions for referring to various internal state:
+ *      - PC               : The location of the current instruction, within the respective sequence/channel/layer
+ *      - SEQ              : The sequence data
+ *      - TR               : Temporary s8 register
+ *      - TP               : Temporary u16 register
+ *      - CIO[15..0][7..0] : Channel IO
+ *      - SIO[7..0]        : Sequence IO
+ *      - DYNTBL           : Current dyntable
+ *      - CALLDEPTH        : The current subroutine nesting level
+ *      - SHORTVELTBL      : Current short notes velocity table
+ *      - SHORTGATETBL     : Current short notes gate time table
  */
 #ifndef ASEQ_H
 #define ASEQ_H
@@ -203,7 +248,7 @@
  *  Sequence IDs
  */
 
-// Some sequence commands such as runseq would like sequence names for certain arguments.
+// Some sequence instructions such as runseq would like sequence names for certain arguments.
 // This facilitates making the sequence enum names available in sequence assembly files.
 
 .set __SEQ_ID_CTR, 0
@@ -677,6 +722,12 @@ $reladdr\@:
  * end
  *
  *  Marks the end of an executable section.
+ *
+ * If CALLDEPTH is not 0 (that is, execution is currently in a subroutine)
+ * the current subroutine is exited and execution continues at the saved
+ * return address. If CALLDEPTH is 0, the current layer/channel/sequence is
+ * closed. If the sequence is closed, all execution ends. If a channel is
+ * closed, so are its layers.
  */
 .macro end
     _wr_cmd_id  end, 0xFF,0xFF,0xFF,,,,,, 0, 0
@@ -745,10 +796,11 @@ $reladdr\@:
 /**
  * loop <num:u8>
  *
- *  Begin a loop for `num` iterations.
+ *  Begin a loop for `num` iterations, pushing the address of the next
+ *  instruction to the call stack.
  *
- *  Maximum loop nesting level is 4 - callDepth, where callDepth is the
- *  current subroutine nesting level.
+ *  Maximum loop nesting level is 4 - CALLDEPTH, after this the call stack
+ *  becomes full.
  */
 .macro loop num
     _wr_cmd_id  loop, 0xF8,0xF8,0xF8,,,,,, 0, 0
@@ -761,7 +813,8 @@ $reladdr\@:
  *  Indicates the end of a loop body. Whenever the instruction is executed
  *  the loop counter decrements and either branches back to the loop start
  *  if there are remaining iterations or exits the loop if all iterations
- *  have been completed.
+ *  have been completed. When the loop is to be exited, the top of the call
+ *  stack is popped.
  */
 .macro loopend
     _wr_cmd_id  loopend, 0xF7,0xF7,0xF7,,,,,, 0, 0
@@ -770,8 +823,11 @@ $reladdr\@:
 /**
  * break
  *
- *  Immediately ends the current loop, but does not modify PC.
- *  Do not allow execution to later flow into loopend.
+ *  Immediately ends the current loop, popping it from the call stack, but
+ *  does not branch to the end of the loop.
+ *
+ *  Programming Note: Do not allow execution to later flow into loopend, as
+ *  the call stack would be popped twice.
  */
 .macro break
     _wr_cmd_id  break, 0xF6,0xF6,0xF6,,,,,, 0, 0
@@ -1006,16 +1062,32 @@ $reladdr\@:
     _wr_u8      \amt
 .endm
 
+/**
+ * transpose <semitones:s8>
+ *
+ *  Sets the transposition amount. Transposition shifts all note pitches by the
+ *  provided number of semitones.
+ */
 .macro transpose semitones
     _wr_cmd_id  transpose, 0xDF,0xDB,0xC2,,,,,, 0, 0
     _wr_s8      \semitones
 .endm
 
+/**
+ * rtranspose <semitones:s8>
+ *
+ *  Adjusts the transposition amount. This is only available at the top sequence level.
+ */
 .macro rtranspose semitones
     _wr_cmd_id  rtranspose, 0xDE,,,,,,,, 0, 0
     _wr_s8      \semitones
 .endm
 
+/**
+ * freqscale <arg:s16>
+ *
+ *  Sets the freqScale for the current channel.
+ */
 .macro freqscale arg
     _wr_cmd_id  freqscale, ,0xDE,,,,,,, 0, 0
     _wr_s16     \arg
@@ -1032,6 +1104,16 @@ $reladdr\@:
 .endm
 
 /**
+ * tempochg <arg:s8>
+ *
+ *  Sets the tempoChange for the sequence.
+ */
+.macro tempochg arg
+    _wr_cmd_id  tempochg, 0xDC,,,,,,,, 0, 0
+    _wr_s8      \arg
+.endm
+
+/**
  * pan <amt:u8>
  *
  *  Changes the pan amount for a channel.
@@ -1041,11 +1123,6 @@ $reladdr\@:
     _check_arg_bitwidth_u \pan, 7
     _wr_cmd_id  pan, ,0xDD,,,,,,, 0, 0
     _wr_u8      \pan
-.endm
-
-.macro tempochg arg
-    _wr_cmd_id  tempochg, 0xDC,,,,,,,, 0, 0
-    _wr_s8      \arg
 .endm
 
 /**
@@ -1074,11 +1151,22 @@ $reladdr\@:
     _wr_u8      \amt
 .endm
 
-.macro volmode arg
+/**
+ * volmode <mode:u8> <fadeTimer:s16>
+ *
+ *  TODO DESCRIPTION
+ */
+.macro volmode mode, fadeTimer
     _wr_cmd_id  volmode, 0xDA,,,,,,,, 0, 0
-    _wr_s8      \arg
+    _wr_u8      \mode
+    _wr_u16     \fadeTimer
 .endm
 
+/**
+ * volscale <arg:u8>
+ *
+ *  Sets the fadeVolumeScale for the sequence.
+ */
 .macro volscale arg
     _wr_cmd_id  volscale, 0xD9,,,,,,,, 0, 0
     _wr_u8      \arg
@@ -1094,11 +1182,21 @@ $reladdr\@:
     _wr_u8      \release
 .endm
 
+/**
+ * vibdepth <arg:u8>
+ *
+ *  Sets the vibrato depth for the channel
+ */
 .macro vibdepth arg
     _wr_cmd_id  vibdepth, ,0xD8,,,,,,, 0, 0
     _wr_u8      \arg
 .endm
 
+/**
+ * vibfreq <arg:u8>
+ *
+ *  Sets the vibrato rate for the channel
+ */
 .macro vibfreq arg
     _wr_cmd_id  vibfreq, ,0xD7,,,,,,, 0, 0
     _wr_u8      \arg
@@ -1127,11 +1225,21 @@ $reladdr\@:
     _wr_u16     \bitmask
 .endm
 
+/**
+ * mutescale <arg:s8>
+ *
+ *  Sets the muteVolumeScale for the sequence.
+ */
 .macro mutescale arg
     _wr_cmd_id  mutescale, 0xD5,,,,,,,, 0, 0
     _wr_s8      \arg
 .endm
 
+/**
+ * mute
+ *
+ *  Mutes the sequence player.
+ */
 .macro mute
     _wr_cmd_id  mute, 0xD4,,,,,,,, 0, 0
 .endm
@@ -1166,6 +1274,11 @@ $reladdr\@:
     _wr_s8      \amt
 .endm
 
+/**
+ * ldshortvelarr <label:lbl>
+ *
+ *  Sets the location of SHORTVELTBL
+ */
 .macro ldshortvelarr label
     _wr_cmd_id  ldshortvelarr, 0xD2,,,,,,,, 0, 0
     _wr_lbl     \label
@@ -1181,32 +1294,68 @@ $reladdr\@:
     _wr_u8      \value
 .endm
 
+/**
+ * ldshortgatearr <label:lbl>
+ *
+ *  Sets the location of SHORTGATETBL
+ */
 .macro ldshortgatearr label
     _wr_cmd_id  ldshortgatearr, 0xD1,,,,,,,, 0, 0
     _wr_lbl     \label
 .endm
 
+/**
+ * notealloc <arg:u8>
+ *
+ *  Sets the noteAllocPolicy for either the sequence or the current channel.
+ */
 .macro notealloc arg
     _wr_cmd_id  notealloc, 0xD0,0xD1,,,,,,, 0, 0
     _wr_u8      \arg
 .endm
 
-.macro effects arg
+/**
+ * effects <headset:bool> <type:b2> <strongR:b1> <strongL:b1> <strongRvrbR:b1> <strongRvrbL:b1>
+ *
+ *  Sets stereo effects
+ */
+.macro effects headset, type, strongR, strongL, strongRvrbR, strongRvrbL
+    _check_arg_bitwidth_u \headset, 1
+    _check_arg_bitwidth_u \type, 2
+    _check_arg_bitwidth_u \strongR, 1
+    _check_arg_bitwidth_u \strongL, 1
+    _check_arg_bitwidth_u \strongRvrbR, 1
+    _check_arg_bitwidth_u \strongRvrbL, 1
+
     _wr_cmd_id  effects, ,0xD0,,,,,,, 0, 0
-    _wr_u8      \arg
+    _wr_u8      (\headset << 7) | (\type << 4) | (\strongR << 3) | (\strongL << 2) | (\strongRvrbR << 1) | (\strongRvrbL << 0)
 .endm
 
+/**
+ * stptrtoseq <label:lbl>
+ *
+ *  Stores TP -> label
+ */
 .macro stptrtoseq label
     _wr_cmd_id  stptrtoseq, ,0xCF,,,,,,, 0, 0
     _wr_lbl     \label
 .endm
 
-.macro ldptr lbl
+/**
+ * ldptr <label:lbl>
+ *
+ *  Loads label -> TP
+ */
+.macro ldptr label
     _wr_cmd_id  ldptr, ,0xCE,,,,,,, 0, 0
-    _wr_lbl     \lbl
+    _wr_lbl     \label
 .endm
 
-// ldptr but for immediates instead of labels
+/**
+ * ldptr <imm:u16>
+ *
+ *  Loads imm -> TP
+ */
 .macro ldptri imm
     _wr_cmd_id  ldptr, ,0xCE,,,,,,, 0, 0
     _wr_u16     \imm
@@ -1222,6 +1371,15 @@ $reladdr\@:
     _wr_u8      \max
 .endm
 
+/**
+ * [sequence] dyncall <label:lbl>
+ *
+ *  Jumps to table[TR]
+ *
+ * [channel] dyncall
+ *
+ *  Jumps to DYNTBL[TR]
+ */
 .macro dyncall label=-1
     .if \label == -1
         _wr_cmd_id  dyncall, ,0xE4,,,,,,, 0, 0
@@ -1272,6 +1430,11 @@ $reladdr\@:
     _wr_lbl     \label
 .endm
 
+/**
+ * stop
+ *
+ *  Immediately stops the sequence or channel.
+ */
 .macro stop
     _wr_cmd_id  stop, 0xC6,0xEA,,,,,,, 0, 0
 .endm
@@ -1286,11 +1449,25 @@ $reladdr\@:
     _wr_u8      \fontId
 .endm
 
+/**
+ * scriptctr <arg:u16>
+ *
+ *  Sets scriptCounter to arg.
+ *
+ *  scriptCounter usually increments every time the sequence is updated but is otherwise
+ *  never used, so changing it with this instruction has no useful effects.
+ */
 .macro scriptctr arg
     _wr_cmd_id  scriptctr, 0xC5,,,,,,,, 0, 0
     _wr_u16     \arg
 .endm
 
+/**
+ * dyntbllookup
+ *
+ *  Loads DYNTBL[TR] -> DYNTBL
+ *  unless TR is -1, in which case nothing happens.
+ */
 .macro dyntbllookup
     _wr_cmd_id  dyntbllookup, ,0xC5,,,,,,, 0, 0
 .endm
@@ -1308,6 +1485,11 @@ $reladdr\@:
 
 #if (MML_VERSION == MML_VERSION_MM)
 
+    /**
+     * mutechan <arg0:s16>
+     *
+     *  TODO DESCRIPTION
+     */
     .macro mutechan arg0
         _wr_cmd_id  mutechan, 0xC3,,,,,,,, 0, 0
         _wr_s16     \arg0
@@ -1333,6 +1515,11 @@ $reladdr\@:
     _wr_cmd_id  short, ,0xC3,,,,,,, 0, 0
 .endm
 
+/**
+ * dyntbl <label:lbl>
+ *
+ *  Loads label -> DYNTBL
+ */
 .macro dyntbl label
     _wr_cmd_id  dyntbl, ,0xC2,,,,,,, 0, 0
     _wr_lbl     \label
@@ -1350,6 +1537,11 @@ $reladdr\@:
 
 #if (MML_VERSION == MML_VERSION_MM)
 
+    /**
+     * unk_BE <arg0:u8>
+     *
+     *  TODO DESCRIPTION
+     */
     .macro unk_BE arg0
         _wr_cmd_id  unk_BE, ,0xBE,,,,,,, 0, 0
         _wr_u8      \arg0
@@ -1357,73 +1549,132 @@ $reladdr\@:
 
 #endif
 
-.macro randptr arg0, arg1
+/**
+ * randptr <range:u16> <offset:u16>
+ *
+ *  Assigns a random number sampled from [offset,offset+range) -> TP
+ *
+ *  If range is 0, it is treated as 65536.
+ */
+.macro randptr range, offset
     #if (MML_VERSION == MML_VERSION_OOT)
         _wr_cmd_id  randptr, ,0xBD,,,,,,, 0, 0
     #else
         _wr_cmd_id  randptr, ,0xA8,,,,,,, 0, 0
     #endif
-    _wr_u16         \arg0
-    _wr_u16         \arg1
+    _wr_u16         \range
+    _wr_u16         \offset
 .endm
 
 #if (MML_VERSION == MML_VERSION_MM)
 
-    .macro samplestart arg0
+    /**
+     * samplestart <arg0:u8>
+     *
+     *  TODO DESCRIPTION
+     */
+    .macro samplestart arg
         _wr_cmd_id  samplestart, ,0xBD,,,,,,, 0, 0
-        _wr_u8      \arg0
+        _wr_u8      \arg
     .endm
 
-    .macro unk_AA
-        _wr_cmd_id  unk_AA, ,0xAA,,,,,,, 0, 0
-    .endm
-
-    .macro unk_A7 arg0
+    /**
+     * unk_A7 <arg:u8>
+     *
+     *  TODO DESCRIPTION
+     */
+    .macro unk_A7 arg
         _wr_cmd_id  unk_A7, ,0xA7,,,,,,, 0, 0
-        _var        \arg0
+        _wr_u8      \arg
     .endm
 
+    /**
+     * unk_A6 <arg0:u8> <arg1:s16>
+     *
+     *  TODO DESCRIPTION
+     */
     .macro unk_A6 arg0, arg1
         _wr_cmd_id  unk_A6, ,0xA6,,,,,,, 0, 0
-        _var        \arg0
-        _var        \arg1
+        _wr_u8      \arg0
+        _wr_s16     \arg1
     .endm
 
+    /**
+     * unk_A5
+     *
+     *  TODO DESCRIPTION
+     */
     .macro unk_A5
         _wr_cmd_id  unk_A5, ,0xA5,,,,,,, 0, 0
     .endm
 
-    .macro unk_A4 arg0
+    /**
+     * unk_A4 <arg:u8>
+     *
+     *  TODO DESCRIPTION
+     */
+    .macro unk_A4 arg
         _wr_cmd_id  unk_A4, ,0xA4,,,,,,, 0, 0
-        _var        \arg0
+        _wr_u8      \arg
     .endm
 
+    /**
+     * unk_A3
+     *
+     *  TODO DESCRIPTION
+     */
     .macro unk_A3
         _wr_cmd_id  unk_A3, ,0xA3,,,,,,, 0, 0
     .endm
 
-    .macro unk_A2 arg0
+    /**
+     * unk_A2 <arg:s16>
+     *
+     *  TODO DESCRIPTION
+     */
+    .macro unk_A2 arg
         _wr_cmd_id  unk_A2, ,0xA2,,,,,,, 0, 0
-        _var        \arg0
+        _wr_s16     \arg
     .endm
 
+    /**
+     * unk_A1
+     *
+     *  TODO DESCRIPTION
+     */
     .macro unk_A1
         _wr_cmd_id  unk_A1, ,0xA1,,,,,,, 0, 0
     .endm
 
-    .macro unk_A0 arg0
+    /**
+     * unk_A0 <arg:s16>
+     *
+     *  TODO DESCRIPTION
+     */
+    .macro unk_A0 arg
         _wr_cmd_id  unk_A0, ,0xA0,,,,,,, 0, 0
-        _var        \arg0
+        _wr_s16     \arg
     .endm
 
 #endif
 
+/**
+ * ptradd <value:lbl>
+ *
+ *  Computes TP += value
+ */
 .macro ptradd value
     _wr_cmd_id  ptradd, ,0xBC,,,,,,, 0, 0
     _wr_lbl     \value
 .endm
 
-// ptradd but for immediates instead of labels
+/**
+ * ptraddi <value:u16>
+ *
+ *  Like ptradd but for immediates instead of labels
+ *
+ *  Computes TP += value
+ */
 .macro ptraddi value
     _wr_cmd_id  ptradd, ,0xBC,,,,,,, 0, 0
     _wr_u16     \value
@@ -1441,14 +1692,26 @@ $reladdr\@:
     _wr_u16     \arg1
 .endm
 
-.macro randgate arg
+/**
+ * randgate <range:u8>
+ *
+ *  Sets the range of random note gateTime fluctuations
+ *
+ *  NOTE: This feature is bugged. If this is non-zero it wll actually use the range set by randvel
+ */
+.macro randgate range
     _wr_cmd_id  randgate, ,0xBA,,,,,,, 0, 0
-    _wr_u8      \arg
+    _wr_u8      \range
 .endm
 
-.macro randvel arg
+/**
+ * randvel <range:u8>
+ *
+ *  Sets the range of random note velocity fluctuations
+ */
+.macro randvel range
     _wr_cmd_id  randvel, ,0xB9,,,,,,, 0, 0
-    _wr_u8      \arg
+    _wr_u8      \range
 .endm
 
 /**
@@ -1461,18 +1724,38 @@ $reladdr\@:
     _wr_u16     \max
 .endm
 
+/**
+ * dyntblv
+ *
+ *  Loads DYNTBL[TR] -> TR
+ */
 .macro dyntblv
     _wr_cmd_id  dyntblv, ,0xB6,,,,,,, 0, 0
 .endm
 
+/**
+ * dyntbltoptr
+ *
+ *  Loads DYNTBL[TR] -> TP
+ */
 .macro dyntbltoptr
     _wr_cmd_id  dyntbltoptr, ,0xB5,,,,,,, 0, 0
 .endm
 
+/**
+ * ptrtodyntbl
+ *
+ *  Transfers TP -> DYNTBL
+ */
 .macro ptrtodyntbl
     _wr_cmd_id  ptrtodyntbl, ,0xB4,,,,,,, 0, 0
 .endm
 
+/**
+ * ldseqtoptr <label:lbl>
+ *
+ *  Loads SEQ[label + TR] -> TP
+ */
 .macro ldseqtoptr label
     _wr_cmd_id  ldseqtoptr, ,0xB2,,,,,,, 0, 0
     _wr_lbl     \label
@@ -1507,22 +1790,26 @@ $reladdr\@:
     _wr_cmd_id  cdelay, ,0x00,,,,,,, \delay, 4
 .endm
 
-.macro sample arg, label
-    _wr_cmd_id  sample, ,0x10,,,,,,, \arg, 3
-    _wr_lbl     \label
-.endm
-
 /**
- * sampleptr <portNum:b3> <label:lbl>
+ * ldsample <portNum:b3>
  *
- *  TODO description
+ *  Triggers an async load of a sample belonging to either:
+ *   - The Instrument ID in TR, if type is LDSAMPLE_INST.
+ *   - The Sound Effect ID in TP, if type is LDSAMPLE_SFX.
  *
  *  Load status is made available in CIO[CUR_CHANNEL][portNum].
  */
-.macro sampleptr portNum, label
-    _wr_cmd_id  sampleptr, ,0x18,,,,,,, \portNum, 3
-    _wr_lbl     \label
+.macro ldsample type, portNum
+    .if \type == LDSAMPLE_INST
+        _wr_cmd_id  ldsample, ,0x10,,,,,,, \portNum, 3
+    .elif \type == LDSAMPLE_SFX
+        _wr_cmd_id  ldsample, ,0x18,,,,,,, \portNum, 3
+    .else
+        .error "ldsample: invalid type"
+    .endif
 .endm
+#define LDSAMPLE_INST 0
+#define LDSAMPLE_SFX  1
 
 /**
  * stcio <channelNum:b4> <portNum:u8>
@@ -1588,6 +1875,11 @@ $reladdr\@:
     _wr_cmd_id  dellayer, ,0x90,,,,,,, \arg, 3
 .endm
 
+/**
+ * dynldlayer <arg:b3>
+ *
+ *  Allocates a new layer starting at DYNTBL[TR]
+ */
 .macro dynldlayer arg
     _wr_cmd_id  dynldlayer, ,0x98,,,,,,, \arg, 3
 .endm
@@ -1813,6 +2105,11 @@ $reladdr\@:
     _wr_cmd_id  nodrumpan, ,,0xCC,,,,,, 0, 0
 .endm
 
+/**
+ * stereo <type:b2> <strongR:b1> <strongL:b1> <strongRvrbR:b1> <strongRvrbL:b1>
+ *
+ *  TODO DESCRIPTION
+ */
 #define STEREO_OPCODE 0xCD
 .macro stereo type, strongR, strongL, strongRvrbR, strongRvrbL
     _check_arg_bitwidth_u \type, 2
@@ -1825,21 +2122,41 @@ $reladdr\@:
     _wr_u8      (\type << 4) | (\strongR << 3) | (\strongL << 2) | (\strongRvrbR << 1) | (\strongRvrbL << 0)
 .endm
 
+/**
+ * ldshortvel <velocity:b4>
+ *
+ *  Sets the velocity used in short notes by reading from SHORTVELTBL[velocity]
+ */
 .macro ldshortvel velocity
     _wr_cmd_id  ldshortvel, ,,0xD0,,,,,, \velocity, 4
 .endm
 
+/**
+ * ldshortgate <gateTime:b4>
+ *
+ *  Sets the gate time used in short notes by reading from SHORTGATETBL[gateTime]
+ */
 .macro ldshortgate gateTime
     _wr_cmd_id  ldshortgate, ,,0xE0,,,,,, \gateTime, 4
 .endm
 
 #if (MML_VERSION == MML_VERSION_MM)
 
+    /**
+     * unk_F0 <arg:s16>
+     *
+     *  TODO DESCRIPTION
+     */
     .macro unk_F0 arg
         _wr_cmd_id  unk_F0, ,,0xF0,,,,,, 0, 0
         _wr_s16     \arg
     .endm
 
+    /**
+     * surroundeffect <arg:u8>
+     *
+     *  TODO DESCRIPTION
+     */
     #define SURROUNDEFFECT_OPCODE 0xF1
     .macro surroundeffect arg
         _wr_cmd_id  surroundeffect, ,,SURROUNDEFFECT_OPCODE,,,,,, 0, 0
@@ -1848,6 +2165,19 @@ $reladdr\@:
 
 #endif
 
+/**
+ * notedvg <pitch:b6> <delay:var> <velocity:u8> <gateTime:u8>
+ *
+ *  Plays a note with the current instrument settings for a specified length of time.
+ *
+ *  pitch    : The note to play. Since pitch is only 6 bits it can only hold values 0..63, for access to more values
+ *              use `transpose` first to shift the base pitch.
+ *  delay    : The time to play the note for, plus the delay before executing the next instruction.
+ *  velocity : The relative volume.
+ *  gateTime : The proportion of the delay for which the sound does not play.
+ *
+ *  This instruction must only be used when long notes are enabled with the noshort instruction.
+ */
 #define NOTEDVG_OPCODE 0x00
 .macro notedvg pitch, delay, velocity, gateTime
     _wr_cmd_id  notedvg, ,,0x00,,,,,, \pitch, 6
@@ -1856,6 +2186,13 @@ $reladdr\@:
     _wr_u8      \gateTime
 .endm
 
+/**
+ * notedv <pitch:b6> <delay:var> <velocity:u8>
+ *
+ *  Like notedvg, but gateTime is fixed to 0 so there is no delay between when the sound stops and the next instruction.
+ *
+ *  This instruction must only be used when long notes are enabled with the noshort instruction.
+ */
 #define NOTEDV_OPCODE 0x40
 .macro notedv pitch, delay, velocity
     _wr_cmd_id  notedv, ,,NOTEDV_OPCODE,,,,,, \pitch, 6
@@ -1863,24 +2200,47 @@ $reladdr\@:
     _wr_u8      \velocity
 .endm
 
-/* workaround for bugs in vanilla sequences, force long encoding for delay */
+/* Workaround for bugs in vanilla sequences, force long encoding for delay. This should not typically be used. */
 .macro noteldv pitch, delay, velocity
     _wr_cmd_id  noteldv, ,,0x40,,,,,, \pitch, 6
     _var_long   \delay
     _wr_u8      \velocity
 .endm
 
+/**
+ * notevg <pitch:b6> <velocity:u8> <gateTime:u8>
+ *
+ *  Like notedvg, but delay is assumed to be the same as the delay for a previous note instruction.
+ *
+ *  This instruction must only be used when long notes are enabled with the noshort instruction.
+ */
 .macro notevg pitch, velocity, gateTime
     _wr_cmd_id  notevg, ,,0x80,,,,,, \pitch, 6
     _wr_u8      \velocity
     _wr_u8      \gateTime
 .endm
 
+/**
+ * shortdvg <pitch:b6> <delay:var>
+ *
+ *  Like notedvg, but encodes shorter by requiring that the velocity and gateTime be specified in advance using the
+ *  shortvel and shortgate instructions.
+ *
+ *  This instruction must only be used when short notes are enabled with the short instruction.
+ */
 .macro shortdvg pitch, delay
     _wr_cmd_id  shortdvg, ,,0x00,,,,,, \pitch, 6
     _var        \delay
 .endm
 
+/**
+ * shortdv <pitch:b6>
+ *
+ *  Like shortdvg, but gateTime is fixed to 0 so there is no delay between when the sound stops and the next
+ *  instruction. Uses the delay set by shortdelay, and the velocity set by shortvel.
+ *
+ *  This instruction must only be used when short notes are enabled with the short instruction.
+ */
 .macro shortdv pitch
     _wr_cmd_id  shortdv, ,,0x40,,,,,, \pitch, 6
 .endm
@@ -1888,8 +2248,10 @@ $reladdr\@:
 /**
  * shortvg <pitch:b6>
  *
- *  Since pitch is only 6 bits it can only hold values 0..63, for access to more values
- *  use `transpose` first to shift the base pitch.
+ *  Like shortdvg, but delay is assumed to be the same as the delay for a previous note instruction. Uses the velocity
+ *  set by shortvel.
+ *
+ *  This instruction must only be used when short notes are enabled with the short instruction.
  */
 .macro shortvg pitch
     _wr_cmd_id  shortvg, ,,0x80,,,,,, \pitch, 6
