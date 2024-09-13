@@ -503,9 +503,8 @@ int Player_InCsMode(PlayState* play) {
 }
 
 /**
- * Checks if currently locked onto a hostile actor.
+ * Checks if Player is currently locked onto a hostile actor.
  * `PLAYER_STATE1_HOSTILE_LOCK_ON` controls Player's "battle" response to hostile actors.
- * This includes affecting how movement is handled, and enabling a "fighting" set of animations.
  *
  * Note that within Player, `Player_UpdateHostileLockOn` exists, which updates the flag and also returns the check.
  * Player can use this function instead if the flag should be checked, but not updated.
