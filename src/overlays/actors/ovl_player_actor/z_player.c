@@ -2324,8 +2324,8 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
  *
  * Note that `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS` will include all `focusActor` use cases that relate to
  * friendly actors. This function can return true when talking to an actor, for example.
- * Despite that, this function is only releveant in the context of actor lock-on, which is why the function
- * name only mentions "friendly lock-on".
+ * Despite that, this function is only relevant in the context of actor lock-on, which is a subset of actor focus.
+ * This is why the function name states `FriendlyLockOn` instead of `FriendlyActorFocus`.
  *
  * There is a special case that allows hostile actors to be treated as "friendly" if Player is carrying another actor
  * See relevant code in `func_80836BEC` for more details.
