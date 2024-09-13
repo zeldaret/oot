@@ -723,11 +723,11 @@ $reladdr\@:
  *
  *  Marks the end of an executable section.
  *
- * If CALLDEPTH is not 0 (that is, execution is currently in a subroutine)
- * the current subroutine is exited and execution continues at the saved
- * return address. If CALLDEPTH is 0, the current layer/channel/sequence is
- * closed. If the sequence is closed, all execution ends. If a channel is
- * closed, so are its layers.
+ *  If CALLDEPTH is not 0 (that is, execution is currently in a subroutine)
+ *  the current subroutine is exited and execution continues at the saved
+ *  return address. If CALLDEPTH is 0, the current layer/channel/sequence is
+ *  closed. If the sequence is closed, all execution ends. If a channel is
+ *  closed, so are its layers.
  */
 .macro end
     _wr_cmd_id  end, 0xFF,0xFF,0xFF,,,,,, 0, 0
@@ -932,7 +932,7 @@ $reladdr\@:
 /**
  * gain <value:u8>
  *
- *  Sets the channel gain (multiplicative volume scale factor) to the provided qu4.4 fixed-point value
+ *  Sets the channel gain (multiplicative volume scale factor) to the provided qu4.4 fixed-point value.
  */
 .macro gain value
     _wr_cmd_id  gain, ,0xED,,,,,,, 0, 0
@@ -942,7 +942,7 @@ $reladdr\@:
 /**
  * vibreset
  *
- *  Resets channel vibrato, filter, gain, sustain, etc. state
+ *  Resets channel vibrato, filter, gain, sustain, etc. state.
  */
 .macro vibreset
     _wr_cmd_id  vibreset, ,0xEC,,,,,,, 0, 0
@@ -990,8 +990,8 @@ $reladdr\@:
 /**
  * ldparams <label:lbl>
  *
- *  Sets various channel parameters by loading them from `label`. The data is ordered in the same way as the arguments
- *  in `params`.
+ *  Sets various channel parameters by loading them from `label`. The data
+ *  is ordered in the same way as the arguments in `params`.
  */
 .macro ldparams label
     _wr_cmd_id  ldparams, ,0xE7,,,,,,, 0, 0
@@ -1011,7 +1011,7 @@ $reladdr\@:
 /**
  * reverbidx <arg:u8>
  *
- *  Sets the channel reverb
+ *  Sets the channel reverb.
  */
 .macro reverbidx arg
     _wr_cmd_id  reverbidx, ,0xE5,,,,,,, 0, 0
@@ -1021,7 +1021,7 @@ $reladdr\@:
 /**
  * reverbidx <arg:u8>
  *
- *  Sets the channel vibrato delay
+ *  Sets the channel vibrato delay.
  */
 .macro vibdelay arg
     _wr_cmd_id  vibdelay, ,0xE3,,,,,,, 0, 0
@@ -1031,7 +1031,7 @@ $reladdr\@:
 /**
  * vibdepthgrad <extentStart:u8> <extentTarget:u8> <extentChangeDelay:u8>
  *
- *  Sets the vibrato extent
+ *  Sets the vibrato extent.
  */
 .macro vibdepthgrad arg0, arg1, arg2
     _wr_cmd_id  vibdepthgrad, ,0xE2,,,,,,, 0, 0
@@ -1043,7 +1043,7 @@ $reladdr\@:
 /**
  * vibfreqgrad <rateStart:u8> <rateTarget:u8> <rateChangeDelay:u8>
  *
- *  Sets the vibrato rate
+ *  Sets the vibrato rate.
  */
 .macro vibfreqgrad arg0, arg1, arg2
     _wr_cmd_id  vibfreqgrad, ,0xE1,,,,,,, 0, 0
@@ -1185,7 +1185,7 @@ $reladdr\@:
 /**
  * vibdepth <arg:u8>
  *
- *  Sets the vibrato depth for the channel
+ *  Sets the vibrato depth for the channel.
  */
 .macro vibdepth arg
     _wr_cmd_id  vibdepth, ,0xD8,,,,,,, 0, 0
@@ -1195,7 +1195,7 @@ $reladdr\@:
 /**
  * vibfreq <arg:u8>
  *
- *  Sets the vibrato rate for the channel
+ *  Sets the vibrato rate for the channel.
  */
 .macro vibfreq arg
     _wr_cmd_id  vibfreq, ,0xD7,,,,,,, 0, 0
@@ -1277,7 +1277,7 @@ $reladdr\@:
 /**
  * ldshortvelarr <label:lbl>
  *
- *  Sets the location of SHORTVELTBL
+ *  Sets the location of SHORTVELTBL.
  */
 .macro ldshortvelarr label
     _wr_cmd_id  ldshortvelarr, 0xD2,,,,,,,, 0, 0
@@ -1297,7 +1297,7 @@ $reladdr\@:
 /**
  * ldshortgatearr <label:lbl>
  *
- *  Sets the location of SHORTGATETBL
+ *  Sets the location of SHORTGATETBL.
  */
 .macro ldshortgatearr label
     _wr_cmd_id  ldshortgatearr, 0xD1,,,,,,,, 0, 0
@@ -1317,7 +1317,7 @@ $reladdr\@:
 /**
  * effects <headset:bool> <type:b2> <strongR:b1> <strongL:b1> <strongRvrbR:b1> <strongRvrbL:b1>
  *
- *  Sets stereo effects
+ *  Sets stereo effects.
  */
 .macro effects headset, type, strongR, strongL, strongRvrbR, strongRvrbL
     _check_arg_bitwidth_u \headset, 1
@@ -1372,7 +1372,7 @@ $reladdr\@:
 .endm
 
 /**
- * [sequence] dyncall <label:lbl>
+ * [sequence] dyncall <table:lbl>
  *
  *  Jumps to table[TR]
  *
@@ -1380,12 +1380,12 @@ $reladdr\@:
  *
  *  Jumps to DYNTBL[TR]
  */
-.macro dyncall label=-1
-    .if \label == -1
+.macro dyncall table=-1
+    .if \table == -1
         _wr_cmd_id  dyncall, ,0xE4,,,,,,, 0, 0
     .else
         _wr_cmd_id  dyncall, 0xCD,,,,,,,, 0, 0
-        _wr_lbl     \label
+        _wr_lbl     \table
     .endif
 .endm
 
@@ -1475,7 +1475,7 @@ $reladdr\@:
 /**
  * runseq <seqPlayer:u8> <seqId:u8>
  *
- *  Plays the sequence seqId on seqPlayer
+ *  Plays the sequence seqId on seqPlayer.
  */
 .macro runseq seqPlayer, seqId
     _wr_cmd_id  runseq, 0xC4,,,,,,,, 0, 0
@@ -1695,9 +1695,9 @@ $reladdr\@:
 /**
  * randgate <range:u8>
  *
- *  Sets the range of random note gateTime fluctuations
+ *  Sets the range of random note gateTime fluctuations.
  *
- *  NOTE: This feature is bugged. If this is non-zero it wll actually use the range set by randvel
+ *  NOTE: This feature is bugged. If this is non-zero it wll actually use the range set by randvel.
  */
 .macro randgate range
     _wr_cmd_id  randgate, ,0xBA,,,,,,, 0, 0
@@ -1707,7 +1707,7 @@ $reladdr\@:
 /**
  * randvel <range:u8>
  *
- *  Sets the range of random note velocity fluctuations
+ *  Sets the range for random note velocity fluctuations.
  */
 .macro randvel range
     _wr_cmd_id  randvel, ,0xB9,,,,,,, 0, 0
@@ -2013,7 +2013,7 @@ $reladdr\@:
 /**
  * shortvel <velocity:u8>
  *
- * Set velocity used by short notes
+ * Set velocity used by short notes.
  */
 .macro shortvel velocity
     _wr_cmd_id  shortvel, ,,0xC1,,,,,, 0, 0
@@ -2023,7 +2023,7 @@ $reladdr\@:
 /**
  * shortdelay <delay:var>
  *
- * Set delay used by short notes
+ * Set delay used by short notes.
  */
 .macro shortdelay delay
     _wr_cmd_id  shortdelay, ,,0xC3,,,,,, 0, 0
@@ -2076,7 +2076,7 @@ $reladdr\@:
 /**
  * shortgate <gateTime:u8>
  *
- *  Sets gate time for short notes
+ *  Sets gate time for short notes.
  */
 .macro shortgate gateTime
     _wr_cmd_id  shortgate, ,,0xC9,,,,,, 0, 0
