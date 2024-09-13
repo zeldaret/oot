@@ -115,7 +115,8 @@ EntranceCutscene sEntranceCutsceneTable[] = {
 };
 
 void* sCutscenesUnknownList[] = {
-    gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
+    gDekuTreeIntroCs,     gJabuJabuIntroCs, gDcOpeningCs, gSpiritBossNabooruKnuckleDefeatCs,
+    gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
 // Stores the frame the relevant cam data was last applied on
