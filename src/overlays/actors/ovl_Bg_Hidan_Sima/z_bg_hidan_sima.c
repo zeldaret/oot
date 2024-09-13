@@ -60,7 +60,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -188,7 +188,7 @@ void func_8088E7A8(BgHidanSima* this, PlayState* play) {
         this->timer = 20;
         this->actionFunc = func_8088E760;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
 }
 
 void func_8088E90C(BgHidanSima* this) {
@@ -280,8 +280,7 @@ void BgHidanSima_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_sima.c", 645);
     if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform1DL);
     } else {

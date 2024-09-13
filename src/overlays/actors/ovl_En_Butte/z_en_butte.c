@@ -38,7 +38,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 static ColliderJntSphInit sColliderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_1,
@@ -129,8 +129,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
     Matrix_SetTranslateRotateYXZ(this->actor.focus.pos.x + sp5C.x, this->actor.focus.pos.y + sp5C.y,
                                  this->actor.focus.pos.z + sp5C.z, &camDir);
     Matrix_Scale(sTransformationEffectScale, sTransformationEffectScale, sTransformationEffectScale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_choo.c", 317),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_choo.c", 317);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffFlash1DL));

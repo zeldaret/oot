@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "assets/objects/object_in/object_in.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnIn_Init(Actor* thisx, PlayState* play);
 void EnIn_Destroy(Actor* thisx, PlayState* play);
@@ -38,7 +38,7 @@ ActorProfile En_In_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -467,7 +467,7 @@ void func_80A79C78(EnIn* this, PlayState* play) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     Letterbox_SetSizeTarget(32);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
 }
@@ -518,7 +518,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
             return;
         }
         Actor_SetScale(&this->actor, 0.01f);
-        this->actor.targetMode = 6;
+        this->actor.attentionRangeType = ATTENTION_RANGE_6;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80A7A4BC;
 
@@ -577,7 +577,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                         gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
                         break;
                     case EVENTINF_HORSES_STATE_1:
-                        this->actor.targetMode = 3;
+                        this->actor.attentionRangeType = ATTENTION_RANGE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
                         Interface_SetTimer(60);
@@ -593,7 +593,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                         break;
                     case EVENTINF_HORSES_STATE_5:
                     case EVENTINF_HORSES_STATE_6:
-                        this->actor.targetMode = 3;
+                        this->actor.attentionRangeType = ATTENTION_RANGE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;
@@ -938,7 +938,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
             if (Actor_TalkOfferAccepted(&this->actor, play)) {}
         } else {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
-                              ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
+                              ((this->actor.attentionRangeType == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
                               EnIn_GetTextId, EnIn_UpdateTalkState);
             if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
                 this->unk_1FA = this->unk_1F8;

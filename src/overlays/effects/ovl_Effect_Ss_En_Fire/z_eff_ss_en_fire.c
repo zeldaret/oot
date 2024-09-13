@@ -79,8 +79,7 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     scale = Math_SinS(this->life * 0x333) * (this->rScale * 0.00005f);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_eff_en_fire.c", 180),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_eff_en_fire.c", 180);
 
     intensity = this->life - 5;
 

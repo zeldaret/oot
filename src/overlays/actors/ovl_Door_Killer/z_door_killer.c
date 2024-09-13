@@ -43,7 +43,7 @@ ActorProfile Door_Killer_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -77,7 +77,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,

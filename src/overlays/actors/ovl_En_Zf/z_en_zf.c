@@ -7,7 +7,7 @@
 #include "z_en_zf.h"
 #include "assets/objects/object_zf/object_zf.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
 
 void EnZf_Init(Actor* thisx, PlayState* play);
 void EnZf_Destroy(Actor* thisx, PlayState* play);
@@ -113,7 +113,7 @@ ActorProfile En_Zf_Profile = {
 
 static ColliderCylinderInit sBodyCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -133,7 +133,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
 
 static ColliderQuadInit sSwordQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -195,7 +195,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
 };
@@ -282,7 +282,7 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     f32 posDiff;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    thisx->targetMode = 3;
+    thisx->attentionRangeType = ATTENTION_RANGE_3;
     this->clearFlag = PARAMS_GET_S(thisx->params, 8, 8);
     /* Strip the top byte of params */
     thisx->params &= 0xFF;
@@ -549,7 +549,7 @@ s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
             return true;
         }
     } else {
-        if (!Actor_OtherIsTargeted(play, &this->actor)) {
+        if (!Actor_OtherIsLockedOn(play, &this->actor)) {
             return true;
         }
         if (this->actor.params == ENZF_TYPE_DINOLFOS) {
@@ -648,7 +648,7 @@ void EnZf_SetupDropIn(EnZf* this) {
     this->hopAnimIndex = 1;
     this->action = ENZF_ACTION_DROP_IN;
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     EnZf_SetupAction(this, EnZf_DropIn);
 }
@@ -656,7 +656,7 @@ void EnZf_SetupDropIn(EnZf* this) {
 void EnZf_DropIn(EnZf* this, PlayState* play) {
     if (this->unk_3F0 == 1) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
 
         if (this->actor.params == ENZF_TYPE_LIZALFOS_MINIBOSS_A) {
             func_800F5ACC(NA_BGM_MINI_BOSS);
@@ -668,7 +668,7 @@ void EnZf_DropIn(EnZf* this, PlayState* play) {
             this->unk_3F0--;
         } else if (this->actor.xzDistToPlayer <= 160.0f) {
             this->unk_3F0 = 0;
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_CRY);
         }
 
@@ -836,7 +836,7 @@ void EnZf_ApproachPlayer(EnZf* this, PlayState* play) {
             }
         }
 
-        if (Actor_OtherIsTargeted(play, &this->actor)) {
+        if (Actor_OtherIsLockedOn(play, &this->actor)) {
             sp40 = 100.0f;
         }
 
@@ -897,7 +897,7 @@ void EnZf_ApproachPlayer(EnZf* this, PlayState* play) {
 
             if ((this->actor.xzDistToPlayer < 180.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
                 Actor_IsFacingPlayer(&this->actor, 0x71C)) {
-                if (Actor_IsTargeted(play, &this->actor)) {
+                if (Actor_IsLockedOn(play, &this->actor)) {
                     if (Rand_ZeroOne() < 0.1f) {
                         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                         EnZf_SetupJumpForward(this);
@@ -1113,7 +1113,7 @@ void func_80B463E4(EnZf* this, PlayState* play) {
             }
         }
 
-        if (Actor_OtherIsTargeted(play, &this->actor)) {
+        if (Actor_OtherIsLockedOn(play, &this->actor)) {
             baseRange = 100.0f;
         }
 
@@ -1223,8 +1223,9 @@ void EnZf_Slash(EnZf* this, PlayState* play) {
                     if (yawDiff > 16000) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                         func_80B483E4(this, play);
-                    } else if (player->stateFlags1 & (PLAYER_STATE1_4 | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
-                        if (this->actor.isTargeted) {
+                    } else if (player->stateFlags1 &
+                               (PLAYER_STATE1_HOSTILE_LOCK_ON | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
+                        if (this->actor.isLockedOn) {
                             EnZf_SetupSlash(this);
                         } else {
                             func_80B483E4(this, play);
@@ -1827,7 +1828,7 @@ void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x4000;
 
-    if (Actor_OtherIsTargeted(play, &this->actor)) {
+    if (Actor_OtherIsLockedOn(play, &this->actor)) {
         baseRange = 100.0f;
     }
 
@@ -1926,7 +1927,7 @@ void EnZf_SetupDie(EnZf* this) {
     }
 
     this->action = ENZF_ACTION_DIE;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
     if (D_80B4A1B4 != -1) {
         if (this->actor.prev != NULL) {

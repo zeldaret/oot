@@ -33,7 +33,7 @@ ActorProfile En_Anubice_Fire_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -243,8 +243,7 @@ void EnAnubiceFire_Draw(Actor* thisx, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_RotateZ(this->actor.world.rot.z + i * 1000.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_anubice_fire.c", 546),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_anubice_fire.c", 546);
 
             gSPDisplayList(POLY_XLU_DISP++, gAnubiceFireAttackDL);
         }

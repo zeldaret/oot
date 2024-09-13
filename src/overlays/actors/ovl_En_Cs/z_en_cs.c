@@ -2,7 +2,7 @@
 #include "assets/objects/object_cs/object_cs.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnCs_Init(Actor* thisx, PlayState* play);
 void EnCs_Destroy(Actor* thisx, PlayState* play);
@@ -29,7 +29,7 @@ ActorProfile En_Cs_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -143,7 +143,7 @@ void EnCs_Init(Actor* thisx, PlayState* play) {
                      Animation_GetLastFrame(sAnimationInfo[ENCS_ANIM_0].animation), sAnimationInfo[ENCS_ANIM_0].mode,
                      sAnimationInfo[ENCS_ANIM_0].morphFrames);
 
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->path = PARAMS_GET_U(this->actor.params, 0, 8);
     this->unk_1EC = 0; // This variable is unused anywhere else
     this->talkState = 0;
@@ -477,7 +477,7 @@ void EnCs_Draw(Actor* thisx, PlayState* play) {
             Mtx* mtx;
 
             Matrix_Put(&this->spookyMaskMtx);
-            mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_cs.c", 1000);
+            mtx = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_cs.c", 1000);
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx - 7);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildSpookyMaskDL);

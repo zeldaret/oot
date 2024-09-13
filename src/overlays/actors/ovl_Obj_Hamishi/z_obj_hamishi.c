@@ -28,7 +28,7 @@ ActorProfile Obj_Hamishi_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -198,8 +198,7 @@ void ObjHamishi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_hamishi.c", 404),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_hamishi.c", 404);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 170, 130, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);
 

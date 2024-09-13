@@ -2,7 +2,7 @@
 #include "stack.h"
 #include "terminal.h"
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64"
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ntsc-1.2:64"
 
 OSThread sMainThread;
 STACK(sMainStack, 0x900);
@@ -39,7 +39,7 @@ void Main_ThreadEntry(void* arg) {
 
 void Idle_ThreadEntry(void* arg) {
     PRINTF(T("アイドルスレッド(idleproc)実行開始\n", "Idle thread (idleproc) execution started\n"));
-    PRINTF(T("作製者    : %s\n", "Created by: %s\n"), gBuildTeam);
+    PRINTF(T("作製者    : %s\n", "Created by: %s\n"), gBuildCreator);
     PRINTF(T("作成日時  : %s\n", "Created   : %s\n"), gBuildDate);
     PRINTF("MAKEOPTION: %s\n", gBuildMakeOption);
     PRINTF(VT_FGCOL(GREEN));

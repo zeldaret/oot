@@ -30,7 +30,7 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
     GfxPrint_Printf(printer, "NOT MARIO CLUB VERSION");
     GfxPrint_SetColor(printer, 255, 255, 255, 255);
     GfxPrint_SetPos(printer, 7, 23);
-    GfxPrint_Printf(printer, "[Creator:%s]", gBuildTeam);
+    GfxPrint_Printf(printer, "[Creator:%s]", gBuildCreator);
     GfxPrint_SetPos(printer, 7, 24);
     GfxPrint_Printf(printer, "[Date:%s]", gBuildDate);
     gfx = GfxPrint_Close(printer);
@@ -114,7 +114,7 @@ void ConsoleLogo_Draw(ConsoleLogoState* this) {
     Matrix_Scale(1.0, 1.0, 1.0, MTXMODE_APPLY);
     Matrix_RotateZYX(0, sTitleRotY, 0, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_title.c", 424);
     gSPDisplayList(POLY_OPA_DISP++, gNintendo64LogoDL);
     Gfx_SetupDL_39Opa(this->state.gfxCtx);
     gDPPipeSync(POLY_OPA_DISP++);

@@ -34,7 +34,7 @@ ActorProfile Bg_Dodoago_Profile = {
 
 static ColliderCylinderInit sColCylinderInitMain = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ALL,
         OC1_NONE,
@@ -54,7 +54,7 @@ static ColliderCylinderInit sColCylinderInitMain = {
 
 static ColliderCylinderInit sColCylinderInitLeftRight = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_NO_PUSH | OC1_TYPE_ALL,
@@ -121,7 +121,7 @@ void BgDodoago_Init(Actor* thisx, PlayState* play) {
     if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         BgDodoago_SetupAction(this, BgDodoago_DoNothing);
         this->dyna.actor.shape.rot.x = 0x1333;
-        play->roomCtx.unk_74[BGDODOAGO_EYE_LEFT] = play->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT] = 255;
+        play->roomCtx.drawParams[BGDODOAGO_EYE_LEFT] = play->roomCtx.drawParams[BGDODOAGO_EYE_RIGHT] = 255;
         return;
     }
 
@@ -154,15 +154,15 @@ void BgDodoago_WaitExplosives(BgDodoago* this, PlayState* play) {
                 ? BGDODOAGO_EYE_RIGHT
                 : BGDODOAGO_EYE_LEFT;
 
-        if (((play->roomCtx.unk_74[BGDODOAGO_EYE_LEFT] == 255) && (this->state == BGDODOAGO_EYE_RIGHT)) ||
-            ((play->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT] == 255) && (this->state == BGDODOAGO_EYE_LEFT))) {
+        if (((play->roomCtx.drawParams[BGDODOAGO_EYE_LEFT] == 255) && (this->state == BGDODOAGO_EYE_RIGHT)) ||
+            ((play->roomCtx.drawParams[BGDODOAGO_EYE_RIGHT] == 255) && (this->state == BGDODOAGO_EYE_LEFT))) {
             Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
             this->state = 0;
             Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             BgDodoago_SetupAction(this, BgDodoago_OpenJaw);
             OnePointCutscene_Init(play, 3380, 160, &this->dyna.actor, CAM_ID_MAIN);
-        } else if (play->roomCtx.unk_74[this->state] == 0) {
+        } else if (play->roomCtx.drawParams[this->state] == 0) {
             OnePointCutscene_Init(play, 3065, 40, &this->dyna.actor, CAM_ID_MAIN);
             BgDodoago_SetupAction(this, BgDodoago_LightOneEye);
             Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -212,14 +212,14 @@ void BgDodoago_OpenJaw(BgDodoago* this, PlayState* play) {
     s32 i;
 
     // make both eyes red (one already is)
-    if (play->roomCtx.unk_74[BGDODOAGO_EYE_LEFT] < 255) {
-        play->roomCtx.unk_74[BGDODOAGO_EYE_LEFT] += 5;
+    if (play->roomCtx.drawParams[BGDODOAGO_EYE_LEFT] < 255) {
+        play->roomCtx.drawParams[BGDODOAGO_EYE_LEFT] += 5;
     }
-    if (play->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT] < 255) {
-        play->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT] += 5;
+    if (play->roomCtx.drawParams[BGDODOAGO_EYE_RIGHT] < 255) {
+        play->roomCtx.drawParams[BGDODOAGO_EYE_RIGHT] += 5;
     }
 
-    if (play->roomCtx.unk_74[BGDODOAGO_EYE_LEFT] != 255 || play->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT] != 255) {
+    if (play->roomCtx.drawParams[BGDODOAGO_EYE_LEFT] != 255 || play->roomCtx.drawParams[BGDODOAGO_EYE_RIGHT] != 255) {
         sTimer--;
         return;
     }
@@ -260,9 +260,9 @@ void BgDodoago_DoNothing(BgDodoago* this, PlayState* play) {
 }
 
 void BgDodoago_LightOneEye(BgDodoago* this, PlayState* play) {
-    play->roomCtx.unk_74[this->state] += 5;
+    play->roomCtx.drawParams[this->state] += 5;
 
-    if (play->roomCtx.unk_74[this->state] == 255) {
+    if (play->roomCtx.drawParams[this->state] == 255) {
         BgDodoago_SetupAction(this, BgDodoago_WaitExplosives);
     }
 }
@@ -314,8 +314,7 @@ void BgDodoago_Draw(Actor* thisx, PlayState* play) {
 
     if (Flags_GetEventChkInf(EVENTCHKINF_B0)) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_dodoago.c", 677),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_dodoago.c", 677);
         gSPDisplayList(POLY_OPA_DISP++, gDodongoLowerJawDL);
     }
 

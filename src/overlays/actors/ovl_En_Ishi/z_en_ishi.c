@@ -62,7 +62,7 @@ static EnIshiEffectSpawnFunc sDustSpawnFuncs[] = { EnIshi_SpawnDustSmall, EnIshi
 static ColliderCylinderInit sCylinderInits[] = {
     {
         {
-            COLTYPE_HARD,
+            COL_MATERIAL_HARD,
             AT_NONE,
             AC_ON | AC_HARD | AC_TYPE_PLAYER,
             OC1_ON | OC1_TYPE_ALL,
@@ -81,7 +81,7 @@ static ColliderCylinderInit sCylinderInits[] = {
     },
     {
         {
-            COLTYPE_HARD,
+            COL_MATERIAL_HARD,
             AT_NONE,
             AC_ON | AC_HARD | AC_TYPE_PLAYER,
             OC1_ON | OC1_TYPE_ALL,
@@ -487,8 +487,7 @@ void EnIshi_DrawLarge(EnIshi* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ishi.c", 1055),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ishi.c", 1055);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);
 

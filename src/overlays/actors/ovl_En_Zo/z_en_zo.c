@@ -7,7 +7,7 @@
 #include "z_en_zo.h"
 #include "assets/objects/object_zo/object_zo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 typedef enum EnZoEffectType {
     /* 0 */ ENZO_EFFECT_NONE,
@@ -194,8 +194,7 @@ void EnZo_DrawEffectsRipples(EnZo* this, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->color.a);
         Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
         Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_zo_eff.c", 242),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_zo_eff.c", 242);
         gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesModelDL);
     }
 
@@ -229,8 +228,7 @@ void EnZo_DrawEffectsBubbles(EnZo* this, PlayState* play) {
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_zo_eff.c", 281),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_zo_eff.c", 281);
         gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesModelDL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_zo_eff.c", 286);
@@ -260,8 +258,7 @@ void EnZo_DrawEffectsSplashes(EnZo* this, PlayState* play) {
         Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_zo_eff.c", 325),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_zo_eff.c", 325);
 
         gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesModelDL);
     }
@@ -279,7 +276,7 @@ void EnZo_TreadWaterRipples(EnZo* this, f32 scale, f32 targetScale, u8 alpha) {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -588,7 +585,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
 
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_2);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->dialogRadius = this->collider.dim.radius + 30.0f;
     this->trackingMode = NPC_TRACKING_NONE;
     this->canSpeak = false;
@@ -604,7 +601,7 @@ void EnZo_Init(Actor* thisx, PlayState* play) {
         this->alpha = 255.0f;
         this->actionFunc = EnZo_Standing;
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = EnZo_Submerged;
     }
 }
@@ -646,7 +643,7 @@ void EnZo_Surface(EnZo* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_3);
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
@@ -696,7 +693,7 @@ void EnZo_Dive(EnZo* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         Actor_PlaySfx(&this->actor, NA_SE_EV_DIVE_WATER);
         EnZo_SpawnSplashes(this);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.velocity.y = -4.0f;
         this->skelAnime.playSpeed = 0.0f;
     }

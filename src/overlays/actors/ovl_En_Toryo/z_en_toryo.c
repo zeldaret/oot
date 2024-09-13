@@ -7,7 +7,7 @@
 #include "z_en_toryo.h"
 #include "assets/objects/object_toryo/object_toryo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnToryo_Init(Actor* thisx, PlayState* play);
 void EnToryo_Destroy(Actor* thisx, PlayState* play);
@@ -32,7 +32,7 @@ ActorProfile En_Toryo_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -127,7 +127,7 @@ void EnToryo_Init(Actor* thisx, PlayState* play) {
                      Animation_GetLastFrame(sEnToryoAnimation.animation), sEnToryoAnimation.mode,
                      sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->actionFunc = EnToryo_Idle;
 }
 

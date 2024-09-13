@@ -10,7 +10,7 @@
 #include "terminal.h"
 #include "assets/objects/object_reeba/object_reeba.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnReeba_Init(Actor* thisx, PlayState* play);
 void EnReeba_Destroy(Actor* thisx, PlayState* play);
@@ -89,7 +89,7 @@ ActorProfile En_Reeba_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -113,7 +113,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
     s32 surfaceType;
 
     this->actor.naviEnemyId = NAVI_ENEMY_LEEVER;
-    this->actor.targetMode = 3;
+    this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->actor.gravity = -3.5f;
     this->actor.focus.pos = this->actor.world.pos;
     SkelAnime_Init(play, &this->skelanime, &object_reeba_Skel_001EE8, &object_reeba_Anim_0001E4, this->jointTable,
@@ -192,7 +192,7 @@ void EnReeba_SetupSurface(EnReeba* this, PlayState* play) {
         this->waitTimer = 20;
     }
 
-    this->actor.flags &= ~ACTOR_FLAG_27;
+    this->actor.flags &= ~ACTOR_FLAG_LOCK_ON_DISABLED;
     this->actor.world.pos.y = this->actor.floorHeight;
 
     if (this->type != LEEVER_TYPE_SMALL) {
@@ -278,7 +278,7 @@ void EnReeba_Move(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_SetupMoveBig(EnReeba* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE;
     this->actionfunc = EnReeba_MoveBig;
 }
 
@@ -341,8 +341,8 @@ void EnReeba_Recoiled(EnReeba* this, PlayState* play) {
 void EnReeba_SetupSink(EnReeba* this, PlayState* play) {
     this->stunType = LEEVER_STUN_NONE;
     Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
-    this->actor.flags |= ACTOR_FLAG_27;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+    this->actor.flags |= ACTOR_FLAG_LOCK_ON_DISABLED;
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
     this->actionfunc = EnReeba_Sink;
 }
 
@@ -393,8 +393,8 @@ void EnReeba_SetupStunned(EnReeba* this, PlayState* play) {
     this->waitTimer = 14;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.speed = -8.0f;
-    this->actor.flags |= ACTOR_FLAG_27;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+    this->actor.flags |= ACTOR_FLAG_LOCK_ON_DISABLED;
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
     this->actionfunc = EnReeba_Stunned;
 }
 
@@ -463,7 +463,7 @@ void EnReeba_SetupDie(EnReeba* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->waitTimer = 14;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionfunc = EnReeba_Die;
 }
 

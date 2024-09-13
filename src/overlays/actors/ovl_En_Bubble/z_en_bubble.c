@@ -1,7 +1,7 @@
 #include "z_en_bubble.h"
 #include "assets/objects/object_bubble/object_bubble.h"
 
-#define FLAGS ACTOR_FLAG_0
+#define FLAGS ACTOR_FLAG_ATTENTION_ENABLED
 
 void EnBubble_Init(Actor* thisx, PlayState* play);
 void EnBubble_Destroy(Actor* thisx, PlayState* play);
@@ -51,7 +51,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -76,7 +76,7 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
     f32 c;
     f32 d;
 
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_SetScale(&this->actor, 1.0f);
     this->actor.shape.yOffset = 16.0f;
     this->graphicRotSpeed = 16.0f;
@@ -145,7 +145,7 @@ s32 EnBubble_Explosion(EnBubble* this, PlayState* play) {
                                           &sEffectEnvColor, Rand_S16Offset(100, 50), 0x19, 0);
     }
     Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x50);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     return Rand_S16Offset(90, 60);
 }
 
@@ -420,8 +420,7 @@ void EnBubble_Draw(Actor* thisx, PlayState* play) {
         Matrix_Scale(this->graphicEccentricity + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD(-(f32)play->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bubble.c", 1220),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bubble.c", 1220);
         gSPDisplayList(POLY_XLU_DISP++, gBubbleDL);
     }
 

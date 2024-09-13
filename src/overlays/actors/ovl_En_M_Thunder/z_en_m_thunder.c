@@ -26,7 +26,7 @@ ActorProfile En_M_Thunder_Profile = {
 
 static ColliderCylinderInit D_80AA0420 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -330,8 +330,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 844);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_m_thunder.c", 853),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_m_thunder.c", 853);
 
     switch (this->unk_1C6) {
         case 0:
@@ -388,8 +387,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
         phi_t1 = 0x14;
     }
     Matrix_Scale(1.0f, phi_f14, phi_f14, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_m_thunder.c", 960),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_m_thunder.c", 960);
 
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->gameplayFrames * 5) & 0xFF, 0, 0x20, 0x20,

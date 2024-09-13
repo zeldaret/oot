@@ -8,7 +8,7 @@
 #include "assets/objects/object_zl4/object_zl4.h"
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 typedef enum EnZl4CutsceneState {
     /* 0 */ ZL4_CS_WAIT,
@@ -72,7 +72,7 @@ ActorProfile En_Zl4_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -367,7 +367,7 @@ void EnZl4_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->actor.textId = -1;
     this->eyeExpression = this->mouthExpression = ZL4_MOUTH_NEUTRAL;
 

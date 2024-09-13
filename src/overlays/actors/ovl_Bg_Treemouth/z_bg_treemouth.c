@@ -42,7 +42,7 @@ ActorProfile Bg_Treemouth_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 8000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
@@ -142,9 +142,9 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play) {
         if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(EVENTCHKINF_0C)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
-                    this->dyna.actor.flags |= ACTOR_FLAG_0;
-                    if (this->dyna.actor.isTargeted) {
-                        this->dyna.actor.flags &= ~ACTOR_FLAG_0;
+                    this->dyna.actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+                    if (this->dyna.actor.isLockedOn) {
+                        this->dyna.actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                         play->csCtx.script = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
                         BgTreemouth_SetupAction(this, func_808BC9EC);
@@ -243,12 +243,11 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (gSaveContext.sceneLayer == 6) {
-        alpha = (play->roomCtx.unk_74[0] + 0x1F4);
+        alpha = (play->roomCtx.drawParams[0] + 0x1F4);
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, alpha * 0.1f);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_treemouth.c", 932),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_treemouth.c", 932);
     gSPDisplayList(POLY_OPA_DISP++, gDekuTreeMouthDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_treemouth.c", 937);

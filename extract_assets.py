@@ -32,7 +32,7 @@ def ExtractFile(assetConfig: version_config.AssetConfig, outputPath: Path, outpu
 
     execStr = f"{zapdPath} e -eh -i {xmlPath} -b {globalBaseromSegmentsDir} -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} --cs-float both {ZAPDArgs}"
 
-    if name.startswith("code/") or name.startswith("overlays/"):
+    if name.startswith("code/") or name.startswith("n64dd/") or name.startswith("overlays/"):
         assert assetConfig.start_offset is not None
         assert assetConfig.end_offset is not None
 
@@ -136,6 +136,8 @@ def main():
     baseromSegmentsDir: Path = args.baserom_segments_dir
     version: str = args.oot_version
     outputDir: Path = args.output_dir
+
+    args.output_dir.mkdir(parents=True, exist_ok=True)
 
     versionConfig = version_config.load_version_config(version)
 

@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum BossFd2CutsceneState {
     /* 0 */ DEATH_START,
@@ -67,10 +67,10 @@ static Vec3f sHoleLocations[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_VOLVAGIA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 0, ICHAIN_STOP),
 };
 
 void BossFd2_SpawnDebris(PlayState* play, BossFdEffect* effect, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
@@ -612,7 +612,7 @@ void BossFd2_SetupDeath(BossFd2* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gHoleVolvagiaDamagedAnim, 1.0f, 0.0f, this->fwork[FD2_END_FRAME],
                      ANIMMODE_ONCE_INTERP, -3.0f);
     this->actionFunc = BossFd2_Death;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->deathState = DEATH_START;
 }
 
@@ -823,10 +823,10 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
     }
     if (!bossFd->faceExposed) {
         this->collider.elements[0].base.elemType = ELEMTYPE_UNK2;
-        this->collider.base.colType = COLTYPE_METAL;
+        this->collider.base.colMaterial = COL_MATERIAL_METAL;
     } else {
         this->collider.elements[0].base.elemType = ELEMTYPE_UNK3;
-        this->collider.base.colType = COLTYPE_HIT3;
+        this->collider.base.colMaterial = COL_MATERIAL_HIT3;
     }
 
     if (this->collider.elements[0].base.acElemFlags & ACELEM_HIT) {
@@ -995,9 +995,9 @@ void BossFd2_Update(Actor* thisx, PlayState* play2) {
     this->fwork[FD2_TEX2_SCROLL_X] += 3.0f;
     this->fwork[FD2_TEX2_SCROLL_Y] -= 2.0f;
     if (this->actor.focus.pos.y < 90.0f) {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 
@@ -1147,8 +1147,7 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
         xyScale = (0.01f - (i * 0.0009f)) * spE8[i] * scale[i];
         Matrix_Scale(xyScale, xyScale, 0.01f * spE8[i], MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_fd2.c", 2498),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_fd2.c", 2498);
         gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeModelDL);
     }
     Matrix_Pop();

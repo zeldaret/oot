@@ -8,7 +8,7 @@
 #include "assets/objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnMd_Init(Actor* thisx, PlayState* play);
 void EnMd_Destroy(Actor* thisx, PlayState* play);
@@ -35,7 +35,7 @@ ActorProfile En_Md_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -667,7 +667,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
 
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_0);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->alpha = 255;
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ELF, this->actor.world.pos.x,
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);

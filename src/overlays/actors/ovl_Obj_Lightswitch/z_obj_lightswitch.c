@@ -62,7 +62,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[] = {
 };
 static ColliderJntSphInit sColliderJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -417,8 +417,7 @@ void ObjLightswitch_DrawOpa(Actor* thisx, PlayState* play) {
         pos.z = thisx->world.pos.z;
     }
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 841),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_lightswitch.c", 841);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFaceTextures[this->faceTextureIndex]));
     gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000260);
 
@@ -427,15 +426,13 @@ void ObjLightswitch_DrawOpa(Actor* thisx, PlayState* play) {
     rot.z = thisx->shape.rot.z + this->flameRingRot;
     Matrix_SetTranslateRotateYXZ(pos.x, pos.y, pos.z, &rot);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 859),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_lightswitch.c", 859);
     gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000398);
 
     rot.z = thisx->shape.rot.z - this->flameRingRot;
     Matrix_SetTranslateRotateYXZ(pos.x, pos.y, pos.z, &rot);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 873),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_lightswitch.c", 873);
     gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000408);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_lightswitch.c", 878);
@@ -457,8 +454,7 @@ void ObjLightswitch_DrawXlu(Actor* thisx, PlayState* play) {
     sp68.y = thisx->world.pos.y + (thisx->shape.yOffset * thisx->scale.y);
     sp68.z = thisx->world.pos.z;
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 912),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_obj_lightswitch.c", 912);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFaceTextures[this->faceTextureIndex]));
     gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000260);
 
@@ -468,15 +464,13 @@ void ObjLightswitch_DrawXlu(Actor* thisx, PlayState* play) {
 
     Matrix_SetTranslateRotateYXZ(sp68.x, sp68.y, sp68.z, &sp60);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 930),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_obj_lightswitch.c", 930);
     gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000398);
 
     sp60.z = thisx->shape.rot.z - this->flameRingRot;
     Matrix_SetTranslateRotateYXZ(sp68.x, sp68.y, sp68.z, &sp60);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_lightswitch.c", 944),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_obj_lightswitch.c", 944);
     gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000408);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_lightswitch.c", 949);

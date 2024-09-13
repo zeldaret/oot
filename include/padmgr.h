@@ -101,4 +101,6 @@ void PadMgr_RumbleSet(PadMgr* padMgr, u8* enable);
     }                                                                                       \
     (void)0
 
+extern PadMgr gPadMgr;
+
 #endif

@@ -87,7 +87,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 
 static ColliderTrisInit sTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -100,7 +100,7 @@ static ColliderTrisInit sTrisInit = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -500,8 +500,7 @@ void EnHonotrap_DrawEye(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sSilverEyeTextures[this->eyeState]));
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_honotrap.c", 987),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_honotrap.c", 987);
     gSPDisplayList(POLY_OPA_DISP++, gEyeSwitch2DL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_honotrap.c", 991);
@@ -522,8 +521,7 @@ void EnHonotrap_DrawFlame(Actor* thisx, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
                    MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_honotrap.c", 1024),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_honotrap.c", 1024);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_honotrap.c", 1028);

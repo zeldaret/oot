@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_ge1/object_ge1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 #define GE1_STATE_TALKING (1 << 0)
 #define GE1_STATE_GIVE_QUIVER (1 << 1)
@@ -53,7 +53,7 @@ ActorProfile En_Ge1_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -98,7 +98,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->animation = &gGerudoWhiteIdleAnim;
     this->animFunc = EnGe1_CueUpAnimation;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
 
     this->actor.uncullZoneForward = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
@@ -146,7 +146,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
                 Actor_Kill(&this->actor);
                 return;
             }
-            this->actor.targetMode = 3;
+            this->actor.attentionRangeType = ATTENTION_RANGE_3;
             this->hairstyle = GE1_HAIR_BOB;
             // "Horseback archery Gerudo EVENT_INF(0) ="
             PRINTF(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);

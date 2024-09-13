@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fw/object_fw.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_9)
 
 void EnFd_Init(Actor* thisx, PlayState* play);
 void EnFd_Destroy(Actor* thisx, PlayState* play);
@@ -176,7 +176,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -288,7 +288,7 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
             return false;
         }
         this->invincibilityTimer = 30;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_DAMAGE);
         Enemy_StartFinishingBlow(play, &this->actor);
         return true;
@@ -452,7 +452,7 @@ void EnFd_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.flags |= ACTOR_FLAG_24;
     Actor_SetScale(&this->actor, 0.01f);
     this->firstUpdateFlag = true;
@@ -485,7 +485,7 @@ void EnFd_SpinAndGrow(EnFd* this, PlayState* play) {
         this->actor.velocity.y = 6.0f;
         this->actor.scale.y = 0.01f;
         this->actor.world.rot.y ^= 0x8000;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.speed = 8.0f;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
         this->actionFunc = EnFd_JumpToGround;
@@ -526,9 +526,9 @@ void EnFd_SpinAndSpawnFire(EnFd* this, PlayState* play) {
     f32 rotSpeed;
 
     if ((this->spinTimer < 31) && (this->invincibilityTimer == 0)) {
-        func_8002F974(&this->actor, NA_SE_EN_FLAME_FIRE_ATTACK - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLAME_FIRE_ATTACK - SFX_FLAG);
     } else {
-        func_8002F974(&this->actor, NA_SE_EN_FLAME_ROLL - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLAME_ROLL - SFX_FLAG);
     }
 
     if (DECR(this->spinTimer) != 0) {
@@ -617,7 +617,7 @@ void EnFd_Run(EnFd* this, PlayState* play) {
     EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
     Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(adjPos.x, adjPos.z)), 4, 0xFA0, 1);
     this->actor.world.rot = this->actor.shape.rot;
-    func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
     if (this->skelAnime.curFrame == 6.0f || this->skelAnime.curFrame == 13.0f || this->skelAnime.curFrame == 28.0f) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_KICK);
     }
@@ -663,7 +663,7 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
     if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         // has been hookshoted
         if (EnFd_SpawnCore(this, play)) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->invincibilityTimer = 30;
             Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_DAMAGE);
             Enemy_StartFinishingBlow(play, &this->actor);
@@ -905,8 +905,7 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2006),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fd.c", 2006);
         idx = eff->timer * (8.0f / eff->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
@@ -942,8 +941,7 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2064),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fd.c", 2064);
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
     }
 

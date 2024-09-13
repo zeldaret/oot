@@ -33,7 +33,7 @@ ActorProfile En_Arrow_Profile = {
 
 static ColliderQuadInit sColliderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -482,8 +482,7 @@ void EnArrow_Draw(Actor* thisx, PlayState* play) {
         Matrix_RotateZ((this->actor.speed == 0.0f) ? 0.0f : BINANG_TO_RAD((play->gameplayFrames & 0xFF) * 4000),
                        MTXMODE_APPLY);
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_arrow.c", 1374),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_arrow.c", 1374);
         gSPDisplayList(POLY_XLU_DISP++, gEffSparklesDL);
         Matrix_Pop();
         Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_APPLY);

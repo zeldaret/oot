@@ -32,7 +32,7 @@ ActorProfile Door_Ana_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -79,7 +79,7 @@ void DoorAna_Init(Actor* thisx, PlayState* play) {
     } else {
         DoorAna_SetupAction(this, DoorAna_WaitOpen);
     }
-    this->actor.targetMode = 0;
+    this->actor.attentionRangeType = ATTENTION_RANGE_0;
 }
 
 void DoorAna_Destroy(Actor* thisx, PlayState* play) {
@@ -128,7 +128,7 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
 
     player = GET_PLAYER(play);
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
-        if ((this->actor.targetMode != 0) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
+        if ((this->actor.attentionRangeType != 0) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (player->stateFlags1 & PLAYER_STATE1_31) && (player->av1.actionVar1 == 0)) {
             destinationIdx = PARAMS_GET_U(this->actor.params, 12, 3) - 1;
             Play_SetupRespawnPoint(play, RESPAWN_MODE_RETURN, 0x4FF);
@@ -145,9 +145,9 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
                 this->actor.xzDistToPlayer <= 15.0f && -50.0f <= this->actor.yDistToPlayer &&
                 this->actor.yDistToPlayer <= 15.0f) {
                 player->stateFlags1 |= PLAYER_STATE1_31;
-                this->actor.targetMode = 1;
+                this->actor.attentionRangeType = ATTENTION_RANGE_1;
             } else {
-                this->actor.targetMode = 0;
+                this->actor.attentionRangeType = ATTENTION_RANGE_0;
             }
         }
     }
@@ -177,8 +177,7 @@ void DoorAna_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_door_ana.c", 440);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_door_ana.c", 446),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_door_ana.c", 446);
     gSPDisplayList(POLY_XLU_DISP++, gGrottoDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_door_ana.c", 449);

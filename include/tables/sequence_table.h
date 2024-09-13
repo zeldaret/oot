@@ -2,7 +2,12 @@
  * DEFINE_SEQUENCE(name, seqId, storageMedium, cachePolicy, seqFlags)
  * DEFINE_SEQUENCE_PTR(seqIdReal, seqId, storageMediumReal, cachePolicyReal, seqFlags)
  */
-DEFINE_SEQUENCE    (Sequence_0,         NA_BGM_GENERAL_SFX,      MEDIUM_CART, CACHE_LOAD_PERMANENT,  SEQ_FLAG_FANFARE                       ) // general_sfx
+#if PLATFORM_N64
+#define SEQ_0_FLAGS     SEQ_FLAG_FANFARE | SEQ_FLAG_ENEMY
+#else
+#define SEQ_0_FLAGS     SEQ_FLAG_FANFARE
+#endif
+DEFINE_SEQUENCE    (Sequence_0,         NA_BGM_GENERAL_SFX,      MEDIUM_CART, CACHE_LOAD_PERMANENT,  SEQ_0_FLAGS                            ) // general_sfx
 DEFINE_SEQUENCE    (Sequence_1,         NA_BGM_NATURE_AMBIENCE,  MEDIUM_CART, CACHE_LOAD_TEMPORARY,  SEQ_FLAG_ENEMY                         ) // nature_ambience
 DEFINE_SEQUENCE    (Sequence_2,         NA_BGM_FIELD_LOGIC,      MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // field_logic
 DEFINE_SEQUENCE    (Sequence_3,         NA_BGM_FIELD_INIT,       MEDIUM_CART, CACHE_LOAD_TEMPORARY,  0                                      ) // field_init

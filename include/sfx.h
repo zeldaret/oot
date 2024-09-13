@@ -133,7 +133,7 @@ void Audio_ProcessSfxRequest(void);
 void Audio_ChooseActiveSfx(u8 bankId);
 void Audio_PlayActiveSfx(u8 bankId);
 void Audio_StopSfxByBank(u8 bankId);
-void func_800F8884(u8 bankId, Vec3f* pos);
+void Audio_RemoveSfxFromBankByPos(u8 bankId, Vec3f* pos);
 void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos);
 void Audio_StopSfxByPos(Vec3f* pos);
 void Audio_StopSfxByPosAndId(Vec3f* pos, u16 sfxId);

@@ -72,11 +72,13 @@ void Fault_DrawText(s32 x, s32 y, const char* fmt, ...);
 
 #if PLATFORM_N64
 
+void func_800AE1F8(void);
+
 // Not implemented. Silently noop-ing is fine, these are not essential for functionality.
 #define Fault_SetFontColor(color) (void)0
 #define Fault_SetCharPad(padW, padH) (void)0
 
-#else
+#elif PLATFORM_GC
 
 void Fault_InitDrawer(void);
 void Fault_SetForeColor(u16 color);
@@ -89,11 +91,14 @@ s32 Fault_VPrintf(const char* fmt, va_list args);
 
 #if PLATFORM_N64
 
+extern vs32 gFaultExit;
 extern vs32 gFaultMsgId;
+extern vs32 gFaultDisplayEnable;
+extern volatile OSThread* gFaultFaultedThread;
 
 #define FAULT_MSG_ID gFaultMsgId
 
-#else
+#elif PLATFORM_GC
 
 typedef struct FaultMgr {
     /* 0x000 */ OSThread thread;

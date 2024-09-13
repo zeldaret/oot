@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_hs/object_hs.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnHs_Init(Actor* thisx, PlayState* play);
 void EnHs_Destroy(Actor* thisx, PlayState* play);
@@ -32,7 +32,7 @@ ActorProfile En_Hs_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -89,7 +89,7 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
     }
 
     this->unk_2A8 = 0;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
 }
 
 void EnHs_Destroy(Actor* thisx, PlayState* play) {

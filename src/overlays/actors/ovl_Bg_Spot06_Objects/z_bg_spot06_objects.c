@@ -72,7 +72,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -256,7 +256,7 @@ void BgSpot06Objects_GateOpen(BgSpot06Objects* this, PlayState* play) {
         this->timer = 0;
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -432,8 +432,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot06_objects.c", 850),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot06_objects.c", 850);
 
     gameplayFrames = play->state.frames;
 
@@ -506,5 +505,5 @@ void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* pl
         play->colCtx.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = this->dyna.actor.world.pos.y;
     }
 
-    func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+    Actor_PlaySfx_FlaggedCentered2(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
 }

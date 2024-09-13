@@ -40,12 +40,51 @@ extern u8 gAreaGsFlags[];
 #define WORLD_MAP_IMAGE_FRAG_HEIGHT ((TMEM_SIZE / 2) / (WORLD_MAP_IMAGE_WIDTH * G_IM_SIZ_8b_BYTES))
 #define WORLD_MAP_IMAGE_FRAG_NUM (((WORLD_MAP_IMAGE_HEIGHT - 1) / WORLD_MAP_IMAGE_FRAG_HEIGHT) + 1)
 
+// Clouds quads cover undiscovered areas.
+// Point quads are location markers. They can also be highlighted as a hint of where to go.
+typedef enum WorldMapQuad {
+    /*  0 */ WORLD_MAP_QUAD_CLOUDS_SACRED_FOREST_MEADOW,
+    /*  1 */ WORLD_MAP_QUAD_CLOUDS_HYRULE_FIELD,
+    /*  2 */ WORLD_MAP_QUAD_CLOUDS_LON_LON_RANCH,
+    /*  3 */ WORLD_MAP_QUAD_CLOUDS_MARKET,
+    /*  4 */ WORLD_MAP_QUAD_CLOUDS_HYRULE_CASTLE,
+    /*  5 */ WORLD_MAP_QUAD_CLOUDS_KAKARIKO_VILLAGE,
+    /*  6 */ WORLD_MAP_QUAD_CLOUDS_GRAVEYARD,
+    /*  7 */ WORLD_MAP_QUAD_CLOUDS_DEATH_MOUNTAIN_TRAIL,
+    /*  8 */ WORLD_MAP_QUAD_CLOUDS_GORON_CITY,
+    /*  9 */ WORLD_MAP_QUAD_CLOUDS_ZORAS_RIVER,
+    /* 10 */ WORLD_MAP_QUAD_CLOUDS_ZORAS_DOMAIN,
+    /* 11 */ WORLD_MAP_QUAD_CLOUDS_ZORAS_FOUNTAIN,
+    /* 12 */ WORLD_MAP_QUAD_CLOUDS_GERUDO_VALLEY,
+    /* 13 */ WORLD_MAP_QUAD_CLOUDS_GERUDOS_FORTRESS,
+    /* 14 */ WORLD_MAP_QUAD_CLOUDS_DESERT_COLOSSUS,
+    /* 15 */ WORLD_MAP_QUAD_CLOUDS_LAKE_HYLIA,
+    /* 16 */ WORLD_MAP_QUAD_POINT_FIRST,
+    // 16 to 27 follows the `WorldMapPoint` enum
+    /* 27 */ WORLD_MAP_QUAD_POINT_LAST = WORLD_MAP_QUAD_POINT_FIRST + WORLD_MAP_POINT_MAX - 1,
+    /* 28 */ WORLD_MAP_QUAD_28,
+    /* 29 */ WORLD_MAP_QUAD_TRADE_QUEST_MARKER,
+    /* 30 */ WORLD_MAP_QUAD_30,
+    /* 31 */ WORLD_MAP_QUAD_31,
+    /* 32 */ WORLD_MAP_QUAD_IMAGE_FIRST,
+    /* 46 */ WORLD_MAP_QUAD_IMAGE_LAST = WORLD_MAP_QUAD_IMAGE_FIRST + WORLD_MAP_IMAGE_FRAG_NUM - 1
+} WorldMapQuad;
+
+typedef enum PromptQuad {
+    /* 0 */ PROMPT_QUAD_MESSAGE,
+    /* 1 */ PROMPT_QUAD_CURSOR_LEFT,
+    /* 2 */ PROMPT_QUAD_CURSOR_RIGHT,
+    /* 3 */ PROMPT_QUAD_CHOICE_YES,
+    /* 4 */ PROMPT_QUAD_CHOICE_NO,
+    /* 5 */ PROMPT_QUAD_MAX
+} PromptQuad;
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
 void KaleidoScope_DrawDebugEditor(PlayState* play);
 void KaleidoScope_DrawPlayerWork(PlayState* play);
 void KaleidoScope_DrawEquipment(PlayState* play);
-void KaleidoScope_SetCursorVtx(PauseContext* pauseCtx, u16 index, Vtx* vtx);
+void KaleidoScope_SetCursorPos(PauseContext* pauseCtx, u16 index, Vtx* vtx);
 void KaleidoScope_DrawItemSelect(PlayState* play);
 void KaleidoScope_UpdateItemEquip(PlayState* play);
 void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx);

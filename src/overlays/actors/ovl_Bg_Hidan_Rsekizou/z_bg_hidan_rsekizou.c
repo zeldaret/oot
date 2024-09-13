@@ -97,7 +97,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -178,7 +178,7 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
     }
 
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-    func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
 }
 
 Gfx* BgHidanRsekizou_DrawFireball(PlayState* play, BgHidanRsekizou* this, s16 frame, MtxF* mf, s32 a,
@@ -232,8 +232,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568);
     gSPDisplayList(POLY_OPA_DISP++, gFireTempleSpinningFlamethrowerDL);
     Matrix_MtxFCopy(&mf, &gMtxFClear);
 

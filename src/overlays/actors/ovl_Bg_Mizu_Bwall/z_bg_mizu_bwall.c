@@ -58,7 +58,7 @@ static ColliderTrisElementInit sTrisElementInitFloor[2] = {
 
 static ColliderTrisInit sTrisInitFloor = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -85,7 +85,7 @@ static ColliderTrisElementInit sTrisElementInitRutoWall[1] = {
 
 static ColliderTrisInit sTrisInitRutoWall = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -123,7 +123,7 @@ static ColliderTrisElementInit sTrisElementInitWall[2] = {
 
 static ColliderTrisInit sTrisInitUnusedWall = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -136,7 +136,7 @@ static ColliderTrisInit sTrisInitUnusedWall = {
 
 static ColliderTrisInit sTrisInitStingerWall = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -537,7 +537,7 @@ void BgMizuBwall_Draw(Actor* thisx, PlayState* play2) {
     gSPSegment(POLY_OPA_DISP++, 0x0B,
                Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, 3 * frames, 0, 0x20, 0x20, 1, 0, 0, 0x20,
                                         0x20, 0, 0, 0, this->scrollAlpha4));
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mizu_bwall.c", 1129), 2);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mizu_bwall.c", 1129);
 
     if (this->dList != NULL) {
         gSPDisplayList(POLY_OPA_DISP++, this->dList);

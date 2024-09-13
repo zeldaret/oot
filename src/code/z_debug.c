@@ -12,7 +12,8 @@ typedef struct InputCombo {
     /* 0x2 */ u16 press;
 } InputCombo; // size = 0x4
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.2:128"
 
 RegEditor* gRegEditor;
 
@@ -168,7 +169,7 @@ void Regs_UpdateEditor(Input* input) {
     s32 increment;
     s32 i;
 
-    dPadInputCur = input->cur.button & (BTN_DUP | BTN_DLEFT | BTN_DRIGHT | BTN_DDOWN);
+    dPadInputCur = input->cur.button & (BTN_DUP | BTN_DDOWN | BTN_DLEFT | BTN_DRIGHT);
 
     if (CHECK_BTN_ALL(input->cur.button, BTN_L) || CHECK_BTN_ALL(input->cur.button, BTN_R) ||
         CHECK_BTN_ALL(input->cur.button, BTN_START)) {

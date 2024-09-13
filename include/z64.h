@@ -5,6 +5,8 @@
 #include "ultra64/gs2dex.h"
 #include "attributes.h"
 #include "audiomgr.h"
+#include "controller.h"
+#include "versions.h"
 #include "z64save.h"
 #include "z64light.h"
 #include "z64bgcheck.h"
@@ -62,9 +64,19 @@
 #include "jpeg.h"
 #include "prerender.h"
 #include "rand.h"
+#include "libc64/qrand.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
-#include "fp_math.h"
+#include "libc64/math64.h"
+#include "sys_matrix.h"
+#include "main.h"
+#include "segmented_address.h"
+#include "stackcheck.h"
+#include "kaleido_manager.h"
+#include "libc64/aprintf.h"
+#include "libc64/malloc.h"
+#include "libc64/sleep.h"
+#include "libc64/sprintf.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -74,6 +86,8 @@
 #define THREAD_PRI_DMAMGR_LOW   10  // Used when decompressing files
 #define THREAD_PRI_GRAPH        11
 #define THREAD_PRI_AUDIOMGR     12
+#define THREAD_PRI_N64DD        13
+#define THREAD_PRI_DDMSG        13
 #define THREAD_PRI_PADMGR       14
 #define THREAD_PRI_MAIN         15
 #define THREAD_PRI_SCHED        15
@@ -88,24 +102,11 @@
 #define THREAD_ID_GRAPH       4
 #define THREAD_ID_SCHED       5
 #define THREAD_ID_PADMGR      7
+#define THREAD_ID_N64DD       8
+#define THREAD_ID_DDMSG       9
 #define THREAD_ID_AUDIOMGR   10
 #define THREAD_ID_DMAMGR     18
 #define THREAD_ID_IRQMGR     19
-
-typedef struct KaleidoMgrOverlay {
-    /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ RomFile file;
-    /* 0x0C */ void* vramStart;
-    /* 0x10 */ void* vramEnd;
-    /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
-    /* 0x18 */ const char* name;
-} KaleidoMgrOverlay; // size = 0x1C
-
-typedef enum KaleidoOverlayType {
-    /* 0 */ KALEIDO_OVL_KALEIDO_SCOPE,
-    /* 1 */ KALEIDO_OVL_PLAYER_ACTOR,
-    /* 2 */ KALEIDO_OVL_MAX
-} KaleidoOverlayType;
 
 typedef enum LensMode {
     /* 0 */ LENS_MODE_SHOW_ACTORS, // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
@@ -388,27 +389,6 @@ typedef struct DebugDispObject {
     /* 0x24 */ s16   type;
     /* 0x28 */ struct DebugDispObject* next;
 } DebugDispObject; // size = 0x2C
-
-typedef enum MatrixMode {
-    /* 0 */ MTXMODE_NEW,  // generates a new matrix
-    /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
-} MatrixMode;
-
-typedef struct StackEntry {
-    /* 0x00 */ struct StackEntry* next;
-    /* 0x04 */ struct StackEntry* prev;
-    /* 0x08 */ u32* head;
-    /* 0x0C */ u32* tail;
-    /* 0x10 */ u32 initValue;
-    /* 0x14 */ s32 minSpace;
-    /* 0x18 */ const char* name;
-} StackEntry;
-
-typedef enum StackStatus {
-    /* 0 */ STACK_STATUS_OK,
-    /* 1 */ STACK_STATUS_WARNING,
-    /* 2 */ STACK_STATUS_OVERFLOW
-} StackStatus;
 
 typedef struct ISVDbg {
     /* 0x00 */ u32 magic; // IS64

@@ -40,7 +40,7 @@ ActorProfile Bg_Breakwall_Profile = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER | AC_TYPE_OTHER,
         OC1_NONE,
@@ -297,8 +297,7 @@ void BgBreakwall_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_breakwall.c", 767);
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_breakwall.c", 771),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_breakwall.c", 771);
         gSPDisplayList(POLY_OPA_DISP++, this->bombableWallDList);
 
         if (this->colType >= 0) {

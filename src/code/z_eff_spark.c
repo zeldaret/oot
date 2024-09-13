@@ -174,7 +174,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
         if (vertices == NULL) {
             PRINTF(T("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n",
                      "EffectSparkInfo_disp(): Memory Allocation Failure graph_malloc\n"));
-            goto end;
+            goto close_disps;
         }
 
         j = 0;
@@ -262,7 +262,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
             mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp12C);
             if (mtx == NULL) {
-                goto end;
+                goto close_disps;
             }
 
             gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -273,6 +273,6 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
     }
 
-end:
+close_disps:
     CLOSE_DISPS(gfxCtx, "../z_eff_spark.c", 498);
 }

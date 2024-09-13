@@ -7,7 +7,7 @@
 #include "z_en_mk.h"
 #include "assets/objects/object_mk/object_mk.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnMk_Init(Actor* thisx, PlayState* play);
 void EnMk_Destroy(Actor* thisx, PlayState* play);
@@ -30,7 +30,7 @@ ActorProfile En_Mk_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -66,7 +66,7 @@ void EnMk_Init(Actor* thisx, PlayState* play) {
     this->actionFunc = EnMk_Wait;
     this->flags = 0;
     this->swimFlag = 0;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
 
     if (GET_ITEMGETINF(ITEMGETINF_10)) {
         this->flags |= 4;

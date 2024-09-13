@@ -7,7 +7,7 @@
 #include "z_en_ma1.h"
 #include "assets/objects/object_ma1/object_ma1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void EnMa1_Init(Actor* thisx, PlayState* play);
 void EnMa1_Destroy(Actor* thisx, PlayState* play);
@@ -37,7 +37,7 @@ ActorProfile En_Ma1_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -269,7 +269,7 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 
     if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
