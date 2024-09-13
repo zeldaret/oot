@@ -507,8 +507,8 @@ int Player_InCsMode(PlayState* play) {
  * `PLAYER_STATE1_HOSTILE_LOCK_ON` controls Player's "battle" response to hostile actors.
  * This includes affecting how movement is handled, and enabling a "fighting" set of animations.
  *
- * Note that `Player_UpdateHostileLockOn` exists, which updates this flag and also returns the check.
- * This function should be used if the flag should be checked, but not updated.
+ * Note that within Player, `Player_UpdateHostileLockOn` exists, which updates the flag and also returns the check.
+ * Player can use this function instead if the flag should be checked, but not updated.
  */
 s32 Player_CheckHostileLockOn(Player* this) {
     return (this->stateFlags1 & PLAYER_STATE1_HOSTILE_LOCK_ON);
