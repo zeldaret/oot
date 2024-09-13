@@ -7,7 +7,7 @@
 #include "z_en_daiku_kakariko.h"
 #include "assets/objects/object_daiku/object_daiku.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 typedef enum KakarikoCarpenterType {
     /* 0x0 */ CARPENTER_ICHIRO,  // Red and purple pants, normal hair
