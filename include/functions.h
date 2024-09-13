@@ -792,7 +792,7 @@ void Path_CopyLastPoint(Path* path, Vec3f* dest);
 void Player_SetBootData(PlayState* play, Player* this);
 int Player_InBlockingCsMode(PlayState* play, Player* this);
 int Player_InCsMode(PlayState* play);
-s32 func_8008E9C4(Player* this);
+s32 Player_CheckHostileLockOn(Player* this);
 int Player_IsChildWithHylianShield(Player* this);
 s32 Player_ActionToModelGroup(Player* this, s32 itemAction);
 void Player_SetModelsForHoldingShield(Player* this);

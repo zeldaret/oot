@@ -502,8 +502,16 @@ int Player_InCsMode(PlayState* play) {
     return Player_InBlockingCsMode(play, this) || (this->unk_6AD == 4);
 }
 
-s32 func_8008E9C4(Player* this) {
-    return (this->stateFlags1 & PLAYER_STATE1_4);
+/**
+ * Checks if currently locked onto a hostile actor.
+ * `PLAYER_STATE1_HOSTILE_LOCK_ON` controls Player's "battle" response to hostile actors. 
+ * This includes affecting how movement is handled, and enabling a "fighting" set of animations.
+ * 
+ * Note that `Player_UpdateHostileLockOn` exists, which updates this flag and also returns the check.
+ * This function should be used if the flag should be checked, but not updated.
+ */
+s32 Player_CheckHostileLockOn(Player* this) {
+    return (this->stateFlags1 & PLAYER_STATE1_HOSTILE_LOCK_ON);
 }
 
 int Player_IsChildWithHylianShield(Player* this) {

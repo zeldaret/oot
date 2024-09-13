@@ -3793,7 +3793,7 @@ s16 Actor_TestFloorInDirection(Actor* actor, PlayState* play, f32 distance, s16 
 s32 Actor_IsLockedOn(PlayState* play, Actor* actor) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_4) && actor->isLockedOn) {
+    if ((player->stateFlags1 & PLAYER_STATE1_HOSTILE_LOCK_ON) && actor->isLockedOn) {
         return true;
     } else {
         return false;
@@ -3806,7 +3806,7 @@ s32 Actor_IsLockedOn(PlayState* play, Actor* actor) {
 s32 Actor_OtherIsLockedOn(PlayState* play, Actor* actor) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_4) && !actor->isLockedOn) {
+    if ((player->stateFlags1 & PLAYER_STATE1_HOSTILE_LOCK_ON) && !actor->isLockedOn) {
         return true;
     } else {
         return false;
