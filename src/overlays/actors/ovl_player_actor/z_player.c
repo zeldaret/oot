@@ -2325,6 +2325,8 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
  * Note that `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS` will include all focus actor use cases that pertain to 
  * friendly actors. This includes talking to actors, and a few other cases.
  * Despite this, the function is only releveant in the context of actor lock-on.
+ * Because of a quirk in `Player_UpdateZTargeting`, `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS` can be set for hostile
+ * actors specifically when Player is carrying an actor.
  * 
  * Additionally, `PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE` will be set very briefly in some conditions when 
  * a lock-on is forced to release. In these niche cases, this will apply to both friendly and hostile actors.
