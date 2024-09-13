@@ -111,7 +111,7 @@ void EnHintnuts_HitByScrubProjectile1(EnHintnuts* this, PlayState* play) {
     if (this->actor.textId != 0 && this->actor.category == ACTORCAT_ENEMY &&
         ((this->actor.params == 0) || (sPuzzleCounter == 2))) {
         this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BG);
     }
 }
@@ -377,7 +377,7 @@ void EnHintnuts_Run(EnHintnuts* this, PlayState* play) {
                fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
         this->actor.speed = 0.0f;
         if (this->actor.category == ACTORCAT_BG) {
-            this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_16);
+            this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_16);
             this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE;
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
         }

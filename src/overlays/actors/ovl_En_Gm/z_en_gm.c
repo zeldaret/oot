@@ -9,7 +9,7 @@
 #include "assets/objects/object_gm/object_gm.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnGm_Init(Actor* thisx, PlayState* play);
 void EnGm_Destroy(Actor* thisx, PlayState* play);

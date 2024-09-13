@@ -14,7 +14,7 @@
 #include "assets/objects/object_masterzoora/object_masterzoora.h"
 #include "assets/objects/object_masterkokirihead/object_masterkokirihead.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 #if !PLATFORM_GC
 #define CURSOR_COLOR_R 0

@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_ta/object_ta.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 #define TALON_STATE_FLAG_TRACKING_PLAYER (1 << 0)
 #define TALON_STATE_FLAG_GIVING_MILK_REFILL (1 << 1)

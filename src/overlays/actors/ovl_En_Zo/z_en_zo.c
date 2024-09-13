@@ -7,7 +7,7 @@
 #include "z_en_zo.h"
 #include "assets/objects/object_zo/object_zo.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 typedef enum EnZoEffectType {
     /* 0 */ ENZO_EFFECT_NONE,

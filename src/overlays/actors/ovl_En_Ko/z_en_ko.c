@@ -11,7 +11,7 @@
 #include "assets/objects/object_kw1/object_kw1.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 #define ENKO_TYPE PARAMS_GET_S(this->actor.params, 0, 8)
 #define ENKO_PATH PARAMS_GET_S(this->actor.params, 8, 8)
