@@ -2319,7 +2319,16 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
 }
 
 /**
+ * This function checks for non-hostile Z-Target related states.
+ * For hostile related lock-on states, see `Player_UpdateHostileLockOn` and `Player_CheckHostileLockOn`.
  * 
+ * Note that `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS` will include all focus actor use cases that pertain to 
+ * friendly actors. This includes talking to actors, and a few other cases.
+ * Despite this, the function is only releveant in the context of actor lock-on.
+ * 
+ * Additionally, `PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE` will be set very briefly in some conditions when 
+ * a lock-on is forced to release. In these niche cases, this will apply to both friendly and hostile actors.
+ * Overall, it is safe to assume that this specific state flag is not very relevant for this function's use cases.
  */
 s32 Player_FriendlyLockOnOrParallel(Player* this) {
     if (this->stateFlags1 & (PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS | PLAYER_STATE1_PARALLEL | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE)) {
