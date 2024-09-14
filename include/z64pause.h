@@ -141,6 +141,11 @@ typedef enum WorldMapPointState {
     /* 2 */ WORLD_MAP_POINT_STATE_HIGHLIGHT
 } WorldMapPointState;
 
+// Values for respectively PauseContext.pagesYOrigin1 and R_PAUSE_PAGES_Y_ORIGIN_2
+// so that pause pages rotate around their lower edge instead of the middle.
+#define PAUSE_PAGES_Y_ORIGIN_1_LOWER 80 // PAGE_BG_ROWS * PAGE_BG_QUAD_HEIGHT / 2
+#define PAUSE_PAGES_Y_ORIGIN_2_LOWER (s16)(-PAUSE_PAGES_Y_ORIGIN_1_LOWER * 0.78 * 100)
+
 typedef struct PauseContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ u8* iconItemSegment;
@@ -181,7 +186,7 @@ typedef struct PauseContext {
     /* 0x0200 */ f32 questPagePitch; // Ditto for the quest page
     /* 0x0204 */ f32 promptPitch; // Ditto for the prompt. "angle_s"
     /* 0x0208 */ u16 alpha;
-    /* 0x020A */ s16 offsetY;
+    /* 0x020A */ s16 pagesYOrigin1;
     /* 0x020C */ char unk_20C[0x08];
     /* 0x0214 */ s16 stickAdjX;
     /* 0x0216 */ s16 stickAdjY;

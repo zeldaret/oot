@@ -112,7 +112,7 @@ void KaleidoSetup_Update(PlayState* play) {
         }
 
         if (pauseCtx->state == PAUSE_STATE_WAIT_LETTERBOX) {
-            R_PAUSE_OFFSET_VERTICAL = -6240;
+            R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
             R_UPDATE_RATE = 2;
 
             if (Letterbox_GetSizeTarget() != 0) {

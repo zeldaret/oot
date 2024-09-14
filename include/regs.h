@@ -183,7 +183,7 @@
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)
 #define R_ROOM_CULL_DEBUG_TARGET                 iREG(89)
 #define R_B_LABEL_DD                             WREG(0)
-#define R_PAUSE_OFFSET_VERTICAL                  WREG(2)
+#define R_PAUSE_PAGES_Y_ORIGIN_2                 WREG(2) // Complements PauseContext.pagesYOrigin1
 #define R_PAUSE_OFFSET_DEPTH                     WREG(3) // Offset position of all pages away from the camera
 #if OOT_NTSC
 #define R_B_LABEL_SCALE(i)                       WREG(8 + (i))

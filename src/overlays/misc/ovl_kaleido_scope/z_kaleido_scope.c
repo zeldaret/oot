@@ -1312,7 +1312,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
-            Matrix_Translate(0.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, -(f32)R_PAUSE_OFFSET_DEPTH / 100.0f,
+            Matrix_Translate(0.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, -(f32)R_PAUSE_OFFSET_DEPTH / 100.0f,
                              MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateX(-pauseCtx->itemPagePitch / 100.0f, MTXMODE_APPLY);
@@ -1329,7 +1329,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
-            Matrix_Translate(-(f32)R_PAUSE_OFFSET_DEPTH / 100.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, 0.0f,
+            Matrix_Translate(-(f32)R_PAUSE_OFFSET_DEPTH / 100.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, 0.0f,
                              MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateZ(pauseCtx->equipPagePitch / 100.0f, MTXMODE_APPLY);
@@ -1348,7 +1348,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_BILERP);
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
-            Matrix_Translate(0.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, (f32)R_PAUSE_OFFSET_DEPTH / 100.0f,
+            Matrix_Translate(0.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, (f32)R_PAUSE_OFFSET_DEPTH / 100.0f,
                              MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateX(pauseCtx->questPagePitch / 100.0f, MTXMODE_APPLY);
@@ -1367,7 +1367,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
-            Matrix_Translate((f32)R_PAUSE_OFFSET_DEPTH / 100.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, 0.0f,
+            Matrix_Translate((f32)R_PAUSE_OFFSET_DEPTH / 100.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, 0.0f,
                              MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateZ(-pauseCtx->mapPagePitch / 100.0f, MTXMODE_APPLY);
@@ -1399,7 +1399,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
         switch (pauseCtx->pageIndex) {
             case PAUSE_ITEM:
-                Matrix_Translate(0.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, -(f32)R_PAUSE_OFFSET_DEPTH / 100.0f,
+                Matrix_Translate(0.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, -(f32)R_PAUSE_OFFSET_DEPTH / 100.0f,
                                  MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateX(-pauseCtx->itemPagePitch / 100.0f, MTXMODE_APPLY);
@@ -1413,7 +1413,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 break;
 
             case PAUSE_MAP:
-                Matrix_Translate((f32)R_PAUSE_OFFSET_DEPTH / 100.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, 0.0f,
+                Matrix_Translate((f32)R_PAUSE_OFFSET_DEPTH / 100.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, 0.0f,
                                  MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateZ(-pauseCtx->mapPagePitch / 100.0f, MTXMODE_APPLY);
@@ -1445,7 +1445,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             case PAUSE_QUEST:
                 gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_BILERP);
 
-                Matrix_Translate(0.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, (f32)R_PAUSE_OFFSET_DEPTH / 100.0f,
+                Matrix_Translate(0.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, (f32)R_PAUSE_OFFSET_DEPTH / 100.0f,
                                  MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateX(pauseCtx->questPagePitch / 100.0f, MTXMODE_APPLY);
@@ -1464,7 +1464,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 break;
 
             case PAUSE_EQUIP:
-                Matrix_Translate(-(f32)R_PAUSE_OFFSET_DEPTH / 100.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, 0.0f,
+                Matrix_Translate(-(f32)R_PAUSE_OFFSET_DEPTH / 100.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, 0.0f,
                                  MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateZ(pauseCtx->equipPagePitch / 100.0f, MTXMODE_APPLY);
@@ -1496,14 +1496,14 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         if ((u32)pauseCtx->pageIndex == PAUSE_ITEM) {
             pauseCtx->itemPagePitch = pauseCtx->promptPitch + 314.0f;
 
-            Matrix_Translate(0.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, -pauseCtx->promptOffsetDepth / 10.0f,
+            Matrix_Translate(0.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, -pauseCtx->promptOffsetDepth / 10.0f,
                              MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateX(-pauseCtx->promptPitch / 100.0f, MTXMODE_APPLY);
         } else if (pauseCtx->pageIndex == PAUSE_MAP) {
             pauseCtx->mapPagePitch = pauseCtx->promptPitch + 314.0f;
 
-            Matrix_Translate(pauseCtx->promptOffsetDepth / 10.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, 0.0f,
+            Matrix_Translate(pauseCtx->promptOffsetDepth / 10.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, 0.0f,
                              MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateZ(-pauseCtx->promptPitch / 100.0f, MTXMODE_APPLY);
@@ -1511,7 +1511,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         } else if (pauseCtx->pageIndex == PAUSE_QUEST) {
             pauseCtx->questPagePitch = pauseCtx->promptPitch + 314.0f;
 
-            Matrix_Translate(0.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, pauseCtx->promptOffsetDepth / 10.0f,
+            Matrix_Translate(0.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, pauseCtx->promptOffsetDepth / 10.0f,
                              MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateX(pauseCtx->promptPitch / 100.0f, MTXMODE_APPLY);
@@ -1519,7 +1519,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         } else {
             pauseCtx->equipPagePitch = pauseCtx->promptPitch + 314.0f;
 
-            Matrix_Translate(-pauseCtx->promptOffsetDepth / 10.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, 0.0f,
+            Matrix_Translate(-pauseCtx->promptOffsetDepth / 10.0f, (f32)R_PAUSE_PAGES_Y_ORIGIN_2 / 100.0f, 0.0f,
                              MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateZ(pauseCtx->promptPitch / 100.0f, MTXMODE_APPLY);
@@ -2495,7 +2495,7 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
 
             vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + PAGE_BG_QUAD_WIDTH;
 
-            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = pageBgQuadY + pauseCtx->offsetY;
+            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = pageBgQuadY + pauseCtx->pagesYOrigin1;
 
             vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - PAGE_BG_QUAD_HEIGHT;
 
@@ -2545,9 +2545,9 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
             vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + quadsWidth[j];
 
             if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
-                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = quadsY[j] + pauseCtx->offsetY;
+                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = quadsY[j] + pauseCtx->pagesYOrigin1;
             } else {
-                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = YREG(60 + j) + pauseCtx->offsetY;
+                vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = YREG(60 + j) + pauseCtx->pagesYOrigin1;
             }
 
             vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - quadsHeight[j];
@@ -2583,7 +2583,7 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
 
             vtx[bufI + 1].v.ob[0] = vtx[bufI + 3].v.ob[0] = vtx[bufI + 0].v.ob[0] + sVtxMapWorldAreaWidth[j];
 
-            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = sVtxMapWorldAreaY[j] + pauseCtx->offsetY;
+            vtx[bufI + 0].v.ob[1] = vtx[bufI + 1].v.ob[1] = sVtxMapWorldAreaY[j] + pauseCtx->pagesYOrigin1;
 
             vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - sVtxMapWorldAreaHeight[j];
 
@@ -2670,14 +2670,16 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     s16 j;
     s16 k;
 
-    pauseCtx->offsetY = 0;
+    pauseCtx->pagesYOrigin1 = 0;
 
     if ((pauseCtx->state == PAUSE_STATE_OPENING_1) || (pauseCtx->state >= PAUSE_STATE_CLOSING) ||
         ((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
          ((pauseCtx->savePromptState == PAUSE_SAVE_PROMPT_STATE_CLOSING) ||
           (pauseCtx->savePromptState == PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED))) ||
         ((pauseCtx->state >= PAUSE_STATE_8) && (pauseCtx->state <= PAUSE_STATE_13))) {
-        pauseCtx->offsetY = 80;
+        // When opening/closing, translate the page vertices so that the pages rotate around their lower edge
+        // instead of the middle.
+        pauseCtx->pagesYOrigin1 = PAUSE_PAGES_Y_ORIGIN_1_LOWER;
     }
 
     pauseCtx->itemPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_ITEM_QUADS) * 4) * sizeof(Vtx));
@@ -2697,7 +2699,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->mapPageVtx[j + 1].v.ob[0] = pauseCtx->mapPageVtx[j + 3].v.ob[0] =
                 pauseCtx->mapPageVtx[j + 0].v.ob[0] + WORLD_MAP_IMAGE_WIDTH;
 
-            pauseCtx->mapPageVtx[j + 0].v.ob[1] = pauseCtx->mapPageVtx[j + 1].v.ob[1] = y + pauseCtx->offsetY;
+            pauseCtx->mapPageVtx[j + 0].v.ob[1] = pauseCtx->mapPageVtx[j + 1].v.ob[1] = y + pauseCtx->pagesYOrigin1;
 
             pauseCtx->mapPageVtx[j + 2].v.ob[1] = pauseCtx->mapPageVtx[j + 3].v.ob[1] =
                 pauseCtx->mapPageVtx[j + 0].v.ob[1] - WORLD_MAP_IMAGE_FRAG_HEIGHT;
@@ -2779,7 +2781,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->itemVtx[i + 1].v.ob[0] = pauseCtx->itemVtx[i + 3].v.ob[0] =
                 pauseCtx->itemVtx[i + 0].v.ob[0] + 0x1C;
 
-            pauseCtx->itemVtx[i + 0].v.ob[1] = pauseCtx->itemVtx[i + 1].v.ob[1] = y + pauseCtx->offsetY - 2;
+            pauseCtx->itemVtx[i + 0].v.ob[1] = pauseCtx->itemVtx[i + 1].v.ob[1] = y + pauseCtx->pagesYOrigin1 - 2;
 
             pauseCtx->itemVtx[i + 2].v.ob[1] = pauseCtx->itemVtx[i + 3].v.ob[1] =
                 pauseCtx->itemVtx[i + 0].v.ob[1] - 0x1C;
@@ -2902,7 +2904,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->equipVtx[k + 1].v.ob[0] = pauseCtx->equipVtx[k + 3].v.ob[0] =
                 pauseCtx->equipVtx[k + 0].v.ob[0] + 28;
 
-            pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = y + pauseCtx->offsetY - 2;
+            pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = y + pauseCtx->pagesYOrigin1 - 2;
 
             pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] =
                 pauseCtx->equipVtx[k + 0].v.ob[1] - 28;
@@ -2976,7 +2978,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
 
         pauseCtx->equipVtx[k + 1].v.ob[0] = pauseCtx->equipVtx[k + 3].v.ob[0] = pauseCtx->equipVtx[k + 0].v.ob[0] + 64;
 
-        pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = y + pauseCtx->offsetY;
+        pauseCtx->equipVtx[k + 0].v.ob[1] = pauseCtx->equipVtx[k + 1].v.ob[1] = y + pauseCtx->pagesYOrigin1;
 
         pauseCtx->equipVtx[k + 2].v.ob[1] = pauseCtx->equipVtx[k + 3].v.ob[1] = pauseCtx->equipVtx[k + 0].v.ob[1] - 32;
 
@@ -3026,7 +3028,8 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->questVtx[k + 1].v.ob[0] = pauseCtx->questVtx[k + 3].v.ob[0] =
                 pauseCtx->questVtx[k + 0].v.ob[0] + D_8082B1F8[j];
 
-            pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] = D_8082B198[j] + pauseCtx->offsetY;
+            pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] =
+                D_8082B198[j] + pauseCtx->pagesYOrigin1;
 
             pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
                 pauseCtx->questVtx[k + 0].v.ob[1] - D_8082B1F8[j];
@@ -3036,7 +3039,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
                     pauseCtx->questVtx[k + 0].v.ob[0] + 8;
 
                 pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] =
-                    D_8082B198[j] + pauseCtx->offsetY - 6;
+                    D_8082B198[j] + pauseCtx->pagesYOrigin1 - 6;
 
                 pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
                     pauseCtx->questVtx[k + 0].v.ob[1] - 16;
@@ -3054,7 +3057,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->questVtx[k + 0].v.ob[0] + phi_t2_2 - 4;
 
             pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] =
-                D_8082B198[j] + pauseCtx->offsetY - 2;
+                D_8082B198[j] + pauseCtx->pagesYOrigin1 - 2;
 
             pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
                 pauseCtx->questVtx[k + 0].v.ob[1] - D_8082B1F8[j] + 4;
@@ -3801,7 +3804,7 @@ void KaleidoScope_Update(PlayState* play) {
 
             if (pauseCtx->itemPagePitch == 0) {
                 interfaceCtx->startAlpha = 255;
-                R_PAUSE_OFFSET_VERTICAL = 0;
+                R_PAUSE_PAGES_Y_ORIGIN_2 = 0;
                 pauseCtx->state = PAUSE_STATE_OPENING_2;
             }
 
@@ -3823,7 +3826,7 @@ void KaleidoScope_Update(PlayState* play) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
                         pauseCtx->state = PAUSE_STATE_CLOSING;
-                        R_PAUSE_OFFSET_VERTICAL = -6240;
+                        R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
                         func_800F64E0(0);
 #if !PLATFORM_N64 && OOT_NTSC
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
@@ -3869,7 +3872,7 @@ void KaleidoScope_Update(PlayState* play) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         Interface_SetDoAction(play, DO_ACTION_NONE);
                         pauseCtx->state = PAUSE_STATE_CLOSING;
-                        R_PAUSE_OFFSET_VERTICAL = -6240;
+                        R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
                         func_800F64E0(0);
                         pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
                         break;
@@ -3920,7 +3923,7 @@ void KaleidoScope_Update(PlayState* play) {
                         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         Interface_SetDoAction(play, DO_ACTION_NONE);
                         pauseCtx->state = PAUSE_STATE_CLOSING;
-                        R_PAUSE_OFFSET_VERTICAL = -6240;
+                        R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
                         func_800F64E0(0);
                         pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
@@ -3970,7 +3973,7 @@ void KaleidoScope_Update(PlayState* play) {
                             gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                             Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                             pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING;
-                            R_PAUSE_OFFSET_VERTICAL = -6240;
+                            R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
                             YREG(8) = pauseCtx->promptPitch;
                             func_800F64E0(0);
 #if !PLATFORM_N64 && OOT_NTSC
@@ -3994,7 +3997,7 @@ void KaleidoScope_Update(PlayState* play) {
                                CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
                         pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING;
-                        R_PAUSE_OFFSET_VERTICAL = -6240;
+                        R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
                         YREG(8) = pauseCtx->promptPitch;
                         func_800F64E0(0);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
@@ -4016,7 +4019,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                         pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED;
-                        R_PAUSE_OFFSET_VERTICAL = -6240;
+                        R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
                         YREG(8) = pauseCtx->promptPitch;
                         func_800F64E0(0);
                     }
@@ -4220,7 +4223,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->promptPitch = -628.0f;
                 interfaceCtx->startAlpha = 255;
                 VREG(88) = 66;
-                R_PAUSE_OFFSET_VERTICAL = 0;
+                R_PAUSE_PAGES_Y_ORIGIN_2 = 0;
                 pauseCtx->alpha = 255;
                 pauseCtx->state = PAUSE_STATE_14;
                 gSaveContext.save.info.playerData.deaths++;
