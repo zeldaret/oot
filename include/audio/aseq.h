@@ -13,7 +13,7 @@
  *      - .layer: Spawned by channels, up to 4 layers per channel. These execute in parallel. The purpose of layers is
  *                to allow overlapping notes.
  *      - .table: Contains dyntable labels.
- *      - .array: Contains array-like data that can be read using sequence io instructions.
+ *      - .array: Contains array-like data that can be read using sequence IO instructions.
  *      - .filter: Contains filter structures.
  *      - .envelope: Contains envelope scripts.
  *      - .buffer: Contains arbitrary data.
@@ -1130,12 +1130,12 @@ $reladdr\@:
  *
  *  Controls how much the final pan value is influenced by the channel pan and layer pan.
  *  The layer pan is set by the drum instrument pan.
- *  A value of 0 ignores channel pan, while a value of 128 ignores layer pan.
+ *  A value of 0 ignores channel pan, while a value of 127 ignores layer pan.
  *
  *      finalPan = (weight * channelPan + (128 - weight) * layerPan) / 128
  */
 .macro panweight weight
-    /* pan can only take values in 0..127 */
+    /* weight can only take values in 0..127 */
     _check_arg_bitwidth_u \weight, 7
     _wr_cmd_id  panweight, ,0xDC,,,,,,, 0, 0
     _wr_u8      \weight
