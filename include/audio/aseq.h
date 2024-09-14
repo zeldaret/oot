@@ -20,9 +20,10 @@
  *
  *  Execution begins in the sequence section at position 0 of the sequence with no channels or layers initialized.
  *
- *  Execution flows until it blocks on certain commands that induce delays for a fixed number of ticks, such as the
- *  delay instructions or note instructions. If this happens in a channel or layer, the other channels/layers will
- *  continue execution until they hit their own delays.
+ *  Execution flows until it blocks on certain commands that induce delays for a fixed number of ticks (it is to be
+ *  understood that ticks in this context refers to seqTicks in code), such as the delay instructions or note
+ *  instructions. If this happens in a channel or layer, the other channels/layers will continue execution until they
+ *  hit their own delays.
  *
  *  Sequences can self-modify. The ldseq, stseq and related instructions can perform loads and stores to any location
  *  in a sequence, including the executable sections. This can be used to make up for the lack of registers and
@@ -31,17 +32,19 @@
  *  The maximum call depth is 4. Call depth applies to both loops and subroutines. Loops are implemented like
  *  subroutines in that starting a loop pushes a return address onto the call stack and reaching the end of the loop
  *  decrements the loop counter. If the loop has iterations left, it jumps to the return address. When a loop completes
- *  all the iterations or when the break instruction is executed the return address is popped from the call stack and
+ *  all the iterations, or when the break instruction is executed, the return address is popped from the call stack and
  *  no jump occurs.
  *
  *  In the instruction descriptions, we use a number of conventions for referring to various internal state:
  *      - PC               : The location of the current instruction, within the respective sequence/channel/layer
- *      - SEQ              : The sequence data
+ *      - SEQ              : The sequence data, viewed as an array of s8/u8
  *      - TR               : Temporary s8 register
  *      - TP               : Temporary u16 register
  *      - CIO[15..0][7..0] : Channel IO
  *      - SIO[7..0]        : Sequence IO
- *      - DYNTBL           : Current dyntable
+ *      - DYNTBL           : Current dyntable, DYNTBL16 and DYNTBL8 are different views into the same memory
+ *      - DYNTBL16         : Current dyntable, viewed as an array of s16/u16
+ *      - DYNTBL8          : Current dyntable, viewed as an array of s8/u8
  *      - CALLDEPTH        : The current subroutine nesting level
  *      - SHORTVELTBL      : Current short notes velocity table
  *      - SHORTGATETBL     : Current short notes gate time table
@@ -203,7 +206,7 @@
 // Hardcoded Instruments
 #define FONTANY_INSTR_SFX          126
 #define FONTANY_INSTR_DRUM         127
-// gWaveSamples[]
+// Instruments implemented in gWaveSamples
 #define FONTANY_INSTR_SAWTOOTH     128
 #define FONTANY_INSTR_TRIANGLE     129
 #define FONTANY_INSTR_SINE         130
@@ -837,10 +840,6 @@ $reladdr\@:
  * bgez <label:lbl>
  *
  *  Branches to `label` if TR >= 0.
- *  `label` is a relative offset rather than an absolute offset, making it appropriate
- *  for use in position-independent code.
- *  Note that the range is reduced compared to absolute branches, only labels within a
- *  signed 8-bit (+/-128) range are reachable.
  */
 .macro bgez label
     _wr_cmd_id  bgez, 0xF5,0xF5,0xF5,,,,,, 0, 0
@@ -964,9 +963,11 @@ $reladdr\@:
  *
  *  Set note priorities.
  */
-.macro notepri priority
+.macro notepri priority1, priority2
+    _check_arg_bitwidth_u \priority1, 4
+    _check_arg_bitwidth_u \priority2, 4
     _wr_cmd_id  notepri, ,0xE9,,,,,,, 0, 0
-    _wr_u8      \priority
+    _wr_u8      (\priority1 << 4) | \priority2
 .endm
 
 /**
@@ -1374,11 +1375,11 @@ $reladdr\@:
 /**
  * [sequence] dyncall <table:lbl>
  *
- *  Jumps to table[TR]
+ *  Jumps to table[TR], treating table as a u16 array, pushing the next PC to the call stack
  *
  * [channel] dyncall
  *
- *  Jumps to DYNTBL[TR]
+ *  Jumps to DYNTBL16[TR], pushing the next PC to the call stack
  */
 .macro dyncall table=-1
     .if \table == -1
@@ -1465,7 +1466,7 @@ $reladdr\@:
 /**
  * dyntbllookup
  *
- *  Loads DYNTBL[TR] -> DYNTBL
+ *  Loads DYNTBL16[TR] -> DYNTBL
  *  unless TR is -1, in which case nothing happens.
  */
 .macro dyntbllookup
@@ -1697,7 +1698,7 @@ $reladdr\@:
  *
  *  Sets the range of random note gateTime fluctuations.
  *
- *  NOTE: This feature is bugged. If this is non-zero it wll actually use the range set by randvel.
+ *  NOTE: This feature is bugged. If this is non-zero it will actually use the range set by randvel.
  */
 .macro randgate range
     _wr_cmd_id  randgate, ,0xBA,,,,,,, 0, 0
@@ -1727,7 +1728,7 @@ $reladdr\@:
 /**
  * dyntblv
  *
- *  Loads DYNTBL[TR] -> TR
+ *  Loads DYNTBL8[TR] -> TR
  */
 .macro dyntblv
     _wr_cmd_id  dyntblv, ,0xB6,,,,,,, 0, 0
@@ -1736,7 +1737,7 @@ $reladdr\@:
 /**
  * dyntbltoptr
  *
- *  Loads DYNTBL[TR] -> TP
+ *  Loads DYNTBL16[TR] -> TP
  */
 .macro dyntbltoptr
     _wr_cmd_id  dyntbltoptr, ,0xB5,,,,,,, 0, 0
@@ -1754,7 +1755,9 @@ $reladdr\@:
 /**
  * ldseqtoptr <label:lbl>
  *
- *  Loads SEQ[label + TR] -> TP
+ *  Loads SEQ[label + TR * 2] -> TP
+ *
+ *  Note that TR acts as an index into an array of u16 starting at label.
  */
 .macro ldseqtoptr label
     _wr_cmd_id  ldseqtoptr, ,0xB2,,,,,,, 0, 0
@@ -1878,7 +1881,7 @@ $reladdr\@:
 /**
  * dynldlayer <arg:b3>
  *
- *  Allocates a new layer starting at DYNTBL[TR]
+ *  Allocates a new layer starting at the pointer read from DYNTBL16[TR]
  */
 .macro dynldlayer arg
     _wr_cmd_id  dynldlayer, ,0x98,,,,,,, \arg, 3

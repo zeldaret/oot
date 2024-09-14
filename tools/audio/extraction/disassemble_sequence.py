@@ -499,7 +499,7 @@ CMD_SPEC = (
     MMLCmd(0xEC, 'vibreset',      sections=(SqSection.CHAN,)),
     MMLCmd(0xEB, 'fontinstr',     sections=(SqSection.CHAN,), args=(ArgFontId, ArgInstr)),
     MMLCmd(0xEA, 'stop',          sections=(SqSection.CHAN,)),
-    MMLCmd(0xE9, 'notepri',       sections=(SqSection.CHAN,), args=(ArgU8,)),
+    MMLCmd(0xE9, 'notepri',       sections=(SqSection.CHAN,), args=(ArgU4x2,)),
     MMLCmd(0xE8, 'params',        sections=(SqSection.CHAN,), args=(ArgU8, ArgU8, ArgU8, ArgS8, ArgS8, ArgU8, ArgU8, ArgU8,)),
     MMLCmd(0xE7, 'ldparams',      sections=(SqSection.CHAN,), args=(ArgAddr,)),
     MMLCmd(0xE6, 'samplebook',    sections=(SqSection.CHAN,), args=(ArgU8,)),

@@ -21,7 +21,7 @@ SEQ_000E:
 /* 0x0013 [0xC4                    ] */ noshort
 /* 0x0014 [0xCA 0x20               ] */ mutebhv     0x20
 /* 0x0016 [0xD0 0x80               ] */ effects     TRUE, 0, 0, 0, 0, 0
-/* 0x0018 [0xE9 0x0E               ] */ notepri     14
+/* 0x0018 [0xE9 0x0E               ] */ notepri     0, 14
 /* 0x001A [0xE5 0x01               ] */ reverbidx   1
 /* 0x001C [0xC6 0x00               ] */ font        Soundfont_0_ID
 /* 0x001E [0xD4 0x0F               ] */ reverb      15
@@ -310,7 +310,7 @@ LAYER_00FD:
 /* 0x0251 [0xC4                    ] */ noshort
 /* 0x0252 [0xCA 0x20               ] */ mutebhv     0x20
 /* 0x0254 [0xD0 0x80               ] */ effects     TRUE, 0, 0, 0, 0, 0
-/* 0x0256 [0xE9 0x0E               ] */ notepri     14
+/* 0x0256 [0xE9 0x0E               ] */ notepri     0, 14
 /* 0x0258 [0xE5 0x01               ] */ reverbidx   1
 /* 0x025A [0xD4 0x0F               ] */ reverb      15
 /* 0x025C [0xC6 0x01               ] */ font        Soundfont_1_ID
@@ -446,7 +446,7 @@ LAYER_02D0:
 /* 0x0344 [0xC4                    ] */ noshort
 /* 0x0345 [0xCA 0x20               ] */ mutebhv     0x20
 /* 0x0347 [0xD0 0x80               ] */ effects     TRUE, 0, 0, 0, 0, 0
-/* 0x0349 [0xE9 0x0E               ] */ notepri     14
+/* 0x0349 [0xE9 0x0E               ] */ notepri     0, 14
 /* 0x034B [0xE5 0x01               ] */ reverbidx   1
 /* 0x034D [0xD4 0x0F               ] */ reverb      15
 /* 0x034F [0x88 0x03 0x6A          ] */ ldlayer     0, LAYER_036A
@@ -597,7 +597,7 @@ LAYER_0452:
 /* 0x0467 [0xC4                    ] */ noshort
 /* 0x0468 [0xCA 0x20               ] */ mutebhv     0x20
 /* 0x046A [0xD0 0x80               ] */ effects     TRUE, 0, 0, 0, 0, 0
-/* 0x046C [0xE9 0x0E               ] */ notepri     14
+/* 0x046C [0xE9 0x0E               ] */ notepri     0, 14
 /* 0x046E [0xE5 0x01               ] */ reverbidx   1
 /* 0x0470 [0xD4 0x28               ] */ reverb      40
 /* 0x0472 [0xC6 0x00               ] */ font        Soundfont_0_ID
@@ -638,7 +638,7 @@ LAYER_0452:
 /* 0x04BC [0xC4                    ] */ noshort
 /* 0x04BD [0xCA 0x20               ] */ mutebhv     0x20
 /* 0x04BF [0xD0 0x80               ] */ effects     TRUE, 0, 0, 0, 0, 0
-/* 0x04C1 [0xE9 0x0E               ] */ notepri     14
+/* 0x04C1 [0xE9 0x0E               ] */ notepri     0, 14
 /* 0x04C3 [0xE5 0x01               ] */ reverbidx   1
 /* 0x04C5 [0xD4 0x28               ] */ reverb      40
 /* 0x04C7 [0xDF 0x69               ] */ vol         105
@@ -795,7 +795,7 @@ LAYER_05E1:
 /* 0x05E6 [0xC4                    ] */ noshort
 /* 0x05E7 [0xCA 0x20               ] */ mutebhv     0x20
 /* 0x05E9 [0xD0 0x80               ] */ effects     TRUE, 0, 0, 0, 0, 0
-/* 0x05EB [0xE9 0x0E               ] */ notepri     14
+/* 0x05EB [0xE9 0x0E               ] */ notepri     0, 14
 /* 0x05ED [0xE5 0x01               ] */ reverbidx   1
 /* 0x05EF [0xD4 0x14               ] */ reverb      20
 /* 0x05F1 [0xDF 0x64               ] */ vol         100

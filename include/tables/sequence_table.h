@@ -1,6 +1,19 @@
 /**
- * DEFINE_SEQUENCE(name, seqId, storageMedium, cachePolicy, seqFlags)
- * DEFINE_SEQUENCE_PTR(seqIdReal, seqId, storageMediumReal, cachePolicyReal, seqFlags)
+ * Sequence Table
+ *
+ * DEFINE_SEQUENCE should be used to define sequences
+ *    - Argument 0: The name of the sequence, as defined by .startseq in the .seq file
+ *    - Argument 1: The sequence id enum name
+ *    - Argument 2: Storage medium for the sequence (SampleMedium)
+ *    - Argument 3: Cache load policy for the sequence (AudioCacheLoadType)
+ *    - Argument 4: Sequence flags
+ *
+ * DEFINE_SEQUENCE_PTR should be used to define pointers to sequences
+ *    - Argument 0: The sequence id enum name of the sequence this entry points to
+ *    - Argument 1: The sequence id enum name for this pointer
+ *    - Argument 2: Storage medium for the sequence (SampleMedium)
+ *    - Argument 3: Cache load policy for the sequence (AudioCacheLoadType)
+ *    - Argument 4: Sequence flags
  */
 #if PLATFORM_N64
 #define SEQ_0_FLAGS     SEQ_FLAG_FANFARE | SEQ_FLAG_ENEMY
