@@ -495,7 +495,7 @@ void Regs_InitDataImpl(void) {
     XREG(94) = 160;
     XREG(95) = 200;
     R_PAUSE_PAGES_Y_ORIGIN_2 = -6080;
-    R_PAUSE_OFFSET_DEPTH = 9355;
+    R_PAUSE_DEPTH_OFFSET = 9355;
     WREG(4) = 8;
     WREG(5) = 3;
     WREG(6) = 8;

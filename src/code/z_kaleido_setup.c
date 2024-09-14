@@ -132,7 +132,7 @@ void KaleidoSetup_Init(PlayState* play) {
 
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
     pauseCtx->eye.z = 64.0f;
-    pauseCtx->promptOffsetDepth = 936.0f;
+    pauseCtx->promptDepthOffset = 936.0f;
     pauseCtx->itemPagePitch = pauseCtx->equipPagePitch = pauseCtx->mapPagePitch = pauseCtx->questPagePitch = 160.0f;
 
     pauseCtx->alpha = 0;

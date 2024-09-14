@@ -179,7 +179,7 @@ typedef struct PauseContext {
     /* 0x01E8 */ u16 pageIndex; // "kscp_pos"
     /* 0x01EA */ u16 pageSwitchTimer;
     /* 0x01EC */ u16 savePromptState;
-    /* 0x01F0 */ f32 promptOffsetDepth; // Offset position of the prompt away from the camera
+    /* 0x01F0 */ f32 promptDepthOffset; // Offset position of the prompt away from the camera
     /* 0x01F4 */ f32 itemPagePitch; // Rotation of the item page around its local horizontal/sideways axis
     /* 0x01F8 */ f32 equipPagePitch; // Rotation of the equip page around its local horizontal/sideways axis
     /* 0x01FC */ f32 mapPagePitch; // Rotation of the map page around its local horizontal/sideways axis
