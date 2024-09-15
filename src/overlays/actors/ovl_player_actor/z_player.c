@@ -4193,26 +4193,38 @@ void func_80837948(PlayState* play, Player* this, s32 arg2) {
     func_80837918(this, 1, dmgFlags);
 }
 
-/// Sets the number of frames the player will be invunerable for after taking damage.
-/// Overrides any existing damage invincibility frames.
-/// Does nothing if the player has dodge invincibility frames.
-/// @param timer must be a positive value representing the number of frames the invunerability should last for
-void Player_SetDamagedInvincibilityTimer(Player* this, s32 timer) {
+/**
+ * Gives the player intangibility frames. Used for when the player takes damage.
+ *
+ * If the player is already intangible, it will be overridden by the new intangibility duration.
+ * If the player is already invunerable, no intangibility will be applied.
+ *
+ * @param timer must be a positive value representing the number of intangibility frames.
+ * @note Intangibility prevents taking damage and responses to damage like knockback, while invulnerability only
+ * prevents taking damage.
+ */
+void Player_SetIntangibility(Player* this, s32 timer) {
     if (this->invincibilityTimer >= 0) {
         this->invincibilityTimer = timer;
-        this->unk_88F = 0;
+        this->damageFlickerAnimCounter = 0;
     }
 }
 
-/// Sets the number of frames the player will be invunerable for when performing a dodging maneuver like a roll.
-/// Overrides any existing damage invincibility frames.
-/// If the player already has dodge invincibility frames, the longer of the two will be kept.
-/// @param timer must be a negative value representing the number of frames the invunerability should last for
-void Player_SetDodgeInvincibilityTimer(Player* this, s32 timer) {
+/**
+ * Gives the player invulnerability frames. Used for when the player performs a dodging maneuver like a roll.
+ *
+ * If the player is already intangible, they will become invulnerable instead.
+ * If the player is already invulnerable, the longer of the two invulnerability periods is kept.
+ *
+ * @param timer must be a negative value representing the number of invulnerability frames.
+ * @note Intangibility prevents taking damage and responses to damage like knockback, while invulnerability only
+ * prevents taking damage.
+ */
+void Player_SetInvulnerability(Player* this, s32 timer) {
     if (this->invincibilityTimer > timer) {
         this->invincibilityTimer = timer;
     }
-    this->unk_88F = 0;
+    this->damageFlickerAnimCounter = 0;
 }
 
 /**
@@ -4267,7 +4279,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
         return;
     }
 
-    Player_SetDamagedInvincibilityTimer(this, invincibilityTimer);
+    Player_SetIntangibility(this, invincibilityTimer);
 
     if (damageResponseType == PLAYER_HIT_RESPONSE_ICE_TRAP) {
         Player_SetupAction(play, this, Player_Action_8084FB10, 0);
@@ -8898,7 +8910,7 @@ void func_80843AE8(PlayState* play, Player* this) {
                 func_80853080(this, play);
             }
             this->unk_A87 = 20;
-            Player_SetDodgeInvincibilityTimer(this, -20);
+            Player_SetInvulnerability(this, -20);
             Audio_SetBgmVolumeOnDuringFanfare();
         }
     } else if (this->av1.actionVar1 != 0) {
@@ -8987,7 +8999,7 @@ s32 func_80843E64(PlayState* play, Player* this) {
             return -1;
         }
 
-        Player_SetDamagedInvincibilityTimer(this, 40);
+        Player_SetIntangibility(this, 40);
         Player_RequestQuake(play, 32967, 2, 30);
         Player_RequestRumble(this, impactInfo->rumbleStrength, impactInfo->rumbleDuration,
                              impactInfo->rumbleDecreaseRate, 0);
@@ -9169,7 +9181,7 @@ void Player_Action_80844708(Player* this, PlayState* play) {
     sp44 = LinkAnimation_Update(play, &this->skelAnime);
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 8.0f)) {
-        Player_SetDodgeInvincibilityTimer(this, -10);
+        Player_SetInvulnerability(this, -10);
     }
 
     if (func_80842964(this, play) == 0) {
@@ -9293,7 +9305,7 @@ s32 func_80844BE4(Player* this, PlayState* play) {
             }
 
             func_80837948(play, this, temp);
-            Player_SetDodgeInvincibilityTimer(this, -8);
+            Player_SetInvulnerability(this, -8);
 
             this->stateFlags2 |= PLAYER_STATE2_17;
             if (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) {
@@ -11687,9 +11699,9 @@ void Player_Draw(Actor* thisx, PlayState* play2) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         if (this->invincibilityTimer > 0) {
-            this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);
-            POLY_OPA_DISP =
-                Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0, 4000 - (s32)(Math_CosS(this->unk_88F * 256) * 2000.0f));
+            this->damageFlickerAnimCounter += CLAMP(50 - this->invincibilityTimer, 8, 40);
+            POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0,
+                                        4000 - (s32)(Math_CosS(this->damageFlickerAnimCounter * 256) * 2000.0f));
         }
 
         func_8002EBCC(&this->actor, play, 0);
@@ -13822,7 +13834,7 @@ void Player_Action_8084FB10(Player* this, PlayState* play) {
     } else {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
             func_80839F90(this, play);
-            Player_SetDodgeInvincibilityTimer(this, -20);
+            Player_SetInvulnerability(this, -20);
         }
     }
 }

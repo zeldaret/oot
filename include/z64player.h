@@ -890,7 +890,7 @@ typedef struct Player {
     /* 0x088C */ u8 ledgeClimbType;
     /* 0x088D */ u8 ledgeClimbDelayTimer;
     /* 0x088E */ u8 unk_88E;
-    /* 0x088F */ u8 unk_88F; // Used to create the flickering animation when Link takes damage
+    /* 0x088F */ u8 damageFlickerAnimCounter; // Used to flicker Link after taking damage
     /* 0x0890 */ u8 unk_890;
     /* 0x0891 */ u8 bodyShockTimer;
     /* 0x0892 */ u8 unk_892;
@@ -916,7 +916,7 @@ typedef struct Player {
     /* 0x0A61 */ u8 bodyFlameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8 unk_A73;
     /* 0x0A74 */ AfterPutAwayFunc afterPutAwayFunc; // See `Player_SetupWaitForPutAway` and `Player_Action_WaitForPutAway`
-    /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero. Positive values are damage invincibility, negative are dodge invincibiilty
+    /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero. Positive values are intangibility, negative are invulnerability
     /* 0x0A79 */ u8 floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
     /* 0x0A7A */ u8 floorProperty;
     /* 0x0A7B */ u8 prevFloorType;
