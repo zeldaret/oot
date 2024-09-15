@@ -3632,7 +3632,7 @@ void func_80836BEC(Player* this, PlayState* play) {
     }
 
     if (this->zTargetActiveTimer >= 6) {
-        // When a lock-on is started, `zTargetActiveTimer` will be set to 15 and then immediatley start decrementing
+        // When a lock-on is started, `zTargetActiveTimer` will be set to 15 and then immediately start decrementing
         // down to 5. During this 10 frame period, set `ignoreLeash` so that the lock-on will temporarily
         // have an infinite leash distance.
         // This gives time for the reticle to settle while it locks on, even if the player leaves the leash range.
