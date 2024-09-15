@@ -3635,7 +3635,7 @@ void func_80836BEC(Player* this, PlayState* play) {
         // When a lock-on is started, `zTargetActiveTimer` will be set to 15 and then immediatley start decrementing
         // down to 5. During this 10 frame period, set `ignoreLeash` so that the lock-on will temporarily
         // have an infinite leash distance.
-        // This allows the lock-on to remain for a short time while the reticle locks onto the actor.
+        // This gives time for the reticle to settle while it locks on, even if the player leaves the leash range.
         ignoreLeash = true;
     }
 
@@ -3689,7 +3689,7 @@ void func_80836BEC(Player* this, PlayState* play) {
 
                     this->stateFlags1 &= ~PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE;
                 } else {
-                    // Lock-on was not started above. Start Parallel Mode.
+                    // Lock-on was not started above. Set Parallel Mode.
                     if (!(this->stateFlags1 & (PLAYER_STATE1_PARALLEL | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE))) {
                         Player_SetParallel(this);
                     }
