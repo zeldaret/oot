@@ -2413,7 +2413,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         func_8008EDF0(player);
     }
 
-    if ((actor == NULL) || (player->unk_66C < 5)) {
+    if ((actor == NULL) || (player->zTargetActiveTimer < 5)) {
         actor = NULL;
 
         if (actorCtx->attention.reticleSpinCounter != 0) {
