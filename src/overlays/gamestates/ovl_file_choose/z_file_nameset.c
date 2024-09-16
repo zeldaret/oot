@@ -1557,7 +1557,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 #if OOT_NTSC
     gSPVertex(POLY_OPA_DISP++, gOptionsMenuHeadersVtx, 32, 0);
 #elif OOT_PAL_N64
-    // TODO: implement PAL N64 version
+                          // TODO: implement PAL N64 version
 #else
     if (gSaveContext.language == LANGUAGE_GER) {
         gSPVertex(POLY_OPA_DISP++, gOptionsMenuHeadersGERVtx, 32, 0);
@@ -1583,7 +1583,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 #if OOT_NTSC
     gSPVertex(POLY_OPA_DISP++, gOptionsMenuSettingsVtx, 32, 0);
 #elif OOT_PAL_N64
-    // TODO: implement PAL N64 version
+                          // TODO: implement PAL N64 version
 #else
     if (gSaveContext.language == LANGUAGE_GER) {
         gSPVertex(POLY_OPA_DISP++, gOptionsMenuSettingsGERVtx, 32, 0);
