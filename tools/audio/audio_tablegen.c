@@ -436,7 +436,7 @@ tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, con
         uint32_t font_section_size = elf32_read32(font_section->sh_size);
         validate_read(font_section_offset, font_section_size, data_size);
 
-        Elf32_Shdr *name_section = elf32_section_forname(".name", shstrtab, data, data_size);
+        Elf32_Shdr *name_section = elf32_section_forname(".note.name", shstrtab, data, data_size);
         if (name_section == NULL)
             error("Sequence file \"%s\" has no name section?", path);
 
