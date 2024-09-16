@@ -39,7 +39,7 @@ ActorProfile Bg_Ydan_Sp_Profile = {
 static ColliderTrisElementInit sTrisItemsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x00 },
             { 0x00020800, 0x00, 0x00 },
             ATELEM_NONE,
@@ -50,7 +50,7 @@ static ColliderTrisElementInit sTrisItemsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x00 },
             { 0x00020800, 0x00, 0x00 },
             ATELEM_NONE,

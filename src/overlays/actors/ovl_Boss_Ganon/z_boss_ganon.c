@@ -67,7 +67,7 @@ static ColliderCylinderInit sDorfCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0xFFCFFFFE, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -87,7 +87,7 @@ static ColliderCylinderInit sLightBallCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK6,
+        ELEM_MATERIAL_UNK6,
         { 0x00100700, 0x00, 0x08 },
         { 0x0D900740, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,

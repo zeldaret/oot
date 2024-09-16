@@ -706,10 +706,10 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     }
     if (this->invincibilityTimer != 0) {
         this->cylinder.base.colMaterial = COL_MATERIAL_NONE;
-        this->cylinder.elem.elemType = ELEMTYPE_UNK5;
+        this->cylinder.elem.elemMaterial = ELEM_MATERIAL_UNK5;
     } else {
         this->cylinder.base.colMaterial = COL_MATERIAL_HIT5;
-        this->cylinder.elem.elemType = ELEMTYPE_UNK1;
+        this->cylinder.elem.elemMaterial = ELEM_MATERIAL_UNK1;
     }
     /*
      * Handles the jump movement onto Link's sword. Dark Link doesn't move during the
