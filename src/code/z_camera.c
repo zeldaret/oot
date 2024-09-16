@@ -2927,7 +2927,7 @@ s32 Camera_Battle1(Camera* camera) {
     sp78 = roData->swingPitchFinal;
     fov = roData->fov;
 
-    if (camera->player->stateFlags1 & PLAYER_STATE1_12) {
+    if (camera->player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK) {
         // charging sword.
         rwData->unk_10 =
             Camera_LERPCeilF(CAM_GLOBAL_12 * (1.0f - 0.5f), rwData->unk_10, CAM_UPDATE_RATE_STEP_SCALE_XZ, 0.1f);
