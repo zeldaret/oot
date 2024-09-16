@@ -655,7 +655,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_HOSTILE_LOCK_ON (1 << 4) // Currently locked onto a hostile actor. Triggers a "battle" variant of many actions.
 #define PLAYER_STATE1_5 (1 << 5)
 #define PLAYER_STATE1_6 (1 << 6)
-#define PLAYER_STATE1_DEAD (1 << 7) // Player has died. Note that this doesnt get set until landing from the air and the death cutscene has started.
+#define PLAYER_STATE1_DEAD (1 << 7) // Player has died. Note that this gets set when the death cutscene has started, after landing from the air.
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
