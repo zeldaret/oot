@@ -5,6 +5,7 @@
  */
 
 #include "z_boss_sst.h"
+#include "versions.h"
 #include "assets/objects/object_sst/object_sst.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.h"
@@ -51,7 +52,7 @@ typedef enum BossSstEffectMode {
 void BossSst_Init(Actor* thisx, PlayState* play2);
 void BossSst_Destroy(Actor* thisx, PlayState* play);
 void BossSst_UpdateHand(Actor* thisx, PlayState* play);
-void BossSst_UpdateHead(Actor* thisx, PlayState* play);
+void BossSst_UpdateHead(Actor* thisx, PlayState* play2);
 void BossSst_DrawHand(Actor* thisx, PlayState* play);
 void BossSst_DrawHead(Actor* thisx, PlayState* play);
 void BossSst_UpdateEffects(Actor* thisx, PlayState* play);
@@ -2606,10 +2607,16 @@ void BossSst_UpdateHand(Actor* thisx, PlayState* play) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
+#if OOT_VERSION < NTSC_1_2
+    if (this->colliderJntSph.base.acFlags & AC_ON) {
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
+    }
+#else
     if ((sHead->actionFunc != BossSst_HeadLurk) && (sHead->actionFunc != BossSst_HeadIntro) &&
         (this->colliderJntSph.base.acFlags & AC_ON)) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
+#endif
 
     if (this->colliderJntSph.base.ocFlags1 & OC1_ON) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
@@ -2638,8 +2645,8 @@ void BossSst_UpdateHand(Actor* thisx, PlayState* play) {
     BossSst_UpdateEffects(&this->actor, play);
 }
 
-void BossSst_UpdateHead(Actor* thisx, PlayState* play) {
-    s32 pad;
+void BossSst_UpdateHead(Actor* thisx, PlayState* play2) {
+    PlayState* play = (PlayState*)play2;
     BossSst* this = (BossSst*)thisx;
 
     Actor_WorldToActorCoords(&this->actor, &sHandOffsets[RIGHT], &sHands[RIGHT]->actor.world.pos);
@@ -2662,12 +2669,19 @@ void BossSst_UpdateHead(Actor* thisx, PlayState* play) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
+#if OOT_VERSION < NTSC_1_2
+    if (this->colliderCyl.base.acFlags & AC_ON) {
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCyl.base);
+    }
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
+#else
     if ((this->actionFunc != BossSst_HeadLurk) && (this->actionFunc != BossSst_HeadIntro)) {
         if (this->colliderCyl.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCyl.base);
         }
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
+#endif
 
     if (this->colliderJntSph.base.ocFlags1 & OC1_ON) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);

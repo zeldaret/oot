@@ -6,6 +6,7 @@
 
 #include "z_en_mb.h"
 #include "assets/objects/object_mb/object_mb.h"
+#include "versions.h"
 
 /*
  * This actor can have three behaviors:
@@ -943,6 +944,13 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
 
     if (endCharge) {
         if (hasHitPlayer || (player->stateFlags2 & PLAYER_STATE2_7)) {
+#if OOT_VERSION < NTSC_1_2
+            player->stateFlags2 &= ~PLAYER_STATE2_7;
+            this->attackCollider.base.atFlags &= ~AT_HIT;
+            player->actor.parent = NULL;
+            player->av2.actionVar2 = 200;
+            func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+#else
             this->attackCollider.base.atFlags &= ~AT_HIT;
             if (player->stateFlags2 & PLAYER_STATE2_7) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
@@ -950,6 +958,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
                 player->av2.actionVar2 = 200;
                 func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
             }
+#endif
         }
         this->attack = ENMB_ATTACK_NONE;
         this->actor.speed = -10.0f;
@@ -1012,6 +1021,13 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
 
     if (endCharge) {
         if (hasHitPlayer || (player->stateFlags2 & PLAYER_STATE2_7)) {
+#if OOT_VERSION < NTSC_1_2
+            this->attackCollider.base.atFlags &= ~AT_HIT;
+            player->stateFlags2 &= ~PLAYER_STATE2_7;
+            player->actor.parent = NULL;
+            player->av2.actionVar2 = 200;
+            func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+#else
             this->attackCollider.base.atFlags &= ~AT_HIT;
             if (player->stateFlags2 & PLAYER_STATE2_7) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
@@ -1019,6 +1035,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
                 player->av2.actionVar2 = 200;
                 func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
             }
+#endif
             this->attack = ENMB_ATTACK_NONE;
             this->actor.speed = -10.0f;
             EnMb_SetupSpearPatrolEndCharge(this);
