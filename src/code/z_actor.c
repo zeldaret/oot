@@ -1143,7 +1143,8 @@ void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
 }
 
 int func_8002DEEC(Player* player) {
-    return (player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_29)) || (player->csAction != PLAYER_CSACTION_NONE);
+    return (player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_29)) ||
+           (player->csAction != PLAYER_CSACTION_NONE);
 }
 
 void func_8002DF18(PlayState* play, Player* player) {
