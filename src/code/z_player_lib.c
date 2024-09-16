@@ -1,4 +1,5 @@
 #include "global.h"
+#include "versions.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
@@ -12,13 +13,134 @@ typedef struct BowSlingshotStringData {
 
 FlexSkeletonHeader* gPlayerSkelHeaders[] = { &gLinkAdultSkel, &gLinkChildSkel };
 
+// On PAL N64, many speed are increased so Link doesn't feel slow on 50Hz.
+#if !OOT_PAL_N64
+#define ADJUST_BOOT_DATA_FOR_FRAME_RATE(speed) (speed)
+#else
+#define ADJUST_BOOT_DATA_FOR_FRAME_RATE(speed) ((speed)*60 / 50)
+#endif
+
 s16 sBootData[PLAYER_BOOTS_MAX][17] = {
-    { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 1000, 0, 800, 300, -160, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 600, 600, 800, 550, -100, 600, 540, 270, 25, 0, 130 },
-    { 200, 1000, 300, 700, 380, 400, 0, 300, 800, 500, -100, 600, 590, 750, 125, 200, 130 },
-    { 80, 800, 150, 700, 480, 270, 600, 50, 800, 550, -40, 400, 540, 270, 25, 0, 80 },
-    { 200, 1000, 300, 800, 500, 400, 800, 400, 800, 550, -100, 600, 540, 750, 125, 400, 200 },
+    // PLAYER_BOOTS_KOKIRI
+    {
+        200,                                   // REG(19)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(1000), // REG(30)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(300),  // REG(32)
+        700,                                   // REG(34)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(550),  // REG(35)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(270),  // REG(36)
+        600,                                   // REG(37)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(350),  // REG(38)
+        800,                                   // REG(43)
+        600,                                   // REG(45)
+        -100,                                  // REG(68)
+        600,                                   // REG(69)
+        590,                                   // IREG(66)
+        750,                                   // IREG(67)
+        125,                                   // IREG(68)
+        200,                                   // IREG(69)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(130),  // MREG(95)
+    },
+    // PLAYER_BOOTS_IRON
+    {
+        200,                                   // REG(19)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(1000), // REG(30)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(300),  // REG(32)
+        700,                                   // REG(34)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(550),  // REG(35)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(270),  // REG(36)
+        1000,                                  // REG(37)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(0),    // REG(38)
+        800,                                   // REG(43)
+        300,                                   // REG(45)
+        -160,                                  // REG(68)
+        600,                                   // REG(69)
+        590,                                   // IREG(66)
+        750,                                   // IREG(67)
+        125,                                   // IREG(68)
+        200,                                   // IREG(69)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(130),  // MREG(95)
+    },
+    // PLAYER_BOOTS_HOVER
+    {
+        200,                                   // REG(19)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(1000), // REG(30)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(300),  // REG(32)
+        700,                                   // REG(34)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(550),  // REG(35)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(270),  // REG(36)
+        600,                                   // REG(37)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(600),  // REG(38)
+        800,                                   // REG(43)
+        550,                                   // REG(45)
+        -100,                                  // REG(68)
+        600,                                   // REG(69)
+        540,                                   // IREG(66)
+        270,                                   // IREG(67)
+        25,                                    // IREG(68)
+        0,                                     // IREG(69)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(130),  // MREG(95)
+    },
+    // PLAYER_BOOTS_INDOOR
+    {
+        200,                                   // REG(19)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(1000), // REG(30)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(300),  // REG(32)
+        700,                                   // REG(34)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(380),  // REG(35)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(400),  // REG(36)
+        0,                                     // REG(37)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(300),  // REG(38)
+        800,                                   // REG(43)
+        500,                                   // REG(45)
+        -100,                                  // REG(68)
+        600,                                   // REG(69)
+        590,                                   // IREG(66)
+        750,                                   // IREG(67)
+        125,                                   // IREG(68)
+        200,                                   // IREG(69)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(130),  // MREG(95)
+    },
+    // PLAYER_BOOTS_IRON_UNDERWATER
+    {
+        80,                                   // REG(19)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(800), // REG(30)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(150), // REG(32)
+        700,                                  // REG(34)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(480), // REG(35)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(270), // REG(36)
+        600,                                  // REG(37)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(50),  // REG(38)
+        800,                                  // REG(43)
+        550,                                  // REG(45)
+        -40,                                  // REG(68)
+        400,                                  // REG(69)
+        540,                                  // IREG(66)
+        270,                                  // IREG(67)
+        25,                                   // IREG(68)
+        0,                                    // IREG(69)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(80),  // MREG(95)
+    },
+    // PLAYER_BOOTS_KOKIRI_CHILD
+    {
+        200,                                   // REG(19)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(1000), // REG(30)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(300),  // REG(32)
+        800,                                   // REG(34)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(500),  // REG(35)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(400),  // REG(36)
+        800,                                   // REG(37)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(400),  // REG(38)
+        800,                                   // REG(43)
+        550,                                   // REG(45)
+        -100,                                  // REG(68)
+        600,                                   // REG(69)
+        540,                                   // IREG(66)
+        750,                                   // IREG(67)
+        125,                                   // IREG(68)
+        400,                                   // IREG(69)
+        ADJUST_BOOT_DATA_FOR_FRAME_RATE(200),  // MREG(95)
+    },
 };
 
 // Used to map item actions to model groups

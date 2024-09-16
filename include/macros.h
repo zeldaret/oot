@@ -214,6 +214,13 @@
 #define LANGUAGE_ARRAY(jpn, eng, ger, fra) { eng, ger, fra }
 #endif
 
+// Macro for constants that change in 50 Hz N64 PAL versions.
+#if !OOT_PAL_N64
+#define FRAME_RATE_DEPENDENT(value60Hz, value50Hz) (value60Hz)
+#else
+#define FRAME_RATE_DEPENDENT(value60Hz, value50Hz) (value50Hz)
+#endif
+
 /**
  * `x` vertex x
  * `y` vertex y

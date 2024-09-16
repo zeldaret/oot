@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "versions.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
@@ -824,151 +825,151 @@ u8 sOcaMemoryGameNumNotes[] = { 5, 6, 8 };
 OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
     // OCARINA_SONG_MINUET
     {
-        { OCARINA_PITCH_D4, 18, 86, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 18, 92, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 72, 86, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 18, 80, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 144, 86, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(18, 15), 86, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(18, 15), 92, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(72, 60), 86, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(18, 15), 80, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(144, 120), 86, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 86, 0, 0, 0 },
     },
 
     // OCARINA_SONG_BOLERO
     {
-        { OCARINA_PITCH_F4, 15, 80, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 15, 72, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 15, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 15, 76, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 15, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 15, 74, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 15, 78, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 135, 66, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(15, 12), 80, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(15, 13), 72, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(15, 12), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(15, 13), 76, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(15, 12), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(15, 13), 74, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(15, 12), 78, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(135, 113), 66, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 66, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SERENADE
     {
-        { OCARINA_PITCH_D4, 36, 60, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 36, 78, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 33, 82, 0, 0, 0 },
-        { OCARINA_PITCH_NONE, 3, 82, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 36, 84, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 144, 90, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(36, 30), 60, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(36, 30), 78, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(33, 27), 82, 0, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAME_RATE_DEPENDENT(3, 3), 82, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(36, 30), 84, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(144, 120), 90, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_REQUIEM
     {
-        { OCARINA_PITCH_D4, 45, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 23, 86, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 22, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 45, 86, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 45, 94, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 180, 94, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(45, 37), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(23, 19), 86, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(22, 19), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(45, 37), 86, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(45, 38), 94, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(180, 150), 94, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 94, 0, 0, 0 },
     },
 
     // OCARINA_SONG_NOCTURNE
     {
-        { OCARINA_PITCH_B4, 36, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 33, 84, 0, 0, 0 },
-        { OCARINA_PITCH_NONE, 3, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 18, 82, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 18, 60, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 90, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 144, 96, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(36, 30), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(33, 27), 84, 0, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAME_RATE_DEPENDENT(3, 3), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(18, 15), 82, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(18, 15), 60, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(18, 15), 90, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(144, 120), 96, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 96, 0, 0, 0 },
     },
 
     // OCARINA_SONG_PRELUDE
     {
-        { OCARINA_PITCH_D5, 15, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 45, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 15, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 15, 82, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 15, 86, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 60, 90, 0, 0, 0 },
-        { OCARINA_PITCH_NONE, 75, 90, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(15, 12), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(45, 38), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(15, 12), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(15, 13), 82, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(15, 12), 86, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(60, 50), 90, 0, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAME_RATE_DEPENDENT(75, 63), 90, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SARIAS
     {
-        { OCARINA_PITCH_F4, 17, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 17, 88, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 34, 80, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 17, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 17, 88, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 136, 80, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(17, 14), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(17, 14), 88, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(34, 28), 80, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(17, 14), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(17, 14), 88, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(136, 113), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_EPONAS
     {
-        { OCARINA_PITCH_D5, 18, 84, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 72, 80, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 18, 84, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 144, 80, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(18, 15), 84, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(72, 60), 80, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(18, 15), 84, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(144, 120), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_LULLABY
     {
-        { OCARINA_PITCH_B4, 51, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 25, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 78, 80, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 51, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 25, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 100, 80, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(51, 42), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(25, 21), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(78, 65), 80, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAME_RATE_DEPENDENT(51, 42), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(25, 21), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(100, 83), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SUNS
     {
-        { OCARINA_PITCH_A4, 12, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 13, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 29, 80, 2, 0, 0 },
-        { OCARINA_PITCH_NONE, 9, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 12, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 13, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 120, 80, 3, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(12, 10), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(13, 10), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(29, 25), 80, 2, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAME_RATE_DEPENDENT(9, 9), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(12, 10), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(13, 10), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(120, 100), 80, 3, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_TIME
     {
-        { OCARINA_PITCH_A4, 32, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 65, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 33, 80, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 32, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 65, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 99, 80, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(32, 26), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(65, 54), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(33, 28), 80, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAME_RATE_DEPENDENT(32, 26), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(65, 54), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(99, 83), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_STORMS
     {
-        { OCARINA_PITCH_D4, 11, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 11, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 45, 80, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 11, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 11, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 90, 80, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(11, 9), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(11, 9), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(45, 37), 80, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(11, 9), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAME_RATE_DEPENDENT(11, 9), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAME_RATE_DEPENDENT(90, 75), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SCARECROW_SPAWN
     {
-        { OCARINA_PITCH_D4, 3, 0, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(3, 3), 0, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 255, 0, 0, 0 },
     },
 
     // OCARINA_SONG_MEMORY_GAME
     {
-        { OCARINA_PITCH_D4, 3, 0, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAME_RATE_DEPENDENT(3, 3), 0, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 0, 0, 0, 0 },
     },
 };
@@ -2199,7 +2200,7 @@ s32 AudioOcarina_MemoryGameNextNote(void) {
     }
 
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].pitch = randomPitch;
-    sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].length = 45;
+    sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].length = FRAME_RATE_DEPENDENT(45, 38);
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].volume = 0x50;
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].vibrato = 0;
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].bend = 0;
