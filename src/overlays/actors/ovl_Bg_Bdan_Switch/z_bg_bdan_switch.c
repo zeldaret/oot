@@ -57,7 +57,7 @@ ActorProfile Bg_Bdan_Switch_Profile = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xEFC1FFFE, 0x00, 0x00 },
             ATELEM_NONE,
@@ -70,7 +70,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -164,8 +164,8 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
             BgBdanSwitch_InitCollision(this, play);
-            this->dyna.actor.flags |= ACTOR_FLAG_0;
-            this->dyna.actor.targetMode = 4;
+            this->dyna.actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+            this->dyna.actor.attentionRangeType = ATTENTION_RANGE_4;
             break;
     }
 

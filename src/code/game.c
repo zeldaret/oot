@@ -1,8 +1,10 @@
 #include "global.h"
-#if OOT_DEBUG
 #include "fault.h"
-#endif
+#include "libc64/os_malloc.h"
 #include "terminal.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
@@ -70,7 +72,11 @@ void GameState_SetFBFilter(Gfx** gfxP) {
 }
 
 void func_800C4344(GameState* gameState) {
-#if OOT_DEBUG
+#if PLATFORM_N64
+    if (D_80121212 != 0) {
+        func_801C7E78();
+    }
+#elif OOT_DEBUG
     Input* selectedInput;
     s32 hexDumpSize;
     u16 inputCompareValue;
@@ -238,6 +244,12 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     newDlist = Gfx_Open(polyOpaP = POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, newDlist);
 
+#if PLATFORM_N64
+    if (D_80121212 != 0) {
+        func_801C6EA0(&newDlist);
+    }
+#endif
+
     gSPEndDisplayList(newDlist++);
     Gfx_Close(polyOpaP, newDlist);
     POLY_OPA_DISP = newDlist;
@@ -257,6 +269,15 @@ void GameState_Update(GameState* gameState) {
     GameState_SetFrameBuffer(gfxCtx);
 
     gameState->main(gameState);
+
+#if PLATFORM_N64
+    if (D_80121212 != 0) {
+        func_801C7E78();
+    }
+    if ((B_80121220 != NULL) && (B_80121220->unk_74 != NULL)) {
+        B_80121220->unk_74(gameState);
+    }
+#endif
 
     func_800C4344(gameState);
 
@@ -281,22 +302,22 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->xScale = gViConfigXScale;
         gfxCtx->yScale = gViConfigYScale;
 
-        if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == OS_TV_NTSC)) {
+        if (SREG(63) == 6 || (SREG(63) == 2u && (u32)osTvType == OS_TV_NTSC)) {
             gfxCtx->viMode = &osViModeNtscLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 5 || (SREG(63) == 2u && osTvType == OS_TV_MPAL)) {
+        if (SREG(63) == 5 || (SREG(63) == 2u && (u32)osTvType == OS_TV_MPAL)) {
             gfxCtx->viMode = &osViModeMpalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 4 || (SREG(63) == 2u && osTvType == OS_TV_PAL)) {
+        if (SREG(63) == 4 || (SREG(63) == 2u && (u32)osTvType == OS_TV_PAL)) {
             gfxCtx->viMode = &osViModePalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 3 || (SREG(63) == 2u && osTvType == OS_TV_PAL)) {
+        if (SREG(63) == 3 || (SREG(63) == 2u && (u32)osTvType == OS_TV_PAL)) {
             gfxCtx->viMode = &osViModeFpalLan1;
             gfxCtx->yScale = 0.833f;
         }
@@ -356,7 +377,11 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     } else {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル確保失敗\n", "Failure to secure Hyrule\n"));
+#if PLATFORM_N64
+        HUNGUP_AND_CRASH("../game.c", 985);
+#else
         HUNGUP_AND_CRASH("../game.c", 999);
+#endif
     }
 }
 
@@ -396,7 +421,12 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 #if OOT_DEBUG
         SystemArena_Display();
 #endif
+
+#if PLATFORM_N64
+        HUNGUP_AND_CRASH("../game.c", 1030);
+#else
         HUNGUP_AND_CRASH("../game.c", 1044);
+#endif
     }
 }
 
@@ -503,7 +533,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int l
     void* ret;
 
     if (THA_IsCrash(&gameState->tha)) {
-        PRINTF("ハイラルは滅亡している\n");
+        PRINTF(T("ハイラルは滅亡している\n", "Hyrule is destroyed\n"));
         ret = NULL;
     } else if ((u32)THA_GetRemaining(&gameState->tha) < size) {
         PRINTF(T("滅亡寸前のハイラルには %d バイトの余力もない（滅亡まであと %d バイト）\n",

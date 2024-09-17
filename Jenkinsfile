@@ -20,84 +20,88 @@ pipeline {
                 }
             }
             steps {
-                echo 'Checking formatting on modified files...'
-                sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
-            }
-        }
-        stage('Build ntsc-1.2, check disasm metadata') {
-            steps {
-                sh 'ln -s /usr/local/etc/roms/oot-ntsc-1.2-us.z64 baseroms/ntsc-1.2/baserom.z64'
-                sh 'make -j setup VERSION=ntsc-1.2'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=ntsc-1.2'
-                sh '.venv/bin/python3 tools/check_disasm_metadata_unksyms.py -v ntsc-1.2'
-                sh 'make clean assetclean VERSION=ntsc-1.2'
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    echo 'Checking formatting on modified files...'
+                    sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
+                }
             }
         }
         // The ROMs are built in an order that maximizes compiler flags coverage in a "fail fast" approach.
         // Specifically we start with a retail ROM for BSS ordering, and make sure we cover all of
-        // NTSC/PAL/MQ/DEBUG as quickly as possible.
+        // N64/GC/NTSC/PAL/MQ/DEBUG as quickly as possible.
+        stage('Build ntsc-1.2') {
+            steps {
+                script {
+                    build('ntsc-1.2', 'oot-ntsc-1.2-us.z64')
+                }
+           }
+        }
         stage('Build gc-jp') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-jp.z64 baseroms/gc-jp/baserom.z64'
-                sh 'make -j setup VERSION=gc-jp'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-jp'
-                sh 'make clean assetclean VERSION=gc-jp'
-            }
+                script {
+                    build('gc-jp', 'oot-gc-jp.z64')
+                }
+           }
         }
         stage('Build gc-eu-mq') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-eu-mq.z64 baseroms/gc-eu-mq/baserom.z64'
-                sh 'make -j setup VERSION=gc-eu-mq'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-eu-mq'
-                sh 'make clean assetclean VERSION=gc-eu-mq'
+                script {
+                    build('gc-eu-mq', 'oot-gc-eu-mq.z64')
+                }
             }
         }
         stage('Build gc-eu-mq-dbg') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-eu-mq-dbg.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
-                sh 'make -j setup VERSION=gc-eu-mq-dbg'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-eu-mq-dbg'
-                sh 'make clean assetclean VERSION=gc-eu-mq-dbg'
+                script {
+                    build('gc-eu-mq-dbg', 'oot-gc-eu-mq-dbg.z64')
+                }
             }
         }
         stage('Build gc-us') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-us.z64 baseroms/gc-us/baserom.z64'
-                sh 'make -j setup VERSION=gc-us'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-us'
-                sh 'make clean assetclean VERSION=gc-us'
+                script {
+                    build('gc-us', 'oot-gc-us.z64')
+                }
             }
         }
         stage('Build gc-jp-ce') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-jp-ce.z64 baseroms/gc-jp-ce/baserom.z64'
-                sh 'make -j setup VERSION=gc-jp-ce'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-jp-ce'
-                sh 'make clean assetclean VERSION=gc-jp-ce'
+                script {
+                    build('gc-jp-ce', 'oot-gc-jp-ce.z64')
+                }
             }
         }
         stage('Build gc-eu') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-eu.z64 baseroms/gc-eu/baserom.z64'
-                sh 'make -j setup VERSION=gc-eu'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-eu'
-                sh 'make clean assetclean VERSION=gc-eu'
+                script {
+                    build('gc-eu', 'oot-gc-eu.z64')
+                }
             }
         }
         stage('Build gc-jp-mq') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-jp-mq.z64 baseroms/gc-jp-mq/baserom.z64'
-                sh 'make -j setup VERSION=gc-jp-mq'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-jp-mq'
-                sh 'make clean assetclean VERSION=gc-jp-mq'
+                script {
+                    build('gc-jp-mq', 'oot-gc-jp-mq.z64')
+                }
             }
         }
         stage('Build gc-us-mq') {
             steps {
-                sh 'ln -s /usr/local/etc/roms/oot-gc-us-mq.z64 baseroms/gc-us-mq/baserom.z64'
-                sh 'make -j setup VERSION=gc-us-mq'
-                sh 'make -j RUN_CC_CHECK=0 VERSION=gc-us-mq'
-                sh 'make clean assetclean VERSION=gc-us-mq'
+                script {
+                    build('gc-us-mq', 'oot-gc-us-mq.z64')
+                }
+            }
+        }
+        stage('Generate patch') {
+            when {
+                not {
+                    branch 'main'
+                }
+            }
+            steps {
+                sh 'git diff'
+                echo 'Generating patch...'
+                sh 'tools/generate_patch_from_jenkins.sh'
             }
         }
     }
@@ -113,5 +117,22 @@ pipeline {
                     disableDeferredWipeout: true,
                     notFailBuild: true)
         }
+    }
+}
+
+def build(String version, String rom) {
+    sh "ln -s /usr/local/etc/roms/${rom} baseroms/${version}/baserom.z64"
+    sh "make -j\$(nproc) setup VERSION=${version}"
+    try {
+        sh "make -j\$(nproc) VERSION=${version}"
+    } catch (e) {
+        echo "Build failed, attempting to fix BSS ordering..."
+        sh ".venv/bin/python3 tools/fix_bss.py -v ${version}"
+        // If fix_bss.py succeeds, continue the build, but ensure both the build and current stage are marked as failed
+        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+            sh 'exit 1'
+        }
+    } finally {
+        sh "make clean assetclean VERSION=${version}"
     }
 }

@@ -1,13 +1,14 @@
-// Include versions.h first and redefine FAULT_VERSION
-// This allows this file to compile even when versions.h uses FAULT_GC
-#include "versions.h"
-#undef FAULT_VERSION
-#define FAULT_VERSION FAULT_N64
+#if PLATFORM_N64
+
+#pragma increment_block_number "ntsc-1.2:128"
 
 #include "global.h"
 #include "fault.h"
+#include "libc64/os_malloc.h"
 #include "stack.h"
 #include "terminal.h"
+
+#pragma increment_block_number "ntsc-1.2:96"
 
 typedef struct FaultMgr {
     OSThread thread;
@@ -83,7 +84,7 @@ const char* sFpExceptionNames[] = {
 };
 
 u16 sFaultFontColor = GPACK_RGBA5551(255, 255, 255, 1);
-s32 D_800FF9C4[7] = { 0 }; // Unused (file padding?)
+s32 D_800FF9C4[7] = { 0 }; // Unused
 
 Input sFaultInputs[MAXCONTROLLERS];
 
@@ -93,12 +94,10 @@ STACK(sFaultStack, 0x400);
 StackEntry sFaultStackInfo;
 FaultCursorCoords sFaultCursorPos;
 
-vs32 sFaultExit;
+vs32 gFaultExit;
 vs32 gFaultMsgId;
-vs32 sFaultDisplayEnable;
-OSThread* sFaultFaultedThread;
-s32 B_80122570[16];
-s32 B_801225B0[8]; // Unused (file padding?)
+vs32 gFaultDisplayEnable;
+volatile OSThread* gFaultFaultedThread;
 
 void Fault_SleepImpl(u32 ms) {
     Sleep_Msec(ms);
@@ -112,7 +111,7 @@ void Fault_WaitForInputImpl(void) {
         Fault_SleepImpl(0x10);
         PadMgr_RequestPadData(&gPadMgr, inputs, 0);
         btnPress = inputs[0].press.button;
-    } while (!CHECK_BTN_ANY(btnPress, (BTN_A | BTN_B | BTN_START | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP)));
+    } while (!CHECK_BTN_ANY(btnPress, (BTN_A | BTN_B | BTN_START | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT)));
 }
 
 void Fault_WaitForInput(void) {
@@ -452,11 +451,14 @@ void Fault_WaitForButtonCombo(void) {
     s32 count;
     s32 pad[4];
 
-    // KeyWaitB (LRZ Up Down Up Down Left Left Right Right B A START)
-    osSyncPrintf(
-        VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
-            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
-                                                                                                                                                     "\n");
+    // "KeyWaitB (L R Z Up Down Up Down Left Left Right Right B A START)"
+    osSyncPrintf(VT_FGCOL(WHITE) T("KeyWaitB (ＬＲＺ ", "KeyWaitB (L R Z ") VT_FGCOL(WHITE) T("上", "Up ")
+                     VT_FGCOL(YELLOW) T("下 ", "Down ") VT_FGCOL(YELLOW) T("上", "Up ") VT_FGCOL(WHITE)
+                         T("下 ", "Down ") VT_FGCOL(WHITE) T("左", "Left ") VT_FGCOL(YELLOW) T("左 ", "Left ")
+                             VT_FGCOL(YELLOW) T("右", "Right ") VT_FGCOL(WHITE) T("右 ", "Right ") VT_FGCOL(GREEN)
+                                 T("Ｂ", "B ") VT_FGCOL(BLUE) T("Ａ", "A ")
+                                     VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST "\n");
+
     x = 0;
     y = 0;
     count = 0;
@@ -588,8 +590,7 @@ void Fault_WaitForButtonCombo(void) {
                     if ((btnCur == (BTN_A | BTN_B | BTN_START)) && (btnPress == BTN_START)) {
                         f32 comboTimeSeconds = OS_CYCLES_TO_USEC(osGetTime() - comboStartTime) / 1000000.0f;
 
-                        // Input time %f seconds
-                        osSyncPrintf("入力時間 %f 秒\n", comboTimeSeconds);
+                        osSyncPrintf(T("入力時間 %f 秒\n", "Input time %f seconds\n"), comboTimeSeconds);
                         if (comboTimeSeconds <= 50.0f) {
                             x = 11;
                         } else {
@@ -654,6 +655,8 @@ void Fault_DrawMemDumpSP(OSThread* thread) {
 }
 
 void func_800AF3DC(void) {
+    static s32 B_80122570[16];
+    static s32 B_801225B0[8]; // Unused
     s32 i;
 
     Fault_DrawRecBlack(22, 16, 276, 208);
@@ -753,16 +756,16 @@ void Fault_ThreadEntry(void* arg0) {
             osRecvMesg(&gFaultMgr.queue, &msg, OS_MESG_BLOCK);
             if (msg == FAULT_MSG_CPU_BREAK) {
                 gFaultMsgId = (s32)FAULT_MSG_CPU_BREAK;
-                // Fault Manager: OS_EVENT_CPU_BREAK received
-                osSyncPrintf("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n");
+                osSyncPrintf(T("フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n",
+                               "Fault Manager: OS_EVENT_CPU_BREAK received\n"));
             } else if (msg == FAULT_MSG_FAULT) {
                 gFaultMsgId = (s32)FAULT_MSG_FAULT;
-                // Fault Manager: OS_EVENT_FAULT received
-                osSyncPrintf("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n");
+                osSyncPrintf(
+                    T("フォルトマネージャ:OS_EVENT_FAULTを受信しました\n", "Fault Manager: OS_EVENT_FAULT received\n"));
             } else {
                 gFaultMsgId = (s32)FAULT_MSG_UNK;
-                // Fault Manager: Unknown message received
-                osSyncPrintf("フォルトマネージャ:不明なメッセージを受信しました\n");
+                osSyncPrintf(T("フォルトマネージャ:不明なメッセージを受信しました\n",
+                               "Fault Manager: Unknown message received\n"));
             }
             faultedThread = __osGetCurrFaultedThread();
             osSyncPrintf("__osGetCurrFaultedThread()=%08x\n", faultedThread);
@@ -771,11 +774,11 @@ void Fault_ThreadEntry(void* arg0) {
                 osSyncPrintf("FindFaultedThread()=%08x\n", faultedThread);
             }
         } while (faultedThread == NULL);
-        sFaultFaultedThread = faultedThread;
+        gFaultFaultedThread = faultedThread;
         Fault_LogThreadContext(faultedThread);
         osSyncPrintf("%d %s %d:%s = %d\n", osGetThreadId(NULL), "fault.c", 1454, "fault_display_enable",
-                     sFaultDisplayEnable);
-        while (!sFaultDisplayEnable) {
+                     gFaultDisplayEnable);
+        while (!gFaultDisplayEnable) {
             Fault_SleepImpl(1000);
         }
         Fault_SleepImpl(500);
@@ -794,8 +797,8 @@ void Fault_ThreadEntry(void* arg0) {
             Fault_DrawMemDumpPC(faultedThread);
             Fault_WaitForInput();
             Fault_ProcessClients();
-        } while (!sFaultExit);
-        while (!sFaultExit) {}
+        } while (!gFaultExit);
+        while (!gFaultExit) {}
         Fault_ResumeThread(faultedThread);
     }
 }
@@ -807,7 +810,7 @@ void Fault_SetFrameBuffer(void* fb, u16 w, u16 h) {
 }
 
 void Fault_Init(void) {
-    sFaultDisplayEnable = 1;
+    gFaultDisplayEnable = 1;
     gFaultMgr.fb = (u16*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
     gFaultMgr.fbWidth = SCREEN_WIDTH;
     gFaultMgr.fbDepth = 16;
@@ -824,7 +827,7 @@ void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     osSyncPrintf("HungUp on Thread %d", osGetThreadId(NULL));
     osSyncPrintf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
     osSyncPrintf("%s\n", exp2 != NULL ? exp2 : "(NULL)");
-    while (sFaultDisplayEnable == 0) {
+    while (gFaultDisplayEnable == 0) {
         Fault_SleepImpl(1000);
     }
     Fault_SleepImpl(500);
@@ -846,3 +849,5 @@ void Fault_AddHungupAndCrash(const char* file, int line) {
     sprintf(msg, "HungUp %s:%d", file, line);
     Fault_AddHungupAndCrashImpl(msg, NULL);
 }
+
+#endif

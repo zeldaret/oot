@@ -1,4 +1,4 @@
-#include "global.h"
+#include "string.h"
 
 /**
  * memset: sets `len` bytes to `val` starting at address `dest`.
@@ -12,7 +12,7 @@
  * @return dest
  */
 void* memset(void* dest, int val, size_t len) {
-    u8* ptr = dest;
+    char* ptr = dest;
 
     while (len--) {
         *ptr++ = val;

@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_gla/object_gla.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 #define GE2_STATE_ANIMCOMPLETE (1 << 1)
 #define GE2_STATE_KO (1 << 2)
@@ -69,7 +69,7 @@ ActorProfile En_Ge2_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -77,7 +77,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x000007A2, 0x00, 0x00 },
         ATELEM_NONE,
@@ -138,21 +138,21 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
             EnGe2_ChangeAction(this, GE2_ACTION_WALK);
             if (EnGe2_CheckCarpentersFreed()) {
                 this->actor.update = EnGe2_UpdateFriendly;
-                this->actor.targetMode = 6;
+                this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
         case GE2_TYPE_STATIONARY:
             EnGe2_ChangeAction(this, GE2_ACTION_STAND);
             if (EnGe2_CheckCarpentersFreed()) {
                 this->actor.update = EnGe2_UpdateFriendly;
-                this->actor.targetMode = 6;
+                this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
         case GE2_TYPE_GERUDO_CARD_GIVER:
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);
             this->actor.update = EnGe2_UpdateAfterTalk;
             this->actionFunc = EnGe2_ForceTalk;
-            this->actor.targetMode = 6;
+            this->actor.attentionRangeType = ATTENTION_RANGE_6;
             break;
         default:
             ASSERT(0, "0", "../z_en_ge2.c", 418);
@@ -298,7 +298,7 @@ void EnGe2_KnockedOut(EnGe2* this, PlayState* play) {
     s32 effectAngle;
     Vec3f effectPos;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (this->stateFlags & GE2_STATE_ANIMCOMPLETE) {
         effectAngle = (play->state.frames) * 0x2800;
         effectPos.x = this->actor.focus.pos.x + (Math_CosS(effectAngle) * 5.0f);
@@ -595,7 +595,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
 
     if (EnGe2_CheckCarpentersFreed() && !(this->stateFlags & GE2_STATE_KO)) {
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.targetMode = 6;
+        this->actor.attentionRangeType = ATTENTION_RANGE_6;
     }
 }
 
@@ -621,7 +621,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
 
     if (EnGe2_CheckCarpentersFreed()) {
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.targetMode = 6;
+        this->actor.attentionRangeType = ATTENTION_RANGE_6;
         this->actor.colorFilterTimer = 0;
     } else if (this->actor.colorFilterTimer == 0) {
         this->actor.update = EnGe2_Update;

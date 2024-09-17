@@ -39,8 +39,9 @@ def main():
     parser.add_argument("sym_or_vma")
     default_version = "ntsc-1.2"
     parser.add_argument(
-        "--version",
         "-v",
+        "--version",
+        dest="oot_version",
         default=default_version,
         help=f"oot version (default: {default_version})",
     )
@@ -89,10 +90,10 @@ def main():
 
     syms_by_section_by_file = dict[str, dict[str, list[Sym]]]()
 
-    context_csv_p = Path(f"expected/build/{args.version}/context.csv")
+    context_csv_p = Path(f"expected/build/{args.oot_version}/context.csv")
     if not context_csv_p.exists():
         print(f"Context file does not exist: {context_csv_p}")
-        print(f"Hint: run `make VERSION={args.version} disasm`")
+        print(f"Hint: run `make VERSION={args.oot_version} disasm`")
         exit(1)
 
     with context_csv_p.open() as f:

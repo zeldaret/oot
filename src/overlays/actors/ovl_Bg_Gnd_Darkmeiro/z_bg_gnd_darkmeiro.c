@@ -147,7 +147,7 @@ void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, PlayState* play) {
 
     timeLeft = CLAMP_MIN(this->timer1, this->timer2);
     if (timeLeft > 0) {
-        func_8002F994(&this->dyna.actor, timeLeft);
+        Actor_PlaySfx_FlaggedTimer(&this->dyna.actor, timeLeft);
     }
     if ((this->timer1 >= 64) || (this->timer2 >= 64)) {
         Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));

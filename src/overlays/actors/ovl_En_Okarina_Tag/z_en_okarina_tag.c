@@ -46,7 +46,7 @@ void EnOkarinaTag_Init(Actor* thisx, PlayState* play) {
     PRINTF("\n\n");
     // "Ocarina tag outbreak"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->type = PARAMS_GET_U(this->actor.params, 10, 6);
     this->ocarinaSong = PARAMS_GET_U(this->actor.params, 6, 4);
     this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
@@ -57,7 +57,7 @@ void EnOkarinaTag_Init(Actor* thisx, PlayState* play) {
         this->ocarinaSong = 0;
         this->unk_158 = 1;
     }
-    this->actor.targetMode = 1;
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     if (this->actor.world.rot.z > 0) {
         this->interactRange = this->actor.world.rot.z * 40.0f;
     }
@@ -112,7 +112,7 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
     player = GET_PLAYER(play);
     this->unk_15A++;
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(play, this->switchFlag))) {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
         if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
@@ -189,7 +189,7 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
     this->unk_15A++;
     if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
                    ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D)) &&
                    (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&

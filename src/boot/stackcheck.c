@@ -18,7 +18,7 @@ void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 i
         entry->minSpace = minSpace;
         entry->name = name;
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
         iter = sStackInfoListStart;
         while (iter) {
             if (iter == entry) {

@@ -16,20 +16,27 @@
 #define GC_EU_MQ      12
 #define GC_JP_CE      13
 
-#define FAULT_N64 1 // in OoT N64
-#define FAULT_GC 2  // in OoT GC
-#if PLATFORM_N64
-#define FAULT_VERSION FAULT_N64
+// NTSC/PAL
+#if OOT_VERSION == PAL_1_0 || OOT_VERSION == PAL_1_1 || OOT_VERSION == GC_EU || OOT_VERSION == GC_EU_MQ || OOT_VERSION == GC_EU_MQ_DBG
+#define OOT_NTSC 0
+#define OOT_PAL 1
 #else
-#define FAULT_VERSION FAULT_GC
+#define OOT_NTSC 1
+#define OOT_PAL 0
 #endif
 
-#define RAND_N64 1 // in OoT N64
-#define RAND_GC 2  // in OoT GC
-#if PLATFORM_N64
-#define RAND_VERSION RAND_N64
+// PAL N64 (50 Hz)
+#if OOT_VERSION == PAL_1_0 || OOT_VERSION == PAL_1_1
+#define OOT_PAL_N64 1
 #else
-#define RAND_VERSION RAND_GC
+#define OOT_PAL_N64 0
+#endif
+
+// Master Quest
+#if OOT_VERSION == GC_JP_MQ || OOT_VERSION == GC_US_MQ || OOT_VERSION == GC_EU_MQ || OOT_VERSION == GC_EU_MQ_DBG
+#define OOT_MQ 1
+#else
+#define OOT_MQ 0
 #endif
 
 #endif

@@ -1,5 +1,6 @@
 #include "file_select.h"
 #include "terminal.h"
+#include "versions.h"
 #include "assets/textures/title_static/title_static.h"
 #include "assets/overlays/ovl_file_choose/ovl_file_choose.h"
 
@@ -187,7 +188,7 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-    gSPVertex(POLY_OPA_DISP++, D_80811BB0, 24, 0);
+    gSPVertex(POLY_OPA_DISP++, gNameEntryVtx, 24, 0);
     gDPLoadTextureBlock(POLY_OPA_DISP++, sNameLabelTextures[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 56, 16, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
@@ -308,7 +309,7 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     gSPVertex(POLY_OPA_DISP++, this->nameEntryVtx + 4, 32, 0);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->nameEntryBoxAlpha);
 
-    for (phi_v0 = 0, phi_s0 = 0; phi_s0 < 0x20; phi_s0 += 4, phi_v0++) {
+    for (phi_s0 = 0, phi_v0 = 0; phi_s0 < 0x20; phi_s0 += 4, phi_v0++) {
         FileSelect_DrawCharacter(this->state.gfxCtx,
                                  font->fontBuf + this->fileNames[this->buttonIndex][phi_v0] * FONT_CHAR_TEX_SIZE,
                                  phi_s0);
@@ -554,17 +555,21 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
         if (this->kbdX != this->kbdButton) {
             PRINTF("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
-        this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[0] - 4;
+        this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] =
+            gNameEntryVtx[(this->kbdX + 1) * 4].v.ob[0] - 4;
         this->nameEntryVtx[41].v.ob[0] = this->nameEntryVtx[43].v.ob[0] = this->nameEntryVtx[40].v.ob[0] + 52;
-        this->nameEntryVtx[40].v.ob[1] = this->nameEntryVtx[41].v.ob[1] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[1] + 4;
+        this->nameEntryVtx[40].v.ob[1] = this->nameEntryVtx[41].v.ob[1] =
+            gNameEntryVtx[(this->kbdX + 1) * 4].v.ob[1] + 4;
 
     } else if ((this->kbdButton == FS_KBD_BTN_ENG) || (this->kbdButton == FS_KBD_BTN_BACKSPACE)) {
         if (this->kbdX != this->kbdButton) {
             PRINTF("23 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
-        this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[0] - 4;
+        this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] =
+            gNameEntryVtx[(this->kbdX + 1) * 4].v.ob[0] - 4;
         this->nameEntryVtx[41].v.ob[0] = this->nameEntryVtx[43].v.ob[0] = this->nameEntryVtx[40].v.ob[0] + 40;
-        this->nameEntryVtx[40].v.ob[1] = this->nameEntryVtx[41].v.ob[1] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[1] + 4;
+        this->nameEntryVtx[40].v.ob[1] = this->nameEntryVtx[41].v.ob[1] =
+            gNameEntryVtx[(this->kbdX + 1) * 4].v.ob[1] + 4;
     } else {
         if (this->charIndex >= 65) {
             PRINTF("mjp=%d  xpos=%d  ypos=%d  name_contents=%d\n", this->charIndex, this->kbdX, this->kbdY,
@@ -1416,8 +1421,8 @@ static OptionsMenuTextureInfo sOptionsMenuHeaders[] = {
         16,
     },
     {
-        LANGUAGE_ARRAY(gFileSelLTargetingJPNTex, gFileSelLTargetingENGTex, gFileSelLTargetingGERTex,
-                       gFileSelLTargetingFRATex),
+        LANGUAGE_ARRAY(gFileSelZTargetingJPNTex, gFileSelZTargetingENGTex, gFileSelZTargetingGERTex,
+                       gFileSelZTargetingFRATex),
         OPTIONS_MENU_TEXTURE_WIDTHS(64, 64, 144, 64),
         16,
     },
@@ -1550,12 +1555,12 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     }
 
 #if OOT_NTSC
-    gSPVertex(POLY_OPA_DISP++, D_80811D30, 32, 0);
+    gSPVertex(POLY_OPA_DISP++, gOptionsMenuHeadersVtx, 32, 0);
 #else
     if (gSaveContext.language == LANGUAGE_GER) {
-        gSPVertex(POLY_OPA_DISP++, D_80811E30, 32, 0);
+        gSPVertex(POLY_OPA_DISP++, gOptionsMenuHeadersGERVtx, 32, 0);
     } else {
-        gSPVertex(POLY_OPA_DISP++, D_80811D30, 32, 0);
+        gSPVertex(POLY_OPA_DISP++, gOptionsMenuHeadersVtx, 32, 0);
     }
 #endif
 
@@ -1574,12 +1579,12 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     }
 
 #if OOT_NTSC
-    gSPVertex(POLY_OPA_DISP++, D_80811F30, 32, 0);
+    gSPVertex(POLY_OPA_DISP++, gOptionsMenuSettingsVtx, 32, 0);
 #else
     if (gSaveContext.language == LANGUAGE_GER) {
-        gSPVertex(POLY_OPA_DISP++, D_80812130, 32, 0);
+        gSPVertex(POLY_OPA_DISP++, gOptionsMenuSettingsGERVtx, 32, 0);
     } else {
-        gSPVertex(POLY_OPA_DISP++, D_80811F30, 32, 0);
+        gSPVertex(POLY_OPA_DISP++, gOptionsMenuSettingsVtx, 32, 0);
     }
 #endif
 
@@ -1665,26 +1670,23 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.1f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1009),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPVertex(POLY_OPA_DISP++, gOptionsDividerTopVtx, 4, 0);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_nameset_PAL.c", 1009);
+    gSPVertex(POLY_OPA_DISP++, gOptionsDividerSoundVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     Matrix_Pop();
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.2f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1021),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_nameset_PAL.c", 1021);
 
-    gSPVertex(POLY_OPA_DISP++, gOptionsDividerMiddleVtx, 4, 0);
+    gSPVertex(POLY_OPA_DISP++, gOptionsDividerZTargetVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     Matrix_Pop();
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.4f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1033),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPVertex(POLY_OPA_DISP++, gOptionsDividerBottomVtx, 4, 0);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_nameset_PAL.c", 1033);
+    gSPVertex(POLY_OPA_DISP++, gOptionsDividerBrightnessVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     Matrix_Pop();
 

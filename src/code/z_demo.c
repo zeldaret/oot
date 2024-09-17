@@ -115,7 +115,8 @@ EntranceCutscene sEntranceCutsceneTable[] = {
 };
 
 void* sCutscenesUnknownList[] = {
-    gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
+    gDekuTreeIntroCs,     gJabuJabuIntroCs, gDcOpeningCs, gSpiritBossNabooruKnuckleDefeatCs,
+    gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
 // Stores the frame the relevant cam data was last applied on
@@ -123,7 +124,8 @@ u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ntsc-1.2:96"
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
@@ -310,8 +312,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_FADE_KOKIRI_GRASS_ENV_ALPHA:
-            if (play->roomCtx.unk_74[0] <= 127) {
-                play->roomCtx.unk_74[0] += 4;
+            if (play->roomCtx.drawParams[0] <= 127) {
+                play->roomCtx.drawParams[0] += 4;
             }
             break;
 
@@ -324,14 +326,14 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_DEKU_TREE_DEATH:
-            if (play->roomCtx.unk_74[0] < 1650) {
-                play->roomCtx.unk_74[0] += 20;
+            if (play->roomCtx.drawParams[0] < 1650) {
+                play->roomCtx.drawParams[0] += 20;
             }
 
             if (csCtx->curFrame == 783) {
                 Sfx_PlaySfxCentered(NA_SE_EV_DEKU_DEATH);
             } else if (csCtx->curFrame == 717) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
             }
             break;
 
@@ -344,12 +346,12 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_TRIFORCE_FLASH:
-            if (play->roomCtx.unk_74[1] == 0) {
+            if (play->roomCtx.drawParams[1] == 0) {
                 Sfx_PlaySfxCentered(NA_SE_EV_TRIFORCE_FLASH);
             }
 
-            if (play->roomCtx.unk_74[1] < 255) {
-                play->roomCtx.unk_74[1] += 5;
+            if (play->roomCtx.drawParams[1] < 255) {
+                play->roomCtx.drawParams[1] += 5;
             }
             break;
 
@@ -2423,8 +2425,8 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
 
 void Cutscene_SetScript(PlayState* play, void* script) {
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_78 != NULL)) {
-        if (B_80121AF0->unk_78(play, script, sCutscenesUnknownList)) {
+    if ((B_80121220 != NULL) && (B_80121220->unk_78 != NULL)) {
+        if (B_80121220->unk_78(play, script, sCutscenesUnknownList)) {
             return;
         }
     }
