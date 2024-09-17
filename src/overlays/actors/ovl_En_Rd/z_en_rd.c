@@ -361,8 +361,11 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
             if (this->playerStunWaitTimer == 0) {
                 if (!(this->rdFlags & 0x80)) {
                     player->actor.freezeTimer = 40;
-                    func_8008EEAC(play, &this->actor);
-                    GET_PLAYER(play)->unk_684 = &this->actor;
+                    Player_SetAutoFocusActor(play, &this->actor);
+
+                    // Manually setting this pointer is redundant, `Player_SetAutoFocusActor` does this above
+                    GET_PLAYER(play)->autoFocusActor = &this->actor;
+
                     Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
                 }
 
@@ -606,7 +609,7 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
         if (!(this->rdFlags & 0x80)) {
             player->actor.freezeTimer = 60;
             Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
-            func_8008EEAC(play, &this->actor);
+            Player_SetAutoFocusActor(play, &this->actor);
         }
 
         Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_AIM);

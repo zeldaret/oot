@@ -627,13 +627,23 @@ void func_8008EE08(Player* this) {
     func_8008EDF0(this);
 }
 
-void func_8008EEAC(PlayState* play, Actor* actor) {
+/**
+ * Sets the "auto focus actor" to make Player and the camera look at the specified actor.
+ * This function will first release lock-on and try to release parallel before setting up the new focus.
+ * The new focus is considered "friendly" even if the actor specified is actually hostile.
+ * 
+ * Note that while this function does clear any current lock-on, the `autoFocusActor` does not
+ * take precedence over `focusActor` in `Player_UpdateZTargeting`.
+ */
+void Player_SetAutoFocusActor(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
 
     func_8008EE08(this);
+
     this->focusActor = actor;
-    this->unk_684 = actor;
+    this->autoFocusActor = actor;
     this->stateFlags1 |= PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS;
+
     Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);
     Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_TARGET_FRIENDLY);
 }

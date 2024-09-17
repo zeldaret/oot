@@ -3611,13 +3611,15 @@ void func_80836BEC(Player* this, PlayState* play) {
         (this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT)) {
         // Don't allow Z-Targeting in various states
         this->zTargetActiveTimer = 0;
-    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_LOCK_ON_WITH_SWITCH) || (this->unk_684 != NULL)) {
-        // While a lock-on is active, decrement the timer and hold it at 5.
+    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_LOCK_ON_WITH_SWITCH) || (this->autoFocusActor != NULL)) {
+        // While a lock-on is active, decrement `zTargetActiveTimer` and hold it at 5.
         // Values under 5 indicate a lock-on has ended and will make the reticle release.
         // See usage toward the end of `Actor_UpdateAll`.
         //
         // `zButtonHeld` will also be true for Parallel. This is necessary because the timer
         // needs to be non-zero for `Player_SetParallel` to be able to run below.
+        // Additionally, `autoFocusActor` is not considered a Z-Target state, but does still need to run code in the
+        // Z-Target related block below. So it is considered a valid condition to set the timer.
         if (this->zTargetActiveTimer <= 5) {
             this->zTargetActiveTimer = 5;
         } else {
@@ -3697,15 +3699,15 @@ void func_80836BEC(Player* this, PlayState* play) {
             }
 
             if (this->focusActor != NULL) {
-                if ((this->actor.category == ACTORCAT_PLAYER) && (this->focusActor != this->unk_684) &&
+                if ((this->actor.category == ACTORCAT_PLAYER) && (this->focusActor != this->autoFocusActor) &&
                     Attention_ShouldReleaseLockOn(this->focusActor, this, ignoreLeash)) {
                     func_8008EDF0(this);
                     this->stateFlags1 |= PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE;
                 } else if (this->focusActor != NULL) {
                     this->focusActor->attentionPriority = 40;
                 }
-            } else if (this->unk_684 != NULL) {
-                this->focusActor = this->unk_684;
+            } else if (this->autoFocusActor != NULL) {
+                this->focusActor = this->autoFocusActor;
             }
         }
 
@@ -11494,7 +11496,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         this->doorType = PLAYER_DOORTYPE_NONE;
         this->unk_8A1 = 0;
-        this->unk_684 = NULL;
+        this->autoFocusActor = NULL;
 
         phi_f12 =
             ((this->bodyPartsPos[PLAYER_BODYPART_L_FOOT].y + this->bodyPartsPos[PLAYER_BODYPART_R_FOOT].y) * 0.5f) +

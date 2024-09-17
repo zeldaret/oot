@@ -803,7 +803,7 @@ void Player_SetEquipmentData(PlayState* play, Player* this);
 void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAction);
 void func_8008EDF0(Player* this);
 void func_8008EE08(Player* this);
-void func_8008EEAC(PlayState* play, Actor* actor);
+void Player_SetAutoFocusActor(PlayState* play, Actor* actor);
 s32 func_8008EF44(PlayState* play, s32 ammo);
 int Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange);
 s32 Player_GetStrength(void);
