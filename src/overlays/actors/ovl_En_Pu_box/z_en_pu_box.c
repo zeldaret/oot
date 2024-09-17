@@ -53,7 +53,7 @@ void EnPubox_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
     this->dyna.interactFlags = 0;
     this->dyna.transformFlags = 0;
-    thisx->targetMode = 1;
+    thisx->attentionRangeType = ATTENTION_RANGE_1;
     thisx->gravity = -2.0f;
     CollisionHeader_GetVirtual(&gBlockMediumCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);

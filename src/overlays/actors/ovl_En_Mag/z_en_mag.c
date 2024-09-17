@@ -151,8 +151,8 @@ void EnMag_CheckSramResetCode(PlayState* play, EnMag* this) {
     s32 var_v1;
 
     var_v1 =
-        play->state.input[2].cur.button & (BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP | BTN_R | BTN_L | BTN_DRIGHT |
-                                           BTN_DLEFT | BTN_DDOWN | BTN_DUP | BTN_START | BTN_Z | BTN_B | BTN_A);
+        play->state.input[2].cur.button & (BTN_A | BTN_B | BTN_Z | BTN_START | BTN_DUP | BTN_DDOWN | BTN_DLEFT |
+                                           BTN_DRIGHT | BTN_L | BTN_R | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
     if (this->unk_E31C == var_v1) {
         this->unk_E320--;
         if (this->unk_E320 < 0) {
@@ -474,11 +474,8 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
 }
 
 #if PLATFORM_N64
-// TODO n64dd functions
-s32 func_801C79BC_unknown(void);
-
 void func_80AEEA48_unknown(Gfx** gfxP, s16 arg1, s16 arg2, u32 arg3) {
-    if ((B_80121AE2 != 0) && (func_801C79BC_unknown() != 0)) {
+    if ((D_80121212 != 0) && (func_801C70FC() != 0)) {
         Gfx* gfx = *gfxP;
         s32 temp_a3 = (arg1 + 0x40) << 2;
         s32 temp_t0 = (arg2 + 5) << 2;

@@ -1,6 +1,6 @@
 <Root>
     <File Name="ovl_file_choose">
-        <Array Name="D_80811BB0" Count="24" Offset="0x0" Static="Off">
+        <Array Name="gNameEntryVtx" Count="24" Offset="0x0" Static="Off">
             <Vtx/>
         </Array>
         <Array Name="gCharPageHira" Count="65" Offset="0x180" Static="Off">
@@ -15,19 +15,19 @@
         <Array Name="gNextCharPage" Count="9" Offset="0x30C" Static="Off">
             <Scalar Type="s16"/>
         </Array>
-        <Array Name="D_80811D30" Count="16" Offset="0x320" Static="Off">
+        <Array Name="gOptionsMenuHeadersVtx" Count="16" Offset="0x320" Static="Off">
             <Vtx/>
         </Array>
-        <Array Name="D_80811F30" Count="32" Offset="0x420" Static="Off">
+        <Array Name="gOptionsMenuSettingsVtx" Count="32" Offset="0x420" Static="Off">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsDividerTopVtx" Count="4" Offset="0x620" Static="Off">
+        <Array Name="gOptionsDividerSoundVtx" Count="4" Offset="0x620" Static="Off">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsDividerMiddleVtx" Count="4" Offset="0x660" Static="Off">
+        <Array Name="gOptionsDividerZTargetVtx" Count="4" Offset="0x660" Static="Off">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsDividerBottomVtx" Count="4" Offset="0x6A0" Static="Off">
+        <Array Name="gOptionsDividerBrightnessVtx" Count="4" Offset="0x6A0" Static="Off">
             <Vtx/>
         </Array>
     </File>

@@ -1,6 +1,8 @@
 #ifndef SEQCMD_H
 #define SEQCMD_H
 
+#include "sequence.h"
+
 // ==== Primary commands ====
 
 #define SEQCMD_OP_MASK 0xF0000000

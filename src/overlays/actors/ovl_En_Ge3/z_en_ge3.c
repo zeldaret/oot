@@ -8,7 +8,7 @@
 #include "assets/objects/object_geldb/object_geldb.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnGe3_Init(Actor* thisx, PlayState* play2);
 void EnGe3_Destroy(Actor* thisx, PlayState* play);
@@ -33,7 +33,7 @@ ActorProfile En_Ge3_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -41,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000722, 0x00, 0x00 },
         ATELEM_NONE,
@@ -81,7 +81,7 @@ void EnGe3_Init(Actor* thisx, PlayState* play2) {
     EnGe3_ChangeAction(this, 0);
     this->actionFunc = EnGe3_ForceTalk;
     this->unk_30C = 0;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
 }
