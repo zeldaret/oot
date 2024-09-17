@@ -105,15 +105,21 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/bcopy.o"
     include "$(BUILD_DIR)/src/libultra/os/resetglobalintmask.o"
     include "$(BUILD_DIR)/src/libultra/os/interrupt.o"
+#if !OOT_PAL_N64
     include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/vi.o"
+#if OOT_PAL_N64
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/viswapcontext.o"
     include "$(BUILD_DIR)/src/libultra/io/pigetcmdq.o"
     include "$(BUILD_DIR)/src/libultra/io/epiread.o"
     include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
     include "$(BUILD_DIR)/src/libultra/io/cartrominit.o"
-#if OOT_DEBUG
+#if OOT_PAL_N64 || OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
@@ -690,6 +696,11 @@ beginseg
     include "$(BUILD_DIR)/src/audio/lib/thread.o"
     include "$(BUILD_DIR)/src/audio/lib/dcache.o"
     include "$(BUILD_DIR)/src/audio/lib/aisetnextbuf.o"
+#if OOT_PAL_N64
+    pad_text
+    pad_text
+    pad_text
+#endif
     include "$(BUILD_DIR)/src/audio/lib/playback.o"
     include "$(BUILD_DIR)/src/audio/lib/effects.o"
     include "$(BUILD_DIR)/src/audio/lib/seqplayer.o"
@@ -840,8 +851,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
-#if !OOT_DEBUG
+#if !OOT_PAL_N64 && !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+#endif
+#if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
 #endif
