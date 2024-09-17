@@ -93,6 +93,8 @@ void BgSpot07Taki_Draw(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
         if (this->dyna.actor.params == 0) {
 #if !OOT_PAL_N64
+            //! @bug 64x64 texture is scrolled mod 128 instead of mod 256 (i.e. 64 << G_TEXTURE_IMAGE_FRAC),
+            //  so there is a noticeable jump when the scrolling wraps around
             gSPSegment(POLY_XLU_DISP++, 0x09,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, ((frames * -1) & 0x7F),
                                         ((frames * -3) & 0xFF), 64, 64, 1, ((frames * 1) & 0x7F),
