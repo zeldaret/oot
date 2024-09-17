@@ -231,7 +231,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
     s32 pad;
 
-    if (PARAMS_GET_NOSHIFT(thisx->params, 15, 1)) {}
+    if (PARAMS_GET_NOSHIFT(thisx->params, 15, 1)) {
         phi_v0 = PARAMS_GET_S(thisx->params - 0x8000, 13, 3) + 1;
         thisx->params = PARAMS_GET_S(thisx->params, 0, 13) | (phi_v0 << 0xD);
     }
