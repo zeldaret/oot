@@ -8,6 +8,7 @@
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/objects/object_ik/object_ik.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -757,9 +758,11 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         } else if (this->actor.colChkInfo.health <= 10) {
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
+#if !OOT_PAL_N64
             if (this->switchFlag != 0xFF) {
                 Flags_SetSwitch(play, this->switchFlag);
             }
+#endif
             return;
         } else if (prevHealth == 50) {
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
@@ -1231,6 +1234,9 @@ void EnIk_CsAction4(EnIk* this, PlayState* play) {
 
 void EnIk_CsAction5(EnIk* this, PlayState* play) {
     if (EnIk_GetCue(play, 4) == NULL) {
+#if OOT_PAL_N64
+        Flags_SetSwitch(play, this->switchFlag);
+#endif
         Actor_Kill(&this->actor);
     }
 }

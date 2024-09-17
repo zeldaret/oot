@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot07_taki.h"
+#include "versions.h"
 #include "assets/objects/object_spot07_object/object_spot07_object.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -91,10 +92,17 @@ void BgSpot07Taki_Draw(Actor* thisx, PlayState* play) {
     if (!LINK_IS_ADULT) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
         if (this->dyna.actor.params == 0) {
+#if !OOT_PAL_N64
             gSPSegment(POLY_XLU_DISP++, 0x09,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, ((frames * -1) & 0x7F),
                                         ((frames * -3) & 0xFF), 64, 64, 1, ((frames * 1) & 0x7F),
                                         ((frames * -3) & 0xFF), 64, 64));
+#else
+            gSPSegment(POLY_XLU_DISP++, 0x09,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, ((frames * -1) & 0xFF),
+                                        ((frames * -3) & 0xFF), 64, 64, 1, ((frames * 1) & 0xFF),
+                                        ((frames * -3) & 0xFF), 64, 64));
+#endif
             gSPSegment(POLY_XLU_DISP++, 0x0A,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 0, ((frames * 3) & 0x1FF), 32,
                                         128, 1, frames * 0, ((frames * 3) & 0x1FF), 32, 128));
