@@ -631,7 +631,7 @@ void func_8008EE08(Player* this) {
  * Sets the "auto focus actor" to make Player and the camera look at the specified actor.
  * This function will first release lock-on and try to release parallel before setting up the new focus.
  * The new focus is considered "friendly" even if the actor specified is actually hostile.
- * 
+ *
  * Note that while this function does clear any current lock-on, the `autoFocusActor` does not
  * take precedence over `focusActor` in `Player_UpdateZTargeting`.
  */
