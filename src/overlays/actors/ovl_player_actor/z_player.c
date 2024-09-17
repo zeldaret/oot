@@ -3402,7 +3402,7 @@ void func_80836448(PlayState* play, Player* this, LinkAnimationHeader* anim) {
 
     Player_SetupAction(play, this, cond ? Player_Action_8084E368 : Player_Action_80843CEC, 0);
 
-    this->stateFlags1 |= PLAYER_STATE1_7;
+    this->stateFlags1 |= PLAYER_STATE1_DEAD;
 
     Player_AnimPlayOnce(play, this, anim);
     if (anim == &gPlayerAnim_link_derth_rebirth) {
@@ -3615,7 +3615,7 @@ void func_80836BEC(Player* this, PlayState* play) {
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) || (this->csAction != PLAYER_CSACTION_NONE) ||
-        (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) ||
+        (this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_29)) ||
         (this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT)) {
         // Don't allow Z-Targeting in various states
         this->zTargetActiveTimer = 0;
@@ -3992,7 +3992,7 @@ static s32 (*sActionChangeFuncs[])(Player* this, PlayState* play) = {
 s32 Player_TryActionChangeList(PlayState* play, Player* this, s8* actionChangeList, s32 updateUpperBody) {
     s32 i;
 
-    if (!(this->stateFlags1 & (PLAYER_STATE1_0 | PLAYER_STATE1_7 | PLAYER_STATE1_29))) {
+    if (!(this->stateFlags1 & (PLAYER_STATE1_0 | PLAYER_STATE1_DEAD | PLAYER_STATE1_29))) {
         if (updateUpperBody) {
             sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
 
@@ -4866,7 +4866,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
     if (this->actor.category == ACTORCAT_PLAYER) {
         exitIndex = 0;
 
-        if (!(this->stateFlags1 & PLAYER_STATE1_7) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
+        if (!(this->stateFlags1 & PLAYER_STATE1_DEAD) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (this->csAction == PLAYER_CSACTION_NONE) && !(this->stateFlags1 & PLAYER_STATE1_0) &&
             (((poly != NULL) && (exitIndex = SurfaceType_GetExitIndex(&play->colCtx, poly, bgId), exitIndex != 0)) ||
              (func_8083816C(sFloorType) && (this->floorProperty == FLOOR_PROPERTY_12)))) {
@@ -8944,7 +8944,7 @@ void func_80843AE8(PlayState* play, Player* this) {
                 this->av2.actionVar2 = -1;
             }
         } else if (gSaveContext.healthAccumulator == 0) {
-            this->stateFlags1 &= ~PLAYER_STATE1_7;
+            this->stateFlags1 &= ~PLAYER_STATE1_DEAD;
             if (this->stateFlags1 & PLAYER_STATE1_27) {
                 func_80838F18(play, this);
             } else {
@@ -11525,11 +11525,11 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         Collider_UpdateCylinder(&this->actor, &this->cylinder);
 
         if (!(this->stateFlags2 & PLAYER_STATE2_14)) {
-            if (!(this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_23))) {
+            if (!(this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_23))) {
                 CollisionCheck_SetOC(play, &play->colChkCtx, &this->cylinder.base);
             }
 
-            if (!(this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)) && (this->invincibilityTimer <= 0)) {
+            if (!(this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_26)) && (this->invincibilityTimer <= 0)) {
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->cylinder.base);
 
                 if (this->invincibilityTimer < 0) {
@@ -11546,7 +11546,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
     Math_Vec3f_Copy(&this->unk_A88, &this->bodyPartsPos[PLAYER_BODYPART_WAIST]);
 
-    if (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29)) {
+    if (this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29)) {
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     } else {
         this->actor.colChkInfo.mass = 50;
@@ -11905,7 +11905,7 @@ void func_8084B000(Player* this) {
         }
         phi_f18 = -0.1f - phi_f16;
     } else {
-        if (!(this->stateFlags1 & PLAYER_STATE1_7) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
+        if (!(this->stateFlags1 & PLAYER_STATE1_DEAD) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
             (this->actor.velocity.y >= ADJUST_SPEED_FOR_FRAME_RATE(-3.0f))) {
             phi_f18 = -0.2f;
         } else {
