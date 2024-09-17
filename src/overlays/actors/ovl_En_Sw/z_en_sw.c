@@ -384,7 +384,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
     }
 
     return false;
-} 
+}
 
 void EnSw_SetCollider(EnSw* this, PlayState* play) {
     if ((ENSW_GET_TYPE_EN(this) > SW_TYPE_NORMAL) && (this->actionFunc != EnSw_Crawl)) {
