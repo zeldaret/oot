@@ -47,7 +47,7 @@ ActorProfile En_Wood02_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_TREE,
+        COL_MATERIAL_TREE,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -55,7 +55,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK5,
+        ELEM_MATERIAL_UNK5,
         { 0x00000000, 0x00, 0x00 },
         { 0x0FC0074A, 0x00, 0x00 },
         ATELEM_NONE,
@@ -70,7 +70,7 @@ static f32 sSpawnDistance[] = { 707.0f, 525.0f, 510.0f, 500.0f, 566.0f, 141.0f }
 static s16 sSpawnAngle[] = { 0x1FFF, 0x4C9E, 0x77F5, 0xA5C9, 0xD6C3, 0xA000 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5600, ICHAIN_STOP),
 };
 
 static Gfx* D_80B3BF54[] = {
@@ -446,13 +446,11 @@ void EnWood02_Draw(Actor* thisx, PlayState* play) {
     } else if (D_80B3BF70[this->drawType & 0xF] != NULL) {
         Gfx_DrawDListOpa(play, D_80B3BF54[this->drawType & 0xF]);
         gDPSetEnvColor(POLY_XLU_DISP++, red, green, blue, 0);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 808),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_wood02.c", 808);
         gSPDisplayList(POLY_XLU_DISP++, D_80B3BF70[this->drawType & 0xF]);
     } else {
         Gfx_SetupDL_25Xlu(gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 814),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_wood02.c", 814);
         gSPDisplayList(POLY_XLU_DISP++, D_80B3BF54[this->drawType & 0xF]);
     }
 

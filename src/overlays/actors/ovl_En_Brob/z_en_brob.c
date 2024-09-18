@@ -7,7 +7,7 @@
 #include "z_en_brob.h"
 #include "assets/objects/object_brob/object_brob.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnBrob_Init(Actor* thisx, PlayState* play);
 void EnBrob_Destroy(Actor* thisx, PlayState* play);
@@ -36,7 +36,7 @@ ActorProfile En_Brob_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -44,7 +44,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0xFFCFFFFF, 0x03, 0x08 },
         { 0xFFCFFFFF, 0x01, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
@@ -91,7 +91,7 @@ void EnBrob_Init(Actor* thisx, PlayState* play) {
     this->colliders[1].dim.height *= thisx->scale.y;
     this->colliders[1].dim.yShift *= thisx->scale.y;
     this->actionFunc = NULL;
-    thisx->flags &= ~ACTOR_FLAG_0;
+    thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     EnBrob_SetupIdle(this, play);
 }
 

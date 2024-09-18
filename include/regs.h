@@ -1,6 +1,8 @@
 #ifndef REGS_H
 #define REGS_H
 
+#include "versions.h"
+
 #define REG_GROUPS 29 // number of REG groups, i.e. REG, SREG, OREG, etc.
 #define REG_PAGES 6
 #define REGS_PER_PAGE 16
@@ -181,6 +183,8 @@
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)
 #define R_ROOM_CULL_DEBUG_TARGET                 iREG(89)
 #define R_B_LABEL_DD                             WREG(0)
+#define R_PAUSE_PAGES_Y_ORIGIN_2                 WREG(2) // Complements PauseContext.pagesYOrigin1
+#define R_PAUSE_DEPTH_OFFSET                     WREG(3) // Offset position of all pages away from the camera
 #if OOT_NTSC
 #define R_B_LABEL_SCALE(i)                       WREG(8 + (i))
 #define R_B_LABEL_X(i)                           WREG(10 + (i))
@@ -226,6 +230,10 @@
 #define R_TEXT_ADJUST_COLOR_2_B                  VREG(38)
 #define R_OCARINA_BUTTONS_YPOS(note)             VREG(45 + (note))
 #define R_OCARINA_BUTTONS_YPOS_OFFSET            VREG(51)
+#define R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER_BASE VREG(60)
+#define R_KALEIDO_PROMPT_CURSOR_ALPHA            VREG(61)
+#define R_KALEIDO_PROMPT_CURSOR_ALPHA_STATE      VREG(62)
+#define R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER      VREG(63)
 #define R_ITEM_AMMO_X(i)                         VREG(64 + (i))
 #define R_ITEM_AMMO_Y(i)                         VREG(68 + (i))
 #define R_ITEM_ICON_WIDTH(i)                     VREG(76 + (i))

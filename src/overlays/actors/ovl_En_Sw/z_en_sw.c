@@ -1,7 +1,7 @@
 #include "z_en_sw.h"
 #include "assets/objects/object_st/object_st.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
 
 void EnSw_Init(Actor* thisx, PlayState* play);
 void EnSw_Destroy(Actor* thisx, PlayState* play);
@@ -34,13 +34,13 @@ ActorProfile En_Sw_Profile = {
 
 static ColliderJntSphElementInit sJntSphItemsInit[1] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFC3FFFE, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+        { ELEM_MATERIAL_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFC3FFFE, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
         { 2, { { 0, -300, 0 }, 21 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_HIT6, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    { COL_MATERIAL_HIT6, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
     1,
     sJntSphItemsInit,
 };
@@ -286,7 +286,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             this->collider.elements[0].base.atDmgInfo.damage *= 2;
             this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;
             this->actor.colChkInfo.health *= 2;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             break;
         default:
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
@@ -353,7 +353,7 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
                 this->unk_38A = 2;
                 this->actor.shape.shadowScale = 16.0f;
                 this->actor.gravity = -1.0f;
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 this->actionFunc = func_80B0DB00;
             }
 

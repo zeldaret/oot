@@ -38,7 +38,7 @@
 
         <Texture Name="gFileSelStereoJPNTex" OutName="stereo_jpn" Format="ia8" Width="48" Height="16" Offset="0x9000"/>
 
-        <Texture Name="gFileSelLTargetingJPNTex" OutName="l_targeting_jpn" Format="ia8" Width="64" Height="16" Offset="0x9300"/>
+        <Texture Name="gFileSelZTargetingJPNTex" OutName="z_targeting_jpn" Format="ia8" Width="64" Height="16" Offset="0x9300"/>
         <Texture Name="gFileSelSwitchJPNTex" OutName="switch_jpn" Format="ia8" Width="48" Height="16" Offset="0x9700"/>
         <Texture Name="gFileSelHoldJPNTex" OutName="hold_jpn" Format="ia8" Width="48" Height="16" Offset="0x9A00"/>
 
@@ -138,7 +138,7 @@
         <Texture Name="gFileSelMonoENGTex" OutName="mono_eng" Format="ia8" Width="48" Height="16" Offset="0x33080"/>
         <Texture Name="gFileSelStereoENGTex" OutName="stereo_eng" Format="ia8" Width="48" Height="16" Offset="0x33380"/>
 
-        <Texture Name="gFileSelLTargetingENGTex" OutName="l_targeting_eng" Format="ia8" Width="64" Height="16" Offset="0x33680"/>
+        <Texture Name="gFileSelZTargetingENGTex" OutName="z_targeting_eng" Format="ia8" Width="64" Height="16" Offset="0x33680"/>
         <Texture Name="gFileSelSwitchENGTex" OutName="switch_eng" Format="ia8" Width="48" Height="16" Offset="0x33A80"/>
         <Texture Name="gFileSelHoldENGTex" OutName="hold_eng" Format="ia8" Width="48" Height="16" Offset="0x33D80"/>
 

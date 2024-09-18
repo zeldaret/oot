@@ -35,7 +35,7 @@ ActorProfile Bg_Ydan_Maruta_Profile = {
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000004, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_WOOD,
@@ -46,7 +46,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000004, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_WOOD,
@@ -59,7 +59,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 
 static ColliderTrisInit sTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -141,7 +141,7 @@ void func_808BEFF4(BgYdanMaruta* this, PlayState* play) {
     }
     this->dyna.actor.shape.rot.x += 0x360;
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-    func_8002F974(&this->dyna.actor, NA_SE_EV_TOGE_STICK_ROLLING - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_TOGE_STICK_ROLLING - SFX_FLAG);
 }
 
 void func_808BF078(BgYdanMaruta* this, PlayState* play) {
@@ -178,7 +178,7 @@ void func_808BF108(BgYdanMaruta* this, PlayState* play) {
     this->dyna.actor.world.pos.x = (Math_CosS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.x;
     this->dyna.actor.world.pos.z = (Math_SinS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.z;
 
-    func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
 }
 
 void func_808BF1EC(BgYdanMaruta* this, PlayState* play) {

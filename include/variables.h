@@ -2,14 +2,15 @@
 #define VARIABLES_H
 
 #include "z64.h"
+#include "libc64/os_malloc.h"
 #include "segment_symbols.h"
 
 extern Mtx D_01000000;
 
-extern u32 osTvType;
-extern u32 osRomBase;
-extern u32 osResetType;
-extern u32 osCicId;
+extern void* osRomBase;
+extern s32 osTvType;
+extern s32 osResetType;
+extern s32 osCicId;
 extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 
@@ -40,7 +41,7 @@ extern OSViContext* __osViCurr;
 extern OSViContext* __osViNext;
 extern OSViMode osViModeFpalLan1;
 extern u32 __additional_scanline;
-extern const char gBuildTeam[];
+extern const char gBuildCreator[];
 extern const char gBuildDate[];
 extern const char gBuildMakeOption[];
 extern OSMesgQueue gPiMgrCmdQueue;
@@ -59,10 +60,6 @@ extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_d
 extern s32 gMaxActorId; // original name: "MaxProfile"
 extern s32 gDebugCamEnabled;
 extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
-extern u8 gWeatherMode;
-extern u8 gLightConfigAfterUnderwater;
-extern u8 gInterruptSongOfStorms;
-extern u16 gTimeSpeed;
 extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
@@ -97,14 +94,8 @@ extern u16 gSramSlotOffsets[];
 // 4 16-colors palettes
 extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
 extern u64 gMojiFontTex[]; // original name: "font_ff"
-extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
-extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
 
-extern s32 gScreenWidth;
-extern s32 gScreenHeight;
-extern Mtx gMtxClear;
-extern MtxF gMtxFClear;
 #if OOT_DEBUG
 extern u32 gIsCtrlr2Valid;
 #endif
@@ -168,12 +159,10 @@ extern s32 __osPfsLastChannel;
 extern const TempoData gTempoData;
 extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
-extern u8 gSoundFontTable[];
+extern AudioTable gSoundFontTable;
 extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
-
-extern SaveContext gSaveContext;
 
 extern u8 gUseCutsceneCam;
 extern u16 D_8015FCCC;
@@ -201,9 +190,9 @@ extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 
 extern PreNmiBuff* gAppNmiBufferPtr;
-extern uintptr_t gSegments[NUM_SEGMENTS];
 extern Scheduler gScheduler;
 extern PadMgr gPadMgr;
+extern IrqMgr gIrqMgr;
 extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
 extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
 extern volatile OSTime gRSPAudioTimeTotal;
@@ -234,8 +223,6 @@ extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
 extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 
-extern u32 __osMalloc_FreeBlockTest_Enable;
-extern Arena gSystemArena;
 extern OSPifRam __osContPifRam;
 extern u8 __osContLastCmd;
 extern u8 __osMaxControllers;

@@ -1,5 +1,5 @@
 #include "z64math.h"
-#include "fp_math.h"
+#include "libc64/math64.h"
 #include "z_lib.h"
 
 /**

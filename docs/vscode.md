@@ -60,12 +60,10 @@ A more complete `c_cpp_properties.json` with configurations for all supported ve
             "defines": [
                 "_LANGUAGE_C", // For gbi.h
                 // Version-specific
-                "OOT_VERSION=OOT_GC_EU_MQ_DBG",
+                "OOT_VERSION=GC_EU_MQ_DBG",
                 "OOT_REGION=REGION_EU",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
-                "OOT_PAL=1",
-                "OOT_MQ=1",
                 "OOT_DEBUG=1",
                 "F3DEX_GBI_2",
                 "F3DEX_GBI_PL",

@@ -9,16 +9,11 @@
 #include "versions.h"
 
 #if PLATFORM_N64
+#include "cic6105.h"
 #include "n64dd.h"
 #endif
 
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
-
-// TODO
-void func_800014E8_unknown(void);
-s32 func_801C8090_unknown(void);
-void func_801C7BC4_unknown(void);
-s32 func_801C7ED0_unknown(void);
 
 #if OOT_DEBUG
 void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
@@ -35,7 +30,7 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
     GfxPrint_Printf(printer, "NOT MARIO CLUB VERSION");
     GfxPrint_SetColor(printer, 255, 255, 255, 255);
     GfxPrint_SetPos(printer, 7, 23);
-    GfxPrint_Printf(printer, "[Creator:%s]", gBuildTeam);
+    GfxPrint_Printf(printer, "[Creator:%s]", gBuildCreator);
     GfxPrint_SetPos(printer, 7, 24);
     GfxPrint_Printf(printer, "[Date:%s]", gBuildDate);
     gfx = GfxPrint_Close(printer);
@@ -119,7 +114,7 @@ void ConsoleLogo_Draw(ConsoleLogoState* this) {
     Matrix_Scale(1.0, 1.0, 1.0, MTXMODE_APPLY);
     Matrix_RotateZYX(0, sTitleRotY, 0, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_title.c", 424);
     gSPDisplayList(POLY_OPA_DISP++, gNintendo64LogoDL);
     Gfx_SetupDL_39Opa(this->state.gfxCtx);
     gDPPipeSync(POLY_OPA_DISP++);
@@ -186,17 +181,17 @@ void ConsoleLogo_Destroy(GameState* thisx) {
 
 #if PLATFORM_N64
     if (this->unk_1E0) {
-        if (func_801C8090_unknown() != 0) {
+        if (func_801C7818() != 0) {
             func_800D31A0();
         }
-        func_801C7BC4_unknown();
+        func_801C7268();
     }
 #endif
 
     Sram_InitSram(&this->state, &this->sramCtx);
 
 #if PLATFORM_N64
-    func_800014E8_unknown();
+    func_800014E8();
 #endif
 }
 
@@ -205,8 +200,8 @@ void ConsoleLogo_Init(GameState* thisx) {
     ConsoleLogoState* this = (ConsoleLogoState*)thisx;
 
 #if PLATFORM_N64
-    if ((B_80121AE0 != 0) && ((u8)B_80121AE1 != 0) && (B_80121AE2 == 0)) {
-        if (func_801C7ED0_unknown() != 0) {
+    if ((D_80121210 != 0) && (D_80121211 != 0) && (D_80121212 == 0)) {
+        if (func_801C7658() != 0) {
             func_800D31A0();
         }
         this->unk_1E0 = true;
@@ -226,7 +221,7 @@ void ConsoleLogo_Init(GameState* thisx) {
     this->state.destroy = ConsoleLogo_Destroy;
     this->exit = false;
 
-#if OOT_VERSION < OOT_GC_US
+#if OOT_VERSION < GC_US
     if (!(gPadMgr.validCtrlrsMask & 1)) {
         gSaveContext.fileNum = 0xFEDC;
     } else {

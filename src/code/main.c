@@ -1,4 +1,20 @@
+#include "ultra64.h"
+
+// Declared before including other headers for BSS ordering
+extern uintptr_t gSegments[NUM_SEGMENTS];
+
+#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
+                               "ntsc-1.2:128"
+
+extern struct PreNmiBuff* gAppNmiBufferPtr;
+extern struct Scheduler gScheduler;
+extern struct PadMgr gPadMgr;
+extern struct IrqMgr gIrqMgr;
+
 #include "global.h"
+#include "fault.h"
+#include "segmented_address.h"
+#include "stack.h"
 #include "terminal.h"
 #include "versions.h"
 #if PLATFORM_N64
@@ -6,19 +22,21 @@
 #include "n64dd.h"
 #endif
 
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ntsc-1.2:168"
+
 extern u8 _buffersSegmentEnd[];
 
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
 
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224"
-
 PreNmiBuff* gAppNmiBufferPtr;
 Scheduler gScheduler;
 PadMgr gPadMgr;
 IrqMgr gIrqMgr;
 uintptr_t gSegments[NUM_SEGMENTS];
+
 OSThread sGraphThread;
 STACK(sGraphStack, 0x1800);
 STACK(sSchedStack, 0x600);
@@ -30,7 +48,7 @@ StackEntry sSchedStackInfo;
 StackEntry sAudioStackInfo;
 StackEntry sPadMgrStackInfo;
 StackEntry sIrqMgrStackInfo;
-AudioMgr gAudioMgr;
+AudioMgr sAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
@@ -58,12 +76,12 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
 #if PLATFORM_N64
-    func_800ADA80();
-    if ((u8)B_80121AE1 != 0) {
-        systemHeapStart = (uintptr_t)&D_801E8090;
+    func_800AD410();
+    if (D_80121211 != 0) {
+        systemHeapStart = (uintptr_t)&_n64ddSegmentEnd;
         SysCfb_Init(1);
     } else {
-        func_800ADAF8();
+        func_800AD488();
         systemHeapStart = (uintptr_t)_buffersSegmentEnd;
         SysCfb_Init(0);
     }
@@ -122,12 +140,12 @@ void Main(void* arg) {
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQueue);
 
     StackCheck_Init(&sAudioStackInfo, sAudioStack, STACK_TOP(sAudioStack), 0, 0x100, "audio");
-    AudioMgr_Init(&gAudioMgr, STACK_TOP(sAudioStack), THREAD_PRI_AUDIOMGR, THREAD_ID_AUDIOMGR, &gScheduler, &gIrqMgr);
+    AudioMgr_Init(&sAudioMgr, STACK_TOP(sAudioStack), THREAD_PRI_AUDIOMGR, THREAD_ID_AUDIOMGR, &gScheduler, &gIrqMgr);
 
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, STACK_TOP(sPadMgrStack), 0, 0x100, "padmgr");
     PadMgr_Init(&gPadMgr, &sSerialEventQueue, &gIrqMgr, THREAD_ID_PADMGR, THREAD_PRI_PADMGR, STACK_TOP(sPadMgrStack));
 
-    AudioMgr_WaitForInit(&gAudioMgr);
+    AudioMgr_WaitForInit(&sAudioMgr);
 
     StackCheck_Init(&sGraphStackInfo, sGraphStack, STACK_TOP(sGraphStack), 0, 0x100, "graph");
     osCreateThread(&sGraphThread, THREAD_ID_GRAPH, Graph_ThreadEntry, arg, STACK_TOP(sGraphStack), THREAD_PRI_GRAPH);

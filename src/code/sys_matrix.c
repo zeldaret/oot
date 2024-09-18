@@ -1,4 +1,7 @@
 #include "global.h"
+#if OOT_DEBUG
+#include "fault.h"
+#endif
 
 // clang-format off
 Mtx gMtxClear = gdSPDefMtx(
@@ -16,7 +19,7 @@ MtxF gMtxFClear = {
 };
 // clang-format on
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"
@@ -611,7 +614,7 @@ Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line) {
     return Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(sCurrentMatrix, file, line), dest);
 }
 
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, const char* file, int line) {
+Mtx* Matrix_Finalize(GraphicsContext* gfxCtx, const char* file, int line) {
     return Matrix_ToMtx(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)), file, line);
 }
 
@@ -621,7 +624,7 @@ Mtx* Matrix_ToMtx(Mtx* dest) {
     return Matrix_MtxFToMtx(sCurrentMatrix, dest);
 }
 
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx) {
+Mtx* Matrix_Finalize(GraphicsContext* gfxCtx) {
     return Matrix_ToMtx(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));
 }
 
@@ -1017,7 +1020,7 @@ void Matrix_SetTranslateUniformScaleMtx(Mtx* mtx, f32 scale, f32 translateX, f32
     MtxF mf;
 
     Matrix_SetTranslateUniformScaleMtxF(&mf, scale, translateX, translateY, translateZ);
-    guMtxF2L(&mf, mtx);
+    guMtxF2L(mf.mf, mtx);
 }
 
 void Matrix_SetTranslateUniformScaleMtx2(Mtx* mtx, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {

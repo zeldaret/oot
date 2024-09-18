@@ -22,7 +22,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -30,7 +30,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -229,7 +229,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, PlayState* play) {
 
     if (this->actor.xzDistToPlayer < 200.0f && this->actor.world.pos.y <= player->actor.world.pos.y) {
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         targetHeight = 40.0f + -10.0f * gSaveContext.save.linkAge;
 
         this->targetY = player->actor.world.pos.y + targetHeight;

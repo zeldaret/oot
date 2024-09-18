@@ -12,6 +12,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "assets/objects/object_hintnuts/object_hintnuts.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -38,6 +39,10 @@ void EnDntNomal_TargetTalk(EnDntNomal* this, PlayState* play);
 void EnDntNomal_TargetGivePrize(EnDntNomal* this, PlayState* play);
 void EnDntNomal_TargetReturn(EnDntNomal* this, PlayState* play);
 void EnDntNomal_TargetBurrow(EnDntNomal* this, PlayState* play);
+
+#if OOT_PAL_N64
+void EnDntNomal_DoNothing(EnDntNomal* this, PlayState* play);
+#endif
 
 void EnDntNomal_SetupStageWait(EnDntNomal* this, PlayState* play);
 void EnDntNomal_SetupStageCelebrate(EnDntNomal* this, PlayState* play);
@@ -70,7 +75,7 @@ ActorProfile En_Dnt_Nomal_Profile = {
 
 static ColliderCylinderInit sBodyCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -78,7 +83,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -90,7 +95,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
 
 static ColliderQuadInit sTargetQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -98,7 +103,7 @@ static ColliderQuadInit sTargetQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x0001F824, 0x00, 0x00 },
         ATELEM_NONE,
@@ -122,7 +127,7 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
     if (this->type < ENDNTNOMAL_TARGET) {
         this->type = ENDNTNOMAL_TARGET;
     }
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.colChkInfo.mass = 0xFF;
     this->objectId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
@@ -411,9 +416,22 @@ void EnDntNomal_TargetBurrow(EnDntNomal* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (frame >= this->endFrame) {
+#if !OOT_PAL_N64
         this->actionFunc = EnDntNomal_SetupTargetWait;
+#else
+        this->hitCounter = 0;
+        this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
+        this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+        Math_Vec3f_Copy(&this->actor.world.pos, &this->actor.home.pos);
+        this->actionFunc = EnDntNomal_DoNothing;
+#endif
     }
 }
+
+#if OOT_PAL_N64
+void EnDntNomal_DoNothing(EnDntNomal* this, PlayState* play) {
+}
+#endif
 
 void EnDntNomal_SetupStageWait(EnDntNomal* this, PlayState* play) {
     if (this->timer3 == 0) {
@@ -869,8 +887,7 @@ void EnDntNomal_DrawStageScrub(Actor* thisx, PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, sLeafColors[this->type - ENDNTNOMAL_STAGE].r,
                    sLeafColors[this->type - ENDNTNOMAL_STAGE].g, sLeafColors[this->type - ENDNTNOMAL_STAGE].b, 255);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1814),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dnt_nomal.c", 1814);
     gSPDisplayList(POLY_OPA_DISP++, gDntStageFlowerDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1817);
     if (this->actionFunc == EnDntNomal_StageCelebrate) {
@@ -886,8 +903,7 @@ void EnDntNomal_DrawTargetScrub(Actor* thisx, PlayState* play) {
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnDntNomal_PostLimbDraw, this);
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1848),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_dnt_nomal.c", 1848);
     gSPDisplayList(POLY_OPA_DISP++, gHintNutsFlowerDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1851);
 }

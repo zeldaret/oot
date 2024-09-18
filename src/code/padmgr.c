@@ -29,6 +29,7 @@
  * done while waiting for this operation to complete.
  */
 #include "global.h"
+#include "fault.h"
 #include "terminal.h"
 
 #define PADMGR_LOG(controllerNum, msg)                                                                \
@@ -236,7 +237,7 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
         if (osMotorInit(serialEventQueue, &padMgr->rumblePfs[i], i) == 0) {
             // If there is a rumble pak attached to this controller, stop it
 
-            if (gFaultMgr.msgId == 0 && padMgr->rumbleOnTimer != 0) {
+            if (!FAULT_MSG_ID && padMgr->rumbleOnTimer != 0) {
                 PADMGR_LOG(i, T("振動パック 停止", "Stop rumble pak"));
             }
             osMotorStop(&padMgr->rumblePfs[i]);
@@ -347,8 +348,6 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
 
 void PadMgr_HandleRetrace(PadMgr* padMgr) {
     OSMesgQueue* serialEventQueue = PadMgr_AcquireSerialEventQueue(padMgr);
-    u32 mask;
-    s32 i;
 
     // Begin reading controller data
     osContStartReadData(serialEventQueue);
@@ -383,23 +382,27 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
 
     PadMgr_ReleaseSerialEventQueue(padMgr, serialEventQueue);
 
-    // Update the state of connected controllers
-    mask = 0;
-    for (i = 0; i < MAXCONTROLLERS; i++) {
-        if (padMgr->padStatus[i].errno == 0) {
-            // Only standard N64 controllers are supported
-            if (padMgr->padStatus[i].type == CONT_TYPE_NORMAL) {
-                mask |= 1 << i;
-            } else {
-                LOG_HEX("this->pad_status[i].type", padMgr->padStatus[i].type, "../padmgr.c", 458);
-                PRINTF(T("知らない種類のコントローラが接続されています\n",
-                         "An unknown type of controller is connected\n"));
+    {
+        u32 mask = 0;
+        s32 i;
+
+        // Update the state of connected controllers
+        for (i = 0; i < MAXCONTROLLERS; i++) {
+            if (padMgr->padStatus[i].errno == 0) {
+                // Only standard N64 controllers are supported
+                if (padMgr->padStatus[i].type == CONT_TYPE_NORMAL) {
+                    mask |= 1 << i;
+                } else {
+                    LOG_HEX("this->pad_status[i].type", padMgr->padStatus[i].type, "../padmgr.c", 458);
+                    PRINTF(T("知らない種類のコントローラが接続されています\n",
+                             "An unknown type of controller is connected\n"));
+                }
             }
         }
+        padMgr->validCtrlrsMask = mask;
     }
-    padMgr->validCtrlrsMask = mask;
 
-    if (gFaultMgr.msgId != 0) {
+    if (FAULT_MSG_ID != 0) {
         // If fault is active, no rumble
         PadMgr_RumbleStop(padMgr);
     } else if (padMgr->rumbleOffTimer > 0) {

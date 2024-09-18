@@ -1,6 +1,6 @@
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 uintptr_t sSysCfbFbPtr[2];
 uintptr_t sSysCfbEnd;
@@ -32,7 +32,11 @@ void SysCfb_Init(s32 n64dd) {
         PRINTF("RAM4M mode\n");
         sSysCfbEnd = 0x80400000;
     } else {
+#if PLATFORM_N64
+        LogUtils_HungupThread("../sys_cfb.c", 322);
+#else
         LogUtils_HungupThread("../sys_cfb.c", 354);
+#endif
     }
 
     screenSize = SCREEN_WIDTH * SCREEN_HEIGHT;

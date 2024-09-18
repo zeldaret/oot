@@ -26,6 +26,7 @@
 #include "z64view.h"
 
 union Color_RGBA8_u32;
+struct Player;
 struct QuestHintCmd;
 struct VisMono;
 
@@ -63,14 +64,14 @@ typedef struct PlayState {
     /* 0x10B20 */ AnimTaskQueue animTaskQueue;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
-    /* 0x11D34 */ TransitionActorContext transiActorCtx;
-    /* 0x11D3C */ void (*playerInit)(Player* player, struct PlayState* play, FlexSkeletonHeader* skelHeader);
-    /* 0x11D40 */ void (*playerUpdate)(Player* player, struct PlayState* play, Input* input);
+    /* 0x11D34 */ TransitionActorList transitionActors;
+    /* 0x11D3C */ void (*playerInit)(struct Player* player, struct PlayState* play, FlexSkeletonHeader* skelHeader);
+    /* 0x11D40 */ void (*playerUpdate)(struct Player* player, struct PlayState* play, Input* input);
     /* 0x11D44 */ int (*isPlayerDroppingFish)(struct PlayState* play);
     /* 0x11D48 */ s32 (*startPlayerFishing)(struct PlayState* play);
-    /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, Player* player);
+    /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, struct Player* player);
     /* 0x11D50 */ s32 (*tryPlayerCsAction)(struct PlayState* play, Actor* actor, s32 csAction);
-    /* 0x11D54 */ void (*func_11D54)(Player* player, struct PlayState* play);
+    /* 0x11D54 */ void (*func_11D54)(struct Player* player, struct PlayState* play);
     /* 0x11D58 */ s32 (*damagePlayer)(struct PlayState* play, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct PlayState* play, Actor* actor);
     /* 0x11D60 */ MtxF viewProjectionMtxF;
@@ -81,8 +82,7 @@ typedef struct PlayState {
     /* 0x11DE9 */ u8 haltAllActors;
     /* 0x11DEA */ u8 spawn;
     /* 0x11DEB */ u8 numActorEntries;
-    /* 0x11DEC */ u8 numRooms;
-    /* 0x11DF0 */ RomFile* roomList;
+    /* 0x11DEC */ RoomList roomList;
     /* 0x11DF4 */ ActorEntry* playerEntry;
     /* 0x11DF8 */ ActorEntry* actorEntryList;
     /* 0x11DFC */ void* unk_11DFC;
@@ -140,7 +140,7 @@ s32 Play_SetCameraAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec
 s32 Play_SetCameraFov(PlayState* this, s16 camId, f32 fov);
 s32 Play_SetCameraRoll(PlayState* this, s16 camId, s16 roll);
 void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId);
-s32 Play_InitCameraDataUsingPlayer(PlayState* this, s16 camId, Player* player, s16 setting);
+s32 Play_InitCameraDataUsingPlayer(PlayState* this, s16 camId, struct Player* player, s16 setting);
 s32 Play_RequestCameraSetting(PlayState* this, s16 camId, s16 setting);
 void Play_ReturnToMainCam(PlayState* this, s16 camId, s16 duration);
 void Play_SaveSceneFlags(PlayState* this);

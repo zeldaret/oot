@@ -45,7 +45,7 @@ ActorProfile Bg_Hidan_Fwbig_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -53,7 +53,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
@@ -170,7 +170,7 @@ void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, PlayState* play) {
     if (this->timer == 0) {
         this->actionFunc = BgHidanFwbig_Rise;
     }
-    func_8002F994(&this->actor, this->timer);
+    Actor_PlaySfx_FlaggedTimer(&this->actor, this->timer);
 }
 
 void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, PlayState* play) {
@@ -236,9 +236,9 @@ void BgHidanFwbig_Update(Actor* thisx, PlayState* play) {
 
     if ((this->actor.home.pos.y - 200.0f) < this->actor.world.pos.y) {
         if (!IS_CUTSCENE_LAYER) {
-            func_8002F974(&this->actor, NA_SE_EV_BURNING - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_BURNING - SFX_FLAG);
         } else if ((s16)this->actor.world.pos.x == -513) {
-            func_8002F974(&this->actor, NA_SE_EV_FLAME_OF_FIRE - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_FLAME_OF_FIRE - SFX_FLAG);
         }
         BgHidanFwbig_MoveCollider(this, play);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
@@ -268,8 +268,7 @@ void BgHidanFwbig_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->gameplayFrames % 0x80, 0, 0x20, 0x40, 1, 0,
                                 (u8)(play->gameplayFrames * -15), 0x20, 0x40));
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_fwbig.c", 660),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_hidan_fwbig.c", 660);
 
     gSPDisplayList(POLY_XLU_DISP++, gFireTempleBigFireWallDL);
 

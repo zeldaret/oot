@@ -1,17 +1,13 @@
+#pragma increment_block_number "ntsc-1.2:128"
+
 #include "global.h"
 #include "cic6105.h"
 #include "fault.h"
 
-// TODO N64 fault.c functions
-void func_800AE1E0_unknown(s32, s32);
-void func_800AE258_unknown(const char*, ...);
-
 s32 func_80001714(void);
 
-extern u64 cic6105ucodeTextStart[];
-
 OSTask D_800067C0_unknown = {
-    4, 0, rspbootTextStart, 0x3E8, cic6105ucodeTextStart, 0x20, (u64*)gBuildTeam, 8, NULL, 0, NULL, 0, NULL, 0, NULL, 0,
+    4, 0, rspbootTextStart, 0x3E8, cic6105TextStart, 0x20, (u64*)gBuildCreator, 8, NULL, 0, NULL, 0, NULL, 0, NULL, 0,
 };
 
 s32 B_80008EE0;
@@ -32,19 +28,19 @@ void CIC6105_FaultClient(void) {
     s32 spStatus;
 
     spStatus = IO_READ(SP_STATUS_REG);
-    func_800AE1E0_unknown(48, 200);
+    Fault_SetCursor(48, 200);
     if (spStatus & SP_STATUS_SIG7) {
-        func_800AE258_unknown("OCARINA %08x %08x", B_80008EF8, B_80008EFC);
+        Fault_Printf("OCARINA %08x %08x", B_80008EF8, B_80008EFC);
     } else {
-        func_800AE258_unknown("LEGEND %08x %08x", B_80008EF8, B_80008EFC);
+        Fault_Printf("LEGEND %08x %08x", B_80008EF8, B_80008EFC);
     }
-    func_800AE1E0_unknown(40, 184);
-    func_800AE258_unknown("ROM_F");
-    func_800AE258_unknown(" [Creator:%s]", gBuildTeam);
-    func_800AE1E0_unknown(56, 192);
-    func_800AE258_unknown("[Date:%s]", gBuildDate);
-    func_800AE1E0_unknown(96, 32);
-    func_800AE258_unknown("I LOVE YOU %08x", func_80001714());
+    Fault_SetCursor(40, 184);
+    Fault_Printf("ROM_F");
+    Fault_Printf(" [Creator:%s]", gBuildCreator);
+    Fault_SetCursor(56, 192);
+    Fault_Printf("[Date:%s]", gBuildDate);
+    Fault_SetCursor(96, 32);
+    Fault_Printf("I LOVE YOU %08x", func_80001714());
 }
 
 void CIC6105_AddFaultClient(void) {

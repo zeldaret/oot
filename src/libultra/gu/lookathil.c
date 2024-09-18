@@ -157,5 +157,5 @@ void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, 
     guLookAtHiliteF(mf, l, h, xEye, yEye, zEye, xAt, yAt, zAt, xUp, yUp, zUp, xl1, yl1, zl1, xl2, yl2, zl2, hiliteWidth,
                     hiliteHeight);
 
-    guMtxF2L((MtxF*)mf, m);
+    guMtxF2L(mf, m);
 }

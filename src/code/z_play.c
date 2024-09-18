@@ -1,11 +1,16 @@
+
 #include "global.h"
+#include "fault.h"
 #include "quake.h"
 #include "terminal.h"
 #include "versions.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 
 #include "z64frame_advance.h"
 
-#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
+#pragma increment_block_number "gc-eu:8 gc-eu-mq:8 gc-jp:8 gc-jp-ce:8 gc-jp-mq:8 gc-us:8 gc-us-mq:8"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -171,9 +176,11 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
-#if OOT_VERSION < OOT_GC_EU_MQ_DBG
+#if PLATFORM_N64
+                HUNGUP_AND_CRASH("../z_play.c", 2269);
+#elif OOT_VERSION < GC_EU_MQ_DBG
                 HUNGUP_AND_CRASH("../z_play.c", 2287);
-#elif OOT_VERSION < OOT_GC_JP_CE
+#elif OOT_VERSION < GC_JP_CE
                 HUNGUP_AND_CRASH("../z_play.c", 2290);
 #else
                 HUNGUP_AND_CRASH("../z_play.c", 2293);
@@ -235,6 +242,12 @@ void Play_Destroy(GameState* thisx) {
     KaleidoManager_Destroy();
     ZeldaArena_Cleanup();
 
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_14 != NULL)) {
+        B_80121220->unk_14(this);
+    }
+#endif
+
 #if OOT_DEBUG
     Fault_RemoveClient(&D_801614B8);
 #endif
@@ -264,6 +277,13 @@ void Play_Init(GameState* thisx) {
 #endif
 
     GameState_Realloc(&this->state, 0x1D4790);
+
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_10 != NULL)) {
+        B_80121220->unk_10(this);
+    }
+#endif
+
     KaleidoManager_Init(this);
     View_Init(&this->view, gfxCtx);
     Audio_SetExtraFilter(0);
@@ -356,16 +376,26 @@ void Play_Init(GameState* thisx) {
 
     PRINTF("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.save.entranceIndex), gSaveContext.sceneLayer);
 
+#if PLATFORM_GC
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
     if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
         gSaveContext.sceneLayer == 6) {
-        PRINTF("エンディングはじまるよー\n"); // "The ending starts"
+        PRINTF(T("エンディングはじまるよー\n", "The ending starts\n"));
         ((void (*)(void))0x81000000)();
-        PRINTF("出戻り？\n"); // "Return?"
+        PRINTF(T("出戻り？\n", "Return?\n"));
     }
+#endif
 
+#if PLATFORM_N64
+    if ((B_80121220 != NULL && B_80121220->unk_54 != NULL && B_80121220->unk_54(this))) {
+    } else {
+        Cutscene_HandleEntranceTriggers(this);
+    }
+#else
     Cutscene_HandleEntranceTriggers(this);
+#endif
+
     KaleidoScopeCall_Init(this);
     Interface_Init(this);
 
@@ -429,8 +459,8 @@ void Play_Init(GameState* thisx) {
     zAlloc = (uintptr_t)GAME_STATE_ALLOC(&this->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
     ZeldaArena_Init((void*)zAllocAligned, zAllocSize - (zAllocAligned - zAlloc));
-    // "Zelda Heap"
-    PRINTF("ゼルダヒープ %08x-%08x\n", zAllocAligned, (u8*)zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
+    PRINTF(T("ゼルダヒープ %08x-%08x\n", "Zelda Heap %08x-%08x\n"), zAllocAligned,
+           (u8*)zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
 
 #if OOT_DEBUG
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
@@ -438,7 +468,8 @@ void Play_Init(GameState* thisx) {
 
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
-    while (!func_800973FC(this, &this->roomCtx)) {
+    // Busyloop until the room loads
+    while (!Room_ProcessRoomRequest(this, &this->roomCtx)) {
         ; // Empty Loop
     }
 
@@ -533,7 +564,7 @@ void Play_Update(PlayState* this) {
             switch (gTransitionTileState) {
                 case TRANS_TILE_PROCESS:
                     if (TransitionTile_Init(&gTransitionTile, 10, 7) == NULL) {
-                        PRINTF("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
+                        PRINTF(T("fbdemo_init呼出し失敗！\n", "fbdemo_init call failed!\n"));
                         gTransitionTileState = TRANS_TILE_OFF;
                     } else {
                         gTransitionTile.zBuffer = (u16*)gZBuffer;
@@ -566,11 +597,9 @@ void Play_Update(PlayState* this) {
                         // fade out bgm if "continue bgm" flag is not set
                         if (!(gEntranceTable[this->nextEntranceIndex + sceneLayer].field &
                               ENTRANCE_INFO_CONTINUE_BGM_FLAG)) {
-                            // "Sound initialized. 111"
-                            PRINTF("\n\n\nサウンドイニシャル来ました。111");
+                            PRINTF(T("\n\n\nサウンドイニシャル来ました。111", "\n\n\nSound initialized. 111"));
                             if ((this->transitionType < TRANS_TYPE_MAX) && !Environment_IsForcedSequenceDisabled()) {
-                                // "Sound initialized. 222"
-                                PRINTF("\n\n\nサウンドイニシャル来ました。222");
+                                PRINTF(T("\n\n\nサウンドイニシャル来ました。222", "\n\n\nSound initialized. 222"));
                                 func_800F6964(0x14);
                                 gSaveContext.seqId = (u8)NA_BGM_DISABLED;
                                 gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
@@ -922,7 +951,7 @@ void Play_Update(PlayState* this) {
                     }
                 } else {
                     PLAY_LOG(3606);
-                    func_800973FC(this, &this->roomCtx);
+                    Room_ProcessRoomRequest(this, &this->roomCtx);
 
                     PLAY_LOG(3612);
                     CollisionCheck_AT(this, &this->colChkCtx);
@@ -971,11 +1000,11 @@ void Play_Update(PlayState* this) {
             if (this->viewpoint != VIEWPOINT_NONE) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if (IS_PAUSED(&this->pauseCtx)) {
-                        // "Changing viewpoint is prohibited due to the kaleidoscope"
-                        PRINTF(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
+                        PRINTF(VT_FGCOL(CYAN) T("カレイドスコープ中につき視点変更を禁止しております\n",
+                                                "Changing viewpoint is prohibited due to the kaleidoscope\n") VT_RST);
                     } else if (Player_InCsMode(this)) {
-                        // "Changing viewpoint is prohibited during the cutscene"
-                        PRINTF(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
+                        PRINTF(VT_FGCOL(CYAN) T("デモ中につき視点変更を禁止しております\n",
+                                                "Changing viewpoint is prohibited during the cutscene\n") VT_RST);
                     } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
                         Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1056,6 +1085,10 @@ skip:
 }
 
 void Play_DrawOverlayElements(PlayState* this) {
+#if PLATFORM_N64
+    s32 pad;
+#endif
+
     if (IS_PAUSED(&this->pauseCtx)) {
         KaleidoScopeCall_Draw(this);
     }
@@ -1145,7 +1178,12 @@ void Play_Draw(PlayState* this) {
 
             TransitionFade_Draw(&this->transitionFadeFlash, &gfxP);
 
-            if (gVisMonoColor.a > 0) {
+#if PLATFORM_N64
+            if (gVisMonoColor.a != 0)
+#else
+            if (gVisMonoColor.a > 0)
+#endif
+            {
                 gPlayVisMono.vis.primColor.rgba = gVisMonoColor.rgba;
                 VisMono_Draw(&gPlayVisMono, &gfxP);
             }
@@ -1455,6 +1493,19 @@ void* Play_LoadFile(PlayState* this, RomFile* file) {
     return allocp;
 }
 
+#if PLATFORM_N64
+void* Play_LoadFileFromDiskDrive(PlayState* this, RomFile* file) {
+    u32 size;
+    void* allocp;
+
+    size = file->vromEnd - file->vromStart;
+    allocp = THA_AllocTailAlign16(&this->state.tha, size);
+    func_801C7C1C(allocp, file->vromStart, size);
+
+    return allocp;
+}
+#endif
+
 void Play_InitEnvironment(PlayState* this, s16 skyboxId) {
     Skybox_Init(&this->state, &this->skyboxCtx, skyboxId);
     Environment_Init(this, &this->envCtx, 0);
@@ -1474,34 +1525,62 @@ void Play_InitScene(PlayState* this, s32 spawn) {
 
     Object_InitContext(this, &this->objectCtx);
     LightContext_Init(this, &this->lightCtx);
-    TransitionActor_InitContext(&this->state, &this->transiActorCtx);
-    func_80096FD4(this, &this->roomCtx.curRoom);
+    Scene_ResetTransitionActorList(&this->state, &this->transitionActors);
+    Room_Init(this, &this->roomCtx.curRoom);
     R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
-    gSaveContext.worldMapArea = 0;
+    gSaveContext.worldMapArea = WORLD_MAP_AREA_HYRULE_FIELD;
     Scene_ExecuteCommands(this, this->sceneSegment);
     Play_InitEnvironment(this, this->skyboxId);
 }
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
-    SceneTableEntry* scene = &gSceneTable[sceneId];
+    SceneTableEntry* scene;
     u32 size;
 
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_48 != NULL)) {
+        scene = B_80121220->unk_48(sceneId, gSceneTable);
+    } else {
+        scene = &gSceneTable[sceneId];
+        scene->unk_13 = 0;
+    }
+#else
+    scene = &gSceneTable[sceneId];
     scene->unk_13 = 0;
+#endif
+
     this->loadedScene = scene;
     this->sceneId = sceneId;
     this->sceneDrawConfig = scene->drawConfig;
 
     PRINTF("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
 
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (scene->unk_12 > 0)) {
+        this->sceneSegment = Play_LoadFileFromDiskDrive(this, &scene->sceneFile);
+        scene->unk_13 = 1;
+    } else {
+        this->sceneSegment = Play_LoadFile(this, &scene->sceneFile);
+        scene->unk_13 = 0;
+    }
+#else
     this->sceneSegment = Play_LoadFile(this, &scene->sceneFile);
     scene->unk_13 = 0;
+#endif
+
     ASSERT(this->sceneSegment != NULL, "this->sceneSegment != NULL", "../z_play.c", 4960);
 
     gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
 
     Play_InitScene(this, spawn);
 
-    size = func_80096FE8(this, &this->roomCtx);
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_0C != NULL)) {
+        B_80121220->unk_0C(this);
+    }
+#endif
+
+    size = Room_SetupFirstRoom(this, &this->roomCtx);
 
     PRINTF("ROOM SIZE=%fK\n", size / 1024.0f);
 }
@@ -1796,11 +1875,13 @@ void Play_LoadToLastEntrance(PlayState* this) {
         (this->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE) || (this->sceneId == SCENE_GANON_BOSS)) {
         this->nextEntranceIndex = ENTR_GANONS_TOWER_COLLAPSE_EXTERIOR_0;
         Item_Give(this, ITEM_SWORD_MASTER);
+#if OOT_VERSION >= PAL_1_1
     } else if ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11) ||
                (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12) ||
                (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13) ||
                (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15)) {
         this->nextEntranceIndex = ENTR_HYRULE_FIELD_6;
+#endif
     } else {
         this->nextEntranceIndex = gSaveContext.save.entranceIndex;
     }
@@ -1833,7 +1914,7 @@ s32 func_800C0D34(PlayState* this, Actor* actor, s16* yaw) {
         return 0;
     }
 
-    transitionActor = &this->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(actor)];
+    transitionActor = &this->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(actor)];
     frontRoom = transitionActor->sides[0].room;
 
     if (frontRoom == transitionActor->sides[1].room) {

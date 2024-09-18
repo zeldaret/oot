@@ -490,9 +490,9 @@ void Player_SetBootData(PlayState* play, Player* this) {
 }
 
 int Player_InBlockingCsMode(PlayState* play, Player* this) {
-    return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csAction != PLAYER_CSACTION_NONE) ||
+    return (this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_29)) || (this->csAction != PLAYER_CSACTION_NONE) ||
            (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
-           (this->stateFlags3 & PLAYER_STATE3_7) ||
+           (this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT) ||
            ((gSaveContext.magicState != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemAction) >= 0));
 }
 
@@ -502,8 +502,15 @@ int Player_InCsMode(PlayState* play) {
     return Player_InBlockingCsMode(play, this) || (this->unk_6AD == 4);
 }
 
-s32 func_8008E9C4(Player* this) {
-    return (this->stateFlags1 & PLAYER_STATE1_4);
+/**
+ * Checks if Player is currently locked onto a hostile actor.
+ * `PLAYER_STATE1_HOSTILE_LOCK_ON` controls Player's "battle" response to hostile actors.
+ *
+ * Note that within Player, `Player_UpdateHostileLockOn` exists, which updates the flag and also returns the check.
+ * Player can use this function instead if the flag should be checked, but not updated.
+ */
+s32 Player_CheckHostileLockOn(Player* this) {
+    return (this->stateFlags1 & PLAYER_STATE1_HOSTILE_LOCK_ON);
 }
 
 int Player_IsChildWithHylianShield(Player* this) {
@@ -602,8 +609,8 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
 }
 
 void func_8008EDF0(Player* this) {
-    this->unk_664 = NULL;
-    this->stateFlags2 &= ~PLAYER_STATE2_13;
+    this->focusActor = NULL;
+    this->stateFlags2 &= ~PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
 }
 
 void func_8008EE08(Player* this) {
@@ -611,8 +618,8 @@ void func_8008EE08(Player* this) {
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
-        this->stateFlags1 &= ~(PLAYER_STATE1_15 | PLAYER_STATE1_16 | PLAYER_STATE1_17 | PLAYER_STATE1_18 |
-                               PLAYER_STATE1_19 | PLAYER_STATE1_30);
+        this->stateFlags1 &= ~(PLAYER_STATE1_Z_TARGETING | PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS | PLAYER_STATE1_PARALLEL |
+                               PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE);
     } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_21))) {
         this->stateFlags1 |= PLAYER_STATE1_19;
     }
@@ -624,9 +631,9 @@ void func_8008EEAC(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
 
     func_8008EE08(this);
-    this->unk_664 = actor;
+    this->focusActor = actor;
     this->unk_684 = actor;
-    this->stateFlags1 |= PLAYER_STATE1_16;
+    this->stateFlags1 |= PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS;
     Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);
     Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_TARGET_FRIENDLY);
 }
@@ -1041,7 +1048,7 @@ void func_8008F87C(PlayState* play, Player* this, SkelAnime* skelAnime, Vec3f* p
     s16 temp2;
     s32 temp3;
 
-    if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_7) &&
+    if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_DEAD) &&
         (Player_ActionToMagicSpell(this, this->itemAction) < 0)) {
         s32 pad;
 
@@ -1199,7 +1206,8 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
 
             if ((sLeftHandType == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.save.info.playerData.swordHealth <= 0.0f)) {
                 dLists += 4;
-            } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & PLAYER_STATE1_25)) {
+            } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) &&
+                       (this->stateFlags1 & PLAYER_STATE1_BOOMERANG_THROWN)) {
                 dLists = gPlayerLeftHandOpenDLs + gSaveContext.save.linkAge;
                 sLeftHandType = PLAYER_MODELTYPE_LH_OPEN;
             } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speed > 2.0f) &&
@@ -1311,17 +1319,17 @@ u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo
 }
 
 void Player_UpdateShieldCollider(PlayState* play, Player* this, ColliderQuad* collider, Vec3f* quadSrc) {
-    static u8 shieldColTypes[PLAYER_SHIELD_MAX] = {
-        COLTYPE_METAL,
-        COLTYPE_WOOD,
-        COLTYPE_METAL,
-        COLTYPE_METAL,
+    static u8 shieldColMaterials[PLAYER_SHIELD_MAX] = {
+        COL_MATERIAL_METAL,
+        COL_MATERIAL_WOOD,
+        COL_MATERIAL_METAL,
+        COL_MATERIAL_METAL,
     };
 
     if (this->stateFlags1 & PLAYER_STATE1_22) {
         Vec3f quadDest[4];
 
-        this->shieldQuad.base.colType = shieldColTypes[this->currentShield];
+        this->shieldQuad.base.colMaterial = shieldColMaterials[this->currentShield];
 
         Matrix_MultVec3f(&quadSrc[0], &quadDest[0]);
         Matrix_MultVec3f(&quadSrc[1], &quadDest[1]);
@@ -1437,8 +1445,7 @@ void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
         Matrix_Translate(sp74.x, sp74.y, sp74.z, MTXMODE_NEW);
         Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
 
-        gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2587),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2587);
         gSPSegment(OVERLAY_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         gSPDisplayList(OVERLAY_DISP++, gLinkAdultHookshotReticleDL);
 
@@ -1508,8 +1515,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_RotateZYX(-0x8000, 0, 0x4000, MTXMODE_APPLY);
             Matrix_Scale(1.0f, this->unk_85C, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2653),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2653);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildLinkDekuStickDL);
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2656);
@@ -1534,8 +1540,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2710);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2712),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2712);
             gDPSetEnvColor(POLY_XLU_DISP++, bottleColor->r, bottleColor->g, bottleColor->b, 0);
             gSPDisplayList(POLY_XLU_DISP++, sBottleDLists[((void)0, gSaveContext.save.linkAge)]);
 
@@ -1552,7 +1557,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_Get(&sp14C);
                     Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
-                } else if (this->stateFlags1 & PLAYER_STATE1_11) {
+                } else if (this->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
                     Vec3s spB8;
 
                     Matrix_Get(&sp14C);
@@ -1613,8 +1618,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 Matrix_RotateZ(this->unk_858 * -0.2f, MTXMODE_APPLY);
             }
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2804),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2804);
             gSPDisplayList(POLY_XLU_DISP++, stringData->dList);
 
             Matrix_Pop();
@@ -1813,8 +1817,6 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
     gSPDisplayList(WORK_DISP++, POLY_OPA_DISP);
     gSPDisplayList(WORK_DISP++, POLY_XLU_DISP);
 
-    { s32 pad[2]; }
-
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1826,7 +1828,14 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
                     G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-    gSPLoadGeometryMode(POLY_OPA_DISP++, G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
+
+    // Also matches if some of the previous graphics commands are moved inside this block too. Possible macro?
+    if (1) {
+        s32 pad[2];
+
+        gSPLoadGeometryMode(POLY_OPA_DISP++, G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
+    }
+
     gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, width, height);
     gSPClipRatio(POLY_OPA_DISP++, FRUSTRATIO_1);
 

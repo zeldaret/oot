@@ -112,7 +112,7 @@ void KaleidoSetup_Update(PlayState* play) {
         }
 
         if (pauseCtx->state == PAUSE_STATE_WAIT_LETTERBOX) {
-            WREG(2) = -6240;
+            R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
             R_UPDATE_RATE = 2;
 
             if (Letterbox_GetSizeTarget() != 0) {
@@ -132,15 +132,15 @@ void KaleidoSetup_Init(PlayState* play) {
 
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
     pauseCtx->eye.z = 64.0f;
-    pauseCtx->unk_1F0 = 936.0f;
-    pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 = 160.0f;
+    pauseCtx->promptDepthOffset = 936.0f;
+    pauseCtx->itemPagePitch = pauseCtx->equipPagePitch = pauseCtx->mapPagePitch = pauseCtx->questPagePitch = 160.0f;
 
     pauseCtx->alpha = 0;
 
     // mainState = PAUSE_MAIN_STATE_IDLE , pageIndex = PAUSE_ITEM
     pauseCtx->pageSwitchTimer = pauseCtx->mainState = pauseCtx->nextPageMode = pauseCtx->pageIndex = 0;
 
-    pauseCtx->unk_204 = -314.0f;
+    pauseCtx->promptPitch = -314.0f;
 
     pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
     pauseCtx->cursorPoint[PAUSE_MAP] = VREG(30) + 3;
@@ -177,16 +177,16 @@ void KaleidoSetup_Init(PlayState* play) {
     View_Init(&pauseCtx->view, play->state.gfxCtx);
 
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_3C != NULL)) {
-        B_80121AF0->unk_3C();
+    if ((B_80121220 != NULL) && (B_80121220->unk_3C != NULL)) {
+        B_80121220->unk_3C();
     }
 #endif
 }
 
 void KaleidoSetup_Destroy(PlayState* play) {
 #if PLATFORM_N64
-    if ((B_80121AF0 != NULL) && (B_80121AF0->unk_40 != NULL)) {
-        B_80121AF0->unk_40();
+    if ((B_80121220 != NULL) && (B_80121220->unk_40 != NULL)) {
+        B_80121220->unk_40();
     }
 #endif
 }

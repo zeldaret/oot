@@ -147,8 +147,7 @@ void DoorGerudo_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_door_gerudo.c", 365),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_door_gerudo.c", 365);
     gSPDisplayList(POLY_OPA_DISP++, gGerudoCellDoorDL);
 
     if (this->unk_166 != 0) {

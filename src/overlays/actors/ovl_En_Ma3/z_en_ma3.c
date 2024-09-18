@@ -6,8 +6,9 @@
 
 #include "z_en_ma3.h"
 #include "assets/objects/object_ma2/object_ma2.h"
+#include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnMa3_Init(Actor* thisx, PlayState* play);
 void EnMa3_Destroy(Actor* thisx, PlayState* play);
@@ -34,7 +35,7 @@ ActorProfile En_Ma3_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -42,7 +43,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -287,6 +288,43 @@ void func_80AA3200(EnMa3* this, PlayState* play) {
     }
 }
 
+#if OOT_PAL_N64
+// Same as Npc_UpdateTalking, but with an additional check for the subtimer state
+s32 EnMa3_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange, NpcGetTextIdFunc getTextId,
+                        NpcUpdateTalkStateFunc updateTalkState) {
+    s16 x;
+    s16 y;
+
+    if (Actor_TalkOfferAccepted(actor, play)) {
+        *talkState = NPC_TALK_STATE_TALKING;
+        return true;
+    }
+
+    if (*talkState != NPC_TALK_STATE_IDLE) {
+        *talkState = updateTalkState(play, actor);
+        return false;
+    }
+
+    Actor_GetScreenPos(play, actor, &x, &y);
+    if ((x < 0) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT)) {
+        // Actor is offscreen
+        return false;
+    }
+
+    if ((gSaveContext.subTimerState != 0) && (gSaveContext.subTimerSeconds < 6)) {
+        return false;
+    }
+
+    if (!Actor_OfferTalk(actor, play, interactRange)) {
+        return false;
+    }
+
+    actor->textId = getTextId(play, actor);
+
+    return false;
+}
+#endif
+
 void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3* this = (EnMa3*)thisx;
     s32 pad;
@@ -297,8 +335,13 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AA2E54(this, play);
+#if !OOT_PAL_N64
     Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 150.0f,
                       EnMa3_GetTextId, EnMa3_UpdateTalkState);
+#else
+    EnMa3_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 150.0f,
+                        EnMa3_GetTextId, EnMa3_UpdateTalkState);
+#endif
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         if (this->isNotSinging) {
             // Turn on singing

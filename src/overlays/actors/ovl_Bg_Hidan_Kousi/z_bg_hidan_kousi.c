@@ -128,7 +128,7 @@ void func_80889C18(BgHidanKousi* this, PlayState* play) {
         BgHidanKousi_SetupAction(this, func_80889C90);
     }
     Actor_MoveXZGravity(&this->dyna.actor);
-    func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
 }
 
 void func_80889C90(BgHidanKousi* this, PlayState* play) {
@@ -139,7 +139,7 @@ void func_80889C90(BgHidanKousi* this, PlayState* play) {
         BgHidanKousi_SetupAction(this, func_80889D28);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
@@ -157,8 +157,7 @@ void BgHidanKousi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_kousi.c", 354);
     gSPDisplayList(POLY_OPA_DISP++, sMetalFencesDLs[PARAMS_GET_U(thisx->params, 0, 8)]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_hidan_kousi.c", 359);

@@ -8,7 +8,7 @@
 #include "assets/objects/object_firefly/object_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
 
 void EnFirefly_Init(Actor* thisx, PlayState* play);
 void EnFirefly_Destroy(Actor* thisx, PlayState* play);
@@ -49,7 +49,7 @@ ActorProfile En_Firefly_Profile = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_HARD,
@@ -62,7 +62,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -112,8 +112,8 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
-    ICHAIN_F32(minVelocityY, -4, ICHAIN_CONTINUE),    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 4000, ICHAIN_STOP),
+    ICHAIN_F32(minVelocityY, -4, ICHAIN_CONTINUE),    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 4000, ICHAIN_STOP),
 };
 
 void EnFirefly_Extinguish(EnFirefly* this) {
@@ -625,7 +625,7 @@ void EnFirefly_UpdateDamage(EnFirefly* this, PlayState* play) {
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
             damageEffect = this->actor.colChkInfo.damageEffect;

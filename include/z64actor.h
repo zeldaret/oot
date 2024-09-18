@@ -96,39 +96,6 @@ typedef struct ActorOverlay {
     /* 0x1E */ s8 numLoaded; // original name: "clients"
 } ActorOverlay; // size = 0x20
 
-typedef struct DamageTable {
-    u8 table[32];
-} DamageTable;
-
-typedef struct CollisionCheckInfoInit {
-    /* 0x00 */ u8 health;
-    /* 0x02 */ s16 cylRadius;
-    /* 0x04 */ s16 cylHeight;
-    /* 0x06 */ u8 mass;
-} CollisionCheckInfoInit;
-
-typedef struct CollisionCheckInfoInit2 {
-    /* 0x00 */ u8 health;
-    /* 0x02 */ s16 cylRadius;
-    /* 0x04 */ s16 cylHeight;
-    /* 0x06 */ s16 cylYShift;
-    /* 0x08 */ u8 mass;
-} CollisionCheckInfoInit2;
-
-typedef struct CollisionCheckInfo {
-    /* 0x00 */ DamageTable* damageTable;
-    /* 0x04 */ Vec3f displacement; // Amount to correct actor velocity by when colliding into a body
-    /* 0x10 */ s16 cylRadius; // Used for various purposes
-    /* 0x12 */ s16 cylHeight; // Used for various purposes
-    /* 0x14 */ s16 cylYShift; // Unused. Purpose inferred from Cylinder16 and CollisionCheck_CylSideVsLineSeg
-    /* 0x16 */ u8 mass; // Used to compute displacement for OC collisions
-    /* 0x17 */ u8 health; // Note: some actors may use their own health variable instead of this one
-    /* 0x18 */ u8 damage; // Amount to decrement health by
-    /* 0x19 */ u8 damageEffect; // Stores what effect should occur when hit by a weapon
-    /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC
-    /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
-} CollisionCheckInfo; // size = 0x1C
-
 typedef struct ActorShape {
     /* 0x00 */ Vec3s rot; // Current actor shape rotation
     /* 0x06 */ s16 face; // Used to index eyes and mouth textures. Only used by player
@@ -140,14 +107,19 @@ typedef struct ActorShape {
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
-//
-#define ACTOR_FLAG_0 (1 << 0)
+// Actor is discoverable by the Attention System. This enables Navi to hover over the actor when it is in range.
+// The actor can also be locked onto (as long as `ACTOR_FLAG_LOCK_ON_DISABLED` is not set).
+#define ACTOR_FLAG_ATTENTION_ENABLED (1 << 0)
 
-//
-#define ACTOR_FLAG_2 (1 << 2)
+// Actor is hostile toward the Player. Player has specific "battle" behavior when locked onto hostile actors.
+// Enemy background music will also be played when the player is close enough to a hostile actor.
+// Note: This must be paired with `ACTOR_FLAG_ATTENTION_ENABLED` to have any effect.
+#define ACTOR_FLAG_HOSTILE (1 << 2)
 
-//
-#define ACTOR_FLAG_3 (1 << 3)
+// Actor is considered "friendly"; Opposite flag of `ACTOR_FLAG_HOSTILE`.
+// Note that this flag doesn't have any effect on either the actor, or Player's behvaior.
+// What actually matters is the presence or lack of `ACTOR_FLAG_HOSTILE`.
+#define ACTOR_FLAG_FRIENDLY (1 << 3)
 
 //
 #define ACTOR_FLAG_4 (1 << 4)
@@ -196,14 +168,10 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_18 (1 << 18)
 
-//
-#define ACTOR_FLAG_19 (1 << 19)
-
-//
-#define ACTOR_FLAG_20 (1 << 20)
-
-//
-#define ACTOR_FLAG_21 (1 << 21)
+// Flags controlling the use of `Actor.sfx`. Do not use directly.
+#define ACTOR_FLAG_SFX_ACTOR_POS_2 (1 << 19) // see Actor_PlaySfx_Flagged2
+#define ACTOR_AUDIO_FLAG_SFX_CENTERED_1 (1 << 20) // see Actor_PlaySfx_FlaggedCentered1
+#define ACTOR_AUDIO_FLAG_SFX_CENTERED_2 (1 << 21) // see Actor_PlaySfx_FlaggedCentered2
 
 // ignores point lights but not directional lights (such as environment lights)
 #define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22)
@@ -220,11 +188,12 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_26 (1 << 26)
 
-//
-#define ACTOR_FLAG_27 (1 << 27)
+// Player is not able to lock onto the actor.
+// Navi will still be able to hover over the actor, assuming `ACTOR_FLAG_ATTENTION_ENABLED` is set.
+#define ACTOR_FLAG_LOCK_ON_DISABLED (1 << 27)
 
-//
-#define ACTOR_FLAG_28 (1 << 28)
+// Flag controlling the use of `Actor.sfx`. Do not use directly. See Actor_PlaySfx_FlaggedTimer
+#define ACTOR_FLAG_SFX_TIMER (1 << 28)
 
 #define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
 #define COLORFILTER_GET_DURATION(colorFilterParams) ((colorFilterParams) & 0xFF)
@@ -257,11 +226,11 @@ typedef struct Actor {
     /* 0x008 */ PosRot home; // Initial position/rotation when spawned. Can be used for other purposes
     /* 0x01C */ s16 params; // Configurable variable set by the actor's spawn data; original name: "args_data"
     /* 0x01E */ s8 objectSlot; // Object slot (in ObjectContext) corresponding to the actor's object; original name: "bank"
-    /* 0x01F */ s8 targetMode; // Controls how far the actor can be targeted from and how far it can stay locked on
+    /* 0x01F */ s8 attentionRangeType; // Controls the attention actor range and the lock-on leash range. See `AttentionRangeType`.
     /* 0x020 */ u16 sfx; // SFX ID to play. Sfx plays when value is set, then is cleared the following update cycle
     /* 0x024 */ PosRot world; // Position/rotation in the world
-    /* 0x038 */ PosRot focus; // Target reticle focuses on this position. For player this represents head pos and rot
-    /* 0x04C */ f32 targetArrowOffset; // Height offset of the target arrow relative to `focus` position
+    /* 0x038 */ PosRot focus; // Player + camera focus pos during lock-on, among other uses. For player this represents head pos and rot.
+    /* 0x04C */ f32 lockOnArrowOffset; // Height offset of the lock-on arrow relative to `focus` position
     /* 0x050 */ Vec3f scale; // Scale of the actor in each axis
     /* 0x05C */ Vec3f velocity; // Velocity of the actor in each axis
     /* 0x068 */ f32 speed; // Context dependent speed value. Can be used for XZ or XYZ depending on which move function is used
@@ -287,8 +256,8 @@ typedef struct Actor {
     /* 0x0F8 */ f32 uncullZoneScale; // Amount to increase the uncull zone scale by (in projected space)
     /* 0x0FC */ f32 uncullZoneDownward; // Amount to increase uncull zone downward by (in projected space)
     /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle
-    /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player
-    /* 0x10D */ u8 targetPriority; // Lower values have higher priority. Resets to 0 when player stops targeting
+    /* 0x10C */ u8 isLockedOn; // Set to true if the actor is currently locked-on by Player
+    /* 0x10D */ u8 attentionPriority; // Lower values have higher priority. Resets to 0 when lock-on is released.
     /* 0x10E */ u16 textId; // Text ID to pass to player/display when interacting with the actor
     /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically
     /* 0x112 */ u16 colorFilterParams; // Set color filter to red, blue, or white. Toggle opa or xlu
@@ -571,31 +540,62 @@ typedef enum NaviEnemy {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
-typedef struct TargetContextEntry {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ f32 unk_0C; // radius?
-    /* 0x10 */ Color_RGB8 color;
-} TargetContextEntry; // size = 0x14
+/**
+ * Attention System
+ *
+ * The Attention System's responsibility is to bring specific actors to the player's attention.
+ * This includes:
+ *     - Making Navi fly over to certain actors of interest (can be lock-on actors, but may also not be)
+ *     - Displaying an arrow over an actor that can be locked onto
+ *     - Displaying a reticle over the current lock-on actor
+ *     - Playing enemy background music if a hostile actor is nearby
+ *
+ * This system does not handle the actual lock-on implementation.
+ * That is the responsibility of Player via `player->focusActor` and the camera.
+ */
 
-typedef struct TargetContext {
-    /* 0x00 */ Vec3f naviRefPos; // possibly wrong
-    /* 0x0C */ Vec3f targetCenterPos;
-    /* 0x18 */ Color_RGBAf naviInner;
-    /* 0x28 */ Color_RGBAf naviOuter;
-    /* 0x38 */ Actor* arrowPointedActor;
-    /* 0x3C */ Actor* targetedActor;
-    /* 0x40 */ f32 unk_40;
-    /* 0x44 */ f32 unk_44;
-    /* 0x48 */ s16 unk_48;
-    /* 0x4A */ u8 activeCategory;
-    /* 0x4B */ u8 unk_4B;
-    /* 0x4C */ s8 unk_4C;
-    /* 0x4D */ char unk_4D[0x03];
-    /* 0x50 */ TargetContextEntry arr_50[3];
-    /* 0x8C */ Actor* unk_8C;
-    /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
-    /* 0x94 */ Actor* unk_94;
-} TargetContext; // size = 0x98
+// A set of 4 triangles which appear as a ring around an actor when locked-on
+typedef struct LockOnReticle {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ f32 radius; // distance towards the center of the locked-on actor
+    /* 0x10 */ Color_RGB8 color;
+} LockOnReticle; // size = 0x14
+
+typedef struct Attention {
+    /* 0x00 */ Vec3f naviHoverPos; // Navi's current hover position
+    /* 0x0C */ Vec3f reticlePos; // Main reticle pos which each `LockOnReticle` instance can reference
+    /* 0x18 */ Color_RGBAf naviInnerColor; // Navi inner color, based on actor category
+    /* 0x28 */ Color_RGBAf naviOuterColor; // Navi outer color, based on actor category
+    /* 0x38 */ Actor* naviHoverActor;  // The actor that Navi hovers over
+    /* 0x3C */ Actor* reticleActor; // Actor to draw a reticle over
+    /* 0x40 */ f32 naviMoveProgressFactor; // Controls Navi so she can smootly transition to an actor
+    /* 0x44 */ f32 reticleRadius; // Main reticle radius value which each `LockOnReticle` instance can reference
+    /* 0x48 */ s16 reticleFadeAlphaControl; // Set and fade the reticle alpha; Non-zero values control if it should draw
+    /* 0x4A */ u8 naviHoverActorCategory; // Category of the actor Navi is currently hovering over
+    /* 0x4B */ u8 reticleSpinCounter; // Counts up when a reticle is active, used for the spinning animation
+    /* 0x4C */ s8 curReticle; // Indexes lockOnReticles[]
+    /* 0x50 */ LockOnReticle lockOnReticles[3]; // Multiple reticles are used for a motion-blur effect
+    /* 0x8C */ Actor* forcedLockOnActor; // Forces lock-on to this actor when set (never used in practice)
+    /* 0x90 */ Actor* bgmEnemy; // The nearest actor which can trigger enemy background music
+    /* 0x94 */ Actor* arrowHoverActor; // Actor to draw an arrow over
+} Attention; // size = 0x98
+
+// It is difficult to give each type a name because it is numerically based
+// and there are so many different combinations.
+// Each type has a comment of the form "attention range / lock-on leash range"
+typedef enum AttentionRangeType {
+    /*  0 */ ATTENTION_RANGE_0, // 70   / 140
+    /*  1 */ ATTENTION_RANGE_1, // 170  / 255
+    /*  2 */ ATTENTION_RANGE_2, // 280  / 5600
+    /*  3 */ ATTENTION_RANGE_3, // 350  / 525   (default)
+    /*  4 */ ATTENTION_RANGE_4, // 700  / 1050
+    /*  5 */ ATTENTION_RANGE_5, // 1000 / 1500
+    /*  6 */ ATTENTION_RANGE_6, // 100  / 105.36842
+    /*  7 */ ATTENTION_RANGE_7, // 140  / 163.33333
+    /*  8 */ ATTENTION_RANGE_8, // 240  / 576
+    /*  9 */ ATTENTION_RANGE_9, // 280  / 280000
+    /* 10 */ ATTENTION_RANGE_MAX
+} AttentionRangeType;
 
 typedef struct TitleCardContext {
     /* 0x00 */ void* texture;
@@ -634,7 +634,7 @@ typedef struct ActorContext {
     /* 0x004 */ char unk_04[0x04];
     /* 0x008 */ u8 total; // total number of actors loaded
     /* 0x00C */ ActorListEntry actorLists[ACTORCAT_MAX];
-    /* 0x06C */ TargetContext targetCtx;
+    /* 0x06C */ Attention attention;
     /* 0x104 */ ActorContextSceneFlags flags;
     /* 0x128 */ TitleCardContext titleCtx;
     /* 0x138 */ char unk_138[0x04];

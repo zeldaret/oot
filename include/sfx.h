@@ -55,7 +55,7 @@ typedef struct SfxBankEntry {
  * bank     1111000000000000    observed in audio code
  */
 
-#define DEFINE_SFX(enum, _1, _2, _3, _4) enum,
+#define DEFINE_SFX(_0, enum, _2, _3, _4, _5) enum,
 
 typedef enum SfxId {
     NA_SE_NONE, // Requesting a sfx with this id will play no sound
@@ -133,7 +133,7 @@ void Audio_ProcessSfxRequest(void);
 void Audio_ChooseActiveSfx(u8 bankId);
 void Audio_PlayActiveSfx(u8 bankId);
 void Audio_StopSfxByBank(u8 bankId);
-void func_800F8884(u8 bankId, Vec3f* pos);
+void Audio_RemoveSfxFromBankByPos(u8 bankId, Vec3f* pos);
 void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos);
 void Audio_StopSfxByPos(Vec3f* pos);
 void Audio_StopSfxByPosAndId(Vec3f* pos, u16 sfxId);

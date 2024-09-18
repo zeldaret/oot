@@ -3,7 +3,7 @@
 #include "terminal.h"
 #include "assets/objects/object_fr/object_fr.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnFr_Init(Actor* thisx, PlayState* play);
 void EnFr_Destroy(Actor* thisx, PlayState* play);
@@ -168,8 +168,8 @@ static s16 sTimerFrogSong[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 // Counter to Coordinate Frog jumping out of water one at a time
@@ -236,7 +236,7 @@ void EnFr_Init(Actor* thisx, PlayState* play) {
         this->actor.destroy = NULL;
         this->actor.draw = NULL;
         this->actor.update = EnFr_UpdateIdle;
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4);
         this->actor.flags &= ~0;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
@@ -321,7 +321,7 @@ void EnFr_Update(Actor* thisx, PlayState* play) {
         this->posButterflyLight.x = this->posButterfly.x = this->posLogSpot.x;
         this->posButterflyLight.y = this->posButterfly.y = this->posLogSpot.y + 50.0f;
         this->posButterflyLight.z = this->posButterfly.z = this->posLogSpot.z;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 
@@ -1053,8 +1053,7 @@ void EnFr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
         OPEN_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1735);
         Matrix_Push();
         Matrix_ReplaceRotation(&play->billboardMtxF);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fr.c", 1738),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_fr.c", 1738);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1741);

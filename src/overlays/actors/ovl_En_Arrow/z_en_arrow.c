@@ -33,7 +33,7 @@ ActorProfile En_Arrow_Profile = {
 
 static ColliderQuadInit sColliderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -41,7 +41,7 @@ static ColliderQuadInit sColliderInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000020, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NONE,
@@ -282,7 +282,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
         } else {
             EffectSsHitMark_SpawnCustomScale(play, 0, 150, &this->actor.world.pos);
 
-            if (atTouched && (this->collider.elem.atHitElem->elemType != ELEMTYPE_UNK4)) {
+            if (atTouched && (this->collider.elem.atHitElem->elemMaterial != ELEM_MATERIAL_UNK4)) {
                 hitActor = this->collider.base.at;
 
                 if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&
@@ -482,8 +482,7 @@ void EnArrow_Draw(Actor* thisx, PlayState* play) {
         Matrix_RotateZ((this->actor.speed == 0.0f) ? 0.0f : BINANG_TO_RAD((play->gameplayFrames & 0xFF) * 4000),
                        MTXMODE_APPLY);
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_arrow.c", 1374),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_arrow.c", 1374);
         gSPDisplayList(POLY_XLU_DISP++, gEffSparklesDL);
         Matrix_Pop();
         Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_APPLY);

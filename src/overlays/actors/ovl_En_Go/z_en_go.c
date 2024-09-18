@@ -3,7 +3,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGo_Init(Actor* thisx, PlayState* play);
 void EnGo_Destroy(Actor* thisx, PlayState* play);
@@ -48,7 +48,7 @@ ActorProfile En_Go_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -56,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -644,7 +644,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
     }
 
     EnGo_ChangeAnim(this, ENGO_ANIM_0);
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->actor.gravity = -1.0f;
 
@@ -678,7 +678,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
             EnGo_SetupAction(this, func_80A3FEB4);
             break;
         case 0x90:
-            this->actor.targetMode = 5;
+            this->actor.attentionRangeType = ATTENTION_RANGE_5;
             Actor_SetScale(&this->actor, 0.16f);
             EnGo_SetupAction(this, EnGo_CurledUp);
             break;
@@ -1057,8 +1057,7 @@ void EnGo_DrawCurledUp(EnGo* this, PlayState* play) {
     Matrix_Push();
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_go.c", 2326),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go.c", 2326);
 
     gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00BD80);
 
@@ -1077,8 +1076,7 @@ void EnGo_DrawRolling(EnGo* this, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_RotateZYX((s16)(play->state.frames * ((s16)this->actor.speed * 1400)), 0, this->actor.shape.rot.z,
                      MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_go.c", 2368),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go.c", 2368);
     gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00C140);
     Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus.pos);
     Matrix_Pop();
@@ -1226,8 +1224,7 @@ void EnGo_DrawEffects(EnGo* this, PlayState* play) {
         Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_go.c", 2664),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_go.c", 2664);
 
         index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));

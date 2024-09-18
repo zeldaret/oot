@@ -7,7 +7,7 @@
 #include "z_en_ms.h"
 #include "assets/objects/object_ms/object_ms.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnMs_Init(Actor* thisx, PlayState* play);
 void EnMs_Destroy(Actor* thisx, PlayState* play);
@@ -34,7 +34,7 @@ ActorProfile En_Ms_Profile = {
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -53,8 +53,8 @@ static u16 sOfferTextIDs[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 500, ICHAIN_STOP),
 };
 
 void EnMs_SetOfferText(EnMs* this, PlayState* play) {
@@ -163,7 +163,7 @@ void EnMs_Update(Actor* thisx, PlayState* play) {
 
     this->activeTimer++;
     Actor_SetFocus(&this->actor, 20.0f);
-    this->actor.targetArrowOffset = 500.0f;
+    this->actor.lockOnArrowOffset = 500.0f;
     Actor_SetScale(&this->actor, 0.015f);
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);

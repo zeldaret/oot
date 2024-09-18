@@ -1,6 +1,7 @@
 #ifndef SEGMENT_SYMBOLS_H
 #define SEGMENT_SYMBOLS_H
 
+#include "versions.h"
 #include "z64.h"
 
 #define DECLARE_SEGMENT(name)          \
@@ -83,6 +84,12 @@ DECLARE_ROM_SEGMENT(map_48x85_static)
 DECLARE_SEGMENT(code)
 DECLARE_ROM_SEGMENT(code)
 DECLARE_BSS_SEGMENT(code)
+
+// N64-only, not wrapped in these are not wrapped in an `#if PLATFORM_N64`
+// so that the N64DD code can always be built.
+DECLARE_SEGMENT(n64dd)
+DECLARE_ROM_SEGMENT(n64dd)
+DECLARE_BSS_SEGMENT(n64dd)
 
 DECLARE_OVERLAY_SEGMENT(kaleido_scope)
 DECLARE_OVERLAY_SEGMENT(player_actor)
