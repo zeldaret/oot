@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "versions.h"
 
 void AudioHeap_InitSampleCaches(u32 persistentSampleCacheSize, u32 temporarySampleCacheSize);
 SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size);
@@ -907,8 +908,8 @@ void AudioHeap_Init(void) {
     }
 
     // Determine the length of the buffer for storing the audio command list passed to the rsp audio microcode
-    gAudioCtx.maxAudioCmds =
-        gAudioCtx.numNotes * 0x10 * gAudioCtx.audioBufferParameters.ticksPerUpdate + spec->numReverbs * 0x18 + 0x140;
+    gAudioCtx.maxAudioCmds = gAudioCtx.numNotes * 0x10 * gAudioCtx.audioBufferParameters.ticksPerUpdate +
+                             spec->numReverbs * 0x18 + FRAMERATE_CONST(0x140, 0x1C0);
 
     // Calculate sizes for various caches on the audio heap
     persistentSize =

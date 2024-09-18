@@ -1,4 +1,5 @@
 #include "global.h"
+#include "versions.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
@@ -13,12 +14,126 @@ typedef struct BowSlingshotStringData {
 FlexSkeletonHeader* gPlayerSkelHeaders[] = { &gLinkAdultSkel, &gLinkChildSkel };
 
 s16 sBootData[PLAYER_BOOTS_MAX][17] = {
-    { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 1000, 0, 800, 300, -160, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 600, 600, 800, 550, -100, 600, 540, 270, 25, 0, 130 },
-    { 200, 1000, 300, 700, 380, 400, 0, 300, 800, 500, -100, 600, 590, 750, 125, 200, 130 },
-    { 80, 800, 150, 700, 480, 270, 600, 50, 800, 550, -40, 400, 540, 270, 25, 0, 80 },
-    { 200, 1000, 300, 800, 500, 400, 800, 400, 800, 550, -100, 600, 540, 750, 125, 400, 200 },
+    // PLAYER_BOOTS_KOKIRI
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(550, 660),   // REG(35)
+        FRAMERATE_CONST(270, 324),   // REG(36)
+        600,                         // REG(37)
+        FRAMERATE_CONST(350, 420),   // REG(38)
+        800,                         // REG(43)
+        600,                         // REG(45)
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        590,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        200,                         // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_IRON
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(550, 660),   // REG(35)
+        FRAMERATE_CONST(270, 324),   // REG(36)
+        1000,                        // REG(37)
+        FRAMERATE_CONST(0, 0),       // REG(38)
+        800,                         // REG(43)
+        300,                         // REG(45)
+        -160,                        // REG(68)
+        600,                         // REG(69)
+        590,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        200,                         // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_HOVER
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(550, 660),   // REG(35)
+        FRAMERATE_CONST(270, 324),   // REG(36)
+        600,                         // REG(37)
+        FRAMERATE_CONST(600, 720),   // REG(38)
+        800,                         // REG(43)
+        550,                         // REG(45)
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        540,                         // IREG(66)
+        270,                         // IREG(67)
+        25,                          // IREG(68)
+        0,                           // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_INDOOR
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(380, 456),   // REG(35)
+        FRAMERATE_CONST(400, 480),   // REG(36)
+        0,                           // REG(37)
+        FRAMERATE_CONST(300, 360),   // REG(38)
+        800,                         // REG(43)
+        500,                         // REG(45)
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        590,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        200,                         // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_IRON_UNDERWATER
+    {
+        80,                        // REG(19)
+        FRAMERATE_CONST(800, 960), // REG(30)
+        FRAMERATE_CONST(150, 180), // REG(32)
+        700,                       // REG(34)
+        FRAMERATE_CONST(480, 576), // REG(35)
+        FRAMERATE_CONST(270, 324), // REG(36)
+        600,                       // REG(37)
+        FRAMERATE_CONST(50, 60),   // REG(38)
+        800,                       // REG(43)
+        550,                       // REG(45)
+        -40,                       // REG(68)
+        400,                       // REG(69)
+        540,                       // IREG(66)
+        270,                       // IREG(67)
+        25,                        // IREG(68)
+        0,                         // IREG(69)
+        FRAMERATE_CONST(80, 96),   // MREG(95)
+    },
+    // PLAYER_BOOTS_KOKIRI_CHILD
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        800,                         // REG(34)
+        FRAMERATE_CONST(500, 600),   // REG(35)
+        FRAMERATE_CONST(400, 480),   // REG(36)
+        800,                         // REG(37)
+        FRAMERATE_CONST(400, 480),   // REG(38)
+        800,                         // REG(43)
+        550,                         // REG(45)
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        540,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        400,                         // IREG(69)
+        FRAMERATE_CONST(200, 240),   // MREG(95)
+    },
 };
 
 // Used to map item actions to model groups
