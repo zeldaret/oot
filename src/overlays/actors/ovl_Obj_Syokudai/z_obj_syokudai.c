@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylInitStand = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00100000, 0x00, 0x00 },
         { 0xEE01FFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylInitFlame = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0x00020820, 0x00, 0x00 },
         ATELEM_NONE,

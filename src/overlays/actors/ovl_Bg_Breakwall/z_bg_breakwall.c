@@ -48,7 +48,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000048, 0x00, 0x00 },
         { 0x00000048, 0x00, 0x00 },
         ATELEM_NONE,

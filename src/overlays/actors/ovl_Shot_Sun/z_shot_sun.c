@@ -10,7 +10,7 @@
 #include "assets/scenes/overworld/spot06/spot06_scene.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void ShotSun_Init(Actor* thisx, PlayState* play);
 void ShotSun_Destroy(Actor* thisx, PlayState* play);
@@ -49,7 +49,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000020, 0x00, 0x00 },
         ATELEM_NONE,

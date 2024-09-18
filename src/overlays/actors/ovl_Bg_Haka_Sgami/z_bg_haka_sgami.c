@@ -41,7 +41,7 @@ ActorProfile Bg_Haka_Sgami_Profile = {
 static ColliderTrisElementInit sTrisElementsInit[4] = {
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -52,7 +52,7 @@ static ColliderTrisElementInit sTrisElementsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -63,7 +63,7 @@ static ColliderTrisElementInit sTrisElementsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -74,7 +74,7 @@ static ColliderTrisElementInit sTrisElementsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -108,7 +108,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -289,7 +289,7 @@ void BgHakaSgami_Update(Actor* thisx, PlayState* play) {
     BgHakaSgami* this = (BgHakaSgami*)thisx;
     Player* player = GET_PLAYER(play);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
         (this->actionFunc == BgHakaSgami_SetupSpin)) {
         this->actionFunc(this, play);
     }

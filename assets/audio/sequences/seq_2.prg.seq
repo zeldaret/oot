@@ -1,0 +1,208 @@
+#include "aseq.h"
+#include "Soundfont_3.h"
+
+.startseq Sequence_2
+
+.sequence SEQ_0000
+/* 0x0000 [0xD3 0x20               ] */ mutebhv     0x20
+/* 0x0002 [0xD5 0x46               ] */ mutescale   70
+/* 0x0004 [0xD7 0xFF 0xFF          ] */ initchan    0b1111111111111111
+/* 0x0007 [0xCC 0x00               ] */ ldi         0
+/* 0x0009 [0x73                    ] */ stio        IO_PORT_3
+/* 0x000A [0x76                    ] */ stio        IO_PORT_6
+/* 0x000B [0xCC 0xFF               ] */ ldi         255
+/* 0x000D [0x75                    ] */ stio        IO_PORT_5
+/* 0x000E [0x80                    ] */ ldio        IO_PORT_0
+/* 0x000F [0xC8 0x01               ] */ sub         1
+/* 0x0011 [0xF3 0x07               ] */ rbeqz       SEQ_001A
+/* 0x0013 [0xCC 0x03               ] */ ldi         3
+/* 0x0015 [0xFC 0x00 0xC4          ] */ call        SEQ_00C4
+/* 0x0018 [0xF4 0x05               ] */ rjump       SEQ_001F
+
+SEQ_001A:
+/* 0x001A [0xCC 0x31               ] */ ldi         49
+/* 0x001C [0xFC 0x00 0xC4          ] */ call        SEQ_00C4
+SEQ_001F:
+/* 0x001F [0xCC 0x00               ] */ ldi         0
+/* 0x0021 [0x74                    ] */ stio        IO_PORT_4
+/* 0x0022 [0x82                    ] */ ldio        IO_PORT_2
+/* 0x0023 [0xF2 0x0E               ] */ rbltz       SEQ_0033
+/* 0x0025 [0x53                    ] */ subio       IO_PORT_3
+/* 0x0026 [0xF3 0x0B               ] */ rbeqz       SEQ_0033
+/* 0x0028 [0x82                    ] */ ldio        IO_PORT_2
+/* 0x0029 [0x73                    ] */ stio        IO_PORT_3
+/* 0x002A [0xC8 0x01               ] */ sub         1
+/* 0x002C [0xF3 0x22               ] */ rbeqz       SEQ_0050
+/* 0x002E [0x82                    ] */ ldio        IO_PORT_2
+/* 0x002F [0xC8 0x02               ] */ sub         2
+/* 0x0031 [0xF3 0x53               ] */ rbeqz       SEQ_0086
+SEQ_0033:
+/* 0x0033 [0xCE 0x0B               ] */ rand        11
+/* 0x0035 [0x55                    ] */ subio       IO_PORT_5
+/* 0x0036 [0xF3 0x04               ] */ rbeqz       SEQ_003C
+/* 0x0038 [0xCE 0x0B               ] */ rand        11
+/* 0x003A [0xF4 0x0C               ] */ rjump       SEQ_0048
+
+SEQ_003C:
+/* 0x003C [0xCE 0x0B               ] */ rand        11
+/* 0x003E [0xF3 0x04               ] */ rbeqz       SEQ_0044
+/* 0x0040 [0xC8 0x01               ] */ sub         1
+/* 0x0042 [0xF4 0x04               ] */ rjump       SEQ_0048
+
+SEQ_0044:
+/* 0x0044 [0xCC 0x0B               ] */ ldi         11
+/* 0x0046 [0xC8 0x01               ] */ sub         1
+SEQ_0048:
+/* 0x0048 [0x75                    ] */ stio        IO_PORT_5
+/* 0x0049 [0xC8 0xFC               ] */ sub         252
+/* 0x004B [0xFC 0x00 0xC4          ] */ call        SEQ_00C4
+/* 0x004E [0xF4 0xCF               ] */ rjump       SEQ_001F
+
+SEQ_0050:
+/* 0x0050 [0xCC 0x01               ] */ ldi         1
+/* 0x0052 [0x74                    ] */ stio        IO_PORT_4
+/* 0x0053 [0xCC 0xFF               ] */ ldi         255
+/* 0x0055 [0x75                    ] */ stio        IO_PORT_5
+/* 0x0056 [0xCC 0x0F               ] */ ldi         15
+/* 0x0058 [0xFC 0x00 0xC4          ] */ call        SEQ_00C4
+SEQ_005B:
+/* 0x005B [0x82                    ] */ ldio        IO_PORT_2
+/* 0x005C [0xF2 0x0B               ] */ rbltz       SEQ_0069
+/* 0x005E [0x53                    ] */ subio       IO_PORT_3
+/* 0x005F [0xF3 0x08               ] */ rbeqz       SEQ_0069
+/* 0x0061 [0x82                    ] */ ldio        IO_PORT_2
+/* 0x0062 [0x73                    ] */ stio        IO_PORT_3
+/* 0x0063 [0xF3 0xBA               ] */ rbeqz       SEQ_001F
+/* 0x0065 [0xC8 0x02               ] */ sub         2
+/* 0x0067 [0xF3 0x1D               ] */ rbeqz       SEQ_0086
+SEQ_0069:
+/* 0x0069 [0xCE 0x04               ] */ rand        4
+/* 0x006B [0x55                    ] */ subio       IO_PORT_5
+/* 0x006C [0xF3 0x04               ] */ rbeqz       SEQ_0072
+/* 0x006E [0xCE 0x04               ] */ rand        4
+/* 0x0070 [0xF4 0x0C               ] */ rjump       SEQ_007E
+
+SEQ_0072:
+/* 0x0072 [0xCE 0x04               ] */ rand        4
+/* 0x0074 [0xF3 0x04               ] */ rbeqz       SEQ_007A
+/* 0x0076 [0xC8 0x01               ] */ sub         1
+/* 0x0078 [0xF4 0x04               ] */ rjump       SEQ_007E
+
+SEQ_007A:
+/* 0x007A [0xCC 0x04               ] */ ldi         4
+/* 0x007C [0xC8 0x01               ] */ sub         1
+SEQ_007E:
+/* 0x007E [0x75                    ] */ stio        IO_PORT_5
+/* 0x007F [0xC8 0xF0               ] */ sub         240
+/* 0x0081 [0xFC 0x00 0xC4          ] */ call        SEQ_00C4
+/* 0x0084 [0xF4 0xD5               ] */ rjump       SEQ_005B
+
+SEQ_0086:
+/* 0x0086 [0xCC 0x02               ] */ ldi         2
+/* 0x0088 [0x74                    ] */ stio        IO_PORT_4
+/* 0x0089 [0xCC 0xFF               ] */ ldi         255
+/* 0x008B [0x75                    ] */ stio        IO_PORT_5
+/* 0x008C [0xCC 0x14               ] */ ldi         20
+/* 0x008E [0xFC 0x00 0xC4          ] */ call        SEQ_00C4
+SEQ_0091:
+/* 0x0091 [0x82                    ] */ ldio        IO_PORT_2
+/* 0x0092 [0xF2 0x0B               ] */ rbltz       SEQ_009F
+/* 0x0094 [0x53                    ] */ subio       IO_PORT_3
+/* 0x0095 [0xF3 0x08               ] */ rbeqz       SEQ_009F
+/* 0x0097 [0x82                    ] */ ldio        IO_PORT_2
+/* 0x0098 [0x73                    ] */ stio        IO_PORT_3
+/* 0x0099 [0xF3 0x84               ] */ rbeqz       SEQ_001F
+/* 0x009B [0xC8 0x01               ] */ sub         1
+/* 0x009D [0xF3 0xB1               ] */ rbeqz       SEQ_0050
+SEQ_009F:
+/* 0x009F [0xCE 0x03               ] */ rand        3
+/* 0x00A1 [0x55                    ] */ subio       IO_PORT_5
+/* 0x00A2 [0xF3 0x04               ] */ rbeqz       SEQ_00A8
+/* 0x00A4 [0xCE 0x03               ] */ rand        3
+/* 0x00A6 [0xF4 0x0C               ] */ rjump       SEQ_00B4
+
+SEQ_00A8:
+/* 0x00A8 [0xCE 0x03               ] */ rand        3
+/* 0x00AA [0xF3 0x04               ] */ rbeqz       SEQ_00B0
+/* 0x00AC [0xC8 0x01               ] */ sub         1
+/* 0x00AE [0xF4 0x04               ] */ rjump       SEQ_00B4
+
+SEQ_00B0:
+/* 0x00B0 [0xCC 0x03               ] */ ldi         3
+/* 0x00B2 [0xC8 0x01               ] */ sub         1
+SEQ_00B4:
+/* 0x00B4 [0x75                    ] */ stio        IO_PORT_5
+/* 0x00B5 [0xC8 0xEB               ] */ sub         235
+/* 0x00B7 [0xFC 0x00 0xC4          ] */ call        SEQ_00C4
+/* 0x00BA [0xF4 0xD5               ] */ rjump       SEQ_0091
+
+.table TABLE_00BC
+    entry SEQ_00E8
+    entry SEQ_00F6
+
+.table TABLE_00C0
+    entry ARRAY_0110
+    entry ARRAY_1308
+
+.sequence SEQ_00C4
+/* 0x00C4 [0x77                    ] */ stio        IO_PORT_7
+/* 0x00C5 [0xCC 0x00               ] */ ldi         0
+/* 0x00C7 [0x70                    ] */ stio        IO_PORT_0
+/* 0x00C8 [0x86                    ] */ ldio        IO_PORT_6
+/* 0x00C9 [0xCD 0x00 0xBC          ] */ dyncall     TABLE_00BC
+SEQ_00CC:
+/* 0x00CC [0xFE                    ] */ delay1
+/* 0x00CD [0x00                    ] */ testchan    0
+/* 0x00CE [0xF3 0xFC               ] */ rbeqz       SEQ_00CC
+/* 0x00D0 [0x06                    ] */ testchan    6
+/* 0x00D1 [0xF3 0xF9               ] */ rbeqz       SEQ_00CC
+/* 0x00D3 [0x09                    ] */ testchan    9
+/* 0x00D4 [0xF3 0xF6               ] */ rbeqz       SEQ_00CC
+/* 0x00D6 [0x0A                    ] */ testchan    10
+/* 0x00D7 [0xF3 0xF3               ] */ rbeqz       SEQ_00CC
+/* 0x00D9 [0x0C                    ] */ testchan    12
+/* 0x00DA [0xF3 0xF0               ] */ rbeqz       SEQ_00CC
+/* 0x00DC [0x0E                    ] */ testchan    14
+/* 0x00DD [0xF3 0xED               ] */ rbeqz       SEQ_00CC
+/* 0x00DF [0x86                    ] */ ldio        IO_PORT_6
+/* 0x00E0 [0xCD 0x00 0xC0          ] */ dyncall     TABLE_00C0
+/* 0x00E3 [0xCC 0x01               ] */ ldi         1
+/* 0x00E5 [0x56                    ] */ subio       IO_PORT_6
+/* 0x00E6 [0x76                    ] */ stio        IO_PORT_6
+/* 0x00E7 [0xFF                    ] */ end
+
+.sequence SEQ_00E8
+/* 0x00E8 [0x87                    ] */ ldio        IO_PORT_7
+/* 0x00E9 [0xC7 0x00 0x00 0xF1     ] */ stseq       0, SEQ_00F0 + STSEQ_LDSEQ_SEQ_ID
+/* 0x00ED [0xCC 0xFF               ] */ ldi         255
+/* 0x00EF [0x71                    ] */ stio        IO_PORT_1
+SEQ_00F0:
+/* 0x00F0 [0xB1 0x02 0x01 0x10     ] */ ldseq       1, NA_BGM_FIELD_LOGIC, ARRAY_0110
+/* 0x00F4 [0xF4 0x0C               ] */ rjump       SEQ_0102
+
+.sequence SEQ_00F6
+/* 0x00F6 [0x87                    ] */ ldio        IO_PORT_7
+/* 0x00F7 [0xC7 0x00 0x00 0xFF     ] */ stseq       0, SEQ_00FE + STSEQ_LDSEQ_SEQ_ID
+/* 0x00FB [0xCC 0xFF               ] */ ldi         255
+/* 0x00FD [0x71                    ] */ stio        IO_PORT_1
+SEQ_00FE:
+/* 0x00FE [0xB1 0x02 0x13 0x08     ] */ ldseq       1, NA_BGM_FIELD_LOGIC, ARRAY_1308
+SEQ_0102:
+/* 0x0102 [0xFE                    ] */ delay1
+/* 0x0103 [0x81                    ] */ ldio        IO_PORT_1
+/* 0x0104 [0xF3 0x03               ] */ rbeqz       SEQ_0109
+/* 0x0106 [0xF2 0xFA               ] */ rbltz       SEQ_0102
+/* 0x0108 [0xFF                    ] */ end
+
+SEQ_0109:
+/* 0x0109 [0xFF                    ] */ end
+
+.balign 16
+
+.array ARRAY_0110
+    .fill 4600
+
+.array ARRAY_1308
+    .fill 4600
+
+.endseq Sequence_2

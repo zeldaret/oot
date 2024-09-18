@@ -8,7 +8,7 @@
 #include "assets/objects/object_geldb/object_geldb.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnGe3_Init(Actor* thisx, PlayState* play2);
 void EnGe3_Destroy(Actor* thisx, PlayState* play);
@@ -41,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000722, 0x00, 0x00 },
         ATELEM_NONE,

@@ -26,71 +26,69 @@ pipeline {
                 }
             }
         }
-        stage('Build ntsc-1.2, check disasm metadata') {
-            steps {
-                sh 'ln -s /usr/local/etc/roms/oot-ntsc-1.2-us.z64 baseroms/ntsc-1.2/baserom.z64'
-                sh 'make -j$(nproc) setup VERSION=ntsc-1.2'
-                sh 'make -j$(nproc) VERSION=ntsc-1.2'
-                sh '.venv/bin/python3 tools/check_disasm_metadata_unksyms.py -v ntsc-1.2'
-                sh 'make clean assetclean VERSION=ntsc-1.2'
-            }
-        }
         // The ROMs are built in an order that maximizes compiler flags coverage in a "fail fast" approach.
         // Specifically we start with a retail ROM for BSS ordering, and make sure we cover all of
-        // NTSC/PAL/MQ/DEBUG as quickly as possible.
+        // N64/GC/NTSC/PAL/MQ/DEBUG as quickly as possible.
+        stage('Build ntsc-1.2') {
+            steps {
+                script {
+                    build('ntsc-1.2', 'oot-ntsc-1.2-us.z64')
+                }
+           }
+        }
         stage('Build gc-jp') {
             steps {
                 script {
-                    build('gc-jp')
+                    build('gc-jp', 'oot-gc-jp.z64')
                 }
            }
         }
         stage('Build gc-eu-mq') {
             steps {
                 script {
-                    build('gc-eu-mq')
+                    build('gc-eu-mq', 'oot-gc-eu-mq.z64')
                 }
             }
         }
         stage('Build gc-eu-mq-dbg') {
             steps {
                 script {
-                    build('gc-eu-mq-dbg')
+                    build('gc-eu-mq-dbg', 'oot-gc-eu-mq-dbg.z64')
                 }
             }
         }
         stage('Build gc-us') {
             steps {
                 script {
-                    build('gc-us')
+                    build('gc-us', 'oot-gc-us.z64')
                 }
             }
         }
         stage('Build gc-jp-ce') {
             steps {
                 script {
-                    build('gc-jp-ce')
+                    build('gc-jp-ce', 'oot-gc-jp-ce.z64')
                 }
             }
         }
         stage('Build gc-eu') {
             steps {
                 script {
-                    build('gc-eu')
+                    build('gc-eu', 'oot-gc-eu.z64')
                 }
             }
         }
         stage('Build gc-jp-mq') {
             steps {
                 script {
-                    build('gc-jp-mq')
+                    build('gc-jp-mq', 'oot-gc-jp-mq.z64')
                 }
             }
         }
         stage('Build gc-us-mq') {
             steps {
                 script {
-                    build('gc-us-mq')
+                    build('gc-us-mq', 'oot-gc-us-mq.z64')
                 }
             }
         }
@@ -122,8 +120,8 @@ pipeline {
     }
 }
 
-def build(String version) {
-    sh "ln -s /usr/local/etc/roms/oot-${version}.z64 baseroms/${version}/baserom.z64"
+def build(String version, String rom) {
+    sh "ln -s /usr/local/etc/roms/${rom} baseroms/${version}/baserom.z64"
     sh "make -j\$(nproc) setup VERSION=${version}"
     try {
         sh "make -j\$(nproc) VERSION=${version}"

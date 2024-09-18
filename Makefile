@@ -18,16 +18,17 @@ ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER ?= ido
 # Target game version. Currently the following versions are supported:
+#   ntsc-1.2       N64 NTSC 1.2 (Japan/US depending on REGION)
 #   gc-jp          GameCube Japan
 #   gc-jp-mq       GameCube Japan Master Quest
-#   gc-jp-ce       GameCube Japan (Collector's Edition disc)
 #   gc-us          GameCube US
-#   gc-us-mq       GameCube US
+#   gc-us-mq       GameCube US Master Quest
+#   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 #   gc-eu          GameCube Europe/PAL
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
-#   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
+#   gc-jp-ce       GameCube Japan (Collector's Edition disc)
 # The following versions are work-in-progress and not yet matching:
-#   ntsc-1.2       N64 NTSC 1.2 (Japan/US depending on REGION)
+#   (none currently)
 VERSION ?= gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS ?= $(shell nproc)
@@ -52,16 +53,11 @@ ifeq ($(VERSION),ntsc-1.2)
   REGION ?= JP
   PLATFORM := N64
   DEBUG := 0
-  COMPARE := 0
 else ifeq ($(VERSION),gc-jp)
   REGION ?= JP
   PLATFORM := GC
   DEBUG := 0
 else ifeq ($(VERSION),gc-jp-mq)
-  REGION ?= JP
-  PLATFORM := GC
-  DEBUG := 0
-else ifeq ($(VERSION),gc-jp-ce)
   REGION ?= JP
   PLATFORM := GC
   DEBUG := 0
@@ -73,6 +69,10 @@ else ifeq ($(VERSION),gc-us-mq)
   REGION ?= US
   PLATFORM := GC
   DEBUG := 0
+else ifeq ($(VERSION),gc-eu-mq-dbg)
+  REGION ?= EU
+  PLATFORM := GC
+  DEBUG := 1
 else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
   PLATFORM := GC
@@ -81,10 +81,10 @@ else ifeq ($(VERSION),gc-eu-mq)
   REGION ?= EU
   PLATFORM := GC
   DEBUG := 0
-else ifeq ($(VERSION),gc-eu-mq-dbg)
-  REGION ?= EU
+else ifeq ($(VERSION),gc-jp-ce)
+  REGION ?= JP
   PLATFORM := GC
-  DEBUG := 1
+  DEBUG := 0
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -210,6 +210,9 @@ SBC           := tools/audio/sbc
 SFC           := tools/audio/sfc
 SFPATCH       := tools/audio/sfpatch
 ATBLGEN       := tools/audio/atblgen
+# We want linemarkers in sequence assembly files for better assembler error messages
+SEQ_CPP       := $(CPP) -x assembler-with-cpp -fno-dollars-in-identifiers
+SEQ_CPPFLAGS  := -D_LANGUAGE_ASEQ -DMML_VERSION=MML_VERSION_OOT -I include -I include/audio -I include/tables/sfx -I $(BUILD_DIR)/assets/audio/soundfonts
 
 SBCFLAGS := --matching
 SFCFLAGS := --matching
@@ -282,10 +285,12 @@ ifneq ($(wildcard $(EXTRACTED_DIR)/assets/audio),)
   SAMPLE_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/samples -type d)
   SAMPLEBANK_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/samplebanks -type d)
   SOUNDFONT_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/soundfonts -type d)
+  SEQUENCE_EXTRACT_DIRS := $(shell find $(EXTRACTED_DIR)/assets/audio/sequences -type d)
 else
   SAMPLE_EXTRACT_DIRS :=
   SAMPLEBANK_EXTRACT_DIRS :=
   SOUNDFONT_EXTRACT_DIRS :=
+  SEQUENCE_EXTRACT_DIRS :=
 endif
 
 ifneq ($(wildcard assets/audio/samples),)
@@ -306,6 +311,12 @@ else
   SOUNDFONT_DIRS :=
 endif
 
+ifneq ($(wildcard assets/audio/sequences),)
+  SEQUENCE_DIRS := $(shell find assets/audio/sequences -type d)
+else
+  SEQUENCE_DIRS :=
+endif
+
 SAMPLE_FILES         := $(foreach dir,$(SAMPLE_DIRS),$(wildcard $(dir)/*.wav))
 SAMPLE_EXTRACT_FILES := $(foreach dir,$(SAMPLE_EXTRACT_DIRS),$(wildcard $(dir)/*.wav))
 AIFC_FILES           := $(foreach f,$(SAMPLE_FILES),$(BUILD_DIR)/$(f:.wav=.aifc)) $(foreach f,$(SAMPLE_EXTRACT_FILES:.wav=.aifc),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%))
@@ -323,11 +334,22 @@ SOUNDFONT_O_FILES      := $(foreach f,$(SOUNDFONT_BUILD_XMLS),$(f:.xml=.o))
 SOUNDFONT_HEADERS      := $(foreach f,$(SOUNDFONT_BUILD_XMLS),$(f:.xml=.h))
 SOUNDFONT_DEP_FILES    := $(foreach f,$(SOUNDFONT_O_FILES),$(f:.o=.d))
 
+SEQUENCE_FILES         := $(foreach dir,$(SEQUENCE_DIRS),$(wildcard $(dir)/*.seq))
+SEQUENCE_EXTRACT_FILES := $(foreach dir,$(SEQUENCE_EXTRACT_DIRS),$(wildcard $(dir)/*.seq))
+SEQUENCE_O_FILES       := $(foreach f,$(SEQUENCE_FILES),$(BUILD_DIR)/$(f:.seq=.o)) $(foreach f,$(SEQUENCE_EXTRACT_FILES:.seq=.o),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%))
+SEQUENCE_DEP_FILES     := $(foreach f,$(SEQUENCE_O_FILES),$(f:.o=.d))
+
+SEQUENCE_TABLE := include/tables/sequence_table.h
+
 # create extracted directory
 $(shell mkdir -p $(EXTRACTED_DIR))
 
-ASSET_BIN_DIRS_EXTRACTED := $(shell find $(EXTRACTED_DIR)/assets -type d)
-ASSET_BIN_DIRS_COMMITTED := $(shell find assets -type d -not -path "assets/xml*" -not -path assets/text)
+ifneq ($(wildcard $(EXTRACTED_DIR)/assets),)
+  ASSET_BIN_DIRS_EXTRACTED := $(shell find $(EXTRACTED_DIR)/assets -type d)
+else
+  ASSET_BIN_DIRS_EXTRACTED :=
+endif
+ASSET_BIN_DIRS_COMMITTED := $(shell find assets -type d -not -path "assets/xml*" -not -path "assets/audio*" -not -path assets/text)
 ASSET_BIN_DIRS := $(ASSET_BIN_DIRS_EXTRACTED) $(ASSET_BIN_DIRS_COMMITTED)
 
 ASSET_FILES_BIN_EXTRACTED := $(foreach dir,$(ASSET_BIN_DIRS_EXTRACTED),$(wildcard $(dir)/*.bin))
@@ -377,6 +399,7 @@ $(shell mkdir -p $(foreach dir, \
                       $(SAMPLE_DIRS) \
                       $(SAMPLEBANK_DIRS) \
                       $(SOUNDFONT_DIRS) \
+                      $(SEQUENCE_DIRS) \
                       $(ASSET_BIN_DIRS_COMMITTED), \
                     $(BUILD_DIR)/$(dir)))
 ifneq ($(wildcard $(EXTRACTED_DIR)/assets),)
@@ -384,6 +407,7 @@ $(shell mkdir -p $(foreach dir, \
                       $(SAMPLE_EXTRACT_DIRS) \
                       $(SAMPLEBANK_EXTRACT_DIRS) \
                       $(SOUNDFONT_EXTRACT_DIRS) \
+                      $(SEQUENCE_EXTRACT_DIRS) \
                       $(ASSET_BIN_DIRS_EXTRACTED), \
                     $(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
 endif
@@ -590,8 +614,8 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt \
-        $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) \
-        $(BUILD_DIR)/assets/audio/audiobank_padding.o
+        $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
+        $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
 	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
 
 ## Order-only prerequisites
@@ -677,6 +701,8 @@ $(BUILD_DIR)/src/code/z_actor_dlftbls.o: include/tables/actor_table.h
 $(BUILD_DIR)/src/code/z_effect_soft_sprite_dlftbls.o: include/tables/effect_ss_table.h
 $(BUILD_DIR)/src/code/z_game_dlftbls.o: include/tables/gamestate_table.h
 $(BUILD_DIR)/src/code/z_scene_table.o: include/tables/scene_table.h include/tables/entrance_table.h
+$(BUILD_DIR)/src/audio/general.o: $(SEQUENCE_TABLE) include/tables/sfx/*.h
+$(BUILD_DIR)/src/audio/sfx_params.o: include/tables/sfx/*.h
 
 $(BUILD_DIR)/src/%.o: src/%.c
 ifneq ($(RUN_CC_CHECK),0)
@@ -810,6 +836,22 @@ ifeq ($(AUDIO_BUILD_DEBUG),1)
 	@(cmp $(@:.o=.bin) $(patsubst $(BUILD_DIR)/assets/audio/soundfonts/%,$(EXTRACTED_DIR)/baserom_audiotest/audiobank_files/%,$(@:.o=.bin)) && echo "$(<F) OK" || (mkdir -p NONMATCHINGS/soundfonts && cp $(@:.o=.bin) NONMATCHINGS/soundfonts/$(@F:.o=.bin)))
 endif
 
+# then assemble the sequences...
+
+$(BUILD_DIR)/assets/audio/sequences/%.o: assets/audio/sequences/%.seq include/audio/aseq.h $(SEQUENCE_TABLE) | $(SOUNDFONT_HEADERS)
+	$(SEQ_CPP) $(SEQ_CPPFLAGS) $< -o $(@:.o=.s) -MMD -MT $@
+	$(AS) $(ASFLAGS) -I $(BUILD_DIR)/assets/audio/soundfonts -I include/audio -I $(dir $<) $(@:.o=.s) -o $@
+
+$(BUILD_DIR)/assets/audio/sequences/%.o: $(EXTRACTED_DIR)/assets/audio/sequences/%.seq include/audio/aseq.h $(SEQUENCE_TABLE) | $(SOUNDFONT_HEADERS)
+	$(SEQ_CPP) $(SEQ_CPPFLAGS) $< -o $(@:.o=.s) -MMD -MT $@
+	$(AS) $(ASFLAGS) -I $(BUILD_DIR)/assets/audio/soundfonts -I include/audio -I $(dir $<) $(@:.o=.s) -o $@
+ifeq ($(AUDIO_BUILD_DEBUG),1)
+	$(OBJCOPY) -O binary -j.data $@ $(@:.o=.aseq)
+	@(cmp $(@:.o=.aseq) $(patsubst $(BUILD_DIR)/assets/audio/sequences/%,$(EXTRACTED_DIR)/baserom_audiotest/audioseq_files/%,$(@:.o=.aseq)) && echo "$(<F) OK" || (mkdir -p NONMATCHINGS/sequences && cp $(@:.o=.aseq) NONMATCHINGS/sequences/$(@F:.o=.aseq)))
+endif
+
+-include $(SEQUENCE_DEP_FILES)
+
 # put together the tables
 
 $(BUILD_DIR)/assets/audio/samplebank_table.h: $(SAMPLEBANK_BUILD_XMLS)
@@ -818,9 +860,23 @@ $(BUILD_DIR)/assets/audio/samplebank_table.h: $(SAMPLEBANK_BUILD_XMLS)
 $(BUILD_DIR)/assets/audio/soundfont_table.h: $(SOUNDFONT_BUILD_XMLS) $(SAMPLEBANK_BUILD_XMLS)
 	$(ATBLGEN) --fonts $@ $(SOUNDFONT_BUILD_XMLS)
 
+SEQ_ORDER_DEFS := -DDEFINE_SEQUENCE_PTR\(name,seqId,_2,_3,_4\)=*\(name,seqId\) \
+                  -DDEFINE_SEQUENCE\(name,seqId,_2,_3,_4\)=\(name,seqId\)
+$(BUILD_DIR)/assets/audio/sequence_order.in: $(SEQUENCE_TABLE)
+	$(CPP) $(CPPFLAGS) $< $(SEQ_ORDER_DEFS) -o $@
+
+$(BUILD_DIR)/assets/audio/sequence_font_table.s: $(BUILD_DIR)/assets/audio/sequence_order.in $(SEQUENCE_O_FILES)
+	$(ATBLGEN) --sequences $@ $^
+
 # build the tables into objects, move data -> rodata
 
 $(BUILD_DIR)/src/audio/tables/samplebank_table.o: src/audio/tables/samplebank_table.c $(BUILD_DIR)/assets/audio/samplebank_table.h
+$(BUILD_DIR)/src/audio/tables/soundfont_table.o: src/audio/tables/soundfont_table.c $(BUILD_DIR)/assets/audio/soundfont_table.h $(SOUNDFONT_HEADERS)
+$(BUILD_DIR)/src/audio/tables/sequence_table.o: src/audio/tables/sequence_table.c $(SEQUENCE_TABLE)
+
+$(BUILD_DIR)/src/audio/tables/sequence_table.o: CFLAGS += -I include/tables
+
+$(BUILD_DIR)/src/audio/tables/%.o: src/audio/tables/%.c
 ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
 endif
@@ -828,13 +884,8 @@ endif
 	$(LD) -r -T linker_scripts/data_with_rodata.ld $(@:.o=.tmp) -o $@
 	@$(RM) $(@:.o=.tmp)
 
-$(BUILD_DIR)/src/audio/tables/soundfont_table.o: src/audio/tables/soundfont_table.c $(BUILD_DIR)/assets/audio/soundfont_table.h $(SOUNDFONT_HEADERS)
-ifneq ($(RUN_CC_CHECK),0)
-	$(CC_CHECK) $<
-endif
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $(@:.o=.tmp) $<
-	$(LD) -r -T linker_scripts/data_with_rodata.ld $(@:.o=.tmp) -o $@
-	@$(RM) $(@:.o=.tmp)
+$(BUILD_DIR)/assets/audio/sequence_font_table.o: $(BUILD_DIR)/assets/audio/sequence_font_table.s
+	$(AS) $(ASFLAGS) $< -o $@
 
 # Extra audiobank padding that doesn't belong to any soundfont file
 $(BUILD_DIR)/assets/audio/audiobank_padding.o:

@@ -7,7 +7,7 @@
 #include "z_en_ds.h"
 #include "assets/objects/object_ds/object_ds.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnDs_Init(Actor* thisx, PlayState* play);
 void EnDs_Destroy(Actor* thisx, PlayState* play);

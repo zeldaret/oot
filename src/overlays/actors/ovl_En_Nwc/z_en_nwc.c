@@ -44,7 +44,7 @@ ActorProfile En_Nwc_Profile = {
 
 static ColliderJntSphElementInit sJntSphElementInit = {
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,

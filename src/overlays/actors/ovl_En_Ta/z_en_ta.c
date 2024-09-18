@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_ta/object_ta.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 #define TALON_STATE_FLAG_TRACKING_PLAYER (1 << 0)
 #define TALON_STATE_FLAG_GIVING_MILK_REFILL (1 << 1)
@@ -79,7 +79,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000004, 0x00, 0x00 },
         ATELEM_NONE,
