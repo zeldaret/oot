@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)

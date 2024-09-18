@@ -1,3 +1,5 @@
+#pragma increment_block_number "ntsc-1.2:128"
+
 #include "global.h"
 #include "cic6105.h"
 #include "fault.h"

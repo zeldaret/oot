@@ -17,23 +17,6 @@ struct PlayState;
  * Bases for all shapes of colliders
  */
 
-typedef enum ColliderType {
-    /*  0 */ COLTYPE_HIT0, // Blue blood, white hitmark
-    /*  1 */ COLTYPE_HIT1, // No blood, dust hitmark
-    /*  2 */ COLTYPE_HIT2, // Green blood, dust hitmark
-    /*  3 */ COLTYPE_HIT3, // No blood, white hitmark
-    /*  4 */ COLTYPE_HIT4, // Water burst, no hitmark
-    /*  5 */ COLTYPE_HIT5, // No blood, red hitmark
-    /*  6 */ COLTYPE_HIT6, // Green blood, white hitmark
-    /*  7 */ COLTYPE_HIT7, // Red blood, white hitmark
-    /*  8 */ COLTYPE_HIT8, // Blue blood, red hitmark
-    /*  9 */ COLTYPE_METAL,
-    /* 10 */ COLTYPE_NONE,
-    /* 11 */ COLTYPE_WOOD,
-    /* 12 */ COLTYPE_HARD,
-    /* 13 */ COLTYPE_TREE
-} ColliderType;
-
 typedef enum ColliderShape {
     /* 0 */ COLSHAPE_JNTSPH,
     /* 1 */ COLSHAPE_CYLINDER,
@@ -41,6 +24,23 @@ typedef enum ColliderShape {
     /* 3 */ COLSHAPE_QUAD,
     /* 4 */ COLSHAPE_MAX
 } ColliderShape;
+
+typedef enum ColliderMaterial {
+    /*  0 */ COL_MATERIAL_HIT0, // Blue blood, white hitmark
+    /*  1 */ COL_MATERIAL_HIT1, // No blood, dust hitmark
+    /*  2 */ COL_MATERIAL_HIT2, // Green blood, dust hitmark
+    /*  3 */ COL_MATERIAL_HIT3, // No blood, white hitmark
+    /*  4 */ COL_MATERIAL_HIT4, // Water burst, no hitmark
+    /*  5 */ COL_MATERIAL_HIT5, // No blood, red hitmark
+    /*  6 */ COL_MATERIAL_HIT6, // Green blood, white hitmark
+    /*  7 */ COL_MATERIAL_HIT7, // Red blood, white hitmark
+    /*  8 */ COL_MATERIAL_HIT8, // Blue blood, red hitmark
+    /*  9 */ COL_MATERIAL_METAL,
+    /* 10 */ COL_MATERIAL_NONE,
+    /* 11 */ COL_MATERIAL_WOOD,
+    /* 12 */ COL_MATERIAL_HARD,
+    /* 13 */ COL_MATERIAL_TREE
+} ColliderMaterial;
 
 typedef struct Collider {
     /* 0x00 */ struct Actor* actor; // Attached actor
@@ -51,12 +51,12 @@ typedef struct Collider {
     /* 0x11 */ u8 acFlags;
     /* 0x12 */ u8 ocFlags1;
     /* 0x13 */ u8 ocFlags2; // Flags related to which colliders it can OC collide with.
-    /* 0x14 */ u8 colType; // Determines hitmarks and sound effects during AC collisions. See `ColliderType` enum
+    /* 0x14 */ u8 colMaterial; // Determines hitmarks and sound effects during AC collisions. See `ColliderMaterial` enum
     /* 0x15 */ u8 shape; // See `ColliderShape` enum
 } Collider; // size = 0x18
 
 typedef struct ColliderInit {
-    /* 0x00 */ u8 colType;
+    /* 0x00 */ u8 colMaterial;
     /* 0x01 */ u8 atFlags;
     /* 0x02 */ u8 acFlags;
     /* 0x03 */ u8 ocFlags1;
@@ -65,7 +65,7 @@ typedef struct ColliderInit {
 } ColliderInit; // size = 0x06
 
 typedef struct ColliderInitType1 {
-    /* 0x00 */ u8 colType;
+    /* 0x00 */ u8 colMaterial;
     /* 0x01 */ u8 atFlags;
     /* 0x02 */ u8 acFlags;
     /* 0x03 */ u8 ocFlags1;
@@ -99,27 +99,21 @@ typedef struct ColliderElementDamageInfoACInit {
     /* 0x05 */ u8 defense; // Damage Resistance
 } ColliderElementDamageInfoACInit; // size = 0x08
 
-/**
- * Affects the sound Link's sword makes when hitting it, hookability,
- * and possibly other things. It's definitely not flags, as all checks
- * are == or !=. Will probably need more actors decomped to truly
- * understand what this is.
- */
-typedef enum ElementType {
-    /* 0 */ ELEMTYPE_UNK0,
-    /* 1 */ ELEMTYPE_UNK1,
-    /* 2 */ ELEMTYPE_UNK2,
-    /* 3 */ ELEMTYPE_UNK3,
-    /* 4 */ ELEMTYPE_UNK4,
-    /* 5 */ ELEMTYPE_UNK5,
-    /* 6 */ ELEMTYPE_UNK6,
-    /* 7 */ ELEMTYPE_UNK7
-} ElementType;
+typedef enum ElementMaterial {
+    /* 0 */ ELEM_MATERIAL_UNK0,
+    /* 1 */ ELEM_MATERIAL_UNK1,
+    /* 2 */ ELEM_MATERIAL_UNK2,
+    /* 3 */ ELEM_MATERIAL_UNK3,
+    /* 4 */ ELEM_MATERIAL_UNK4,
+    /* 5 */ ELEM_MATERIAL_UNK5,
+    /* 6 */ ELEM_MATERIAL_UNK6,
+    /* 7 */ ELEM_MATERIAL_UNK7
+} ElementMaterial;
 
 typedef struct ColliderElement {
     /* 0x00 */ ColliderElementDamageInfoAT atDmgInfo; // Damage properties when acting as an AT collider
     /* 0x08 */ ColliderElementDamageInfoAC acDmgInfo; // Damage properties when acting as an AC collider
-    /* 0x14 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
+    /* 0x14 */ u8 elemMaterial; // Affects sfx when attacked by Player, and interaction with hookshot and arrows.
     /* 0x15 */ u8 atElemFlags; // Information flags for AT collisions
     /* 0x16 */ u8 acElemFlags; // Information flags for AC collisions
     /* 0x17 */ u8 ocElemFlags; // Information flags for OC collisions
@@ -130,7 +124,7 @@ typedef struct ColliderElement {
 } ColliderElement; // size = 0x28
 
 typedef struct ColliderElementInit {
-    /* 0x00 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
+    /* 0x00 */ u8 elemMaterial; // Affects sfx when attacked by Player, and interaction with hookshot and arrows.
     /* 0x04 */ ColliderElementDamageInfoAT atDmgInfo; // Damage properties when acting as an AT collider
     /* 0x0C */ ColliderElementDamageInfoACInit acDmgInfo; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 atElemFlags; // Information flags for AT collisions

@@ -1,6 +1,8 @@
 #ifndef MACROS_H
 #define MACROS_H
 
+#include "versions.h"
+
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
