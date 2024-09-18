@@ -216,9 +216,9 @@
 
 // Macro for constants that change in 50 Hz N64 PAL versions.
 #if !OOT_PAL_N64
-#define FRAME_RATE_DEPENDENT(value60Hz, value50Hz) (value60Hz)
+#define FRAMERATE_CONST(value60Hz, value50Hz) (value60Hz)
 #else
-#define FRAME_RATE_DEPENDENT(value60Hz, value50Hz) (value50Hz)
+#define FRAMERATE_CONST(value60Hz, value50Hz) (value50Hz)
 #endif
 
 /**

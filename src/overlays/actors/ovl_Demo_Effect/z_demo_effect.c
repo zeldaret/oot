@@ -358,16 +358,16 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
         case DEMO_EFFECT_LIGHTRING_EXPANDING:
             this->initDrawFunc = DemoEffect_DrawLightRing;
             this->initUpdateFunc = DemoEffect_UpdateLightRingExpanding;
-            this->lightRing.timer = FRAME_RATE_DEPENDENT(20, 6);
-            this->lightRing.timerIncrement = FRAME_RATE_DEPENDENT(4, 5);
+            this->lightRing.timer = FRAMERATE_CONST(20, 6);
+            this->lightRing.timerIncrement = FRAMERATE_CONST(4, 5);
             this->lightRing.alpha = 255;
             break;
 
         case DEMO_EFFECT_LIGHTRING_TRIFORCE:
             this->initDrawFunc = DemoEffect_DrawLightRing;
             this->initUpdateFunc = DemoEffect_UpdateLightRingTriforce;
-            this->lightRing.timer = FRAME_RATE_DEPENDENT(20, 6);
-            this->lightRing.timerIncrement = FRAME_RATE_DEPENDENT(4, 5);
+            this->lightRing.timer = FRAMERATE_CONST(20, 6);
+            this->lightRing.timerIncrement = FRAMERATE_CONST(4, 5);
             this->lightRing.alpha = 0;
             this->cueChannel = 4;
             break;
@@ -375,8 +375,8 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
         case DEMO_EFFECT_LIGHTRING_SHRINKING:
             this->initDrawFunc = DemoEffect_DrawLightRing;
             this->initUpdateFunc = DemoEffect_UpdateLightRingShrinking;
-            this->lightRing.timer = FRAME_RATE_DEPENDENT(351, 405);
-            this->lightRing.timerIncrement = FRAME_RATE_DEPENDENT(2, 3);
+            this->lightRing.timer = FRAMERATE_CONST(351, 405);
+            this->lightRing.timerIncrement = FRAMERATE_CONST(2, 3);
             this->lightRing.alpha = 0;
             break;
 
@@ -835,7 +835,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
         }
 
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0 && gSaveContext.sceneLayer == 6 &&
-            play->csCtx.curFrame == FRAME_RATE_DEPENDENT(143, 120)) {
+            play->csCtx.curFrame == FRAMERATE_CONST(143, 120)) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
     }
@@ -960,10 +960,10 @@ void DemoEffect_InitCreationFireball(DemoEffect* this, PlayState* play) {
     Actor* parent = this->actor.parent;
 
     this->actor.world.rot.y = parent->shape.rot.y;
-    this->fireBall.timer = FRAME_RATE_DEPENDENT(50, 42);
-    this->actor.speed = FRAME_RATE_DEPENDENT(1.5f, 1.8f);
-    this->actor.minVelocityY = FRAME_RATE_DEPENDENT(-1.5f, -2.5f);
-    this->actor.gravity = FRAME_RATE_DEPENDENT(-0.03f, -0.05f);
+    this->fireBall.timer = FRAMERATE_CONST(50, 42);
+    this->actor.speed = FRAMERATE_CONST(1.5f, 1.8f);
+    this->actor.minVelocityY = FRAMERATE_CONST(-1.5f, -2.5f);
+    this->actor.gravity = FRAMERATE_CONST(-0.03f, -0.05f);
     this->updateFunc = DemoEffect_UpdateCreationFireball;
 }
 
@@ -1135,22 +1135,22 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(288, 240)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(288, 240)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(635, 535)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(635, 535)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(55, 25)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(55, 25)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(350, 353)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(350, 353)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1190,18 +1190,18 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(298, 248)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(298, 248)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
                 case 6:
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(105, 88)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(105, 88)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(360, 362)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(360, 362)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1209,10 +1209,10 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
         }
 
         if (gSaveContext.save.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL_0 && gSaveContext.sceneLayer == 4) {
-            if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(72, 57)) {
+            if (play->csCtx.curFrame == FRAMERATE_CONST(72, 57)) {
                 Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
-            if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(80, 72)) {
+            if (play->csCtx.curFrame == FRAMERATE_CONST(80, 72)) {
                 Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_NAYRU_MAGIC);
             }
         }
@@ -1249,19 +1249,19 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(315, 265)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(315, 265)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(80, 60)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(80, 60)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.curFrame == FRAME_RATE_DEPENDENT(370, 371)) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(370, 371)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;

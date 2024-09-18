@@ -5981,7 +5981,7 @@ void func_8083BC04(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_80844708, 0);
     LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime,
                                    GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing_roll, this->modelAnimType),
-                                   FRAME_RATE_DEPENDENT(1.25f, 1.5f) * D_808535E8);
+                                   FRAMERATE_CONST(1.25f, 1.5f) * D_808535E8);
 }
 
 s32 func_8083BC7C(Player* this, PlayState* play) {
@@ -6584,7 +6584,7 @@ void func_8083D53C(PlayState* play, Player* this) {
 void func_8083D6EC(PlayState* play, Player* this) {
     Vec3f ripplePos;
 
-    this->actor.minVelocityY = FRAME_RATE_DEPENDENT(-20.0f, -24.0f);
+    this->actor.minVelocityY = FRAMERATE_CONST(-20.0f, -24.0f);
     this->actor.gravity = REG(68) / 100.0f;
 
     if (func_8083816C(sFloorType)) {
@@ -9215,7 +9215,7 @@ void Player_Action_80844708(Player* this, PlayState* play) {
     sp44 = LinkAnimation_Update(play, &this->skelAnime);
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 8.0f)) {
-        func_80837AFC(this, FRAME_RATE_DEPENDENT(-10, -8));
+        func_80837AFC(this, FRAMERATE_CONST(-10, -8));
     }
 
     if (func_80842964(this, play) == 0) {
@@ -11883,7 +11883,7 @@ void func_8084B000(Player* this) {
     f32 phi_f14;
     f32 depthInWater;
 
-    phi_f14 = FRAME_RATE_DEPENDENT(-5.0f, -6.0f);
+    phi_f14 = FRAMERATE_CONST(-5.0f, -6.0f);
 
     phi_f16 = this->ageProperties->unk_28;
     if (this->actor.velocity.y < 0.0f) {
@@ -11899,10 +11899,10 @@ void func_8084B000(Player* this) {
         phi_f18 = -0.1f - phi_f16;
     } else {
         if (!(this->stateFlags1 & PLAYER_STATE1_DEAD) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
-            (this->actor.velocity.y >= FRAME_RATE_DEPENDENT(-3.0f, -3.6f))) {
+            (this->actor.velocity.y >= FRAMERATE_CONST(-3.0f, -3.6f))) {
             phi_f18 = -0.2f;
         } else {
-            phi_f14 = FRAME_RATE_DEPENDENT(2.0f, 2.4f);
+            phi_f14 = FRAMERATE_CONST(2.0f, 2.4f);
             if (this->actor.velocity.y >= 0.0f) {
                 phi_f16 = 0.0f;
             } else {
@@ -11931,10 +11931,10 @@ void func_8084B158(PlayState* play, Player* this, Input* input, f32 arg3) {
     f32 limit;
 
     if ((input != NULL) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_B)) {
-        temp = limit = FRAME_RATE_DEPENDENT(1.0f, 1.2f);
+        temp = limit = FRAMERATE_CONST(1.0f, 1.2f);
     } else {
-        temp = FRAME_RATE_DEPENDENT(0.5f, 0.6f);
-        limit = FRAME_RATE_DEPENDENT(1.0f, 1.2f);
+        temp = FRAMERATE_CONST(0.5f, 0.6f);
+        limit = FRAMERATE_CONST(1.0f, 1.2f);
     }
 
     temp *= arg3;

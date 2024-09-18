@@ -71,14 +71,14 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_end_title.c", 419);
 
     // Draw title cards on the screen
-    if ((csCurFrame > FRAME_RATE_DEPENDENT(890, 740)) && (this->endAlpha < 200)) {
-        this->endAlpha += FRAME_RATE_DEPENDENT(7, 8);
+    if ((csCurFrame > FRAMERATE_CONST(890, 740)) && (this->endAlpha < 200)) {
+        this->endAlpha += FRAMERATE_CONST(7, 8);
     }
-    if ((csCurFrame > FRAME_RATE_DEPENDENT(810, 675)) && (this->tlozAlpha < 200)) {
-        this->tlozAlpha += FRAME_RATE_DEPENDENT(15, 18);
+    if ((csCurFrame > FRAMERATE_CONST(810, 675)) && (this->tlozAlpha < 200)) {
+        this->tlozAlpha += FRAMERATE_CONST(15, 18);
     }
-    if ((csCurFrame > FRAME_RATE_DEPENDENT(850, 710)) && (this->ootAlpha < 200)) {
-        this->ootAlpha += FRAME_RATE_DEPENDENT(15, 18);
+    if ((csCurFrame > FRAMERATE_CONST(850, 710)) && (this->ootAlpha < 200)) {
+        this->ootAlpha += FRAMERATE_CONST(15, 18);
     }
 
     OVERLAY_DISP = Gfx_SetupDL_64(OVERLAY_DISP);
@@ -115,7 +115,7 @@ void EndTitle_DrawNintendoLogo(Actor* thisx, PlayState* play) {
     s32 pad;
     s32 csCurFrame = play->csCtx.curFrame;
 
-    if ((csCurFrame > FRAME_RATE_DEPENDENT(1100, 950)) && (this->endAlpha < 255)) {
+    if ((csCurFrame > FRAMERATE_CONST(1100, 950)) && (this->endAlpha < 255)) {
         this->endAlpha += 3;
     }
 

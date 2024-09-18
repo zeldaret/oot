@@ -909,7 +909,7 @@ void AudioHeap_Init(void) {
 
     // Determine the length of the buffer for storing the audio command list passed to the rsp audio microcode
     gAudioCtx.maxAudioCmds = gAudioCtx.numNotes * 0x10 * gAudioCtx.audioBufferParameters.ticksPerUpdate +
-                             spec->numReverbs * 0x18 + FRAME_RATE_DEPENDENT(0x140, 0x1C0);
+                             spec->numReverbs * 0x18 + FRAMERATE_CONST(0x140, 0x1C0);
 
     // Calculate sizes for various caches on the audio heap
     persistentSize =
