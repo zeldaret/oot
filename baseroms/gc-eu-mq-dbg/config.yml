@@ -29,14 +29,6 @@ incbins:
     segment: code
     vram: 0x8012A7C0
     size: 0x400
-  - name: gSequenceFontTable
-    segment: code
-    vram: 0x80155340
-    size: 0x1C0
-  - name: gSequenceTable
-    segment: code
-    vram: 0x80155500
-    size: 0x6F0
   - name: aspMainData
     segment: code
     vram: 0x80155C70
