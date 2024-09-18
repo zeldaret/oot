@@ -141,8 +141,8 @@ typedef enum WorldMapPointState {
     /* 2 */ WORLD_MAP_POINT_STATE_HIGHLIGHT
 } WorldMapPointState;
 
-// Values for respectively PauseContext.pagesYOrigin1 and R_PAUSE_PAGES_Y_ORIGIN_2
-// so that pause pages rotate around their lower edge instead of the middle.
+// Values for PauseContext.pagesYOrigin1 and R_PAUSE_PAGES_Y_ORIGIN_2 respectively,
+// that make the pause pages rotate around their lower edge instead of the middle.
 #define PAUSE_PAGES_Y_ORIGIN_1_LOWER 80 // PAGE_BG_ROWS * PAGE_BG_QUAD_HEIGHT / 2
 #define PAUSE_PAGES_Y_ORIGIN_2_LOWER (s16)(-PAUSE_PAGES_Y_ORIGIN_1_LOWER * 0.78 * 100)
 
