@@ -64,7 +64,7 @@ static u32 D_8098783C = 0;
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -861,7 +861,7 @@ s32 func_80986A5C(DemoIm* this, PlayState* play) {
 }
 
 s32 func_80986AD0(DemoIm* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.textId = 0x708E;
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
@@ -957,7 +957,7 @@ void func_80986DC8(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, play);
-    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
 }
 
 void func_80986E20(DemoIm* this, PlayState* play) {
@@ -1004,7 +1004,7 @@ void func_80986FA8(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, play);
-    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     DemoIm_UpdateCollider(this, play);
     func_80986CFC(this, play);
 }

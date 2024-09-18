@@ -56,7 +56,7 @@ static Gfx* D_80BA1B8C[] = { gPotFragmentDL, object_tsubo_DL_001960 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_PLAYER,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -64,7 +64,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000002, 0x00, 0x01 },
         { 0x4FC1FFFE, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,

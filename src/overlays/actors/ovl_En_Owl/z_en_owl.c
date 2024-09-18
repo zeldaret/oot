@@ -10,7 +10,7 @@
 #include "assets/scenes/overworld/spot16/spot16_scene.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnOwl_Init(Actor* thisx, PlayState* play);
 void EnOwl_Destroy(Actor* thisx, PlayState* play);
@@ -79,7 +79,7 @@ ActorProfile En_Owl_Profile = {
 
 static ColliderCylinderInit sOwlCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -87,7 +87,7 @@ static ColliderCylinderInit sOwlCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,

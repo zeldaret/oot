@@ -1,6 +1,7 @@
 #define MESSAGE_DATA_STATIC
 
 #include "message_data_fmt.h"
+#include "versions.h"
 
 #define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     const char _message_##textId##_nes[] = nesMessage;

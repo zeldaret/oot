@@ -1,4 +1,5 @@
 #include "z_boss_ganon2.h"
+#include "versions.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "overlays/actors/ovl_Demo_Gj/z_demo_gj.h"
 #include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
@@ -1405,7 +1406,12 @@ void func_80900890(BossGanon2* this, PlayState* play) {
                 f32 temp_f2 = -200.0f - player->actor.world.pos.x;
                 f32 temp_f12 = -200.0f - player->actor.world.pos.z;
 
-                if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) <= 784.0f) {
+#if OOT_VERSION < NTSC_1_2
+                if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) <= 800.0f)
+#else
+                if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) <= 784.0f)
+#endif
+                {
                     Animation_MorphToPlayOnce(&this->skelAnime, &gGanonGetUpAnim, 0.0f);
                     this->unk_194 = Animation_GetLastFrame(&gGanonGetUpAnim);
                     this->unk_1AC = 2;

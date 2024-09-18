@@ -7,7 +7,8 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.2:0"
 
 typedef enum LightningBoltState {
     /* 0x00 */ LIGHTNING_BOLT_START,
@@ -212,7 +213,8 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-#pragma increment_block_number "gc-eu:112 gc-eu-mq:112 gc-jp:96 gc-jp-ce:96 gc-jp-mq:96 gc-us:96 gc-us-mq:96"
+#pragma increment_block_number "gc-eu:112 gc-eu-mq:112 gc-jp:96 gc-jp-ce:96 gc-jp-mq:96 gc-us:96 gc-us-mq:96" \
+                               "ntsc-1.2:224"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
@@ -1577,7 +1579,9 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
                sqrtf((SQ(lookDirX) + SQ(lookDirY) + SQ(lookDirZ)) * (SQ(posDirX) + SQ(posDirY) + SQ(posDirZ)));
 
     lensFlareAlphaScaleTarget = cosAngle * 3.5f;
-    lensFlareAlphaScaleTarget = CLAMP_MAX(lensFlareAlphaScaleTarget, 1.0f);
+    if (lensFlareAlphaScaleTarget > 1.0f) {
+        lensFlareAlphaScaleTarget = 1.0f;
+    }
 
     if (!isSun) {
         lensFlareAlphaScaleTarget = cosAngle;
@@ -1625,7 +1629,9 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
 
             alpha *= 1.0f - fogInfluence;
 
+#if !PLATFORM_N64
             if (1) {}
+#endif
 
             if (!(isOffScreen ^ 0)) {
                 Math_SmoothStepToF(&envCtx->lensFlareAlphaScale, lensFlareAlphaScaleTarget, 0.5f, 0.05f, 0.001f);

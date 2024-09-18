@@ -71,7 +71,7 @@ void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -83,7 +83,7 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
 
 static ColliderCylinderInitType1 sCylinderInit2 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -1505,7 +1505,7 @@ void func_80AEE050(EnRu1* this) {
 
 s32 func_80AEE264(EnRu1* this, PlayState* play) {
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         if (GET_INFTABLE(INFTABLE_143)) {
             this->actor.textId = 0x404E;
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
@@ -1837,7 +1837,7 @@ s32 func_80AEF0BC(EnRu1* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->action = 26;
-        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
         return true;
     }
     return false;
@@ -1877,7 +1877,7 @@ void func_80AEF29C(EnRu1* this, PlayState* play) {
 void func_80AEF2AC(EnRu1* this, PlayState* play) {
     this->action = 24;
     this->drawConfig = 1;
-    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
 }
 
 void func_80AEF2D0(EnRu1* this, PlayState* play) {
@@ -2034,7 +2034,7 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
 
 void func_80AEF930(EnRu1* this, PlayState* play) {
     if (func_80AEB104(this) == 3) {
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = 0x4048;
         Message_ContinueTextbox(play, this->actor.textId);
         func_80AEF4A8(this, play);
@@ -2132,7 +2132,7 @@ void func_80AEFC54(EnRu1* this, PlayState* play) {
         this->action = 41;
         this->unk_28C = EnRu1_FindSwitch(play);
         func_80AEB0EC(this, 1);
-        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -2160,7 +2160,7 @@ void func_80AEFD38(EnRu1* this, PlayState* play) {
 
 s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUTO);
         if (this->actor.textId == 0) {
             this->actor.textId = 0x402C;
@@ -2173,7 +2173,7 @@ s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
 
 s32 func_80AEFE38(EnRu1* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
         return true;
     }
     return false;

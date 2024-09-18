@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ntsc-1.2:128"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -204,7 +204,7 @@ ActorProfile Boss_Va_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -212,7 +212,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFEF, 0x03, 0x08 },
         { 0x00000010, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -225,7 +225,7 @@ static ColliderCylinderInit sCylinderInit = {
 static ColliderJntSphElementInit sJntSphElementsInitSupport[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000010, 0x00, 0x00 },
             ATELEM_NONE,
@@ -238,7 +238,7 @@ static ColliderJntSphElementInit sJntSphElementsInitSupport[1] = {
 
 static ColliderJntSphInit sJntSphInitSupport = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -252,7 +252,7 @@ static ColliderJntSphInit sJntSphInitSupport = {
 static ColliderJntSphElementInit sJntSphElementsInitBari[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x03, 0x04 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -265,7 +265,7 @@ static ColliderJntSphElementInit sJntSphElementsInitBari[1] = {
 
 static ColliderJntSphInit sJntSphInitBari = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -278,7 +278,7 @@ static ColliderJntSphInit sJntSphInitBari = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -286,7 +286,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x20000000, 0x03, 0x04 },
         { 0x00000010, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
