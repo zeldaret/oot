@@ -902,9 +902,7 @@ void Room_Draw(PlayState* play, Room* room, u32 flags);
 void Room_FinishRoomChange(PlayState* play, RoomContext* roomCtx);
 void Sample_Destroy(GameState* thisx);
 void Sample_Init(GameState* thisx);
-void Inventory_ChangeEquipment(s16 equipment, u16 value);
-u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment);
-void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
+
 void Object_InitContext(PlayState* play, ObjectContext* objectCtx);
 void Object_UpdateEntries(ObjectContext* objectCtx);
 s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId);
