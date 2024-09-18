@@ -14,6 +14,7 @@
 #define KALEIDO_COLOR_COLLECT_UNK_B 150
 #endif
 
+// FIXME this branch breaks this function matching on ntsc-1.2
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     static s16 sHpPrimColors[][4] = {
         { 255, 0, 0, 255 },
