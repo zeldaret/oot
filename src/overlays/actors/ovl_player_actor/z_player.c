@@ -1215,9 +1215,8 @@ static AnimSfxEntry* sIdleSfxEntries[] = {
 };
 
 /**
- * The indices in this array correspond 1 to 1 with the entries of sIdleAnimations
- * (the first one is gPlayerAnim_link_normal_wait_typeA_20f, the second one is gPlayerAnim_link_normal_waitF_typeA_20f
- * and so on). There is also an extra IDLE_ANIMATION_SFX_NONE at the end that doesn't correspond to any animation.
+ * The indices in this array correspond 1 to 1 with the entries of sIdleAnimations.
+ * There is also an extra IDLE_ANIMATION_SFX_NONE at the end that doesn't correspond to any animation.
  *
  * @see sIdleAnimations for all the animations that correspond to this array
  */
