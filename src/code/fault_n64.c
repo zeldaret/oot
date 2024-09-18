@@ -1,10 +1,14 @@
+#if PLATFORM_N64
+
+#pragma increment_block_number "ntsc-1.2:128"
+
 #include "global.h"
 #include "fault.h"
 #include "libc64/os_malloc.h"
 #include "stack.h"
 #include "terminal.h"
 
-#if PLATFORM_N64
+#pragma increment_block_number "ntsc-1.2:96"
 
 typedef struct FaultMgr {
     OSThread thread;
@@ -80,7 +84,7 @@ const char* sFpExceptionNames[] = {
 };
 
 u16 sFaultFontColor = GPACK_RGBA5551(255, 255, 255, 1);
-s32 D_800FF9C4[7] = { 0 }; // Unused (file padding?)
+s32 D_800FF9C4[7] = { 0 }; // Unused
 
 Input sFaultInputs[MAXCONTROLLERS];
 
@@ -90,12 +94,10 @@ STACK(sFaultStack, 0x400);
 StackEntry sFaultStackInfo;
 FaultCursorCoords sFaultCursorPos;
 
-vs32 sFaultExit;
+vs32 gFaultExit;
 vs32 gFaultMsgId;
-vs32 sFaultDisplayEnable;
+vs32 gFaultDisplayEnable;
 volatile OSThread* gFaultFaultedThread;
-s32 B_80122570[16];
-s32 B_801225B0[8]; // Unused (file padding?)
 
 void Fault_SleepImpl(u32 ms) {
     Sleep_Msec(ms);
@@ -653,6 +655,8 @@ void Fault_DrawMemDumpSP(OSThread* thread) {
 }
 
 void func_800AF3DC(void) {
+    static s32 B_80122570[16];
+    static s32 B_801225B0[8]; // Unused
     s32 i;
 
     Fault_DrawRecBlack(22, 16, 276, 208);
@@ -773,8 +777,8 @@ void Fault_ThreadEntry(void* arg0) {
         gFaultFaultedThread = faultedThread;
         Fault_LogThreadContext(faultedThread);
         osSyncPrintf("%d %s %d:%s = %d\n", osGetThreadId(NULL), "fault.c", 1454, "fault_display_enable",
-                     sFaultDisplayEnable);
-        while (!sFaultDisplayEnable) {
+                     gFaultDisplayEnable);
+        while (!gFaultDisplayEnable) {
             Fault_SleepImpl(1000);
         }
         Fault_SleepImpl(500);
@@ -793,8 +797,8 @@ void Fault_ThreadEntry(void* arg0) {
             Fault_DrawMemDumpPC(faultedThread);
             Fault_WaitForInput();
             Fault_ProcessClients();
-        } while (!sFaultExit);
-        while (!sFaultExit) {}
+        } while (!gFaultExit);
+        while (!gFaultExit) {}
         Fault_ResumeThread(faultedThread);
     }
 }
@@ -806,7 +810,7 @@ void Fault_SetFrameBuffer(void* fb, u16 w, u16 h) {
 }
 
 void Fault_Init(void) {
-    sFaultDisplayEnable = 1;
+    gFaultDisplayEnable = 1;
     gFaultMgr.fb = (u16*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
     gFaultMgr.fbWidth = SCREEN_WIDTH;
     gFaultMgr.fbDepth = 16;
@@ -823,7 +827,7 @@ void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     osSyncPrintf("HungUp on Thread %d", osGetThreadId(NULL));
     osSyncPrintf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
     osSyncPrintf("%s\n", exp2 != NULL ? exp2 : "(NULL)");
-    while (sFaultDisplayEnable == 0) {
+    while (gFaultDisplayEnable == 0) {
         Fault_SleepImpl(1000);
     }
     Fault_SleepImpl(500);

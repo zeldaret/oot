@@ -5,7 +5,8 @@
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.2:223"
 
 /**
  * The time at which the previous `Graph_Update` ended.
@@ -19,12 +20,6 @@ OSTime sGraphPrevTaskTimeStart;
 
 #if OOT_DEBUG
 FaultClient sGraphFaultClient;
-#endif
-
-CfbInfo sGraphCfbInfos[3];
-
-#if OOT_DEBUG
-FaultClient sGraphUcodeFaultClient;
 
 UCodeInfo D_8012D230[3] = {
     { UCODE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
@@ -165,11 +160,6 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 #if OOT_DEBUG
     static Gfx* sPrevTaskWorkBuffer = NULL;
 #endif
-    static s32 sGraphCfbInfoIdx = 0;
-
-    OSTime timeNow;
-    OSTimer timer;
-    OSMesg msg;
     OSTask_t* task = &gfxCtx->task.list.t;
     OSScTask* scTask = &gfxCtx->task;
 
@@ -177,7 +167,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         osGetTime() - sGraphPrevTaskTimeStart - gAudioThreadUpdateTimeAcc;
 
     {
-        CfbInfo* cfb;
+        OSTimer timer;
+        OSMesg msg;
 
         // Schedule a message to be handled in 3 seconds, for RCP timeout
         osSetTimer(&timer, OS_USEC_TO_CYCLES(3000000), 0, &gfxCtx->queue, (OSMesg)666);
@@ -212,12 +203,15 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 #if OOT_DEBUG
         sPrevTaskWorkBuffer = gfxCtx->workBuffer;
 #endif
+    }
 
-        if (gfxCtx->callback != NULL) {
-            gfxCtx->callback(gfxCtx, gfxCtx->callbackParam);
-        }
+    if (gfxCtx->callback != NULL) {
+        gfxCtx->callback(gfxCtx, gfxCtx->callbackParam);
+    }
 
-        timeNow = osGetTime();
+    {
+        OSTime timeNow = osGetTime();
+
         if (gAudioThreadUpdateTimeStart != 0) {
             // The audio thread update is running
             // Add the time already spent to the accumulator and leave the rest for the next cycle
@@ -229,41 +223,45 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         gAudioThreadUpdateTimeAcc = 0;
 
         sGraphPrevTaskTimeStart = osGetTime();
+    }
 
-        task->type = M_GFXTASK;
-        task->flags = OS_SC_DRAM_DLIST;
-        task->ucode_boot = SysUcode_GetUCodeBoot();
-        task->ucode_boot_size = SysUcode_GetUCodeBootSize();
-        task->ucode = SysUcode_GetUCode();
-        task->ucode_data = SysUcode_GetUCodeData();
-        task->ucode_size = SP_UCODE_SIZE;
-        task->ucode_data_size = SP_UCODE_DATA_SIZE;
-        task->dram_stack = gGfxSPTaskStack;
-        task->dram_stack_size = sizeof(gGfxSPTaskStack);
-        task->output_buff = gGfxSPTaskOutputBuffer;
-        task->output_buff_size = gGfxSPTaskOutputBuffer + ARRAY_COUNT(gGfxSPTaskOutputBuffer);
-        task->data_ptr = (u64*)gfxCtx->workBuffer;
+    task->type = M_GFXTASK;
+    task->flags = OS_SC_DRAM_DLIST;
+    task->ucode_boot = SysUcode_GetUCodeBoot();
+    task->ucode_boot_size = SysUcode_GetUCodeBootSize();
+    task->ucode = SysUcode_GetUCode();
+    task->ucode_data = SysUcode_GetUCodeData();
+    task->ucode_size = SP_UCODE_SIZE;
+    task->ucode_data_size = SP_UCODE_DATA_SIZE;
+    task->dram_stack = gGfxSPTaskStack;
+    task->dram_stack_size = sizeof(gGfxSPTaskStack);
+    task->output_buff = gGfxSPTaskOutputBuffer;
+    task->output_buff_size = gGfxSPTaskOutputBuffer + ARRAY_COUNT(gGfxSPTaskOutputBuffer);
+    task->data_ptr = (u64*)gfxCtx->workBuffer;
 
-        OPEN_DISPS(gfxCtx, "../graph.c", 828);
-        task->data_size = (uintptr_t)WORK_DISP - (uintptr_t)gfxCtx->workBuffer;
-        CLOSE_DISPS(gfxCtx, "../graph.c", 830);
+    OPEN_DISPS(gfxCtx, "../graph.c", 828);
+    task->data_size = (uintptr_t)WORK_DISP - (uintptr_t)gfxCtx->workBuffer;
+    CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
-        task->yield_data_ptr = gGfxSPTaskYieldBuffer;
+    task->yield_data_ptr = gGfxSPTaskYieldBuffer;
 
-        task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
+    task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
-        scTask->next = NULL;
-        scTask->flags = OS_SC_NEEDS_RSP | OS_SC_NEEDS_RDP | OS_SC_SWAPBUFFER | OS_SC_LAST_TASK;
-        if (R_GRAPH_TASKSET00_FLAGS & 1) {
-            R_GRAPH_TASKSET00_FLAGS &= ~1;
-            scTask->flags &= ~OS_SC_SWAPBUFFER;
-            gfxCtx->fbIdx--;
-        }
+    scTask->next = NULL;
+    scTask->flags = OS_SC_NEEDS_RSP | OS_SC_NEEDS_RDP | OS_SC_SWAPBUFFER | OS_SC_LAST_TASK;
+    if (R_GRAPH_TASKSET00_FLAGS & 1) {
+        R_GRAPH_TASKSET00_FLAGS &= ~1;
+        scTask->flags &= ~OS_SC_SWAPBUFFER;
+        gfxCtx->fbIdx--;
+    }
 
-        scTask->msgQueue = &gfxCtx->queue;
-        scTask->msg = NULL;
+    scTask->msgQueue = &gfxCtx->queue;
+    scTask->msg = NULL;
 
-        { s16 pad; }
+    {
+        static CfbInfo sGraphCfbInfos[3];
+        static s32 sGraphCfbInfoIdx = 0;
+        CfbInfo* cfb;
 
         cfb = &sGraphCfbInfos[sGraphCfbInfoIdx];
 
@@ -279,14 +277,12 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         cfb->updateRate = R_UPDATE_RATE;
 
         scTask->framebuffer = cfb;
-
-        { s16 pad2; }
-
-        gfxCtx->schedMsgQueue = &gScheduler.cmdQueue;
-
-        osSendMesg(&gScheduler.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
-        Sched_Notify(&gScheduler);
     }
+
+    gfxCtx->schedMsgQueue = &gScheduler.cmdQueue;
+
+    osSendMesg(&gScheduler.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
+    Sched_Notify(&gScheduler);
 }
 
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
@@ -339,6 +335,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     }
 
     if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_TOGGLE != 0) {
+        static FaultClient sGraphUcodeFaultClient;
+
         if (R_UCODE_DISAS_LOG_MODE == 3) {
             Fault_AddClient(&sGraphUcodeFaultClient, Graph_UCodeFaultClient, gfxCtx->workBuffer, "do_count_fault");
         }

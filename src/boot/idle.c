@@ -1,8 +1,9 @@
 #include "global.h"
 #include "stack.h"
 #include "terminal.h"
+#include "versions.h"
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64"
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ntsc-1.2:64"
 
 OSThread sMainThread;
 STACK(sMainStack, 0x900);
@@ -63,10 +64,9 @@ void Idle_ThreadEntry(void* arg) {
     gViConfigXScale = 1.0f;
     gViConfigYScale = 1.0f;
 
+#if OOT_DEBUG
+    // Allow both 60 Hz and 50 Hz
     switch (osTvType) {
-#if !OOT_DEBUG
-        case OS_TV_PAL:
-#endif
         case OS_TV_NTSC:
             gViConfigModeType = OS_VI_NTSC_LAN1;
             gViConfigMode = osViModeNtscLan1;
@@ -77,14 +77,38 @@ void Idle_ThreadEntry(void* arg) {
             gViConfigMode = osViModeMpalLan1;
             break;
 
-#if OOT_DEBUG
         case OS_TV_PAL:
             gViConfigModeType = OS_VI_FPAL_LAN1;
             gViConfigMode = osViModeFpalLan1;
             gViConfigYScale = 0.833f;
             break;
-#endif
     }
+#elif !OOT_PAL_N64
+    // 60 Hz only (GameCube and NTSC N64)
+    switch (osTvType) {
+        case OS_TV_PAL:
+        case OS_TV_NTSC:
+            gViConfigModeType = OS_VI_NTSC_LAN1;
+            gViConfigMode = osViModeNtscLan1;
+            break;
+
+        case OS_TV_MPAL:
+            gViConfigModeType = OS_VI_MPAL_LAN1;
+            gViConfigMode = osViModeMpalLan1;
+            break;
+    }
+#else
+    // 50 Hz only (PAL N64)
+    switch (osTvType) {
+        case OS_TV_NTSC:
+        case OS_TV_MPAL:
+        case OS_TV_PAL:
+            gViConfigModeType = OS_VI_FPAL_LAN1;
+            gViConfigMode = osViModeFpalLan1;
+            gViConfigYScale = 0.833f;
+            break;
+    }
+#endif
 
     D_80009430 = 1;
     osViSetMode(&gViConfigMode);
