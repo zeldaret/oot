@@ -45,9 +45,9 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     return objectCtx->numEntries - 1;
 }
 
-// PAL N64 versions reduce the size of object space by 4 KiB in order to make more room
-// for the Zelda arena, which can help prevent the "Hyrule Field glitch" where actors
-// do not have enough space to spawn.
+// PAL N64 versions reduce the size of object space by 4 KiB in order to give some space back to
+// the Zelda arena, which can help prevent an issue where actors fail to spawn in specific areas
+// (sometimes referred to as the "Hyrule Field glitch" although it can happen in more places than Hyrule Field).
 #if !OOT_PAL_N64
 #define OBJECT_SPACE_ADJUSTMENT 0
 #else
