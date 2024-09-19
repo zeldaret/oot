@@ -1,7 +1,7 @@
 #include "aseq.h"
-#include "versions.h"
 #include "Soundfont_1.h"
 #include "Soundfont_0.h"
+#include "versions.h"
 
 .startseq Sequence_109
 
