@@ -13799,8 +13799,8 @@ CHAN_5EAB:
 /* 0x5EB1 [0xF1 0x01               ] */ allocnotelist 1
 /* 0x5EB3 [0xD1 0x02               ] */ notealloc   2
 #if OOT_PAL_N64
-/* 0x5EC6 [0xCC 0x00               ] */ ldi         0
-/* 0x5EC8 [0x76                    ] */ stio        IO_PORT_6
+/*        [0xCC 0x00               ] */ ldi         0
+/*        [0x76                    ] */ stio        IO_PORT_6
 #endif
 /* 0x5EB5 [0xF4 0x03               ] */ rjump       CHAN_5EBA
 
