@@ -45,6 +45,15 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     return objectCtx->numEntries - 1;
 }
 
+// PAL N64 versions reduce the size of object space by 4 KiB in order to make more room
+// for the Zelda arena, which can help prevent the "Hyrule Field glitch" where actors
+// do not have enough space to spawn.
+#if !OOT_PAL_N64
+#define OBJECT_SPACE_ADJUSTMENT 0
+#else
+#define OBJECT_SPACE_ADJUSTMENT (4 * 1024)
+#endif
+
 void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     PlayState* play2 = play;
     s32 pad;
@@ -52,21 +61,21 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     s32 i;
 
     if (play2->sceneId == SCENE_HYRULE_FIELD) {
-        spaceSize = 1000 * 1024;
+        spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else if (play2->sceneId == SCENE_GANON_BOSS) {
         if (gSaveContext.sceneLayer != 4) {
-            spaceSize = 1150 * 1024;
+            spaceSize = 1150 * 1024 - OBJECT_SPACE_ADJUSTMENT;
         } else {
-            spaceSize = 1000 * 1024;
+            spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
         }
     } else if (play2->sceneId == SCENE_SPIRIT_TEMPLE_BOSS) {
-        spaceSize = 1050 * 1024;
+        spaceSize = 1050 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else if (play2->sceneId == SCENE_CHAMBER_OF_THE_SAGES) {
-        spaceSize = 1050 * 1024;
+        spaceSize = 1050 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else if (play2->sceneId == SCENE_GANONDORF_BOSS) {
-        spaceSize = 1050 * 1024;
+        spaceSize = 1050 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else {
-        spaceSize = 1000 * 1024;
+        spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     }
 
     objectCtx->numEntries = objectCtx->numPersistentEntries = 0;
