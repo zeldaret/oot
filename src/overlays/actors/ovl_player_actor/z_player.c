@@ -3612,7 +3612,8 @@ void func_80836BEC(Player* this, PlayState* play) {
         (this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT)) {
         // Don't allow Z-Targeting in various states
         this->zTargetActiveTimer = 0;
-    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_LOCK_ON_WITH_SWITCH) || (this->autoLockOnActor != NULL)) {
+    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_LOCK_ON_WITH_SWITCH) ||
+               (this->autoLockOnActor != NULL)) {
         // While a lock-on is active, decrement the timer and hold it at 5.
         // Values under 5 indicate a lock-on has ended and will make the reticle release.
         // See usage toward the end of `Actor_UpdateAll`.
