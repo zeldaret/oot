@@ -742,12 +742,17 @@ void func_8008EE08(Player* this) {
     func_8008EDF0(this);
 }
 
-void func_8008EEAC(PlayState* play, Actor* actor) {
+/**
+ * Sets the "auto lock-on actor" to lock onto an actor without Player's input.
+ * This function will first release any existing lock-on or (try to) release parallel.
+ * The new lock-on is considered "friendly" even if the actor is actually hostile.
+ */
+void Player_SetAutoLockOnActor(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
 
     func_8008EE08(this);
     this->focusActor = actor;
-    this->unk_684 = actor;
+    this->autoLockOnActor = actor;
     this->stateFlags1 |= PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS;
     Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);
     Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_TARGET_FRIENDLY);

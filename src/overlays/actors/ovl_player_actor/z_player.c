@@ -3612,7 +3612,7 @@ void func_80836BEC(Player* this, PlayState* play) {
         (this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT)) {
         // Don't allow Z-Targeting in various states
         this->zTargetActiveTimer = 0;
-    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_LOCK_ON_WITH_SWITCH) || (this->unk_684 != NULL)) {
+    } else if (zButtonHeld || (this->stateFlags2 & PLAYER_STATE2_LOCK_ON_WITH_SWITCH) || (this->autoLockOnActor != NULL)) {
         // While a lock-on is active, decrement the timer and hold it at 5.
         // Values under 5 indicate a lock-on has ended and will make the reticle release.
         // See usage toward the end of `Actor_UpdateAll`.
@@ -3698,15 +3698,18 @@ void func_80836BEC(Player* this, PlayState* play) {
             }
 
             if (this->focusActor != NULL) {
-                if ((this->actor.category == ACTORCAT_PLAYER) && (this->focusActor != this->unk_684) &&
+                if ((this->actor.category == ACTORCAT_PLAYER) && (this->focusActor != this->autoLockOnActor) &&
                     Attention_ShouldReleaseLockOn(this->focusActor, this, ignoreLeash)) {
                     func_8008EDF0(this);
                     this->stateFlags1 |= PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE;
                 } else if (this->focusActor != NULL) {
                     this->focusActor->attentionPriority = 40;
                 }
-            } else if (this->unk_684 != NULL) {
-                this->focusActor = this->unk_684;
+            } else if (this->autoLockOnActor != NULL) {
+                // `autoLockOnActor` does not take precedence over `focusActor` if it already exists.
+                // However, `autoLockOnActor` is expected to be set with `Player_SetAutoLockOnActor`
+                //  which will release any existing lock-on. So it effectively does take precedence.
+                this->focusActor = this->autoLockOnActor;
             }
         }
 
@@ -11495,7 +11498,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         this->doorType = PLAYER_DOORTYPE_NONE;
         this->unk_8A1 = 0;
-        this->unk_684 = NULL;
+        this->autoLockOnActor = NULL;
 
         phi_f12 =
             ((this->bodyPartsPos[PLAYER_BODYPART_L_FOOT].y + this->bodyPartsPos[PLAYER_BODYPART_R_FOOT].y) * 0.5f) +
