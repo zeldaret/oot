@@ -616,7 +616,7 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
             player->actor.freezeTimer = 60;
             Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
 
-            // The same note mentioned with this function call in `EnRd_WalkToPlayer applies here too
+            // The same note mentioned with this function call in `EnRd_WalkToPlayer` applies here too
             Player_SetAutoLockOnActor(play, &this->actor);
         }
 
