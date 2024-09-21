@@ -116,8 +116,13 @@ typedef enum AnimationTapers {
 // set. The adjustment will be applied in this case regardless of this flag being enabled.
 #define ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT (1 << 2)
 
-// (player-only) Call AnimTaskQueue_AddActorMovement
-#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3)
+// When this flag is set, ActorMovement tasks will be queued.
+//
+// Note that individual actors are responsible for implementing the functionality of this flag.
+// In practice, Player is the only actor who implements this flag.
+// It is possibly to bypass the need for this flag by manually calling `AnimTaskQueue_AddActorMovement`
+// when it is needed.
+#define ANIM_FLAG_ENABLE_MOVEMENT (1 << 3)
 
 // When this flag is set, movement in all axes will not be applied for one frame. The flag
 // is unset automatically after one use, so movement can resume. The intent is for this flag to be used
