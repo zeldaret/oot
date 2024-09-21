@@ -361,8 +361,17 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
             if (this->playerStunWaitTimer == 0) {
                 if (!(this->rdFlags & 0x80)) {
                     player->actor.freezeTimer = 40;
-                    func_8008EEAC(play, &this->actor);
-                    GET_PLAYER(play)->unk_684 = &this->actor;
+
+                    // `player->actor.freezeTimer` gets set above which will prevent Player from updating.
+                    // Because of this, he cannot update things related to Z-Targeting.
+                    // If Player can't update, `player->zTargetActiveTimer` won't update, which means
+                    // the Attention system will not be notified of a new actor lock-on occuring.
+                    // So, no reticle will appear. But the camera will still focus on the actor.
+                    Player_SetAutoLockOnActor(play, &this->actor);
+
+                    // This is redundant, `autoLockOnActor` gets set by `Player_SetAutoLockOnActor` above
+                    GET_PLAYER(play)->autoLockOnActor = &this->actor;
+
                     Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
                 }
 
@@ -606,7 +615,9 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
         if (!(this->rdFlags & 0x80)) {
             player->actor.freezeTimer = 60;
             Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
-            func_8008EEAC(play, &this->actor);
+
+            // The same note mentioned with this function call in `EnRd_WalkToPlayer` applies here too
+            Player_SetAutoLockOnActor(play, &this->actor);
         }
 
         Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_AIM);
