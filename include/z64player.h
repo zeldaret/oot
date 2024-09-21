@@ -659,7 +659,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
-#define PLAYER_STATE1_ACTOR_CARRY (1 << 11) // Currently carrying an actor
+#define PLAYER_STATE1_CARRYING_ACTOR (1 << 11) // Currently carrying an actor
 #define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charing a spin attack (by holding down the B button)
 #define PLAYER_STATE1_13 (1 << 13)
 #define PLAYER_STATE1_14 (1 << 14)
