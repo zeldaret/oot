@@ -752,7 +752,7 @@ void func_8008EE08(Player* this) {
  * With Hold Targeting it is possible to keep the auto lock-on going by keeping the Z button held down.
  *
  * The auto lock-on is considered "friendly" even if the actor is actually hostile. If the auto lock-on is hostile,
- * Player's battle response not occur (if he is actionable) and the camera behave differently.
+ * Player's battle response will not occur (if he is actionable) and the camera behave differently.
  * When transitioning from auto lock-on to normal lock-on (with Hold Targeting) there will be a noticeable change
  * when it switches from "friendly" mode to "hostile" mode.
  */
