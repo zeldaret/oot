@@ -3707,9 +3707,10 @@ void func_80836BEC(Player* this, PlayState* play) {
                     this->focusActor->attentionPriority = 40;
                 }
             } else if (this->autoLockOnActor != NULL) {
-                // `autoLockOnActor` does not take precedence over `focusActor` if it already exists.
+                // Becaue of the previous if condition above, `autoLockOnActor` does not take precedence
+                // over `focusActor` if it already exists.
                 // However, `autoLockOnActor` is expected to be set with `Player_SetAutoLockOnActor`
-                //  which will release any existing lock-on. So it effectively does take precedence.
+                // which will release any existing lock-on before setting the new one.
                 this->focusActor = this->autoLockOnActor;
             }
         }
