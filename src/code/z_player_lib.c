@@ -1672,7 +1672,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_Get(&sp14C);
                     Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
-                } else if (this->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
+                } else if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
                     Vec3s spB8;
 
                     Matrix_Get(&sp14C);
