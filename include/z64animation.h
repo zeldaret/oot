@@ -139,7 +139,7 @@ typedef enum AnimationTapers {
 // frames have their translation occur relative to this new starting point.
 //
 // Note that for Player, this flag is only relevant when transitioning from an animation that was also using
-// animation translation. This is because of how `prevTransl` gets reset in `Player_AnimReplaceApplyFlags`.
+// ActorMovement. This is because of how `prevTransl` gets reset in `Player_AnimReplaceApplyFlags`.
 #define ANIM_FLAG_ADJUST_STARTING_POS (1 << 4)
 
 // Disables "normal" movement from sources like speed/velocity and collisions, which allows the
@@ -170,7 +170,7 @@ typedef struct SkelAnime {
         s32 (*link)(struct PlayState*, struct SkelAnime*); // Can be Loop, Play once, or Morph
     } update;
     /* 0x34 */ s8 initFlags; // Flags used when initializing Link's skeleton
-    /* 0x35 */ u8 moveFlags; // Flags used for animations that move the actor in worldspace.
+    /* 0x35 */ u8 movementFlags; // Flags used for animations that move the actor in worldspace.
     /* 0x36 */ s16 prevRot; // Previous rotation in worldspace.
     /* 0x38 */ Vec3s prevTransl; // Previous modelspace translation.
     /* 0x3E */ Vec3s baseTransl; // Base modelspace translation.
