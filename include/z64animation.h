@@ -120,7 +120,7 @@ typedef enum AnimationTapers {
 //
 // Note that individual actors are responsible for implementing the functionality of this flag.
 // In practice, Player is the only actor who implements this flag.
-// It is possibly to bypass the need for this flag by manually calling `AnimTaskQueue_AddActorMovement`
+// It is possible to bypass the need for this flag by manually calling `AnimTaskQueue_AddActorMovement`
 // when it is needed.
 #define ANIM_FLAG_ENABLE_MOVEMENT (1 << 3)
 

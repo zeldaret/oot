@@ -5511,7 +5511,8 @@ void func_8083AA10(Player* this, PlayState* play) {
                 return;
             }
 
-            if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.movementFlags & ANIM_FLAG_OVERRIDE_MOVEMENT) &&
+            if (!(this->stateFlags3 & PLAYER_STATE3_1) &&
+                !(this->skelAnime.movementFlags & ANIM_FLAG_OVERRIDE_MOVEMENT) &&
                 (Player_Action_8084411C != this->actionFunc) && (Player_Action_80844A44 != this->actionFunc)) {
 
                 if ((sPrevFloorProperty == FLOOR_PROPERTY_7) || (this->meleeWeaponState != 0)) {
@@ -11463,9 +11464,9 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         if (this->skelAnime.movementFlags & ANIM_FLAG_ENABLE_MOVEMENT) {
             AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime,
-                                       (this->skelAnime.movementFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT)
-                                           ? 1.0f
-                                           : this->ageProperties->unk_08);
+                                           (this->skelAnime.movementFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT)
+                                               ? 1.0f
+                                               : this->ageProperties->unk_08);
         }
 
         Player_UpdateShapeYaw(this, play);
