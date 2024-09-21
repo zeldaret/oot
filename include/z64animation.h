@@ -91,14 +91,14 @@ typedef enum AnimationTapers {
 // This flag seems like it was intended to be paired with `ANIM_FLAG_UPDATE_Y` to control
 // XZ movement based on the current animation.
 // However, this flag is not checked by the Skelanime system. XZ movement will always occur
-// regardless of the current state of this flag, as long as the "Actor Move" Anim Task is in use.
+// regardless of the current state of this flag, as long as the ActorMovement Anim Task is in use.
 // The name of this flag is speculative based on its usage in Player and in other actors.
 //
 // In practice, this flag only affects the scaling of Player's XZ position based on age.
 #define ANIM_FLAG_UPDATE_XZ (1 << 0)
 
 // Enables the movement of an actor in the Y-axis based on the current animation.
-// This only has an effect if the "Actor Move" Anim Task is in use.
+// This only has an effect if the ActorMovement Anim Task is in use.
 //
 // This animation-driven movement does not replace "normal" movement from other sources
 // such as speed/velocity and collisions. The actor should stop updating other sources of movement
@@ -116,7 +116,7 @@ typedef enum AnimationTapers {
 // set. The adjustment will be applied in this case regardless of this flag being enabled.
 #define ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT (1 << 2)
 
-// (player-only) Call AnimTaskQueue_AddActorMove
+// (player-only) Call AnimTaskQueue_AddActorMovement
 #define ANIM_FLAG_PLAYER_SETMOVE (1 << 3)
 
 // When this flag is set, movement in all axes will not be applied for one frame. The flag
@@ -342,11 +342,11 @@ typedef struct AnimTaskCopyUsingMapInverted {
     /* 0x0C */ u8* limbCopyMap;
 } AnimTaskCopyUsingMapInverted; // size = 0x10
 
-typedef struct AnimTaskActorMove {
+typedef struct AnimTaskActorMovement {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ struct SkelAnime* skelAnime;
     /* 0x08 */ f32 diffScaleY;
-} AnimTaskActorMove; // size = 0xC
+} AnimTaskActorMovement; // size = 0xC
 
 typedef union AnimTaskData {
     AnimTaskLoadPlayerFrame loadPlayerFrame;
@@ -354,7 +354,7 @@ typedef union AnimTaskData {
     AnimTaskInterp interp;
     AnimTaskCopyUsingMap copyUsingMap;
     AnimTaskCopyUsingMapInverted copyUsingMapInverted;
-    AnimTaskActorMove actorMove;
+    AnimTaskActorMovement actorMovement;
 } AnimTaskData; // size = 0x3C
 
 typedef struct AnimTask {
@@ -375,7 +375,7 @@ void AnimTaskQueue_AddCopy(struct PlayState* play, s32 vecCount, Vec3s* dest, Ve
 void AnimTaskQueue_AddInterp(struct PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
 void AnimTaskQueue_AddCopyUsingMap(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap);
 void AnimTaskQueue_AddCopyUsingMapInverted(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap);
-void AnimTaskQueue_AddActorMove(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
+void AnimTaskQueue_AddActorMovement(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
 
 void AnimTaskQueue_SetNextGroup(struct PlayState* play);
 void AnimTaskQueue_DisableTransformTasksForGroup(struct PlayState* play);

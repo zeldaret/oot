@@ -818,7 +818,7 @@ void AnimTaskQueue_SetNextGroup(PlayState* play) {
  * A transformative task is one that will alter the appearance of an animation.
  * These include Copy, Interp, CopyUsingMap, and CopyUsingMapInverted.
  *
- * LoadPlayerFrame and ActorMove, which don't alter the appearance of an existing animation,
+ * LoadPlayerFrame and ActorMovement, which don't alter the appearance of an existing animation,
  * will always run even if a group has its transformative tasks disabled.
  */
 void AnimTaskQueue_DisableTransformTasksForGroup(PlayState* play) {
@@ -960,13 +960,13 @@ void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s*
 /**
  * Creates a task which will move an actor according to the translation of its root limb for the current frame.
  */
-void AnimTaskQueue_AddActorMove(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
+void AnimTaskQueue_AddActorMovement(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
     AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_ACTOR_MOVE);
 
     if (task != NULL) {
-        task->data.actorMove.actor = actor;
-        task->data.actorMove.skelAnime = skelAnime;
-        task->data.actorMove.diffScaleY = moveDiffScaleY;
+        task->data.actorMovement.actor = actor;
+        task->data.actorMovement.skelAnime = skelAnime;
+        task->data.actorMovement.diffScaleY = moveDiffScaleY;
     }
 }
 
@@ -1049,9 +1049,10 @@ void AnimTask_CopyUsingMapInverted(PlayState* play, AnimTaskData* data) {
 
 /**
  * Move an actor according to the translation of its root limb for the current animation frame.
+ * The actor's current shape yaw will factor into the resulting movement.
  */
-void AnimTask_ActorMove(PlayState* play, AnimTaskData* data) {
-    AnimTaskActorMove* task = &data->actorMove;
+void AnimTask_ActorMovement(PlayState* play, AnimTaskData* data) {
+    AnimTaskActorMovement* task = &data->actorMovement;
     Actor* actor = task->actor;
     Vec3f diff;
 
@@ -1071,7 +1072,7 @@ typedef void (*AnimTaskFunc)(struct PlayState* play, AnimTaskData* data);
 void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
     static AnimTaskFunc animTaskFuncs[] = {
         AnimTask_LoadPlayerFrame,      AnimTask_Copy,      AnimTask_Interp, AnimTask_CopyUsingMap,
-        AnimTask_CopyUsingMapInverted, AnimTask_ActorMove,
+        AnimTask_CopyUsingMapInverted, AnimTask_ActorMovement,
     };
     AnimTask* task = animTaskQueue->tasks;
 
