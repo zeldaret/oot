@@ -816,7 +816,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
     }
     this->isActive = false;
     this->dyna.actor.velocity.y = 0.0f;
-    if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY)) {
+    if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR)) {
         // The door is barred behind the player
         DoorShutter_SetupAction(this, DoorShutter_WaitPlayerSurprised);
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_2);
