@@ -765,8 +765,8 @@ s32 Flags_GetCollectible(struct PlayState* play, s32 flag);
 void Flags_SetCollectible(struct PlayState* play, s32 flag);
 void TitleCard_InitBossName(struct PlayState* play, TitleCardContext* titleCtx, void* texture, s16 x, s16 y, u8 width,
                             u8 height);
-void TitleCard_InitPlaceName(struct PlayState* play, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
-                             s32 width, s32 height, s32 delay);
+void TitleCard_InitPlaceName(struct PlayState* play, TitleCardContext* titleCtx, void* texture, s32 x, s32 y, s32 width,
+                             s32 height, s32 delay);
 s32 TitleCard_Clear(struct PlayState* play, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
 void Actor_SetFocus(Actor* actor, f32 yOffset);
@@ -860,14 +860,15 @@ void func_800315AC(struct PlayState* play, ActorContext* actorCtx);
 void Actor_KillAllWithMissingObject(struct PlayState* play, ActorContext* actorCtx);
 void func_80031B14(struct PlayState* play, ActorContext* actorCtx);
 void func_80031C3C(ActorContext* actorCtx, struct PlayState* play);
-Actor* Actor_Spawn(ActorContext* actorCtx, struct PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ,
-                   s16 rotX, s16 rotY, s16 rotZ, s16 params);
+Actor* Actor_Spawn(ActorContext* actorCtx, struct PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ, s16 rotX,
+                   s16 rotY, s16 rotZ, s16 params);
 Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, struct PlayState* play, s16 actorId, f32 posX,
                           f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params);
 void Actor_SpawnTransitionActors(struct PlayState* play, ActorContext* actorCtx);
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, struct ActorEntry* actorEntry, struct PlayState* play);
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, struct PlayState* play);
-Actor* Attention_FindActor(struct PlayState* play, ActorContext* actorCtx, Actor** attentionActorP, struct Player* player);
+Actor* Attention_FindActor(struct PlayState* play, ActorContext* actorCtx, Actor** attentionActorP,
+                           struct Player* player);
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
 void Enemy_StartFinishingBlow(struct PlayState* play, Actor* actor);
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, struct PlayState* play);
@@ -899,8 +900,7 @@ void func_8003435C(Vec3f* object, struct PlayState* play);
 s32 Npc_UpdateTalking(struct PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
                       NpcGetTextIdFunc getTextId, NpcUpdateTalkStateFunc updateTalkState);
 s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex);
-void Npc_TrackPoint(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex,
-                    s16 trackingMode);
+void Npc_TrackPoint(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex, s16 trackingMode);
 void func_80034BA0(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
