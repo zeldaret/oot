@@ -290,7 +290,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
     // Quad PAGE_BG_QUADS + 14
     pauseCtx->mapPageVtx[29 * 4 + 0].v.ob[1] = pauseCtx->mapPageVtx[29 * 4 + 1].v.ob[1] =
-        pauseCtx->offsetY - (VREG(30) * 14) + 49;
+        pauseCtx->pagesYOrigin1 - (VREG(30) * 14) + 49;
     pauseCtx->mapPageVtx[29 * 4 + 2].v.ob[1] = pauseCtx->mapPageVtx[29 * 4 + 3].v.ob[1] =
         pauseCtx->mapPageVtx[29 * 4 + 0].v.ob[1] - 16;
 
@@ -305,7 +305,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         // Quad PAGE_BG_QUADS + 15
         pauseCtx->mapPageVtx[30 * 4 + 0].v.ob[1] = pauseCtx->mapPageVtx[30 * 4 + 1].v.ob[1] =
-            gMapData->skullFloorIconY[gSaveContext.mapIndex] + pauseCtx->offsetY;
+            gMapData->skullFloorIconY[gSaveContext.mapIndex] + pauseCtx->pagesYOrigin1;
         pauseCtx->mapPageVtx[30 * 4 + 2].v.ob[1] = pauseCtx->mapPageVtx[30 * 4 + 3].v.ob[1] =
             pauseCtx->mapPageVtx[30 * 4 + 0].v.ob[1] - 16;
 
@@ -781,7 +781,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->mapPageVtx[43 * 4 + 0].v.ob[0] + areaBoxWidths[((void)0, gSaveContext.worldMapArea)];
 
         pauseCtx->mapPageVtx[43 * 4 + 0].v.ob[1] = pauseCtx->mapPageVtx[43 * 4 + 1].v.ob[1] =
-            areaBoxPosY[((void)0, gSaveContext.worldMapArea)] + pauseCtx->offsetY;
+            areaBoxPosY[((void)0, gSaveContext.worldMapArea)] + pauseCtx->pagesYOrigin1;
 
         pauseCtx->mapPageVtx[43 * 4 + 2].v.ob[1] = pauseCtx->mapPageVtx[43 * 4 + 3].v.ob[1] =
             pauseCtx->mapPageVtx[43 * 4 + 0].v.ob[1] - areaBoxHeights[((void)0, gSaveContext.worldMapArea)];

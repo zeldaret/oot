@@ -112,7 +112,7 @@ void KaleidoSetup_Update(PlayState* play) {
         }
 
         if (pauseCtx->state == PAUSE_STATE_WAIT_LETTERBOX) {
-            R_PAUSE_OFFSET_VERTICAL = -6240;
+            R_PAUSE_PAGES_Y_ORIGIN_2 = PAUSE_PAGES_Y_ORIGIN_2_LOWER;
             R_UPDATE_RATE = 2;
 
             if (Letterbox_GetSizeTarget() != 0) {
@@ -135,15 +135,15 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
     pauseCtx->eye.z = -PAUSE_EYE_DIST * PAUSE_ITEM_Z;
 
-    pauseCtx->savePromptOffsetDepth_ = 936.0f;
-    pauseCtx->itemPageRoll = pauseCtx->equipPageRoll = pauseCtx->mapPageRoll = pauseCtx->questPageRoll = 160.0f;
+    pauseCtx->promptDepthOffset = 936.0f;
+    pauseCtx->itemPagePitch = pauseCtx->equipPagePitch = pauseCtx->mapPagePitch = pauseCtx->questPagePitch = 160.0f;
 
     pauseCtx->alpha = 0;
 
     // mainState = PAUSE_MAIN_STATE_IDLE , pageIndex = PAUSE_ITEM
     pauseCtx->pageSwitchTimer = pauseCtx->mainState = pauseCtx->nextPageMode = pauseCtx->pageIndex = 0;
 
-    pauseCtx->rollRotSavePrompt_ = -314.0f;
+    pauseCtx->promptPitch = -314.0f;
 
     pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
     pauseCtx->cursorPoint[PAUSE_MAP] = VREG(30) + 3;
