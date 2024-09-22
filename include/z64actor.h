@@ -2,7 +2,7 @@
 #define Z64ACTOR_H
 
 #include "color.h"
-#include "z64dma.h"
+#include "romfile.h"
 #include "z64animation.h"
 #include "z64math.h"
 #include "z64collision_check.h"
@@ -15,8 +15,10 @@
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
 struct Actor;
+struct ActorEntry;
 struct CollisionPoly;
 struct Lights;
+struct Player;
 struct PlayState;
 
 typedef void (*ActorFunc)(struct Actor*, struct PlayState*);
@@ -735,5 +737,197 @@ typedef struct NpcInteractInfo {
 
 #define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
 #define GET_TRANSITION_ACTOR_INDEX(actor) PARAMS_GET_NOMASK((u16)(actor)->params, 10)
+
+void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale);
+void ActorShadow_DrawCircle(Actor* actor, struct Lights* lights, struct PlayState* play);
+void ActorShadow_DrawWhiteCircle(Actor* actor, struct Lights* lights, struct PlayState* play);
+void ActorShadow_DrawHorse(Actor* actor, struct Lights* lights, struct PlayState* play);
+void ActorShadow_DrawFeet(Actor* actor, struct Lights* lights, struct PlayState* play);
+void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
+                      Vec3f* rightFootPos);
+void Actor_ProjectPos(struct PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedInvWDest);
+void Attention_Draw(Attention* attention, struct PlayState* play);
+s32 Flags_GetSwitch(struct PlayState* play, s32 flag);
+void Flags_SetSwitch(struct PlayState* play, s32 flag);
+void Flags_UnsetSwitch(struct PlayState* play, s32 flag);
+s32 Flags_GetUnknown(struct PlayState* play, s32 flag);
+void Flags_SetUnknown(struct PlayState* play, s32 flag);
+void Flags_UnsetUnknown(struct PlayState* play, s32 flag);
+s32 Flags_GetTreasure(struct PlayState* play, s32 flag);
+void Flags_SetTreasure(struct PlayState* play, s32 flag);
+s32 Flags_GetClear(struct PlayState* play, s32 flag);
+void Flags_SetClear(struct PlayState* play, s32 flag);
+void Flags_UnsetClear(struct PlayState* play, s32 flag);
+s32 Flags_GetTempClear(struct PlayState* play, s32 flag);
+void Flags_SetTempClear(struct PlayState* play, s32 flag);
+void Flags_UnsetTempClear(struct PlayState* play, s32 flag);
+s32 Flags_GetCollectible(struct PlayState* play, s32 flag);
+void Flags_SetCollectible(struct PlayState* play, s32 flag);
+void TitleCard_InitBossName(struct PlayState* play, TitleCardContext* titleCtx, void* texture, s16 x, s16 y, u8 width,
+                            u8 height);
+void TitleCard_InitPlaceName(struct PlayState* play, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
+                             s32 width, s32 height, s32 delay);
+s32 TitleCard_Clear(struct PlayState* play, TitleCardContext* titleCtx);
+void Actor_Kill(Actor* actor);
+void Actor_SetFocus(Actor* actor, f32 yOffset);
+void Actor_SetScale(Actor* actor, f32 scale);
+void Actor_SetObjectDependency(struct PlayState* play, Actor* actor);
+void Actor_UpdatePos(Actor* actor);
+void Actor_UpdateVelocityXZGravity(Actor* actor);
+void Actor_MoveXZGravity(Actor* actor);
+void Actor_UpdateVelocityXYZ(Actor* actor);
+void Actor_MoveXYZ(Actor* actor);
+void Actor_SetProjectileSpeed(Actor* actor, f32 speedXYZ);
+s16 Actor_WorldYawTowardActor(Actor* origin, Actor* target);
+s16 Actor_FocusYawTowardActor(Actor* origin, Actor* target);
+s16 Actor_WorldYawTowardPoint(Actor* origin, Vec3f* point);
+f32 Actor_WorldDistXYZToActor(Actor* actorA, Actor* actorB);
+f32 Actor_WorldDistXYZToPoint(Actor* actor, Vec3f* refPoint);
+s16 Actor_WorldPitchTowardActor(Actor* actorA, Actor* actorB);
+s16 Actor_WorldPitchTowardPoint(Actor* actor, Vec3f* refPoint);
+f32 Actor_WorldDistXZToActor(Actor* actorA, Actor* actorB);
+f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint);
+void Actor_WorldToActorCoords(Actor* actor, Vec3f* dest, Vec3f* pos);
+f32 Actor_HeightDiff(Actor* actorA, Actor* actorB);
+f32 Player_GetHeight(struct Player* player);
+f32 func_8002DCE4(struct Player* player);
+int func_8002DD6C(struct Player* player);
+int func_8002DD78(struct Player* player);
+s32 func_8002DDE4(struct PlayState* play);
+s32 func_8002DDF4(struct PlayState* play);
+void func_8002DE04(struct PlayState* play, Actor* actorA, Actor* actorB);
+void func_8002DE74(struct PlayState* play, struct Player* player);
+void Actor_MountHorse(struct PlayState* play, struct Player* player, Actor* horse);
+int func_8002DEEC(struct Player* player);
+void func_8002DF18(struct PlayState* play, struct Player* player);
+s32 Player_SetCsAction(struct PlayState* play, Actor* csActor, u8 csAction);
+s32 Player_SetCsActionWithHaltedActors(struct PlayState* play, Actor* csActor, u8 csAction);
+void func_8002DF90(DynaPolyActor* dynaActor);
+void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2);
+s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, struct PlayState* play);
+s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 maxAngle);
+s32 Actor_IsFacingPlayer(Actor* actor, s16 maxAngle);
+s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 maxAngle);
+s32 Actor_IsFacingAndNearPlayer(Actor* actor, f32 range, s16 maxAngle);
+s32 Actor_ActorAIsFacingAndNearActorB(Actor* actorA, Actor* actorB, f32 range, s16 maxAngle);
+void Actor_UpdateBgCheckInfo(struct PlayState* play, Actor* actor, f32 wallCheckHeight, f32 wallCheckRadius,
+                             f32 ceilingCheckHeight, s32 flags);
+Hilite* func_8002EABC(Vec3f* object, Vec3f* eye, Vec3f* lightDir, struct GraphicsContext* gfxCtx);
+Hilite* func_8002EB44(Vec3f* object, Vec3f* eye, Vec3f* lightDir, struct GraphicsContext* gfxCtx);
+void func_8002EBCC(Actor* actor, struct PlayState* play, s32 flag);
+void func_8002ED80(Actor* actor, struct PlayState* play, s32 flag);
+PosRot Actor_GetFocus(Actor* actor);
+PosRot Actor_GetWorld(Actor* actor);
+PosRot Actor_GetWorldPosShapeRot(Actor* actor);
+s32 Attention_ShouldReleaseLockOn(Actor* actor, struct Player* player, s32 ignoreLeash);
+s32 Actor_TalkOfferAccepted(Actor* actor, struct PlayState* play);
+s32 Actor_OfferTalkExchange(Actor* actor, struct PlayState* play, f32 xzRange, f32 yRange, u32 exchangeItemId);
+s32 Actor_OfferTalkExchangeEquiCylinder(Actor* actor, struct PlayState* play, f32 radius, u32 exchangeItemId);
+s32 Actor_OfferTalk(Actor* actor, struct PlayState* play, f32 radius);
+s32 Actor_OfferTalkNearColChkInfoCylinder(Actor* actor, struct PlayState* play);
+u32 Actor_TextboxIsClosing(Actor* actor, struct PlayState* play);
+s8 func_8002F368(struct PlayState* play);
+void Actor_GetScreenPos(struct PlayState* play, Actor* actor, s16* x, s16* y);
+u32 Actor_HasParent(Actor* actor, struct PlayState* play);
+s32 Actor_OfferGetItem(Actor* actor, struct PlayState* play, s32 getItemId, f32 xzRange, f32 yRange);
+s32 Actor_OfferGetItemNearby(Actor* actor, struct PlayState* play, s32 getItemId);
+s32 Actor_OfferCarry(Actor* actor, struct PlayState* play);
+u32 Actor_HasNoParent(Actor* actor, struct PlayState* play);
+void func_8002F5C4(Actor* actorA, Actor* actorB, struct PlayState* play);
+void Actor_SetClosestSecretDistance(Actor* actor, struct PlayState* play);
+s32 Actor_IsMounted(struct PlayState* play, Actor* horse);
+u32 Actor_SetRideActor(struct PlayState* play, Actor* horse, s32 mountSide);
+s32 Actor_NotMounted(struct PlayState* play, Actor* horse);
+void func_8002F698(struct PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5, u32 arg6);
+void func_8002F6D4(struct PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5);
+void func_8002F71C(struct PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4);
+void func_8002F758(struct PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5);
+void func_8002F7A0(struct PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4);
+void Player_PlaySfx(struct Player* player, u16 sfxId);
+void Actor_PlaySfx(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_SurfaceBomb(struct PlayState* play, Actor* actor);
+void Actor_PlaySfx_Flagged2(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_FlaggedCentered1(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_FlaggedCentered2(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_Flagged(Actor* actor, u16 sfxId);
+void Actor_PlaySfx_FlaggedTimer(Actor* actor, s32 timer);
+s32 func_8002F9EC(struct PlayState* play, Actor* actor, struct CollisionPoly* poly, s32 bgId, Vec3f* pos);
+void Actor_DisableLens(struct PlayState* play);
+void Actor_InitContext(struct PlayState* play, ActorContext* actorCtx, struct ActorEntry* playerEntry);
+void Actor_UpdateAll(struct PlayState* play, ActorContext* actorCtx);
+s32 func_800314D4(struct PlayState* play, Actor* actor, Vec3f* arg2, f32 arg3);
+void func_800315AC(struct PlayState* play, ActorContext* actorCtx);
+void Actor_KillAllWithMissingObject(struct PlayState* play, ActorContext* actorCtx);
+void func_80031B14(struct PlayState* play, ActorContext* actorCtx);
+void func_80031C3C(ActorContext* actorCtx, struct PlayState* play);
+Actor* Actor_Spawn(ActorContext* actorCtx, struct PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ,
+                   s16 rotX, s16 rotY, s16 rotZ, s16 params);
+Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, struct PlayState* play, s16 actorId, f32 posX,
+                          f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, s16 params);
+void Actor_SpawnTransitionActors(struct PlayState* play, ActorContext* actorCtx);
+Actor* Actor_SpawnEntry(ActorContext* actorCtx, struct ActorEntry* actorEntry, struct PlayState* play);
+Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, struct PlayState* play);
+Actor* Attention_FindActor(struct PlayState* play, ActorContext* actorCtx, Actor** attentionActorP, struct Player* player);
+Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
+void Enemy_StartFinishingBlow(struct PlayState* play, Actor* actor);
+void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, struct PlayState* play);
+void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
+                       s16 objectSlot);
+s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, struct PlayState* play, s16 type);
+void Actor_SpawnFloorDustRing(struct PlayState* play, Actor* actor, Vec3f* posXZ, f32 radius, s32 amountMinusOne,
+                              f32 randAccelWeight, s16 scale, s16 scaleStep, u8 useLighting);
+void func_80033480(struct PlayState* play, Vec3f* posBase, f32 randRangeDiameter, s32 amountMinusOne, s16 scaleBase,
+                   s16 scaleStep, u8 arg6);
+Actor* Actor_GetCollidedExplosive(struct PlayState* play, Collider* collider);
+Actor* func_80033684(struct PlayState* play, Actor* explosiveActor);
+Actor* Actor_GetProjectileActor(struct PlayState* play, Actor* refActor, f32 radius);
+void Actor_ChangeCategory(struct PlayState* play, ActorContext* actorCtx, Actor* actor, u8 actorCategory);
+void Actor_SetTextWithPrefix(struct PlayState* play, Actor* actor, s16 baseTextId);
+s16 Actor_TestFloorInDirection(Actor* actor, struct PlayState* play, f32 distance, s16 angle);
+s32 Actor_IsLockedOn(struct PlayState* play, Actor* actor);
+s32 Actor_OtherIsLockedOn(struct PlayState* play, Actor* actor);
+f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
+void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, struct PlayState* play);
+void Actor_RequestQuake(struct PlayState* play, s16 y, s16 duration);
+void Actor_RequestQuakeWithSpeed(struct PlayState* play, s16 y, s16 duration, s16 speed);
+void Actor_RequestQuakeAndRumble(Actor* actor, struct PlayState* play, s16 quakeY, s16 quakeDuration);
+void Actor_DrawDoorLock(struct PlayState* play, s32 frame, s32 type);
+void func_8003424C(struct PlayState* play, Vec3f* arg1);
+void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration);
+void func_800342EC(Vec3f* object, struct PlayState* play);
+void func_8003435C(Vec3f* object, struct PlayState* play);
+s32 Npc_UpdateTalking(struct PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
+                      NpcGetTextIdFunc getTextId, NpcUpdateTalkStateFunc updateTalkState);
+s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex);
+void Npc_TrackPoint(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex,
+                    s16 trackingMode);
+void func_80034BA0(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
+                   PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
+void func_80034CC4(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
+                   PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
+s16 func_80034DD4(Actor* actor, struct PlayState* play, s16 arg2, f32 arg3);
+void func_80034F54(struct PlayState* play, s16* arg1, s16* arg2, s32 arg3);
+void Actor_Noop(Actor* actor, struct PlayState* play);
+void Gfx_DrawDListOpa(struct PlayState* play, Gfx* dlist);
+void Gfx_DrawDListXlu(struct PlayState* play, Gfx* dlist);
+Actor* Actor_FindNearby(struct PlayState* play, Actor* refActor, s16 actorId, u8 actorCategory, f32 range);
+s32 func_800354B4(struct PlayState* play, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5);
+void func_8003555C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_800355B8(struct PlayState* play, Vec3f* pos);
+u8 func_800355E4(struct PlayState* play, Collider* collider);
+u8 Actor_ApplyDamage(Actor* actor);
+void Actor_SetDropFlag(Actor* actor, ColliderElement* elem, s32 freezeFlag);
+void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag);
+void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
+Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
+                     struct PlayState* play, s16 params, Gfx* dList);
+void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
+s32 Flags_GetEventChkInf(s32 flag);
+void Flags_SetEventChkInf(s32 flag);
+s32 Flags_GetInfTable(s32 flag);
+void Flags_SetInfTable(s32 flag);
+u16 func_80037C30(struct PlayState* play, s16 arg1);
+s32 func_80037D98(struct PlayState* play, Actor* actor, s16 arg2, s32* arg3);
+s32 Actor_TrackPlayer(struct PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos);
 
 #endif
