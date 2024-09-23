@@ -3638,7 +3638,8 @@ s32 func_80836AB8(Player* this, s32 arg1) {
  *
  * Z-Targeting is an umbrella term for two main states:
  * - Actor Lock-on: Player has locked onto an actor, a reticle appears, Player and the camera focus on the actor
- * - Parallel: No lock-on occurs, the Player keeps facing the same angle when Z was pressed. Can snap to walls.
+ * - Parallel: Player and the camera keep facing the same angle from when Z was pressed. Can snap to walls.
+ *             This state occurs when there are no actors available to lock onto.
  *
  * First this function updates `zTargetActiveTimer`. For most Z-Target related states to update, this
  * timer has to have a non-zero value. Additionally, the timer must have a value of 5 or greater
