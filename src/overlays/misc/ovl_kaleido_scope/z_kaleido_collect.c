@@ -21,7 +21,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     };
 
     // Shining medallions
-    static s16 sMedEnvColors[6 + 6][3] = {
+    static s16 sMedallionsEnvColors[6 + 6][3] = {
         // Target env color when sMedEnvShineState == 0
         { 0, 0, 0 },
         { 0, 0, 0 },
@@ -38,11 +38,11 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         { 90, 90, 0 },
     };
     // Current (animated) env color for each medallion
-    static s16 sMedEnvRed[6] = { 255, 255, 255, 255, 255, 255 };
-    static s16 sMedEnvGreen[6] = { 255, 255, 255, 255, 255, 255 };
-    static s16 sMedEnvBlue[6] = { 150, 150, 150, 150, 150, 150 };
-    static s16 sMedEnvTimer = 20;
-    static s16 sMedEnvShineState = 0;
+    static s16 sMedallionsEnvRed[6] = { 255, 255, 255, 255, 255, 255 };
+    static s16 sMedallionsEnvGreen[6] = { 255, 255, 255, 255, 255, 255 };
+    static s16 sMedallionsEnvBlue[6] = { 150, 150, 150, 150, 150, 150 };
+    static s16 sMedallionsEnvTimer = 20;
+    static s16 sMedallionsEnvShineState = 0;
 
     static s16 sHpPrimRed = 0;
     static s16 sHpPrimGreen = 0;
@@ -105,7 +105,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     s16 targetColorIndex;
     s16 pad2;
     s16 cursorItem;
-    s16 gsTokensDigits[3];
+    s16 gsTokenDigits[3];
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_collect.c", 248);
 
@@ -333,42 +333,42 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-    sMedEnvTimer--;
+    sMedallionsEnvTimer--;
 
     for (j = 0, bufI = 0; j < 6; j++, bufI += 4) {
-        if ((sMedEnvShineState != 1) && (sMedEnvShineState != 3)) {
-            targetColorIndex = (sMedEnvShineState != 0) ? j + 6 : j;
+        if ((sMedallionsEnvShineState != 1) && (sMedallionsEnvShineState != 3)) {
+            targetColorIndex = (sMedallionsEnvShineState != 0) ? j + 6 : j;
 
-            if (sMedEnvTimer != 0) {
-                stepRed = ABS(sMedEnvRed[j] - sMedEnvColors[targetColorIndex][0]) / sMedEnvTimer;
-                stepGreen = ABS(sMedEnvGreen[j] - sMedEnvColors[targetColorIndex][1]) / sMedEnvTimer;
-                stepBlue = ABS(sMedEnvBlue[j] - sMedEnvColors[targetColorIndex][2]) / sMedEnvTimer;
-                if (sMedEnvRed[j] >= sMedEnvColors[targetColorIndex][0]) {
-                    sMedEnvRed[j] -= stepRed;
+            if (sMedallionsEnvTimer != 0) {
+                stepRed = ABS(sMedallionsEnvRed[j] - sMedallionsEnvColors[targetColorIndex][0]) / sMedallionsEnvTimer;
+                stepGreen = ABS(sMedallionsEnvGreen[j] - sMedallionsEnvColors[targetColorIndex][1]) / sMedallionsEnvTimer;
+                stepBlue = ABS(sMedallionsEnvBlue[j] - sMedallionsEnvColors[targetColorIndex][2]) / sMedallionsEnvTimer;
+                if (sMedallionsEnvRed[j] >= sMedallionsEnvColors[targetColorIndex][0]) {
+                    sMedallionsEnvRed[j] -= stepRed;
                 } else {
-                    sMedEnvRed[j] += stepRed;
+                    sMedallionsEnvRed[j] += stepRed;
                 }
-                if (sMedEnvGreen[j] >= sMedEnvColors[targetColorIndex][1]) {
-                    sMedEnvGreen[j] -= stepGreen;
+                if (sMedallionsEnvGreen[j] >= sMedallionsEnvColors[targetColorIndex][1]) {
+                    sMedallionsEnvGreen[j] -= stepGreen;
                 } else {
-                    sMedEnvGreen[j] += stepGreen;
+                    sMedallionsEnvGreen[j] += stepGreen;
                 }
-                if (sMedEnvBlue[j] >= sMedEnvColors[targetColorIndex][2]) {
-                    sMedEnvBlue[j] -= stepBlue;
+                if (sMedallionsEnvBlue[j] >= sMedallionsEnvColors[targetColorIndex][2]) {
+                    sMedallionsEnvBlue[j] -= stepBlue;
                 } else {
-                    sMedEnvBlue[j] += stepBlue;
+                    sMedallionsEnvBlue[j] += stepBlue;
                 }
             } else {
-                sMedEnvRed[j] = sMedEnvColors[targetColorIndex][0];
-                sMedEnvGreen[j] = sMedEnvColors[targetColorIndex][1];
-                sMedEnvBlue[j] = sMedEnvColors[targetColorIndex][2];
+                sMedallionsEnvRed[j] = sMedallionsEnvColors[targetColorIndex][0];
+                sMedallionsEnvGreen[j] = sMedallionsEnvColors[targetColorIndex][1];
+                sMedallionsEnvBlue[j] = sMedallionsEnvColors[targetColorIndex][2];
             }
         }
 
         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST + j)) {
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
-            gDPSetEnvColor(POLY_OPA_DISP++, sMedEnvRed[j], sMedEnvGreen[j], sMedEnvBlue[j], 0);
+            gDPSetEnvColor(POLY_OPA_DISP++, sMedallionsEnvRed[j], sMedallionsEnvGreen[j], sMedallionsEnvBlue[j], 0);
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[bufI], 4, 0);
 
             KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_MEDALLION_FOREST + j], QUEST_ICON_WIDTH,
@@ -376,10 +376,10 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    if (sMedEnvTimer == 0) {
-        sMedEnvTimer = R_PAUSE_QUEST_MEDALLION_SHINE_TIME(sMedEnvShineState);
-        if (++sMedEnvShineState >= 4) {
-            sMedEnvShineState = 0;
+    if (sMedallionsEnvTimer == 0) {
+        sMedallionsEnvTimer = R_PAUSE_QUEST_MEDALLION_SHINE_TIME(sMedallionsEnvShineState);
+        if (++sMedallionsEnvShineState >= 4) {
+            sMedallionsEnvShineState = 0;
         }
     }
 
@@ -574,6 +574,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             }
         } else if (((pauseCtx->mainState >= PAUSE_MAIN_STATE_4) && (pauseCtx->mainState <= PAUSE_MAIN_STATE_6)) ||
                    (pauseCtx->mainState == PAUSE_MAIN_STATE_8)) {
+            // temps reused, fake?
             stepGreen = pauseCtx->ocarinaSongIdx;
             stepRed = gOcarinaSongButtons[stepGreen].numButtons;
 
@@ -687,17 +688,17 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-        gsTokensDigits[0] = gsTokensDigits[1] = 0;
-        gsTokensDigits[2] = gSaveContext.save.info.inventory.gsTokens;
+        gsTokenDigits[0] = gsTokenDigits[1] = 0;
+        gsTokenDigits[2] = gSaveContext.save.info.inventory.gsTokens;
 
-        while (gsTokensDigits[2] >= 100) {
-            gsTokensDigits[0]++;
-            gsTokensDigits[2] -= 100;
+        while (gsTokenDigits[2] >= 100) {
+            gsTokenDigits[0]++;
+            gsTokenDigits[2] -= 100;
         }
 
-        while (gsTokensDigits[2] >= 10) {
-            gsTokensDigits[1]++;
-            gsTokensDigits[2] -= 10;
+        while (gsTokenDigits[2] >= 10) {
+            gsTokenDigits[1]++;
+            gsTokenDigits[2] -= 10;
         }
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[164], 24, 0);
@@ -713,8 +714,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
             cursorItem = 0;
             for (bufI = 0; bufI < 3; bufI++, j += 4) {
-                if ((bufI >= 2) || (gsTokensDigits[bufI] != 0) || (cursorItem != 0)) {
-                    gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gCounterDigit0Tex + (8 * 16 * gsTokensDigits[bufI])),
+                if ((bufI >= 2) || (gsTokenDigits[bufI] != 0) || (cursorItem != 0)) {
+                    gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gCounterDigit0Tex + (8 * 16 * gsTokenDigits[bufI])),
                                         G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
