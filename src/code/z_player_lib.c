@@ -723,23 +723,34 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
     this->itemAction = itemAction;
 }
 
-void func_8008EDF0(Player* this) {
+void Player_ReleaseLockOn(Player* this) {
     this->focusActor = NULL;
     this->stateFlags2 &= ~PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
 }
 
-void func_8008EE08(Player* this) {
+/**
+ * This function aims to clear Z-Target related state when it isn't in use.
+ * First, many conditions related to being in the air are checked. If these all pass
+ * then many Z-Target related state flags can be unset.
+ * If the long chain of conditions failed, then Player is considered to be in the air.
+ * In this case, `PLAYER_STATE1_FREE_FALL` will be set instead of Z-Target state flags being cleared.
+ * Regardless of the free fall state, actor lock-on will unconditionally be able to release.
+ * 
+ * This strange relationship between Z-Targeting and free fall state is why it is not possible
+ * to release parallel mode while in the air.
+ */
+void Player_ClearZTargeting(Player* this) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
-        (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
+        (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_FREE_FALL)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
         this->stateFlags1 &= ~(PLAYER_STATE1_Z_TARGETING | PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS | PLAYER_STATE1_PARALLEL |
-                               PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE);
-    } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_21))) {
-        this->stateFlags1 |= PLAYER_STATE1_19;
+                               PLAYER_STATE1_18 | PLAYER_STATE1_FREE_FALL | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE);
+    } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_FREE_FALL | PLAYER_STATE1_21))) {
+        this->stateFlags1 |= PLAYER_STATE1_FREE_FALL;
     }
 
-    func_8008EDF0(this);
+    Player_ReleaseLockOn(this);
 }
 
 /**
@@ -759,7 +770,7 @@ void func_8008EE08(Player* this) {
 void Player_SetAutoLockOnActor(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
 
-    func_8008EE08(this);
+    Player_ClearZTargeting(this);
     this->focusActor = actor;
     this->autoLockOnActor = actor;
     this->stateFlags1 |= PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS;
