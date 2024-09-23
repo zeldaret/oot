@@ -825,7 +825,8 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                         player->actor.parent = NULL;
                         player->csAction = PLAYER_CSACTION_NONE;
                         if (this->timers[0] == 0) {
-                            func_8002F6D4(play, &this->actor, 20.0f, this->actor.shape.rot.y + 0x8000, 10.0f, 0);
+                            Actor_SetPlayerKnockbackLarge(play, &this->actor, 20.0f, this->actor.shape.rot.y + 0x8000,
+                                                          10.0f, 0);
                         }
                     }
                     this->timers[0] = 75;
