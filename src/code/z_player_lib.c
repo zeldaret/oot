@@ -735,7 +735,7 @@ void Player_ReleaseLockOn(Player* this) {
  * If the long chain of conditions failed, then Player is considered to be in the air.
  * In this case, `PLAYER_STATE1_FREE_FALL` will be set instead of Z-Target state flags being cleared.
  * Regardless of the free fall state, actor lock-on will unconditionally be able to release.
- * 
+ *
  * This strange relationship between Z-Targeting and free fall state is why it is not possible
  * to release parallel mode while in the air.
  */

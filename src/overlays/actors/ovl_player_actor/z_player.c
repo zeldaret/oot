@@ -3635,24 +3635,24 @@ s32 func_80836AB8(Player* this, s32 arg1) {
 
 /**
  * Updates state related to Z-Targeting.
- * 
+ *
  * Z-Targeting is an umbrealla term for two main states:
  * - Actor Lock-on: Player has locked onto an actor, a reticle appears, Player and the camera focus on the actor
  * - Parallel: No lock-on occurs, the Player keeps facing the same angle when Z was pressed. Can snap to walls.
- * 
+ *
  * First this function updates `zTargetActiveTimer`. For most Z-Target related states to update, this
- * timer has to have a non-zero value. Additionally, the timer must have a value of 5 or greater 
+ * timer has to have a non-zero value. Additionally, the timer must have a value of 5 or greater
  * for the Attention system to recognize that an actor lock-on is active.
- * 
+ *
  * Following this, a next lock-on actor is chosen. If there is currently no actor lock-on active, the actor
- * Navi is hovering over will be chosen. If there is an active lock-on, the next available 
+ * Navi is hovering over will be chosen. If there is an active lock-on, the next available
  * lock-on will be the actor with an arrow hovering above it.
- * 
+ *
  * If the above regarding actor lock-on does not occur, then Z-Parallel can begin.
- * 
+ *
  * Lastly, the function handles updating general "actor focus" state. This applies to non Z-Target states
  * like talking to an actor. If the current focus actor is not considered "hostile", then
- * `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS` can be set. This flag being set will trigger `Player_UpdateCamAndSeqModes` 
+ * `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS` can be set. This flag being set will trigger `Player_UpdateCamAndSeqModes`
  * to make the camera focus on the current focus actor.
  */
 void Player_UpdateZTargeting(Player* this, PlayState* play) {
