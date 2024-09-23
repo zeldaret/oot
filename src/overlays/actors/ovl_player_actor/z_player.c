@@ -6610,7 +6610,7 @@ void func_8083D36C(PlayState* play, Player* this) {
 
     this->stateFlags1 |= PLAYER_STATE1_27;
     this->stateFlags2 |= PLAYER_STATE2_10;
-    this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_FREE_FALL);
+    this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_19);
     this->unk_854 = 0.0f;
 
     Player_SetBootData(play, this);
@@ -9078,7 +9078,7 @@ s32 func_80843E64(PlayState* play, Player* this) {
 
     Math_StepToF(&this->speedXZ, 0.0f, 1.0f);
 
-    this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_FREE_FALL);
+    this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_19);
 
     if (sp34 >= 400) {
         s32 impactIndex;
@@ -10945,7 +10945,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
                 } else {
                     camMode = CAM_MODE_JUMP;
                 }
-            } else if (this->stateFlags1 & PLAYER_STATE1_FREE_FALL) {
+            } else if (this->stateFlags1 & PLAYER_STATE1_19) {
                 camMode = CAM_MODE_FREE_FALL;
             } else if ((this->meleeWeaponState != 0) && (this->meleeWeaponAnimation >= PLAYER_MWA_FORWARD_SLASH_1H) &&
                        (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H)) {
@@ -14806,7 +14806,7 @@ void func_80851314(Player* this) {
 void func_80851368(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->stateFlags1 |= PLAYER_STATE1_27;
     this->stateFlags2 |= PLAYER_STATE2_10;
-    this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_FREE_FALL);
+    this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_19);
 
     Player_AnimPlayLoop(play, this, &gPlayerAnim_link_swimer_swim);
 }
