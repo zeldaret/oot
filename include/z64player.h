@@ -667,7 +667,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS (1 << 16) // Currently focusing on a friendly actor. Includes friendly lock-on, talking, and more. Usually does not include hostile actor lock-on, see `PLAYER_STATE1_HOSTILE_LOCK_ON`.
 #define PLAYER_STATE1_PARALLEL (1 << 17) // "Parallel" mode, Z-Target without an actor lock-on
 #define PLAYER_STATE1_18 (1 << 18)
-#define PLAYER_STATE1_FREE_FALL (1 << 19)
+#define PLAYER_STATE1_FREE_FALL (1 << 19) // Considered to be falling in the air. Triggers `CAM_MODE_FREE_FALL` when set.
 #define PLAYER_STATE1_20 (1 << 20)
 #define PLAYER_STATE1_21 (1 << 21)
 #define PLAYER_STATE1_22 (1 << 22)
