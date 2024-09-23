@@ -22,7 +22,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, PlayState* play);
 void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play2);
 void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2);
 
-ActorInit Eff_Dust_InitVars = {
+ActorProfile Eff_Dust_Profile = {
     /**/ ACTOR_EFF_DUST,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -102,6 +102,8 @@ void EffDust_Init(Actor* thisx, PlayState* play) {
             this->scalingFactor = 20.0f;
             break;
         default:
+            //! @bug Actor_Kill should be used, not free.
+            //! Note this also frees with a function for the wrong memory arena.
             SYSTEM_ARENA_FREE(this, "../z_eff_dust.c", 202);
             break;
     }
@@ -178,7 +180,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, PlayState* play) {
     s32 i;
     s32 j;
 
-    if (parent == NULL || parent->update == NULL || !(player->stateFlags1 & PLAYER_STATE1_12)) {
+    if (parent == NULL || parent->update == NULL || !(player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK)) {
         if (this->life != 0) {
             this->life--;
         } else {
@@ -292,8 +294,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play2) {
             Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_dust.c", 449),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_dust.c", 449);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
         }
 
@@ -349,8 +350,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2) {
 
             Matrix_ReplaceRotation(&play->billboardMtxF);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_dust.c", 506),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_dust.c", 506);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
         }
 

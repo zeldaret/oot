@@ -103,29 +103,13 @@
 #define CONT_BLOCK_GB_BANK   CONT_BLOCKS(CONT_ADDR_GB_BANK)
 #define CONT_BLOCK_GB_STATUS CONT_BLOCKS(CONT_ADDR_GB_STATUS)
 
-/* Buttons */
-#define BTN_CRIGHT      0x0001
-#define BTN_CLEFT       0x0002
-#define BTN_CDOWN       0x0004
-#define BTN_CUP         0x0008
-#define BTN_R           0x0010
-#define BTN_L           0x0020
-#define BTN_DRIGHT      0x0100
-#define BTN_DLEFT       0x0200
-#define BTN_DDOWN       0x0400
-#define BTN_DUP         0x0800
-#define BTN_START       0x1000
-#define BTN_Z           0x2000
-#define BTN_B           0x4000
-#define BTN_A           0x8000
-
 #ifdef __GNUC__
 // Ensure data cache coherency for OSPifRam structures by aligning to the data cache line size.
 // On older compilers such as IDO this was done by placing each OSPifRam at the top of the file it is declared in,
 // however file alignment should not be relied on in general.
 __attribute__((aligned(0x10)))
 #endif
-typedef union {
+typedef union OSPifRam {
     struct {
     /* 0x00 */ u32 ram[15];
     /* 0x3C */ u32 status;
@@ -133,20 +117,20 @@ typedef union {
     u64 force_structure_alignment;
 } OSPifRam; // size = 0x40
 
-typedef struct {
+typedef struct OSContStatus {
     /* 0x00 */ u16 type;
     /* 0x02 */ u8 status;
     /* 0x03 */ u8 errno;
 } OSContStatus; // size = 0x04
 
-typedef struct {
+typedef struct OSContPad {
     /* 0x00 */ u16 button;
     /* 0x02 */ s8 stick_x;
     /* 0x03 */ s8 stick_y;
     /* 0x04 */ u8 errno;
 } OSContPad; // size = 0x06
 
-typedef struct {
+typedef struct OSContRamIo {
     /* 0x00 */ void* address;
     /* 0x04 */ u8 databuffer[32];
     /* 0x24 */ u8 addressCrc;
@@ -154,7 +138,7 @@ typedef struct {
     /* 0x26 */ u8 errno;
 } OSContRamIo; // size = 0x28
 
-typedef struct {
+typedef struct __OSContRequesFormat {
     /* 0x00 */ u8 align;
     /* 0x01 */ u8 txsize;
     /* 0x02 */ u8 rxsize;
@@ -165,7 +149,7 @@ typedef struct {
     /* 0x07 */ u8 align1;
 } __OSContRequesFormat; // size = 0x8
 
-typedef struct {
+typedef struct __OSContRequesFormatShort {
     /* 0x00 */ u8 txsize;
     /* 0x01 */ u8 rxsize;
     /* 0x02 */ u8 cmd;
@@ -174,7 +158,7 @@ typedef struct {
     /* 0x05 */ u8 status;
 } __OSContRequesFormatShort; // size = 0x6
 
-typedef struct {
+typedef struct __OSContRamReadFormat {
     /* 0x00 */ u8 unk_00;
     /* 0x01 */ u8 txsize;
     /* 0x02 */ u8 rxsize;
@@ -187,7 +171,7 @@ typedef struct {
 
 #define READFORMAT(ptr) ((__OSContRamReadFormat*)(ptr))
 
-typedef struct {
+typedef struct __OSContReadFormat {
     /* 0x00 */ u8 align;
     /* 0x01 */ u8 txsize;
     /* 0x02 */ u8 rxsize;

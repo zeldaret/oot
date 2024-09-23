@@ -3,9 +3,9 @@
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "assets/objects/object_ossan/object_ossan.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_LOCK_ON_DISABLED)
 
-typedef enum {
+typedef enum EnSyatekiManGameResult {
     /* 0 */ SYATEKI_RESULT_NONE,
     /* 1 */ SYATEKI_RESULT_WINNER,
     /* 2 */ SYATEKI_RESULT_ALMOST,
@@ -13,7 +13,7 @@ typedef enum {
     /* 4 */ SYATEKI_RESULT_REFUSE
 } EnSyatekiManGameResult;
 
-typedef enum {
+typedef enum EnSyatekiManTextIdx {
     /* 0 */ SYATEKI_TEXT_CHOICE,
     /* 1 */ SYATEKI_TEXT_START_GAME,
     /* 2 */ SYATEKI_TEXT_NO_RUPEES,
@@ -44,7 +44,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this);
 void EnSyatekiMan_SetBgm(void);
 #endif
 
-ActorInit En_Syateki_Man_InitVars = {
+ActorProfile En_Syateki_Man_Profile = {
     /**/ ACTOR_EN_SYATEKI_MAN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -160,7 +160,7 @@ void EnSyatekiMan_Init(Actor* thisx, PlayState* play) {
     PRINTF("\n\n");
     // "Old man appeared!! Muhohohohohohohon"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
-    this->actor.targetMode = 1;
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, this->jointTable,
                        this->morphTable, 9);
@@ -415,7 +415,7 @@ void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, PlayState* play) {
         }
         this->gameResult = SYATEKI_RESULT_NONE;
         this->actor.parent = this->tempGallery;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = EnSyatekiMan_SetupIdle;
     }
 }
@@ -430,7 +430,7 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, PlayState* play) {
             this->gameResult = SYATEKI_RESULT_NONE;
             this->actionFunc = EnSyatekiMan_WaitForGame;
             // "Let's try again! Baby!"
-            PRINTF(VT_FGCOL(BLUE) "再挑戦だぜ！ベイビー！" VT_RST "\n", this);
+            PRINTF(VT_FGCOL(BLUE) "再挑戦だぜ！ベイビー！" VT_RST "\n");
         }
     }
 }

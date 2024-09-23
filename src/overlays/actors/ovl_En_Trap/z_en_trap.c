@@ -34,7 +34,7 @@ void EnTrap_Destroy(Actor* thisx, PlayState* play);
 void EnTrap_Update(Actor* thisx, PlayState* play);
 void EnTrap_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Trap_InitVars = {
+ActorProfile En_Trap_Profile = {
     /**/ ACTOR_EN_TRAP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -48,14 +48,14 @@ ActorInit En_Trap_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_NO_PUSH | OC1_TYPE_1 | OC1_TYPE_2,
         OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, ATELEM_NONE, ACELEM_ON, OCELEM_ON },
+    { ELEM_MATERIAL_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, ATELEM_NONE, ACELEM_ON, OCELEM_ON },
     { 30, 20, 0, { 0, 0, 0 } },
 };
 
@@ -67,7 +67,7 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     EnTrap* this = (EnTrap*)thisx;
     ColliderCylinder* unused = &this->collider; // required to match
 
-    this->upperParams = (thisx->params >> 8) & 0xFF;
+    this->upperParams = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     Actor_SetScale(thisx, 0.1f);
     thisx->gravity = -2.0f;
@@ -112,7 +112,7 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
-    thisx->targetMode = 3;
+    thisx->attentionRangeType = ATTENTION_RANGE_3;
     thisx->colChkInfo.mass = 0xFF;
 }
 
@@ -175,7 +175,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                 angleToKnockPlayer = thisx->yawTowardsPlayer;
             }
             play->damagePlayer(play, -4);
-            func_8002F7A0(play, thisx, 6.0f, angleToKnockPlayer, 6.0f);
+            Actor_SetPlayerKnockbackSmallNoDamage(play, thisx, 6.0f, angleToKnockPlayer, 6.0f);
             this->playerDmgTimer = 15;
         }
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {

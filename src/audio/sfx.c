@@ -2,7 +2,7 @@
 #include "global.h"
 #include "terminal.h"
 
-typedef struct {
+typedef struct SfxRequest {
     /* 0x00 */ u16 sfxId;
     /* 0x04 */ Vec3f* pos;
     /* 0x08 */ u8 token;
@@ -11,7 +11,7 @@ typedef struct {
     /* 0x14 */ s8* reverbAdd;
 } SfxRequest; // size = 0x18
 
-typedef struct {
+typedef struct UnusedBankLerp {
     /* 0x00 */ f32 value;
     /* 0x04 */ f32 target;
     /* 0x08 */ f32 step;
@@ -341,8 +341,11 @@ void Audio_ChooseActiveSfx(u8 bankId) {
                                               "flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n",
                            entry->sfxId, entry->posX, entry->posZ, *entry->posX, *entry->posY, *entry->posZ);
                 }
+                entry->priority = (u32)entry->dist + (SQ(0xFF - sfxImportance) * SQ(76));
+#if !PLATFORM_N64
                 temp3 = entry->sfxId; // fake
-                entry->priority = (u32)entry->dist + (SQ(0xFF - sfxImportance) * SQ(76)) + temp3 - temp3;
+                entry->priority = entry->priority + temp3 - temp3;
+#endif
                 if (*entry->posZ < 0.0f) {
                     entry->priority += (s32)(-*entry->posZ * 6.0f);
                 }
@@ -530,7 +533,7 @@ void Audio_StopSfxByBank(u8 bankId) {
     Audio_RemoveMatchingSfxRequests(0, &cmp);
 }
 
-void func_800F8884(u8 bankId, Vec3f* pos) {
+void Audio_RemoveSfxFromBankByPos(u8 bankId, Vec3f* pos) {
     SfxBankEntry* entry;
     u8 entryIndex = gSfxBanks[bankId][0].next;
     u8 prevEntryIndex = 0;
@@ -554,7 +557,7 @@ void func_800F8884(u8 bankId, Vec3f* pos) {
 void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos) {
     SfxBankEntry cmp;
 
-    func_800F8884(bankId, pos);
+    Audio_RemoveSfxFromBankByPos(bankId, pos);
     cmp.sfxId = bankId << 12;
     cmp.posX = &pos->x;
     Audio_RemoveMatchingSfxRequests(1, &cmp);
@@ -565,7 +568,7 @@ void Audio_StopSfxByPos(Vec3f* pos) {
     SfxBankEntry cmp;
 
     for (i = 0; i < ARRAY_COUNT(gSfxBanks); i++) {
-        func_800F8884(i, pos);
+        Audio_RemoveSfxFromBankByPos(i, pos);
     }
     cmp.posX = &pos->x;
     Audio_RemoveMatchingSfxRequests(2, &cmp);

@@ -34,7 +34,7 @@ void func_8006D0AC(PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct HorseSpawn {
     /* 0x00 */ s16 sceneId;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ s16 angle;
@@ -75,9 +75,8 @@ void func_8006D0EC(PlayState* play, Player* player) {
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
     } else if ((play->sceneId == gSaveContext.save.info.horseData.sceneId) &&
                (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || DREG(1) != 0)) {
-        // "Set by existence of horse %d %d %d"
-        PRINTF("馬存在によるセット %d %d %d\n", gSaveContext.save.info.horseData.sceneId,
-               Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED), DREG(1));
+        PRINTF(T("馬存在によるセット %d %d %d\n", "Set by existence of horse %d %d %d\n"),
+               gSaveContext.save.info.horseData.sceneId, Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED), DREG(1));
 
         if (func_8006CFC0(gSaveContext.save.info.horseData.sceneId)) {
             Actor* horseActor =
@@ -90,8 +89,9 @@ void func_8006D0EC(PlayState* play, Player* player) {
             }
         } else {
             PRINTF(VT_COL(RED, WHITE));
-            // "Horse_SetNormal():%d set spot is no good."
-            PRINTF("Horse_SetNormal():%d セットスポットまずいです。\n", gSaveContext.save.info.horseData.sceneId);
+            PRINTF(
+                T("Horse_SetNormal():%d セットスポットまずいです。\n", "Horse_SetNormal():%d set spot is no good.\n"),
+                gSaveContext.save.info.horseData.sceneId);
             PRINTF(VT_RST);
             func_8006D074(play);
         }
@@ -121,7 +121,7 @@ void func_8006D0EC(PlayState* play, Player* player) {
     }
 }
 
-typedef struct {
+typedef struct struct_8011F9B8 {
     /* 0x00 */ s16 sceneId;
     /* 0x04 */ s32 cutsceneIndex;
     /* 0x08 */ Vec3s pos;
@@ -246,8 +246,9 @@ void func_8006DC68(PlayState* play, Player* player) {
     if (LINK_IS_ADULT) {
         if (!func_8006CFC0(gSaveContext.save.info.horseData.sceneId)) {
             PRINTF(VT_COL(RED, WHITE));
-            // "Horse_Set_Check():%d set spot is no good."
-            PRINTF("Horse_Set_Check():%d セットスポットまずいです。\n", gSaveContext.save.info.horseData.sceneId);
+            PRINTF(
+                T("Horse_Set_Check():%d セットスポットまずいです。\n", "Horse_Set_Check():%d set spot is no good.\n"),
+                gSaveContext.save.info.horseData.sceneId);
             PRINTF(VT_RST);
             func_8006D074(play);
         }

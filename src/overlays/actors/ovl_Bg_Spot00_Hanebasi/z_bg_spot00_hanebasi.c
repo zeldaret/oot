@@ -10,7 +10,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum {
+typedef enum DrawbridgeType {
     /* -1 */ DT_DRAWBRIDGE = -1,
     /*  0 */ DT_CHAIN_1,
     /*  1 */ DT_CHAIN_2
@@ -25,7 +25,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play);
 void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* play);
 void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play);
 
-ActorInit Bg_Spot00_Hanebasi_InitVars = {
+ActorProfile Bg_Spot00_Hanebasi_Profile = {
     /**/ ACTOR_BG_SPOT00_HANEBASI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -177,13 +177,13 @@ void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
         if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE_STOP);
         } else {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
         }
     } else {
         if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
         } else {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
         }
     }
 }
@@ -277,8 +277,7 @@ void BgSpot00Hanebasi_DrawTorches(Actor* thisx, PlayState* play2) {
         Matrix_RotateY(angle, MTXMODE_APPLY);
         Matrix_Scale(sTorchFlameScale, sTorchFlameScale, sTorchFlameScale, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 674),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 674);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
 
@@ -293,8 +292,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 702),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 702);
 
     if (thisx->params == DT_DRAWBRIDGE) {
         gSPDisplayList(POLY_OPA_DISP++, gHyruleFieldCastleDrawbridgeDL);

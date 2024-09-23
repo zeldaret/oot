@@ -1,9 +1,18 @@
 #include "ultra64.h"
 #include "global.h"
+#include "versions.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
-typedef struct {
+#if !PLATFORM_N64
+#define AUDIO_PRINTF osSyncPrintf
+#elif IDO_PRINTF_WORKAROUND
+#define AUDIO_PRINTF(args) (void)0
+#else
+#define AUDIO_PRINTF(format, ...) (void)0
+#endif
+
+typedef struct SfxPlayerState {
     /* 0x0 */ f32 vol;
     /* 0x4 */ f32 freqScale;
     /* 0x8 */ s8 reverb;
@@ -13,7 +22,7 @@ typedef struct {
     /* 0xC */ u8 combFilterGain;
 } SfxPlayerState;
 
-typedef enum {
+typedef enum SfxChannelIndex {
     /* 0x0 */ SFX_CHANNEL_PLAYER0, // SfxPlayerBank
     /* 0x1 */ SFX_CHANNEL_PLAYER1,
     /* 0x2 */ SFX_CHANNEL_PLAYER2,
@@ -32,20 +41,20 @@ typedef enum {
     /* 0xF */ SFX_CHANNEL_VOICE1
 } SfxChannelIndex; // playerIdx = 2
 
-typedef struct {
+typedef struct FreqLerp {
     /* 0x0 */ f32 value;
     /* 0x4 */ f32 target;
     /* 0x8 */ f32 step;
     /* 0xC */ s32 remainingFrames;
 } FreqLerp;
 
-typedef struct {
+typedef struct NatureAmbienceDataIO {
     /* 0x0 */ u16 playerIO;
     /* 0x2 */ u16 channelMask;
     /* 0x4 */ u8 channelIO[3 * 33 + 1];
 } NatureAmbienceDataIO; // size = 0x68
 
-typedef enum {
+typedef enum AudioDebugPage {
     /* 0x0 */ PAGE_NON,
     /* 0x1 */ PAGE_SOUND_CONTROL,
     /* 0x2 */ PAGE_SPEC_INFO, // unused
@@ -66,12 +75,36 @@ typedef enum {
 
 #define SCROLL_PRINT_BUF_SIZE 25
 
-typedef struct {
+typedef struct OcarinaStick {
     s8 x;
     s8 y;
 } OcarinaStick;
 
-u8 gIsLargeSfxBank[7] = { 0, 0, 0, 1, 0, 0, 0 };
+#define DEFINE_SFX(_0, _1, _2, _3, _4, _5) 1 +
+u8 gIsLargeSfxBank[7] = {
+    (
+#include "tables/sfx/playerbank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/itembank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/environmentbank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/enemybank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/systembank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/ocarinabank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/voicebank_table.h"
+        0) > UINT8_MAX,
+};
+#undef DEFINE_SFX
 
 // Only the first row of these is supported by sequence 0. (gSfxChannelLayout is always 0.)
 u8 gChannelsPerBank[4][7] = {
@@ -160,118 +193,13 @@ u8 sSeqModeInput = 0;
 #define SEQ_FLAG_SKIP_HARP_INTRO (1 << 6)
 #define SEQ_FLAG_NO_AMBIENCE (1 << 7)
 
+#define DEFINE_SEQUENCE(name, seqId, storageMedium, cachePolicy, seqFlags) seqFlags,
+#define DEFINE_SEQUENCE_PTR(seqIdReal, seqId, storageMediumReal, cachePolicyReal, seqFlags) seqFlags,
 u8 sSeqFlags[] = {
-    SEQ_FLAG_FANFARE,                        // NA_BGM_GENERAL_SFX
-    SEQ_FLAG_ENEMY,                          // NA_BGM_NATURE_BACKGROUND
-    0,                                       // NA_BGM_FIELD_LOGIC
-    0,                                       // NA_BGM_FIELD_INIT
-    0,                                       // NA_BGM_FIELD_DEFAULT_1
-    0,                                       // NA_BGM_FIELD_DEFAULT_2
-    0,                                       // NA_BGM_FIELD_DEFAULT_3
-    0,                                       // NA_BGM_FIELD_DEFAULT_4
-    0,                                       // NA_BGM_FIELD_DEFAULT_5
-    0,                                       // NA_BGM_FIELD_DEFAULT_6
-    0,                                       // NA_BGM_FIELD_DEFAULT_7
-    0,                                       // NA_BGM_FIELD_DEFAULT_8
-    0,                                       // NA_BGM_FIELD_DEFAULT_9
-    0,                                       // NA_BGM_FIELD_DEFAULT_A
-    0,                                       // NA_BGM_FIELD_DEFAULT_B
-    0,                                       // NA_BGM_FIELD_ENEMY_INIT
-    0,                                       // NA_BGM_FIELD_ENEMY_1
-    0,                                       // NA_BGM_FIELD_ENEMY_2
-    0,                                       // NA_BGM_FIELD_ENEMY_3
-    0,                                       // NA_BGM_FIELD_ENEMY_4
-    0,                                       // NA_BGM_FIELD_STILL_1
-    0,                                       // NA_BGM_FIELD_STILL_2
-    0,                                       // NA_BGM_FIELD_STILL_3
-    0,                                       // NA_BGM_FIELD_STILL_4
-    SEQ_FLAG_RESUME_PREV | SEQ_FLAG_ENEMY,   // NA_BGM_DUNGEON
-    SEQ_FLAG_RESUME,                         // NA_BGM_KAKARIKO_ADULT
-    0,                                       // NA_BGM_ENEMY
-    SEQ_FLAG_NO_AMBIENCE | SEQ_FLAG_RESTORE, // NA_BGM_BOSS
-    SEQ_FLAG_ENEMY,                          // NA_BGM_INSIDE_DEKU_TREE
-    0,                                       // NA_BGM_MARKET
-    0,                                       // NA_BGM_TITLE
-    SEQ_FLAG_RESUME_PREV,                    // NA_BGM_LINK_HOUSE
-    0,                                       // NA_BGM_GAME_OVER
-    0,                                       // NA_BGM_BOSS_CLEAR
-    SEQ_FLAG_FANFARE,                        // NA_BGM_ITEM_GET
-    SEQ_FLAG_FANFARE_GANON,                  // NA_BGM_OPENING_GANON
-    SEQ_FLAG_FANFARE,                        // NA_BGM_HEART_GET
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_LIGHT
-    SEQ_FLAG_ENEMY,                          // NA_BGM_JABU_JABU
-    SEQ_FLAG_RESUME,                         // NA_BGM_KAKARIKO_KID
-    0,                                       // NA_BGM_GREAT_FAIRY
-    0,                                       // NA_BGM_ZELDA_THEME
-    SEQ_FLAG_ENEMY,                          // NA_BGM_FIRE_TEMPLE
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OPEN_TRE_BOX
-    SEQ_FLAG_ENEMY,                          // NA_BGM_FOREST_TEMPLE
-    0,                                       // NA_BGM_COURTYARD
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GANON_TOWER
-    0,                                       // NA_BGM_LONLON
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GORON_CITY
-    0,                                       // NA_BGM_FIELD_MORNING
-    SEQ_FLAG_FANFARE,                        // NA_BGM_SPIRITUAL_STONE
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_BOLERO
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_MINUET
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_SERENADE
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_REQUIEM
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_NOCTURNE
-    SEQ_FLAG_NO_AMBIENCE | SEQ_FLAG_RESTORE, // NA_BGM_MINI_BOSS
-    SEQ_FLAG_FANFARE,                        // NA_BGM_SMALL_ITEM_GET
-    0,                                       // NA_BGM_TEMPLE_OF_TIME
-    SEQ_FLAG_FANFARE,                        // NA_BGM_EVENT_CLEAR
-    SEQ_FLAG_RESUME | SEQ_FLAG_ENEMY,        // NA_BGM_KOKIRI
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_FAIRY_GET
-    SEQ_FLAG_ENEMY,                          // NA_BGM_SARIA_THEME
-    SEQ_FLAG_ENEMY,                          // NA_BGM_SPIRIT_TEMPLE
-    0,                                       // NA_BGM_HORSE
-    0,                                       // NA_BGM_HORSE_GOAL
-    0,                                       // NA_BGM_INGO
-    SEQ_FLAG_FANFARE,                        // NA_BGM_MEDALLION_GET
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_SARIA
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_EPONA
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_ZELDA
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_SUNS
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_TIME
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_STORM
-    0,                                       // NA_BGM_NAVI_OPENING
-    0,                                       // NA_BGM_DEKU_TREE_CS
-    0,                                       // NA_BGM_WINDMILL
-    0,                                       // NA_BGM_HYRULE_CS
-    SEQ_FLAG_RESUME_PREV,                    // NA_BGM_MINI_GAME
-    0,                                       // NA_BGM_SHEIK
-    SEQ_FLAG_RESUME,                         // NA_BGM_ZORA_DOMAIN
-    SEQ_FLAG_FANFARE,                        // NA_BGM_APPEAR
-    0,                                       // NA_BGM_ADULT_LINK
-    0,                                       // NA_BGM_MASTER_SWORD
-    SEQ_FLAG_FANFARE_GANON,                  // NA_BGM_INTRO_GANON
-    SEQ_FLAG_RESUME_PREV,                    // NA_BGM_SHOP
-    SEQ_FLAG_SKIP_HARP_INTRO,                // NA_BGM_CHAMBER_OF_SAGES
-    SEQ_FLAG_SKIP_HARP_INTRO,                // NA_BGM_FILE_SELECT
-    SEQ_FLAG_ENEMY,                          // NA_BGM_ICE_CAVERN
-    SEQ_FLAG_FANFARE,                        // NA_BGM_DOOR_OF_TIME
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OWL
-    SEQ_FLAG_ENEMY,                          // NA_BGM_SHADOW_TEMPLE
-    SEQ_FLAG_ENEMY,                          // NA_BGM_WATER_TEMPLE
-    SEQ_FLAG_FANFARE,                        // NA_BGM_BRIDGE_TO_GANONS
-    0,                                       // NA_BGM_OCARINA_OF_TIME
-    SEQ_FLAG_RESUME | SEQ_FLAG_ENEMY,        // NA_BGM_GERUDO_VALLEY
-    0,                                       // NA_BGM_POTION_SHOP
-    0,                                       // NA_BGM_KOTAKE_KOUME
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_ESCAPE
-    0,                                       // NA_BGM_UNDERGROUND
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GANON_BATTLE_1
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GANON_BATTLE_2
-    0,                                       // NA_BGM_END_DEMO
-    0,                                       // NA_BGM_STAFF_1
-    0,                                       // NA_BGM_STAFF_2
-    0,                                       // NA_BGM_STAFF_3
-    0,                                       // NA_BGM_STAFF_4
-    0,                                       // NA_BGM_FIRE_BOSS
-    SEQ_FLAG_RESTORE,                        // NA_BGM_TIMED_MINI_GAME
-    0,                                       // NA_BGM_CUTSCENE_EFFECTS
+#include "tables/sequence_table.h"
 };
+#undef DEFINE_SEQUENCE
+#undef DEFINE_SEQUENCE_PTR
 
 s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -850,10 +778,13 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 };
 
-u32 sOcarinaAllowedButtonMask = (BTN_A | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP);
+#if !PLATFORM_N64
+u32 sOcarinaAllowedButtonMask = (BTN_A | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
 s32 sOcarinaAButtonMap = BTN_A;
 s32 sOcarinaCUpButtonMap = BTN_CUP;
 s32 sOcarinaCDownButtonMap = BTN_CDOWN;
+#endif
+
 u8 sIsOcarinaInputEnabled = false;
 s8 sOcarinaInstrumentId = OCARINA_INSTRUMENT_OFF;
 u8 sCurOcarinaPitch = OCARINA_PITCH_NONE;
@@ -894,151 +825,151 @@ u8 sOcaMemoryGameNumNotes[] = { 5, 6, 8 };
 OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
     // OCARINA_SONG_MINUET
     {
-        { OCARINA_PITCH_D4, 18, 86, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 18, 92, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 72, 86, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 18, 80, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 144, 86, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(18, 15), 86, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(18, 15), 92, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(72, 60), 86, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(18, 15), 80, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(144, 120), 86, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 86, 0, 0, 0 },
     },
 
     // OCARINA_SONG_BOLERO
     {
-        { OCARINA_PITCH_F4, 15, 80, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 15, 72, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 15, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 15, 76, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 15, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 15, 74, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 15, 78, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 135, 66, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(15, 12), 80, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(15, 13), 72, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(15, 12), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(15, 13), 76, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(15, 12), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(15, 13), 74, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(15, 12), 78, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(135, 113), 66, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 66, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SERENADE
     {
-        { OCARINA_PITCH_D4, 36, 60, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 36, 78, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 33, 82, 0, 0, 0 },
-        { OCARINA_PITCH_NONE, 3, 82, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 36, 84, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 144, 90, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(36, 30), 60, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(36, 30), 78, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(33, 27), 82, 0, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAMERATE_CONST(3, 3), 82, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(36, 30), 84, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(144, 120), 90, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_REQUIEM
     {
-        { OCARINA_PITCH_D4, 45, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 23, 86, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 22, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 45, 86, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 45, 94, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 180, 94, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(45, 37), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(23, 19), 86, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(22, 19), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(45, 37), 86, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(45, 38), 94, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(180, 150), 94, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 94, 0, 0, 0 },
     },
 
     // OCARINA_SONG_NOCTURNE
     {
-        { OCARINA_PITCH_B4, 36, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 33, 84, 0, 0, 0 },
-        { OCARINA_PITCH_NONE, 3, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 18, 82, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 18, 60, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 90, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 144, 96, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(36, 30), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(33, 27), 84, 0, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAMERATE_CONST(3, 3), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(18, 15), 82, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(18, 15), 60, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(18, 15), 90, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(144, 120), 96, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 96, 0, 0, 0 },
     },
 
     // OCARINA_SONG_PRELUDE
     {
-        { OCARINA_PITCH_D5, 15, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 45, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 15, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 15, 82, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 15, 86, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 60, 90, 0, 0, 0 },
-        { OCARINA_PITCH_NONE, 75, 90, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(15, 12), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(45, 38), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(15, 12), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(15, 13), 82, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(15, 12), 86, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(60, 50), 90, 0, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAMERATE_CONST(75, 63), 90, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SARIAS
     {
-        { OCARINA_PITCH_F4, 17, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 17, 88, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 34, 80, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 17, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 17, 88, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 136, 80, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(17, 14), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(17, 14), 88, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(34, 28), 80, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(17, 14), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(17, 14), 88, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(136, 113), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_EPONAS
     {
-        { OCARINA_PITCH_D5, 18, 84, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 72, 80, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 18, 84, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 144, 80, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(18, 15), 84, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(72, 60), 80, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(18, 15), 84, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(144, 120), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_LULLABY
     {
-        { OCARINA_PITCH_B4, 51, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 25, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 78, 80, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 51, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 25, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 100, 80, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(51, 42), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(25, 21), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(78, 65), 80, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(51, 42), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(25, 21), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(100, 83), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SUNS
     {
-        { OCARINA_PITCH_A4, 12, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 13, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 29, 80, 2, 0, 0 },
-        { OCARINA_PITCH_NONE, 9, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 12, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 13, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 120, 80, 3, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(12, 10), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(13, 10), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(29, 25), 80, 2, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAMERATE_CONST(9, 9), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(12, 10), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(13, 10), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(120, 100), 80, 3, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_TIME
     {
-        { OCARINA_PITCH_A4, 32, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 65, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 33, 80, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 32, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 65, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 99, 80, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(32, 26), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(65, 54), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(33, 28), 80, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(32, 26), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(65, 54), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(99, 83), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_STORMS
     {
-        { OCARINA_PITCH_D4, 11, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 11, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 45, 80, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 11, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 11, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 90, 80, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(11, 9), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(11, 9), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(45, 37), 80, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(11, 9), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(11, 9), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(90, 75), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SCARECROW_SPAWN
     {
-        { OCARINA_PITCH_D4, 3, 0, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(3, 3), 0, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 255, 0, 0, 0 },
     },
 
     // OCARINA_SONG_MEMORY_GAME
     {
-        { OCARINA_PITCH_D4, 3, 0, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(3, 3), 0, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 0, 0, 0, 0 },
     },
 };
@@ -1257,6 +1188,10 @@ u8 D_8016B9F3;
 u8 sFanfareStartTimer;
 u16 sFanfareSeqId;
 
+#if PLATFORM_N64
+u16 sPrevAmbienceSeqId;
+#endif
+
 OcarinaStaff sPlayingStaff;
 OcarinaStaff sPlaybackStaff;
 OcarinaStaff sRecordingStaff;
@@ -1281,6 +1216,11 @@ OcarinaNote sScarecrowsLongSongSecondNote;
 #if OOT_DEBUG
 u8 sIsMalonSinging;
 f32 sMalonSingingDist;
+u32 sDebugPadHold;
+u32 sDebugPadBtnLast;
+u32 sDebugPadPress;
+s32 sAudioUpdateTaskStart;
+s32 sAudioUpdateTaskEnd;
 #endif
 
 void PadMgr_RequestPadData(PadMgr* padMgr, Input* inputs, s32 gameRequest);
@@ -1292,21 +1232,37 @@ s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol);
 
 // =========== Audio Ocarina ===========
 
+#if PLATFORM_N64
+
+#define OCARINA_ALLOWED_BUTTON_MASK (BTN_A | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT)
+#define OCARINA_A_MAP BTN_A
+#define OCARINA_CUP_MAP BTN_CUP
+#define OCARINA_CDOWN_MAP BTN_CDOWN
+
+#else
+
+#define OCARINA_ALLOWED_BUTTON_MASK sOcarinaAllowedButtonMask
+#define OCARINA_A_MAP sOcarinaAButtonMap
+#define OCARINA_CUP_MAP sOcarinaCUpButtonMap
+#define OCARINA_CDOWN_MAP sOcarinaCDownButtonMap
+
 void AudioOcarina_SetCustomButtonMapping(u8 useCustom) {
     if (!useCustom) {
-        osSyncPrintf("AUDIO : Ocarina Control Assign Normal\n");
-        sOcarinaAllowedButtonMask = (BTN_A | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
-        sOcarinaAButtonMap = BTN_A;
-        sOcarinaCUpButtonMap = BTN_CUP;
-        sOcarinaCDownButtonMap = BTN_CDOWN;
+        AUDIO_PRINTF("AUDIO : Ocarina Control Assign Normal\n");
+        OCARINA_ALLOWED_BUTTON_MASK = (BTN_A | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
+        OCARINA_A_MAP = BTN_A;
+        OCARINA_CUP_MAP = BTN_CUP;
+        OCARINA_CDOWN_MAP = BTN_CDOWN;
     } else {
-        osSyncPrintf("AUDIO : Ocarina Control Assign Custom\n");
-        sOcarinaAllowedButtonMask = (BTN_A | BTN_B | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
-        sOcarinaAButtonMap = BTN_B;
-        sOcarinaCUpButtonMap = BTN_CDOWN;
-        sOcarinaCDownButtonMap = BTN_A;
+        AUDIO_PRINTF("AUDIO : Ocarina Control Assign Custom\n");
+        OCARINA_ALLOWED_BUTTON_MASK = (BTN_A | BTN_B | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
+        OCARINA_A_MAP = BTN_B;
+        OCARINA_CUP_MAP = BTN_CDOWN;
+        OCARINA_CDOWN_MAP = BTN_A;
     }
 }
+
+#endif
 
 void AudioOcarina_ReadControllerInput(void) {
     Input inputs[MAXCONTROLLERS];
@@ -1608,7 +1564,7 @@ void AudioOcarina_CheckSongsWithoutMusicStaff(void) {
     u8 k;
 
     if (CHECK_BTN_ANY(sOcarinaInputButtonCur, BTN_L) &&
-        CHECK_BTN_ANY(sOcarinaInputButtonCur, sOcarinaAllowedButtonMask)) {
+        CHECK_BTN_ANY(sOcarinaInputButtonCur, OCARINA_ALLOWED_BUTTON_MASK)) {
         AudioOcarina_Start((u16)sOcarinaFlags);
         return;
     }
@@ -1679,14 +1635,14 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
     }
 
     // Ensures the button pressed to start the ocarina does not also play an ocarina note
-    if ((sOcarinaInputButtonStart == 0) || ((sOcarinaInputButtonStart & sOcarinaAllowedButtonMask) !=
-                                            (sOcarinaInputButtonCur & sOcarinaAllowedButtonMask))) {
+    if ((sOcarinaInputButtonStart == 0) || ((sOcarinaInputButtonStart & OCARINA_ALLOWED_BUTTON_MASK) !=
+                                            (sOcarinaInputButtonCur & OCARINA_ALLOWED_BUTTON_MASK))) {
         sOcarinaInputButtonStart = 0;
         if (1) {}
         sCurOcarinaPitch = OCARINA_PITCH_NONE;
         sCurOcarinaButtonIndex = OCARINA_BTN_INVALID;
-        ocarinaBtnsHeld = (sOcarinaInputButtonCur & sOcarinaAllowedButtonMask) &
-                          (sOcarinaInputButtonPrev & sOcarinaAllowedButtonMask);
+        ocarinaBtnsHeld = (sOcarinaInputButtonCur & OCARINA_ALLOWED_BUTTON_MASK) &
+                          (sOcarinaInputButtonPrev & OCARINA_ALLOWED_BUTTON_MASK);
         if (!(sOcarinaInputButtonPress & ocarinaBtnsHeld) && (sOcarinaInputButtonCur != 0)) {
             sOcarinaInputButtonPress = sOcarinaInputButtonCur;
         } else {
@@ -1694,31 +1650,35 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
         }
 
         // Interprets and transforms controller input into ocarina buttons and notes
-        if (CHECK_BTN_ANY(sOcarinaInputButtonPress, sOcarinaAButtonMap)) {
-            osSyncPrintf("Presss NA_KEY_D4 %08x\n", sOcarinaAButtonMap);
+        if (CHECK_BTN_ANY(sOcarinaInputButtonPress, OCARINA_A_MAP)) {
+            AUDIO_PRINTF("Presss NA_KEY_D4 %08x\n", OCARINA_A_MAP);
             sCurOcarinaPitch = OCARINA_PITCH_D4;
             sCurOcarinaButtonIndex = OCARINA_BTN_A;
 
-        } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, sOcarinaCDownButtonMap)) {
-            osSyncPrintf("Presss NA_KEY_F4 %08x\n", sOcarinaCDownButtonMap);
+        } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, OCARINA_CDOWN_MAP)) {
+            AUDIO_PRINTF("Presss NA_KEY_F4 %08x\n", OCARINA_CDOWN_MAP);
             sCurOcarinaPitch = OCARINA_PITCH_F4;
             sCurOcarinaButtonIndex = OCARINA_BTN_C_DOWN;
 
         } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, BTN_CRIGHT)) {
-            osSyncPrintf("Presss NA_KEY_A4 %08x\n", BTN_CRIGHT);
+            AUDIO_PRINTF("Presss NA_KEY_A4 %08x\n", BTN_CRIGHT);
             sCurOcarinaPitch = OCARINA_PITCH_A4;
             sCurOcarinaButtonIndex = OCARINA_BTN_C_RIGHT;
 
         } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, BTN_CLEFT)) {
-            osSyncPrintf("Presss NA_KEY_B4 %08x\n", BTN_CLEFT);
+            AUDIO_PRINTF("Presss NA_KEY_B4 %08x\n", BTN_CLEFT);
             sCurOcarinaPitch = OCARINA_PITCH_B4;
             sCurOcarinaButtonIndex = OCARINA_BTN_C_LEFT;
 
-        } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, sOcarinaCUpButtonMap)) {
-            osSyncPrintf("Presss NA_KEY_D5 %08x\n", sOcarinaCUpButtonMap);
+        } else if (CHECK_BTN_ANY(sOcarinaInputButtonPress, OCARINA_CUP_MAP)) {
+            AUDIO_PRINTF("Presss NA_KEY_D5 %08x\n", OCARINA_CUP_MAP);
             sCurOcarinaPitch = OCARINA_PITCH_D5;
             sCurOcarinaButtonIndex = OCARINA_BTN_C_UP;
         }
+
+#if PLATFORM_N64
+        if (sOcarinaInputButtonCur) {}
+#endif
 
         // Pressing the R Button will raise the pitch by 1 semitone
         if ((sCurOcarinaPitch != OCARINA_PITCH_NONE) && CHECK_BTN_ANY(sOcarinaInputButtonCur, BTN_R) &&
@@ -1746,6 +1706,9 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
         } else {
             // no bending or vibrato for recording state OCARINA_RECORD_SCARECROW_SPAWN
             sCurOcarinaBendIndex = 0;
+#if PLATFORM_N64
+            sCurOcarinaVibrato = 0;
+#endif
             sCurOcarinaBendFreq = 1.0f; // No bend
         }
 
@@ -1889,12 +1852,19 @@ void AudioOcarina_PlaybackSong(void) {
             sRelativeNotePlaybackVolume = sNotePlaybackVolume / 127.0f;
         }
 
+#if PLATFORM_N64
+        // Update vibrato
+        sNotePlaybackVibrato = sPlaybackSong[sPlaybackNotePos].vibrato;
+        // Sets vibrato to io port 6
+        AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 6, sNotePlaybackVibrato);
+#else
         // Update vibrato
         if (sNotePlaybackVibrato != sPlaybackSong[sPlaybackNotePos].vibrato) {
             sNotePlaybackVibrato = sPlaybackSong[sPlaybackNotePos].vibrato;
             // Sets vibrato to io port 6
             AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 6, sNotePlaybackVibrato);
         }
+#endif
 
         // Update bend
         if (sNotePlaybackBend != sPlaybackSong[sPlaybackNotePos].bend) {
@@ -2175,9 +2145,21 @@ void AudioOcarina_RecordSong(void) {
         } else if (sRecordOcarinaVolume != sCurOcarinaVolume) {
             noteChanged = true;
         } else if (sRecordOcarinaVibrato != sCurOcarinaVibrato) {
+#if PLATFORM_N64
+            if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
+                noteChanged = true;
+            }
+#else
             noteChanged = true;
+#endif
         } else if (sRecordOcarinaBendIndex != sCurOcarinaBendIndex) {
+#if PLATFORM_N64
+            if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
+                noteChanged = true;
+            }
+#else
             noteChanged = true;
+#endif
         }
 
         if (noteChanged) {
@@ -2218,7 +2200,7 @@ s32 AudioOcarina_MemoryGameNextNote(void) {
     }
 
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].pitch = randomPitch;
-    sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].length = 45;
+    sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].length = FRAMERATE_CONST(45, 38);
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].volume = 0x50;
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].vibrato = 0;
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].bend = 0;
@@ -2511,9 +2493,17 @@ f32 Audio_ComputeSfxFreqScale(u8 bankId, u8 entryIdx) {
     }
 
     switch (bankId) {
+        case BANK_VOICE:
+#if PLATFORM_N64
+            if (((entry->sfxId & 0xFF) < 0x40) && (sAudioBaseFilter2 != 0)) {
+                phi_v0 = true;
+            } else if (((entry->sfxId & 0xFF) >= 0x40) && (sAudioExtraFilter2 != 0)) {
+                phi_v0 = true;
+            }
+            break;
+#endif
         case BANK_PLAYER:
         case BANK_ITEM:
-        case BANK_VOICE:
             if (sAudioBaseFilter2 != 0) {
                 phi_v0 = 1;
             }
@@ -2625,6 +2615,9 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
     f32 behindScreenZ;
     u8 baseFilter = 0;
     SfxBankEntry* entry = &gSfxBanks[bankId][entryIdx];
+#if PLATFORM_N64
+    s32 pad;
+#endif
 
     switch (bankId) {
         case BANK_PLAYER:
@@ -2663,7 +2656,13 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
                 }
             }
             if (sAudioBaseFilter != 0) {
-                if ((bankId == BANK_ITEM) || (bankId == BANK_PLAYER) || (bankId == BANK_VOICE)) {
+#if PLATFORM_N64
+                if ((bankId == BANK_PLAYER) || (bankId == BANK_ITEM) ||
+                    ((bankId == BANK_VOICE) && ((entry->sfxId & 0xFF) < 0x40)))
+#else
+                if ((bankId == BANK_ITEM) || (bankId == BANK_PLAYER) || (bankId == BANK_VOICE))
+#endif
+                {
                     baseFilter = sAudioBaseFilter;
                 }
             }
@@ -3241,6 +3240,13 @@ void Audio_PlaySceneSequence(u16 seqId) {
             AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
         }
 
+#if PLATFORM_N64
+        if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) {
+            Audio_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
+            AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
+        }
+#endif
+
         if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_RESUME_PREV) && (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME)) {
             // Resume the sequence from the point where it left off last time it was played in the scene
             if ((sSeqResumePoint & 0x3F) != 0) {
@@ -3378,6 +3384,11 @@ void func_800F5B58(void) {
         if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         } else {
+#if PLATFORM_N64
+            if (sPrevMainBgmSeqId == NA_BGM_NATURE_AMBIENCE) {
+                sPrevMainBgmSeqId = sPrevAmbienceSeqId;
+            }
+#endif
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, sPrevMainBgmSeqId);
         }
 
@@ -3509,7 +3520,12 @@ void Audio_SetSequenceMode(u8 seqMode) {
                                          volumeFadeInTimer);
                     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, 10, 8, NA_BGM_ENEMY);
 
-                    if (seqId != NA_BGM_NATURE_AMBIENCE) {
+#if PLATFORM_N64
+                    if (seqId > NA_BGM_NATURE_AMBIENCE)
+#else
+                    if (seqId != NA_BGM_NATURE_AMBIENCE)
+#endif
+                    {
                         Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB,
                                              (0x7F - sAudioEnemyVol) & 0xFF, 0xA);
                         Audio_SplitBgmChannels(sAudioEnemyVol);
@@ -3528,6 +3544,17 @@ void Audio_SetSequenceMode(u8 seqMode) {
                 }
 
                 sPrevSeqMode = seqMode + 0x80;
+            } else {
+#if PLATFORM_N64
+                if (seqMode == SEQ_MODE_ENEMY) {
+                    // If both seqMode = sPrevSeqMode = SEQ_MODE_ENEMY
+                    if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) == NA_BGM_DISABLED) && (seqId != NA_BGM_DISABLED) &&
+                        (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_ENEMY)) {
+                        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, 10, 8, NA_BGM_ENEMY);
+                        sPrevSeqMode = seqMode + 0x80;
+                    }
+                }
+#endif
             }
         } else {
             // Hyrule Field will play slightly different background music depending on whether player is standing
@@ -3567,11 +3594,23 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
 
             sAudioEnemyVol = ((350.0f - adjDist) * 127.0f) / 350.0f;
             Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_BGM_SUB, sAudioEnemyVol, 10);
-            if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) {
+
+#if PLATFORM_N64
+            if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId > NA_BGM_NATURE_AMBIENCE)
+#else
+            if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE)
+#endif
+            {
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, (0x7F - sAudioEnemyVol), 10);
             }
         }
-        if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) {
+
+#if PLATFORM_N64
+        if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId > NA_BGM_NATURE_AMBIENCE)
+#else
+        if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE)
+#endif
+        {
             Audio_SplitBgmChannels(sAudioEnemyVol);
         }
     }
@@ -3884,6 +3923,9 @@ void func_800F6C34(void) {
     sFanfareStartTimer = 0;
     D_8016B9F3 = 1;
     sMalonSingingDisabled = false;
+#if PLATFORM_N64
+    sPrevAmbienceSeqId = NA_BGM_DISABLED;
+#endif
 }
 
 void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData) {
@@ -3942,6 +3984,18 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     }
 #endif
 
+#if PLATFORM_N64
+    if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) &&
+        (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_NATURE_AMBIENCE)) {
+        Audio_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
+        AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
+    }
+
+    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) == (NA_BGM_ENEMY | 0x800)) {
+        Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, 0x7F, 1);
+    }
+#endif
+
     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_NATURE_AMBIENCE);
 
     if (channelIdx) {
@@ -3963,6 +4017,12 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId == NA_BGM_DISABLED) ||
         !(sSeqFlags[gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId & 0xFF & 0xFF] & SEQ_FLAG_NO_AMBIENCE)) {
+
+#if PLATFORM_N64
+        if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) {
+            sPrevAmbienceSeqId = gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId;
+        }
+#endif
 
         Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO,
                                           sNatureAmbienceDataIO[natureAmbienceId].channelMask);

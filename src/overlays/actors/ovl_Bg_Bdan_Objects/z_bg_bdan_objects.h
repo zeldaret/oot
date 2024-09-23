@@ -6,7 +6,7 @@
 
 struct BgBdanObjects;
 
-typedef enum {
+typedef enum BgBdanObjectsType {
     JABU_OBJECTS_TYPE_BIG_OCTO_PLATFORM,
     JABU_OBJECTS_TYPE_SMALL_AUTO_ELEVATOR,
     JABU_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER,

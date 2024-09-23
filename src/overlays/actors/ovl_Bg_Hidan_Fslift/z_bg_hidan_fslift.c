@@ -18,7 +18,7 @@ void BgHidanFslift_Idle(BgHidanFslift* this, PlayState* play);
 void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play);
 void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play);
 
-ActorInit Bg_Hidan_Fslift_InitVars = {
+ActorProfile Bg_Hidan_Fslift_Profile = {
     /**/ ACTOR_BG_HIDAN_FSLIFT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -102,7 +102,7 @@ void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         BgHidanFslift_SetupIdle(this);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
     BgHidanFslift_SetHookshotTargetPos(this);
 }
@@ -113,7 +113,7 @@ void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
             BgHidanFslift_SetupIdle(this);
         } else {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
         }
     } else {
         BgHidanFslift_SetupIdle(this);

@@ -44,7 +44,7 @@ void DemoEc_Destroy(Actor* thisx, PlayState* play);
 void DemoEc_Update(Actor* thisx, PlayState* play);
 void DemoEc_Draw(Actor* thisx, PlayState* play);
 
-typedef enum {
+typedef enum DemoEcUpdateMode {
     /* 00 */ EC_UPDATE_COMMON,
     /* 01 */ EC_UPDATE_INGO,
     /* 02 */ EC_UPDATE_TALON,
@@ -76,7 +76,7 @@ typedef enum {
     /* 28 */ EC_UPDATE_MALON
 } DemoEcUpdateMode;
 
-typedef enum {
+typedef enum DemoEcDrawconfig {
     /* 00 */ EC_DRAW_COMMON,
     /* 01 */ EC_DRAW_INGO,
     /* 02 */ EC_DRAW_TALON,
@@ -176,20 +176,20 @@ void DemoEc_UpdateBgFlags(DemoEc* this, PlayState* play) {
 }
 
 void func_8096D594(DemoEc* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D5D4(DemoEc* this, PlayState* play) {
     this->skelAnime.baseTransl = this->skelAnime.jointTable[0];
     this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
-    this->skelAnime.moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D64C(DemoEc* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void DemoEc_UpdateEyes(DemoEc* this) {
@@ -1369,7 +1369,7 @@ void DemoEc_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-ActorInit Demo_Ec_InitVars = {
+ActorProfile Demo_Ec_Profile = {
     /**/ ACTOR_DEMO_EC,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

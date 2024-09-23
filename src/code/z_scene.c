@@ -77,8 +77,7 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     }
 
     PRINTF(VT_FGCOL(GREEN));
-    // "Object exchange bank data %8.3fKB"
-    PRINTF("オブジェクト入れ替えバンク情報 %8.3fKB\n", spaceSize / 1024.0f);
+    PRINTF(T("オブジェクト入れ替えバンク情報 %8.3fKB\n", "Object exchange bank data %8.3fKB\n"), spaceSize / 1024.0f);
     PRINTF(VT_RST);
 
     objectCtx->spaceStart = objectCtx->slots[0].segment =
@@ -165,8 +164,8 @@ void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
-    // "Object exchange free size=%08x"
-    PRINTF("オブジェクト入れ替え空きサイズ=%08x\n", (uintptr_t)objectCtx->spaceEnd - (uintptr_t)nextPtr);
+    PRINTF(T("オブジェクト入れ替え空きサイズ=%08x\n", "Object exchange free size=%08x\n"),
+           (uintptr_t)objectCtx->spaceEnd - (uintptr_t)nextPtr);
 
     return nextPtr;
 }
@@ -186,7 +185,7 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
             gSceneCmdHandlers[cmdCode](play, sceneCmd);
         } else {
             PRINTF(VT_FGCOL(RED));
-            PRINTF("code の値が異常です\n"); // "code variable is abnormal"
+            PRINTF(T("code の値が異常です\n", "code variable is abnormal\n"));
             PRINTF(VT_RST);
         }
 
@@ -205,7 +204,7 @@ BAD_RETURN(s32) Scene_CommandPlayerEntryList(PlayState* play, SceneCmd* cmd) {
 
     linkObjectId = gLinkObjectIds[((void)0, gSaveContext.save.linkAge)];
 
-    gActorOverlayTable[playerEntry->id].initInfo->objectId = linkObjectId;
+    gActorOverlayTable[playerEntry->id].profile->objectId = linkObjectId;
     Object_SpawnPersistent(&play->objectCtx, linkObjectId);
 }
 
@@ -231,8 +230,8 @@ BAD_RETURN(s32) Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
 }
 
 BAD_RETURN(s32) Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
-    play->numRooms = cmd->roomList.length;
-    play->roomList = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
+    play->roomList.count = cmd->roomList.length;
+    play->roomList.romFiles = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
 }
 
 BAD_RETURN(s32) Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
@@ -328,12 +327,12 @@ BAD_RETURN(s32) Scene_CommandPathList(PlayState* play, SceneCmd* cmd) {
 }
 
 BAD_RETURN(s32) Scene_CommandTransitionActorEntryList(PlayState* play, SceneCmd* cmd) {
-    play->transiActorCtx.numActors = cmd->transiActorList.length;
-    play->transiActorCtx.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.data);
+    play->transitionActors.count = cmd->transiActorList.length;
+    play->transitionActors.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.data);
 }
 
-void TransitionActor_InitContext(GameState* state, TransitionActorContext* transiActorCtx) {
-    transiActorCtx->numActors = 0;
+void Scene_ResetTransitionActorList(GameState* state, TransitionActorList* transitionActors) {
+    transitionActors->count = 0;
 }
 
 BAD_RETURN(s32) Scene_CommandLightSettingsList(PlayState* play, SceneCmd* cmd) {
@@ -409,8 +408,8 @@ BAD_RETURN(s32) Scene_CommandUndefined9(PlayState* play, SceneCmd* cmd) {
 }
 
 BAD_RETURN(s32) Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
-    play->sequenceCtx.seqId = cmd->soundSettings.seqId;
-    play->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
+    play->sceneSequences.seqId = cmd->soundSettings.seqId;
+    play->sceneSequences.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
     if (gSaveContext.seqId == (u8)NA_BGM_DISABLED) {
         SEQCMD_RESET_AUDIO_HEAP(0, cmd->soundSettings.specId);
@@ -433,8 +432,7 @@ BAD_RETURN(s32) Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd)
             Scene_ExecuteCommands(play, SEGMENTED_TO_VIRTUAL(altHeader));
             (cmd + 1)->base.code = SCENE_CMD_ID_END;
         } else {
-            // "Coughh! There is no specified dataaaaa!"
-            PRINTF("\nげぼはっ！ 指定されたデータがないでええっす！");
+            PRINTF(T("\nげぼはっ！ 指定されたデータがないでええっす！", "\nCoughh! There is no specified dataaaaa!"));
 
             if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_NIGHT) {
                 // Due to the condition above, this is equivalent to accessing altHeaders[SCENE_LAYER_ADULT_DAY - 1]
@@ -442,8 +440,7 @@ BAD_RETURN(s32) Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd)
                     cmd->altHeaders
                         .data))[(gSaveContext.sceneLayer - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
 
-                // "Using adult day data there!"
-                PRINTF("\nそこで、大人の昼データを使用するでええっす！！");
+                PRINTF(T("\nそこで、大人の昼データを使用するでええっす！！", "\nUsing adult day data there!!"));
 
                 if (altHeader != NULL) {
                     Scene_ExecuteCommands(play, SEGMENTED_TO_VIRTUAL(altHeader));
@@ -465,7 +462,7 @@ BAD_RETURN(s32) Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
 
     if ((play->sceneId == SCENE_BAZAAR) || (play->sceneId == SCENE_SHOOTING_GALLERY)) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-            gSaveContext.worldMapArea = 1;
+            gSaveContext.worldMapArea = WORLD_MAP_AREA_KAKARIKO_VILLAGE;
         }
     }
 

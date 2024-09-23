@@ -10,11 +10,11 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-#define MOVEBG_TYPE(params) (((u16)(params) >> 0xC) & 0xF)
-#define MOVEBG_FLAGS(params) ((u16)(params)&0x3F)
-#define MOVEBG_PATH_ID(params) (((u16)(params) >> 0x8) & 0xF)
-#define MOVEBG_POINT_ID(params) ((u16)(params)&0xF)
-#define MOVEBG_SPEED(params) (((u16)(params) >> 0x4) & 0xF)
+#define MOVEBG_TYPE(params) PARAMS_GET_U((u16)(params), 12, 4)
+#define MOVEBG_FLAGS(params) PARAMS_GET_U((u16)(params), 0, 6)
+#define MOVEBG_PATH_ID(params) PARAMS_GET_U((u16)(params), 8, 4)
+#define MOVEBG_POINT_ID(params) PARAMS_GET_U((u16)(params), 0, 4)
+#define MOVEBG_SPEED(params) PARAMS_GET_U((u16)(params), 4, 4)
 
 void BgMizuMovebg_Init(Actor* thisx, PlayState* play);
 void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play);
@@ -25,7 +25,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play);
 void BgMizuMovebg_UpdateHookshotPlatform(BgMizuMovebg* this, PlayState* play);
 s32 BgMizuMovebg_SetPosFromPath(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
 
-ActorInit Bg_Mizu_Movebg_InitVars = {
+ActorProfile Bg_Mizu_Movebg_Profile = {
     /**/ ACTOR_BG_MIZU_MOVEBG,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -290,9 +290,9 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                 }
                 if (this->sfxFlags & 2) {
                     if (this->dyna.actor.room == 0) {
-                        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+                        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                     } else {
-                        func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+                        Actor_PlaySfx_FlaggedCentered2(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                     }
                 }
             }
@@ -312,7 +312,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                     this->sfxFlags |= 2;
                 }
                 if (this->sfxFlags & 2) {
-                    func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+                    Actor_PlaySfx_FlaggedCentered2(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                 }
             }
             break;
@@ -330,7 +330,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                 this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + offsetPos.x;
                 this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + offsetPos.y;
                 this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + offsetPos.z;
-                this->dyna.actor.child->flags &= ~ACTOR_FLAG_0;
+                this->dyna.actor.child->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
             break;
     }
@@ -367,7 +367,7 @@ void BgMizuMovebg_UpdateHookshotPlatform(BgMizuMovebg* this, PlayState* play) {
         this->sfxFlags |= 1;
     }
     if (this->sfxFlags & 1) {
-        func_8002F948(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
     }
 }
 
@@ -381,8 +381,6 @@ void BgMizuMovebg_Draw(Actor* thisx, PlayState* play2) {
     BgMizuMovebg* this = (BgMizuMovebg*)thisx;
     PlayState* play = play2;
     u32 frames;
-
-    if (1) {}
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mizu_movebg.c", 754);
 
@@ -405,8 +403,7 @@ void BgMizuMovebg_Draw(Actor* thisx, PlayState* play2) {
                Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, frames * 3, 0, 32, 32, 1, 0, 0, 32, 32, 0,
                                         0, 0, this->scrollAlpha4));
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mizu_movebg.c", 788),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mizu_movebg.c", 788);
 
     if (this->dList != NULL) {
         gSPDisplayList(POLY_OPA_DISP++, this->dList);

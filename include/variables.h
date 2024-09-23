@@ -2,13 +2,15 @@
 #define VARIABLES_H
 
 #include "z64.h"
+#include "libc64/os_malloc.h"
 #include "segment_symbols.h"
 
 extern Mtx D_01000000;
 
-extern u32 osTvType;
-extern u32 osRomBase;
-extern u32 osResetType;
+extern void* osRomBase;
+extern s32 osTvType;
+extern s32 osResetType;
+extern s32 osCicId;
 extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 
@@ -19,6 +21,7 @@ extern u32 gViConfigFeatures;
 extern f32 gViConfigXScale;
 extern f32 gViConfigYScale;
 extern OSPiHandle* gCartHandle;
+extern s32 gCurrentRegion;
 extern u32 __osPiAccessQueueEnabled;
 extern OSViMode osViModePalLan1;
 extern s32 osViClock;
@@ -38,9 +41,9 @@ extern OSViContext* __osViCurr;
 extern OSViContext* __osViNext;
 extern OSViMode osViModeFpalLan1;
 extern u32 __additional_scanline;
-extern u8 gBuildTeam[];
-extern u8 gBuildDate[];
-extern u8 gBuildMakeOption[];
+extern const char gBuildCreator[];
+extern const char gBuildDate[];
+extern const char gBuildMakeOption[];
 extern OSMesgQueue gPiMgrCmdQueue;
 extern OSViMode gViConfigMode;
 extern u8 gViConfigModeType;
@@ -57,10 +60,6 @@ extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_d
 extern s32 gMaxActorId; // original name: "MaxProfile"
 extern s32 gDebugCamEnabled;
 extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
-extern u8 gWeatherMode;
-extern u8 gLightConfigAfterUnderwater;
-extern u8 gInterruptSongOfStorms;
-extern u16 gTimeSpeed;
 extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
@@ -74,17 +73,7 @@ extern Gfx* gPlayerLeftHandBoomerangDLs[];
 extern Gfx gCullBackDList[];
 extern Gfx gCullFrontDList[];
 extern Gfx gEmptyDL[];
-extern u32 gBitFlags[32];
-extern u16 gEquipMasks[EQUIP_TYPE_MAX];
-extern u16 gEquipNegMasks[EQUIP_TYPE_MAX];
-extern u32 gUpgradeMasks[UPG_MAX];
-extern u8 gEquipShifts[EQUIP_TYPE_MAX];
-extern u8 gUpgradeShifts[UPG_MAX];
-extern u16 gUpgradeCapacities[UPG_MAX][4];
-extern u32 gGsFlagsMasks[4];
-extern u32 gGsFlagsShifts[4];
-extern void* gItemIcons[0x82];
-extern u8 gItemSlots[56];
+
 extern SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX];
 extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
@@ -95,14 +84,8 @@ extern u16 gSramSlotOffsets[];
 // 4 16-colors palettes
 extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
 extern u64 gMojiFontTex[]; // original name: "font_ff"
-extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
-extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
-extern void* gDebugCutsceneScript;
-extern s32 gScreenWidth;
-extern s32 gScreenHeight;
-extern Mtx gMtxClear;
-extern MtxF gMtxFClear;
+
 #if OOT_DEBUG
 extern u32 gIsCtrlr2Valid;
 #endif
@@ -166,13 +149,10 @@ extern s32 __osPfsLastChannel;
 extern const TempoData gTempoData;
 extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
-extern u8 gSoundFontTable[];
+extern AudioTable gSoundFontTable;
 extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
-extern u8 gSampleBankTable[];
-
-extern SaveContext gSaveContext;
-extern RegEditor* gRegEditor;
+extern AudioTable gSampleBankTable;
 
 extern u8 gUseCutsceneCam;
 extern u16 D_8015FCCC;
@@ -198,14 +178,11 @@ extern MapData* gMapData;
 extern f32 gBossMarkScale;
 extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
-extern TransitionTile gTransitionTile;
-extern s32 gTransitionTileState;
-extern VisMono gPlayVisMono;
-extern Color_RGBA8_u32 gVisMonoColor;
+
 extern PreNmiBuff* gAppNmiBufferPtr;
-extern uintptr_t gSegments[NUM_SEGMENTS];
 extern Scheduler gScheduler;
 extern PadMgr gPadMgr;
+extern IrqMgr gIrqMgr;
 extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
 extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
 extern volatile OSTime gRSPAudioTimeTotal;
@@ -236,8 +213,6 @@ extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
 extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 
-extern u32 __osMalloc_FreeBlockTest_Enable;
-extern Arena gSystemArena;
 extern OSPifRam __osContPifRam;
 extern u8 __osContLastCmd;
 extern u8 __osMaxControllers;

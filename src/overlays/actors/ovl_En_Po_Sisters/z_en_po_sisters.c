@@ -8,7 +8,9 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
+#define FLAGS                                                                                                    \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_IGNORE_QUAKE | \
+     ACTOR_FLAG_14)
 
 void EnPoSisters_Init(Actor* thisx, PlayState* play);
 void EnPoSisters_Destroy(Actor* thisx, PlayState* play);
@@ -61,7 +63,7 @@ static Color_RGBA8 D_80ADD700[4] = {
     { 0, 150, 0, 255 },
 };
 
-ActorInit En_Po_Sisters_InitVars = {
+ActorProfile En_Po_Sisters_Profile = {
     /**/ ACTOR_EN_PO_SISTERS,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -75,7 +77,7 @@ ActorInit En_Po_Sisters_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -83,7 +85,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x4FC7FFEA, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -134,7 +136,7 @@ static s32 D_80ADD784 = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 7, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 6000, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 6000, ICHAIN_STOP),
 };
 
 static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
@@ -191,17 +193,17 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->unk_194 = (thisx->params >> 8) & 3;
+    this->unk_194 = PARAMS_GET_U(thisx->params, 8, 2);
     this->actor.naviEnemyId = this->unk_194 + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
-    this->unk_195 = (thisx->params >> 0xA) & 3;
+    this->unk_195 = PARAMS_GET_U(thisx->params, 10, 2);
     this->unk_196 = 32;
     this->unk_197 = 20;
     this->unk_198 = 1;
     this->unk_199 = 32;
     this->unk_294 = 110.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
-    if (this->actor.params & 0x1000) {
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 12, 1)) {
         func_80ADA094(this, play);
     } else if (this->unk_194 == 0) {
         if (this->unk_195 == 0) {
@@ -209,7 +211,7 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
             func_80AD9AA8(this, play);
         } else {
             this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_14);
-            this->collider.elem.elemType = ELEMTYPE_UNK4;
+            this->collider.elem.elemMaterial = ELEM_MATERIAL_UNK4;
             this->collider.elem.acDmgInfo.dmgFlags |= DMG_DEKU_NUT;
             this->collider.base.ocFlags1 = OC1_NONE;
             func_80AD9C24(this, NULL);
@@ -265,7 +267,7 @@ void func_80AD943C(EnPoSisters* this) {
 
 void func_80AD944C(EnPoSisters* this) {
     if (this->unk_22E.a != 0) {
-        this->collider.base.colType = COLTYPE_METAL;
+        this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->collider.base.acFlags |= AC_HARD;
     }
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
@@ -278,7 +280,7 @@ void func_80AD944C(EnPoSisters* this) {
 void func_80AD94E0(EnPoSisters* this) {
     this->actor.speed = 5.0f;
     if (this->unk_194 == 0) {
-        this->collider.base.colType = COLTYPE_METAL;
+        this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->collider.base.acFlags |= AC_HARD;
         Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
     }
@@ -292,7 +294,7 @@ void func_80AD9568(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
     if (this->unk_194 != 0) {
-        this->collider.base.colType = COLTYPE_HIT3;
+        this->collider.base.colMaterial = COL_MATERIAL_HIT3;
         this->collider.base.acFlags &= ~AC_HARD;
     }
     this->actionFunc = func_80ADA9E8;
@@ -376,7 +378,7 @@ void func_80AD99D4(EnPoSisters* this, PlayState* play) {
     this->actor.speed = 0.0f;
     this->actor.world.pos.y += 42.0f;
     this->actor.shape.yOffset = -6000.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk_199 = 0;
     this->actionFunc = func_80ADAFC0;
     OnePointCutscene_Init(play, 3190, 999, &this->actor, CAM_ID_MAIN);
@@ -426,10 +428,10 @@ void func_80AD9C24(EnPoSisters* this, PlayState* play) {
     Vec3f vec;
 
     this->actor.draw = NULL;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk_19C = 100;
     this->unk_199 = 32;
-    this->collider.base.colType = COLTYPE_HIT3;
+    this->collider.base.colMaterial = COL_MATERIAL_HIT3;
     this->collider.base.acFlags &= ~AC_HARD;
     if (play != NULL) {
         vec.x = this->actor.world.pos.x;
@@ -485,7 +487,7 @@ void func_80AD9F1C(EnPoSisters* this) {
     this->unk_19A = 300;
     this->unk_19C = 3;
     this->unk_199 |= 9;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = func_80ADB770;
 }
 
@@ -507,7 +509,7 @@ void func_80ADA028(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersSwayAnim, -3.0f);
     this->unk_22E.a = 255;
     this->unk_199 |= 0x15;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = func_80ADBBF4;
     this->actor.speed = 0.0f;
 }
@@ -589,9 +591,9 @@ void func_80ADA35C(EnPoSisters* this, PlayState* play) {
     this->actor.world.pos.y += (2.0f + 0.5f * Rand_ZeroOne()) * Math_SinS(this->unk_196 * 0x800);
     if (this->unk_22E.a == 255 && this->actionFunc != func_80ADA8C0 && this->actionFunc != func_80ADA7F0) {
         if (this->actionFunc == func_80ADAC70) {
-            func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
         } else {
-            func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
         }
     }
 }
@@ -671,7 +673,7 @@ void func_80ADA8C0(EnPoSisters* this, PlayState* play) {
     this->actor.shape.rot.y += (384.0f * this->skelAnime.endFrame) * 3.0f;
     if (this->unk_19A == 0 && ABS((s16)(this->actor.shape.rot.y - this->actor.world.rot.y)) < 0x1000) {
         if (this->unk_194 != 0) {
-            this->collider.base.colType = COLTYPE_HIT3;
+            this->collider.base.colMaterial = COL_MATERIAL_HIT3;
             this->collider.base.acFlags &= ~AC_HARD;
             func_80AD93C4(this);
         } else {
@@ -997,7 +999,7 @@ void func_80ADB9F0(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_22E.a = 255;
         if (this->unk_194 == 3) {
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.home.pos.x = 1992.0f;
             this->actor.home.pos.z = -1440.0f;
             this->unk_199 |= 0x18;
@@ -1048,7 +1050,7 @@ void func_80ADBC88(EnPoSisters* this, PlayState* play) {
             func_80ADA10C(this);
         }
     }
-    func_8002F974(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
 }
 
 void func_80ADBD38(EnPoSisters* this, PlayState* play) {
@@ -1108,7 +1110,7 @@ void func_80ADBF58(EnPoSisters* this, PlayState* play) {
 }
 
 void func_80ADC034(EnPoSisters* this, PlayState* play) {
-    if (this->actor.isTargeted && this->unk_22E.a == 255) {
+    if (this->actor.isLockedOn && this->unk_22E.a == 255) {
         if (this->unk_197 != 0) {
             this->unk_197--;
         }
@@ -1145,7 +1147,7 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
                 sp24.z = this->actor.world.pos.z;
                 Item_DropCollectible(play, &sp24, ITEM00_ARROWS_SMALL);
             }
-        } else if (this->collider.base.colType == 9 ||
+        } else if (this->collider.base.colMaterial == COL_MATERIAL_METAL ||
                    (this->actor.colChkInfo.damageEffect == 0 && this->actor.colChkInfo.damage == 0)) {
             if (this->unk_194 == 0) {
                 this->actor.freezeTimer = 0;
@@ -1302,8 +1304,7 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     s32 pad;
 
     if (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8 && limbIndex == 9) {
-        gSPMatrix((*gfxP)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_sisters.c", 2876),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD((*gfxP)++, play->state.gfxCtx, "../z_en_po_sisters.c", 2876);
         gSPDisplayList((*gfxP)++, gPoSistersBurnDL);
     }
     if (limbIndex == 8 && this->actionFunc != func_80ADB2B8) {
@@ -1340,13 +1341,13 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
 
 void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     EnPoSisters* this = (EnPoSisters*)thisx;
-    u8 phi_s5;
+    s32 pad1;
     f32 phi_f20;
     s32 i;
-    u8 spE7;
+    u8 phi_s5;
     Color_RGBA8* temp_s1 = &D_80ADD700[this->unk_194];
     Color_RGBA8* temp_s7 = &D_80ADD6F0[this->unk_194];
-    s32 pad;
+    s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_sisters.c", 2989);
     func_80ADC55C(this);
@@ -1367,8 +1368,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     }
     if (!(this->unk_199 & 0x80)) {
         Matrix_Put(&this->unk_2F8);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_sisters.c", 3034),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_sisters.c", 3034);
         gSPDisplayList(POLY_OPA_DISP++, gPoSistersTorchDL);
     }
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -1390,11 +1390,10 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
         phi_s5 = ((32 - this->unk_19A) * 255) / 32;
         phi_f20 = 0.0035f;
     } else if (this->actionFunc == func_80ADBC88) {
-        //! @bug uninitialised spE7
-        phi_s5 = spE7;
+        // phi_s5 initialized in loop below
         phi_f20 = 0.0027f;
     } else {
-        phi_s5 = spE7;
+        // phi_s5 initialized in loop below
         phi_f20 = this->actor.scale.x * 0.5f;
     }
     for (i = 0; i < this->unk_198; i++) {
@@ -1411,8 +1410,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
             phi_f20 = CLAMP(phi_f20, 0.5f, 0.8f) * 0.007f;
         }
         Matrix_Scale(phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_sisters.c", 3132),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_po_sisters.c", 3132);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_sisters.c", 3139);

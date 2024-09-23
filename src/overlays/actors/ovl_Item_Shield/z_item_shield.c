@@ -20,7 +20,7 @@ void func_80B86BC8(ItemShield* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -28,7 +28,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000004, 0x00, 0x00 },
         ATELEM_NONE,
@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 15, 15, 0, { 0, 0, 0 } },
 };
 
-ActorInit Item_Shield_InitVars = {
+ActorProfile Item_Shield_Profile = {
     /**/ ACTOR_ITEM_SHIELD,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -220,8 +220,7 @@ void ItemShield_Draw(Actor* thisx, PlayState* play) {
     if (!(this->unk_19C & 2)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_item_shield.c", 457);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_item_shield.c", 460),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_item_shield.c", 460);
         gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gLinkChildDekuShieldDL));
         CLOSE_DISPS(play->state.gfxCtx, "../z_item_shield.c", 465);
     }

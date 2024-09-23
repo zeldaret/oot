@@ -7,7 +7,7 @@
 #include "z_en_wonder_talk2.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnWonderTalk2_Init(Actor* thisx, PlayState* play);
 void EnWonderTalk2_Destroy(Actor* thisx, PlayState* play);
@@ -19,7 +19,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play);
 void func_80B3A3D4(EnWonderTalk2* this, PlayState* play);
 void EnWonderTalk2_DoNothing(EnWonderTalk2* this, PlayState* play);
 
-ActorInit En_Wonder_Talk2_InitVars = {
+ActorProfile En_Wonder_Talk2_Profile = {
     /**/ ACTOR_EN_WONDER_TALK2,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -43,7 +43,7 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
     PRINTF("\n\n");
     // "Transparent message"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->baseMsgId = (this->actor.params >> 6) & 0xFF;
+    this->baseMsgId = PARAMS_GET_U(this->actor.params, 6, 8);
     if (this->actor.world.rot.z > 0) {
         s32 rangeIndex = 0;
         s16 rotZmod10 = this->actor.world.rot.z;
@@ -58,13 +58,13 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
             rangeIndex = 0;
         }
 
-        this->actor.targetMode = D_80B3A8E0[rangeIndex];
+        this->actor.attentionRangeType = D_80B3A8E0[rangeIndex];
 
         PRINTF("\n\n");
         // "originally?"
         PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元は？       ☆☆☆☆☆ %d\n" VT_RST, this->actor.world.rot.z);
         // "The range is?"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？   ☆☆☆☆☆ %d\n" VT_RST, this->actor.targetMode);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？   ☆☆☆☆☆ %d\n" VT_RST, this->actor.attentionRangeType);
         // "Is the range?"
         PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ は、範囲わ？ ☆☆☆☆☆ %f\n" VT_RST, this->triggerRange);
         PRINTF("\n\n");
@@ -73,8 +73,8 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
     }
 
     this->initPos = this->actor.world.pos;
-    this->switchFlag = (this->actor.params & 0x3F);
-    this->talkMode = ((this->actor.params >> 0xE) & 3);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
+    this->talkMode = PARAMS_GET_U(this->actor.params, 14, 2);
 
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
@@ -91,7 +91,7 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
         this->talkMode = 4;
     }
     if (this->talkMode == 3) {
-        this->actor.flags &= ~ACTOR_FLAG_27;
+        this->actor.flags &= ~ACTOR_FLAG_LOCK_ON_DISABLED;
         this->actionFunc = EnWonderTalk2_DoNothing;
     } else {
         this->actionFunc = func_80B3A10C;
@@ -114,7 +114,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
     this->unk_158++;
     if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
         if (!this->unk_15A) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->unk_15A = true;
         }
     } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
@@ -193,7 +193,7 @@ void func_80B3A3D4(EnWonderTalk2* this, PlayState* play) {
             if (this->talkMode == 4) {
                 this->unk_15A = true;
             }
-            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
+            this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
             this->unk_156 = true;
             this->actionFunc = func_80B3A4F8;
@@ -208,7 +208,7 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
     this->unk_158++;
     if (this->switchFlag >= 0 && Flags_GetSwitch(play, this->switchFlag)) {
         if (!this->unk_15A) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->unk_15A = true;
         }
     } else if ((this->talkMode != 4) || !this->unk_15A) {
@@ -235,7 +235,7 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
                 // "Processing range"
                 PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 処理範囲               %f\n" VT_RST, this->triggerRange);
                 // "What is your range?"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？ \t\t   %d\n" VT_RST, this->actor.targetMode);
+                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？ \t\t   %d\n" VT_RST, this->actor.attentionRangeType);
                 PRINTF("\n\n");
                 PRINTF("\n\n");
                 switch (this->talkMode) {
@@ -256,7 +256,7 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
             if (!this->unk_156) {
                 Message_StartTextbox(play, this->actor.textId, NULL);
                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
                 this->actionFunc = func_80B3A3D4;
             }
 

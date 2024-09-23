@@ -20,7 +20,7 @@ void func_808B9618(BgSpot18Shutter* this, PlayState* play);
 void func_808B9698(BgSpot18Shutter* this, PlayState* play);
 void func_808B971C(BgSpot18Shutter* this, PlayState* play);
 
-ActorInit Bg_Spot18_Shutter_InitVars = {
+ActorProfile Bg_Spot18_Shutter_Profile = {
     /**/ ACTOR_BG_SPOT18_SHUTTER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -39,7 +39,7 @@ static InitChainEntry sInitChain[] = {
 void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgSpot18Shutter* this = (BgSpot18Shutter*)thisx;
-    s32 param = (this->dyna.actor.params >> 8) & 1;
+    s32 param = PARAMS_GET_U(this->dyna.actor.params, 8, 1);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
@@ -54,7 +54,7 @@ void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = func_808B9618;
             }
         } else {
-            if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
                 this->actionFunc = func_808B95AC;
                 this->dyna.actor.world.pos.y += 180.0f;
             } else {
@@ -85,7 +85,7 @@ void func_808B95AC(BgSpot18Shutter* this, PlayState* play) {
 }
 
 void func_808B95B8(BgSpot18Shutter* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         Actor_SetFocus(&this->dyna.actor, 70.0f);
         OnePointCutscene_Attention(play, &this->dyna.actor);
         this->actionFunc = func_808B9698;
@@ -95,7 +95,7 @@ void func_808B95B8(BgSpot18Shutter* this, PlayState* play) {
 void func_808B9618(BgSpot18Shutter* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_109)) {
         Actor_SetFocus(&this->dyna.actor, 70.0f);
-        if (((this->dyna.actor.params >> 8) & 1) == 0) {
+        if (PARAMS_GET_U(this->dyna.actor.params, 8, 1) == 0) {
             this->actionFunc = func_808B9698;
         } else {
             this->actionFunc = func_808B971C;
@@ -109,7 +109,7 @@ void func_808B9698(BgSpot18Shutter* this, PlayState* play) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 
@@ -125,7 +125,7 @@ void func_808B971C(BgSpot18Shutter* this, PlayState* play) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 

@@ -7,7 +7,7 @@
 #include "z_en_js.h"
 #include "assets/objects/object_js/object_js.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnJs_Init(Actor* thisx, PlayState* play);
 void EnJs_Destroy(Actor* thisx, PlayState* play);
@@ -16,7 +16,7 @@ void EnJs_Draw(Actor* thisx, PlayState* play);
 
 void func_80A89304(EnJs* this, PlayState* play);
 
-ActorInit En_Js_InitVars = {
+ActorProfile En_Js_Profile = {
     /**/ ACTOR_EN_JS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -30,7 +30,7 @@ ActorInit En_Js_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,

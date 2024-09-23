@@ -387,7 +387,11 @@ if __name__ == "__main__":
         help="find functions with diffs in the given source file (if omitted, print summary of diffs for all files)",
     )
     parser.add_argument(
-        "-v", "--version", help="version to compare", default="gc-eu-mq"
+        "-v",
+        "--version",
+        dest="oot_version",
+        help="version to compare",
+        default="ntsc-1.2",
     )
     parser.add_argument(
         "--data",
@@ -405,8 +409,8 @@ if __name__ == "__main__":
 
     if args.file is not None:
         if args.data:
-            find_data_diffs(args.version, args.file)
+            find_data_diffs(args.oot_version, args.file)
         else:
-            find_functions_with_diffs(args.version, args.file)
+            find_functions_with_diffs(args.oot_version, args.file)
     else:
-        print_summary(args.version, args.csv, args.only_not_ok)
+        print_summary(args.oot_version, args.csv, args.only_not_ok)

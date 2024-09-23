@@ -1,11 +1,11 @@
 <Root>
-    <File Name="ovl_Elf_Msg2" BaseAddress="0x809AD700" RangeStart="0x538" RangeEnd="0x638">
+    <File Name="ovl_Elf_Msg2">
 
-        <DList Name="D_809ADC38" Offset="0x538"/>
+        <DList Name="D_809ADC38" Offset="0x0"/>
 
-        <Array Name="sCubeVtx" Count="8" Offset="0x578">
+        <Array Name="sCubeVtx" Count="8" Offset="0x40">
             <Vtx/>
         </Array>
-        <DList Name="sCubeDL" Offset="0x5F8"/>
+        <DList Name="sCubeDL" Offset="0xC0"/>
     </File>
 </Root>

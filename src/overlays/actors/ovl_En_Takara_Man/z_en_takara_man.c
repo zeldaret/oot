@@ -8,7 +8,8 @@
 #include "terminal.h"
 #include "assets/objects/object_ts/object_ts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnTakaraMan_Init(Actor* thisx, PlayState* play);
 void EnTakaraMan_Destroy(Actor* thisx, PlayState* play);
@@ -22,7 +23,7 @@ void func_80B17934(EnTakaraMan* this, PlayState* play);
 void func_80B17A6C(EnTakaraMan* this, PlayState* play);
 void func_80B17AC4(EnTakaraMan* this, PlayState* play);
 
-ActorInit En_Takara_Man_InitVars = {
+ActorProfile En_Takara_Man_Profile = {
     /**/ ACTOR_EN_TAKARA_MAN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -66,7 +67,7 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
     this->originalRoomNum = thisx->room;
     thisx->room = -1;
     thisx->world.rot.y = thisx->shape.rot.y = -0x4E20;
-    thisx->targetMode = 1;
+    thisx->attentionRangeType = ATTENTION_RANGE_1;
     this->actionFunc = func_80B176E0;
 }
 
@@ -113,11 +114,11 @@ void func_80B1778C(EnTakaraMan* this, PlayState* play) {
         absYawDiff = ABS(yawDiff);
         if (absYawDiff < 0x4300) {
             if (play->roomCtx.curRoom.num != this->originalRoomNum) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 this->unk_218 = 0;
             } else {
                 if (!this->unk_218) {
-                    this->actor.flags |= ACTOR_FLAG_0;
+                    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                     this->unk_218 = 1;
                 }
                 Actor_OfferTalk(&this->actor, play, 100.0f);

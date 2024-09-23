@@ -79,7 +79,7 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_IA16 | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_1PRIMITIVE,
-                    G_AC_NONE | G_ZS_PRIM | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_CLD_SURF2);
+                    G_AC_NONE | G_ZS_PRIM | G_RM_PASS | G_RM_CLD_SURF2);
     // First color cycle sums texel 1 alpha and texel 0 color
     // By using IA16 palettes, this means summing A (from the IA16 color texel 1 maps to)
     // with I (from the IA16 color texel 0 maps to)
@@ -96,8 +96,7 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
         // Its position in texture image space is shifted along +S by 2
         gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2 * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, G_TX_RENDERTILE,
                    0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
-        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 2 << 2, 0, (SCREEN_WIDTH * 2 + 1) << 2,
-                       (VISMONO_CFBFRAG_HEIGHT - 1) << 2);
+        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 2 << 2, 0, ((SCREEN_WIDTH * 2) + 1) << 2, (height - 1) << 2);
 
         // Set texel 1 to be a CI8 image with width `SCREEN_WIDTH * 2` and height `VISMONO_CFBFRAG_HEIGHT`
         // Its position in texture image space is shifted along +S by 1
@@ -105,7 +104,7 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
         // ignored for CI8 texture sampling.
         gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2 * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, 1, 1,
                    G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
-        gDPSetTileSize(gfx++, 1, 1 << 2, 0, (SCREEN_WIDTH * 2) << 2, (VISMONO_CFBFRAG_HEIGHT - 1) << 2);
+        gDPSetTileSize(gfx++, 1, 1 << 2, 0, (SCREEN_WIDTH * 2) << 2, (height - 1) << 2);
 
         // Draw a `SCREEN_WIDTH` wide, `height` high rectangle.
         // Texture coordinate T (vertical) starts at 0 and changes by one each line (dtdy = 1)

@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_25)
 
 void EnGs_Init(Actor* thisx, PlayState* play);
 void EnGs_Destroy(Actor* thisx, PlayState* play);
@@ -21,7 +21,7 @@ void func_80A4F700(EnGs* this, PlayState* play);
 
 void func_80A4F77C(EnGs* this);
 
-ActorInit En_Gs_InitVars = {
+ActorProfile En_Gs_Profile = {
     /**/ ACTOR_EN_GS,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -35,7 +35,7 @@ ActorInit En_Gs_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -43,7 +43,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -102,7 +102,7 @@ void EnGs_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     CollisionCheck_SetInfo2(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
 
-    thisx->targetMode = 6;
+    thisx->attentionRangeType = ATTENTION_RANGE_6;
     this->unk_1D8 = thisx->world.pos;
     this->actionFunc = func_80A4F734;
     this->unk_1B4[0].x = 1.0f;
@@ -123,7 +123,7 @@ s32 func_80A4E3EC(EnGs* this, PlayState* play) {
             if (Message_ShouldAdvance(play)) {
                 switch (this->actor.textId) {
                     case 0x2054:
-                        this->actor.textId = (this->actor.params & 0xFF) + 0x400;
+                        this->actor.textId = PARAMS_GET_U(this->actor.params, 0, 8) + 0x400;
                         ret = 1;
                         break;
                     default:
@@ -169,7 +169,7 @@ void func_80A4E470(EnGs* this, PlayState* play) {
                     Actor_PlaySfx(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 }
                 this->unk_19D = 0;
-                Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+                Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
             } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
                 player->stateFlags2 |= PLAYER_STATE2_23;
             }
@@ -240,7 +240,7 @@ void func_80A4EA08(EnGs* this, PlayState* play) {
         this->unk_200 = 0;
         this->unk_19F = 1;
     } else if (this->unk_19F == 1) {
-        this->unk_1A0[0].z = (((this->unk_200 % 8) / 8.0f) * 360.0f) * (0x10000 / 360.0f);
+        this->unk_1A0[0].z = DEG_TO_BINANG(((this->unk_200 % 8) / 8.0f) * 360.0f);
         this->unk_1A0[1].z = -this->unk_1A0[0].z;
         if (func_80A4E754(this, play, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 0.8f, 0.005f, 0.001f, 7, 0) ==
             0.0f) {
@@ -353,7 +353,7 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
                           (s16)Rand_ZeroFloat(50.0f) + 200, 40, 15);
         }
 
-        func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
             this->actor.flags |= ACTOR_FLAG_4;
@@ -380,7 +380,7 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
             this->unk_19E |= 8;
             this->actionFunc = func_80A4F700;
         } else {
-            func_8002F974(&this->actor, NA_SE_EV_STONE_LAUNCH - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_STONE_LAUNCH - SFX_FLAG);
         }
 
         Actor_MoveXZGravity(&this->actor);
@@ -408,14 +408,14 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
     if (this->unk_19F == 1) {
         Math_SmoothStepToF(&this->unk_1F0, this->unk_1F4, 1.0f, 0.1f, 0.001f);
         tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 1.0f, this->unk_1F0, 0.001f);
-        this->unk_1A0[0].y += (s32)(this->unk_1E8 * (0x10000 / 360.0f));
+        this->unk_1A0[0].y += DEG_TO_BINANG2(this->unk_1E8);
         if (tmpf1 == 0.0f) {
             this->unk_200 = 0;
             this->unk_19F = 2;
         }
     }
     if (this->unk_19F == 2) {
-        this->unk_1A0[0].y += (s32)(this->unk_1E8 * (0x10000 / 360.0f));
+        this->unk_1A0[0].y += DEG_TO_BINANG2(this->unk_1E8);
         if (this->unk_200++ > 40) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
             this->unk_1EC = 1.5f;
@@ -426,7 +426,7 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
         }
     }
     if (this->unk_19F == 3) {
-        this->unk_1A0[0].y += 0x4000;
+        this->unk_1A0[0].y += DEG_TO_BINANG2(90.0f);
         tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.2f, 0.001f);
         Math_SmoothStepToF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.2f, 0.001f);
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
@@ -438,7 +438,7 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
         }
     }
     if (this->unk_19F == 4) {
-        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 16384.0f, 3640.0f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, DEG_TO_BINANG2(90.0f), DEG_TO_BINANG2(20.0f));
         this->unk_1A0[0].y += (s16)this->unk_1E8;
         if (tmpf1 == 0.0f) {
 
@@ -458,7 +458,7 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
             tmp -= 0xFFFF;
         }
         this->unk_1E8 = tmp;
-        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 3640.0f, 0.001f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, DEG_TO_BINANG2(20.0f), 0.001f);
         this->unk_1A0[0].y = this->unk_1E8;
         if (tmpf1 == 0.0f) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
@@ -499,7 +499,7 @@ void func_80A4F700(EnGs* this, PlayState* play) {
 }
 
 void func_80A4F734(EnGs* this, PlayState* play) {
-    if (!Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+    if (!Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         func_80A4E470(this, play);
     }
 }
@@ -587,8 +587,7 @@ void EnGs_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateZ(BINANG_TO_RAD(this->unk_1A0[1].z), MTXMODE_APPLY);
         }
 
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_gs.c", 1064),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_gs.c", 1064);
         gSPDisplayList(POLY_OPA_DISP++, gGossipStoneMaterialDL);
 
         if (this->unk_19E & 4) {
@@ -607,8 +606,7 @@ void EnGs_Draw(Actor* thisx, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_gs.c", 1087),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_gs.c", 1087);
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14,
                                         0x20, 0x80));

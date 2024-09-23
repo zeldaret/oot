@@ -36,7 +36,7 @@ static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
     func_808AB700,
 };
 
-ActorInit Bg_Spot01_Idohashira_InitVars = {
+ActorProfile Bg_Spot01_Idohashira_Profile = {
     /**/ ACTOR_BG_SPOT01_IDOHASHIRA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -324,8 +324,7 @@ void func_808AB700(BgSpot01Idohashira* this, PlayState* play) {
 
     Gfx_SetupDL_25Opa(localGfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, localGfxCtx, "../z_bg_spot01_idohashira.c", 699);
     func_808AAF34(this, play);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoWellArchDL);
 

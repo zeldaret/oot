@@ -8,9 +8,9 @@
 #include "terminal.h"
 #include "assets/objects/object_mm/object_mm.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
-typedef enum {
+typedef enum RunningManAnimIndex {
     /* 0 */ RM2_ANIM_RUN,
     /* 1 */ RM2_ANIM_SIT,
     /* 2 */ RM2_ANIM_SIT_WAIT,
@@ -20,7 +20,7 @@ typedef enum {
     /* 6 */ RM2_ANIM_HAPPY    // plays when you sell him the bunny hood
 } RunningManAnimIndex;
 
-typedef enum {
+typedef enum RunningManMouthTex {
     /* 0 */ RM2_MOUTH_CLOSED,
     /* 1 */ RM2_MOUTH_OPEN
 } RunningManMouthTex;
@@ -35,7 +35,7 @@ void func_80AAF668(EnMm2* this, PlayState* play);
 s32 EnMm2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-ActorInit En_Mm2_InitVars = {
+ActorProfile En_Mm2_Profile = {
     /**/ ACTOR_EN_MM2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -49,7 +49,7 @@ ActorInit En_Mm2_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -57,7 +57,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000004, 0x00, 0x00 },
         ATELEM_NONE,
@@ -136,7 +136,7 @@ void EnMm2_Init(Actor* thisx, PlayState* play2) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->mouthTexIndex = RM2_MOUTH_CLOSED;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->unk_1F4 |= 1;
     this->actor.gravity = -1.0f;
     if (this->actor.params == 1) {

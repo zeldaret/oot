@@ -22,7 +22,7 @@ void BgIceTurara_Regrow(BgIceTurara* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -30,7 +30,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0x4FC007CA, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 13, 120, 0, { 0, 0, 0 } },
 };
 
-ActorInit Bg_Ice_Turara_InitVars = {
+ActorProfile Bg_Ice_Turara_Profile = {
     /**/ ACTOR_BG_ICE_TURARA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

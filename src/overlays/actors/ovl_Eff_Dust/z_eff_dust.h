@@ -23,7 +23,7 @@ typedef struct EffDust {
     /* 0x0564 */ EffDustDrawFunc drawFunc;
 } EffDust; // size = 0x0568
 
-typedef enum {
+typedef enum EffDustType {
     /* 0x00 */ EFF_DUST_TYPE_0,
     /* 0x01 */ EFF_DUST_TYPE_1,
     /* 0x02 */ EFF_DUST_TYPE_2,

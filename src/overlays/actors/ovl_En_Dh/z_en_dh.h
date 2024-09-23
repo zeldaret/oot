@@ -32,7 +32,7 @@ typedef struct EnDh {
     /* 0x0320 */ f32 dirtWaveAlpha;
 } EnDh; // size = 0x0324
 
-typedef enum {
+typedef enum EnDhParams {
     ENDH_HANDS_KILLED_4 = -4,
     ENDH_HANDS_KILLED_3,
     ENDH_HANDS_KILLED_2,

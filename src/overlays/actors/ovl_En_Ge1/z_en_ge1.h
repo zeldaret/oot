@@ -9,7 +9,7 @@ struct EnGe1;
 typedef void (*EnGe1AnimFunc)(struct EnGe1*);
 typedef void (*EnGe1ActionFunc)(struct EnGe1*, PlayState*);
 
-typedef enum {
+typedef enum EnGe1Type {
     /* 0x00 */ GE1_TYPE_GATE_GUARD,
     /* 0x01 */ GE1_TYPE_GATE_OPERATOR,
     /* 0x04 */ GE1_TYPE_NORMAL = 4,
@@ -18,7 +18,7 @@ typedef enum {
     /* 0x46 */ GE1_TYPE_TRAINING_GROUNDS_GUARD
 } EnGe1Type;
 
-typedef enum {
+typedef enum EnGe1Limb {
     /* 00 */ GE1_LIMB_NONE,
     /* 01 */ GE1_LIMB_WAIST,
     /* 02 */ GE1_LIMB_L_THIGH,

@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_Bb/object_Bb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_24)
 
 #define vBombHopPhase actionVar1
 #define vTrailIdx actionVar1
@@ -16,7 +16,7 @@
 #define vMoveAngleY actionVar2
 #define vFlameTimer actionVar2
 
-typedef enum {
+typedef enum EnBbAction {
     /* 0 */ BB_DAMAGE,
     /* 1 */ BB_KILL,
     /* 2 */ BB_FLAME_TRAIL,
@@ -29,24 +29,24 @@ typedef enum {
     /* 9 */ BB_GREEN
 } EnBbAction;
 
-typedef enum {
+typedef enum EnBbMoveMode {
     /* 0 */ BBMOVE_NORMAL,
     /* 1 */ BBMOVE_NOCLIP,
     /* 2 */ BBMOVE_HIDDEN
 } EnBbMoveMode;
 
-typedef enum {
+typedef enum EnBbBlueActionState {
     /* 0 */ BBBLUE_NORMAL,
     /* 1 */ BBBLUE_AGGRO
 } EnBbBlueActionState;
 
-typedef enum {
+typedef enum EnBbRedActionState {
     /* 0 */ BBRED_WAIT,
     /* 1 */ BBRED_ATTACK,
     /* 2 */ BBRED_HIDE
 } EnBbRedActionState;
 
-typedef enum {
+typedef enum EnBbGreenActionState {
     /* 0 */ BBGREEN_FLAME_ON,
     /* 1 */ BBGREEN_FLAME_OFF
 } EnBbGreenActionState;
@@ -195,7 +195,7 @@ static DamageTable sDamageTableWhite = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-ActorInit En_Bb_InitVars = {
+ActorProfile En_Bb_Profile = {
     /**/ ACTOR_EN_BB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -210,7 +210,7 @@ ActorInit En_Bb_InitVars = {
 static ColliderJntSphElementInit sJntSphElementInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -223,7 +223,7 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -235,7 +235,7 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 10, ICHAIN_STOP),
 };
 
 void EnBb_SetupAction(EnBb* this, EnBbActionFunc actionFunc) {
@@ -319,15 +319,15 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->elements);
 
-    this->actionState = thisx->params >> 8;
+    this->actionState = PARAMS_GET_NOMASK(thisx->params, 8);
 
-    if (thisx->params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
         thisx->params |= 0xFF00;
     }
     if (thisx->params <= ENBB_BLUE) {
         ActorShape_Init(&thisx->shape, 200.0f, ActorShadow_DrawCircle, 35.0f);
     }
-    if (thisx->params & 0xFF00) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 8, 8)) {
         this->timer = 0;
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
@@ -412,7 +412,7 @@ void EnBb_SetupFlameTrail(EnBb* this) {
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.speed = 0.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     EnBb_SetupAction(this, EnBb_FlameTrail);
 }
 
@@ -700,7 +700,7 @@ void EnBb_Down(EnBb* this, PlayState* play) {
                 this->moveMode = BBMOVE_HIDDEN;
                 this->timer = 10;
                 this->actionState++;
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 this->action = BB_RED;
                 EnBb_SetupAction(this, EnBb_Red);
                 return;
@@ -765,7 +765,7 @@ void EnBb_SetupRed(PlayState* play, EnBb* this) {
         this->actor.home.pos = this->actor.world.pos;
         this->actor.velocity.y = this->actor.gravity = this->actor.speed = 0.0f;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
     this->action = BB_RED;
     EnBb_SetupAction(this, EnBb_Red);
@@ -799,7 +799,7 @@ void EnBb_Red(EnBb* this, PlayState* play) {
         case BBRED_ATTACK:
             if (this->timer == 0) {
                 this->moveMode = BBMOVE_NORMAL;
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             }
             this->bobPhase += Rand_ZeroOne();
             Math_SmoothStepToF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
@@ -818,7 +818,7 @@ void EnBb_Red(EnBb* this, PlayState* play) {
                     this->moveMode = BBMOVE_HIDDEN;
                     this->timer = 10;
                     this->actionState++;
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 } else {
                     this->actor.velocity.y *= -1.06f;
                     if (this->actor.velocity.y > 13.0f) {
@@ -1128,7 +1128,7 @@ void EnBb_Stunned(EnBb* this, PlayState* play) {
                 EnBb_SetupDown(this);
             }
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             EnBb_SetupDeath(this, play);
         }
     }
@@ -1194,7 +1194,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                     }
                 }
                 if (this->actor.colChkInfo.health == 0) {
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                     if (this->actor.params == ENBB_RED) {
                         EnBb_KillFlameTrail(this);
                     }
@@ -1248,10 +1248,10 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
         this->actor.focus.pos = this->actor.world.pos;
-        this->collider.elements->dim.worldSphere.center.x = this->actor.world.pos.x;
-        this->collider.elements->dim.worldSphere.center.y =
+        this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
+        this->collider.elements[0].dim.worldSphere.center.y =
             this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y);
-        this->collider.elements->dim.worldSphere.center.z = this->actor.world.pos.z;
+        this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
 
         if ((this->action > BB_KILL) && ((this->actor.speed != 0.0f) || (this->action == BB_GREEN))) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
@@ -1339,8 +1339,7 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
                 BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
                 MTXMODE_APPLY);
             Matrix_Scale(this->flameScaleX * 0.01f, this->flameScaleY * 0.01f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bb.c", 2106),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bb.c", 2106);
             gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
         } else {
             Matrix_MultVec3f(&blureBase1, &blureVtx1);

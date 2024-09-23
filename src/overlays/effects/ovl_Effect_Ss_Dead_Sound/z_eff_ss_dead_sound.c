@@ -12,7 +12,7 @@
 u32 EffectSsDeadSound_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsDeadSound_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Dead_Sound_InitVars = {
+EffectSsProfile Effect_Ss_Dead_Sound_Profile = {
     EFFECT_SS_DEAD_SOUND,
     EffectSsDeadSound_Init,
 };

@@ -6,7 +6,7 @@
 
 #include "z_en_oe2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnOE2_Init(Actor* thisx, PlayState* play);
 void EnOE2_Destroy(Actor* thisx, PlayState* play);
@@ -15,7 +15,7 @@ void EnOE2_Draw(Actor* thisx, PlayState* play);
 
 void EnOE2_DoNothing(EnOE2* this, PlayState* play);
 
-ActorInit En_OE2_InitVars = {
+ActorProfile En_OE2_Profile = {
     /**/ ACTOR_EN_OE2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

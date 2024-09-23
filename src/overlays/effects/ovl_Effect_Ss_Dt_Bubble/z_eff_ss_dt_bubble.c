@@ -26,7 +26,7 @@ void EffectSsDtBubble_Update(PlayState* play, u32 index, EffectSs* this);
 static Color_RGBA8 sPrimColors[] = { { 255, 255, 100, 255 }, { 150, 255, 255, 255 }, { 100, 255, 255, 255 } };
 static Color_RGBA8 sEnvColors[] = { { 170, 0, 0, 255 }, { 0, 100, 0, 255 }, { 0, 0, 255, 255 } };
 
-EffectSsInit Effect_Ss_Dt_Bubble_InitVars = {
+EffectSsProfile Effect_Ss_Dt_Bubble_Profile = {
     EFFECT_SS_DT_BUBBLE,
     EffectSsDtBubble_Init,
 };
@@ -81,8 +81,7 @@ void EffectSsDtBubble_Draw(PlayState* play, u32 index, EffectSs* this) {
     scale = this->rScale * 0.004f;
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_ss_dt_bubble.c", 213),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_dt_bubble.c", 213);
     Gfx_SetupDL_25Xlu2(gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                     (this->rPrimColorA * this->life) / this->rLifespan);

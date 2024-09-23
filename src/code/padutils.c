@@ -9,6 +9,10 @@ void func_800FCB70(void) {
 
 void PadUtils_ResetPressRel(Input* input) {
     input->press.button = 0;
+#if PLATFORM_N64
+    input->press.stick_x = 0;
+    input->press.stick_y = 0;
+#endif
     input->rel.button = 0;
 }
 
@@ -64,6 +68,16 @@ s8 PadUtils_GetRelX(Input* input) {
 s8 PadUtils_GetRelY(Input* input) {
     return PadUtils_GetRelYImpl(input);
 }
+
+#if PLATFORM_N64
+s8 PadUtils_GetPressX(Input* input) {
+    return input->press.stick_x;
+}
+
+s8 PadUtils_GetPressY(Input* input) {
+    return input->press.stick_y;
+}
+#endif
 
 void PadUtils_UpdateRelXY(Input* input) {
     s32 curX = PadUtils_GetCurX(input);

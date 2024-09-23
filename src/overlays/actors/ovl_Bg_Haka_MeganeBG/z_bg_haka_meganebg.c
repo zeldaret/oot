@@ -23,7 +23,7 @@ void func_8087E288(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E34C(BgHakaMeganeBG* this, PlayState* play);
 
-ActorInit Bg_Haka_MeganeBG_InitVars = {
+ActorProfile Bg_Haka_MeganeBG_Profile = {
     /**/ ACTOR_BG_HAKA_MEGANEBG,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -59,7 +59,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->unk_168 = (thisx->params >> 8) & 0xFF;
+    this->unk_168 = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (thisx->params == 2) {
@@ -147,7 +147,7 @@ void func_8087E10C(BgHakaMeganeBG* this, PlayState* play) {
 
     if (!Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 640.0f,
                       this->dyna.actor.velocity.y)) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
     }
 
     if (this->unk_16A == 0) {
@@ -159,7 +159,7 @@ void func_8087E10C(BgHakaMeganeBG* this, PlayState* play) {
 
 void func_8087E1E0(BgHakaMeganeBG* this, PlayState* play) {
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 16.0f / 3.0f);
-    func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
 
     if (this->unk_16A != 0) {
         this->unk_16A--;
@@ -173,7 +173,7 @@ void func_8087E1E0(BgHakaMeganeBG* this, PlayState* play) {
 
 void func_8087E258(BgHakaMeganeBG* this, PlayState* play) {
     this->dyna.actor.shape.rot.y += 0x180;
-    func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 }
 
 void func_8087E288(BgHakaMeganeBG* this, PlayState* play) {
@@ -190,7 +190,7 @@ void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play) {
         Actor_SetFocus(&this->dyna.actor, 50.0f);
         this->actionFunc = func_8087E34C;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
     }
 }
 

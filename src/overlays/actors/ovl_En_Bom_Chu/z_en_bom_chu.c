@@ -15,7 +15,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, PlayState* play);
 void EnBomChu_Move(EnBomChu* this, PlayState* play);
 void EnBomChu_WaitForKill(EnBomChu* this, PlayState* play);
 
-ActorInit En_Bom_Chu_InitVars = {
+ActorProfile En_Bom_Chu_Profile = {
     /**/ ACTOR_EN_BOM_CHU,
     /**/ ACTORCAT_EXPLOSIVE,
     /**/ FLAGS,
@@ -30,7 +30,7 @@ ActorInit En_Bom_Chu_InitVars = {
 static ColliderJntSphElementInit sJntSphElemInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -43,7 +43,7 @@ static ColliderJntSphElementInit sJntSphElemInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_1 | OC1_TYPE_2,
@@ -55,7 +55,7 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 1000 * BOMBCHU_SCALE, ICHAIN_STOP),
 };
 
@@ -234,8 +234,8 @@ void EnBomChu_WaitForRelease(EnBomChu* this, PlayState* play) {
         //! @bug there is no NULL check on the floor poly.  If the player is out of bounds the floor poly will be NULL
         //! and will cause a crash inside this function.
         EnBomChu_UpdateFloorPoly(this, this->actor.floorPoly, play);
-        this->actor.flags |= ACTOR_FLAG_0; // make chu targetable
-        func_8002F850(play, &this->actor);
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED; // make chu targetable
+        Actor_PlaySfx_SurfaceBomb(play, &this->actor);
         this->actionFunc = EnBomChu_Move;
     }
 }
@@ -342,7 +342,7 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x800);
     Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.world.rot.z, 0x800);
 
-    func_8002F8F0(&this->actor, NA_SE_IT_BOMBCHU_MOVE - SFX_FLAG);
+    Actor_PlaySfx_Flagged2(&this->actor, NA_SE_IT_BOMBCHU_MOVE - SFX_FLAG);
 }
 
 void EnBomChu_WaitForKill(EnBomChu* this, PlayState* play) {
@@ -508,8 +508,7 @@ void EnBomChu_Draw(Actor* thisx, PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 9.0f + (colorIntensity * 209.0f), 9.0f + (colorIntensity * 34.0f),
                    35.0f + (colorIntensity * -35.0f), 255);
     Matrix_Translate(this->visualJitter * (1.0f / BOMBCHU_SCALE), 0.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bom_chu.c", 956),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bom_chu.c", 956);
     gSPDisplayList(POLY_OPA_DISP++, gBombchuDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bom_chu.c", 961);

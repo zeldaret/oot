@@ -126,13 +126,23 @@ u8 sGfxPrintFontData[(16 * 256) / 2] = {
     0x1B, 0xAA, 0x40, 0x21, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
+#if !PLATFORM_N64
 // Can be used to set GFXP_FLAG_ENLARGE by default
 static u8 sDefaultSpecialFlags;
+#endif
 
 void GfxPrint_Setup(GfxPrint* this) {
-    s32 width = 16;
-    s32 height = 256;
+    s32 width;
+    s32 height;
     s32 i;
+    s32 pal;
+    s32 cm;
+    s32 masks;
+    s32 maskt;
+    s32 shift;
+    s32 line;
+    s32 tmem = 0;
+    s32 fmt = G_IM_FMT_CI;
 
     gDPPipeSync(this->dList++);
     gDPSetOtherMode(this->dList++,
@@ -140,27 +150,41 @@ void GfxPrint_Setup(GfxPrint* this) {
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_XLU_SURF | G_RM_XLU_SURF2);
     gDPSetCombineMode(this->dList++, G_CC_DECALRGBA, G_CC_DECALRGBA);
-    gDPLoadTextureBlock_4b(this->dList++, sGfxPrintFontData, G_IM_FMT_CI, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    width = 16;
+    height = 256;
+    cm = G_TX_NOMIRROR | G_TX_WRAP;
+    masks = G_TX_NOMASK;
+    maskt = G_TX_NOMASK;
+    shift = G_TX_NOLOD;
+
+    gDPLoadMultiBlock_4b(this->dList++, sGfxPrintFontData, 0, G_TX_RENDERTILE, G_IM_FMT_CI, width, height, 0, cm, cm,
+                         masks, maskt, shift, shift);
     gDPLoadTLUT(this->dList++, 64, 0x100, sGfxPrintFontTLUT);
 
     for (i = 1; i < 4; i++) {
-        gDPSetTile(this->dList++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, i * 2, i, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                   G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPSetTileSize(this->dList++, i * 2, 0, 0, 15 << 2, 255 << 2);
+        gDPSetTile(this->dList++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, i * 2, i, cm, maskt, shift, cm, masks, shift);
+        gDPSetTileSize(this->dList++, i * 2, 0 << 2, 0 << 2, (width - 1) << 2, (height - 1) << 2);
     }
 
     gDPSetColor(this->dList++, G_SETPRIMCOLOR, this->color.rgba);
 
-    gDPLoadMultiTile_4b(this->dList++, sGfxPrintRainbowData, 0, 1, G_IM_FMT_CI, 2, 8, 0, 0, 1, 7, 4,
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 1, 3, G_TX_NOLOD, G_TX_NOLOD);
+    width = 2;
+    height = 8;
+    cm = G_TX_NOMIRROR | G_TX_WRAP;
+    masks = 1;
+    maskt = 3;
+    shift = G_TX_NOLOD;
+    pal = 4;
+    line = 1;
 
+    gDPLoadMultiTile_4b(this->dList++, sGfxPrintRainbowData, 0, 1, G_IM_FMT_CI, width, height, 0, 0, width - 1,
+                        height - 1, pal, cm, cm, masks, maskt, shift, shift);
     gDPLoadTLUT(this->dList++, 16, 0x140, sGfxPrintRainbowTLUT);
 
     for (i = 1; i < 4; i++) {
-        gDPSetTile(this->dList++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, i * 2 + 1, 4, G_TX_NOMIRROR | G_TX_WRAP, 3,
-                   G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 1, G_TX_NOLOD);
-        gDPSetTileSize(this->dList++, i * 2 + 1, 0, 0, 1 << 2, 7 << 2);
+        gDPSetTile(this->dList++, fmt, G_IM_SIZ_4b, line, tmem, i * 2 + 1, pal, cm, maskt, shift, cm, masks, shift);
+        gDPSetTileSize(this->dList++, i * 2 + 1, 0 << 2, 0 << 2, (width - 1) << 2, (height - 1) << 2);
     }
 }
 
@@ -210,6 +234,10 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
     if (this->flags & GFXP_FLAG_SHADOW) {
         gDPSetColor(this->dList++, G_SETPRIMCOLOR, 0);
 
+#if PLATFORM_N64
+        gSPTextureRectangle(this->dList++, this->posX + 4, this->posY + 4, this->posX + 4 + 32, this->posY + 4 + 32,
+                            tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
+#else
         if (this->flags & GFXP_FLAG_ENLARGE) {
             gSPTextureRectangle(this->dList++, (this->posX + 4) << 1, (this->posY + 4) << 1, (this->posX + 4 + 32) << 1,
                                 (this->posY + 4 + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 9,
@@ -218,10 +246,15 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
             gSPTextureRectangle(this->dList++, this->posX + 4, this->posY + 4, this->posX + 4 + 32, this->posY + 4 + 32,
                                 tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
         }
+#endif
 
         gDPSetColor(this->dList++, G_SETPRIMCOLOR, this->color.rgba);
     }
 
+#if PLATFORM_N64
+    gSPTextureRectangle(this->dList++, this->posX, this->posY, this->posX + 32, this->posY + 32, tile,
+                        (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
+#else
     if (this->flags & GFXP_FLAG_ENLARGE) {
         gSPTextureRectangle(this->dList++, this->posX << 1, this->posY << 1, (this->posX + 32) << 1,
                             (this->posY + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 9, 1 << 9);
@@ -229,26 +262,32 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
         gSPTextureRectangle(this->dList++, this->posX, this->posY, this->posX + 32, this->posY + 32, tile,
                             (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
     }
+#endif
 
     this->posX += GFX_CHAR_X_SPACING << 2;
 }
 
 void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
+#if PLATFORM_N64
+#define CHAR_PARAM c
+#else
+#define CHAR_PARAM charParam
     u8 charParam = c;
+#endif
 
     if (c == ' ') {
         this->posX += GFX_CHAR_X_SPACING << 2;
     } else if (c > ' ' && c < 0x7F) {
-        GfxPrint_PrintCharImpl(this, charParam);
+        GfxPrint_PrintCharImpl(this, c);
     } else if (c >= 0xA0 && c < 0xE0) {
         if (this->flags & GFXP_FLAG_HIRAGANA) {
             if (c < 0xC0) {
-                charParam = c - 0x20;
+                CHAR_PARAM = c - 0x20;
             } else {
-                charParam = c + 0x20;
+                CHAR_PARAM = c + 0x20;
             }
         }
-        GfxPrint_PrintCharImpl(this, charParam);
+        GfxPrint_PrintCharImpl(this, CHAR_PARAM);
     } else {
         switch (c) {
             case '\0':
@@ -325,11 +364,13 @@ void GfxPrint_Init(GfxPrint* this) {
     this->flags |= GFXP_FLAG_SHADOW;
     this->flags |= GFXP_FLAG_UPDATE;
 
+#if !PLATFORM_N64
     if (sDefaultSpecialFlags & GFXP_FLAG_ENLARGE) {
         this->flags |= GFXP_FLAG_ENLARGE;
     } else {
         this->flags &= ~GFXP_FLAG_ENLARGE;
     }
+#endif
 }
 
 void GfxPrint_Destroy(GfxPrint* this) {
@@ -341,7 +382,9 @@ void GfxPrint_Open(GfxPrint* this, Gfx* dList) {
         this->dList = dList;
         GfxPrint_Setup(this);
     } else {
-        PRINTF("gfxprint_open:２重オープンです\n");
+#if PLATFORM_N64 || OOT_DEBUG
+        osSyncPrintf(T("gfxprint_open:２重オープンです\n", "gfxprint_open: Double open\n"));
+#endif
     }
 }
 
@@ -349,7 +392,9 @@ Gfx* GfxPrint_Close(GfxPrint* this) {
     Gfx* ret;
 
     this->flags &= ~GFXP_FLAG_OPEN;
+#if !PLATFORM_N64
     gDPPipeSync(this->dList++);
+#endif
     ret = this->dList;
     this->dList = NULL;
 

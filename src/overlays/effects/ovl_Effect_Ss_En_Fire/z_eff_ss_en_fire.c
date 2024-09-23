@@ -22,7 +22,7 @@ u32 EffectSsEnFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsEnFire_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_En_Fire_InitVars = {
+EffectSsProfile Effect_Ss_En_Fire_Profile = {
     EFFECT_SS_EN_FIRE,
     EffectSsEnFire_Init,
 };
@@ -68,6 +68,7 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     f32 scale;
     s16 camYaw;
     s32 pad[3];
+    s16 intensity;
     s16 redGreen;
 
     OPEN_DISPS(gfxCtx, "../z_eff_en_fire.c", 169);
@@ -78,15 +79,15 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     scale = Math_SinS(this->life * 0x333) * (this->rScale * 0.00005f);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_eff_en_fire.c", 180),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_eff_en_fire.c", 180);
 
-    redGreen = this->life - 5;
+    intensity = this->life - 5;
 
-    if (redGreen < 0) {
-        redGreen = 0;
+    if (intensity < 0) {
+        intensity = 0;
     }
 
+    redGreen = intensity;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, redGreen * 12.7f, 0, 0, 0);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x0, 0x80, redGreen * 12.7f, redGreen * 12.7f, 0, 255);
@@ -103,12 +104,12 @@ void EffectSsEnFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     CLOSE_DISPS(gfxCtx, "../z_eff_en_fire.c", 213);
 }
 
-typedef struct {
+typedef struct FireActorF {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3f firePos[10];
 } FireActorF;
 
-typedef struct {
+typedef struct FireActorS {
     /* 0x000 */ Actor actor;
     /* 0x14C */ Vec3s firePos[10];
 } FireActorS;

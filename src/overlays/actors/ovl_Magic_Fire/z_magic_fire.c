@@ -15,14 +15,14 @@ void MagicFire_Draw(Actor* thisx, PlayState* play);
 
 void MagicFire_UpdateBeforeCast(Actor* thisx, PlayState* play);
 
-typedef enum {
+typedef enum MagicFireAction {
     /* 0x00 */ DF_ACTION_INITIALIZE,
     /* 0x01 */ DF_ACTION_EXPAND_SLOWLY,
     /* 0x02 */ DF_ACTION_STOP_EXPANDING,
     /* 0x03 */ DF_ACTION_EXPAND_QUICKLY
 } MagicFireAction;
 
-typedef enum {
+typedef enum MagicFireScreenTint {
     /* 0x00 */ DF_SCREEN_TINT_NONE,
     /* 0x01 */ DF_SCREEN_TINT_FADE_IN,
     /* 0x02 */ DF_SCREEN_TINT_MAINTAIN,
@@ -30,7 +30,7 @@ typedef enum {
     /* 0x04 */ DF_SCREEN_TINT_FINISHED
 } MagicFireScreenTint;
 
-ActorInit Magic_Fire_InitVars = {
+ActorProfile Magic_Fire_Profile = {
     /**/ ACTOR_MAGIC_FIRE,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -46,7 +46,7 @@ ActorInit Magic_Fire_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00020000, 0x00, 0x01 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
@@ -237,8 +237,7 @@ void MagicFire_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 255, 200, 0, (u8)(this->alphaMultiplier * 255));
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, (u8)(this->alphaMultiplier * 255));
         Matrix_Scale(0.15f, 0.15f, 0.15f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_magic_fire.c", 715),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_magic_fire.c", 715);
         gDPPipeSync(POLY_XLU_DISP++);
         gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
         gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);

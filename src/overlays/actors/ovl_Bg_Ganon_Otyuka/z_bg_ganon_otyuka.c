@@ -10,7 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum FlashState {
     /* 0x00 */ FLASH_NONE,
     /* 0x01 */ FLASH_GROW,
     /* 0x02 */ FLASH_SHRINK
@@ -25,7 +25,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_DoNothing(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Ganon_Otyuka_InitVars = {
+ActorProfile Bg_Ganon_Otyuka_Profile = {
     /**/ ACTOR_BG_GANON_OTYUKA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -297,8 +297,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                         phi_s1 = sPlatformTopDL;
                     }
                 }
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766);
                 gSPDisplayList(POLY_OPA_DISP++, phi_s2);
 
                 if (phi_s1 != NULL) {
@@ -310,8 +309,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                         Matrix_Push();
                         Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
-                        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
-                                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785);
                         gSPDisplayList(POLY_OPA_DISP++, sPlatformSideDL);
                         Matrix_Pop();
                     }
@@ -345,8 +343,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                         Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
                         Matrix_Scale(0.3f, platform->flashYScale * 0.3f, 0.3f, MTXMODE_APPLY);
-                        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
-                                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847);
                         gSPDisplayList(POLY_XLU_DISP++, sFlashDL);
                         Matrix_Pop();
                     }
