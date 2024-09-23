@@ -16,7 +16,7 @@
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:127 gc-eu-mq:127 gc-jp:129 gc-jp-ce:129 gc-jp-mq:129 gc-us:129 gc-us-mq:129"
+#pragma increment_block_number "gc-eu:132 gc-eu-mq:132 gc-jp:134 gc-jp-ce:134 gc-jp-mq:134 gc-us:134 gc-us-mq:134"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -205,7 +205,7 @@ static u8 sSinkingLureFound = false;
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -216,7 +216,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -227,7 +227,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -238,7 +238,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -249,7 +249,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -260,7 +260,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -271,7 +271,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -282,7 +282,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -293,7 +293,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -304,7 +304,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -315,7 +315,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -326,7 +326,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -886,7 +886,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
 
         thisx->focus.pos = thisx->world.pos;
         thisx->focus.pos.y += 75.0f;
-        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
 
         if (sLinkAge != LINK_AGE_CHILD) {
             if (HIGH_SCORE(HS_FISHING) & HS_FISH_STOLE_HAT) {
@@ -1032,7 +1032,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
         this->fishState = 100;
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
         thisx->attentionRangeType = ATTENTION_RANGE_0;
-        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL;
+        thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     } else {
         this->fishState = 10;

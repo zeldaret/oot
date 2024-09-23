@@ -36,7 +36,7 @@ static s16 D_808B5DD8[][10] = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFF6, 0x00, 0x00 },
             ATELEM_NONE,
@@ -70,7 +70,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,
@@ -416,7 +416,7 @@ void func_808B57E0(BgSpot16Bombstone* this, PlayState* play) {
                 OnePointCutscene_Init(play, 4180, sTimer, NULL, CAM_ID_MAIN);
             }
         }
-    } else if (player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
+    } else if (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {

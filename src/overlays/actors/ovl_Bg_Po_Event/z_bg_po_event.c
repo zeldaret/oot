@@ -43,7 +43,7 @@ ActorProfile Bg_Po_Event_Profile = {
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK4,
+            ELEM_MATERIAL_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F820, 0x00, 0x00 },
             ATELEM_NONE,
@@ -54,7 +54,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK4,
+            ELEM_MATERIAL_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F820, 0x00, 0x00 },
             ATELEM_NONE,

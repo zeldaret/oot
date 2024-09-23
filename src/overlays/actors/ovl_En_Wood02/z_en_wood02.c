@@ -55,7 +55,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK5,
+        ELEM_MATERIAL_UNK5,
         { 0x00000000, 0x00, 0x00 },
         { 0x0FC0074A, 0x00, 0x00 },
         ATELEM_NONE,

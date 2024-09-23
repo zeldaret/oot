@@ -40,7 +40,7 @@ static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f };
 static ColliderJntSphElementInit sJntSphElementInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000010, 0x00, 0x00 },
             ATELEM_NONE,
@@ -51,7 +51,7 @@ static ColliderJntSphElementInit sJntSphElementInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,

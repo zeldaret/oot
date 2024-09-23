@@ -7,7 +7,7 @@
 #include "z_obj_dekujr.h"
 #include "assets/objects/object_dekujr/object_dekujr.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void ObjDekujr_Init(Actor* thisx, PlayState* play);
 void ObjDekujr_Destroy(Actor* thisx, PlayState* play);

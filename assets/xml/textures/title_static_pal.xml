@@ -82,7 +82,7 @@
         <Texture Name="gFileSelAreYouSureENGTex" OutName="are_you_sure_eng" Format="ia8" Width="128" Height="16" Offset="0x25C80"/>
         <Texture Name="gFileSelFileCopiedENGTex" OutName="file_copied_eng" Format="ia8" Width="128" Height="16" Offset="0x26480"/>
 
-        <Texture Name="gFileSelWhichFile1GERTex" OutName="which_file_1_ger" Format="ia8" Width="128" Height="16" Offset="0x26C80"/>
+        <Texture Name="gFileSelCopyWhichFileGERTex" OutName="which_file_1_ger" Format="ia8" Width="128" Height="16" Offset="0x26C80"/>
         <Texture Name="gFileSelCopyToWhichFileGERTex" OutName="copy_to_which_file_ger" Format="ia8" Width="128" Height="16" Offset="0x27480"/>
         <Texture Name="gFileSelAreYouSureGERTex" OutName="are_you_sure_ger" Format="ia8" Width="128" Height="16" Offset="0x27C80"/>
         <Texture Name="gFileSelFileCopiedGERTex" OutName="file_copied_ger" Format="ia8" Width="128" Height="16" Offset="0x28480"/>
@@ -105,7 +105,7 @@
         <Texture Name="gFileSelAreYouSure2ENGTex" OutName="are_you_sure_eng_2" Format="ia8" Width="128" Height="16" Offset="0x2E480"/>
         <Texture Name="gFileSelFileErasedENGTex" OutName="file_erased_eng" Format="ia8" Width="128" Height="16" Offset="0x2EC80"/>
 
-        <Texture Name="gFileSelWhichFile2GERTex" OutName="which_file_2_ger" Format="ia8" Width="128" Height="16" Offset="0x2F480"/>
+        <Texture Name="gFileSelEraseWhichFileGERTex" OutName="which_file_2_ger" Format="ia8" Width="128" Height="16" Offset="0x2F480"/>
         <Texture Name="gFileSelAreYouSure2GERTex" OutName="are_you_sure_ger_2" Format="ia8" Width="128" Height="16" Offset="0x2FC80"/>
         <Texture Name="gFileSelFileErasedGERTex" OutName="file_erased_ger" Format="ia8" Width="128" Height="16" Offset="0x30480"/>
 
@@ -166,9 +166,9 @@
         <Texture Name="gFileSelStereoENGTex" OutName="stereo_eng" Format="ia8" Width="48" Height="16" Offset="0x41900"/>
         <Texture Name="gFileSelStereoFRATex" OutName="stereo_fra" Format="ia8" Width="48" Height="16" Offset="0x41C00"/>
 
-        <Texture Name="gFileSelLTargetingENGTex" OutName="l_targeting_eng" Format="ia8" Width="64" Height="16" Offset="0x41F00"/>
-        <Texture Name="gFileSelLTargetingGERTex" OutName="l_targeting_ger" Format="ia8" Width="144" Height="16" Offset="0x42300"/>
-        <Texture Name="gFileSelLTargetingFRATex" OutName="l_targeting_fra" Format="ia8" Width="64" Height="16" Offset="0x42C00"/>
+        <Texture Name="gFileSelZTargetingENGTex" OutName="z_targeting_eng" Format="ia8" Width="64" Height="16" Offset="0x41F00"/>
+        <Texture Name="gFileSelZTargetingGERTex" OutName="z_targeting_ger" Format="ia8" Width="144" Height="16" Offset="0x42300"/>
+        <Texture Name="gFileSelZTargetingFRATex" OutName="z_targeting_fra" Format="ia8" Width="64" Height="16" Offset="0x42C00"/>
 
         <Texture Name="gFileSelSwitchENGTex" OutName="switch_eng" Format="ia8" Width="48" Height="16" Offset="0x43000"/>
         <Texture Name="gFileSelSwitchGERTex" OutName="switch_ger" Format="ia8" Width="80" Height="16" Offset="0x43300"/>

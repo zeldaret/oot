@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "versions.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
@@ -79,7 +80,31 @@ typedef struct OcarinaStick {
     s8 y;
 } OcarinaStick;
 
-u8 gIsLargeSfxBank[7] = { 0, 0, 0, 1, 0, 0, 0 };
+#define DEFINE_SFX(_0, _1, _2, _3, _4, _5) 1 +
+u8 gIsLargeSfxBank[7] = {
+    (
+#include "tables/sfx/playerbank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/itembank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/environmentbank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/enemybank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/systembank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/ocarinabank_table.h"
+        0) > UINT8_MAX,
+    (
+#include "tables/sfx/voicebank_table.h"
+        0) > UINT8_MAX,
+};
+#undef DEFINE_SFX
 
 // Only the first row of these is supported by sequence 0. (gSfxChannelLayout is always 0.)
 u8 gChannelsPerBank[4][7] = {
@@ -168,122 +193,13 @@ u8 sSeqModeInput = 0;
 #define SEQ_FLAG_SKIP_HARP_INTRO (1 << 6)
 #define SEQ_FLAG_NO_AMBIENCE (1 << 7)
 
+#define DEFINE_SEQUENCE(name, seqId, storageMedium, cachePolicy, seqFlags) seqFlags,
+#define DEFINE_SEQUENCE_PTR(seqIdReal, seqId, storageMediumReal, cachePolicyReal, seqFlags) seqFlags,
 u8 sSeqFlags[] = {
-#if PLATFORM_N64
-    SEQ_FLAG_FANFARE | SEQ_FLAG_ENEMY, // NA_BGM_GENERAL_SFX
-#else
-    SEQ_FLAG_FANFARE, // NA_BGM_GENERAL_SFX
-#endif
-    SEQ_FLAG_ENEMY,                          // NA_BGM_NATURE_BACKGROUND
-    0,                                       // NA_BGM_FIELD_LOGIC
-    0,                                       // NA_BGM_FIELD_INIT
-    0,                                       // NA_BGM_FIELD_DEFAULT_1
-    0,                                       // NA_BGM_FIELD_DEFAULT_2
-    0,                                       // NA_BGM_FIELD_DEFAULT_3
-    0,                                       // NA_BGM_FIELD_DEFAULT_4
-    0,                                       // NA_BGM_FIELD_DEFAULT_5
-    0,                                       // NA_BGM_FIELD_DEFAULT_6
-    0,                                       // NA_BGM_FIELD_DEFAULT_7
-    0,                                       // NA_BGM_FIELD_DEFAULT_8
-    0,                                       // NA_BGM_FIELD_DEFAULT_9
-    0,                                       // NA_BGM_FIELD_DEFAULT_A
-    0,                                       // NA_BGM_FIELD_DEFAULT_B
-    0,                                       // NA_BGM_FIELD_ENEMY_INIT
-    0,                                       // NA_BGM_FIELD_ENEMY_1
-    0,                                       // NA_BGM_FIELD_ENEMY_2
-    0,                                       // NA_BGM_FIELD_ENEMY_3
-    0,                                       // NA_BGM_FIELD_ENEMY_4
-    0,                                       // NA_BGM_FIELD_STILL_1
-    0,                                       // NA_BGM_FIELD_STILL_2
-    0,                                       // NA_BGM_FIELD_STILL_3
-    0,                                       // NA_BGM_FIELD_STILL_4
-    SEQ_FLAG_RESUME_PREV | SEQ_FLAG_ENEMY,   // NA_BGM_DUNGEON
-    SEQ_FLAG_RESUME,                         // NA_BGM_KAKARIKO_ADULT
-    0,                                       // NA_BGM_ENEMY
-    SEQ_FLAG_NO_AMBIENCE | SEQ_FLAG_RESTORE, // NA_BGM_BOSS
-    SEQ_FLAG_ENEMY,                          // NA_BGM_INSIDE_DEKU_TREE
-    0,                                       // NA_BGM_MARKET
-    0,                                       // NA_BGM_TITLE
-    SEQ_FLAG_RESUME_PREV,                    // NA_BGM_LINK_HOUSE
-    0,                                       // NA_BGM_GAME_OVER
-    0,                                       // NA_BGM_BOSS_CLEAR
-    SEQ_FLAG_FANFARE,                        // NA_BGM_ITEM_GET
-    SEQ_FLAG_FANFARE_GANON,                  // NA_BGM_OPENING_GANON
-    SEQ_FLAG_FANFARE,                        // NA_BGM_HEART_GET
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_LIGHT
-    SEQ_FLAG_ENEMY,                          // NA_BGM_JABU_JABU
-    SEQ_FLAG_RESUME,                         // NA_BGM_KAKARIKO_KID
-    0,                                       // NA_BGM_GREAT_FAIRY
-    0,                                       // NA_BGM_ZELDA_THEME
-    SEQ_FLAG_ENEMY,                          // NA_BGM_FIRE_TEMPLE
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OPEN_TRE_BOX
-    SEQ_FLAG_ENEMY,                          // NA_BGM_FOREST_TEMPLE
-    0,                                       // NA_BGM_COURTYARD
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GANON_TOWER
-    0,                                       // NA_BGM_LONLON
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GORON_CITY
-    0,                                       // NA_BGM_FIELD_MORNING
-    SEQ_FLAG_FANFARE,                        // NA_BGM_SPIRITUAL_STONE
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_BOLERO
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_MINUET
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_SERENADE
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_REQUIEM
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_NOCTURNE
-    SEQ_FLAG_NO_AMBIENCE | SEQ_FLAG_RESTORE, // NA_BGM_MINI_BOSS
-    SEQ_FLAG_FANFARE,                        // NA_BGM_SMALL_ITEM_GET
-    0,                                       // NA_BGM_TEMPLE_OF_TIME
-    SEQ_FLAG_FANFARE,                        // NA_BGM_EVENT_CLEAR
-    SEQ_FLAG_RESUME | SEQ_FLAG_ENEMY,        // NA_BGM_KOKIRI
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_FAIRY_GET
-    SEQ_FLAG_ENEMY,                          // NA_BGM_SARIA_THEME
-    SEQ_FLAG_ENEMY,                          // NA_BGM_SPIRIT_TEMPLE
-    0,                                       // NA_BGM_HORSE
-    0,                                       // NA_BGM_HORSE_GOAL
-    0,                                       // NA_BGM_INGO
-    SEQ_FLAG_FANFARE,                        // NA_BGM_MEDALLION_GET
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_SARIA
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_EPONA
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_ZELDA
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_SUNS
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_TIME
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OCA_STORM
-    0,                                       // NA_BGM_NAVI_OPENING
-    0,                                       // NA_BGM_DEKU_TREE_CS
-    0,                                       // NA_BGM_WINDMILL
-    0,                                       // NA_BGM_HYRULE_CS
-    SEQ_FLAG_RESUME_PREV,                    // NA_BGM_MINI_GAME
-    0,                                       // NA_BGM_SHEIK
-    SEQ_FLAG_RESUME,                         // NA_BGM_ZORA_DOMAIN
-    SEQ_FLAG_FANFARE,                        // NA_BGM_APPEAR
-    0,                                       // NA_BGM_ADULT_LINK
-    0,                                       // NA_BGM_MASTER_SWORD
-    SEQ_FLAG_FANFARE_GANON,                  // NA_BGM_INTRO_GANON
-    SEQ_FLAG_RESUME_PREV,                    // NA_BGM_SHOP
-    SEQ_FLAG_SKIP_HARP_INTRO,                // NA_BGM_CHAMBER_OF_SAGES
-    SEQ_FLAG_SKIP_HARP_INTRO,                // NA_BGM_FILE_SELECT
-    SEQ_FLAG_ENEMY,                          // NA_BGM_ICE_CAVERN
-    SEQ_FLAG_FANFARE,                        // NA_BGM_DOOR_OF_TIME
-    SEQ_FLAG_FANFARE,                        // NA_BGM_OWL
-    SEQ_FLAG_ENEMY,                          // NA_BGM_SHADOW_TEMPLE
-    SEQ_FLAG_ENEMY,                          // NA_BGM_WATER_TEMPLE
-    SEQ_FLAG_FANFARE,                        // NA_BGM_BRIDGE_TO_GANONS
-    0,                                       // NA_BGM_OCARINA_OF_TIME
-    SEQ_FLAG_RESUME | SEQ_FLAG_ENEMY,        // NA_BGM_GERUDO_VALLEY
-    0,                                       // NA_BGM_POTION_SHOP
-    0,                                       // NA_BGM_KOTAKE_KOUME
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_ESCAPE
-    0,                                       // NA_BGM_UNDERGROUND
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GANON_BATTLE_1
-    SEQ_FLAG_NO_AMBIENCE,                    // NA_BGM_GANON_BATTLE_2
-    0,                                       // NA_BGM_END_DEMO
-    0,                                       // NA_BGM_STAFF_1
-    0,                                       // NA_BGM_STAFF_2
-    0,                                       // NA_BGM_STAFF_3
-    0,                                       // NA_BGM_STAFF_4
-    0,                                       // NA_BGM_FIRE_BOSS
-    SEQ_FLAG_RESTORE,                        // NA_BGM_TIMED_MINI_GAME
-    0,                                       // NA_BGM_CUTSCENE_EFFECTS
+#include "tables/sequence_table.h"
 };
+#undef DEFINE_SEQUENCE
+#undef DEFINE_SEQUENCE_PTR
 
 s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -909,151 +825,151 @@ u8 sOcaMemoryGameNumNotes[] = { 5, 6, 8 };
 OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
     // OCARINA_SONG_MINUET
     {
-        { OCARINA_PITCH_D4, 18, 86, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 18, 92, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 72, 86, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 18, 80, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 144, 86, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(18, 15), 86, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(18, 15), 92, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(72, 60), 86, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(18, 15), 80, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(144, 120), 86, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 86, 0, 0, 0 },
     },
 
     // OCARINA_SONG_BOLERO
     {
-        { OCARINA_PITCH_F4, 15, 80, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 15, 72, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 15, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 15, 76, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 15, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 15, 74, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 15, 78, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 135, 66, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(15, 12), 80, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(15, 13), 72, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(15, 12), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(15, 13), 76, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(15, 12), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(15, 13), 74, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(15, 12), 78, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(135, 113), 66, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 66, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SERENADE
     {
-        { OCARINA_PITCH_D4, 36, 60, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 36, 78, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 33, 82, 0, 0, 0 },
-        { OCARINA_PITCH_NONE, 3, 82, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 36, 84, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 144, 90, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(36, 30), 60, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(36, 30), 78, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(33, 27), 82, 0, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAMERATE_CONST(3, 3), 82, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(36, 30), 84, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(144, 120), 90, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_REQUIEM
     {
-        { OCARINA_PITCH_D4, 45, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 23, 86, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 22, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 45, 86, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 45, 94, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 180, 94, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(45, 37), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(23, 19), 86, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(22, 19), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(45, 37), 86, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(45, 38), 94, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(180, 150), 94, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 94, 0, 0, 0 },
     },
 
     // OCARINA_SONG_NOCTURNE
     {
-        { OCARINA_PITCH_B4, 36, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 33, 84, 0, 0, 0 },
-        { OCARINA_PITCH_NONE, 3, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 18, 82, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 18, 60, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 90, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 144, 96, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(36, 30), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(33, 27), 84, 0, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAMERATE_CONST(3, 3), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(18, 15), 82, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(18, 15), 60, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(18, 15), 90, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(144, 120), 96, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 96, 0, 0, 0 },
     },
 
     // OCARINA_SONG_PRELUDE
     {
-        { OCARINA_PITCH_D5, 15, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 45, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 15, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 15, 82, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 15, 86, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 60, 90, 0, 0, 0 },
-        { OCARINA_PITCH_NONE, 75, 90, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(15, 12), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(45, 38), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(15, 12), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(15, 13), 82, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(15, 12), 86, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(60, 50), 90, 0, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAMERATE_CONST(75, 63), 90, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SARIAS
     {
-        { OCARINA_PITCH_F4, 17, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 17, 88, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 34, 80, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 17, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 17, 88, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 136, 80, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(17, 14), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(17, 14), 88, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(34, 28), 80, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(17, 14), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(17, 14), 88, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(136, 113), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_EPONAS
     {
-        { OCARINA_PITCH_D5, 18, 84, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 72, 80, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 18, 84, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 144, 80, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(18, 15), 84, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(72, 60), 80, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(18, 15), 84, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(18, 15), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(144, 120), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_LULLABY
     {
-        { OCARINA_PITCH_B4, 51, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 25, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 78, 80, 0, 0, 0 },
-        { OCARINA_PITCH_B4, 51, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 25, 88, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 100, 80, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(51, 42), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(25, 21), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(78, 65), 80, 0, 0, 0 },
+        { OCARINA_PITCH_B4, FRAMERATE_CONST(51, 42), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(25, 21), 88, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(100, 83), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SUNS
     {
-        { OCARINA_PITCH_A4, 12, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 13, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 29, 80, 2, 0, 0 },
-        { OCARINA_PITCH_NONE, 9, 84, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 12, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 13, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 120, 80, 3, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(12, 10), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(13, 10), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(29, 25), 80, 2, 0, 0 },
+        { OCARINA_PITCH_NONE, FRAMERATE_CONST(9, 9), 84, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(12, 10), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(13, 10), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(120, 100), 80, 3, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_TIME
     {
-        { OCARINA_PITCH_A4, 32, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 65, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 33, 80, 0, 0, 0 },
-        { OCARINA_PITCH_A4, 32, 84, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 65, 88, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 99, 80, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(32, 26), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(65, 54), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(33, 28), 80, 0, 0, 0 },
+        { OCARINA_PITCH_A4, FRAMERATE_CONST(32, 26), 84, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(65, 54), 88, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(99, 83), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_STORMS
     {
-        { OCARINA_PITCH_D4, 11, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 11, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 45, 80, 0, 0, 0 },
-        { OCARINA_PITCH_D4, 11, 84, 0, 0, 0 },
-        { OCARINA_PITCH_F4, 11, 88, 0, 0, 0 },
-        { OCARINA_PITCH_D5, 90, 80, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(11, 9), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(11, 9), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(45, 37), 80, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(11, 9), 84, 0, 0, 0 },
+        { OCARINA_PITCH_F4, FRAMERATE_CONST(11, 9), 88, 0, 0, 0 },
+        { OCARINA_PITCH_D5, FRAMERATE_CONST(90, 75), 80, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
     // OCARINA_SONG_SCARECROW_SPAWN
     {
-        { OCARINA_PITCH_D4, 3, 0, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(3, 3), 0, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 255, 0, 0, 0 },
     },
 
     // OCARINA_SONG_MEMORY_GAME
     {
-        { OCARINA_PITCH_D4, 3, 0, 0, 0, 0 },
+        { OCARINA_PITCH_D4, FRAMERATE_CONST(3, 3), 0, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 0, 0, 0, 0 },
     },
 };
@@ -2284,7 +2200,7 @@ s32 AudioOcarina_MemoryGameNextNote(void) {
     }
 
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].pitch = randomPitch;
-    sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].length = 45;
+    sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].length = FRAMERATE_CONST(45, 38);
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].volume = 0x50;
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].vibrato = 0;
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos].bend = 0;

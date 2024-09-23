@@ -667,19 +667,19 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1) // Bottle is swung; Bottle is active and can catch things
 #define PLAYER_STATE1_2 (1 << 2)
 #define PLAYER_STATE1_3 (1 << 3)
-#define PLAYER_STATE1_4 (1 << 4)
+#define PLAYER_STATE1_HOSTILE_LOCK_ON (1 << 4) // Currently locked onto a hostile actor. Triggers a "battle" variant of many actions.
 #define PLAYER_STATE1_5 (1 << 5)
 #define PLAYER_STATE1_6 (1 << 6)
-#define PLAYER_STATE1_7 (1 << 7)
+#define PLAYER_STATE1_DEAD (1 << 7) // Player has died. Note that this gets set when the death cutscene has started, after landing from the air.
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
-#define PLAYER_STATE1_ACTOR_CARRY (1 << 11) // Currently carrying an actor
-#define PLAYER_STATE1_12 (1 << 12)
+#define PLAYER_STATE1_CARRYING_ACTOR (1 << 11) // Currently carrying an actor
+#define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charing a spin attack (by holding down the B button)
 #define PLAYER_STATE1_13 (1 << 13)
 #define PLAYER_STATE1_14 (1 << 14)
 #define PLAYER_STATE1_Z_TARGETING (1 << 15) // Either lock-on or parallel is active. This flag is never checked for and is practically unused.
-#define PLAYER_STATE1_16 (1 << 16)
+#define PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS (1 << 16) // Currently focusing on a friendly actor. Includes friendly lock-on, talking, and more. Usually does not include hostile actor lock-on, see `PLAYER_STATE1_HOSTILE_LOCK_ON`.
 #define PLAYER_STATE1_PARALLEL (1 << 17) // "Parallel" mode, Z-Target without an actor lock-on
 #define PLAYER_STATE1_18 (1 << 18)
 #define PLAYER_STATE1_19 (1 << 19)
@@ -812,13 +812,13 @@ typedef struct Player {
     /* 0x05E4 */ ColliderQuad shieldQuad;
     /* 0x0664 */ Actor* focusActor; // Actor that Player and the camera are looking at; Used for lock-on, talking, and more
     /* 0x0668 */ char unk_668[0x004];
-    /* 0x066C */ s32 unk_66C;
+    /* 0x066C */ s32 zTargetActiveTimer; // Non-zero values indicate Z-Targeting should update; Values under 5 indicate lock-on is releasing
     /* 0x0670 */ s32 meleeWeaponEffectIndex;
     /* 0x0674 */ PlayerActionFunc actionFunc;
     /* 0x0678 */ PlayerAgeProperties* ageProperties;
     /* 0x067C */ u32 stateFlags1;
     /* 0x0680 */ u32 stateFlags2;
-    /* 0x0684 */ Actor* unk_684;
+    /* 0x0684 */ Actor* autoLockOnActor; // Actor that is locked onto automatically without player input; see `Player_SetAutoLockOnActor`
     /* 0x0688 */ Actor* boomerangActor;
     /* 0x068C */ Actor* naviActor;
     /* 0x0690 */ s16 naviTextId;

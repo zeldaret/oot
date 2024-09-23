@@ -206,7 +206,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
                 doorType = DOOR_SCENEEXIT;
             } else {
                 this->actionFunc = EnDoor_WaitForCheck;
-                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_LOCK_ON_DISABLED;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_LOCK_ON_DISABLED;
             }
         }
         // Replace the door type it was loaded with by the new type

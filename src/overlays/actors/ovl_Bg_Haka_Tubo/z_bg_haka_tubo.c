@@ -40,7 +40,7 @@ static ColliderCylinderInit sPotColliderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,
@@ -60,7 +60,7 @@ static ColliderCylinderInit sFlamesColliderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,

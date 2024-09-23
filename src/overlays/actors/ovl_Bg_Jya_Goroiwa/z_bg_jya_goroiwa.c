@@ -38,7 +38,7 @@ ActorProfile Bg_Jya_Goroiwa_Profile = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -200,7 +200,7 @@ void BgJyaGoroiwa_Update(Actor* thisx, PlayState* play) {
     s32 bgId;
     Vec3f checkPos;
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         this->actionFunc(this, play);
         BgJyaGoroiwa_UpdateRotation(this);
         checkPos.x = this->actor.world.pos.x;

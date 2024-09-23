@@ -7,7 +7,7 @@
 #include "z_en_ms.h"
 #include "assets/objects/object_ms/object_ms.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnMs_Init(Actor* thisx, PlayState* play);
 void EnMs_Destroy(Actor* thisx, PlayState* play);

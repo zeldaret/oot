@@ -23,6 +23,7 @@
 #include "z64scene.h"
 #include "z64effect.h"
 #include "z64game_over.h"
+#include "z64inventory.h"
 #include "z64item.h"
 #include "z64animation.h"
 #include "z64animation_legacy.h"

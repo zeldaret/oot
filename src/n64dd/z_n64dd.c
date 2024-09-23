@@ -131,7 +131,7 @@ s32 func_801C7064(void) {
 s32 func_801C7098(void) {
     s32 phi_v1;
 
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION < PAL_1_0
     if (0) {}
 #endif
 
@@ -186,7 +186,7 @@ void func_801C711C(void* arg) {
     IrqMgr_RemoveClient(arg0->unk_98, &arg0->unk_90);
 }
 
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
 void func_801C7B28_ne2(void) {
     s32 temp;
 
@@ -268,7 +268,7 @@ void func_801C746C(void* arg0, void* arg1, void* arg2) {
             if (arg2 != NULL) {
                 func_801CA1F0(arg2, 0, 176, 320, 32, 11, sp2C, SCREEN_WIDTH);
             }
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION < PAL_1_0
             osViBlack(0);
 #endif
         }
@@ -306,7 +306,7 @@ s32 func_801C7658(void) {
         return 0;
     }
 
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION < PAL_1_0
     StackCheck_Init(&B_801DAF88, B_801D9F88, STACK_TOP(B_801D9F88), 0, 0x100, "ddmsg");
     osCreateThread(&B_801D9DD8, THREAD_ID_DDMSG, &func_801C711C, &B_801D9B90, STACK_TOP(B_801D9F88), THREAD_PRI_DDMSG);
     osStartThread(&B_801D9DD8);
@@ -348,7 +348,7 @@ s32 func_801C7658(void) {
 }
 
 s32 func_801C7818(void) {
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
     B_801D9DB8 = 1;
     B_801D9DC0 = 0;
 #endif
@@ -361,7 +361,7 @@ s32 func_801C7818(void) {
         Sleep_Usec(1000000 * 1 / 60);
     }
 
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
     if (D_801D2EA8 == 1 || B_801E0F60 == 1 || B_801E0F64 == 1) {
         B_801D9DC0 = osGetTime();
     }

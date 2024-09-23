@@ -10,7 +10,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnDntJiji_Init(Actor* thisx, PlayState* play);
 void EnDntJiji_Destroy(Actor* thisx, PlayState* play);
@@ -61,7 +61,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -116,7 +116,7 @@ void EnDntJiji_Wait(EnDntJiji* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if ((this->timer == 1) && (this->actor.xzDistToPlayer < 150.0f) && !Play_InCsMode(play) &&
-        !(player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY)) {
+        !(player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR)) {
         OnePointCutscene_Init(play, 2230, -99, &this->actor, CAM_ID_MAIN);
         this->timer = 0;
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);

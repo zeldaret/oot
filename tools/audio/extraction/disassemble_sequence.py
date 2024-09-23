@@ -122,7 +122,7 @@ class MMLArg:
 
 class MMLArgBits(MMLArg):
     def read(self, disas):
-        return disas.read_bits(type(self).NBITS)
+        return disas.bits_val
 
 class ArgU8(MMLArg):
     def read(self, disas):
@@ -225,6 +225,17 @@ class ArgStereoConfig(ArgU8):
         strong_rvrb_right = (self.value >> 1) & 1
         strong_rvrb_left = (self.value >> 0) & 1
         return f"{type}, {strong_right}, {strong_left}, {strong_rvrb_right}, {strong_rvrb_left}"
+
+class ArgEffectsConfig(ArgU8):
+    def emit(self, disas):
+        assert (self.value & 0b01000000) == 0
+        headset = str(bool((self.value >> 7) & 1)).upper()
+        type = (self.value >> 4) & 0b11
+        strong_right = (self.value >> 3) & 1
+        strong_left = (self.value >> 2) & 1
+        strong_rvrb_right = (self.value >> 1) & 1
+        strong_rvrb_left = (self.value >> 0) & 1
+        return f"{headset}, {type}, {strong_right}, {strong_left}, {strong_rvrb_right}, {strong_rvrb_left}"
 
 class ArgPortamentoTime(ArgVar):
     def read(self, disas):
@@ -368,6 +379,20 @@ class ArgUnkPtr(ArgAddr):
     def analyze(self, disas):
         disas.add_ref(self.value, SqSection.UNKNOWN)
 
+class ArgLdSampleInst(MMLArg):
+    def read(self, disas):
+        return None
+
+    def emit(self, disas):
+        return "LDSAMPLE_INST"
+
+class ArgLdSampleSfx(MMLArg):
+    def read(self, disas):
+        return None
+
+    def emit(self, disas):
+        return "LDSAMPLE_SFX"
+
 #
 #   COMMANDS
 #
@@ -474,7 +499,7 @@ CMD_SPEC = (
     MMLCmd(0xEC, 'vibreset',      sections=(SqSection.CHAN,)),
     MMLCmd(0xEB, 'fontinstr',     sections=(SqSection.CHAN,), args=(ArgFontId, ArgInstr)),
     MMLCmd(0xEA, 'stop',          sections=(SqSection.CHAN,)),
-    MMLCmd(0xE9, 'notepri',       sections=(SqSection.CHAN,), args=(ArgU8,)),
+    MMLCmd(0xE9, 'notepri',       sections=(SqSection.CHAN,), args=(ArgU4x2,)),
     MMLCmd(0xE8, 'params',        sections=(SqSection.CHAN,), args=(ArgU8, ArgU8, ArgU8, ArgS8, ArgS8, ArgU8, ArgU8, ArgU8,)),
     MMLCmd(0xE7, 'ldparams',      sections=(SqSection.CHAN,), args=(ArgAddr,)),
     MMLCmd(0xE6, 'samplebook',    sections=(SqSection.CHAN,), args=(ArgU8,)),
@@ -497,7 +522,7 @@ CMD_SPEC = (
     MMLCmd(0xD3, 'bend',          sections=(SqSection.CHAN,), args=(ArgS8,)),
     MMLCmd(0xD2, 'sustain',       sections=(SqSection.CHAN,), args=(ArgU8,)),
     MMLCmd(0xD1, 'notealloc',     sections=(SqSection.CHAN,), args=(ArgU8,)),
-    MMLCmd(0xD0, 'effects',       sections=(SqSection.CHAN,), args=(ArgU8,)),
+    MMLCmd(0xD0, 'effects',       sections=(SqSection.CHAN,), args=(ArgEffectsConfig,)),
     MMLCmd(0xCF, 'stptrtoseq',    sections=(SqSection.CHAN,), args=(ArgAddr,)),
     MMLCmd(0xCE, 'ldptr',         sections=(SqSection.CHAN,), args=(ArgAddr,)),
     MMLCmd(0xCD, 'stopchan',      sections=(SqSection.CHAN,), args=(ArgU8,)),
@@ -529,20 +554,19 @@ CMD_SPEC = (
     MMLCmd(0xB2, 'ldseqtoptr',    sections=(SqSection.CHAN,), args=(ArgTblPtr,)),
     MMLCmd(0xB1, 'freefilter',    sections=(SqSection.CHAN,)),
     MMLCmd(0xB0, 'ldfilter',      sections=(SqSection.CHAN,), args=(ArgFilterPtr,)),
-    MMLCmd(0xAA, 'unk_AA',        sections=(SqSection.CHAN,), args=(),                  version=(MMLVersion.MM,)),
     MMLCmd(0xA8, 'randptr',       sections=(SqSection.CHAN,), args=(ArgU16, ArgU16,),   version=(MMLVersion.MM,)),
-    MMLCmd(0xA7, 'unk_A7',        sections=(SqSection.CHAN,), args=(ArgVar,),           version=(MMLVersion.MM,)),
-    MMLCmd(0xA6, 'unk_A6',        sections=(SqSection.CHAN,), args=(ArgVar, ArgVar,),   version=(MMLVersion.MM,)),
+    MMLCmd(0xA7, 'unk_A7',        sections=(SqSection.CHAN,), args=(ArgHex8,),          version=(MMLVersion.MM,)),
+    MMLCmd(0xA6, 'unk_A6',        sections=(SqSection.CHAN,), args=(ArgU8, ArgS16,),    version=(MMLVersion.MM,)),
     MMLCmd(0xA5, 'unk_A5',        sections=(SqSection.CHAN,), args=(),                  version=(MMLVersion.MM,)),
-    MMLCmd(0xA4, 'unk_A4',        sections=(SqSection.CHAN,), args=(ArgVar,),           version=(MMLVersion.MM,)),
+    MMLCmd(0xA4, 'unk_A4',        sections=(SqSection.CHAN,), args=(ArgU8,),            version=(MMLVersion.MM,)),
     MMLCmd(0xA3, 'unk_A3',        sections=(SqSection.CHAN,), args=(),                  version=(MMLVersion.MM,)),
-    MMLCmd(0xA2, 'unk_A2',        sections=(SqSection.CHAN,), args=(ArgVar,),           version=(MMLVersion.MM,)),
+    MMLCmd(0xA2, 'unk_A2',        sections=(SqSection.CHAN,), args=(ArgS16,),           version=(MMLVersion.MM,)),
     MMLCmd(0xA1, 'unk_A1',        sections=(SqSection.CHAN,), args=(),                  version=(MMLVersion.MM,)),
-    MMLCmd(0xA0, 'unk_A0',        sections=(SqSection.CHAN,), args=(ArgVar,),           version=(MMLVersion.MM,)),
+    MMLCmd(0xA0, 'unk_A0',        sections=(SqSection.CHAN,), args=(ArgS16,),           version=(MMLVersion.MM,)),
     # argbits commands
     MMLCmd(0x00, 'cdelay',        sections=(SqSection.CHAN,), args=(ArgBits4,)),
-    MMLCmd(0x10, 'sample',        sections=(SqSection.CHAN,), args=(ArgBits3, ArgAddr,)),
-    MMLCmd(0x18, 'sampleptr',     sections=(SqSection.CHAN,), args=(ArgBits3, ArgAddr,)),
+    MMLCmd(0x10, 'ldsample',      sections=(SqSection.CHAN,), args=(ArgLdSampleInst, IOPort3,)),
+    MMLCmd(0x18, 'ldsample',      sections=(SqSection.CHAN,), args=(ArgLdSampleSfx, IOPort3,)),
     MMLCmd(0x20, 'ldchan',        sections=(SqSection.CHAN,), args=(ArgBits4, ArgChanPtr,)),
     MMLCmd(0x30, 'stcio',         sections=(SqSection.CHAN,), args=(ArgBits4, IOPort8,)),
     MMLCmd(0x40, 'ldcio',         sections=(SqSection.CHAN,), args=(ArgBits4, IOPort8,)),
@@ -688,10 +712,11 @@ class SequenceDisassembler:
                 continue
 
             # find number of lsbits that don't contribute to the command id
-            if len(cmd.args) > 0 and issubclass(cmd.args[0], MMLArgBits):
-                nbits = cmd.args[0].NBITS
-            else:
-                nbits = 0
+            nbits = 0
+            for arg in cmd.args:
+                if issubclass(arg, MMLArgBits):
+                    assert nbits == 0, f"Multiple argbits-type arguments: {cmd}"
+                    nbits = arg.NBITS
 
             id = cmd.cmd_id
 
@@ -700,6 +725,7 @@ class SequenceDisassembler:
 
                 for i in range(1 << nbits):
                     new = cmd
+                    new.mask = (1 << nbits) - 1
                     old = cmds_s.get(id + i, None)
                     if old is not None:
                         assert old.mnemonic in ("notedvg", "notedv", "notevg"), (old.mnemonic, cmd.mnemonic)
@@ -732,9 +758,6 @@ class SequenceDisassembler:
 
     # general helpers
 
-    def read_bits(self, nbits):
-        return self.bits_val
-
     def read_u8(self):
         if self.hit_eof:
             raise Exception()
@@ -763,10 +786,7 @@ class SequenceDisassembler:
             cmd = cmd[int(not self.large_notes)]
 
         # part of the command byte may be an arg, save the value
-        mask = 0
-        if len(cmd.args) > 0 and issubclass(cmd.args[0], MMLArgBits):
-            mask = (1 << cmd.args[0].NBITS) - 1
-        self.bits_val = id & mask
+        self.bits_val = id & cmd.mask
 
         return cmd
 

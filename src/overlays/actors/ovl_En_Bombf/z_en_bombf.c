@@ -43,7 +43,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0x0003F828, 0x00, 0x00 },
         ATELEM_NONE,
@@ -56,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000008, 0x00, 0x08 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
@@ -163,7 +163,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 player->heldActor = NULL;
                 player->interactRangeActor = NULL;
                 this->actor.parent = NULL;
-                player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
+                player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
             }
         } else if (this->bombCollider.base.acFlags & AC_HIT) {
             this->bombCollider.base.acFlags &= ~AC_HIT;
@@ -197,7 +197,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                     player->heldActor = NULL;
                     player->interactRangeActor = NULL;
                     this->actor.parent = NULL;
-                    player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
+                    player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
                     this->actor.world.pos = this->actor.home.pos;
                 }
             }
@@ -215,7 +215,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
             this->actor.parent = NULL;
-            player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
+            player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
             this->actor.world.pos = this->actor.home.pos;
         }
     }
@@ -299,11 +299,11 @@ void EnBombf_Explode(EnBombf* this, PlayState* play) {
     if (this->timer == 0) {
         player = GET_PLAYER(play);
 
-        if ((player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) && (player->heldActor == &this->actor)) {
+        if ((player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
-            player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
+            player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
         }
 
         Actor_Kill(&this->actor);

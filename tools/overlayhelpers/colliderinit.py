@@ -31,14 +31,14 @@ SHAPE_ENUM = [
     "COLSHAPE_TRIS",
     "COLSHAPE_QUAD" ]
 
-ELEMTYPE_UNKENUM = [
-    "ELEMTYPE_UNK0",
-    "ELEMTYPE_UNK1",
-    "ELEMTYPE_UNK2",
-    "ELEMTYPE_UNK3",
-    "ELEMTYPE_UNK4",
-    "ELEMTYPE_UNK5",
-    "ELEMTYPE_UNK6"]
+ELEM_MATERIAL_UNKENUM = [
+    "ELEM_MATERIAL_UNK0",
+    "ELEM_MATERIAL_UNK1",
+    "ELEM_MATERIAL_UNK2",
+    "ELEM_MATERIAL_UNK3",
+    "ELEM_MATERIAL_UNK4",
+    "ELEM_MATERIAL_UNK5",
+    "ELEM_MATERIAL_UNK6"]
 
 ATFLAGS_ENUM = [
     "AT_ON",
@@ -254,7 +254,7 @@ def GetItems(data, off, count, structf, fmt, size):
         cItem = struct.unpack_from(structf, data, off + 0x18 + ioff)
 
         if cBody[0] < 7:
-            cBody[0] = ELEMTYPE_UNKENUM[cBody[0]]
+            cBody[0] = ELEM_MATERIAL_UNKENUM[cBody[0]]
         else:
             cBody[0] = '0x{0:02X}'.format(cBody[0])
 
@@ -302,7 +302,7 @@ def GetCylinder(data, off, type):
     cCyl16 = struct.unpack_from(sf_Cylinder16, data, off + 0x20)
 
     if cBody[0] < 7:
-        cBody[0] = ELEMTYPE_UNKENUM[cBody[0]]
+        cBody[0] = ELEM_MATERIAL_UNKENUM[cBody[0]]
     else:
         cBody[0] = '0x{0:02X}'.format(cBody[0])
 
@@ -335,7 +335,7 @@ def GetQuad(data, off, type):
     cQuad = struct.unpack_from(sf_Quad, data, off + 0x20)
 
     if cBody[0] < 7:
-        cBody[0] = ELEMTYPE_UNKENUM[cBody[0]]
+        cBody[0] = ELEM_MATERIAL_UNKENUM[cBody[0]]
     else:
         cBody[0] = '0x{0:02X}'.format(cBody[0])
 

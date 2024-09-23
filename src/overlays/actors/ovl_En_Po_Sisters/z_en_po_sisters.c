@@ -85,7 +85,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x4FC7FFEA, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -211,7 +211,7 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
             func_80AD9AA8(this, play);
         } else {
             this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_14);
-            this->collider.elem.elemType = ELEMTYPE_UNK4;
+            this->collider.elem.elemMaterial = ELEM_MATERIAL_UNK4;
             this->collider.elem.acDmgInfo.dmgFlags |= DMG_DEKU_NUT;
             this->collider.base.ocFlags1 = OC1_NONE;
             func_80AD9C24(this, NULL);
