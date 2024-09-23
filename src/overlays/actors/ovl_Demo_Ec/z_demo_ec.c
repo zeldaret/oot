@@ -176,20 +176,20 @@ void DemoEc_UpdateBgFlags(DemoEc* this, PlayState* play) {
 }
 
 void func_8096D594(DemoEc* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
-    AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D5D4(DemoEc* this, PlayState* play) {
     this->skelAnime.baseTransl = this->skelAnime.jointTable[0];
     this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
-    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
-    AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D64C(DemoEc* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
-    AnimTaskQueue_AddActorMove(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void DemoEc_UpdateEyes(DemoEc* this) {

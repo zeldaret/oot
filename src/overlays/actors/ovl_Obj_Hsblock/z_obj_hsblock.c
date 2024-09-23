@@ -52,11 +52,11 @@ void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
+void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision, s32 transformFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, moveFlags);
+    DynaPolyActor_Init(&this->dyna, transformFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
