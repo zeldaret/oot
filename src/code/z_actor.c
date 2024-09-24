@@ -2461,7 +2461,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
     if ((actor != NULL) && (actor->update == NULL)) {
         actor = NULL;
-        func_8008EDF0(player);
+        Player_ReleaseLockOn(player);
     }
 
     if ((actor == NULL) || (player->zTargetActiveTimer < 5)) {
@@ -3207,7 +3207,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     ACTOR_DEBUG_PRINTF(T("アクタークラス削除 [%s]\n", "Actor class deleted [%s]\n"), name);
 
     if ((player != NULL) && (actor == player->focusActor)) {
-        func_8008EDF0(player);
+        Player_ReleaseLockOn(player);
         Camera_RequestMode(Play_GetCamera(play, Play_GetActiveCamId(play)), CAM_MODE_NORMAL);
     }
 

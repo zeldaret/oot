@@ -2368,7 +2368,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
  * This is why the function name states `FriendlyLockOn` instead of `FriendlyActorFocus`.
  *
  * There is a special case that allows hostile actors to be treated as "friendly" if Player is carrying another actor
- * See relevant code in `func_80836BEC` for more details.
+ * See relevant code in `Player_UpdateZTargeting` for more details.
  *
  * Additionally, `PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE` will be set very briefly in some conditions when
  * a lock-on is forced to release. In these niche cases, this function will apply to both friendly and hostile actors.
@@ -3633,8 +3633,30 @@ s32 func_80836AB8(Player* this, s32 arg1) {
     return var;
 }
 
-// Player_UpdateZTargeting
-void func_80836BEC(Player* this, PlayState* play) {
+/**
+ * Updates state related to Z-Targeting.
+ *
+ * Z-Targeting is an umbrella term for two main states:
+ * - Actor Lock-on: Player has locked onto an actor, a reticle appears, both Player and the camera focus on the actor.
+ * - Parallel: Player and the camera keep facing the same angle from when Z was pressed. Can snap to walls.
+ *             This state occurs when there are no actors available to lock onto.
+ *
+ * First this function updates `zTargetActiveTimer`. For most Z-Target related states to update, this
+ * timer has to have a non-zero value. Additionally, the timer must have a value of 5 or greater
+ * for the Attention system to recognize that an actor lock-on is active.
+ *
+ * Following this, a next lock-on actor is chosen. If there is currently no actor lock-on active, the actor
+ * Navi is hovering over will be chosen. If there is an active lock-on, the next available
+ * lock-on will be the actor with an arrow hovering above it.
+ *
+ * If the above regarding actor lock-on does not occur, then Z-Parallel can begin.
+ *
+ * Lastly, the function handles updating general "actor focus" state. This applies to non Z-Target states
+ * like talking to an actor. If the current focus actor is not considered "hostile", then
+ * `PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS` can be set. This flag being set will trigger `Player_UpdateCamAndSeqModes`
+ * to make the camera focus on the current focus actor.
+ */
+void Player_UpdateZTargeting(Player* this, PlayState* play) {
     s32 ignoreLeash = false;
     s32 zButtonHeld = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
     Actor* nextLockOnActor;
@@ -3724,7 +3746,7 @@ void func_80836BEC(Player* this, PlayState* play) {
                         this->stateFlags2 &= ~(PLAYER_STATE2_1 | PLAYER_STATE2_21);
                     } else {
                         if (!usingHoldTargeting) {
-                            func_8008EDF0(this);
+                            Player_ReleaseLockOn(this);
                         }
                     }
 
@@ -3740,7 +3762,7 @@ void func_80836BEC(Player* this, PlayState* play) {
             if (this->focusActor != NULL) {
                 if ((this->actor.category == ACTORCAT_PLAYER) && (this->focusActor != this->autoLockOnActor) &&
                     Attention_ShouldReleaseLockOn(this->focusActor, this, ignoreLeash)) {
-                    func_8008EDF0(this);
+                    Player_ReleaseLockOn(this);
                     this->stateFlags1 |= PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE;
                 } else if (this->focusActor != NULL) {
                     this->focusActor->attentionPriority = 40;
@@ -3770,11 +3792,11 @@ void func_80836BEC(Player* this, PlayState* play) {
             if (this->stateFlags1 & PLAYER_STATE1_PARALLEL) {
                 this->stateFlags2 &= ~PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
             } else {
-                func_8008EE08(this);
+                Player_ClearZTargeting(this);
             }
         }
     } else {
-        func_8008EE08(this);
+        Player_ClearZTargeting(this);
     }
 }
 
@@ -11262,7 +11284,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     }
 
     Player_UpdateInterface(play, this);
-    func_80836BEC(this, play);
+
+    Player_UpdateZTargeting(this, play);
 
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
         Player_UpdateBurningDekuStick(play, this);

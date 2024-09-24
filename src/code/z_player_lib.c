@@ -723,12 +723,17 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
     this->itemAction = itemAction;
 }
 
-void func_8008EDF0(Player* this) {
+void Player_ReleaseLockOn(Player* this) {
     this->focusActor = NULL;
     this->stateFlags2 &= ~PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
 }
 
-void func_8008EE08(Player* this) {
+/**
+ * This function aims to clear Z-Target related state when it isn't in use.
+ * It also handles setting a specific free fall related state that is interntwined with Z-Targeting.
+ * TODO: Learn more about this and give a name to PLAYER_STATE1_19
+ */
+void Player_ClearZTargeting(Player* this) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
@@ -739,7 +744,7 @@ void func_8008EE08(Player* this) {
         this->stateFlags1 |= PLAYER_STATE1_19;
     }
 
-    func_8008EDF0(this);
+    Player_ReleaseLockOn(this);
 }
 
 /**
@@ -759,7 +764,7 @@ void func_8008EE08(Player* this) {
 void Player_SetAutoLockOnActor(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
 
-    func_8008EE08(this);
+    Player_ClearZTargeting(this);
     this->focusActor = actor;
     this->autoLockOnActor = actor;
     this->stateFlags1 |= PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS;
