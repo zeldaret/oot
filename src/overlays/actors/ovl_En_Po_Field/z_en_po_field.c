@@ -142,6 +142,8 @@ static EnPoFieldInfo sPoFieldInfo[2] = {
 
 static Vec3f D_80AD714C = { 0.0f, 1400.0f, 0.0f };
 
+#pragma increment_block_number "ntsc-1.2:128"
+
 static Vec3s sSpawnPositions[10];
 static u8 sSpawnSwitchFlags[10];
 static MtxF sLimb7Mtx;
