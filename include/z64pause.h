@@ -87,14 +87,14 @@ typedef enum PauseState {
 typedef enum PauseMainState {
     /* 0 */ PAUSE_MAIN_STATE_IDLE,
     /* 1 */ PAUSE_MAIN_STATE_SWITCHING_PAGE,
-    /* 2 */ PAUSE_MAIN_STATE_2,
+    /* 2 */ PAUSE_MAIN_STATE_SONG_PLAYBACK,
     /* 3 */ PAUSE_MAIN_STATE_3,
-    /* 4 */ PAUSE_MAIN_STATE_4,
-    /* 5 */ PAUSE_MAIN_STATE_5,
-    /* 6 */ PAUSE_MAIN_STATE_6,
+    /* 4 */ PAUSE_MAIN_STATE_SONG_PROMPT_INIT,
+    /* 5 */ PAUSE_MAIN_STATE_SONG_PROMPT,
+    /* 6 */ PAUSE_MAIN_STATE_SONG_PROMPT_DONE,
     /* 7 */ PAUSE_MAIN_STATE_7,
-    /* 8 */ PAUSE_MAIN_STATE_8,
-    /* 9 */ PAUSE_MAIN_STATE_9
+    /* 8 */ PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG,
+    /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START
 } PauseMainState;
 
 // Sub-states of PAUSE_STATE_SAVE_PROMPT
