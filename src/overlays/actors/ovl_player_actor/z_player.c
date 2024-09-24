@@ -5935,75 +5935,163 @@ s32 Player_ActionChange_13(Player* this, PlayState* play) {
     return 0;
 }
 
+// s32 Player_ActionChange_4(Player* this, PlayState* play) {
+//     Actor* sp34 = this->talkActor;
+//     Actor* sp30 = this->focusActor;
+//     Actor* sp2C = NULL;
+//     s32 sp28 = 0;
+//     s32 sp24;
+
+//     sp24 = (sp30 != NULL) && (CHECK_FLAG_ALL(sp30->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
+//                               (sp30->naviEnemyId != NAVI_ENEMY_NONE));
+
+//     if (sp24 || (this->naviTextId != 0)) {
+//         sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
+//         if (sp28 || !sp24) {
+//             sp2C = this->naviActor;
+//             if (sp28) {
+//                 sp30 = NULL;
+//                 sp34 = NULL;
+//             }
+//         } else {
+//             sp2C = sp30;
+//         }
+//     }
+
+//     if ((sp34 != NULL) || (sp2C != NULL)) {
+//         if ((sp30 == NULL) || (sp30 == sp34) || (sp30 == sp2C)) {
+//             if (!(this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) ||
+//                 ((this->heldActor != NULL) && (sp28 || (sp34 == this->heldActor) || (sp2C == this->heldActor) ||
+//                                                ((sp34 != NULL) && (sp34->flags & ACTOR_FLAG_16))))) {
+//                 if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->stateFlags1 & PLAYER_STATE1_23) ||
+//                     (func_808332B8(this) && !(this->stateFlags2 & PLAYER_STATE2_10))) {
+
+//                     if (sp34 != NULL) {
+//                         this->stateFlags2 |= PLAYER_STATE2_1;
+//                         if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (sp34->flags & ACTOR_FLAG_16)) {
+//                             sp2C = NULL;
+//                         } else if (sp2C == NULL) {
+//                             return 0;
+//                         }
+//                     }
+
+//                     if (sp2C != NULL) {
+//                         if (!sp28) {
+//                             this->stateFlags2 |= PLAYER_STATE2_21;
+//                         }
+
+//                         if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && !sp28) {
+//                             return 0;
+//                         }
+
+//                         sp34 = sp2C;
+//                         this->talkActor = NULL;
+
+//                         if (sp28 || !sp24) {
+//                             sp2C->textId = ABS(this->naviTextId);
+//                         } else {
+//                             if (sp2C->naviEnemyId != NAVI_ENEMY_NONE) {
+//                                 sp2C->textId = sp2C->naviEnemyId + 0x600;
+//                             }
+//                         }
+//                     }
+
+//                     this->currentMask = D_80858AA4;
+//                     func_80853148(play, sp34);
+//                     return 1;
+//                 }
+//             }
+//         }
+//     }
+
+//     return 0;
+// }
+
 s32 Player_ActionChange_4(Player* this, PlayState* play) {
-    Actor* sp34 = this->talkActor;
-    Actor* sp30 = this->focusActor;
-    Actor* sp2C = NULL;
-    s32 sp28 = 0;
-    s32 sp24;
+    Actor* talkOfferActor = this->talkActor;
+    Actor* lockOnActor = this->focusActor;
+    Actor* cUpTalkActor = NULL;
+    s32 forceTalkToNavi = false;
+    s32 canTalkToLockOnWithCUp;
 
-    sp24 = (sp30 != NULL) && (CHECK_FLAG_ALL(sp30->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
-                              (sp30->naviEnemyId != NAVI_ENEMY_NONE));
+    canTalkToLockOnWithCUp =
+        (lockOnActor != NULL) && (CHECK_FLAG_ALL(lockOnActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
+                                  (lockOnActor->naviEnemyId != NAVI_ENEMY_NONE));
 
-    if (sp24 || (this->naviTextId != 0)) {
-        sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
-        if (sp28 || !sp24) {
-            sp2C = this->naviActor;
-            if (sp28) {
-                sp30 = NULL;
-                sp34 = NULL;
+    if (canTalkToLockOnWithCUp || (this->naviTextId != 0)) {
+        forceTalkToNavi = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
+
+        if (forceTalkToNavi || !canTalkToLockOnWithCUp) {
+            cUpTalkActor = this->naviActor;
+
+            if (forceTalkToNavi) {
+                lockOnActor = NULL;
+                talkOfferActor = NULL;
             }
         } else {
-            sp2C = sp30;
+            cUpTalkActor = lockOnActor;
         }
     }
 
-    if ((sp34 != NULL) || (sp2C != NULL)) {
-        if ((sp30 == NULL) || (sp30 == sp34) || (sp30 == sp2C)) {
-            if (!(this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) ||
-                ((this->heldActor != NULL) && (sp28 || (sp34 == this->heldActor) || (sp2C == this->heldActor) ||
-                                               ((sp34 != NULL) && (sp34->flags & ACTOR_FLAG_16))))) {
-                if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->stateFlags1 & PLAYER_STATE1_23) ||
-                    (func_808332B8(this) && !(this->stateFlags2 & PLAYER_STATE2_10))) {
+    if ((talkOfferActor != NULL) || (cUpTalkActor != NULL)) {
+        if ((lockOnActor != NULL) && (lockOnActor != talkOfferActor) && (lockOnActor != cUpTalkActor)) {
+            goto dont_talk;
+        }
 
-                    if (sp34 != NULL) {
-                        this->stateFlags2 |= PLAYER_STATE2_1;
-                        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (sp34->flags & ACTOR_FLAG_16)) {
-                            sp2C = NULL;
-                        } else if (sp2C == NULL) {
-                            return 0;
-                        }
-                    }
+        if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
+            if ((this->heldActor == NULL) ||
+                (!forceTalkToNavi && (talkOfferActor != this->heldActor) && (cUpTalkActor != this->heldActor) &&
+                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_16)))) {
+                goto dont_talk;
+            }
+        }
 
-                    if (sp2C != NULL) {
-                        if (!sp28) {
-                            this->stateFlags2 |= PLAYER_STATE2_21;
-                        }
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+            if (!(this->stateFlags1 & PLAYER_STATE1_23) &&
+                !(func_808332B8(this) && !(this->stateFlags2 & PLAYER_STATE2_10))) {
+                goto dont_talk;
+            }
+        }
 
-                        if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && !sp28) {
-                            return 0;
-                        }
+        if (talkOfferActor != NULL) {
+            this->stateFlags2 |= PLAYER_STATE2_1;
 
-                        sp34 = sp2C;
-                        this->talkActor = NULL;
+            if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (talkOfferActor->flags & ACTOR_FLAG_16)) {
+                cUpTalkActor = NULL;
+            } else if (cUpTalkActor == NULL) {
+                return 0;
+            }
+        }
 
-                        if (sp28 || !sp24) {
-                            sp2C->textId = ABS(this->naviTextId);
-                        } else {
-                            if (sp2C->naviEnemyId != NAVI_ENEMY_NONE) {
-                                sp2C->textId = sp2C->naviEnemyId + 0x600;
-                            }
-                        }
-                    }
+        if (cUpTalkActor != NULL) {
+            if (!forceTalkToNavi) {
+                this->stateFlags2 |= PLAYER_STATE2_21;
+            }
 
-                    this->currentMask = D_80858AA4;
-                    func_80853148(play, sp34);
-                    return 1;
+            if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && !forceTalkToNavi) {
+                return 0;
+            }
+
+            talkOfferActor = cUpTalkActor;
+            this->talkActor = NULL;
+
+            if (forceTalkToNavi || !canTalkToLockOnWithCUp) {
+                cUpTalkActor->textId = ABS(this->naviTextId);
+            } else {
+                if (cUpTalkActor->naviEnemyId != NAVI_ENEMY_NONE) {
+                    cUpTalkActor->textId = cUpTalkActor->naviEnemyId + 0x600;
                 }
             }
         }
+
+        this->currentMask = D_80858AA4;
+
+        func_80853148(play, talkOfferActor);
+
+        return 1;
     }
 
+dont_talk:
     return 0;
 }
 
