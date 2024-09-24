@@ -303,7 +303,8 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
         }
         this->attackTimer = 30;
         Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
-        func_8002F71C(play, &this->actor, this->actor.speed + 2.0f, this->actor.yawTowardsPlayer, 6.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, this->actor.speed + 2.0f,
+                                              this->actor.yawTowardsPlayer, 6.0f);
     }
     return false;
 }
@@ -525,7 +526,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, PlayState* play) {
     f32 tgtSpeed;
     f32 rotSpeed;
 
-    if ((this->spinTimer < 31) && (this->invincibilityTimer == 0)) {
+    if ((this->spinTimer <= 30) && (this->invincibilityTimer == 0)) {
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLAME_FIRE_ATTACK - SFX_FLAG);
     } else {
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLAME_ROLL - SFX_FLAG);

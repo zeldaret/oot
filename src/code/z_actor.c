@@ -1901,30 +1901,79 @@ s32 Actor_NotMounted(PlayState* play, Actor* horse) {
     }
 }
 
-void func_8002F698(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5, u32 arg6) {
+/**
+ * Sets the player's knockback properties
+ *
+ * @param play
+ * @param actor source actor applying knockback damage
+ * @param speed
+ * @param rot the direction the player will be pushed
+ * @param yVelocity
+ * @param type PlayerKnockbackType
+ * @param damage additional amount of damage to deal to the player
+ */
+void Actor_SetPlayerKnockback(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 type, u32 damage) {
     Player* player = GET_PLAYER(play);
 
-    player->unk_8A0 = arg6;
-    player->unk_8A1 = arg5;
-    player->unk_8A4 = arg2;
-    player->unk_8A2 = arg3;
-    player->unk_8A8 = arg4;
+    player->knockbackDamage = damage;
+    player->knockbackType = type;
+    player->knockbackSpeed = speed;
+    player->knockbackRot = rot;
+    player->knockbackYVelocity = yVelocity;
 }
 
-void func_8002F6D4(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
-    func_8002F698(play, actor, arg2, arg3, arg4, 2, arg5);
+/**
+ * Knocks the player to the ground
+ *
+ * @param play
+ * @param actor source actor applying knockback damage
+ * @param speed
+ * @param rot the direction the player will be pushed
+ * @param yVelocity
+ * @param damage additional amount of damage to deal to the player
+ */
+void Actor_SetPlayerKnockbackLarge(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
+    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCKBACK_LARGE, damage);
 }
 
-void func_8002F71C(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4) {
-    func_8002F6D4(play, actor, arg2, arg3, arg4, 0);
+/**
+ * Knocks the player to the ground, without applying additional damage
+ *
+ * @param play
+ * @param actor source actor applying knockback damage
+ * @param speed
+ * @param rot the direction the player will be pushed
+ * @param yVelocity
+ */
+void Actor_SetPlayerKnockbackLargeNoDamage(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity) {
+    Actor_SetPlayerKnockbackLarge(play, actor, speed, rot, yVelocity, 0);
 }
 
-void func_8002F758(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
-    func_8002F698(play, actor, arg2, arg3, arg4, 1, arg5);
+/**
+ * Knocks the player back while keeping them on their feet
+ *
+ * @param play
+ * @param actor
+ * @param speed overridden
+ * @param rot the direction the player will be pushed
+ * @param yVelocity overridden
+ * @param damage additional amount of damage to deal to the player
+ */
+void Actor_SetPlayerKnockbackSmall(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
+    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCKBACK_SMALL, damage);
 }
 
-void func_8002F7A0(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4) {
-    func_8002F758(play, actor, arg2, arg3, arg4, 0);
+/**
+ * Knocks the player back while keeping them on their feet, without applying additional damage
+ *
+ * @param play
+ * @param actor
+ * @param speed overridden
+ * @param rot the direction the player will be pushed
+ * @param yVelocity overridden
+ */
+void Actor_SetPlayerKnockbackSmallNoDamage(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity) {
+    Actor_SetPlayerKnockbackSmall(play, actor, speed, rot, yVelocity, 0);
 }
 
 /**
@@ -2412,7 +2461,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
     if ((actor != NULL) && (actor->update == NULL)) {
         actor = NULL;
-        func_8008EDF0(player);
+        Player_ReleaseLockOn(player);
     }
 
     if ((actor == NULL) || (player->zTargetActiveTimer < 5)) {
@@ -3158,7 +3207,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     ACTOR_DEBUG_PRINTF(T("アクタークラス削除 [%s]\n", "Actor class deleted [%s]\n"), name);
 
     if ((player != NULL) && (actor == player->focusActor)) {
-        func_8008EDF0(player);
+        Player_ReleaseLockOn(player);
         Camera_RequestMode(Play_GetCamera(play, Play_GetActiveCamId(play)), CAM_MODE_NORMAL);
     }
 

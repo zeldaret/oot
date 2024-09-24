@@ -97,13 +97,13 @@ void func_8089B4C8(BgJyaZurerukabe* this, PlayState* play) {
             case 3:
             case 5:
                 if (fabsf(D_8089B9C0[D_8089BA30[i]]) > 1.0f) {
-                    func_8002F6D4(play, &this->dyna.actor, 1.5f, this->dyna.actor.shape.rot.y, 0.0f, 0);
+                    Actor_SetPlayerKnockbackLarge(play, &this->dyna.actor, 1.5f, this->dyna.actor.shape.rot.y, 0.0f, 0);
                 }
                 break;
             case 1:
             case 4:
                 if (fabsf(D_8089B9C0[D_8089BA30[i]] - D_8089B9C0[D_8089BA30[i + 1]]) > 1.0f) {
-                    func_8002F6D4(play, &this->dyna.actor, 1.5f, this->dyna.actor.shape.rot.y, 0.0f, 0);
+                    Actor_SetPlayerKnockbackLarge(play, &this->dyna.actor, 1.5f, this->dyna.actor.shape.rot.y, 0.0f, 0);
                 }
                 break;
         }

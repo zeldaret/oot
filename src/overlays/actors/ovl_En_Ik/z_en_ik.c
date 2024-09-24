@@ -820,7 +820,7 @@ void EnIk_UpdateEnemy(Actor* thisx, PlayState* play) {
                 prevInvincibilityTimer = player->invincibilityTimer;
 
                 if (player->invincibilityTimer <= 0) {
-                    if (player->invincibilityTimer < -39) {
+                    if (player->invincibilityTimer <= -40) {
                         player->invincibilityTimer = 0;
                     } else {
                         player->invincibilityTimer = 0;
@@ -829,7 +829,7 @@ void EnIk_UpdateEnemy(Actor* thisx, PlayState* play) {
                     }
                 }
 
-                func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
                 player->invincibilityTimer = prevInvincibilityTimer;
             }
         }

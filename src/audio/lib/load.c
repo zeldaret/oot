@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "versions.h"
 
 #define MK_ASYNC_MSG(retData, tableType, id, loadStatus) \
     (((retData) << 24) | ((tableType) << 16) | ((id) << 8) | (loadStatus))
@@ -1149,6 +1150,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     }
 
     // 1000 is a conversion from seconds to milliseconds
+#if !OOT_PAL_N64
     switch (osTvType) {
         case OS_TV_PAL:
             gAudioCtx.maxTempoTvTypeFactors = 1000 * REFRESH_RATE_DEVIATION_PAL / REFRESH_RATE_PAL;
@@ -1166,6 +1168,15 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
             gAudioCtx.refreshRate = REFRESH_RATE_NTSC;
             break;
     }
+#else
+    switch (osTvType) {
+        case OS_TV_PAL:
+        default:
+            gAudioCtx.maxTempoTvTypeFactors = 1000 * REFRESH_RATE_DEVIATION_PAL / REFRESH_RATE_PAL;
+            gAudioCtx.refreshRate = REFRESH_RATE_PAL;
+            break;
+    }
+#endif
 
     AudioThread_InitMesgQueues();
 
@@ -1195,8 +1206,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
         gAudioCtx.audioHeap = gAudioHeap;
         gAudioCtx.audioHeapSize = gAudioHeapInitSizes.heapSize;
     } else {
-        void** hp = &heap;
-        gAudioCtx.audioHeap = *hp;
+        gAudioCtx.audioHeap = heap;
         gAudioCtx.audioHeapSize = heapSize;
     }
 
