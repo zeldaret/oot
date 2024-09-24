@@ -23,15 +23,15 @@ OSTime sGraphPrevTaskTimeStart;
 FaultClient sGraphFaultClient;
 
 UCodeInfo D_8012D230[3] = {
-    { UCODE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
-    { UCODE_UNK, NULL },
-    { UCODE_S2DEX, gspS2DEX2d_fifoTextStart },
+    { UCODE_TYPE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
+    { UCODE_TYPE_UNK, NULL },
+    { UCODE_TYPE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
 
 UCodeInfo D_8012D248[3] = {
-    { UCODE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
-    { UCODE_UNK, NULL },
-    { UCODE_S2DEX, gspS2DEX2d_fifoTextStart },
+    { UCODE_TYPE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
+    { UCODE_TYPE_UNK, NULL },
+    { UCODE_TYPE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
 
 void Graph_FaultClient(void) {

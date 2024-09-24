@@ -3,10 +3,12 @@
 
 #include "ultra64.h"
 
-#define UCODE_NULL      0
-#define UCODE_F3DZEX    1
-#define UCODE_UNK       2
-#define UCODE_S2DEX     3
+typedef enum UcodeType {
+    /* 0 */ UCODE_TYPE_NULL,
+    /* 1 */ UCODE_TYPE_F3DZEX,
+    /* 2 */ UCODE_TYPE_UNK, // Likely F3DEX2 or a similar variant
+    /* 3 */ UCODE_TYPE_S2DEX
+} UcodeType;
 
 typedef struct UCodeInfo {
     /* 0x00 */ u32 type;
