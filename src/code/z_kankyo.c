@@ -146,16 +146,19 @@ TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9] = {
     },
 };
 
-//! @brief File data for the "normal" skybox used in the overworld.
-//! Up to two different skyboxes can loaded at once for the purpose of blending. Skyboxes can only
-//! transition either to the next step in the day night cycle (e.g clear day to clear sunset),
-//! or the opposing weather condition in the same step of the day/night cycle (e.g. cloudy night to clear night).
-//
-//! The skybox image data is color indexed, capped to a maximum 128 colors to allow the palette data for two different
-//! skyboxes to fit in one 256 color tlut. This means the image data for the skyboxes is required to alternate between
-//! starting at color index 0 and color index 128.
-//
-//! IS_NORMAL_SKY_PALETTE_ALLOC_FRONT depends on the order of this table to determine where to write palette data.
+/**
+ * File data for the "normal" skybox used in the overworld.
+ *
+ * Up to two different skyboxes can loaded at once for the purpose of blending. Skyboxes can only
+ * transition either to the next step in the day night cycle (e.g clear day to clear sunset),
+ * or the opposing weather condition in the same step of the day/night cycle (e.g. cloudy night to clear night).
+ *
+ * The skybox image data is color indexed, capped to a maximum 128 colors to allow the palette data for two different
+ * skyboxes to fit in one 256 color tlut. This means the image data for the skyboxes is required to alternate between
+ * starting at color index 0 and color index 128.
+ *
+ * IS_NORMAL_SKYBOX_IMAGE_COLOR_INDEX_0 depends on the order of this table to determine where to write palette data.
+ */
 SkyboxFile gNormalSkyFiles[] = {
     // Clear Sky
     {
@@ -191,8 +194,8 @@ SkyboxFile gNormalSkyFiles[] = {
         ROM_FILE(vr_cloud3_static), // color index start 128
         ROM_FILE(vr_cloud3_pal_static),
     },
-    // Holy Sky
-    // Will appear incorrect due to IS_NORMAL_SKY_PALETTE_ALLOC_FRONT putting the palette at color index 128
+    // Holy Sky (Unused)
+    // Will appear incorrectly due to IS_NORMAL_SKYBOX_IMAGE_COLOR_INDEX_0 putting the palette at color index 128
     {
         ROM_FILE(vr_holy0_static), // color index start 0
         ROM_FILE(vr_holy0_pal_static),
@@ -294,8 +297,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     Lights_DirectionalSetInfo(&envCtx->dirLight2, 80, 80, 80, 80, 80, 80);
     LightContext_InsertLight(play, &play->lightCtx, &envCtx->dirLight2);
 
-    envCtx->skybox1Index = SKYBOX_INDEX_INIT_MAGIC;
-    envCtx->skybox2Index = SKYBOX_INDEX_INIT_MAGIC;
+    envCtx->skybox1Index = SKYBOX_INDEX_INIT;
+    envCtx->skybox2Index = SKYBOX_INDEX_INIT;
 
     envCtx->changeSkyboxState = CHANGE_SKYBOX_INACTIVE;
     envCtx->changeSkyboxTimer = 0;
@@ -765,8 +768,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         if (envCtx->skyboxDmaState == SKYBOX_DMA_TEXTURE1_DONE) {
             envCtx->skyboxDmaState = SKYBOX_DMA_TLUT1_START;
 
-            if (IS_NORMAL_SKY_PALETTE_ALLOC_FRONT(newSkybox1Index)) {
-                // Reserve palette at the front
+            if (IS_NORMAL_SKYBOX_IMAGE_COLOR_INDEX_0(newSkybox1Index)) {
+                // Reserve palette color index 0-127
                 size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
 
@@ -775,7 +778,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                                   gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                   "../z_kankyo.c", 1307);
             } else {
-                // Reserve palette at the back
+                // Reserve palette color index 128-255
                 size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
@@ -788,8 +791,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         if (envCtx->skyboxDmaState == SKYBOX_DMA_TEXTURE2_DONE) {
             envCtx->skyboxDmaState = SKYBOX_DMA_TLUT2_START;
 
-            if (IS_NORMAL_SKY_PALETTE_ALLOC_FRONT(newSkybox2Index)) {
-                // Reserve palette at the front
+            if (IS_NORMAL_SKYBOX_IMAGE_COLOR_INDEX_0(newSkybox2Index)) {
+                // Reserve palette color index 0-127
                 size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
 
@@ -798,7 +801,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                                   gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                   "../z_kankyo.c", 1342);
             } else {
-                // Reserve palette at the back
+                // Reserve palette color index 128-255
                 size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);

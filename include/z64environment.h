@@ -87,7 +87,7 @@ typedef enum {
     SKYBOX_INDEX_HOLY_RESERVED_10,
     SKYBOX_INDEX_HOLY_RESERVED_11,
 // Error checking
-    SKYBOX_INDEX_INIT_MAGIC = 99, // Magic number used to detect a fault during initialization, value unused.
+    SKYBOX_INDEX_INIT = 99, // Magic number used to detect a fault during initialization, value unused.
     SKYBOX_INDEX_UNDEFINED = 0xFF
 } SkyboxIndex;
 
