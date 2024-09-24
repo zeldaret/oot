@@ -34,6 +34,7 @@
 #include "z64pause.h"
 #include "z64play.h"
 #include "z64skin.h"
+#include "z64skin_matrix.h"
 #include "z64game.h"
 #include "z64transition.h"
 #include "z64transition_instances.h"
