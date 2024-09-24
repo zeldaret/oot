@@ -1,6 +1,7 @@
 #include "global.h"
 #include "fault.h"
 #include "terminal.h"
+#include "ucode_disas.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
