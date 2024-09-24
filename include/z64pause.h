@@ -87,14 +87,14 @@ typedef enum PauseState {
 typedef enum PauseMainState {
     /* 0 */ PAUSE_MAIN_STATE_IDLE,
     /* 1 */ PAUSE_MAIN_STATE_SWITCHING_PAGE,
-    /* 2 */ PAUSE_MAIN_STATE_SONG_PLAYBACK,
+    /* 2 */ PAUSE_MAIN_STATE_SONG_PLAYBACK, // The song is being played back to the player.
     /* 3 */ PAUSE_MAIN_STATE_3,
-    /* 4 */ PAUSE_MAIN_STATE_SONG_PROMPT_INIT,
-    /* 5 */ PAUSE_MAIN_STATE_SONG_PROMPT,
-    /* 6 */ PAUSE_MAIN_STATE_SONG_PROMPT_DONE,
+    /* 4 */ PAUSE_MAIN_STATE_SONG_PROMPT_INIT, // Start the prompt for the player to play the song.
+    /* 5 */ PAUSE_MAIN_STATE_SONG_PROMPT, // Waiting for the player to play the song.
+    /* 6 */ PAUSE_MAIN_STATE_SONG_PROMPT_DONE, // The song prompt is done, the player either played the song successfully or made a mistake.
     /* 7 */ PAUSE_MAIN_STATE_7,
-    /* 8 */ PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG,
-    /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START
+    /* 8 */ PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG, // Like PAUSE_MAIN_STATE_IDLE, but the quest page is active and the cursor is positioned on a song.
+    /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START // Start playing the song back to the player.
 } PauseMainState;
 
 // Sub-states of PAUSE_STATE_SAVE_PROMPT
