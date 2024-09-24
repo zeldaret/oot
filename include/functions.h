@@ -940,11 +940,6 @@ void* DebugArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line
 void DebugArena_FreeDebug(void* ptr, const char* file, int line);
 void DebugArena_Display(void);
 #endif
-void UCodeDisas_Init(UCodeDisas*);
-void UCodeDisas_Destroy(UCodeDisas*);
-void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
-void UCodeDisas_RegisterUCode(UCodeDisas*, s32, UCodeInfo*);
-void UCodeDisas_SetCurUCode(UCodeDisas*, void*);
 Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);
 void AudioHeap_DiscardFont(s32 fontId);
 void AudioHeap_ReleaseNotesForFont(s32 fontId);
