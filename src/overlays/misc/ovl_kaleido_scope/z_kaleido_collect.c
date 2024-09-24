@@ -55,8 +55,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
     static s16 sPlayedSongBtnsNum = 0;
     static s16 sPlaybackSongStartDelayTimer = 0;
-    static u8 sPlayedSongBtns[SONG_MAX_LENGTH] = { 0 };
-    static s32 sUnused1 = 0;
+    static u8 sPlayedSongBtns[SONG_MAX_LENGTH + 1] = { 0 };
     static void* sOcarinaBtnTextures[] = {
         gOcarinaBtnIconATex,      // OCARINA_BTN_A
         gOcarinaBtnIconCDownTex,  // OCARINA_BTN_C_DOWN
@@ -68,7 +67,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC,
     };
     static s16 sPlayedSongBtnsAlpha[SONG_MAX_LENGTH] = { 0 };
-    static s32 sUnused2 = 0;
+    static s32 sUnused = 0;
 
     static s16 sSongsPrimRed[] = {
         150, 255, 100, 255, 255, 255, 255, 255, 255, 255, 255, 255,
