@@ -142,7 +142,7 @@ static EnPoFieldInfo sPoFieldInfo[2] = {
 
 static Vec3f D_80AD714C = { 0.0f, 1400.0f, 0.0f };
 
-#pragma increment_block_number "ntsc-1.2:128"
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ntsc-1.2:128"
 
 static Vec3s sSpawnPositions[10];
 static u8 sSpawnSwitchFlags[10];
