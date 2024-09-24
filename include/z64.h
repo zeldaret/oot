@@ -62,6 +62,7 @@
 #include "thga.h"
 #include "speedmeter.h"
 #include "gfx.h"
+#include "gfx_setupdl.h"
 #include "jpeg.h"
 #include "prerender.h"
 #include "rand.h"
