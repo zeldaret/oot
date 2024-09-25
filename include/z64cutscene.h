@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+struct PlayState;
+
 typedef union CutsceneData {
     s32 i;
     f32 f;
@@ -512,5 +514,14 @@ typedef struct CutsceneContext {
     /* 0x24 */ CsCmdActorCue* playerCue;
     /* 0x28 */ CsCmdActorCue* actorCues[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
+
+void Cutscene_InitContext(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_StartManual(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_StopManual(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_UpdateManual(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_UpdateScripted(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_HandleEntranceTriggers(struct PlayState* play);
+void Cutscene_HandleConditionalTriggers(struct PlayState* play);
+void Cutscene_SetScript(struct PlayState* play, void* script);
 
 #endif
