@@ -422,35 +422,6 @@ s32 DynaPolyActor_IsPlayerOnTop(DynaPolyActor* dynaActor);
 s32 DynaPolyActor_IsPlayerAbove(DynaPolyActor* dynaActor);
 s32 func_800435B4(DynaPolyActor* dynaActor);
 s32 func_800435D8(PlayState* play, DynaPolyActor* dynaActor, s16 arg2, s16 arg3, s16 arg4);
-void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState* play);
-void Camera_InitDataUsingPlayer(Camera* camera, Player* player);
-s16 Camera_ChangeStatus(Camera* camera, s16 status);
-Vec3s Camera_Update(Camera* camera);
-void Camera_Finish(Camera* camera);
-s32 Camera_RequestMode(Camera* camera, s16 mode);
-s32 Camera_CheckValidMode(Camera* camera, s16 mode);
-s32 Camera_RequestSetting(Camera* camera, s16 setting);
-s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex);
-s16 Camera_GetInputDirYaw(Camera* camera);
-Vec3s Camera_GetCamDir(Camera* camera);
-s16 Camera_GetCamDirPitch(Camera* camera);
-s16 Camera_GetCamDirYaw(Camera* camera);
-s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 y, s32 duration);
-s32 Camera_SetViewParam(Camera* camera, s32 viewFlag, void* param);
-s32 Camera_OverwriteStateFlags(Camera* camera, s16 stateFlags);
-s16 Camera_SetStateFlag(Camera* camera, s16 stateFlag);
-s16 Camera_UnsetStateFlag(Camera* camera, s16 stateFlag);
-s32 Camera_ResetAnim(Camera* camera);
-s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints, Player* player,
-                       s16 relativeToPlayer);
-s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamIndex, f32 arg3, s16 timer1, s16 timer2,
-                         s16 timer3);
-s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
-Vec3f Camera_GetQuakeOffset(Camera* camera);
-void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
-                          UNK_TYPE arg6);
-s32 func_8005B198(void);
-s16 Camera_SetFinishedFlag(Camera* camera);
 
 void SaveContext_Init(void);
 s32 func_800635D0(s32);
@@ -466,14 +437,7 @@ DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, 
                                         f32 scaleY, f32 scaleZ, u8 red, u8 green, u8 blue, u8 alpha, s16 type,
                                         GraphicsContext* gfxCtx);
 void DebugDisplay_DrawObjects(PlayState* play);
-void Cutscene_InitContext(PlayState* play, CutsceneContext* csCtx);
-void Cutscene_StartManual(PlayState* play, CutsceneContext* csCtx);
-void Cutscene_StopManual(PlayState* play, CutsceneContext* csCtx);
-void Cutscene_UpdateManual(PlayState* play, CutsceneContext* csCtx);
-void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx);
-void Cutscene_HandleEntranceTriggers(PlayState* play);
-void Cutscene_HandleConditionalTriggers(PlayState* play);
-void Cutscene_SetScript(PlayState* play, void* script);
+
 void* MemCpy(void* dest, const void* src, s32 len);
 void GetItem_Draw(PlayState* play, s16 drawId);
 
@@ -497,46 +461,7 @@ void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);
 void Font_LoadOrderedFont(Font* font);
-s32 Environment_ZBufValToFixedPoint(s32 zBufferVal);
-u16 Environment_GetPixelDepth(s32 x, s32 y);
-void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param);
-void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused);
-u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep);
-u8 Environment_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep);
-f32 Environment_LerpWeight(u16 max, u16 min, u16 val);
-f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame, u16 accelDuration, u16 decelDuration);
-void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex);
-void Environment_DisableUnderwaterLights(PlayState* play);
-void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContext* lightCtx,
-                        PauseContext* pauseCtx, MessageContext* msgCtx, GameOverContext* gameOverCtx,
-                        GraphicsContext* gfxCtx);
-void Environment_DrawSunAndMoon(PlayState* play);
-void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view,
-                                  GraphicsContext* gfxCtx, Vec3f pos, s32 unused);
-void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view,
-                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
-                               s16 glareStrength, u8 isSun);
-void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx);
-void Environment_ChangeLightSetting(PlayState* play, u32 lightSetting);
-void Environment_UpdateLightningStrike(PlayState* play);
-void Environment_AddLightningBolts(PlayState* play, u8 num);
-void Environment_DrawLightning(PlayState* play, s32 unused);
-void Environment_PlaySceneSequence(PlayState* play);
-void Environment_DrawCustomLensFlare(PlayState* play);
-void Environment_InitGameOverLights(PlayState* play);
-void Environment_FadeInGameOverLights(PlayState* play);
-void Environment_FadeOutGameOverLights(PlayState* play);
-void Environment_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 alpha, u8 drawFlags);
-void Environment_DrawSandstorm(PlayState* play, u8 sandstormState);
-void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
-s32 Environment_GetBgsDayCount(void);
-void Environment_ClearBgsDayCount(void);
-s32 Environment_GetTotalDays(void);
-void Environment_ForcePlaySequence(u16 seqId);
-s32 Environment_IsForcedSequenceDisabled(void);
-void Environment_PlayStormNatureAmbience(PlayState* play);
-void Environment_StopStormNatureAmbience(PlayState* play);
-void Environment_WarpSongLeave(PlayState* play);
+
 void Health_InitMeter(PlayState* play);
 void Health_UpdateMeter(PlayState* play);
 void Health_DrawMeter(PlayState* play);
@@ -794,13 +719,7 @@ void TransitionFade_Draw(void* thisx, Gfx** gfxP);
 s32 TransitionFade_IsDone(void* thisx);
 void TransitionFade_SetColor(void* thisx, u32 color);
 void TransitionFade_SetType(void* thisx, s32 type);
-void Letterbox_SetSizeTarget(s32 target);
-u32 Letterbox_GetSizeTarget(void);
-void Letterbox_SetSize(s32 size);
-u32 Letterbox_GetSize(void);
-void Letterbox_Init(void);
-void Letterbox_Destroy(void);
-void Letterbox_Update(s32 updateRate);
+
 void DebugCamera_Init(DebugCam* debugCam, Camera* cameraPtr);
 void DebugCamera_Enable(DebugCam* debugCam, Camera* cam);
 void DebugCamera_Update(DebugCam* debugCam, Camera* cam);
