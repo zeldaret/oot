@@ -2,6 +2,7 @@
 #include "fault.h"
 #include "libc64/os_malloc.h"
 #include "terminal.h"
+#include "versions.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -280,6 +281,14 @@ void GameState_Update(GameState* gameState) {
 #endif
 
     func_800C4344(gameState);
+
+#if OOT_VERSION < PAL_1_0
+    if (SREG(48) != 0) {
+        ViMode_Update(&sViMode, &gameState->input[0]);
+        gfxCtx->viMode = &sViMode.customViMode;
+        gfxCtx->viFeatures = sViMode.viFeatures;
+    }
+#endif
 
 #if OOT_DEBUG
     if (SREG(63) == 1u) {

@@ -15,9 +15,11 @@ beginseg
     name "boot"
     address 0x80000460
     include "$(BUILD_DIR)/src/boot/boot_main.o"
-    include "$(BUILD_DIR)/data/unk_80009410.data.o"
     include "$(BUILD_DIR)/src/boot/idle.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/boot/viconfig.o"
+#endif
+    include "$(BUILD_DIR)/src/boot/carthandle.o"
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
     include "$(BUILD_DIR)/src/boot/yaz0.o"
     include "$(BUILD_DIR)/src/boot/z_locale.o"
@@ -41,8 +43,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
     include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
     include "$(BUILD_DIR)/src/libultra/os/stopthread.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/viextendvstart.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/recvmesg.o"
 #if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/initialize.o"
@@ -92,7 +96,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/setthreadpri.o"
     include "$(BUILD_DIR)/src/libultra/os/getthreadpri.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawread.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/epirawdma.o"
 #if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
@@ -114,10 +120,15 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
 #endif
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/viswapcontext.o"
     include "$(BUILD_DIR)/src/libultra/io/pigetcmdq.o"
     include "$(BUILD_DIR)/src/libultra/io/epiread.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/cartrominit.o"
 #if OOT_PAL_N64 || OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
@@ -143,8 +154,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/vimgr.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrcontext.o"
     include "$(BUILD_DIR)/src/libultra/os/startthread.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/visetyscale.o"
     include "$(BUILD_DIR)/src/libultra/io/visetxscale.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/sethwintrroutine.o"
     include "$(BUILD_DIR)/src/libultra/os/gethwintrroutine.o"
 #if !PLATFORM_N64
@@ -452,6 +465,15 @@ beginseg
     number 7
 endseg
 
+#if OOT_NTSC && OOT_VERSION < NTSC_1_2
+beginseg
+    name "jpn_message_data_static"
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/text/jpn_message_data_static.o"
+    number 8
+endseg
+#endif
+
 beginseg
     name "message_texture_static"
     romalign 0x1000
@@ -466,7 +488,7 @@ beginseg
     number 10
 endseg
 
-#if OOT_NTSC
+#if OOT_NTSC && OOT_VERSION >= NTSC_1_2
 beginseg
     name "jpn_message_data_static"
     romalign 0x1000
@@ -807,6 +829,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
+#endif
 #if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
 #endif
@@ -828,6 +853,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/ortho.o"
     include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
     include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/coss.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/settime.o"
@@ -851,7 +879,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
-#if !OOT_PAL_N64 && !OOT_DEBUG
+#if OOT_VERSION == NTSC_1_2 || (PLATFORM_GC && !OOT_DEBUG)
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
 #endif
 #if !OOT_DEBUG
@@ -886,6 +914,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/mtxf2l.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/visetyscale.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
     include "$(BUILD_DIR)/src/libc/sqrt.o"
