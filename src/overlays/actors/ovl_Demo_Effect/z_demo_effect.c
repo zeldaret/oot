@@ -847,6 +847,9 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
  */
 void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, PlayState* play) {
     if (this->lightRing.timer < this->lightRing.timerIncrement) {
+#if OOT_VERSION < PAL_1_0
+        this->lightRing.timer = 0;
+#endif
         Actor_Kill(&this->actor);
         this->lightRing.timer = 0;
     } else {
@@ -960,10 +963,18 @@ void DemoEffect_InitCreationFireball(DemoEffect* this, PlayState* play) {
     Actor* parent = this->actor.parent;
 
     this->actor.world.rot.y = parent->shape.rot.y;
+
     this->fireBall.timer = FRAMERATE_CONST(50, 42);
     this->actor.speed = FRAMERATE_CONST(1.5f, 1.8f);
+
+#if OOT_VERSION < PAL_1_0
+    this->actor.gravity = -0.03f;
+    this->actor.minVelocityY = -1.5f;
+#else
     this->actor.minVelocityY = FRAMERATE_CONST(-1.5f, -2.5f);
     this->actor.gravity = FRAMERATE_CONST(-0.03f, -0.05f);
+#endif
+
     this->updateFunc = DemoEffect_UpdateCreationFireball;
 }
 
