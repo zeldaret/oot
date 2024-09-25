@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_po_composer" Segment="6">
         <Animation Name="gPoeComposerAttackAnim" Offset="0x020C"/>
         <Animation Name="gPoeComposerDamagedAnim" Offset="0x0570"/>

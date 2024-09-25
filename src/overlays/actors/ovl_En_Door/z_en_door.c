@@ -32,7 +32,7 @@ void EnDoor_AjarOpen(EnDoor* this, PlayState* play);
 void EnDoor_AjarClose(EnDoor* this, PlayState* play);
 void EnDoor_Open(EnDoor* this, PlayState* play);
 
-ActorInit En_Door_InitVars = {
+ActorProfile En_Door_Profile = {
     /**/ ACTOR_EN_DOOR,
     /**/ ACTORCAT_DOOR,
     /**/ FLAGS,
@@ -44,13 +44,13 @@ ActorInit En_Door_InitVars = {
     /**/ EnDoor_Draw,
 };
 
-typedef struct {
+typedef struct EnDoorInfo {
     /* 0x00 */ s16 sceneId;
     /* 0x02 */ u8 dListIndex;
     /* 0x04 */ s16 objectId;
 } EnDoorInfo;
 
-typedef enum {
+typedef enum EnDoorDListIndex {
     /* 0 */ DOOR_DL_DEFAULT,
     /* 1 */ DOOR_DL_FIRE_TEMPLE,
     /* 2 */ DOOR_DL_WATER_TEMPLE,
@@ -73,7 +73,7 @@ static EnDoorInfo sDoorInfo[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 0, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_0, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
@@ -144,7 +144,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
     }
 
     // Double doors
-    if (ENDOOR_IS_DOUBLE_DOOR(&this->actor)) {
+    if (ENDOOR_GET_IS_DOUBLE_DOOR(&this->actor)) {
         EnDoor* other;
 
         xOffset = Math_CosS(this->actor.shape.rot.y) * 30.0f;
@@ -152,7 +152,7 @@ void EnDoor_Init(Actor* thisx, PlayState* play2) {
         other = (EnDoor*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DOOR,
                                             this->actor.world.pos.x + xOffset, this->actor.world.pos.y,
                                             this->actor.world.pos.z - zOffset, 0, this->actor.shape.rot.y + 0x8000, 0,
-                                            this->actor.params & ~ENDOOR_PARAMS_DOUBLE_DOOR_FLAG);
+                                            this->actor.params & ~ENDOOR_PARAMS_IS_DOUBLE_DOOR_MASK);
         if (other != NULL) {
             other->unk_192 = 1;
         }
@@ -166,7 +166,7 @@ void EnDoor_Destroy(Actor* thisx, PlayState* play) {
     TransitionActorEntry* transitionEntry;
     EnDoor* this = (EnDoor*)thisx;
 
-    transitionEntry = &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
+    transitionEntry = &play->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
     if (transitionEntry->id < 0) {
         transitionEntry->id = -transitionEntry->id;
     }
@@ -206,7 +206,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
                 doorType = DOOR_SCENEEXIT;
             } else {
                 this->actionFunc = EnDoor_WaitForCheck;
-                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_LOCK_ON_DISABLED;
             }
         }
         // Replace the door type it was loaded with by the new type
@@ -220,7 +220,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
     Vec3f playerPosRelToDoor;
 
     doorType = ENDOOR_GET_TYPE(&this->actor);
-    func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
     if (this->playerIsOpening) {
         this->actionFunc = EnDoor_Open;
         Animation_PlayOnceSetSpeed(&this->skelAnime, sDoorAnims[this->openAnim],
@@ -334,7 +334,7 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         TransitionActorEntry* transitionEntry;
         Gfx** doorDLists = sDoorDLists[this->dListIndex];
 
-        transitionEntry = &play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
+        transitionEntry = &play->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(&this->actor)];
         rot->z += this->actor.world.rot.y;
         if ((play->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
             // Draw the side of the door that is visible to the camera

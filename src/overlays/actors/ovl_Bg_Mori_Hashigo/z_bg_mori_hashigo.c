@@ -24,7 +24,7 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
-ActorInit Bg_Mori_Hashigo_InitVars = {
+ActorProfile Bg_Mori_Hashigo_Profile = {
     /**/ ACTOR_BG_MORI_HASHIGO,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -39,7 +39,7 @@ ActorInit Bg_Mori_Hashigo_InitVars = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK4,
+            ELEM_MATERIAL_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F820, 0x00, 0x00 },
             ATELEM_NONE,
@@ -52,7 +52,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -64,9 +64,12 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static InitChainEntry sInitChainClasp[] = {
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),  ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE), ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 40, ICHAIN_CONTINUE),    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_3, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 40, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
 static InitChainEntry sInitChainLadder[] = {
@@ -135,7 +138,7 @@ s32 BgMoriHashigo_SpawnLadder(BgMoriHashigo* this, PlayState* play) {
 
 s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChainClasp);
-    this->dyna.actor.flags |= ACTOR_FLAG_0;
+    this->dyna.actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_SetFocus(&this->dyna.actor, 55.0f);
     BgMoriHashigo_InitCollider(this, play);
     if ((this->dyna.actor.params == HASHIGO_CLASP) && !BgMoriHashigo_SpawnLadder(this, play)) {
@@ -286,11 +289,9 @@ void BgMoriHashigo_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hashigo.c", 516);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    if (1) {}
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_hashigo.c", 521),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_hashigo.c", 521);
 
     switch (this->dyna.actor.params) {
         case HASHIGO_CLASP:

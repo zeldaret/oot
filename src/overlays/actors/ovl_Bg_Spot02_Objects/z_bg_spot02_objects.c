@@ -31,7 +31,7 @@ static void* D_808AD850[] = {
     object_spot02_objects_Tex_0102B0, object_spot02_objects_Tex_010EB0, object_spot02_objects_Tex_011AB0,
 };
 
-ActorInit Bg_Spot02_Objects_InitVars = {
+ActorProfile Bg_Spot02_Objects_Profile = {
     /**/ ACTOR_BG_SPOT02_OBJECTS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -53,8 +53,8 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
-    this->unk_16B = (u16)(thisx->params >> 8);
-    thisx->params = (u16)(thisx->params & 0xFF);
+    this->unk_16B = (u16)PARAMS_GET_NOMASK(thisx->params, 8);
+    thisx->params = (u16)PARAMS_GET_U(thisx->params, 0, 8);
 
     switch (thisx->params) {
         case 0:
@@ -178,7 +178,7 @@ void func_808ACB58(BgSpot02Objects* this, PlayState* play) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808AC8FC;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
     }
 }
 
@@ -255,8 +255,7 @@ void func_808ACCB8(Actor* thisx, PlayState* play2) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, redPrim, greenPrim, bluePrim, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, redEnv, greenEnv, blueEnv, 255);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot02_objects.c", 679),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot02_objects.c", 679);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_808AD850[this->unk_16A]));
         gDPPipeSync(POLY_XLU_DISP++);
         gSPDisplayList(POLY_XLU_DISP++, object_spot02_objects_DL_0126F0);
@@ -315,8 +314,7 @@ void func_808AD450(Actor* thisx, PlayState* play2) {
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 120, 0, 128);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot02_objects.c", 795),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot02_objects.c", 795);
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 2 * this->timer, -3 * this->timer, 32, 64,
                                         1, 4 * this->timer, -6 * this->timer, 32, 64));

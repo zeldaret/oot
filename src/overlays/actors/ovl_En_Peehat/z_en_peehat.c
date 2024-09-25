@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_24)
 
 #define GROUND_HOVER_HEIGHT 75.0f
 #define MAX_LARVA 3
@@ -40,7 +40,7 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, PlayState* play);
 void EnPeehat_SetStateExplode(EnPeehat* this);
 void EnPeehat_StateExplode(EnPeehat* this, PlayState* play);
 
-ActorInit En_Peehat_InitVars = {
+ActorProfile En_Peehat_Profile = {
     /**/ ACTOR_EN_PEEHAT,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -54,7 +54,7 @@ ActorInit En_Peehat_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_WOOD,
+        COL_MATERIAL_WOOD,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -62,7 +62,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -75,7 +75,7 @@ static ColliderCylinderInit sCylinderInit = {
 static ColliderJntSphElementInit sJntSphElemInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -88,7 +88,7 @@ static ColliderJntSphElementInit sJntSphElemInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -101,7 +101,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -109,7 +109,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -119,7 +119,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum DamageEffect {
     /* 00 */ PEAHAT_DMG_EFF_ATTACK = 0,
     /* 06 */ PEAHAT_DMG_EFF_LIGHT_ICE_ARROW = 6,
     /* 12 */ PEAHAT_DMG_EFF_FIRE = 12,
@@ -163,7 +163,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
 };
 
-typedef enum {
+typedef enum PeahatState {
     /* 00 */ PEAHAT_STATE_DYING,
     /* 01 */ PEAHAT_STATE_EXPLODE,
     /* 03 */ PEAHAT_STATE_3 = 3,
@@ -180,7 +180,7 @@ typedef enum {
 } PeahatState;
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 700, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 700, ICHAIN_STOP),
 };
 
 void EnPeehat_SetupAction(EnPeehat* this, EnPeehatActionFunc actionFunc) {
@@ -223,7 +223,7 @@ void EnPeehat_Init(Actor* thisx, PlayState* play) {
             this->xzDistToRise = 2800.0f;
             this->xzDistMax = 1400.0f;
             EnPeehat_Flying_SetStateGround(this);
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             break;
         case PEAHAT_TYPE_LARVA:
             this->actor.scale.x = this->actor.scale.z = 0.006f;
@@ -322,7 +322,7 @@ void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
 
 void EnPeehat_Ground_StateGround(EnPeehat* this, PlayState* play) {
     if (IS_DAY) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         if (this->riseDelayTimer == 0) {
             if (this->actor.xzDistToPlayer < this->xzDistToRise) {
                 EnPeehat_Ground_SetStateRise(this);
@@ -332,7 +332,7 @@ void EnPeehat_Ground_StateGround(EnPeehat* this, PlayState* play) {
             this->riseDelayTimer--;
         }
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 50.0f, 0.0f);
         if (this->unk_2D4 != 0) {
             this->unk_2D4--;
@@ -1021,8 +1021,7 @@ s32 EnPeehat_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
         Matrix_RotateZ(-(this->jiggleRot * 0.1f), MTXMODE_APPLY);
         Matrix_RotateY(-(this->jiggleRot * 0.13f), MTXMODE_APPLY);
         Matrix_RotateX(-(this->jiggleRot * 0.115f), MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_peehat.c", 1959),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_peehat.c", 1959);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_peehat.c", 1963);
@@ -1055,8 +1054,7 @@ void EnPeehat_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
         }
         Matrix_RotateY(3.2f + damageYRot, MTXMODE_APPLY);
         Matrix_Scale(0.3f, 0.2f, 0.2f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_peehat.c", 1990),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_peehat.c", 1990);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_peehat.c", 1994);

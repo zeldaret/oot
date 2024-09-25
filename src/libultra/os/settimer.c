@@ -1,11 +1,13 @@
 #include "global.h"
 
 s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg) {
-    UNUSED OSTime time;
+    OSTime time;
+#if !PLATFORM_N64
     OSTimer* next;
     u32 count;
     u32 value;
     u32 prevInt;
+#endif
 
     timer->next = NULL;
     timer->prev = NULL;
@@ -19,6 +21,12 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
     timer->mq = mq;
     timer->msg = msg;
 
+#if PLATFORM_N64
+    time = __osInsertTimer(timer);
+    if (__osTimerList->next == timer) {
+        __osSetTimerIntr(time);
+    }
+#else
     prevInt = __osDisableInt();
     if (__osTimerList->next != __osTimerList) {
         if (1) {}
@@ -38,6 +46,7 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
     __osSetTimerIntr(__osTimerList->next->value);
 
     __osRestoreInt(prevInt);
+#endif
 
     return 0;
 }

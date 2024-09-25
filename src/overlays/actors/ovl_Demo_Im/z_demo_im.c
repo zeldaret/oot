@@ -11,7 +11,7 @@
 #include "assets/objects/object_im/object_im.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4)
 
 void DemoIm_Init(Actor* thisx, PlayState* play);
 void DemoIm_Destroy(Actor* thisx, PlayState* play);
@@ -64,7 +64,7 @@ static u32 D_8098783C = 0;
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -92,7 +92,7 @@ static DemoImDrawFunc sDrawFuncs[] = {
     DemoIm_DrawTranslucent,
 };
 
-ActorInit Demo_Im_InitVars = {
+ActorProfile Demo_Im_Profile = {
     /**/ ACTOR_DEMO_IM,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -861,7 +861,7 @@ s32 func_80986A5C(DemoIm* this, PlayState* play) {
 }
 
 s32 func_80986AD0(DemoIm* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.textId = 0x708E;
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
@@ -957,7 +957,7 @@ void func_80986DC8(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, play);
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
 }
 
 void func_80986E20(DemoIm* this, PlayState* play) {
@@ -1004,7 +1004,7 @@ void func_80986FA8(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, play);
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     DemoIm_UpdateCollider(this, play);
     func_80986CFC(this, play);
 }
@@ -1122,7 +1122,7 @@ void DemoIm_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     DemoIm_InitCollider(thisx, play);
     SkelAnime_InitFlex(play, &this->skelAnime, &gImpaSkel, NULL, this->jointTable, this->morphTable, 17);
-    thisx->flags &= ~ACTOR_FLAG_0;
+    thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
     switch (this->actor.params) {
         case 2:

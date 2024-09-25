@@ -19,7 +19,7 @@ void func_8087DB24(BgHakaMegane* this, PlayState* play);
 void func_8087DBF0(BgHakaMegane* this, PlayState* play);
 void BgHakaMegane_DoNothing(BgHakaMegane* this, PlayState* play);
 
-ActorInit Bg_Haka_Megane_InitVars = {
+ActorProfile Bg_Haka_Megane_Profile = {
     /**/ ACTOR_BG_HAKA_MEGANE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -89,7 +89,7 @@ void func_8087DB24(BgHakaMegane* this, PlayState* play) {
         this->dyna.actor.objectSlot = this->requiredObjectSlot;
         this->dyna.actor.draw = BgHakaMegane_Draw;
         Actor_SetObjectDependency(play, &this->dyna.actor);
-        if (play->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
+        if (play->roomCtx.curRoom.lensMode != LENS_MODE_SHOW_ACTORS) {
             CollisionHeader* colHeader;
             CollisionHeader* collision;
 

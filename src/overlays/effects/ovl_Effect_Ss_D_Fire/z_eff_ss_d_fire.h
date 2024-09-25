@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
+typedef struct EffectSsDFireInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;

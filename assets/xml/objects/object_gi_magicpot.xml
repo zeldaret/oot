@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_magicpot" Segment="6">
         <DList Name="gGiMagicJarSmallDL" Offset="0x0580"/>
         <DList Name="gGiMagicJarLargeDL" Offset="0x0EE0"/>

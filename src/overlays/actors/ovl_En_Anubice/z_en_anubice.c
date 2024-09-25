@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
 
 void EnAnubice_Init(Actor* thisx, PlayState* play);
 void EnAnubice_Destroy(Actor* thisx, PlayState* play);
@@ -25,7 +25,7 @@ void EnAnubice_SetupShootFireball(EnAnubice* this, PlayState* play);
 void EnAnubice_ShootFireball(EnAnubice* this, PlayState* play);
 void EnAnubice_Die(EnAnubice* this, PlayState* play);
 
-ActorInit En_Anubice_InitVars = {
+ActorProfile En_Anubice_Profile = {
     /**/ ACTOR_EN_ANUBICE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -39,7 +39,7 @@ ActorInit En_Anubice_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -47,7 +47,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -57,7 +57,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 29, 103, 0, { 0, 0, 0 } },
 };
 
-typedef enum {
+typedef enum AnubiceDamageEffect {
     /* 0x0 */ ANUBICE_DMGEFF_NONE,
     /* 0x2 */ ANUBICE_DMGEFF_FIRE = 2,
     /* 0xF */ ANUBICE_DMGEFF_0xF = 0xF // Treated the same as ANUBICE_DMGEFF_NONE in code
@@ -146,9 +146,9 @@ void EnAnubice_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.shape.yOffset = -4230.0f;
     this->focusHeightOffset = 0.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->home = this->actor.world.pos;
-    this->actor.targetMode = 3;
+    this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->actionFunc = EnAnubice_FindFlameCircles;
 }
 
@@ -193,7 +193,7 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, PlayState* play) {
             }
             this->hasSearchedForFlameCircles = true;
         }
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = EnAnubice_SetupIdle;
     }
 }
@@ -374,7 +374,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 (fabsf(this->flameCircles[i]->actor.world.pos.z - this->actor.world.pos.z) < 60.0f) &&
                 (flameCircle->timer != 0)) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
@@ -386,7 +386,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
             this->collider.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect == ANUBICE_DMGEFF_FIRE) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
@@ -484,8 +484,7 @@ void EnAnubice_PostLimbDraw(struct PlayState* play, s32 limbIndex, Gfx** dList, 
     if (limbIndex == ANUBICE_LIMB_HEAD) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_anubice.c", 853);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_anubice.c", 856),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_anubice.c", 856);
         gSPDisplayList(POLY_XLU_DISP++, gAnubiceEyesDL);
         Matrix_MultVec3f(&pos, &this->headPos);
 

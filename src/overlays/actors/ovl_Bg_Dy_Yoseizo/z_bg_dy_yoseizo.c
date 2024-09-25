@@ -13,13 +13,13 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
-typedef enum {
+typedef enum BgDyYoseizoRewardType {
     /* 0 */ FAIRY_UPGRADE_MAGIC,
     /* 1 */ FAIRY_UPGRADE_DOUBLE_MAGIC,
     /* 2 */ FAIRY_UPGRADE_DOUBLE_DEFENSE
 } BgDyYoseizoRewardType;
 
-typedef enum {
+typedef enum BgDyYoseizoSpellType {
     /* 0 */ FAIRY_SPELL_FARORES_WIND,
     /* 1 */ FAIRY_SPELL_DINS_FIRE,
     /* 2 */ FAIRY_SPELL_NAYRUS_LOVE
@@ -54,7 +54,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play);
 
 static s32 sUnusedGetItemIds[] = { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE };
 
-ActorInit Bg_Dy_Yoseizo_InitVars = {
+ActorProfile Bg_Dy_Yoseizo_Profile = {
     /**/ ACTOR_BG_DY_YOSEIZO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -1029,8 +1029,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(effect->roll, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_bg_dy_yoseizo.c", 1810);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleModelDL));
         }
     }

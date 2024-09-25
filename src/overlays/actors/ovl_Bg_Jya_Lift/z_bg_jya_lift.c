@@ -22,7 +22,7 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-ActorInit Bg_Jya_Lift_InitVars = {
+ActorProfile Bg_Jya_Lift_Profile = {
     /**/ ACTOR_BG_JYA_LIFT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -63,7 +63,7 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
     PRINTF("女神リフト CT\n");
     BgJyaLift_InitDynapoly(this, play, &gLiftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
-    if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         BgJyaLift_SetFinalPosY(this);
     } else {
         BgJyaLift_SetInitPosY(this);
@@ -92,7 +92,7 @@ void BgJyaLift_SetInitPosY(BgJyaLift* this) {
 }
 
 void BgJyaLift_DelayMove(BgJyaLift* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) || (this->moveDelay > 0)) {
         this->moveDelay++;
         if (this->moveDelay >= 20) {
             OnePointCutscene_Init(play, 3430, -99, &this->dyna.actor, CAM_ID_MAIN);
@@ -119,7 +119,7 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play) {
         BgJyaLift_SetFinalPosY(this);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
     }
 }
 

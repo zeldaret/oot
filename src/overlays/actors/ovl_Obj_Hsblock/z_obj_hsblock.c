@@ -21,7 +21,7 @@ void func_80B93D90(ObjHsblock* this);
 void func_80B93DB0(ObjHsblock* this);
 void func_80B93E38(ObjHsblock* this);
 
-ActorInit Obj_Hsblock_InitVars = {
+ActorProfile Obj_Hsblock_Profile = {
     /**/ ACTOR_OBJ_HSBLOCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -52,11 +52,11 @@ void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision, s32 moveFlags) {
+void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision, s32 transformFlags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, moveFlags);
+    DynaPolyActor_Init(&this->dyna, transformFlags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
@@ -71,7 +71,7 @@ void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision
 }
 
 void func_80B93BF0(ObjHsblock* this, PlayState* play) {
-    if ((this->dyna.actor.params >> 5) & 1) {
+    if (PARAMS_GET_U(this->dyna.actor.params, 5, 1)) {
         Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_OBJ_ICE_POLY, this->dyna.actor.world.pos.x,
                            this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, this->dyna.actor.world.rot.x,
                            this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 1);
@@ -81,17 +81,17 @@ void func_80B93BF0(ObjHsblock* this, PlayState* play) {
 void ObjHsblock_Init(Actor* thisx, PlayState* play) {
     ObjHsblock* this = (ObjHsblock*)thisx;
 
-    func_80B93B68(this, play, sCollisionHeaders[thisx->params & 3], 0);
+    func_80B93B68(this, play, sCollisionHeaders[PARAMS_GET_U(thisx->params, 0, 2)], 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80B93BF0(this, play);
 
-    switch (thisx->params & 3) {
+    switch (PARAMS_GET_U(thisx->params, 0, 2)) {
         case 0:
         case 2:
             func_80B93D90(this);
             break;
         case 1:
-            if (Flags_GetSwitch(play, (thisx->params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 8, 6))) {
                 func_80B93D90(this);
             } else {
                 func_80B93DB0(this);
@@ -122,7 +122,7 @@ void func_80B93DB0(ObjHsblock* this) {
 }
 
 void func_80B93DF4(ObjHsblock* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
         func_80B93E38(this);
     }
 }
@@ -147,7 +147,7 @@ void ObjHsblock_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, play);
     }
-    Actor_SetFocus(thisx, D_80B940C0[thisx->params & 3]);
+    Actor_SetFocus(thisx, D_80B940C0[PARAMS_GET_U(thisx->params, 0, 2)]);
 }
 
 void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
@@ -158,8 +158,7 @@ void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_hsblock.c", 369),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_hsblock.c", 369);
 
     if (play->sceneId == SCENE_FIRE_TEMPLE) {
         color = &sFireTempleColor;
@@ -178,7 +177,7 @@ void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 255);
-    gSPDisplayList(POLY_OPA_DISP++, sDLists[thisx->params & 3]);
+    gSPDisplayList(POLY_OPA_DISP++, sDLists[PARAMS_GET_U(thisx->params, 0, 2)]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_hsblock.c", 399);
 }

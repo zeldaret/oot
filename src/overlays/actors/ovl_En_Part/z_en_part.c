@@ -15,7 +15,7 @@ void EnPart_Destroy(Actor* thisx, PlayState* play);
 void EnPart_Update(Actor* thisx, PlayState* play);
 void EnPart_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Part_InitVars = {
+ActorProfile En_Part_Profile = {
     /**/ ACTOR_EN_PART,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -196,8 +196,9 @@ void func_80ACE5C8(EnPart* this, PlayState* play) {
                     play->damagePlayer(play, -8);
                 }
             }
-            func_8002F71C(play, this->actor.parent, (650.0f - this->actor.parent->xzDistToPlayer) * 0.04f + 4.0f,
-                          this->actor.parent->world.rot.y, 8.0f);
+            Actor_SetPlayerKnockbackLargeNoDamage(play, this->actor.parent,
+                                                  (650.0f - this->actor.parent->xzDistToPlayer) * 0.04f + 4.0f,
+                                                  this->actor.parent->world.rot.y, 8.0f);
             player->invincibilityTimer = prevInvincibilityTimer;
             this->timer = 1;
         }
@@ -313,8 +314,7 @@ void EnPart_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (this->displayList != NULL) {
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_part.c", 696),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_part.c", 696);
         gSPDisplayList(POLY_OPA_DISP++, this->displayList);
     }
 

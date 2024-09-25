@@ -32,7 +32,7 @@ void DoorWarp1_DoNothing(DoorWarp1* this, PlayState* play);
 void DoorWarp1_ChooseInitialAction(DoorWarp1* this, PlayState* play);
 void DoorWarp1_FloatPlayer(DoorWarp1* this, PlayState* play);
 
-ActorInit Door_Warp1_InitVars = {
+ActorProfile Door_Warp1_Profile = {
     /**/ ACTOR_DOOR_WARP1,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -167,7 +167,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
                    gSaveContext.save.entranceIndex == ENTR_DESERT_COLOSSUS_8 ||
                    gSaveContext.save.entranceIndex == ENTR_GRAVEYARD_8) &&
                  !IS_CUTSCENE_LAYER) ||
-                (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
+                PARAMS_GET_NOSHIFT(GET_PLAYER(play)->actor.params, 8, 4) != 0x200) {
                 Actor_Kill(&this->actor);
             }
             if (Actor_WorldDistXZToActor(&player->actor, &this->actor) > 100.0f) {
@@ -960,7 +960,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
     gDPSetColorDither(POLY_XLU_DISP++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y + 1.0f, this->actor.world.pos.z, MTXMODE_NEW);
-    gSPSegment(POLY_XLU_DISP++, 0x0A, MATRIX_NEW(play->state.gfxCtx, "../z_door_warp1.c", 2247));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, MATRIX_FINALIZE(play->state.gfxCtx, "../z_door_warp1.c", 2247));
     Matrix_Push();
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -971,7 +971,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
     Matrix_Translate(0.0f, this->unk_194 * 230.0f, 0.0f, MTXMODE_APPLY);
     xzScale = (((f32)this->unk_1AE * spE8) / 100.0f) + 1.0f;
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
-    gSPSegment(POLY_XLU_DISP++, 0x09, MATRIX_NEW(play->state.gfxCtx, "../z_door_warp1.c", 2267));
+    gSPSegment(POLY_XLU_DISP++, 0x09, MATRIX_FINALIZE(play->state.gfxCtx, "../z_door_warp1.c", 2267));
     gSPDisplayList(POLY_XLU_DISP++, gWarpPortalDL);
     Matrix_Pop();
 
@@ -1009,7 +1009,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
         xzScale = (((f32)this->unk_1B0 * spE4) / 100.0f) + 1.0f;
         Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
 
-        gSPSegment(POLY_XLU_DISP++, 0x09, MATRIX_NEW(play->state.gfxCtx, "../z_door_warp1.c", 2336));
+        gSPSegment(POLY_XLU_DISP++, 0x09, MATRIX_FINALIZE(play->state.gfxCtx, "../z_door_warp1.c", 2336));
         gSPDisplayList(POLY_XLU_DISP++, gWarpPortalDL);
     }
 

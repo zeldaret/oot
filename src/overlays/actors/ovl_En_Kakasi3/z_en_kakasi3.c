@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_ka/object_ka.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_25)
 
 void EnKakasi3_Init(Actor* thisx, PlayState* play);
 void EnKakasi3_Destroy(Actor* thisx, PlayState* play);
@@ -28,7 +28,7 @@ void func_80A91A90(EnKakasi3* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -36,7 +36,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -46,7 +46,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-ActorInit En_Kakasi3_InitVars = {
+ActorProfile En_Kakasi3_Profile = {
     /**/ ACTOR_EN_KAKASI3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -71,7 +71,7 @@ void EnKakasi3_Init(Actor* thisx, PlayState* play) {
     PRINTF("\n\n");
     // "Obonur" -- Related to the name of the scarecrow (Bonooru)
     PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

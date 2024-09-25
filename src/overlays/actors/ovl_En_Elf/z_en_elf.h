@@ -44,7 +44,7 @@ typedef struct EnElf {
     /* 0x02CC */ EnElfActionFunc actionFunc;
 } EnElf; // size = 0x02D0
 
-typedef enum {
+typedef enum FairyType {
     /* 0x00 */ FAIRY_NAVI,
     /* 0x01 */ FAIRY_REVIVE_BOTTLE,
     /* 0x02 */ FAIRY_HEAL_TIMED,

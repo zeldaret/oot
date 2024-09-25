@@ -28,7 +28,7 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, PlayState* play);
 
 static s16 sCamSetting = CAM_SET_NONE;
 
-ActorInit Bg_Mori_Rakkatenjo_InitVars = {
+ActorProfile Bg_Mori_Rakkatenjo_Profile = {
     /**/ ACTOR_BG_MORI_RAKKATENJO,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -232,8 +232,7 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502);
 
     gSPDisplayList(POLY_OPA_DISP++, gMoriRakkatenjoDL);
 

@@ -7,7 +7,7 @@
 #include "z_en_mu.h"
 #include "assets/objects/object_mu/object_mu.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnMu_Init(Actor* thisx, PlayState* play);
 void EnMu_Destroy(Actor* thisx, PlayState* play);
@@ -19,7 +19,7 @@ s16 EnMu_UpdateTalkState(PlayState* play, Actor* thisx);
 
 static ColliderCylinderInit D_80AB0BD0 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -27,7 +27,7 @@ static ColliderCylinderInit D_80AB0BD0 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -39,7 +39,7 @@ static ColliderCylinderInit D_80AB0BD0 = {
 
 static CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-ActorInit En_Mu_InitVars = {
+ActorProfile En_Mu_Profile = {
     /**/ ACTOR_EN_MU,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -139,7 +139,7 @@ void EnMu_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &D_80AB0BD0);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AB0BFC);
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
     EnMu_Interact(this, play);
     EnMu_SetupAction(this, EnMu_Pose);

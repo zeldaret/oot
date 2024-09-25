@@ -15,12 +15,12 @@ u32 EffectSsStick_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
 void EffectSsStick_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsStick_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Stick_InitVars = {
+EffectSsProfile Effect_Ss_Stick_Profile = {
     EFFECT_SS_STICK,
     EffectSsStick_Init,
 };
 
-typedef struct {
+typedef struct StickDrawInfo {
     /* 0x00 */ s16 objectId;
     /* 0x04 */ Gfx* displayList;
 } StickDrawInfo;
@@ -64,8 +64,7 @@ void EffectSsStick_Draw(PlayState* play, u32 index, EffectSs* this) {
         Matrix_RotateZYX(0, this->rYaw, play->state.frames * 10000, MTXMODE_APPLY);
     }
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_ss_stick.c", 176),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_eff_ss_stick.c", 176);
     Gfx_SetupDL_25Opa(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->rObjectSlot].segment);
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);

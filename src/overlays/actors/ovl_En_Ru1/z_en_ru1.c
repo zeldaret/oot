@@ -7,9 +7,10 @@
 #include "z_en_ru1.h"
 #include "assets/objects/object_ru1/object_ru1.h"
 #include "terminal.h"
+#include "versions.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
 void EnRu1_Init(Actor* thisx, PlayState* play);
 void EnRu1_Destroy(Actor* thisx, PlayState* play);
@@ -71,7 +72,7 @@ void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -83,7 +84,7 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
 
 static ColliderCylinderInitType1 sCylinderInit2 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -132,7 +133,7 @@ static EnRu1DrawFunc sDrawFuncs[] = {
     EnRu1_DrawXlu,
 };
 
-ActorInit En_Ru1_InitVars = {
+ActorProfile En_Ru1_Profile = {
     /**/ ACTOR_EN_RU1,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -189,13 +190,13 @@ void func_80AEADD8(EnRu1* this) {
 }
 
 u8 func_80AEADE0(EnRu1* this) {
-    u8 params = this->actor.params >> 8;
+    u8 params = PARAMS_GET_U(this->actor.params, 8, 8);
 
     return params;
 }
 
 u8 func_80AEADF0(EnRu1* this) {
-    s16 params = this->actor.params;
+    u8 params = PARAMS_GET_U(this->actor.params, 0, 8);
 
     return params;
 }
@@ -324,7 +325,7 @@ Actor* func_80AEB124(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
     while (actorIt != NULL) {
-        if ((actorIt->id == ACTOR_DEMO_EFFECT) && ((actorIt->params & 0xFF) == DEMO_EFFECT_JEWEL_ZORA)) {
+        if ((actorIt->id == ACTOR_DEMO_EFFECT) && (PARAMS_GET_U(actorIt->params, 0, 8) == DEMO_EFFECT_JEWEL_ZORA)) {
             return actorIt;
         }
         actorIt = actorIt->next;
@@ -391,17 +392,17 @@ s32 EnRu1_UpdateSkelAnime(EnRu1* this) {
 }
 
 void func_80AEB364(EnRu1* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80AEB3A4(EnRu1* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ;
     func_80AEB364(this, play);
 }
 
 void func_80AEB3CC(EnRu1* this) {
-    this->skelAnime.moveFlags &= ~ANIM_FLAG_0;
+    this->skelAnime.movementFlags &= ~ANIM_FLAG_UPDATE_XZ;
 }
 
 void func_80AEB3DC(EnRu1* this, PlayState* play) {
@@ -429,7 +430,7 @@ void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
     Actor* thisx = &this->actor;
 
     pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    pos.y = this->actor.world.pos.y + this->actor.depthInWater;
     pos.z = this->actor.world.pos.z;
     EffectSsGRipple_Spawn(play, &pos, 100, radiusMax, life);
 }
@@ -452,7 +453,7 @@ void EnRu1_SpawnSplash(EnRu1* this, PlayState* play) {
     Vec3f pos;
 
     pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    pos.y = this->actor.world.pos.y + this->actor.depthInWater;
     pos.z = this->actor.world.pos.z;
 
     EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 1, 0);
@@ -462,8 +463,8 @@ void func_80AEB6E0(EnRu1* this, PlayState* play) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
-        AnimationContext_SetMoveActor(play, &this->actor, skelAnime, 1.0f);
+        skelAnime->movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+        AnimTaskQueue_AddActorMovement(play, &this->actor, skelAnime, 1.0f);
     }
 }
 
@@ -473,13 +474,13 @@ void func_80AEB738(EnRu1* this, PlayState* play) {
     skelAnime->baseTransl = skelAnime->jointTable[0];
     skelAnime->prevTransl = skelAnime->jointTable[0];
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
-        AnimationContext_SetMoveActor(play, &this->actor, skelAnime, 1.0f);
+        skelAnime->movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+        AnimTaskQueue_AddActorMovement(play, &this->actor, skelAnime, 1.0f);
     }
 }
 
 void func_80AEB7D0(EnRu1* this) {
-    this->skelAnime.moveFlags &= ~(ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y);
+    this->skelAnime.movementFlags &= ~(ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y);
 }
 
 f32 func_80AEB7E0(CsCmdActorCue* cue, PlayState* play) {
@@ -1230,7 +1231,7 @@ s32 func_80AED624(EnRu1* this, PlayState* play) {
         Actor_Kill(&this->actor);
         return false;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (this->actor.yDistToWater > kREG(16) + 50.0f) && (this->action != 33)) {
+               (this->actor.depthInWater > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->alpha = 0xFF;
@@ -1460,7 +1461,7 @@ void func_80AEE050(EnRu1* this) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
-            this->unk_358 = (this->actor.yDistToWater - 10.0f) * 0.5f;
+            this->unk_358 = (this->actor.depthInWater - 10.0f) * 0.5f;
             this->unk_354 = this->actor.world.pos.y + thisx->unk_358; // thisx only used here
         } else {
             this->actor.gravity = 0.0f;
@@ -1505,7 +1506,7 @@ void func_80AEE050(EnRu1* this) {
 
 s32 func_80AEE264(EnRu1* this, PlayState* play) {
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         if (GET_INFTABLE(INFTABLE_143)) {
             this->actor.textId = 0x404E;
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
@@ -1529,7 +1530,7 @@ void func_80AEE2F8(EnRu1* this, PlayState* play) {
         floorBgId = this->actor.floorBgId;
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, floorBgId);
         if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_BG_BDAN_SWITCH)) {
-            if (((dynaPolyActor->actor.params >> 8) & 0x3F) == 0x38) {
+            if (PARAMS_GET_U(dynaPolyActor->actor.params, 8, 6) == 0x38) {
                 SET_INFTABLE(INFTABLE_140);
                 return;
             }
@@ -1593,7 +1594,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
             return;
         }
 
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->action = 29;
             this->unk_350 = 0;
         }
@@ -1837,7 +1838,7 @@ s32 func_80AEF0BC(EnRu1* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->action = 26;
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
         return true;
     }
     return false;
@@ -1877,7 +1878,7 @@ void func_80AEF29C(EnRu1* this, PlayState* play) {
 void func_80AEF2AC(EnRu1* this, PlayState* play) {
     this->action = 24;
     this->drawConfig = 1;
-    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
 }
 
 void func_80AEF2D0(EnRu1* this, PlayState* play) {
@@ -2034,9 +2035,13 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
 
 void func_80AEF930(EnRu1* this, PlayState* play) {
     if (func_80AEB104(this) == 3) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = 0x4048;
+#if !OOT_PAL_N64
         Message_ContinueTextbox(play, this->actor.textId);
+#else
+        Message_StartTextbox(play, this->actor.textId, NULL);
+#endif
         func_80AEF4A8(this, play);
         this->action = 43;
         this->drawConfig = 0;
@@ -2132,7 +2137,7 @@ void func_80AEFC54(EnRu1* this, PlayState* play) {
         this->action = 41;
         this->unk_28C = EnRu1_FindSwitch(play);
         func_80AEB0EC(this, 1);
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -2160,7 +2165,7 @@ void func_80AEFD38(EnRu1* this, PlayState* play) {
 
 s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUTO);
         if (this->actor.textId == 0) {
             this->actor.textId = 0x402C;
@@ -2173,7 +2178,7 @@ s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
 
 s32 func_80AEFE38(EnRu1* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
         return true;
     }
     return false;

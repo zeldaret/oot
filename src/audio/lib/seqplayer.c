@@ -21,7 +21,7 @@
 
 #define PROCESS_SCRIPT_END -1
 
-typedef enum {
+typedef enum PortamentoMode {
     /* 0 */ PORTAMENTO_MODE_OFF,
     /* 1 */ PORTAMENTO_MODE_1,
     /* 2 */ PORTAMENTO_MODE_2,
@@ -435,6 +435,14 @@ void AudioSeq_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer) {
 }
 
 void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
+    s32 finished = 0;
+
+#if PLATFORM_N64
+    if (seqPlayer->finished == 1) {
+        finished = 1;
+    }
+#endif
+
     AudioSeq_SequencePlayerDisableChannels(seqPlayer, 0xFFFF);
     Audio_NotePoolClear(&seqPlayer->notePool);
     if (!seqPlayer->enabled) {
@@ -449,6 +457,11 @@ void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     }
 
     if (AudioLoad_IsFontLoadComplete(seqPlayer->defaultFont)) {
+#if PLATFORM_N64
+        if (finished == 1) {
+            AudioHeap_ReleaseNotesForFont(seqPlayer->defaultFont);
+        }
+#endif
         AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, LOAD_STATUS_MAYBE_DISCARDABLE);
     }
 
@@ -946,7 +959,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
 
     if (layer->delay == 0) {
         if (layer->tunedSample != NULL) {
-            time = layer->tunedSample->sample->loop->end;
+            time = layer->tunedSample->sample->loop->header.end;
         } else {
             time = 0.0f;
         }
@@ -1475,16 +1488,14 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                 case 0xE7:
                     cmdArgU16 = (u16)cmdArgs[0];
                     data = &seqPlayer->seqData[cmdArgU16];
-                    channel->muteBehavior = data[0];
-                    data += 3;
-                    channel->noteAllocPolicy = data[-2];
-                    AudioSeq_SetChannelPriorities(channel, data[-1]);
-                    channel->transposition = (s8)data[0];
-                    data += 4;
-                    channel->newPan = data[-3];
-                    channel->panChannelWeight = data[-2];
-                    channel->targetReverbVol = data[-1];
-                    channel->reverbIndex = data[0];
+                    channel->muteBehavior = *data++;
+                    channel->noteAllocPolicy = *data++;
+                    AudioSeq_SetChannelPriorities(channel, *data++);
+                    channel->transposition = (s8)*data++;
+                    channel->newPan = *data++;
+                    channel->panChannelWeight = *data++;
+                    channel->targetReverbVol = *data++;
+                    channel->reverbIndex = *data++;
                     //! @bug: Not marking reverb state as changed
                     channel->changes.s.pan = true;
                     break;

@@ -7,7 +7,7 @@
 #include "z_en_mk.h"
 #include "assets/objects/object_mk/object_mk.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnMk_Init(Actor* thisx, PlayState* play);
 void EnMk_Destroy(Actor* thisx, PlayState* play);
@@ -16,7 +16,7 @@ void EnMk_Draw(Actor* thisx, PlayState* play);
 
 void EnMk_Wait(EnMk* this, PlayState* play);
 
-ActorInit En_Mk_InitVars = {
+ActorProfile En_Mk_Profile = {
     /**/ ACTOR_EN_MK,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -30,7 +30,7 @@ ActorInit En_Mk_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -66,7 +66,7 @@ void EnMk_Init(Actor* thisx, PlayState* play) {
     this->actionFunc = EnMk_Wait;
     this->flags = 0;
     this->swimFlag = 0;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
 
     if (GET_ITEMGETINF(ITEMGETINF_10)) {
         this->flags |= 4;
@@ -314,7 +314,7 @@ void EnMk_Update(Actor* thisx, PlayState* play) {
         if (player->currentBoots == PLAYER_BOOTS_IRON) {
             this->flags |= 8;
         } else if (player->stateFlags2 & PLAYER_STATE2_10) {
-            swimFlag = player->actor.yDistToWater;
+            swimFlag = player->actor.depthInWater;
 
             if (swimFlag > 0) {
                 if (swimFlag >= 320) {

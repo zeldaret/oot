@@ -1,4 +1,11 @@
-#include "global.h"
+#include "ultra64.h"
+#include "z_lib.h"
+#include "ichain.h"
+#include "regs.h"
+#include "macros.h"
+#include "sys_math.h"
+#include "rand.h"
+#include "sfx.h"
 
 /**
  * memset: sets `len` bytes to `val` starting at address `dest`.
@@ -9,7 +16,7 @@
  * - the arguments are in a different order,
  * - `val` is a `u8` instead of the standard `s32`.
  *
- * @see There are two other memsets in this codebase, __osMemset(), MemSet()
+ * @see There are two other memsets in this codebase, memset(), MemSet()
  *
  * @param dest address to start at
  * @param len number of bytes to write
@@ -334,7 +341,7 @@ void (*sInitChainHandlers[])(u8* ptr, InitChainEntry* ichain) = {
     IChain_Apply_Vec3f, IChain_Apply_Vec3fdiv1000, IChain_Apply_Vec3s,
 };
 
-void Actor_ProcessInitChain(Actor* actor, InitChainEntry* ichain) {
+void Actor_ProcessInitChain(struct Actor* actor, InitChainEntry* ichain) {
     do {
         sInitChainHandlers[ichain->type]((u8*)actor, ichain);
     } while ((ichain++)->cont);

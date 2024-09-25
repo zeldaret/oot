@@ -25,12 +25,12 @@ void EnNwc_Idle(EnNwc* this, PlayState* play);
 #define CHICK_BG_FLOOR (1 << 0)
 #define CHICK_BG_WALL (1 << 1)
 
-typedef enum {
+typedef enum ChickTypes {
     /* 0 */ CHICK_NONE,
     /* 1 */ CHICK_NORMAL
 } ChickTypes;
 
-ActorInit En_Nwc_InitVars = {
+ActorProfile En_Nwc_Profile = {
     /**/ ACTOR_EN_NWC,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -44,7 +44,7 @@ ActorInit En_Nwc_InitVars = {
 
 static ColliderJntSphElementInit sJntSphElementInit = {
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -56,7 +56,7 @@ static ColliderJntSphElementInit sJntSphElementInit = {
 
 static ColliderJntSphInitType1 sJntSphInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -111,7 +111,7 @@ void EnNwc_ChickFall(EnNwcChick* chick, EnNwc* this, PlayState* play) {
 void EnNwc_UpdateChicks(EnNwc* this, PlayState* play) {
     static EnNwcChickFunc chickActionFuncs[] = { EnNwc_ChickNoop, EnNwc_ChickFall };
     EnNwcChick* chick = this->chicks;
-    ColliderJntSphElement* element = this->collider.elements;
+    ColliderJntSphElement* element = &this->collider.elements[0];
     Vec3f prevChickPos;
     s32 i;
     f32 test;
@@ -171,7 +171,7 @@ void EnNwc_DrawChicks(EnNwc* this, PlayState* play) {
 
             Matrix_SetTranslateRotateYXZ(chick->pos.x, chick->pos.y + chick->height, chick->pos.z, &chick->rot);
             Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-            mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_nwc.c", 346);
+            mtx = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_nwc.c", 346);
             gDPSetEnvColor(dList1++, 0, 100, 255, 255);
             gSPMatrix(dList1++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(dList1++, gCuccoChickBodyDL);
@@ -193,8 +193,7 @@ void EnNwc_DrawChicks(EnNwc* this, PlayState* play) {
             Matrix_Put(&floorMat);
             Matrix_RotateY(BINANG_TO_RAD(chick->rot.y), MTXMODE_APPLY);
             Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_nwc.c", 388),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_nwc.c", 388);
             gSPDisplayList(POLY_XLU_DISP++, gCuccoChickShadowDL);
         }
     }

@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_gi_soul" Segment="6">
         <DList Name="gGiFairyContainerBaseCapDL" Offset="0x0BD0"/>
         <DList Name="gGiFairyContainerGlassDL" Offset="0x0DB8"/>

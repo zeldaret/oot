@@ -14,7 +14,7 @@ void EnGanonMant_Destroy(Actor* thisx, PlayState* play);
 void EnGanonMant_Update(Actor* thisx, PlayState* play);
 void EnGanonMant_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Ganon_Mant_InitVars = {
+ActorProfile En_Ganon_Mant_Profile = {
     /**/ ACTOR_EN_GANON_MANT,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -38,7 +38,7 @@ static s16 sTearSizesSmall[] = {
     0, 0, 0, 0, 0, 0, 0,
 };
 
-typedef struct {
+typedef struct TearShape {
     s16* tearAreaSizes;
     s16 count;
 } TearShape; // size = 0x8
@@ -102,7 +102,7 @@ static u64 sForceAlignment = 0;
 void EnGanonMant_Init(Actor* thisx, PlayState* play) {
     EnGanonMant* this = (EnGanonMant*)thisx;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void EnGanonMant_Destroy(Actor* thisx, PlayState* play) {
@@ -361,8 +361,7 @@ void EnGanonMant_DrawCloak(PlayState* play, EnGanonMant* this) {
 
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ganon_mant.c", 572),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ganon_mant.c", 572);
 
     // set texture
     gSPDisplayList(POLY_OPA_DISP++, gMantMaterialDL);

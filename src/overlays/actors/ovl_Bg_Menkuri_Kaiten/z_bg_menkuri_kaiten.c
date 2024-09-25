@@ -14,7 +14,7 @@ void BgMenkuriKaiten_Destroy(Actor* thisx, PlayState* play);
 void BgMenkuriKaiten_Update(Actor* thisx, PlayState* play);
 void BgMenkuriKaiten_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Menkuri_Kaiten_InitVars = {
+ActorProfile Bg_Menkuri_Kaiten_Profile = {
     /**/ ACTOR_BG_MENKURI_KAITEN,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -51,7 +51,7 @@ void BgMenkuriKaiten_Update(Actor* thisx, PlayState* play) {
     BgMenkuriKaiten* this = (BgMenkuriKaiten*)thisx;
 
     if (!Flags_GetSwitch(play, this->dyna.actor.params) && DynaPolyActor_IsPlayerAbove(&this->dyna)) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
         this->dyna.actor.shape.rot.y += 0x80;
     }
 }

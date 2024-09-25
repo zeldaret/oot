@@ -30,7 +30,7 @@ typedef struct EnAm {
     /* 0x030C */ ColliderQuad hitCollider;
 } EnAm; // size = 0x038C
 
-typedef enum {
+typedef enum ArmosType {
     /* 0 */ ARMOS_STATUE,
     /* 1 */ ARMOS_ENEMY
 } ArmosType;

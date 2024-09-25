@@ -10,7 +10,7 @@ typedef void (*EnEncount2ActionFunc)(struct EnEncount2*, PlayState*);
 
 #define EN_ENCOUNT2_EFFECT_COUNT 50
 
-typedef struct {
+typedef struct EnEncount2Effect {
     /* 0x0000 */ Vec3f pos;
     /* 0x000C */ f32 scale;
     /* 0x0010 */ u8 isAlive;

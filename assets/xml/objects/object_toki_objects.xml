@@ -1,5 +1,4 @@
 ﻿<Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_toki_objects" Segment="6">
         <Texture Name="object_toki_objects_Tex_000000" OutName="tex_000000" Format="i8" Width="32" Height="64" Offset="0x0"/>
         <DList Name="object_toki_objects_DL_000880" Offset="0x880"/>

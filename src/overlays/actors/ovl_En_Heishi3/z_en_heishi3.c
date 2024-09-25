@@ -7,6 +7,7 @@
 #include "z_en_heishi3.h"
 #include "assets/objects/object_sd/object_sd.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS 0
 
@@ -25,7 +26,7 @@ void func_80A55BD4(EnHeishi3* this, PlayState* play);
 
 static s16 sPlayerCaught = 0;
 
-ActorInit En_Heishi3_InitVars = {
+ActorProfile En_Heishi3_Profile = {
     /**/ ACTOR_EN_HEISHI3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -39,7 +40,7 @@ ActorInit En_Heishi3_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -47,7 +48,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -73,7 +74,7 @@ void EnHeishi3_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable, 17);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     // "Castle Gate Soldier - Power Up"
@@ -134,6 +135,9 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, PlayState* play) {
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#if OOT_PAL_N64
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
+#endif
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }
@@ -162,6 +166,9 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, PlayState* play) {
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#if OOT_PAL_N64
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
+#endif
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }

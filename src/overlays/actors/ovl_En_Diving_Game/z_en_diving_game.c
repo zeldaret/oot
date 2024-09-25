@@ -9,7 +9,7 @@
 #include "assets/objects/object_zo/object_zo.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnDivingGame_Init(Actor* thisx, PlayState* play);
 void EnDivingGame_Destroy(Actor* thisx, PlayState* play);
@@ -33,7 +33,7 @@ void func_809EEA00(EnDivingGame* this, PlayState* play);
 void func_809EEA90(EnDivingGame* this, PlayState* play);
 void func_809EEAF8(EnDivingGame* this, PlayState* play);
 
-ActorInit En_Diving_Game_InitVars = {
+ActorProfile En_Diving_Game_Profile = {
     /**/ ACTOR_EN_DIVING_GAME,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -50,7 +50,7 @@ static u8 D_809EF0B0 = false;
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE | ATELEM_SFX_NORMAL,
@@ -93,7 +93,7 @@ void EnDivingGame_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         D_809EF0B0 = true;
-        this->actor.targetMode = 0;
+        this->actor.attentionRangeType = ATTENTION_RANGE_0;
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = func_809EDCB0;
     }

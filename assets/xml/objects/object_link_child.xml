@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_link_child" Segment="6">
         <Skeleton Name="gLinkChildSkel" Type="Flex" LimbType="LOD" Offset="0x2CF6C"/>
 

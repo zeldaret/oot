@@ -7,6 +7,9 @@
 #include "z_en_zl3.h"
 
 #include "terminal.h"
+
+#include "z64frame_advance.h"
+
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/objects/object_zl2/object_zl2.h"
@@ -22,14 +25,14 @@ void func_80B59AD0(EnZl3* this, PlayState* play);
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -723,21 +726,21 @@ void EnZl3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 s32 func_80B54DB4(EnZl3* this) {
-    s32 params = this->actor.params >> 8;
+    s32 params = PARAMS_GET_U(this->actor.params, 8, 8);
 
-    return params & 0xFF;
+    return params;
 }
 
 s32 func_80B54DC4(EnZl3* this) {
-    s32 params = this->actor.params >> 4;
+    s32 params = PARAMS_GET_U(this->actor.params, 4, 4);
 
-    return params & 0xF;
+    return params;
 }
 
 s32 func_80B54DD4(EnZl3* this) {
-    s32 params = this->actor.params;
+    s32 params = PARAMS_GET_U(this->actor.params, 0, 4);
 
-    return params & 0xF;
+    return params;
 }
 
 void func_80B54DE0(EnZl3* this, PlayState* play) {
@@ -1010,7 +1013,7 @@ void func_80B55780(EnZl3* this, PlayState* play) {
     this->drawConfig = 1;
     PRINTF("ゼルダ姫のEn_Zl3_Actor_inFinal2_Initは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     EnZl3_setMouthIndex(this, 1);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void func_80B55808(EnZl3* this) {
@@ -1109,8 +1112,8 @@ void func_80B55C4C(EnZl3* this, s32 arg1) {
 void func_80B55C70(EnZl3* this) {
     func_80B54E14(this, &gZelda2Anime2Anim_008684, 2, -8.0f, 0);
     this->action = 12;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void func_80B55CCC(EnZl3* this, s32 arg1) {
@@ -1123,20 +1126,20 @@ void func_80B55D00(EnZl3* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->action = 13;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.textId = 0x70D5;
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 
 void func_80B55DB0(EnZl3* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->action = 12;
     }
 }
@@ -1182,14 +1185,14 @@ void func_80B55F6C(EnZl3* this, PlayState* play) {
         BossGanon2* bossGanon2 = func_80B53488(this, play);
 
         if ((bossGanon2 != NULL) && (bossGanon2->unk_324 <= (10.0f / 81.0f))) {
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.textId = 0x7059;
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
     } else {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 
@@ -1214,8 +1217,8 @@ void func_80B56090(EnZl3* this, s32 arg1) {
 
 void func_80B56108(EnZl3* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->action = 16;
     }
 }
@@ -1244,22 +1247,22 @@ void func_80B56214(EnZl3* this, PlayState* play) {
 
         if (bossGanon2 != NULL) {
             if (bossGanon2->unk_324 <= (10.0f / 81.0f)) {
-                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                 this->actor.textId = 0x7059;
                 Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
             }
         }
     } else {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 
 void func_80B562F4(EnZl3* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->action = 20;
     }
 }
@@ -1698,7 +1701,7 @@ void func_80B57350(EnZl3* this, PlayState* play) {
     s16 temp_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(temp_v0) <= 0x4300) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = func_80B572F0(play);
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
@@ -2067,7 +2070,7 @@ void func_80B58014(EnZl3* this, PlayState* play) {
         this->action = 34;
         this->unk_3D0 = 0;
         func_80B57AE0(this, play);
-    } else if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
+    } else if ((invincibilityTimer > 0) || (player->fallDistance >= 51)) {
         func_80B54E14(this, &gZelda2Anime2Anim_007664, 0, -11.0f, 0);
         this->action = 30;
         func_80B537E8(this);
@@ -2222,7 +2225,7 @@ s32 func_80B5899C(EnZl3* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
         s8 invincibilityTimer = player->invincibilityTimer;
 
-        if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
+        if ((invincibilityTimer > 0) || (player->fallDistance >= 51)) {
             func_80B54E14(this, &gZelda2Anime2Anim_007664, 2, -11.0f, 0);
             this->action = 35;
             func_80B56DC8(this);
@@ -2539,7 +2542,7 @@ void func_80B59828(EnZl3* this, PlayState* play) {
 
     if (func_80B59698(this, play) || (!func_80B56EE4(this, play) && func_80B57890(this, play))) {
         func_80B54E14(this, &gZelda2Anime2Anim_009FBC, 0, 0.0f, 0);
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         func_80B56F10(this, play);
         newRotY = func_80B571A8(this);
         this->actor.shape.rot.y = newRotY;
@@ -2785,7 +2788,7 @@ void EnZl3_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-ActorInit En_Zl3_InitVars = {
+ActorProfile En_Zl3_Profile = {
     /**/ ACTOR_EN_ZL3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

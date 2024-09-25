@@ -12,7 +12,7 @@ typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, PlayState*);
 
 #define BG_DY_YOSEIZO_EFFECT_COUNT 200
 
-typedef struct {
+typedef struct BgDyYoseizoEffect {
     /* 0x00 */ u8 alive; // drawn if 1, respawn if 0
     /* 0x04 */ Vec3f pos;
     /* 0x10 */ Vec3f velocity;

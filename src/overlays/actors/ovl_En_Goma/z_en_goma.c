@@ -4,7 +4,7 @@
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGoma_Init(Actor* thisx, PlayState* play);
 void EnGoma_Destroy(Actor* thisx, PlayState* play);
@@ -42,7 +42,7 @@ void EnGoma_SetupLand(EnGoma* this);
 void EnGoma_SetupJump(EnGoma* this);
 void EnGoma_SetupStunned(EnGoma* this, PlayState* play);
 
-ActorInit En_Goma_InitVars = {
+ActorProfile En_Goma_Profile = {
     /**/ ACTOR_BOSS_GOMA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -56,7 +56,7 @@ ActorInit En_Goma_InitVars = {
 
 static ColliderCylinderInit D_80A4B7A0 = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -64,7 +64,7 @@ static ColliderCylinderInit D_80A4B7A0 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -76,7 +76,7 @@ static ColliderCylinderInit D_80A4B7A0 = {
 
 static ColliderCylinderInit D_80A4B7CC = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -84,7 +84,7 @@ static ColliderCylinderInit D_80A4B7CC = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -98,10 +98,10 @@ static u8 sSpawnNum = 0;
 static Vec3f sDeadEffectVel = { 0.0f, 0.0f, 0.0f };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_3, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GOHMA_LARVA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 20, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 20, ICHAIN_STOP),
 };
 
 void EnGoma_Init(Actor* thisx, PlayState* play) {
@@ -119,10 +119,10 @@ void EnGoma_Init(Actor* thisx, PlayState* play) {
         this->gomaType = ENGOMA_BOSSLIMB;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actionTimer = this->actor.params + 150;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else if (params >= 10) { // Debris when hatching
         this->actor.gravity = -1.3f;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionTimer = 50;
         this->gomaType = ENGOMA_HATCH_DEBRIS;
         this->eggScale = 1.0f;
@@ -366,7 +366,7 @@ void EnGoma_SetupDie(EnGoma* this) {
     }
 
     this->invincibilityTimer = 100;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void EnGoma_Die(EnGoma* this, PlayState* play) {
@@ -756,6 +756,7 @@ s32 EnGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
                    255);
 
     if (limbIndex == GOMA_LIMB_EYE_IRIS_ROOT1) {
+        if (1) {}
         rot->x += this->eyePitch;
         rot->y += this->eyeYaw;
     } else if (limbIndex == GOMA_LIMB_BODY && this->hurtTimer != 0) {
@@ -819,23 +820,20 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateY(-(this->eggSquishAngle * 0.15f), MTXMODE_APPLY);
             Matrix_Translate(0.0f, this->eggYOffset, 0.0f, MTXMODE_APPLY);
             Matrix_RotateX(this->eggPitch, MTXMODE_APPLY);
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_goma.c", 2101),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_goma.c", 2101);
             gSPDisplayList(POLY_OPA_DISP++, gObjectGolEggDL);
             Matrix_Pop();
             break;
 
         case ENGOMA_HATCH_DEBRIS:
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_goma.c", 2107),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_goma.c", 2107);
             gSPDisplayList(POLY_OPA_DISP++, gBrownFragmentDL);
             break;
 
         case ENGOMA_BOSSLIMB:
             if (this->bossLimbDL != NULL) {
                 gSPSegment(POLY_OPA_DISP++, 0x08, EnGoma_NoBackfaceCullingDlist(play->state.gfxCtx));
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_goma.c", 2114),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_goma.c", 2114);
                 gSPDisplayList(POLY_OPA_DISP++, this->bossLimbDL);
             }
             break;

@@ -69,3 +69,5 @@ u8 gSoundModeList[] = {
 u8 gAudioSpecId = 0;
 
 u8 D_80133418 = 0;
+
+u8 D_8016F0E0[0xA0]; // unused

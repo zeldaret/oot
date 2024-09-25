@@ -28,7 +28,7 @@ typedef struct EnTp {
     /* 0x01D4 */ struct EnTp* head;
 } EnTp; // size = 0x01D8
 
-typedef enum {
+typedef enum EnTpType {
     /* -1 */ TAILPASARAN_HEAD = -1, // Used when scenes spawn them: code only cares about < 0
     /*  0 */ TAILPASARAN_TAIL,
     /* 10 */ TAILPASARAN_FRAGMENT = 10,

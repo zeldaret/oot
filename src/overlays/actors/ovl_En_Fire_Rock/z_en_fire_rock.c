@@ -15,7 +15,7 @@ void FireRock_WaitOnFloor(EnFireRock* this, PlayState* play);
 void EnFireRock_Fall(EnFireRock* this, PlayState* play);
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play);
 
-ActorInit En_Fire_Rock_InitVars = {
+ActorProfile En_Fire_Rock_Profile = {
     /**/ ACTOR_EN_FIRE_ROCK,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -29,7 +29,7 @@ ActorInit En_Fire_Rock_InitVars = {
 
 static ColliderCylinderInit D_80A12CA0 = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -37,7 +37,7 @@ static ColliderCylinderInit D_80A12CA0 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x09, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -49,7 +49,7 @@ static ColliderCylinderInit D_80A12CA0 = {
 
 static ColliderCylinderInit D_80A12CCC = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -57,7 +57,7 @@ static ColliderCylinderInit D_80A12CCC = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x01, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -367,7 +367,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
                 this->collider.base.atFlags &= ~AT_HIT;
                 if (this->collider.base.at == playerActor) {
                     if (!(player->stateFlags1 & PLAYER_STATE1_26)) {
-                        func_8002F758(play, thisx, 2.0f, -player->actor.world.rot.y, 3.0f, 4);
+                        Actor_SetPlayerKnockbackSmall(play, thisx, 2.0f, -player->actor.world.rot.y, 3.0f, 4);
                     }
                     return;
                 }
@@ -396,8 +396,7 @@ void EnFireRock_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
     gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fire_rock.c", 768),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_fire_rock.c", 768);
     gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fire_rock.c", 773);
 }

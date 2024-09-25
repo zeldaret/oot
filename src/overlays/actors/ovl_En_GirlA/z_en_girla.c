@@ -7,7 +7,7 @@
 #include "z_en_girla.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnGirlA_Init(Actor* thisx, PlayState* play);
 void EnGirlA_Destroy(Actor* thisx, PlayState* play);
@@ -67,7 +67,7 @@ void EnGirlA_BuyEvent_ObtainBombchuPack(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_GoronTunic(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_ZoraTunic(PlayState* play, EnGirlA* this);
 
-ActorInit En_GirlA_InitVars = {
+ActorProfile En_GirlA_Profile = {
     /**/ ACTOR_EN_GIRLA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -141,7 +141,7 @@ static s16 sMaskShopItems[8] = {
 
 static u16 sMaskShopFreeToBorrowTextIds[5] = { 0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB };
 
-typedef struct {
+typedef struct ShopItemEntry {
     /* 0x00 */ s16 objID;
     /* 0x02 */ s16 giDrawId;
     /* 0x04 */ void (*hiliteFunc)(Actor*, PlayState*, s32);
@@ -155,7 +155,7 @@ typedef struct {
     /* 0x1C */ void (*buyEventFunc)(PlayState*, EnGirlA*);
 } ShopItemEntry; // size = 0x20
 
-static ShopItemEntry shopItemEntries[] = {
+static ShopItemEntry sShopItemEntries[] = {
     // SI_DEKU_NUTS_5
     { OBJECT_GI_NUTS, GID_DEKU_NUTS, func_8002ED80, 15, 5, 0x00B2, 0x007F, GI_DEKU_NUTS_5_2, EnGirlA_CanBuy_DekuNuts,
       EnGirlA_ItemGive_DekuNuts, EnGirlA_BuyEvent_ShieldDiscount },
@@ -389,7 +389,7 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
         return;
     }
 
-    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, shopItemEntries[params].objID);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sShopItemEntries[params].objID);
 
     if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
@@ -895,7 +895,7 @@ void EnGirlA_Noop(EnGirlA* this, PlayState* play) {
 }
 
 void EnGirlA_SetItemDescription(PlayState* play, EnGirlA* this) {
-    ShopItemEntry* tmp = &shopItemEntries[this->actor.params];
+    ShopItemEntry* tmp = &sShopItemEntries[this->actor.params];
     s32 params = this->actor.params;
 
     if ((this->actor.params >= SI_KEATON_MASK) && (this->actor.params <= SI_MASK_OF_TRUTH)) {
@@ -954,7 +954,7 @@ void EnGirlA_UpdateStockedItem(PlayState* play, EnGirlA* this) {
 
     if (EnGirlA_TryChangeShopItem(this)) {
         EnGirlA_InitItem(this, play);
-        itemEntry = &shopItemEntries[this->actor.params];
+        itemEntry = &sShopItemEntries[this->actor.params];
         this->actor.textId = itemEntry->itemDescTextId;
     } else {
         this->isInvisible = false;
@@ -979,7 +979,7 @@ s32 EnGirlA_TrySetMaskItemDescription(EnGirlA* this, PlayState* play) {
 
 void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
     s16 params = this->actor.params;
-    ShopItemEntry* itemEntry = &shopItemEntries[params];
+    ShopItemEntry* itemEntry = &sShopItemEntries[params];
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
@@ -1058,7 +1058,7 @@ void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
         this->hiliteFunc = itemEntry->hiliteFunc;
         this->giDrawId = itemEntry->giDrawId;
         PRINTF("%s(%2d)\n", sShopItemDescriptions[params], params);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Actor_SetScale(&this->actor, 0.25f);
         this->actor.shape.yOffset = 24.0f;
         this->actor.shape.shadowScale = 4.0f;

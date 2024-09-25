@@ -16,7 +16,7 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play);
 
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
-ActorInit Bg_Sst_Floor_InitVars = {
+ActorProfile Bg_Sst_Floor_Profile = {
     /**/ ACTOR_BG_SST_FLOOR,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -128,8 +128,7 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Scale(1.0f, this->drumHeight * -0.0025f, 1.0f, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_sst_floor.c", 283),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_sst_floor.c", 283);
 
     gSPDisplayList(POLY_OPA_DISP++, gBongoDrumDL);
 

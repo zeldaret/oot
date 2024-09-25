@@ -6,7 +6,7 @@
 
 #include "z_en_cow.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnCow_Init(Actor* thisx, PlayState* play);
 void EnCow_Destroy(Actor* thisx, PlayState* play);
@@ -26,7 +26,7 @@ void EnCow_DrawTail(Actor* thisx, PlayState* play);
 void EnCow_UpdateTail(Actor* thisx, PlayState* play);
 void EnCow_IdleTail(EnCow* this, PlayState* play);
 
-ActorInit En_Cow_InitVars = {
+ActorProfile En_Cow_Profile = {
     /**/ ACTOR_EN_COW,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -40,7 +40,7 @@ ActorInit En_Cow_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -48,7 +48,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -146,7 +146,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
                                COW_TYPE_TAIL);
             this->animationTimer = Rand_ZeroFloat(1000.0f) + 40.0f;
             this->breathTimer = 0;
-            this->actor.targetMode = 6;
+            this->actor.attentionRangeType = ATTENTION_RANGE_6;
             R_EPONAS_SONG_PLAYED = false;
             break;
 
@@ -158,7 +158,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
             this->actor.draw = EnCow_DrawTail;
             this->actionFunc = EnCow_IdleTail;
             EnCow_SetTailPos(this);
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->animationTimer = (u16)Rand_ZeroFloat(1000.0f) + 40.0f;
             break;
     }

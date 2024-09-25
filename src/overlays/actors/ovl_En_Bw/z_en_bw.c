@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_bw/object_bw.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
 
 void EnBw_Init(Actor* thisx, PlayState* play);
 void EnBw_Destroy(Actor* thisx, PlayState* play);
@@ -33,7 +33,7 @@ void func_809D0268(EnBw* this, PlayState* play);
 void func_809D03CC(EnBw* this);
 void func_809D0424(EnBw* this, PlayState* play);
 
-ActorInit En_Bw_InitVars = {
+ActorProfile En_Bw_Profile = {
     /**/ ACTOR_EN_BW,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -47,7 +47,7 @@ ActorInit En_Bw_InitVars = {
 
 static ColliderCylinderInit sCylinderInit1 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -55,7 +55,7 @@ static ColliderCylinderInit sCylinderInit1 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x01, 0x08 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -67,7 +67,7 @@ static ColliderCylinderInit sCylinderInit1 = {
 
 static ColliderCylinderInit sCylinderInit2 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -75,7 +75,7 @@ static ColliderCylinderInit sCylinderInit2 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -573,7 +573,7 @@ void func_809CFF98(EnBw* this, PlayState* play) {
 void func_809D00F4(EnBw* this) {
     this->unk_220 = 0;
     this->unk_222 = 40;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_DEAD);
     EnBw_SetupAction(this, func_809D014C);
@@ -828,8 +828,7 @@ s32 EnBw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             Matrix_RotateZ(-(this->unk_258 * 0.1f), MTXMODE_APPLY);
             Matrix_RotateY(-(this->unk_258 * 0.13f), MTXMODE_APPLY);
             Matrix_RotateX(-(this->unk_258 * 0.115f), MTXMODE_APPLY);
-            gSPMatrix((*gfx)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bw.c", 1388),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD((*gfx)++, play->state.gfxCtx, "../z_en_bw.c", 1388);
             gSPDisplayList((*gfx)++, *dList);
             Matrix_Pop();
             return 1;
@@ -890,8 +889,7 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, 255);
     Matrix_Scale(this->unk_248 * 0.01f, this->unk_248 * 0.01f, this->unk_248 * 0.01f, MTXMODE_APPLY);
     Matrix_ReplaceRotation(&play->billboardMtxF);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bw.c", 1500),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bw.c", 1500);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
     if (this->iceTimer != 0) {
@@ -906,8 +904,6 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
             EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &icePos, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, 1.3f);
         }
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bw.c", 1521);
 }

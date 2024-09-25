@@ -14,7 +14,6 @@ typedef enum {
     STMT_entry,
     STMT_flags,
     STMT_include,
-    STMT_include_data_with_rodata,
     STMT_name,
     STMT_number,
     STMT_romalign,
@@ -34,7 +33,6 @@ enum {
 struct Include {
     char* fpath;
     int linkerPadding;
-    uint8_t dataWithRodata;
 };
 
 typedef struct Segment {

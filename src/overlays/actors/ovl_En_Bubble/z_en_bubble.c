@@ -1,7 +1,7 @@
 #include "z_en_bubble.h"
 #include "assets/objects/object_bubble/object_bubble.h"
 
-#define FLAGS ACTOR_FLAG_0
+#define FLAGS ACTOR_FLAG_ATTENTION_ENABLED
 
 void EnBubble_Init(Actor* thisx, PlayState* play);
 void EnBubble_Destroy(Actor* thisx, PlayState* play);
@@ -12,7 +12,7 @@ void EnBubble_Wait(EnBubble* this, PlayState* play);
 void EnBubble_Pop(EnBubble* this, PlayState* play);
 void EnBubble_Regrow(EnBubble* this, PlayState* play);
 
-ActorInit En_Bubble_InitVars = {
+ActorProfile En_Bubble_Profile = {
     /**/ ACTOR_EN_BUBBLE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -27,7 +27,7 @@ ActorInit En_Bubble_InitVars = {
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x04 },
             { 0xFFCFD753, 0x00, 0x00 },
             ATELEM_NONE,
@@ -38,7 +38,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00002824, 0x00, 0x00 },
             ATELEM_NONE,
@@ -51,7 +51,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -76,7 +76,7 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
     f32 c;
     f32 d;
 
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_SetScale(&this->actor, 1.0f);
     this->actor.shape.yOffset = 16.0f;
     this->graphicRotSpeed = 16.0f;
@@ -115,7 +115,7 @@ void EnBubble_DamagePlayer(EnBubble* this, PlayState* play) {
     s32 damage = -this->colliderSphere.elements[0].base.atDmgInfo.damage;
 
     play->damagePlayer(play, damage);
-    func_8002F7A0(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
+    Actor_SetPlayerKnockbackSmallNoDamage(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
 }
 
 s32 EnBubble_Explosion(EnBubble* this, PlayState* play) {
@@ -145,7 +145,7 @@ s32 EnBubble_Explosion(EnBubble* this, PlayState* play) {
                                           &sEffectEnvColor, Rand_S16Offset(100, 50), 0x19, 0);
     }
     Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x50);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     return Rand_S16Offset(90, 60);
 }
 
@@ -405,7 +405,7 @@ void EnBubble_Update(Actor* thisx, PlayState* play) {
 
 void EnBubble_Draw(Actor* thisx, PlayState* play) {
     EnBubble* this = (EnBubble*)thisx;
-    u32 pad;
+    PlayState* play2 = (PlayState*)play;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bubble.c", 1175);
 
@@ -413,19 +413,16 @@ void EnBubble_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         Math_SmoothStepToF(&this->graphicRotSpeed, 16.0f, 0.2f, 1000.0f, 0.0f);
         Math_SmoothStepToF(&this->graphicEccentricity, 0.08f, 0.2f, 1000.0f, 0.0f);
-        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_ReplaceRotation(&play2->billboardMtxF);
 
         Matrix_Scale(this->expansionWidth + 1.0f, this->expansionHeight + 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD((f32)play->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
         Matrix_Scale(this->graphicEccentricity + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD(-(f32)play->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bubble.c", 1220),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bubble.c", 1220);
         gSPDisplayList(POLY_XLU_DISP++, gBubbleDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bubble.c", 1226);
 

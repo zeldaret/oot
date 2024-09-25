@@ -7,7 +7,7 @@
 #include "z_en_skjneedle.h"
 #include "assets/objects/object_skj/object_skj.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_9)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_9)
 
 void EnSkjneedle_Init(Actor* thisx, PlayState* play);
 void EnSkjneedle_Destroy(Actor* thisx, PlayState* play);
@@ -16,7 +16,7 @@ void EnSkjneedle_Draw(Actor* thisx, PlayState* play);
 
 s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);
 
-ActorInit En_Skjneedle_InitVars = {
+ActorProfile En_Skjneedle_Profile = {
     /**/ ACTOR_EN_SKJNEEDLE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -30,14 +30,14 @@ ActorInit En_Skjneedle_InitVars = {
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_HIT1,
+        COL_MATERIAL_HIT1,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -48,8 +48,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnSkjneedle_Init(Actor* thisx, PlayState* play) {
@@ -59,7 +59,7 @@ void EnSkjneedle_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinderType1(play, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 20.0f);
-    thisx->flags &= ~ACTOR_FLAG_0;
+    thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_SetScale(&this->actor, 0.01f);
 }
 
@@ -104,8 +104,7 @@ void EnSkjneedle_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_skj_needle.c", 200);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_skj_needle.c", 205),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_skj_needle.c", 205);
     gSPDisplayList(POLY_OPA_DISP++, gSkullKidNeedleDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_skj_needle.c", 210);

@@ -21,7 +21,7 @@ void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, PlayState* play);
 
-ActorInit Bg_Mori_Hashira4_InitVars = {
+ActorProfile Bg_Mori_Hashira4_Profile = {
     /**/ ACTOR_BG_MORI_HASHIRA4,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -71,7 +71,7 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
-    this->switchFlag = (this->dyna.actor.params >> 8) & 0x3F;
+    this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 8, 6);
     this->dyna.actor.params &= 0xFF;
 
     if (this->dyna.actor.params == 0) {
@@ -167,8 +167,7 @@ void BgMoriHashira4_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_hashira4.c", 344);
 
     gSPDisplayList(POLY_OPA_DISP++, sDisplayLists[this->dyna.actor.params]);
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 348);

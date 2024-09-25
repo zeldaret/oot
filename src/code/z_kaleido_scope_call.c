@@ -1,10 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 
-// For retail BSS ordering, the block number of sKaleidoScopeUpdateFunc must be 0 or
-// just above (the exact upper bound depends on the block numbers assigned to
-// extern variables declared in headers).
-#pragma increment_block_number 60
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.2:128"
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);
@@ -21,14 +19,14 @@ void KaleidoScopeCall_LoadPlayer(void) {
     if (gKaleidoMgrCurOvl != playerActorOvl) {
         if (gKaleidoMgrCurOvl != NULL) {
             PRINTF(VT_FGCOL(GREEN));
-            PRINTF("カレイド領域 強制排除\n"); // "Kaleido area forced exclusion"
+            PRINTF(T("カレイド領域 強制排除\n", "Kaleido area forced exclusion\n"));
             PRINTF(VT_RST);
 
             KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
         }
 
         PRINTF(VT_FGCOL(GREEN));
-        PRINTF("プレイヤーアクター搬入\n"); // "Player actor import"
+        PRINTF(T("プレイヤーアクター搬入\n", "Player actor import\n"));
         PRINTF(VT_RST);
 
         KaleidoManager_LoadOvl(playerActorOvl);
@@ -36,8 +34,7 @@ void KaleidoScopeCall_LoadPlayer(void) {
 }
 
 void KaleidoScopeCall_Init(PlayState* play) {
-    // "Kaleidoscope replacement construction"
-    PRINTF("カレイド・スコープ入れ替え コンストラクト \n");
+    PRINTF(T("カレイド・スコープ入れ替え コンストラクト \n", "Kaleidoscope replacement construction\n"));
 
     sKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr(KaleidoScope_Update);
     sKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr(KaleidoScope_Draw);
@@ -51,8 +48,7 @@ void KaleidoScopeCall_Init(PlayState* play) {
 }
 
 void KaleidoScopeCall_Destroy(PlayState* play) {
-    // "Kaleidoscope replacement destruction"
-    PRINTF("カレイド・スコープ入れ替え デストラクト \n");
+    PRINTF(T("カレイド・スコープ入れ替え デストラクト \n", "Kaleidoscope replacement destruction\n"));
 
     KaleidoSetup_Destroy(play);
 }
@@ -71,7 +67,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 
                 R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
                 pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-                pauseCtx->unk_1EC = 0;
+                pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
             }
         } else if (pauseCtx->state == PAUSE_STATE_8) {
@@ -82,7 +78,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-            pauseCtx->unk_1EC = 0;
+            pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_9
         } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) || (pauseCtx->state == PAUSE_STATE_9)) {
             PRINTF("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_BG_PRERENDER_STATE);
@@ -94,16 +90,14 @@ void KaleidoScopeCall_Update(PlayState* play) {
             if (gKaleidoMgrCurOvl != kaleidoScopeOvl) {
                 if (gKaleidoMgrCurOvl != NULL) {
                     PRINTF(VT_FGCOL(GREEN));
-                    // "Kaleido area Player Forced Elimination"
-                    PRINTF("カレイド領域 プレイヤー 強制排除\n");
+                    PRINTF(T("カレイド領域 プレイヤー 強制排除\n", "Kaleido area Player Forced Elimination\n"));
                     PRINTF(VT_RST);
 
                     KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
                 }
 
                 PRINTF(VT_FGCOL(GREEN));
-                // "Kaleido area Kaleidoscope loading"
-                PRINTF("カレイド領域 カレイドスコープ搬入\n");
+                PRINTF(T("カレイド領域 カレイドスコープ搬入\n", "Kaleido area Kaleidoscope loading\n"));
                 PRINTF(VT_RST);
 
                 KaleidoManager_LoadOvl(kaleidoScopeOvl);
@@ -114,8 +108,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 
                 if (!IS_PAUSED(&play->pauseCtx)) {
                     PRINTF(VT_FGCOL(GREEN));
-                    // "Kaleido area Kaleidoscope Emission"
-                    PRINTF("カレイド領域 カレイドスコープ排出\n");
+                    PRINTF(T("カレイド領域 カレイドスコープ排出\n", "Kaleido area Kaleidoscope Emission\n"));
                     PRINTF(VT_RST);
 
                     KaleidoManager_ClearOvl(kaleidoScopeOvl);

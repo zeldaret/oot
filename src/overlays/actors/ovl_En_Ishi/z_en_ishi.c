@@ -32,7 +32,7 @@ void EnIshi_SpawnDustLarge(EnIshi* this, PlayState* play);
 static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
-ActorInit En_Ishi_InitVars = {
+ActorProfile En_Ishi_Profile = {
     /**/ ACTOR_EN_ISHI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -62,7 +62,7 @@ static EnIshiEffectSpawnFunc sDustSpawnFuncs[] = { EnIshi_SpawnDustSmall, EnIshi
 static ColliderCylinderInit sCylinderInits[] = {
     {
         {
-            COLTYPE_HARD,
+            COL_MATERIAL_HARD,
             AT_NONE,
             AC_ON | AC_HARD | AC_TYPE_PLAYER,
             OC1_ON | OC1_TYPE_ALL,
@@ -70,7 +70,7 @@ static ColliderCylinderInit sCylinderInits[] = {
             COLSHAPE_CYLINDER,
         },
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFFE, 0x00, 0x00 },
             ATELEM_NONE,
@@ -81,7 +81,7 @@ static ColliderCylinderInit sCylinderInits[] = {
     },
     {
         {
-            COLTYPE_HARD,
+            COL_MATERIAL_HARD,
             AT_NONE,
             AC_ON | AC_HARD | AC_TYPE_PLAYER,
             OC1_ON | OC1_TYPE_ALL,
@@ -89,7 +89,7 @@ static ColliderCylinderInit sCylinderInits[] = {
             COLSHAPE_CYLINDER,
         },
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFF6, 0x00, 0x00 },
             ATELEM_NONE,
@@ -106,7 +106,7 @@ void EnIshi_InitCollider(Actor* thisx, PlayState* play) {
     EnIshi* this = (EnIshi*)thisx;
 
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInits[this->actor.params & 1]);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInits[PARAMS_GET_U(this->actor.params, 0, 1)]);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
@@ -249,8 +249,8 @@ void EnIshi_SpawnDustLarge(EnIshi* this, PlayState* play) {
 void EnIshi_DropCollectible(EnIshi* this, PlayState* play) {
     s16 dropParams;
 
-    if ((this->actor.params & 1) == ROCK_SMALL) {
-        dropParams = (this->actor.params >> 8) & 0xF;
+    if (PARAMS_GET_U(this->actor.params, 0, 1) == ROCK_SMALL) {
+        dropParams = PARAMS_GET_U(this->actor.params, 8, 4);
 
         if (dropParams >= 0xD) {
             dropParams = 0;
@@ -308,7 +308,7 @@ static InitChainEntry sInitChains[][5] = {
 
 void EnIshi_Init(Actor* thisx, PlayState* play) {
     EnIshi* this = (EnIshi*)thisx;
-    s16 type = this->actor.params & 1;
+    s16 type = PARAMS_GET_U(this->actor.params, 0, 1);
 
     Actor_ProcessInitChain(&this->actor, sInitChains[type]);
     if (play->csCtx.state != CS_STATE_IDLE) {
@@ -319,14 +319,13 @@ void EnIshi_Init(Actor* thisx, PlayState* play) {
     }
     Actor_SetScale(&this->actor, sRockScales[type]);
     EnIshi_InitCollider(&this->actor, play);
-    if ((type == ROCK_LARGE) &&
-        Flags_GetSwitch(play, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
+    if ((type == ROCK_LARGE) && Flags_GetSwitch(play, ISHI_GET_SWITCH_FLAG(&this->actor))) {
         Actor_Kill(&this->actor);
         return;
     }
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->actor.shape.yOffset = D_80A7FA20[type];
-    if (!((this->actor.params >> 5) & 1) && !EnIshi_SnapToFloor(this, play, 0.0f)) {
+    if (!PARAMS_GET_U(this->actor.params, 5, 1) && !EnIshi_SnapToFloor(this, play, 0.0f)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -347,12 +346,12 @@ void EnIshi_SetupWait(EnIshi* this) {
 void EnIshi_Wait(EnIshi* this, PlayState* play) {
     static u16 liftSfxIds[] = { NA_SE_PL_PULL_UP_ROCK, NA_SE_PL_PULL_UP_BIGROCK };
     s32 pad;
-    s16 type = this->actor.params & 1;
+    s16 type = PARAMS_GET_U(this->actor.params, 0, 1);
 
     if (Actor_HasParent(&this->actor, play)) {
         EnIshi_SetupLiftedUp(this);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, liftSfxIds[type]);
-        if ((this->actor.params >> 4) & 1) {
+        if (PARAMS_GET_U(this->actor.params, 4, 1)) {
             EnIshi_SpawnBugs(this, play);
         }
     } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
@@ -389,12 +388,12 @@ void EnIshi_SetupLiftedUp(EnIshi* this) {
 void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {
     if (Actor_HasNoParent(&this->actor, play)) {
         this->actor.room = play->roomCtx.curRoom.num;
-        if ((this->actor.params & 1) == ROCK_LARGE) {
-            Flags_SetSwitch(play, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3));
+        if (PARAMS_GET_U(this->actor.params, 0, 1) == ROCK_LARGE) {
+            Flags_SetSwitch(play, ISHI_GET_SWITCH_FLAG(&this->actor));
         }
         EnIshi_SetupFly(this);
         EnIshi_Fall(this);
-        func_80A7ED94(&this->actor.velocity, D_80A7FA28[this->actor.params & 1]);
+        func_80A7ED94(&this->actor.velocity, D_80A7FA28[PARAMS_GET_U(this->actor.params, 0, 1)]);
         Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
@@ -405,7 +404,7 @@ void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {
 void EnIshi_SetupFly(EnIshi* this) {
     this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
     this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
-    if ((this->actor.params & 1) == ROCK_SMALL) {
+    if (PARAMS_GET_U(this->actor.params, 0, 1) == ROCK_SMALL) {
         sRotSpeedX = (Rand_ZeroOne() - 0.5f) * 16000.0f;
         sRotSpeedY = (Rand_ZeroOne() - 0.5f) * 2400.0f;
     } else {
@@ -418,7 +417,7 @@ void EnIshi_SetupFly(EnIshi* this) {
 
 void EnIshi_Fly(EnIshi* this, PlayState* play) {
     s32 pad;
-    s16 type = this->actor.params & 1;
+    s16 type = PARAMS_GET_U(this->actor.params, 0, 1);
     s32 pad2;
     s32 quakeIndex;
     Vec3f contactPos;
@@ -443,7 +442,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         contactPos.x = this->actor.world.pos.x;
-        contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+        contactPos.y = this->actor.world.pos.y + this->actor.depthInWater;
         contactPos.z = this->actor.world.pos.z;
         EffectSsGSplash_Spawn(play, &contactPos, NULL, NULL, 0, 350);
         if (type == ROCK_SMALL) {
@@ -488,8 +487,7 @@ void EnIshi_DrawLarge(EnIshi* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ishi.c", 1055),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ishi.c", 1055);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);
 
@@ -501,5 +499,5 @@ static EnIshiDrawFunc sDrawFuncs[] = { EnIshi_DrawSmall, EnIshi_DrawLarge };
 void EnIshi_Draw(Actor* thisx, PlayState* play) {
     EnIshi* this = (EnIshi*)thisx;
 
-    sDrawFuncs[this->actor.params & 1](this, play);
+    sDrawFuncs[PARAMS_GET_U(this->actor.params, 0, 1)](this, play);
 }

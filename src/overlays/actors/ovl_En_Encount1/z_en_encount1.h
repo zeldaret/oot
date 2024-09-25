@@ -30,7 +30,7 @@ typedef struct EnEncount1 {
     /* 0x016C */ EnReeba* bigLeever;
 } EnEncount1; // size = 0x0170
 
-typedef enum {
+typedef enum EnEncount1type {
     /* 0 */ SPAWNER_LEEVER,
     /* 1 */ SPAWNER_TEKTITE,
     /* 2 */ SPAWNER_STALCHILDREN,

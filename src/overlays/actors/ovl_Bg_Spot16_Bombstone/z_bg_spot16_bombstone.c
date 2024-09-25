@@ -36,7 +36,7 @@ static s16 D_808B5DD8[][10] = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFF6, 0x00, 0x00 },
             ATELEM_NONE,
@@ -49,7 +49,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -62,7 +62,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -70,7 +70,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,
@@ -109,7 +109,7 @@ static s16 D_808B5EB0[][7] = {
     { 0x0014, 0x0050, 0x0032, 0x0000, 0x0096, 0x00C8, 0x0008 },
 };
 
-ActorInit Bg_Spot16_Bombstone_InitVars = {
+ActorProfile Bg_Spot16_Bombstone_Profile = {
     /**/ ACTOR_BG_SPOT16_BOMBSTONE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -144,8 +144,8 @@ static f32 D_808B6074[] = { 66.0f, 51.0f, 48.0f, 36.0f, 21.0f };
 static s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
 
 void func_808B4C30(BgSpot16Bombstone* this) {
-    this->switchFlag = (this->actor.params >> 8) & 0x3F;
-    this->actor.params &= 0xFF;
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 8, 6);
+    this->actor.params = PARAMS_GET_U(this->actor.params, 0, 8);
 }
 
 void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {
@@ -416,7 +416,7 @@ void func_808B57E0(BgSpot16Bombstone* this, PlayState* play) {
                 OnePointCutscene_Init(play, 4180, sTimer, NULL, CAM_ID_MAIN);
             }
         }
-    } else if (player->stateFlags1 & PLAYER_STATE1_11) {
+    } else if (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {
@@ -543,8 +543,7 @@ void BgSpot16Bombstone_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257);
 
     if (this->actor.params == 0xFF) {
         // The boulder is intact

@@ -18,7 +18,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play);
 void func_80B43AD4(EnYukabyun* this, PlayState* play);
 void func_80B43B6C(EnYukabyun* this, PlayState* play);
 
-ActorInit En_Yukabyun_InitVars = {
+ActorProfile En_Yukabyun_Profile = {
     /**/ ACTOR_EN_YUKABYUN,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -32,7 +32,7 @@ ActorInit En_Yukabyun_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_NO_PUSH | OC1_TYPE_ALL,
@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,
@@ -52,7 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 16, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 16, ICHAIN_STOP),
 };
 
 static void* D_80B43F64[] = { gFloorTileEnemyTopTex, gFloorTileEnemyBottomTex };
@@ -80,7 +80,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play) {
         this->unk_150--;
     }
     if (this->unk_150 == 0) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE;
         this->actionfunc = func_80B43AD4;
     }
 }
@@ -94,7 +94,7 @@ void func_80B43AD4(EnYukabyun* this, PlayState* play) {
         this->actionfunc = func_80B43B6C;
     }
     Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 1.0f);
-    func_8002F974(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
 }
 
 void func_80B43B6C(EnYukabyun* this, PlayState* play) {
@@ -103,7 +103,7 @@ void func_80B43B6C(EnYukabyun* this, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_8002F974(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
 }
 
 void EnYukabyun_Break(EnYukabyun* this, PlayState* play) {
@@ -122,7 +122,7 @@ void EnYukabyun_Update(Actor* thisx, PlayState* play) {
         this->collider.base.atFlags &= ~AT_HIT;
         this->collider.base.acFlags &= ~AC_HIT;
         this->collider.base.ocFlags1 &= ~OC1_HIT;
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
         this->actionfunc = EnYukabyun_Break;
     }
@@ -150,8 +150,7 @@ void EnYukabyun_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[this->unk_152]));
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_yukabyun.c", 373),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_yukabyun.c", 373);
     gSPDisplayList(POLY_OPA_DISP++, gFloorTileEnemyDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_yukabyun.c", 378);

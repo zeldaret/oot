@@ -12,7 +12,7 @@
 
 #define FLAGS 0
 
-typedef enum {
+typedef enum EnDntDemoResults {
     /* 0 */ DNT_LIKE,
     /* 1 */ DNT_HATE,
     /* 2 */ DNT_LOVE
@@ -26,7 +26,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play);
 void EnDntDemo_Results(EnDntDemo* this, PlayState* play);
 void EnDntDemo_Prize(EnDntDemo* this, PlayState* play);
 
-ActorInit En_Dnt_Demo_InitVars = {
+ActorProfile En_Dnt_Demo_Profile = {
     /**/ ACTOR_EN_DNT_DEMO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -98,7 +98,7 @@ void EnDntDemo_Init(Actor* thisx, PlayState* play2) {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
     }
     this->subCamId = SUB_CAM_ID_DONE;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnDntDemo_Judge;
 }
 

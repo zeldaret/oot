@@ -7,7 +7,7 @@
 #include "z_en_ba.h"
 #include "assets/objects/object_bxa/object_bxa.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
 
 void EnBa_Init(Actor* thisx, PlayState* play);
 void EnBa_Destroy(Actor* thisx, PlayState* play);
@@ -23,7 +23,7 @@ void EnBa_RecoilFromDamage(EnBa* this, PlayState* play);
 void EnBa_Die(EnBa* this, PlayState* play);
 void EnBa_SetupSwingAtPlayer(EnBa* this);
 
-ActorInit En_Ba_InitVars = {
+ActorProfile En_Ba_Profile = {
     /**/ ACTOR_EN_BA,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -40,7 +40,7 @@ static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f };
 static ColliderJntSphElementInit sJntSphElementInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000010, 0x00, 0x00 },
             ATELEM_NONE,
@@ -51,7 +51,7 @@ static ColliderJntSphElementInit sJntSphElementInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -64,7 +64,7 @@ static ColliderJntSphElementInit sJntSphElementInit[2] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -85,7 +85,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_PARASITIC_TENTACLE, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 0, ICHAIN_STOP),
 };
 
 void EnBa_Init(Actor* thisx, PlayState* play) {
@@ -103,8 +103,8 @@ void EnBa_Init(Actor* thisx, PlayState* play) {
         this->unk_158[i].y = this->actor.world.pos.y - (i + 1) * 32.0f;
     }
 
-    this->actor.targetMode = 4;
-    this->upperParams = (thisx->params >> 8) & 0xFF;
+    this->actor.attentionRangeType = ATTENTION_RANGE_4;
+    this->upperParams = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (this->actor.params < EN_BA_DEAD_BLOB) {
@@ -146,7 +146,7 @@ void EnBa_Idle(EnBa* this, PlayState* play) {
     if ((this->actor.colChkInfo.mass == MASS_IMMOVABLE) && (this->actor.xzDistToPlayer > 175.0f)) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 330.0f, 1.0f, 7.0f, 0.0f);
     } else {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 100.0f, 1.0f, 10.0f, 0.0f);
     }
     this->unk_2FC = this->actor.world.pos;
@@ -311,7 +311,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
             if (this->collider.base.at == &player->actor) {
-                func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             }
         }
 
@@ -402,7 +402,7 @@ void func_809B75A0(EnBa* this, PlayState* play2) {
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Matrix_RotateZYX(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_809B8080, &this->unk_158[0]);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     for (i = 5; i < 13; i++) {
         Math_SmoothStepToS(&this->unk_2A8[i].x, this->unk_2A8[5].x, 1, this->unk_31C, 0);
         Math_SmoothStepToS(&this->unk_2A8[i].y, this->unk_2A8[5].y, 1, this->unk_31C, 0);
@@ -499,22 +499,17 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateZYX(this->unk_2A8[i].x, this->unk_2A8[i].y, this->unk_2A8[i].z, MTXMODE_APPLY);
             Matrix_Scale(this->unk_200[i].x, this->unk_200[i].y, this->unk_200[i].z, MTXMODE_APPLY);
             if ((i == 6) || (i == 13)) {
-                if (mtx) {}
-                switch (i) {
-                    case 13:
-                        Collider_UpdateSpheres(i, &this->collider);
-                        break;
-                    default:
-                        Matrix_Scale(0.5f, 0.5f, 1.0f, MTXMODE_APPLY);
-                        Collider_UpdateSpheres(8, &this->collider);
-                        break;
+                if (i == 13) {
+                    Collider_UpdateSpheres(i, &this->collider);
+                } else {
+                    Matrix_Scale(0.5f, 0.5f, 1.0f, MTXMODE_APPLY);
+                    Collider_UpdateSpheres(8, &this->collider);
                 }
             }
             MATRIX_TO_MTX(mtx, "../z_en_ba.c", 970);
         }
         Matrix_Pop();
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ba.c", 973),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ba.c", 973);
         gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_000890);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x08,
@@ -522,8 +517,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
                                     (play->gameplayFrames * 2) % 128, 32, 32, 1, (play->gameplayFrames * -5) % 128,
                                     (play->gameplayFrames * -5) % 128, 32, 32));
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 125, 100, 255);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ba.c", 991),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ba.c", 991);
         gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_001D80);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ba.c", 995);

@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "versions.h"
 
 void AudioHeap_InitSampleCaches(u32 persistentSampleCacheSize, u32 temporarySampleCacheSize);
 SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size);
@@ -907,8 +908,8 @@ void AudioHeap_Init(void) {
     }
 
     // Determine the length of the buffer for storing the audio command list passed to the rsp audio microcode
-    gAudioCtx.maxAudioCmds =
-        gAudioCtx.numNotes * 0x10 * gAudioCtx.audioBufferParameters.ticksPerUpdate + spec->numReverbs * 0x18 + 0x140;
+    gAudioCtx.maxAudioCmds = gAudioCtx.numNotes * 0x10 * gAudioCtx.audioBufferParameters.ticksPerUpdate +
+                             spec->numReverbs * 0x18 + FRAMERATE_CONST(0x140, 0x1C0);
 
     // Calculate sizes for various caches on the audio heap
     persistentSize =
@@ -1002,9 +1003,9 @@ void AudioHeap_Init(void) {
         reverb->sample.medium = MEDIUM_RAM;
         reverb->sample.size = reverb->windowSize * SAMPLE_SIZE;
         reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;
-        reverb->loop.start = 0;
-        reverb->loop.count = 1;
-        reverb->loop.end = reverb->windowSize;
+        reverb->loop.header.start = 0;
+        reverb->loop.header.count = 1;
+        reverb->loop.header.end = reverb->windowSize;
 
         if (reverb->downsampleRate != 1) {
             reverb->unk_0E = 0x8000 / reverb->downsampleRate;
@@ -1265,7 +1266,7 @@ void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
     s32 sampleBankId2;
     s32 fontId;
 
-    numFonts = gAudioCtx.soundFontTable->numEntries;
+    numFonts = gAudioCtx.soundFontTable->header.numEntries;
     for (fontId = 0; fontId < numFonts; fontId++) {
         sampleBankId1 = gAudioCtx.soundFontList[fontId].sampleBankId1;
         sampleBankId2 = gAudioCtx.soundFontList[fontId].sampleBankId2;
@@ -1322,7 +1323,7 @@ void AudioHeap_DiscardSampleCaches(void) {
     s32 fontId;
     s32 j;
 
-    numFonts = gAudioCtx.soundFontTable->numEntries;
+    numFonts = gAudioCtx.soundFontTable->header.numEntries;
     for (fontId = 0; fontId < numFonts; fontId++) {
         sampleBankId1 = gAudioCtx.soundFontList[fontId].sampleBankId1;
         sampleBankId2 = gAudioCtx.soundFontList[fontId].sampleBankId2;
@@ -1345,7 +1346,7 @@ void AudioHeap_DiscardSampleCaches(void) {
     }
 }
 
-typedef struct {
+typedef struct StorageChange {
     u32 oldAddr;
     u32 newAddr;
     u32 size;
@@ -1392,7 +1393,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     s32 pad[4];
 
     sampleBankTable = gAudioCtx.sampleBankTable;
-    numFonts = gAudioCtx.soundFontTable->numEntries;
+    numFonts = gAudioCtx.soundFontTable->header.numEntries;
     change.oldAddr = (u32)AudioHeap_SearchCaches(SAMPLE_TABLE, CACHE_EITHER, sampleBankId);
     if (change.oldAddr == 0) {
         return;

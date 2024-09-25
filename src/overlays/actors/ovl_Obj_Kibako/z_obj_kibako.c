@@ -22,7 +22,7 @@ void ObjKibako_Held(ObjKibako* this, PlayState* play);
 void ObjKibako_SetupThrown(ObjKibako* this);
 void ObjKibako_Thrown(ObjKibako* this, PlayState* play);
 
-ActorInit Obj_Kibako_InitVars = {
+ActorProfile Obj_Kibako_Profile = {
     /**/ ACTOR_OBJ_KIBAKO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -36,7 +36,7 @@ ActorInit Obj_Kibako_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -44,7 +44,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000002, 0x00, 0x01 },
         { 0x4FC00748, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -66,9 +66,9 @@ static InitChainEntry sInitChain[] = {
 void ObjKibako_SpawnCollectible(ObjKibako* this, PlayState* play) {
     s16 collectible;
 
-    collectible = this->actor.params & 0x1F;
+    collectible = PARAMS_GET_U(this->actor.params, 0, 5);
     if ((collectible >= 0) && (collectible < ITEM00_MAX)) {
-        Item_DropCollectible(play, &this->actor.world.pos, collectible | (((this->actor.params >> 8) & 0x3F) << 8));
+        Item_DropCollectible(play, &this->actor.world.pos, collectible | (PARAMS_GET_U(this->actor.params, 8, 6) << 8));
     }
 }
 
@@ -152,7 +152,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, PlayState* play) {
     Vec3f velocity;
 
     pos = *breakPos;
-    pos.y += this->actor.yDistToWater;
+    pos.y += this->actor.depthInWater;
     EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 500);
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
@@ -187,7 +187,7 @@ void ObjKibako_Idle(ObjKibako* this, PlayState* play) {
 
     if (Actor_HasParent(&this->actor, play)) {
         ObjKibako_SetupHeld(this);
-    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 19.0f)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.depthInWater > 19.0f)) {
         ObjKibako_WaterBreak(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, play);

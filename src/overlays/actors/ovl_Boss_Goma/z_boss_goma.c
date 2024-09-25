@@ -4,18 +4,18 @@
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 // IRIS_FOLLOW: gohma looks towards the player (iris rotation)
 // BONUS_IFRAMES: gain invincibility frames when the player does something (throwing things?), or
 // randomly (see BossGoma_UpdateEye)
-typedef enum {
+typedef enum GohmaEyeState {
     EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES, // default, allows not drawing lens and iris when eye is closed
     EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES,
     EYESTATE_IRIS_FOLLOW_NO_IFRAMES
 } GohmaEyeState;
 
-typedef enum {
+typedef enum GohmaVisualState {
     VISUALSTATE_RED,         // main/eye: red
     VISUALSTATE_DEFAULT,     // main: greenish cyan, blinks with dark gray every 16 frames; eye: white
     VISUALSTATE_DEFEATED,    // main/eye: dark gray
@@ -49,7 +49,7 @@ void BossGoma_WallClimb(BossGoma* this, PlayState* play);
 void BossGoma_CeilingMoveToCenter(BossGoma* this, PlayState* play);
 void BossGoma_SpawnChildGohma(BossGoma* this, PlayState* play, s16 i);
 
-ActorInit Boss_Goma_InitVars = {
+ActorProfile Boss_Goma_Profile = {
     /**/ ACTOR_BOSS_GOMA,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -64,7 +64,7 @@ ActorInit Boss_Goma_InitVars = {
 static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     {
         {
-            ELEMTYPE_UNK3,
+            ELEM_MATERIAL_UNK3,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -75,7 +75,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -86,7 +86,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -97,7 +97,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -108,7 +108,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -119,7 +119,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -130,7 +130,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -141,7 +141,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -152,7 +152,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -163,7 +163,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -174,7 +174,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -185,7 +185,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -196,7 +196,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -209,7 +209,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
 
 static ColliderJntSphInit sColliderJntSphInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -333,7 +333,7 @@ void BossGoma_ClearPixels(u8* clearPixelTable, s16 i) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GOHMA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
@@ -404,7 +404,7 @@ void BossGoma_SetupDefeated(BossGoma* this, PlayState* play) {
     this->noBackfaceCulling = false;
     this->framesUntilNextAction = 1200;
     this->actionState = 0;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
     this->actor.speed = 0.0f;
     this->actor.shape.shadowScale = 0.0f;
     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
@@ -627,7 +627,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, PlayState* play) {
 
     player = GET_PLAYER(play);
     this->actionState = 4;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Cutscene_StartManual(play, &play->csCtx);
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     this->subCamId = Play_CreateSubCamera(play);
@@ -718,7 +718,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             this->framesUntilNextAction = 50;
             this->timer = 80;
             this->frameCount = 0;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             FALLTHROUGH;
         case 2: // zoom on player from room center
             // room entrance, towards center
@@ -2005,8 +2005,7 @@ s32 BossGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
                 if (*dList != NULL) {
                     Matrix_Push();
                     Matrix_Scale(this->eyeIrisScaleX, this->eyeIrisScaleY, 1.0f, MTXMODE_APPLY);
-                    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_goma.c", 4815),
-                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_goma.c", 4815);
                     gSPDisplayList(POLY_OPA_DISP++, *dList);
                     Matrix_Pop();
                 }
@@ -2026,8 +2025,7 @@ s32 BossGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
                 Matrix_Scale(this->tailLimbsScale[limbIndex - BOSSGOMA_LIMB_TAIL4],
                              this->tailLimbsScale[limbIndex - BOSSGOMA_LIMB_TAIL4],
                              this->tailLimbsScale[limbIndex - BOSSGOMA_LIMB_TAIL4], MTXMODE_APPLY);
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_goma.c", 4836),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_goma.c", 4836);
                 gSPDisplayList(POLY_OPA_DISP++, *dList);
                 Matrix_Pop();
             }

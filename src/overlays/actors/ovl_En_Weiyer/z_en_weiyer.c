@@ -7,7 +7,7 @@
 #include "z_en_weiyer.h"
 #include "assets/objects/object_ei/object_ei.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnWeiyer_Init(Actor* thisx, PlayState* play);
 void EnWeiyer_Destroy(Actor* thisx, PlayState* play);
@@ -26,7 +26,7 @@ void func_80B332B4(EnWeiyer* this, PlayState* play);
 void func_80B33338(EnWeiyer* this, PlayState* play);
 void func_80B3349C(EnWeiyer* this, PlayState* play);
 
-ActorInit En_Weiyer_InitVars = {
+ActorProfile En_Weiyer_Profile = {
     /**/ ACTOR_EN_WEIYER,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -40,7 +40,7 @@ ActorInit En_Weiyer_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -48,7 +48,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,
@@ -98,7 +98,7 @@ static DamageTable sDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_STINGER, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 3, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 2500, ICHAIN_STOP),
 };
 
 void EnWeiyer_Init(Actor* thisx, PlayState* play) {
@@ -388,7 +388,7 @@ void func_80B32E34(EnWeiyer* this, PlayState* play) {
 
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0x200, 0x80);
 
-        if ((player->actor.yDistToWater < 50.0f) && (this->actor.yDistToWater < 20.0f) &&
+        if ((player->actor.depthInWater < 50.0f) && (this->actor.depthInWater < 20.0f) &&
             Actor_IsFacingPlayer(&this->actor, 0x2000)) {
             func_80B327D8(this);
         }
@@ -523,7 +523,7 @@ void func_80B3349C(EnWeiyer* this, PlayState* play) {
     if (this->unk_194 == -1) {
         if (phi_a0 || (this->collider.base.atFlags & AT_HIT)) {
             func_80B32538(this);
-        } else if (this->actor.yDistToWater < 0.0f) {
+        } else if (this->actor.depthInWater < 0.0f) {
             this->unk_194 = 10;
             EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 1, 400);
             Actor_PlaySfx(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
@@ -571,7 +571,7 @@ void func_80B3368C(EnWeiyer* this, PlayState* play) {
             } else if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_DEAD);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 func_80B32724(this);
             } else {
                 func_80B325A0(this);
@@ -584,7 +584,7 @@ void EnWeiyer_Update(Actor* thisx, PlayState* play) {
     EnWeiyer* this = (EnWeiyer*)thisx;
     s32 pad;
 
-    this->actor.home.pos.y = this->actor.yDistToWater + this->actor.world.pos.y - 5.0f;
+    this->actor.home.pos.y = this->actor.depthInWater + this->actor.world.pos.y - 5.0f;
     func_80B3368C(this, play);
     this->actionFunc(this, play);
     this->actor.world.rot.y = this->actor.shape.rot.y;

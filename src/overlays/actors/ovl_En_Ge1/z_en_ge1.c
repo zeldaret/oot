@@ -8,14 +8,14 @@
 #include "terminal.h"
 #include "assets/objects/object_ge1/object_ge1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 #define GE1_STATE_TALKING (1 << 0)
 #define GE1_STATE_GIVE_QUIVER (1 << 1)
 #define GE1_STATE_IDLE_ANIM (1 << 2)
 #define GE1_STATE_STOP_FIDGET (1 << 3)
 
-typedef enum {
+typedef enum EnGe1Hairstyle {
     /* 00 */ GE1_HAIR_BOB,
     /* 01 */ GE1_HAIR_STRAIGHT,
     /* 02 */ GE1_HAIR_SPIKY
@@ -39,7 +39,7 @@ void EnGe1_Wait_Archery(EnGe1* this, PlayState* play);
 void EnGe1_CueUpAnimation(EnGe1* this);
 void EnGe1_StopFidget(EnGe1* this);
 
-ActorInit En_Ge1_InitVars = {
+ActorProfile En_Ge1_Profile = {
     /**/ ACTOR_EN_GE1,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -53,7 +53,7 @@ ActorInit En_Ge1_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -61,7 +61,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000702, 0x00, 0x00 },
         ATELEM_NONE,
@@ -98,12 +98,12 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->animation = &gGerudoWhiteIdleAnim;
     this->animFunc = EnGe1_CueUpAnimation;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
 
     this->actor.uncullZoneForward = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
 
-    switch (this->actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 8)) {
 
         case GE1_TYPE_GATE_GUARD:
             this->hairstyle = GE1_HAIR_SPIKY;
@@ -146,7 +146,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
                 Actor_Kill(&this->actor);
                 return;
             }
-            this->actor.targetMode = 3;
+            this->actor.attentionRangeType = ATTENTION_RANGE_3;
             this->hairstyle = GE1_HAIR_BOB;
             // "Horseback archery Gerudo EVENT_INF(0) ="
             PRINTF(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
@@ -329,7 +329,7 @@ void EnGe1_WaitTillOpened_GTGGuard(EnGe1* this, PlayState* play) {
 void EnGe1_Open_GTGGuard(EnGe1* this, PlayState* play) {
     if (this->stateFlags & GE1_STATE_IDLE_ANIM) {
         this->actionFunc = EnGe1_WaitTillOpened_GTGGuard;
-        Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         this->cutsceneTimer = 50;
         Message_CloseTextbox(play);
     } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
@@ -422,7 +422,7 @@ void EnGe1_WaitUntilGateOpened_GateOp(EnGe1* this, PlayState* play) {
 void EnGe1_OpenGate_GateOp(EnGe1* this, PlayState* play) {
     if (this->stateFlags & GE1_STATE_IDLE_ANIM) {
         this->actionFunc = EnGe1_WaitUntilGateOpened_GateOp;
-        Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         this->cutsceneTimer = 50;
         Message_CloseTextbox(play);
     } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
@@ -444,7 +444,7 @@ void EnGe1_SetupOpenGate_GateOp(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_CheckGate_GateOp(EnGe1* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         EnGe1_SetTalkAction(this, play, 0x6018, 100.0f, EnGe1_WaitGateOpen_GateOp);
     } else {
         EnGe1_SetTalkAction(this, play, 0x6017, 100.0f, EnGe1_SetupOpenGate_GateOp);

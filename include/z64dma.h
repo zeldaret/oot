@@ -5,7 +5,7 @@
 #include "alignment.h"
 #include "romfile.h"
 
-typedef struct {
+typedef struct DmaRequest {
     /* 0x00 */ uintptr_t    vromAddr; // VROM address (source)
     /* 0x04 */ void*        dramAddr; // DRAM address (destination)
     /* 0x08 */ size_t       size;     // File Transfer size
@@ -16,7 +16,7 @@ typedef struct {
     /* 0x1C */ OSMesg       notifyMsg;   // Completion notification message
 } DmaRequest; // size = 0x20
 
-typedef struct {
+typedef struct DmaEntry {
     /* 0x00 */ RomFile file;
     /* 0x08 */ uintptr_t romStart;
     /* 0x0C */ uintptr_t romEnd;

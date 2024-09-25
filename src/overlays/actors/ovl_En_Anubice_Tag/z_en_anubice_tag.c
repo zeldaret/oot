@@ -17,7 +17,7 @@ void EnAnubiceTag_Draw(Actor* thisx, PlayState* play);
 void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, PlayState* play);
 void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, PlayState* play);
 
-ActorInit En_Anubice_Tag_InitVars = {
+ActorProfile En_Anubice_Tag_Profile = {
     /**/ ACTOR_EN_ANUBICE_TAG,
     /**/ ACTORCAT_SWITCH,
     /**/ FLAGS,

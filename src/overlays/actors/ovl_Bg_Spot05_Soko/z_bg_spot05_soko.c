@@ -17,7 +17,7 @@ void func_808AE5A8(BgSpot05Soko* this, PlayState* play);
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play);
 void func_808AE630(BgSpot05Soko* this, PlayState* play);
 
-ActorInit Bg_Spot05_Soko_InitVars = {
+ActorProfile Bg_Spot05_Soko_Profile = {
     /**/ ACTOR_BG_SPOT05_SOKO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -45,7 +45,7 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     DynaPolyActor_Init(&this->dyna, 0);
     if (thisx->params == 0) {

@@ -10,7 +10,7 @@ typedef void (*BossSstActionFunc)(struct BossSst*, PlayState*);
 
 #define BOSS_SST_EFFECT_COUNT 18
 
-typedef struct {
+typedef struct BossSstEffect {
     /* 0x0000 */ Vec3f pos;
     /* 0x0010 */ Vec3f vel;
     /* 0x0018 */ Vec3s rot;
@@ -20,7 +20,7 @@ typedef struct {
     /* 0x0024 */ u8 alpha;
 } BossSstEffect; // size = 0x28
 
-typedef struct {
+typedef struct BossSstHandTrail {
     /* 0x0000 */ PosRot world;
     /* 0x0014 */ f32 zPosMod;
     /* 0x0018 */ s16 yRotMod;
@@ -54,7 +54,7 @@ typedef struct BossSst {
     /* 0x09D4 */ BossSstHandTrail handTrails[7];
 } BossSst; // size = 0x0A98
 
-typedef enum {
+typedef enum BossSstType {
     /* -1 */ BONGO_HEAD = -1,
     /*  0 */ BONGO_LEFT_HAND,
     /*  1 */ BONGO_RIGHT_HAND

@@ -47,7 +47,7 @@ typedef struct BossVa {
     /* 0x0338 */ ColliderQuad colliderLightning;
 } BossVa; // size = 0x03B8
 
-typedef enum {
+typedef enum BossVaParam {
     /* -1 */ BOSSVA_BODY = -1,
     /*  0 */ BOSSVA_SUPPORT_1,
     /*  1 */ BOSSVA_SUPPORT_2,

@@ -14,7 +14,7 @@ void func_80993754(DemoTreLgt* this);
 void func_8099375C(DemoTreLgt* this, PlayState* play);
 void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame);
 
-typedef struct {
+typedef struct DemoTreLgtInfo {
     /* 0x00 */ f32 startFrame;
     /* 0x04 */ f32 endFrame;
     /* 0x08 */ f32 unk_08;
@@ -26,7 +26,7 @@ static DemoTreLgtInfo sDemoTreLgtInfo[] = {
     { 1.0f, 136.0f, 220.0f, 50.0f },
 };
 
-ActorInit Demo_Tre_Lgt_InitVars = {
+ActorProfile Demo_Tre_Lgt_Profile = {
     /**/ ACTOR_DEMO_TRE_LGT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,

@@ -21,7 +21,7 @@ void ArrowLight_Hit(ArrowLight* this, PlayState* play);
 
 #include "assets/overlays/ovl_Arrow_Light/ovl_Arrow_Light.c"
 
-ActorInit Arrow_Light_InitVars = {
+ActorProfile Arrow_Light_Profile = {
     /**/ ACTOR_ARROW_LIGHT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -74,7 +74,7 @@ void ArrowLight_Charge(ArrowLight* this, PlayState* play) {
     this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
-    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_LIGHT - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_PL_ARROW_CHARGE_LIGHT - SFX_FLAG);
 
     // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
@@ -237,8 +237,7 @@ void ArrowLight_Draw(Actor* thisx, PlayState* play) {
     }
     Matrix_Scale(this->radius * 0.2f, this->unk_160 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
     Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_arrow_light.c", 648),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_arrow_light.c", 648);
     gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,

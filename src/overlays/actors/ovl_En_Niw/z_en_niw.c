@@ -36,7 +36,7 @@ void EnNiw_DrawEffects(EnNiw* this, PlayState* play);
 
 static s16 D_80AB85E0 = 0;
 
-ActorInit En_Niw_InitVars = {
+ActorProfile En_Niw_Profile = {
     /**/ ACTOR_EN_NIW,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -75,7 +75,7 @@ static u8 sUpperRiverSpawned = false;
 
 static ColliderCylinderInit sCylinderInit1 = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON,
@@ -83,7 +83,7 @@ static ColliderCylinderInit sCylinderInit1 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -95,7 +95,7 @@ static ColliderCylinderInit sCylinderInit1 = {
 
 static ColliderCylinderInit sCylinderInit2 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -103,7 +103,7 @@ static ColliderCylinderInit sCylinderInit2 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -114,9 +114,9 @@ static ColliderCylinderInit sCylinderInit2 = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 6, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_6, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 0, ICHAIN_STOP),
 };
 
 void EnNiw_Init(Actor* thisx, PlayState* play) {
@@ -151,7 +151,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     }
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 
@@ -213,7 +213,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             FALLTHROUGH;
         case 0xE:
             this->actor.colChkInfo.mass = 0;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             break;
         case 4:
             this->actor.gravity = 0.0f;
@@ -461,7 +461,7 @@ void func_80AB6450(EnNiw* this, PlayState* play) {
         this->sfxTimer1 = 30;
         this->path = 0;
         this->timer4 = 30;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.speed = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
@@ -483,7 +483,7 @@ void func_80AB6570(EnNiw* this, PlayState* play) {
             this->sfxTimer1 = 30;
             this->path = 0;
             this->timer4 = 30;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.speed = 0.0f;
             this->actionFunc = func_80AB6BF8;
             return;
@@ -644,7 +644,7 @@ void func_80AB6BF8(EnNiw* this, PlayState* play) {
         this->actor.shape.rot.z = 0;
         this->actor.shape.rot.y = this->actor.shape.rot.z;
         this->actor.shape.rot.x = this->actor.shape.rot.z;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = func_80AB6D08;
     }
     func_80AB5BF8(this, play, 2);
@@ -692,7 +692,7 @@ void func_80AB6D08(EnNiw* this, PlayState* play) {
         this->sfxTimer1 = 30;
         this->path = 0;
         this->timer4 = 30;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.speed = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
@@ -723,13 +723,13 @@ void func_80AB6F04(EnNiw* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
         this->actor.gravity = 0.0f;
 
-        if (this->actor.yDistToWater > 15.0f) {
+        if (this->actor.depthInWater > 15.0f) {
             this->actor.world.pos.y += 2.0f;
         }
         if (this->timer4 == 0) {
             this->timer4 = 30;
             Math_Vec3f_Copy(&pos, &this->actor.world.pos);
-            pos.y += this->actor.yDistToWater;
+            pos.y += this->actor.depthInWater;
             EffectSsGRipple_Spawn(play, &pos, 100, 500, 30);
         }
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
@@ -799,7 +799,7 @@ void func_80AB714C(EnNiw* this, PlayState* play) {
     if (this->timer5 == 0) {
         this->timer7 = 10;
         this->unk_2E4 = this->actor.yawTowardsPlayer;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = func_80AB7204;
     }
 
@@ -1014,12 +1014,12 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         return;
     }
 
-    if ((thisx->bgCheckFlags & BGCHECKFLAG_WATER) && thisx->yDistToWater > 15.0f && this->actionFunc != func_80AB6F04 &&
+    if ((thisx->bgCheckFlags & BGCHECKFLAG_WATER) && thisx->depthInWater > 15.0f && this->actionFunc != func_80AB6F04 &&
         thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         thisx->velocity.y = 0.0f;
         thisx->gravity = 0.0f;
         Math_Vec3f_Copy(&pos, &thisx->world.pos);
-        pos.y += thisx->yDistToWater;
+        pos.y += thisx->depthInWater;
         this->timer4 = 30;
         EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 400);
         this->timer5 = 0;
@@ -1056,7 +1056,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
     dist = 20.0f;
 
     if (this->unk_2A8 != 0 && thisx->xyzDistToPlayerSq < SQ(dist) && player->invincibilityTimer == 0) {
-        func_8002F6D4(play, &this->actor, 2.0f, thisx->world.rot.y, 0.0f, 0x10);
+        Actor_SetPlayerKnockbackLarge(play, &this->actor, 2.0f, thisx->world.rot.y, 0.0f, 0x10);
     }
 
     func_80AB747C(this, play);
@@ -1200,8 +1200,7 @@ void EnNiw_DrawEffects(EnNiw* this, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(effect->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_niw.c", 1913),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_niw.c", 1913);
             gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherModelDL);
         }
     }

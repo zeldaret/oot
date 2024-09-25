@@ -1,5 +1,4 @@
 <Root>
-    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_trap" Segment="6">
         <Texture Name="gSlidingBladeTrapTex_0000" OutName="tex_0000" Format="i8" Width="32" Height="32" Offset="0x0000"/>
         <Texture Name="gSlidingBladeTrapBoltsTex" OutName="blade_trap_bolts" Format="i8" Width="32" Height="32" Offset="0x0400"/>

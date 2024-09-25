@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
+typedef struct EffectSsGMagmaInitParams {
     /* 0x00 */ Vec3f pos;
 } EffectSsGMagmaInitParams; // size = 0xC
 

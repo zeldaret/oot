@@ -2,7 +2,7 @@
 #include "assets/objects/object_du/object_du.h"
 #include "assets/scenes/overworld/spot18/spot18_scene.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_25)
 
 void EnDu_Init(Actor* thisx, PlayState* play);
 void EnDu_Destroy(Actor* thisx, PlayState* play);
@@ -22,7 +22,7 @@ void func_809FEC70(EnDu* this, PlayState* play);
 void func_809FECE4(EnDu* this, PlayState* play);
 void func_809FEB08(EnDu* this, PlayState* play);
 
-ActorInit En_Du_InitVars = {
+ActorProfile En_Du_Profile = {
     /**/ ACTOR_EN_DU,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -36,7 +36,7 @@ ActorInit En_Du_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -44,7 +44,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -56,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnDuAnimation {
     /*  0 */ ENDU_ANIM_0,
     /*  1 */ ENDU_ANIM_1,
     /*  2 */ ENDU_ANIM_2,
@@ -289,7 +289,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
     }
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_0);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.targetMode = 1;
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 
     if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {

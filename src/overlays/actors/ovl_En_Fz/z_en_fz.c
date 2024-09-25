@@ -1,7 +1,7 @@
 #include "z_en_fz.h"
 #include "assets/objects/object_fz/object_fz.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
 void EnFz_Init(Actor* thisx, PlayState* play);
 void EnFz_Destroy(Actor* thisx, PlayState* play);
@@ -45,7 +45,7 @@ void EnFz_SpawnIceSmokeFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* ac
 void EnFz_UpdateIceSmoke(EnFz* this, PlayState* play);
 void EnFz_DrawEffects(EnFz* this, PlayState* play);
 
-ActorInit En_Fz_InitVars = {
+ActorProfile En_Fz_Profile = {
     /**/ ACTOR_EN_FZ,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -59,14 +59,14 @@ ActorInit En_Fz_InitVars = {
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCE0FDB, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -78,14 +78,14 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
 
 static ColliderCylinderInitType1 sCylinderInit2 = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0x0001F024, 0x00, 0x00 },
         ATELEM_NONE,
@@ -97,14 +97,14 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
 
 static ColliderCylinderInitType1 sCylinderInit3 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x20000000, 0x02, 0x08 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -151,8 +151,8 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_FREEZARD, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnFz_Init(Actor* thisx, PlayState* play) {
@@ -173,7 +173,7 @@ void EnFz_Init(Actor* thisx, PlayState* play) {
 
     Actor_SetScale(&this->actor, 0.008f);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unusedTimer1 = 0;
     this->unusedCounter = 0;
     this->updateBgInfo = true;
@@ -389,7 +389,7 @@ void EnFz_SetYawTowardsPlayer(EnFz* this) {
 void EnFz_SetupDisappear(EnFz* this) {
     this->state = 2;
     this->isFreezing = false;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnFz_Disappear;
 }
 
@@ -447,7 +447,7 @@ void EnFz_SetupAimForMove(EnFz* this) {
     this->timer = 40;
     this->updateBgInfo = true;
     this->isFreezing = true;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnFz_AimForMove;
     this->actor.gravity = -1.0f;
 }
@@ -510,7 +510,7 @@ void EnFz_BlowSmoke(EnFz* this, PlayState* play) {
     } else if (this->timer >= 11) {
         isTimerMod8 = false;
         primAlpha = 150;
-        func_8002F974(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
 
         if ((this->timer - 10) < 16) { // t < 26
             primAlpha = (this->timer * 10) - 100;
@@ -554,7 +554,7 @@ void EnFz_SetupDespawn(EnFz* this, PlayState* play) {
     this->updateBgInfo = true;
     this->isFreezing = false;
     this->isDespawning = true;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->isActive = false;
     this->timer = 60;
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
@@ -572,7 +572,7 @@ void EnFz_SetupMelt(EnFz* this) {
     this->state = 3;
     this->isFreezing = false;
     this->isDespawning = true;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.speed = 0.0f;
     this->speedXZ = 0.0f;
     this->actionFunc = EnFz_Melt;
@@ -603,7 +603,7 @@ void EnFz_SetupBlowSmokeStationary(EnFz* this) {
     this->timer = 40;
     this->updateBgInfo = true;
     this->isFreezing = true;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnFz_BlowSmokeStationary;
     this->actor.gravity = -1.0f;
 }
@@ -622,7 +622,7 @@ void EnFz_BlowSmokeStationary(EnFz* this, PlayState* play) {
     } else {
         isTimerMod8 = false;
         primAlpha = 150;
-        func_8002F974(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
 
         if ((this->counter & 0x3F) >= 48) {
             primAlpha = 630 - ((this->counter & 0x3F) * 10);
@@ -722,8 +722,6 @@ void EnFz_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fz.c", 1167);
 
-    if (1) {}
-
     if (this->actor.colChkInfo.health == 0) {
         index = 2;
     }
@@ -734,8 +732,7 @@ void EnFz_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, play->state.frames & 0x7F, 32, 32, 1, 0,
                                     (2 * play->state.frames) & 0x7F, 32, 32));
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fz.c", 1183),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fz.c", 1183);
         gDPSetCombineLERP(POLY_XLU_DISP++, TEXEL1, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIMITIVE, TEXEL0,
                           PRIMITIVE, ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, ENVIRONMENT, 0);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 155, 255, 255, 255);
@@ -884,8 +881,7 @@ void EnFz_DrawEffects(EnFz* this, PlayState* play) {
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->xyScale, effect->xyScale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_fz.c", 1424),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_en_fz.c", 1424);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamDL));
         }
 

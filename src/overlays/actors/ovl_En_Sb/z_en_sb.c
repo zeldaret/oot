@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_sb/object_sb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnSb_Init(Actor* thisx, PlayState* play);
 void EnSb_Destroy(Actor* thisx, PlayState* play);
@@ -25,7 +25,7 @@ void EnSb_Lunge(EnSb* this, PlayState* play);
 void EnSb_Bounce(EnSb* this, PlayState* play);
 void EnSb_Cooldown(EnSb* this, PlayState* play);
 
-ActorInit En_Sb_InitVars = {
+ActorProfile En_Sb_Profile = {
     /**/ ACTOR_EN_SB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -39,7 +39,7 @@ ActorInit En_Sb_InitVars = {
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -86,8 +86,8 @@ static DamageTable sDamageTable[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_SHELL_BLADE, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 static Vec3f sFlamePosOffsets[] = {
@@ -97,7 +97,7 @@ static Vec3f sFlamePosOffsets[] = {
     { 0.0f, 0.0f, -5.0f },
 };
 
-typedef enum {
+typedef enum ShellbladeBehavior {
     /* 0x00 */ SHELLBLADE_OPEN,
     /* 0x01 */ SHELLBLADE_WAIT_CLOSED,
     /* 0x02 */ SHELLBLADE_WAIT_OPEN,
@@ -135,7 +135,7 @@ void EnSb_Destroy(Actor* thisx, PlayState* play) {
 void EnSb_SpawnBubbles(PlayState* play, EnSb* this) {
     s32 i;
 
-    if (this->actor.yDistToWater > 0) {
+    if (this->actor.depthInWater > 0) {
         for (i = 0; i < 10; i++) {
             EffectSsBubble_Spawn(play, &this->actor.world.pos, 10.0f, 10.0f, 30.0f, 0.25f);
         }
@@ -166,7 +166,7 @@ void EnSb_SetupWaitOpen(EnSb* this) {
 
 void EnSb_SetupLunge(EnSb* this) {
     f32 frameCount = Animation_GetLastFrame(&object_sb_Anim_000124);
-    f32 playbackSpeed = this->actor.yDistToWater > 0.0f ? 1.0f : 0.0f;
+    f32 playbackSpeed = this->actor.depthInWater > 0.0f ? 1.0f : 0.0f;
 
     Animation_Change(&this->skelAnime, &object_sb_Anim_000124, playbackSpeed, 0.0f, frameCount, ANIMMODE_ONCE, 0);
     this->behavior = SHELLBLADE_LUNGE;
@@ -189,7 +189,7 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     }
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     if (changeSpeed) {
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->actor.speed = -5.0f;
             if (this->actor.velocity.y < 0.0f) {
                 this->actor.velocity.y = 2.1f;
@@ -254,7 +254,7 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
 
     if (this->actor.shape.rot.y == invertedYaw) {
         this->actor.world.rot.y = this->attackYaw;
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->actor.velocity.y = 3.0f;
             this->actor.speed = 5.0f;
             this->actor.gravity = -0.35f;
@@ -274,7 +274,7 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
 void EnSb_Lunge(EnSb* this, PlayState* play) {
     Math_StepToF(&this->actor.speed, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH)) {
-        if (!(this->actor.yDistToWater > 0.0f)) {
+        if (!(this->actor.depthInWater > 0.0f)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
@@ -295,7 +295,7 @@ void EnSb_Bounce(EnSb* this, PlayState* play) {
         if (this->bouncesLeft != 0) {
             this->bouncesLeft--;
             this->timer = 1;
-            if (this->actor.yDistToWater > 0.0f) {
+            if (this->actor.depthInWater > 0.0f) {
                 this->actor.velocity.y = 3.0f;
                 this->actor.speed = 5.0f;
                 this->actor.gravity = -0.35f;
@@ -445,7 +445,7 @@ void EnSb_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if (this->isDead) {
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->actor.params = 4;
         } else {
             this->actor.params = 1;

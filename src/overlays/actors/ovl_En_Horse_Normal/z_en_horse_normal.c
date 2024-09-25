@@ -10,17 +10,17 @@
 
 #define FLAGS 0
 
-typedef struct {
+typedef struct EnHorseNormalUnkStruct1 {
     Vec3s pos;
     u8 unk_06; // this may be a s16 if the always-0 following byte is actually not padding
 } EnHorseNormalUnkStruct1;
 
-typedef struct {
+typedef struct EnHorseNormalUnkStruct2 {
     s32 len;
     EnHorseNormalUnkStruct1* items;
 } EnHorseNormalUnkStruct2;
 
-typedef enum {
+typedef enum EnHorseNormalAction {
     /* 0x00 */ HORSE_CYCLE_ANIMATIONS,
     /* 0x01 */ HORSE_WANDER,
     /* 0x02 */ HORSE_WAIT,
@@ -39,7 +39,7 @@ void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
-ActorInit En_Horse_Normal_InitVars = {
+ActorProfile En_Horse_Normal_Profile = {
     /**/ ACTOR_EN_HORSE_NORMAL,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -59,7 +59,7 @@ static AnimationHeader* sAnimations[] = {
 
 static ColliderCylinderInit sCylinderInit1 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -67,7 +67,7 @@ static ColliderCylinderInit sCylinderInit1 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -79,7 +79,7 @@ static ColliderCylinderInit sCylinderInit1 = {
 
 static ColliderCylinderInit sCylinderInit2 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -87,7 +87,7 @@ static ColliderCylinderInit sCylinderInit2 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -100,7 +100,7 @@ static ColliderCylinderInit sCylinderInit2 = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_NONE,
@@ -113,7 +113,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -259,7 +259,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
         Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     }
-    if ((this->actor.params & 0xF0) == 0x10 && (this->actor.params & 0xF) != 0xF) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x10 && PARAMS_GET_U(this->actor.params, 0, 4) != 0xF) {
         func_80A6B91C(this, play);
     } else {
         func_80A6BC48(this);
@@ -286,7 +286,7 @@ void func_80A6B91C(EnHorseNormal* this, PlayState* play) {
 }
 
 void EnHorseNormal_FollowPath(EnHorseNormal* this, PlayState* play) {
-    Path* path = &play->pathList[this->actor.params & 0xF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 4)];
     Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     f32 dx;
     f32 dz;
@@ -720,7 +720,7 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play2) {
         temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.shadowScale;
         Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD(cloneRotY), MTXMODE_APPLY);
-        mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_horse_normal.c", 2329);
+        mtx = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_horse_normal.c", 2329);
         if (mtx != NULL) {
             gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gHorseShadowDL);

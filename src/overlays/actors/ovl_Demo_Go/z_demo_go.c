@@ -37,7 +37,7 @@ static DemoGoDrawFunc D_8097D468[] = {
     func_8097D29C,
 };
 
-ActorInit Demo_Go_InitVars = {
+ActorProfile Demo_Go_Profile = {
     /**/ ACTOR_DEMO_GO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

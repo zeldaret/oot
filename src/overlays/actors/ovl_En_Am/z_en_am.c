@@ -8,7 +8,7 @@
 #include "assets/objects/object_am/object_am.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
 void EnAm_Init(Actor* thisx, PlayState* play);
 void EnAm_Destroy(Actor* thisx, PlayState* play);
@@ -28,7 +28,7 @@ void EnAm_Ricochet(EnAm* this, PlayState* play);
 void EnAm_Stunned(EnAm* this, PlayState* play);
 void EnAm_RecoilFromDamage(EnAm* this, PlayState* play);
 
-typedef enum {
+typedef enum ArmosBehavior {
     /* 00 */ AM_BEHAVIOR_NONE,
     /* 01 */ AM_BEHAVIOR_DAMAGED,
     /* 03 */ AM_BEHAVIOR_DO_NOTHING = 3,
@@ -39,7 +39,7 @@ typedef enum {
     /* 10 */ AM_BEHAVIOR_AGGRO = 10
 } ArmosBehavior;
 
-ActorInit En_Am_InitVars = {
+ActorProfile En_Am_Profile = {
     /**/ ACTOR_EN_AM,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -53,7 +53,7 @@ ActorInit En_Am_InitVars = {
 
 static ColliderCylinderInit sHurtCylinderInit = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -61,7 +61,7 @@ static ColliderCylinderInit sHurtCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -73,7 +73,7 @@ static ColliderCylinderInit sHurtCylinderInit = {
 
 static ColliderCylinderInit sBlockCylinderInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -81,7 +81,7 @@ static ColliderCylinderInit sBlockCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00400106, 0x00, 0x00 },
         ATELEM_NONE,
@@ -93,7 +93,7 @@ static ColliderCylinderInit sBlockCylinderInit = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -101,7 +101,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -111,7 +111,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
+typedef enum ArmosDamageEffect {
     /*  0 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
     /*  1 */ AM_DMGEFF_NUT,
     /*  6 */ AM_DMGEFF_STUN = 6, // doesn't include deku nuts
@@ -158,7 +158,7 @@ static DamageTable sDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_ARMOS, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5300, ICHAIN_STOP),
 };
 
 void EnAm_SetupAction(EnAm* this, EnAmActionFunc actionFunc) {
@@ -284,7 +284,7 @@ void EnAm_SetupStatue(EnAm* this) {
     f32 lastFrame = Animation_GetLastFrame(&gArmosRicochetAnim);
 
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
-    this->dyna.actor.flags &= ~ACTOR_FLAG_0;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
     this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_Statue);
@@ -385,7 +385,7 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
         if (this->textureBlend >= 240) {
             this->attackTimer = 200;
             this->textureBlend = 255;
-            this->dyna.actor.flags |= ACTOR_FLAG_0;
+            this->dyna.actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->dyna.actor.shape.yOffset = 0.0f;
             EnAm_SetupLunge(this);
         } else {
@@ -406,7 +406,7 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
             this->textureBlend -= 10;
         } else {
             this->textureBlend = 0;
-            this->dyna.actor.flags &= ~ACTOR_FLAG_0;
+            this->dyna.actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
             if (this->dyna.bgId < 0) {
                 this->unk_264 = 0;

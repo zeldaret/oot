@@ -18,7 +18,7 @@ void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play);
 void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play);
 void BgGndFiremeiro_Rise(BgGndFiremeiro* this, PlayState* play);
 
-ActorInit Bg_Gnd_Firemeiro_InitVars = {
+ActorProfile Bg_Gnd_Firemeiro_Profile = {
     /**/ ACTOR_BG_GND_FIREMEIRO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -72,7 +72,7 @@ void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
             this->dyna.actor.world.pos.y = sunkHeight;
         }
 
-        func_8002F948(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
     }
 
     if (this->timer > 0) {
@@ -143,8 +143,7 @@ void BgGndFiremeiro_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 280);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 282),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 282);
     gSPDisplayList(POLY_OPA_DISP++, gFireTrialPlatformDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 285);

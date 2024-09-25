@@ -6,7 +6,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum {
+typedef enum Encount2State {
     /* 0x0 */ ENCOUNT2_INACTIVE,
     /* 0x1 */ ENCOUNT2_ACTIVE_DEATH_MOUNTAIN,
     /* 0x2 */ ENCOUNT2_ACTIVE_GANONS_TOWER
@@ -23,7 +23,7 @@ void EnEncount2_SpawnEffect(EnEncount2* this, Vec3f* position, f32 scale);
 void EnEncount2_DrawEffects(Actor* thisx, PlayState* play);
 void EnEncount2_UpdateEffects(EnEncount2* this, PlayState* play);
 
-ActorInit En_Encount2_InitVars = {
+ActorProfile En_Encount2_Profile = {
     /**/ ACTOR_EN_ENCOUNT2,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -361,8 +361,7 @@ void EnEncount2_DrawEffects(Actor* thisx, PlayState* play) {
                 Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
                 gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_encount2.c", 669),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_encount2.c", 669);
                 gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
             }
         }
