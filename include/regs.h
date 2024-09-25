@@ -134,6 +134,7 @@
 #define R_START_LABEL_Y(i)                       ZREG(51 + (i))
 #define R_START_LABEL_X(i)                       ZREG(54 + (i))
 #endif
+#define R_PAUSE_QUEST_MEDALLION_SHINE_TIME(i)    ZREG(61 + (i)) // i = 0..3 (clashes with ZREG(62) and ZREG(63))
 #define R_C_UP_BTN_X                             ZREG(62)
 #define R_C_UP_BTN_Y                             ZREG(63)
 #define R_START_BTN_X                            ZREG(68)
@@ -183,6 +184,8 @@
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)
 #define R_ROOM_CULL_DEBUG_TARGET                 iREG(89)
 #define R_B_LABEL_DD                             WREG(0)
+#define R_PAUSE_PAGES_Y_ORIGIN_2                 WREG(2) // Complements PauseContext.pagesYOrigin1
+#define R_PAUSE_DEPTH_OFFSET                     WREG(3) // Offset position of all pages away from the camera
 #if OOT_NTSC
 #define R_B_LABEL_SCALE(i)                       WREG(8 + (i))
 #define R_B_LABEL_X(i)                           WREG(10 + (i))
@@ -218,6 +221,7 @@
 #define R_COMPASS_OFFSET_X                       VREG(16)
 #define R_COMPASS_OFFSET_Y                       VREG(17)
 #define R_MINIMAP_COLOR(i)                       VREG(18 + (i))
+#define R_PAUSE_SONG_OCA_BTN_Y(ocarinaBtnIndex)  VREG(21 + (ocarinaBtnIndex)) // VREG(21) to VREG(25)
 #define R_OCARINA_BUTTONS_XPOS                   VREG(28)
 #define R_OCARINA_BUTTONS_XPOS_OFFSET            VREG(29)
 #define R_TEXT_ADJUST_COLOR_1_R                  VREG(33)
@@ -227,6 +231,7 @@
 #define R_TEXT_ADJUST_COLOR_2_G                  VREG(37)
 #define R_TEXT_ADJUST_COLOR_2_B                  VREG(38)
 #define R_OCARINA_BUTTONS_YPOS(note)             VREG(45 + (note))
+#define R_OCARINA_BUTTONS_APPEAR_ALPHA_STEP      VREG(50)
 #define R_OCARINA_BUTTONS_YPOS_OFFSET            VREG(51)
 #define R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER_BASE VREG(60)
 #define R_KALEIDO_PROMPT_CURSOR_ALPHA            VREG(61)

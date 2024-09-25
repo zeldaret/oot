@@ -604,6 +604,21 @@ typedef enum PlayerStickDirection {
     /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 
+typedef enum {
+    /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
+    /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
+    /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
+    /* 3 */ PLAYER_KNOCKBACK_LARGE_SHOCK // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
+} PlayerKnockbackType;
+
+typedef enum {
+    /* 0 */ PLAYER_HIT_RESPONSE_NONE,
+    /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
+    /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
+    /* 3 */ PLAYER_HIT_RESPONSE_ICE_TRAP,
+    /* 4 */ PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK
+} PlayerDamageResponseType;
+
 typedef struct PlayerAgeProperties {
     /* 0x00 */ f32 ceilingCheckHeight;
     /* 0x04 */ f32 unk_04;
@@ -659,7 +674,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
-#define PLAYER_STATE1_ACTOR_CARRY (1 << 11) // Currently carrying an actor
+#define PLAYER_STATE1_CARRYING_ACTOR (1 << 11) // Currently carrying an actor
 #define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charing a spin attack (by holding down the B button)
 #define PLAYER_STATE1_13 (1 << 13)
 #define PLAYER_STATE1_14 (1 << 14)
@@ -803,7 +818,7 @@ typedef struct Player {
     /* 0x0678 */ PlayerAgeProperties* ageProperties;
     /* 0x067C */ u32 stateFlags1;
     /* 0x0680 */ u32 stateFlags2;
-    /* 0x0684 */ Actor* unk_684;
+    /* 0x0684 */ Actor* autoLockOnActor; // Actor that is locked onto automatically without player input; see `Player_SetAutoLockOnActor`
     /* 0x0688 */ Actor* boomerangActor;
     /* 0x068C */ Actor* naviActor;
     /* 0x0690 */ s16 naviTextId;
@@ -875,7 +890,7 @@ typedef struct Player {
     /* 0x088C */ u8 ledgeClimbType;
     /* 0x088D */ u8 ledgeClimbDelayTimer;
     /* 0x088E */ u8 unk_88E;
-    /* 0x088F */ u8 unk_88F;
+    /* 0x088F */ u8 damageFlickerAnimCounter; // Used to flicker Link after taking damage
     /* 0x0890 */ u8 unk_890;
     /* 0x0891 */ u8 bodyShockTimer;
     /* 0x0892 */ u8 unk_892;
@@ -886,11 +901,11 @@ typedef struct Player {
     /* 0x089A */ s16 floorPitchAlt; // the calculation for this value is bugged and doesn't represent anything meaningful
     /* 0x089C */ s16 unk_89C;
     /* 0x089E */ u16 floorSfxOffset;
-    /* 0x08A0 */ u8 unk_8A0;
-    /* 0x08A1 */ u8 unk_8A1;
-    /* 0x08A2 */ s16 unk_8A2;
-    /* 0x08A4 */ f32 unk_8A4;
-    /* 0x08A8 */ f32 unk_8A8;
+    /* 0x08A0 */ u8 knockbackDamage;
+    /* 0x08A1 */ u8 knockbackType;
+    /* 0x08A2 */ s16 knockbackRot;
+    /* 0x08A4 */ f32 knockbackSpeed;
+    /* 0x08A8 */ f32 knockbackYVelocity;
     /* 0x08AC */ f32 pushedSpeed; // Pushing player, examples include water currents, floor conveyors, climbing sloped surfaces
     /* 0x08B0 */ s16 pushedYaw; // Yaw direction of player being pushed
     /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
@@ -901,7 +916,7 @@ typedef struct Player {
     /* 0x0A61 */ u8 bodyFlameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8 unk_A73;
     /* 0x0A74 */ AfterPutAwayFunc afterPutAwayFunc; // See `Player_SetupWaitForPutAway` and `Player_Action_WaitForPutAway`
-    /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
+    /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero. Positive values are intangibility, negative are invulnerability
     /* 0x0A79 */ u8 floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
     /* 0x0A7A */ u8 floorProperty;
     /* 0x0A7B */ u8 prevFloorType;
