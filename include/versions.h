@@ -39,4 +39,11 @@
 #define OOT_MQ 0
 #endif
 
+// Macro for constants that change in 50 Hz N64 PAL versions.
+#if !OOT_PAL_N64
+#define FRAMERATE_CONST(value60Hz, value50Hz) (value60Hz)
+#else
+#define FRAMERATE_CONST(value60Hz, value50Hz) (value50Hz)
+#endif
+
 #endif

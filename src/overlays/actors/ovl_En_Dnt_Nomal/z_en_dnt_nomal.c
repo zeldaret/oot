@@ -12,6 +12,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "assets/objects/object_hintnuts/object_hintnuts.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -38,6 +39,10 @@ void EnDntNomal_TargetTalk(EnDntNomal* this, PlayState* play);
 void EnDntNomal_TargetGivePrize(EnDntNomal* this, PlayState* play);
 void EnDntNomal_TargetReturn(EnDntNomal* this, PlayState* play);
 void EnDntNomal_TargetBurrow(EnDntNomal* this, PlayState* play);
+
+#if OOT_PAL_N64
+void EnDntNomal_DoNothing(EnDntNomal* this, PlayState* play);
+#endif
 
 void EnDntNomal_SetupStageWait(EnDntNomal* this, PlayState* play);
 void EnDntNomal_SetupStageCelebrate(EnDntNomal* this, PlayState* play);
@@ -411,9 +416,22 @@ void EnDntNomal_TargetBurrow(EnDntNomal* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (frame >= this->endFrame) {
+#if !OOT_PAL_N64
         this->actionFunc = EnDntNomal_SetupTargetWait;
+#else
+        this->hitCounter = 0;
+        this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
+        this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+        Math_Vec3f_Copy(&this->actor.world.pos, &this->actor.home.pos);
+        this->actionFunc = EnDntNomal_DoNothing;
+#endif
     }
 }
+
+#if OOT_PAL_N64
+void EnDntNomal_DoNothing(EnDntNomal* this, PlayState* play) {
+}
+#endif
 
 void EnDntNomal_SetupStageWait(EnDntNomal* this, PlayState* play) {
     if (this->timer3 == 0) {

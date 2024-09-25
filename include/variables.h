@@ -73,17 +73,7 @@ extern Gfx* gPlayerLeftHandBoomerangDLs[];
 extern Gfx gCullBackDList[];
 extern Gfx gCullFrontDList[];
 extern Gfx gEmptyDL[];
-extern u32 gBitFlags[32];
-extern u16 gEquipMasks[EQUIP_TYPE_MAX];
-extern u16 gEquipNegMasks[EQUIP_TYPE_MAX];
-extern u32 gUpgradeMasks[UPG_MAX];
-extern u8 gEquipShifts[EQUIP_TYPE_MAX];
-extern u8 gUpgradeShifts[UPG_MAX];
-extern u16 gUpgradeCapacities[UPG_MAX][4];
-extern u32 gGsFlagsMasks[4];
-extern u32 gGsFlagsShifts[4];
-extern void* gItemIcons[0x82];
-extern u8 gItemSlots[56];
+
 extern SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX];
 extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
