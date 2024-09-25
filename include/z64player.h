@@ -716,7 +716,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_17 (1 << 17)
 #define PLAYER_STATE2_CRAWLING (1 << 18) // Crawling through a crawlspace
 #define PLAYER_STATE2_19 (1 << 19)
-#define PLAYER_STATE2_20 (1 << 20)
+#define PLAYER_STATE2_NAVI_ACTIVE (1 << 20) // Navi is visible and active. Could be hovering idle near Link or hovering over other actors.
 #define PLAYER_STATE2_21 (1 << 21)
 #define PLAYER_STATE2_22 (1 << 22)
 #define PLAYER_STATE2_23 (1 << 23)
@@ -850,7 +850,7 @@ typedef struct Player {
     /* 0x0830 */ f32 upperAnimInterpWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
-    /* 0x0837 */ u8 unk_837;
+    /* 0x0837 */ u8 putAwayCooldownTimer;
     /* 0x0838 */ f32 speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
     /* 0x083C */ s16 yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
     /* 0x083E */ s16 parallelYaw; // yaw in "parallel" mode, Z-Target without an actor lock-on
@@ -869,6 +869,7 @@ typedef struct Player {
 
     /* 0x0850 */ union {
         s16 actionVar2;
+        s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;
