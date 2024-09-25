@@ -560,7 +560,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     //
 
     if (pauseCtx->state == PAUSE_STATE_MAIN) {
-        bufI += (QUAD_QUEST_SONG_NOTE_A1 - QUEST_HEART_PIECE) * 4;
+        bufI += (QUEST_QUAD_SONG_NOTE_A1 - QUEST_HEART_PIECE) * 4;
 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
@@ -580,7 +580,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
         if (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYBACK) {
             // Draw ocarina buttons as the song playback progresses
-            // QUAD_QUEST_SONG_NOTE_A1 to QUAD_QUEST_SONG_NOTE_A8
+            // QUEST_QUAD_SONG_NOTE_A1 to QUEST_QUAD_SONG_NOTE_A8
 
             pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
 
@@ -631,7 +631,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     (pauseCtx->mainState <= PAUSE_MAIN_STATE_SONG_PROMPT_DONE)) ||
                    (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
             // Draw the buttons for playing a song
-            // QUAD_QUEST_SONG_NOTE_A1 to QUAD_QUEST_SONG_NOTE_A8
+            // QUEST_QUAD_SONG_NOTE_A1 to QUEST_QUAD_SONG_NOTE_A8
 
             // temps reused, fake?
             stepGreen = pauseCtx->ocarinaSongIdx;
@@ -674,7 +674,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
             if (pauseCtx->mainState != PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG) {
                 // Draw the buttons colored as the player plays the song
-                // QUAD_QUEST_SONG_NOTE_B1 to QUAD_QUEST_SONG_NOTE_B8
+                // QUEST_QUAD_SONG_NOTE_B1 to QUEST_QUAD_SONG_NOTE_B8
 
                 pauseCtx->ocarinaStaff = AudioOcarina_GetPlayingStaff();
 
@@ -689,7 +689,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     }
                 }
 
-                bufI = j + ((QUAD_QUEST_SONG_NOTE_B1 - QUAD_QUEST_SONG_NOTE_A1) * 4);
+                bufI = j + ((QUEST_QUAD_SONG_NOTE_B1 - QUEST_QUAD_SONG_NOTE_A1) * 4);
 
                 for (i = 0; i < SONG_MAX_LENGTH; i++, bufI += 4) {
                     if (sPlayedSongBtns[i] == OCARINA_BTN_INVALID) {
@@ -748,7 +748,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     }
 
     // Draw amount of gold skulltula tokens
-    // QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW to QUAD_QUEST_SKULL_TOKENS_DIGIT3
+    // QUEST_QUAD_SKULL_TOKENS_DIGIT1_SHADOW to QUEST_QUAD_SKULL_TOKENS_DIGIT3
 
     if (CHECK_QUEST_ITEM(QUEST_SKULL_TOKEN)) {
         gDPPipeSync(POLY_OPA_DISP++);
@@ -769,7 +769,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             gsTokenDigits[2] -= 10;
         }
 
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[QUAD_QUEST_SKULL_TOKENS_DIGIT1_SHADOW * 4], 6 * 4, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[QUEST_QUAD_SKULL_TOKENS_DIGIT1_SHADOW * 4], 6 * 4, 0);
 
         for (i = 0, j = 0; i < 2; i++) {
             if (i == 0) {
