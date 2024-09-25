@@ -33,6 +33,7 @@
 #include "z64message.h"
 #include "z64pause.h"
 #include "z64play.h"
+#include "z64shrink_window.h"
 #include "z64skin.h"
 #include "z64skin_matrix.h"
 #include "z64game.h"
