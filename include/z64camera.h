@@ -1718,8 +1718,8 @@ s32 Camera_OverwriteStateFlags(Camera* camera, s16 stateFlags);
 s16 Camera_SetStateFlag(Camera* camera, s16 stateFlag);
 s16 Camera_UnsetStateFlag(Camera* camera, s16 stateFlag);
 s32 Camera_ResetAnim(Camera* camera);
-s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints, struct Player* player,
-                       s16 relativeToPlayer);
+s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
+                       struct Player* player, s16 relativeToPlayer);
 s32 Camera_ChangeDoorCam(Camera* camera, struct Actor* doorActor, s16 bgCamIndex, f32 arg3, s16 timer1, s16 timer2,
                          s16 timer3);
 s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
