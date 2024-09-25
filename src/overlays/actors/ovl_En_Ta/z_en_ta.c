@@ -79,7 +79,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000004, 0x00, 0x00 },
         ATELEM_NONE,
@@ -622,7 +622,7 @@ s32 EnTa_IsPlayerHoldingSuperCucco(EnTa* this, PlayState* play, s32 cuccoIdx) {
     Player* player = GET_PLAYER(play);
     Actor* interactRangeActor;
 
-    if (player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
+    if (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
         interactRangeActor = player->interactRangeActor;
         if (interactRangeActor != NULL && interactRangeActor->id == ACTOR_EN_NIW &&
             interactRangeActor == &this->superCuccos[cuccoIdx]->actor) {
@@ -658,7 +658,7 @@ void EnTa_TalkFoundSuperCucco(EnTa* this, PlayState* play) {
         if (player->heldActor == &this->superCuccos[lastFoundSuperCuccoIdx]->actor) {
             player->heldActor = NULL;
         }
-        player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
+        player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
         this->superCuccos[lastFoundSuperCuccoIdx] = NULL;
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;

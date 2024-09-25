@@ -56,7 +56,7 @@ static ColliderCylinderInit D_80AD7080 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -76,7 +76,7 @@ static ColliderCylinderInit D_80AD70AC = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x01, 0x04 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
@@ -141,6 +141,8 @@ static EnPoFieldInfo sPoFieldInfo[2] = {
 };
 
 static Vec3f D_80AD714C = { 0.0f, 1400.0f, 0.0f };
+
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ntsc-1.2:128"
 
 static Vec3s sSpawnPositions[10];
 static u8 sSpawnSwitchFlags[10];

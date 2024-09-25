@@ -34,7 +34,7 @@ static ColliderCylinderInit D_80AA0420 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000001, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
@@ -135,7 +135,7 @@ void func_80A9F350(EnMThunder* this, PlayState* play) {
         return;
     }
 
-    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -218,7 +218,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         }
     }
 
-    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK)) {
         if (this->actor.child != NULL) {
             this->actor.child->parent = NULL;
         }

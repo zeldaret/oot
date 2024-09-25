@@ -35,7 +35,7 @@ ActorProfile Bg_Ydan_Maruta_Profile = {
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000004, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_WOOD,
@@ -46,7 +46,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000004, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_WOOD,
@@ -137,7 +137,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, PlayState* play) {
 
 void func_808BEFF4(BgYdanMaruta* this, PlayState* play) {
     if (this->collider.base.atFlags & AT_HIT) {
-        func_8002F71C(play, &this->dyna.actor, 7.0f, this->dyna.actor.shape.rot.y, 6.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->dyna.actor, 7.0f, this->dyna.actor.shape.rot.y, 6.0f);
     }
     this->dyna.actor.shape.rot.x += 0x360;
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

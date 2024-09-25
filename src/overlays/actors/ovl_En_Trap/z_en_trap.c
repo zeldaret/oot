@@ -55,7 +55,7 @@ static ColliderCylinderInit sCylinderInit = {
         OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, ATELEM_NONE, ACELEM_ON, OCELEM_ON },
+    { ELEM_MATERIAL_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, ATELEM_NONE, ACELEM_ON, OCELEM_ON },
     { 30, 20, 0, { 0, 0, 0 } },
 };
 
@@ -175,7 +175,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                 angleToKnockPlayer = thisx->yawTowardsPlayer;
             }
             play->damagePlayer(play, -4);
-            func_8002F7A0(play, thisx, 6.0f, angleToKnockPlayer, 6.0f);
+            Actor_SetPlayerKnockbackSmallNoDamage(play, thisx, 6.0f, angleToKnockPlayer, 6.0f);
             this->playerDmgTimer = 15;
         }
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {

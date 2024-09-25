@@ -295,7 +295,7 @@ void BossFd2_Emerge(BossFd2* this, PlayState* play) {
         case 2:
             Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x7D0);
             if ((this->timers[0] == 1) && (this->actor.xzDistToPlayer < 120.0f)) {
-                func_8002F6D4(play, &this->actor, 3.0f, this->actor.yawTowardsPlayer, 2.0f, 0x20);
+                Actor_SetPlayerKnockbackLarge(play, &this->actor, 3.0f, this->actor.yawTowardsPlayer, 2.0f, 0x20);
                 Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
             }
             if (Animation_OnFrame(&this->skelAnime, this->fwork[FD2_END_FRAME])) {
@@ -822,10 +822,10 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
         }
     }
     if (!bossFd->faceExposed) {
-        this->collider.elements[0].base.elemType = ELEMTYPE_UNK2;
+        this->collider.elements[0].base.elemMaterial = ELEM_MATERIAL_UNK2;
         this->collider.base.colMaterial = COL_MATERIAL_METAL;
     } else {
-        this->collider.elements[0].base.elemType = ELEMTYPE_UNK3;
+        this->collider.elements[0].base.elemMaterial = ELEM_MATERIAL_UNK3;
         this->collider.base.colMaterial = COL_MATERIAL_HIT3;
     }
 

@@ -581,11 +581,11 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         if (!Actor_ApplyDamage(&this->actor)) {
             func_800F5B58();
             this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
-            this->unk_8A1 = 2;
-            this->unk_8A4 = 6.0f;
-            this->unk_8A8 = 6.0f;
-            this->unk_8A0 = this->actor.colChkInfo.damage;
-            this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
+            this->knockbackType = PLAYER_KNOCKBACK_LARGE;
+            this->knockbackSpeed = 6.0f;
+            this->knockbackYVelocity = 6.0f;
+            this->knockbackDamage = this->actor.colChkInfo.damage;
+            this->knockbackRot = this->actor.yawTowardsPlayer + 0x8000;
             sDeathFlag++;
             sActionState = ENTORCH2_DEATH;
             Enemy_StartFinishingBlow(play, &this->actor);
@@ -601,11 +601,11 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 }
             } else {
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-                this->unk_8A0 = this->actor.colChkInfo.damage;
-                this->unk_8A1 = 1;
-                this->unk_8A8 = 6.0f;
-                this->unk_8A4 = 8.0f;
-                this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
+                this->knockbackDamage = this->actor.colChkInfo.damage;
+                this->knockbackType = PLAYER_KNOCKBACK_SMALL;
+                this->knockbackYVelocity = 6.0f;
+                this->knockbackSpeed = 8.0f;
+                this->knockbackRot = this->actor.yawTowardsPlayer + 0x8000;
                 Actor_SetDropFlag(&this->actor, &this->cylinder.elem, true);
                 this->stateFlags3 &= ~PLAYER_STATE3_2;
                 this->stateFlags3 |= PLAYER_STATE3_0;
@@ -618,7 +618,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             }
         }
         this->actor.colChkInfo.damage = 0;
-        this->unk_8A0 = 0;
+        this->knockbackDamage = PLAYER_KNOCKBACK_NONE;
     }
 
     // Handles being frozen by a deku nut
@@ -706,10 +706,10 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     }
     if (this->invincibilityTimer != 0) {
         this->cylinder.base.colMaterial = COL_MATERIAL_NONE;
-        this->cylinder.elem.elemType = ELEMTYPE_UNK5;
+        this->cylinder.elem.elemMaterial = ELEM_MATERIAL_UNK5;
     } else {
         this->cylinder.base.colMaterial = COL_MATERIAL_HIT5;
-        this->cylinder.elem.elemType = ELEMTYPE_UNK1;
+        this->cylinder.elem.elemMaterial = ELEM_MATERIAL_UNK1;
     }
     /*
      * Handles the jump movement onto Link's sword. Dark Link doesn't move during the

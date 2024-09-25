@@ -3,6 +3,9 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
+#pragma increment_block_number \
+    "gc-eu:0 gc-eu-mq:0 gc-eu-mq-dbg:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+
 #define FLAGS 0
 
 void EnItem00_Init(Actor* thisx, PlayState* play);
@@ -42,7 +45,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000010, 0x00, 0x00 },
         ATELEM_NONE | ATELEM_SFX_NORMAL,

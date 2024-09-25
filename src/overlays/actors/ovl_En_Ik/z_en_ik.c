@@ -8,6 +8,7 @@
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/objects/object_ik/object_ik.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -75,7 +76,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -88,7 +89,7 @@ static ColliderCylinderInit sCylinderInit = {
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC3FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -99,7 +100,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC3FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -133,7 +134,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x20000000, 0x00, 0x40 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
@@ -757,9 +758,11 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         } else if (this->actor.colChkInfo.health <= 10) {
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
+#if !OOT_PAL_N64
             if (this->switchFlag != 0xFF) {
                 Flags_SetSwitch(play, this->switchFlag);
             }
+#endif
             return;
         } else if (prevHealth == 50) {
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
@@ -817,7 +820,7 @@ void EnIk_UpdateEnemy(Actor* thisx, PlayState* play) {
                 prevInvincibilityTimer = player->invincibilityTimer;
 
                 if (player->invincibilityTimer <= 0) {
-                    if (player->invincibilityTimer < -39) {
+                    if (player->invincibilityTimer <= -40) {
                         player->invincibilityTimer = 0;
                     } else {
                         player->invincibilityTimer = 0;
@@ -826,7 +829,7 @@ void EnIk_UpdateEnemy(Actor* thisx, PlayState* play) {
                     }
                 }
 
-                func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
                 player->invincibilityTimer = prevInvincibilityTimer;
             }
         }
@@ -1231,6 +1234,9 @@ void EnIk_CsAction4(EnIk* this, PlayState* play) {
 
 void EnIk_CsAction5(EnIk* this, PlayState* play) {
     if (EnIk_GetCue(play, 4) == NULL) {
+#if OOT_PAL_N64
+        Flags_SetSwitch(play, this->switchFlag);
+#endif
         Actor_Kill(&this->actor);
     }
 }

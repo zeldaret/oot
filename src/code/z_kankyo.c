@@ -7,8 +7,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:0"
 
 typedef enum LightningBoltState {
     /* 0x00 */ LIGHTNING_BOLT_START,
@@ -213,8 +212,8 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-#pragma increment_block_number "gc-eu:112 gc-eu-mq:112 gc-jp:96 gc-jp-ce:96 gc-jp-mq:96 gc-us:96 gc-us-mq:96" \
-                               "ntsc-1.2:224"
+#pragma increment_block_number "gc-eu:239 gc-eu-mq:239 gc-jp:216 gc-jp-ce:216 gc-jp-mq:216 gc-us:216 gc-us-mq:216" \
+                               "ntsc-1.2:216"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;

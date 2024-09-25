@@ -16,7 +16,7 @@
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:133 gc-eu-mq:133 gc-jp:135 gc-jp-ce:135 gc-jp-mq:135 gc-us:135 gc-us-mq:135"
+#pragma increment_block_number "gc-eu:123 gc-eu-mq:123 gc-jp:125 gc-jp-ce:125 gc-jp-mq:125 gc-us:125 gc-us-mq:125"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -205,7 +205,7 @@ static u8 sSinkingLureFound = false;
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -216,7 +216,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -227,7 +227,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -238,7 +238,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -249,7 +249,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -260,7 +260,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -271,7 +271,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -282,7 +282,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -293,7 +293,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -304,7 +304,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -315,7 +315,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -326,7 +326,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x10 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,

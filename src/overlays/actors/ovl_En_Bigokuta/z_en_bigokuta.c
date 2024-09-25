@@ -45,7 +45,7 @@ ActorProfile En_Bigokuta_Profile = {
 static ColliderJntSphElementInit sJntSphElementInit[1] = {
     {
         {
-            ELEMTYPE_UNK1,
+            ELEM_MATERIAL_UNK1,
             { 0x20000000, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_HARD,
@@ -79,7 +79,7 @@ static ColliderCylinderInit sCylinderInit[] = {
           COLSHAPE_CYLINDER,
       },
       {
-          ELEMTYPE_UNK1,
+          ELEM_MATERIAL_UNK1,
           { 0x20000000, 0x00, 0x08 },
           { 0xFFCFFFE7, 0x00, 0x00 },
           ATELEM_ON | ATELEM_SFX_HARD,
@@ -96,7 +96,7 @@ static ColliderCylinderInit sCylinderInit[] = {
           COLSHAPE_CYLINDER,
       },
       {
-          ELEMTYPE_UNK1,
+          ELEM_MATERIAL_UNK1,
           { 0x20000000, 0x00, 0x08 },
           { 0xFFCFFFE7, 0x00, 0x00 },
           ATELEM_ON | ATELEM_SFX_HARD,
@@ -731,7 +731,7 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
         } else {
             effectRot = -0x6000;
         }
-        func_8002F71C(play, &this->actor, 10.0f, this->actor.world.rot.y + effectRot, 5.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 10.0f, this->actor.world.rot.y + effectRot, 5.0f);
         if (this->actionFunc == func_809BDC08) {
             func_809BD4A4(this);
             this->unk_196 = 40;
