@@ -6216,8 +6216,8 @@ void func_8083C148(Player* this, PlayState* play) {
  *
  * If a roll is not applicable, there are two extra behaviors that could occur:
  * - If an item is currently held in hand, it can be put away.
- * - Navi can be toggled on and off. 
- *   She will either appear and fly around Link's head, or disappear by flying back into him
+ * - Navi can be toggled on and off.
+ *   She will either appear and fly around Link's head, or disappear by flying back into his hat
  *
  * These extra behaviors are not new actions themselves, so they will result in `false` being returned
  * even if they occur.
