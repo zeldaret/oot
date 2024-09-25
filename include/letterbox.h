@@ -1,5 +1,5 @@
-#ifndef Z64SHRINK_WINDOW_H
-#define Z64SHRINK_WINDOW_H
+#ifndef LETTERBOX_H
+#define LETTERBOX_H
 
 #include "ultra64.h"
 
