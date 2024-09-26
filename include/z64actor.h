@@ -162,7 +162,7 @@ typedef struct ActorShape {
 #define ACTOR_FLAG_15 (1 << 15)
 
 // Player automatically accepts a Talk Offer without needing to press the A button.
-// Player still has to meet all conditions to be able to accept a talk offer (for example, being in range).
+// Player still has to meet all conditions to be able to receive a talk offer (for example, being in range).
 #define ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPT (1 << 16)
 
 //
