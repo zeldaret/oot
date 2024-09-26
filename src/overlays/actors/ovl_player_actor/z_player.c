@@ -1976,8 +1976,10 @@ void Player_ZeroRootLimbYaw(Player* this) {
 void Player_EndAnimMovement(Player* this) {
     if (this->skelAnime.movementFlags != 0) {
         func_808322FC(this);
+
         this->skelAnime.jointTable[0].x = this->skelAnime.baseTransl.x;
         this->skelAnime.jointTable[0].z = this->skelAnime.baseTransl.z;
+
         if (this->skelAnime.movementFlags & ANIM_FLAG_ENABLE_MOVEMENT) {
             if (this->skelAnime.movementFlags & ANIM_FLAG_UPDATE_Y) {
                 this->skelAnime.jointTable[0].y = this->skelAnime.prevTransl.y;
@@ -1985,6 +1987,7 @@ void Player_EndAnimMovement(Player* this) {
         } else {
             this->skelAnime.jointTable[0].y = this->skelAnime.baseTransl.y;
         }
+        
         Player_SkelAnimeResetPrevTranslRot(this);
         this->skelAnime.movementFlags = 0;
     }
