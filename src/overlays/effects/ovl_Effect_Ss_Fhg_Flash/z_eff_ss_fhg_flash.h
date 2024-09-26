@@ -2,7 +2,9 @@
 #define Z_EFF_SS_FHGFLASH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64math.h"
+
+struct Actor;
 
 typedef struct EffectSsFhgFlashInitParams {
     /* 0x00 */ Vec3f pos;
@@ -10,7 +12,7 @@ typedef struct EffectSsFhgFlashInitParams {
     /* 0x18 */ Vec3f accel;
     /* 0x24 */ s16 scale;
     /* 0x26 */ u8 param;
-    /* 0x28 */ Actor* actor;
+    /* 0x28 */ struct Actor* actor;
     /* 0x2C */ u8 type;
 } EffectSsFhgFlashInitParams; // size = 0x30
 
