@@ -5,6 +5,7 @@
  */
 
 #include "z_en_horse.h"
+#include "versions.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
 #include "assets/objects/object_horse/object_horse.h"
 #include "assets/objects/object_hni/object_hni.h"
@@ -699,8 +700,10 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
                 this->actor.world.rot.y = sHorseSpawns[i].angle;
                 this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor);
                 spawn = true;
+#if OOT_VERSION >= PAL_1_0
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->actor.world.pos,
                                              &this->actor.projectedPos, &this->actor.projectedW);
+#endif
             }
         }
     }
@@ -1738,8 +1741,10 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
     if (R_EPONAS_SONG_PLAYED && this->type == HORSE_EPONA) {
         R_EPONAS_SONG_PLAYED = false;
         if (EnHorse_Spawn(this, play) != 0) {
+#if OOT_VERSION >= PAL_1_0
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+#endif
             this->stateFlags &= ~ENHORSE_INACTIVE;
             gSaveContext.save.info.horseData.sceneId = play->sceneId;
 
@@ -1814,8 +1819,10 @@ void EnHorse_Idle(EnHorse* this, PlayState* play) {
         R_EPONAS_SONG_PLAYED = false;
         if (!func_80A5BBBC(play, this, &this->actor.world.pos)) {
             if (EnHorse_Spawn(this, play)) {
+#if OOT_VERSION >= PAL_1_0
                 Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+#endif
                 this->followTimer = 0;
                 EnHorse_SetFollowAnimation(this, play);
                 Camera_SetViewParam(play->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, &this->actor);
@@ -1928,6 +1935,12 @@ void EnHorse_FollowPlayer(EnHorse* this, PlayState* play) {
         this->skin.skelAnime.playSpeed = 1.0f;
         this->stateFlags &= ~ENHORSE_LAND2_SOUND;
         this->unk_21C = this->unk_228;
+#if OOT_VERSION < PAL_1_0
+        if (this->stateFlags & ENHORSE_DRAW) {
+            Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_21C, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        }
+#endif
     } else if (this->stateFlags & ENHORSE_TURNING_TO_PLAYER) {
         this->actor.world.rot.y += this->followPlayerTurnSpeed;
         this->actor.shape.rot.y = this->actor.world.rot.y;

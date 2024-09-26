@@ -326,7 +326,7 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, PlayState* play) {
         return false;
     }
 
-    // Check to see if the angle between this facing angle and `actor` is withing ~40 degrees
+    // Check to see if the angle between this facing angle and `actor` is within ~40 degrees
     angle = (f32)Math_Vec3f_Yaw(&this->actor.world.pos, &actor->world.pos) - this->actor.shape.rot.y;
     if (ABS(angle) > 0x1C70) {
         return false;

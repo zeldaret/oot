@@ -352,7 +352,7 @@ s32 EnSt_SetCylinderOC(EnSt* this, PlayState* play) {
         cyloffsets[i].z *= this->colliderScale;
         Matrix_Push();
         Matrix_Translate(cylPos.x, cylPos.y, cylPos.z, MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD_ALT(this->initalYaw), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->initialYaw), MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pop();
         this->colCylinder[i + 3].dim.pos.x = cylPos.x;
@@ -623,7 +623,7 @@ void EnSt_UpdateYaw(EnSt* this, PlayState* play) {
 
         // calculate the new yaw to or away from the player.
         rot = this->actor.shape.rot;
-        yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsPlayer : this->initalYaw);
+        yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsPlayer : this->initialYaw);
         yawDiff = rot.y - (yawTarget ^ yawDir);
         if (ABS(yawDiff) <= 0x4000) {
             Math_SmoothStepToS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
@@ -714,7 +714,7 @@ s32 EnSt_IsCloseToPlayer(EnSt* this, PlayState* play) {
     return true;
 }
 
-s32 EnSt_IsCloseToInitalPos(EnSt* this) {
+s32 EnSt_IsCloseToInitialPos(EnSt* this) {
     f32 velY = this->actor.velocity.y;
     f32 checkY = this->actor.world.pos.y + (velY * 2.0f);
 
@@ -802,7 +802,7 @@ void EnSt_Init(Actor* thisx, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_24;
     EnSt_SetColliderScale(this);
     this->actor.gravity = 0.0f;
-    this->initalYaw = this->actor.world.rot.y;
+    this->initialYaw = this->actor.world.rot.y;
     EnSt_SetupAction(this, EnSt_StartOnCeilingOrGround);
 }
 
@@ -926,7 +926,7 @@ void EnSt_ReturnToCeiling(EnSt* this, PlayState* play) {
         // player came back into range
         EnSt_SetDropAnimAndVel(this);
         EnSt_SetupAction(this, EnSt_MoveToGround);
-    } else if (EnSt_IsCloseToInitalPos(this)) {
+    } else if (EnSt_IsCloseToInitialPos(this)) {
         // the Skulltula is close to the initial postion.
         EnSt_SetWaitingAnimation(this);
         EnSt_SetupAction(this, EnSt_WaitOnCeiling);

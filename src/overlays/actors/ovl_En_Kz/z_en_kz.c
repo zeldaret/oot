@@ -5,6 +5,7 @@
  */
 
 #include "z_en_kz.h"
+#include "versions.h"
 #include "assets/objects/object_kz/object_kz.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -120,6 +121,27 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
     s16 talkState = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+            break;
+#if OOT_VERSION < PAL_1_0
+        case TEXT_STATE_CLOSING:
+            talkState = NPC_TALK_STATE_IDLE;
+            switch (this->actor.textId) {
+                case 0x4012:
+                    SET_INFTABLE(INFTABLE_139);
+                    FALLTHROUGH;
+                case 0x401B:
+                    talkState = NPC_TALK_STATE_ACTION;
+                    break;
+                case 0x401F:
+                    SET_INFTABLE(INFTABLE_139);
+                    break;
+            }
+            break;
+#else
+        case TEXT_STATE_CLOSING:
+            break;
         case TEXT_STATE_DONE:
             talkState = NPC_TALK_STATE_IDLE;
             switch (this->actor.textId) {
@@ -135,6 +157,7 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
                     break;
             }
             break;
+#endif
         case TEXT_STATE_DONE_FADING:
             if (this->actor.textId != 0x4014) {
                 if (this->actor.textId == 0x401B && !this->sfxPlayed) {
@@ -154,7 +177,9 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
             }
             if (this->actor.textId == 0x4014) {
                 if (play->msgCtx.choiceIndex == 0) {
+#if OOT_VERSION >= PAL_1_0
                     EnKz_SetupGetItem(this, play);
+#endif
                     talkState = NPC_TALK_STATE_ACTION;
                 } else {
                     this->actor.textId = 0x4016;
@@ -167,9 +192,13 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
                 talkState = NPC_TALK_STATE_ACTION;
             }
             break;
-        case TEXT_STATE_NONE:
-        case TEXT_STATE_DONE_HAS_NEXT:
-        case TEXT_STATE_CLOSING:
+#if OOT_VERSION < PAL_1_0
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(play)) {
+                talkState = NPC_TALK_STATE_ITEM_GIVEN;
+            }
+            break;
+#endif
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
@@ -206,6 +235,7 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
         return true;
     }
 
+#if OOT_VERSION >= PAL_1_0
     if (*talkState != NPC_TALK_STATE_IDLE) {
         *talkState = updateTalkState(play, thisx);
         return false;
@@ -219,11 +249,19 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     }
 
     thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+#endif
 
     Actor_GetScreenPos(play, thisx, &x, &y);
     if (!((x >= -30) && (x < 361) && (y >= -10) && (y < 241))) {
         return false;
     }
+
+#if OOT_VERSION < PAL_1_0
+    if (*talkState != NPC_TALK_STATE_IDLE) {
+        *talkState = updateTalkState(play, thisx);
+        return false;
+    }
+#endif
 
     xzDistToPlayer = thisx->xzDistToPlayer;
     thisx->xzDistToPlayer = Math_Vec3f_DistXZ(&thisx->home.pos, &player->actor.world.pos);
@@ -239,6 +277,17 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 
 void func_80A9CB18(EnKz* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
+    f32 yaw;
+
+#if OOT_VERSION < PAL_1_0
+    yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
+    yaw -= this->actor.shape.rot.y;
+    if (fabsf(yaw) > 1820.0f) {
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+        return;
+    }
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+#endif
 
     if (EnKz_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, 340.0f, EnKz_GetTextId,
                            EnKz_UpdateTalkState)) {
@@ -259,11 +308,15 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
                 this->actor.textId = 0x4014;
                 this->sfxPlayed = false;
                 player->actor.textId = this->actor.textId;
+#if OOT_VERSION >= PAL_1_0
                 this->isTrading = true;
+#endif
                 return;
             }
 
+#if OOT_VERSION >= PAL_1_0
             this->isTrading = false;
+#endif
             if (GET_INFTABLE(INFTABLE_139)) {
                 this->actor.textId = CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
                 player->actor.textId = this->actor.textId;
@@ -420,6 +473,9 @@ void EnKz_StopMweep(EnKz* this, PlayState* play) {
 
 void EnKz_Wait(EnKz* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
+#if OOT_VERSION < PAL_1_0
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
+#endif
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, play);
     } else {
@@ -437,7 +493,11 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
         this->actionFunc = EnKz_StartTimer;
     } else {
+#if OOT_VERSION < PAL_1_0
+        getItemId = func_8002F368(play) == EXCH_ITEM_PRESCRIPTION ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
+#else
         getItemId = this->isTrading == true ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
+#endif
         yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzRange = this->actor.xzDistToPlayer + 1.0f;
         Actor_OfferGetItem(&this->actor, play, getItemId, xzRange, yRange);
@@ -445,7 +505,12 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
 }
 
 void EnKz_StartTimer(EnKz* this, PlayState* play) {
-    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
+#if OOT_VERSION < PAL_1_0
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN)
+#else
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play))
+#endif
+    {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEBALL_FROG) {
             Interface_SetSubTimer(180);
             CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
@@ -467,9 +532,13 @@ void EnKz_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
     EnKz_UpdateEyes(this);
     Actor_MoveXZGravity(&this->actor);
+#if OOT_VERSION < PAL_1_0
+    func_80A9CB18(this, play);
+#else
     if (this->actionFunc != EnKz_StartTimer) {
         func_80A9CB18(this, play);
     }
+#endif
     this->actionFunc(this, play);
 }
 

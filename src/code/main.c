@@ -22,8 +22,8 @@ extern struct IrqMgr gIrqMgr;
 #include "n64dd.h"
 #endif
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:164"
+#pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ntsc-1.2:158"
 
 extern u8 _buffersSegmentEnd[];
 
@@ -91,7 +91,7 @@ void Main(void* arg) {
 #endif
     fb = (uintptr_t)SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - systemHeapStart;
-    PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initalization %08x-%08x %08x\n"), systemHeapStart,
+    PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initialization %08x-%08x %08x\n"), systemHeapStart,
            fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
 

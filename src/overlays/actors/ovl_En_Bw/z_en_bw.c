@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bw.h"
+#include "versions.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_bw/object_bw.h"
 
@@ -137,7 +138,9 @@ void EnBw_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
+#if OOT_VERSION >= PAL_1_0
     this->actor.colChkInfo.mass = MASS_HEAVY;
+#endif
     this->actor.focus.pos = this->actor.world.pos;
     func_809CE9A8(this);
     this->color1.a = this->color1.r = 255;

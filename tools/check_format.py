@@ -27,7 +27,7 @@ def get_modified_files_to_format(compare_to):
 
     all_src_files, all_extra_files = format.list_files_to_format()
     # Split modified_files between source files and extra files (see format.py)
-    # This also filters out deleted files that no logner exist
+    # This also filters out deleted files that no longer exist
     modified_src_files_existing = list(modified_files.intersection(all_src_files))
     modified_extra_files_existing = list(modified_files.intersection(all_extra_files))
 
