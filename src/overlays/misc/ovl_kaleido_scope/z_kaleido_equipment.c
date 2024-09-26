@@ -3,29 +3,29 @@
 #include "assets/textures/parameter_static/parameter_static.h"
 
 static u8 sChildUpgrades[] = {
-    UPG_BULLET_BAG, // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
-    UPG_BOMB_BAG,   // QUAD_EQUIP_UPG_BOMB_BAG
-    UPG_STRENGTH,   // QUAD_EQUIP_UPG_STRENGTH
-    UPG_SCALE,      // QUAD_EQUIP_UPG_SCALE
+    UPG_BULLET_BAG, // EQUIP_QUAD_UPG_BULLETBAG_QUIVER
+    UPG_BOMB_BAG,   // EQUIP_QUAD_UPG_BOMB_BAG
+    UPG_STRENGTH,   // EQUIP_QUAD_UPG_STRENGTH
+    UPG_SCALE,      // EQUIP_QUAD_UPG_SCALE
 };
 static u8 sAdultUpgrades[] = {
-    UPG_QUIVER,   // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
-    UPG_BOMB_BAG, // QUAD_EQUIP_UPG_BOMB_BAG
-    UPG_STRENGTH, // QUAD_EQUIP_UPG_STRENGTH
-    UPG_SCALE,    // QUAD_EQUIP_UPG_SCALE
+    UPG_QUIVER,   // EQUIP_QUAD_UPG_BULLETBAG_QUIVER
+    UPG_BOMB_BAG, // EQUIP_QUAD_UPG_BOMB_BAG
+    UPG_STRENGTH, // EQUIP_QUAD_UPG_STRENGTH
+    UPG_SCALE,    // EQUIP_QUAD_UPG_SCALE
 };
 
 static u8 sChildUpgradeItemBases[] = {
-    ITEM_BULLET_BAG_30,            // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
-    ITEM_BOMB_BAG_20,              // QUAD_EQUIP_UPG_BOMB_BAG
-    ITEM_STRENGTH_GORONS_BRACELET, // QUAD_EQUIP_UPG_STRENGTH
-    ITEM_SCALE_SILVER,             // QUAD_EQUIP_UPG_SCALE
+    ITEM_BULLET_BAG_30,            // EQUIP_QUAD_UPG_BULLETBAG_QUIVER
+    ITEM_BOMB_BAG_20,              // EQUIP_QUAD_UPG_BOMB_BAG
+    ITEM_STRENGTH_GORONS_BRACELET, // EQUIP_QUAD_UPG_STRENGTH
+    ITEM_SCALE_SILVER,             // EQUIP_QUAD_UPG_SCALE
 };
 static u8 sAdultUpgradeItemBases[] = {
-    ITEM_QUIVER_30,                // QUAD_EQUIP_UPG_BULLETBAG_QUIVER
-    ITEM_BOMB_BAG_20,              // QUAD_EQUIP_UPG_BOMB_BAG
-    ITEM_STRENGTH_GORONS_BRACELET, // QUAD_EQUIP_UPG_STRENGTH
-    ITEM_SCALE_SILVER,             // QUAD_EQUIP_UPG_SCALE
+    ITEM_QUIVER_30,                // EQUIP_QUAD_UPG_BULLETBAG_QUIVER
+    ITEM_BOMB_BAG_20,              // EQUIP_QUAD_UPG_BOMB_BAG
+    ITEM_STRENGTH_GORONS_BRACELET, // EQUIP_QUAD_UPG_STRENGTH
+    ITEM_SCALE_SILVER,             // EQUIP_QUAD_UPG_SCALE
 };
 
 static u8 sUpgradeItemOffsets[] = {
@@ -85,7 +85,7 @@ void KaleidoScope_DrawEquipmentImage(PlayState* play, void* source, u32 width, u
         textureCount += 1;
     }
 
-    vtxIndex = QUAD_EQUIP_PLAYER_FIRST * 4;
+    vtxIndex = EQUIP_QUAD_PLAYER_FIRST * 4;
 
     gDPSetTileCustom(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, width - 1, textureHeight - 1, 0,
                      G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -185,9 +185,9 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, ZREG(39), ZREG(40), ZREG(41), pauseCtx->alpha);
     gDPSetEnvColor(POLY_OPA_DISP++, ZREG(43), ZREG(44), ZREG(45), 0);
 
-    // Draw QUAD_EQUIP_SELECTED_SWORD, QUAD_EQUIP_SELECTED_SHIELD, QUAD_EQUIP_SELECTED_TUNIC, QUAD_EQUIP_SELECTED_BOOTS
+    // Draw EQUIP_QUAD_SELECTED_SWORD, EQUIP_QUAD_SELECTED_SHIELD, EQUIP_QUAD_SELECTED_TUNIC, EQUIP_QUAD_SELECTED_BOOTS
 
-    for (i = 0, j = QUAD_EQUIP_SELECTED_SWORD * 4; i < EQUIP_TYPE_MAX; i++, j += 4) {
+    for (i = 0, j = EQUIP_QUAD_SELECTED_SWORD * 4; i < EQUIP_TYPE_MAX; i++, j += 4) {
         if (CUR_EQUIP_VALUE(i) != 0) {
             gDPPipeSync(POLY_OPA_DISP++);
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[j], 4, 0);
@@ -587,7 +587,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     // Enlarge the equip item at the current cursor position, if it can be equipped
 
     // for each row (one row per equip type)
-    for (rowStart = 0, i = 0, point = QUAD_EQUIP_SWORD_KOKIRI * 4; i < EQUIP_TYPE_MAX;
+    for (rowStart = 0, i = 0, point = EQUIP_QUAD_SWORD_KOKIRI * 4; i < EQUIP_TYPE_MAX;
          i++, rowStart += 4, point += 4 * 4) {
 
         // for each equip column
@@ -623,7 +623,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[j], 4 * 4, 0);
 
         // Draw upgrade `i`
-        // QUAD_EQUIP_UPG_BULLETBAG_QUIVER, QUAD_EQUIP_UPG_BOMB_BAG, QUAD_EQUIP_UPG_STRENGTH, QUAD_EQUIP_UPG_SCALE
+        // EQUIP_QUAD_UPG_BULLETBAG_QUIVER, EQUIP_QUAD_UPG_BOMB_BAG, EQUIP_QUAD_UPG_STRENGTH, EQUIP_QUAD_UPG_SCALE
 
         if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
             point = CUR_UPG_VALUE(sChildUpgrades[i]);
@@ -647,10 +647,10 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         }
 
         // Draw owned equips of type `i`
-        // QUAD_EQUIP_SWORD_KOKIRI, QUAD_EQUIP_SWORD_MASTER, QUAD_EQUIP_SWORD_BIGGORON
-        // QUAD_EQUIP_SHIELD_DEKU, QUAD_EQUIP_SHIELD_HYLIAN, QUAD_EQUIP_SHIELD_MIRROR
-        // QUAD_EQUIP_TUNIC_KOKIRI, QUAD_EQUIP_TUNIC_GORON, QUAD_EQUIP_TUNIC_ZORA
-        // QUAD_EQUIP_BOOTS_KOKIRI, QUAD_EQUIP_BOOTS_IRON, QUAD_EQUIP_BOOTS_HOVER
+        // EQUIP_QUAD_SWORD_KOKIRI, EQUIP_QUAD_SWORD_MASTER, EQUIP_QUAD_SWORD_BIGGORON
+        // EQUIP_QUAD_SHIELD_DEKU, EQUIP_QUAD_SHIELD_HYLIAN, EQUIP_QUAD_SHIELD_MIRROR
+        // EQUIP_QUAD_TUNIC_KOKIRI, EQUIP_QUAD_TUNIC_GORON, EQUIP_QUAD_TUNIC_ZORA
+        // EQUIP_QUAD_BOOTS_KOKIRI, EQUIP_QUAD_BOOTS_IRON, EQUIP_QUAD_BOOTS_HOVER
 
         for (k = 0, bit = rowStart, point = 4; k < 3; k++, point += 4, temp++, bit++) {
 

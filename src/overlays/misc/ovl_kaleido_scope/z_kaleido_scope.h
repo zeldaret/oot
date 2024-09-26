@@ -83,35 +83,35 @@ typedef enum QuestQuad {
 typedef enum EquipQuad {
     // Grid of upgrades and equips, left column is upgrades, others are equips, with one row per equip type
     // Row 0
-    /*  0 */ QUAD_EQUIP_UPG_BULLETBAG_QUIVER,
-    /*  1 */ QUAD_EQUIP_SWORD_KOKIRI,
-    /*  2 */ QUAD_EQUIP_SWORD_MASTER,
-    /*  3 */ QUAD_EQUIP_SWORD_BIGGORON,
+    /*  0 */ EQUIP_QUAD_UPG_BULLETBAG_QUIVER,
+    /*  1 */ EQUIP_QUAD_SWORD_KOKIRI,
+    /*  2 */ EQUIP_QUAD_SWORD_MASTER,
+    /*  3 */ EQUIP_QUAD_SWORD_BIGGORON,
     // Row 1
-    /*  4 */ QUAD_EQUIP_UPG_BOMB_BAG,
-    /*  5 */ QUAD_EQUIP_SHIELD_DEKU,
-    /*  6 */ QUAD_EQUIP_SHIELD_HYLIAN,
-    /*  7 */ QUAD_EQUIP_SHIELD_MIRROR,
+    /*  4 */ EQUIP_QUAD_UPG_BOMB_BAG,
+    /*  5 */ EQUIP_QUAD_SHIELD_DEKU,
+    /*  6 */ EQUIP_QUAD_SHIELD_HYLIAN,
+    /*  7 */ EQUIP_QUAD_SHIELD_MIRROR,
     // Row 2
-    /*  8 */ QUAD_EQUIP_UPG_STRENGTH,
-    /*  9 */ QUAD_EQUIP_TUNIC_KOKIRI,
-    /* 10 */ QUAD_EQUIP_TUNIC_GORON,
-    /* 11 */ QUAD_EQUIP_TUNIC_ZORA,
+    /*  8 */ EQUIP_QUAD_UPG_STRENGTH,
+    /*  9 */ EQUIP_QUAD_TUNIC_KOKIRI,
+    /* 10 */ EQUIP_QUAD_TUNIC_GORON,
+    /* 11 */ EQUIP_QUAD_TUNIC_ZORA,
     // Row 3
-    /* 12 */ QUAD_EQUIP_UPG_SCALE,
-    /* 13 */ QUAD_EQUIP_BOOTS_KOKIRI,
-    /* 14 */ QUAD_EQUIP_BOOTS_IRON,
-    /* 15 */ QUAD_EQUIP_BOOTS_HOVER,
+    /* 12 */ EQUIP_QUAD_UPG_SCALE,
+    /* 13 */ EQUIP_QUAD_BOOTS_KOKIRI,
+    /* 14 */ EQUIP_QUAD_BOOTS_IRON,
+    /* 15 */ EQUIP_QUAD_BOOTS_HOVER,
     // Markers indicating the currently selected equip
-    /* 16 */ QUAD_EQUIP_SELECTED_SWORD,
-    /* 17 */ QUAD_EQUIP_SELECTED_SHIELD,
-    /* 18 */ QUAD_EQUIP_SELECTED_TUNIC,
-    /* 19 */ QUAD_EQUIP_SELECTED_BOOTS,
+    /* 16 */ EQUIP_QUAD_SELECTED_SWORD,
+    /* 17 */ EQUIP_QUAD_SELECTED_SHIELD,
+    /* 18 */ EQUIP_QUAD_SELECTED_TUNIC,
+    /* 19 */ EQUIP_QUAD_SELECTED_BOOTS,
     // Player prerender
-    /* 20 */ QUAD_EQUIP_PLAYER_FIRST,
-    /* 23 */ QUAD_EQUIP_PLAYER_LAST = QUAD_EQUIP_PLAYER_FIRST + PAUSE_EQUIP_PLAYER_FRAG_NUM - 1,
+    /* 20 */ EQUIP_QUAD_PLAYER_FIRST,
+    /* 23 */ EQUIP_QUAD_PLAYER_LAST = EQUIP_QUAD_PLAYER_FIRST + PAUSE_EQUIP_PLAYER_FRAG_NUM - 1,
     // 24..27 are unused, probably meant for player prerender
-    /* 28 */ QUAD_EQUIP_MAX = QUAD_EQUIP_PLAYER_LAST + 4 + 1
+    /* 28 */ EQUIP_QUAD_MAX = EQUIP_QUAD_PLAYER_LAST + 4 + 1
 } EquipQuad;
 
 // The world map image is split into a number of quad fragments for drawing
@@ -178,7 +178,7 @@ typedef enum PromptQuad {
 #define ITEM_AMMO_DIGIT_QUAD_HEIGHT 8
 #define ITEM_AMMO_DIGIT_QUAD_TEX_SIZE 8
 
-// Relative to the corresponding QUAD_ITEM_GRID_ quad
+// Relative to the corresponding ITEM_QUAD_GRID_ quad
 #define ITEM_AMMO_TENS_QUAD_OFFSET_X 0
 #define ITEM_AMMO_TENS_QUAD_OFFSET_Y 22
 
@@ -189,31 +189,31 @@ typedef enum PromptQuad {
 typedef enum ItemQuad {
     // 0..23 are the ITEM_GRID_ROWS*ITEM_GRID_COLS item grid
     // The values follow the `InventorySlot` enum
-    /*  0 */ QUAD_ITEM_GRID_FIRST,
-    /* 23 */ QUAD_ITEM_GRID_LAST = ITEM_GRID_ROWS * ITEM_GRID_COLS - 1,
+    /*  0 */ ITEM_QUAD_GRID_FIRST,
+    /* 23 */ ITEM_QUAD_GRID_LAST = ITEM_GRID_ROWS * ITEM_GRID_COLS - 1,
     // Markers indicating the currently equipped items
-    /* 24 */ QUAD_ITEM_GRID_SELECTED_C_LEFT,
-    /* 25 */ QUAD_ITEM_GRID_SELECTED_C_DOWN,
-    /* 26 */ QUAD_ITEM_GRID_SELECTED_C_RIGHT,
+    /* 24 */ ITEM_QUAD_GRID_SELECTED_C_LEFT,
+    /* 25 */ ITEM_QUAD_GRID_SELECTED_C_DOWN,
+    /* 26 */ ITEM_QUAD_GRID_SELECTED_C_RIGHT,
     // Digits for showing ammo count
-    /* 27 */ QUAD_ITEM_AMMO_FIRST,
-    /* 27 */ QUAD_ITEM_AMMO_STICK_TENS = QUAD_ITEM_AMMO_FIRST,
-    /* 28 */ QUAD_ITEM_AMMO_STICK_UNITS,
-    /* 29 */ QUAD_ITEM_AMMO_NUT_TENS,
-    /* 30 */ QUAD_ITEM_AMMO_NUT_UNITS,
-    /* 31 */ QUAD_ITEM_AMMO_BOMB_TENS,
-    /* 32 */ QUAD_ITEM_AMMO_BOMB_UNITS,
-    /* 33 */ QUAD_ITEM_AMMO_BOW_TENS,
-    /* 34 */ QUAD_ITEM_AMMO_BOW_UNITS,
-    /* 35 */ QUAD_ITEM_AMMO_SLINGSHOT_TENS,
-    /* 36 */ QUAD_ITEM_AMMO_SLINGSHOT_UNITS,
-    /* 37 */ QUAD_ITEM_AMMO_BOMBCHU_TENS,
-    /* 38 */ QUAD_ITEM_AMMO_BOMBCHU_UNITS,
-    /* 39 */ QUAD_ITEM_AMMO_BEAN_TENS,
-    /* 40 */ QUAD_ITEM_AMMO_BEAN_UNITS,
-    /* 41 */ QUAD_ITEM_AMMO_MAX,
-    /* 40 */ QUAD_ITEM_AMMO_LAST = QUAD_ITEM_AMMO_MAX - 1,
-    /* 41 */ QUAD_ITEM_MAX
+    /* 27 */ ITEM_QUAD_AMMO_FIRST,
+    /* 27 */ ITEM_QUAD_AMMO_STICK_TENS = ITEM_QUAD_AMMO_FIRST,
+    /* 28 */ ITEM_QUAD_AMMO_STICK_UNITS,
+    /* 29 */ ITEM_QUAD_AMMO_NUT_TENS,
+    /* 30 */ ITEM_QUAD_AMMO_NUT_UNITS,
+    /* 31 */ ITEM_QUAD_AMMO_BOMB_TENS,
+    /* 32 */ ITEM_QUAD_AMMO_BOMB_UNITS,
+    /* 33 */ ITEM_QUAD_AMMO_BOW_TENS,
+    /* 34 */ ITEM_QUAD_AMMO_BOW_UNITS,
+    /* 35 */ ITEM_QUAD_AMMO_SLINGSHOT_TENS,
+    /* 36 */ ITEM_QUAD_AMMO_SLINGSHOT_UNITS,
+    /* 37 */ ITEM_QUAD_AMMO_BOMBCHU_TENS,
+    /* 38 */ ITEM_QUAD_AMMO_BOMBCHU_UNITS,
+    /* 39 */ ITEM_QUAD_AMMO_BEAN_TENS,
+    /* 40 */ ITEM_QUAD_AMMO_BEAN_UNITS,
+    /* 41 */ ITEM_QUAD_AMMO_MAX,
+    /* 40 */ ITEM_QUAD_AMMO_LAST = ITEM_QUAD_AMMO_MAX - 1,
+    /* 41 */ ITEM_QUAD_MAX
 } ItemQuad;
 
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);

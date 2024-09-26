@@ -32,23 +32,23 @@ static s16 sEquipAnimTimer = 0;
 static s16 sEquipMoveTimer = 10;
 
 static s16 sAmmoVtxOffset[] = {
-    QUAD_ITEM_AMMO_STICK_TENS - QUAD_ITEM_AMMO_FIRST,     // ITEM_DEKU_STICK
-    QUAD_ITEM_AMMO_NUT_TENS - QUAD_ITEM_AMMO_FIRST,       // ITEM_DEKU_NUT
-    QUAD_ITEM_AMMO_BOMB_TENS - QUAD_ITEM_AMMO_FIRST,      // ITEM_BOMB
-    QUAD_ITEM_AMMO_BOW_TENS - QUAD_ITEM_AMMO_FIRST,       // ITEM_BOW
+    ITEM_QUAD_AMMO_STICK_TENS - ITEM_QUAD_AMMO_FIRST,     // ITEM_DEKU_STICK
+    ITEM_QUAD_AMMO_NUT_TENS - ITEM_QUAD_AMMO_FIRST,       // ITEM_DEKU_NUT
+    ITEM_QUAD_AMMO_BOMB_TENS - ITEM_QUAD_AMMO_FIRST,      // ITEM_BOMB
+    ITEM_QUAD_AMMO_BOW_TENS - ITEM_QUAD_AMMO_FIRST,       // ITEM_BOW
     99,                                                   // (ITEM_ARROW_FIRE)
     99,                                                   // (ITEM_DINS_FIRE)
-    QUAD_ITEM_AMMO_SLINGSHOT_TENS - QUAD_ITEM_AMMO_FIRST, // ITEM_SLINGSHOT
+    ITEM_QUAD_AMMO_SLINGSHOT_TENS - ITEM_QUAD_AMMO_FIRST, // ITEM_SLINGSHOT
     99,                                                   // (ITEM_OCARINA_FAIRY)
     99,                                                   // (ITEM_OCARINA_OF_TIME)
-    QUAD_ITEM_AMMO_BOMBCHU_TENS - QUAD_ITEM_AMMO_FIRST,   // ITEM_BOMBCHU
+    ITEM_QUAD_AMMO_BOMBCHU_TENS - ITEM_QUAD_AMMO_FIRST,   // ITEM_BOMBCHU
     99,                                                   // (ITEM_HOOKSHOT)
     99,                                                   // (ITEM_LONGSHOT)
     99,                                                   // (ITEM_ARROW_ICE)
     99,                                                   // (ITEM_FARORES_WIND)
     99,                                                   // (ITEM_BOOMERANG)
     99,                                                   // (ITEM_LENS)
-    QUAD_ITEM_AMMO_BEAN_TENS - QUAD_ITEM_AMMO_FIRST,      // ITEM_MAGIC_BEAN
+    ITEM_QUAD_AMMO_BEAN_TENS - ITEM_QUAD_AMMO_FIRST,      // ITEM_MAGIC_BEAN
 };
 
 void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx, s16 item) {
@@ -85,7 +85,7 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
     gDPPipeSync(POLY_OPA_DISP++);
 
     if (ammoTens != 0) {
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(QUAD_ITEM_AMMO_FIRST + sAmmoVtxOffset[item] + 0) * 4], 4, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(ITEM_QUAD_AMMO_FIRST + sAmmoVtxOffset[item] + 0) * 4], 4, 0);
 
         gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * ammoTens)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8,
                             0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
@@ -94,7 +94,7 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
         gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     }
 
-    gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(QUAD_ITEM_AMMO_FIRST + sAmmoVtxOffset[item] + 1) * 4], 4, 0);
+    gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(ITEM_QUAD_AMMO_FIRST + sAmmoVtxOffset[item] + 1) * 4], 4, 0);
 
     gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * ammo)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -467,7 +467,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-    for (i = 0, j = QUAD_ITEM_GRID_SELECTED_C_LEFT * 4; i < 3; i++, j += 4) {
+    for (i = 0, j = ITEM_QUAD_GRID_SELECTED_C_LEFT * 4; i < 3; i++, j += 4) {
         if (gSaveContext.save.info.equips.buttonItems[i + 1] != ITEM_NONE) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j], 4, 0);
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, gEquippedItemOutlineTex, 32, 32, 0);

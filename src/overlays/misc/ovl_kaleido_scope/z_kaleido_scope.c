@@ -2716,22 +2716,22 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
 }
 
 static s16 sItemVtxQuadsWithAmmo[] = {
-    SLOT_DEKU_STICK * 4, // QUAD_ITEM_AMMO_STICK_
-    SLOT_DEKU_NUT * 4,   // QUAD_ITEM_AMMO_NUT_
-    SLOT_BOMB * 4,       // QUAD_ITEM_AMMO_BOMB_
-    SLOT_BOW * 4,        // QUAD_ITEM_AMMO_BOW_
-    SLOT_SLINGSHOT * 4,  // QUAD_ITEM_AMMO_SLINGSHOT_
-    SLOT_BOMBCHU * 4,    // QUAD_ITEM_AMMO_BOMBCHU_
-    SLOT_MAGIC_BEAN * 4, // QUAD_ITEM_AMMO_BEAN_
+    SLOT_DEKU_STICK * 4, // ITEM_QUAD_AMMO_STICK_
+    SLOT_DEKU_NUT * 4,   // ITEM_QUAD_AMMO_NUT_
+    SLOT_BOMB * 4,       // ITEM_QUAD_AMMO_BOMB_
+    SLOT_BOW * 4,        // ITEM_QUAD_AMMO_BOW_
+    SLOT_SLINGSHOT * 4,  // ITEM_QUAD_AMMO_SLINGSHOT_
+    SLOT_BOMBCHU * 4,    // ITEM_QUAD_AMMO_BOMBCHU_
+    SLOT_MAGIC_BEAN * 4, // ITEM_QUAD_AMMO_BEAN_
 };
 
 static s16 sEquipColumnsX[] = { -114, 12, 44, 76 };
 
 static u8 sEquipQuadsFirstByEquipType_[EQUIP_TYPE_MAX] = {
-    QUAD_EQUIP_SWORD_KOKIRI, // EQUIP_TYPE_SWORD
-    QUAD_EQUIP_SHIELD_DEKU,  // EQUIP_TYPE_SHIELD
-    QUAD_EQUIP_TUNIC_KOKIRI, // EQUIP_TYPE_TUNIC
-    QUAD_EQUIP_BOOTS_KOKIRI, // EQUIP_TYPE_BOOTS
+    EQUIP_QUAD_SWORD_KOKIRI, // EQUIP_TYPE_SWORD
+    EQUIP_QUAD_SHIELD_DEKU,  // EQUIP_TYPE_SHIELD
+    EQUIP_QUAD_TUNIC_KOKIRI, // EQUIP_TYPE_TUNIC
+    EQUIP_QUAD_BOOTS_KOKIRI, // EQUIP_TYPE_BOOTS
 };
 
 static s16 sQuestQuadsX[] = {
@@ -2997,9 +2997,9 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     pauseCtx->cursorVtx[17].v.tc[0] = pauseCtx->cursorVtx[18].v.tc[1] = pauseCtx->cursorVtx[19].v.tc[0] =
         pauseCtx->cursorVtx[19].v.tc[1] = 32 * (1 << 5);
 
-    pauseCtx->itemVtx = GRAPH_ALLOC(gfxCtx, (QUAD_ITEM_MAX * 4) * sizeof(Vtx));
+    pauseCtx->itemVtx = GRAPH_ALLOC(gfxCtx, (ITEM_QUAD_MAX * 4) * sizeof(Vtx));
 
-    // QUAD_ITEM_GRID_FIRST..QUAD_ITEM_GRID_LAST
+    // ITEM_QUAD_GRID_FIRST..ITEM_QUAD_GRID_LAST
 
     for (k = 0, i = 0, y = (ITEM_GRID_ROWS * ITEM_GRID_CELL_HEIGHT) / 2 - 6; k < ITEM_GRID_ROWS;
          k++, y -= ITEM_GRID_CELL_HEIGHT) {
@@ -3039,7 +3039,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    // QUAD_ITEM_GRID_SELECTED_C_LEFT, QUAD_ITEM_GRID_SELECTED_C_DOWN, QUAD_ITEM_GRID_SELECTED_C_RIGHT
+    // ITEM_QUAD_GRID_SELECTED_C_LEFT, ITEM_QUAD_GRID_SELECTED_C_DOWN, ITEM_QUAD_GRID_SELECTED_C_RIGHT
 
     for (j = 1; j < 4; j++, i += 4) {
         if (gSaveContext.save.info.equips.cButtonSlots[j - 1] != ITEM_NONE) {
@@ -3092,9 +3092,9 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    // QUAD_ITEM_AMMO_*
+    // ITEM_QUAD_AMMO_*
 
-    for (i = QUAD_ITEM_AMMO_FIRST * 4, j = 0; j < 7; j++) {
+    for (i = ITEM_QUAD_AMMO_FIRST * 4, j = 0; j < 7; j++) {
         k = sItemVtxQuadsWithAmmo[j];
 
         // tens
@@ -3151,12 +3151,12 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    pauseCtx->equipVtx = GRAPH_ALLOC(gfxCtx, (QUAD_EQUIP_MAX * 4) * sizeof(Vtx));
+    pauseCtx->equipVtx = GRAPH_ALLOC(gfxCtx, (EQUIP_QUAD_MAX * 4) * sizeof(Vtx));
 
-    // QUAD_EQUIP_UPG_BULLETBAG_QUIVER, QUAD_EQUIP_SWORD_KOKIRI, QUAD_EQUIP_SWORD_MASTER, QUAD_EQUIP_SWORD_BIGGORON,
-    // QUAD_EQUIP_UPG_BOMB_BAG, QUAD_EQUIP_SHIELD_DEKU, QUAD_EQUIP_SHIELD_HYLIAN, QUAD_EQUIP_SHIELD_MIRROR,
-    // QUAD_EQUIP_UPG_STRENGTH, QUAD_EQUIP_TUNIC_KOKIRI, QUAD_EQUIP_TUNIC_GORON, QUAD_EQUIP_TUNIC_ZORA,
-    // QUAD_EQUIP_UPG_SCALE, QUAD_EQUIP_BOOTS_KOKIRI, QUAD_EQUIP_BOOTS_IRON, QUAD_EQUIP_BOOTS_HOVER
+    // EQUIP_QUAD_UPG_BULLETBAG_QUIVER, EQUIP_QUAD_SWORD_KOKIRI, EQUIP_QUAD_SWORD_MASTER, EQUIP_QUAD_SWORD_BIGGORON,
+    // EQUIP_QUAD_UPG_BOMB_BAG, EQUIP_QUAD_SHIELD_DEKU, EQUIP_QUAD_SHIELD_HYLIAN, EQUIP_QUAD_SHIELD_MIRROR,
+    // EQUIP_QUAD_UPG_STRENGTH, EQUIP_QUAD_TUNIC_KOKIRI, EQUIP_QUAD_TUNIC_GORON, EQUIP_QUAD_TUNIC_ZORA,
+    // EQUIP_QUAD_UPG_SCALE, EQUIP_QUAD_BOOTS_KOKIRI, EQUIP_QUAD_BOOTS_IRON, EQUIP_QUAD_BOOTS_HOVER
 
     // for each row
     for (k = 0, i = 0, y = (EQUIP_TYPE_MAX * EQUIP_GRID_CELL_HEIGHT) / 2 - 6; i < EQUIP_TYPE_MAX;
@@ -3199,7 +3199,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    // QUAD_EQUIP_SELECTED_SWORD, QUAD_EQUIP_SELECTED_SHIELD, QUAD_EQUIP_SELECTED_TUNIC, QUAD_EQUIP_SELECTED_BOOTS
+    // EQUIP_QUAD_SELECTED_SWORD, EQUIP_QUAD_SELECTED_SHIELD, EQUIP_QUAD_SELECTED_TUNIC, EQUIP_QUAD_SELECTED_BOOTS
 
     for (j = 0; j < EQUIP_TYPE_MAX; j++, k += 4) {
         if (CUR_EQUIP_VALUE(j) != 0) {
@@ -3241,7 +3241,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    // QUAD_EQUIP_PLAYER_FIRST..QUAD_EQUIP_PLAYER_LAST
+    // EQUIP_QUAD_PLAYER_FIRST..EQUIP_QUAD_PLAYER_LAST
 
     x = PAUSE_EQUIP_PLAYER_HEIGHT;
     y = 50;
