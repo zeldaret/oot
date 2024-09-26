@@ -379,7 +379,7 @@ static s16 sFishingPlayingState;
 static s16 sLureTimer; // AND'd for various effects/checks
 static s16 D_80B7E0B0;
 static s16 D_80B7E0B2;
-static s16 sRodCastTimer; // used for the inital line casting
+static s16 sRodCastTimer; // used for the initial line casting
 static u8 sLureEquipped;
 static Vec3f sLurePos;
 static Vec3f sLureDrawPos;

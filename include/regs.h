@@ -280,7 +280,7 @@ typedef enum HRegMode {
 // HREG_MODE_UCODE_DISAS
 #define R_UCODE_DISAS_TOGGLE      HREG(81) // < 0 enables and prints some hardware reg info for 1 frame, > 0 enables constant disas
 #define R_UCODE_DISAS_LOG_MODE    HREG(82) // 1 and 2 print counts, 3 enables fault client, 4 disables open/close disps
-#define R_UCODE_DISAS_LOG_LEVEL   HREG(83) // enables various logging within the dissasembler itself
+#define R_UCODE_DISAS_LOG_LEVEL   HREG(83) // enables various logging within the dissassembler itself
 #define R_UCODE_DISAS_TOTAL_COUNT HREG(84) // read-only
 #define R_UCODE_DISAS_VTX_COUNT   HREG(85) // read-only
 #define R_UCODE_DISAS_SPVTX_COUNT HREG(86) // read-only

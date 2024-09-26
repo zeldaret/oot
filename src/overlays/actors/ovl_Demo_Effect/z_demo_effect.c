@@ -1105,7 +1105,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
 
 /**
  * Update action for the Lgt Shower Actor.
- * The Lgt Shower Actor is the green light effect spawned by Farore in the Kokiri Forst creation cutscene.
+ * The Lgt Shower Actor is the green light effect spawned by Farore in the Kokiri Forest creation cutscene.
  * This function updates the scale and alpha of the Actor.
  */
 void DemoEffect_UpdateLgtShower(DemoEffect* this, PlayState* play) {

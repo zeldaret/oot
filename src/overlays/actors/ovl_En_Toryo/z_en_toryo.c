@@ -248,7 +248,7 @@ u32 EnToryo_ReactToExchangeItem(EnToryo* this, PlayState* play) {
             ret = 0x200F;
         }
     }
-    //! @bug return value may be unitialized
+    //! @bug return value may be uninitialized
     return ret;
 }
 
