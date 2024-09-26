@@ -55,4 +55,33 @@ typedef struct View {
 #define VIEW_ERROR_CHECK_EYE_POS(x, y, z) (void)0
 #endif
 
+View* View_New(struct GraphicsContext* gfxCtx);
+void View_Free(View* view);
+void View_Init(View*, struct GraphicsContext*);
+void View_LookAt(View* view, Vec3f* eye, Vec3f* at, Vec3f* up);
+void View_LookAtUnsafe(View* view, Vec3f* eye, Vec3f* at, Vec3f* up);
+void View_SetScale(View* view, f32 scale);
+void View_GetScale(View* view, f32* scale);
+void View_SetPerspective(View* view, f32 fovy, f32 zNear, f32 zFar);
+void View_GetPerspective(View* view, f32* fovy, f32* zNear, f32* zFar);
+void View_SetOrtho(View* view, f32 fovy, f32 zNear, f32 zFar);
+void View_GetOrtho(View* view, f32* fovy, f32* zNear, f32* zFar);
+void View_SetViewport(View* view, Viewport* viewport);
+void View_GetViewport(View* view, Viewport* viewport);
+void View_SetDistortionOrientation(View* view, f32 rotX, f32 rotY, f32 rotZ);
+void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ);
+s32 View_SetDistortionSpeed(View* view, f32 speed);
+void View_InitDistortion(View* view);
+void View_ClearDistortion(View* view);
+void View_SetDistortion(View* view, Vec3f orientation, Vec3f scale, f32 speed);
+s32 View_StepDistortion(View* view, Mtx* projectionMtx);
+s32 View_Apply(View* view, s32 mask);
+s32 View_ApplyOrthoToOverlay(View* view);
+s32 View_ApplyPerspectiveToOverlay(View* view);
+s32 View_UpdateViewingMatrix(View* view);
+s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP);
+#if OOT_DEBUG
+s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ);
+#endif
+
 #endif
