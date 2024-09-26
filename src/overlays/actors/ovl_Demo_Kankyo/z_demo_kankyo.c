@@ -1,4 +1,5 @@
 #include "z_demo_kankyo.h"
+#include "versions.h"
 #include "z64cutscene_commands.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
@@ -14,7 +15,7 @@ void DemoKankyo_Draw(Actor* thisx, PlayState* play);
 void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play);
 void DemoKankyo_UpdateClouds(DemoKankyo* this, PlayState* play);
 void DemoKankyo_UpdateRock(DemoKankyo* this, PlayState* play);
-void DemoKankyo_DoNothing2(DemoKankyo* this, PlayState* play);
+void DemoKankyo_UpdateWarpIn(DemoKankyo* this, PlayState* play);
 void DemoKankyo_UpdateDoorOfTime(DemoKankyo* this, PlayState* play);
 void DemoKankyo_DoNothing(DemoKankyo* this, PlayState* play);
 void DemoKankyo_KillDoorOfTimeCollision(DemoKankyo* this, PlayState* play);
@@ -355,7 +356,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                     }
                 }
                 gSaveContext.cutsceneTrigger = 1;
-                DemoKankyo_SetupAction(this, DemoKankyo_DoNothing2);
+                DemoKankyo_SetupAction(this, DemoKankyo_UpdateWarpIn);
                 break;
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_SPARKLES:
@@ -367,7 +368,11 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
 void DemoKankyo_DoNothing(DemoKankyo* this, PlayState* play) {
 }
 
-void DemoKankyo_DoNothing2(DemoKankyo* this, PlayState* play) {
+void DemoKankyo_UpdateWarpIn(DemoKankyo* this, PlayState* play) {
+#if OOT_VERSION < PAL_1_0
+    Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+#endif
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
 
@@ -798,8 +803,10 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                         this->unk_150[i].unk_22++;
                     }
                 } else {
+#if OOT_VERSION >= PAL_1_0
                     Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxDefaultPos, 4,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+#endif
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
