@@ -165,7 +165,7 @@ typedef struct ActorShape {
 #define ACTOR_FLAG_16 (1 << 16)
 
 // Actor will be influenced by the pitch (x rot) of Player's left hand when being carried.
-// This is different from the deafult actor carry behavior, which influences the actor's yaw.
+// This is different from the default actor carry behavior, which influences the actor's yaw.
 // This flag is helpful for something like the "heavyblock" actor which Player carries underhanded.
 #define ACTOR_FLAG_CARRY_X_ROT_INFLUENCE (1 << 17)
 
