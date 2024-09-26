@@ -4320,7 +4320,7 @@ void Message_Update(PlayState* play) {
                         //       Later, if the ocarina has not been played and another textbox is closed, this handling
                         //       for Saria's song will be carried out.
                         player->naviTextId = -0xE0;
-                        player->naviActor->flags |= ACTOR_FLAG_16;
+                        player->naviActor->flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPT;
                     }
                     if (msgCtx->ocarinaAction == OCARINA_ACTION_FREE_PLAY_DONE &&
                         (play->msgCtx.ocarinaMode == OCARINA_MODE_01 || play->msgCtx.ocarinaMode == OCARINA_MODE_0B)) {

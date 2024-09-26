@@ -161,14 +161,16 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_15 (1 << 15)
 
-//
-#define ACTOR_FLAG_16 (1 << 16)
+// Player automatically accepts a Talk Offer without needing to press the A button.
+// Player still has to meet all conditions to be able to accept a talk offer (for example, being in range).
+#define ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPT (1 << 16)
 
 //
 #define ACTOR_FLAG_17 (1 << 17)
 
-//
-#define ACTOR_FLAG_18 (1 << 18)
+// When locked onto an actor with this flag set, the C-Up button can be used to talk to this actor.
+// A Navi C-Up button will also appear on the HUD.
+#define ACTOR_FLAG_TALK_WITH_C_UP (1 << 18)
 
 // Flags controlling the use of `Actor.sfx`. Do not use directly.
 #define ACTOR_FLAG_SFX_ACTOR_POS_2 (1 << 19) // see Actor_PlaySfx_Flagged2
