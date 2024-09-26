@@ -5961,7 +5961,7 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
             cUpTalkActor = this->naviActor;
 
             if (forceTalkToNavi) {
-                // Clearing these pointers gurantees that `cUpTalkActor` will take priority
+                // Clearing these pointers guarantees that `cUpTalkActor` will take priority
                 lockOnActor = NULL;
                 talkOfferActor = NULL;
             }
@@ -5998,7 +5998,7 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
             this->stateFlags2 |= PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER;
 
             if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (talkOfferActor->flags & ACTOR_FLAG_16)) {
-                // Clearing `cUpTalkActor` gurantees that `talkOfferActor` is the actor that will be spoken to
+                // Clearing `cUpTalkActor` guarantees that `talkOfferActor` is the actor that will be spoken to
                 cUpTalkActor = NULL;
             } else if (cUpTalkActor == NULL) {
                 return false;
@@ -6019,10 +6019,8 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
 
             if (forceTalkToNavi || !canTalkToLockOnWithCUp) {
                 cUpTalkActor->textId = ABS(this->naviTextId);
-            } else {
-                if (cUpTalkActor->naviEnemyId != NAVI_ENEMY_NONE) {
-                    cUpTalkActor->textId = cUpTalkActor->naviEnemyId + 0x600;
-                }
+            } else if (cUpTalkActor->naviEnemyId != NAVI_ENEMY_NONE) {
+                cUpTalkActor->textId = cUpTalkActor->naviEnemyId + 0x600;
             }
         }
 
