@@ -5953,11 +5953,11 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
                                   (lockOnActor->naviEnemyId != NAVI_ENEMY_NONE));
 
     if (canTalkToLockOnWithCUp || (this->naviTextId != 0)) {
-        // If `naviTextId` is negative and outside the 0x2XX range, talk to navi instantly
+        // If `naviTextId` is negative and outside the 0x2XX range, talk to Navi instantly
         forceTalkToNavi = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
 
         if (forceTalkToNavi || !canTalkToLockOnWithCUp) {
-            // If `lockOnActor` can't be talked to with c-up, the only option left is navi
+            // If `lockOnActor` can't be talked to with c-up, the only option left is Navi
             cUpTalkActor = this->naviActor;
 
             if (forceTalkToNavi) {
