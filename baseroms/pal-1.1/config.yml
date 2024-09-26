@@ -1,4 +1,4 @@
-dmadata_start: 0x12F70
+dmadata_start: 0x7950
 text_lang_pal: true
 incbins:
   - name: ipl3
@@ -7,72 +7,76 @@ incbins:
     size: 0xFC0
   - name: rspbootText
     segment: boot
-    vram: 0x80009320
-    size: 0xD0
+    vram: 0x80006560
+    size: 0x160
   - name: aspMainText
     segment: code
-    vram: 0x801120C0
+    vram: 0x800E0F50
     size: 0xFB0
+  - name: gspF3DZEX2_NoN_PosLight_fifoText
+    segment: code
+    vram: 0x800E1F00
+    size: 0x1390
   - name: gspS2DEX2d_fifoText
     segment: code
-    vram: 0x80113070
+    vram: 0x800E3290
     size: 0x18C0
   - name: njpgdspMainText
     segment: code
-    vram: 0x80114930
+    vram: 0x800E4B50
     size: 0xAF0
-  - name: gMojiFontTLUTs
+  - name: gSequenceFontTable
     segment: code
-    vram: 0x8012A740
-    size: 0x80
-  - name: gMojiFontTex
+    vram: 0x801117F0
+    size: 0x1C0
+  - name: gSequenceTable
     segment: code
-    vram: 0x8012A7C0
-    size: 0x400
+    vram: 0x801119B0
+    size: 0x6F0
   - name: aspMainData
     segment: code
-    vram: 0x80155C70
+    vram: 0x80112120
     size: 0x2E0
-  - name: gspF3DZEX2_NoN_PosLight_fifoText
-    segment: code
-    vram: 0x80155F50
-    size: 0x1630
   - name: gspF3DZEX2_NoN_PosLight_fifoData
     segment: code
-    vram: 0x80157580
+    vram: 0x80112400
     size: 0x420
   - name: gspS2DEX2d_fifoData
     segment: code
-    vram: 0x801579A0
+    vram: 0x80112820
     size: 0x390
   - name: njpgdspMainData
     segment: code
-    vram: 0x80157D30
+    vram: 0x80112BB0
     size: 0x60
 variables:
-  gMtxClear: 0x8012DB20
-  sNesMessageEntryTable: 0x8014B320
-  sGerMessageEntryTable: 0x8014F548
-  sFraMessageEntryTable: 0x80151658
-  sStaffMessageEntryTable: 0x80153768
-  gSoundFontTable: 0x801550D0
-  gSequenceFontTable: 0x80155340
-  gSequenceTable: 0x80155500
-  gSampleBankTable: 0x80155BF0
-  sShadowTex: 0x80A8E610
+  gMtxClear: 0x800FCD40
+  sNesMessageEntryTable: 0x801088FC
+  sGerMessageEntryTable: 0x8010CB24
+  sFraMessageEntryTable: 0x8010EC34
+  sStaffMessageEntryTable: 0x80110D44
+  gSoundFontTable: 0x80111580
+  gSequenceFontTable: 0x801117F0
+  gSequenceTable: 0x801119B0
+  gSampleBankTable: 0x801120A0
+  sShadowTex: 0x80AE1B80
 assets:
 - name: code/fbdemo_circle
   xml_path: assets/xml/code/fbdemo_circle.xml
-  start_offset: 0x10ED48
-  end_offset: 0x10FF68
+  start_offset: 0xE9A08
+  end_offset: 0xEAC28
 - name: code/fbdemo_triforce
   xml_path: assets/xml/code/fbdemo_triforce.xml
-  start_offset: 0x10E1D0
-  end_offset: 0x10E2A0
+  start_offset: 0xE8E90
+  end_offset: 0xE8F60
 - name: code/fbdemo_wipe1
   xml_path: assets/xml/code/fbdemo_wipe1.xml
-  start_offset: 0x10E2A0
-  end_offset: 0x10EC30
+  start_offset: 0xE8F60
+  end_offset: 0xE98F0
+- name: n64dd/error_textures
+  xml_path: assets/xml/n64dd/error_textures.xml
+  start_offset: 0xC0E0
+  end_offset: 0x11CE0
 - name: misc/link_animetion
   xml_path: assets/xml/misc/link_animetion.xml
 - name: misc/z_select_static
@@ -522,7 +526,7 @@ assets:
 - name: objects/object_ma2
   xml_path: assets/xml/objects/object_ma2.xml
 - name: objects/object_mag
-  xml_path: assets/xml/objects/object_mag_v3_mq.xml
+  xml_path: assets/xml/objects/object_mag.xml
 - name: objects/object_mamenoki
   xml_path: assets/xml/objects/object_mamenoki.xml
 - name: objects/object_mastergolon
@@ -841,152 +845,144 @@ assets:
   xml_path: assets/xml/objects/object_zo.xml
 - name: overlays/ovl_Arrow_Fire
   xml_path: assets/xml/overlays/ovl_Arrow_Fire.xml
-  start_offset: 0x9D0
-  end_offset: 0x1DF0
+  start_offset: 0x960
+  end_offset: 0x1D80
 - name: overlays/ovl_Arrow_Ice
   xml_path: assets/xml/overlays/ovl_Arrow_Ice.xml
-  start_offset: 0x9F0
-  end_offset: 0x1E10
+  start_offset: 0x980
+  end_offset: 0x1DA0
 - name: overlays/ovl_Arrow_Light
   xml_path: assets/xml/overlays/ovl_Arrow_Light.xml
-  start_offset: 0xA00
-  end_offset: 0x1E20
+  start_offset: 0x990
+  end_offset: 0x1DB0
 - name: overlays/ovl_Bg_Ganon_Otyuka
   xml_path: assets/xml/overlays/ovl_Bg_Ganon_Otyuka.xml
-  start_offset: 0x11C0
-  end_offset: 0x259C
+  start_offset: 0x1110
+  end_offset: 0x24EC
 - name: overlays/ovl_Bg_Jya_Cobra
   xml_path: assets/xml/overlays/ovl_Bg_Jya_Cobra.xml
-  start_offset: 0x1980
-  end_offset: 0x19F8
+  start_offset: 0x1830
+  end_offset: 0x18A8
 - name: overlays/ovl_Boss_Dodongo
   xml_path: assets/xml/overlays/ovl_Boss_Dodongo.xml
-  start_offset: 0x6238
-  end_offset: 0x9238
+  start_offset: 0x61C8
+  end_offset: 0x91C8
 - name: overlays/ovl_Boss_Ganon
   xml_path: assets/xml/overlays/ovl_Boss_Ganon.xml
-  start_offset: 0xE6B8
-  end_offset: 0x211D8
+  start_offset: 0xE388
+  end_offset: 0x20EA8
 - name: overlays/ovl_Boss_Ganon2
   xml_path: assets/xml/overlays/ovl_Boss_Ganon2.xml
-  start_offset: 0xA2C8
-  end_offset: 0x10778
+  start_offset: 0x9F38
+  end_offset: 0x103E8
 - name: overlays/ovl_Boss_Sst
   xml_path: assets/xml/overlays/ovl_Boss_Sst.xml
-  start_offset: 0xA3C0
-  end_offset: 0xAD70
+  start_offset: 0xA370
+  end_offset: 0xAD20
 - name: overlays/ovl_Demo_Shd
   xml_path: assets/xml/overlays/ovl_Demo_Shd.xml
-  start_offset: 0x450
-  end_offset: 0x23D0
+  start_offset: 0x410
+  end_offset: 0x2390
 - name: overlays/ovl_Effect_Ss_Fhg_Flash
   xml_path: assets/xml/overlays/ovl_Effect_Ss_Fhg_Flash.xml
-  start_offset: 0xA60
-  end_offset: 0xF18
-- name: overlays/ovl_Elf_Msg
-  xml_path: assets/xml/overlays/ovl_Elf_Msg.xml
-  start_offset: 0x758
-  end_offset: 0x9D8
-- name: overlays/ovl_Elf_Msg2
-  xml_path: assets/xml/overlays/ovl_Elf_Msg2.xml
-  start_offset: 0x538
-  end_offset: 0x638
+  start_offset: 0x9F0
+  end_offset: 0xEA8
 - name: overlays/ovl_En_Bili
   xml_path: assets/xml/overlays/ovl_En_Bili.xml
-  start_offset: 0x1E50
-  end_offset: 0x1E70
+  start_offset: 0x1E40
+  end_offset: 0x1E60
 - name: overlays/ovl_En_Clear_Tag
   xml_path: assets/xml/overlays/ovl_En_Clear_Tag.xml
-  start_offset: 0x26F0
-  end_offset: 0x89F0
+  start_offset: 0x2600
+  end_offset: 0x8900
 - name: overlays/ovl_En_Ganon_Mant
   xml_path: assets/xml/overlays/ovl_En_Ganon_Mant.xml
-  start_offset: 0x1218
-  end_offset: 0x4118
+  start_offset: 0x11E8
+  end_offset: 0x40E8
 - name: overlays/ovl_En_Ganon_Organ
   xml_path: assets/xml/overlays/ovl_En_Ganon_Organ.xml
-  start_offset: 0x3E8
-  end_offset: 0x6F70
+  start_offset: 0x328
+  end_offset: 0x6EB0
 - name: overlays/ovl_En_Holl
   xml_path: assets/xml/overlays/ovl_En_Holl.xml
-  start_offset: 0xE78
-  end_offset: 0xEE0
+  start_offset: 0xE68
+  end_offset: 0xED0
 - name: overlays/ovl_En_Jsjutan
   xml_path: assets/xml/overlays/ovl_En_Jsjutan.xml
-  start_offset: 0x12F8
-  end_offset: 0x4C90
+  start_offset: 0x12B8
+  end_offset: 0x4C50
 - name: overlays/ovl_En_Kanban
   xml_path: assets/xml/overlays/ovl_En_Kanban.xml
-  start_offset: 0x2F80
-  end_offset: 0x3040
+  start_offset: 0x2E70
+  end_offset: 0x2F30
 - name: overlays/ovl_En_Sda
   xml_path: assets/xml/overlays/ovl_En_Sda.xml
-  start_offset: 0x1578
-  end_offset: 0x1608
+  start_offset: 0x14A8
+  end_offset: 0x1538
 - name: overlays/ovl_En_Ssh
   xml_path: assets/xml/overlays/ovl_En_Ssh.xml
   start_offset: 0x2150
   end_offset: 0x21E0
 - name: overlays/ovl_En_St
   xml_path: assets/xml/overlays/ovl_En_St.xml
-  start_offset: 0x26B0
-  end_offset: 0x2740
+  start_offset: 0x26A0
+  end_offset: 0x2730
 - name: overlays/ovl_En_Sth
   xml_path: assets/xml/overlays/ovl_En_Sth.xml
-  start_offset: 0xEF0
-  end_offset: 0x3EC4
+  start_offset: 0xE60
+  end_offset: 0x3E34
 - name: overlays/ovl_End_Title
   xml_path: assets/xml/overlays/ovl_End_Title.xml
-  start_offset: 0x780
-  end_offset: 0x4128
+  start_offset: 0x6F0
+  end_offset: 0x4098
 - name: overlays/ovl_file_choose
-  xml_path: assets/xml/overlays/ovl_file_choose_pal_gc.xml
-  start_offset: 0xDE70
-  end_offset: 0xE740
+  xml_path: assets/xml/overlays/ovl_file_choose_pal_n64.xml
+  start_offset: 0xF120
+  end_offset: 0xFA30
 - name: overlays/ovl_Magic_Dark
   xml_path: assets/xml/overlays/ovl_Magic_Dark.xml
-  start_offset: 0xD10
-  end_offset: 0x1740
+  start_offset: 0xC90
+  end_offset: 0x16C0
 - name: overlays/ovl_Magic_Fire
   xml_path: assets/xml/overlays/ovl_Magic_Fire.xml
-  start_offset: 0xB90
-  end_offset: 0x21E0
+  start_offset: 0xB20
+  end_offset: 0x2170
 - name: overlays/ovl_Magic_Wind
   xml_path: assets/xml/overlays/ovl_Magic_Wind.xml
-  start_offset: 0x780
-  end_offset: 0x1C98
+  start_offset: 0x6A0
+  end_offset: 0x1BB8
 - name: overlays/ovl_Oceff_Spot
   xml_path: assets/xml/overlays/ovl_Oceff_Spot.xml
-  start_offset: 0x7F0
-  end_offset: 0xEC8
+  start_offset: 0x780
+  end_offset: 0xE58
 - name: overlays/ovl_Oceff_Storm
   xml_path: assets/xml/overlays/ovl_Oceff_Storm.xml
-  start_offset: 0x7B0
-  end_offset: 0x1B40
+  start_offset: 0x740
+  end_offset: 0x1AD0
 - name: overlays/ovl_Oceff_Wipe
   xml_path: assets/xml/overlays/ovl_Oceff_Wipe.xml
-  start_offset: 0x550
-  end_offset: 0xD10
+  start_offset: 0x4F0
+  end_offset: 0xCB0
 - name: overlays/ovl_Oceff_Wipe2
   xml_path: assets/xml/overlays/ovl_Oceff_Wipe2.xml
-  start_offset: 0x480
-  end_offset: 0x16E8
+  start_offset: 0x430
+  end_offset: 0x1698
 - name: overlays/ovl_Oceff_Wipe3
   xml_path: assets/xml/overlays/ovl_Oceff_Wipe3.xml
-  start_offset: 0x480
-  end_offset: 0x16C8
+  start_offset: 0x430
+  end_offset: 0x1678
 - name: overlays/ovl_Oceff_Wipe4
   xml_path: assets/xml/overlays/ovl_Oceff_Wipe4.xml
-  start_offset: 0x460
-  end_offset: 0xF48
+  start_offset: 0x410
+  end_offset: 0xEF8
 - name: scenes/dungeons/bdan
-  xml_path: assets/xml/scenes/dungeons/bdan_mq.xml
+  xml_path: assets/xml/scenes/dungeons/bdan.xml
 - name: scenes/dungeons/bdan_boss
   xml_path: assets/xml/scenes/dungeons/bdan_boss.xml
 - name: scenes/dungeons/Bmori1
-  xml_path: assets/xml/scenes/dungeons/Bmori1_mq.xml
+  xml_path: assets/xml/scenes/dungeons/Bmori1.xml
 - name: scenes/dungeons/ddan
-  xml_path: assets/xml/scenes/dungeons/ddan_mq.xml
+  xml_path: assets/xml/scenes/dungeons/ddan.xml
 - name: scenes/dungeons/ddan_boss
   xml_path: assets/xml/scenes/dungeons/ddan_boss.xml
 - name: scenes/dungeons/FIRE_bs
@@ -1002,35 +998,35 @@ assets:
 - name: scenes/dungeons/ganon_sonogo
   xml_path: assets/xml/scenes/dungeons/ganon_sonogo.xml
 - name: scenes/dungeons/ganontika
-  xml_path: assets/xml/scenes/dungeons/ganontika_mq.xml
+  xml_path: assets/xml/scenes/dungeons/ganontika.xml
 - name: scenes/dungeons/ganontikasonogo
   xml_path: assets/xml/scenes/dungeons/ganontikasonogo.xml
 - name: scenes/dungeons/gerudoway
   xml_path: assets/xml/scenes/dungeons/gerudoway.xml
 - name: scenes/dungeons/HAKAdan
-  xml_path: assets/xml/scenes/dungeons/HAKAdan_mq.xml
+  xml_path: assets/xml/scenes/dungeons/HAKAdan.xml
 - name: scenes/dungeons/HAKAdan_bs
   xml_path: assets/xml/scenes/dungeons/HAKAdan_bs.xml
 - name: scenes/dungeons/HAKAdanCH
-  xml_path: assets/xml/scenes/dungeons/HAKAdanCH_mq.xml
+  xml_path: assets/xml/scenes/dungeons/HAKAdanCH.xml
 - name: scenes/dungeons/HIDAN
-  xml_path: assets/xml/scenes/dungeons/HIDAN_mq.xml
+  xml_path: assets/xml/scenes/dungeons/HIDAN.xml
 - name: scenes/dungeons/ice_doukutu
-  xml_path: assets/xml/scenes/dungeons/ice_doukutu_mq.xml
+  xml_path: assets/xml/scenes/dungeons/ice_doukutu_pal_n64.xml
 - name: scenes/dungeons/jyasinboss
   xml_path: assets/xml/scenes/dungeons/jyasinboss.xml
 - name: scenes/dungeons/jyasinzou
-  xml_path: assets/xml/scenes/dungeons/jyasinzou_mq.xml
+  xml_path: assets/xml/scenes/dungeons/jyasinzou.xml
 - name: scenes/dungeons/men
-  xml_path: assets/xml/scenes/dungeons/men_mq.xml
+  xml_path: assets/xml/scenes/dungeons/men.xml
 - name: scenes/dungeons/MIZUsin
-  xml_path: assets/xml/scenes/dungeons/MIZUsin_mq.xml
+  xml_path: assets/xml/scenes/dungeons/MIZUsin.xml
 - name: scenes/dungeons/MIZUsin_bs
   xml_path: assets/xml/scenes/dungeons/MIZUsin_bs.xml
 - name: scenes/dungeons/moribossroom
   xml_path: assets/xml/scenes/dungeons/moribossroom.xml
 - name: scenes/dungeons/ydan
-  xml_path: assets/xml/scenes/dungeons/ydan_mq.xml
+  xml_path: assets/xml/scenes/dungeons/ydan.xml
 - name: scenes/dungeons/ydan_boss
   xml_path: assets/xml/scenes/dungeons/ydan_boss.xml
 - name: scenes/indoors/bowling
@@ -1039,8 +1035,6 @@ assets:
   xml_path: assets/xml/scenes/indoors/daiyousei_izumi.xml
 - name: scenes/indoors/hairal_niwa
   xml_path: assets/xml/scenes/indoors/hairal_niwa.xml
-- name: scenes/indoors/hairal_niwa2
-  xml_path: assets/xml/scenes/indoors/hairal_niwa2.xml
 - name: scenes/indoors/hairal_niwa_n
   xml_path: assets/xml/scenes/indoors/hairal_niwa_n.xml
 - name: scenes/indoors/hakasitarelay
@@ -1084,7 +1078,7 @@ assets:
 - name: scenes/indoors/tent
   xml_path: assets/xml/scenes/indoors/tent.xml
 - name: scenes/indoors/tokinoma
-  xml_path: assets/xml/scenes/indoors/tokinoma.xml
+  xml_path: assets/xml/scenes/indoors/tokinoma_pal_n64.xml
 - name: scenes/indoors/yousei_izumi_tate
   xml_path: assets/xml/scenes/indoors/yousei_izumi_tate.xml
 - name: scenes/indoors/yousei_izumi_yoko
@@ -1102,7 +1096,7 @@ assets:
 - name: scenes/misc/hakaana_ouke
   xml_path: assets/xml/scenes/misc/hakaana_ouke.xml
 - name: scenes/misc/hiral_demo
-  xml_path: assets/xml/scenes/misc/hiral_demo.xml
+  xml_path: assets/xml/scenes/misc/hiral_demo_pal_n64.xml
 - name: scenes/misc/kakariko3
   xml_path: assets/xml/scenes/misc/kakariko3.xml
 - name: scenes/misc/kakusiana
@@ -1130,41 +1124,41 @@ assets:
 - name: scenes/overworld/ganon_tou
   xml_path: assets/xml/scenes/overworld/ganon_tou.xml
 - name: scenes/overworld/spot00
-  xml_path: assets/xml/scenes/overworld/spot00.xml
+  xml_path: assets/xml/scenes/overworld/spot00_pal_n64.xml
 - name: scenes/overworld/spot01
-  xml_path: assets/xml/scenes/overworld/spot01.xml
+  xml_path: assets/xml/scenes/overworld/spot01_pal_n64.xml
 - name: scenes/overworld/spot02
   xml_path: assets/xml/scenes/overworld/spot02.xml
 - name: scenes/overworld/spot03
   xml_path: assets/xml/scenes/overworld/spot03.xml
 - name: scenes/overworld/spot04
-  xml_path: assets/xml/scenes/overworld/spot04.xml
+  xml_path: assets/xml/scenes/overworld/spot04_pal_n64.xml
 - name: scenes/overworld/spot05
-  xml_path: assets/xml/scenes/overworld/spot05.xml
+  xml_path: assets/xml/scenes/overworld/spot05_pal_n64.xml
 - name: scenes/overworld/spot06
-  xml_path: assets/xml/scenes/overworld/spot06.xml
+  xml_path: assets/xml/scenes/overworld/spot06_pal_n64.xml
 - name: scenes/overworld/spot07
-  xml_path: assets/xml/scenes/overworld/spot07.xml
+  xml_path: assets/xml/scenes/overworld/spot07_pal_n64.xml
 - name: scenes/overworld/spot08
   xml_path: assets/xml/scenes/overworld/spot08.xml
 - name: scenes/overworld/spot09
-  xml_path: assets/xml/scenes/overworld/spot09.xml
+  xml_path: assets/xml/scenes/overworld/spot09_pal_n64.xml
 - name: scenes/overworld/spot10
   xml_path: assets/xml/scenes/overworld/spot10.xml
 - name: scenes/overworld/spot11
-  xml_path: assets/xml/scenes/overworld/spot11.xml
+  xml_path: assets/xml/scenes/overworld/spot11_pal_n64.xml
 - name: scenes/overworld/spot12
-  xml_path: assets/xml/scenes/overworld/spot12.xml
+  xml_path: assets/xml/scenes/overworld/spot12_pal_n64.xml
 - name: scenes/overworld/spot13
   xml_path: assets/xml/scenes/overworld/spot13.xml
 - name: scenes/overworld/spot15
   xml_path: assets/xml/scenes/overworld/spot15.xml
 - name: scenes/overworld/spot16
-  xml_path: assets/xml/scenes/overworld/spot16.xml
+  xml_path: assets/xml/scenes/overworld/spot16_pal_n64.xml
 - name: scenes/overworld/spot17
-  xml_path: assets/xml/scenes/overworld/spot17.xml
+  xml_path: assets/xml/scenes/overworld/spot17_pal_n64.xml
 - name: scenes/overworld/spot18
-  xml_path: assets/xml/scenes/overworld/spot18.xml
+  xml_path: assets/xml/scenes/overworld/spot18_pal_n64.xml
 - name: scenes/overworld/spot20
   xml_path: assets/xml/scenes/overworld/spot20_pal.xml
 - name: scenes/shops/alley_shop
@@ -1183,22 +1177,6 @@ assets:
   xml_path: assets/xml/scenes/shops/shop1.xml
 - name: scenes/shops/zoora
   xml_path: assets/xml/scenes/shops/zoora.xml
-- name: scenes/test_levels/besitu
-  xml_path: assets/xml/scenes/test_levels/besitu.xml
-- name: scenes/test_levels/depth_test
-  xml_path: assets/xml/scenes/test_levels/depth_test.xml
-- name: scenes/test_levels/sasatest
-  xml_path: assets/xml/scenes/test_levels/sasatest.xml
-- name: scenes/test_levels/sutaru
-  xml_path: assets/xml/scenes/test_levels/sutaru.xml
-- name: scenes/test_levels/syotes
-  xml_path: assets/xml/scenes/test_levels/syotes.xml
-- name: scenes/test_levels/syotes2
-  xml_path: assets/xml/scenes/test_levels/syotes2.xml
-- name: scenes/test_levels/test01
-  xml_path: assets/xml/scenes/test_levels/test01.xml
-- name: scenes/test_levels/testroom
-  xml_path: assets/xml/scenes/test_levels/testroom.xml
 - name: textures/backgrounds
   xml_path: assets/xml/textures/backgrounds.xml
 - name: textures/do_action_static
@@ -1234,7 +1212,7 @@ assets:
 - name: textures/message_texture_static
   xml_path: assets/xml/textures/message_texture_static.xml
 - name: textures/nes_font_static
-  xml_path: assets/xml/textures/nes_font_static_v2.xml
+  xml_path: assets/xml/textures/nes_font_static.xml
 - name: textures/nintendo_rogo_static
   xml_path: assets/xml/textures/nintendo_rogo_static.xml
 - name: textures/parameter_static
@@ -1244,4 +1222,4 @@ assets:
 - name: textures/skyboxes
   xml_path: assets/xml/textures/skyboxes.xml
 - name: textures/title_static
-  xml_path: assets/xml/textures/title_static_pal_gc.xml
+  xml_path: assets/xml/textures/title_static_pal_n64.xml
