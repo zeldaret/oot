@@ -5,12 +5,26 @@
 
 struct GraphicsContext;
 
+#define SCREEN_WIDTH  320
+#define SCREEN_HEIGHT 240
+
 typedef struct Viewport {
     /* 0x0 */ s32 topY;    // uly (upper left y)
     /* 0x4 */ s32 bottomY; // lry (lower right y)
     /* 0x8 */ s32 leftX;   // ulx (upper left x)
     /* 0xC */ s32 rightX;  // lrx (lower right x)
 } Viewport; // size = 0x10
+
+#define SET_FULLSCREEN_VIEWPORT(view)      \
+    {                                      \
+        Viewport viewport;                 \
+        viewport.bottomY = SCREEN_HEIGHT;  \
+        viewport.rightX = SCREEN_WIDTH;    \
+        viewport.topY = 0;                 \
+        viewport.leftX = 0;                \
+        View_SetViewport(view, &viewport); \
+    }                                      \
+    (void)0
 
 typedef struct View {
     /* 0x000 */ s32 magic; // string literal "VIEW" / 0x56494557
