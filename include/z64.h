@@ -206,7 +206,7 @@ typedef struct FileSelectState {
     /* 0x000A8 */ u8* staticSegment;
     /* 0x000AC */ u8* parameterSegment;
 #if OOT_PAL
-    /* 0x000B0 */ char unk_B0[0x8];
+    /* 0x000B0 */ u8* objectMagSegment;
 #endif
     /* 0x000B8 */ View view;
     /* 0x001E0 */ SramContext sramCtx;

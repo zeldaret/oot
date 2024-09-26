@@ -919,13 +919,13 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     for (i = 0; i < ARRAY_COUNTU(sZeldaMagic) - 3; i++) {
         if (sZeldaMagic[i + SRAM_HEADER_MAGIC] != sramCtx->readBuff[i + SRAM_HEADER_MAGIC]) {
             PRINTF(T("ＳＲＡＭ破壊！！！！！！\n", "SRAM destruction!!!!!!\n"));
-#if OOT_PAL
+#if PLATFORM_GC && OOT_PAL
             gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
 #endif
 
             MemCpy(sramCtx->readBuff, sZeldaMagic, sizeof(sZeldaMagic));
 
-#if OOT_PAL
+#if PLATFORM_GC && OOT_PAL
             sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language;
 #endif
             Sram_WriteSramHeader(sramCtx);
