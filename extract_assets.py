@@ -78,7 +78,7 @@ def ExtractFunc(assetConfig: version_config.AssetConfig):
     ExtractFile(assetConfig, outPath, outSourcePath)
 
     if not globalAbort.is_set():
-        # Only update timestamp on succesful extractions
+        # Only update timestamp on successful extractions
         if xml_path_str not in globalExtractedAssetsTracker:
             globalExtractedAssetsTracker[xml_path_str] = globalManager.dict()
         globalExtractedAssetsTracker[xml_path_str]["timestamp"] = currentTimeStamp
@@ -188,7 +188,7 @@ def main():
             with mp_context.Pool(numCores, initializer=initializeWorker, initargs=(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager, baseromSegmentsDir, outputDir)) as p:
                 p.map(ExtractFunc, versionConfig.assets)
         except (multiprocessing.ProcessError, TypeError, CannotMultiprocessError):
-            print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
+            print("Warning: Multiprocessing exception occurred.", file=os.sys.stderr)
             print("Disabling mutliprocessing.", file=os.sys.stderr)
 
             initializeWorker(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager, baseromSegmentsDir, outputDir)

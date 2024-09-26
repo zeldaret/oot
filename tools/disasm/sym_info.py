@@ -31,7 +31,7 @@ LABELS_TYPES = {"@branchlabel", "@jumptablelabel"}
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Print informations on a symbol/address"
+        description="Print information on a symbol/address"
         " (and possibly surrounding symbols)"
         " from the spimdisasm disassembly context saved in"
         " expected/build/VERSION/context.csv"

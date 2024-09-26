@@ -5,8 +5,8 @@
 #include "global.h"
 
 // The switch flag value for this actor is constructed in a unique way.
-// There are two seperate param values which get OR'd together to create one final switch flag index.
-// These two values are seperated within the overall actor param value. See below:
+// There are two separate param values which get OR'd together to create one final switch flag index.
+// These two values are separated within the overall actor param value. See below:
 //
 //  | A B C D | _ _ _ _ | E F | _ _ _ _ _ _ |
 // 16        12         8     6             0

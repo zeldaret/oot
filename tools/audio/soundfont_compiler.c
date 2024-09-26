@@ -929,7 +929,7 @@ emit_c_header(FILE *out, soundfont *sf)
 }
 
 /**
- * Convert the compression type as indicated in the AIFC to the correspoding SampleCodec enum value.
+ * Convert the compression type as indicated in the AIFC to the corresponding SampleCodec enum value.
  * These must be kept in sync with the SampleCodec definition!
  */
 static const char *

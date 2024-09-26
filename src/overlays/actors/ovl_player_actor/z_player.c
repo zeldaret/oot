@@ -3768,7 +3768,7 @@ void Player_UpdateZTargeting(Player* this, PlayState* play) {
                     this->focusActor->attentionPriority = 40;
                 }
             } else if (this->autoLockOnActor != NULL) {
-                // Becaue of the previous if condition above, `autoLockOnActor` does not take precedence
+                // Because of the previous if condition above, `autoLockOnActor` does not take precedence
                 // over `focusActor` if it already exists.
                 // However, `autoLockOnActor` is expected to be set with `Player_SetAutoLockOnActor`
                 // which will release any existing lock-on before setting the new one.
@@ -7418,7 +7418,7 @@ s32 func_8083F524(PlayState* play, Player* this) {
 
 /**
  * Two exit walls are placed at each end of the crawlspace, separate to the two entrance walls used to enter the
- * crawlspace. These front and back exit walls are futher into the crawlspace than the front and
+ * crawlspace. These front and back exit walls are further into the crawlspace than the front and
  * back entrance walls. When player interacts with either of these two interior exit walls, start the leaving-crawlspace
  * cutscene and return true. Else, return false
  */
@@ -10635,7 +10635,7 @@ s32 Player_UpdateHoverBoots(Player* this) {
 }
 
 /**
- * Peforms various tasks related to scene collision.
+ * Performs various tasks related to scene collision.
  *
  * This includes:
  * - Update BgCheckInfo, parameters adjusted due to various state flags

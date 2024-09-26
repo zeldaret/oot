@@ -101,7 +101,7 @@ struct View;
 #define CAM_STATE_CHECK_BG (1 << 2) //  Must be set for the camera to change settings based on the bg surface
 #define CAM_STATE_EXTERNAL_FINISHED (1 << 3) // Signal from the external systems to camera that the current cam-update function is no longer needed
 #define CAM_STATE_CAM_FUNC_FINISH (1 << 4) // Signal from camera to player that the cam-update function is finished its primary purpose
-#define CAM_STATE_LOCK_MODE (1 << 5) // Prevents camera from changing mode, unless overriden by `forceModeChange` passed to `Camera_RequestModeImpl`
+#define CAM_STATE_LOCK_MODE (1 << 5) // Prevents camera from changing mode, unless overridden by `forceModeChange` passed to `Camera_RequestModeImpl`
 #define CAM_STATE_DISTORTION (1 << 6) // Set when camera distortion is on
 #define CAM_STATE_PLAY_INIT (1 << 7) // Set in Play_Init, never used or changed
 #define CAM_STATE_CAMERA_IN_WATER (1 << 8) // Camera (eye) is underwater
@@ -797,7 +797,7 @@ typedef struct KeepOn3ReadOnlyData {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 minDist;
     /* 0x08 */ f32 maxDist;
-    /* 0x0C */ f32 swingYawInital;
+    /* 0x0C */ f32 swingYawInitial;
     /* 0x10 */ f32 swingYawFinal;
     /* 0x14 */ f32 swingPitchInitial;
     /* 0x18 */ f32 swingPitchFinal;
@@ -1185,7 +1185,7 @@ typedef struct Unique0ReadOnlyData {
 } Unique0ReadOnlyData; // size = 0x4
 
 typedef struct Unique0ReadWriteData {
-    /* 0x00 */ Vec3f initalPos;
+    /* 0x00 */ Vec3f initialPos;
     /* 0x0C */ s16 animTimer;
     /* 0x10 */ InfiniteLine eyeAndDirection;
 } Unique0ReadWriteData; // size = 0x28
@@ -1410,7 +1410,7 @@ typedef struct Special0 {
     { interfaceField, CAM_DATA_INTERFACE_FIELD }
 
 typedef struct Special4ReadWriteData {
-    /* 0x0 */ s16 initalTimer;
+    /* 0x0 */ s16 initialTimer;
 } Special4ReadWriteData; // size = 0x4
 
 typedef struct Special4 {
@@ -1472,7 +1472,7 @@ typedef struct Special6ReadOnlyData {
 } Special6ReadOnlyData; // size = 0x4
 
 typedef struct Special6ReadWriteData {
-    /* 0x0 */ f32 initalPlayerY;
+    /* 0x0 */ f32 initialPlayerY;
     /* 0x4 */ s16 animTimer;
 } Special6ReadWriteData; // size = 0x8
 
