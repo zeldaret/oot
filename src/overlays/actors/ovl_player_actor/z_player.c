@@ -365,7 +365,7 @@ static s32 D_80858AA0;
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
                                "ntsc-1.2:192"
 
-static s32 D_80858AA4;
+static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
@@ -3743,7 +3743,7 @@ void Player_UpdateZTargeting(Player* this, PlayState* play) {
 
                         this->focusActor = nextLockOnActor;
                         this->zTargetActiveTimer = 15;
-                        this->stateFlags2 &= ~(PLAYER_STATE2_1 | PLAYER_STATE2_21);
+                        this->stateFlags2 &= ~(PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER | PLAYER_STATE2_21);
                     } else {
                         if (!usingHoldTargeting) {
                             Player_ReleaseLockOn(this);
@@ -3926,7 +3926,7 @@ typedef enum ActionHandlerIndex {
     /*  1 */ PLAYER_ACTION_HANDLER_1,
     /*  2 */ PLAYER_ACTION_HANDLER_2,
     /*  3 */ PLAYER_ACTION_HANDLER_3,
-    /*  4 */ PLAYER_ACTION_HANDLER_4,
+    /*  4 */ PLAYER_ACTION_HANDLER_TALK,
     /*  5 */ PLAYER_ACTION_HANDLER_5,
     /*  6 */ PLAYER_ACTION_HANDLER_ROLL,
     /*  7 */ PLAYER_ACTION_HANDLER_7,
@@ -3939,29 +3939,29 @@ typedef enum ActionHandlerIndex {
 } ActionHandlerIndex;
 
 static s8 sActionHandlerList1[] = {
-    PLAYER_ACTION_HANDLER_13, PLAYER_ACTION_HANDLER_2,  PLAYER_ACTION_HANDLER_4, PLAYER_ACTION_HANDLER_9,
-    PLAYER_ACTION_HANDLER_10, PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_8, -PLAYER_ACTION_HANDLER_7,
+    PLAYER_ACTION_HANDLER_13, PLAYER_ACTION_HANDLER_2,  PLAYER_ACTION_HANDLER_TALK, PLAYER_ACTION_HANDLER_9,
+    PLAYER_ACTION_HANDLER_10, PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_8,    -PLAYER_ACTION_HANDLER_7,
 };
 
 static s8 sActionHandlerList2[] = {
-    PLAYER_ACTION_HANDLER_13, PLAYER_ACTION_HANDLER_1, PLAYER_ACTION_HANDLER_2, PLAYER_ACTION_HANDLER_5,
-    PLAYER_ACTION_HANDLER_3,  PLAYER_ACTION_HANDLER_4, PLAYER_ACTION_HANDLER_9, PLAYER_ACTION_HANDLER_10,
-    PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_7, PLAYER_ACTION_HANDLER_8, -PLAYER_ACTION_HANDLER_ROLL,
+    PLAYER_ACTION_HANDLER_13, PLAYER_ACTION_HANDLER_1,    PLAYER_ACTION_HANDLER_2, PLAYER_ACTION_HANDLER_5,
+    PLAYER_ACTION_HANDLER_3,  PLAYER_ACTION_HANDLER_TALK, PLAYER_ACTION_HANDLER_9, PLAYER_ACTION_HANDLER_10,
+    PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_7,    PLAYER_ACTION_HANDLER_8, -PLAYER_ACTION_HANDLER_ROLL,
 };
 
 static s8 sActionHandlerList3[] = {
-    PLAYER_ACTION_HANDLER_13, PLAYER_ACTION_HANDLER_1, PLAYER_ACTION_HANDLER_2,     PLAYER_ACTION_HANDLER_3,
-    PLAYER_ACTION_HANDLER_4,  PLAYER_ACTION_HANDLER_9, PLAYER_ACTION_HANDLER_10,    PLAYER_ACTION_HANDLER_11,
-    PLAYER_ACTION_HANDLER_8,  PLAYER_ACTION_HANDLER_7, -PLAYER_ACTION_HANDLER_ROLL,
+    PLAYER_ACTION_HANDLER_13,   PLAYER_ACTION_HANDLER_1, PLAYER_ACTION_HANDLER_2,     PLAYER_ACTION_HANDLER_3,
+    PLAYER_ACTION_HANDLER_TALK, PLAYER_ACTION_HANDLER_9, PLAYER_ACTION_HANDLER_10,    PLAYER_ACTION_HANDLER_11,
+    PLAYER_ACTION_HANDLER_8,    PLAYER_ACTION_HANDLER_7, -PLAYER_ACTION_HANDLER_ROLL,
 };
 
 static s8 sActionHandlerList4[] = {
-    PLAYER_ACTION_HANDLER_13, PLAYER_ACTION_HANDLER_2,  PLAYER_ACTION_HANDLER_4, PLAYER_ACTION_HANDLER_9,
-    PLAYER_ACTION_HANDLER_10, PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_8, -PLAYER_ACTION_HANDLER_7,
+    PLAYER_ACTION_HANDLER_13, PLAYER_ACTION_HANDLER_2,  PLAYER_ACTION_HANDLER_TALK, PLAYER_ACTION_HANDLER_9,
+    PLAYER_ACTION_HANDLER_10, PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_8,    -PLAYER_ACTION_HANDLER_7,
 };
 
 static s8 sActionHandlerList5[] = {
-    PLAYER_ACTION_HANDLER_13, PLAYER_ACTION_HANDLER_2,  PLAYER_ACTION_HANDLER_4,
+    PLAYER_ACTION_HANDLER_13, PLAYER_ACTION_HANDLER_2,  PLAYER_ACTION_HANDLER_TALK,
     PLAYER_ACTION_HANDLER_9,  PLAYER_ACTION_HANDLER_10, PLAYER_ACTION_HANDLER_11,
     PLAYER_ACTION_HANDLER_12, PLAYER_ACTION_HANDLER_8,  -PLAYER_ACTION_HANDLER_7,
 };
@@ -3972,20 +3972,20 @@ static s8 sActionHandlerList6[] = {
 
 static s8 sActionHandlerList7[] = {
     PLAYER_ACTION_HANDLER_0, PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_1,     PLAYER_ACTION_HANDLER_2,
-    PLAYER_ACTION_HANDLER_3, PLAYER_ACTION_HANDLER_5,  PLAYER_ACTION_HANDLER_4,     PLAYER_ACTION_HANDLER_9,
+    PLAYER_ACTION_HANDLER_3, PLAYER_ACTION_HANDLER_5,  PLAYER_ACTION_HANDLER_TALK,  PLAYER_ACTION_HANDLER_9,
     PLAYER_ACTION_HANDLER_8, PLAYER_ACTION_HANDLER_7,  -PLAYER_ACTION_HANDLER_ROLL,
 };
 
 static s8 sActionHandlerList8[] = {
     PLAYER_ACTION_HANDLER_0, PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_1, PLAYER_ACTION_HANDLER_2,
-    PLAYER_ACTION_HANDLER_3, PLAYER_ACTION_HANDLER_12, PLAYER_ACTION_HANDLER_5, PLAYER_ACTION_HANDLER_4,
+    PLAYER_ACTION_HANDLER_3, PLAYER_ACTION_HANDLER_12, PLAYER_ACTION_HANDLER_5, PLAYER_ACTION_HANDLER_TALK,
     PLAYER_ACTION_HANDLER_9, PLAYER_ACTION_HANDLER_8,  PLAYER_ACTION_HANDLER_7, -PLAYER_ACTION_HANDLER_ROLL,
 };
 
 static s8 sActionHandlerList9[] = {
-    PLAYER_ACTION_HANDLER_13,    PLAYER_ACTION_HANDLER_1,  PLAYER_ACTION_HANDLER_2, PLAYER_ACTION_HANDLER_3,
-    PLAYER_ACTION_HANDLER_12,    PLAYER_ACTION_HANDLER_5,  PLAYER_ACTION_HANDLER_4, PLAYER_ACTION_HANDLER_9,
-    PLAYER_ACTION_HANDLER_10,    PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_8, PLAYER_ACTION_HANDLER_7,
+    PLAYER_ACTION_HANDLER_13,    PLAYER_ACTION_HANDLER_1,  PLAYER_ACTION_HANDLER_2,    PLAYER_ACTION_HANDLER_3,
+    PLAYER_ACTION_HANDLER_12,    PLAYER_ACTION_HANDLER_5,  PLAYER_ACTION_HANDLER_TALK, PLAYER_ACTION_HANDLER_9,
+    PLAYER_ACTION_HANDLER_10,    PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_8,    PLAYER_ACTION_HANDLER_7,
     -PLAYER_ACTION_HANDLER_ROLL,
 };
 
@@ -3999,14 +3999,14 @@ static s8 sActionHandlerList11[] = {
     PLAYER_ACTION_HANDLER_0,
     PLAYER_ACTION_HANDLER_12,
     PLAYER_ACTION_HANDLER_5,
-    -PLAYER_ACTION_HANDLER_4,
+    -PLAYER_ACTION_HANDLER_TALK,
 };
 
 s32 Player_ActionHandler_0(Player* this, PlayState* play);
 s32 Player_ActionHandler_1(Player* this, PlayState* play);
 s32 Player_ActionHandler_2(Player* this, PlayState* play);
 s32 Player_ActionHandler_3(Player* this, PlayState* play);
-s32 Player_ActionHandler_4(Player* this, PlayState* play);
+s32 Player_ActionHandler_Talk(Player* this, PlayState* play);
 s32 Player_ActionHandler_5(Player* this, PlayState* play);
 s32 Player_ActionHandler_Roll(Player* this, PlayState* play);
 s32 Player_ActionHandler_7(Player* this, PlayState* play);
@@ -4022,7 +4022,7 @@ static s32 (*sActionHandlerFuncs[])(Player* this, PlayState* play) = {
     Player_ActionHandler_1,    // PLAYER_ACTION_HANDLER_1
     Player_ActionHandler_2,    // PLAYER_ACTION_HANDLER_2
     Player_ActionHandler_3,    // PLAYER_ACTION_HANDLER_3
-    Player_ActionHandler_4,    // PLAYER_ACTION_HANDLER_4
+    Player_ActionHandler_Talk, // PLAYER_ACTION_HANDLER_TALK
     Player_ActionHandler_5,    // PLAYER_ACTION_HANDLER_5
     Player_ActionHandler_Roll, // PLAYER_ACTION_HANDLER_ROLL
     Player_ActionHandler_7,    // PLAYER_ACTION_HANDLER_7
@@ -5941,76 +5941,105 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
     return 0;
 }
 
-s32 Player_ActionHandler_4(Player* this, PlayState* play) {
-    Actor* sp34 = this->talkActor;
-    Actor* sp30 = this->focusActor;
-    Actor* sp2C = NULL;
-    s32 sp28 = 0;
-    s32 sp24;
+s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
+    Actor* talkOfferActor = this->talkActor;
+    Actor* lockOnActor = this->focusActor;
+    Actor* cUpTalkActor = NULL;
+    s32 forceTalkToNavi = false;
+    s32 canTalkToLockOnWithCUp;
 
-    sp24 = (sp30 != NULL) && (CHECK_FLAG_ALL(sp30->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
-                              (sp30->naviEnemyId != NAVI_ENEMY_NONE));
+    canTalkToLockOnWithCUp =
+        (lockOnActor != NULL) && (CHECK_FLAG_ALL(lockOnActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
+                                  (lockOnActor->naviEnemyId != NAVI_ENEMY_NONE));
 
-    if (sp24 || (this->naviTextId != 0)) {
-        sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
-        if (sp28 || !sp24) {
-            sp2C = this->naviActor;
-            if (sp28) {
-                sp30 = NULL;
-                sp34 = NULL;
+    if (canTalkToLockOnWithCUp || (this->naviTextId != 0)) {
+        // If `naviTextId` is negative and outside the 0x2XX range, talk to Navi instantly
+        forceTalkToNavi = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
+
+        if (forceTalkToNavi || !canTalkToLockOnWithCUp) {
+            // If `lockOnActor` can't be talked to with c-up, the only option left is Navi
+            cUpTalkActor = this->naviActor;
+
+            if (forceTalkToNavi) {
+                // Clearing these pointers guarantees that `cUpTalkActor` will take priority
+                lockOnActor = NULL;
+                talkOfferActor = NULL;
             }
         } else {
-            sp2C = sp30;
+            // Navi is not the talk actor, so the only option left for talking with c-up is `lockOnActor`
+            // (though, `lockOnActor` may be NULL at this point).
+            cUpTalkActor = lockOnActor;
         }
     }
 
-    if ((sp34 != NULL) || (sp2C != NULL)) {
-        if ((sp30 == NULL) || (sp30 == sp34) || (sp30 == sp2C)) {
-            if (!(this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) ||
-                ((this->heldActor != NULL) && (sp28 || (sp34 == this->heldActor) || (sp2C == this->heldActor) ||
-                                               ((sp34 != NULL) && (sp34->flags & ACTOR_FLAG_16))))) {
-                if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->stateFlags1 & PLAYER_STATE1_23) ||
-                    (func_808332B8(this) && !(this->stateFlags2 & PLAYER_STATE2_10))) {
+    if ((talkOfferActor != NULL) || (cUpTalkActor != NULL)) {
+        if ((lockOnActor != NULL) && (lockOnActor != talkOfferActor) && (lockOnActor != cUpTalkActor)) {
+            goto dont_talk;
+        }
 
-                    if (sp34 != NULL) {
-                        this->stateFlags2 |= PLAYER_STATE2_1;
-                        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (sp34->flags & ACTOR_FLAG_16)) {
-                            sp2C = NULL;
-                        } else if (sp2C == NULL) {
-                            return 0;
-                        }
-                    }
-
-                    if (sp2C != NULL) {
-                        if (!sp28) {
-                            this->stateFlags2 |= PLAYER_STATE2_21;
-                        }
-
-                        if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && !sp28) {
-                            return 0;
-                        }
-
-                        sp34 = sp2C;
-                        this->talkActor = NULL;
-
-                        if (sp28 || !sp24) {
-                            sp2C->textId = ABS(this->naviTextId);
-                        } else {
-                            if (sp2C->naviEnemyId != NAVI_ENEMY_NONE) {
-                                sp2C->textId = sp2C->naviEnemyId + 0x600;
-                            }
-                        }
-                    }
-
-                    this->currentMask = D_80858AA4;
-                    func_80853148(play, sp34);
-                    return 1;
-                }
+        if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
+            if ((this->heldActor == NULL) ||
+                (!forceTalkToNavi && (talkOfferActor != this->heldActor) && (cUpTalkActor != this->heldActor) &&
+                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_16)))) {
+                goto dont_talk;
             }
         }
+
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+            if (!(this->stateFlags1 & PLAYER_STATE1_23) &&
+                !(func_808332B8(this) && !(this->stateFlags2 & PLAYER_STATE2_10))) {
+                goto dont_talk;
+            }
+        }
+
+        if (talkOfferActor != NULL) {
+            // At this point the talk offer can be accepted.
+            // "Speak" or "Check" will appear on the A button in the HUD.
+            this->stateFlags2 |= PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER;
+
+            if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (talkOfferActor->flags & ACTOR_FLAG_16)) {
+                // Clearing `cUpTalkActor` guarantees that `talkOfferActor` is the actor that will be spoken to
+                cUpTalkActor = NULL;
+            } else if (cUpTalkActor == NULL) {
+                return false;
+            }
+        }
+
+        if (cUpTalkActor != NULL) {
+            if (!forceTalkToNavi) {
+                this->stateFlags2 |= PLAYER_STATE2_21;
+            }
+
+            if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && !forceTalkToNavi) {
+                return false;
+            }
+
+            talkOfferActor = cUpTalkActor;
+            this->talkActor = NULL;
+
+            if (forceTalkToNavi || !canTalkToLockOnWithCUp) {
+                cUpTalkActor->textId = ABS(this->naviTextId);
+            } else if (cUpTalkActor->naviEnemyId != NAVI_ENEMY_NONE) {
+                cUpTalkActor->textId = cUpTalkActor->naviEnemyId + 0x600;
+            }
+        }
+
+        // `sSavedCurrentMask` saves the current mask just before the current action runs on this frame.
+        // This saved mask value is then restored just before starting a conversation.
+        //
+        // This handles an edge case where a conversation is started on the same frame that a mask was taken on or off.
+        // Because Player updates early before most actors, the text ID being offered comes from the previous frame.
+        // If a mask was taken on or off the same frame this function runs, the wrong text will be used.
+        // This is especially important to prevent unwanted behavior with regards to mask trading.
+        this->currentMask = sSavedCurrentMask;
+
+        func_80853148(play, talkOfferActor);
+
+        return true;
     }
 
-    return 0;
+dont_talk:
+    return false;
 }
 
 s32 func_8083B8F4(Player* this, PlayState* play) {
@@ -8617,7 +8646,7 @@ s32 func_808428D8(Player* this, PlayState* play) {
 }
 
 int func_80842964(Player* this, PlayState* play) {
-    return Player_ActionHandler_13(this, play) || Player_ActionHandler_4(this, play) ||
+    return Player_ActionHandler_13(this, play) || Player_ActionHandler_Talk(this, play) ||
            Player_ActionHandler_2(this, play);
 }
 
@@ -9898,7 +9927,7 @@ void Player_Action_80845CA4(Player* this, PlayState* play) {
                 Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
                 func_80845C68(play, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
 
-                if (!Player_ActionHandler_4(this, play)) {
+                if (!Player_ActionHandler_Talk(this, play)) {
                     func_8083CF5C(this, play);
                 }
             }
@@ -10528,7 +10557,7 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                     doAction = DO_ACTION_CLIMB;
                 } else if ((this->stateFlags1 & PLAYER_STATE1_23) && !EN_HORSE_CHECK_4((EnHorse*)this->rideActor) &&
                            (Player_Action_8084D3E4 != this->actionFunc)) {
-                    if ((this->stateFlags2 & PLAYER_STATE2_1) && (this->talkActor != NULL)) {
+                    if ((this->stateFlags2 & PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER) && (this->talkActor != NULL)) {
                         if (this->talkActor->category == ACTORCAT_NPC) {
                             doAction = DO_ACTION_SPEAK;
                         } else {
@@ -10537,7 +10566,7 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                     } else if (!func_8002DD78(this) && !(this->stateFlags1 & PLAYER_STATE1_20)) {
                         doAction = DO_ACTION_FASTER;
                     }
-                } else if ((this->stateFlags2 & PLAYER_STATE2_1) && (this->talkActor != NULL)) {
+                } else if ((this->stateFlags2 & PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER) && (this->talkActor != NULL)) {
                     if (this->talkActor->category == ACTORCAT_NPC) {
                         doAction = DO_ACTION_SPEAK;
                     } else {
@@ -11557,7 +11586,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         func_8083D6EC(play, this);
 
         if ((this->focusActor == NULL) && (this->naviTextId == 0)) {
-            this->stateFlags2 &= ~(PLAYER_STATE2_1 | PLAYER_STATE2_21);
+            this->stateFlags2 &= ~(PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER | PLAYER_STATE2_21);
         }
 
         this->stateFlags1 &=
@@ -11578,7 +11607,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         D_808535EC = 1.0f / D_808535E8;
         sUseHeldItem = sHeldItemButtonIsHeldDown = false;
-        D_80858AA4 = this->currentMask;
+        sSavedCurrentMask = this->currentMask;
 
         if (!(this->stateFlags3 & PLAYER_STATE3_2)) {
             this->actionFunc(this, play);
@@ -12907,7 +12936,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
     this->yaw = this->actor.shape.rot.y = rideActor->actor.shape.rot.y;
 
     if ((this->csAction != PLAYER_CSACTION_NONE) ||
-        (!func_8083224C(play) && ((rideActor->actor.speed != 0.0f) || !Player_ActionHandler_4(this, play)) &&
+        (!func_8083224C(play) && ((rideActor->actor.speed != 0.0f) || !Player_ActionHandler_Talk(this, play)) &&
          !Player_ActionHandler_Roll(this, play))) {
         if (!sUpperBodyIsBusy) {
             if (this->av1.actionVar1 != 0) {
@@ -15480,7 +15509,7 @@ void func_80852944(PlayState* play, Player* this, CsCmdActorCue* cue) {
         func_80832340(play, this);
     } else {
         func_8083C148(this, play);
-        if (!Player_ActionHandler_4(this, play)) {
+        if (!Player_ActionHandler_Talk(this, play)) {
             Player_ActionHandler_2(this, play);
         }
     }
