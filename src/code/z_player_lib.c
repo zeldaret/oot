@@ -1625,8 +1625,8 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
-        MtxF sp14C;
-        Actor* hookedActor;
+        MtxF leftHandMtx;
+        Actor* heldActor;
 
         Math_Vec3f_Copy(&this->leftHandPos, sCurBodyPartPos);
 
@@ -1682,25 +1682,25 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         }
 
         if (this->actor.scale.y >= 0.0f) {
-            if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
+            if (!Player_HoldsHookshot(this) && ((heldActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & PLAYER_STATE1_9) {
                     static Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
 
-                    Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
+                    Matrix_MultVec3f(&D_80126128, &heldActor->world.pos);
                     Matrix_RotateZYX(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
-                    Matrix_Get(&sp14C);
-                    Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
-                    hookedActor->shape.rot = hookedActor->world.rot;
+                    Matrix_Get(&leftHandMtx);
+                    Matrix_MtxFToYXZRotS(&leftHandMtx, &heldActor->world.rot, 0);
+                    heldActor->shape.rot = heldActor->world.rot;
                 } else if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
-                    Vec3s spB8;
+                    Vec3s leftHandRot;
 
-                    Matrix_Get(&sp14C);
-                    Matrix_MtxFToYXZRotS(&sp14C, &spB8, 0);
+                    Matrix_Get(&leftHandMtx);
+                    Matrix_MtxFToYXZRotS(&leftHandMtx, &leftHandRot, 0);
 
-                    if (hookedActor->flags & ACTOR_FLAG_17) {
-                        hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
+                    if (heldActor->flags & ACTOR_FLAG_CARRY_X_ROT_INFLUENCE) {
+                        heldActor->world.rot.x = heldActor->shape.rot.x = leftHandRot.x - this->unk_3BC.x;
                     } else {
-                        hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
+                        heldActor->world.rot.y = heldActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
                     }
                 }
             } else {
