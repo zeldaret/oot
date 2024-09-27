@@ -1926,12 +1926,13 @@ void Player_ProcessAnimSfxList(Player* this, AnimSfxEntry* entry) {
                 Player_PlayJumpingSfx(this);
             } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_WALKING)) {
                 Player_PlaySteppingSfx(this, 0.0f);
+            }
 #if OOT_VERSION >= PAL_1_0
-            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_UNKNOWN)) {
+            else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_UNKNOWN)) {
                 func_800F4010(&this->actor.projectedPos,
                               NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD + this->ageProperties->unk_94, 0.0f);
-#endif
             }
+#endif
         }
 
         cont = (entry->data >= 0); // stop processing if `data` is negative
@@ -9204,13 +9205,14 @@ void Player_Action_80843CEC(Player* this, PlayState* play) {
 
     if (this->skelAnime.animation == &gPlayerAnim_link_derth_rebirth) {
         Player_ProcessAnimSfxList(this, D_808545F0);
+    }
 #if OOT_VERSION >= PAL_1_0
-    } else if (this->skelAnime.animation == &gPlayerAnim_link_normal_electric_shock_end) {
+    else if (this->skelAnime.animation == &gPlayerAnim_link_normal_electric_shock_end) {
         if (LinkAnimation_OnFrame(&this->skelAnime, 88.0f)) {
             Player_PlayFloorSfx(this, NA_SE_PL_BOUND);
         }
-#endif
     }
+#endif
 }
 
 void func_80843E14(Player* this, u16 sfxId) {
