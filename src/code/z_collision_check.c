@@ -2258,7 +2258,6 @@ void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChk
 
 #if OOT_DEBUG
 static s8 sBssDummy0;
-static s8 sBssDummy1;
 #endif
 
 void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {

@@ -2,11 +2,12 @@
 #define Z_EN_ARROW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64player.h"
 
 struct EnArrow;
 
-typedef void (*EnArrowActionFunc)(struct EnArrow*, PlayState*);
+typedef void (*EnArrowActionFunc)(struct EnArrow*, struct PlayState*);
 
 typedef struct EnArrow {
     /* 0x0000 */ Actor actor;
