@@ -2,11 +2,11 @@
 #define Z_OBJ_MAKEKINSUTA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjMakekinsuta;
 
-typedef void (*ObjMakekinsutaActionFunc)(struct ObjMakekinsuta*, PlayState*);
+typedef void (*ObjMakekinsutaActionFunc)(struct ObjMakekinsuta*, struct PlayState*);
 
 typedef struct ObjMakekinsuta {
     /* 0x000 */ Actor actor;
