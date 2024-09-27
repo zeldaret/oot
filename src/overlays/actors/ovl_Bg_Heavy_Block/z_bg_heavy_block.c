@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_heavy_block.h"
+#include "global.h"
 #include "assets/objects/object_heavy_object/object_heavy_object.h"
 #include "quake.h"
 #include "terminal.h"

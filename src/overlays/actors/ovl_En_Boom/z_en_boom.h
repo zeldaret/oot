@@ -2,11 +2,12 @@
 #define Z_EN_BOOM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64player.h"
 
 struct EnBoom;
 
-typedef void (*EnBoomActionFunc)(struct EnBoom*, PlayState*);
+typedef void (*EnBoomActionFunc)(struct EnBoom*, struct PlayState*);
 
 typedef struct EnBoom {
     /* 0x0000 */ Actor actor;

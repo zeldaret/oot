@@ -1,4 +1,5 @@
 #include "z_en_box.h"
+#include "global.h"
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 #include "assets/objects/object_box/object_box.h"
 

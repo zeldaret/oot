@@ -5,6 +5,7 @@
  */
 
 #include "z_en_arrow.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)

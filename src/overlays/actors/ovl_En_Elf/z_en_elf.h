@@ -2,13 +2,14 @@
 #define Z_EN_ELF_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 #include "overlays/actors/ovl_Elf_Msg/z_elf_msg.h"
 
 struct EnElf;
 
-typedef void (*EnElfActionFunc)(struct EnElf*, PlayState*);
-typedef void (*EnElfUnkFunc)(struct EnElf*, PlayState*);
+typedef void (*EnElfActionFunc)(struct EnElf*, struct PlayState*);
+typedef void (*EnElfUnkFunc)(struct EnElf*, struct PlayState*);
 
 typedef struct EnElf {
     /* 0x0000 */ Actor actor;

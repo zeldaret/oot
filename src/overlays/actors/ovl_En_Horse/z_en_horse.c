@@ -5,6 +5,7 @@
  */
 
 #include "z_en_horse.h"
+#include "global.h"
 #include "versions.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
 #include "assets/objects/object_horse/object_horse.h"

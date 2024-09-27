@@ -2,14 +2,14 @@
 #define Z_EN_BOX_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #define ENBOX_TREASURE_FLAG_UNK_MIN 20
 #define ENBOX_TREASURE_FLAG_UNK_MAX 32
 
 struct EnBox;
 
-typedef void (*EnBoxActionFunc)(struct EnBox*, PlayState*);
+typedef void (*EnBoxActionFunc)(struct EnBox*, struct PlayState*);
 
 typedef enum EnBoxType {
     /*
