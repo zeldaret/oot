@@ -147,7 +147,8 @@ typedef enum ItemQuad {
     /* 25 */ ITEM_QUAD_GRID_SELECTED_C_DOWN,
     /* 26 */ ITEM_QUAD_GRID_SELECTED_C_RIGHT,
     // Digits for showing ammo count
-    /* 27 */ ITEM_QUAD_AMMO_STICK_TENS,
+    /* 27 */ ITEM_QUAD_AMMO_FIRST,
+    /* 27 */ ITEM_QUAD_AMMO_STICK_TENS = ITEM_QUAD_AMMO_FIRST,
     /* 28 */ ITEM_QUAD_AMMO_STICK_ONES,
     /* 29 */ ITEM_QUAD_AMMO_NUT_TENS,
     /* 30 */ ITEM_QUAD_AMMO_NUT_ONES,
