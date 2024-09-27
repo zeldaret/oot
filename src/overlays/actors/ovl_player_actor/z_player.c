@@ -2615,23 +2615,15 @@ void Player_StartChangingHeldItem(Player* this, PlayState* play) {
 }
 
 void Player_UpdateItems(Player* this, PlayState* play) {
-#if OOT_VERSION < NTSC_1_1
     if ((this->actor.category == ACTORCAT_PLAYER) &&
-        ((this->heldItemAction == this->itemAction) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
-        (gSaveContext.save.info.playerData.health != 0) && (play->csCtx.state == CS_STATE_IDLE) &&
-        (this->csAction == PLAYER_CSACTION_NONE) && (play->shootingGalleryStatus == 0) &&
-        (play->activeCamId == CAM_ID_MAIN) && (play->transitionTrigger != TRANS_TRIGGER_START) &&
-        (gSaveContext.timerState != TIMER_STATE_STOP))
-#else
-    // !(this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) added
-    if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) &&
-        ((this->heldItemAction == this->itemAction) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
-        (gSaveContext.save.info.playerData.health != 0) && (play->csCtx.state == CS_STATE_IDLE) &&
-        (this->csAction == PLAYER_CSACTION_NONE) && (play->shootingGalleryStatus == 0) &&
-        (play->activeCamId == CAM_ID_MAIN) && (play->transitionTrigger != TRANS_TRIGGER_START) &&
-        (gSaveContext.timerState != TIMER_STATE_STOP))
+#if OOT_VERSION >= NTSC_1_1
+        !(this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) &&
 #endif
-    {
+        ((this->heldItemAction == this->itemAction) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
+        (gSaveContext.save.info.playerData.health != 0) && (play->csCtx.state == CS_STATE_IDLE) &&
+        (this->csAction == PLAYER_CSACTION_NONE) && (play->shootingGalleryStatus == 0) &&
+        (play->activeCamId == CAM_ID_MAIN) && (play->transitionTrigger != TRANS_TRIGGER_START) &&
+        (gSaveContext.timerState != TIMER_STATE_STOP)) {
         Player_ProcessItemButtons(this, play);
     }
 
@@ -10484,20 +10476,16 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     if ((respawnFlag == 0) || (respawnFlag < -1)) {
         titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
         if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
+            if (!IS_CUTSCENE_LAYER &&
+                (gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
+                 ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&
+                ((play->sceneId != SCENE_DODONGOS_CAVERN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
 #if OOT_VERSION < PAL_1_0
-            if (!IS_CUTSCENE_LAYER &&
-                (gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
-                 ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&
-                ((play->sceneId != SCENE_DODONGOS_CAVERN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
-                ((play->sceneId != SCENE_BOMBCHU_BOWLING_ALLEY) || GET_EVENTCHKINF(EVENTCHKINF_25)))
+                ((play->sceneId != SCENE_BOMBCHU_BOWLING_ALLEY) || GET_EVENTCHKINF(EVENTCHKINF_25))
 #else
-            if (!IS_CUTSCENE_LAYER &&
-                (gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
-                 ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&
-                ((play->sceneId != SCENE_DODONGOS_CAVERN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
-                ((play->sceneId != SCENE_BOMBCHU_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25)))
+                ((play->sceneId != SCENE_BOMBCHU_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))
 #endif
-            {
+            ) {
                 TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144, 24, 20);
             }
         }
