@@ -283,7 +283,7 @@ void GameState_Update(GameState* gameState) {
     func_800C4344(gameState);
 
 #if OOT_VERSION < PAL_1_0
-    if (SREG(48) != 0) {
+    if (R_VI_MODE_EDIT_STATE != VI_MODE_EDIT_STATE_INACTIVE) {
         ViMode_Update(&sViMode, &gameState->input[0]);
         gfxCtx->viMode = &sViMode.customViMode;
         gfxCtx->viFeatures = sViMode.viFeatures;
