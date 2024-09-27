@@ -5981,7 +5981,7 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
         if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
             if ((this->heldActor == NULL) ||
                 (!forceTalkToNavi && (talkOfferActor != this->heldActor) && (cUpTalkActor != this->heldActor) &&
-                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPT)))) {
+                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)))) {
                 goto dont_talk;
             }
         }
@@ -5999,7 +5999,7 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
             this->stateFlags2 |= PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER;
 
             if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) ||
-                (talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPT)) {
+                (talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)) {
                 // Talk Offer has been accepted.
                 // Clearing `cUpTalkActor` guarantees that `talkOfferActor` is the actor that will be spoken to
                 cUpTalkActor = NULL;

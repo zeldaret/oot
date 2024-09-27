@@ -10,7 +10,7 @@
 
 #define FLAGS                                                                                      \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE | \
-     ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPT)
+     ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)
 
 void EnPoRelay_Init(Actor* thisx, PlayState* play);
 void EnPoRelay_Destroy(Actor* thisx, PlayState* play);
@@ -162,10 +162,10 @@ void EnPoRelay_CorrectY(EnPoRelay* this) {
 void EnPoRelay_Idle(EnPoRelay* this, PlayState* play) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPT;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->actionFunc = EnPoRelay_Talk;
     } else if (this->actor.xzDistToPlayer < 250.0f) {
-        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPT;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->actor.textId = this->textId;
         Actor_OfferTalk(&this->actor, play, 250.0f);
     }
