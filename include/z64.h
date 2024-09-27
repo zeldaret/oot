@@ -84,6 +84,9 @@
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 
+#define SCREEN_WIDTH  320
+#define SCREEN_HEIGHT 240
+
 #define THREAD_PRI_IDLE_INIT    10
 #define THREAD_PRI_MAIN_INIT    10
 #define THREAD_PRI_DMAMGR_LOW   10  // Used when decompressing files

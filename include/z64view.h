@@ -5,9 +5,6 @@
 
 struct GraphicsContext;
 
-#define SCREEN_WIDTH  320
-#define SCREEN_HEIGHT 240
-
 typedef struct Viewport {
     /* 0x0 */ s32 topY;    // uly (upper left y)
     /* 0x4 */ s32 bottomY; // lry (lower right y)
