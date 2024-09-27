@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "versions.h"
 
 #include "z64frame_advance.h"
 
@@ -1829,7 +1830,6 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                 Vec3f hitPos;
                 Vec3f atPos;
                 Vec3f acPos;
-                f32 acToHit;
 
                 atPos.x = atJntSphElem->dim.worldSphere.center.x;
                 atPos.y = atJntSphElem->dim.worldSphere.center.y;
@@ -1838,7 +1838,13 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                 acPos.y = acCyl->dim.pos.y;
                 acPos.z = acCyl->dim.pos.z;
                 if (!IS_ZERO(centerDist)) {
-                    acToHit = acCyl->dim.radius / centerDist;
+                    f32 acToHit = acCyl->dim.radius / centerDist;
+
+#if OOT_VERSION < PAL_1_0
+                    hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
+                    hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
+                    hitPos.z = ((atPos.z - acPos.z) * acToHit) + acPos.z;
+#else
                     if (acToHit <= 1.0f) {
                         hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
                         hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
@@ -1846,6 +1852,7 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                     } else {
                         Math_Vec3f_Copy(&hitPos, &atPos);
                     }
+#endif
                 } else {
                     Math_Vec3f_Copy(&hitPos, &atPos);
                 }
@@ -1890,7 +1897,13 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
                 acPos.y = acJntSphElem->dim.worldSphere.center.y;
                 acPos.z = acJntSphElem->dim.worldSphere.center.z;
                 if (!IS_ZERO(centerDist)) {
-                    acToHit = acJntSphElem->dim.worldSphere.radius / centerDist;
+                    f32 acToHit = acJntSphElem->dim.worldSphere.radius / centerDist;
+
+#if OOT_VERSION < PAL_1_0
+                    hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
+                    hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
+                    hitPos.z = ((atPos.z - acPos.z) * acToHit) + acPos.z;
+#else
                     if (acToHit <= 1.0f) {
                         hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
                         hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
@@ -1898,6 +1911,7 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
                     } else {
                         Math_Vec3f_Copy(&hitPos, &atPos);
                     }
+#endif
                 } else {
                     Math_Vec3f_Copy(&hitPos, &atPos);
                 }

@@ -4,6 +4,7 @@
 #include "global.h"
 #include "ultra64.h"
 #include "terminal.h"
+#include "versions.h"
 
 #include "z64frame_advance.h"
 
@@ -957,9 +958,15 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         }
 
         //! @bug `gTimeSpeed` is unsigned, it can't be negative
+#if OOT_VERSION < PAL_1_0
+        if ((((void)0, gSaveContext.save.dayTime) > ((void)0, gSaveContext.skyboxTime)) ||
+            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0))
+#else
         if (((((void)0, gSaveContext.sceneLayer) >= 5 || gTimeSpeed != 0) &&
-             ((void)0, gSaveContext.save.dayTime) > gSaveContext.skyboxTime) ||
-            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
+             ((void)0, gSaveContext.save.dayTime) > ((void)0, gSaveContext.skyboxTime)) ||
+            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0))
+#endif
+        {
 
             gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
         }
@@ -1724,8 +1731,13 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(play);
 
+#if OOT_VERSION < PAL_1_0
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER))
+#else
     if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER) &&
-        (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
+        (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0))
+#endif
+    {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
         vec.x = view->at.x - view->eye.x;

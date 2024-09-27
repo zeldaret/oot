@@ -3560,7 +3560,11 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
                                                     mtx->zw, 0, 0, objectSlot, type);
 
         if (spawnedEnPart != NULL) {
+#if OOT_VERSION < PAL_1_0
+            Matrix_MtxFToZYXRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
+#else
             Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
+#endif
             spawnedEnPart->displayList = bodyBreak->dLists[bodyBreak->count];
             spawnedEnPart->actor.scale = actor->scale;
         }
