@@ -17,7 +17,7 @@ static f32 sInitialLanguageAlpha = 100.0f;
 
 static s16 sInitialLanguageStickAdjX;
 static s16 sInitialLanguageStickXDir;
-static s16 sInitialLanguageInputTimerY;
+static s16 sInitialLanguageInputTimerX;
 
 typedef struct InitialLanguageTextureInfo {
     /* 0x00 */ void* texture;
@@ -97,26 +97,26 @@ void FileSelect_UpdateInitialLanguageMenu(FileSelectState* this) {
     sInitialLanguageStickAdjX = (s16)input->rel.stick_x;
     if (sInitialLanguageStickAdjX < -30) {
         if (sInitialLanguageStickXDir == -1) {
-            sInitialLanguageInputTimerY -= 1;
-            if (sInitialLanguageInputTimerY < 0) {
-                sInitialLanguageInputTimerY = 2;
+            sInitialLanguageInputTimerX -= 1;
+            if (sInitialLanguageInputTimerX < 0) {
+                sInitialLanguageInputTimerX = 2;
             } else {
                 sInitialLanguageStickAdjX = 0;
             }
         } else {
-            sInitialLanguageInputTimerY = 10;
+            sInitialLanguageInputTimerX = 10;
             sInitialLanguageStickXDir = -1;
         }
     } else if (sInitialLanguageStickAdjX > 30) {
         if (sInitialLanguageStickXDir == 1) {
-            sInitialLanguageInputTimerY -= 1;
-            if (sInitialLanguageInputTimerY < 0) {
-                sInitialLanguageInputTimerY = 2;
+            sInitialLanguageInputTimerX -= 1;
+            if (sInitialLanguageInputTimerX < 0) {
+                sInitialLanguageInputTimerX = 2;
             } else {
                 sInitialLanguageStickAdjX = 0;
             }
         } else {
-            sInitialLanguageInputTimerY = 10;
+            sInitialLanguageInputTimerX = 10;
             sInitialLanguageStickXDir = 1;
         }
     } else {
