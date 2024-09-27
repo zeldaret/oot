@@ -7,8 +7,24 @@
 #include "assets/objects/object_ganon2/object_ganon2.h"
 #include "assets/objects/object_ganon_anime3/object_ganon_anime3.h"
 #include "assets/objects/object_geff/object_geff.h"
+#include "assets/overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+
+#define BOSS_GANON2_EFFECT_COUNT 100
+
+typedef struct BossGanon2Effect {
+    /* 0x00 */ u8 type;
+    /* 0x01 */ u8 unk_01;
+    /* 0x04 */ Vec3f position;
+    /* 0x10 */ Vec3f velocity;
+    /* 0x1C */ Vec3f accel;
+    /* 0x28 */ char unk_28[0x6];
+    /* 0x2E */ s16 unk_2E;
+    /* 0x30 */ char unk_30[0x4];
+    /* 0x34 */ f32 scale;
+    /* 0x38 */ Vec3f unk_38;
+} BossGanon2Effect; // size = 0x44
 
 void BossGanon2_Init(Actor* thisx, PlayState* play);
 void BossGanon2_Destroy(Actor* thisx, PlayState* play);
@@ -45,7 +61,265 @@ ActorProfile Boss_Ganon2_Profile = {
     /**/ BossGanon2_Draw,
 };
 
-#include "z_boss_ganon2_data.inc.c"
+static Vec3f D_80906D60 = { 0.0f, 0.0f, 0.0f };
+
+static Vec3f D_80906D6C = { 0.0f, 0.0f, 500.0f };
+
+static u8 D_80906D78 = 0;
+
+static ColliderJntSphElementInit sJntSphItemsInit1[] = {
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 1, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 2, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 3, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 4, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 5, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 6, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 7, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 8, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 9, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 10, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 11, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 12, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 13, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 14, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 15, { { 0, 0, 0 }, 30 }, 100 },
+    },
+};
+
+static ColliderJntSphInit sJntSphInit1 = {
+    {
+        COL_MATERIAL_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_FIRST_ONLY | OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    ARRAY_COUNT(sJntSphItemsInit1),
+    sJntSphItemsInit1,
+};
+
+static ColliderJntSphElementInit sJntSphItemsInit2[] = {
+    {
+        {
+            ELEM_MATERIAL_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x40 },
+            { 0xFFDFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 15, { { 0, 0, 0 }, 45 }, 100 },
+    },
+    {
+        {
+            ELEM_MATERIAL_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x40 },
+            { 0xFFDFFFFF, 0x00, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
+            OCELEM_ON,
+        },
+        { 16, { { 0, 0, 0 }, 45 }, 100 },
+    },
+};
+
+static ColliderJntSphInit sJntSphInit2 = {
+    {
+        COL_MATERIAL_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    ARRAY_COUNT(sJntSphItemsInit2),
+    sJntSphItemsInit2,
+};
+
+static Vec3f D_8090EB20;
+
+static EnZl3* sZelda;
+
+static Actor* D_8090EB30;
+
+// unused
+static UNK_TYPE D_8090EB34;
+
+static BossGanon2Effect sEffects[BOSS_GANON2_EFFECT_COUNT];
+
+static s32 sSeed1;
+static s32 sSeed2;
+static s32 sSeed3;
+
+// unused
+static UNK_TYPE D_809105DC;
+
+static Vec3f D_809105D8[4];
+
+static Vec3f D_80910608[4];
+
+static s8 D_80910638;
 
 void BossGanon2_InitRand(s32 seedInit0, s32 seedInit1, s32 seedInit2) {
     sSeed1 = seedInit0;
@@ -1448,12 +1722,18 @@ void func_80901020(BossGanon2* this, PlayState* play) {
 
 void func_8090109C(BossGanon2* this, PlayState* play) {
     u8 i;
+    Vec3f velocity;
+    Vec3f accel;
+#if OOT_VERSION < PAL_1_0
+    Color_RGBA8 sPrimColor = { 120, 0, 0, 255 };
+    Color_RGBA8 sEnvColor = { 120, 0, 0, 255 };
+#else
+    static Color_RGBA8 sPrimColor = { 0, 120, 0, 255 };
+    static Color_RGBA8 sEnvColor = { 0, 120, 0, 255 };
+#endif
+    Vec3f pos;
 
     for (i = 0; i < 70; i++) {
-        Vec3f velocity;
-        Vec3f accel;
-        Vec3f pos;
-
         velocity.x = Rand_CenteredFloat(50.0f);
         velocity.y = Rand_CenteredFloat(10.0f) + 5.0f;
         velocity.z = Rand_CenteredFloat(50.0f);
@@ -1466,6 +1746,18 @@ void func_8090109C(BossGanon2* this, PlayState* play) {
         func_8002836C(play, &pos, &velocity, &accel, &sPrimColor, &sEnvColor, (s16)Rand_ZeroFloat(50.0f) + 50, 0, 17);
     }
 }
+
+static Vec3f D_8090702C[] = {
+    { 10.0f, -10.0f, 0.0f },
+    { 0.0f, 0.0f, -60.0f },
+    { 70.0f, -30.0f, 10.0f },
+};
+
+static Vec3f D_80907050[] = {
+    { -20.0f, 0.0f, 0.0f },
+    { -15.0f, 0.0f, 10.0f },
+    { -16.0f, -12.0f, 40.0f },
+};
 
 void func_8090120C(BossGanon2* this, PlayState* play) {
     Player* player;
@@ -1875,7 +2167,12 @@ void func_80902348(BossGanon2* this, PlayState* play) {
         temp_f2 = -200.0f - player->actor.world.pos.x;
         temp_f12 = -200.0f - player->actor.world.pos.z;
 
-        if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) > 784.0f) {
+#if OOT_VERSION < PAL_1_0
+        if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) > 800.0f)
+#else
+        if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) > 784.0f)
+#endif
+        {
             for (j = 0; j < PLAYER_BODYPART_MAX; j++) {
                 player->bodyFlameTimers[j] = Rand_S16Offset(0, 200);
             }
@@ -1966,6 +2263,8 @@ void BossGanon2_CollisionCheck(BossGanon2* this, PlayState* play) {
         }
     }
 }
+
+static s16 D_80907074[] = { 0, 1, 2, 2, 1, 0 };
 
 void BossGanon2_Update(Actor* thisx, PlayState* play) {
     BossGanon2* this = (BossGanon2*)thisx;
@@ -2205,6 +2504,11 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
     BossGanon2_UpdateEffects(this, play);
 }
 
+static s16 D_80907080 = 0;
+
+static u8 D_80907084[] = { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
+static u8 D_80907090[] = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 };
+
 void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
     Vtx* vtx;
     Vec3f sp2D0;
@@ -2436,7 +2740,11 @@ void func_80904108(BossGanon2* this, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 200, 0, (s8)this->unk_324);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 128);
         Matrix_Translate(-200.0f, 1086.0f, -200.0f, MTXMODE_NEW);
+#if OOT_VERSION < PAL_1_0
+        Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
+#else
         Matrix_Scale(0.098000005f, 0.1f, 0.098000005f, MTXMODE_APPLY);
+#endif
         MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gameState->gfxCtx, "../z_boss_ganon2.c", 5183);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGanonFireRingDL));
         Matrix_Pop();
@@ -2545,6 +2853,25 @@ s32 BossGanon2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 5431);
     return 0;
 }
+
+static s8 D_8090709C[] = {
+    0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0xFF, 0xFF, 0x05, 0xFF, 0x06, 0x07, 0xFF, 0xFF, 0x08, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0x00, 0xFF, 0xFF, 0x02, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0xFF, 0xFF, 0xFF, 0x0F, 0xFF, 0x00,
+};
+
+static s8 D_809070CC[] = {
+    0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0xFF, 0xFF, 0x05, 0xFF, 0x06, 0x07, 0xFF, 0xFF, 0x08, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0x00, 0xFF, 0xFF, 0x02, 0x0C, 0x0D, 0x0E, 0x09, 0x0A, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
+};
+
+static Vec3f D_809070FC = { 0.0f, 0.0f, 5000.0f };
+static Vec3f D_80907108 = { 0.0f, 2000.0f, 0.0f };
+static Vec3f D_80907114 = { 0.0f, 2000.0f, 0.0f };
+static Vec3f D_80907120 = { 0.0f, 0.0f, 17000.0f };
+static Vec3f D_8090712C = { 0.0f, 0.0f, 3000.0f };
+static Vec3f D_80907138 = { 0.0f, 0.0f, 0.0f };
 
 void BossGanon2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s8 pad;
@@ -2704,6 +3031,13 @@ void func_8090523C(BossGanon2* this, PlayState* play) {
     CLOSE_DISPS(gameState->gfxCtx, "../z_boss_ganon2.c", 5725);
 }
 
+static s8 D_80907144[] = {
+    0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0x05, 0xFF, 0x06, 0x07, 0x08, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0x02, 0x0C, 0x0D, 0x0E, 0x09, 0x0A, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00,
+};
+
+static Vec3f D_80907164 = { 800.0f, 420.0f, 100.0f };
+
 void BossGanon2_PostLimbDraw2(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s8 temp_v1 = D_80907144[limbIndex];
     BossGanon2* this = (BossGanon2*)thisx;
@@ -2748,6 +3082,14 @@ void func_80905674(BossGanon2* this, PlayState* play) {
         CLOSE_DISPS(gameState->gfxCtx, "../z_boss_ganon2.c", 5817);
     }
 }
+
+static void* sEyeTextures[] = {
+    gGanonEyeOpenTex,
+    gGanonEyeHalfTex,
+    gGanonEyeClosedTex,
+};
+
+static Vec3f D_8090717C = { 0.0f, -2000.0f, 0.0f };
 
 void BossGanon2_Draw(Actor* thisx, PlayState* play) {
     void* shadowTexture = GRAPH_ALLOC(play->state.gfxCtx, 4096);
@@ -2962,6 +3304,13 @@ void BossGanon2_DrawEffects(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 6185);
 }
 
+static s16 D_80907188[] = { 1, 2, 3, 3, 2, 1 };
+static s16 D_80907194[] = { 2, 3, 4, 4, 4, 3, 2 };
+static s16 D_809071A4[] = { 2, 3, 4, 4, 4, 4, 3, 2 };
+static s16 D_809071B4[] = { 2, 4, 5, 5, 6, 6, 6, 6, 5, 5, 4, 2 };
+static s16 D_809071CC[] = { 1, -1, 1, 1, 3, 4, 1, 6, 7, 2, 9, 10, 2, 12, 13 };
+static u8 D_809071EC[] = { 3, 2, 2, 1, 3, 3, 1, 3, 3, 1, 0, 3, 1, 0, 3 };
+
 void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
     s16 temp_t0;
     s16 temp_v0;
@@ -3081,3 +3430,8 @@ void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, PlaySta
 
     CLOSE_DISPS(gfxCtx, "../z_boss_ganon2.c", 6479);
 }
+
+// padding
+static u32 D_809071FC[2] = { 0 };
+
+#include "assets/overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.c"

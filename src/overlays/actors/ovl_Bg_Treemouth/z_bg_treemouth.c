@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_treemouth.h"
+#include "versions.h"
 #include "assets/objects/object_spot04_objects/object_spot04_objects.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
@@ -235,7 +236,12 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    if (!IS_CUTSCENE_LAYER || LINK_IS_ADULT) {
+#if OOT_VERSION < PAL_1_0
+    if (!IS_CUTSCENE_LAYER)
+#else
+    if (!IS_CUTSCENE_LAYER || LINK_IS_ADULT)
+#endif
+    {
         if (GET_EVENTCHKINF(EVENTCHKINF_07)) {
             alpha = 2150;
         }

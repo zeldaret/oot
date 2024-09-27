@@ -16,7 +16,7 @@
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:129 gc-eu-mq:129 gc-jp:131 gc-jp-ce:131 gc-jp-mq:131 gc-us:131 gc-us-mq:131"
+#pragma increment_block_number "gc-eu:121 gc-eu-mq:121 gc-jp:123 gc-jp-ce:123 gc-jp-mq:123 gc-us:123 gc-us-mq:123"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -379,7 +379,7 @@ static s16 sFishingPlayingState;
 static s16 sLureTimer; // AND'd for various effects/checks
 static s16 D_80B7E0B0;
 static s16 D_80B7E0B2;
-static s16 sRodCastTimer; // used for the inital line casting
+static s16 sRodCastTimer; // used for the initial line casting
 static u8 sLureEquipped;
 static Vec3f sLurePos;
 static Vec3f sLureDrawPos;

@@ -2,12 +2,12 @@
 #define Z_EN_INSECT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 #include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
 
 struct EnInsect;
 
-typedef void (*EnInsectActionFunc)(struct EnInsect*, PlayState*);
+typedef void (*EnInsectActionFunc)(struct EnInsect*, struct PlayState*);
 
 #define INSECT_FLAG_0 (1 << 0)
 #define INSECT_FLAG_1 (1 << 1)

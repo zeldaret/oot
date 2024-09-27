@@ -6,6 +6,7 @@
 
 #include "z_en_weather_tag.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -140,8 +141,13 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 s
             if (play->envCtx.stormRequest == STORM_REQUEST_NONE &&
                 ((play->envCtx.lightMode != LIGHT_MODE_TIME) ||
                  (play->envCtx.lightConfig != 1 && !play->envCtx.changeLightEnabled))) {
+#if OOT_VERSION >= PAL_1_0
                 gInterruptSongOfStorms = false;
+#endif
                 if (gWeatherMode != weatherMode) {
+#if OOT_VERSION < PAL_1_0
+                    gInterruptSongOfStorms = false;
+#endif
                     gWeatherMode = weatherMode;
                     if (play->envCtx.stormRequest == STORM_REQUEST_NONE) {
                         play->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;

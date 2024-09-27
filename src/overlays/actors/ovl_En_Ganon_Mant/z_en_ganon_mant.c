@@ -425,7 +425,7 @@ void EnGanonMant_Draw(Actor* thisx, PlayState* play) {
         midpoint.y = rightPos->y + yDiff * 0.5f;
         midpoint.z = rightPos->z + zDiff * 0.5f;
 
-        // Calculte base orientation for chosen endpoints
+        // Calculate base orientation for chosen endpoints
         yaw = Math_Atan2F(zDiff, xDiff);
         pitch = -Math_Atan2F(sqrtf(SQ(xDiff) + SQ(zDiff)), yDiff);
         diffHalfDist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff)) * 0.5f;

@@ -28,6 +28,7 @@
 #include "z64animation.h"
 #include "z64animation_legacy.h"
 #include "z64dma.h"
+#include "letterbox.h"
 #include "z64math.h"
 #include "z64map_mark.h"
 #include "z64message.h"

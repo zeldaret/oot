@@ -365,7 +365,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
                     // `player->actor.freezeTimer` gets set above which will prevent Player from updating.
                     // Because of this, he cannot update things related to Z-Targeting.
                     // If Player can't update, `player->zTargetActiveTimer` won't update, which means
-                    // the Attention system will not be notified of a new actor lock-on occuring.
+                    // the Attention system will not be notified of a new actor lock-on occurring.
                     // So, no reticle will appear. But the camera will still focus on the actor.
                     Player_SetAutoLockOnActor(play, &this->actor);
 

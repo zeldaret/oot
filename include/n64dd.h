@@ -6,6 +6,7 @@
 #include "z64pause.h"
 #include "z64scene.h"
 #include "z64map_mark.h"
+#include "versions.h"
 
 struct Font;
 struct GameState;
@@ -49,11 +50,18 @@ typedef struct n64ddStruct_80121220 {
     struct SceneTableEntry* (*unk_48)(s32 sceneId, struct SceneTableEntry* sceneTable);
     char unk_4C[0x08];
     s32 (*unk_54)(struct PlayState*);
+#if OOT_NTSC
     void (*unk_58)(struct MessageTableEntry**, struct MessageTableEntry**, struct MessageTableEntry**);
+#else
+    void (*unk_58)(struct MessageTableEntry**, const char***, const char***, struct MessageTableEntry**);
+#endif
     char unk_5C[0x4];
     s32 (*unk_60)(struct Font*);
     s32 (*unk_64)(struct Font*);
     s32 (*unk_68)(struct Font*);
+#if OOT_PAL
+    s32 (*unk_6C_PAL)(struct Font*);
+#endif
     void (*unk_6C)(struct PlayState*, SceneDrawConfigFunc*);
     s32 (*unk_70)(struct DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
     void (*unk_74)(struct GameState*);

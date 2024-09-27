@@ -572,7 +572,11 @@ s16 EnGo2_UpdateTalkStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     u8 dialogState = this->dialogState;
 
     switch (EnGo2_GetDialogState(this, play)) {
+#if OOT_VERSION < PAL_1_0
+        case TEXT_STATE_CLOSING:
+#else
         case TEXT_STATE_DONE:
+#endif
             if (this->actor.textId == 0x305E) {
                 if (!gSaveContext.save.info.playerData.bgsFlag) {
                     EnGo2_GetItem(this, play, GI_SWORD_BIGGORON);
@@ -1790,7 +1794,9 @@ void EnGo2_ReverseRolling(EnGo2* this, PlayState* play) {
 
 void EnGo2_SetupGetItem(EnGo2* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
+#if OOT_VERSION >= PAL_1_0
         this->actor.parent = NULL;
+#endif
         this->actionFunc = EnGo2_SetGetItem;
     } else {
         Actor_OfferGetItem(&this->actor, play, this->getItemId, this->actor.xzDistToPlayer + 1.0f,
@@ -1980,9 +1986,13 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
     EnGo2_RollForward(this);
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius * 0.6f,
                             0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+#if OOT_VERSION < PAL_1_0
+    func_80A44AB0(this, play);
+#else
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         func_80A44AB0(this, play);
     }
+#endif
     this->actionFunc(this, play);
     if (this->unk_211 == true) {
         func_80034F54(play, this->unk_226, this->unk_24A, 18);

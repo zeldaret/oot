@@ -5,6 +5,7 @@
  */
 
 #include "z_elf_msg.h"
+#include "global.h"
 #include "terminal.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 

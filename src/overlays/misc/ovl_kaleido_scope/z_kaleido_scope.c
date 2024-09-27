@@ -2654,20 +2654,154 @@ static s16 D_8082B12C[] = { -114, 12, 44, 76 };
 
 static u8 D_8082B134[] = { 1, 5, 9, 13 };
 
-static s16 D_8082B138[] = {
-    74,  74,  46,  18,  18,  46,   -108, -90,  -72, -54, -36, -18, -108, -90, -72, -54,
-    -36, -18, 20,  46,  72,  -110, -86,  -110, -54, -98, -86, -74, -62,  -50, -38, -26,
-    -14, -98, -86, -74, -62, -50,  -38,  -26,  -14, -88, -81, -72, -90,  -83, -74,
+static s16 sQuestQuadsX[] = {
+    74,   // QUEST_MEDALLION_FOREST
+    74,   // QUEST_MEDALLION_FIRE
+    46,   // QUEST_MEDALLION_WATER
+    18,   // QUEST_MEDALLION_SPIRIT
+    18,   // QUEST_MEDALLION_SHADOW
+    46,   // QUEST_MEDALLION_LIGHT
+    -108, // QUEST_SONG_MINUET
+    -90,  // QUEST_SONG_BOLERO
+    -72,  // QUEST_SONG_SERENADE
+    -54,  // QUEST_SONG_REQUIEM
+    -36,  // QUEST_SONG_NOCTURNE
+    -18,  // QUEST_SONG_PRELUDE
+    -108, // QUEST_SONG_LULLABY
+    -90,  // QUEST_SONG_EPONA
+    -72,  // QUEST_SONG_SARIA
+    -54,  // QUEST_SONG_SUN
+    -36,  // QUEST_SONG_TIME
+    -18,  // QUEST_SONG_STORMS
+    20,   // QUEST_KOKIRI_EMERALD
+    46,   // QUEST_GORON_RUBY
+    72,   // QUEST_ZORA_SAPPHIRE
+    -110, // QUEST_STONE_OF_AGONY
+    -86,  // QUEST_GERUDOS_CARD
+    -110, // QUEST_SKULL_TOKEN
+    -54,  // QUEST_HEART_PIECE
+    -98,  // QUEST_QUAD_SONG_NOTE_A1
+    -86,  // QUEST_QUAD_SONG_NOTE_A2
+    -74,  // QUEST_QUAD_SONG_NOTE_A3
+    -62,  // QUEST_QUAD_SONG_NOTE_A4
+    -50,  // QUEST_QUAD_SONG_NOTE_A5
+    -38,  // QUEST_QUAD_SONG_NOTE_A6
+    -26,  // QUEST_QUAD_SONG_NOTE_A7
+    -14,  // QUEST_QUAD_SONG_NOTE_A8
+    -98,  // QUEST_QUAD_SONG_NOTE_B1
+    -86,  // QUEST_QUAD_SONG_NOTE_B2
+    -74,  // QUEST_QUAD_SONG_NOTE_B3
+    -62,  // QUEST_QUAD_SONG_NOTE_B4
+    -50,  // QUEST_QUAD_SONG_NOTE_B5
+    -38,  // QUEST_QUAD_SONG_NOTE_B6
+    -26,  // QUEST_QUAD_SONG_NOTE_B7
+    -14,  // QUEST_QUAD_SONG_NOTE_B8
+    -88,  // QUEST_QUAD_SKULL_TOKENS_DIGIT1_SHADOW
+    -81,  // QUEST_QUAD_SKULL_TOKENS_DIGIT2_SHADOW
+    -72,  // QUEST_QUAD_SKULL_TOKENS_DIGIT3_SHADOW
+    -90,  // QUEST_QUAD_SKULL_TOKENS_DIGIT1
+    -83,  // QUEST_QUAD_SKULL_TOKENS_DIGIT2
+    -74,  // QUEST_QUAD_SKULL_TOKENS_DIGIT3
 };
 
-static s16 D_8082B198[] = {
-    38, 6,   -12, 6,   38,  56,  -20, -20, -20, -20, -20, -20, 2,   2,   2,   2,   2,   2,  -46, -46, -46, 58, 58, 34,
-    58, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, 34, 34,  34,  36,  36, 36,
+static s16 sQuestQuadsY[] = {
+    38,  // QUEST_MEDALLION_FOREST
+    6,   // QUEST_MEDALLION_FIRE
+    -12, // QUEST_MEDALLION_WATER
+    6,   // QUEST_MEDALLION_SPIRIT
+    38,  // QUEST_MEDALLION_SHADOW
+    56,  // QUEST_MEDALLION_LIGHT
+    -20, // QUEST_SONG_MINUET
+    -20, // QUEST_SONG_BOLERO
+    -20, // QUEST_SONG_SERENADE
+    -20, // QUEST_SONG_REQUIEM
+    -20, // QUEST_SONG_NOCTURNE
+    -20, // QUEST_SONG_PRELUDE
+    2,   // QUEST_SONG_LULLABY
+    2,   // QUEST_SONG_EPONA
+    2,   // QUEST_SONG_SARIA
+    2,   // QUEST_SONG_SUN
+    2,   // QUEST_SONG_TIME
+    2,   // QUEST_SONG_STORMS
+    -46, // QUEST_KOKIRI_EMERALD
+    -46, // QUEST_GORON_RUBY
+    -46, // QUEST_ZORA_SAPPHIRE
+    58,  // QUEST_STONE_OF_AGONY
+    58,  // QUEST_GERUDOS_CARD
+    34,  // QUEST_SKULL_TOKEN
+    58,  // QUEST_HEART_PIECE
+    -52, // QUEST_QUAD_SONG_NOTE_A1
+    -52, // QUEST_QUAD_SONG_NOTE_A2
+    -52, // QUEST_QUAD_SONG_NOTE_A3
+    -52, // QUEST_QUAD_SONG_NOTE_A4
+    -52, // QUEST_QUAD_SONG_NOTE_A5
+    -52, // QUEST_QUAD_SONG_NOTE_A6
+    -52, // QUEST_QUAD_SONG_NOTE_A7
+    -52, // QUEST_QUAD_SONG_NOTE_A8
+    -52, // QUEST_QUAD_SONG_NOTE_B1
+    -52, // QUEST_QUAD_SONG_NOTE_B2
+    -52, // QUEST_QUAD_SONG_NOTE_B3
+    -52, // QUEST_QUAD_SONG_NOTE_B4
+    -52, // QUEST_QUAD_SONG_NOTE_B5
+    -52, // QUEST_QUAD_SONG_NOTE_B6
+    -52, // QUEST_QUAD_SONG_NOTE_B7
+    -52, // QUEST_QUAD_SONG_NOTE_B8
+    34,  // QUEST_QUAD_SKULL_TOKENS_DIGIT1_SHADOW
+    34,  // QUEST_QUAD_SKULL_TOKENS_DIGIT2_SHADOW
+    34,  // QUEST_QUAD_SKULL_TOKENS_DIGIT3_SHADOW
+    36,  // QUEST_QUAD_SKULL_TOKENS_DIGIT1
+    36,  // QUEST_QUAD_SKULL_TOKENS_DIGIT2
+    36,  // QUEST_QUAD_SKULL_TOKENS_DIGIT3
 };
 
-static s16 D_8082B1F8[] = {
-    24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
-    48, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+static s16 sQuestQuadsSize[] = {
+    24, // QUEST_MEDALLION_FOREST
+    24, // QUEST_MEDALLION_FIRE
+    24, // QUEST_MEDALLION_WATER
+    24, // QUEST_MEDALLION_SPIRIT
+    24, // QUEST_MEDALLION_SHADOW
+    24, // QUEST_MEDALLION_LIGHT
+    24, // QUEST_SONG_MINUET
+    24, // QUEST_SONG_BOLERO
+    24, // QUEST_SONG_SERENADE
+    24, // QUEST_SONG_REQUIEM
+    24, // QUEST_SONG_NOCTURNE
+    24, // QUEST_SONG_PRELUDE
+    24, // QUEST_SONG_LULLABY
+    24, // QUEST_SONG_EPONA
+    24, // QUEST_SONG_SARIA
+    24, // QUEST_SONG_SUN
+    24, // QUEST_SONG_TIME
+    24, // QUEST_SONG_STORMS
+    24, // QUEST_KOKIRI_EMERALD
+    24, // QUEST_GORON_RUBY
+    24, // QUEST_ZORA_SAPPHIRE
+    24, // QUEST_STONE_OF_AGONY
+    24, // QUEST_GERUDOS_CARD
+    24, // QUEST_SKULL_TOKEN
+    48, // QUEST_HEART_PIECE
+    16, // QUEST_QUAD_SONG_NOTE_A1
+    16, // QUEST_QUAD_SONG_NOTE_A2
+    16, // QUEST_QUAD_SONG_NOTE_A3
+    16, // QUEST_QUAD_SONG_NOTE_A4
+    16, // QUEST_QUAD_SONG_NOTE_A5
+    16, // QUEST_QUAD_SONG_NOTE_A6
+    16, // QUEST_QUAD_SONG_NOTE_A7
+    16, // QUEST_QUAD_SONG_NOTE_A8
+    16, // QUEST_QUAD_SONG_NOTE_B1
+    16, // QUEST_QUAD_SONG_NOTE_B2
+    16, // QUEST_QUAD_SONG_NOTE_B3
+    16, // QUEST_QUAD_SONG_NOTE_B4
+    16, // QUEST_QUAD_SONG_NOTE_B5
+    16, // QUEST_QUAD_SONG_NOTE_B6
+    16, // QUEST_QUAD_SONG_NOTE_B7
+    16, // QUEST_QUAD_SONG_NOTE_B8
+    16, // QUEST_QUAD_SKULL_TOKENS_DIGIT1_SHADOW
+    16, // QUEST_QUAD_SKULL_TOKENS_DIGIT2_SHADOW
+    16, // QUEST_QUAD_SKULL_TOKENS_DIGIT3_SHADOW
+    16, // QUEST_QUAD_SKULL_TOKENS_DIGIT1
+    16, // QUEST_QUAD_SKULL_TOKENS_DIGIT2
+    16, // QUEST_QUAD_SKULL_TOKENS_DIGIT3
 };
 
 void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
@@ -3025,50 +3159,50 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         k += 4;
     }
 
-    pauseCtx->questVtx = GRAPH_ALLOC(gfxCtx, 188 * sizeof(Vtx));
+    pauseCtx->questVtx = GRAPH_ALLOC(gfxCtx, QUEST_QUAD_MAX * 4 * sizeof(Vtx));
 
-    for (k = 0, j = 0; j < 47; j++, k += 4) {
-        s16 phi_t2_2 = D_8082B1F8[j];
+    for (k = 0, j = 0; j < QUEST_QUAD_MAX; j++, k += 4) {
+        s16 quadWidth = sQuestQuadsSize[j];
 
-        if ((j < 6) || (j >= 41)) {
-            pauseCtx->questVtx[k + 0].v.ob[0] = pauseCtx->questVtx[k + 2].v.ob[0] = D_8082B138[j];
+        if ((j < QUEST_SONG_MINUET) || (j >= QUEST_QUAD_SKULL_TOKENS_DIGIT1_SHADOW)) {
+            pauseCtx->questVtx[k + 0].v.ob[0] = pauseCtx->questVtx[k + 2].v.ob[0] = sQuestQuadsX[j];
 
             pauseCtx->questVtx[k + 1].v.ob[0] = pauseCtx->questVtx[k + 3].v.ob[0] =
-                pauseCtx->questVtx[k + 0].v.ob[0] + D_8082B1F8[j];
+                pauseCtx->questVtx[k + 0].v.ob[0] + sQuestQuadsSize[j];
 
             pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] =
-                D_8082B198[j] + pauseCtx->pagesYOrigin1;
+                sQuestQuadsY[j] + pauseCtx->pagesYOrigin1;
 
             pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
-                pauseCtx->questVtx[k + 0].v.ob[1] - D_8082B1F8[j];
+                pauseCtx->questVtx[k + 0].v.ob[1] - sQuestQuadsSize[j];
 
-            if (j >= 41) {
+            if (j >= QUEST_QUAD_SKULL_TOKENS_DIGIT1_SHADOW) {
                 pauseCtx->questVtx[k + 1].v.ob[0] = pauseCtx->questVtx[k + 3].v.ob[0] =
                     pauseCtx->questVtx[k + 0].v.ob[0] + 8;
 
                 pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] =
-                    D_8082B198[j] + pauseCtx->pagesYOrigin1 - 6;
+                    sQuestQuadsY[j] + pauseCtx->pagesYOrigin1 - 6;
 
                 pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
                     pauseCtx->questVtx[k + 0].v.ob[1] - 16;
 
-                phi_t2_2 = 8;
+                quadWidth = 8;
             }
         } else {
-            if ((j >= 6) && (j <= 17)) {
-                phi_t2_2 = 16;
+            if ((j >= QUEST_SONG_MINUET) && (j < QUEST_KOKIRI_EMERALD)) {
+                quadWidth = 16;
             }
 
-            pauseCtx->questVtx[k + 0].v.ob[0] = pauseCtx->questVtx[k + 2].v.ob[0] = D_8082B138[j] + 2;
+            pauseCtx->questVtx[k + 0].v.ob[0] = pauseCtx->questVtx[k + 2].v.ob[0] = sQuestQuadsX[j] + 2;
 
             pauseCtx->questVtx[k + 1].v.ob[0] = pauseCtx->questVtx[k + 3].v.ob[0] =
-                pauseCtx->questVtx[k + 0].v.ob[0] + phi_t2_2 - 4;
+                pauseCtx->questVtx[k + 0].v.ob[0] + quadWidth - 4;
 
             pauseCtx->questVtx[k + 0].v.ob[1] = pauseCtx->questVtx[k + 1].v.ob[1] =
-                D_8082B198[j] + pauseCtx->pagesYOrigin1 - 2;
+                sQuestQuadsY[j] + pauseCtx->pagesYOrigin1 - 2;
 
             pauseCtx->questVtx[k + 2].v.ob[1] = pauseCtx->questVtx[k + 3].v.ob[1] =
-                pauseCtx->questVtx[k + 0].v.ob[1] - D_8082B1F8[j] + 4;
+                pauseCtx->questVtx[k + 0].v.ob[1] - sQuestQuadsSize[j] + 4;
         }
 
         pauseCtx->questVtx[k + 0].v.ob[2] = pauseCtx->questVtx[k + 1].v.ob[2] = pauseCtx->questVtx[k + 2].v.ob[2] =
@@ -3080,8 +3214,8 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->questVtx[k + 0].v.tc[0] = pauseCtx->questVtx[k + 0].v.tc[1] = pauseCtx->questVtx[k + 1].v.tc[1] =
             pauseCtx->questVtx[k + 2].v.tc[0] = 0;
 
-        pauseCtx->questVtx[k + 1].v.tc[0] = pauseCtx->questVtx[k + 3].v.tc[0] = phi_t2_2 << 5;
-        pauseCtx->questVtx[k + 2].v.tc[1] = pauseCtx->questVtx[k + 3].v.tc[1] = D_8082B1F8[j] << 5;
+        pauseCtx->questVtx[k + 1].v.tc[0] = pauseCtx->questVtx[k + 3].v.tc[0] = quadWidth << 5;
+        pauseCtx->questVtx[k + 2].v.tc[1] = pauseCtx->questVtx[k + 3].v.tc[1] = sQuestQuadsSize[j] << 5;
 
         pauseCtx->questVtx[k + 0].v.cn[0] = pauseCtx->questVtx[k + 1].v.cn[0] = pauseCtx->questVtx[k + 2].v.cn[0] =
             pauseCtx->questVtx[k + 3].v.cn[0] = pauseCtx->questVtx[k + 0].v.cn[1] = pauseCtx->questVtx[k + 1].v.cn[1] =
@@ -3278,23 +3412,23 @@ void KaleidoScope_UpdateCursorVtx(PlayState* play) {
             tlOffsetY = 4;
             rightOffsetX = 12;
             bottomOffsetY = 12;
-            if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == 0x18) {
+            if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == QUEST_HEART_PIECE) {
                 tlOffsetX = -2;
                 tlOffsetY = 2;
                 rightOffsetX = 32;
                 bottomOffsetY = 32;
-            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == 0x17) {
+            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == QUEST_SKULL_TOKEN) {
                 tlOffsetX = -4;
                 tlOffsetY = 4;
                 bottomOffsetY = 13;
                 rightOffsetX = 34;
-            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] < 6) {
+            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] < QUEST_SONG_MINUET) {
                 tlOffsetX = -1;
                 tlOffsetY = 1;
                 rightOffsetX = 10;
                 bottomOffsetY = 10;
-            } else if ((pauseCtx->cursorSlot[pauseCtx->pageIndex] >= 6) &&
-                       (pauseCtx->cursorSlot[pauseCtx->pageIndex] < 0x12)) {
+            } else if ((pauseCtx->cursorSlot[pauseCtx->pageIndex] >= QUEST_SONG_MINUET) &&
+                       (pauseCtx->cursorSlot[pauseCtx->pageIndex] < QUEST_KOKIRI_EMERALD)) {
                 tlOffsetX = -5;
                 tlOffsetY = 3;
                 rightOffsetX = 8;
