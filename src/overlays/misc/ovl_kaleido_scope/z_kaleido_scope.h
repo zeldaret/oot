@@ -34,6 +34,37 @@ extern u8 gAreaGsFlags[];
 #define PAGE_BG_QUAD_TEX_WIDTH 80
 #define PAGE_BG_QUAD_TEX_HEIGHT 32
 
+typedef enum QuestQuad {
+    // 0 to 24 matches the `QuestItem` enum
+    // Notes showing the correct song
+    /* 25 */ QUEST_QUAD_SONG_NOTE_A1 = QUEST_HEART_PIECE + 1,
+    /* 26 */ QUEST_QUAD_SONG_NOTE_A2,
+    /* 27 */ QUEST_QUAD_SONG_NOTE_A3,
+    /* 28 */ QUEST_QUAD_SONG_NOTE_A4,
+    /* 29 */ QUEST_QUAD_SONG_NOTE_A5,
+    /* 30 */ QUEST_QUAD_SONG_NOTE_A6,
+    /* 31 */ QUEST_QUAD_SONG_NOTE_A7,
+    /* 32 */ QUEST_QUAD_SONG_NOTE_A8,
+    // Notes appearing when playing
+    /* 33 */ QUEST_QUAD_SONG_NOTE_B1,
+    /* 34 */ QUEST_QUAD_SONG_NOTE_B2,
+    /* 35 */ QUEST_QUAD_SONG_NOTE_B3,
+    /* 36 */ QUEST_QUAD_SONG_NOTE_B4,
+    /* 37 */ QUEST_QUAD_SONG_NOTE_B5,
+    /* 38 */ QUEST_QUAD_SONG_NOTE_B6,
+    /* 39 */ QUEST_QUAD_SONG_NOTE_B7,
+    /* 40 */ QUEST_QUAD_SONG_NOTE_B8,
+    // Shadow for the amount of skulltula tokens
+    /* 41 */ QUEST_QUAD_SKULL_TOKENS_DIGIT1_SHADOW,
+    /* 42 */ QUEST_QUAD_SKULL_TOKENS_DIGIT2_SHADOW,
+    /* 43 */ QUEST_QUAD_SKULL_TOKENS_DIGIT3_SHADOW,
+    // Amount of skulltula tokens
+    /* 44 */ QUEST_QUAD_SKULL_TOKENS_DIGIT1,
+    /* 45 */ QUEST_QUAD_SKULL_TOKENS_DIGIT2,
+    /* 46 */ QUEST_QUAD_SKULL_TOKENS_DIGIT3,
+    /* 47 */ QUEST_QUAD_MAX
+} QuestQuad;
+
 // The world map image is split into a number of quad fragments for drawing
 #define WORLD_MAP_IMAGE_WIDTH 216
 #define WORLD_MAP_IMAGE_HEIGHT 128

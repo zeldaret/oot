@@ -924,7 +924,7 @@ assets:
   start_offset: 0x6E0
   end_offset: 0x4088
 - name: overlays/ovl_file_choose
-  xml_path: assets/xml/overlays/ovl_file_choose_pal.xml
+  xml_path: assets/xml/overlays/ovl_file_choose_pal_gc.xml
   start_offset: 0xD740
   end_offset: 0xE010
 - name: overlays/ovl_Magic_Dark
@@ -1210,4 +1210,4 @@ assets:
 - name: textures/skyboxes
   xml_path: assets/xml/textures/skyboxes.xml
 - name: textures/title_static
-  xml_path: assets/xml/textures/title_static_pal.xml
+  xml_path: assets/xml/textures/title_static_pal_gc.xml

@@ -77,7 +77,7 @@ sEnFrPointers.flags = 1 to 11:
          - 5: frog 0 (Yellow)
          - 7: frog 2 (Red)
          - 9: frog 4 (White)
-     - Will proceed when counter reachers 11
+     - Will proceed when counter reaches 11
 
 sEnFrPointers.flags = 12
      - Deactivate frogs, frogs will jump back into the water

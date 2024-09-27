@@ -76,7 +76,7 @@ void PadMgr_RumbleSet(PadMgr* padMgr, u8* enable);
  * user-provided argument. The callback function should be `void (*)(PadMgr*, void*)`.
  *
  * @param callback callback to run before rumble state is updated for the current VI
- * @param arg the argument to pass to the calback
+ * @param arg the argument to pass to the callback
  *
  * @see PADMGR_UNSET_RETRACE_CALLACK
  */

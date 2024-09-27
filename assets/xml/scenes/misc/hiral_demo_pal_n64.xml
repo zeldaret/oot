@@ -1,0 +1,11 @@
+<Root>
+    <File Name="hiral_demo_scene" Segment="2">
+        <Scene Name="hiral_demo_scene" Offset="0x0"/>
+        <Scene Name="hiral_demo_scene_unused1" Offset="0x3590"/>
+        <Scene Name="hiral_demo_scene_unused2" Offset="0x3650"/>
+        <Scene Name="hiral_demo_scene_unused3" Offset="0x3710"/>
+    </File>
+    <File Name="hiral_demo_room_0" Segment="3">
+        <Room Name="hiral_demo_room_0" Offset="0x0"/>
+    </File>
+</Root>

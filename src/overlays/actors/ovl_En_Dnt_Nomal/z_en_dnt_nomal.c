@@ -240,7 +240,12 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
     this->targetVtx[3].z = targetZ - 24.0f;
 
     SkelAnime_Update(&this->skelAnime);
-    if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0)) {
+#if OOT_VERSION < PAL_1_0
+    if (this->targetQuad.base.acFlags & AC_HIT)
+#else
+    if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0))
+#endif
+    {
         this->targetQuad.base.acFlags &= ~AC_HIT;
 
         dx = fabsf(targetX - this->targetQuad.elem.acDmgInfo.hitPos.x);

@@ -233,7 +233,7 @@ static s16 D_8094C87C;
 static u8 D_8094C87E;
 static BossTwEffect sEffects[BOSS_TW_EFFECT_COUNT];
 
-void BossTw_AddDotEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale, s16 args,
+void BossTw_AddDotEffect(PlayState* play, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, f32 scale, s16 args,
                          s16 countLimit) {
     s16 i;
     BossTwEffect* eff;
@@ -241,8 +241,8 @@ void BossTw_AddDotEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, 
     for (i = 0, eff = play->specialEffects; i < countLimit; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_DOT;
-            eff->pos = *initalPos;
-            eff->curSpeed = *initalSpeed;
+            eff->pos = *initialPos;
+            eff->curSpeed = *initialSpeed;
             eff->accel = *accel;
             eff->workf[EFF_SCALE] = scale / 1000.0f;
             eff->alpha = 255;
@@ -253,7 +253,7 @@ void BossTw_AddDotEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, 
     }
 }
 
-void BossTw_AddDmgCloud(PlayState* play, s16 type, Vec3f* initialPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale,
+void BossTw_AddDmgCloud(PlayState* play, s16 type, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, f32 scale,
                         s16 alpha, s16 args, s16 countLimit) {
     s16 i;
     BossTwEffect* eff;
@@ -262,7 +262,7 @@ void BossTw_AddDmgCloud(PlayState* play, s16 type, Vec3f* initialPos, Vec3f* ini
         if (eff->type == TWEFF_NONE) {
             eff->type = type;
             eff->pos = *initialPos;
-            eff->curSpeed = *initalSpeed;
+            eff->curSpeed = *initialSpeed;
             eff->accel = *accel;
             eff->workf[EFF_SCALE] = scale / 1000.0f;
             eff->work[EFF_ARGS] = args;
@@ -273,7 +273,7 @@ void BossTw_AddDmgCloud(PlayState* play, s16 type, Vec3f* initialPos, Vec3f* ini
     }
 }
 
-void BossTw_AddRingEffect(PlayState* play, Vec3f* initalPos, f32 scale, f32 arg3, s16 alpha, s16 args, s16 arg6,
+void BossTw_AddRingEffect(PlayState* play, Vec3f* initialPos, f32 scale, f32 arg3, s16 alpha, s16 args, s16 arg6,
                           s16 countLimit) {
     s16 i;
     BossTwEffect* eff;
@@ -281,7 +281,7 @@ void BossTw_AddRingEffect(PlayState* play, Vec3f* initalPos, f32 scale, f32 arg3
     for (i = 0, eff = play->specialEffects; i < countLimit; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_RING;
-            eff->pos = *initalPos;
+            eff->pos = *initialPos;
             eff->curSpeed = sZeroVector;
             eff->accel = sZeroVector;
             eff->workf[EFF_SCALE] = scale * 0.0025f;
@@ -320,15 +320,15 @@ void BossTw_AddPlayerFreezeEffect(PlayState* play, Actor* target) {
     }
 }
 
-void BossTw_AddFlameEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale, s16 args) {
+void BossTw_AddFlameEffect(PlayState* play, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, f32 scale, s16 args) {
     s16 i;
     BossTwEffect* eff;
 
     for (i = 0, eff = play->specialEffects; i < BOSS_TW_EFFECT_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_FLAME;
-            eff->pos = *initalPos;
-            eff->curSpeed = *initalSpeed;
+            eff->pos = *initialPos;
+            eff->curSpeed = *initialSpeed;
             eff->accel = *accel;
             eff->workf[EFF_SCALE] = scale / 1000.0f;
             eff->work[EFF_ARGS] = args;
@@ -362,7 +362,7 @@ void BossTw_AddMergeFlameEffect(PlayState* play, Vec3f* initialPos, f32 scale, f
     }
 }
 
-void BossTw_AddShieldBlastEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale,
+void BossTw_AddShieldBlastEffect(PlayState* play, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, f32 scale,
                                  f32 arg5, s16 alpha, s16 args) {
     s16 i;
     BossTwEffect* eff;
@@ -370,8 +370,8 @@ void BossTw_AddShieldBlastEffect(PlayState* play, Vec3f* initalPos, Vec3f* inita
     for (i = 0, eff = play->specialEffects; i < BOSS_TW_EFFECT_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_SHLD_BLST;
-            eff->pos = *initalPos;
-            eff->curSpeed = *initalSpeed;
+            eff->pos = *initialPos;
+            eff->curSpeed = *initialSpeed;
             eff->accel = *accel;
             eff->workf[EFF_SCALE] = scale / 1000.0f;
             eff->workf[EFF_DIST] = arg5 / 1000.0f;
@@ -1757,7 +1757,7 @@ void BossTw_SetupCSWait(BossTw* this, PlayState* play) {
 }
 
 /**
- * Do nothing while waiting for the inital cutscene to start
+ * Do nothing while waiting for the initial cutscene to start
  */
 void BossTw_CSWait(BossTw* this, PlayState* play) {
 }

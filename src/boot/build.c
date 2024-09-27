@@ -6,8 +6,16 @@ const char gBuildCreator[] = "zelda@srd44";
 const char gBuildCreator[] = "zelda@srd022j";
 #endif
 
-#if OOT_VERSION == NTSC_1_2
+#if OOT_VERSION == NTSC_1_0
+const char gBuildDate[] = "98-10-21 04:56:31";
+#elif OOT_VERSION == NTSC_1_1
+const char gBuildDate[] = "98-10-26 10:58:45";
+#elif OOT_VERSION == PAL_1_0
+const char gBuildDate[] = "98-11-10 14:34:22";
+#elif OOT_VERSION == NTSC_1_2
 const char gBuildDate[] = "98-11-12 18:17:03";
+#elif OOT_VERSION == PAL_1_1
+const char gBuildDate[] = "98-11-18 17:36:49";
 #elif OOT_VERSION == GC_JP
 const char gBuildDate[] = "02-10-29 23:49:53";
 #elif OOT_VERSION == GC_JP_MQ
