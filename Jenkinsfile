@@ -3,6 +3,10 @@ pipeline {
         label 'oot'
     }
 
+    options {
+        ansiColor('xterm')
+    }
+
     stages {
         stage('Check formatting (full)') {
             when {
