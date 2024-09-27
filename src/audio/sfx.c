@@ -342,7 +342,7 @@ void Audio_ChooseActiveSfx(u8 bankId) {
                            entry->sfxId, entry->posX, entry->posZ, *entry->posX, *entry->posY, *entry->posZ);
                 }
                 entry->priority = (u32)entry->dist + (SQ(0xFF - sfxImportance) * SQ(76));
-#if !PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1 || PLATFORM_GC
                 temp3 = entry->sfxId; // fake
                 entry->priority = entry->priority + temp3 - temp3;
 #endif
