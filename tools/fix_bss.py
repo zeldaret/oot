@@ -13,6 +13,7 @@ from dataclasses import dataclass
 import io
 import multiprocessing
 import multiprocessing.pool
+import os
 from pathlib import Path
 import re
 import shlex
@@ -36,9 +37,12 @@ import mapfile_parser.mapfile
 # Set on program start since we replace sys.stdout in worker processes
 stdout_isatty = sys.stdout.isatty()
 
+# https://no-color.org/
+enable_colors = os.environ.get("NO_COLOR", "") == ""
+
 
 def output(message: str = "", color: Optional[str] = None, end: str = "\n"):
-    if color and stdout_isatty:
+    if color and enable_colors:
         print(f"{color}{message}{colorama.Fore.RESET}", end=end)
     else:
         print(message, end=end)
