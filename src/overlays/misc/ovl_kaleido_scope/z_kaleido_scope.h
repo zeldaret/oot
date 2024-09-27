@@ -110,6 +110,61 @@ typedef enum PromptQuad {
     /* 5 */ PROMPT_QUAD_MAX
 } PromptQuad;
 
+#define ITEM_GRID_ROWS 4
+#define ITEM_GRID_COLS 6
+#define ITEM_GRID_CELL_WIDTH 32
+#define ITEM_GRID_CELL_HEIGHT 32
+#define ITEM_GRID_QUAD_MARGIN 2
+#define ITEM_GRID_QUAD_WIDTH (ITEM_GRID_CELL_WIDTH - (2 * ITEM_GRID_QUAD_MARGIN))
+#define ITEM_GRID_QUAD_HEIGHT (ITEM_GRID_CELL_HEIGHT - (2 * ITEM_GRID_QUAD_MARGIN))
+#define ITEM_GRID_QUAD_TEX_SIZE 32 // both width and height
+#define ITEM_GRID_QUAD_ENLARGE_OFFSET 2
+
+#define ITEM_GRID_SELECTED_QUAD_MARGIN (-2)
+#define ITEM_GRID_SELECTED_QUAD_WIDTH (ITEM_GRID_QUAD_WIDTH - (2 * ITEM_GRID_SELECTED_QUAD_MARGIN))
+#define ITEM_GRID_SELECTED_QUAD_HEIGHT (ITEM_GRID_QUAD_HEIGHT - (2 * ITEM_GRID_SELECTED_QUAD_MARGIN))
+#define ITEM_GRID_SELECTED_QUAD_TEX_SIZE 32 // both width and height
+
+#define ITEM_AMMO_DIGIT_QUAD_WIDTH 8
+#define ITEM_AMMO_DIGIT_QUAD_HEIGHT 8
+#define ITEM_AMMO_DIGIT_QUAD_TEX_SIZE 8
+
+// Relative to the corresponding ITEM_QUAD_GRID_ quad
+#define ITEM_AMMO_TENS_QUAD_OFFSET_X 0
+#define ITEM_AMMO_TENS_QUAD_OFFSET_Y 22
+
+// Relative to the ammo tens digit
+#define ITEM_AMMO_ONES_QUAD_OFFSET_X 6
+#define ITEM_AMMO_ONES_QUAD_OFFSET_Y 0
+
+typedef enum ItemQuad {
+    // 0 to 23 are the ITEM_GRID_ROWS*ITEM_GRID_COLS item grid
+    // The values follow the `InventorySlot` enum
+    /*  0 */ ITEM_QUAD_GRID_FIRST,
+    /* 23 */ ITEM_QUAD_GRID_LAST = ITEM_GRID_ROWS * ITEM_GRID_COLS - 1,
+    // Markers indicating the currently equipped items
+    /* 24 */ ITEM_QUAD_GRID_SELECTED_C_LEFT,
+    /* 25 */ ITEM_QUAD_GRID_SELECTED_C_DOWN,
+    /* 26 */ ITEM_QUAD_GRID_SELECTED_C_RIGHT,
+    // Digits for showing ammo count
+    /* 27 */ ITEM_QUAD_AMMO_FIRST,
+    /* 27 */ ITEM_QUAD_AMMO_STICK_TENS = ITEM_QUAD_AMMO_FIRST,
+    /* 28 */ ITEM_QUAD_AMMO_STICK_ONES,
+    /* 29 */ ITEM_QUAD_AMMO_NUT_TENS,
+    /* 30 */ ITEM_QUAD_AMMO_NUT_ONES,
+    /* 31 */ ITEM_QUAD_AMMO_BOMB_TENS,
+    /* 32 */ ITEM_QUAD_AMMO_BOMB_ONES,
+    /* 33 */ ITEM_QUAD_AMMO_BOW_TENS,
+    /* 34 */ ITEM_QUAD_AMMO_BOW_ONES,
+    /* 35 */ ITEM_QUAD_AMMO_SLINGSHOT_TENS,
+    /* 36 */ ITEM_QUAD_AMMO_SLINGSHOT_ONES,
+    /* 37 */ ITEM_QUAD_AMMO_BOMBCHU_TENS,
+    /* 38 */ ITEM_QUAD_AMMO_BOMBCHU_ONES,
+    /* 39 */ ITEM_QUAD_AMMO_BEAN_TENS,
+    /* 40 */ ITEM_QUAD_AMMO_BEAN_ONES,
+    /* 41 */ ITEM_QUAD_MAX
+} ItemQuad;
+
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
 void KaleidoScope_DrawDebugEditor(PlayState* play);
