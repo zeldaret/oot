@@ -1,4 +1,5 @@
 #include "z_demo_kankyo.h"
+#include "global.h"
 #include "versions.h"
 #include "z64cutscene_commands.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"

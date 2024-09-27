@@ -2,7 +2,8 @@
 #define Z_EN_HORSE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64skin.h"
 
 typedef enum EnHorseAction {
     /*  0 */ ENHORSE_ACT_FROZEN,
@@ -89,7 +90,7 @@ typedef enum HorseType {
     /* 1 */ HORSE_HNI
 } HorseType;
 
-typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, PlayState*);
+typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, struct PlayState*);
 
 typedef struct EnHorse {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_EN_FISH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnFish;
 
-typedef void (*EnFishActionFunc)(struct EnFish*, PlayState*);
+typedef void (*EnFishActionFunc)(struct EnFish*, struct PlayState*);
 
 typedef struct EnFish {
     /* 0x0000 */ Actor actor;
