@@ -1977,10 +1977,8 @@ void Player_ZeroRootLimbYaw(Player* this) {
 /**
  * Finishes "AnimMovement" by resetting various aspects of Player's SkelAnime structure.
  *
- * This function is called in `Player_SetupAction` so it will run on every action change.
- * Therefore it is not required to be called manually in most cases. Simply changing actions
- * will implicitly end AnimMovement.
- * There are some specific cases where it can be desirable to call this function mid-action.
+ * This function is called in Player_SetupAction so it will run on every action change, but
+ * it can also be called within action functions to change animations in the middle of an action.
  */
 void Player_FinishAnimMovement(Player* this) {
     if (this->skelAnime.movementFlags != 0) {
@@ -2051,14 +2049,13 @@ void Player_ApplyAnimMovementScaledByAge(Player* this, s32 movementFlags) {
  * The `flags` field can be any of the SkelAnime system's `ANIM_FLAG_` flags, as well as Player-specific
  * `PLAYER_ANIM_MOVEMENT_` flags.
  *
- * For AnimMovement animation tasks to be queued, it is required to pass `ANIM_FLAG_ENABLE_MOVEMENT` as
- * one of the flags. This is a requirement for most other AnimMovement features to be enabled as well.
+ * For AnimMovement features to be enabled, it is usually required to pass `ANIM_FLAG_ENABLE_MOVEMENT`
+ * as one of the flags, but there are a few niche cases where it can be desirable to omit it
+ * (for example to use `ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT` without any actual AnimMovement).
  *
- * There are very few niche cases where it can be desirable to not pass `ANIM_FLAG_ENABLE_MOVEMENT`,
- * for example to use `ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT` without any actual AnimMovement.
- *
- * Note: AnimMovement is always disabled during every action change. This means it is required
- *       to call this function after `Player_SetupAction` in all cases.
+ * Note: AnimMovement is always disabled during every action change.
+ *       This means the order that functions are called matters.
+ *       `Player_StartAnimMovement` must be called *after* a call to `Player_SetupAction`.
  */
 void Player_StartAnimMovement(PlayState* play, Player* this, s32 flags) {
     if (flags & PLAYER_ANIM_MOVEMENT_RESET_BY_AGE) {
