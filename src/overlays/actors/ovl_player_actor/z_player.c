@@ -1980,7 +1980,7 @@ void Player_ZeroRootLimbYaw(Player* this) {
  * This function is called in `Player_SetupAction` so it will run on every action change.
  * Therefore it is not required to be called manually in most cases. Simply changing actions
  * will implicitly end AnimMovement.
- * There are some specific cases where it can be desireable to call this function mid-action.
+ * There are some specific cases where it can be desirable to call this function mid-action.
  */
 void Player_FinishAnimMovement(Player* this) {
     if (this->skelAnime.movementFlags != 0) {
@@ -2054,7 +2054,7 @@ void Player_ApplyAnimMovementScaledByAge(Player* this, s32 movementFlags) {
  * For AnimMovement animation tasks to be queued, it is required to pass `ANIM_FLAG_ENABLE_MOVEMENT` as
  * one of the flags. This is a requirement for most other AnimMovement features to be enabled as well.
  *
- * There are very few niche cases where it can be desireable to not pass `ANIM_FLAG_ENABLE_MOVEMENT`,
+ * There are very few niche cases where it can be desirable to not pass `ANIM_FLAG_ENABLE_MOVEMENT`,
  * for example to use `ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT` without any actual AnimMovement.
  *
  * Note: AnimMovement is always disabled during every action change. This means it is required
