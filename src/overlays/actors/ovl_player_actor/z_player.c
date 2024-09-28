@@ -1975,8 +1975,7 @@ void Player_ZeroRootLimbYaw(Player* this) {
 }
 
 /**
- * Finishes "AnimMovement" by resetting various aspects of Player's SkelAnime
- * and clears `skelAnime.movementFlags`.
+ * Finishes "AnimMovement" by resetting various aspects of Player's SkelAnime structure.
  *
  * This function is called in `Player_SetupAction` so it will run on every action change.
  * Therefore it is not required to be called manually in most cases. Simply changing actions
