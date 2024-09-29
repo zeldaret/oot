@@ -6,7 +6,7 @@
 #include "sys_math3d.h"
 
 #pragma increment_block_number "gc-eu:104 gc-eu-mq:104 gc-jp:104 gc-jp-ce:104 gc-jp-mq:104 gc-us:104 gc-us-mq:104" \
-                               "ntsc-1.2:79"
+                               "ntsc-1.2:79 pal-1.0:80 pal-1.1:80"
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);

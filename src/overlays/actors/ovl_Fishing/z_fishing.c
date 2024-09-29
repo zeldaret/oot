@@ -36,7 +36,7 @@
 #endif
 
 #pragma increment_block_number "gc-eu:199 gc-eu-mq:199 gc-jp:199 gc-jp-ce:199 gc-jp-mq:199 gc-us:199 gc-us-mq:199" \
-                               "ntsc-1.2:128"
+                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #define FLAGS ACTOR_FLAG_4
 
