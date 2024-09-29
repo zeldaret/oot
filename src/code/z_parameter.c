@@ -2837,8 +2837,8 @@ void Interface_DrawItemButtons(PlayState* play) {
                             interfaceCtx->startAlpha);
 
 #if OOT_VERSION < PAL_1_0
-            gSPTextureRectangle(OVERLAY_DISP++, ZREG(68) << 2, ZREG(69) << 2, (ZREG(68) + 22) << 2,
-                                (ZREG(69) + 22) << 2, G_TX_RENDERTILE, 0, 0, (s32)(1.4277344 * (1 << 10)),
+            gSPTextureRectangle(OVERLAY_DISP++, R_START_BTN_X << 2, R_START_BTN_Y << 2, (R_START_BTN_X + 22) << 2,
+                                (R_START_BTN_Y + 22) << 2, G_TX_RENDERTILE, 0, 0, (s32)(1.4277344 * (1 << 10)),
                                 (s32)(1.4277344 * (1 << 10)));
 #elif OOT_NTSC
             gSPTextureRectangle(OVERLAY_DISP++, 132 << 2, 17 << 2, (132 + 22) << 2, (17 + 22) << 2, G_TX_RENDERTILE, 0,

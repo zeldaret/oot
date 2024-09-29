@@ -387,8 +387,8 @@ void Regs_InitDataImpl(void) {
     ZREG(65) = 21;
     ZREG(66) = 122;
 #if OOT_VERSION < PAL_1_0
-    ZREG(68) = 132;
-    ZREG(69) = 17;
+    R_START_BTN_X = 132;
+    R_START_BTN_Y = 17;
 #endif
     R_ITEM_BTN_X(1) = C_LEFT_BUTTON_X;
     R_ITEM_BTN_X(2) = C_DOWN_BUTTON_X;
