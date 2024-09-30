@@ -1,6 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 
+SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];
 RomFile sNaviQuestHintFiles[];
 
 /**
@@ -190,8 +191,8 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
             break;
         }
 
-        if (cmdCode < ARRAY_COUNT(gSceneCmdHandlers)) {
-            gSceneCmdHandlers[cmdCode](play, sceneCmd);
+        if (cmdCode < ARRAY_COUNT(sSceneCmdHandlers)) {
+            sSceneCmdHandlers[cmdCode](play, sceneCmd);
         } else {
             PRINTF(VT_FGCOL(RED));
             PRINTF(T("code の値が異常です\n", "code variable is abnormal\n"));
@@ -505,7 +506,7 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
     play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
 }
 
-SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
+SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
     Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_SPAWN_LIST
     Scene_CommandActorEntryList,           // SCENE_CMD_ID_ACTOR_LIST
     Scene_CommandUnused2,                  // SCENE_CMD_ID_UNUSED_2
