@@ -1,9 +1,18 @@
-#include "global.h"
+#include "gfx.h"
+#include "macros.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
-
+#include "z64collision_check.h"
+#include "z64effect.h"
 #include "z64frame_advance.h"
+#include "z64malloc.h"
+#include "z64play.h"
 
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
+#include "z_lib.h"
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:208"
 
