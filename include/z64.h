@@ -6,6 +6,7 @@
 #include "attributes.h"
 #include "audiomgr.h"
 #include "controller.h"
+#include "versions.h"
 #include "z64save.h"
 #include "z64light.h"
 #include "z64bgcheck.h"
@@ -22,16 +23,19 @@
 #include "z64scene.h"
 #include "z64effect.h"
 #include "z64game_over.h"
+#include "z64inventory.h"
 #include "z64item.h"
 #include "z64animation.h"
 #include "z64animation_legacy.h"
 #include "z64dma.h"
+#include "letterbox.h"
 #include "z64math.h"
 #include "z64map_mark.h"
 #include "z64message.h"
 #include "z64pause.h"
 #include "z64play.h"
 #include "z64skin.h"
+#include "z64skin_matrix.h"
 #include "z64game.h"
 #include "z64transition.h"
 #include "z64transition_instances.h"
@@ -55,22 +59,30 @@
 #include "padmgr.h"
 #include "sched.h"
 #include "rumble.h"
+#include "map.h"
 #include "mempak.h"
 #include "tha.h"
 #include "thga.h"
 #include "speedmeter.h"
 #include "gfx.h"
+#include "gfx_setupdl.h"
+#include "gfxalloc.h"
 #include "jpeg.h"
 #include "prerender.h"
 #include "rand.h"
 #include "libc64/qrand.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
-#include "fp_math.h"
+#include "libc64/math64.h"
 #include "sys_matrix.h"
 #include "main.h"
 #include "segmented_address.h"
 #include "stackcheck.h"
+#include "kaleido_manager.h"
+#include "libc64/aprintf.h"
+#include "libc64/malloc.h"
+#include "libc64/sleep.h"
+#include "libc64/sprintf.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -101,21 +113,6 @@
 #define THREAD_ID_AUDIOMGR   10
 #define THREAD_ID_DMAMGR     18
 #define THREAD_ID_IRQMGR     19
-
-typedef struct KaleidoMgrOverlay {
-    /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ RomFile file;
-    /* 0x0C */ void* vramStart;
-    /* 0x10 */ void* vramEnd;
-    /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
-    /* 0x18 */ const char* name;
-} KaleidoMgrOverlay; // size = 0x1C
-
-typedef enum KaleidoOverlayType {
-    /* 0 */ KALEIDO_OVL_KALEIDO_SCOPE,
-    /* 1 */ KALEIDO_OVL_PLAYER_ACTOR,
-    /* 2 */ KALEIDO_OVL_MAX
-} KaleidoOverlayType;
 
 typedef enum LensMode {
     /* 0 */ LENS_MODE_SHOW_ACTORS, // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
@@ -211,7 +208,7 @@ typedef struct FileSelectState {
     /* 0x000A8 */ u8* staticSegment;
     /* 0x000AC */ u8* parameterSegment;
 #if OOT_PAL
-    /* 0x000B0 */ char unk_B0[0x8];
+    /* 0x000B0 */ u8* objectMagSegment;
 #endif
     /* 0x000B8 */ View view;
     /* 0x001E0 */ SramContext sramCtx;
@@ -327,68 +324,6 @@ typedef struct PreNMIState {
     /* 0xA4 */ u32       timer;
     /* 0xA8 */ UNK_TYPE4 unk_A8;
 } PreNMIState; // size = 0xAC
-
-typedef enum FloorID {
-    /*  1 */ F_8F = 1,
-    /*  2 */ F_7F,
-    /*  3 */ F_6F,
-    /*  4 */ F_5F,
-    /*  5 */ F_4F,
-    /*  6 */ F_3F,
-    /*  7 */ F_2F,
-    /*  8 */ F_1F,
-    /*  9 */ F_B1,
-    /* 10 */ F_B2,
-    /* 11 */ F_B3,
-    /* 12 */ F_B4,
-    /* 13 */ F_B5,
-    /* 14 */ F_B6,
-    /* 15 */ F_B7,
-    /* 16 */ F_B8
-} FloorID;
-
-// All arrays pointed in this struct are indexed by "map indices"
-// In dungeons, the map index corresponds to the dungeon index (which also indexes keys, items, etc)
-// In overworld areas, the map index corresponds to the overworld area index (spot 00, 01, etc)
-typedef struct MapData {
-    /* 0x00 */ s16 (*floorTexIndexOffset)[8]; // dungeon texture index offset by floor
-    /* 0x04 */ s16*  bossFloor; // floor the boss is on
-    /* 0x08 */ s16 (*roomPalette)[32]; // map palette by room
-    /* 0x0C */ s16*  maxPaletteCount; // max number of palettes in a same floor
-    /* 0x10 */ s16 (*paletteRoom)[8][14]; // room by palette by floor
-    /* 0x14 */ s16 (*roomCompassOffsetX)[44]; // dungeon compass icon X offset by room
-    /* 0x18 */ s16 (*roomCompassOffsetY)[44]; // dungeon compass icon Y offset by room
-    /* 0x1C */ u8*   dgnMinimapCount; // number of room minimaps
-    /* 0x20 */ u16*  dgnMinimapTexIndexOffset; // dungeon minimap texture index offset
-    /* 0x24 */ u16*  owMinimapTexSize;
-    /* 0x28 */ u16*  owMinimapTexOffset;
-    /* 0x2C */ s16*  owMinimapPosX;
-    /* 0x30 */ s16*  owMinimapPosY;
-    /* 0x34 */ s16 (*owCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
-    /* 0x38 */ s16*  dgnTexIndexBase; // dungeon texture index base
-    /* 0x3C */ s16 (*dgnCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
-    /* 0x40 */ s16*  owMinimapWidth;
-    /* 0x44 */ s16*  owMinimapHeight;
-    /* 0x48 */ s16*  owEntranceIconPosX; // "dungeon entrance" icon X pos
-    /* 0x4C */ s16*  owEntranceIconPosY; // "dungeon entrance" icon Y pos
-    /* 0x50 */ u16*  owEntranceFlag; // flag in inf_table[26] based on which entrance icons are shown (0xFFFF = always shown)
-    /* 0x54 */ f32 (*floorCoordY)[8]; // Y coordinate of each floor
-    /* 0x58 */ u16*  switchEntryCount; // number of "room switch" entries, which correspond to the next 3 arrays
-    /* 0x5C */ u8  (*switchFromRoom)[51]; // room to come from
-    /* 0x60 */ u8  (*switchFromFloor)[51]; // floor to come from
-    /* 0x64 */ u8  (*switchToRoom)[51]; // room to go to
-    /* 0x68 */ u8  (*floorID)[8];
-    /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
-} MapData; // size = 0x70
-
-// TODO get these properties from the textures themselves
-#define MAP_I_TEX_WIDTH 96
-#define MAP_I_TEX_HEIGHT 85
-#define MAP_I_TEX_SIZE ((MAP_I_TEX_WIDTH * MAP_I_TEX_HEIGHT) / 2) // 96x85 I4 texture
-
-#define MAP_48x85_TEX_WIDTH 48
-#define MAP_48x85_TEX_HEIGHT 85
-#define MAP_48x85_TEX_SIZE ((MAP_48x85_TEX_WIDTH * MAP_48x85_TEX_HEIGHT) / 2) // 48x85 CI4 texture
 
 typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;

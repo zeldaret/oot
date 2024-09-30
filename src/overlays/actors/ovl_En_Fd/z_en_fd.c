@@ -42,7 +42,7 @@ ActorProfile En_Fd_Profile = {
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040088, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -53,7 +53,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -64,7 +64,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -75,7 +75,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -86,7 +86,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -97,7 +97,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -108,7 +108,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -119,7 +119,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -130,7 +130,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -141,7 +141,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -152,7 +152,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -163,7 +163,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x01, 0x04 },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -176,7 +176,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -303,7 +303,8 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
         }
         this->attackTimer = 30;
         Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
-        func_8002F71C(play, &this->actor, this->actor.speed + 2.0f, this->actor.yawTowardsPlayer, 6.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, this->actor.speed + 2.0f,
+                                              this->actor.yawTowardsPlayer, 6.0f);
     }
     return false;
 }
@@ -325,7 +326,7 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, PlayState* play) {
         return false;
     }
 
-    // Check to see if the angle between this facing angle and `actor` is withing ~40 degrees
+    // Check to see if the angle between this facing angle and `actor` is within ~40 degrees
     angle = (f32)Math_Vec3f_Yaw(&this->actor.world.pos, &actor->world.pos) - this->actor.shape.rot.y;
     if (ABS(angle) > 0x1C70) {
         return false;
@@ -525,7 +526,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, PlayState* play) {
     f32 tgtSpeed;
     f32 rotSpeed;
 
-    if ((this->spinTimer < 31) && (this->invincibilityTimer == 0)) {
+    if ((this->spinTimer <= 30) && (this->invincibilityTimer == 0)) {
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLAME_FIRE_ATTACK - SFX_FLAG);
     } else {
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLAME_ROLL - SFX_FLAG);
@@ -905,8 +906,7 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2006),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fd.c", 2006);
         idx = eff->timer * (8.0f / eff->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
@@ -942,8 +942,7 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2064),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fd.c", 2064);
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
     }
 

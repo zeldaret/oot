@@ -1,4 +1,5 @@
 #include "global.h"
+#include "versions.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
@@ -13,12 +14,126 @@ typedef struct BowSlingshotStringData {
 FlexSkeletonHeader* gPlayerSkelHeaders[] = { &gLinkAdultSkel, &gLinkChildSkel };
 
 s16 sBootData[PLAYER_BOOTS_MAX][17] = {
-    { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 1000, 0, 800, 300, -160, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 600, 600, 800, 550, -100, 600, 540, 270, 25, 0, 130 },
-    { 200, 1000, 300, 700, 380, 400, 0, 300, 800, 500, -100, 600, 590, 750, 125, 200, 130 },
-    { 80, 800, 150, 700, 480, 270, 600, 50, 800, 550, -40, 400, 540, 270, 25, 0, 80 },
-    { 200, 1000, 300, 800, 500, 400, 800, 400, 800, 550, -100, 600, 540, 750, 125, 400, 200 },
+    // PLAYER_BOOTS_KOKIRI
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(550, 660),   // REG(35)
+        FRAMERATE_CONST(270, 324),   // REG(36)
+        600,                         // REG(37)
+        FRAMERATE_CONST(350, 420),   // REG(38)
+        800,                         // REG(43)
+        600,                         // REG(45)
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        590,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        200,                         // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_IRON
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(550, 660),   // REG(35)
+        FRAMERATE_CONST(270, 324),   // REG(36)
+        1000,                        // REG(37)
+        FRAMERATE_CONST(0, 0),       // REG(38)
+        800,                         // REG(43)
+        300,                         // REG(45)
+        -160,                        // REG(68)
+        600,                         // REG(69)
+        590,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        200,                         // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_HOVER
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(550, 660),   // REG(35)
+        FRAMERATE_CONST(270, 324),   // REG(36)
+        600,                         // REG(37)
+        FRAMERATE_CONST(600, 720),   // REG(38)
+        800,                         // REG(43)
+        550,                         // REG(45)
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        540,                         // IREG(66)
+        270,                         // IREG(67)
+        25,                          // IREG(68)
+        0,                           // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_INDOOR
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(380, 456),   // REG(35)
+        FRAMERATE_CONST(400, 480),   // REG(36)
+        0,                           // REG(37)
+        FRAMERATE_CONST(300, 360),   // REG(38)
+        800,                         // REG(43)
+        500,                         // REG(45)
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        590,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        200,                         // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_IRON_UNDERWATER
+    {
+        80,                        // REG(19)
+        FRAMERATE_CONST(800, 960), // REG(30)
+        FRAMERATE_CONST(150, 180), // REG(32)
+        700,                       // REG(34)
+        FRAMERATE_CONST(480, 576), // REG(35)
+        FRAMERATE_CONST(270, 324), // REG(36)
+        600,                       // REG(37)
+        FRAMERATE_CONST(50, 60),   // REG(38)
+        800,                       // REG(43)
+        550,                       // REG(45)
+        -40,                       // REG(68)
+        400,                       // REG(69)
+        540,                       // IREG(66)
+        270,                       // IREG(67)
+        25,                        // IREG(68)
+        0,                         // IREG(69)
+        FRAMERATE_CONST(80, 96),   // MREG(95)
+    },
+    // PLAYER_BOOTS_KOKIRI_CHILD
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        800,                         // REG(34)
+        FRAMERATE_CONST(500, 600),   // REG(35)
+        FRAMERATE_CONST(400, 480),   // REG(36)
+        800,                         // REG(37)
+        FRAMERATE_CONST(400, 480),   // REG(38)
+        800,                         // REG(43)
+        550,                         // REG(45)
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        540,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        400,                         // IREG(69)
+        FRAMERATE_CONST(200, 240),   // MREG(95)
+    },
 };
 
 // Used to map item actions to model groups
@@ -490,9 +605,9 @@ void Player_SetBootData(PlayState* play, Player* this) {
 }
 
 int Player_InBlockingCsMode(PlayState* play, Player* this) {
-    return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csAction != PLAYER_CSACTION_NONE) ||
+    return (this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_29)) || (this->csAction != PLAYER_CSACTION_NONE) ||
            (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
-           (this->stateFlags3 & PLAYER_STATE3_7) ||
+           (this->stateFlags3 & PLAYER_STATE3_FLYING_WITH_HOOKSHOT) ||
            ((gSaveContext.magicState != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemAction) >= 0));
 }
 
@@ -502,8 +617,15 @@ int Player_InCsMode(PlayState* play) {
     return Player_InBlockingCsMode(play, this) || (this->unk_6AD == 4);
 }
 
-s32 func_8008E9C4(Player* this) {
-    return (this->stateFlags1 & PLAYER_STATE1_4);
+/**
+ * Checks if Player is currently locked onto a hostile actor.
+ * `PLAYER_STATE1_HOSTILE_LOCK_ON` controls Player's "battle" response to hostile actors.
+ *
+ * Note that within Player, `Player_UpdateHostileLockOn` exists, which updates the flag and also returns the check.
+ * Player can use this function instead if the flag should be checked, but not updated.
+ */
+s32 Player_CheckHostileLockOn(Player* this) {
+    return (this->stateFlags1 & PLAYER_STATE1_HOSTILE_LOCK_ON);
 }
 
 int Player_IsChildWithHylianShield(Player* this) {
@@ -601,32 +723,51 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
     this->itemAction = itemAction;
 }
 
-void func_8008EDF0(Player* this) {
+void Player_ReleaseLockOn(Player* this) {
     this->focusActor = NULL;
-    this->stateFlags2 &= ~PLAYER_STATE2_13;
+    this->stateFlags2 &= ~PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
 }
 
-void func_8008EE08(Player* this) {
+/**
+ * This function aims to clear Z-Target related state when it isn't in use.
+ * It also handles setting a specific free fall related state that is interntwined with Z-Targeting.
+ * TODO: Learn more about this and give a name to PLAYER_STATE1_19
+ */
+void Player_ClearZTargeting(Player* this) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
-        this->stateFlags1 &= ~(PLAYER_STATE1_15 | PLAYER_STATE1_16 | PLAYER_STATE1_PARALLEL | PLAYER_STATE1_18 |
-                               PLAYER_STATE1_19 | PLAYER_STATE1_30);
+        this->stateFlags1 &= ~(PLAYER_STATE1_Z_TARGETING | PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS | PLAYER_STATE1_PARALLEL |
+                               PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE);
     } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_21))) {
         this->stateFlags1 |= PLAYER_STATE1_19;
     }
 
-    func_8008EDF0(this);
+    Player_ReleaseLockOn(this);
 }
 
-void func_8008EEAC(PlayState* play, Actor* actor) {
+/**
+ * Sets the "auto lock-on actor" to lock onto an actor without Player's input.
+ * This function will first release any existing lock-on or (try to) release parallel.
+ *
+ * When using Switch Targeting, it is not possible to carry an auto lock-on actor into a normal
+ * lock-on when the auto lock-on is finished.
+ * This is because the `PLAYER_STATE2_LOCK_ON_WITH_SWITCH` flag is never set with an auto lock-on.
+ * With Hold Targeting it is possible to keep the auto lock-on going by keeping the Z button held down.
+ *
+ * The auto lock-on is considered "friendly" even if the actor is actually hostile. If the auto lock-on is hostile,
+ * Player's battle response will not occur (if he is actionable) and the camera behaves differently.
+ * When transitioning from auto lock-on to normal lock-on (with Hold Targeting) there will be a noticeable change
+ * when it switches from "friendly" mode to "hostile" mode.
+ */
+void Player_SetAutoLockOnActor(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
 
-    func_8008EE08(this);
+    Player_ClearZTargeting(this);
     this->focusActor = actor;
-    this->unk_684 = actor;
-    this->stateFlags1 |= PLAYER_STATE1_16;
+    this->autoLockOnActor = actor;
+    this->stateFlags1 |= PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS;
     Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);
     Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_TARGET_FRIENDLY);
 }
@@ -1041,7 +1182,7 @@ void func_8008F87C(PlayState* play, Player* this, SkelAnime* skelAnime, Vec3f* p
     s16 temp2;
     s32 temp3;
 
-    if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_7) &&
+    if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_DEAD) &&
         (Player_ActionToMagicSpell(this, this->itemAction) < 0)) {
         s32 pad;
 
@@ -1127,14 +1268,14 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         sCurBodyPartPos = &this->bodyPartsPos[0] - 1;
 
         if (!LINK_IS_ADULT) {
-            if (!(this->skelAnime.moveFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
-                (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_XZ)) {
+            if (!(this->skelAnime.movementFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
+                (this->skelAnime.movementFlags & ANIM_FLAG_UPDATE_XZ)) {
                 pos->x *= 0.64f;
                 pos->z *= 0.64f;
             }
 
-            if (!(this->skelAnime.moveFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
-                (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_Y)) {
+            if (!(this->skelAnime.movementFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
+                (this->skelAnime.movementFlags & ANIM_FLAG_UPDATE_Y)) {
                 pos->y *= 0.64f;
             }
         }
@@ -1199,7 +1340,8 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
 
             if ((sLeftHandType == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.save.info.playerData.swordHealth <= 0.0f)) {
                 dLists += 4;
-            } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & PLAYER_STATE1_25)) {
+            } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) &&
+                       (this->stateFlags1 & PLAYER_STATE1_BOOMERANG_THROWN)) {
                 dLists = gPlayerLeftHandOpenDLs + gSaveContext.save.linkAge;
                 sLeftHandType = PLAYER_MODELTYPE_LH_OPEN;
             } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speed > 2.0f) &&
@@ -1311,17 +1453,17 @@ u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo
 }
 
 void Player_UpdateShieldCollider(PlayState* play, Player* this, ColliderQuad* collider, Vec3f* quadSrc) {
-    static u8 shieldColTypes[PLAYER_SHIELD_MAX] = {
-        COLTYPE_METAL,
-        COLTYPE_WOOD,
-        COLTYPE_METAL,
-        COLTYPE_METAL,
+    static u8 shieldColMaterials[PLAYER_SHIELD_MAX] = {
+        COL_MATERIAL_METAL,
+        COL_MATERIAL_WOOD,
+        COL_MATERIAL_METAL,
+        COL_MATERIAL_METAL,
     };
 
     if (this->stateFlags1 & PLAYER_STATE1_22) {
         Vec3f quadDest[4];
 
-        this->shieldQuad.base.colType = shieldColTypes[this->currentShield];
+        this->shieldQuad.base.colMaterial = shieldColMaterials[this->currentShield];
 
         Matrix_MultVec3f(&quadSrc[0], &quadDest[0]);
         Matrix_MultVec3f(&quadSrc[1], &quadDest[1]);
@@ -1437,8 +1579,7 @@ void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
         Matrix_Translate(sp74.x, sp74.y, sp74.z, MTXMODE_NEW);
         Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
 
-        gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2587),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2587);
         gSPSegment(OVERLAY_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         gSPDisplayList(OVERLAY_DISP++, gLinkAdultHookshotReticleDL);
 
@@ -1508,8 +1649,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_RotateZYX(-0x8000, 0, 0x4000, MTXMODE_APPLY);
             Matrix_Scale(1.0f, this->unk_85C, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2653),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2653);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildLinkDekuStickDL);
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2656);
@@ -1534,8 +1674,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2710);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2712),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2712);
             gDPSetEnvColor(POLY_XLU_DISP++, bottleColor->r, bottleColor->g, bottleColor->b, 0);
             gSPDisplayList(POLY_XLU_DISP++, sBottleDLists[((void)0, gSaveContext.save.linkAge)]);
 
@@ -1552,7 +1691,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_Get(&sp14C);
                     Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
-                } else if (this->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
+                } else if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
                     Vec3s spB8;
 
                     Matrix_Get(&sp14C);
@@ -1613,8 +1752,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 Matrix_RotateZ(this->unk_858 * -0.2f, MTXMODE_APPLY);
             }
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_player_lib.c", 2804),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_player_lib.c", 2804);
             gSPDisplayList(POLY_XLU_DISP++, stringData->dList);
 
             Matrix_Pop();

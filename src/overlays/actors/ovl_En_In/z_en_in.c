@@ -1,8 +1,9 @@
 #include "z_en_in.h"
+#include "versions.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "assets/objects/object_in/object_in.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 void EnIn_Init(Actor* thisx, PlayState* play);
 void EnIn_Destroy(Actor* thisx, PlayState* play);
@@ -38,7 +39,7 @@ ActorProfile En_In_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -46,7 +47,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -337,8 +338,8 @@ void func_80A795C8(EnIn* this, PlayState* play) {
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, PlayState* play) {
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
-        AnimTaskQueue_AddActorMove(play, &this->actor, skelAnime, 1.0f);
+        skelAnime->movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+        AnimTaskQueue_AddActorMovement(play, &this->actor, skelAnime, 1.0f);
     }
 }
 
@@ -698,10 +699,10 @@ void func_80A7A568(EnIn* this, PlayState* play) {
 
 void func_80A7A770(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         Rupees_ChangeBy(-50);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_7);
@@ -736,7 +737,7 @@ void func_80A7A848(EnIn* this, PlayState* play) {
 
 void func_80A7A940(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         return;
     }
     if (this->unk_1EC != 0) {
@@ -746,7 +747,7 @@ void func_80A7A940(EnIn* this, PlayState* play) {
         }
     }
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         func_80A79BAC(this, play, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
         SET_EVENTINF_HORSES_0F(1);
@@ -933,6 +934,15 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, play);
+#if OOT_VERSION < PAL_1_0
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
+                          ((this->actor.attentionRangeType == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
+                          EnIn_GetTextId, EnIn_UpdateTalkState);
+        if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+            this->unk_1FA = this->unk_1F8;
+            this->unk_1F8 = Message_GetState(&play->msgCtx);
+        }
+#else
         if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
             this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             if (Actor_TalkOfferAccepted(&this->actor, play)) {}
@@ -945,6 +955,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
                 this->unk_1F8 = Message_GetState(&play->msgCtx);
             }
         }
+#endif
         func_80A795C8(this, play);
     }
 }

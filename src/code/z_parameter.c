@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "versions.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
@@ -1732,12 +1733,16 @@ u8 Item_Give(PlayState* play, u8 item) {
         Health_ChangeBy(play, 0x10);
         return item;
     } else if (item == ITEM_MAGIC_JAR_SMALL) {
+        // Magic_Fill is only used to store the magicState.
+        // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
+        // I.e. magic is added not filled.
+#if OOT_VERSION < PAL_1_0
+        Magic_Fill(play);
+#else
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
-            // This function is only used to store the magicState.
-            // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
-            // I.e. magic is added not filled
             Magic_Fill(play);
         }
+#endif
 
         Magic_RequestChange(play, 12, MAGIC_ADD);
 
@@ -1748,12 +1753,16 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         return item;
     } else if (item == ITEM_MAGIC_JAR_BIG) {
+        // Magic_Fill is only used to store the magicState.
+        // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
+        // I.e. magic is added not filled.
+#if OOT_VERSION < PAL_1_0
+        Magic_Fill(play);
+#else
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
-            // This function is only used to store the magicState.
-            // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
-            // I.e. magic is added not filled.
             Magic_Fill(play);
         }
+#endif
 
         Magic_RequestChange(play, 24, MAGIC_ADD);
 
@@ -2109,12 +2118,19 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
         action += DO_ACTION_MAX;
     }
 
+#if OOT_VERSION >= PAL_1_0
     if (gSaveContext.language == 2) { // LANGUAGE_FRA for PAL versions
         action += DO_ACTION_MAX;
     }
+#endif
 
+#if OOT_VERSION < PAL_1_0
+    if ((action != DO_ACTION_NONE) && (action != DO_ACTION_MAX + DO_ACTION_NONE))
+#else
     if ((action != DO_ACTION_NONE) && (action != DO_ACTION_MAX + DO_ACTION_NONE) &&
-        (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE)) {
+        (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE))
+#endif
+    {
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
         DMA_REQUEST_ASYNC(&interfaceCtx->dmaRequest_160,
                           interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),
@@ -2173,9 +2189,11 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
         action += DO_ACTION_MAX;
     }
 
+#if OOT_VERSION >= PAL_1_0
     if (gSaveContext.language == 2) { // LANGUAGE_FRA for PAL versions
         action += DO_ACTION_MAX;
     }
+#endif
 
     interfaceCtx->unk_1FC = action;
 
@@ -2764,7 +2782,9 @@ void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
 
 void Interface_DrawItemButtons(PlayState* play) {
     static void* cUpLabelTextures[] = LANGUAGE_ARRAY(gNaviCUpJPNTex, gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpENGTex);
+#if OOT_VERSION >= PAL_1_0
     static s16 startButtonLeftPos[] = { 132, 130, 130 };
+#endif
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     Player* player = GET_PLAYER(play);
     PauseContext* pauseCtx = &play->pauseCtx;
@@ -2816,13 +2836,17 @@ void Interface_DrawItemButtons(PlayState* play) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, START_BUTTON_R, START_BUTTON_G, START_BUTTON_B,
                             interfaceCtx->startAlpha);
 
-#if OOT_NTSC
-            gSPTextureRectangle(OVERLAY_DISP++, 132 << 2, 17 << 2, (132 + 22) << 2, 39 << 2, G_TX_RENDERTILE, 0, 0,
-                                (s32)(1.4277344 * (1 << 10)), (s32)(1.4277344 * (1 << 10)));
+#if OOT_VERSION < PAL_1_0
+            gSPTextureRectangle(OVERLAY_DISP++, R_START_BTN_X << 2, R_START_BTN_Y << 2, (R_START_BTN_X + 22) << 2,
+                                (R_START_BTN_Y + 22) << 2, G_TX_RENDERTILE, 0, 0, (s32)(1.4277344 * (1 << 10)),
+                                (s32)(1.4277344 * (1 << 10)));
+#elif OOT_NTSC
+            gSPTextureRectangle(OVERLAY_DISP++, 132 << 2, 17 << 2, (132 + 22) << 2, (17 + 22) << 2, G_TX_RENDERTILE, 0,
+                                0, (s32)(1.4277344 * (1 << 10)), (s32)(1.4277344 * (1 << 10)));
 #else
             gSPTextureRectangle(OVERLAY_DISP++, startButtonLeftPos[gSaveContext.language] << 2, 17 << 2,
-                                (startButtonLeftPos[gSaveContext.language] + 22) << 2, 39 << 2, G_TX_RENDERTILE, 0, 0,
-                                (s32)(1.4277344 * (1 << 10)), (s32)(1.4277344 * (1 << 10)));
+                                (startButtonLeftPos[gSaveContext.language] + 22) << 2, (17 + 22) << 2, G_TX_RENDERTILE,
+                                0, 0, (s32)(1.4277344 * (1 << 10)), (s32)(1.4277344 * (1 << 10)));
 #endif
 
             gDPPipeSync(OVERLAY_DISP++);
@@ -3005,7 +3029,7 @@ void Interface_DrawActionButton(PlayState* play) {
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
     Matrix_RotateX(interfaceCtx->unk_1F4 / 10000.0f, MTXMODE_APPLY);
 
-    gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_parameter.c", 3177), G_MTX_MODELVIEW | G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_parameter.c", 3177);
     gSPVertex(OVERLAY_DISP++, &interfaceCtx->actionVtx[0], 4, 0);
 
     gDPLoadTextureBlock(OVERLAY_DISP++, gButtonBackgroundTex, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
@@ -3372,8 +3396,7 @@ void Interface_Draw(PlayState* play) {
         Matrix_Translate(0.0f, 0.0f, R_A_LABEL_Z(gSaveContext.language) / 10.0f, MTXMODE_NEW);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateX(interfaceCtx->unk_1F4 / 10000.0f, MTXMODE_APPLY);
-        gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_parameter.c", 3701),
-                  G_MTX_MODELVIEW | G_MTX_LOAD);
+        MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_parameter.c", 3701);
         gSPVertex(OVERLAY_DISP++, &interfaceCtx->actionVtx[4], 4, 0);
 
         if ((interfaceCtx->unk_1EC < 2) || (interfaceCtx->unk_1EC == 3)) {
@@ -3391,9 +3414,9 @@ void Interface_Draw(PlayState* play) {
             gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
             Gfx_SetupDL_42Overlay(play->state.gfxCtx);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
-            gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+            gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            // PAUSE_QUAD_CURSOR_4
+            // PAUSE_CURSOR_QUAD_4
             pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] = pauseCtx->equipAnimX / 10;
             pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] =
                 pauseCtx->cursorVtx[16].v.ob[0] + WREG(90) / 10;
@@ -3404,7 +3427,7 @@ void Interface_Draw(PlayState* play) {
             if (pauseCtx->equipTargetItem < 0xBF) {
                 // Normal Equip (icon goes from the inventory slot to the C button when equipping it)
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, pauseCtx->equipAnimAlpha);
-                gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[PAUSE_QUAD_CURSOR_4 * 4], 4, 0);
+                gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[PAUSE_CURSOR_QUAD_4 * 4], 4, 0);
 
                 gDPLoadTextureBlock(OVERLAY_DISP++, gItemIcons[pauseCtx->equipTargetItem], G_IM_FMT_RGBA, G_IM_SIZ_32b,
                                     ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -3417,7 +3440,7 @@ void Interface_Draw(PlayState* play) {
 
                 if ((pauseCtx->equipAnimAlpha > 0) && (pauseCtx->equipAnimAlpha < 255)) {
                     svar1 = (pauseCtx->equipAnimAlpha / 8) / 2;
-                    // PAUSE_QUAD_CURSOR_4
+                    // PAUSE_CURSOR_QUAD_4
                     pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] =
                         pauseCtx->cursorVtx[16].v.ob[0] - svar1;
                     pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] =
@@ -3428,7 +3451,7 @@ void Interface_Draw(PlayState* play) {
                         pauseCtx->cursorVtx[16].v.ob[1] - svar1 * 2 - 32;
                 }
 
-                gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[PAUSE_QUAD_CURSOR_4 * 4], 4, 0);
+                gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[PAUSE_CURSOR_QUAD_4 * 4], 4, 0);
                 gDPLoadTextureBlock(OVERLAY_DISP++, gMagicArrowEquipEffectTex, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                     G_TX_NOLOD, G_TX_NOLOD);
@@ -3519,10 +3542,12 @@ void Interface_Draw(PlayState* play) {
             // Revert any spoiling trade quest items
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
+#if OOT_VERSION >= NTSC_1_1
                     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] &=
                         (u16) ~(EVENTINF_HORSES_STATE_MASK | EVENTINF_HORSES_HORSETYPE_MASK | EVENTINF_HORSES_05_MASK |
                                 EVENTINF_HORSES_06_MASK | EVENTINF_HORSES_0F_MASK);
                     PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_HORSES_INDEX]);
+#endif
                     play->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
 
@@ -3822,7 +3847,12 @@ void Interface_Draw(PlayState* play) {
                                         gSaveContext.subTimerSeconds--;
                                         PRINTF("TOTAL_EVENT_TM=%d\n", gSaveContext.subTimerSeconds);
 
-                                        if (gSaveContext.subTimerSeconds <= 0) {
+#if OOT_VERSION < PAL_1_0
+                                        if (gSaveContext.subTimerSeconds == 0)
+#else
+                                        if (gSaveContext.subTimerSeconds <= 0)
+#endif
+                                        {
                                             // Out of time
                                             if (!Flags_GetSwitch(play, 0x37) ||
                                                 ((play->sceneId != SCENE_GANON_BOSS) &&
@@ -4362,9 +4392,11 @@ void Interface_Update(PlayState* play) {
             play->nextEntranceIndex = gSaveContext.save.entranceIndex;
             play->transitionTrigger = TRANS_TRIGGER_START;
             gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
+#if OOT_VERSION >= PAL_1_0
             func_800F6964(30);
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
+#endif
         } else {
             gSaveContext.sunsSongState = SUNSSONG_SPECIAL;
         }

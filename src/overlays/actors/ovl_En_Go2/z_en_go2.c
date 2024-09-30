@@ -5,7 +5,7 @@
 #include "quake.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 /*
 FLAGS
@@ -66,7 +66,7 @@ static Vec3f sAccel = { 0.0f, 0.3f, 0.0f };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -74,7 +74,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,
@@ -234,8 +234,7 @@ void EnGo2_DrawEffects(EnGo2* this, PlayState* play) {
         Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_go2_eff.c", 137),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_go2_eff.c", 137);
         index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDustTex[index]));
         gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
@@ -573,7 +572,11 @@ s16 EnGo2_UpdateTalkStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     u8 dialogState = this->dialogState;
 
     switch (EnGo2_GetDialogState(this, play)) {
+#if OOT_VERSION < PAL_1_0
+        case TEXT_STATE_CLOSING:
+#else
         case TEXT_STATE_DONE:
+#endif
             if (this->actor.textId == 0x305E) {
                 if (!gSaveContext.save.info.playerData.bgsFlag) {
                     EnGo2_GetItem(this, play, GI_SWORD_BIGGORON);
@@ -901,7 +904,7 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
                 arg2 = this->actionFunc == EnGo2_ContinueRolling ? 1.5f : this->actor.speed * 1.5f;
 
                 play->damagePlayer(play, -4);
-                func_8002F71C(play, &this->actor, arg2, this->actor.yawTowardsPlayer, 6.0f);
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, arg2, this->actor.yawTowardsPlayer, 6.0f);
                 Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
                 this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
             }
@@ -1791,7 +1794,9 @@ void EnGo2_ReverseRolling(EnGo2* this, PlayState* play) {
 
 void EnGo2_SetupGetItem(EnGo2* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
+#if OOT_VERSION >= PAL_1_0
         this->actor.parent = NULL;
+#endif
         this->actionFunc = EnGo2_SetGetItem;
     } else {
         Actor_OfferGetItem(&this->actor, play, this->getItemId, this->actor.xzDistToPlayer + 1.0f,
@@ -1981,9 +1986,13 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
     EnGo2_RollForward(this);
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius * 0.6f,
                             0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+#if OOT_VERSION < PAL_1_0
+    func_80A44AB0(this, play);
+#else
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         func_80A44AB0(this, play);
     }
+#endif
     this->actionFunc(this, play);
     if (this->unk_211 == true) {
         func_80034F54(play, this->unk_226, this->unk_24A, 18);
@@ -1998,8 +2007,7 @@ s32 EnGo2_DrawCurledUp(EnGo2* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 2881);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_go2.c", 2884),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go2.c", 2884);
     gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00BD80);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2.c", 2889);
     Matrix_MultVec3f(&D_80A48554, &this->actor.focus.pos);
@@ -2016,8 +2024,7 @@ s32 EnGo2_DrawRolling(EnGo2* this, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     speedXZ = this->actionFunc == EnGo2_ReverseRolling ? 0.0f : this->actor.speed;
     Matrix_RotateZYX((play->state.frames * ((s16)speedXZ * 1400)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_go2.c", 2926),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go2.c", 2926);
     gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00C140);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2.c", 2930);
     Matrix_MultVec3f(&D_80A48560, &this->actor.focus.pos);

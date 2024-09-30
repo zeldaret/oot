@@ -7,7 +7,7 @@
 #include "z_en_ma1.h"
 #include "assets/objects/object_ma1/object_ma1.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void EnMa1_Init(Actor* thisx, PlayState* play);
 void EnMa1_Destroy(Actor* thisx, PlayState* play);
@@ -37,7 +37,7 @@ ActorProfile En_Ma1_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -45,7 +45,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -348,7 +348,7 @@ void EnMa1_IdleTeachSong(EnMa1* this, PlayState* play) {
             this->actor.textId = 0x2061;
             Message_StartTextbox(play, this->actor.textId, NULL);
             this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
-            this->actor.flags |= ACTOR_FLAG_16;
+            this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
             this->actionFunc = EnMa1_StartTeachSong;
         } else if (this->actor.xzDistToPlayer < 30.0f + this->collider.dim.radius) {
             player->stateFlags2 |= PLAYER_STATE2_23;
@@ -361,7 +361,7 @@ void EnMa1_StartTeachSong(EnMa1* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_MALON);
         Message_StartOcarina(play, OCARINA_ACTION_TEACH_EPONA);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->actionFunc = EnMa1_TeachSong;
     }
 }

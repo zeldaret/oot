@@ -74,7 +74,7 @@ static f32 sFocusHeights[] = {
 static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
             ATELEM_NONE,
@@ -85,7 +85,7 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
             ATELEM_NONE,
@@ -98,7 +98,7 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
 
 static ColliderTrisInit sRustyFloorTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -112,7 +112,7 @@ static ColliderTrisInit sRustyFloorTrisInit = {
 static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK4,
+            ELEM_MATERIAL_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
             ATELEM_NONE,
@@ -123,7 +123,7 @@ static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
             ATELEM_NONE,
@@ -136,7 +136,7 @@ static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
 
 static ColliderTrisInit sEyeTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -150,7 +150,7 @@ static ColliderTrisInit sEyeTrisInit = {
 static ColliderJntSphElementInit sCrystalJntSphElementInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xEFC1FFFE, 0x00, 0x00 },
             ATELEM_NONE,
@@ -163,7 +163,7 @@ static ColliderJntSphElementInit sCrystalJntSphElementInit[1] = {
 
 static ColliderJntSphInit sCrystalJntSphInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -771,8 +771,7 @@ void ObjSwitch_DrawEye(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1462),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_switch.c", 1462);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[subType][this->eyeTexIndex]));
     gSPDisplayList(POLY_OPA_DISP++, eyeSwitchDLs[subType]);
 
@@ -803,8 +802,7 @@ void ObjSwitch_DrawCrystal(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1494);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1497),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_obj_switch.c", 1497);
     gSPDisplayList(POLY_XLU_DISP++, xluDLists[subType]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1502);
@@ -812,8 +810,7 @@ void ObjSwitch_DrawCrystal(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1507);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1511),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_switch.c", 1511);
 
     if (subType == OBJSWITCH_SUBTYPE_TOGGLE) {
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(this->crystalSubtype1texture));

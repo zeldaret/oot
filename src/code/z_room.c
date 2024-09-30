@@ -1,6 +1,7 @@
 #include "global.h"
 #include "fault.h"
 #include "terminal.h"
+#include "versions.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -46,14 +47,14 @@ void Room_DrawNormal(PlayState* play, Room* room, u32 flags) {
         func_800342EC(&D_801270A0, play);
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(play);
-        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     }
 
     if (flags & ROOM_DRAW_XLU) {
         func_8003435C(&D_801270A0, play);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     }
 
     roomShape = &room->roomShape->normal;
@@ -120,7 +121,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
         func_800342EC(&D_801270A0, play);
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(play);
-        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     }
 
     if (1) {}
@@ -129,7 +130,7 @@ void Room_DrawCullable(PlayState* play, Room* room, u32 flags) {
         func_8003435C(&D_801270A0, play);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     }
 
     roomShape = &room->roomShape->cullable;
@@ -350,6 +351,14 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     *gfxP = gfx;
 }
 
+#if OOT_VERSION < PAL_1_0
+void func_8007FF50(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 tlutMode,
+                   u16 tlutCount) {
+    if (1) {}
+    Room_DrawBackground2D(gfxP, tex, tlut, width, height, fmt, siz, tlutMode, tlutCount, 0.0f, 0.0f);
+}
+#endif
+
 #define ROOM_IMAGE_NODRAW_BACKGROUND (1 << 0)
 #define ROOM_IMAGE_NODRAW_OPA (1 << 1)
 #define ROOM_IMAGE_NODRAW_XLU (1 << 2)
@@ -380,7 +389,7 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
 
         if (drawOpa) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
-            gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, entry->opa);
         }
 
@@ -389,6 +398,9 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
 
             gfx = POLY_OPA_DISP;
 
+#if OOT_VERSION < PAL_1_0
+            if (1)
+#endif
             {
                 Vec3f quakeOffset;
 
@@ -408,7 +420,7 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
     if (drawXlu) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, entry->xlu);
     }
 
@@ -485,7 +497,7 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
 
         if (drawOpa) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
-            gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, dListsEntry->opa);
         }
 
@@ -494,6 +506,9 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
 
             gfx = POLY_OPA_DISP;
 
+#if OOT_VERSION < PAL_1_0
+            if (1)
+#endif
             {
                 Vec3f quakeOffset;
 
@@ -513,7 +528,7 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
     if (drawXlu) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, dListsEntry->xlu);
     }
 

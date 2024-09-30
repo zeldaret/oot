@@ -1,4 +1,5 @@
 #include "global.h"
+#include "versions.h"
 
 void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
@@ -161,8 +162,13 @@ void Interface_Init(PlayState* play) {
             gSaveContext.timerY[timerId] = 46; // one row of hearts
         }
     }
-
-    if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE)) {
+#if OOT_VERSION < PAL_1_0
+    else if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE))
+#else
+    // No "else"
+    if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE))
+#endif
+    {
         gSaveContext.timerState = TIMER_STATE_OFF;
         PRINTF(T("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n",
                  "Timer Stop!!!!!!!!!!!!!!!!!!!!!  = %d\n"),
@@ -372,12 +378,18 @@ void Regs_InitDataImpl(void) {
     R_START_LABEL_X(2) = 119;
 #endif
 
-    ZREG(61) = 1;
-    R_C_UP_BTN_X = C_UP_BUTTON_X;
-    R_C_UP_BTN_Y = C_UP_BUTTON_Y;
-    ZREG(64) = 20;
+    R_PAUSE_QUEST_MEDALLION_SHINE_TIME(0) = 1;
+    //! @bug Overlapping reg usage
+    R_C_UP_BTN_X = C_UP_BUTTON_X; // R_PAUSE_QUEST_MEDALLION_SHINE_TIME(1)
+    R_C_UP_BTN_Y = C_UP_BUTTON_Y; // R_PAUSE_QUEST_MEDALLION_SHINE_TIME(2)
+    R_PAUSE_QUEST_MEDALLION_SHINE_TIME(3) = 20;
+
     ZREG(65) = 21;
     ZREG(66) = 122;
+#if OOT_VERSION < PAL_1_0
+    R_START_BTN_X = 132;
+    R_START_BTN_Y = 17;
+#endif
     R_ITEM_BTN_X(1) = C_LEFT_BUTTON_X;
     R_ITEM_BTN_X(2) = C_DOWN_BUTTON_X;
     R_ITEM_BTN_X(3) = C_RIGHT_BUTTON_X;
@@ -493,8 +505,8 @@ void Regs_InitDataImpl(void) {
     XREG(93) = 100;
     XREG(94) = 160;
     XREG(95) = 200;
-    WREG(2) = -6080;
-    WREG(3) = 9355;
+    R_PAUSE_PAGES_Y_ORIGIN_2 = -6080;
+    R_PAUSE_DEPTH_OFFSET = 9355;
     WREG(4) = 8;
     WREG(5) = 3;
     WREG(6) = 8;
@@ -647,10 +659,10 @@ void Regs_InitDataImpl(void) {
     VREG(57) = 255;
     VREG(58) = 255;
     VREG(59) = 255;
-    VREG(60) = 20;
-    VREG(61) = 100;
-    VREG(62) = 0;
-    VREG(63) = 10;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER_BASE = 20;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA = 100;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_STATE = 0;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER = 10;
     R_ITEM_AMMO_X(1) = C_LEFT_BUTTON_X + 1;
     R_ITEM_AMMO_X(2) = C_DOWN_BUTTON_X + 1;
     R_ITEM_AMMO_X(3) = C_RIGHT_BUTTON_X + 1;

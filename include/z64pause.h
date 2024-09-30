@@ -6,6 +6,7 @@
 #include "z64view.h"
 
 struct OcarinaStaff;
+struct PlayState;
 
 #define PAUSE_ITEM_NONE 999
 
@@ -86,23 +87,34 @@ typedef enum PauseState {
 typedef enum PauseMainState {
     /* 0 */ PAUSE_MAIN_STATE_IDLE,
     /* 1 */ PAUSE_MAIN_STATE_SWITCHING_PAGE,
-    /* 2 */ PAUSE_MAIN_STATE_2,
+    /* 2 */ PAUSE_MAIN_STATE_SONG_PLAYBACK, // The song is being played back to the player.
     /* 3 */ PAUSE_MAIN_STATE_3,
-    /* 4 */ PAUSE_MAIN_STATE_4,
-    /* 5 */ PAUSE_MAIN_STATE_5,
-    /* 6 */ PAUSE_MAIN_STATE_6,
+    /* 4 */ PAUSE_MAIN_STATE_SONG_PROMPT_INIT, // Start the prompt for the player to play the song.
+    /* 5 */ PAUSE_MAIN_STATE_SONG_PROMPT, // Waiting for the player to play the song.
+    /* 6 */ PAUSE_MAIN_STATE_SONG_PROMPT_DONE, // The song prompt is done, the player either played the song successfully or made a mistake.
     /* 7 */ PAUSE_MAIN_STATE_7,
-    /* 8 */ PAUSE_MAIN_STATE_8,
-    /* 9 */ PAUSE_MAIN_STATE_9
+    /* 8 */ PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG, // Like PAUSE_MAIN_STATE_IDLE, but the quest page is active and the cursor is positioned on a song.
+    /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START // Start playing the song back to the player.
 } PauseMainState;
 
+// Sub-states of PAUSE_STATE_SAVE_PROMPT
+typedef enum PauseSavePromptState {
+    /* 0 */ PAUSE_SAVE_PROMPT_STATE_APPEARING,
+    /* 1 */ PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE,
+    /* 2 */ PAUSE_SAVE_PROMPT_STATE_CLOSING,
+    /* 3 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU,
+    /* 4 */ PAUSE_SAVE_PROMPT_STATE_SAVED,
+    /* 5 */ PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED,
+    /* 6 */ PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_2 // unused
+} PauseSavePromptState;
+
 typedef enum PauseCursorQuad {
-    /* 0 */ PAUSE_QUAD_CURSOR_TL,
-    /* 1 */ PAUSE_QUAD_CURSOR_TR,
-    /* 2 */ PAUSE_QUAD_CURSOR_BL,
-    /* 3 */ PAUSE_QUAD_CURSOR_BR,
-    /* 4 */ PAUSE_QUAD_CURSOR_4,
-    /* 5 */ PAUSE_QUAD_CURSOR_MAX
+    /* 0 */ PAUSE_CURSOR_QUAD_TL,
+    /* 1 */ PAUSE_CURSOR_QUAD_TR,
+    /* 2 */ PAUSE_CURSOR_QUAD_BL,
+    /* 3 */ PAUSE_CURSOR_QUAD_BR,
+    /* 4 */ PAUSE_CURSOR_QUAD_4,
+    /* 5 */ PAUSE_CURSOR_QUAD_MAX
 } PauseCursorQuad;
 
 typedef enum WorldMapPoint {
@@ -129,6 +141,11 @@ typedef enum WorldMapPointState {
     /* 2 */ WORLD_MAP_POINT_STATE_HIGHLIGHT
 } WorldMapPointState;
 
+// Values for PauseContext.pagesYOrigin1 and R_PAUSE_PAGES_Y_ORIGIN_2 respectively,
+// that make the pause pages rotate around their lower edge instead of the middle.
+#define PAUSE_PAGES_Y_ORIGIN_1_LOWER 80 // PAGE_BG_ROWS * PAGE_BG_QUAD_HEIGHT / 2
+#define PAUSE_PAGES_Y_ORIGIN_2_LOWER (s16)(-PAUSE_PAGES_Y_ORIGIN_1_LOWER * 0.78 * 100)
+
 typedef struct PauseContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ u8* iconItemSegment;
@@ -148,7 +165,7 @@ typedef struct PauseContext {
     /* 0x0160 */ char unk_160[0x04];
     /* 0x0164 */ Vtx* questVtx;
     /* 0x0168 */ Vtx* cursorVtx;
-    /* 0x016C */ Vtx* saveVtx;
+    /* 0x016C */ Vtx* promptPageVtx; // Used by both the pause menu save prompt and the gameover prompt
     /* 0x0170 */ char unk_170[0x24];
     /* 0x0194 */ struct OcarinaStaff* ocarinaStaff;
     /* 0x0198 */ char unk_198[0x20];
@@ -161,15 +178,15 @@ typedef struct PauseContext {
     /* 0x01E6 */ u16 nextPageMode; // During a page switch, indicates the page before switching and the direction to scroll in. Value is `(2 * prev pageIndex) + (scroll left ? 1 : 0)`
     /* 0x01E8 */ u16 pageIndex; // "kscp_pos"
     /* 0x01EA */ u16 pageSwitchTimer;
-    /* 0x01EC */ u16 unk_1EC;
-    /* 0x01F0 */ f32 unk_1F0;
-    /* 0x01F4 */ f32 unk_1F4;
-    /* 0x01F8 */ f32 unk_1F8;
-    /* 0x01FC */ f32 unk_1FC;
-    /* 0x0200 */ f32 unk_200;
-    /* 0x0204 */ f32 unk_204; // "angle_s"
+    /* 0x01EC */ u16 savePromptState;
+    /* 0x01F0 */ f32 promptDepthOffset; // Offset position of the prompt away from the camera
+    /* 0x01F4 */ f32 itemPagePitch; // Rotation of the item page around its local horizontal/sideways axis
+    /* 0x01F8 */ f32 equipPagePitch; // Rotation of the equip page around its local horizontal/sideways axis
+    /* 0x01FC */ f32 mapPagePitch; // Rotation of the map page around its local horizontal/sideways axis
+    /* 0x0200 */ f32 questPagePitch; // Rotation of the quest page around its local horizontal/sideways axis
+    /* 0x0204 */ f32 promptPitch; // Rotation of the prompt around its local horizontal/sideways axis. "angle_s"
     /* 0x0208 */ u16 alpha;
-    /* 0x020A */ s16 offsetY;
+    /* 0x020A */ s16 pagesYOrigin1;
     /* 0x020C */ char unk_20C[0x08];
     /* 0x0214 */ s16 stickAdjX;
     /* 0x0216 */ s16 stickAdjY;
@@ -228,5 +245,9 @@ typedef struct PauseMapMarkData {
 } PauseMapMarkData; // size = 0xA4
 
 typedef PauseMapMarkData PauseMapMarksData[3];
+
+void KaleidoSetup_Update(struct PlayState* play);
+void KaleidoSetup_Init(struct PlayState* play);
+void KaleidoSetup_Destroy(struct PlayState* play);
 
 #endif

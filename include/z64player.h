@@ -72,7 +72,7 @@ typedef enum PlayerEnvHazard {
 
 typedef enum PlayerItemAction {
     /* 0x00 */ PLAYER_IA_NONE,
-    /* 0x01 */ PLAYER_IA_SWORD_CS, // Hold sword without shield in hand. The sword is not useable.
+    /* 0x01 */ PLAYER_IA_SWORD_CS, // Hold sword without shield in hand. The sword is not usable.
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
     /* 0x03 */ PLAYER_IA_SWORD_MASTER,
     /* 0x04 */ PLAYER_IA_SWORD_KOKIRI,
@@ -604,6 +604,21 @@ typedef enum PlayerStickDirection {
     /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 
+typedef enum {
+    /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
+    /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
+    /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
+    /* 3 */ PLAYER_KNOCKBACK_LARGE_SHOCK // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
+} PlayerKnockbackType;
+
+typedef enum {
+    /* 0 */ PLAYER_HIT_RESPONSE_NONE,
+    /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
+    /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
+    /* 3 */ PLAYER_HIT_RESPONSE_ICE_TRAP,
+    /* 4 */ PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK
+} PlayerDamageResponseType;
+
 typedef struct PlayerAgeProperties {
     /* 0x00 */ f32 ceilingCheckHeight;
     /* 0x04 */ f32 unk_04;
@@ -652,19 +667,19 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1) // Bottle is swung; Bottle is active and can catch things
 #define PLAYER_STATE1_2 (1 << 2)
 #define PLAYER_STATE1_3 (1 << 3)
-#define PLAYER_STATE1_4 (1 << 4)
+#define PLAYER_STATE1_HOSTILE_LOCK_ON (1 << 4) // Currently locked onto a hostile actor. Triggers a "battle" variant of many actions.
 #define PLAYER_STATE1_5 (1 << 5)
 #define PLAYER_STATE1_6 (1 << 6)
-#define PLAYER_STATE1_7 (1 << 7)
+#define PLAYER_STATE1_DEAD (1 << 7) // Player has died. Note that this gets set when the death cutscene has started, after landing from the air.
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
-#define PLAYER_STATE1_ACTOR_CARRY (1 << 11) // Currently carrying an actor
-#define PLAYER_STATE1_12 (1 << 12)
+#define PLAYER_STATE1_CARRYING_ACTOR (1 << 11) // Currently carrying an actor
+#define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charing a spin attack (by holding down the B button)
 #define PLAYER_STATE1_13 (1 << 13)
 #define PLAYER_STATE1_14 (1 << 14)
-#define PLAYER_STATE1_15 (1 << 15)
-#define PLAYER_STATE1_16 (1 << 16)
+#define PLAYER_STATE1_Z_TARGETING (1 << 15) // Either lock-on or parallel is active. This flag is never checked for and is practically unused.
+#define PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS (1 << 16) // Currently focusing on a friendly actor. Includes friendly lock-on, talking, and more. Usually does not include hostile actor lock-on, see `PLAYER_STATE1_HOSTILE_LOCK_ON`.
 #define PLAYER_STATE1_PARALLEL (1 << 17) // "Parallel" mode, Z-Target without an actor lock-on
 #define PLAYER_STATE1_18 (1 << 18)
 #define PLAYER_STATE1_19 (1 << 19)
@@ -672,17 +687,17 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_21 (1 << 21)
 #define PLAYER_STATE1_22 (1 << 22)
 #define PLAYER_STATE1_23 (1 << 23)
-#define PLAYER_STATE1_24 (1 << 24)
-#define PLAYER_STATE1_25 (1 << 25)
+#define PLAYER_STATE1_USING_BOOMERANG (1 << 24) // Currently using the boomerang. This includes all phases (aiming, throwing, and catching).
+#define PLAYER_STATE1_BOOMERANG_THROWN (1 << 25) // Boomerang has been thrown and is flying in the air
 #define PLAYER_STATE1_26 (1 << 26)
 #define PLAYER_STATE1_27 (1 << 27)
 #define PLAYER_STATE1_28 (1 << 28)
 #define PLAYER_STATE1_29 (1 << 29)
-#define PLAYER_STATE1_30 (1 << 30)
+#define PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE (1 << 30) // Lock-on was released automatically, for example by leaving the lock-on leash range
 #define PLAYER_STATE1_31 (1 << 31)
 
 #define PLAYER_STATE2_0 (1 << 0)
-#define PLAYER_STATE2_1 (1 << 1)
+#define PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER (1 << 1) // Can accept a talk offer. "Speak" or "Check" is shown on the A button.
 #define PLAYER_STATE2_2 (1 << 2)
 #define PLAYER_STATE2_3 (1 << 3)
 #define PLAYER_STATE2_4 (1 << 4)
@@ -694,14 +709,14 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_10 (1 << 10)
 #define PLAYER_STATE2_11 (1 << 11)
 #define PLAYER_STATE2_12 (1 << 12)
-#define PLAYER_STATE2_13 (1 << 13)
+#define PLAYER_STATE2_LOCK_ON_WITH_SWITCH (1 << 13) // Actor lock-on is active, specifically with Switch Targeting. Hold Targeting checks the state of the Z button instead of this flag.
 #define PLAYER_STATE2_14 (1 << 14)
 #define PLAYER_STATE2_15 (1 << 15)
 #define PLAYER_STATE2_DO_ACTION_ENTER (1 << 16) // Sets the "Enter On A" DoAction
 #define PLAYER_STATE2_17 (1 << 17)
 #define PLAYER_STATE2_CRAWLING (1 << 18) // Crawling through a crawlspace
 #define PLAYER_STATE2_19 (1 << 19)
-#define PLAYER_STATE2_20 (1 << 20)
+#define PLAYER_STATE2_NAVI_ACTIVE (1 << 20) // Navi is visible and active. Could be hovering idle near Link or hovering over other actors.
 #define PLAYER_STATE2_21 (1 << 21)
 #define PLAYER_STATE2_22 (1 << 22)
 #define PLAYER_STATE2_23 (1 << 23)
@@ -721,7 +736,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE3_4 (1 << 4)
 #define PLAYER_STATE3_5 (1 << 5)
 #define PLAYER_STATE3_RESTORE_NAYRUS_LOVE (1 << 6) // Set by ocarina effects actors when destroyed to signal Nayru's Love may be restored (see `ACTOROVL_ALLOC_ABSOLUTE`)
-#define PLAYER_STATE3_7 (1 << 7)
+#define PLAYER_STATE3_FLYING_WITH_HOOKSHOT (1 << 7) // Flying in the air with the hookshot as it pulls Player toward its destination
 
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
 typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
@@ -797,13 +812,13 @@ typedef struct Player {
     /* 0x05E4 */ ColliderQuad shieldQuad;
     /* 0x0664 */ Actor* focusActor; // Actor that Player and the camera are looking at; Used for lock-on, talking, and more
     /* 0x0668 */ char unk_668[0x004];
-    /* 0x066C */ s32 unk_66C;
+    /* 0x066C */ s32 zTargetActiveTimer; // Non-zero values indicate Z-Targeting should update; Values under 5 indicate lock-on is releasing
     /* 0x0670 */ s32 meleeWeaponEffectIndex;
     /* 0x0674 */ PlayerActionFunc actionFunc;
     /* 0x0678 */ PlayerAgeProperties* ageProperties;
     /* 0x067C */ u32 stateFlags1;
     /* 0x0680 */ u32 stateFlags2;
-    /* 0x0684 */ Actor* unk_684;
+    /* 0x0684 */ Actor* autoLockOnActor; // Actor that is locked onto automatically without player input; see `Player_SetAutoLockOnActor`
     /* 0x0688 */ Actor* boomerangActor;
     /* 0x068C */ Actor* naviActor;
     /* 0x0690 */ s16 naviTextId;
@@ -835,7 +850,7 @@ typedef struct Player {
     /* 0x0830 */ f32 upperAnimInterpWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
-    /* 0x0837 */ u8 unk_837;
+    /* 0x0837 */ u8 putAwayCooldownTimer;
     /* 0x0838 */ f32 speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
     /* 0x083C */ s16 yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
     /* 0x083E */ s16 parallelYaw; // yaw in "parallel" mode, Z-Target without an actor lock-on
@@ -854,6 +869,7 @@ typedef struct Player {
 
     /* 0x0850 */ union {
         s16 actionVar2;
+        s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;
@@ -875,7 +891,7 @@ typedef struct Player {
     /* 0x088C */ u8 ledgeClimbType;
     /* 0x088D */ u8 ledgeClimbDelayTimer;
     /* 0x088E */ u8 unk_88E;
-    /* 0x088F */ u8 unk_88F;
+    /* 0x088F */ u8 damageFlickerAnimCounter; // Used to flicker Link after taking damage
     /* 0x0890 */ u8 unk_890;
     /* 0x0891 */ u8 bodyShockTimer;
     /* 0x0892 */ u8 unk_892;
@@ -886,11 +902,11 @@ typedef struct Player {
     /* 0x089A */ s16 floorPitchAlt; // the calculation for this value is bugged and doesn't represent anything meaningful
     /* 0x089C */ s16 unk_89C;
     /* 0x089E */ u16 floorSfxOffset;
-    /* 0x08A0 */ u8 unk_8A0;
-    /* 0x08A1 */ u8 unk_8A1;
-    /* 0x08A2 */ s16 unk_8A2;
-    /* 0x08A4 */ f32 unk_8A4;
-    /* 0x08A8 */ f32 unk_8A8;
+    /* 0x08A0 */ u8 knockbackDamage;
+    /* 0x08A1 */ u8 knockbackType;
+    /* 0x08A2 */ s16 knockbackRot;
+    /* 0x08A4 */ f32 knockbackSpeed;
+    /* 0x08A8 */ f32 knockbackYVelocity;
     /* 0x08AC */ f32 pushedSpeed; // Pushing player, examples include water currents, floor conveyors, climbing sloped surfaces
     /* 0x08B0 */ s16 pushedYaw; // Yaw direction of player being pushed
     /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
@@ -901,7 +917,7 @@ typedef struct Player {
     /* 0x0A61 */ u8 bodyFlameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8 unk_A73;
     /* 0x0A74 */ AfterPutAwayFunc afterPutAwayFunc; // See `Player_SetupWaitForPutAway` and `Player_Action_WaitForPutAway`
-    /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
+    /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero. Positive values are intangibility, negative are invulnerability
     /* 0x0A79 */ u8 floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
     /* 0x0A7A */ u8 floorProperty;
     /* 0x0A7B */ u8 prevFloorType;
@@ -913,5 +929,59 @@ typedef struct Player {
     /* 0x0A87 */ u8 unk_A87;
     /* 0x0A88 */ Vec3f unk_A88; // previous body part 0 position
 } Player; // size = 0xA94
+
+// z_player_lib public functions
+void Player_SetBootData(struct PlayState* play, Player* this);
+int Player_InBlockingCsMode(struct PlayState* play, Player* this);
+int Player_InCsMode(struct PlayState* play);
+s32 Player_CheckHostileLockOn(Player* this);
+int Player_IsChildWithHylianShield(Player* this);
+s32 Player_ActionToModelGroup(Player* this, s32 itemAction);
+void Player_SetModelsForHoldingShield(Player* this);
+void Player_SetModels(Player* this, s32 modelGroup);
+void Player_SetModelGroup(Player* this, s32 modelGroup);
+void func_8008EC70(Player* this);
+void Player_SetEquipmentData(struct PlayState* play, Player* this);
+void Player_UpdateBottleHeld(struct PlayState* play, Player* this, s32 item, s32 itemAction);
+void Player_ReleaseLockOn(Player* this);
+void Player_ClearZTargeting(Player* this);
+void Player_SetAutoLockOnActor(struct PlayState* play, Actor* actor);
+s32 func_8008EF44(struct PlayState* play, s32 ammo);
+int Player_IsBurningStickInRange(struct PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange);
+s32 Player_GetStrength(void);
+u8 Player_GetMask(struct PlayState* play);
+Player* Player_UnsetMask(struct PlayState* play);
+s32 Player_HasMirrorShieldEquipped(struct PlayState* play);
+int Player_HasMirrorShieldSetToDraw(struct PlayState* play);
+s32 Player_ActionToMagicSpell(Player* this, s32 itemAction);
+int Player_HoldsHookshot(Player* this);
+int func_8008F128(Player* this);
+s32 Player_ActionToMeleeWeapon(s32 itemAction);
+s32 Player_GetMeleeWeaponHeld(Player* this);
+s32 Player_HoldsTwoHandedWeapon(Player* this);
+int Player_HoldsBrokenKnife(Player* this);
+s32 Player_ActionToBottle(Player* this, s32 itemAction);
+s32 Player_GetBottleHeld(Player* this);
+s32 Player_ActionToExplosive(Player* this, s32 itemAction);
+s32 Player_GetExplosiveHeld(Player* this);
+s32 func_8008F2BC(Player* this, s32 itemAction);
+s32 Player_GetEnvironmentalHazard(struct PlayState* play);
+void Player_DrawImpl(struct PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
+                     s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
+                     void* data);
+s32 Player_OverrideLimbDrawGameplayCommon(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                          void* thisx);
+s32 Player_OverrideLimbDrawGameplayDefault(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                           void* thisx);
+s32 Player_OverrideLimbDrawGameplayFirstPerson(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos,
+                                               Vec3s* rot, void* thisx);
+s32 Player_OverrideLimbDrawGameplayCrawling(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                            void* thisx);
+u8 func_80090480(struct PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase);
+void Player_DrawGetItem(struct PlayState* play, Player* this);
+void Player_PostLimbDrawGameplay(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
+u32 Player_InitPauseDrawData(struct PlayState* play, u8* segment, SkelAnime* skelAnime);
+void Player_DrawPause(struct PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
+                      s32 sword, s32 tunic, s32 shield, s32 boots);
 
 #endif

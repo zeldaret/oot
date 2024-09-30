@@ -3,6 +3,7 @@
 #include "quake.h"
 #include "rand.h"
 #include "terminal.h"
+#include "versions.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
@@ -10,7 +11,8 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
@@ -71,7 +73,7 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist,
         temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.shadowScale;
         Matrix_Scale(actor->scale.x * temp2, 1.0f, actor->scale.z * temp2, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 1588), G_MTX_MODELVIEW | G_MTX_LOAD);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 1588);
         gSPDisplayList(POLY_OPA_DISP++, dlist);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 1594);
@@ -109,7 +111,7 @@ void ActorShadow_DrawFoot(PlayState* play, Light* light, MtxF* arg2, s32 arg3, f
     Matrix_RotateY(sp58, MTXMODE_APPLY);
     Matrix_Scale(arg5, 1.0f, arg5 * arg6, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 1687), G_MTX_MODELVIEW | G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 1687);
     gSPDisplayList(POLY_OPA_DISP++, gFootShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 1693);
@@ -414,8 +416,7 @@ void Attention_Draw(Attention* attention, PlayState* play) {
                         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
                         Matrix_Push();
                         Matrix_Translate(reticle->radius, reticle->radius, 0.0f, MTXMODE_APPLY);
-                        gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2116),
-                                  G_MTX_MODELVIEW | G_MTX_LOAD);
+                        MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx, "../z_actor.c", 2116);
                         gSPDisplayList(OVERLAY_DISP++, gLockOnReticleTriangleDL);
                         Matrix_Pop();
                     }
@@ -444,7 +445,7 @@ void Attention_Draw(Attention* attention, PlayState* play) {
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, attentionColor->primary.r, attentionColor->primary.g,
                         attentionColor->primary.b, 255);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2153), G_MTX_MODELVIEW | G_MTX_LOAD);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_actor.c", 2153);
         gSPDisplayList(POLY_XLU_DISP++, gLockOnArrowDL);
     }
 
@@ -1103,7 +1104,7 @@ int func_8002DD78(Player* player) {
 int func_8002DDA8(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    return (player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) || func_8002DD78(player);
+    return (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) || func_8002DD78(player);
 }
 
 s32 func_8002DDE4(PlayState* play) {
@@ -1142,7 +1143,8 @@ void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
 }
 
 int func_8002DEEC(Player* player) {
-    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csAction != PLAYER_CSACTION_NONE);
+    return (player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_29)) ||
+           (player->csAction != PLAYER_CSACTION_NONE);
 }
 
 void func_8002DF18(PlayState* play, Player* player) {
@@ -1806,12 +1808,13 @@ u32 Actor_HasParent(Actor* actor, PlayState* play) {
 s32 Actor_OfferGetItem(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = GET_PLAYER(play);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
-                                 PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21)) &&
+    if (!(player->stateFlags1 &
+          (PLAYER_STATE1_DEAD | PLAYER_STATE1_CHARGING_SPIN_ATTACK | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
+           PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21)) &&
         Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (actor == player->talkActor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
-            (!(player->stateFlags1 & (PLAYER_STATE1_ACTOR_CARRY | PLAYER_STATE1_29)))) {
+            (!(player->stateFlags1 & (PLAYER_STATE1_CARRYING_ACTOR | PLAYER_STATE1_29)))) {
             if ((actor->xzDistToPlayer < xzRange) && (fabsf(actor->yDistToPlayer) < yRange)) {
                 s16 yawDiff = actor->yawTowardsPlayer - player->actor.shape.rot.y;
                 s32 absYawDiff = ABS(yawDiff);
@@ -1880,8 +1883,8 @@ u32 Actor_SetRideActor(PlayState* play, Actor* horse, s32 mountSide) {
     Player* player = GET_PLAYER(play);
 
     if (!(player->stateFlags1 &
-          (PLAYER_STATE1_7 | PLAYER_STATE1_ACTOR_CARRY | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
-           PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21))) {
+          (PLAYER_STATE1_DEAD | PLAYER_STATE1_CARRYING_ACTOR | PLAYER_STATE1_CHARGING_SPIN_ATTACK | PLAYER_STATE1_13 |
+           PLAYER_STATE1_14 | PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21))) {
         player->rideActor = horse;
         player->mountSide = mountSide;
         return true;
@@ -1898,30 +1901,79 @@ s32 Actor_NotMounted(PlayState* play, Actor* horse) {
     }
 }
 
-void func_8002F698(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5, u32 arg6) {
+/**
+ * Sets the player's knockback properties
+ *
+ * @param play
+ * @param actor source actor applying knockback damage
+ * @param speed
+ * @param rot the direction the player will be pushed
+ * @param yVelocity
+ * @param type PlayerKnockbackType
+ * @param damage additional amount of damage to deal to the player
+ */
+void Actor_SetPlayerKnockback(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 type, u32 damage) {
     Player* player = GET_PLAYER(play);
 
-    player->unk_8A0 = arg6;
-    player->unk_8A1 = arg5;
-    player->unk_8A4 = arg2;
-    player->unk_8A2 = arg3;
-    player->unk_8A8 = arg4;
+    player->knockbackDamage = damage;
+    player->knockbackType = type;
+    player->knockbackSpeed = speed;
+    player->knockbackRot = rot;
+    player->knockbackYVelocity = yVelocity;
 }
 
-void func_8002F6D4(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
-    func_8002F698(play, actor, arg2, arg3, arg4, 2, arg5);
+/**
+ * Knocks the player to the ground
+ *
+ * @param play
+ * @param actor source actor applying knockback damage
+ * @param speed
+ * @param rot the direction the player will be pushed
+ * @param yVelocity
+ * @param damage additional amount of damage to deal to the player
+ */
+void Actor_SetPlayerKnockbackLarge(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
+    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCKBACK_LARGE, damage);
 }
 
-void func_8002F71C(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4) {
-    func_8002F6D4(play, actor, arg2, arg3, arg4, 0);
+/**
+ * Knocks the player to the ground, without applying additional damage
+ *
+ * @param play
+ * @param actor source actor applying knockback damage
+ * @param speed
+ * @param rot the direction the player will be pushed
+ * @param yVelocity
+ */
+void Actor_SetPlayerKnockbackLargeNoDamage(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity) {
+    Actor_SetPlayerKnockbackLarge(play, actor, speed, rot, yVelocity, 0);
 }
 
-void func_8002F758(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5) {
-    func_8002F698(play, actor, arg2, arg3, arg4, 1, arg5);
+/**
+ * Knocks the player back while keeping them on their feet
+ *
+ * @param play
+ * @param actor
+ * @param speed overridden
+ * @param rot the direction the player will be pushed
+ * @param yVelocity overridden
+ * @param damage additional amount of damage to deal to the player
+ */
+void Actor_SetPlayerKnockbackSmall(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
+    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCKBACK_SMALL, damage);
 }
 
-void func_8002F7A0(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4) {
-    func_8002F758(play, actor, arg2, arg3, arg4, 0);
+/**
+ * Knocks the player back while keeping them on their feet, without applying additional damage
+ *
+ * @param play
+ * @param actor
+ * @param speed overridden
+ * @param rot the direction the player will be pushed
+ * @param yVelocity overridden
+ */
+void Actor_SetPlayerKnockbackSmallNoDamage(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity) {
+    Actor_SetPlayerKnockbackSmall(play, actor, speed, rot, yVelocity, 0);
 }
 
 /**
@@ -2019,7 +2071,8 @@ s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, 
     return false;
 }
 
-#pragma increment_block_number "gc-eu:22 gc-eu-mq:22 gc-jp:22 gc-jp-ce:22 gc-jp-mq:22 gc-us:22 gc-us-mq:22"
+#pragma increment_block_number "gc-eu:22 gc-eu-mq:22 gc-jp:22 gc-jp-ce:22 gc-jp-mq:22 gc-us:22 gc-us-mq:22" \
+                               "ntsc-1.2:22 pal-1.0:22 pal-1.1:22"
 
 // Local data used for Farore's Wind light (stored in BSS)
 LightInfo D_8015BC00;
@@ -2188,15 +2241,13 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
 
             Matrix_RotateZ(BINANG_TO_RAD_ALT2((play->gameplayFrames * 1500) & 0xFFFF), MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 5458),
-                      G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_actor.c", 5458);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
 
             Matrix_Pop();
             Matrix_RotateZ(BINANG_TO_RAD_ALT2(~((play->gameplayFrames * 1200) & 0xFFFF)), MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 5463),
-                      G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_actor.c", 5463);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
         }
 
@@ -2257,29 +2308,29 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
 
 u32 sCategoryFreezeMasks[ACTORCAT_MAX] = {
     // ACTORCAT_SWITCH
-    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_28,
     // ACTORCAT_BG
-    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_28,
     // ACTORCAT_PLAYER
     0,
     // ACTORCAT_EXPLOSIVE
-    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28,
+    PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_10 | PLAYER_STATE1_28,
     // ACTORCAT_NPC
-    PLAYER_STATE1_7,
+    PLAYER_STATE1_DEAD,
     // ACTORCAT_ENEMY
-    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29,
+    PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29,
     // ACTORCAT_PROP
-    PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    PLAYER_STATE1_DEAD | PLAYER_STATE1_28,
     // ACTORCAT_ITEMACTION
     0,
     // ACTORCAT_MISC
-    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29,
+    PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29,
     // ACTORCAT_BOSS
-    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28,
+    PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_10 | PLAYER_STATE1_28,
     // ACTORCAT_DOOR
     0,
     // ACTORCAT_CHEST
-    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_28,
 };
 
 void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
@@ -2411,10 +2462,10 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
     if ((actor != NULL) && (actor->update == NULL)) {
         actor = NULL;
-        func_8008EDF0(player);
+        Player_ReleaseLockOn(player);
     }
 
-    if ((actor == NULL) || (player->unk_66C < 5)) {
+    if ((actor == NULL) || (player->zTargetActiveTimer < 5)) {
         actor = NULL;
 
         if (actorCtx->attention.reticleSpinCounter != 0) {
@@ -3157,7 +3208,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     ACTOR_DEBUG_PRINTF(T("アクタークラス削除 [%s]\n", "Actor class deleted [%s]\n"), name);
 
     if ((player != NULL) && (actor == player->focusActor)) {
-        func_8008EDF0(player);
+        Player_ReleaseLockOn(player);
         Camera_RequestMode(Play_GetCamera(play, Play_GetActiveCamId(play)), CAM_MODE_NORMAL);
     }
 
@@ -3510,7 +3561,12 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
                                                     mtx->zw, 0, 0, objectSlot, type);
 
         if (spawnedEnPart != NULL) {
+#if OOT_VERSION < PAL_1_0
+            //! @bug Wrong rotation order compared to Actor_Draw
+            Matrix_MtxFToZYXRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
+#else
             Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
+#endif
             spawnedEnPart->displayList = bodyBreak->dLists[bodyBreak->count];
             spawnedEnPart->actor.scale = actor->scale;
         }
@@ -3794,7 +3850,7 @@ s16 Actor_TestFloorInDirection(Actor* actor, PlayState* play, f32 distance, s16 
 s32 Actor_IsLockedOn(PlayState* play, Actor* actor) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_4) && actor->isLockedOn) {
+    if ((player->stateFlags1 & PLAYER_STATE1_HOSTILE_LOCK_ON) && actor->isLockedOn) {
         return true;
     } else {
         return false;
@@ -3807,7 +3863,7 @@ s32 Actor_IsLockedOn(PlayState* play, Actor* actor) {
 s32 Actor_OtherIsLockedOn(PlayState* play, Actor* actor) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_4) && !actor->isLockedOn) {
+    if ((player->stateFlags1 & PLAYER_STATE1_HOSTILE_LOCK_ON) && !actor->isLockedOn) {
         return true;
     } else {
         return false;
@@ -3857,7 +3913,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
 
     Matrix_Scale(arg1->x, 1.0f, arg1->z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8149), G_MTX_MODELVIEW | G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 8149);
     gSPDisplayList(POLY_OPA_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8155);
@@ -3949,8 +4005,7 @@ void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type) {
                 Matrix_Scale(entry->chainsScale, entry->chainsScale, entry->chainsScale, MTXMODE_APPLY);
             }
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8299),
-                      G_MTX_MODELVIEW | G_MTX_LOAD);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 8299);
             gSPDisplayList(POLY_OPA_DISP++, entry->chainDL);
 
             if (i % 2) {
@@ -3966,7 +4021,7 @@ void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type) {
     Matrix_Put(&baseMtxF);
     Matrix_Scale(frame * 0.1f, frame * 0.1f, frame * 0.1f, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8314), G_MTX_MODELVIEW | G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_actor.c", 8314);
     gSPDisplayList(POLY_OPA_DISP++, entry->lockDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8319);

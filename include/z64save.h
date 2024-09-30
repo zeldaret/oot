@@ -2,6 +2,8 @@
 #define Z64SAVE_H
 
 #include "ultra64.h"
+#include "versions.h"
+#include "z64inventory.h"
 #include "z64math.h"
 
 typedef enum Language {
@@ -397,6 +399,59 @@ typedef enum LinkAge {
 } LinkAge;
 
 
+#define LINK_IS_ADULT (gSaveContext.save.linkAge == LINK_AGE_ADULT)
+#define LINK_IS_CHILD (gSaveContext.save.linkAge == LINK_AGE_CHILD)
+
+#define YEARS_CHILD 5
+#define YEARS_ADULT 17
+#define LINK_AGE_IN_YEARS (!LINK_IS_ADULT ? YEARS_CHILD : YEARS_ADULT)
+
+#define CLOCK_TIME(hr, min) ((s32)(((hr) * 60 + (min)) * (f32)0x10000 / (24 * 60) + 0.5f))
+
+#define IS_DAY (gSaveContext.save.nightFlag == 0)
+#define IS_NIGHT (gSaveContext.save.nightFlag == 1)
+
+#define SLOT(item) gItemSlots[item]
+#define INV_CONTENT(item) gSaveContext.save.info.inventory.items[SLOT(item)]
+#define AMMO(item) gSaveContext.save.info.inventory.ammo[SLOT(item)]
+#define BEANS_BOUGHT AMMO(ITEM_MAGIC_BEAN + 1)
+
+#define ALL_EQUIP_VALUE(equip) ((s32)(gSaveContext.save.info.inventory.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
+#define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.save.info.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
+#define OWNED_EQUIP_FLAG(equip, value) (gBitFlags[value] << gEquipShifts[equip])
+#define OWNED_EQUIP_FLAG_ALT(equip, value) ((1 << (value)) << gEquipShifts[equip])
+#define CHECK_OWNED_EQUIP(equip, value) (OWNED_EQUIP_FLAG(equip, value) & gSaveContext.save.info.inventory.equipment)
+#define CHECK_OWNED_EQUIP_ALT(equip, value) (gBitFlags[(value) + (equip) * 4] & gSaveContext.save.info.inventory.equipment)
+
+#define SWORD_EQUIP_TO_PLAYER(swordEquip) (swordEquip)
+#define SHIELD_EQUIP_TO_PLAYER(shieldEquip) (shieldEquip)
+#define TUNIC_EQUIP_TO_PLAYER(tunicEquip) ((tunicEquip) - 1)
+#define BOOTS_EQUIP_TO_PLAYER(bootsEquip) ((bootsEquip) - 1)
+
+#define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.save.info.inventory.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
+#define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
+#define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
+
+#define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.save.info.inventory.questItems)
+#define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.save.info.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
+
+#define GET_GS_FLAGS(index) \
+    ((gSaveContext.save.info.gsFlags[(index) >> 2] & gGsFlagsMasks[(index) & 3]) >> gGsFlagsShifts[(index) & 3])
+#define SET_GS_FLAGS(index, value) \
+    (gSaveContext.save.info.gsFlags[(index) >> 2] |= (value) << gGsFlagsShifts[(index) & 3])
+
+#define HIGH_SCORE(score) (gSaveContext.save.info.highScores[score])
+
+#define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                     \
+                        ? ITEM_NONE                                                 \
+                        : (gSaveContext.save.info.equips.buttonItems[0] == ITEM_GIANTS_KNIFE) \
+                            ? ITEM_SWORD_BIGGORON                                   \
+                            : gSaveContext.save.info.equips.buttonItems[0])
+
+#define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[(button) + 1] != BTN_DISABLED) \
+                                ? gSaveContext.save.info.equips.buttonItems[(button) + 1]       \
+                                : ITEM_NONE)
+
 
 /*
  *
@@ -598,6 +653,11 @@ typedef enum LinkAge {
 #define EVENTCHKINF_DE_MASK (1 << 14)
 
 
+#define GET_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
+#define SET_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
+#define CLEAR_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
+
+
 /*
  * SaveContext.itemGetInf
  */
@@ -655,6 +715,10 @@ typedef enum LinkAge {
 #define ITEMGETINF_3A 0x3A
 #define ITEMGETINF_3B 0x3B
 #define ITEMGETINF_3F 0x3F
+
+
+#define GET_ITEMGETINF(flag) (gSaveContext.save.info.itemGetInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
+#define SET_ITEMGETINF(flag) (gSaveContext.save.info.itemGetInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
 
 
 /*
@@ -817,6 +881,11 @@ typedef enum LinkAge {
 #define INFTABLE_1DX_INDEX 29
 
 
+#define GET_INFTABLE(flag) (gSaveContext.save.info.infTable[(flag) >> 4] & (1 << ((flag) & 0xF)))
+#define SET_INFTABLE(flag) (gSaveContext.save.info.infTable[(flag) >> 4] |= (1 << ((flag) & 0xF)))
+#define CLEAR_INFTABLE(flag) (gSaveContext.save.info.infTable[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
+
+
 /*
  * SaveContext.eventInf
  */
@@ -889,6 +958,11 @@ typedef enum EventInfHorsesState {
 #define EVENTINF_24_MASK (1 << 4)
 
 #define EVENTINF_30 0x30
+
+
+#define GET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
+#define SET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
+#define CLEAR_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
 
 
 extern SaveContext gSaveContext;

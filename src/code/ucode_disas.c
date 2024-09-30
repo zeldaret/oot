@@ -1,4 +1,5 @@
 #include "global.h"
+#include "ucode_disas.h"
 
 typedef struct F3dzexConst {
     /* 0x00 */ u32 value;
@@ -223,7 +224,7 @@ void UCodeDisas_SetCurUCodeImpl(UCodeDisas* this, void* ptr) {
     }
     if (i >= this->ucodeInfoCount) {
         DISAS_LOG(T("マイクロコードが一致しなかった\n", "Microcode did not match\n"));
-        this->ucodeType = UCODE_NULL;
+        this->ucodeType = UCODE_TYPE_NULL;
     }
 }
 
@@ -800,8 +801,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
             default: {
                 switch (this->ucodeType) {
-                    case UCODE_F3DZEX:
-                    case UCODE_UNK: {
+                    case UCODE_TYPE_F3DZEX:
+                    case UCODE_TYPE_UNK: {
                         switch (cmd) {
                             case G_MTX: {
                                 Gdma2 gmtx = ptr->dma2;
@@ -1098,7 +1099,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                         }
                     } break;
 
-                    case UCODE_S2DEX: {
+                    case UCODE_TYPE_S2DEX: {
                         switch (cmd) {
                             case G_BG_COPY: {
                                 Gwords words = ptr->words;

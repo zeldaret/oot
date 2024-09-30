@@ -1,0 +1,2 @@
+800FCD40 gMtxClear
+80AE1B80 sShadowTex

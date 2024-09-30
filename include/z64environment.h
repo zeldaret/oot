@@ -5,8 +5,12 @@
 #include "z64light.h"
 #include "z64dma.h"
 
+struct GameOverContext;
+struct MessageContext;
+struct PauseContext;
 struct PlayState;
 struct SkyboxContext;
+struct View;
 
 #define FILL_SCREEN_OPA (1 << 0)
 #define FILL_SCREEN_XLU (1 << 1)
@@ -240,5 +244,46 @@ extern u16 gTimeSpeed;
 
 void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, struct SkyboxContext* skyboxCtx);
 void Environment_DrawSkyboxFilters(struct PlayState* play);
+
+s32 Environment_ZBufValToFixedPoint(s32 zBufferVal);
+u16 Environment_GetPixelDepth(s32 x, s32 y);
+void Environment_GraphCallback(struct GraphicsContext* gfxCtx, void* param);
+void Environment_Init(struct PlayState* play2, EnvironmentContext* envCtx, s32 unused);
+u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep);
+u8 Environment_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep);
+f32 Environment_LerpWeight(u16 max, u16 min, u16 val);
+f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame, u16 accelDuration, u16 decelDuration);
+void Environment_EnableUnderwaterLights(struct PlayState* play, s32 waterLightsIndex);
+void Environment_DisableUnderwaterLights(struct PlayState* play);
+void Environment_Update(struct PlayState* play, EnvironmentContext* envCtx, LightContext* lightCtx,
+                        struct PauseContext* pauseCtx, struct MessageContext* msgCtx,
+                        struct GameOverContext* gameOverCtx, struct GraphicsContext* gfxCtx);
+void Environment_DrawSunAndMoon(struct PlayState* play);
+void Environment_DrawSunLensFlare(struct PlayState* play, EnvironmentContext* envCtx, struct View* view,
+                                  struct GraphicsContext* gfxCtx, Vec3f pos, s32 unused);
+void Environment_DrawLensFlare(struct PlayState* play, EnvironmentContext* envCtx, struct View* view,
+                               struct GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
+                               s16 glareStrength, u8 isSun);
+void Environment_DrawRain(struct PlayState* play, struct View* view, struct GraphicsContext* gfxCtx);
+void Environment_ChangeLightSetting(struct PlayState* play, u32 lightSetting);
+void Environment_UpdateLightningStrike(struct PlayState* play);
+void Environment_AddLightningBolts(struct PlayState* play, u8 num);
+void Environment_DrawLightning(struct PlayState* play, s32 unused);
+void Environment_PlaySceneSequence(struct PlayState* play);
+void Environment_DrawCustomLensFlare(struct PlayState* play);
+void Environment_InitGameOverLights(struct PlayState* play);
+void Environment_FadeInGameOverLights(struct PlayState* play);
+void Environment_FadeOutGameOverLights(struct PlayState* play);
+void Environment_FillScreen(struct GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 alpha, u8 drawFlags);
+void Environment_DrawSandstorm(struct PlayState* play, u8 sandstormState);
+void Environment_AdjustLights(struct PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
+s32 Environment_GetBgsDayCount(void);
+void Environment_ClearBgsDayCount(void);
+s32 Environment_GetTotalDays(void);
+void Environment_ForcePlaySequence(u16 seqId);
+s32 Environment_IsForcedSequenceDisabled(void);
+void Environment_PlayStormNatureAmbience(struct PlayState* play);
+void Environment_StopStormNatureAmbience(struct PlayState* play);
+void Environment_WarpSongLeave(struct PlayState* play);
 
 #endif

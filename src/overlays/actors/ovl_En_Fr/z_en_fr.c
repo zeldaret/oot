@@ -3,7 +3,7 @@
 #include "terminal.h"
 #include "assets/objects/object_fr/object_fr.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void EnFr_Init(Actor* thisx, PlayState* play);
 void EnFr_Destroy(Actor* thisx, PlayState* play);
@@ -77,7 +77,7 @@ sEnFrPointers.flags = 1 to 11:
          - 5: frog 0 (Yellow)
          - 7: frog 2 (Red)
          - 9: frog 4 (White)
-     - Will proceed when counter reachers 11
+     - Will proceed when counter reaches 11
 
 sEnFrPointers.flags = 12
      - Deactivate frogs, frogs will jump back into the water
@@ -1053,8 +1053,7 @@ void EnFr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
         OPEN_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1735);
         Matrix_Push();
         Matrix_ReplaceRotation(&play->billboardMtxF);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fr.c", 1738),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_fr.c", 1738);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1741);

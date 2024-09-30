@@ -5,6 +5,7 @@
  */
 
 #include "z_en_boom.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -30,7 +31,7 @@ ActorProfile En_Boom_Profile = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -38,7 +39,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000010, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NORMAL,
@@ -138,7 +139,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
 
         if ((target != &player->actor) && ((target->update == NULL) || (ABS(yawDiff) > 0x4000))) {
             //! @bug  This condition is why the boomerang will randomly fly off in a the down left direction sometimes.
-            //      If the actor targetted is not Link and the difference between the 2 y angles is greater than 0x4000,
+            //      If the actor targeted is not Link and the difference between the 2 y angles is greater than 0x4000,
             //      the moveTo pointer is nulled and it flies off in a seemingly random direction.
             this->moveTo = NULL;
         } else {
@@ -186,7 +187,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
                 }
             }
             // Set player flags and kill the boomerang beacause Link caught it.
-            player->stateFlags1 &= ~PLAYER_STATE1_25;
+            player->stateFlags1 &= ~PLAYER_STATE1_BOOMERANG_THROWN;
             Actor_Kill(&this->actor);
         }
     } else {
@@ -268,8 +269,7 @@ void EnBoom_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_RotateY(BINANG_TO_RAD(this->activeTimer * 12000), MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_boom.c", 601),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_boom.c", 601);
     gSPDisplayList(POLY_OPA_DISP++, gBoomerangRefDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_boom.c", 604);

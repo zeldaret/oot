@@ -8,7 +8,7 @@
 #include "assets/objects/object_mm/object_mm.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
 typedef enum RunningManAnimIndex {
     /* 0 */ RM_ANIM_RUN,
@@ -53,7 +53,7 @@ ActorProfile En_Mm_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -61,7 +61,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -462,7 +462,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
             }
 
             if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
-                func_8002F71C(play, &this->actor, 3.0f, this->actor.yawTowardsPlayer, 4.0f);
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 3.0f, this->actor.yawTowardsPlayer, 4.0f);
             }
         }
     }
@@ -531,7 +531,7 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             mtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 2);
 
             Matrix_Put(&this->unk_208);
-            mtx2 = MATRIX_NEW(play->state.gfxCtx, "../z_en_mm.c", 1111);
+            mtx2 = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_mm.c", 1111);
 
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);

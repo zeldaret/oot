@@ -36,7 +36,7 @@ void SkelAnime_DrawLimbLod(PlayState* play, s32 limbIndex, void** skeleton, Vec3
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, limbIndex, &dList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_skelanime.c", 805), G_MTX_LOAD);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 805);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -92,7 +92,7 @@ void SkelAnime_DrawLod(PlayState* play, void** skeleton, Vec3s* jointTable, Over
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, 1, &dList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_skelanime.c", 881), G_MTX_LOAD);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 881);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -141,7 +141,7 @@ void SkelAnime_DrawFlexLimbLod(PlayState* play, s32 limbIndex, void** skeleton, 
             MATRIX_TO_MTX(*mtx, "../z_skelanime.c", 945);
             {
                 OPEN_DISPS(play->state.gfxCtx, "../z_skelanime.c", 946);
-                gSPMatrix(POLY_OPA_DISP++, *mtx, G_MTX_LOAD);
+                gSPMatrix(POLY_OPA_DISP++, *mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, newDList);
                 CLOSE_DISPS(play->state.gfxCtx, "../z_skelanime.c", 949);
             }
@@ -208,7 +208,7 @@ void SkelAnime_DrawFlexLod(PlayState* play, void** skeleton, Vec3s* jointTable, 
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             MATRIX_TO_MTX(mtx, "../z_skelanime.c", 1033);
-            gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, newDList);
             mtx++;
         } else if (limbDList != NULL) {
@@ -254,7 +254,7 @@ void SkelAnime_DrawLimbOpa(PlayState* play, s32 limbIndex, void** skeleton, Vec3
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, limbIndex, &dList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_skelanime.c", 1103), G_MTX_LOAD);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 1103);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -308,7 +308,7 @@ void SkelAnime_DrawOpa(PlayState* play, void** skeleton, Vec3s* jointTable, Over
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, 1, &dList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_skelanime.c", 1176), G_MTX_LOAD);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_skelanime.c", 1176);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -356,7 +356,7 @@ void SkelAnime_DrawFlexLimbOpa(PlayState* play, s32 limbIndex, void** skeleton, 
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             MATRIX_TO_MTX(*limbMatrices, "../z_skelanime.c", 1242);
-            gSPMatrix(POLY_OPA_DISP++, *limbMatrices, G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, *limbMatrices, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, newDList);
             (*limbMatrices)++;
         } else if (limbDList != NULL) {
@@ -426,7 +426,7 @@ void SkelAnime_DrawFlexOpa(PlayState* play, void** skeleton, Vec3s* jointTable, 
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             MATRIX_TO_MTX(mtx, "../z_skelanime.c", 1327);
-            gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, newDList);
             mtx++;
         } else if (limbDList != NULL) {
@@ -519,7 +519,7 @@ Gfx* SkelAnime_DrawLimb(PlayState* play, s32 limbIndex, void** skeleton, Vec3s* 
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, limbIndex, &dList, &pos, &rot, arg, &gfx)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(gfx++, MATRIX_NEW(play->state.gfxCtx, "../z_skelanime.c", 1489), G_MTX_LOAD);
+            MATRIX_FINALIZE_AND_LOAD(gfx++, play->state.gfxCtx, "../z_skelanime.c", 1489);
             gSPDisplayList(gfx++, dList);
         }
     }
@@ -574,7 +574,7 @@ Gfx* SkelAnime_Draw(PlayState* play, void** skeleton, Vec3s* jointTable, Overrid
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, 1, &dList, &pos, &rot, arg, &gfx)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(gfx++, MATRIX_NEW(play->state.gfxCtx, "../z_skelanime.c", 1558), G_MTX_LOAD);
+            MATRIX_FINALIZE_AND_LOAD(gfx++, play->state.gfxCtx, "../z_skelanime.c", 1558);
             gSPDisplayList(gfx++, dList);
         }
     }
@@ -619,7 +619,7 @@ Gfx* SkelAnime_DrawFlexLimb(PlayState* play, s32 limbIndex, void** skeleton, Vec
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             MATRIX_TO_MTX(*mtx, "../z_skelanime.c", 1623);
-            gSPMatrix(gfx++, *mtx, G_MTX_LOAD);
+            gSPMatrix(gfx++, *mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(gfx++, newDList);
             (*mtx)++;
         } else if (limbDList != NULL) {
@@ -683,7 +683,7 @@ Gfx* SkelAnime_DrawFlex(PlayState* play, void** skeleton, Vec3s* jointTable, s32
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             MATRIX_TO_MTX(mtx, "../z_skelanime.c", 1710);
-            gSPMatrix(gfx++, mtx, G_MTX_LOAD);
+            gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(gfx++, newDList);
             mtx++;
         } else if (limbDList != NULL) {
@@ -818,7 +818,7 @@ void AnimTaskQueue_SetNextGroup(PlayState* play) {
  * A transformative task is one that will alter the appearance of an animation.
  * These include Copy, Interp, CopyUsingMap, and CopyUsingMapInverted.
  *
- * LoadPlayerFrame and ActorMove, which don't alter the appearance of an existing animation,
+ * LoadPlayerFrame and ActorMovement, which don't alter the appearance of an existing animation,
  * will always run even if a group has its transformative tasks disabled.
  */
 void AnimTaskQueue_DisableTransformTasksForGroup(PlayState* play) {
@@ -960,13 +960,13 @@ void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s*
 /**
  * Creates a task which will move an actor according to the translation of its root limb for the current frame.
  */
-void AnimTaskQueue_AddActorMove(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
+void AnimTaskQueue_AddActorMovement(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
     AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_ACTOR_MOVE);
 
     if (task != NULL) {
-        task->data.actorMove.actor = actor;
-        task->data.actorMove.skelAnime = skelAnime;
-        task->data.actorMove.diffScaleY = moveDiffScaleY;
+        task->data.actorMovement.actor = actor;
+        task->data.actorMovement.skelAnime = skelAnime;
+        task->data.actorMovement.diffScaleY = moveDiffScaleY;
     }
 }
 
@@ -1049,9 +1049,10 @@ void AnimTask_CopyUsingMapInverted(PlayState* play, AnimTaskData* data) {
 
 /**
  * Move an actor according to the translation of its root limb for the current animation frame.
+ * The actor's current shape yaw will factor into the resulting movement.
  */
-void AnimTask_ActorMove(PlayState* play, AnimTaskData* data) {
-    AnimTaskActorMove* task = &data->actorMove;
+void AnimTask_ActorMovement(PlayState* play, AnimTaskData* data) {
+    AnimTaskActorMovement* task = &data->actorMovement;
     Actor* actor = task->actor;
     Vec3f diff;
 
@@ -1070,8 +1071,8 @@ typedef void (*AnimTaskFunc)(struct PlayState* play, AnimTaskData* data);
  */
 void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
     static AnimTaskFunc animTaskFuncs[] = {
-        AnimTask_LoadPlayerFrame,      AnimTask_Copy,      AnimTask_Interp, AnimTask_CopyUsingMap,
-        AnimTask_CopyUsingMapInverted, AnimTask_ActorMove,
+        AnimTask_LoadPlayerFrame,      AnimTask_Copy,          AnimTask_Interp, AnimTask_CopyUsingMap,
+        AnimTask_CopyUsingMapInverted, AnimTask_ActorMovement,
     };
     AnimTask* task = animTaskQueue->tasks;
 
@@ -1838,7 +1839,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     f32 cos;
 
     // If `ANIM_FLAG_UPDATE_XZ` behaved as expected, it would also be checked here
-    if (skelAnime->moveFlags & ANIM_FLAG_ADJUST_STARTING_POS) {
+    if (skelAnime->movementFlags & ANIM_FLAG_ADJUST_STARTING_POS) {
         diff->x = diff->z = 0.0f;
     } else {
         x = skelAnime->jointTable[0].x;
@@ -1864,8 +1865,8 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     skelAnime->prevTransl.z = skelAnime->jointTable[0].z;
     skelAnime->jointTable[0].z = skelAnime->baseTransl.z;
 
-    if (skelAnime->moveFlags & ANIM_FLAG_UPDATE_Y) {
-        if (skelAnime->moveFlags & ANIM_FLAG_ADJUST_STARTING_POS) {
+    if (skelAnime->movementFlags & ANIM_FLAG_UPDATE_Y) {
+        if (skelAnime->movementFlags & ANIM_FLAG_ADJUST_STARTING_POS) {
             diff->y = 0.0f;
         } else {
             diff->y = skelAnime->jointTable[0].y - skelAnime->prevTransl.y;
@@ -1878,7 +1879,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
         skelAnime->prevTransl.y = skelAnime->jointTable[0].y;
     }
 
-    skelAnime->moveFlags &= ~ANIM_FLAG_ADJUST_STARTING_POS;
+    skelAnime->movementFlags &= ~ANIM_FLAG_ADJUST_STARTING_POS;
 }
 
 /**

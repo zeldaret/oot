@@ -5,6 +5,7 @@
  */
 
 #include "z_en_dha.h"
+#include "versions.h"
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
 #include "assets/objects/object_dh/object_dh.h"
 
@@ -73,7 +74,7 @@ static DamageTable sDamageTable = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -84,7 +85,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -95,7 +96,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -106,7 +107,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -117,7 +118,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -130,7 +131,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_1,
@@ -245,7 +246,9 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
             if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
+#if OOT_VERSION >= PAL_1_0
                 player->av2.actionVar2 = 200;
+#endif
             }
 
             if (this->actor.home.rot.z != 0) {
@@ -285,7 +288,9 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
         if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
             player->stateFlags2 &= ~PLAYER_STATE2_7;
             player->actor.parent = NULL;
+#if OOT_VERSION >= PAL_1_0
             player->av2.actionVar2 = 200;
+#endif
         }
 
         this->actor.home.rot.z = 1;
@@ -306,7 +311,9 @@ void EnDha_TakeDamage(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
+#if OOT_VERSION >= PAL_1_0
         player->av2.actionVar2 = 200;
+#endif
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 2000, 0);
@@ -344,7 +351,9 @@ void EnDha_Die(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
+#if OOT_VERSION >= PAL_1_0
         player->av2.actionVar2 = 200;
+#endif
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 0x7D0, 0);

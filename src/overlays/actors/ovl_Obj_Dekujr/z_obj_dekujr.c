@@ -7,7 +7,7 @@
 #include "z_obj_dekujr.h"
 #include "assets/objects/object_dekujr/object_dekujr.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void ObjDekujr_Init(Actor* thisx, PlayState* play);
 void ObjDekujr_Destroy(Actor* thisx, PlayState* play);
@@ -163,16 +163,14 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_dekujr.c", 379),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_dekujr.c", 379);
     gSPDisplayList(POLY_OPA_DISP++, object_dekujr_DL_0030D0);
 
     frameCount = play->state.frames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frameCount % 128, 0, 32, 32, 1, frameCount % 128,
                                 0, 32, 32));
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_dekujr.c", 399),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_obj_dekujr.c", 399);
     gSPDisplayList(POLY_XLU_DISP++, object_dekujr_DL_0032D8);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_dekujr.c", 409);

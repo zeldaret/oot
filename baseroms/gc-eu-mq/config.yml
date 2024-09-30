@@ -21,14 +21,6 @@ incbins:
     segment: code
     vram: 0x800E3A10
     size: 0xAF0
-  - name: gSequenceFontTable
-    segment: code
-    vram: 0x801106E0
-    size: 0x1C0
-  - name: gSequenceTable
-    segment: code
-    vram: 0x801108A0
-    size: 0x6F0
   - name: aspMainData
     segment: code
     vram: 0x80111010
@@ -932,7 +924,7 @@ assets:
   start_offset: 0x6E0
   end_offset: 0x4088
 - name: overlays/ovl_file_choose
-  xml_path: assets/xml/overlays/ovl_file_choose_pal.xml
+  xml_path: assets/xml/overlays/ovl_file_choose_pal_gc.xml
   start_offset: 0xD740
   end_offset: 0xE010
 - name: overlays/ovl_Magic_Dark
@@ -1218,4 +1210,4 @@ assets:
 - name: textures/skyboxes
   xml_path: assets/xml/textures/skyboxes.xml
 - name: textures/title_static
-  xml_path: assets/xml/textures/title_static_pal.xml
+  xml_path: assets/xml/textures/title_static_pal_gc.xml

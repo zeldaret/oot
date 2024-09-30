@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "message_data_fmt.h"
+#include "versions.h"
 
 typedef enum TextBoxType {
     /*  0 */ TEXTBOX_TYPE_BLACK,

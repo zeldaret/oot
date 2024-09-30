@@ -1,23 +1,38 @@
 #include "global.h"
 #include "stack.h"
 #include "terminal.h"
+#include "versions.h"
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64"
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ntsc-1.2:64"
 
 OSThread sMainThread;
+#if OOT_VERSION < PAL_1_0
+STACK(sMainStack, 0x800);
+#else
 STACK(sMainStack, 0x900);
+#endif
 StackEntry sMainStackInfo;
 OSMesg sPiMgrCmdBuff[50];
 OSMesgQueue gPiMgrCmdQueue;
 OSViMode gViConfigMode;
-u8 gViConfigModeType;
 
-s8 D_80009430 = 1;
-vu8 gViConfigBlack = true;
-u8 gViConfigAdditionalScanLines = 0;
-u32 gViConfigFeatures = OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_OFF;
-f32 gViConfigXScale = 1.0;
-f32 gViConfigYScale = 1.0;
+#if OOT_VERSION < PAL_1_0
+u8 gViConfigModeType = OS_VI_NTSC_LPN1;
+#else
+u8 gViConfigModeType;
+#endif
+
+// Unused
+void* D_80009410[] = {
+    osStopThread,  __osSetHWIntrRoutine,
+#if PLATFORM_N64
+    osEPiWriteIo,  osEPiReadIo,
+#endif
+    __osSetFpcCsr, __osGetFpcCsr,        __osGetHWIntrRoutine, __osSetHWIntrRoutine, osViGetNextFramebuffer,
+#if !PLATFORM_N64
+    bcmp,
+#endif
+};
 
 void Main_ThreadEntry(void* arg) {
     OSTime time;
@@ -59,14 +74,15 @@ void Idle_ThreadEntry(void* arg) {
 
     osCreateViManager(OS_PRIORITY_VIMGR);
 
+#if OOT_VERSION >= PAL_1_0
     gViConfigFeatures = OS_VI_GAMMA_OFF | OS_VI_DITHER_FILTER_ON;
     gViConfigXScale = 1.0f;
     gViConfigYScale = 1.0f;
-
-    switch (osTvType) {
-#if !OOT_DEBUG
-        case OS_TV_PAL:
 #endif
+
+#if OOT_DEBUG
+    // Allow both 60 Hz and 50 Hz
+    switch (osTvType) {
         case OS_TV_NTSC:
             gViConfigModeType = OS_VI_NTSC_LAN1;
             gViConfigMode = osViModeNtscLan1;
@@ -77,20 +93,50 @@ void Idle_ThreadEntry(void* arg) {
             gViConfigMode = osViModeMpalLan1;
             break;
 
-#if OOT_DEBUG
         case OS_TV_PAL:
             gViConfigModeType = OS_VI_FPAL_LAN1;
             gViConfigMode = osViModeFpalLan1;
             gViConfigYScale = 0.833f;
             break;
-#endif
     }
+#elif !OOT_PAL_N64
+    // 60 Hz only (GameCube and NTSC N64)
+    switch (osTvType) {
+        case OS_TV_PAL:
+        case OS_TV_NTSC:
+            gViConfigModeType = OS_VI_NTSC_LAN1;
+            gViConfigMode = osViModeNtscLan1;
+            break;
 
+        case OS_TV_MPAL:
+            gViConfigModeType = OS_VI_MPAL_LAN1;
+            gViConfigMode = osViModeMpalLan1;
+            break;
+    }
+#else
+    // 50 Hz only (PAL N64)
+    switch (osTvType) {
+        case OS_TV_NTSC:
+        case OS_TV_MPAL:
+        case OS_TV_PAL:
+            gViConfigModeType = OS_VI_FPAL_LAN1;
+            gViConfigMode = osViModeFpalLan1;
+            gViConfigYScale = 0.833f;
+            break;
+    }
+#endif
+
+#if OOT_VERSION < PAL_1_0
+    osViSetMode(&gViConfigMode);
+    osViBlack(true);
+#else
     D_80009430 = 1;
     osViSetMode(&gViConfigMode);
     ViConfig_UpdateVi(true);
     osViBlack(true);
     osViSwapBuffer((void*)0x803DA80); //! @bug Invalid vram address (probably intended to be 0x803DA800)
+#endif
+
     osCreatePiManager(OS_PRIORITY_PIMGR, &gPiMgrCmdQueue, sPiMgrCmdBuff, ARRAY_COUNT(sPiMgrCmdBuff));
     StackCheck_Init(&sMainStackInfo, sMainStack, STACK_TOP(sMainStack), 0, 0x400, "main");
     osCreateThread(&sMainThread, THREAD_ID_MAIN, Main_ThreadEntry, arg, STACK_TOP(sMainStack), THREAD_PRI_MAIN_INIT);

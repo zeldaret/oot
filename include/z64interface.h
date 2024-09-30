@@ -275,5 +275,7 @@ void Interface_SetSubTimerToFinalSecond(struct PlayState* play);
 void Interface_SetTimer(s16 seconds);
 void Interface_Draw(struct PlayState* play);
 void Interface_Update(struct PlayState* play);
+void Interface_Destroy(struct PlayState* play);
+void Interface_Init(struct PlayState* play);
 
 #endif

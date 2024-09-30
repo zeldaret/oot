@@ -1,18 +1,19 @@
 #include "ultra64.h"
 
-#pragma increment_block_number "gc-eu:80 gc-eu-mq:80 gc-jp:80 gc-jp-ce:80 gc-jp-mq:80 gc-us:80 gc-us-mq:80"
+// Declared before including other headers for BSS ordering
+extern uintptr_t gSegments[NUM_SEGMENTS];
 
-struct PreNmiBuff* gAppNmiBufferPtr;
+#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
+                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
-#include "segmented_address.h"
-
-struct Scheduler gScheduler;
-struct PadMgr gPadMgr;
-struct IrqMgr gIrqMgr;
-uintptr_t gSegments[NUM_SEGMENTS];
+extern struct PreNmiBuff* gAppNmiBufferPtr;
+extern struct Scheduler gScheduler;
+extern struct PadMgr gPadMgr;
+extern struct IrqMgr gIrqMgr;
 
 #include "global.h"
 #include "fault.h"
+#include "segmented_address.h"
 #include "stack.h"
 #include "terminal.h"
 #include "versions.h"
@@ -21,11 +22,20 @@ uintptr_t gSegments[NUM_SEGMENTS];
 #include "n64dd.h"
 #endif
 
+#pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
+                               "ntsc-1.2:156 pal-1.0:154 pal-1.1:154"
+
 extern u8 _buffersSegmentEnd[];
 
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
+
+PreNmiBuff* gAppNmiBufferPtr;
+Scheduler gScheduler;
+PadMgr gPadMgr;
+IrqMgr gIrqMgr;
+uintptr_t gSegments[NUM_SEGMENTS];
 
 OSThread sGraphThread;
 STACK(sGraphStack, 0x1800);
@@ -38,7 +48,7 @@ StackEntry sSchedStackInfo;
 StackEntry sAudioStackInfo;
 StackEntry sPadMgrStackInfo;
 StackEntry sIrqMgrStackInfo;
-AudioMgr gAudioMgr;
+AudioMgr sAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
@@ -81,7 +91,7 @@ void Main(void* arg) {
 #endif
     fb = (uintptr_t)SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - systemHeapStart;
-    PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initalization %08x-%08x %08x\n"), systemHeapStart,
+    PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initialization %08x-%08x %08x\n"), systemHeapStart,
            fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
 
@@ -130,12 +140,12 @@ void Main(void* arg) {
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQueue);
 
     StackCheck_Init(&sAudioStackInfo, sAudioStack, STACK_TOP(sAudioStack), 0, 0x100, "audio");
-    AudioMgr_Init(&gAudioMgr, STACK_TOP(sAudioStack), THREAD_PRI_AUDIOMGR, THREAD_ID_AUDIOMGR, &gScheduler, &gIrqMgr);
+    AudioMgr_Init(&sAudioMgr, STACK_TOP(sAudioStack), THREAD_PRI_AUDIOMGR, THREAD_ID_AUDIOMGR, &gScheduler, &gIrqMgr);
 
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, STACK_TOP(sPadMgrStack), 0, 0x100, "padmgr");
     PadMgr_Init(&gPadMgr, &sSerialEventQueue, &gIrqMgr, THREAD_ID_PADMGR, THREAD_PRI_PADMGR, STACK_TOP(sPadMgrStack));
 
-    AudioMgr_WaitForInit(&gAudioMgr);
+    AudioMgr_WaitForInit(&sAudioMgr);
 
     StackCheck_Init(&sGraphStackInfo, sGraphStack, STACK_TOP(sGraphStack), 0, 0x100, "graph");
     osCreateThread(&sGraphThread, THREAD_ID_GRAPH, Graph_ThreadEntry, arg, STACK_TOP(sGraphStack), THREAD_PRI_GRAPH);

@@ -91,14 +91,14 @@ typedef enum AnimationTapers {
 // This flag seems like it was intended to be paired with `ANIM_FLAG_UPDATE_Y` to control
 // XZ movement based on the current animation.
 // However, this flag is not checked by the Skelanime system. XZ movement will always occur
-// regardless of the current state of this flag, as long as the "Actor Move" Anim Task is in use.
+// regardless of the current state of this flag, as long as the ActorMovement Anim Task is in use.
 // The name of this flag is speculative based on its usage in Player and in other actors.
 //
 // In practice, this flag only affects the scaling of Player's XZ position based on age.
 #define ANIM_FLAG_UPDATE_XZ (1 << 0)
 
 // Enables the movement of an actor in the Y-axis based on the current animation.
-// This only has an effect if the "Actor Move" Anim Task is in use.
+// This only has an effect if the ActorMovement Anim Task is in use.
 //
 // This animation-driven movement does not replace "normal" movement from other sources
 // such as speed/velocity and collisions. The actor should stop updating other sources of movement
@@ -116,8 +116,13 @@ typedef enum AnimationTapers {
 // set. The adjustment will be applied in this case regardless of this flag being enabled.
 #define ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT (1 << 2)
 
-// (player-only) Call AnimTaskQueue_AddActorMove
-#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3)
+// When this flag is set, ActorMovement tasks will be queued.
+//
+// Note that individual actors are responsible for implementing the functionality of this flag.
+// In practice, Player is the only actor who implements this flag.
+// It is possible to bypass the need for this flag by manually calling `AnimTaskQueue_AddActorMovement`
+// when it is needed.
+#define ANIM_FLAG_ENABLE_MOVEMENT (1 << 3)
 
 // When this flag is set, movement in all axes will not be applied for one frame. The flag
 // is unset automatically after one use, so movement can resume. The intent is for this flag to be used
@@ -128,18 +133,18 @@ typedef enum AnimationTapers {
 // starting a new animation. This is helpful when an animation's translation data starts at the "origin"
 // (in this case, the origin refers to `baseTransl`, in model space).
 // Some animations have translation data that does not begin at the "origin". This is common when a
-// longer sequence of animation is broken up into different parts as seperate animations.
+// longer sequence of animation is broken up into different parts as separate animations.
 // In this case, when one animation starts its translation at the same position where a different animation
 // left off, resetting `prevTransl` is not desirable. This will cause the actor's position to noticeably change
 // when the translation data from the first frame of the new animation is applied.
 //
 // When this flag is used during a transition between two animations, the first frame of movement is not applied.
-// This allows the actor's world postiion to stay at the same location as where the previous animation ended.
+// This allows the actor's world position to stay at the same location as where the previous animation ended.
 // Because translations are calculated as a difference from the current and previous frame, all subsequent
 // frames have their translation occur relative to this new starting point.
 //
 // Note that for Player, this flag is only relevant when transitioning from an animation that was also using
-// animation translation. This is because of how `prevTransl` gets reset in `Player_AnimReplaceApplyFlags`.
+// ActorMovement. This is because of how `prevTransl` gets reset in `Player_AnimReplaceApplyFlags`.
 #define ANIM_FLAG_ADJUST_STARTING_POS (1 << 4)
 
 // Disables "normal" movement from sources like speed/velocity and collisions, which allows the
@@ -170,7 +175,7 @@ typedef struct SkelAnime {
         s32 (*link)(struct PlayState*, struct SkelAnime*); // Can be Loop, Play once, or Morph
     } update;
     /* 0x34 */ s8 initFlags; // Flags used when initializing Link's skeleton
-    /* 0x35 */ u8 moveFlags; // Flags used for animations that move the actor in worldspace.
+    /* 0x35 */ u8 movementFlags; // Flags used for animations that move the actor in worldspace.
     /* 0x36 */ s16 prevRot; // Previous rotation in worldspace.
     /* 0x38 */ Vec3s prevTransl; // Previous modelspace translation.
     /* 0x3E */ Vec3s baseTransl; // Base modelspace translation.
@@ -342,11 +347,11 @@ typedef struct AnimTaskCopyUsingMapInverted {
     /* 0x0C */ u8* limbCopyMap;
 } AnimTaskCopyUsingMapInverted; // size = 0x10
 
-typedef struct AnimTaskActorMove {
+typedef struct AnimTaskActorMovement {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ struct SkelAnime* skelAnime;
     /* 0x08 */ f32 diffScaleY;
-} AnimTaskActorMove; // size = 0xC
+} AnimTaskActorMovement; // size = 0xC
 
 typedef union AnimTaskData {
     AnimTaskLoadPlayerFrame loadPlayerFrame;
@@ -354,7 +359,7 @@ typedef union AnimTaskData {
     AnimTaskInterp interp;
     AnimTaskCopyUsingMap copyUsingMap;
     AnimTaskCopyUsingMapInverted copyUsingMapInverted;
-    AnimTaskActorMove actorMove;
+    AnimTaskActorMovement actorMovement;
 } AnimTaskData; // size = 0x3C
 
 typedef struct AnimTask {
@@ -375,7 +380,7 @@ void AnimTaskQueue_AddCopy(struct PlayState* play, s32 vecCount, Vec3s* dest, Ve
 void AnimTaskQueue_AddInterp(struct PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
 void AnimTaskQueue_AddCopyUsingMap(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap);
 void AnimTaskQueue_AddCopyUsingMapInverted(struct PlayState* play, s32 vecCount, Vec3s* dest, Vec3s* src, u8* limbCopyMap);
-void AnimTaskQueue_AddActorMove(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
+void AnimTaskQueue_AddActorMovement(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
 
 void AnimTaskQueue_SetNextGroup(struct PlayState* play);
 void AnimTaskQueue_DisableTransformTasksForGroup(struct PlayState* play);

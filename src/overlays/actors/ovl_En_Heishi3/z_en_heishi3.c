@@ -7,6 +7,7 @@
 #include "z_en_heishi3.h"
 #include "assets/objects/object_sd/object_sd.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS 0
 
@@ -39,7 +40,7 @@ ActorProfile En_Heishi3_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -47,7 +48,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -134,6 +135,9 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, PlayState* play) {
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#if OOT_PAL_N64
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
+#endif
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }
@@ -162,6 +166,9 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, PlayState* play) {
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#if OOT_PAL_N64
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
+#endif
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }

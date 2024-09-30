@@ -303,7 +303,7 @@ def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_in
         disassemble_one_sequence(extracted_dir, version_info, soundfonts, seq_enum_names, *job)
 
     dt = time.time() - t
-    print(f"Sequences extraction took {dt:.3f}")
+    print(f"Sequences extraction took {dt:.3f}s")
 
 def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : str, read_xml : bool, write_xml : bool):
     print("Setting up...")

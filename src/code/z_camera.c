@@ -4,7 +4,8 @@
 #include "terminal.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
@@ -2926,7 +2927,7 @@ s32 Camera_Battle1(Camera* camera) {
     sp78 = roData->swingPitchFinal;
     fov = roData->fov;
 
-    if (camera->player->stateFlags1 & PLAYER_STATE1_12) {
+    if (camera->player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK) {
         // charging sword.
         rwData->unk_10 =
             Camera_LERPCeilF(CAM_GLOBAL_12 * (1.0f - 0.5f), rwData->unk_10, CAM_UPDATE_RATE_STEP_SCALE_XZ, 0.1f);
@@ -3503,7 +3504,7 @@ s32 Camera_KeepOn3(Camera* camera) {
         roData->yOffset = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
         roData->minDist = GET_NEXT_RO_DATA(values);
         roData->maxDist = GET_NEXT_RO_DATA(values);
-        roData->swingYawInital = GET_NEXT_RO_DATA(values);
+        roData->swingYawInitial = GET_NEXT_RO_DATA(values);
         roData->swingYawFinal = GET_NEXT_RO_DATA(values);
         roData->swingPitchInitial = GET_NEXT_RO_DATA(values);
         roData->swingPitchFinal = GET_NEXT_RO_DATA(values);
@@ -3535,7 +3536,7 @@ s32 Camera_KeepOn3(Camera* camera) {
         spBC = ((1.0f - temp_f0) * targetToPlayerDir.r) / rwData->animTimer;
         swingAngle = F32_LERPIMP(roData->swingPitchInitial, roData->swingPitchFinal, temp_f0);
         atToEyeAdj.pitch = CAM_DEG_TO_BINANG(swingAngle) + ((s16)(-(targetToPlayerDir.pitch * roData->swingPitchAdj)));
-        swingAngle = F32_LERPIMP(roData->swingYawInital, roData->swingYawFinal, temp_f0);
+        swingAngle = F32_LERPIMP(roData->swingYawInitial, roData->swingYawFinal, temp_f0);
         if (roData->interfaceField & KEEPON3_FLAG_4) {
             if ((s16)(targetToPlayerDir.yaw - atToEyeNextDir.yaw) < 0) {
                 atToEyeAdj.yaw = targetToPlayerDir.yaw + CAM_DEG_TO_BINANG(swingAngle);
@@ -3636,7 +3637,8 @@ s32 Camera_KeepOn3(Camera* camera) {
     return 1;
 }
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.2:98 pal-1.0:96 pal-1.1:96"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;
@@ -5072,20 +5074,20 @@ s32 Camera_Unique0(Camera* camera) {
         atPlayerOffset.pitch = -bgCamRot.x;
         rwData->eyeAndDirection.dir = OLib_VecGeoToVec3f(&atPlayerOffset);
         Math3D_LineClosestToPoint(&rwData->eyeAndDirection, &playerPosRot->pos, &camera->at);
-        rwData->initalPos = playerPosRot->pos;
+        rwData->initialPos = playerPosRot->pos;
         camera->animState++;
     }
 
     if (player->stateFlags1 & PLAYER_STATE1_29) {
-        rwData->initalPos = playerPosRot->pos;
+        rwData->initialPos = playerPosRot->pos;
     }
 
     if (roData->interfaceField & UNIQUE0_FLAG_0) {
         if (rwData->animTimer > 0) {
             rwData->animTimer--;
-            rwData->initalPos = playerPosRot->pos;
+            rwData->initialPos = playerPosRot->pos;
         } else if (!(player->stateFlags1 & PLAYER_STATE1_29) &&
-                   ((OLib_Vec3fDistXZ(&playerPosRot->pos, &rwData->initalPos) >= 10.0f) ||
+                   ((OLib_Vec3fDistXZ(&playerPosRot->pos, &rwData->initialPos) >= 10.0f) ||
                     CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_A) ||
                     CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_B) ||
                     CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CLEFT) ||
@@ -5109,7 +5111,7 @@ s32 Camera_Unique0(Camera* camera) {
                 sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
             }
         } else {
-            rwData->initalPos = playerPosRot->pos;
+            rwData->initialPos = playerPosRot->pos;
         }
 
         if (!(player->stateFlags1 & PLAYER_STATE1_29) &&
@@ -6607,7 +6609,7 @@ s32 Camera_Demo5(Camera* camera) {
         sp4A = playerhead.rot.y - playerTargetGeo.yaw;
         if (camera->target->category == ACTORCAT_PLAYER) {
             framesDiff = camera->play->state.frames - sDemo5PrevAction12Frame;
-            if (player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
+            if (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
                 // holding object over head.
                 Player_SetCsActionWithHaltedActors(camera->play, camera->target, PLAYER_CSACTION_8);
             } else if (ABS(framesDiff) > 3000) {
@@ -6933,11 +6935,11 @@ s32 Camera_Special4(Camera* camera) {
         sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_NOTHING_ALT, 0);
         camera->fov = 40.0f;
         camera->animState++;
-        rwData->initalTimer = camera->timer;
+        rwData->initialTimer = camera->timer;
     }
 
     camera->fov = Camera_LERPCeilF(80.0f, camera->fov, 1.0f / *timer, 0.1f);
-    if ((rwData->initalTimer - *timer) < 0xF) {
+    if ((rwData->initialTimer - *timer) < 0xF) {
         (*timer)--;
         return false;
     } else {
@@ -7217,7 +7219,7 @@ s32 Camera_Special6(Camera* camera) {
         // Overwrite hud visibility to CAM_HUD_VISIBILITY_HEARTS_FORCE
         sCameraInterfaceField = (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) |
                                 CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_HEARTS_FORCE);
-        rwData->initalPlayerY = playerPosRot->pos.y;
+        rwData->initialPlayerY = playerPosRot->pos.y;
         rwData->animTimer = 12;
         *eyeNext = bgCamPos;
         if (camera->animState == 0) {
@@ -7230,7 +7232,7 @@ s32 Camera_Special6(Camera* camera) {
         timerF = rwData->animTimer;
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
-        eyePosCalc.y += (playerPosRot->pos.y - rwData->initalPlayerY) * 0.2f;
+        eyePosCalc.y += (playerPosRot->pos.y - rwData->initialPlayerY) * 0.2f;
         eyeAnim = eyePosCalc;
         eyeAnim.y = Camera_LERPCeilF(eyePosCalc.y, eye->y, 0.5f, 0.01f);
 
@@ -7256,7 +7258,7 @@ s32 Camera_Special6(Camera* camera) {
             (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_ALL);
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
-        eyePosCalc.y += (playerPosRot->pos.y - rwData->initalPlayerY) * 0.2f;
+        eyePosCalc.y += (playerPosRot->pos.y - rwData->initialPlayerY) * 0.2f;
         *eye = eyePosCalc;
         eye->y = Camera_LERPCeilF(eyePosCalc.y, eye->y, 0.5f, 0.01f);
 

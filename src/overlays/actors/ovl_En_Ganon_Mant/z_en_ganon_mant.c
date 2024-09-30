@@ -361,8 +361,7 @@ void EnGanonMant_DrawCloak(PlayState* play, EnGanonMant* this) {
 
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ganon_mant.c", 572),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ganon_mant.c", 572);
 
     // set texture
     gSPDisplayList(POLY_OPA_DISP++, gMantMaterialDL);
@@ -426,7 +425,7 @@ void EnGanonMant_Draw(Actor* thisx, PlayState* play) {
         midpoint.y = rightPos->y + yDiff * 0.5f;
         midpoint.z = rightPos->z + zDiff * 0.5f;
 
-        // Calculte base orientation for chosen endpoints
+        // Calculate base orientation for chosen endpoints
         yaw = Math_Atan2F(zDiff, xDiff);
         pitch = -Math_Atan2F(sqrtf(SQ(xDiff) + SQ(zDiff)), yDiff);
         diffHalfDist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff)) * 0.5f;

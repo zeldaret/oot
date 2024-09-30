@@ -15,9 +15,11 @@ beginseg
     name "boot"
     address 0x80000460
     include "$(BUILD_DIR)/src/boot/boot_main.o"
-    include "$(BUILD_DIR)/data/unk_80009410.data.o"
     include "$(BUILD_DIR)/src/boot/idle.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/boot/viconfig.o"
+#endif
+    include "$(BUILD_DIR)/src/boot/carthandle.o"
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
     include "$(BUILD_DIR)/src/boot/yaz0.o"
     include "$(BUILD_DIR)/src/boot/z_locale.o"
@@ -41,8 +43,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
     include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
     include "$(BUILD_DIR)/src/libultra/os/stopthread.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/viextendvstart.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/recvmesg.o"
 #if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/initialize.o"
@@ -92,7 +96,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/setthreadpri.o"
     include "$(BUILD_DIR)/src/libultra/os/getthreadpri.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawread.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/epirawdma.o"
 #if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
@@ -105,15 +111,26 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/bcopy.o"
     include "$(BUILD_DIR)/src/libultra/os/resetglobalintmask.o"
     include "$(BUILD_DIR)/src/libultra/os/interrupt.o"
+#if !OOT_PAL_N64
     include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/vi.o"
+#if OOT_PAL_N64
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
+#endif
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/viswapcontext.o"
     include "$(BUILD_DIR)/src/libultra/io/pigetcmdq.o"
     include "$(BUILD_DIR)/src/libultra/io/epiread.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/cartrominit.o"
-#if OOT_DEBUG
+#if OOT_PAL_N64 || OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
@@ -137,8 +154,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/vimgr.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrcontext.o"
     include "$(BUILD_DIR)/src/libultra/os/startthread.o"
+#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/visetyscale.o"
     include "$(BUILD_DIR)/src/libultra/io/visetxscale.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/os/sethwintrroutine.o"
     include "$(BUILD_DIR)/src/libultra/os/gethwintrroutine.o"
 #if !PLATFORM_N64
@@ -205,7 +224,116 @@ endseg
 
 beginseg
     name "Audioseq"
-    include "$(BUILD_DIR)/baserom/Audioseq.o"
+    address 0
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_0.prg.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_1.prg.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_2.prg.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_3.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_4.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_5.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_6.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_7.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_8.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_9.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_10.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_11.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_12.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_13.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_14.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_15.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_16.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_17.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_18.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_19.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_20.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_21.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_22.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_23.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_24.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_25.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_26.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_27.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_28.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_29.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_30.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_31.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_32.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_33.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_34.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_35.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_36.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_37.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_38.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_39.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_40.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_41.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_42.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_43.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_44.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_45.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_46.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_47.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_48.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_49.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_50.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_51.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_52.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_53.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_54.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_55.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_56.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_57.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_58.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_59.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_60.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_61.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_62.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_63.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_64.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_65.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_66.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_67.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_68.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_69.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_70.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_71.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_72.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_73.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_74.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_75.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_76.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_77.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_78.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_79.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_80.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_81.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_82.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_83.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_84.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_85.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_86.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_88.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_89.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_90.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_91.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_92.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_93.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_94.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_95.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_96.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_97.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_98.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_99.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_100.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_101.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_102.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_103.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_104.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_105.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_106.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_107.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_108.o"
+    include "$(BUILD_DIR)/assets/audio/sequences/seq_109.prg.o"
 endseg
 
 beginseg
@@ -337,6 +465,15 @@ beginseg
     number 7
 endseg
 
+#if OOT_NTSC && OOT_VERSION < NTSC_1_2
+beginseg
+    name "jpn_message_data_static"
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/text/jpn_message_data_static.o"
+    number 8
+endseg
+#endif
+
 beginseg
     name "message_texture_static"
     romalign 0x1000
@@ -351,7 +488,7 @@ beginseg
     number 10
 endseg
 
-#if OOT_NTSC
+#if OOT_NTSC && OOT_VERSION >= NTSC_1_2
 beginseg
     name "jpn_message_data_static"
     romalign 0x1000
@@ -571,7 +708,7 @@ beginseg
 #if OOT_DEBUG
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
 #endif
-#if OOT_VERSION <= NTSC_1_0 || PLATFORM_GC
+#if OOT_VERSION < NTSC_1_1 || PLATFORM_GC
     pad_text
 #endif
     include "$(BUILD_DIR)/src/audio/lib/data.o"
@@ -581,6 +718,11 @@ beginseg
     include "$(BUILD_DIR)/src/audio/lib/thread.o"
     include "$(BUILD_DIR)/src/audio/lib/dcache.o"
     include "$(BUILD_DIR)/src/audio/lib/aisetnextbuf.o"
+#if OOT_PAL_N64
+    pad_text
+    pad_text
+    pad_text
+#endif
     include "$(BUILD_DIR)/src/audio/lib/playback.o"
     include "$(BUILD_DIR)/src/audio/lib/effects.o"
     include "$(BUILD_DIR)/src/audio/lib/seqplayer.o"
@@ -687,6 +829,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
+#endif
 #if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
 #endif
@@ -708,6 +853,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/ortho.o"
     include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
     include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/gu/coss.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/settime.o"
@@ -731,8 +879,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
-#if !OOT_DEBUG
+#if OOT_VERSION == NTSC_1_2 || (PLATFORM_GC && !OOT_DEBUG)
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+#endif
+#if !OOT_DEBUG
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
 #endif
@@ -764,6 +914,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/mtxf2l.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/visetyscale.o"
+#endif
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
     include "$(BUILD_DIR)/src/libc/sqrt.o"
@@ -781,7 +934,8 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_message_z_game_over.o"
     include "$(BUILD_DIR)/src/code/z_construct.o"
     include "$(BUILD_DIR)/src/audio/tables/soundfont_table.o"
-    include "$(BUILD_DIR)/data/audio_tables.rodata.o"
+    include "$(BUILD_DIR)/assets/audio/sequence_font_table.o"
+    include "$(BUILD_DIR)/src/audio/tables/sequence_table.o"
     include "$(BUILD_DIR)/src/audio/tables/samplebank_table.o"
     include "$(BUILD_DIR)/data/rsp.text.o"
     include "$(BUILD_DIR)/data/rsp.rodata.o"

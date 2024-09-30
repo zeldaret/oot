@@ -66,7 +66,7 @@ ActorProfile En_Rd_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -74,7 +74,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -355,14 +355,23 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
     }
 
     if ((ABS(yaw) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
-        if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+        if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
                                      PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
             !(player->stateFlags2 & PLAYER_STATE2_7)) {
             if (this->playerStunWaitTimer == 0) {
                 if (!(this->rdFlags & 0x80)) {
                     player->actor.freezeTimer = 40;
-                    func_8008EEAC(play, &this->actor);
-                    GET_PLAYER(play)->unk_684 = &this->actor;
+
+                    // `player->actor.freezeTimer` gets set above which will prevent Player from updating.
+                    // Because of this, he cannot update things related to Z-Targeting.
+                    // If Player can't update, `player->zTargetActiveTimer` won't update, which means
+                    // the Attention system will not be notified of a new actor lock-on occurring.
+                    // So, no reticle will appear. But the camera will still focus on the actor.
+                    Player_SetAutoLockOnActor(play, &this->actor);
+
+                    // This is redundant, `autoLockOnActor` gets set by `Player_SetAutoLockOnActor` above
+                    GET_PLAYER(play)->autoLockOnActor = &this->actor;
+
                     Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
                 }
 
@@ -430,7 +439,7 @@ void EnRd_WalkToHome(EnRd* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+    if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
                                  PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
         !(player->stateFlags2 & PLAYER_STATE2_7) &&
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
@@ -606,7 +615,9 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
         if (!(this->rdFlags & 0x80)) {
             player->actor.freezeTimer = 60;
             Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
-            func_8008EEAC(play, &this->actor);
+
+            // The same note mentioned with this function call in `EnRd_WalkToPlayer` applies here too
+            Player_SetAutoLockOnActor(play, &this->actor);
         }
 
         Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_AIM);

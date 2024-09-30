@@ -7,7 +7,7 @@
 #include "z_en_toryo.h"
 #include "assets/objects/object_toryo/object_toryo.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_NEUTRAL)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnToryo_Init(Actor* thisx, PlayState* play);
 void EnToryo_Destroy(Actor* thisx, PlayState* play);
@@ -32,7 +32,7 @@ ActorProfile En_Toryo_Profile = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -248,7 +248,7 @@ u32 EnToryo_ReactToExchangeItem(EnToryo* this, PlayState* play) {
             ret = 0x200F;
         }
     }
-    //! @bug return value may be unitialized
+    //! @bug return value may be uninitialized
     return ret;
 }
 

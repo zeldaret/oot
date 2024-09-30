@@ -5,6 +5,7 @@
  */
 
 #include "z_end_title.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -62,7 +63,7 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
     Matrix_RotateX(BINANG_TO_RAD(0xBB8), MTXMODE_APPLY);
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
     Matrix_RotateZ(0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_end_title.c", 412), G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_end_title.c", 412);
     gSPDisplayList(POLY_XLU_DISP++, sTriforceDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_end_title.c", 417);
@@ -70,14 +71,14 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_end_title.c", 419);
 
     // Draw title cards on the screen
-    if ((csCurFrame > 890) && (this->endAlpha < 200)) {
-        this->endAlpha += 7;
+    if ((csCurFrame > FRAMERATE_CONST(890, 740)) && (this->endAlpha < 200)) {
+        this->endAlpha += FRAMERATE_CONST(7, 8);
     }
-    if ((csCurFrame > 810) && (this->tlozAlpha < 200)) {
-        this->tlozAlpha += 15;
+    if ((csCurFrame > FRAMERATE_CONST(810, 675)) && (this->tlozAlpha < 200)) {
+        this->tlozAlpha += FRAMERATE_CONST(15, 18);
     }
-    if ((csCurFrame > 850) && (this->ootAlpha < 200)) {
-        this->ootAlpha += 15;
+    if ((csCurFrame > FRAMERATE_CONST(850, 710)) && (this->ootAlpha < 200)) {
+        this->ootAlpha += FRAMERATE_CONST(15, 18);
     }
 
     OVERLAY_DISP = Gfx_SetupDL_64(OVERLAY_DISP);
@@ -114,7 +115,7 @@ void EndTitle_DrawNintendoLogo(Actor* thisx, PlayState* play) {
     s32 pad;
     s32 csCurFrame = play->csCtx.curFrame;
 
-    if ((csCurFrame >= 1101) && (this->endAlpha < 255)) {
+    if ((csCurFrame > FRAMERATE_CONST(1100, 950)) && (this->endAlpha < 255)) {
         this->endAlpha += 3;
     }
 

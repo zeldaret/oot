@@ -24,7 +24,7 @@ do
     then
         # flags before --
         flags=("${@:1:$(($i - 1))}")
-        # compile command, betwen -- and the input source file
+        # compile command, between -- and the input source file
         compilecmd="${@:$(($i + 1)):$((${#@} - $i - 1))}"
         # The last argument, the input source file to be compiled
         srcfile="${@: -1}"

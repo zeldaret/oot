@@ -1,7 +1,7 @@
 #include "global.h"
 
 void Setup_InitImpl(SetupState* this) {
-    PRINTF(T("ゼルダ共通データ初期化\n", "Zelda common data initalization\n"));
+    PRINTF(T("ゼルダ共通データ初期化\n", "Zelda common data initialization\n"));
     SaveContext_Init();
     this->state.running = false;
     SET_NEXT_GAMESTATE(&this->state, ConsoleLogo_Init, ConsoleLogoState);

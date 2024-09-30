@@ -1,7 +1,8 @@
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
+                               "ntsc-1.2:0"
+
 #include "global.h"
 #include "terminal.h"
-
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);
@@ -66,7 +67,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 
                 R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
                 pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-                pauseCtx->unk_1EC = 0;
+                pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
             }
         } else if (pauseCtx->state == PAUSE_STATE_8) {
@@ -77,7 +78,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-            pauseCtx->unk_1EC = 0;
+            pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_9
         } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) || (pauseCtx->state == PAUSE_STATE_9)) {
             PRINTF("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_BG_PRERENDER_STATE);
