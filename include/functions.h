@@ -307,86 +307,13 @@ void OnePointCutscene_EnableAttention(void);
 void OnePointCutscene_DisableAttention(void);
 s32 OnePointCutscene_CheckForCategory(PlayState* play, s32 actorCategory);
 void OnePointCutscene_Noop(PlayState* play, s32 arg1);
-void Map_SavePlayerInitialInfo(PlayState* play);
-void Map_SetFloorPalettesData(PlayState* play, s16 floor);
-void Map_InitData(PlayState* play, s16 room);
-void Map_InitRoomData(PlayState* play, s16 room);
-void Map_Destroy(PlayState* play);
-void Map_Init(PlayState* play);
-void Minimap_Draw(PlayState* play);
-void Map_Update(PlayState* play);
 
 Path* Path_GetByIndex(PlayState* play, s16 index, s16 max);
 f32 Path_OrientAndGetDistSq(Actor* actor, Path* path, s16 waypoint, s16* yaw);
 void Path_CopyLastPoint(Path* path, Vec3f* dest);
 
-void Player_SetBootData(PlayState* play, Player* this);
-int Player_InBlockingCsMode(PlayState* play, Player* this);
-int Player_InCsMode(PlayState* play);
-s32 Player_CheckHostileLockOn(Player* this);
-int Player_IsChildWithHylianShield(Player* this);
-s32 Player_ActionToModelGroup(Player* this, s32 itemAction);
-void Player_SetModelsForHoldingShield(Player* this);
-void Player_SetModels(Player* this, s32 modelGroup);
-void Player_SetModelGroup(Player* this, s32 modelGroup);
-void func_8008EC70(Player* this);
-void Player_SetEquipmentData(PlayState* play, Player* this);
-void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAction);
-void Player_ReleaseLockOn(Player* this);
-void Player_ClearZTargeting(Player* this);
-void Player_SetAutoLockOnActor(PlayState* play, Actor* actor);
-s32 func_8008EF44(PlayState* play, s32 ammo);
-int Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange);
-s32 Player_GetStrength(void);
-u8 Player_GetMask(PlayState* play);
-Player* Player_UnsetMask(PlayState* play);
-s32 Player_HasMirrorShieldEquipped(PlayState* play);
-int Player_HasMirrorShieldSetToDraw(PlayState* play);
-s32 Player_ActionToMagicSpell(Player* this, s32 itemAction);
-int Player_HoldsHookshot(Player* this);
-int func_8008F128(Player* this);
-s32 Player_ActionToMeleeWeapon(s32 itemAction);
-s32 Player_GetMeleeWeaponHeld(Player* this);
-s32 Player_HoldsTwoHandedWeapon(Player* this);
-int Player_HoldsBrokenKnife(Player* this);
-s32 Player_ActionToBottle(Player* this, s32 itemAction);
-s32 Player_GetBottleHeld(Player* this);
-s32 Player_ActionToExplosive(Player* this, s32 itemAction);
-s32 Player_GetExplosiveHeld(Player* this);
-s32 func_8008F2BC(Player* this, s32 itemAction);
-s32 Player_GetEnvironmentalHazard(PlayState* play);
-void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
-                     s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
-                     void* data);
-s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                          void* thisx);
-s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                           void* thisx);
-s32 Player_OverrideLimbDrawGameplayFirstPerson(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                               void* thisx);
-s32 Player_OverrideLimbDrawGameplayCrawling(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                            void* thisx);
-u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase);
-void Player_DrawGetItem(PlayState* play, Player* this);
-void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime);
-void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
-                      s32 sword, s32 tunic, s32 shield, s32 boots);
 void PreNMI_Init(GameState* thisx);
-Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
-Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
-Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
 
-Gfx* Gfx_BranchTexScroll(Gfx** gfxP, u32 x, u32 y, s32 width, s32 height);
-Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
-Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
-Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
-                      u32 y2, s32 width2, s32 height2);
-Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
-                              u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
-Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
-void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
-void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3);
 void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 tlutMode,
                            u16 tlutCount, f32 offsetX, f32 offsetY);
@@ -440,34 +367,7 @@ void SsSram_Init(s32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 
                  u8 handlePulse, u32 handleSpeed);
 void SsSram_Dma(void* dramAddr, size_t size, s32 direction);
 void SsSram_ReadWrite(s32 addr, void* dramAddr, size_t size, s32 direction);
-View* View_New(GraphicsContext* gfxCtx);
-void View_Free(View* view);
-void View_Init(View*, GraphicsContext*);
-void View_LookAt(View* view, Vec3f* eye, Vec3f* at, Vec3f* up);
-void View_LookAtUnsafe(View* view, Vec3f* eye, Vec3f* at, Vec3f* up);
-void View_SetScale(View* view, f32 scale);
-void View_GetScale(View* view, f32* scale);
-void View_SetPerspective(View* view, f32 fovy, f32 zNear, f32 zFar);
-void View_GetPerspective(View* view, f32* fovy, f32* zNear, f32* zFar);
-void View_SetOrtho(View* view, f32 fovy, f32 zNear, f32 zFar);
-void View_GetOrtho(View* view, f32* fovy, f32* zNear, f32* zFar);
-void View_SetViewport(View* view, Viewport* viewport);
-void View_GetViewport(View* view, Viewport* viewport);
-void View_SetDistortionOrientation(View* view, f32 rotX, f32 rotY, f32 rotZ);
-void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ);
-s32 View_SetDistortionSpeed(View* view, f32 speed);
-void View_InitDistortion(View* view);
-void View_ClearDistortion(View* view);
-void View_SetDistortion(View* view, Vec3f orientation, Vec3f scale, f32 speed);
-s32 View_StepDistortion(View* view, Mtx* projectionMtx);
-s32 View_Apply(View* view, s32 mask);
-s32 View_ApplyOrthoToOverlay(View* view);
-s32 View_ApplyPerspectiveToOverlay(View* view);
-s32 View_UpdateViewingMatrix(View* view);
-s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP);
-#if OOT_DEBUG
-s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ);
-#endif
+
 void ViMode_LogPrint(OSViMode* osViMode);
 void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,
                       s32 width, s32 height, s32 leftAdjust, s32 rightAdjust, s32 upperAdjust, s32 lowerAdjust);
@@ -566,9 +466,6 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx);
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
 void Graph_ThreadEntry(void*);
 
-Gfx* Gfx_Open(Gfx* gfx);
-Gfx* Gfx_Close(Gfx* gfx, Gfx* dst);
-void* Gfx_Alloc(Gfx** gfxP, u32 size);
 ListAlloc* ListAlloc_Init(ListAlloc* this);
 void* ListAlloc_Alloc(ListAlloc* this, u32 size);
 void ListAlloc_Free(ListAlloc* this, void* data);

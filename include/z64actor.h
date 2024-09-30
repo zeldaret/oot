@@ -908,8 +908,10 @@ void func_80034CC4(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDra
 s16 func_80034DD4(Actor* actor, struct PlayState* play, s16 arg2, f32 arg3);
 void func_80034F54(struct PlayState* play, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, struct PlayState* play);
+
 void Gfx_DrawDListOpa(struct PlayState* play, Gfx* dlist);
 void Gfx_DrawDListXlu(struct PlayState* play, Gfx* dlist);
+
 Actor* Actor_FindNearby(struct PlayState* play, Actor* refActor, s16 actorId, u8 actorCategory, f32 range);
 s32 func_800354B4(struct PlayState* play, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5);
 void func_8003555C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);

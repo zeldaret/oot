@@ -187,7 +187,7 @@ typedef enum PromptQuad {
 #define ITEM_AMMO_ONES_QUAD_OFFSET_Y 0
 
 typedef enum ItemQuad {
-    // 0..23 are the ITEM_GRID_ROWS*ITEM_GRID_COLS item grid
+    // 0 to 23 are the ITEM_GRID_ROWS*ITEM_GRID_COLS item grid
     // The values follow the `InventorySlot` enum
     /*  0 */ ITEM_QUAD_GRID_FIRST,
     /* 23 */ ITEM_QUAD_GRID_LAST = ITEM_GRID_ROWS * ITEM_GRID_COLS - 1,

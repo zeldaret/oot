@@ -116,6 +116,7 @@ void Gfx_SetupDL_42Overlay(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_27Xlu(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_60NoCDXlu(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_61Xlu(struct GraphicsContext* gfxCtx);
+void Gfx_SetupDL_56Opa(struct GraphicsContext* gfxCtx);
 void Gfx_SetupDL_56Ptr(Gfx** gfxP);
 
 #endif
