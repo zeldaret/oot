@@ -156,31 +156,39 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 PRINTF("now=%d  ccc=%d\n", cursorPoint, cursorItem);
 
                 do {
+                    // if input says move left
                     if (pauseCtx->stickAdjX < -30) {
+                        // if not left-most
                         if (pauseCtx->cursorX[PAUSE_ITEM] != 0) {
+                            // move left
                             pauseCtx->cursorX[PAUSE_ITEM]--;
                             pauseCtx->cursorPoint[PAUSE_ITEM] -= 1;
 
+                            // if there's an item there, stop there
                             if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
                                 ITEM_NONE) {
                                 cursorMoveResult = 1;
                             }
                         } else {
-                            pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
-                            pauseCtx->cursorY[PAUSE_ITEM]++;
+                            // move the cursor to its initial horizontal position and try find an item on the next line
 
-                            if (pauseCtx->cursorY[PAUSE_ITEM] >= 4) {
+                            pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
+
+                            pauseCtx->cursorY[PAUSE_ITEM]++;
+                            if (pauseCtx->cursorY[PAUSE_ITEM] >= ITEM_GRID_ROWS) {
                                 pauseCtx->cursorY[PAUSE_ITEM] = 0;
                             }
 
                             pauseCtx->cursorPoint[PAUSE_ITEM] =
-                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * 6);
+                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * ITEM_GRID_COLS);
 
-                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= 24) {
+                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= (ITEM_GRID_ROWS * ITEM_GRID_COLS)) {
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = pauseCtx->cursorX[PAUSE_ITEM];
                             }
 
                             if (cursorY == pauseCtx->cursorY[PAUSE_ITEM]) {
+                                // there is no item to the left of the initial position, on any line
+
                                 pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = cursorPoint;
 
@@ -190,7 +198,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             }
                         }
                     } else if (pauseCtx->stickAdjX > 30) {
-                        if (pauseCtx->cursorX[PAUSE_ITEM] < 5) {
+                        if (pauseCtx->cursorX[PAUSE_ITEM] < (ITEM_GRID_COLS - 1)) {
                             pauseCtx->cursorX[PAUSE_ITEM]++;
                             pauseCtx->cursorPoint[PAUSE_ITEM] += 1;
 
@@ -202,14 +210,14 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                             pauseCtx->cursorY[PAUSE_ITEM]++;
 
-                            if (pauseCtx->cursorY[PAUSE_ITEM] >= 4) {
+                            if (pauseCtx->cursorY[PAUSE_ITEM] >= ITEM_GRID_ROWS) {
                                 pauseCtx->cursorY[PAUSE_ITEM] = 0;
                             }
 
                             pauseCtx->cursorPoint[PAUSE_ITEM] =
-                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * 6);
+                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * ITEM_GRID_COLS);
 
-                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= 24) {
+                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= (ITEM_GRID_ROWS * ITEM_GRID_COLS)) {
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = pauseCtx->cursorX[PAUSE_ITEM];
                             }
 
@@ -251,20 +259,20 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         break;
                     }
 
-                    cursorY = cursorY + 1;
-                    cursorPoint = cursorPoint + 6;
-                    if (cursorY >= 4) {
+                    cursorY += 1;
+                    cursorPoint += ITEM_GRID_COLS;
+                    if (cursorY >= ITEM_GRID_ROWS) {
                         cursorY = 0;
                         cursorPoint = cursorX + 1;
                         cursorX = cursorPoint;
-                        if (cursorX >= 6) {
+                        if (cursorX >= ITEM_GRID_COLS) {
                             KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_RIGHT);
                             break;
                         }
                     }
                 }
             }
-        } else {
+        } else { // cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT
             if (pauseCtx->stickAdjX < -30) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
@@ -272,7 +280,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
-                cursorPoint = cursorX = 5;
+                cursorPoint = cursorX = ITEM_GRID_COLS - 1;
                 cursorY = 0;
                 while (true) {
                     if (gSaveContext.save.info.inventory.items[cursorPoint] != ITEM_NONE) {
@@ -283,9 +291,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         break;
                     }
 
-                    cursorY = cursorY + 1;
-                    cursorPoint = cursorPoint + 6;
-                    if (cursorY >= 4) {
+                    cursorY += 1;
+                    cursorPoint += ITEM_GRID_COLS;
+                    if (cursorY >= ITEM_GRID_ROWS) {
                         cursorY = 0;
                         cursorPoint = cursorX - 1;
                         cursorX = cursorPoint;
@@ -309,7 +317,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         if (pauseCtx->stickAdjY > 30) {
                             if (pauseCtx->cursorY[PAUSE_ITEM] != 0) {
                                 pauseCtx->cursorY[PAUSE_ITEM]--;
-                                pauseCtx->cursorPoint[PAUSE_ITEM] -= 6;
+                                pauseCtx->cursorPoint[PAUSE_ITEM] -= ITEM_GRID_COLS;
 
                                 if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
                                     ITEM_NONE) {
@@ -322,9 +330,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 cursorMoveResult = 2;
                             }
                         } else if (pauseCtx->stickAdjY < -30) {
-                            if (pauseCtx->cursorY[PAUSE_ITEM] < 3) {
+                            if (pauseCtx->cursorY[PAUSE_ITEM] < (ITEM_GRID_ROWS - 1)) {
                                 pauseCtx->cursorY[PAUSE_ITEM]++;
-                                pauseCtx->cursorPoint[PAUSE_ITEM] += 6;
+                                pauseCtx->cursorPoint[PAUSE_ITEM] += ITEM_GRID_COLS;
 
                                 if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
                                     ITEM_NONE) {
