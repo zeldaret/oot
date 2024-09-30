@@ -5996,8 +5996,9 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
     s32 canTalkToLockOnWithCUp;
 
     canTalkToLockOnWithCUp =
-        (lockOnActor != NULL) && (CHECK_FLAG_ALL(lockOnActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
-                                  (lockOnActor->naviEnemyId != NAVI_ENEMY_NONE));
+        (lockOnActor != NULL) &&
+        (CHECK_FLAG_ALL(lockOnActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_WITH_C_UP) ||
+         (lockOnActor->naviEnemyId != NAVI_ENEMY_NONE));
 
     if (canTalkToLockOnWithCUp || (this->naviTextId != 0)) {
         // If `naviTextId` is negative and outside the 0x2XX range, talk to Navi instantly
@@ -6027,7 +6028,7 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
         if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
             if ((this->heldActor == NULL) ||
                 (!forceTalkToNavi && (talkOfferActor != this->heldActor) && (cUpTalkActor != this->heldActor) &&
-                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_16)))) {
+                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)))) {
                 goto dont_talk;
             }
         }
@@ -6044,7 +6045,9 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
             // "Speak" or "Check" will appear on the A button in the HUD.
             this->stateFlags2 |= PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER;
 
-            if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (talkOfferActor->flags & ACTOR_FLAG_16)) {
+            if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) ||
+                (talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)) {
+                // Talk Offer has been accepted.
                 // Clearing `cUpTalkActor` guarantees that `talkOfferActor` is the actor that will be spoken to
                 cUpTalkActor = NULL;
             } else if (cUpTalkActor == NULL) {
@@ -6109,7 +6112,7 @@ s32 Player_ActionHandler_0(Player* this, PlayState* play) {
     }
 
     if ((this->focusActor != NULL) &&
-        (CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
+        (CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_WITH_C_UP) ||
          (this->focusActor->naviEnemyId != NAVI_ENEMY_NONE))) {
         this->stateFlags2 |= PLAYER_STATE2_21;
     } else if ((this->naviTextId == 0) && !Player_CheckHostileLockOn(this) &&
@@ -15805,7 +15808,7 @@ void func_80853148(PlayState* play, Actor* actor) {
     s32 pad;
 
     if ((this->talkActor != NULL) || (actor == this->naviActor) ||
-        CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18)) {
+        CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_WITH_C_UP)) {
         actor->flags |= ACTOR_FLAG_TALK;
     }
 
