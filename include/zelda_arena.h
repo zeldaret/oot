@@ -1,5 +1,5 @@
-#ifndef Z64MALLOC_H
-#define Z64MALLOC_H
+#ifndef ZELDA_ARENA_H
+#define ZELDA_ARENA_H
 
 #include "ultra64.h"
 
