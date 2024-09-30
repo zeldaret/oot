@@ -2,12 +2,13 @@
 #include "fault.h"
 #include "terminal.h"
 #include "ucode_disas.h"
+#include "versions.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:192"
+                               "ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 /**
  * The time at which the previous `Graph_Update` ended.
@@ -140,10 +141,17 @@ void Graph_Init(GraphicsContext* gfxCtx) {
     gfxCtx->gfxPoolIdx = 0;
     gfxCtx->fbIdx = 0;
     gfxCtx->viMode = NULL;
+
+#if OOT_VERSION < PAL_1_0
+    gfxCtx->viFeatures = 0;
+#else
     gfxCtx->viFeatures = gViConfigFeatures;
     gfxCtx->xScale = gViConfigXScale;
     gfxCtx->yScale = gViConfigYScale;
+#endif
+
     osCreateMesgQueue(&gfxCtx->queue, gfxCtx->msgBuff, ARRAY_COUNT(gfxCtx->msgBuff));
+
 #if OOT_DEBUG
     func_800D31F0();
     Fault_AddClient(&sGraphFaultClient, Graph_FaultClient, NULL, NULL);
@@ -272,8 +280,10 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
         cfb->viMode = gfxCtx->viMode;
         cfb->viFeatures = gfxCtx->viFeatures;
+#if OOT_VERSION >= PAL_1_0
         cfb->xScale = gfxCtx->xScale;
         cfb->yScale = gfxCtx->yScale;
+#endif
         cfb->unk_10 = 0;
         cfb->updateRate = R_UPDATE_RATE;
 

@@ -611,7 +611,7 @@ def format_pragma(amounts: dict[str, int], max_line_length: int) -> list[str]:
     first = True
     for version, amount in sorted(amounts.items()):
         part = f"{version}:{amount}"
-        if len(current_line) + len(part) + len('" \\') > max_line_length:
+        if len(current_line) + len(" ") + len(part) + len('" \\') > max_line_length:
             lines.append(current_line + '" ')
             current_line = " " * len(pragma_start) + '"'
             first = True
