@@ -3546,8 +3546,8 @@ void Interface_Draw(PlayState* play) {
                     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] &=
                         (u16) ~(EVENTINF_HORSES_STATE_MASK | EVENTINF_HORSES_HORSETYPE_MASK | EVENTINF_HORSES_05_MASK |
                                 EVENTINF_HORSES_06_MASK | EVENTINF_HORSES_0F_MASK);
-#endif
                     PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_HORSES_INDEX]);
+#endif
                     play->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
 
