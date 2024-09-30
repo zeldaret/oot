@@ -170,6 +170,8 @@ typedef struct ActorShape {
 
 // When locked onto an actor with this flag set, the C-Up button can be used to talk to this actor.
 // A C-Up button labeled "Navi" will appear on the HUD when locked on which indicates the actor can be checked with Navi.
+// With this flag Player talks directly to the actor with C-Up. It is expected that the resulting dialog should appear
+// to be coming from Navi, even though she is not involved at all with this interaction.
 #define ACTOR_FLAG_TALK_WITH_C_UP (1 << 18)
 
 // Flags controlling the use of `Actor.sfx`. Do not use directly.
