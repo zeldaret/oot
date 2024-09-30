@@ -1733,7 +1733,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         Health_ChangeBy(play, 0x10);
         return item;
     } else if (item == ITEM_MAGIC_JAR_SMALL) {
-        // This function is only used to store the magicState.
+        // Magic_Fill is only used to store the magicState.
         // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
         // I.e. magic is added not filled.
 #if OOT_VERSION < PAL_1_0
@@ -1753,7 +1753,7 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         return item;
     } else if (item == ITEM_MAGIC_JAR_BIG) {
-        // This function is only used to store the magicState.
+        // Magic_Fill is only used to store the magicState.
         // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
         // I.e. magic is added not filled.
 #if OOT_VERSION < PAL_1_0
