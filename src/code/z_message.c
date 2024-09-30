@@ -2399,6 +2399,8 @@ void Message_Decode(PlayState* play) {
             } else if (curChar == MESSAGE_BACKGROUND) {
                 msgCtx->textboxBackgroundIdx = font->msgBuf[msgCtx->msgBufPos + 1] * 2;
 #if OOT_VERSION < PAL_1_0
+                //! @bug Wrong shift amounts cause textboxBackgroundForeColorIdx and textboxBackgroundBackColorIdx
+                //! to always be 0. Fortunately MESSAGE_BACKGROUND is only present in unused messages.
                 msgCtx->textboxBackgroundForeColorIdx = (font->msgBuf[msgCtx->msgBufPos + 2] & 0xF0) >> 12;
                 msgCtx->textboxBackgroundBackColorIdx = (font->msgBuf[msgCtx->msgBufPos + 2] & 0xF) >> 8;
 #else
