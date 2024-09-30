@@ -32,6 +32,8 @@
 #include "z64math.h"
 #include "z64map_mark.h"
 #include "z64message.h"
+#include "z64olib.h"
+#include "one_point_cutscene.h"
 #include "z64pause.h"
 #include "z64play.h"
 #include "z64skin.h"
@@ -284,26 +286,6 @@ typedef struct FileSelectState {
     /* 0x1CAD4 */ s16 newFileNameCharCount;
     /* 0x1CAD6 */ s16 unk_1CAD6[5];
 } FileSelectState; // size = 0x1CAE0
-
-// Macros for `EntranceInfo.field`
-#define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
-#define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)
-#define ENTRANCE_INFO_END_TRANS_TYPE_MASK 0x3F80
-#define ENTRANCE_INFO_END_TRANS_TYPE_SHIFT 7
-#define ENTRANCE_INFO_END_TRANS_TYPE(field)          \
-    (((field) >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) \
-     & (ENTRANCE_INFO_END_TRANS_TYPE_MASK >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT))
-#define ENTRANCE_INFO_START_TRANS_TYPE_MASK 0x7F
-#define ENTRANCE_INFO_START_TRANS_TYPE_SHIFT 0
-#define ENTRANCE_INFO_START_TRANS_TYPE(field)          \
-    (((field) >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) \
-     & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
-
-typedef struct EntranceInfo {
-    /* 0x00 */ s8  sceneId;
-    /* 0x01 */ s8  spawn;
-    /* 0x02 */ u16 field;
-} EntranceInfo; // size = 0x4
 
 typedef struct GameStateOverlay {
     /* 0x00 */ void*     loadedRamAddr;

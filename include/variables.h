@@ -64,22 +64,9 @@ extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
 extern s16 gSpoilingItemReverts[3];
-extern FlexSkeletonHeader* gPlayerSkelHeaders[2];
-extern u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX];
-extern Gfx* gPlayerLeftHandBgsDLs[];
-extern Gfx* gPlayerLeftHandOpenDLs[];
-extern Gfx* gPlayerLeftHandClosedDLs[];
-extern Gfx* gPlayerLeftHandBoomerangDLs[];
-extern Gfx gCullBackDList[];
-extern Gfx gCullFrontDList[];
+
 extern Gfx gEmptyDL[];
 
-extern SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX];
-extern s16 gLinkObjectIds[2];
-extern u32 gObjectTableSize;
-extern RomFile gObjectTable[OBJECT_ID_MAX];
-extern EntranceInfo gEntranceTable[ENTR_MAX];
-extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
 extern u16 gSramSlotOffsets[];
 // 4 16-colors palettes
 extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
