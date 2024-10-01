@@ -167,11 +167,11 @@ void func_80A1DBD4(EnFu* this, PlayState* play) {
     if (play->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->actionFunc = EnFu_WaitAdult;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(play, ITEM_SONG_STORMS);

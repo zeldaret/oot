@@ -2,7 +2,11 @@
 #define Z64EFFECT_H
 
 #include "color.h"
+#include "romfile.h"
+#include "z64light.h"
+#include "z64math.h"
 
+struct Actor;
 struct GraphicsContext;
 struct PlayState;
 
@@ -218,7 +222,7 @@ typedef struct EffectSs {
     /* 0x28 */ EffectSsDrawFunc draw;
     /* 0x2C */ Vec3f vec; // usage specific per effect
     /* 0x38 */ void* gfx; // mostly used for display lists, sometimes textures
-    /* 0x3C */ Actor* actor; // interfacing actor, usually the actor that spawned the effect
+    /* 0x3C */ struct Actor* actor; // interfacing actor, usually the actor that spawned the effect
     /* 0x40 */ s16 regs[13]; // specific per effect
     /* 0x5A */ u16 flags;
     /* 0x5C */ s16 life; // -1 means this entry is free
@@ -257,5 +261,181 @@ typedef enum EffectSsType {
 
 #undef DEFINE_EFFECT_SS
 #undef DEFINE_EFFECT_SS_UNSET
+
+void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2);
+void EffectBlure_AddSpace(EffectBlure* this);
+void EffectBlure_Init1(void* thisx, void* initParamsx);
+void EffectBlure_Init2(void* thisx, void* initParamsx);
+void EffectBlure_Destroy(void* thisx);
+s32 EffectBlure_Update(void* thisx);
+void EffectBlure_Draw(void* thisx, struct GraphicsContext* gfxCtx);
+void EffectShieldParticle_Init(void* thisx, void* initParamsx);
+void EffectShieldParticle_Destroy(void* thisx);
+s32 EffectShieldParticle_Update(void* thisx);
+void EffectShieldParticle_Draw(void* thisx, struct GraphicsContext* gfxCtx);
+void EffectSpark_Init(void* thisx, void* initParamsx);
+void EffectSpark_Destroy(void* thisx);
+s32 EffectSpark_Update(void* thisx);
+void EffectSpark_Draw(void* thisx, struct GraphicsContext* gfxCtx);
+void func_80026230(struct PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
+void func_80026400(struct PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
+void func_80026608(struct PlayState* play);
+void func_80026690(struct PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
+void func_80026860(struct PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
+void func_80026A6C(struct PlayState* play);
+struct PlayState* Effect_GetPlayState(void);
+void* Effect_GetByIndex(s32 index);
+void Effect_InitContext(struct PlayState* play);
+void Effect_Add(struct PlayState* play, s32* pIndex, s32 type, u8 arg3, u8 arg4, void* initParams);
+void Effect_DrawAll(struct GraphicsContext* gfxCtx);
+void Effect_UpdateAll(struct PlayState* play);
+void Effect_Delete(struct PlayState* play, s32 index);
+void Effect_DeleteAll(struct PlayState* play);
+void EffectSs_InitInfo(struct PlayState* play, s32 tableSize);
+void EffectSs_ClearAll(struct PlayState* play);
+void EffectSs_Delete(EffectSs* effectSs);
+void EffectSs_Reset(EffectSs* effectSs);
+void EffectSs_Insert(struct PlayState* play, EffectSs* effectSs);
+void EffectSs_Spawn(struct PlayState* play, s32 type, s32 priority, void* initParams);
+void EffectSs_UpdateAll(struct PlayState* play);
+void EffectSs_DrawAll(struct PlayState* play);
+s16 EffectSs_LerpInv(s16 a, s16 b, s32 weightInv);
+s16 EffectSs_LerpS16(s16 a, s16 b, f32 weight);
+u8 EffectSs_LerpU8(u8 a, u8 b, f32 weight);
+void EffectSs_DrawGEffect(struct PlayState* play, EffectSs* this, void* texture);
+void EffectSsDust_Spawn(struct PlayState* play, u16 drawFlags, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                        Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life,
+                        u8 updateMode);
+void func_8002829C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void func_80028304(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void func_8002836C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life);
+void func_800283D4(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life);
+void func_8002843C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life);
+void func_800284A4(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void func_80028510(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void func_8002857C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_800285EC(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void func_8002865C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
+void func_800286CC(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep);
+void func_8002873C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                   s16 life);
+void func_800287AC(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                   s16 life);
+void func_8002881C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor);
+void func_80028858(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                   Color_RGBA8* envColor);
+void func_80028990(struct PlayState* play, f32 randScale, Vec3f* srcPos);
+void func_80028A54(struct PlayState* play, f32 randScale, Vec3f* srcPos);
+void EffectSsKiraKira_SpawnSmallYellow(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void EffectSsKiraKira_SpawnSmall(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                 Color_RGBA8* primColor, Color_RGBA8* envColor);
+void EffectSsKiraKira_SpawnDispersed(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                     Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s32 life);
+void EffectSsKiraKira_SpawnFocused(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                   Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s32 life);
+void EffectSsBomb_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void EffectSsBomb2_SpawnFade(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void EffectSsBomb2_SpawnLayered(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                s16 scaleStep);
+void EffectSsBlast_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* innerColor,
+                         Color_RGBA8* outerColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life);
+void EffectSsBlast_SpawnWhiteShockwaveSetScale(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                               s16 scale, s16 scaleStep, s16 life);
+void EffectSsBlast_SpawnShockwaveSetColor(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                          Color_RGBA8* innerColor, Color_RGBA8* outerColor, s16 life);
+void EffectSsBlast_SpawnWhiteShockwave(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void EffectSsGSpk_SpawnAccel(struct PlayState* play, struct Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                             Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void EffectSsGSpk_SpawnNoAccel(struct PlayState* play, struct Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                               Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep);
+void EffectSsGSpk_SpawnFuse(struct PlayState* play, struct Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
+void EffectSsGSpk_SpawnRandColor(struct PlayState* play, struct Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                 s16 scale, s16 scaleStep);
+void EffectSsGSpk_SpawnSmall(struct PlayState* play, struct Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                             Color_RGBA8* primColor, Color_RGBA8* envColor);
+void EffectSsDFire_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                         s16 alpha, s16 fadeDelay, s32 life);
+void EffectSsDFire_SpawnFixedScale(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 alpha,
+                                   s16 fadeDelay);
+void EffectSsBubble_Spawn(struct PlayState* play, Vec3f* pos, f32 yPosOffset, f32 yPosRandScale, f32 xzPosRandScale,
+                          f32 scale);
+void EffectSsGRipple_Spawn(struct PlayState* play, Vec3f* pos, s16 radius, s16 radiusMax, s16 life);
+void EffectSsGSplash_Spawn(struct PlayState* play, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor, s16 type,
+                           s16 scale);
+void EffectSsGMagma_Spawn(struct PlayState* play, Vec3f* pos);
+void EffectSsGFire_Spawn(struct PlayState* play, Vec3f* pos);
+void EffectSsLightning_Spawn(struct PlayState* play, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
+                             s16 scale, s16 yaw, s16 life, s16 numBolts);
+void EffectSsDtBubble_SpawnColorProfile(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                        s16 life, s16 colorProfile, s16 randXZ);
+void EffectSsDtBubble_SpawnCustomColor(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                       Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 life, s16 randXZ);
+void EffectSsHahen_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused, s16 scale,
+                         s16 objId, s16 life, Gfx* dList);
+void EffectSsHahen_SpawnBurst(struct PlayState* play, Vec3f* pos, f32 burstScale, s16 unused, s16 scale,
+                              s16 randScaleRange, s16 count, s16 objId, s16 life, Gfx* dList);
+void EffectSsStick_Spawn(struct PlayState* play, Vec3f* pos, s16 yaw);
+void EffectSsSibuki_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 moveDelay,
+                          s16 direction, s16 scale);
+void EffectSsSibuki_SpawnBurst(struct PlayState* play, Vec3f* pos);
+void EffectSsSibuki2_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale);
+void EffectSsGMagma2_Spawn(struct PlayState* play, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
+                           s16 updateRate, s16 drawMode, s16 scale);
+void EffectSsStone1_Spawn(struct PlayState* play, Vec3f* pos, s32 arg2);
+void EffectSsHitMark_Spawn(struct PlayState* play, s32 type, s16 scale, Vec3f* pos);
+void EffectSsHitMark_SpawnFixedScale(struct PlayState* play, s32 type, Vec3f* pos);
+void EffectSsHitMark_SpawnCustomScale(struct PlayState* play, s32 type, s16 scale, Vec3f* pos);
+void EffectSsFhgFlash_SpawnLightBall(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                     u8 param);
+void EffectSsFhgFlash_SpawnShock(struct PlayState* play, struct Actor* actor, Vec3f* pos, s16 scale, u8 param);
+void EffectSsKFire_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scaleMax, u8 type);
+void EffectSsSolderSrchBall_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused,
+                                  s16* linkDetected);
+void EffectSsKakera_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* arg3, s16 gravity, s16 arg5,
+                          s16 arg6, s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 colorIdx,
+                          s16 objId, Gfx* dList);
+void EffectSsIcePiece_Spawn(struct PlayState* play, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, s32 life);
+void EffectSsIcePiece_SpawnBurst(struct PlayState* play, Vec3f* refPos, f32 scale);
+void EffectSsEnIce_SpawnFlyingVec3f(struct PlayState* play, struct Actor* actor, Vec3f* pos, s16 primR, s16 primG,
+                                    s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, f32 scale);
+void EffectSsEnIce_SpawnFlyingVec3s(struct PlayState* play, struct Actor* actor, Vec3s* pos, s16 primR, s16 primG,
+                                    s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, f32 scale);
+void EffectSsEnIce_Spawn(struct PlayState* play, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel,
+                         Color_RGBA8* primColor, Color_RGBA8* envColor, s32 life);
+void EffectSsFireTail_Spawn(struct PlayState* play, struct Actor* actor, Vec3f* pos, f32 scale, Vec3f* arg4, s16 arg5,
+                            Color_RGBA8* primColor, Color_RGBA8* envColor, s16 type, s16 bodyPart, s32 life);
+void EffectSsFireTail_SpawnFlame(struct PlayState* play, struct Actor* actor, Vec3f* pos, f32 arg3, s16 bodyPart,
+                                 f32 colorIntensity);
+void EffectSsFireTail_SpawnFlameOnPlayer(struct PlayState* play, f32 scale, s16 bodyPart, f32 colorIntensity);
+void EffectSsEnFire_SpawnVec3f(struct PlayState* play, struct Actor* actor, Vec3f* pos, s16 scale, s16 arg4, s16 flags,
+                               s16 bodyPart);
+void EffectSsEnFire_SpawnVec3s(struct PlayState* play, struct Actor* actor, Vec3s* pos, s16 scale, s16 arg4, s16 flags,
+                               s16 bodyPart);
+void EffectSsExtra_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scoreIdx);
+void EffectSsFCircle_Spawn(struct PlayState* play, struct Actor* actor, Vec3f* pos, s16 radius, s16 height);
+void EffectSsDeadDb_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                          s16 primR, s16 primG, s16 primB, s16 primA, s16 envR, s16 envG, s16 envB, s16 unused,
+                          s32 arg14, s16 playSfx);
+void EffectSsDeadDd_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                          s16 primR, s16 primG, s16 primB, s16 alpha, s16 envR, s16 envG, s16 envB, s16 alphaStep,
+                          s32 life);
+void EffectSsDeadDd_SpawnRandYellow(struct PlayState* play, Vec3f* pos, s16 scale, s16 scaleStep, f32 randPosScale,
+                                    s32 randIter, s32 life);
+void EffectSsDeadDs_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep,
+                          s16 alpha, s32 life);
+void EffectSsDeadDs_SpawnStationary(struct PlayState* play, Vec3f* pos, s16 scale, s16 scaleStep, s16 alpha, s32 life);
+void EffectSsDeadSound_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u16 sfxId,
+                             s16 lowerPriority, s16 repeatMode, s32 life);
+void EffectSsDeadSound_SpawnStationary(struct PlayState* play, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 repeatMode,
+                                       s32 life);
+void EffectSsIceSmoke_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale);
 
 #endif
