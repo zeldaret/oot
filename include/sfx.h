@@ -1,6 +1,8 @@
 #ifndef SFX_H
 #define SFX_H
 
+#include "versions.h"
+
 typedef enum SfxBankType {
     /* 0 */ BANK_PLAYER,
     /* 1 */ BANK_ITEM,
