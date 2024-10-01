@@ -156,9 +156,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 PRINTF("now=%d  ccc=%d\n", cursorPoint, cursorItem);
 
                 do {
-                    // if input says move left
-                    if (pauseCtx->stickAdjX < -30) {
-                        // if not left-most
+                    if (pauseCtx->stickAdjX < -30) { // left
+                        // if not on the left-most column
                         if (pauseCtx->cursorX[PAUSE_ITEM] != 0) {
                             // move left
                             pauseCtx->cursorX[PAUSE_ITEM]--;
