@@ -68,8 +68,8 @@ void FlagSet_Update(PlayState* play) {
 
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     Input* input = &play->state.input[0];
-    Gfx* tempGfxDisp;
-    Gfx* lockedGfxDisp;
+    Gfx* gfxAllocDisp;
+    Gfx* tempGfx;
 
     OPEN_DISPS(gfxCtx, "../flg_set.c", 131);
 
@@ -77,11 +77,10 @@ void FlagSet_Update(PlayState* play) {
         GfxPrint printer;
         s32 pad;
 
-        tempGfxDisp = Gfx_Open(lockedGfxDisp = POLY_OPA_DISP);
-        gSPDisplayList(OVERLAY_DISP++, tempGfxDisp);
+        GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
 
         GfxPrint_Init(&printer);
-        GfxPrint_Open(&printer, tempGfxDisp);
+        GfxPrint_Open(&printer, gfxAllocDisp);
         GfxPrint_SetColor(&printer, 250, 50, 50, 255);
         GfxPrint_SetPos(&printer, 4, 13);
         GfxPrint_Printf(&printer, entries[entryIdx].name);
@@ -166,12 +165,10 @@ void FlagSet_Update(PlayState* play) {
             timer--;
         }
 
-        tempGfxDisp = GfxPrint_Close(&printer);
+        gfxAllocDisp = GfxPrint_Close(&printer);
         GfxPrint_Destroy(&printer);
 
-        gSPEndDisplayList(tempGfxDisp++);
-        Gfx_Close(lockedGfxDisp, tempGfxDisp);
-        POLY_OPA_DISP = tempGfxDisp;
+        GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_L)) {

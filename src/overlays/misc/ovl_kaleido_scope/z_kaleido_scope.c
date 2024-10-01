@@ -907,24 +907,21 @@ static PreRender sPlayerPreRender;
 static void* sPreRenderCvg;
 
 void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
-    Gfx* tempGfxDisp;
-    Gfx* lockedGfxDisp;
+    Gfx* gfxAllocDisp;
+    Gfx* tempGfx;
     void* fbuf;
 
     fbuf = play->state.gfxCtx->curFrameBuffer;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 496);
 
-    tempGfxDisp = Gfx_Open(lockedGfxDisp = POLY_OPA_DISP);
-    gSPDisplayList(WORK_DISP++, tempGfxDisp);
+    GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, WORK_DISP);
 
     PreRender_SetValues(&sPlayerPreRender, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT, fbuf, NULL);
-    PreRender_SaveFramebuffer(&sPlayerPreRender, &tempGfxDisp);
-    PreRender_DrawCoverage(&sPlayerPreRender, &tempGfxDisp);
+    PreRender_SaveFramebuffer(&sPlayerPreRender, &gfxAllocDisp);
+    PreRender_DrawCoverage(&sPlayerPreRender, &gfxAllocDisp);
 
-    gSPEndDisplayList(tempGfxDisp++);
-    Gfx_Close(lockedGfxDisp, tempGfxDisp);
-    POLY_OPA_DISP = tempGfxDisp;
+    GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
 
     R_GRAPH_TASKSET00_FLAGS |= 1;
 

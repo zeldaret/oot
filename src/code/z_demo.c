@@ -2217,18 +2217,14 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
     if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
 #if OOT_DEBUG
         if (BREG(0) != 0) {
-            Gfx* displayList;
-            Gfx* prevDisplayList;
+            Gfx* gfxAllocDisp;
+            Gfx* tempGfx;
 
             OPEN_DISPS(play->state.gfxCtx, "../z_demo.c", 4101);
 
-            prevDisplayList = POLY_OPA_DISP;
-            displayList = Gfx_Open(POLY_OPA_DISP);
-            gSPDisplayList(OVERLAY_DISP++, displayList);
-            Cutscene_DrawDebugInfo(play, &displayList, csCtx);
-            gSPEndDisplayList(displayList++);
-            Gfx_Close(prevDisplayList, displayList);
-            POLY_OPA_DISP = displayList;
+            GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
+            Cutscene_DrawDebugInfo(play, &gfxAllocDisp, csCtx);
+            GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_demo.c", 4108);
         }
