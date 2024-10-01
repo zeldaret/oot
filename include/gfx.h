@@ -5,6 +5,7 @@
 #include "ultra64/gbi.h"
 #include "sched.h"
 #include "thga.h"
+#include "versions.h"
 
 // Texture memory size, 4 KiB
 #define TMEM_SIZE 0x1000
@@ -46,8 +47,10 @@ typedef struct GraphicsContext {
     /* 0x02E8 */ s32 fbIdx;
     /* 0x02EC */ void (*callback)(struct GraphicsContext*, void*);
     /* 0x02F0 */ void* callbackParam;
+#if OOT_VERSION >= PAL_1_0
     /* 0x02F4 */ f32 xScale;
     /* 0x02F8 */ f32 yScale;
+#endif
     /* 0x02FC */ char unk_2FC[0x04];
 } GraphicsContext; // size = 0x300
 

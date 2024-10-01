@@ -18,7 +18,9 @@ ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER ?= ido
 # Target game version. Currently the following versions are supported:
+#   pal-1.0        N64 PAL 1.0 (Europe)
 #   ntsc-1.2       N64 NTSC 1.2 (Japan/US depending on REGION)
+#   pal-1.1        N64 PAL 1.1 (Europe)
 #   gc-jp          GameCube Japan
 #   gc-jp-mq       GameCube Japan Master Quest
 #   gc-us          GameCube US
@@ -28,8 +30,7 @@ COMPILER ?= ido
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-jp-ce       GameCube Japan (Collector's Edition disc)
 # The following versions are work-in-progress and not yet matching:
-#   pal-1.0        N64 PAL 1.0 (Europe)
-#   pal-1.1        N64 PAL 1.1 (Europe)
+#   (none currently)
 VERSION ?= gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS ?= $(shell nproc)
@@ -53,7 +54,6 @@ ifeq ($(VERSION),pal-1.0)
   REGION ?= EU
   PLATFORM := N64
   DEBUG := 0
-  COMPARE := 0
 else ifeq ($(VERSION),ntsc-1.2)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
@@ -63,7 +63,6 @@ else ifeq ($(VERSION),pal-1.1)
   REGION ?= EU
   PLATFORM := N64
   DEBUG := 0
-  COMPARE := 0
 else ifeq ($(VERSION),gc-jp)
   REGION ?= JP
   PLATFORM := GC

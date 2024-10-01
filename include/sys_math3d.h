@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+struct PlayState;
+
 s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,
                                       f32 planeBC, f32 planeBDist, Vec3f* linePointA, Vec3f* linePointB,
                                       Vec3f* closestPoint);
@@ -69,5 +71,8 @@ s32 Math3D_TriVsTriIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect);
 s32 Math3D_XZInSphere(Sphere16* sphere, f32 x, f32 z);
 s32 Math3D_XYInSphere(Sphere16* sphere, f32 x, f32 y);
 s32 Math3D_YZInSphere(Sphere16* sphere, f32 y, f32 z);
+
+void Math3D_DrawSphere(struct PlayState* play, Sphere16* sph);
+void Math3D_DrawCylinder(struct PlayState* play, Cylinder16* cyl);
 
 #endif
