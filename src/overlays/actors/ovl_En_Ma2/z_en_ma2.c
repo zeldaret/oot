@@ -255,7 +255,7 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play) {
 
 void func_80AA2018(EnMa2* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
@@ -298,10 +298,10 @@ void func_80AA21C8(EnMa2* this, PlayState* play) {
         player->stateFlags2 |= PLAYER_STATE2_23;
     } else {
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-            this->actor.flags |= ACTOR_FLAG_16;
+            this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
             Message_CloseTextbox(play);
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_16;
+            this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
             this->actionFunc = func_80AA2018;
         }
     }
