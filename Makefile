@@ -4,20 +4,25 @@ MAKEFLAGS += --no-builtin-rules
 SHELL = /bin/bash
 .SHELLFLAGS = -o pipefail -c
 
-# Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
-# It is also possible to override default settings in a file called .make_options.mk with 'SETTING=value'.
+#### Build options ####
+
+# The build options below can be changed by modifying the Makefile, or by appending 'SETTING=value' to all
+# make commands (e.g. 'make setup VERSION=ntsc-1.0' and 'make VERSION=ntsc-1.0' to build the NTSC 1.0 version).
+# Alternatively, you can create a file called .make_options.mk (gitignored by default) and add 'SETTING=value'
+# there to avoid modifying the Makefile directly.
 
 -include .make_options.mk
 
-# If COMPARE is 1, check the output md5sum after building
+# If COMPARE is 1, check the output md5sum after building. Set to 0 when modding.
 COMPARE ?= 1
-# If NON_MATCHING is 1, define the NON_MATCHING C flag when building
+# If NON_MATCHING is 1, define the NON_MATCHING C flag when building. Set to 1 when modding.
 NON_MATCHING ?= 0
-# If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
+# If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler.
 ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER ?= ido
-# Target game version. Currently the following versions are supported:
+# Target game version. Ensure the corresponding input ROM is placed in baseroms/$(VERSION)/baserom.z64.
+# Currently the following versions are supported:
 #   ntsc-1.2       N64 NTSC 1.2 (Japan/US depending on REGION)
 #   gc-jp          GameCube Japan
 #   gc-jp-mq       GameCube Japan Master Quest
@@ -31,24 +36,25 @@ COMPILER ?= ido
 #   pal-1.0        N64 PAL 1.0 (Europe)
 #   pal-1.1        N64 PAL 1.1 (Europe)
 VERSION ?= gc-eu-mq-dbg
-# Number of threads to extract and compress with
+# Number of threads to extract and compress with.
 N_THREADS ?= $(shell nproc)
-# Check code syntax with host compiler
+# Check code syntax with host compiler.
 RUN_CC_CHECK ?= 1
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
-# In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
+# In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH indicates missing dependencies.
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
-# Emulator w/ flags
+# Emulator w/ flags for 'make run'.
 N64_EMULATOR ?=
-# Set to override game region in the ROM header. Options: JP, US, EU
+# Set to override game region in the ROM header (options: JP, US, EU). This can be used to build a fake US version
+# of the debug ROM for better emulator compatibility, or to build US versions of NTSC N64 ROMs.
 # REGION ?= US
 
 CFLAGS ?=
 CPPFLAGS ?=
 CPP_DEFINES ?=
 
-REGIONAL_CHECKSUM := 0
 # Version-specific settings
+REGIONAL_CHECKSUM := 0
 ifeq ($(VERSION),pal-1.0)
   REGION ?= EU
   PLATFORM := N64

@@ -163,11 +163,10 @@ This means that the built ROM isn't the same as the base one, so something went 
 
 Both of these have the disadvantage that the ordering of the terminal output is scrambled, so for debugging it is best to stick to one thread (i.e. not pass `-j` or `-jN`).
 
-## Other versions
+## Changing build options
 
-To build another version of the game, place the input ROM in `baseroms/<version>/baserom.z64`, and append `VERSION=<version>` to all `make` commands.
-For example, to build `ntsc-1.0`, place a copy of the NTSC 1.0 ROM in `baseroms/ntsc-1.0/baserom.z64`,
-and run `make setup VERSION=ntsc-1.0` and `make VERSION=ntsc-1.0` to build the ROM.
+The project Makefile is fairly configurable and can be used to build other versions of the game or prepare the repo for modding.
+See the Makefile for more information.
 
 ## Contributing
 
