@@ -2004,11 +2004,11 @@ void Player_FinishAnimMovement(Player* this) {
 /**
  * This is a reimplementation of `AnimTask_ActorMovement`.
  *
- * This variation of AnimMovement will apply age-specific scaling to Player's world position
- * in addition to his skeleton.
+ * This achieves the same goal as `AnimTask_ActorMovement`but it adds
+ * the ability to scale the resulting movement according to age.
  *
- * When using the SkelAnime Anim Task implementation with `Player_StartAnimMovement` the
- * age specific scaling will only be applied visually to Player's skeleton.
+ * When using the AnimTask variant, age specific scaling can only be applied visually
+ * to the root bone position and does not affect world position.
  */
 void Player_ApplyAnimMovementScaledByAge(Player* this, s32 movementFlags) {
     Vec3f diff;
