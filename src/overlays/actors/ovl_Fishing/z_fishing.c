@@ -5,18 +5,38 @@
  */
 
 #include "z_fishing.h"
-#include "global.h"
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
+#include "libc64/math64.h"
+#include "attributes.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "ichain.h"
+#include "letterbox.h"
+#include "rand.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64audio.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64skin_matrix.h"
+#include "z_lib.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:123 gc-eu-mq:123 gc-jp:125 gc-jp-ce:125 gc-jp-mq:125 gc-us:125 gc-us-mq:125"
+#pragma increment_block_number "gc-eu:183 gc-eu-mq:183 gc-jp:183 gc-jp-ce:183 gc-jp-mq:183 gc-us:183 gc-us-mq:183" \
+                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #define FLAGS ACTOR_FLAG_4
 

@@ -57,6 +57,13 @@ pipeline {
                 }
             }
         }
+        stage('Build pal-1.0') {
+            steps {
+                script {
+                    build('pal-1.0', 'oot-pal-1.0.z64')
+                }
+           }
+        }
         stage('Build gc-us') {
             steps {
                 script {
@@ -84,6 +91,13 @@ pipeline {
                     build('gc-jp-mq', 'oot-gc-jp-mq.z64')
                 }
             }
+        }
+        stage('Build pal-1.1') {
+            steps {
+                script {
+                    build('pal-1.1', 'oot-pal-1.1.z64')
+                }
+           }
         }
         stage('Build gc-us-mq') {
             steps {

@@ -1,6 +1,6 @@
 #if PLATFORM_N64
 
-#pragma increment_block_number "ntsc-1.2:128"
+#pragma increment_block_number "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #include "global.h"
 #include "fault.h"
@@ -8,7 +8,7 @@
 #include "stack.h"
 #include "terminal.h"
 
-#pragma increment_block_number "ntsc-1.2:96"
+#pragma increment_block_number "ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
 
 typedef struct FaultMgr {
     OSThread thread;

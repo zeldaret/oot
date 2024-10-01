@@ -11,7 +11,6 @@
 
 #include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
-#include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
@@ -235,7 +234,9 @@ void func_808521F4(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_80852234(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue);
+#if OOT_VERSION >= PAL_1_0
 void func_80852358(PlayState* play, Player* this, CsCmdActorCue* cue);
+#endif
 void func_80852388(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_80852298(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_80852328(PlayState* play, Player* this, CsCmdActorCue* cue);
@@ -356,21 +357,21 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 // .bss part 1
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:128"
+                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 static s32 D_80858AA0;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:192"
+                               "ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:128"
+                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
 
@@ -1726,12 +1727,20 @@ void Player_DetachHeldActor(PlayState* play, Player* this) {
         this->interactRangeActor = NULL;
         heldActor->parent = NULL;
         this->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
+#if OOT_VERSION < NTSC_1_1
+        if (Player_GetExplosiveHeld(this) >= 0) {
+            Player_InitItemAction(play, this, PLAYER_IA_NONE);
+            this->heldItemId = ITEM_NONE_FE;
+        }
+#endif
     }
 
+#if OOT_VERSION >= NTSC_1_1
     if (Player_GetExplosiveHeld(this) >= 0) {
         Player_InitItemAction(play, this, PLAYER_IA_NONE);
         this->heldItemId = ITEM_NONE_FE;
     }
+#endif
 }
 
 void func_80832440(PlayState* play, Player* this) {
@@ -1916,10 +1925,13 @@ void Player_ProcessAnimSfxList(Player* this, AnimSfxEntry* entry) {
                 Player_PlayJumpingSfx(this);
             } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_WALKING)) {
                 Player_PlaySteppingSfx(this, 0.0f);
-            } else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_UNKNOWN)) {
+            }
+#if OOT_VERSION >= PAL_1_0
+            else if (type == ANIMSFX_SHIFT_TYPE(ANIMSFX_TYPE_UNKNOWN)) {
                 func_800F4010(&this->actor.projectedPos,
                               NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD + this->ageProperties->unk_94, 0.0f);
             }
+#endif
         }
 
         cont = (entry->data >= 0); // stop processing if `data` is negative
@@ -2205,6 +2217,14 @@ void Player_SetUpperActionFunc(Player* this, UpperActionFunc upperActionFunc) {
     func_808326F0(this);
 }
 
+#if OOT_VERSION < NTSC_1_1
+s32 Player_GetMeleeWeaponHeld2(Player* this) {
+    return Player_GetMeleeWeaponHeld(this);
+}
+#else
+#define Player_GetMeleeWeaponHeld2 Player_GetMeleeWeaponHeld
+#endif
+
 void Player_InitItemActionWithAnim(PlayState* play, Player* this, s8 itemAction) {
     LinkAnimationHeader* current = this->skelAnime.animation;
     LinkAnimationHeader** iter = D_80853914 + this->modelAnimType;
@@ -2242,6 +2262,14 @@ s8 Player_ItemToItemAction(s32 item) {
 
 void Player_InitDefaultIA(PlayState* play, Player* this) {
 }
+
+#if OOT_VERSION < NTSC_1_1
+s32 Player_HoldsTwoHandedWeapon2(Player* this) {
+    return Player_HoldsTwoHandedWeapon(this);
+}
+#else
+#define Player_HoldsTwoHandedWeapon2 Player_HoldsTwoHandedWeapon
+#endif
 
 void Player_InitDekuStickIA(PlayState* play, Player* this) {
     this->unk_85C = 1.0f;
@@ -2315,7 +2343,9 @@ void Player_InitItemAction(PlayState* play, Player* this, s8 itemAction) {
     this->heldItemAction = this->itemAction = itemAction;
     this->modelGroup = this->nextModelGroup;
 
+#if OOT_VERSION >= NTSC_1_1
     this->stateFlags1 &= ~(PLAYER_STATE1_3 | PLAYER_STATE1_USING_BOOMERANG);
+#endif
 
     sItemActionInitFuncs[itemAction](play, this);
 
@@ -2584,7 +2614,10 @@ void Player_StartChangingHeldItem(Player* this, PlayState* play) {
 }
 
 void Player_UpdateItems(Player* this, PlayState* play) {
-    if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) &&
+    if ((this->actor.category == ACTORCAT_PLAYER) &&
+#if OOT_VERSION >= NTSC_1_1
+        !(this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) &&
+#endif
         ((this->heldItemAction == this->itemAction) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
         (gSaveContext.save.info.playerData.health != 0) && (play->csCtx.state == CS_STATE_IDLE) &&
         (this->csAction == PLAYER_CSACTION_NONE) && (play->shootingGalleryStatus == 0) &&
@@ -3103,20 +3136,34 @@ void func_80835688(Player* this, PlayState* play) {
 }
 
 s32 Player_UpperAction_CarryActor(Player* this, PlayState* play) {
+#if OOT_VERSION >= NTSC_1_1
     Actor* heldActor = this->heldActor;
 
     if (heldActor == NULL) {
         func_80834644(play, this);
     }
+#endif
 
     if (func_80834758(play, this)) {
         return true;
     }
 
     if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
+#if OOT_VERSION < NTSC_1_1
+        Actor* heldActor;
+#endif
+
         if (LinkAnimation_Update(play, &this->upperSkelAnime)) {
             LinkAnimation_PlayLoop(play, &this->upperSkelAnime, &gPlayerAnim_link_normal_carryB_wait);
         }
+
+#if OOT_VERSION < NTSC_1_1
+        heldActor = this->heldActor;
+        if (heldActor == NULL) {
+            func_80834644(play, this);
+            return true;
+        }
+#endif
 
         if ((heldActor->id == ACTOR_EN_NIW) && (this->actor.velocity.y <= 0.0f)) {
             this->actor.minVelocityY = -2.0f;
@@ -5949,8 +5996,9 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
     s32 canTalkToLockOnWithCUp;
 
     canTalkToLockOnWithCUp =
-        (lockOnActor != NULL) && (CHECK_FLAG_ALL(lockOnActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
-                                  (lockOnActor->naviEnemyId != NAVI_ENEMY_NONE));
+        (lockOnActor != NULL) &&
+        (CHECK_FLAG_ALL(lockOnActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_WITH_C_UP) ||
+         (lockOnActor->naviEnemyId != NAVI_ENEMY_NONE));
 
     if (canTalkToLockOnWithCUp || (this->naviTextId != 0)) {
         // If `naviTextId` is negative and outside the 0x2XX range, talk to Navi instantly
@@ -5980,7 +6028,7 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
         if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
             if ((this->heldActor == NULL) ||
                 (!forceTalkToNavi && (talkOfferActor != this->heldActor) && (cUpTalkActor != this->heldActor) &&
-                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_16)))) {
+                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)))) {
                 goto dont_talk;
             }
         }
@@ -5997,7 +6045,9 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
             // "Speak" or "Check" will appear on the A button in the HUD.
             this->stateFlags2 |= PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER;
 
-            if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (talkOfferActor->flags & ACTOR_FLAG_16)) {
+            if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) ||
+                (talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)) {
+                // Talk Offer has been accepted.
                 // Clearing `cUpTalkActor` guarantees that `talkOfferActor` is the actor that will be spoken to
                 cUpTalkActor = NULL;
             } else if (cUpTalkActor == NULL) {
@@ -6062,7 +6112,7 @@ s32 Player_ActionHandler_0(Player* this, PlayState* play) {
     }
 
     if ((this->focusActor != NULL) &&
-        (CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
+        (CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_WITH_C_UP) ||
          (this->focusActor->naviEnemyId != NAVI_ENEMY_NONE))) {
         this->stateFlags2 |= PLAYER_STATE2_21;
     } else if ((this->naviTextId == 0) && !Player_CheckHostileLockOn(this) &&
@@ -6337,8 +6387,8 @@ void func_8083C50C(Player* this) {
 
 s32 Player_ActionHandler_8(Player* this, PlayState* play) {
     if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
-        if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld(this) != 0) && (this->unk_844 == 1) &&
-            (this->heldItemAction != PLAYER_IA_DEKU_STICK)) {
+        if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld2(this) != 0) &&
+            (this->unk_844 == 1) && (this->heldItemAction != PLAYER_IA_DEKU_STICK)) {
             if ((this->heldItemAction != PLAYER_IA_SWORD_BIGGORON) ||
                 (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
                 func_808377DC(play, this);
@@ -6390,15 +6440,26 @@ s32 func_8083C6B8(PlayState* play, Player* this) {
 
             rodCheckPos.y += 50.0f;
 
+#if OOT_VERSION < NTSC_1_1
+            if (BgCheck_SphVsFirstPoly(&play->colCtx, &rodCheckPos, 20.0f))
+#else
             if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.world.pos.z > 1300.0f) ||
-                BgCheck_SphVsFirstPoly(&play->colCtx, &rodCheckPos, 20.0f)) {
+                BgCheck_SphVsFirstPoly(&play->colCtx, &rodCheckPos, 20.0f))
+#endif
+            {
                 Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 return 0;
             }
 
+#if OOT_VERSION < NTSC_1_1
+            this->unk_860 = 1;
+            Player_SetupAction(play, this, Player_Action_80850C68, 0);
+#else
             Player_SetupAction(play, this, Player_Action_80850C68, 0);
             this->unk_860 = 1;
             Player_ZeroSpeedXZ(this);
+#endif
+
             Player_AnimPlayOnce(play, this, &gPlayerAnim_link_fishing_throw);
             return 1;
         } else {
@@ -6572,7 +6633,12 @@ s32 func_8083CFA8(PlayState* play, Player* this, f32 arg2, s32 splashScale) {
         splashPos.z = this->bodyPartsPos[PLAYER_BODYPART_WAIST].z;
         sp34 = this->actor.world.pos.y;
         if (WaterBox_GetSurface1(play, &play->colCtx, splashPos.x, splashPos.z, &sp34, &sp38)) {
-            if ((sp34 - this->actor.world.pos.y) < 100.0f) {
+#if OOT_VERSION < PAL_1_0
+            if ((sp34 - this->actor.world.pos.y) < 80.0f)
+#else
+            if ((sp34 - this->actor.world.pos.y) < 100.0f)
+#endif
+            {
                 splashType = (sp3C <= 10.0f) ? 0 : 1;
                 splashPos.y = sp34;
                 EffectSsGSplash_Spawn(play, &splashPos, NULL, NULL, splashType, splashScale);
@@ -7958,7 +8024,7 @@ void func_808409CC(PlayState* play, Player* this) {
                 sp34 = Rand_ZeroOne() * 5.0f;
                 if (sp34 < 4) {
                     if (((sp34 != 0) && (sp34 != 3)) || ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
-                                                         ((sp34 == 3) || (Player_GetMeleeWeaponHeld(this) != 0)))) {
+                                                         ((sp34 == 3) || (Player_GetMeleeWeaponHeld2(this) != 0)))) {
                         if ((sp34 == 0) && Player_HoldsTwoHandedWeapon(this)) {
                             sp34 = 4;
                         }
@@ -8349,7 +8415,7 @@ void Player_Action_80841BA8(Player* this, PlayState* play) {
 
     LinkAnimation_Update(play, &this->skelAnime);
 
-    if (Player_HoldsTwoHandedWeapon(this)) {
+    if (Player_HoldsTwoHandedWeapon2(this)) {
         AnimTaskQueue_AddLoadPlayerFrame(play, Player_GetIdleAnimationForCurrentModelAnimType(this), 0,
                                          this->skelAnime.limbCount, this->skelAnime.morphTable);
         AnimTaskQueue_AddCopyUsingMap(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
@@ -8634,7 +8700,7 @@ s32 func_8084285C(Player* this, f32 arg1, f32 arg2, f32 arg3) {
 }
 
 s32 func_808428D8(Player* this, PlayState* play) {
-    if (!Player_IsChildWithHylianShield(this) && (Player_GetMeleeWeaponHeld(this) != 0) && sUseHeldItem) {
+    if (!Player_IsChildWithHylianShield(this) && (Player_GetMeleeWeaponHeld2(this) != 0) && sUseHeldItem) {
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_defense_kiru);
         this->av1.actionVar1 = 1;
         this->meleeWeaponAnimation = PLAYER_MWA_STAB_1H;
@@ -9038,10 +9104,12 @@ void Player_Action_80843954(Player* this, PlayState* play) {
     }
 }
 
+#if OOT_VERSION >= PAL_1_0
 static AnimSfxEntry D_808545DC[] = {
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 20) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 30) },
 };
+#endif
 
 void Player_Action_80843A38(Player* this, PlayState* play) {
     s32 interruptResult;
@@ -9060,7 +9128,9 @@ void Player_Action_80843A38(Player* this, PlayState* play) {
         }
     }
 
+#if OOT_VERSION >= PAL_1_0
     Player_ProcessAnimSfxList(this, D_808545DC);
+#endif
 }
 
 static Vec3f D_808545E4 = { 0.0f, 0.0f, 5.0f };
@@ -9129,11 +9199,14 @@ void Player_Action_80843CEC(Player* this, PlayState* play) {
 
     if (this->skelAnime.animation == &gPlayerAnim_link_derth_rebirth) {
         Player_ProcessAnimSfxList(this, D_808545F0);
-    } else if (this->skelAnime.animation == &gPlayerAnim_link_normal_electric_shock_end) {
+    }
+#if OOT_VERSION >= PAL_1_0
+    else if (this->skelAnime.animation == &gPlayerAnim_link_normal_electric_shock_end) {
         if (LinkAnimation_OnFrame(&this->skelAnime, 88.0f)) {
             Player_PlayFloorSfx(this, NA_SE_PL_BOUND);
         }
     }
+#endif
 }
 
 void func_80843E14(Player* this, u16 sfxId) {
@@ -9762,7 +9835,11 @@ void Player_Action_80845668(Player* this, PlayState* play) {
             if (LinkAnimation_OnFrame(&this->skelAnime, 30.0f)) {
                 func_8083D0A8(play, this, 10.0f);
             }
+#if OOT_VERSION < PAL_1_0
+            temp3 = 68.0f;
+#else
             temp3 = 50.0f;
+#endif
         } else if (this->skelAnime.animation == &gPlayerAnim_link_normal_150step_up) {
             temp3 = 30.0f;
         } else if (this->skelAnime.animation == &gPlayerAnim_link_normal_100step_up) {
@@ -10405,7 +10482,12 @@ void Player_Init(Actor* thisx, PlayState* play2) {
                 (gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].field &
                  ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG) &&
                 ((play->sceneId != SCENE_DODONGOS_CAVERN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
-                ((play->sceneId != SCENE_BOMBCHU_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))) {
+#if OOT_VERSION < PAL_1_0
+                ((play->sceneId != SCENE_BOMBCHU_BOWLING_ALLEY) || GET_EVENTCHKINF(EVENTCHKINF_25))
+#else
+                ((play->sceneId != SCENE_BOMBCHU_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))
+#endif
+            ) {
                 TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144, 24, 20);
             }
         }
@@ -13559,10 +13641,12 @@ void func_8084E988(Player* this) {
     Player_ProcessAnimSfxList(this, D_808549F0);
 }
 
+#if OOT_VERSION >= PAL_1_0
 static AnimSfxEntry D_808549F4[] = {
     { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 5) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 15) },
 };
+#endif
 
 void Player_Action_8084E9AC(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
@@ -13580,11 +13664,19 @@ void Player_Action_8084E9AC(Player* this, PlayState* play) {
             return;
         }
 
+#if OOT_VERSION < PAL_1_0
+        if (!LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 5.0f)) {
+            Player_PlayVoiceSfx(this, NA_SE_VO_LI_AUTO_JUMP);
+        } else if (LINK_IS_ADULT) {
+            func_8084E988(this);
+        }
+#else
         if (!LINK_IS_ADULT) {
             Player_ProcessAnimSfxList(this, D_808549F4);
         } else {
             func_8084E988(this);
         }
+#endif
     }
 }
 
@@ -14732,51 +14824,55 @@ static struct_80854B18 D_80854E50[PLAYER_CSACTION_MAX] = {
     { 11, NULL },                                         // PLAYER_CSACTION_55
     { 11, NULL },                                         // PLAYER_CSACTION_56
     { 12, &gPlayerAnim_clink_demo_mimawasi_wait },        // PLAYER_CSACTION_57
-    { -1, func_80852358 },                                // PLAYER_CSACTION_58
-    { 11, NULL },                                         // PLAYER_CSACTION_59
-    { 18, D_80854B14 },                                   // PLAYER_CSACTION_60
-    { 11, NULL },                                         // PLAYER_CSACTION_61
-    { 11, NULL },                                         // PLAYER_CSACTION_62
-    { 11, NULL },                                         // PLAYER_CSACTION_63
-    { 11, NULL },                                         // PLAYER_CSACTION_64
-    { -1, func_80852388 },                                // PLAYER_CSACTION_65
-    { 17, &gPlayerAnim_demo_link_nwait },                 // PLAYER_CSACTION_66
-    { 12, &gPlayerAnim_d_link_orowait },                  // PLAYER_CSACTION_67
-    { 12, &gPlayerAnim_demo_link_nwait },                 // PLAYER_CSACTION_68
-    { 11, NULL },                                         // PLAYER_CSACTION_69
-    { -1, func_808526EC },                                // PLAYER_CSACTION_70
-    { 17, &gPlayerAnim_sude_nwait },                      // PLAYER_CSACTION_71
-    { -1, func_808526EC },                                // PLAYER_CSACTION_72
-    { 17, &gPlayerAnim_sude_nwait },                      // PLAYER_CSACTION_73
-    { 12, &gPlayerAnim_link_demo_gurad_wait },            // PLAYER_CSACTION_74
-    { 12, &gPlayerAnim_link_demo_look_hand_wait },        // PLAYER_CSACTION_75
-    { 11, NULL },                                         // PLAYER_CSACTION_76
-    { 12, &gPlayerAnim_link_demo_ue_wait },               // PLAYER_CSACTION_77
-    { 12, &gPlayerAnim_Link_m_wait },                     // PLAYER_CSACTION_78
-    { 13, &gPlayerAnim_Link_ue_wait },                    // PLAYER_CSACTION_79
-    { 12, &gPlayerAnim_Link_otituku_w },                  // PLAYER_CSACTION_80
-    { 12, &gPlayerAnim_L_kw },                            // PLAYER_CSACTION_81
-    { 11, NULL },                                         // PLAYER_CSACTION_82
-    { 11, NULL },                                         // PLAYER_CSACTION_83
-    { 11, NULL },                                         // PLAYER_CSACTION_84
-    { 11, NULL },                                         // PLAYER_CSACTION_85
-    { -1, func_80852648 },                                // PLAYER_CSACTION_86
-    { 11, NULL },                                         // PLAYER_CSACTION_87
-    { 12, &gPlayerAnim_L_kennasi_w },                     // PLAYER_CSACTION_88
-    { -1, func_808524D0 },                                // PLAYER_CSACTION_89
-    { -1, func_80852514 },                                // PLAYER_CSACTION_90
-    { -1, func_80852554 },                                // PLAYER_CSACTION_91
-    { -1, func_808525C0 },                                // PLAYER_CSACTION_92
-    { 11, NULL },                                         // PLAYER_CSACTION_93
-    { 11, NULL },                                         // PLAYER_CSACTION_94
-    { 11, NULL },                                         // PLAYER_CSACTION_95
-    { -1, func_8085283C },                                // PLAYER_CSACTION_96
-    { -1, func_808528C8 },                                // PLAYER_CSACTION_97
-    { -1, func_808528C8 },                                // PLAYER_CSACTION_98
-    { 12, &gPlayerAnim_link_demo_zeldamiru_wait },        // PLAYER_CSACTION_99
-    { 12, &gPlayerAnim_link_demo_kenmiru1_wait },         // PLAYER_CSACTION_100
-    { 12, &gPlayerAnim_link_demo_kenmiru2_wait },         // PLAYER_CSACTION_101
-    { 12, &gPlayerAnim_demo_link_nwait },                 // PLAYER_CSACTION_102
+#if OOT_VERSION < PAL_1_0
+    { 12, &gPlayerAnim_link_demo_nozokikomi_wait }, // PLAYER_CSACTION_58
+#else
+    { -1, func_80852358 }, // PLAYER_CSACTION_58
+#endif
+    { 11, NULL },                                  // PLAYER_CSACTION_59
+    { 18, D_80854B14 },                            // PLAYER_CSACTION_60
+    { 11, NULL },                                  // PLAYER_CSACTION_61
+    { 11, NULL },                                  // PLAYER_CSACTION_62
+    { 11, NULL },                                  // PLAYER_CSACTION_63
+    { 11, NULL },                                  // PLAYER_CSACTION_64
+    { -1, func_80852388 },                         // PLAYER_CSACTION_65
+    { 17, &gPlayerAnim_demo_link_nwait },          // PLAYER_CSACTION_66
+    { 12, &gPlayerAnim_d_link_orowait },           // PLAYER_CSACTION_67
+    { 12, &gPlayerAnim_demo_link_nwait },          // PLAYER_CSACTION_68
+    { 11, NULL },                                  // PLAYER_CSACTION_69
+    { -1, func_808526EC },                         // PLAYER_CSACTION_70
+    { 17, &gPlayerAnim_sude_nwait },               // PLAYER_CSACTION_71
+    { -1, func_808526EC },                         // PLAYER_CSACTION_72
+    { 17, &gPlayerAnim_sude_nwait },               // PLAYER_CSACTION_73
+    { 12, &gPlayerAnim_link_demo_gurad_wait },     // PLAYER_CSACTION_74
+    { 12, &gPlayerAnim_link_demo_look_hand_wait }, // PLAYER_CSACTION_75
+    { 11, NULL },                                  // PLAYER_CSACTION_76
+    { 12, &gPlayerAnim_link_demo_ue_wait },        // PLAYER_CSACTION_77
+    { 12, &gPlayerAnim_Link_m_wait },              // PLAYER_CSACTION_78
+    { 13, &gPlayerAnim_Link_ue_wait },             // PLAYER_CSACTION_79
+    { 12, &gPlayerAnim_Link_otituku_w },           // PLAYER_CSACTION_80
+    { 12, &gPlayerAnim_L_kw },                     // PLAYER_CSACTION_81
+    { 11, NULL },                                  // PLAYER_CSACTION_82
+    { 11, NULL },                                  // PLAYER_CSACTION_83
+    { 11, NULL },                                  // PLAYER_CSACTION_84
+    { 11, NULL },                                  // PLAYER_CSACTION_85
+    { -1, func_80852648 },                         // PLAYER_CSACTION_86
+    { 11, NULL },                                  // PLAYER_CSACTION_87
+    { 12, &gPlayerAnim_L_kennasi_w },              // PLAYER_CSACTION_88
+    { -1, func_808524D0 },                         // PLAYER_CSACTION_89
+    { -1, func_80852514 },                         // PLAYER_CSACTION_90
+    { -1, func_80852554 },                         // PLAYER_CSACTION_91
+    { -1, func_808525C0 },                         // PLAYER_CSACTION_92
+    { 11, NULL },                                  // PLAYER_CSACTION_93
+    { 11, NULL },                                  // PLAYER_CSACTION_94
+    { 11, NULL },                                  // PLAYER_CSACTION_95
+    { -1, func_8085283C },                         // PLAYER_CSACTION_96
+    { -1, func_808528C8 },                         // PLAYER_CSACTION_97
+    { -1, func_808528C8 },                         // PLAYER_CSACTION_98
+    { 12, &gPlayerAnim_link_demo_zeldamiru_wait }, // PLAYER_CSACTION_99
+    { 12, &gPlayerAnim_link_demo_kenmiru1_wait },  // PLAYER_CSACTION_100
+    { 12, &gPlayerAnim_link_demo_kenmiru2_wait },  // PLAYER_CSACTION_101
+    { 12, &gPlayerAnim_demo_link_nwait },          // PLAYER_CSACTION_102
 };
 
 void Player_AnimChangeOnceMorphZeroRootYawSpeed(PlayState* play, Player* this, LinkAnimationHeader* anim) {
@@ -15093,10 +15189,12 @@ static struct_808551A4 D_808551A4[] = {
     { NA_SE_IT_SWORD_STICK_STN, NA_SE_VO_LI_SWORD_N },
 };
 
+#if OOT_VERSION >= PAL_1_0
 static AnimSfxEntry D_808551AC[] = {
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 29) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 39) },
 };
+#endif
 
 void func_80851A50(PlayState* play, Player* this, CsCmdActorCue* cue) {
     struct_808551A4* sp2C;
@@ -15125,7 +15223,9 @@ void func_80851A50(PlayState* play, Player* this, CsCmdActorCue* cue) {
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_SWORD_L);
         }
     } else {
+#if OOT_VERSION >= PAL_1_0
         Player_ProcessAnimSfxList(this, D_808551AC);
+#endif
     }
 }
 
@@ -15250,10 +15350,17 @@ void func_80851FB0(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 static AnimSfxEntry D_808551C8[] = {
+#if OOT_VERSION < PAL_1_0
+    { NA_SE_PL_LAND, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 67) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 84) },
+    { 0, ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 90) },
+    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_RUNNING, 96) },
+#else
     { NA_SE_PL_LAND + SURFACE_SFX_OFFSET_WOOD, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 67) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_UNKNOWN, 84) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_UNKNOWN, 90) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_UNKNOWN, 96) },
+#endif
 };
 
 void func_80852048(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -15341,6 +15448,7 @@ void func_80852328(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80851F14(play, this, &gPlayerAnim_link_demo_furimuki2_wait, D_808551E0);
 }
 
+#if OOT_VERSION >= PAL_1_0
 static AnimSfxEntry D_808551E8[] = {
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 15) },
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 35) },
@@ -15349,6 +15457,7 @@ static AnimSfxEntry D_808551E8[] = {
 void func_80852358(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80851F14(play, this, &gPlayerAnim_link_demo_nozokikomi_wait, D_808551E8);
 }
+#endif
 
 void func_80852388(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
@@ -15699,7 +15808,7 @@ void func_80853148(PlayState* play, Actor* actor) {
     s32 pad;
 
     if ((this->talkActor != NULL) || (actor == this->naviActor) ||
-        CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18)) {
+        CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_WITH_C_UP)) {
         actor->flags |= ACTOR_FLAG_TALK;
     }
 

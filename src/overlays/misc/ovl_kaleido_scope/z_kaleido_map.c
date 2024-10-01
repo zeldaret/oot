@@ -634,6 +634,12 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
 
+#if PLATFORM_N64 && OOT_VERSION != NTSC_1_2
+    if (0) {
+        s32 pad[3];
+    }
+#endif
+
 #if OOT_DEBUG
     if (HREG(15) == 0) {
         gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_POINT);
@@ -724,12 +730,6 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     gSP1Quadrangle(POLY_OPA_DISP++, j, j + 2, j + 3, j + 1, 0);
-#endif
-
-#if PLATFORM_N64 && OOT_VERSION != NTSC_1_2
-    if (0) {
-        s32 pad[3];
-    }
 #endif
 
     if (ZREG(38) == 0) {

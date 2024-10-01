@@ -82,17 +82,6 @@
         (state)->size = sizeof(newStruct);               \
     } while (0)
 
-#define SET_FULLSCREEN_VIEWPORT(view)      \
-    {                                      \
-        Viewport viewport;                 \
-        viewport.bottomY = SCREEN_HEIGHT;  \
-        viewport.rightX = SCREEN_WIDTH;    \
-        viewport.topY = 0;                 \
-        viewport.leftX = 0;                \
-        View_SetViewport(view, &viewport); \
-    }                                      \
-    (void)0
-
 #if OOT_DEBUG
 
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
@@ -104,9 +93,6 @@
 #define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_MallocDebug(size, file, line)
 #define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocRDebug(size, file, line)
 #define SYSTEM_ARENA_FREE(size, file, line) SystemArena_FreeDebug(size, file, line)
-#define ZELDA_ARENA_MALLOC(size, file, line) ZeldaArena_MallocDebug(size, file, line)
-#define ZELDA_ARENA_MALLOC_R(size, file, line) ZeldaArena_MallocRDebug(size, file, line)
-#define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_FreeDebug(size, file, line)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) LogUtils_CheckNullPointer(exp, ptr, file, line)
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) LogUtils_CheckValidPointer(exp, ptr, file, line)
 #define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_MallocDebug(alloc, size, file, line)
@@ -122,9 +108,6 @@
 #define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_Malloc(size)
 #define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocR(size)
 #define SYSTEM_ARENA_FREE(size, file, line) SystemArena_Free(size)
-#define ZELDA_ARENA_MALLOC(size, file, line) ZeldaArena_Malloc(size)
-#define ZELDA_ARENA_MALLOC_R(size, file, line) ZeldaArena_MallocR(size)
-#define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_Free(size)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) (void)0
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) (void)0
 #define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_Malloc(alloc, size)

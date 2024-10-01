@@ -668,7 +668,7 @@ void EnTa_IdleFoundSuperCucco(EnTa* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnTa_TalkFoundSuperCucco;
         // Unset auto-talking
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else {
         Actor_OfferTalk(&this->actor, play, 1000.0f);
     }
@@ -784,7 +784,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                     this->actionFunc = EnTa_IdleFoundSuperCucco;
 
                     // Automatically talk to player
-                    this->actor.flags |= ACTOR_FLAG_16;
+                    this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
                     Actor_OfferTalk(&this->actor, play, 1000.0f);
                     return;
                 }
@@ -1130,9 +1130,9 @@ void EnTa_IdleAfterCuccoGameFinished(EnTa* this, PlayState* play) {
                 this->actionFunc = EnTa_TalkAfterCuccoGameWon;
                 break;
         }
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalk(&this->actor, play, 1000.0f);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;

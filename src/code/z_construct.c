@@ -162,8 +162,13 @@ void Interface_Init(PlayState* play) {
             gSaveContext.timerY[timerId] = 46; // one row of hearts
         }
     }
-
-    if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE)) {
+#if OOT_VERSION < PAL_1_0
+    else if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE))
+#else
+    // No "else"
+    if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE))
+#endif
+    {
         gSaveContext.timerState = TIMER_STATE_OFF;
         PRINTF(T("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n",
                  "Timer Stop!!!!!!!!!!!!!!!!!!!!!  = %d\n"),
@@ -381,6 +386,10 @@ void Regs_InitDataImpl(void) {
 
     ZREG(65) = 21;
     ZREG(66) = 122;
+#if OOT_VERSION < PAL_1_0
+    R_START_BTN_X = 132;
+    R_START_BTN_Y = 17;
+#endif
     R_ITEM_BTN_X(1) = C_LEFT_BUTTON_X;
     R_ITEM_BTN_X(2) = C_DOWN_BUTTON_X;
     R_ITEM_BTN_X(3) = C_RIGHT_BUTTON_X;
