@@ -1337,7 +1337,7 @@ void EnMb_SpearDead(EnMb* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
         this->attack = ENMB_ATTACK_NONE;
     }
 #else
