@@ -389,10 +389,12 @@ ALIGNED(4) typedef struct PreNmiBuff {
 } PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
 typedef enum ViModeEditState {
-    /* 0 */ VI_MODE_EDIT_STATE_INACTIVE,
-    /* 1 */ VI_MODE_EDIT_STATE_ACTIVE,
-    /* 2 */ VI_MODE_EDIT_STATE_2, // active, more adjustments
-    /* 3 */ VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
+    /* -2 */ VI_MODE_EDIT_STATE_NEGATIVE_2 = -2,
+    /* -1 */ VI_MODE_EDIT_STATE_NEGATIVE_1,
+    /*  0 */ VI_MODE_EDIT_STATE_INACTIVE,
+    /*  1 */ VI_MODE_EDIT_STATE_ACTIVE,
+    /*  2 */ VI_MODE_EDIT_STATE_2, // active, more adjustments
+    /*  3 */ VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
 } ViModeEditState;
 
 typedef struct ViMode {
