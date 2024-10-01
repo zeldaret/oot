@@ -82,17 +82,6 @@
         (state)->size = sizeof(newStruct);               \
     } while (0)
 
-#define SET_FULLSCREEN_VIEWPORT(view)      \
-    {                                      \
-        Viewport viewport;                 \
-        viewport.bottomY = SCREEN_HEIGHT;  \
-        viewport.rightX = SCREEN_WIDTH;    \
-        viewport.topY = 0;                 \
-        viewport.leftX = 0;                \
-        View_SetViewport(view, &viewport); \
-    }                                      \
-    (void)0
-
 #if OOT_DEBUG
 
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)

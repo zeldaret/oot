@@ -195,7 +195,7 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, PlayState* play) {
     Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
     this->actionTimer = 200;
     Actor_SetScale(&this->actor, 0.0f);
-    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_16);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED);
     this->collider.base.acFlags &= ~AC_ON;
     this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_ALL;
     this->actor.colChkInfo.health = D_80AD70D8.health;
@@ -655,15 +655,15 @@ void func_80AD58D4(EnPoField* this, PlayState* play) {
     }
     if (this->actionTimer == 0) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         EnPoField_SetupSoulDisappear(this);
         return;
     }
     if (this->collider.base.ocFlags1 & OC1_HIT) {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
     this->actor.world.pos.y = Math_SinS(this->unk_194 * 0x800) * 5.0f + this->actor.home.pos.y;

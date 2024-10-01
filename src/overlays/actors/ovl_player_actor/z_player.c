@@ -357,21 +357,21 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 // .bss part 1
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:128"
+                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 static s32 D_80858AA0;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:192"
+                               "ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:128"
+                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
 
@@ -5996,8 +5996,9 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
     s32 canTalkToLockOnWithCUp;
 
     canTalkToLockOnWithCUp =
-        (lockOnActor != NULL) && (CHECK_FLAG_ALL(lockOnActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
-                                  (lockOnActor->naviEnemyId != NAVI_ENEMY_NONE));
+        (lockOnActor != NULL) &&
+        (CHECK_FLAG_ALL(lockOnActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_WITH_C_UP) ||
+         (lockOnActor->naviEnemyId != NAVI_ENEMY_NONE));
 
     if (canTalkToLockOnWithCUp || (this->naviTextId != 0)) {
         // If `naviTextId` is negative and outside the 0x2XX range, talk to Navi instantly
@@ -6027,7 +6028,7 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
         if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
             if ((this->heldActor == NULL) ||
                 (!forceTalkToNavi && (talkOfferActor != this->heldActor) && (cUpTalkActor != this->heldActor) &&
-                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_16)))) {
+                 ((talkOfferActor == NULL) || !(talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)))) {
                 goto dont_talk;
             }
         }
@@ -6044,7 +6045,9 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
             // "Speak" or "Check" will appear on the A button in the HUD.
             this->stateFlags2 |= PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER;
 
-            if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (talkOfferActor->flags & ACTOR_FLAG_16)) {
+            if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) ||
+                (talkOfferActor->flags & ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)) {
+                // Talk Offer has been accepted.
                 // Clearing `cUpTalkActor` guarantees that `talkOfferActor` is the actor that will be spoken to
                 cUpTalkActor = NULL;
             } else if (cUpTalkActor == NULL) {
@@ -6109,7 +6112,7 @@ s32 Player_ActionHandler_0(Player* this, PlayState* play) {
     }
 
     if ((this->focusActor != NULL) &&
-        (CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18) ||
+        (CHECK_FLAG_ALL(this->focusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_WITH_C_UP) ||
          (this->focusActor->naviEnemyId != NAVI_ENEMY_NONE))) {
         this->stateFlags2 |= PLAYER_STATE2_21;
     } else if ((this->naviTextId == 0) && !Player_CheckHostileLockOn(this) &&
@@ -15805,7 +15808,7 @@ void func_80853148(PlayState* play, Actor* actor) {
     s32 pad;
 
     if ((this->talkActor != NULL) || (actor == this->naviActor) ||
-        CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_18)) {
+        CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_WITH_C_UP)) {
         actor->flags |= ACTOR_FLAG_TALK;
     }
 

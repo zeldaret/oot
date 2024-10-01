@@ -699,10 +699,10 @@ void func_80A7A568(EnIn* this, PlayState* play) {
 
 void func_80A7A770(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         Rupees_ChangeBy(-50);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_7);
@@ -737,7 +737,7 @@ void func_80A7A848(EnIn* this, PlayState* play) {
 
 void func_80A7A940(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         return;
     }
     if (this->unk_1EC != 0) {
@@ -747,7 +747,7 @@ void func_80A7A940(EnIn* this, PlayState* play) {
         }
     }
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         func_80A79BAC(this, play, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
         SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
         SET_EVENTINF_HORSES_0F(1);

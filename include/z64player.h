@@ -930,4 +930,58 @@ typedef struct Player {
     /* 0x0A88 */ Vec3f unk_A88; // previous body part 0 position
 } Player; // size = 0xA94
 
+// z_player_lib public functions
+void Player_SetBootData(struct PlayState* play, Player* this);
+int Player_InBlockingCsMode(struct PlayState* play, Player* this);
+int Player_InCsMode(struct PlayState* play);
+s32 Player_CheckHostileLockOn(Player* this);
+int Player_IsChildWithHylianShield(Player* this);
+s32 Player_ActionToModelGroup(Player* this, s32 itemAction);
+void Player_SetModelsForHoldingShield(Player* this);
+void Player_SetModels(Player* this, s32 modelGroup);
+void Player_SetModelGroup(Player* this, s32 modelGroup);
+void func_8008EC70(Player* this);
+void Player_SetEquipmentData(struct PlayState* play, Player* this);
+void Player_UpdateBottleHeld(struct PlayState* play, Player* this, s32 item, s32 itemAction);
+void Player_ReleaseLockOn(Player* this);
+void Player_ClearZTargeting(Player* this);
+void Player_SetAutoLockOnActor(struct PlayState* play, Actor* actor);
+s32 func_8008EF44(struct PlayState* play, s32 ammo);
+int Player_IsBurningStickInRange(struct PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange);
+s32 Player_GetStrength(void);
+u8 Player_GetMask(struct PlayState* play);
+Player* Player_UnsetMask(struct PlayState* play);
+s32 Player_HasMirrorShieldEquipped(struct PlayState* play);
+int Player_HasMirrorShieldSetToDraw(struct PlayState* play);
+s32 Player_ActionToMagicSpell(Player* this, s32 itemAction);
+int Player_HoldsHookshot(Player* this);
+int func_8008F128(Player* this);
+s32 Player_ActionToMeleeWeapon(s32 itemAction);
+s32 Player_GetMeleeWeaponHeld(Player* this);
+s32 Player_HoldsTwoHandedWeapon(Player* this);
+int Player_HoldsBrokenKnife(Player* this);
+s32 Player_ActionToBottle(Player* this, s32 itemAction);
+s32 Player_GetBottleHeld(Player* this);
+s32 Player_ActionToExplosive(Player* this, s32 itemAction);
+s32 Player_GetExplosiveHeld(Player* this);
+s32 func_8008F2BC(Player* this, s32 itemAction);
+s32 Player_GetEnvironmentalHazard(struct PlayState* play);
+void Player_DrawImpl(struct PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
+                     s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
+                     void* data);
+s32 Player_OverrideLimbDrawGameplayCommon(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                          void* thisx);
+s32 Player_OverrideLimbDrawGameplayDefault(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                           void* thisx);
+s32 Player_OverrideLimbDrawGameplayFirstPerson(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos,
+                                               Vec3s* rot, void* thisx);
+s32 Player_OverrideLimbDrawGameplayCrawling(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                            void* thisx);
+u8 func_80090480(struct PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase);
+void Player_DrawGetItem(struct PlayState* play, Player* this);
+void Player_PostLimbDrawGameplay(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
+u32 Player_InitPauseDrawData(struct PlayState* play, u8* segment, SkelAnime* skelAnime);
+void Player_DrawPause(struct PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
+                      s32 sword, s32 tunic, s32 shield, s32 boots);
+
 #endif
