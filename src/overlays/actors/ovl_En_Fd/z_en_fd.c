@@ -41,16 +41,16 @@ ActorProfile En_Fd_Profile = {
 };
 
 #if OOT_VERSION < NTSC_1_1
-#define SPHERE_DAMAGE 0x00
+#define FLARE_DANCER_BODY_DMG 0x00
 #else
-#define SPHERE_DAMAGE 0x04
+#define FLARE_DANCER_BODY_DMG 0x04
 #endif
 
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040088, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON | ACELEM_HOOKABLE,
@@ -61,7 +61,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -72,7 +72,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -83,7 +83,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -94,7 +94,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -105,7 +105,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -116,7 +116,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -127,7 +127,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -138,7 +138,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -149,7 +149,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -160,7 +160,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -171,7 +171,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, SPHERE_DAMAGE },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
