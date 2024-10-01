@@ -7,6 +7,7 @@
 #include "z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "quake.h"
+#include "versions.h"
 
 #include "assets/objects/object_gnd/object_gnd.h"
 #include "assets/objects/object_goma/object_goma.h"
@@ -225,14 +226,22 @@ typedef struct DoorShutterGfxInfo {
 } DoorShutterGfxInfo;
 
 static DoorShutterGfxInfo sGfxInfo[] = {
-    { gDTDungeonDoor1DL, gDoorMetalBarsDL, 130, 12, 20, 15 },                      // DOORSHUTTER_GFX_DEKU_TREE_1
-    { gDTDungeonDoor2DL, gDoorMetalBarsDL, 130, 12, 20, 15 },                      // DOORSHUTTER_GFX_DEKU_TREE_2
-    { gDodongoDoorDL, gDodongoBarsDL, 240, 14, 70, 15 },                           // DOORSHUTTER_GFX_DODONGOS_CAVERN
-    { gJabuDoorSection1DL, gJabuWebDoorDL, 0, 110, 50, 15 },                       // DOORSHUTTER_GFX_JABU_JABU
-    { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },                                // DOORSHUTTER_GFX_PHANTOM_GANON_BARS
-    { gGohmaDoorDL, NULL, 130, 12, 50, 15 },                                       // DOORSHUTTER_GFX_GOHMA_BLOCK
-    { gSpiritDoorDL, gJyaDoorMetalBarsDL, 240, 14, 50, 15 },                       // DOORSHUTTER_GFX_SPIRIT_TEMPLE
-    { gBossDoorDL, NULL, 130, 12, 50, 15 },                                        // DOORSHUTTER_GFX_BOSS_DOOR
+    { gDTDungeonDoor1DL, gDoorMetalBarsDL, 130, 12, 20, 15 }, // DOORSHUTTER_GFX_DEKU_TREE_1
+    { gDTDungeonDoor2DL, gDoorMetalBarsDL, 130, 12, 20, 15 }, // DOORSHUTTER_GFX_DEKU_TREE_2
+    { gDodongoDoorDL, gDodongoBarsDL, 240, 14, 70, 15 },      // DOORSHUTTER_GFX_DODONGOS_CAVERN
+#if OOT_VERSION < NTSC_1_1
+    { gJabuDoorSection1DL, gJabuWebDoorDL, 0, 110, 70, 15 }, // DOORSHUTTER_GFX_JABU_JABU
+    { gPhantomGanonBarsDL, NULL, 130, 12, 70, 15 },          // DOORSHUTTER_GFX_PHANTOM_GANON_BARS
+    { gGohmaDoorDL, NULL, 130, 12, 70, 15 },                 // DOORSHUTTER_GFX_GOHMA_BLOCK
+    { gSpiritDoorDL, gJyaDoorMetalBarsDL, 240, 14, 50, 15 }, // DOORSHUTTER_GFX_SPIRIT_TEMPLE
+    { gBossDoorDL, NULL, 130, 12, 70, 15 },                  // DOORSHUTTER_GFX_BOSS_DOOR
+#else
+    { gJabuDoorSection1DL, gJabuWebDoorDL, 0, 110, 50, 15 }, // DOORSHUTTER_GFX_JABU_JABU
+    { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },          // DOORSHUTTER_GFX_PHANTOM_GANON_BARS
+    { gGohmaDoorDL, NULL, 130, 12, 50, 15 },                 // DOORSHUTTER_GFX_GOHMA_BLOCK
+    { gSpiritDoorDL, gJyaDoorMetalBarsDL, 240, 14, 50, 15 }, // DOORSHUTTER_GFX_SPIRIT_TEMPLE
+    { gBossDoorDL, NULL, 130, 12, 50, 15 },                  // DOORSHUTTER_GFX_BOSS_DOOR
+#endif
     { gDungeonDoorDL, gDoorMetalBarsDL, 130, 12, 20, 15 },                         // DOORSHUTTER_GFX_GENERIC
     { gFireTempleDoorFrontDL, gDoorMetalBarsDL, 130, 12, 20, 15 },                 // DOORSHUTTER_GFX_FIRE_TEMPLE_1
     { gFireTempleDoorBackDL, gDoorMetalBarsDL, 130, 12, 20, 15 },                  // DOORSHUTTER_GFX_FIRE_TEMPLE_2

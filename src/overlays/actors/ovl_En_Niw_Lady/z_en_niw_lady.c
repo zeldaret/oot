@@ -3,6 +3,7 @@
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
@@ -259,6 +260,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ this->message_end_code   ☆☆ %d\n" VT_RST, this->unk_262);
         PRINTF("\n\n");
         if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) == 0) {
+#if OOT_VERSION >= NTSC_1_1
             if (this->actor.textId == 0x503C) {
                 Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 this->unk_26C = 2;
@@ -266,6 +268,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                 this->actionFunc = func_80ABA654;
                 return;
             }
+#endif
             this->unk_26E = phi_s1 + 1;
             if (phi_s1 == 7) {
                 Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
@@ -286,6 +289,13 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
             if (this->unk_26A != this->cuccosInPen) {
                 if (this->cuccosInPen < this->unk_26A) {
                     Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
+#if OOT_VERSION < NTSC_1_1
+                    if (phi_s1 == 9) {
+                        this->unk_26C = 2;
+                        this->unk_262 = TEXT_STATE_EVENT;
+                        this->actionFunc = func_80ABA654;
+                    }
+#endif
                 } else if (phi_s1 + 1 < 9) {
                     Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
