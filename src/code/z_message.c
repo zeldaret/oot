@@ -2281,9 +2281,9 @@ void Message_Decode(PlayState* play) {
                     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                         value &= 0x7F;
                     } else {
-                        //! @bug Should use msgBuf instead of msgBufWide (copy-paste error from Japanese text handling?),
-                        //! and the mask is applied to the high score index instead of the high score value so this
-                        //! always shows HIGH_SCORE(0). Only the PRINTF is wrong, the following line is correct.
+                        //! @bug Should use msgBuf instead of msgBufWide (copy-paste error from Japanese text
+                        //! handling?), and the mask is applied to the high score index instead of the high score value
+                        //! so this always shows HIGH_SCORE(0). Only the PRINTF is wrong, the following line is correct.
                         PRINTF("HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n",
                                HIGH_SCORE(font->msgBufWide[msgCtx->msgBufPos] & 0xFF000000));
                         value = ((HIGH_SCORE((u8)font->msgBuf[msgCtx->msgBufPos]) & 0xFF000000) >> 0x18) & 0x7F;
