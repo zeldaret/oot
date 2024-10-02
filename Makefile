@@ -63,7 +63,7 @@ else ifeq ($(VERSION),ntsc-1.1)
   PLATFORM := N64
   DEBUG := 0
   COMPARE := 0
-ifeq ($(VERSION),pal-1.0)
+else ifeq ($(VERSION),pal-1.0)
   REGION ?= EU
   PLATFORM := N64
   DEBUG := 0
