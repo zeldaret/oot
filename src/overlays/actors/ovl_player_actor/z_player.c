@@ -2210,11 +2210,11 @@ LinkAnimationHeader* Player_GetIdleAnim(Player* this) {
  */
 s32 Player_CheckSpecialIdleAnim(Player* this) {
     if (Player_GetIdleAnim(this) != this->skelAnime.animation) {
-        LinkAnimationHeader** special;
+        LinkAnimationHeader** specialAnim;
         s32 i;
 
-        for (i = 0, special = &sSpecialIdleAnimations[0][0]; i < 28; i++, special++) {
-            if (this->skelAnime.animation == *special) {
+        for (i = 0, specialAnim = &sSpecialIdleAnimations[0][0]; i < 28; i++, specialAnim++) {
+            if (this->skelAnime.animation == *specialAnim) {
                 return i + 1;
             }
         }
@@ -2225,9 +2225,9 @@ s32 Player_CheckSpecialIdleAnim(Player* this) {
     return -1;
 }
 
-void Player_ProcessSpecialIdleAnimSfxList(Player* this, s32 speicalIdleAnimIndex) {
-    if (sSpecialIdleAnimSfxTypes[speicalIdleAnimIndex] != SPECIAL_IDLE_ANIMSFX_NONE) {
-        Player_ProcessAnimSfxList(this, sSpecialIdleAnimSfxLists[sSpecialIdleAnimSfxTypes[speicalIdleAnimIndex] - 1]);
+void Player_ProcessSpecialIdleAnimSfxList(Player* this, s32 specialIdleAnimIndex) {
+    if (sSpecialIdleAnimSfxTypes[specialIdleAnimIndex] != SPECIAL_IDLE_ANIMSFX_NONE) {
+        Player_ProcessAnimSfxList(this, sSpecialIdleAnimSfxLists[sSpecialIdleAnimSfxTypes[specialIdleAnimIndex] - 1]);
     }
 }
 
