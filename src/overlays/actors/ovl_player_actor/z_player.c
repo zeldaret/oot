@@ -1199,7 +1199,6 @@ typedef enum SpecialIdleAnimSfxType {
     /* 0x8 */ SPECIAL_IDLE_ANIMSFX_SWORD_1,
     /* 0x9 */ SPECIAL_IDLE_ANIMSFX_SWORD_2,
     /* 0xA */ SPECIAL_IDLE_ANIMSFX_RELAX,
-    /* 0xB */ SPECIAL_IDLE_ANIMSFX_MAX
 } SpecialIdleAnimSfxType;
 
 static AnimSfxEntry* sSpecialIdleAnimSfxLists[] = {
@@ -1213,7 +1212,7 @@ static AnimSfxEntry* sSpecialIdleAnimSfxLists[] = {
     sSpecialIdleAnimSfxSword1,  // SPECIAL_IDLE_ANIMSFX_SWORD_1
     sSpecialIdleAnimSfxSword2,  // SPECIAL_IDLE_ANIMSFX_SWORD_2
     sSpecialIdleAnimSfxRelax,   // SPECIAL_IDLE_ANIMSFX_RELAX
-    NULL,                       // SPECIAL_IDLE_ANIMSFX_MAX
+    NULL,                       // unused entry
 };
 
 /**
