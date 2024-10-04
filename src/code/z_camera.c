@@ -399,6 +399,7 @@ s32 Camera_BGCheckInfo(Camera* camera, Vec3f* from, CamColChk* to) {
     to->pos.y = to->norm.y + toNewPos.y;
     to->pos.z = to->norm.z + toNewPos.z;
 
+    //! @bug floorBgId is uninitialized if BgCheck_CameraLineTest1 returned true above
     return floorBgId + 1;
 }
 
