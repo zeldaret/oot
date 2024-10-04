@@ -669,7 +669,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_3 (1 << 3)
 #define PLAYER_STATE1_HOSTILE_LOCK_ON (1 << 4) // Currently locked onto a hostile actor. Triggers a "battle" variant of many actions.
 #define PLAYER_STATE1_5 (1 << 5)
-#define PLAYER_STATE1_6 (1 << 6)
+#define PLAYER_STATE1_TALKING (1 << 6) // Currently talking to an actor. This includes item exchanges.
 #define PLAYER_STATE1_DEAD (1 << 7) // Player has died. Note that this gets set when the death cutscene has started, after landing from the air.
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
 #define PLAYER_STATE1_9 (1 << 9)
@@ -890,7 +890,7 @@ typedef struct Player {
     /* 0x0888 */ f32 distToInteractWall; // xyz distance to the interact wall
     /* 0x088C */ u8 ledgeClimbType;
     /* 0x088D */ u8 ledgeClimbDelayTimer;
-    /* 0x088E */ u8 unk_88E;
+    /* 0x088E */ u8 textboxBtnCooldownTimer; // Prevents usage of A/B/C-up when counting down
     /* 0x088F */ u8 damageFlickerAnimCounter; // Used to flicker Link after taking damage
     /* 0x0890 */ u8 unk_890;
     /* 0x0891 */ u8 bodyShockTimer;
