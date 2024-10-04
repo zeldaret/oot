@@ -2194,7 +2194,7 @@ void func_808332F4(Player* this, PlayState* play) {
 /**
  * Get the appropriate Idle animation based on current `modelAnimType`.
  * This is used as the "primary" idle animation.
- * 
+ *
  * For special idle animations (which for example, change based on environment)
  * see `sSpecialIdleAnimations`.
  */
