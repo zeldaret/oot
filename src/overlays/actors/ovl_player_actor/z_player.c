@@ -3371,23 +3371,41 @@ s32 Player_SetupAction(PlayState* play, Player* this, PlayerActionFunc actionFun
     return 1;
 }
 
-void func_80835DAC(PlayState* play, Player* this, PlayerActionFunc actionFunc, s32 flags) {
-    s32 temp;
+/**
+ * Calls `Player_SetupAction` to setup a new action, but takes extra measures to
+ * preserve AnimMovement while doing so.
+ */
+void Player_SetupActionPreserveAnimMovement(PlayState* play, Player* this, PlayerActionFunc actionFunc, s32 flags) {
+    s32 savedMovementFlags;
 
-    temp = this->skelAnime.movementFlags;
+    savedMovementFlags = this->skelAnime.movementFlags;
+
+    // Setting `skelAnime.movementFlags` to 0 will prevent `Player_FinishAnimMovement` from ending
+    // AnimMovement when `Player_SetupAction` is called.
     this->skelAnime.movementFlags = 0;
+
     Player_SetupAction(play, this, actionFunc, flags);
-    this->skelAnime.movementFlags = temp;
+    this->skelAnime.movementFlags = savedMovementFlags;
 }
 
-void func_80835DE4(PlayState* play, Player* this, PlayerActionFunc actionFunc, s32 flags) {
-    s32 temp;
+/**
+ * Calls `Player_SetupAction` to setup a new action, but takes extra measures to
+ * preserve the current itemAction while doing so.
+ *
+ * Note that `itemAction` must be PLAYER_IA_NONE or higher for the action change to take place.
+ */
+void Player_SetupActionPreserveItemAction(PlayState* play, Player* this, PlayerActionFunc actionFunc, s32 flags) {
+    s32 savedItemAction;
 
-    if (this->itemAction >= 0) {
-        temp = this->itemAction;
+    if (this->itemAction >= PLAYER_IA_NONE) {
+        savedItemAction = this->itemAction;
+
+        // Setting `itemAction` to `heldItemAction` will prevent `func_8008EC70` from running when
+        // `Player_SetupAction` is called.
         this->itemAction = this->heldItemAction;
+
         Player_SetupAction(play, this, actionFunc, flags);
-        this->itemAction = temp;
+        this->itemAction = savedItemAction;
         Player_SetModels(this, Player_ActionToModelGroup(this, this->itemAction));
     }
 }
@@ -5515,7 +5533,7 @@ void func_8083A0F4(PlayState* play, Player* this) {
 }
 
 void func_8083A2F8(PlayState* play, Player* this) {
-    func_80835DAC(play, this, Player_Action_8084B530, 0);
+    Player_SetupActionPreserveAnimMovement(play, this, Player_Action_8084B530, 0);
 
     this->stateFlags1 |= PLAYER_STATE1_6 | PLAYER_STATE1_29;
 
@@ -5526,7 +5544,7 @@ void func_8083A2F8(PlayState* play, Player* this) {
 }
 
 void func_8083A360(PlayState* play, Player* this) {
-    func_80835DAC(play, this, Player_Action_8084CC98, 0);
+    Player_SetupActionPreserveAnimMovement(play, this, Player_Action_8084CC98, 0);
 }
 
 void func_8083A388(PlayState* play, Player* this) {
@@ -5537,7 +5555,7 @@ void func_8083A3B0(PlayState* play, Player* this) {
     s32 sp1C = this->av2.actionVar2;
     s32 sp18 = this->av1.actionVar1;
 
-    func_80835DAC(play, this, Player_Action_8084BF1C, 0);
+    Player_SetupActionPreserveAnimMovement(play, this, Player_Action_8084BF1C, 0);
     this->actor.velocity.y = 0.0f;
 
     this->av2.actionVar2 = sp1C;
@@ -5545,11 +5563,11 @@ void func_8083A3B0(PlayState* play, Player* this) {
 }
 
 void func_8083A40C(PlayState* play, Player* this) {
-    func_80835DAC(play, this, Player_Action_8084C760, 0);
+    Player_SetupActionPreserveAnimMovement(play, this, Player_Action_8084C760, 0);
 }
 
 void func_8083A434(PlayState* play, Player* this) {
-    func_80835DAC(play, this, Player_Action_8084E6D4, 0);
+    Player_SetupActionPreserveAnimMovement(play, this, Player_Action_8084E6D4, 0);
 
     this->stateFlags1 |= PLAYER_STATE1_10 | PLAYER_STATE1_29;
 
@@ -5820,7 +5838,7 @@ void func_8083AE40(Player* this, s16 objectId) {
 }
 
 void func_8083AF44(PlayState* play, Player* this, s32 magicSpell) {
-    func_80835DE4(play, this, Player_Action_808507F4, 0);
+    Player_SetupActionPreserveItemAction(play, this, Player_Action_808507F4, 0);
 
     this->av1.actionVar1 = magicSpell - 3;
 
@@ -5923,7 +5941,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                                                       (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE))))))) {
 
                     if ((play->actorCtx.titleCtx.delayTimer == 0) && (play->actorCtx.titleCtx.alpha == 0)) {
-                        func_80835DE4(play, this, Player_Action_8084F104, 0);
+                        Player_SetupActionPreserveItemAction(play, this, Player_Action_8084F104, 0);
 
                         if (sp2C >= 0) {
                             giEntry = &sGetItemTable[D_80854528[sp2C] - 1];
@@ -5950,7 +5968,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                              (this->itemAction == PLAYER_IA_MAGIC_BEAN))) {
                             if (this->exchangeItemId == EXCH_ITEM_MAGIC_BEAN) {
                                 Inventory_ChangeAmmo(ITEM_MAGIC_BEAN, -1);
-                                func_80835DE4(play, this, Player_Action_8084279C, 0);
+                                Player_SetupActionPreserveItemAction(play, this, Player_Action_8084279C, 0);
                                 this->stateFlags1 |= PLAYER_STATE1_29;
                                 this->av2.actionVar2 = 0x50;
                                 this->av1.actionVar1 = -1;
@@ -5985,20 +6003,20 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                 sp2C = Player_ActionToBottle(this, this->itemAction);
                 if (sp2C >= 0) {
                     if (sp2C == 0xC) {
-                        func_80835DE4(play, this, Player_Action_8084EED8, 0);
+                        Player_SetupActionPreserveItemAction(play, this, Player_Action_8084EED8, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_bug_out);
                         func_80835EA4(play, 3);
                     } else if ((sp2C > 0) && (sp2C < 4)) {
-                        func_80835DE4(play, this, Player_Action_8084EFC0, 0);
+                        Player_SetupActionPreserveItemAction(play, this, Player_Action_8084EFC0, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_fish_out);
                         func_80835EA4(play, (sp2C == 1) ? 1 : 5);
                     } else {
-                        func_80835DE4(play, this, Player_Action_8084EAC0, 0);
+                        Player_SetupActionPreserveItemAction(play, this, Player_Action_8084EAC0, 0);
                         Player_AnimChangeOnceMorphAdjusted(play, this, &gPlayerAnim_link_bottle_drink_demo_start);
                         func_80835EA4(play, 2);
                     }
                 } else {
-                    func_80835DE4(play, this, Player_Action_8084E3C4, 0);
+                    Player_SetupActionPreserveItemAction(play, this, Player_Action_8084E3C4, 0);
                     Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_normal_okarina_start);
                     this->stateFlags2 |= PLAYER_STATE2_27;
                     func_80835EA4(play, (this->unk_6A8 != NULL) ? 0x5B : 0x5A);
@@ -7435,7 +7453,7 @@ s32 func_8083EC18(Player* this, PlayState* play, u32 wallFlags) {
 }
 
 void func_8083F070(Player* this, LinkAnimationHeader* anim, PlayState* play) {
-    func_80835DAC(play, this, Player_Action_8084C5F8, 0);
+    Player_SetupActionPreserveAnimMovement(play, this, Player_Action_8084C5F8, 0);
     LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, anim, (4.0f / 3.0f));
 }
 
@@ -7998,7 +8016,7 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
         }
 
         if (!Player_FriendlyLockOnOrParallel(this)) {
-            func_80835DAC(play, this, Player_Action_80840BC8, 1);
+            Player_SetupActionPreserveAnimMovement(play, this, Player_Action_80840BC8, 1);
             this->yaw = this->actor.shape.rot.y;
             return;
         }
@@ -12888,7 +12906,7 @@ s32 func_8084C9BC(Player* this, PlayState* play) {
             if (EN_HORSE_CHECK_1(rideActor) ||
                 (EN_HORSE_CHECK_4(rideActor) && CHECK_BTN_ALL(sControlInput->press.button, BTN_A))) {
                 rideActor->actor.child = NULL;
-                func_80835DAC(play, this, Player_Action_8084D3E4, 0);
+                Player_SetupActionPreserveAnimMovement(play, this, Player_Action_8084D3E4, 0);
                 this->unk_878 = sp34 - rideActor->actor.world.pos.y;
                 Player_AnimPlayOnce(play, this,
                                     (this->mountSide < 0) ? &gPlayerAnim_link_uma_left_down
