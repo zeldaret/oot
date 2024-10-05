@@ -730,7 +730,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_25 (1 << 25)
 #define PLAYER_STATE2_26 (1 << 26)
 #define PLAYER_STATE2_27 (1 << 27)
-#define PLAYER_STATE2_SPECIAL_IDLE (1 << 28) // Playing a special Idle animation (under typical circumstances, see `Player_ChooseNextIdleAnim` for more info)
+#define PLAYER_STATE2_SPECIAL_IDLE (1 << 28) // Playing a special idle animation (under typical circumstances, see `Player_ChooseNextIdleAnim` for more info)
 #define PLAYER_STATE2_29 (1 << 29)
 #define PLAYER_STATE2_30 (1 << 30)
 #define PLAYER_STATE2_31 (1 << 31)
