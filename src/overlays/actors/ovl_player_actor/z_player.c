@@ -1118,6 +1118,7 @@ static LinkAnimationHeader* D_80853D4C[][3] = {
       &gPlayerAnim_link_fighter_Rside_jump_endR },
 };
 
+// TODO: Figure out what the duplicate types mean when `curRoom.behaviorType2` is more understood
 typedef enum SpecialIdleType {
     /* 0x00 */ SPECIAL_IDLE_LOOK_AROUND,
     /* 0x01 */ SPECIAL_IDLE_COLD,
@@ -1215,7 +1216,7 @@ typedef enum SpecialIdleAnimSfxType {
     /* 0x7 */ SPECIAL_IDLE_ANIMSFX_SHIELD,
     /* 0x8 */ SPECIAL_IDLE_ANIMSFX_SWORD_1,
     /* 0x9 */ SPECIAL_IDLE_ANIMSFX_SWORD_2,
-    /* 0xA */ SPECIAL_IDLE_ANIMSFX_RELAX,
+    /* 0xA */ SPECIAL_IDLE_ANIMSFX_RELAX
 } SpecialIdleAnimSfxType;
 
 static AnimSfxEntry* sSpecialIdleAnimSfxLists[] = {
@@ -8088,12 +8089,15 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
     }
 }
 
+// Get the offset of a common special idle type relative to the other common types
+#define COMMON_SPECIAL_IDLE(specialIdleType) (specialIdleType - SPECIAL_IDLE_SWORD_SWING)
+
 void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
     LinkAnimationHeader* anim;
     LinkAnimationHeader** specialAnimPtr;
     s32 heathIsCritical;
     s32 specialIdleType;
-    s32 commonSpecialType;
+    s32 commonType;
 
     if ((this->focusActor != NULL) ||
         (!(heathIsCritical = Health_IsCritical()) && ((this->idleType = (this->idleType + 1) & 1) != 0))) {
@@ -8101,13 +8105,15 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
         anim = Player_GetIdleAnim(this);
     } else {
         this->stateFlags2 |= PLAYER_STATE2_SPECIAL_IDLE;
-        
+
         if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
             // Normal idle animations will play if carrying an actor.
-            // Note that in this case `PLAYER_STATE2_SPECIAL_IDLE` is still set even though the
+            // Note that in this case, `PLAYER_STATE2_SPECIAL_IDLE` is still set even though the
             // animation that plays isn't a special one.
             anim = Player_GetIdleAnim(this);
         } else {
+            // Pick special type based on room behavior.
+            // This may be changed below.
             specialIdleType = play->roomCtx.curRoom.behaviorType2;
 
             if (heathIsCritical) {
@@ -8118,23 +8124,34 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
                     // It will stay as `PLAYER_IDLE_CRIT_HEALTH` until health is no longer critical.
                     this->idleType = PLAYER_IDLE_CRIT_HEALTH;
                 } else {
+                    // Keep looping the critical health animation until critical health ends
                     specialIdleType = SPECIAL_IDLE_CRIT_HEALTH_LOOP;
                 }
             } else {
-                commonSpecialType = Rand_ZeroOne() * 5.0f;
+                commonType = Rand_ZeroOne() * 5.0f;
 
-                // There is a 4/5 chance that a common special type will be considered.
+                // There is a 4/6 chance that a common special type will be considered.
                 // However it may get rejected by the conditions below.
-                // The type set by `curRoom.behaviorType2` will be used if a common type is rejected.
-                if (commonSpecialType < 4) {
-                    if (((commonSpecialType != 0) && (commonSpecialType != 3)) || ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
-                                                         ((commonSpecialType == 3) || (Player_GetMeleeWeaponHeld2(this) != 0)))) {
-                        if ((commonSpecialType == 0) && Player_HoldsTwoHandedWeapon(this)) {
-                            commonSpecialType = 4;
+                // The type determined by `curRoom.behaviorType2` will be used if a common type is rejected.
+                if (commonType <= COMMON_SPECIAL_IDLE(SPECIAL_IDLE_ADJUST_SHIELD)) {
+                    // `SPECIAL_IDLE_ADJUST_TUNIC` and `SPECIAL_IDLE_TAP_FEET` are accepted unconditionally.
+                    // The sword and shield related common types have extra restrictions.
+                    if (((commonType != COMMON_SPECIAL_IDLE(SPECIAL_IDLE_SWORD_SWING)) &&
+                         (commonType != COMMON_SPECIAL_IDLE(SPECIAL_IDLE_ADJUST_SHIELD))) ||
+                        ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
+                         ((commonType == COMMON_SPECIAL_IDLE(SPECIAL_IDLE_ADJUST_SHIELD)) ||
+                          (Player_GetMeleeWeaponHeld2(this) != 0)))) {
+
+                        if ((commonType == COMMON_SPECIAL_IDLE(SPECIAL_IDLE_SWORD_SWING)) &&
+                            Player_HoldsTwoHandedWeapon(this)) {
+                            //! @bug This code is unreachable.
+                            //! The check above groups the `Player_GetMeleeWeaponHeld2` check and
+                            //! `PLAYER_MODELTYPE_RH_SHIELD` conditions together, meaning sword and shield must be in
+                            //! hand. However shield is not in hand when using a two handed melee weapon.
+                            commonType = COMMON_SPECIAL_IDLE(SPECIAL_IDLE_SWORD_SWING_TWO_HAND);
                         }
 
-                        // `SPECIAL_IDLE_SWORD_SWING` is the first non-environmental special animation type
-                        specialIdleType = commonSpecialType + SPECIAL_IDLE_SWORD_SWING;
+                        specialIdleType = SPECIAL_IDLE_SWORD_SWING + commonType;
                     }
                 }
             }

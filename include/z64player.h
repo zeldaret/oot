@@ -71,7 +71,7 @@ typedef enum PlayerEnvHazard {
 } PlayerEnvHazard;
 
 typedef enum PlayerIdleType {
-    /* -0x1 */ PLAYER_IDLE_CRIT_HEALTH,
+    /* -0x1 */ PLAYER_IDLE_CRIT_HEALTH = -1,
     /*  0x0 */ PLAYER_IDLE_NORMAL,
     /*  0x1 */ PLAYER_IDLE_SPECIAL
 } PlayerIdleType;
