@@ -333,7 +333,7 @@ void Player_Action_8084EAC0(Player* this, PlayState* play);
 void Player_Action_8084ECA4(Player* this, PlayState* play);
 void Player_Action_8084EED8(Player* this, PlayState* play);
 void Player_Action_8084EFC0(Player* this, PlayState* play);
-void Player_Action_TalkExchangeItem(Player* this, PlayState* play);
+void Player_Action_ExchangeItem(Player* this, PlayState* play);
 void Player_Action_8084F390(Player* this, PlayState* play);
 void Player_Action_8084F608(Player* this, PlayState* play);
 void Player_Action_8084F698(Player* this, PlayState* play);
@@ -5923,7 +5923,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                                                       (this->exchangeItemId == EXCH_ITEM_BOTTLE_BLUE_FIRE))))))) {
 
                     if ((play->actorCtx.titleCtx.delayTimer == 0) && (play->actorCtx.titleCtx.alpha == 0)) {
-                        Player_SetupActionPreserveItemAction(play, this, Player_Action_TalkExchangeItem, 0);
+                        Player_SetupActionPreserveItemAction(play, this, Player_Action_ExchangeItem, 0);
 
                         if (sp2C >= 0) {
                             giEntry = &sGetItemTable[D_80854528[sp2C] - 1];
@@ -13912,7 +13912,7 @@ static AnimSfxEntry D_80854A3C[] = {
     { NA_SE_PL_PUT_OUT_ITEM, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 30) },
 };
 
-void Player_Action_TalkExchangeItem(Player* this, PlayState* play) {
+void Player_Action_ExchangeItem(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_5;
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
@@ -15855,7 +15855,7 @@ s32 Player_InflictDamage(PlayState* play, s32 damage) {
  * Start talking to the specified actor.
  *
  * This function does not concern trading exchange items.
- * For item exchanges see relevant code in `Player_ActionChange_13` and `Player_Action_TalkExchangeItem`.
+ * For item exchanges see relevant code in `Player_ActionChange_13` and `Player_Action_ExchangeItem`.
  */
 void Player_StartTalking(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
