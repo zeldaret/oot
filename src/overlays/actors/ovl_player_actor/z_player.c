@@ -1118,6 +1118,23 @@ static LinkAnimationHeader* D_80853D4C[][3] = {
       &gPlayerAnim_link_fighter_Rside_jump_endR },
 };
 
+typedef enum SpecialIdleType {
+    /* 0x00 */ SPECIAL_IDLE_LOOK_AROUND,
+    /* 0x01 */ SPECIAL_IDLE_COLD,
+    /* 0x02 */ SPECIAL_IDLE_HOT,
+    /* 0x03 */ SPECIAL_IDLE_HOT_2,
+    /* 0x04 */ SPECIAL_IDLE_STRETCH,
+    /* 0x05 */ SPECIAL_IDLE_STRETCH_2,
+    /* 0x06 */ SPECIAL_IDLE_STRETCH_3,
+    /* 0x07 */ SPECIAL_IDLE_CRIT_HEALTH_START,
+    /* 0x08 */ SPECIAL_IDLE_CRIT_HEALTH_LOOP,
+    /* 0x09 */ SPECIAL_IDLE_SWORD_SWING,
+    /* 0x0A */ SPECIAL_IDLE_ADJUST_TUNIC,
+    /* 0x0B */ SPECIAL_IDLE_TAP_FEET,
+    /* 0x0C */ SPECIAL_IDLE_ADJUST_SHIELD,
+    /* 0x0D */ SPECIAL_IDLE_SWORD_SWING_TWO_HAND
+} SpecialIdleType;
+
 static LinkAnimationHeader* sSpecialIdleAnimations[][2] = {
     { &gPlayerAnim_link_normal_wait_typeA_20f, &gPlayerAnim_link_normal_waitF_typeA_20f },
     { &gPlayerAnim_link_normal_wait_typeC_20f, &gPlayerAnim_link_normal_waitF_typeC_20f },
@@ -2192,7 +2209,7 @@ void func_808332F4(Player* this, PlayState* play) {
 
 /**
  * Get the appropriate Idle animation based on current `modelAnimType`.
- * This is used as the "primary" idle animation.
+ * This is used as the "normal" idle animation.
  *
  * For special idle animations (which for example, change based on environment)
  * see `sSpecialIdleAnimations`.
@@ -2204,7 +2221,7 @@ LinkAnimationHeader* Player_GetIdleAnim(Player* this) {
 /**
  * Checks if the current animation is a "special" idle animation.
  * If it is, the index into `sSpecialIdleAnimations` is returned (plus one).
- * If the current animation is a "primary" idle animation, -1 is returned.
+ * If the current animation is a "normal" idle animation, -1 is returned.
  * Lastly if the current animation is neither of these, 0 is returned.
  */
 s32 Player_CheckSpecialIdleAnim(Player* this) {
@@ -2792,7 +2809,7 @@ void func_80834644(PlayState* play, Player* this) {
 
     Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
     this->unk_834 = 0;
-    this->unk_6AC = 0;
+    this->idleType = PLAYER_IDLE_NORMAL;
     Player_DetachHeldActor(play, this);
     this->stateFlags1 &= ~PLAYER_STATE1_START_CHANGING_HELD_ITEM;
 }
@@ -2890,7 +2907,7 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
               (sUseHeldItem || ((this->modelAnimType != PLAYER_ANIMTYPE_3) && (play->shootingGalleryStatus == 0)))))) {
         Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
         this->unk_834 = 0;
-        this->unk_6AC = 0;
+        this->idleType = PLAYER_IDLE_NORMAL;
         sHeldItemButtonIsHeldDown = sUseHeldItem;
 
         return this->upperActionFunc(this, play);
@@ -2899,7 +2916,7 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
     if (Player_CheckSpecialIdleAnim(this) != 0) {
         Player_WaitToFinishItemChange(play, this);
         Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
-        this->unk_6AC = 0;
+        this->idleType = PLAYER_IDLE_NORMAL;
     } else {
         Player_WaitToFinishItemChange(play, this);
     }
@@ -2943,7 +2960,7 @@ s32 func_80834C74(Player* this, PlayState* play) {
         Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
         LinkAnimation_PlayLoop(play, &this->upperSkelAnime,
                                GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
-        this->unk_6AC = 0;
+        this->idleType = PLAYER_IDLE_NORMAL;
         this->upperActionFunc(this, play);
 
         return false;
@@ -3388,13 +3405,13 @@ s32 Player_SetupAction(PlayState* play, Player* this, PlayerActionFunc actionFun
 
     this->stateFlags1 &= ~(PLAYER_STATE1_2 | PLAYER_STATE1_6 | PLAYER_STATE1_26 | PLAYER_STATE1_28 | PLAYER_STATE1_29 |
                            PLAYER_STATE1_31);
-    this->stateFlags2 &= ~(PLAYER_STATE2_19 | PLAYER_STATE2_27 | PLAYER_STATE2_28);
+    this->stateFlags2 &= ~(PLAYER_STATE2_19 | PLAYER_STATE2_27 | PLAYER_STATE2_SPECIAL_IDLE);
     this->stateFlags3 &= ~(PLAYER_STATE3_1 | PLAYER_STATE3_3 | PLAYER_STATE3_FLYING_WITH_HOOKSHOT);
 
     this->av1.actionVar1 = 0;
     this->av2.actionVar2 = 0;
 
-    this->unk_6AC = 0;
+    this->idleType = PLAYER_IDLE_NORMAL;
 
     func_808326F0(this);
 
@@ -8071,47 +8088,64 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
     }
 }
 
-void func_808409CC(PlayState* play, Player* this) {
+void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
     LinkAnimationHeader* anim;
-    LinkAnimationHeader** animPtr;
+    LinkAnimationHeader** specialAnimPtr;
     s32 heathIsCritical;
-    s32 sp38;
-    s32 sp34;
+    s32 specialIdleType;
+    s32 commonSpecialType;
 
     if ((this->focusActor != NULL) ||
-        (!(heathIsCritical = Health_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
-        this->stateFlags2 &= ~PLAYER_STATE2_28;
+        (!(heathIsCritical = Health_IsCritical()) && ((this->idleType = (this->idleType + 1) & 1) != 0))) {
+        this->stateFlags2 &= ~PLAYER_STATE2_SPECIAL_IDLE;
         anim = Player_GetIdleAnim(this);
     } else {
-        this->stateFlags2 |= PLAYER_STATE2_28;
+        this->stateFlags2 |= PLAYER_STATE2_SPECIAL_IDLE;
+        
         if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
+            // Normal idle animations will play if carrying an actor.
+            // Note that in this case `PLAYER_STATE2_SPECIAL_IDLE` is still set even though the
+            // animation that plays isn't a special one.
             anim = Player_GetIdleAnim(this);
         } else {
-            sp38 = play->roomCtx.curRoom.behaviorType2;
+            specialIdleType = play->roomCtx.curRoom.behaviorType2;
+
             if (heathIsCritical) {
-                if (this->unk_6AC >= 0) {
-                    sp38 = 7;
-                    this->unk_6AC = -1;
+                if (this->idleType >= PLAYER_IDLE_NORMAL) {
+                    specialIdleType = SPECIAL_IDLE_CRIT_HEALTH_START;
+
+                    // When health is critical, `idleType` will not be updated.
+                    // It will stay as `PLAYER_IDLE_CRIT_HEALTH` until health is no longer critical.
+                    this->idleType = PLAYER_IDLE_CRIT_HEALTH;
                 } else {
-                    sp38 = 8;
+                    specialIdleType = SPECIAL_IDLE_CRIT_HEALTH_LOOP;
                 }
             } else {
-                sp34 = Rand_ZeroOne() * 5.0f;
-                if (sp34 < 4) {
-                    if (((sp34 != 0) && (sp34 != 3)) || ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
-                                                         ((sp34 == 3) || (Player_GetMeleeWeaponHeld2(this) != 0)))) {
-                        if ((sp34 == 0) && Player_HoldsTwoHandedWeapon(this)) {
-                            sp34 = 4;
+                commonSpecialType = Rand_ZeroOne() * 5.0f;
+
+                // There is a 4/5 chance that a common special type will be considered.
+                // However it may get rejected by the conditions below.
+                // The type set by `curRoom.behaviorType2` will be used if a common type is rejected.
+                if (commonSpecialType < 4) {
+                    if (((commonSpecialType != 0) && (commonSpecialType != 3)) || ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
+                                                         ((commonSpecialType == 3) || (Player_GetMeleeWeaponHeld2(this) != 0)))) {
+                        if ((commonSpecialType == 0) && Player_HoldsTwoHandedWeapon(this)) {
+                            commonSpecialType = 4;
                         }
-                        sp38 = sp34 + 9;
+
+                        // `SPECIAL_IDLE_SWORD_SWING` is the first non-environmental special animation type
+                        specialIdleType = commonSpecialType + SPECIAL_IDLE_SWORD_SWING;
                     }
                 }
             }
-            animPtr = &sSpecialIdleAnimations[sp38][0];
+
+            specialAnimPtr = &sSpecialIdleAnimations[specialIdleType][0];
+
             if (this->modelAnimType != PLAYER_ANIMTYPE_1) {
-                animPtr = &sSpecialIdleAnimations[sp38][1];
+                specialAnimPtr = &sSpecialIdleAnimations[specialIdleType][1];
             }
-            anim = *animPtr;
+
+            anim = *specialAnimPtr;
         }
     }
 
@@ -8139,7 +8173,7 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
                 (this->skelAnime.jointTable[0].y + ((this->av2.actionVar2 & 1) * 0x50)) - 0x28;
         } else {
             Player_FinishAnimMovement(this);
-            func_808409CC(play, this);
+            Player_ChooseNextIdleAnim(play, this);
         }
     }
 
