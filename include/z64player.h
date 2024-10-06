@@ -865,11 +865,14 @@ typedef struct Player {
 
     /* 0x084F */ union {
         s8 actionVar1;
+        s8 bottleCatchIndex; // Player_Action_SwingBottle: set depending on bottled actor and used to index sBottleCatchInfos
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0850 */ union {
         s16 actionVar2;
         s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
+        s16 startedTextbox; // Player_Action_SwingBottle: set to true when the textbox is started
+        s16 useWaterBottleSwingAnimations; // Player_Action_SwingBottle: used to determine which bottle swing animation to use
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;
