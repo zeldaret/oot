@@ -108,13 +108,6 @@ typedef struct ItemChangeInfo {
     /* 0x04 */ u8 changeFrame;
 } ItemChangeInfo; // size = 0x08
 
-typedef struct BottleCatchAnimationData {
-    /* 0x00 */ LinkAnimationHeader* missAnimation;
-    /* 0x04 */ LinkAnimationHeader* catchAnimation;
-    /* 0x08 */ u8 firstCatchFrame;
-    /* 0x09 */ u8 catchFrameCount;
-} BottleCatchAnimationData; // size = 0x0C
-
 typedef struct struct_80854190 {
     /* 0x00 */ LinkAnimationHeader* unk_00;
     /* 0x04 */ LinkAnimationHeader* unk_04;
@@ -6488,6 +6481,13 @@ s32 func_8083C61C(PlayState* play, Player* this) {
 
     return 0;
 }
+
+typedef struct BottleCatchAnimationData {
+    /* 0x00 */ LinkAnimationHeader* missAnimation;
+    /* 0x04 */ LinkAnimationHeader* catchAnimation;
+    /* 0x08 */ u8 firstCatchFrame;
+    /* 0x09 */ u8 catchFrameCount;
+} BottleCatchAnimationData; // size = 0x0C
 
 /**
  * These animations are misleadingly named,
