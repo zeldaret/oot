@@ -8141,6 +8141,11 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
                         ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
                          ((commonType == COMMON_SPECIAL_IDLE(SPECIAL_IDLE_ADJUST_SHIELD)) ||
                           (Player_GetMeleeWeaponHeld2(this) != 0)))) {
+                        //! @bug It is possible for `SPECIAL_IDLE_ADJUST_SHIELD` to be used even if 
+                        //! a shield is not currently equipped. This is because of how being shieldless
+                        //! is implemented. There is no sword-only model type, both use 
+                        //! `PLAYER_MODELGROUP_SWORD_AND_SHIELD`. Therefore, the right hand type will be 
+                        //! `PLAYER_MODELTYPE_RH_SHIELD` even if there is no shield equipped. 
 
                         if ((commonType == COMMON_SPECIAL_IDLE(SPECIAL_IDLE_SWORD_SWING)) &&
                             Player_HoldsTwoHandedWeapon(this)) {
