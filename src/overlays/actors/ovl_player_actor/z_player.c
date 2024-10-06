@@ -8156,7 +8156,7 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
             } else {
                 commonType = Rand_ZeroOne() * 5.0f;
 
-                // There is a 4/6 chance that a common fidget type will be considered.
+                // There is a 4/5 chance that a common fidget type will be considered.
                 // However it may get rejected by the conditions below.
                 // The type determined by `curRoom.behaviorType2` will be used if a common type is rejected.
                 if (commonType <= COMMON_FIDGET(FIDGET_ADJUST_SHIELD)) {
