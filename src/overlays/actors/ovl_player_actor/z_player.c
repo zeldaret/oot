@@ -4005,7 +4005,7 @@ s32 Player_CalcSpeedAndYawFromControlStick(PlayState* play, Player* this, f32* o
     return false;
 }
 
-s32 func_8083721C(Player* this) {
+s32 Player_StepHorizontalSpeedToZero(Player* this) {
     return Math_StepToF(&this->speedXZ, 0.0f, REG(43) / 100.0f);
 }
 
@@ -6443,7 +6443,7 @@ s32 func_8083C484(Player* this, f32* arg1, s16* arg2) {
     s16 yaw = this->yaw - *arg2;
 
     if (ABS(yaw) > 0x6000) {
-        if (func_8083721C(this)) {
+        if (Player_StepHorizontalSpeedToZero(this)) {
             *arg1 = 0.0f;
             *arg2 = this->yaw;
         } else {
@@ -7957,7 +7957,7 @@ void Player_Action_80840450(Player* this, PlayState* play) {
         func_808401B0(play, this);
     }
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList1, true)) {
         if (!Player_UpdateHostileLockOn(this) &&
@@ -8024,7 +8024,7 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
         Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
     }
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList2, true)) {
         if (Player_UpdateHostileLockOn(this)) {
@@ -8148,7 +8148,7 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
         }
     }
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (this->av2.actionVar2 == 0) {
         if (!Player_TryActionHandlerList(play, this, sActionHandlerList7, true)) {
@@ -8329,7 +8329,7 @@ s32 func_80841458(Player* this, f32* arg1, s16* arg2, PlayState* play) {
     }
 
     if (*arg1 != 0.0f) {
-        if (func_8083721C(this)) {
+        if (Player_StepHorizontalSpeedToZero(this)) {
             *arg1 = 0.0f;
             *arg2 = this->yaw;
         } else {
@@ -8390,7 +8390,7 @@ void Player_Action_8084170C(Player* this, PlayState* play) {
     s16 yawTarget;
 
     sp34 = LinkAnimation_Update(play, &this->skelAnime);
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList4, true)) {
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
@@ -8690,7 +8690,7 @@ void Player_Action_808423EC(Player* this, PlayState* play) {
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
         if ((this->skelAnime.morphWeight == 0.0f) && (this->skelAnime.curFrame > 5.0f)) {
-            func_8083721C(this);
+            Player_StepHorizontalSpeedToZero(this);
 
             if ((this->skelAnime.curFrame > 10.0f) && (func_8083FC68(this, speedTarget, yawTarget) < 0)) {
                 func_8083CBF0(this, yawTarget, play);
@@ -8711,7 +8711,7 @@ void Player_Action_8084251C(Player* this, PlayState* play) {
 
     sp34 = LinkAnimation_Update(play, &this->skelAnime);
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList10, true)) {
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
@@ -8990,7 +8990,7 @@ void Player_Action_80843188(Player* this, PlayState* play) {
         this->stateFlags1 &= ~PLAYER_STATE1_22;
     }
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (this->av2.actionVar2 != 0) {
         f32 sp54;
@@ -9077,7 +9077,7 @@ void Player_Action_808435C4(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
     f32 frames;
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (this->av1.actionVar1 == 0) {
         sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
@@ -9104,7 +9104,7 @@ void Player_Action_808435C4(Player* this, PlayState* play) {
 void Player_Action_8084370C(Player* this, PlayState* play) {
     s32 interruptResult;
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 16.0f);
 
@@ -9167,7 +9167,7 @@ void Player_Action_80843954(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_5 | PLAYER_STATE2_6;
     func_808382BC(this);
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime) && (this->speedXZ == 0.0f)) {
         if (this->stateFlags1 & PLAYER_STATE1_29) {
@@ -9268,7 +9268,7 @@ void Player_Action_80843CEC(Player* this, PlayState* play) {
         }
     }
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->actor.category == ACTORCAT_PLAYER) {
@@ -9703,7 +9703,7 @@ void Player_Action_80844E68(Player* this, PlayState* play) {
         this->av2.actionVar2 = -1;
     }
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (!func_80842964(this, play) && (this->av2.actionVar2 != 0)) {
         func_80844E3C(this);
@@ -10127,7 +10127,7 @@ void Player_Action_80845EF8(Player* this, PlayState* play) {
 }
 
 void Player_Action_80846050(Player* this, PlayState* play) {
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_80839F90(this, play);
@@ -10180,7 +10180,7 @@ void Player_Action_80846120(Player* this, PlayState* play) {
 }
 
 void Player_Action_80846260(Player* this, PlayState* play) {
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         Player_AnimPlayLoop(play, this, &gPlayerAnim_link_silver_wait);
@@ -10237,7 +10237,7 @@ void Player_Action_80846408(Player* this, PlayState* play) {
 }
 
 void Player_Action_808464B0(Player* this, PlayState* play) {
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_80839F90(this, play);
@@ -10262,7 +10262,7 @@ void Player_Action_80846578(Player* this, PlayState* play) {
     f32 speedTarget;
     s16 yawTarget;
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime) ||
         ((this->skelAnime.curFrame >= 8.0f) &&
@@ -12273,7 +12273,7 @@ void Player_Action_8084B1D8(Player* this, PlayState* play) {
         func_8084B000(this);
         func_8084AEEC(this, &this->speedXZ, 0, this->actor.shape.rot.y);
     } else {
-        func_8083721C(this);
+        Player_StepHorizontalSpeedToZero(this);
     }
 
     if ((this->unk_6AD == 2) && (func_8002DD6C(this) || func_808332E4(this))) {
@@ -13407,7 +13407,7 @@ void Player_Action_8084DC48(Player* this, PlayState* play) {
                     this->actor.velocity.y = -2.0f;
                 }
 
-                func_8083721C(this);
+                Player_StepHorizontalSpeedToZero(this);
                 return;
             }
 
@@ -13633,7 +13633,7 @@ void Player_Action_8084E604(Player* this, PlayState* play) {
         Player_PlayVoiceSfx(this, NA_SE_VO_LI_SWORD_N);
     }
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 }
 
 static AnimSfxEntry D_808549E0[] = {
@@ -13827,7 +13827,7 @@ static BottleCatchInfo sBottleCatchInfos[] = {
 void Player_Action_SwingBottle(Player* this, PlayState* play) {
     BottleCatchAnimationData* bottleCatchAnimationData = &sBottleCatchAnimationDatas[this->av2.useWaterBottleSwingAnimations];
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av1.bottleCatchIndex != 0) {
@@ -13911,7 +13911,7 @@ static AnimSfxEntry D_80854A34[] = {
 };
 
 void Player_Action_8084EFC0(Player* this, PlayState* play) {
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083C0E8(this, play);
@@ -14460,7 +14460,7 @@ void Player_Action_808502D0(Player* this, PlayState* play) {
 
 void Player_Action_808505DC(Player* this, PlayState* play) {
     LinkAnimation_Update(play, &this->skelAnime);
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (this->skelAnime.curFrame >= 6.0f) {
         func_80839FFC(this, play);
@@ -14623,7 +14623,7 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
         }
     }
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 }
 
 void Player_Action_80850AEC(Player* this, PlayState* play) {
@@ -14689,7 +14689,7 @@ void Player_Action_80850C68(Player* this, PlayState* play) {
         this->av2.actionVar2 = 1;
     }
 
-    func_8083721C(this);
+    Player_StepHorizontalSpeedToZero(this);
 
     if (this->unk_860 == 0) {
         func_80853080(this, play);
@@ -15331,7 +15331,7 @@ void func_80851CA4(PlayState* play, Player* this, CsCmdActorCue* cue) {
     }
 
     if (this->av2.actionVar2 != 0) {
-        func_8083721C(this);
+        Player_StepHorizontalSpeedToZero(this);
     }
 }
 
