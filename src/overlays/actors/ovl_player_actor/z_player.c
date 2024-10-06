@@ -6508,7 +6508,8 @@ s32 func_8083C6B8(PlayState* play, Player* this) {
                 this->av2.useWaterBottleSwingAnimations = true;
             }
 
-            Player_AnimPlayOnceAdjusted(play, this, sBottleCatchAnimationDatas[this->av2.useWaterBottleSwingAnimations].missAnimation);
+            Player_AnimPlayOnceAdjusted(
+                play, this, sBottleCatchAnimationDatas[this->av2.useWaterBottleSwingAnimations].missAnimation);
 
             Player_PlaySfx(this, NA_SE_IT_SWORD_SWING);
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_AUTO_JUMP);
@@ -13827,7 +13828,8 @@ static BottleCatchInfo sBottleCatchInfos[] = {
 void Player_Action_SwingBottle(Player* this, PlayState* play) {
     //! @note: after av2 is set as startedTextbox, this will not necessarily get the correct animations,
     //!        this doesn't matter as at that point this is not used anymore
-    BottleCatchAnimationData* bottleCatchAnimationData = &sBottleCatchAnimationDatas[this->av2.useWaterBottleSwingAnimations];
+    BottleCatchAnimationData* bottleCatchAnimationData =
+        &sBottleCatchAnimationDatas[this->av2.useWaterBottleSwingAnimations];
 
     Player_StepHorizontalSpeedToZero(this);
 
