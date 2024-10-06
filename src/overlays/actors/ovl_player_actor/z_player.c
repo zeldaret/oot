@@ -13825,6 +13825,8 @@ static BottleCatchInfo sBottleCatchInfos[] = {
 };
 
 void Player_Action_SwingBottle(Player* this, PlayState* play) {
+    //! @note: after av2 is set as startedTextbox, this will not necessarily get the correct animations,
+    //!        this doesn't matter as at that point this is not used anymore
     BottleCatchAnimationData* bottleCatchAnimationData = &sBottleCatchAnimationDatas[this->av2.useWaterBottleSwingAnimations];
 
     Player_StepHorizontalSpeedToZero(this);
