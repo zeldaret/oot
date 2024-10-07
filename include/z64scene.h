@@ -11,6 +11,7 @@
 
 #include "command_macros_base.h"
 
+struct GameState;
 struct PlayState;
 
 typedef struct SceneTableEntry {
@@ -432,6 +433,26 @@ typedef enum SceneID {
 // Deleted scene
 #define SCENE_UNUSED_6E     0x6E
 
+// Macros for `EntranceInfo.field`
+#define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
+#define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)
+#define ENTRANCE_INFO_END_TRANS_TYPE_MASK 0x3F80
+#define ENTRANCE_INFO_END_TRANS_TYPE_SHIFT 7
+#define ENTRANCE_INFO_END_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_END_TRANS_TYPE_MASK >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT))
+#define ENTRANCE_INFO_START_TRANS_TYPE_MASK 0x7F
+#define ENTRANCE_INFO_START_TRANS_TYPE_SHIFT 0
+#define ENTRANCE_INFO_START_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
+
+typedef struct EntranceInfo {
+    /* 0x00 */ s8  sceneId;
+    /* 0x01 */ s8  spawn;
+    /* 0x02 */ u16 field;
+} EntranceInfo; // size = 0x4
+
 // Entrance Index Enum
 #define DEFINE_ENTRANCE(enum, _1, _2, _3, _4, _5, _6) enum,
 
@@ -639,5 +660,12 @@ typedef enum SceneCommandTypeID {
 #define SCENE_CMD_MISC_SETTINGS(sceneCamType, worldMapLocation) \
     { SCENE_CMD_ID_MISC_SETTINGS, sceneCamType, CMD_W(worldMapLocation) }
 
+s32 Scene_ExecuteCommands(struct PlayState* play, SceneCmd* sceneCmd);
+void Scene_ResetTransitionActorList(struct GameState* state, TransitionActorList* transitionActors);
+void Scene_SetTransitionForNextEntrance(struct PlayState* play);
+void Scene_Draw(struct PlayState* play);
+
+extern EntranceInfo gEntranceTable[ENTR_MAX];
+extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
 
 #endif

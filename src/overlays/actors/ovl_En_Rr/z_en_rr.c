@@ -7,6 +7,7 @@
 #include "z_en_rr.h"
 #include "assets/objects/object_rr/object_rr.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
 
@@ -480,11 +481,16 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
+#if OOT_VERSION < NTSC_1_1
+                    this->effectTimer = 20;
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
+#else
                     if (this->actor.colorFilterTimer == 0) {
                         this->effectTimer = 20;
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
                                              80);
                     }
+#endif
                     EnRr_SetupStunned(this);
                     return;
                 case RR_DMG_LIGHT_MAGIC: // Unused light magic

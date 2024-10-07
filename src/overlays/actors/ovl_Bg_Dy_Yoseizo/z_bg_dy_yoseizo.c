@@ -7,11 +7,16 @@
 #include "z_bg_dy_yoseizo.h"
 #include "assets/objects/object_dy_obj/object_dy_obj.h"
 #include "terminal.h"
+#include "versions.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "assets/scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
+#if OOT_VERSION < NTSC_1_1
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#else
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#endif
 
 typedef enum BgDyYoseizoRewardType {
     /* 0 */ FAIRY_UPGRADE_MAGIC,
@@ -85,13 +90,30 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
                            this->jointTable, this->morphTable, 28);
+#if OOT_VERSION < NTSC_1_1
+        if (!gSaveContext.save.info.playerData.isMagicAcquired && (this->fountainType != FAIRY_UPGRADE_MAGIC)) {
+            Actor_Kill(&this->actor);
+            return;
+        }
+#endif
     } else {
         // "Stone/Jewel Fairy Fountain"
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
                            this->jointTable, this->morphTable, 28);
+#if OOT_VERSION < NTSC_1_1
+        if (!gSaveContext.save.info.playerData.isMagicAcquired) {
+            Actor_Kill(&this->actor);
+            return;
+        }
+#endif
     }
+
+#if OOT_VERSION < NTSC_1_1
+    this->actionFunc = BgDyYoseizo_ChooseType;
+#else
     this->actionFunc = BgDyYoseizo_CheckMagicAcquired;
+#endif
 }
 
 void BgDyYoseizo_Destroy(Actor* thisx, PlayState* play) {
@@ -177,6 +199,7 @@ void BgDyYoseizo_Bob(BgDyYoseizo* this, PlayState* play) {
     }
 }
 
+#if OOT_VERSION >= NTSC_1_1
 void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, PlayState* play) {
     if (Flags_GetSwitch(play, 0x38)) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
@@ -195,9 +218,21 @@ void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, PlayState* play) {
         this->actionFunc = BgDyYoseizo_ChooseType;
     }
 }
+#endif
 
 void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
     s32 givingReward;
+
+#if OOT_VERSION < NTSC_1_1
+    if (!Flags_GetSwitch(play, 0x38)) {
+        return;
+    }
+
+    if (play->msgCtx.ocarinaMode != OCARINA_MODE_04) {
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+        return;
+    }
+#endif
 
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     // "Mode"
@@ -315,12 +350,16 @@ void BgDyYoseizo_SetupSpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
     }
 
     Actor_PlaySfx(&this->actor, NA_SE_VO_FR_LAUGH_0);
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
     this->actionFunc = BgDyYoseizo_SpinGrow_NoReward;
 }
 
 void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
     Math_ApproachF(&this->actor.world.pos.y, this->grownHeight, this->heightFraction, 100.0f);
     Math_ApproachF(&this->scale, 0.035f, this->scaleFraction, 0.005f);
     Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
@@ -346,7 +385,9 @@ void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
 void BgDyYoseizo_CompleteSpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
     f32 curFrame = this->skelAnime.curFrame;
 
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
 
     if ((this->frameCount * 1273.0f) <= this->bobTimer) {
         this->bobTimer = 0.0f;
@@ -360,7 +401,9 @@ void BgDyYoseizo_CompleteSpinGrow_NoReward(BgDyYoseizo* this, PlayState* play) {
 }
 
 void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
 
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         this->frameCount = Animation_GetLastFrame(&gGreatFairySittingAnim);
@@ -380,7 +423,9 @@ void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
 }
 
 void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
+#if OOT_VERSION >= NTSC_1_1
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#endif
     this->bobTimer = this->skelAnime.curFrame * 1273.0f;
 
     if ((this->frameCount * 1273.0f) <= this->bobTimer) {

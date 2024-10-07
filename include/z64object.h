@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "z64dma.h"
 
+struct PlayState;
+
 typedef struct ObjectEntry {
     /* 0x00 */ s16 id;
     /* 0x04 */ void* segment;
@@ -34,5 +36,14 @@ typedef enum ObjectId {
 #undef DEFINE_OBJECT
 #undef DEFINE_OBJECT_EMPTY
 #undef DEFINE_OBJECT_UNSET
+
+void Object_InitContext(struct PlayState* play, ObjectContext* objectCtx);
+void Object_UpdateEntries(ObjectContext* objectCtx);
+s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId);
+s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot);
+void func_800981B8(ObjectContext* objectCtx);
+
+extern u32 gObjectTableSize;
+extern RomFile gObjectTable[OBJECT_ID_MAX];
 
 #endif

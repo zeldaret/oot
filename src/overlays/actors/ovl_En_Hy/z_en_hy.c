@@ -5,6 +5,7 @@
  */
 
 #include "z_en_hy.h"
+#include "versions.h"
 #include "assets/objects/object_aob/object_aob.h"
 #include "assets/objects/object_ahg/object_ahg.h"
 #include "assets/objects/object_bob/object_bob.h"
@@ -505,7 +506,11 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
+#if OOT_VERSION < NTSC_1_1
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CB) ? 0x7019 : 0x7018);
+#else
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
+#endif
             }
         case ENHY_TYPE_CNE_11:
             return GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4)
@@ -633,7 +638,11 @@ s16 EnHy_UpdateTalkState(PlayState* play, Actor* thisx) {
                     SET_INFTABLE(INFTABLE_CA);
                     break;
                 case 0x7018:
+#if OOT_VERSION < NTSC_1_1
+                    SET_INFTABLE(INFTABLE_CB);
+#else
                     SET_INFTABLE(INFTABLE_CD);
+#endif
                     break;
                 case 0x70A4:
                     SET_INFTABLE(INFTABLE_CC);

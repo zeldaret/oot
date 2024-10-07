@@ -930,7 +930,7 @@ typedef struct Player {
     /* 0x0A88 */ Vec3f unk_A88; // previous body part 0 position
 } Player; // size = 0xA94
 
-// z_player_lib public functions
+// z_player_lib.c
 void Player_SetBootData(struct PlayState* play, Player* this);
 int Player_InBlockingCsMode(struct PlayState* play, Player* this);
 int Player_InCsMode(struct PlayState* play);
@@ -983,5 +983,18 @@ void Player_PostLimbDrawGameplay(struct PlayState* play, s32 limbIndex, Gfx** dL
 u32 Player_InitPauseDrawData(struct PlayState* play, u8* segment, SkelAnime* skelAnime);
 void Player_DrawPause(struct PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
                       s32 sword, s32 tunic, s32 shield, s32 boots);
+
+// z_player_lib.c
+extern FlexSkeletonHeader* gPlayerSkelHeaders[2];
+extern u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX];
+extern Gfx* gPlayerLeftHandBgsDLs[];
+extern Gfx* gPlayerLeftHandOpenDLs[];
+extern Gfx* gPlayerLeftHandClosedDLs[];
+extern Gfx* gPlayerLeftHandBoomerangDLs[];
+extern Gfx gCullBackDList[];
+extern Gfx gCullFrontDList[];
+
+// object_table.c
+extern s16 gLinkObjectIds[2];
 
 #endif

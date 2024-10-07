@@ -1,6 +1,7 @@
 #include "global.h"
 #include "fault.h"
 #include "terminal.h"
+#include "versions.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -350,6 +351,14 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     *gfxP = gfx;
 }
 
+#if OOT_VERSION < PAL_1_0
+void func_8007FF50(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 tlutMode,
+                   u16 tlutCount) {
+    if (1) {}
+    Room_DrawBackground2D(gfxP, tex, tlut, width, height, fmt, siz, tlutMode, tlutCount, 0.0f, 0.0f);
+}
+#endif
+
 #define ROOM_IMAGE_NODRAW_BACKGROUND (1 << 0)
 #define ROOM_IMAGE_NODRAW_OPA (1 << 1)
 #define ROOM_IMAGE_NODRAW_XLU (1 << 2)
@@ -389,6 +398,9 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
 
             gfx = POLY_OPA_DISP;
 
+#if OOT_VERSION < PAL_1_0
+            if (1)
+#endif
             {
                 Vec3f quakeOffset;
 
@@ -494,6 +506,9 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
 
             gfx = POLY_OPA_DISP;
 
+#if OOT_VERSION < PAL_1_0
+            if (1)
+#endif
             {
                 Vec3f quakeOffset;
 

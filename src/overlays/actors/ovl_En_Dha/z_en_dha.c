@@ -243,13 +243,20 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
             this->handAngle.y -= this->actor.shape.rot.y + this->limbAngleY;
             this->handAngle.x -= this->actor.shape.rot.x + this->limbAngleX[0] + this->limbAngleX[1];
         } else {
+#if OOT_VERSION < NTSC_1_1
+            // Empty
+#elif OOT_VERSION < PAL_1_0
             if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-#if OOT_VERSION >= PAL_1_0
-                player->av2.actionVar2 = 200;
-#endif
             }
+#else
+            if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
+                player->stateFlags2 &= ~PLAYER_STATE2_7;
+                player->actor.parent = NULL;
+                player->av2.actionVar2 = 200;
+            }
+#endif
 
             if (this->actor.home.rot.z != 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HAND_AT);

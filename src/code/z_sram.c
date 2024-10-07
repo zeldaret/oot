@@ -169,6 +169,18 @@ void Sram_InitNewSave(void) {
 static SavePlayerData sDebugSavePlayerData = {
     { 'Z', 'E', 'L', 'D', 'A', 'Z' }, // newf
     0,                                // deaths
+#if OOT_VERSION < PAL_1_0
+    {
+        0x81, // リ
+        0x87, // ン
+        0x61, // ク
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+        FILENAME_SPACE,
+    }, // playerName
+#else
     {
         FILENAME_UPPERCASE('L'),
         FILENAME_UPPERCASE('I'),
@@ -178,7 +190,8 @@ static SavePlayerData sDebugSavePlayerData = {
         FILENAME_SPACE,
         FILENAME_SPACE,
         FILENAME_SPACE,
-    },                  // playerName
+    }, // playerName
+#endif
     0,                  // n64ddFlag
     0xE0,               // healthCapacity
     0xE0,               // health
@@ -499,9 +512,11 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
         gSaveContext.save.info.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER);
+#if OOT_VERSION >= NTSC_1_1
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_MASTER;
         gSaveContext.save.info.equips.equipment &= ~(0xF << (EQUIP_TYPE_SWORD * 4));
         gSaveContext.save.info.equips.equipment |= EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4);
+#endif
     }
 
     for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {
@@ -604,6 +619,13 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
         PRINTF("\n＝＝＝＝＝＝＝＝＝＝＝＝＝  Ｓ（%d） ＝＝＝＝＝＝＝＝＝＝＝＝＝\n", slotNum);
 
         for (i = newChecksum = j = 0; i < CHECKSUM_SIZE; i++, offset += 2) {
+#if OOT_VERSION < PAL_1_0
+            if (j) {}
+            j += 2;
+            if (j == 0x20) {
+                j = 0;
+            }
+#endif
             newChecksum += *ptr++;
         }
 
@@ -622,6 +644,13 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
             PRINTF("================= ＢＡＣＫ─ＵＰ ========================\n");
 
             for (i = newChecksum = j = 0; i < CHECKSUM_SIZE; i++, offset += 2) {
+#if OOT_VERSION < PAL_1_0
+                if (j) {}
+                j += 2;
+                if (j == 0x20) {
+                    j = 0;
+                }
+#endif
                 newChecksum += *ptr++;
             }
             PRINTF(T("\n（Ｂ）ＳＡＶＥチェックサム計算  j=%x  mmm=%x  ",
