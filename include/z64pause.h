@@ -14,10 +14,10 @@ struct PlayState;
 #define PAUSE_CURSOR_PAGE_RIGHT 11
 
 typedef enum PauseMenuPage {
-    /* 0x00 */ PAUSE_ITEM,  // -z
-    /* 0x01 */ PAUSE_MAP,   // +x
-    /* 0x02 */ PAUSE_QUEST, // +z
-    /* 0x03 */ PAUSE_EQUIP, // -x
+    /* 0x00 */ PAUSE_ITEM,
+    /* 0x01 */ PAUSE_MAP,
+    /* 0x02 */ PAUSE_QUEST,
+    /* 0x03 */ PAUSE_EQUIP,
     /* 0x04 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
 
