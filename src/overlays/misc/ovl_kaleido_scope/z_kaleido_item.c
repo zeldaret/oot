@@ -20,7 +20,7 @@ u8 gAmmoItems[] = {
     ITEM_NONE,
 };
 
-typedef enum {
+typedef enum ItemEquipState {
     /* 0 */ ITEM_EQUIP_STATE_0,
     /* 1 */ ITEM_EQUIP_STATE_1,
     /* 2 */ ITEM_EQUIP_STATE_2,
@@ -199,7 +199,6 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = pauseCtx->cursorX[PAUSE_ITEM];
                             }
 
-                            // there is no item to the left of the initial position, on any line
                             if (cursorY == pauseCtx->cursorY[PAUSE_ITEM]) {
                                 // there is no item to the left of the initial position, on any line
 
