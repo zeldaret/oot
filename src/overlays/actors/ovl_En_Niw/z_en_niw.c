@@ -8,6 +8,7 @@
 #include "assets/objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
@@ -1055,7 +1056,12 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
 
     dist = 20.0f;
 
-    if (this->unk_2A8 != 0 && thisx->xyzDistToPlayerSq < SQ(dist) && player->invincibilityTimer == 0) {
+#if OOT_VERSION < NTSC_1_1
+    if (this->unk_2A8 != 0 && thisx->xyzDistToPlayerSq < SQ(dist) && !(player->stateFlags1 & PLAYER_STATE1_26))
+#else
+    if (this->unk_2A8 != 0 && thisx->xyzDistToPlayerSq < SQ(dist) && player->invincibilityTimer == 0)
+#endif
+    {
         Actor_SetPlayerKnockbackLarge(play, &this->actor, 2.0f, thisx->world.rot.y, 0.0f, 0x10);
     }
 

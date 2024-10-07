@@ -1915,7 +1915,7 @@ void Message_Decode(PlayState* play) {
                 decodedBufPos--;
             } else if (curCharWide == MESSAGE_WIDE_HIGHSCORE) {
                 value = HIGH_SCORE(font->msgBufWide[++msgCtx->msgBufPos] & 0xFF);
-                if ((font->msgBufWide[msgCtx->msgBufPos] & 0xFF) == 2) {
+                if ((font->msgBufWide[msgCtx->msgBufPos] & 0xFF) == HS_FISHING) {
                     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                         value &= 0x7F;
                     } else {
@@ -2277,10 +2277,13 @@ void Message_Decode(PlayState* play) {
             } else if (curChar == MESSAGE_HIGHSCORE) {
                 value = HIGH_SCORE((u8)font->msgBuf[++msgCtx->msgBufPos]);
                 PRINTF(T("ランキング＝%d\n", "Highscore=%d\n"), font->msgBuf[msgCtx->msgBufPos]);
-                if ((font->msgBuf[msgCtx->msgBufPos] & 0xFF) == 2) {
+                if ((font->msgBuf[msgCtx->msgBufPos] & 0xFF) == HS_FISHING) {
                     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                         value &= 0x7F;
                     } else {
+                        //! @bug Should use msgBuf instead of msgBufWide (copy-paste error from Japanese text
+                        //! handling?), and the mask is applied to the high score index instead of the high score value
+                        //! so this always shows HIGH_SCORE(0). Only the PRINTF is wrong, the following line is correct.
                         PRINTF("HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n",
                                HIGH_SCORE(font->msgBufWide[msgCtx->msgBufPos] & 0xFF000000));
                         value = ((HIGH_SCORE((u8)font->msgBuf[msgCtx->msgBufPos]) & 0xFF000000) >> 0x18) & 0x7F;

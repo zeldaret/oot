@@ -399,6 +399,7 @@ s32 Camera_BGCheckInfo(Camera* camera, Vec3f* from, CamColChk* to) {
     to->pos.y = to->norm.y + toNewPos.y;
     to->pos.z = to->norm.z + toNewPos.z;
 
+    //! @bug floorBgId is uninitialized if BgCheck_CameraLineTest1 returned true above
     return floorBgId + 1;
 }
 
@@ -3638,7 +3639,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:97 pal-1.0:95 pal-1.1:95"
+                               "ntsc-1.2:96 pal-1.0:94 pal-1.1:94"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;

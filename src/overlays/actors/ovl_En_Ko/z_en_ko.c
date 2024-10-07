@@ -10,6 +10,7 @@
 #include "assets/objects/object_km1/object_km1.h"
 #include "assets/objects/object_kw1/object_kw1.h"
 #include "terminal.h"
+#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
 
@@ -585,7 +586,11 @@ s16 EnKo_UpdateTalkState(PlayState* play, Actor* thisx) {
                         Message_ContinueTextbox(play, this->actor.textId);
                         break;
                     case 0x10B7:
+#if OOT_VERSION < NTSC_1_1
+                        SET_INFTABLE(INFTABLE_B6);
+#else
                         SET_INFTABLE(INFTABLE_BC);
+#endif
                         FALLTHROUGH;
                     case 0x10B8:
                         this->actor.textId = (play->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
@@ -976,7 +981,11 @@ void func_80A9877C(EnKo* this, PlayState* play) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
         if (func_8002F368(play) == EXCH_ITEM_ODD_POTION) {
+#if OOT_VERSION < NTSC_1_1
+            this->actor.textId = GET_INFTABLE(INFTABLE_B6) ? 0x10B8 : 0x10B7;
+#else
             this->actor.textId = GET_INFTABLE(INFTABLE_BC) ? 0x10B8 : 0x10B7;
+#endif
             this->unk_210 = 0;
         }
         player->actor.textId = this->actor.textId;
