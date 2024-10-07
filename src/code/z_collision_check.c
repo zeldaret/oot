@@ -1,13 +1,22 @@
-#include "global.h"
+#include "gfx.h"
+#include "macros.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
-
+#include "z64collision_check.h"
+#include "z64effect.h"
 #include "z64frame_advance.h"
+#include "zelda_arena.h"
+#include "z64play.h"
 
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
+#include "z_lib.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:200" \
-                               "pal-1.0:200 pal-1.1:200"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.2:104 pal-1.0:104 pal-1.1:104"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
