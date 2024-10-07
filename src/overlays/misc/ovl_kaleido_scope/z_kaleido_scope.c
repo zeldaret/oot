@@ -1561,10 +1561,8 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         //! @bug Loads 32 vertices, but there are only 20 to load
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->promptPageVtx[PAGE_BG_QUADS * 4], 32, 0);
 
-        if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) && (pauseCtx->savePromptState < PAUSE_SAVE_PROMPT_STATE_SAVED)
-             /* PAUSE_SAVE_PROMPT_STATE_APPEARING, PAUSE_SAVE_PROMPT_STATE_WAIT_CHOICE, PAUSE_SAVE_PROMPT_STATE_CLOSING,
-                PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU */
-             ) ||
+        if (((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
+             (pauseCtx->savePromptState < PAUSE_SAVE_PROMPT_STATE_SAVED)) ||
             (pauseCtx->state == PAUSE_STATE_14)) {
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptMessageTexs[gSaveContext.language],
