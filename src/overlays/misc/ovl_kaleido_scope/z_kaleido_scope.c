@@ -3594,7 +3594,6 @@ void KaleidoScope_Update(PlayState* play) {
             KaleidoScope_HandlePageToggles(pauseCtx, input);
         } else if ((pauseCtx->pageIndex == PAUSE_QUEST) && ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) ||
                                                             (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT))) {
-
             KaleidoScope_UpdateCursorVtx(play);
         }
 
