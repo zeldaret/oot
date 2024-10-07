@@ -2236,7 +2236,7 @@ void func_808332F4(Player* this, PlayState* play) {
 
 /**
  * Get the appropriate Idle animation based on current `modelAnimType`.
- * This is used as the "normal" idle animation.
+ * This is the default idle animation.
  *
  * For fidget idle animations (which can for example, change based on environment)
  * see `sFidgetAnimations`.
@@ -2248,7 +2248,7 @@ LinkAnimationHeader* Player_GetIdleAnim(Player* this) {
 /**
  * Checks if the current animation is a fidget idle animation.
  * If it is, the index into `sFidgetAnimations` is returned (plus one).
- * If the current animation is a "normal" idle animation, -1 is returned.
+ * If the current animation is a default idle animation, -1 is returned.
  * Lastly if the current animation is neither of these, 0 is returned.
  */
 s32 Player_CheckFidgetAnim(Player* this) {
@@ -2836,7 +2836,7 @@ void func_80834644(PlayState* play, Player* this) {
 
     Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
     this->unk_834 = 0;
-    this->idleType = PLAYER_IDLE_NORMAL;
+    this->idleType = PLAYER_IDLE_DEFAULT;
     Player_DetachHeldActor(play, this);
     this->stateFlags1 &= ~PLAYER_STATE1_START_CHANGING_HELD_ITEM;
 }
@@ -2934,7 +2934,7 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
               (sUseHeldItem || ((this->modelAnimType != PLAYER_ANIMTYPE_3) && (play->shootingGalleryStatus == 0)))))) {
         Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
         this->unk_834 = 0;
-        this->idleType = PLAYER_IDLE_NORMAL;
+        this->idleType = PLAYER_IDLE_DEFAULT;
         sHeldItemButtonIsHeldDown = sUseHeldItem;
 
         return this->upperActionFunc(this, play);
@@ -2943,7 +2943,7 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
     if (Player_CheckFidgetAnim(this) != 0) {
         Player_WaitToFinishItemChange(play, this);
         Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
-        this->idleType = PLAYER_IDLE_NORMAL;
+        this->idleType = PLAYER_IDLE_DEFAULT;
     } else {
         Player_WaitToFinishItemChange(play, this);
     }
@@ -2987,7 +2987,7 @@ s32 func_80834C74(Player* this, PlayState* play) {
         Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
         LinkAnimation_PlayLoop(play, &this->upperSkelAnime,
                                GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
-        this->idleType = PLAYER_IDLE_NORMAL;
+        this->idleType = PLAYER_IDLE_DEFAULT;
         this->upperActionFunc(this, play);
 
         return false;
@@ -3438,7 +3438,7 @@ s32 Player_SetupAction(PlayState* play, Player* this, PlayerActionFunc actionFun
     this->av1.actionVar1 = 0;
     this->av2.actionVar2 = 0;
 
-    this->idleType = PLAYER_IDLE_NORMAL;
+    this->idleType = PLAYER_IDLE_DEFAULT;
 
     func_808326F0(this);
 
@@ -8133,7 +8133,7 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
         this->stateFlags2 |= PLAYER_STATE2_IDLE_FIDGET;
 
         if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
-            // Normal idle animations will play if carrying an actor.
+            // Default idle animation will play if carrying an actor.
             // Note that in this case, `PLAYER_STATE2_IDLE_FIDGET` is still set even though the
             // animation that plays isn't a fidget animation.
             anim = Player_GetIdleAnim(this);
@@ -8143,7 +8143,7 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
             fidgetType = play->roomCtx.curRoom.behaviorType2;
 
             if (heathIsCritical) {
-                if (this->idleType >= PLAYER_IDLE_NORMAL) {
+                if (this->idleType >= PLAYER_IDLE_DEFAULT) {
                     fidgetType = FIDGET_CRIT_HEALTH_START;
 
                     // When health is critical, `idleType` will not be updated.
