@@ -326,7 +326,7 @@ void Regs_InitDataImpl(void) {
     ZREG(10) = 200;
     ZREG(11) = 0;
     ZREG(12) = 200;
-    ZREG(13) = 0;
+    R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON = false;
     ZREG(14) = 110;
     ZREG(15) = 56;
     ZREG(16) = 1;
@@ -619,11 +619,12 @@ void Regs_InitDataImpl(void) {
         R_MINIMAP_COLOR(2) = 255;
     }
 
-    VREG(21) = 0;
-    VREG(22) = 0;
-    VREG(23) = 0;
-    VREG(24) = 0;
-    VREG(25) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_A) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_DOWN) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_RIGHT) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_LEFT) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_UP) = 0;
+
     VREG(26) = 0;
     VREG(27) = 0;
     R_OCARINA_BUTTONS_XPOS = 98;
@@ -649,7 +650,7 @@ void Regs_InitDataImpl(void) {
     R_OCARINA_BUTTONS_YPOS(2) = 176;
     R_OCARINA_BUTTONS_YPOS(3) = 172;
     R_OCARINA_BUTTONS_YPOS(4) = 170;
-    VREG(50) = 30;
+    R_OCARINA_BUTTONS_APPEAR_ALPHA_STEP = 30;
     R_OCARINA_BUTTONS_YPOS_OFFSET = 0;
     VREG(52) = -16;
     VREG(53) = 230;
