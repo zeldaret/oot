@@ -52,17 +52,17 @@ void Interface_Init(PlayState* play) {
 
 #if OOT_NTSC
     if (gSaveContext.language == LANGUAGE_JPN) {
-        doActionOffset = LANGUAGE_JPN * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_JPN * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     }
 #else
     if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = LANGUAGE_GER * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     }
 #endif
 
@@ -71,17 +71,17 @@ void Interface_Init(PlayState* play) {
 
 #if OOT_NTSC
     if (gSaveContext.language == LANGUAGE_JPN) {
-        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_JPN * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_JPN * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     }
 #else
     if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_GER * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
+        doActionOffset = (LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
     }
 #endif
 
