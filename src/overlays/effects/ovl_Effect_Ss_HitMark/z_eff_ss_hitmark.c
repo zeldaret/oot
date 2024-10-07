@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_hitmark.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rTexIndex regs[0]
