@@ -2264,7 +2264,7 @@ s32 Player_CheckForIdleAnim(Player* this) {
         LinkAnimationHeader** fidgetAnim;
         s32 i;
 
-        for (i = 0, fidgetAnim = &sFidgetAnimations[0][0]; i < 28; i++, fidgetAnim++) {
+        for (i = 0, fidgetAnim = &sFidgetAnimations[0][0]; i < ARRAY_COUNT_2D(sFidgetAnimations); i++, fidgetAnim++) {
             if (this->skelAnime.animation == *fidgetAnim) {
                 return i + 1;
             }
