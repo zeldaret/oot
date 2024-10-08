@@ -875,7 +875,7 @@ typedef struct Player {
 
     /* 0x0850 */ union {
         s16 actionVar2;
-        s16 shakeTimer; // Player_Action_Idle: When set, model y position will oscillate quickly and give the appearnace of shaking. 
+        s16 shakeTimer; // Player_Action_Idle: When set, model y position will oscillate quickly and give the appearnace of shaking.
         s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 

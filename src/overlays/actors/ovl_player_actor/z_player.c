@@ -4058,9 +4058,9 @@ s32 Player_CalcSpeedAndYawFromControlStick(PlayState* play, Player* this, f32* o
 }
 
 /**
- * Steps speed toward zero to at a rate defined by current boot data. 
+ * Steps speed toward zero to at a rate defined by current boot data.
  * After zero is reached, speed will be held at zero.
- * 
+ *
  * @return true if speed is 0, false otherwise
  */
 s32 Player_DecelerateToZero(Player* this) {
@@ -8233,6 +8233,7 @@ void Player_Action_Idle(Player* this, PlayState* play) {
 
             // Offset model y position.
             // Depending on if the timer is even or odd, the offset will be 40 or -40 model space units.
+            // (TODO: is this used?)
             this->skelAnime.jointTable[0].y =
                 (this->skelAnime.jointTable[0].y + ((this->av2.shakeTimer & 1) * 80)) - 40;
         } else {
