@@ -24,7 +24,7 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         600,                         // REG(37)
         FRAMERATE_CONST(350, 420),   // REG(38)
-        800,                         // REG(43)
+        800,                         // R_DECELERATE_RATE
         600,                         // REG(45)
         -100,                        // REG(68)
         600,                         // REG(69)
@@ -44,7 +44,7 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         1000,                        // REG(37)
         FRAMERATE_CONST(0, 0),       // REG(38)
-        800,                         // REG(43)
+        800,                         // R_DECELERATE_RATE
         300,                         // REG(45)
         -160,                        // REG(68)
         600,                         // REG(69)
@@ -64,7 +64,7 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         600,                         // REG(37)
         FRAMERATE_CONST(600, 720),   // REG(38)
-        800,                         // REG(43)
+        800,                         // R_DECELERATE_RATE
         550,                         // REG(45)
         -100,                        // REG(68)
         600,                         // REG(69)
@@ -84,7 +84,7 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(400, 480),   // REG(36)
         0,                           // REG(37)
         FRAMERATE_CONST(300, 360),   // REG(38)
-        800,                         // REG(43)
+        800,                         // R_DECELERATE_RATE
         500,                         // REG(45)
         -100,                        // REG(68)
         600,                         // REG(69)
@@ -104,7 +104,7 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324), // REG(36)
         600,                       // REG(37)
         FRAMERATE_CONST(50, 60),   // REG(38)
-        800,                       // REG(43)
+        800,                       // R_DECELERATE_RATE
         550,                       // REG(45)
         -40,                       // REG(68)
         400,                       // REG(69)
@@ -124,7 +124,7 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(400, 480),   // REG(36)
         800,                         // REG(37)
         FRAMERATE_CONST(400, 480),   // REG(38)
-        800,                         // REG(43)
+        800,                         // R_DECELERATE_RATE
         550,                         // REG(45)
         -100,                        // REG(68)
         600,                         // REG(69)
@@ -589,7 +589,7 @@ void Player_SetBootData(PlayState* play, Player* this) {
     REG(36) = bootRegs[5];
     REG(37) = bootRegs[6];
     REG(38) = bootRegs[7];
-    REG(43) = bootRegs[8];
+    R_DECELERATE_RATE = bootRegs[8];
     REG(45) = bootRegs[9];
     REG(68) = bootRegs[10];
     REG(69) = bootRegs[11];
