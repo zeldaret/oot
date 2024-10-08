@@ -267,7 +267,7 @@ void func_80853148(PlayState* play, Actor* actor);
 
 void Player_Action_80840450(Player* this, PlayState* play);
 void Player_Action_808407CC(Player* this, PlayState* play);
-void Player_Action_80840BC8(Player* this, PlayState* play);
+void Player_Action_Idle(Player* this, PlayState* play);
 void Player_Action_80840DE4(Player* this, PlayState* play);
 void Player_Action_808414F8(Player* this, PlayState* play);
 void Player_Action_8084170C(Player* this, PlayState* play);
@@ -4144,7 +4144,7 @@ static s8 sActionHandlerList6[] = {
     -PLAYER_ACTION_HANDLER_7,
 };
 
-static s8 sActionHandlerList7[] = {
+static s8 sActionHandlerListIdle[] = {
     PLAYER_ACTION_HANDLER_0, PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_1,     PLAYER_ACTION_HANDLER_2,
     PLAYER_ACTION_HANDLER_3, PLAYER_ACTION_HANDLER_5,  PLAYER_ACTION_HANDLER_TALK,  PLAYER_ACTION_HANDLER_9,
     PLAYER_ACTION_HANDLER_8, PLAYER_ACTION_HANDLER_7,  -PLAYER_ACTION_HANDLER_ROLL,
@@ -4274,14 +4274,14 @@ typedef enum PlayerActionInterruptResult {
 /**
  * An Action Interrupt allows for ending an action early, toward the end of an animation.
  *
- * First, `sActionHandlerList7` will be checked to see if any of those actions should be used.
+ * First, `sActionHandlerListIdle` will be checked to see if any of those actions should be used.
  * It should be noted that the `updateUpperBody` argument passed to `Player_TryActionHandlerList`
  * is `true`. This means that an item can be used during the interrupt window.
  *
  * If no actions from the Action Handler List are used, then the control stick is checked to see if
  * any movement should occur.
  *
- * Note that while this function can set up a new action with `sActionHandlerList7`, this function
+ * Note that while this function can set up a new action with `sActionHandlerListIdle`, this function
  * will not set up an appropriate action for moving.
  * It is the callers responsibility to react accordingly to `PLAYER_INTERRUPT_MOVE`.
  *
@@ -4293,7 +4293,7 @@ s32 Player_TryActionInterrupt(PlayState* play, Player* this, SkelAnime* skelAnim
     s16 yawTarget;
 
     if ((skelAnime->endFrame - frameRange) <= skelAnime->curFrame) {
-        if (Player_TryActionHandlerList(play, this, sActionHandlerList7, true)) {
+        if (Player_TryActionHandlerList(play, this, sActionHandlerListIdle, true)) {
             return PLAYER_INTERRUPT_NEW_ACTION;
         }
 
@@ -5533,7 +5533,7 @@ void func_80839FFC(Player* this, PlayState* play) {
     } else if (Player_FriendlyLockOnOrParallel(this)) {
         actionFunc = Player_Action_808407CC;
     } else {
-        actionFunc = Player_Action_80840BC8;
+        actionFunc = Player_Action_Idle;
     }
 
     Player_SetupAction(play, this, actionFunc, 1);
@@ -6396,7 +6396,7 @@ void func_8083C0B8(Player* this, PlayState* play) {
 }
 
 void func_8083C0E8(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_80840BC8, 1);
+    Player_SetupAction(play, this, Player_Action_Idle, 1);
     Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
     this->yaw = this->actor.shape.rot.y;
 }
@@ -6714,7 +6714,7 @@ void func_8083CD54(PlayState* play, Player* this, s16 yaw) {
 void func_8083CE0C(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
 
-    Player_SetupAction(play, this, Player_Action_80840BC8, 1);
+    Player_SetupAction(play, this, Player_Action_Idle, 1);
 
     if (this->unk_870 < 0.5f) {
         anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_waitR2wait, this->modelAnimType);
@@ -8080,7 +8080,7 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
         }
 
         if (!Player_FriendlyLockOnOrParallel(this)) {
-            func_80835DAC(play, this, Player_Action_80840BC8, 1);
+            func_80835DAC(play, this, Player_Action_Idle, 1);
             this->yaw = this->actor.shape.rot.y;
             return;
         }
@@ -8208,24 +8208,27 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
                          ANIMMODE_ONCE, -6.0f);
 }
 
-void Player_Action_80840BC8(Player* this, PlayState* play) {
+void Player_Action_Idle(Player* this, PlayState* play) {
     s32 idleAnimResult = Player_CheckForIdleAnim(this);
-    s32 sp40 = LinkAnimation_Update(play, &this->skelAnime);
+    s32 animDone = LinkAnimation_Update(play, &this->skelAnime);
     f32 speedTarget;
     s16 yawTarget;
-    s16 temp;
+    s16 yawDiff;
 
     if (idleAnimResult > IDLE_ANIM_NONE) {
         Player_ProcessFidgetAnimSfxList(this, idleAnimResult - 1);
     }
 
-    if (sp40 != 0) {
-        if (this->av2.actionVar2 != 0) {
-            if (DECR(this->av2.actionVar2) == 0) {
+    if (animDone) {
+        if (this->av2.shakeTimer != 0) {
+            if (DECR(this->av2.shakeTimer) == 0) {
                 this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
+
+            // Offset model y position.
+            // Depending on if the timer is even or odd, the offset will be 40 or -40 model space units.
             this->skelAnime.jointTable[0].y =
-                (this->skelAnime.jointTable[0].y + ((this->av2.actionVar2 & 1) * 0x50)) - 0x28;
+                (this->skelAnime.jointTable[0].y + ((this->av2.shakeTimer & 1) * 80)) - 40;
         } else {
             Player_FinishAnimMovement(this);
             Player_ChooseNextIdleAnim(play, this);
@@ -8234,8 +8237,8 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
 
     func_8083721C(this);
 
-    if (this->av2.actionVar2 == 0) {
-        if (!Player_TryActionHandlerList(play, this, sActionHandlerList7, true)) {
+    if (this->av2.shakeTimer == 0) {
+        if (!Player_TryActionHandlerList(play, this, sActionHandlerListIdle, true)) {
             if (Player_UpdateHostileLockOn(this)) {
                 func_8083CEAC(this, play);
                 return;
@@ -8253,14 +8256,16 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
                 return;
             }
 
-            temp = yawTarget - this->actor.shape.rot.y;
-            if (ABS(temp) > 800) {
+            yawDiff = yawTarget - this->actor.shape.rot.y;
+
+            if (ABS(yawDiff) > 800) {
                 func_8083CD54(play, this, yawTarget);
                 return;
             }
 
             Math_ScaledStepToS(&this->actor.shape.rot.y, yawTarget, 1200);
             this->yaw = this->actor.shape.rot.y;
+
             if (Player_GetIdleAnim(this) == this->skelAnime.animation) {
                 func_8083DC54(this, play);
             }
@@ -15950,7 +15955,7 @@ s32 Player_TryCsAction(PlayState* play, Actor* actor, s32 csAction) {
 }
 
 void func_80853080(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_80840BC8, 1);
+    Player_SetupAction(play, this, Player_Action_Idle, 1);
     Player_AnimChangeOnceMorph(play, this, Player_GetIdleAnim(this));
     this->yaw = this->actor.shape.rot.y;
 }
