@@ -2248,8 +2248,8 @@ LinkAnimationHeader* Player_GetIdleAnim(Player* this) {
 /**
  * Return values for `Player_CheckForIdleAnim`
  */
-#define IDLE_ANIM_NONE -1
-#define IDLE_ANIM_DEFAULT 0
+#define IDLE_ANIM_DEFAULT -1
+#define IDLE_ANIM_NONE 0
 // Fidget idle anims are returned by index. See `sFidgetAnimations` and `FidgetType`.
 
 /**
@@ -2270,10 +2270,10 @@ s32 Player_CheckForIdleAnim(Player* this) {
             }
         }
 
-        return IDLE_ANIM_DEFAULT;
+        return IDLE_ANIM_NONE;
     }
 
-    return IDLE_ANIM_NONE;
+    return IDLE_ANIM_DEFAULT;
 }
 
 void Player_ProcessFidgetAnimSfxList(Player* this, s32 fidgetAnimIndex) {
@@ -2948,7 +2948,7 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
         return this->upperActionFunc(this, play);
     }
 
-    if (Player_CheckForIdleAnim(this) != IDLE_ANIM_DEFAULT) {
+    if (Player_CheckForIdleAnim(this) != IDLE_ANIM_NONE) {
         Player_WaitToFinishItemChange(play, this);
         Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
         this->idleType = PLAYER_IDLE_DEFAULT;
@@ -3144,7 +3144,7 @@ s32 func_808351D4(Player* this, PlayState* play) {
     Math_ScaledStepToS(&this->unk_6C0, 1200, 400);
     this->unk_6AE |= 0x100;
 
-    if ((this->unk_836 == 0) && (Player_CheckForIdleAnim(this) == IDLE_ANIM_DEFAULT) &&
+    if ((this->unk_836 == 0) && (Player_CheckForIdleAnim(this) == IDLE_ANIM_NONE) &&
         (this->skelAnime.animation == &gPlayerAnim_link_bow_side_walk)) {
         LinkAnimation_PlayOnce(play, &this->upperSkelAnime, D_808543CC[sp2C]);
         this->unk_836 = -1;
@@ -3694,14 +3694,14 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
     if (this->upperAnimInterpWeight != 0.0f) {
         // The functionality contained within this block of code is never used in practice
         // because `upperAnimInterpWeight` is always 0.
-        if ((Player_CheckForIdleAnim(this) == IDLE_ANIM_DEFAULT) || (this->speedXZ != 0.0f)) {
+        if ((Player_CheckForIdleAnim(this) == IDLE_ANIM_NONE) || (this->speedXZ != 0.0f)) {
             AnimTaskQueue_AddCopyUsingMapInverted(play, this->skelAnime.limbCount, this->upperSkelAnime.jointTable,
                                                   this->skelAnime.jointTable, sUpperBodyLimbCopyMap);
         }
         Math_StepToF(&this->upperAnimInterpWeight, 0.0f, 0.25f);
         AnimTaskQueue_AddInterp(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                 this->upperSkelAnime.jointTable, 1.0f - this->upperAnimInterpWeight);
-    } else if ((Player_CheckForIdleAnim(this) == IDLE_ANIM_DEFAULT) || (this->speedXZ != 0.0f)) {
+    } else if ((Player_CheckForIdleAnim(this) == IDLE_ANIM_NONE) || (this->speedXZ != 0.0f)) {
         // Only copy the upper body animation to the upper body limbs in the main skeleton.
         // Doing so allows the main skeleton to play its own animation for the lower body limbs.
         AnimTaskQueue_AddCopyUsingMap(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
@@ -8215,7 +8215,7 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
     s16 yawTarget;
     s16 temp;
 
-    if (idleAnimResult > IDLE_ANIM_DEFAULT) {
+    if (idleAnimResult > IDLE_ANIM_NONE) {
         Player_ProcessFidgetAnimSfxList(this, idleAnimResult - 1);
     }
 
