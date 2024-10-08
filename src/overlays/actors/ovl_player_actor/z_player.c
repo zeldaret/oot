@@ -8123,9 +8123,6 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
     }
 }
 
-// Get the offset of a common fidget idle type relative to the other common types
-#define COMMON_FIDGET(fidgetIdleType) (fidgetIdleType - FIDGET_SWORD_SWING)
-
 void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
     LinkAnimationHeader* anim;
     LinkAnimationHeader** fidgetAnimPtr;
@@ -8162,31 +8159,34 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
                     fidgetType = FIDGET_CRIT_HEALTH_LOOP;
                 }
             } else {
-                commonType = Rand_ZeroOne() * 5.0f;
+                commonType = Rand_ZeroOne() * 5;
 
                 // There is a 4/5 chance that a common fidget type will be considered.
                 // However it may get rejected by the conditions below.
                 // The type determined by `curRoom.behaviorType2` will be used if a common type is rejected.
-                if (commonType <= COMMON_FIDGET(FIDGET_ADJUST_SHIELD)) {
+                if (commonType < 4) {
                     // `FIDGET_ADJUST_TUNIC` and `FIDGET_TAP_FEET` are accepted unconditionally.
                     // The sword and shield related common types have extra restrictions.
-                    if (((commonType != COMMON_FIDGET(FIDGET_SWORD_SWING)) &&
-                         (commonType != COMMON_FIDGET(FIDGET_ADJUST_SHIELD))) ||
+                    //
+                    // Note that `FIDGET_SWORD_SWING` is the first common fidget type, which is why
+                    // all operations are done relative to this type.
+                    if (((commonType + FIDGET_SWORD_SWING != FIDGET_SWORD_SWING) &&
+                         (commonType + FIDGET_SWORD_SWING != FIDGET_ADJUST_SHIELD)) ||
                         ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
-                         ((commonType == COMMON_FIDGET(FIDGET_ADJUST_SHIELD)) ||
+                         ((commonType + FIDGET_SWORD_SWING == FIDGET_ADJUST_SHIELD) ||
                           (Player_GetMeleeWeaponHeld2(this) != 0)))) {
                         //! @bug It is possible for `FIDGET_ADJUST_SHIELD` to be used even if
                         //! a shield is not currently equipped. This is because of how being shieldless
                         //! is implemented. There is no sword-only model type, only
                         //! `PLAYER_MODELGROUP_SWORD_AND_SHIELD` exists. Therefore, the right hand type will be
                         //! `PLAYER_MODELTYPE_RH_SHIELD` if sword is in hand, even if no shield is equipped.
-
-                        if ((commonType == COMMON_FIDGET(FIDGET_SWORD_SWING)) && Player_HoldsTwoHandedWeapon(this)) {
+                        if ((commonType + FIDGET_SWORD_SWING == FIDGET_SWORD_SWING) &&
+                            Player_HoldsTwoHandedWeapon(this)) {
                             //! @bug This code is unreachable.
                             //! The check above groups the `Player_GetMeleeWeaponHeld2` check and
                             //! `PLAYER_MODELTYPE_RH_SHIELD` conditions together, meaning sword and shield must be
                             //! in hand. However shield is not in hand when using a two handed melee weapon.
-                            commonType = COMMON_FIDGET(FIDGET_SWORD_SWING_TWO_HAND);
+                            commonType = FIDGET_SWORD_SWING_TWO_HAND - FIDGET_SWORD_SWING;
                         }
 
                         fidgetType = FIDGET_SWORD_SWING + commonType;
