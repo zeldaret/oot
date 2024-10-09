@@ -176,7 +176,11 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
-#if OOT_VERSION < PAL_1_1
+#if OOT_VERSION < NTSC_1_1
+                HUNGUP_AND_CRASH("../z_play.c", 2263);
+#elif OOT_VERSION < PAL_1_0
+                HUNGUP_AND_CRASH("../z_play.c", 2266);
+#elif OOT_VERSION < PAL_1_1
                 HUNGUP_AND_CRASH("../z_play.c", 2269);
 #elif OOT_VERSION < GC_JP
                 HUNGUP_AND_CRASH("../z_play.c", 2272);

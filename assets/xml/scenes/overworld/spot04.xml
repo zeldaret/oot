@@ -14,8 +14,6 @@
         <Room Name="spot04_room_1" Offset="0x0"/>
     </File>
     <File Name="spot04_room_2" Segment="3">
-        <DList Name="gSpot04DL_002BB8" Offset="0x2BB8"/>
-        <DList Name="gSpot04DL_005058" Offset="0x5058"/>
         <Room Name="spot04_room_2" Offset="0x0"/>
     </File>
 </Root>

@@ -1118,40 +1118,84 @@ static LinkAnimationHeader* D_80853D4C[][3] = {
       &gPlayerAnim_link_fighter_Rside_jump_endR },
 };
 
-static LinkAnimationHeader* sSpecialIdleAnimations[][2] = {
+typedef enum FidgetType {
+    /* 0x00 */ FIDGET_LOOK_AROUND,
+    /* 0x01 */ FIDGET_COLD,
+    /* 0x02 */ FIDGET_WARM,
+    /* 0x03 */ FIDGET_HOT, // same animations as FIDGET_WARM
+    /* 0x04 */ FIDGET_STRETCH_1,
+    /* 0x05 */ FIDGET_STRETCH_2, // same animations as FIDGET_STRETCH_1
+    /* 0x06 */ FIDGET_STRETCH_3, // same animations as FIDGET_STRETCH_1
+    /* 0x07 */ FIDGET_CRIT_HEALTH_START,
+    /* 0x08 */ FIDGET_CRIT_HEALTH_LOOP,
+    /* 0x09 */ FIDGET_SWORD_SWING,
+    /* 0x0A */ FIDGET_ADJUST_TUNIC,
+    /* 0x0B */ FIDGET_TAP_FEET,
+    /* 0x0C */ FIDGET_ADJUST_SHIELD,
+    /* 0x0D */ FIDGET_SWORD_SWING_TWO_HAND
+} FidgetType;
+
+static LinkAnimationHeader* sFidgetAnimations[][2] = {
+    // FIDGET_LOOK_AROUND
     { &gPlayerAnim_link_normal_wait_typeA_20f, &gPlayerAnim_link_normal_waitF_typeA_20f },
+
+    // FIDGET_COLD
     { &gPlayerAnim_link_normal_wait_typeC_20f, &gPlayerAnim_link_normal_waitF_typeC_20f },
+
+    // FIDGET_WARM
     { &gPlayerAnim_link_normal_wait_typeB_20f, &gPlayerAnim_link_normal_waitF_typeB_20f },
+
+    // FIDGET_HOT
     { &gPlayerAnim_link_normal_wait_typeB_20f, &gPlayerAnim_link_normal_waitF_typeB_20f },
+
+    // FIDGET_STRETCH_1
     { &gPlayerAnim_link_wait_typeD_20f, &gPlayerAnim_link_waitF_typeD_20f },
+
+    // FIDGET_STRETCH_2
     { &gPlayerAnim_link_wait_typeD_20f, &gPlayerAnim_link_waitF_typeD_20f },
+
+    // FIDGET_STRETCH_3
     { &gPlayerAnim_link_wait_typeD_20f, &gPlayerAnim_link_waitF_typeD_20f },
+
+    // FIDGET_CRIT_HEALTH_START
     { &gPlayerAnim_link_wait_heat1_20f, &gPlayerAnim_link_waitF_heat1_20f },
+
+    // FIDGET_CRIT_HEALTH_LOOP
     { &gPlayerAnim_link_wait_heat2_20f, &gPlayerAnim_link_waitF_heat2_20f },
+
+    // FIDGET_SWORD_SWING
     { &gPlayerAnim_link_wait_itemD1_20f, &gPlayerAnim_link_wait_itemD1_20f },
+
+    // FIDGET_ADJUST_TUNIC
     { &gPlayerAnim_link_wait_itemA_20f, &gPlayerAnim_link_waitF_itemA_20f },
+
+    // FIDGET_TAP_FEET
     { &gPlayerAnim_link_wait_itemB_20f, &gPlayerAnim_link_waitF_itemB_20f },
+
+    // FIDGET_ADJUST_SHIELD
     { &gPlayerAnim_link_wait_itemC_20f, &gPlayerAnim_link_wait_itemC_20f },
+
+    // FIDGET_SWORD_SWING_TWO_HAND
     { &gPlayerAnim_link_wait_itemD2_20f, &gPlayerAnim_link_wait_itemD2_20f }
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxSneeze[] = {
+static AnimSfxEntry sFidgetAnimSfxSneeze[] = {
     { NA_SE_VO_LI_SNEEZE, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 8) },
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxSweat[] = {
+static AnimSfxEntry sFidgetAnimSfxSweat[] = {
     { NA_SE_VO_LI_SWEAT, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 18) },
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxHeat1[] = {
+static AnimSfxEntry sFidgetAnimSfxCritHealthStart[] = {
     { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 13) },
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxHeat2[] = {
+static AnimSfxEntry sFidgetAnimSfxCritHealthLoop[] = {
     { NA_SE_VO_LI_BREATH_REST, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 10) },
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxBelt[] = {
+static AnimSfxEntry sFidgetAnimSfxTunic[] = {
     { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 44) },
     { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 48) },
     { NA_SE_PL_CALM_HIT, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 52) },
@@ -1159,96 +1203,96 @@ static AnimSfxEntry sSpecialIdleAnimSfxBelt[] = {
     { NA_SE_PL_CALM_HIT, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 60) },
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxFootTap[] = {
+static AnimSfxEntry sFidgetAnimSfxTapFeet[] = {
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 25) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 30) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 44) }, { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 48) },
     { 0, ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 52) }, { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_WALKING, 56) },
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxShield[] = {
+static AnimSfxEntry sFidgetAnimSfxShield[] = {
     { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 16) },
     { NA_SE_IT_SHIELD_POSTURE, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 20) },
     { NA_SE_IT_SHIELD_POSTURE, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 70) },
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxSword1[] = {
+static AnimSfxEntry sFidgetAnimSfxSword[] = {
     { NA_SE_IT_HAMMER_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 10) },
     { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 10) },
     { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 22) },
     { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 22) },
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxSword2[] = {
+static AnimSfxEntry sFidgetAnimSfxSwordTwoHand[] = {
     { NA_SE_IT_SWORD_SWING, ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 39) },
     { NA_SE_VO_LI_SWORD_N, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 39) },
 };
 
-static AnimSfxEntry sSpecialIdleAnimSfxRelax[] = {
+static AnimSfxEntry sFidgetAnimSfxStretch[] = {
     { NA_SE_VO_LI_RELAX, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 20) },
 };
 
-typedef enum SpecialIdleAnimSfxType {
-    /* 0x0 */ SPECIAL_IDLE_ANIMSFX_NONE,
-    /* 0x1 */ SPECIAL_IDLE_ANIMSFX_SNEEZE,
-    /* 0x2 */ SPECIAL_IDLE_ANIMSFX_SWEAT,
-    /* 0x3 */ SPECIAL_IDLE_ANIMSFX_HEAT_1,
-    /* 0x4 */ SPECIAL_IDLE_ANIMSFX_HEAT_2,
-    /* 0x5 */ SPECIAL_IDLE_ANIMSFX_BELT,
-    /* 0x6 */ SPECIAL_IDLE_ANIMSFX_FOOT_TAP,
-    /* 0x7 */ SPECIAL_IDLE_ANIMSFX_SHIELD,
-    /* 0x8 */ SPECIAL_IDLE_ANIMSFX_SWORD_1,
-    /* 0x9 */ SPECIAL_IDLE_ANIMSFX_SWORD_2,
-    /* 0xA */ SPECIAL_IDLE_ANIMSFX_RELAX,
-} SpecialIdleAnimSfxType;
+typedef enum FidgetAnimSfxType {
+    /* 0x0 */ FIDGET_ANIMSFX_NONE,
+    /* 0x1 */ FIDGET_ANIMSFX_SNEEZE,
+    /* 0x2 */ FIDGET_ANIMSFX_SWEAT,
+    /* 0x3 */ FIDGET_ANIMSFX_CRIT_HEALTH_START,
+    /* 0x4 */ FIDGET_ANIMSFX_CRIT_HEALTH_LOOP,
+    /* 0x5 */ FIDGET_ANIMSFX_TUNIC,
+    /* 0x6 */ FIDGET_ANIMSFX_TAP_FEET,
+    /* 0x7 */ FIDGET_ANIMSFX_SHIELD,
+    /* 0x8 */ FIDGET_ANIMSFX_SWORD,
+    /* 0x9 */ FIDGET_ANIMSFX_SWORD_TWO_HAND,
+    /* 0xA */ FIDGET_ANIMSFX_STRETCH
+} FidgetAnimSfxType;
 
-static AnimSfxEntry* sSpecialIdleAnimSfxLists[] = {
-    sSpecialIdleAnimSfxSneeze,  // SPECIAL_IDLE_ANIMSFX_SNEEZE
-    sSpecialIdleAnimSfxSweat,   // SPECIAL_IDLE_ANIMSFX_SWEAT
-    sSpecialIdleAnimSfxHeat1,   // SPECIAL_IDLE_ANIMSFX_HEAT_1
-    sSpecialIdleAnimSfxHeat2,   // SPECIAL_IDLE_ANIMSFX_HEAT_2
-    sSpecialIdleAnimSfxBelt,    // SPECIAL_IDLE_ANIMSFX_BELT
-    sSpecialIdleAnimSfxFootTap, // SPECIAL_IDLE_ANIMSFX_FOOT_TAP
-    sSpecialIdleAnimSfxShield,  // SPECIAL_IDLE_ANIMSFX_SHIELD
-    sSpecialIdleAnimSfxSword1,  // SPECIAL_IDLE_ANIMSFX_SWORD_1
-    sSpecialIdleAnimSfxSword2,  // SPECIAL_IDLE_ANIMSFX_SWORD_2
-    sSpecialIdleAnimSfxRelax,   // SPECIAL_IDLE_ANIMSFX_RELAX
-    NULL,                       // unused entry
+static AnimSfxEntry* sFidgetAnimSfxLists[] = {
+    sFidgetAnimSfxSneeze,          // FIDGET_ANIMSFX_SNEEZE
+    sFidgetAnimSfxSweat,           // FIDGET_ANIMSFX_SWEAT
+    sFidgetAnimSfxCritHealthStart, // FIDGET_ANIMSFX_CRIT_HEALTH_START
+    sFidgetAnimSfxCritHealthLoop,  // FIDGET_ANIMSFX_CRIT_HEALTH_LOOP
+    sFidgetAnimSfxTunic,           // FIDGET_ANIMSFX_TUNIC
+    sFidgetAnimSfxTapFeet,         // FIDGET_ANIMSFX_TAP_FEET
+    sFidgetAnimSfxShield,          // FIDGET_ANIMSFX_SHIELD
+    sFidgetAnimSfxSword,           // FIDGET_ANIMSFX_SWORD
+    sFidgetAnimSfxSwordTwoHand,    // FIDGET_ANIMSFX_SWORD_TWO_HAND
+    sFidgetAnimSfxStretch,         // FIDGET_ANIMSFX_STRETCH
+    NULL,                          // unused entry
 };
 
 /**
- * The indices in this array correspond 1 to 1 with the entries of sSpecialIdleAnimations.
- * There is also an extra SPECIAL_IDLE_ANIMSFX_NONE at the end that doesn't correspond to any animation.
+ * The indices in this array correspond 1 to 1 with the entries of sFidgetAnimations.
+ * There is also an extra FIDGET_ANIMSFX_NONE at the end that doesn't correspond to any animation.
  */
-static u8 sSpecialIdleAnimSfxTypes[] = {
-    SPECIAL_IDLE_ANIMSFX_NONE,     // used by gPlayerAnim_link_normal_wait_typeA_20f
-    SPECIAL_IDLE_ANIMSFX_NONE,     // used by gPlayerAnim_link_normal_waitF_typeA_20f
-    SPECIAL_IDLE_ANIMSFX_SNEEZE,   // used by gPlayerAnim_link_normal_wait_typeC_20f
-    SPECIAL_IDLE_ANIMSFX_SNEEZE,   // used by gPlayerAnim_link_normal_waitF_typeC_20f
-    SPECIAL_IDLE_ANIMSFX_SWEAT,    // used by gPlayerAnim_link_normal_wait_typeB_20f
-    SPECIAL_IDLE_ANIMSFX_SWEAT,    // used by gPlayerAnim_link_normal_waitF_typeB_20f
-    SPECIAL_IDLE_ANIMSFX_SWEAT,    // used by gPlayerAnim_link_normal_wait_typeB_20f
-    SPECIAL_IDLE_ANIMSFX_SWEAT,    // used by gPlayerAnim_link_normal_waitF_typeB_20f
-    SPECIAL_IDLE_ANIMSFX_RELAX,    // used by gPlayerAnim_link_wait_typeD_20f
-    SPECIAL_IDLE_ANIMSFX_RELAX,    // used by gPlayerAnim_link_waitF_typeD_20f
-    SPECIAL_IDLE_ANIMSFX_RELAX,    // used by gPlayerAnim_link_wait_typeD_20f
-    SPECIAL_IDLE_ANIMSFX_RELAX,    // used by gPlayerAnim_link_waitF_typeD_20f
-    SPECIAL_IDLE_ANIMSFX_RELAX,    // used by gPlayerAnim_link_wait_typeD_20f
-    SPECIAL_IDLE_ANIMSFX_RELAX,    // used by gPlayerAnim_link_waitF_typeD_20f
-    SPECIAL_IDLE_ANIMSFX_HEAT_1,   // used by gPlayerAnim_link_wait_heat1_20f
-    SPECIAL_IDLE_ANIMSFX_HEAT_1,   // used by gPlayerAnim_link_waitF_heat1_20f
-    SPECIAL_IDLE_ANIMSFX_HEAT_2,   // used by gPlayerAnim_link_wait_heat2_20f
-    SPECIAL_IDLE_ANIMSFX_HEAT_2,   // used by gPlayerAnim_link_waitF_heat2_20f
-    SPECIAL_IDLE_ANIMSFX_SWORD_1,  // used by gPlayerAnim_link_wait_itemD1_20f
-    SPECIAL_IDLE_ANIMSFX_SWORD_1,  // used by gPlayerAnim_link_wait_itemD1_20f
-    SPECIAL_IDLE_ANIMSFX_BELT,     // used by gPlayerAnim_link_wait_itemA_20f
-    SPECIAL_IDLE_ANIMSFX_BELT,     // used by gPlayerAnim_link_waitF_itemA_20f
-    SPECIAL_IDLE_ANIMSFX_FOOT_TAP, // used by gPlayerAnim_link_wait_itemB_20f
-    SPECIAL_IDLE_ANIMSFX_FOOT_TAP, // used by gPlayerAnim_link_waitF_itemB_20f
-    SPECIAL_IDLE_ANIMSFX_SHIELD,   // used by gPlayerAnim_link_wait_itemC_20f
-    SPECIAL_IDLE_ANIMSFX_SHIELD,   // used by gPlayerAnim_link_wait_itemC_20f
-    SPECIAL_IDLE_ANIMSFX_SWORD_2,  // used by gPlayerAnim_link_wait_itemD2_20f
-    SPECIAL_IDLE_ANIMSFX_SWORD_2,  // used by gPlayerAnim_link_wait_itemD2_20f
-    SPECIAL_IDLE_ANIMSFX_NONE,     // unused, doesnt correspond to any animation
+static u8 sFidgetAnimSfxTypes[] = {
+    FIDGET_ANIMSFX_NONE,              // FIDGET_LOOK_AROUND
+    FIDGET_ANIMSFX_NONE,              // FIDGET_LOOK_AROUND (sword/shield in hand)
+    FIDGET_ANIMSFX_SNEEZE,            // FIDGET_COLD
+    FIDGET_ANIMSFX_SNEEZE,            // FIDGET_COLD (sword/shield in hand)
+    FIDGET_ANIMSFX_SWEAT,             // FIDGET_WARM
+    FIDGET_ANIMSFX_SWEAT,             // FIDGET_WARM (sword/shield in hand)
+    FIDGET_ANIMSFX_SWEAT,             // FIDGET_HOT
+    FIDGET_ANIMSFX_SWEAT,             // FIDGET_HOT (sword/shield in hand)
+    FIDGET_ANIMSFX_STRETCH,           // FIDGET_STRETCH_1
+    FIDGET_ANIMSFX_STRETCH,           // FIDGET_STRETCH_1 (sword/shield in hand)
+    FIDGET_ANIMSFX_STRETCH,           // FIDGET_STRETCH_2
+    FIDGET_ANIMSFX_STRETCH,           // FIDGET_STRETCH_2 (sword/shield in hand)
+    FIDGET_ANIMSFX_STRETCH,           // FIDGET_STRETCH_3
+    FIDGET_ANIMSFX_STRETCH,           // FIDGET_STRETCH_3 (sword/shield in hand)
+    FIDGET_ANIMSFX_CRIT_HEALTH_START, // FIDGET_CRIT_HEALTH_START
+    FIDGET_ANIMSFX_CRIT_HEALTH_START, // FIDGET_CRIT_HEALTH_START (sword/shield in hand)
+    FIDGET_ANIMSFX_CRIT_HEALTH_LOOP,  // FIDGET_CRIT_HEALTH_LOOP
+    FIDGET_ANIMSFX_CRIT_HEALTH_LOOP,  // FIDGET_CRIT_HEALTH_LOOP (sword/shield in hand)
+    FIDGET_ANIMSFX_SWORD,             // FIDGET_SWORD_SWING
+    FIDGET_ANIMSFX_SWORD,             // FIDGET_SWORD_SWING (sword/shield in hand)
+    FIDGET_ANIMSFX_TUNIC,             // FIDGET_ADJUST_TUNIC
+    FIDGET_ANIMSFX_TUNIC,             // FIDGET_ADJUST_TUNIC (sword/shield in hand)
+    FIDGET_ANIMSFX_TAP_FEET,          // FIDGET_TAP_FEET
+    FIDGET_ANIMSFX_TAP_FEET,          // FIDGET_TAP_FEET (sword/shield in hand)
+    FIDGET_ANIMSFX_SHIELD,            // FIDGET_ADJUST_SHIELD
+    FIDGET_ANIMSFX_SHIELD,            // FIDGET_ADJUST_SHIELD (sword/shield in hand)
+    FIDGET_ANIMSFX_SWORD_TWO_HAND,    // FIDGET_SWORD_SWING_TWO_HAND
+    FIDGET_ANIMSFX_SWORD_TWO_HAND,    // FIDGET_SWORD_SWING_TWO_HAND (sword/shield in hand)
+    FIDGET_ANIMSFX_NONE,              // unused, doesnt correspond to any animation
 };
 
 // Used to map item IDs to item actions
@@ -2192,41 +2236,49 @@ void func_808332F4(Player* this, PlayState* play) {
 
 /**
  * Get the appropriate Idle animation based on current `modelAnimType`.
- * This is used as the "primary" idle animation.
+ * This is the default idle animation.
  *
- * For special idle animations (which for example, change based on environment)
- * see `sSpecialIdleAnimations`.
+ * For fidget idle animations (which can for example, change based on environment)
+ * see `sFidgetAnimations`.
  */
 LinkAnimationHeader* Player_GetIdleAnim(Player* this) {
     return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType);
 }
 
 /**
- * Checks if the current animation is a "special" idle animation.
- * If it is, the index into `sSpecialIdleAnimations` is returned (plus one).
- * If the current animation is a "primary" idle animation, -1 is returned.
+ * Return values for `Player_CheckForIdleAnim`
+ */
+#define IDLE_ANIM_DEFAULT -1
+#define IDLE_ANIM_NONE 0
+// Fidget idle anims are returned by index. See `sFidgetAnimations` and `FidgetType`.
+
+/**
+ * Checks if the current animation is an idle animation.
+ * If the current animation is a fidget animation, the index into
+ * `sFidgetAnimations` is returned (plus one).
+ * If the current animation is a default idle animation, -1 is returned.
  * Lastly if the current animation is neither of these, 0 is returned.
  */
-s32 Player_CheckSpecialIdleAnim(Player* this) {
+s32 Player_CheckForIdleAnim(Player* this) {
     if (Player_GetIdleAnim(this) != this->skelAnime.animation) {
-        LinkAnimationHeader** specialAnim;
+        LinkAnimationHeader** fidgetAnim;
         s32 i;
 
-        for (i = 0, specialAnim = &sSpecialIdleAnimations[0][0]; i < 28; i++, specialAnim++) {
-            if (this->skelAnime.animation == *specialAnim) {
+        for (i = 0, fidgetAnim = &sFidgetAnimations[0][0]; i < ARRAY_COUNT_2D(sFidgetAnimations); i++, fidgetAnim++) {
+            if (this->skelAnime.animation == *fidgetAnim) {
                 return i + 1;
             }
         }
 
-        return 0;
+        return IDLE_ANIM_NONE;
     }
 
-    return -1;
+    return IDLE_ANIM_DEFAULT;
 }
 
-void Player_ProcessSpecialIdleAnimSfxList(Player* this, s32 specialIdleAnimIndex) {
-    if (sSpecialIdleAnimSfxTypes[specialIdleAnimIndex] != SPECIAL_IDLE_ANIMSFX_NONE) {
-        Player_ProcessAnimSfxList(this, sSpecialIdleAnimSfxLists[sSpecialIdleAnimSfxTypes[specialIdleAnimIndex] - 1]);
+void Player_ProcessFidgetAnimSfxList(Player* this, s32 fidgetAnimIndex) {
+    if (sFidgetAnimSfxTypes[fidgetAnimIndex] != FIDGET_ANIMSFX_NONE) {
+        Player_ProcessAnimSfxList(this, sFidgetAnimSfxLists[sFidgetAnimSfxTypes[fidgetAnimIndex] - 1]);
     }
 }
 
@@ -2792,7 +2844,7 @@ void func_80834644(PlayState* play, Player* this) {
 
     Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
     this->unk_834 = 0;
-    this->unk_6AC = 0;
+    this->idleType = PLAYER_IDLE_DEFAULT;
     Player_DetachHeldActor(play, this);
     this->stateFlags1 &= ~PLAYER_STATE1_START_CHANGING_HELD_ITEM;
 }
@@ -2890,16 +2942,16 @@ s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play) {
               (sUseHeldItem || ((this->modelAnimType != PLAYER_ANIMTYPE_3) && (play->shootingGalleryStatus == 0)))))) {
         Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
         this->unk_834 = 0;
-        this->unk_6AC = 0;
+        this->idleType = PLAYER_IDLE_DEFAULT;
         sHeldItemButtonIsHeldDown = sUseHeldItem;
 
         return this->upperActionFunc(this, play);
     }
 
-    if (Player_CheckSpecialIdleAnim(this) != 0) {
+    if (Player_CheckForIdleAnim(this) != IDLE_ANIM_NONE) {
         Player_WaitToFinishItemChange(play, this);
         Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
-        this->unk_6AC = 0;
+        this->idleType = PLAYER_IDLE_DEFAULT;
     } else {
         Player_WaitToFinishItemChange(play, this);
     }
@@ -2943,7 +2995,7 @@ s32 func_80834C74(Player* this, PlayState* play) {
         Player_SetUpperActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
         LinkAnimation_PlayLoop(play, &this->upperSkelAnime,
                                GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
-        this->unk_6AC = 0;
+        this->idleType = PLAYER_IDLE_DEFAULT;
         this->upperActionFunc(this, play);
 
         return false;
@@ -3092,7 +3144,7 @@ s32 func_808351D4(Player* this, PlayState* play) {
     Math_ScaledStepToS(&this->unk_6C0, 1200, 400);
     this->unk_6AE |= 0x100;
 
-    if ((this->unk_836 == 0) && (Player_CheckSpecialIdleAnim(this) == 0) &&
+    if ((this->unk_836 == 0) && (Player_CheckForIdleAnim(this) == IDLE_ANIM_NONE) &&
         (this->skelAnime.animation == &gPlayerAnim_link_bow_side_walk)) {
         LinkAnimation_PlayOnce(play, &this->upperSkelAnime, D_808543CC[sp2C]);
         this->unk_836 = -1;
@@ -3388,13 +3440,13 @@ s32 Player_SetupAction(PlayState* play, Player* this, PlayerActionFunc actionFun
 
     this->stateFlags1 &= ~(PLAYER_STATE1_2 | PLAYER_STATE1_6 | PLAYER_STATE1_26 | PLAYER_STATE1_28 | PLAYER_STATE1_29 |
                            PLAYER_STATE1_31);
-    this->stateFlags2 &= ~(PLAYER_STATE2_19 | PLAYER_STATE2_27 | PLAYER_STATE2_28);
+    this->stateFlags2 &= ~(PLAYER_STATE2_19 | PLAYER_STATE2_27 | PLAYER_STATE2_IDLE_FIDGET);
     this->stateFlags3 &= ~(PLAYER_STATE3_1 | PLAYER_STATE3_3 | PLAYER_STATE3_FLYING_WITH_HOOKSHOT);
 
     this->av1.actionVar1 = 0;
     this->av2.actionVar2 = 0;
 
-    this->unk_6AC = 0;
+    this->idleType = PLAYER_IDLE_DEFAULT;
 
     func_808326F0(this);
 
@@ -3642,14 +3694,14 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
     if (this->upperAnimInterpWeight != 0.0f) {
         // The functionality contained within this block of code is never used in practice
         // because `upperAnimInterpWeight` is always 0.
-        if ((Player_CheckSpecialIdleAnim(this) == 0) || (this->speedXZ != 0.0f)) {
+        if ((Player_CheckForIdleAnim(this) == IDLE_ANIM_NONE) || (this->speedXZ != 0.0f)) {
             AnimTaskQueue_AddCopyUsingMapInverted(play, this->skelAnime.limbCount, this->upperSkelAnime.jointTable,
                                                   this->skelAnime.jointTable, sUpperBodyLimbCopyMap);
         }
         Math_StepToF(&this->upperAnimInterpWeight, 0.0f, 0.25f);
         AnimTaskQueue_AddInterp(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                 this->upperSkelAnime.jointTable, 1.0f - this->upperAnimInterpWeight);
-    } else if ((Player_CheckSpecialIdleAnim(this) == 0) || (this->speedXZ != 0.0f)) {
+    } else if ((Player_CheckForIdleAnim(this) == IDLE_ANIM_NONE) || (this->speedXZ != 0.0f)) {
         // Only copy the upper body animation to the upper body limbs in the main skeleton.
         // Doing so allows the main skeleton to play its own animation for the lower body limbs.
         AnimTaskQueue_AddCopyUsingMap(play, this->skelAnime.limbCount, this->skelAnime.jointTable,
@@ -8071,47 +8123,84 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
     }
 }
 
-void func_808409CC(PlayState* play, Player* this) {
+void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
     LinkAnimationHeader* anim;
-    LinkAnimationHeader** animPtr;
+    LinkAnimationHeader** fidgetAnimPtr;
     s32 heathIsCritical;
-    s32 sp38;
-    s32 sp34;
+    s32 fidgetType;
+    s32 commonType;
 
     if ((this->focusActor != NULL) ||
-        (!(heathIsCritical = Health_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
-        this->stateFlags2 &= ~PLAYER_STATE2_28;
+        (!(heathIsCritical = Health_IsCritical()) && ((this->idleType = (this->idleType + 1) & 1) != 0))) {
+        this->stateFlags2 &= ~PLAYER_STATE2_IDLE_FIDGET;
         anim = Player_GetIdleAnim(this);
     } else {
-        this->stateFlags2 |= PLAYER_STATE2_28;
+        this->stateFlags2 |= PLAYER_STATE2_IDLE_FIDGET;
+
         if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
+            // Default idle animation will play if carrying an actor.
+            // Note that in this case, `PLAYER_STATE2_IDLE_FIDGET` is still set even though the
+            // animation that plays isn't a fidget animation.
             anim = Player_GetIdleAnim(this);
         } else {
-            sp38 = play->roomCtx.curRoom.behaviorType2;
+            // Pick fidget type based on room behavior.
+            // This may be changed below.
+            fidgetType = play->roomCtx.curRoom.behaviorType2;
+
             if (heathIsCritical) {
-                if (this->unk_6AC >= 0) {
-                    sp38 = 7;
-                    this->unk_6AC = -1;
+                if (this->idleType >= PLAYER_IDLE_DEFAULT) {
+                    fidgetType = FIDGET_CRIT_HEALTH_START;
+
+                    // When health is critical, `idleType` will not be updated.
+                    // It will stay as `PLAYER_IDLE_CRIT_HEALTH` until health is no longer critical.
+                    this->idleType = PLAYER_IDLE_CRIT_HEALTH;
                 } else {
-                    sp38 = 8;
+                    // Keep looping the critical health animation until critical health ends
+                    fidgetType = FIDGET_CRIT_HEALTH_LOOP;
                 }
             } else {
-                sp34 = Rand_ZeroOne() * 5.0f;
-                if (sp34 < 4) {
-                    if (((sp34 != 0) && (sp34 != 3)) || ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
-                                                         ((sp34 == 3) || (Player_GetMeleeWeaponHeld2(this) != 0)))) {
-                        if ((sp34 == 0) && Player_HoldsTwoHandedWeapon(this)) {
-                            sp34 = 4;
+                commonType = Rand_ZeroOne() * 5;
+
+                // There is a 4/5 chance that a common fidget type will be considered.
+                // However it may get rejected by the conditions below.
+                // The type determined by `curRoom.behaviorType2` will be used if a common type is rejected.
+                if (commonType < 4) {
+                    // `FIDGET_ADJUST_TUNIC` and `FIDGET_TAP_FEET` are accepted unconditionally.
+                    // The sword and shield related common types have extra restrictions.
+                    //
+                    // Note that `FIDGET_SWORD_SWING` is the first common fidget type, which is why
+                    // all operations are done relative to this type.
+                    if (((commonType + FIDGET_SWORD_SWING != FIDGET_SWORD_SWING) &&
+                         (commonType + FIDGET_SWORD_SWING != FIDGET_ADJUST_SHIELD)) ||
+                        ((this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) &&
+                         ((commonType + FIDGET_SWORD_SWING == FIDGET_ADJUST_SHIELD) ||
+                          (Player_GetMeleeWeaponHeld2(this) != 0)))) {
+                        //! @bug It is possible for `FIDGET_ADJUST_SHIELD` to be used even if
+                        //! a shield is not currently equipped. This is because of how being shieldless
+                        //! is implemented. There is no sword-only model type, only
+                        //! `PLAYER_MODELGROUP_SWORD_AND_SHIELD` exists. Therefore, the right hand type will be
+                        //! `PLAYER_MODELTYPE_RH_SHIELD` if sword is in hand, even if no shield is equipped.
+                        if ((commonType + FIDGET_SWORD_SWING == FIDGET_SWORD_SWING) &&
+                            Player_HoldsTwoHandedWeapon(this)) {
+                            //! @bug This code is unreachable.
+                            //! The check above groups the `Player_GetMeleeWeaponHeld2` check and
+                            //! `PLAYER_MODELTYPE_RH_SHIELD` conditions together, meaning sword and shield must be
+                            //! in hand. However shield is not in hand when using a two handed melee weapon.
+                            commonType = FIDGET_SWORD_SWING_TWO_HAND - FIDGET_SWORD_SWING;
                         }
-                        sp38 = sp34 + 9;
+
+                        fidgetType = FIDGET_SWORD_SWING + commonType;
                     }
                 }
             }
-            animPtr = &sSpecialIdleAnimations[sp38][0];
+
+            fidgetAnimPtr = &sFidgetAnimations[fidgetType][0];
+
             if (this->modelAnimType != PLAYER_ANIMTYPE_1) {
-                animPtr = &sSpecialIdleAnimations[sp38][1];
+                fidgetAnimPtr = &sFidgetAnimations[fidgetType][1];
             }
-            anim = *animPtr;
+
+            anim = *fidgetAnimPtr;
         }
     }
 
@@ -8120,14 +8209,14 @@ void func_808409CC(PlayState* play, Player* this) {
 }
 
 void Player_Action_80840BC8(Player* this, PlayState* play) {
-    s32 specialIdleAnimIndex = Player_CheckSpecialIdleAnim(this);
+    s32 idleAnimResult = Player_CheckForIdleAnim(this);
     s32 sp40 = LinkAnimation_Update(play, &this->skelAnime);
     f32 speedTarget;
     s16 yawTarget;
     s16 temp;
 
-    if (specialIdleAnimIndex > 0) {
-        Player_ProcessSpecialIdleAnimSfxList(this, specialIdleAnimIndex - 1);
+    if (idleAnimResult > IDLE_ANIM_NONE) {
+        Player_ProcessFidgetAnimSfxList(this, idleAnimResult - 1);
     }
 
     if (sp40 != 0) {
@@ -8139,7 +8228,7 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
                 (this->skelAnime.jointTable[0].y + ((this->av2.actionVar2 & 1) * 0x50)) - 0x28;
         } else {
             Player_FinishAnimMovement(this);
-            func_808409CC(play, this);
+            Player_ChooseNextIdleAnim(play, this);
         }
     }
 

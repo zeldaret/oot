@@ -1,4 +1,5 @@
 #include "ultra64.h"
+#include "versions.h"
 
 // Declared before including other headers for BSS ordering
 extern uintptr_t gSegments[NUM_SEGMENTS];
@@ -23,7 +24,7 @@ extern struct IrqMgr gIrqMgr;
 #endif
 
 #pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
-                               "ntsc-1.2:154 pal-1.0:152 pal-1.1:152"
+                               "ntsc-1.2:151 pal-1.0:149 pal-1.1:149"
 
 extern u8 _buffersSegmentEnd[];
 
@@ -39,7 +40,11 @@ uintptr_t gSegments[NUM_SEGMENTS];
 
 OSThread sGraphThread;
 STACK(sGraphStack, 0x1800);
+#if OOT_VERSION < PAL_1_0
+STACK(sSchedStack, 0x400);
+#else
 STACK(sSchedStack, 0x600);
+#endif
 STACK(sAudioStack, 0x800);
 STACK(sPadMgrStack, 0x500);
 STACK(sIrqMgrStack, 0x500);
@@ -78,7 +83,7 @@ void Main(void* arg) {
 #if PLATFORM_N64
     func_800AD410();
     if (D_80121211 != 0) {
-        systemHeapStart = (uintptr_t)&_n64ddSegmentEnd;
+        systemHeapStart = (uintptr_t)_n64ddSegmentEnd;
         SysCfb_Init(1);
     } else {
         func_800AD488();
@@ -150,7 +155,10 @@ void Main(void* arg) {
     StackCheck_Init(&sGraphStackInfo, sGraphStack, STACK_TOP(sGraphStack), 0, 0x100, "graph");
     osCreateThread(&sGraphThread, THREAD_ID_GRAPH, Graph_ThreadEntry, arg, STACK_TOP(sGraphStack), THREAD_PRI_GRAPH);
     osStartThread(&sGraphThread);
+
+#if OOT_VERSION >= PAL_1_0
     osSetThreadPri(NULL, THREAD_PRI_MAIN);
+#endif
 
     while (true) {
         s16* msg = NULL;
@@ -162,6 +170,9 @@ void Main(void* arg) {
         switch (*msg) {
             case OS_SC_PRE_NMI_MSG:
                 PRINTF(T("main.c: リセットされたみたいだよ\n", "main.c: Looks like it's been reset\n"));
+#if OOT_VERSION < PAL_1_0
+                StackCheck_Check(NULL);
+#endif
                 PreNmiBuff_SetReset(gAppNmiBufferPtr);
                 break;
         }

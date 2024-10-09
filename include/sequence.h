@@ -2,6 +2,7 @@
 #define SEQUENCE_H
 
 #include "ultra64.h"
+#include "versions.h"
 
 #define DEFINE_SEQUENCE(_0, seqId, _2, _3, _4) seqId,
 #define DEFINE_SEQUENCE_PTR(_0, seqId, _2, _3, _4) seqId,
