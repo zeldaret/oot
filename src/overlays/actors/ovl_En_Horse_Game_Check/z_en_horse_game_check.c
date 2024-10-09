@@ -90,7 +90,11 @@ s32 EnHorseGameCheck_InitIngoRace(EnHorseGameCheckBase* base, PlayState* play) {
     this->ingoHorse = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, -250.0f, 1.0f, -1650.0f, 0, 0x4000, 0, 0x8003);
 
     if (this->ingoHorse == NULL) {
+#if OOT_VERSION < NTSC_1_1
+        LogUtils_HungupThread("../z_en_horse_game_check.c", 382);
+#else
         LogUtils_HungupThread("../z_en_horse_game_check.c", 385);
+#endif
     }
     this->startTimer = 0;
     this->finishTimer = 0;

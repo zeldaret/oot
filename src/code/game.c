@@ -386,7 +386,11 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     } else {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル確保失敗\n", "Failure to secure Hyrule\n"));
-#if PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1
+        HUNGUP_AND_CRASH("../game.c", 895);
+#elif OOT_VERSION < PAL_1_0
+        HUNGUP_AND_CRASH("../game.c", 898);
+#elif OOT_VERSION < GC_JP
         HUNGUP_AND_CRASH("../game.c", 985);
 #else
         HUNGUP_AND_CRASH("../game.c", 999);
@@ -431,7 +435,11 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         SystemArena_Display();
 #endif
 
-#if PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1
+        HUNGUP_AND_CRASH("../game.c", 940);
+#elif OOT_VERSION < PAL_1_0
+        HUNGUP_AND_CRASH("../game.c", 943);
+#elif OOT_VERSION < GC_JP
         HUNGUP_AND_CRASH("../game.c", 1030);
 #else
         HUNGUP_AND_CRASH("../game.c", 1044);
