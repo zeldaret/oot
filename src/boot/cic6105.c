@@ -39,7 +39,11 @@ void CIC6105_FaultClient(void) {
     Fault_Printf(" [Creator:%s]", gBuildCreator);
     Fault_SetCursor(56, 192);
     Fault_Printf("[Date:%s]", gBuildDate);
+#if OOT_VERSION < PAL_1_0
+    Fault_SetCursor(128, 24);
+#else
     Fault_SetCursor(96, 32);
+#endif
     Fault_Printf("I LOVE YOU %08x", func_80001714());
 }
 
