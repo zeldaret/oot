@@ -52,6 +52,8 @@
 #ifndef ASEQ_H
 #define ASEQ_H
 
+#include "versions.h"
+
 /**
  *  IO Ports
  */

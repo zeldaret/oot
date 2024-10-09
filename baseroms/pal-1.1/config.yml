@@ -984,7 +984,7 @@ assets:
 - name: scenes/dungeons/ddan
   xml_path: assets/xml/scenes/dungeons/ddan.xml
 - name: scenes/dungeons/ddan_boss
-  xml_path: assets/xml/scenes/dungeons/ddan_boss.xml
+  xml_path: assets/xml/scenes/dungeons/ddan_boss_v2.xml
 - name: scenes/dungeons/FIRE_bs
   xml_path: assets/xml/scenes/dungeons/FIRE_bs.xml
 - name: scenes/dungeons/ganon
@@ -1214,7 +1214,7 @@ assets:
 - name: textures/nes_font_static
   xml_path: assets/xml/textures/nes_font_static.xml
 - name: textures/nintendo_rogo_static
-  xml_path: assets/xml/textures/nintendo_rogo_static.xml
+  xml_path: assets/xml/textures/nintendo_rogo_static_v2.xml
 - name: textures/parameter_static
   xml_path: assets/xml/textures/parameter_static.xml
 - name: textures/place_title_cards

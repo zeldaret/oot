@@ -456,7 +456,11 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
     PRINTF(VT_COL(RED, WHITE) T("z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n",
                                 "z_room.c: Data consistent with camera id does not exist camid=%d\n") VT_RST,
            bgCamIndex);
-#if PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1
+    Fault_AddHungupAndCrash("../z_room.c", 724);
+#elif OOT_VERSION < PAL_1_0
+    Fault_AddHungupAndCrash("../z_room.c", 727);
+#elif OOT_VERSION < GC_JP
     Fault_AddHungupAndCrash("../z_room.c", 721);
 #else
     LogUtils_HungupThread("../z_room.c", 726);
@@ -543,7 +547,11 @@ void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     } else if (roomShape->amountType == ROOM_SHAPE_IMAGE_AMOUNT_MULTI) {
         Room_DrawImageMulti(play, room, flags);
     } else {
-#if PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1
+        Fault_AddHungupAndCrash("../z_room.c", 849);
+#elif OOT_VERSION < PAL_1_0
+        Fault_AddHungupAndCrash("../z_room.c", 852);
+#elif OOT_VERSION < GC_JP
         Fault_AddHungupAndCrash("../z_room.c", 836);
 #else
         LogUtils_HungupThread("../z_room.c", 841);

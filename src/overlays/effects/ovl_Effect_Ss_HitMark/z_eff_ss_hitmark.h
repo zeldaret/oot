@@ -2,7 +2,7 @@
 #define Z_EFF_SS_HITMARK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64math.h"
 
 typedef struct EffectSsHitMarkInitParams {
     /* 0x00 */ s32 type;
