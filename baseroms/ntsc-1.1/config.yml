@@ -1,4 +1,7 @@
-dmadata_start: 0x7170
+checksums:
+  - checksum-JP
+  - checksum-US
+dmadata_start: 0x7430
 text_lang_pal: false
 incbins:
   - name: ipl3
@@ -7,63 +10,67 @@ incbins:
     size: 0xFC0
   - name: rspbootText
     segment: boot
-    vram: 0x80005FC0
-    size: 0xD0
+    vram: 0x800060B0
+    size: 0x160
   - name: aspMainText
     segment: code
-    vram: 0x800E3860
+    vram: 0x800E3180
     size: 0xFB0
+  - name: gspF3DZEX2_NoN_PosLight_fifoText
+    segment: code
+    vram: 0x800E4130
+    size: 0x1390
   - name: gspS2DEX2d_fifoText
     segment: code
-    vram: 0x800E4810
+    vram: 0x800E54C0
     size: 0x18C0
   - name: njpgdspMainText
     segment: code
-    vram: 0x800E60D0
+    vram: 0x800E6D80
     size: 0xAF0
   - name: aspMainData
     segment: code
-    vram: 0x80113840
+    vram: 0x801144A0
     size: 0x2E0
-  - name: gspF3DZEX2_NoN_PosLight_fifoText
-    segment: code
-    vram: 0x80113B20
-    size: 0x1630
   - name: gspF3DZEX2_NoN_PosLight_fifoData
     segment: code
-    vram: 0x80115150
+    vram: 0x80114780
     size: 0x420
   - name: gspS2DEX2d_fifoData
     segment: code
-    vram: 0x80115570
+    vram: 0x80114BA0
     size: 0x390
   - name: njpgdspMainData
     segment: code
-    vram: 0x80115900
+    vram: 0x80114F30
     size: 0x60
 variables:
-  gMtxClear: 0x800FE2C0
-  sJpnMessageEntryTable: 0x80109EAC
-  sNesMessageEntryTable: 0x8010DFEC
-  sStaffMessageEntryTable: 0x8011220C
-  gSoundFontTable: 0x80112CA0
-  gSequenceFontTable: 0x80112F10
-  gSequenceTable: 0x801130D0
-  gSampleBankTable: 0x801137C0
-  sShadowTex: 0x80A74150
+  gMtxClear: 0x800FEF70
+  sJpnMessageEntryTable: 0x8010AB0C
+  sNesMessageEntryTable: 0x8010EC4C
+  sStaffMessageEntryTable: 0x80112E6C
+  gSoundFontTable: 0x80113900
+  gSequenceFontTable: 0x80113B70
+  gSequenceTable: 0x80113D30
+  gSampleBankTable: 0x80114420
+  sShadowTex: 0x80AE0C80
 assets:
 - name: code/fbdemo_circle
   xml_path: assets/xml/code/fbdemo_circle.xml
-  start_offset: 0xEB788
-  end_offset: 0xEC9A8
+  start_offset: 0xEC268
+  end_offset: 0xED488
 - name: code/fbdemo_triforce
   xml_path: assets/xml/code/fbdemo_triforce.xml
-  start_offset: 0xEAC10
-  end_offset: 0xEACE0
+  start_offset: 0xEB6F0
+  end_offset: 0xEB7C0
 - name: code/fbdemo_wipe1
   xml_path: assets/xml/code/fbdemo_wipe1.xml
-  start_offset: 0xEACE0
-  end_offset: 0xEB670
+  start_offset: 0xEB7C0
+  end_offset: 0xEC150
+- name: n64dd/error_textures
+  xml_path: assets/xml/n64dd/error_textures.xml
+  start_offset: 0xC140
+  end_offset: 0x11D40
 - name: misc/link_animetion
   xml_path: assets/xml/misc/link_animetion.xml
 - name: misc/z_select_static
@@ -513,7 +520,7 @@ assets:
 - name: objects/object_ma2
   xml_path: assets/xml/objects/object_ma2.xml
 - name: objects/object_mag
-  xml_path: assets/xml/objects/object_mag_v2.xml
+  xml_path: assets/xml/objects/object_mag.xml
 - name: objects/object_mamenoki
   xml_path: assets/xml/objects/object_mamenoki.xml
 - name: objects/object_mastergolon
@@ -832,40 +839,40 @@ assets:
   xml_path: assets/xml/objects/object_zo.xml
 - name: overlays/ovl_Arrow_Fire
   xml_path: assets/xml/overlays/ovl_Arrow_Fire.xml
-  start_offset: 0x980
-  end_offset: 0x1DA0
+  start_offset: 0x960
+  end_offset: 0x1D80
 - name: overlays/ovl_Arrow_Ice
   xml_path: assets/xml/overlays/ovl_Arrow_Ice.xml
-  start_offset: 0x9A0
-  end_offset: 0x1DC0
+  start_offset: 0x980
+  end_offset: 0x1DA0
 - name: overlays/ovl_Arrow_Light
   xml_path: assets/xml/overlays/ovl_Arrow_Light.xml
-  start_offset: 0x9B0
-  end_offset: 0x1DD0
+  start_offset: 0x990
+  end_offset: 0x1DB0
 - name: overlays/ovl_Bg_Ganon_Otyuka
   xml_path: assets/xml/overlays/ovl_Bg_Ganon_Otyuka.xml
-  start_offset: 0x1100
-  end_offset: 0x24DC
+  start_offset: 0x1110
+  end_offset: 0x24EC
 - name: overlays/ovl_Bg_Jya_Cobra
   xml_path: assets/xml/overlays/ovl_Bg_Jya_Cobra.xml
-  start_offset: 0x1850
-  end_offset: 0x18C8
+  start_offset: 0x1830
+  end_offset: 0x18A8
 - name: overlays/ovl_Boss_Dodongo
   xml_path: assets/xml/overlays/ovl_Boss_Dodongo.xml
-  start_offset: 0x61E8
-  end_offset: 0x91E8
+  start_offset: 0x61C8
+  end_offset: 0x91C8
 - name: overlays/ovl_Boss_Ganon
   xml_path: assets/xml/overlays/ovl_Boss_Ganon.xml
-  start_offset: 0xE3C8
-  end_offset: 0x20EE8
+  start_offset: 0xE398
+  end_offset: 0x20EB8
 - name: overlays/ovl_Boss_Ganon2
   xml_path: assets/xml/overlays/ovl_Boss_Ganon2.xml
-  start_offset: 0x9F88
-  end_offset: 0x10438
+  start_offset: 0x9F48
+  end_offset: 0x103F8
 - name: overlays/ovl_Boss_Sst
   xml_path: assets/xml/overlays/ovl_Boss_Sst.xml
-  start_offset: 0xA380
-  end_offset: 0xAD30
+  start_offset: 0xA330
+  end_offset: 0xACE0
 - name: overlays/ovl_Demo_Shd
   xml_path: assets/xml/overlays/ovl_Demo_Shd.xml
   start_offset: 0x410
@@ -884,28 +891,28 @@ assets:
   end_offset: 0x8900
 - name: overlays/ovl_En_Ganon_Mant
   xml_path: assets/xml/overlays/ovl_En_Ganon_Mant.xml
-  start_offset: 0x11F8
-  end_offset: 0x40F8
+  start_offset: 0x11E8
+  end_offset: 0x40E8
 - name: overlays/ovl_En_Ganon_Organ
   xml_path: assets/xml/overlays/ovl_En_Ganon_Organ.xml
-  start_offset: 0x368
-  end_offset: 0x6EF0
+  start_offset: 0x328
+  end_offset: 0x6EB0
 - name: overlays/ovl_En_Holl
   xml_path: assets/xml/overlays/ovl_En_Holl.xml
   start_offset: 0xE68
   end_offset: 0xED0
 - name: overlays/ovl_En_Jsjutan
   xml_path: assets/xml/overlays/ovl_En_Jsjutan.xml
-  start_offset: 0x12C8
-  end_offset: 0x4C60
+  start_offset: 0x12B8
+  end_offset: 0x4C50
 - name: overlays/ovl_En_Kanban
   xml_path: assets/xml/overlays/ovl_En_Kanban.xml
   start_offset: 0x2E70
   end_offset: 0x2F30
 - name: overlays/ovl_En_Sda
   xml_path: assets/xml/overlays/ovl_En_Sda.xml
-  start_offset: 0x1498
-  end_offset: 0x1528
+  start_offset: 0x14A8
+  end_offset: 0x1538
 - name: overlays/ovl_En_Ssh
   xml_path: assets/xml/overlays/ovl_En_Ssh.xml
   start_offset: 0x2150
@@ -916,24 +923,24 @@ assets:
   end_offset: 0x2730
 - name: overlays/ovl_En_Sth
   xml_path: assets/xml/overlays/ovl_En_Sth.xml
-  start_offset: 0xE70
-  end_offset: 0x3E44
+  start_offset: 0xE60
+  end_offset: 0x3E34
 - name: overlays/ovl_End_Title
   xml_path: assets/xml/overlays/ovl_End_Title.xml
-  start_offset: 0x6E0
-  end_offset: 0x4088
+  start_offset: 0x6F0
+  end_offset: 0x4098
 - name: overlays/ovl_file_choose
   xml_path: assets/xml/overlays/ovl_file_choose.xml
-  start_offset: 0xEC40
-  end_offset: 0xF320
+  start_offset: 0xEC50
+  end_offset: 0xF330
 - name: overlays/ovl_Magic_Dark
   xml_path: assets/xml/overlays/ovl_Magic_Dark.xml
   start_offset: 0xC90
   end_offset: 0x16C0
 - name: overlays/ovl_Magic_Fire
   xml_path: assets/xml/overlays/ovl_Magic_Fire.xml
-  start_offset: 0xB50
-  end_offset: 0x21A0
+  start_offset: 0xB20
+  end_offset: 0x2170
 - name: overlays/ovl_Magic_Wind
   xml_path: assets/xml/overlays/ovl_Magic_Wind.xml
   start_offset: 0x6A0
@@ -944,12 +951,12 @@ assets:
   end_offset: 0xE58
 - name: overlays/ovl_Oceff_Storm
   xml_path: assets/xml/overlays/ovl_Oceff_Storm.xml
-  start_offset: 0x750
-  end_offset: 0x1AE0
+  start_offset: 0x740
+  end_offset: 0x1AD0
 - name: overlays/ovl_Oceff_Wipe
   xml_path: assets/xml/overlays/ovl_Oceff_Wipe.xml
-  start_offset: 0x520
-  end_offset: 0xCE0
+  start_offset: 0x4F0
+  end_offset: 0xCB0
 - name: overlays/ovl_Oceff_Wipe2
   xml_path: assets/xml/overlays/ovl_Oceff_Wipe2.xml
   start_offset: 0x430
@@ -971,7 +978,7 @@ assets:
 - name: scenes/dungeons/ddan
   xml_path: assets/xml/scenes/dungeons/ddan.xml
 - name: scenes/dungeons/ddan_boss
-  xml_path: assets/xml/scenes/dungeons/ddan_boss_v2.xml
+  xml_path: assets/xml/scenes/dungeons/ddan_boss.xml
 - name: scenes/dungeons/FIRE_bs
   xml_path: assets/xml/scenes/dungeons/FIRE_bs.xml
 - name: scenes/dungeons/ganon
@@ -999,7 +1006,7 @@ assets:
 - name: scenes/dungeons/HIDAN
   xml_path: assets/xml/scenes/dungeons/HIDAN.xml
 - name: scenes/dungeons/ice_doukutu
-  xml_path: assets/xml/scenes/dungeons/ice_doukutu_v2.xml
+  xml_path: assets/xml/scenes/dungeons/ice_doukutu.xml
 - name: scenes/dungeons/jyasinboss
   xml_path: assets/xml/scenes/dungeons/jyasinboss.xml
 - name: scenes/dungeons/jyasinzou
@@ -1141,7 +1148,7 @@ assets:
 - name: scenes/overworld/spot15
   xml_path: assets/xml/scenes/overworld/spot15.xml
 - name: scenes/overworld/spot16
-  xml_path: assets/xml/scenes/overworld/spot16_v2.xml
+  xml_path: assets/xml/scenes/overworld/spot16.xml
 - name: scenes/overworld/spot17
   xml_path: assets/xml/scenes/overworld/spot17.xml
 - name: scenes/overworld/spot18
