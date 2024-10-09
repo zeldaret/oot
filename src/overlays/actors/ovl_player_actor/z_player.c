@@ -14018,7 +14018,7 @@ void Player_Action_SlipOnSlope(Player* this, PlayState* play) {
         f32 horizontalSpeedIncrStep;
         f32 horizontalSpeedDecrStep;
         s16 downwardSlopeYaw;
-        s16 linkYawToStepTowards;
+        s16 shapeYawTarget;
         Vec3f slopeNormal;
 
         if (floorPoly == NULL) {
@@ -14028,9 +14028,9 @@ void Player_Action_SlipOnSlope(Player* this, PlayState* play) {
 
         Player_GetSlopeDirection(floorPoly, &slopeNormal, &downwardSlopeYaw);
 
-        linkYawToStepTowards = downwardSlopeYaw;
+        shapeYawTarget = downwardSlopeYaw;
         if (this->av1.slipFacingUpSlope) {
-            linkYawToStepTowards = downwardSlopeYaw + 0x8000;
+            shapeYawTarget = downwardSlopeYaw + 0x8000;
         }
 
         if (this->speedXZ < 0) {
@@ -14064,7 +14064,7 @@ void Player_Action_SlipOnSlope(Player* this, PlayState* play) {
         }
 
         Math_SmoothStepToS(&this->yaw, downwardSlopeYaw, 10, 4000, 800);
-        Math_ScaledStepToS(&this->actor.shape.rot.y, linkYawToStepTowards, 2000);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, shapeYawTarget, 2000);
     }
 }
 
