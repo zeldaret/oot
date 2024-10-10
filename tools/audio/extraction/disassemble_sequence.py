@@ -1277,20 +1277,33 @@ class SequenceDisassembler:
             outfile.write(f".endseq {self.seq_name}\n")
 
 if __name__ == '__main__':
-    import sys
+    import argparse
+    parser = argparse.ArgumentParser(description="Disassemble a Zelda 64 sequence binary")
+    parser.add_argument("file", help="Sequence binary to disassemble")
+    parser.add_argument("out", help="Path to output source file")
+    parser.add_argument("-v", dest="mml_version", required=False, default="OoT", type=str, help="Sample rate (integer)")
+    args = parser.parse_args()
 
-    in_path = sys.argv[1]
-    out_path = sys.argv[2]
+    in_path = args.file
+    out_path = args.out
+
+    mml_ver = {
+        "OoT" : MMLVersion.OOT,
+        "MM"  : MMLVersion.MM,
+    }.get(args.mml_version, None)
+
+    if mml_ver is None:
+        raise Exception("Invalid MML Version, should be 'OoT' or 'MM'")
 
     with open(in_path, "rb") as infile:
         data = bytearray(infile.read())
 
     class FontDummy:
-        def __init__(self, file_name) -> None:
-            self.name = file_name
-            self.file_name = file_name
+        def __init__(self, name) -> None:
+            self.name = name
+            self.file_name = name
             self.instrument_index_map = {}
 
-    disas = SequenceDisassembler(0, data, None, CMD_SPEC, MMLVersion.MM, out_path, "", [FontDummy("wow")], [])
+    disas = SequenceDisassembler(0, data, None, CMD_SPEC, mml_ver, out_path, "", [FontDummy("dummyfont")], [])
     disas.analyze()
     disas.emit()
