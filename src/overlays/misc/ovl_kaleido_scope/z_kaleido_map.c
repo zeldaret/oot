@@ -781,23 +781,31 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         // Quad PAGE_BG_QUADS + WORLD_MAP_QUAD_28
 
-        pauseCtx->mapPageVtx[43 * 4 + 0].v.ob[0] = pauseCtx->mapPageVtx[43 * 4 + 2].v.ob[0] =
-            areaBoxPosX[((void)0, gSaveContext.worldMapArea)];
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 0].v.ob[0] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 2].v.ob[0] =
+                areaBoxPosX[((void)0, gSaveContext.worldMapArea)];
 
-        pauseCtx->mapPageVtx[43 * 4 + 1].v.ob[0] = pauseCtx->mapPageVtx[43 * 4 + 3].v.ob[0] =
-            pauseCtx->mapPageVtx[43 * 4 + 0].v.ob[0] + areaBoxWidths[((void)0, gSaveContext.worldMapArea)];
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 1].v.ob[0] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 3].v.ob[0] =
+                pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 0].v.ob[0] +
+                areaBoxWidths[((void)0, gSaveContext.worldMapArea)];
 
-        pauseCtx->mapPageVtx[43 * 4 + 0].v.ob[1] = pauseCtx->mapPageVtx[43 * 4 + 1].v.ob[1] =
-            areaBoxPosY[((void)0, gSaveContext.worldMapArea)] + pauseCtx->pagesYOrigin1;
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 0].v.ob[1] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 1].v.ob[1] =
+                areaBoxPosY[((void)0, gSaveContext.worldMapArea)] + pauseCtx->pagesYOrigin1;
 
-        pauseCtx->mapPageVtx[43 * 4 + 2].v.ob[1] = pauseCtx->mapPageVtx[43 * 4 + 3].v.ob[1] =
-            pauseCtx->mapPageVtx[43 * 4 + 0].v.ob[1] - areaBoxHeights[((void)0, gSaveContext.worldMapArea)];
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 2].v.ob[1] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 3].v.ob[1] =
+                pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 0].v.ob[1] -
+                areaBoxHeights[((void)0, gSaveContext.worldMapArea)];
 
-        pauseCtx->mapPageVtx[43 * 4 + 1].v.tc[0] = pauseCtx->mapPageVtx[43 * 4 + 3].v.tc[0] =
-            areaBoxWidths[((void)0, gSaveContext.worldMapArea)] << 5;
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 1].v.tc[0] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 3].v.tc[0] =
+                areaBoxWidths[((void)0, gSaveContext.worldMapArea)] << 5;
 
-        pauseCtx->mapPageVtx[43 * 4 + 2].v.tc[1] = pauseCtx->mapPageVtx[43 * 4 + 3].v.tc[1] =
-            areaBoxHeights[((void)0, gSaveContext.worldMapArea)] << 5;
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 2].v.tc[1] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 3].v.tc[1] =
+                areaBoxHeights[((void)0, gSaveContext.worldMapArea)] << 5;
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4], 4, 0);
 

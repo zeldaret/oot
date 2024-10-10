@@ -2634,7 +2634,7 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
         }
 
         if (vtxPage == VTX_PAGE_MAP_WORLD) {
-            // For world map page, initialize vtx beyond VTX_PAGE_MAP_WORLD_QUADS
+            // WORLD_MAP_QUAD_TRADE_QUEST_MARKER
 
             bufI -= ((VTX_PAGE_MAP_WORLD_QUADS - WORLD_MAP_QUAD_TRADE_QUEST_MARKER) * 4);
 
@@ -2650,7 +2650,7 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
 
             vtx[bufI + 2].v.ob[1] = vtx[bufI + 3].v.ob[1] = vtx[bufI + 0].v.ob[1] - sVtxMapWorldAreaHeight[j];
 
-            bufI += (3 * 4);
+            bufI += ((VTX_PAGE_MAP_WORLD_QUADS - WORLD_MAP_QUAD_TRADE_QUEST_MARKER) * 4);
 
             if (pauseCtx->tradeQuestMarker != TRADE_QUEST_MARKER_NONE) {
                 if (sTradeQuestMarkerBobTimer == 0) {
