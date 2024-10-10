@@ -1,4 +1,5 @@
 #include "global.h"
+#include "versions.h"
 
 #define SAMPLES_TO_OVERPRODUCE 0x10
 #define EXTRA_BUFFERED_AI_SAMPLES_TARGET 0x80
@@ -16,7 +17,7 @@ AudioTask* AudioThread_Update(void) {
     return AudioThread_UpdateImpl();
 }
 
-#if PLATFORM_N64
+#if !(OOT_VERSION < PAL_1_0 || PLATFORM_GC)
 static s32 sMaxAbiCmdCnt = 0x80;
 static AudioTask* sWaitingAudioTask = NULL;
 #endif
@@ -25,7 +26,7 @@ static AudioTask* sWaitingAudioTask = NULL;
  * This is Audio_Update for the audio thread
  */
 AudioTask* AudioThread_UpdateImpl(void) {
-#if !PLATFORM_N64
+#if OOT_VERSION < PAL_1_0 || PLATFORM_GC
     static s32 sMaxAbiCmdCnt = 0x80;
     static AudioTask* sWaitingAudioTask = NULL;
 #endif

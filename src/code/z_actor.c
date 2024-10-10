@@ -1098,7 +1098,7 @@ int func_8002DD6C(Player* player) {
 }
 
 int func_8002DD78(Player* player) {
-    return func_8002DD6C(player) && player->unk_834;
+    return func_8002DD6C(player) && (player->unk_834 != 0);
 }
 
 int func_8002DDA8(PlayState* play) {
