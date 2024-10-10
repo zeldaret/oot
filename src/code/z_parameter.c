@@ -2125,9 +2125,9 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
 #endif
 
 #if OOT_VERSION < PAL_1_0
-    if ((action != DO_ACTION_NONE) && (action != DO_ACTION_MAX + DO_ACTION_NONE))
+    if ((action != 0 * DO_ACTION_MAX + DO_ACTION_NONE) && (action != 1 * DO_ACTION_MAX + DO_ACTION_NONE))
 #else
-    if ((action != DO_ACTION_NONE) && (action != DO_ACTION_MAX + DO_ACTION_NONE) &&
+    if ((action != 0 * DO_ACTION_MAX + DO_ACTION_NONE) && (action != 1 * DO_ACTION_MAX + DO_ACTION_NONE) &&
         (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE))
 #endif
     {

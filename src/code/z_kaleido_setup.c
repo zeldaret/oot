@@ -144,7 +144,7 @@ void KaleidoSetup_Init(PlayState* play) {
 
     pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
     pauseCtx->cursorPoint[PAUSE_MAP] = VREG(30) + 3;
-    pauseCtx->cursorPoint[PAUSE_QUEST] = 0;
+    pauseCtx->cursorPoint[PAUSE_QUEST] = QUEST_MEDALLION_FOREST;
     pauseCtx->cursorPoint[PAUSE_EQUIP] = 1;
     pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 10;
 
