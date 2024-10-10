@@ -9577,9 +9577,9 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
             func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing, this->modelAnimType), play);
             this->skelAnime.endFrame = 8.0f;
 
-            // `shakeTimer` is only processed by `Player_Action_Idle`. 
-            // If any other action runs instead, by for example having Z Target held
-            // when landing, the shake will not occur.
+            // `shakeTimer` is only processed by `Player_Action_Idle`.
+            // If any other action runs instead, by for example being
+            // Z-Targeted when landing, the shake will not occur.
             if (sp3C == 1) {
                 this->av2.shakeTimer = 10;
             } else {
