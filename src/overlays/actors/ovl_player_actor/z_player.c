@@ -267,7 +267,7 @@ void func_80853148(PlayState* play, Actor* actor);
 
 void Player_Action_80840450(Player* this, PlayState* play);
 void Player_Action_808407CC(Player* this, PlayState* play);
-void Player_Action_80840BC8(Player* this, PlayState* play);
+void Player_Action_Idle(Player* this, PlayState* play);
 void Player_Action_80840DE4(Player* this, PlayState* play);
 void Player_Action_808414F8(Player* this, PlayState* play);
 void Player_Action_8084170C(Player* this, PlayState* play);
@@ -4095,8 +4095,14 @@ s32 Player_CalcSpeedAndYawFromControlStick(PlayState* play, Player* this, f32* o
     return false;
 }
 
-s32 func_8083721C(Player* this) {
-    return Math_StepToF(&this->speedXZ, 0.0f, REG(43) / 100.0f);
+/**
+ * Steps speed toward zero to at a rate defined by current boot data.
+ * After zero is reached, speed will be held at zero.
+ *
+ * @return true if speed is 0, false otherwise
+ */
+s32 Player_DecelerateToZero(Player* this) {
+    return Math_StepToF(&this->speedXZ, 0.0f, R_DECELERATE_RATE / 100.0f);
 }
 
 /**
@@ -4182,7 +4188,7 @@ static s8 sActionHandlerList6[] = {
     -PLAYER_ACTION_HANDLER_7,
 };
 
-static s8 sActionHandlerList7[] = {
+static s8 sActionHandlerListIdle[] = {
     PLAYER_ACTION_HANDLER_0, PLAYER_ACTION_HANDLER_11, PLAYER_ACTION_HANDLER_1,     PLAYER_ACTION_HANDLER_2,
     PLAYER_ACTION_HANDLER_3, PLAYER_ACTION_HANDLER_5,  PLAYER_ACTION_HANDLER_TALK,  PLAYER_ACTION_HANDLER_9,
     PLAYER_ACTION_HANDLER_8, PLAYER_ACTION_HANDLER_7,  -PLAYER_ACTION_HANDLER_ROLL,
@@ -4312,14 +4318,14 @@ typedef enum PlayerActionInterruptResult {
 /**
  * An Action Interrupt allows for ending an action early, toward the end of an animation.
  *
- * First, `sActionHandlerList7` will be checked to see if any of those actions should be used.
+ * First, `sActionHandlerListIdle` will be checked to see if any of those actions should be used.
  * It should be noted that the `updateUpperBody` argument passed to `Player_TryActionHandlerList`
  * is `true`. This means that an item can be used during the interrupt window.
  *
  * If no actions from the Action Handler List are used, then the control stick is checked to see if
  * any movement should occur.
  *
- * Note that while this function can set up a new action with `sActionHandlerList7`, this function
+ * Note that while this function can set up a new action with `sActionHandlerListIdle`, this function
  * will not set up an appropriate action for moving.
  * It is the callers responsibility to react accordingly to `PLAYER_INTERRUPT_MOVE`.
  *
@@ -4331,7 +4337,7 @@ s32 Player_TryActionInterrupt(PlayState* play, Player* this, SkelAnime* skelAnim
     s16 yawTarget;
 
     if ((skelAnime->endFrame - frameRange) <= skelAnime->curFrame) {
-        if (Player_TryActionHandlerList(play, this, sActionHandlerList7, true)) {
+        if (Player_TryActionHandlerList(play, this, sActionHandlerListIdle, true)) {
             return PLAYER_INTERRUPT_NEW_ACTION;
         }
 
@@ -5571,7 +5577,7 @@ void func_80839FFC(Player* this, PlayState* play) {
     } else if (Player_FriendlyLockOnOrParallel(this)) {
         actionFunc = Player_Action_808407CC;
     } else {
-        actionFunc = Player_Action_80840BC8;
+        actionFunc = Player_Action_Idle;
     }
 
     Player_SetupAction(play, this, actionFunc, 1);
@@ -5579,6 +5585,7 @@ void func_80839FFC(Player* this, PlayState* play) {
 
 void func_8083A060(Player* this, PlayState* play) {
     func_80839FFC(this, play);
+
     if (Player_CheckHostileLockOn(this)) {
         this->av2.actionVar2 = 1;
     }
@@ -6434,7 +6441,7 @@ void func_8083C0B8(Player* this, PlayState* play) {
 }
 
 void func_8083C0E8(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_80840BC8, 1);
+    Player_SetupAction(play, this, Player_Action_Idle, 1);
     Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
     this->yaw = this->actor.shape.rot.y;
 }
@@ -6533,7 +6540,7 @@ s32 func_8083C484(Player* this, f32* arg1, s16* arg2) {
     s16 yaw = this->yaw - *arg2;
 
     if (ABS(yaw) > 0x6000) {
-        if (func_8083721C(this)) {
+        if (Player_DecelerateToZero(this)) {
             *arg1 = 0.0f;
             *arg2 = this->yaw;
         } else {
@@ -6752,7 +6759,7 @@ void func_8083CD54(PlayState* play, Player* this, s16 yaw) {
 void func_8083CE0C(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
 
-    Player_SetupAction(play, this, Player_Action_80840BC8, 1);
+    Player_SetupAction(play, this, Player_Action_Idle, 1);
 
     if (this->unk_870 < 0.5f) {
         anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_waitR2wait, this->modelAnimType);
@@ -8045,7 +8052,7 @@ void Player_Action_80840450(Player* this, PlayState* play) {
         func_808401B0(play, this);
     }
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList1, true)) {
         if (!Player_UpdateHostileLockOn(this) &&
@@ -8112,7 +8119,7 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
         Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
     }
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList2, true)) {
         if (Player_UpdateHostileLockOn(this)) {
@@ -8121,7 +8128,7 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
         }
 
         if (!Player_FriendlyLockOnOrParallel(this)) {
-            Player_SetupActionPreserveAnimMovement(play, this, Player_Action_80840BC8, 1);
+            Player_SetupActionPreserveAnimMovement(play, this, Player_Action_Idle, 1);
             this->yaw = this->actor.shape.rot.y;
             return;
         }
@@ -8249,34 +8256,37 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
                          ANIMMODE_ONCE, -6.0f);
 }
 
-void Player_Action_80840BC8(Player* this, PlayState* play) {
+void Player_Action_Idle(Player* this, PlayState* play) {
     s32 idleAnimResult = Player_CheckForIdleAnim(this);
-    s32 sp40 = LinkAnimation_Update(play, &this->skelAnime);
+    s32 animDone = LinkAnimation_Update(play, &this->skelAnime);
     f32 speedTarget;
     s16 yawTarget;
-    s16 temp;
+    s16 yawDiff;
 
     if (idleAnimResult > IDLE_ANIM_NONE) {
         Player_ProcessFidgetAnimSfxList(this, idleAnimResult - 1);
     }
 
-    if (sp40 != 0) {
-        if (this->av2.actionVar2 != 0) {
-            if (DECR(this->av2.actionVar2) == 0) {
+    if (animDone) {
+        if (this->av2.fallDamageStunTimer != 0) {
+            if (DECR(this->av2.fallDamageStunTimer) == 0) {
                 this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
+
+            // Offset model y position.
+            // Depending on if the timer is even or odd, the offset will be 40 or -40 model space units.
             this->skelAnime.jointTable[0].y =
-                (this->skelAnime.jointTable[0].y + ((this->av2.actionVar2 & 1) * 0x50)) - 0x28;
+                (this->skelAnime.jointTable[0].y + ((this->av2.fallDamageStunTimer & 1) * 80)) - 40;
         } else {
             Player_FinishAnimMovement(this);
             Player_ChooseNextIdleAnim(play, this);
         }
     }
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
-    if (this->av2.actionVar2 == 0) {
-        if (!Player_TryActionHandlerList(play, this, sActionHandlerList7, true)) {
+    if (this->av2.fallDamageStunTimer == 0) {
+        if (!Player_TryActionHandlerList(play, this, sActionHandlerListIdle, true)) {
             if (Player_UpdateHostileLockOn(this)) {
                 func_8083CEAC(this, play);
                 return;
@@ -8294,14 +8304,16 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
                 return;
             }
 
-            temp = yawTarget - this->actor.shape.rot.y;
-            if (ABS(temp) > 800) {
+            yawDiff = yawTarget - this->actor.shape.rot.y;
+
+            if (ABS(yawDiff) > 800) {
                 func_8083CD54(play, this, yawTarget);
                 return;
             }
 
             Math_ScaledStepToS(&this->actor.shape.rot.y, yawTarget, 1200);
             this->yaw = this->actor.shape.rot.y;
+
             if (Player_GetIdleAnim(this) == this->skelAnime.animation) {
                 func_8083DC54(this, play);
             }
@@ -8454,7 +8466,7 @@ s32 func_80841458(Player* this, f32* arg1, s16* arg2, PlayState* play) {
     }
 
     if (*arg1 != 0.0f) {
-        if (func_8083721C(this)) {
+        if (Player_DecelerateToZero(this)) {
             *arg1 = 0.0f;
             *arg2 = this->yaw;
         } else {
@@ -8515,7 +8527,7 @@ void Player_Action_8084170C(Player* this, PlayState* play) {
     s16 yawTarget;
 
     sp34 = LinkAnimation_Update(play, &this->skelAnime);
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList4, true)) {
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
@@ -8815,7 +8827,7 @@ void Player_Action_808423EC(Player* this, PlayState* play) {
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
         if ((this->skelAnime.morphWeight == 0.0f) && (this->skelAnime.curFrame > 5.0f)) {
-            func_8083721C(this);
+            Player_DecelerateToZero(this);
 
             if ((this->skelAnime.curFrame > 10.0f) && (func_8083FC68(this, speedTarget, yawTarget) < 0)) {
                 func_8083CBF0(this, yawTarget, play);
@@ -8836,7 +8848,7 @@ void Player_Action_8084251C(Player* this, PlayState* play) {
 
     sp34 = LinkAnimation_Update(play, &this->skelAnime);
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (!Player_TryActionHandlerList(play, this, sActionHandlerList10, true)) {
         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
@@ -9115,7 +9127,7 @@ void Player_Action_80843188(Player* this, PlayState* play) {
         this->stateFlags1 &= ~PLAYER_STATE1_22;
     }
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (this->av2.actionVar2 != 0) {
         f32 sp54;
@@ -9202,7 +9214,7 @@ void Player_Action_808435C4(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
     f32 frames;
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (this->av1.actionVar1 == 0) {
         sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
@@ -9229,7 +9241,7 @@ void Player_Action_808435C4(Player* this, PlayState* play) {
 void Player_Action_8084370C(Player* this, PlayState* play) {
     s32 interruptResult;
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 16.0f);
 
@@ -9292,7 +9304,7 @@ void Player_Action_80843954(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_5 | PLAYER_STATE2_6;
     func_808382BC(this);
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime) && (this->speedXZ == 0.0f)) {
         if (this->stateFlags1 & PLAYER_STATE1_29) {
@@ -9393,7 +9405,7 @@ void Player_Action_80843CEC(Player* this, PlayState* play) {
         }
     }
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->actor.category == ACTORCAT_PLAYER) {
@@ -9605,10 +9617,15 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
         if (sp3C > 0) {
             func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing, this->modelAnimType), play);
             this->skelAnime.endFrame = 8.0f;
+
+            // `func_8083A098` above can choose from a few different "idle" action variants.
+            // However `fallDamageStunTimer` is only processed by `Player_Action_Idle`.
+            // This means it is possible for the stun to not take effect
+            // (for example, by holding Z when landing).
             if (sp3C == 1) {
-                this->av2.actionVar2 = 10;
+                this->av2.fallDamageStunTimer = 10;
             } else {
-                this->av2.actionVar2 = 20;
+                this->av2.fallDamageStunTimer = 20;
             }
         } else if (sp3C == 0) {
             func_8083A098(this, anim, play);
@@ -9828,7 +9845,7 @@ void Player_Action_80844E68(Player* this, PlayState* play) {
         this->av2.actionVar2 = -1;
     }
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (!func_80842964(this, play) && (this->av2.actionVar2 != 0)) {
         func_80844E3C(this);
@@ -10252,7 +10269,7 @@ void Player_Action_80845EF8(Player* this, PlayState* play) {
 }
 
 void Player_Action_80846050(Player* this, PlayState* play) {
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_80839F90(this, play);
@@ -10305,7 +10322,7 @@ void Player_Action_80846120(Player* this, PlayState* play) {
 }
 
 void Player_Action_80846260(Player* this, PlayState* play) {
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         Player_AnimPlayLoop(play, this, &gPlayerAnim_link_silver_wait);
@@ -10362,7 +10379,7 @@ void Player_Action_80846408(Player* this, PlayState* play) {
 }
 
 void Player_Action_808464B0(Player* this, PlayState* play) {
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_80839F90(this, play);
@@ -10387,7 +10404,7 @@ void Player_Action_80846578(Player* this, PlayState* play) {
     f32 speedTarget;
     s16 yawTarget;
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime) ||
         ((this->skelAnime.curFrame >= 8.0f) &&
@@ -12398,7 +12415,7 @@ void Player_Action_8084B1D8(Player* this, PlayState* play) {
         func_8084B000(this);
         func_8084AEEC(this, &this->speedXZ, 0, this->actor.shape.rot.y);
     } else {
-        func_8083721C(this);
+        Player_DecelerateToZero(this);
     }
 
     if ((this->unk_6AD == 2) && (func_8002DD6C(this) || func_808332E4(this))) {
@@ -13532,7 +13549,7 @@ void Player_Action_8084DC48(Player* this, PlayState* play) {
                     this->actor.velocity.y = -2.0f;
                 }
 
-                func_8083721C(this);
+                Player_DecelerateToZero(this);
                 return;
             }
 
@@ -13758,7 +13775,7 @@ void Player_Action_8084E604(Player* this, PlayState* play) {
         Player_PlayVoiceSfx(this, NA_SE_VO_LI_SWORD_N);
     }
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 }
 
 static AnimSfxEntry D_808549E0[] = {
@@ -13956,7 +13973,7 @@ void Player_Action_8084ECA4(Player* this, PlayState* play) {
     s32 i;
 
     sp24 = &D_80854554[this->av2.actionVar2];
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av1.actionVar1 != 0) {
@@ -14045,7 +14062,7 @@ static AnimSfxEntry D_80854A34[] = {
 };
 
 void Player_Action_8084EFC0(Player* this, PlayState* play) {
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083C0E8(this, play);
@@ -14594,7 +14611,7 @@ void Player_Action_808502D0(Player* this, PlayState* play) {
 
 void Player_Action_808505DC(Player* this, PlayState* play) {
     LinkAnimation_Update(play, &this->skelAnime);
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (this->skelAnime.curFrame >= 6.0f) {
         func_80839FFC(this, play);
@@ -14757,7 +14774,7 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
         }
     }
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 }
 
 void Player_Action_80850AEC(Player* this, PlayState* play) {
@@ -14823,7 +14840,7 @@ void Player_Action_80850C68(Player* this, PlayState* play) {
         this->av2.actionVar2 = 1;
     }
 
-    func_8083721C(this);
+    Player_DecelerateToZero(this);
 
     if (this->unk_860 == 0) {
         func_80853080(this, play);
@@ -15465,7 +15482,7 @@ void func_80851CA4(PlayState* play, Player* this, CsCmdActorCue* cue) {
     }
 
     if (this->av2.actionVar2 != 0) {
-        func_8083721C(this);
+        Player_DecelerateToZero(this);
     }
 }
 
@@ -15991,7 +16008,7 @@ s32 Player_TryCsAction(PlayState* play, Actor* actor, s32 csAction) {
 }
 
 void func_80853080(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_80840BC8, 1);
+    Player_SetupAction(play, this, Player_Action_Idle, 1);
     Player_AnimChangeOnceMorph(play, this, Player_GetIdleAnim(this));
     this->yaw = this->actor.shape.rot.y;
 }
