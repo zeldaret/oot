@@ -1,10 +1,10 @@
 # libu64
 
-This document explains the reasoning behind discovering libu64 files.
+This document explains the reasoning behind organizing the libu64 files.
 
-libu64 is known about from the Animal Crossing (GameCube) map file.
+libu64 is known about from the Animal Crossing (GameCube) map files.
 
-Here is the relevant excerpt from the DnM+ 1.0 map file (for .text):
+Here is the relevant excerpt from the Doubutsu no Mori+ 1.0 map file (for .text):
 
 ```
   00057f00 00043c 8005d4c0  1 .text 	libu64.a debug.c
@@ -60,7 +60,7 @@ This repository's `debug.c` (formerly `logutils.c`), `gfxprint.c` and `pad.c` (f
 
 Note `debug.c` has additional debug-only functions in gc-eu-mq-dbg, hinting that there were two versions of libu64, a debug version and a non-debug version.
 
-Additionally `debug.c`, `gfxprint.c` and `pad.c` all require compilation flags `-O2` (instead of `-O2 -g3`) to match, as supplementary proof these were part of a separately compiled library.
+Additionally `debug.c`, `gfxprint.c` and `pad.c` all require compilation flags `-O2` (instead of `-O2 -g3`) to match, as supplementary evidence these were part of a separately compiled library.
 
 `-O2` is also required for most files between `gfxprint.c` and `pad.c` in the code segment (see spec), hinting that these other files (`loadfragment2_n64.c`, `loadfragment2_gc.c`, `mtxuty-cvt.c`, `relocation_gc.c`, `load_gc.c`, `code_800FC620.c`) are also part of libu64.
 
