@@ -648,7 +648,9 @@ class AudioTableFile:
                 }
                 xml.write_element("Sample", attrs)
             else:
-                sample : AudioTableData
+                # need to preserve old content for this one
+                for item in self.extraction_all_version_contents[version_ident]:
+                    xml.write_element(item[0], item[1])
 
                 attrs = {
                     "Name" : sample.name,
