@@ -8268,15 +8268,15 @@ void Player_Action_Idle(Player* this, PlayState* play) {
     }
 
     if (animDone) {
-        if (this->av2.shakeTimer != 0) {
-            if (DECR(this->av2.shakeTimer) == 0) {
+        if (this->av2.fallDamageStunTimer != 0) {
+            if (DECR(this->av2.fallDamageStunTimer) == 0) {
                 this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
 
             // Offset model y position.
             // Depending on if the timer is even or odd, the offset will be 40 or -40 model space units.
             this->skelAnime.jointTable[0].y =
-                (this->skelAnime.jointTable[0].y + ((this->av2.shakeTimer & 1) * 80)) - 40;
+                (this->skelAnime.jointTable[0].y + ((this->av2.fallDamageStunTimer & 1) * 80)) - 40;
         } else {
             Player_FinishAnimMovement(this);
             Player_ChooseNextIdleAnim(play, this);
@@ -8285,7 +8285,7 @@ void Player_Action_Idle(Player* this, PlayState* play) {
 
     Player_DecelerateToZero(this);
 
-    if (this->av2.shakeTimer == 0) {
+    if (this->av2.fallDamageStunTimer == 0) {
         if (!Player_TryActionHandlerList(play, this, sActionHandlerListIdle, true)) {
             if (Player_UpdateHostileLockOn(this)) {
                 func_8083CEAC(this, play);
@@ -9618,13 +9618,14 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
             func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing, this->modelAnimType), play);
             this->skelAnime.endFrame = 8.0f;
 
-            // `shakeTimer` is only processed by `Player_Action_Idle`.
-            // If any other action runs instead, by for example being
-            // Z-Targeted when landing, the shake will not occur.
+            // `func_8083A098` above can choose from a few different "idle" action variants.
+            // However `fallDamageStunTimer` is only processed by `Player_Action_Idle`.
+            // This means it is possible for the stun to not take effect
+            // (for example, by holding Z when landing).
             if (sp3C == 1) {
-                this->av2.shakeTimer = 10;
+                this->av2.fallDamageStunTimer = 10;
             } else {
-                this->av2.shakeTimer = 20;
+                this->av2.fallDamageStunTimer = 20;
             }
         } else if (sp3C == 0) {
             func_8083A098(this, anim, play);

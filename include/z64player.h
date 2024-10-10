@@ -881,7 +881,7 @@ typedef struct Player {
 
     /* 0x0850 */ union {
         s16 actionVar2;
-        s16 shakeTimer; // Player_Action_Idle: Shakes model up and down while counting down. Used for fall damage landing.
+        s16 fallDamageStunTimer; // Player_Action_Idle: Prevents any movement and shakes model up and down quickly to indicate fall damage stun
         s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
