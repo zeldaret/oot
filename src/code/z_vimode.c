@@ -1,5 +1,6 @@
 #include "global.h"
 #include "ultra64/viint.h"
+#include "versions.h"
 
 void ViMode_LogPrint(OSViMode* osViMode) {
     LOG_ADDRESS("osvimodep", osViMode, "../z_vimode.c", 87);
@@ -182,6 +183,7 @@ void ViMode_Save(ViMode* viMode) {
     R_VI_MODE_EDIT_ULX_ADJ = viMode->leftAdjust;
     R_VI_MODE_EDIT_LRX_ADJ = viMode->rightAdjust;
 
+#if OOT_VERSION >= PAL_1_0
     if (SREG(58) == 1) {
         SREG(58) = 0;
 
@@ -200,6 +202,7 @@ void ViMode_Save(ViMode* viMode) {
                 break;
         }
     }
+#endif
 }
 
 void ViMode_Load(ViMode* viMode) {
@@ -270,8 +273,18 @@ void ViMode_Update(ViMode* viMode, Input* input) {
     // Load state from REGs
     ViMode_Load(viMode);
 
+#if OOT_VERSION < PAL_1_0
+    if (viMode->editState == VI_MODE_EDIT_STATE_NEGATIVE_2) {
+        // Log comparison between the NTSC LAN1 mode and the custom mode
+        ViMode_LogPrint(&osViModeNtscLan1);
+        ViMode_LogPrint(&viMode->customViMode);
+        viMode->editState = VI_MODE_EDIT_STATE_NEGATIVE_1;
+    } else if ((viMode->editState == VI_MODE_EDIT_STATE_2) || (viMode->editState == VI_MODE_EDIT_STATE_3))
+#else
     if ((viMode->editState == VI_MODE_EDIT_STATE_ACTIVE) || (viMode->editState == VI_MODE_EDIT_STATE_2) ||
-        (viMode->editState == VI_MODE_EDIT_STATE_3)) {
+        (viMode->editState == VI_MODE_EDIT_STATE_3))
+#endif
+    {
         gScreenWidth = viMode->viWidth;
         gScreenHeight = viMode->viHeight;
 
@@ -333,6 +346,21 @@ void ViMode_Update(ViMode* viMode, Input* input) {
         }
 
         // Clamp adjustments
+#if OOT_VERSION < PAL_1_0
+        // Do not allow parts of the framebuffer to end up offscreen
+        if (viMode->leftAdjust < 0) {
+            viMode->leftAdjust = 0;
+        }
+        if (viMode->upperAdjust < 0) {
+            viMode->upperAdjust = 0;
+        }
+        if (viMode->rightAdjust > 0) {
+            viMode->rightAdjust = 0;
+        }
+        if (viMode->lowerAdjust > 0) {
+            viMode->lowerAdjust = 0;
+        }
+#else
         if (viMode->editState >= VI_MODE_EDIT_STATE_2) {
             // Allow parts of the framebuffer to possibly be offscreen by a small margin
             if (viMode->leftAdjust < -16) {
@@ -362,11 +390,21 @@ void ViMode_Update(ViMode* viMode, Input* input) {
                 viMode->lowerAdjust = 0;
             }
         }
+#endif
 
         // Configure the custom VI mode with the selected settings
         ViMode_Configure(viMode, OS_VI_MPAL_LPN1, osTvType, viMode->loRes, viMode->antialiasOff, viMode->modeN,
                          viMode->fb16Bit, viMode->viWidth, viMode->viHeight, viMode->leftAdjust, viMode->rightAdjust,
                          viMode->upperAdjust, viMode->lowerAdjust);
+
+#if OOT_VERSION < PAL_1_0
+        if (viMode->editState == VI_MODE_EDIT_STATE_3) {
+            // Log comparison between the NTSC LAN1 mode and the custom mode
+            ViMode_LogPrint(&osViModeNtscLan1);
+            ViMode_LogPrint(&viMode->customViMode);
+        }
+#endif
+
         ViMode_ConfigureFeatures(viMode, viMode->viFeatures);
 
         if (viMode->editState == VI_MODE_EDIT_STATE_3) {

@@ -34,6 +34,7 @@
  */
 #include "global.h"
 #include "terminal.h"
+#include "versions.h"
 
 vu32 gIrqMgrResetStatus = IRQ_RESET_STATUS_IDLE;
 volatile OSTime sIrqMgrResetTime = 0;
@@ -43,9 +44,13 @@ u32 sIrqMgrRetraceCount = 0;
 // Internal messages
 #define IRQ_RETRACE_MSG 666
 #define IRQ_PRENMI_MSG 669
+#if OOT_VERSION < PAL_1_0
+#define IRQ_PRENMI500_MSG 670
+#else
 #define IRQ_PRENMI450_MSG 671
 #define IRQ_PRENMI480_MSG 672
 #define IRQ_PRENMI500_MSG 673
+#endif
 
 /**
  * Registers a client and an associated message queue with the IRQ manager. When an
@@ -163,8 +168,13 @@ void IrqMgr_HandlePreNMI(IrqMgr* irqMgr) {
     irqMgr->resetStatus = IRQ_RESET_STATUS_PRENMI;
     sIrqMgrResetTime = irqMgr->resetTime = osGetTime();
 
+#if OOT_VERSION < PAL_1_0
+    // Schedule a PRENMI500 message to be handled in 500ms
+    osSetTimer(&irqMgr->timer, OS_USEC_TO_CYCLES(500000), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI500_MSG);
+#else
     // Schedule a PRENMI450 message to be handled in 450ms
     osSetTimer(&irqMgr->timer, OS_USEC_TO_CYCLES(450000), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI450_MSG);
+#endif
     IrqMgr_JamMesgToClients(irqMgr, (OSMesg)&irqMgr->prenmiMsg);
 }
 
@@ -182,6 +192,27 @@ void IrqMgr_CheckStacks(void) {
         PRINTF(VT_RST);
     }
 }
+
+#if OOT_VERSION < PAL_1_0
+
+void IrqMgr_HandlePreNMI500(IrqMgr* irqMgr) {
+    u64 nmi = IRQ_RESET_STATUS_NMI; // required to match
+    u32 result;
+
+    gIrqMgrResetStatus = nmi;
+    irqMgr->resetStatus = IRQ_RESET_STATUS_NMI;
+
+    IrqMgr_SendMesgToClients(irqMgr, (OSMesg)&irqMgr->nmiMsg);
+
+    result = osAfterPreNMI();
+    if (result != 0) {
+        // Schedule another PRENMI500 message to be handled in 1ms
+        osSetTimer(&irqMgr->timer, OS_USEC_TO_CYCLES(1000), 0, &irqMgr->queue, (OSMesg)IRQ_PRENMI500_MSG);
+    }
+    IrqMgr_CheckStacks();
+}
+
+#else
 
 void IrqMgr_HandlePreNMI450(IrqMgr* irqMgr) {
     u64 nmi = IRQ_RESET_STATUS_NMI; // required to match
@@ -215,6 +246,8 @@ void IrqMgr_HandlePreNMI500(IrqMgr* irqMgr) {
     IrqMgr_CheckStacks();
 }
 
+#endif
+
 /**
  * Runs on each vertical retrace
  *
@@ -244,6 +277,11 @@ void IrqMgr_ThreadEntry(void* arg) {
     while (!exit) {
         osRecvMesg(&irqMgr->queue, (OSMesg*)&msg, OS_MESG_BLOCK);
         switch (msg) {
+#if OOT_VERSION < PAL_1_0
+            default:
+                break;
+#endif
+
             case IRQ_RETRACE_MSG:
                 IrqMgr_HandleRetrace(irqMgr);
                 break;
@@ -254,6 +292,7 @@ void IrqMgr_ThreadEntry(void* arg) {
                 IrqMgr_HandlePreNMI(irqMgr);
                 break;
 
+#if OOT_VERSION >= PAL_1_0
             case IRQ_PRENMI450_MSG:
                 PRINTF("PRENMI450_MSG\n");
                 PRINTF(T("スケジューラ：PRENMI450メッセージを受信\n", "Scheduler: Receives PRENMI450 message\n"));
@@ -265,6 +304,7 @@ void IrqMgr_ThreadEntry(void* arg) {
                 PRINTF(T("スケジューラ：PRENMI480メッセージを受信\n", "Scheduler: Receives PRENMI480 message\n"));
                 IrqMgr_HandlePreNMI480(irqMgr);
                 break;
+#endif
 
             case IRQ_PRENMI500_MSG:
                 PRINTF("PRENMI500_MSG\n");
@@ -273,11 +313,13 @@ void IrqMgr_ThreadEntry(void* arg) {
                 exit = true;
                 break;
 
+#if OOT_VERSION >= PAL_1_0
             default:
                 PRINTF(T("irqmgr.c:予期しないメッセージを受け取りました(%08x)\n",
                          "irqmgr.c: Unexpected message received (%08x)\n"),
                        msg);
                 break;
+#endif
         }
     }
 

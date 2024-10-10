@@ -2,6 +2,7 @@
 #define SFX_H
 
 #include "ultra64.h"
+#include "versions.h"
 #include "z64math.h"
 
 typedef enum SfxBankType {
