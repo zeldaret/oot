@@ -6754,7 +6754,7 @@ void Player_SetupTurnInPlace(PlayState* play, Player* this, s16 yaw) {
 
     this->turnRate = 1200;
     this->turnRate *= sWaterInfluence; // slow turn speed by half when in water
-    
+
     LinkAnimation_Change(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_45_turn, this->modelAnimType), 1.0f,
                          0.0f, 0.0f, ANIMMODE_LOOP, -6.0f);
 }
@@ -8255,8 +8255,8 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
         }
     }
 
-    LinkAnimation_Change(play, &this->skelAnime, anim, (2.0f / 3.0f) * sWaterInfluence, 0.0f, Animation_GetLastFrame(anim),
-                         ANIMMODE_ONCE, -6.0f);
+    LinkAnimation_Change(play, &this->skelAnime, anim, (2.0f / 3.0f) * sWaterInfluence, 0.0f,
+                         Animation_GetLastFrame(anim), ANIMMODE_ONCE, -6.0f);
 }
 
 void Player_Action_Idle(Player* this, PlayState* play) {
@@ -8631,9 +8631,9 @@ void Player_Action_8084193C(Player* this, PlayState* play) {
 
 /**
  * Turn in place until the desired target angle is reached.
- * 
+ *
  * This is the state that the speedrunning community refers to as "ESS" or "ESS Position".
- * See the bug comment below and `https://www.zeldaspeedruns.com/oot/tech/extended-superslide`
+ * See the bug comment below and https://www.zeldaspeedruns.com/oot/tech/extended-superslide
  * for more information.
  */
 void Player_Action_TurnInPlace(Player* this, PlayState* play) {
@@ -8651,8 +8651,8 @@ void Player_Action_TurnInPlace(Player* this, PlayState* play) {
 
     Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
-    //! @bug This action does not handle xzSpeed in any capacity. 
-    //! Player's current speed value will be maintained the entire time this action is running. 
+    //! @bug This action does not handle xzSpeed in any capacity.
+    //! Player's current speed value will be maintained the entire time this action is running.
     //! This is the core bug that allows many different glitches to manifest.
     //!
     //! One possible fix is to kill all speed instantly in `Player_SetupTurnInPlace`.
