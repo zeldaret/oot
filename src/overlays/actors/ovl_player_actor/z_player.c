@@ -5547,6 +5547,7 @@ void func_80839FFC(Player* this, PlayState* play) {
 
 void func_8083A060(Player* this, PlayState* play) {
     func_80839FFC(this, play);
+
     if (Player_CheckHostileLockOn(this)) {
         this->av2.actionVar2 = 1;
     }
@@ -8233,7 +8234,6 @@ void Player_Action_Idle(Player* this, PlayState* play) {
 
             // Offset model y position.
             // Depending on if the timer is even or odd, the offset will be 40 or -40 model space units.
-            // (TODO: is this used?)
             this->skelAnime.jointTable[0].y =
                 (this->skelAnime.jointTable[0].y + ((this->av2.shakeTimer & 1) * 80)) - 40;
         } else {
@@ -9576,10 +9576,11 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
         if (sp3C > 0) {
             func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing, this->modelAnimType), play);
             this->skelAnime.endFrame = 8.0f;
+
             if (sp3C == 1) {
-                this->av2.actionVar2 = 10;
+                this->av2.shakeTimer = 10;
             } else {
-                this->av2.actionVar2 = 20;
+                this->av2.shakeTimer = 20;
             }
         } else if (sp3C == 0) {
             func_8083A098(this, anim, play);
