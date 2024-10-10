@@ -69,3 +69,5 @@ Files `rcp_utils.c` and `logseverity_gc.c` do not strictly require `-O2`, but th
 `padsetup.c` also requires `-O2`.
 
 All in all this suggests all files in code between the audio library and libc64, are part of libu64.
+
+In the OoT boot segment, `stackcheck.c` is right next to `debug.c` and requires `-O2`: this hints `stackcheck.c` could be part of libu64 too. This is confirmed by looking at Majora's Mask n64-us, where `stackcheck.c` is in the middle of other libu64 files in the boot segment (see MM spec).

@@ -32,7 +32,7 @@ beginseg
     include "$(BUILD_DIR)/src/boot/is_debug.o"
     include "$(BUILD_DIR)/src/boot/driverominit.o"
     include "$(BUILD_DIR)/src/boot/mio0.o"
-    include "$(BUILD_DIR)/src/boot/stackcheck.o"
+    include "$(BUILD_DIR)/src/libu64/stackcheck.o"
     include "$(BUILD_DIR)/src/libu64/debug.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/libc64/sleep.o"

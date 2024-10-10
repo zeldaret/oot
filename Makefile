@@ -437,7 +437,6 @@ endif
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
