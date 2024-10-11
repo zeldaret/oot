@@ -900,7 +900,7 @@ typedef struct Player {
     /* 0x0874 */ f32 unk_874;
     /* 0x0878 */ f32 unk_878;
     /* 0x087C */ s16 unk_87C;
-    /* 0x087E */ s16 unk_87E;
+    /* 0x087E */ s16 turnRate; // Amount angle is changed every frame when turning in place
     /* 0x0880 */ f32 unk_880;
     /* 0x0884 */ f32 yDistToLedge; // y distance to ground above an interact wall. LEDGE_DIST_MAX if no ground is found
     /* 0x0888 */ f32 distToInteractWall; // xyz distance to the interact wall

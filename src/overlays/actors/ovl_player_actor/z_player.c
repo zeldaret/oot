@@ -266,7 +266,7 @@ void Player_Action_808414F8(Player* this, PlayState* play);
 void Player_Action_8084170C(Player* this, PlayState* play);
 void Player_Action_808417FC(Player* this, PlayState* play);
 void Player_Action_8084193C(Player* this, PlayState* play);
-void Player_Action_80841BA8(Player* this, PlayState* play);
+void Player_Action_TurnInPlace(Player* this, PlayState* play);
 void Player_Action_80842180(Player* this, PlayState* play);
 void Player_Action_8084227C(Player* this, PlayState* play);
 void Player_Action_8084279C(Player* this, PlayState* play);
@@ -506,8 +506,8 @@ static s16 sControlStickAngle = 0;
 static s16 sControlStickWorldYaw = 0;
 static s32 sUpperBodyIsBusy = false; // see `Player_UpdateUpperBody`
 static s32 sFloorType = FLOOR_TYPE_0;
-static f32 D_808535E8 = 1.0f;
-static f32 D_808535EC = 1.0f;
+static f32 sWaterSpeedFactor = 1.0f;    // Set to 0.5f in water, 1.0f otherwise. Influences different speed values.
+static f32 sInvWaterSpeedFactor = 1.0f; // Inverse of `sWaterSpeedFactor` (1.0f / sWaterSpeedFactor)
 static u32 sTouchedWallFlags = 0;
 static u32 sConveyorSpeed = CONVEYOR_SPEED_DISABLED;
 static s16 sIsFloorConveyor = false;
@@ -2210,7 +2210,7 @@ void Player_ProcessControlStick(PlayState* play, Player* this) {
 }
 
 void func_8083328C(PlayState* play, Player* this, LinkAnimationHeader* linkAnim) {
-    LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, linkAnim, D_808535E8);
+    LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, linkAnim, sWaterSpeedFactor);
 }
 
 int func_808332B8(Player* this) {
@@ -4177,7 +4177,7 @@ static s8 sActionHandlerList5[] = {
     PLAYER_ACTION_HANDLER_12, PLAYER_ACTION_HANDLER_8,  -PLAYER_ACTION_HANDLER_7,
 };
 
-static s8 sActionHandlerList6[] = {
+static s8 sActionHandlerListTurnInPlace[] = {
     -PLAYER_ACTION_HANDLER_7,
 };
 
@@ -4968,7 +4968,7 @@ void func_80838940(Player* this, LinkAnimationHeader* anim, f32 arg2, PlayState*
         Player_AnimPlayOnceAdjusted(play, this, anim);
     }
 
-    this->actor.velocity.y = arg2 * D_808535E8;
+    this->actor.velocity.y = arg2 * sWaterSpeedFactor;
     this->hoverBootsTimer = 0;
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
 
@@ -5500,7 +5500,8 @@ s32 Player_ActionHandler_1(Player* this, PlayState* play) {
                                              play->transitionActors.list[GET_TRANSITION_ACTOR_INDEX(doorActor)]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
                                                  .bgCamIndex,
-                                             0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
+                                             0, 38.0f * sInvWaterSpeedFactor, 26.0f * sInvWaterSpeedFactor,
+                                             10.0f * sInvWaterSpeedFactor);
                     }
                 }
             }
@@ -6331,7 +6332,7 @@ void Player_SetupRoll(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_Roll, 0);
     LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime,
                                    GET_PLAYER_ANIM(PLAYER_ANIMGROUP_landing_roll, this->modelAnimType),
-                                   FRAMERATE_CONST(1.25f, 1.5f) * D_808535E8);
+                                   FRAMERATE_CONST(1.25f, 1.5f) * sWaterSpeedFactor);
 }
 
 s32 Player_TryRoll(Player* this, PlayState* play) {
@@ -6753,11 +6754,14 @@ void func_8083CD00(Player* this, PlayState* play) {
     LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, &gPlayerAnim_link_anchor_back_brake, 2.0f);
 }
 
-void func_8083CD54(PlayState* play, Player* this, s16 yaw) {
+void Player_SetupTurnInPlace(PlayState* play, Player* this, s16 yaw) {
     this->yaw = yaw;
-    Player_SetupAction(play, this, Player_Action_80841BA8, 1);
-    this->unk_87E = 1200;
-    this->unk_87E *= D_808535E8;
+
+    Player_SetupAction(play, this, Player_Action_TurnInPlace, 1);
+
+    this->turnRate = 1200;
+    this->turnRate *= sWaterSpeedFactor; // slow turn rate by half when in water
+
     LinkAnimation_Change(play, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_45_turn, this->modelAnimType), 1.0f,
                          0.0f, 0.0f, ANIMMODE_LOOP, -6.0f);
 }
@@ -6963,7 +6967,7 @@ void func_8083D53C(PlayState* play, Player* this) {
             }
         } else if ((this->stateFlags1 & PLAYER_STATE1_27) && (this->actor.depthInWater < this->ageProperties->unk_24)) {
             if ((this->skelAnime.movementFlags == 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
-                func_8083CD54(play, this, this->actor.shape.rot.y);
+                Player_SetupTurnInPlace(play, this, this->actor.shape.rot.y);
             }
             func_8083D0A8(play, this, this->actor.velocity.y);
         }
@@ -8172,7 +8176,7 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
         temp3 = ABS(temp2);
 
         if (temp3 > 800) {
-            func_8083CD54(play, this, yawTarget);
+            Player_SetupTurnInPlace(play, this, yawTarget);
         }
     }
 }
@@ -8258,8 +8262,8 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
         }
     }
 
-    LinkAnimation_Change(play, &this->skelAnime, anim, (2.0f / 3.0f) * D_808535E8, 0.0f, Animation_GetLastFrame(anim),
-                         ANIMMODE_ONCE, -6.0f);
+    LinkAnimation_Change(play, &this->skelAnime, anim, (2.0f / 3.0f) * sWaterSpeedFactor, 0.0f,
+                         Animation_GetLastFrame(anim), ANIMMODE_ONCE, -6.0f);
 }
 
 void Player_Action_Idle(Player* this, PlayState* play) {
@@ -8313,7 +8317,7 @@ void Player_Action_Idle(Player* this, PlayState* play) {
             yawDiff = yawTarget - this->actor.shape.rot.y;
 
             if (ABS(yawDiff) > 800) {
-                func_8083CD54(play, this, yawTarget);
+                Player_SetupTurnInPlace(play, this, yawTarget);
                 return;
             }
 
@@ -8632,7 +8636,14 @@ void Player_Action_8084193C(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_80841BA8(Player* this, PlayState* play) {
+/**
+ * Turn in place until the angle pointed to by the control stick is reached.
+ *
+ * This is the state that the speedrunning community refers to as "ESS" or "ESS Position".
+ * See the bug comment below and https://www.zeldaspeedruns.com/oot/tech/extended-superslide
+ * for more information.
+ */
+void Player_Action_TurnInPlace(Player* this, PlayState* play) {
     f32 speedTarget;
     s16 yawTarget;
 
@@ -8647,11 +8658,19 @@ void Player_Action_80841BA8(Player* this, PlayState* play) {
 
     Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
-    if (!Player_TryActionHandlerList(play, this, sActionHandlerList6, true)) {
+    //! @bug This action does not handle xzSpeed in any capacity.
+    //! Player's current speed value will be maintained the entire time this action is running.
+    //! This is the core bug that allows many different glitches to manifest.
+    //!
+    //! One possible fix is to kill all speed instantly in `Player_SetupTurnInPlace`.
+    //! Another possible fix is to gradually kill speed by calling `Player_DecelerateToZero`
+    //! here, which plenty of other "standing" actions do.
+
+    if (!Player_TryActionHandlerList(play, this, sActionHandlerListTurnInPlace, true)) {
         if (speedTarget != 0.0f) {
             this->actor.shape.rot.y = yawTarget;
             func_8083C858(this, play);
-        } else if (Math_ScaledStepToS(&this->actor.shape.rot.y, yawTarget, this->unk_87E)) {
+        } else if (Math_ScaledStepToS(&this->actor.shape.rot.y, yawTarget, this->turnRate)) {
             func_8083C0E8(this, play);
         }
 
@@ -10194,7 +10213,7 @@ void Player_Action_80845CA4(Player* this, PlayState* play) {
                 this->av2.actionVar2 = 1;
             }
         } else if (this->av1.actionVar1 == 0) {
-            f32 sp3C = 5.0f * D_808535E8;
+            f32 sp3C = 5.0f * sWaterSpeedFactor;
             s32 temp = func_80845BA0(play, this, &sp3C, -1);
 
             if (temp < 30) {
@@ -11910,12 +11929,13 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         Player_ProcessControlStick(play, this);
 
         if (this->stateFlags1 & PLAYER_STATE1_27) {
-            D_808535E8 = 0.5f;
+            sWaterSpeedFactor = 0.5f;
         } else {
-            D_808535E8 = 1.0f;
+            sWaterSpeedFactor = 1.0f;
         }
 
-        D_808535EC = 1.0f / D_808535E8;
+        sInvWaterSpeedFactor = 1.0f / sWaterSpeedFactor;
+
         sUseHeldItem = sHeldItemButtonIsHeldDown = false;
         sSavedCurrentMask = this->currentMask;
 
