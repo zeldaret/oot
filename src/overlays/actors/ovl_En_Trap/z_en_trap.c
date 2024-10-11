@@ -113,7 +113,7 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     thisx->attentionRangeType = ATTENTION_RANGE_3;
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void EnTrap_Destroy(Actor* thisx, PlayState* play) {

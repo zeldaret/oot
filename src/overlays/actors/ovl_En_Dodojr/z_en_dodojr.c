@@ -63,7 +63,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 20, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
 void EnDodojr_Init(Actor* thisx, PlayState* play) {
     EnDodojr* this = (EnDodojr*)thisx;

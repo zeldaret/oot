@@ -160,7 +160,7 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     this->actor.focus.pos = this->actor.world.pos;
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
     SkelAnime_Init(play, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable,
