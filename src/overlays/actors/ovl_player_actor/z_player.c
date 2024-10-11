@@ -49,13 +49,6 @@ typedef struct ExplosiveInfo {
     /* 0x02 */ s16 actorId;
 } ExplosiveInfo; // size = 0x04
 
-typedef struct BottleCatchInfo {
-    /* 0x00 */ s16 actorId;
-    /* 0x02 */ u8 itemId;
-    /* 0x03 */ u8 itemAction;
-    /* 0x04 */ u8 textId;
-} BottleCatchInfo; // size = 0x06
-
 typedef struct BottleDropInfo {
     /* 0x00 */ s16 actorId;
     /* 0x02 */ s16 actorParams;
@@ -107,13 +100,6 @@ typedef struct ItemChangeInfo {
     /* 0x00 */ LinkAnimationHeader* anim;
     /* 0x04 */ u8 changeFrame;
 } ItemChangeInfo; // size = 0x08
-
-typedef struct struct_80854554 {
-    /* 0x00 */ LinkAnimationHeader* unk_00;
-    /* 0x04 */ LinkAnimationHeader* unk_04;
-    /* 0x08 */ u8 unk_08;
-    /* 0x09 */ u8 unk_09;
-} struct_80854554; // size = 0x0C
 
 typedef struct struct_80854190 {
     /* 0x00 */ LinkAnimationHeader* unk_00;
@@ -330,7 +316,7 @@ void Player_Action_8084E604(Player* this, PlayState* play);
 void Player_Action_8084E6D4(Player* this, PlayState* play);
 void Player_Action_8084E9AC(Player* this, PlayState* play);
 void Player_Action_8084EAC0(Player* this, PlayState* play);
-void Player_Action_8084ECA4(Player* this, PlayState* play);
+void Player_Action_SwingBottle(Player* this, PlayState* play);
 void Player_Action_8084EED8(Player* this, PlayState* play);
 void Player_Action_8084EFC0(Player* this, PlayState* play);
 void Player_Action_ExchangeItem(Player* this, PlayState* play);
@@ -370,7 +356,7 @@ static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
                                "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
@@ -6587,21 +6573,28 @@ s32 func_8083C61C(PlayState* play, Player* this) {
     return 0;
 }
 
-static struct_80854554 D_80854554[] = {
-    { &gPlayerAnim_link_bottle_bug_miss, &gPlayerAnim_link_bottle_bug_in, 2, 3 },
-    { &gPlayerAnim_link_bottle_fish_miss, &gPlayerAnim_link_bottle_fish_in, 5, 3 },
+typedef struct BottleSwingInfo {
+    /* 0x00 */ LinkAnimationHeader* missAnimation;
+    /* 0x04 */ LinkAnimationHeader* catchAnimation;
+    /* 0x08 */ u8 firstActiveFrame;
+    /* 0x09 */ u8 numActiveFrames;
+} BottleSwingInfo; // size = 0x0C
+
+static BottleSwingInfo sBottleSwingInfo[] = {
+    { &gPlayerAnim_link_bottle_bug_miss, &gPlayerAnim_link_bottle_bug_in, 2, 3 },   // on land
+    { &gPlayerAnim_link_bottle_fish_miss, &gPlayerAnim_link_bottle_fish_in, 5, 3 }, // in water
 };
 
 s32 func_8083C6B8(PlayState* play, Player* this) {
     if (sUseHeldItem) {
         if (Player_GetBottleHeld(this) >= 0) {
-            Player_SetupAction(play, this, Player_Action_8084ECA4, 0);
+            Player_SetupAction(play, this, Player_Action_SwingBottle, 0);
 
             if (this->actor.depthInWater > 12.0f) {
-                this->av2.actionVar2 = 1;
+                this->av2.inWater = true;
             }
 
-            Player_AnimPlayOnceAdjusted(play, this, D_80854554[this->av2.actionVar2].unk_00);
+            Player_AnimPlayOnceAdjusted(play, this, sBottleSwingInfo[this->av2.inWater].missAnimation);
 
             Player_PlaySfx(this, NA_SE_IT_SWORD_SWING);
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_AUTO_JUMP);
@@ -13983,65 +13976,82 @@ void Player_Action_8084EAC0(Player* this, PlayState* play) {
     }
 }
 
-static BottleCatchInfo sBottleCatchInfos[] = {
-    { ACTOR_EN_ELF, ITEM_BOTTLE_FAIRY, PLAYER_IA_BOTTLE_FAIRY, 0x46 },
-    { ACTOR_EN_FISH, ITEM_BOTTLE_FISH, PLAYER_IA_BOTTLE_FISH, 0x47 },
-    { ACTOR_EN_ICE_HONO, ITEM_BOTTLE_BLUE_FIRE, PLAYER_IA_BOTTLE_FIRE, 0x5D },
-    { ACTOR_EN_INSECT, ITEM_BOTTLE_BUG, PLAYER_IA_BOTTLE_BUG, 0x7A },
+typedef enum BottleCatchType {
+    BOTTLE_CATCH_NONE, // This type does not have an associated entry in `sBottleCatchInfo`
+    BOTTLE_CATCH_FAIRY,
+    BOTTLE_CATCH_FISH,
+    BOTTLE_CATCH_BLUE_FIRE,
+    BOTTLE_CATCH_BUGS
+} BottleCatchType;
+
+typedef struct BottleCatchInfo {
+    /* 0x00 */ s16 actorId;
+    /* 0x02 */ u8 itemId;
+    /* 0x03 */ u8 itemAction;
+    /* 0x04 */ u8 textId;
+} BottleCatchInfo; // size = 0x06
+
+static BottleCatchInfo sBottleCatchInfo[] = {
+    { ACTOR_EN_ELF, ITEM_BOTTLE_FAIRY, PLAYER_IA_BOTTLE_FAIRY, 0x46 },         // BOTTLE_CATCH_FAIRY
+    { ACTOR_EN_FISH, ITEM_BOTTLE_FISH, PLAYER_IA_BOTTLE_FISH, 0x47 },          // BOTTLE_CATCH_FISH
+    { ACTOR_EN_ICE_HONO, ITEM_BOTTLE_BLUE_FIRE, PLAYER_IA_BOTTLE_FIRE, 0x5D }, // BOTTLE_CATCH_BLUE_FIRE
+    { ACTOR_EN_INSECT, ITEM_BOTTLE_BUG, PLAYER_IA_BOTTLE_BUG, 0x7A },          // BOTTLE_CATCH_BUGS
 };
 
-void Player_Action_8084ECA4(Player* this, PlayState* play) {
-    struct_80854554* sp24;
-    BottleCatchInfo* catchInfo;
-    s32 temp;
-    s32 i;
+void Player_Action_SwingBottle(Player* this, PlayState* play) {
+    // Action Variable 2 has two separate uses within the same action.
+    // After it is used as `inWater` here, it will be used for `startedTextbox` below.
+    // The two usages will never overlap, so this won't cause any issues.
+    BottleSwingInfo* swingEntry = &sBottleSwingInfo[this->av2.inWater];
 
-    sp24 = &D_80854554[this->av2.actionVar2];
     Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        if (this->av1.actionVar1 != 0) {
-            if (this->av2.actionVar2 == 0) {
-                Message_StartTextbox(play, sBottleCatchInfos[this->av1.actionVar1 - 1].textId, &this->actor);
+        if (this->av1.bottleCatchType != BOTTLE_CATCH_NONE) {
+            if (!this->av2.startedTextbox) {
+                // 1 is subtracted because `sBottleCatchInfo` does not have an entry for `BOTTLE_CATCH_NONE`
+                Message_StartTextbox(play, sBottleCatchInfo[this->av1.bottleCatchType - 1].textId, &this->actor);
                 Audio_PlayFanfare(NA_BGM_ITEM_GET | 0x900);
-                this->av2.actionVar2 = 1;
+                this->av2.startedTextbox = true;
             } else if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-                this->av1.actionVar1 = 0;
+                this->av1.bottleCatchType = BOTTLE_CATCH_NONE;
                 Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
             func_8083C0E8(this, play);
         }
-    } else {
-        if (this->av1.actionVar1 == 0) {
-            temp = this->skelAnime.curFrame - sp24->unk_08;
+    } else if (this->av1.bottleCatchType == BOTTLE_CATCH_NONE) {
+        s32 activeFrame = this->skelAnime.curFrame - swingEntry->firstActiveFrame;
 
-            if (temp >= 0) {
-                if (sp24->unk_09 >= temp) {
-                    if (this->av2.actionVar2 != 0) {
-                        if (temp == 0) {
-                            Player_PlaySfx(this, NA_SE_IT_SCOOP_UP_WATER);
-                        }
+        if (activeFrame >= 0 && activeFrame <= swingEntry->numActiveFrames) {
+            if (this->av2.inWater && activeFrame == 0) {
+                // Play water scoop sound on the first active frame, if applicable
+                Player_PlaySfx(this, NA_SE_IT_SCOOP_UP_WATER);
+            }
+
+            // `interactRangeActor` will be set by the Get Item system. See `Actor_OfferGetItem`.
+            if (this->interactRangeActor != NULL) {
+                BottleCatchInfo* catchInfo = &sBottleCatchInfo[0];
+                s32 i;
+
+                // Try to find an `interactRangeActor` with the same ID as an entry in `sBottleCatchInfo`
+                for (i = 0; i < ARRAY_COUNT(sBottleCatchInfo); i++, catchInfo++) {
+                    if (this->interactRangeActor->id == catchInfo->actorId) {
+                        break;
                     }
+                }
 
-                    if (this->interactRangeActor != NULL) {
-                        catchInfo = &sBottleCatchInfos[0];
-                        for (i = 0; i < ARRAY_COUNT(sBottleCatchInfos); i++, catchInfo++) {
-                            if (this->interactRangeActor->id == catchInfo->actorId) {
-                                break;
-                            }
-                        }
+                if (i < ARRAY_COUNT(sBottleCatchInfo)) {
+                    // 1 is added because `sBottleCatchInfo` does not have an entry for `BOTTLE_CATCH_NONE`
+                    this->av1.bottleCatchType = i + 1;
 
-                        if (i < ARRAY_COUNT(sBottleCatchInfos)) {
-                            this->av1.actionVar1 = i + 1;
-                            this->av2.actionVar2 = 0;
-                            this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
-                            this->interactRangeActor->parent = &this->actor;
-                            Player_UpdateBottleHeld(play, this, catchInfo->itemId, ABS(catchInfo->itemAction));
-                            Player_AnimPlayOnceAdjusted(play, this, sp24->unk_04);
-                            func_80835EA4(play, 4);
-                        }
-                    }
+                    this->av2.startedTextbox = false;
+                    this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
+                    this->interactRangeActor->parent = &this->actor;
+
+                    Player_UpdateBottleHeld(play, this, catchInfo->itemId, ABS(catchInfo->itemAction));
+                    Player_AnimPlayOnceAdjusted(play, this, swingEntry->catchAnimation);
+                    func_80835EA4(play, 4);
                 }
             }
         }
