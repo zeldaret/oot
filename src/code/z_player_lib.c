@@ -24,8 +24,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         600,                         // REG(37)
         FRAMERATE_CONST(350, 420),   // REG(38)
-        800,                         // REG(43)
-        600,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        600,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         590,                         // IREG(66)
@@ -44,8 +44,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         1000,                        // REG(37)
         FRAMERATE_CONST(0, 0),       // REG(38)
-        800,                         // REG(43)
-        300,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        300,                         // R_RUN_SPEED_LIMIT
         -160,                        // REG(68)
         600,                         // REG(69)
         590,                         // IREG(66)
@@ -64,8 +64,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         600,                         // REG(37)
         FRAMERATE_CONST(600, 720),   // REG(38)
-        800,                         // REG(43)
-        550,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        550,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         540,                         // IREG(66)
@@ -84,8 +84,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(400, 480),   // REG(36)
         0,                           // REG(37)
         FRAMERATE_CONST(300, 360),   // REG(38)
-        800,                         // REG(43)
-        500,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        500,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         590,                         // IREG(66)
@@ -104,8 +104,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324), // REG(36)
         600,                       // REG(37)
         FRAMERATE_CONST(50, 60),   // REG(38)
-        800,                       // REG(43)
-        550,                       // REG(45)
+        800,                       // R_DECELERATE_RATE
+        550,                       // R_RUN_SPEED_LIMIT
         -40,                       // REG(68)
         400,                       // REG(69)
         540,                       // IREG(66)
@@ -124,8 +124,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(400, 480),   // REG(36)
         800,                         // REG(37)
         FRAMERATE_CONST(400, 480),   // REG(38)
-        800,                         // REG(43)
-        550,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        550,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         540,                         // IREG(66)
@@ -589,8 +589,8 @@ void Player_SetBootData(PlayState* play, Player* this) {
     REG(36) = bootRegs[5];
     REG(37) = bootRegs[6];
     REG(38) = bootRegs[7];
-    REG(43) = bootRegs[8];
-    REG(45) = bootRegs[9];
+    R_DECELERATE_RATE = bootRegs[8];
+    R_RUN_SPEED_LIMIT = bootRegs[9];
     REG(68) = bootRegs[10];
     REG(69) = bootRegs[11];
     IREG(66) = bootRegs[12];
@@ -600,7 +600,7 @@ void Player_SetBootData(PlayState* play, Player* this) {
     MREG(95) = bootRegs[16];
 
     if (play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_2) {
-        REG(45) = 500;
+        R_RUN_SPEED_LIMIT = 500;
     }
 }
 
@@ -1295,22 +1295,22 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         }
 
         if (limbIndex == PLAYER_LIMB_HEAD) {
-            rot->x += this->unk_6BA;
-            rot->y -= this->unk_6B8;
-            rot->z += this->unk_6B6;
+            rot->x += this->headLimbRot.z;
+            rot->y -= this->headLimbRot.y;
+            rot->z += this->headLimbRot.x;
         } else if (limbIndex == PLAYER_LIMB_UPPER) {
-            if (this->unk_6B0 != 0) {
+            if (this->upperLimbYawSecondary != 0) {
                 Matrix_RotateZ(BINANG_TO_RAD(0x44C), MTXMODE_APPLY);
-                Matrix_RotateY(BINANG_TO_RAD(this->unk_6B0), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->upperLimbYawSecondary), MTXMODE_APPLY);
             }
-            if (this->unk_6BE != 0) {
-                Matrix_RotateY(BINANG_TO_RAD(this->unk_6BE), MTXMODE_APPLY);
+            if (this->upperLimbRot.y != 0) {
+                Matrix_RotateY(BINANG_TO_RAD(this->upperLimbRot.y), MTXMODE_APPLY);
             }
-            if (this->unk_6BC != 0) {
-                Matrix_RotateX(BINANG_TO_RAD(this->unk_6BC), MTXMODE_APPLY);
+            if (this->upperLimbRot.x != 0) {
+                Matrix_RotateX(BINANG_TO_RAD(this->upperLimbRot.x), MTXMODE_APPLY);
             }
-            if (this->unk_6C0 != 0) {
-                Matrix_RotateZ(BINANG_TO_RAD(this->unk_6C0), MTXMODE_APPLY);
+            if (this->upperLimbRot.z != 0) {
+                Matrix_RotateZ(BINANG_TO_RAD(this->upperLimbRot.z), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
             s32 pad;
@@ -1788,7 +1788,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_MtxFToYXZRotS(&sp44, &heldActor->world.rot, 0);
                     heldActor->shape.rot = heldActor->world.rot;
 
-                    if (func_8002DD78(this) != 0) {
+                    if (func_8002DD78(this)) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
                         Player_DrawHookshotReticle(play, this,
                                                    (this->heldItemAction == PLAYER_IA_HOOKSHOT) ? 38600.0f : 77600.0f);

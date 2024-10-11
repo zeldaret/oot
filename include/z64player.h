@@ -70,6 +70,12 @@ typedef enum PlayerEnvHazard {
     /* 0x4 */ PLAYER_ENV_HAZARD_UNDERWATER_FREE
 } PlayerEnvHazard;
 
+typedef enum PlayerIdleType {
+    /* -0x1 */ PLAYER_IDLE_CRIT_HEALTH = -1,
+    /*  0x0 */ PLAYER_IDLE_DEFAULT,
+    /*  0x1 */ PLAYER_IDLE_FIDGET
+} PlayerIdleType;
+
 typedef enum PlayerItemAction {
     /* 0x00 */ PLAYER_IA_NONE,
     /* 0x01 */ PLAYER_IA_SWORD_CS, // Hold sword without shield in hand. The sword is not usable.
@@ -669,7 +675,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_3 (1 << 3)
 #define PLAYER_STATE1_HOSTILE_LOCK_ON (1 << 4) // Currently locked onto a hostile actor. Triggers a "battle" variant of many actions.
 #define PLAYER_STATE1_5 (1 << 5)
-#define PLAYER_STATE1_6 (1 << 6)
+#define PLAYER_STATE1_TALKING (1 << 6) // Currently talking to an actor. This includes item exchanges.
 #define PLAYER_STATE1_DEAD (1 << 7) // Player has died. Note that this gets set when the death cutscene has started, after landing from the air.
 #define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8) // Item change process has begun
 #define PLAYER_STATE1_9 (1 << 9)
@@ -724,7 +730,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_25 (1 << 25)
 #define PLAYER_STATE2_26 (1 << 26)
 #define PLAYER_STATE2_27 (1 << 27)
-#define PLAYER_STATE2_28 (1 << 28)
+#define PLAYER_STATE2_IDLE_FIDGET (1 << 28) // Playing a fidget idle animation (under typical circumstances, see `Player_ChooseNextIdleAnim` for more info)
 #define PLAYER_STATE2_29 (1 << 29)
 #define PLAYER_STATE2_30 (1 << 30)
 #define PLAYER_STATE2_31 (1 << 31)
@@ -741,6 +747,16 @@ typedef struct WeaponInfo {
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
 typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
 typedef void (*AfterPutAwayFunc)(struct PlayState*, struct Player*);
+
+#define UNK6AE_ROT_FOCUS_X (1 << 0)
+#define UNK6AE_ROT_FOCUS_Y (1 << 1)
+#define UNK6AE_ROT_FOCUS_Z (1 << 2)
+#define UNK6AE_ROT_HEAD_X (1 << 3)
+#define UNK6AE_ROT_HEAD_Y (1 << 4)
+#define UNK6AE_ROT_HEAD_Z (1 << 5)
+#define UNK6AE_ROT_UPPER_X (1 << 6)
+#define UNK6AE_ROT_UPPER_Y (1 << 7)
+#define UNK6AE_ROT_UPPER_Z (1 << 8)
 
 typedef struct Player {
     /* 0x0000 */ Actor actor;
@@ -830,17 +846,13 @@ typedef struct Player {
     /* 0x06A0 */ f32 unk_6A0;
     /* 0x06A4 */ f32 closestSecretDistSq;
     /* 0x06A8 */ Actor* unk_6A8;
-    /* 0x06AC */ s8 unk_6AC;
+    /* 0x06AC */ s8 idleType;
     /* 0x06AD */ u8 unk_6AD;
-    /* 0x06AE */ u16 unk_6AE;
-    /* 0x06B0 */ s16 unk_6B0;
+    /* 0x06AE */ u16 unk_6AE_rotFlags; // See `UNK6AE_ROT_` macros. If its flag isn't set, a rot steps to 0.
+    /* 0x06B0 */ s16 upperLimbYawSecondary;
     /* 0x06B2 */ char unk_6B4[0x004];
-    /* 0x06B6 */ s16 unk_6B6;
-    /* 0x06B8 */ s16 unk_6B8;
-    /* 0x06BA */ s16 unk_6BA;
-    /* 0x06BC */ s16 unk_6BC;
-    /* 0x06BE */ s16 unk_6BE;
-    /* 0x06C0 */ s16 unk_6C0;
+    /* 0x06B6 */ Vec3s headLimbRot;
+    /* 0x06BC */ Vec3s upperLimbRot;
     /* 0x06C2 */ s16 unk_6C2;
     /* 0x06C4 */ f32 unk_6C4;
     /* 0x06C8 */ SkelAnime upperSkelAnime;
@@ -870,6 +882,7 @@ typedef struct Player {
 
     /* 0x0850 */ union {
         s16 actionVar2;
+        s16 fallDamageStunTimer; // Player_Action_Idle: Prevents any movement and shakes model up and down quickly to indicate fall damage stun
         s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
         s16 startedTextbox; // Player_Action_SwingBottle: set to true when the textbox is started
         s16 useWaterBottleSwingAnimations; // Player_Action_SwingBottle: used to determine which bottle swing animation to use
@@ -893,7 +906,7 @@ typedef struct Player {
     /* 0x0888 */ f32 distToInteractWall; // xyz distance to the interact wall
     /* 0x088C */ u8 ledgeClimbType;
     /* 0x088D */ u8 ledgeClimbDelayTimer;
-    /* 0x088E */ u8 unk_88E;
+    /* 0x088E */ u8 textboxBtnCooldownTimer; // Prevents usage of A/B/C-up when counting down
     /* 0x088F */ u8 damageFlickerAnimCounter; // Used to flicker Link after taking damage
     /* 0x0890 */ u8 unk_890;
     /* 0x0891 */ u8 bodyShockTimer;

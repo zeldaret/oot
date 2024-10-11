@@ -48,6 +48,11 @@ void rmonPrintf(const char* fmt, ...) {
     va_end(args);
 }
 
+#if OOT_VERSION < PAL_1_0
+void func_800015F4(void) {
+}
+#endif
+
 #if OOT_DEBUG
 void* is_proutSyncPrintf(void* arg, const char* str, size_t count) {
     u32 data;

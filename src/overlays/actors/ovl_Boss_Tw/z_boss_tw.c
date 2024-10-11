@@ -484,7 +484,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
     }
 
     Actor_SetScale(&this->actor, 2.5 * 0.01f);
-    this->actor.colChkInfo.mass = 255;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.colChkInfo.health = 0;
     Collider_InitCylinder(play, &this->collider);
 
