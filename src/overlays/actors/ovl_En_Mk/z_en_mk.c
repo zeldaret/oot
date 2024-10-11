@@ -60,7 +60,7 @@ void EnMk_Init(Actor* thisx, PlayState* play) {
     Animation_PlayLoop(&this->skelAnime, &object_mk_Anim_000D88);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
 
     this->actionFunc = EnMk_Wait;

@@ -3608,9 +3608,9 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         }
 
         if (thisx->speed == 0.0f && !(this->stateFlags & ENHORSE_FLAG_19)) {
-            thisx->colChkInfo.mass = 0xFF;
+            thisx->colChkInfo.mass = MASS_IMMOVABLE;
         } else {
-            thisx->colChkInfo.mass = 0xFE;
+            thisx->colChkInfo.mass = MASS_HEAVY;
         }
 
         if (thisx->speed >= 5.0f) {

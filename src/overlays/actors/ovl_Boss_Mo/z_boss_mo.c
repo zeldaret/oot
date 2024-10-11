@@ -381,7 +381,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
     } else {
         Actor_SetScale(&this->actor, 0.01f);
         BossMo_SetupTentacle(this, play);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         MO_WATER_LEVEL(play) = -50;
         this->waterTexAlpha = 90.0f;
         this->actor.world.pos.y = MO_WATER_LEVEL(play);
