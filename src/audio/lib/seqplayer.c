@@ -437,7 +437,7 @@ void AudioSeq_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer) {
 void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     s32 finished = 0;
 
-#if PLATFORM_N64
+#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
     if (seqPlayer->finished == 1) {
         finished = 1;
     }
@@ -457,7 +457,7 @@ void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     }
 
     if (AudioLoad_IsFontLoadComplete(seqPlayer->defaultFont)) {
-#if PLATFORM_N64
+#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
         if (finished == 1) {
             AudioHeap_ReleaseNotesForFont(seqPlayer->defaultFont);
         }

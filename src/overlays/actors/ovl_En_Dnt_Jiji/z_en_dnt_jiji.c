@@ -83,7 +83,7 @@ void EnDntJiji_Init(Actor* thisx, PlayState* play) {
     // "Deku Scrub mask show elder"
     PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->actionFunc = EnDntJiji_SetFlower;
     this->actor.gravity = -2.0f;

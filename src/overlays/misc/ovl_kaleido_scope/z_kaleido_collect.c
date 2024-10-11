@@ -578,7 +578,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         sHpPrimBlue = sHpPrimColors[sHpPrimState][2];
         sHpPrimAlpha = sHpPrimColors[sHpPrimState][3];
         sHpPrimTimer = ZREG(24 + sHpPrimState);
-        if (++sHpPrimState >= 4) {
+        if (++sHpPrimState >= ARRAY_COUNT(sHpPrimColors)) {
             sHpPrimState = 0;
         }
     }

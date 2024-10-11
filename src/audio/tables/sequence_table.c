@@ -1,5 +1,6 @@
 #include "attributes.h"
 #include "z64audio.h"
+#include "versions.h"
 
 // Symbol definition
 

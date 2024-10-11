@@ -138,7 +138,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
         // "Dummy new initials"
         PRINTF("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
         PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actor.update = EnNy_UpdateUnused;
         this->collider.base.colMaterial = COL_MATERIAL_METAL;
     }
