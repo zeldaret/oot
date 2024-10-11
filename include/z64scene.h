@@ -161,20 +161,21 @@ typedef enum RoomBehaviorType1 {
     /* 5 */ ROOM_BEHAVIOR_TYPE1_5
 } RoomBehaviorType1;
 
-typedef enum RoomBehaviorType2 {
-    /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE2_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE2_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE2_3,
-    /* 4 */ ROOM_BEHAVIOR_TYPE2_4,
-    /* 5 */ ROOM_BEHAVIOR_TYPE2_5,
-    /* 6 */ ROOM_BEHAVIOR_TYPE2_6
-} RoomBehaviorType2;
+typedef enum RoomPlayerFidgetType {
+    // Values mirror FidgetType
+    /* 0 */ ROOM_PLAYER_FIDGET_LOOK_AROUND,
+    /* 1 */ ROOM_PLAYER_FIDGET_COLD,
+    /* 2 */ ROOM_PLAYER_FIDGET_WARM,
+    /* 3 */ ROOM_PLAYER_FIDGET_HOT, // Enables hot room timer for the current room
+    /* 4 */ ROOM_PLAYER_FIDGET_STRETCH_1,
+    /* 5 */ ROOM_PLAYER_FIDGET_STRETCH_2,
+    /* 6 */ ROOM_PLAYER_FIDGET_STRETCH_3
+} RoomPlayerFidgetType;
 
 typedef struct Room {
     /* 0x00 */ s8 num; // -1 is invalid room
     /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 behaviorType2;
+    /* 0x02 */ u8 playerFidgetTypeAndHotRoom;
     /* 0x03 */ u8 behaviorType1;
     /* 0x04 */ s8 echo;
     /* 0x05 */ u8 lensMode;

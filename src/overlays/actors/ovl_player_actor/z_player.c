@@ -8197,7 +8197,7 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
         } else {
             // Pick fidget type based on room behavior.
             // This may be changed below.
-            fidgetType = play->roomCtx.curRoom.behaviorType2;
+            fidgetType = play->roomCtx.curRoom.playerFidgetTypeAndHotRoom;
 
             if (heathIsCritical) {
                 if (this->idleType >= PLAYER_IDLE_DEFAULT) {
@@ -8215,7 +8215,8 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
 
                 // There is a 4/5 chance that a common fidget type will be considered.
                 // However it may get rejected by the conditions below.
-                // The type determined by `curRoom.behaviorType2` will be used if a common type is rejected.
+                // The type determined by `curRoom.playerFidgetTypeAndHotRoom` will be used if a common type is
+                // rejected.
                 if (commonType < 4) {
                     // `FIDGET_ADJUST_TUNIC` and `FIDGET_TAP_FEET` are accepted unconditionally.
                     // The sword and shield related common types have extra restrictions.
@@ -9417,7 +9418,8 @@ static AnimSfxEntry D_808545F0[] = {
 
 void Player_Action_80843CEC(Player* this, PlayState* play) {
     if (this->currentTunic != PLAYER_TUNIC_GORON) {
-        if ((play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) || (sFloorType == FLOOR_TYPE_9) ||
+        if ((play->roomCtx.curRoom.playerFidgetTypeAndHotRoom == ROOM_PLAYER_FIDGET_HOT) ||
+            (sFloorType == FLOOR_TYPE_9) ||
             ((func_80838144(sFloorType) >= 0) &&
              !func_80042108(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId))) {
             func_8083821C(this);
