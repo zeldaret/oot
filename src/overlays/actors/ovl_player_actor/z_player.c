@@ -356,7 +356,7 @@ static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
                                "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
@@ -13999,7 +13999,7 @@ static BottleCatchInfo sBottleCatchInfo[] = {
 };
 
 void Player_Action_SwingBottle(Player* this, PlayState* play) {
-    // `actionVar2` has two seperate uses within the same action.
+    // Action Variable 2 has two separate uses within the same action.
     // After it is used as `inWater` here, it will be used for `startedTextbox` below.
     // The two usages will never overlap, so this won't cause any issues.
     BottleSwingInfo* swingEntry = &sBottleSwingInfo[this->av2.inWater];
@@ -14029,8 +14029,7 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
                 Player_PlaySfx(this, NA_SE_IT_SCOOP_UP_WATER);
             }
 
-            // `interactRangeActor` will be set by the Get Item system.
-            // See `Actor_OfferGetItem`.
+            // `interactRangeActor` will be set by the Get Item system. See `Actor_OfferGetItem`.
             if (this->interactRangeActor != NULL) {
                 BottleCatchInfo* catchInfo = &sBottleCatchInfo[0];
                 s32 i;
