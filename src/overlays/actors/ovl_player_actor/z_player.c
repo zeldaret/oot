@@ -14232,8 +14232,7 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
             xzSpeedIncrStep = 1.0f;
         }
 
-        if (Math_AsymStepToF(&this->speedXZ, xzSpeedTarget, xzSpeedIncrStep, xzSpeedDecrStep) &&
-            (xzSpeedTarget == 0)) {
+        if (Math_AsymStepToF(&this->speedXZ, xzSpeedTarget, xzSpeedIncrStep, xzSpeedDecrStep) && (xzSpeedTarget == 0)) {
             LinkAnimationHeader* slideAnimation;
 
             if (!this->av1.slideFacingUpSlope) {
