@@ -52,6 +52,4 @@ typedef enum EnExItemType {
     /* 19 */ EXITEM_BULLET_BAG
 } EnExItemType;
 
-#define EXITEM_COUNTER 5
-
 #endif
