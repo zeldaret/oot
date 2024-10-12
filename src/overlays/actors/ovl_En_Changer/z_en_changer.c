@@ -225,7 +225,8 @@ void EnChanger_OpenChests(EnChanger* this, PlayState* play) {
     right = this->rightChest;
 
     if (this->timer == 0) {
-        unopenedChestItemType = selectedChest = this->selectedChest; // Required to use the right registers
+        // `unopenedChestItemType` being set here is required for matching, but doesn't do anything useful
+        unopenedChestItemType = selectedChest = this->selectedChest;
 
         switch (selectedChest) {
             case CHEST_LEFT:
