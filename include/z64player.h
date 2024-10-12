@@ -878,12 +878,15 @@ typedef struct Player {
     /* 0x084F */ union {
         s8 actionVar1;
         s8 slideFacingUpSlope; // Player_Action_SlideOnSlope: whether link is sliding facing up the slope or not
+        s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0850 */ union {
         s16 actionVar2;
         s16 fallDamageStunTimer; // Player_Action_Idle: Prevents any movement and shakes model up and down quickly to indicate fall damage stun
         s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
+        s16 startedTextbox; // Player_Action_SwingBottle: set to true when the textbox is started
+        s16 inWater; // Player_Action_SwingBottle: true if a bottle is swung in water. Used to determine which bottle swing animation to use.
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;
@@ -898,7 +901,7 @@ typedef struct Player {
     /* 0x0874 */ f32 unk_874;
     /* 0x0878 */ f32 unk_878;
     /* 0x087C */ s16 unk_87C;
-    /* 0x087E */ s16 unk_87E;
+    /* 0x087E */ s16 turnRate; // Amount angle is changed every frame when turning in place
     /* 0x0880 */ f32 unk_880;
     /* 0x0884 */ f32 yDistToLedge; // y distance to ground above an interact wall. LEDGE_DIST_MAX if no ground is found
     /* 0x0888 */ f32 distToInteractWall; // xyz distance to the interact wall
