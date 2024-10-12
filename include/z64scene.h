@@ -152,14 +152,14 @@ typedef union RoomShape {
     RoomShapeCullable cullable;
 } RoomShape; // "Ground Shape"
 
-typedef enum RoomBehaviorType1 {
-    /* 0 */ ROOM_BEHAVIOR_TYPE1_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE1_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE1_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE1_3, // unused
-    /* 4 */ ROOM_BEHAVIOR_TYPE1_4, // unused
-    /* 5 */ ROOM_BEHAVIOR_TYPE1_5
-} RoomBehaviorType1;
+typedef enum RoomType {
+    /* 0 */ ROOM_TYPE_FIELD,
+    /* 1 */ ROOM_TYPE_DUNGEON, // Blocks Sun's Song's time advance effect.
+    /* 2 */ ROOM_TYPE_INDOORS, // Reduces player run speed and blocks player from attacking or jumping.
+    /* 3 */ ROOM_TYPE_TEST_NO_COLOR_DITHERING, // Unused. Color dithering is turned off when drawing the room and other things
+    /* 4 */ ROOM_TYPE_4, // unused. Prevents switching to CAM_SET_HORSE when mounting a horse.
+    /* 5 */ ROOM_TYPE_BOSS // Disables Environment_AdjustLights
+} RoomType;
 
 typedef enum RoomBehaviorType2 {
     /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
@@ -175,7 +175,7 @@ typedef struct Room {
     /* 0x00 */ s8 num; // -1 is invalid room
     /* 0x01 */ u8 unk_01;
     /* 0x02 */ u8 behaviorType2;
-    /* 0x03 */ u8 behaviorType1;
+    /* 0x03 */ u8 type;
     /* 0x04 */ s8 echo;
     /* 0x05 */ u8 lensMode;
     /* 0x08 */ RoomShape* roomShape; // original name: "ground_shape"
