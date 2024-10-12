@@ -877,7 +877,7 @@ typedef struct Player {
 
     /* 0x084F */ union {
         s8 actionVar1;
-        s8 slipFacingUpSlope; // Player_Action_SlipOnSlope: whether link is slipping facing up the slope or not
+        s8 slideFacingUpSlope; // Player_Action_SlideOnSlope: whether link is sliding facing up the slope or not
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0850 */ union {

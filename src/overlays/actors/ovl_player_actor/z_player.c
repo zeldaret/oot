@@ -334,7 +334,7 @@ void Player_Action_8084ECA4(Player* this, PlayState* play);
 void Player_Action_8084EED8(Player* this, PlayState* play);
 void Player_Action_8084EFC0(Player* this, PlayState* play);
 void Player_Action_ExchangeItem(Player* this, PlayState* play);
-void Player_Action_SlipOnSlope(Player* this, PlayState* play);
+void Player_Action_SlideOnSlope(Player* this, PlayState* play);
 void Player_Action_8084F608(Player* this, PlayState* play);
 void Player_Action_8084F698(Player* this, PlayState* play);
 void Player_Action_8084F710(Player* this, PlayState* play);
@@ -7226,7 +7226,7 @@ void Player_GetSlopeDirection(CollisionPoly* floorPoly, Vec3f* slopeNormal, s16*
 }
 
 s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly) {
-    static LinkAnimationHeader* sSlopeSlipAnims[] = {
+    static LinkAnimationHeader* sSlopeSlideAnims[] = {
         &gPlayerAnim_link_normal_down_slope_slip,
         &gPlayerAnim_link_normal_up_slope_slip,
     };
@@ -7238,7 +7238,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
     f32 slopeSlowdownSpeedStep;
     s16 velYawToDownwardSlope;
 
-    if (!Player_InBlockingCsMode(play, this) && (Player_Action_SlipOnSlope != this->actionFunc) &&
+    if (!Player_InBlockingCsMode(play, this) && (Player_Action_SlideOnSlope != this->actionFunc) &&
         (SurfaceType_GetFloorEffect(&play->colCtx, floorPoly, this->actor.floorBgId) == FLOOR_EFFECT_1)) {
         // Get direction of movement relative to the downward direction of the slope
         playerVelYaw = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
@@ -7246,7 +7246,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
         velYawToDownwardSlope = downwardSlopeYaw - playerVelYaw;
 
         if (ABS(velYawToDownwardSlope) > 0x3E80) { // 87.9 degrees
-            // moving parallel or upwards on the slope, player does not slip but does slow down
+            // moving parallel or upwards on the slope, player does not slide but does slow down
             slopeSlowdownSpeed = (1.0f - slopeNormal.y) * 40.0f;
             slopeSlowdownSpeedStep = SQ(slopeSlowdownSpeed) * 0.015f;
 
@@ -7258,14 +7258,14 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
             this->pushedYaw = downwardSlopeYaw;
             Math_StepToF(&this->pushedSpeed, slopeSlowdownSpeed, slopeSlowdownSpeedStep);
         } else {
-            // moving downward on the slope, causing player to slip
-            Player_SetupAction(play, this, Player_Action_SlipOnSlope, 0);
+            // moving downward on the slope, causing player to slide
+            Player_SetupAction(play, this, Player_Action_SlideOnSlope, 0);
             func_80832564(play, this);
 
             if (sFloorShapePitch >= 0) {
-                this->av1.slipFacingUpSlope = true;
+                this->av1.slideFacingUpSlope = true;
             }
-            Player_AnimChangeLoopMorph(play, this, sSlopeSlipAnims[this->av1.actionVar1]);
+            Player_AnimChangeLoopMorph(play, this, sSlopeSlideAnims[this->av1.actionVar1]);
             this->speedXZ = sqrtf(SQ(this->actor.velocity.x) + SQ(this->actor.velocity.z));
             this->yaw = playerVelYaw;
             return true;
@@ -14157,7 +14157,7 @@ void Player_Action_8084F308(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_SlipOnSlope(Player* this, PlayState* play) {
+void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_5 | PLAYER_STATE2_6;
     LinkAnimation_Update(play, &this->skelAnime);
     func_8084269C(play, this);
@@ -14165,9 +14165,9 @@ void Player_Action_SlipOnSlope(Player* this, PlayState* play) {
 
     if (Player_ActionHandler_13(this, play) == 0) {
         CollisionPoly* floorPoly = this->actor.floorPoly;
-        f32 horizontalSpeedTarget;
-        f32 horizontalSpeedIncrStep;
-        f32 horizontalSpeedDecrStep;
+        f32 xzSpeedTarget;
+        f32 xzSpeedIncrStep;
+        f32 xzSpeedDecrStep;
         s16 downwardSlopeYaw;
         s16 shapeYawTarget;
         Vec3f slopeNormal;
@@ -14180,7 +14180,7 @@ void Player_Action_SlipOnSlope(Player* this, PlayState* play) {
         Player_GetSlopeDirection(floorPoly, &slopeNormal, &downwardSlopeYaw);
 
         shapeYawTarget = downwardSlopeYaw;
-        if (this->av1.slipFacingUpSlope) {
+        if (this->av1.slideFacingUpSlope) {
             shapeYawTarget = downwardSlopeYaw + 0x8000;
         }
 
@@ -14188,30 +14188,30 @@ void Player_Action_SlipOnSlope(Player* this, PlayState* play) {
             downwardSlopeYaw += 0x8000;
         }
 
-        horizontalSpeedTarget = (1.0f - slopeNormal.y) * 40.0f;
-        horizontalSpeedTarget = CLAMP(horizontalSpeedTarget, 0, 10.0f);
-        horizontalSpeedIncrStep = (horizontalSpeedTarget * horizontalSpeedTarget) * 0.015f;
-        horizontalSpeedDecrStep = slopeNormal.y * 0.01f;
+        xzSpeedTarget = (1.0f - slopeNormal.y) * 40.0f;
+        xzSpeedTarget = CLAMP(xzSpeedTarget, 0, 10.0f);
+        xzSpeedIncrStep = SQ(xzSpeedTarget) * 0.015f;
+        xzSpeedDecrStep = slopeNormal.y * 0.01f;
 
         if (SurfaceType_GetFloorEffect(&play->colCtx, floorPoly, this->actor.floorBgId) != FLOOR_EFFECT_1) {
-            horizontalSpeedTarget = 0;
-            horizontalSpeedDecrStep = slopeNormal.y * 10.0f;
+            xzSpeedTarget = 0;
+            xzSpeedDecrStep = slopeNormal.y * 10.0f;
         }
 
-        if (horizontalSpeedIncrStep < 1.0f) {
-            horizontalSpeedIncrStep = 1.0f;
+        if (xzSpeedIncrStep < 1.0f) {
+            xzSpeedIncrStep = 1.0f;
         }
 
-        if (Math_AsymStepToF(&this->speedXZ, horizontalSpeedTarget, horizontalSpeedIncrStep, horizontalSpeedDecrStep) &&
-            (horizontalSpeedTarget == 0)) {
-            LinkAnimationHeader* slipAnimation;
+        if (Math_AsymStepToF(&this->speedXZ, xzSpeedTarget, xzSpeedIncrStep, xzSpeedDecrStep) &&
+            (xzSpeedTarget == 0)) {
+            LinkAnimationHeader* slideAnimation;
 
-            if (!this->av1.slipFacingUpSlope) {
-                slipAnimation = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_down_slope_slip_end, this->modelAnimType);
+            if (!this->av1.slideFacingUpSlope) {
+                slideAnimation = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_down_slope_slip_end, this->modelAnimType);
             } else {
-                slipAnimation = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_up_slope_slip_end, this->modelAnimType);
+                slideAnimation = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_up_slope_slip_end, this->modelAnimType);
             }
-            func_8083A098(this, slipAnimation, play);
+            func_8083A098(this, slideAnimation, play);
         }
 
         Math_SmoothStepToS(&this->yaw, downwardSlopeYaw, 10, 4000, 800);
