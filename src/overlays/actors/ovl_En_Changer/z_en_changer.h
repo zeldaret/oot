@@ -19,7 +19,7 @@ typedef struct EnChanger {
     /* 0x015E */ s16 rightChestNum;
     /* 0x0160 */ s16 leftChestGetItemId;
     /* 0x0162 */ s16 rightChestGetItemId;
-    /* 0x0164 */ s16 chestOpened;
+    /* 0x0164 */ s16 selectedChest;
     /* 0x0166 */ s16 timer;
     /* 0x0168 */ s16 roomChestsOpened;
 } EnChanger; // size = 0x016C
