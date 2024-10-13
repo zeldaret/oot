@@ -162,7 +162,6 @@ typedef enum RoomBehaviorType1 {
 } RoomBehaviorType1;
 
 typedef enum RoomEnvironmentType {
-    // Values align with FidgetType
     /* 0 */ ROOM_ENV_DEFAULT,
     /* 1 */ ROOM_ENV_COLD,
     /* 2 */ ROOM_ENV_WARM,

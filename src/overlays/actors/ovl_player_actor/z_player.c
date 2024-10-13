@@ -1119,13 +1119,13 @@ static LinkAnimationHeader* D_80853D4C[][3] = {
 };
 
 typedef enum FidgetType {
-    /* 0x00 */ FIDGET_LOOK_AROUND,
-    /* 0x01 */ FIDGET_COLD,
-    /* 0x02 */ FIDGET_WARM,
-    /* 0x03 */ FIDGET_HOT, // same animations as FIDGET_WARM
-    /* 0x04 */ FIDGET_STRETCH_1,
-    /* 0x05 */ FIDGET_STRETCH_2, // same animations as FIDGET_STRETCH_1
-    /* 0x06 */ FIDGET_STRETCH_3, // same animations as FIDGET_STRETCH_1
+    /* 0x00 */ FIDGET_LOOK_AROUND, // ROOM_ENV_DEFAULT
+    /* 0x01 */ FIDGET_COLD,        // ROOM_ENV_COLD
+    /* 0x02 */ FIDGET_WARM,        // ROOM_ENV_WARM
+    /* 0x03 */ FIDGET_HOT,         // ROOM_ENV_HOT (same animations as FIDGET_WARM)
+    /* 0x04 */ FIDGET_STRETCH_1,   // ROOM_ENV_UNK_STRETCH_1
+    /* 0x05 */ FIDGET_STRETCH_2,   // ROOM_ENV_UNK_STRETCH_1 (same animations as FIDGET_STRETCH_1)
+    /* 0x06 */ FIDGET_STRETCH_3,   // ROOM_ENV_UNK_STRETCH_1 (same animations as FIDGET_STRETCH_1)
     /* 0x07 */ FIDGET_CRIT_HEALTH_START,
     /* 0x08 */ FIDGET_CRIT_HEALTH_LOOP,
     /* 0x09 */ FIDGET_SWORD_SWING,
