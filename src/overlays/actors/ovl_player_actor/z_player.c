@@ -7243,7 +7243,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
         velYawToDownwardSlope = downwardSlopeYaw - playerVelYaw;
 
         if (ABS(velYawToDownwardSlope) > 0x3E80) { // 87.9 degrees
-            // moving parallel or upwards on the slope, player does not slide but does slow down
+            // moving parallel or upwards on the slope, player does not slip but does slow down
             slopeSlowdownSpeed = (1.0f - slopeNormal.y) * 40.0f;
             slopeSlowdownSpeedStep = SQ(slopeSlowdownSpeed) * 0.015f;
 
@@ -7255,12 +7255,12 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
             this->pushedYaw = downwardSlopeYaw;
             Math_StepToF(&this->pushedSpeed, slopeSlowdownSpeed, slopeSlowdownSpeedStep);
         } else {
-            // moving downward on the slope, causing player to slide
+            // moving downward on the slope, causing player to slip and then slide down
             Player_SetupAction(play, this, Player_Action_SlideOnSlope, 0);
             func_80832564(play, this);
 
             if (sFloorShapePitch >= 0) {
-                this->av1.slideFacingUpSlope = true;
+                this->av1.facingUpSlope = true;
             }
             Player_AnimChangeLoopMorph(play, this, sSlopeSlideAnims[this->av1.actionVar1]);
             this->speedXZ = sqrtf(SQ(this->actor.velocity.x) + SQ(this->actor.velocity.z));
@@ -14210,7 +14210,7 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
         Player_GetSlopeDirection(floorPoly, &slopeNormal, &downwardSlopeYaw);
 
         shapeYawTarget = downwardSlopeYaw;
-        if (this->av1.slideFacingUpSlope) {
+        if (this->av1.facingUpSlope) {
             shapeYawTarget = downwardSlopeYaw + 0x8000;
         }
 
@@ -14235,7 +14235,7 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
         if (Math_AsymStepToF(&this->speedXZ, xzSpeedTarget, xzSpeedIncrStep, xzSpeedDecrStep) && (xzSpeedTarget == 0)) {
             LinkAnimationHeader* slideAnimation;
 
-            if (!this->av1.slideFacingUpSlope) {
+            if (!this->av1.facingUpSlope) {
                 slideAnimation = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_down_slope_slip_end, this->modelAnimType);
             } else {
                 slideAnimation = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_up_slope_slip_end, this->modelAnimType);
