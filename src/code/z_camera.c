@@ -7881,7 +7881,7 @@ s32 Camera_UpdateWater(Camera* camera) {
 
 s32 Camera_UpdateHotRoom(Camera* camera) {
     camera->distortionFlags &= ~DISTORTION_HOT_ROOM;
-    if (camera->play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) {
+    if (camera->play->roomCtx.curRoom.environmentType == ROOM_ENV_HOT) {
         camera->distortionFlags |= DISTORTION_HOT_ROOM;
     }
 

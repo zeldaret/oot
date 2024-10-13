@@ -1105,13 +1105,13 @@ static LinkAnimationHeader* D_80853D4C[][3] = {
 };
 
 typedef enum FidgetType {
-    /* 0x00 */ FIDGET_LOOK_AROUND,
-    /* 0x01 */ FIDGET_COLD,
-    /* 0x02 */ FIDGET_WARM,
-    /* 0x03 */ FIDGET_HOT, // same animations as FIDGET_WARM
-    /* 0x04 */ FIDGET_STRETCH_1,
-    /* 0x05 */ FIDGET_STRETCH_2, // same animations as FIDGET_STRETCH_1
-    /* 0x06 */ FIDGET_STRETCH_3, // same animations as FIDGET_STRETCH_1
+    /* 0x00 */ FIDGET_LOOK_AROUND, // ROOM_ENV_DEFAULT
+    /* 0x01 */ FIDGET_COLD,        // ROOM_ENV_COLD
+    /* 0x02 */ FIDGET_WARM,        // ROOM_ENV_WARM
+    /* 0x03 */ FIDGET_HOT,         // ROOM_ENV_HOT (same animations as FIDGET_WARM)
+    /* 0x04 */ FIDGET_STRETCH_1,   // ROOM_ENV_UNK_STRETCH_1
+    /* 0x05 */ FIDGET_STRETCH_2,   // ROOM_ENV_UNK_STRETCH_1 (same animations as FIDGET_STRETCH_1)
+    /* 0x06 */ FIDGET_STRETCH_3,   // ROOM_ENV_UNK_STRETCH_1 (same animations as FIDGET_STRETCH_1)
     /* 0x07 */ FIDGET_CRIT_HEALTH_START,
     /* 0x08 */ FIDGET_CRIT_HEALTH_LOOP,
     /* 0x09 */ FIDGET_SWORD_SWING,
@@ -8190,7 +8190,7 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
         } else {
             // Pick fidget type based on room behavior.
             // This may be changed below.
-            fidgetType = play->roomCtx.curRoom.behaviorType2;
+            fidgetType = play->roomCtx.curRoom.environmentType;
 
             if (heathIsCritical) {
                 if (this->idleType >= PLAYER_IDLE_DEFAULT) {
@@ -8208,7 +8208,8 @@ void Player_ChooseNextIdleAnim(PlayState* play, Player* this) {
 
                 // There is a 4/5 chance that a common fidget type will be considered.
                 // However it may get rejected by the conditions below.
-                // The type determined by `curRoom.behaviorType2` will be used if a common type is rejected.
+                // The type determined by `curRoom.environmentType` will be used if a common type is
+                // rejected.
                 if (commonType < 4) {
                     // `FIDGET_ADJUST_TUNIC` and `FIDGET_TAP_FEET` are accepted unconditionally.
                     // The sword and shield related common types have extra restrictions.
@@ -9410,7 +9411,7 @@ static AnimSfxEntry D_808545F0[] = {
 
 void Player_Action_80843CEC(Player* this, PlayState* play) {
     if (this->currentTunic != PLAYER_TUNIC_GORON) {
-        if ((play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) || (sFloorType == FLOOR_TYPE_9) ||
+        if ((play->roomCtx.curRoom.environmentType == ROOM_ENV_HOT) || (sFloorType == FLOOR_TYPE_9) ||
             ((func_80838144(sFloorType) >= 0) &&
              !func_80042108(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId))) {
             func_8083821C(this);
