@@ -4911,7 +4911,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 Actor* ac = this->cylinder.base.ac;
                 s32 sp4C;
 
-                if (ac->flags & ACTOR_FLAG_24) {
+                if (ac->flags & ACTOR_FLAG_HIT_PLAYER_THUMP_SFX) {
                     Player_PlaySfx(this, NA_SE_PL_BODY_HIT);
                 }
 

@@ -535,7 +535,7 @@ void EnDodojr_Stunned(EnDodojr* this, PlayState* play) {
 }
 
 void EnDodojr_JumpAttackBounce(EnDodojr* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_HIT_PLAYER_THUMP_SFX;
     Actor_UpdateVelocityXZGravity(&this->actor);
 
     if (EnDodojr_UpdateBounces(this, play)) {

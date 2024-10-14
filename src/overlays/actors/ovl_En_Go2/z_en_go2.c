@@ -888,7 +888,7 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
             if (this->collider.base.acFlags & AC_HIT) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                this->actor.flags &= ~ACTOR_FLAG_24;
+                this->actor.flags &= ~ACTOR_FLAG_HIT_PLAYER_THUMP_SFX;
                 this->collider.base.acFlags &= ~AC_HIT;
                 EnGo2_StopRolling(this, play);
                 return true;
@@ -1349,7 +1349,7 @@ void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     } else {
         this->actor.speed = 6.0f;
     }
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_HIT_PLAYER_THUMP_SFX;
     this->animTimer = 10;
     this->actor.shape.yOffset = 1800.0f;
     this->actor.speed *= 2.0f; // Speeding up

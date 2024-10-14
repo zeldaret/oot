@@ -730,7 +730,7 @@ void BossDodongo_Roll(BossDodongo* this, PlayState* play) {
     f32 sp4C;
     f32 sp48;
 
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_HIT_PLAYER_THUMP_SFX;
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_1DA == 10) {

@@ -156,7 +156,7 @@ void EnNutsball_Update(Actor* thisx, PlayState* play) {
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
-        this->actor.flags |= ACTOR_FLAG_24;
+        this->actor.flags |= ACTOR_FLAG_HIT_PLAYER_THUMP_SFX;
 
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

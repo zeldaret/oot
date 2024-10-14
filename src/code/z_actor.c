@@ -2426,7 +2426,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                 actor->xyzDistToPlayerSq = SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer);
 
                 actor->yawTowardsPlayer = Actor_WorldYawTowardActor(actor, &player->actor);
-                actor->flags &= ~ACTOR_FLAG_24;
+                actor->flags &= ~ACTOR_FLAG_HIT_PLAYER_THUMP_SFX;
 
                 if ((DECR(actor->freezeTimer) == 0) && (actor->flags & (ACTOR_FLAG_4 | ACTOR_FLAG_6))) {
                     if (actor == player->focusActor) {
