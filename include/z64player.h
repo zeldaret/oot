@@ -877,6 +877,7 @@ typedef struct Player {
 
     /* 0x084F */ union {
         s8 actionVar1;
+        s8 facingUpSlope; // Player_Action_SlideOnSlope: facing uphill when sliding on a slope
         s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 

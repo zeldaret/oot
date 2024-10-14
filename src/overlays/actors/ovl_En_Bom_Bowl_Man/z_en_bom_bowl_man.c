@@ -417,7 +417,7 @@ void EnBomBowlMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
         this->exItem = (EnExItem*)Actor_SpawnAsChild(
             &play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, sPrizePosOffset[this->prizeIndex].x + 148.0f,
             sPrizePosOffset[this->prizeIndex].y + 40.0f, sPrizePosOffset[this->prizeIndex].z + 300.0f, 0,
-            sPrizeRot[this->prizeIndex], 0, this->prizeIndex + EXITEM_COUNTER);
+            sPrizeRot[this->prizeIndex], 0, this->prizeIndex + EXITEM_BOMB_BAG_COUNTER);
 
         if (!this->startedPlaying) {
             this->bowlPit = (EnBomBowlPit*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play,

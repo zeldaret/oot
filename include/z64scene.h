@@ -161,20 +161,20 @@ typedef enum RoomType {
     /* 5 */ ROOM_TYPE_BOSS // Disables Environment_AdjustLights
 } RoomType;
 
-typedef enum RoomBehaviorType2 {
-    /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE2_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE2_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE2_3,
-    /* 4 */ ROOM_BEHAVIOR_TYPE2_4,
-    /* 5 */ ROOM_BEHAVIOR_TYPE2_5,
-    /* 6 */ ROOM_BEHAVIOR_TYPE2_6
-} RoomBehaviorType2;
+typedef enum RoomEnvironmentType {
+    /* 0 */ ROOM_ENV_DEFAULT,
+    /* 1 */ ROOM_ENV_COLD,
+    /* 2 */ ROOM_ENV_WARM,
+    /* 3 */ ROOM_ENV_HOT, // Enables hot room timer for the current room
+    /* 4 */ ROOM_ENV_UNK_STRETCH_1,
+    /* 5 */ ROOM_ENV_UNK_STRETCH_2,
+    /* 6 */ ROOM_ENV_UNK_STRETCH_3
+} RoomEnvironmentType;
 
 typedef struct Room {
     /* 0x00 */ s8 num; // -1 is invalid room
     /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 behaviorType2;
+    /* 0x02 */ u8 environmentType;
     /* 0x03 */ u8 type;
     /* 0x04 */ s8 echo;
     /* 0x05 */ u8 lensMode;
