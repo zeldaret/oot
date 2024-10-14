@@ -156,8 +156,8 @@ typedef enum RoomType {
     /* 0 */ ROOM_TYPE_NORMAL,
     /* 1 */ ROOM_TYPE_DUNGEON, // Blocks Sun's Song's time advance effect. Not exclusively used by typical dungeon rooms.
     /* 2 */ ROOM_TYPE_INDOORS, // Reduces player run speed and blocks player from attacking or jumping.
-    /* 3 */ ROOM_TYPE_3, // Unused. Color dithering is turned off when drawing the room and other things
-    /* 4 */ ROOM_TYPE_4, // unused. Prevents switching to CAM_SET_HORSE when mounting a horse.
+    /* 3 */ ROOM_TYPE_3, // Unused. Color dithering is turned off when drawing the room and other things.
+    /* 4 */ ROOM_TYPE_4, // Unused. Prevents switching to CAM_SET_HORSE when mounting a horse.
     /* 5 */ ROOM_TYPE_BOSS // Disables Environment_AdjustLights
 } RoomType;
 
