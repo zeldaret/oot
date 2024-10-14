@@ -2377,7 +2377,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
     categoryFreezeMaskP = &sCategoryFreezeMasks[0];
 
-    if (player->stateFlags2 & PLAYER_STATE2_27) {
+    if (player->stateFlags2 & PLAYER_STATE2_USING_OCARINA) {
         freezeExceptionFlag = ACTOR_FLAG_UPDATE_DURING_OCARINA;
     }
 
