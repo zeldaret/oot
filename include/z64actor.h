@@ -191,7 +191,7 @@ typedef struct ActorShape {
 #define ACTOR_FLAG_24 (1 << 24)
 
 // Actor can update even if Player is currently playing the ocarina.
-// Typically an actor will halt while the ocarina is active (depending on category). 
+// Typically an actor will halt while the ocarina is active (depending on category).
 // This flag allows a given actor to be an exception.
 #define ACTOR_FLAG_UPDATE_DURING_OCARINA (1 << 25)
 
