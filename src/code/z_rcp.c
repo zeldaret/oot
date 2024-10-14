@@ -1012,7 +1012,7 @@ void func_80093C80(PlayState* play) {
 
     Gfx_SetupDL_25Opa(gfxCtx);
 
-    if (play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_3) {
+    if (play->roomCtx.curRoom.type == ROOM_TYPE_3) {
         OPEN_DISPS(gfxCtx, "../z_rcp.c", 1460);
 
         gDPSetColorDither(POLY_OPA_DISP++, G_CD_DISABLE);

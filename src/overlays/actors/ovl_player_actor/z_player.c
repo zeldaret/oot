@@ -6359,8 +6359,8 @@ void func_8083BCD0(Player* this, PlayState* play, s32 controlStickDirection) {
 s32 Player_ActionHandler_10(Player* this, PlayState* play) {
     s32 controlStickDirection;
 
-    if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
-        (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && (sFloorType != FLOOR_TYPE_7) &&
+    if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) && (play->roomCtx.curRoom.type != ROOM_TYPE_INDOORS) &&
+        (sFloorType != FLOOR_TYPE_7) &&
         (SurfaceType_GetFloorEffect(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != FLOOR_EFFECT_1)) {
         controlStickDirection = this->controlStickDirections[this->controlStickDataIndex];
 
@@ -6562,8 +6562,8 @@ s32 Player_ActionHandler_8(Player* this, PlayState* play) {
 }
 
 s32 func_8083C61C(PlayState* play, Player* this) {
-    if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
-        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (AMMO(ITEM_DEKU_NUT) != 0)) {
+    if ((play->roomCtx.curRoom.type != ROOM_TYPE_INDOORS) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+        (AMMO(ITEM_DEKU_NUT) != 0)) {
         Player_SetupAction(play, this, Player_Action_8084E604, 0);
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_light_bom);
         this->unk_6AD = 0;
@@ -10920,14 +10920,13 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                     if ((!(this->stateFlags1 & PLAYER_STATE1_14) &&
                          (controlStickDirection <= PLAYER_STICK_DIR_FORWARD) &&
                          (Player_CheckHostileLockOn(this) ||
-                          ((sFloorType != FLOOR_TYPE_7) &&
-                           (Player_FriendlyLockOnOrParallel(this) ||
-                            ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
-                             !(this->stateFlags1 & PLAYER_STATE1_22) &&
-                             (controlStickDirection == PLAYER_STICK_DIR_FORWARD))))))) {
+                          ((sFloorType != FLOOR_TYPE_7) && (Player_FriendlyLockOnOrParallel(this) ||
+                                                            ((play->roomCtx.curRoom.type != ROOM_TYPE_INDOORS) &&
+                                                             !(this->stateFlags1 & PLAYER_STATE1_22) &&
+                                                             (controlStickDirection == PLAYER_STICK_DIR_FORWARD))))))) {
                         doAction = DO_ACTION_ATTACK;
-                    } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
-                               Player_IsZTargeting(this) && (controlStickDirection >= PLAYER_STICK_DIR_LEFT)) {
+                    } else if ((play->roomCtx.curRoom.type != ROOM_TYPE_INDOORS) && Player_IsZTargeting(this) &&
+                               (controlStickDirection >= PLAYER_STICK_DIR_LEFT)) {
                         doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemAction >= PLAYER_IA_SWORD_MASTER) ||
                                ((this->stateFlags2 & PLAYER_STATE2_NAVI_ACTIVE) &&

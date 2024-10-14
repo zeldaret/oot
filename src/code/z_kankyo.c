@@ -2531,7 +2531,7 @@ void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32
     f32 temp;
     s32 i;
 
-    if (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_5 && Play_CamIsNotFixed(play)) {
+    if (play->roomCtx.curRoom.type != ROOM_TYPE_BOSS && Play_CamIsNotFixed(play)) {
         arg1 = CLAMP_MIN(arg1, 0.0f);
         arg1 = CLAMP_MAX(arg1, 1.0f);
 
