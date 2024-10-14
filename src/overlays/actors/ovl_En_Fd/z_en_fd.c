@@ -5,6 +5,7 @@
  */
 
 #include "z_en_fd.h"
+#include "versions.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fw/object_fw.h"
 
@@ -39,11 +40,17 @@ ActorProfile En_Fd_Profile = {
     /**/ EnFd_Draw,
 };
 
+#if OOT_VERSION < NTSC_1_1
+#define FLARE_DANCER_BODY_DMG 0x00
+#else
+#define FLARE_DANCER_BODY_DMG 0x04
+#endif
+
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040088, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON | ACELEM_HOOKABLE,
@@ -54,7 +61,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -65,7 +72,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -76,7 +83,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -87,7 +94,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -98,7 +105,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -109,7 +116,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -120,7 +127,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -131,7 +138,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -142,7 +149,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -153,7 +160,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
@@ -164,7 +171,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0xFFCFFFFF, 0x01, FLARE_DANCER_BODY_DMG },
             { 0x00040008, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,

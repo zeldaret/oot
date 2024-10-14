@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tp.h"
+#include "versions.h"
 #include "assets/objects/object_tp/object_tp.h"
 
 #define FLAGS 0
@@ -319,7 +320,12 @@ void EnTp_Die(EnTp* this, PlayState* play) {
                                  255, 1, 9, 1);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
         } else {
-            for (i = 0; i < 1; i++) {
+#if OOT_VERSION < NTSC_1_1
+            for (i = 0; i < 2; i++)
+#else
+            for (i = 0; i < 1; i++)
+#endif
+            {
                 now =
                     (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, TAILPASARAN_FRAGMENT);

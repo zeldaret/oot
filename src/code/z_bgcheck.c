@@ -1,7 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 
-#pragma increment_block_number "ntsc-1.2:144"
+#pragma increment_block_number "ntsc-1.2:136"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
@@ -1611,7 +1611,11 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
                                                colCtx->subdivAmount.z,
                                            ALIGNOF_MASK(StaticLookup));
     if (colCtx->lookupTbl == NULL) {
+#if OOT_VERSION < NTSC_1_1
+        LogUtils_HungupThread("../z_bgcheck.c", 4173);
+#else
         LogUtils_HungupThread("../z_bgcheck.c", 4176);
+#endif
     }
     colCtx->minBounds.x = colCtx->colHeader->minBounds.x;
     colCtx->minBounds.y = colCtx->colHeader->minBounds.y;
@@ -1635,7 +1639,11 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
         tblMax = customNodeListMax;
     } else {
         if (colCtx->memSize < memSize) {
+#if OOT_VERSION < NTSC_1_1
+            LogUtils_HungupThread("../z_bgcheck.c", 4227);
+#else
             LogUtils_HungupThread("../z_bgcheck.c", 4230);
+#endif
         }
         tblMax = (colCtx->memSize - memSize) / sizeof(SSNode);
     }

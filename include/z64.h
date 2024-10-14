@@ -32,6 +32,8 @@
 #include "z64math.h"
 #include "z64map_mark.h"
 #include "z64message.h"
+#include "z64olib.h"
+#include "one_point_cutscene.h"
 #include "z64pause.h"
 #include "z64play.h"
 #include "z64skin.h"
@@ -45,6 +47,7 @@
 #include "z64sram.h"
 #include "z64view.h"
 #include "z64vis.h"
+#include "zelda_arena.h"
 #include "alignment.h"
 #include "audiothread_cmd.h"
 #include "seqcmd.h"
@@ -285,26 +288,6 @@ typedef struct FileSelectState {
     /* 0x1CAD6 */ s16 unk_1CAD6[5];
 } FileSelectState; // size = 0x1CAE0
 
-// Macros for `EntranceInfo.field`
-#define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
-#define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)
-#define ENTRANCE_INFO_END_TRANS_TYPE_MASK 0x3F80
-#define ENTRANCE_INFO_END_TRANS_TYPE_SHIFT 7
-#define ENTRANCE_INFO_END_TRANS_TYPE(field)          \
-    (((field) >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) \
-     & (ENTRANCE_INFO_END_TRANS_TYPE_MASK >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT))
-#define ENTRANCE_INFO_START_TRANS_TYPE_MASK 0x7F
-#define ENTRANCE_INFO_START_TRANS_TYPE_SHIFT 0
-#define ENTRANCE_INFO_START_TRANS_TYPE(field)          \
-    (((field) >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) \
-     & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
-
-typedef struct EntranceInfo {
-    /* 0x00 */ s8  sceneId;
-    /* 0x01 */ s8  spawn;
-    /* 0x02 */ u16 field;
-} EntranceInfo; // size = 0x4
-
 typedef struct GameStateOverlay {
     /* 0x00 */ void*     loadedRamAddr;
     /* 0x04 */ RomFile   file;      // if applicable
@@ -406,10 +389,12 @@ ALIGNED(4) typedef struct PreNmiBuff {
 } PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
 typedef enum ViModeEditState {
-    /* 0 */ VI_MODE_EDIT_STATE_INACTIVE,
-    /* 1 */ VI_MODE_EDIT_STATE_ACTIVE,
-    /* 2 */ VI_MODE_EDIT_STATE_2, // active, more adjustments
-    /* 3 */ VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
+    /* -2 */ VI_MODE_EDIT_STATE_NEGATIVE_2 = -2,
+    /* -1 */ VI_MODE_EDIT_STATE_NEGATIVE_1,
+    /*  0 */ VI_MODE_EDIT_STATE_INACTIVE,
+    /*  1 */ VI_MODE_EDIT_STATE_ACTIVE,
+    /*  2 */ VI_MODE_EDIT_STATE_2, // active, more adjustments
+    /*  3 */ VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
 } ViModeEditState;
 
 typedef struct ViMode {

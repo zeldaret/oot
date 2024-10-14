@@ -24,8 +24,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         600,                         // REG(37)
         FRAMERATE_CONST(350, 420),   // REG(38)
-        800,                         // REG(43)
-        600,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        600,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         590,                         // IREG(66)
@@ -44,8 +44,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         1000,                        // REG(37)
         FRAMERATE_CONST(0, 0),       // REG(38)
-        800,                         // REG(43)
-        300,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        300,                         // R_RUN_SPEED_LIMIT
         -160,                        // REG(68)
         600,                         // REG(69)
         590,                         // IREG(66)
@@ -64,8 +64,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         600,                         // REG(37)
         FRAMERATE_CONST(600, 720),   // REG(38)
-        800,                         // REG(43)
-        550,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        550,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         540,                         // IREG(66)
@@ -84,8 +84,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(400, 480),   // REG(36)
         0,                           // REG(37)
         FRAMERATE_CONST(300, 360),   // REG(38)
-        800,                         // REG(43)
-        500,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        500,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         590,                         // IREG(66)
@@ -104,8 +104,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324), // REG(36)
         600,                       // REG(37)
         FRAMERATE_CONST(50, 60),   // REG(38)
-        800,                       // REG(43)
-        550,                       // REG(45)
+        800,                       // R_DECELERATE_RATE
+        550,                       // R_RUN_SPEED_LIMIT
         -40,                       // REG(68)
         400,                       // REG(69)
         540,                       // IREG(66)
@@ -124,8 +124,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(400, 480),   // REG(36)
         800,                         // REG(37)
         FRAMERATE_CONST(400, 480),   // REG(38)
-        800,                         // REG(43)
-        550,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        550,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         540,                         // IREG(66)
@@ -589,8 +589,8 @@ void Player_SetBootData(PlayState* play, Player* this) {
     REG(36) = bootRegs[5];
     REG(37) = bootRegs[6];
     REG(38) = bootRegs[7];
-    REG(43) = bootRegs[8];
-    REG(45) = bootRegs[9];
+    R_DECELERATE_RATE = bootRegs[8];
+    R_RUN_SPEED_LIMIT = bootRegs[9];
     REG(68) = bootRegs[10];
     REG(69) = bootRegs[11];
     IREG(66) = bootRegs[12];
@@ -599,8 +599,8 @@ void Player_SetBootData(PlayState* play, Player* this) {
     IREG(69) = bootRegs[15];
     MREG(95) = bootRegs[16];
 
-    if (play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_2) {
-        REG(45) = 500;
+    if (play->roomCtx.curRoom.type == ROOM_TYPE_INDOORS) {
+        R_RUN_SPEED_LIMIT = 500;
     }
 }
 
@@ -928,7 +928,7 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
     EnvHazardTextTriggerEntry* triggerEntry;
     s32 envHazard;
 
-    if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
+    if (play->roomCtx.curRoom.environmentType == ROOM_ENV_HOT) { // Room is hot
         envHazard = PLAYER_ENV_HAZARD_HOTROOM - 1;
     } else if ((this->underwaterTimer > 80) &&
                ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) {
@@ -1295,22 +1295,22 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         }
 
         if (limbIndex == PLAYER_LIMB_HEAD) {
-            rot->x += this->unk_6BA;
-            rot->y -= this->unk_6B8;
-            rot->z += this->unk_6B6;
+            rot->x += this->headLimbRot.z;
+            rot->y -= this->headLimbRot.y;
+            rot->z += this->headLimbRot.x;
         } else if (limbIndex == PLAYER_LIMB_UPPER) {
-            if (this->unk_6B0 != 0) {
+            if (this->upperLimbYawSecondary != 0) {
                 Matrix_RotateZ(BINANG_TO_RAD(0x44C), MTXMODE_APPLY);
-                Matrix_RotateY(BINANG_TO_RAD(this->unk_6B0), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->upperLimbYawSecondary), MTXMODE_APPLY);
             }
-            if (this->unk_6BE != 0) {
-                Matrix_RotateY(BINANG_TO_RAD(this->unk_6BE), MTXMODE_APPLY);
+            if (this->upperLimbRot.y != 0) {
+                Matrix_RotateY(BINANG_TO_RAD(this->upperLimbRot.y), MTXMODE_APPLY);
             }
-            if (this->unk_6BC != 0) {
-                Matrix_RotateX(BINANG_TO_RAD(this->unk_6BC), MTXMODE_APPLY);
+            if (this->upperLimbRot.x != 0) {
+                Matrix_RotateX(BINANG_TO_RAD(this->upperLimbRot.x), MTXMODE_APPLY);
             }
-            if (this->unk_6C0 != 0) {
-                Matrix_RotateZ(BINANG_TO_RAD(this->unk_6C0), MTXMODE_APPLY);
+            if (this->upperLimbRot.z != 0) {
+                Matrix_RotateZ(BINANG_TO_RAD(this->upperLimbRot.z), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
             s32 pad;
@@ -1625,8 +1625,8 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
-        MtxF sp14C;
-        Actor* hookedActor;
+        MtxF leftHandMtx;
+        Actor* heldActor;
 
         Math_Vec3f_Copy(&this->leftHandPos, sCurBodyPartPos);
 
@@ -1682,25 +1682,25 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         }
 
         if (this->actor.scale.y >= 0.0f) {
-            if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
+            if (!Player_HoldsHookshot(this) && ((heldActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & PLAYER_STATE1_9) {
                     static Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
 
-                    Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
+                    Matrix_MultVec3f(&D_80126128, &heldActor->world.pos);
                     Matrix_RotateZYX(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
-                    Matrix_Get(&sp14C);
-                    Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
-                    hookedActor->shape.rot = hookedActor->world.rot;
+                    Matrix_Get(&leftHandMtx);
+                    Matrix_MtxFToYXZRotS(&leftHandMtx, &heldActor->world.rot, 0);
+                    heldActor->shape.rot = heldActor->world.rot;
                 } else if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
-                    Vec3s spB8;
+                    Vec3s leftHandRot;
 
-                    Matrix_Get(&sp14C);
-                    Matrix_MtxFToYXZRotS(&sp14C, &spB8, 0);
+                    Matrix_Get(&leftHandMtx);
+                    Matrix_MtxFToYXZRotS(&leftHandMtx, &leftHandRot, 0);
 
-                    if (hookedActor->flags & ACTOR_FLAG_17) {
-                        hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
+                    if (heldActor->flags & ACTOR_FLAG_CARRY_X_ROT_INFLUENCE) {
+                        heldActor->world.rot.x = heldActor->shape.rot.x = leftHandRot.x - this->unk_3BC.x;
                     } else {
-                        hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
+                        heldActor->world.rot.y = heldActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
                     }
                 }
             } else {
@@ -1788,7 +1788,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_MtxFToYXZRotS(&sp44, &heldActor->world.rot, 0);
                     heldActor->shape.rot = heldActor->world.rot;
 
-                    if (func_8002DD78(this) != 0) {
+                    if (func_8002DD78(this)) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
                         Player_DrawHookshotReticle(play, this,
                                                    (this->heldItemAction == PLAYER_IA_HOOKSHOT) ? 38600.0f : 77600.0f);

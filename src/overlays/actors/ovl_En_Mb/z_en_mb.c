@@ -1325,19 +1325,30 @@ void EnMb_SetupSpearDead(EnMb* this) {
 }
 
 void EnMb_SpearDead(EnMb* this, PlayState* play) {
+#if OOT_VERSION >= NTSC_1_1
     Player* player = GET_PLAYER(play);
+#endif
 
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
 
+#if OOT_VERSION < NTSC_1_1
+    // Empty
+#elif OOT_VERSION < PAL_1_0
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-#if OOT_VERSION >= PAL_1_0
-        player->av2.actionVar2 = 200;
-#endif
         Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
         this->attack = ENMB_ATTACK_NONE;
     }
+#else
+    if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
+        player->stateFlags2 &= ~PLAYER_STATE2_7;
+        player->actor.parent = NULL;
+        player->av2.actionVar2 = 200;
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+        this->attack = ENMB_ATTACK_NONE;
+    }
+#endif
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer1 > 0) {

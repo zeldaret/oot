@@ -1,6 +1,10 @@
 #ifndef SFX_H
 #define SFX_H
 
+#include "ultra64.h"
+#include "versions.h"
+#include "z64math.h"
+
 typedef enum SfxBankType {
     /* 0 */ BANK_PLAYER,
     /* 1 */ BANK_ITEM,
