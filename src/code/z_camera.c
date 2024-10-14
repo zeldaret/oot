@@ -7545,7 +7545,7 @@ void func_80057FC4(Camera* camera) {
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_DUNGEON0;
                 break;
-            case ROOM_TYPE_FIELD:
+            case ROOM_TYPE_NORMAL:
                 PRINTF("camera: room type: default set field\n");
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;

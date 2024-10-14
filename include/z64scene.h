@@ -153,10 +153,10 @@ typedef union RoomShape {
 } RoomShape; // "Ground Shape"
 
 typedef enum RoomType {
-    /* 0 */ ROOM_TYPE_FIELD,
-    /* 1 */ ROOM_TYPE_DUNGEON, // Blocks Sun's Song's time advance effect.
+    /* 0 */ ROOM_TYPE_NORMAL,
+    /* 1 */ ROOM_TYPE_DUNGEON, // Blocks Sun's Song's time advance effect. Not exclusively used by typical dungeon rooms.
     /* 2 */ ROOM_TYPE_INDOORS, // Reduces player run speed and blocks player from attacking or jumping.
-    /* 3 */ ROOM_TYPE_TEST_NO_COLOR_DITHERING, // Unused. Color dithering is turned off when drawing the room and other things
+    /* 3 */ ROOM_TYPE_3, // Unused. Color dithering is turned off when drawing the room and other things
     /* 4 */ ROOM_TYPE_4, // unused. Prevents switching to CAM_SET_HORSE when mounting a horse.
     /* 5 */ ROOM_TYPE_BOSS // Disables Environment_AdjustLights
 } RoomType;
@@ -605,9 +605,9 @@ typedef enum SceneCommandTypeID {
 #define SCENE_CMD_SPECIAL_FILES(naviQuestHintFileId, keepObjectId) \
     { SCENE_CMD_ID_SPECIAL_FILES, naviQuestHintFileId, CMD_W(keepObjectId) }
 
-#define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, disableWarpSongs) \
-    { SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3, \
-        curRoomUnk2 | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(disableWarpSongs, 10, 1) }
+#define SCENE_CMD_ROOM_BEHAVIOR(type, environment, showInvisActors, disableWarpSongs) \
+    { SCENE_CMD_ID_ROOM_BEHAVIOR, type, \
+        environment | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(disableWarpSongs, 10, 1) }
 
 #define SCENE_CMD_UNK_09() \
     { SCENE_CMD_ID_UNDEFINED_9, 0, CMD_W(0) }
