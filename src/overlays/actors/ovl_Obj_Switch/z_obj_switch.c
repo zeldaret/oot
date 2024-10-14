@@ -410,14 +410,14 @@ void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
                 break;
 
             case OBJSWITCH_SUBTYPE_HOLD:
-                if (func_800435B4(&this->dyna)) {
+                if (DynaPolyActor_IsSwitchActivated(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
                 break;
 
             case OBJSWITCH_SUBTYPE_HOLD_INVERTED:
-                if (func_800435B4(&this->dyna)) {
+                if (DynaPolyActor_IsSwitchActivated(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOff(this, play);
                 }
@@ -467,7 +467,7 @@ void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
 
         case OBJSWITCH_SUBTYPE_HOLD:
         case OBJSWITCH_SUBTYPE_HOLD_INVERTED:
-            if (!func_800435B4(&this->dyna) && !Player_InCsMode(play)) {
+            if (!DynaPolyActor_IsSwitchActivated(&this->dyna) && !Player_InCsMode(play)) {
                 if (this->releaseTimer <= 0) {
                     ObjSwitch_FloorReleaseInit(this);
                     if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_HOLD) {

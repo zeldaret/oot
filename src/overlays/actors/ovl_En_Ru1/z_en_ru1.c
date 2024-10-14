@@ -10,7 +10,7 @@
 #include "versions.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4 | ACTOR_FLAG_26)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4 | ACTOR_FLAG_CAN_ACTIVATE_SWITCHES)
 
 void EnRu1_Init(Actor* thisx, PlayState* play);
 void EnRu1_Destroy(Actor* thisx, PlayState* play);

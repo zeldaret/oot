@@ -44,8 +44,8 @@ void DynaPoly_SetPlayerAbove(CollisionContext* colCtx, s32 floorBgId) {
     }
 }
 
-void func_80043538(DynaPolyActor* dynaActor) {
-    dynaActor->interactFlags |= DYNA_INTERACT_3;
+void DynaPolyActor_SetSwitchActivated(DynaPolyActor* dynaActor) {
+    dynaActor->interactFlags |= DYNA_INTERACT_SWITCH_ACTIVATED;
 }
 
 s32 DynaPolyActor_IsActorOnTop(DynaPolyActor* dynaActor) {
@@ -72,8 +72,8 @@ s32 DynaPolyActor_IsPlayerAbove(DynaPolyActor* dynaActor) {
     }
 }
 
-s32 func_800435B4(DynaPolyActor* dynaActor) {
-    if (dynaActor->interactFlags & DYNA_INTERACT_3) {
+s32 DynaPolyActor_IsSwitchActivated(DynaPolyActor* dynaActor) {
+    if (dynaActor->interactFlags & DYNA_INTERACT_SWITCH_ACTIVATED) {
         return true;
     } else {
         return false;
