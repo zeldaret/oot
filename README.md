@@ -166,7 +166,7 @@ Both of these have the disadvantage that the ordering of the terminal output is 
 ## Changing build options
 
 The project Makefile is fairly configurable and can be used to build other versions of the game or prepare the repo for modding.
-See the Makefile for more information.
+See the options outlined at the top of the Makefile for more information.
 
 ## Contributing
 
