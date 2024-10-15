@@ -7423,7 +7423,16 @@ void func_8083EA94(Player* this, PlayState* play) {
     Player_AnimPlayOnce(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_throw, this->modelAnimType));
 }
 
+/**
+ * Checks if an actor can be thrown or dropped.
+ * It is assumed that the `actor` argument is the actor currently being carried.
+ *
+ * @return true if it can be thrown, false if it can be dropped.
+ */
 s32 Player_CanThrowCarriedActor(Player* this, Actor* actor) {
+    // If the actor arg is null, true will be returned.
+    // It doesn't make sense for a non-existent actor to be thrown or dropped, so
+    // the safety check should happen before this function is even called.
     if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_THROW_ONLY) &&
         ((this->speedXZ < 1.1f) || (actor->id == ACTOR_EN_BOM_CHU))) {
         return false;
