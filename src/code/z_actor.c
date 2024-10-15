@@ -2406,8 +2406,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
             } else if (!Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
                 Actor_Kill(actor);
                 actor = actor->next;
-            } else if ((freezeExceptionFlag && !(actor->flags & freezeExceptionFlag)) ||
-                       (!freezeExceptionFlag && canFreezeCategory &&
+            } else if ((freezeExceptionFlag != 0 && !(actor->flags & freezeExceptionFlag)) ||
+                       (freezeExceptionFlag == 0 && canFreezeCategory &&
                         !((sp74 == actor) || (actor == player->naviActor) || (actor == player->heldActor) ||
                           (&player->actor == actor->parent)))) {
                 CollisionCheck_ResetDamage(&actor->colChkInfo);
