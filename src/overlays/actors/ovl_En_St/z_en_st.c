@@ -799,7 +799,7 @@ void EnSt_Init(Actor* thisx, PlayState* play) {
     }
     EnSt_CheckCeilingPos(this, play);
     this->actor.flags |= ACTOR_FLAG_14;
-    this->actor.flags |= ACTOR_FLAG_HIT_PLAYER_THUMP_SFX;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     EnSt_SetColliderScale(this);
     this->actor.gravity = 0.0f;
     this->initialYaw = this->actor.world.rot.y;

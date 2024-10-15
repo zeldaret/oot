@@ -188,7 +188,7 @@ typedef struct ActorShape {
 #define ACTOR_FLAG_23 (1 << 23)
 
 // When colliding with Player's body AC collider, a "thump" sound will play indicating his body has been hit
-#define ACTOR_FLAG_HIT_PLAYER_THUMP_SFX (1 << 24)
+#define ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT (1 << 24)
 
 //
 #define ACTOR_FLAG_25 (1 << 25)
