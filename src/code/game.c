@@ -164,22 +164,21 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfxP) {
 #endif
 
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
-    Gfx* newDList;
-    Gfx* polyOpaP;
+    Gfx* gfxAllocDisp;
+    Gfx* tempGfx;
 
     OPEN_DISPS(gfxCtx, "../game.c", 746);
 
-    newDList = Gfx_Open(polyOpaP = POLY_OPA_DISP);
-    gSPDisplayList(OVERLAY_DISP++, newDList);
+    GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
 
     if (R_ENABLE_FB_FILTER == 1) {
-        GameState_SetFBFilter(&newDList);
+        GameState_SetFBFilter(&gfxAllocDisp);
     }
 
 #if OOT_DEBUG
     sLastButtonPressed = gameState->input[0].press.button | gameState->input[0].cur.button;
     if (R_DISABLE_INPUT_DISPLAY == 0) {
-        GameState_DrawInputDisplay(sLastButtonPressed, &newDList);
+        GameState_DrawInputDisplay(sLastButtonPressed, &gfxAllocDisp);
     }
 
     if (R_ENABLE_AUDIO_DBG & 1) {
@@ -187,9 +186,9 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
         GfxPrint printer;
 
         GfxPrint_Init(&printer);
-        GfxPrint_Open(&printer, newDList);
+        GfxPrint_Open(&printer, gfxAllocDisp);
         AudioDebug_Draw(&printer);
-        newDList = GfxPrint_Close(&printer);
+        gfxAllocDisp = GfxPrint_Close(&printer);
         GfxPrint_Destroy(&printer);
     }
 #endif
@@ -206,9 +205,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
         R_ENABLE_ARENA_DBG = 0;
     }
 
-    gSPEndDisplayList(newDList++);
-    Gfx_Close(polyOpaP, newDList);
-    POLY_OPA_DISP = newDList;
+    GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
 
     CLOSE_DISPS(gfxCtx, "../game.c", 800);
 
@@ -237,23 +234,20 @@ void GameState_SetFrameBuffer(GraphicsContext* gfxCtx) {
 }
 
 void func_800C49F4(GraphicsContext* gfxCtx) {
-    Gfx* newDlist;
-    Gfx* polyOpaP;
+    Gfx* gfxAllocDisp;
+    Gfx* tempGfx;
 
     OPEN_DISPS(gfxCtx, "../game.c", 846);
 
-    newDlist = Gfx_Open(polyOpaP = POLY_OPA_DISP);
-    gSPDisplayList(OVERLAY_DISP++, newDlist);
+    GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
 
 #if PLATFORM_N64
     if (D_80121212 != 0) {
-        func_801C6EA0(&newDlist);
+        func_801C6EA0(&gfxAllocDisp);
     }
 #endif
 
-    gSPEndDisplayList(newDlist++);
-    Gfx_Close(polyOpaP, newDlist);
-    POLY_OPA_DISP = newDlist;
+    GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
 
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }
