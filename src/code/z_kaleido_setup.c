@@ -79,8 +79,8 @@ void KaleidoSetup_Update(PlayState* play) {
             // The start button was pressed, pause
             gSaveContext.prevHudVisibilityMode = gSaveContext.hudVisibilityMode;
 
-            WREG(16) = -175;
-            WREG(17) = 155;
+            R_PAUSE_CURSOR_LEFT_X = -175;
+            R_PAUSE_CURSOR_RIGHT_X = 155;
 
             pauseCtx->pageSwitchTimer = 0;
 
@@ -130,8 +130,11 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->state = PAUSE_STATE_OFF;
     pauseCtx->debugState = 0;
 
+    // Setting the eye xz here is irrelevant, it's set on pausing in KaleidoSetup_Update
+    // x = -PAUSE_EYE_DIST * PAUSE_ITEM_X
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
-    pauseCtx->eye.z = 64.0f;
+    pauseCtx->eye.z = -PAUSE_EYE_DIST * PAUSE_ITEM_Z;
+
     pauseCtx->promptDepthOffset = 936.0f;
     pauseCtx->itemPagePitch = pauseCtx->equipPagePitch = pauseCtx->mapPagePitch = pauseCtx->questPagePitch = 160.0f;
 
@@ -154,8 +157,8 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->cursorY[PAUSE_MAP] = 0;
     pauseCtx->cursorX[PAUSE_QUEST] = 0;
     pauseCtx->cursorY[PAUSE_QUEST] = 0;
-    pauseCtx->cursorX[PAUSE_EQUIP] = 1;
-    pauseCtx->cursorY[PAUSE_EQUIP] = 0;
+    pauseCtx->cursorX[PAUSE_EQUIP] = EQUIP_VALUE_SWORD_KOKIRI;
+    pauseCtx->cursorY[PAUSE_EQUIP] = EQUIP_TYPE_SWORD;
 
     pauseCtx->cursorItem[PAUSE_ITEM] = PAUSE_ITEM_NONE;
     pauseCtx->cursorItem[PAUSE_MAP] = VREG(30) + 3;
