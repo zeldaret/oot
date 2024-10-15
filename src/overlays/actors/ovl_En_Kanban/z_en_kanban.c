@@ -406,7 +406,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     }
                     piece->airTimer = 100;
                     piece->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-                    piece->actor.flags |= ACTOR_FLAG_25;
+                    piece->actor.flags |= ACTOR_FLAG_UPDATE_DURING_OCARINA;
                     this->cutMarkTimer = 5;
                     Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_STRIKE);
                 }
