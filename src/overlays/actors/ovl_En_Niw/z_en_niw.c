@@ -10,7 +10,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_THROW_ONLY)
 
 void EnNiw_Init(Actor* thisx, PlayState* play);
 void EnNiw_Destroy(Actor* thisx, PlayState* play);

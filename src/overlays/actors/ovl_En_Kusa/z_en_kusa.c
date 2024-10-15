@@ -12,7 +12,7 @@
 #include "assets/objects/object_kusa/object_kusa.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_THROW_ONLY)
 
 void EnKusa_Init(Actor* thisx, PlayState* play);
 void EnKusa_Destroy(Actor* thisx, PlayState* play2);
