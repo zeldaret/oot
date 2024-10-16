@@ -11815,7 +11815,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                     if (DREG(25) != 0) {
                         DREG(25) = 0;
                     } else {
-                        AREG(6) = 1;
+                        R_ENTER_RIDING_HORSE = 1;
                     }
                 }
             }
@@ -13187,7 +13187,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
         }
 
         if (LinkAnimation_OnFrame(&this->skelAnime, arr[1])) {
-            func_8002DE74(play, this);
+            Actor_SetCameraHorseSetting(play, this);
             Player_PlaySfx(this, NA_SE_PL_SIT_ON_HORSE);
             return;
         }
@@ -13195,7 +13195,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
         return;
     }
 
-    func_8002DE74(play, this);
+    Actor_SetCameraHorseSetting(play, this);
     this->skelAnime.prevTransl = D_8085499C;
 
     if ((rideActor->animationIdx != this->av2.actionVar2) &&
@@ -13354,9 +13354,9 @@ void Player_Action_8084D3E4(Player* this, PlayState* play) {
         func_8083C0E8(this, play);
         this->stateFlags1 &= ~PLAYER_STATE1_23;
         this->actor.parent = NULL;
-        AREG(6) = 0;
+        R_ENTER_RIDING_HORSE = 0;
 
-        if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || (DREG(1) != 0)) {
+        if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED) {
             gSaveContext.save.info.horseData.pos.x = rideActor->actor.world.pos.x;
             gSaveContext.save.info.horseData.pos.y = rideActor->actor.world.pos.y;
             gSaveContext.save.info.horseData.pos.z = rideActor->actor.world.pos.z;

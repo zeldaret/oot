@@ -4,6 +4,7 @@
 #include "rand.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64horse.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
@@ -1130,7 +1131,7 @@ void func_8002DE04(PlayState* play, Actor* actorA, Actor* actorB) {
     actorA->flags &= ~ACTOR_FLAG_13;
 }
 
-void func_8002DE74(PlayState* play, Player* player) {
+void Actor_SetCameraHorseSetting(PlayState* play, Player* player) {
     if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_4) && Play_CamIsNotFixed(play)) {
         Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_HORSE);
     }
@@ -1147,8 +1148,8 @@ int func_8002DEEC(Player* player) {
            (player->csAction != PLAYER_CSACTION_NONE);
 }
 
-void func_8002DF18(PlayState* play, Player* player) {
-    func_8006DC68(play, player);
+void Actor_InitPlayerHorse(PlayState* play, Player* player) {
+    Horse_Set(play, player);
 }
 
 /**

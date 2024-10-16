@@ -113,22 +113,22 @@ void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, PlayState* 
     gSaveContext.save.cutsceneIndex = 0;
     if (this->result == INGORACE_PLAYER_WIN) {
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_7;
-        if (GET_EVENTINF(EVENTINF_HORSES_06)) {
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_6);
-            SET_EVENTINF_HORSES_0F(1);
+        if (GET_EVENTINF(EVENTINF_INGORACE_SECOND_RACE)) {
+            SET_EVENTINF_INGORACE_STATE(INGORACE_STATE_TRAPPED_WIN_EPONA);
+            WRITE_EVENTINF_INGORACE_0F(1);
             play->transitionType = TRANS_TYPE_FADE_WHITE;
             Environment_ForcePlaySequence(NA_BGM_INGO);
         } else {
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_4);
-            SET_EVENTINF_HORSES_0F(1);
+            SET_EVENTINF_INGORACE_STATE(INGORACE_STATE_FIRST_WIN);
+            WRITE_EVENTINF_INGORACE_0F(1);
             Environment_ForcePlaySequence(NA_BGM_INGO);
             play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         }
     } else {
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_8;
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_3);
+        SET_EVENTINF_INGORACE_STATE(INGORACE_STATE_PLAYER_LOSE);
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
-        SET_EVENTINF_HORSES_0F(1);
+        WRITE_EVENTINF_INGORACE_0F(1);
     }
     DREG(25) = 0;
     play->transitionTrigger = TRANS_TRIGGER_START;
@@ -449,7 +449,8 @@ void EnHorseGameCheck_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
-    if ((play->sceneId == SCENE_LON_LON_RANCH) && (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || DREG(1))) {
+    if ((play->sceneId == SCENE_LON_LON_RANCH) &&
+        (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED)) {
         this->actor.params = HORSEGAME_MALON_RACE;
     }
     if (sInitFuncs[this->actor.params] != NULL) {
