@@ -144,7 +144,7 @@ void MagicDark_DimLighting(PlayState* play, f32 intensity) {
     f32 colorScale;
     f32 fogScale;
 
-    if (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_5) {
+    if (play->roomCtx.curRoom.type != ROOM_TYPE_BOSS) {
         intensity = CLAMP_MIN(intensity, 0.0f);
         intensity = CLAMP_MAX(intensity, 1.0f);
         fogScale = intensity - 0.2f;

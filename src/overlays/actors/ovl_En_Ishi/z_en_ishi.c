@@ -11,7 +11,7 @@
 #include "quake.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_23
+#define FLAGS ACTOR_FLAG_THROW_ONLY
 
 void EnIshi_Init(Actor* thisx, PlayState* play);
 void EnIshi_Destroy(Actor* thisx, PlayState* play2);
