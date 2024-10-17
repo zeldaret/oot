@@ -28,7 +28,7 @@ typedef enum EnHorseAction {
     /* 19 */ ENHORSE_ACT_FLEE_PLAYER
 } EnHorseAction;
 
-
+// stateFlags
 #define ENHORSE_BOOST                      (1 << 0)   /*         0x1 */
 #define ENHORSE_BOOST_DECEL                (1 << 1)   /*         0x2 */
 #define ENHORSE_JUMPING                    (1 << 2)   /*         0x4 */
@@ -89,6 +89,21 @@ typedef enum HorseType {
     /* 0 */ HORSE_EPONA,
     /* 1 */ HORSE_HNI
 } HorseType;
+
+typedef enum HorseParamType {
+    /* 00 */ HORSE_PTYPE_0,
+    /* 01 */ HORSE_PTYPE_1,
+    /* 02 */ HORSE_PTYPE_INACTIVE, // Waits for Epona's Song to appear
+    /* 03 */ HORSE_PTYPE_INGO_SPAWNED_RIDING,
+    /* 04 */ HORSE_PTYPE_4,
+    /* 05 */ HORSE_PTYPE_5,
+    /* 06 */ HORSE_PTYPE_6,
+    /* 07 */ HORSE_PTYPE_7,
+    /* 08 */ HORSE_PTYPE_HORSEBACK_ARCHERY,
+    /* 09 */ HORSE_PTYPE_PLAYER_SPAWNED_RIDING,
+    /* 10 */ HORSE_PTYPE_10,
+    /* 11 */ HORSE_PTYPE_11
+} HorseParamType;
 
 typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, struct PlayState*);
 
