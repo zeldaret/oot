@@ -76,8 +76,8 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
         if (dynaActor != NULL) {
             DynaPolyActor_SetActorOnTop(dynaActor);
 
-            if (CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_26)) {
-                func_80043538(dynaActor);
+            if (CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_CAN_PRESS_SWITCHES)) {
+                DynaPolyActor_SetSwitchPressed(dynaActor);
             }
         }
     }

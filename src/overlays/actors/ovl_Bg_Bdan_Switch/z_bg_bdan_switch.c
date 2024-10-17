@@ -251,7 +251,7 @@ void func_8086D5C4(BgBdanSwitch* this) {
 void func_8086D5E0(BgBdanSwitch* this, PlayState* play) {
     switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case BLUE:
-            if (func_800435B4(&this->dyna)) {
+            if (DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                 func_8086D67C(this);
                 func_8086D4B4(this, play);
             }
@@ -290,7 +290,7 @@ void func_8086D730(BgBdanSwitch* this) {
 void func_8086D754(BgBdanSwitch* this, PlayState* play) {
     switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case BLUE:
-            if (!func_800435B4(&this->dyna)) {
+            if (!DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                 if (this->unk_1D8 <= 0) {
                     func_8086D7FC(this);
                     func_8086D548(this, play);
