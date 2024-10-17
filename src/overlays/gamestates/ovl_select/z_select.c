@@ -205,10 +205,8 @@ static SceneSelectEntry sScenes[] = {
     { "119:" T(GFXP_KATAKANA "ﾃｽﾄﾙｰﾑ", "Test Room"), MapSelect_LoadGame, ENTR_TESTROOM_0 },
     { "120:" T(GFXP_HIRAGANA "ﾁｭｳ" GFXP_KATAKANA "ｽﾀﾛﾌｫｽ" GFXP_HIRAGANA "ﾍﾞﾔ", "Stalfos Miniboss Room"), MapSelect_LoadGame, ENTR_SYOTES_0 },
     { "121:" T(GFXP_KATAKANA "ﾎﾞｽｽﾀﾛﾌｫｽ" GFXP_HIRAGANA "ﾍﾞﾔ", "Boss Stalfos Room"), MapSelect_LoadGame, ENTR_SYOTES2_0 },
-    // Stal
-    { "122:Sutaru", MapSelect_LoadGame, ENTR_SUTARU_0 },
-    // Test Area
-    { "123:jikkenjyou", MapSelect_LoadGame, ENTR_TEST_SHOOTING_GALLERY_0 },
+    { "122:" T("Sutaru", "Stal"), MapSelect_LoadGame, ENTR_SUTARU_0 },
+    { "123:" T("jikkenjyou", "Test Area"), MapSelect_LoadGame, ENTR_TEST_SHOOTING_GALLERY_0 },
     { "124:depth" T(GFXP_KATAKANA "ﾃｽﾄ", "Test"), MapSelect_LoadGame, ENTR_DEPTH_TEST_0 },
     { "125:" T(GFXP_KATAKANA "ﾊｲﾗﾙ" GFXP_HIRAGANA "ﾆﾜ" GFXP_KATAKANA "ｹﾞｰﾑ2", "Hyrule Garden Game 2"), MapSelect_LoadGame, ENTR_HAIRAL_NIWA2_0 },
 #endif
@@ -625,7 +623,7 @@ void MapSelect_Main(GameState* thisx) {
 
 void MapSelect_Destroy(GameState* thisx) {
     PRINTF("%c", BEL);
-    PRINTF(T("*** view_cleanupはハングアップするので、呼ばない ***\n", "view_cleanup will hang, so it won't be called"));
+    PRINTF(T("*** view_cleanupはハングアップするので、呼ばない ***\n", "*** view_cleanup will hang, so it won't be called ***\n"));
 }
 
 void MapSelect_Init(GameState* thisx) {
