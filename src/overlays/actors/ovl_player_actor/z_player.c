@@ -3426,7 +3426,7 @@ s32 Player_SetupAction(PlayState* play, Player* this, PlayerActionFunc actionFun
 
     this->stateFlags1 &= ~(PLAYER_STATE1_2 | PLAYER_STATE1_TALKING | PLAYER_STATE1_26 | PLAYER_STATE1_28 |
                            PLAYER_STATE1_29 | PLAYER_STATE1_31);
-    this->stateFlags2 &= ~(PLAYER_STATE2_19 | PLAYER_STATE2_27 | PLAYER_STATE2_IDLE_FIDGET);
+    this->stateFlags2 &= ~(PLAYER_STATE2_19 | PLAYER_STATE2_USING_OCARINA | PLAYER_STATE2_IDLE_FIDGET);
     this->stateFlags3 &= ~(PLAYER_STATE3_1 | PLAYER_STATE3_3 | PLAYER_STATE3_FLYING_WITH_HOOKSHOT);
 
     this->av1.actionVar1 = 0;
@@ -6114,7 +6114,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                 } else {
                     Player_SetupActionPreserveItemAction(play, this, Player_Action_8084E3C4, 0);
                     Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_normal_okarina_start);
-                    this->stateFlags2 |= PLAYER_STATE2_27;
+                    this->stateFlags2 |= PLAYER_STATE2_USING_OCARINA;
                     func_80835EA4(play, (this->unk_6A8 != NULL) ? 0x5B : 0x5A);
                     if (this->unk_6A8 != NULL) {
                         this->stateFlags2 |= PLAYER_STATE2_25;
@@ -13777,8 +13777,10 @@ void Player_Action_8084E3C4(Player* this, PlayState* play) {
         Player_TryCsAction(play, NULL, PLAYER_CSACTION_8);
         play->mainCamera.stateFlags &= ~CAM_STATE_EXTERNAL_FINISHED;
 
+        // Setting these flags again is necessary because `Player_TryCsAction` calls
+        // `Player_SetupAction` which unsets the flags.
         this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
-        this->stateFlags2 |= PLAYER_STATE2_27;
+        this->stateFlags2 |= PLAYER_STATE2_USING_OCARINA;
 
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_KANKYO, 0.0f, 0.0f, 0.0f, 0, 0, 0, DEMOKANKYO_WARP_OUT) ==
             NULL) {
