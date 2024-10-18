@@ -341,7 +341,7 @@ void Regs_InitDataImpl(void) {
     ZREG(25) = 4;
     ZREG(26) = 20;
     ZREG(27) = 10;
-    ZREG(28) = 20;
+    R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER = 20;
     ZREG(29) = 4;
     ZREG(30) = 20;
     ZREG(31) = 10;
@@ -507,9 +507,9 @@ void Regs_InitDataImpl(void) {
     XREG(95) = 200;
     R_PAUSE_PAGES_Y_ORIGIN_2 = -6080;
     R_PAUSE_DEPTH_OFFSET = 9355;
-    WREG(4) = 8;
+    R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION = 8;
     WREG(5) = 3;
-    WREG(6) = 8;
+    R_PAUSE_UI_ANIMS_DURATION = 8;
     WREG(7) = 0;
 
 #if OOT_NTSC
@@ -533,17 +533,17 @@ void Regs_InitDataImpl(void) {
     WREG(15) = -350;
 #endif
 
-    WREG(16) = -175;
-    WREG(17) = 155;
-    WREG(18) = 10;
+    R_PAUSE_CURSOR_LEFT_X = -175;
+    R_PAUSE_CURSOR_RIGHT_X = 155;
+    R_PAUSE_CURSOR_LEFT_RIGHT_Y = 10;
     WREG(19) = 10;
     WREG(20) = -50;
     WREG(21) = -54;
     WREG(22) = -32;
     WREG(23) = -38;
     WREG(24) = -36;
-    WREG(25) = 40;
-    WREG(26) = -40;
+    R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X = 40;
+    R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X = -40;
     WREG(27) = 0;
     WREG(28) = 0;
     R_OW_MINIMAP_X = 238;
@@ -590,8 +590,8 @@ void Regs_InitDataImpl(void) {
     R_DGN_MINIMAP_X = 204;
     R_DGN_MINIMAP_Y = 140;
     WREG(87) = 80;
-    WREG(88) = 70;
-    WREG(89) = 40;
+    R_PAUSE_NAME_DISPLAY_TIMER_MAX_ = 70;
+    R_PAUSE_NAME_DISPLAY_TIMER_THRESHOLD_ = 40;
     WREG(90) = 320;
     WREG(91) = 40;
     WREG(92) = 3;
