@@ -2,11 +2,12 @@
 #define Z_EN_HORSE_LINK_CHILD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64skin.h"
 
 struct EnHorseLinkChild;
 
-typedef void (*EnHorseLinkChildActionFunc)(struct EnHorseLinkChild*, PlayState*);
+typedef void (*EnHorseLinkChildActionFunc)(struct EnHorseLinkChild*, struct PlayState*);
 
 typedef struct EnHorseLinkChild {
     /* 0x0000 */ Actor actor;
