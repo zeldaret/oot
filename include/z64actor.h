@@ -188,8 +188,8 @@ typedef struct ActorShape {
 // Typically an actor can only be thrown when moving, but this allows an actor to be thrown when standing still.
 #define ACTOR_FLAG_THROW_ONLY (1 << 23)
 
-//
-#define ACTOR_FLAG_24 (1 << 24)
+// When colliding with Player's body AC collider, a "thump" sound will play indicating his body has been hit
+#define ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT (1 << 24)
 
 // Actor can update even if Player is currently using the ocarina.
 // Typically an actor will halt while the ocarina is active (depending on category).
