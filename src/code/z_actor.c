@@ -2338,7 +2338,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     Actor* actor;
     Player* player;
     u32* categoryFreezeMaskP;
-    u32 requiredActorFlag;
+    u32 freezeExceptionFlag;
     u32 canFreezeCategory;
     Actor* sp74;
     ActorEntry* actorEntry;
@@ -2351,7 +2351,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     }
 
     sp74 = NULL;
-    requiredActorFlag = 0;
+    freezeExceptionFlag = 0;
 
     if (play->numActorEntries != 0) {
         actorEntry = &play->actorEntryList[0];
@@ -2377,8 +2377,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
     categoryFreezeMaskP = &sCategoryFreezeMasks[0];
 
-    if (player->stateFlags2 & PLAYER_STATE2_27) {
-        requiredActorFlag = ACTOR_FLAG_25;
+    if (player->stateFlags2 & PLAYER_STATE2_USING_OCARINA) {
+        freezeExceptionFlag = ACTOR_FLAG_UPDATE_DURING_OCARINA;
     }
 
     if ((player->stateFlags1 & PLAYER_STATE1_TALKING) && ((player->actor.textId & 0xFF00) != 0x600)) {
@@ -2406,8 +2406,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
             } else if (!Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
                 Actor_Kill(actor);
                 actor = actor->next;
-            } else if ((requiredActorFlag && !(actor->flags & requiredActorFlag)) ||
-                       (!requiredActorFlag && canFreezeCategory &&
+            } else if ((freezeExceptionFlag != 0 && !(actor->flags & freezeExceptionFlag)) ||
+                       (freezeExceptionFlag == 0 && canFreezeCategory &&
                         !((sp74 == actor) || (actor == player->naviActor) || (actor == player->heldActor) ||
                           (&player->actor == actor->parent)))) {
                 CollisionCheck_ResetDamage(&actor->colChkInfo);
@@ -2426,7 +2426,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                 actor->xyzDistToPlayerSq = SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer);
 
                 actor->yawTowardsPlayer = Actor_WorldYawTowardActor(actor, &player->actor);
-                actor->flags &= ~ACTOR_FLAG_24;
+                actor->flags &= ~ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
 
                 if ((DECR(actor->freezeTimer) == 0) && (actor->flags & (ACTOR_FLAG_4 | ACTOR_FLAG_6))) {
                     if (actor == player->focusActor) {

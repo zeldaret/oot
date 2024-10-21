@@ -15,7 +15,7 @@
 #if OOT_VERSION < NTSC_1_1
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 #else
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 #endif
 
 typedef enum BgDyYoseizoRewardType {
