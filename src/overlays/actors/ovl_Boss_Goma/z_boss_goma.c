@@ -1296,7 +1296,7 @@ void BossGoma_FloorPrepareAttack(BossGoma* this, PlayState* play) {
 void BossGoma_FloorAttack(BossGoma* this, PlayState* play) {
     s16 i;
 
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     SkelAnime_Update(&this->skelanime);
 
     switch (this->actionState) {

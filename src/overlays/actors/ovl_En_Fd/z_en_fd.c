@@ -461,7 +461,7 @@ void EnFd_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     Actor_SetScale(&this->actor, 0.01f);
     this->firstUpdateFlag = true;
     this->actor.gravity = -1.0f;
