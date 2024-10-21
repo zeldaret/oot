@@ -196,8 +196,9 @@ typedef struct ActorShape {
 // This flag allows a given actor to be an exception.
 #define ACTOR_FLAG_UPDATE_DURING_OCARINA (1 << 25)
 
-//
-#define ACTOR_FLAG_26 (1 << 26)
+// Actor can press and hold down switches.
+// See usages of `DynaPolyActor_SetSwitchPressed` and `DynaPolyActor_IsSwitchPressed` for more context on how switches work.
+#define ACTOR_FLAG_CAN_PRESS_SWITCHES (1 << 26)
 
 // Player is not able to lock onto the actor.
 // Navi will still be able to hover over the actor, assuming `ACTOR_FLAG_ATTENTION_ENABLED` is set.
@@ -311,7 +312,7 @@ if neither of the above are set : blue
 #define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
-#define DYNA_INTERACT_3 (1 << 3) // Like the ACTOR_ON_TOP flag but only actors with ACTOR_FLAG_26
+#define DYNA_INTERACT_ACTOR_SWITCH_PRESSED (1 << 3) // An actor that is capable of pressing switches is on top of the dynapoly actor
 
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;
