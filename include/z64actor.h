@@ -309,7 +309,7 @@ if neither of the above are set : blue
 #define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
-#define DYNA_INTERACT_ACTOR_SWITCH_PRESSED (1 << 3) // An actor that has `ACTOR_FLAG_CAN_PRESS_SWITCHES` is on top of the dynapoly actor
+#define DYNA_INTERACT_ACTOR_SWITCH_PRESSED (1 << 3) // An actor that is capable of pressing switches is on top of the dynapoly actor
 
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;
