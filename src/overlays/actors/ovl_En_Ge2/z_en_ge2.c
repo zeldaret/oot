@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ge2.h"
+#include "z64horse.h"
 #include "terminal.h"
 #include "assets/objects/object_gla/object_gla.h"
 
@@ -238,7 +239,7 @@ void EnGe2_CaptureClose(EnGe2* this, PlayState* play) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
@@ -264,7 +265,7 @@ void EnGe2_CaptureCharge(EnGe2* this, PlayState* play) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;

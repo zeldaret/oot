@@ -71,13 +71,6 @@ void CutsceneFlags_UnsetAll(PlayState* play);
 void CutsceneFlags_Set(PlayState* play, s16 flag);
 void CutsceneFlags_Unset(PlayState* play, s16 flag);
 s32 CutsceneFlags_Get(PlayState* play, s16 flag);
-s32 func_8006CFC0(s32 sceneId);
-void func_8006D074(PlayState* play);
-void func_8006D0AC(PlayState* play);
-void func_8006D0EC(PlayState* play, Player* player);
-void func_8006D684(PlayState* play, Player* player);
-void func_8006DC68(PlayState* play, Player* player);
-void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
 
 s32 Kanji_OffsetFromShiftJIS(s32 character);
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
