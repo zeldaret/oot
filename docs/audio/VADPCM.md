@@ -5,18 +5,23 @@ The Vector Adaptive Differential Pulse-Code Modulation (VADPCM) is an adaptation
 As with ADPCM it is based on linear prediction models. A (forward) linear prediction model allows one to determine the next sample in a signal based on a linear combination of the prior samples, and an error term encoding how far off the prediction is to the true value of the next sample.
 
 Let
+
 $$
 \hat{x}[n] = \sum^O_{i=1} a_i x[n - i]
 $$
+
 be the value of the prediction based on the prior samples $x$. The coefficients $a_i$ are called the 'prediction coefficients' and are arranged into a 'codebook' that is used in decoding. The number of samples to look back on $O$ is called the "order", in practice we will fix this to 2 as this is the only value supported by the decoder.
 
 Further let
+
 $$
 e[n] = x[n] - \hat{x}[n]
 $$
+
 be the error in the prediction $\hat{x}[n]$ from the true sample value $x[n]$. These errors are quantized and stored for use in decoding.
 
 Given these quantities, we let the next sample $x[n]$ be (fixing $O=2$)
+
 $$
 x[n] = a_1 x[n - 1] + a_2 x[n - 2] + e[n]
 $$
@@ -42,9 +47,15 @@ The decoding largely consists of multiplying the following 10x8 FIR filter matri
 
 $$
 \begin{pmatrix}
-    p_0 \\ p_1 \\ p_2 \\ p_3 \\ p_4 \\ p_5 \\ p_6 \\ p_7
-\end{pmatrix}
-=
+    p_0 \\
+    p_1 \\
+    p_2 \\
+    p_3 \\
+    p_4 \\
+    p_5 \\
+    p_6 \\
+    p_7 \\
+\end{pmatrix} =
 \begin{pmatrix}
     c_0 & d_0 &   1 &   0 &   0 &   0 &   0 &   0 &   0 &   0 \\
     c_1 & d_1 & d_0 &   1 &   0 &   0 &   0 &   0 &   0 &   0 \\
@@ -56,9 +67,19 @@ $$
     c_7 & d_7 & d_6 & d_5 & d_4 & d_3 & d_2 & d_1 & d_0 &   1 \\
 \end{pmatrix}
 \begin{pmatrix}
-    p_{-2} \\ p_{-1} \\ s_0 \\ s_1 \\ s_2 \\ s_3 \\ s_4 \\ s_5 \\ s_6 \\ s_7
+    p_{-2} \\
+    p_{-1} \\
+    s_0 \\
+    s_1 \\
+    s_2 \\
+    s_3 \\
+    s_4 \\
+    s_5 \\
+    s_6 \\
+    s_7 \\
 \end{pmatrix}
 $$
+
 where
  - $p_{-2}$, $p_{-1}$ are the two most recently decoded samples, corresponding to $p_6$ and $p_7$ in the previous set of 8 samples. For the very first frame, let both be 0.
  - $s_0$, $s_7$ residuals for the next 8 samples (half a frame) to decode, scaled by the scale factor chosen in the frame header.
@@ -74,7 +95,8 @@ The particular efficiency of VADPCM comes from how each sample in the above vect
 The SDK tool `tabledesign` and our tool [sampleconv](../../tools/audio/sampleconv/src/codec/vadpcm_tabledesign.c) finds optimal predictors by way of the autocorrelation criterion, where the mean-squared error $\mathrm{E} [e^2[n]]$ is minimized.
 
 The mean-squared error is
-$$
+
+```math
 \begin{aligned}
 \mathrm{E}[e^2[n]] &= \mathrm{E} \left [ \left ( x[n] - \hat{x}[n] \right )^2 \right ] = \mathrm{E} \left [ x^2[n] - 2 x[n] \hat{x}[n] + \hat{x}^2[n] \right ]
 \\
@@ -84,16 +106,19 @@ $$
 \\
           &= \mathbf{r}_{xx}[0] - 2 \mathbf{r}_{xx}^\intercal \mathbf{a} + \mathbf{a}^\intercal R_{xx} \mathbf{a}
 \end{aligned}
-$$
-where we have identified the autocorrelation vector $\mathbf{r}_{xx}$ and autocorrelation matrix $R_{xx}$.
+```
+
+where we have identified the autocorrelation vector $`\mathbf{r}_{xx}`$ and autocorrelation matrix $`R_{xx}`$.
 
 Minimizing this yields the optimal predictors in terms of the autocorrelation:
-$$
+
+```math
 \frac{\partial}{\partial \mathbf{a}} \mathrm{E} \left [ e^2[n] \right ] = -2 \mathbf{r}_{xx}^\intercal + 2 \mathbf{a}^\intercal R_{xx} = 0
-$$
-$$
+```
+
+```math
 r_{xx} = R_{xx} \mathbf{a} \Rightarrow \mathbf{a} = R^{-1}_{xx} \mathbf{r}_{xx}
-$$
+```
 
 The Levinson-Durbin algorithm provides an efficient solution to this if the system is known to be stable. These predictors are used to assemble the codebook that is used along with residuals to decode the samples.
 
