@@ -17,9 +17,9 @@ Used in extraction and build to convert audio sample data between uncompressed m
 
 ## SampleBank Compiler (sbc)
 
-Converts samplebank xml + aifc -> assembly for building
+Converts samplebank xml + aifc -> asm
 
-Samplebanks are converted to assembly files for building as it is easier to define the necessary absolute symbols, and it builds faster than in C.
+Samplebanks are converted to assembly files for building as it is easier to define the necessary absolute symbols, and they are pure unstructured data.
 
 ## SoundFont Compiler (sfc)
 
@@ -39,7 +39,7 @@ Generates various audio code tables.
 
 - Samplebank table: Specifies where in the `Audiotable` file each samplebank begins and how large it is.
 - Soundfont table: Specifies where in the `Audiobank` files each soundfont begins, how large it is, which samplebanks it uses, and how many instruments/drums/sfx it contains.
-- Sequence font table: Contains information on what soundfonts each sequence uses. Generated from the sequence object files that embed a `.fonts` section that holds this information.
+- Sequence font table: Contains information on what soundfonts each sequence uses. Generated from the sequence object files that embed a `.note.fonts` section that holds this information.
 
 The sequence table is not generated as some things in that table are better left manually specified, such as sequence enum names and flags. This also lets us have the sequence table before assembling any sequence files which is nice for some sequence commands like `runseq`.
 
@@ -51,8 +51,9 @@ Produces header files containing binary file sizes for a given set of object fil
 
 This collection of python files implements the extraction of audio data from a base ROM.
 
-`audio_extract.py` is the main file for audio extraction, it expects a script to call `extract_audio_for_version` with the necessary inputs.
-`disassemble_sequence.py` is runnable but is not used that way in either extraction or building. It may be used to manually disassemble a sequence binary.
-`tuning.py` is runnable but is not used that way in either extraction or building. It may be used to manually determine alternative matches for the samplerate and root key of a sample as the extraction procedure cannot always determine these uniquely.
+Files that are designed to be used externally include:
+- `audio_extract.py` is the main file for audio extraction, it expects an external script to call `extract_audio_for_version` with the necessary inputs.
+- `disassemble_sequence.py` is runnable but is not used in this way in either extraction or building. It may be used to manually disassemble a sequence binary.
+- `tuning.py` is runnable but is not used that way in either extraction or building. It may be used to manually determine alternative matches for the samplerate and basenote of a sample as the extraction procedure cannot always determine these uniquely.
 
-See individual python source files for individual explanations of the other files.
+See individual python source files for further details on their purposes.

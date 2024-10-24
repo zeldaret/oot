@@ -22,8 +22,8 @@ usage(const char *progname)
            "          section name: The object file section to output the size of in each definition"           "\n"
            "          object files: List of paths to each object file to be processed, each input object file"  "\n"
            "                        must contain the section requested in the section name argument and must"   "\n"
-           "                        also contain a .name section containing the null-terminated symbolic name"  "\n"
-           "                        of the object that is used to name the size definitions."                   "\n",
+           "                        also contain a .note.name section containing the null-terminated symbolic " "\n"
+           "                        name of the object that is used to name the size definitions."              "\n",
             // clang-format on
             progname);
     return EXIT_FAILURE;
@@ -70,10 +70,10 @@ main(int argc, char **argv)
         if (shstrtab == NULL)
             error("Input file \"%s\" has no shstrtab?", path);
 
-        // Read in the .name section containing the object's symbolic name.
+        // Read in the .note.name section containing the object's symbolic name.
         // We run this on both soundfonts and sequences:
-        // - Soundfont .name sections are added with objcopy
-        // - Sequence .name sections are assembled as part of .startseq
+        // - Soundfont .note.name sections are added with objcopy
+        // - Sequence .note.name sections are assembled as part of .startseq
 
         Elf32_Shdr *name_section = elf32_section_forname(".note.name", shstrtab, data, data_size);
         if (name_section == NULL)

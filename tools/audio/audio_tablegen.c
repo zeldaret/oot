@@ -424,11 +424,11 @@ tablegen_sequences(const char *seq_font_tbl_out, const char *seq_order_path, con
         if (shstrtab == NULL)
             error("ELF file \"%s\" has no section header string table?", path);
 
-        // The .fonts and .name sections are written when assembling the sequence:
-        // The .fonts section contains a list of bytes for each soundfont the sequences uses
-        // The .name section contains the null-terminated name of the sequence as set by .startseq
+        // The .note.fonts and .note.name sections are written when assembling the sequence:
+        // The .note.fonts section contains a list of bytes for each soundfont the sequences uses
+        // The .note.name section contains the null-terminated name of the sequence as set by .startseq
 
-        Elf32_Shdr *font_section = elf32_section_forname(".fonts", shstrtab, data, data_size);
+        Elf32_Shdr *font_section = elf32_section_forname(".note.fonts", shstrtab, data, data_size);
         if (font_section == NULL)
             error("Sequence file \"%s\" has no fonts section?", path);
 

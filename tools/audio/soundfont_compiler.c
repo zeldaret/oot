@@ -1749,12 +1749,12 @@ main(int argc, char **argv)
 
     fprintf(out_h,
             // clang-format off
-           "#ifdef _LANGUAGE_ASEQ"              "\n"
-           ".pushsection .fonts, \"\", @note"   "\n"
-           "    .byte %d /*sf id*/"             "\n"
-           ".popsection"                        "\n"
-           "#endif"                             "\n"
-                                                "\n",
+           "#ifdef _LANGUAGE_ASEQ"                  "\n"
+           ".pushsection .note.fonts, \"\", @note"  "\n"
+           "    .byte %d /*sf id*/"                 "\n"
+           ".popsection"                            "\n"
+           "#endif"                                 "\n"
+                                                    "\n",
             // clang-format on
             sf.info.index);
 
@@ -1782,7 +1782,7 @@ main(int argc, char **argv)
     FILE *out_name = fopen(filename_out_name, "wb");
     // We need to emit an explicit null terminator so that we can run objcopy --add-section to include the name
     // in a .note.name section in the compiled object file. This is so that the string that ends up in the .note.name
-    // section is null-terminated, its length may be verified by anything tools that readi the name out of this section.
+    // section is null-terminated, its length may be verified by any tools that read the name out of this section.
     fprintf(out_name, "%s%c", sf.info.name, '\0');
     fclose(out_name);
 
