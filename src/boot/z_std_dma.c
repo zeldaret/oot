@@ -28,7 +28,7 @@
 #endif
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:92 pal-1.0:90 pal-1.1:90"
+                               "ntsc-1.2:96 pal-1.0:90 pal-1.1:90"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
