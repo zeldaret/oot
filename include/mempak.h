@@ -1,7 +1,7 @@
 #ifndef MEMPAK_H
 #define MEMPAK_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 s32 Mempak_Init(s32 controllerNum);
 s32 Mempak_GetFreeBytes(s32 controllerNum);

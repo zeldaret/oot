@@ -1,7 +1,7 @@
 #ifndef Z64_ANIMATION_H
 #define Z64_ANIMATION_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "z64dma.h"
 #include "z64math.h"
 #include "macros.h"
@@ -9,6 +9,7 @@
 struct PlayState;
 struct Actor;
 struct SkelAnime;
+union Gfx;
 
 /*
  * Skeletons and limbs
@@ -20,14 +21,14 @@ typedef struct StandardLimb {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
-    /* 0x08 */ Gfx* dList;
+    /* 0x08 */ union Gfx* dList;
 } StandardLimb; // size = 0xC
 
 typedef struct LodLimb {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
-    /* 0x08 */ Gfx* dLists[2]; // Near and far
+    /* 0x08 */ union Gfx* dLists[2]; // Near and far
 } LodLimb; // size = 0x10
 
 // Model has limbs with only rigid meshes
@@ -204,20 +205,20 @@ s32 SkelAnime_Update(SkelAnime* skelAnime);
 
 // Draw
 
-typedef s32 (*OverrideLimbDraw)(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void*,
-                                Gfx** gfx);
-typedef void (*PostLimbDraw)(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void*, Gfx** gfx);
+typedef s32 (*OverrideLimbDraw)(struct PlayState* play, s32 limbIndex, union Gfx** dList, Vec3f* pos, Vec3s* rot, void*,
+                                union Gfx** gfx);
+typedef void (*PostLimbDraw)(struct PlayState* play, s32 limbIndex, union Gfx** dList, Vec3s* rot, void*, union Gfx** gfx);
 
-typedef s32 (*OverrideLimbDrawOpa)(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void*);
-typedef void (*PostLimbDrawOpa)(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
+typedef s32 (*OverrideLimbDrawOpa)(struct PlayState* play, s32 limbIndex, union Gfx** dList, Vec3f* pos, Vec3s* rot, void*);
+typedef void (*PostLimbDrawOpa)(struct PlayState* play, s32 limbIndex, union Gfx** dList, Vec3s* rot, void*);
 
-Gfx* SkelAnime_Draw(struct PlayState* play, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw,
-                    PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
+union Gfx* SkelAnime_Draw(struct PlayState* play, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw,
+                    PostLimbDraw postLimbDraw, void* arg, union Gfx* gfx);
 void SkelAnime_DrawOpa(struct PlayState* play, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw,
                        PostLimbDrawOpa postLimbDraw, void* arg);
 
-Gfx* SkelAnime_DrawFlex(struct PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount,
-                        OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
+union Gfx* SkelAnime_DrawFlex(struct PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount,
+                        OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, union Gfx* gfx);
 void SkelAnime_DrawFlexOpa(struct PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount,
                            OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg);
 

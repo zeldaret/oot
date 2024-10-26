@@ -1,4 +1,5 @@
 #include "global.h"
+#include "segment_symbols.h"
 
 s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
 

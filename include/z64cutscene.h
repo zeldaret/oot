@@ -1,7 +1,7 @@
 #ifndef Z64CUTSCENE_H
 #define Z64CUTSCENE_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "z64math.h"
 
 struct PlayState;

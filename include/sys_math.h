@@ -1,7 +1,7 @@
 #ifndef SYS_MATH_H
 #define SYS_MATH_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 f32 Math_FactorialF(f32 n);
 f32 Math_Factorial(s32 n);

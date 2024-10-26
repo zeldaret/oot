@@ -1,6 +1,7 @@
 #include "global.h"
 #include "message_data_static.h"
 #include "versions.h"
+#include "segment_symbols.h"
 
 /**
  * Loads a texture from kanji for the requested `character` into the character texture buffer

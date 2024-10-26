@@ -2,11 +2,10 @@
 #define Z64SCENE_H
 
 #include "macros.h"
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "z64bgcheck.h"
 #include "z64dma.h"
 #include "z64environment.h"
-#include "z64light.h"
 #include "z64math.h"
 
 #include "command_macros_base.h"

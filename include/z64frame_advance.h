@@ -1,7 +1,7 @@
 #ifndef Z64FRAME_ADVANCE_H
 #define Z64FRAME_ADVANCE_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 struct Input;
 struct PlayState;

@@ -1,11 +1,17 @@
 #ifndef Z64_AUDIO_H
 #define Z64_AUDIO_H
 
-#include "ultra64.h"
+#include "ultra64/message.h"
+#include "stddef.h"
+#include "ultra64/pi.h"
+#include "ultra64/sptask.h"
+#include "ultra64/ultratypes.h"
 #include "sequence.h"
+#include "stdint.h"
 #include "z64math.h"
 
 struct GfxPrint;
+union Acmd;
 
 typedef void (*AudioCustomUpdateFunction)(void);
 
@@ -936,8 +942,8 @@ typedef struct AudioContext {
     /* 0x28A0 */ s32 curAudioFrameDmaCount;
     /* 0x28A4 */ s32 rspTaskIndex;
     /* 0x28A8 */ s32 curAiBufIndex;
-    /* 0x28AC */ Acmd* abiCmdBufs[2]; // Pointer to audio heap where the audio binary interface command lists (for the rsp) are stored. Two lists that alternate every frame
-    /* 0x28B4 */ Acmd* curAbiCmdBuf; // Pointer to the currently active abiCmdBufs
+    /* 0x28AC */ union Acmd* abiCmdBufs[2]; // Pointer to audio heap where the audio binary interface command lists (for the rsp) are stored. Two lists that alternate every frame
+    /* 0x28B4 */ union Acmd* curAbiCmdBuf; // Pointer to the currently active abiCmdBufs
     /* 0x28B8 */ AudioTask* curTask;
     /* 0x28BC */ char unk_28BC[0x4];
     /* 0x28C0 */ AudioTask rspTask[2];
@@ -1026,7 +1032,7 @@ typedef struct AudioHeapInitSizes {
 
 // TODO these prototypes should be sorted into the relevant audio header files
 
-Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);
+union Acmd* AudioSynth_Update(union Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);
 void AudioHeap_DiscardFont(s32 fontId);
 void AudioHeap_ReleaseNotesForFont(s32 fontId);
 void AudioHeap_DiscardSequence(s32 seqId);

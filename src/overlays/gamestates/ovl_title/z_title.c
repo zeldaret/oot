@@ -7,6 +7,7 @@
 #include "global.h"
 #include "alloca.h"
 #include "versions.h"
+#include "segment_symbols.h"
 
 #if PLATFORM_N64
 #include "cic6105.h"

@@ -22,6 +22,7 @@
 #include "fault.h"
 #include "stack.h"
 #include "terminal.h"
+#include "segment_symbols.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif

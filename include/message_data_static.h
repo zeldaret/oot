@@ -1,7 +1,7 @@
 #ifndef MESSAGE_DATA_STATIC_H
 #define MESSAGE_DATA_STATIC_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "message_data_fmt.h"
 #include "versions.h"
 

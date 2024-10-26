@@ -1,7 +1,7 @@
 #ifndef KALEIDO_MANAGER_H
 #define KALEIDO_MANAGER_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "romfile.h"
 
 struct PlayState;

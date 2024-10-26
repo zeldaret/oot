@@ -1,5 +1,6 @@
 #include "global.h"
 #include "versions.h"
+#include "segment_symbols.h"
 
 void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);

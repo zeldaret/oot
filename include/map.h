@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 struct PlayState;
 

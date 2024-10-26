@@ -6,6 +6,9 @@
 #include "sys_math.h"
 #include "rand.h"
 #include "sfx.h"
+#include "color.h"
+#include "padmgr.h"
+#include "z64math.h"
 
 /**
  * memset: sets `len` bytes to `val` starting at address `dest`.

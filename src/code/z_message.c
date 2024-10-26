@@ -2,6 +2,7 @@
 #include "message_data_static.h"
 #include "terminal.h"
 #include "versions.h"
+#include "segment_symbols.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #if PLATFORM_N64
 #include "n64dd.h"

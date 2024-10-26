@@ -1,8 +1,9 @@
 #ifndef JPEG_H
 #define JPEG_H
 
-#include "ultra64.h"
 #include "sched.h"
+#include "ultra64/message.h"
+#include "ultra64/ultratypes.h"
 
 typedef struct JpegQuantizationTable {
     /* 0x00 */ u16 table[8*8];

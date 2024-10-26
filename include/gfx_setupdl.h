@@ -1,7 +1,7 @@
 #ifndef GFX_SETUPDL_H
 #define GFX_SETUPDL_H
 
-#include "ultra64.h"
+#include "ultra64/gbi.h"
 
 struct GraphicsContext;
 struct PlayState;

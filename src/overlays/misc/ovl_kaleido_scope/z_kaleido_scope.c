@@ -15,6 +15,7 @@
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "terminal.h"
 #include "versions.h"
+#include "segment_symbols.h"
 
 #pragma increment_block_number "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 

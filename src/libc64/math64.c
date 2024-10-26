@@ -1,5 +1,8 @@
 #include "z64math.h"
 #include "macros.h"
+#include "segment_symbols.h"
+#include "ultra64/gu.h"
+#include "stdbool.h"
 
 #if !PLATFORM_N64
 s32 gUseAtanContFrac;

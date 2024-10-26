@@ -1,7 +1,7 @@
 #ifndef ONE_POINT_CUTSCENE_H
 #define ONE_POINT_CUTSCENE_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 struct Actor;
 struct PlayState;

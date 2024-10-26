@@ -1,10 +1,7 @@
 #ifndef Z64LIGHT_H
 #define Z64LIGHT_H
 
-#include "ultra64.h"
 #include "ultra64/gbi.h"
-#include "z64math.h"
-#include "color.h"
 
 struct GraphicsContext;
 struct PlayState;
@@ -63,7 +60,7 @@ typedef enum LightType {
     /* 0x02 */ LIGHT_POINT_GLOW
 } LightType;
 
-typedef void (*LightsBindFunc)(Lights* lights, LightParams* params, Vec3f* vec);
+typedef void (*LightsBindFunc)(Lights* lights, LightParams* params, struct Vec3f* vec);
 
 void Lights_PointSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, s32 type);
 void Lights_PointNoGlowSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius);
@@ -72,7 +69,7 @@ void Lights_PointSetColorAndRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius
 void Lights_DirectionalSetInfo(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8 b);
 void Lights_Reset(Lights* lights, u8 ambentR, u8 ambentG, u8 ambentB);
 void Lights_Draw(Lights* lights, struct GraphicsContext* gfxCtx);
-void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec);
+void Lights_BindAll(Lights* lights, LightNode* listHead, struct Vec3f* vec);
 void LightContext_Init(struct PlayState* play, LightContext* lightCtx);
 void LightContext_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b);
 void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 zFar);

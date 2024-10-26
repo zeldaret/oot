@@ -1,7 +1,8 @@
 #ifndef GFXPRINT_H
 #define GFXPRINT_H
 
-#include "ultra64.h"
+#include "ultra64/gbi.h"
+#include "ultra64/ultratypes.h"
 #include "color.h"
 
 typedef struct GfxPrint {

@@ -1,7 +1,7 @@
 #ifndef Z64SAVE_H
 #define Z64SAVE_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "versions.h"
 #include "z64inventory.h"
 #include "z64math.h"

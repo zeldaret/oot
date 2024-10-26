@@ -1,3 +1,4 @@
+#include "main.h"
 #include "global.h"
 #include "terminal.h"
 

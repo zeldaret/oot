@@ -1,7 +1,7 @@
 #ifndef CIC6105_H
 #define CIC6105_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 extern s32 B_80008EE0;
 

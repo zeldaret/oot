@@ -1,13 +1,13 @@
 #ifndef Z64SKIN_MATRIX_H
 #define Z64SKIN_MATRIX_H
 
-#include "ultra64.h"
-#include "z64math.h"
+#include "ultra64/ultratypes.h"
 
+struct Vec3f;
 struct GraphicsContext;
 
-void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest);
-void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest);
+void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, struct Vec3f* src, struct Vec3f* xyzDest, f32* wDest);
+void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, struct Vec3f* src, struct Vec3f* dest);
 void SkinMatrix_MtxFMtxFMult(MtxF* mfA, MtxF* mfB, MtxF* dest);
 void SkinMatrix_GetClear(MtxF** mfp);
 void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest);

@@ -1,7 +1,8 @@
 #ifndef FAULT_H
 #define FAULT_H
 
-#include "ultra64.h"
+#include "ultra64/message.h"
+#include "ultra64/ultratypes.h"
 #include "attributes.h"
 #include "padmgr.h"
 

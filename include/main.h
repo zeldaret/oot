@@ -1,7 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 extern s32 gScreenWidth;
 extern s32 gScreenHeight;

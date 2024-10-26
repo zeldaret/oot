@@ -5,6 +5,7 @@
 #include "ultra64.h"
 #include "terminal.h"
 #include "versions.h"
+#include "segment_symbols.h"
 
 #include "z64frame_advance.h"
 

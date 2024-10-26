@@ -1,6 +1,7 @@
 #include "global.h"
 #include "boot.h"
 #include "stack.h"
+#include "segment_symbols.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif

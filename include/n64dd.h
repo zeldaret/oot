@@ -1,11 +1,13 @@
 #ifndef N64DD_H
 #define N64DD_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
+#include "ultra64/gbi.h"
+#include "ultra64/message.h"
+#include "stddef.h"
 #include "ultra64/leo.h"
-#include "z64pause.h"
-#include "z64scene.h"
-#include "z64map_mark.h"
+#include "stdint.h"
+#include "unk.h"
 #include "versions.h"
 
 struct Font;
@@ -17,6 +19,10 @@ struct RegEditor;
 struct RoomContext;
 struct SaveContext;
 struct Scene;
+struct MapMarkData;
+struct PauseMapMarksData;
+struct SceneDrawConfigFunc;
+struct DmaRequest;
 
 // TODO Use the specific pointer types instead of void*
 typedef struct n64ddStruct_800FEE70_pointers {
@@ -40,10 +46,10 @@ typedef struct n64ddStruct_80121220 {
     s32 (*unk_20)(struct MapData*);
     s32 (*unk_24)(void);
     s32 (*unk_28)(struct PlayState*);
-    s32 (*unk_2C)(MapMarkData***);
-    s32 (*unk_30)(MapMarkData***);
-    void (*unk_34)(PauseMapMarksData**);
-    void (*unk_38)(PauseMapMarksData**);
+    s32 (*unk_2C)(struct MapMarkData***);
+    s32 (*unk_30)(struct MapMarkData***);
+    void (*unk_34)(struct PauseMapMarksData**);
+    void (*unk_38)(struct PauseMapMarksData**);
     void (*unk_3C)(void);
     void (*unk_40)(void);
     s32 (*unk_44)(struct PlayState*);
@@ -62,7 +68,7 @@ typedef struct n64ddStruct_80121220 {
 #if OOT_PAL
     s32 (*unk_6C_PAL)(struct Font*);
 #endif
-    void (*unk_6C)(struct PlayState*, SceneDrawConfigFunc*);
+    void (*unk_6C)(struct PlayState*, struct SceneDrawConfigFunc*);
     s32 (*unk_70)(struct DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
     void (*unk_74)(struct GameState*);
     s32 (*unk_78)(struct PlayState*, void*, void*);
