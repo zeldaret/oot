@@ -19,9 +19,8 @@ struct RegEditor;
 struct RoomContext;
 struct SaveContext;
 struct Scene;
-struct MapMarkData;
-struct PauseMapMarksData;
-struct SceneDrawConfigFunc;
+struct MapMarkIconData;
+struct PauseMapMarkData;
 struct DmaRequest;
 
 // TODO Use the specific pointer types instead of void*
@@ -46,10 +45,10 @@ typedef struct n64ddStruct_80121220 {
     s32 (*unk_20)(struct MapData*);
     s32 (*unk_24)(void);
     s32 (*unk_28)(struct PlayState*);
-    s32 (*unk_2C)(struct MapMarkData***);
-    s32 (*unk_30)(struct MapMarkData***);
-    void (*unk_34)(struct PauseMapMarksData**);
-    void (*unk_38)(struct PauseMapMarksData**);
+    s32 (*unk_2C)(struct MapMarkIconData***[3]);
+    s32 (*unk_30)(struct MapMarkIconData***[3]);
+    void (*unk_34)(struct PauseMapMarkData**[3]);
+    void (*unk_38)(struct PauseMapMarkData**[3]);
     void (*unk_3C)(void);
     void (*unk_40)(void);
     s32 (*unk_44)(struct PlayState*);
@@ -68,7 +67,7 @@ typedef struct n64ddStruct_80121220 {
 #if OOT_PAL
     s32 (*unk_6C_PAL)(struct Font*);
 #endif
-    void (*unk_6C)(struct PlayState*, struct SceneDrawConfigFunc*);
+    void (*unk_6C)(struct PlayState*, void(**)(struct PlayState*));
     s32 (*unk_70)(struct DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg);
     void (*unk_74)(struct GameState*);
     s32 (*unk_78)(struct PlayState*, void*, void*);

@@ -32,7 +32,7 @@ void PauseMapMark_Init(PlayState* play) {
     gLoadedPauseMarkDataTable = gPauseMapMarkDataTable;
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_34 != NULL)) {
-        B_80121220->unk_34(&gLoadedPauseMarkDataTable);
+        B_80121220->unk_34((PauseMapMarkData***)&gLoadedPauseMarkDataTable);
     }
 #endif
 }
@@ -40,7 +40,7 @@ void PauseMapMark_Init(PlayState* play) {
 void PauseMapMark_Clear(PlayState* play) {
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_38 != NULL)) {
-        B_80121220->unk_38(&gLoadedPauseMarkDataTable);
+        B_80121220->unk_38((PauseMapMarkData***)&gLoadedPauseMarkDataTable);
     }
 #endif
     gLoadedPauseMarkDataTable = NULL;
