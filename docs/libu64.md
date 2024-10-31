@@ -72,6 +72,6 @@ On the other hand, the function `Overlay_Load` (in `loadfragment2_n64.c` or `loa
 This could suggest these files are not part of libu64, but the other evidence detailed above seems stronger.
 It is also a possibility that libu64 expected users to provide the function, and it would have been an undefined symbol in the library.
 
-All in all this suggests all files in code between the audio library and libc64, are part of libu64.
+All in all this suggests all files in code between the audio code and libc64, are part of libu64.
 
 In the OoT boot segment, `stackcheck.c` is right next to `debug.c` and requires `-O2`: this hints `stackcheck.c` could be part of libu64 too. This is confirmed by looking at Majora's Mask n64-us, where `stackcheck.c` is in the middle of other libu64 files in the boot segment (see MM spec).
