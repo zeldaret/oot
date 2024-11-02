@@ -7,7 +7,7 @@
 #include "z_door_ana.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS ACTOR_FLAG_25
+#define FLAGS ACTOR_FLAG_UPDATE_DURING_OCARINA
 
 void DoorAna_Init(Actor* thisx, PlayState* play);
 void DoorAna_Destroy(Actor* thisx, PlayState* play);

@@ -443,20 +443,9 @@ endif
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/boot/logutils.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/src/code/code_800FC620.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/loadfragment2_n64.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/load_gc.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/loadfragment2_gc.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/padsetup.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/padutils.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/relocation_gc.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/code/fault_n64.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault_gc.o: CFLAGS += -trapuv
@@ -480,6 +469,8 @@ $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O2
 endif
 
 $(BUILD_DIR)/src/libc64/%.o: OPTFLAGS := -O2
+
+$(BUILD_DIR)/src/libu64/%.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 

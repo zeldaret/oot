@@ -288,7 +288,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
             case TEKTITE_MID_LUNGE:
                 // Continue trajectory until tektite has negative velocity and has landed on ground/water surface
                 // Snap to ground/water surface, or if falling fast dip into the water and slow fall speed
-                this->actor.flags |= ACTOR_FLAG_24;
+                this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
                 if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
                     ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) {
                     if (this->actor.velocity.y <= 0.0f) {
@@ -571,7 +571,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
             } else {
                 this->actor.velocity.y = 10.0f;
                 this->actor.speed = 4.0f;
-                this->actor.flags |= ACTOR_FLAG_24;
+                this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
                 this->actor.gravity = -1.0f;
                 if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
@@ -582,7 +582,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         } else {
             this->actor.velocity.y = 10.0f;
             this->actor.speed = 4.0f;
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             this->actor.gravity = -1.0f;
             if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
@@ -593,7 +593,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         // If in midair:
     } else {
         // Turn slowly toward player
-        this->actor.flags |= ACTOR_FLAG_24;
+        this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 1000, 0);
         if (this->actor.velocity.y >= 6.0f) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
