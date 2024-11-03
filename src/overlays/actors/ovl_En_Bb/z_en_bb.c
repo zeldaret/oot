@@ -345,7 +345,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 this->flamePrimBlue = this->flameEnvColor.b = 255;
                 thisx->world.pos.y += 50.0f;
                 EnBb_SetupBlue(this);
-                thisx->flags |= ACTOR_FLAG_14;
+                thisx->flags |= ACTOR_FLAG_CAN_ATTACH_TO_ARROW;
                 break;
             case ENBB_RED:
                 thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
@@ -374,7 +374,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 EnBb_SetupWhite(play, this);
                 EnBb_SetWaypoint(this, play);
                 EnBb_FaceWaypoint(this);
-                thisx->flags |= ACTOR_FLAG_14;
+                thisx->flags |= ACTOR_FLAG_CAN_ATTACH_TO_ARROW;
                 break;
             case ENBB_GREEN_BIG:
                 this->path = this->actionState >> 4;
@@ -1237,7 +1237,7 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
     if (this->actor.colChkInfo.damageEffect != 0xD) {
         this->actionFunc(this, play);
         if ((this->actor.params <= ENBB_BLUE) && (this->actor.speed >= -6.0f) &&
-            ((this->actor.flags & ACTOR_FLAG_15) == 0)) {
+            ((this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) == 0)) {
             Actor_MoveXZGravity(&this->actor);
         }
         if (this->moveMode == BBMOVE_NORMAL) {
