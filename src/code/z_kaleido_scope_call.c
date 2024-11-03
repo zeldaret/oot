@@ -83,8 +83,9 @@ void KaleidoScopeCall_Update(PlayState* play) {
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
             pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING; // redundant for game over
-            pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER
-        } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) || (pauseCtx->state == PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER)) {
+            pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;              // PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER
+        } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) ||
+                   (pauseCtx->state == PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER)) {
             PRINTF("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_BG_PRERENDER_STATE);
 
             if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) {
