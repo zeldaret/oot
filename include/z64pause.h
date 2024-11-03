@@ -66,13 +66,13 @@ typedef enum PauseState {
     /*  8 */ PAUSE_STATE_GAME_OVER_REQUEST,
     /*  9 */ PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER,
     /* 10 */ PAUSE_STATE_GAME_OVER_INIT,
-    /* 11 */ PAUSE_STATE_GAME_OVER_SHOW, // "GAME OVER" message appears
-    /* 12 */ PAUSE_STATE_GAME_OVER_DELAY,
-    /* 13 */ PAUSE_STATE_GAME_OVER_FRAME, // prompts frame appears with a rotation
-    /* 14 */ PAUSE_STATE_GAME_OVER_SAVE_PROMPT,
-    /* 15 */ PAUSE_STATE_GAME_OVER_SAVE_YES,
-    /* 16 */ PAUSE_STATE_GAME_OVER_CONTINUE_PROMPT,
-    /* 17 */ PAUSE_STATE_GAME_OVER_CONTINUE_CHOICE,
+    /* 11 */ PAUSE_STATE_GAME_OVER_SHOW, // Show the "GAME OVER" message
+    /* 12 */ PAUSE_STATE_GAME_OVER_DELAY, // Wait for the delay
+    /* 13 */ PAUSE_STATE_GAME_OVER_FRAME, // Show background and animate
+    /* 14 */ PAUSE_STATE_GAME_OVER_SAVE_PROMPT, // Ask "Would you like to save?"
+    /* 15 */ PAUSE_STATE_GAME_OVER_SAVE_YES, // Wait for the delay or input after the "Yes" choice
+    /* 16 */ PAUSE_STATE_GAME_OVER_CONTINUE_PROMPT, // Ask "Continue playing?"
+    /* 17 */ PAUSE_STATE_GAME_OVER_CONTINUE_CHOICE, // Fade out, then apply the choice
     /* 18 */ PAUSE_STATE_CLOSING, // Animate the pause menu closing
     /* 19 */ PAUSE_STATE_RESUME_GAMEPLAY // Handles returning to normal gameplay once the pause menu is visually closed
 } PauseState;
