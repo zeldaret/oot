@@ -63,22 +63,22 @@ typedef enum PauseState {
     /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
     /*  6 */ PAUSE_STATE_MAIN, // Pause menu ready for player inputs.
     /*  7 */ PAUSE_STATE_SAVE_PROMPT,  // Save prompt in the pause menu
-    /*  8 */ PAUSE_STATE_8,
-    /*  9 */ PAUSE_STATE_9,
-    /* 10 */ PAUSE_STATE_10,
-    /* 11 */ PAUSE_STATE_11,
-    /* 12 */ PAUSE_STATE_12,
-    /* 13 */ PAUSE_STATE_13,
-    /* 14 */ PAUSE_STATE_14,
-    /* 15 */ PAUSE_STATE_15,
-    /* 16 */ PAUSE_STATE_16,
-    /* 17 */ PAUSE_STATE_17,
+    /*  8 */ PAUSE_STATE_GAME_OVER_REQUEST,
+    /*  9 */ PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER,
+    /* 10 */ PAUSE_STATE_GAME_OVER_INIT,
+    /* 11 */ PAUSE_STATE_GAME_OVER_SHOW, // "GAME OVER" message appears
+    /* 12 */ PAUSE_STATE_GAME_OVER_DELAY,
+    /* 13 */ PAUSE_STATE_GAME_OVER_FRAME, // prompts frame appears with a rotation
+    /* 14 */ PAUSE_STATE_GAME_OVER_SAVE_PROMPT,
+    /* 15 */ PAUSE_STATE_GAME_OVER_SAVE_YES,
+    /* 16 */ PAUSE_STATE_GAME_OVER_CONTINUE_PROMPT,
+    /* 17 */ PAUSE_STATE_GAME_OVER_CONTINUE_CHOICE,
     /* 18 */ PAUSE_STATE_CLOSING, // Animate the pause menu closing
     /* 19 */ PAUSE_STATE_RESUME_GAMEPLAY // Handles returning to normal gameplay once the pause menu is visually closed
 } PauseState;
 
 #define IS_PAUSE_STATE_GAMEOVER(pauseCtx) \
-    (((pauseCtx)->state >= PAUSE_STATE_8) && ((pauseCtx)->state <= PAUSE_STATE_17))
+    (((pauseCtx)->state >= PAUSE_STATE_GAME_OVER_REQUEST) && ((pauseCtx)->state <= PAUSE_STATE_GAME_OVER_CONTINUE_CHOICE))
 
 #define IS_PAUSED(pauseCtx) \
     (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != 0))
