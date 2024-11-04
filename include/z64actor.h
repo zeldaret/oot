@@ -146,7 +146,7 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_10 (1 << 10)
 
-// A grass bushel (EN_KUSA) has been destroyed.
+// A clump of grass (EN_KUSA) has been destroyed.
 // This flag is used to communicate with the spawner actor (OBJ_MURE).
 #define ACTOR_FLAG_GRASS_DESTROYED (1 << 11)
 
