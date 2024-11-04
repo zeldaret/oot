@@ -146,9 +146,9 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_10 (1 << 10)
 
-// A bush (EN_KUSA) has been destroyed.
+// A grass bushel (EN_KUSA) has been destroyed.
 // This flag is used to communicate with the spawner actor (OBJ_MURE).
-#define ACTOR_FLAG_BUSH_DESTROYED (1 << 11)
+#define ACTOR_FLAG_GRASS_DESTROYED (1 << 11)
 
 // Actor will not shake when a quake occurs
 #define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)

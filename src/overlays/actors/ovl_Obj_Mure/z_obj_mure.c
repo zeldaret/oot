@@ -161,7 +161,7 @@ void ObjMure_SpawnActors0(ObjMure* this, PlayState* play) {
                     Actor_Spawn(&play->actorCtx, play, sSpawnActorIds[this->type], pos.x, pos.y, pos.z,
                                 actor->world.rot.x, actor->world.rot.y, actor->world.rot.z, sSpawnParams[this->type]);
                 if (this->children[i] != NULL) {
-                    this->children[i]->flags |= ACTOR_FLAG_BUSH_DESTROYED;
+                    this->children[i]->flags |= ACTOR_FLAG_GRASS_DESTROYED;
                     this->children[i]->room = actor->room;
                 } else {
                     PRINTF("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 359);
@@ -262,7 +262,7 @@ void ObjMure_CheckChildren(ObjMure* this, PlayState* play) {
         if (this->children[i] != NULL) {
             if (this->childrenStates[i] == OBJMURE_CHILD_STATE_0) {
                 if (this->children[i]->update != NULL) {
-                    if (this->children[i]->flags & ACTOR_FLAG_BUSH_DESTROYED) {
+                    if (this->children[i]->flags & ACTOR_FLAG_GRASS_DESTROYED) {
                         this->childrenStates[i] = OBJMURE_CHILD_STATE_2;
                     }
                 } else {
