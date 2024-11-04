@@ -69,8 +69,8 @@ typedef enum PauseState {
     /* 11 */ PAUSE_STATE_GAME_OVER_SHOW, // Show the "GAME OVER" message
     /* 12 */ PAUSE_STATE_GAME_OVER_DELAY, // Wait for the delay
     /* 13 */ PAUSE_STATE_GAME_OVER_FRAME, // Show background and animate
-    /* 14 */ PAUSE_STATE_GAME_OVER_SAVE_PROMPT, // Ask "Would you like to save?"
-    /* 15 */ PAUSE_STATE_GAME_OVER_SAVE_YES, // Wait for the delay or input after the "Yes" choice
+    /* 14 */ PAUSE_STATE_GAME_OVER_SAVE_PROMPT, // Ask "Would you like to save?", apply the choice
+    /* 15 */ PAUSE_STATE_GAME_OVER_SAVE_YES, // Show "Game saved.", wait for the delay or input
     /* 16 */ PAUSE_STATE_GAME_OVER_CONTINUE_PROMPT, // Ask "Continue playing?"
     /* 17 */ PAUSE_STATE_GAME_OVER_CONTINUE_CHOICE, // Fade out, then apply the choice
     /* 18 */ PAUSE_STATE_CLOSING, // Animate the pause menu closing
