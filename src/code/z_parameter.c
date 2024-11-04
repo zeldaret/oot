@@ -644,8 +644,8 @@ void func_80083108(PlayState* play) {
     s16 i;
     s16 sp28 = false;
 
-    if ((gSaveContext.save.cutsceneIndex < 0xFFF0) ||
-        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.save.cutsceneIndex == 0xFFF0))) {
+    if ((gSaveContext.save.cutsceneIndex < CS_INDEX_FFF0) ||
+        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF0))) {
         gSaveContext.forceRisingButtonAlphas = false;
 
         if ((player->stateFlags1 & PLAYER_STATE1_23) || (play->shootingGalleryStatus > 1) ||
@@ -3523,7 +3523,7 @@ void Interface_Draw(PlayState* play) {
             (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT)) {
             // Trade quest timer reached 0
             sSubTimerStateTimer = 40;
-            gSaveContext.save.cutsceneIndex = 0;
+            gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_FADE_WHITE;
             gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
@@ -3861,7 +3861,7 @@ void Interface_Draw(PlayState* play) {
                                                  (play->sceneId != SCENE_INSIDE_GANONS_CASTLE_COLLAPSE))) {
                                                 sSubTimerStateTimer = 40;
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_RESPAWN;
-                                                gSaveContext.save.cutsceneIndex = 0;
+                                                gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
                                                 Message_StartTextbox(play, 0x71B0, NULL);
                                                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
                                             } else {

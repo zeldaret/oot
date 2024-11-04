@@ -344,6 +344,28 @@ typedef enum CutsceneDestination {
     /* 0x77 */ CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneDestination;
 
+typedef enum CutsceneIndex {
+    CS_INDEX_NONE = 0x0000,
+    CS_INDEX_FFEF = 0xFFEF,
+    CS_INDEX_FFF0 = 0xFFF0,
+    CS_INDEX_FFF1 = 0xFFF1,
+    CS_INDEX_FFF2 = 0xFFF2,
+    CS_INDEX_FFF3 = 0xFFF3,
+    CS_INDEX_FFF4 = 0xFFF4,
+    CS_INDEX_FFF5 = 0xFFF5,
+    CS_INDEX_FFF6 = 0xFFF6,
+    CS_INDEX_FFF7 = 0xFFF7,
+    CS_INDEX_FFF8 = 0xFFF8,
+    CS_INDEX_FFF9 = 0xFFF9,
+    CS_INDEX_FFFA = 0xFFFA,
+    CS_INDEX_FFFB = 0xFFFB,
+    CS_INDEX_FFFC = 0xFFFC,
+    CS_INDEX_FFFD = 0xFFFD,
+    CS_INDEX_FFFE = 0xFFFE,
+    CS_INDEX_FFFF = 0xFFFF,
+    CS_INDEX_8000 = 0x8000,
+} CutsceneIndex;
+
 typedef union CsCmdCam {
     struct {
         /* 0x00 */ u16 unused0;
