@@ -60,8 +60,6 @@ void KaleidoScopeCall_Update(PlayState* play) {
     if (IS_PAUSED(&play->pauseCtx)) {
         if (pauseCtx->state == PAUSE_STATE_WAIT_LETTERBOX) {
             if (Letterbox_GetSize() == 0) {
-                // @note: line by line matches with the PAUSE_STATE_GAME_OVER_REQUEST below
-                // likely was an inlined function or a macro; or a copy-and-paste
 #if OOT_DEBUG
                 R_HREG_MODE = HREG_MODE_UCODE_DISAS;
                 R_UCODE_DISAS_LOG_MODE = 3;
@@ -73,8 +71,6 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
             }
         } else if (pauseCtx->state == PAUSE_STATE_GAME_OVER_REQUEST) {
-            // @note: line by line matches with the PAUSE_STATE_WAIT_LETTERBOX above
-            // likely was an inlined function or a macro; or a copy-and-paste
 #if OOT_DEBUG
             R_HREG_MODE = HREG_MODE_UCODE_DISAS;
             R_UCODE_DISAS_LOG_MODE = 3;
