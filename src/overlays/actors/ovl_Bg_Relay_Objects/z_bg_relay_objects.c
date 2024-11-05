@@ -108,7 +108,8 @@ void BgRelayObjects_Destroy(Actor* thisx, PlayState* play) {
     BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.save.cutsceneIndex < CS_INDEX_SCRIPTED_0)) {
+    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) &&
+        (gSaveContext.save.cutsceneIndex < CS_INDEX_SCRIPTED_0)) {
         CLEAR_EVENTCHKINF(EVENTCHKINF_65);
     }
 }
