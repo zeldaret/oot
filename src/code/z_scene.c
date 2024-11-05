@@ -501,15 +501,15 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
 
     if (!IS_DAY) {
         if (!LINK_IS_ADULT) {
-            entranceIndex = play->nextEntranceIndex + 1;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_CHILD_NIGHT;
         } else {
-            entranceIndex = play->nextEntranceIndex + 3;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_ADULT_NIGHT;
         }
     } else {
         if (!LINK_IS_ADULT) {
-            entranceIndex = play->nextEntranceIndex;
+            entranceIndex = play->nextEntranceIndex; // SCENE_LAYER_CHILD_DAY
         } else {
-            entranceIndex = play->nextEntranceIndex + 2;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_ADULT_DAY;
         }
     }
 
