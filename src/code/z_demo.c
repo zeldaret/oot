@@ -189,14 +189,14 @@ void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx) {
 
         if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER) {
             gUseCutsceneCam = false;
-            gSaveContext.save.cutsceneIndex = CS_INDEX_RESET;
+            gSaveContext.save.cutsceneIndex = CS_INDEX_TRIGGERED;
             gSaveContext.cutsceneTrigger = 1;
         }
 
         if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER &&
             !gDebugCamEnabled) {
             gUseCutsceneCam = true;
-            gSaveContext.save.cutsceneIndex = CS_INDEX_RESET;
+            gSaveContext.save.cutsceneIndex = CS_INDEX_TRIGGERED;
             gSaveContext.cutsceneTrigger = 1;
         }
     }
@@ -208,7 +208,7 @@ void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx) {
 
     if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE)) {
         PRINTF(T("\nデモ開始要求 発令！", "\nDemo start request issued!"));
-        gSaveContext.save.cutsceneIndex = CS_INDEX_RESET;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_TRIGGERED;
         gSaveContext.cutsceneTrigger = 1;
     }
 
@@ -2293,7 +2293,7 @@ void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
     u8 i;
 
     if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE) && !Player_InCsMode(play)) {
-        gSaveContext.save.cutsceneIndex = CS_INDEX_RESET;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_TRIGGERED;
     }
 
     if ((gSaveContext.save.cutsceneIndex >= CS_INDEX_0) && (csCtx->state == CS_STATE_IDLE)) {

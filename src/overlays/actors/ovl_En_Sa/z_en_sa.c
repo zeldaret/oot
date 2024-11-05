@@ -379,7 +379,7 @@ void EnSa_ChangeAnim(EnSa* this, s32 index) {
 }
 
 s32 func_80AF5DFC(EnSa* this, PlayState* play) {
-    if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0 && gSaveContext.save.cutsceneIndex != CS_INDEX_RESET) {
+    if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0 && gSaveContext.save.cutsceneIndex != CS_INDEX_TRIGGERED) {
         if (play->sceneId == SCENE_KOKIRI_FOREST) {
             return 4;
         }

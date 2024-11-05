@@ -371,10 +371,10 @@ typedef enum CutsceneIndex {
     CS_INDEX_7 = 0xFFF7,
     CS_INDEX_8 = 0xFFF8,
     CS_INDEX_9 = 0xFFF9,
-    CS_INDEX_A = 0xFFFA,     // e.g. ENTR_TEMPLE_OF_TIME_0_14
-    CS_INDEX_RESET = 0xFFFD, // a guess as per `z_play.c:333`
-    CS_INDEX_STOP = 0xFFFF,  // a guess as per `z_demo.c:1369` and `z_demo.c:1372`
-    CS_INDEX_LAST = 0x8000   // unknown, `z_demo.c:747` for CS_DEST_DEATH_MOUNTAIN_TRAIL
+    CS_INDEX_A = 0xFFFA,         // e.g. ENTR_TEMPLE_OF_TIME_0_14
+    CS_INDEX_TRIGGERED = 0xFFFD, // a guess as per `z_play.c:333`
+    CS_INDEX_STOP = 0xFFFF,      // a guess as per `z_demo.c:1369` and `z_demo.c:1372`
+    CS_INDEX_LAST = 0x8000       // unknown, `z_demo.c:747` for CS_DEST_DEATH_MOUNTAIN_TRAIL
 } CutsceneIndex;
 
 typedef union CsCmdCam {

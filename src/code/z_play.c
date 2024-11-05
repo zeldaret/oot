@@ -329,7 +329,7 @@ void Play_Init(GameState* thisx) {
         gSaveContext.nextCutsceneIndex = CS_INDEX_NEXT_USED;
     }
 
-    if (gSaveContext.save.cutsceneIndex == CS_INDEX_RESET) {
+    if (gSaveContext.save.cutsceneIndex == CS_INDEX_TRIGGERED) {
         gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
     }
 
