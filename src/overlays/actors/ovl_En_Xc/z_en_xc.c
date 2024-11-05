@@ -2187,7 +2187,7 @@ void EnXc_InitTempleOfTime(EnXc* this, PlayState* play) {
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, play);
-        } else if (!GET_EVENTCHKINF(EVENTCHKINF_55) && GET_EVENTCHKINF(EVENTCHKINF_48)) {
+        } else if (!GET_EVENTCHKINF(EVENTCHKINF_55) && GET_EVENTCHKINF(EVENTCHKINF_CLEARED_FOREST_TEMPLE)) {
             SET_EVENTCHKINF(EVENTCHKINF_55);
             Item_Give(play, ITEM_SONG_PRELUDE);
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);

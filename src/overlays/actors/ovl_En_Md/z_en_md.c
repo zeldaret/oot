@@ -429,7 +429,7 @@ u16 EnMd_GetTextIdLostWoods(PlayState* play, EnMd* this) {
     this->unk_208 = 0;
     this->unk_209 = TEXT_STATE_NONE;
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_48)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_CLEARED_FOREST_TEMPLE)) {
         if (GET_INFTABLE(INFTABLE_19)) {
             return 0x1071;
         }

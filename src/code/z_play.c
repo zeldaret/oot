@@ -373,7 +373,7 @@ void Play_Init(GameState* thisx) {
         }
     } else if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_KOKIRI_FOREST) &&
                LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
-        gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
+        gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_CLEARED_FOREST_TEMPLE) ? 3 : 2;
     }
 
     Play_SpawnScene(

@@ -702,8 +702,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         if (play->sceneId == SCENE_FOREST_TEMPLE_BOSS) {
-            if (!GET_EVENTCHKINF(EVENTCHKINF_48)) {
-                SET_EVENTCHKINF(EVENTCHKINF_48);
+            if (!GET_EVENTCHKINF(EVENTCHKINF_CLEARED_FOREST_TEMPLE)) {
+                SET_EVENTCHKINF(EVENTCHKINF_CLEARED_FOREST_TEMPLE);
                 Item_Give(play, ITEM_MEDALLION_FOREST);
                 play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 gSaveContext.nextCutsceneIndex = 0;
@@ -717,8 +717,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (play->sceneId == SCENE_FIRE_TEMPLE_BOSS) {
-            if (!GET_EVENTCHKINF(EVENTCHKINF_49)) {
-                SET_EVENTCHKINF(EVENTCHKINF_49);
+            if (!GET_EVENTCHKINF(EVENTCHKINF_CLEARED_FIRE_TEMPLE)) {
+                SET_EVENTCHKINF(EVENTCHKINF_CLEARED_FIRE_TEMPLE);
                 Item_Give(play, ITEM_MEDALLION_FIRE);
                 play->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF3;
@@ -731,8 +731,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (play->sceneId == SCENE_WATER_TEMPLE_BOSS) {
-            if (!GET_EVENTCHKINF(EVENTCHKINF_4A)) {
-                SET_EVENTCHKINF(EVENTCHKINF_4A);
+            if (!GET_EVENTCHKINF(EVENTCHKINF_CLEARED_WATER_TEMPLE)) {
+                SET_EVENTCHKINF(EVENTCHKINF_CLEARED_WATER_TEMPLE);
                 Item_Give(play, ITEM_MEDALLION_WATER);
                 play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 gSaveContext.nextCutsceneIndex = 0;

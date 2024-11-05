@@ -3862,7 +3862,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_49)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_CLEARED_FIRE_TEMPLE)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
@@ -3906,7 +3906,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_48)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_CLEARED_FOREST_TEMPLE)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
