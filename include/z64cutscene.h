@@ -346,36 +346,35 @@ typedef enum CutsceneDestination {
 
 /*
 correlation with `enum SceneLayer`:
-  CS_INDEX_NEXT_USED:  [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
-  CS_INDEX_ENTRANCE_*: SCENE_LAYER_CUTSCENE_FIRST + (cutscene index & 0xF)
+  CS_INDEX_NEXT_USED: [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
+  CS_INDEX_*:         SCENE_LAYER_CUTSCENE_FIRST + (cutscene index & 0xF)
 
 correlation with `enum EntranceIndex`
-  CS_INDEX_NEXT_USED:  base entrance index + scene layer
-  CS_INDEX_ENTRANCE_*: base entrance index + scene layer
+  CS_INDEX_NEXT_USED: base entrance index + scene layer
+  CS_INDEX_*:         base entrance index + scene layer
 
 `z_select.c` naming:
-  CS_INDEX_NONE:       "Stage: night"
-  CS_INDEX_LAST:       "Stage: day"
-  CS_INDEX_ENTRANCE_*: "Stage demo 0*", between [CS_INDEX_ENTRANCE_4 .. CS_INDEX_ENTRANCE_E]
+  CS_INDEX_NONE: "Stage: night"
+  CS_INDEX_LAST: "Stage: day"
+  CS_INDEX_*:    "Stage demo 0*"
 */
 typedef enum CutsceneIndex {
     CS_INDEX_NONE = 0x0000,
-    CS_INDEX_NEXT_USED = 0xFFEF,  // a guess as per `z_play.c:328`
-    CS_INDEX_ENTRANCE_4 = 0xFFF0, // e.g. ENTR_TEMPLE_OF_TIME_0_4
-    CS_INDEX_ENTRANCE_5 = 0xFFF1,
-    CS_INDEX_ENTRANCE_6 = 0xFFF2,
-    CS_INDEX_ENTRANCE_7 = 0xFFF3,
-    CS_INDEX_ENTRANCE_8 = 0xFFF4,
-    CS_INDEX_ENTRANCE_9 = 0xFFF5,
-    CS_INDEX_ENTRANCE_A = 0xFFF6,
-    CS_INDEX_ENTRANCE_B = 0xFFF7,
-    CS_INDEX_ENTRANCE_C = 0xFFF8,
-    CS_INDEX_ENTRANCE_D = 0xFFF9,
-    CS_INDEX_ENTRANCE_E = 0xFFFA,
-    CS_INDEX_ENTRANCE_F = 0xFFFB, // e.g. ENTR_TEMPLE_OF_TIME_0_15
-    CS_INDEX_RESET = 0xFFFD,      // a guess as per `z_play.c:333`
-    CS_INDEX_STOP = 0xFFFF,       // a guess as per `z_demo.c:1369` and `z_demo.c:1372`
-    CS_INDEX_LAST = 0x8000        // unknown, `z_demo.c:747` for CS_DEST_DEATH_MOUNTAIN_TRAIL
+    CS_INDEX_NEXT_USED = 0xFFEF, // a guess as per `z_play.c:328`
+    CS_INDEX_0 = 0xFFF0,         // e.g. ENTR_TEMPLE_OF_TIME_0_4
+    CS_INDEX_1 = 0xFFF1,
+    CS_INDEX_2 = 0xFFF2,
+    CS_INDEX_3 = 0xFFF3,
+    CS_INDEX_4 = 0xFFF4,
+    CS_INDEX_5 = 0xFFF5,
+    CS_INDEX_6 = 0xFFF6,
+    CS_INDEX_7 = 0xFFF7,
+    CS_INDEX_8 = 0xFFF8,
+    CS_INDEX_9 = 0xFFF9,
+    CS_INDEX_A = 0xFFFA,     // e.g. ENTR_TEMPLE_OF_TIME_0_14
+    CS_INDEX_RESET = 0xFFFD, // a guess as per `z_play.c:333`
+    CS_INDEX_STOP = 0xFFFF,  // a guess as per `z_demo.c:1369` and `z_demo.c:1372`
+    CS_INDEX_LAST = 0x8000   // unknown, `z_demo.c:747` for CS_DEST_DEATH_MOUNTAIN_TRAIL
 } CutsceneIndex;
 
 typedef union CsCmdCam {

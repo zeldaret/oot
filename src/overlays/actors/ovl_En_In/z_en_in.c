@@ -427,7 +427,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
 
     play->nextEntranceIndex = entrances[index];
     if (index == 2) {
-        gSaveContext.nextCutsceneIndex = CS_INDEX_ENTRANCE_4;
+        gSaveContext.nextCutsceneIndex = CS_INDEX_0;
     }
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;

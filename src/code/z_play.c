@@ -55,8 +55,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
 
     this->viewpoint = viewpoint;
 
-    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) &&
-        (gSaveContext.save.cutsceneIndex < CS_INDEX_ENTRANCE_4)) {
+    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.save.cutsceneIndex < CS_INDEX_0)) {
         // Play a sfx when the player toggles the camera
         Audio_PlaySfxGeneral((viewpoint == VIEWPOINT_LOCKED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
                              &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -347,7 +346,7 @@ void Play_Init(GameState* thisx) {
 
     Cutscene_HandleConditionalTriggers(this);
 
-    if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.save.cutsceneIndex >= CS_INDEX_ENTRANCE_4) {
+    if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.save.cutsceneIndex >= CS_INDEX_0) {
         gSaveContext.nayrusLoveTimer = 0;
         Magic_Reset(this);
         gSaveContext.sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.save.cutsceneIndex & 0xF);
@@ -597,7 +596,7 @@ void Play_Update(PlayState* this) {
 
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
-                        if (gSaveContext.save.cutsceneIndex >= CS_INDEX_ENTRANCE_4) {
+                        if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0) {
                             sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.save.cutsceneIndex & 0xF);
                         }
 

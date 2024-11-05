@@ -497,7 +497,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 Flags_SetEventChkInf(EVENTCHKINF_25);
                 Item_Give(play, ITEM_GORON_RUBY);
                 play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_TRAIL_0;
-                gSaveContext.nextCutsceneIndex = CS_INDEX_ENTRANCE_5;
+                gSaveContext.nextCutsceneIndex = CS_INDEX_1;
             } else {
                 play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_TRAIL_5;
                 gSaveContext.nextCutsceneIndex = CS_INDEX_NONE;
@@ -508,7 +508,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 Flags_SetEventChkInf(EVENTCHKINF_09);
                 Item_Give(play, ITEM_KOKIRI_EMERALD);
                 play->nextEntranceIndex = ENTR_KOKIRI_FOREST_0;
-                gSaveContext.nextCutsceneIndex = CS_INDEX_ENTRANCE_5;
+                gSaveContext.nextCutsceneIndex = CS_INDEX_1;
             } else {
                 play->nextEntranceIndex = ENTR_KOKIRI_FOREST_11;
                 gSaveContext.nextCutsceneIndex = CS_INDEX_NONE;
@@ -604,7 +604,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, PlayState* play) {
         SET_EVENTCHKINF(EVENTCHKINF_37);
         Item_Give(play, ITEM_ZORA_SAPPHIRE);
         play->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN_0;
-        gSaveContext.nextCutsceneIndex = CS_INDEX_ENTRANCE_4;
+        gSaveContext.nextCutsceneIndex = CS_INDEX_0;
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
     }
@@ -721,7 +721,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 SET_EVENTCHKINF(EVENTCHKINF_49);
                 Item_Give(play, ITEM_MEDALLION_FIRE);
                 play->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE_0;
-                gSaveContext.nextCutsceneIndex = CS_INDEX_ENTRANCE_7;
+                gSaveContext.nextCutsceneIndex = CS_INDEX_3;
             } else {
                 if (!LINK_IS_ADULT) {
                     play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_CRATER_4;

@@ -11,12 +11,12 @@ void TitleSetup_SetupTitleScreen(TitleSetupState* this) {
     this->state.running = false;
     gSaveContext.save.linkAge = LINK_AGE_ADULT;
     Sram_InitDebugSave();
-    gSaveContext.save.cutsceneIndex = CS_INDEX_ENTRANCE_7;
+    gSaveContext.save.cutsceneIndex = CS_INDEX_3;
     gSaveContext.sceneLayer = 7;
     // assigning scene layer here is redundant, as Play_Init sets it to
     // SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.save.cutsceneIndex & 0xF)
     // or one of the other `enum SceneLayer` values; even so, `7` is exactly
-    // the value this formula equals to for CS_INDEX_ENTRANCE_7
+    // the value this formula equals to for CS_INDEX_3
     SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 
