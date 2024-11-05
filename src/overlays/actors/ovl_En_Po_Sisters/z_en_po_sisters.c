@@ -10,7 +10,7 @@
 
 #define FLAGS                                                                                                    \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_IGNORE_QUAKE | \
-     ACTOR_FLAG_14)
+     ACTOR_FLAG_CAN_ATTACH_TO_ARROW)
 
 void EnPoSisters_Init(Actor* thisx, PlayState* play);
 void EnPoSisters_Destroy(Actor* thisx, PlayState* play);
@@ -210,7 +210,7 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
             this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
             func_80AD9AA8(this, play);
         } else {
-            this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_14);
+            this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_CAN_ATTACH_TO_ARROW);
             this->collider.elem.elemMaterial = ELEM_MATERIAL_UNK4;
             this->collider.elem.acDmgInfo.dmgFlags |= DMG_DEKU_NUT;
             this->collider.base.ocFlags1 = OC1_NONE;
@@ -701,7 +701,7 @@ void func_80ADA9E8(EnPoSisters* this, PlayState* play) {
 }
 
 void func_80ADAAA4(EnPoSisters* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & ACTOR_FLAG_15)) {
+    if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         if (this->actor.colChkInfo.health != 0) {
             if (this->unk_194 != 0) {
                 func_80AD96A4(this);

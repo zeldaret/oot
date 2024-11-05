@@ -8,7 +8,8 @@
 #include "versions.h"
 #include "assets/objects/object_bl/object_bl.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_CAN_ATTACH_TO_ARROW)
 
 void EnBili_Init(Actor* thisx, PlayState* play);
 void EnBili_Destroy(Actor* thisx, PlayState* play);
@@ -251,7 +252,7 @@ void EnBili_SetupFrozen(EnBili* this, PlayState* play) {
     s32 i;
     Vec3f effectPos;
 
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         this->actor.gravity = -1.0f;
     }
 
@@ -456,7 +457,7 @@ void EnBili_Recoil(EnBili* this, PlayState* play) {
 void EnBili_Burnt(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actor.flags & ACTOR_FLAG_15) {
+    if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
         this->actor.colorFilterTimer = 20;
     } else {
         if (this->timer != 0) {
@@ -477,7 +478,7 @@ void EnBili_Die(EnBili* this, PlayState* play) {
     s32 i;
 
     if (this->actor.draw != NULL) {
-        if (this->actor.flags & ACTOR_FLAG_15) {
+        if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
             return;
         }
         this->actor.draw = NULL;
@@ -533,7 +534,7 @@ void EnBili_Frozen(EnBili* this, PlayState* play) {
         this->timer--;
     }
 
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         this->actor.gravity = -1.0f;
     }
 
