@@ -346,20 +346,20 @@ typedef enum CutsceneDestination {
 
 /*
 correlation with `enum SceneLayer`:
-  CS_INDEX_NONE: [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
+  CS_INDEX_AUTO: [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
   CS_INDEX_*:    SCENE_LAYER_CUTSCENE_FIRST + (cutscene index & 0xF)
 
 correlation with `enum EntranceIndex`
-  CS_INDEX_NONE: base entrance index + scene layer
+  CS_INDEX_AUTO: base entrance index + scene layer
   CS_INDEX_*:    base entrance index + scene layer
 
 `z_select.c` naming:
-  CS_INDEX_NONE: "Stage: night"
+  CS_INDEX_AUTO: "Stage: night"
   CS_INDEX_LAST: "Stage: day"
   CS_INDEX_*:    "Stage demo 0*"
 */
 typedef enum CutsceneIndex {
-    CS_INDEX_NONE = 0x0000,
+    CS_INDEX_AUTO = 0x0000,
     CS_INDEX_NEXT_EMPTY = 0xFFEF, // is allowed to schedule a cutscene
     CS_INDEX_0 = 0xFFF0,
     CS_INDEX_1 = 0xFFF1,

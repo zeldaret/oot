@@ -330,7 +330,7 @@ void Play_Init(GameState* thisx) {
     }
 
     if (gSaveContext.save.cutsceneIndex == CS_INDEX_TRIGGERED) {
-        gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
     }
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {

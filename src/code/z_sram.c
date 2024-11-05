@@ -797,7 +797,7 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
 
 #if OOT_DEBUG
     if (fileSelect->buttonIndex == 0) {
-        gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
     }
 #endif
 

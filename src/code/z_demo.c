@@ -591,7 +591,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
             gSaveContext.forceRisingButtonAlphas = true;
         }
 
-        gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
 
         switch (cmd->destination) {
             case CS_DEST_CUTSCENE_MAP_GANON_HORSE:
@@ -2267,7 +2267,7 @@ void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
 
         PRINTF(T("\n\n\n\n\nやっぱりここかいな", "\n\n\n\n\nThis is it after all"));
 
-        gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
         gSaveContext.gameMode = GAMEMODE_NORMAL;
 
         if (gUseCutsceneCam) {

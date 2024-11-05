@@ -336,8 +336,8 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
 
         if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
             if (gSaveContext.save.cutsceneIndex == CS_INDEX_LAST) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_NONE) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_AUTO) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_0;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_0) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_1;
@@ -365,10 +365,10 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
         } else if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
             if (gSaveContext.save.cutsceneIndex == CS_INDEX_LAST) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_A;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_NONE) {
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_AUTO) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_LAST;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_0) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
+                gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_1) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_0;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_2) {
@@ -393,7 +393,7 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
         }
 
         gSaveContext.save.nightFlag = 0;
-        if (gSaveContext.save.cutsceneIndex == CS_INDEX_NONE) {
+        if (gSaveContext.save.cutsceneIndex == CS_INDEX_AUTO) {
             gSaveContext.save.nightFlag = 1;
         }
 
@@ -607,7 +607,7 @@ void MapSelect_PrintCutsceneSetting(MapSelectState* this, GfxPrint* printer, u16
     GfxPrint_SetColor(printer, 255, 255, 55, 255);
 
     switch (csIndex) {
-        case CS_INDEX_NONE:
+        case CS_INDEX_AUTO:
             label = GFXP_HIRAGANA " ﾖﾙ " GFXP_KATAKANA "ｺﾞﾛﾝ";
             gSaveContext.save.dayTime = CLOCK_TIME(0, 0);
             break;
