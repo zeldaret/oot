@@ -346,12 +346,12 @@ typedef enum CutsceneDestination {
 
 /*
 correlation with `enum SceneLayer`:
-  CS_INDEX_NEXT_USED: [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
-  CS_INDEX_*:         SCENE_LAYER_CUTSCENE_FIRST + (cutscene index & 0xF)
+  CS_INDEX_NONE: [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
+  CS_INDEX_*:    SCENE_LAYER_CUTSCENE_FIRST + (cutscene index & 0xF)
 
 correlation with `enum EntranceIndex`
-  CS_INDEX_NEXT_USED: base entrance index + scene layer
-  CS_INDEX_*:         base entrance index + scene layer
+  CS_INDEX_NONE: base entrance index + scene layer
+  CS_INDEX_*:    base entrance index + scene layer
 
 `z_select.c` naming:
   CS_INDEX_NONE: "Stage: night"
@@ -360,8 +360,8 @@ correlation with `enum EntranceIndex`
 */
 typedef enum CutsceneIndex {
     CS_INDEX_NONE = 0x0000,
-    CS_INDEX_NEXT_USED = 0xFFEF, // a guess as per `z_play.c:328`
-    CS_INDEX_0 = 0xFFF0,         // e.g. ENTR_TEMPLE_OF_TIME_0_4
+    CS_INDEX_NEXT_USED = 0xFFEF, // assigned cutscene index, can schedule next again
+    CS_INDEX_0 = 0xFFF0,
     CS_INDEX_1 = 0xFFF1,
     CS_INDEX_2 = 0xFFF2,
     CS_INDEX_3 = 0xFFF3,
@@ -371,10 +371,10 @@ typedef enum CutsceneIndex {
     CS_INDEX_7 = 0xFFF7,
     CS_INDEX_8 = 0xFFF8,
     CS_INDEX_9 = 0xFFF9,
-    CS_INDEX_A = 0xFFFA,         // e.g. ENTR_TEMPLE_OF_TIME_0_14
-    CS_INDEX_TRIGGERED = 0xFFFD, // a guess as per `z_play.c:333`
-    CS_INDEX_STOP = 0xFFFF,      // a guess as per `z_demo.c:1369` and `z_demo.c:1372`
-    CS_INDEX_LAST = 0x8000       // unknown, `z_demo.c:747` for CS_DEST_DEATH_MOUNTAIN_TRAIL
+    CS_INDEX_A = 0xFFFA,
+    CS_INDEX_TRIGGERED = 0xFFFD,
+    CS_INDEX_STOP = 0xFFFF, // a guess as per `z_demo.c:1369` and `z_demo.c:1372`
+    CS_INDEX_LAST = 0x8000  // unknown, `z_demo.c:747` for CS_DEST_DEATH_MOUNTAIN_TRAIL
 } CutsceneIndex;
 
 typedef union CsCmdCam {
