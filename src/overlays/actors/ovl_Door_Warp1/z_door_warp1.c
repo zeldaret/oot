@@ -489,7 +489,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
     Math_SmoothStepToF(&this->lightRayAlpha, 0.0f, 0.2f, 6.0f, 0.01f);
     this->warpTimer++;
 
-    if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == CS_INDEX_FFEF) {
+    if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == CS_INDEX_MANUAL) {
         PRINTF("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger, TRANS_TRIGGER_START);
 
         if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS) {
@@ -497,7 +497,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 Flags_SetEventChkInf(EVENTCHKINF_25);
                 Item_Give(play, ITEM_GORON_RUBY);
                 play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_TRAIL_0;
-                gSaveContext.nextCutsceneIndex = CS_INDEX_FFF1;
+                gSaveContext.nextCutsceneIndex = CS_INDEX_SCRIPTED_1;
             } else {
                 play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_TRAIL_5;
                 gSaveContext.nextCutsceneIndex = CS_INDEX_NONE;
@@ -508,7 +508,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 Flags_SetEventChkInf(EVENTCHKINF_09);
                 Item_Give(play, ITEM_KOKIRI_EMERALD);
                 play->nextEntranceIndex = ENTR_KOKIRI_FOREST_0;
-                gSaveContext.nextCutsceneIndex = CS_INDEX_FFF1;
+                gSaveContext.nextCutsceneIndex = CS_INDEX_SCRIPTED_1;
             } else {
                 play->nextEntranceIndex = ENTR_KOKIRI_FOREST_11;
                 gSaveContext.nextCutsceneIndex = CS_INDEX_NONE;
@@ -600,11 +600,11 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, PlayState* play) {
     Math_SmoothStepToF(&this->lightRayAlpha, 0.0f, 0.2f, 6.0f, 0.01f);
     this->warpTimer++;
 
-    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == CS_INDEX_FFEF) {
+    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == CS_INDEX_MANUAL) {
         SET_EVENTCHKINF(EVENTCHKINF_37);
         Item_Give(play, ITEM_ZORA_SAPPHIRE);
         play->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN_0;
-        gSaveContext.nextCutsceneIndex = CS_INDEX_FFF0;
+        gSaveContext.nextCutsceneIndex = CS_INDEX_SCRIPTED_0;
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
     }
@@ -700,7 +700,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
     }
     this->warpTimer++;
 
-    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == CS_INDEX_FFEF) {
+    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == CS_INDEX_MANUAL) {
         if (play->sceneId == SCENE_FOREST_TEMPLE_BOSS) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_48)) {
                 SET_EVENTCHKINF(EVENTCHKINF_48);
@@ -721,7 +721,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 SET_EVENTCHKINF(EVENTCHKINF_49);
                 Item_Give(play, ITEM_MEDALLION_FIRE);
                 play->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE_0;
-                gSaveContext.nextCutsceneIndex = CS_INDEX_FFF3;
+                gSaveContext.nextCutsceneIndex = CS_INDEX_SCRIPTED_3;
             } else {
                 if (!LINK_IS_ADULT) {
                     play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_CRATER_4;

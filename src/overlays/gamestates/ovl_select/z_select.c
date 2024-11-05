@@ -335,60 +335,60 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
         }
 
         if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
-            if (gSaveContext.save.cutsceneIndex == CS_INDEX_8000) {
+            if (gSaveContext.save.cutsceneIndex == CS_INDEX_LAST) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_NONE) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF0;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF0) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF1;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF1) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF2;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF2) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF3;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF3) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF4;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF4) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF5;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF5) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF6;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF6) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF7;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF7) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF8;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF8) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF9;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF9) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFFA;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFFA) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_8000;
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_0;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_0) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_1;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_1) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_2;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_2) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_3;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_3) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_4;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_4) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_5;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_5) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_6;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_6) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_7;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_7) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_8;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_8) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_9;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_9) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_A;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_A) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_LAST;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
-            if (gSaveContext.save.cutsceneIndex == CS_INDEX_8000) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFFA;
+            if (gSaveContext.save.cutsceneIndex == CS_INDEX_LAST) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_A;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_NONE) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_8000;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF0) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_LAST;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_0) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF1) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF0;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF2) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF1;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF3) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF2;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF4) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF3;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF5) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF4;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF6) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF5;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF7) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF6;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF8) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF7;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFF9) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF8;
-            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_FFFA) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_FFF9;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_1) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_0;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_2) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_1;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_3) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_2;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_4) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_3;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_5) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_4;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_6) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_5;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_7) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_6;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_8) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_7;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_9) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_8;
+            } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_SCRIPTED_A) {
+                gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_9;
             }
         }
 
@@ -607,48 +607,48 @@ void MapSelect_PrintCutsceneSetting(MapSelectState* this, GfxPrint* printer, u16
     GfxPrint_SetColor(printer, 255, 255, 55, 255);
 
     switch (csIndex) {
-        case 0:
+        case CS_INDEX_NONE:
             label = GFXP_HIRAGANA " ﾖﾙ " GFXP_KATAKANA "ｺﾞﾛﾝ";
             gSaveContext.save.dayTime = CLOCK_TIME(0, 0);
             break;
-        case 0x8000:
+        case CS_INDEX_LAST:
             // clang-format off
             gSaveContext.save.dayTime = CLOCK_TIME(12, 0); label = GFXP_HIRAGANA "ｵﾋﾙ " GFXP_KATAKANA "ｼﾞｬﾗ";
             // clang-format on
             break;
-        case 0xFFF0:
+        case CS_INDEX_SCRIPTED_0:
             // clang-format off
             gSaveContext.save.dayTime = CLOCK_TIME(12, 0); label = "ﾃﾞﾓ00";
             // clang-format on
             break;
-        case 0xFFF1:
+        case CS_INDEX_SCRIPTED_1:
             label = "ﾃﾞﾓ01";
             break;
-        case 0xFFF2:
+        case CS_INDEX_SCRIPTED_2:
             label = "ﾃﾞﾓ02";
             break;
-        case 0xFFF3:
+        case CS_INDEX_SCRIPTED_3:
             label = "ﾃﾞﾓ03";
             break;
-        case 0xFFF4:
+        case CS_INDEX_SCRIPTED_4:
             label = "ﾃﾞﾓ04";
             break;
-        case 0xFFF5:
+        case CS_INDEX_SCRIPTED_5:
             label = "ﾃﾞﾓ05";
             break;
-        case 0xFFF6:
+        case CS_INDEX_SCRIPTED_6:
             label = "ﾃﾞﾓ06";
             break;
-        case 0xFFF7:
+        case CS_INDEX_SCRIPTED_7:
             label = "ﾃﾞﾓ07";
             break;
-        case 0xFFF8:
+        case CS_INDEX_SCRIPTED_8:
             label = "ﾃﾞﾓ08";
             break;
-        case 0xFFF9:
+        case CS_INDEX_SCRIPTED_9:
             label = "ﾃﾞﾓ09";
             break;
-        case 0xFFFA:
+        case CS_INDEX_SCRIPTED_A:
             label = "ﾃﾞﾓ0A";
             break;
     };
@@ -778,6 +778,6 @@ void MapSelect_Init(GameState* thisx) {
         DMA_REQUEST_SYNC(this->staticSegment, (uintptr_t)_z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
     }
 
-    gSaveContext.save.cutsceneIndex = CS_INDEX_8000;
+    gSaveContext.save.cutsceneIndex = CS_INDEX_LAST;
     gSaveContext.save.linkAge = LINK_AGE_CHILD;
 }

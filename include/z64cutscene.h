@@ -344,26 +344,40 @@ typedef enum CutsceneDestination {
     /* 0x77 */ CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneDestination;
 
+/*
+correlation with `enum SceneLayer`:
+  CS_INDEX_MANUAL:     [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
+  CS_INDEX_SCRIPTED_*: SCENE_LAYER_CUTSCENE_FIRST
+
+correlation with `enum EntranceIndex`
+  CS_INDEX_MANUAL:     base entrance index + scene layer
+  CS_INDEX_SCRIPTED_*: base entrance index + SCENE_LAYER_CUTSCENE_FIRST + (cutscene index & 0xF)
+
+`z_select.c` naming:
+  CS_INDEX_NONE:       "Stage: night"
+  CS_INDEX_LAST:       "Stage: day"
+  CS_INDEX_SCRIPTED_*: "Stage demo 0*", between [0xFFF0 .. 0xFFFA]
+*/
 typedef enum CutsceneIndex {
     CS_INDEX_NONE = 0x0000,
-    CS_INDEX_FFEF = 0xFFEF,
-    CS_INDEX_FFF0 = 0xFFF0,
-    CS_INDEX_FFF1 = 0xFFF1,
-    CS_INDEX_FFF2 = 0xFFF2,
-    CS_INDEX_FFF3 = 0xFFF3,
-    CS_INDEX_FFF4 = 0xFFF4,
-    CS_INDEX_FFF5 = 0xFFF5,
-    CS_INDEX_FFF6 = 0xFFF6,
-    CS_INDEX_FFF7 = 0xFFF7,
-    CS_INDEX_FFF8 = 0xFFF8,
-    CS_INDEX_FFF9 = 0xFFF9,
-    CS_INDEX_FFFA = 0xFFFA,
-    CS_INDEX_FFFB = 0xFFFB,
-    CS_INDEX_FFFC = 0xFFFC,
-    CS_INDEX_FFFD = 0xFFFD,
-    CS_INDEX_FFFE = 0xFFFE,
-    CS_INDEX_FFFF = 0xFFFF,
-    CS_INDEX_8000 = 0x8000,
+    CS_INDEX_MANUAL = 0xFFEF,
+    CS_INDEX_SCRIPTED_0 = 0xFFF0,
+    CS_INDEX_SCRIPTED_1 = 0xFFF1,
+    CS_INDEX_SCRIPTED_2 = 0xFFF2,
+    CS_INDEX_SCRIPTED_3 = 0xFFF3,
+    CS_INDEX_SCRIPTED_4 = 0xFFF4,
+    CS_INDEX_SCRIPTED_5 = 0xFFF5,
+    CS_INDEX_SCRIPTED_6 = 0xFFF6,
+    CS_INDEX_SCRIPTED_7 = 0xFFF7,
+    CS_INDEX_SCRIPTED_8 = 0xFFF8,
+    CS_INDEX_SCRIPTED_9 = 0xFFF9,
+    CS_INDEX_SCRIPTED_A = 0xFFFA,
+    CS_INDEX_SCRIPTED_B = 0xFFFB,
+    CS_INDEX_SCRIPTED_C = 0xFFFC,
+    CS_INDEX_SCRIPTED_D = 0xFFFD,
+    CS_INDEX_SCRIPTED_E = 0xFFFE,
+    CS_INDEX_SCRIPTED_F = 0xFFFF,
+    CS_INDEX_LAST = 0x8000,
 } CutsceneIndex;
 
 typedef union CsCmdCam {

@@ -4294,7 +4294,7 @@ void Message_Update(PlayState* play) {
 
                     if (msgCtx->textId != 0x2061 && msgCtx->textId != 0x2025 && msgCtx->textId != 0x208C &&
                         ((msgCtx->textId < 0x88D || msgCtx->textId >= 0x893) || msgCtx->choiceIndex != 0) &&
-                        (msgCtx->textId != 0x3055 && gSaveContext.save.cutsceneIndex < CS_INDEX_FFF0)) {
+                        (msgCtx->textId != 0x3055 && gSaveContext.save.cutsceneIndex < CS_INDEX_SCRIPTED_0)) {
                         PRINTF("=== day_time=%x ", ((void)0, gSaveContext.save.cutsceneIndex));
                         if (play->activeCamId == CAM_ID_MAIN) {
                             if (gSaveContext.prevHudVisibilityMode == HUD_VISIBILITY_NO_CHANGE ||

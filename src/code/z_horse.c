@@ -192,7 +192,7 @@ void func_8006D684(PlayState* play, Player* player) {
                 (((void)0, gSaveContext.save.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {
                 if (D_8011F9B8[i].type == 7) {
                     if ((play->sceneId == SCENE_LON_LON_RANCH) &&
-                        (((void)0, gSaveContext.save.cutsceneIndex) == CS_INDEX_FFF1)) {
+                        (((void)0, gSaveContext.save.cutsceneIndex) == CS_INDEX_SCRIPTED_1)) {
                         D_8011F9B8[i].pos.x = player->actor.world.pos.x;
                         D_8011F9B8[i].pos.y = player->actor.world.pos.y;
                         D_8011F9B8[i].pos.z = player->actor.world.pos.z;
