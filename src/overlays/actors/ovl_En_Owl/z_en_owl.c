@@ -158,8 +158,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnOwl_WaitHyruleCastle;
             break;
         case OWL_KAKARIKO:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
-                // has zelda's letter
+            if (GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
                 PRINTF(T("フクロウ退避\n", "Owl evacuation\n"));
                 Actor_Kill(&this->actor);
                 return;
@@ -168,8 +167,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnOwl_WaitKakariko;
             break;
         case OWL_HYLIA_GERUDO:
-            if (GET_EVENTCHKINF(EVENTCHKINF_43)) {
-                // has ocarina of time
+            if (GET_EVENTCHKINF(EVENTCHKINF_GOT_OCARINA_OF_TIME)) {
                 PRINTF(T("フクロウ退避\n", "Owl evacuation\n"));
                 Actor_Kill(&this->actor);
                 return;
@@ -180,8 +178,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnOwl_WaitLakeHylia;
             break;
         case OWL_ZORA_RIVER:
-            if (GET_EVENTCHKINF(EVENTCHKINF_39) || !GET_EVENTCHKINF(EVENTCHKINF_40)) {
-                // opened zora's domain or has zelda's letter
+            if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_ZORA_DOMAIN) || !GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
                 PRINTF(T("フクロウ退避\n", "Owl evacuation\n"));
                 Actor_Kill(&this->actor);
                 return;
@@ -437,8 +434,7 @@ void func_80ACAB88(EnOwl* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case OWL_REPEAT:
-                // obtained zelda's letter
-                if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
                     Message_ContinueTextbox(play, 0x206D);
                 } else {
                     Message_ContinueTextbox(play, 0x206C);

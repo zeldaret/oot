@@ -898,7 +898,7 @@ void func_80986BE4(DemoIm* this, s32 arg1) {
 }
 
 void func_80986BF8(DemoIm* this, PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
         this->action = 24;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -919,7 +919,7 @@ void func_80986C30(DemoIm* this, PlayState* play) {
 }
 
 void func_80986CC8(DemoIm* this) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
         this->action = 26;
         this->drawConfig = 1;
         this->unk_280 = 1;

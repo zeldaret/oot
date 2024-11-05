@@ -418,7 +418,7 @@ u16 EnMd_GetTextIdMidosHouse(PlayState* play, EnMd* this) {
     this->unk_208 = 0;
     this->unk_209 = TEXT_STATE_NONE;
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
         return 0x1028;
     }
 
@@ -506,13 +506,13 @@ s16 EnMd_UpdateTalkState(PlayState* play, Actor* thisx) {
 
 u8 EnMd_ShouldSpawn(EnMd* this, PlayState* play) {
     if (play->sceneId == SCENE_KOKIRI_FOREST) {
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1C) && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1C) && !GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
             return 1;
         }
     }
 
     if (play->sceneId == SCENE_MIDOS_HOUSE) {
-        if (GET_EVENTCHKINF(EVENTCHKINF_1C) || GET_EVENTCHKINF(EVENTCHKINF_40)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_1C) || GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
             if (!LINK_IS_ADULT) {
                 return 1;
             }

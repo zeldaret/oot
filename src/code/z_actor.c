@@ -5079,7 +5079,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 } else {
                     retTextId = 0x2010;
                 }
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_40)) {
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
                 retTextId = 0x200F;
             } else {
                 retTextId = 0x200E;

@@ -244,7 +244,7 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
         switch (this->type) {
             case 1:
                 Flags_SetSwitch(play, this->switchFlag);
-                SET_EVENTCHKINF(EVENTCHKINF_39);
+                SET_EVENTCHKINF(EVENTCHKINF_OPENED_ZORA_DOMAIN);
                 break;
             case 2:
                 play->csCtx.script = D_80ABF9D0;
