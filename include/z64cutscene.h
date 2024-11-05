@@ -360,7 +360,7 @@ correlation with `enum EntranceIndex`
 */
 typedef enum CutsceneIndex {
     CS_INDEX_NONE = 0x0000,
-    CS_INDEX_NEXT_USED = 0xFFEF, // assigned cutscene index, can schedule next again
+    CS_INDEX_NEXT_EMPTY = 0xFFEF, // is allowed to schedule a cutscene
     CS_INDEX_0 = 0xFFF0,
     CS_INDEX_1 = 0xFFF1,
     CS_INDEX_2 = 0xFFF2,

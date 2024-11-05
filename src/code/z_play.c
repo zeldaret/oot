@@ -324,9 +324,9 @@ void Play_Init(GameState* thisx) {
     AnimTaskQueue_Reset(&this->animTaskQueue);
     Cutscene_InitContext(this, &this->csCtx);
 
-    if (gSaveContext.nextCutsceneIndex != CS_INDEX_NEXT_USED) {
+    if (gSaveContext.nextCutsceneIndex != CS_INDEX_NEXT_EMPTY) {
         gSaveContext.save.cutsceneIndex = gSaveContext.nextCutsceneIndex;
-        gSaveContext.nextCutsceneIndex = CS_INDEX_NEXT_USED;
+        gSaveContext.nextCutsceneIndex = CS_INDEX_NEXT_EMPTY;
     }
 
     if (gSaveContext.save.cutsceneIndex == CS_INDEX_TRIGGERED) {

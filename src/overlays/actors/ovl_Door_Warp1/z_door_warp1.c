@@ -489,7 +489,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
     Math_SmoothStepToF(&this->lightRayAlpha, 0.0f, 0.2f, 6.0f, 0.01f);
     this->warpTimer++;
 
-    if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == CS_INDEX_NEXT_USED) {
+    if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == CS_INDEX_NEXT_EMPTY) {
         PRINTF("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger, TRANS_TRIGGER_START);
 
         if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS) {
@@ -600,7 +600,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, PlayState* play) {
     Math_SmoothStepToF(&this->lightRayAlpha, 0.0f, 0.2f, 6.0f, 0.01f);
     this->warpTimer++;
 
-    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == CS_INDEX_NEXT_USED) {
+    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == CS_INDEX_NEXT_EMPTY) {
         SET_EVENTCHKINF(EVENTCHKINF_37);
         Item_Give(play, ITEM_ZORA_SAPPHIRE);
         play->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN_0;
@@ -700,7 +700,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
     }
     this->warpTimer++;
 
-    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == CS_INDEX_NEXT_USED) {
+    if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == CS_INDEX_NEXT_EMPTY) {
         if (play->sceneId == SCENE_FOREST_TEMPLE_BOSS) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_48)) {
                 SET_EVENTCHKINF(EVENTCHKINF_48);
