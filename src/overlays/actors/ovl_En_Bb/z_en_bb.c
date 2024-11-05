@@ -1237,7 +1237,7 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
     if (this->actor.colChkInfo.damageEffect != 0xD) {
         this->actionFunc(this, play);
         if ((this->actor.params <= ENBB_BLUE) && (this->actor.speed >= -6.0f) &&
-            ((this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) == 0)) {
+            !(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
             Actor_MoveXZGravity(&this->actor);
         }
         if (this->moveMode == BBMOVE_NORMAL) {
