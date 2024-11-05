@@ -744,7 +744,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_TRAIL_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
-                gSaveContext.save.cutsceneIndex = CS_INDEX_LAST;
+                gSaveContext.save.cutsceneIndex = CS_INDEX_UNUSED;
                 break;
 
             case CS_DEST_LAKE_HYLIA_WATER_RESTORED:
@@ -1365,10 +1365,10 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                     play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
                     play->csCtx.curFrame = 0;
                     gSaveContext.cutsceneTrigger = 1;
-                    gSaveContext.save.cutsceneIndex = CS_INDEX_STOP;
+                    gSaveContext.save.cutsceneIndex = CS_INDEX_BARRIER;
                     csCtx->state = CS_STATE_STOP;
                 } else {
-                    gSaveContext.save.cutsceneIndex = CS_INDEX_STOP;
+                    gSaveContext.save.cutsceneIndex = CS_INDEX_BARRIER;
                     csCtx->state = CS_STATE_STOP;
                 }
                 break;

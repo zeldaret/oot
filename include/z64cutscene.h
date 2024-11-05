@@ -354,9 +354,9 @@ correlation with `enum EntranceIndex`
   CS_INDEX_*:    base entrance index + scene layer
 
 `z_select.c` naming:
-  CS_INDEX_AUTO: "Stage: night"
-  CS_INDEX_LAST: "Stage: day"
-  CS_INDEX_*:    "Stage demo 0*"
+  CS_INDEX_AUTO:   "Stage: night"
+  CS_INDEX_UNUSED: "Stage: day"
+  CS_INDEX_*:      "Stage demo 0*"
 */
 typedef enum CutsceneIndex {
     CS_INDEX_AUTO = 0x0000,
@@ -373,8 +373,8 @@ typedef enum CutsceneIndex {
     CS_INDEX_9 = 0xFFF9,
     CS_INDEX_A = 0xFFFA,
     CS_INDEX_TRIGGERED = 0xFFFD,
-    CS_INDEX_STOP = 0xFFFF, // a guess as per `z_demo.c:1369` and `z_demo.c:1372`
-    CS_INDEX_LAST = 0x8000  // unknown, `z_demo.c:747` for CS_DEST_DEATH_MOUNTAIN_TRAIL
+    CS_INDEX_BARRIER = 0xFFFF, // CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL
+    CS_INDEX_UNUSED = 0x8000   // CS_DEST_DEATH_MOUNTAIN_TRAIL
 } CutsceneIndex;
 
 typedef union CsCmdCam {
