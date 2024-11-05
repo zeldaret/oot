@@ -66,7 +66,7 @@ void KaleidoSetup_Update(PlayState* play) {
 
     if (!IS_PAUSED(pauseCtx) && play->gameOverCtx.state == GAMEOVER_INACTIVE &&
         play->transitionTrigger == TRANS_TRIGGER_OFF && play->transitionMode == TRANS_MODE_OFF &&
-        gSaveContext.save.cutsceneIndex < CS_INDEX_SCRIPTED_0 && gSaveContext.nextCutsceneIndex < CS_INDEX_SCRIPTED_0 &&
+        gSaveContext.save.cutsceneIndex < CS_INDEX_ENTRANCE_4 && gSaveContext.nextCutsceneIndex < CS_INDEX_ENTRANCE_4 &&
         !Play_InCsMode(play) && play->shootingGalleryStatus <= 1 &&
         gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY && gSaveContext.magicState != MAGIC_STATE_FILL &&
         (play->sceneId != SCENE_BOMBCHU_BOWLING_ALLEY || !Flags_GetSwitch(play, 0x38))) {

@@ -793,7 +793,7 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     gSaveContext.save.entranceIndex = ENTR_LINKS_HOUSE_0;
     gSaveContext.save.linkAge = LINK_AGE_CHILD;
     gSaveContext.save.dayTime = CLOCK_TIME(10, 0);
-    gSaveContext.save.cutsceneIndex = CS_INDEX_SCRIPTED_1;
+    gSaveContext.save.cutsceneIndex = CS_INDEX_ENTRANCE_5;
 
 #if OOT_DEBUG
     if (fileSelect->buttonIndex == 0) {
