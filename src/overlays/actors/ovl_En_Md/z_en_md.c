@@ -650,15 +650,15 @@ u8 EnMd_SetMovedPos(EnMd* this, PlayState* play) {
     return 1;
 }
 
-void func_80AAB5A4(EnMd* this, PlayState* play) {
-    f32 temp;
+void EnMd_SmoothStep_Attention(EnMd* this, PlayState* play) {
+    f32 threshold;
 
     if (play->sceneId != SCENE_MIDOS_HOUSE) {
-        temp = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
-                (play->sceneId == SCENE_KOKIRI_FOREST))
-                   ? 100.0f
-                   : 400.0f;
-        this->alpha = Actor_SmoothStep_Attention(&this->actor, play, this->alpha, temp);
+        threshold = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
+                     (play->sceneId == SCENE_KOKIRI_FOREST))
+                        ? 100.0f
+                        : 400.0f;
+        this->alpha = Actor_SmoothStep_Attention(&this->actor, play, this->alpha, threshold);
         this->actor.shape.shadowAlpha = this->alpha;
     } else {
         this->alpha = 255;
@@ -843,7 +843,7 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
     EnMd_UpdateEyes(this);
-    func_80AAB5A4(this, play);
+    EnMd_SmoothStep_Attention(this, play);
     Actor_MoveXZGravity(&this->actor);
     EnMd_UpdateTalking(this, play);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
