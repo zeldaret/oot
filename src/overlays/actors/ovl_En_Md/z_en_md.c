@@ -556,7 +556,7 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 absYawDiff;
     s16 trackingMode;
-    s16 temp2;
+    s16 canUpdateTalking;
     s16 yawDiff;
 
     if (this->actor.xzDistToPlayer < 170.0f) {
@@ -565,10 +565,10 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
 
         trackingMode =
             absYawDiff <= Npc_GetTrackingPresetMaxPlayerYaw(2) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
-        temp2 = 1;
+        canUpdateTalking = true;
     } else {
         trackingMode = NPC_TRACKING_NONE;
-        temp2 = 0;
+        canUpdateTalking = false;
     }
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
@@ -577,11 +577,11 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
 
     if (this->actionFunc == EnMd_Walk) {
         trackingMode = NPC_TRACKING_NONE;
-        temp2 = 0;
+        canUpdateTalking = false;
     }
     if (this->actionFunc == EnMd_Watch) {
         trackingMode = NPC_TRACKING_FULL_BODY;
-        temp2 = 1;
+        canUpdateTalking = true;
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) {
@@ -595,7 +595,7 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
 
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     if (this->actionFunc != EnMd_ListenToOcarina) {
-        if (temp2) {
+        if (canUpdateTalking) {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                               EnMd_GetTextId, EnMd_UpdateTalkState);
         }
