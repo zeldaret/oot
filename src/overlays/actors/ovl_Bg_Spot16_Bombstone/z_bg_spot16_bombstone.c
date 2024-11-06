@@ -446,7 +446,7 @@ void func_808B5950(BgSpot16Bombstone* this, PlayState* play) {
         OnePointCutscene_Init(play, 4180, 50, NULL, CAM_ID_MAIN);
 
         Flags_SetSwitch(play, this->switchFlag);
-        SET_EVENTCHKINF(EVENTCHKINF_23);
+        SET_EVENTCHKINF(EVENTCHKINF_DC_BOULDER_DESTROYED);
 
         func_808B5A78(this);
     } else {

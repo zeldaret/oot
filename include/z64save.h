@@ -489,7 +489,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_20 0x20
 #define EVENTCHKINF_21 0x21
 #define EVENTCHKINF_22 0x22
-#define EVENTCHKINF_23 0x23
+#define EVENTCHKINF_DC_BOULDER_DESTROYED 0x23 // as per comment @ `z_en_go2.c`
 #define EVENTCHKINF_25 0x25
 #define EVENTCHKINF_2A 0x2A
 #define EVENTCHKINF_2B 0x2B

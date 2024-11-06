@@ -5199,7 +5199,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_25)) {
                     retTextId = 0x3027;
-                } else if (Flags_GetEventChkInf(EVENTCHKINF_23)) {
+                } else if (Flags_GetEventChkInf(EVENTCHKINF_DC_BOULDER_DESTROYED)) {
                     retTextId = 0x3021;
                 } else if (Flags_GetInfTable(INFTABLE_E0)) {
                     retTextId = 0x302A;
@@ -5218,7 +5218,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_25)) {
                     retTextId = 0x3027;
-                } else if (Flags_GetEventChkInf(EVENTCHKINF_23)) {
+                } else if (Flags_GetEventChkInf(EVENTCHKINF_DC_BOULDER_DESTROYED)) {
                     retTextId = 0x3026;
                 } else {
                     retTextId = 0x3009;
@@ -5235,7 +5235,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_25)) {
                     retTextId = 0x3027;
-                } else if (Flags_GetEventChkInf(EVENTCHKINF_23)) {
+                } else if (Flags_GetEventChkInf(EVENTCHKINF_DC_BOULDER_DESTROYED)) {
                     retTextId = 0x3026;
                 } else if (Flags_GetInfTable(INFTABLE_EB)) {
                     retTextId = 0x302B;
