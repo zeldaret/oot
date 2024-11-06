@@ -89,7 +89,7 @@ static AnimationInfo sAnimationInfo[] = {
     { &gMidoAngryHeadTurnAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
 
-void func_80AAA250(EnMd* this) {
+void EnMd_ReverseAnimation(EnMd* this) {
     f32 startFrame;
 
     startFrame = this->skelAnime.startFrame;
@@ -133,7 +133,7 @@ void func_80AAA39C(EnMd* this) {
     switch (this->unk_20A) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_2);
-            func_80AAA250(this);
+            EnMd_ReverseAnimation(this);
             this->unk_20A++;
             FALLTHROUGH;
         case 1:
@@ -172,7 +172,7 @@ void func_80AAA508(EnMd* this) {
     switch (this->unk_20A) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_2);
-            func_80AAA250(this);
+            EnMd_ReverseAnimation(this);
             this->unk_20A++;
             FALLTHROUGH;
         case 1:
@@ -203,7 +203,7 @@ void func_80AAA638(EnMd* this) {
     switch (this->unk_20A) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_9);
-            func_80AAA250(this);
+            EnMd_ReverseAnimation(this);
             this->unk_20A++;
             FALLTHROUGH;
         case 1:
@@ -264,7 +264,7 @@ void func_80AAA890(EnMd* this) {
     switch (this->unk_20A) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_7);
-            func_80AAA250(this);
+            EnMd_ReverseAnimation(this);
             this->unk_20A++;
             FALLTHROUGH;
         case 1:
