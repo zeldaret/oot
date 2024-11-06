@@ -612,7 +612,7 @@ void EnZo_Destroy(Actor* thisx, PlayState* play) {
 void EnZo_Standing(EnZo* this, PlayState* play) {
     s16 angle;
 
-    func_80034F54(play, this->unk_656, this->unk_67E, 20);
+    UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, ZORA_LIMB_MAX);
     EnZo_SetAnimation(this);
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->trackingMode = NPC_TRACKING_FULL_BODY;
@@ -654,7 +654,7 @@ void EnZo_Surface(EnZo* this, PlayState* play) {
 }
 
 void EnZo_TreadWater(EnZo* this, PlayState* play) {
-    func_80034F54(play, this->unk_656, this->unk_67E, 20);
+    UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, ZORA_LIMB_MAX);
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->canSpeak = true;
         this->trackingMode = NPC_TRACKING_FULL_BODY;
@@ -770,8 +770,8 @@ s32 EnZo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
 
     if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12)) {
-        rot->y += (Math_SinS(this->unk_656[limbIndex]) * 200.0f);
-        rot->z += (Math_CosS(this->unk_67E[limbIndex]) * 200.0f);
+        rot->y += (Math_SinS(this->limbOverridesY[limbIndex]) * 200.0f);
+        rot->z += (Math_CosS(this->limbOverridesZ[limbIndex]) * 200.0f);
     }
 
     return 0;

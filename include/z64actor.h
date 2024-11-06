@@ -917,7 +917,7 @@ void func_80034BA0(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDra
 void func_80034CC4(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 s16 func_80034DD4(Actor* actor, struct PlayState* play, s16 arg2, f32 arg3);
-void func_80034F54(struct PlayState* play, s16* arg1, s16* arg2, s32 arg3);
+void UpdateLimbOverrides(struct PlayState* play, s16* tableY, s16* tableZ, s32 count);
 void Actor_Noop(Actor* actor, struct PlayState* play);
 
 void Gfx_DrawDListOpa(struct PlayState* play, Gfx* dlist);

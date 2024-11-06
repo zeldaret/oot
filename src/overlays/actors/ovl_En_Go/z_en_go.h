@@ -22,8 +22,9 @@ typedef s16 (*callback2_80A3ED24)(PlayState*, struct EnGo*);
 // /* 0x80 */ // Not Used
 // /* 0x90 */ GORON1_DMT_BIGGORON,
 
-
 #define EN_GO_EFFECT_COUNT 20
+
+#define GORON_LIMB_MAX 18
 
 typedef struct EnGoEffect {
     /* 0x0000 */ u8 type;
@@ -55,8 +56,8 @@ typedef struct EnGo {
     /* 0x021A */ s16 unk_21A;
     /* 0x021C */ s16 unk_21C;
     /* 0x021E */ s16 unk_21E;
-    /* 0x0220 */ s16 jointTable[18];
-    /* 0x0244 */ s16 morphTable[18];
+    /* 0x0220 */ s16 limbOverridesY[GORON_LIMB_MAX];
+    /* 0x0244 */ s16 limbOverridesZ[GORON_LIMB_MAX];
     /* 0x0268 */ EnGoEffect effects[EN_GO_EFFECT_COUNT];
 } EnGo; // size = 0x06C8
 

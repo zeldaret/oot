@@ -16,6 +16,13 @@ struct SkelAnime;
 
 #define LIMB_DONE 0xFF
 
+// These constants are ubiqutous limb override formulas parameters.
+// Some actors call `UpdateLimbOverrides` function and cache their results in `limbOverrides*` tables.
+// Others compute them on the fly. Both variants are applied inside `*_OverrideLimbDraw` as input angles.
+#define LIMB_OVERRIDE_BASE_Y 0x814
+#define LIMB_OVERRIDE_BASE_Z 0x940
+#define LIMB_OVERRIDE_PER_I 0x32
+
 typedef struct StandardLimb {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;

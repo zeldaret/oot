@@ -695,7 +695,7 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
 
 void func_80AAB874(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
-        func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
+        UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, ENMD_LIMB_MAX);
     } else if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
     }
@@ -705,7 +705,7 @@ void func_80AAB874(EnMd* this, PlayState* play) {
 
 void func_80AAB8F8(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
-        func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
+        UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, ENMD_LIMB_MAX);
     }
     func_80AAA93C(this);
 }
@@ -757,7 +757,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
     }
 
     if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
-        func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
+        UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, ENMD_LIMB_MAX);
     }
 
     if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (play->sceneId == SCENE_LOST_WOODS)) {
@@ -795,7 +795,7 @@ void func_80AABC10(EnMd* this, PlayState* play) {
 }
 
 void func_80AABD0C(EnMd* this, PlayState* play) {
-    func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
+    UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, ENMD_LIMB_MAX);
     func_80AAA93C(this);
 
     if (!(EnMd_FollowPath(this, play)) || (this->waypoint != 0)) {
@@ -853,8 +853,8 @@ s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM)) ||
         (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
-        rot->y += Math_SinS(this->unk_214[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->unk_236[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->limbOverridesY[limbIndex]) * 200.0f;
+        rot->z += Math_CosS(this->limbOverridesZ[limbIndex]) * 200.0f;
     }
 
     return false;

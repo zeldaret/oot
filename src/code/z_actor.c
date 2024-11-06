@@ -4432,13 +4432,16 @@ void Animation_ChangeByInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, 
                      frameCount, animationInfo->mode, animationInfo->morphFrames);
 }
 
-void func_80034F54(PlayState* play, s16* arg1, s16* arg2, s32 arg3) {
+/*
+ * computes `.limbOverrides` values for `*_OverrideLimbDraw` functions
+ */
+void UpdateLimbOverrides(PlayState* play, s16* tableY, s16* tableZ, s32 count) {
     u32 frames = play->gameplayFrames;
     s32 i;
 
-    for (i = 0; i < arg3; i++) {
-        arg1[i] = (0x814 + 50 * i) * frames;
-        arg2[i] = (0x940 + 50 * i) * frames;
+    for (i = 0; i < count; i++) {
+        tableY[i] = (LIMB_OVERRIDE_BASE_Y + LIMB_OVERRIDE_PER_I * i) * frames;
+        tableZ[i] = (LIMB_OVERRIDE_BASE_Z + LIMB_OVERRIDE_PER_I * i) * frames;
     }
 }
 
