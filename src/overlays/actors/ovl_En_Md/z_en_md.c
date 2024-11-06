@@ -552,7 +552,7 @@ void EnMd_UpdateEyes(EnMd* this) {
     }
 }
 
-void func_80AAB158(EnMd* this, PlayState* play) {
+void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 absYawDiff;
     s16 trackingMode;
@@ -845,7 +845,7 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
     EnMd_UpdateEyes(this);
     func_80AAB5A4(this, play);
     Actor_MoveXZGravity(&this->actor);
-    func_80AAB158(this, play);
+    EnMd_UpdateTalking(this, play);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
 }
