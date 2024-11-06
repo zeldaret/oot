@@ -658,7 +658,7 @@ void func_80AAB5A4(EnMd* this, PlayState* play) {
                 (play->sceneId == SCENE_KOKIRI_FOREST))
                    ? 100.0f
                    : 400.0f;
-        this->alpha = func_80034DD4(&this->actor, play, this->alpha, temp);
+        this->alpha = Actor_SmoothStep_Attention(&this->actor, play, this->alpha, temp);
         this->actor.shape.shadowAlpha = this->alpha;
     } else {
         this->alpha = 255;
