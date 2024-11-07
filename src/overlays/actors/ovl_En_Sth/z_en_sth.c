@@ -350,9 +350,9 @@ s32 EnSth_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     }
 
     if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
-        overridePerLimb = limbIndex * LIMB_OVERRIDE_PER_I;
-        rot->y += Math_SinS(play->state.frames * (overridePerLimb + LIMB_OVERRIDE_BASE_Y)) * 200.0f;
-        rot->z += Math_CosS(play->state.frames * (overridePerLimb + LIMB_OVERRIDE_BASE_Z)) * 200.0f;
+        overridePerLimb = limbIndex * FIDGET_MUL_I;
+        rot->y += Math_SinS(play->state.frames * (overridePerLimb + FIDGET_ADD_Y)) * FIDGET_SCALE;
+        rot->z += Math_CosS(play->state.frames * (overridePerLimb + FIDGET_ADD_Z)) * FIDGET_SCALE;
     }
     return 0;
 }

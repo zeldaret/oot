@@ -152,7 +152,7 @@ void EnMu_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnMu_Pose(EnMu* this, PlayState* play) {
-    UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, MU_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MU_LIMB_MAX);
 }
 
 void EnMu_Update(Actor* thisx, PlayState* play) {
@@ -183,8 +183,8 @@ s32 EnMu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7) || (limbIndex == 11) || (limbIndex == 12) ||
         (limbIndex == 13) || (limbIndex == 14)) {
-        rot->y += Math_SinS(this->limbOverridesY[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->limbOverridesZ[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_SCALE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_SCALE;
     }
     return false;
 }

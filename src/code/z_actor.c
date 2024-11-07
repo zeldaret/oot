@@ -4432,16 +4432,26 @@ void Animation_ChangeByInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, 
                      frameCount, animationInfo->mode, animationInfo->morphFrames);
 }
 
-/*
- * computes `.limbOverrides` values for `*_OverrideLimbDraw` functions
+/**
+ * Fills two tables with rotation angles that can be used to simulate idle animations.
+ *
+ * The rotation angles are dependent on the current frame, so should be updated regularly, generally every frame.
+ *
+ * This is done for the desired limb by taking either the `sin` of the yTable value or the `cos` of the zTable value,
+ * multiplying by some scale factor (generally 200), and adding that to the already existing rotation.
+ *
+ * Note: With the common scale factor of 200, this effect is practically unnoticeable if the current animation already
+ * has motion involved.
+ *
+ * Note: MM gets this function unused in favor of `SubS_UpdateFidgetTables` @ `z_sub_s.c`.
  */
-void UpdateLimbOverrides(PlayState* play, s16* tableY, s16* tableZ, s32 count) {
+void Actor_UpdateFidgetTables(PlayState* play, s16* fidgetTableY, s16* fidgetTableZ, s32 tableLen) {
     u32 frames = play->gameplayFrames;
     s32 i;
 
-    for (i = 0; i < count; i++) {
-        tableY[i] = (LIMB_OVERRIDE_BASE_Y + LIMB_OVERRIDE_PER_I * i) * frames;
-        tableZ[i] = (LIMB_OVERRIDE_BASE_Z + LIMB_OVERRIDE_PER_I * i) * frames;
+    for (i = 0; i < tableLen; i++) {
+        fidgetTableY[i] = (FIDGET_ADD_Y + FIDGET_MUL_I * i) * frames;
+        fidgetTableZ[i] = (FIDGET_ADD_Z + FIDGET_MUL_I * i) * frames;
     }
 }
 

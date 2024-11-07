@@ -30,8 +30,8 @@ typedef struct EnKo {
     /* 0x0220 */ f32 modelAlpha;
     /* 0x0224 */ Vec3s jointTable[KOKIRI_LIMB_MAX];
     /* 0x0284 */ Vec3s morphTable[KOKIRI_LIMB_MAX];
-    /* 0x02E4 */ s16 limbOverridesY[KOKIRI_LIMB_MAX];
-    /* 0x0304 */ s16 limbOverridesZ[KOKIRI_LIMB_MAX];
+    /* 0x02E4 */ s16 fidgetTableY[KOKIRI_LIMB_MAX];
+    /* 0x0304 */ s16 fidgetTableZ[KOKIRI_LIMB_MAX];
 } EnKo; // size = 0x0324
 
 typedef enum KokiriChildren {

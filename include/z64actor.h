@@ -14,6 +14,14 @@
 #define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
+// These constants are the [default] parameters for the ubiqutous "fidgeting" formulas.
+// Some actors call `Actor_UpdateFidgetTables` function and cache their results in `fidgetTable*` fields.
+// Others compute them on the fly. Both variants are applied inside `*_OverrideLimbDraw` as input angles.
+#define FIDGET_ADD_Y 0x814
+#define FIDGET_ADD_Z 0x940
+#define FIDGET_MUL_I 0x32
+#define FIDGET_SCALE 200.0f
+
 struct Actor;
 struct ActorEntry;
 struct CollisionPoly;
@@ -917,7 +925,7 @@ void func_80034BA0(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDra
 void func_80034CC4(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 s16 func_80034DD4(Actor* actor, struct PlayState* play, s16 arg2, f32 arg3);
-void UpdateLimbOverrides(struct PlayState* play, s16* tableY, s16* tableZ, s32 count);
+void Actor_UpdateFidgetTables(struct PlayState* play, s16* fidgetTableY, s16* fidgetTableZ, s32 tableLen);
 void Actor_Noop(Actor* actor, struct PlayState* play);
 
 void Gfx_DrawDListOpa(struct PlayState* play, Gfx* dlist);

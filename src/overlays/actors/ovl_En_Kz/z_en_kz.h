@@ -26,8 +26,8 @@ typedef struct EnKz {
     /* 0x0214 */ s16 returnToCamId;
     /* 0x0216 */ Vec3s jointTable[KINGZORA_LIMB_MAX];
     /* 0x025E */ Vec3s morphTable[KINGZORA_LIMB_MAX];
-    /* 0x02A6 */ s16 limbOverridesY[KINGZORA_LIMB_MAX];
-    /* 0x02BE */ s16 limbOverridesZ[KINGZORA_LIMB_MAX];
+    /* 0x02A6 */ s16 fidgetTableY[KINGZORA_LIMB_MAX];
+    /* 0x02BE */ s16 fidgetTableZ[KINGZORA_LIMB_MAX];
 } EnKz; // size = 0x02D8
 
 #endif

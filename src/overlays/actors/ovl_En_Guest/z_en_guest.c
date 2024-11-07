@@ -157,7 +157,7 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
     }
     Npc_TrackPoint(&this->actor, &this->interactInfo, 6, NPC_TRACKING_HEAD_AND_TORSO);
 
-    UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, GUEST_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, GUEST_LIMB_MAX);
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
 
@@ -200,8 +200,8 @@ s32 EnGuest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     }
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
-        rot->y += Math_SinS(this->limbOverridesY[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->limbOverridesZ[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_SCALE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_SCALE;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_guest.c", 388);

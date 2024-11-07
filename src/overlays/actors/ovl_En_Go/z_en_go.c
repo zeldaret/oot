@@ -1033,7 +1033,7 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
         this->actionFunc == func_80A40B1C) {
-        UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, GORON_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, GORON_LIMB_MAX);
     }
 
     EnGo_UpdateShadow(this);
@@ -1103,8 +1103,8 @@ s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
     }
 
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        rot->y += Math_SinS(this->limbOverridesY[limb]) * 200.0f;
-        rot->z += Math_CosS(this->limbOverridesZ[limb]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limb]) * FIDGET_SCALE;
+        rot->z += Math_CosS(this->fidgetTableZ[limb]) * FIDGET_SCALE;
     }
 
     return 0;

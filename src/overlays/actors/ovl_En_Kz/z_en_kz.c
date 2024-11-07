@@ -416,7 +416,7 @@ void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_SetupMweep;
     } else {
-        UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, KINGZORA_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, KINGZORA_LIMB_MAX);
     }
 }
 
@@ -479,7 +479,7 @@ void EnKz_Wait(EnKz* this, PlayState* play) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, play);
     } else {
-        UpdateLimbOverrides(play, this->limbOverridesY, this->limbOverridesZ, KINGZORA_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, KINGZORA_LIMB_MAX);
     }
 }
 
@@ -546,8 +546,8 @@ s32 EnKz_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnKz* this = (EnKz*)thisx;
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 10) {
-        rot->y += Math_SinS(this->limbOverridesY[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->limbOverridesZ[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_SCALE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_SCALE;
     }
     if (limbIndex) {}
     return false;

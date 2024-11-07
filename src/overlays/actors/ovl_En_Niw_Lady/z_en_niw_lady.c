@@ -578,11 +578,8 @@ s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
     }
     if (this->unk_275 != 0) {
         if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
-            // pad = limbIndex * LIMB_OVERRIDE_PER_I; // likely
-            rot->y +=
-                Math_SinS((play->state.frames * (limbIndex * LIMB_OVERRIDE_PER_I + LIMB_OVERRIDE_BASE_Y))) * 200.0f;
-            rot->z +=
-                Math_CosS((play->state.frames * (limbIndex * LIMB_OVERRIDE_PER_I + LIMB_OVERRIDE_BASE_Z))) * 200.0f;
+            rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_MUL_I + FIDGET_ADD_Y))) * FIDGET_SCALE;
+            rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_MUL_I + FIDGET_ADD_Z))) * FIDGET_SCALE;
         }
     }
     return false;

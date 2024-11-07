@@ -40,8 +40,8 @@ typedef struct EnZo {
     /* 0x0650 */ s16 timeToDive;
     /* 0x0652 */ s16 blinkTimer;
     /* 0x0654 */ s16 eyeTexture;
-    /* 0x0656 */ s16 limbOverridesY[ZORA_LIMB_MAX];
-    /* 0x067E */ s16 limbOverridesZ[ZORA_LIMB_MAX];
+    /* 0x0656 */ s16 fidgetTableY[ZORA_LIMB_MAX];
+    /* 0x067E */ s16 fidgetTableZ[ZORA_LIMB_MAX];
 } EnZo; // size = 0x06A8
 
 #endif
