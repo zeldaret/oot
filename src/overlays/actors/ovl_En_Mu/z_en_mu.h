@@ -17,7 +17,6 @@ typedef struct EnMu {
     /* 0x0208 */ u16 defaultTextId;
     /* 0x020A */ s16 fidgetTableY[16];
     /* 0x022A */ s16 fidgetTableZ[16];
-    /* 0x024A */ s16 unk_24A;
 } EnMu; // size = 0x024C
 
 #endif
