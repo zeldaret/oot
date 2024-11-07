@@ -612,7 +612,7 @@ void EnZo_Destroy(Actor* thisx, PlayState* play) {
 void EnZo_Standing(EnZo* this, PlayState* play) {
     s16 angle;
 
-    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ZORA_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 20);
     EnZo_SetAnimation(this);
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->trackingMode = NPC_TRACKING_FULL_BODY;
@@ -654,7 +654,7 @@ void EnZo_Surface(EnZo* this, PlayState* play) {
 }
 
 void EnZo_TreadWater(EnZo* this, PlayState* play) {
-    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ZORA_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 20);
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->canSpeak = true;
         this->trackingMode = NPC_TRACKING_FULL_BODY;

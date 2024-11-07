@@ -1033,7 +1033,7 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
         this->actionFunc == func_80A40B1C) {
-        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, GORON_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 18);
     }
 
     EnGo_UpdateShadow(this);

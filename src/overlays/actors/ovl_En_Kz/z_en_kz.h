@@ -8,8 +8,6 @@ struct EnKz;
 
 typedef void (*EnKzActionFunc)(struct EnKz*, PlayState*);
 
-#define KINGZORA_LIMB_MAX 12
-
 typedef struct EnKz {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelanime;
@@ -24,10 +22,10 @@ typedef struct EnKz {
     /* 0x0210 */ s16 eyeIdx;
     /* 0x0212 */ s16 subCamId;
     /* 0x0214 */ s16 returnToCamId;
-    /* 0x0216 */ Vec3s jointTable[KINGZORA_LIMB_MAX];
-    /* 0x025E */ Vec3s morphTable[KINGZORA_LIMB_MAX];
-    /* 0x02A6 */ s16 fidgetTableY[KINGZORA_LIMB_MAX];
-    /* 0x02BE */ s16 fidgetTableZ[KINGZORA_LIMB_MAX];
+    /* 0x0216 */ Vec3s jointTable[12];
+    /* 0x025E */ Vec3s morphTable[12];
+    /* 0x02A6 */ s16 fidgetTableY[12];
+    /* 0x02BE */ s16 fidgetTableZ[12];
 } EnKz; // size = 0x02D8
 
 #endif

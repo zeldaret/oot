@@ -152,7 +152,7 @@ void EnMu_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnMu_Pose(EnMu* this, PlayState* play) {
-    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MU_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
 }
 
 void EnMu_Update(Actor* thisx, PlayState* play) {

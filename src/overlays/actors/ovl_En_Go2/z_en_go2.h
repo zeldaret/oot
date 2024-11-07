@@ -67,8 +67,6 @@ typedef struct EnGo2DustEffectData {
 
 #define EN_GO2_EFFECT_COUNT 10
 
-#define GORON2_LIMB_MAX 18
-
 typedef struct EnGo2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
@@ -94,14 +92,14 @@ typedef struct EnGo2 {
     /* 0x021C */ char unk_21C[0x04];
     /* 0x0220 */ f32 alpha; // Set to 0, used by func_80A45360, smoothed to this->actor.shape.shadowAlpha from either 0 or 255.0f
     /* 0x0224 */ s16 blinkTimer;
-    /* 0x0226 */ s16 fidgetTableY[GORON2_LIMB_MAX];
-    /* 0x024A */ s16 fidgetTableZ[GORON2_LIMB_MAX];
+    /* 0x0226 */ s16 fidgetTableY[18];
+    /* 0x024A */ s16 fidgetTableZ[18];
     /* 0x026E */ u16 trackingMode;
     /* 0x0270 */ EnGoEffect effects[EN_GO2_EFFECT_COUNT];
     /* 0x04A0 */ Vec3f subCamEye;
     /* 0x04AC */ Vec3f subCamAt;
-    /* 0x04B8 */ Vec3s jointTable[GORON2_LIMB_MAX];
-    /* 0x0524 */ Vec3s morphTable[GORON2_LIMB_MAX];
+    /* 0x04B8 */ Vec3s jointTable[18];
+    /* 0x0524 */ Vec3s morphTable[18];
     /* 0x0590 */ s16 unk_590; // timer
     /* 0x0592 */ s16 animTimer; // animTimer. Plays NA_SE_EN_MORIBLIN_WALK, NA_SE_EV_IRON_DOOR_OPEN, NA_SE_EV_IRON_DOOR_CLOSE
     /* 0x0594 */ s32 getItemId;

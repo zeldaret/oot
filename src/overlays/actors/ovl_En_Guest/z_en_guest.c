@@ -157,7 +157,7 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
     }
     Npc_TrackPoint(&this->actor, &this->interactInfo, 6, NPC_TRACKING_HEAD_AND_TORSO);
 
-    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, GUEST_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
 

@@ -21,8 +21,6 @@ typedef struct EnZoEffect {
 
 typedef void (*EnZoActionFunc)(struct EnZo*, PlayState*);
 
-#define ZORA_LIMB_MAX 20
-
 typedef struct EnZo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
@@ -30,8 +28,8 @@ typedef struct EnZo {
     /* 0x0194 */ NpcInteractInfo interactInfo;
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ u8 canSpeak;
-    /* 0x020A */ Vec3s jointTable[ZORA_LIMB_MAX];
-    /* 0x0282 */ Vec3s morphTable[ZORA_LIMB_MAX];
+    /* 0x020A */ Vec3s jointTable[20];
+    /* 0x0282 */ Vec3s morphTable[20];
     /* 0x02FC */ EnZoEffect effects[EN_ZO_EFFECT_COUNT];
     /* 0x0644 */ f32 dialogRadius;
     /* 0x0648 */ f32 alpha;
@@ -40,8 +38,8 @@ typedef struct EnZo {
     /* 0x0650 */ s16 timeToDive;
     /* 0x0652 */ s16 blinkTimer;
     /* 0x0654 */ s16 eyeTexture;
-    /* 0x0656 */ s16 fidgetTableY[ZORA_LIMB_MAX];
-    /* 0x067E */ s16 fidgetTableZ[ZORA_LIMB_MAX];
+    /* 0x0656 */ s16 fidgetTableY[20];
+    /* 0x067E */ s16 fidgetTableZ[20];
 } EnZo; // size = 0x06A8
 
 #endif

@@ -416,7 +416,7 @@ void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_SetupMweep;
     } else {
-        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, KINGZORA_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 12);
     }
 }
 
@@ -479,7 +479,7 @@ void EnKz_Wait(EnKz* this, PlayState* play) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, play);
     } else {
-        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, KINGZORA_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 12);
     }
 }
 

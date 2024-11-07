@@ -1995,7 +1995,7 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
 #endif
     this->actionFunc(this, play);
     if (this->unk_211 == true) {
-        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, GORON2_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 18);
     }
     func_80A45288(this, play);
     EnGo2_EyeMouthTexState(this);
