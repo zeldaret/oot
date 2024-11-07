@@ -113,16 +113,16 @@ void EnRu2_Destroy(Actor* thisx, PlayState* play) {
 
 void EnRu2_UpdateEyeTextures(EnRu2* this) {
     s32 pad[3];
-    s16* unk_2A6 = &this->unk_2A6;
-    s16* unk_2A4 = &this->unk_2A4;
+    s16* eyeTextureFrame = &this->eyeTextureFrame;
+    s16* eyeTextureIndex = &this->eyeTextureIndex;
 
-    if (DECR(*unk_2A6) == 0) {
-        *unk_2A6 = Rand_S16Offset(0x3C, 0x3C);
+    if (DECR(*eyeTextureFrame) == 0) {
+        *eyeTextureFrame = Rand_S16Offset(0x3C, 0x3C);
     }
 
-    *unk_2A4 = *unk_2A6;
-    if (*unk_2A4 >= 3) {
-        *unk_2A4 = 0;
+    *eyeTextureIndex = *eyeTextureFrame;
+    if (*eyeTextureIndex >= 3) {
+        *eyeTextureIndex = 0;
     }
 }
 
@@ -143,9 +143,9 @@ void func_80AF26AC(EnRu2* this) {
     this->action = 7;
     this->drawConfig = 0;
     this->alpha = 0;
-    this->unk_2B8 = 0;
+    this->isLightBall = 0;
     this->actor.shape.shadowAlpha = 0;
-    this->unk_2B0 = 0.0f;
+    this->fadeTimer = 0.0f;
 }
 
 void func_80AF26D0(EnRu2* this, PlayState* play) {
@@ -424,38 +424,38 @@ void EnRu2_CheckFadeIn(EnRu2* this, PlayState* play) {
         this->drawConfig = 2;
         this->alpha = 0;
         this->actor.shape.shadowAlpha = 0;
-        this->unk_2B0 = 0.0f;
+        this->fadeTimer = 0.0f;
         EnRu2_PlayWhiteOutSound();
     }
 }
 
 /* Fades Ruto's actor in or out. Both happen during the Water Trial. */
 void EnRu2_Fade(EnRu2* this, PlayState* play) {
-    f32* unk_2B0 = &this->unk_2B0;
+    f32* fadeTimer = &this->fadeTimer;
     s32 alpha;
 
     if (EnRu2_CheckCueIs(this, play, 4, 3)) {
-        *unk_2B0 += 1.0f;
-        if (*unk_2B0 >= kREG(5) + 10.0f) {
+        *fadeTimer += 1.0f;
+        if (*fadeTimer >= kREG(5) + 10.0f) {
             this->action = 9;
             this->drawConfig = 1;
-            *unk_2B0 = kREG(5) + 10.0f;
+            *fadeTimer = kREG(5) + 10.0f;
             this->alpha = 255;
             this->actor.shape.shadowAlpha = 0xFF;
             return;
         }
     } else {
-        *unk_2B0 -= 1.0f;
-        if (*unk_2B0 <= 0.0f) {
+        *fadeTimer -= 1.0f;
+        if (*fadeTimer <= 0.0f) {
             this->action = 7;
             this->drawConfig = 0;
-            *unk_2B0 = 0.0f;
+            *fadeTimer = 0.0f;
             this->alpha = 0;
             this->actor.shape.shadowAlpha = 0;
             return;
         }
     }
-    alpha = (*unk_2B0 / (kREG(5) + 10.0f)) * 255.0f;
+    alpha = (*fadeTimer / (kREG(5) + 10.0f)) * 255.0f;
     this->alpha = alpha;
     this->actor.shape.shadowAlpha = alpha;
 }
@@ -465,11 +465,11 @@ void EnRu2_CheckFadeOut(EnRu2* this, PlayState* play) {
     if (EnRu2_CheckCueIsNot(this, play, 4, 3)) {
         this->action = 8;
         this->drawConfig = 2;
-        this->unk_2B0 = kREG(5) + 10.0f;
+        this->fadeTimer = kREG(5) + 10.0f;
         this->alpha = 255;
-        if (this->unk_2B8 == 0) {
+        if (this->isLightBall == 0) {
             EnRu2_SpawnLightBall(this, play);
-            this->unk_2B8 = 1;
+            this->isLightBall = 1;
         }
         this->actor.shape.shadowAlpha = 0xFF;
     }
@@ -504,7 +504,7 @@ void EnRu2_Action09(EnRu2* this, PlayState* play) {
 
 void EnRu2_DrawSkelAnimeFlex(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->unk_2A4;
+    s16 temp = this->eyeTextureIndex;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -533,18 +533,18 @@ void EnRu2_InitCredits(EnRu2* this, PlayState* play) {
 
 /* Fades in Ruto's actor during the credits sequence. */
 void EnRu2_FadeInCredits(EnRu2* this) {
-    f32* unk_2B0 = &this->unk_2B0;
+    f32* fadeTimer = &this->fadeTimer;
     f32 temp_f0;
     s32 temp_f18;
 
-    *unk_2B0 += 1.0f;
+    *fadeTimer += 1.0f;
 
     temp_f0 = kREG(17) + 10.0f;
-    if (temp_f0 <= *unk_2B0) {
+    if (temp_f0 <= *fadeTimer) {
         this->alpha = 255;
         this->actor.shape.shadowAlpha = 0xFF;
     } else {
-        temp_f18 = (*unk_2B0 / temp_f0) * 255.0f;
+        temp_f18 = (*fadeTimer / temp_f0) * 255.0f;
         this->alpha = temp_f18;
         this->actor.shape.shadowAlpha = temp_f18;
     }
@@ -558,7 +558,7 @@ void EnRu2_InitCreditsPosition(EnRu2* this, PlayState* play) {
 
 /* Checks if Ruto's actor is fully faded in during the credits sequence, and if so, proceeds to action 12. */
 void EnRu2_CheckVisibleInCredits(EnRu2* this) {
-    if (this->unk_2B0 >= kREG(17) + 10.0f) {
+    if (this->fadeTimer >= kREG(17) + 10.0f) {
         this->action = 12;
         this->drawConfig = 1;
     }
@@ -662,8 +662,8 @@ void EnRu2_PlayFanfare(void) {
 void EnRu2_AccelerateUp(EnRu2* this) {
     f32 funcFloat;
 
-    this->unk_2C0++;
-    funcFloat = Environment_LerpWeightAccelDecel((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
+    this->swimmingUpFrame++;
+    funcFloat = Environment_LerpWeightAccelDecel((kREG(2) + 0x96) & 0xFFFF, 0, this->swimmingUpFrame, 8, 0);
     this->actor.world.pos.y = this->actor.home.pos.y + (300.0f * funcFloat);
 }
 
@@ -695,19 +695,19 @@ void EnRu2_TriggerEncounter(EnRu2* this, PlayState* play) {
 /* Handles the starting moments of Ruto's encounter with Link at the Water Temple. Responds to a running timer to
    initiate, on cue, both the fanfare and Ruto's dialogue. */
 void EnRu2_BeginEncounter(EnRu2* this, PlayState* play) {
-    f32* unk_2C4 = &this->unk_2C4;
+    f32* encounterTimer = &this->encounterTimer;
 
-    *unk_2C4 += 1.0f;
-    if (*unk_2C4 == kREG(6) + 40.0f) {
+    *encounterTimer += 1.0f;
+    if (*encounterTimer == kREG(6) + 40.0f) {
         EnRu2_PlayFanfare();
-    } else if (*unk_2C4 > kREG(4) + 50.0f) {
+    } else if (*encounterTimer > kREG(4) + 50.0f) {
         this->actor.textId = 0x403E;
         Message_StartTextbox(play, this->actor.textId, NULL);
         this->action = 17;
     }
 }
 
-void func_80AF39DC(EnRu2* this, PlayState* play) {
+void EnRu2_DialogCameraHandler(EnRu2* this, PlayState* play) {
     s32 pad;
     MessageContext* msgCtx;
     s32 pad2;
@@ -719,11 +719,11 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
     dialogState = Message_GetState(msgCtx);
 
     if (dialogState == TEXT_STATE_DONE_FADING) {
-        if (this->unk_2C3 != TEXT_STATE_DONE_FADING) {
+        if (this->lastDialogState != TEXT_STATE_DONE_FADING) {
             // "I'm Komatsu!" (cinema scene dev)
             PRINTF("おれが小松だ！ \n");
-            this->unk_2C2++;
-            if (this->unk_2C2 % 6 == 3) {
+            this->messageIndex++;
+            if (this->messageIndex % 6 == 3) {
                 player = GET_PLAYER(play);
                 // "uorya-!" (screeming sound)
                 PRINTF("うおりゃー！ \n");
@@ -735,7 +735,7 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
         }
     }
 
-    this->unk_2C3 = dialogState;
+    this->lastDialogState = dialogState;
     if (Message_GetState(msgCtx) == TEXT_STATE_CLOSING) {
         this->action = 18;
         Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
@@ -743,8 +743,8 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_StartSwimmingUp(EnRu2* this, PlayState* play) {
-    this->unk_2C4 += 1.0f;
-    if (this->unk_2C4 > kREG(5) + 100.0f) {
+    this->encounterTimer += 1.0f;
+    if (this->encounterTimer > kREG(5) + 100.0f) {
         EnRu2_AnimationChange(this, &gAdultRutoSwimmingUpAnim, 0, -12.0f, 0);
         this->action = 19;
         EnRu2_MarkEncounterOccurred(this, play);
@@ -752,7 +752,7 @@ void EnRu2_StartSwimmingUp(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_EndSwimmingUp(EnRu2* this, PlayState* play) {
-    if (this->unk_2C0 > ((((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96))) & 0xFFFF)) {
+    if (this->swimmingUpFrame > ((((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96))) & 0xFFFF)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -785,7 +785,7 @@ void EnRu2_Action17(EnRu2* this, PlayState* play) {
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyeTextures(this);
     Actor_SetFocus(&this->actor, 50.0f);
-    func_80AF39DC(this, play);
+    EnRu2_DialogCameraHandler(this, play);
 }
 
 void EnRu2_Action18(EnRu2* this, PlayState* play) {
@@ -838,8 +838,8 @@ void EnRu2_Init(Actor* thisx, PlayState* play) {
             break;
     }
 
-    this->unk_2C2 = 0;
-    this->unk_2C3 = TEXT_STATE_DONE_FADING;
+    this->messageIndex = 0;
+    this->lastDialogState = TEXT_STATE_DONE_FADING;
 }
 
 void EnRu2_DrawNothing(EnRu2* this, PlayState* play) {
@@ -847,7 +847,7 @@ void EnRu2_DrawNothing(EnRu2* this, PlayState* play) {
 
 void EnRu2_DrawSkelAnimeOpa(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->unk_2A4;
+    s16 temp = this->eyeTextureIndex;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
