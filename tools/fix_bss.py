@@ -283,10 +283,6 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
                 continue
 
             object_file = file.filepath.relative_to(f"build/{version}")
-            # Hack to handle the combined z_message_z_game_over.o file.
-            # Fortunately z_game_over has no BSS so we can just analyze z_message instead.
-            if str(object_file) == "src/code/z_message_z_game_over.o":
-                object_file = Path("src/code/z_message.o")
 
             # c_file = object_file.with_suffix(".c")
 
@@ -294,7 +290,7 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
             # not be true if the first BSS variable is not referenced so account for that specifically.
 
             if object_file.suffix == ".plf":
-                # For partially linked overlays, read the map file for the plf to get the
+                # For partially linked files, read the map file for the plf to get the
                 # object file corresponding to a single source file
                 plf_map = mapfile_parser.mapfile.MapFile()
                 plf_map.readMapFile(file.filepath.with_suffix(".map"))
@@ -302,7 +298,10 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
                     for plf_file in plf_seg:
                         if not plf_file.sectionType == ".bss":
                             continue
-                        c_file = plf_file.filepath.relative_to(f"build/{version}").with_suffix(".c")
+                        object_file = plf_file.filepath.relative_to(f"build/{version}")
+                        if str(object_file) == "src/code/z_message_z_game_over.o":
+                            object_file = Path("src/code/z_message.o")
+                        c_file = object_file.with_suffix(".c")
 
                         pointers_in_section = [
                             p
@@ -323,6 +322,11 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
 
                         bss_sections[c_file] = BssSection(base_start_address, file.vram + plf_file.vram, pointers_in_section)
             else:
+                # Hack to handle the combined z_message_z_game_over.o file.
+                # Fortunately z_game_over has no BSS so we can just analyze z_message instead.
+                if str(object_file) == "src/code/z_message_z_game_over.o":
+                    object_file = Path("src/code/z_message.o")
+
                 c_file = object_file.with_suffix(".c")
 
                 pointers_in_section = [

@@ -1,5 +1,5 @@
 CFLAGS := -Wall -Wextra -pedantic -std=gnu99 -g -O2
-PROGRAMS := bin2c makeromfs mkdmadata mkldscript mkovlrules preprocess_pragmas reloc_prereq vtxdis
+PROGRAMS := bin2c makeromfs mkdmadata mkldscript mkspecrules preprocess_pragmas reloc_prereq vtxdis
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
@@ -58,7 +58,7 @@ bin2c_SOURCES              := bin2c.c
 makeromfs_SOURCES          := makeromfs.c n64chksum.c util.c
 mkdmadata_SOURCES          := mkdmadata.c spec.c util.c
 mkldscript_SOURCES         := mkldscript.c spec.c util.c
-mkovlrules_SOURCES         := mkovlrules.c spec.c util.c
+mkspecrules_SOURCES        := mkspecrules.c spec.c util.c
 preprocess_pragmas_SOURCES := preprocess_pragmas.c
 reloc_prereq_SOURCES       := reloc_prereq.c spec.c util.c
 vtxdis_SOURCES             := vtxdis.c

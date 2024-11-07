@@ -13,24 +13,29 @@ static void write_overlay_rules(FILE *fout, const char *ovls_dir)
     int i, j;
 
     for (i = 0; i < g_segmentsCount; i++) {
-        if (!(g_segments[i].flags & FLAG_OVL))
-            continue;
+        Segment *seg = &g_segments[i];
 
         /* Write rule for partial linkage of this segment */
-        fprintf(fout, "%s/%s.plf:", ovls_dir, g_segments[i].name);
-        for (j = 0; j < g_segments[i].includesCount; j++)
-            fprintf(fout, " \\\n\t\t%s", g_segments[i].includes[j].fpath);
+        fprintf(fout, "%s/%s.plf:", ovls_dir, seg->name);
+        for (j = 0; j < seg->includesCount; j++)
+            fprintf(fout, " \\\n\t\t%s", seg->includes[j].fpath);
         fprintf(fout, "\n"
-                      "\t$(LD) $(OVLDFLAGS) $^ -o $@\n"
-                      "\n");
+                      "\t@echo Linking \"%s\"\n"
+                      "\t$(SEG_VERBOSE)$(LD) $(SEG_LDFLAGS) $^ -o $@\n"
+                      "\n", seg->name);
     }
 
     /* List every expected plf in a variable */
-    fprintf(fout, "OVL_SEGMENT_FILES :=");
+    fprintf(fout, "SEGMENT_FILES :=");
+    for (i = 0; i < g_segmentsCount; i++) {
+        fprintf(fout, " \\\n\t\t%s/%s.plf", ovls_dir, g_segments[i].name);
+    }
+
+    /* List overlay plfs in a variable */
+    fprintf(fout, "\n\nOVL_SEGMENT_FILES :=");
     for (i = 0; i < g_segmentsCount; i++) {
         if (!(g_segments[i].flags & FLAG_OVL))
             continue;
-        
         fprintf(fout, " \\\n\t\t%s/%s.plf", ovls_dir, g_segments[i].name);
     }
     fprintf(fout, "\n");

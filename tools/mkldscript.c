@@ -12,23 +12,11 @@
 struct Segment *g_segments;
 int g_segmentsCount;
 
-static void write_includes(const struct Segment *seg, FILE *fout, const char *segments_dir, const char *section,
-                           bool linker_pad)
+static void write_includes(const struct Segment *seg, FILE *fout, const char *segments_dir, const char *section)
 {
     // Note sections contain a suffix wildcard as compilers other than IDO such as GCC may emit sections titled
     // e.g. .rodata.cstN, .rodata.strN.M, .text.FUNCNAME depending on their settings.
-    if (seg->flags & FLAG_OVL) {
-        // For overlays they are already partially linked.
-        fprintf(fout, "            %s/%s.plf (%s*)\n", segments_dir, seg->name, section);
-    } else {
-        // For non-overlays, list each include separately.
-        int i;
-        for (i = 0; i < seg->includesCount; i++) {
-            fprintf(fout, "            %s (%s*)\n", seg->includes[i].fpath, section);
-            if (linker_pad && seg->includes[i].linkerPadding != 0)
-                fprintf(fout, "            . += 0x%X;\n", seg->includes[i].linkerPadding);
-        }
-    }
+    fprintf(fout, "            %s/%s.plf (%s*)\n", segments_dir, seg->name, section);
 }
 
 static void write_ld_script(FILE *fout, const char *segments_dir)
@@ -83,7 +71,7 @@ static void write_ld_script(FILE *fout, const char *segments_dir)
 
         // Write .text
         fprintf(fout, "        _%sSegmentTextStart = .;\n", seg->name);
-        write_includes(seg, fout, segments_dir, ".text", true);
+        write_includes(seg, fout, segments_dir, ".text");
         fprintf(fout, "        . = ALIGN(0x10);\n"
                       "        _%sSegmentTextEnd = .;\n"
                       "        _%sSegmentTextSize = ABSOLUTE( _%sSegmentTextEnd - _%sSegmentTextStart );\n"
@@ -91,7 +79,7 @@ static void write_ld_script(FILE *fout, const char *segments_dir)
 
         // Write .data
         fprintf(fout, "        _%sSegmentDataStart = .;\n", seg->name);
-        write_includes(seg, fout, segments_dir, ".data", false);
+        write_includes(seg, fout, segments_dir, ".data");
         fprintf(fout, "        . = ALIGN(0x10);\n"
                       "        _%sSegmentDataEnd = .;\n"
                       "        _%sSegmentDataSize = ABSOLUTE( _%sSegmentDataEnd - _%sSegmentDataStart );\n"
@@ -99,7 +87,7 @@ static void write_ld_script(FILE *fout, const char *segments_dir)
 
         // Write .rodata
         fprintf(fout, "        _%sSegmentRoDataStart = .;\n", seg->name);
-        write_includes(seg, fout, segments_dir, ".rodata", false);
+        write_includes(seg, fout, segments_dir, ".rodata");
         fprintf(fout, "        . = ALIGN(0x10);\n"
                       "        _%sSegmentRoDataEnd = .;\n"
                       "        _%sSegmentRoDataSize = ABSOLUTE( _%sSegmentRoDataEnd - _%sSegmentRoDataStart );\n"
@@ -145,8 +133,8 @@ static void write_ld_script(FILE *fout, const char *segments_dir)
                       seg->name, seg->name);
 
         // Write .bss and COMMON
-        write_includes(seg, fout, segments_dir, ".bss", false);
-        write_includes(seg, fout, segments_dir, "COMMON", false);
+        write_includes(seg, fout, segments_dir, ".bss");
+        write_includes(seg, fout, segments_dir, "COMMON");
 
         // End uninitialized data
         fprintf(fout, "        . = ALIGN(8);\n"

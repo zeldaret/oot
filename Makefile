@@ -306,6 +306,8 @@ else
   ICONV := iconv
 endif
 
+LD_OFORMAT := $(shell $(LD) --print-output-format)
+
 INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
 # Check code syntax with host compiler
@@ -314,14 +316,14 @@ CHECK_WARNINGS += -Werror=implicit-int -Werror=implicit-function-declaration -We
 
 # The `cpp` command behaves differently on macOS (it behaves as if
 # `-traditional-cpp` was passed) so we use `gcc -E` instead.
-CPP        := gcc -E
-MKLDSCRIPT := tools/mkldscript
-MKOVLRULES := tools/mkovlrules
-MKDMADATA  := tools/mkdmadata
-BIN2C      := tools/bin2c
-N64TEXCONV := tools/assets/n64texconv/n64texconv
-FADO       := tools/fado/fado.elf
-PYTHON     ?= $(VENV)/bin/python3
+CPP         := gcc -E
+MKLDSCRIPT  := tools/mkldscript
+MKSPECRULES := tools/mkspecrules
+MKDMADATA   := tools/mkdmadata
+BIN2C       := tools/bin2c
+N64TEXCONV  := tools/assets/n64texconv/n64texconv
+FADO        := tools/fado/fado.elf
+PYTHON      ?= $(VENV)/bin/python3
 
 # Command to replace $(BUILD_DIR) in some files with the build path.
 # We can't use the C preprocessor for this because it won't substitute inside string literals.
@@ -503,13 +505,13 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG_EXTRACTED:.png=.inc.c),$(f:
                      $(foreach f,$(TEXTURE_FILES_JPG_EXTRACTED:.jpg=.jpg.inc.c),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)) \
                      $(foreach f,$(TEXTURE_FILES_JPG_COMMITTED:.jpg=.jpg.inc.c),$(BUILD_DIR)/$f)
 
-OVL_SEGMENTS_DIR := $(BUILD_DIR)/segments
+SEGMENTS_DIR := $(BUILD_DIR)/segments
 
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/baserom \
                  $(BUILD_DIR)/assets/text \
                  $(BUILD_DIR)/linker_scripts \
-				 $(OVL_SEGMENTS_DIR))
+				 $(SEGMENTS_DIR))
 $(shell mkdir -p $(foreach dir, \
                       $(SRC_DIRS) \
                       $(UNDECOMPILED_DATA_DIRS) \
@@ -529,16 +531,18 @@ $(shell mkdir -p $(foreach dir, \
                     $(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
 endif
 
-# Generate and include segment makefile rules for combining overlay .o files into single .plf files, from which
-# overlay relocations will be generated.
+# Generate and include segment makefile rules for combining .o files into single .plf files for an entire spec segment.
+# Overlay relocations will be generated from these if the spec segment has the OVERLAY flag.
 # If this makefile doesn't exist or if the spec has been modified since make was last ran it will use the rule
 # later on in the file to regenerate this file before including it. The test against MAKECMDGOALS ensures this
 # doesn't happen if we're not running a task that needs these partially linked files; this is especially important
 # for setup since the rule to generate the segment makefile rules requires setup to have ran first.
-OVLDFLAGS = -r -T linker_scripts/segment.ld -Map $(@:.plf=.map)
+SEG_LDFLAGS = -r -T linker_scripts/segment.ld -Map $(@:.plf=.map)
+SEG_VERBOSE = @
 ifeq ($(MAKECMDGOALS),$(filter-out clean assetclean distclean setup,$(MAKECMDGOALS)))
-include $(OVL_SEGMENTS_DIR)/Makefile
+include $(SEGMENTS_DIR)/Makefile
 else
+SEGMENT_FILES :=
 OVL_SEGMENT_FILES :=
 endif
 OVL_RELOC_FILES := $(OVL_SEGMENT_FILES:.plf=.reloc.o)
@@ -851,7 +855,7 @@ ifeq ($(PLATFORM),IQUE)
   endif
 endif
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_SEGMENT_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) \
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(SEGMENT_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) \
         $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
@@ -873,17 +877,17 @@ $(BUILD_DIR)/spec: $(SPEC) $(SPEC_INCLUDES)
 	$(CPP) $(CPPFLAGS) -MD -MP -MF $@.d -MT $@ -I. $< | $(BUILD_DIR_REPLACE) > $@
 
 $(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
-	$(MKLDSCRIPT) $< $@ $(OVL_SEGMENTS_DIR)
+	$(MKLDSCRIPT) $< $@ $(SEGMENTS_DIR)
 
 # Generates a makefile containing rules for building .plf files
 # from overlay .o files for every overlay defined in the spec.
-$(OVL_SEGMENTS_DIR)/Makefile: $(BUILD_DIR)/$(SPEC)
-	$(MKOVLRULES) $< $(OVL_SEGMENTS_DIR) $@
+$(SEGMENTS_DIR)/Makefile: $(BUILD_DIR)/$(SPEC)
+	$(MKSPECRULES) $< $(SEGMENTS_DIR) $@
 
 # Generates relocations for each overlay after partial linking so that the final
 # link step cannot later insert padding between individual overlay files after
 # relocations have already been calculated.
-$(OVL_SEGMENTS_DIR)/%.reloc.o: $(OVL_SEGMENTS_DIR)/%.plf
+$(SEGMENTS_DIR)/%.reloc.o: $(SEGMENTS_DIR)/%.plf
 	$(FADO) $< -n $(notdir $*) -o $(@:.o=.s)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
@@ -891,7 +895,7 @@ $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
 
 $(BUILD_DIR)/baserom/%.o: $(EXTRACTED_DIR)/baserom/%
-	$(OBJCOPY) -I binary -O elf32-big $< $@
+	$(OBJCOPY) -I binary -O $(LD_OFORMAT) $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
 	$(CPP) $(CPPFLAGS) -MD -MP -MF $(@:.o=.d) -MT $@ -Iinclude $< | $(AS) $(ASFLAGS) -o $@
@@ -1021,6 +1025,10 @@ $(BUILD_DIR)/assets/%.bin.inc.c: $(EXTRACTED_DIR)/assets/%.bin
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
 	$(N64TEXCONV) JFIF "" $< $@
+
+# .text unaccounted linker padding
+$(BUILD_DIR)/__pad_text.o:
+	echo ".text; .fill 0x10" | $(AS) $(ASFLAGS) -o $@
 
 # Audio
 
