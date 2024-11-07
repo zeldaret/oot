@@ -241,7 +241,7 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
     ) as p:
         for mapfile_segment in source_code_segments:
             for file in mapfile_segment:
-                if not str(file.filepath).endswith(".o"):
+                if not str(file.filepath).endswith((".o", ".plf")):
                     continue
                 if file.sectionType == ".bss":
                     continue
@@ -282,39 +282,67 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
             if not file.sectionType == ".bss":
                 continue
 
-            pointers_in_section = [
-                p
-                for p in pointers
-                if file.vram <= p.build_value < file.vram + file.size
-            ]
-
             object_file = file.filepath.relative_to(f"build/{version}")
             # Hack to handle the combined z_message_z_game_over.o file.
             # Fortunately z_game_over has no BSS so we can just analyze z_message instead.
             if str(object_file) == "src/code/z_message_z_game_over.o":
                 object_file = Path("src/code/z_message.o")
 
-            c_file = object_file.with_suffix(".c")
+            # c_file = object_file.with_suffix(".c")
 
             # For the baserom, assume that the lowest address is the start of the BSS section. This might
             # not be true if the first BSS variable is not referenced so account for that specifically.
 
-            base_start_address = (
-                min(p.base_value for p in pointers_in_section)
-                if pointers_in_section
-                else 0
-            )
-            # Account for the fact that z_rumble starts with unreferenced bss
-            if str(c_file) == "src/code/z_rumble.c":
-                base_start_address -= 0x10
-            elif str(c_file) == "src/boot/z_locale.c":
-                base_start_address -= 0x18
+            if object_file.suffix == ".plf":
+                # For partially linked overlays, read the map file for the plf to get the
+                # object file corresponding to a single source file
+                plf_map = mapfile_parser.mapfile.MapFile()
+                plf_map.readMapFile(file.filepath.with_suffix(".map"))
+                for plf_seg in plf_map:
+                    for plf_file in plf_seg:
+                        if not plf_file.sectionType == ".bss":
+                            continue
+                        c_file = plf_file.filepath.relative_to(f"build/{version}").with_suffix(".c")
 
-            build_start_address = file.vram
+                        pointers_in_section = [
+                            p
+                            for p in pointers
+                            if file.vram + plf_file.vram <= p.build_value < file.vram + plf_file.vram + plf_file.size
+                        ]
 
-            bss_sections[c_file] = BssSection(
-                base_start_address, build_start_address, pointers_in_section
-            )
+                        base_start_address = (
+                            min(p.base_value for p in pointers_in_section)
+                            if pointers_in_section
+                            else 0
+                        )
+                        # Account for the fact that z_rumble starts with unreferenced bss
+                        if str(c_file) == "src/code/z_rumble.c":
+                            base_start_address -= 0x10
+                        elif str(c_file) == "src/boot/z_locale.c":
+                            base_start_address -= 0x18
+
+                        bss_sections[c_file] = BssSection(base_start_address, file.vram + plf_file.vram, pointers_in_section)
+            else:
+                c_file = object_file.with_suffix(".c")
+
+                pointers_in_section = [
+                    p
+                    for p in pointers
+                    if file.vram <= p.build_value < file.vram + file.size
+                ]
+
+                base_start_address = (
+                    min(p.base_value for p in pointers_in_section)
+                    if pointers_in_section
+                    else 0
+                )
+                # Account for the fact that z_rumble starts with unreferenced bss
+                if str(c_file) == "src/code/z_rumble.c":
+                    base_start_address -= 0x10
+                elif str(c_file) == "src/boot/z_locale.c":
+                    base_start_address -= 0x18
+
+                bss_sections[c_file] = BssSection(base_start_address, file.vram, pointers_in_section)
 
     return bss_sections
 

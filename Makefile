@@ -316,8 +316,8 @@ CHECK_WARNINGS += -Werror=implicit-int -Werror=implicit-function-declaration -We
 # `-traditional-cpp` was passed) so we use `gcc -E` instead.
 CPP        := gcc -E
 MKLDSCRIPT := tools/mkldscript
+MKOVLRULES := tools/mkovlrules
 MKDMADATA  := tools/mkdmadata
-ELF2ROM    := tools/elf2rom
 BIN2C      := tools/bin2c
 N64TEXCONV := tools/assets/n64texconv/n64texconv
 FADO       := tools/fado/fado.elf
@@ -494,14 +494,6 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_BIN_EXTRACTED:.bin=.bin.inc.c),$(f:
 # Find all .o files included in the spec
 SPEC_O_FILES := $(shell $(CPP) $(CPPFLAGS) -I. $(SPEC) | $(BUILD_DIR_REPLACE) | sed -n -E 's/^[ \t]*include[ \t]*"([a-zA-Z0-9/_.-]+\.o)"/\1/p')
 
-# Split out reloc files
-O_FILES := $(filter-out %_reloc.o,$(SPEC_O_FILES))
-OVL_RELOC_FILES := $(filter %_reloc.o,$(SPEC_O_FILES))
-
-# Automatic dependency files
-# (Only asm_processor dependencies and reloc dependencies are handled for now)
-DEP_FILES := $(O_FILES:.o=.d) $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d) $(BUILD_DIR)/spec.d
-
 TEXTURE_FILES_PNG_EXTRACTED := $(foreach dir,$(ASSET_BIN_DIRS_EXTRACTED),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_PNG_COMMITTED := $(foreach dir,$(ASSET_BIN_DIRS_COMMITTED),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_JPG_EXTRACTED := $(foreach dir,$(ASSET_BIN_DIRS_EXTRACTED),$(wildcard $(dir)/*.jpg))
@@ -511,10 +503,13 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG_EXTRACTED:.png=.inc.c),$(f:
                      $(foreach f,$(TEXTURE_FILES_JPG_EXTRACTED:.jpg=.jpg.inc.c),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)) \
                      $(foreach f,$(TEXTURE_FILES_JPG_COMMITTED:.jpg=.jpg.inc.c),$(BUILD_DIR)/$f)
 
+OVL_SEGMENTS_DIR := $(BUILD_DIR)/segments
+
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/baserom \
                  $(BUILD_DIR)/assets/text \
-                 $(BUILD_DIR)/linker_scripts)
+                 $(BUILD_DIR)/linker_scripts \
+				 $(OVL_SEGMENTS_DIR))
 $(shell mkdir -p $(foreach dir, \
                       $(SRC_DIRS) \
                       $(UNDECOMPILED_DATA_DIRS) \
@@ -533,6 +528,24 @@ $(shell mkdir -p $(foreach dir, \
                       $(ASSET_BIN_DIRS_EXTRACTED), \
                     $(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
 endif
+
+# Generate and include segment makefile rules for combining overlay .o files into single .plf files, from which
+# overlay relocations will be generated.
+# If this makefile doesn't exist or if the spec has been modified since make was last ran it will use the rule
+# later on in the file to regenerate this file before including it. The test against MAKECMDGOALS ensures this
+# doesn't happen if we're not running a task that needs these partially linked files; this is especially important
+# for setup since the rule to generate the segment makefile rules requires setup to have ran first.
+OVLDFLAGS = -r -T linker_scripts/segment.ld -Map $(@:.plf=.map)
+ifeq ($(MAKECMDGOALS),$(filter-out clean assetclean distclean setup,$(MAKECMDGOALS)))
+include $(OVL_SEGMENTS_DIR)/Makefile
+else
+OVL_SEGMENT_FILES :=
+endif
+OVL_RELOC_FILES := $(OVL_SEGMENT_FILES:.plf=.reloc.o)
+
+# Automatic dependency files
+# (Only asm_processor dependencies and reloc dependencies are handled for now)
+DEP_FILES := $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d)
 
 $(BUILD_DIR)/src/boot/build.o: CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
 
@@ -742,7 +755,7 @@ else
 $(BUILD_DIR)/assets/%.o: CFLAGS += -fno-zero-initialized-in-bss -fno-toplevel-reorder
 $(BUILD_DIR)/src/%.o: CFLAGS += -fexec-charset=euc-jp
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
-$(BUILD_DIR)/src/overlays/%.o: CFLAGS += -fno-merge-constants -mno-explicit-relocs -mno-split-addresses
+$(BUILD_DIR)/src/overlays/%.o: CFLAGS += -mno-explicit-relocs -mno-split-addresses
 endif
 
 #### Main Targets ###
@@ -821,7 +834,8 @@ else
 endif
 
 $(ROM): $(ELF)
-	$(ELF2ROM) -cic $(CIC) $< $@
+	$(OBJCOPY) --pad-to 0x$$($(OBJDUMP) -t $< | grep _RomSize | cut -d ' ' -f 1) -O binary $< $@
+	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
@@ -837,7 +851,8 @@ ifeq ($(PLATFORM),IQUE)
   endif
 endif
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_SEGMENT_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) \
+        $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
 	$(LD) $(LDFLAGS) -o $@
@@ -846,22 +861,31 @@ $(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
 	$(CPP) -I include $(CPPFLAGS) $< > $@
 
 ## Order-only prerequisites
-# These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
+# These ensure e.g. texture files are built before object files that include them.
 # The intermediate phony targets avoid quadratically-many dependencies between the targets and prerequisites.
-
-o_files: $(O_FILES)
-$(OVL_RELOC_FILES): | o_files
 
 asset_files: $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT)
 $(O_FILES): | asset_files
 
-.PHONY: o_files asset_files
+.PHONY: asset_files
 
 $(BUILD_DIR)/spec: $(SPEC) $(SPEC_INCLUDES)
 	$(CPP) $(CPPFLAGS) -MD -MP -MF $@.d -MT $@ -I. $< | $(BUILD_DIR_REPLACE) > $@
 
-$(LDSCRIPT): $(BUILD_DIR)/spec
-	$(MKLDSCRIPT) $< $@
+$(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
+	$(MKLDSCRIPT) $< $@ $(OVL_SEGMENTS_DIR)
+
+# Generates a makefile containing rules for building .plf files
+# from overlay .o files for every overlay defined in the spec.
+$(OVL_SEGMENTS_DIR)/Makefile: $(BUILD_DIR)/$(SPEC)
+	$(MKOVLRULES) $< $(OVL_SEGMENTS_DIR) $@
+
+# Generates relocations for each overlay after partial linking so that the final
+# link step cannot later insert padding between individual overlay files after
+# relocations have already been calculated.
+$(OVL_SEGMENTS_DIR)/%.reloc.o: $(OVL_SEGMENTS_DIR)/%.plf
+	$(FADO) $< -n $(notdir $*) -o $(@:.o=.s)
+	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
@@ -974,12 +998,9 @@ $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o: POST
 endif
 endif
 
-$(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
-	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
-	$(POSTPROCESS_OBJ) $(@:.o=.s)
-	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
-
 # Assets from assets/
+$(BUILD_DIR)/assets/%.inc.c: assets/%.png
+	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
 
 $(BUILD_DIR)/assets/%.inc.c: assets/%.png
 	tools/assets/build_from_png/build_from_png $< $(dir $@) assets/$(dir $*) $(wildcard $(EXTRACTED_DIR)/assets/$(dir $*))
