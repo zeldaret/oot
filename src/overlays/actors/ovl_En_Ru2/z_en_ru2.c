@@ -313,7 +313,7 @@ void EnRu2_SetupWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_WATER) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = ENRU2_AWAIT_BLUE_WARP;
-        play->csCtx.script = D_80AF411C;
+        play->csCtx.script = gWaterMedallionCS;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_WATER);
         temp = this->actor.world.rot.y + 0x8000;
