@@ -57,34 +57,34 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnMdAnimState {
     /* 0x0 */ ENMD_ANIM_STATE_NONE,                    // no animation sequence
-    /* 0x1 */ ENMD_ANIM_STATE_AKIMBO_TO_HALT,          // hands on hips, tilted head
-    /* 0x2 */ ENMD_ANIM_STATE_HALT_TO_CURIOUS,         // halt gesture, tilted head
-    /* 0x3 */ ENMD_ANIM_STATE_WALK_AWAY,               // halt gesture, hands on hips, walking
-    /* 0x4 */ ENMD_ANIM_STATE_TWITCH_TO_AKIMBO_UNUSED, // start walking, hands on hips; never set
-    /* 0x5 */ ENMD_ANIM_STATE_HALT_TO_AKIMBO,          // halt gesture, hands on hips
-    /* 0x6 */ ENMD_ANIM_STATE_SURPRISE_TO_ANNOYED,     // hands on hips, raise them, look away
-    /* 0x7 */ ENMD_ANIM_STATE_SURPRISE_TO_AKIMBO,      // lower arms, hands on hips
-    /* 0x8 */ ENMD_ANIM_STATE_CURIOUS_TO_ANNOYED,      // tilted head, looking away
-    /* 0x9 */ ENMD_ANIM_STATE_ANNOYED_TO_HALT,         // looking away, halt gesture
-    /* 0xA */ ENMD_ANIM_STATE_AKIMBO_TO_ANNOYED,       // hands on hips, looking away
-    /* 0xB */ ENMD_ANIM_STATE_STOP_WALKING             // walking, akimbo
+    /* 0x1 */ ENMD_ANIM_STATE_AKIMBO_TO_HALT,          // hands on hips -> tilted head
+    /* 0x2 */ ENMD_ANIM_STATE_HALT_TO_CURIOUS,         // halt gesture -> tilted head
+    /* 0x3 */ ENMD_ANIM_STATE_WALK_AWAY,               // stop halt gesture -> start walking -> walking
+    /* 0x4 */ ENMD_ANIM_STATE_TWITCH_TO_AKIMBO_UNUSED, // start walking -> hands on hips; never set
+    /* 0x5 */ ENMD_ANIM_STATE_HALT_TO_AKIMBO,          // halt gesture -> hands on hips
+    /* 0x6 */ ENMD_ANIM_STATE_SURPRISE_TO_ANNOYED,     // slightly raise arms from hips -> look away
+    /* 0x7 */ ENMD_ANIM_STATE_SURPRISE_TO_AKIMBO,      // lower slightly raised arms to hips -> hands on hips
+    /* 0x8 */ ENMD_ANIM_STATE_CURIOUS_TO_ANNOYED,      // tilted head and *slam* -> looking away
+    /* 0x9 */ ENMD_ANIM_STATE_ANNOYED_TO_HALT,         // looking away -> halt gesture
+    /* 0xA */ ENMD_ANIM_STATE_AKIMBO_TO_ANNOYED,       // hands on hips -> looking away
+    /* 0xB */ ENMD_ANIM_STATE_STOP_WALKING             // stop -> akimbo
 } EnMdAnimState;
 
 typedef enum EnMdAnimIndex {
     /*  0 */ ENMD_ANIM_INDEX_AKIMBO_LOOP_IDLE,   // hands on hips; default idle
     /*  1 */ ENMD_ANIM_INDEX_AKIMBO_LOOP_UNUSED, // hands on hips; never set
-    /*  2 */ ENMD_ANIM_INDEX_AKIMBO_TO_HALT,     // hands on hips to halt gesture
+    /*  2 */ ENMD_ANIM_INDEX_AKIMBO_TO_HALT,     // hands on hips -> halt gesture
     /*  3 */ ENMD_ANIM_INDEX_HALT_LOOP,          // halt gesture
-    /*  4 */ ENMD_ANIM_INDEX_HALT_TO_CURIOUS,    // halt gesture to tilted head
+    /*  4 */ ENMD_ANIM_INDEX_HALT_TO_CURIOUS,    // halt gesture -> tilted head
     /*  5 */ ENMD_ANIM_INDEX_CURIOUS_LOOP,       // tilted head
-    /*  6 */ ENMD_ANIM_INDEX_ANNOYED_LOOP,       // hands on hips, looking away
-    /*  7 */ ENMD_ANIM_INDEX_AKIMBO_TO_WALK,     // hands on hips to walking
+    /*  6 */ ENMD_ANIM_INDEX_ANNOYED_LOOP,       // looking away
+    /*  7 */ ENMD_ANIM_INDEX_AKIMBO_TO_WALK,     // hands on hips -> walking
     /*  8 */ ENMD_ANIM_INDEX_WALK_LOOP,          // walking
-    /*  9 */ ENMD_ANIM_INDEX_AKIMBO_TO_SURPISE,  // hands on hips to slightly raised arms
+    /*  9 */ ENMD_ANIM_INDEX_AKIMBO_TO_SURPISE,  // hands on hips -> slightly raised arms
     /* 10 */ ENMD_ANIM_INDEX_AKIMBO_LOOP,        // hands on hips
-    /* 11 */ ENMD_ANIM_INDEX_CURIOUS_TO_ANNOYED, // tilted head to looking away
-    /* 12 */ ENMD_ANIM_INDEX_ANNOYED_TO_HALT,    // looking away to halt gesture
-    /* 13 */ ENMD_ANIM_INDEX_AKIMBO_TO_ANNOYED   // hands on hips to looking away
+    /* 11 */ ENMD_ANIM_INDEX_CURIOUS_TO_ANNOYED, // tilted head -> looking away
+    /* 12 */ ENMD_ANIM_INDEX_ANNOYED_TO_HALT,    // looking away -> halt gesture
+    /* 13 */ ENMD_ANIM_INDEX_AKIMBO_TO_ANNOYED   // hands on hips -> looking away
 } EnMdAnimIndex;
 
 static AnimationInfo sAnimationInfo[] = {
