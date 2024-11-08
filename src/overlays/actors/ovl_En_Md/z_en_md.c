@@ -56,18 +56,18 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnMdAnimState {
-    /* 0x0 */ ENMD_ANIM_STATE_NONE,                    // no animation sequence
-    /* 0x1 */ ENMD_ANIM_STATE_AKIMBO_TO_HALT,          // hands on hips -> tilted head
-    /* 0x2 */ ENMD_ANIM_STATE_HALT_TO_CURIOUS,         // halt gesture -> tilted head
-    /* 0x3 */ ENMD_ANIM_STATE_WALK_AWAY,               // stop halt gesture -> start walking -> walking
-    /* 0x4 */ ENMD_ANIM_STATE_TWITCH_TO_AKIMBO_UNUSED, // start walking -> hands on hips; never set
-    /* 0x5 */ ENMD_ANIM_STATE_HALT_TO_AKIMBO,          // halt gesture -> hands on hips
-    /* 0x6 */ ENMD_ANIM_STATE_SURPRISE_TO_ANNOYED,     // slightly raise arms from hips -> look away
-    /* 0x7 */ ENMD_ANIM_STATE_SURPRISE_TO_AKIMBO,      // lower slightly raised arms to hips -> hands on hips
-    /* 0x8 */ ENMD_ANIM_STATE_CURIOUS_TO_ANNOYED,      // tilted head and *slam* -> looking away
-    /* 0x9 */ ENMD_ANIM_STATE_ANNOYED_TO_HALT,         // looking away -> halt gesture
-    /* 0xA */ ENMD_ANIM_STATE_AKIMBO_TO_ANNOYED,       // hands on hips -> looking away
-    /* 0xB */ ENMD_ANIM_STATE_STOP_WALKING             // stop -> akimbo
+    /* 0x0 */ ENMD_ANIM_STATE_NONE,                 // no animation sequence
+    /* 0x1 */ ENMD_ANIM_STATE_AKIMBO_TO_HALT,       // hands on hips -> halt gesture
+    /* 0x2 */ ENMD_ANIM_STATE_HALT_TO_CURIOUS,      // halt gesture -> tilted head
+    /* 0x3 */ ENMD_ANIM_STATE_WALK_AWAY,            // stop halt gesture -> start walking -> walking
+    /* 0x4 */ ENMD_ANIM_STATE_TWITCH_AKIMBO_UNUSED, // start walking -> hands on hips; never set
+    /* 0x5 */ ENMD_ANIM_STATE_HALT_TO_AKIMBO,       // halt gesture -> hands on hips
+    /* 0x6 */ ENMD_ANIM_STATE_SURPRISE_TO_ANNOYED,  // slightly raise arms from hips -> look away
+    /* 0x7 */ ENMD_ANIM_STATE_SURPRISE_TO_AKIMBO,   // lower slightly raised arms to hips -> hands on hips
+    /* 0x8 */ ENMD_ANIM_STATE_CURIOUS_TO_ANNOYED,   // tilted head and *slam* -> looking away
+    /* 0x9 */ ENMD_ANIM_STATE_ANNOYED_TO_HALT,      // looking away -> halt gesture
+    /* 0xA */ ENMD_ANIM_STATE_AKIMBO_TO_ANNOYED,    // hands on hips -> looking away
+    /* 0xB */ ENMD_ANIM_STATE_STOP_WALKING          // stop walking -> akimbo
 } EnMdAnimState;
 
 typedef enum EnMdAnimIndex {
@@ -168,7 +168,7 @@ void EnMd_UpdateAnimState_WalkAway(EnMd* this) {
     }
 }
 
-void EnMd_UpdateAnimState_TwitchToAkimbo_Unused(EnMd* this) {
+void EnMd_UpdateAnimState_TwitchAkimbo_Unused(EnMd* this) {
     switch (this->animEntry) {
         case 0:
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_WALK);
@@ -307,9 +307,9 @@ void EnMd_UpdateAnimState(EnMd* this) {
         case ENMD_ANIM_STATE_WALK_AWAY:
             EnMd_UpdateAnimState_WalkAway(this);
             break;
-        case ENMD_ANIM_STATE_TWITCH_TO_AKIMBO_UNUSED:
+        case ENMD_ANIM_STATE_TWITCH_AKIMBO_UNUSED:
             // unreachable
-            EnMd_UpdateAnimState_TwitchToAkimbo_Unused(this);
+            EnMd_UpdateAnimState_TwitchAkimbo_Unused(this);
             break;
         case ENMD_ANIM_STATE_HALT_TO_AKIMBO:
             EnMd_UpdateAnimState_HaltToAkimbo(this);
