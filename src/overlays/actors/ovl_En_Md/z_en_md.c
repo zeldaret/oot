@@ -56,52 +56,52 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnMdAnimState {
-    /* 0x0 */ ENMD_ANIM_STATE_0,
-    /* 0x1 */ ENMD_ANIM_STATE_1,
-    /* 0x2 */ ENMD_ANIM_STATE_2,
-    /* 0x3 */ ENMD_ANIM_STATE_3,
-    /* 0x4 */ ENMD_ANIM_STATE_4, // never set
-    /* 0x5 */ ENMD_ANIM_STATE_5,
-    /* 0x6 */ ENMD_ANIM_STATE_6,
-    /* 0x7 */ ENMD_ANIM_STATE_7,
-    /* 0x8 */ ENMD_ANIM_STATE_8,
-    /* 0x9 */ ENMD_ANIM_STATE_9,
-    /* 0xA */ ENMD_ANIM_STATE_A,
-    /* 0xB */ ENMD_ANIM_STATE_B
+    /* 0x0 */ ENMD_ANIM_STATE_NONE,                    // no animation sequence
+    /* 0x1 */ ENMD_ANIM_STATE_AKIMBO_TO_HALT,          // hands on hips, tilted head
+    /* 0x2 */ ENMD_ANIM_STATE_HALT_TO_CURIOUS,         // halt gesture, tilted head
+    /* 0x3 */ ENMD_ANIM_STATE_WALK_AWAY,               // halt gesture, hands on hips, walking
+    /* 0x4 */ ENMD_ANIM_STATE_TWITCH_TO_AKIMBO_UNUSED, // start walking, hands on hips; never set
+    /* 0x5 */ ENMD_ANIM_STATE_HALT_TO_AKIMBO,          // halt gesture, hands on hips
+    /* 0x6 */ ENMD_ANIM_STATE_SURPRISE_TO_ANNOYED,     // hands on hips, raise them, look away
+    /* 0x7 */ ENMD_ANIM_STATE_SURPRISE_TO_AKIMBO,      // lower arms, hands on hips
+    /* 0x8 */ ENMD_ANIM_STATE_CURIOUS_TO_ANNOYED,      // tilted head, looking away
+    /* 0x9 */ ENMD_ANIM_STATE_ANNOYED_TO_HALT,         // looking away, halt gesture
+    /* 0xA */ ENMD_ANIM_STATE_AKIMBO_TO_ANNOYED,       // hands on hips, looking away
+    /* 0xB */ ENMD_ANIM_STATE_STOP_WALKING             // walking, akimbo
 } EnMdAnimState;
 
 typedef enum EnMdAnimIndex {
-    /*  0 */ ENMD_ANIM_INDEX_HAND_ON_HIPS_IDLE_V1,
-    /*  1 */ ENMD_ANIM_INDEX_HAND_ON_HIPS_IDLE_V2,
-    /*  2 */ ENMD_ANIM_INDEX_RAISE_HAND_1,
-    /*  3 */ ENMD_ANIM_INDEX_HALT,
-    /*  4 */ ENMD_ANIM_INDEX_PUT_HAND_DOWN,
-    /*  5 */ ENMD_ANIM_INDEX_ANNOYED_POINTED_HEAD_IDLE_1,
-    /*  6 */ ENMD_ANIM_INDEX_ANNOYED_POINTED_HEAD_IDLE_2,
-    /*  7 */ ENMD_ANIM_INDEX_UNKNOWN_7,
-    /*  8 */ ENMD_ANIM_INDEX_WALKING,
-    /*  9 */ ENMD_ANIM_INDEX_HIPS_ON_HIPS_TRANSITION,
-    /* 10 */ ENMD_ANIM_INDEX_HAND_ON_HIPS_IDLE_V3,
-    /* 11 */ ENMD_ANIM_INDEX_SLAM,
-    /* 12 */ ENMD_ANIM_INDEX_RAISE_HAND_2,
-    /* 13 */ ENMD_ANIM_INDEX_ANGRY_HEAD_TURN
+    /*  0 */ ENMD_ANIM_INDEX_AKIMBO_LOOP_IDLE,   // hands on hips; default idle
+    /*  1 */ ENMD_ANIM_INDEX_AKIMBO_LOOP_UNUSED, // hands on hips; never set
+    /*  2 */ ENMD_ANIM_INDEX_AKIMBO_TO_HALT,     // hands on hips to halt gesture
+    /*  3 */ ENMD_ANIM_INDEX_HALT_LOOP,          // halt gesture
+    /*  4 */ ENMD_ANIM_INDEX_HALT_TO_CURIOUS,    // halt gesture to tilted head
+    /*  5 */ ENMD_ANIM_INDEX_CURIOUS_LOOP,       // tilted head
+    /*  6 */ ENMD_ANIM_INDEX_ANNOYED_LOOP,       // hands on hips, looking away
+    /*  7 */ ENMD_ANIM_INDEX_AKIMBO_TO_WALK,     // hands on hips to walking
+    /*  8 */ ENMD_ANIM_INDEX_WALK_LOOP,          // walking
+    /*  9 */ ENMD_ANIM_INDEX_AKIMBO_TO_SURPISE,  // hands on hips to slightly raised arms
+    /* 10 */ ENMD_ANIM_INDEX_AKIMBO_LOOP,        // hands on hips
+    /* 11 */ ENMD_ANIM_INDEX_CURIOUS_TO_ANNOYED, // tilted head to looking away
+    /* 12 */ ENMD_ANIM_INDEX_ANNOYED_TO_HALT,    // looking away to halt gesture
+    /* 13 */ ENMD_ANIM_INDEX_AKIMBO_TO_ANNOYED   // hands on hips to looking away
 } EnMdAnimIndex;
 
 static AnimationInfo sAnimationInfo[] = {
-    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gMidoRaiseHand1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { &gMidoHaltAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { &gMidoPutHandDownAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { &gMidoAnnoyedPointedHeadIdle1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { &gMidoAnnoyedPointedHeadIdle2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { &gMidoAnim_92B0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { &gMidoWalkingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { &gMidoHandsOnHipsTransitionAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { &gMidoSlamAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { &gMidoRaiseHand2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { &gMidoAngryHeadTurnAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAkimboLoopAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gMidoAkimboLoopAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gMidoAkimboToHaltAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoHaltLoopAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoHaltToCuriousAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoCuriousLoopAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnnoyedLoopAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAkimboToWalkAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoWalkLoopAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAkimboToSurpriseAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoAkimboLoopAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gMidoCuriousToAnnoyedAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnnoyedToHaltAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoAkimboToAnnoyedAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
 
 void EnMd_ReverseAnimation(EnMd* this) {
@@ -114,46 +114,46 @@ void EnMd_ReverseAnimation(EnMd* this) {
     this->skelAnime.playSpeed = -1.0f;
 }
 
-void EnMd_UpdateAnimState1(EnMd* this) {
+void EnMd_UpdateAnimState_AkimboToHalt(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_RAISE_HAND_1);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_HALT);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimState2(EnMd* this) {
+void EnMd_UpdateAnimState_HaltToCurious(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_PUT_HAND_DOWN);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT_TO_CURIOUS);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_POINTED_HEAD_IDLE_1);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_CURIOUS_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimState3(EnMd* this) {
+void EnMd_UpdateAnimState_WalkAway(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_RAISE_HAND_1);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_HALT);
             EnMd_ReverseAnimation(this);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_UNKNOWN_7);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_WALK);
                 this->animEntry++;
             } else {
                 break;
@@ -161,130 +161,130 @@ void EnMd_UpdateAnimState3(EnMd* this) {
             FALLTHROUGH;
         case 2:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_WALKING);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_WALK_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimState4(EnMd* this) {
+void EnMd_UpdateAnimState_TwitchToAkimbo_Unused(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_UNKNOWN_7);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_WALK);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HAND_ON_HIPS_IDLE_V3);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimState5(EnMd* this) {
+void EnMd_UpdateAnimState_HaltToAkimbo(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_RAISE_HAND_1);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_HALT);
             EnMd_ReverseAnimation(this);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HAND_ON_HIPS_IDLE_V3);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimState6(EnMd* this) {
+void EnMd_UpdateAnimState_SurpriseToAnnoyed(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HIPS_ON_HIPS_TRANSITION);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_SURPISE);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_POINTED_HEAD_IDLE_2);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimState7(EnMd* this) {
+void EnMd_UpdateAnimState_SurpriseToAkimbo(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HIPS_ON_HIPS_TRANSITION);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_SURPISE);
             EnMd_ReverseAnimation(this);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HAND_ON_HIPS_IDLE_V3);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimState8(EnMd* this) {
+void EnMd_UpdateAnimState_CuriousToAnnoyed(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_SLAM);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_CURIOUS_TO_ANNOYED);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_POINTED_HEAD_IDLE_2);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimState9(EnMd* this) {
+void EnMd_UpdateAnimState_AnnoyedToHalt(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_RAISE_HAND_2);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_TO_HALT);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HALT_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimStateA(EnMd* this) {
+void EnMd_UpdateAnimState_AkimboToAnnoyed(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANGRY_HEAD_TURN);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_ANNOYED);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_POINTED_HEAD_IDLE_2);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_ANNOYED_LOOP);
                 this->animEntry++;
             }
             break;
     }
 }
 
-void EnMd_UpdateAnimStateB(EnMd* this) {
+void EnMd_UpdateAnimState_StopWalking(EnMd* this) {
     switch (this->animEntry) {
         case 0:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_UNKNOWN_7);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_TO_WALK);
             EnMd_ReverseAnimation(this);
             this->animEntry++;
             FALLTHROUGH;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HAND_ON_HIPS_IDLE_V3);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_LOOP);
                 this->animEntry++;
             }
             break;
@@ -298,39 +298,39 @@ void EnMd_SetAnimState(EnMd* this, u8 state) {
 
 void EnMd_UpdateAnimState(EnMd* this) {
     switch (this->animState) {
-        case ENMD_ANIM_STATE_1:
-            EnMd_UpdateAnimState1(this);
+        case ENMD_ANIM_STATE_AKIMBO_TO_HALT:
+            EnMd_UpdateAnimState_AkimboToHalt(this);
             break;
-        case ENMD_ANIM_STATE_2:
-            EnMd_UpdateAnimState2(this);
+        case ENMD_ANIM_STATE_HALT_TO_CURIOUS:
+            EnMd_UpdateAnimState_HaltToCurious(this);
             break;
-        case ENMD_ANIM_STATE_3:
-            EnMd_UpdateAnimState3(this);
+        case ENMD_ANIM_STATE_WALK_AWAY:
+            EnMd_UpdateAnimState_WalkAway(this);
             break;
-        case ENMD_ANIM_STATE_4:
+        case ENMD_ANIM_STATE_TWITCH_TO_AKIMBO_UNUSED:
             // unreachable
-            EnMd_UpdateAnimState4(this);
+            EnMd_UpdateAnimState_TwitchToAkimbo_Unused(this);
             break;
-        case ENMD_ANIM_STATE_5:
-            EnMd_UpdateAnimState5(this);
+        case ENMD_ANIM_STATE_HALT_TO_AKIMBO:
+            EnMd_UpdateAnimState_HaltToAkimbo(this);
             break;
-        case ENMD_ANIM_STATE_6:
-            EnMd_UpdateAnimState6(this);
+        case ENMD_ANIM_STATE_SURPRISE_TO_ANNOYED:
+            EnMd_UpdateAnimState_SurpriseToAnnoyed(this);
             break;
-        case ENMD_ANIM_STATE_7:
-            EnMd_UpdateAnimState7(this);
+        case ENMD_ANIM_STATE_SURPRISE_TO_AKIMBO:
+            EnMd_UpdateAnimState_SurpriseToAkimbo(this);
             break;
-        case ENMD_ANIM_STATE_8:
-            EnMd_UpdateAnimState8(this);
+        case ENMD_ANIM_STATE_CURIOUS_TO_ANNOYED:
+            EnMd_UpdateAnimState_CuriousToAnnoyed(this);
             break;
-        case ENMD_ANIM_STATE_9:
-            EnMd_UpdateAnimState9(this);
+        case ENMD_ANIM_STATE_ANNOYED_TO_HALT:
+            EnMd_UpdateAnimState_AnnoyedToHalt(this);
             break;
-        case ENMD_ANIM_STATE_A:
-            EnMd_UpdateAnimStateA(this);
+        case ENMD_ANIM_STATE_AKIMBO_TO_ANNOYED:
+            EnMd_UpdateAnimState_AkimboToAnnoyed(this);
             break;
-        case ENMD_ANIM_STATE_B:
-            EnMd_UpdateAnimStateB(this);
+        case ENMD_ANIM_STATE_STOP_WALKING:
+            EnMd_UpdateAnimState_StopWalking(this);
     }
 }
 
@@ -338,49 +338,49 @@ void EnMd_UpdateAnimState_WithTalking(EnMd* this) {
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         switch (this->actor.textId) {
             case 0x102F:
-                if ((this->messageEntry == 0) && (this->animState != ENMD_ANIM_STATE_1)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_1);
+                if ((this->messageEntry == 0) && (this->animState != ENMD_ANIM_STATE_AKIMBO_TO_HALT)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_AKIMBO_TO_HALT);
                 }
-                if ((this->messageEntry == 2) && (this->animState != ENMD_ANIM_STATE_2)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_2);
+                if ((this->messageEntry == 2) && (this->animState != ENMD_ANIM_STATE_HALT_TO_CURIOUS)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_HALT_TO_CURIOUS);
                 }
-                if ((this->messageEntry == 5) && (this->animState != ENMD_ANIM_STATE_8)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_8);
+                if ((this->messageEntry == 5) && (this->animState != ENMD_ANIM_STATE_CURIOUS_TO_ANNOYED)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_CURIOUS_TO_ANNOYED);
                 }
-                if ((this->messageEntry == 11) && (this->animState != ENMD_ANIM_STATE_9)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_9);
+                if ((this->messageEntry == 11) && (this->animState != ENMD_ANIM_STATE_ANNOYED_TO_HALT)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_ANNOYED_TO_HALT);
                 }
                 break;
             case 0x1033:
-                if ((this->messageEntry == 0) && (this->animState != ENMD_ANIM_STATE_1)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_1);
+                if ((this->messageEntry == 0) && (this->animState != ENMD_ANIM_STATE_AKIMBO_TO_HALT)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_AKIMBO_TO_HALT);
                 }
-                if ((this->messageEntry == 1) && (this->animState != ENMD_ANIM_STATE_2)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_2);
+                if ((this->messageEntry == 1) && (this->animState != ENMD_ANIM_STATE_HALT_TO_CURIOUS)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_HALT_TO_CURIOUS);
                 }
-                if ((this->messageEntry == 5) && (this->animState != ENMD_ANIM_STATE_A)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_A);
+                if ((this->messageEntry == 5) && (this->animState != ENMD_ANIM_STATE_AKIMBO_TO_ANNOYED)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_AKIMBO_TO_ANNOYED);
                 }
-                if ((this->messageEntry == 7) && (this->animState != ENMD_ANIM_STATE_9)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_9);
+                if ((this->messageEntry == 7) && (this->animState != ENMD_ANIM_STATE_ANNOYED_TO_HALT)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_ANNOYED_TO_HALT);
                 }
                 break;
             case 0x1030:
             case 0x1034:
             case 0x1045:
-                if ((this->messageEntry == 0) && (this->animState != ENMD_ANIM_STATE_1)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_1);
+                if ((this->messageEntry == 0) && (this->animState != ENMD_ANIM_STATE_AKIMBO_TO_HALT)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_AKIMBO_TO_HALT);
                 }
                 break;
             case 0x1046:
-                if ((this->messageEntry == 0) && (this->animState != ENMD_ANIM_STATE_6)) {
-                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_6);
+                if ((this->messageEntry == 0) && (this->animState != ENMD_ANIM_STATE_SURPRISE_TO_ANNOYED)) {
+                    EnMd_SetAnimState(this, ENMD_ANIM_STATE_SURPRISE_TO_ANNOYED);
                 }
                 break;
         }
-    } else if (this->skelAnime.animation != &gMidoHandsOnHipsIdleAnim) {
-        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HAND_ON_HIPS_IDLE_V3);
-        EnMd_SetAnimState(this, ENMD_ANIM_STATE_0);
+    } else if (this->skelAnime.animation != &gMidoAkimboLoopAnim) {
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_LOOP);
+        EnMd_SetAnimState(this, ENMD_ANIM_STATE_NONE);
     }
 
     EnMd_UpdateAnimState(this);
@@ -681,7 +681,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_HAND_ON_HIPS_IDLE_V1);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENMD_ANIM_INDEX_AKIMBO_LOOP_IDLE);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->alpha = 255;
@@ -710,17 +710,18 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnMd_Idle(EnMd* this, PlayState* play) {
-    if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
+    if (this->skelAnime.animation == &gMidoAkimboLoopAnim) {
         func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
-    } else if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (this->animState != ENMD_ANIM_STATE_7)) {
-        EnMd_SetAnimState(this, ENMD_ANIM_STATE_7);
+    } else if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) &&
+               (this->animState != ENMD_ANIM_STATE_SURPRISE_TO_AKIMBO)) {
+        EnMd_SetAnimState(this, ENMD_ANIM_STATE_SURPRISE_TO_AKIMBO);
     }
 
     EnMd_UpdateAnimState_WithTalking(this);
 }
 
 void EnMd_Watch(EnMd* this, PlayState* play) {
-    if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
+    if (this->skelAnime.animation == &gMidoAkimboLoopAnim) {
         func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     }
     EnMd_UpdateAnimState(this);
@@ -763,7 +764,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
             SET_EVENTCHKINF(EVENTCHKINF_0A);
         }
 
-        EnMd_SetAnimState(this, ENMD_ANIM_STATE_3);
+        EnMd_SetAnimState(this, ENMD_ANIM_STATE_WALK_AWAY);
         EnMd_UpdateAnimState(this);
         this->waypoint = 1;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
@@ -772,7 +773,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
         return;
     }
 
-    if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
+    if (this->skelAnime.animation == &gMidoAkimboLoopAnim) {
         func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     }
 
@@ -827,7 +828,7 @@ void EnMd_Walk(EnMd* this, PlayState* play) {
         return;
     }
 
-    EnMd_SetAnimState(this, ENMD_ANIM_STATE_B);
+    EnMd_SetAnimState(this, ENMD_ANIM_STATE_STOP_WALKING);
 
     this->skelAnime.playSpeed = 0.0f;
     this->actor.speed = 0.0f;
