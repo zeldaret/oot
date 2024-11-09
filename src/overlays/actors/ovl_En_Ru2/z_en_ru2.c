@@ -140,13 +140,13 @@ void EnRu2_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnRu2_UpdateEyeTextures(EnRu2* this) {
+void EnRu2_UpdateEyes(EnRu2* this) {
     s32 pad[3];
     s16* eyeTextureFrame = &this->eyeTextureFrame;
     s16* eyeTextureIndex = &this->eyeTextureIndex;
 
     if (DECR(*eyeTextureFrame) == 0) {
-        *eyeTextureFrame = Rand_S16Offset(0x3C, 0x3C);
+        *eyeTextureFrame = Rand_S16Offset(60, 60);
     }
 
     *eyeTextureIndex = *eyeTextureFrame;
@@ -155,13 +155,13 @@ void EnRu2_UpdateEyeTextures(EnRu2* this) {
     }
 }
 
-s32 EnRu2_GetParamsHighByte(EnRu2* this) {
+s32 EnRu2_GetSwitchFlag(EnRu2* this) {
     s32 params_shift = PARAMS_GET_U(this->actor.params, 8, 8);
 
     return params_shift;
 }
 
-s32 EnRu2_GetParamsLowByte(EnRu2* this) {
+s32 EnRu2_GetType(EnRu2* this) {
     s32 params = PARAMS_GET_U(this->actor.params, 0, 8);
 
     return params;
@@ -215,7 +215,7 @@ CsCmdActorCue* EnRu2_GetCue(PlayState* play, s32 cueChannel) {
     return NULL;
 }
 
-s32 EnRu2_CheckCueIs(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
+s32 EnRu2_CheckCueMatchingID(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id == cueId)) {
@@ -224,7 +224,7 @@ s32 EnRu2_CheckCueIs(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
     return false;
 }
 
-s32 EnRu2_CheckCueIsNot(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
+s32 EnRu2_CheckCueNotMatchingID(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id != cueId)) {
@@ -395,14 +395,14 @@ void EnRu2_Action01(EnRu2* this, PlayState* play) {
 void EnRu2_Action02(EnRu2* this, PlayState* play) {
     EnRu2_Rise(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     EnRu2_EndRise(this);
 }
 
 void EnRu2_Action03(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     EnRu2_RaiseArms(this, play);
 }
 
@@ -411,21 +411,21 @@ void EnRu2_Action04(EnRu2* this, PlayState* play) {
 
     EnRu2_UpdateBgCheckInfo(this, play);
     shouldHold = EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     EnRu2_HoldArmsUp(this, shouldHold);
 }
 
 void EnRu2_Action05(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     EnRu2_CheckWaterMedallion(this, play);
 }
 
 void EnRu2_Action06(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
 }
 
 /* Sets up Ruto in her arms-crossing pose. Used in the Water Trial in Ganon's Castle and in the
@@ -448,7 +448,7 @@ void EnRu2_SpawnLightBall(EnRu2* this, PlayState* play) {
 
 /* Checks to see if it's time for Ruto to fade in while crossing her arms. */
 void EnRu2_CheckFadeIn(EnRu2* this, PlayState* play) {
-    if (EnRu2_CheckCueIs(this, play, 4, 3)) {
+    if (EnRu2_CheckCueMatchingID(this, play, 4, 3)) {
         this->action = ENRU2_CROSSING_ARMS_FADE;
         this->drawConfig = ENRU2_DRAW_SKELETON_FLEXIBLE;
         this->alpha = 0;
@@ -463,7 +463,7 @@ void EnRu2_Fade(EnRu2* this, PlayState* play) {
     f32* fadeTimer = &this->fadeTimer;
     s32 alpha;
 
-    if (EnRu2_CheckCueIs(this, play, 4, 3)) {
+    if (EnRu2_CheckCueMatchingID(this, play, 4, 3)) {
         *fadeTimer += 1.0f;
         if (*fadeTimer >= kREG(5) + 10.0f) {
             this->action = ENRU2_AWAIT_SPAWN_LIGHT_BALL;
@@ -491,7 +491,7 @@ void EnRu2_Fade(EnRu2* this, PlayState* play) {
 
 /* Checks to see if it's time for Ruto to fade out while her arms are crossed. */
 void EnRu2_CheckFadeOut(EnRu2* this, PlayState* play) {
-    if (EnRu2_CheckCueIsNot(this, play, 4, 3)) {
+    if (EnRu2_CheckCueNotMatchingID(this, play, 4, 3)) {
         this->action = ENRU2_CROSSING_ARMS_FADE;
         this->drawConfig = ENRU2_DRAW_SKELETON_FLEXIBLE;
         this->fadeTimer = kREG(5) + 10.0f;
@@ -514,7 +514,7 @@ void EnRu2_Action07(EnRu2* this, PlayState* play) {
 void EnRu2_Action08(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     EnRu2_Fade(this, play);
 #if OOT_DEBUG
     func_80AF26D0(this, play);
@@ -524,7 +524,7 @@ void EnRu2_Action08(EnRu2* this, PlayState* play) {
 void EnRu2_Action09(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     EnRu2_CheckFadeOut(this, play);
 #if OOT_DEBUG
     func_80AF26D0(this, play);
@@ -641,7 +641,7 @@ void EnRu2_Action10(EnRu2* this, PlayState* play) {
 void EnRu2_Action11(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     EnRu2_FadeInCredits(this);
     EnRu2_CheckVisibleInCredits(this);
 }
@@ -649,7 +649,7 @@ void EnRu2_Action11(EnRu2* this, PlayState* play) {
 void EnRu2_Action12(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     EnRu2_NextCreditsAction(this, play);
 }
 
@@ -658,18 +658,18 @@ void EnRu2_Action13(EnRu2* this, PlayState* play) {
 
     EnRu2_UpdateBgCheckInfo(this, play);
     lookingDownLeft = EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     EnRu2_LookingDownLeft(this, lookingDownLeft);
 }
 
 /* Sets the switch indicating that Link met Ruto in the Water Temple. */
 void EnRu2_MarkEncounterOccurred(EnRu2* this, PlayState* play) {
-    Flags_SetSwitch(play, EnRu2_GetParamsHighByte(this));
+    Flags_SetSwitch(play, EnRu2_GetSwitchFlag(this));
 }
 
 /* Returns whether Link met Ruto in the Water Temple. */
 s32 EnRu2_EncounterOccurred(EnRu2* this, PlayState* play) {
-    return Flags_GetSwitch(play, EnRu2_GetParamsHighByte(this));
+    return Flags_GetSwitch(play, EnRu2_GetSwitchFlag(this));
 }
 
 /* Initializes Ruto's actor in the Water Temple, or destroys it if the encounter already happened. */
@@ -796,7 +796,7 @@ void EnRu2_Action15(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateCollider(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     EnRu2_TriggerEncounter(this, play);
 }
@@ -804,7 +804,7 @@ void EnRu2_Action15(EnRu2* this, PlayState* play) {
 void EnRu2_Action16(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     EnRu2_BeginEncounter(this, play);
 }
@@ -812,7 +812,7 @@ void EnRu2_Action16(EnRu2* this, PlayState* play) {
 void EnRu2_Action17(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     EnRu2_DialogCameraHandler(this, play);
 }
@@ -820,7 +820,7 @@ void EnRu2_Action17(EnRu2* this, PlayState* play) {
 void EnRu2_Action18(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     EnRu2_StartSwimmingUp(this, play);
 }
@@ -829,7 +829,7 @@ void EnRu2_Action19(EnRu2* this, PlayState* play) {
     EnRu2_AccelerateUp(this);
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
-    EnRu2_UpdateEyeTextures(this);
+    EnRu2_UpdateEyes(this);
     Actor_SetFocus(&this->actor, 50.0f);
     EnRu2_EndSwimmingUp(this, play);
 }
@@ -852,7 +852,7 @@ void EnRu2_Init(Actor* thisx, PlayState* play) {
     EnRu2_InitCollider(thisx, play);
     SkelAnime_InitFlex(play, &this->skelAnime, &gAdultRutoSkel, NULL, this->jointTable, this->morphTable, 23);
 
-    switch (EnRu2_GetParamsLowByte(this)) {
+    switch (EnRu2_GetType(this)) {
         case 2:
             EnRu2_InitCrossingArms(this, play);
             break;
