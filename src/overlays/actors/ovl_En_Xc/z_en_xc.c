@@ -283,7 +283,7 @@ void func_80B3C9EC(EnXc* this) {
 }
 
 void func_80B3CA38(EnXc* this, PlayState* play) {
-    if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_MINUET_OF_FOREST) && LINK_IS_ADULT) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_MINUET) && LINK_IS_ADULT) {
         s32 pad;
 
         this->action = SHEIK_ACTION_INIT;
@@ -306,7 +306,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
 
                 play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
-                SET_EVENTCHKINF(EVENTCHKINF_LEARNED_MINUET_OF_FOREST);
+                SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_MINUET);
                 Item_Give(play, ITEM_SONG_MINUET);
                 return true;
             }
@@ -317,7 +317,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
 }
 
 void func_80B3CB58(EnXc* this, PlayState* play) {
-    if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_BOLERO) && LINK_IS_ADULT) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_BOLERO) && LINK_IS_ADULT) {
         s32 pad;
 
         this->action = SHEIK_ACTION_INIT;
@@ -340,7 +340,7 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
-            SET_EVENTCHKINF(EVENTCHKINF_LEARNED_BOLERO);
+            SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_BOLERO);
             Item_Give(play, ITEM_SONG_BOLERO);
             return true;
         }
@@ -351,7 +351,7 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 
 void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
     if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && OOT_DEBUG) &&
-        !GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SERENADE_OF_WATER) && LINK_IS_ADULT) {
+        !GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_SERENADE) && LINK_IS_ADULT) {
         s32 pad;
 
         this->action = SHEIK_ACTION_SERENADE;
@@ -368,13 +368,13 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
         s32 stateFlags = player->stateFlags1;
 
         if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) &&
-            !GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SERENADE_OF_WATER) && !(stateFlags & PLAYER_STATE1_29) &&
+            !GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_SERENADE) && !(stateFlags & PLAYER_STATE1_29) &&
             !Play_InCsMode(play)) {
             s32 pad;
 
             Cutscene_SetScript(play, gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
-            SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SERENADE_OF_WATER);
+            SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_SERENADE);
             Item_Give(play, ITEM_SONG_SERENADE);
             PRINTF("ブーツを取った!!!!!!!!!!!!!!!!!!\n");
             return true;
@@ -2186,13 +2186,13 @@ void EnXc_InitTempleOfTime(EnXc* this, PlayState* play) {
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, play);
-        } else if (!GET_EVENTCHKINF(EVENTCHKINF_55) && GET_EVENTCHKINF(EVENTCHKINF_CLEARED_FOREST_TEMPLE)) {
-            SET_EVENTCHKINF(EVENTCHKINF_55);
+        } else if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_PRELUDE) && GET_EVENTCHKINF(EVENTCHKINF_CLEARED_FOREST_TEMPLE)) {
+            SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_PRELUDE);
             Item_Give(play, ITEM_SONG_PRELUDE);
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);
             gSaveContext.cutsceneTrigger = 1;
             this->action = SHEIK_ACTION_30;
-        } else if (!GET_EVENTCHKINF(EVENTCHKINF_55)) {
+        } else if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_PRELUDE)) {
             func_80B3C9EC(this);
         } else {
             Actor_Kill(&this->actor);

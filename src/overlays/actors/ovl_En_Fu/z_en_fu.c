@@ -150,7 +150,7 @@ void EnFu_WaitChild(EnFu* this, PlayState* play) {
 void func_80A1DB60(EnFu* this, PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         this->actionFunc = EnFu_WaitAdult;
-        SET_EVENTCHKINF(EVENTCHKINF_5B);
+        SET_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_STORMS_AT_WINDMILL);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     }
 }
@@ -176,7 +176,7 @@ void func_80A1DBD4(EnFu* this, PlayState* play) {
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(play, ITEM_SONG_STORMS);
         play->msgCtx.ocarinaMode = OCARINA_MODE_00;
-        SET_EVENTCHKINF(EVENTCHKINF_65);
+        SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_STORMS);
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_02) {
         player->stateFlags2 &= ~PLAYER_STATE2_24;
         this->actionFunc = EnFu_WaitAdult;
@@ -215,7 +215,7 @@ void EnFu_WaitAdult(EnFu* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (GET_EVENTCHKINF(EVENTCHKINF_5B)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_STORMS_AT_WINDMILL)) {
         func_80A1D94C(this, play, 0x508E, func_80A1DBA0);
     } else if (player->stateFlags2 & PLAYER_STATE2_24) {
         this->actor.textId = 0x5035;

@@ -912,7 +912,7 @@ void func_80986C30(DemoIm* this, PlayState* play) {
 
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardLullabyCs);
         gSaveContext.cutsceneTrigger = 1;
-        SET_EVENTCHKINF(EVENTCHKINF_59);
+        SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_LULLABY);
         Item_Give(play, ITEM_SONG_LULLABY);
         func_80985F54(this);
     }
@@ -945,7 +945,7 @@ void func_80986D40(DemoIm* this, PlayState* play) {
 
     if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
         Actor_Kill(&this->actor);
-    } else if (!GET_EVENTCHKINF(EVENTCHKINF_59)) {
+    } else if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_LULLABY)) {
         this->action = 23;
     } else {
         this->action = 20;

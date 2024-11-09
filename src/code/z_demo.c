@@ -101,7 +101,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_DESERT_COLOSSUS_0, 2, EVENTCHKINF_B8, gDesertColossusIntroCs },
     { ENTR_DEATH_MOUNTAIN_CRATER_0, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
     { ENTR_HYRULE_CASTLE_0, 0, EVENTCHKINF_BA, gGanonsCastleIntroCs },
-    { ENTR_ROYAL_FAMILYS_TOMB_1, 2, EVENTCHKINF_5A, gSunSongGraveSunSongTeachPart2Cs },
+    { ENTR_ROYAL_FAMILYS_TOMB_1, 2, EVENTCHKINF_LEARNED_SONG_SUN, gSunSongGraveSunSongTeachPart2Cs },
     { ENTR_INSIDE_GANONS_CASTLE_2, 2, EVENTCHKINF_BB, gForestBarrierCs },
     { ENTR_INSIDE_GANONS_CASTLE_3, 2, EVENTCHKINF_BC, gWaterBarrierCs },
     { ENTR_INSIDE_GANONS_CASTLE_4, 2, EVENTCHKINF_BD, gShadowBarrierCs },
@@ -397,7 +397,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_SET_FLAG_FAST_WINDMILL:
-            SET_EVENTCHKINF(EVENTCHKINF_65);
+            SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_STORMS);
             break;
 
         case CS_MISC_SET_FLAG_WELL_DRAINED:
@@ -912,7 +912,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
 
             case CS_DEST_KAKARIKO_VILLAGE_NOCTURNE_PART_2:
                 Item_Give(play, ITEM_SONG_NOCTURNE);
-                SET_EVENTCHKINF(EVENTCHKINF_54);
+                SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SONG_NOCTURNE);
                 play->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.save.cutsceneIndex = 0xFFF1;
