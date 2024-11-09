@@ -607,8 +607,8 @@ void EnTk_Dig(EnTk* this, PlayState* play) {
                  * Upgrade the purple rupee reward to the heart piece if this
                  * is the first grand prize dig.
                  */
-                if (!GET_ITEMGETINF(ITEMGETINF_1C)) {
-                    SET_ITEMGETINF(ITEMGETINF_1C);
+                if (!GET_ITEMGETINF(ITEMGETINF_UPGRADED_PURPLE_RUPEE)) {
+                    SET_ITEMGETINF(ITEMGETINF_UPGRADED_PURPLE_RUPEE);
                     this->currentReward = 4;
                 }
             }
