@@ -283,8 +283,7 @@ void func_80B3C9EC(EnXc* this) {
 }
 
 void func_80B3CA38(EnXc* this, PlayState* play) {
-    // If Player is adult but hasn't learned Minuet of Forest
-    if (!GET_EVENTCHKINF(EVENTCHKINF_50) && LINK_IS_ADULT) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_MINUET_OF_FOREST) && LINK_IS_ADULT) {
         s32 pad;
 
         this->action = SHEIK_ACTION_INIT;
@@ -307,7 +306,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
 
                 play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
-                SET_EVENTCHKINF(EVENTCHKINF_50);
+                SET_EVENTCHKINF(EVENTCHKINF_LEARNED_MINUET_OF_FOREST);
                 Item_Give(play, ITEM_SONG_MINUET);
                 return true;
             }
@@ -318,8 +317,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
 }
 
 void func_80B3CB58(EnXc* this, PlayState* play) {
-    // If hasn't learned Bolero and Player is Adult
-    if (!GET_EVENTCHKINF(EVENTCHKINF_51) && LINK_IS_ADULT) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_BOLERO) && LINK_IS_ADULT) {
         s32 pad;
 
         this->action = SHEIK_ACTION_INIT;
@@ -342,7 +340,7 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
-            SET_EVENTCHKINF(EVENTCHKINF_51);
+            SET_EVENTCHKINF(EVENTCHKINF_LEARNED_BOLERO);
             Item_Give(play, ITEM_SONG_BOLERO);
             return true;
         }
@@ -352,8 +350,8 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
-    if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && OOT_DEBUG) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
-        LINK_IS_ADULT) {
+    if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && OOT_DEBUG) &&
+        !GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SERENADE_OF_WATER) && LINK_IS_ADULT) {
         s32 pad;
 
         this->action = SHEIK_ACTION_SERENADE;
@@ -369,13 +367,14 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
         s32 stateFlags = player->stateFlags1;
 
-        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
-            !(stateFlags & PLAYER_STATE1_29) && !Play_InCsMode(play)) {
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) &&
+            !GET_EVENTCHKINF(EVENTCHKINF_LEARNED_SERENADE_OF_WATER) && !(stateFlags & PLAYER_STATE1_29) &&
+            !Play_InCsMode(play)) {
             s32 pad;
 
             Cutscene_SetScript(play, gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
-            SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag
+            SET_EVENTCHKINF(EVENTCHKINF_LEARNED_SERENADE_OF_WATER);
             Item_Give(play, ITEM_SONG_SERENADE);
             PRINTF("ブーツを取った!!!!!!!!!!!!!!!!!!\n");
             return true;

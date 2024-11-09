@@ -525,9 +525,9 @@ typedef enum LinkAge {
 #define EVENTCHKINF_4D 0x4D
 #define EVENTCHKINF_4E 0x4E
 #define EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS 0x4F // Cutscene in Temple of Time as adult after pulling the Master Sword for the first time
-#define EVENTCHKINF_50 0x50
-#define EVENTCHKINF_51 0x51
-#define EVENTCHKINF_52 0x52
+#define EVENTCHKINF_LEARNED_MINUET_OF_FOREST 0x50
+#define EVENTCHKINF_LEARNED_BOLERO 0x51
+#define EVENTCHKINF_LEARNED_SERENADE_OF_WATER 0x52
 #define EVENTCHKINF_54 0x54
 #define EVENTCHKINF_55 0x55
 #define EVENTCHKINF_59 0x59
