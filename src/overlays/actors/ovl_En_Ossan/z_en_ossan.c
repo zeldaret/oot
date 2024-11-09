@@ -383,48 +383,42 @@ s16 ShopItemDisp_Default(s16 v) {
 }
 
 s16 ShopItemDisp_SpookyMask(s16 v) {
-    // Sold Skull Mask
-    if (GET_ITEMGETINF(ITEMGETINF_39)) {
+    if (GET_ITEMGETINF(ITEMGETINF_SOLD_SKULL_MASK)) {
         return v;
     }
     return -1;
 }
 
 s16 ShopItemDisp_SkullMask(s16 v) {
-    // Sold Keaton Mask
-    if (GET_ITEMGETINF(ITEMGETINF_38)) {
+    if (GET_ITEMGETINF(ITEMGETINF_SOLD_KEATON_MASK)) {
         return v;
     }
     return -1;
 }
 
 s16 ShopItemDisp_BunnyHood(s16 v) {
-    // Sold Spooky Mask
-    if (GET_ITEMGETINF(ITEMGETINF_3A)) {
+    if (GET_ITEMGETINF(ITEMGETINF_SOLD_SPOOKY_MASK)) {
         return v;
     }
     return -1;
 }
 
 s16 ShopItemDisp_ZoraMask(s16 v) {
-    // Obtained Mask of Truth
-    if (GET_ITEMGETINF(ITEMGETINF_3F)) {
+    if (GET_ITEMGETINF(ITEMGETINF_OBTAINED_MASK_OF_TRUTH)) {
         return v;
     }
     return -1;
 }
 
 s16 ShopItemDisp_GoronMask(s16 v) {
-    // Obtained Mask of Truth
-    if (GET_ITEMGETINF(ITEMGETINF_3F)) {
+    if (GET_ITEMGETINF(ITEMGETINF_OBTAINED_MASK_OF_TRUTH)) {
         return v;
     }
     return -1;
 }
 
 s16 ShopItemDisp_GerudoMask(s16 v) {
-    // Obtained Mask of Truth
-    if (GET_ITEMGETINF(ITEMGETINF_3F)) {
+    if (GET_ITEMGETINF(ITEMGETINF_OBTAINED_MASK_OF_TRUTH)) {
         return v;
     }
     return -1;
@@ -539,10 +533,8 @@ void EnOssan_TalkGoronShopkeeper(PlayState* play) {
 
 // Happy Mask Shop
 void EnOssan_TalkHappyMaskShopkeeper(PlayState* play) {
-    if (GET_ITEMGETINF(ITEMGETINF_38)       // Sold Keaton Mask
-        && GET_ITEMGETINF(ITEMGETINF_39)    // Sold Skull Mask
-        && GET_ITEMGETINF(ITEMGETINF_3A)    // Sold Spooky Mask
-        && GET_ITEMGETINF(ITEMGETINF_3B)) { // Sold Bunny Hood
+    if (GET_ITEMGETINF(ITEMGETINF_SOLD_KEATON_MASK) && GET_ITEMGETINF(ITEMGETINF_SOLD_SKULL_MASK) &&
+        GET_ITEMGETINF(ITEMGETINF_SOLD_SPOOKY_MASK) && GET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD)) {
         Message_ContinueTextbox(play, 0x70AE);
     } else {
         switch (play->msgCtx.choiceIndex) {
@@ -714,8 +706,8 @@ void EnOssan_StartShopping(PlayState* play, EnOssan* this) {
 
     if (this->actor.params == OSSAN_TYPE_MASK) {
         // if all masks have been sold, give the option to ask about the mask of truth
-        if (GET_ITEMGETINF(ITEMGETINF_38) && GET_ITEMGETINF(ITEMGETINF_39) && GET_ITEMGETINF(ITEMGETINF_3A) &&
-            GET_ITEMGETINF(ITEMGETINF_3B)) {
+        if (GET_ITEMGETINF(ITEMGETINF_SOLD_KEATON_MASK) && GET_ITEMGETINF(ITEMGETINF_SOLD_SKULL_MASK) &&
+            GET_ITEMGETINF(ITEMGETINF_SOLD_SPOOKY_MASK) && GET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD)) {
             Message_ContinueTextbox(play, 0x70AD);
         } else {
             Message_ContinueTextbox(play, 0x70A2);
@@ -877,18 +869,18 @@ void EnOssan_TryPaybackMask(EnOssan* this, PlayState* play) {
         Rupees_ChangeBy(-price);
 
         if (this->happyMaskShopState == OSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD) {
-            SET_EVENTCHKINF(EVENTCHKINF_8F);
+            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_BUNNY_HOOD);
             Message_ContinueTextbox(play, 0x70A9);
             this->happyMaskShopState = OSSAN_HAPPY_STATE_ALL_MASKS_SOLD;
             return;
         }
 
         if (this->happyMaskShopState == OSSAN_HAPPY_STATE_REQUEST_PAYMENT_KEATON_MASK) {
-            SET_EVENTCHKINF(EVENTCHKINF_8C);
+            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_KEATON_MASK);
         } else if (this->happyMaskShopState == OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SPOOKY_MASK) {
-            SET_EVENTCHKINF(EVENTCHKINF_8E);
+            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SPOOKY_MASK);
         } else if (this->happyMaskShopState == OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK) {
-            SET_EVENTCHKINF(EVENTCHKINF_8D);
+            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SKULL_MASK);
         }
 
         Message_ContinueTextbox(play, 0x70A7);
@@ -1608,16 +1600,16 @@ void EnOssan_State_SelectMaskItem(EnOssan* this, PlayState* play, Player* player
             case 0:
                 switch (item->actor.params) {
                     case SI_KEATON_MASK:
-                        SET_ITEMGETINF(ITEMGETINF_23);
+                        SET_ITEMGETINF(ITEMGETINF_BORROWED_KEATON_MASK);
                         break;
                     case SI_SPOOKY_MASK:
-                        SET_ITEMGETINF(ITEMGETINF_25);
+                        SET_ITEMGETINF(ITEMGETINF_BORROWED_SPOOKY_MASK);
                         break;
                     case SI_SKULL_MASK:
-                        SET_ITEMGETINF(ITEMGETINF_24);
+                        SET_ITEMGETINF(ITEMGETINF_BORROWED_SKULL_MASK);
                         break;
                     case SI_BUNNY_HOOD:
-                        SET_ITEMGETINF(ITEMGETINF_26);
+                        SET_ITEMGETINF(ITEMGETINF_BORROWED_BUNNY_HOOD);
                         break;
                     case SI_MASK_OF_TRUTH:
                     case SI_ZORA_MASK:
@@ -1678,8 +1670,8 @@ void EnOssan_State_ItemPurchased(EnOssan* this, PlayState* play, Player* player)
             EnOssan_ResetItemPosition(this);
             item = this->shelfSlots[this->cursorIndex];
             item->updateStockedItemFunc(play, item);
-            if (itemTemp->actor.params == SI_MASK_OF_TRUTH && !GET_ITEMGETINF(ITEMGETINF_3F)) {
-                SET_ITEMGETINF(ITEMGETINF_3F);
+            if (itemTemp->actor.params == SI_MASK_OF_TRUTH && !GET_ITEMGETINF(ITEMGETINF_OBTAINED_MASK_OF_TRUTH)) {
+                SET_ITEMGETINF(ITEMGETINF_OBTAINED_MASK_OF_TRUTH);
                 Message_ContinueTextbox(play, 0x70AB);
                 this->happyMaskShopState = OSSAN_HAPPY_STATE_BORROWED_FIRST_MASK;
                 EnOssan_UpdateShopOfferings(this, play);
@@ -1772,7 +1764,7 @@ void EnOssan_State_GiveLonLonMilk(EnOssan* this, PlayState* play, Player* player
 // For giving Mask of Truth when you first sell all masks
 void EnOssan_State_LendMaskOfTruth(EnOssan* this, PlayState* play, Player* player) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(play)) {
-        SET_ITEMGETINF(ITEMGETINF_2A);
+        SET_ITEMGETINF(ITEMGETINF_BORROWED_TRUTH_MASK);
         this->cursorIndex = 2;
         EnOssan_GiveItemWithFanfare(play, this);
     }
@@ -2058,36 +2050,32 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
     // mask shop messages
     if (this->actor.params == OSSAN_TYPE_MASK) {
         if (INV_CONTENT(ITEM_TRADE_CHILD) == ITEM_SOLD_OUT) {
-            if (GET_ITEMGETINF(ITEMGETINF_3B)) {
-                if (!GET_EVENTCHKINF(EVENTCHKINF_8F)) {
-                    // Pay back Bunny Hood
+            if (GET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_BUNNY_HOOD)) {
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD;
                     return 0x70C6;
                 } else {
                     return 0x70AC;
                 }
             }
-            if (GET_ITEMGETINF(ITEMGETINF_3A)) {
-                if (!GET_EVENTCHKINF(EVENTCHKINF_8E)) {
-                    // Pay back Spooky Mask
+            if (GET_ITEMGETINF(ITEMGETINF_SOLD_SPOOKY_MASK)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SPOOKY_MASK)) {
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SPOOKY_MASK;
                     return 0x70C5;
                 } else {
                     return 0x70AC;
                 }
             }
-            if (GET_ITEMGETINF(ITEMGETINF_39)) {
-                if (!GET_EVENTCHKINF(EVENTCHKINF_8D)) {
-                    // Pay back Skull Mask
+            if (GET_ITEMGETINF(ITEMGETINF_SOLD_SKULL_MASK)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SKULL_MASK)) {
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK;
                     return 0x70C4;
                 } else {
                     return 0x70AC;
                 }
             }
-            if (GET_ITEMGETINF(ITEMGETINF_38)) {
-                if (!GET_EVENTCHKINF(EVENTCHKINF_8C)) {
-                    // Pay back Keaton Mask
+            if (GET_ITEMGETINF(ITEMGETINF_SOLD_KEATON_MASK)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_KEATON_MASK)) {
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_KEATON_MASK;
                     return 0x70A5;
                 } else {
@@ -2095,12 +2083,12 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
                 }
             }
         } else {
-            if (GET_ITEMGETINF(ITEMGETINF_3B)) {
+            if (GET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD)) {
                 return 0x70AC;
-            } else if (!GET_ITEMGETINF(ITEMGETINF_3A) && !GET_ITEMGETINF(ITEMGETINF_24) &&
-                       !GET_ITEMGETINF(ITEMGETINF_38)) {
-                // Haven't borrowed the Keaton Mask
-                if (!GET_ITEMGETINF(ITEMGETINF_23)) {
+            } else if (!GET_ITEMGETINF(ITEMGETINF_SOLD_SPOOKY_MASK) &&
+                       !GET_ITEMGETINF(ITEMGETINF_BORROWED_SKULL_MASK) &&
+                       !GET_ITEMGETINF(ITEMGETINF_SOLD_KEATON_MASK)) {
+                if (!GET_ITEMGETINF(ITEMGETINF_BORROWED_KEATON_MASK)) {
                     return 0x70A1;
                 } else {
                     // Haven't sold the Keaton Mask

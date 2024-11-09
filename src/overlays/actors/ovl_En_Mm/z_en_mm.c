@@ -237,7 +237,7 @@ s32 func_80AADAA0(EnMm* this, PlayState* play) {
             if (Message_ShouldAdvance(play)) {
                 Player_UnsetMask(play);
                 Item_Give(play, ITEM_SOLD_OUT);
-                SET_ITEMGETINF(ITEMGETINF_3B);
+                SET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD);
                 Rupees_ChangeBy(500);
                 player->actor.textId = 0x202E;
                 sp1C = 2;
@@ -261,7 +261,7 @@ s32 EnMm_GetTextId(EnMm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUNNING_MAN);
 
-    if (GET_ITEMGETINF(ITEMGETINF_3B)) {
+    if (GET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD)) {
         if (textId == 0) {
             textId = 0x204D;
         }
@@ -425,7 +425,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
             }
         }
 
-        if (GET_ITEMGETINF(ITEMGETINF_3B)) {
+        if (GET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD)) {
             this->speedXZ = 10.0f;
             this->skelAnime.playSpeed = 2.0f;
         } else {
@@ -452,7 +452,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
             }
         }
 
-        if (GET_ITEMGETINF(ITEMGETINF_3B)) {
+        if (GET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD)) {
             dustPos.x = this->actor.world.pos.x;
             dustPos.y = this->actor.world.pos.y;
             dustPos.z = this->actor.world.pos.z;
@@ -473,7 +473,7 @@ void func_80AAE50C(EnMm* this, PlayState* play) {
         this->sitTimer = 0;
         this->actionFunc = func_80AAE294;
 
-        if (GET_ITEMGETINF(ITEMGETINF_3B)) {
+        if (GET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD)) {
             EnMm_ChangeAnim(this, RM_ANIM_SPRINT, &this->curAnimIndex);
             this->mouthTexIndex = RM_MOUTH_CLOSED;
         } else {
@@ -519,7 +519,7 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMm_OverrideLimbDraw, EnMm_PostLimbDraw, this);
 
-    if (GET_ITEMGETINF(ITEMGETINF_3B)) {
+    if (GET_ITEMGETINF(ITEMGETINF_SOLD_BUNNY_HOOD)) {
         s32 linkChildObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_LINK_CHILD);
 
         // Draw Bunny Hood

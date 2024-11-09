@@ -542,7 +542,7 @@ void func_80A540C0(EnHeishi2* this, PlayState* play) {
                 Message_ContinueTextbox(play, this->actor.textId);
                 Player_UnsetMask(play);
                 SET_INFTABLE(INFTABLE_77);
-                SET_ITEMGETINF(ITEMGETINF_38);
+                SET_ITEMGETINF(ITEMGETINF_SOLD_KEATON_MASK);
                 Item_Give(play, ITEM_SOLD_OUT);
                 if (this->unk_30A != 0) {
                     this->unk_30A = 2;

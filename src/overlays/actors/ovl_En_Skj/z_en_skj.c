@@ -339,7 +339,7 @@ void EnSkj_CalculateCenter(EnSkj* this) {
 void EnSkj_SetNaviId(EnSkj* this) {
     switch (this->actor.params) {
         case 0:
-            if (GET_ITEMGETINF(ITEMGETINF_39)) {
+            if (GET_ITEMGETINF(ITEMGETINF_SOLD_SKULL_MASK)) {
                 this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_MASK;
             } else if (GET_ITEMGETINF(ITEMGETINF_16)) {
                 this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_FRIENDLY;
@@ -919,7 +919,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
         player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
         player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
-        if ((Player_GetMask(play) == PLAYER_MASK_SKULL) && !GET_ITEMGETINF(ITEMGETINF_39)) {
+        if ((Player_GetMask(play) == PLAYER_MASK_SKULL) && !GET_ITEMGETINF(ITEMGETINF_SOLD_SKULL_MASK)) {
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             EnSkj_SetupMaskTrade(this);
         } else {
@@ -930,7 +930,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
     } else {
         player->stateFlags2 |= PLAYER_STATE2_23;
         if (GET_ITEMGETINF(ITEMGETINF_16)) {
-            if (GET_ITEMGETINF(ITEMGETINF_39)) {
+            if (GET_ITEMGETINF(ITEMGETINF_SOLD_SKULL_MASK)) {
                 this->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SKULL_KID);
                 if (this->textId == 0) {
                     this->textId = 0x1020;
@@ -1160,7 +1160,7 @@ void EnSkj_SetupTakeMask(EnSkj* this, PlayState* play) {
 void EnSkj_TakeMask(EnSkj* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         Rupees_ChangeBy(10);
-        SET_ITEMGETINF(ITEMGETINF_39);
+        SET_ITEMGETINF(ITEMGETINF_SOLD_SKULL_MASK);
         EnSkj_SetNaviId(this);
         Player_UnsetMask(play);
         Item_Give(play, ITEM_SOLD_OUT);
@@ -1612,7 +1612,7 @@ s32 EnSkj_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnSkj_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_skj.c", 2417);
 
-    if ((limbIndex == 11) && GET_ITEMGETINF(ITEMGETINF_39)) {
+    if ((limbIndex == 11) && GET_ITEMGETINF(ITEMGETINF_SOLD_SKULL_MASK)) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         Matrix_Push();
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);
