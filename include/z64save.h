@@ -489,7 +489,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_20 0x20
 #define EVENTCHKINF_21 0x21
 #define EVENTCHKINF_22 0x22
-#define EVENTCHKINF_DC_BOULDER_DESTROYED 0x23 // as per comment @ `z_en_go2.c`
+#define EVENTCHKINF_DC_BOULDER_DESTROYED 0x23 // as child
 #define EVENTCHKINF_25 0x25
 #define EVENTCHKINF_2A 0x2A
 #define EVENTCHKINF_2B 0x2B
@@ -770,7 +770,7 @@ typedef enum LinkAge {
 #define INFTABLE_AB 0xAB
 #define INFTABLE_B0 0xB0
 #define INFTABLE_B1 0xB1
-#define INFTABLE_B4 0xB4
+#define INFTABLE_TALKED_TO_GORON_MSG_3054 0xB4
 #define INFTABLE_B6 0xB6
 #define INFTABLE_B7 0xB7
 #define INFTABLE_B8 0xB8
@@ -797,24 +797,24 @@ typedef enum LinkAge {
 #define INFTABLE_D6 0xD6
 #define INFTABLE_D8 0xD8
 #define INFTABLE_D9 0xD9
-#define INFTABLE_E0 0xE0
-#define INFTABLE_E3 0xE3
-#define INFTABLE_E6 0xE6
-#define INFTABLE_EB 0xEB
-#define INFTABLE_F0 0xF0
-#define INFTABLE_F4 0xF4
-#define INFTABLE_F8 0xF8
+#define INFTABLE_TALKED_TO_GORON_MSG_3008 0xE0 // DMT Goron at DC entrance (Before DC is opened as child)
+#define INFTABLE_TALKED_TO_GORON_MSG_300E 0xE3 // GC Goron in bottom level stairwell
+#define INFTABLE_TALKED_TO_GORON_MSG_3024 0xE6 // GC Goron at LW entrance (Before LW shortcut is opened)
+#define INFTABLE_TALKED_TO_GORON_MSG_300B 0xEB // DMT Goron at Bomb Flower with goron bracelet
+#define INFTABLE_TALKED_TO_GORON_MSG_3014 0xF0 // GC Entrance (Before goron ruby is obtained)
+#define INFTABLE_TALKED_TO_GORON_MSG_3016 0xF4 // GC Island (Before goron ruby is obtained)
+#define INFTABLE_TALKED_TO_GORON_MSG_3018 0xF8 // outside Darunias door (after opening door, before getting goron bracelet)
 #define INFTABLE_FC 0xFC
-#define INFTABLE_109 0x109
-#define INFTABLE_10A 0x10A
-#define INFTABLE_10B 0x10B
-#define INFTABLE_10C 0x10C
-#define INFTABLE_10D 0x10D
-#define INFTABLE_10E 0x10E
-#define INFTABLE_10F 0x10F
+#define INFTABLE_GOT_FIRE_TUNIC 0x109 // from Goron Link
+#define INFTABLE_TALKED_TO_GORON_MSG_3032 0x10A
+#define INFTABLE_TALKED_TO_GORON_MSG_3035 0x10B // About Volvagia
+#define INFTABLE_STOPPED_GORON_LINK 0x10C
+#define INFTABLE_TALKED_TO_GORON_MSG_3036 0x10D
+#define INFTABLE_TALKED_TO_GORON_MSG_3037 0x10E // Spoke to Goron Link
+#define INFTABLE_TALKED_TO_GORON_MSG_3041 0x10F
 #define INFTABLE_113 0x113
 #define INFTABLE_11A 0x11A
-#define INFTABLE_11E 0x11E
+#define INFTABLE_UPGRADED_BOMB_BAG 0x11E // from rolling Goron
 #define INFTABLE_124 0x124
 #define INFTABLE_129 0x129
 #define INFTABLE_12A 0x12A
