@@ -59,8 +59,8 @@ typedef struct EnGo {
     /* 0x0214 */ s16 blinkTimer;  // unused
     /* 0x0216 */ s16 eyeTexIndex; // unused
     /* 0x0218 */ s16 unk_218;
-    /* 0x021A */ s16 unk_21A;
-    /* 0x021C */ s16 unk_21C;
+    /* 0x021A */ s16 bounceCounter;
+    /* 0x021C */ s16 bounceTimer;
     /* 0x021E */ s16 unk_21E;
     /* 0x0220 */ s16 jointTable[GORON_LIMB_MAX];
     /* 0x0244 */ s16 morphTable[GORON_LIMB_MAX];

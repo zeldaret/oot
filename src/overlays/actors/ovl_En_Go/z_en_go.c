@@ -562,30 +562,38 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
     return 0;
 }
 
-s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
+s32 EnGo_IsRollingOnGround(EnGo* this, s16 bounceCount, f32 boundSpeed) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
         return false;
-    } else if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+    }
+
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         return true;
-    } else if (DECR(this->unk_21C)) {
-        if (this->unk_21C & 1) {
+    }
+
+    // rumble on odds and evens
+    if (DECR(this->bounceTimer)) {
+        if (this->bounceTimer & 1) {
             this->actor.world.pos.y += 1.5f;
         } else {
             this->actor.world.pos.y -= 1.5f;
         }
         return true;
-    } else {
-        this->unk_21A--;
-        if (this->unk_21A <= 0) {
-            if (this->unk_21A == 0) {
-                this->unk_21C = Rand_S16Offset(60, 30);
-                this->unk_21A = 0;
+    }
+
+    // bounce!
+    {
+        this->bounceCounter--;
+        if (this->bounceCounter <= 0) {
+            if (this->bounceCounter == 0) {
+                this->bounceTimer = Rand_S16Offset(60, 30);
+                this->bounceCounter = 0;
                 this->actor.velocity.y = 0.0f;
                 return true;
             }
-            this->unk_21A = unkArg1;
+            this->bounceCounter = bounceCount;
         }
-        this->actor.velocity.y = ((f32)this->unk_21A / (f32)unkArg1) * unkArg2;
+        this->actor.velocity.y = ((f32)this->bounceCounter / (f32)bounceCount) * boundSpeed;
         return true;
     }
 }
@@ -759,7 +767,7 @@ void EnGo_StopRolling(EnGo* this, PlayState* play) {
 
 void func_80A4008C(EnGo* this, PlayState* play) {
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
-        if (this->unk_21A == 0) {
+        if (this->bounceCounter == 0) {
             this->actor.shape.yOffset = 0.0f;
             EnGo_SetupAction(this, EnGo_CurledUp);
         } else {
