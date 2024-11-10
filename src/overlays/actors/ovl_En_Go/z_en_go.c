@@ -426,12 +426,15 @@ void func_80A3F060(EnGo* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 4, trackingMode);
 }
 
-void func_80A3F0E4(EnGo* this) {
-    if (DECR(this->unk_214) == 0) {
-        this->unk_216++;
-        if (this->unk_216 >= 3) {
-            this->unk_214 = Rand_S16Offset(30, 30);
-            this->unk_216 = 0;
+void EnGo_UpdateBlinking(EnGo* this) {
+    // @unused
+    // although this function runs a similar logic as `EnGo2_EyeMouthTexState`
+    // its results are never used: this Goron always sets `gGoronCsEyeOpenTex`
+    if (DECR(this->blinkTimer) == 0) {
+        this->eyeTexIndex++;
+        if (this->eyeTexIndex >= 3) {
+            this->blinkTimer = Rand_S16Offset(30, 30);
+            this->eyeTexIndex = 0;
         }
     }
 }
@@ -1054,7 +1057,7 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
     }
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    func_80A3F0E4(this);
+    EnGo_UpdateBlinking(this);
     func_80A3F908(this, play);
     this->actionFunc(this, play);
     func_80A3F060(this, play);
