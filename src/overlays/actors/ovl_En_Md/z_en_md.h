@@ -27,15 +27,6 @@ typedef enum EnMdLimb {
     ENMD_LIMB_MAX
 } EnMdLimb;
 
-typedef enum EnMdEye {
-    ENMD_EYE_OPEN,
-    ENMD_EYE_HALF,
-    ENMD_EYE_CLOSED,
-    ENMD_EYE_ANGRY,
-    ENMD_EYE_LOOKING_UP,
-    ENMD_EYE_MAX
-} EnMdEye;
-
 typedef void (*EnMdActionFunc)(struct EnMd*, PlayState*);
 
 typedef struct EnMd {
