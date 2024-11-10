@@ -61,7 +61,7 @@ typedef struct EnGo {
     /* 0x0218 */ s16 waypoint;
     /* 0x021A */ s16 bounceCounter;
     /* 0x021C */ s16 bounceTimer;
-    /* 0x021E */ s16 unk_21E;
+    /* 0x021E */ s16 eyedropsTimer;
     /* 0x0220 */ s16 jointTable[GORON_LIMB_MAX];
     /* 0x0244 */ s16 morphTable[GORON_LIMB_MAX];
     /* 0x0268 */ EnGoEffect effects[EN_GO_EFFECT_COUNT];

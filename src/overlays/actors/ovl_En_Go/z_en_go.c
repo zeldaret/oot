@@ -890,7 +890,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
                 EnGo_ChangeAnim(this, ENGO_ANIM_WALKING_LOOP);
-                this->unk_21E = 100;
+                this->eyedropsTimer = 100;
                 this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -1027,7 +1027,7 @@ void func_80A40C78(EnGo* this, PlayState* play) {
 }
 
 void EnGo_Eyedrops(EnGo* this, PlayState* play) {
-    if (DECR(this->unk_21E) == 0) {
+    if (DECR(this->eyedropsTimer) == 0) {
         this->actor.textId = 0x305A;
         Message_ContinueTextbox(play, this->actor.textId);
         this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
