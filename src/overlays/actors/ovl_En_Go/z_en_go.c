@@ -1059,7 +1059,7 @@ void EnGo_DrawCurledUp(EnGo* this, PlayState* play) {
 
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go.c", 2326);
 
-    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00BD80);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronCurledUpDL);
 
     Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus.pos);
     Matrix_Pop();
@@ -1077,7 +1077,7 @@ void EnGo_DrawRolling(EnGo* this, PlayState* play) {
     Matrix_RotateZYX((s16)(play->state.frames * ((s16)this->actor.speed * 1400)), 0, this->actor.shape.rot.z,
                      MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go.c", 2368);
-    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00C140);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronRollingDL);
     Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus.pos);
     Matrix_Pop();
 
@@ -1213,7 +1213,7 @@ void EnGo_DrawEffects(EnGo* this, PlayState* play) {
 
         if (!materialFlag) {
             POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
+            gSPDisplayList(POLY_XLU_DISP++, gGoronParticleMaterialDL);
             gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
             materialFlag = true;
         }
@@ -1228,7 +1228,7 @@ void EnGo_DrawEffects(EnGo* this, PlayState* play) {
 
         index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));
-        gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
+        gSPDisplayList(POLY_XLU_DISP++, gGoronParticleDL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go.c", 2678);

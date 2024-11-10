@@ -223,7 +223,7 @@ void EnGo2_DrawEffects(EnGo2* this, PlayState* play) {
 
         if (!materialFlag) {
             POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
+            gSPDisplayList(POLY_XLU_DISP++, gGoronParticleMaterialDL);
             gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
             materialFlag = true;
         }
@@ -237,7 +237,7 @@ void EnGo2_DrawEffects(EnGo2* this, PlayState* play) {
         MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_go2_eff.c", 137);
         index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDustTex[index]));
-        gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
+        gSPDisplayList(POLY_XLU_DISP++, gGoronParticleDL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2_eff.c", 151);
@@ -2008,7 +2008,7 @@ s32 EnGo2_DrawCurledUp(EnGo2* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 2881);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go2.c", 2884);
-    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00BD80);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronCurledUpDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2.c", 2889);
     Matrix_MultVec3f(&D_80A48554, &this->actor.focus.pos);
 
@@ -2025,7 +2025,7 @@ s32 EnGo2_DrawRolling(EnGo2* this, PlayState* play) {
     speedXZ = this->actionFunc == EnGo2_ReverseRolling ? 0.0f : this->actor.speed;
     Matrix_RotateZYX((play->state.frames * ((s16)speedXZ * 1400)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go2.c", 2926);
-    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00C140);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronRollingDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2.c", 2930);
     Matrix_MultVec3f(&D_80A48560, &this->actor.focus.pos);
     return 1;
