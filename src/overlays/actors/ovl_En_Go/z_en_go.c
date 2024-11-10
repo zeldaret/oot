@@ -82,6 +82,19 @@ static AnimationSpeedInfo sAnimationInfo[] = {
     { &gGoronSidestepLoopAnim, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
 };
 
+#define ENGO_GET_TYPE(this) PARAMS_GET_NOSHIFT((this)->actor.params, 4, 4)
+typedef enum EnGoType {
+    ENGO_TYPE_CITY_LINK = 0x00,
+    ENGO_TYPE_FIRE_GENERIC = 0x10,
+    ENGO_TYPE_DMT_DC_ENTRANCE = 0x20,
+    ENGO_TYPE_DMT_ROLLING_SMALL = 0x30,
+    ENGO_TYPE_DMT_BOMB_FLOWER = 0x40,
+    ENGO_TYPE_CITY_ENTRANCE = 0x50,
+    ENGO_TYPE_CITY_ISLAND = 0x60,
+    ENGO_TYPE_CITY_LOST_WOODS = 0x70,
+    ENGO_TYPE_DMT_BIGGORON = 0x90
+} EnGoType;
+
 void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -89,8 +102,8 @@ void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
 u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
 
-    switch (PARAMS_GET_NOSHIFT(thisx->params, 4, 4)) {
-        case 0x90:
+    switch (ENGO_GET_TYPE((EnGo*)thisx)) {
+        case ENGO_TYPE_DMT_BIGGORON:
             if (gSaveContext.save.info.playerData.bgsFlag) {
                 return 0x305E;
             } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_CLAIM_CHECK) {
@@ -108,7 +121,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                 player->exchangeItemId = EXCH_ITEM_BROKEN_GORONS_SWORD;
                 return 0x3053;
             }
-        case 0x00:
+        case ENGO_TYPE_CITY_LINK:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
                 if (GET_INFTABLE(INFTABLE_10F)) {
                     return 0x3042;
@@ -132,13 +145,13 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                     return 0x3030;
                 }
             }
-        case 0x10:
+        case ENGO_TYPE_FIRE_GENERIC:
             if (Flags_GetSwitch(play, PARAMS_GET_NOMASK(thisx->params, 8))) {
                 return 0x3052;
             } else {
                 return 0x3051;
             }
-        case 0x20:
+        case ENGO_TYPE_DMT_DC_ENTRANCE:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
@@ -148,7 +161,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
             } else {
                 return 0x3008;
             }
-        case 0x30:
+        case ENGO_TYPE_DMT_ROLLING_SMALL:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
@@ -156,7 +169,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
             } else {
                 return 0x3009;
             }
-        case 0x40:
+        case ENGO_TYPE_DMT_BOMB_FLOWER:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
@@ -164,7 +177,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
             } else {
                 return 0x300A;
             }
-        case 0x50:
+        case ENGO_TYPE_CITY_ENTRANCE:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
             } else if (GET_INFTABLE(INFTABLE_F0)) {
@@ -172,7 +185,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
             } else {
                 return 0x3014;
             }
-        case 0x60:
+        case ENGO_TYPE_CITY_ISLAND:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
             } else if (GET_INFTABLE(INFTABLE_F4)) {
@@ -180,7 +193,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
             } else {
                 return 0x3016;
             }
-        case 0x70:
+        case ENGO_TYPE_CITY_LOST_WOODS:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
             } else if (GET_INFTABLE(INFTABLE_F8)) {
@@ -349,30 +362,27 @@ s32 EnGo_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 
 void EnGo_ChangeAnim(EnGo* this, s32 index) {
     Animation_Change(&this->skelAnime, sAnimationInfo[index].animation,
-                     sAnimationInfo[index].playSpeed *
-                         (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f),
+                     sAnimationInfo[index].playSpeed * (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f),
                      0.0f, Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
                      sAnimationInfo[index].morphFrames);
 }
 
 s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
-    if (((this->actor.params) & 0xF0) == 0x90) {
+    if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
         return true;
     } else if (play->sceneId == SCENE_FIRE_TEMPLE && !Flags_GetSwitch(play, PARAMS_GET_NOMASK(this->actor.params, 8)) &&
-               LINK_IS_ADULT && PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x10) {
+               LINK_IS_ADULT && ENGO_GET_TYPE(this) == ENGO_TYPE_FIRE_GENERIC) {
         return true;
-    } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_ADULT &&
-               PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x00) {
+    } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_ADULT && ENGO_GET_TYPE(this) == ENGO_TYPE_CITY_LINK) {
         return true;
     } else if (play->sceneId == SCENE_DEATH_MOUNTAIN_TRAIL && LINK_IS_CHILD &&
-               (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x20 ||
-                PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x30 ||
-                PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x40)) {
+               (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_DC_ENTRANCE ||
+                ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_ROLLING_SMALL ||
+                ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BOMB_FLOWER)) {
         return true;
     } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_CHILD &&
-               (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x50 ||
-                PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x60 ||
-                PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x70)) {
+               (ENGO_GET_TYPE(this) == ENGO_TYPE_CITY_ENTRANCE || ENGO_GET_TYPE(this) == ENGO_TYPE_CITY_ISLAND ||
+                ENGO_GET_TYPE(this) == ENGO_TYPE_CITY_LOST_WOODS)) {
         return true;
     } else {
         return false;
@@ -380,16 +390,16 @@ s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
 }
 
 f32 EnGo_GetPlayerTrackingYOffset(EnGo* this) {
-    switch (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4)) {
-        case 0x00:
+    switch (ENGO_GET_TYPE(this)) {
+        case ENGO_TYPE_CITY_LINK:
             return 10.0f;
-        case 0x20:
-        case 0x30:
-        case 0x50:
-        case 0x60:
-        case 0x70:
+        case ENGO_TYPE_DMT_DC_ENTRANCE:
+        case ENGO_TYPE_DMT_ROLLING_SMALL:
+        case ENGO_TYPE_CITY_ENTRANCE:
+        case ENGO_TYPE_CITY_ISLAND:
+        case ENGO_TYPE_CITY_LOST_WOODS:
             return 20.0f;
-        case 0x40:
+        case ENGO_TYPE_DMT_BOMB_FLOWER:
             return 60.0f;
         default:
             return 20.0f;
@@ -430,7 +440,7 @@ s32 EnGo_IsCameraModified(EnGo* this, PlayState* play) {
     }
 
     xyzDistSq = (this->actor.scale.x / 0.01f) * SQ(100.0f);
-    if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) {
+    if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
         Camera_RequestSetting(mainCam, CAM_SET_DIRECTED_YAW);
         xyzDistSq *= 4.8f;
     }
@@ -488,7 +498,7 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
             this->unk_218 = 0;
         }
 
-        if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) != 0x00) {
+        if (ENGO_GET_TYPE(this) != ENGO_TYPE_CITY_LINK) {
             return true;
         } else if (Flags_GetSwitch(play, PARAMS_GET_NOMASK(this->actor.params, 8))) {
             return true;
@@ -583,11 +593,11 @@ void func_80A3F908(EnGo* this, PlayState* play) {
 
         interactRange = (this->collider.dim.radius + 30.0f);
         interactRange *= (this->actor.scale.x / 0.01f);
-        if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) {
+        if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
             interactRange *= 4.8f;
         }
 
-        if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) {
+        if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
             dialogStarted = EnGo_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, interactRange,
                                                EnGo_GetTextID, EnGo_UpdateTalkState);
         } else {
@@ -595,7 +605,7 @@ void func_80A3F908(EnGo* this, PlayState* play) {
                                               EnGo_GetTextID, EnGo_UpdateTalkState);
         }
 
-        if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) && (dialogStarted == true)) {
+        if ((ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) && (dialogStarted == true)) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_BROKEN_GORONS_SWORD) {
                 if (Player_GetExchangeItemId(play) == EXCH_ITEM_BROKEN_GORONS_SWORD) {
                     if (GET_INFTABLE(INFTABLE_B4)) {
@@ -638,7 +648,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) && (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) != 0x90)) {
+    if (ENGO_GET_TYPE(this) && (ENGO_GET_TYPE(this) != ENGO_TYPE_DMT_BIGGORON)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.flags &= ~ACTOR_FLAG_5;
     }
@@ -648,8 +658,8 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->actor.gravity = -1.0f;
 
-    switch (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4)) {
-        case 0x00:
+    switch (ENGO_GET_TYPE(this)) {
+        case ENGO_TYPE_CITY_LINK:
             Actor_SetScale(&this->actor, 0.008f);
             if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                 EnGo_SetMovedPos(this, play);
@@ -660,32 +670,32 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
                 EnGo_SetupAction(this, EnGo_GoronLinkRolling);
             }
             break;
-        case 0x10:
+        case ENGO_TYPE_FIRE_GENERIC:
             this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
             Actor_SetScale(&this->actor, 0.01f);
             EnGo_SetupAction(this, EnGo_FireGenericActionFunc);
             break;
-        case 0x40:
+        case ENGO_TYPE_DMT_BOMB_FLOWER:
             if (GET_INFTABLE(INFTABLE_EB)) {
                 EnGo_SetMovedPos(this, play);
             }
             Actor_SetScale(&this->actor, 0.015f);
             EnGo_SetupAction(this, EnGo_CurledUp);
             break;
-        case 0x30:
+        case ENGO_TYPE_DMT_ROLLING_SMALL:
             this->actor.shape.yOffset = 1400.0f;
             Actor_SetScale(&this->actor, 0.01f);
             EnGo_SetupAction(this, func_80A3FEB4);
             break;
-        case 0x90:
+        case ENGO_TYPE_DMT_BIGGORON:
             this->actor.attentionRangeType = ATTENTION_RANGE_5;
             Actor_SetScale(&this->actor, 0.16f);
             EnGo_SetupAction(this, EnGo_CurledUp);
             break;
-        case 0x20:
-        case 0x50:
-        case 0x60:
-        case 0x70:
+        case ENGO_TYPE_DMT_DC_ENTRANCE:
+        case ENGO_TYPE_CITY_ENTRANCE:
+        case ENGO_TYPE_CITY_ISLAND:
+        case ENGO_TYPE_CITY_LOST_WOODS:
             Actor_SetScale(&this->actor, 0.01f);
             EnGo_SetupAction(this, EnGo_CurledUp);
             break;
@@ -773,10 +783,10 @@ void EnGo_CurledUp(EnGo* this, PlayState* play) {
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
         this->skelAnime.playSpeed = 0.1f;
-        this->skelAnime.playSpeed *= PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f;
+        this->skelAnime.playSpeed *= ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f;
 
         EnGo_SetupAction(this, EnGo_WakeUp);
-        if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) {
+        if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
             OnePointCutscene_Init(play, 4200, -99, &this->actor, CAM_ID_MAIN);
         }
     }
@@ -787,8 +797,7 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
 
     if (this->skelAnime.playSpeed != 0.0f) {
         Math_SmoothStepToF(&this->skelAnime.playSpeed,
-                           (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f) * 0.5f, 0.1f, 1000.0f,
-                           0.1f);
+                           (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f) * 0.5f, 0.1f, 1000.0f, 0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
 
@@ -797,7 +806,7 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
         } else {
             this->skelAnime.curFrame = 12.0f;
             this->skelAnime.playSpeed = 0.0f;
-            if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) != 0x90) {
+            if (ENGO_GET_TYPE(this) != ENGO_TYPE_DMT_BIGGORON) {
                 this->unk_212 = 30;
                 return;
             }
@@ -819,8 +828,7 @@ void func_80A40494(EnGo* this, PlayState* play) {
     f32 frame;
 
     Math_SmoothStepToF(&this->skelAnime.playSpeed,
-                       (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f) * -0.5f, 0.1f, 1000.0f,
-                       0.1f);
+                       (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f) * -0.5f, 0.1f, 1000.0f, 0.1f);
     frame = this->skelAnime.curFrame;
     frame += this->skelAnime.playSpeed;
 
@@ -841,8 +849,8 @@ void func_80A405CC(EnGo* this, PlayState* play) {
     f32 frame;
 
     lastFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
-    Math_SmoothStepToF(&this->skelAnime.playSpeed, PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f,
-                       0.1f, 1000.0f, 0.1f);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f, 0.1f,
+                       1000.0f, 0.1f);
 
     frame = this->skelAnime.curFrame;
     frame += this->skelAnime.playSpeed;
@@ -851,7 +859,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
         this->skelAnime.curFrame = lastFrame;
         this->skelAnime.playSpeed = 0.0f;
         this->unk_212 = Rand_S16Offset(30, 30);
-        if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x40) && !GET_INFTABLE(INFTABLE_EB)) {
+        if ((ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BOMB_FLOWER) && !GET_INFTABLE(INFTABLE_EB)) {
             EnGo_SetupAction(this, func_80A40B1C);
         } else {
             EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -860,8 +868,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
 }
 
 void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
-    if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) &&
-        (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
+    if ((ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) && (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
         if (gSaveContext.save.info.playerData.bgsFlag) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else {
@@ -880,7 +887,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
                 EnGo_GetItem(this, play);
             }
         }
-    } else if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0) &&
+    } else if ((ENGO_GET_TYPE(this) == ENGO_TYPE_CITY_LINK) &&
                (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
         EnGo_SetupAction(this, EnGo_GetItem);
         play->msgCtx.stateTimer = 4;
@@ -889,7 +896,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
         if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, play)) {
             EnGo_ReverseAnimation(this);
             this->skelAnime.playSpeed = -0.1f;
-            this->skelAnime.playSpeed *= PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f;
+            this->skelAnime.playSpeed *= ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f;
             EnGo_SetupAction(this, func_80A408D8);
         }
     }
@@ -900,8 +907,7 @@ void func_80A408D8(EnGo* this, PlayState* play) {
 
     if (this->skelAnime.playSpeed != 0.0f) {
         Math_SmoothStepToF(&this->skelAnime.playSpeed,
-                           (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f) * -1.0f, 0.1f, 1000.0f,
-                           0.1f);
+                           (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f) * -1.0f, 0.1f, 1000.0f, 0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
         if (frame >= 12.0f) {
@@ -909,7 +915,7 @@ void func_80A408D8(EnGo* this, PlayState* play) {
         } else {
             this->skelAnime.curFrame = 12.0f;
             this->skelAnime.playSpeed = 0.0f;
-            if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) != 0x90) {
+            if (ENGO_GET_TYPE(this) != ENGO_TYPE_DMT_BIGGORON) {
                 this->unk_212 = 30;
                 return;
             }
@@ -960,7 +966,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
         EnGo_SetupAction(this, func_80A40C78);
     } else {
         this->unk_20C = 0;
-        if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) {
+        if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
                 getItemId = GI_SWORD_BIGGORON;
                 this->unk_20C = 1;
@@ -973,7 +979,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
             }
         }
 
-        if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0) {
+        if (ENGO_GET_TYPE(this) == ENGO_TYPE_CITY_LINK) {
             getItemId = GI_TUNIC_GORON;
         }
 
@@ -986,7 +992,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
 void func_80A40C78(EnGo* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
-        if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) != 0x90) {
+        if (ENGO_GET_TYPE(this) != ENGO_TYPE_DMT_BIGGORON) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else if (this->unk_20C) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;

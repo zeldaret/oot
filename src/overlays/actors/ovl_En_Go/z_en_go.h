@@ -30,18 +30,6 @@ typedef enum GoronLimb {
     /* 18 */ GORON_LIMB_MAX
 } GoronLimb;
 
-// WIP type docs
-// /* 0x00 */ GORON1_CITY_LINK,
-// /* 0x10 */ GORON1_FIRE_GENERIC,
-// /* 0x20 */ GORON1_DMT_DC_ENTRANCE,
-// /* 0x30 */ GORON1_DMT_ROLLING_SMALL,
-// /* 0x40 */ GORON1_DMT_BOMB_FLOWER,
-// /* 0x50 */ GORON1_CITY_ENTRANCE,
-// /* 0x60 */ GORON1_CITY_ISLAND,
-// /* 0x70 */ GORON1_CITY_LOST_WOODS,
-// /* 0x80 */ // Not Used
-// /* 0x90 */ GORON1_DMT_BIGGORON,
-
 #define EN_GO_EFFECT_COUNT 20
 
 typedef struct EnGoEffect {
