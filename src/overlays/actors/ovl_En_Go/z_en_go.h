@@ -7,8 +7,6 @@
 struct EnGo;
 
 typedef void (*EnGoActionFunc)(struct EnGo*, PlayState*);
-typedef u16 (*callback1_80A3ED24)(PlayState*, struct EnGo*);
-typedef s16 (*callback2_80A3ED24)(PlayState*, struct EnGo*);
 
 typedef enum GoronLimb {
     /*  0 */ GORON_LIMB_NONE, // skeleton itself
