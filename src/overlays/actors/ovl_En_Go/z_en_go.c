@@ -95,6 +95,9 @@ typedef enum EnGoType {
     ENGO_TYPE_DMT_BIGGORON = 0x90
 } EnGoType;
 
+#define ENGO_GET_PATH_INDEX(this) PARAMS_GET_U((this)->actor.params, 0, 4)
+#define ENGO_PATH_INDEX_NONE 0xF // likely the count of available paths
+
 void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -481,11 +484,11 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
     f32 xDist;
     f32 zDist;
 
-    if (PARAMS_GET_U(this->actor.params, 0, 4) == 15) {
+    if (ENGO_GET_PATH_INDEX(this) == ENGO_PATH_INDEX_NONE) {
         return false;
     }
 
-    path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 4)];
+    path = &play->pathList[ENGO_GET_PATH_INDEX(this)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
@@ -516,10 +519,10 @@ s32 EnGo_SetMovedPos(EnGo* this, PlayState* play) {
     Path* path;
     Vec3s* pointPos;
 
-    if (PARAMS_GET_U(this->actor.params, 0, 4) == 0xF) {
+    if (ENGO_GET_PATH_INDEX(this) == ENGO_PATH_INDEX_NONE) {
         return false;
     } else {
-        path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 4)];
+        path = &play->pathList[ENGO_GET_PATH_INDEX(this)];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += (path->count - 1);
         this->actor.world.pos.x = pointPos->x;
