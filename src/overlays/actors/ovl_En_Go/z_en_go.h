@@ -10,6 +10,28 @@ typedef void (*EnGoActionFunc)(struct EnGo*, PlayState*);
 typedef u16 (*callback1_80A3ED24)(PlayState*, struct EnGo*);
 typedef s16 (*callback2_80A3ED24)(PlayState*, struct EnGo*);
 
+typedef enum GoronLimb {
+    /*  0 */ GORON_LIMB_NONE, // skeleton itself
+    /*  1 */ GORON_LIMB_ROOT,
+    /*  2 */ GORON_LIMB_WAIST, // drives bottom submesh
+    /*  3 */ GORON_LIMB_LEGS,
+    /*  4 */ GORON_LIMB_LEFT_THIGH,
+    /*  5 */ GORON_LIMB_LEFT_SHIN,
+    /*  6 */ GORON_LIMB_LEFT_FOOT,
+    /*  7 */ GORON_LIMB_RIGHT_THIGH,
+    /*  8 */ GORON_LIMB_RIGHT_SHIN,
+    /*  9 */ GORON_LIMB_RIGHT_FOOT,
+    /* 10 */ GORON_LIMB_TORSO, // drives top submesh
+    /* 11 */ GORON_LIMB_LEFT_ARM,
+    /* 12 */ GORON_LIMB_LEFT_FOREARM,
+    /* 13 */ GORON_LIMB_LEFT_HAND,
+    /* 14 */ GORON_LIMB_RIGHT_ARM,
+    /* 15 */ GORON_LIMB_RIGHT_FOREARM,
+    /* 16 */ GORON_LIMB_RIGHT_HAND,
+    /* 17 */ GORON_LIMB_HEAD,
+    /* 18 */ GORON_LIMB_MAX
+} GoronLimb;
+
 // WIP type docs
 // /* 0x00 */ GORON1_CITY_LINK,
 // /* 0x10 */ GORON1_FIRE_GENERIC,
@@ -21,7 +43,6 @@ typedef s16 (*callback2_80A3ED24)(PlayState*, struct EnGo*);
 // /* 0x70 */ GORON1_CITY_LOST_WOODS,
 // /* 0x80 */ // Not Used
 // /* 0x90 */ GORON1_DMT_BIGGORON,
-
 
 #define EN_GO_EFFECT_COUNT 20
 
@@ -55,8 +76,8 @@ typedef struct EnGo {
     /* 0x021A */ s16 unk_21A;
     /* 0x021C */ s16 unk_21C;
     /* 0x021E */ s16 unk_21E;
-    /* 0x0220 */ s16 jointTable[18];
-    /* 0x0244 */ s16 morphTable[18];
+    /* 0x0220 */ s16 jointTable[GORON_LIMB_MAX];
+    /* 0x0244 */ s16 morphTable[GORON_LIMB_MAX];
     /* 0x0268 */ EnGoEffect effects[EN_GO_EFFECT_COUNT];
 } EnGo; // size = 0x06C8
 

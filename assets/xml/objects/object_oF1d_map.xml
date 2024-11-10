@@ -1,4 +1,5 @@
 <Root>
+    <!-- Goron -->
     <File Name="object_oF1d_map" Segment="6">
         <!-- animations -->
         <Animation Name="gGoronAnim_000750" Offset="0x750"/>
@@ -13,14 +14,35 @@
         <Animation Name="gGoronAnim_004930" Offset="0x4930"/>
         <Animation Name="gGoronAnim_010590" Offset="0x10590"/>
 
+        <!-- display lists -->
         <DList Name="gGoronDL_00BD80" Offset="0xBD80"/>
         <DList Name="gGoronDL_00C140" Offset="0xC140"/>
 
         <DList Name="gGoronDL_00FD40" Offset="0xFD40"/>
         <DList Name="gGoronDL_00FD50" Offset="0xFD50"/>
 
+        <!-- skeleton -->
         <Skeleton Name="gGoronSkel" Type="Flex" LimbType="Standard" Offset="0xFEF0"/>
 
+        <Limb Name="gGoronRootLimb"         LimbType="Standard" Offset="0xFDE0"/>
+        <Limb Name="gGoronWaistLimb"        LimbType="Standard" Offset="0xFDEC"/>
+        <Limb Name="gGoronLegsLimb"         LimbType="Standard" Offset="0xFDF8"/>
+        <Limb Name="gGoronLeftThighLimb"    LimbType="Standard" Offset="0xFE04"/>
+        <Limb Name="gGoronLeftShinLimb"     LimbType="Standard" Offset="0xFE10"/>
+        <Limb Name="gGoronLeftFootLimb"     LimbType="Standard" Offset="0xFE1C"/>
+        <Limb Name="gGoronRightThighLimb"   LimbType="Standard" Offset="0xFE28"/>
+        <Limb Name="gGoronRightShinLimb"    LimbType="Standard" Offset="0xFE34"/>
+        <Limb Name="gGoronRightFootLimb"    LimbType="Standard" Offset="0xFE40"/>
+        <Limb Name="gGoronTorsoLimb"        LimbType="Standard" Offset="0xFE4C"/>
+        <Limb Name="gGoronLeftArmLimb"      LimbType="Standard" Offset="0xFE58"/>
+        <Limb Name="gGoronLeftForearmLimb"  LimbType="Standard" Offset="0xFE64"/>
+        <Limb Name="gGoronLeftHandLimb"     LimbType="Standard" Offset="0xFE70"/>
+        <Limb Name="gGoronRightArmLimb"     LimbType="Standard" Offset="0xFE7C"/>
+        <Limb Name="gGoronRightForearmLimb" LimbType="Standard" Offset="0xFE88"/>
+        <Limb Name="gGoronRightHandLimb"    LimbType="Standard" Offset="0xFE94"/>
+        <Limb Name="gGoronHeadLimb"         LimbType="Standard" Offset="0xFEA0"/>
+
+        <!-- palettes -->
         <Texture Name="object_oF1d_map_TLUT_00C640" OutName="tlut_0000C640" Format="rgba16" Width="16" Height="16" Offset="0xC640"/>
 
         <!-- Eye textures -->

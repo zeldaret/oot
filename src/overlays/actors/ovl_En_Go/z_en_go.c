@@ -1033,7 +1033,7 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
         this->actionFunc == func_80A40B1C) {
-        func_80034F54(play, this->jointTable, this->morphTable, 18);
+        func_80034F54(play, this->jointTable, this->morphTable, GORON_LIMB_MAX);
     }
 
     EnGo_UpdateShadow(this);
@@ -1088,7 +1088,7 @@ s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
     EnGo* this = (EnGo*)thisx;
     Vec3s limbRot;
 
-    if (limb == 17) {
+    if (limb == GORON_LIMB_HEAD) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
@@ -1096,13 +1096,13 @@ s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
-    if (limb == 10) {
+    if (limb == GORON_LIMB_TORSO) {
         limbRot = this->interactInfo.torsoRot;
         Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
 
-    if ((limb == 10) || (limb == 11) || (limb == 14)) {
+    if ((limb == GORON_LIMB_TORSO) || (limb == GORON_LIMB_LEFT_ARM) || (limb == GORON_LIMB_RIGHT_ARM)) {
         rot->y += Math_SinS(this->jointTable[limb]) * 200.0f;
         rot->z += Math_CosS(this->morphTable[limb]) * 200.0f;
     }
@@ -1114,7 +1114,7 @@ void EnGo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     EnGo* this = (EnGo*)thisx;
     Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
 
-    if (limbIndex == 17) {
+    if (limbIndex == GORON_LIMB_HEAD) {
         Matrix_MultVec3f(&D_80A41BCC, &this->actor.focus.pos);
     }
 }

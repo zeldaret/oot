@@ -1518,7 +1518,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, GORON_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -1995,7 +1995,7 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
 #endif
     this->actionFunc(this, play);
     if (this->unk_211 == true) {
-        func_80034F54(play, this->unk_226, this->unk_24A, 18);
+        func_80034F54(play, this->unk_226, this->unk_24A, GORON_LIMB_MAX);
     }
     func_80A45288(this, play);
     EnGo2_EyeMouthTexState(this);
@@ -2035,19 +2035,19 @@ s32 EnGo2_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, V
     EnGo2* this = (EnGo2*)thisx;
     Vec3s limbRot;
 
-    if (limb == 17) {
+    if (limb == GORON_LIMB_HEAD) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limb == 10) {
+    if (limb == GORON_LIMB_TORSO) {
         limbRot = this->interactInfo.torsoRot;
         Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
-    if ((limb == 10) || (limb == 11) || (limb == 14)) {
+    if ((limb == GORON_LIMB_TORSO) || (limb == GORON_LIMB_LEFT_ARM) || (limb == GORON_LIMB_RIGHT_ARM)) {
         rot->y += Math_SinS(this->unk_226[limb]) * 200.0f;
         rot->z += Math_CosS(this->unk_24A[limb]) * 200.0f;
     }
@@ -2058,7 +2058,7 @@ void EnGo2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     EnGo2* this = (EnGo2*)thisx;
     Vec3f D_80A4856C = { 600.0f, 0.0f, 0.0f };
 
-    if (limbIndex == 17) {
+    if (limbIndex == GORON_LIMB_HEAD) {
         Matrix_MultVec3f(&D_80A4856C, &this->actor.focus.pos);
     }
 }
