@@ -544,10 +544,10 @@ u8 EnMd_ShouldSpawn(EnMd* this, PlayState* play) {
 
 void EnMd_UpdateEyes(EnMd* this) {
     if (DECR(this->blinkTimer) == 0) {
-        this->eyeIdx++;
-        if (this->eyeIdx > ENMD_EYE_CLOSED) {
+        this->eyeTexIndex++;
+        if (this->eyeTexIndex > ENMD_EYE_CLOSED) {
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIdx = ENMD_EYE_OPEN;
+            this->eyeTexIndex = ENMD_EYE_OPEN;
         }
     }
 }
@@ -897,10 +897,10 @@ void EnMd_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_md.c", 1280);
 
     if (this->alpha == 255) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
         func_80034BA0(play, &this->skelAnime, EnMd_OverrideLimbDraw, EnMd_PostLimbDraw, &this->actor, this->alpha);
     } else if (this->alpha != 0) {
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIdx]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
         func_80034CC4(play, &this->skelAnime, EnMd_OverrideLimbDraw, EnMd_PostLimbDraw, &this->actor, this->alpha);
     }
 

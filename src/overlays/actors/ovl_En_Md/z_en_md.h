@@ -49,7 +49,7 @@ typedef struct EnMd {
     /* 0x020A */ u8 animEntry;    // each one changes animation info and waits
     /* 0x020B */ u8 animState;    // defines a sequence of animation entries
     /* 0x020C */ s16 blinkTimer;
-    /* 0x020E */ s16 eyeIdx;
+    /* 0x020E */ s16 eyeTexIndex;
     /* 0x0210 */ s16 alpha;
     /* 0x0212 */ s16 waypoint;
     /* 0x0214 */ s16 unk_214[ENMD_LIMB_MAX];
