@@ -4442,8 +4442,6 @@ void Animation_ChangeByInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, 
  *
  * Note: With the common scale factor of 200, this effect is practically unnoticeable if the current animation already
  * has motion involved.
- *
- * Note: In MM this function is unused in favor of `SubS_UpdateFidgetTables` @ `z_sub_s.c`.
  */
 void Actor_UpdateFidgetTables(PlayState* play, s16* fidgetTableY, s16* fidgetTableZ, s32 tableLen) {
     u32 frames = play->gameplayFrames;
