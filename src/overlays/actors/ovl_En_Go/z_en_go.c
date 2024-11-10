@@ -496,23 +496,23 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
 
     path = &play->pathList[ENGO_GET_PATH_INDEX(this)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
-    pointPos += this->unk_218;
+    pointPos += this->waypoint;
     xDist = pointPos->x - this->actor.world.pos.x;
     zDist = pointPos->z - this->actor.world.pos.z;
     Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(xDist, zDist)), 10, 1000, 1);
 
     if ((SQ(xDist) + SQ(zDist)) < 600.0f) {
-        this->unk_218++;
-        if (this->unk_218 >= path->count) {
-            this->unk_218 = 0;
+        this->waypoint++;
+        if (this->waypoint >= path->count) {
+            this->waypoint = 0;
         }
 
         if (ENGO_GET_TYPE(this) != ENGO_TYPE_CITY_LINK) {
             return true;
         } else if (ENGO2_IS_CAGE_OPEN(this, play)) {
             return true;
-        } else if (this->unk_218 >= this->actor.shape.rot.z) {
-            this->unk_218 = 0;
+        } else if (this->waypoint >= this->actor.shape.rot.z) {
+            this->waypoint = 0;
         }
 
         return true;
@@ -747,7 +747,7 @@ void EnGo_StopRolling(EnGo* this, PlayState* play) {
     }
 
     this->actor.speed = 3.0f;
-    if ((EnGo_FollowPath(this, play) == true) && (this->unk_218 == 0)) {
+    if ((EnGo_FollowPath(this, play) == true) && (this->waypoint == 0)) {
         bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
         if (bomb != NULL) {
@@ -777,7 +777,7 @@ void func_80A4008C(EnGo* this, PlayState* play) {
 }
 
 void EnGo_GoronLinkRolling(EnGo* this, PlayState* play) {
-    if ((EnGo_FollowPath(this, play) == true) && ENGO2_IS_CAGE_OPEN(this, play) && (this->unk_218 == 0)) {
+    if ((EnGo_FollowPath(this, play) == true) && ENGO2_IS_CAGE_OPEN(this, play) && (this->waypoint == 0)) {
         this->actor.speed = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
         SET_INFTABLE(INFTABLE_109);
@@ -954,7 +954,7 @@ void func_80A40A54(EnGo* this, PlayState* play) {
     f32 float2 = this->skelAnime.curFrame * float1;
 
     this->actor.speed = Math_SinS((s16)float2);
-    if (EnGo_FollowPath(this, play) && this->unk_218 == 0) {
+    if (EnGo_FollowPath(this, play) && this->waypoint == 0) {
         EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
         this->actor.speed = 0.0f;
