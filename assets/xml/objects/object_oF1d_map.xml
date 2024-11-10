@@ -21,9 +21,10 @@
         <DList Name="gGoronDL_00FD40" Offset="0xFD40"/>
         <DList Name="gGoronDL_00FD50" Offset="0xFD50"/>
 
-        <!-- skeleton -->
+        <!-- skeleton, limb none -->
         <Skeleton Name="gGoronSkel" Type="Flex" LimbType="Standard" Offset="0xFEF0"/>
 
+        <!-- limbs -->
         <Limb Name="gGoronRootLimb"         LimbType="Standard" Offset="0xFDE0"/>
         <Limb Name="gGoronWaistLimb"        LimbType="Standard" Offset="0xFDEC"/>
         <Limb Name="gGoronLegsLimb"         LimbType="Standard" Offset="0xFDF8"/>
@@ -41,6 +42,23 @@
         <Limb Name="gGoronRightForearmLimb" LimbType="Standard" Offset="0xFE88"/>
         <Limb Name="gGoronRightHandLimb"    LimbType="Standard" Offset="0xFE94"/>
         <Limb Name="gGoronHeadLimb"         LimbType="Standard" Offset="0xFEA0"/>
+
+        <!-- limb display lists -->
+        <DList Name="gGoronWaistDL"        Offset="0x8708"/>
+        <DList Name="gGoronLeftThighDL"    Offset="0x8C80"/>
+        <DList Name="gGoronLeftShinDL"     Offset="0x8D70"/>
+        <DList Name="gGoronLeftFootDL"     Offset="0x8EC0"/>
+        <DList Name="gGoronRightThighDL"   Offset="0x87D0"/>
+        <DList Name="gGoronRightShinDL"    Offset="0x88C0"/>
+        <DList Name="gGoronRightFootDL"    Offset="0x8A10"/>
+        <DList Name="gGoronTorsoDL"        Offset="0x6F90"/>
+        <DList Name="gGoronLeftArmDL"      Offset="0x8218"/>
+        <DList Name="gGoronLeftForearmDL"  Offset="0x83A0"/>
+        <DList Name="gGoronLeftHandDL"     Offset="0x84E0"/>
+        <DList Name="gGoronRightArmDL"     Offset="0x7D28"/>
+        <DList Name="gGoronRightForearmDL" Offset="0x7EB0"/>
+        <DList Name="gGoronRightHandDL"    Offset="0x7FF0"/>
+        <DList Name="gGoronHeadDL"         Offset="0x7458"/>
 
         <!-- palettes -->
         <Texture Name="object_oF1d_map_TLUT_00C640" OutName="tlut_0000C640" Format="rgba16" Width="16" Height="16" Offset="0xC640"/>
