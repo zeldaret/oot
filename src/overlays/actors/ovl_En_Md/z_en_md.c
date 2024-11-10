@@ -545,9 +545,9 @@ u8 EnMd_ShouldSpawn(EnMd* this, PlayState* play) {
 void EnMd_UpdateEyes(EnMd* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIdx++;
-        if (this->eyeIdx > 2) {
+        if (this->eyeIdx > ENMD_EYE_CLOSED) {
             this->blinkTimer = Rand_S16Offset(30, 30);
-            this->eyeIdx = 0;
+            this->eyeIdx = ENMD_EYE_OPEN;
         }
     }
 }
