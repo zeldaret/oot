@@ -15,11 +15,11 @@ void EnMd_Destroy(Actor* thisx, PlayState* play);
 void EnMd_Update(Actor* thisx, PlayState* play);
 void EnMd_Draw(Actor* thisx, PlayState* play);
 
-void EnMd_Idle(EnMd* this, PlayState* play);
-void EnMd_Watch(EnMd* this, PlayState* play);
-void EnMd_BlockPath(EnMd* this, PlayState* play);
-void EnMd_ListenToOcarina(EnMd* this, PlayState* play);
-void EnMd_Walk(EnMd* this, PlayState* play);
+void EnMd_ActionIdle(EnMd* this, PlayState* play);
+void EnMd_ActionWatch(EnMd* this, PlayState* play);
+void EnMd_ActionBlockPath(EnMd* this, PlayState* play);
+void EnMd_ActionListenToOcarina(EnMd* this, PlayState* play);
+void EnMd_ActionWalk(EnMd* this, PlayState* play);
 
 ActorProfile En_Md_Profile = {
     /**/ ACTOR_EN_MD,
@@ -575,11 +575,11 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
         trackingMode = NPC_TRACKING_FULL_BODY;
     }
 
-    if (this->actionFunc == EnMd_Walk) {
+    if (this->actionFunc == EnMd_ActionWalk) {
         trackingMode = NPC_TRACKING_NONE;
         canUpdateTalking = false;
     }
-    if (this->actionFunc == EnMd_Watch) {
+    if (this->actionFunc == EnMd_ActionWatch) {
         trackingMode = NPC_TRACKING_FULL_BODY;
         canUpdateTalking = true;
     }
@@ -594,7 +594,7 @@ void EnMd_UpdateTalking(EnMd* this, PlayState* play) {
     }
 
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
-    if (this->actionFunc != EnMd_ListenToOcarina) {
+    if (this->actionFunc != EnMd_ActionListenToOcarina) {
         if (canUpdateTalking) {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                               EnMd_GetTextId, EnMd_UpdateTalkState);
@@ -693,7 +693,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
          CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) ||
         ((play->sceneId == SCENE_LOST_WOODS) && !GET_EVENTCHKINF(EVENTCHKINF_0A))) {
         this->actor.home.pos = this->actor.world.pos;
-        this->actionFunc = EnMd_BlockPath;
+        this->actionFunc = EnMd_ActionBlockPath;
         return;
     }
 
@@ -701,7 +701,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
         EnMd_SetMovedPos(this, play);
     }
 
-    this->actionFunc = EnMd_Idle;
+    this->actionFunc = EnMd_ActionIdle;
 }
 
 void EnMd_Destroy(Actor* thisx, PlayState* play) {
@@ -709,7 +709,7 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnMd_Idle(EnMd* this, PlayState* play) {
+void EnMd_ActionIdle(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoAkimboLoopAnim) {
         func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     } else if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) &&
@@ -720,14 +720,14 @@ void EnMd_Idle(EnMd* this, PlayState* play) {
     EnMd_UpdateAnimState_WithTalking(this);
 }
 
-void EnMd_Watch(EnMd* this, PlayState* play) {
+void EnMd_ActionWatch(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoAkimboLoopAnim) {
         func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     }
     EnMd_UpdateAnimState(this);
 }
 
-void EnMd_BlockPath(EnMd* this, PlayState* play) {
+void EnMd_ActionBlockPath(EnMd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 temp;
     Actor* actorToBlock = &GET_PLAYER(play)->actor;
@@ -768,7 +768,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
         EnMd_UpdateAnimState(this);
         this->waypoint = 1;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-        this->actionFunc = EnMd_Walk;
+        this->actionFunc = EnMd_ActionWalk;
         this->actor.speed = 1.5f;
         return;
     }
@@ -782,7 +782,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
             player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;
             Message_StartOcarina(play, OCARINA_ACTION_CHECK_SARIA);
-            this->actionFunc = EnMd_ListenToOcarina;
+            this->actionFunc = EnMd_ActionListenToOcarina;
             return;
         }
 
@@ -792,11 +792,11 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
     }
 }
 
-void EnMd_ListenToOcarina(EnMd* this, PlayState* play) {
+void EnMd_ActionListenToOcarina(EnMd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (play->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
-        this->actionFunc = EnMd_BlockPath;
+        this->actionFunc = EnMd_ActionBlockPath;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -804,14 +804,14 @@ void EnMd_ListenToOcarina(EnMd* this, PlayState* play) {
         this->actor.textId = 0x1067;
         Actor_OfferTalk(&this->actor, play, this->collider.dim.radius + 30.0f);
 
-        this->actionFunc = EnMd_BlockPath;
+        this->actionFunc = EnMd_ActionBlockPath;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
         player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
-void EnMd_Walk(EnMd* this, PlayState* play) {
+void EnMd_ActionWalk(EnMd* this, PlayState* play) {
     func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
     EnMd_UpdateAnimState(this);
 
@@ -833,7 +833,7 @@ void EnMd_Walk(EnMd* this, PlayState* play) {
     this->skelAnime.playSpeed = 0.0f;
     this->actor.speed = 0.0f;
     this->actor.home.pos = this->actor.world.pos;
-    this->actionFunc = EnMd_Watch;
+    this->actionFunc = EnMd_ActionWatch;
 }
 
 void EnMd_Update(Actor* thisx, PlayState* play) {
