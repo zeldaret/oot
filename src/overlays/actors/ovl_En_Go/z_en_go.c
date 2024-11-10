@@ -69,17 +69,17 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnGoAnimation {
-    /* 0 */ ENGO_ANIM_0,
-    /* 1 */ ENGO_ANIM_1,
-    /* 2 */ ENGO_ANIM_2,
-    /* 3 */ ENGO_ANIM_3
+    /* 0 */ ENGO_ANIM_UNCURL_SIT_STAND_IDLE, // default idle
+    /* 1 */ ENGO_ANIM_UNCURL_SIT_STAND,
+    /* 2 */ ENGO_ANIM_WALKING_LOOP,
+    /* 3 */ ENGO_ANIM_SIDESTEP_LOOP
 } EnGoAnimation;
 
 static AnimationSpeedInfo sAnimationInfo[] = {
-    { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
-    { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { &gGoronAnim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { &gGoronAnim_010590, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronUncurlSitStandAnim, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
+    { &gGoronUncurlSitStandAnim, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronWalkingLoopAnim, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronSidestepLoopAnim, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
 };
 
 void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
@@ -455,8 +455,8 @@ void EnGo_ReverseAnimation(EnGo* this) {
 void EnGo_UpdateShadow(EnGo* this) {
     s16 shadowAlpha;
     f32 currentFrame = this->skelAnime.curFrame;
-    s16 shadowAlphaTarget = (this->skelAnime.animation == &gGoronAnim_004930 && currentFrame > 32.0f) ||
-                                    this->skelAnime.animation != &gGoronAnim_004930
+    s16 shadowAlphaTarget = (this->skelAnime.animation == &gGoronUncurlSitStandAnim && currentFrame > 32.0f) ||
+                                    this->skelAnime.animation != &gGoronUncurlSitStandAnim
                                 ? 255
                                 : 0;
 
@@ -643,7 +643,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_5;
     }
 
-    EnGo_ChangeAnim(this, ENGO_ANIM_0);
+    EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND_IDLE);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->actor.gravity = -1.0f;
@@ -661,7 +661,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
             }
             break;
         case 0x10:
-            this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
+            this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
             Actor_SetScale(&this->actor, 0.01f);
             EnGo_SetupAction(this, EnGo_FireGenericActionFunc);
             break;
@@ -840,7 +840,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
     f32 lastFrame;
     f32 frame;
 
-    lastFrame = Animation_GetLastFrame(&gGoronAnim_004930);
+    lastFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
     Math_SmoothStepToF(&this->skelAnime.playSpeed, PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f,
                        0.1f, 1000.0f, 0.1f);
 
@@ -866,7 +866,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
-                EnGo_ChangeAnim(this, ENGO_ANIM_2);
+                EnGo_ChangeAnim(this, ENGO_ANIM_WALKING_LOOP);
                 this->unk_21E = 100;
                 this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
@@ -928,13 +928,13 @@ void func_80A408D8(EnGo* this, PlayState* play) {
 }
 
 void func_80A40A54(EnGo* this, PlayState* play) {
-    f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&gGoronAnim_010590));
+    f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&gGoronSidestepLoopAnim));
     f32 float2 = this->skelAnime.curFrame * float1;
 
     this->actor.speed = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, play) && this->unk_218 == 0) {
-        EnGo_ChangeAnim(this, ENGO_ANIM_1);
-        this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
+        EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND);
+        this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
         this->actor.speed = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
     }
@@ -942,7 +942,7 @@ void func_80A40A54(EnGo* this, PlayState* play) {
 
 void func_80A40B1C(EnGo* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_EB)) {
-        EnGo_ChangeAnim(this, ENGO_ANIM_3);
+        EnGo_ChangeAnim(this, ENGO_ANIM_SIDESTEP_LOOP);
         EnGo_SetupAction(this, func_80A40A54);
     } else {
         EnGo_BiggoronActionFunc(this, play);
@@ -1015,8 +1015,8 @@ void EnGo_Eyedrops(EnGo* this, PlayState* play) {
 
 void func_80A40DCC(EnGo* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        EnGo_ChangeAnim(this, ENGO_ANIM_1);
-        this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
+        EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND);
+        this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
         Message_CloseTextbox(play);
         EnGo_SetupAction(this, EnGo_GetItem);
         EnGo_GetItem(this, play);

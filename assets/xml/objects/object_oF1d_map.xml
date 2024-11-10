@@ -2,17 +2,17 @@
     <!-- Goron -->
     <File Name="object_oF1d_map" Segment="6">
         <!-- animations -->
-        <Animation Name="gGoronAnim_000750" Offset="0x750"/>
-        <Animation Name="gGoronAnim_000D5C" Offset="0xD5C"/>
-        <Animation Name="gGoronAnim_00161C" Offset="0x161C"/>
-        <Animation Name="gGoronAnim_001A00" Offset="0x1A00"/>
-        <Animation Name="gGoronAnim_0021D0" Offset="0x21D0"/>
-        <Animation Name="gGoronAnim_0029A8" Offset="0x29A8"/>
-        <Animation Name="gGoronAnim_002D80" Offset="0x2D80"/>
-        <Animation Name="gGoronAnim_003768" Offset="0x3768"/>
-        <Animation Name="gGoronAnim_0038E4" Offset="0x38E4"/>
-        <Animation Name="gGoronAnim_004930" Offset="0x4930"/>
-        <Animation Name="gGoronAnim_010590" Offset="0x10590"/>
+        <Animation Name="gGoronSobbingLoopAnim"    Offset="0x750"/>
+        <Animation Name="gGoronShakingLoopAnim"    Offset="0xD5C"/>
+        <Animation Name="gGoronUncurlToProneAnim"  Offset="0x161C"/>
+        <Animation Name="gGoronProneLoopAnim"      Offset="0x1A00"/>
+        <Animation Name="gGoronScratchingLoopAnim" Offset="0x21D0"/>
+        <Animation Name="gGoronWalkingLoopAnim"    Offset="0x29A8"/>
+        <Animation Name="gGoronEyedropsTakenAnim"  Offset="0x2D80"/>
+        <Animation Name="gGoronCryingLoopAnim"     Offset="0x3768"/>
+        <Animation Name="gGoronEyeropsLoopAnim"    Offset="0x38E4"/>
+        <Animation Name="gGoronUncurlSitStandAnim" Offset="0x4930"/>
+        <Animation Name="gGoronSidestepLoopAnim"   Offset="0x10590"/>
 
         <!-- skeleton, limb none -->
         <Skeleton Name="gGoronSkel" Type="Flex" LimbType="Standard" Offset="0xFEF0"/>
