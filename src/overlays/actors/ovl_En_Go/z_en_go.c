@@ -823,13 +823,13 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
             this->skelAnime.curFrame = 12.0f;
             this->skelAnime.playSpeed = 0.0f;
             if (ENGO_GET_TYPE(this) != ENGO_TYPE_DMT_BIGGORON) {
-                this->unk_212 = 30;
+                this->attentionCooldown = 30;
                 return;
             }
         }
     }
 
-    if (DECR(this->unk_212) == 0) {
+    if (DECR(this->attentionCooldown) == 0) {
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         EnGo_SetupAction(this, func_80A405CC);
@@ -874,7 +874,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
     if (!(frame < lastFrame)) {
         this->skelAnime.curFrame = lastFrame;
         this->skelAnime.playSpeed = 0.0f;
-        this->unk_212 = Rand_S16Offset(30, 30);
+        this->attentionCooldown = Rand_S16Offset(30, 30);
         if ((ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BOMB_FLOWER) && !GET_INFTABLE(INFTABLE_EB)) {
             EnGo_SetupAction(this, func_80A40B1C);
         } else {
@@ -909,7 +909,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else {
-        if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, play)) {
+        if ((DECR(this->attentionCooldown) == 0) && !EnGo_IsCameraModified(this, play)) {
             EnGo_ReverseAnimation(this);
             this->skelAnime.playSpeed = -0.1f;
             this->skelAnime.playSpeed *= ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f;
@@ -932,13 +932,13 @@ void func_80A408D8(EnGo* this, PlayState* play) {
             this->skelAnime.curFrame = 12.0f;
             this->skelAnime.playSpeed = 0.0f;
             if (ENGO_GET_TYPE(this) != ENGO_TYPE_DMT_BIGGORON) {
-                this->unk_212 = 30;
+                this->attentionCooldown = 30;
                 return;
             }
         }
     }
 
-    if (DECR(this->unk_212) == 0) {
+    if (DECR(this->attentionCooldown) == 0) {
         EnGo_SetupAction(this, func_80A40494);
     } else if (EnGo_IsCameraModified(this, play)) {
         EnGo_ReverseAnimation(this);

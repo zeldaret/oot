@@ -55,7 +55,7 @@ typedef struct EnGo {
     /* 0x020C */ s16 unk_20C;
     /* 0x020E */ s16 knockbackCooldown;
     /* 0x0210 */ s16 unk_210;
-    /* 0x0212 */ s16 unk_212;
+    /* 0x0212 */ s16 attentionCooldown;
     /* 0x0214 */ s16 blinkTimer;  // unused
     /* 0x0216 */ s16 eyeTexIndex; // unused
     /* 0x0218 */ s16 waypoint;
