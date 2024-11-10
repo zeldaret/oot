@@ -737,12 +737,12 @@ void func_80A3FEB4(EnGo* this, PlayState* play) {
 void EnGo_StopRolling(EnGo* this, PlayState* play) {
     EnBom* bomb;
 
-    if (DECR(this->unk_20E) == 0) {
+    if (DECR(this->knockbackCooldown) == 0) {
         if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
             this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
             play->damagePlayer(play, -4);
             Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
-            this->unk_20E = 0x10;
+            this->knockbackCooldown = 0x10;
         }
     }
 
