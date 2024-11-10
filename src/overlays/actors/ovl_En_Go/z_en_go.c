@@ -10,30 +10,32 @@ void EnGo_Destroy(Actor* thisx, PlayState* play);
 void EnGo_Update(Actor* thisx, PlayState* play);
 void EnGo_Draw(Actor* thisx, PlayState* play);
 
-void func_80A3FEB4(EnGo* this, PlayState* play);
-void EnGo_StopRolling(EnGo* this, PlayState* play);
-void func_80A4008C(EnGo* this, PlayState* play);
-void EnGo_GoronLinkRolling(EnGo* this, PlayState* play);
-void EnGo_FireGenericActionFunc(EnGo* this, PlayState* play);
+void EnGo_RollingFar(EnGo* this, PlayState* play);
+void EnGo_RollingNear(EnGo* this, PlayState* play);
+void EnGo_RollingToCurledUp(EnGo* this, PlayState* play);
+void EnGo_RollingLink(EnGo* this, PlayState* play);
+void EnGo_GoronFireGeneric(EnGo* this, PlayState* play);
 void EnGo_CurledUp(EnGo* this, PlayState* play);
-void EnGo_WakeUp(EnGo* this, PlayState* play);
+void EnGo_AttentionDrawn(EnGo* this, PlayState* play);
 
-void func_80A40494(EnGo* this, PlayState* play);
-void func_80A405CC(EnGo* this, PlayState* play);
-void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play);
-void func_80A408D8(EnGo* this, PlayState* play);
+void EnGo_CurlUp(EnGo* this, PlayState* play);
+void EnGo_Sitting(EnGo* this, PlayState* play);
+void EnGo_Standing(EnGo* this, PlayState* play);
+void EnGo_LostAttention(EnGo* this, PlayState* play);
 
-void func_80A40B1C(EnGo* this, PlayState* play);
+void EnGo_GoronDmtBombFlower(EnGo* this, PlayState* play);
+void EnGo_Interact(EnGo* this, PlayState* play);
 void EnGo_GetItem(EnGo* this, PlayState* play);
-void func_80A40C78(EnGo* this, PlayState* play);
-void EnGo_Eyedrops(EnGo* this, PlayState* play);
-void func_80A40DCC(EnGo* this, PlayState* play);
+void EnGo_TakingEyedrops(EnGo* this, PlayState* play);
+void EnGo_EyedropsTaken(EnGo* this, PlayState* play);
 
 void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
                           f32 scaleStep);
 void EnGo_UpdateEffects(EnGo* this);
 void EnGo_DrawEffects(EnGo* this, PlayState* play);
 
+// @unused: unlike `ACTOR_EN_GO2`, this one doesn't participate in any scene whatsoever
+// besides, this code bears a handful of bugs and WIP code; see `z_en_go2.c` instead
 ActorProfile En_Go_Profile = {
     /**/ ACTOR_EN_GO,
     /**/ ACTORCAT_NPC,
@@ -414,12 +416,12 @@ f32 EnGo_GetPlayerTrackingYOffset(EnGo* this) {
     }
 }
 
-void func_80A3F060(EnGo* this, PlayState* play) {
+void EnGo_TrackPlayer(EnGo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
-    if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
-        this->actionFunc != func_80A40B1C) {
+    if (this->actionFunc != EnGo_Standing && this->actionFunc != EnGo_GoronFireGeneric &&
+        this->actionFunc != EnGo_GoronDmtBombFlower) {
         trackingMode = NPC_TRACKING_NONE;
     }
 
@@ -600,15 +602,15 @@ s32 EnGo_IsRollingOnGround(EnGo* this, s16 bounceCount, f32 boundSpeed) {
     }
 }
 
-void func_80A3F908(EnGo* this, PlayState* play) {
+void EnGo_UpdateInteraction(EnGo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 interactRange;
     s32 dialogStarted;
 
-    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_GoronLinkRolling ||
-        this->actionFunc == EnGo_FireGenericActionFunc || this->actionFunc == EnGo_Eyedrops ||
-        this->actionFunc == func_80A40DCC || this->actionFunc == EnGo_GetItem || this->actionFunc == func_80A40C78 ||
-        this->actionFunc == func_80A40B1C) {
+    if (this->actionFunc == EnGo_Standing || this->actionFunc == EnGo_RollingLink ||
+        this->actionFunc == EnGo_GoronFireGeneric || this->actionFunc == EnGo_TakingEyedrops ||
+        this->actionFunc == EnGo_EyedropsTaken || this->actionFunc == EnGo_Interact ||
+        this->actionFunc == EnGo_GetItem || this->actionFunc == EnGo_GoronDmtBombFlower) {
 
         interactRange = (this->collider.dim.radius + 30.0f);
         interactRange *= (this->actor.scale.x / 0.01f);
@@ -686,13 +688,13 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
             } else {
                 this->actor.shape.yOffset = 1400.0f;
                 this->actor.speed = 3.0f;
-                EnGo_SetupAction(this, EnGo_GoronLinkRolling);
+                EnGo_SetupAction(this, EnGo_RollingLink);
             }
             break;
         case ENGO_TYPE_FIRE_GENERIC:
             this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
             Actor_SetScale(&this->actor, 0.01f);
-            EnGo_SetupAction(this, EnGo_FireGenericActionFunc);
+            EnGo_SetupAction(this, EnGo_GoronFireGeneric);
             break;
         case ENGO_TYPE_DMT_BOMB_FLOWER:
             if (GET_INFTABLE(INFTABLE_EB)) {
@@ -704,7 +706,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
         case ENGO_TYPE_DMT_ROLLING_SMALL:
             this->actor.shape.yOffset = 1400.0f;
             Actor_SetScale(&this->actor, 0.01f);
-            EnGo_SetupAction(this, func_80A3FEB4);
+            EnGo_SetupAction(this, EnGo_RollingFar);
             break;
         case ENGO_TYPE_DMT_BIGGORON:
             this->actor.attentionRangeType = ATTENTION_RANGE_5;
@@ -730,13 +732,13 @@ void EnGo_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80A3FEB4(EnGo* this, PlayState* play) {
+void EnGo_RollingFar(EnGo* this, PlayState* play) {
     if (!(this->actor.xyzDistToPlayerSq > SQ(1200.0f))) {
-        EnGo_SetupAction(this, EnGo_StopRolling);
+        EnGo_SetupAction(this, EnGo_RollingNear);
     }
 }
 
-void EnGo_StopRolling(EnGo* this, PlayState* play) {
+void EnGo_RollingNear(EnGo* this, PlayState* play) {
     EnBom* bomb;
 
     if (DECR(this->knockbackCooldown) == 0) {
@@ -757,7 +759,7 @@ void EnGo_StopRolling(EnGo* this, PlayState* play) {
         }
 
         this->actor.speed = 0.0f;
-        EnGo_SetupAction(this, func_80A4008C);
+        EnGo_SetupAction(this, EnGo_RollingToCurledUp);
     }
 
     this->actor.shape.rot = this->actor.world.rot;
@@ -767,7 +769,7 @@ void EnGo_StopRolling(EnGo* this, PlayState* play) {
     }
 }
 
-void func_80A4008C(EnGo* this, PlayState* play) {
+void EnGo_RollingToCurledUp(EnGo* this, PlayState* play) {
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
         if (this->bounceCounter == 0) {
             this->actor.shape.yOffset = 0.0f;
@@ -778,10 +780,10 @@ void func_80A4008C(EnGo* this, PlayState* play) {
     }
 }
 
-void EnGo_GoronLinkRolling(EnGo* this, PlayState* play) {
+void EnGo_RollingLink(EnGo* this, PlayState* play) {
     if ((EnGo_FollowPath(this, play) == true) && ENGO2_IS_CAGE_OPEN(this, play) && (this->waypoint == 0)) {
         this->actor.speed = 0.0f;
-        EnGo_SetupAction(this, func_80A4008C);
+        EnGo_SetupAction(this, EnGo_RollingToCurledUp);
         SET_INFTABLE(INFTABLE_109);
     }
 
@@ -792,7 +794,7 @@ void EnGo_GoronLinkRolling(EnGo* this, PlayState* play) {
     }
 }
 
-void EnGo_FireGenericActionFunc(EnGo* this, PlayState* play) {
+void EnGo_GoronFireGeneric(EnGo* this, PlayState* play) {
 }
 
 void EnGo_CurledUp(EnGo* this, PlayState* play) {
@@ -803,14 +805,14 @@ void EnGo_CurledUp(EnGo* this, PlayState* play) {
         this->skelAnime.playSpeed = 0.1f;
         this->skelAnime.playSpeed *= ENGO_GET_SPEED_SCALE(this);
 
-        EnGo_SetupAction(this, EnGo_WakeUp);
+        EnGo_SetupAction(this, EnGo_AttentionDrawn);
         if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
             OnePointCutscene_Init(play, 4200, -99, &this->actor, CAM_ID_MAIN);
         }
     }
 }
 
-void EnGo_WakeUp(EnGo* this, PlayState* play) {
+void EnGo_AttentionDrawn(EnGo* this, PlayState* play) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
@@ -833,15 +835,15 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
     if (DECR(this->attentionCooldown) == 0) {
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        EnGo_SetupAction(this, func_80A405CC);
+        EnGo_SetupAction(this, EnGo_Sitting);
     } else if (!EnGo_IsAttentionDrawn(this, play)) {
         EnGo_ReverseAnimation(this);
         this->skelAnime.playSpeed = 0.0f;
-        EnGo_SetupAction(this, func_80A40494);
+        EnGo_SetupAction(this, EnGo_CurlUp);
     }
 }
 
-void func_80A40494(EnGo* this, PlayState* play) {
+void EnGo_CurlUp(EnGo* this, PlayState* play) {
     f32 frame;
 
     Math_SmoothStepToF(&this->skelAnime.playSpeed, ENGO_GET_SPEED_SCALE(this) * -0.5f, 0.1f, 1000.0f, 0.1f);
@@ -860,7 +862,7 @@ void func_80A40494(EnGo* this, PlayState* play) {
     }
 }
 
-void func_80A405CC(EnGo* this, PlayState* play) {
+void EnGo_Sitting(EnGo* this, PlayState* play) {
     f32 lastFrame;
     f32 frame;
 
@@ -875,36 +877,37 @@ void func_80A405CC(EnGo* this, PlayState* play) {
         this->skelAnime.playSpeed = 0.0f;
         this->attentionCooldown = Rand_S16Offset(30, 30);
         if ((ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BOMB_FLOWER) && !GET_INFTABLE(INFTABLE_EB)) {
-            EnGo_SetupAction(this, func_80A40B1C);
+            EnGo_SetupAction(this, EnGo_GoronDmtBombFlower);
         } else {
-            EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
+            EnGo_SetupAction(this, EnGo_Standing);
         }
     }
 }
 
-void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
+void EnGo_Standing(EnGo* this, PlayState* play) {
     if ((ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) && (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
         if (gSaveContext.save.info.playerData.bgsFlag) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
+                // @bug: `gGoronEyedropsLoopAnim` is not applied; see `z_en_go2.c` for the correct behaviour
                 EnGo_ChangeAnim(this, ENGO_ANIM_WALKING_LOOP);
                 this->eyedropsTimer = 100;
                 this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-                EnGo_SetupAction(this, EnGo_Eyedrops);
+                EnGo_SetupAction(this, EnGo_TakingEyedrops);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
                 OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             } else {
                 this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-                EnGo_SetupAction(this, EnGo_GetItem);
+                EnGo_SetupAction(this, EnGo_Interact);
                 Message_CloseTextbox(play);
-                EnGo_GetItem(this, play);
+                EnGo_Interact(this, play);
             }
         }
     } else if ((ENGO_GET_TYPE(this) == ENGO_TYPE_CITY_LINK) &&
                (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
-        EnGo_SetupAction(this, EnGo_GetItem);
+        EnGo_SetupAction(this, EnGo_Interact);
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else {
@@ -912,12 +915,12 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
             EnGo_ReverseAnimation(this);
             this->skelAnime.playSpeed = -0.1f;
             this->skelAnime.playSpeed *= ENGO_GET_SPEED_SCALE(this);
-            EnGo_SetupAction(this, func_80A408D8);
+            EnGo_SetupAction(this, EnGo_LostAttention);
         }
     }
 }
 
-void func_80A408D8(EnGo* this, PlayState* play) {
+void EnGo_LostAttention(EnGo* this, PlayState* play) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
@@ -937,17 +940,17 @@ void func_80A408D8(EnGo* this, PlayState* play) {
     }
 
     if (DECR(this->attentionCooldown) == 0) {
-        EnGo_SetupAction(this, func_80A40494);
+        EnGo_SetupAction(this, EnGo_CurlUp);
     } else if (EnGo_IsAttentionDrawn(this, play)) {
         EnGo_ReverseAnimation(this);
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->skelAnime.playSpeed = 0.0f;
-        EnGo_SetupAction(this, func_80A405CC);
+        EnGo_SetupAction(this, EnGo_Sitting);
     }
 }
 
-void func_80A40A54(EnGo* this, PlayState* play) {
+void EnGo_Sidestep(EnGo* this, PlayState* play) {
     f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&gGoronSidestepLoopAnim));
     f32 float2 = this->skelAnime.curFrame * float1;
 
@@ -956,20 +959,20 @@ void func_80A40A54(EnGo* this, PlayState* play) {
         EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
         this->actor.speed = 0.0f;
-        EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
+        EnGo_SetupAction(this, EnGo_Standing);
     }
 }
 
-void func_80A40B1C(EnGo* this, PlayState* play) {
+void EnGo_GoronDmtBombFlower(EnGo* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_EB)) {
         EnGo_ChangeAnim(this, ENGO_ANIM_SIDESTEP_LOOP);
-        EnGo_SetupAction(this, func_80A40A54);
+        EnGo_SetupAction(this, EnGo_Sidestep);
     } else {
-        EnGo_BiggoronActionFunc(this, play);
+        EnGo_Standing(this, play);
     }
 }
 
-void EnGo_GetItem(EnGo* this, PlayState* play) {
+void EnGo_Interact(EnGo* this, PlayState* play) {
     f32 xzDist;
     f32 yDist;
     s32 getItemId;
@@ -977,7 +980,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->interactInfo.talkState = NPC_TALK_STATE_ACTION;
         this->actor.parent = NULL;
-        EnGo_SetupAction(this, func_80A40C78);
+        EnGo_SetupAction(this, EnGo_GetItem);
     } else {
         this->gaveSword = 0;
         if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
@@ -1003,9 +1006,9 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
     }
 }
 
-void func_80A40C78(EnGo* this, PlayState* play) {
+void EnGo_GetItem(EnGo* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
-        EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
+        EnGo_SetupAction(this, EnGo_Standing);
         if (ENGO_GET_TYPE(this) != ENGO_TYPE_DMT_BIGGORON) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else if (this->gaveSword) {
@@ -1024,22 +1027,23 @@ void func_80A40C78(EnGo* this, PlayState* play) {
     }
 }
 
-void EnGo_Eyedrops(EnGo* this, PlayState* play) {
+void EnGo_TakingEyedrops(EnGo* this, PlayState* play) {
     if (DECR(this->eyedropsTimer) == 0) {
+        // @bug: `gGoronEyedropsTakenAnim` is not applied; see `z_en_go2.c` for the correct behaviour
         this->actor.textId = 0x305A;
         Message_ContinueTextbox(play, this->actor.textId);
         this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
-        EnGo_SetupAction(this, func_80A40DCC);
+        EnGo_SetupAction(this, EnGo_EyedropsTaken);
     }
 }
 
-void func_80A40DCC(EnGo* this, PlayState* play) {
+void EnGo_EyedropsTaken(EnGo* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
         Message_CloseTextbox(play);
-        EnGo_SetupAction(this, EnGo_GetItem);
-        EnGo_GetItem(this, play);
+        EnGo_SetupAction(this, EnGo_Interact);
+        EnGo_Interact(this, play);
     }
 }
 
@@ -1051,8 +1055,8 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
-        this->actionFunc == func_80A40B1C) {
+    if (this->actionFunc == EnGo_Standing || this->actionFunc == EnGo_GoronFireGeneric ||
+        this->actionFunc == EnGo_GoronDmtBombFlower) {
         func_80034F54(play, this->jointTable, this->morphTable, GORON_LIMB_MAX);
     }
 
@@ -1064,9 +1068,9 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     EnGo_UpdateBlinking(this);
-    func_80A3F908(this, play);
+    EnGo_UpdateInteraction(this, play);
     this->actionFunc(this, play);
-    func_80A3F060(this, play);
+    EnGo_TrackPlayer(this, play);
 }
 
 void EnGo_DrawCurledUp(EnGo* this, PlayState* play) {
@@ -1154,13 +1158,14 @@ void EnGo_Draw(Actor* thisx, PlayState* play) {
         return;
     }
 
-    if (this->actionFunc == EnGo_GoronLinkRolling || this->actionFunc == func_80A3FEB4 ||
-        this->actionFunc == EnGo_StopRolling || this->actionFunc == func_80A3FEB4) {
+    // @bug? should've been `EnGo_RollingToCurledUp` instead of the second `EnGo_RollingFar`
+    if (this->actionFunc == EnGo_RollingLink || this->actionFunc == EnGo_RollingFar ||
+        this->actionFunc == EnGo_RollingNear || this->actionFunc == EnGo_RollingFar) {
         EnGo_DrawRolling(this, play);
         return;
     }
 
-    // draw normal
+    // draw skeleton normally
     {
         Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
