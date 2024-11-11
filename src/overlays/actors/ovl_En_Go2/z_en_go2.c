@@ -42,16 +42,16 @@ void EnGo2_Update(Actor* thisx, PlayState* play);
 void EnGo2_Draw(Actor* thisx, PlayState* play);
 
 void EnGo2_StopRolling(EnGo2* this, PlayState* play);
-void EnGo2_CurledUp(EnGo2* this, PlayState* play);
+void EnGo2_ActionCurledUp(EnGo2* this, PlayState* play);
 
 void func_80A46B40(EnGo2* this, PlayState* play);
 void EnGo2_GoronDmtBombFlowerAnimation(EnGo2* this, PlayState* play);
 void EnGo2_GoronRollingBigContinueRolling(EnGo2* this, PlayState* play);
-void EnGo2_ContinueRolling(EnGo2* this, PlayState* play);
-void EnGo2_SlowRolling(EnGo2* this, PlayState* play);
+void EnGo2_ActionRollingContinue(EnGo2* this, PlayState* play);
+void EnGo2_ActionRollingSlow(EnGo2* this, PlayState* play);
 void EnGo2_GroundRolling(EnGo2* this, PlayState* play);
 
-void EnGo2_ReverseRolling(EnGo2* this, PlayState* play);
+void EnGo2_ActionRollingReverse(EnGo2* this, PlayState* play);
 void EnGo2_SetupGetItem(EnGo2* this, PlayState* play);
 void EnGo2_SetGetItem(EnGo2* this, PlayState* play);
 void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play);
@@ -887,8 +887,8 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
     if (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_DMT_BIGGORON) {
         return false;
     } else {
-        if ((this->actionFunc != EnGo2_SlowRolling) && (this->actionFunc != EnGo2_ReverseRolling) &&
-            (this->actionFunc != EnGo2_ContinueRolling)) {
+        if ((this->actionFunc != EnGo2_ActionRollingSlow) && (this->actionFunc != EnGo2_ActionRollingReverse) &&
+            (this->actionFunc != EnGo2_ActionRollingContinue)) {
             return false;
         } else {
             if (this->collider.base.acFlags & AC_HIT) {
@@ -907,7 +907,7 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
             if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
                 this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
 
-                arg2 = this->actionFunc == EnGo2_ContinueRolling ? 1.5f : this->actor.speed * 1.5f;
+                arg2 = this->actionFunc == EnGo2_ActionRollingContinue ? 1.5f : this->actor.speed * 1.5f;
 
                 play->damagePlayer(play, -4);
                 Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, arg2, this->actor.yawTowardsPlayer, 6.0f);
@@ -1118,7 +1118,7 @@ void EnGo2_RollForward(EnGo2* this) {
         this->actor.speed = 0.0f;
     }
 
-    if (this->actionFunc != EnGo2_ContinueRolling) {
+    if (this->actionFunc != EnGo2_ActionRollingContinue) {
         Actor_MoveXZGravity(&this->actor);
     }
 
@@ -1316,7 +1316,7 @@ void EnGo2_RollingAnimation(EnGo2* this, PlayState* play) {
     this->trackingMode = NPC_TRACKING_NONE;
     this->unk_211 = false;
     this->isAwake = false;
-    this->actionFunc = EnGo2_CurledUp;
+    this->actionFunc = EnGo2_ActionCurledUp;
 }
 
 void EnGo2_WakeUp(EnGo2* this, PlayState* play) {
@@ -1359,7 +1359,7 @@ void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     this->animTimer = 10;
     this->actor.shape.yOffset = 1800.0f;
     this->actor.speed *= 2.0f; // Speeding up
-    this->actionFunc = EnGo2_ContinueRolling;
+    this->actionFunc = EnGo2_ActionRollingContinue;
 }
 
 void EnGo2_StopRolling(EnGo2* this, PlayState* play) {
@@ -1568,7 +1568,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             }
-            this->actionFunc = EnGo2_CurledUp;
+            this->actionFunc = EnGo2_ActionCurledUp;
             break;
         case GORON_MARKET_BAZAAR:
             if ((LINK_IS_ADULT) || !CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
@@ -1584,7 +1584,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                     CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                     EnGo2_GetItemAnimation(this, play);
                 } else {
-                    this->actionFunc = EnGo2_CurledUp;
+                    this->actionFunc = EnGo2_ActionCurledUp;
                 }
             } else {
 #if OOT_VERSION >= PAL_1_1
@@ -1605,7 +1605,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                 Actor_Kill(&this->actor);
             } else {
                 this->isAwake = true;
-                this->actionFunc = EnGo2_CurledUp;
+                this->actionFunc = EnGo2_ActionCurledUp;
             }
             break;
         case GORON_DMT_BIGGORON:
@@ -1617,7 +1617,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
             }
             this->collider.base.acFlags = AC_NONE;
             this->collider.base.ocFlags1 = OC1_ON | OC1_NO_PUSH | OC1_TYPE_PLAYER;
-            this->actionFunc = EnGo2_CurledUp;
+            this->actionFunc = EnGo2_ActionCurledUp;
             break;
         case GORON_DMT_BOMB_FLOWER:
             if (GET_INFTABLE(INFTABLE_EB)) {
@@ -1628,7 +1628,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
         case GORON_DMT_DC_ENTRANCE:
         case GORON_DMT_FAIRY_HINT:
         default:
-            this->actionFunc = EnGo2_CurledUp;
+            this->actionFunc = EnGo2_ActionCurledUp;
             break;
     }
 }
@@ -1636,7 +1636,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
 void EnGo2_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void EnGo2_CurledUp(EnGo2* this, PlayState* play) {
+void EnGo2_ActionCurledUp(EnGo2* this, PlayState* play) {
     u8 index = PARAMS_GET_S(this->actor.params, 0, 5);
     s16 height;
     s32 quakeIndex;
@@ -1723,26 +1723,26 @@ void EnGo2_GoronRollingBigContinueRolling(EnGo2* this, PlayState* play) {
     }
 }
 
-void EnGo2_ContinueRolling(EnGo2* this, PlayState* play) {
+void EnGo2_ActionRollingContinue(EnGo2* this, PlayState* play) {
     f32 float1 = 1000.0f;
 
     if ((PARAMS_GET_S(this->actor.params, 0, 5) != GORON_DMT_ROLLING_SMALL ||
          !(this->actor.xyzDistToPlayerSq > SQ(float1))) &&
         DECR(this->animTimer) == 0) {
-        this->actionFunc = EnGo2_SlowRolling;
+        this->actionFunc = EnGo2_ActionRollingSlow;
         this->actor.speed *= 0.5f; // slowdown
     }
     EnGo2_GetDustData(this, 2);
 }
 
-void EnGo2_SlowRolling(EnGo2* this, PlayState* play) {
+void EnGo2_ActionRollingSlow(EnGo2* this, PlayState* play) {
     s32 orientation;
     s32 index;
 
     if (!EnGo2_IsRolling(this)) {
         if (EnGo2_IsRollingOnGround(this, 4, 8.0f, 1) == true) {
             if (EnGo2_IsGoronLinkReversing(this)) {
-                this->actionFunc = EnGo2_ReverseRolling;
+                this->actionFunc = EnGo2_ActionRollingReverse;
                 return;
             }
             EnGo2_GetDustData(this, 3);
@@ -1776,13 +1776,13 @@ void EnGo2_GroundRolling(EnGo2* this, PlayState* play) {
                     EnGo2_WakeUp(this, play);
                     break;
                 default:
-                    this->actionFunc = EnGo2_CurledUp;
+                    this->actionFunc = EnGo2_ActionCurledUp;
             }
         }
     }
 }
 
-void EnGo2_ReverseRolling(EnGo2* this, PlayState* play) {
+void EnGo2_ActionRollingReverse(EnGo2* this, PlayState* play) {
     if (!EnGo2_IsRolling(this)) {
         Math_ApproachF(&this->actor.speed, 0.0f, 0.6f, 0.8f);
         if (this->actor.speed >= 1.0f) {
@@ -1907,7 +1907,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, PlayState* play) {
         this->trackingMode = NPC_TRACKING_NONE;
         this->unk_211 = false;
         this->isAwake = false;
-        this->actionFunc = EnGo2_CurledUp;
+        this->actionFunc = EnGo2_ActionCurledUp;
     }
 }
 
@@ -2028,7 +2028,7 @@ s32 EnGo2_DrawRolling(EnGo2* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 2914);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    speedXZ = this->actionFunc == EnGo2_ReverseRolling ? 0.0f : this->actor.speed;
+    speedXZ = this->actionFunc == EnGo2_ActionRollingReverse ? 0.0f : this->actor.speed;
     Matrix_RotateZYX((play->state.frames * ((s16)speedXZ * 1400)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go2.c", 2926);
     gSPDisplayList(POLY_OPA_DISP++, gGoronRollingDL);
@@ -2079,14 +2079,21 @@ void EnGo2_Draw(Actor* thisx, PlayState* play) {
     EnGo2_DrawEffects(this, play);
     Matrix_Pop();
 
-    if ((this->actionFunc == EnGo2_CurledUp) && (this->skelAnime.playSpeed == 0.0f) &&
+    if ((this->actionFunc == EnGo2_ActionCurledUp) && (this->skelAnime.playSpeed == 0.0f) &&
         (this->skelAnime.curFrame == 0.0f)) {
         if (1) {}
         EnGo2_DrawCurledUp(this, play);
-    } else if (this->actionFunc == EnGo2_SlowRolling || this->actionFunc == EnGo2_ReverseRolling ||
-               this->actionFunc == EnGo2_ContinueRolling) {
+        return;
+    }
+
+    if (this->actionFunc == EnGo2_ActionRollingSlow || this->actionFunc == EnGo2_ActionRollingReverse ||
+        this->actionFunc == EnGo2_ActionRollingContinue) {
         EnGo2_DrawRolling(this, play);
-    } else {
+        return;
+    }
+
+    // draw skeleton normally
+    {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 3063);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
