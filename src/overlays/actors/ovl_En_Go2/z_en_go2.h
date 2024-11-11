@@ -9,23 +9,6 @@ struct EnGo2;
 
 typedef void (*EnGo2ActionFunc)(struct EnGo2*, PlayState*);
 
-typedef enum GoronType {
-    /* 0x00 */ GORON_CITY_ROLLING_BIG,
-    /* 0x01 */ GORON_CITY_LINK,
-    /* 0x02 */ GORON_DMT_BIGGORON,
-    /* 0x03 */ GORON_FIRE_GENERIC,
-    /* 0x04 */ GORON_DMT_BOMB_FLOWER,
-    /* 0x05 */ GORON_DMT_ROLLING_SMALL,
-    /* 0x06 */ GORON_DMT_DC_ENTRANCE,
-    /* 0x07 */ GORON_CITY_ENTRANCE,
-    /* 0x08 */ GORON_CITY_ISLAND,
-    /* 0x09 */ GORON_CITY_LOWEST_FLOOR,
-    /* 0x0A */ GORON_CITY_STAIRWELL,
-    /* 0x0B */ GORON_CITY_LOST_WOODS,
-    /* 0x0C */ GORON_DMT_FAIRY_HINT,
-    /* 0x0D */ GORON_MARKET_BAZAAR
-} GoronType;
-
 // WIP fire temple type docs
 // /* 0x00 */ UNUSED
 // /* 0x01 */ GORON_FIRE_LAVA_ROOM_OPEN
