@@ -52,7 +52,7 @@ typedef struct EnGo {
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ NpcInteractInfo interactInfo;
     /* 0x0208 */ char unk_208[0x4];
-    /* 0x020C */ s16 unk_20C;
+    /* 0x020C */ s16 gaveSword;
     /* 0x020E */ s16 knockbackCooldown;
     /* 0x0210 */ s16 curledTimer;
     /* 0x0212 */ s16 attentionCooldown;

@@ -981,11 +981,11 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
         this->actor.parent = NULL;
         EnGo_SetupAction(this, func_80A40C78);
     } else {
-        this->unk_20C = 0;
+        this->gaveSword = 0;
         if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
                 getItemId = GI_SWORD_BIGGORON;
-                this->unk_20C = 1;
+                this->gaveSword = 1;
             }
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
                 getItemId = GI_CLAIM_CHECK;
@@ -1010,7 +1010,7 @@ void func_80A40C78(EnGo* this, PlayState* play) {
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
         if (ENGO_GET_TYPE(this) != ENGO_TYPE_DMT_BIGGORON) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-        } else if (this->unk_20C) {
+        } else if (this->gaveSword) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
             gSaveContext.save.info.playerData.bgsFlag = true;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
