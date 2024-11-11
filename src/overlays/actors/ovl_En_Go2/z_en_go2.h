@@ -73,8 +73,8 @@ typedef struct EnGo2 {
     /* 0x0194 */ NpcInteractInfo interactInfo;
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ Path* path;
-    /* 0x020C */ u8 unk_20C; // counter for GORON_CITY_LINK animation
-    /* 0x020D */ u8 dialogState;
+    /* 0x020C */ u8 messageEntry; // tracks message state changes, like with `BOX_BREAK` or `TEXTID`
+    /* 0x020D */ u8 messageState; // last known result of `Message_GetState`
     /* 0x020E */ u8 reverse;
     /* 0x020F */ u8 isAwake;
     /* 0x0210 */ s8 waypoint;

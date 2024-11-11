@@ -281,14 +281,14 @@ void EnGo2_GetItem(EnGo2* this, PlayState* play, s32 getItemId) {
 s32 EnGo2_GetDialogState(EnGo2* this, PlayState* play) {
     s16 dialogState = Message_GetState(&play->msgCtx);
 
-    if ((this->dialogState == TEXT_STATE_AWAITING_NEXT) || (this->dialogState == TEXT_STATE_EVENT) ||
-        (this->dialogState == TEXT_STATE_CLOSING) || (this->dialogState == TEXT_STATE_DONE_HAS_NEXT)) {
-        if (dialogState != this->dialogState) {
-            this->unk_20C++;
+    if ((this->messageState == TEXT_STATE_AWAITING_NEXT) || (this->messageState == TEXT_STATE_EVENT) ||
+        (this->messageState == TEXT_STATE_CLOSING) || (this->messageState == TEXT_STATE_DONE_HAS_NEXT)) {
+        if (dialogState != this->messageState) {
+            this->messageEntry++;
         }
     }
 
-    this->dialogState = dialogState;
+    this->messageState = dialogState;
     return dialogState;
 }
 
@@ -492,8 +492,8 @@ u16 EnGo2_GetTextIdGoronCityLink(PlayState* play, EnGo2* this) {
     } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
         return GET_INFTABLE(INFTABLE_10E) ? 0x3038 : 0x3037;
     } else if (GET_INFTABLE(INFTABLE_10C)) {
-        this->unk_20C = 0;
-        this->dialogState = TEXT_STATE_NONE;
+        this->messageEntry = 0;
+        this->messageState = TEXT_STATE_NONE;
         return GET_INFTABLE(INFTABLE_10A) ? 0x3033 : 0x3032;
     } else {
         return 0x3030;
@@ -529,7 +529,7 @@ s16 EnGo2_UpdateTalkStateGoronCityLink(PlayState* play, EnGo2* this) {
                         }
                     }
                     Message_ContinueTextbox(play, this->actor.textId);
-                    this->unk_20C = 0;
+                    this->messageEntry = 0;
                 }
             } else {
                 break;
@@ -575,7 +575,7 @@ u16 EnGo2_GetTextIdGoronDmtBiggoron(PlayState* play, EnGo2* this) {
 
 s16 EnGo2_UpdateTalkStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     s32 unusedPad;
-    u8 dialogState = this->dialogState;
+    u8 dialogState = this->messageState;
 
     switch (EnGo2_GetDialogState(this, play)) {
 #if OOT_VERSION < PAL_1_0
@@ -1464,16 +1464,16 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, PlayState* play) {
     s32 animation = ARRAY_COUNT(sAnimationInfo);
 
     if (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_CITY_LINK) {
-        if ((this->actor.textId == 0x3035 && this->unk_20C == 0) ||
-            (this->actor.textId == 0x3036 && this->unk_20C == 0)) {
+        if ((this->actor.textId == 0x3035 && this->messageEntry == 0) ||
+            (this->actor.textId == 0x3036 && this->messageEntry == 0)) {
             if (this->skelAnime.animation != &gGoronShakingLoopAnim) {
                 animation = ENGO2_ANIM_SHAKING_LOOP;
                 this->eyeMouthTexState = 0;
             }
         }
 
-        if ((this->actor.textId == 0x3032 && this->unk_20C == 12) || (this->actor.textId == 0x3033) ||
-            (this->actor.textId == 0x3035 && this->unk_20C == 6)) {
+        if ((this->actor.textId == 0x3032 && this->messageEntry == 12) || (this->actor.textId == 0x3033) ||
+            (this->actor.textId == 0x3035 && this->messageEntry == 6)) {
             if (this->skelAnime.animation != &gGoronSobbingLoopAnim) {
                 animation = ENGO2_ANIM_SOBBING_LOOP;
                 this->eyeMouthTexState = 1;
@@ -1850,7 +1850,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
             this->trackingMode = NPC_TRACKING_NONE;
             this->animTimer = this->skelAnime.endFrame + 60.0f + 60.0f; // eyeDrops animation timer
             this->eyeMouthTexState = 2;
-            this->unk_20C = 0;
+            this->messageEntry = 0;
             this->goronState++;
             Audio_SetMainBgmVolume(0x28, 5);
             OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
