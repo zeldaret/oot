@@ -962,7 +962,7 @@ s32 func_80A44D84(EnGo2* this) {
     return 1;
 }
 
-s32 EnGo2_IsWakingUp(EnGo2* this) {
+s32 EnGo2_IsAttentionDrawn(EnGo2* this) {
     s16 yawDiff;
     f32 xyzDist = PARAMS_GET_S(this->actor.params, 0, 5) == GORON_DMT_BIGGORON ? 800.0f : 200.0f;
     f32 yDist = PARAMS_GET_S(this->actor.params, 0, 5) == GORON_DMT_BIGGORON ? 400.0f : 60.0f;
@@ -1165,14 +1165,14 @@ f32 EnGo2_GetTargetXZSpeed(EnGo2* this) {
     }
 }
 
-s32 EnGo2_IsCameraModified(EnGo2* this, PlayState* play) {
+s32 EnGo2_IsAttentionDrawnExtented(EnGo2* this, PlayState* play) {
     Camera* mainCam = play->cameraPtrs[CAM_ID_MAIN];
 
     if (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_DMT_BIGGORON) {
-        if (EnGo2_IsWakingUp(this)) {
+        if (EnGo2_IsAttentionDrawn(this)) {
             Camera_RequestSetting(mainCam, CAM_SET_DIRECTED_YAW);
             Camera_UnsetStateFlag(mainCam, CAM_STATE_CHECK_BG);
-        } else if (!EnGo2_IsWakingUp(this) && (mainCam->setting == CAM_SET_DIRECTED_YAW)) {
+        } else if (!EnGo2_IsAttentionDrawn(this) && (mainCam->setting == CAM_SET_DIRECTED_YAW)) {
             Camera_RequestSetting(mainCam, CAM_SET_DUNGEON1);
             Camera_SetStateFlag(mainCam, CAM_STATE_CHECK_BG);
         }
@@ -1184,15 +1184,17 @@ s32 EnGo2_IsCameraModified(EnGo2* this, PlayState* play) {
         PARAMS_GET_S(this->actor.params, 0, 5) == GORON_DMT_BIGGORON ||
         PARAMS_GET_S(this->actor.params, 0, 5) == GORON_MARKET_BAZAAR) {
         return true;
-    } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
-        return true;
-    } else {
-        return false;
     }
+
+    if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
+        return true;
+    }
+
+    return false;
 }
 
 void EnGo2_DefaultWakingUp(EnGo2* this) {
-    if (EnGo2_IsWakingUp(this)) {
+    if (EnGo2_IsAttentionDrawn(this)) {
         this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
         this->trackingMode = NPC_TRACKING_NONE;
@@ -1219,7 +1221,7 @@ void EnGo2_WakingUp(EnGo2* this) {
 }
 
 void EnGo2_BiggoronWakingUp(EnGo2* this) {
-    if (EnGo2_IsWakingUp(this) || this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+    if (EnGo2_IsAttentionDrawn(this) || this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
         this->isAwake = true;
     } else {
@@ -1232,7 +1234,7 @@ void EnGo2_SelectGoronWakingUp(EnGo2* this) {
     switch (PARAMS_GET_S(this->actor.params, 0, 5)) {
         case GORON_DMT_BOMB_FLOWER:
             this->isAwake = true;
-            this->trackingMode = EnGo2_IsWakingUp(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
+            this->trackingMode = EnGo2_IsAttentionDrawn(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
             break;
         case GORON_FIRE_GENERIC:
             EnGo2_WakingUp(this);
@@ -1441,7 +1443,7 @@ s32 EnGo2_IsGoronFireGeneric(EnGo2* this) {
 
 s32 EnGo2_IsGoronLinkReversing(EnGo2* this) {
     if (PARAMS_GET_S(this->actor.params, 0, 5) != GORON_CITY_LINK || (this->waypoint >= this->reverseWaypoint) ||
-        !EnGo2_IsWakingUp(this)) {
+        !EnGo2_IsAttentionDrawn(this)) {
         return false;
     }
     return true;
@@ -1671,7 +1673,7 @@ void EnGo2_ActionCurledUp(EnGo2* this, PlayState* play) {
         this->isAwake = false;
         EnGo2_WakeUp(this, play);
     }
-    if ((PARAMS_GET_S(this->actor.params, 0, 5) != GORON_FIRE_GENERIC) && EnGo2_IsWakingUp(this)) {
+    if ((PARAMS_GET_S(this->actor.params, 0, 5) != GORON_FIRE_GENERIC) && EnGo2_IsAttentionDrawn(this)) {
         EnGo2_WakeUp(this, play);
     }
 }
@@ -1706,7 +1708,7 @@ void func_80A46B40(EnGo2* this, PlayState* play) {
                 (s16)((height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.endFrame)) + (height * 0.6f));
         }
     }
-    if ((!EnGo2_IsCameraModified(this, play)) && (!EnGo2_IsWakingUp(this))) {
+    if ((!EnGo2_IsAttentionDrawnExtented(this, play)) && (!EnGo2_IsAttentionDrawn(this))) {
         EnGo2_RollingAnimation(this, play);
     }
 }
