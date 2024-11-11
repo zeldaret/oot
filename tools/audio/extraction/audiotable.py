@@ -5,11 +5,11 @@
 #
 
 import math, struct
-from typing import Dict, Tuple
-from xml.etree.ElementTree import Element
+from typing import Dict, Optional
 
 from .audio_tables import AudioCodeTableEntry
 from .audiobank_structs import AudioSampleCodec, SoundFontSample, AdpcmBook, AdpcmLoop
+from .extraction_xml import SampleBankExtractionDescription
 from .tuning import pitch_names, note_z64_to_midi, recalc_tuning, rate_from_tuning, rank_rates_notes, BAD_FLOATS
 from .util import align, error, XMLWriter, f32_to_u32
 
@@ -385,7 +385,8 @@ class AudioTableFile:
     """
 
     def __init__(self, bank_num : int, audiotable_seg : memoryview, table_entry : AudioCodeTableEntry,
-                 seg_offset : int, buffer_bug : bool = False, extraction_xml : Tuple[str, Element] = None):
+                 seg_offset : int, buffer_bug : bool = False,
+                 extraction_desc : Optional[SampleBankExtractionDescription] = None):
         self.bank_num = bank_num
         self.table_entry : AudioCodeTableEntry = table_entry
         self.data = self.table_entry.data(audiotable_seg, seg_offset)
@@ -393,24 +394,20 @@ class AudioTableFile:
 
         self.samples_final = None
 
-        if extraction_xml is None:
+        if extraction_desc is None:
             self.file_name = f"SampleBank_{self.bank_num}"
             self.name = f"SampleBank_{self.bank_num}"
+            self.extraction_included_version = ("All","")
+            self.extraction_all_version_contents = { ("All","") : [] }
             self.extraction_sample_info = None
             self.extraction_blob_info = None
         else:
-            self.file_name = extraction_xml[0]
-            self.name = extraction_xml[1].attrib["Name"]
-
-            self.extraction_sample_info = {}
-            self.extraction_blob_info = {}
-            for item in extraction_xml[1]:
-                if item.tag == "Sample":
-                    self.extraction_sample_info[int(item.attrib["Offset"], 16)] = item.attrib
-                elif item.tag == "Blob":
-                    self.extraction_blob_info[int(item.attrib["Offset"], 16)] = item.attrib
-                else:
-                    assert False
+            self.file_name = extraction_desc.file_name
+            self.name = extraction_desc.name
+            self.extraction_included_version = extraction_desc.included_version
+            self.extraction_all_version_contents = extraction_desc.all_version_contents
+            self.extraction_sample_info = extraction_desc.sample_info
+            self.extraction_blob_info = extraction_desc.blob_info
 
         self.pointer_indices = []
 
@@ -641,27 +638,46 @@ class AudioTableFile:
         }
         xml.write_start_tag("SampleBank", start)
 
-        i = 0
-        for sample in self.samples_final:
-            if isinstance(sample, AudioTableSample):
-                sample : AudioTableSample
+        for version_ident in self.extraction_all_version_contents:
+            include,exclude = version_ident
 
-                xml.write_element("Sample", {
-                    "Name"       : sample.name,
-                    "FileName"   : sample.filename.replace(sample.codec_file_extension_compressed(), ""),
-                    "Offset"     : f"0x{sample.start:06X}",
-                    "SampleRate" : sample.sample_rate,
-                    "BaseNote"   : sample.base_note,
-                })
-                i += 1
+            ver = {}
+            if include != "":
+                ver["Include"] = include
+            if exclude != "":
+                ver["Exclude"] = exclude
+
+            xml.write_start_tag("Version", ver)
+
+            if version_ident == self.extraction_included_version:
+                # need to rewrite content for this one
+                i = 0
+                for sample in self.samples_final:
+                    if isinstance(sample, AudioTableSample):
+                        sample : AudioTableSample
+
+                        xml.write_element("Sample", {
+                            "Name"       : sample.name,
+                            "FileName"   : sample.filename.replace(sample.codec_file_extension_compressed(), ""),
+                            "Offset"     : f"0x{sample.start:06X}",
+                            "SampleRate" : sample.sample_rate,
+                            "BaseNote"   : sample.base_note,
+                        })
+                        i += 1
+                    else:
+                        sample : AudioTableData
+
+                        xml.write_element("Blob", {
+                            "Name"   : sample.name,
+                            "Offset" : f"0x{sample.start:06X}",
+                            "Size"   : f"0x{sample.end - sample.start:X}",
+                        })
             else:
-                sample : AudioTableData
+                # need to preserve old content for this one
+                for item in self.extraction_all_version_contents[version_ident]:
+                    xml.write_element(item[0], item[1])
 
-                xml.write_element("Blob", {
-                    "Name"   : sample.name,
-                    "Offset" : f"0x{sample.start:06X}",
-                    "Size"   : f"0x{sample.end - sample.start:X}",
-                })
+            xml.write_end_tag()
 
         xml.write_end_tag()
 
