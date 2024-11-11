@@ -49,42 +49,28 @@ class SampleBankExtractionDescription(ExtractionDescription):
 
     def post_init(self, xml_root : Element, version_name : str):
         self.included_version = None
-        self.all_version_contents = {}
-        self.sample_info = {}
-        self.blob_info = {}
-
-        was_included = False
+        self.sample_info = []
+        self.sample_info_versions = []
+        self.blob_info = []
 
         for item in xml_root:
-            assert item.tag == "Version"
-
-            # Version can either specify what versions are allowed or what versions are disallowed
-            version_include = item.attrib.get("Include", "")
-            version_exclude = item.attrib.get("Exclude", "")
-            version_ident = (version_include, version_exclude)
-
-            # Save all version trees incase we're writing them back out
-            version_contents = [(item2.tag, item2.attrib) for item2 in item]
-            assert (version_include, version_exclude) not in self.all_version_contents
-            self.all_version_contents[version_ident] = version_contents
-
-            if self.in_version(version_include, version_exclude, version_name):
-                # This item is the one we need to reference for extraction and rebuild the contents of if we're
-                # writing it back out
-                assert not was_included
-                was_included = True
-
-                self.included_version = version_ident
-
-                for item2 in item:
-                    if item2.tag == "Sample":
-                        self.sample_info[int(item2.attrib["Offset"], 16)] = item2.attrib
-                    elif item2.tag == "Blob":
-                        self.blob_info[int(item2.attrib["Offset"], 16)] = item2.attrib
-                    else:
-                        assert False
-
-        assert was_included
+            if item.tag == "Sample":
+                version_include = item.attrib.get("VersionInclude", "")
+                version_exclude = item.attrib.get("VersionExclude", "")
+                in_version = self.in_version(version_include, version_exclude, version_name)
+                if in_version:
+                    self.sample_info.append(item.attrib)
+                self.sample_info_versions.append((item.tag, item.attrib, in_version))
+            elif item.tag == "Blob":
+                version_include = item.attrib.get("VersionInclude", "")
+                version_exclude = item.attrib.get("VersionExclude", "")
+                in_version = self.in_version(version_include, version_exclude, version_name)
+                if in_version:
+                    self.blob_info.append(item.attrib)
+                self.sample_info_versions.append((item.attrib, in_version))
+            else:
+                print(xml_root.attrib)
+                assert False, item.tag
 
 class SoundFontExtractionDescription(ExtractionDescription):
 
