@@ -101,6 +101,8 @@ typedef enum EnGoType {
 #define ENGO2_CAGED_FLAG(this) PARAMS_GET_NOMASK((this)->actor.params, 8)
 #define ENGO2_IS_CAGE_OPEN(this, play) Flags_GetSwitch(play, ENGO2_CAGED_FLAG(this))
 
+#define ENGO_GET_SPEED_SCALE(this) (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f)
+
 void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -368,8 +370,8 @@ s32 EnGo_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 
 void EnGo_ChangeAnim(EnGo* this, s32 index) {
     Animation_Change(&this->skelAnime, sAnimationInfo[index].animation,
-                     sAnimationInfo[index].playSpeed * (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f),
-                     0.0f, Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                     sAnimationInfo[index].playSpeed * ENGO_GET_SPEED_SCALE(this), 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
                      sAnimationInfo[index].morphFrames);
 }
 
@@ -799,7 +801,7 @@ void EnGo_CurledUp(EnGo* this, PlayState* play) {
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
         this->skelAnime.playSpeed = 0.1f;
-        this->skelAnime.playSpeed *= ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f;
+        this->skelAnime.playSpeed *= ENGO_GET_SPEED_SCALE(this);
 
         EnGo_SetupAction(this, EnGo_WakeUp);
         if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
@@ -812,8 +814,7 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
-        Math_SmoothStepToF(&this->skelAnime.playSpeed,
-                           (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f) * 0.5f, 0.1f, 1000.0f, 0.1f);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, ENGO_GET_SPEED_SCALE(this) * 0.5f, 0.1f, 1000.0f, 0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
 
@@ -843,8 +844,7 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
 void func_80A40494(EnGo* this, PlayState* play) {
     f32 frame;
 
-    Math_SmoothStepToF(&this->skelAnime.playSpeed,
-                       (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f) * -0.5f, 0.1f, 1000.0f, 0.1f);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, ENGO_GET_SPEED_SCALE(this) * -0.5f, 0.1f, 1000.0f, 0.1f);
     frame = this->skelAnime.curFrame;
     frame += this->skelAnime.playSpeed;
 
@@ -865,8 +865,7 @@ void func_80A405CC(EnGo* this, PlayState* play) {
     f32 frame;
 
     lastFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
-    Math_SmoothStepToF(&this->skelAnime.playSpeed, ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f, 0.1f,
-                       1000.0f, 0.1f);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, ENGO_GET_SPEED_SCALE(this), 0.1f, 1000.0f, 0.1f);
 
     frame = this->skelAnime.curFrame;
     frame += this->skelAnime.playSpeed;
@@ -912,7 +911,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
         if ((DECR(this->attentionCooldown) == 0) && !EnGo_IsAttentionDrawn(this, play)) {
             EnGo_ReverseAnimation(this);
             this->skelAnime.playSpeed = -0.1f;
-            this->skelAnime.playSpeed *= ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f;
+            this->skelAnime.playSpeed *= ENGO_GET_SPEED_SCALE(this);
             EnGo_SetupAction(this, func_80A408D8);
         }
     }
@@ -922,8 +921,7 @@ void func_80A408D8(EnGo* this, PlayState* play) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
-        Math_SmoothStepToF(&this->skelAnime.playSpeed,
-                           (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f) * -1.0f, 0.1f, 1000.0f, 0.1f);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, ENGO_GET_SPEED_SCALE(this) * -1.0f, 0.1f, 1000.0f, 0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
         if (frame >= 12.0f) {
