@@ -1843,7 +1843,7 @@ void EnGo2_SetGetItem(EnGo2* this, PlayState* play) {
 
 void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
     switch (this->goronState) {
-        case 0:
+        case 0: // give eyedrops
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_EYEDROPS_LOOP);
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.shape.rot.y += 0x5B0;
@@ -1855,7 +1855,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
             Audio_SetMainBgmVolume(0x28, 5);
             OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             break;
-        case 1:
+        case 1: // applying eyedrops
             if (DECR(this->animTimer)) {
                 if (this->animTimer == 60 || this->animTimer == 120) {
                     Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
@@ -1870,7 +1870,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
                 Audio_SetMainBgmVolume(0x7F, 5);
             }
             break;
-        case 2:
+        case 2: // getting claimcheck
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 this->eyeMouthTexState = 0;
             }
@@ -1892,7 +1892,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     switch (this->goronState) {
-        case 0:
+        case 0: // rolling
             if (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE) {
                 return;
             } else {
@@ -1900,7 +1900,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, PlayState* play) {
                 player->actor.freezeTimer = 10;
                 this->goronState++;
             }
-        case 1:
+        case 1: // stunned
             break;
         default:
             return;

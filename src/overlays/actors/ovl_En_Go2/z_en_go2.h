@@ -79,11 +79,8 @@ typedef struct EnGo2 {
     /* 0x020F */ u8 isAwake;
     /* 0x0210 */ s8 waypoint;
     /* 0x0211 */ u8 isUncurled;
-    // goron link: 0 - rolling, 1 - frozen
-    // biggoron: 0 - give eyedrops, 1 - applying eyedrops, 2 - getting claimcheck
-    // generic fire: 0 -
     /* 0x0212 */ u8 goronState;
-    /* 0x0213 */ u8 eyeMouthTexState; // 0, 1, 2, 3
+    /* 0x0213 */ u8 eyeMouthTexState;
     /* 0x0214 */ u8 eyeTexIndex;
     /* 0x0215 */ u8 mouthTexIndex;
     /* 0x0216 */ u8 reverseWaypoint; // Set to z rotation, checked by waypoint
