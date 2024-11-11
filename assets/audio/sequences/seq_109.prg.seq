@@ -1149,4 +1149,12 @@ ENVELOPE_08BA:
     point 20, 20000
     hang
 
+#if OOT_VERSION == NTSC_1_2 || PLATFORM_GC
+.filter FILTER_0932
+    filter 0, 0, 0, 0, 0, 0, 0, 0
+
+.filter FILTER_0942
+    filter 0, 0, 0, 0, 0, 0, 0, 0
+#endif
+
 .endseq Sequence_109

@@ -336,9 +336,6 @@ beginseg
     include "$(BUILD_DIR)/assets/audio/sequences/seq_107.o"
     include "$(BUILD_DIR)/assets/audio/sequences/seq_108.o"
     include "$(BUILD_DIR)/assets/audio/sequences/seq_109.prg.o"
-#if OOT_VERSION == NTSC_1_2 || PLATFORM_GC
-    include "$(BUILD_DIR)/assets/audio/audioseq_padding.o"
-#endif
 endseg
 
 beginseg
