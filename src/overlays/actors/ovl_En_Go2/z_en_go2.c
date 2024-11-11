@@ -1109,7 +1109,7 @@ void func_80A45288(EnGo2* this, PlayState* play) {
     }
 }
 
-void func_80A45360(EnGo2* this, f32* alpha) {
+void EnGo2_UpdateShadowAlpha(EnGo2* this, f32* alpha) {
     f32 alphaTarget =
         (this->skelAnime.animation == &gGoronUncurlSitStandAnim) && (this->skelAnime.curFrame <= 32.0f) ? 0.0f : 255.0f;
 
@@ -1556,7 +1556,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     EnGo2_SetShape(this);
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_IDLE);
     this->actor.gravity = -1.0f;
-    this->alpha = this->actor.shape.shadowAlpha = 0;
+    this->shadownAlpha = this->actor.shape.shadowAlpha = 0;
     this->reverse = 0;
     this->isAwake = false;
     this->isUncurled = false;
@@ -1992,8 +1992,8 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
 void EnGo2_Update(Actor* thisx, PlayState* play) {
     EnGo2* this = (EnGo2*)thisx;
 
-    func_80A45360(this, &this->alpha);
-    EnGo2_SitDownAnimation(this);
+    EnGo2_UpdateShadowAlpha(this, &this->shadownAlpha);
+    EnGo2_UpdateStandUpAnim(this);
     SkelAnime_Update(&this->skelAnime);
     EnGo2_RollForward(this);
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius * 0.6f,
