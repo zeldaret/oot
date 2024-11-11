@@ -23,20 +23,20 @@ typedef void (*EnGo2ActionFunc)(struct EnGo2*, PlayState*);
 // /* 0x0A */ GORON_FIRE_MAZE_UPPER,
 // /* 0x0B */ GORON_FIRE_HIGHEST
 
-typedef struct EnGo2DataStruct1 {
+typedef struct EnGo2ColliderData {
     s16 unused;
     s16 yDist;
     s16 xzDist;
     s16 radius;
     s16 height;
-} EnGo2DataStruct1; // size = 0xA
+} EnGo2ColliderData; // size = 0xA
 
-typedef struct EnGo2DataStruct2 {
-    f32 shape_unk_10;
+typedef struct EnGo2ShapeData {
+    f32 shadowScale;
     f32 scale;
-    s8 actor_unk_1F;
+    s8 attentionRangeType;
     f32 interactRange;
-} EnGo2DataStruct2; // size = 0x10
+} EnGo2ShapeData; // size = 0x10
 
 typedef struct EnGo2DustEffectData {
     u8 initialTimer;

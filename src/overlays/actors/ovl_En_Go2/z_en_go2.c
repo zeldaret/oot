@@ -98,13 +98,13 @@ ActorProfile En_Go2_Profile = {
     /**/ EnGo2_Draw,
 };
 
-static EnGo2DataStruct1 D_80A4816C[14] = {
+static EnGo2ColliderData sColliderData[14] = {
     { 0, 0, 0, 68, 148 }, { 0, 0, 0, 24, 52 }, { 0, 320, 380, 400, 120 }, { 0, 0, 0, 30, 68 }, { 0, 0, 0, 46, 90 },
     { 0, 0, 0, 30, 68 },  { 0, 0, 0, 30, 68 }, { 0, 0, 0, 30, 68 },       { 0, 0, 0, 30, 68 }, { 0, 0, 0, 30, 68 },
     { 0, 0, 0, 30, 68 },  { 0, 0, 0, 30, 68 }, { 0, 0, 0, 30, 68 },       { 0, 0, 0, 30, 68 },
 };
 
-static EnGo2DataStruct2 D_80A481F8[14] = {
+static EnGo2ShapeData sShapeData[14] = {
     { 30.0f, 0.026f, 6, 60.0f }, { 24.0f, 0.008f, 6, 30.0f }, { 28.0f, 0.16f, 5, 380.0f }, { 28.0f, 0.01f, 7, 40.0f },
     { 30.0f, 0.015f, 6, 30.0f }, { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
     { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
@@ -862,17 +862,17 @@ s32 func_80A44790(EnGo2* this, PlayState* play) {
 void EnGo2_SetColliderDim(EnGo2* this) {
     u8 index = ENGO2_GET_TYPE(this);
 
-    this->collider.dim.radius = D_80A4816C[index].radius;
-    this->collider.dim.height = D_80A4816C[index].height;
+    this->collider.dim.radius = sColliderData[index].radius;
+    this->collider.dim.height = sColliderData[index].height;
 }
 
 void EnGo2_SetShape(EnGo2* this) {
     u8 index = ENGO2_GET_TYPE(this);
 
-    this->actor.shape.shadowScale = D_80A481F8[index].shape_unk_10;
-    Actor_SetScale(&this->actor, D_80A481F8[index].scale);
-    this->actor.attentionRangeType = D_80A481F8[index].actor_unk_1F;
-    this->interactRange = D_80A481F8[index].interactRange;
+    this->actor.shape.shadowScale = sShapeData[index].shadowScale;
+    Actor_SetScale(&this->actor, sShapeData[index].scale);
+    this->actor.attentionRangeType = sShapeData[index].attentionRangeType;
+    this->interactRange = sShapeData[index].interactRange;
     this->interactRange += this->collider.dim.radius;
 }
 
@@ -883,10 +883,10 @@ void EnGo2_CheckCollision(EnGo2* this, PlayState* play) {
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y;
     pos.z = this->actor.world.pos.z;
-    xzDist = D_80A4816C[ENGO2_GET_TYPE(this)].xzDist;
+    xzDist = sColliderData[ENGO2_GET_TYPE(this)].xzDist;
     pos.x += (s16)(xzDist * Math_SinS(this->actor.shape.rot.y));
     pos.z += (s16)(xzDist * Math_CosS(this->actor.shape.rot.y));
-    pos.y += D_80A4816C[ENGO2_GET_TYPE(this)].yDist;
+    pos.y += sColliderData[ENGO2_GET_TYPE(this)].yDist;
     this->collider.dim.pos = pos;
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
@@ -1609,14 +1609,14 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
 #if OOT_VERSION >= PAL_1_1
                 CLEAR_INFTABLE(INFTABLE_10C);
 #endif
-                this->collider.dim.height = (D_80A4816C[ENGO2_GET_TYPE(this)].height * 0.6f);
+                this->collider.dim.height = (sColliderData[ENGO2_GET_TYPE(this)].height * 0.6f);
                 EnGo2_SetupRolling(this, play);
                 this->isAwake = true;
             }
             break;
         case GORON_CITY_ROLLING_BIG:
         case GORON_DMT_ROLLING_SMALL:
-            this->collider.dim.height = (D_80A4816C[ENGO2_GET_TYPE(this)].height * 0.6f);
+            this->collider.dim.height = (sColliderData[ENGO2_GET_TYPE(this)].height * 0.6f);
             EnGo2_SetupRolling(this, play);
             break;
         case GORON_FIRE_GENERIC:
@@ -1673,11 +1673,11 @@ void EnGo2_ActionCurledUp(EnGo2* this, PlayState* play) {
     }
 
     if ((s32)this->skelAnime.curFrame == 0) {
-        this->collider.dim.height = (D_80A4816C[index].height * 0.6f);
+        this->collider.dim.height = (sColliderData[index].height * 0.6f);
     } else {
-        height = D_80A4816C[index].height;
+        height = sColliderData[index].height;
         this->collider.dim.height =
-            ((D_80A4816C[index].height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.startFrame)) +
+            ((sColliderData[index].height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.startFrame)) +
              (height * 0.6f));
     }
     if (EnGo2_IsFreeingGoronInFire(this, play)) {
@@ -1712,9 +1712,9 @@ void func_80A46B40(EnGo2* this, PlayState* play) {
             }
             func_80A454CC(this);
             this->isUncurled = true;
-            this->collider.dim.height = D_80A4816C[index].height;
+            this->collider.dim.height = sColliderData[index].height;
         } else {
-            height = D_80A4816C[index].height;
+            height = sColliderData[index].height;
             this->collider.dim.height =
                 (s16)((height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.endFrame)) + (height * 0.6f));
         }
