@@ -439,7 +439,7 @@ void EnGo_UpdateBlinking(EnGo* this) {
     }
 }
 
-s32 EnGo_IsCameraModified(EnGo* this, PlayState* play) {
+s32 EnGo_IsAttentionDrawn(EnGo* this, PlayState* play) {
     f32 xyzDistSq;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     Camera* mainCam = play->cameraPtrs[CAM_ID_MAIN];
@@ -459,9 +459,9 @@ s32 EnGo_IsCameraModified(EnGo* this, PlayState* play) {
             Camera_RequestSetting(mainCam, CAM_SET_NORMAL0);
         }
         return 0;
-    } else {
-        return 1;
     }
+
+    return 1;
 }
 
 void EnGo_ReverseAnimation(EnGo* this) {
@@ -794,7 +794,7 @@ void EnGo_FireGenericActionFunc(EnGo* this, PlayState* play) {
 }
 
 void EnGo_CurledUp(EnGo* this, PlayState* play) {
-    if ((DECR(this->curledTimer) == 0) && EnGo_IsCameraModified(this, play)) {
+    if ((DECR(this->curledTimer) == 0) && EnGo_IsAttentionDrawn(this, play)) {
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_WAKE_UP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
@@ -833,7 +833,7 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         EnGo_SetupAction(this, func_80A405CC);
-    } else if (!EnGo_IsCameraModified(this, play)) {
+    } else if (!EnGo_IsAttentionDrawn(this, play)) {
         EnGo_ReverseAnimation(this);
         this->skelAnime.playSpeed = 0.0f;
         EnGo_SetupAction(this, func_80A40494);
@@ -909,7 +909,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else {
-        if ((DECR(this->attentionCooldown) == 0) && !EnGo_IsCameraModified(this, play)) {
+        if ((DECR(this->attentionCooldown) == 0) && !EnGo_IsAttentionDrawn(this, play)) {
             EnGo_ReverseAnimation(this);
             this->skelAnime.playSpeed = -0.1f;
             this->skelAnime.playSpeed *= ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f;
@@ -940,7 +940,7 @@ void func_80A408D8(EnGo* this, PlayState* play) {
 
     if (DECR(this->attentionCooldown) == 0) {
         EnGo_SetupAction(this, func_80A40494);
-    } else if (EnGo_IsCameraModified(this, play)) {
+    } else if (EnGo_IsAttentionDrawn(this, play)) {
         EnGo_ReverseAnimation(this);
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
