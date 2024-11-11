@@ -100,12 +100,12 @@ typedef struct EnGo2 {
     /* 0x04AC */ Vec3f subCamAt;
     /* 0x04B8 */ Vec3s jointTable[GORON_LIMB_MAX];
     /* 0x0524 */ Vec3s morphTable[GORON_LIMB_MAX];
-    /* 0x0590 */ s16 unk_590; // timer
+    /* 0x0590 */ s16 bounceTimer; // timer
     /* 0x0592 */ s16 animTimer; // animTimer. Plays NA_SE_EN_MORIBLIN_WALK, NA_SE_EV_IRON_DOOR_OPEN, NA_SE_EV_IRON_DOOR_CLOSE
     /* 0x0594 */ s32 getItemId;
     /* 0x0598 */ char unk_598[0x02];
     /* 0x059A */ s16 subCamId;
-    /* 0x059C */ s16 unk_59C;
+    /* 0x059C */ s16 bounceCounter;
 } EnGo2; // size = 0x05A0
 
 #endif

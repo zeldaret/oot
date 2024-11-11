@@ -988,42 +988,48 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
     }
 }
 
-s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 arg1, f32 arg2, s16 arg3) {
+s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 bounceCount, f32 boundSpeed, s16 rumble) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
         return false;
     }
 
-    if (DECR(this->unk_590)) {
-        if (!arg3) {
+    // rumble on odds and evens
+    if (DECR(this->bounceTimer)) {
+        if (!rumble) {
             return true;
-        } else {
+        }
+
+        {
             this->actor.world.pos.y =
-                (this->unk_590 & 1) ? this->actor.world.pos.y + 1.5f : this->actor.world.pos.y - 1.5f;
+                (this->bounceTimer & 1) ? this->actor.world.pos.y + 1.5f : this->actor.world.pos.y - 1.5f;
             Actor_PlaySfx(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
             return true;
         }
     }
 
-    if (this->unk_59C >= 2) {
-        Actor_PlaySfx(&this->actor, (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_CITY_ROLLING_BIG)
-                                        ? NA_SE_EN_GOLON_LAND_BIG
-                                        : NA_SE_EN_DODO_M_GND);
-    }
-
-    this->unk_59C--;
-    if (this->unk_59C <= 0) {
-        if (this->unk_59C == 0) {
-            this->unk_590 = Rand_S16Offset(60, 30);
-            this->unk_59C = 0;
-            this->actor.velocity.y = 0.0f;
-            return true;
-        } else {
-            this->unk_59C = arg1;
+    // bounce!
+    {
+        if (this->bounceCounter >= 2) {
+            Actor_PlaySfx(&this->actor, (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_CITY_ROLLING_BIG)
+                                            ? NA_SE_EN_GOLON_LAND_BIG
+                                            : NA_SE_EN_DODO_M_GND);
         }
-    }
 
-    this->actor.velocity.y = ((f32)this->unk_59C / (f32)arg1) * arg2;
-    return true;
+        this->bounceCounter--;
+        if (this->bounceCounter <= 0) {
+            if (this->bounceCounter == 0) {
+                this->bounceTimer = Rand_S16Offset(60, 30);
+                this->bounceCounter = 0;
+                this->actor.velocity.y = 0.0f;
+                return true;
+            } else {
+                this->bounceCounter = bounceCount;
+            }
+        }
+
+        this->actor.velocity.y = ((f32)this->bounceCounter / (f32)bounceCount) * boundSpeed;
+        return true;
+    }
 }
 
 void EnGo2_BiggoronSetTextId(EnGo2* this, PlayState* play, Player* player) {
@@ -1379,8 +1385,8 @@ void EnGo2_StopRolling(EnGo2* this, PlayState* play) {
     }
 
     this->actor.shape.rot = this->actor.world.rot;
-    this->unk_59C = 0;
-    this->unk_590 = 0;
+    this->bounceCounter = 0;
+    this->bounceTimer = 0;
     this->actionFunc = EnGo2_GroundRolling;
     this->actor.shape.yOffset = 0.0f;
     this->actor.speed = 0.0f;
@@ -1446,8 +1452,8 @@ s32 EnGo2_IsRolling(EnGo2* this) {
         return false;
     }
     if (EnGo2_IsRollingOnGround(this, 2, 20.0 / 3.0f, 0)) {
-        if ((this->unk_590 >= 9) && (this->unk_59C == 0)) {
-            this->unk_590 = 8;
+        if ((this->bounceTimer >= 9) && (this->bounceCounter == 0)) {
+            this->bounceTimer = 8;
         }
         EnGo2_GetDustData(this, 0);
     }
@@ -1766,7 +1772,7 @@ void EnGo2_ActionRollingSlow(EnGo2* this, PlayState* play) {
 void EnGo2_GroundRolling(EnGo2* this, PlayState* play) {
     if (EnGo2_IsRollingOnGround(this, 4, 8.0f, 0)) {
         EnGo2_GetDustData(this, 0);
-        if (this->unk_59C == 0) {
+        if (this->bounceCounter == 0) {
             switch (PARAMS_GET_S(this->actor.params, 0, 5)) {
                 case GORON_CITY_LINK:
                     this->goronState = 0;
