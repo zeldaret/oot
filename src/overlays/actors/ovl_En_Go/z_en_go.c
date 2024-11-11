@@ -123,7 +123,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                     return 0x3037;
                 }
             } else {
-                if (GET_INFTABLE(INFTABLE_GOT_FIRE_TUNIC)) {
+                if (GET_INFTABLE(INFTABLE_GOT_GORON_TUNIC)) {
                     if (GET_INFTABLE(INFTABLE_TALKED_TO_GORON_MSG_3032)) {
                         return 0x3033;
                     } else {
@@ -755,7 +755,7 @@ void EnGo_GoronLinkRolling(EnGo* this, PlayState* play) {
         (this->unk_218 == 0)) {
         this->actor.speed = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
-        SET_INFTABLE(INFTABLE_GOT_FIRE_TUNIC);
+        SET_INFTABLE(INFTABLE_GOT_GORON_TUNIC);
     }
 
     this->actor.shape.rot = this->actor.world.rot;

@@ -805,7 +805,7 @@ typedef enum LinkAge {
 #define INFTABLE_TALKED_TO_GORON_MSG_3016 0xF4 // GC Island (Before goron ruby is obtained)
 #define INFTABLE_TALKED_TO_GORON_MSG_3018 0xF8 // outside Darunias door (after opening door, before getting goron bracelet)
 #define INFTABLE_FC 0xFC
-#define INFTABLE_GOT_FIRE_TUNIC 0x109 // from Goron Link
+#define INFTABLE_GOT_GORON_TUNIC 0x109 // from Goron Link
 #define INFTABLE_TALKED_TO_GORON_MSG_3032 0x10A
 #define INFTABLE_TALKED_TO_GORON_MSG_3035 0x10B // About Volvagia
 #define INFTABLE_STOPPED_GORON_LINK 0x10C

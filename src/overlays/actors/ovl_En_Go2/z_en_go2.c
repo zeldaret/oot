@@ -1548,7 +1548,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
             EnGo2_GetItemAnimation(this, play);
             break;
         case GORON_CITY_LINK:
-            if (GET_INFTABLE(INFTABLE_GOT_FIRE_TUNIC)) {
+            if (GET_INFTABLE(INFTABLE_GOT_GORON_TUNIC)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
                 if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) &&
@@ -1790,7 +1790,7 @@ void EnGo2_SetGetItem(EnGo2* this, PlayState* play) {
                 EnGo2_GetItemAnimation(this, play);
                 return;
             case GI_TUNIC_GORON:
-                SET_INFTABLE(INFTABLE_GOT_FIRE_TUNIC);
+                SET_INFTABLE(INFTABLE_GOT_GORON_TUNIC);
                 EnGo2_GetItemAnimation(this, play);
                 return;
             case GI_SWORD_BIGGORON:
