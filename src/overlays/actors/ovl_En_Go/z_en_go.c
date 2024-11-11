@@ -794,7 +794,7 @@ void EnGo_FireGenericActionFunc(EnGo* this, PlayState* play) {
 }
 
 void EnGo_CurledUp(EnGo* this, PlayState* play) {
-    if ((DECR(this->unk_210) == 0) && EnGo_IsCameraModified(this, play)) {
+    if ((DECR(this->curledTimer) == 0) && EnGo_IsCameraModified(this, play)) {
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_WAKE_UP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
@@ -855,7 +855,7 @@ void func_80A40494(EnGo* this, PlayState* play) {
         EnGo_ReverseAnimation(this);
         this->skelAnime.playSpeed = 0.0f;
         this->skelAnime.curFrame = 0.0f;
-        this->unk_210 = Rand_S16Offset(30, 30);
+        this->curledTimer = Rand_S16Offset(30, 30);
         EnGo_SetupAction(this, EnGo_CurledUp);
     }
 }

@@ -54,7 +54,7 @@ typedef struct EnGo {
     /* 0x0208 */ char unk_208[0x4];
     /* 0x020C */ s16 unk_20C;
     /* 0x020E */ s16 knockbackCooldown;
-    /* 0x0210 */ s16 unk_210;
+    /* 0x0210 */ s16 curledTimer;
     /* 0x0212 */ s16 attentionCooldown;
     /* 0x0214 */ s16 blinkTimer;  // unused
     /* 0x0216 */ s16 eyeTexIndex; // unused
