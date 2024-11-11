@@ -1440,7 +1440,7 @@ s32 EnGo2_IsGoronFireGeneric(EnGo2* this) {
 }
 
 s32 EnGo2_IsGoronLinkReversing(EnGo2* this) {
-    if (PARAMS_GET_S(this->actor.params, 0, 5) != GORON_CITY_LINK || (this->waypoint >= this->unk_216) ||
+    if (PARAMS_GET_S(this->actor.params, 0, 5) != GORON_CITY_LINK || (this->waypoint >= this->reverseWaypoint) ||
         !EnGo2_IsWakingUp(this)) {
         return false;
     }
@@ -1562,7 +1562,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     this->isUncurled = false;
     this->goronState = 0;
     this->waypoint = 0;
-    this->unk_216 = this->actor.shape.rot.z;
+    this->reverseWaypoint = this->actor.shape.rot.z;
     this->trackingMode = NPC_TRACKING_NONE;
     this->path = Path_GetByIndex(play, PARAMS_GET_S(this->actor.params, 5, 5), 0x1F);
     switch (PARAMS_GET_S(this->actor.params, 0, 5)) {
