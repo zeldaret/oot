@@ -292,7 +292,7 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
     if (EnKz_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, 340.0f, EnKz_GetTextId,
                            EnKz_UpdateTalkState)) {
         if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
-            if (func_8002F368(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
+            if (Player_GetExchangeItemId(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
             } else {
@@ -304,7 +304,7 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
 
         if (LINK_IS_ADULT) {
             if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) &&
-                (func_8002F368(play) == EXCH_ITEM_PRESCRIPTION)) {
+                (Player_GetExchangeItemId(play) == EXCH_ITEM_PRESCRIPTION)) {
                 this->actor.textId = 0x4014;
                 this->sfxPlayed = false;
                 player->actor.textId = this->actor.textId;
@@ -494,7 +494,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
         this->actionFunc = EnKz_StartTimer;
     } else {
 #if OOT_VERSION < PAL_1_0
-        getItemId = func_8002F368(play) == EXCH_ITEM_PRESCRIPTION ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
+        getItemId = Player_GetExchangeItemId(play) == EXCH_ITEM_PRESCRIPTION ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
 #else
         getItemId = this->isTrading == true ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
 #endif
