@@ -167,6 +167,7 @@ typedef enum GoronType {
     /* 0x0D */ GORON_MARKET_BAZAAR
 } GoronType;
 
+#define ENGO2_GET_PATH_INDEX(this) PARAMS_GET_S((this)->actor.params, 5, 5)
 static EnGo2DustEffectData sDustEffectData[2][4] = {
     {
         { 12, 0.2f, 0.2f, 1, 18.0f, 0.0f },
@@ -1573,7 +1574,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     this->waypoint = 0;
     this->reverseWaypoint = this->actor.shape.rot.z;
     this->trackingMode = NPC_TRACKING_NONE;
-    this->path = Path_GetByIndex(play, PARAMS_GET_S(this->actor.params, 5, 5), 0x1F);
+    this->path = Path_GetByIndex(play, ENGO2_GET_PATH_INDEX(this), 0x1F);
     switch (ENGO2_GET_TYPE(this)) {
         case GORON_CITY_ENTRANCE:
         case GORON_CITY_ISLAND:
