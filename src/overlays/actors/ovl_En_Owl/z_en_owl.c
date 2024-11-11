@@ -178,7 +178,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnOwl_WaitLakeHylia;
             break;
         case OWL_ZORA_RIVER:
-            if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_ZORA_DOMAIN) || !GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_ZORAS_DOMAIN) || !GET_EVENTCHKINF(EVENTCHKINF_GOT_ZELDAS_LETTER)) {
                 PRINTF(T("フクロウ退避\n", "Owl evacuation\n"));
                 Actor_Kill(&this->actor);
                 return;
