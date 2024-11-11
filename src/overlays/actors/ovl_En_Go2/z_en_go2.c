@@ -1216,12 +1216,8 @@ s32 EnGo2_IsAttentionDrawnExtented(EnGo2* this, PlayState* play) {
     return false;
 }
 
-void EnGo2_DefaultWakingUp(EnGo2* this) {
-    if (EnGo2_IsAttentionDrawn(this)) {
-        this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
-    } else {
-        this->trackingMode = NPC_TRACKING_NONE;
-    }
+void EnGo2_SetupUncurledFlags_Default(EnGo2* this) {
+    this->trackingMode = EnGo2_IsAttentionDrawn(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->trackingMode = NPC_TRACKING_FULL_BODY;
@@ -1230,7 +1226,8 @@ void EnGo2_DefaultWakingUp(EnGo2* this) {
     this->isAwake = true;
 }
 
-void EnGo2_WakingUp(EnGo2* this) {
+void EnGo2_SetupUncurledFlags_NearTracking(EnGo2* this) {
+    // always false, he wakes up with `EnGo2_SetupUncurledFlags_Biggoron`
     f32 xyzDist = (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) ? 800.0f : 200.0f;
     s32 isTrue = true;
 
@@ -1243,7 +1240,7 @@ void EnGo2_WakingUp(EnGo2* this) {
     this->isAwake = isTrue;
 }
 
-void EnGo2_BiggoronWakingUp(EnGo2* this) {
+void EnGo2_SetupUncurledFlags_Biggoron(EnGo2* this) {
     if (EnGo2_IsAttentionDrawn(this) || this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
         this->isAwake = true;
@@ -1253,26 +1250,26 @@ void EnGo2_BiggoronWakingUp(EnGo2* this) {
     }
 }
 
-void EnGo2_AnimateGoronWakingUp(EnGo2* this) {
+void EnGo2_SetupUncurledFlags(EnGo2* this) {
     switch (ENGO2_GET_TYPE(this)) {
         case GORON_DMT_BOMB_FLOWER:
             this->isAwake = true;
             this->trackingMode = EnGo2_IsAttentionDrawn(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
             break;
         case GORON_FIRE_GENERIC:
-            EnGo2_WakingUp(this);
+            EnGo2_SetupUncurledFlags_NearTracking(this);
             break;
         case GORON_DMT_BIGGORON:
-            EnGo2_BiggoronWakingUp(this);
+            EnGo2_SetupUncurledFlags_Biggoron(this);
             break;
         case GORON_CITY_LINK:
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
-                EnGo2_WakingUp(this);
+                EnGo2_SetupUncurledFlags_NearTracking(this);
                 break;
             }
             FALLTHROUGH;
         default:
-            EnGo2_DefaultWakingUp(this);
+            EnGo2_SetupUncurledFlags_Default(this);
             break;
     }
 }
@@ -1705,7 +1702,7 @@ void EnGo2_Standing(EnGo2* this, PlayState* play) {
     if (this->isUncurled == true) {
         EnGo2_AnimateBiggoronAndDoSfx(this);
         EnGo2_AnimateGoronLinkAndDoSfx(this, play);
-        EnGo2_AnimateGoronWakingUp(this);
+        EnGo2_SetupUncurledFlags(this);
 
         if (!EnGo2_IsGoronRollingBig(this, play) && !EnGo2_IsGoronFireGeneric(this)) {
             if (EnGo2_IsGoronDmtBombFlower(this)) {
