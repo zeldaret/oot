@@ -1320,7 +1320,7 @@ void EnGo2_RollingAnimation(EnGo2* this, PlayState* play) {
     }
     EnGo2_SwapInitialFrameAnimFrameCount(this);
     this->trackingMode = NPC_TRACKING_NONE;
-    this->unk_211 = false;
+    this->isUncurled = false;
     this->isAwake = false;
     this->actionFunc = EnGo2_ActionCurledUp;
 }
@@ -1346,7 +1346,7 @@ void EnGo2_WakeUp(EnGo2* this, PlayState* play) {
 
 void EnGo2_GetItemAnimation(EnGo2* this, PlayState* play) {
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND);
-    this->unk_211 = true;
+    this->isUncurled = true;
     this->actionFunc = func_80A46B40;
     this->skelAnime.playSpeed = 0.0f;
     this->actor.speed = 0.0f;
@@ -1559,7 +1559,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     this->alpha = this->actor.shape.shadowAlpha = 0;
     this->reverse = 0;
     this->isAwake = false;
-    this->unk_211 = false;
+    this->isUncurled = false;
     this->goronState = 0;
     this->waypoint = 0;
     this->unk_216 = this->actor.shape.rot.z;
@@ -1680,7 +1680,7 @@ void func_80A46B40(EnGo2* this, PlayState* play) {
     u8 index = PARAMS_GET_S(this->actor.params, 0, 5);
     f32 height;
 
-    if (this->unk_211 == true) {
+    if (this->isUncurled == true) {
         EnGo2_BiggoronAnimation(this);
         EnGo2_GoronLinkAnimation(this, play);
         EnGo2_SelectGoronWakingUp(this);
@@ -1698,7 +1698,7 @@ void func_80A46B40(EnGo2* this, PlayState* play) {
                 this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             }
             func_80A454CC(this);
-            this->unk_211 = true;
+            this->isUncurled = true;
             this->collider.dim.height = D_80A4816C[index].height;
         } else {
             height = D_80A4816C[index].height;
@@ -1911,7 +1911,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, PlayState* play) {
     } else {
         SET_INFTABLE(INFTABLE_10C);
         this->trackingMode = NPC_TRACKING_NONE;
-        this->unk_211 = false;
+        this->isUncurled = false;
         this->isAwake = false;
         this->actionFunc = EnGo2_ActionCurledUp;
     }
@@ -2006,7 +2006,7 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
     }
 #endif
     this->actionFunc(this, play);
-    if (this->unk_211 == true) {
+    if (this->isUncurled == true) {
         func_80034F54(play, this->unk_226, this->unk_24A, GORON_LIMB_MAX);
     }
     func_80A45288(this, play);

@@ -40,7 +40,6 @@ typedef enum GoronType {
 // /* 0x0A */ GORON_FIRE_MAZE_UPPER,
 // /* 0x0B */ GORON_FIRE_HIGHEST
 
-
 typedef struct EnGo2DataStruct1 {
     s16 unused;
     s16 yDist;
@@ -77,9 +76,9 @@ typedef struct EnGo2 {
     /* 0x020C */ u8 unk_20C; // counter for GORON_CITY_LINK animation
     /* 0x020D */ u8 dialogState;
     /* 0x020E */ u8 reverse;
-    /* 0x020F */ u8 isAwake; // Conditional
+    /* 0x020F */ u8 isAwake;
     /* 0x0210 */ s8 waypoint;
-    /* 0x0211 */ u8 unk_211; // Conditional
+    /* 0x0211 */ u8 isUncurled;
     // goron link: 0 - rolling, 1 - frozen
     // biggoron: 0 - give eyedrops, 1 - applying eyedrops, 2 - getting claimcheck
     // generic fire: 0 -
@@ -90,7 +89,8 @@ typedef struct EnGo2 {
     /* 0x0216 */ u8 unk_216; // Set to z rotation, checked by waypoint
     /* 0x0218 */ f32 interactRange;
     /* 0x021C */ char unk_21C[0x04];
-    /* 0x0220 */ f32 alpha; // Set to 0, used by func_80A45360, smoothed to this->actor.shape.shadowAlpha from either 0 or 255.0f
+    /* 0x0220 */ f32
+        alpha; // Set to 0, used by func_80A45360, smoothed to this->actor.shape.shadowAlpha from either 0 or 255.0f
     /* 0x0224 */ s16 blinkTimer;
     /* 0x0226 */ s16 unk_226[GORON_LIMB_MAX]; // Remains unknown
     /* 0x024A */ s16 unk_24A[GORON_LIMB_MAX]; // Remains unknown
@@ -101,7 +101,8 @@ typedef struct EnGo2 {
     /* 0x04B8 */ Vec3s jointTable[GORON_LIMB_MAX];
     /* 0x0524 */ Vec3s morphTable[GORON_LIMB_MAX];
     /* 0x0590 */ s16 bounceTimer; // timer
-    /* 0x0592 */ s16 animTimer; // animTimer. Plays NA_SE_EN_MORIBLIN_WALK, NA_SE_EV_IRON_DOOR_OPEN, NA_SE_EV_IRON_DOOR_CLOSE
+    /* 0x0592 */ s16
+        animTimer; // animTimer. Plays NA_SE_EN_MORIBLIN_WALK, NA_SE_EV_IRON_DOOR_OPEN, NA_SE_EV_IRON_DOOR_CLOSE
     /* 0x0594 */ s32 getItemId;
     /* 0x0598 */ char unk_598[0x02];
     /* 0x059A */ s16 subCamId;
