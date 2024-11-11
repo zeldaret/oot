@@ -36,7 +36,7 @@ HARDCODED_SYM_ROM = {
     "D_80B4C5D0": 0xF022D0,
     "D_80ABF9D0": 0xE75A40,
     "D_80ABFB40": 0xE75BB0,
-    "gWaterMedallionCS": 0xEAA0FC,
+    "gWaterMedallionCs": 0xEAA0FC,
     "D_80A88164": 0xE3ED34,
     "D_808BB2F0": 0xC89FF0,
     "D_808BB7A0": 0xC8A4A0,

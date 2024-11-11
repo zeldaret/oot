@@ -23,7 +23,7 @@ typedef struct EnRu2 {
     /* 0x02B8 */ s32 isLightBall;
     /* 0x02BC */ s32 cueId;
     /* 0x02C0 */ u16 swimmingUpFrame;
-    /* 0x02C2 */ u8 messageIndex;
+    /* 0x02C2 */ u8 textboxCount; // increments on advancement through dialogue in Water Temple
     /* 0x02C3 */ u8 lastDialogState;
     /* 0x02C4 */ f32 encounterTimer;
     /* 0x02C8 */ ColliderCylinder collider;

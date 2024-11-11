@@ -16,37 +16,37 @@ void EnRu2_Destroy(Actor* thisx, PlayState* play);
 void EnRu2_Update(Actor* thisx, PlayState* play);
 void EnRu2_Draw(Actor* thisx, PlayState* play);
 
-void EnRu2_Action00(EnRu2* this, PlayState* play);
-void EnRu2_Action01(EnRu2* this, PlayState* play);
-void EnRu2_Action02(EnRu2* this, PlayState* play);
-void EnRu2_Action03(EnRu2* this, PlayState* play);
-void EnRu2_Action04(EnRu2* this, PlayState* play);
-void EnRu2_Action05(EnRu2* this, PlayState* play);
-void EnRu2_Action06(EnRu2* this, PlayState* play);
-void EnRu2_Action07(EnRu2* this, PlayState* play);
-void EnRu2_Action08(EnRu2* this, PlayState* play);
-void EnRu2_Action09(EnRu2* this, PlayState* play);
-void EnRu2_Action10(EnRu2* this, PlayState* play);
-void EnRu2_Action11(EnRu2* this, PlayState* play);
-void EnRu2_Action12(EnRu2* this, PlayState* play);
-void EnRu2_Action13(EnRu2* this, PlayState* play);
-void EnRu2_Action14(EnRu2* this, PlayState* play);
-void EnRu2_Action15(EnRu2* this, PlayState* play);
-void EnRu2_Action16(EnRu2* this, PlayState* play);
-void EnRu2_Action17(EnRu2* this, PlayState* play);
-void EnRu2_Action18(EnRu2* this, PlayState* play);
-void EnRu2_Action19(EnRu2* this, PlayState* play);
+void EnRu2_SetupWaterMedallionCutscene(EnRu2* this, PlayState* play);
+void EnRu2_AwaitBlueWarp(EnRu2* this, PlayState* play);
+void EnRu2_RiseThroughBlueWarp(EnRu2* this, PlayState* play);
+void EnRu2_SageOfWaterDialog(EnRu2* this, PlayState* play);
+void EnRu2_RaiseArms(EnRu2* this, PlayState* play);
+void EnRu2_AwaitWaterMedallion(EnRu2* this, PlayState* play);
+void EnRu2_FinishWaterMedallionCutscene(EnRu2* this, PlayState* play);
+void EnRu2_CrossingArmsInvisible(EnRu2* this, PlayState* play);
+void EnRu2_CrossingArmsFade(EnRu2* this, PlayState* play);
+void EnRu2_AwaitSpawnLightBall(EnRu2* this, PlayState* play);
+void EnRu2_CreditsInvisible(EnRu2* this, PlayState* play);
+void EnRu2_CreditsFadeIn(EnRu2* this, PlayState* play);
+void EnRu2_CreditsVisible(EnRu2* this, PlayState* play);
+void EnRu2_CreditsTurnHeadDownLeft(EnRu2* this, PlayState* play);
+void EnRu2_WaterTempleEncounterRangeCheck(EnRu2* this, PlayState* play);
+void EnRu2_WaterTempleEncounterUnconditional(EnRu2* this, PlayState* play);
+void EnRu2_WaterTempleEncounterBegin(EnRu2* this, PlayState* play);
+void EnRu2_WaterTempleEncounterDialog(EnRu2* this, PlayState* play);
+void EnRu2_WaterTempleEncounterEnd(EnRu2* this, PlayState* play);
+void EnRu2_WaterTempleSwimmingUp(EnRu2* this, PlayState* play);
 
 void EnRu2_DrawNothing(EnRu2* this, PlayState* play);
-void EnRu2_DrawSkelAnimeOpa(EnRu2* this, PlayState* play);
-void EnRu2_DrawSkelAnimeFlex(EnRu2* this, PlayState* play);
+void EnRu2_DrawOpa(EnRu2* this, PlayState* play);
+void EnRu2_DrawXlu(EnRu2* this, PlayState* play);
 
-void EnRu2_SetupWaterMedallionCutscene(EnRu2* this, PlayState* play);
+void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play);
 
 typedef enum {
     /* 00 */ ENRU2_SETUP_WATER_MEDALLION_CS,
     /* 01 */ ENRU2_AWAIT_BLUE_WARP,
-    /* 02 */ ENRU2_RISE_UP_THROUGH_BLUE_WARP,
+    /* 02 */ ENRU2_RISE_THROUGH_BLUE_WARP,
     /* 03 */ ENRU2_SAGE_OF_WATER_DIALOG,
     /* 04 */ ENRU2_RAISE_ARMS,
     /* 05 */ ENRU2_AWAIT_SPAWN_WATER_MEDALLION,
@@ -68,8 +68,8 @@ typedef enum {
 
 typedef enum {
     /* 00 */ ENRU2_DRAW_NOTHING,
-    /* 01 */ ENRU2_DRAW_SKELETON_OPA,
-    /* 02 */ ENRU2_DRAW_SKELETON_FLEXIBLE,
+    /* 01 */ ENRU2_DRAW_OPA,
+    /* 02 */ ENRU2_DRAW_XLU,
 } EnRu2DrawConfig;
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -97,15 +97,32 @@ static UNK_TYPE D_80AF4118 = 0;
 #include "z_en_ru2_cutscene_data.inc.c"
 
 static EnRu2ActionFunc sActionFuncs[] = {
-    EnRu2_Action00, EnRu2_Action01, EnRu2_Action02, EnRu2_Action03, EnRu2_Action04, EnRu2_Action05, EnRu2_Action06,
-    EnRu2_Action07, EnRu2_Action08, EnRu2_Action09, EnRu2_Action10, EnRu2_Action11, EnRu2_Action12, EnRu2_Action13,
-    EnRu2_Action14, EnRu2_Action15, EnRu2_Action16, EnRu2_Action17, EnRu2_Action18, EnRu2_Action19,
+    EnRu2_SetupWaterMedallionCutscene,
+    EnRu2_AwaitBlueWarp,
+    EnRu2_RiseThroughBlueWarp,
+    EnRu2_SageOfWaterDialog,
+    EnRu2_RaiseArms,
+    EnRu2_AwaitWaterMedallion,
+    EnRu2_FinishWaterMedallionCutscene,
+    EnRu2_CrossingArmsInvisible,
+    EnRu2_CrossingArmsFade,
+    EnRu2_AwaitSpawnLightBall,
+    EnRu2_CreditsInvisible,
+    EnRu2_CreditsFadeIn,
+    EnRu2_CreditsVisible,
+    EnRu2_CreditsTurnHeadDownLeft,
+    EnRu2_WaterTempleEncounterRangeCheck,
+    EnRu2_WaterTempleEncounterUnconditional,
+    EnRu2_WaterTempleEncounterBegin,
+    EnRu2_WaterTempleEncounterDialog,
+    EnRu2_WaterTempleEncounterEnd,
+    EnRu2_WaterTempleSwimmingUp,
 };
 
 static EnRu2DrawFunc sDrawFuncs[] = {
     EnRu2_DrawNothing,
-    EnRu2_DrawSkelAnimeOpa,
-    EnRu2_DrawSkelAnimeFlex,
+    EnRu2_DrawOpa,
+    EnRu2_DrawXlu,
 };
 
 ActorProfile En_Ru2_Profile = {
@@ -172,7 +189,7 @@ void func_80AF26AC(EnRu2* this) {
     this->action = ENRU2_CROSSING_ARMS_INVISIBLE;
     this->drawConfig = ENRU2_DRAW_NOTHING;
     this->alpha = 0;
-    this->isLightBall = 0;
+    this->isLightBall = false;
     this->actor.shape.shadowAlpha = 0;
     this->fadeTimer = 0.0f;
 }
@@ -215,7 +232,7 @@ CsCmdActorCue* EnRu2_GetCue(PlayState* play, s32 cueChannel) {
     return NULL;
 }
 
-s32 EnRu2_CheckCueMatchingID(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
+s32 EnRu2_CheckCueMatchingId(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id == cueId)) {
@@ -224,7 +241,7 @@ s32 EnRu2_CheckCueMatchingID(EnRu2* this, PlayState* play, u16 cueId, s32 cueCha
     return false;
 }
 
-s32 EnRu2_CheckCueNotMatchingID(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
+s32 EnRu2_CheckCueNotMatchingId(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id != cueId)) {
@@ -233,7 +250,9 @@ s32 EnRu2_CheckCueNotMatchingID(EnRu2* this, PlayState* play, u16 cueId, s32 cue
     return false;
 }
 
-/* Checks cutscene data and, if applicable, configures Ruto's position accordingly. */
+/**
+ * Checks cutscene data and, if applicable, configures Ruto's position accordingly.
+ */
 void EnRu2_InitPositionFromCue(EnRu2* this, PlayState* play, u32 cueChannel) {
     CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
     Actor* thisx = &this->actor;
@@ -247,40 +266,48 @@ void EnRu2_InitPositionFromCue(EnRu2* this, PlayState* play, u32 cueChannel) {
     }
 }
 
-/* Changes the animation for Ruto's actor. The direction argument decides whether to play the animation
-   forwards (if 0) or backwards (otherwise). */
-void EnRu2_AnimationChange(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
+/**
+ * Changes the animation for Ruto's actor. The direction argument decides whether to play the animation
+ * forwards (if 0) or backwards (otherwise).
+ */
+void EnRu2_AnimationChange(EnRu2* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 direction) {
     f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
-    f32 unk0;
-    f32 fc;
+    f32 startFrame;
+    f32 endFrame;
 
-    if (arg4 == 0) {
-        unk0 = 0.0f;
-        fc = frameCount;
+    if (direction == 0) {
+        startFrame = 0.0f;
+        endFrame = frameCount;
         playbackSpeed = 1.0f;
     } else {
-        unk0 = frameCount;
-        fc = 0.0f;
+        startFrame = frameCount;
+        endFrame = 0.0f;
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, morphFrames);
+    Animation_Change(&this->skelAnime, animation, playbackSpeed, startFrame, endFrame, mode, morphFrames);
 }
 
-/* Gradually increases Ruto's Y-coordinate as she rises up through the blue warp in the Chamber of Sages.*/
+/**
+ * Gradually increases Ruto's Y-coordinate as she rises up through the blue warp in the Chamber of Sages.
+ */
 void EnRu2_Rise(EnRu2* this, PlayState* play) {
     this->actor.shape.yOffset += 250.0f / 3.0f;
 }
 
-/* Sets up Ruto's actor in the Chamber of Sages. Note: this gets called every time the Chamber of Sages
-   is loaded, regardless of story progress (or which Temple you just finished). */
+/**
+ * Sets up Ruto's actor in the Chamber of Sages. Note: this gets called every time the Chamber of Sages
+ * is loaded, regardless of story progress (or which Temple you just finished).
+ */
 void EnRu2_InitChamberOfSages(EnRu2* this, PlayState* play) {
     EnRu2_AnimationChange(this, &gAdultRutoIdleAnim, 0, 0.0f, 0);
     this->actor.shape.yOffset = -10000.0f;
 }
 
-/* Spawns the blue warp for Ruto to rise up through in the Chamber of Sages. */
+/**
+ * Spawns the blue warp for Ruto to rise up through in the Chamber of Sages.
+ */
 void EnRu2_SpawnBlueWarp(EnRu2* this, PlayState* play) {
     Actor* thisx = &this->actor;
     f32 posX = thisx->world.pos.x;
@@ -290,7 +317,9 @@ void EnRu2_SpawnBlueWarp(EnRu2* this, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_SAGES);
 }
 
-/* Spawns the Water Medallion. */
+/**
+ * Spawns the Water Medallion.
+ */
 void EnRu2_SpawnWaterMedallion(EnRu2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 posX = player->actor.world.pos.x;
@@ -298,14 +327,16 @@ void EnRu2_SpawnWaterMedallion(EnRu2* this, PlayState* play) {
     f32 posZ = player->actor.world.pos.z;
 
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0, 10);
-    // Give Link the Water Medallion for a second time, LOL (see below)
+    // Give the water medallion. This is redundant as it was already given in `EnRu2_CheckWaterMedallionCutscene`
     Item_Give(play, ITEM_MEDALLION_WATER);
 }
 
-/* Occurs in the Chamber of Sages (regardless of which medallion you've earned). Sets up the cutscene data for
-   Ruto to give Link the Water Medallion, but this only happens if she should do so. Otherwise, this function
-   does nothing except loop endlessly until Link leaves the Chamber of Sages. */
-void EnRu2_SetupWaterMedallionCutscene(EnRu2* this, PlayState* play) {
+/**
+ * Occurs in the Chamber of Sages (regardless of which medallion you've earned). Sets up the cutscene data for
+ * Ruto to give Link the Water Medallion, but this only happens if she should do so. Otherwise, this function
+ * does nothing except loop endlessly until Link leaves the Chamber of Sages.
+ */
+void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     s32 pad[2];
     Player* player;
     s16 temp;
@@ -313,7 +344,7 @@ void EnRu2_SetupWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_WATER) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = ENRU2_AWAIT_BLUE_WARP;
-        play->csCtx.script = gWaterMedallionCS;
+        play->csCtx.script = gWaterMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_WATER);
         temp = this->actor.world.rot.y + 0x8000;
@@ -322,7 +353,9 @@ void EnRu2_SetupWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     }
 }
 
-/* Checks to see if the blue warp should be spawned for Ruto to rise up through. */
+/**
+ * Checks to see if the blue warp should be spawned for Ruto to rise up through.
+ */
 void EnRu2_CheckBlueWarp(EnRu2* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
     CsCmdActorCue* cue;
@@ -331,14 +364,16 @@ void EnRu2_CheckBlueWarp(EnRu2* this, PlayState* play) {
         cue = csCtx->actorCues[3];
 
         if ((cue != NULL) && (cue->id == 2)) {
-            this->action = ENRU2_RISE_UP_THROUGH_BLUE_WARP;
-            this->drawConfig = ENRU2_DRAW_SKELETON_OPA;
+            this->action = ENRU2_RISE_THROUGH_BLUE_WARP;
+            this->drawConfig = ENRU2_DRAW_OPA;
             EnRu2_SpawnBlueWarp(this, play);
         }
     }
 }
 
-/* Halts Ruto's rise up through the blue warp in the Chamber of Sages once finished. */
+/**
+ * Halts Ruto's rise up through the blue warp in the Chamber of Sages once finished.
+ */
 void EnRu2_EndRise(EnRu2* this) {
     if (this->actor.shape.yOffset >= 0.0f) {
         this->action = ENRU2_SAGE_OF_WATER_DIALOG;
@@ -346,8 +381,10 @@ void EnRu2_EndRise(EnRu2* this) {
     }
 }
 
-/* Sets up the animation for Ruto to raise her arms to give Link the Water Medallion. */
-void EnRu2_RaiseArms(EnRu2* this, PlayState* play) {
+/**
+ * Sets up the animation for Ruto to raise her arms to give Link the Water Medallion.
+ */
+void EnRu2_CueRaiseArmsAnimation(EnRu2* this, PlayState* play) {
     AnimationHeader* animation = &gAdultRutoRaisingArmsUpAnim;
     CsCmdActorCue* cue;
 
@@ -362,15 +399,19 @@ void EnRu2_RaiseArms(EnRu2* this, PlayState* play) {
     }
 }
 
-/* At the end of Ruto's arms-raising animation, cues the next action: spawning the
-   Water Medallion. */
-void EnRu2_HoldArmsUp(EnRu2* this, s32 shouldHold) {
-    if (shouldHold != 0) {
+/**
+ * At the end of Ruto's arms-raising animation, cues the next action: spawning the
+ * Water Medallion.
+ */
+void EnRu2_HoldArmsUp(EnRu2* this, s32 doneRaising) {
+    if (doneRaising != 0) {
         this->action = ENRU2_AWAIT_SPAWN_WATER_MEDALLION;
     }
 }
 
-/* Checks to see if the Water Medallion should spawn. */
+/**
+ * Checks to see if the Water Medallion should spawn.
+ */
 void EnRu2_CheckWaterMedallion(EnRu2* this, PlayState* play) {
     CsCmdActorCue* cue;
 
@@ -384,52 +425,75 @@ void EnRu2_CheckWaterMedallion(EnRu2* this, PlayState* play) {
     }
 }
 
-void EnRu2_Action00(EnRu2* this, PlayState* play) {
-    EnRu2_SetupWaterMedallionCutscene(this, play);
+/**
+ * Action 0
+ */
+void EnRu2_SetupWaterMedallionCutscene(EnRu2* this, PlayState* play) {
+    EnRu2_CheckWaterMedallionCutscene(this, play);
 }
 
-void EnRu2_Action01(EnRu2* this, PlayState* play) {
+/**
+ * Action 1
+ */
+void EnRu2_AwaitBlueWarp(EnRu2* this, PlayState* play) {
     EnRu2_CheckBlueWarp(this, play);
 }
 
-void EnRu2_Action02(EnRu2* this, PlayState* play) {
+/**
+ * Action 2
+ */
+void EnRu2_RiseThroughBlueWarp(EnRu2* this, PlayState* play) {
     EnRu2_Rise(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
     EnRu2_EndRise(this);
 }
 
-void EnRu2_Action03(EnRu2* this, PlayState* play) {
+/**
+ * Action 3
+ */
+void EnRu2_SageOfWaterDialog(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
-    EnRu2_RaiseArms(this, play);
+    EnRu2_CueRaiseArmsAnimation(this, play);
 }
 
-void EnRu2_Action04(EnRu2* this, PlayState* play) {
-    s32 shouldHold;
+/**
+ * Action 4
+ */
+void EnRu2_RaiseArms(EnRu2* this, PlayState* play) {
+    s32 animDone;
 
     EnRu2_UpdateBgCheckInfo(this, play);
-    shouldHold = EnRu2_UpdateSkelAnime(this);
+    animDone = EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
-    EnRu2_HoldArmsUp(this, shouldHold);
+    EnRu2_HoldArmsUp(this, animDone);
 }
 
-void EnRu2_Action05(EnRu2* this, PlayState* play) {
+/**
+ * Action 5
+ */
+void EnRu2_AwaitWaterMedallion(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
     EnRu2_CheckWaterMedallion(this, play);
 }
 
-void EnRu2_Action06(EnRu2* this, PlayState* play) {
+/**
+ * Action 6
+ */
+void EnRu2_FinishWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
 }
 
-/* Sets up Ruto in her arms-crossing pose. Used in the Water Trial in Ganon's Castle and in the
-   Chamber of Sages during the "Sealing Ganon" cutscene. */
+/**
+ * Sets up Ruto in her arms-crossing pose. Used in the Water Trial in Ganon's Castle and in the
+ * Chamber of Sages during the "Sealing Ganon" cutscene.
+ */
 void EnRu2_InitCrossingArms(EnRu2* this, PlayState* play) {
     EnRu2_AnimationChange(this, &gAdultRutoCrossingArmsAnim, 2, 0.0f, 0);
     this->action = ENRU2_CROSSING_ARMS_INVISIBLE;
@@ -440,17 +504,21 @@ void EnRu2_PlayWhiteOutSound(void) {
     Sfx_PlaySfxCentered2(NA_SE_SY_WHITE_OUT_T);
 }
 
-/* Spawns the ball of light that replaces Ruto's actor in the Water Trial. */
+/**
+ * Spawns the ball of light that replaces Ruto's actor in the Water Trial.
+ */
 void EnRu2_SpawnLightBall(EnRu2* this, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_6K, this->actor.world.pos.x,
                        kREG(19) + 24.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 8);
 }
 
-/* Checks to see if it's time for Ruto to fade in while crossing her arms. */
+/**
+ * Checks to see if it's time for Ruto to fade in while crossing her arms.
+ */
 void EnRu2_CheckFadeIn(EnRu2* this, PlayState* play) {
-    if (EnRu2_CheckCueMatchingID(this, play, 4, 3)) {
+    if (EnRu2_CheckCueMatchingId(this, play, 4, 3)) {
         this->action = ENRU2_CROSSING_ARMS_FADE;
-        this->drawConfig = ENRU2_DRAW_SKELETON_FLEXIBLE;
+        this->drawConfig = ENRU2_DRAW_XLU;
         this->alpha = 0;
         this->actor.shape.shadowAlpha = 0;
         this->fadeTimer = 0.0f;
@@ -458,16 +526,18 @@ void EnRu2_CheckFadeIn(EnRu2* this, PlayState* play) {
     }
 }
 
-/* Fades Ruto's actor in or out. Both happen during the Water Trial. */
+/**
+ * Fades Ruto's actor in or out. Both happen during the Water Trial.
+ */
 void EnRu2_Fade(EnRu2* this, PlayState* play) {
     f32* fadeTimer = &this->fadeTimer;
     s32 alpha;
 
-    if (EnRu2_CheckCueMatchingID(this, play, 4, 3)) {
+    if (EnRu2_CheckCueMatchingId(this, play, 4, 3)) {
         *fadeTimer += 1.0f;
         if (*fadeTimer >= kREG(5) + 10.0f) {
             this->action = ENRU2_AWAIT_SPAWN_LIGHT_BALL;
-            this->drawConfig = ENRU2_DRAW_SKELETON_OPA;
+            this->drawConfig = ENRU2_DRAW_OPA;
             *fadeTimer = kREG(5) + 10.0f;
             this->alpha = 255;
             this->actor.shape.shadowAlpha = 0xFF;
@@ -489,29 +559,37 @@ void EnRu2_Fade(EnRu2* this, PlayState* play) {
     this->actor.shape.shadowAlpha = alpha;
 }
 
-/* Checks to see if it's time for Ruto to fade out while her arms are crossed. */
+/**
+ * Checks to see if it's time for Ruto to fade out while her arms are crossed.
+ */
 void EnRu2_CheckFadeOut(EnRu2* this, PlayState* play) {
-    if (EnRu2_CheckCueNotMatchingID(this, play, 4, 3)) {
+    if (EnRu2_CheckCueNotMatchingId(this, play, 4, 3)) {
         this->action = ENRU2_CROSSING_ARMS_FADE;
-        this->drawConfig = ENRU2_DRAW_SKELETON_FLEXIBLE;
+        this->drawConfig = ENRU2_DRAW_XLU;
         this->fadeTimer = kREG(5) + 10.0f;
         this->alpha = 255;
-        if (this->isLightBall == 0) {
+        if (!this->isLightBall) {
             EnRu2_SpawnLightBall(this, play);
-            this->isLightBall = 1;
+            this->isLightBall = true;
         }
         this->actor.shape.shadowAlpha = 0xFF;
     }
 }
 
-void EnRu2_Action07(EnRu2* this, PlayState* play) {
+/**
+ * Action 7
+ */
+void EnRu2_CrossingArmsInvisible(EnRu2* this, PlayState* play) {
     EnRu2_CheckFadeIn(this, play);
 #if OOT_DEBUG
     func_80AF26D0(this, play);
 #endif
 }
 
-void EnRu2_Action08(EnRu2* this, PlayState* play) {
+/**
+ * Action 8
+ */
+void EnRu2_CrossingArmsFade(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
@@ -521,7 +599,10 @@ void EnRu2_Action08(EnRu2* this, PlayState* play) {
 #endif
 }
 
-void EnRu2_Action09(EnRu2* this, PlayState* play) {
+/**
+ * Action 9
+ */
+void EnRu2_AwaitSpawnLightBall(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
@@ -531,7 +612,7 @@ void EnRu2_Action09(EnRu2* this, PlayState* play) {
 #endif
 }
 
-void EnRu2_DrawSkelAnimeFlex(EnRu2* this, PlayState* play) {
+void EnRu2_DrawXlu(EnRu2* this, PlayState* play) {
     s32 pad[2];
     s16 temp = this->eyeTextureIndex;
     void* tex = sEyeTextures[temp];
@@ -552,7 +633,9 @@ void EnRu2_DrawSkelAnimeFlex(EnRu2* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
 }
 
-/* Sets up Ruto's hands-on-hips pose during the credits sequence. */
+/**
+ * Sets up Ruto's hands-on-hips pose during the credits sequence.
+ */
 void EnRu2_InitCredits(EnRu2* this, PlayState* play) {
     EnRu2_AnimationChange(this, &gAdultRutoIdleHandsOnHipsAnim, 0, 0.0f, 0);
     this->action = ENRU2_CREDITS_INVISIBLE;
@@ -560,7 +643,9 @@ void EnRu2_InitCredits(EnRu2* this, PlayState* play) {
     this->actor.shape.shadowAlpha = 0;
 }
 
-/* Fades in Ruto's actor during the credits sequence. */
+/**
+ * Fades in Ruto's actor during the credits sequence.
+ */
 void EnRu2_FadeInCredits(EnRu2* this) {
     f32* fadeTimer = &this->fadeTimer;
     f32 temp_f0;
@@ -582,31 +667,39 @@ void EnRu2_FadeInCredits(EnRu2* this) {
 void EnRu2_InitCreditsPosition(EnRu2* this, PlayState* play) {
     EnRu2_InitPositionFromCue(this, play, 3);
     this->action = ENRU2_CREDITS_FADE_IN;
-    this->drawConfig = ENRU2_DRAW_SKELETON_FLEXIBLE;
+    this->drawConfig = ENRU2_DRAW_XLU;
 }
 
-/* Checks if Ruto's actor is fully faded in during the credits sequence, and if so, proceeds to action 12. */
+/**
+ * Checks if Ruto's actor is fully faded in during the credits sequence, and if so, proceeds to action 12.
+ */
 void EnRu2_CheckVisibleInCredits(EnRu2* this) {
     if (this->fadeTimer >= kREG(17) + 10.0f) {
         this->action = ENRU2_CREDITS_VISIBLE;
-        this->drawConfig = ENRU2_DRAW_SKELETON_OPA;
+        this->drawConfig = ENRU2_DRAW_OPA;
     }
 }
 
-/* Starts Ruto's animation to look down towards Nabooru during the credits sequence. */
-void EnRu2_TurnHeadDownLeft(EnRu2* this) {
+/**
+ * Starts Ruto's animation to look down towards Nabooru during the credits sequence.
+ */
+void EnRu2_TurnHeadDownLeftAnimation(EnRu2* this) {
     EnRu2_AnimationChange(this, &gAdultRutoHeadTurnDownLeftAnim, 2, 0.0f, 0);
     this->action = ENRU2_CREDITS_TURN_HEAD_DOWN_LEFT;
 }
 
-/* Holds Ruto's pose looking down towards Nabooru during the credits sequence. */
-void EnRu2_LookingDownLeft(EnRu2* this, s32 lookingDownLeft) {
-    if (lookingDownLeft != 0) {
+/**
+ * Holds Ruto's pose looking down towards Nabooru during the credits sequence.
+ */
+void EnRu2_LookingDownLeft(EnRu2* this, s32 isDoneTurning) {
+    if (isDoneTurning != 0) {
         EnRu2_AnimationChange(this, &gAdultRutoLookingDownLeftAnim, 0, 0.0f, 0);
     }
 }
 
-/* Advances Ruto's actions in two different places. */
+/**
+ * Advances Ruto's actions in two different places.
+ */
 void EnRu2_NextCreditsAction(EnRu2* this, PlayState* play) {
     CsCmdActorCue* cue = EnRu2_GetCue(play, 3);
     s32 nextCueId;
@@ -622,7 +715,7 @@ void EnRu2_NextCreditsAction(EnRu2* this, PlayState* play) {
                     EnRu2_InitCreditsPosition(this, play);
                     break;
                 case 8:
-                    EnRu2_TurnHeadDownLeft(this);
+                    EnRu2_TurnHeadDownLeftAnimation(this);
                     break;
                 default:
                     // "There is no such action!"
@@ -634,11 +727,17 @@ void EnRu2_NextCreditsAction(EnRu2* this, PlayState* play) {
     }
 }
 
-void EnRu2_Action10(EnRu2* this, PlayState* play) {
+/**
+ * Action 10
+ */
+void EnRu2_CreditsInvisible(EnRu2* this, PlayState* play) {
     EnRu2_NextCreditsAction(this, play);
 }
 
-void EnRu2_Action11(EnRu2* this, PlayState* play) {
+/**
+ * Action 11
+ */
+void EnRu2_CreditsFadeIn(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
@@ -646,40 +745,52 @@ void EnRu2_Action11(EnRu2* this, PlayState* play) {
     EnRu2_CheckVisibleInCredits(this);
 }
 
-void EnRu2_Action12(EnRu2* this, PlayState* play) {
+/**
+ * Action 12
+ */
+void EnRu2_CreditsVisible(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
     EnRu2_NextCreditsAction(this, play);
 }
 
-void EnRu2_Action13(EnRu2* this, PlayState* play) {
-    s32 lookingDownLeft;
+/**
+ * Action 13
+ */
+void EnRu2_CreditsTurnHeadDownLeft(EnRu2* this, PlayState* play) {
+    s32 animDone;
 
     EnRu2_UpdateBgCheckInfo(this, play);
-    lookingDownLeft = EnRu2_UpdateSkelAnime(this);
+    animDone = EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
-    EnRu2_LookingDownLeft(this, lookingDownLeft);
+    EnRu2_LookingDownLeft(this, animDone);
 }
 
-/* Sets the switch indicating that Link met Ruto in the Water Temple. */
+/**
+ * Sets the switch indicating that Link met Ruto in the Water Temple.
+ */
 void EnRu2_MarkEncounterOccurred(EnRu2* this, PlayState* play) {
     Flags_SetSwitch(play, EnRu2_GetSwitchFlag(this));
 }
 
-/* Returns whether Link met Ruto in the Water Temple. */
+/**
+ * Returns whether Link met Ruto in the Water Temple.
+ */
 s32 EnRu2_EncounterOccurred(EnRu2* this, PlayState* play) {
     return Flags_GetSwitch(play, EnRu2_GetSwitchFlag(this));
 }
 
-/* Initializes Ruto's actor in the Water Temple, or destroys it if the encounter already happened. */
+/**
+ * Initializes Ruto's actor in the Water Temple, or destroys it if the encounter already happened.
+ */
 void EnRu2_InitWaterTempleEncounter(EnRu2* this, PlayState* play) {
     if (EnRu2_EncounterOccurred(this, play)) {
         Actor_Kill(&this->actor);
     } else {
         EnRu2_AnimationChange(this, &gAdultRutoIdleAnim, 0, 0.0f, 0);
         this->action = ENRU2_WATER_TEMPLE_ENCOUNTER_RANGE_CHECK;
-        this->drawConfig = ENRU2_DRAW_SKELETON_OPA;
+        this->drawConfig = ENRU2_DRAW_OPA;
     }
 }
 
@@ -687,7 +798,9 @@ void EnRu2_PlayFanfare(void) {
     Audio_PlayFanfare(NA_BGM_APPEAR);
 }
 
-/* Accelerates Ruto's actor upwards as she swims. */
+/**
+ * Accelerates Ruto's actor upwards as she swims.
+ */
 void EnRu2_AccelerateUp(EnRu2* this) {
     f32 funcFloat;
 
@@ -707,7 +820,9 @@ s32 EnRu2_IsPlayerInRange(EnRu2* this, PlayState* play) {
     return 0;
 }
 
-/* Checks if Link is close enough to Ruto and conditionally triggers the encounter cutscene in the Water Temple. */
+/**
+ * Checks if Link is close enough to Ruto and conditionally triggers the encounter cutscene in the Water Temple.
+ */
 void EnRu2_TriggerEncounterInRange(EnRu2* this, PlayState* play) {
     if (EnRu2_IsPlayerInRange(this, play) && !Play_InCsMode(play)) {
         this->action = ENRU2_WATER_TEMPLE_ENCOUNTER_BEGIN;
@@ -715,14 +830,18 @@ void EnRu2_TriggerEncounterInRange(EnRu2* this, PlayState* play) {
     }
 }
 
-/* Triggers the encounter cutscene in the Water Temple, unconditionally. Appears to be unused. */
+/**
+ * Triggers the encounter cutscene in the Water Temple, unconditionally. Appears to be unused.
+ */
 void EnRu2_TriggerEncounter(EnRu2* this, PlayState* play) {
     this->action = ENRU2_WATER_TEMPLE_ENCOUNTER_BEGIN;
     OnePointCutscene_Init(play, 3130, -99, &this->actor, CAM_ID_MAIN);
 }
 
-/* Handles the starting moments of Ruto's encounter with Link at the Water Temple. Responds to a running timer to
-   initiate, on cue, both the fanfare and Ruto's dialogue. */
+/**
+ * Handles the starting moments of Ruto's encounter with Link at the Water Temple. Responds to a running timer to
+ * initiate, on cue, both the fanfare and Ruto's dialogue.
+ */
 void EnRu2_BeginEncounter(EnRu2* this, PlayState* play) {
     f32* encounterTimer = &this->encounterTimer;
 
@@ -751,8 +870,8 @@ void EnRu2_DialogCameraHandler(EnRu2* this, PlayState* play) {
         if (this->lastDialogState != TEXT_STATE_DONE_FADING) {
             // "I'm Komatsu!" (cinema scene dev)
             PRINTF("おれが小松だ！ \n");
-            this->messageIndex++;
-            if (this->messageIndex % 6 == 3) {
+            this->textboxCount++;
+            if (this->textboxCount % 6 == 3) {
                 player = GET_PLAYER(play);
                 // "uorya-!" (screeming sound)
                 PRINTF("うおりゃー！ \n");
@@ -786,13 +905,19 @@ void EnRu2_EndSwimmingUp(EnRu2* this, PlayState* play) {
     }
 }
 
-void EnRu2_Action14(EnRu2* this, PlayState* play) {
+/**
+ * Action 14
+ */
+void EnRu2_WaterTempleEncounterRangeCheck(EnRu2* this, PlayState* play) {
     EnRu2_TriggerEncounterInRange(this, play);
     Actor_SetFocus(&this->actor, 50.0f);
     EnRu2_UpdateCollider(this, play);
 }
 
-void EnRu2_Action15(EnRu2* this, PlayState* play) {
+/**
+ * Action 15 (unused)
+ */
+void EnRu2_WaterTempleEncounterUnconditional(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateCollider(this, play);
     EnRu2_UpdateSkelAnime(this);
@@ -801,7 +926,10 @@ void EnRu2_Action15(EnRu2* this, PlayState* play) {
     EnRu2_TriggerEncounter(this, play);
 }
 
-void EnRu2_Action16(EnRu2* this, PlayState* play) {
+/**
+ * Action 16
+ */
+void EnRu2_WaterTempleEncounterBegin(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
@@ -809,7 +937,10 @@ void EnRu2_Action16(EnRu2* this, PlayState* play) {
     EnRu2_BeginEncounter(this, play);
 }
 
-void EnRu2_Action17(EnRu2* this, PlayState* play) {
+/**
+ * Action 17
+ */
+void EnRu2_WaterTempleEncounterDialog(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
@@ -817,7 +948,10 @@ void EnRu2_Action17(EnRu2* this, PlayState* play) {
     EnRu2_DialogCameraHandler(this, play);
 }
 
-void EnRu2_Action18(EnRu2* this, PlayState* play) {
+/**
+ * Action 18
+ */
+void EnRu2_WaterTempleEncounterEnd(EnRu2* this, PlayState* play) {
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
@@ -825,7 +959,10 @@ void EnRu2_Action18(EnRu2* this, PlayState* play) {
     EnRu2_StartSwimmingUp(this, play);
 }
 
-void EnRu2_Action19(EnRu2* this, PlayState* play) {
+/**
+ * Action 19
+ */
+void EnRu2_WaterTempleSwimmingUp(EnRu2* this, PlayState* play) {
     EnRu2_AccelerateUp(this);
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
@@ -867,14 +1004,14 @@ void EnRu2_Init(Actor* thisx, PlayState* play) {
             break;
     }
 
-    this->messageIndex = 0;
+    this->textboxCount = 0;
     this->lastDialogState = TEXT_STATE_DONE_FADING;
 }
 
 void EnRu2_DrawNothing(EnRu2* this, PlayState* play) {
 }
 
-void EnRu2_DrawSkelAnimeOpa(EnRu2* this, PlayState* play) {
+void EnRu2_DrawOpa(EnRu2* this, PlayState* play) {
     s32 pad[2];
     s16 temp = this->eyeTextureIndex;
     void* tex = sEyeTextures[temp];
