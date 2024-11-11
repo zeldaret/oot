@@ -168,6 +168,9 @@ typedef enum GoronType {
 } GoronType;
 
 #define ENGO2_GET_PATH_INDEX(this) PARAMS_GET_S((this)->actor.params, 5, 5)
+#define ENGO2_CAGED_FLAG(this) PARAMS_GET_S((this)->actor.params, 10, 6)
+#define ENGO2_IS_CAGE_OPEN(play, this) Flags_GetSwitch(play, ENGO2_CAGED_FLAG(this))
+
 static EnGo2DustEffectData sDustEffectData[2][4] = {
     {
         { 12, 0.2f, 0.2f, 1, 18.0f, 0.0f },
@@ -312,7 +315,7 @@ s32 EnGo2_GetDialogState(EnGo2* this, PlayState* play) {
 }
 
 u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
-    switch (PARAMS_GET_S(this->actor.params, 10, 6)) {
+    switch (ENGO2_CAGED_FLAG(this)) {
         case 3:
             return 0x3069;
         case 5:
@@ -661,7 +664,7 @@ s16 EnGo2_UpdateTalkStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronFireGeneric(PlayState* play, EnGo2* this) {
-    if (Flags_GetSwitch(play, PARAMS_GET_S(this->actor.params, 10, 6))) {
+    if (ENGO2_IS_CAGE_OPEN(play, this)) {
         return 0x3071;
     } else {
         return 0x3051;
@@ -1413,7 +1416,7 @@ s32 EnGo2_IsFreeingGoronInFire(EnGo2* this, PlayState* play) {
 
     // shaking curled up
     this->actor.world.pos.x += (play->state.frames & 1) ? 1.0f : -1.0f;
-    if (Flags_GetSwitch(play, PARAMS_GET_S(this->actor.params, 10, 6))) {
+    if (ENGO2_IS_CAGE_OPEN(play, this)) {
         return true;
     }
     return false;
@@ -1617,7 +1620,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
             EnGo2_SetupRolling(this, play);
             break;
         case GORON_FIRE_GENERIC:
-            if (Flags_GetSwitch(play, PARAMS_GET_S(this->actor.params, 10, 6))) {
+            if (ENGO2_IS_CAGE_OPEN(play, this)) {
                 Actor_Kill(&this->actor);
             } else {
                 this->isAwake = true;
@@ -1966,9 +1969,8 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
             } else {
                 this->animTimer = 0;
                 this->actor.speed = 0.0f;
-                if ((PARAMS_GET_S(this->actor.params, 10, 6) != 1) && (PARAMS_GET_S(this->actor.params, 10, 6) != 2) &&
-                    (PARAMS_GET_S(this->actor.params, 10, 6) != 4) && (PARAMS_GET_S(this->actor.params, 10, 6) != 5) &&
-                    (PARAMS_GET_S(this->actor.params, 10, 6) != 9) && (PARAMS_GET_S(this->actor.params, 10, 6) != 11)) {
+                if ((ENGO2_CAGED_FLAG(this) != 1) && (ENGO2_CAGED_FLAG(this) != 2) && (ENGO2_CAGED_FLAG(this) != 4) &&
+                    (ENGO2_CAGED_FLAG(this) != 5) && (ENGO2_CAGED_FLAG(this) != 9) && (ENGO2_CAGED_FLAG(this) != 11)) {
                     this->goronState++;
                 }
                 this->goronState++;
