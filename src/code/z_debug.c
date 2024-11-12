@@ -13,7 +13,7 @@ typedef struct InputCombo {
 } InputCombo; // size = 0x4
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+                               "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 RegEditor* gRegEditor;
 

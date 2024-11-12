@@ -1,5 +1,5 @@
 #pragma increment_block_number "gc-eu:244 gc-eu-mq:244 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ntsc-1.2:224 pal-1.0:252 pal-1.1:252"
+                               "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:252 pal-1.1:252"
 
 #include "global.h"
 #include "ultra64.h"
@@ -215,7 +215,7 @@ s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
 #pragma increment_block_number "gc-eu:240 gc-eu-mq:240 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ntsc-1.2:224 pal-1.0:240 pal-1.1:240"
+                               "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:240 pal-1.1:240"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
