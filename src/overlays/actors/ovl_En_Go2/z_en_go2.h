@@ -59,7 +59,7 @@ typedef struct EnGo2 {
     /* 0x020C */ u8 messageEntry; // tracks message state changes, like with `BOX_BREAK` or `TEXTID`
     /* 0x020D */ u8 messageState; // last known result of `Message_GetState`
     /* 0x020E */ u8 reverse;
-    /* 0x020F */ u8 isAwake;
+    /* 0x020F */ u8 isTalkative;
     /* 0x0210 */ s8 waypoint;
     /* 0x0211 */ u8 isUncurled;
     /* 0x0212 */ u8 goronState;

@@ -842,7 +842,7 @@ s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
 #endif
 }
 
-s32 func_80A44790(EnGo2* this, PlayState* play) {
+s32 EnGo2_UpdateTalking(EnGo2* this, PlayState* play) {
     if (ENGO2_GET_TYPE(this) != GORON_DMT_BIGGORON && ENGO2_GET_TYPE(this) != GORON_CITY_ROLLING_BIG) {
         return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange,
                                  EnGo2_GetTextId, EnGo2_UpdateTalkState);
@@ -1127,8 +1127,8 @@ void EnGo2_TrackPlayer(EnGo2* this, PlayState* play) {
             sPlayerTrackingYOffsets[ENGO2_GET_TYPE(this)][((void)0, gSaveContext.save.linkAge)];
         Npc_TrackPoint(&this->actor, &this->interactInfo, 4, this->trackingMode);
     }
-    if ((this->actionFunc != EnGo2_HandleOfferParented) && (this->isAwake == true)) {
-        if (func_80A44790(this, play)) {
+    if ((this->actionFunc != EnGo2_HandleOfferParented) && (this->isTalkative == true)) {
+        if (EnGo2_UpdateTalking(this, play)) {
             EnGo2_BiggoronSetTextId(this, play, player);
         }
     }
@@ -1223,7 +1223,7 @@ void EnGo2_SetupUncurledFlags_Default(EnGo2* this) {
         this->trackingMode = NPC_TRACKING_FULL_BODY;
     }
 
-    this->isAwake = true;
+    this->isTalkative = true;
 }
 
 void EnGo2_SetupUncurledFlags_NearTracking(EnGo2* this) {
@@ -1237,23 +1237,23 @@ void EnGo2_SetupUncurledFlags_NearTracking(EnGo2* this) {
         this->trackingMode = NPC_TRACKING_FULL_BODY;
     }
 
-    this->isAwake = isTrue;
+    this->isTalkative = isTrue;
 }
 
 void EnGo2_SetupUncurledFlags_Biggoron(EnGo2* this) {
     if (EnGo2_IsAttentionDrawn(this) || this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
-        this->isAwake = true;
+        this->isTalkative = true;
     } else {
         this->trackingMode = NPC_TRACKING_NONE;
-        this->isAwake = false;
+        this->isTalkative = false;
     }
 }
 
 void EnGo2_SetupUncurledFlags(EnGo2* this) {
     switch (ENGO2_GET_TYPE(this)) {
         case GORON_DMT_BOMB_FLOWER:
-            this->isAwake = true;
+            this->isTalkative = true;
             this->trackingMode = EnGo2_IsAttentionDrawn(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
             break;
         case GORON_FIRE_GENERIC:
@@ -1343,7 +1343,7 @@ void EnGo2_AnimateRolling(EnGo2* this, PlayState* play) {
     EnGo2_SwapInitialFrameAnimFrameCount(this);
     this->trackingMode = NPC_TRACKING_NONE;
     this->isUncurled = false;
-    this->isAwake = false;
+    this->isTalkative = false;
     this->actionFunc = EnGo2_CurledUp;
 }
 
@@ -1435,7 +1435,7 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
 
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_SIDESTEP_LOOP);
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-    this->isAwake = false;
+    this->isTalkative = false;
     this->trackingMode = NPC_TRACKING_NONE;
     this->actionFunc = EnGo2_GoronDmtBombFlower;
     return true;
@@ -1577,7 +1577,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     this->actor.gravity = -1.0f;
     this->shadownAlpha = this->actor.shape.shadowAlpha = 0;
     this->reverse = 0;
-    this->isAwake = false;
+    this->isTalkative = false;
     this->isUncurled = false;
     this->goronState = 0;
     this->waypoint = 0;
@@ -1617,7 +1617,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
 #endif
                 this->collider.dim.height = (sColliderData[ENGO2_GET_TYPE(this)].height * 0.6f);
                 EnGo2_StartRolling(this, play);
-                this->isAwake = true;
+                this->isTalkative = true;
             }
             break;
         case GORON_CITY_ROLLING_BIG:
@@ -1629,7 +1629,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
             if (ENGO2_IS_CAGE_OPEN(play, this)) {
                 Actor_Kill(&this->actor);
             } else {
-                this->isAwake = true;
+                this->isTalkative = true;
                 this->actionFunc = EnGo2_CurledUp;
             }
             break;
@@ -1687,7 +1687,7 @@ void EnGo2_CurledUp(EnGo2* this, PlayState* play) {
              (height * 0.6f));
     }
     if (EnGo2_IsGoronFireGenericFreed(this, play)) {
-        this->isAwake = false;
+        this->isTalkative = false;
         EnGo2_WakeUpAnimated(this, play);
     }
     if ((ENGO2_GET_TYPE(this) != GORON_FIRE_GENERIC) && EnGo2_IsAttentionDrawn(this)) {
@@ -1932,7 +1932,7 @@ void EnGo2_GoronLink(EnGo2* this, PlayState* play) {
         SET_INFTABLE(INFTABLE_10C);
         this->trackingMode = NPC_TRACKING_NONE;
         this->isUncurled = false;
-        this->isAwake = false;
+        this->isTalkative = false;
         this->actionFunc = EnGo2_CurledUp;
     }
 }
