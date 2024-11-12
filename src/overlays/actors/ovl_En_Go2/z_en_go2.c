@@ -1395,16 +1395,19 @@ void EnGo2_StartRolling(EnGo2* this, PlayState* play) {
 void EnGo2_StopRolling(EnGo2* this, PlayState* play) {
     EnBom* bomb;
 
-    if ((ENGO2_GET_TYPE(this) != GORON_CITY_ROLLING_BIG) && (ENGO2_GET_TYPE(this) != GORON_CITY_LINK)) {
-        if (ENGO2_GET_TYPE(this) == GORON_DMT_ROLLING_SMALL) {
+    switch (ENGO2_GET_TYPE(this)) {
+        case GORON_DMT_ROLLING_SMALL:
             bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
             if (bomb != NULL) {
                 bomb->timer = 0;
             }
-        }
-    } else {
-        this->collider.elem.acElemFlags = ACELEM_NONE;
+            break;
+
+        case GORON_CITY_LINK:
+        case GORON_CITY_ROLLING_BIG:
+            this->collider.elem.acElemFlags = ACELEM_NONE;
+            break;
     }
 
     this->actor.shape.rot = this->actor.world.rot;
