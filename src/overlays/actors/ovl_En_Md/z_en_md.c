@@ -650,7 +650,7 @@ u8 EnMd_SetMovedPos(EnMd* this, PlayState* play) {
     return 1;
 }
 
-void EnMd_FadeInOut(EnMd* this, PlayState* play) {
+void EnMd_UpdateAlphaByDistance(EnMd* this, PlayState* play) {
     f32 radius;
 
     if (play->sceneId != SCENE_MIDOS_HOUSE) {
@@ -658,7 +658,7 @@ void EnMd_FadeInOut(EnMd* this, PlayState* play) {
                   (play->sceneId == SCENE_KOKIRI_FOREST))
                      ? 100.0f
                      : 400.0f;
-        this->alpha = Actor_FadeInOut(&this->actor, play, this->alpha, radius);
+        this->alpha = Actor_UpdateAlphaByDistance(&this->actor, play, this->alpha, radius);
         this->actor.shape.shadowAlpha = this->alpha;
     } else {
         this->alpha = 255;
@@ -844,7 +844,7 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
     EnMd_UpdateEyes(this);
-    EnMd_FadeInOut(this, play);
+    EnMd_UpdateAlphaByDistance(this, play);
     Actor_MoveXZGravity(&this->actor);
     EnMd_UpdateTalking(this, play);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
