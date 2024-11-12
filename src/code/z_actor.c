@@ -4396,7 +4396,7 @@ void func_80034CC4(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overr
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8904);
 }
 
-s16 Actor_SmoothStep_Attention(Actor* actor, PlayState* play, s16 alpha, f32 threshold) {
+s16 Actor_FadeInOut(Actor* actor, PlayState* play, s16 alpha, f32 radius) {
     Player* player = GET_PLAYER(play);
     f32 distance;
 
@@ -4406,7 +4406,7 @@ s16 Actor_SmoothStep_Attention(Actor* actor, PlayState* play, s16 alpha, f32 thr
         distance = Math_Vec3f_DistXYZ(&actor->world.pos, &player->actor.world.pos);
     }
 
-    if (threshold < distance) {
+    if (radius < distance) {
         actor->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Math_SmoothStepToS(&alpha, 0, 6, 0x14, 1);
     } else {

@@ -738,7 +738,7 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->actionFunc != func_80AF68E4) {
-        this->alpha = Actor_SmoothStep_Attention(&this->actor, play, this->alpha, 400.0f);
+        this->alpha = Actor_FadeInOut(&this->actor, play, this->alpha, 400.0f);
     } else {
         this->alpha = 255;
     }
