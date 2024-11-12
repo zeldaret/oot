@@ -37,8 +37,8 @@ typedef struct EnMd {
     /* 0x01E0 */ NpcInteractInfo interactInfo;
     /* 0x0208 */ u8 messageEntry; // tracks message state changes, in place of `.actor.textId`
     /* 0x0209 */ u8 messageState; // last known result of `Message_GetState`
-    /* 0x020A */ u8 animEntry;    // each one changes animation info and waits
-    /* 0x020B */ u8 animState;    // defines a sequence of animation entries
+    /* 0x020A */ u8 animSequenceEntry; // each one changes animation info and waits
+    /* 0x020B */ u8 animSequence;
     /* 0x020C */ s16 blinkTimer;
     /* 0x020E */ s16 eyeTexIndex;
     /* 0x0210 */ s16 alpha;
