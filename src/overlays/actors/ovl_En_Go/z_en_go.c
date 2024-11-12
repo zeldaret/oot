@@ -1074,7 +1074,7 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnGo_DrawCurledUp(EnGo* this, PlayState* play) {
-    Vec3f D_80A41BB4 = { 0.0f, 0.0f, 0.0f };
+    Vec3f focusOffset = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go.c", 2320);
 
@@ -1085,14 +1085,14 @@ void EnGo_DrawCurledUp(EnGo* this, PlayState* play) {
 
     gSPDisplayList(POLY_OPA_DISP++, gGoronCurledUpDL);
 
-    Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus.pos);
+    Matrix_MultVec3f(&focusOffset, &this->actor.focus.pos);
     Matrix_Pop();
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go.c", 2341);
 }
 
 void EnGo_DrawRolling(EnGo* this, PlayState* play) {
-    Vec3f D_80A41BC0 = { 0.0f, 0.0f, 0.0f };
+    Vec3f focusOffset = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go.c", 2355);
 
@@ -1102,7 +1102,7 @@ void EnGo_DrawRolling(EnGo* this, PlayState* play) {
                      MTXMODE_APPLY);
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_go.c", 2368);
     gSPDisplayList(POLY_OPA_DISP++, gGoronRollingDL);
-    Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus.pos);
+    Matrix_MultVec3f(&focusOffset, &this->actor.focus.pos);
     Matrix_Pop();
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go.c", 2383);
@@ -1136,10 +1136,10 @@ s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
 
 void EnGo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnGo* this = (EnGo*)thisx;
-    Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
+    Vec3f focusOffset = { 600.0f, 0.0f, 0.0f }; // ahead, this distance
 
     if (limbIndex == GORON_LIMB_HEAD) {
-        Matrix_MultVec3f(&D_80A41BCC, &this->actor.focus.pos);
+        Matrix_MultVec3f(&focusOffset, &this->actor.focus.pos);
     }
 }
 
