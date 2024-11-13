@@ -159,16 +159,16 @@ void EnRu2_Destroy(Actor* thisx, PlayState* play) {
 
 void EnRu2_UpdateEyes(EnRu2* this) {
     s32 pad[3];
-    s16* eyeTextureFrame = &this->eyeTextureFrame;
-    s16* eyeTextureIndex = &this->eyeTextureIndex;
+    s16* blinkTimer = &this->blinkTimer;
+    s16* eyeIndex = &this->eyeIndex;
 
-    if (DECR(*eyeTextureFrame) == 0) {
-        *eyeTextureFrame = Rand_S16Offset(60, 60);
+    if (DECR(*blinkTimer) == 0) {
+        *blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    *eyeTextureIndex = *eyeTextureFrame;
-    if (*eyeTextureIndex >= 3) {
-        *eyeTextureIndex = 0;
+    *eyeIndex = *blinkTimer;
+    if (*eyeIndex >= 3) {
+        *eyeIndex = 0;
     }
 }
 
@@ -344,7 +344,7 @@ void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_WATER) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = ENRU2_AWAIT_BLUE_WARP;
-        play->csCtx.script = gWaterMedallionCs;
+        play->csCtx.script = gWaterMedallionCS;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_WATER);
         temp = this->actor.world.rot.y + 0x8000;
@@ -614,7 +614,7 @@ void EnRu2_AwaitSpawnLightBall(EnRu2* this, PlayState* play) {
 
 void EnRu2_DrawXlu(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->eyeTextureIndex;
+    s16 temp = this->eyeIndex;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -1013,7 +1013,7 @@ void EnRu2_DrawNothing(EnRu2* this, PlayState* play) {
 
 void EnRu2_DrawOpa(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->eyeTextureIndex;
+    s16 temp = this->eyeIndex;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
