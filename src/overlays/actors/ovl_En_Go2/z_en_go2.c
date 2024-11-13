@@ -152,20 +152,20 @@ static AnimationInfo sAnimationInfo[] = {
 
 #define ENGO2_GET_TYPE(this) PARAMS_GET_S((this)->actor.params, 0, 5)
 typedef enum GoronType {
-    /* 0x00 */ GORON_CITY_HOT_RODDER,
-    /* 0x01 */ GORON_CITY_LINK,
-    /* 0x02 */ GORON_DMT_BIGGORON,
-    /* 0x03 */ GORON_FIRE_GENERIC,
-    /* 0x04 */ GORON_DMT_BOMB_FLOWER,
-    /* 0x05 */ GORON_DMT_ROLLING_SMALL,
-    /* 0x06 */ GORON_DMT_DC_ENTRANCE,
-    /* 0x07 */ GORON_CITY_ENTRANCE,
-    /* 0x08 */ GORON_CITY_ISLAND,
-    /* 0x09 */ GORON_CITY_LOWEST_FLOOR,
-    /* 0x0A */ GORON_CITY_STAIRWELL,
-    /* 0x0B */ GORON_CITY_LOST_WOODS,
-    /* 0x0C */ GORON_DMT_FAIRY_HINT,
-    /* 0x0D */ GORON_MARKET_BAZAAR
+    /* 0x0 */ GORON_CITY_HOT_RODDER,
+    /* 0x1 */ GORON_CITY_LINK,
+    /* 0x2 */ GORON_DMT_BIGGORON,
+    /* 0x3 */ GORON_FIRE_GENERIC,
+    /* 0x4 */ GORON_DMT_BOMB_FLOWER,
+    /* 0x5 */ GORON_DMT_ROLLING_SMALL,
+    /* 0x6 */ GORON_DMT_DC_ENTRANCE,
+    /* 0x7 */ GORON_CITY_ENTRANCE,
+    /* 0x8 */ GORON_CITY_ISLAND,
+    /* 0x9 */ GORON_CITY_LOWEST_FLOOR,
+    /* 0xA */ GORON_CITY_STAIRWELL,
+    /* 0xB */ GORON_CITY_LOST_WOODS,
+    /* 0xC */ GORON_DMT_FAIRY_HINT,
+    /* 0xD */ GORON_MARKET_BAZAAR
 } GoronType;
 
 #define ENGO2_GET_PATH_INDEX(this) PARAMS_GET_S((this)->actor.params, 5, 5)
