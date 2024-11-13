@@ -336,7 +336,7 @@ void EnSth_Update2(Actor* thisx, PlayState* play) {
 s32 EnSth_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSth* this = (EnSth*)thisx;
 
-    s32 overridePerLimb;
+    s32 fidgetFrequency;
 
     if (limbIndex == 15) {
         rot->x += this->headRot.y;
@@ -350,9 +350,9 @@ s32 EnSth_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     }
 
     if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
-        overridePerLimb = limbIndex * FIDGET_MUL_I;
-        rot->y += Math_SinS(play->state.frames * (overridePerLimb + FIDGET_ADD_Y)) * FIDGET_SCALE;
-        rot->z += Math_CosS(play->state.frames * (overridePerLimb + FIDGET_ADD_Z)) * FIDGET_SCALE;
+        fidgetFrequency = limbIndex * FIDGET_MUL_I;
+        rot->y += Math_SinS(play->state.frames * (fidgetFrequency + FIDGET_ADD_Y)) * FIDGET_SCALE;
+        rot->z += Math_CosS(play->state.frames * (fidgetFrequency + FIDGET_ADD_Z)) * FIDGET_SCALE;
     }
     return 0;
 }
