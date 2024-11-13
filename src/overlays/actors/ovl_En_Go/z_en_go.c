@@ -100,7 +100,7 @@ typedef enum EnGoType {
 } EnGoType;
 
 #define ENGO_GET_PATH_INDEX(this) PARAMS_GET_U((this)->actor.params, 0, 4)
-#define ENGO_PATH_INDEX_NONE 0xF // likely the count of available paths
+#define ENGO_PATH_INDEX_NONE 0xF
 
 #define ENGO_CAGED_SWITCH_FLAG(this) PARAMS_GET_NOMASK((this)->actor.params, 8)
 #define ENGO_IS_CAGE_OPEN(this, play) Flags_GetSwitch(play, ENGO_CAGED_SWITCH_FLAG(this))
