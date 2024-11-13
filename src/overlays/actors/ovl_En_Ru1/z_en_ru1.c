@@ -400,7 +400,7 @@ s32 EnRu1_GetPlatformCamSetting(EnRu1* this) {
     }
 }
 
-Actor* func_80AEB124(PlayState* play) {
+Actor* EnRu1_FindSapphire(PlayState* play) {
     Actor* actorIter = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
     while (actorIter != NULL) {
@@ -641,9 +641,9 @@ void EnRu1_SwimAwayFromLink(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_PlayDivingEntrySfx(EnRu1* this) {
-    if (this->unk_298 == 0) {
+    if (!this->doveIntoFountain) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_DIVE_INTO_WATER);
-        this->unk_298 = 1;
+        this->doveIntoFountain = true;
     }
 }
 
@@ -779,8 +779,8 @@ void EnRu1_EndSwimBack(EnRu1* this, PlayState* play) {
     }
 }
 
-void EnRu1_EndGivingSapphire(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
-    if ((EnRu1_CheckFountainCueMatchingId(play, 8)) && (arg2 != 0)) {
+void EnRu1_EndGivingSapphire(EnRu1* this, PlayState* play, s32 doneSwimming) {
+    if ((EnRu1_CheckFountainCueMatchingId(play, 8)) && doneSwimming) {
         Actor_Kill(&this->actor);
     }
 }
@@ -927,7 +927,7 @@ s32 EnRu1_IsPlayerInRangeForFirstEncounter(EnRu1* this, PlayState* play) {
 void EnRu1_PlayStepSfx(EnRu1* this) {
     s32 pad[2];
 
-    if (this->isFalling == 0) {
+    if (!this->isFalling) {
         if (Animation_OnFrame(&this->skelAnime, 2.0f) || Animation_OnFrame(&this->skelAnime, 7.0f)) {
             Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
         }
@@ -943,10 +943,10 @@ void EnRu1_PlayFallingSfx(EnRu1* this) {
  * Checks if Ruto is standing over the Jabu Jabu hole and initiates her reaction to falling.
  */
 void EnRu1_RespondToFalling(EnRu1* this, PlayState* play) {
-    if ((EnRu1_CheckCueMatchingId(play, 4, 3)) && (this->isFalling == 0)) {
+    if ((EnRu1_CheckCueMatchingId(play, 4, 3)) && (!this->isFalling)) {
         Animation_Change(&this->skelAnime, &gRutoChildBringArmsUpAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildBringArmsUpAnim), ANIMMODE_ONCE, -8.0f);
-        this->isFalling = 1;
+        this->isFalling = true;
         EnRu1_PlayFallingSfx(this);
     }
 }
@@ -1311,7 +1311,7 @@ void EnRu1_PlayLiftingSfx(EnRu1* this, PlayState* play) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LIFT);
 }
 
-void func_80AED57C(EnRu1* this) {
+void EnRu1_PlayThrowingSfx(EnRu1* this) {
     if (this->actor.speed != 0.0f) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
     }
@@ -1321,15 +1321,18 @@ void EnRu1_PlayBouncingOffWallSfx(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_CRASH);
 }
 
-void func_80AED5DC(EnRu1* this) {
+/**
+ * Ruto periodically squirms while being carried if Link is idle for long enough. This sound effect plays then.
+ */
+void EnRu1_PlayUnbalancingSfx(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_UNBALLANCE);
 }
 
-void func_80AED600(EnRu1* this) {
+void EnRu1_PlaySeeingSapphireSfx(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_DISCOVER);
 }
 
-s32 func_80AED624(EnRu1* this, PlayState* play) {
+s32 EnRu1_CheckSittingInWater(EnRu1* this, PlayState* play) {
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
     if (this->roomNum2 != curRoomNum) {
@@ -1346,7 +1349,8 @@ s32 func_80AED624(EnRu1* this, PlayState* play) {
     return true;
 }
 
-void func_80AED6DC(EnRu1* this, PlayState* play) {
+// TODO: Need to find out what each of the three room number variables means
+void EnRu1_UpdateRoomNum2(EnRu1* this, PlayState* play) {
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
     this->roomNum2 = curRoomNum;
@@ -1365,7 +1369,7 @@ void EnRu1_CheckIfBackInHolesRoom(PlayState* play) {
 }
 
 void EnRu1_FadeWhileSinking(EnRu1* this, PlayState* play) {
-    if (func_80AED624(this, play)) {
+    if (EnRu1_CheckSittingInWater(this, play)) {
         s32 pad;
 
         this->sinkTimer += 1.0f;
@@ -1569,7 +1573,7 @@ void EnRu1_UpdateWaterState(EnRu1* this) {
             EnRu1_StopMoving(this);
             this->bobPhase = 0;
             this->bobDepth = (this->actor.depthInWater - 10.0f) * 0.5f;
-            this->sinkingStartPosY = this->actor.world.pos.y + thisx->bobDepth;
+            this->sinkingStartPosY = this->actor.world.pos.y + thisx->bobDepth; // thisx only used here
         } else {
             // Ruto is touching the water but still in motion, e.g. from being thrown
             this->actor.gravity = 0.0f;
@@ -1724,15 +1728,15 @@ void EnRu1_EndSeeingSapphireAnimation(EnRu1* this, PlayState* play) {
     this->roomNum3 = curRoomNum;
 }
 
-s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
+s32 EnRu1_IsFindingSapphire(EnRu1* this, PlayState* play) {
     s32 pad;
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
-    if (!GET_INFTABLE(INFTABLE_RUTO_BROUGHT_TO_SAPPHIRE_ROOM) && (func_80AEB124(play) != NULL)) {
+    if (!GET_INFTABLE(INFTABLE_RUTO_BROUGHT_TO_SAPPHIRE_ROOM) && (EnRu1_FindSapphire(play) != NULL)) {
         if (!Player_InCsMode(play)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
-            func_80AED600(this);
+            EnRu1_PlaySeeingSapphireSfx(this);
             this->action = ENRU1_ACTION_SITTING_SEES_SAPPHIRE;
             this->walkingFrame = 0.0f;
             play->csCtx.script = gRutoFoundSapphireCs;
@@ -1754,15 +1758,15 @@ void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
 
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
-        func_80AED6DC(this, play);
+        EnRu1_UpdateRoomNum2(this, play);
         this->actor.speed *= (kREG(25) * 0.01f) + 1.0f;
         this->actor.velocity.y *= (kREG(26) * 0.01f) + 1.0f;
         this->actor.minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
         this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);
-        func_80AED57C(this);
+        EnRu1_PlayThrowingSfx(this);
         this->action = ENRU1_ACTION_SITTING_RELEASED;
         *carryIdleTimer = 0.0f;
-    } else if (func_80AEE6D0(this, play)) {
+    } else if (EnRu1_IsFindingSapphire(this, play)) {
         s32 pad;
 
         *carryIdleTimer = 0.0f;
@@ -1777,7 +1781,7 @@ void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
 
                         Animation_Change(&this->skelAnime, &gRutoChildSquirmAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP,
                                          -8.0f);
-                        func_80AED5DC(this);
+                        EnRu1_PlayUnbalancingSfx(this);
                         this->action = ENRU1_ACTION_SITTING_LOSING_BALANCE;
                     }
                     *carryIdleTimer = 0.0f;
@@ -1835,7 +1839,7 @@ void EnRu1_Sitting_Idle(EnRu1* this, PlayState* play) {
     EnRu1_UpdateEyes(this);
     EnRu1_OfferCarry(this, play);
     EnRu1_UpdateSittingAction(this, play);
-    func_80AED624(this, play);
+    EnRu1_CheckSittingInWater(this, play);
     EnRu1_ResetBgCheckFlags(this, play);
 }
 
@@ -1848,7 +1852,7 @@ void EnRu1_Sitting_Released(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_CheckLanding(this, play);
-    func_80AED624(this, play);
+    EnRu1_CheckSittingInWater(this, play);
     EnRu1_ResetBgCheckFlags(this, play);
 }
 
@@ -1859,7 +1863,7 @@ void EnRu1_Sitting_EnteringWater(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_CheckSinkingState(this, play);
-    func_80AED624(this, play);
+    EnRu1_CheckSittingInWater(this, play);
 }
 
 void EnRu1_Sitting_SinkingInWater(EnRu1* this, PlayState* play) {
@@ -1869,7 +1873,7 @@ void EnRu1_Sitting_SinkingInWater(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_CheckHitBottomUnderwater(this, play);
-    func_80AED624(this, play);
+    EnRu1_CheckSittingInWater(this, play);
     EnRu1_ResetBgCheckFlags(this, play);
 }
 
@@ -1900,7 +1904,7 @@ void EnRu1_Sitting_DisappearingInWater(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_FadeWhileSinking(this, play);
-    func_80AED624(this, play);
+    EnRu1_CheckSittingInWater(this, play);
 }
 
 void EnRu1_Sitting_SeesSapphire(EnRu1* this, PlayState* play) {
@@ -1974,7 +1978,7 @@ void EnRu1_HoldSittingPose(EnRu1* this, PlayState* play, s32 isFullySeated) {
                          Animation_GetLastFrame(&gRutoChildSittingAnim), ANIMMODE_LOOP, 0.0f);
         Message_CloseTextbox(play);
         SET_INFTABLE(INFTABLE_RUTO_LET_LINK_CARRY);
-        func_80AED6DC(this, play);
+        EnRu1_UpdateRoomNum2(this, play);
         Actor_OfferCarry(&this->actor, play);
         this->action = ENRU1_ACTION_SITTING_IDLE;
         EnRu1_DisableSittingOC(this);
@@ -2000,7 +2004,7 @@ void EnRu1_SpeakableJabu_Idle(EnRu1* this, PlayState* play) {
     EnRu1_UpdateStandingOC(this, play);
     EnRu1_UpdateBgCheckInfo(this, play);
     isTalking = EnRu1_TalkOfferAccepted(this, play);
-    func_80AED624(this, play);
+    EnRu1_CheckSittingInWater(this, play);
     EnRu1_CheckJabuTalk(this, play, isTalking);
 }
 
@@ -2069,7 +2073,7 @@ void EnRu1_LookUpAtSapphire(EnRu1* this) {
         if (curFrame >= 60.0f) {
             EnRu1_SetEyes(this, ENRU1_EYES_UP);
             EnRu1_SetMouth(this, ENRU1_MOUTH_SMILING);
-            func_80AED57C(this);
+            EnRu1_PlayThrowingSfx(this);
             sReachedForSapphire = 1;
         }
     }

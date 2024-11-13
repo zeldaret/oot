@@ -35,11 +35,11 @@ typedef struct EnRu1 {
     /* 0x0284 */ s8 roomNum1;
     /* 0x0285 */ s8 roomNum2;
     /* 0x0286 */ s8 roomNum3;
-    /* 0x0288 */ f32 unk_288;
+    /* 0x0288 */ f32 unk_288; // set to 0 but unused
     /* 0x028C */ BgBdanObjects* bigOctoPlatform;
     /* 0x0290 */ s32 preLimbDrawIndex;
     /* 0x0294 */ char unk_294[0x4];
-    /* 0x0298 */ s32 unk_298;
+    /* 0x0298 */ s32 doveIntoFountain;
     /* 0x029C */ char unk_29C[0x2];
     /* 0x029E */ s16 headTurnSpeed;
     /* 0x02A0 */ char unk_2A0[0x4];
