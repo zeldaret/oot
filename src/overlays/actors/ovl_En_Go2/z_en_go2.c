@@ -46,7 +46,7 @@ void EnGo2_CurledUp(EnGo2* this, PlayState* play);
 
 void EnGo2_Standing(EnGo2* this, PlayState* play);
 void EnGo2_GoronDmtBombFlower(EnGo2* this, PlayState* play);
-void EnGo2_GoronRollingBig(EnGo2* this, PlayState* play);
+void EnGo2_GoronHotRodder(EnGo2* this, PlayState* play);
 void EnGo2_RollingStart(EnGo2* this, PlayState* play);
 void EnGo2_RollingSlow(EnGo2* this, PlayState* play);
 void EnGo2_GroundRolling(EnGo2* this, PlayState* play);
@@ -340,7 +340,7 @@ u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
     }
 }
 
-u16 EnGo2_GetTextIdGoronCityRollingBig(PlayState* play, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronCityHotRodder(PlayState* play, EnGo2* this) {
     if (GET_INFTABLE(INFTABLE_11E)) {
         return 0x3013;
     } else if (CUR_CAPACITY(UPG_BOMB_BAG) >= 20 && this->waypoint > 7 && this->waypoint < 12) {
@@ -350,7 +350,7 @@ u16 EnGo2_GetTextIdGoronCityRollingBig(PlayState* play, EnGo2* this) {
     }
 }
 
-s16 EnGo2_UpdateTalkStateGoronCityRollingBig(PlayState* play, EnGo2* this) {
+s16 EnGo2_UpdateTalkStateGoronCityHotRodder(PlayState* play, EnGo2* this) {
     s32 bombBagUpgrade;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -769,7 +769,7 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
     } else {
         switch (ENGO2_GET_TYPE(this)) {
             case GORON_CITY_HOT_RODDER:
-                return EnGo2_GetTextIdGoronCityRollingBig(play, this);
+                return EnGo2_GetTextIdGoronCityHotRodder(play, this);
             case GORON_CITY_LINK:
                 return EnGo2_GetTextIdGoronCityLink(play, this);
             case GORON_DMT_BIGGORON:
@@ -807,7 +807,7 @@ s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnGo2* this = (EnGo2*)thisx;
     switch (ENGO2_GET_TYPE(this)) {
         case GORON_CITY_HOT_RODDER:
-            return EnGo2_UpdateTalkStateGoronCityRollingBig(play, this);
+            return EnGo2_UpdateTalkStateGoronCityHotRodder(play, this);
         case GORON_CITY_LINK:
             return EnGo2_UpdateTalkStateGoronCityLink(play, this);
         case GORON_DMT_BIGGORON:
@@ -1452,13 +1452,13 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
     return true;
 }
 
-s32 EnGo2_IsGoronRollingBig(EnGo2* this, PlayState* play) {
+s32 EnGo2_IsGoronHotRodder(EnGo2* this, PlayState* play) {
     if (ENGO2_GET_TYPE(this) != GORON_CITY_HOT_RODDER || (this->interactInfo.talkState != NPC_TALK_STATE_ACTION)) {
         return false;
     }
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     EnGo2_AnimateRolling(this, play);
-    this->actionFunc = EnGo2_GoronRollingBig;
+    this->actionFunc = EnGo2_GoronHotRodder;
     return true;
 }
 
@@ -1715,7 +1715,7 @@ void EnGo2_Standing(EnGo2* this, PlayState* play) {
         EnGo2_AnimateGoronLinkAndDoSfx(this, play);
         EnGo2_SetupUncurledFlags(this);
 
-        if (!EnGo2_IsGoronRollingBig(this, play) && !EnGo2_IsGoronFireGeneric(this)) {
+        if (!EnGo2_IsGoronHotRodder(this, play) && !EnGo2_IsGoronFireGeneric(this)) {
             if (EnGo2_IsGoronDmtBombFlower(this)) {
                 return;
             }
@@ -1751,7 +1751,7 @@ void EnGo2_GoronDmtBombFlower(EnGo2* this, PlayState* play) {
     }
 }
 
-void EnGo2_GoronRollingBig(EnGo2* this, PlayState* play) {
+void EnGo2_GoronHotRodder(EnGo2* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         EnGo2_SpawnDust(this, 1);
         this->skelAnime.playSpeed = 0.0f;
@@ -1868,7 +1868,7 @@ void EnGo2_HandleOfferParented(EnGo2* this, PlayState* play) {
             case GI_BOMB_BAG_30:
             case GI_BOMB_BAG_40:
                 EnGo2_AnimateRolling(this, play);
-                this->actionFunc = EnGo2_GoronRollingBig;
+                this->actionFunc = EnGo2_GoronHotRodder;
                 return;
         }
         this->actionFunc = EnGo2_Standing;
