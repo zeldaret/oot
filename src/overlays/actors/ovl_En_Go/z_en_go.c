@@ -88,15 +88,15 @@ static AnimationSpeedInfo sAnimationInfo[] = {
 
 #define ENGO_GET_TYPE(this) PARAMS_GET_NOSHIFT((this)->actor.params, 4, 4)
 typedef enum EnGoType {
-    ENGO_TYPE_CITY_LINK = 0x00,
-    ENGO_TYPE_FIRE_GENERIC = 0x10,
-    ENGO_TYPE_DMT_DC_ENTRANCE = 0x20,
-    ENGO_TYPE_DMT_ROLLING_SMALL = 0x30,
-    ENGO_TYPE_DMT_BOMB_FLOWER = 0x40,
-    ENGO_TYPE_CITY_ENTRANCE = 0x50,
-    ENGO_TYPE_CITY_ISLAND = 0x60,
-    ENGO_TYPE_CITY_LOST_WOODS = 0x70,
-    ENGO_TYPE_DMT_BIGGORON = 0x90
+    ENGO_TYPE_CITY_LINK = (0 << 4),
+    ENGO_TYPE_FIRE_GENERIC = (1 << 4),
+    ENGO_TYPE_DMT_DC_ENTRANCE = (2 << 4),
+    ENGO_TYPE_DMT_ROLLING_SMALL = (3 << 4),
+    ENGO_TYPE_DMT_BOMB_FLOWER = (4 << 4),
+    ENGO_TYPE_CITY_ENTRANCE = (5 << 4),
+    ENGO_TYPE_CITY_ISLAND = (6 << 4),
+    ENGO_TYPE_CITY_LOST_WOODS = (7 << 4),
+    ENGO_TYPE_DMT_BIGGORON = (9 << 4)
 } EnGoType;
 
 #define ENGO_GET_PATH_INDEX(this) PARAMS_GET_U((this)->actor.params, 0, 4)
