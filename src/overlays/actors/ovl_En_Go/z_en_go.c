@@ -443,7 +443,7 @@ void EnGo_UpdateBlinking(EnGo* this) {
     }
 }
 
-s32 EnGo_IsAttentionDrawn(EnGo* this, PlayState* play) {
+s32 EnGo_IsInRange(EnGo* this, PlayState* play) {
     f32 xyzDistSq;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     Camera* mainCam = play->cameraPtrs[CAM_ID_MAIN];
@@ -798,7 +798,7 @@ void EnGo_GoronFireGeneric(EnGo* this, PlayState* play) {
 }
 
 void EnGo_CurledUp(EnGo* this, PlayState* play) {
-    if ((DECR(this->curledTimer) == 0) && EnGo_IsAttentionDrawn(this, play)) {
+    if ((DECR(this->curledTimer) == 0) && EnGo_IsInRange(this, play)) {
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_WAKE_UP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
@@ -836,7 +836,7 @@ void EnGo_AttentionDrawn(EnGo* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         EnGo_SetupAction(this, EnGo_Sitting);
-    } else if (!EnGo_IsAttentionDrawn(this, play)) {
+    } else if (!EnGo_IsInRange(this, play)) {
         EnGo_ReverseAnimation(this);
         this->skelAnime.playSpeed = 0.0f;
         EnGo_SetupAction(this, EnGo_CurlUp);
@@ -911,7 +911,7 @@ void EnGo_Standing(EnGo* this, PlayState* play) {
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else {
-        if ((DECR(this->attentionCooldown) == 0) && !EnGo_IsAttentionDrawn(this, play)) {
+        if ((DECR(this->attentionCooldown) == 0) && !EnGo_IsInRange(this, play)) {
             EnGo_ReverseAnimation(this);
             this->skelAnime.playSpeed = -0.1f;
             this->skelAnime.playSpeed *= ENGO_GET_SPEED_SCALE(this);
@@ -941,7 +941,7 @@ void EnGo_AttentionLost(EnGo* this, PlayState* play) {
 
     if (DECR(this->attentionCooldown) == 0) {
         EnGo_SetupAction(this, EnGo_CurlUp);
-    } else if (EnGo_IsAttentionDrawn(this, play)) {
+    } else if (EnGo_IsInRange(this, play)) {
         EnGo_ReverseAnimation(this);
         Audio_PlaySfxGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

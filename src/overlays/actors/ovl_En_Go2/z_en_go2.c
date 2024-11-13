@@ -851,7 +851,7 @@ s32 EnGo2_UpdateTalking(EnGo2* this, PlayState* play) {
         }
     }
 
-    // `GORON_DMT_BIGGORON`, attention wasn't drawn; see `EnGo2_IsAttentionDrawn`
+    // `GORON_DMT_BIGGORON`, close enough; see `EnGo2_IsInRange`
     if (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) {
         if (!(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
             return false;
@@ -999,7 +999,7 @@ s32 EnGo2_OrientInstant(EnGo2* this) {
     return 1;
 }
 
-s32 EnGo2_IsAttentionDrawn(EnGo2* this) {
+s32 EnGo2_IsInRange(EnGo2* this) {
     s16 yawDiff;
     f32 xyzDist = (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) ? 800.0f : 200.0f;
     f32 yDist = (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) ? 400.0f : 60.0f;
@@ -1205,10 +1205,10 @@ s32 EnGo2_ShouldStay(EnGo2* this, PlayState* play) {
     Camera* mainCam = play->cameraPtrs[CAM_ID_MAIN];
 
     if (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) {
-        if (EnGo2_IsAttentionDrawn(this)) {
+        if (EnGo2_IsInRange(this)) {
             Camera_RequestSetting(mainCam, CAM_SET_DIRECTED_YAW);
             Camera_UnsetStateFlag(mainCam, CAM_STATE_CHECK_BG);
-        } else if (!EnGo2_IsAttentionDrawn(this) && (mainCam->setting == CAM_SET_DIRECTED_YAW)) {
+        } else if (!EnGo2_IsInRange(this) && (mainCam->setting == CAM_SET_DIRECTED_YAW)) {
             Camera_RequestSetting(mainCam, CAM_SET_DUNGEON1);
             Camera_SetStateFlag(mainCam, CAM_STATE_CHECK_BG);
         }
@@ -1228,7 +1228,7 @@ s32 EnGo2_ShouldStay(EnGo2* this, PlayState* play) {
 }
 
 void EnGo2_SetupUncurledFlags_Default(EnGo2* this) {
-    this->trackingMode = EnGo2_IsAttentionDrawn(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
+    this->trackingMode = EnGo2_IsInRange(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->trackingMode = NPC_TRACKING_FULL_BODY;
@@ -1252,7 +1252,7 @@ void EnGo2_SetupUncurledFlags_NearTracking(EnGo2* this) {
 }
 
 void EnGo2_SetupUncurledFlags_Biggoron(EnGo2* this) {
-    if (EnGo2_IsAttentionDrawn(this) || this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+    if (EnGo2_IsInRange(this) || this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
         this->isTalkative = true;
     } else {
@@ -1265,7 +1265,7 @@ void EnGo2_SetupUncurledFlags(EnGo2* this) {
     switch (ENGO2_GET_TYPE(this)) {
         case GORON_DMT_BOMB_FLOWER:
             this->isTalkative = true;
-            this->trackingMode = EnGo2_IsAttentionDrawn(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
+            this->trackingMode = EnGo2_IsInRange(this) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
             break;
         case GORON_FIRE_GENERIC:
             EnGo2_SetupUncurledFlags_NearTracking(this);
@@ -1472,7 +1472,7 @@ s32 EnGo2_IsGoronFireGeneric(EnGo2* this) {
 
 s32 EnGo2_IsGoronLinkReversing(EnGo2* this) {
     if (ENGO2_GET_TYPE(this) != GORON_CITY_LINK || (this->waypoint >= this->reverseWaypoint) ||
-        !EnGo2_IsAttentionDrawn(this)) {
+        !EnGo2_IsInRange(this)) {
         return false;
     }
     return true;
@@ -1701,7 +1701,7 @@ void EnGo2_CurledUp(EnGo2* this, PlayState* play) {
         this->isTalkative = false;
         EnGo2_WakeUpAnimated(this, play);
     }
-    if ((ENGO2_GET_TYPE(this) != GORON_FIRE_GENERIC) && EnGo2_IsAttentionDrawn(this)) {
+    if ((ENGO2_GET_TYPE(this) != GORON_FIRE_GENERIC) && EnGo2_IsInRange(this)) {
         EnGo2_WakeUpAnimated(this, play);
     }
 }
@@ -1736,7 +1736,7 @@ void EnGo2_Standing(EnGo2* this, PlayState* play) {
                 (s16)((height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.endFrame)) + (height * 0.6f));
         }
     }
-    if ((!EnGo2_ShouldStay(this, play)) && (!EnGo2_IsAttentionDrawn(this))) {
+    if ((!EnGo2_ShouldStay(this, play)) && (!EnGo2_IsInRange(this))) {
         EnGo2_AnimateRolling(this, play);
     }
 }
