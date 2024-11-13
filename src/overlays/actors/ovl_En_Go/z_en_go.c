@@ -21,7 +21,7 @@ void EnGo_AttentionDrawn(EnGo* this, PlayState* play);
 void EnGo_CurlUp(EnGo* this, PlayState* play);
 void EnGo_Sitting(EnGo* this, PlayState* play);
 void EnGo_Standing(EnGo* this, PlayState* play);
-void EnGo_LostAttention(EnGo* this, PlayState* play);
+void EnGo_AttentionLost(EnGo* this, PlayState* play);
 
 void EnGo_GoronDmtBombFlower(EnGo* this, PlayState* play);
 void EnGo_Interact(EnGo* this, PlayState* play);
@@ -915,12 +915,12 @@ void EnGo_Standing(EnGo* this, PlayState* play) {
             EnGo_ReverseAnimation(this);
             this->skelAnime.playSpeed = -0.1f;
             this->skelAnime.playSpeed *= ENGO_GET_SPEED_SCALE(this);
-            EnGo_SetupAction(this, EnGo_LostAttention);
+            EnGo_SetupAction(this, EnGo_AttentionLost);
         }
     }
 }
 
-void EnGo_LostAttention(EnGo* this, PlayState* play) {
+void EnGo_AttentionLost(EnGo* this, PlayState* play) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
