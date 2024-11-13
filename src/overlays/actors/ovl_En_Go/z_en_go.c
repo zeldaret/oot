@@ -1,3 +1,7 @@
+/* @unused: unlike `ACTOR_EN_GO2`, this one doesn't participate in any scene whatsoever
+ * besides, this code bears a handful of bugs and WIP code; see `z_en_go2.c` instead
+ */
+
 #include "z_en_go.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
@@ -34,8 +38,6 @@ void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
 void EnGo_UpdateEffects(EnGo* this);
 void EnGo_DrawEffects(EnGo* this, PlayState* play);
 
-// @unused: unlike `ACTOR_EN_GO2`, this one doesn't participate in any scene whatsoever
-// besides, this code bears a handful of bugs and WIP code; see `z_en_go2.c` instead
 ActorProfile En_Go_Profile = {
     /**/ ACTOR_EN_GO,
     /**/ ACTORCAT_NPC,
