@@ -102,8 +102,8 @@ typedef enum EnGoType {
 #define ENGO_GET_PATH_INDEX(this) PARAMS_GET_U((this)->actor.params, 0, 4)
 #define ENGO_PATH_INDEX_NONE 0xF // likely the count of available paths
 
-#define ENGO2_CAGED_FLAG(this) PARAMS_GET_NOMASK((this)->actor.params, 8)
-#define ENGO2_IS_CAGE_OPEN(this, play) Flags_GetSwitch(play, ENGO2_CAGED_FLAG(this))
+#define ENGO_CAGED_SWITCH_FLAG(this) PARAMS_GET_NOMASK((this)->actor.params, 8)
+#define ENGO_IS_CAGE_OPEN(this, play) Flags_GetSwitch(play, ENGO_CAGED_SWITCH_FLAG(this))
 
 #define ENGO_GET_SPEED_SCALE(this) (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f)
 
@@ -158,7 +158,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                 }
             }
         case ENGO_TYPE_FIRE_GENERIC:
-            if (ENGO2_IS_CAGE_OPEN((EnGo*)thisx, play)) {
+            if (ENGO_IS_CAGE_OPEN((EnGo*)thisx, play)) {
                 return 0x3052;
             } else {
                 return 0x3051;
@@ -382,7 +382,7 @@ void EnGo_ChangeAnim(EnGo* this, s32 index) {
 s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
     if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
         return true;
-    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !ENGO2_IS_CAGE_OPEN(this, play) && LINK_IS_ADULT &&
+    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !ENGO_IS_CAGE_OPEN(this, play) && LINK_IS_ADULT &&
                ENGO_GET_TYPE(this) == ENGO_TYPE_FIRE_GENERIC) {
         return true;
     } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_ADULT && ENGO_GET_TYPE(this) == ENGO_TYPE_CITY_LINK) {
@@ -515,7 +515,7 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
 
         if (ENGO_GET_TYPE(this) != ENGO_TYPE_CITY_LINK) {
             return true;
-        } else if (ENGO2_IS_CAGE_OPEN(this, play)) {
+        } else if (ENGO_IS_CAGE_OPEN(this, play)) {
             return true;
         } else if (this->waypoint >= this->actor.shape.rot.z) {
             this->waypoint = 0;
@@ -783,7 +783,7 @@ void EnGo_RollingToCurledUp(EnGo* this, PlayState* play) {
 }
 
 void EnGo_RollingLink(EnGo* this, PlayState* play) {
-    if ((EnGo_FollowPath(this, play) == true) && ENGO2_IS_CAGE_OPEN(this, play) && (this->waypoint == 0)) {
+    if ((EnGo_FollowPath(this, play) == true) && ENGO_IS_CAGE_OPEN(this, play) && (this->waypoint == 0)) {
         this->actor.speed = 0.0f;
         EnGo_SetupAction(this, EnGo_RollingToCurledUp);
         SET_INFTABLE(INFTABLE_109);

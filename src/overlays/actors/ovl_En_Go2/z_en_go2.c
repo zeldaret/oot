@@ -169,8 +169,8 @@ typedef enum GoronType {
 } GoronType;
 
 #define ENGO2_GET_PATH_INDEX(this) PARAMS_GET_S((this)->actor.params, 5, 5)
-#define ENGO2_CAGED_FLAG(this) PARAMS_GET_S((this)->actor.params, 10, 6)
-#define ENGO2_IS_CAGE_OPEN(play, this) Flags_GetSwitch(play, ENGO2_CAGED_FLAG(this))
+#define ENGO2_CAGED_SWITCH_FLAG(this) PARAMS_GET_S((this)->actor.params, 10, 6)
+#define ENGO2_IS_CAGE_OPEN(play, this) Flags_GetSwitch(play, ENGO2_CAGED_SWITCH_FLAG(this))
 
 static EnGo2DustEffectData sDustEffectData[2][4] = {
     {
@@ -318,7 +318,7 @@ s32 EnGo2_GetDialogState(EnGo2* this, PlayState* play) {
 }
 
 u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
-    switch (ENGO2_CAGED_FLAG(this)) {
+    switch (ENGO2_CAGED_SWITCH_FLAG(this)) {
         case 3:
             return 0x3069;
         case 5:
@@ -1991,8 +1991,9 @@ void EnGo2_GoronFireGeneric(EnGo2* this, PlayState* play) {
             } else {
                 this->animTimer = 0;
                 this->actor.speed = 0.0f;
-                if ((ENGO2_CAGED_FLAG(this) != 1) && (ENGO2_CAGED_FLAG(this) != 2) && (ENGO2_CAGED_FLAG(this) != 4) &&
-                    (ENGO2_CAGED_FLAG(this) != 5) && (ENGO2_CAGED_FLAG(this) != 9) && (ENGO2_CAGED_FLAG(this) != 11)) {
+                if ((ENGO2_CAGED_SWITCH_FLAG(this) != 1) && (ENGO2_CAGED_SWITCH_FLAG(this) != 2) &&
+                    (ENGO2_CAGED_SWITCH_FLAG(this) != 4) && (ENGO2_CAGED_SWITCH_FLAG(this) != 5) &&
+                    (ENGO2_CAGED_SWITCH_FLAG(this) != 9) && (ENGO2_CAGED_SWITCH_FLAG(this) != 11)) {
                     this->goronState++;
                 }
                 this->goronState++;
