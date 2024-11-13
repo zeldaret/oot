@@ -304,17 +304,17 @@ void EnGo2_OfferItem(EnGo2* this, PlayState* play, s32 getItemId) {
 }
 
 s32 EnGo2_GetDialogState(EnGo2* this, PlayState* play) {
-    s16 dialogState = Message_GetState(&play->msgCtx);
+    s16 messageState = Message_GetState(&play->msgCtx);
 
     if ((this->messageState == TEXT_STATE_AWAITING_NEXT) || (this->messageState == TEXT_STATE_EVENT) ||
         (this->messageState == TEXT_STATE_CLOSING) || (this->messageState == TEXT_STATE_DONE_HAS_NEXT)) {
-        if (dialogState != this->messageState) {
+        if (messageState != this->messageState) {
             this->messageEntry++;
         }
     }
 
-    this->messageState = dialogState;
-    return dialogState;
+    this->messageState = messageState;
+    return messageState;
 }
 
 u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
