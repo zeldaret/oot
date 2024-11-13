@@ -120,7 +120,7 @@ static f32 sPlayerTrackingYOffsets[14][2] = {
 
 typedef enum EnGo2Animation {
     /*  0 */ ENGO2_ANIM_UNCURL_SIT_STAND_IDLE, // default idle
-    /*  1 */ ENGO2_ANIM_UNCURL_SIT_STAND,
+    /*  1 */ ENGO2_ANIM_UNCURL_SIT_STAND_NORMAL,
     /*  2 */ ENGO2_ANIM_WALKING_LOOP,
     /*  3 */ ENGO2_ANIM_SIDESTEP_LOOP,
     /*  4 */ ENGO2_ANIM_CRYING_LOOP,
@@ -152,7 +152,7 @@ static AnimationInfo sAnimationInfo[] = {
 
 #define ENGO2_GET_TYPE(this) PARAMS_GET_S((this)->actor.params, 0, 5)
 typedef enum GoronType {
-    /* 0x00 */ GORON_CITY_ROLLING_BIG,
+    /* 0x00 */ GORON_CITY_HOT_RODDER,
     /* 0x01 */ GORON_CITY_LINK,
     /* 0x02 */ GORON_DMT_BIGGORON,
     /* 0x03 */ GORON_FIRE_GENERIC,
@@ -181,7 +181,7 @@ static EnGo2DustEffectData sDustEffectData[2][4] = {
         { 12, 0.2f, 0.2f, 1, 18.0f, 0.0f },
     },
     {
-        // GORON_CITY_ROLLING_BIG
+        // GORON_CITY_HOT_RODDER
         { 12, 0.5f, 0.4f, 3, 42.0f, 0.0f },
         { 12, 0.5f, 0.4f, 3, 42.0f, 0.0f },
         { 12, 0.5f, 0.4f, 3, 42.0f, 0.0f },
@@ -768,7 +768,7 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
         return textId;
     } else {
         switch (ENGO2_GET_TYPE(this)) {
-            case GORON_CITY_ROLLING_BIG:
+            case GORON_CITY_HOT_RODDER:
                 return EnGo2_GetTextIdGoronCityRollingBig(play, this);
             case GORON_CITY_LINK:
                 return EnGo2_GetTextIdGoronCityLink(play, this);
@@ -806,7 +806,7 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
 s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnGo2* this = (EnGo2*)thisx;
     switch (ENGO2_GET_TYPE(this)) {
-        case GORON_CITY_ROLLING_BIG:
+        case GORON_CITY_HOT_RODDER:
             return EnGo2_UpdateTalkStateGoronCityRollingBig(play, this);
         case GORON_CITY_LINK:
             return EnGo2_UpdateTalkStateGoronCityLink(play, this);
@@ -845,7 +845,7 @@ s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
 s32 EnGo2_UpdateTalking(EnGo2* this, PlayState* play) {
     // default:
     if (ENGO2_GET_TYPE(this) != GORON_DMT_BIGGORON) {
-        if (ENGO2_GET_TYPE(this) != GORON_CITY_ROLLING_BIG) {
+        if (ENGO2_GET_TYPE(this) != GORON_CITY_HOT_RODDER) {
             return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange,
                                      EnGo2_GetTextId, EnGo2_UpdateTalkState);
         }
@@ -858,7 +858,7 @@ s32 EnGo2_UpdateTalking(EnGo2* this, PlayState* play) {
         }
     }
 
-    // `GORON_DMT_BIGGORON` || `GORON_CITY_ROLLING_BIG`
+    // `GORON_DMT_BIGGORON` || `GORON_CITY_HOT_RODDER`
     {
         if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
@@ -1047,8 +1047,8 @@ s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 bounceCount, f32 boundSpeed, s16 ru
     // bounce!
     {
         if (this->bounceCounter >= 2) {
-            Actor_PlaySfx(&this->actor, (ENGO2_GET_TYPE(this) == GORON_CITY_ROLLING_BIG) ? NA_SE_EN_GOLON_LAND_BIG
-                                                                                         : NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, (ENGO2_GET_TYPE(this) == GORON_CITY_HOT_RODDER) ? NA_SE_EN_GOLON_LAND_BIG
+                                                                                        : NA_SE_EN_DODO_M_GND);
         }
 
         this->bounceCounter--;
@@ -1169,7 +1169,7 @@ void EnGo2_RollForward(EnGo2* this) {
 
 void EnGo2_ChooseIdleAnimation(EnGo2* this) {
     switch (ENGO2_GET_TYPE(this)) {
-        case GORON_CITY_ROLLING_BIG:
+        case GORON_CITY_HOT_RODDER:
         case GORON_DMT_DC_ENTRANCE:
         case GORON_CITY_ENTRANCE:
         case GORON_CITY_STAIRWELL:
@@ -1197,7 +1197,7 @@ f32 EnGo2_GetTargetXZSpeed(EnGo2* this) {
         (this->actor.xzDistToPlayer < 400.0f)) {
         return 9.0f;
     } else {
-        return index == GORON_CITY_ROLLING_BIG ? 3.6000001f : 6.0f;
+        return index == GORON_CITY_HOT_RODDER ? 3.6000001f : 6.0f;
     }
 }
 
@@ -1214,7 +1214,7 @@ s32 EnGo2_ShouldStay(EnGo2* this, PlayState* play) {
         }
     }
 
-    if (ENGO2_GET_TYPE(this) == GORON_FIRE_GENERIC || ENGO2_GET_TYPE(this) == GORON_CITY_ROLLING_BIG ||
+    if (ENGO2_GET_TYPE(this) == GORON_FIRE_GENERIC || ENGO2_GET_TYPE(this) == GORON_CITY_HOT_RODDER ||
         ENGO2_GET_TYPE(this) == GORON_CITY_STAIRWELL || (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) ||
         ENGO2_GET_TYPE(this) == GORON_MARKET_BAZAAR) {
         return true;
@@ -1335,7 +1335,7 @@ void EnGo2_PlayStandingChangeSfx(EnGo2* this) {
 }
 
 void EnGo2_SpawnDust(EnGo2* this, s32 index2) {
-    s32 index1 = ENGO2_GET_TYPE(this) == GORON_CITY_ROLLING_BIG ? 1 : 0;
+    s32 index1 = ENGO2_GET_TYPE(this) == GORON_CITY_HOT_RODDER ? 1 : 0;
     EnGo2DustEffectData* dustEffectData = &sDustEffectData[index1][index2];
 
     EnGo2_SpawnDustExplicitly(this, dustEffectData->initialTimer, dustEffectData->scale, dustEffectData->scaleStep,
@@ -1348,7 +1348,7 @@ void EnGo2_AnimateRolling(EnGo2* this, PlayState* play) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_BIG);
         this->skelAnime.playSpeed = -0.5f;
     } else {
-        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_NORMAL);
         this->skelAnime.playSpeed = -1.0f;
     }
     EnGo2_SwapInitialFrameAnimFrameCount(this);
@@ -1371,14 +1371,14 @@ void EnGo2_WakeUpAnimated(EnGo2* this, PlayState* play) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_BIG);
         this->skelAnime.playSpeed = 0.5f;
     } else {
-        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_NORMAL);
         this->skelAnime.playSpeed = 1.0f;
     }
     this->actionFunc = EnGo2_Standing;
 }
 
 void EnGo2_WakeUpInstant(EnGo2* this, PlayState* play) {
-    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_NORMAL);
     this->isUncurled = true;
     this->actionFunc = EnGo2_Standing;
     this->skelAnime.playSpeed = 0.0f;
@@ -1387,7 +1387,7 @@ void EnGo2_WakeUpInstant(EnGo2* this, PlayState* play) {
 }
 
 void EnGo2_StartRolling(EnGo2* this, PlayState* play) {
-    if (ENGO2_GET_TYPE(this) == GORON_CITY_ROLLING_BIG || ENGO2_GET_TYPE(this) == GORON_CITY_LINK) {
+    if (ENGO2_GET_TYPE(this) == GORON_CITY_HOT_RODDER || ENGO2_GET_TYPE(this) == GORON_CITY_LINK) {
         this->collider.elem.acElemFlags = ACELEM_ON;
         this->actor.speed = GET_INFTABLE(INFTABLE_11E) ? 6.0f : 3.6000001f;
     } else {
@@ -1413,7 +1413,7 @@ void EnGo2_StopRolling(EnGo2* this, PlayState* play) {
             break;
 
         case GORON_CITY_LINK:
-        case GORON_CITY_ROLLING_BIG:
+        case GORON_CITY_HOT_RODDER:
             this->collider.elem.acElemFlags = ACELEM_NONE;
             break;
     }
@@ -1453,7 +1453,7 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
 }
 
 s32 EnGo2_IsGoronRollingBig(EnGo2* this, PlayState* play) {
-    if (ENGO2_GET_TYPE(this) != GORON_CITY_ROLLING_BIG || (this->interactInfo.talkState != NPC_TALK_STATE_ACTION)) {
+    if (ENGO2_GET_TYPE(this) != GORON_CITY_HOT_RODDER || (this->interactInfo.talkState != NPC_TALK_STATE_ACTION)) {
         return false;
     }
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
@@ -1565,7 +1565,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
-    // Not GORON_CITY_ROLLING_BIG, GORON_CITY_LINK, GORON_DMT_BIGGORON
+    // Not GORON_CITY_HOT_RODDER, GORON_CITY_LINK, GORON_DMT_BIGGORON
     switch (ENGO2_GET_TYPE(this)) {
         case GORON_FIRE_GENERIC:
         case GORON_DMT_BOMB_FLOWER:
@@ -1631,7 +1631,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                 this->isTalkative = true;
             }
             break;
-        case GORON_CITY_ROLLING_BIG:
+        case GORON_CITY_HOT_RODDER:
         case GORON_DMT_ROLLING_SMALL:
             this->collider.dim.height = (sColliderData[ENGO2_GET_TYPE(this)].height * 0.6f);
             EnGo2_StartRolling(this, play);
@@ -1808,7 +1808,7 @@ void EnGo2_GroundRolling(EnGo2* this, PlayState* play) {
                     this->goronState = 0;
                     this->actionFunc = EnGo2_GoronLink;
                     break;
-                case GORON_CITY_ROLLING_BIG:
+                case GORON_CITY_HOT_RODDER:
                     EnGo2_WakeUpAnimated(this, play);
                     break;
                 default:
@@ -1906,7 +1906,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
                 this->eyeMouthTexState = 0;
             }
             if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_NORMAL);
                 this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                 this->trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
                 this->skelAnime.playSpeed = 0.0f;

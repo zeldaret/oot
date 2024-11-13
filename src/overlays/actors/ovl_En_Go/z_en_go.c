@@ -72,7 +72,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnGoAnimation {
     /* 0 */ ENGO_ANIM_UNCURL_SIT_STAND_IDLE, // default idle
-    /* 1 */ ENGO_ANIM_UNCURL_SIT_STAND,
+    /* 1 */ ENGO_ANIM_UNCURL_SIT_STAND_NORMAL,
     /* 2 */ ENGO_ANIM_WALKING_LOOP,
     /* 3 */ ENGO_ANIM_SIDESTEP_LOOP
 } EnGoAnimation;
@@ -956,7 +956,7 @@ void EnGo_Sidestep(EnGo* this, PlayState* play) {
 
     this->actor.speed = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, play) && this->waypoint == 0) {
-        EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND);
+        EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND_NORMAL);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
         this->actor.speed = 0.0f;
         EnGo_SetupAction(this, EnGo_Standing);
@@ -1039,7 +1039,7 @@ void EnGo_TakingEyedrops(EnGo* this, PlayState* play) {
 
 void EnGo_EyedropsTaken(EnGo* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND);
+        EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND_NORMAL);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronUncurlSitStandAnim);
         Message_CloseTextbox(play);
         EnGo_SetupAction(this, EnGo_Interact);
