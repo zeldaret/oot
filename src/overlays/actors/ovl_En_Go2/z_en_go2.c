@@ -2132,15 +2132,13 @@ void EnGo2_Draw(Actor* thisx, PlayState* play) {
     }
 
     // draw skeleton normally
-    {
-        OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 3063);
-        Gfx_SetupDL_25Opa(play->state.gfxCtx);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 3063);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                              EnGo2_OverrideLimbDraw, EnGo2_PostLimbDraw, this);
-        CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2.c", 3081);
-    }
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          EnGo2_OverrideLimbDraw, EnGo2_PostLimbDraw, this);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2.c", 3081);
 }

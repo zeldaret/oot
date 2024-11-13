@@ -1168,17 +1168,15 @@ void EnGo_Draw(Actor* thisx, PlayState* play) {
     }
 
     // draw skeleton normally
-    {
-        Gfx_SetupDL_37Opa(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gGoronCsEyeOpenTex));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gGoronCsEyeOpenTex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                              EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
-        CLOSE_DISPS(play->state.gfxCtx, "../z_en_go.c", 2525);
-        EnGo_DrawEffects(this, play);
-    }
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_go.c", 2525);
+    EnGo_DrawEffects(this, play);
 }
 
 void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
