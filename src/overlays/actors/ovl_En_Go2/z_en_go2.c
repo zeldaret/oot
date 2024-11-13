@@ -1772,7 +1772,6 @@ void EnGo2_RollingStart(EnGo2* this, PlayState* play) {
 
 void EnGo2_RollingSlow(EnGo2* this, PlayState* play) {
     s32 updatedWaypoint;
-    s32 index;
 
     if (!EnGo2_IsRolling(this)) {
         if (EnGo2_IsRollingOnGround(this, 4, 8.0f, 1) == true) {
@@ -1783,16 +1782,20 @@ void EnGo2_RollingSlow(EnGo2* this, PlayState* play) {
             EnGo2_SpawnDust(this, 3);
         }
         updatedWaypoint = EnGo2_FollowPath(this, play);
-        index = ENGO2_GET_TYPE(this);
-        if (index != GORON_CITY_LINK) {
-            if ((index == GORON_DMT_ROLLING_SMALL) && (updatedWaypoint == 1) && (this->waypoint == 0)) {
-                EnGo2_StopRolling(this, play);
-                return;
-            }
-        } else if ((updatedWaypoint == 2) && (this->waypoint == 1)) {
-            // @unreachable: `EnGo2_FollowPath` returns `0` or `1`
-            EnGo2_StopRolling(this, play);
-            return;
+        switch (ENGO2_GET_TYPE(this)) {
+            case GORON_DMT_ROLLING_SMALL:
+                if ((updatedWaypoint == 1) && (this->waypoint == 0)) {
+                    EnGo2_StopRolling(this, play);
+                    return;
+                }
+                break;
+            case GORON_CITY_LINK:
+                if ((updatedWaypoint == 2) && (this->waypoint == 1)) {
+                    // @unreachable: `EnGo2_FollowPath` returns `0` or `1`
+                    EnGo2_StopRolling(this, play);
+                    return;
+                }
+                break;
         }
         Math_ApproachF(&this->actor.speed, EnGo2_GetTargetXZSpeed(this), 0.4f, 0.6f);
         this->actor.shape.rot = this->actor.world.rot;
