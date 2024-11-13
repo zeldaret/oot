@@ -851,9 +851,11 @@ s32 EnGo2_UpdateTalking(EnGo2* this, PlayState* play) {
         }
     }
 
-    // `GORON_DMT_BIGGORON`, attention wasn't drawn
-    if ((ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) && !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
-        return false;
+    // `GORON_DMT_BIGGORON`, attention wasn't drawn; see `EnGo2_IsAttentionDrawn`
+    if (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) {
+        if (!(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
+            return false;
+        }
     }
 
     // `GORON_DMT_BIGGORON` || `GORON_CITY_ROLLING_BIG`
@@ -1199,7 +1201,7 @@ f32 EnGo2_GetTargetXZSpeed(EnGo2* this) {
     }
 }
 
-s32 EnGo2_IsAttentionDrawnExtented(EnGo2* this, PlayState* play) {
+s32 EnGo2_ShouldStay(EnGo2* this, PlayState* play) {
     Camera* mainCam = play->cameraPtrs[CAM_ID_MAIN];
 
     if (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) {
@@ -1734,7 +1736,7 @@ void EnGo2_Standing(EnGo2* this, PlayState* play) {
                 (s16)((height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.endFrame)) + (height * 0.6f));
         }
     }
-    if ((!EnGo2_IsAttentionDrawnExtented(this, play)) && (!EnGo2_IsAttentionDrawn(this))) {
+    if ((!EnGo2_ShouldStay(this, play)) && (!EnGo2_IsAttentionDrawn(this))) {
         EnGo2_AnimateRolling(this, play);
     }
 }
