@@ -200,8 +200,8 @@ s32 EnGuest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     }
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
-        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_SCALE;
-        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_SCALE;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_guest.c", 388);

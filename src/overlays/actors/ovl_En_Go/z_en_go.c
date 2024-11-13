@@ -1103,8 +1103,8 @@ s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
     }
 
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        rot->y += Math_SinS(this->fidgetTableY[limb]) * FIDGET_SCALE;
-        rot->z += Math_CosS(this->fidgetTableZ[limb]) * FIDGET_SCALE;
+        rot->y += Math_SinS(this->fidgetTableY[limb]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limb]) * FIDGET_AMPLITUDE;
     }
 
     return 0;

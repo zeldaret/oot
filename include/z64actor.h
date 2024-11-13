@@ -17,10 +17,10 @@
 // These constants are the [default] parameters for the ubiqutous "fidgeting" formulas.
 // Some actors call `Actor_UpdateFidgetTables` function and cache their results in `fidgetTable*` fields.
 // Others compute them on the fly. Both variants are applied inside `*_OverrideLimbDraw` as input angles.
-#define FIDGET_ADD_Y 0x814
-#define FIDGET_ADD_Z 0x940
-#define FIDGET_MUL_I 0x32
-#define FIDGET_SCALE 200.0f
+#define FIDGET_FREQ_Y 0x814
+#define FIDGET_FREQ_Z 0x940
+#define FIDGET_FREQ_LIMB 0x32
+#define FIDGET_AMPLITUDE 200.0f
 
 struct Actor;
 struct ActorEntry;

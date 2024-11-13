@@ -183,8 +183,8 @@ s32 EnMu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7) || (limbIndex == 11) || (limbIndex == 12) ||
         (limbIndex == 13) || (limbIndex == 14)) {
-        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_SCALE;
-        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_SCALE;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
     return false;
 }

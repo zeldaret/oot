@@ -1335,8 +1335,8 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
-        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_SCALE;
-        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_SCALE;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
     return false;
 }

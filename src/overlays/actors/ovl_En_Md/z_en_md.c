@@ -853,8 +853,8 @@ s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM)) ||
         (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
-        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_SCALE;
-        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_SCALE;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
 
     return false;

@@ -4448,8 +4448,8 @@ void Actor_UpdateFidgetTables(PlayState* play, s16* fidgetTableY, s16* fidgetTab
     s32 i;
 
     for (i = 0; i < tableLen; i++) {
-        fidgetTableY[i] = (FIDGET_ADD_Y + FIDGET_MUL_I * i) * frames;
-        fidgetTableZ[i] = (FIDGET_ADD_Z + FIDGET_MUL_I * i) * frames;
+        fidgetTableY[i] = (FIDGET_FREQ_Y + FIDGET_FREQ_LIMB * i) * frames;
+        fidgetTableZ[i] = (FIDGET_FREQ_Z + FIDGET_FREQ_LIMB * i) * frames;
     }
 }
 

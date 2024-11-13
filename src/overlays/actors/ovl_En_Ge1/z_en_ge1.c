@@ -760,11 +760,11 @@ void EnGe1_StopFidget(EnGe1* this) {
     }
 }
 
-s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 pad;
     EnGe1* this = (EnGe1*)thisx;
 
-    if (limbIndex == GE1_LIMB_HEAD) {
+    if (limb == GE1_LIMB_HEAD) {
         rot->x += this->headRot.y;
         rot->z += this->headRot.x;
     }
@@ -776,9 +776,9 @@ s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     // The purpose of the state flag GE1_STATE_STOP_FIDGET is to skip this code, which this actor has in lieu of an idle
     // animation.
-    if ((limbIndex == GE1_LIMB_TORSO) || (limbIndex == GE1_LIMB_L_FOREARM) || (limbIndex == GE1_LIMB_R_FOREARM)) {
-        rot->y += Math_SinS(play->state.frames * (limbIndex * FIDGET_MUL_I + FIDGET_ADD_Y)) * FIDGET_SCALE;
-        rot->z += Math_CosS(play->state.frames * (limbIndex * FIDGET_MUL_I + FIDGET_ADD_Z)) * FIDGET_SCALE;
+    if ((limb == GE1_LIMB_TORSO) || (limb == GE1_LIMB_L_FOREARM) || (limb == GE1_LIMB_R_FOREARM)) {
+        rot->y += Math_SinS(play->state.frames * (limb * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y)) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(play->state.frames * (limb * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z)) * FIDGET_AMPLITUDE;
     }
     return 0;
 }
