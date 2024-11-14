@@ -292,14 +292,14 @@ s32 EnGo2_SpawnDustExplicitly(EnGo2* this, u8 initialTimer, f32 scale, f32 scale
 
     pos = this->actor.world.pos; // overwrites sPos data
     pos.y = this->actor.floorHeight;
-    angle = (Rand_ZeroOne() - 0.5f) * 0x10000;
+    angle = (Rand_ZeroOne() - 0.5f) * 0x10000; // `[-180 .. 180]` degrees
     i = numDustEffects;
     while (i >= 0) {
         accel.y += Rand_ZeroOne() * yAccel;
         pos.x = (Math_SinS(angle) * radius) + this->actor.world.pos.x;
         pos.z = (Math_CosS(angle) * radius) + this->actor.world.pos.z;
         EnGo2_SpawnEffectDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
-        angle += (s16)(0x10000 / numDustEffects);
+        angle += (s16)(0x10000 / numDustEffects); // `360 / N` degrees
         i--;
     }
     return 0;
@@ -1021,7 +1021,8 @@ s32 EnGo2_IsWithinInteactionRange(EnGo2* this) {
     xyzDist = SQ(xyzDist);
     yawDiff = (f32)this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y;
     yawDiffAbs = ABS(yawDiff);
-    if (this->actor.xyzDistToPlayerSq <= xyzDist && fabsf(this->actor.yDistToPlayer) < yDist && yawDiffAbs < 0x2AA8) {
+    if (this->actor.xyzDistToPlayerSq <= xyzDist && fabsf(this->actor.yDistToPlayer) < yDist &&
+        yawDiffAbs < DEG_TO_BINANG(59.99)) {
         return true;
     } else {
         return false;
@@ -1531,7 +1532,7 @@ void EnGo2_GoronFireGeneric_CreateSubcamera(EnGo2* this, PlayState* play) {
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
     Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
     Path_CopyLastPoint(this->path, &this->subCamAt);
-    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->subCamAt) + 0xE38;
+    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->subCamAt) + DEG_TO_BINANG(20);
     this->subCamEye.x = Math_SinS(yaw) * 100.0f + this->actor.world.pos.x;
     this->subCamEye.z = Math_CosS(yaw) * 100.0f + this->actor.world.pos.z;
     this->subCamEye.y = this->actor.world.pos.y + 20.0f;
@@ -1829,7 +1830,7 @@ void EnGo2_RollingReverse(EnGo2* this, PlayState* play) {
             EnGo2_SpawnDust(this, 3);
         }
         if ((s32)this->actor.speed == 0) {
-            this->actor.world.rot.y ^= 0x8000;
+            this->actor.world.rot.y ^= 0x8000; // turn around 180 degrees
             this->actor.shape.rot.y = this->actor.world.rot.y;
             this->reverse ^= 1;
             EnGo2_UpdateWaypoint(this, play);
@@ -1881,7 +1882,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
         case 0: // give eyedrops
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_EYEDROPS_LOOP);
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-            this->actor.shape.rot.y += 0x5B0;
+            this->actor.shape.rot.y += DEG_TO_BINANG(8);
             this->trackingMode = NPC_TRACKING_NONE;
             this->animTimer = this->skelAnime.endFrame + 60.0f + 60.0f; // eyeDrops animation timer
             this->eyeMouthTexState = 2;
