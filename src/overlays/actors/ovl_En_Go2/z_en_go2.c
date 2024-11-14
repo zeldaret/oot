@@ -150,7 +150,19 @@ static AnimationInfo sAnimationInfo[] = {
     { &gGoronShakingLoopAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
 };
 
+/*
+ * `actor.params bits` allocation:
+ * type 01234...........
+ * path .....56789......
+ * cage ..........ABCDEF
+ */
 #define ENGO2_GET_TYPE(this) PARAMS_GET_S((this)->actor.params, 0, 5)
+#define ENGO2_GET_PATH_INDEX(this) PARAMS_GET_S((this)->actor.params, 5, 5)
+#define ENGO2_CAGED_SWITCH_FLAG(this) PARAMS_GET_S((this)->actor.params, 10, 6)
+
+#define ENGO2_PATH_INDEX_MAX NBITS_TO_MASK(5)
+#define ENGO2_IS_CAGE_OPEN(play, this) Flags_GetSwitch(play, ENGO2_CAGED_SWITCH_FLAG(this))
+
 typedef enum GoronType {
     /* 0x0 */ GORON_CITY_HOT_RODDER,
     /* 0x1 */ GORON_CITY_LINK,
@@ -167,10 +179,6 @@ typedef enum GoronType {
     /* 0xC */ GORON_DMT_FAIRY_HINT,
     /* 0xD */ GORON_MARKET_BAZAAR
 } GoronType;
-
-#define ENGO2_GET_PATH_INDEX(this) PARAMS_GET_S((this)->actor.params, 5, 5)
-#define ENGO2_CAGED_SWITCH_FLAG(this) PARAMS_GET_S((this)->actor.params, 10, 6)
-#define ENGO2_IS_CAGE_OPEN(play, this) Flags_GetSwitch(play, ENGO2_CAGED_SWITCH_FLAG(this))
 
 static EnGo2DustEffectData sDustEffectData[2][4] = {
     {
@@ -1587,7 +1595,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     this->waypoint = 0;
     this->reverseWaypoint = this->actor.shape.rot.z;
     this->trackingMode = NPC_TRACKING_NONE;
-    this->path = Path_GetByIndex(play, ENGO2_GET_PATH_INDEX(this), 0x1F);
+    this->path = Path_GetByIndex(play, ENGO2_GET_PATH_INDEX(this), ENGO2_PATH_INDEX_MAX);
     switch (ENGO2_GET_TYPE(this)) {
         case GORON_CITY_ENTRANCE:
         case GORON_CITY_ISLAND:
