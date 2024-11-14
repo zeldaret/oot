@@ -51,7 +51,7 @@
 // To allow the inclusion of debug features in any version there is a seperation between DEBUG_FEATURES and DEBUG_ASSETS
 #if OOT_VERSION == GC_EU_MQ_DBG
 #define DEBUG_ASSETS 1
-#else 
+#else
 #define DEBUG_ASSETS 0
 #endif
 

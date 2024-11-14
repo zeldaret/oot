@@ -352,8 +352,8 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
-    if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && DEBUG_FEATURES) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
-        LINK_IS_ADULT) {
+    if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && DEBUG_FEATURES) &&
+        !GET_EVENTCHKINF(EVENTCHKINF_52) && LINK_IS_ADULT) {
         s32 pad;
 
         this->action = SHEIK_ACTION_SERENADE;

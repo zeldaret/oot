@@ -96,9 +96,9 @@ void Idle_ThreadEntry(void* arg) {
         case OS_TV_PAL:
             gViConfigModeType = OS_VI_FPAL_LAN1;
             gViConfigMode = osViModeFpalLan1;
-            #if OOT_VERSION >= PAL_1_0
+#if OOT_VERSION >= PAL_1_0
             gViConfigYScale = 0.833f;
-            #endif
+#endif
             break;
     }
 #elif !OOT_PAL_N64

@@ -14,9 +14,9 @@ void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* 
     if (ptr == NULL) {
         if (gDebugArenaLogSeverity >= LOG_SEVERITY_ERROR) {
             PRINTF(T("%s: %u バイトの%sに失敗しました\n", "%s: %u bytes %s failed\n"), name, size, action);
-            #if PLATFORM_GC
+#if PLATFORM_GC
             __osDisplayArena(&sDebugArena);
-            #endif
+#endif
             return;
         }
     } else if (gDebugArenaLogSeverity >= LOG_SEVERITY_VERBOSE) {

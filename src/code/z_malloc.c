@@ -14,9 +14,9 @@ void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* 
     if (ptr == NULL) {
         if (gZeldaArenaLogSeverity >= LOG_SEVERITY_ERROR) {
             PRINTF(T("%s: %u バイトの%sに失敗しました\n", "%s: %u bytes %s failed\n"), name, size, action);
-            #if PLATFORM_GC
+#if PLATFORM_GC
             __osDisplayArena(&sZeldaArena);
-            #endif
+#endif
         }
     } else if (gZeldaArenaLogSeverity >= LOG_SEVERITY_VERBOSE) {
         PRINTF(T("%s: %u バイトの%sに成功しました\n", "%s: %u bytes %s succeeded\n"), name, size, action);

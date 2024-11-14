@@ -527,9 +527,9 @@ void Play_Update(PlayState* this) {
 #if DEBUG_FEATURES
     if ((SREG(1) < 0) || (DREG(0) != 0)) {
         SREG(1) = 0;
-        #if PLATFORM_GC
+#if PLATFORM_GC
         ZeldaArena_Display();
-        #endif
+#endif
     }
 
     if ((R_HREG_MODE == HREG_MODE_PRINT_OBJECT_TABLE) && (R_PRINT_OBJECT_TABLE_TRIGGER < 0)) {
@@ -1246,13 +1246,15 @@ void Play_Draw(PlayState* this) {
             }
         }
 
-        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) ||
+            (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
             if (!this->envCtx.sunMoonDisabled) {
                 Environment_DrawSunAndMoon(this);
             }
         }
 
-        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
+        if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) ||
+            (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
             Environment_DrawSkyboxFilters(this);
         }
 
