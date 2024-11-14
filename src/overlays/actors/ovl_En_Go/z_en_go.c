@@ -86,26 +86,33 @@ static AnimationSpeedInfo sAnimationInfo[] = {
     { &gGoronSidestepLoopAnim, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
 };
 
-#define ENGO_GET_TYPE(this) PARAMS_GET_NOSHIFT((this)->actor.params, 4, 4)
-typedef enum EnGoType {
-    ENGO_TYPE_CITY_LINK = (0 << 4),
-    ENGO_TYPE_FIRE_GENERIC = (1 << 4),
-    ENGO_TYPE_DMT_DC_ENTRANCE = (2 << 4),
-    ENGO_TYPE_DMT_ROLLING_SMALL = (3 << 4),
-    ENGO_TYPE_DMT_BOMB_FLOWER = (4 << 4),
-    ENGO_TYPE_CITY_ENTRANCE = (5 << 4),
-    ENGO_TYPE_CITY_ISLAND = (6 << 4),
-    ENGO_TYPE_CITY_LOST_WOODS = (7 << 4),
-    ENGO_TYPE_DMT_BIGGORON = (9 << 4)
-} EnGoType;
-
+/*
+ * `actor.params bits` allocation:
+ * path 0123............
+ * type ....4567........
+ * cage ........89ABCDEF
+ */
 #define ENGO_GET_PATH_INDEX(this) PARAMS_GET_U((this)->actor.params, 0, 4)
-#define ENGO_PATH_INDEX_NONE 0xF
-
+#define ENGO_GET_TYPE(this) PARAMS_GET_NOSHIFT((this)->actor.params, 4, 4)
 #define ENGO_CAGED_SWITCH_FLAG(this) PARAMS_GET_NOMASK((this)->actor.params, 8)
-#define ENGO_IS_CAGE_OPEN(this, play) Flags_GetSwitch(play, ENGO_CAGED_SWITCH_FLAG(this))
 
+#define ENGO_PATH_INDEX_MAX NBITS_TO_MASK(4)
+#define ENGO_IS_CAGE_OPEN(this, play) Flags_GetSwitch(play, ENGO_CAGED_SWITCH_FLAG(this))
 #define ENGO_GET_SPEED_SCALE(this) (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f)
+
+// clang-format off
+typedef enum EnGoType {
+    ENGO_TYPE_CITY_LINK         = (0 << 4),
+    ENGO_TYPE_FIRE_GENERIC      = (1 << 4),
+    ENGO_TYPE_DMT_DC_ENTRANCE   = (2 << 4),
+    ENGO_TYPE_DMT_ROLLING_SMALL = (3 << 4),
+    ENGO_TYPE_DMT_BOMB_FLOWER   = (4 << 4),
+    ENGO_TYPE_CITY_ENTRANCE     = (5 << 4),
+    ENGO_TYPE_CITY_ISLAND       = (6 << 4),
+    ENGO_TYPE_CITY_LOST_WOODS   = (7 << 4),
+    ENGO_TYPE_DMT_BIGGORON      = (9 << 4)
+} EnGoType;
+// clang-format on
 
 void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -496,7 +503,7 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
     f32 xDist;
     f32 zDist;
 
-    if (ENGO_GET_PATH_INDEX(this) == ENGO_PATH_INDEX_NONE) {
+    if (ENGO_GET_PATH_INDEX(this) == ENGO_PATH_INDEX_MAX) {
         return false;
     }
 
@@ -531,7 +538,7 @@ s32 EnGo_SetMovedPos(EnGo* this, PlayState* play) {
     Path* path;
     Vec3s* pointPos;
 
-    if (ENGO_GET_PATH_INDEX(this) == ENGO_PATH_INDEX_NONE) {
+    if (ENGO_GET_PATH_INDEX(this) == ENGO_PATH_INDEX_MAX) {
         return false;
     } else {
         path = &play->pathList[ENGO_GET_PATH_INDEX(this)];
