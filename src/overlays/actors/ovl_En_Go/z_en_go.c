@@ -115,7 +115,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                 } else {
                     return 0x3041;
                 }
-            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) || GET_INFTABLE(INFTABLE_10D)) {
+            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) || GET_INFTABLE(INFTABLE_RECEIVED_GORON_TUNIC)) {
                 if (GET_INFTABLE(INFTABLE_SPOKE_TO_GORON_LINK_ABOUT_GORONS)) {
                     return 0x3038;
                 } else {
@@ -225,7 +225,7 @@ s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
                     break;
                 case 0x3036:
                     Actor_OfferGetItem(thisx, play, GI_TUNIC_GORON, xzRange, yRange);
-                    SET_INFTABLE(INFTABLE_10D); // EnGo exclusive flag
+                    SET_INFTABLE(INFTABLE_RECEIVED_GORON_TUNIC); // EnGo exclusive flag
                     talkState = NPC_TALK_STATE_ACTION;
                     break;
                 case 0x3037:

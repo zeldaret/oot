@@ -23,11 +23,11 @@ INFTABLE_SPOKE_TO_GC_ENTRANCE_GORON - Talked to Goron at GC Entrance (Before gor
 INFTABLE_SPOKE_TO_GC_ISLAND_GORON - Talked to Goron at GC Island (Before goron ruby is obtained)
 INFTABLE_SPOKE_TO_DARUNIA_DOOR_GORON - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door,
 before getting goron bracelet)
-INFTABLE_GORON_CITY_DOORS_UNLOCKED - Obtained Fire Tunic from Goron Link
+INFTABLE_GORON_CITY_DOORS_UNLOCKED - Goron opened Goron City doors
 INFTABLE_10A - (not on cloud modding)
 INFTABLE_SPOKE_TO_GORON_LINK_ABOUT_DRAGON - Spoke to Goron Link about Volvagia
 INFTABLE_STOPPED_GORON_LINKS_ROLLING - Stopped Goron Link's Rolling
-INFTABLE_10D - EnGo Exclusive
+INFTABLE_RECEIVED_GORON_TUNIC - Obtained Fire Tunic from Goron Link (EnGo Exclusive)
 INFTABLE_SPOKE_TO_GORON_LINK_ABOUT_GORONS - Spoke to Goron Link about the missing Gorons
 INFTABLE_10F - (not on cloud modding)
 
