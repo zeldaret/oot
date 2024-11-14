@@ -1,5 +1,5 @@
 /* @unused: unlike `ACTOR_EN_GO2`, this one doesn't participate in any scene whatsoever
- * besides, this code bears a handful of bugs and WIP code; see `z_en_go2.c` instead
+ * and nothing spawns this type of entities as well; see `z_en_go2.c` instead
  */
 
 #include "z_en_go.h"
