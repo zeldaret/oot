@@ -3697,11 +3697,11 @@ void KaleidoScope_Update(PlayState* play) {
             if (gSaveContext.language == LANGUAGE_JPN) {
                 size = (uintptr_t)_icon_item_jpn_staticSegmentRomEnd - (uintptr_t)_icon_item_jpn_staticSegmentRomStart;
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_jpn_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 0);
+                                 "../z_kaleido_scope_PAL.c", UNK_LINE);
             } else {
                 size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 0);
+                                 "../z_kaleido_scope_PAL.c", UNK_LINE);
             }
 #else
             if (gSaveContext.language == LANGUAGE_ENG) {
@@ -3736,13 +3736,13 @@ void KaleidoScope_Update(PlayState* play) {
                                      (uintptr_t)_map_name_staticSegmentRomStart +
                                          (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
                                          24 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_JPN * MAP_NAME_TEX2_SIZE,
-                                     MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 0);
+                                     MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", UNK_LINE);
                 } else {
                     DMA_REQUEST_SYNC(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
                                      (uintptr_t)_map_name_staticSegmentRomStart +
                                          (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
                                          24 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_ENG * MAP_NAME_TEX2_SIZE,
-                                     MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 0);
+                                     MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", UNK_LINE);
                 }
 #else
                 if (gSaveContext.language == LANGUAGE_ENG) {
@@ -4294,11 +4294,11 @@ void KaleidoScope_Update(PlayState* play) {
             if (gSaveContext.language == LANGUAGE_JPN) {
                 size = (uintptr_t)_icon_item_jpn_staticSegmentRomEnd - (uintptr_t)_icon_item_jpn_staticSegmentRomStart;
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_jpn_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 0);
+                                 "../z_kaleido_scope_PAL.c", UNK_LINE);
             } else {
                 size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart, size,
-                                 "../z_kaleido_scope_PAL.c", 0);
+                                 "../z_kaleido_scope_PAL.c", UNK_LINE);
             }
 #else
             if (gSaveContext.language == LANGUAGE_ENG) {

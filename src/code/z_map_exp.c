@@ -170,7 +170,7 @@ void Map_InitData(PlayState* play, s16 room) {
                 DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
                                  (uintptr_t)_map_i_staticSegmentRomStart +
                                      ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
-                                 MAP_I_TEX_SIZE, "../z_map_exp.c", 0);
+                                 MAP_I_TEX_SIZE, "../z_map_exp.c", UNK_LINE);
             }
 #else
             DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,

@@ -2039,11 +2039,11 @@ void Message_Decode(PlayState* play) {
                 DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
                                  (uintptr_t)_message_texture_staticSegmentRomStart +
                                      msgCtx->textboxBackgroundIdx * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
-                                 MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", 0);
+                                 MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", UNK_LINE);
                 DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + MESSAGE_TEXTURE_STATIC_TEX_SIZE,
                                  (uintptr_t)_message_texture_staticSegmentRomStart +
                                      (msgCtx->textboxBackgroundIdx + 1) * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
-                                 MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", 0);
+                                 MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", UNK_LINE);
                 numLines = 2;
                 msgCtx->msgBufPos += 2;
                 R_TEXTBOX_BG_YPOS = R_TEXTBOX_Y + 8;
@@ -2529,7 +2529,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
 
         } else {
             DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
-                             font->msgLength, "../z_message_PAL.c", 0);
+                             font->msgLength, "../z_message_PAL.c", UNK_LINE);
         }
 #else
         DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
@@ -2545,11 +2545,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
 
             } else {
                 DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
-                                 font->msgLength, "../z_message_PAL.c", 0);
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
             DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
-                             font->msgLength, "../z_message_PAL.c", 0);
+                             font->msgLength, "../z_message_PAL.c", UNK_LINE);
 #endif
         } else {
             Message_FindMessageNES(play, textId);
@@ -2559,11 +2559,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
 
             } else {
                 DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
-                                 font->msgLength, "../z_message_PAL.c", 0);
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
             DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
-                             font->msgLength, "../z_message_PAL.c", 0);
+                             font->msgLength, "../z_message_PAL.c", UNK_LINE);
 #endif
         }
 #else
@@ -2575,7 +2575,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
 
             } else {
                 DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
-                                 font->msgLength, "../z_message_PAL.c", 0);
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
             DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
@@ -2590,7 +2590,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
 
             } else {
                 DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
-                                 font->msgLength, "../z_message_PAL.c", 0);
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
             DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
@@ -2605,7 +2605,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
 
             } else {
                 DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
-                                 font->msgLength, "../z_message_PAL.c", 0);
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
             DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
