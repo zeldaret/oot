@@ -287,7 +287,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
     }
 
     if (givingReward) {
-        if (!IS_CUTSCENE_LAYER || !OOT_DEBUG) {
+        if (!IS_CUTSCENE_LAYER || !DEBUG_FEATURES) {
             if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
                 switch (this->fountainType) {
                     case FAIRY_SPELL_FARORES_WIND:

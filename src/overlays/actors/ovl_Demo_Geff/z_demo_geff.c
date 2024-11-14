@@ -166,7 +166,7 @@ void func_809782A0(DemoGeff* this, PlayState* play) {
 void func_80978308(DemoGeff* this, PlayState* play) {
     func_809781FC(this, play);
     func_809782A0(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80978030(this, play);
 #endif
 }

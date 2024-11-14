@@ -77,7 +77,7 @@ ActorProfile En_Rr_Profile = {
     /**/ EnRr_Draw,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sDropNames[] = {
     // "type 7", "small magic jar", "arrow", "fairy", "20 rupees", "50 rupees"
     "タイプ７  ", "魔法の壷小", "矢        ", "妖精      ", "20ルピー  ", "50ルピー  ",

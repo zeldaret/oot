@@ -7295,7 +7295,7 @@ void func_8083E4C4(PlayState* play, Player* this, GetItemEntry* giEntry) {
     Sfx_PlaySfxCentered((this->getItemId < 0) ? NA_SE_SY_GET_BOXITEM : NA_SE_SY_GET_ITEM);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define DEBUG_iREG_67 iREG(67)
 #else
 #define DEBUG_iREG_67 0
@@ -7314,7 +7314,7 @@ s32 Player_ActionHandler_2(Player* this, PlayState* play) {
             if (this->getItemId < GI_MAX) {
                 GetItemEntry* giEntry = &sGetItemTable[this->getItemId - 1];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 if ((interactedActor != &this->actor) && !iREG(67)) {
                     interactedActor->parent = &this->actor;
                 }
@@ -12042,7 +12042,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     Collider_ResetQuadAT(play, &this->shieldQuad.base);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 Player_UpdateNoclip(Player* this, PlayState* play);
 #endif
 
@@ -12052,7 +12052,7 @@ void Player_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     Input input;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (!Player_UpdateNoclip(this, play)) {
         goto skip_update;
     }
@@ -12651,7 +12651,7 @@ void Player_Action_8084B9E4(Player* this, PlayState* play) {
             if (LinkAnimation_OnFrame(&this->skelAnime, 11.0f)) {
                 Player_PlayVoiceSfx(this, NA_SE_VO_LI_PUSH);
             }
-            if (!OOT_DEBUG) {}
+            if (!DEBUG_FEATURES) {}
         } else {
             Player_ProcessAnimSfxList(this, D_80854878);
         }
@@ -14410,7 +14410,7 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
     Actor_PlaySfx_Flagged2(&this->actor, NA_SE_VO_LI_TAKEN_AWAY - SFX_FLAG + this->ageProperties->unk_92);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Updates the "Noclip" debug feature, which allows the player to fly around anywhere
  * in the world and clip through any collision.

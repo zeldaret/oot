@@ -655,8 +655,8 @@ DECLARE_ROM_SEGMENT(spot20_room_0)
 
 DECLARE_ROM_SEGMENT(ganon_tou_room_0)
 
-// Room symbols for compiling test scenes, these are not wrapped in an `#if OOT_DEBUG`
-// so that debug ROMs (including gc-eu-mq-dbg) can be built with OOT_DEBUG=0.
+// Room symbols for compiling test scenes, these are not wrapped in an `#if DEBUG_FEATURES`
+// so that debug ROMs (including gc-eu-mq-dbg) can be built with DEBUG_FEATURES=0.
 
 DECLARE_ROM_SEGMENT(test01_room_0)
 

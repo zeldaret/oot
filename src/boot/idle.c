@@ -80,7 +80,7 @@ void Idle_ThreadEntry(void* arg) {
     gViConfigYScale = 1.0f;
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     // Allow both 60 Hz and 50 Hz
     switch (osTvType) {
         case OS_TV_NTSC:

@@ -9,7 +9,7 @@
 
 Arena gSystemArena;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
 
 void SystemArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action) {
@@ -41,7 +41,7 @@ void* SystemArena_Malloc(u32 size) {
     return ptr;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* SystemArena_MallocDebug(u32 size, const char* file, int line) {
     DECLARE_INTERRUPT_MASK
     void* ptr;
@@ -67,7 +67,7 @@ void* SystemArena_MallocR(u32 size) {
     return ptr;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* SystemArena_MallocRDebug(u32 size, const char* file, int line) {
     DECLARE_INTERRUPT_MASK
     void* ptr;
@@ -92,7 +92,7 @@ void* SystemArena_Realloc(void* ptr, u32 newSize) {
     return ptr;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line) {
     DECLARE_INTERRUPT_MASK
 
@@ -113,7 +113,7 @@ void SystemArena_Free(void* ptr) {
     RESTORE_INTERRUPTS();
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void SystemArena_FreeDebug(void* ptr, const char* file, int line) {
     DECLARE_INTERRUPT_MASK
 
@@ -140,7 +140,7 @@ void* SystemArena_Calloc(u32 num, u32 size) {
     return ret;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void SystemArena_Display(void) {
     PRINTF(T("システムヒープ表示\n", "System heap display\n"));
     __osDisplayArena(&gSystemArena);
@@ -156,14 +156,14 @@ void SystemArena_Check(void) {
 }
 
 void SystemArena_Init(void* start, u32 size) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
 #endif
     __osMallocInit(&gSystemArena, start, size);
 }
 
 void SystemArena_Cleanup(void) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
 #endif
     __osMallocCleanup(&gSystemArena);

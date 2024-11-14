@@ -3986,7 +3986,7 @@ void Interface_Draw(PlayState* play) {
         }
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (pauseCtx->debugState == 3) {
         FlagSet_Update(play);
     }
@@ -4012,7 +4012,7 @@ void Interface_Update(PlayState* play) {
     s16 risingAlpha;
     u16 action;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     {
         Input* debugInput = &play->state.input[2];
 

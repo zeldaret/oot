@@ -12,7 +12,7 @@
 void ElfMsg2_Init(Actor* thisx, PlayState* play);
 void ElfMsg2_Destroy(Actor* thisx, PlayState* play);
 void ElfMsg2_Update(Actor* thisx, PlayState* play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void ElfMsg2_Draw(Actor* thisx, PlayState* play);
 #endif
 
@@ -29,7 +29,7 @@ ActorProfile Elf_Msg2_Profile = {
     /**/ ElfMsg2_Init,
     /**/ ElfMsg2_Destroy,
     /**/ ElfMsg2_Update,
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     /**/ ElfMsg2_Draw,
 #else
     /**/ NULL,
@@ -153,7 +153,7 @@ void ElfMsg2_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #include "assets/overlays/ovl_Elf_Msg2/ovl_Elf_Msg2.c"
 
 void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
