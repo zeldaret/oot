@@ -73,12 +73,6 @@ void GameState_SetFBFilter(Gfx** gfxP) {
 }
 
 void func_800C4344(GameState* gameState) {
-#if PLATFORM_N64
-    if (D_80121212 != 0) {
-        func_801C7E78();
-    }
-#endif
-
 #if DEBUG_FEATURES
     Input* selectedInput;
     s32 hexDumpSize;
@@ -130,6 +124,12 @@ void func_800C4344(GameState* gameState) {
             hexDumpSize = (u32)(R_PRINT_MEMORY_SIZE == 0 ? 0x100 : R_PRINT_MEMORY_SIZE * 0x10);
             LogUtils_LogHexDump((void*)(0x80000000 + (R_PRINT_MEMORY_ADDR << 8)), hexDumpSize);
         }
+    }
+#endif
+
+#if PLATFORM_N64
+    if (D_80121212 != 0) {
+        func_801C7E78();
     }
 #endif
 }
