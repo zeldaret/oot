@@ -1029,9 +1029,7 @@ s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 bounceCount, f32 boundSpeed, s16 ru
     if (DECR(this->bounceTimer)) {
         if (!rumble) {
             return true;
-        }
-
-        {
+        } else {
             this->actor.world.pos.y =
                 (this->bounceTimer & 1) ? this->actor.world.pos.y + 1.5f : this->actor.world.pos.y - 1.5f;
             Actor_PlaySfx(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
