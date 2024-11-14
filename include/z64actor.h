@@ -14,10 +14,8 @@
 #define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
-/* These constants are the default parameters for the ubiqutous "fidgeting" formulas.
- * Some actors call `Actor_UpdateFidgetTables` function and cache their results in `fidgetTable*` fields.
- * Others compute them on the fly. Both variants are applied inside `*_OverrideLimbDraw` as input angles.
- */
+// These are default parameters used for "animation fidgeting", which procedurally generate actor idle animations.
+// These calculations may be performed within individual actors, or by using fidget tables with `Actor_UpdateFidgetTables`.
 #define FIDGET_FREQ_Y 0x814
 #define FIDGET_FREQ_Z 0x940
 #define FIDGET_FREQ_LIMB 0x32
