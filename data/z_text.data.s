@@ -1,4 +1,5 @@
 .include "macro.inc"
+#include "versions.h"
 
 /* assembler directives */
 .set noat      /* allow manual use of $at */

@@ -1,3 +1,5 @@
+#include "versions.h"
+
 /**
  * Select dmadata table for version
  */
