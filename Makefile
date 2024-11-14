@@ -49,6 +49,10 @@ N64_EMULATOR ?=
 # Set to override game region in the ROM header (options: JP, US, EU). This can be used to build a fake US version
 # of the debug ROM for better emulator compatibility, or to build US versions of NTSC N64 ROMs.
 # REGION ?= US
+# Set to enable debug features regardless of ROM version.
+# Note that by enabling debug features on non-debug ROM versions, some debug ROM specific assets will not be included.
+# See usages of DEBUG_ASSETS for more information.
+# DEBUG_FEATURES ?= 1
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -60,57 +64,57 @@ ifeq ($(VERSION),ntsc-1.0)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),ntsc-1.1)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),pal-1.0)
   REGION ?= EU
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),ntsc-1.2)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),pal-1.1)
   REGION ?= EU
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-jp)
   REGION ?= JP
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-jp-mq)
   REGION ?= JP
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-us)
   REGION ?= US
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-us-mq)
   REGION ?= US
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
   PLATFORM := GC
-  DEBUG := 1
+  DEBUG_FEATURES ?= 1
 else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-eu-mq)
   REGION ?= EU
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-jp-ce)
   REGION ?= JP
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -155,7 +159,7 @@ else
   $(error Unsupported platform $(PLATFORM))
 endif
 
-ifeq ($(DEBUG),1)
+ifeq ($(DEBUG_FEATURES),1)
   CPP_DEFINES += -DDEBUG_FEATURES=1
   OPTFLAGS := -O2
 else
@@ -254,7 +258,7 @@ GBI_DEFINES := -DF3DEX_GBI_2
 ifeq ($(PLATFORM),GC)
   GBI_DEFINES += -DF3DEX_GBI_PL -DGBI_DOWHILE
 endif
-ifeq ($(DEBUG),1)
+ifeq ($(DEBUG_FEATURES),1)
   GBI_DEFINES += -DGBI_DEBUG
 endif
 
@@ -459,7 +463,7 @@ endif
 $(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
-ifeq ($(DEBUG),1)
+ifeq ($(DEBUG_FEATURES),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 else
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O2
