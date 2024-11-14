@@ -51,7 +51,8 @@ N64_EMULATOR ?=
 # REGION ?= US
 # Set to enable debug features regardless of ROM version.
 # Note that by enabling debug features on non-debug ROM versions, some debug ROM specific assets will not be included.
-# See usages of DEBUG_ASSETS for more information.
+# This means the debug test scenes and some debug visual graphics in the elf_msg actors will not work as expected.
+# This may also be used to disable debug features on debug ROMs by setting DEBUG_FEATURES to 0
 # DEBUG_FEATURES ?= 1
 
 CFLAGS ?=

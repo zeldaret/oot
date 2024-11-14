@@ -745,19 +745,24 @@ beginseg
     include "$(BUILD_DIR)/src/libu64/code_800FC620.o"
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
 #endif
-#if !PLATFORM_N64
+#if PLATFORM_N64
+    include "$(BUILD_DIR)/src/libu64/gfxprint.o"
+    include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
+    include "$(BUILD_DIR)/src/libu64/loadfragment2_n64.o"
+#if DEBUG_FEATURES
+    include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
+#endif
+    include "$(BUILD_DIR)/src/libu64/pad.o"
+    include "$(BUILD_DIR)/src/libu64/code_800FC620.o"
+    include "$(BUILD_DIR)/src/libu64/padsetup.o"
+#else
     include "$(BUILD_DIR)/src/libu64/logseverity_gc.o"
     include "$(BUILD_DIR)/src/libu64/gfxprint.o"
     include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
     include "$(BUILD_DIR)/src/libu64/loadfragment2_gc.o"
-#endif
 #if DEBUG_FEATURES
-    // Because there are no N64 Debug ROMs to reference, it is impossible to know where this file
-    // would reside on an N64 Debug Build. To allow any version to compile with debug features
-    // the file is included in the same place it would be on a non-n64 build.
     include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
 #endif
-#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libu64/relocation_gc.o"
     include "$(BUILD_DIR)/src/libu64/load_gc.o"
     include "$(BUILD_DIR)/src/libu64/code_800FC620.o"

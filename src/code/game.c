@@ -77,7 +77,9 @@ void func_800C4344(GameState* gameState) {
     if (D_80121212 != 0) {
         func_801C7E78();
     }
-#elif DEBUG_FEATURES
+#endif
+
+#if DEBUG_FEATURES
     Input* selectedInput;
     s32 hexDumpSize;
     u16 inputCompareValue;
@@ -527,10 +529,11 @@ void GameState_Destroy(GameState* gameState) {
     THA_Destroy(&gameState->tha);
     GameAlloc_Cleanup(&gameState->alloc);
 
-#if DEBUG_FEATURES
-#if PLATFORM_GC
+#if PLATFORM_GC && DEBUG_FEATURES
     SystemArena_Display();
 #endif
+
+#if DEBUG_FEATURES
     Fault_RemoveClient(&sGameFaultClient);
 #endif
 
