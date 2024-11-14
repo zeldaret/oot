@@ -46,4 +46,13 @@
 #define FRAMERATE_CONST(value60Hz, value50Hz) (value50Hz)
 #endif
 
+// Debug Assets
+// Due to asset extraction limitations, all versions will not have access to some assets present in debug ROMs
+// To allow the inclusion of debug features in any version there is a seperation between DEBUG_FEATURES and DEBUG_ASSETS
+#if OOT_VERSION == GC_EU_MQ_DBG
+#define DEBUG_ASSETS 1
+#else 
+#define DEBUG_ASSETS 0
+#endif
+
 #endif

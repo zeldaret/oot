@@ -609,7 +609,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_lights.o"
     include "$(BUILD_DIR)/src/code/z_malloc.o"
     include "$(BUILD_DIR)/src/code/z_map_mark.o"
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
     include "$(BUILD_DIR)/src/code/z_moji.o"
 #endif
     include "$(BUILD_DIR)/src/code/z_prenmi_buff.o"
@@ -638,7 +638,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_sram.o"
     include "$(BUILD_DIR)/src/code/z_ss_sram.o"
     include "$(BUILD_DIR)/src/code/z_rumble.o"
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
     include "$(BUILD_DIR)/data/z_text.data.o"
 #endif
     include "$(BUILD_DIR)/data/unk_8012ABC0.data.o"
@@ -17268,7 +17268,7 @@ beginseg
     number 3
 endseg
 
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
 beginseg
     name "syotes_scene"
     romalign 0x1000
@@ -17792,7 +17792,7 @@ beginseg
     number 3
 endseg
 
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
 beginseg
     name "testroom_scene"
     romalign 0x1000
@@ -17876,7 +17876,7 @@ beginseg
     number 3
 endseg
 
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
 beginseg
     name "sutaru_scene"
     romalign 0x1000
@@ -18164,7 +18164,7 @@ beginseg
     number 3
 endseg
 
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
 beginseg
     name "sasatest_scene"
     romalign 0x1000
@@ -18916,7 +18916,7 @@ beginseg
     number 3
 endseg
 
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
 beginseg
     name "hairal_niwa2_scene"
     romalign 0x1000
@@ -19404,7 +19404,7 @@ beginseg
     number 3
 endseg
 
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
 beginseg
     name "besitu_scene"
     romalign 0x1000
@@ -19476,7 +19476,7 @@ beginseg
     number 3
 endseg
 
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
 beginseg
     name "test01_scene"
     romalign 0x1000

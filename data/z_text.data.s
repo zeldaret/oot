@@ -11,7 +11,7 @@
 
 /* temporary file name, rename to something more appropriate when decompiled */
 
-#if DEBUG_FEATURES
+#if DEBUG_ASSETS
 glabel gMojiFontTLUTs
     .incbin "incbin/gMojiFontTLUTs"
 
