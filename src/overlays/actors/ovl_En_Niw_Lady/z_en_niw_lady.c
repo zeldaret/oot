@@ -565,21 +565,23 @@ Gfx* EnNiwLady_EmptyDList(GraphicsContext* gfxCtx) {
     return dList;
 }
 
-s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNiwLady* this = (EnNiwLady*)thisx;
     s32 pad;
 
-    if (limb == 15) {
+    if (limbIndex == 15) {
         rot->x += this->headRot.y;
         rot->z += this->headRot.x;
     }
-    if (limb == 8) {
+    if (limbIndex == 8) {
         rot->x += this->torsoRot.y;
     }
     if (this->unk_275 != 0) {
-        if ((limb == 8) || (limb == 10) || (limb == 13)) {
-            rot->y += Math_SinS((play->state.frames * (limb * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
-            rot->z += Math_CosS((play->state.frames * (limb * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
+        if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
+            // clang-format off
+            rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
+            rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
+            // clang-format on
         }
     }
     return false;

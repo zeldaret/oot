@@ -257,14 +257,14 @@ void EnFu_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnFu_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnFu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnFu* this = (EnFu*)thisx;
     s32 pad;
 
-    if (limb == FU_LIMB_UNK) {
+    if (limbIndex == FU_LIMB_UNK) {
         return false;
     }
-    switch (limb) {
+    switch (limbIndex) {
         case FU_LIMB_HEAD:
             rot->x += this->lookAngleOffset.y;
             rot->z += this->lookAngleOffset.x;
@@ -277,9 +277,9 @@ s32 EnFu_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Ve
         return false;
     }
 
-    if (limb == FU_LIMB_CHEST_MUSIC_BOX) {
-        rot->y += Math_SinS((play->state.frames * (limb * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
-        rot->z += Math_CosS((play->state.frames * (limb * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
+    if (limbIndex == FU_LIMB_CHEST_MUSIC_BOX) {
+        rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
     }
     return false;
 }
