@@ -845,7 +845,7 @@ void EnGirlA_ItemGive_BottledItem(PlayState* play, EnGirlA* this) {
 
 void EnGirlA_BuyEvent_ShieldDiscount(PlayState* play, EnGirlA* this) {
     if (this->actor.params == SI_HYLIAN_SHIELD) {
-        if (GET_INFTABLE(INFTABLE_76)) {
+        if (GET_INFTABLE(INFTABLE_SHOWED_ZELDAS_LETTER_TO_GATE_GUARD)) {
             Rupees_ChangeBy(-(this->basePrice - sShieldDiscounts[(s32)Rand_ZeroFloat(7.9f)]));
             return;
         }

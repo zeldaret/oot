@@ -87,7 +87,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
 
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
-            if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (play->sceneId == SCENE_GRAVEYARD) && (thisx->params == 2)) ||
+            if ((GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_ROYAL_FAMILY_TOMB) && (play->sceneId == SCENE_GRAVEYARD) && (thisx->params == 2)) ||
                 (LINK_IS_ADULT && (thisx->params == 1))) {
                 Actor_Kill(thisx);
             }
@@ -99,7 +99,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = func_808ACC34;
             thisx->draw = func_808ACCB8;
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_1D)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_ROYAL_FAMILY_TOMB)) {
                 Actor_Kill(thisx);
             }
             break;
@@ -130,7 +130,7 @@ void func_808AC908(BgSpot02Objects* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         if (play->csCtx.actorCues[3] != NULL && play->csCtx.actorCues[3]->id == 2) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
-            SET_EVENTCHKINF(EVENTCHKINF_1D);
+            SET_EVENTCHKINF(EVENTCHKINF_DESTROYED_ROYAL_FAMILY_TOMB);
             this->timer = 25;
             pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * 50.0f) + this->dyna.actor.world.pos.x;
             pos.y = this->dyna.actor.world.pos.y + 30.0f;

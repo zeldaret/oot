@@ -79,7 +79,7 @@ void EfcErupc_UpdateAction(EfcErupc* this, PlayState* play) {
                 case 2:
                     if (this->unk_14E == 0) {
                         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_LAVA_ERUPT);
-                        SET_EVENTCHKINF(EVENTCHKINF_2F);
+                        SET_EVENTCHKINF(EVENTCHKINF_DEATH_MOUNTAIN_ERUPTED);
                     }
                     this->unk_14E++;
                     break;

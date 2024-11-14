@@ -47,7 +47,7 @@ void BgSpot01Fusya_Init(Actor* thisx, PlayState* play) {
     this->unk_158 = 100.0f;
     this->unk_15C = 0.5f;
     if (!IS_CUTSCENE_LAYER) {
-        CLEAR_EVENTCHKINF(EVENTCHKINF_65);
+        CLEAR_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_OF_STORMS_IN_WINDMILL);
     }
     BgSpot01Fusya_SetupAction(this, func_808AAA50);
 }
@@ -59,7 +59,7 @@ void func_808AAA50(BgSpot01Fusya* this, PlayState* play) {
     f32 temp;
     Actor* thisx = &this->actor;
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_OF_STORMS_IN_WINDMILL)) {
         this->unk_158 = 1800.0f;
     }
     thisx->shape.rot.z += this->unk_154;

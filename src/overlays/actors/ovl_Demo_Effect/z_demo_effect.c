@@ -679,7 +679,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
             Actor_SetScale(&this->actor, 84 * 0.001f);
         }
     } else if (gSaveContext.sceneLayer == 5 || gSaveContext.sceneLayer == 4 ||
-               (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
+               (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4 && !GET_EVENTCHKINF(EVENTCHKINF_TIME_TRAVELED_TO_ADULT))) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
@@ -743,7 +743,7 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, PlaySta
 
     if (this->timeWarp.shrinkTimer > 250) {
         if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
-            SET_EVENTCHKINF(EVENTCHKINF_C9);
+            SET_EVENTCHKINF(EVENTCHKINF_TIME_TRAVELED_TO_ADULT);
         }
 
         Actor_Kill(&this->actor);
@@ -1541,8 +1541,8 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
     if (play->csCtx.state && play->csCtx.actorCues[this->cueChannel]) {
         switch (play->csCtx.actorCues[this->cueChannel]->id) {
             case 3:
-                if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
-                    SET_EVENTCHKINF(EVENTCHKINF_4B);
+                if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
+                    SET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME);
                 }
                 DemoEffect_MoveJewelActivateDoorOfTime(this, play);
                 if ((play->gameplayFrames & 1) == 0) {
@@ -1575,7 +1575,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
     }
 
     if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
-        if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
             hasCue = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[this->cueChannel] != NULL);
 
             if (!hasCue) {

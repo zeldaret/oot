@@ -57,7 +57,7 @@ void ItemOcarina_Init(Actor* thisx, PlayState* play) {
             break;
         case 3:
             ItemOcarina_SetupAction(this, ItemOcarina_WaitInWater);
-            if (!GET_EVENTCHKINF(EVENTCHKINF_80) || GET_EVENTCHKINF(EVENTCHKINF_43)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) || GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_OCARINA_OF_TIME)) {
                 Actor_Kill(thisx);
                 return;
             }
@@ -175,7 +175,7 @@ void ItemOcarina_StartSoTCutscene(ItemOcarina* this, PlayState* play) {
 
 void ItemOcarina_WaitInWater(ItemOcarina* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
-        SET_EVENTCHKINF(EVENTCHKINF_43);
+        SET_EVENTCHKINF(EVENTCHKINF_OBTAINED_OCARINA_OF_TIME);
         Flags_SetSwitch(play, 3);
         this->actionFunc = ItemOcarina_StartSoTCutscene;
         this->actor.draw = NULL;

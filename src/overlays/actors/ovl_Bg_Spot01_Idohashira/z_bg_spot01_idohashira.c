@@ -302,7 +302,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (!IS_CUTSCENE_LAYER) {
-        if (GET_EVENTCHKINF(EVENTCHKINF_54) && LINK_IS_ADULT) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_LEARNED_NOCTURNE_OF_SHADOW) && LINK_IS_ADULT) {
             Actor_Kill(&this->dyna.actor);
         } else {
             this->action = 0;

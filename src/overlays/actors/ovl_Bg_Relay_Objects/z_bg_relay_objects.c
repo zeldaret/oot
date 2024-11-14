@@ -55,7 +55,7 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
         CollisionHeader_GetVirtual(&gWindmillRotatingPlatformCol, &colHeader);
-        if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_OF_STORMS_IN_WINDMILL)) {
             thisx->world.rot.y = 0x400;
         } else {
             thisx->world.rot.y = 0x80;
@@ -109,7 +109,7 @@ void BgRelayObjects_Destroy(Actor* thisx, PlayState* play) {
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
-        CLEAR_EVENTCHKINF(EVENTCHKINF_65);
+        CLEAR_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_OF_STORMS_IN_WINDMILL);
     }
 }
 
@@ -180,9 +180,9 @@ void func_808A932C(BgRelayObjects* this, PlayState* play) {
 
 void func_808A939C(BgRelayObjects* this, PlayState* play) {
     if (CutsceneFlags_Get(play, 5)) {
-        SET_EVENTCHKINF(EVENTCHKINF_65);
+        SET_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_OF_STORMS_IN_WINDMILL);
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_OF_STORMS_IN_WINDMILL)) {
         Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x400, 8);
     } else {
         Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x80, 8);

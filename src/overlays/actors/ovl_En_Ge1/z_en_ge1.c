@@ -228,7 +228,7 @@ void EnGe1_KickPlayer(EnGe1* this, PlayState* play) {
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
-        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) { // Caught previously
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_WATCHED_GANONS_CASTLE_COLLAPSE_CAUGHT_BY_GERUDO)) { // Caught previously
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
         } else {
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;
@@ -581,7 +581,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
                     play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     SET_EVENTINF(EVENTINF_HORSES_08);
-                    SET_EVENTCHKINF(EVENTCHKINF_68);
+                    SET_EVENTCHKINF(EVENTCHKINF_PLAYED_HORSEBACK_ARCHERY);
 
                     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
@@ -668,7 +668,7 @@ void EnGe1_Wait_Archery(EnGe1* this, PlayState* play) {
     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
         EnGe1_SetTalkAction(this, play, 0x603F, 100.0f, EnGe1_TalkNoHorse_Archery);
     } else {
-        if (GET_EVENTCHKINF(EVENTCHKINF_68)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_PLAYED_HORSEBACK_ARCHERY)) {
             if (GET_INFTABLE(INFTABLE_190)) {
                 textId = 0x6042;
             } else {

@@ -158,7 +158,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnOwl_WaitHyruleCastle;
             break;
         case OWL_KAKARIKO:
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 // has zelda's letter
                 PRINTF(T("フクロウ退避\n", "Owl evacuation\n"));
                 Actor_Kill(&this->actor);
@@ -168,7 +168,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnOwl_WaitKakariko;
             break;
         case OWL_HYLIA_GERUDO:
-            if (GET_EVENTCHKINF(EVENTCHKINF_43)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_OCARINA_OF_TIME)) {
                 // has ocarina of time
                 PRINTF(T("フクロウ退避\n", "Owl evacuation\n"));
                 Actor_Kill(&this->actor);
@@ -180,7 +180,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnOwl_WaitLakeHylia;
             break;
         case OWL_ZORA_RIVER:
-            if (GET_EVENTCHKINF(EVENTCHKINF_39) || !GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_ZORAS_DOMAIN) || !GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 // opened zora's domain or has zelda's letter
                 PRINTF(T("フクロウ退避\n", "Owl evacuation\n"));
                 Actor_Kill(&this->actor);
@@ -385,7 +385,7 @@ void EnOwl_WaitOutsideKokiri(EnOwl* this, PlayState* play) {
 
         this->actionFunc = EnOwl_ConfirmKokiriMessage;
         // spoke to owl by lost woods
-        SET_EVENTCHKINF(EVENTCHKINF_6F);
+        SET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_KAEPORA_BY_LOST_WOODS);
     }
 }
 
@@ -438,7 +438,7 @@ void func_80ACAB88(EnOwl* this, PlayState* play) {
         switch (play->msgCtx.choiceIndex) {
             case OWL_REPEAT:
                 // obtained zelda's letter
-                if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                     Message_ContinueTextbox(play, 0x206D);
                 } else {
                     Message_ContinueTextbox(play, 0x206C);
@@ -587,12 +587,12 @@ void func_80ACB148(EnOwl* this, PlayState* play) {
 }
 
 void EnOwl_WaitHyliaShortcut(EnOwl* this, PlayState* play) {
-    u16 textId = GET_INFTABLE(INFTABLE_195) ? 0x4004 : 0x4003;
+    u16 textId = GET_INFTABLE(INFTABLE_SPOKE_TO_KAEPORA_IN_LAKE_HYLIA) ? 0x4004 : 0x4003;
 
     // Spoke to Owl in Lake Hylia
     EnOwl_LookAtLink(this, play);
     if (func_80ACA558(this, play, textId)) {
-        SET_INFTABLE(INFTABLE_195);
+        SET_INFTABLE(INFTABLE_SPOKE_TO_KAEPORA_IN_LAKE_HYLIA);
         Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACB148;
     }

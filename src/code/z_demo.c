@@ -78,40 +78,40 @@ typedef struct EntranceCutscene {
 } EntranceCutscene;               // size = 0x8
 
 EntranceCutscene sEntranceCutsceneTable[] = {
-    { ENTR_HYRULE_FIELD_3, 2, EVENTCHKINF_A0, gHyruleFieldIntroCs },
-    { ENTR_DEATH_MOUNTAIN_TRAIL_0, 2, EVENTCHKINF_A1, gDMTIntroCs },
-    { ENTR_KAKARIKO_VILLAGE_0, 2, EVENTCHKINF_A3, gKakarikoVillageIntroCs },
-    { ENTR_ZORAS_DOMAIN_0, 2, EVENTCHKINF_A4, gZorasDomainIntroCs },
-    { ENTR_HYRULE_CASTLE_0, 1, EVENTCHKINF_A5, gHyruleCastleIntroCs },
-    { ENTR_GORON_CITY_0, 2, EVENTCHKINF_A6, gGoronCityIntroCs },
-    { ENTR_TEMPLE_OF_TIME_0, 2, EVENTCHKINF_A7, gTempleOfTimeIntroCs },
-    { ENTR_DEKU_TREE_0, 2, EVENTCHKINF_A8, gDekuTreeIntroCs },
+    { ENTR_HYRULE_FIELD_3, 2, EVENTCHKINF_ENTERED_HYRULE_FIELD, gHyruleFieldIntroCs },
+    { ENTR_DEATH_MOUNTAIN_TRAIL_0, 2, EVENTCHKINF_ENTERED_DEATH_MOUNTAIN_TRAIL, gDMTIntroCs },
+    { ENTR_KAKARIKO_VILLAGE_0, 2, EVENTCHKINF_ENTERED_KAKARIKO_VILLAGE, gKakarikoVillageIntroCs },
+    { ENTR_ZORAS_DOMAIN_0, 2, EVENTCHKINF_ENTERED_ZORAS_DOMAIN, gZorasDomainIntroCs },
+    { ENTR_HYRULE_CASTLE_0, 1, EVENTCHKINF_ENTERED_HYRULE_CASTLE, gHyruleCastleIntroCs },
+    { ENTR_GORON_CITY_0, 2, EVENTCHKINF_ENTERED_GORON_CITY, gGoronCityIntroCs },
+    { ENTR_TEMPLE_OF_TIME_0, 2, EVENTCHKINF_ENTERED_TEMPLE_OF_TIME, gTempleOfTimeIntroCs },
+    { ENTR_DEKU_TREE_0, 2, EVENTCHKINF_ENTERED_DEKU_TREE, gDekuTreeIntroCs },
     { ENTR_HYRULE_FIELD_11, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldSouthEponaJumpCs },
     { ENTR_HYRULE_FIELD_13, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldEastEponaJumpCs },
     { ENTR_HYRULE_FIELD_12, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldWestEponaJumpCs },
     { ENTR_HYRULE_FIELD_15, 0, EVENTCHKINF_EPONA_OBTAINED, gHyruleFieldGateEponaJumpCs },
-    { ENTR_HYRULE_FIELD_16, 1, EVENTCHKINF_A9, gHyruleFieldGetOoTCs },
-    { ENTR_LAKE_HYLIA_0, 2, EVENTCHKINF_B1, gLakeHyliaIntroCs },
-    { ENTR_GERUDO_VALLEY_0, 2, EVENTCHKINF_B2, gGerudoValleyIntroCs },
-    { ENTR_GERUDOS_FORTRESS_0, 2, EVENTCHKINF_B3, gGerudoFortressIntroCs },
-    { ENTR_LON_LON_RANCH_0, 2, EVENTCHKINF_B4, gLonLonRanchIntroCs },
-    { ENTR_JABU_JABU_0, 2, EVENTCHKINF_B5, gJabuJabuIntroCs },
-    { ENTR_GRAVEYARD_0, 2, EVENTCHKINF_B6, gGraveyardIntroCs },
-    { ENTR_ZORAS_FOUNTAIN_2, 2, EVENTCHKINF_B7, gZorasFountainIntroCs },
-    { ENTR_DESERT_COLOSSUS_0, 2, EVENTCHKINF_B8, gDesertColossusIntroCs },
-    { ENTR_DEATH_MOUNTAIN_CRATER_0, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
-    { ENTR_HYRULE_CASTLE_0, 0, EVENTCHKINF_BA, gGanonsCastleIntroCs },
-    { ENTR_ROYAL_FAMILYS_TOMB_1, 2, EVENTCHKINF_5A, gSunSongGraveSunSongTeachPart2Cs },
-    { ENTR_INSIDE_GANONS_CASTLE_2, 2, EVENTCHKINF_BB, gForestBarrierCs },
-    { ENTR_INSIDE_GANONS_CASTLE_3, 2, EVENTCHKINF_BC, gWaterBarrierCs },
-    { ENTR_INSIDE_GANONS_CASTLE_4, 2, EVENTCHKINF_BD, gShadowBarrierCs },
-    { ENTR_INSIDE_GANONS_CASTLE_5, 2, EVENTCHKINF_BE, gFireBarrierCs },
-    { ENTR_INSIDE_GANONS_CASTLE_6, 2, EVENTCHKINF_BF, gLightBarrierCs },
-    { ENTR_INSIDE_GANONS_CASTLE_7, 2, EVENTCHKINF_AD, gSpiritBarrierCs },
-    { ENTR_SPIRIT_TEMPLE_BOSS_0, 0, EVENTCHKINF_C0, gSpiritBossNabooruKnuckleIntroCs },
-    { ENTR_GERUDOS_FORTRESS_17, 0, EVENTCHKINF_C7, gGerudoFortressFirstCaptureCs },
-    { ENTR_DEATH_MOUNTAIN_CRATER_1, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
-    { ENTR_KOKIRI_FOREST_12, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutCs },
+    { ENTR_HYRULE_FIELD_16, 1, EVENTCHKINF_LEARNED_SONG_OF_TIME, gHyruleFieldGetOoTCs },
+    { ENTR_LAKE_HYLIA_0, 2, EVENTCHKINF_ENTERED_LAKE_HYLIA, gLakeHyliaIntroCs },
+    { ENTR_GERUDO_VALLEY_0, 2, EVENTCHKINF_ENTERED_GERUDO_VALLEY, gGerudoValleyIntroCs },
+    { ENTR_GERUDOS_FORTRESS_0, 2, EVENTCHKINF_ENTERED_GERUDOS_FORTRESS, gGerudoFortressIntroCs },
+    { ENTR_LON_LON_RANCH_0, 2, EVENTCHKINF_ENTERED_LON_LON_RANCH, gLonLonRanchIntroCs },
+    { ENTR_JABU_JABU_0, 2, EVENTCHKINF_ENTERED_JABU_JABUS_BELLY, gJabuJabuIntroCs },
+    { ENTR_GRAVEYARD_0, 2, EVENTCHKINF_ENTERED_GRAVEYARD, gGraveyardIntroCs },
+    { ENTR_ZORAS_FOUNTAIN_2, 2, EVENTCHKINF_ENTERED_ZORAS_FOUNTAIN, gZorasFountainIntroCs },
+    { ENTR_DESERT_COLOSSUS_0, 2, EVENTCHKINF_ENTERED_DESERT_COLOSSUS, gDesertColossusIntroCs },
+    { ENTR_DEATH_MOUNTAIN_CRATER_0, 2, EVENTCHKINF_ENTERED_DEATH_MOUNTAIN_CRATER, gDeathMountainCraterIntroCs },
+    { ENTR_HYRULE_CASTLE_0, 0, EVENTCHKINF_ENTERED_GANONS_CASTLE_EXTERIOR, gGanonsCastleIntroCs },
+    { ENTR_ROYAL_FAMILYS_TOMB_1, 2, EVENTCHKINF_LEARNED_SUNS_SONG, gSunSongGraveSunSongTeachPart2Cs },
+    { ENTR_INSIDE_GANONS_CASTLE_2, 2, EVENTCHKINF_COMPLETED_FOREST_TRIAL, gForestBarrierCs },
+    { ENTR_INSIDE_GANONS_CASTLE_3, 2, EVENTCHKINF_COMPLETED_WATER_TRIAL, gWaterBarrierCs },
+    { ENTR_INSIDE_GANONS_CASTLE_4, 2, EVENTCHKINF_COMPLETED_SHADOW_TRIAL, gShadowBarrierCs },
+    { ENTR_INSIDE_GANONS_CASTLE_5, 2, EVENTCHKINF_COMPLETED_FIRE_TRIAL, gFireBarrierCs },
+    { ENTR_INSIDE_GANONS_CASTLE_6, 2, EVENTCHKINF_COMPLETED_LIGHT_TRIAL, gLightBarrierCs },
+    { ENTR_INSIDE_GANONS_CASTLE_7, 2, EVENTCHKINF_COMPLETED_SPIRIT_TRIAL, gSpiritBarrierCs },
+    { ENTR_SPIRIT_TEMPLE_BOSS_0, 0, EVENTCHKINF_NABOORU_ORDERED_TO_FIGHT_BY_TWINROVA, gSpiritBossNabooruKnuckleIntroCs },
+    { ENTR_GERUDOS_FORTRESS_17, 0, EVENTCHKINF_WATCHED_GANONS_CASTLE_COLLAPSE_CAUGHT_BY_GERUDO, gGerudoFortressFirstCaptureCs },
+    { ENTR_DEATH_MOUNTAIN_CRATER_1, 2, EVENTCHKINF_ENTERED_DEATH_MOUNTAIN_CRATER, gDeathMountainCraterIntroCs },
+    { ENTR_KOKIRI_FOREST_12, 2, EVENTCHKINF_SPOKE_TO_DEKU_TREE_SPROUT, gKokiriForestDekuSproutCs },
 };
 
 void* sCutscenesUnknownList[] = {
@@ -397,15 +397,15 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_SET_FLAG_FAST_WINDMILL:
-            SET_EVENTCHKINF(EVENTCHKINF_65);
+            SET_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_OF_STORMS_IN_WINDMILL);
             break;
 
         case CS_MISC_SET_FLAG_WELL_DRAINED:
-            SET_EVENTCHKINF(EVENTCHKINF_67);
+            SET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL_IN_KAKARIKO);
             break;
 
         case CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED:
-            SET_EVENTCHKINF(EVENTCHKINF_69);
+            SET_EVENTCHKINF(EVENTCHKINF_RAISED_LAKE_HYLIA_WATER);
             break;
 
         case CS_MISC_VISMONO_BLACK_AND_WHITE:
@@ -647,8 +647,8 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 gSaveContext.save.info.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
 
-                if (!GET_EVENTCHKINF(EVENTCHKINF_45)) {
-                    SET_EVENTCHKINF(EVENTCHKINF_45);
+                if (!GET_EVENTCHKINF(EVENTCHKINF_PULLED_MASTER_SWORD_FROM_PEDESTAL)) {
+                    SET_EVENTCHKINF(EVENTCHKINF_PULLED_MASTER_SWORD_FROM_PEDESTAL);
                     play->nextEntranceIndex = ENTR_CUTSCENE_MAP_0;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.save.cutsceneIndex = 0xFFF3;
@@ -912,7 +912,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
 
             case CS_DEST_KAKARIKO_VILLAGE_NOCTURNE_PART_2:
                 Item_Give(play, ITEM_SONG_NOCTURNE);
-                SET_EVENTCHKINF(EVENTCHKINF_54);
+                SET_EVENTCHKINF(EVENTCHKINF_LEARNED_NOCTURNE_OF_SHADOW);
                 play->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.save.cutsceneIndex = 0xFFF1;
@@ -1181,8 +1181,8 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 // all 3 are restored. This cutscene destination sends the player to the correct blue warp destination,
                 // unless all 3 dungeons have been cleared. In that case, the destination is the Temple of Time which
                 // plays a cutscene where the door opens.
-                if (GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
-                    GET_EVENTCHKINF(EVENTCHKINF_4A)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_USED_FOREST_TEMPLE_BLUE_WARP) && GET_EVENTCHKINF(EVENTCHKINF_USED_FIRE_TEMPLE_BLUE_WARP) &&
+                    GET_EVENTCHKINF(EVENTCHKINF_USED_WATER_TEMPLE_BLUE_WARP)) {
                     play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_0;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.save.cutsceneIndex = 0xFFF3;
@@ -1218,7 +1218,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                     gSaveContext.save.cutsceneIndex = 0xFFF1;
                     play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
                 } else {
-                    SET_EVENTCHKINF(EVENTCHKINF_C8);
+                    SET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SPIRIT_MEDALLION);
                     play->nextEntranceIndex = ENTR_DESERT_COLOSSUS_8;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     play->transitionType = TRANS_TYPE_FADE_WHITE;
@@ -1359,9 +1359,9 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL:
-                if (Flags_GetEventChkInf(EVENTCHKINF_BB) && Flags_GetEventChkInf(EVENTCHKINF_BC) &&
-                    Flags_GetEventChkInf(EVENTCHKINF_BD) && Flags_GetEventChkInf(EVENTCHKINF_BE) &&
-                    Flags_GetEventChkInf(EVENTCHKINF_BF) && Flags_GetEventChkInf(EVENTCHKINF_AD)) {
+                if (Flags_GetEventChkInf(EVENTCHKINF_COMPLETED_FOREST_TRIAL) && Flags_GetEventChkInf(EVENTCHKINF_COMPLETED_WATER_TRIAL) &&
+                    Flags_GetEventChkInf(EVENTCHKINF_COMPLETED_SHADOW_TRIAL) && Flags_GetEventChkInf(EVENTCHKINF_COMPLETED_FIRE_TRIAL) &&
+                    Flags_GetEventChkInf(EVENTCHKINF_COMPLETED_LIGHT_TRIAL) && Flags_GetEventChkInf(EVENTCHKINF_COMPLETED_SPIRIT_TRIAL)) {
                     play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
                     play->csCtx.curFrame = 0;
                     gSaveContext.cutsceneTrigger = 1;
@@ -1387,7 +1387,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_FROM_RAURU_FINAL_MESSAGE_CONDITIONAL:
-                if (GET_EVENTCHKINF(EVENTCHKINF_C8)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SPIRIT_MEDALLION)) {
                     play->nextEntranceIndex = ENTR_GRAVEYARD_8;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     play->transitionType = TRANS_TYPE_FADE_WHITE;
@@ -2394,29 +2394,29 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
 
     if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (gSaveContext.respawnFlag <= 0) &&
         (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
-        if ((gSaveContext.save.entranceIndex == ENTR_DESERT_COLOSSUS_1) && !Flags_GetEventChkInf(EVENTCHKINF_AC)) {
-            Flags_SetEventChkInf(EVENTCHKINF_AC);
+        if ((gSaveContext.save.entranceIndex == ENTR_DESERT_COLOSSUS_1) && !Flags_GetEventChkInf(EVENTCHKINF_LEARNED_REQUIEM_OF_SPIRIT)) {
+            Flags_SetEventChkInf(EVENTCHKINF_LEARNED_REQUIEM_OF_SPIRIT);
             gSaveContext.save.entranceIndex = ENTR_DESERT_COLOSSUS_0;
             gSaveContext.save.cutsceneIndex = 0xFFF0;
         } else if ((gSaveContext.save.entranceIndex == ENTR_KAKARIKO_VILLAGE_0) && LINK_IS_ADULT &&
-                   GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
-                   GET_EVENTCHKINF(EVENTCHKINF_4A) && !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
-            Flags_SetEventChkInf(EVENTCHKINF_AA);
+                   GET_EVENTCHKINF(EVENTCHKINF_USED_FOREST_TEMPLE_BLUE_WARP) && GET_EVENTCHKINF(EVENTCHKINF_USED_FIRE_TEMPLE_BLUE_WARP) &&
+                   GET_EVENTCHKINF(EVENTCHKINF_USED_WATER_TEMPLE_BLUE_WARP) && !Flags_GetEventChkInf(EVENTCHKINF_BONGO_BONGO_ESCAPED_FROM_WELL)) {
+            Flags_SetEventChkInf(EVENTCHKINF_BONGO_BONGO_ESCAPED_FROM_WELL);
             gSaveContext.save.cutsceneIndex = 0xFFF0;
-        } else if ((gSaveContext.save.entranceIndex == ENTR_LOST_WOODS_9) && !Flags_GetEventChkInf(EVENTCHKINF_C1)) {
-            Flags_SetEventChkInf(EVENTCHKINF_C1);
+        } else if ((gSaveContext.save.entranceIndex == ENTR_LOST_WOODS_9) && !Flags_GetEventChkInf(EVENTCHKINF_SPOKE_TO_SARIA_ON_BRIDGE)) {
+            Flags_SetEventChkInf(EVENTCHKINF_SPOKE_TO_SARIA_ON_BRIDGE);
             Item_Give(play, ITEM_OCARINA_FAIRY);
             gSaveContext.save.entranceIndex = ENTR_LOST_WOODS_0;
             gSaveContext.save.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
-                   LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_C4) &&
+                   LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_RETURNED_TO_TEMPLE_OF_TIME_WITH_ALL_MEDALLIONS) &&
                    (gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_TEMPLE_OF_TIME)) {
-            Flags_SetEventChkInf(EVENTCHKINF_C4);
+            Flags_SetEventChkInf(EVENTCHKINF_RETURNED_TO_TEMPLE_OF_TIME_WITH_ALL_MEDALLIONS);
             gSaveContext.save.entranceIndex = ENTR_TEMPLE_OF_TIME_0;
             gSaveContext.save.cutsceneIndex = 0xFFF8;
-        } else if (!Flags_GetEventChkInf(EVENTCHKINF_C7) &&
+        } else if (!Flags_GetEventChkInf(EVENTCHKINF_WATCHED_GANONS_CASTLE_COLLAPSE_CAUGHT_BY_GERUDO) &&
                    (gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GANON_BOSS)) {
-            Flags_SetEventChkInf(EVENTCHKINF_C7);
+            Flags_SetEventChkInf(EVENTCHKINF_WATCHED_GANONS_CASTLE_COLLAPSE_CAUGHT_BY_GERUDO);
             gSaveContext.save.entranceIndex = ENTR_GANON_BOSS_0;
             gSaveContext.save.cutsceneIndex = 0xFFF0;
         }

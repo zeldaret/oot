@@ -1192,9 +1192,9 @@ void Scene_DrawConfigKokiriForest(PlayState* play) {
         spA0 = play->roomCtx.drawParams[0] + 500;
     } else if (
 #if OOT_VERSION < PAL_1_0
-        !IS_CUTSCENE_LAYER && GET_EVENTCHKINF(EVENTCHKINF_07)
+        !IS_CUTSCENE_LAYER && GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_KOKIRI_EMERALD_DEKU_TREE_DEAD)
 #else
-        (!IS_CUTSCENE_LAYER || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)
+        (!IS_CUTSCENE_LAYER || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_KOKIRI_EMERALD_DEKU_TREE_DEAD)
 #endif
     ) {
         spA0 = 2150;
@@ -1223,7 +1223,7 @@ void Scene_DrawConfigLakeHylia(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7058);
 
-    if (IS_CUTSCENE_LAYER || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69))) {
+    if (IS_CUTSCENE_LAYER || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_RAISED_LAKE_HYLIA_WATER))) {
         play->roomCtx.drawParams[0] = 87;
     }
 

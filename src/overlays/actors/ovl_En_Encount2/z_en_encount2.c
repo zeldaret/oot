@@ -47,7 +47,7 @@ void EnEncount2_Init(Actor* thisx, PlayState* play) {
         // "☆☆☆☆☆ Death Mountain Encount2 set ☆☆☆☆☆"
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デスマウンテンエンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
                this->actor.params);
-        if (LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_49)) { // flag for having used fire temple blue warp
+        if (LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_USED_FIRE_TEMPLE_BLUE_WARP)) { // flag for having used fire temple blue warp
             Actor_Kill(thisx);
         }
     } else {

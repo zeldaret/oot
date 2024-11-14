@@ -898,7 +898,7 @@ void func_80986BE4(DemoIm* this, s32 arg1) {
 }
 
 void func_80986BF8(DemoIm* this, PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         this->action = 24;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -912,14 +912,14 @@ void func_80986C30(DemoIm* this, PlayState* play) {
 
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardLullabyCs);
         gSaveContext.cutsceneTrigger = 1;
-        SET_EVENTCHKINF(EVENTCHKINF_59);
+        SET_EVENTCHKINF(EVENTCHKINF_LEARNED_ZELDAS_LULLABY);
         Item_Give(play, ITEM_SONG_LULLABY);
         func_80985F54(this);
     }
 }
 
 void func_80986CC8(DemoIm* this) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         this->action = 26;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -943,9 +943,9 @@ void func_80986D40(DemoIm* this, PlayState* play) {
     }
 #endif
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE)) {
         Actor_Kill(&this->actor);
-    } else if (!GET_EVENTCHKINF(EVENTCHKINF_59)) {
+    } else if (!GET_EVENTCHKINF(EVENTCHKINF_LEARNED_ZELDAS_LULLABY)) {
         this->action = 23;
     } else {
         this->action = 20;

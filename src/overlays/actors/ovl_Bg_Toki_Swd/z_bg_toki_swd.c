@@ -99,7 +99,7 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
         play->csCtx.script = D_808BBD90;
         gSaveContext.cutsceneTrigger = 1;
     }
-    if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_55)) {
+    if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_LEARNED_PRELUDE_OF_LIGHT)) {
         if (Actor_HasParent(&this->actor, play)) {
             if (!LINK_IS_ADULT) {
                 Item_Give(play, ITEM_SWORD_MASTER);

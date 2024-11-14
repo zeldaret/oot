@@ -386,8 +386,8 @@ void func_80A91A90(EnKakasi3* this, PlayState* play) {
 
     if (this->dialogState == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         if (this->unk_195) {
-            if (!GET_EVENTCHKINF(EVENTCHKINF_9C)) {
-                SET_EVENTCHKINF(EVENTCHKINF_9C);
+            if (!GET_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_FOR_SCARECROW_AS_ADULT)) {
+                SET_EVENTCHKINF(EVENTCHKINF_PLAYED_SONG_FOR_SCARECROW_AS_ADULT);
             }
         }
         if (play->cameraPtrs[this->subCamId] == NULL) {

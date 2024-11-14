@@ -46,7 +46,7 @@ void BgTokiHikari_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = BgTokiHikari_DoNothing;
             break;
         case 1:
-            if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
                 this->actionFunc = func_808BA204;
                 this->unk_14C = 0.0f;
             } else {

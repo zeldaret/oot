@@ -105,7 +105,7 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play) {
                 // "Attention coordinates"
                 PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 this->unk_15C = 120.0f;
-                if (GET_EVENTCHKINF(EVENTCHKINF_1D)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_ROYAL_FAMILY_TOMB)) {
                     Actor_Kill(&this->actor);
                 }
                 break;
@@ -133,7 +133,7 @@ void func_80B3943C(EnWonderTalk* this, PlayState* play) {
     s16 yawDiffTemp;
 
     this->unk_15A++;
-    if (this->unk_150 == 4 && GET_EVENTCHKINF(EVENTCHKINF_1D)) {
+    if (this->unk_150 == 4 && GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_ROYAL_FAMILY_TOMB)) {
         Actor_Kill(&this->actor);
         return;
     }

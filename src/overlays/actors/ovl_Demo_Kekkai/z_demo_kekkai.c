@@ -64,7 +64,7 @@ static u8 sEnergyColors[] = {
 
 s32 DemoKekkai_CheckEventFlag(s32 params) {
     static s32 eventFlags[] = {
-        EVENTCHKINF_C3, EVENTCHKINF_BC, EVENTCHKINF_BF, EVENTCHKINF_BE, EVENTCHKINF_BD, EVENTCHKINF_AD, EVENTCHKINF_BB,
+        EVENTCHKINF_DISPELLED_GANONS_TOWER_BARRIER, EVENTCHKINF_COMPLETED_WATER_TRIAL, EVENTCHKINF_COMPLETED_LIGHT_TRIAL, EVENTCHKINF_COMPLETED_FIRE_TRIAL, EVENTCHKINF_COMPLETED_SHADOW_TRIAL, EVENTCHKINF_COMPLETED_SPIRIT_TRIAL, EVENTCHKINF_COMPLETED_FOREST_TRIAL,
     };
 
     if ((params < KEKKAI_TOWER) || (params > KEKKAI_FOREST)) {
@@ -169,7 +169,7 @@ void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play) {
         } else {
             this->timer++;
             if (this->timer > 100) {
-                Flags_SetEventChkInf(EVENTCHKINF_C3);
+                Flags_SetEventChkInf(EVENTCHKINF_DISPELLED_GANONS_TOWER_BARRIER);
                 Actor_Kill(&this->actor);
                 return;
             } else if (this->timer > 40) {

@@ -624,7 +624,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             }
 
         case ENHY_TYPE_WOMAN_3:
-            if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE)) {
                 return GET_INFTABLE(INFTABLE_C1) ? 0x7017 : 0x7045;
             } else {
                 return GET_INFTABLE(INFTABLE_C0) ? 0x7017 : 0x7016;
@@ -635,7 +635,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return 0x5086;
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return 0x5085;
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE)) {
                 return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 return 0x701A;
@@ -648,17 +648,17 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             }
 
         case ENHY_TYPE_MAN_2_BALD:
-            return GET_EVENTCHKINF(EVENTCHKINF_80) ? (GET_INFTABLE(INFTABLE_C4) ? 0x7001 : 0x70EB) : 0x7001;
+            return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) ? (GET_INFTABLE(INFTABLE_C4) ? 0x7001 : 0x70EB) : 0x7001;
 
         case ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT:
-            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
+            return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
 
         case ENHY_TYPE_BEGGAR:
             player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
             return 0x700C;
 
         case ENHY_TYPE_OLD_WOMAN:
-            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
+            return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
 
         case ENHY_TYPE_OLD_MAN:
             if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
@@ -666,11 +666,11 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return 0x5087;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
             }
 
         case ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR:
-            if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE)) {
                 return GET_INFTABLE(INFTABLE_C9) ? 0x701E : 0x7048;
             } else {
                 return GET_INFTABLE(INFTABLE_C8) ? 0x701E : 0x701D;
@@ -678,23 +678,23 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
 
         case ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT:
             if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
-                return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x5082 : 0x5081;
+                return GET_EVENTCHKINF(EVENTCHKINF_BONGO_BONGO_ESCAPED_FROM_WELL) ? 0x5082 : 0x5081;
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
             }
 
         case ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT:
             if (play->sceneId == SCENE_IMPAS_HOUSE) {
-                return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x507E : 0x507D;
+                return GET_EVENTCHKINF(EVENTCHKINF_BONGO_BONGO_ESCAPED_FROM_WELL) ? 0x507E : 0x507D;
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
 #if OOT_VERSION < NTSC_1_1
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CB) ? 0x7019 : 0x7018);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) ? 0x7046 : (GET_INFTABLE(INFTABLE_CB) ? 0x7019 : 0x7018);
 #else
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
 #endif
             }
 
@@ -706,7 +706,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return !IS_DAY ? 0x5084 : 0x5083;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7044 : 0x7015;
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) ? 0x7044 : 0x7015;
             }
 
         case ENHY_TYPE_MAN_1_BOWL_CUT_PURPLE_SHIRT:
@@ -736,7 +736,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
 
         case ENHY_TYPE_WOMAN_2:
             if (!LINK_IS_ADULT) {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
+                return GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
                 return (this->talonEventChkInf & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
                            ? 0x5062
@@ -1103,7 +1103,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
                 return true;
             } else if (IS_NIGHT) {
                 return false;
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_80) && !GET_EVENTCHKINF(EVENTCHKINF_45)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE) && !GET_EVENTCHKINF(EVENTCHKINF_PULLED_MASTER_SWORD_FROM_PEDESTAL)) {
                 return false;
             } else {
                 return true;

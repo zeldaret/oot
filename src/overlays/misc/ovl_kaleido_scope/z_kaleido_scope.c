@@ -3797,7 +3797,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDOS_FORTRESS] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_B2)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_ENTERED_GERUDO_VALLEY)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDO_VALLEY] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (INV_CONTENT(ITEM_LONGSHOT) == ITEM_LONGSHOT) {
@@ -3817,7 +3817,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LAKE_HYLIA] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_USED_DEKU_TREE_BLUE_WARP)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LON_LON_RANCH] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (INV_CONTENT(ITEM_OCARINA_FAIRY) != ITEM_NONE) {
@@ -3833,36 +3833,36 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LON_LON_RANCH] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_USED_DEKU_TREE_BLUE_WARP)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (INV_CONTENT(ITEM_OCARINA_OF_TIME) == ITEM_OCARINA_OF_TIME) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_PULLED_MASTER_SWORD_FROM_PEDESTAL)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_MARKET] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_USED_DEKU_TREE_BLUE_WARP)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_HYRULE_FIELD] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_25)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_USED_DODONGOS_CAVERN_BLUE_WARP)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_49)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_USED_FIRE_TEMPLE_BLUE_WARP)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
@@ -3875,7 +3875,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_PULLED_MASTER_SWORD_FROM_PEDESTAL)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
@@ -3884,10 +3884,10 @@ void KaleidoScope_Update(PlayState* play) {
             if (CHECK_QUEST_ITEM(QUEST_SONG_STORMS)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_67)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL_IN_KAKARIKO)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_AA)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_BONGO_BONGO_ESCAPED_FROM_WELL)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
@@ -3897,7 +3897,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (gBitFlags[WORLD_MAP_AREA_LOST_WOODS] & gSaveContext.save.info.worldMapAreaData) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_SHOW;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_0F)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_MIDO_ABOUT_SARIA)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
             if (CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
@@ -3906,28 +3906,28 @@ void KaleidoScope_Update(PlayState* play) {
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_48)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_USED_FOREST_TEMPLE_BLUE_WARP)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             pauseCtx->worldMapPoints[WORLD_MAP_POINT_KOKIRI_FOREST] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
-            if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_USED_DEKU_TREE_BLUE_WARP)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KOKIRI_FOREST] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_6E)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KOKIRI_FOREST] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_0F)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_MIDO_ABOUT_SARIA)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KOKIRI_FOREST] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_25)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_USED_DODONGOS_CAVERN_BLUE_WARP)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_37)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_USED_JABU_JABUS_BELLY_BLUE_WARP)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_ZORAS_DOMAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {

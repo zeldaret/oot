@@ -2501,7 +2501,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         textId += (gSaveContext.save.info.inventory.questItems & 0xF0000000 & 0xF0000000) >> QUEST_HEART_PIECE_COUNT;
     } else if (msgCtx->textId == 0xC && CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BIGGORON)) {
         textId = 0xB; // Traded Giant's Knife for Biggoron Sword
-    } else if (msgCtx->textId == 0xB4 && GET_EVENTCHKINF(EVENTCHKINF_96)) {
+    } else if (msgCtx->textId == 0xB4 && GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_CURSED_MAN_IN_SKULL_HOUSE)) {
         textId = 0xB5; // Destroyed Gold Skulltula
     }
     // Ocarina Staff + Dialog

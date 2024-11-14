@@ -337,7 +337,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     this->timers[0] = 0;
                     this->subCamVelFactor = 0.0f;
                     this->subCamAccel = 0.0f;
-                    if (GET_EVENTCHKINF(EVENTCHKINF_73)) {
+                    if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE)) {
                         this->introState = BFD_CS_EMERGE;
                         this->subCamEyeNext.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
                         this->subCamEyeNext.y = player2->actor.world.pos.y + 100.0f - 50.0f;
@@ -459,7 +459,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 PRINTF("WAY_SPD X = %f\n", this->subCamAtVel.x);
                 PRINTF("WAY_SPD Y = %f\n", this->subCamAtVel.y);
                 PRINTF("WAY_SPD Z = %f\n", this->subCamAtVel.z);
-                if ((this->timers[3] > 190) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
+                if ((this->timers[3] > 190) && !GET_EVENTCHKINF(EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE)) {
                     Audio_PlaySfxGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
@@ -486,7 +486,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 if (this->timers[3] == 160) {
                     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_FIRE_BOSS);
                 }
-                if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
+                if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gVolvagiaTitleCardTex),
                                            160, 180, 128, 40);
                 }
@@ -539,7 +539,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                     this->actionFunc = BossFd_Wait;
                     this->handoffSignal = FD2_SIGNAL_GROUND;
-                    SET_EVENTCHKINF(EVENTCHKINF_73);
+                    SET_EVENTCHKINF(EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE);
                 }
                 break;
         }

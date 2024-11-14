@@ -763,7 +763,7 @@ void func_80AEC2C0(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEC320(EnRu1* this, PlayState* play) {
-    if (!GET_INFTABLE(INFTABLE_141)) {
+    if (!GET_INFTABLE(INFTABLE_RUTO_IN_JJ_MEET_RUTO)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 7;
         EnRu1_SetMouthIndex(this, 1);
@@ -925,7 +925,7 @@ void func_80AECA18(EnRu1* this) {
 
 void func_80AECA44(EnRu1* this, PlayState* play) {
     if (func_80AEAFA0(play, 5, 3)) {
-        SET_INFTABLE(INFTABLE_141);
+        SET_INFTABLE(INFTABLE_RUTO_IN_JJ_MEET_RUTO);
         this->action = 14;
     }
 }
@@ -1174,7 +1174,7 @@ void func_80AED414(EnRu1* this, PlayState* play) {
 }
 
 void func_80AED44C(EnRu1* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_141) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
+    if (GET_INFTABLE(INFTABLE_RUTO_IN_JJ_MEET_RUTO) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
         !GET_INFTABLE(INFTABLE_147)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
@@ -1510,7 +1510,7 @@ s32 func_80AEE264(EnRu1* this, PlayState* play) {
         if (GET_INFTABLE(INFTABLE_143)) {
             this->actor.textId = 0x404E;
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
-        } else if (GET_INFTABLE(INFTABLE_142)) {
+        } else if (GET_INFTABLE(INFTABLE_RUTO_IN_JJ_TALK_FIRST_TIME)) {
             this->actor.textId = 0x404D;
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         } else {
@@ -1608,7 +1608,7 @@ void func_80AEE628(EnRu1* this, PlayState* play) {
     if (EnRu1_IsCsStateIdle(play)) {
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildSittingAnim), ANIMMODE_LOOP, -8.0f);
-        SET_INFTABLE(INFTABLE_144);
+        SET_INFTABLE(INFTABLE_RUTO_IN_JJ_WANTS_TO_BE_TOSSED_TO_SAPPHIRE);
         this->action = 31;
     }
     this->roomNum3 = curRoomNum;
@@ -1618,7 +1618,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
     s32 pad;
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
-    if (!GET_INFTABLE(INFTABLE_144) && (func_80AEB124(play) != NULL)) {
+    if (!GET_INFTABLE(INFTABLE_RUTO_IN_JJ_WANTS_TO_BE_TOSSED_TO_SAPPHIRE) && (func_80AEB124(play) != NULL)) {
         if (!Player_InCsMode(play)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
@@ -1832,7 +1832,7 @@ void func_80AEF080(EnRu1* this) {
 }
 
 s32 func_80AEF0BC(EnRu1* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_142)) {
+    if (GET_INFTABLE(INFTABLE_RUTO_IN_JJ_TALK_FIRST_TIME)) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildSitAnim);
 
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
@@ -1853,7 +1853,7 @@ void func_80AEF170(EnRu1* this, PlayState* play, s32 cond) {
 void func_80AEF188(EnRu1* this, PlayState* play) {
     if (func_80AEB174(play) && !func_80AEF0BC(this, play)) {
         Message_CloseTextbox(play);
-        SET_INFTABLE(INFTABLE_142);
+        SET_INFTABLE(INFTABLE_RUTO_IN_JJ_TALK_FIRST_TIME);
         this->action = 24;
     }
 }
@@ -2153,7 +2153,7 @@ void func_80AEFCE8(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEFD38(EnRu1* this, PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_37) && LINK_IS_CHILD) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_USED_JABU_JABUS_BELLY_BLUE_WARP) && LINK_IS_CHILD) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->actor.flags &= ~ACTOR_FLAG_4;
         this->action = 44;
@@ -2216,7 +2216,7 @@ void func_80AEFF40(EnRu1* this, PlayState* play) {
 void func_80AEFF94(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
-    if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
+    if (GET_INFTABLE(INFTABLE_RUTO_IN_JJ_MEET_RUTO) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
         (!(func_80AEB020(this, play)))) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         actorRoom = this->actor.room;

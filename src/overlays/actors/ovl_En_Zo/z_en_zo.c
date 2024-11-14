@@ -362,7 +362,7 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
 
     switch (PARAMS_GET_U(thisx->params, 0, 6)) {
         case 8:
-            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_A_ZORA)) {
                 return 0x402A;
             }
             break;
@@ -377,7 +377,7 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
                 return 0x402D;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_A_ZORA)) {
                 return 0x4007;
             }
             break;
@@ -387,7 +387,7 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
                 return 0x402E;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_A_ZORA)) {
                 return GET_INFTABLE(INFTABLE_124) ? 0x4009 : 0x4008;
             }
             break;
@@ -396,10 +396,10 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
                 return 0x402D;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_31)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_RUTOS_LETTER)) {
                 return GET_INFTABLE(INFTABLE_129) ? 0x400B : 0x402F;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_A_ZORA)) {
                 return 0x400A;
             }
             break;
@@ -408,7 +408,7 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
                 return 0x402E;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_A_ZORA)) {
                 return 0x400C;
             }
             break;
@@ -418,10 +418,10 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
                 return 0x402D;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_KING_ZORA_MOVED)) {
                 return 0x4010;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_A_ZORA)) {
                 return 0x400F;
             }
             break;
@@ -430,7 +430,7 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
                 return 0x402E;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_A_ZORA)) {
                 return 0x4011;
             }
             break;
@@ -461,7 +461,7 @@ s16 EnZo_UpdateTalkState(PlayState* play, Actor* thisx) {
                     SET_INFTABLE(INFTABLE_129);
                     break;
             }
-            SET_EVENTCHKINF(EVENTCHKINF_30);
+            SET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_A_ZORA);
             return NPC_TALK_STATE_IDLE;
 
         case TEXT_STATE_CHOICE:

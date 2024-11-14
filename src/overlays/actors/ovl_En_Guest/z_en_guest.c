@@ -52,7 +52,7 @@ static InitChainEntry sInitChain[] = {
 void EnGuest_Init(Actor* thisx, PlayState* play) {
     EnGuest* this = (EnGuest*)thisx;
 
-    if (GET_INFTABLE(INFTABLE_76)) {
+    if (GET_INFTABLE(INFTABLE_SHOWED_ZELDAS_LETTER_TO_GATE_GUARD)) {
         Actor_Kill(&this->actor);
     } else {
         this->osAnimeObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_OS_ANIME);

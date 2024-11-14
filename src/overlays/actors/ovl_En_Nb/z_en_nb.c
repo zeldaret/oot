@@ -581,7 +581,7 @@ void EnNb_InitKidnap(EnNb* this, PlayState* play) {
     EnNb_SetCurrentAnim(this, &gNabooruTrappedInVortexPushingGroundAnim, 0, 0.0f, 0);
     this->action = NB_KIDNAPPED;
     this->actor.shape.shadowAlpha = 0;
-    SET_EVENTCHKINF(EVENTCHKINF_95);
+    SET_EVENTCHKINF(EVENTCHKINF_NABOORU_CAPTURED_BY_TWINROVA);
 }
 
 void EnNb_PlayCrySFX(EnNb* this, PlayState* play) {
@@ -1121,11 +1121,11 @@ void EnNb_LookUp(EnNb* this, PlayState* play) {
 }
 
 void EnNb_CrawlspaceSpawnCheck(EnNb* this, PlayState* play) {
-    if (!GET_EVENTCHKINF(EVENTCHKINF_95) && LINK_IS_CHILD) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_NABOORU_CAPTURED_BY_TWINROVA) && LINK_IS_CHILD) {
         EnNb_UpdatePath(this, play);
 
         // looking into crawlspace
-        if (!GET_EVENTCHKINF(EVENTCHKINF_94)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_NABOORU_IN_SPIRIT_TEMPLE)) {
             EnNb_SetCurrentAnim(this, &gNabooruKneeingAtCrawlspaceAnim, 0, 0.0f, 0);
             this->action = NB_CROUCH_CRAWLSPACE;
             this->drawMode = NB_DRAW_DEFAULT;
@@ -1239,7 +1239,7 @@ void func_80AB3838(EnNb* this, PlayState* play) {
 
 void EnNb_SetupPathMovement(EnNb* this, PlayState* play) {
     EnNb_SetCurrentAnim(this, &gNabooruStandingToWalkingTransitionAnim, 2, -8.0f, 0);
-    SET_EVENTCHKINF(EVENTCHKINF_94);
+    SET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_NABOORU_IN_SPIRIT_TEMPLE);
     this->action = NB_IN_PATH;
     this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
 }

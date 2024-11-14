@@ -142,14 +142,14 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
     } else {
         rupeesNeeded = 5;
 
-        if (GET_EVENTCHKINF(EVENTCHKINF_38)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE)) {
             rupeesNeeded = 10;
         }
         if (this->grabbedRupeesCounter >= rupeesNeeded) {
             // Won.
             gSaveContext.timerState = TIMER_STATE_OFF;
             this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
-            if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE)) {
                 this->actor.textId = 0x4055;
             } else {
                 this->actor.textId = 0x405D;
@@ -162,7 +162,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
             func_800F5B58();
             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-            if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE)) {
                 this->actionFunc = func_809EE96C;
             } else {
                 this->actionFunc = func_809EE048;
@@ -208,7 +208,7 @@ void EnDivingGame_Talk(EnDivingGame* this, PlayState* play) {
                 switch (this->state) {
                     case ENDIVINGGAME_STATE_NOTPLAYING:
                         this->unk_292 = TEXT_STATE_CHOICE;
-                        if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
+                        if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE)) {
                             this->actor.textId = 0x4053;
                             this->phase = ENDIVINGGAME_PHASE_1;
                         } else {
@@ -250,7 +250,7 @@ void EnDivingGame_HandlePlayChoice(EnDivingGame* this, PlayState* play) {
                 this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
                 break;
         }
-        if (!GET_EVENTCHKINF(EVENTCHKINF_38) || this->actor.textId == 0x85 || this->actor.textId == 0x2D) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE) || this->actor.textId == 0x85 || this->actor.textId == 0x2D) {
             Message_ContinueTextbox(play, this->actor.textId);
             this->unk_292 = TEXT_STATE_EVENT;
             this->actionFunc = func_809EE048;
@@ -309,7 +309,7 @@ void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, PlayState* play) {
     this->subCamEyeNext.x = -280.0f;
     this->subCamEyeNext.y = -20.0f;
     this->subCamEyeNext.z = -240.0f;
-    if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE)) {
         this->rupeesLeftToThrow = 5;
     } else {
         this->rupeesLeftToThrow = 10;
@@ -359,7 +359,7 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, PlayState* play) {
         this->spawnRuppyTimer = 5;
         EnDivingGame_SpawnRuppy(this, play);
         this->rupeesLeftToThrow--;
-        if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE)) {
             this->unk_296 = 30;
         } else {
             this->unk_296 = 5;
@@ -419,7 +419,7 @@ void func_809EE800(EnDivingGame* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE)) {
             Interface_SetTimer(50 + BREG(2));
         } else {
             Interface_SetTimer(50 + BREG(2));
@@ -482,7 +482,7 @@ void func_809EEAF8(EnDivingGame* this, PlayState* play) {
         // "Successful completion"
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
-        SET_EVENTCHKINF(EVENTCHKINF_38);
+        SET_EVENTCHKINF(EVENTCHKINF_OBTAINED_SILVER_SCALE);
         this->actionFunc = func_809EDCB0;
     }
 }

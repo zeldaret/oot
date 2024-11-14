@@ -187,7 +187,7 @@ void func_809B07F8(EnAni* this, PlayState* play) {
             EnAni_SetText(this, play, 0x5055);
         }
     } else if (yawDiff > -0x3E8 && yawDiff < 0x36B0 && this->actor.xzDistToPlayer < 350.0f) {
-        if (!GET_EVENTCHKINF(EVENTCHKINF_2F)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_DEATH_MOUNTAIN_ERUPTED)) {
             textId = 0x5052;
         } else {
             textId = GET_ITEMGETINF(ITEMGETINF_15) ? 0x5054 : 0x5053;

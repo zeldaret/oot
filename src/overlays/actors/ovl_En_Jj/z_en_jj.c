@@ -96,7 +96,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
             this->extraBlinkCounter = 0;
             this->extraBlinkTotal = 0;
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_3A)) { // Fish given
+            if (GET_EVENTCHKINF(EVENTCHKINF_OFFERED_FISH_TO_JABU_JABU)) { // Fish given
                 EnJj_SetupAction(this, EnJj_WaitToOpenMouth);
             } else {
                 EnJj_SetupAction(this, EnJj_WaitForFish);
@@ -218,7 +218,7 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         gSaveContext.cutsceneTrigger = 1;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
-        SET_EVENTCHKINF(EVENTCHKINF_3A);
+        SET_EVENTCHKINF(EVENTCHKINF_OFFERED_FISH_TO_JABU_JABU);
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
 }

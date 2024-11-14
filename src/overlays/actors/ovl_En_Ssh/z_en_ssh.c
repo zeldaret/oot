@@ -669,7 +669,7 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnSsh_Talk;
         if (this->actor.params == ENSSH_FATHER) {
-            SET_EVENTCHKINF(EVENTCHKINF_96);
+            SET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_CURSED_MAN_IN_SKULL_HOUSE);
         }
         if ((this->actor.textId == 0x26) || (this->actor.textId == 0x27)) {
             SET_INFTABLE(INFTABLE_196);

@@ -130,12 +130,12 @@ void func_80A563BC(EnHeishi4* this, PlayState* play) {
         this->unk_2B4 = 1;
         this->actionFunc = func_80A56B40;
     } else {
-        if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE)) {
             this->actor.textId = 0x5065;
             this->actionFunc = func_80A56B40;
             return;
         }
-        if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_PULLED_MASTER_SWORD_FROM_PEDESTAL)) {
             this->actor.textId = 0x5068;
             this->actionFunc = func_80A56B40;
             return;
@@ -213,13 +213,13 @@ void func_80A56614(EnHeishi4* this, PlayState* play) {
 void func_80A5673C(EnHeishi4* this, PlayState* play) {
     f32 frames;
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_PULLED_MASTER_SWORD_FROM_PEDESTAL)) {
         PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
         return;
     }
     this->unk_284 = 0;
-    if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE)) {
         if (!GET_INFTABLE(INFTABLE_6C)) {
             frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
             Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,

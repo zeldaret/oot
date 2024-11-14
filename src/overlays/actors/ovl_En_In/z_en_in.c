@@ -144,7 +144,7 @@ u16 EnIn_GetTextIdAdult(PlayState* play) {
         case EVENTINF_HORSES_STATE_1:
             if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_1B)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_RENTED_HORSE_FROM_INGO)) {
                 if (GET_INFTABLE(INFTABLE_A2)) {
                     return 0x2036;
                 } else {
@@ -168,7 +168,7 @@ u16 EnIn_GetTextIdAdult(PlayState* play) {
             return 0x205B;
         case EVENTINF_HORSES_STATE_2:
         default:
-            if (GET_INFTABLE(INFTABLE_9A)) {
+            if (GET_INFTABLE(INFTABLE_SPOKE_TO_INGO_ONCE_AS_ADULT)) {
                 return 0x2031;
             } else {
                 return 0x2030;
@@ -200,7 +200,7 @@ s16 EnIn_UpdateTalkStateOnClosing(PlayState* play, Actor* thisx) {
             talkState = NPC_TALK_STATE_ACTION;
             break;
         case 0x203F:
-            SET_EVENTCHKINF(EVENTCHKINF_11);
+            SET_EVENTCHKINF(EVENTCHKINF_SPOKE_TO_INGO_AT_RANCH_BEFORE_TALON_RETURNS);
             SET_INFTABLE(INFTABLE_94);
             break;
     }
@@ -222,7 +222,7 @@ s16 EnIn_UpdateTalkStateOnChoice(PlayState* play, Actor* thisx) {
                 this->actor.textId = 0x2034;
             }
             Message_ContinueTextbox(play, this->actor.textId);
-            SET_INFTABLE(INFTABLE_9A);
+            SET_INFTABLE(INFTABLE_SPOKE_TO_INGO_ONCE_AS_ADULT);
             break;
         case 0x2034:
             if (play->msgCtx.choiceIndex == 1) {
@@ -655,7 +655,7 @@ void func_80A7A568(EnIn* this, PlayState* play) {
     s32 phi_a2;
     s32 transitionType;
 
-    if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && (player->stateFlags1 & PLAYER_STATE1_23)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_RENTED_HORSE_FROM_INGO) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         SET_INFTABLE(INFTABLE_AB);
     }
     if (gSaveContext.timerState == TIMER_STATE_STOP) {
@@ -679,9 +679,9 @@ void func_80A7A568(EnIn* this, PlayState* play) {
         } else {
             Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-            if (!GET_EVENTCHKINF(EVENTCHKINF_1B)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_RENTED_HORSE_FROM_INGO)) {
                 if (GET_INFTABLE(INFTABLE_AB)) {
-                    SET_EVENTCHKINF(EVENTCHKINF_1B);
+                    SET_EVENTCHKINF(EVENTCHKINF_RENTED_HORSE_FROM_INGO);
                     SET_INFTABLE(INFTABLE_AB);
                 }
             }
@@ -898,8 +898,8 @@ void func_80A7B024(EnIn* this, PlayState* play) {
         return;
     }
 
-    if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
-        SET_EVENTCHKINF(EVENTCHKINF_1B);
+    if (!GET_EVENTCHKINF(EVENTCHKINF_RENTED_HORSE_FROM_INGO) && GET_INFTABLE(INFTABLE_AB)) {
+        SET_EVENTCHKINF(EVENTCHKINF_RENTED_HORSE_FROM_INGO);
         SET_INFTABLE(INFTABLE_AB);
     }
 

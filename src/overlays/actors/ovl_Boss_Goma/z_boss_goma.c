@@ -682,7 +682,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             // entrance of the boss room
             if (fabsf(player->actor.world.pos.x - 150.0f) < 60.0f &&
                 fabsf(player->actor.world.pos.z - 350.0f) < 60.0f) {
-                if (GET_EVENTCHKINF(EVENTCHKINF_70)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_GOHMA_BATTLE)) {
                     BossGoma_SetupEncounterState4(this, play);
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
                                        397.68002f, 0, -0x705C, 0, DOORSHUTTER_PARAMS(SHUTTER_GOHMA_BLOCK, 0));
@@ -920,13 +920,13 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             if (Animation_OnFrame(&this->skelanime, 40.0f)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_CRY1);
 
-                if (!GET_EVENTCHKINF(EVENTCHKINF_70)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_BEGAN_GOHMA_BATTLE)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gGohmaTitleCardTex),
                                            160, 180, 128, 40);
                 }
 
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
-                SET_EVENTCHKINF(EVENTCHKINF_70);
+                SET_EVENTCHKINF(EVENTCHKINF_BEGAN_GOHMA_BATTLE);
             }
 
             if (Animation_OnFrame(&this->skelanime, this->currentAnimFrameCount)) {

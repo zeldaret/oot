@@ -493,8 +493,8 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
         PRINTF("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger, TRANS_TRIGGER_START);
 
         if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS) {
-            if (!Flags_GetEventChkInf(EVENTCHKINF_25)) {
-                Flags_SetEventChkInf(EVENTCHKINF_25);
+            if (!Flags_GetEventChkInf(EVENTCHKINF_USED_DODONGOS_CAVERN_BLUE_WARP)) {
+                Flags_SetEventChkInf(EVENTCHKINF_USED_DODONGOS_CAVERN_BLUE_WARP);
                 Item_Give(play, ITEM_GORON_RUBY);
                 play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_TRAIL_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
@@ -503,9 +503,9 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (play->sceneId == SCENE_DEKU_TREE_BOSS) {
-            if (!Flags_GetEventChkInf(EVENTCHKINF_07)) {
-                Flags_SetEventChkInf(EVENTCHKINF_07);
-                Flags_SetEventChkInf(EVENTCHKINF_09);
+            if (!Flags_GetEventChkInf(EVENTCHKINF_OBTAINED_KOKIRI_EMERALD_DEKU_TREE_DEAD)) {
+                Flags_SetEventChkInf(EVENTCHKINF_OBTAINED_KOKIRI_EMERALD_DEKU_TREE_DEAD);
+                Flags_SetEventChkInf(EVENTCHKINF_USED_DEKU_TREE_BLUE_WARP);
                 Item_Give(play, ITEM_KOKIRI_EMERALD);
                 play->nextEntranceIndex = ENTR_KOKIRI_FOREST_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
@@ -601,7 +601,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, PlayState* play) {
     this->warpTimer++;
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        SET_EVENTCHKINF(EVENTCHKINF_37);
+        SET_EVENTCHKINF(EVENTCHKINF_USED_JABU_JABUS_BELLY_BLUE_WARP);
         Item_Give(play, ITEM_ZORA_SAPPHIRE);
         play->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN_0;
         gSaveContext.nextCutsceneIndex = 0xFFF0;
@@ -702,8 +702,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         if (play->sceneId == SCENE_FOREST_TEMPLE_BOSS) {
-            if (!GET_EVENTCHKINF(EVENTCHKINF_48)) {
-                SET_EVENTCHKINF(EVENTCHKINF_48);
+            if (!GET_EVENTCHKINF(EVENTCHKINF_USED_FOREST_TEMPLE_BLUE_WARP)) {
+                SET_EVENTCHKINF(EVENTCHKINF_USED_FOREST_TEMPLE_BLUE_WARP);
                 Item_Give(play, ITEM_MEDALLION_FOREST);
                 play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 gSaveContext.nextCutsceneIndex = 0;
@@ -717,8 +717,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (play->sceneId == SCENE_FIRE_TEMPLE_BOSS) {
-            if (!GET_EVENTCHKINF(EVENTCHKINF_49)) {
-                SET_EVENTCHKINF(EVENTCHKINF_49);
+            if (!GET_EVENTCHKINF(EVENTCHKINF_USED_FIRE_TEMPLE_BLUE_WARP)) {
+                SET_EVENTCHKINF(EVENTCHKINF_USED_FIRE_TEMPLE_BLUE_WARP);
                 Item_Give(play, ITEM_MEDALLION_FIRE);
                 play->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF3;
@@ -731,8 +731,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (play->sceneId == SCENE_WATER_TEMPLE_BOSS) {
-            if (!GET_EVENTCHKINF(EVENTCHKINF_4A)) {
-                SET_EVENTCHKINF(EVENTCHKINF_4A);
+            if (!GET_EVENTCHKINF(EVENTCHKINF_USED_WATER_TEMPLE_BLUE_WARP)) {
+                SET_EVENTCHKINF(EVENTCHKINF_USED_WATER_TEMPLE_BLUE_WARP);
                 Item_Give(play, ITEM_MEDALLION_WATER);
                 play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 gSaveContext.nextCutsceneIndex = 0;

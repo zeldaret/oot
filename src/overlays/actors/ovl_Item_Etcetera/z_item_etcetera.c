@@ -115,7 +115,7 @@ void ItemEtcetera_Init(Actor* thisx, PlayState* play) {
         case ITEM_ETC_LETTER:
             Actor_SetScale(&this->actor, 0.5f);
             this->futureActionFunc = func_80B858B4;
-            if (GET_EVENTCHKINF(EVENTCHKINF_31)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_RUTOS_LETTER)) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -153,7 +153,7 @@ void ItemEtcetera_WaitForObject(ItemEtcetera* this, PlayState* play) {
 void func_80B85824(ItemEtcetera* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         if (PARAMS_GET_U(this->actor.params, 0, 8) == 1) {
-            SET_EVENTCHKINF(EVENTCHKINF_31);
+            SET_EVENTCHKINF(EVENTCHKINF_OBTAINED_RUTOS_LETTER);
             Flags_SetSwitch(play, 0xB);
         }
         Actor_Kill(&this->actor);
@@ -165,7 +165,7 @@ void func_80B85824(ItemEtcetera* this, PlayState* play) {
 void func_80B858B4(ItemEtcetera* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         if (PARAMS_GET_U(this->actor.params, 0, 8) == 1) {
-            SET_EVENTCHKINF(EVENTCHKINF_31);
+            SET_EVENTCHKINF(EVENTCHKINF_OBTAINED_RUTOS_LETTER);
             Flags_SetSwitch(play, 0xB);
         }
         Actor_Kill(&this->actor);

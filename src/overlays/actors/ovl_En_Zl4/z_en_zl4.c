@@ -374,7 +374,7 @@ void EnZl4_Init(Actor* thisx, PlayState* play) {
     if (IS_CUTSCENE_LAYER) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_TheEnd;
-    } else if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_Idle;
     } else {
@@ -1195,7 +1195,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
             if (EnZl4_CsMakePlan(this, play)) {
                 Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
-                SET_EVENTCHKINF(EVENTCHKINF_40);
+                SET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER);
                 this->actionFunc = EnZl4_Idle;
             }
             break;

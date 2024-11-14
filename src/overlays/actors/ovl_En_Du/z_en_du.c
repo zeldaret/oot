@@ -154,7 +154,7 @@ s16 EnDu_UpdateTalkState(PlayState* play, Actor* actor) {
 s32 func_809FDDB4(EnDu* this, PlayState* play) {
     if (play->sceneId == SCENE_GORON_CITY && LINK_IS_CHILD) {
         return 1;
-    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !GET_INFTABLE(INFTABLE_11A) && LINK_IS_ADULT) {
+    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !GET_INFTABLE(INFTABLE_SPOKE_TO_DARUNIA_IN_FIRE_TEMPLE) && LINK_IS_ADULT) {
         return 1;
     }
     return 0;
@@ -411,7 +411,7 @@ void func_809FE798(EnDu* this, PlayState* play) {
         }
     } else {
         Actor_Kill(&this->actor);
-        SET_INFTABLE(INFTABLE_11A);
+        SET_INFTABLE(INFTABLE_SPOKE_TO_DARUNIA_IN_FIRE_TEMPLE);
     }
 }
 

@@ -155,7 +155,7 @@ u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
             return 0x1047;
         }
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_02)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_FIRST_SPOKE_TO_MIDO)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
         if (GET_INFTABLE(INFTABLE_03)) {
@@ -164,7 +164,7 @@ u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
             return 0x1031;
         }
     }
-    if (GET_INFTABLE(INFTABLE_00)) {
+    if (GET_INFTABLE(INFTABLE_GREETED_BY_SARIA)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
         if (GET_INFTABLE(INFTABLE_01)) {
@@ -188,7 +188,7 @@ s16 EnSa_UpdateTalkState(PlayState* play, Actor* thisx) {
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x1031:
-                    SET_EVENTCHKINF(EVENTCHKINF_03);
+                    SET_EVENTCHKINF(EVENTCHKINF_COMPLAINED_ABOUT_MIDO);
                     SET_INFTABLE(INFTABLE_03);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
@@ -388,14 +388,14 @@ s32 func_80AF5DFC(EnSa* this, PlayState* play) {
         }
     }
     if (play->sceneId == SCENE_SARIAS_HOUSE && !LINK_IS_ADULT &&
-        INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
+        INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         return 1;
     }
-    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && GET_EVENTCHKINF(EVENTCHKINF_40)) {
+    if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_ZELDAS_LETTER)) {
         return CHECK_QUEST_ITEM(QUEST_SONG_SARIA) ? 2 : 5;
     }
     if (play->sceneId == SCENE_KOKIRI_FOREST && !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-        if (GET_INFTABLE(INFTABLE_00)) {
+        if (GET_INFTABLE(INFTABLE_GREETED_BY_SARIA)) {
             return 1;
         }
         return 4;
@@ -718,7 +718,7 @@ void func_80AF6B20(EnSa* this, PlayState* play) {
         this->actor.world.pos = this->actor.home.pos;
         this->actor.world.rot = this->unk_21A;
         this->mouthIndex = 0;
-        SET_INFTABLE(INFTABLE_00);
+        SET_INFTABLE(INFTABLE_GREETED_BY_SARIA);
     }
 
     this->actionFunc = func_80AF6448;

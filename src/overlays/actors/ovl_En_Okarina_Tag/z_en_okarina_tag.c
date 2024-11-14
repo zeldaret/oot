@@ -195,8 +195,8 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
     if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
-                   ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D)) &&
+        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) &&
+                   ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_ROYAL_FAMILY_TOMB)) &&
                    (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                    (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
@@ -244,7 +244,7 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
         switch (this->type) {
             case 1:
                 Flags_SetSwitch(play, this->switchFlag);
-                SET_EVENTCHKINF(EVENTCHKINF_39);
+                SET_EVENTCHKINF(EVENTCHKINF_OPENED_ZORAS_DOMAIN);
                 break;
             case 2:
                 play->csCtx.script = D_80ABF9D0;
@@ -261,7 +261,7 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
                                                    : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
-                SET_EVENTCHKINF(EVENTCHKINF_1D);
+                SET_EVENTCHKINF(EVENTCHKINF_DESTROYED_ROYAL_FAMILY_TOMB);
                 Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                 break;
             default:

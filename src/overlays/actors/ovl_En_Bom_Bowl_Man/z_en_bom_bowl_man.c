@@ -133,7 +133,7 @@ void EnBomBowlMan_BlinkAwake(EnBomBowlMan* this, PlayState* play) {
         this->dialogState = TEXT_STATE_EVENT;
 
         // Check for beaten Dodongo's Cavern
-        if (GET_EVENTCHKINF(EVENTCHKINF_25) || BREG(2)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_USED_DODONGOS_CAVERN_BLUE_WARP) || BREG(2)) {
             this->actor.textId = 0xBF;
         } else {
             this->actor.textId = 0x7058;
@@ -163,7 +163,7 @@ void EnBomBowlMan_CheckBeatenDC(EnBomBowlMan* this, PlayState* play) {
         this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
 
         // Check for beaten Dodongo's Cavern
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_25) || BREG(2))) {
+        if (!(GET_EVENTCHKINF(EVENTCHKINF_USED_DODONGOS_CAVERN_BLUE_WARP) || BREG(2))) {
             this->actionFunc = EnBomBowlMan_WaitNotBeatenDC;
         } else {
             this->actor.textId = 0x18;
