@@ -183,11 +183,11 @@ base = None
 build = None
 
 
-def get_file_pointers_worker_init(version: str):
+def get_file_pointers_worker_init(base_path: Path, build_path: Path):
     global base
     global build
-    base = open(f"baseroms/{version}/baserom-decompressed.z64", "rb")
-    build = open(f"build/{version}/oot-{version}.z64", "rb")
+    base = open(base_path, "rb")
+    build = open(build_path, "rb")
 
 
 def get_file_pointers_worker(file: mapfile_parser.mapfile.File) -> list[Pointer]:
@@ -200,8 +200,14 @@ def get_file_pointers_worker(file: mapfile_parser.mapfile.File) -> list[Pointer]
 # C files to a list of pointers into their BSS sections
 def compare_pointers(version: str) -> dict[Path, BssSection]:
     mapfile_path = Path(f"build/{version}/oot-{version}.map")
+    base_path = Path(f"baseroms/{version}/baserom-decompressed.z64")
+    build_path = Path(f"build/{version}/oot-{version}.z64")
     if not mapfile_path.exists():
         raise FixBssException(f"Could not open {mapfile_path}")
+    if not base_path.exists():
+        raise FixBssException(f"Could not open {base_path}")
+    if not build_path.exists():
+        raise FixBssException(f"Could not open {build_path}")
 
     mapfile = mapfile_parser.mapfile.MapFile()
     mapfile.readMapFile(mapfile_path)
@@ -225,7 +231,7 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
     file_results = []
     with multiprocessing.Pool(
         initializer=get_file_pointers_worker_init,
-        initargs=(version,),
+        initargs=(base_path, build_path),
     ) as p:
         for mapfile_segment in source_code_segments:
             for file in mapfile_segment:
