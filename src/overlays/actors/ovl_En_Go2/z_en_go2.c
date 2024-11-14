@@ -843,22 +843,17 @@ s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
 }
 
 s32 EnGo2_UpdateTalking(EnGo2* this, PlayState* play) {
-    // default:
-    if (ENGO2_GET_TYPE(this) != GORON_DMT_BIGGORON) {
-        if (ENGO2_GET_TYPE(this) != GORON_CITY_HOT_RODDER) {
-            return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange,
-                                     EnGo2_GetTextId, EnGo2_UpdateTalkState);
-        }
+    if (ENGO2_GET_TYPE(this) != GORON_DMT_BIGGORON && ENGO2_GET_TYPE(this) != GORON_CITY_HOT_RODDER) {
+        return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange,
+                                 EnGo2_GetTextId, EnGo2_UpdateTalkState);
     }
 
-    // `GORON_DMT_BIGGORON`, close enough; see `EnGo2_IsInRange`
-    if (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) {
-        if (!(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
-            return false;
-        }
+    // Biggoron is close enough; see `EnGo2_IsInRange`
+    if (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON && !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
+        return false;
     }
 
-    // `GORON_DMT_BIGGORON` || `GORON_CITY_HOT_RODDER`
+    // dialog with Biggoron or Hot Rodder
     {
         if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
