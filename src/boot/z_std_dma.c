@@ -339,7 +339,7 @@ const char* DmaMgr_FindFileName(uintptr_t vrom) {
 #endif
 
 const char* DmaMgr_GetFileName(uintptr_t vrom) {
-#if DEBUG_FEATURES
+#if PLATFORM_GC && DEBUG_FEATURES
     const char* ret = DmaMgr_FindFileName(vrom);
 
     if (ret == NULL) {
@@ -352,10 +352,10 @@ const char* DmaMgr_GetFileName(uintptr_t vrom) {
         return NULL;
     }
     return ret;
-#elif PLATFORM_N64
-    return "??";
 #elif PLATFORM_GC
     return "";
+#elif PLATFORM_N64
+    return "??";
 #endif
 }
 

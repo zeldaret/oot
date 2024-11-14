@@ -57,15 +57,19 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize);
 void ArenaImpl_GetSizes(Arena* arena, u32* outMaxFree, u32* outFree, u32* outAlloc);
 s32 __osCheckArena(Arena* arena);
 
-#if DEBUG_FEATURES
+#if PLATFORM_N64 || (PLATFORM_GC && DEBUG_FEATURES)
 void* __osMallocDebug(Arena* arena, u32 size, const char* file, int line);
 void* __osMallocRDebug(Arena* arena, u32 size, const char* file, int line);
 void __osFreeDebug(Arena* arena, void* ptr, const char* file, int line);
 void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, int line);
 void __osDisplayArena(Arena* arena);
+#endif
 
+#if PLATFORM_GC && DEBUG_FEATURES
 extern u32 __osMalloc_FreeBlockTest_Enable;
-#else
+#endif
+
+#if PLATFORM_N64
 extern u32 gTotalAllocFailures;
 #endif
 

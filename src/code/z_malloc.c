@@ -14,7 +14,9 @@ void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* 
     if (ptr == NULL) {
         if (gZeldaArenaLogSeverity >= LOG_SEVERITY_ERROR) {
             PRINTF(T("%s: %u バイトの%sに失敗しました\n", "%s: %u bytes %s failed\n"), name, size, action);
+            #if PLATFORM_GC
             __osDisplayArena(&sZeldaArena);
+            #endif
         }
     } else if (gZeldaArenaLogSeverity >= LOG_SEVERITY_VERBOSE) {
         PRINTF(T("%s: %u バイトの%sに成功しました\n", "%s: %u bytes %s succeeded\n"), name, size, action);
@@ -96,7 +98,7 @@ void* ZeldaArena_Calloc(u32 num, u32 size) {
     return ret;
 }
 
-#if DEBUG_FEATURES
+#if PLATFORM_GC && DEBUG_FEATURES
 void ZeldaArena_Display(void) {
     PRINTF(T("ゼルダヒープ表示\n", "Zelda heap display\n"));
     __osDisplayArena(&sZeldaArena);

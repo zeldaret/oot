@@ -82,9 +82,11 @@ void func_800C4344(GameState* gameState) {
     s32 hexDumpSize;
     u16 inputCompareValue;
 
+#if PLATFORM_GC
     if (R_HREG_MODE == HREG_MODE_HEAP_FREE_BLOCK_TEST) {
         __osMalloc_FreeBlockTest_Enable = R_HEAP_FREE_BLOCK_TEST_TOGGLE;
     }
+#endif
 
     if (R_HREG_MODE == HREG_MODE_INPUT_TEST) {
         selectedInput =
@@ -195,14 +197,14 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 #endif
 
     if (R_ENABLE_ARENA_DBG < 0) {
-#if DEBUG_FEATURES
+#if PLATFORM_GC && DEBUG_FEATURES
         s32 pad;
         DebugArena_Display();
         SystemArena_Display();
+#endif
         PRINTF(T("ハイラル滅亡まであと %08x バイト(game_alloc)\n",
                  "%08x bytes left until Hyrule is destroyed (game_alloc)\n"),
                THA_GetRemaining(&gameState->tha));
-#endif
         R_ENABLE_ARENA_DBG = 0;
     }
 
@@ -290,7 +292,7 @@ void GameState_Update(GameState* gameState) {
     }
 #endif
 
-#if DEBUG_FEATURES
+#if OOT_VERSION >= PAL_1_0 && DEBUG_FEATURES
     if (SREG(63) == 1u) {
         if (R_VI_MODE_EDIT_STATE < VI_MODE_EDIT_STATE_INACTIVE) {
             R_VI_MODE_EDIT_STATE = VI_MODE_EDIT_STATE_INACTIVE;
@@ -431,7 +433,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル再確保失敗\n", "Failure to secure Hyrule\n"));
 
-#if DEBUG_FEATURES
+#if PLATFORM_GC && DEBUG_FEATURES
         SystemArena_Display();
 #endif
 
@@ -526,7 +528,9 @@ void GameState_Destroy(GameState* gameState) {
     GameAlloc_Cleanup(&gameState->alloc);
 
 #if DEBUG_FEATURES
+#if PLATFORM_GC
     SystemArena_Display();
+#endif
     Fault_RemoveClient(&sGameFaultClient);
 #endif
 
