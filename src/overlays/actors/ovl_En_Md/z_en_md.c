@@ -104,6 +104,16 @@ static AnimationInfo sAnimationInfo[] = {
     { &gMidoAkimboToAnnoyedAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
 
+/*
+ * `actor.params bits` allocation:
+ * ???? 01234567........
+ * path ........89ABCDEF
+ */
+#define ENMD_GET_PATH_INDEX(this) PARAMS_GET_S(this->actor.params, 8, 8)
+#define ENMD_GET_PATH_NOSHIFT(this) PARAMS_GET_NOSHIFT(this->actor.params, 8, 8)
+
+#define ENMD_PATH_NOSHIFT_MAX (NBITS_TO_MASK(8) << 8)
+
 void EnMd_ReverseAnimation(EnMd* this) {
     f32 startFrame;
 
@@ -608,11 +618,11 @@ u8 EnMd_FollowPath(EnMd* this, PlayState* play) {
     f32 pathDiffX;
     f32 pathDiffZ;
 
-    if (PARAMS_GET_NOSHIFT(this->actor.params, 8, 8) == 0xFF00) {
+    if (ENMD_GET_PATH_NOSHIFT(this) == ENMD_PATH_NOSHIFT_MAX) {
         return 0;
     }
 
-    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
+    path = &play->pathList[ENMD_GET_PATH_INDEX(this)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->waypoint;
 
@@ -635,11 +645,11 @@ u8 EnMd_SetMovedPos(EnMd* this, PlayState* play) {
     Path* path;
     Vec3s* lastPointPos;
 
-    if (PARAMS_GET_NOSHIFT(this->actor.params, 8, 8) == 0xFF00) {
+    if (ENMD_GET_PATH_NOSHIFT(this) == ENMD_PATH_NOSHIFT_MAX) {
         return 0;
     }
 
-    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
+    path = &play->pathList[ENMD_GET_PATH_INDEX(this)];
     lastPointPos = SEGMENTED_TO_VIRTUAL(path->points);
     lastPointPos += path->count - 1;
 
