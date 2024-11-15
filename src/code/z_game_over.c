@@ -102,7 +102,7 @@ void GameOver_Update(PlayState* play) {
             sGameOverTimer--;
 
             if (sGameOverTimer == 0) {
-                play->pauseCtx.state = PAUSE_STATE_8;
+                play->pauseCtx.state = PAUSE_STATE_GAME_OVER_START;
                 gameOverCtx->state++;
                 Rumble_Reset();
             }

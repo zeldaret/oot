@@ -1509,7 +1509,7 @@ void* Play_LoadFileFromDiskDrive(PlayState* this, RomFile* file) {
     void* allocp;
 
     size = file->vromEnd - file->vromStart;
-    allocp = THA_AllocTailAlign16(&this->state.tha, size);
+    allocp = GAME_STATE_ALLOC(&this->state, size, "../z_play.c", UNK_LINE);
     func_801C7C1C(allocp, file->vromStart, size);
 
     return allocp;
