@@ -541,11 +541,9 @@ s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size,
 #if OOT_DEBUG
     if ((ram == NULL) || (osMemSize < OS_K0_TO_PHYSICAL(ram) + size) || (vrom & 1) || (vrom > 0x4000000) ||
         (size == 0) || (size & 1)) {
-        // The line numbers for `DMA_ERROR` are only used in retail builds, but this usage was removed so
-        // its line number is unknown.
         //! @bug `req` is passed to `DMA_ERROR` without rom, ram and size being set
         DMA_ERROR(req, NULL, "ILLIGAL DMA-FUNCTION CALL", T("パラメータ異常です", "Parameter error"), "../z_std_dma.c",
-                  0, 0, 0);
+                  UNK_LINE, UNK_LINE, UNK_LINE);
     }
 #endif
 
