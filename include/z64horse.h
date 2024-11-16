@@ -10,7 +10,7 @@ struct Player;
 
 void Horse_ResetHorseData(struct PlayState* play);
 void Horse_FixLakeHyliaPosition(struct PlayState* play);
-void Horse_Set(struct PlayState* play, struct Player* player);
+void Horse_InitPlayerHorse(struct PlayState* play, struct Player* player);
 void Horse_RotateToPoint(struct Actor* actor, Vec3f* pos, s16 turnAmount);
 
 #endif

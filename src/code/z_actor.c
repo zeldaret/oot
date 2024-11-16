@@ -1131,7 +1131,7 @@ void func_8002DE04(PlayState* play, Actor* actorA, Actor* actorB) {
     actorA->flags &= ~ACTOR_FLAG_13;
 }
 
-void Actor_SetCameraHorseSetting(PlayState* play, Player* player) {
+void Actor_RequestHorseCameraSetting(PlayState* play, Player* player) {
     if ((play->roomCtx.curRoom.type != ROOM_TYPE_4) && Play_CamIsNotFixed(play)) {
         Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_HORSE);
     }
@@ -1149,7 +1149,7 @@ int func_8002DEEC(Player* player) {
 }
 
 void Actor_InitPlayerHorse(PlayState* play, Player* player) {
-    Horse_Set(play, player);
+    Horse_InitPlayerHorse(play, player);
 }
 
 /**

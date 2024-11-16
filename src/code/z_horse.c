@@ -7,12 +7,12 @@
 #include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 /**
- * Tests if Epona can be spawned
+ * Tests if the player horse can be spawned
  *
  * @param sceneId the checked scene
- * @return true if Epona can appear in the scene, else false
+ * @return true if the player horse can appear in the scene, else false
  */
-s32 Horse_SetCheck(s32 sceneId) {
+s32 Horse_CanSpawn(s32 sceneId) {
     s32 validSceneIds[] = { SCENE_HYRULE_FIELD, SCENE_LAKE_HYLIA, SCENE_GERUDO_VALLEY, SCENE_GERUDOS_FORTRESS,
                             SCENE_LON_LON_RANCH };
     s32 i;
@@ -38,7 +38,7 @@ void Horse_ResetHorseData(PlayState* play) {
 }
 
 /**
- * Forces horse to spawn in a safe spot if the current spawn is in Lake Hylia
+ * Forces the player horse to spawn in a safe spot if the current spawn is in Lake Hylia
  * This prevents the horse from spawning underwater after obtaining the Water Medallion
  */
 void Horse_FixLakeHyliaPosition(PlayState* play) {
@@ -58,7 +58,7 @@ typedef struct HorseSpawn {
     /* 0x0A */ s16 type;
 } HorseSpawn;
 
-void Horse_SetNormal(PlayState* play, Player* player) {
+void Horse_SetupInGameplay(PlayState* play, Player* player) {
     s32 i;
     HorseSpawn horseSpawns[] = {
         { SCENE_HYRULE_FIELD, -460, 100, 6640, 0, HORSE_PTYPE_INACTIVE },
@@ -78,7 +78,7 @@ void Horse_SetNormal(PlayState* play, Player* player) {
         ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 343);
 
         Actor_MountHorse(play, player, player->rideActor);
-        Actor_SetCameraHorseSetting(play, player);
+        Actor_RequestHorseCameraSetting(play, player);
         gSaveContext.save.info.horseData.sceneId = play->sceneId;
         if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
             player->rideActor->room = -1;
@@ -103,7 +103,7 @@ void Horse_SetNormal(PlayState* play, Player* player) {
                gSaveContext.save.info.horseData.sceneId, Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED),
                R_DEBUG_FORCE_EPONA_OBTAINED);
 
-        if (Horse_SetCheck(gSaveContext.save.info.horseData.sceneId)) {
+        if (Horse_CanSpawn(gSaveContext.save.info.horseData.sceneId)) {
             Actor* horseActor =
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, gSaveContext.save.info.horseData.pos.x,
                             gSaveContext.save.info.horseData.pos.y, gSaveContext.save.info.horseData.pos.z, 0,
@@ -128,7 +128,7 @@ void Horse_SetNormal(PlayState* play, Player* player) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, HORSE_PTYPE_1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 443);
     } else if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED) {
-        // Player owns Epona, but isn't riding her or in the last place she was spawned.
+        // Player owns Epona, but isn't riding her and the current scene is not the same as the horse's last location.
         for (i = 0; i < ARRAY_COUNT(horseSpawns); i++) {
             HorseSpawn* horseSpawn = &horseSpawns[i];
             if (horseSpawn->sceneId == play->sceneId) {
@@ -157,7 +157,7 @@ typedef struct HorseCutsceneSpawn {
     /* 0x10 */ s16 type;
 } HorseCutsceneSpawn;
 
-void Horse_SetCutscene(PlayState* play, Player* player) {
+void Horse_SetupInCutscene(PlayState* play, Player* player) {
     static HorseCutsceneSpawn horseSpawns[] = {
         { SCENE_GERUDOS_FORTRESS, 0xFFF0, { 3600, 1413, 360 }, 0x8001, HORSE_PTYPE_HORSEBACK_ARCHERY },
         { SCENE_LON_LON_RANCH, 0xFFF0, { -250, 1, -1580 }, 0x4000, HORSE_PTYPE_6 },  // Horse Race
@@ -180,6 +180,9 @@ void Horse_SetCutscene(PlayState* play, Player* player) {
         // Epona hopping over one of the Lon Lon Ranch fences
         Vec3s spawnPos;
         Vec3s spawnPositions[] = {
+            // Note: The east and west positions are paired with the wrong entranceIndex. However, the subsequent
+            // cutscene repositions the horse will override these coordinates while the horse is still obstructed, so no
+            // visual glitch occurs.
             { -2961, 313, 7700 }, // South
             { -1900, 313, 7015 }, // East
             { -4043, 313, 6933 }, // West
@@ -205,7 +208,7 @@ void Horse_SetCutscene(PlayState* play, Player* player) {
         ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 561);
 
         Actor_MountHorse(play, player, player->rideActor);
-        Actor_SetCameraHorseSetting(play, player);
+        Actor_RequestHorseCameraSetting(play, player);
         gSaveContext.save.info.horseData.sceneId = play->sceneId;
     } else if ((play->sceneId == SCENE_LON_LON_RANCH) &&
                (GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_TRAPPED_WIN_EPONA) &&
@@ -215,7 +218,7 @@ void Horse_SetCutscene(PlayState* play, Player* player) {
         ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 582);
 
         Actor_MountHorse(play, player, player->rideActor);
-        Actor_SetCameraHorseSetting(play, player);
+        Actor_RequestHorseCameraSetting(play, player);
         gSaveContext.save.info.horseData.sceneId = play->sceneId;
 
         if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
@@ -239,7 +242,7 @@ void Horse_SetCutscene(PlayState* play, Player* player) {
                     ASSERT(player->rideActor != NULL, "player->ride.actor != NULL", "../z_horse.c", 628);
 
                     Actor_MountHorse(play, player, player->rideActor);
-                    Actor_SetCameraHorseSetting(play, player);
+                    Actor_RequestHorseCameraSetting(play, player);
                 } else if ((horseSpawns[i].type == HORSE_PTYPE_5) || (horseSpawns[i].type == HORSE_PTYPE_6) ||
                            (horseSpawns[i].type == HORSE_PTYPE_HORSEBACK_ARCHERY)) {
                     Vec3f eye;
@@ -262,7 +265,7 @@ void Horse_SetCutscene(PlayState* play, Player* player) {
                     player->actor.shape.rot.y = horseSpawns[i].angle;
 
                     Actor_MountHorse(play, player, player->rideActor);
-                    Actor_SetCameraHorseSetting(play, player);
+                    Actor_RequestHorseCameraSetting(play, player);
 
                     eye.x = player->actor.world.pos.x - 200.0f;
                     eye.y = player->actor.world.pos.y + 100.0f;
@@ -280,11 +283,13 @@ void Horse_SetCutscene(PlayState* play, Player* player) {
 }
 
 /**
- * Determines when and where a horse should spawn for the player
+ * Initializes the player's horse, but only if required.
+ *
+ * This function should be called during `Play_Init`.
  */
-void Horse_Set(PlayState* play, Player* player) {
+void Horse_InitPlayerHorse(PlayState* play, Player* player) {
     if (LINK_IS_ADULT) {
-        if (!Horse_SetCheck(gSaveContext.save.info.horseData.sceneId)) {
+        if (!Horse_CanSpawn(gSaveContext.save.info.horseData.sceneId)) {
             PRINTF(VT_COL(RED, WHITE));
             PRINTF(
                 T("Horse_Set_Check():%d セットスポットまずいです。\n", "Horse_Set_Check():%d set spot is no good.\n"),
@@ -293,7 +298,7 @@ void Horse_Set(PlayState* play, Player* player) {
             Horse_ResetHorseData(play);
         }
 
-        if (Horse_SetCheck(play->sceneId)) {
+        if (Horse_CanSpawn(play->sceneId)) {
             if (IS_CUTSCENE_LAYER ||
                 // has hopped over one of the Lon-Lon Ranch fences
                 ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11 ||
@@ -305,9 +310,9 @@ void Horse_Set(PlayState* play, Player* player) {
                 ((play->sceneId == SCENE_LON_LON_RANCH) &&
                  (GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_TRAPPED_WIN_EPONA) &&
                  !(Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED))) {
-                Horse_SetCutscene(play, player);
+                Horse_SetupInCutscene(play, player);
             } else {
-                Horse_SetNormal(play, player);
+                Horse_SetupInGameplay(play, player);
             }
         }
     }

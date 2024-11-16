@@ -806,7 +806,7 @@ int func_8002DD78(struct Player* player);
 s32 func_8002DDE4(struct PlayState* play);
 s32 func_8002DDF4(struct PlayState* play);
 void func_8002DE04(struct PlayState* play, Actor* actorA, Actor* actorB);
-void Actor_SetCameraHorseSetting(struct PlayState* play, struct Player* player);
+void Actor_RequestHorseCameraSetting(struct PlayState* play, struct Player* player);
 void Actor_MountHorse(struct PlayState* play, struct Player* player, Actor* horse);
 int func_8002DEEC(struct Player* player);
 void Actor_InitPlayerHorse(struct PlayState* play, struct Player* player);

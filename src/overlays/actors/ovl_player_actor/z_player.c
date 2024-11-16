@@ -13196,7 +13196,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
         }
 
         if (LinkAnimation_OnFrame(&this->skelAnime, arr[1])) {
-            Actor_SetCameraHorseSetting(play, this);
+            Actor_RequestHorseCameraSetting(play, this);
             Player_PlaySfx(this, NA_SE_PL_SIT_ON_HORSE);
             return;
         }
@@ -13204,7 +13204,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
         return;
     }
 
-    Actor_SetCameraHorseSetting(play, this);
+    Actor_RequestHorseCameraSetting(play, this);
     this->skelAnime.prevTransl = D_8085499C;
 
     if ((rideActor->animationIdx != this->av2.actionVar2) &&
