@@ -6,7 +6,7 @@
 #include "stack.h"
 #include "versions.h"
 
-#pragma increment_block_number "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 typedef struct struct_801D9C30 {
     /* 0x000 */ s32 unk_000;       // disk start

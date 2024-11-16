@@ -1190,7 +1190,13 @@ void Scene_DrawConfigKokiriForest(PlayState* play) {
         spA3 = 255 - (u8)play->roomCtx.drawParams[0];
     } else if (gSaveContext.sceneLayer == 6) {
         spA0 = play->roomCtx.drawParams[0] + 500;
-    } else if ((!IS_CUTSCENE_LAYER || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)) {
+    } else if (
+#if OOT_VERSION < PAL_1_0
+        !IS_CUTSCENE_LAYER && GET_EVENTCHKINF(EVENTCHKINF_07)
+#else
+        (!IS_CUTSCENE_LAYER || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)
+#endif
+    ) {
         spA0 = 2150;
     }
 
