@@ -2409,9 +2409,9 @@ void Cutscene_HandleConditionalTriggers(PlayState* play) {
             gSaveContext.save.entranceIndex = ENTR_LOST_WOODS_0;
             gSaveContext.save.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
-                   LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_RETURNED_TO_TEMPLE_OF_TIME_WITH_ALL_MEDALLIONS) &&
+                   LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_LIGHT_ARROWS) &&
                    (gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_TEMPLE_OF_TIME)) {
-            Flags_SetEventChkInf(EVENTCHKINF_RETURNED_TO_TEMPLE_OF_TIME_WITH_ALL_MEDALLIONS);
+            Flags_SetEventChkInf(EVENTCHKINF_RECEIVED_LIGHT_ARROWS);
             gSaveContext.save.entranceIndex = ENTR_TEMPLE_OF_TIME_0;
             gSaveContext.save.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(EVENTCHKINF_WATCHED_GANONS_CASTLE_COLLAPSE_CAUGHT_BY_GERUDO) &&

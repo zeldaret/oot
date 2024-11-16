@@ -242,7 +242,7 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
     if (!IS_CUTSCENE_LAYER || LINK_IS_ADULT)
 #endif
     {
-        if (GET_EVENTCHKINF(EVENTCHKINF_OBTAINED_KOKIRI_EMERALD_DEKU_TREE_DEAD)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_DEKU_TREE_DEAD)) {
             alpha = 2150;
         }
     } else { // needed to match

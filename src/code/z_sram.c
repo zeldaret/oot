@@ -328,7 +328,7 @@ void Sram_InitDebugSave(void) {
     gSaveContext.save.info.infTable[0] |= 0x5009;
     gSaveContext.save.info.eventChkInf[0] |= 0x123F;
     SET_EVENTCHKINF(EVENTCHKINF_ZELDA_FLED_HYRULE_CASTLE);
-    SET_EVENTCHKINF(EVENTCHKINF_RETURNED_TO_TEMPLE_OF_TIME_WITH_ALL_MEDALLIONS);
+    SET_EVENTCHKINF(EVENTCHKINF_RECEIVED_LIGHT_ARROWS);
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;

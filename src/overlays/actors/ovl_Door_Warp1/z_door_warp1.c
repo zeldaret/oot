@@ -503,8 +503,8 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (play->sceneId == SCENE_DEKU_TREE_BOSS) {
-            if (!Flags_GetEventChkInf(EVENTCHKINF_OBTAINED_KOKIRI_EMERALD_DEKU_TREE_DEAD)) {
-                Flags_SetEventChkInf(EVENTCHKINF_OBTAINED_KOKIRI_EMERALD_DEKU_TREE_DEAD);
+            if (!Flags_GetEventChkInf(EVENTCHKINF_DEKU_TREE_DEAD)) {
+                Flags_SetEventChkInf(EVENTCHKINF_DEKU_TREE_DEAD);
                 Flags_SetEventChkInf(EVENTCHKINF_USED_DEKU_TREE_BLUE_WARP);
                 Item_Give(play, ITEM_KOKIRI_EMERALD);
                 play->nextEntranceIndex = ENTR_KOKIRI_FOREST_0;
