@@ -656,7 +656,7 @@ DECLARE_ROM_SEGMENT(spot20_room_0)
 DECLARE_ROM_SEGMENT(ganon_tou_room_0)
 
 // Room symbols for compiling test scenes. 
-// These are not wrapped in an `#if DEBUG_FEATURES` so that debug ROMs 
+// These are not wrapped in an `#if DEBUG_ASSETS` so that debug ROMs 
 // can be built with DEBUG_ASSETS=0 (e.g. when DEBUG_FEATURES=0)
 
 DECLARE_ROM_SEGMENT(test01_room_0)
