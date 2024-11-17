@@ -36,7 +36,7 @@ void DynaPolyActor_UpdateCarriedActorPos(CollisionContext* colCtx, s32 bgId, Act
             SkinMatrix_Vec3fMtxFMultXYZ(&curTransform, &tempPos, &pos);
             carriedActor->world.pos = pos;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (BGCHECK_XYZ_ABSMAX <= pos.x || pos.x <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.y ||
                 pos.y <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.z || pos.z <= -BGCHECK_XYZ_ABSMAX) {
 

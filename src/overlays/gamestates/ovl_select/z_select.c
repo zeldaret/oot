@@ -250,7 +250,7 @@ static SceneSelectEntry sScenes[] = {
     // Rupees & Cow Grotto
     { "114:" T(GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 13", "Hidden Dive Hole 13"), MapSelect_LoadGame, ENTR_GROTTOS_13 },
     { "115:" T(GFXP_KATAKANA "ﾊｲﾗﾙ ﾃﾞﾓ", "Hyrule Cutscenes"), MapSelect_LoadGame, ENTR_CUTSCENE_MAP_0 },
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     { "116:" T(GFXP_HIRAGANA "ﾍﾞｯｼﾂ (ﾀｶﾗﾊﾞｺ" GFXP_KATAKANA "ﾜｰﾌﾟ)", "Special Room (Treasure Chest Warp)"),
       MapSelect_LoadGame, ENTR_BESITU_0 },
     { "117:" T(GFXP_HIRAGANA "ｻｻ" GFXP_KATAKANA "ﾃｽﾄ", "Sasaki Test"), MapSelect_LoadGame, ENTR_SASATEST_0 },

@@ -229,7 +229,7 @@ void func_80B3C7D4(EnXc* this, s32 action1, s32 action2, s32 action3) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 EnXc_NoCutscenePlaying(PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         return true;
@@ -352,8 +352,8 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
-    if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && OOT_DEBUG) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
-        LINK_IS_ADULT) {
+    if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && DEBUG_FEATURES) &&
+        !GET_EVENTCHKINF(EVENTCHKINF_52) && LINK_IS_ADULT) {
         s32 pad;
 
         this->action = SHEIK_ACTION_SERENADE;
@@ -488,7 +488,7 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
 
                 if (D_80B41D90 != 0) {
                     f32 speed = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                     static f32 sMaxSpeed = 0.0f;
 
                     sMaxSpeed = CLAMP_MIN(sMaxSpeed, speed);
@@ -1694,7 +1694,7 @@ void EnXc_ActionFunc54(EnXc* this, PlayState* play) {
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetupShowTriforceAction(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80B3C888(this, play);
 #endif
 }
@@ -1707,7 +1707,7 @@ void EnXc_ShowTriforce(EnXc* this, PlayState* play) {
     EnXc_CalcTriforce(&this->actor, play);
     func_80B3FAE0(this);
     EnXc_SetupShowTriforceIdleAction(this, animFinished);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80B3C888(this, play);
 #endif
 }
@@ -1849,7 +1849,7 @@ void EnXc_SetupContortions(EnXc* this, PlayState* play) {
     s32 pad[2];
     SkelAnime* skelAnime = &this->skelAnime;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim), ANIMMODE_LOOP,
                      0.0f);
 #endif
@@ -2375,7 +2375,7 @@ void EnXc_Init(Actor* thisx, PlayState* play) {
         case SHEIK_TYPE_9:
             EnXc_InitTempleOfTime(this, play);
             break;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         case SHEIK_TYPE_0:
             EnXc_DoNothing(this, play);
             break;

@@ -1,7 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u32 gIsCtrlr2Valid = false;
 #endif
 
@@ -12,7 +12,7 @@ NORETURN void func_800D31A0(void) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_800D31F0(void) {
     gIsCtrlr2Valid = (gPadMgr.validCtrlrsMask & 2) != 0;
 }

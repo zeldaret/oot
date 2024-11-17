@@ -3921,7 +3921,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
     *p = gfx;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * If the s16 variable pointed to by `var` changes in value, a black bar and white box
  * are briefly drawn onto the screen. It can only watch one variable per build due to
@@ -3981,13 +3981,13 @@ void Message_Draw(PlayState* play) {
 #if OOT_VERSION < GC_US
     s32 pad;
 #endif
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     s16 watchVar;
 #endif
 
     OPEN_DISPS(play->state.gfxCtx, "../z_message_PAL.c", 3554);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     watchVar = gSaveContext.save.info.scarecrowLongSongSet;
     Message_DrawDebugVariableChanged(&watchVar, play->state.gfxCtx);
     if (BREG(0) != 0 && play->msgCtx.textId != 0) {
@@ -4050,7 +4050,7 @@ void Message_Update(PlayState* play) {
     s32 pad2;
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BREG(0) != 0) {
         static u16 sMessageDebuggerTextboxCount = 0;
 

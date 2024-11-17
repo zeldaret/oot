@@ -110,7 +110,7 @@ void ObjMure_Init(Actor* thisx, PlayState* play) {
     PRINTF("群れな敵 (arg_data 0x%04x)(chNum(%d) ptn(%d) svNum(%d) type(%d))\n", thisx->params, this->chNum, this->ptn,
            this->svNum, this->type);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (ObjMure_GetMaxChildSpawns(this) <= 0) {
         PRINTF("Warning : 個体数が設定されていません(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 268, thisx->params);
     }
@@ -128,7 +128,7 @@ s32 ObjMure_GetMaxChildSpawns(ObjMure* this) {
 }
 
 void ObjMure_GetSpawnPos(Vec3f* outPos, Vec3f* inPos, s32 ptn, s32 idx) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (ptn >= 4) {
         PRINTF("おかしなの (%s %d)\n", "../z_obj_mure.c", 307);
     }
@@ -145,7 +145,7 @@ void ObjMure_SpawnActors0(ObjMure* this, PlayState* play) {
     s32 maxChildren = ObjMure_GetMaxChildSpawns(this);
 
     for (i = 0; i < maxChildren; i++) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (this->children[i] != NULL) {
             // "Error: I already have a child(%s %d)(arg_data 0x%04x)"
             PRINTF("Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 333, actor->params);
@@ -190,7 +190,7 @@ void ObjMure_SpawnActors1(ObjMure* this, PlayState* play2) {
     s32 i;
 
     for (i = 0; i < maxChildren; i++) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (this->children[i] != NULL) {
             PRINTF("Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 407, actor->params);
         }
