@@ -742,6 +742,8 @@ beginseg
     include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
     include "$(BUILD_DIR)/src/libu64/loadfragment2_n64.o"
 #if DEBUG_FEATURES
+    // This is here only to allow N64 versions to compile with DEBUG_FEATURES.
+    // There is no N64 Debug ROM to prove this is correct.
     include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
 #endif
     include "$(BUILD_DIR)/src/libu64/pad.o"
