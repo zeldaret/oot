@@ -149,7 +149,7 @@ void Play_TriggerVoidOut(PlayState* this);
 void Play_TriggerRespawn(PlayState* this);
 int Play_CamIsNotFixed(PlayState* this);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 extern void* gDebugCutsceneScript;
 #endif
 

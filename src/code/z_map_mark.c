@@ -118,8 +118,8 @@ void MapMark_DrawForDungeon(PlayState* play) {
                                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                rectLeft = ((OOT_DEBUG ? GREG(94) : 0) + markPoint->x + 204) << 2;
-                rectTop = ((OOT_DEBUG ? GREG(95) : 0) + markPoint->y + 140) << 2;
+                rectLeft = ((DEBUG_FEATURES ? GREG(94) : 0) + markPoint->x + 204) << 2;
+                rectTop = ((DEBUG_FEATURES ? GREG(95) : 0) + markPoint->y + 140) << 2;
                 gSPTextureRectangle(OVERLAY_DISP++, rectLeft, rectTop, markInfo->rectWidth + rectLeft,
                                     rectTop + markInfo->rectHeight, G_TX_RENDERTILE, 0, 0, markInfo->dsdx,
                                     markInfo->dtdy);

@@ -89,7 +89,7 @@ void BgMoriElevator_Init(Actor* thisx, PlayState* play) {
     this->unk_172 = sIsSpawned;
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->moriTexObjectSlot < 0) {
         Actor_Kill(thisx);
         // "Forest Temple obj elevator Bank Danger!"

@@ -60,7 +60,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
     if (IS_PAUSED(&play->pauseCtx)) {
         if (pauseCtx->state == PAUSE_STATE_WAIT_LETTERBOX) {
             if (Letterbox_GetSize() == 0) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 R_HREG_MODE = HREG_MODE_UCODE_DISAS;
                 R_UCODE_DISAS_LOG_MODE = 3;
 #endif
@@ -70,21 +70,22 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
             }
-        } else if (pauseCtx->state == PAUSE_STATE_8) {
-#if OOT_DEBUG
+        } else if (pauseCtx->state == PAUSE_STATE_GAME_OVER_START) {
+#if DEBUG_FEATURES
             R_HREG_MODE = HREG_MODE_UCODE_DISAS;
             R_UCODE_DISAS_LOG_MODE = 3;
 #endif
 
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-            pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
-            pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_9
-        } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) || (pauseCtx->state == PAUSE_STATE_9)) {
+            pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING; // copied from pause menu, not needed here
+            pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;              // PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER
+        } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) ||
+                   (pauseCtx->state == PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER)) {
             PRINTF("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_BG_PRERENDER_STATE);
 
             if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) {
-                pauseCtx->state++; // PAUSE_STATE_INIT or PAUSE_STATE_10
+                pauseCtx->state++; // PAUSE_STATE_INIT or PAUSE_STATE_GAME_OVER_INIT
             }
         } else if (pauseCtx->state != PAUSE_STATE_OFF) {
             if (gKaleidoMgrCurOvl != kaleidoScopeOvl) {
@@ -124,7 +125,8 @@ void KaleidoScopeCall_Draw(PlayState* play) {
 
     if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) {
         if (((play->pauseCtx.state >= PAUSE_STATE_OPENING_1) && (play->pauseCtx.state <= PAUSE_STATE_SAVE_PROMPT)) ||
-            ((play->pauseCtx.state >= PAUSE_STATE_11) && (play->pauseCtx.state <= PAUSE_STATE_CLOSING))) {
+            ((play->pauseCtx.state >= PAUSE_STATE_GAME_OVER_SHOW_MESSAGE) &&
+             (play->pauseCtx.state <= PAUSE_STATE_CLOSING))) {
             if (gKaleidoMgrCurOvl == kaleidoScopeOvl) {
                 sKaleidoScopeDrawFunc(play);
             }

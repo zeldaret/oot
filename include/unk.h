@@ -11,6 +11,9 @@
 #define UNK_FUN_PTR(name) void(*name)(void)
 #define UNK_ARGS
 #define UNK_SIZE 1
-#define UNK_LINE 1
+
+// Unknown filename and line number for debug macros
+#define UNK_FILE "<unknown>"
+#define UNK_LINE 0
 
 #endif

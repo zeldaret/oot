@@ -123,7 +123,7 @@ void BgJyaCobra_InitDynapoly(BgJyaCobra* this, PlayState* play, CollisionHeader*
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
@@ -138,7 +138,7 @@ void BgJyaCobra_SpawnRay(BgJyaCobra* this, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_MIR_RAY, this->dyna.actor.world.pos.x,
                        this->dyna.actor.world.pos.y + 57.0f, this->dyna.actor.world.pos.z, 0, 0, 0, 6);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.actor.child == NULL) {
         PRINTF(VT_FGCOL(RED));
         // "Ｅｒｒｏｒ : Mir Ray occurrence failure"

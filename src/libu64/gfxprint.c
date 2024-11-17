@@ -382,7 +382,7 @@ void GfxPrint_Open(GfxPrint* this, Gfx* dList) {
         this->dList = dList;
         GfxPrint_Setup(this);
     } else {
-#if PLATFORM_N64 || OOT_DEBUG
+#if PLATFORM_N64 || DEBUG_FEATURES
         osSyncPrintf(T("gfxprint_open:２重オープンです\n", "gfxprint_open: Double open\n"));
 #endif
     }
