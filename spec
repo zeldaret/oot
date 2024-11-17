@@ -741,14 +741,6 @@ beginseg
     include "$(BUILD_DIR)/src/libu64/gfxprint.o"
     include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
     include "$(BUILD_DIR)/src/libu64/loadfragment2_n64.o"
-    include "$(BUILD_DIR)/src/libu64/pad.o"
-    include "$(BUILD_DIR)/src/libu64/code_800FC620.o"
-    include "$(BUILD_DIR)/src/libu64/padsetup.o"
-#endif
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libu64/gfxprint.o"
-    include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
-    include "$(BUILD_DIR)/src/libu64/loadfragment2_n64.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
 #endif
