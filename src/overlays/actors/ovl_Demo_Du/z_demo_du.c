@@ -67,7 +67,7 @@ void DemoDu_SetMouthTexIndex(DemoDu* this, s16 mouthTexIndex) {
     this->mouthTexIndex = mouthTexIndex;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 // Resets all the values used in this cutscene.
 void DemoDu_CsAfterGanon_Reset(DemoDu* this) {
     this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
@@ -777,7 +777,7 @@ void DemoDu_CsAfterGanon_BackTo01(DemoDu* this, PlayState* play) {
 
 void DemoDu_UpdateCs_AG_00(DemoDu* this, PlayState* play) {
     DemoDu_CsAfterGanon_AdvanceTo01(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
 #endif
 }
@@ -787,7 +787,7 @@ void DemoDu_UpdateCs_AG_01(DemoDu* this, PlayState* play) {
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     DemoDu_CsAfterGanon_AdvanceTo02(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
 #endif
 }
@@ -797,7 +797,7 @@ void DemoDu_UpdateCs_AG_02(DemoDu* this, PlayState* play) {
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     DemoDu_CsAfterGanon_BackTo01(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
 #endif
 }

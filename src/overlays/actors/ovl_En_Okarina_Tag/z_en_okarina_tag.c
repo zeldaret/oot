@@ -324,7 +324,7 @@ void EnOkarinaTag_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         if (this->unk_15A != 0) {
             if (!(this->unk_15A & 1)) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

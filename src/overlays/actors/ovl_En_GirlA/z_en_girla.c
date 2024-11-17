@@ -79,7 +79,7 @@ ActorProfile En_GirlA_Profile = {
     /**/ NULL,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sShopItemDescriptions[] = {
     "デクの実×5   ",  // "Deku nut x5"
     "矢×30        ",  // "Arrow x30"

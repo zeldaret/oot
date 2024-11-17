@@ -60,7 +60,7 @@ typedef struct View {
 #define VIEW_FORCE_PROJECTION_PERSPECTIVE (VIEW_PROJECTION_PERSPECTIVE << 4)
 #define VIEW_FORCE_PROJECTION_ORTHO (VIEW_PROJECTION_ORTHO << 4)
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define VIEW_ERROR_CHECK_EYE_POS(x, y, z) View_ErrorCheckEyePosition((x), (y), (z))
 #else
 #define VIEW_ERROR_CHECK_EYE_POS(x, y, z) (void)0
@@ -91,7 +91,7 @@ s32 View_ApplyOrthoToOverlay(View* view);
 s32 View_ApplyPerspectiveToOverlay(View* view);
 s32 View_UpdateViewingMatrix(View* view);
 s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ);
 #endif
 

@@ -5,7 +5,7 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+                               "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
@@ -17,11 +17,11 @@ s32 Camera_UpdateWater(Camera* camera);
 #define CAMERA_CHECK_BTN(input, btn) CHECK_BTN_ALL((input)->press.button, (btn))
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 Camera_QRegInit(void);
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define CAM_DEBUG_RELOAD_PREG(camera)        \
     if (R_RELOAD_CAM_PARAMS) {               \
         Camera_CopyPREGToModeValues(camera); \
@@ -35,7 +35,7 @@ s32 Camera_QRegInit(void);
 // CameraModeValue arrays. Although sometimes some read-write data is reset as well
 #define RELOAD_PARAMS(camera) (camera->animState == 0 || camera->animState == 10 || camera->animState == 20)
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define CAM_DEBUG_RELOAD_PARAMS R_RELOAD_CAM_PARAMS
 #else
 #define CAM_DEBUG_RELOAD_PARAMS true
@@ -53,7 +53,7 @@ s32 Camera_QRegInit(void);
 // Load the next value and scale down from camera read-only data stored in CameraModeValue
 #define GET_NEXT_SCALED_RO_DATA(values) CAM_DATA_SCALED(GET_NEXT_RO_DATA(values))
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 #define CAM_GLOBAL_0 OREG(0)
 #define CAM_GLOBAL_1 OREG(1)
@@ -583,7 +583,7 @@ f32 Camera_GetFloorYLayer(Camera* camera, Vec3f* norm, Vec3f* pos, s32* bgId) {
         }
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (i == 0) {
         PRINTF(VT_COL(YELLOW, BLACK) "camera: foward check: too many layer!\n" VT_RST);
     }
@@ -868,7 +868,7 @@ void Camera_CopyDataToRegs(Camera* camera, s16 mode) {
     CameraModeValue* valueP;
     s32 i;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (PREG(82)) {
         PRINTF("camera: res: stat (%d/%d/%d)\n", camera->camId, camera->setting, mode);
     }
@@ -887,7 +887,7 @@ void Camera_CopyDataToRegs(Camera* camera, s16 mode) {
     camera->animState = 0;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 Camera_CopyPREGToModeValues(Camera* camera) {
     CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
     CameraModeValue* valueP;
@@ -950,7 +950,7 @@ Vec3f Camera_BGCheckCorner(Vec3f* linePointA, Vec3f* linePointB, CamColChk* poin
     bool result;
 
     result = func_800427B4(pointAColChk->poly, pointBColChk->poly, linePointA, linePointB, &closestPoint);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (!result) {
         PRINTF(VT_COL(YELLOW, BLACK) "camera: corner check no cross point %x %x\n" VT_RST, pointAColChk, pointBColChk);
         return pointAColChk->pos;
@@ -2725,7 +2725,7 @@ s32 Camera_Jump3(Camera* camera) {
         roData->interfaceField = GET_NEXT_RO_DATA(values);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (R_RELOAD_CAM_PARAMS) {
         prevMode = camera->mode;
         camera->mode = rwData->mode;
@@ -2982,7 +2982,7 @@ s32 Camera_Battle1(Camera* camera) {
         rwData->target = camera->target;
         camera->animState++;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (rwData->target->id > 0) {
             PRINTF("camera: battle: target actor name " VT_FGCOL(BLUE) "%d" VT_RST "\n", rwData->target->id);
         } else {
@@ -3639,7 +3639,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:93 pal-1.0:91 pal-1.1:91"
+                               "ntsc-1.0:93 ntsc-1.1:93 ntsc-1.2:93 pal-1.0:91 pal-1.1:91"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;
@@ -3890,7 +3890,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                     spB8.pitch = D_8011D3CC[i] + spA2;
                     D_8015BD70 = Camera_AddVecGeoToVec3f(&D_8015BD50, &spB8);
                 }
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 PRINTF("camera: item: BG&collision check %d time(s)\n", i);
 #endif
             }
@@ -4372,7 +4372,7 @@ s32 Camera_Subj3(Camera* camera) {
 
     func_80043ABC(camera);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Camera_CopyPREGToModeValues(camera);
 #endif
 
@@ -5744,7 +5744,7 @@ s32 Camera_Unique9(Camera* camera) {
     return true;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Camera_DebugPrintSplineArray(char* name, s16 length, CutsceneCameraPoint cameraPoints[]) {
     s32 i;
 
@@ -5825,7 +5825,7 @@ s32 Camera_Demo1(Camera* camera) {
             PRINTF(VT_SGR("1") "%06u:" VT_RST " camera: spline demo: start %s \n", camera->play->state.frames,
                    *relativeToPlayer == 0 ? T("絶対", "absolute") : T("相対", "relative"));
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (PREG(93)) {
                 Camera_DebugPrintSplineArray("CENTER", 5, csAtPoints);
                 Camera_DebugPrintSplineArray("   EYE", 5, csEyePoints);
@@ -5846,7 +5846,7 @@ s32 Camera_Demo1(Camera* camera) {
                     Camera_RotateAroundPoint(&curPlayerPosRot, &csEyeUpdate, eyeNext);
                     Camera_RotateAroundPoint(&curPlayerPosRot, &csAtUpdate, at);
                 }
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 else {
                     PRINTF(VT_COL(RED, WHITE) "camera: spline demo: owner dead\n" VT_RST);
                 }
@@ -7458,7 +7458,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     if (sInitRegs) {
         s32 i;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         for (i = 0; i < sOREGInitCnt; i++) {
             OREG(i) = sOREGInit[i];
         }
@@ -7473,7 +7473,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
         PREG(88) = -1;
     }
     camera->play = D_8015BD7C = play;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DebugCamera_Init(&D_8015BD80, camera);
 #endif
     curUID = sNextUID;
@@ -7528,7 +7528,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     camera->quakeOffset.z = 0;
     camera->atLERPStepScale = 1;
     sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, CAM_HUD_VISIBILITY_IGNORE, 0);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     sDbgModeIdx = -1;
 #endif
     D_8011D3F0 = 3;
@@ -7630,7 +7630,7 @@ void Camera_InitDataUsingPlayer(Camera* camera, Player* player) {
     camera->nextBgCamIndex = -1;
     camera->atLERPStepScale = 1.0f;
     Camera_CopyDataToRegs(camera, camera->mode);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Camera_QRegInit();
 #endif
     PRINTF(VT_FGCOL(BLUE) "camera: personalize ---" VT_RST "\n");
@@ -7645,7 +7645,7 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     CameraModeValue* valueP;
     s32 i;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (PREG(82)) {
         PRINTF("camera: change camera status: cond %c%c\n", status == CAM_STAT_ACTIVE ? 'o' : 'x',
                camera->status != CAM_STAT_ACTIVE ? 'o' : 'x');
@@ -7671,7 +7671,7 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     return camera->status;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Camera_PrintSettings(Camera* camera) {
     char sp58[8];
     char sp50[8];
@@ -7888,7 +7888,7 @@ s32 Camera_UpdateHotRoom(Camera* camera) {
     return 1;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 Camera_DbgChangeMode(Camera* camera) {
     static s16 D_8011DAFC[] = {
         CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,
@@ -8007,7 +8007,7 @@ void Camera_UpdateDistortion(Camera* camera) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define ENABLE_DEBUG_CAM_UPDATE R_DEBUG_CAM_UPDATE
 #else
 #define ENABLE_DEBUG_CAM_UPDATE false
@@ -8108,7 +8108,7 @@ Vec3s Camera_Update(Camera* camera) {
         }
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Camera_PrintSettings(camera);
     Camera_DbgChangeMode(camera);
 #endif
@@ -8168,7 +8168,7 @@ Vec3s Camera_Update(Camera* camera) {
                sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     // enable/disable debug cam
     if (CAMERA_CHECK_BTN(&D_8015BD7C->state.input[2], BTN_START)) {
         gDebugCamEnabled ^= 1;
@@ -8257,7 +8257,7 @@ Vec3s Camera_Update(Camera* camera) {
                CAM_BINANG_TO_DEG(camera->camDir.x), camera->camDir.y, CAM_BINANG_TO_DEG(camera->camDir.y));
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (camera->timer != -1 && CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_DRIGHT)) {
         camera->timer = 0;
     }
@@ -8591,7 +8591,7 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
     if (!(camera->behaviorFlags & CAM_BEHAVIOR_BG_PROCESSED)) {
         requestedCamSetting = Camera_GetBgCamSetting(camera, requestedBgCamIndex);
         camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         settingChangeSuccessful = Camera_RequestSettingImpl(camera, requestedCamSetting,
                                                             CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX |
                                                                 CAM_REQUEST_SETTING_FORCE_CHANGE) >= 0;
@@ -8622,7 +8622,7 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
 }
 
 Vec3s Camera_GetInputDir(Camera* camera) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gDebugCamEnabled) {
         return D_8015BD80.sub.unk_104A;
     }
@@ -8644,7 +8644,7 @@ s16 Camera_GetInputDirYaw(Camera* camera) {
 }
 
 Vec3s Camera_GetCamDir(Camera* camera) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gDebugCamEnabled) {
         return D_8015BD80.sub.unk_104A;
     }
@@ -8841,7 +8841,7 @@ s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera) {
 }
 
 s32 Camera_IsDebugCamEnabled(void) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     return gDebugCamEnabled;
 #else
     return false;
@@ -8875,7 +8875,7 @@ void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* d
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 Camera_QRegInit(void) {
     if (!R_RELOAD_CAM_PARAMS) {
         QREG(2) = 1;

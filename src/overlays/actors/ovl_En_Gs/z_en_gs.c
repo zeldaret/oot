@@ -139,12 +139,12 @@ s32 func_80A4E3EC(EnGs* this, PlayState* play) {
 void func_80A4E470(EnGs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     bREG(15) = 0;
 #endif
 
     if (this->actor.xzDistToPlayer <= 100.0f) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         bREG(15) = 1;
 #endif
 

@@ -8,8 +8,9 @@
  */
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex) {
 #if OOT_NTSC
-    DmaMgr_RequestSync(&font->charTexBuf[codePointIndex],
-                       (uintptr_t)_kanjiSegmentRomStart + Kanji_OffsetFromShiftJIS(character), FONT_CHAR_TEX_SIZE);
+    DMA_REQUEST_SYNC(&font->charTexBuf[codePointIndex],
+                     (uintptr_t)_kanjiSegmentRomStart + Kanji_OffsetFromShiftJIS(character), FONT_CHAR_TEX_SIZE,
+                     "../z_kanfont.c", UNK_LINE);
 #endif
 }
 
@@ -53,7 +54,8 @@ void Font_LoadOrderedFont(Font* font) {
 
 #if OOT_NTSC
     len = (u32)size / 2;
-    DmaMgr_RequestSync(font->msgBufWide, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset, size);
+    DMA_REQUEST_SYNC(font->msgBufWide, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset, size,
+                     "../z_kanfont.c", UNK_LINE);
 
     fontBufIndex = 0;
     for (codePointIndex = 0; font->msgBufWide[codePointIndex] != MESSAGE_WIDE_END; codePointIndex++) {
@@ -63,8 +65,8 @@ void Font_LoadOrderedFont(Font* font) {
 
         if (font->msgBufWide[codePointIndex] != MESSAGE_WIDE_NEWLINE) {
             offset = Kanji_OffsetFromShiftJIS(font->msgBufWide[codePointIndex]);
-            DmaMgr_RequestSync(&font->fontBuf[fontBufIndex * 8], (uintptr_t)_kanjiSegmentRomStart + offset,
-                               FONT_CHAR_TEX_SIZE);
+            DMA_REQUEST_SYNC(&font->fontBuf[fontBufIndex * 8], (uintptr_t)_kanjiSegmentRomStart + offset,
+                             FONT_CHAR_TEX_SIZE, "../z_kanfont.c", UNK_LINE);
             fontBufIndex += FONT_CHAR_TEX_SIZE / 8;
         }
     }

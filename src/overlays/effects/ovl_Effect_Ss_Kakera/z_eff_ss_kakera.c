@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_kakera.h"
+#include "versions.h"
 
 #define rReg0 regs[0]
 #define rGravity regs[1]
@@ -54,7 +55,11 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 
     } else {
         PRINTF("shape_modelがNULL\n");
+#if OOT_VERSION < NTSC_1_1
+        LogUtils_HungupThread("../z_eff_kakera.c", 175);
+#else
         LogUtils_HungupThread("../z_eff_kakera.c", 178);
+#endif
     }
 
     this->draw = EffectSsKakera_Draw;
@@ -78,7 +83,7 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 f32 func_809A9818(f32 arg0, f32 arg1) {
     f32 temp_f2;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (arg1 < 0.0f) {
         PRINTF("範囲がマイナス！！(randomD_sectionUniformity)\n");
     }

@@ -86,7 +86,7 @@ static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 
 static f32 sSpeeds[] = { 10.0f, 9.2f };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define EN_GOROIWA_SPEED(this) (R_EN_GOROIWA_SPEED * 0.01f)
 #else
 #define EN_GOROIWA_SPEED(this) sSpeeds[(this)->isInKokiri]
@@ -135,12 +135,12 @@ s32 EnGoroiwa_Vec3fNormalize(Vec3f* ret, Vec3f* a) {
 void EnGoroiwa_SetSpeed(EnGoroiwa* this, PlayState* play) {
     if (play->sceneId == SCENE_KOKIRI_FOREST) {
         this->isInKokiri = true;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         R_EN_GOROIWA_SPEED = 920;
 #endif
     } else {
         this->isInKokiri = false;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         R_EN_GOROIWA_SPEED = 1000;
 #endif
     }
@@ -252,7 +252,7 @@ s32 EnGoroiwa_GetAscendDirection(EnGoroiwa* this, PlayState* play) {
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
 
     if (nextPointPos->x == currentPointPos->x && nextPointPos->z == currentPointPos->z) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (nextPointPos->y == currentPointPos->y) {
             // "Error: Invalid path data (points overlap)"
             PRINTF("Error : レールデータ不正(点が重なっている)");

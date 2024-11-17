@@ -251,7 +251,7 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
             shouldLive = func_808B4E58(this, play);
             break;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         default:
             PRINTF("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot16_bombstone.c", 668,
                    this->actor.params);
@@ -455,7 +455,7 @@ void func_808B5950(BgSpot16Bombstone* this, PlayState* play) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (mREG(64) == 1) {
         func_808B561C(this, play);
         mREG(64) = -10;

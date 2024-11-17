@@ -1,5 +1,5 @@
 #include "global.h"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #include "fault.h"
 #endif
 
@@ -609,7 +609,7 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     return dest;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line) {
     return Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(sCurrentMatrix, file, line), dest);
@@ -629,7 +629,7 @@ Mtx* Matrix_Finalize(GraphicsContext* gfxCtx) {
     return Matrix_ToMtx(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));
 }
 
-#endif /* OOT_DEBUG */
+#endif /* DEBUG_FEATURES */
 
 Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
     return Matrix_MtxFToMtx(src, GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));
@@ -975,7 +975,7 @@ void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 MtxF* Matrix_CheckFloats(MtxF* mf, const char* file, int line) {
     s32 i, j;
 

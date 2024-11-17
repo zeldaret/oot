@@ -2408,7 +2408,11 @@ CHAN_0EDC:
 
 .layer LAYER_1029
 /* 0x1029 [0xC6 0x2F               ] */ instr       SF0_INST_47
+#if OOT_VERSION < PAL_1_0
+/* 0x102B [0xCB 0x66 0x4C 0xF0     ] */ env         ENVELOPE_664C, 240
+#else
 /* 0x102B [0xCB 0x66 0x4C 0xFF     ] */ env         ENVELOPE_664C, 255
+#endif
 /* 0x102F [0x7E 0x0C 0x6C          ] */ notedv      PITCH_B5, FRAMERATE_CONST(12, 15), 108
 /* 0x1032 [0xFF                    ] */ end
 
