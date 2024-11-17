@@ -20,7 +20,23 @@ def symInfoMain():
     if args.use_expected:
         mapPath = "expected" / BUILTMAP
 
-    mapfile_parser.frontends.sym_info.doSymInfo(mapPath, args.symname)
+    # Guess if the input is an VROM/VRAM or a symbol name
+    as_vram = False
+    as_vrom = False
+    as_name = False
+    try:
+        address = int(args.symname, 0)
+        if address >= 0x01000000:
+            as_vram = True
+        else:
+            as_vrom = True
+    except ValueError:
+        as_name = True
+
+    mapfile_parser.frontends.sym_info.doSymInfo(
+        mapPath, args.symname, as_vram=as_vram, as_vrom=as_vrom, as_name=as_name
+    )
+
 
 if __name__ == "__main__":
     symInfoMain()
