@@ -343,21 +343,21 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 // .bss part 1
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:64 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 static s32 D_80858AA0;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+                               "ntsc-1.0:192 ntsc-1.1:128 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
-                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:128 ntsc-1.1:192 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
 
@@ -7295,7 +7295,7 @@ void func_8083E4C4(PlayState* play, Player* this, GetItemEntry* giEntry) {
     Sfx_PlaySfxCentered((this->getItemId < 0) ? NA_SE_SY_GET_BOXITEM : NA_SE_SY_GET_ITEM);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define DEBUG_iREG_67 iREG(67)
 #else
 #define DEBUG_iREG_67 0
@@ -7314,7 +7314,7 @@ s32 Player_ActionHandler_2(Player* this, PlayState* play) {
             if (this->getItemId < GI_MAX) {
                 GetItemEntry* giEntry = &sGetItemTable[this->getItemId - 1];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 if ((interactedActor != &this->actor) && !iREG(67)) {
                     interactedActor->parent = &this->actor;
                 }
@@ -12042,7 +12042,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     Collider_ResetQuadAT(play, &this->shieldQuad.base);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 Player_UpdateNoclip(Player* this, PlayState* play);
 #endif
 
@@ -12052,7 +12052,7 @@ void Player_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     Input input;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (!Player_UpdateNoclip(this, play)) {
         goto skip_update;
     }
@@ -12651,7 +12651,7 @@ void Player_Action_8084B9E4(Player* this, PlayState* play) {
             if (LinkAnimation_OnFrame(&this->skelAnime, 11.0f)) {
                 Player_PlayVoiceSfx(this, NA_SE_VO_LI_PUSH);
             }
-            if (!OOT_DEBUG) {}
+            if (!DEBUG_FEATURES) {}
         } else {
             Player_ProcessAnimSfxList(this, D_80854878);
         }
@@ -14410,7 +14410,7 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
     Actor_PlaySfx_Flagged2(&this->actor, NA_SE_VO_LI_TAKEN_AWAY - SFX_FLAG + this->ageProperties->unk_92);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Updates the "Noclip" debug feature, which allows the player to fly around anywhere
  * in the world and clip through any collision.

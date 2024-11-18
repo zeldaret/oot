@@ -41,7 +41,7 @@ u32 sDmaMgrIsRomCompressed = false;
 OSThread sDmaMgrThread;
 STACK(sDmaMgrStack, 0x500);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 const char* sDmaMgrCurFileName;
 s32 sDmaMgrCurFileLine;
@@ -57,7 +57,7 @@ const char* sDmaMgrFileNames[] = {
 
 #undef DEFINE_DMA_ENTRY
 
-#if PLATFORM_N64 || OOT_DEBUG
+#if PLATFORM_N64 || DEBUG_FEATURES
 /**
  * Compares `str1` and `str2`.
  *
@@ -253,7 +253,7 @@ void DmaMgr_DmaFromDriveRom(void* ram, uintptr_t rom, size_t size) {
     osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * DMA error encountered, print error messages and bring up the crash screen.
  *
@@ -316,7 +316,7 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
  * @return Pointer to associated filename
  */
 const char* DmaMgr_FindFileName(uintptr_t vrom) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DmaEntry* iter = gDmaDataTable;
     const char** name = sDmaMgrFileNames;
 
@@ -340,7 +340,7 @@ const char* DmaMgr_FindFileName(uintptr_t vrom) {
 #endif
 
 const char* DmaMgr_GetFileName(uintptr_t vrom) {
-#if OOT_DEBUG
+#if PLATFORM_GC && DEBUG_FEATURES
     const char* ret = DmaMgr_FindFileName(vrom);
 
     if (ret == NULL) {
@@ -353,10 +353,10 @@ const char* DmaMgr_GetFileName(uintptr_t vrom) {
         return NULL;
     }
     return ret;
-#elif PLATFORM_N64
-    return "??";
 #elif PLATFORM_GC
     return "";
+#elif PLATFORM_N64
+    return "??";
 #endif
 }
 
@@ -371,7 +371,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
     const char* filename;
     s32 i = 0;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     // Get the filename (for debugging)
     filename = DmaMgr_GetFileName(vrom);
 #elif PLATFORM_GC
@@ -539,14 +539,12 @@ s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size,
                         OSMesg msg) {
     static s32 sDmaMgrQueueFullLogged = 0;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if ((ram == NULL) || (osMemSize < OS_K0_TO_PHYSICAL(ram) + size) || (vrom & 1) || (vrom > 0x4000000) ||
         (size == 0) || (size & 1)) {
-        // The line numbers for `DMA_ERROR` are only used in retail builds, but this usage was removed so
-        // its line number is unknown.
         //! @bug `req` is passed to `DMA_ERROR` without rom, ram and size being set
         DMA_ERROR(req, NULL, "ILLIGAL DMA-FUNCTION CALL", T("パラメータ異常です", "Parameter error"), "../z_std_dma.c",
-                  0, 0, 0);
+                  UNK_LINE, UNK_LINE, UNK_LINE);
     }
 #endif
 
@@ -565,7 +563,7 @@ s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size,
     req->notifyQueue = queue;
     req->notifyMsg = msg;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (1 && (sDmaMgrQueueFullLogged == 0) && MQ_IS_FULL(&sDmaMgrMsgQueue)) {
         sDmaMgrQueueFullLogged++;
         PRINTF("%c", BEL);
@@ -617,7 +615,7 @@ void DmaMgr_Init(void) {
                        (u32)(_dmadataSegmentRomEnd - _dmadataSegmentRomStart));
     PRINTF("dma_rom_ad[]\n");
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     name = sDmaMgrFileNames;
     iter = gDmaDataTable;
     idx = 0;
@@ -665,7 +663,7 @@ void DmaMgr_Init(void) {
     osStartThread(&sDmaMgrThread);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Asynchronous DMA Request with source file and line info for debugging.
  *

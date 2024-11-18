@@ -131,7 +131,7 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
 
                 Matrix_Push();
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 Matrix_Translate(markPoint->x + GREG(92), markPoint->y + GREG(93), 0.0f, MTXMODE_APPLY);
 #else
                 Matrix_Translate(markPoint->x, markPoint->y, 0.0f, MTXMODE_APPLY);

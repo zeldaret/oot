@@ -16,7 +16,7 @@ void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
 
 #if OOT_NTSC
 void FileSelect_DrawCharacterTransition(GraphicsContext* gfxCtx, void* texture1, void* texture2, s16 vtx) {
-    OPEN_DISPS(gfxCtx, "", 0);
+    OPEN_DISPS(gfxCtx, "../z_file_nameset_PAL.c", UNK_LINE);
 
     gDPLoadTextureBlock_4b(POLY_OPA_DISP++, texture1, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -24,7 +24,7 @@ void FileSelect_DrawCharacterTransition(GraphicsContext* gfxCtx, void* texture1,
                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
 
-    CLOSE_DISPS(gfxCtx, "", 0);
+    CLOSE_DISPS(gfxCtx, "../z_file_nameset_PAL.c", UNK_LINE);
 }
 #endif
 
@@ -1877,7 +1877,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 #if OOT_PAL_N64
     Matrix_Push();
     Matrix_Translate(0.0f, 0.8f, 0.0f, MTXMODE_APPLY);
-    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_nameset_PAL.c", 0);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_nameset_PAL.c", UNK_LINE);
     gSPVertex(POLY_OPA_DISP++, gOptionsDividerLanguageVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     Matrix_Pop();

@@ -9,6 +9,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
         pkg-config \
         python3 \
         python3-pip \
+        python3-venv \
         git \
         wget \
         unzip \

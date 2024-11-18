@@ -82,7 +82,7 @@ void Idle_ThreadEntry(void* arg) {
     gViConfigYScale = 1.0f;
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     // Allow both 60 Hz and 50 Hz
     switch (osTvType) {
         case OS_TV_NTSC:
@@ -98,7 +98,9 @@ void Idle_ThreadEntry(void* arg) {
         case OS_TV_PAL:
             gViConfigModeType = OS_VI_FPAL_LAN1;
             gViConfigMode = osViModeFpalLan1;
+#if OOT_VERSION >= PAL_1_0
             gViConfigYScale = 0.833f;
+#endif
             break;
     }
 #elif !OOT_PAL_N64

@@ -41,7 +41,7 @@ typedef struct ActorProfile {
 /**
  * @see ACTOROVL_ALLOC_ABSOLUTE
  */
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x27A0
 #else
 #define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x24E0
@@ -146,8 +146,9 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_10 (1 << 10)
 
-//
-#define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
+// A clump of grass (EN_KUSA) has been destroyed.
+// This flag is used to communicate with the spawner actor (OBJ_MURE).
+#define ACTOR_FLAG_GRASS_DESTROYED (1 << 11)
 
 // Actor will not shake when a quake occurs
 #define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)
@@ -155,11 +156,11 @@ typedef struct ActorShape {
 //
 #define ACTOR_FLAG_13 (1 << 13)
 
-//
-#define ACTOR_FLAG_14 (1 << 14)
+// When hit by an arrow, the actor will be able to attach to the arrow and fly with it in the air
+#define ACTOR_FLAG_CAN_ATTACH_TO_ARROW (1 << 14)
 
-//
-#define ACTOR_FLAG_15 (1 << 15)
+// Actor is currently attached to an arrow and flying with it in the air
+#define ACTOR_FLAG_ATTACHED_TO_ARROW (1 << 15)
 
 // Player automatically accepts a Talk Offer without needing to press the A button.
 // Player still has to meet all conditions to be able to receive a talk offer (for example, being in range).
@@ -286,7 +287,7 @@ typedef struct Actor {
     /* 0x130 */ ActorFunc update; // Update Routine. Called by `Actor_UpdateAll`
     /* 0x134 */ ActorFunc draw; // Draw Routine. Called by `Actor_Draw`
     /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     /* 0x13C */ char dbgPad[0x10];
 #endif
 } Actor; // size = 0x14C

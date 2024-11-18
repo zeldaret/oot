@@ -471,7 +471,7 @@ typedef struct CollisionCheckInfo {
 
 DamageTable* DamageTable_Get(s32 index);
 void DamageTable_Clear(DamageTable* table);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Collider_DrawRedPoly(struct GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
 void Collider_DrawPoly(struct GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 #endif
@@ -522,7 +522,7 @@ void CollisionCheck_DestroyContext(struct PlayState* play, CollisionCheckContext
 void CollisionCheck_ClearContext(struct PlayState* play, CollisionCheckContext* colChkCtx);
 void CollisionCheck_EnableSAC(struct PlayState* play, CollisionCheckContext* colChkCtx);
 void CollisionCheck_DisableSAC(struct PlayState* play, CollisionCheckContext* colChkCtx);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Collider_Draw(struct PlayState* play, Collider* col);
 void CollisionCheck_DrawCollision(struct PlayState* play, CollisionCheckContext* colChkCtx);
 #endif

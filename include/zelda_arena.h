@@ -14,7 +14,7 @@ void ZeldaArena_Init(void* start, u32 size);
 void ZeldaArena_Cleanup(void);
 s32 ZeldaArena_IsInitialized(void);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* ZeldaArena_MallocDebug(u32 size, const char* file, int line);
 void* ZeldaArena_MallocRDebug(u32 size, const char* file, int line);

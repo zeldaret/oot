@@ -9,7 +9,8 @@
 #include "assets/objects/object_firefly/object_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_CAN_ATTACH_TO_ARROW)
 
 void EnFirefly_Init(Actor* thisx, PlayState* play);
 void EnFirefly_Destroy(Actor* thisx, PlayState* play);
@@ -423,7 +424,7 @@ void EnFirefly_Fall(EnFirefly* this, PlayState* play) {
     this->actor.colorFilterTimer = 40;
     SkelAnime_Update(&this->skelAnime);
     Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
-    if (this->actor.flags & ACTOR_FLAG_15) {
+    if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
         this->actor.colorFilterTimer = 40;
     } else {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x6800, 0x200);
@@ -687,7 +688,7 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
 
     this->actionFunc(this, play);
 
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         if ((this->actor.colChkInfo.health == 0) || (this->actionFunc == EnFirefly_Stunned)) {
             Actor_MoveXZGravity(&this->actor);
         } else {

@@ -50,7 +50,7 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, Collis
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 

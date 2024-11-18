@@ -16,7 +16,7 @@
 
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
     Gfx* gfx;
     GfxPrint* printer;
@@ -157,7 +157,7 @@ void ConsoleLogo_Main(GameState* thisx) {
     ConsoleLogo_Calc(this);
     ConsoleLogo_Draw(this);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gIsCtrlr2Valid) {
         Gfx* gfx = POLY_OPA_DISP;
 

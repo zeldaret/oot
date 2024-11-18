@@ -417,7 +417,7 @@ typedef enum SceneID {
 #undef DEFINE_SCENE
 
 // Fake enum values for scenes that are still referenced in the entrance table
-#if !OOT_DEBUG
+#if !DEBUG_ASSETS
 // Debug-only scenes
 #define SCENE_TEST01        0x65
 #define SCENE_BESITU        0x66

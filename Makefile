@@ -23,6 +23,8 @@ ORIG_COMPILER ?= 0
 COMPILER ?= ido
 # Target game version. Ensure the corresponding input ROM is placed in baseroms/$(VERSION)/baserom.z64.
 # Currently the following versions are supported:
+#   ntsc-1.0       N64 NTSC 1.0 (Japan/US depending on REGION)
+#   ntsc-1.1       N64 NTSC 1.1 (Japan/US depending on REGION)
 #   pal-1.0        N64 PAL 1.0 (Europe)
 #   ntsc-1.2       N64 NTSC 1.2 (Japan/US depending on REGION)
 #   pal-1.1        N64 PAL 1.1 (Europe)
@@ -34,9 +36,6 @@ COMPILER ?= ido
 #   gc-eu          GameCube Europe/PAL
 #   gc-eu-mq       GameCube Europe/PAL Master Quest
 #   gc-jp-ce       GameCube Japan (Collector's Edition disc)
-# The following versions are work-in-progress and not yet matching:
-#   ntsc-1.0       N64 NTSC 1.0 (Japan/US depending on REGION)
-#   ntsc-1.1       N64 NTSC 1.1 (Japan/US depending on REGION)
 VERSION ?= gc-eu-mq-dbg
 # Number of threads to extract and compress with.
 N_THREADS ?= $(shell nproc)
@@ -50,6 +49,11 @@ N64_EMULATOR ?=
 # Set to override game region in the ROM header (options: JP, US, EU). This can be used to build a fake US version
 # of the debug ROM for better emulator compatibility, or to build US versions of NTSC N64 ROMs.
 # REGION ?= US
+# Set to enable debug features regardless of ROM version.
+# Note that by enabling debug features on non-debug ROM versions, some debug ROM specific assets will not be included.
+# This means the debug test scenes and some debug graphics in the elf_msg actors will not work as expected.
+# This may also be used to disable debug features on debug ROMs by setting DEBUG_FEATURES to 0
+# DEBUG_FEATURES ?= 1
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -61,59 +65,57 @@ ifeq ($(VERSION),ntsc-1.0)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  DEBUG := 0
-  COMPARE := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),ntsc-1.1)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  DEBUG := 0
-  COMPARE := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),pal-1.0)
   REGION ?= EU
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),ntsc-1.2)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),pal-1.1)
   REGION ?= EU
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-jp)
   REGION ?= JP
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-jp-mq)
   REGION ?= JP
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-us)
   REGION ?= US
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-us-mq)
   REGION ?= US
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
   PLATFORM := GC
-  DEBUG := 1
+  DEBUG_FEATURES ?= 1
 else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-eu-mq)
   REGION ?= EU
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else ifeq ($(VERSION),gc-jp-ce)
   REGION ?= JP
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -158,11 +160,11 @@ else
   $(error Unsupported platform $(PLATFORM))
 endif
 
-ifeq ($(DEBUG),1)
-  CPP_DEFINES += -DOOT_DEBUG=1
+ifeq ($(DEBUG_FEATURES),1)
+  CPP_DEFINES += -DDEBUG_FEATURES=1
   OPTFLAGS := -O2
 else
-  CPP_DEFINES += -DOOT_DEBUG=0 -DNDEBUG
+  CPP_DEFINES += -DDEBUG_FEATURES=0 -DNDEBUG
   OPTFLAGS := -O2 -g3
 endif
 
@@ -257,7 +259,7 @@ GBI_DEFINES := -DF3DEX_GBI_2
 ifeq ($(PLATFORM),GC)
   GBI_DEFINES += -DF3DEX_GBI_PL -DGBI_DOWHILE
 endif
-ifeq ($(DEBUG),1)
+ifeq ($(DEBUG_FEATURES),1)
   GBI_DEFINES += -DGBI_DEBUG
 endif
 
@@ -443,20 +445,9 @@ endif
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/boot/logutils.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/src/code/code_800FC620.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/loadfragment2_n64.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/load_gc.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/loadfragment2_gc.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/padsetup.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/padutils.o: OPTFLAGS := -O2
-$(BUILD_DIR)/src/code/relocation_gc.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/code/fault_n64.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault_gc.o: CFLAGS += -trapuv
@@ -473,13 +464,15 @@ endif
 $(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
-ifeq ($(DEBUG),1)
+ifeq ($(DEBUG_FEATURES),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 else
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O2
 endif
 
 $(BUILD_DIR)/src/libc64/%.o: OPTFLAGS := -O2
+
+$(BUILD_DIR)/src/libu64/%.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 
