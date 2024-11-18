@@ -15,7 +15,7 @@ typedef struct ArmsHook {
     /* 0x01E8 */ Vec3f unk_1E8;
     /* 0x01F4 */ Vec3f unk_1F4;
     /* 0x0200 */ Actor* attachedActor;
-    /* 0x0204 */ Vec3f attachPointOffset; // Distance from the hookshot attach point to actor's world pos
+    /* 0x0204 */ Vec3f attachPointOffset; // Distance from the hookshot attach point to world pos of `attachedActor`
     /* 0x0210 */ s16 timer;
     /* 0x0214 */ ArmsHookActionFunc actionFunc;
 } ArmsHook; // size = 0x0218
