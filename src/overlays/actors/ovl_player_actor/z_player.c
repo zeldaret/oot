@@ -7263,7 +7263,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
             if (sFloorShapePitch >= 0) {
                 this->av1.facingUpSlope = true;
             }
-            Player_AnimChangeLoopMorph(play, this, sSlopeSlideAnims[this->av1.actionVar1]);
+            Player_AnimChangeLoopMorph(play, this, sSlopeSlideAnims[this->av1.facingUpSlope]);
             this->speedXZ = sqrtf(SQ(this->actor.velocity.x) + SQ(this->actor.velocity.z));
             this->yaw = playerVelYaw;
             return true;
@@ -14226,17 +14226,17 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
             shapeYawTarget = downwardSlopeYaw + 0x8000;
         }
 
-        if (this->speedXZ < 0) {
+        if (this->speedXZ < 0.0f) {
             downwardSlopeYaw += 0x8000;
         }
 
         xzSpeedTarget = (1.0f - slopeNormal.y) * 40.0f;
-        xzSpeedTarget = CLAMP(xzSpeedTarget, 0, 10.0f);
+        xzSpeedTarget = CLAMP(xzSpeedTarget, 0.0f, 10.0f);
         xzSpeedIncrStep = SQ(xzSpeedTarget) * 0.015f;
         xzSpeedDecrStep = slopeNormal.y * 0.01f;
 
         if (SurfaceType_GetFloorEffect(&play->colCtx, floorPoly, this->actor.floorBgId) != FLOOR_EFFECT_1) {
-            xzSpeedTarget = 0;
+            xzSpeedTarget = 0.0f;
             xzSpeedDecrStep = slopeNormal.y * 10.0f;
         }
 

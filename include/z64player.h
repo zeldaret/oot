@@ -610,14 +610,14 @@ typedef enum PlayerStickDirection {
     /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 
-typedef enum {
+typedef enum PlayerKnockbackType {
     /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
     /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
     /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
     /* 3 */ PLAYER_KNOCKBACK_LARGE_SHOCK // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
 } PlayerKnockbackType;
 
-typedef enum {
+typedef enum PlayerDamageResponseType {
     /* 0 */ PLAYER_HIT_RESPONSE_NONE,
     /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
     /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
@@ -681,7 +681,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
 #define PLAYER_STATE1_CARRYING_ACTOR (1 << 11) // Currently carrying an actor
-#define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charing a spin attack (by holding down the B button)
+#define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charging a spin attack (by holding down the B button)
 #define PLAYER_STATE1_13 (1 << 13)
 #define PLAYER_STATE1_14 (1 << 14)
 #define PLAYER_STATE1_Z_TARGETING (1 << 15) // Either lock-on or parallel is active. This flag is never checked for and is practically unused.
