@@ -1344,7 +1344,7 @@ void EnGo2_SpawnDust(EnGo2* this, s32 index2) {
                               dustEffectData->numDustEffects, dustEffectData->radius, dustEffectData->yAccel);
 }
 
-void EnGo2_AnimateRolling(EnGo2* this, PlayState* play) {
+void EnGo2_SetupCurledUp(EnGo2* this, PlayState* play) {
     if (ENGO2_GET_TYPE(this) == GORON_DMT_BIGGORON) {
         this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_BIG);
@@ -1459,7 +1459,7 @@ s32 EnGo2_IsGoronHotRodder(EnGo2* this, PlayState* play) {
         return false;
     }
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-    EnGo2_AnimateRolling(this, play);
+    EnGo2_SetupCurledUp(this, play);
     this->actionFunc = EnGo2_GoronHotRodder;
     return true;
 }
@@ -1739,7 +1739,7 @@ void EnGo2_Standing(EnGo2* this, PlayState* play) {
         }
     }
     if ((!EnGo2_ShouldStay(this, play)) && (!EnGo2_IsWithinInteactionRange(this))) {
-        EnGo2_AnimateRolling(this, play);
+        EnGo2_SetupCurledUp(this, play);
     }
 }
 
@@ -1869,7 +1869,7 @@ void EnGo2_HandleOfferParented(EnGo2* this, PlayState* play) {
                 break;
             case GI_BOMB_BAG_30:
             case GI_BOMB_BAG_40:
-                EnGo2_AnimateRolling(this, play);
+                EnGo2_SetupCurledUp(this, play);
                 this->actionFunc = EnGo2_GoronHotRodder;
                 return;
         }
