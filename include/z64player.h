@@ -7,6 +7,28 @@
 
 struct Player;
 
+#define PLAYER_GET_START_MODE(thisx) PARAMS_GET_S(thisx->params, 8, 4)
+
+typedef enum PlayerStartMode {
+    /*  0 */ PLAYER_START_MODE_0,
+    /*  1 */ PLAYER_START_MODE_1,
+    /*  2 */ PLAYER_START_MODE_2,
+    /*  3 */ PLAYER_START_MODE_3,
+    /*  4 */ PLAYER_START_MODE_4,
+    /*  5 */ PLAYER_START_MODE_5,
+    /*  6 */ PLAYER_START_MODE_6,
+    /*  7 */ PLAYER_START_MODE_7,
+    /*  8 */ PLAYER_START_MODE_UNUSED_8,  // Unused, behaves the same as PLAYER_START_MODE_14
+    /*  9 */ PLAYER_START_MODE_UNUSED_9,  // Unused, behaves the same as PLAYER_START_MODE_14
+    /* 10 */ PLAYER_START_MODE_UNUSED_10, // Unused, behaves the same as PLAYER_START_MODE_14
+    /* 11 */ PLAYER_START_MODE_UNUSED_11, // Unused, behaves the same as PLAYER_START_MODE_14
+    /* 12 */ PLAYER_START_MODE_UNUSED_12, // Unused, behaves the same as PLAYER_START_MODE_14
+    /* 13 */ PLAYER_START_MODE_13,
+    /* 14 */ PLAYER_START_MODE_14,
+    /* 15 */ PLAYER_START_MODE_15,
+    /* 16 */ PLAYER_START_MODE_MAX
+} PlayerStartMode;
+
 typedef enum PlayerSword {
     /* 0 */ PLAYER_SWORD_NONE,
     /* 1 */ PLAYER_SWORD_KOKIRI,
