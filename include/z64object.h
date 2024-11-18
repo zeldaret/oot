@@ -1,7 +1,8 @@
 #ifndef Z64OBJECT_H
 #define Z64OBJECT_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
+#include "ultra64/message.h"
 #include "z64dma.h"
 
 struct PlayState;

@@ -1,8 +1,8 @@
 #ifndef THA_H
 #define THA_H
 
-#include "ultra64.h"
-#include "alignment.h"
+#include "stddef.h"
+#include "stdint.h"
 
 typedef struct TwoHeadArena {
     /* 0x00 */ size_t size;

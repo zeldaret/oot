@@ -1,10 +1,13 @@
 #ifndef SYS_MATRIX_H
 #define SYS_MATRIX_H
 
-#include "z64math.h"
+#include "ultra64/gbi.h"
+#include "ultra64/ultratypes.h"
 
 struct GraphicsContext;
 struct GameState;
+struct Vec3f;
+struct Vec3s;
 
 typedef enum MatrixMode {
     /* 0 */ MTXMODE_NEW,  // generates a new matrix
@@ -34,8 +37,8 @@ void Matrix_RotateZ(f32 z, u8 mode);
 /* Compound operations */
 
 void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
-void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
-void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot);
+void Matrix_TranslateRotateZYX(struct Vec3f* translation, struct Vec3s* rotation);
+void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, struct Vec3s* rot);
 void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
                                   f32 translateZ);
 
@@ -66,8 +69,8 @@ Mtx* Matrix_Finalize(struct GraphicsContext* gfxCtx);
 
 /* Vector operations */
 
-void Matrix_MultVec3f(Vec3f* src, Vec3f* dest);
-void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf);
+void Matrix_MultVec3f(struct Vec3f* src, struct Vec3f* dest);
+void Matrix_MultVec3fExt(struct Vec3f* src, struct Vec3f* dest, MtxF* mf);
 
 /* Copy and another conversion */
 
@@ -78,8 +81,8 @@ void Matrix_MtxToMtxF(Mtx* src, MtxF* dest);
 
 void Matrix_Transpose(MtxF* mf);
 void Matrix_ReplaceRotation(MtxF* mf);
-void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
-void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
-void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode);
+void Matrix_MtxFToYXZRotS(MtxF* mf, struct Vec3s* rotDest, s32 flag);
+void Matrix_MtxFToZYXRotS(MtxF* mf, struct Vec3s* rotDest, s32 flag);
+void Matrix_RotateAxis(f32 angle, struct Vec3f* axis, u8 mode);
 
 #endif

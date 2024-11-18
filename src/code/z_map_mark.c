@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "segment_symbols.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #if PLATFORM_N64
 #include "n64dd.h"
@@ -58,7 +59,7 @@ void MapMark_Init(PlayState* play) {
 
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_2C != NULL)) {
-        B_80121220->unk_2C(&sLoadedMarkDataTable);
+        B_80121220->unk_2C((MapMarkIconData****)&sLoadedMarkDataTable);
     }
 #endif
 }
@@ -66,7 +67,7 @@ void MapMark_Init(PlayState* play) {
 void MapMark_ClearPointers(PlayState* play) {
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_30 != NULL)) {
-        B_80121220->unk_30(&sLoadedMarkDataTable);
+        B_80121220->unk_30((MapMarkIconData****)&sLoadedMarkDataTable);
     }
 #endif
 

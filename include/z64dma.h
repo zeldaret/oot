@@ -1,9 +1,14 @@
 #ifndef Z64_DMA_H
 #define Z64_DMA_H
 
-#include "ultra64.h"
 #include "alignment.h"
 #include "romfile.h"
+#include "stddef.h"
+#include "stdint.h"
+#include "ultra64/message.h"
+
+struct OSPiHandle;
+struct OSIoMesg;
 
 typedef struct DmaRequest {
     /* 0x00 */ uintptr_t    vromAddr; // VROM address (source)
@@ -44,7 +49,7 @@ s32 DmaMgr_RequestSyncDebug(void* ram, uintptr_t vrom, size_t size, const char* 
 
 s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size);
 void DmaMgr_DmaFromDriveRom(void* ram, uintptr_t rom, size_t size);
-s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction);
+s32 DmaMgr_AudioDmaHandler(struct OSPiHandle* pihandle, struct OSIoMesg* mb, s32 direction);
 
 // Initialization
 

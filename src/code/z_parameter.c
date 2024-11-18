@@ -1,6 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 #include "versions.h"
+#include "segment_symbols.h"
+#include "main.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"

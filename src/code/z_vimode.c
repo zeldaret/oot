@@ -1,6 +1,7 @@
 #include "global.h"
 #include "ultra64/viint.h"
 #include "versions.h"
+#include "main.h"
 
 void ViMode_LogPrint(OSViMode* osViMode) {
     LOG_ADDRESS("osvimodep", osViMode, "../z_vimode.c", 87);

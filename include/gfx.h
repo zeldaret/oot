@@ -1,11 +1,14 @@
 #ifndef GFX_H
 #define GFX_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "ultra64/gbi.h"
+#include "ultra64/message.h"
 #include "sched.h"
 #include "thga.h"
 #include "versions.h"
+
+struct OSViMode;
 
 // Texture memory size, 4 KiB
 #define TMEM_SIZE 0x1000
@@ -35,7 +38,7 @@ typedef struct GraphicsContext {
     /* 0x01B0 */ Gfx* workBuffer;
     /* 0x01B4 */ TwoHeadGfxArena work;
     /* 0x01C4 */ char unk_01C4[0xC0];
-    /* 0x0284 */ OSViMode* viMode;
+    /* 0x0284 */ struct OSViMode* viMode;
     /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
     /* 0x02A8 */ TwoHeadGfxArena overlay; // "Zelda 4"
     /* 0x02B8 */ TwoHeadGfxArena polyOpa; // "Zelda 0"

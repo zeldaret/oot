@@ -9,6 +9,7 @@
 #include "terminal.h"
 #include "alloca.h"
 #include "z64.h"
+#include "segment_symbols.h"
 
 #if PLATFORM_N64
 #include "n64dd.h"

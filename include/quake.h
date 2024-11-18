@@ -1,7 +1,6 @@
 #ifndef QUAKE_H
 #define QUAKE_H
 
-#include "z64camera.h"
 #include "z64math.h"
 
 typedef struct ShakeInfo {
@@ -28,7 +27,9 @@ typedef enum QuakeType {
 // continues indefinitely i.e. does not terminate when the timer reaches 0
 // must be manually removed
 
-s16 Quake_Request(Camera* camera, u32 type);
+struct Camera;
+
+s16 Quake_Request(struct Camera* camera, u32 type);
 
 u32 Quake_SetSpeed(s16 index, s16 speed);
 u32 Quake_SetPerturbations(s16 index, s16 y, s16 x, s16 fov, s16 roll);
@@ -39,6 +40,6 @@ s16 Quake_GetTimeLeft(s16 index);
 u32 Quake_RemoveRequest(s16 index);
 
 void Quake_Init(void);
-s16 Quake_Update(Camera* camera, ShakeInfo* camShake);
+s16 Quake_Update(struct Camera* camera, ShakeInfo* camShake);
 
 #endif

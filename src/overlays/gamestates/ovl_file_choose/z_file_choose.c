@@ -1,6 +1,8 @@
 #include "file_select.h"
 #include "terminal.h"
 #include "versions.h"
+#include "segment_symbols.h"
+#include "main.h"
 #if OOT_PAL_N64
 #include "assets/objects/object_mag/object_mag.h"
 #endif

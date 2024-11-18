@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "segment_symbols.h"
 
 #define ANIM_INTERP 1
 

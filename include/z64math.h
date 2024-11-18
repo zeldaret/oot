@@ -1,7 +1,7 @@
 #ifndef Z64MATH_H
 #define Z64MATH_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "math.h"
 
 #define SQ(x) ((x)*(x))

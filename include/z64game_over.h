@@ -1,7 +1,7 @@
 #ifndef Z64GAME_OVER_H
 #define Z64GAME_OVER_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 struct PlayState;
 

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "segment_symbols.h"
 
 // Linker symbol declarations (used in the table below)
 #define DEFINE_EFFECT_SS(name, _1) DECLARE_OVERLAY_SEGMENT(name)

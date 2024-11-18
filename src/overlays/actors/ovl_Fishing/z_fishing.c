@@ -27,8 +27,10 @@
 #include "terminal.h"
 #include "versions.h"
 #include "z64audio.h"
+#include "z64item.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 #include "z64skin_matrix.h"
 #include "z_lib.h"
 #if PLATFORM_N64

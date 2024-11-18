@@ -1,7 +1,7 @@
 #ifndef Z64COLLISION_CHECK_H
 #define Z64COLLISION_CHECK_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "z64math.h"
 
 #define COLLISION_CHECK_AT_MAX 50

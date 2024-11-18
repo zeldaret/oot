@@ -1,7 +1,10 @@
 #ifndef PADMGR_H
 #define PADMGR_H
 
-#include "ultra64.h"
+#include "ultra64/controller.h"
+#include "ultra64/message.h"
+#include "ultra64/pfs.h"
+#include "ultra64/ultratypes.h"
 #include "irqmgr.h"
 #include "versions.h"
 

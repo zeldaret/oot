@@ -15,9 +15,9 @@ extern struct IrqMgr gIrqMgr;
 #include "global.h"
 #include "fault.h"
 #include "segmented_address.h"
+#include "segment_symbols.h"
 #include "stack.h"
 #include "terminal.h"
-#include "versions.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #include "n64dd.h"

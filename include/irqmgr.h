@@ -1,7 +1,10 @@
 #ifndef IRQMGR_H
 #define IRQMGR_H
 
-#include "ultra64.h"
+#include "ultra64/message.h"
+#include "ultra64/time.h"
+#include "ultra64/thread.h"
+#include "ultra64/ultratypes.h"
 
 #define OS_SC_RETRACE_MSG       1
 #define OS_SC_DONE_MSG          2

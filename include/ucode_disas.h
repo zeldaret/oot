@@ -1,7 +1,10 @@
 #ifndef UCODE_DISAS_H
 #define UCODE_DISAS_H
 
-#include "ultra64.h"
+#include "stdint.h"
+#include "ultra64/ultratypes.h"
+
+union Gfx;
 
 typedef enum UcodeType {
     /* 0 */ UCODE_TYPE_NULL,
@@ -17,7 +20,7 @@ typedef struct UCodeInfo {
 
 typedef struct UCodeDisas {
     /* 0x00 */ uintptr_t segments[NUM_SEGMENTS];
-    /* 0x40 */ Gfx* dlStack[18];
+    /* 0x40 */ union Gfx* dlStack[18];
     /* 0x88 */ s32 dlDepth;
     /* 0x8C */ u32 dlCnt;
     /* 0x90 */ u32 vtxCnt;
@@ -42,7 +45,7 @@ typedef struct UCodeDisas {
 
 void UCodeDisas_Init(UCodeDisas*);
 void UCodeDisas_Destroy(UCodeDisas*);
-void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
+void UCodeDisas_Disassemble(UCodeDisas*, union Gfx*);
 void UCodeDisas_RegisterUCode(UCodeDisas*, s32, UCodeInfo*);
 void UCodeDisas_SetCurUCode(UCodeDisas*, void*);
 

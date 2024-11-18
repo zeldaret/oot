@@ -1,7 +1,8 @@
 #ifndef Z64TRANSITION_INSTANCES_H
 #define Z64TRANSITION_INSTANCES_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
+#include "ultra64/gbi.h"
 #include "color.h"
 
 typedef struct TransitionTileVtxData {

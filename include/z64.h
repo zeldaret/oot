@@ -78,7 +78,6 @@
 #include "sys_math3d.h"
 #include "libc64/math64.h"
 #include "sys_matrix.h"
-#include "main.h"
 #include "segmented_address.h"
 #include "stackcheck.h"
 #include "kaleido_manager.h"

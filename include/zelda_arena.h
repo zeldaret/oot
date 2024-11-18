@@ -1,7 +1,7 @@
 #ifndef ZELDA_ARENA_H
 #define ZELDA_ARENA_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 void* ZeldaArena_Malloc(u32 size);
 void* ZeldaArena_MallocR(u32 size);

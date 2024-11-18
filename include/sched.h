@@ -1,9 +1,15 @@
 #ifndef SCHED_H
 #define SCHED_H
 
-#include "ultra64.h"
+#include "ultra64/message.h"
+#include "ultra64/sptask.h"
+#include "ultra64/time.h"
+#include "ultra64/ultratypes.h"
 #include "irqmgr.h"
+#include "unk.h"
 #include "versions.h"
+
+struct OSViMode;
 
 #define OS_SC_NEEDS_RDP     0x0001  // Task uses the RDP
 #define OS_SC_NEEDS_RSP     0x0002  // Task uses the RSP
@@ -23,7 +29,7 @@
 typedef struct CfbInfo {
     /* 0x00 */ u16* framebuffer;    // current framebuffer
     /* 0x04 */ u16* swapBuffer;     // framebuffer to swap to
-    /* 0x08 */ OSViMode* viMode;
+    /* 0x08 */ struct OSViMode* viMode;
     /* 0x0C */ u32 viFeatures;
     /* 0x10 */ u8 unk_10;           // set to 0, never read
     /* 0x11 */ s8 updateRate;       // how many VIs should elapse before next swap

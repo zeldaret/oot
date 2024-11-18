@@ -1,7 +1,7 @@
 #ifndef SEGMENTED_ADDRESS_H
 #define SEGMENTED_ADDRESS_H
 
-#include "ultra64.h"
+#include "ultra64/mbi.h"
 #include "stdint.h"
 
 extern uintptr_t gSegments[NUM_SEGMENTS];

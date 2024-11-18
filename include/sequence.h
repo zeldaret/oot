@@ -1,7 +1,7 @@
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "versions.h"
 
 #define DEFINE_SEQUENCE(_0, seqId, _2, _3, _4) seqId,

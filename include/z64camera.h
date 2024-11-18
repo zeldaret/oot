@@ -4,7 +4,6 @@
 #include "ultra64.h"
 #include "z64cutscene.h"
 #include "z64math.h"
-#include "z64save.h"
 
 struct CollisionContext;
 struct View;

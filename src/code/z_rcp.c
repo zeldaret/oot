@@ -1,4 +1,5 @@
 #include "global.h"
+#include "main.h"
 
 Gfx sSetupDL[SETUPDL_MAX][6] = {
     {

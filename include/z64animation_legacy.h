@@ -1,11 +1,13 @@
 #ifndef Z64_ANIMATION_LEGACY_H
 #define Z64_ANIMATION_LEGACY_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "z64math.h"
 
+union Gfx;
+
 typedef struct LegacyLimb {
-    /* 0x000 */ Gfx* dList;
+    /* 0x000 */ union Gfx* dList;
     /* 0x004 */ Vec3f trans;
     /* 0x010 */ Vec3s rot;
     /* 0x018 */ struct LegacyLimb* sibling;
@@ -28,7 +30,7 @@ typedef struct LegacyAnimationHeader {
     /* 0x08 */ LegacyJointKey* jointKey;
 } LegacyAnimationHeader; // size = 0xC
 
-s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, Vec3s* frameTable);
+s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, struct Vec3s* frameTable);
 s16 Animation_GetLimbCountLegacy(LegacyAnimationHeader* animation);
 s16 Animation_GetLengthLegacy(LegacyAnimationHeader* animation);
 s16 Animation_GetLastFrameLegacy(LegacyAnimationHeader* animation);

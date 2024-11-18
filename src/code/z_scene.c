@@ -1,6 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 #include "versions.h"
+#include "segment_symbols.h"
 
 SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];
 RomFile sNaviQuestHintFiles[];

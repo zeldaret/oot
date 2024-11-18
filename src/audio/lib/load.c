@@ -1,6 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 #include "versions.h"
+#include "segment_symbols.h"
 
 #define MK_ASYNC_MSG(retData, tableType, id, loadStatus) \
     (((retData) << 24) | ((tableType) << 16) | ((id) << 8) | (loadStatus))

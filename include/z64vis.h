@@ -1,8 +1,10 @@
 #ifndef Z64_VIS_H
 #define Z64_VIS_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 #include "color.h"
+
+union Gfx;
 
 typedef enum FramebufferFilterType {
     /* 0 */ FB_FILTER_NONE,
@@ -47,7 +49,7 @@ typedef struct VisCvg {
 
 void VisCvg_Init(VisCvg* this);
 void VisCvg_Destroy(VisCvg* this);
-void VisCvg_Draw(VisCvg* this, Gfx** gfxP);
+void VisCvg_Draw(VisCvg* this, union Gfx** gfxP);
 
 
 
@@ -58,12 +60,12 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxP);
 typedef struct VisMono {
     /* 0x00 */ Vis vis;
     /* 0x10 */ u16* tlut;
-    /* 0x14 */ Gfx* dList;
+    /* 0x14 */ union Gfx* dList;
 } VisMono; // size = 0x18
 
 void VisMono_Init(VisMono* this);
 void VisMono_Destroy(VisMono* this);
-void VisMono_Draw(VisMono* this, Gfx** gfxP);
+void VisMono_Draw(VisMono* this, union Gfx** gfxP);
 
 
 
@@ -82,6 +84,6 @@ typedef struct VisZBuf {
 
 void VisZBuf_Init(VisZBuf* this);
 void VisZBuf_Destroy(VisZBuf* this);
-void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP);
+void VisZBuf_Draw(VisZBuf* this, union Gfx** gfxP);
 
 #endif

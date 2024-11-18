@@ -1,7 +1,7 @@
 #ifndef RUMBLE_H
 #define RUMBLE_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 #define RUMBLE_MAX_REQUESTS 64
 

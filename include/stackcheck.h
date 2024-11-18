@@ -1,7 +1,7 @@
 #ifndef STACKCHECK_H
 #define STACKCHECK_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 typedef enum StackStatus {
     /* 0 */ STACK_STATUS_OK,

@@ -41,6 +41,7 @@
  */
 #include "global.h"
 #include "fault.h"
+#include "main.h"
 #include "versions.h"
 
 #define RSP_DONE_MSG 667

@@ -1,7 +1,7 @@
 #ifndef Z64OCARINA_H
 #define Z64OCARINA_H
 
-#include "ultra64.h"
+#include "ultra64/ultratypes.h"
 
 typedef enum OcarinaSongId {
     /*  0 */ OCARINA_SONG_MINUET,

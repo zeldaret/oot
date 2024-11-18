@@ -2,6 +2,7 @@
 #include "z64dma.h"
 #include "segment_symbols.h"
 #include "n64dd.h"
+#include "macros.h"
 
 u8 D_80121210;
 u8 D_80121211;
