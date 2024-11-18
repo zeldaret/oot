@@ -894,7 +894,7 @@ void BossSst_HeadVulnerable(BossSst* this, PlayState* play) {
     Math_StepToF(&sHandOffsets[RIGHT].z, 600.0f, 20.0f);
     Math_StepToF(&sHandOffsets[LEFT].x, 200.0f, 20.0f);
     Math_StepToF(&sHandOffsets[RIGHT].x, -200.0f, 20.0f);
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         this->timer += 2;
         this->timer = CLAMP_MAX(this->timer, 50);
     } else {

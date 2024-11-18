@@ -153,8 +153,13 @@ typedef struct ActorShape {
 // Actor will not shake when a quake occurs
 #define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)
 
+// The hookshot is currently attached to this actor.
+// The behavior that occurs after attachment is determined by `ACTOR_FLAG_9` and `ACTOR_FLAG_10`.
+// If neither of those flags are set attachment cannot occur, and the hookshot will simply act as a damage source.
 //
-#define ACTOR_FLAG_13 (1 << 13)
+// This flag is also reused to indicate that an actor is attached to the boomerang.
+// This only has an effect for Gold Skulltula Tokens (EN_SI) which has overlapping behavior for hookshot and boomerang
+#define ACTOR_FLAG_HOOKSHOT_ATTACHED (1 << 13)
 
 // When hit by an arrow, the actor will be able to attach to the arrow and fly with it in the air
 #define ACTOR_FLAG_CAN_ATTACH_TO_ARROW (1 << 14)
@@ -806,7 +811,7 @@ int func_8002DD6C(struct Player* player);
 int func_8002DD78(struct Player* player);
 s32 func_8002DDE4(struct PlayState* play);
 s32 func_8002DDF4(struct PlayState* play);
-void func_8002DE04(struct PlayState* play, Actor* actorA, Actor* actorB);
+void Actor_SwapHookshotAttachment(struct PlayState* play, Actor* srcActor, Actor* destActor);
 void func_8002DE74(struct PlayState* play, struct Player* player);
 void Actor_MountHorse(struct PlayState* play, struct Player* player, Actor* horse);
 int func_8002DEEC(struct Player* player);
