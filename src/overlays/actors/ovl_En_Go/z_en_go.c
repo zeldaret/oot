@@ -899,7 +899,7 @@ void EnGo_Standing(EnGo* this, PlayState* play) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
-                // @bug: `gGoronEyedropsLoopAnim` is not applied; see `z_en_go2.c` for the correct behaviour
+                //! @bug: `gGoronEyedropsLoopAnim` is not applied; see `z_en_go2.c` for the correct behaviour
                 EnGo_ChangeAnim(this, ENGO_ANIM_WALKING_LOOP);
                 this->eyedropsTimer = 100;
                 this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
@@ -1038,7 +1038,7 @@ void EnGo_GetItem(EnGo* this, PlayState* play) {
 
 void EnGo_TakingEyedrops(EnGo* this, PlayState* play) {
     if (DECR(this->eyedropsTimer) == 0) {
-        // @bug: `gGoronEyedropsTakenAnim` is not applied; see `z_en_go2.c` for the correct behaviour
+        //! @bug: `gGoronEyedropsTakenAnim` is not applied; see `z_en_go2.c` for the correct behaviour
         this->actor.textId = 0x305A;
         Message_ContinueTextbox(play, this->actor.textId);
         this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
@@ -1167,7 +1167,8 @@ void EnGo_Draw(Actor* thisx, PlayState* play) {
         return;
     }
 
-    // @bug? should've been `EnGo_RollingToCurledUp` instead of the second `EnGo_RollingFar`
+    //! @bug? should've been `EnGo_RollingToCurledUp` instead of the second `EnGo_RollingFar`
+    //! in that state bouncing Goron will be drawn normally, rather than as a boulder
     if (this->actionFunc == EnGo_RollingLink || this->actionFunc == EnGo_RollingFar ||
         this->actionFunc == EnGo_RollingNear || this->actionFunc == EnGo_RollingFar) {
         EnGo_DrawRolling(this, play);
