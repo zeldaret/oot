@@ -909,7 +909,7 @@ void EnGo2_CheckCollision(EnGo2* this, PlayState* play) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 }
 
-void EnGo2_SwapInitialFrameAnimFrameCount(EnGo2* this) {
+void EnGo2_ReverseAnimation(EnGo2* this) {
     f32 initialFrame;
 
     initialFrame = this->skelAnime.startFrame;
@@ -1353,7 +1353,7 @@ void EnGo2_SetupCurledUp(EnGo2* this, PlayState* play) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_NORMAL);
         this->skelAnime.playSpeed = -1.0f;
     }
-    EnGo2_SwapInitialFrameAnimFrameCount(this);
+    EnGo2_ReverseAnimation(this);
     this->trackingMode = NPC_TRACKING_NONE;
     this->isUncurled = false;
     this->isTalkative = false;
