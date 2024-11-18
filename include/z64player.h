@@ -18,11 +18,11 @@ typedef enum PlayerStartMode {
     /*  5 */ PLAYER_START_MODE_5,
     /*  6 */ PLAYER_START_MODE_6,
     /*  7 */ PLAYER_START_MODE_7,
-    /*  8 */ PLAYER_START_MODE_8,
-    /*  9 */ PLAYER_START_MODE_9,
-    /* 10 */ PLAYER_START_MODE_10,
-    /* 11 */ PLAYER_START_MODE_11,
-    /* 12 */ PLAYER_START_MODE_12,
+    /*  8 */ PLAYER_START_MODE_UNUSED_8,  // Unused, behaves the same as PLAYER_START_MODE_14
+    /*  9 */ PLAYER_START_MODE_UNUSED_9,  // Unused, behaves the same as PLAYER_START_MODE_14
+    /* 10 */ PLAYER_START_MODE_UNUSED_10, // Unused, behaves the same as PLAYER_START_MODE_14
+    /* 11 */ PLAYER_START_MODE_UNUSED_11, // Unused, behaves the same as PLAYER_START_MODE_14
+    /* 12 */ PLAYER_START_MODE_UNUSED_12, // Unused, behaves the same as PLAYER_START_MODE_14
     /* 13 */ PLAYER_START_MODE_13,
     /* 14 */ PLAYER_START_MODE_14,
     /* 15 */ PLAYER_START_MODE_15,

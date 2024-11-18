@@ -154,7 +154,7 @@ void Player_UseItem(PlayState* play, Player* this, s32 item);
 void func_80839F90(Player* this, PlayState* play);
 s32 func_8083C61C(PlayState* play, Player* this);
 void Player_StartMode13(PlayState* play, Player* this);
-void Player_StartModeUnk(PlayState* play, Player* this);
+void Player_StartMode14(PlayState* play, Player* this);
 void Player_StartMode15(PlayState* play, Player* this);
 void Player_StartMode0(PlayState* play, Player* this);
 void Player_StartMode2(PlayState* play, Player* this);
@@ -6688,7 +6688,7 @@ void Player_StartMode13(PlayState* play, Player* this) {
     }
 }
 
-void Player_StartModeUnk(PlayState* play, Player* this) {
+void Player_StartMode14(PlayState* play, Player* this) {
     this->speedXZ = 2.0f;
     gSaveContext.entranceSpeed = 2.0f;
     if (func_8083C910(play, this, 120.0f)) {
@@ -10637,22 +10637,22 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
 }
 
 static void (*sStartModeFuncs[PLAYER_START_MODE_MAX])(PlayState* play, Player* this) = {
-    Player_StartMode0,   // PLAYER_START_MODE_0
-    Player_StartMode1,   // PLAYER_START_MODE_1
-    Player_StartMode2,   // PLAYER_START_MODE_2
-    Player_StartMode3,   // PLAYER_START_MODE_3
-    Player_StartMode4,   // PLAYER_START_MODE_4
-    Player_StartMode5,   // PLAYER_START_MODE_5
-    Player_StartMode6,   // PLAYER_START_MODE_6
-    Player_StartMode7,   // PLAYER_START_MODE_7
-    Player_StartModeUnk, // PLAYER_START_MODE_8
-    Player_StartModeUnk, // PLAYER_START_MODE_9
-    Player_StartModeUnk, // PLAYER_START_MODE_10
-    Player_StartModeUnk, // PLAYER_START_MODE_11
-    Player_StartModeUnk, // PLAYER_START_MODE_12
-    Player_StartMode13,  // PLAYER_START_MODE_13
-    Player_StartModeUnk, // PLAYER_START_MODE_14
-    Player_StartMode15,  // PLAYER_START_MODE_15
+    Player_StartMode0,  // PLAYER_START_MODE_0
+    Player_StartMode1,  // PLAYER_START_MODE_1
+    Player_StartMode2,  // PLAYER_START_MODE_2
+    Player_StartMode3,  // PLAYER_START_MODE_3
+    Player_StartMode4,  // PLAYER_START_MODE_4
+    Player_StartMode5,  // PLAYER_START_MODE_5
+    Player_StartMode6,  // PLAYER_START_MODE_6
+    Player_StartMode7,  // PLAYER_START_MODE_7
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_8
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_9
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_10
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_11
+    Player_StartMode14, // PLAYER_START_MODE_UNUSED_12
+    Player_StartMode13, // PLAYER_START_MODE_13
+    Player_StartMode14, // PLAYER_START_MODE_14
+    Player_StartMode15, // PLAYER_START_MODE_15
 };
 
 void Player_Init(Actor* thisx, PlayState* play2) {
