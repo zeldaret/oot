@@ -1119,14 +1119,18 @@ s32 func_8002DDF4(PlayState* play) {
     return player->stateFlags2 & PLAYER_STATE2_12;
 }
 
+/**
+ * Swap hookshot attachment state from one actor to another.
+ *
+ * Note: There is no safety check for a NULL hookshot pointer.
+ * The responsibility is on the caller to make sure the hookshot exists.
+ */
 void Actor_SwapHookshotAttachment(PlayState* play, Actor* srcActor, Actor* destActor) {
     ArmsHook* hookshot = (ArmsHook*)Actor_Find(&play->actorCtx, ACTOR_ARMS_HOOK, ACTORCAT_ITEMACTION);
 
-    // Note: There is no safety check for a NULL hookshot pointer.
-    // The responsibility is on the caller to make sure the hookshot exists.
-
     hookshot->attachedActor = destActor;
 
+    // The hookshot will attach at exactly the actors world position with 0 offset
     hookshot->attachPointOffset.x = 0.0f;
     hookshot->attachPointOffset.y = 0.0f;
     hookshot->attachPointOffset.z = 0.0f;
