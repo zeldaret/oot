@@ -10,14 +10,14 @@ struct Player;
 #define PLAYER_GET_START_MODE(thisx) PARAMS_GET_S(thisx->params, 8, 4)
 
 typedef enum PlayerStartMode {
-    /*  0 */ PLAYER_START_MODE_0,
-    /*  1 */ PLAYER_START_MODE_1,
-    /*  2 */ PLAYER_START_MODE_2,
-    /*  3 */ PLAYER_START_MODE_3,
-    /*  4 */ PLAYER_START_MODE_4,
-    /*  5 */ PLAYER_START_MODE_5,
-    /*  6 */ PLAYER_START_MODE_6,
-    /*  7 */ PLAYER_START_MODE_7,
+    /*  0 */ PLAYER_START_MODE_NOTHING, // Update is empty and draw function is NULL, nothing occurs. Useful in cutscenes, for example.
+    /*  1 */ PLAYER_START_MODE_TIME_TRAVEL, // Arriving from time travel. Automatically adjusts by age.
+    /*  2 */ PLAYER_START_MODE_BLUE_WARP, // Arriving from a blue warp.
+    /*  3 */ PLAYER_START_MODE_DOOR, // Unused and broken. If fixed, would allow for using a door on arrival.
+    /*  4 */ PLAYER_START_MODE_GROTTO, // Arriving from a grotto, launched upward from the ground.
+    /*  5 */ PLAYER_START_MODE_WARP_SONG, // Arriving from a warp song.
+    /*  6 */ PLAYER_START_MODE_FARORES_WIND, // Arriving from a Farores Wind warp.
+    /*  7 */ PLAYER_START_MODE_KNOCKED_OVER, // Knocked over on the ground and flashing red.
     /*  8 */ PLAYER_START_MODE_UNUSED_8,  // Unused, behaves the same as PLAYER_START_MODE_14
     /*  9 */ PLAYER_START_MODE_UNUSED_9,  // Unused, behaves the same as PLAYER_START_MODE_14
     /* 10 */ PLAYER_START_MODE_UNUSED_10, // Unused, behaves the same as PLAYER_START_MODE_14
@@ -26,7 +26,7 @@ typedef enum PlayerStartMode {
     /* 13 */ PLAYER_START_MODE_13,
     /* 14 */ PLAYER_START_MODE_14,
     /* 15 */ PLAYER_START_MODE_15,
-    /* 16 */ PLAYER_START_MODE_MAX
+    /* 16 */ PLAYER_START_MODE_MAX // Note: By default, this param has 4 bits allocated. The max value is 16.
 } PlayerStartMode;
 
 typedef enum PlayerSword {

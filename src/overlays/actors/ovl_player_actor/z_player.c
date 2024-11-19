@@ -153,17 +153,6 @@ s32 func_80835C08(Player* this, PlayState* play);
 void Player_UseItem(PlayState* play, Player* this, s32 item);
 void func_80839F90(Player* this, PlayState* play);
 s32 func_8083C61C(PlayState* play, Player* this);
-void Player_StartMode13(PlayState* play, Player* this);
-void Player_StartMode14(PlayState* play, Player* this);
-void Player_StartMode15(PlayState* play, Player* this);
-void Player_StartMode0(PlayState* play, Player* this);
-void Player_StartMode2(PlayState* play, Player* this);
-void Player_StartMode1(PlayState* play, Player* this);
-void Player_StartMode3(PlayState* play, Player* this);
-void Player_StartMode4(PlayState* play, Player* this);
-void Player_StartMode7(PlayState* play, Player* this);
-void Player_StartMode5(PlayState* play, Player* this);
-void Player_StartMode6(PlayState* play, Player* this);
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input);
 void func_8084FF7C(Player* this);
 void Player_UpdateBunnyEars(Player* this);
@@ -10501,72 +10490,77 @@ static ColliderQuadInit D_808546A0 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-void func_8084663C(Actor* thisx, PlayState* play) {
+void Player_DoNothing(Actor* thisx, PlayState* play) {
 }
 
-void Player_StartMode0(PlayState* play, Player* this) {
-    this->actor.update = func_8084663C;
+void Player_StartMode_Nothing(PlayState* play, Player* this) {
+    this->actor.update = Player_DoNothing;
     this->actor.draw = NULL;
 }
 
-void Player_StartMode2(PlayState* play, Player* this) {
+void Player_StartMode_BlueWarp(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F710, 0);
+
     if ((play->sceneId == SCENE_LAKE_HYLIA) && IS_CUTSCENE_LAYER) {
         this->av1.actionVar1 = 1;
     }
+
     this->stateFlags1 |= PLAYER_STATE1_29;
     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_link_okarina_warp_goal, 2.0f / 3.0f, 0.0f, 24.0f,
                          ANIMMODE_ONCE, 0.0f);
     this->actor.world.pos.y += 800.0f;
 }
 
-static u8 D_808546F0[] = { ITEM_SWORD_MASTER, ITEM_SWORD_KOKIRI };
-
-void func_80846720(PlayState* play, Player* this, s32 arg2) {
-    s32 item = D_808546F0[(void)0, gSaveContext.save.linkAge];
-    s32 itemAction = sItemActions[item];
+void Player_TakeOutSword(PlayState* play, Player* this, s32 playSfx) {
+    static u8 sSwordItemIds[] = { ITEM_SWORD_MASTER, ITEM_SWORD_KOKIRI };
+    s32 swordItem = sSwordItemIds[(void)0, gSaveContext.save.linkAge];
+    s32 swordItemAction = sItemActions[swordItem];
 
     Player_DestroyHookshot(this);
     Player_DetachHeldActor(play, this);
 
-    this->heldItemId = item;
-    this->nextModelGroup = Player_ActionToModelGroup(this, itemAction);
+    this->heldItemId = swordItem;
+    this->nextModelGroup = Player_ActionToModelGroup(this, swordItemAction);
 
-    Player_InitItemAction(play, this, itemAction);
+    Player_InitItemAction(play, this, swordItemAction);
     func_80834644(play, this);
 
-    if (arg2 != 0) {
+    if (playSfx) {
         Player_PlaySfx(this, NA_SE_IT_SWORD_PICKOUT);
     }
 }
 
-static Vec3f D_808546F4 = { -1.0f, 69.0f, 20.0f };
+void Player_StartMode_TimeTravel(PlayState* play, Player* this) {
+    static Vec3f sPedestalPos = { -1.0f, 69.0f, 20.0f };
 
-void Player_StartMode1(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084E9AC, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
-    Math_Vec3f_Copy(&this->actor.world.pos, &D_808546F4);
+
+    Math_Vec3f_Copy(&this->actor.world.pos, &sPedestalPos);
     this->yaw = this->actor.shape.rot.y = -0x8000;
+
     LinkAnimation_Change(play, &this->skelAnime, this->ageProperties->unk_A0, 2.0f / 3.0f, 0.0f, 0.0f, ANIMMODE_ONCE,
                          0.0f);
     Player_StartAnimMovement(play, this,
                              PLAYER_ANIM_MOVEMENT_RESET_BY_AGE | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
                                  ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_ENABLE_MOVEMENT |
                                  ANIM_FLAG_OVERRIDE_MOVEMENT);
+
     if (LINK_IS_ADULT) {
-        func_80846720(play, this, 0);
+        Player_TakeOutSword(play, this, false);
     }
+
     this->av2.actionVar2 = 20;
 }
 
-void Player_StartMode3(PlayState* play, Player* this) {
+void Player_StartMode_Door(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F9A0, 0);
     Player_StartAnimMovement(play, this,
                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_ENABLE_MOVEMENT |
                                  ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
-void Player_StartMode4(PlayState* play, Player* this) {
+void Player_StartMode_Grotto(PlayState* play, Player* this) {
     func_808389E8(this, &gPlayerAnim_link_normal_jump, 12.0f, play);
     Player_SetupAction(play, this, Player_Action_8084F9C0, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
@@ -10574,11 +10568,11 @@ void Player_StartMode4(PlayState* play, Player* this) {
     OnePointCutscene_Init(play, 5110, 40, &this->actor, CAM_ID_MAIN);
 }
 
-void Player_StartMode7(PlayState* play, Player* this) {
+void Player_StartMode_KnockedOver(PlayState* play, Player* this) {
     func_80837C0C(play, this, PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE, 2.0f, 2.0f, this->actor.shape.rot.y + 0x8000, 0);
 }
 
-void Player_StartMode5(PlayState* play, Player* this) {
+void Player_StartMode_WarpSong(PlayState* play, Player* this) {
     Player_SetupAction(play, this, Player_Action_8084F698, 0);
     this->actor.draw = NULL;
     this->stateFlags1 |= PLAYER_STATE1_29;
@@ -10591,7 +10585,7 @@ Actor* Player_SpawnMagicSpell(PlayState* play, Player* this, s32 spell) {
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
 }
 
-void Player_StartMode6(PlayState* play, Player* this) {
+void Player_StartMode_FaroresWind(PlayState* play, Player* this) {
     this->actor.draw = NULL;
     Player_SetupAction(play, this, Player_Action_8085076C, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
@@ -10637,22 +10631,22 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
 }
 
 static void (*sStartModeFuncs[PLAYER_START_MODE_MAX])(PlayState* play, Player* this) = {
-    Player_StartMode0,  // PLAYER_START_MODE_0
-    Player_StartMode1,  // PLAYER_START_MODE_1
-    Player_StartMode2,  // PLAYER_START_MODE_2
-    Player_StartMode3,  // PLAYER_START_MODE_3
-    Player_StartMode4,  // PLAYER_START_MODE_4
-    Player_StartMode5,  // PLAYER_START_MODE_5
-    Player_StartMode6,  // PLAYER_START_MODE_6
-    Player_StartMode7,  // PLAYER_START_MODE_7
-    Player_StartMode14, // PLAYER_START_MODE_UNUSED_8
-    Player_StartMode14, // PLAYER_START_MODE_UNUSED_9
-    Player_StartMode14, // PLAYER_START_MODE_UNUSED_10
-    Player_StartMode14, // PLAYER_START_MODE_UNUSED_11
-    Player_StartMode14, // PLAYER_START_MODE_UNUSED_12
-    Player_StartMode13, // PLAYER_START_MODE_13
-    Player_StartMode14, // PLAYER_START_MODE_14
-    Player_StartMode15, // PLAYER_START_MODE_15
+    Player_StartMode_Nothing,     // PLAYER_START_MODE_NOTHING
+    Player_StartMode_TimeTravel,  // PLAYER_START_MODE_TIME_TRAVEL
+    Player_StartMode_BlueWarp,    // PLAYER_START_MODE_BLUE_WARP
+    Player_StartMode_Door,        // PLAYER_START_MODE_DOOR
+    Player_StartMode_Grotto,      // PLAYER_START_MODE_GROTTO
+    Player_StartMode_WarpSong,    // PLAYER_START_MODE_WARP_SONG
+    Player_StartMode_FaroresWind, // PLAYER_START_MODE_FARORES_WIND
+    Player_StartMode_KnockedOver, // PLAYER_START_MODE_KNOCKED_OVER
+    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_8
+    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_9
+    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_10
+    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_11
+    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_12
+    Player_StartMode13,           // PLAYER_START_MODE_13
+    Player_StartMode14,           // PLAYER_START_MODE_14
+    Player_StartMode15,           // PLAYER_START_MODE_15
 };
 
 void Player_Init(Actor* thisx, PlayState* play2) {
@@ -10754,7 +10748,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
     startMode = PLAYER_GET_START_MODE(thisx);
 
-    if ((startMode == PLAYER_START_MODE_5) || (startMode == PLAYER_START_MODE_6)) {
+    if ((startMode == PLAYER_START_MODE_WARP_SONG) || (startMode == PLAYER_START_MODE_FARORES_WIND)) {
         if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
             startMode = PLAYER_START_MODE_13;
         }
@@ -10762,7 +10756,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
     sStartModeFuncs[startMode](play, this);
 
-    if (startMode != PLAYER_START_MODE_0) {
+    if (startMode != PLAYER_START_MODE_NOTHING) {
         if ((gSaveContext.gameMode == GAMEMODE_NORMAL) || (gSaveContext.gameMode == GAMEMODE_END_CREDITS)) {
             static Vec3f sNaviSpawnPosOffset = { 0.0f, 50.0f, 0.0f };
 
@@ -15551,7 +15545,7 @@ void func_80851D80(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 6.0f)) {
-        func_80846720(play, this, 0);
+        Player_TakeOutSword(play, this, false);
     } else {
         Player_ProcessAnimSfxList(this, D_808551B8);
     }
@@ -15707,7 +15701,7 @@ void func_80852298(PlayState* play, Player* this, CsCmdActorCue* cue) {
         this->av2.actionVar2 = 1;
     } else if (this->av2.actionVar2 == 0) {
         if (LinkAnimation_OnFrame(&this->skelAnime, 10.0f)) {
-            func_80846720(play, this, 1);
+            Player_TakeOutSword(play, this, true);
         }
     }
 }
@@ -15809,7 +15803,7 @@ void func_808525C0(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 void func_80852608(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    func_80846720(play, this, 0);
+    Player_TakeOutSword(play, this, false);
     Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_demo_return_to_past);
 }
 
@@ -15869,7 +15863,7 @@ void func_8085283C(PlayState* play, Player* this, CsCmdActorCue* cue) {
         func_80852944(play, this, cue);
     } else if (this->av2.actionVar2 == 0) {
         Item_Give(play, ITEM_SWORD_MASTER);
-        func_80846720(play, this, 0);
+        Player_TakeOutSword(play, this, false);
     } else {
         func_8084E988(this);
     }
@@ -15881,7 +15875,7 @@ void func_808528C8(PlayState* play, Player* this, CsCmdActorCue* cue) {
     }
 
     if (this->heldItemAction != PLAYER_IA_SWORD_MASTER) {
-        func_80846720(play, this, 1);
+        Player_TakeOutSword(play, this, true);
     }
 }
 
