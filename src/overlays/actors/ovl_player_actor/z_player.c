@@ -6647,7 +6647,7 @@ void func_8083C8DC(Player* this, PlayState* play, s16 arg2) {
     func_8083C858(this, play);
 }
 
-s32 func_8083C910(PlayState* play, Player* this, f32 arg2) {
+s32 Player_SetStartingMovement(PlayState* play, Player* this, f32 arg2) {
     WaterBox* sp2C;
     f32 sp28;
 
@@ -6671,29 +6671,31 @@ s32 func_8083C910(PlayState* play, Player* this, f32 arg2) {
     return 1;
 }
 
-void Player_StartMode13(PlayState* play, Player* this) {
-    if (func_8083C910(play, this, 180.0f)) {
+void Player_StartMode_Idle(PlayState* play, Player* this) {
+    if (Player_SetStartingMovement(play, this, 180.0f)) {
         this->av2.actionVar2 = -20;
     }
 }
 
-void Player_StartMode14(PlayState* play, Player* this) {
+void Player_StartMode_MoveForwardSlow(PlayState* play, Player* this) {
     this->speedXZ = 2.0f;
     gSaveContext.entranceSpeed = 2.0f;
-    if (func_8083C910(play, this, 120.0f)) {
+
+    if (Player_SetStartingMovement(play, this, 120.0f)) {
         this->av2.actionVar2 = -15;
     }
 }
 
-void Player_StartMode15(PlayState* play, Player* this) {
+void Player_StartMode_MoveForward(PlayState* play, Player* this) {
     if (gSaveContext.entranceSpeed < 0.1f) {
         gSaveContext.entranceSpeed = 0.1f;
     }
 
     this->speedXZ = gSaveContext.entranceSpeed;
 
-    if (func_8083C910(play, this, 800.0f)) {
+    if (Player_SetStartingMovement(play, this, 800.0f)) {
         this->av2.actionVar2 = -80 / this->speedXZ;
+
         if (this->av2.actionVar2 < -20) {
             this->av2.actionVar2 = -20;
         }
@@ -10631,22 +10633,22 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
 }
 
 static void (*sStartModeFuncs[PLAYER_START_MODE_MAX])(PlayState* play, Player* this) = {
-    Player_StartMode_Nothing,     // PLAYER_START_MODE_NOTHING
-    Player_StartMode_TimeTravel,  // PLAYER_START_MODE_TIME_TRAVEL
-    Player_StartMode_BlueWarp,    // PLAYER_START_MODE_BLUE_WARP
-    Player_StartMode_Door,        // PLAYER_START_MODE_DOOR
-    Player_StartMode_Grotto,      // PLAYER_START_MODE_GROTTO
-    Player_StartMode_WarpSong,    // PLAYER_START_MODE_WARP_SONG
-    Player_StartMode_FaroresWind, // PLAYER_START_MODE_FARORES_WIND
-    Player_StartMode_KnockedOver, // PLAYER_START_MODE_KNOCKED_OVER
-    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_8
-    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_9
-    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_10
-    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_11
-    Player_StartMode14,           // PLAYER_START_MODE_UNUSED_12
-    Player_StartMode13,           // PLAYER_START_MODE_13
-    Player_StartMode14,           // PLAYER_START_MODE_14
-    Player_StartMode15,           // PLAYER_START_MODE_15
+    Player_StartMode_Nothing,         // PLAYER_START_MODE_NOTHING
+    Player_StartMode_TimeTravel,      // PLAYER_START_MODE_TIME_TRAVEL
+    Player_StartMode_BlueWarp,        // PLAYER_START_MODE_BLUE_WARP
+    Player_StartMode_Door,            // PLAYER_START_MODE_DOOR
+    Player_StartMode_Grotto,          // PLAYER_START_MODE_GROTTO
+    Player_StartMode_WarpSong,        // PLAYER_START_MODE_WARP_SONG
+    Player_StartMode_FaroresWind,     // PLAYER_START_MODE_FARORES_WIND
+    Player_StartMode_KnockedOver,     // PLAYER_START_MODE_KNOCKED_OVER
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_8
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_9
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_10
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_11
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_UNUSED_12
+    Player_StartMode_Idle,            // PLAYER_START_MODE_IDLE
+    Player_StartMode_MoveForwardSlow, // PLAYER_START_MODE_MOVE_FORWARD_SLOW
+    Player_StartMode_MoveForward,     // PLAYER_START_MODE_MOVE_FORWARD
 };
 
 void Player_Init(Actor* thisx, PlayState* play2) {
@@ -10750,7 +10752,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
     if ((startMode == PLAYER_START_MODE_WARP_SONG) || (startMode == PLAYER_START_MODE_FARORES_WIND)) {
         if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
-            startMode = PLAYER_START_MODE_13;
+            startMode = PLAYER_START_MODE_IDLE;
         }
     }
 
