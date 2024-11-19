@@ -13,7 +13,7 @@ typedef enum PlayerStartMode {
     /*  0 */ PLAYER_START_MODE_NOTHING, // Update is empty and draw function is NULL, nothing occurs. Useful in cutscenes, for example.
     /*  1 */ PLAYER_START_MODE_TIME_TRAVEL, // Arriving from time travel. Automatically adjusts by age.
     /*  2 */ PLAYER_START_MODE_BLUE_WARP, // Arriving from a blue warp.
-    /*  3 */ PLAYER_START_MODE_DOOR, // Unused and broken. If fixed, would allow for using a door on arrival.
+    /*  3 */ PLAYER_START_MODE_DOOR, // Unused. Use a door immediately if one is nearby. If no door is in usable range, a softlock occurs.
     /*  4 */ PLAYER_START_MODE_GROTTO, // Arriving from a grotto, launched upward from the ground.
     /*  5 */ PLAYER_START_MODE_WARP_SONG, // Arriving from a warp song.
     /*  6 */ PLAYER_START_MODE_FARORES_WIND, // Arriving from a Farores Wind warp.
