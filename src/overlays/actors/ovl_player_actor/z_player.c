@@ -312,7 +312,7 @@ void Player_Action_ExchangeItem(Player* this, PlayState* play);
 void Player_Action_SlideOnSlope(Player* this, PlayState* play);
 void Player_Action_8084F608(Player* this, PlayState* play);
 void Player_Action_8084F698(Player* this, PlayState* play);
-void Player_Action_BlueWarpArrive(Player* this, PlayState* play);
+void Player_Action_8084F710(Player* this, PlayState* play);
 void Player_Action_8084F88C(Player* this, PlayState* play);
 void Player_Action_8084F9A0(Player* this, PlayState* play);
 void Player_Action_8084F9C0(Player* this, PlayState* play);
@@ -10499,17 +10499,15 @@ void Player_StartMode_Nothing(PlayState* play, Player* this) {
 }
 
 void Player_StartMode_BlueWarp(PlayState* play, Player* this) {
-    Player_SetupAction(play, this, Player_Action_BlueWarpArrive, 0);
+    Player_SetupAction(play, this, Player_Action_8084F710, 0);
 
     if ((play->sceneId == SCENE_LAKE_HYLIA) && IS_CUTSCENE_LAYER) {
-        this->av1.isLakeHyliaCs = true;
+        this->av1.actionVar1 = 1;
     }
 
     this->stateFlags1 |= PLAYER_STATE1_29;
     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_link_okarina_warp_goal, 2.0f / 3.0f, 0.0f, 24.0f,
                          ANIMMODE_ONCE, 0.0f);
-
-    // Start high up in the air
     this->actor.world.pos.y += 800.0f;
 }
 
@@ -14277,30 +14275,27 @@ void Player_Action_8084F698(Player* this, PlayState* play) {
     Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_KANKYO, 0.0f, 0.0f, 0.0f, 0, 0, 0, DEMOKANKYO_WARP_IN);
 }
 
-void Player_Action_BlueWarpArrive(Player* this, PlayState* play) {
+void Player_Action_8084F710(Player* this, PlayState* play) {
     s32 pad;
 
-    if ((this->av1.isLakeHyliaCs) && (play->csCtx.curFrame < 305)) {
-        // Delay falling down until frame 306 of the Lake Hylia cutscene after completing Water Temple
+    if ((this->av1.actionVar1 != 0) && (play->csCtx.curFrame < 305)) {
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
     } else if (sYDistToFloor < 150.0f) {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
-            if (!this->av2.playedLandingSfx) {
+            if (this->av2.actionVar2 == 0) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
                     Player_PlayLandingSfx(this);
-                    this->av2.playedLandingSfx = true;
+                    this->av2.actionVar2 = 1;
                 }
             } else {
                 if ((play->sceneId == SCENE_KOKIRI_FOREST) && Player_StartCsAction(play, this)) {
                     return;
                 }
-
                 func_80853080(this, play);
             }
         }
-
         Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.3f, 8.0f, 0.5f);
     }
 
@@ -14309,10 +14304,9 @@ void Player_Action_BlueWarpArrive(Player* this, PlayState* play) {
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.playerCue != NULL)) {
-        f32 savedYPos = this->actor.world.pos.y;
-
+        f32 sp28 = this->actor.world.pos.y;
         func_808529D0(play, this, play->csCtx.playerCue);
-        this->actor.world.pos.y = savedYPos;
+        this->actor.world.pos.y = sp28;
     }
 }
 
