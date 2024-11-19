@@ -358,24 +358,24 @@ correlation with `enum EntranceIndex`
   CS_INDEX_UNUSED: "Stage: day"
   CS_INDEX_*:      "Stage demo 0*"
 */
-typedef enum CutsceneIndex {
-    CS_INDEX_AUTO = 0x0000,
-    CS_INDEX_NEXT_EMPTY = 0xFFEF, // is allowed to schedule a cutscene
-    CS_INDEX_0 = 0xFFF0,
-    CS_INDEX_1 = 0xFFF1,
-    CS_INDEX_2 = 0xFFF2,
-    CS_INDEX_3 = 0xFFF3,
-    CS_INDEX_4 = 0xFFF4,
-    CS_INDEX_5 = 0xFFF5,
-    CS_INDEX_6 = 0xFFF6,
-    CS_INDEX_7 = 0xFFF7,
-    CS_INDEX_8 = 0xFFF8,
-    CS_INDEX_9 = 0xFFF9,
-    CS_INDEX_A = 0xFFFA,
-    CS_INDEX_TRIGGERED = 0xFFFD,
-    CS_INDEX_BARRIER = 0xFFFF, // CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL
-    CS_INDEX_UNUSED = 0x8000   // CS_DEST_DEATH_MOUNTAIN_TRAIL
-} CutsceneIndex;
+// clang-format off
+#define CS_INDEX_AUTO 0x0000
+#define CS_INDEX_NEXT_EMPTY 0xFFEF // is allowed to schedule a cutscene
+#define CS_INDEX_0 0xFFF0
+#define CS_INDEX_1 0xFFF1
+#define CS_INDEX_2 0xFFF2
+#define CS_INDEX_3 0xFFF3
+#define CS_INDEX_4 0xFFF4
+#define CS_INDEX_5 0xFFF5
+#define CS_INDEX_6 0xFFF6
+#define CS_INDEX_7 0xFFF7
+#define CS_INDEX_8 0xFFF8
+#define CS_INDEX_9 0xFFF9
+#define CS_INDEX_A 0xFFFA
+#define CS_INDEX_TRIGGERED 0xFFFD
+#define CS_INDEX_BARRIER 0xFFFF // CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL
+#define CS_INDEX_UNUSED 0x8000 // CS_DEST_DEATH_MOUNTAIN_TRAIL
+// clang-format on
 
 typedef union CsCmdCam {
     struct {
