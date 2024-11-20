@@ -10515,6 +10515,7 @@ void Player_StartMode_BlueWarp(PlayState* play, Player* this) {
 
 /**
  * Put the sword item in hand. If `playSfx` is true, the sword unsheathing sound will play.
+ * Kokiri Sword or Master Sword is used depending on age.
  *
  * Note: This will not play an animation, the sword instantly appears in hand.
  *       It is expected that this function is called while an appropriate animation
