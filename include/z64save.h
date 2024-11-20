@@ -924,7 +924,7 @@ typedef enum LinkAge {
 #define MINIMAP_GET_INFTABLE_SHIFT(flag) ((flag) - INFTABLE_1A0)
 
 // 0x1D0-0x1DF
-#define INFTABLE_1DX_INDEX 29
+#define INFTABLE_1DX_INDEX (0x1D0 >> 4)
 
 
 /*
