@@ -1,3 +1,5 @@
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:128 gc-us:0 gc-us-mq:128 ntsc-1.2:0"
+
 #include "global.h"
 #include "quake.h"
 #include "z64camera.h"
@@ -124,7 +126,7 @@ u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
-#pragma increment_block_number "gc-eu:186 gc-eu-mq:176 gc-jp:188 gc-jp-ce:188 gc-jp-mq:176 gc-us:188 gc-us-mq:176" \
+#pragma increment_block_number "gc-eu:186 gc-eu-mq:0 gc-jp:188 gc-jp-ce:188 gc-jp-mq:0 gc-us:188 gc-us-mq:0" \
                                "ntsc-1.0:80 ntsc-1.1:80 ntsc-1.2:80 pal-1.0:80 pal-1.1:80"
 
 // Cam ID to return to when a scripted cutscene is finished
