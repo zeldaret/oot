@@ -10513,15 +10513,22 @@ void Player_StartMode_BlueWarp(PlayState* play, Player* this) {
     this->actor.world.pos.y += 800.0f;
 }
 
-void Player_TakeOutSword(PlayState* play, Player* this, s32 playSfx) {
+/**
+ * Put the sword item in hand. If `playSfx` is true, the sword unsheating sound will play.
+ *
+ * Note: This will not play an animation, the sword instantly appears in hand.
+ *       It is expected that this function is called while an appropriate animation
+ *       is already playing, for example in a cutscene.
+ */
+void Player_PutSwordInHand(PlayState* play, Player* this, s32 playSfx) {
     static u8 sSwordItemIds[] = { ITEM_SWORD_MASTER, ITEM_SWORD_KOKIRI };
-    s32 swordItem = sSwordItemIds[(void)0, gSaveContext.save.linkAge];
-    s32 swordItemAction = sItemActions[swordItem];
+    s32 swordItemId = sSwordItemIds[(void)0, gSaveContext.save.linkAge];
+    s32 swordItemAction = sItemActions[swordItemId];
 
     Player_DestroyHookshot(this);
-    Player_DetachHeldActor(play, this);
+    Player_DetachHeldATakeOutctor(play, this);
 
-    this->heldItemId = swordItem;
+    this->heldItemId = swordItemId;
     this->nextModelGroup = Player_ActionToModelGroup(this, swordItemAction);
 
     Player_InitItemAction(play, this, swordItemAction);
@@ -10549,7 +10556,7 @@ void Player_StartMode_TimeTravel(PlayState* play, Player* this) {
                                  ANIM_FLAG_OVERRIDE_MOVEMENT);
 
     if (LINK_IS_ADULT) {
-        Player_TakeOutSword(play, this, false);
+        Player_PutSwordInHand(play, this, false);
     }
 
     this->av2.actionVar2 = 20;
@@ -15547,7 +15554,7 @@ void func_80851D80(PlayState* play, Player* this, CsCmdActorCue* cue) {
     LinkAnimation_Update(play, &this->skelAnime);
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 6.0f)) {
-        Player_TakeOutSword(play, this, false);
+        Player_PutSwordInHand(play, this, false);
     } else {
         Player_ProcessAnimSfxList(this, D_808551B8);
     }
@@ -15703,7 +15710,7 @@ void func_80852298(PlayState* play, Player* this, CsCmdActorCue* cue) {
         this->av2.actionVar2 = 1;
     } else if (this->av2.actionVar2 == 0) {
         if (LinkAnimation_OnFrame(&this->skelAnime, 10.0f)) {
-            Player_TakeOutSword(play, this, true);
+            Player_PutSwordInHand(play, this, true);
         }
     }
 }
@@ -15805,7 +15812,7 @@ void func_808525C0(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 void func_80852608(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Player_TakeOutSword(play, this, false);
+    Player_PutSwordInHand(play, this, false);
     Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_demo_return_to_past);
 }
 
@@ -15865,7 +15872,7 @@ void func_8085283C(PlayState* play, Player* this, CsCmdActorCue* cue) {
         func_80852944(play, this, cue);
     } else if (this->av2.actionVar2 == 0) {
         Item_Give(play, ITEM_SWORD_MASTER);
-        Player_TakeOutSword(play, this, false);
+        Player_PutSwordInHand(play, this, false);
     } else {
         func_8084E988(this);
     }
@@ -15877,7 +15884,7 @@ void func_808528C8(PlayState* play, Player* this, CsCmdActorCue* cue) {
     }
 
     if (this->heldItemAction != PLAYER_IA_SWORD_MASTER) {
-        Player_TakeOutSword(play, this, true);
+        Player_PutSwordInHand(play, this, true);
     }
 }
 
