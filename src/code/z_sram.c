@@ -325,8 +325,15 @@ void Sram_InitDebugSave(void) {
     gSaveContext.save.info.horseData.pos.y = 72;
     gSaveContext.save.info.horseData.pos.z = 5497;
     gSaveContext.save.info.horseData.angle = -0x6AD9;
-    gSaveContext.save.info.infTable[0] |= 0x5009;
-    gSaveContext.save.info.eventChkInf[0] |= 0x123F;
+    gSaveContext.save.info.infTable[0] |= GET_INFTABLE_MASK(INFTABLE_00) | GET_INFTABLE_MASK(INFTABLE_03) |
+                                          GET_INFTABLE_MASK(INFTABLE_0C) | GET_INFTABLE_MASK(INFTABLE_0E);
+
+    gSaveContext.save.info.eventChkInf[0] |=
+        GET_EVENTCHKINF_MASK(EVENTCHKINF_00_UNUSED) | GET_EVENTCHKINF_MASK(EVENTCHKINF_01_UNUSED) | GET_EVENTCHKINF_MASK(EVENTCHKINF_02) |
+        GET_EVENTCHKINF_MASK(EVENTCHKINF_03) | GET_EVENTCHKINF_MASK(EVENTCHKINF_04) |
+        GET_EVENTCHKINF_MASK(EVENTCHKINF_05) | GET_EVENTCHKINF_MASK(EVENTCHKINF_09) |
+        GET_EVENTCHKINF_MASK(EVENTCHKINF_0C);
+
     SET_EVENTCHKINF(EVENTCHKINF_80);
     SET_EVENTCHKINF(EVENTCHKINF_C4);
 

@@ -477,6 +477,8 @@ typedef enum LinkAge {
 #define GET_EVENTCHKINF_VAR(flag) (gSaveContext.save.info.eventChkInf[(flag) >> 4])
 #define GET_EVENTCHKINF_MASK(flag) (1 << ((flag) & 0xF))
 
+#define EVENTCHKINF_00_UNUSED 0x00
+#define EVENTCHKINF_01_UNUSED 0x01
 #define EVENTCHKINF_02 0x02
 #define EVENTCHKINF_03 0x03
 #define EVENTCHKINF_04 0x04
