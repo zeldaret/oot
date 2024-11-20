@@ -58,16 +58,15 @@ void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
 void EnMu_Interact(EnMu* this, PlayState* play) {
     u8 textIdOffset[] = { 0x42, 0x43, 0x3F, 0x41, 0x3E };
     u8 bitmask[] = {
-        EVENTINF_20_MASK, EVENTINF_21_MASK, EVENTINF_22_MASK, EVENTINF_23_MASK, EVENTINF_24_MASK,
+        GET_EVENTINF_MASK(EVENTINF_20), GET_EVENTINF_MASK(EVENTINF_21), GET_EVENTINF_MASK(EVENTINF_22),
+        GET_EVENTINF_MASK(EVENTINF_23), GET_EVENTINF_MASK(EVENTINF_24),
     };
     u8 textFlags;
     s32 randomIndex;
     s32 i;
 
-    textFlags = gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &
-                (EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
-    gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &=
-        ~(EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
+    textFlags = ENMU_GET_TALK_FLAGS();
+    ENMU_RESET_TALK_FLAGS();
     randomIndex = (play->state.frames + (s32)(Rand_ZeroOne() * 5.0f)) % 5;
 
     for (i = 0; i < 5; i++) {
@@ -94,8 +93,8 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
 
     textFlags |= bitmask[randomIndex];
     this->defaultTextId = textIdOffset[randomIndex] | 0x7000;
-    textFlags &= EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK | 0xE0;
-    gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] |= textFlags;
+    textFlags &= EVENTINF_HAGGLING_TOWNSFOLK_MASK | 0xE0;
+    gSaveContext.eventInf[EVENTINF_HAGGLING_TOWNSFOLK_INDEX] |= textFlags;
 }
 
 u16 EnMu_GetTextId(PlayState* play, Actor* thisx) {

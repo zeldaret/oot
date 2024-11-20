@@ -74,7 +74,12 @@ static EnSthActionFunc sRewardObtainedWaitActions[6] = {
 };
 
 static u16 sEventFlags[6] = {
-    0, EVENTCHKINF_DA_MASK, EVENTCHKINF_DB_MASK, EVENTCHKINF_DC_MASK, EVENTCHKINF_DD_MASK, EVENTCHKINF_DE_MASK,
+    0,
+    GET_EVENTCHKINF_MASK(EVENTCHKINF_SKULLTULA_REWARD_10),
+    GET_EVENTCHKINF_MASK(EVENTCHKINF_SKULLTULA_REWARD_20),
+    GET_EVENTCHKINF_MASK(EVENTCHKINF_SKULLTULA_REWARD_30),
+    GET_EVENTCHKINF_MASK(EVENTCHKINF_SKULLTULA_REWARD_40),
+    GET_EVENTCHKINF_MASK(EVENTCHKINF_SKULLTULA_REWARD_50),
 };
 
 static s16 sGetItemIds[6] = {
@@ -114,7 +119,7 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
     }
 
     objectId = sObjectIds[params];
-    if (objectId != 1) {
+    if (objectId != OBJECT_GAMEPLAY_KEEP) {
         objectSlot = Object_GetSlot(&play->objectCtx, objectId);
     } else {
         objectSlot = 0;
@@ -156,7 +161,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
 
     this->eventFlag = sEventFlags[this->actor.params];
     params = &this->actor.params;
-    if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_DA_DB_DC_DD_DE_INDEX] & this->eventFlag) {
+    if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_SKULLTULA_REWARD_INDEX] & this->eventFlag) {
         EnSth_SetupAction(this, sRewardObtainedWaitActions[*params]);
     } else {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedWait);
@@ -256,7 +261,7 @@ void EnSth_GiveReward(EnSth* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
-        gSaveContext.save.info.eventChkInf[EVENTCHKINF_DA_DB_DC_DD_DE_INDEX] |= this->eventFlag;
+        gSaveContext.save.info.eventChkInf[EVENTCHKINF_SKULLTULA_REWARD_INDEX] |= this->eventFlag;
     } else {
         EnSth_GivePlayerItem(this, play);
     }

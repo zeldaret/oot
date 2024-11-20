@@ -242,17 +242,17 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
     if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
         switch (this->fountainType) {
             case FAIRY_SPELL_FARORES_WIND:
-                if (!GET_ITEMGETINF(ITEMGETINF_18)) {
+                if (!GET_ITEMGETINF(ITEMGETINF_FARORES_WIND)) {
                     givingReward = true;
                 }
                 break;
             case FAIRY_SPELL_DINS_FIRE:
-                if (!GET_ITEMGETINF(ITEMGETINF_19)) {
+                if (!GET_ITEMGETINF(ITEMGETINF_DINS_FIRE)) {
                     givingReward = true;
                 }
                 break;
             case FAIRY_SPELL_NAYRUS_LOVE:
-                if (!GET_ITEMGETINF(ITEMGETINF_1A)) {
+                if (!GET_ITEMGETINF(ITEMGETINF_NAYRUS_LOVE)) {
                     givingReward = true;
                 }
                 break;
@@ -696,7 +696,8 @@ static s16 sDemoEffectLightColors[] = { DEMO_EFFECT_LIGHT_GREEN, DEMO_EFFECT_LIG
 
 static s16 sExItemTypes[] = { EXITEM_MAGIC_WIND, EXITEM_MAGIC_FIRE, EXITEM_MAGIC_DARK };
 
-static s16 sItemGetFlags[] = { ITEMGETINF_18_MASK, ITEMGETINF_19_MASK, ITEMGETINF_1A_MASK };
+static s16 sItemGetFlags[] = { GET_ITEMGETINF_MASK(ITEMGETINF_FARORES_WIND), GET_ITEMGETINF_MASK(ITEMGETINF_DINS_FIRE),
+                               GET_ITEMGETINF_MASK(ITEMGETINF_NAYRUS_LOVE) };
 
 static u8 sItemIds[] = { ITEM_FARORES_WIND, ITEM_DINS_FIRE, ITEM_NAYRUS_LOVE };
 
@@ -808,7 +809,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
                 this->itemSpawned = true;
                 gSaveContext.healthAccumulator = 0x140;
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
-                gSaveContext.save.info.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= sItemGetFlags[cueIdTemp];
+                gSaveContext.save.info.itemGetInf[ITEMGETINF_GREAT_FAIRY_ITEM_INDEX] |= sItemGetFlags[cueIdTemp];
                 Item_Give(play, sItemIds[cueIdTemp]);
             }
         } else {

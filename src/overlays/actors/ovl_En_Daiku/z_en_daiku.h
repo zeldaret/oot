@@ -8,6 +8,13 @@ struct EnDaiku;
 
 typedef void (*EnDaikuActionFunc)(struct EnDaiku*, PlayState*);
 
+typedef enum EnDaikuType {
+    ENDAIKU_TYPE0,
+    ENDAIKU_TYPE1,
+    ENDAIKU_TYPE2,
+    ENDAIKU_TYPE3
+} EnDaikuType;
+
 typedef struct EnDaiku {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;

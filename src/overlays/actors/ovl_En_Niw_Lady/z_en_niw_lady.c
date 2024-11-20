@@ -43,8 +43,9 @@ static s16 sMissingCuccoTextIds[] = {
 };
 
 static s16 D_80ABB3B4[] = {
-    INFTABLE_199_MASK, INFTABLE_19A_MASK, INFTABLE_19B_MASK, INFTABLE_19C_MASK,
-    INFTABLE_19D_MASK, INFTABLE_19E_MASK, INFTABLE_19F_MASK,
+    GET_INFTABLE_MASK(INFTABLE_199), GET_INFTABLE_MASK(INFTABLE_19A), GET_INFTABLE_MASK(INFTABLE_19B),
+    GET_INFTABLE_MASK(INFTABLE_19C), GET_INFTABLE_MASK(INFTABLE_19D), GET_INFTABLE_MASK(INFTABLE_19E),
+    GET_INFTABLE_MASK(INFTABLE_19F),
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -210,8 +211,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
             if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f) &&
                 (fabsf(currentCucco->actor.world.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
-                    gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] |=
-                        D_80ABB3B4[currentCucco->unk_2AA];
+                    gSaveContext.save.info.infTable[INFTABLE_KAKARIKO_CUCCO_INDEX] |= D_80ABB3B4[currentCucco->unk_2AA];
                     if (BREG(1) != 0) {
                         // "GET inside the chicken fence!"
                         PRINTF(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST, D_80ABB3B4[currentCucco->unk_2AA]);
@@ -219,8 +219,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                 }
                 this->cuccosInPen++;
             } else if (this->unk_26C == 0) {
-                gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &=
-                    ~D_80ABB3B4[currentCucco->unk_2AA];
+                gSaveContext.save.info.infTable[INFTABLE_KAKARIKO_CUCCO_INDEX] &= ~D_80ABB3B4[currentCucco->unk_2AA];
             }
         }
         currentCucco = (EnNiw*)currentCucco->actor.next;
@@ -276,12 +275,10 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                 this->unk_262 = TEXT_STATE_EVENT;
                 this->unk_26A = this->cuccosInPen;
                 PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST,
-                       gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
-                gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &=
-                    (u16) ~(INFTABLE_199_MASK | INFTABLE_19A_MASK | INFTABLE_19B_MASK | INFTABLE_19C_MASK |
-                            INFTABLE_19D_MASK | INFTABLE_19E_MASK | INFTABLE_19F_MASK);
+                       gSaveContext.save.info.infTable[INFTABLE_KAKARIKO_CUCCO_INDEX]);
+                INFTABLE_RESET_KAKARIKO_CUCCOS();
                 PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST,
-                       gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
+                       gSaveContext.save.info.infTable[INFTABLE_KAKARIKO_CUCCO_INDEX]);
                 PRINTF("\n\n");
                 this->actionFunc = func_80ABA654;
                 return;

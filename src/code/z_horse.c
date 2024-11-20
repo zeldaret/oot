@@ -173,7 +173,8 @@ void func_8006D684(PlayState* play, Player* player) {
         Actor_MountHorse(play, player, player->rideActor);
         func_8002DE74(play, player);
         gSaveContext.save.info.horseData.sceneId = play->sceneId;
-    } else if ((play->sceneId == SCENE_LON_LON_RANCH) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
+    } else if ((play->sceneId == SCENE_LON_LON_RANCH) &&
+               (GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_TRAPPED_WIN_EPONA) &&
                !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && (DREG(1) == 0)) {
         player->rideActor =
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 894.0f, 0.0f, -2084.0f, 0, -0x7FFF, 0, 5);
@@ -209,7 +210,7 @@ void func_8006D684(PlayState* play, Player* player) {
                     Vec3f sp54;
                     s32 temp = 0;
 
-                    if (GET_EVENTINF_HORSES_HORSETYPE() != HORSE_EPONA && D_8011F9B8[i].type == 6) {
+                    if (GET_EVENTINF_INGORACE_HORSETYPE() != HORSE_EPONA && D_8011F9B8[i].type == 6) {
                         temp = 0x8000;
                     }
 
@@ -260,7 +261,8 @@ void func_8006DC68(PlayState* play, Player* player) {
                   gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13 ||
                   gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15) &&
                  (gSaveContext.respawnFlag == 0)) ||
-                ((play->sceneId == SCENE_LON_LON_RANCH) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
+                ((play->sceneId == SCENE_LON_LON_RANCH) &&
+                 (GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_TRAPPED_WIN_EPONA) &&
                  !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && (DREG(1) == 0))) {
                 func_8006D684(play, player);
             } else {

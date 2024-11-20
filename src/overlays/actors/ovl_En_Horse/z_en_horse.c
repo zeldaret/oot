@@ -678,7 +678,7 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
             if (play->sceneId != SCENE_LON_LON_RANCH ||
                 //! Same flag checked twice
                 (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) &&
-                 (GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6 ||
+                 (GET_EVENTINF_INGORACE_STATE() != INGORACE_STATE_TRAPPED_WIN_EPONA ||
                   Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED))) ||
                 // always load two spawns inside lon lon
                 ((sHorseSpawns[i].pos.x == 856 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -918) ||
@@ -797,7 +797,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
             if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || DREG(1) != 0) {
                 this->stateFlags &= ~ENHORSE_CANT_JUMP;
                 this->stateFlags |= ENHORSE_FLAG_26;
-            } else if (GET_EVENTINF(EVENTINF_HORSES_06) && this->type == HORSE_HNI) {
+            } else if (GET_EVENTINF(EVENTINF_INGORACE_SECOND_RACE) && this->type == HORSE_HNI) {
                 this->stateFlags |= ENHORSE_FLAG_21 | ENHORSE_FLAG_20;
             }
         } else if (this->actor.params == 1) {
@@ -807,7 +807,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
         }
     }
 
-    if (play->sceneId == SCENE_LON_LON_RANCH && GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6 &&
+    if (play->sceneId == SCENE_LON_LON_RANCH && GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_TRAPPED_WIN_EPONA &&
         !Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && !DREG(1)) {
         this->stateFlags |= ENHORSE_FLAG_25;
     }
@@ -872,7 +872,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
         this->rider = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_IN, this->actor.world.pos.x, this->actor.world.pos.y,
                                   this->actor.world.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, 1, 1);
         ASSERT(this->rider != NULL, "this->race.rider != NULL", "../z_en_horse.c", 3077);
-        if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
+        if (!GET_EVENTINF(EVENTINF_INGORACE_SECOND_RACE)) {
             this->ingoHorseMaxSpeed = 12.07f;
         } else {
             this->ingoHorseMaxSpeed = 12.625f;
