@@ -1480,11 +1480,11 @@ s32 EnGo2_IsGoronLinkReversing(EnGo2* this) {
     return true;
 }
 
-s32 EnGo2_IsRolling(EnGo2* this) {
+s32 EnGo2_IsTalkingAndFast(EnGo2* this) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE || this->actor.speed < 1.0f) {
         return false;
     }
-    if (EnGo2_IsRollingOnGround(this, 2, 20.0 / 3.0f, 0)) {
+    if (EnGo2_IsRollingOnGround(this, 2, 20.0 / 3.0f, false)) {
         if ((this->bounceTimer >= 9) && (this->bounceCounter == 0)) {
             this->bounceTimer = 8;
         }
@@ -1762,9 +1762,9 @@ void EnGo2_GoronHotRodder(EnGo2* this, PlayState* play) {
 }
 
 void EnGo2_RollingStart(EnGo2* this, PlayState* play) {
-    f32 float1 = 1000.0f;
+    f32 slowdownRadius = 1000.0f;
 
-    if ((ENGO2_GET_TYPE(this) != GORON_DMT_ROLLING_SMALL || !(this->actor.xyzDistToPlayerSq > SQ(float1))) &&
+    if ((ENGO2_GET_TYPE(this) != GORON_DMT_ROLLING_SMALL || !(this->actor.xyzDistToPlayerSq > SQ(slowdownRadius))) &&
         DECR(this->animTimer) == 0) {
         this->actionFunc = EnGo2_RollingSlow;
         this->actor.speed *= 0.5f; // slowdown
@@ -1775,8 +1775,8 @@ void EnGo2_RollingStart(EnGo2* this, PlayState* play) {
 void EnGo2_RollingSlow(EnGo2* this, PlayState* play) {
     s32 updatedWaypoint;
 
-    if (!EnGo2_IsRolling(this)) {
-        if (EnGo2_IsRollingOnGround(this, 4, 8.0f, 1) == true) {
+    if (!EnGo2_IsTalkingAndFast(this)) {
+        if (EnGo2_IsRollingOnGround(this, 4, 8.0f, true) == true) {
             if (EnGo2_IsGoronLinkReversing(this)) {
                 this->actionFunc = EnGo2_RollingReverse;
                 return;
@@ -1805,7 +1805,7 @@ void EnGo2_RollingSlow(EnGo2* this, PlayState* play) {
 }
 
 void EnGo2_GroundRolling(EnGo2* this, PlayState* play) {
-    if (EnGo2_IsRollingOnGround(this, 4, 8.0f, 0)) {
+    if (EnGo2_IsRollingOnGround(this, 4, 8.0f, false)) {
         EnGo2_SpawnDust(this, 0);
         if (this->bounceCounter == 0) {
             switch (ENGO2_GET_TYPE(this)) {
@@ -1824,7 +1824,7 @@ void EnGo2_GroundRolling(EnGo2* this, PlayState* play) {
 }
 
 void EnGo2_RollingReverse(EnGo2* this, PlayState* play) {
-    if (!EnGo2_IsRolling(this)) {
+    if (!EnGo2_IsTalkingAndFast(this)) {
         Math_ApproachF(&this->actor.speed, 0.0f, 0.6f, 0.8f);
         if (this->actor.speed >= 1.0f) {
             EnGo2_SpawnDust(this, 3);
