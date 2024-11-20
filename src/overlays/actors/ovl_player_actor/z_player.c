@@ -10526,7 +10526,7 @@ void Player_PutSwordInHand(PlayState* play, Player* this, s32 playSfx) {
     s32 swordItemAction = sItemActions[swordItemId];
 
     Player_DestroyHookshot(this);
-    Player_DetachHeldATakeOutctor(play, this);
+    Player_DetachHeldActor(play, this);
 
     this->heldItemId = swordItemId;
     this->nextModelGroup = Player_ActionToModelGroup(this, swordItemAction);
