@@ -208,7 +208,7 @@ void func_808521B8(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_808521F4(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_80852234(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue);
-void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue);
+void Player_Appear(PlayState* play, Player* this, CsCmdActorCue* cue);
 #if OOT_VERSION >= PAL_1_0
 void func_80852358(PlayState* play, Player* this, CsCmdActorCue* cue);
 #endif
@@ -303,18 +303,18 @@ void Player_Action_8084E368(Player* this, PlayState* play);
 void Player_Action_8084E3C4(Player* this, PlayState* play);
 void Player_Action_8084E604(Player* this, PlayState* play);
 void Player_Action_8084E6D4(Player* this, PlayState* play);
-void Player_Action_8084E9AC(Player* this, PlayState* play);
+void Player_Action_EndTimeTravel(Player* this, PlayState* play);
 void Player_Action_8084EAC0(Player* this, PlayState* play);
 void Player_Action_SwingBottle(Player* this, PlayState* play);
 void Player_Action_8084EED8(Player* this, PlayState* play);
 void Player_Action_8084EFC0(Player* this, PlayState* play);
 void Player_Action_ExchangeItem(Player* this, PlayState* play);
 void Player_Action_SlideOnSlope(Player* this, PlayState* play);
-void Player_Action_8084F608(Player* this, PlayState* play);
-void Player_Action_8084F698(Player* this, PlayState* play);
+void Player_Action_WaitForCutscene(Player* this, PlayState* play);
+void Player_Action_StartWarpSongArrive(Player* this, PlayState* play);
 void Player_Action_BlueWarpArrive(Player* this, PlayState* play);
 void Player_Action_8084F88C(Player* this, PlayState* play);
-void Player_Action_8084F9A0(Player* this, PlayState* play);
+void Player_Action_OpenDoor(Player* this, PlayState* play);
 void Player_Action_8084F9C0(Player* this, PlayState* play);
 void Player_Action_8084FA54(Player* this, PlayState* play);
 void Player_Action_8084FB10(Player* this, PlayState* play);
@@ -418,8 +418,8 @@ static PlayerAgeProperties sAgeProperties[] = {
         0,                                     // unk_92
         0x80,                                  // unk_94
         &gPlayerAnim_link_demo_Tbox_open,      // unk_98
-        &gPlayerAnim_link_demo_back_to_past,   // unk_9C
-        &gPlayerAnim_link_demo_return_to_past, // unk_A0
+        &gPlayerAnim_link_demo_back_to_past,   // timeTravelStartAnim
+        &gPlayerAnim_link_demo_return_to_past, // timeTravelEndAnim
         &gPlayerAnim_link_normal_climb_startA, // unk_A4
         &gPlayerAnim_link_normal_climb_startB, // unk_A8
         { &gPlayerAnim_link_normal_climb_upL, &gPlayerAnim_link_normal_climb_upR, &gPlayerAnim_link_normal_Fclimb_upL,
@@ -470,8 +470,8 @@ static PlayerAgeProperties sAgeProperties[] = {
         0x20,                                     // unk_92
         0,                                        // unk_94
         &gPlayerAnim_clink_demo_Tbox_open,        // unk_98
-        &gPlayerAnim_clink_demo_goto_future,      // unk_9C
-        &gPlayerAnim_clink_demo_return_to_future, // unk_A0
+        &gPlayerAnim_clink_demo_goto_future,      // timeTravelStartAnim
+        &gPlayerAnim_clink_demo_return_to_future, // timeTravelEndAnim
         &gPlayerAnim_clink_normal_climb_startA,   // unk_A4
         &gPlayerAnim_clink_normal_climb_startB,   // unk_A8
         { &gPlayerAnim_clink_normal_climb_upL, &gPlayerAnim_clink_normal_climb_upR, &gPlayerAnim_link_normal_Fclimb_upL,
@@ -5347,7 +5347,7 @@ s32 Player_ActionHandler_1(Player* this, PlayState* play) {
     if ((this->doorType != PLAYER_DOORTYPE_NONE) &&
         (!(this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) ||
          ((this->heldActor != NULL) && (this->heldActor->id == ACTOR_EN_RU1)))) {
-        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (Player_Action_8084F9A0 == this->actionFunc)) {
+        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (Player_Action_OpenDoor == this->actionFunc)) {
             doorActor = this->doorActor;
 
             if (this->doorType <= PLAYER_DOORTYPE_AJAR) {
@@ -5584,7 +5584,7 @@ void func_8083A0F4(PlayState* play, Player* this) {
 
         if (interactActorId == ACTOR_BG_TOKI_SWD) {
             this->interactRangeActor->parent = &this->actor;
-            Player_SetupAction(play, this, Player_Action_8084F608, 0);
+            Player_SetupAction(play, this, Player_Action_WaitForCutscene, 0);
             this->stateFlags1 |= PLAYER_STATE1_29;
         } else {
             LinkAnimationHeader* anim;
@@ -10545,14 +10545,16 @@ void Player_PutSwordInHand(PlayState* play, Player* this, s32 playSfx) {
 void Player_StartMode_TimeTravel(PlayState* play, Player* this) {
     static Vec3f sPedestalPos = { -1.0f, 69.0f, 20.0f };
 
-    Player_SetupAction(play, this, Player_Action_8084E9AC, 0);
+    Player_SetupAction(play, this, Player_Action_EndTimeTravel, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
 
     Math_Vec3f_Copy(&this->actor.world.pos, &sPedestalPos);
     this->yaw = this->actor.shape.rot.y = -0x8000;
 
-    LinkAnimation_Change(play, &this->skelAnime, this->ageProperties->unk_A0, 2.0f / 3.0f, 0.0f, 0.0f, ANIMMODE_ONCE,
-                         0.0f);
+    // The start frame and end frame are both set to 0 so that that the animation is frozen.
+    // `Player_Action_EndTimeTravel` will play the animation after `animDelayTimer` completes.
+    LinkAnimation_Change(play, &this->skelAnime, this->ageProperties->timeTravelEndAnim, 2.0f / 3.0f, 0.0f, 0.0f,
+                         ANIMMODE_ONCE, 0.0f);
     Player_StartAnimMovement(play, this,
                              PLAYER_ANIM_MOVEMENT_RESET_BY_AGE | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
                                  ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_ENABLE_MOVEMENT |
@@ -10562,11 +10564,11 @@ void Player_StartMode_TimeTravel(PlayState* play, Player* this) {
         Player_PutSwordInHand(play, this, false);
     }
 
-    this->av2.actionVar2 = 20;
+    this->av2.animDelayTimer = 20;
 }
 
 void Player_StartMode_Door(PlayState* play, Player* this) {
-    Player_SetupAction(play, this, Player_Action_8084F9A0, 0);
+    Player_SetupAction(play, this, Player_Action_OpenDoor, 0);
     Player_StartAnimMovement(play, this,
                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_ENABLE_MOVEMENT |
                                  ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
@@ -10585,7 +10587,7 @@ void Player_StartMode_KnockedOver(PlayState* play, Player* this) {
 }
 
 void Player_StartMode_WarpSong(PlayState* play, Player* this) {
-    Player_SetupAction(play, this, Player_Action_8084F698, 0);
+    Player_SetupAction(play, this, Player_Action_StartWarpSongArrive, 0);
     this->actor.draw = NULL; // Start invisible
     this->stateFlags1 |= PLAYER_STATE1_29;
 }
@@ -13897,26 +13899,29 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
     }
 }
 
-static AnimSfxEntry D_808549F0[] = {
-    { NA_SE_IT_MASTER_SWORD_SWING, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 60) },
-};
-
 void func_8084E988(Player* this) {
+    static AnimSfxEntry D_808549F0[] = {
+        { NA_SE_IT_MASTER_SWORD_SWING, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 60) },
+    };
+
     Player_ProcessAnimSfxList(this, D_808549F0);
 }
 
+void Player_Action_EndTimeTravel(Player* this, PlayState* play) {
 #if OOT_VERSION >= PAL_1_0
-static AnimSfxEntry D_808549F4[] = {
-    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 5) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 15) },
-};
+    static AnimSfxEntry sJumpOffPedestalAnimSfxList[] = {
+        { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 5) },
+        { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 15) },
+    };
 #endif
 
-void Player_Action_8084E9AC(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        if (this->av1.actionVar1 == 0) {
-            if (DECR(this->av2.actionVar2) == 0) {
-                this->av1.actionVar1 = 1;
+        if (!this->av1.startedAnim) {
+            if (DECR(this->av2.animDelayTimer) == 0) {
+                this->av1.startedAnim = true;
+
+                // endFrame was previously set to 0 to freeze the animation.
+                // Set it properly to allow the animation to play.
                 this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
         } else {
@@ -13930,13 +13935,15 @@ void Player_Action_8084E9AC(Player* this, PlayState* play) {
 
 #if OOT_VERSION < PAL_1_0
         if (!LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 5.0f)) {
+            // There is a jump sound when leaving the pedestal, but no landing sound when hitting the floor.
+            // This is fixed in PAL 1.0 and above.
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_AUTO_JUMP);
         } else if (LINK_IS_ADULT) {
             func_8084E988(this);
         }
 #else
         if (!LINK_IS_ADULT) {
-            Player_ProcessAnimSfxList(this, D_808549F4);
+            Player_ProcessAnimSfxList(this, sJumpOffPedestalAnimSfxList);
         } else {
             func_8084E988(this);
         }
@@ -14273,17 +14280,27 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_8084F608(Player* this, PlayState* play) {
-    if ((DECR(this->av2.actionVar2) == 0) && Player_StartCsAction(play, this)) {
-        func_80852280(play, this, NULL);
+/**
+ * Waits to start processing a Cutscene Action.
+ * First, the timer `csDelayTimer` much reach 0.
+ * Then, there must be a CS action available to start processing.
+ *
+ * When starting the cutscene action, `draw` will be set to make
+ * Player appear, if he was invisible.
+ */
+void Player_Action_WaitForCutscene(Player* this, PlayState* play) {
+    if ((DECR(this->av2.csDelayTimer) == 0) && Player_StartCsAction(play, this)) {
+        Player_Appear(play, this, NULL);
         Player_SetupAction(play, this, Player_Action_CsAction, 0);
         Player_Action_CsAction(this, play);
     }
 }
 
-void Player_Action_8084F698(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_8084F608, 0);
-    this->av2.actionVar2 = 40;
+void Player_Action_StartWarpSongArrive(Player* this, PlayState* play) {
+    Player_SetupAction(play, this, Player_Action_WaitForCutscene, 0);
+    this->av2.csDelayTimer = 40;
+
+    // Note: The warp song sparkles actor is responsible for starting the warp-in cutscene script
     Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_KANKYO, 0.0f, 0.0f, 0.0f, 0, 0, 0, DEMOKANKYO_WARP_IN);
 }
 
@@ -14354,7 +14371,11 @@ void Player_Action_8084F88C(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_8084F9A0(Player* this, PlayState* play) {
+/**
+ * Automatically open a door (no need for the A button).
+ * Note: If no door is in useable range, a softlock will occur.
+ */
+void Player_Action_OpenDoor(Player* this, PlayState* play) {
     Player_ActionHandler_1(this, play);
 }
 
@@ -14989,7 +15010,7 @@ static struct_80854B18 D_80854B18[PLAYER_CSACTION_MAX] = {
     { 5, &gPlayerAnim_clink_demo_miokuri },              // PLAYER_CSACTION_43
     { -1, func_808521F4 },                               // PLAYER_CSACTION_44
     { -1, func_8085225C },                               // PLAYER_CSACTION_45
-    { -1, func_80852280 },                               // PLAYER_CSACTION_46
+    { -1, Player_Appear },                               // PLAYER_CSACTION_46
     { 5, &gPlayerAnim_clink_demo_nozoki },               // PLAYER_CSACTION_47
     { 5, &gPlayerAnim_clink_demo_koutai },               // PLAYER_CSACTION_48
     { -1, func_808515A4 },                               // PLAYER_CSACTION_49
@@ -15455,12 +15476,12 @@ static LinkAnimationHeader* D_80855190[] = {
     &gPlayerAnim_clink_demo_goto_future,
 };
 
-static Vec3f D_80855198 = { -1.0f, 70.0f, 20.0f };
-
 void func_808519EC(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Math_Vec3f_Copy(&this->actor.world.pos, &D_80855198);
+    static Vec3f sPedestalPos = { -1.0f, 70.0f, 20.0f };
+
+    Math_Vec3f_Copy(&this->actor.world.pos, &sPedestalPos);
     this->actor.shape.rot.y = -0x8000;
-    Player_AnimPlayOnceAdjusted(play, this, this->ageProperties->unk_9C);
+    Player_AnimPlayOnceAdjusted(play, this, this->ageProperties->timeTravelStartAnim);
     Player_StartAnimMovement(play, this,
                              PLAYER_ANIM_MOVEMENT_RESET_BY_AGE | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
                                  ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_ENABLE_MOVEMENT |
@@ -15707,7 +15728,7 @@ void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue) {
                              ANIM_FLAG_ENABLE_MOVEMENT | ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
-void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue) {
+void Player_Appear(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->actor.draw = Player_Draw;
 }
 
