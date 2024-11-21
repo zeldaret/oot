@@ -13908,13 +13908,6 @@ void func_8084E988(Player* this) {
 }
 
 void Player_Action_TimeTravelEnd(Player* this, PlayState* play) {
-#if OOT_VERSION >= PAL_1_0
-    static AnimSfxEntry sJumpOffPedestalAnimSfxList[] = {
-        { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 5) },
-        { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 15) },
-    };
-#endif
-
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (!this->av1.startedAnim) {
             if (DECR(this->av2.animDelayTimer) == 0) {
@@ -13943,6 +13936,11 @@ void Player_Action_TimeTravelEnd(Player* this, PlayState* play) {
         }
 #else
         if (!LINK_IS_ADULT) {
+            static AnimSfxEntry sJumpOffPedestalAnimSfxList[] = {
+                { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 5) },
+                { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 15) },
+            };
+
             Player_ProcessAnimSfxList(this, sJumpOffPedestalAnimSfxList);
         } else {
             func_8084E988(this);
