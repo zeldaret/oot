@@ -303,7 +303,7 @@ void Player_Action_8084E368(Player* this, PlayState* play);
 void Player_Action_8084E3C4(Player* this, PlayState* play);
 void Player_Action_8084E604(Player* this, PlayState* play);
 void Player_Action_8084E6D4(Player* this, PlayState* play);
-void Player_Action_EndTimeTravel(Player* this, PlayState* play);
+void Player_Action_TimeTravelEnd(Player* this, PlayState* play);
 void Player_Action_8084EAC0(Player* this, PlayState* play);
 void Player_Action_SwingBottle(Player* this, PlayState* play);
 void Player_Action_8084EED8(Player* this, PlayState* play);
@@ -315,14 +315,14 @@ void Player_Action_StartWarpSongArrive(Player* this, PlayState* play);
 void Player_Action_BlueWarpArrive(Player* this, PlayState* play);
 void Player_Action_8084F88C(Player* this, PlayState* play);
 void Player_Action_OpenDoor(Player* this, PlayState* play);
-void Player_Action_8084F9C0(Player* this, PlayState* play);
+void Player_Action_ExitGrotto(Player* this, PlayState* play);
 void Player_Action_8084FA54(Player* this, PlayState* play);
 void Player_Action_8084FB10(Player* this, PlayState* play);
 void Player_Action_8084FBF4(Player* this, PlayState* play);
 void Player_Action_808502D0(Player* this, PlayState* play);
 void Player_Action_808505DC(Player* this, PlayState* play);
 void Player_Action_8085063C(Player* this, PlayState* play);
-void Player_Action_8085076C(Player* this, PlayState* play);
+void Player_Action_FaroresWindArrive(Player* this, PlayState* play);
 void Player_Action_808507F4(Player* this, PlayState* play);
 void Player_Action_80850AEC(Player* this, PlayState* play);
 void Player_Action_80850C68(Player* this, PlayState* play);
@@ -10545,14 +10545,14 @@ void Player_PutSwordInHand(PlayState* play, Player* this, s32 playSfx) {
 void Player_StartMode_TimeTravel(PlayState* play, Player* this) {
     static Vec3f sPedestalPos = { -1.0f, 69.0f, 20.0f };
 
-    Player_SetupAction(play, this, Player_Action_EndTimeTravel, 0);
+    Player_SetupAction(play, this, Player_Action_TimeTravelEnd, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
 
     Math_Vec3f_Copy(&this->actor.world.pos, &sPedestalPos);
     this->yaw = this->actor.shape.rot.y = -0x8000;
 
     // The start frame and end frame are both set to 0 so that that the animation is frozen.
-    // `Player_Action_EndTimeTravel` will play the animation after `animDelayTimer` completes.
+    // `Player_Action_TimeTravelEnd` will play the animation after `animDelayTimer` completes.
     LinkAnimation_Change(play, &this->skelAnime, this->ageProperties->timeTravelEndAnim, 2.0f / 3.0f, 0.0f, 0.0f,
                          ANIMMODE_ONCE, 0.0f);
     Player_StartAnimMovement(play, this,
@@ -10576,7 +10576,7 @@ void Player_StartMode_Door(PlayState* play, Player* this) {
 
 void Player_StartMode_Grotto(PlayState* play, Player* this) {
     func_808389E8(this, &gPlayerAnim_link_normal_jump, 12.0f, play);
-    Player_SetupAction(play, this, Player_Action_8084F9C0, 0);
+    Player_SetupAction(play, this, Player_Action_ExitGrotto, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
     this->fallStartHeight = this->actor.world.pos.y;
     OnePointCutscene_Init(play, 5110, 40, &this->actor, CAM_ID_MAIN);
@@ -10600,8 +10600,8 @@ Actor* Player_SpawnMagicSpell(PlayState* play, Player* this, s32 spell) {
 }
 
 void Player_StartMode_FaroresWind(PlayState* play, Player* this) {
-    this->actor.draw = NULL;
-    Player_SetupAction(play, this, Player_Action_8085076C, 0);
+    this->actor.draw = NULL; // Start invisible
+    Player_SetupAction(play, this, Player_Action_FaroresWindArrive, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
 }
 
@@ -13907,7 +13907,7 @@ void func_8084E988(Player* this) {
     Player_ProcessAnimSfxList(this, D_808549F0);
 }
 
-void Player_Action_EndTimeTravel(Player* this, PlayState* play) {
+void Player_Action_TimeTravelEnd(Player* this, PlayState* play) {
 #if OOT_VERSION >= PAL_1_0
     static AnimSfxEntry sJumpOffPedestalAnimSfxList[] = {
         { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 5) },
@@ -14379,7 +14379,7 @@ void Player_Action_OpenDoor(Player* this, PlayState* play) {
     Player_ActionHandler_1(this, play);
 }
 
-void Player_Action_8084F9C0(Player* this, PlayState* play) {
+void Player_Action_ExitGrotto(Player* this, PlayState* play) {
     this->actor.gravity = -1.0f;
 
     LinkAnimation_Update(play, &this->skelAnime);
@@ -14735,17 +14735,17 @@ void Player_Action_8085063C(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_8085076C(Player* this, PlayState* play) {
+void Player_Action_FaroresWindArrive(Player* this, PlayState* play) {
     s32 respawnData = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
-    if (this->av2.actionVar2 > 20) {
+    if (this->av2.appearTimer > 20) {
         this->actor.draw = Player_Draw;
         this->actor.world.pos.y += 60.0f;
         func_80837B9C(this, play);
         return;
     }
 
-    if (this->av2.actionVar2++ == 20) {
+    if (this->av2.appearTimer++ == 20) {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = respawnData + 1;
         Sfx_PlaySfxAtPos(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos, NA_SE_PL_MAGIC_WIND_WARP);
     }
