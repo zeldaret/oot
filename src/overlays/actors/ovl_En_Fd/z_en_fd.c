@@ -228,8 +228,8 @@ s32 EnFd_SpawnCore(EnFd* this, PlayState* play) {
         this->actor.child->colChkInfo.health = 8;
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
-        func_8002DE04(play, &this->actor, this->actor.child);
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
+        Actor_SwapHookshotAttachment(play, &this->actor, this->actor.child);
     }
 
     this->coreActive = true;
@@ -668,15 +668,14 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
         EnFd_SpawnDot(this, play);
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
-        // has been hookshoted
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         if (EnFd_SpawnCore(this, play)) {
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->invincibilityTimer = 30;
             Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_DAMAGE);
             Enemy_StartFinishingBlow(play, &this->actor);
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_13;
+            this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_ATTACHED;
         }
     } else if (this->actionFunc != EnFd_WaitForCore) {
         EnFd_ColliderCheck(this, play);
