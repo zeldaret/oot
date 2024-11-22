@@ -140,11 +140,11 @@ typedef struct ActorShape {
 // Actor will retain this flag until `Actor_TalkOfferAccepted` is called or manually turned off by the actor
 #define ACTOR_FLAG_TALK (1 << 8)
 
-//
-#define ACTOR_FLAG_9 (1 << 9)
+// When the hookshot attaches to this actor, the actor will be pulled back to the player as the hookshot retracts.
+#define ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR (1 << 9)
 
-//
-#define ACTOR_FLAG_10 (1 << 10)
+// When the hookshot attaches to this actor, Player will be pulled to the actor.
+#define ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER (1 << 10)
 
 // A clump of grass (EN_KUSA) has been destroyed.
 // This flag is used to communicate with the spawner actor (OBJ_MURE).
@@ -154,7 +154,7 @@ typedef struct ActorShape {
 #define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)
 
 // The hookshot is currently attached to this actor.
-// The behavior that occurs after attachment is determined by `ACTOR_FLAG_9` and `ACTOR_FLAG_10`.
+// The behavior that occurs after attachment is determined by `ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR` and `ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER`.
 // If neither of those flags are set attachment cannot occur, and the hookshot will simply act as a damage source.
 //
 // This flag is also reused to indicate that an actor is attached to the boomerang.

@@ -7,7 +7,7 @@
 #include "z_bg_spot06_objects.h"
 #include "assets/objects/object_spot06_objects/object_spot06_objects.h"
 
-#define FLAGS ACTOR_FLAG_9
+#define FLAGS ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR
 
 typedef enum LakeHyliaObjectsType {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,

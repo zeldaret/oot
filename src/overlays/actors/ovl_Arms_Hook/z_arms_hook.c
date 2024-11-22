@@ -94,7 +94,12 @@ void ArmsHook_Wait(ArmsHook* this, PlayState* play) {
     }
 }
 
-void func_80865044(ArmsHook* this) {
+/**
+ * Start pulling Player so he flies toward the hookshot's current location.
+ * Setting Player's parent pointer indicates that he should begin flying.
+ * See `Player_UpdateUpperBody` and `Player_Action_HookshotFly` for Player's side of the interation.
+ */
+void ArmsHook_PullPlayer(ArmsHook* this) {
     this->actor.child = this->actor.parent;
     this->actor.parent->parent = &this->actor;
 }
@@ -154,12 +159,13 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         (this->collider.elem.atHitElem->elemMaterial != ELEM_MATERIAL_UNK4)) {
         Actor* touchedActor = this->collider.base.at;
 
-        if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
+        if ((touchedActor->update != NULL) &&
+            (touchedActor->flags & (ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER))) {
             if (this->collider.elem.atHitElem->acElemFlags & ACELEM_HOOKABLE) {
                 ArmsHook_AttachToActor(this, touchedActor);
 
-                if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_10)) {
-                    func_80865044(this);
+                if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)) {
+                    ArmsHook_PullPlayer(this);
                 }
             }
         }
@@ -230,6 +236,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         newPos.z = bodyDistDiffVec.z * velocity;
 
         if (this->actor.child == NULL) {
+            // Not pulling Player
             if ((attachedActor != NULL) && (attachedActor->id == ACTOR_BG_SPOT06_OBJECTS)) {
                 Math_Vec3f_Diff(&attachedActor->world.pos, &this->attachPointOffset, &this->actor.world.pos);
                 phi_f16 = 1.0f;
@@ -240,6 +247,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
                 }
             }
         } else {
+            // Pulling Player
             Math_Vec3f_Diff(&bodyDistDiffVec, &newPos, &player->actor.velocity);
             player->actor.world.rot.x =
                 Math_Atan2S(sqrtf(SQ(bodyDistDiffVec.x) + SQ(bodyDistDiffVec.z)), -bodyDistDiffVec.y);
@@ -290,7 +298,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
                         ArmsHook_AttachToActor(this, &dynaPolyActor->actor);
                     }
                 }
-                func_80865044(this);
+                ArmsHook_PullPlayer(this);
                 Audio_PlaySfxGeneral(NA_SE_IT_HOOKSHOT_STICK_OBJ, &this->actor.projectedPos, 4,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
