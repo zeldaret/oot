@@ -140,10 +140,10 @@ typedef struct ActorShape {
 // Actor will retain this flag until `Actor_TalkOfferAccepted` is called or manually turned off by the actor
 #define ACTOR_FLAG_TALK (1 << 8)
 
-// When the hookshot attaches to this actor, the actor will be pulled back to the player as the hookshot retracts.
+// When the hookshot attaches to this actor, the actor will be pulled back as the hookshot retracts.
 #define ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR (1 << 9)
 
-// When the hookshot attaches to this actor, Player will be pulled to the actor.
+// When the hookshot attaches to this actor, Player will be pulled by the hookshot and fly to the actor.
 #define ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER (1 << 10)
 
 // A clump of grass (EN_KUSA) has been destroyed.
