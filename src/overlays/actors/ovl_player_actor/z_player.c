@@ -314,7 +314,7 @@ void Player_Action_WaitForCutscene(Player* this, PlayState* play);
 void Player_Action_StartWarpSongArrive(Player* this, PlayState* play);
 void Player_Action_BlueWarpArrive(Player* this, PlayState* play);
 void Player_Action_8084F88C(Player* this, PlayState* play);
-void Player_Action_OpenDoor(Player* this, PlayState* play);
+void Player_Action_TryOpeningDoor(Player* this, PlayState* play);
 void Player_Action_ExitGrotto(Player* this, PlayState* play);
 void Player_Action_8084FA54(Player* this, PlayState* play);
 void Player_Action_8084FB10(Player* this, PlayState* play);
@@ -5347,7 +5347,7 @@ s32 Player_ActionHandler_1(Player* this, PlayState* play) {
     if ((this->doorType != PLAYER_DOORTYPE_NONE) &&
         (!(this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) ||
          ((this->heldActor != NULL) && (this->heldActor->id == ACTOR_EN_RU1)))) {
-        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (Player_Action_OpenDoor == this->actionFunc)) {
+        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (Player_Action_TryOpeningDoor == this->actionFunc)) {
             doorActor = this->doorActor;
 
             if (this->doorType <= PLAYER_DOORTYPE_AJAR) {
@@ -10568,7 +10568,7 @@ void Player_StartMode_TimeTravel(PlayState* play, Player* this) {
 }
 
 void Player_StartMode_Door(PlayState* play, Player* this) {
-    Player_SetupAction(play, this, Player_Action_OpenDoor, 0);
+    Player_SetupAction(play, this, Player_Action_TryOpeningDoor, 0);
     Player_StartAnimMovement(play, this,
                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_ENABLE_MOVEMENT |
                                  ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
@@ -14373,7 +14373,7 @@ void Player_Action_8084F88C(Player* this, PlayState* play) {
  * Automatically open a door (no need for the A button).
  * Note: If no door is in useable range, a softlock will occur.
  */
-void Player_Action_OpenDoor(Player* this, PlayState* play) {
+void Player_Action_TryOpeningDoor(Player* this, PlayState* play) {
     Player_ActionHandler_1(this, play);
 }
 
