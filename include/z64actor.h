@@ -158,7 +158,7 @@ typedef struct ActorShape {
 // If neither of those flags are set attachment cannot occur, and the hookshot will simply act as a damage source.
 //
 // This flag is also reused to indicate that an actor is attached to the boomerang.
-// This only has an effect for Gold Skulltula Tokens (EN_SI) which has overlapping behavior for hookshot and boomerang
+// This only has an effect for Gold Skulltula Tokens (EN_SI) which has overlapping behavior for hookshot and boomerang.
 #define ACTOR_FLAG_HOOKSHOT_ATTACHED (1 << 13)
 
 // When hit by an arrow, the actor will be able to attach to the arrow and fly with it in the air
