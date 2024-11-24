@@ -10747,8 +10747,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     }
 
     if (func_80845C68(play, (respawnFlag == 2) ? 1 : 0) == 0) {
-        gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams =
-            PLAYER_PARAMS(PLAYER_START_MODE_IDLE, PLAYER_GET_START_BG_CAM_INDEX(thisx));
+        gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams = PLAYER_PARAMS(PLAYER_START_MODE_IDLE, thisx->params);
     }
 
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 1;
