@@ -2232,7 +2232,7 @@ void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
     } else {
         MO_WATER_LEVEL(play) = sMorphaTent2->waterLevelMod + ((s16)this->waterLevel + sMorphaTent1->waterLevelMod);
     }
-    this->actor.flags |= ACTOR_FLAG_9;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR;
     this->actor.focus.pos = this->actor.world.pos;
     this->work[MO_TENT_VAR_TIMER]++;
 

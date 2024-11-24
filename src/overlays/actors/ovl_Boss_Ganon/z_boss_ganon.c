@@ -2580,7 +2580,7 @@ void BossGanon_Vulnerable(BossGanon* this, PlayState* play) {
                 this->fwork[GDF_FWORK_1] = Animation_GetLastFrame(&gGanondorfLandAnim);
                 Animation_MorphToPlayOnce(&this->skelAnime, &gGanondorfLandAnim, 0.0f);
                 this->timers[0] = 70;
-                this->actor.flags |= ACTOR_FLAG_10;
+                this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
             }
             break;
 
@@ -2613,7 +2613,7 @@ void BossGanon_Vulnerable(BossGanon* this, PlayState* play) {
 
                 this->unk_2E6 = 80;
                 this->unk_2E8 = 0;
-                this->actor.flags &= ~ACTOR_FLAG_10;
+                this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
             }
             break;
 

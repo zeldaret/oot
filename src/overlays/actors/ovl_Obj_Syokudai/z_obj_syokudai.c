@@ -9,7 +9,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_syokudai/object_syokudai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 void ObjSyokudai_Init(Actor* thisx, PlayState* play);
 void ObjSyokudai_Destroy(Actor* thisx, PlayState* play);

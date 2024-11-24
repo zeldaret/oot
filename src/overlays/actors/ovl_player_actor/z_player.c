@@ -324,7 +324,7 @@ void Player_Action_808505DC(Player* this, PlayState* play);
 void Player_Action_8085063C(Player* this, PlayState* play);
 void Player_Action_8085076C(Player* this, PlayState* play);
 void Player_Action_808507F4(Player* this, PlayState* play);
-void Player_Action_80850AEC(Player* this, PlayState* play);
+void Player_Action_HookshotFly(Player* this, PlayState* play);
 void Player_Action_80850C68(Player* this, PlayState* play);
 void Player_Action_80850E84(Player* this, PlayState* play);
 void Player_Action_CsAction(Player* this, PlayState* play);
@@ -3659,7 +3659,7 @@ int Player_CanUpdateItems(Player* this) {
  */
 s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & PLAYER_STATE1_23) && (this->actor.parent != NULL) && Player_HoldsHookshot(this)) {
-        Player_SetupAction(play, this, Player_Action_80850AEC, 1);
+        Player_SetupAction(play, this, Player_Action_HookshotFly, 1);
         this->stateFlags3 |= PLAYER_STATE3_FLYING_WITH_HOOKSHOT;
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_hook_fly_start);
         Player_StartAnimMovement(play, this,
@@ -14832,7 +14832,7 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
     Player_DecelerateToZero(this);
 }
 
-void Player_Action_80850AEC(Player* this, PlayState* play) {
+void Player_Action_HookshotFly(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_5;
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
