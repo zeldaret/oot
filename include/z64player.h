@@ -12,7 +12,9 @@ struct Player;
 // Determines behavior when spawning. See `PlayerStartMode`.
 #define PLAYER_GET_START_MODE(thisx) PARAMS_GET_S((thisx)->params, 8, 4)
 
-// Sets inital `bgCamIndex` which determines camera setting used from scene data.
+// Sets initial `bgCamIndex`, which determines camera behavior.
+// The value is used to index a list of `BgCamInfo` contained within the scene's collision data.
+// A value of -1 indicates that default behavior should be used. This means the `bgCamIndex` will be read from the current floor polygon.
 #define PLAYER_GET_START_BG_CAM_INDEX(thisx) PARAMS_GET_S((thisx)->params, 0, 8)
 
 typedef enum PlayerStartMode {
