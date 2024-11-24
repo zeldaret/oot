@@ -485,7 +485,7 @@ void Play_Init(GameState* thisx) {
 
     playerStartBgCamIndex = PLAYER_GET_START_BG_CAM_INDEX(&player->actor);
 
-    if (playerStartBgCamIndex != -1) {
+    if (playerStartBgCamIndex != 0xFF) {
         PRINTF("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);
     }
