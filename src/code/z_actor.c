@@ -2186,7 +2186,7 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
 
             if (D_8015BC18 == 0.0f) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];
-                gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = 0x06FF;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = PLAYER_PARAMS(PLAYER_START_MODE_FARORES_WIND, -1);
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 40;
             }
 

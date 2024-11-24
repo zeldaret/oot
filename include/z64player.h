@@ -7,7 +7,13 @@
 
 struct Player;
 
-#define PLAYER_GET_START_MODE(thisx) PARAMS_GET_S(thisx->params, 8, 4)
+#define PLAYER_PARAMS(startMode, startBgCamIndex) (PARAMS_PACK(startMode, 8, 4) | PARAMS_PACK(startBgCamIndex, 0, 8))
+
+// Determines behavior when spawning. See `PlayerStartMode`.
+#define PLAYER_GET_START_MODE(thisx) PARAMS_GET_S((thisx)->params, 8, 4)
+
+// Sets inital `bgCamIndex` which determines camera setting used from scene data.
+#define PLAYER_GET_START_BG_CAM_INDEX(thisx) PARAMS_GET_S((thisx)->params, 0, 8)
 
 typedef enum PlayerStartMode {
     /*  0 */ PLAYER_START_MODE_NOTHING, // Update is empty and draw function is NULL, nothing occurs. Useful in cutscenes, for example.
