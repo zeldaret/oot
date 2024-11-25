@@ -485,7 +485,7 @@ void Play_Init(GameState* thisx) {
 
     playerStartBgCamIndex = PLAYER_GET_START_BG_CAM_INDEX(&player->actor);
 
-    if (playerStartBgCamIndex != 0xFF) {
+    if (playerStartBgCamIndex != PLAYER_START_BG_CAM_DEFAULT) {
         PRINTF("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);
     }
@@ -1901,7 +1901,7 @@ void Play_LoadToLastEntrance(PlayState* this) {
 }
 
 void Play_TriggerRespawn(PlayState* this) {
-    Play_SetupRespawnPoint(this, RESPAWN_MODE_DOWN, PLAYER_PARAMS(PLAYER_START_MODE_IDLE, -1));
+    Play_SetupRespawnPoint(this, RESPAWN_MODE_DOWN, PLAYER_PARAMS(PLAYER_START_MODE_IDLE, PLAYER_START_BG_CAM_DEFAULT));
     Play_LoadToLastEntrance(this);
 }
 

@@ -14,8 +14,12 @@ struct Player;
 
 // Sets initial `bgCamIndex`, which determines camera behavior.
 // The value is used to index a list of `BgCamInfo` contained within the scene's collision data.
-// A value of -1 indicates that default behavior should be used. This means the `bgCamIndex` will be read from the current floor polygon.
-#define PLAYER_GET_START_BG_CAM_INDEX(thisx) PARAMS_GET_S((thisx)->params, 0, 8)
+// See `PLAYER_START_BG_CAM_DEFAULT` for what a value of -1 does.
+#define PLAYER_GET_START_BG_CAM_INDEX(thisx) PARAMS_GET_U((thisx)->params, 0, 8)
+
+// A value of -1 for `startBgCamIndex` indicates that default behavior should be used.
+// This means the `bgCamIndex` will be read from the current floor polygon.
+#define PLAYER_START_BG_CAM_DEFAULT (u8)-1
 
 typedef enum PlayerStartMode {
     /*  0 */ PLAYER_START_MODE_NOTHING, // Update is empty and draw function is NULL, nothing occurs. Useful in cutscenes, for example.
