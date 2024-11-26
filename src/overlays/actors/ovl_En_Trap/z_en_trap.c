@@ -7,7 +7,7 @@
 #include "z_en_trap.h"
 #include "assets/objects/object_trap/object_trap.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 #define BEGIN_MOVE_OUT 65535.0f
 

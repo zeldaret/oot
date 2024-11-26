@@ -7,7 +7,7 @@
 #include "z_bg_haka_ship.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void BgHakaShip_Init(Actor* thisx, PlayState* play);
 void BgHakaShip_Destroy(Actor* thisx, PlayState* play);

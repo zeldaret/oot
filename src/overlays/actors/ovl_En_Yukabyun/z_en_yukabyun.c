@@ -7,7 +7,7 @@
 #include "z_en_yukabyun.h"
 #include "assets/objects/object_yukabyun/object_yukabyun.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void EnYukabyun_Init(Actor* thisx, PlayState* play);
 void EnYukabyun_Destroy(Actor* thisx, PlayState* play);

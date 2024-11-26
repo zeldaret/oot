@@ -7,7 +7,7 @@
 #include "z_bg_hidan_curtain.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void BgHidanCurtain_Init(Actor* thisx, PlayState* play);
 void BgHidanCurtain_Destroy(Actor* thisx, PlayState* play);

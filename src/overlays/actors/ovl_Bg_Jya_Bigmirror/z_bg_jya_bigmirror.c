@@ -7,7 +7,7 @@
 #include "z_bg_jya_bigmirror.h"
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void BgJyaBigmirror_Init(Actor* thisx, PlayState* play);
 void BgJyaBigmirror_Destroy(Actor* thisx, PlayState* play);

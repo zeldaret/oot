@@ -9,7 +9,7 @@
 #include "assets/objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void EnAttackNiw_Init(Actor* thisx, PlayState* play);
 void EnAttackNiw_Destroy(Actor* thisx, PlayState* play);

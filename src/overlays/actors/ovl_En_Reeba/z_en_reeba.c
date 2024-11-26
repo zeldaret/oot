@@ -10,7 +10,7 @@
 #include "terminal.h"
 #include "assets/objects/object_reeba/object_reeba.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_LOCK_ON_DISABLED)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnReeba_Init(Actor* thisx, PlayState* play);
 void EnReeba_Destroy(Actor* thisx, PlayState* play);

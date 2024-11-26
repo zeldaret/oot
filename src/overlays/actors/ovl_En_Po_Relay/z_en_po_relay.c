@@ -9,7 +9,7 @@
 #include "assets/objects/object_tk/object_tk.h"
 
 #define FLAGS                                                                                      \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE | \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_IGNORE_QUAKE | \
      ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED)
 
 void EnPoRelay_Init(Actor* thisx, PlayState* play);

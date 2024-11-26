@@ -10,7 +10,7 @@
 #include "assets/objects/object_ganon_anime2/object_ganon_anime2.h"
 #include "assets/scenes/dungeons/ganon_boss/ganon_boss_scene.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void BossGanon_Init(Actor* thisx, PlayState* play2);
 void BossGanon_Destroy(Actor* thisx, PlayState* play);

@@ -7,7 +7,7 @@
 #include "z_bg_ydan_hasi.h"
 #include "assets/objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void BgYdanHasi_Init(Actor* thisx, PlayState* play);
 void BgYdanHasi_Destroy(Actor* thisx, PlayState* play);

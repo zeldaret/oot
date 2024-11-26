@@ -9,7 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "quake.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void ObjLift_Init(Actor* thisx, PlayState* play);
 void ObjLift_Destroy(Actor* thisx, PlayState* play);
@@ -50,8 +50,8 @@ static ObjLiftFramgentScale sFragmentScales[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -600, ICHAIN_CONTINUE),   ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDepth, 2000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_STOP),
 };
 
 static f32 sScales[] = { 0.1f, 0.05f };

@@ -6,7 +6,7 @@
 
 #include "z_en_arow_trap.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void EnArowTrap_Init(Actor* thisx, PlayState* play);
 void EnArowTrap_Destroy(Actor* thisx, PlayState* play);

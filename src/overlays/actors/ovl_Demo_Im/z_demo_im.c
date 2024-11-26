@@ -11,7 +11,7 @@
 #include "assets/objects/object_im/object_im.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_DISABLE_UPDATE_CULLING)
 
 void DemoIm_Init(Actor* thisx, PlayState* play);
 void DemoIm_Destroy(Actor* thisx, PlayState* play);
@@ -841,7 +841,7 @@ s32 func_809869F8(DemoIm* this, PlayState* play) {
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
-    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_6)) {
+    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
         return true;
     } else {
         return false;

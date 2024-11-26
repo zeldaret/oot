@@ -11,7 +11,7 @@
 #include "assets/objects/object_efc_tw/object_efc_tw.h"
 #include "assets/objects/object_gi_jewel/object_gi_jewel.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void DemoEffect_Init(Actor* thisx, PlayState* play2);
 void DemoEffect_Destroy(Actor* thisx, PlayState* play);

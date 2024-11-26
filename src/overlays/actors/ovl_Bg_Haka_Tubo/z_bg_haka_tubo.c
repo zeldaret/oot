@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void BgHakaTubo_Init(Actor* thisx, PlayState* play);
 void BgHakaTubo_Destroy(Actor* thisx, PlayState* play);

@@ -7,7 +7,7 @@
 #include "z_bg_mori_idomizu.h"
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void BgMoriIdomizu_Init(Actor* thisx, PlayState* play);
 void BgMoriIdomizu_Destroy(Actor* thisx, PlayState* play);

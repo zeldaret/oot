@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 typedef struct EnfHGPainting {
     /* 0x00 */ Vec3f pos;
@@ -65,7 +65,7 @@ static EnfHGPainting sPaintings[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_PHANTOM_GANON_PHASE_2, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 1200, ICHAIN_STOP),
 };
 
 void EnfHG_Init(Actor* thisx, PlayState* play2) {

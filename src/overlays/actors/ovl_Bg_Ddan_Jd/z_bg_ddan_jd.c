@@ -7,7 +7,7 @@
 #include "z_bg_ddan_jd.h"
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void BgDdanJd_Init(Actor* thisx, PlayState* play);
 void BgDdanJd_Destroy(Actor* thisx, PlayState* play);

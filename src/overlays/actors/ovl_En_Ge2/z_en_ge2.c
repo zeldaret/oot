@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_gla/object_gla.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING)
 
 #define GE2_STATE_ANIMCOMPLETE (1 << 1)
 #define GE2_STATE_KO (1 << 2)
@@ -124,9 +124,9 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
 
     if (play->sceneId == SCENE_GERUDO_VALLEY) {
-        this->actor.uncullZoneForward = 1000.0f;
+        this->actor.cullingVolumeDepth = 1000.0f;
     } else {
-        this->actor.uncullZoneForward = 1200.0f;
+        this->actor.cullingVolumeDepth = 1200.0f;
     }
 
     this->yDetectRange = (this->actor.world.rot.z + 1) * 40.0f;

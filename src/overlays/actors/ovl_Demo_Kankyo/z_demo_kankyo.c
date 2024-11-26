@@ -9,7 +9,7 @@
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ntsc-1.2:128"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void DemoKankyo_Init(Actor* thisx, PlayState* play);
 void DemoKankyo_Destroy(Actor* thisx, PlayState* play);

@@ -101,7 +101,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
 
-    this->actor.uncullZoneForward = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
+    this->actor.cullingVolumeDepth = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
 
     switch (PARAMS_GET_U(this->actor.params, 0, 8)) {
 

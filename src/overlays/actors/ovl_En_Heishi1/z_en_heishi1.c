@@ -8,7 +8,7 @@
 #include "assets/objects/object_sd/object_sd.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void EnHeishi1_Init(Actor* thisx, PlayState* play2);
 void EnHeishi1_Destroy(Actor* thisx, PlayState* play);
@@ -404,9 +404,9 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
 
         this->actionFunc(this, play);
 
-        this->actor.uncullZoneForward = 550.0f;
-        this->actor.uncullZoneScale = 350.0f;
-        this->actor.uncullZoneDownward = 700.0f;
+        this->actor.cullingVolumeDepth = 550.0f;
+        this->actor.cullingVolumeScale = 350.0f;
+        this->actor.cullingVolumeDownward = 700.0f;
 
         if (this->type != 5) {
             path = this->path * 2;

@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "assets/objects/object_jya_iron/object_jya_iron.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void BgJyaHaheniron_Init(Actor* thisx, PlayState* play);
 void BgJyaHaheniron_Destroy(Actor* thisx, PlayState* play);
@@ -65,8 +65,8 @@ static s16 sKakeraScales[] = { 5, 8, 11, 14, 17 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDepth, 1000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 static f32 D_80898794[] = { 0.13f, 0.1f, 0.1f };

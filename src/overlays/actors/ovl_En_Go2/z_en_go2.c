@@ -5,7 +5,7 @@
 #include "quake.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 /*
 FLAGS
@@ -1536,8 +1536,8 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
         case GORON_CITY_LOST_WOODS:
         case GORON_DMT_FAIRY_HINT:
         case GORON_MARKET_BAZAAR:
-            this->actor.flags &= ~ACTOR_FLAG_4;
-            this->actor.flags &= ~ACTOR_FLAG_5;
+            this->actor.flags &= ~ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+            this->actor.flags &= ~ACTOR_FLAG_DISABLE_DRAW_CULLING;
     }
 
     EnGo2_SetColliderDim(this);

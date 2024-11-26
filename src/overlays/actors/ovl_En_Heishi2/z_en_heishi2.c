@@ -112,7 +112,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(play, &this->collider);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_DISABLE_UPDATE_CULLING;
             this->actionFunc = func_80A544AC;
         }
     } else {

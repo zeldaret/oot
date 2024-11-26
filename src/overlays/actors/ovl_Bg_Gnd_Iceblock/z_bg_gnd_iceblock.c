@@ -7,7 +7,7 @@
 #include "z_bg_gnd_iceblock.h"
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 typedef enum BgGndIceblockAction {
     /* 0 */ GNDICE_IDLE,

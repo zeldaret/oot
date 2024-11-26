@@ -3,7 +3,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void EnGo_Init(Actor* thisx, PlayState* play);
 void EnGo_Destroy(Actor* thisx, PlayState* play);
@@ -639,8 +639,8 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
     }
 
     if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) && (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) != 0x90)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.flags &= ~ACTOR_FLAG_5;
+        this->actor.flags &= ~ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+        this->actor.flags &= ~ACTOR_FLAG_DISABLE_DRAW_CULLING;
     }
 
     EnGo_ChangeAnim(this, ENGO_ANIM_0);

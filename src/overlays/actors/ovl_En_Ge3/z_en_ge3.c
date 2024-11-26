@@ -8,7 +8,7 @@
 #include "assets/objects/object_geldb/object_geldb.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING)
 
 void EnGe3_Init(Actor* thisx, PlayState* play2);
 void EnGe3_Destroy(Actor* thisx, PlayState* play);

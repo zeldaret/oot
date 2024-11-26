@@ -8,7 +8,7 @@
 #include "global.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play);
 void ObjMakekinsuta_Update(Actor* thisx, PlayState* play);

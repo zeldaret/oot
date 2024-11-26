@@ -9,7 +9,7 @@
 #include "assets/objects/object_bowl/object_bowl.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void BgBomGuard_Init(Actor* thisx, PlayState* play);
 void BgBomGuard_Destroy(Actor* thisx, PlayState* play);

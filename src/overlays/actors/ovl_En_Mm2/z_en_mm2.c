@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_mm/object_mm.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING)
 
 typedef enum RunningManAnimIndex {
     /* 0 */ RM2_ANIM_RUN,
@@ -75,7 +75,7 @@ static AnimationSpeedInfo sAnimationInfo[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDepth, 4000, ICHAIN_STOP),
 };
 
 void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {

@@ -9,7 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void EnTuboTrap_Init(Actor* thisx, PlayState* play);
 void EnTuboTrap_Destroy(Actor* thisx, PlayState* play);

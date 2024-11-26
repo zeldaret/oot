@@ -219,7 +219,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     Actor_Kill(&this->actor);
                 } else {
                     if (IS_DAY) {
-                        this->actor.flags |= ACTOR_FLAG_4;
+                        this->actor.flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
                         this->superCuccoTimers[0] = this->superCuccoTimers[1] = this->superCuccoTimers[2] = 7;
                         this->superCuccos[0] = (EnNiw*)Actor_Spawn(
                             &play->actorCtx, play, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
@@ -501,7 +501,7 @@ void EnTa_RunAwayStart(EnTa* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_VO_TA_CRY_1);
         EnTa_SetupAction(this, EnTa_RunAwayRunSouth, EnTa_AnimRepeatCurrent);
         this->timer = 65;
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
     }
 }
 

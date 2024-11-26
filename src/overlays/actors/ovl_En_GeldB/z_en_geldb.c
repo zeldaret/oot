@@ -7,7 +7,7 @@
 #include "z_en_geldb.h"
 #include "assets/objects/object_geldb/object_geldb.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_DISABLE_UPDATE_CULLING)
 
 typedef enum EnGeldBAction {
     /*  0 */ GELDB_WAIT,

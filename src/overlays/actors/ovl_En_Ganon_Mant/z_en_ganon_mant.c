@@ -7,7 +7,7 @@
 #include "z_en_ganon_mant.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 void EnGanonMant_Init(Actor* thisx, PlayState* play);
 void EnGanonMant_Destroy(Actor* thisx, PlayState* play);

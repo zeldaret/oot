@@ -15964,7 +15964,7 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cueUnused) {
     }
 
     if (cue == NULL) {
-        this->actor.flags &= ~ACTOR_FLAG_6;
+        this->actor.flags &= ~ACTOR_FLAG_INSIDE_CULLING_VOLUME;
     } else {
         s32 csAction;
 

@@ -10,7 +10,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 typedef void (*EnIkDrawFunc)(struct EnIk*, PlayState*);
 

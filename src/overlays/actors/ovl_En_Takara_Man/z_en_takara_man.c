@@ -10,7 +10,7 @@
 #include "assets/objects/object_ts/object_ts.h"
 
 #define FLAGS \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_LOCK_ON_DISABLED)
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnTakaraMan_Init(Actor* thisx, PlayState* play);
 void EnTakaraMan_Destroy(Actor* thisx, PlayState* play);

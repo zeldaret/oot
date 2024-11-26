@@ -15,7 +15,7 @@
 #include "assets/objects/object_zl2/object_zl2.h"
 #include "assets/objects/object_zl2_anime2/object_zl2_anime2.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
 
 void EnZl3_Init(Actor* thisx, PlayState* play);
 void EnZl3_Destroy(Actor* thisx, PlayState* play);

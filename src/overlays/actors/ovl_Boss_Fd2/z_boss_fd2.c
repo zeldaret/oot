@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 typedef enum BossFd2CutsceneState {
     /* 0 */ DEATH_START,
