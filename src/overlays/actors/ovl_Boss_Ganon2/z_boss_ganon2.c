@@ -9,7 +9,9 @@
 #include "assets/objects/object_geff/object_geff.h"
 #include "assets/overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
+#define FLAGS                                                                                \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_DISABLE_UPDATE_CULLING | \
+     ACTOR_FLAG_DISABLE_DRAW_CULLING)
 
 #define BOSS_GANON2_EFFECT_COUNT 100
 

@@ -2437,7 +2437,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                 actor->yawTowardsPlayer = Actor_WorldYawTowardActor(actor, &player->actor);
                 actor->flags &= ~ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
 
-                if ((DECR(actor->freezeTimer) == 0) && (actor->flags & (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_INSIDE_CULLING_VOLUME))) {
+                if ((DECR(actor->freezeTimer) == 0) &&
+                    (actor->flags & (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_INSIDE_CULLING_VOLUME))) {
                     if (actor == player->focusActor) {
                         actor->isLockedOn = true;
                     } else {
@@ -2710,14 +2711,14 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
 /**
  * Checks if an actor should be culled or not, by seeing if it is contained within it's own culling volume.
  * For more details on the culling test, see `Actor_CullingVolumeTest`.
- * 
+ *
  * "Culling" in this context refers to the removal of something for the sake of improving performance.
  * For actors, being culled means that their Update and Draw processes are halted.
  * When an actor is culled, their update state is frozen and they will not draw, so they will be visible.
- * 
+ *
  * It is possible for actors to opt out of update culling or draw culling.
  * This is set per-actor with `ACTOR_FLAG_DISABLE_UPDATE_CULLING` and `ACTOR_FLAG_DISABLE_DRAW_CULLING`.
- * 
+ *
  * Note: Even if either `ACTOR_FLAG_DISABLE_UPDATE_CULLING` or `ACTOR_FLAG_DISABLE_DRAW_CULLING` are set, the actor
  * will still undergo the culling test and set `ACTOR_FLAG_INSIDE_CULLING_VOLUME` accordingly.
  * So, `ACTOR_FLAG_INSIDE_CULLING_VOLUME` cannot be used on it own to determine if an actor is actually culled.
@@ -2730,26 +2731,29 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
 /**
  * Tests if an actor is currently within the bounds of it's own culling volume.
  * Returns true if within the bounds, false if not.
- * 
+ *
  * The culling volume is a 3D shape composed of a frustum with a box attached to the end of it.
  * The frustum sits at the camera's position and projects forward, encompassing the player's current view.
- * The box extrudes behind the player, allowing actors in the immediate vicinty behind and to the sides of the player to be detected.
- * 
+ * The box extrudes behind the player, allowing actors in the immediate vicinty behind and to the sides of the player to
+ * be detected.
+ *
  * Every actor can set properites for their own culling volume depending on their needs:
- * cullingVolumeDepth: Sets the distance between the near and far plane of the frustum. 
- *                     In other words, configures the distance forward from the camera's location that actors can be detected.
- * 
+ * cullingVolumeDepth: Sets the distance between the near and far plane of the frustum.
+ *                     In other words, configures the distance forward from the camera's location that actors can be
+ * detected.
+ *
  * cullingVolumeScale: Scales the entire culling volume. Both the frustum and the box will scale in size.
- * 
+ *
  * cullingVolumeDownward: The height of the culling volume, but only in the downward direction.
  *                        Increasing this value will make actors below the player easier to be detected.
  * Note: All of these values are in projected space.
- * 
+ *
  * This interactive 3D graph visualizes the shape of the culling volume and has sliders
  * for the 3 properties mentioned above: https://www.desmos.com/3d/pcvaxdgyij.
  */
 s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 projW) {
-    if ((projPos->z > -actor->cullingVolumeScale) && (projPos->z < (actor->cullingVolumeDepth + actor->cullingVolumeScale))) {
+    if ((projPos->z > -actor->cullingVolumeScale) &&
+        (projPos->z < (actor->cullingVolumeDepth + actor->cullingVolumeScale))) {
         f32 wInv = (projW < 1.0f) ? 1.0f : 1.0f / projW;
 
         if ((((fabsf(projPos->x) - actor->cullingVolumeScale) * wInv) < 1.0f) &&
@@ -2811,7 +2815,8 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
             actor->isDrawn = false;
 
             if (!DEBUG_FEATURES || (HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
-                if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & (ACTOR_FLAG_DISABLE_DRAW_CULLING | ACTOR_FLAG_INSIDE_CULLING_VOLUME))) {
+                if ((actor->init == NULL) && (actor->draw != NULL) &&
+                    (actor->flags & (ACTOR_FLAG_DISABLE_DRAW_CULLING | ACTOR_FLAG_INSIDE_CULLING_VOLUME))) {
                     if ((actor->flags & ACTOR_FLAG_REACT_TO_LENS) &&
                         ((play->roomCtx.curRoom.lensMode == LENS_MODE_SHOW_ACTORS) || play->actorCtx.lensActive ||
                          (actor->room != play->roomCtx.curRoom.num))) {

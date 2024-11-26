@@ -7,9 +7,9 @@
 #include "z_en_ma1.h"
 #include "assets/objects/object_ma1/object_ma1.h"
 
-#define FLAGS                                                                           \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING | \
-     ACTOR_FLAG_UPDATE_DURING_OCARINA)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING | \
+     ACTOR_FLAG_DISABLE_DRAW_CULLING | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnMa1_Init(Actor* thisx, PlayState* play);
 void EnMa1_Destroy(Actor* thisx, PlayState* play);

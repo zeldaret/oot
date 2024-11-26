@@ -89,7 +89,7 @@ static s16 sFragmentScales[] = { 108, 102, 96, 84, 66, 55, 42, 38 };
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 400, ICHAIN_CONTINUE),         ICHAIN_F32_DIV1000(gravity, -3200, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(minVelocityY, -17000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeDepth, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(cullingVolumeScale, 100, ICHAIN_CONTINUE),         ICHAIN_F32(cullingVolumeDownward, 120, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 100, ICHAIN_CONTINUE),      ICHAIN_F32(cullingVolumeDownward, 120, ICHAIN_STOP),
 };
 
 void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
