@@ -14,6 +14,13 @@
 #define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
+// These are default parameters used for "animation fidgeting", which procedurally generate actor idle animations.
+// These calculations may be performed within individual actors, or by using fidget tables with `Actor_UpdateFidgetTables`.
+#define FIDGET_FREQ_Y 0x814
+#define FIDGET_FREQ_Z 0x940
+#define FIDGET_FREQ_LIMB 0x32
+#define FIDGET_AMPLITUDE 200.0f
+
 struct Actor;
 struct ActorEntry;
 struct CollisionPoly;
@@ -926,7 +933,7 @@ void func_80034BA0(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDra
 void func_80034CC4(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 s16 func_80034DD4(Actor* actor, struct PlayState* play, s16 arg2, f32 arg3);
-void func_80034F54(struct PlayState* play, s16* arg1, s16* arg2, s32 arg3);
+void Actor_UpdateFidgetTables(struct PlayState* play, s16* fidgetTableY, s16* fidgetTableZ, s32 tableLen);
 void Actor_Noop(Actor* actor, struct PlayState* play);
 
 void Gfx_DrawDListOpa(struct PlayState* play, Gfx* dlist);
