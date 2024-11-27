@@ -2755,11 +2755,11 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
 s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 projW) {
     if ((projPos->z > -actor->cullingVolumeScale) &&
         (projPos->z < (actor->cullingVolumeDistance + actor->cullingVolumeScale))) {
-        f32 wInv = (projW < 1.0f) ? 1.0f : 1.0f / projW;
+        f32 invW = (projW < 1.0f) ? 1.0f : 1.0f / projW;
 
-        if ((((fabsf(projPos->x) - actor->cullingVolumeScale) * wInv) < 1.0f) &&
-            (((projPos->y + actor->cullingVolumeDownward) * wInv) > -1.0f) &&
-            (((projPos->y - actor->cullingVolumeScale) * wInv) < 1.0f)) {
+        if ((((fabsf(projPos->x) - actor->cullingVolumeScale) * invW) < 1.0f) &&
+            (((projPos->y + actor->cullingVolumeDownward) * invW) > -1.0f) &&
+            (((projPos->y - actor->cullingVolumeScale) * invW) < 1.0f)) {
             return true;
         }
     }
