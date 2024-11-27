@@ -293,7 +293,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             Actor_SetScale(&this->actor, 0.02f);
             this->bodyCollider.dim.height = 170;
             this->bodyCollider.dim.radius = 45;
-            this->actor.cullingVolumeDepth = 4000.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
             this->actor.cullingVolumeScale = 800.0f;
             this->actor.cullingVolumeDownward = 1800.0f;
             this->playerDetectionRange = 710.0f;

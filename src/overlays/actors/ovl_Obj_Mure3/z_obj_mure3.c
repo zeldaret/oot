@@ -34,7 +34,7 @@ ActorProfile Obj_Mure3_Profile = {
 static s16 sRupeeCounts[] = { 5, 5, 7, 0 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(cullingVolumeDepth, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 1800, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 100, ICHAIN_STOP),
 };

@@ -54,7 +54,7 @@ static f32 sRanges[] = { 60.0, 100.0, 140.0, 180.0, 220.0, 260.0, 300.0, 300.0 }
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
-    ICHAIN_F32(cullingVolumeDepth, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1800, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 300, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 1500, ICHAIN_STOP),
 };

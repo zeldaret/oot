@@ -105,7 +105,7 @@ s32 EnWood02_SpawnZoneCheck(EnWood02* this, PlayState* play, Vec3f* pos) {
     phi_f12 = ((this->actor.projectedW == 0.0f) ? 1000.0f : fabsf(1.0f / this->actor.projectedW));
 
     if ((-this->actor.cullingVolumeScale < this->actor.projectedPos.z) &&
-        (this->actor.projectedPos.z < (this->actor.cullingVolumeDepth + this->actor.cullingVolumeScale)) &&
+        (this->actor.projectedPos.z < (this->actor.cullingVolumeDistance + this->actor.cullingVolumeScale)) &&
         (((fabsf(this->actor.projectedPos.x) - this->actor.cullingVolumeScale) * phi_f12) < 1.0f) &&
         (((this->actor.projectedPos.y + this->actor.cullingVolumeDownward) * phi_f12) > -1.0f) &&
         (((this->actor.projectedPos.y - this->actor.cullingVolumeScale) * phi_f12) < 1.0f)) {
@@ -200,7 +200,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
         case WOOD_BUSH_GREEN_LARGE:
         case WOOD_BUSH_BLACK_LARGE:
             actorScale = 1.5f;
-            this->actor.cullingVolumeDepth = 4000.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
             this->actor.cullingVolumeScale = 2000.0f;
             this->actor.cullingVolumeDownward = 2400.0f;
             break;
@@ -223,13 +223,13 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
         case WOOD_TREE_KAKARIKO_ADULT:
         case WOOD_BUSH_GREEN_SMALL:
         case WOOD_BUSH_BLACK_SMALL:
-            this->actor.cullingVolumeDepth = 4000.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
             this->actor.cullingVolumeScale = 800.0f;
             this->actor.cullingVolumeDownward = 1800.0f;
             break;
         case WOOD_TREE_CONICAL_SMALL:
             actorScale = 0.6f;
-            this->actor.cullingVolumeDepth = 4000.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
             this->actor.cullingVolumeScale = 400.0f;
             this->actor.cullingVolumeDownward = 1000.0f;
             break;

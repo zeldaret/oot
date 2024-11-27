@@ -213,7 +213,7 @@ void EnPeehat_Init(Actor* thisx, PlayState* play) {
     this->actor.naviEnemyId = NAVI_ENEMY_PEAHAT;
     this->xzDistToRise = 740.0f;
     this->xzDistMax = 1200.0f;
-    this->actor.cullingVolumeDepth = 4000.0f;
+    this->actor.cullingVolumeDistance = 4000.0f;
     this->actor.cullingVolumeScale = 800.0f;
     this->actor.cullingVolumeDownward = 1800.0f;
     switch (this->actor.params) {
@@ -221,7 +221,7 @@ void EnPeehat_Init(Actor* thisx, PlayState* play) {
             EnPeehat_Ground_SetStateGround(this);
             break;
         case PEAHAT_TYPE_FLYING:
-            this->actor.cullingVolumeDepth = 4200.0f;
+            this->actor.cullingVolumeDistance = 4200.0f;
             this->xzDistToRise = 2800.0f;
             this->xzDistMax = 1400.0f;
             EnPeehat_Flying_SetStateGround(this);

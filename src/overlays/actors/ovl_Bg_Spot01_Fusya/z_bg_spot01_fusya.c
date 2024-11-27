@@ -30,7 +30,7 @@ ActorProfile Bg_Spot01_Fusya_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(cullingVolumeDepth, 12800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 12800, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 1300, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 1300, ICHAIN_STOP),
 };

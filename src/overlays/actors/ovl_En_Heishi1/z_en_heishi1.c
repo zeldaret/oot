@@ -404,7 +404,7 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
 
         this->actionFunc(this, play);
 
-        this->actor.cullingVolumeDepth = 550.0f;
+        this->actor.cullingVolumeDistance = 550.0f;
         this->actor.cullingVolumeScale = 350.0f;
         this->actor.cullingVolumeDownward = 700.0f;
 

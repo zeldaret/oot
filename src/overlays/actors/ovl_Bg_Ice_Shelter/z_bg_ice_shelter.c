@@ -141,7 +141,7 @@ void BgIceShelter_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(cullingVolumeDepth, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };

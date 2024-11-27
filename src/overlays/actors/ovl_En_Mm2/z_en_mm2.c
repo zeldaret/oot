@@ -75,7 +75,7 @@ static AnimationSpeedInfo sAnimationInfo[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(cullingVolumeDepth, 4000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_STOP),
 };
 
 void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {

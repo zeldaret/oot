@@ -63,7 +63,7 @@ void EnHata_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.cullingVolumeScale = 500.0f;
     this->dyna.actor.cullingVolumeDownward = 550.0f;
-    this->dyna.actor.cullingVolumeDepth = 2200.0f;
+    this->dyna.actor.cullingVolumeDistance = 2200.0f;
     this->invScale = 6;
     this->maxStep = 1000;
     this->minStep = 1;

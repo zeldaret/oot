@@ -209,7 +209,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
         }
     } else if (type == ENVIEWER_TYPE_7_GANONDORF) {
         Actor_SetScale(&this->actor, 0.3f);
-        this->actor.cullingVolumeDepth = 10000.0f;
+        this->actor.cullingVolumeDistance = 10000.0f;
         this->actor.cullingVolumeScale = 10000.0f;
         this->actor.cullingVolumeDownward = 10000.0f;
     } else if (type == ENVIEWER_TYPE_3_GANONDORF) {

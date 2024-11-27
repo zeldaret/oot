@@ -30,7 +30,7 @@ void BgGndNisekabe_Init(Actor* thisx, PlayState* play) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
 
     Actor_SetScale(&this->actor, 0.1);
-    this->actor.cullingVolumeDepth = 3000.0;
+    this->actor.cullingVolumeDistance = 3000.0;
 }
 
 void BgGndNisekabe_Destroy(Actor* thisx, PlayState* play) {

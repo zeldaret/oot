@@ -127,7 +127,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
     }
 
     thisx->cullingVolumeScale += 31000.0f;
-    thisx->cullingVolumeDepth += 31000.0f;
+    thisx->cullingVolumeDistance += 31000.0f;
 }
 
 void EnBombf_Destroy(Actor* thisx, PlayState* play) {

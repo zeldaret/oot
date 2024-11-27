@@ -124,9 +124,9 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
 
     if (play->sceneId == SCENE_GERUDO_VALLEY) {
-        this->actor.cullingVolumeDepth = 1000.0f;
+        this->actor.cullingVolumeDistance = 1000.0f;
     } else {
-        this->actor.cullingVolumeDepth = 1200.0f;
+        this->actor.cullingVolumeDistance = 1200.0f;
     }
 
     this->yDetectRange = (this->actor.world.rot.z + 1) * 40.0f;

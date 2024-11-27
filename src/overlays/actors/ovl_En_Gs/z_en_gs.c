@@ -357,7 +357,7 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
         if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
             this->actor.flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
-            this->actor.cullingVolumeDepth = 12000.0f;
+            this->actor.cullingVolumeDistance = 12000.0f;
 
             this->actor.gravity = 0.3f;
             this->unk_19F++;

@@ -96,7 +96,7 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
         DynaPolyActor_Init(&this->dyna, 0);
 
         if (thisx->params == STA_GIANT_BIRD_STATUE) {
-            thisx->cullingVolumeDepth = 2000.0f;
+            thisx->cullingVolumeDistance = 2000.0f;
             thisx->cullingVolumeScale = 3000.0f;
             thisx->cullingVolumeDownward = 3000.0f;
         }

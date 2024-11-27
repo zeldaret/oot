@@ -45,7 +45,7 @@ ActorProfile Bg_Treemouth_Profile = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(cullingVolumeDepth, 8000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 8000, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 300, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 300, ICHAIN_STOP),
 };

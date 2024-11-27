@@ -59,7 +59,7 @@ static s16 sSceneIds[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(cullingVolumeDepth, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1800, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 1500, ICHAIN_STOP),
 };

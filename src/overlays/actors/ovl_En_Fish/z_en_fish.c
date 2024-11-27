@@ -79,7 +79,7 @@ ActorProfile En_Fish_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(cullingVolumeDepth, 900, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 900, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 40, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 700, ICHAIN_STOP),
 };

@@ -118,7 +118,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = func_808894A4;
         if (thisx->params == 0) {
             thisx->world.pos.y -= 2800.0f;
-            thisx->cullingVolumeDepth = 3000.0f;
+            thisx->cullingVolumeDistance = 3000.0f;
         } else if (thisx->params == 1) {
             thisx->world.pos.y -= 800.0f;
         } else if (thisx->params == 2) {
@@ -127,7 +127,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
     } else {
         if (thisx->params == 0) {
             thisx->flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING;
-            thisx->cullingVolumeDepth = 3000.0f;
+            thisx->cullingVolumeDistance = 3000.0f;
         }
         this->actionFunc = func_808896B8;
     }

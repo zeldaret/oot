@@ -75,7 +75,7 @@ static EnDoorInfo sDoorInfo[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_0, ICHAIN_CONTINUE),
-    ICHAIN_F32(cullingVolumeDepth, 4000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_STOP),
 };
 
 static AnimationHeader* sDoorAnims[DOOR_OPEN_ANIM_MAX] = {

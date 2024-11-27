@@ -2962,7 +2962,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     f32 temp;
     f32 rumbleStrength;
 
-    this->actor.cullingVolumeDepth = 700.0f;
+    this->actor.cullingVolumeDistance = 700.0f;
     this->actor.cullingVolumeScale = 50.0f;
 
     if (this->isLoach == 0) {
@@ -3082,7 +3082,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         case 100:
             Fishing_HandleAquariumDialog(this, play);
 
-            this->actor.cullingVolumeDepth = 500.0f;
+            this->actor.cullingVolumeDistance = 500.0f;
             this->actor.cullingVolumeScale = 300.0f;
 
             Lights_PointNoGlowSetInfo(&this->lightInfo, (s16)this->actor.world.pos.x,
@@ -3629,7 +3629,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             break;
 
         case 5:
-            this->actor.cullingVolumeDepth = 1200.0f;
+            this->actor.cullingVolumeDistance = 1200.0f;
             this->actor.cullingVolumeScale = 200.0f;
 
             sFishFightTime++;

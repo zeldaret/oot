@@ -33,7 +33,7 @@ ActorProfile En_Blkobj_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(cullingVolumeDepth, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 800, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 200, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 300, ICHAIN_STOP),
 };

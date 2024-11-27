@@ -896,7 +896,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     actor->minVelocityY = -20.0f;
     actor->xyzDistToPlayerSq = MAXFLOAT;
     actor->naviEnemyId = NAVI_ENEMY_NONE;
-    actor->cullingVolumeDepth = 1000.0f;
+    actor->cullingVolumeDistance = 1000.0f;
     actor->cullingVolumeScale = 350.0f;
     actor->cullingVolumeDownward = 700.0f;
     CollisionCheck_InitInfo(&actor->colChkInfo);
@@ -2738,22 +2738,23 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
  * be detected.
  *
  * Every actor can set properites for their own culling volume depending on their needs:
- * cullingVolumeDepth: Sets the distance between the near and far plane of the frustum.
- *                     In other words, configures the distance forward from the camera's location that actors can be
- * detected.
+ * cullingVolumeDistance: Sets the distance between the near and far plane of the frustum.
+ *                        In other words, configures the distance forward from the camera's 
+ *                        location that actors can be detected.
  *
  * cullingVolumeScale: Scales the entire culling volume. Both the frustum and the box will scale in size.
  *
  * cullingVolumeDownward: The height of the culling volume, but only in the downward direction.
  *                        Increasing this value will make actors below the player easier to be detected.
- * Note: All of these values are in projected space.
+ * 
+ * <EXPLAIN PROJECTED SPACE AND DISTANCE STUFF HERE>
  *
  * This interactive 3D graph visualizes the shape of the culling volume and has sliders
  * for the 3 properties mentioned above: https://www.desmos.com/3d/pcvaxdgyij.
  */
 s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 projW) {
     if ((projPos->z > -actor->cullingVolumeScale) &&
-        (projPos->z < (actor->cullingVolumeDepth + actor->cullingVolumeScale))) {
+        (projPos->z < (actor->cullingVolumeDistance + actor->cullingVolumeScale))) {
         f32 wInv = (projW < 1.0f) ? 1.0f : 1.0f / projW;
 
         if ((((fabsf(projPos->x) - actor->cullingVolumeScale) * wInv) < 1.0f) &&

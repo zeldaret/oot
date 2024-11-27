@@ -88,7 +88,7 @@ static Vec3f D_808B08AC[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(cullingVolumeDepth, 3200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 3200, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeScale, 800, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
