@@ -2739,14 +2739,14 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
  *
  * Every actor can set properites for their own culling volume depending on their needs:
  * cullingVolumeDistance: Sets the distance between the near and far plane of the frustum.
- *                        In other words, configures the distance forward from the camera's 
+ *                        In other words, configures the distance forward from the camera's
  *                        location that actors can be detected.
  *
  * cullingVolumeScale: Scales the entire culling volume. Both the frustum and the box will scale in size.
  *
  * cullingVolumeDownward: The height of the culling volume, but only in the downward direction.
  *                        Increasing this value will make actors below the player easier to be detected.
- * 
+ *
  * <EXPLAIN PROJECTED SPACE AND DISTANCE STUFF HERE>
  *
  * This interactive 3D graph visualizes the shape of the culling volume and has sliders

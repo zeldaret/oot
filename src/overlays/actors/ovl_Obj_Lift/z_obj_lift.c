@@ -49,7 +49,7 @@ static ObjLiftFramgentScale sFragmentScales[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32_DIV1000(gravity, -600, ICHAIN_CONTINUE),    ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -600, ICHAIN_CONTINUE),       ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_STOP),
 };
