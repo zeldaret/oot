@@ -695,7 +695,7 @@ void EnReeba_Draw(Actor* thisx, PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_reeba.c", 1088);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         Vec3f debugPos;
 
         debugPos.x = (Math_SinS(this->actor.world.rot.y) * 30.0f) + this->actor.world.pos.x;

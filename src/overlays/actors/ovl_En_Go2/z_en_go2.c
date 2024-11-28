@@ -2043,7 +2043,7 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
 #endif
     this->actionFunc(this, play);
     if (this->isUncurled == true) {
-        func_80034F54(play, this->unk_226, this->unk_24A, GORON_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, GORON_LIMB_MAX);
     }
     EnGo2_TrackPlayer(this, play);
     EnGo2_EyeMouthTexState(this);
@@ -2096,8 +2096,8 @@ s32 EnGo2_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, V
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
     if ((limb == GORON_LIMB_TORSO) || (limb == GORON_LIMB_LEFT_ARM) || (limb == GORON_LIMB_RIGHT_ARM)) {
-        rot->y += Math_SinS(this->unk_226[limb]) * 200.0f;
-        rot->z += Math_CosS(this->unk_24A[limb]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limb]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limb]) * FIDGET_AMPLITUDE;
     }
     return 0;
 }

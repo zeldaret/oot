@@ -71,8 +71,8 @@ typedef struct EnGo2 {
     /* 0x021C */ char unk_21C[0x04];
     /* 0x0220 */ f32 shadownAlpha;
     /* 0x0224 */ s16 blinkTimer;
-    /* 0x0226 */ s16 unk_226[GORON_LIMB_MAX]; // Remains unknown
-    /* 0x024A */ s16 unk_24A[GORON_LIMB_MAX]; // Remains unknown
+    /* 0x0226 */ s16 fidgetTableY[GORON_LIMB_MAX];
+    /* 0x024A */ s16 fidgetTableZ[GORON_LIMB_MAX];
     /* 0x026E */ u16 trackingMode;
     /* 0x0270 */ EnGoEffect effects[EN_GO2_EFFECT_COUNT];
     /* 0x04A0 */ Vec3f subCamEye;

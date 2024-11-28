@@ -1,7 +1,7 @@
 #include "z_en_fz.h"
 #include "assets/objects/object_fz/object_fz.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 void EnFz_Init(Actor* thisx, PlayState* play);
 void EnFz_Destroy(Actor* thisx, PlayState* play);

@@ -86,7 +86,7 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
     this->treasureFlag = PARAMS_GET_U(thisx->params, 6, 6);
     thisx->params &= 0x3F;
 
-    if (OOT_DEBUG && ((this->actor.params < 0) || (this->actor.params > 0x3F))) {
+    if (DEBUG_FEATURES && ((this->actor.params < 0) || (this->actor.params > 0x3F))) {
         // "Save bit is not set"
         PRINTF("Warning : object のセーブビットが設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_hidan_curtain.c",
                373, this->actor.params);

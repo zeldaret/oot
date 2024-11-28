@@ -69,7 +69,7 @@ static void* sMouthTextures[] = {
     gSariaMouthSmilingOpenTex, gSariaMouthFrowningTex,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static u32 D_80990108 = 0;
 #endif
 
@@ -128,7 +128,7 @@ void DemoSa_SetMouthIndex(DemoSa* this, s16 mouthIndex) {
     this->mouthIndex = mouthIndex;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_8098E530(DemoSa* this) {
     this->action = 7;
     this->drawConfig = 0;
@@ -444,7 +444,7 @@ void func_8098F050(DemoSa* this, PlayState* play) {
 
 void func_8098F0E8(DemoSa* this, PlayState* play) {
     func_8098EEA8(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_8098E554(this, play);
 #endif
 }
@@ -454,7 +454,7 @@ void func_8098F118(DemoSa* this, PlayState* play) {
     DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098EEFC(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_8098E554(this, play);
 #endif
 }
@@ -464,7 +464,7 @@ void func_8098F16C(DemoSa* this, PlayState* play) {
     DemoSa_UpdateSkelAnime(this);
     func_8098EDB0(this);
     func_8098F050(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_8098E554(this, play);
 #endif
 }

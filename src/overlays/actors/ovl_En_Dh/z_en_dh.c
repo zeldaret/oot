@@ -1,7 +1,7 @@
 #include "z_en_dh.h"
 #include "assets/objects/object_dh/object_dh.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 typedef enum EnDhAction {
     /* 0 */ DH_WAIT,

@@ -321,7 +321,7 @@ void EnEncount1_Update(Actor* thisx, PlayState* play) {
 
     this->updateFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         if (this->outOfRangeTimer != 0) {
             if ((this->outOfRangeTimer & 1) == 0) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

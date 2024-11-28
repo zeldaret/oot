@@ -416,7 +416,7 @@ void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_SetupMweep;
     } else {
-        func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 12);
     }
 }
 
@@ -479,7 +479,7 @@ void EnKz_Wait(EnKz* this, PlayState* play) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, play);
     } else {
-        func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 12);
     }
 }
 
@@ -546,8 +546,8 @@ s32 EnKz_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnKz* this = (EnKz*)thisx;
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 10) {
-        rot->y += Math_SinS(this->unk_2A6[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->unk_2BE[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
     if (limbIndex) {}
     return false;

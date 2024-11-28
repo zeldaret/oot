@@ -14,7 +14,8 @@
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "pal-1.0:128 pal-1.1:128"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 #define vParity actionVar
 #define vVanish actionVar
@@ -894,7 +895,7 @@ void BossSst_HeadVulnerable(BossSst* this, PlayState* play) {
     Math_StepToF(&sHandOffsets[RIGHT].z, 600.0f, 20.0f);
     Math_StepToF(&sHandOffsets[LEFT].x, 200.0f, 20.0f);
     Math_StepToF(&sHandOffsets[RIGHT].x, -200.0f, 20.0f);
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         this->timer += 2;
         this->timer = CLAMP_MAX(this->timer, 50);
     } else {

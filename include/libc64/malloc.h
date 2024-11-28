@@ -15,7 +15,7 @@ void SystemArena_Init(void* start, u32 size);
 void SystemArena_Cleanup(void);
 s32 SystemArena_IsInitialized(void);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* SystemArena_MallocDebug(u32 size, const char* file, int line);
 void* SystemArena_MallocRDebug(u32 size, const char* file, int line);
 void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line);

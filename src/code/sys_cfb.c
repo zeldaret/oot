@@ -15,7 +15,7 @@ void SysCfb_Init(s32 n64dd) {
         tmpFbEnd = 0x8044BE80;
         if (n64dd == 1) {
             PRINTF(T("RAM 8M mode (N64DD対応)\n", "RAM 8M mode (N64DD compatible)\n"));
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             sSysCfbEnd = 0x805FB000;
 #else
             sSysCfbEnd = 0x80600000;
@@ -23,7 +23,7 @@ void SysCfb_Init(s32 n64dd) {
         } else {
             PRINTF(T("このバージョンのマージンは %dK バイトです\n", "The margin for this version is %dK bytes\n"),
                    (0x4BC00 / 1024));
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             sSysCfbEnd = tmpFbEnd;
 #else
             sSysCfbEnd = 0x80400000;

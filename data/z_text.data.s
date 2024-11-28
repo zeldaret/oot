@@ -1,4 +1,5 @@
 .include "macro.inc"
+#include "versions.h"
 
 /* assembler directives */
 .set noat      /* allow manual use of $at */
@@ -11,7 +12,7 @@
 
 /* temporary file name, rename to something more appropriate when decompiled */
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 glabel gMojiFontTLUTs
     .incbin "incbin/gMojiFontTLUTs"
 
