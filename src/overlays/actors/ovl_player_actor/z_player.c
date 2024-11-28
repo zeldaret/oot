@@ -208,7 +208,7 @@ void func_808521B8(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_808521F4(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_80852234(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue);
-void Player_Appear(PlayState* play, Player* this, CsCmdActorCue* cue);
+void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue);
 #if OOT_VERSION >= PAL_1_0
 void func_80852358(PlayState* play, Player* this, CsCmdActorCue* cue);
 #endif
@@ -14288,7 +14288,7 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
  */
 void Player_Action_WaitForCutscene(Player* this, PlayState* play) {
     if ((DECR(this->av2.csDelayTimer) == 0) && Player_StartCsAction(play, this)) {
-        Player_Appear(play, this, NULL);
+        func_80852280(play, this, NULL);
         Player_SetupAction(play, this, Player_Action_CsAction, 0);
         Player_Action_CsAction(this, play);
     }
@@ -15008,7 +15008,7 @@ static struct_80854B18 D_80854B18[PLAYER_CSACTION_MAX] = {
     { 5, &gPlayerAnim_clink_demo_miokuri },              // PLAYER_CSACTION_43
     { -1, func_808521F4 },                               // PLAYER_CSACTION_44
     { -1, func_8085225C },                               // PLAYER_CSACTION_45
-    { -1, Player_Appear },                               // PLAYER_CSACTION_46
+    { -1, func_80852280 },                               // PLAYER_CSACTION_46
     { 5, &gPlayerAnim_clink_demo_nozoki },               // PLAYER_CSACTION_47
     { 5, &gPlayerAnim_clink_demo_koutai },               // PLAYER_CSACTION_48
     { -1, func_808515A4 },                               // PLAYER_CSACTION_49
@@ -15726,7 +15726,7 @@ void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue) {
                              ANIM_FLAG_ENABLE_MOVEMENT | ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
 }
 
-void Player_Appear(PlayState* play, Player* this, CsCmdActorCue* cue) {
+void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->actor.draw = Player_Draw;
 }
 
