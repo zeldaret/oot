@@ -77,7 +77,7 @@ void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
 #define POLY_XLU_DISP   __gfxCtx->polyXlu.p
 #define OVERLAY_DISP    __gfxCtx->overlay.p
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);

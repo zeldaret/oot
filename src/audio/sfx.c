@@ -34,7 +34,7 @@ u8 sCurSfxPlayerChannelIndex;
 u8 gSfxBankMuted[7];
 UnusedBankLerp sUnusedBankLerp[7];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u16 gAudioSfxSwapSource[10];
 u16 gAudioSfxSwapTarget[10];
 u8 gAudioSfxSwapMode[10];
@@ -74,7 +74,7 @@ void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* 
     if (!gSfxBankMuted[SFX_BANK_SHIFT(sfxId)]) {
         req = &sSfxRequests[gSfxRequestWriteIndex];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (!gAudioSfxSwapOff) {
             for (i = 0; i < 10; i++) {
                 if (sfxId == gAudioSfxSwapSource[i]) {
@@ -172,7 +172,7 @@ void Audio_ProcessSfxRequest(void) {
 
     bankId = SFX_BANK(req->sfxId);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if ((1 << bankId) & D_801333F0) {
         AudioDebug_ScrPrt("SE", req->sfxId);
         bankId = SFX_BANK(req->sfxId);
@@ -739,7 +739,7 @@ void Audio_ResetSfx(void) {
         gSfxBanks[bankId][i].next = 0xFF;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (D_801333F8 == 0) {
         for (bankId = 0; bankId < 10; bankId++) {
             gAudioSfxSwapSource[bankId] = 0;

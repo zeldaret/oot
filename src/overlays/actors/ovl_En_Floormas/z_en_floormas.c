@@ -7,7 +7,7 @@
 #include "z_en_floormas.h"
 #include "assets/objects/object_wallmaster/object_wallmaster.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 #define SPAWN_INVISIBLE 0x8000
 #define SPAWN_SMALL 0x10

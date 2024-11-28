@@ -61,7 +61,7 @@ static void* sEyeTextures[] = {
     gAdultRutoEyeClosedTex,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static UNK_TYPE D_80AF4118 = 0;
 #endif
 
@@ -138,7 +138,7 @@ s32 func_80AF26A0(EnRu2* this) {
     return params;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80AF26AC(EnRu2* this) {
     this->action = 7;
     this->drawConfig = 0;
@@ -453,7 +453,7 @@ void func_80AF30AC(EnRu2* this, PlayState* play) {
 
 void func_80AF3144(EnRu2* this, PlayState* play) {
     func_80AF2F04(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AF26D0(this, play);
 #endif
 }
@@ -463,7 +463,7 @@ void func_80AF3174(EnRu2* this, PlayState* play) {
     EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF2F58(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AF26D0(this, play);
 #endif
 }
@@ -473,7 +473,7 @@ void func_80AF31C8(EnRu2* this, PlayState* play) {
     EnRu2_UpdateSkelAnime(this);
     func_80AF2608(this);
     func_80AF30AC(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AF26D0(this, play);
 #endif
 }

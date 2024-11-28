@@ -83,7 +83,7 @@ static void* sEyeTextures[] = {
     gNabooruEyeClosedTex,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static s32 D_80AB4318 = 0;
 #endif
 
@@ -194,7 +194,7 @@ void EnNb_UpdateEyes(EnNb* this) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80AB11EC(EnNb* this) {
     this->action = NB_ACTION_7;
     this->drawMode = NB_DRAW_NOTHING;
@@ -533,7 +533,7 @@ void EnNb_SetupLightOrb(EnNb* this, PlayState* play) {
 
 void EnNb_Hide(EnNb* this, PlayState* play) {
     EnNb_SetupHide(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AB1210(this, play);
 #endif
 }
@@ -543,7 +543,7 @@ void EnNb_Fade(EnNb* this, PlayState* play) {
     EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckToFade(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AB1210(this, play);
 #endif
 }
@@ -553,7 +553,7 @@ void EnNb_CreateLightOrb(EnNb* this, PlayState* play) {
     EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupLightOrb(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AB1210(this, play);
 #endif
 }

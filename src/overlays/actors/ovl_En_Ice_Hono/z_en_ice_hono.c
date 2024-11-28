@@ -357,7 +357,7 @@ void EnIceHono_Update(Actor* thisx, PlayState* play) {
         sin154 = Math_SinS(this->unk_154);
         intensity = (Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
             PRINTF("ありえない値(ratio = %f)\n", intensity); // "impossible value(ratio = %f)"
         }
