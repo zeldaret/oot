@@ -14315,7 +14315,7 @@ void Player_Action_BlueWarpArrive(Player* this, PlayState* play) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
                     Player_PlayLandingSfx(this);
-                    this->av2.actionVar2 = 1;
+                    this->av2.playedLandingSfx = true;
                 }
             } else {
                 if ((play->sceneId == SCENE_KOKIRI_FOREST) && Player_StartCsAction(play, this)) {

@@ -899,7 +899,7 @@ typedef struct Player {
 
     /* 0x084F */ union {
         s8 actionVar1;
-        s8 startedAnim; // Player_Action_EndTimeTravel: Started playing the animation that was previously frozen
+        s8 startedAnim; // Player_Action_TimeTravelEnd: Started playing the animation that was previously frozen
         s8 facingUpSlope; // Player_Action_SlideOnSlope: Facing uphill when sliding on a slope
         s8 isLakeHyliaCs; // Player_Action_BlueWarpArrive: In Lake Hylia CS after Water Temple. Floating down is delayed until a specific point in the cutscene.
         s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
@@ -909,7 +909,7 @@ typedef struct Player {
         s16 actionVar2;
         s16 fallDamageStunTimer; // Player_Action_Idle: Prevents any movement and shakes model up and down quickly to indicate fall damage stun
         s16 bonked; // Player_Action_Roll: Set to true after bonking into a wall or an actor
-        s16 animDelayTimer; // Player_Action_EndTimeTravel: Delays playing animation until finished counting down
+        s16 animDelayTimer; // Player_Action_TimeTravelEnd: Delays playing animation until finished counting down
         s16 startedTextbox; // Player_Action_SwingBottle: set to true when the textbox is started
         s16 inWater; // Player_Action_SwingBottle: True if a bottle is swung in water. Used to determine which bottle swing animation to use.
         s16 csDelayTimer; // Player_Action_WaitForCutscene: Number of frames to wait before responding to a cutscene
