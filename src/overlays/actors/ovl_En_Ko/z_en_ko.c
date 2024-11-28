@@ -1156,7 +1156,7 @@ s32 func_80A98ECC(EnKo* this, PlayState* play) {
         case ENKO_FQS_ADULT_SAVED:
             return EnKo_AdultSaved(this, play);
     }
-    //! @bug No return value. The value in v0 will be the return value of EnKo_GetForestQuestState.
+        //! @bug No return value. The value in v0 will be the return value of EnKo_GetForestQuestState.
 #ifdef AVOID_UB
     // Avoid UB: Explicitly return questState to match original behavior
     return questState;
