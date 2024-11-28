@@ -2211,7 +2211,7 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
  */
 s32 Health_ChangeBy(PlayState* play, s16 amount) {
     u16 heartCount;
-    u16 healthLevel;
+    UNUSED_NDEBUG u16 healthLevel;
 
     PRINTF(T("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", "*****  Fluctuation=%d (now=%d, max=%d)  ***"), amount,
            gSaveContext.save.info.playerData.health, gSaveContext.save.info.playerData.healthCapacity);

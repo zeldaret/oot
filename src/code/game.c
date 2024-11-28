@@ -452,8 +452,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 }
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
-    OSTime startTime;
-    OSTime endTime;
+    UNUSED_NDEBUG OSTime startTime;
+    UNUSED_NDEBUG OSTime endTime;
 
     PRINTF(T("game コンストラクタ開始\n", "game constructor start\n"));
     gameState->gfxCtx = gfxCtx;

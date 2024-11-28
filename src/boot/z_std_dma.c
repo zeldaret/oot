@@ -367,7 +367,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
     size_t romSize;
     u8 found = false;
     DmaEntry* iter;
-    const char* filename;
+    UNUSED_NDEBUG const char* filename;
     s32 i = 0;
 
 #if DEBUG_FEATURES

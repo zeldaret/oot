@@ -230,7 +230,8 @@ s32 DemoGj_FindGanon(DemoGj* this, PlayState* play) {
         PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
         return false;
     }
-    //! @bug: Missing return value when `this->ganon` is already set.
+    //! @bug Missing return value when `this->ganon` is already set. No caller uses the return value
+    //! so it doesn't matter.
 }
 
 static InitChainEntry sInitChain[] = {

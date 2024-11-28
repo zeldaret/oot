@@ -834,6 +834,8 @@ s32 EnKo_ChildStart(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    //! @bug No return value. This function does not set v0 so the value returned
+    //! will be the return value of EnKo_GetForestQuestState.
 }
 
 s32 EnKo_ChildStone(EnKo* this, PlayState* play) {
@@ -865,6 +867,8 @@ s32 EnKo_ChildStone(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    //! @bug No return value. This function does not set v0 so the value returned
+    //! will be the return value of EnKo_GetForestQuestState.
 }
 
 s32 EnKo_ChildSaria(EnKo* this, PlayState* play) {
@@ -896,6 +900,8 @@ s32 EnKo_ChildSaria(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    //! @bug No return value. This function does not set v0 so the value returned
+    //! will be the return value of EnKo_GetForestQuestState.
 }
 
 s32 EnKo_AdultEnemy(EnKo* this, PlayState* play) {
@@ -927,6 +933,8 @@ s32 EnKo_AdultEnemy(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    //! @bug No return value. This function does not set v0 so the value returned
+    //! will be the return value of EnKo_GetForestQuestState.
 }
 
 s32 EnKo_AdultSaved(EnKo* this, PlayState* play) {
@@ -958,6 +966,8 @@ s32 EnKo_AdultSaved(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    //! @bug No return value. This function does not set v0 so the value returned
+    //! will be the return value of EnKo_GetForestQuestState.
 }
 void func_80A9877C(EnKo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
@@ -1121,10 +1131,20 @@ void func_80A98DB4(EnKo* this, PlayState* play) {
 }
 
 s32 func_80A98ECC(EnKo* this, PlayState* play) {
+    s32 questState;
     if (play->sceneId == SCENE_LOST_WOODS && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
         return func_80A97E18(this, play);
     }
-    switch (EnKo_GetForestQuestState(this)) {
+    questState = EnKo_GetForestQuestState(this);
+#ifdef AVOID_UB
+    // Avoid UB: Each of the functions in the following switch case lack a default
+    // case for if the Kokiri type is out of bounds. None of them modify v0 in that
+    // case so return questState which was the last value in v0.
+    if (ENKO_TYPE < 0 || ENKO_TYPE > ENKO_TYPE_CHILD_FADO) {
+        return questState;
+    }
+#endif
+    switch (questState) {
         case ENKO_FQS_CHILD_START:
             return EnKo_ChildStart(this, play);
         case ENKO_FQS_CHILD_STONE:
@@ -1136,6 +1156,11 @@ s32 func_80A98ECC(EnKo* this, PlayState* play) {
         case ENKO_FQS_ADULT_SAVED:
             return EnKo_AdultSaved(this, play);
     }
+    //! @bug No return value. The value in v0 will be the return value of EnKo_GetForestQuestState.
+#ifdef AVOID_UB
+    // Avoid UB: Explicitly return questState to match original behavior
+    return questState;
+#endif
 }
 
 void EnKo_Init(Actor* thisx, PlayState* play) {

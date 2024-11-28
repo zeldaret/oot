@@ -651,7 +651,7 @@ void EnfHG_Retreat(EnfHG* this, PlayState* play) {
         BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
         s16 paintingIdxReal;
         s16 paintingIdxFake;
-        Actor* child;
+        UNUSED_NDEBUG Actor* child;
 
         if (this->actor.params != GND_REAL_BOSS) {
             this->killActor = true;

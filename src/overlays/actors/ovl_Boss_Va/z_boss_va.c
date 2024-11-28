@@ -1146,6 +1146,8 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
             sKillBari++;
             if ((this->actor.colorFilterTimer != 0) && !(this->actor.colorFilterParams & 0x4000)) {
                 this->invincibilityTimer = this->actor.colorFilterTimer - 5;
+                //! @bug This condition is always false as this->invincibilityTimer is an s8 so can never
+                //! be larger than 160.
                 if (this->invincibilityTimer > 160) {
                     this->invincibilityTimer = 0;
                 }

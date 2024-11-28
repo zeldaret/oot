@@ -111,7 +111,7 @@ u32 StackCheck_Check(StackEntry* entry) {
         return ret;
     } else {
         u32* last;
-        u32 used;
+        UNUSED_NDEBUG u32 used;
         u32 free;
         u32 ret;
 
@@ -143,7 +143,7 @@ u32 StackCheck_Check(StackEntry* entry) {
 
 u32 StackCheck_GetState(StackEntry* entry) {
     u32* last;
-    u32 used;
+    UNUSED_NDEBUG u32 used;
     u32 free;
     u32 ret;
 

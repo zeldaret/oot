@@ -12113,7 +12113,9 @@ void Player_Update(Actor* thisx, PlayState* play) {
 
     Player_UpdateCommon(this, play, &input);
 
+#if DEBUG_FEATURES
 skip_update:;
+#endif
     {
         s32 pad;
 
