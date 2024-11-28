@@ -673,8 +673,8 @@ typedef struct PlayerAgeProperties {
     /* 0x92 */ u16 unk_92;
     /* 0x94 */ u16 unk_94;
     /* 0x98 */ LinkAnimationHeader* unk_98;
-    /* 0x9C */ LinkAnimationHeader* unk_9C;
-    /* 0xA0 */ LinkAnimationHeader* unk_A0;
+    /* 0x9C */ LinkAnimationHeader* timeTravelStartAnim;
+    /* 0xA0 */ LinkAnimationHeader* timeTravelEndAnim;
     /* 0xA4 */ LinkAnimationHeader* unk_A4;
     /* 0xA8 */ LinkAnimationHeader* unk_A8;
     /* 0xAC */ LinkAnimationHeader* unk_AC[4];
@@ -899,16 +899,22 @@ typedef struct Player {
 
     /* 0x084F */ union {
         s8 actionVar1;
-        s8 facingUpSlope; // Player_Action_SlideOnSlope: facing uphill when sliding on a slope
+        s8 startedAnim; // Player_Action_EndTimeTravel: Started playing the animation that was previously frozen
+        s8 facingUpSlope; // Player_Action_SlideOnSlope: Facing uphill when sliding on a slope
+        s8 isLakeHyliaCs; // Player_Action_BlueWarpArrive: In Lake Hylia CS after Water Temple. Floating down is delayed until a specific point in the cutscene.
         s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0850 */ union {
         s16 actionVar2;
         s16 fallDamageStunTimer; // Player_Action_Idle: Prevents any movement and shakes model up and down quickly to indicate fall damage stun
-        s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
+        s16 bonked; // Player_Action_Roll: Set to true after bonking into a wall or an actor
+        s16 animDelayTimer; // Player_Action_EndTimeTravel: Delays playing animation until finished counting down
         s16 startedTextbox; // Player_Action_SwingBottle: set to true when the textbox is started
-        s16 inWater; // Player_Action_SwingBottle: true if a bottle is swung in water. Used to determine which bottle swing animation to use.
+        s16 inWater; // Player_Action_SwingBottle: True if a bottle is swung in water. Used to determine which bottle swing animation to use.
+        s16 csDelayTimer; // Player_Action_WaitForCutscene: Number of frames to wait before responding to a cutscene
+        s16 playedLandingSfx; // Player_Action_BlueWarpArrive: Played sfx when landing on the ground
+        s16 appearTimer; // Player_Action_FaroresWindArrive: Counts up, appear at 20 frames (1 second)
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;
