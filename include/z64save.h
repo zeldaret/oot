@@ -392,6 +392,7 @@ typedef enum SceneLayer {
 } SceneLayer;
 
 #define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
+#define GET_CUTSCENE_LAYER(index) (SCENE_LAYER_CUTSCENE_FIRST + (index & 0xF))
 
 typedef enum LinkAge {
     /* 0 */ LINK_AGE_ADULT,

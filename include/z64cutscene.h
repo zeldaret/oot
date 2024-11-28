@@ -346,7 +346,7 @@ typedef enum CutsceneDestination {
 
 // the primary purpose of these values is to select `gSaveContext.sceneLayer`
 //      CS_INDEX_AUTO:     [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
-//      CS_INDEX_[0 .. A]: SCENE_LAYER_CUTSCENE_FIRST + (cutscene index & 0xF)
+//      CS_INDEX_[0 .. A]: GET_CUTSCENE_LAYER(index)
 // `z_demo.c` is the main user
 #define CS_INDEX_AUTO 0x0000
 #define CS_INDEX_0 0xFFF0
