@@ -344,23 +344,11 @@ typedef enum CutsceneDestination {
     /* 0x77 */ CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneDestination;
 
-/*
-correlation with `enum SceneLayer`:
-  CS_INDEX_AUTO: [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
-  CS_INDEX_*:    SCENE_LAYER_CUTSCENE_FIRST + (cutscene index & 0xF)
-
-correlation with `enum EntranceIndex`
-  CS_INDEX_AUTO: base entrance index + scene layer
-  CS_INDEX_*:    base entrance index + scene layer
-
-`z_select.c` naming:
-  CS_INDEX_AUTO:   "Stage: night"
-  CS_INDEX_UNUSED: "Stage: day"
-  CS_INDEX_*:      "Stage demo 0*"
-*/
-// clang-format off
+// the primary purpose of these values is to select `gSaveContext.sceneLayer`
+//      CS_INDEX_AUTO:     [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
+//      CS_INDEX_[0 .. A]: SCENE_LAYER_CUTSCENE_FIRST + (cutscene index & 0xF)
+// `z_demo.c` is the main user
 #define CS_INDEX_AUTO 0x0000
-#define CS_INDEX_NEXT_EMPTY 0xFFEF // is allowed to schedule a cutscene
 #define CS_INDEX_0 0xFFF0
 #define CS_INDEX_1 0xFFF1
 #define CS_INDEX_2 0xFFF2
@@ -372,10 +360,16 @@ correlation with `enum EntranceIndex`
 #define CS_INDEX_8 0xFFF8
 #define CS_INDEX_9 0xFFF9
 #define CS_INDEX_A 0xFFFA
-#define CS_INDEX_TRIGGERED 0xFFFD
-#define CS_INDEX_BARRIER 0xFFFF // CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL
-#define CS_INDEX_UNUSED 0x8000 // CS_DEST_DEATH_MOUNTAIN_TRAIL
-// clang-format on
+
+// then there are two different sentinel values
+// `z_play.c` is the main user
+#define CS_INDEX_EMPTY 0xFFFD // marks `gSaveContext.save.cutsceneIndex` as free
+#define CS_INDEX_NEXT_EMPTY 0xFFEF // marks `gSaveContext.nextCutsceneIndex` as free
+
+// finally two more, but they're not meaningful for the normal gameplay
+// `z_select.c` is the main user
+#define CS_INDEX_8000 0x8000 // unused; set in CS_DEST_DEATH_MOUNTAIN_TRAIL
+#define CS_INDEX_FFFF 0xFFFF // unused; set in CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL
 
 typedef union CsCmdCam {
     struct {
@@ -385,7 +379,6 @@ typedef union CsCmdCam {
     };
     s32 _words[2];
 } CsCmdCam; // size = 0x8
-
 
 typedef union CsCmdMisc {
     struct {
