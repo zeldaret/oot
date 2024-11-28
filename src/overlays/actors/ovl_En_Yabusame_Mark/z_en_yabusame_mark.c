@@ -105,7 +105,7 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->collider, &this->actor, &sQuadInit);
     this->worldPos = this->actor.world.pos;
     this->actor.flags |= ACTOR_FLAG_4;
-    if (gSaveContext.sceneLayer != 4) {
+    if (gSaveContext.sceneLayer != GET_CUTSCENE_LAYER(CS_INDEX_0)) {
         Actor_Kill(&this->actor);
         return;
     }

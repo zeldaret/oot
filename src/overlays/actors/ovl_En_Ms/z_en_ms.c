@@ -169,7 +169,7 @@ void EnMs_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_0 &&
-        gSaveContext.sceneLayer == 8) { // ride carpet if in credits
+        gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_4)) { // ride carpet if in credits
         Actor_MoveXZGravity(&this->actor);
         PRINTF("OOOHHHHHH %f\n", this->actor.velocity.y);
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);

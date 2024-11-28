@@ -427,7 +427,7 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
     u32 sfxId;
     s16 sceneId = play->sceneId;
 
-    if ((gSaveContext.sceneLayer != 4) || (sceneId != SCENE_DESERT_COLOSSUS)) {
+    if ((gSaveContext.sceneLayer != GET_CUTSCENE_LAYER(CS_INDEX_0)) || (sceneId != SCENE_DESERT_COLOSSUS)) {
         if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
             sfxId = NA_SE_PL_WALK_GROUND;
             sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
@@ -439,7 +439,7 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
 void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
     s16 sceneId;
 
-    if (gSaveContext.sceneLayer == 4) {
+    if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0)) {
         sceneId = play->sceneId;
         if (sceneId == SCENE_DESERT_COLOSSUS) {
             CutsceneContext* csCtx = &play->csCtx;
@@ -465,13 +465,14 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
 void func_80B3D118(PlayState* play) {
     s16 sceneId;
 
-    if ((gSaveContext.sceneLayer != 4) || (sceneId = play->sceneId, sceneId != SCENE_DESERT_COLOSSUS)) {
+    if ((gSaveContext.sceneLayer != GET_CUTSCENE_LAYER(CS_INDEX_0)) ||
+        (sceneId = play->sceneId, sceneId != SCENE_DESERT_COLOSSUS)) {
         Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
     }
 }
 
 void EnXc_SetColossusWindSFX(PlayState* play) {
-    if (gSaveContext.sceneLayer == 4) {
+    if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0)) {
         static s32 D_80B41D90 = 0;
         static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
         static Vec3f D_80B42DB0;

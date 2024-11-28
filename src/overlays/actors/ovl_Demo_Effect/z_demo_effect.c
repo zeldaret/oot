@@ -678,7 +678,8 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
         } else {
             Actor_SetScale(&this->actor, 84 * 0.001f);
         }
-    } else if (gSaveContext.sceneLayer == 5 || gSaveContext.sceneLayer == 4 ||
+    } else if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_1) ||
+               gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0) ||
                (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(play, &this->skelCurve);
@@ -834,7 +835,8 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
             }
         }
 
-        if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0 && gSaveContext.sceneLayer == 6 &&
+        if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0 &&
+            gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_2) &&
             play->csCtx.curFrame == FRAMERATE_CONST(143, 120)) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
@@ -1060,11 +1062,12 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
                 break;
         }
 
-        if (play->sceneId == SCENE_KOKIRI_FOREST && gSaveContext.sceneLayer == 6 && play->csCtx.curFrame == 197) {
+        if (play->sceneId == SCENE_KOKIRI_FOREST && gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_2) &&
+            play->csCtx.curFrame == 197) {
             Actor_PlaySfx(&this->actor, NA_SE_EV_WHITE_OUT);
         }
 
-        if (play->sceneId == SCENE_DEATH_MOUNTAIN_TRAIL && gSaveContext.sceneLayer == 5) {
+        if (play->sceneId == SCENE_DEATH_MOUNTAIN_TRAIL && gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_1)) {
             if (!DemoEffect_CheckForCue(this, play, 1)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
@@ -1075,7 +1078,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
             if (0) {}
         }
 
-        if (play->sceneId == SCENE_ZORAS_FOUNTAIN && gSaveContext.sceneLayer == 4) {
+        if (play->sceneId == SCENE_ZORAS_FOUNTAIN && gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0)) {
             if (!DemoEffect_CheckForCue(this, play, 1)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
@@ -1087,7 +1090,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
             if (0) {}
         }
 
-        if (play->sceneId == SCENE_TEMPLE_OF_TIME && gSaveContext.sceneLayer == 14) {
+        if (play->sceneId == SCENE_TEMPLE_OF_TIME && gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_A)) {
             if (1) {}
 
             if (play->csCtx.actorCues[this->cueChannel]->id == 2) {
@@ -1145,7 +1148,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
 
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
-                case 4:
+                case GET_CUTSCENE_LAYER(CS_INDEX_0):
                     if (play->csCtx.curFrame == FRAMERATE_CONST(288, 240)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
@@ -1154,13 +1157,13 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
                     }
                     break;
 
-                case 6:
+                case GET_CUTSCENE_LAYER(CS_INDEX_2):
                     if (play->csCtx.curFrame == FRAMERATE_CONST(55, 25)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
-                case 11:
+                case GET_CUTSCENE_LAYER(CS_INDEX_7):
                     if (play->csCtx.curFrame == FRAMERATE_CONST(350, 353)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
@@ -1200,18 +1203,18 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
 
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
-                case 4:
+                case GET_CUTSCENE_LAYER(CS_INDEX_0):
                     if (play->csCtx.curFrame == FRAMERATE_CONST(298, 248)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
-                case 6:
+                case GET_CUTSCENE_LAYER(CS_INDEX_2):
                     if (play->csCtx.curFrame == FRAMERATE_CONST(105, 88)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
-                case 11:
+                case GET_CUTSCENE_LAYER(CS_INDEX_7):
                     if (play->csCtx.curFrame == FRAMERATE_CONST(360, 362)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
@@ -1219,7 +1222,8 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
             }
         }
 
-        if (gSaveContext.save.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL_0 && gSaveContext.sceneLayer == 4) {
+        if (gSaveContext.save.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL_0 &&
+            gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0)) {
             if (play->csCtx.curFrame == FRAMERATE_CONST(72, 57)) {
                 Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
@@ -1259,19 +1263,19 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
 
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
-                case 4:
+                case GET_CUTSCENE_LAYER(CS_INDEX_0):
                     if (play->csCtx.curFrame == FRAMERATE_CONST(315, 265)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
-                case 6:
+                case GET_CUTSCENE_LAYER(CS_INDEX_2):
                     if (play->csCtx.curFrame == FRAMERATE_CONST(80, 60)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
-                case 11:
+                case GET_CUTSCENE_LAYER(CS_INDEX_7):
                     if (play->csCtx.curFrame == FRAMERATE_CONST(370, 371)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
@@ -1764,7 +1768,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
 
     if (!DemoEffect_CheckForCue(this, play, 2)) {
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
-            if (gSaveContext.sceneLayer == 4) {
+            if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0)) {
                 if (play->csCtx.curFrame <= 680) {
                     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
                 }

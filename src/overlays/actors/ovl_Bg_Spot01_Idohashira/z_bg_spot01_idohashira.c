@@ -307,10 +307,10 @@ void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
         } else {
             this->action = 0;
         }
-    } else if (gSaveContext.sceneLayer == 4) {
+    } else if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0)) {
         this->action = 1;
         this->dyna.actor.shape.yOffset = -(kREG(10) + 1100.0f);
-    } else if (gSaveContext.sceneLayer == 6) {
+    } else if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_2)) {
         this->action = 0;
     } else {
         Actor_Kill(&this->dyna.actor);

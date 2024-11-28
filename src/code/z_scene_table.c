@@ -350,7 +350,7 @@ void Scene_DrawConfigTempleOfTime(PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5145);
 
-    if (gSaveContext.sceneLayer == 5) {
+    if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_1)) {
         gCustomLensFlareOn = true;
         gCustomLensFlarePos.x = -20.0f;
         gCustomLensFlarePos.y = 1220.0f;
@@ -1186,9 +1186,9 @@ void Scene_DrawConfigKokiriForest(PlayState* play) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    if (gSaveContext.sceneLayer == 4) {
+    if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0)) {
         spA3 = 255 - (u8)play->roomCtx.drawParams[0];
-    } else if (gSaveContext.sceneLayer == 6) {
+    } else if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_2)) {
         spA0 = play->roomCtx.drawParams[0] + 500;
     } else if (
 #if OOT_VERSION < PAL_1_0

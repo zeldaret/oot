@@ -73,7 +73,7 @@ void BgTreemouth_Init(Actor* thisx, PlayState* play) {
 
     if (!IS_CUTSCENE_LAYER && !LINK_IS_ADULT) {
         BgTreemouth_SetupAction(this, func_808BC8B8);
-    } else if (LINK_IS_ADULT || (gSaveContext.sceneLayer == 7)) {
+    } else if (LINK_IS_ADULT || (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_3))) {
         this->unk_168 = 0.0f;
         BgTreemouth_SetupAction(this, BgTreemouth_DoNothing);
     } else {
@@ -116,7 +116,8 @@ void func_808BC6F8(BgTreemouth* this, PlayState* play) {
         this->unk_168 = 1.0f;
     }
 
-    if ((gSaveContext.sceneLayer == 6) && (play->csCtx.curFrame > 700) && (play->state.frames % 8 == 0)) {
+    if ((gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_2)) && (play->csCtx.curFrame > 700) &&
+        (play->state.frames % 8 == 0)) {
         sp34.x = (Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
         sp34.z = (Rand_ZeroOne() * 2026.0f) + -2163.0f;
@@ -248,7 +249,7 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
     } else { // needed to match
     }
 
-    if (gSaveContext.sceneLayer == 6) {
+    if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_2)) {
         alpha = (play->roomCtx.drawParams[0] + 0x1F4);
     }
 

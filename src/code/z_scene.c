@@ -65,7 +65,7 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     if (play2->sceneId == SCENE_HYRULE_FIELD) {
         spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else if (play2->sceneId == SCENE_GANON_BOSS) {
-        if (gSaveContext.sceneLayer != 4) {
+        if (gSaveContext.sceneLayer != GET_CUTSCENE_LAYER(CS_INDEX_0)) {
             spaceSize = 1150 * 1024 - OBJECT_SPACE_ADJUSTMENT;
         } else {
             spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
@@ -445,7 +445,7 @@ BAD_RETURN(s32) Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd)
     PRINTF("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.save.cutsceneIndex));
     PRINTF("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
 
-    if (gSaveContext.sceneLayer != 0) {
+    if (gSaveContext.sceneLayer != SCENE_LAYER_CHILD_DAY) {
         SceneCmd* altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
 
         if (altHeader != NULL) {
