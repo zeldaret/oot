@@ -2750,7 +2750,7 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
  * <EXPLAIN PROJECTED SPACE AND DISTANCE STUFF HERE>
  *
  * This interactive 3D graph visualizes the shape of the culling volume and has sliders
- * for the 3 properties mentioned above: https://www.desmos.com/3d/pcvaxdgyij.
+ * for the 3 properties mentioned above: https://www.desmos.com/3d/4ztkxqky2a.
  */
 s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 projW) {
     if ((projPos->z > -actor->cullingVolumeScale) &&
