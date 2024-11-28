@@ -203,7 +203,7 @@ void EnInsect_Init(Actor* thisx, PlayState* play2) {
 
     if (this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) {
         this->lifeTimer = Rand_S16Offset(200, 40);
-        this->actor.flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 
     if (type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) {

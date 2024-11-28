@@ -11,7 +11,7 @@
 #include "quake.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef s32 (*EnGoroiwaUnkFunc1)(EnGoroiwa* this, PlayState* play);
 typedef void (*EnGoroiwaUnkFunc2)(EnGoroiwa* this);

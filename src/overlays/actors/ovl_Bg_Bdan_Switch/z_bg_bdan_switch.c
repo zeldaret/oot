@@ -7,7 +7,7 @@
 #include "z_bg_bdan_switch.h"
 #include "assets/objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgBdanSwitch_Init(Actor* thisx, PlayState* play);
 void BgBdanSwitch_Destroy(Actor* thisx, PlayState* play);

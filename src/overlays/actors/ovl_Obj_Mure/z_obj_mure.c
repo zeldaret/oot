@@ -284,7 +284,7 @@ void ObjMure_InitialAction(ObjMure* this, PlayState* play) {
 void ObjMure_CulledState(ObjMure* this, PlayState* play) {
     if (fabsf(this->actor.projectedPos.z) < sZClip[this->type]) {
         this->actionFunc = ObjMure_ActiveState;
-        this->actor.flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         ObjMure_SpawnActors(this, play);
     }
 }
@@ -407,7 +407,7 @@ void ObjMure_ActiveState(ObjMure* this, PlayState* play) {
     ObjMure_CheckChildren(this, play);
     if (sZClip[this->type] + 40.0f <= fabsf(this->actor.projectedPos.z)) {
         this->actionFunc = ObjMure_CulledState;
-        this->actor.flags &= ~ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         ObjMure_KillActors(this, play);
     } else if (sTypeGroupBehaviorFunc[this->type] != NULL) {
         sTypeGroupBehaviorFunc[this->type](this, play);

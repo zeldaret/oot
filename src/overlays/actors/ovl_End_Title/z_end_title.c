@@ -7,7 +7,7 @@
 #include "z_end_title.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EndTitle_Init(Actor* thisx, PlayState* play);
 void EndTitle_Destroy(Actor* thisx, PlayState* play);

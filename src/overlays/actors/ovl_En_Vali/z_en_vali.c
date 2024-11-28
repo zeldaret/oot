@@ -8,7 +8,7 @@
 #include "assets/objects/object_vali/object_vali.h"
 
 #define FLAGS \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_IGNORE_QUAKE)
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnVali_Init(Actor* thisx, PlayState* play);
 void EnVali_Destroy(Actor* thisx, PlayState* play);
@@ -198,7 +198,7 @@ void EnVali_SetupFloatIdle(EnVali* this) {
             this->leftArmCollider.dim.quad[1].y = this->rightArmCollider.dim.quad[0].y =
                 this->rightArmCollider.dim.quad[1].y = this->actor.world.pos.y - 10.0f;
 
-    this->actor.flags &= ~ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+    this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->bodyCollider.base.acFlags |= AC_ON;
     this->slingshotReactionTimer = 0;
     this->floatHomeHeight = this->actor.world.pos.y;
@@ -275,7 +275,7 @@ void EnVali_SetupFrozen(EnVali* this) {
 
 void EnVali_SetupReturnToLurk(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBariLurkingAnim, 10.0f);
-    this->actor.flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnVali_ReturnToLurk;
 }

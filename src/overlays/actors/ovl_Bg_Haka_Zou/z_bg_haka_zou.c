@@ -8,7 +8,7 @@
 #include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum ShadowTempleAssetsType {
     /* 0x0 */ STA_GIANT_BIRD_STATUE,

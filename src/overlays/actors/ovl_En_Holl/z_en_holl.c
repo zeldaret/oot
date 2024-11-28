@@ -1,6 +1,6 @@
 #include "z_en_holl.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 /*
  * Horizontal holls parameters (`ENHOLL_H_*`)

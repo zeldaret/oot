@@ -7,7 +7,7 @@
 #include "z_en_tr.h"
 #include "assets/objects/object_tr/object_tr.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnTr_Init(Actor* thisx, PlayState* play);
 void EnTr_Destroy(Actor* thisx, PlayState* play);

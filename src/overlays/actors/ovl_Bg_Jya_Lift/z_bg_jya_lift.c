@@ -7,7 +7,7 @@
 #include "z_bg_jya_lift.h"
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgJyaLift_Init(Actor* thisx, PlayState* play);
 void BgJyaLift_Destroy(Actor* thisx, PlayState* play);

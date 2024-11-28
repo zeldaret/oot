@@ -7,7 +7,7 @@
 #include "z_mir_ray.h"
 #include "assets/objects/object_mir_ray/object_mir_ray.h"
 
-#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void MirRay_Init(Actor* thisx, PlayState* play);
 void MirRay_Destroy(Actor* thisx, PlayState* play);

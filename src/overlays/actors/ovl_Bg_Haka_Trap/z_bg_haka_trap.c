@@ -131,7 +131,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = func_80880484;
         } else {
             DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-            thisx->flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+            thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
                 CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &colHeader);

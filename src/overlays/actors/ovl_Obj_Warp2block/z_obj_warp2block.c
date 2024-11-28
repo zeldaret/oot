@@ -8,8 +8,8 @@
 #include "assets/objects/object_timeblock/object_timeblock.h"
 #include "terminal.h"
 
-#define FLAGS                                                                                              \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_UPDATE_DURING_OCARINA | \
+#define FLAGS                                                                                               \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA | \
      ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void ObjWarp2block_Init(Actor* thisx, PlayState* play2);

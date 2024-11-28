@@ -1,8 +1,8 @@
 #include "z_en_fz.h"
 #include "assets/objects/object_fz/object_fz.h"
 
-#define FLAGS                                                                                \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_DISABLE_UPDATE_CULLING | \
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
      ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 void EnFz_Init(Actor* thisx, PlayState* play);

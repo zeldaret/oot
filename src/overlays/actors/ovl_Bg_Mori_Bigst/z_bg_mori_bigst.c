@@ -8,7 +8,7 @@
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 #include "quake.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgMoriBigst_Init(Actor* thisx, PlayState* play);
 void BgMoriBigst_Destroy(Actor* thisx, PlayState* play);

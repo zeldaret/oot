@@ -26,7 +26,7 @@
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "assets/objects/object_ouke_haka/object_ouke_haka.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void DoorShutter_Init(Actor* thisx, PlayState* play2);
 void DoorShutter_Destroy(Actor* thisx, PlayState* play);

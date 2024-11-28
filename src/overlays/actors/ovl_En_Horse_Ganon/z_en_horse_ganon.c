@@ -7,7 +7,7 @@
 #include "z_en_horse_ganon.h"
 #include "assets/objects/object_horse_ganon/object_horse_ganon.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef struct unk_D_80A69248 {
     /* 0x0 */ Vec3s unk_0;

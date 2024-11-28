@@ -1,7 +1,7 @@
 #include "z_bg_mizu_shutter.h"
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgMizuShutter_Init(Actor* thisx, PlayState* play);
 void BgMizuShutter_Destroy(Actor* thisx, PlayState* play);

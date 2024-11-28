@@ -72,7 +72,7 @@ void DoorAna_Init(Actor* thisx, PlayState* play) {
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         } else {
-            this->actor.flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+            this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         }
         Actor_SetScale(&this->actor, 0);
         DoorAna_SetupAction(this, DoorAna_WaitClosed);
@@ -99,7 +99,7 @@ void DoorAna_WaitClosed(DoorAna* this, PlayState* play) {
         // opening with song of storms
         if (this->actor.xyzDistToPlayerSq < SQ(200.0f) && CutsceneFlags_Get(play, 5)) {
             openGrotto = true;
-            this->actor.flags &= ~ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+            this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         }
     } else {
         // bombing/hammering open a grotto

@@ -8,7 +8,7 @@
 #include "assets/objects/object_spot01_objects/object_spot01_objects.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play);
 void BgSpot01Idohashira_Destroy(Actor* thisx, PlayState* play);

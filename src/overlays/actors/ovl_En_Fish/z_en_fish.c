@@ -117,7 +117,7 @@ void EnFish_SetCutsceneData(EnFish* this) {
         thisx->shape.yOffset = 600.0f;
         D_80A17014 = 10.0f;
         D_80A17018 = 0.0f;
-        thisx->flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         EnFish_SetOutOfWaterAnimation(this);
     }
 }
@@ -141,7 +141,7 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
     this->fastPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);
 
     if (params == FISH_DROPPED) {
-        this->actor.flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
         EnFish_Dropped_SetupFall(this);
     } else if (params == FISH_SWIMMING_UNIQUE) {
@@ -476,7 +476,7 @@ void EnFish_Dropped_SetupSwimAway(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->actor.shape.yOffset = 0.0f;
-    this->actor.flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->timer = 200;
     EnFish_SetInWaterAnimation(this);
     this->actionFunc = EnFish_Dropped_SwimAway;

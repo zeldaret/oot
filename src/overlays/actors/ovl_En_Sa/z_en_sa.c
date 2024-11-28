@@ -4,8 +4,8 @@
 #include "assets/scenes/overworld/spot04/spot04_scene.h"
 #include "assets/scenes/overworld/spot05/spot05_scene.h"
 
-#define FLAGS                                                                                 \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_DISABLE_UPDATE_CULLING | \
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
      ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnSa_Init(Actor* thisx, PlayState* play);

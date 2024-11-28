@@ -64,7 +64,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
 
     if (thisx->params == 2) {
         DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
-        thisx->flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         CollisionHeader_GetVirtual(&object_haka_objects_Col_005334, &colHeader);
         this->actionFunc = func_8087E258;
     } else {
@@ -83,7 +83,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = func_8087E34C;
                 thisx->world.pos.y = thisx->home.pos.y;
             } else {
-                thisx->flags |= ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+                thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                 this->actionFunc = func_8087E288;
             }
         } else {

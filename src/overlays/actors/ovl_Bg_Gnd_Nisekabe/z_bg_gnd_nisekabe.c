@@ -7,7 +7,7 @@
 #include "z_bg_gnd_nisekabe.h"
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgGndNisekabe_Init(Actor* thisx, PlayState* play);
 void BgGndNisekabe_Destroy(Actor* thisx, PlayState* play);

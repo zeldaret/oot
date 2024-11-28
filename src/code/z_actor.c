@@ -2438,7 +2438,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                 actor->flags &= ~ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
 
                 if ((DECR(actor->freezeTimer) == 0) &&
-                    (actor->flags & (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_INSIDE_CULLING_VOLUME))) {
+                    (actor->flags & (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_INSIDE_CULLING_VOLUME))) {
                     if (actor == player->focusActor) {
                         actor->isLockedOn = true;
                     } else {
@@ -2717,9 +2717,9 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
  * When an actor is culled, their update state is frozen and they will not draw, so they will be visible.
  *
  * It is possible for actors to opt out of update culling or draw culling.
- * This is set per-actor with `ACTOR_FLAG_DISABLE_UPDATE_CULLING` and `ACTOR_FLAG_DISABLE_DRAW_CULLING`.
+ * This is set per-actor with `ACTOR_FLAG_UPDATE_CULLING_DISABLED` and `ACTOR_FLAG_DRAW_CULLING_DISABLED`.
  *
- * Note: Even if either `ACTOR_FLAG_DISABLE_UPDATE_CULLING` or `ACTOR_FLAG_DISABLE_DRAW_CULLING` are set, the actor
+ * Note: Even if either `ACTOR_FLAG_UPDATE_CULLING_DISABLED` or `ACTOR_FLAG_DRAW_CULLING_DISABLED` are set, the actor
  * will still undergo the culling test and set `ACTOR_FLAG_INSIDE_CULLING_VOLUME` accordingly.
  * So, `ACTOR_FLAG_INSIDE_CULLING_VOLUME` cannot be used on it own to determine if an actor is actually culled.
  * It simply says whether or not they are physically located within the bounds of the culling volume.
@@ -2817,7 +2817,7 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
 
             if (!DEBUG_FEATURES || (HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
                 if ((actor->init == NULL) && (actor->draw != NULL) &&
-                    (actor->flags & (ACTOR_FLAG_DISABLE_DRAW_CULLING | ACTOR_FLAG_INSIDE_CULLING_VOLUME))) {
+                    (actor->flags & (ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_INSIDE_CULLING_VOLUME))) {
                     if ((actor->flags & ACTOR_FLAG_REACT_TO_LENS) &&
                         ((play->roomCtx.curRoom.lensMode == LENS_MODE_SHOW_ACTORS) || play->actorCtx.lensActive ||
                          (actor->room != play->roomCtx.curRoom.num))) {

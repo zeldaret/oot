@@ -7,7 +7,7 @@
 #include "z_en_blkobj.h"
 #include "assets/objects/object_blkobj/object_blkobj.h"
 
-#define FLAGS (ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_DISABLE_DRAW_CULLING)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnBlkobj_Init(Actor* thisx, PlayState* play);
 void EnBlkobj_Destroy(Actor* thisx, PlayState* play);

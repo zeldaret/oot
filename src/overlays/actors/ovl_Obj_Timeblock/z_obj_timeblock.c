@@ -7,8 +7,8 @@
 #include "z_obj_timeblock.h"
 #include "assets/objects/object_timeblock/object_timeblock.h"
 
-#define FLAGS                                                                                              \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_DISABLE_UPDATE_CULLING | ACTOR_FLAG_UPDATE_DURING_OCARINA | \
+#define FLAGS                                                                                               \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA | \
      ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void ObjTimeblock_Init(Actor* thisx, PlayState* play);

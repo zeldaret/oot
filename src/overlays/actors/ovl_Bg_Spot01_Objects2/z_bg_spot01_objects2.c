@@ -8,7 +8,7 @@
 #include "assets/objects/object_spot01_matoya/object_spot01_matoya.h"
 #include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgSpot01Objects2_Init(Actor* thisx, PlayState* play);
 void BgSpot01Objects2_Destroy(Actor* thisx, PlayState* play);

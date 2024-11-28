@@ -7,7 +7,7 @@
 #include "z_bg_mori_hashira4.h"
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgMoriHashira4_Init(Actor* thisx, PlayState* play);
 void BgMoriHashira4_Destroy(Actor* thisx, PlayState* play);

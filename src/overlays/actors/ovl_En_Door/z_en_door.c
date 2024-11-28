@@ -12,7 +12,7 @@
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 #include "assets/objects/object_haka_door/object_haka_door.h"
 
-#define FLAGS ACTOR_FLAG_DISABLE_UPDATE_CULLING
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 #define DOOR_AJAR_SLAM_RANGE 120.0f
 #define DOOR_AJAR_OPEN_RANGE (2 * DOOR_AJAR_SLAM_RANGE)
@@ -177,7 +177,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         s32 doorType = ENDOOR_GET_TYPE(&this->actor);
 
-        this->actor.flags &= ~ACTOR_FLAG_DISABLE_UPDATE_CULLING;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actionFunc = EnDoor_Idle;
         if (doorType == DOOR_EVENING) {
