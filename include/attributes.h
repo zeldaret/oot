@@ -13,6 +13,12 @@
 #define NO_REORDER   __attribute__((no_reorder))
 #define SECTION_DATA __attribute__((section(".data")))
 
+#ifdef __GNUC__
+#define UNREACHABLE() __builtin_unreachable()
+#else
+#define UNREACHABLE()
+#endif
+
 // Variables may be unused in retail versions but used in debug versions
 #if DEBUG_FEATURES
 #define UNUSED_NDEBUG
