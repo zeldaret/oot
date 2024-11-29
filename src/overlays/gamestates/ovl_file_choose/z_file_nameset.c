@@ -1794,10 +1794,21 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
+#ifndef AVOID_UB
+        //! @bug Mistakenly using sOptionsMenuHeaders instead of sOptionsMenuSettings for the height.
+        //! This is also an OOB read that happens to access the height of up to the first three elements
+        //! in sOptionsMenuSettings, and since all heights are 16, it works out anyway.
+#define sOptionsMenuSettingsBug sOptionsMenuHeaders
+#else
+        // Avoid UB: Use the correct array for the heights to avoid reading out of bounds memory that may not
+        // happen to work out nicely.
+#define sOptionsMenuSettingsBug sOptionsMenuSettings
+#endif
         gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
                             G_IM_SIZ_8b, sZTargetSettingWidths[j][gSaveContext.language],
-                            OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuHeaders[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuSettingsBug[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+#undef sOptionsMenuSettingsBug
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
 
