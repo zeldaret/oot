@@ -748,7 +748,7 @@ void BossGanondrof_Stunned(BossGanondrof* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_DAMAGE2);
         }
 
-        this->actor.flags |= ACTOR_FLAG_10;
+        this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     }
 
     PRINTF("TIME0 %d ********************************************\n", this->timers[0]);
@@ -1297,7 +1297,7 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
     BossGanondrof* this = (BossGanondrof*)thisx;
 
     PRINTF("MOVE START %d\n", this->actor.params);
-    this->actor.flags &= ~ACTOR_FLAG_10;
+    this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->colliderBody.base.colMaterial = COL_MATERIAL_HIT3;
     if (this->killActor) {
         Actor_Kill(&this->actor);

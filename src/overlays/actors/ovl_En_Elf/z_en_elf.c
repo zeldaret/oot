@@ -1379,7 +1379,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 
     if (player->naviTextId == 0) {
         if (player->focusActor == NULL) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (((gSaveContext.save.info.playerData.naviTimer >= 600) &&
                  (gSaveContext.save.info.playerData.naviTimer <= 3000)) ||
                 (nREG(89) != 0))
@@ -1423,7 +1423,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
         thisx->shape.rot.y = this->unk_2BC;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         // `gSaveContext.save.info.sceneFlags[127].chest` (like in the debug string) instead of `HIGH_SCORE(HS_HBA)`
         // matches too, but, with how the `SaveContext` struct is currently defined, it is an out-of-bounds read in the
         // `sceneFlags` array. It is theorized the original `room_inf` (currently `sceneFlags`) was an array of length

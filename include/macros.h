@@ -49,7 +49,7 @@
 // ensure that these do not use the IDO workaround to avoid errors.
 #define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !M2CTX)
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define PRINTF osSyncPrintf
 #elif IDO_PRINTF_WORKAROUND
 #define PRINTF(args) (void)0
@@ -57,7 +57,7 @@
 #define PRINTF(format, ...) (void)0
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
         LogUtils_LogThreadId(file, line);           \
@@ -83,7 +83,7 @@
         (state)->size = sizeof(newStruct);               \
     } while (0)
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
@@ -115,7 +115,7 @@
 
 #endif
 
-#if PLATFORM_N64 || OOT_DEBUG
+#if PLATFORM_N64 || DEBUG_FEATURES
 #define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)
 #else
 #define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)

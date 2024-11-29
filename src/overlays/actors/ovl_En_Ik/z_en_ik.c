@@ -202,7 +202,7 @@ void EnIk_InitImpl(Actor* thisx, PlayState* play) {
 
     thisx->update = EnIk_UpdateEnemy;
     thisx->draw = EnIk_DrawEnemy;
-    thisx->flags |= ACTOR_FLAG_10;
+    thisx->flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
 
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, thisx, &sCylinderInit);

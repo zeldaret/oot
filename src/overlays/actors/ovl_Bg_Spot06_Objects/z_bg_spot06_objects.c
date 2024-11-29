@@ -7,7 +7,7 @@
 #include "z_bg_spot06_objects.h"
 #include "assets/objects/object_spot06_objects/object_spot06_objects.h"
 
-#define FLAGS ACTOR_FLAG_9
+#define FLAGS ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR
 
 typedef enum LakeHyliaObjectsType {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
@@ -335,7 +335,7 @@ void BgSpot06Objects_LockPullOutward(BgSpot06Objects* this, PlayState* play) {
 
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.5f;
-        this->dyna.actor.flags &= ~ACTOR_FLAG_13;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_HOOKSHOT_ATTACHED;
 
         this->actionFunc = BgSpot06Objects_LockSwimToSurface;
     }

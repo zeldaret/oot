@@ -721,7 +721,7 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
 
 void EnMd_Idle(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoAkimboLoopAnim) {
-        func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
     } else if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) &&
                (this->animSequence != ENMD_ANIM_SEQ_SURPRISE_TO_AKIMBO)) {
         EnMd_SetAnimSequence(this, ENMD_ANIM_SEQ_SURPRISE_TO_AKIMBO);
@@ -732,7 +732,7 @@ void EnMd_Idle(EnMd* this, PlayState* play) {
 
 void EnMd_Watch(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoAkimboLoopAnim) {
-        func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
     }
     EnMd_UpdateAnimSequence(this);
 }
@@ -784,7 +784,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
     }
 
     if (this->skelAnime.animation == &gMidoAkimboLoopAnim) {
-        func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
     }
 
     if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (play->sceneId == SCENE_LOST_WOODS)) {
@@ -822,7 +822,7 @@ void EnMd_ListenToOcarina(EnMd* this, PlayState* play) {
 }
 
 void EnMd_Walk(EnMd* this, PlayState* play) {
-    func_80034F54(play, this->unk_214, this->unk_236, ENMD_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
     EnMd_UpdateAnimSequence(this);
 
     if (!(EnMd_FollowPath(this, play)) || (this->waypoint != 0)) {
@@ -880,8 +880,8 @@ s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM)) ||
         (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
-        rot->y += Math_SinS(this->unk_214[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->unk_236[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
 
     return false;

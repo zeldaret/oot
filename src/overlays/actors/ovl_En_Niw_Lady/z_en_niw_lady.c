@@ -225,7 +225,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
         }
         currentCucco = (EnNiw*)currentCucco->actor.next;
     }
-    if (OOT_DEBUG && BREG(7) != 0) {
+    if (DEBUG_FEATURES && BREG(7) != 0) {
         this->cuccosInPen = BREG(7) - 1;
     }
     phi_s1 = this->cuccosInPen;
@@ -578,8 +578,10 @@ s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
     }
     if (this->unk_275 != 0) {
         if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
-            rot->y += (Math_SinS((play->state.frames * ((limbIndex * 0x32) + 0x814))) * 200.0f);
-            rot->z += (Math_CosS((play->state.frames * ((limbIndex * 0x32) + 0x940))) * 200.0f);
+            // clang-format off
+            rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
+            rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
+            // clang-format on
         }
     }
     return false;

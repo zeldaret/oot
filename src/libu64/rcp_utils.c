@@ -1,6 +1,6 @@
 #include "global.h"
 
-#if PLATFORM_N64 || OOT_DEBUG
+#if PLATFORM_N64 || DEBUG_FEATURES
 #define RCP_UTILS_PRINTF osSyncPrintf
 #elif IDO_PRINTF_WORKAROUND
 #define RCP_UTILS_PRINTF(args) (void)0
