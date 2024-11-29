@@ -346,8 +346,11 @@ typedef enum CutsceneDestination {
 
 // the primary purpose of these values is to select `gSaveContext.sceneLayer`
 //      CS_INDEX_AUTO:     [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
-//      CS_INDEX_[0 .. A]: GET_CUTSCENE_LAYER(index)
-// `z_demo.c` is the main user
+//      CS_INDEX_[0 .. A]: GET_CUTSCENE_LAYER(cutscene_index)
+// normally `z_play.c` does this task, while the rest of the code
+// schedules that by assigning one of the listed values to either of
+// - `gSaveContext.save.cutsceneIndex`
+// - `gSaveContext.nextCutsceneIndex`
 #define CS_INDEX_AUTO 0x0000
 #define CS_INDEX_0 0xFFF0
 #define CS_INDEX_1 0xFFF1
@@ -362,13 +365,14 @@ typedef enum CutsceneDestination {
 #define CS_INDEX_A 0xFFFA
 
 // then there are two different sentinel values
-// `z_play.c` is the main user
-#define CS_INDEX_EMPTY 0xFFFD // marks `gSaveContext.save.cutsceneIndex` as free
-#define CS_INDEX_NEXT_EMPTY 0xFFEF // marks `gSaveContext.nextCutsceneIndex` as free
+// it is not strictly required to wait until a field is empty before setting it
+// albeit there are some cases besides `z_play.c` which do check for these values
+// either to sequence actions properly or to drive their internal logic
+#define CS_INDEX_EMPTY 0xFFFD // marks `cutsceneIndex` as free
+#define CS_INDEX_NEXT_EMPTY 0xFFEF // marks `nextCutsceneIndex` as free
 
 // finally two more, but they're not meaningful for the normal gameplay
-// `z_select.c` is the main user
-#define CS_INDEX_8000 0x8000 // unused; set in CS_DEST_DEATH_MOUNTAIN_TRAIL
+#define CS_INDEX_8000 0x8000 // unused; set in CS_DEST_DEATH_MOUNTAIN_TRAIL or `z_select.c`
 #define CS_INDEX_FFFF 0xFFFF // unused; set in CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL
 
 typedef union CsCmdCam {
