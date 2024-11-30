@@ -233,7 +233,8 @@ void Scene_DrawConfigDekuTree(PlayState* play) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDekuTreeEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08,
+               SEGMENTED_TO_VIRTUAL(sDekuTreeEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4783);
 }
@@ -544,9 +545,11 @@ void Scene_DrawConfigWaterTemple(PlayState* play) {
     gameplayFrames = play->gameplayFrames;
 
 #if !OOT_MQ
-    gSPSegment(POLY_XLU_DISP++, 0x06, SEGMENTED_TO_VIRTUAL(sWaterTempleEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
+    gSPSegment(POLY_XLU_DISP++, 0x06,
+               SEGMENTED_TO_VIRTUAL(sWaterTempleEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
 #else
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sWaterTempleEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
+    gSPSegment(POLY_XLU_DISP++, 0x08,
+               SEGMENTED_TO_VIRTUAL(sWaterTempleEntranceTextures[((void)0, gSaveContext.save.nightFlag)]));
 #endif
 
     if (spB0 == 1) {
@@ -1385,7 +1388,8 @@ void* sGerudoFortressWallTextures[] = {
 void Scene_DrawConfigGerudosFortress(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7363);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGerudoFortressWallTextures[((void)0, gSaveContext.save.nightFlag)]));
+    gSPSegment(POLY_OPA_DISP++, 0x08,
+               SEGMENTED_TO_VIRTUAL(sGerudoFortressWallTextures[((void)0, gSaveContext.save.nightFlag)]));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7371);
 }
