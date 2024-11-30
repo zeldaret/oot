@@ -150,7 +150,7 @@ typedef enum CutsceneCmd {
     /* 0x008F */ CS_CMD_ACTOR_CUE_9_0,
     /* 0x0090 */ CS_CMD_ACTOR_CUE_0_17,
     /* 0x03E8 */ CS_CMD_DESTINATION = 0x03E8,
-    /* 0xFFFF */ CS_CMD_END_OF_SCRIPT = 0xFFFF
+    /* 0xFFFF */ CS_CMD_END_OF_SCRIPT = -1 // 0xFFFF
 } CutsceneCmd;
 
 typedef enum CutsceneMiscType {
