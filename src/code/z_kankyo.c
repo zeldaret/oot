@@ -2619,7 +2619,7 @@ void Environment_StopStormNatureAmbience(PlayState* play) {
 
 void Environment_WarpSongLeave(PlayState* play) {
     gWeatherMode = WEATHER_MODE_CLEAR;
-    gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
+    gSaveContext.save.cutsceneIndex = CS_INDEX_DEFAULT;
     gSaveContext.respawnFlag = -3;
     play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
     play->transitionTrigger = TRANS_TRIGGER_START;

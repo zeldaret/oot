@@ -2544,7 +2544,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
     EnHorse_UpdateHbaRaceInfo(this, play, &sHbaInfo);
     if ((this->hbaFlags & 1) || (this->hbaTimer >= 46)) {
         if ((isFanfarePlaying != true) && (gSaveContext.minigameState != 3)) {
-            gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
+            gSaveContext.save.cutsceneIndex = CS_INDEX_DEFAULT;
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_16;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);

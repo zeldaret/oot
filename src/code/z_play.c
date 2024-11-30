@@ -1,4 +1,3 @@
-
 #include "global.h"
 #include "fault.h"
 #include "quake.h"
@@ -330,7 +329,7 @@ void Play_Init(GameState* thisx) {
     }
 
     if (gSaveContext.save.cutsceneIndex == CS_INDEX_EMPTY) {
-        gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_DEFAULT;
     }
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {

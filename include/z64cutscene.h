@@ -349,7 +349,7 @@ typedef enum CutsceneDestination {
 // - `gSaveContext.nextCutsceneIndex`
 // using them implies an intention to have `z_play.c` set `gSaveContext.sceneLayer` based on age and day time
 // see enum values [`SCENE_LAYER_CHILD_DAY` .. `SCENE_LAYER_ADULT_NIGHT`]
-#define CS_INDEX_AUTO 0x0000
+#define CS_INDEX_DEFAULT 0x0000
 #define CS_INDEX_UNK_8000 0x8000
 
 // values `>= 0xFFF0` indicate a "scripted" cutscene; can be assigned to
@@ -373,7 +373,7 @@ typedef enum CutsceneDestination {
 // but `z_demo.c` immediately sets `CS_STATE_STOP` state
 #define CS_INDEX_UNK_FFFF 0xFFFF
 
-// sentinel value used for `cutsceneIndex` to indicate that it should be reset to "auto"
+// sentinel value used for `cutsceneIndex` to indicate that it should be reset to default
 #define CS_INDEX_EMPTY 0xFFFD
 
 // sentinel value used for `nextCutsceneIndex` to indicate that it is empty
