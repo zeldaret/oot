@@ -39,7 +39,7 @@
 /**
  * Marks the beginning of a cutscene script.
  */
-#define CS_BEGIN_CUTSCENE(totalEntries, frameCount) CMD_W(totalEntries), CMD_W(frameCount)
+#define CS_HEADER(totalEntries, frameCount) CMD_W(totalEntries), CMD_W(frameCount)
 
 /**
  * Defines data for `CutsceneCameraPoint`, which can be used with any of the `eye` or `at` camera commands.
@@ -269,7 +269,7 @@
 /**
  * Marks the end of a cutscene script.
  */
-#define CS_END() 0xFFFFFFFF, 0x00000000
+#define CS_END_SCRIPT() 0xFFFFFFFF, 0x00000000
 
 
 // most instances of this look like unimplemented actor cues.
