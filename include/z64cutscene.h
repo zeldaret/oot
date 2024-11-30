@@ -344,14 +344,19 @@ typedef enum CutsceneDestination {
     /* 0x77 */ CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneDestination;
 
-// the primary purpose of these values is to select `gSaveContext.sceneLayer`
-//      CS_INDEX_AUTO:     [SCENE_LAYER_CHILD_DAY .. SCENE_LAYER_ADULT_NIGHT]
-//      CS_INDEX_[0 .. A]: GET_CUTSCENE_LAYER(cutscene_index)
-// normally `z_play.c` does this task, while the rest of the code
-// schedules that by assigning one of the listed values to either of
+// values `< 0xFFF0` indicate a "manual" cutscene; can be assigned to
 // - `gSaveContext.save.cutsceneIndex`
 // - `gSaveContext.nextCutsceneIndex`
+// using them implies an intention to have `z_play.c` set `gSaveContext.sceneLayer` based on age and day time
+// see enum values [`SCENE_LAYER_CHILD_DAY` .. `SCENE_LAYER_ADULT_NIGHT`]
 #define CS_INDEX_AUTO 0x0000
+#define CS_INDEX_UNK_8000 0x8000
+
+// values `>= 0xFFF0` indicate a "scripted" cutscene; can be assigned to
+// - `gSaveContext.save.cutsceneIndex`
+// - `gSaveContext.nextCutsceneIndex`
+// using them implies an intention to have `z_play.c` set `gSaveContext.sceneLayer` directly by index
+// see `GET_CUTSCENE_LAYER(index)`
 #define CS_INDEX_0 0xFFF0
 #define CS_INDEX_1 0xFFF1
 #define CS_INDEX_2 0xFFF2
@@ -364,16 +369,16 @@ typedef enum CutsceneDestination {
 #define CS_INDEX_9 0xFFF9
 #define CS_INDEX_A 0xFFFA
 
-// then there are two different sentinel values
-// it is not strictly required to wait until a field is empty before setting it
-// albeit there are some cases besides `z_play.c` which do check for these values
-// either to sequence actions properly or to drive their internal logic
-#define CS_INDEX_EMPTY 0xFFFD // marks `cutsceneIndex` as free
-#define CS_INDEX_NEXT_EMPTY 0xFFEF // marks `nextCutsceneIndex` as free
+// it's "out of range" even for the largest set of `entrance_table.h`
+// but `z_demo.c` immediately sets `CS_STATE_STOP` state
+#define CS_INDEX_UNK_FFFF 0xFFFF
 
-// finally two more, but they're not meaningful for the normal gameplay
-#define CS_INDEX_8000 0x8000 // unused; set in CS_DEST_DEATH_MOUNTAIN_TRAIL or `z_select.c`
-#define CS_INDEX_FFFF 0xFFFF // unused; set in CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL
+// sentinel value used for `cutsceneIndex` to indicate that it should be reset to "auto"
+#define CS_INDEX_EMPTY 0xFFFD
+
+// sentinel value used for `nextCutsceneIndex` to indicate that it is empty
+// otherwise its value will be copied to `cutsceneIndex`
+#define CS_INDEX_NEXT_EMPTY 0xFFEF
 
 typedef union CsCmdCam {
     struct {

@@ -295,7 +295,7 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
         }
 
         if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
-            if (gSaveContext.save.cutsceneIndex == CS_INDEX_8000) {
+            if (gSaveContext.save.cutsceneIndex == CS_INDEX_UNK_8000) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_AUTO) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_0;
@@ -320,13 +320,13 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_9) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_A;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_A) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_8000;
+                gSaveContext.save.cutsceneIndex = CS_INDEX_UNK_8000;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
-            if (gSaveContext.save.cutsceneIndex == CS_INDEX_8000) {
+            if (gSaveContext.save.cutsceneIndex == CS_INDEX_UNK_8000) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_A;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_AUTO) {
-                gSaveContext.save.cutsceneIndex = CS_INDEX_8000;
+                gSaveContext.save.cutsceneIndex = CS_INDEX_UNK_8000;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_0) {
                 gSaveContext.save.cutsceneIndex = CS_INDEX_AUTO;
             } else if (gSaveContext.save.cutsceneIndex == CS_INDEX_1) {
@@ -560,7 +560,7 @@ void MapSelect_PrintCutsceneSetting(MapSelectState* this, GfxPrint* printer, u16
             label = T(GFXP_HIRAGANA " ﾖﾙ " GFXP_KATAKANA "ｺﾞﾛﾝ", "Night");
             gSaveContext.save.dayTime = CLOCK_TIME(0, 0);
             break;
-        case CS_INDEX_8000:
+        case CS_INDEX_UNK_8000:
             // clang-format off
             gSaveContext.save.dayTime = CLOCK_TIME(12, 0); label = T(GFXP_HIRAGANA "ｵﾋﾙ " GFXP_KATAKANA "ｼﾞｬﾗ", "Day");
             // clang-format on
@@ -727,6 +727,6 @@ void MapSelect_Init(GameState* thisx) {
         DMA_REQUEST_SYNC(this->staticSegment, (uintptr_t)_z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
     }
 
-    gSaveContext.save.cutsceneIndex = CS_INDEX_8000;
+    gSaveContext.save.cutsceneIndex = CS_INDEX_UNK_8000;
     gSaveContext.save.linkAge = LINK_AGE_CHILD;
 }
