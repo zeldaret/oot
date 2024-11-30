@@ -484,7 +484,7 @@ Argument format:
 """
 cutscene_command_macros = {
     -1:
-        ("CS_END_SCRIPT()", 1, None, None,
+        ("CS_END_OF_SCRIPT()", 1, None, None,
               None, None),
     3:
         ("CS_MISC_LIST(%w1:1:s)", 2, None, 0,

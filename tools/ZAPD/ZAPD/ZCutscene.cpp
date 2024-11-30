@@ -32,7 +32,7 @@ std::string ZCutscene::GetBodySourceCode() const
 		output += "    " + cmd->GenerateSourceCode();
 	}
 
-	output += StringHelper::Sprintf("    CS_END_SCRIPT(),");
+	output += StringHelper::Sprintf("    CS_END_OF_SCRIPT(),");
 
 	return output;
 }

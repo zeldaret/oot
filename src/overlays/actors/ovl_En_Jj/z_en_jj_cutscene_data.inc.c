@@ -153,6 +153,6 @@ static CutsceneData D_80A88164[] = {
     CS_DESTINATION(CS_DEST_JABU_JABU, 345, 395),
     CS_ACTOR_CUE_LIST(62, 1),
         CS_ACTOR_CUE(0x0001, 305, 494, 0x0000, 0x0000, 0x0000, -1399, 452, -53, -1399, 452, -53, CS_FLOAT(0x0, 0.0f), CS_FLOAT(0x0, 0.0f), CS_FLOAT(0x0, 0.0f)),
-    CS_END_SCRIPT(),
+    CS_END_OF_SCRIPT(),
 };
 // clang-format on
