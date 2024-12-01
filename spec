@@ -691,7 +691,10 @@ beginseg
     include "$(BUILD_DIR)/src/code/sys_matrix.o"
     include "$(BUILD_DIR)/src/code/sys_ucode.o"
     include "$(BUILD_DIR)/src/code/sys_rumble.o"
-    include "$(BUILD_DIR)/src/code/code_800D31A0.o"
+    include "$(BUILD_DIR)/src/code/sys_freeze.o"
+#if DEBUG_FEATURES
+    include "$(BUILD_DIR)/src/code/sys_debug_controller.o"
+#endif
     include "$(BUILD_DIR)/src/code/irqmgr.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/code/code_n64dd_800AD410.o"
