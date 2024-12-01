@@ -632,14 +632,14 @@ typedef enum PlayerStickDirection {
     /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 
-typedef enum {
+typedef enum PlayerKnockbackType {
     /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
     /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
     /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
     /* 3 */ PLAYER_KNOCKBACK_LARGE_SHOCK // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
 } PlayerKnockbackType;
 
-typedef enum {
+typedef enum PlayerDamageResponseType {
     /* 0 */ PLAYER_HIT_RESPONSE_NONE,
     /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
     /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
@@ -703,7 +703,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
 #define PLAYER_STATE1_CARRYING_ACTOR (1 << 11) // Currently carrying an actor
-#define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charing a spin attack (by holding down the B button)
+#define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charging a spin attack (by holding down the B button)
 #define PLAYER_STATE1_13 (1 << 13)
 #define PLAYER_STATE1_14 (1 << 14)
 #define PLAYER_STATE1_Z_TARGETING (1 << 15) // Either lock-on or parallel is active. This flag is never checked for and is practically unused.
@@ -899,7 +899,7 @@ typedef struct Player {
 
     /* 0x084F */ union {
         s8 actionVar1;
-        s8 startedAnim; // Player_Action_EndTimeTravel: Started playing the animation that was previously frozen
+        s8 startedAnim; // Player_Action_TimeTravelEnd: Started playing the animation that was previously frozen
         s8 facingUpSlope; // Player_Action_SlideOnSlope: Facing uphill when sliding on a slope
         s8 isLakeHyliaCs; // Player_Action_BlueWarpArrive: In Lake Hylia CS after Water Temple. Floating down is delayed until a specific point in the cutscene.
         s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
@@ -909,7 +909,7 @@ typedef struct Player {
         s16 actionVar2;
         s16 fallDamageStunTimer; // Player_Action_Idle: Prevents any movement and shakes model up and down quickly to indicate fall damage stun
         s16 bonked; // Player_Action_Roll: Set to true after bonking into a wall or an actor
-        s16 animDelayTimer; // Player_Action_EndTimeTravel: Delays playing animation until finished counting down
+        s16 animDelayTimer; // Player_Action_TimeTravelEnd: Delays playing animation until finished counting down
         s16 startedTextbox; // Player_Action_SwingBottle: set to true when the textbox is started
         s16 inWater; // Player_Action_SwingBottle: True if a bottle is swung in water. Used to determine which bottle swing animation to use.
         s16 csDelayTimer; // Player_Action_WaitForCutscene: Number of frames to wait before responding to a cutscene
