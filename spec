@@ -590,7 +590,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_debug.o"
     include "$(BUILD_DIR)/src/code/z_debug_display.o"
     include "$(BUILD_DIR)/src/code/z_demo.o"
-    include "$(BUILD_DIR)/src/code/code_80069420.o"
+    include "$(BUILD_DIR)/src/code/z_memory.o"
     include "$(BUILD_DIR)/src/code/z_draw.o"
     include "$(BUILD_DIR)/src/code/z_sfx_source.o"
     include "$(BUILD_DIR)/src/code/z_elf_message.o"
