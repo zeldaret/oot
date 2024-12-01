@@ -1132,12 +1132,10 @@ void func_80A98DB4(EnKo* this, PlayState* play) {
 }
 
 s32 func_80A98ECC(EnKo* this, PlayState* play) {
-    s32 questState;
     if (play->sceneId == SCENE_LOST_WOODS && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
         return func_80A97E18(this, play);
     }
-    questState = EnKo_GetForestQuestState(this);
-    switch (questState) {
+    switch (EnKo_GetForestQuestState(this)) {
         case ENKO_FQS_CHILD_START:
             return EnKo_ChildStart(this, play);
         case ENKO_FQS_CHILD_STONE:
