@@ -23,7 +23,6 @@ typedef enum CutsceneState {
 
 typedef enum CutsceneCmd {
     /* 0xFFFF */ CS_CMD_END_OF_SCRIPT = -1,
-    /* 0x0000 */ CS_CMD_NONE,
     /* 0x0001 */ CS_CMD_CAM_EYE_SPLINE = 0x01,
     /* 0x0002 */ CS_CMD_CAM_AT_SPLINE,
     /* 0x0003 */ CS_CMD_MISC,
