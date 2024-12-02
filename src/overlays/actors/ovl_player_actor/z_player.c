@@ -1700,7 +1700,6 @@ BAD_RETURN(s32) Player_ZeroSpeedXZ(Player* this) {
     this->speedXZ = 0.0f;
 }
 
-// return type can't be void due to regalloc in func_8083F72C
 BAD_RETURN(s32) func_80832224(Player* this) {
     Player_ZeroSpeedXZ(this);
     this->unk_6AD = 0;
@@ -12117,7 +12116,9 @@ void Player_Update(Actor* thisx, PlayState* play) {
 
     Player_UpdateCommon(this, play, &input);
 
+#if DEBUG_FEATURES
 skip_update:;
+#endif
     {
         s32 pad;
 

@@ -834,6 +834,8 @@ s32 EnKo_ChildStart(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 s32 EnKo_ChildStone(EnKo* this, PlayState* play) {
@@ -865,6 +867,8 @@ s32 EnKo_ChildStone(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 s32 EnKo_ChildSaria(EnKo* this, PlayState* play) {
@@ -896,6 +900,8 @@ s32 EnKo_ChildSaria(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 s32 EnKo_AdultEnemy(EnKo* this, PlayState* play) {
@@ -927,6 +933,8 @@ s32 EnKo_AdultEnemy(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 s32 EnKo_AdultSaved(EnKo* this, PlayState* play) {
@@ -958,7 +966,10 @@ s32 EnKo_AdultSaved(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
+
 void func_80A9877C(EnKo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
@@ -1136,6 +1147,8 @@ s32 func_80A98ECC(EnKo* this, PlayState* play) {
         case ENKO_FQS_ADULT_SAVED:
             return EnKo_AdultSaved(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 void EnKo_Init(Actor* thisx, PlayState* play) {

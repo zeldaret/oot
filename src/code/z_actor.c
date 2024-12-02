@@ -3204,7 +3204,7 @@ Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, PlayStat
 }
 
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
-    char* name;
+    UNUSED_NDEBUG char* name;
     Player* player;
     Actor* newHead;
     ActorOverlay* overlayEntry;
@@ -4041,6 +4041,7 @@ void func_8003424C(PlayState* play, Vec3f* arg1) {
 }
 
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration) {
+    //! @bug This first comparison is always false as COLORFILTER_COLORFLAG_GRAY is out of range of an s16.
     if ((colorFlag == COLORFILTER_COLORFLAG_GRAY) && !(colorIntensityMax & COLORFILTER_INTENSITY_FLAG)) {
         Actor_PlaySfx(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }

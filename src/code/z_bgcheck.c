@@ -1541,7 +1541,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     };
     u32 tblMax;
     u32 memSize;
-    u32 lookupTblMemSize;
+    UNUSED_NDEBUG u32 lookupTblMemSize;
     s32 customNodeListMax;
     SSNodeList* nodeList;
     u32 customMemSize;
