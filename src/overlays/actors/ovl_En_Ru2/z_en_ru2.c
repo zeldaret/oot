@@ -9,8 +9,8 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "terminal.h"
 
-#define ENRU2_SWITCH_FLAG(thisx) PARAMS_GET_U(thisx->actor.params, 8, 8)
-#define ENRU2_TYPE(thisx) PARAMS_GET_U(thisx->actor.params, 0, 8)
+#define ENRU2_GET_SWITCH_FLAG(thisx) PARAMS_GET_U(thisx->actor.params, 8, 8)
+#define ENRU2_GET_TYPE(thisx) PARAMS_GET_U(thisx->actor.params, 0, 8)
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -176,13 +176,13 @@ void EnRu2_UpdateEyes(EnRu2* this) {
 }
 
 s32 EnRu2_GetSwitchFlag(EnRu2* this) {
-    s32 switchFlag = ENRU2_SWITCH_FLAG(this);
+    s32 switchFlag = ENRU2_GET_SWITCH_FLAG(this);
 
     return switchFlag;
 }
 
 s32 EnRu2_GetType(EnRu2* this) {
-    s32 type = ENRU2_TYPE(this);
+    s32 type = ENRU2_GET_TYPE(this);
 
     return type;
 }
