@@ -321,7 +321,6 @@ void EnRu2_SpawnBlueWarp(EnRu2* this, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_SAGES);
 }
 
-
 /**
  * Spawns the Water Medallion.
  */
