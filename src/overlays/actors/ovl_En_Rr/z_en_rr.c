@@ -9,7 +9,8 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 #define RR_MESSAGE_SHIELD (1 << 0)
 #define RR_MESSAGE_TUNIC (1 << 1)
@@ -77,7 +78,7 @@ ActorProfile En_Rr_Profile = {
     /**/ EnRr_Draw,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sDropNames[] = {
     // "type 7", "small magic jar", "arrow", "fairy", "20 rupees", "50 rupees"
     "タイプ７  ", "魔法の壷小", "矢        ", "妖精      ", "20ルピー  ", "50ルピー  ",

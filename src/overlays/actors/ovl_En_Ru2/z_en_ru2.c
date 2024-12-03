@@ -90,7 +90,7 @@ static void* sEyeTextures[] = {
     gAdultRutoEyeClosedTex,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static UNK_TYPE D_80AF4118 = 0;
 #endif
 
@@ -184,7 +184,7 @@ s32 EnRu2_GetType(EnRu2* this) {
     return params;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80AF26AC(EnRu2* this) {
     this->action = ENRU2_CROSSING_ARMS_INVISIBLE;
     this->drawConfig = ENRU2_DRAW_NOTHING;
@@ -316,6 +316,7 @@ void EnRu2_SpawnBlueWarp(EnRu2* this, PlayState* play) {
 
     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_SAGES);
 }
+
 
 /**
  * Spawns the Water Medallion.
@@ -581,7 +582,7 @@ void EnRu2_CheckFadeOut(EnRu2* this, PlayState* play) {
  */
 void EnRu2_CrossingArmsInvisible(EnRu2* this, PlayState* play) {
     EnRu2_CheckFadeIn(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AF26D0(this, play);
 #endif
 }
@@ -594,7 +595,7 @@ void EnRu2_CrossingArmsFade(EnRu2* this, PlayState* play) {
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
     EnRu2_Fade(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AF26D0(this, play);
 #endif
 }
@@ -607,7 +608,7 @@ void EnRu2_AwaitSpawnLightBall(EnRu2* this, PlayState* play) {
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
     EnRu2_CheckFadeOut(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AF26D0(this, play);
 #endif
 }

@@ -183,7 +183,7 @@ void VisMono_Draw(VisMono* this, Gfx** gfxP) {
 }
 
 void VisMono_DrawOld(VisMono* this) {
-    Gfx* dListEnd;
+    UNUSED_NDEBUG Gfx* dListEnd;
 
     if (this->tlut == NULL) {
         this->tlut = SYSTEM_ARENA_MALLOC(256 * G_IM_SIZ_16b_BYTES, "../z_vismono.c", 283);

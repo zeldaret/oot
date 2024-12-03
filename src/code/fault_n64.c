@@ -1,6 +1,6 @@
 #if PLATFORM_N64
 
-#pragma increment_block_number "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 #include "global.h"
 #include "fault.h"
@@ -8,7 +8,7 @@
 #include "stack.h"
 #include "terminal.h"
 
-#pragma increment_block_number "ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
+#pragma increment_block_number "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 typedef struct FaultMgr {
     OSThread thread;
@@ -822,7 +822,7 @@ void Fault_Init(void) {
     osStartThread(&gFaultMgr.thread);
 }
 
-void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
+NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     gFaultMsgId = 4;
     osSyncPrintf("HungUp on Thread %d", osGetThreadId(NULL));
     osSyncPrintf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
@@ -843,7 +843,7 @@ void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     } while (true);
 }
 
-void Fault_AddHungupAndCrash(const char* file, int line) {
+NORETURN void Fault_AddHungupAndCrash(const char* file, int line) {
     char msg[256];
 
     sprintf(msg, "HungUp %s:%d", file, line);

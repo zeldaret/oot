@@ -73,7 +73,7 @@ void EnKakasi_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelanime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
 
     this->rot = this->actor.world.rot;
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     Actor_SetScale(&this->actor, 0.01f);

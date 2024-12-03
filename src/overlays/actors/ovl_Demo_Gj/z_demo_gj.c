@@ -230,7 +230,8 @@ s32 DemoGj_FindGanon(DemoGj* this, PlayState* play) {
         PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
         return false;
     }
-    //! @bug: Missing return value when `this->ganon` is already set.
+    //! @bug Missing return value when `this->ganon` is already set. No caller uses the return value
+    //! so it doesn't matter.
 }
 
 static InitChainEntry sInitChain[] = {
@@ -263,7 +264,7 @@ s32 DemoGj_InitSetIndices(DemoGj* this, PlayState* play, s32 updateMode, s32 dra
 }
 
 void DemoGj_DrawCommon(DemoGj* this, PlayState* play, Gfx* displayList) {
-    if (!OOT_DEBUG || kREG(0) == 0) {
+    if (!DEBUG_FEATURES || kREG(0) == 0) {
         GraphicsContext* gfxCtx = play->state.gfxCtx;
 
         OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1163);
@@ -975,7 +976,7 @@ void DemoGj_InitDestructableRubble1(DemoGj* this, PlayState* play) {
     DemoGj_InitCylinder(this, play, &this->cylinders[2], &sCylinderInit1);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void DemoGj_DoNothing1(DemoGj* this, PlayState* play) {
 }
 #endif
@@ -1095,7 +1096,7 @@ void DemoGj_Update15(DemoGj* this, PlayState* play) {
 // func_8097B370
 void DemoGj_Update18(DemoGj* this, PlayState* play) {
     func_8097B22C(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoGj_DoNothing1(this, play);
 #endif
 }
@@ -1112,7 +1113,7 @@ void DemoGj_InitDestructableRubble2(DemoGj* this, PlayState* play) {
     DemoGj_InitCylinder(this, play, &this->cylinders[2], &sCylinderInit2);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void DemoGj_DoNothing2(DemoGj* this, PlayState* play) {
 }
 #endif
@@ -1230,7 +1231,7 @@ void DemoGj_Update16(DemoGj* this, PlayState* play) {
 // func_8097B894
 void DemoGj_Update19(DemoGj* this, PlayState* play) {
     func_8097B750(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoGj_DoNothing2(this, play);
 #endif
 }
@@ -1245,7 +1246,7 @@ void DemoGj_InitDestructableRubbleTall(DemoGj* this, PlayState* play) {
     DemoGj_InitCylinder(this, play, &this->cylinders[0], &sCylinderInit3);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void DemoGj_DoNothing3(DemoGj* this, PlayState* play) {
 }
 #endif
@@ -1319,7 +1320,7 @@ void DemoGj_Update17(DemoGj* this, PlayState* play) {
 // func_8097BBA8
 void DemoGj_Update20(DemoGj* this, PlayState* play) {
     func_8097BA48(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoGj_DoNothing3(this, play);
 #endif
 }

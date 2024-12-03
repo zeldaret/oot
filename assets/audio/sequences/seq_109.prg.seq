@@ -603,7 +603,9 @@ LAYER_0452:
 /* 0x046C [0xE9 0x0E               ] */ notepri     0, 14
 /* 0x046E [0xE5 0x01               ] */ reverbidx   1
 /* 0x0470 [0xD4 0x28               ] */ reverb      40
+#if OOT_VERSION >= PAL_1_0
 /* 0x0472 [0xC6 0x00               ] */ font        Soundfont_0_ID
+#endif
 /* 0x0474 [0xFC 0x01 0x56          ] */ call        CHAN_0156
 /* 0x0477 [0xFD 0x60               ] */ delay       96
 /* 0x0479 [0xFC 0x01 0x56          ] */ call        CHAN_0156
@@ -1147,7 +1149,7 @@ ENVELOPE_08BA:
     point 20, 20000
     hang
 
-#if !OOT_PAL_N64
+#if OOT_VERSION == NTSC_1_2 || PLATFORM_GC
 .filter FILTER_0932
     filter 0, 0, 0, 0, 0, 0, 0, 0
 

@@ -22,6 +22,7 @@ typedef enum CutsceneState {
 } CutsceneState;
 
 typedef enum CutsceneCmd {
+    /* 0xFFFF */ CS_CMD_END_OF_SCRIPT = -1,
     /* 0x0001 */ CS_CMD_CAM_EYE_SPLINE = 0x01,
     /* 0x0002 */ CS_CMD_CAM_AT_SPLINE,
     /* 0x0003 */ CS_CMD_MISC,
@@ -149,8 +150,7 @@ typedef enum CutsceneCmd {
     /* 0x008E */ CS_CMD_ACTOR_CUE_7_6,
     /* 0x008F */ CS_CMD_ACTOR_CUE_9_0,
     /* 0x0090 */ CS_CMD_ACTOR_CUE_0_17,
-    /* 0x03E8 */ CS_CMD_DESTINATION = 0x03E8,
-    /* 0xFFFF */ CS_CMD_END = 0xFFFF
+    /* 0x03E8 */ CS_CMD_DESTINATION = 0x03E8
 } CutsceneCmd;
 
 typedef enum CutsceneMiscType {

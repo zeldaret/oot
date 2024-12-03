@@ -16,7 +16,7 @@ void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
 
 #if OOT_NTSC
 void FileSelect_DrawCharacterTransition(GraphicsContext* gfxCtx, void* texture1, void* texture2, s16 vtx) {
-    OPEN_DISPS(gfxCtx, "", 0);
+    OPEN_DISPS(gfxCtx, "../z_file_nameset_PAL.c", UNK_LINE);
 
     gDPLoadTextureBlock_4b(POLY_OPA_DISP++, texture1, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -24,7 +24,7 @@ void FileSelect_DrawCharacterTransition(GraphicsContext* gfxCtx, void* texture1,
                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
 
-    CLOSE_DISPS(gfxCtx, "", 0);
+    CLOSE_DISPS(gfxCtx, "../z_file_nameset_PAL.c", UNK_LINE);
 }
 #endif
 
@@ -64,7 +64,7 @@ void FileSelect_SetKeyboardVtx(GameState* thisx) {
     phi_s1 = 0x26;
 
 #if OOT_NTSC
-    for (phi_t2 = 0, phi_s2 = 0, phi_t3 = 0; phi_s2 < 5; phi_s2++) {
+    for (phi_s2 = 0, phi_t3 = 0; phi_s2 < 5; phi_s2++) {
         for (phi_t0 = -0x60, phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4) {
             this->keyboardVtx[phi_t3].v.ob[0] = this->keyboardVtx[phi_t3 + 2].v.ob[0] = phi_t0;
             this->keyboardVtx[phi_t3 + 1].v.ob[0] = this->keyboardVtx[phi_t3 + 3].v.ob[0] = phi_t0 + 12;
@@ -1747,13 +1747,21 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
+#ifndef AVOID_UB
         //! @bug Mistakenly using sOptionsMenuHeaders instead of sOptionsMenuSettings for the height.
         //! This is also an OOB read that happens to access the height of the first two elements in
         //! sOptionsMenuSettings, and since all heights are 16, it works out anyway.
+#define sOptionsMenuSettingsBug sOptionsMenuHeaders
+#else
+        // Avoid UB: Use the correct array for the heights to avoid reading out of bounds memory that may not
+        // happen to work out nicely.
+#define sOptionsMenuSettingsBug sOptionsMenuSettings
+#endif
         gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
                             G_IM_SIZ_8b, OPTIONS_MENU_TEXTURE_WIDTH(sOptionsMenuSettings[i]),
-                            OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuHeaders[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuSettingsBug[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+#undef sOptionsMenuSettingsBug
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
 #else
@@ -1786,10 +1794,21 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
+#ifndef AVOID_UB
+        //! @bug Mistakenly using sOptionsMenuHeaders instead of sOptionsMenuSettings for the height.
+        //! This is also an OOB read that happens to access the height of up to the first three elements
+        //! in sOptionsMenuSettings, and since all heights are 16, it works out anyway.
+#define sOptionsMenuSettingsBug sOptionsMenuHeaders
+#else
+        // Avoid UB: Use the correct array for the heights to avoid reading out of bounds memory that may not
+        // happen to work out nicely.
+#define sOptionsMenuSettingsBug sOptionsMenuSettings
+#endif
         gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
                             G_IM_SIZ_8b, sZTargetSettingWidths[j][gSaveContext.language],
-                            OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuHeaders[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuSettingsBug[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+#undef sOptionsMenuSettingsBug
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
 
@@ -1877,7 +1896,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 #if OOT_PAL_N64
     Matrix_Push();
     Matrix_Translate(0.0f, 0.8f, 0.0f, MTXMODE_APPLY);
-    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_nameset_PAL.c", 0);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_nameset_PAL.c", UNK_LINE);
     gSPVertex(POLY_OPA_DISP++, gOptionsDividerLanguageVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     Matrix_Pop();

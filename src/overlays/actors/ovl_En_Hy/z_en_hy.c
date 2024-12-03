@@ -1252,7 +1252,7 @@ void EnHy_Walk(EnHy* this, PlayState* play) {
 }
 
 void EnHy_Fidget(EnHy* this, PlayState* play) {
-    func_80034F54(play, this->fidgetTableY, this->fidgetTableZ, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENHY_LIMB_MAX);
 }
 
 void EnHy_DoNothing(EnHy* this, PlayState* play) {
@@ -1265,7 +1265,7 @@ void EnHy_SetupPace(EnHy* this, PlayState* play) {
         this->actionFunc = EnHy_Pace;
     }
 
-    func_80034F54(play, this->fidgetTableY, this->fidgetTableZ, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENHY_LIMB_MAX);
 }
 
 void EnHy_Pace(EnHy* this, PlayState* play) {
@@ -1390,8 +1390,8 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if ((limbIndex == ENHY_LIMB_TORSO) || (limbIndex == ENHY_LIMB_LEFT_UPPER_ARM) ||
         (limbIndex == ENHY_LIMB_RIGHT_UPPER_ARM)) {
-        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2228);

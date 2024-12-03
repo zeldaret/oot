@@ -1282,10 +1282,10 @@ s32 EnTa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         this->stateFlags &= ~TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM;
     } else if ((limbIndex == ENTA_LIMB_CHEST) || (limbIndex == ENTA_LIMB_LEFT_ARM) ||
                (limbIndex == ENTA_LIMB_RIGHT_ARM)) {
-        s32 limbIdx50 = limbIndex * 50;
+        s32 fidgetFrequency = limbIndex * FIDGET_FREQ_LIMB;
 
-        rot->y += Math_SinS(play->state.frames * (limbIdx50 + 0x814)) * 200.0f;
-        rot->z += Math_CosS(play->state.frames * (limbIdx50 + 0x940)) * 200.0f;
+        rot->y += Math_SinS(play->state.frames * (fidgetFrequency + FIDGET_FREQ_Y)) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(play->state.frames * (fidgetFrequency + FIDGET_FREQ_Z)) * FIDGET_AMPLITUDE;
     }
 
     return false;

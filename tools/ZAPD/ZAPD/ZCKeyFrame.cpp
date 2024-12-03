@@ -130,7 +130,17 @@ size_t ZKeyFrameSkel::GetRawDataSize() const
 
 std::string ZKeyFrameSkel::GetSourceTypeName() const
 {
-	return "KeyFrameSkeleton";
+	switch (limbType)
+	{
+		case ZKeyframeSkelType::Normal:
+			return "KeyFrameSkeleton";
+
+		case ZKeyframeSkelType::Flex:
+			return "KeyFrameFlexSkeleton";
+
+		default:
+			return "KeyFrameSkeleton";
+	}
 }
 
 ZResourceType ZKeyFrameSkel::GetResourceType() const

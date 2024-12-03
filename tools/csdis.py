@@ -484,7 +484,7 @@ Argument format:
 """
 cutscene_command_macros = {
     -1:
-        ("CS_END()", 1, None, None,
+        ("CS_END_OF_SCRIPT()", 1, None, None,
               None, None),
     3:
         ("CS_MISC_LIST(%w1:1:s)", 2, None, 0,
@@ -551,7 +551,7 @@ cutscene_command_macros = {
               None, None),
 }
 
-begin_cutscene_entry = ("CS_BEGIN_CUTSCENE(%w1:0:s, %w1:1:s)", 2, None, None,
+begin_cutscene_entry = ("CS_HEADER(%w1:0:s, %w1:1:s)", 2, None, None,
                             None, None)
 
 unk_data_entry = ("CS_UNK_DATA_LIST(%w1:0:x, %w1:1:s)", 2, None, 0,
@@ -757,7 +757,7 @@ def disassemble_cutscene(cs_in):
                     i += n_words_list_item
         else:
             i += n_words
-    print("Warning: cutscene reached maximum entries without encountering a CS_END command")
+    print("Warning: cutscene reached maximum entries without encountering a CS_END_SCRIPT command")
     return macros
 
 def hex_parse(s):

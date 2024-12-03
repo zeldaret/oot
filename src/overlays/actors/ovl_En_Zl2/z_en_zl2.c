@@ -1581,7 +1581,7 @@ void func_80B52114(EnZl2* this, PlayState* play) {
         case 4:
             func_80B51D0C(this, play);
             break;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         case 0:
             func_80B4FD90(this, play);
             break;
@@ -1598,7 +1598,7 @@ void func_80B521A0(EnZl2* this, PlayState* play) {
     s32 objectSlot = Object_GetSlot(objectCtx, OBJECT_ZL2_ANIME1);
     s32 pad2;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (objectSlot < 0) {
         PRINTF(VT_FGCOL(RED) "En_Zl2_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
         return;

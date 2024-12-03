@@ -53,7 +53,7 @@ static InitChainEntry sInitChain[] = {
 u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, PlayState* play) {
     u32 ret;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (bREG(0) != 0) {
         switch (bREG(1)) {
             case 0:
@@ -300,7 +300,7 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
     s32 unk1;
     s32 pad;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (bREG(15) == 0) {
         PRINTF("%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
                Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG), Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));

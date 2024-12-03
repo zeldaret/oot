@@ -13,7 +13,7 @@ typedef struct InputCombo {
 } InputCombo; // size = 0x4
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+                               "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 RegEditor* gRegEditor;
 
@@ -32,7 +32,7 @@ Color_RGBA8 sDebugCamTextColors[] = {
     { 128, 255, 32, 128 },  // DEBUG_CAM_TEXT_GREEN
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 InputCombo sRegGroupInputCombos[REG_GROUPS] = {
     { BTN_L, BTN_CUP },        //  REG
     { BTN_L, BTN_CLEFT },      // SREG
@@ -158,7 +158,7 @@ void DebugCamera_DrawScreenText(GfxPrint* printer) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Updates the state of the Reg Editor according to user input.
  * Also contains a controller rumble test that can be interfaced with via related REGs.
@@ -298,7 +298,7 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
         DebugCamera_DrawScreenText(&printer);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gRegEditor->regPage != 0) {
         Regs_DrawEditor(&printer);
     }

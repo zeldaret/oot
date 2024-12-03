@@ -524,7 +524,7 @@ void BossFd2_Vulnerable(BossFd2* this, PlayState* play) {
     s16 i;
 
     this->disableAT = true;
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     SkelAnime_Update(&this->skelAnime);
     switch (this->work[FD2_ACTION_STATE]) {
         case 0:
@@ -960,7 +960,7 @@ void BossFd2_Update(Actor* thisx, PlayState* play2) {
 
     PRINTF("FD2 move start \n");
     this->disableAT = false;
-    this->actor.flags &= ~ACTOR_FLAG_10;
+    this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->work[FD2_VAR_TIMER]++;
     this->work[FD2_UNK_TIMER]++;
 
