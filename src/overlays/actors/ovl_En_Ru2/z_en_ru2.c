@@ -755,7 +755,7 @@ void EnRu2_PlayFanfare(void) {
 /**
  * Accelerates Ruto's actor upwards as she swims.
  */
-void EnRu2_AccelerateUp(EnRu2* this) {
+void EnRu2_SwimUpProgress(EnRu2* this) {
     f32 funcFloat;
 
     this->swimmingUpFrame++;
@@ -899,7 +899,7 @@ void EnRu2_WaterTempleEncounterEnd(EnRu2* this, PlayState* play) {
 }
 
 void EnRu2_WaterTempleSwimmingUp(EnRu2* this, PlayState* play) {
-    EnRu2_AccelerateUp(this);
+    EnRu2_SwimUpProgress(this);
     EnRu2_UpdateBgCheckInfo(this, play);
     EnRu2_UpdateSkelAnime(this);
     EnRu2_UpdateEyes(this);
