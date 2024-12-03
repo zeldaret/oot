@@ -752,7 +752,7 @@ typedef struct NpcInteractInfo {
 #define PARAMS_PACK(p, s, n) \
     (((p) & NBITS_TO_MASK(n)) << (s))
 
-// Pack all bits in `p` by `s`. There is no masking of specific bits.
+// Moves the value `p` to bit position `s` for building actor parameters by OR-ing these together.
 #define PARAMS_PACK_NOMASK(p, s) \
     ((p) << (s))
 
