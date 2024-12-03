@@ -333,9 +333,9 @@ void EnRu2_SpawnWaterMedallion(EnRu2* this, PlayState* play) {
 }
 
 /**
- * Occurs in the Chamber of Sages (regardless of which medallion you've earned). Sets up the cutscene data for
- * Ruto to give Link the Water Medallion, but this only happens if she should do so. Otherwise, this function
- * does nothing except loop endlessly until Link leaves the Chamber of Sages.
+ * Sets up the Water Medallion Cutscene if coming from Water Temple.
+ * All sage actors are present in the Chamber of Sages regardless of which dungeon was just completed.
+ * This function will loop endlessly if the current sage cutscene is not for the Water Medallion.
  */
 void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     s32 pad[2];
