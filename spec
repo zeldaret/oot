@@ -659,7 +659,7 @@ beginseg
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/code/db_camera.o"
 #endif
-    include "$(BUILD_DIR)/src/code/z_camera_spline.o"
+    include "$(BUILD_DIR)/src/code/z_cutscene_spline.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/code/mempak.o"
 #endif
