@@ -962,7 +962,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         if ((((void)0, gSaveContext.save.dayTime) > ((void)0, gSaveContext.skyboxTime)) ||
             (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0))
 #else
-        if (((((void)0, gSaveContext.sceneLayer) >= GET_CUTSCENE_LAYER(CS_INDEX_1) || gTimeSpeed != 0) &&
+        if (((((void)0, gSaveContext.sceneLayer) >= 5 || gTimeSpeed != 0) &&
              ((void)0, gSaveContext.save.dayTime) > ((void)0, gSaveContext.skyboxTime)) ||
             (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0))
 #endif
@@ -1421,8 +1421,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         play->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
     }
 
-    if (gSaveContext.save.entranceIndex != ENTR_HYRULE_FIELD_0 ||
-        ((void)0, gSaveContext.sceneLayer) != GET_CUTSCENE_LAYER(CS_INDEX_1)) {
+    if (gSaveContext.save.entranceIndex != ENTR_HYRULE_FIELD_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
         Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x, play->view.eye.y + play->envCtx.sunPos.y,
                          play->view.eye.z + play->envCtx.sunPos.z, MTXMODE_NEW);
 

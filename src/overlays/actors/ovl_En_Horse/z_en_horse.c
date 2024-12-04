@@ -3619,8 +3619,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
             this->cyl1.base.atFlags &= ~AT_ON;
         }
 
-        if (gSaveContext.save.entranceIndex != ENTR_LON_LON_RANCH_0 ||
-            gSaveContext.sceneLayer != GET_CUTSCENE_LAYER(CS_INDEX_5)) {
+        if (gSaveContext.save.entranceIndex != ENTR_LON_LON_RANCH_0 || gSaveContext.sceneLayer != 9) {
             if (this->dustFlags & 1) {
                 this->dustFlags &= ~1;
                 func_800287AC(play, &this->frontRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,

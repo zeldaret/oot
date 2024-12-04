@@ -147,8 +147,7 @@ void func_80A89A6C(EnJsjutan* this, PlayState* play) {
     i = 1;
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
-    if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_0) &&
-        (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_4))) {
+    if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_0) && (gSaveContext.sceneLayer == 8)) {
         Actor* actorProfessor;
         Actor* actorBeanGuy;
 

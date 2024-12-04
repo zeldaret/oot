@@ -76,7 +76,7 @@ void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
         this->actor.draw = NULL;
     }
 
-    if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_1)) {
+    if (gSaveContext.sceneLayer == 5) {
         play->roomCtx.drawParams[0] = 0xFF;
     }
 
@@ -118,7 +118,7 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
             }
         }
     }
-    if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_1)) {
+    if (gSaveContext.sceneLayer == 5) {
         if (play->roomCtx.drawParams[0] > 0) {
             play->roomCtx.drawParams[0]--;
         } else {

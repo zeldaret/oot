@@ -69,15 +69,14 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
             return;
         }
 
-        if ((gSaveContext.sceneLayer != GET_CUTSCENE_LAYER(CS_INDEX_2)) &&
-            ((gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0)) ||
-             (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_1)) || (!LINK_IS_ADULT && !IS_DAY))) {
+        if ((gSaveContext.sceneLayer != 6) &&
+            ((gSaveContext.sceneLayer == 4) || (gSaveContext.sceneLayer == 5) || (!LINK_IS_ADULT && !IS_DAY))) {
             this->dyna.actor.shape.rot.x = -0x4000;
         } else {
             this->dyna.actor.shape.rot.x = 0;
         }
 
-        if (gSaveContext.sceneLayer != GET_CUTSCENE_LAYER(CS_INDEX_2)) {
+        if (gSaveContext.sceneLayer != 6) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
                 CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 this->dyna.actor.shape.rot.x = -0x4000;
@@ -227,7 +226,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
             }
         }
 
-        if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_1)) {
+        if (gSaveContext.sceneLayer == 5) {
             u16 dayTime;
             s32 tmp;
 
@@ -243,8 +242,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
 
             dayTime = gSaveContext.save.dayTime;
 
-            if ((dayTime > CLOCK_TIME(4, 0)) && (dayTime < CLOCK_TIME(4, 30)) &&
-                (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_1))) {
+            if ((dayTime > CLOCK_TIME(4, 0)) && (dayTime < CLOCK_TIME(4, 30)) && (gSaveContext.sceneLayer == 5)) {
                 gTimeSpeed = 0;
             }
         }
@@ -310,7 +308,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, PlayState* play) {
         thisx->child->child->world.pos.y = newPos.y;
         thisx->child->child->world.pos.z = newPos.z;
 
-        if (gSaveContext.sceneLayer != GET_CUTSCENE_LAYER(CS_INDEX_8)) {
+        if (gSaveContext.sceneLayer != 12) {
             if (IS_CUTSCENE_LAYER || (!LINK_IS_ADULT && (thisx->shape.rot.x < -0x2000))) {
                 BgSpot00Hanebasi_DrawTorches(thisx, play);
             } else {

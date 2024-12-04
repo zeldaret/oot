@@ -4031,7 +4031,7 @@ void Interface_Update(PlayState* play) {
 
     if (!IS_PAUSED(&play->pauseCtx)) {
         if ((gSaveContext.minigameState == 1) || !IS_CUTSCENE_LAYER ||
-            ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_0)))) {
+            ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.sceneLayer == 4))) {
             if ((msgCtx->msgMode == MSGMODE_NONE) ||
                 ((msgCtx->msgMode != MSGMODE_NONE) && (play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY))) {
                 if (play->gameOverCtx.state == GAMEOVER_INACTIVE) {

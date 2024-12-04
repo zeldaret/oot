@@ -936,7 +936,7 @@ void func_80986CFC(DemoIm* this, PlayState* play) {
 
 void func_80986D40(DemoIm* this, PlayState* play) {
 #if DEBUG_FEATURES
-    if (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_2)) {
+    if (gSaveContext.sceneLayer == 6) {
         this->action = 19;
         this->drawConfig = 1;
         return;

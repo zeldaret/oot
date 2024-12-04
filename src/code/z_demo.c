@@ -1191,19 +1191,19 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                     play->transitionType = TRANS_TYPE_FADE_BLACK;
                 } else {
                     switch (gSaveContext.sceneLayer) {
-                        case GET_CUTSCENE_LAYER(CS_INDEX_4):
+                        case 8:
                             play->nextEntranceIndex = ENTR_SACRED_FOREST_MEADOW_0;
                             play->transitionTrigger = TRANS_TRIGGER_START;
                             play->transitionType = TRANS_TYPE_FADE_BLACK;
                             break;
 
-                        case GET_CUTSCENE_LAYER(CS_INDEX_5):
+                        case 9:
                             play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_CRATER_0;
                             play->transitionTrigger = TRANS_TRIGGER_START;
                             play->transitionType = TRANS_TYPE_FADE_BLACK;
                             break;
 
-                        case GET_CUTSCENE_LAYER(CS_INDEX_6):
+                        case 10:
                             play->nextEntranceIndex = ENTR_LAKE_HYLIA_0;
                             play->transitionTrigger = TRANS_TRIGGER_START;
                             gSaveContext.save.cutsceneIndex = CS_INDEX_0;

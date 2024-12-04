@@ -166,7 +166,7 @@ s16 EnMa1_UpdateTalkState(PlayState* play, Actor* thisx) {
 }
 
 s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
-    if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_1))) {
+    if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneLayer == 5)) {
         return true;
     }
 
