@@ -2716,6 +2716,9 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
  * For actors, being culled means that their Update and Draw processes are halted.
  * When an actor is culled, their update state is frozen and they will not draw, so they will be visible.
  *
+ * Actors that are in bounds of it's culling volume may update and draw, while actors that are
+ * out of bounds of it's culling volume may be excluded from updating and drawing until they are within bounds.
+ *
  * It is possible for actors to opt out of update culling or draw culling.
  * This is set per-actor with `ACTOR_FLAG_UPDATE_CULLING_DISABLED` and `ACTOR_FLAG_DRAW_CULLING_DISABLED`.
  *
@@ -2730,27 +2733,52 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
 
 /**
  * Tests if an actor is currently within the bounds of it's own culling volume.
- * Returns true if within the bounds, false if not.
  *
- * The culling volume is a 3D shape composed of a frustum with a box attached to the end of it.
- * The frustum sits at the camera's position and projects forward, encompassing the player's current view.
- * The box extrudes behind the player, allowing actors in the immediate vicinty behind and to the sides of the player to
- * be detected.
+ * The culling volume is a 3D shape composed of a frustum with a box attached to the end of it. The frustum sits at the
+ * camera's position and projects forward, encompassing the player's current view; the box extrudes behind the player,
+ * allowing actors in the immediate vicinty behind and to the sides of the player to be detected.
  *
- * Every actor can set properites for their own culling volume depending on their needs:
- * cullingVolumeDistance: Sets the distance between the near and far plane of the frustum.
- *                        In other words, configures the distance forward from the camera's
- *                        location that actors can be detected.
+ * This function returns true if the actor is within bounds, false if not.
+ * The comparison is done in projective space against the actor's projected position as the viewing frustum
+ * in world space transforms to a box in projective space, making the calculation easy.
  *
- * cullingVolumeScale: Scales the entire culling volume. Both the frustum and the box will scale in size.
+ * Every actor can set properites for their own culling volume, changing it's dimensions to suit the needs of it and
+ * it's environment. Note that the following properties are projective properties as they are compared
+ * with the actor's position after perspective projection is applied. The units are therefore not directly comparable to
+ * world units. These depend on the current view parameters (fov, aspect, scale, znear, zfar). The default parameters
+ * considered are (60 degrees, 4/3, 1.0, 10, 12800).
  *
- * cullingVolumeDownward: The height of the culling volume, but only in the downward direction.
- *                        Increasing this value will make actors below the player easier to be detected.
+ *    cullingVolumeDistance: Configures how far forward the far plane of the frustum should extend.
+ *                           This along with cullingVolumeScale determines the maximum distance from
+ *                           the camera eye that the actor can be detected at. This quantity is related
+ *                           to world units by a factor of
+ *                                   (znear - zfar) / ((znear + zfar) * scale).
+ *                           For default view parameters, increasing this property by 1 increases the
+ *                           distance by ~0.995 world units.
  *
- * <EXPLAIN PROJECTED SPACE AND DISTANCE STUFF HERE>
+ *    cullingVolumeScale: Scales the entire culling volume in all directions except the downward
+ *                        direction. Both the frustum and the box will scale in size. This quantity is
+ *                        related to world units by different factors based on direction:
+ *                         - For the forward and backward directions, they are related in the same way
+ *                           as above. For default view parameters, increasing this property by 1 increases
+ *                           the forward and backward scales by ~0.995 world units.
+ *                         - For the sideways directions, the relation to world units is
+ *                                   (aspect / scale) * tan(0.5 * fov)
+ *                           For default view parameters, increasing this property by 1 increases the
+ *                           sideways scales by ~0.77 world units.
+ *                         - For the upward direction, the relation to world units is
+ *                                   (1 / scale) * tan(0.5 * fov)
+ *                           For default view parameters, increasing this property by 1 increases the
+ *                           scale by ~0.58 world units.
  *
- * This interactive 3D graph visualizes the shape of the culling volume and has sliders
- * for the 3 properties mentioned above: https://www.desmos.com/3d/4ztkxqky2a.
+ *    cullingVolumeDownward: Sets the height of the culling volume in the downward direction. Increasing
+ *                           this value will make actors below the player more easily detected. This
+ *                           quantity is related to world units by the same factor as the upward scale.
+ *                           For default view parameters, increasing this property by 1 increases the
+ *                           downward height by ~0.58 world units.
+ *
+ * This interactive 3D graph visualizes the shape of the culling volume and has sliders for the 3 properties mentioned
+ * above: https://www.desmos.com/3d/4ztkxqky2a.
  */
 s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 projW) {
     if ((projPos->z > -actor->cullingVolumeScale) &&
