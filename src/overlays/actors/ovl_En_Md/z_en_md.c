@@ -480,7 +480,7 @@ s16 EnMd_UpdateTalkState(PlayState* play, Actor* thisx) {
                     SET_EVENTCHKINF(EVENTCHKINF_0F);
                     break;
                 case 0x102F:
-                    SET_EVENTCHKINF(EVENTCHKINF_02);
+                    SET_EVENTCHKINF(EVENTCHKINF_FIRST_SPOKE_TO_MIDO);
                     SET_INFTABLE(INFTABLE_0C);
                     break;
                 case 0x1060:

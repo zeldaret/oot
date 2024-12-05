@@ -464,7 +464,7 @@ typedef enum LinkAge {
  * SaveContext.eventChkInf
  */
 
-#define EVENTCHKINF_02 0x02
+#define EVENTCHKINF_FIRST_SPOKE_TO_MIDO 0x02
 #define EVENTCHKINF_03 0x03
 #define EVENTCHKINF_04 0x04
 #define EVENTCHKINF_05 0x05

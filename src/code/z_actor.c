@@ -4770,7 +4770,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                     retTextId = 0x1047;
                 }
             } else {
-                if (Flags_GetEventChkInf(EVENTCHKINF_02)) {
+                if (Flags_GetEventChkInf(EVENTCHKINF_FIRST_SPOKE_TO_MIDO)) {
                     if (Flags_GetInfTable(INFTABLE_03)) {
                         retTextId = 0x1032;
                     } else {
@@ -5514,7 +5514,7 @@ void func_80036E50(u16 textId, s16 arg1) {
         case 1:
             switch (textId) {
                 case 0x102F:
-                    Flags_SetEventChkInf(EVENTCHKINF_02);
+                    Flags_SetEventChkInf(EVENTCHKINF_FIRST_SPOKE_TO_MIDO);
                     Flags_SetInfTable(INFTABLE_0C);
                     return;
                 case 0x1033:

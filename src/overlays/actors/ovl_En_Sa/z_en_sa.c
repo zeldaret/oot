@@ -155,7 +155,7 @@ u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
             return 0x1047;
         }
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_02)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_FIRST_SPOKE_TO_MIDO)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
         if (GET_INFTABLE(INFTABLE_03)) {
