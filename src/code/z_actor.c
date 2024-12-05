@@ -2714,7 +2714,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
  *
  * "Culling" in this context refers to the removal of something for the sake of improving performance.
  * For actors, being culled means that their Update and Draw processes are halted.
- * When an actor is culled, their update state is frozen and they will not draw, so they will be visible.
+ * While halted, the Actor's update state is frozen and they will not draw, making them invisible.
  *
  * Actors that are in bounds of it's culling volume may update and draw, while actors that are
  * out of bounds of it's culling volume may be excluded from updating and drawing until they are within bounds.
