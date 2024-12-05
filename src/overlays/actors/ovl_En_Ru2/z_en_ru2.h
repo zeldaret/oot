@@ -4,9 +4,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define ENRU2_GET_SWITCH_FLAG(thisx) PARAMS_GET_U(thisx->actor.params, 8, 8)
-#define ENRU2_GET_TYPE(thisx) PARAMS_GET_U(thisx->actor.params, 0, 8)
-
 struct EnRu2;
 
 typedef void (*EnRu2ActionFunc)(struct EnRu2*, PlayState*);

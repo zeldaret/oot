@@ -11,6 +11,10 @@
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
+// TODO: Move this to actor header
+#define ENRU2_GET_SWITCH_FLAG(thisx) PARAMS_GET_U(thisx->actor.params, 8, 8)
+#define ENRU2_GET_TYPE(thisx) PARAMS_GET_U(thisx->actor.params, 0, 8)
+
 void EnRu2_Init(Actor* thisx, PlayState* play);
 void EnRu2_Destroy(Actor* thisx, PlayState* play);
 void EnRu2_Update(Actor* thisx, PlayState* play);
