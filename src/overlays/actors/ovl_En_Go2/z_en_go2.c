@@ -1997,7 +1997,7 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
 #endif
     this->actionFunc(this, play);
     if (this->unk_211 == true) {
-        func_80034F54(play, this->unk_226, this->unk_24A, 18);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 18);
     }
     func_80A45288(this, play);
     EnGo2_EyeMouthTexState(this);
@@ -2050,8 +2050,8 @@ s32 EnGo2_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, V
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        rot->y += Math_SinS(this->unk_226[limb]) * 200.0f;
-        rot->z += Math_CosS(this->unk_24A[limb]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limb]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limb]) * FIDGET_AMPLITUDE;
     }
     return 0;
 }

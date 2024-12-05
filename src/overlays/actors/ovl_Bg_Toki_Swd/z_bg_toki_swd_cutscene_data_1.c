@@ -3,7 +3,7 @@
 
 // clang-format off
 CutsceneData D_808BB2F0[] = {
-    CS_BEGIN_CUTSCENE(9, 425),
+    CS_HEADER(9, 425),
     CS_PLAYER_CUE_LIST(1),
         CS_PLAYER_CUE(PLAYER_CUEID_12, 0, 256, 0x0000, 0x0000, 0x0000, 0, 54, 52, 0, 54, 52, CS_FLOAT(0x0, 0.0f), CS_FLOAT(0x0, 0.0f), CS_FLOAT(0x0, 0.0f)),
     CS_LIGHT_SETTING_LIST(1),
@@ -74,6 +74,6 @@ CutsceneData D_808BB2F0[] = {
         CS_CAM_POINT(CS_CAM_CONTINUE, 0x00, 20, CS_FLOAT(0x42700000, 60.0f), -1, 117, 7, 0x0000),
         CS_CAM_POINT(CS_CAM_CONTINUE, 0x00, 20, CS_FLOAT(0x42700000, 60.0f), -1, 117, 7, 0x2F73),
         CS_CAM_POINT(CS_CAM_STOP, 0x00, 20, CS_FLOAT(0x42700000, 60.0f), -1, 117, 7, 0x6B2F),
-    CS_END(),
+    CS_END_OF_SCRIPT(),
 };
 // clang-format on

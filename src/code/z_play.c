@@ -1068,6 +1068,7 @@ void Play_Update(PlayState* this) {
 skip:
     PLAY_LOG(3801);
 
+    //! @bug If frame advancing or during tile transitions, isPaused will be used uninitialized.
     if (!isPaused || gDebugCamEnabled) {
         s32 i;
 
@@ -1545,7 +1546,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     SceneTableEntry* scene;
-    u32 size;
+    UNUSED_NDEBUG u32 size;
 
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_48 != NULL)) {

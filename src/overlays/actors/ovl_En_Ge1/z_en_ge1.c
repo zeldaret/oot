@@ -777,8 +777,8 @@ s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     // The purpose of the state flag GE1_STATE_STOP_FIDGET is to skip this code, which this actor has in lieu of an idle
     // animation.
     if ((limbIndex == GE1_LIMB_TORSO) || (limbIndex == GE1_LIMB_L_FOREARM) || (limbIndex == GE1_LIMB_R_FOREARM)) {
-        rot->y += Math_SinS(play->state.frames * (limbIndex * 50 + 0x814)) * 200.0f;
-        rot->z += Math_CosS(play->state.frames * (limbIndex * 50 + 0x940)) * 200.0f;
+        rot->y += Math_SinS(play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y)) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z)) * FIDGET_AMPLITUDE;
     }
     return 0;
 }

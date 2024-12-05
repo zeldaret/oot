@@ -7,7 +7,7 @@
 
 s32 LeoCACreateLeoManager(s32 comPri, s32 intPri, OSMesg* cmdBuf, s32 cmdMsgCnt) {
     OSPiHandle* driveRomHandle;
-    OSPiHandle* leoDiskHandle;
+    UNUSED OSPiHandle* leoDiskHandle;
     volatile LEOCmdInquiry cmdBlockInq;
     volatile LEOCmd cmdBlockID;
     LEODiskID thisID;

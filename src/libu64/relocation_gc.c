@@ -58,7 +58,7 @@ void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlReloc
     u32 dbg;
     s32 relocOffset = 0;
     u32 relocatedValue = 0;
-    uintptr_t unrelocatedAddress = 0;
+    UNUSED_NDEBUG uintptr_t unrelocatedAddress = 0;
     uintptr_t relocatedAddress = 0;
     uintptr_t vramu32 = (uintptr_t)vramStart;
 

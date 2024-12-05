@@ -201,7 +201,7 @@ void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ) {
     view->distortionScale.z = scaleZ;
 }
 
-s32 View_SetDistortionSpeed(View* view, f32 speed) {
+BAD_RETURN(s32) View_SetDistortionSpeed(View* view, f32 speed) {
     view->distortionSpeed = speed;
 }
 

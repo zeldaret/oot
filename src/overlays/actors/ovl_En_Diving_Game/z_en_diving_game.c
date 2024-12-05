@@ -561,8 +561,8 @@ s32 EnDivingGame_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
     }
 
     if (this->notPlayingMinigame && (limbIndex == 8 || limbIndex == 9 || limbIndex == 12)) {
-        rot->y += Math_SinS((play->state.frames * (limbIndex * 50 + 0x814))) * 200.0f;
-        rot->z += Math_CosS((play->state.frames * (limbIndex * 50 + 0x940))) * 200.0f;
+        rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
     }
 
     return 0;

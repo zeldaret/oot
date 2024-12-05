@@ -1813,7 +1813,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
         MemCpy(&cmdType, script, sizeof(cmdType));
         script += sizeof(cmdType);
 
-        if (cmdType == CS_CAM_STOP) {
+        if (cmdType == CS_CMD_END_OF_SCRIPT) {
             return;
         }
 

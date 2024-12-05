@@ -148,7 +148,7 @@
         <Item Key="actor_cue_9_0" ID="CS_CMD_ACTOR_CUE_9_0" Index="143"/>
         <Item Key="actor_cue_0_17" ID="CS_CMD_ACTOR_CUE_0_17" Index="144"/>
         <Item Key="destination" ID="CS_CMD_DESTINATION" Index="1000"/>
-        <Item Key="end" ID="CS_CMD_END" Index="65535"/>
+        <Item Key="end" ID="CS_CMD_END_OF_SCRIPT" Index="65535"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="miscType" ID="CutsceneMiscType">
         <!-- https://github.com/zeldaret/oot/blob/823e47a0f8e9fb9fab89bc61b57f45488ff6debe/include/z64cutscene.h#L167-L204 -->
