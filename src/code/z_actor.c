@@ -2782,7 +2782,7 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
  */
 s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 projW) {
     f32 invW;
-    
+
     if ((projPos->z > -actor->cullingVolumeScale) &&
         (projPos->z < (actor->cullingVolumeDistance + actor->cullingVolumeScale))) {
         invW = (projW < 1.0f) ? 1.0f : 1.0f / projW;
