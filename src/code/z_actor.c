@@ -2712,6 +2712,8 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
  * Checks if an actor should be culled or not, by seeing if it is contained within its own culling volume.
  * For more details on the culling test, see `Actor_CullingVolumeTest`.
  *
+ * Returns true if the actor is inside it's culling volume. In other words, it should not cull.
+ *
  * "Culling" in this context refers to the removal of something for the sake of improving performance.
  * For actors, being culled means that their Update and Draw processes are halted.
  * While halted, an Actor's update state is frozen and it will not draw, making it invisible.
@@ -2742,11 +2744,11 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
  * The comparison is done in projective space against the actor's projected position as the viewing frustum
  * in world space transforms to a box in projective space, making the calculation easy.
  *
- * Every actor can set properties for their own culling volume, changing its dimensions to suit the needs of it and
- * its environment. Note that the following properties are projective properties as they are compared
- * with the actor's position after perspective projection is applied. The units are therefore not directly comparable to
- * world units. These depend on the current view parameters (fov, aspect, scale, znear, zfar). The default parameters
- * considered are (60 degrees, 4/3, 1.0, 10, 12800).
+ * Every actor can set properties for their own culling volume, changing its dimensions to suit the needs of
+ * it and its environment. These properties are in units of projected space (i.e. compared to the actor's position
+ * after perspective projection is applied) are therefore not directly comparable to world units.
+ * These depend on the current view parameters (fov, aspect, scale, znear, zfar).
+ * The default parameters considered are (60 degrees, 4/3, 1.0, 10, 12800).
  *
  *    cullingVolumeDistance: Configures how far forward the far plane of the frustum should extend.
  *                           This along with cullingVolumeScale determines the maximum distance from
@@ -2785,6 +2787,8 @@ s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 p
 
     if ((projPos->z > -actor->cullingVolumeScale) &&
         (projPos->z < (actor->cullingVolumeDistance + actor->cullingVolumeScale))) {
+        // Clamping `projW` affects points behind the camera, so that the culling volume has
+        // a frustum shape in front of the camera and a box shape behind the camera.
         invW = (projW < 1.0f) ? 1.0f : 1.0f / projW;
 
         if ((((fabsf(projPos->x) - actor->cullingVolumeScale) * invW) < 1.0f) &&
