@@ -49,7 +49,7 @@ void DoorToki_Destroy(Actor* thisx, PlayState* play) {
 void DoorToki_Update(Actor* thisx, PlayState* play) {
     DoorToki* this = (DoorToki*)thisx;
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
         DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
