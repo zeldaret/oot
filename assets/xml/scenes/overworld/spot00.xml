@@ -13,7 +13,7 @@
         <Cutscene Name="gHyruleFieldBeforeCreditsCs" Offset="0xC8C0"/>
         <Cutscene Name="gHyruleFieldGateEponaJump2Cs" Offset="0xC120"/>
         <Cutscene Name="gHyruleFieldImpaCs" Offset="0xDCB0"/>
-        <Cutscene Name="gHyruleFieldUnusedIntroNightmareCs" Offset="0xE5F0"/>
+        <Cutscene Name="gHyruleFieldZeldaEscapeUnusedCs" Offset="0xE5F0"/>
         <Cutscene Name="gHyruleFieldZeldaEscapeCs" Offset="0x8494"/>
         <Cutscene Name="gHyruleFieldIntroNightmareCs" Offset="0x12400"/>
         <Path Name="spot00_scenePathList_011AB4" Offset="0x11AB4" NumPaths="2"/>
