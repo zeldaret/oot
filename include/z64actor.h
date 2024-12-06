@@ -131,19 +131,19 @@ typedef struct ActorShape {
 #define ACTOR_FLAG_FRIENDLY (1 << 3)
 
 // Culling of the actor's update process is disabled.
-// In other words, the actor will keep updating even if the actor is outside it's own culling volume.
+// In other words, the actor will keep updating even if the actor is outside its own culling volume.
 // See `Actor_CullingCheck` for more information about culling.
 // See `Actor_CullingVolumeTest` for more information on the test used to determine if an actor should be culled.
 #define ACTOR_FLAG_UPDATE_CULLING_DISABLED (1 << 4)
 
 // Culling of the actor's draw process is disabled.
-// In other words, the actor will keep drawing even if the actor is outside it's own culling volume.
+// In other words, the actor will keep drawing even if the actor is outside its own culling volume.
 // See `Actor_CullingCheck` for more information about culling.
 // See `Actor_CullingVolumeTest` for more information on the test used to determine if an actor should be culled.
 // (The original name for this flag is `NO_CULL_DRAW`, known from the Majora's Mask Debug ROM)
 #define ACTOR_FLAG_DRAW_CULLING_DISABLED (1 << 5)
 
-// Set if the actor is currently within the bounds of it's culling volume.
+// Set if the actor is currently within the bounds of its culling volume.
 // In most cases, this flag can be used to determine whether or not an actor is currently culled.
 // However this flag still updates even if `ACTOR_FLAG_UPDATE_CULLING_DISABLED` or `ACTOR_FLAG_DRAW_CULLING_DISABLED`
 // are set. Meaning, the flag can still have a value of "false" even if it is not actually culled.
