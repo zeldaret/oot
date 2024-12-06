@@ -2709,15 +2709,15 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
 }
 
 /**
- * Checks if an actor should be culled or not, by seeing if it is contained within it's own culling volume.
+ * Checks if an actor should be culled or not, by seeing if it is contained within its own culling volume.
  * For more details on the culling test, see `Actor_CullingVolumeTest`.
  *
  * "Culling" in this context refers to the removal of something for the sake of improving performance.
  * For actors, being culled means that their Update and Draw processes are halted.
- * While halted, the Actor's update state is frozen and they will not draw, making them invisible.
+ * While halted, an Actor's update state is frozen and it will not draw, making it invisible.
  *
- * Actors that are in bounds of it's culling volume may update and draw, while actors that are
- * out of bounds of it's culling volume may be excluded from updating and drawing until they are within bounds.
+ * Actors that are within the bounds of their culling volume may update and draw, while actors that are
+ * out of bounds of its culling volume may be excluded from updating and drawing until they are within bounds.
  *
  * It is possible for actors to opt out of update culling or draw culling.
  * This is set per-actor with `ACTOR_FLAG_UPDATE_CULLING_DISABLED` and `ACTOR_FLAG_DRAW_CULLING_DISABLED`.
@@ -2732,18 +2732,18 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
 }
 
 /**
- * Tests if an actor is currently within the bounds of it's own culling volume.
+ * Tests if an actor is currently within the bounds of its own culling volume.
  *
  * The culling volume is a 3D shape composed of a frustum with a box attached to the end of it. The frustum sits at the
- * camera's position and projects forward, encompassing the player's current view; the box extrudes behind the player,
- * allowing actors in the immediate vicinty behind and to the sides of the player to be detected.
+ * camera's position and projects forward, encompassing the player's current view; the box extrudes behind the camera,
+ * allowing actors in the immediate vicinity behind and to the sides of the player to be detected.
  *
  * This function returns true if the actor is within bounds, false if not.
  * The comparison is done in projective space against the actor's projected position as the viewing frustum
  * in world space transforms to a box in projective space, making the calculation easy.
  *
- * Every actor can set properites for their own culling volume, changing it's dimensions to suit the needs of it and
- * it's environment. Note that the following properties are projective properties as they are compared
+ * Every actor can set properties for their own culling volume, changing its dimensions to suit the needs of it and
+ * its environment. Note that the following properties are projective properties as they are compared
  * with the actor's position after perspective projection is applied. The units are therefore not directly comparable to
  * world units. These depend on the current view parameters (fov, aspect, scale, znear, zfar). The default parameters
  * considered are (60 degrees, 4/3, 1.0, 10, 12800).
