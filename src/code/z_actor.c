@@ -2736,7 +2736,7 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
  *
  * The culling volume is a 3D shape composed of a frustum with a box attached to the end of it. The frustum sits at the
  * camera's position and projects forward, encompassing the player's current view; the box extrudes behind the camera,
- * allowing actors in the immediate vicinity behind and to the sides of the player to be detected.
+ * allowing actors in the immediate vicinity behind and to the sides of the camera to be detected.
  *
  * This function returns true if the actor is within bounds, false if not.
  * The comparison is done in projective space against the actor's projected position as the viewing frustum
@@ -2772,7 +2772,7 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
  *                           scale by ~0.58 world units.
  *
  *    cullingVolumeDownward: Sets the height of the culling volume in the downward direction. Increasing
- *                           this value will make actors below the player more easily detected. This
+ *                           this value will make actors below the camera more easily detected. This
  *                           quantity is related to world units by the same factor as the upward scale.
  *                           For default view parameters, increasing this property by 1 increases the
  *                           downward height by ~0.58 world units.
