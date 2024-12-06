@@ -208,7 +208,7 @@ void func_80A55D00(EnHeishi3* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play) &&
         (this->respawnFlag == 0)) {
-        SET_EVENTCHKINF(EVENTCHKINF_4E);
+        SET_EVENTCHKINF(EVENTCHKINF_CAUGHT_BY_CASTLE_GUARDS);
         play->nextEntranceIndex = ENTR_HYRULE_CASTLE_4;
         play->transitionTrigger = TRANS_TRIGGER_START;
         this->respawnFlag = 1;
