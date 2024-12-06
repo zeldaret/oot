@@ -2741,8 +2741,8 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
  * allowing actors in the immediate vicinity behind and to the sides of the camera to be detected.
  *
  * This function returns true if the actor is within bounds, false if not.
- * The comparison is done in projective space against the actor's projected position as the viewing frustum
- * in world space transforms to a box in projective space, making the calculation easy.
+ * The comparison is done in projected space against the actor's projected position as the viewing frustum
+ * in world space transforms to a box in projected space, making the calculation easy.
  *
  * Every actor can set properties for their own culling volume, changing its dimensions to suit the needs of
  * it and its environment. These properties are in units of projected space (i.e. compared to the actor's position
