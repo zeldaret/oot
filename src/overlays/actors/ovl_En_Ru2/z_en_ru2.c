@@ -9,11 +9,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
-
-// TODO: Move this to actor header
-#define ENRU2_GET_SWITCH_FLAG(thisx) PARAMS_GET_U(thisx->actor.params, 8, 8)
-#define ENRU2_GET_TYPE(thisx) PARAMS_GET_U(thisx->actor.params, 0, 8)
+#define FLAGS ACTOR_FLAG_4
 
 void EnRu2_Init(Actor* thisx, PlayState* play);
 void EnRu2_Destroy(Actor* thisx, PlayState* play);
@@ -67,13 +63,13 @@ typedef enum {
     /* 16 */ ENRU2_WATER_TEMPLE_ENCOUNTER_BEGINNING,
     /* 17 */ ENRU2_WATER_TEMPLE_ENCOUNTER_DIALOG,
     /* 18 */ ENRU2_WATER_TEMPLE_ENCOUNTER_END,
-    /* 19 */ ENRU2_WATER_TEMPLE_SWIMMING_UP,
+    /* 19 */ ENRU2_WATER_TEMPLE_SWIMMING_UP
 } EnRu2Action;
 
 typedef enum {
     /* 00 */ ENRU2_DRAW_NOTHING,
     /* 01 */ ENRU2_DRAW_OPA,
-    /* 02 */ ENRU2_DRAW_XLU,
+    /* 02 */ ENRU2_DRAW_XLU
 } EnRu2DrawConfig;
 
 static ColliderCylinderInitType1 sCylinderInit = {
