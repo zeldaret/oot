@@ -2712,7 +2712,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
  * Checks if an actor should be culled or not, by seeing if it is contained within its own culling volume.
  * For more details on the culling test, see `Actor_CullingVolumeTest`.
  *
- * Returns true if the actor is inside it's culling volume. In other words, it should not cull.
+ * Returns true if the actor is inside its culling volume. In other words, it should not cull.
  *
  * "Culling" in this context refers to the removal of something for the sake of improving performance.
  * For actors, being culled means that their Update and Draw processes are halted.
