@@ -96,7 +96,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
             this->extraBlinkCounter = 0;
             this->extraBlinkTotal = 0;
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU)) { // Fish given
+            if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU)) {
                 EnJj_SetupAction(this, EnJj_WaitToOpenMouth);
             } else {
                 EnJj_SetupAction(this, EnJj_WaitForFish);
