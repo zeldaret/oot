@@ -581,8 +581,8 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_actor.o"
     include "$(BUILD_DIR)/src/code/z_actor_dlftbls.o"
     include "$(BUILD_DIR)/src/code/z_bgcheck.o"
-    include "$(BUILD_DIR)/src/code/code_800430A0.o"
-    include "$(BUILD_DIR)/src/code/code_80043480.o"
+    include "$(BUILD_DIR)/src/code/z_bg_collect.o"
+    include "$(BUILD_DIR)/src/code/z_bg_item.o"
     include "$(BUILD_DIR)/src/code/z_camera.o"
     include "$(BUILD_DIR)/src/code/z_collision_btltbls.o"
     include "$(BUILD_DIR)/src/code/z_collision_check.o"
@@ -595,7 +595,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_sfx_source.o"
     include "$(BUILD_DIR)/src/code/z_elf_message.o"
     include "$(BUILD_DIR)/src/code/z_face_reaction.o"
-    include "$(BUILD_DIR)/src/code/code_8006C3A0.o"
+    include "$(BUILD_DIR)/src/code/z_env_flags.o"
     include "$(BUILD_DIR)/src/code/z_fcurve_data.o"
     include "$(BUILD_DIR)/src/code/z_fcurve_data_skelanime.o"
     include "$(BUILD_DIR)/src/code/z_game_dlftbls.o"
@@ -627,7 +627,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_rcp.o"
     include "$(BUILD_DIR)/src/code/z_room.o"
     include "$(BUILD_DIR)/src/code/z_sample.o"
-    include "$(BUILD_DIR)/src/code/code_80097A00.o"
+    include "$(BUILD_DIR)/src/code/z_inventory.o"
     include "$(BUILD_DIR)/src/code/z_scene.o"
     include "$(BUILD_DIR)/src/code/object_table.o"
     include "$(BUILD_DIR)/src/code/z_scene_table.o"
@@ -747,7 +747,7 @@ beginseg
     include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
 #endif
     include "$(BUILD_DIR)/src/libu64/pad.o"
-    include "$(BUILD_DIR)/src/libu64/code_800FC620.o"
+    include "$(BUILD_DIR)/src/libu64/system_heap.o"
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
 #else
     include "$(BUILD_DIR)/src/libu64/logseverity_gc.o"
@@ -759,7 +759,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libu64/relocation_gc.o"
     include "$(BUILD_DIR)/src/libu64/load_gc.o"
-    include "$(BUILD_DIR)/src/libu64/code_800FC620.o"
+    include "$(BUILD_DIR)/src/libu64/system_heap.o"
     include "$(BUILD_DIR)/src/libu64/pad.o"
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
 #endif
