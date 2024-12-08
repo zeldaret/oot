@@ -936,7 +936,7 @@ void func_80034BA0(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDra
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
-s16 func_80034DD4(Actor* actor, struct PlayState* play, s16 arg2, f32 arg3);
+s16 Actor_UpdateAlphaByDistance(Actor* actor, struct PlayState* play, s16 alpha, f32 radius);
 void Actor_UpdateFidgetTables(struct PlayState* play, s16* fidgetTableY, s16* fidgetTableZ, s32 tableLen);
 void Actor_Noop(Actor* actor, struct PlayState* play);
 
