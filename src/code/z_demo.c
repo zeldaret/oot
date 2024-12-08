@@ -405,7 +405,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             break;
 
         case CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED:
-            SET_EVENTCHKINF(EVENTCHKINF_69);
+            SET_EVENTCHKINF(EVENTCHKINF_RESTORED_LAKE_HYLIA);
             break;
 
         case CS_MISC_VISMONO_BLACK_AND_WHITE:
