@@ -3,7 +3,9 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT)
 
 #define GROUND_HOVER_HEIGHT 75.0f
 #define MAX_LARVA 3
@@ -211,15 +213,15 @@ void EnPeehat_Init(Actor* thisx, PlayState* play) {
     this->actor.naviEnemyId = NAVI_ENEMY_PEAHAT;
     this->xzDistToRise = 740.0f;
     this->xzDistMax = 1200.0f;
-    this->actor.uncullZoneForward = 4000.0f;
-    this->actor.uncullZoneScale = 800.0f;
-    this->actor.uncullZoneDownward = 1800.0f;
+    this->actor.cullingVolumeDistance = 4000.0f;
+    this->actor.cullingVolumeScale = 800.0f;
+    this->actor.cullingVolumeDownward = 1800.0f;
     switch (this->actor.params) {
         case PEAHAT_TYPE_GROUNDED:
             EnPeehat_Ground_SetStateGround(this);
             break;
         case PEAHAT_TYPE_FLYING:
-            this->actor.uncullZoneForward = 4200.0f;
+            this->actor.cullingVolumeDistance = 4200.0f;
             this->xzDistToRise = 2800.0f;
             this->xzDistMax = 1400.0f;
             EnPeehat_Flying_SetStateGround(this);
@@ -983,7 +985,7 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->colQuad.base);
         }
         // if PEAHAT_TYPE_GROUNDED
-        if (thisx->params < 0 && (thisx->flags & ACTOR_FLAG_6)) {
+        if (thisx->params < 0 && (thisx->flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
             for (i = 1; i >= 0; i--) {
                 poly = NULL;
                 posB = &this->bladeTip[i];

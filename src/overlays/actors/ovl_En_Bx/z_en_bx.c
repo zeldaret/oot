@@ -7,7 +7,7 @@
 #include "z_en_bx.h"
 #include "assets/objects/object_bxa/object_bxa.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnBx_Init(Actor* thisx, PlayState* play);
 void EnBx_Destroy(Actor* thisx, PlayState* play);
@@ -98,7 +98,7 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->colliderQuad, &this->actor, &sQuadInit);
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_14C = 0;
-    thisx->uncullZoneDownward = 2000.0f;
+    thisx->cullingVolumeDownward = 2000.0f;
     if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 8, 8))) {
         Actor_Kill(&this->actor);
     }

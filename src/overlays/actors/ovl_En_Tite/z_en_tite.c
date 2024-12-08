@@ -10,7 +10,7 @@
 #include "terminal.h"
 #include "assets/objects/object_tite/object_tite.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 // EnTite_Idle
 #define vIdleTimer actionVar1
@@ -364,7 +364,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                     func_800355B8(play, &this->backLeftFootPos);
                 }
             }
-            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_6)) {
+            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
                 CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             } else {
                 Player* player = GET_PLAYER(play);

@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
 #include "assets/objects/object_dh/object_dh.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnDha_Init(Actor* thisx, PlayState* play);
 void EnDha_Destroy(Actor* thisx, PlayState* play);
