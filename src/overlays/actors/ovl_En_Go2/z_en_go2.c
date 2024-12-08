@@ -119,35 +119,35 @@ static f32 sPlayerTrackingYOffsets[14][2] = {
 };
 
 typedef enum EnGo2Animation {
-    /*  0 */ ENGO2_ANIM_UNCURL_SIT_STAND_IDLE, // default idle
+    /*  0 */ ENGO2_ANIM_UNCURL_SIT_STAND_DEFAULT,
     /*  1 */ ENGO2_ANIM_UNCURL_SIT_STAND_NORMAL,
-    /*  2 */ ENGO2_ANIM_WALKING_LOOP,
-    /*  3 */ ENGO2_ANIM_SIDESTEP_LOOP,
-    /*  4 */ ENGO2_ANIM_CRYING_LOOP,
-    /*  5 */ ENGO2_ANIM_EYEDROPS_LOOP,
+    /*  2 */ ENGO2_ANIM_WALKING,
+    /*  3 */ ENGO2_ANIM_SIDESTEP,
+    /*  4 */ ENGO2_ANIM_CRYING,
+    /*  5 */ ENGO2_ANIM_EYEDROPS,
     /*  6 */ ENGO2_ANIM_EYEDROPS_TAKEN,
     /*  7 */ ENGO2_ANIM_UNCURL_PRONE_UNUSED,
-    /*  8 */ ENGO2_ANIM_PRONE_LOOP_UNUSED,
-    /*  9 */ ENGO2_ANIM_SCRATCHING_LOOP,
+    /*  8 */ ENGO2_ANIM_PRONE_UNUSED,
+    /*  9 */ ENGO2_ANIM_SCRATCHING,
     /* 10 */ ENGO2_ANIM_UNCURL_SIT_STAND_BIG,
-    /* 11 */ ENGO2_ANIM_SOBBING_LOOP,
-    /* 12 */ ENGO2_ANIM_SHAKING_LOOP
+    /* 11 */ ENGO2_ANIM_SOBBING,
+    /* 12 */ ENGO2_ANIM_SHAKING
 } EnGo2Animation;
 
 static AnimationInfo sAnimationInfo[] = {
     { &gGoronUncurlSitStandAnim, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },
     { &gGoronUncurlSitStandAnim, 0.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gGoronWalkingLoopAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gGoronSidestepLoopAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gGoronCryingLoopAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gGoronEyeropsLoopAnim, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
+    { &gGoronWalkingAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronSidestepAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronCryingAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronEyeropsAnim, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
     { &gGoronEyedropsTakenAnim, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
     { &gGoronUncurlToProneAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gGoronProneLoopAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gGoronScratchingLoopAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronProneAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronScratchingAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
     { &gGoronUncurlSitStandAnim, 0.0f, 0.0f, -1.0f, 0x01, -8.0f },
-    { &gGoronSobbingLoopAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gGoronShakingLoopAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronSobbingAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronShakingAnim, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
 };
 
 /*
@@ -1176,12 +1176,12 @@ void EnGo2_ChooseIdleAnimation(EnGo2* this) {
         case GORON_CITY_ENTRANCE:
         case GORON_CITY_STAIRWELL:
         case GORON_DMT_FAIRY_HINT:
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_SCRATCHING_LOOP);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_SCRATCHING);
             break;
         case GORON_DMT_BIGGORON:
             if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_BROKEN_GORONS_SWORD &&
                 INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYE_DROPS) {
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_CRYING_LOOP);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_CRYING);
                 break;
             }
             FALLTHROUGH;
@@ -1446,7 +1446,7 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
         return false;
     }
 
-    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_SIDESTEP_LOOP);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_SIDESTEP);
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->isTalkative = false;
     this->trackingMode = NPC_TRACKING_NONE;
@@ -1499,21 +1499,21 @@ void EnGo2_AnimateGoronLinkAndDoSfx(EnGo2* this, PlayState* play) {
     if (ENGO2_GET_TYPE(this) == GORON_CITY_LINK) {
         if ((this->actor.textId == 0x3035 && this->messageEntry == 0) ||
             (this->actor.textId == 0x3036 && this->messageEntry == 0)) {
-            if (this->skelAnime.animation != &gGoronShakingLoopAnim) {
-                animation = ENGO2_ANIM_SHAKING_LOOP;
+            if (this->skelAnime.animation != &gGoronShakingAnim) {
+                animation = ENGO2_ANIM_SHAKING;
                 this->eyeMouthTexState = 0;
             }
         }
 
         if ((this->actor.textId == 0x3032 && this->messageEntry == 12) || (this->actor.textId == 0x3033) ||
             (this->actor.textId == 0x3035 && this->messageEntry == 6)) {
-            if (this->skelAnime.animation != &gGoronSobbingLoopAnim) {
-                animation = ENGO2_ANIM_SOBBING_LOOP;
+            if (this->skelAnime.animation != &gGoronSobbingAnim) {
+                animation = ENGO2_ANIM_SOBBING;
                 this->eyeMouthTexState = 1;
             }
         }
 
-        if (this->skelAnime.animation == &gGoronSobbingLoopAnim) {
+        if (this->skelAnime.animation == &gGoronSobbingAnim) {
             if (this->skelAnime.curFrame == 20.0f) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GOLON_CRY);
             }
@@ -1586,7 +1586,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
 
     EnGo2_SetColliderDim(this);
     EnGo2_SetShape(this);
-    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_IDLE);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_UNCURL_SIT_STAND_DEFAULT);
     this->actor.gravity = -1.0f;
     this->shadownAlpha = this->actor.shape.shadowAlpha = 0;
     this->reverse = 0;
@@ -1880,7 +1880,7 @@ void EnGo2_HandleOfferParented(EnGo2* this, PlayState* play) {
 void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
     switch (this->goronState) {
         case 0: // give eyedrops
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_EYEDROPS_LOOP);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_EYEDROPS);
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.shape.rot.y += DEG_TO_BINANG(8);
             this->trackingMode = NPC_TRACKING_NONE;
@@ -1962,7 +1962,7 @@ void EnGo2_GoronFireGeneric(EnGo2* this, PlayState* play) {
             if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
                 EnGo2_GoronFireGeneric_CreateSubcamera(this, play);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
-                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_WALKING_LOOP);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_WALKING);
                 this->waypoint = 1;
                 this->skelAnime.playSpeed = 2.0f;
                 EnGo2_OrientInstant(this);

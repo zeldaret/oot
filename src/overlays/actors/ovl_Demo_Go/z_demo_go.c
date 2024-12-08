@@ -254,7 +254,7 @@ void func_8097CEEC(DemoGo* this, PlayState* play) {
 }
 
 void func_8097CF20(DemoGo* this, PlayState* play, s32 arg2) {
-    AnimationHeader* animation = &gGoronWalkingLoopAnim;
+    AnimationHeader* animation = &gGoronWalkingAnim;
     if (arg2 != 0) {
         Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
                          -8.0f);

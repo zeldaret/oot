@@ -73,17 +73,17 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnGoAnimation {
-    /* 0 */ ENGO_ANIM_UNCURL_SIT_STAND_IDLE, // default idle
+    /* 0 */ ENGO_ANIM_UNCURL_SIT_STAND_DEFAULT,
     /* 1 */ ENGO_ANIM_UNCURL_SIT_STAND_NORMAL,
-    /* 2 */ ENGO_ANIM_WALKING_LOOP,
-    /* 3 */ ENGO_ANIM_SIDESTEP_LOOP
+    /* 2 */ ENGO_ANIM_WALKING,
+    /* 3 */ ENGO_ANIM_SIDESTEP
 } EnGoAnimation;
 
 static AnimationSpeedInfo sAnimationInfo[] = {
     { &gGoronUncurlSitStandAnim, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
     { &gGoronUncurlSitStandAnim, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { &gGoronWalkingLoopAnim, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { &gGoronSidestepLoopAnim, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronWalkingAnim, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronSidestepAnim, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
 };
 
 /*
@@ -683,7 +683,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_5;
     }
 
-    EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND_IDLE);
+    EnGo_ChangeAnim(this, ENGO_ANIM_UNCURL_SIT_STAND_DEFAULT);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->actor.gravity = -1.0f;
@@ -899,8 +899,8 @@ void EnGo_Standing(EnGo* this, PlayState* play) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
-                //! @bug: `gGoronEyedropsLoopAnim` is not applied; see `z_en_go2.c` for the correct behaviour
-                EnGo_ChangeAnim(this, ENGO_ANIM_WALKING_LOOP);
+                //! @bug: `gGoronEyedropsAnim` is not applied; see `z_en_go2.c` for the correct behaviour
+                EnGo_ChangeAnim(this, ENGO_ANIM_WALKING);
                 this->eyedropsTimer = 100;
                 this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
                 EnGo_SetupAction(this, EnGo_TakingEyedrops);
@@ -960,7 +960,7 @@ void EnGo_AttentionLost(EnGo* this, PlayState* play) {
 }
 
 void EnGo_Sidestep(EnGo* this, PlayState* play) {
-    f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&gGoronSidestepLoopAnim));
+    f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&gGoronSidestepAnim));
     f32 float2 = this->skelAnime.curFrame * float1;
 
     this->actor.speed = Math_SinS((s16)float2);
@@ -974,7 +974,7 @@ void EnGo_Sidestep(EnGo* this, PlayState* play) {
 
 void EnGo_GoronDmtBombFlower(EnGo* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_EB)) {
-        EnGo_ChangeAnim(this, ENGO_ANIM_SIDESTEP_LOOP);
+        EnGo_ChangeAnim(this, ENGO_ANIM_SIDESTEP);
         EnGo_SetupAction(this, EnGo_Sidestep);
     } else {
         EnGo_Standing(this, play);
