@@ -30,6 +30,26 @@ typedef enum GoronLimb {
     /* 18 */ GORON_LIMB_MAX
 } GoronLimb;
 
+typedef enum EnGoType {
+    ENGO_TYPE_CITY_LINK         = (0 << 4),
+    ENGO_TYPE_FIRE_GENERIC      = (1 << 4),
+    ENGO_TYPE_DMT_DC_ENTRANCE   = (2 << 4),
+    ENGO_TYPE_DMT_ROLLING_SMALL = (3 << 4),
+    ENGO_TYPE_DMT_BOMB_FLOWER   = (4 << 4),
+    ENGO_TYPE_CITY_ENTRANCE     = (5 << 4),
+    ENGO_TYPE_CITY_ISLAND       = (6 << 4),
+    ENGO_TYPE_CITY_LOST_WOODS   = (7 << 4),
+    ENGO_TYPE_DMT_BIGGORON      = (9 << 4)
+} EnGoType;
+
+#define ENGO_GET_PATH_INDEX(this) PARAMS_GET_U((this)->actor.params, 0, 4)
+#define ENGO_GET_TYPE(this) PARAMS_GET_NOSHIFT((this)->actor.params, 4, 4)
+#define ENGO_CAGED_SWITCH_FLAG(this) PARAMS_GET_NOMASK((this)->actor.params, 8)
+
+#define ENGO_PATH_NONE NBITS_TO_MASK(4)
+#define ENGO_IS_CAGE_OPEN(this, play) Flags_GetSwitch(play, ENGO_CAGED_SWITCH_FLAG(this))
+#define ENGO_GET_SPEED_SCALE(this) (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f)
+
 #define EN_GO_EFFECT_COUNT 20
 
 typedef struct EnGoEffect {
