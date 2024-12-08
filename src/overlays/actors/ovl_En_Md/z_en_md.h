@@ -30,7 +30,9 @@ typedef enum EnMdLimb {
 typedef void (*EnMdActionFunc)(struct EnMd*, PlayState*);
 
 #define ENMD_GET_PATH_INDEX(this) PARAMS_GET_S(this->actor.params, 8, 8)
-#define ENMD_PATH_IS_NONE(this) (PARAMS_GET_NOSHIFT(this->actor.params, 8, 8) == (NBITS_TO_MASK(8) << 8))
+#define ENMD_GET_PATH_INDEX_NOSHIFT(this) PARAMS_GET_NOSHIFT(this->actor.params, 8, 8)
+
+#define ENMD_PATH_NONE (NBITS_TO_MASK(8) << 8)
 
 typedef struct EnMd {
     /* 0x0000 */ Actor actor;

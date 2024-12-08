@@ -608,7 +608,7 @@ u8 EnMd_FollowPath(EnMd* this, PlayState* play) {
     f32 pathDiffX;
     f32 pathDiffZ;
 
-    if (ENMD_PATH_IS_NONE(this)) {
+    if (ENMD_GET_PATH_INDEX_NOSHIFT(this) == ENMD_PATH_NONE) {
         return 0;
     }
 
@@ -635,7 +635,7 @@ u8 EnMd_SetMovedPos(EnMd* this, PlayState* play) {
     Path* path;
     Vec3s* lastPointPos;
 
-    if (ENMD_PATH_IS_NONE(this)) {
+    if (ENMD_GET_PATH_INDEX_NOSHIFT(this) == ENMD_PATH_NONE) {
         return 0;
     }
 
