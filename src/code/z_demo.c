@@ -404,7 +404,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             SET_EVENTCHKINF(EVENTCHKINF_67);
             break;
 
-        case CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED:
+        case CS_MISC_SET_FLAG_RESTORED_LAKE_HYLIA:
             SET_EVENTCHKINF(EVENTCHKINF_RESTORED_LAKE_HYLIA);
             break;
 
