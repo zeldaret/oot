@@ -464,7 +464,7 @@ typedef enum LinkAge {
  * SaveContext.eventChkInf
  */
 
-#define EVENTCHKINF_02 0x02
+#define EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS 0x02
 #define EVENTCHKINF_03 0x03
 #define EVENTCHKINF_04 0x04
 #define EVENTCHKINF_05 0x05
@@ -503,7 +503,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_37 0x37
 #define EVENTCHKINF_38 0x38
 #define EVENTCHKINF_39 0x39
-#define EVENTCHKINF_3A 0x3A
+#define EVENTCHKINF_OPENED_JABU_JABU 0x3A
 #define EVENTCHKINF_3B 0x3B
 #define EVENTCHKINF_3C 0x3C
 
@@ -520,10 +520,10 @@ typedef enum LinkAge {
 #define EVENTCHKINF_48 0x48
 #define EVENTCHKINF_49 0x49
 #define EVENTCHKINF_4A 0x4A
-#define EVENTCHKINF_4B 0x4B
+#define EVENTCHKINF_OPENED_DOOR_OF_TIME 0x4B
 #define EVENTCHKINF_4C 0x4C
 #define EVENTCHKINF_4D 0x4D
-#define EVENTCHKINF_4E 0x4E
+#define EVENTCHKINF_CAUGHT_BY_CASTLE_GUARDS 0x4E // set but unused
 #define EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS 0x4F // Cutscene in Temple of Time as adult after pulling the Master Sword for the first time
 #define EVENTCHKINF_50 0x50
 #define EVENTCHKINF_51 0x51
