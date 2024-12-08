@@ -237,7 +237,7 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
         case DEMOKANKYO_DOOR_OF_TIME:
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             this->unk_150[0].unk_18 = 0.0f;
-            if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_TOKI, this->actor.world.pos.x,
                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x0000);
             } else {
@@ -424,7 +424,7 @@ void DemoKankyo_UpdateDoorOfTime(DemoKankyo* this, PlayState* play) {
     this->unk_150[0].unk_18 += 1.0f;
     if (this->unk_150[0].unk_18 >= 102.0f) {
         Actor_PlaySfx(&this->actor, NA_SE_EV_STONEDOOR_STOP);
-        SET_EVENTCHKINF(EVENTCHKINF_4B);
+        SET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME);
         Actor_Kill(this->actor.child);
         DemoKankyo_SetupAction(this, DemoKankyo_KillDoorOfTimeCollision);
     }

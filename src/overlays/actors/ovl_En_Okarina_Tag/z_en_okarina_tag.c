@@ -195,7 +195,7 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
     if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
+        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) &&
                    ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D)) &&
                    (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                    (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
