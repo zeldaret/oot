@@ -877,18 +877,18 @@ void EnOssan_TryPaybackMask(EnOssan* this, PlayState* play) {
         Rupees_ChangeBy(-price);
 
         if (this->happyMaskShopState == OSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD) {
-            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_BUNNY_HOOD_FEE);
+            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_BUNNY_HOOD);
             Message_ContinueTextbox(play, 0x70A9);
             this->happyMaskShopState = OSSAN_HAPPY_STATE_ALL_MASKS_SOLD;
             return;
         }
 
         if (this->happyMaskShopState == OSSAN_HAPPY_STATE_REQUEST_PAYMENT_KEATON_MASK) {
-            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_KEATON_MASK_FEE);
+            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_KEATON_MASK);
         } else if (this->happyMaskShopState == OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SPOOKY_MASK) {
-            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SPOOKY_MASK_FEE);
+            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SPOOKY_MASK);
         } else if (this->happyMaskShopState == OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK) {
-            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SKULL_MASK_FEE);
+            SET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SKULL_MASK);
         }
 
         Message_ContinueTextbox(play, 0x70A7);
@@ -2059,7 +2059,7 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
     if (this->actor.params == OSSAN_TYPE_MASK) {
         if (INV_CONTENT(ITEM_TRADE_CHILD) == ITEM_SOLD_OUT) {
             if (GET_ITEMGETINF(ITEMGETINF_3B)) {
-                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_BUNNY_HOOD_FEE)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_BUNNY_HOOD)) {
                     // Pay back Bunny Hood
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD;
                     return 0x70C6;
@@ -2068,7 +2068,7 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
                 }
             }
             if (GET_ITEMGETINF(ITEMGETINF_3A)) {
-                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SPOOKY_MASK_FEE)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SPOOKY_MASK)) {
                     // Pay back Spooky Mask
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SPOOKY_MASK;
                     return 0x70C5;
@@ -2077,7 +2077,7 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
                 }
             }
             if (GET_ITEMGETINF(ITEMGETINF_39)) {
-                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SKULL_MASK_FEE)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_SKULL_MASK)) {
                     // Pay back Skull Mask
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK;
                     return 0x70C4;
@@ -2086,7 +2086,7 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
                 }
             }
             if (GET_ITEMGETINF(ITEMGETINF_38)) {
-                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_KEATON_MASK_FEE)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_PAID_BACK_KEATON_MASK)) {
                     // Pay back Keaton Mask
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_KEATON_MASK;
                     return 0x70A5;
