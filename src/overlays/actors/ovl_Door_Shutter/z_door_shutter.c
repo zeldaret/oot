@@ -821,7 +821,8 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
             play->roomCtx.activeBufPage ^= 1;
         }
         Room_FinishRoomChange(play, &play->roomCtx);
-        Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0x0EFF);
+        Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN,
+                               PLAYER_PARAMS(PLAYER_START_MODE_MOVE_FORWARD_SLOW, PLAYER_START_BG_CAM_DEFAULT));
     }
     this->isActive = false;
     this->dyna.actor.velocity.y = 0.0f;
