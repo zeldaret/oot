@@ -333,7 +333,7 @@ void func_8098544C(DemoIm* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;
-        play->csCtx.script = D_8098786C;
+        play->csCtx.script = gShadowMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SHADOW);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
