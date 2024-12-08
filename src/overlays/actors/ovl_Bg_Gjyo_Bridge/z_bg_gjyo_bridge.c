@@ -49,7 +49,7 @@ void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_RAINBOW_BRIDGE_BUILT)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_CREATED_RAINBOW_BRIDGE)) {
         this->actionFunc = func_808787A4;
     } else {
         this->dyna.actor.draw = NULL;
@@ -85,7 +85,7 @@ void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play) {
         (play->csCtx.actorCues[2]->id == 2)) {
         this->dyna.actor.draw = BgGjyoBridge_Draw;
         DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
-        SET_EVENTCHKINF(EVENTCHKINF_RAINBOW_BRIDGE_BUILT);
+        SET_EVENTCHKINF(EVENTCHKINF_CREATED_RAINBOW_BRIDGE);
     }
 }
 
