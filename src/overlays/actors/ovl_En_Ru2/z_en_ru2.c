@@ -340,7 +340,7 @@ void EnRu2_SpawnWaterMedallion(EnRu2* this, PlayState* play) {
 void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     s32 pad[2];
     Player* player;
-    s16 worldRotY;
+    s16 yaw;
 
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_WATER) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
@@ -348,9 +348,9 @@ void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
         play->csCtx.script = gWaterMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_WATER);
-        worldRotY = this->actor.world.rot.y + 0x8000;
-        player->actor.shape.rot.y = worldRotY;
-        player->actor.world.rot.y = worldRotY;
+        yaw = this->actor.world.rot.y + 0x8000;
+        player->actor.shape.rot.y = yaw;
+        player->actor.world.rot.y = yaw;
     }
 }
 
