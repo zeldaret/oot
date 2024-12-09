@@ -5221,9 +5221,9 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_25)) {
                     retTextId = 0x3027;
-                } else if (Flags_GetEventChkInf(EVENTCHKINF_23)) {
+                } else if (Flags_GetEventChkInf(EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER)) {
                     retTextId = 0x3021;
-                } else if (Flags_GetInfTable(INFTABLE_E0)) {
+                } else if (Flags_GetInfTable(INFTABLE_TALKED_TO_DODONGOS_CAVERN_ENTRANCE_GORON)) {
                     retTextId = 0x302A;
                 } else {
                     retTextId = 0x3008;
@@ -5240,7 +5240,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_25)) {
                     retTextId = 0x3027;
-                } else if (Flags_GetEventChkInf(EVENTCHKINF_23)) {
+                } else if (Flags_GetEventChkInf(EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER)) {
                     retTextId = 0x3026;
                 } else {
                     retTextId = 0x3009;
@@ -5257,9 +5257,9 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_25)) {
                     retTextId = 0x3027;
-                } else if (Flags_GetEventChkInf(EVENTCHKINF_23)) {
+                } else if (Flags_GetEventChkInf(EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER)) {
                     retTextId = 0x3026;
-                } else if (Flags_GetInfTable(INFTABLE_EB)) {
+                } else if (Flags_GetInfTable(INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON)) {
                     retTextId = 0x302B;
                 } else {
                     retTextId = 0x300A;
@@ -5276,7 +5276,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_25)) {
                     retTextId = 0x3027;
-                } else if (Flags_GetInfTable(INFTABLE_F0)) {
+                } else if (Flags_GetInfTable(INFTABLE_TALKED_TO_GC_ENTRANCE_GORON)) {
                     retTextId = 0x3015;
                 } else {
                     retTextId = 0x3014;
@@ -5293,7 +5293,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_25)) {
                     retTextId = 0x3027;
-                } else if (Flags_GetInfTable(INFTABLE_F4)) {
+                } else if (Flags_GetInfTable(INFTABLE_TALKED_TO_GC_ISLAND_GORON)) {
                     retTextId = 0x3017;
                 } else {
                     retTextId = 0x3016;
@@ -5310,7 +5310,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_25)) {
                     retTextId = 0x3027;
-                } else if (Flags_GetInfTable(INFTABLE_F8)) {
+                } else if (Flags_GetInfTable(INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON)) {
                     retTextId = 0x3019;
                 } else {
                     retTextId = 0x3018;
@@ -5668,28 +5668,28 @@ void func_80036E50(u16 textId, s16 arg1) {
             return;
         case 38:
             if (textId == 0x3008) {
-                Flags_SetInfTable(INFTABLE_E0);
+                Flags_SetInfTable(INFTABLE_TALKED_TO_DODONGOS_CAVERN_ENTRANCE_GORON);
             }
             return;
         case 40:
             if (textId == 0x300B) {
-                Flags_SetInfTable(INFTABLE_EB);
+                Flags_SetInfTable(INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON);
             }
             return;
         case 41:
             if (textId == 0x3014) {
-                Flags_SetInfTable(INFTABLE_F0);
+                Flags_SetInfTable(INFTABLE_TALKED_TO_GC_ENTRANCE_GORON);
             }
             return;
         case 42:
             if (textId == 0x3016) {
-                Flags_SetInfTable(INFTABLE_F4);
+                Flags_SetInfTable(INFTABLE_TALKED_TO_GC_ISLAND_GORON);
             }
             return;
         case 43:
             if (textId == 0x3018) {
                 Flags_SetEventChkInf(EVENTCHKINF_20);
-                Flags_SetInfTable(INFTABLE_F8);
+                Flags_SetInfTable(INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON);
             }
             return;
         case 48:

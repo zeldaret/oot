@@ -10,28 +10,28 @@
 /*
 FLAGS
 
-EVENTCHKINF_23 - DC entrance boulder blown up as child
+EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER - DC entrance boulder blown up as child
 
 InfTable
 
 INFTABLE_B4
-INFTABLE_E0 - Talked to DMT Goron at DC entrance (Before DC is opened as child)
-INFTABLE_E3 - Talked to GC Goron in bottom level stairwell
-INFTABLE_E6 - Talked to GC Goron at LW entrance (Before LW shortcut is opened)
-INFTABLE_EB - Talked to DMT Goron at Bomb Flower with goron bracelet
-INFTABLE_F0 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
-INFTABLE_F4 - Talked to Goron at GC Island (Before goron ruby is obtained)
-INFTABLE_F8 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door,
+INFTABLE_TALKED_TO_DODONGOS_CAVERN_ENTRANCE_GORON - Talked to DMT Goron at DC entrance (Before DC is opened as child)
+INFTABLE_TALKED_TO_GC_STAIRWELL_GORON - Talked to GC Goron in bottom level stairwell
+INFTABLE_TALKED_TO_LOST_WOODS_SHORTCUT_GORON - Talked to GC Goron at LW entrance (Before LW shortcut is opened)
+INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON - Talked to DMT Goron at Bomb Flower with goron bracelet
+INFTABLE_TALKED_TO_GC_ENTRANCE_GORON - Talked to Goron at GC Entrance (Before goron ruby is obtained)
+INFTABLE_TALKED_TO_GC_ISLAND_GORON - Talked to Goron at GC Island (Before goron ruby is obtained)
+INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door,
 before getting goron bracelet)
-INFTABLE_109 - Obtained Fire Tunic from Goron Link
+INFTABLE_OPENED_GORON_CITY_DOORS - Goron Link opened Goron City doors
 INFTABLE_10A - (not on cloud modding)
-INFTABLE_10B - Spoke to Goron Link About Volvagia
-INFTABLE_10C - Stopped Goron Link's Rolling
-INFTABLE_10D - EnGo Exclusive
-INFTABLE_10E - Spoke to Goron Link
+INFTABLE_TALKED_TO_GORON_LINK_ABOUT_DRAGON - Spoke to Goron Link about Volvagia
+INFTABLE_STOPPED_GORON_LINK - Stopped Goron Link's Rolling
+INFTABLE_RECEIVED_GORON_TUNIC - EnGo Exclusive
+INFTABLE_TALKED_TO_GORON_LINK_ABOUT_GORONS - Spoke to Goron Link
 INFTABLE_10F - (not on cloud modding)
 
-INFTABLE_11E - Bomb bag upgrade obtained from rolling Goron
+INFTABLE_RECEIVED_BOMB_BAG_UPGRADE_FROM_HOT_RODDER_GORON - Bomb bag upgrade obtained from rolling Goron
 
 Gorons only move when this->interactInfo.talkState == NPC_TALK_STATE_IDLE
 */
@@ -310,7 +310,7 @@ u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityRollingBig(PlayState* play, EnGo2* this) {
-    if (GET_INFTABLE(INFTABLE_11E)) {
+    if (GET_INFTABLE(INFTABLE_RECEIVED_BOMB_BAG_UPGRADE_FROM_HOT_RODDER_GORON)) {
         return 0x3013;
     } else if (CUR_CAPACITY(UPG_BOMB_BAG) >= 20 && this->waypoint > 7 && this->waypoint < 12) {
         return 0x3012;
@@ -332,7 +332,7 @@ s16 EnGo2_UpdateTalkStateGoronCityRollingBig(PlayState* play, EnGo2* this) {
                     bombBagUpgrade = CUR_CAPACITY(UPG_BOMB_BAG) == 30 ? GI_BOMB_BAG_40 : GI_BOMB_BAG_30;
                     EnGo2_GetItem(this, play, bombBagUpgrade);
                     Message_CloseTextbox(play);
-                    SET_INFTABLE(INFTABLE_11E);
+                    SET_INFTABLE(INFTABLE_RECEIVED_BOMB_BAG_UPGRADE_FROM_HOT_RODDER_GORON);
                     return NPC_TALK_STATE_ACTION;
                 } else {
                     return NPC_TALK_STATE_ACTION;
@@ -352,8 +352,8 @@ u16 EnGo2_GetTextIdGoronDmtBombFlower(PlayState* play, EnGo2* this) {
 s16 EnGo2_UpdateTalkStateGoronDmtBombFlower(PlayState* play, EnGo2* this) {
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_CLOSING:
-            if ((this->actor.textId == 0x300B) && !GET_INFTABLE(INFTABLE_EB)) {
-                SET_INFTABLE(INFTABLE_EB);
+            if ((this->actor.textId == 0x300B) && !GET_INFTABLE(INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON)) {
+                SET_INFTABLE(INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON);
                 return NPC_TALK_STATE_ACTION;
             } else {
                 return NPC_TALK_STATE_IDLE;
@@ -381,7 +381,7 @@ u16 EnGo2_GetTextIdGoronDmtRollingSmall(PlayState* play, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return GET_EVENTCHKINF(EVENTCHKINF_23) ? 0x3026 : 0x3009;
+        return GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER) ? 0x3026 : 0x3009;
     }
 }
 
@@ -399,14 +399,14 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return GET_EVENTCHKINF(EVENTCHKINF_23) ? 0x3021 : GET_INFTABLE(INFTABLE_E0) ? 0x302A : 0x3008;
+        return GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER) ? 0x3021 : GET_INFTABLE(INFTABLE_TALKED_TO_DODONGOS_CAVERN_ENTRANCE_GORON) ? 0x302A : 0x3008;
     }
 }
 
 s16 EnGo2_UpdateTalkStateGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3008) {
-            SET_INFTABLE(INFTABLE_E0);
+            SET_INFTABLE(INFTABLE_TALKED_TO_DODONGOS_CAVERN_ENTRANCE_GORON);
         }
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -420,14 +420,14 @@ u16 EnGo2_GetTextIdGoronCityEntrance(PlayState* play, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return GET_INFTABLE(INFTABLE_F0) ? 0x3015 : 0x3014;
+        return GET_INFTABLE(INFTABLE_TALKED_TO_GC_ENTRANCE_GORON) ? 0x3015 : 0x3014;
     }
 }
 
 s16 EnGo2_UpdateTalkStateGoronCityEntrance(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3014) {
-            SET_INFTABLE(INFTABLE_F0);
+            SET_INFTABLE(INFTABLE_TALKED_TO_GC_ENTRANCE_GORON);
         }
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -441,14 +441,14 @@ u16 EnGo2_GetTextIdGoronCityIsland(PlayState* play, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3067;
     } else {
-        return GET_INFTABLE(INFTABLE_F4) ? 0x3017 : 0x3016;
+        return GET_INFTABLE(INFTABLE_TALKED_TO_GC_ISLAND_GORON) ? 0x3017 : 0x3016;
     }
 }
 
 s16 EnGo2_UpdateTalkStateGoronCityIsland(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3016) {
-            SET_INFTABLE(INFTABLE_F4);
+            SET_INFTABLE(INFTABLE_TALKED_TO_GC_ISLAND_GORON);
         }
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -464,7 +464,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
     } else {
         return CUR_UPG_VALUE(UPG_STRENGTH) != 0 ? 0x302C
                : !Flags_GetSwitch(play, 0x1B)   ? 0x3017
-               : GET_INFTABLE(INFTABLE_F8)      ? 0x3019
+               : GET_INFTABLE(INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON)      ? 0x3019
                                                 : 0x3018;
     }
 }
@@ -472,7 +472,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
 s16 EnGo2_UpdateTalkStateGoronCityLowestFloor(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3018) {
-            SET_INFTABLE(INFTABLE_F8);
+            SET_INFTABLE(INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON);
         }
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -484,8 +484,8 @@ u16 EnGo2_GetTextIdGoronCityLink(PlayState* play, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
         return GET_INFTABLE(INFTABLE_10F) ? 0x3042 : 0x3041;
     } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
-        return GET_INFTABLE(INFTABLE_10E) ? 0x3038 : 0x3037;
-    } else if (GET_INFTABLE(INFTABLE_10C)) {
+        return GET_INFTABLE(INFTABLE_TALKED_TO_GORON_LINK_ABOUT_GORONS) ? 0x3038 : 0x3037;
+    } else if (GET_INFTABLE(INFTABLE_STOPPED_GORON_LINK)) {
         this->unk_20C = 0;
         this->dialogState = TEXT_STATE_NONE;
         return GET_INFTABLE(INFTABLE_10A) ? 0x3033 : 0x3032;
@@ -503,7 +503,7 @@ s16 EnGo2_UpdateTalkStateGoronCityLink(PlayState* play, EnGo2* this) {
                     this->actionFunc = EnGo2_SetupGetItem;
                     return NPC_TALK_STATE_ACTION;
                 case 0x3037:
-                    SET_INFTABLE(INFTABLE_10E);
+                    SET_INFTABLE(INFTABLE_TALKED_TO_GORON_LINK_ABOUT_GORONS);
                     FALLTHROUGH;
                 default:
                     return NPC_TALK_STATE_IDLE;
@@ -512,12 +512,12 @@ s16 EnGo2_UpdateTalkStateGoronCityLink(PlayState* play, EnGo2* this) {
             if (Message_ShouldAdvance(play)) {
                 if (this->actor.textId == 0x3034) {
                     if (play->msgCtx.choiceIndex == 0) {
-                        this->actor.textId = GET_INFTABLE(INFTABLE_10B) ? 0x3033 : 0x3035;
+                        this->actor.textId = GET_INFTABLE(INFTABLE_TALKED_TO_GORON_LINK_ABOUT_DRAGON) ? 0x3033 : 0x3035;
                         if (this->actor.textId == 0x3035) {
                             Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
                     } else {
-                        this->actor.textId = GET_INFTABLE(INFTABLE_10B) ? 0x3036 : 0x3033;
+                        this->actor.textId = GET_INFTABLE(INFTABLE_TALKED_TO_GORON_LINK_ABOUT_DRAGON) ? 0x3036 : 0x3033;
                         if (this->actor.textId == 0x3036) {
                             Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
@@ -533,7 +533,7 @@ s16 EnGo2_UpdateTalkStateGoronCityLink(PlayState* play, EnGo2* this) {
             if (Message_ShouldAdvance(play)) {
                 switch (this->actor.textId) {
                     case 0x3035:
-                        SET_INFTABLE(INFTABLE_10B);
+                        SET_INFTABLE(INFTABLE_TALKED_TO_GORON_LINK_ABOUT_DRAGON);
                         FALLTHROUGH;
                     case 0x3032:
                     case 0x3033:
@@ -662,13 +662,13 @@ s16 EnGo2_UpdateTalkStateGoronFireGeneric(PlayState* play, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityStairwell(PlayState* play, EnGo2* this) {
-    return !LINK_IS_ADULT ? GET_INFTABLE(INFTABLE_E3) ? 0x3022 : 0x300E : 0x3043;
+    return !LINK_IS_ADULT ? GET_INFTABLE(INFTABLE_TALKED_TO_GC_STAIRWELL_GORON) ? 0x3022 : 0x300E : 0x3043;
 }
 
 s16 EnGo2_UpdateTalkStateGoronCityStairwell(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x300E) {
-            SET_INFTABLE(INFTABLE_E3);
+            SET_INFTABLE(INFTABLE_TALKED_TO_GC_STAIRWELL_GORON);
         }
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -694,7 +694,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(PlayState* play, EnGo2* this) {
         if (Flags_GetSwitch(play, 0x1C)) {
             return 0x302F;
         } else {
-            return GET_INFTABLE(INFTABLE_E6) ? 0x3025 : 0x3024;
+            return GET_INFTABLE(INFTABLE_TALKED_TO_LOST_WOODS_SHORTCUT_GORON) ? 0x3025 : 0x3024;
         }
     } else {
         return 0x3043;
@@ -704,7 +704,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(PlayState* play, EnGo2* this) {
 s16 EnGo2_UpdateTalkStateGoronCityLostWoods(PlayState* play, EnGo2* this) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3024) {
-            SET_INFTABLE(INFTABLE_E6);
+            SET_INFTABLE(INFTABLE_TALKED_TO_LOST_WOODS_SHORTCUT_GORON);
         }
         return NPC_TALK_STATE_IDLE;
     } else {
@@ -1345,7 +1345,7 @@ void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     if (PARAMS_GET_S(this->actor.params, 0, 5) == GORON_CITY_ROLLING_BIG ||
         PARAMS_GET_S(this->actor.params, 0, 5) == GORON_CITY_LINK) {
         this->collider.elem.acElemFlags = ACELEM_ON;
-        this->actor.speed = GET_INFTABLE(INFTABLE_11E) ? 6.0f : 3.6000001f;
+        this->actor.speed = GET_INFTABLE(INFTABLE_RECEIVED_BOMB_BAG_UPGRADE_FROM_HOT_RODDER_GORON) ? 6.0f : 3.6000001f;
     } else {
         this->actor.speed = 6.0f;
     }
@@ -1571,7 +1571,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
             EnGo2_GetItemAnimation(this, play);
             break;
         case GORON_CITY_LINK:
-            if (GET_INFTABLE(INFTABLE_109)) {
+            if (GET_INFTABLE(INFTABLE_OPENED_GORON_CITY_DOORS)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
                 if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) &&
@@ -1582,7 +1582,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                 }
             } else {
 #if OOT_VERSION >= PAL_1_1
-                CLEAR_INFTABLE(INFTABLE_10C);
+                CLEAR_INFTABLE(INFTABLE_STOPPED_GORON_LINK);
 #endif
                 this->collider.dim.height = (D_80A4816C[PARAMS_GET_S(this->actor.params, 0, 5)].height * 0.6f);
                 EnGo2_SetupRolling(this, play);
@@ -1614,7 +1614,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnGo2_CurledUp;
             break;
         case GORON_DMT_BOMB_FLOWER:
-            if (GET_INFTABLE(INFTABLE_EB)) {
+            if (GET_INFTABLE(INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
             }
@@ -1813,7 +1813,7 @@ void EnGo2_SetGetItem(EnGo2* this, PlayState* play) {
                 EnGo2_GetItemAnimation(this, play);
                 return;
             case GI_TUNIC_GORON:
-                SET_INFTABLE(INFTABLE_109);
+                SET_INFTABLE(INFTABLE_OPENED_GORON_CITY_DOORS);
                 EnGo2_GetItemAnimation(this, play);
                 return;
             case GI_SWORD_BIGGORON:
@@ -1897,7 +1897,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) != TEXT_STATE_CLOSING) {
         player->actor.freezeTimer = 10;
     } else {
-        SET_INFTABLE(INFTABLE_10C);
+        SET_INFTABLE(INFTABLE_STOPPED_GORON_LINK);
         this->trackingMode = NPC_TRACKING_NONE;
         this->unk_211 = false;
         this->isAwake = false;
