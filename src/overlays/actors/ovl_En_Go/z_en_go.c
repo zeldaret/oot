@@ -115,7 +115,8 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                 } else {
                     return 0x3041;
                 }
-            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) || GET_INFTABLE(INFTABLE_RECEIVED_GORON_TUNIC)) {
+            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) ||
+                       GET_INFTABLE(INFTABLE_RECEIVED_GORON_TUNIC)) {
                 if (GET_INFTABLE(INFTABLE_TALKED_TO_GORON_LINK_ABOUT_GORONS)) {
                     return 0x3038;
                 } else {
@@ -258,7 +259,8 @@ s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (play->msgCtx.choiceIndex == 0) {
-                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || GET_INFTABLE(INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON)) {
+                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 ||
+                                GET_INFTABLE(INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON)) {
                                 thisx->textId = 0x300B;
                             } else {
                                 thisx->textId = 0x300C;
@@ -851,7 +853,8 @@ void func_80A405CC(EnGo* this, PlayState* play) {
         this->skelAnime.curFrame = lastFrame;
         this->skelAnime.playSpeed = 0.0f;
         this->unk_212 = Rand_S16Offset(30, 30);
-        if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x40) && !GET_INFTABLE(INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON)) {
+        if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x40) &&
+            !GET_INFTABLE(INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON)) {
             EnGo_SetupAction(this, func_80A40B1C);
         } else {
             EnGo_SetupAction(this, EnGo_BiggoronActionFunc);

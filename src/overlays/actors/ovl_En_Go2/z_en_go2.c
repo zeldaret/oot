@@ -21,8 +21,8 @@ INFTABLE_TALKED_TO_LOST_WOODS_SHORTCUT_GORON - Talked to GC Goron at LW entrance
 INFTABLE_TALKED_TO_DMT_BOMB_FLOWER_GORON - Talked to DMT Goron at Bomb Flower with goron bracelet
 INFTABLE_TALKED_TO_GC_ENTRANCE_GORON - Talked to Goron at GC Entrance (Before goron ruby is obtained)
 INFTABLE_TALKED_TO_GC_ISLAND_GORON - Talked to Goron at GC Island (Before goron ruby is obtained)
-INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door,
-before getting goron bracelet)
+INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON - (not on cloud modding) Talked to GC Goron outside Darunias door
+(after opening door, before getting goron bracelet)
 INFTABLE_OPENED_GORON_CITY_DOORS - Goron Link opened Goron City doors
 INFTABLE_10A - (not on cloud modding)
 INFTABLE_TALKED_TO_GORON_LINK_ABOUT_DRAGON - Spoke to Goron Link about Volvagia
@@ -398,8 +398,12 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER)) {
+        return 0x3021;
+    } else if (GET_INFTABLE(INFTABLE_TALKED_TO_DODONGOS_CAVERN_ENTRANCE_GORON)) {
+        return 0x302A;
     } else {
-        return GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER) ? 0x3021 : GET_INFTABLE(INFTABLE_TALKED_TO_DODONGOS_CAVERN_ENTRANCE_GORON) ? 0x302A : 0x3008;
+        return 0x3008;
     }
 }
 
@@ -461,11 +465,14 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
+    } else if (CUR_UPG_VALUE(UPG_STRENGTH) != 0) {
+        return 0x302C;
+    } else if (!Flags_GetSwitch(play, 0x1B)) {
+        return 0x3017;
+    } else if (GET_INFTABLE(INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON)) {
+        return 0x3019;
     } else {
-        return CUR_UPG_VALUE(UPG_STRENGTH) != 0 ? 0x302C
-               : !Flags_GetSwitch(play, 0x1B)   ? 0x3017
-               : GET_INFTABLE(INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON)      ? 0x3019
-                                                : 0x3018;
+        return 0x3018;
     }
 }
 
