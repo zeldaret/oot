@@ -74,14 +74,14 @@
         <Animation Name="gMidoIdleAnim" Offset="0x02C8"/>
         <Animation Name="gMidoCuriousToAnnoyedAnim" Offset="0x8510"/>
         <Animation Name="gMidoIdleToAnnoyedAnim" Offset="0x8738"/>
-        <Animation Name="gMidoCuriousLoopAnim" Offset="0x8E84"/>
+        <Animation Name="gMidoCuriousAnim" Offset="0x8E84"/>
         <Animation Name="gMidoIdleToSurpriseAnim" Offset="0x8FC0"/>
         <Animation Name="gMidoIdleToHaltAnim" Offset="0x917C"/>
         <Animation Name="gMidoIdleToWalkAnim" Offset="0x92B0"/>
         <Animation Name="gMidoAnnoyedToHaltAnim" Offset="0x95BC"/>
-        <Animation Name="gMidoAnnoyedLoopAnim" Offset="0x97F0"/>
+        <Animation Name="gMidoAnnoyedAnim" Offset="0x97F0"/>
         <Animation Name="gMidoHaltToCuriousAnim" Offset="0x9B1C"/>
-        <Animation Name="gMidoHaltLoopAnim" Offset="0x9E68"/>
-        <Animation Name="gMidoWalkLoopAnim" Offset="0xA138"/>
+        <Animation Name="gMidoHaltAnim" Offset="0x9E68"/>
+        <Animation Name="gMidoWalkAnim" Offset="0xA138"/>
     </File>
 </Root>
