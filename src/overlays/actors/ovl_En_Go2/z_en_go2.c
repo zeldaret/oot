@@ -398,12 +398,10 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
-    } else if (GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER)) {
-        return 0x3021;
-    } else if (GET_INFTABLE(INFTABLE_TALKED_TO_DODONGOS_CAVERN_ENTRANCE_GORON)) {
-        return 0x302A;
     } else {
-        return 0x3008;
+        return GET_EVENTCHKINF(EVENTCHKINF_DESTROYED_DODONGOS_CAVERN_BOULDER) ? 0x3021
+             : GET_INFTABLE(INFTABLE_TALKED_TO_DODONGOS_CAVERN_ENTRANCE_GORON) ? 0x302A
+             : 0x3008;
     }
 }
 
@@ -465,14 +463,11 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
-    } else if (CUR_UPG_VALUE(UPG_STRENGTH) != 0) {
-        return 0x302C;
-    } else if (!Flags_GetSwitch(play, 0x1B)) {
-        return 0x3017;
-    } else if (GET_INFTABLE(INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON)) {
-        return 0x3019;
     } else {
-        return 0x3018;
+        return CUR_UPG_VALUE(UPG_STRENGTH) != 0                    ? 0x302C
+             : !Flags_GetSwitch(play, 0x1B)                        ? 0x3017
+             : GET_INFTABLE(INFTABLE_TALKED_TO_DARUNIA_DOOR_GORON) ? 0x3019
+             : 0x3018;
     }
 }
 
