@@ -1828,7 +1828,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         }
     } else if ((item >= ITEM_WEIRD_EGG) && (item <= ITEM_CLAIM_CHECK)) {
         if (item == ITEM_POACHERS_SAW) {
-            SET_ITEMGETINF(ITEMGETINF_1F);
+            SET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE);
         }
 
         temp = INV_CONTENT(item);
