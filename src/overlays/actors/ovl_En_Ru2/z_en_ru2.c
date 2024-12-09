@@ -340,7 +340,7 @@ void EnRu2_SpawnWaterMedallion(EnRu2* this, PlayState* play) {
 void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
     s32 pad[2];
     Player* player;
-    s16 temp;
+    s16 worldRotY;
 
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_WATER) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
@@ -348,9 +348,9 @@ void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play) {
         play->csCtx.script = gWaterMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_WATER);
-        temp = this->actor.world.rot.y + 0x8000;
-        player->actor.shape.rot.y = temp;
-        player->actor.world.rot.y = temp;
+        worldRotY = this->actor.world.rot.y + 0x8000;
+        player->actor.shape.rot.y = worldRotY;
+        player->actor.world.rot.y = worldRotY;
     }
 }
 
@@ -582,8 +582,8 @@ void EnRu2_AwaitSpawnLightBall(EnRu2* this, PlayState* play) {
 
 void EnRu2_DrawXlu(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->eyeIndex;
-    void* tex = sEyeTextures[temp];
+    s16 eyeIndex = this->eyeIndex;
+    void* tex = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
@@ -616,19 +616,19 @@ void EnRu2_InitCredits(EnRu2* this, PlayState* play) {
  */
 void EnRu2_FadeInCredits(EnRu2* this) {
     f32* fadeTimer = &this->fadeTimer;
-    f32 temp_f0;
-    s32 temp_f18;
+    f32 fadeDuration;
+    s32 alpha;
 
     *fadeTimer += 1.0f;
 
-    temp_f0 = kREG(17) + 10.0f;
-    if (temp_f0 <= *fadeTimer) {
+    fadeDuration = kREG(17) + 10.0f;
+    if (fadeDuration <= *fadeTimer) {
         this->alpha = 255;
         this->actor.shape.shadowAlpha = 0xFF;
     } else {
-        temp_f18 = (*fadeTimer / temp_f0) * 255.0f;
-        this->alpha = temp_f18;
-        this->actor.shape.shadowAlpha = temp_f18;
+        alpha = (*fadeTimer / fadeDuration) * 255.0f;
+        this->alpha = alpha;
+        this->actor.shape.shadowAlpha = alpha;
     }
 }
 
@@ -945,8 +945,8 @@ void EnRu2_DrawNothing(EnRu2* this, PlayState* play) {
 
 void EnRu2_DrawOpa(EnRu2* this, PlayState* play) {
     s32 pad[2];
-    s16 temp = this->eyeIndex;
-    void* tex = sEyeTextures[temp];
+    s16 eyeIndex = this->eyeIndex;
+    void* tex = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru2.c", 642);
