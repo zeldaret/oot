@@ -3886,7 +3886,7 @@ void KaleidoScope_Update(PlayState* play) {
             if (CHECK_QUEST_ITEM(QUEST_SONG_STORMS)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_HIGHLIGHT;
             }
-            if (GET_EVENTCHKINF(EVENTCHKINF_67)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL)) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_AA)) {
