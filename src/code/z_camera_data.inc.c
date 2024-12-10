@@ -1476,8 +1476,7 @@ CameraModeValue sSetNormal4ModeTalkData[] = {
  * =====================================================================
  */
 
-#define CAM_SETTING_MODE_ENTRY(func, data) \
-    { func, ARRAY_COUNT(data), data }
+#define CAM_SETTING_MODE_ENTRY(func, data) { func, ARRAY_COUNT(data), data }
 
 CameraMode sCamSetNormal0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetNormal0ModeNormalData),            // CAM_MODE_NORMAL

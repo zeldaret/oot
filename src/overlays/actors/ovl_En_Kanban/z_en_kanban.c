@@ -30,8 +30,7 @@
 #define UPPERRIGHT_HALF (PART_POST_UPPER | PART_UPPER_RIGHT | PART_RIGHT_UPPER | PART_UPPER_LEFT | PART_RIGHT_LOWER)
 #define ALL_PARTS (LEFT_HALF | RIGHT_HALF | PART_POST_UPPER | PART_POST_LOWER)
 
-typedef enum EnKanbanActionState
-{
+typedef enum EnKanbanActionState {
     ENKANBAN_SIGN,
     ENKANBAN_AIR,
     ENKANBAN_UNUSED,
@@ -40,8 +39,7 @@ typedef enum EnKanbanActionState
     ENKANBAN_REPAIR
 } EnKanbanActionState;
 
-typedef enum EnKanbanPiece
-{
+typedef enum EnKanbanPiece {
     PIECE_WHOLE_SIGN,
     PIECE_UPPER_HALF,
     PIECE_LOWER_HALF,
@@ -64,8 +62,7 @@ typedef enum EnKanbanPiece
     PIECE_OTHER = 100
 } EnKanbanPiece;
 
-typedef enum EnKanbanCutType
-{
+typedef enum EnKanbanCutType {
     CUT_POST,
     CUT_VERT_L,
     CUT_HORIZ,

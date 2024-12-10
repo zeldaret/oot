@@ -8,8 +8,7 @@
 #define ASYNC_ID(v) ((u8)(v >> 8))
 #define ASYNC_LOAD_STATUS(v) ((u8)(v >> 0))
 
-typedef enum SlowLoadState
-{
+typedef enum SlowLoadState {
     /* 0 */ SLOW_LOAD_STATE_WAITING,
     /* 1 */ SLOW_LOAD_STATE_START,
     /* 2 */ SLOW_LOAD_STATE_LOADING,

@@ -11,7 +11,7 @@ typedef struct SkyboxFaceParams {
 } SkyboxFaceParams; // size = 0x14
 
 // Converts texture coordinate values to s10.5 fixed point
-#define TC(x) ((s16)((x)*32))
+#define TC(x) ((s16)((x) * 32))
 
 // Texture offsets for each face in the static segment buffer
 u32 sSkybox256TexOffsets[4] = {

@@ -23,8 +23,7 @@
 #define vOnBackTimer actionVar1
 #define vLegTwitchTimer actionVar2
 
-typedef enum EnTiteAction
-{
+typedef enum EnTiteAction {
     /* 0x0 */ TEKTITE_DEATH_CRY,
     /* 0x1 */ TEKTITE_UNK_1,
     /* 0x2 */ TEKTITE_UNK_2,
@@ -40,16 +39,14 @@ typedef enum EnTiteAction
     /* 0xC */ TEKTITE_MOVE_TOWARD_PLAYER
 } EnTiteAction;
 
-typedef enum EnTiteAttackState
-{
+typedef enum EnTiteAttackState {
     /* 0x0 */ TEKTITE_BEGIN_LUNGE,
     /* 0x1 */ TEKTITE_MID_LUNGE,
     /* 0x2 */ TEKTITE_LANDED,
     /* 0x2 */ TEKTITE_SUBMERGED
 } EnTiteAttackState;
 
-typedef enum EnTiteFlipState
-{
+typedef enum EnTiteFlipState {
     /* 0x0 */ TEKTITE_INITIAL,
     /* 0x1 */ TEKTITE_UNFLIPPED,
     /* 0x2 */ TEKTITE_FLIPPED

@@ -104,8 +104,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef enum EnStAnimation
-{
+typedef enum EnStAnimation {
     /* 0 */ ENST_ANIM_0,
     /* 1 */ ENST_ANIM_1,
     /* 2 */ ENST_ANIM_2,

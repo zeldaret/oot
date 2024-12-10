@@ -20,8 +20,7 @@ typedef struct EnHorseNormalUnkStruct2 {
     EnHorseNormalUnkStruct1* items;
 } EnHorseNormalUnkStruct2;
 
-typedef enum EnHorseNormalAction
-{
+typedef enum EnHorseNormalAction {
     /* 0x00 */ HORSE_CYCLE_ANIMATIONS,
     /* 0x01 */ HORSE_WANDER,
     /* 0x02 */ HORSE_WAIT,

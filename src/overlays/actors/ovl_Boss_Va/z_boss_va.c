@@ -44,8 +44,7 @@ typedef struct BossVaEffect {
     /* 0x54 */ struct BossVa* parent;
 } BossVaEffect; // size = 0x58
 
-typedef enum BossVaEffectType
-{
+typedef enum BossVaEffectType {
     /* 0 */ VA_NONE,
     /* 1 */ VA_LARGE_SPARK,
     /* 2 */ VA_BLAST_SPARK,
@@ -57,8 +56,7 @@ typedef enum BossVaEffectType
     /* 8 */ VA_GORE
 } BossVaEffectType;
 
-typedef enum BossVaSparkMode
-{
+typedef enum BossVaSparkMode {
     /* 1 */ SPARK_TETHER = 1,
     /* 2 */ SPARK_BARI,
     /* 3 */ SPARK_BLAST,
@@ -67,29 +65,25 @@ typedef enum BossVaSparkMode
     /* 6 */ SPARK_LINK
 } BossVaSparkMode;
 
-typedef enum BossVaBloodMode
-{
+typedef enum BossVaBloodMode {
     /* 0 */ BLOOD_DROPLET,
     /* 1 */ BLOOD_SPLATTER,
     /* 2 */ BLOOD_SPOT
 } BossVaBloodMode;
 
-typedef enum BossVaTumorMode
-{
+typedef enum BossVaTumorMode {
     /* 0 */ TUMOR_UNUSED,
     /* 1 */ TUMOR_BODY,
     /* 2 */ TUMOR_ARM
 } BossVaTumorMode;
 
-typedef enum BossVaGoreMode
-{
+typedef enum BossVaGoreMode {
     /* 0 */ GORE_PERMANENT,
     /* 1 */ GORE_FLOOR,
     /* 2 */ GORE_FADING
 } BossVaGoreMode;
 
-typedef enum BossVaCutscene
-{
+typedef enum BossVaCutscene {
     /* -5 */ INTRO_UNUSED_START = -5,
     /* -4 */ INTRO_START,
     /* -3 */ INTRO_LOOK_DOOR,

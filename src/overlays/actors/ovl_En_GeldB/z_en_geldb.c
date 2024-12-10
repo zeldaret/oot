@@ -9,8 +9,7 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
 
-typedef enum EnGeldBAction
-{
+typedef enum EnGeldBAction {
     /*  0 */ GELDB_WAIT,
     /*  1 */ GELDB_DEFEAT,
     /*  2 */ GELDB_DAMAGED,
@@ -160,8 +159,7 @@ static ColliderQuadInit sSwordQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum EnGeldBDamageEffects
-{
+typedef enum EnGeldBDamageEffects {
     /* 0x0 */ GELDB_DMG_NORMAL,
     /* 0x1 */ GELDB_DMG_STUN,
     /* 0x6 */ GELDB_DMG_UNK_6 = 0x6,

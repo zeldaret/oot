@@ -109,8 +109,7 @@ typedef struct EnHyHeadInfo {
     /* 0x8 */ void** eyeTextures;
 } EnHyHeadInfo; // size = 0xC
 
-typedef enum
-{
+typedef enum {
     /*  0 */ ENHY_HEAD_WOMAN_1,
     /*  1 */ ENHY_HEAD_WOMAN_2,
     /*  2 */ ENHY_HEAD_MAN_2_MUSTACHE,
@@ -153,8 +152,7 @@ typedef struct EnHySkeletonInfo {
     /* 0x4 */ FlexSkeletonHeader* skeleton;
 } EnHySkeletonInfo; // size = 0x8
 
-typedef enum
-{
+typedef enum {
     /* 0 */ ENHY_SKEL_WOMAN_1,
     /* 1 */ ENHY_SKEL_WOMAN_2,
     /* 2 */ ENHY_SKEL_MAN_2,
@@ -176,8 +174,7 @@ static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_WOMAN_3 */ { OBJECT_COB, &gHylianWoman3Skel },
 };
 
-typedef enum EnHyAnimationIndex
-{
+typedef enum EnHyAnimationIndex {
     /*  0 */ ENHY_ANIM_0,
     /*  1 */ ENHY_ANIM_1,
     /*  2 */ ENHY_ANIM_2,

@@ -46,7 +46,7 @@ s32 Camera_QRegInit(void);
  * runtime. If a small f32 is being stored as an s16, it is common to store that value 100 times larger than the
  * original value. This is then scaled back down during runtime with the CAM_DATA_SCALED macro.
  */
-#define CAM_DATA_SCALED(x) ((x)*0.01f)
+#define CAM_DATA_SCALED(x) ((x) * 0.01f)
 
 // Load the next value from camera read-only data stored in CameraModeValue
 #define GET_NEXT_RO_DATA(values) ((values++)->val)
@@ -7048,8 +7048,7 @@ s32 Camera_Special5(Camera* camera) {
     return true;
 }
 
-typedef enum CamElevatorPlatform
-{
+typedef enum CamElevatorPlatform {
     /* 0 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR, // ACTOR_BG_HIDAN_ROCK
     /* 1 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER,  // ACTOR_BG_HIDAN_FSLIFT
     /* 2 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER,  // ACTOR_BG_HIDAN_SYOKU

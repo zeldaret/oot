@@ -1,7 +1,6 @@
 #include "global.h"
 
-typedef enum TransitionCircleDirection
-{
+typedef enum TransitionCircleDirection {
     /* 0 */ TRANS_CIRCLE_DIR_IN,
     /* 1 */ TRANS_CIRCLE_DIR_OUT
 } TransitionCircleDirection;

@@ -62,8 +62,7 @@ CutsceneHandler sScriptedCutsceneHandlers[] = {
     CutsceneHandler_RunScript,   // CS_STATE_RUN_UNSTOPPABLE
 };
 
-typedef enum TitleDemoDestination
-{
+typedef enum TitleDemoDestination {
     /* 0 */ TITLE_DEMO_SPIRIT_TEMPLE,
     /* 1 */ TITLE_DEMO_DEATH_MOUNTAIN_CRATER,
     /* 2 */ TITLE_DEMO_GANONDORF_HORSE

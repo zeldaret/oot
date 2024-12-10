@@ -6,8 +6,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum EnSyatekItemRound
-{
+typedef enum EnSyatekItemRound {
     SYATEKI_ROUND_GREEN_APPEAR,
     SYATEKI_ROUND_BLUE_SEQUENTIAL,
     SYATEKI_ROUND_GREEN_THROW,

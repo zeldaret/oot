@@ -61,8 +61,7 @@ ActorProfile Door_Shutter_Profile = {
     /**/ DoorShutter_Draw,
 };
 
-typedef enum DoorShutterGfxType
-{
+typedef enum DoorShutterGfxType {
     /*  0 */ DOORSHUTTER_GFX_DEKU_TREE_1,
     /*  1 */ DOORSHUTTER_GFX_DEKU_TREE_2,
     /*  2 */ DOORSHUTTER_GFX_DODONGOS_CAVERN,
@@ -85,8 +84,7 @@ typedef enum DoorShutterGfxType
     /* 19 */ DOORSHUTTER_GFX_ROYAL_FAMILYS_TOMB
 } DoorShutterGfxType;
 
-typedef enum DoorShutterStyleType
-{
+typedef enum DoorShutterStyleType {
     /* -1 */ DOORSHUTTER_STYLE_FROM_SCENE = -1, // Style is taken from `sSceneInfo`
     /*  0 */ DOORSHUTTER_STYLE_PHANTOM_GANON,
     /*  1 */ DOORSHUTTER_STYLE_GOHMA_BLOCK,
@@ -306,8 +304,7 @@ static DoorShutterSceneInfo sSceneInfo[] = {
     { -1, DOORSHUTTER_STYLE_GENERIC },
 };
 
-typedef enum DoorShutterBossDoorTexIndex
-{
+typedef enum DoorShutterBossDoorTexIndex {
     /* 0 */ DOORSHUTTER_BOSSDOORTEX_0,
     /* 1 */ DOORSHUTTER_BOSSDOORTEX_FIRE,
     /* 2 */ DOORSHUTTER_BOSSDOORTEX_WATER,

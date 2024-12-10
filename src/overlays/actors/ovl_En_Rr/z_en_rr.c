@@ -17,8 +17,7 @@
 #define RR_MOUTH 4
 #define RR_BASE 0
 
-typedef enum EnRrReachState
-{
+typedef enum EnRrReachState {
     /* 0 */ REACH_NONE,
     /* 1 */ REACH_EXTEND,
     /* 2 */ REACH_STOP,
@@ -27,8 +26,7 @@ typedef enum EnRrReachState
     /* 5 */ REACH_CLOSE
 } EnRrReachState;
 
-typedef enum EnRrDamageEffect
-{
+typedef enum EnRrDamageEffect {
     /* 0x0 */ RR_DMG_NONE,
     /* 0x1 */ RR_DMG_STUN,
     /* 0x2 */ RR_DMG_FIRE,
@@ -41,8 +39,7 @@ typedef enum EnRrDamageEffect
     /* 0xF */ RR_DMG_NORMAL
 } EnRrDamageEffect;
 
-typedef enum EnRrDropType
-{
+typedef enum EnRrDropType {
     /* 0 */ RR_DROP_RANDOM_RUPEE,
     /* 1 */ RR_DROP_MAGIC,
     /* 2 */ RR_DROP_ARROW,

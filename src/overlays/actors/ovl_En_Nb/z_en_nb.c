@@ -11,8 +11,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum EnNbAction
-{
+typedef enum EnNbAction {
     /* 0x00 */ NB_CHAMBER_INIT,
     /* 0x01 */ NB_CHAMBER_UNDERGROUND,
     /* 0x02 */ NB_CHAMBER_APPEAR,
@@ -46,8 +45,7 @@ typedef enum EnNbAction
     /* 0x1E */ NB_ACTION_30
 } EnNbAction;
 
-typedef enum EnNbDrawMode
-{
+typedef enum EnNbDrawMode {
     /* 0x00 */ NB_DRAW_NOTHING,
     /* 0x01 */ NB_DRAW_DEFAULT,
     /* 0x02 */ NB_DRAW_HIDE,

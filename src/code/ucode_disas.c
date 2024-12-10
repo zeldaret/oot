@@ -34,12 +34,9 @@ typedef struct F3dzexSetModeMacro {
 
 typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 
-#define F3DZEX_CONST(name) \
-    { name, #name }
-#define F3DZEX_FLAG(set, unset) \
-    { set, #set, #unset }
-#define F3DZEX_RENDERMODE(name, mask) \
-    { #name, name, mask }
+#define F3DZEX_CONST(name) { name, #name }
+#define F3DZEX_FLAG(set, unset) { set, #set, #unset }
+#define F3DZEX_RENDERMODE(name, mask) { #name, name, mask }
 #define F3DZEX_SETRENDERMACRO(name, shift, len, value0, value1, value2, value3)                 \
     {                                                                                           \
         name, shift, len, {                                                                     \
@@ -72,8 +69,7 @@ F3dzexFlag sUCodeDisasMtxFlags[] = {
     F3DZEX_FLAG(G_MTX_PUSH, G_MTX_NOPUSH),
 };
 
-typedef enum CombinerArg
-{
+typedef enum CombinerArg {
     COMBINER_A = 1,
     COMBINER_B,
     COMBINER_C,

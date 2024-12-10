@@ -33,10 +33,10 @@ static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinning
  */
 
 // Each macro maps its argument to an index of sUpdateFuncs.
-#define CS_FIREMEDALLION_SUBSCENE(x) (0 + (x)) // DEMO_DU_CS_FIREMEDALLION
-#define CS_GORONSRUBY_SUBSCENE(x) (7 + (x)) // DEMO_DU_CS_GORONS_RUBY
+#define CS_FIREMEDALLION_SUBSCENE(x) (0 + (x))      // DEMO_DU_CS_FIREMEDALLION
+#define CS_GORONSRUBY_SUBSCENE(x) (7 + (x))         // DEMO_DU_CS_GORONS_RUBY
 #define CS_CHAMBERAFTERGANON_SUBSCENE(x) (21 + (x)) // DEMO_DU_CS_CHAMBER_AFTER_GANON
-#define CS_CREDITS_SUBSCENE(x) (24 + (x)) // DEMO_DU_CS_CREDITS
+#define CS_CREDITS_SUBSCENE(x) (24 + (x))           // DEMO_DU_CS_CREDITS
 
 void DemoDu_Destroy(Actor* thisx, PlayState* play) {
     DemoDu* this = (DemoDu*)thisx;

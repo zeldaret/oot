@@ -14,8 +14,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum GSwitchMoveState
-{
+typedef enum GSwitchMoveState {
     /* 0 */ MOVE_TARGET,
     /* 1 */ MOVE_HOME
 } GSwitchMoveState;

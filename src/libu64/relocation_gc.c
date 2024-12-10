@@ -15,7 +15,7 @@
 #define MIPS_REG_RT(insn) (((insn) >> 0x10) & 0x1F)
 
 // Extract MIPS jump target from an instruction word
-#define MIPS_JUMP_TARGET(insn) (((insn)&0x03FFFFFF) << 2)
+#define MIPS_JUMP_TARGET(insn) (((insn) & 0x03FFFFFF) << 2)
 
 /**
  * Performs runtime relocation of overlay files, loadable code segments.

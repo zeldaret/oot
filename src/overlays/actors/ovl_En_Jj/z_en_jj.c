@@ -10,8 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum EnJjEyeState
-{
+typedef enum EnJjEyeState {
     /* 0 */ JABUJABU_EYE_OPEN,
     /* 1 */ JABUJABU_EYE_HALF,
     /* 2 */ JABUJABU_EYE_CLOSED,

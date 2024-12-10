@@ -51,8 +51,7 @@ typedef struct EnDoorInfo {
     /* 0x04 */ s16 objectId;
 } EnDoorInfo;
 
-typedef enum EnDoorDListIndex
-{
+typedef enum EnDoorDListIndex {
     /* 0 */ DOOR_DL_DEFAULT,
     /* 1 */ DOOR_DL_FIRE_TEMPLE,
     /* 2 */ DOOR_DL_WATER_TEMPLE,

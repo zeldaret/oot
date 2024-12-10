@@ -14,23 +14,20 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum BossFdIntroFlyState
-{
+typedef enum BossFdIntroFlyState {
     /* 0 */ INTRO_FLY_EMERGE,
     /* 1 */ INTRO_FLY_HOLE,
     /* 2 */ INTRO_FLY_CAMERA,
     /* 3 */ INTRO_FLY_RETRAT
 } BossFdIntroFlyState;
 
-typedef enum BossFdManeIndex
-{
+typedef enum BossFdManeIndex {
     /* 0 */ MANE_CENTER,
     /* 1 */ MANE_RIGHT,
     /* 2 */ MANE_LEFT
 } BossFdManeIndex;
 
-typedef enum BossFdEyeState
-{
+typedef enum BossFdEyeState {
     /* 0 */ EYE_OPEN,
     /* 1 */ EYE_HALF,
     /* 2 */ EYE_CLOSED

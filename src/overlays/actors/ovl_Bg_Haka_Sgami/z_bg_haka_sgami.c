@@ -10,8 +10,7 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4)
 
-typedef enum SpinningScytheTrapMode
-{
+typedef enum SpinningScytheTrapMode {
     /* 0 */ SCYTHE_TRAP_SHADOW_TEMPLE,
     /* 1 */ SCYTHE_TRAP_SHADOW_TEMPLE_INVISIBLE,
     /* 2 */ SCYTHE_TRAP_ICE_CAVERN

@@ -30,8 +30,7 @@ const AudioHeapInitSizes gAudioHeapInitSizes = {
     ALIGN16(PERMANENT_POOL_SIZE),                                         // permanent pool size
 };
 
-#define DEFAULT_REVERB_SETTINGS \
-    { 1, 0x30, 0x3000, 0, 0, 0x7FFF, 0x0000, 0x0000, 0xFF, 0x3000, 0x0, 0x0 }
+#define DEFAULT_REVERB_SETTINGS { 1, 0x30, 0x3000, 0, 0, 0x7FFF, 0x0000, 0x0000, 0xFF, 0x3000, 0x0, 0x0 }
 
 ReverbSettings sReverbSettings[][3] = {
     {

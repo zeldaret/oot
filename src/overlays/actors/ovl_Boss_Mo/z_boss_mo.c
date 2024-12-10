@@ -62,8 +62,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play);
 
 void BossMo_SfxTest(void);
 
-typedef enum BossMoEffectType
-{
+typedef enum BossMoEffectType {
     /* 0 */ MO_FX_NONE,
     /* 1 */ MO_FX_SMALL_RIPPLE,
     /* 2 */ MO_FX_BIG_RIPPLE,
@@ -74,8 +73,7 @@ typedef enum BossMoEffectType
     /* 7 */ MO_FX_BUBBLE
 } BossMoEffectType;
 
-typedef enum BossMoTentState
-{
+typedef enum BossMoTentState {
     /*   0 */ MO_TENT_READY,
     /*   1 */ MO_TENT_SWING,
     /*   2 */ MO_TENT_ATTACK,
@@ -95,8 +93,7 @@ typedef enum BossMoTentState
     /* 206 */ MO_TENT_DEATH_6
 } BossMoTentState;
 
-typedef enum BossMoCoreState
-{
+typedef enum BossMoCoreState {
     /* -11 */ MO_CORE_UNUSED = -11,
     /*   0 */ MO_CORE_MOVE = 0,
     /*   1 */ MO_CORE_MAKE_TENT,
@@ -108,8 +105,7 @@ typedef enum BossMoCoreState
     /*  21 */ MO_CORE_INTRO_REVEAL
 } BossMoCoreState;
 
-typedef enum BossMoCsState
-{
+typedef enum BossMoCsState {
     /*   0 */ MO_BATTLE,
     /*   1 */ MO_INTRO_WAIT,
     /*   2 */ MO_INTRO_START,

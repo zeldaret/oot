@@ -84,8 +84,7 @@ static DamageTable sDamageTable[] = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef enum EnCsAnimation
-{
+typedef enum EnCsAnimation {
     /* 0 */ ENCS_ANIM_0,
     /* 1 */ ENCS_ANIM_1,
     /* 2 */ ENCS_ANIM_2,

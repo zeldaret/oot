@@ -55,8 +55,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 50 };
 
-typedef enum EnDogAnimation
-{
+typedef enum EnDogAnimation {
     /* 0 */ ENDOG_ANIM_0,
     /* 1 */ ENDOG_ANIM_1,
     /* 2 */ ENDOG_ANIM_2,
@@ -78,8 +77,7 @@ static AnimationInfo sAnimationInfo[] = {
     { &gDogBow2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
 };
 
-typedef enum DogBehavior
-{
+typedef enum DogBehavior {
     /* 0x00 */ DOG_WALK,
     /* 0x01 */ DOG_RUN,
     /* 0x02 */ DOG_BARK,

@@ -12,8 +12,7 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum BossFd2CutsceneState
-{
+typedef enum BossFd2CutsceneState {
     /* 0 */ DEATH_START,
     /* 1 */ DEATH_RETREAT,
     /* 2 */ DEATH_HANDOFF,
@@ -22,8 +21,7 @@ typedef enum BossFd2CutsceneState
     /* 5 */ DEATH_FINISH
 } BossFd2CutsceneState;
 
-typedef enum BossFd2EyeState
-{
+typedef enum BossFd2EyeState {
     /* 0 */ EYE_OPEN,
     /* 1 */ EYE_HALF,
     /* 2 */ EYE_CLOSED

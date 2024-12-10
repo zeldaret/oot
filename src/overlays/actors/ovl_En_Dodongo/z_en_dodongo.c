@@ -5,8 +5,7 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
 
-typedef enum EnDodongoActionState
-{
+typedef enum EnDodongoActionState {
     DODONGO_SWEEP_TAIL,
     DODONGO_SWALLOW_BOMB,
     DODONGO_DEATH,

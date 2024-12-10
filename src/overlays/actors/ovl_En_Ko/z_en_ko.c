@@ -90,8 +90,7 @@ static EnKoSkeleton sSkeleton[2] = {
     { OBJECT_KW1, &gKw1Skel },
 };
 
-typedef enum EnKoAnimation
-{
+typedef enum EnKoAnimation {
     /*  0 */ ENKO_ANIM_BLOCKING_NOMORPH,
     /*  1 */ ENKO_ANIM_BLOCKING_NOMORPH_STATIC,
     /*  2 */ ENKO_ANIM_STANDUP_1,
@@ -212,8 +211,7 @@ typedef struct EnKoModelInfo {
     /* 0xC */ Color_RGBA8 bootsColor;
 } EnKoModelInfo; // size = 0x10
 
-typedef enum KokiriGender
-{
+typedef enum KokiriGender {
     /* 0 */ KO_BOY,
     /* 1 */ KO_GIRL,
     /* 2 */ KO_FADO

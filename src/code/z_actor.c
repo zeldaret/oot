@@ -1631,8 +1631,7 @@ typedef struct AttentionRangeParams {
     /* 0x4 */ f32 lockOnLeashScale;
 } AttentionRangeParams; // size = 0x8
 
-#define ATTENTION_RANGES(range, lockOnLeashRange) \
-    { SQ(range), (f32)range / lockOnLeashRange }
+#define ATTENTION_RANGES(range, lockOnLeashRange) { SQ(range), (f32)range / lockOnLeashRange }
 
 AttentionRangeParams sAttentionRanges[ATTENTION_RANGE_MAX] = {
     ATTENTION_RANGES(70, 140),        // ATTENTION_RANGE_0
@@ -3079,11 +3078,11 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             overlayEntry->numLoaded = 0;
         }
 
-        profile = (void*)(uintptr_t)(
-            (overlayEntry->profile != NULL)
-                ? (void*)((uintptr_t)overlayEntry->profile -
-                          (intptr_t)((uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr))
-                : NULL);
+        profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
+                                         ? (void*)((uintptr_t)overlayEntry->profile -
+                                                   (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                              (uintptr_t)overlayEntry->loadedRamAddr))
+                                         : NULL);
     }
 
     objectSlot = Object_GetSlot(&play->objectCtx, profile->objectId);
