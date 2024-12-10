@@ -5381,7 +5381,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
         case 53:
             if (Flags_GetEventChkInf(EVENTCHKINF_37)) {
                 retTextId = 0x402D;
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_33)) {
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
                 retTextId = 0x4010;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_30)) {
                 retTextId = 0x400F;
@@ -5727,7 +5727,7 @@ void func_80036E50(u16 textId, s16 arg1) {
             return;
         case 55:
             if (textId == 0x401B) {
-                Flags_SetEventChkInf(EVENTCHKINF_33);
+                Flags_SetEventChkInf(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA);
                 Flags_SetInfTable(INFTABLE_138);
             }
             return;
