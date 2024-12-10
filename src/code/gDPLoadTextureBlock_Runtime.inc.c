@@ -60,9 +60,9 @@ static GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS u32 sLoadTextureBlock_siz_LINE_BY
                      (((width) * (height) + sLoadTextureBlock_siz_INCR[siz]) >> sLoadTextureBlock_siz_SHIFT[siz]) - 1, \
                      CALC_DXT(width, sLoadTextureBlock_siz_BYTES[siz]));                                               \
         gDPPipeSync(pkt);                                                                                              \
-        gDPSetTile(pkt, fmt, sLoadTextureBlock_siz[siz], (((width) * sLoadTextureBlock_siz_LINE_BYTES[siz]) + 7) >> 3, \
+        gDPSetTile(pkt, fmt, sLoadTextureBlock_siz[siz], (((width)*sLoadTextureBlock_siz_LINE_BYTES[siz]) + 7) >> 3,   \
                    0, G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks, shifts);                                   \
-        gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width) - 1) << G_TEXTURE_IMAGE_FRAC,                              \
-                       ((height) - 1) << G_TEXTURE_IMAGE_FRAC);                                                        \
+        gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,                                \
+                       ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
     })
 #endif

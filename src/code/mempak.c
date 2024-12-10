@@ -20,7 +20,7 @@ u32 sMempakGameCode = 1;
 
 // NCH is a heavily abbreviated "N64 font code CHaracter"
 // Conversion from A-Z to N64 Font Code
-#define NCH(c) ((c) - 0x27)
+#define NCH(c) ((c)-0x27)
 // Conversion from spaces to N64 Font Code
 #define NCH_SPC (0x0F)
 

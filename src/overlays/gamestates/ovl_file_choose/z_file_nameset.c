@@ -1528,7 +1528,8 @@ typedef struct OptionsMenuTextureInfo {
     /* 0x12 */ u16 height;
 } OptionsMenuTextureInfo; // size = 0x14
 
-#define OPTIONS_MENU_TEXTURE_WIDTHS(jpn, eng, ger, fra) { eng, ger, fra }
+#define OPTIONS_MENU_TEXTURE_WIDTHS(jpn, eng, ger, fra) \
+    { eng, ger, fra }
 #define OPTIONS_MENU_TEXTURE_WIDTH(info) info.width[gSaveContext.language]
 #define OPTIONS_MENU_TEXTURE_HEIGHT(info) info.height
 

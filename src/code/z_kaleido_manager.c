@@ -1,10 +1,8 @@
 #include "global.h"
 #include "terminal.h"
 
-#define KALEIDO_OVERLAY(name, nameString)                                                              \
-    {                                                                                                  \
-        NULL, ROM_FILE(ovl_##name), _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, 0, nameString, \
-    }
+#define KALEIDO_OVERLAY(name, nameString) \
+    { NULL, ROM_FILE(ovl_##name), _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, 0, nameString, }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
     KALEIDO_OVERLAY(kaleido_scope, "kaleido_scope"),

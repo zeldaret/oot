@@ -1631,7 +1631,8 @@ typedef struct AttentionRangeParams {
     /* 0x4 */ f32 lockOnLeashScale;
 } AttentionRangeParams; // size = 0x8
 
-#define ATTENTION_RANGES(range, lockOnLeashRange) { SQ(range), (f32)range / lockOnLeashRange }
+#define ATTENTION_RANGES(range, lockOnLeashRange) \
+    { SQ(range), (f32)range / lockOnLeashRange }
 
 AttentionRangeParams sAttentionRanges[ATTENTION_RANGE_MAX] = {
     ATTENTION_RANGES(70, 140),        // ATTENTION_RANGE_0
