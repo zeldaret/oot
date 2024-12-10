@@ -9,7 +9,7 @@
 #include "terminal.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ElfMsg_Init(Actor* thisx, PlayState* play);
 void ElfMsg_Destroy(Actor* thisx, PlayState* play);
@@ -39,7 +39,7 @@ ActorProfile Elf_Msg_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_STOP),
 };
 
 void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {

@@ -7,7 +7,7 @@
 #include "z_en_vase.h"
 #include "assets/objects/object_vase/object_vase.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnVase_Init(Actor* thisx, PlayState* play);
 void EnVase_Destroy(Actor* thisx, PlayState* play);

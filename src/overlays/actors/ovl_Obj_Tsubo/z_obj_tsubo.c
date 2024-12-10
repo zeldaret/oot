@@ -9,7 +9,7 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_THROW_ONLY)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_THROW_ONLY)
 
 void ObjTsubo_Init(Actor* thisx, PlayState* play);
 void ObjTsubo_Destroy(Actor* thisx, PlayState* play2);
@@ -77,9 +77,9 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit[] = { 0, 12, 60, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 150, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneForward, 900, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 150, ICHAIN_CONTINUE),    ICHAIN_F32(cullingVolumeDistance, 900, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 100, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeDownward, 800, ICHAIN_STOP),
 };
 
 void ObjTsubo_SpawnCollectible(ObjTsubo* this, PlayState* play) {
@@ -227,7 +227,7 @@ void ObjTsubo_WaitForObject(ObjTsubo* this, PlayState* play) {
         this->actor.draw = ObjTsubo_Draw;
         this->actor.objectSlot = this->requiredObjectSlot;
         ObjTsubo_SetupIdle(this);
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 }
 
@@ -279,7 +279,7 @@ void ObjTsubo_SetupLiftedUp(ObjTsubo* this) {
     this->actor.room = -1;
     //! @bug: This is an unsafe cast, although the sound effect will still play
     Player_PlaySfx((Player*)&this->actor, NA_SE_PL_PULL_UP_POT);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void ObjTsubo_LiftedUp(ObjTsubo* this, PlayState* play) {

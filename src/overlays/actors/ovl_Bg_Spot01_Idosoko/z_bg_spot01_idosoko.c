@@ -7,7 +7,7 @@
 #include "z_bg_spot01_idosoko.h"
 #include "assets/objects/object_spot01_matoya/object_spot01_matoya.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play);
 void BgSpot01Idosoko_Destroy(Actor* thisx, PlayState* play);

@@ -12,7 +12,7 @@
 #include "assets/objects/object_dns/object_dns.h"
 #include "assets/objects/object_dnk/object_dnk.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnNutsball_Init(Actor* thisx, PlayState* play);
 void EnNutsball_Destroy(Actor* thisx, PlayState* play);

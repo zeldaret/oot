@@ -15,7 +15,7 @@
  * - "Spear Patrol" (variable 0xPP00 PP=pathId): uses a spear, patrols following a path, charges
  */
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum EnMbType {
     /* -1 */ ENMB_TYPE_SPEAR_GUARD = -1,
@@ -293,9 +293,9 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             Actor_SetScale(&this->actor, 0.02f);
             this->bodyCollider.dim.height = 170;
             this->bodyCollider.dim.radius = 45;
-            this->actor.uncullZoneForward = 4000.0f;
-            this->actor.uncullZoneScale = 800.0f;
-            this->actor.uncullZoneDownward = 1800.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
+            this->actor.cullingVolumeScale = 800.0f;
+            this->actor.cullingVolumeDownward = 1800.0f;
             this->playerDetectionRange = 710.0f;
             this->attackCollider.elem.atDmgInfo.dmgFlags = DMG_UNBLOCKABLE;
 

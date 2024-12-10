@@ -7,7 +7,7 @@
 #include "z_item_ocarina.h"
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ItemOcarina_Init(Actor* thisx, PlayState* play);
 void ItemOcarina_Destroy(Actor* thisx, PlayState* play);

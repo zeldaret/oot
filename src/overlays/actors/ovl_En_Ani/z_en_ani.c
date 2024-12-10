@@ -64,7 +64,7 @@ void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 850, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 850, ICHAIN_STOP),
 };
 
 void EnAni_Init(Actor* thisx, PlayState* play) {

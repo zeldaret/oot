@@ -8,7 +8,7 @@
 #include "assets/objects/object_zl4/object_zl4.h"
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum EnZl4CutsceneState {
     /* 0 */ ZL4_CS_WAIT,

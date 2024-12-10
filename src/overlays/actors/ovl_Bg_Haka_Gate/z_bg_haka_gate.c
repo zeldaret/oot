@@ -97,7 +97,7 @@ void BgHakaGate_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = BgHakaGate_FalseSkull;
         }
         this->vScrollTimer = Rand_ZeroOne() * 20.0f;
-        thisx->flags |= ACTOR_FLAG_4;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         if (Flags_GetSwitch(play, this->switchFlag)) {
             this->vFlameScale = 350;
         }
@@ -124,7 +124,7 @@ void BgHakaGate_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = BgHakaGate_DoNothing;
                 thisx->world.pos.y += 80.0f;
             } else {
-                thisx->flags |= ACTOR_FLAG_4;
+                thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                 Actor_SetFocus(thisx, 30.0f);
                 this->actionFunc = BgHakaGate_GateWait;
             }
@@ -274,7 +274,7 @@ void BgHakaGate_GateWait(BgHakaGate* this, PlayState* play) {
 void BgHakaGate_GateOpen(BgHakaGate* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 80.0f, 1.0f)) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actionFunc = BgHakaGate_DoNothing;
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);

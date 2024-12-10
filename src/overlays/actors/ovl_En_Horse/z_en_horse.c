@@ -12,7 +12,7 @@
 #include "assets/objects/object_hni/object_hni.h"
 #include "assets/scenes/overworld/spot09/spot09_scene.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef void (*EnHorseCsFunc)(EnHorse*, PlayState*, CsCmdActorCue*);
 typedef void (*EnHorseActionFunc)(EnHorse*, PlayState*);
@@ -370,8 +370,8 @@ static RaceInfo sIngoRace = { ARRAY_COUNT(sIngoRaceWaypoints), sIngoRaceWaypoint
 static s32 sAnimSoundFrames[] = { 0, 16 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 600, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 300, ICHAIN_STOP),
 };
 
 static u8 sResetNoInput[] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0 };
@@ -645,7 +645,7 @@ int func_80A5BBBC(PlayState* play, EnHorse* this, Vec3f* pos) {
         return false;
     }
     eyeDist = Math3D_Vec3f_DistXYZ(pos, &play->view.eye);
-    return func_800314D4(play, &this->actor, &sp24, sp20) || eyeDist < 100.0f;
+    return Actor_CullingVolumeTest(play, &this->actor, &sp24, sp20) || eyeDist < 100.0f;
 }
 
 void EnHorse_IdleAnimSounds(EnHorse* this, PlayState* play) {
