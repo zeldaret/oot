@@ -55,7 +55,8 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum EnMa3Animation {
+typedef enum EnMa3Animation
+{
     /* 0 */ ENMA3_ANIM_0,
     /* 1 */ ENMA3_ANIM_1,
     /* 2 */ ENMA3_ANIM_2,

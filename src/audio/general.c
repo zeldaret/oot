@@ -22,7 +22,8 @@ typedef struct SfxPlayerState {
     /* 0xC */ u8 combFilterGain;
 } SfxPlayerState;
 
-typedef enum SfxChannelIndex {
+typedef enum SfxChannelIndex
+{
     /* 0x0 */ SFX_CHANNEL_PLAYER0, // SfxPlayerBank
     /* 0x1 */ SFX_CHANNEL_PLAYER1,
     /* 0x2 */ SFX_CHANNEL_PLAYER2,
@@ -54,7 +55,8 @@ typedef struct NatureAmbienceDataIO {
     /* 0x4 */ u8 channelIO[3 * 33 + 1];
 } NatureAmbienceDataIO; // size = 0x68
 
-typedef enum AudioDebugPage {
+typedef enum AudioDebugPage
+{
     /* 0x0 */ PAGE_NON,
     /* 0x1 */ PAGE_SOUND_CONTROL,
     /* 0x2 */ PAGE_SPEC_INFO, // unused

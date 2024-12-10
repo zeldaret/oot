@@ -11,7 +11,8 @@
 
 #define FLAGS 0
 
-typedef enum FireTempleBombableObjectsType {
+typedef enum FireTempleBombableObjectsType
+{
     /* 0 */ CRACKED_STONE_FLOOR,
     /* 1 */ BOMBABLE_WALL,
     /* 2 */ LARGE_BOMBABLE_WALL

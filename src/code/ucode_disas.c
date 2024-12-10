@@ -72,7 +72,8 @@ F3dzexFlag sUCodeDisasMtxFlags[] = {
     F3DZEX_FLAG(G_MTX_PUSH, G_MTX_NOPUSH),
 };
 
-typedef enum CombinerArg {
+typedef enum CombinerArg
+{
     COMBINER_A = 1,
     COMBINER_B,
     COMBINER_C,

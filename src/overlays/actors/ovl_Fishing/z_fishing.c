@@ -62,7 +62,8 @@ typedef struct FishingFishInit {
     /* 0x0C */ f32 perception;
 } FishingFishInit; // size = 0x10
 
-typedef enum FishingEffectType {
+typedef enum FishingEffectType
+{
     /* 0x00 */ FS_EFF_NONE,
     /* 0x01 */ FS_EFF_RIPPLE,
     /* 0x02 */ FS_EFF_DUST_SPLASH,
@@ -92,7 +93,8 @@ typedef struct FishingEffect {
 
 #define POND_PROP_COUNT 140
 
-typedef enum FishingPropType {
+typedef enum FishingPropType
+{
     /* 0x00 */ FS_PROP_NONE,
     /* 0x01 */ FS_PROP_REED,
     /* 0x02 */ FS_PROP_LILY_PAD,
@@ -121,7 +123,8 @@ typedef struct FishingProp {
     /* 0x38 */ f32 drawDistance;
 } FishingProp; // size = 0x3C
 
-typedef enum FishingGroupFishType {
+typedef enum FishingGroupFishType
+{
     /* 0x00 */ FS_GROUP_FISH_NONE,
     /* 0x01 */ FS_GROUP_FISH_NORMAL
 } FishingGroupFishType;
@@ -146,7 +149,8 @@ typedef struct FishingGroupFish {
     /* 0x44 */ u8 shouldDraw;
 } FishingGroupFish; // size = 0x48
 
-typedef enum FishingLureTypes {
+typedef enum FishingLureTypes
+{
     /* 0x00 */ FS_LURE_STOCK,
     /* 0x01 */ FS_LURE_UNK, // hinted at with an "== 1"
     /* 0x02 */ FS_LURE_SINKING
@@ -191,7 +195,8 @@ static s32 sFishingTimePlayed = 0;
 
 static s16 sOwnerTheftTimer = 0;
 
-typedef enum FishingOwnerHair {
+typedef enum FishingOwnerHair
+{
     /* 0x00 */ FS_OWNER_BALD,
     /* 0x01 */ FS_OWNER_CAPPED,
     /* 0x02 */ FS_OWNER_HAIR

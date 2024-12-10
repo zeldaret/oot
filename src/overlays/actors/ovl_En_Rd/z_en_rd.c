@@ -29,7 +29,8 @@ void EnRd_Damaged(EnRd* this, PlayState* play);
 void EnRd_Dead(EnRd* this, PlayState* play);
 void EnRd_Stunned(EnRd* this, PlayState* play);
 
-typedef enum EnRdAction {
+typedef enum EnRdAction
+{
     /*  0 */ REDEAD_ACTION_IDLE,
     /*  1 */ REDEAD_ACTION_STUNNED,
     /*  2 */ REDEAD_ACTION_WALK_TO_HOME,
@@ -44,7 +45,8 @@ typedef enum EnRdAction {
     /* 11 */ REDEAD_ACTION_RISE_FROM_COFFIN
 } EnRdAction;
 
-typedef enum EnRdGrabState {
+typedef enum EnRdGrabState
+{
     /* 0 */ REDEAD_GRAB_START,
     /* 1 */ REDEAD_GRAB_INITIAL_DAMAGE,
     /* 2 */ REDEAD_GRAB_ATTACK,
@@ -84,7 +86,8 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-typedef enum EnRdDamageEffect {
+typedef enum EnRdDamageEffect
+{
     /* 0x0 */ REDEAD_DMGEFF_NONE,              // Does not interact with the Gibdo/Redead at all
     /* 0x1 */ REDEAD_DMGEFF_HOOKSHOT,          // Stuns the Gibdo/Redead
     /* 0x6 */ REDEAD_DMGEFF_ICE_MAGIC = 0x6,   // Does not interact with the Gibdo/Redead at all

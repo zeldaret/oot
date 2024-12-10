@@ -113,7 +113,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         255, // QUEST_SONG_STORMS
     };
 
-    enum {
+    enum
+    {
         /* -3 */ CURSOR_TO_LEFT = -3, // Cursor on the "scroll to left page" position
         /* -2 */ CURSOR_TO_RIGHT,     // Cursor on the "scroll to right page" position
         /* -1 */ CURSOR_NONE          // No position in that direction, cursor stays where it is

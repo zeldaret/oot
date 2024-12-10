@@ -143,7 +143,8 @@ static ColliderCylinderInit sTailCylinderInit = {
     { 15, 20, -15, { 0, 0, 0 } },
 };
 
-typedef enum EnWfDamageEffect {
+typedef enum EnWfDamageEffect
+{
     /*  0 */ ENWF_DMGEFF_NONE,
     /*  1 */ ENWF_DMGEFF_STUN,
     /*  6 */ ENWF_DMGEFF_ICE_MAGIC = 6,

@@ -5,7 +5,8 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_LOCK_ON_DISABLED)
 
-typedef enum EnSyatekiManGameResult {
+typedef enum EnSyatekiManGameResult
+{
     /* 0 */ SYATEKI_RESULT_NONE,
     /* 1 */ SYATEKI_RESULT_WINNER,
     /* 2 */ SYATEKI_RESULT_ALMOST,
@@ -13,7 +14,8 @@ typedef enum EnSyatekiManGameResult {
     /* 4 */ SYATEKI_RESULT_REFUSE
 } EnSyatekiManGameResult;
 
-typedef enum EnSyatekiManTextIdx {
+typedef enum EnSyatekiManTextIdx
+{
     /* 0 */ SYATEKI_TEXT_CHOICE,
     /* 1 */ SYATEKI_TEXT_START_GAME,
     /* 2 */ SYATEKI_TEXT_NO_RUPEES,

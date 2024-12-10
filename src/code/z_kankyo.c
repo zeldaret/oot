@@ -11,7 +11,8 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-typedef enum LightningBoltState {
+typedef enum LightningBoltState
+{
     /* 0x00 */ LIGHTNING_BOLT_START,
     /* 0x01 */ LIGHTNING_BOLT_WAIT,
     /* 0x02 */ LIGHTNING_BOLT_DRAW,
@@ -1494,7 +1495,8 @@ void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, V
 
 f32 sLensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
 
-typedef enum LensFlareType {
+typedef enum LensFlareType
+{
     /* 0 */ LENS_FLARE_CIRCLE0,
     /* 1 */ LENS_FLARE_CIRCLE1,
     /* 2 */ LENS_FLARE_RING

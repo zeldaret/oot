@@ -20,7 +20,8 @@ typedef struct EnDaikuEscapeSubCamParam {
 // the gerudo guard was defeated
 #define ENDAIKU_STATEFLAG_GERUDODEFEATED (1 << 4)
 
-typedef enum EnDaikuTalkState {
+typedef enum EnDaikuTalkState
+{
     /* 0 */ ENDAIKU_STATE_CAN_TALK,
     /* 2 */ ENDAIKU_STATE_TALKING = 2,
     /* 3 */ ENDAIKU_STATE_NO_TALK
@@ -110,7 +111,8 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef enum EnDaikuAnimation {
+typedef enum EnDaikuAnimation
+{
     /* 0 */ ENDAIKU_ANIM_SHOUT,
     /* 1 */ ENDAIKU_ANIM_STAND,
     /* 2 */ ENDAIKU_ANIM_CELEBRATE,

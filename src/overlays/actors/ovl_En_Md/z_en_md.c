@@ -55,7 +55,8 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum EnMdAnimSequence {
+typedef enum EnMdAnimSequence
+{
     /* 0x0 */ ENMD_ANIM_SEQ_NONE,
     /* 0x1 */ ENMD_ANIM_SEQ_IDLE_TO_HALT,        // hands on hips -> halt gesture
     /* 0x2 */ ENMD_ANIM_SEQ_HALT_TO_CURIOUS,     // halt gesture -> tilted head
@@ -70,7 +71,8 @@ typedef enum EnMdAnimSequence {
     /* 0xB */ ENMD_ANIM_SEQ_STOP_WALKING         // stop walking -> hands on hips
 } EnMdAnimSequence;
 
-typedef enum EnMdAnimIndex {
+typedef enum EnMdAnimIndex
+{
     /*  0 */ ENMD_ANIM_INDEX_IDLE_DEFAULT,       // hands on hips; default idle
     /*  1 */ ENMD_ANIM_INDEX_IDLE_UNUSED,        // hands on hips; never set
     /*  2 */ ENMD_ANIM_INDEX_IDLE_TO_HALT,       // hands on hips -> halt gesture

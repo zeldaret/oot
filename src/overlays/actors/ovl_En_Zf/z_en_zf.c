@@ -151,7 +151,8 @@ static ColliderQuadInit sSwordQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum EnZfDamageEffect {
+typedef enum EnZfDamageEffect
+{
     /* 0x0 */ ENZF_DMGEFF_NONE,
     /* 0x1 */ ENZF_DMGEFF_STUN,
     /* 0x6 */ ENZF_DMGEFF_IMMUNE = 6,       // Skips damage code, but also skips the top half of Update

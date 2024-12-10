@@ -24,10 +24,10 @@ typedef union fu {
     f32 f;
 } fu;
 
-f32 sinf(f32 angle);
+f32 sinf(f32 _X);
 s16 sins(u16 angle);
 
-f32 cosf(f32 angle);
+f32 cosf(f32 _X);
 s16 coss(u16 angle);
 
 extern f32 __libm_qnan_f;

@@ -11,7 +11,8 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum FaceTextureIndex {
+typedef enum FaceTextureIndex
+{
     /* 0x00 */ FACE_EYES_CLOSED,
     /* 0x01 */ FACE_EYES_OPEN,
     /* 0x02 */ FACE_EYES_OPEN_SMILING

@@ -33,7 +33,8 @@ ActorProfile Shot_Sun_Profile = {
     /**/ NULL,
 };
 
-typedef enum FairySpawnerState {
+typedef enum FairySpawnerState
+{
     /* 0 */ SPAWNER_OUT_OF_RANGE,
     /* 1 */ SPAWNER_OCARINA_START,
     /* 2 */ SPAWNER_OCARINA_PLAYING

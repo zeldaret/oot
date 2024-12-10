@@ -14,7 +14,8 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum BossGanondrofDeathState {
+typedef enum BossGanondrofDeathState
+{
     /* 0 */ NOT_DEAD,
     /* 1 */ DEATH_START,
     /* 2 */ DEATH_THROES,
@@ -24,24 +25,28 @@ typedef enum BossGanondrofDeathState {
     /* 6 */ DEATH_FINISH
 } BossGanondrofDeathState;
 
-typedef enum BossGanondrofThrowAction {
+typedef enum BossGanondrofThrowAction
+{
     /* 0 */ THROW_NORMAL,
     /* 1 */ THROW_SLOW
 } BossGanondrofThrowAction;
 
-typedef enum BossGanondrofStunnedAction {
+typedef enum BossGanondrofStunnedAction
+{
     /* 0 */ STUNNED_FALL,
     /* 1 */ STUNNED_GROUND
 } BossGanondrofStunnedAction;
 
-typedef enum BossGanondrofChargeAction {
+typedef enum BossGanondrofChargeAction
+{
     /* 0 */ CHARGE_WINDUP,
     /* 1 */ CHARGE_START,
     /* 2 */ CHARGE_ATTACK,
     /* 3 */ CHARGE_FINISH
 } BossGanondrofChargeAction;
 
-typedef enum BossGanondrofDeathAction {
+typedef enum BossGanondrofDeathAction
+{
     /* 0 */ DEATH_SPASM,
     /* 1 */ DEATH_LIMP,
     /* 2 */ DEATH_HUNCHED

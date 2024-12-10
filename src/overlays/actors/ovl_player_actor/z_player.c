@@ -67,7 +67,8 @@ typedef struct SpecialRespawnInfo {
     /* 0x0C */ s16 yaw;
 } SpecialRespawnInfo; // size = 0x10
 
-typedef enum AnimSfxType {
+typedef enum AnimSfxType
+{
     /* 1 */ ANIMSFX_TYPE_GENERAL = 1,
     /* 2 */ ANIMSFX_TYPE_FLOOR,
     /* 3 */ ANIMSFX_TYPE_FLOOR_BY_AGE,
@@ -1093,7 +1094,8 @@ static LinkAnimationHeader* D_80853D4C[][3] = {
       &gPlayerAnim_link_fighter_Rside_jump_endR },
 };
 
-typedef enum FidgetType {
+typedef enum FidgetType
+{
     /* 0x00 */ FIDGET_LOOK_AROUND, // ROOM_ENV_DEFAULT
     /* 0x01 */ FIDGET_COLD,        // ROOM_ENV_COLD
     /* 0x02 */ FIDGET_WARM,        // ROOM_ENV_WARM
@@ -1206,7 +1208,8 @@ static AnimSfxEntry sFidgetAnimSfxStretch[] = {
     { NA_SE_VO_LI_RELAX, -ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 20) },
 };
 
-typedef enum FidgetAnimSfxType {
+typedef enum FidgetAnimSfxType
+{
     /* 0x0 */ FIDGET_ANIMSFX_NONE,
     /* 0x1 */ FIDGET_ANIMSFX_SNEEZE,
     /* 0x2 */ FIDGET_ANIMSFX_SWEAT,
@@ -1476,7 +1479,8 @@ static void (*sItemActionInitFuncs[])(PlayState* play, Player* this) = {
     Player_InitDefaultIA,        // PLAYER_IA_LENS_OF_TRUTH
 };
 
-typedef enum ItemChangeType {
+typedef enum ItemChangeType
+{
     /*  0 */ PLAYER_ITEM_CHG_0,
     /*  1 */ PLAYER_ITEM_CHG_1,
     /*  2 */ PLAYER_ITEM_CHG_2,
@@ -4114,7 +4118,8 @@ s32 Player_GetMovementSpeedAndYaw(Player* this, f32* outSpeedTarget, s16* outYaw
     }
 }
 
-typedef enum ActionHandlerIndex {
+typedef enum ActionHandlerIndex
+{
     /*  0 */ PLAYER_ACTION_HANDLER_0,
     /*  1 */ PLAYER_ACTION_HANDLER_1,
     /*  2 */ PLAYER_ACTION_HANDLER_2,
@@ -4284,7 +4289,8 @@ s32 Player_TryActionHandlerList(PlayState* play, Player* this, s8* actionHandler
     return false;
 }
 
-typedef enum PlayerActionInterruptResult {
+typedef enum PlayerActionInterruptResult
+{
     /* -1 */ PLAYER_INTERRUPT_NONE = -1,
     /*  0 */ PLAYER_INTERRUPT_NEW_ACTION,
     /*  1 */ PLAYER_INTERRUPT_MOVE
@@ -14012,7 +14018,8 @@ void Player_Action_8084EAC0(Player* this, PlayState* play) {
     }
 }
 
-typedef enum BottleCatchType {
+typedef enum BottleCatchType
+{
     BOTTLE_CATCH_NONE, // This type does not have an associated entry in `sBottleCatchInfo`
     BOTTLE_CATCH_FAIRY,
     BOTTLE_CATCH_FISH,

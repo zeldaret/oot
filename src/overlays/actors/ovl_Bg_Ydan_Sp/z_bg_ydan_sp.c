@@ -19,7 +19,8 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play);
 void BgYdanSp_BurnWallWeb(BgYdanSp* this, PlayState* play);
 void BgYdanSp_WallWebIdle(BgYdanSp* this, PlayState* play);
 
-typedef enum BgYdanSpType {
+typedef enum BgYdanSpType
+{
     /* 0 */ WEB_FLOOR,
     /* 1 */ WEB_WALL
 } BgYdanSpType;

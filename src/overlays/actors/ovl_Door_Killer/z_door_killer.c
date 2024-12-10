@@ -13,7 +13,8 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef enum DoorKillerBehaviour {
+typedef enum DoorKillerBehaviour
+{
     /* 0 */ DOOR_KILLER_DOOR,
     /* 1 */ DOOR_KILLER_RUBBLE_PIECE_1,
     /* 2 */ DOOR_KILLER_RUBBLE_PIECE_2,

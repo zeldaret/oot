@@ -43,7 +43,8 @@ void EnRu2_DrawXlu(EnRu2* this, PlayState* play);
 
 void EnRu2_CheckWaterMedallionCutscene(EnRu2* this, PlayState* play);
 
-typedef enum {
+typedef enum
+{
     /* 00 */ ENRU2_SETUP_WATER_MEDALLION_CS,
     /* 01 */ ENRU2_AWAIT_BLUE_WARP,
     /* 02 */ ENRU2_RISE_THROUGH_BLUE_WARP,
@@ -66,7 +67,8 @@ typedef enum {
     /* 19 */ ENRU2_WATER_TEMPLE_SWIMMING_UP
 } EnRu2Action;
 
-typedef enum {
+typedef enum
+{
     /* 00 */ ENRU2_DRAW_NOTHING,
     /* 01 */ ENRU2_DRAW_OPA,
     /* 02 */ ENRU2_DRAW_XLU

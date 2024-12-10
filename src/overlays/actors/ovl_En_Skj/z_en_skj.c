@@ -95,7 +95,8 @@ void EnSkj_SetupWaitInRange(EnSkj* this);
 #define songFailTimer multiuseTimer
 #define battleExitTimer multiuseTimer
 
-typedef enum SkullKidAnim {
+typedef enum SkullKidAnim
+{
     /* 0 */ SKJ_ANIM_BACKFLIP,
     /* 1 */ SKJ_ANIM_SHOOT_NEEDLE,
     /* 2 */ SKJ_ANIM_PLAY_FLUTE,
@@ -108,18 +109,21 @@ typedef enum SkullKidAnim {
     /* 9 */ SKJ_ANIM_WAIT
 } SkullKidAnim;
 
-typedef enum SkullKidStumpSide {
+typedef enum SkullKidStumpSide
+{
     /* 0 */ SKULL_KID_LEFT,
     /* 1 */ SKULL_KID_RIGHT
 } SkullKidStumpSide;
 
-typedef enum SkullKidOcarinaGameState {
+typedef enum SkullKidOcarinaGameState
+{
     /* 0 */ SKULL_KID_OCARINA_WAIT,
     /* 1 */ SKULL_KID_OCARINA_PLAY_NOTES,
     /* 2 */ SKULL_KID_OCARINA_LEAVE_GAME
 } SkullKidOcarinaGameState;
 
-typedef enum SkullKidAction {
+typedef enum SkullKidAction
+{
     /* 00 */ SKJ_ACTION_FADE,
     /* 01 */ SKJ_ACTION_WAIT_TO_SHOOT_NEEDLE,
     /* 02 */ SKJ_ACTION_SARIA_SONG_IDLE,

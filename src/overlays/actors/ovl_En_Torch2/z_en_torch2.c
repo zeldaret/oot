@@ -10,7 +10,8 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum EnTorch2ActionStates {
+typedef enum EnTorch2ActionStates
+{
     /* 0 */ ENTORCH2_WAIT,
     /* 1 */ ENTORCH2_ATTACK,
     /* 2 */ ENTORCH2_DEATH,

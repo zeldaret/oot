@@ -127,7 +127,7 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
 
     print("Running clang-format...")
     # clang-format only applies changes in the given files, so it's safe to run in parallel
-    with multiprocessing.get_context("fork").Pool(nb_jobs) as pool:
+    with multiprocessing.get_context().Pool(nb_jobs) as pool:
         pool.map(run_clang_format, file_chunks)
 
     print("Running clang-tidy...")
@@ -137,7 +137,7 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
         tmp_dir = tempfile.mkdtemp()
 
         try:
-            with multiprocessing.get_context("fork").Pool(nb_jobs) as pool:
+            with multiprocessing.get_context().Pool(nb_jobs) as pool:
                 pool.map(partial(run_clang_tidy_with_export, tmp_dir), file_chunks)
 
             run_clang_apply_replacements(tmp_dir)
@@ -148,7 +148,7 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
 
     print("Cleaning up whitespace...")
     # Safe to do in parallel and can be applied to all types of files
-    with multiprocessing.get_context("fork").Pool(nb_jobs) as pool:
+    with multiprocessing.get_context().Pool(nb_jobs) as pool:
         pool.map(cleanup_whitespace, src_files + extra_files)
 
     print("Done formatting files.")

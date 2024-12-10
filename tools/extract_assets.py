@@ -182,7 +182,7 @@ def main():
                 numCores = 1
             print("Extracting assets with " + str(numCores) + " CPU core" + ("s" if numCores > 1 else "") + ".")
             try:
-                mp_context = multiprocessing.get_context("fork")
+                mp_context = multiprocessing.get_context()
             except ValueError as e:
                 raise CannotMultiprocessError() from e
             with mp_context.Pool(numCores, initializer=initializeWorker, initargs=(versionConfig, mainAbort, args.unaccounted, extractedAssetsTracker, manager, baseromSegmentsDir, outputDir)) as p:

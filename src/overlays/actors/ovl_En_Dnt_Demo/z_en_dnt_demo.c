@@ -12,7 +12,8 @@
 
 #define FLAGS 0
 
-typedef enum EnDntDemoResults {
+typedef enum EnDntDemoResults
+{
     /* 0 */ DNT_LIKE,
     /* 1 */ DNT_HATE,
     /* 2 */ DNT_LOVE

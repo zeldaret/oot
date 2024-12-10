@@ -7,7 +7,8 @@
 #define FLAGS \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_LOCK_ON_DISABLED)
 
-typedef enum BombchuGirlEyeMode {
+typedef enum BombchuGirlEyeMode
+{
     /* 0 */ CHU_GIRL_EYES_ASLEEP,
     /* 1 */ CHU_GIRL_EYES_OPEN_SLOWLY,
     /* 2 */ CHU_GIRL_EYES_BLINK_RAPIDLY,

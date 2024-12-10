@@ -44,7 +44,8 @@ void DemoEc_Destroy(Actor* thisx, PlayState* play);
 void DemoEc_Update(Actor* thisx, PlayState* play);
 void DemoEc_Draw(Actor* thisx, PlayState* play);
 
-typedef enum DemoEcUpdateMode {
+typedef enum DemoEcUpdateMode
+{
     /* 00 */ EC_UPDATE_COMMON,
     /* 01 */ EC_UPDATE_INGO,
     /* 02 */ EC_UPDATE_TALON,
@@ -76,7 +77,8 @@ typedef enum DemoEcUpdateMode {
     /* 28 */ EC_UPDATE_MALON
 } DemoEcUpdateMode;
 
-typedef enum DemoEcDrawconfig {
+typedef enum DemoEcDrawconfig
+{
     /* 00 */ EC_DRAW_COMMON,
     /* 01 */ EC_DRAW_INGO,
     /* 02 */ EC_DRAW_TALON,

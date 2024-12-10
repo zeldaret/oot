@@ -10,7 +10,8 @@
 
 #define FLAGS 0
 
-typedef enum PoeFlameColor {
+typedef enum PoeFlameColor
+{
     POE_FLAME_PURPLE, // Meg
     POE_FLAME_RED,    // Joelle
     POE_FLAME_BLUE,   // Beth

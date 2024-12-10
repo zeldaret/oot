@@ -5,7 +5,8 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-typedef enum TwEffType {
+typedef enum TwEffType
+{
     /*  0 */ TWEFF_NONE,
     /*  1 */ TWEFF_DOT,
     /*  2 */ TWEFF_2,
@@ -19,13 +20,15 @@ typedef enum TwEffType {
     /* 10 */ TWEFF_SHLD_HIT
 } TwEffType;
 
-typedef enum EffectWork {
+typedef enum EffectWork
+{
     /* 0 */ EFF_ARGS,
     /* 1 */ EFF_UNKS1,
     /* 2 */ EFF_WORK_MAX
 } EffectWork;
 
-typedef enum EffectFWork {
+typedef enum EffectFWork
+{
     /* 0 */ EFF_SCALE,
     /* 1 */ EFF_DIST,
     /* 2 */ EFF_ROLL,
@@ -33,7 +36,8 @@ typedef enum EffectFWork {
     /* 4 */ EFF_FWORK_MAX
 } EffectFWork;
 
-typedef enum TwinrovaType {
+typedef enum TwinrovaType
+{
     /* 0x00 */ TW_KOTAKE,
     /* 0x01 */ TW_KOUME,
     /* 0x02 */ TW_TWINROVA,
