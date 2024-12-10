@@ -1538,7 +1538,7 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
     s32 upperParams = IK_GET_UPPER_PARAMS(&this->actor);
 
     if (((IK_GET_ARMOR_TYPE(&this->actor) == IK_TYPE_NABOORU) &&
-        GET_EVENTCHKINF(EVENTCHKINF_DEFEATED_NABOORU_KNUCKLE)) ||
+         GET_EVENTCHKINF(EVENTCHKINF_DEFEATED_NABOORU_KNUCKLE)) ||
         (upperParams != 0 && Flags_GetSwitch(play, upperParams >> 8))) {
         Actor_Kill(&this->actor);
     } else {
