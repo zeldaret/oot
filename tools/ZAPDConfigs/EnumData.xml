@@ -172,7 +172,7 @@
         <Item Key="quake_stop" ID="CS_MISC_QUAKE_STOP" Index="17"/>
         <Item Key="stop_storm_and_advance_to_day" ID="CS_MISC_STOP_STORM_AND_ADVANCE_TO_DAY" Index="18"/>
         <Item Key="set_flag_fast_windmill" ID="CS_MISC_SET_FLAG_FAST_WINDMILL" Index="19"/>
-        <Item Key="set_flag_well_drained" ID="CS_MISC_SET_FLAG_WELL_DRAINED" Index="20"/>
+        <Item Key="set_flag_drained_well" ID="CS_MISC_SET_FLAG_DRAINED_WELL" Index="20"/>
         <Item Key="set_flag_restored_lake_hylia" ID="CS_MISC_SET_FLAG_RESTORED_LAKE_HYLIA" Index="21"/>
         <Item Key="vismono_black_and_white" ID="CS_MISC_VISMONO_BLACK_AND_WHITE" Index="22"/>
         <Item Key="vismono_sepia" ID="CS_MISC_VISMONO_SEPIA" Index="23"/>

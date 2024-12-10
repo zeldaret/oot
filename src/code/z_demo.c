@@ -400,8 +400,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             SET_EVENTCHKINF(EVENTCHKINF_65);
             break;
 
-        case CS_MISC_SET_FLAG_WELL_DRAINED:
-            SET_EVENTCHKINF(EVENTCHKINF_67);
+        case CS_MISC_SET_FLAG_DRAINED_WELL:
+            SET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL);
             break;
 
         case CS_MISC_SET_FLAG_RESTORED_LAKE_HYLIA:

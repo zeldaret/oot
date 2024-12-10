@@ -74,7 +74,7 @@ u16 EnKz_GetTextIdChild(PlayState* play, EnKz* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
         return 0x402B;
-    } else if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
         return 0x401C;
     } else {
         player->exchangeItemId = EXCH_ITEM_BOTTLE_RUTOS_LETTER;
@@ -291,7 +291,7 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
 
     if (EnKz_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, 340.0f, EnKz_GetTextId,
                            EnKz_UpdateTalkState)) {
-        if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
+        if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
             if (func_8002F368(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
@@ -389,7 +389,7 @@ void EnKz_Init(Actor* thisx, PlayState* play) {
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_0);
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
         EnKz_SetMovedPos(this, play);
     }
 
@@ -455,7 +455,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
         Inventory_ReplaceItem(play, ITEM_BOTTLE_RUTOS_LETTER, ITEM_BOTTLE_EMPTY);
         EnKz_SetMovedPos(this, play);
-        SET_EVENTCHKINF(EVENTCHKINF_33);
+        SET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA);
         this->actor.speed = 0.0;
         this->actionFunc = EnKz_StopMweep;
     }

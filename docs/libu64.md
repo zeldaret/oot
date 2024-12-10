@@ -62,7 +62,7 @@ Note `debug.c` has additional debug-only functions in gc-eu-mq-dbg, hinting that
 
 Additionally `debug.c`, `gfxprint.c` and `pad.c` all require compilation flags `-O2` (instead of `-O2 -g3`) to match, as supplementary evidence these were part of a separately compiled library.
 
-`-O2` is also required for most files between `gfxprint.c` and `pad.c` in the code segment (see spec), hinting that these other files (`loadfragment2_n64.c`, `loadfragment2_gc.c`, `mtxuty-cvt.c`, `relocation_gc.c`, `load_gc.c`, `code_800FC620.c`) are also part of libu64.
+`-O2` is also required for most files between `gfxprint.c` and `pad.c` in the code segment (see spec), hinting that these other files (`loadfragment2_n64.c`, `loadfragment2_gc.c`, `mtxuty-cvt.c`, `relocation_gc.c`, `load_gc.c`, `system_heap.c`) are also part of libu64.
 
 Files `rcp_utils.c` and `logseverity_gc.c` do not strictly require `-O2`, but they do match with `-O2`.
 
