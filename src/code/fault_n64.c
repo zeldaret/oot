@@ -822,7 +822,7 @@ void Fault_Init(void) {
     osStartThread(&gFaultMgr.thread);
 }
 
-void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
+NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     gFaultMsgId = 4;
     osSyncPrintf("HungUp on Thread %d", osGetThreadId(NULL));
     osSyncPrintf("%s\n", exp1 != NULL ? exp1 : "(NULL)");
@@ -843,7 +843,7 @@ void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     } while (true);
 }
 
-void Fault_AddHungupAndCrash(const char* file, int line) {
+NORETURN void Fault_AddHungupAndCrash(const char* file, int line) {
     char msg[256];
 
     sprintf(msg, "HungUp %s:%d", file, line);

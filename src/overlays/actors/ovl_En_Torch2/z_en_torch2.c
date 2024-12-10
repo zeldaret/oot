@@ -618,7 +618,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             }
         }
         this->actor.colChkInfo.damage = 0;
-        this->knockbackDamage = PLAYER_KNOCKBACK_NONE;
+        this->knockbackDamage = 0;
     }
 
     // Handles being frozen by a deku nut

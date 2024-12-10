@@ -400,8 +400,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             SET_EVENTCHKINF(EVENTCHKINF_65);
             break;
 
-        case CS_MISC_SET_FLAG_WELL_DRAINED:
-            SET_EVENTCHKINF(EVENTCHKINF_67);
+        case CS_MISC_SET_FLAG_DRAINED_WELL:
+            SET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL);
             break;
 
         case CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED:
@@ -1813,7 +1813,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
         MemCpy(&cmdType, script, sizeof(cmdType));
         script += sizeof(cmdType);
 
-        if (cmdType == CS_CAM_STOP) {
+        if (cmdType == CS_CMD_END_OF_SCRIPT) {
             return;
         }
 

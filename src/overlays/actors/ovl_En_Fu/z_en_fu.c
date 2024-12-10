@@ -134,7 +134,7 @@ void EnFu_WaitChild(EnFu* this, PlayState* play) {
     u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_WINDMILL_MAN);
 
     if (textId == 0) {
-        textId = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
+        textId = GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL) ? 0x5033 : 0x5032;
     }
 
     // if ACTOR_FLAG_TALK is set and textId is 0x5033, change animation

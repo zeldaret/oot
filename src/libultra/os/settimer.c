@@ -1,7 +1,7 @@
 #include "global.h"
 
 s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg) {
-    OSTime time;
+    UNUSED OSTime time;
 #if !PLATFORM_N64
     OSTimer* next;
     u32 count;

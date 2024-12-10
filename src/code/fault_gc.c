@@ -1327,9 +1327,7 @@ NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
 
     // Since the above line triggers an exception and transfers execution to the fault handler
     // this function does not return and the rest of the function is unreachable.
-#ifdef __GNUC__
-    __builtin_unreachable();
-#endif
+    UNREACHABLE();
 }
 
 /**

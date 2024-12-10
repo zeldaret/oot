@@ -329,7 +329,7 @@ cutscene_misc_types = {
     0x11: "CS_MISC_QUAKE_STOP",
     0x12: "CS_MISC_STOP_STORM_AND_ADVANCE_TO_DAY",
     0x13: "CS_MISC_SET_FLAG_FAST_WINDMILL",
-    0x14: "CS_MISC_SET_FLAG_WELL_DRAINED",
+    0x14: "CS_MISC_SET_FLAG_DRAINED_WELL",
     0x15: "CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED",
     0x16: "CS_MISC_VISMONO_BLACK_AND_WHITE",
     0x17: "CS_MISC_VISMONO_SEPIA",
@@ -484,7 +484,7 @@ Argument format:
 """
 cutscene_command_macros = {
     -1:
-        ("CS_END()", 1, None, None,
+        ("CS_END_OF_SCRIPT()", 1, None, None,
               None, None),
     3:
         ("CS_MISC_LIST(%w1:1:s)", 2, None, 0,
@@ -551,7 +551,7 @@ cutscene_command_macros = {
               None, None),
 }
 
-begin_cutscene_entry = ("CS_BEGIN_CUTSCENE(%w1:0:s, %w1:1:s)", 2, None, None,
+begin_cutscene_entry = ("CS_HEADER(%w1:0:s, %w1:1:s)", 2, None, None,
                             None, None)
 
 unk_data_entry = ("CS_UNK_DATA_LIST(%w1:0:x, %w1:1:s)", 2, None, 0,
@@ -757,7 +757,7 @@ def disassemble_cutscene(cs_in):
                     i += n_words_list_item
         else:
             i += n_words
-    print("Warning: cutscene reached maximum entries without encountering a CS_END command")
+    print("Warning: cutscene reached maximum entries without encountering a CS_END_SCRIPT command")
     return macros
 
 def hex_parse(s):
