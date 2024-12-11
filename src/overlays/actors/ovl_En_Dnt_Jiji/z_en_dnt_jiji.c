@@ -282,7 +282,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play) {
             PRINTF("実 \n");
             PRINTF("実 \n");
             PRINTF("実 \n");
-            SET_ITEMGETINF(ITEMGETINF_1F);
+            SET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE);
         } else {
             // "stick"
             PRINTF("棒 \n");
@@ -291,7 +291,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play) {
             PRINTF("棒 \n");
             PRINTF("棒 \n");
             PRINTF("棒 \n");
-            SET_ITEMGETINF(ITEMGETINF_1E);
+            SET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_STICK_UPGRADE);
         }
         this->actor.textId = 0;
         if ((this->stage != NULL) && (this->stage->actor.update != NULL)) {
