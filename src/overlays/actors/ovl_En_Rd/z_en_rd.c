@@ -355,7 +355,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
     }
 
     if ((ABS(yaw) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
-        if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+        if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_JUMPING |
                                      PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
             !(player->stateFlags2 & PLAYER_STATE2_7)) {
             if (this->playerStunWaitTimer == 0) {
@@ -439,7 +439,7 @@ void EnRd_WalkToHome(EnRd* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+    if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_JUMPING |
                                  PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
         !(player->stateFlags2 & PLAYER_STATE2_7) &&
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
