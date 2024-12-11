@@ -4,7 +4,7 @@
         <Cutscene Name="gLakeHyliaOwlCs" Offset="0x1B0C0"/>
         <Cutscene Name="gLakeHyliaIntroCs" Offset="0x7A30"/>
         <Cutscene Name="gLakeHyliaCreditsCs" Offset="0x6E90"/>
-        <Cutscene Name="gLakeHyliaWaterRaisingCs" Offset="0x55E0"/>
+        <Cutscene Name="gLakeHyliaRestoredCs" Offset="0x55E0"/>
 
         <Path Name="spot06_scenePathList_007764" Offset="0x7764" NumPaths="2"/>
         <Scene Name="spot06_scene" Offset="0x0"/>
