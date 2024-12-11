@@ -735,7 +735,7 @@ void Player_ReleaseLockOn(Player* this) {
  */
 void Player_ClearZTargeting(Player* this) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-        (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
+        (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_ON_HORSE | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
         this->stateFlags1 &= ~(PLAYER_STATE1_Z_TARGETING | PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS | PLAYER_STATE1_PARALLEL |
@@ -775,7 +775,7 @@ void Player_SetAutoLockOnActor(PlayState* play, Actor* actor) {
 s32 func_8008EF30(PlayState* play) {
     Player* this = GET_PLAYER(play);
 
-    return (this->stateFlags1 & PLAYER_STATE1_23);
+    return (this->stateFlags1 & PLAYER_STATE1_ON_HORSE);
 }
 
 s32 func_8008EF44(PlayState* play, s32 ammo) {
