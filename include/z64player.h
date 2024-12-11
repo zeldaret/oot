@@ -723,7 +723,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_PARALLEL (1 << 17) // "Parallel" mode, Z-Target without an actor lock-on
 #define PLAYER_STATE1_18 (1 << 18)
 #define PLAYER_STATE1_19 (1 << 19)
-#define PLAYER_STATE1_20 (1 << 20)
+#define PLAYER_STATE1_FIRST_PERSON (1 << 20)
 #define PLAYER_STATE1_21 (1 << 21)
 #define PLAYER_STATE1_SHIELDING (1 << 22) // Shielding in any form (regular, hylian shield as child, "shielding" with a two handed sword, etc.)
 #define PLAYER_STATE1_23 (1 << 23)
