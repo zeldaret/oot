@@ -663,7 +663,7 @@ void BossSst_HeadNeutral(BossSst* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
 
         if ((player->actor.world.pos.y > -50.0f) &&
-            !(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+            !(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14))) {
             sHands[Rand_ZeroOne() <= 0.5f]->ready = true;
             BossSst_HeadSetupWait(this);
         } else {
@@ -1252,7 +1252,7 @@ void BossSst_HandWait(BossSst* this, PlayState* play) {
         }
 
         if ((this->timer == 0) && (player->actor.world.pos.y > -50.0f) &&
-            !(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+            !(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14))) {
             BossSst_HandSelectAttack(this);
         }
     } else if (sHead->actionFunc == BossSst_HeadNeutral) {
