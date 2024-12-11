@@ -4878,7 +4878,8 @@ s32 func_808382DC(Player* this, PlayState* play) {
                         }
                     }
 
-                    if (!(this->stateFlags1 & (PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14 | PLAYER_STATE1_21))) {
+                    if (!(this->stateFlags1 &
+                          (PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14 | PLAYER_STATE1_21))) {
                         this->speedXZ = -18.0f;
                         this->yaw = this->actor.shape.rot.y;
                     }
@@ -11918,7 +11919,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         if (this->csAction != PLAYER_CSACTION_NONE) {
             if ((this->csAction != PLAYER_CSACTION_7) ||
-                !(this->stateFlags1 & (PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14 | PLAYER_STATE1_21 | PLAYER_STATE1_26))) {
+                !(this->stateFlags1 &
+                  (PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14 | PLAYER_STATE1_21 | PLAYER_STATE1_26))) {
                 this->unk_6AD = 3;
             } else if (Player_Action_CsAction != this->actionFunc) {
                 func_80852944(play, this, NULL);
@@ -12022,7 +12024,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         Collider_UpdateCylinder(&this->actor, &this->cylinder);
 
         if (!(this->stateFlags2 & PLAYER_STATE2_14)) {
-            if (!(this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14 | PLAYER_STATE1_23))) {
+            if (!(this->stateFlags1 &
+                  (PLAYER_STATE1_DEAD | PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14 | PLAYER_STATE1_23))) {
                 CollisionCheck_SetOC(play, &play->colChkCtx, &this->cylinder.base);
             }
 

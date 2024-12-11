@@ -542,7 +542,7 @@ s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
     Actor* playerFocusActor;
     Player* player = GET_PLAYER(play);
 
-    if (this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) {             // miniboss
+    if (this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) {                            // miniboss
         if (player->stateFlags1 & (PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14)) { // Hanging or climbing
             return false;
         } else {
