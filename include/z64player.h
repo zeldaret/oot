@@ -726,7 +726,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_20 (1 << 20)
 #define PLAYER_STATE1_21 (1 << 21)
 #define PLAYER_STATE1_SHIELDING (1 << 22) // Shielding in any form (regular, hylian shield as child, "shielding" with a two handed sword, etc.)
-#define PLAYER_STATE1_23 (1 << 23)
+#define PLAYER_STATE1_ON_HORSE (1 << 23)
 #define PLAYER_STATE1_USING_BOOMERANG (1 << 24) // Currently using the boomerang. This includes all phases (aiming, throwing, and catching).
 #define PLAYER_STATE1_BOOMERANG_THROWN (1 << 25) // Boomerang has been thrown and is flying in the air
 #define PLAYER_STATE1_26 (1 << 26)

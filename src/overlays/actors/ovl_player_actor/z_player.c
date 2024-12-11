@@ -2735,7 +2735,7 @@ void Player_UpdateItems(Player* this, PlayState* play) {
 s32 func_80834380(PlayState* play, Player* this, s32* itemPtr, s32* typePtr) {
     if (LINK_IS_ADULT) {
         *itemPtr = ITEM_BOW;
-        if (this->stateFlags1 & PLAYER_STATE1_23) {
+        if (this->stateFlags1 & PLAYER_STATE1_ON_HORSE) {
             *typePtr = ARROW_NORMAL_HORSE;
         } else {
             *typePtr = ARROW_NORMAL + (this->heldItemAction - PLAYER_IA_BOW);
@@ -2838,7 +2838,7 @@ s32 func_80834758(PlayState* play, Player* this) {
     LinkAnimationHeader* anim;
     f32 frame;
 
-    if (!(this->stateFlags1 & (PLAYER_STATE1_SHIELDING | PLAYER_STATE1_23 | PLAYER_STATE1_29)) &&
+    if (!(this->stateFlags1 & (PLAYER_STATE1_SHIELDING | PLAYER_STATE1_ON_HORSE | PLAYER_STATE1_29)) &&
         (play->shootingGalleryStatus == 0) && (this->heldItemAction == this->itemAction) &&
         (this->currentShield != PLAYER_SHIELD_NONE) && !Player_IsChildWithHylianShield(this) &&
         Player_IsZTargeting(this) && CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
@@ -2998,7 +2998,7 @@ s32 func_80834D2C(Player* this, PlayState* play) {
         LinkAnimation_PlayOnce(play, &this->upperSkelAnime, &gPlayerAnim_link_boom_throw_wait2waitR);
     }
 
-    if (this->stateFlags1 & PLAYER_STATE1_23) {
+    if (this->stateFlags1 & PLAYER_STATE1_ON_HORSE) {
         Player_AnimPlayLoop(play, this, &gPlayerAnim_link_uma_anim_walk);
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !Player_UpdateHostileLockOn(this)) {
         Player_AnimPlayLoop(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
@@ -3657,7 +3657,7 @@ int Player_CanUpdateItems(Player* this) {
  * depending on some conditions. See details below.
  */
 s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
-    if (!(this->stateFlags1 & PLAYER_STATE1_23) && (this->actor.parent != NULL) && Player_HoldsHookshot(this)) {
+    if (!(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) && (this->actor.parent != NULL) && Player_HoldsHookshot(this)) {
         Player_SetupAction(play, this, Player_Action_HookshotFly, 1);
         this->stateFlags3 |= PLAYER_STATE3_FLYING_WITH_HOOKSHOT;
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_hook_fly_start);
@@ -5163,7 +5163,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
              (func_8083816C(sFloorType) && (this->floorProperty == FLOOR_PROPERTY_12)))) {
             s32 sp34 = this->unk_A84 - (s32)this->actor.world.pos.y;
 
-            if (!(this->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_27 | PLAYER_STATE1_29)) &&
+            if (!(this->stateFlags1 & (PLAYER_STATE1_ON_HORSE | PLAYER_STATE1_27 | PLAYER_STATE1_29)) &&
                 !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (sp34 < 100) && (sYDistToFloor > 100.0f)) {
                 return 0;
             }
@@ -5199,7 +5199,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
                 play->transitionTrigger = TRANS_TRIGGER_START;
             }
 
-            if (!(this->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_29)) &&
+            if (!(this->stateFlags1 & (PLAYER_STATE1_ON_HORSE | PLAYER_STATE1_29)) &&
                 !(this->stateFlags2 & PLAYER_STATE2_CRAWLING) && !func_808332B8(this) &&
                 (temp = SurfaceType_GetFloorType(&play->colCtx, poly, bgId), (temp != FLOOR_TYPE_10)) &&
                 ((sp34 < 100) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))) {
@@ -5998,7 +5998,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
     Actor* talkActor;
 
     if ((this->unk_6AD != 0) && (func_808332B8(this) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-                                 (this->stateFlags1 & PLAYER_STATE1_23))) {
+                                 (this->stateFlags1 & PLAYER_STATE1_ON_HORSE))) {
 
         if (!Player_StartCsAction(play, this)) {
             if (this->unk_6AD == 4) {
@@ -6112,7 +6112,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                     }
                 }
             } else if (func_8083AD4C(play, this) != CAM_MODE_NORMAL) {
-                if (!(this->stateFlags1 & PLAYER_STATE1_23)) {
+                if (!(this->stateFlags1 & PLAYER_STATE1_ON_HORSE)) {
                     Player_SetupAction(play, this, Player_Action_8084B1D8, 1);
                     this->av2.actionVar2 = 13;
                     func_8083B010(this);
@@ -6183,7 +6183,7 @@ s32 Player_ActionHandler_Talk(Player* this, PlayState* play) {
         }
 
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-            if (!(this->stateFlags1 & PLAYER_STATE1_23) &&
+            if (!(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) &&
                 !(func_808332B8(this) && !(this->stateFlags2 & PLAYER_STATE2_10))) {
                 goto dont_talk;
             }
@@ -6242,7 +6242,7 @@ dont_talk:
 }
 
 s32 func_8083B8F4(Player* this, PlayState* play) {
-    if (!(this->stateFlags1 & (PLAYER_STATE1_CARRYING_ACTOR | PLAYER_STATE1_23)) &&
+    if (!(this->stateFlags1 & (PLAYER_STATE1_CARRYING_ACTOR | PLAYER_STATE1_ON_HORSE)) &&
         Camera_CheckValidMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_FIRST_PERSON)) {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
             (func_808332B8(this) && (this->actor.depthInWater < this->ageProperties->unk_2C))) {
@@ -6451,7 +6451,7 @@ void func_8083C148(Player* this, PlayState* play) {
  * even if they occur.
  */
 s32 Player_ActionHandler_Roll(Player* this, PlayState* play) {
-    if (!Player_UpdateHostileLockOn(this) && !sUpperBodyIsBusy && !(this->stateFlags1 & PLAYER_STATE1_23) &&
+    if (!Player_UpdateHostileLockOn(this) && !sUpperBodyIsBusy && !(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) &&
         CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
         if (Player_TryRoll(this, play)) {
             return true;
@@ -7170,7 +7170,7 @@ s32 Player_ActionHandler_3(Player* this, PlayState* play) {
 
         Player_SetupWaitForPutAway(play, this, func_8083A360);
 
-        this->stateFlags1 |= PLAYER_STATE1_23;
+        this->stateFlags1 |= PLAYER_STATE1_ON_HORSE;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER;
 
         if (this->mountSide < 0) {
@@ -10898,9 +10898,10 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                 } else if (!sp1C && (this->stateFlags2 & PLAYER_STATE2_0)) {
                     doAction = DO_ACTION_GRAB;
                 } else if ((this->stateFlags2 & PLAYER_STATE2_2) ||
-                           (!(this->stateFlags1 & PLAYER_STATE1_23) && (this->rideActor != NULL))) {
+                           (!(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) && (this->rideActor != NULL))) {
                     doAction = DO_ACTION_CLIMB;
-                } else if ((this->stateFlags1 & PLAYER_STATE1_23) && !EN_HORSE_CHECK_4((EnHorse*)this->rideActor) &&
+                } else if ((this->stateFlags1 & PLAYER_STATE1_ON_HORSE) &&
+                           !EN_HORSE_CHECK_4((EnHorse*)this->rideActor) &&
                            (Player_Action_8084D3E4 != this->actionFunc)) {
                     if ((this->stateFlags2 & PLAYER_STATE2_CAN_ACCEPT_TALK_OFFER) && (this->talkActor != NULL)) {
                         if (this->talkActor->category == ACTORCAT_NPC) {
@@ -10918,7 +10919,7 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                         doAction = DO_ACTION_CHECK;
                     }
                 } else if ((this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_21)) ||
-                           ((this->stateFlags1 & PLAYER_STATE1_23) && (this->stateFlags2 & PLAYER_STATE2_22))) {
+                           ((this->stateFlags1 & PLAYER_STATE1_ON_HORSE) && (this->stateFlags2 & PLAYER_STATE2_22))) {
                     doAction = DO_ACTION_DOWN;
                 } else if (this->stateFlags2 & PLAYER_STATE2_DO_ACTION_ENTER) {
                     doAction = DO_ACTION_ENTER;
@@ -11392,7 +11393,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
             } else {
                 camMode = CAM_MODE_NORMAL;
                 if ((this->speedXZ == 0.0f) &&
-                    (!(this->stateFlags1 & PLAYER_STATE1_23) || (this->rideActor->speed == 0.0f))) {
+                    (!(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) || (this->rideActor->speed == 0.0f))) {
                     // not moving
                     seqMode = SEQ_MODE_STILL;
                 }
@@ -11742,10 +11743,10 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             this->prevBoots = this->currentBoots;
         }
 
-        if ((this->actor.parent == NULL) && (this->stateFlags1 & PLAYER_STATE1_23)) {
+        if ((this->actor.parent == NULL) && (this->stateFlags1 & PLAYER_STATE1_ON_HORSE)) {
             this->actor.parent = this->rideActor;
             func_8083A360(play, this);
-            this->stateFlags1 |= PLAYER_STATE1_23;
+            this->stateFlags1 |= PLAYER_STATE1_ON_HORSE;
             Player_AnimPlayOnce(play, this, &gPlayerAnim_link_uma_wait_1);
             Player_StartAnimMovement(play, this,
                                      ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_ENABLE_MOVEMENT |
@@ -11825,7 +11826,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             sFloorType = FLOOR_TYPE_0;
             this->floorProperty = FLOOR_PROPERTY_0;
 
-            if (!(this->stateFlags1 & PLAYER_STATE1_0) && (this->stateFlags1 & PLAYER_STATE1_23)) {
+            if (!(this->stateFlags1 & PLAYER_STATE1_0) && (this->stateFlags1 & PLAYER_STATE1_ON_HORSE)) {
                 EnHorse* rideActor = (EnHorse*)this->rideActor;
                 CollisionPoly* sp5C;
                 s32 sp58;
@@ -11902,7 +11903,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         }
 
         if ((play->csCtx.state != CS_STATE_IDLE) && (this->csAction != PLAYER_CSACTION_6) &&
-            !(this->stateFlags1 & PLAYER_STATE1_23) && !(this->stateFlags2 & PLAYER_STATE2_7) &&
+            !(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) && !(this->stateFlags2 & PLAYER_STATE2_7) &&
             (this->actor.category == ACTORCAT_PLAYER)) {
             CsCmdActorCue* cue = play->csCtx.playerCue;
 
@@ -12022,7 +12023,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         Collider_UpdateCylinder(&this->actor, &this->cylinder);
 
         if (!(this->stateFlags2 & PLAYER_STATE2_14)) {
-            if (!(this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_23))) {
+            if (!(this->stateFlags1 &
+                  (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_ON_HORSE))) {
                 CollisionCheck_SetOC(play, &play->colChkCtx, &this->cylinder.base);
             }
 
@@ -12185,7 +12187,7 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
     }
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-        !(this->stateFlags1 & PLAYER_STATE1_23) && ((u32)this->hoverBootsTimer != 0)) {
+        !(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) && ((u32)this->hoverBootsTimer != 0)) {
         static s32 D_8085486C = 255;
 
         if (this->hoverBootsTimer < 19) {
@@ -12345,7 +12347,7 @@ s16 func_8084ABD8(PlayState* play, Player* this, s32 arg2, s16 arg3) {
         temp2 = CLAMP(temp2, -3000, 3000);
         this->actor.focus.rot.y += temp2;
     } else {
-        temp1 = (this->stateFlags1 & PLAYER_STATE1_23) ? 3500 : 14000;
+        temp1 = (this->stateFlags1 & PLAYER_STATE1_ON_HORSE) ? 3500 : 14000;
         temp3 = ((sControlInput->rel.stick_y >= 0) ? 1 : -1) *
                 (s32)((1.0f - Math_CosS(sControlInput->rel.stick_y * 200)) * 1500.0f);
         this->actor.focus.rot.x += temp3;
@@ -12541,7 +12543,7 @@ void Player_Action_Talk(Player* this, PlayState* play) {
 
         if (!func_8084B4D4(play, this) && !func_8084B3CC(play, this) && !Player_StartCsAction(play, this)) {
             if ((this->talkActor != this->interactRangeActor) || !Player_ActionHandler_2(this, play)) {
-                if (this->stateFlags1 & PLAYER_STATE1_23) {
+                if (this->stateFlags1 & PLAYER_STATE1_ON_HORSE) {
                     s32 sp24 = this->av2.actionVar2;
                     func_8083A360(play, this);
                     this->av2.actionVar2 = sp24;
@@ -12557,7 +12559,7 @@ void Player_Action_Talk(Player* this, PlayState* play) {
         return;
     }
 
-    if (this->stateFlags1 & PLAYER_STATE1_23) {
+    if (this->stateFlags1 & PLAYER_STATE1_ON_HORSE) {
         Player_Action_8084CC98(this, play);
     } else if (func_808332B8(this)) {
         Player_Action_8084D610(this, play);
@@ -13381,7 +13383,7 @@ void Player_Action_8084D3E4(Player* this, PlayState* play) {
         EnHorse* rideActor = (EnHorse*)this->rideActor;
 
         func_8083C0E8(this, play);
-        this->stateFlags1 &= ~PLAYER_STATE1_23;
+        this->stateFlags1 &= ~PLAYER_STATE1_ON_HORSE;
         this->actor.parent = NULL;
         AREG(6) = 0;
 
@@ -16145,7 +16147,7 @@ void Player_StartTalking(PlayState* play, Actor* actor) {
             this->actor.textId = actor->textId;
         }
 
-        if (this->stateFlags1 & PLAYER_STATE1_23) {
+        if (this->stateFlags1 & PLAYER_STATE1_ON_HORSE) {
             s32 sp24 = this->av2.actionVar2;
 
             Player_PutAwayHeldItem(play, this);
