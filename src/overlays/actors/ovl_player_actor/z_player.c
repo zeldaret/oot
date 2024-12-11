@@ -4958,7 +4958,7 @@ void func_80838940(Player* this, LinkAnimationHeader* anim, f32 arg2, PlayState*
     Player_PlayJumpingSfx(this);
     Player_PlayVoiceSfx(this, sfxId);
 
-    this->stateFlags1 |= PLAYER_STATE1_18;
+    this->stateFlags1 |= PLAYER_STATE1_JUMPING;
 }
 
 void func_808389E8(Player* this, LinkAnimationHeader* anim, f32 arg2, PlayState* play) {
@@ -5003,7 +5003,7 @@ s32 Player_ActionHandler_12(Player* this, PlayState* play) {
         if (sp3C != 0) {
             Player_SetupAction(play, this, Player_Action_80845668, 0);
 
-            this->stateFlags1 |= PLAYER_STATE1_18;
+            this->stateFlags1 |= PLAYER_STATE1_JUMPING;
 
             sp34 = this->yDistToLedge;
 
@@ -6812,7 +6812,7 @@ s32 func_8083CFA8(PlayState* play, Player* this, f32 arg2, s32 splashScale) {
 }
 
 void func_8083D0A8(PlayState* play, Player* this, f32 arg2) {
-    this->stateFlags1 |= PLAYER_STATE1_18;
+    this->stateFlags1 |= PLAYER_STATE1_JUMPING;
     this->stateFlags1 &= ~PLAYER_STATE1_27;
 
     func_80832340(play, this);
@@ -6916,7 +6916,7 @@ void func_8083D36C(PlayState* play, Player* this) {
 
     this->stateFlags1 |= PLAYER_STATE1_27;
     this->stateFlags2 |= PLAYER_STATE2_10;
-    this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_19);
+    this->stateFlags1 &= ~(PLAYER_STATE1_JUMPING | PLAYER_STATE1_19);
     this->unk_854 = 0.0f;
 
     Player_SetBootData(play, this);
@@ -9464,7 +9464,7 @@ s32 func_80843E64(PlayState* play, Player* this) {
 
     Math_StepToF(&this->speedXZ, 0.0f, 1.0f);
 
-    this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_19);
+    this->stateFlags1 &= ~(PLAYER_STATE1_JUMPING | PLAYER_STATE1_19);
 
     if (fallDistance >= 400) {
         s32 impactIndex;
@@ -10055,13 +10055,13 @@ void Player_Action_80845668(Player* this, PlayState* play) {
         interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 4.0f);
 
         if (interruptResult == PLAYER_INTERRUPT_NEW_ACTION) {
-            this->stateFlags1 &= ~(PLAYER_STATE1_14 | PLAYER_STATE1_18);
+            this->stateFlags1 &= ~(PLAYER_STATE1_14 | PLAYER_STATE1_JUMPING);
             return;
         }
 
         if ((sp3C != 0) || (interruptResult >= PLAYER_INTERRUPT_MOVE)) {
             func_8083C0E8(this, play);
-            this->stateFlags1 &= ~(PLAYER_STATE1_14 | PLAYER_STATE1_18);
+            this->stateFlags1 &= ~(PLAYER_STATE1_14 | PLAYER_STATE1_JUMPING);
             return;
         }
 
@@ -11378,7 +11378,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
                 } else {
                     camMode = CAM_MODE_Z_PARALLEL;
                 }
-            } else if (this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_21)) {
+            } else if (this->stateFlags1 & (PLAYER_STATE1_JUMPING | PLAYER_STATE1_21)) {
                 if ((Player_Action_80845668 == this->actionFunc) || (this->stateFlags1 & PLAYER_STATE1_21)) {
                     camMode = CAM_MODE_WALL_CLIMB;
                 } else {
@@ -15308,7 +15308,7 @@ void func_80851314(Player* this) {
 void func_80851368(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->stateFlags1 |= PLAYER_STATE1_27;
     this->stateFlags2 |= PLAYER_STATE2_10;
-    this->stateFlags1 &= ~(PLAYER_STATE1_18 | PLAYER_STATE1_19);
+    this->stateFlags1 &= ~(PLAYER_STATE1_JUMPING | PLAYER_STATE1_19);
 
     Player_AnimPlayLoop(play, this, &gPlayerAnim_link_swimer_swim);
 }
