@@ -12105,7 +12105,7 @@ void Player_Update(Actor* thisx, PlayState* play) {
         Player_DetachHeldActor(play, this);
     }
 
-    if (this->stateFlags1 & (PLAYER_STATE1_5 | PLAYER_STATE1_29)) {
+    if (this->stateFlags1 & (PLAYER_STATE1_INPUT_DISABLED | PLAYER_STATE1_29)) {
         bzero(&input, sizeof(input));
     } else {
         input = play->state.input[0];
