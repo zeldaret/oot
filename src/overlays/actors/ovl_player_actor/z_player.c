@@ -4023,7 +4023,7 @@ s32 Player_CalcSpeedAndYawFromControlStick(PlayState* play, Player* this, f32* o
     f32 speedCap;
 
     if ((this->unk_6AD != 0) || (play->transitionTrigger == TRANS_TRIGGER_START) ||
-        (this->stateFlags1 & PLAYER_STATE1_0)) {
+        (this->stateFlags1 & PLAYER_STATE1_LOADING)) {
         *outSpeedTarget = 0.0f;
         *outYawTarget = this->actor.shape.rot.y;
     } else {
@@ -4250,7 +4250,7 @@ static s32 (*sActionHandlerFuncs[])(Player* this, PlayState* play) = {
 s32 Player_TryActionHandlerList(PlayState* play, Player* this, s8* actionHandlerList, s32 updateUpperBody) {
     s32 i;
 
-    if (!(this->stateFlags1 & (PLAYER_STATE1_0 | PLAYER_STATE1_DEAD | PLAYER_STATE1_29))) {
+    if (!(this->stateFlags1 & (PLAYER_STATE1_LOADING | PLAYER_STATE1_DEAD | PLAYER_STATE1_29))) {
         if (updateUpperBody) {
             sUpperBodyIsBusy = Player_UpdateUpperBody(this, play);
 
@@ -5158,7 +5158,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
         exitIndex = 0;
 
         if (!(this->stateFlags1 & PLAYER_STATE1_DEAD) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
-            (this->csAction == PLAYER_CSACTION_NONE) && !(this->stateFlags1 & PLAYER_STATE1_0) &&
+            (this->csAction == PLAYER_CSACTION_NONE) && !(this->stateFlags1 & PLAYER_STATE1_LOADING) &&
             (((poly != NULL) && (exitIndex = SurfaceType_GetExitIndex(&play->colCtx, poly, bgId), exitIndex != 0)) ||
              (func_8083816C(sFloorType) && (this->floorProperty == FLOOR_PROPERTY_12)))) {
             s32 sp34 = this->unk_A84 - (s32)this->actor.world.pos.y;
@@ -5237,7 +5237,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
                 }
             }
 
-            this->stateFlags1 |= PLAYER_STATE1_0 | PLAYER_STATE1_29;
+            this->stateFlags1 |= PLAYER_STATE1_LOADING | PLAYER_STATE1_29;
 
             func_80835E44(play, CAM_SET_SCENE_TRANSITION);
 
@@ -10218,7 +10218,7 @@ void Player_Action_80845CA4(Player* this, PlayState* play) {
             s32 sp30 = 20;
             s32 sp2C;
 
-            if (this->stateFlags1 & PLAYER_STATE1_0) {
+            if (this->stateFlags1 & PLAYER_STATE1_LOADING) {
                 sp34 = gSaveContext.entranceSpeed;
 
                 if (sConveyorSpeed != CONVEYOR_SPEED_DISABLED) {
@@ -11073,9 +11073,10 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
         if (this->stateFlags1 & PLAYER_STATE1_31) {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
             flags = UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4 | UPDBGCHECKINFO_FLAG_5;
-        } else if ((this->stateFlags1 & PLAYER_STATE1_0) && ((this->unk_A84 - (s32)this->actor.world.pos.y) >= 100)) {
+        } else if ((this->stateFlags1 & PLAYER_STATE1_LOADING) &&
+                   ((this->unk_A84 - (s32)this->actor.world.pos.y) >= 100)) {
             flags = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4 | UPDBGCHECKINFO_FLAG_5;
-        } else if (!(this->stateFlags1 & PLAYER_STATE1_0) &&
+        } else if (!(this->stateFlags1 & PLAYER_STATE1_LOADING) &&
                    ((Player_Action_80845EF8 == this->actionFunc) || (Player_Action_80845CA4 == this->actionFunc))) {
             this->actor.bgCheckFlags &= ~(BGCHECKFLAG_WALL | BGCHECKFLAG_PLAYER_WALL_INTERACT);
             flags = UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4 | UPDBGCHECKINFO_FLAG_5;
@@ -11825,7 +11826,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             sFloorType = FLOOR_TYPE_0;
             this->floorProperty = FLOOR_PROPERTY_0;
 
-            if (!(this->stateFlags1 & PLAYER_STATE1_0) && (this->stateFlags1 & PLAYER_STATE1_23)) {
+            if (!(this->stateFlags1 & PLAYER_STATE1_LOADING) && (this->stateFlags1 & PLAYER_STATE1_23)) {
                 EnHorse* rideActor = (EnHorse*)this->rideActor;
                 CollisionPoly* sp5C;
                 s32 sp58;
@@ -13009,7 +13010,7 @@ void Player_Action_8084C760(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_6;
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        if (!(this->stateFlags1 & PLAYER_STATE1_0)) {
+        if (!(this->stateFlags1 & PLAYER_STATE1_LOADING)) {
             // While inside a crawlspace, player's skeleton does not move
             if (this->skelAnime.movementFlags != 0) {
                 this->skelAnime.movementFlags = 0;

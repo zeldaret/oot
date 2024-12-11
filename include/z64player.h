@@ -703,7 +703,7 @@ typedef struct WeaponInfo {
 
 #define LEDGE_DIST_MAX 399.96002f
 
-#define PLAYER_STATE1_0 (1 << 0)
+#define PLAYER_STATE1_LOADING (1 << 0) // Transitioning to new scene
 #define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1) // Bottle is swung; Bottle is active and can catch things
 #define PLAYER_STATE1_2 (1 << 2)
 #define PLAYER_STATE1_3 (1 << 3)
