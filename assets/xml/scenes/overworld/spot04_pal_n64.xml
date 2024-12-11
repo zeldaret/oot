@@ -11,16 +11,10 @@
         <Cutscene Name="gKokiriForestCreditsCameraPanUnusedCs" Offset="0xB810"/>
 
         <Cutscene Name="gKokiriForestDekuSproutPart1Cs" Offset="0xBCE0"/>
-        <!-- gCutsceneMapDekuSproutPart2Cs -->
         <Cutscene Name="gKokiriForestDekuSproutPart3Cs" Offset="0xCA00"/>
 
         <Cutscene Name="gKokiriForestKokiriEmeraldPart1Cs" Offset="0x8DB0"/>
-        <!-- gCutsceneMapKokiriEmeraldPart2Cs -->
-        <!-- gCutsceneMapKokiriEmeraldPart3Cs -->
-        <!-- gGerudoValleyKokiriEmeraldPart4Cs -->
-        <!-- gGerudoValleyKokiriEmeraldPart5Cs -->
         <Cutscene Name="gKokiriForestKokiriEmeraldPart7Cs" Offset="0x8954"/>
-        <!-- gCutsceneMapKokiriEmeraldPart8Cs -->
         <Cutscene Name="gKokiriForestKokiriEmeraldPart9Cs" Offset="0x93B0"/>
 
         <Scene Name="spot04_scene" Offset="0x0"/>
