@@ -731,17 +731,17 @@ void Player_ReleaseLockOn(Player* this) {
 /**
  * This function aims to clear Z-Target related state when it isn't in use.
  * It also handles setting a specific free fall related state that is interntwined with Z-Targeting.
- * TODO: Learn more about this and give a name to PLAYER_STATE1_19
+ * TODO: Learn more about this and give a name to PLAYER_STATE1_FREEFALL
  */
 void Player_ClearZTargeting(Player* this) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
-        (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
+        (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_FREEFALL)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
         this->stateFlags1 &= ~(PLAYER_STATE1_Z_TARGETING | PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS | PLAYER_STATE1_PARALLEL |
-                               PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE);
-    } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_21))) {
-        this->stateFlags1 |= PLAYER_STATE1_19;
+                               PLAYER_STATE1_18 | PLAYER_STATE1_FREEFALL | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE);
+    } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_FREEFALL | PLAYER_STATE1_21))) {
+        this->stateFlags1 |= PLAYER_STATE1_FREEFALL;
     }
 
     Player_ReleaseLockOn(this);
