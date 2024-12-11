@@ -781,7 +781,8 @@ void func_80083108(PlayState* play) {
                 }
 
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
-            } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
+            } else if ((player->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER) ||
+                       (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     gSaveContext.buttonStatus[0] = BTN_DISABLED;
                     gSaveContext.buttonStatus[1] = BTN_DISABLED;
@@ -2890,7 +2891,7 @@ void Interface_DrawItemButtons(PlayState* play) {
                 (gSaveContext.hudVisibilityMode == HUD_VISIBILITY_NOTHING_ALT) ||
                 (gSaveContext.hudVisibilityMode == HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE)) {
                 temp = 0;
-            } else if ((player->stateFlags1 & PLAYER_STATE1_21) ||
+            } else if ((player->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER) ||
                        (Player_GetEnvironmentalHazard(play) == PLAYER_ENV_HAZARD_UNDERWATER_FREE) ||
                        (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
                 temp = 70;
