@@ -503,7 +503,7 @@ void EnSa_Init(Actor* thisx, PlayState* play) {
         case 4:
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
-            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gKokiriForestSariaGreetingCs);
             gSaveContext.cutsceneTrigger = 1;
             EnSa_ChangeAnim(this, ENSA_ANIM1_4);
             this->actionFunc = func_80AF68E4;
