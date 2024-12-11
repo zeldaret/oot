@@ -12,7 +12,7 @@
 #include "assets/objects/object_kusa/object_kusa.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_THROW_ONLY)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_THROW_ONLY)
 
 void EnKusa_Init(Actor* thisx, PlayState* play);
 void EnKusa_Destroy(Actor* thisx, PlayState* play2);
@@ -88,8 +88,8 @@ static s16 sFragmentScales[] = { 108, 102, 96, 84, 66, 55, 42, 38 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 400, ICHAIN_CONTINUE),         ICHAIN_F32_DIV1000(gravity, -3200, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(minVelocityY, -17000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),         ICHAIN_F32(uncullZoneDownward, 120, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(minVelocityY, -17000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 100, ICHAIN_CONTINUE),      ICHAIN_F32(cullingVolumeDownward, 120, ICHAIN_STOP),
 };
 
 void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
@@ -234,7 +234,7 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        this->actor.uncullZoneForward += 1000.0f;
+        this->actor.cullingVolumeDistance += 1000.0f;
     }
 
     EnKusa_InitCollider(thisx, play);
@@ -286,13 +286,13 @@ void EnKusa_WaitForObject(EnKusa* this, PlayState* play) {
 
         this->actor.draw = EnKusa_Draw;
         this->actor.objectSlot = this->requiredObjectSlot;
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 }
 
 void EnKusa_SetupMain(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_Main);
-    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void EnKusa_Main(EnKusa* this, PlayState* play) {
@@ -340,7 +340,7 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
 void EnKusa_SetupLiftedUp(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_LiftedUp);
     this->actor.room = -1;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void EnKusa_LiftedUp(EnKusa* this, PlayState* play) {

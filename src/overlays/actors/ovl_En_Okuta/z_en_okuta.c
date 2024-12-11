@@ -146,7 +146,7 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
     } else {
         ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawCircle, 18.0f);
         thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-        thisx->flags |= ACTOR_FLAG_4;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, thisx, &sProjectileColliderInit);
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);

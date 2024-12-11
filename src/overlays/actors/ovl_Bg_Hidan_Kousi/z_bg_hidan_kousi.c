@@ -7,7 +7,7 @@
 #include "z_bg_hidan_kousi.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgHidanKousi_Init(Actor* thisx, PlayState* play);
 void BgHidanKousi_Destroy(Actor* thisx, PlayState* play);

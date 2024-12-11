@@ -5,7 +5,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnNiwLady_Init(Actor* thisx, PlayState* play);
 void EnNiwLady_Destroy(Actor* thisx, PlayState* play);
@@ -88,7 +88,7 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ねぇちゃんうっふん ☆☆☆☆☆ %d\n" VT_RST, this->unk_278);
     PRINTF("\n\n");
     this->actionFunc = func_80AB9F24;
-    thisx->uncullZoneForward = 600.0f;
+    thisx->cullingVolumeDistance = 600.0f;
 }
 
 void EnNiwLady_Destroy(Actor* thisx, PlayState* play) {

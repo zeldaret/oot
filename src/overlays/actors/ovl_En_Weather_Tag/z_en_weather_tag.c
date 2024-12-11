@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnWeatherTag_Init(Actor* thisx, PlayState* play);
 void EnWeatherTag_Destroy(Actor* thisx, PlayState* play);
