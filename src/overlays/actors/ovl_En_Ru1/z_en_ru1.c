@@ -859,7 +859,7 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((func_80AEC5FC(this, play)) && (!Play_InCsMode(play)) &&
-        (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
+        (!(player->stateFlags1 & (PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
         play->csCtx.script = D_80AF0880;

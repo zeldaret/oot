@@ -360,7 +360,7 @@ void func_809CEA24(EnBw* this, PlayState* play) {
                                    this->actor.speed * 1000.0f, 0);
             }
             if ((this->unk_224 == 0) || (ABS(this->actor.yDistToPlayer) > 60.0f) ||
-                (player2->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+                (player2->stateFlags1 & (PLAYER_STATE1_HANGING_OFF_LEDGE | PLAYER_STATE1_14))) {
                 this->unk_221 = 3;
                 this->unk_224 = 150;
                 this->unk_250 = 0.0f;
