@@ -282,7 +282,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play) {
             PRINTF("実 \n");
             PRINTF("実 \n");
             PRINTF("実 \n");
-            SET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE_OR_POACHERS_SAW);
+            SET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE);
         } else {
             // "stick"
             PRINTF("棒 \n");
