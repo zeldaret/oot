@@ -356,7 +356,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
 
     if ((ABS(yaw) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
         if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
-                                     PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
+                                     PLAYER_STATE1_19 | PLAYER_STATE1_CLIMBING_LADDER)) &&
             !(player->stateFlags2 & PLAYER_STATE2_7)) {
             if (this->playerStunWaitTimer == 0) {
                 if (!(this->rdFlags & 0x80)) {
@@ -440,7 +440,7 @@ void EnRd_WalkToHome(EnRd* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
-                                 PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
+                                 PLAYER_STATE1_19 | PLAYER_STATE1_CLIMBING_LADDER)) &&
         !(player->stateFlags2 & PLAYER_STATE2_7) &&
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
         this->actor.attentionRangeType = ATTENTION_RANGE_0;

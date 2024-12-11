@@ -1795,7 +1795,7 @@ void func_80832440(PlayState* play, Player* this) {
     func_80832340(play, this);
     Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
 
-    this->stateFlags1 &= ~(PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_20 | PLAYER_STATE1_21);
+    this->stateFlags1 &= ~(PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_20 | PLAYER_STATE1_CLIMBING_LADDER);
     this->stateFlags2 &= ~(PLAYER_STATE2_4 | PLAYER_STATE2_7 | PLAYER_STATE2_CRAWLING);
 
     this->actor.shape.rot.x = 0;
@@ -4645,7 +4645,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
         } else if ((damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE) ||
                    (damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) ||
                    !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-                   (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) {
+                   (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_CLIMBING_LADDER))) {
             Player_SetupAction(play, this, Player_Action_8084377C, 0);
 
             this->stateFlags3 |= PLAYER_STATE3_1;
@@ -4878,7 +4878,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                         }
                     }
 
-                    if (!(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) {
+                    if (!(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_CLIMBING_LADDER))) {
                         this->speedXZ = -18.0f;
                         this->yaw = this->actor.shape.rot.y;
                     }
@@ -5757,7 +5757,7 @@ s32 func_8083A6AC(Player* this, PlayState* play) {
                 this->yaw += 0x8000;
                 this->actor.shape.rot.y = this->yaw;
 
-                this->stateFlags1 |= PLAYER_STATE1_21;
+                this->stateFlags1 |= PLAYER_STATE1_CLIMBING_LADDER;
                 Player_StartAnimMovement(play, this,
                                          ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
                                              ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_ENABLE_MOVEMENT |
@@ -7519,7 +7519,7 @@ s32 func_8083EC18(Player* this, PlayState* play, u32 wallFlags) {
                     LinkAnimationHeader* anim;
 
                     Player_SetupWaitForPutAway(play, this, func_8083A3B0);
-                    this->stateFlags1 |= PLAYER_STATE1_21;
+                    this->stateFlags1 |= PLAYER_STATE1_CLIMBING_LADDER;
                     this->stateFlags1 &= ~PLAYER_STATE1_27;
 
                     if ((sp8C != 0) || (wallFlags & WALL_FLAG_1)) {
@@ -7849,7 +7849,7 @@ void func_8083FB14(Player* this, PlayState* play) {
 }
 
 void func_8083FB7C(Player* this, PlayState* play) {
-    this->stateFlags1 &= ~(PLAYER_STATE1_21 | PLAYER_STATE1_27);
+    this->stateFlags1 &= ~(PLAYER_STATE1_CLIMBING_LADDER | PLAYER_STATE1_27);
     func_80837B9C(this, play);
     this->speedXZ = -0.4f;
 }
@@ -10917,7 +10917,7 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                     } else {
                         doAction = DO_ACTION_CHECK;
                     }
-                } else if ((this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_21)) ||
+                } else if ((this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_CLIMBING_LADDER)) ||
                            ((this->stateFlags1 & PLAYER_STATE1_23) && (this->stateFlags2 & PLAYER_STATE2_22))) {
                     doAction = DO_ACTION_DOWN;
                 } else if (this->stateFlags2 & PLAYER_STATE2_DO_ACTION_ENTER) {
@@ -11373,13 +11373,14 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
             } else if (this->stateFlags1 & (PLAYER_STATE1_PARALLEL | PLAYER_STATE1_LOCK_ON_FORCED_TO_RELEASE)) {
                 if (func_8002DD78(this) || func_808334B4(this)) {
                     camMode = CAM_MODE_Z_AIM;
-                } else if (this->stateFlags1 & PLAYER_STATE1_21) {
+                } else if (this->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER) {
                     camMode = CAM_MODE_Z_WALL_CLIMB;
                 } else {
                     camMode = CAM_MODE_Z_PARALLEL;
                 }
-            } else if (this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_21)) {
-                if ((Player_Action_80845668 == this->actionFunc) || (this->stateFlags1 & PLAYER_STATE1_21)) {
+            } else if (this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_CLIMBING_LADDER)) {
+                if ((Player_Action_80845668 == this->actionFunc) ||
+                    (this->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER)) {
                     camMode = CAM_MODE_WALL_CLIMB;
                 } else {
                     camMode = CAM_MODE_JUMP;
@@ -11813,7 +11814,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             Actor_UpdateVelocityXZGravity(&this->actor);
 
             if ((this->pushedSpeed != 0.0f) && !Player_InCsMode(play) &&
-                !(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21)) &&
+                !(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_CLIMBING_LADDER)) &&
                 (Player_Action_80845668 != this->actionFunc) && (Player_Action_808507F4 != this->actionFunc)) {
                 this->actor.velocity.x += this->pushedSpeed * Math_SinS(this->pushedYaw);
                 this->actor.velocity.z += this->pushedSpeed * Math_CosS(this->pushedYaw);
@@ -11880,7 +11881,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             func_8083D53C(play, this);
 
             if ((this->actor.category == ACTORCAT_PLAYER) && (gSaveContext.save.info.playerData.health == 0)) {
-                if (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21)) {
+                if (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_CLIMBING_LADDER)) {
                     func_80832440(play, this);
                     func_80837B9C(this, play);
                 } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->stateFlags1 & PLAYER_STATE1_27)) {
@@ -11918,7 +11919,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         if (this->csAction != PLAYER_CSACTION_NONE) {
             if ((this->csAction != PLAYER_CSACTION_7) ||
-                !(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21 | PLAYER_STATE1_26))) {
+                !(this->stateFlags1 &
+                  (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_CLIMBING_LADDER | PLAYER_STATE1_26))) {
                 this->unk_6AD = 3;
             } else if (Player_Action_CsAction != this->actionFunc) {
                 func_80852944(play, this, NULL);
@@ -12870,7 +12872,7 @@ void Player_Action_8084BF1C(Player* this, PlayState* play) {
                     if (this->actor.world.pos.y < temp_f0) {
                         if (this->av1.actionVar1 != 0) {
                             this->actor.world.pos.y = temp_f0;
-                            this->stateFlags1 &= ~PLAYER_STATE1_21;
+                            this->stateFlags1 &= ~PLAYER_STATE1_CLIMBING_LADDER;
                             func_8083A5C4(play, this, this->actor.wallPoly, this->ageProperties->unk_3C,
                                           &gPlayerAnim_link_normal_jump_climb_up_free);
                             this->yaw += 0x8000;
@@ -12962,13 +12964,13 @@ void Player_Action_8084C5F8(Player* this, PlayState* play) {
     interruptResult = Player_TryActionInterrupt(play, this, &this->skelAnime, 4.0f);
 
     if (interruptResult == PLAYER_INTERRUPT_NEW_ACTION) {
-        this->stateFlags1 &= ~PLAYER_STATE1_21;
+        this->stateFlags1 &= ~PLAYER_STATE1_CLIMBING_LADDER;
         return;
     }
 
     if ((interruptResult >= PLAYER_INTERRUPT_MOVE) || LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083C0E8(this, play);
-        this->stateFlags1 &= ~PLAYER_STATE1_21;
+        this->stateFlags1 &= ~PLAYER_STATE1_CLIMBING_LADDER;
         return;
     }
 
