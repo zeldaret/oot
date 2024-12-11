@@ -418,7 +418,7 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
                 return 0x402D;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
                 return 0x4010;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_30)) {

@@ -261,7 +261,7 @@ void func_8098E960(DemoSa* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_FOREST) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = 1;
-        play->csCtx.script = D_8099010C;
+        play->csCtx.script = gForestMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_FOREST);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
