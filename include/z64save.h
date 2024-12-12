@@ -700,7 +700,7 @@ typedef enum LinkAge {
 #define ITEMGETINF_1C 0x1C
 #define ITEMGETINF_1D 0x1D
 #define ITEMGETINF_FOREST_STAGE_STICK_UPGRADE 0x1E
-// This flag is shared by two events; It is set when obtaining the Deku Nut upgrade at the Forest Stage and when obtaining Poachers Saw. 
+// This flag is shared by two events; It is set when obtaining the Deku Nut upgrade at the Forest Stage and when obtaining Poachers Saw.
 // This will make obtaining the Deku Nut upgrade impossible if Poachers Saw is obtained first.
 // This flag is never read for the Poachers Saw event, so the overlap only causes an issue for the Deku Nut Upgrade. It will not prevent obtaining Poachers Saw.
 #define ITEMGETINF_FOREST_STAGE_NUT_UPGRADE 0x1F
