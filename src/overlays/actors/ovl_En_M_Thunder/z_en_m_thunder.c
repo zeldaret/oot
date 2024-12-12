@@ -76,7 +76,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
     Actor_SetScale(&this->actor, 0.1f);
     this->unk_1CA = 0;
 
-    if (player->stateFlags2 & PLAYER_STATE2_17) {
+    if (player->stateFlags2 & PLAYER_STATE2_SPIN_ATTACKING) {
         if (!gSaveContext.save.info.playerData.isMagicAcquired || (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
             (PARAMS_GET_S(this->actor.params, 8, 8) &&
              !(Magic_RequestChange(play, PARAMS_GET_S(this->actor.params, 8, 8), MAGIC_CONSUME_NOW)))) {
@@ -88,7 +88,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
             return;
         }
 
-        player->stateFlags2 &= ~PLAYER_STATE2_17;
+        player->stateFlags2 &= ~PLAYER_STATE2_SPIN_ATTACKING;
         this->unk_1CA = 1;
         this->collider.elem.atDmgInfo.dmgFlags = D_80AA044C[this->unk_1C7];
         this->unk_1C6 = 1;
@@ -123,7 +123,7 @@ void func_80A9F314(PlayState* play, f32 arg1) {
 void func_80A9F350(EnMThunder* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (player->stateFlags2 & PLAYER_STATE2_17) {
+    if (player->stateFlags2 & PLAYER_STATE2_SPIN_ATTACKING) {
         if (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
             Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -169,7 +169,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         Rumble_Request(0.0f, (s32)(player->unk_858 * 150.0f), 2, (s32)(player->unk_858 * 150.0f));
     }
 
-    if (player->stateFlags2 & PLAYER_STATE2_17) {
+    if (player->stateFlags2 & PLAYER_STATE2_SPIN_ATTACKING) {
         if ((child != NULL) && (child->update != NULL)) {
             child->parent = NULL;
         }
@@ -184,7 +184,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
             Actor_Kill(&this->actor);
             return;
         } else {
-            player->stateFlags2 &= ~PLAYER_STATE2_17;
+            player->stateFlags2 &= ~PLAYER_STATE2_SPIN_ATTACKING;
             if (PARAMS_GET_S(this->actor.params, 8, 8)) {
                 gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
             }
