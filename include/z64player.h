@@ -762,7 +762,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_23 (1 << 23)
 #define PLAYER_STATE2_24 (1 << 24)
 #define PLAYER_STATE2_25 (1 << 25)
-#define PLAYER_STATE2_26 (1 << 26)
+#define PLAYER_STATE2_REFLECTION (1 << 26) // Handles Dark Link's reflection
 #define PLAYER_STATE2_USING_OCARINA (1 << 27) // Playing the ocarina or warping out from an ocarina warp song
 #define PLAYER_STATE2_IDLE_FIDGET (1 << 28) // Playing a fidget idle animation (under typical circumstances, see `Player_ChooseNextIdleAnim` for more info)
 #define PLAYER_STATE2_29 (1 << 29)

@@ -11935,9 +11935,10 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         this->stateFlags1 &= ~(PLAYER_STATE1_SWINGING_BOTTLE | PLAYER_STATE1_9 | PLAYER_STATE1_CHARGING_SPIN_ATTACK |
                                PLAYER_STATE1_SHIELDING);
-        this->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_2 | PLAYER_STATE2_3 | PLAYER_STATE2_5 | PLAYER_STATE2_6 |
-                               PLAYER_STATE2_8 | PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND | PLAYER_STATE2_12 |
-                               PLAYER_STATE2_14 | PLAYER_STATE2_DO_ACTION_ENTER | PLAYER_STATE2_22 | PLAYER_STATE2_26);
+        this->stateFlags2 &=
+            ~(PLAYER_STATE2_0 | PLAYER_STATE2_2 | PLAYER_STATE2_3 | PLAYER_STATE2_5 | PLAYER_STATE2_6 |
+              PLAYER_STATE2_8 | PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND | PLAYER_STATE2_12 | PLAYER_STATE2_14 |
+              PLAYER_STATE2_DO_ACTION_ENTER | PLAYER_STATE2_22 | PLAYER_STATE2_REFLECTION);
         this->stateFlags3 &= ~PLAYER_STATE3_4;
 
         func_80847298(this);
@@ -12265,7 +12266,7 @@ void Player_Draw(Actor* thisx, PlayState* play2) {
             }
         }
 
-        if (this->stateFlags2 & PLAYER_STATE2_26) {
+        if (this->stateFlags2 & PLAYER_STATE2_REFLECTION) {
             f32 sp78 = BINANG_TO_RAD_ALT2((u16)(play->gameplayFrames * 600));
             f32 sp74 = BINANG_TO_RAD_ALT2((u16)(play->gameplayFrames * 1000));
 
