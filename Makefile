@@ -240,6 +240,7 @@ SBC           := tools/audio/sbc
 SFC           := tools/audio/sfc
 SFPATCH       := tools/audio/sfpatch
 ATBLGEN       := tools/audio/atblgen
+AFILE_SIZES   := tools/audio/afile_sizes
 # We want linemarkers in sequence assembly files for better assembler error messages
 SEQ_CPP       := $(CPP) -x assembler-with-cpp -fno-dollars-in-identifiers
 SEQ_CPPFLAGS  := -D_LANGUAGE_ASEQ -DMML_VERSION=MML_VERSION_OOT $(CPP_DEFINES) -I include -I include/audio -I include/tables/sfx -I $(BUILD_DIR)/assets/audio/soundfonts
@@ -844,7 +845,8 @@ $(BUILD_DIR)/assets/audio/soundfonts/%.o: $(BUILD_DIR)/assets/audio/soundfonts/%
 # patch defined symbols to be ABS symbols so that they remain file-relative offsets forever
 	$(SFPATCH) $(@:.o=.tmp2) $(@:.o=.tmp2)
 # write start and size symbols afterwards, filename != symbolic name so source symbolic name from the .name file written by sfc
-	$(OBJCOPY) --add-symbol $$(cat $(<:.c=.name))_Start=.rodata:0,global --redefine-sym __LEN__=$$(cat $(<:.c=.name))_Size $(@:.o=.tmp2) $@
+# also write a .note.name section containing the symbolic name of the soundfont
+	$(OBJCOPY) --add-symbol $$(cat $(<:.c=.name) | head -c -1)_Start=.rodata:0,global --redefine-sym __LEN__=$$(cat $(<:.c=.name) | head -c -1)_Size --add-section .note.name=$(<:.c=.name) $(@:.o=.tmp2) $@
 # cleanup temp files
 	@$(RM) $(@:.o=.tmp) $(@:.o=.tmp2)
 ifeq ($(AUDIO_BUILD_DEBUG),1)
@@ -903,6 +905,16 @@ endif
 
 $(BUILD_DIR)/assets/audio/sequence_font_table.o: $(BUILD_DIR)/assets/audio/sequence_font_table.s
 	$(AS) $(ASFLAGS) $< -o $@
+
+# make headers with file sizes and amounts
+
+$(BUILD_DIR)/src/audio/session_config.o: $(BUILD_DIR)/assets/audio/soundfont_sizes.h $(BUILD_DIR)/assets/audio/sequence_sizes.h
+
+$(BUILD_DIR)/assets/audio/soundfont_sizes.h: $(SOUNDFONT_O_FILES)
+	$(AFILE_SIZES) $@ NUM_SOUNDFONTS SOUNDFONT_SIZES .rodata $^
+
+$(BUILD_DIR)/assets/audio/sequence_sizes.h: $(SEQUENCE_O_FILES)
+	$(AFILE_SIZES) $@ NUM_SEQUENCES SEQUENCE_SIZES .data $^
 
 # Extra audiobank padding that doesn't belong to any soundfont file
 $(BUILD_DIR)/assets/audio/audiobank_padding.o:

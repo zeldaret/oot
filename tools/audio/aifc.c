@@ -534,14 +534,19 @@ aifc_read(aifc_data *af, const char *path, uint8_t *match_buf, size_t *match_buf
 void
 aifc_dispose(aifc_data *af)
 {
-    free(af->book_state);
-    af->has_book = false;
+    if (af->has_book) {
+        free(af->book_state);
+        af->has_book = false;
+    }
 
     af->has_loop = false;
 
-    free(af->compression_name);
+    if (af->compression_name != NULL)
+        free(af->compression_name);
 
-    for (size_t i = 0; i < af->num_markers; i++)
-        free((*af->markers)[i].label);
-    free(af->markers);
+    if (af->markers != NULL) {
+        for (size_t i = 0; i < af->num_markers; i++)
+            free((*af->markers)[i].label);
+        free(af->markers);
+    }
 }

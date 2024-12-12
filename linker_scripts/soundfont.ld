@@ -4,13 +4,14 @@ OUTPUT_ARCH (mips)
 
 SECTIONS {
 
-    .rodata :
+    .rodata ALIGN(16) :
     {
         *(.data*)
         *(.rodata*)
         . = ALIGN(16);
-        __LEN__ = . - ADDR(.rodata);
     }
+
+    __LEN__ = ABSOLUTE(SIZEOF(.rodata));
 
     /DISCARD/ :
     {

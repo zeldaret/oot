@@ -558,10 +558,9 @@ _RESET_SECTION
 .macro .startseq name
     /* Begin a sequence. */
 
-    /* Write the sequence name into a special .name section */
-    .pushsection .name, "", @note
+    /* Write the sequence name into a special .note.name section */
+    .pushsection .note.name, "", @note
         .asciz "\name"
-        .balign 4
     .popsection
 
     /* Reset section and write start symbol. */

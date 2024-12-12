@@ -1,6 +1,5 @@
 /* SPDX-FileCopyrightText: Copyright (C) 2024 ZeldaRET */
 /* SPDX-License-Identifier: CC0-1.0 */
-#define _GNU_SOURCE
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdbool.h>
