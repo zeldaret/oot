@@ -3413,7 +3413,7 @@ s32 Player_SetupAction(PlayState* play, Player* this, PlayerActionFunc actionFun
 
     Player_FinishAnimMovement(this);
 
-    this->stateFlags1 &= ~(PLAYER_STATE1_2 | PLAYER_STATE1_TALKING | PLAYER_STATE1_26 | PLAYER_STATE1_28 |
+    this->stateFlags1 &= ~(PLAYER_STATE1_2 | PLAYER_STATE1_TALKING | PLAYER_STATE1_DAMAGED | PLAYER_STATE1_28 |
                            PLAYER_STATE1_29 | PLAYER_STATE1_31);
     this->stateFlags2 &= ~(PLAYER_STATE2_19 | PLAYER_STATE2_USING_OCARINA | PLAYER_STATE2_IDLE_FIDGET);
     this->stateFlags3 &= ~(PLAYER_STATE3_1 | PLAYER_STATE3_3 | PLAYER_STATE3_FLYING_WITH_HOOKSHOT);
@@ -4726,7 +4726,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
     func_80832564(play, this);
 
-    this->stateFlags1 |= PLAYER_STATE1_26;
+    this->stateFlags1 |= PLAYER_STATE1_DAMAGED;
 
     if (anim != NULL) {
         Player_AnimPlayOnceAdjusted(play, this, anim);
@@ -4891,7 +4891,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 return 0;
             }
 
-            if ((this->unk_A87 != 0) || (this->invincibilityTimer > 0) || (this->stateFlags1 & PLAYER_STATE1_26) ||
+            if ((this->unk_A87 != 0) || (this->invincibilityTimer > 0) || (this->stateFlags1 & PLAYER_STATE1_DAMAGED) ||
                 (this->csAction != PLAYER_CSACTION_NONE) || (this->meleeWeaponQuads[0].base.atFlags & AT_HIT) ||
                 (this->meleeWeaponQuads[1].base.atFlags & AT_HIT)) {
                 return 0;
@@ -9299,7 +9299,7 @@ void Player_Action_8084377C(Player* this, PlayState* play) {
                 this->av2.actionVar2++;
             } else {
                 Player_SetupAction(play, this, Player_Action_80843954, 0);
-                this->stateFlags1 |= PLAYER_STATE1_26;
+                this->stateFlags1 |= PLAYER_STATE1_DAMAGED;
             }
 
             Player_AnimPlayOnce(play, this,
@@ -9325,7 +9325,7 @@ void Player_Action_80843954(Player* this, PlayState* play) {
             this->av2.actionVar2++;
         } else {
             Player_SetupAction(play, this, Player_Action_80843A38, 0);
-            this->stateFlags1 |= PLAYER_STATE1_26;
+            this->stateFlags1 |= PLAYER_STATE1_DAMAGED;
         }
 
         Player_AnimPlayOnceAdjusted(play, this,
@@ -11918,7 +11918,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         if (this->csAction != PLAYER_CSACTION_NONE) {
             if ((this->csAction != PLAYER_CSACTION_7) ||
-                !(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21 | PLAYER_STATE1_26))) {
+                !(this->stateFlags1 &
+                  (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21 | PLAYER_STATE1_DAMAGED))) {
                 this->unk_6AD = 3;
             } else if (Player_Action_CsAction != this->actionFunc) {
                 func_80852944(play, this, NULL);
@@ -12026,7 +12027,8 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 CollisionCheck_SetOC(play, &play->colChkCtx, &this->cylinder.base);
             }
 
-            if (!(this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_26)) && (this->invincibilityTimer <= 0)) {
+            if (!(this->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_DAMAGED)) &&
+                (this->invincibilityTimer <= 0)) {
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->cylinder.base);
 
                 if (this->invincibilityTimer < 0) {

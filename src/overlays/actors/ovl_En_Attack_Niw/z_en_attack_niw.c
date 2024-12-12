@@ -362,7 +362,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
         if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
             (cucco->timer9 == 0) &&
 #if OOT_VERSION < NTSC_1_1
-            !(player->stateFlags1 & PLAYER_STATE1_26)
+            !(player->stateFlags1 & PLAYER_STATE1_DAMAGED)
 #else
             (player->invincibilityTimer == 0)
 #endif
