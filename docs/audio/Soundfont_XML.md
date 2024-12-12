@@ -1,6 +1,11 @@
 # Soundfont XML Format Specification
 
-Soundfont XMLs
+Soundfont XMLs describe the layout of a single soundfont. These package raw samples together into instruments, of which there are three kinds:
+- **Effects**: These are simple sound effects that just play a single sample without any modulation.
+- **Drums**: These define a MIDI-style percussion key map.
+- **Instruments**: These are instruments that may be played at any key with up to three voices and may be modulated by an envelope.
+
+In the specification, `Note Name`s can be either a MIDI note name e.g. `C4` or it may be a **Zelda64** note number, which are related to MIDI note numbers ($n$) by $(n - 21) \mod 128$.
 
 ---
 
@@ -21,7 +26,7 @@ Soundfont XMLs
 ```
 Begins a new soundfont.
 
-**Properties**
+**Attributes**
 - **Name**: Soundfont symbol name. Must be a valid C identifier.
 - **Index**: Soundfont index. Must be an integer.
 - **Medium**: Storage medium. Must be an enum name from `SampleMedium`.
@@ -34,7 +39,7 @@ Begins a new soundfont.
 - <ins>[Optional]</ins> **PadToSize**: For matching only. Specifies the total file size the result output should be padded to.
 - <ins>[Optional]</ins> **NumInstruments**: For matching only. Specifies the total number of instrument pointers. Usually this is automatically assigned based on `max(program_number) + 1` but some vanilla banks don't match this way.
 
-**Sub-Attributes**
+**Tags**
 
 -
     ```xml
@@ -42,11 +47,11 @@ Begins a new soundfont.
     ```
     Lists envelopes defined in this soundfont.
 
-    **Properties**
+    **Attributes**
 
     N/A
 
-    **Sub-Attributes**
+    **Tags**
 
     -
         ```xml
@@ -57,12 +62,12 @@ Begins a new soundfont.
         ```
         Starts a new envelope.
 
-        **Properties**
+        **Attributes**
 
         - **Name**: Unique name for this envelope. Must be a valid C identifier.
-        - **Release**: Release rate index for this envelope
+        - **Release**: Release rate index (into `gAudioCtx.adsrDecayTable`) for this envelope
 
-        **Sub-Attributes**
+        **Tags**
 
         -
             ```xml
@@ -73,7 +78,7 @@ Begins a new soundfont.
             ```
             Add a point to the envelope at (delay, arg)
 
-            **Properties**
+            **Attributes**
 
             - **Delay**: Duration until the next point
             - **Arg**: Value of the envelope at this point
@@ -104,7 +109,7 @@ Begins a new soundfont.
             ```
             Insert a ADSR_GOTO command
 
-            **Properties**
+            **Attributes**
 
             - **Index**: Index of the envelope point to jump to
 
@@ -129,26 +134,26 @@ Begins a new soundfont.
     ```
     Begins a list of samples used in this Soundfont.
 
-    **Properties**
+    **Attributes**
 
     - <ins>[Optional]</ins> **IsDD**: Whether all the samples in the list are on the Disk Drive. The sample data will come from the samplebank `SampleBankDD`. **Default is `false`.** **NOTE this is not fully implemented, it should always be `false`.**
     - <ins>[Optional]</ins> **Cached**: Whether all the samples in the list should be added to the `usedSamples` cache. **Default is `false`.**
 
-    **Sub-Attributes**
+    **Tags**
 
     -
         ```xml
         <Sample
             Name="<C Identifier>"
             SampleRate="[Sample Rate]"
-            BaseNote="[Note Number]"
+            BaseNote="[Note Name]"
             IsDD="[Bool]"
             Cached="[Bool]"
         />
         ```
         Declares a sample used in this soundfont.
 
-        **Properties**
+        **Attributes**
 
         - **Name**: The name of this sample. A sample with this name must be present in the samplebank used by the soundfont.
         - <ins>[Optional]</ins> **SampleRate**: An overriding sample rate for this sample. **Default comes from the sample file.**
@@ -169,11 +174,11 @@ Begins a new soundfont.
     ```
     Begins a list of sound effects to define for this soundfont. Sound effects correspond to simple sounds that cannot be played at different keys.
 
-    **Properties**
+    **Attributes**
 
     N/A
 
-    **Sub-Attributes**
+    **Tags**
 
     -
         ```xml
@@ -181,12 +186,12 @@ Begins a new soundfont.
             Name="<C Identifier>"
             Sample="<Sample Name>"
             SampleRate="[Sample Rate]"
-            BaseNote="[Note Number]"
+            BaseNote="[Note Name]"
         />
         ```
         Defines a single sound effect.
 
-        **Properties**
+        **Attributes**
         - **Name**: The name of the sound effect, the name is made available in sequence files in the form `SF{n}_{name}` where `n` is the index of this soundfont and `name` is this name. For example, if `n=0` and `name=ExampleEffect` the name to use in sequence files is `SF0_ExampleEffect`.
         - **Sample**: The name of the sample associated with this effect.
         - <ins>[Optional]</ins> **SampleRate**: An overriding sample rate for this effect. **Default comes from the sample definition.**
@@ -205,30 +210,30 @@ Begins a new soundfont.
     ```
     Begins the percussion definitions for this soundfont. Percussion corresponds to the MIDI notion of percussion, where single samples are mapped across a range of keys.
 
-    **Properties**
+    **Attributes**
 
     N/A
 
-    **Sub-Attributes**
+    **Tags**
 
     -
         ```xml
         <Drum
             Name="<C Identifier>"
-            Note="[Note Number]"
-            NoteStart="[Note Number]"
-            NoteEnd="[Note Number]"
+            Note="[Note Name]"
+            NoteStart="[Note Name]"
+            NoteEnd="[Note Name]"
             Pan="<u8>"
             Envelope="<Envelope Name>"
             Release="[u8]"
             Sample="<Sample Name>"
             SampleRate="[Sample Rate]"
-            BaseNote="[Note Number]"
+            BaseNote="[Note Name]"
         />
         ```
         Defines a single percussion range.
 
-        **Properties**
+        **Attributes**
         - **Name**: The name of this sound. Definitions are emitted for sequence files in the form `SF{n}_{name}_{note}` for every note covered by this sound.
         - <ins>[Optional]</ins> **Note**: The key to map this sound to. Should not overlap with other definitions. **If this field is left unspecified, `NoteStart` and `NoteEnd` become required.**
         - <ins>[Optional]</ins> **NoteStart**: The first key that is mapped to this sound. Should not overlap with other definitions. **If this field is left unspecified, `Note` becomes required. If this field is specified, `NoteEnd` must also be specified.**
@@ -253,11 +258,11 @@ Begins a new soundfont.
     ```
     Begins the instrument definitions for this soundfont. Instruments correspond to the MIDI notion of instruments, with up to 3 samples (voices) per instrument that must map to contiguous ranges of notes.
 
-    **Properties**
+    **Attributes**
 
     N/A
 
-    **Sub-Attributes**
+    **Tags**
 
     -
         ```xml
@@ -269,22 +274,22 @@ Begins a new soundfont.
 
             Sample="<Sample Name>"
             SampleRate="[Sample Rate]"
-            BaseNote="[Note Number]"
+            BaseNote="[Note Name]"
 
-            RangeLo="[Note Number]"
+            RangeLo="[Note Name]"
             SampleLo="[Sample Name]"
             SampleRateLo="[Sample Rate]"
-            BaseNoteLo="[Note Number]"
+            BaseNoteLo="[Note Name]"
 
-            RangeHi="[Note Number]"
+            RangeHi="[Note Name]"
             SampleHi="[Sample Name]"
             SampleRateHi="[Sample Rate]"
-            BaseNoteHi="[Note Number]"
+            BaseNoteHi="[Note Name]"
         />
         ```
         Defines an instrument.
 
-        **Properties**
+        **Attributes**
         - **ProgramNumber**: MIDI Program Number for this instrument. Must be in the range `0 <= n <= 125`
         - **Name**: The name of this instrument.
         - **Envelope**: Envelope to use, identified by name.
