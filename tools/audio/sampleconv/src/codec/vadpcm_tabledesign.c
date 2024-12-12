@@ -379,8 +379,8 @@ refine(double **predictors, int order, int npredictors, double *all_frame_predic
     // For some number of refinement iterations
     for (iter = 0; iter < refine_iters; iter++) {
         // Initialize average autocorrelations
-        memset(counts, 0, npredictors * sizeof(*counts));
-        memset(rsums, 0, npredictors * (order + 1) * sizeof(*rsums));
+        memset(counts, 0, npredictors * sizeof(int));
+        memset(rsums, 0, npredictors * (order + 1) * sizeof(double));
 
         // Sum autocorrelations for averaging for each frame, binning them based on best fitting predictor set
         for (i = 0; i < num_frame_predictors; i++) {
