@@ -4,6 +4,7 @@
 #include "ultra64/message.h"
 #include "ultra64/thread.h"
 #include "ultra64/exception.h"
+#include "ultra64/version.h"
 
 .set noat
 .set noreorder
@@ -448,7 +449,7 @@ pi:
     andi    $t1, $s1, MI_INTR_PI
     beqz    $t1, dp
      nop
-#if PLATFORM_N64
+#if LIBULTRA_MAJOR_VERSION < LIBULTRA_VERSION_J
     // Clear interrupt and mask out pi interrupt
     li      $t1, PI_STATUS_CLR_INTR
     lui     $at, %hi(PHYS_TO_K1(PI_STATUS_REG))
@@ -855,7 +856,7 @@ LEAF(__osPopThread)
      sw     $t9, ($a0)
 END(__osPopThread)
 
-#if !PLATFORM_N64
+#if LIBULTRA_MAJOR_VERSION >= LIBULTRA_VERSION_K
 LEAF(__osNop)
     jr      $ra
      nop

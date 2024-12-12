@@ -31,6 +31,7 @@
 #include "ultra64/motor.h"
 #include "ultra64/R4300.h"
 #include "ultra64/ucode.h"
+#include "ultra64/version.h"
 
 union uObjBg;
 

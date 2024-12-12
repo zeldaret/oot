@@ -1,6 +1,13 @@
 #ifndef ROM_HEADER_H
 #define ROM_HEADER_H
 
+#ifndef STRINGIFY
+# define STRINGIFY(s) #s
+#endif
+#ifndef EXPAND_AND_STRINGIFY
+# define EXPAND_AND_STRINGIFY(s) STRINGIFY(s)
+#endif
+
 /* Storage medium IDs, used internally in MEDIUM below */
 
 #define STORAGE_MEDIUM_CARTRIDGE            "N"
@@ -60,7 +67,7 @@
     .half 0;                                           \
     .byte (hw_major) * 10 + (hw_minor);                \
     _os_ver_start = .;                                 \
-    .ascii #os_ver ;                                   \
+    .ascii EXPAND_AND_STRINGIFY(os_ver) ;              \
     .if (. - _os_ver_start) != 1;                      \
         .error "OS version should be just one letter"; \
     .endif
