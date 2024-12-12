@@ -753,7 +753,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE2_14 (1 << 14)
 #define PLAYER_STATE2_15 (1 << 15)
 #define PLAYER_STATE2_DO_ACTION_ENTER (1 << 16) // Sets the "Enter On A" DoAction
-#define PLAYER_STATE2_17 (1 << 17)
+#define PLAYER_STATE2_SPIN_ATTACKING (1 << 17) // Without magic
 #define PLAYER_STATE2_CRAWLING (1 << 18) // Crawling through a crawlspace
 #define PLAYER_STATE2_19 (1 << 19)
 #define PLAYER_STATE2_NAVI_ACTIVE (1 << 20) // Navi is visible and active. Could be hovering idle near Link or hovering over other actors.

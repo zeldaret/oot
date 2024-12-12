@@ -1733,7 +1733,7 @@ void Player_ApplyYawFromAnim(Player* this) {
 }
 
 void func_80832318(Player* this) {
-    this->stateFlags2 &= ~PLAYER_STATE2_17;
+    this->stateFlags2 &= ~PLAYER_STATE2_SPIN_ATTACKING;
     this->meleeWeaponState = 0;
     this->meleeWeaponInfo[0].active = this->meleeWeaponInfo[1].active = this->meleeWeaponInfo[2].active = 0;
 }
@@ -9792,7 +9792,7 @@ void Player_Action_80844AF4(Player* this, PlayState* play) {
 
 s32 func_80844BE4(Player* this, PlayState* play) {
     if (Player_StartCsAction(play, this)) {
-        this->stateFlags2 |= PLAYER_STATE2_17;
+        this->stateFlags2 |= PLAYER_STATE2_SPIN_ATTACKING;
     } else {
         if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
             s32 temp;
@@ -9806,7 +9806,7 @@ s32 func_80844BE4(Player* this, PlayState* play) {
             func_80837948(play, this, temp);
             Player_SetInvulnerability(this, -8);
 
-            this->stateFlags2 |= PLAYER_STATE2_17;
+            this->stateFlags2 |= PLAYER_STATE2_SPIN_ATTACKING;
             if (this->controlStickDirections[this->controlStickDataIndex] == PLAYER_STICK_DIR_FORWARD) {
                 this->stateFlags2 |= PLAYER_STATE2_30;
             }
@@ -14611,7 +14611,7 @@ s32 Player_ActionHandler_7(Player* this, PlayState* play) {
             func_80837948(play, this, sp24);
 
             if (sp24 >= PLAYER_MWA_SPIN_ATTACK_1H) {
-                this->stateFlags2 |= PLAYER_STATE2_17;
+                this->stateFlags2 |= PLAYER_STATE2_SPIN_ATTACKING;
                 func_80837530(play, this, 0);
                 return 1;
             }
