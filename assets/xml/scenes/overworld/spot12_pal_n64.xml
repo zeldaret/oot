@@ -2,6 +2,8 @@
     <File Name="spot12_scene" Segment="2">
         <Cutscene Name="gGerudoFortressFirstCaptureCs" Offset="0x55D0"/>
         <Cutscene Name="gGerudoFortressIntroCs" Offset="0x64A0"/>
+        <Cutscene Name="gGerudoFortressArcheryIntroCs" Offset="0x5060"/>
+        <Cutscene Name="gGerudoFortressCreditsCs" Offset="0x5454"/>
         <Texture Name="gGerudoFortressNightWallTex" Format="rgba16" Width="64" Height="32" Offset="0x9688"/>
         <Texture Name="gGerudoFortressDayWallTex" Format="rgba16" Width="64" Height="32" Offset="0xDE88"/>
         <Scene Name="spot12_scene" Offset="0x0"/>
