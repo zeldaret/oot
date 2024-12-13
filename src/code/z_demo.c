@@ -1134,7 +1134,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
 
-            case CS_DEST_LON_LON_RANCH_CREDITS_PART_5:
+            case CS_DEST_LON_LON_RANCH_CREDITS_PART_6:
                 play->linkAgeOnLoad = LINK_AGE_CHILD;
                 play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
@@ -1142,7 +1142,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
 
-            case CS_DEST_LON_LON_RANCH_CREDITS_PART_6:
+            case CS_DEST_LON_LON_RANCH_CREDITS_PART_5:
                 play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.save.cutsceneIndex = 0xFFF7;
