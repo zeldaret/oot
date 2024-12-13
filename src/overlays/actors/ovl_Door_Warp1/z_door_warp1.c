@@ -466,8 +466,8 @@ void DoorWarp1_ChildWarpIdle(DoorWarp1* this, PlayState* play) {
         OnePointCutscene_Init(play, 0x25E7, 999, &this->actor, CAM_ID_MAIN);
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_10);
 
-        player->unk_450.x = this->actor.world.pos.x;
-        player->unk_450.z = this->actor.world.pos.z;
+        player->blueWarpPos.x = this->actor.world.pos.x;
+        player->blueWarpPos.z = this->actor.world.pos.z;
         this->unk_1B2 = 1;
         DoorWarp1_SetupAction(this, DoorWarp1_ChildWarpOut);
     }
@@ -648,8 +648,8 @@ void DoorWarp1_AdultWarpIdle(DoorWarp1* this, PlayState* play) {
 
         OnePointCutscene_Init(play, 0x25E8, 999, &this->actor, CAM_ID_MAIN);
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_10);
-        player->unk_450.x = this->actor.world.pos.x;
-        player->unk_450.z = this->actor.world.pos.z;
+        player->blueWarpPos.x = this->actor.world.pos.x;
+        player->blueWarpPos.z = this->actor.world.pos.z;
         this->unk_1B2 = 20;
         DoorWarp1_SetupAction(this, func_8099A508);
     }

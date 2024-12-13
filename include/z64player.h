@@ -848,7 +848,7 @@ typedef struct Player {
     /* 0x0447 */ u8 unk_447;
     /* 0x0448 */ Actor* csActor; // Actor involved in a `csAction`. Typically the actor that invoked the cutscene.
     /* 0x044C */ char unk_44C[0x004];
-    /* 0x0450 */ Vec3f unk_450;
+    /* 0x0450 */ Vec3f blueWarpPos;
     /* 0x045C */ Vec3f unk_45C;
     /* 0x0468 */ char unk_468[0x002];
     /* 0x046A */ union {

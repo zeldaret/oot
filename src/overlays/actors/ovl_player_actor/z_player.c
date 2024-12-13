@@ -5066,8 +5066,8 @@ void func_80838E70(PlayState* play, Player* this, f32 arg2, s16 arg3) {
     this->av1.actionVar1 = 1;
     this->av2.actionVar2 = 1;
 
-    this->unk_450.x = (Math_SinS(arg3) * arg2) + this->actor.world.pos.x;
-    this->unk_450.z = (Math_CosS(arg3) * arg2) + this->actor.world.pos.z;
+    this->blueWarpPos.x = (Math_SinS(arg3) * arg2) + this->actor.world.pos.x;
+    this->blueWarpPos.z = (Math_CosS(arg3) * arg2) + this->actor.world.pos.z;
 
     Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
 }
@@ -5379,8 +5379,8 @@ s32 Player_ActionHandler_1(Player* this, PlayState* play) {
                 this->unk_447 = this->doorType;
                 this->stateFlags1 |= PLAYER_STATE1_29;
 
-                this->unk_450.x = this->actor.world.pos.x + ((doorDirection * 20.0f) * sp74);
-                this->unk_450.z = this->actor.world.pos.z + ((doorDirection * 20.0f) * sp78);
+                this->blueWarpPos.x = this->actor.world.pos.x + ((doorDirection * 20.0f) * sp74);
+                this->blueWarpPos.z = this->actor.world.pos.z + ((doorDirection * 20.0f) * sp78);
                 this->unk_45C.x = this->actor.world.pos.x + ((doorDirection * -120.0f) * sp74);
                 this->unk_45C.z = this->actor.world.pos.z + ((doorDirection * -120.0f) * sp78);
 
@@ -10167,10 +10167,10 @@ s32 func_80845964(PlayState* play, Player* this, CsCmdActorCue* cue, f32 arg3, s
 }
 
 s32 func_80845BA0(PlayState* play, Player* this, f32* arg2, s32 arg3) {
-    f32 dx = this->unk_450.x - this->actor.world.pos.x;
-    f32 dz = this->unk_450.z - this->actor.world.pos.z;
+    f32 dx = this->blueWarpPos.x - this->actor.world.pos.x;
+    f32 dz = this->blueWarpPos.z - this->actor.world.pos.z;
     s32 sp2C = sqrtf(SQ(dx) + SQ(dz));
-    s16 yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_450);
+    s16 yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->blueWarpPos);
 
     if (sp2C < arg3) {
         *arg2 = 0.0f;
@@ -10210,8 +10210,8 @@ void Player_Action_80845CA4(Player* this, PlayState* play) {
                 this->av1.actionVar1 = 1;
                 this->stateFlags1 |= PLAYER_STATE1_29;
 
-                this->unk_450.x = this->unk_45C.x;
-                this->unk_450.z = this->unk_45C.z;
+                this->blueWarpPos.x = this->unk_45C.x;
+                this->blueWarpPos.z = this->unk_45C.z;
             }
         } else {
             f32 sp34 = 5.0f;
@@ -10222,8 +10222,8 @@ void Player_Action_80845CA4(Player* this, PlayState* play) {
                 sp34 = gSaveContext.entranceSpeed;
 
                 if (sConveyorSpeed != CONVEYOR_SPEED_DISABLED) {
-                    this->unk_450.x = (Math_SinS(sConveyorYaw) * 400.0f) + this->actor.world.pos.x;
-                    this->unk_450.z = (Math_CosS(sConveyorYaw) * 400.0f) + this->actor.world.pos.z;
+                    this->blueWarpPos.x = (Math_SinS(sConveyorYaw) * 400.0f) + this->actor.world.pos.x;
+                    this->blueWarpPos.z = (Math_CosS(sConveyorYaw) * 400.0f) + this->actor.world.pos.z;
                 }
             } else if (this->av2.actionVar2 < 0) {
                 this->av2.actionVar2++;
@@ -15418,7 +15418,7 @@ void func_80851788(PlayState* play, Player* this, CsCmdActorCue* cue) {
     this->stateFlags1 &= ~PLAYER_STATE1_BOOMERANG_THROWN;
 
     this->yaw = this->actor.shape.rot.y = this->actor.world.rot.y =
-        Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_450);
+        Math_Vec3f_Yaw(&this->actor.world.pos, &this->blueWarpPos);
 
     if (this->speedXZ <= 0.0f) {
         this->speedXZ = 0.1f;
