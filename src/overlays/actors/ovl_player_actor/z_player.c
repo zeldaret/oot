@@ -49,11 +49,6 @@ typedef struct ExplosiveInfo {
     /* 0x02 */ s16 actorId;
 } ExplosiveInfo; // size = 0x04
 
-typedef struct BottleDropInfo {
-    /* 0x00 */ s16 actorId;
-    /* 0x02 */ s16 actorParams;
-} BottleDropInfo; // size = 0x04
-
 typedef struct FallImpactInfo {
     /* 0x00 */ s8 damage;
     /* 0x01 */ u8 rumbleStrength;
@@ -307,7 +302,7 @@ void Player_Action_TimeTravelEnd(Player* this, PlayState* play);
 void Player_Action_DrinkFromBottle(Player* this, PlayState* play);
 void Player_Action_SwingBottle(Player* this, PlayState* play);
 void Player_Action_8084EED8(Player* this, PlayState* play);
-void Player_Action_8084EFC0(Player* this, PlayState* play);
+void Player_Action_DropFromBottle(Player* this, PlayState* play);
 void Player_Action_ExchangeItem(Player* this, PlayState* play);
 void Player_Action_SlideOnSlope(Player* this, PlayState* play);
 void Player_Action_WaitForCutscene(Player* this, PlayState* play);
@@ -6093,7 +6088,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_bug_out);
                         func_80835EA4(play, 3);
                     } else if ((sp2C > 0) && (sp2C < 4)) {
-                        Player_SetupActionPreserveItemAction(play, this, Player_Action_8084EFC0, 0);
+                        Player_SetupActionPreserveItemAction(play, this, Player_Action_DropFromBottle, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_fish_out);
                         func_80835EA4(play, (sp2C == 1) ? 1 : 5);
                     } else {
@@ -14140,25 +14135,28 @@ void Player_Action_8084EED8(Player* this, PlayState* play) {
     }
 }
 
-static BottleDropInfo D_80854A28[] = {
-    { ACTOR_EN_FISH, FISH_DROPPED },
-    { ACTOR_EN_ICE_HONO, 0 },
-    { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
-};
+typedef struct BottleDropInfo {
+    /* 0x00 */ s16 actorId;
+    /* 0x02 */ s16 actorParams;
+} BottleDropInfo; // size = 0x04
 
-static AnimSfxEntry D_80854A34[] = {
-    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 38) },
-    { NA_SE_EV_BOTTLE_CAP_OPEN, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 40) },
-};
-
-void Player_Action_8084EFC0(Player* this, PlayState* play) {
+/**
+ * Drops an actor (fish, insects or blue fire) from a bottle.
+ */
+void Player_Action_DropFromBottle(Player* this, PlayState* play) {
     Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         Player_SetupIdleAndPlayIdleAnim(this, play);
         Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 76.0f)) {
-        BottleDropInfo* dropInfo = &D_80854A28[this->itemAction - PLAYER_IA_BOTTLE_FISH];
+        static BottleDropInfo sBottleDropInfos[] = {
+            /* PLAYER_IA_BOTTLE_FISH */ { ACTOR_EN_FISH, FISH_DROPPED },
+            /* PLAYER_IA_BOTTLE_FIRE */ { ACTOR_EN_ICE_HONO, 0 },
+            /* PLAYER_IA_BOTTLE_BUG  */ { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
+        };
+
+        BottleDropInfo* dropInfo = &sBottleDropInfos[this->itemAction - PLAYER_IA_BOTTLE_FISH];
 
         Actor_Spawn(&play->actorCtx, play, dropInfo->actorId,
                     (Math_SinS(this->actor.shape.rot.y) * 5.0f) + this->leftHandPos.x, this->leftHandPos.y,
@@ -14167,7 +14165,12 @@ void Player_Action_8084EFC0(Player* this, PlayState* play) {
 
         Player_UpdateBottleHeld(play, this, ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
     } else {
-        Player_ProcessAnimSfxList(this, D_80854A34);
+        static AnimSfxEntry sBottleDropAnimSfx[] = {
+            { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 38) },
+            { NA_SE_EV_BOTTLE_CAP_OPEN, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 40) },
+        };
+
+        Player_ProcessAnimSfxList(this, sBottleDropAnimSfx);
     }
 }
 
@@ -16067,7 +16070,7 @@ void Player_Action_CsAction(Player* this, PlayState* play) {
 int Player_IsDroppingFish(PlayState* play) {
     Player* this = GET_PLAYER(play);
 
-    return (Player_Action_8084EFC0 == this->actionFunc) && (this->itemAction == PLAYER_IA_BOTTLE_FISH);
+    return (Player_Action_DropFromBottle == this->actionFunc) && (this->itemAction == PLAYER_IA_BOTTLE_FISH);
 }
 
 s32 Player_StartFishing(PlayState* play) {
