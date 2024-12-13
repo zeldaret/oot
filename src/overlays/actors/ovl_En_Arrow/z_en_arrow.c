@@ -8,7 +8,7 @@
 #include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnArrow_Init(Actor* thisx, PlayState* play);
 void EnArrow_Destroy(Actor* thisx, PlayState* play);

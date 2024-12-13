@@ -8,7 +8,7 @@
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 #include "quake.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgMoriBigst_Init(Actor* thisx, PlayState* play);
 void BgMoriBigst_Destroy(Actor* thisx, PlayState* play);
@@ -41,8 +41,8 @@ ActorProfile Bg_Mori_Bigst_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),      ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),     ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 3000, ICHAIN_CONTINUE),  ICHAIN_F32(cullingVolumeScale, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 3000, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(minVelocityY, -12000, ICHAIN_CONTINUE), ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 

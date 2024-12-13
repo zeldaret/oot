@@ -37,9 +37,9 @@ static f32 D_80B940C0[] = { 85.0f, 85.0f, 0.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_STOP),
 };
 
 static CollisionHeader* sCollisionHeaders[] = { &gHookshotPostCol, &gHookshotPostCol, &gHookshotTargetCol };
@@ -116,7 +116,7 @@ void func_80B93D90(ObjHsblock* this) {
 }
 
 void func_80B93DB0(ObjHsblock* this) {
-    this->dyna.actor.flags |= ACTOR_FLAG_4;
+    this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 105.0f;
     ObjHsblock_SetupAction(this, func_80B93DF4);
 }
@@ -137,7 +137,7 @@ void func_80B93E5C(ObjHsblock* this, PlayState* play) {
                                  this->dyna.actor.velocity.y, 0.3f)) < 0.001f) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         func_80B93D90(this);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 }
 

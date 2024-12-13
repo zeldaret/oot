@@ -111,7 +111,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_SPIRIT_TEMPLE_BOSS_0, 0, EVENTCHKINF_C0, gSpiritBossNabooruKnuckleIntroCs },
     { ENTR_GERUDOS_FORTRESS_17, 0, EVENTCHKINF_C7, gGerudoFortressFirstCaptureCs },
     { ENTR_DEATH_MOUNTAIN_CRATER_1, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
-    { ENTR_KOKIRI_FOREST_12, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutCs },
+    { ENTR_KOKIRI_FOREST_12, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutPart3Cs },
 };
 
 void* sCutscenesUnknownList[] = {
@@ -404,8 +404,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             SET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL);
             break;
 
-        case CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED:
-            SET_EVENTCHKINF(EVENTCHKINF_69);
+        case CS_MISC_SET_FLAG_RESTORED_LAKE_HYLIA:
+            SET_EVENTCHKINF(EVENTCHKINF_RESTORED_LAKE_HYLIA);
             break;
 
         case CS_MISC_VISMONO_BLACK_AND_WHITE:

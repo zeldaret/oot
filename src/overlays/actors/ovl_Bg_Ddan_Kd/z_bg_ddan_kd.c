@@ -7,7 +7,7 @@
 #include "z_bg_ddan_kd.h"
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgDdanKd_Init(Actor* thisx, PlayState* play);
 void BgDdanKd_Destroy(Actor* thisx, PlayState* play);
@@ -52,9 +52,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 32767, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 32767, ICHAIN_STOP),
 };
 
 void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {

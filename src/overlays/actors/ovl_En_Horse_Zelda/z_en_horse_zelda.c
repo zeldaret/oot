@@ -7,7 +7,7 @@
 #include "z_en_horse_zelda.h"
 #include "assets/objects/object_horse_zelda/object_horse_zelda.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnHorseZelda_Init(Actor* thisx, PlayState* play);
 void EnHorseZelda_Destroy(Actor* thisx, PlayState* play);
@@ -97,7 +97,7 @@ static HorsePosSpeed sHorseFieldPositions[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 1200, ICHAIN_STOP),
 };
 
 static EnHorseZeldaActionFunc sActionFuncs[] = {

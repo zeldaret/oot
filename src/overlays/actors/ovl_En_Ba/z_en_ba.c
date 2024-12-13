@@ -7,7 +7,7 @@
 #include "z_en_ba.h"
 #include "assets/objects/object_bxa/object_bxa.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnBa_Init(Actor* thisx, PlayState* play);
 void EnBa_Destroy(Actor* thisx, PlayState* play);
@@ -83,8 +83,8 @@ static Vec3f D_809B80E4 = { 0.01f, 0.01f, 0.01f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_PARASITIC_TENTACLE, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2500, ICHAIN_CONTINUE),
     ICHAIN_F32(lockOnArrowOffset, 0, ICHAIN_STOP),
 };
 

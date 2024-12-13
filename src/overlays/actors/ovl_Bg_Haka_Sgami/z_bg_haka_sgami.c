@@ -8,7 +8,7 @@
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum SpinningScytheTrapMode {
     /* 0 */ SCYTHE_TRAP_SHADOW_TEMPLE,
@@ -121,7 +121,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 130, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_4, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
@@ -200,7 +200,7 @@ void BgHakaSgami_SetupSpin(BgHakaSgami* this, PlayState* play) {
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = BgHakaSgami_Draw;
         this->timer = SCYTHE_SPIN_TIME;
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actionFunc = BgHakaSgami_Spin;
     }
 }

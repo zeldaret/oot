@@ -9,7 +9,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_syokudai/object_syokudai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 void ObjSyokudai_Init(Actor* thisx, PlayState* play);
 void ObjSyokudai_Destroy(Actor* thisx, PlayState* play);
@@ -70,9 +70,9 @@ static ColliderCylinderInit sCylInitFlame = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 800, ICHAIN_STOP),
 };
 
 static s32 sLitTorchCount;

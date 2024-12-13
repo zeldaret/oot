@@ -279,7 +279,7 @@ void EnFloormas_SetupLand(EnFloormas* this) {
 
 void EnFloormas_SetupSplit(EnFloormas* this) {
     Actor_SetScale(&this->actor, 0.004f);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
         this->actor.draw = EnFloormas_DrawHighlighted;
     } else {
@@ -384,7 +384,7 @@ void EnFloormas_SetupSmallWait(EnFloormas* this) {
     }
     this->actor.draw = NULL;
     this->actionFunc = EnFloormas_SmallWait;
-    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED);
 }
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
@@ -911,7 +911,7 @@ void EnFloormas_Merge(EnFloormas* this, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.scale.x >= 0.01f) {
-            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
             this->collider.elem.acElemFlags |= ACELEM_HOOKABLE;

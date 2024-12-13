@@ -9,7 +9,7 @@
 #include "assets/objects/object_boj/object_boj.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnGuest_Init(Actor* thisx, PlayState* play);
 void EnGuest_Destroy(Actor* thisx, PlayState* play);
@@ -77,7 +77,7 @@ void EnGuest_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if (Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
         SkelAnime_InitFlex(play, &this->skelAnime, &gHylianMan2Skel, NULL, this->jointTable, this->morphTable, 16);

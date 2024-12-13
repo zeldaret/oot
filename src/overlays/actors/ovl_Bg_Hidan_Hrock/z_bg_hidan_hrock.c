@@ -118,7 +118,7 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = func_808894A4;
         if (thisx->params == 0) {
             thisx->world.pos.y -= 2800.0f;
-            thisx->uncullZoneForward = 3000.0f;
+            thisx->cullingVolumeDistance = 3000.0f;
         } else if (thisx->params == 1) {
             thisx->world.pos.y -= 800.0f;
         } else if (thisx->params == 2) {
@@ -126,8 +126,8 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
         }
     } else {
         if (thisx->params == 0) {
-            thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
-            thisx->uncullZoneForward = 3000.0f;
+            thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
+            thisx->cullingVolumeDistance = 3000.0f;
         }
         this->actionFunc = func_808896B8;
     }
@@ -185,7 +185,7 @@ void func_8088960C(BgHidanHrock* this, PlayState* play) {
     this->dyna.actor.velocity.y++;
 
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
-        this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
+        this->dyna.actor.flags &= ~(ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
 
         if (this->dyna.actor.params == 0) {
@@ -204,7 +204,7 @@ void func_808896B8(BgHidanHrock* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->actionFunc = func_808894B0;
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
+        this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 
         if (this->dyna.actor.params == 0) {
             this->dyna.actor.room = -1;

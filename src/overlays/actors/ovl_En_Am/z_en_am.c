@@ -8,7 +8,9 @@
 #include "assets/objects/object_am/object_am.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_CAN_PRESS_SWITCHES)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_CAN_PRESS_SWITCHES)
 
 void EnAm_Init(Actor* thisx, PlayState* play);
 void EnAm_Destroy(Actor* thisx, PlayState* play);

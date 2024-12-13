@@ -11,7 +11,7 @@
 #include "quake.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgBowlWall_Init(Actor* thisx, PlayState* play);
 void BgBowlWall_Destroy(Actor* thisx, PlayState* play);

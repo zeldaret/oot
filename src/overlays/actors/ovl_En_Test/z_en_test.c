@@ -7,7 +7,7 @@
 #include "z_en_test.h"
 #include "assets/objects/object_sk2/object_sk2.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnTest_Init(Actor* thisx, PlayState* play);
 void EnTest_Destroy(Actor* thisx, PlayState* play);

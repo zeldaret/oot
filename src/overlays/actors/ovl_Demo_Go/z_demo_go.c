@@ -8,7 +8,7 @@
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void DemoGo_Init(Actor* thisx, PlayState* play);
 void DemoGo_Destroy(Actor* thisx, PlayState* play);

@@ -2,7 +2,7 @@
 #include "terminal.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_LOCK_ON_DISABLED)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnEncount1_Init(Actor* thisx, PlayState* play);
 void EnEncount1_Update(Actor* thisx, PlayState* play);

@@ -537,7 +537,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_65 0x65
 #define EVENTCHKINF_DRAINED_WELL 0x67
 #define EVENTCHKINF_68 0x68
-#define EVENTCHKINF_69 0x69
+#define EVENTCHKINF_RESTORED_LAKE_HYLIA 0x69
 #define EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO 0x6A
 
 // 0x6B
@@ -559,10 +559,10 @@ typedef enum LinkAge {
 #define EVENTCHKINF_78 0x78
 #define EVENTCHKINF_80 0x80
 #define EVENTCHKINF_82 0x82
-#define EVENTCHKINF_8C 0x8C
-#define EVENTCHKINF_8D 0x8D
-#define EVENTCHKINF_8E 0x8E
-#define EVENTCHKINF_8F 0x8F
+#define EVENTCHKINF_PAID_BACK_KEATON_MASK 0x8C
+#define EVENTCHKINF_PAID_BACK_SKULL_MASK 0x8D
+#define EVENTCHKINF_PAID_BACK_SPOOKY_MASK 0x8E
+#define EVENTCHKINF_PAID_BACK_BUNNY_HOOD 0x8F
 
 // 0x90-0x93
 // carpenters freed from the gerudo
@@ -699,8 +699,11 @@ typedef enum LinkAge {
 #define ITEMGETINF_1B 0x1B
 #define ITEMGETINF_1C 0x1C
 #define ITEMGETINF_1D 0x1D
-#define ITEMGETINF_1E 0x1E
-#define ITEMGETINF_1F 0x1F
+#define ITEMGETINF_FOREST_STAGE_STICK_UPGRADE 0x1E
+// This flag is shared by two events; It is set when obtaining the Deku Nut upgrade at the Forest Stage and when obtaining Poachers Saw.
+// This will make obtaining the Deku Nut upgrade impossible if Poachers Saw is obtained first.
+// This flag is never read for the Poachers Saw event, so the overlap only causes an issue for the Deku Nut Upgrade. It will not prevent obtaining Poachers Saw.
+#define ITEMGETINF_FOREST_STAGE_NUT_UPGRADE 0x1F
 #define ITEMGETINF_23 0x23
 #define ITEMGETINF_24 0x24
 #define ITEMGETINF_25 0x25
