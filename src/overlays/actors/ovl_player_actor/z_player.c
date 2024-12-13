@@ -301,7 +301,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play);
 void Player_Action_TimeTravelEnd(Player* this, PlayState* play);
 void Player_Action_DrinkFromBottle(Player* this, PlayState* play);
 void Player_Action_SwingBottle(Player* this, PlayState* play);
-void Player_Action_8084EED8(Player* this, PlayState* play);
+void Player_Action_UseFairyFromBottle(Player* this, PlayState* play);
 void Player_Action_DropFromBottle(Player* this, PlayState* play);
 void Player_Action_ExchangeItem(Player* this, PlayState* play);
 void Player_Action_SlideOnSlope(Player* this, PlayState* play);
@@ -6084,7 +6084,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                 sp2C = Player_ActionToBottle(this, this->itemAction);
                 if (sp2C >= 0) {
                     if (sp2C == 0xC) {
-                        Player_SetupActionPreserveItemAction(play, this, Player_Action_8084EED8, 0);
+                        Player_SetupActionPreserveItemAction(play, this, Player_Action_UseFairyFromBottle, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_bug_out);
                         func_80835EA4(play, 3);
                     } else if ((sp2C > 0) && (sp2C < 4)) {
@@ -14116,9 +14116,7 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
     }
 }
 
-static Vec3f D_80854A1C = { 0.0f, 0.0f, 5.0f };
-
-void Player_Action_8084EED8(Player* this, PlayState* play) {
+void Player_Action_UseFairyFromBottle(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         Player_SetupIdleAndPlayIdleAnim(this, play);
         Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
@@ -14126,7 +14124,9 @@ void Player_Action_8084EED8(Player* this, PlayState* play) {
     }
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 37.0f)) {
-        Player_SpawnFairy(play, this, &this->leftHandPos, &D_80854A1C, FAIRY_REVIVE_BOTTLE);
+        static Vec3f sPositionOffset = { 0.0f, 0.0f, 5.0f };
+
+        Player_SpawnFairy(play, this, &this->leftHandPos, &sPositionOffset, FAIRY_REVIVE_BOTTLE);
         Player_UpdateBottleHeld(play, this, ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         Player_PlaySfx(this, NA_SE_EV_BOTTLE_CAP_OPEN);
         Player_PlaySfx(this, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
