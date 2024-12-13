@@ -1,9 +1,14 @@
 <Root>
     <File Name="spot18_scene" Segment="2">
-        <Cutscene Name="gGoronCityDaruniaCorrectCs" Offset="0x59E0"/>
-        <Cutscene Name="gGoronCityDarunia01Cs" Offset="0x6930"/>
-        <Cutscene Name="gGoronCityDaruniaWrongCs" Offset="0x7DE0"/>
+        <Cutscene Name="gGoronCityDaruniaCorrectSongCs" Offset="0x59E0"/>
+        <Cutscene Name="gGoronCityDaruniaWrongSongCs" Offset="0x7DE0"/>
+
+        <!-- This cutscene is not used in normal gameplay. -->
+        <Cutscene Name="gGoronCityDaruniaDancingCs" Offset="0x6930"/>
+
         <Cutscene Name="gGoronCityIntroCs" Offset="0x8400"/>
+        <Cutscene Name="gGoronCityCreditsCs" Offset="0x7840"/>
+
         <Texture Name="gGoronCityNightEntranceTex" OutName="night_entrance" Format="ia8" Width="8" Height="8" Offset="0x8FC8"/>
         <Texture Name="gGoronCityDayEntranceTex" OutName="day_entrance" Format="ia8" Width="8" Height="8" Offset="0x9808"/>
         <Scene Name="spot18_scene" Offset="0x0"/>
