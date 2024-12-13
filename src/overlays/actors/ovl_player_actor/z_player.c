@@ -6413,7 +6413,7 @@ void func_8083C0B8(Player* this, PlayState* play) {
     func_8083BF50(this, play);
 }
 
-void Player_SetupIdleAndPlayIdleAnim(Player* this, PlayState* play) {
+void func_8083C0E8(Player* this, PlayState* play) {
     Player_SetupAction(play, this, Player_Action_Idle, 1);
     Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
     this->yaw = this->actor.shape.rot.y;
@@ -8656,7 +8656,7 @@ void Player_Action_TurnInPlace(Player* this, PlayState* play) {
             this->actor.shape.rot.y = yawTarget;
             func_8083C858(this, play);
         } else if (Math_ScaledStepToS(&this->actor.shape.rot.y, yawTarget, this->turnRate)) {
-            Player_SetupIdleAndPlayIdleAnim(this, play);
+            func_8083C0E8(this, play);
         }
 
         this->yaw = this->actor.shape.rot.y;
@@ -10056,7 +10056,7 @@ void Player_Action_80845668(Player* this, PlayState* play) {
         }
 
         if ((sp3C != 0) || (interruptResult >= PLAYER_INTERRUPT_MOVE)) {
-            Player_SetupIdleAndPlayIdleAnim(this, play);
+            func_8083C0E8(this, play);
             this->stateFlags1 &= ~(PLAYER_STATE1_14 | PLAYER_STATE1_18);
             return;
         }
@@ -10264,7 +10264,7 @@ void Player_Action_80845EF8(Player* this, PlayState* play) {
                 this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
         } else {
-            Player_SetupIdleAndPlayIdleAnim(this, play);
+            func_8083C0E8(this, play);
             if (play->roomCtx.prevRoom.num >= 0) {
                 Room_FinishRoomChange(play, &play->roomCtx);
             }
@@ -12774,7 +12774,7 @@ void Player_Action_8084BDFC(Player* this, PlayState* play) {
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         Player_ApplyAnimMovementScaledByAge(this, ANIM_FLAG_UPDATE_XZ);
-        Player_SetupIdleAndPlayIdleAnim(this, play);
+        func_8083C0E8(this, play);
         return;
     }
 
@@ -12963,7 +12963,7 @@ void Player_Action_8084C5F8(Player* this, PlayState* play) {
     }
 
     if ((interruptResult >= PLAYER_INTERRUPT_MOVE) || LinkAnimation_Update(play, &this->skelAnime)) {
-        Player_SetupIdleAndPlayIdleAnim(this, play);
+        func_8083C0E8(this, play);
         this->stateFlags1 &= ~PLAYER_STATE1_21;
         return;
     }
@@ -13040,7 +13040,7 @@ void Player_Action_8084C81C(Player* this, PlayState* play) {
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         // Player is finished exiting the crawlspace and control is returned
-        Player_SetupIdleAndPlayIdleAnim(this, play);
+        func_8083C0E8(this, play);
         this->stateFlags2 &= ~PLAYER_STATE2_CRAWLING;
         return;
     }
@@ -13376,7 +13376,7 @@ void Player_Action_8084D3E4(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         EnHorse* rideActor = (EnHorse*)this->rideActor;
 
-        Player_SetupIdleAndPlayIdleAnim(this, play);
+        func_8083C0E8(this, play);
         this->stateFlags1 &= ~PLAYER_STATE1_23;
         this->actor.parent = NULL;
         AREG(6) = 0;
@@ -13645,7 +13645,7 @@ void func_8084DF6C(PlayState* play, Player* this) {
 void func_8084DFAC(PlayState* play, Player* this) {
     func_8084DF6C(play, this);
     Player_ApplyYawFromAnim(this);
-    Player_SetupIdleAndPlayIdleAnim(this, play);
+    func_8083C0E8(this, play);
     this->yaw = this->actor.shape.rot.y;
 }
 
@@ -13866,7 +13866,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
                 if (this->getItemId != GI_ICE_TRAP) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CLEAR_TAG, this->actor.world.pos.x,
                                 this->actor.world.pos.y + 100.0f, this->actor.world.pos.z, 0, 0, 0, 0);
-                    Player_SetupIdleAndPlayIdleAnim(this, play);
+                    func_8083C0E8(this, play);
                 } else {
                     this->actor.colChkInfo.damage = 0;
                     func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ICE_TRAP, 0.0f, 0.0f, 0, 20);
@@ -13920,7 +13920,7 @@ void Player_Action_TimeTravelEnd(Player* this, PlayState* play) {
                 this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
         } else {
-            Player_SetupIdleAndPlayIdleAnim(this, play);
+            func_8083C0E8(this, play);
         }
     } else {
         if (LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 158.0f)) {
@@ -14013,7 +14013,7 @@ void Player_Action_DrinkFromBottle(Player* this, PlayState* play) {
             Player_AnimPlayLoopAdjusted(play, this, &gPlayerAnim_link_bottle_drink_demo_wait);
             this->av2.drinkingState = DRINGING_STATE_DRINKING;
         } else {
-            Player_SetupIdleAndPlayIdleAnim(this, play);
+            func_8083C0E8(this, play);
             Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
         }
     } else if (this->av2.drinkingState == DRINGING_STATE_DRINKING) {
@@ -14070,7 +14070,7 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
                 Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
-            Player_SetupIdleAndPlayIdleAnim(this, play);
+            func_8083C0E8(this, play);
         }
     } else if (this->av1.bottleCatchType == BOTTLE_CATCH_NONE) {
         s32 activeFrame = this->skelAnime.curFrame - swingEntry->firstActiveFrame;
@@ -14109,7 +14109,7 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
         }
     }
 
-    //! @bug If the animation is changed at any point above (such as by Player_SetupIdleAndPlayIdleAnim() or
+    //! @bug If the animation is changed at any point above (such as by func_8083C0E8() or
     //! Player_AnimPlayOnceAdjusted()), it will change the curFrame to 0. This causes this flag to be set for one frame,
     //! at a time when it does not look like Player is swinging the bottle.
     if (this->skelAnime.curFrame <= 7.0f) {
@@ -14119,7 +14119,7 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
 
 void Player_Action_UseFairyFromBottle(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        Player_SetupIdleAndPlayIdleAnim(this, play);
+        func_8083C0E8(this, play);
         Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
         return;
     }
@@ -14145,7 +14145,7 @@ void Player_Action_DropActorFromBottle(Player* this, PlayState* play) {
     Player_DecelerateToZero(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        Player_SetupIdleAndPlayIdleAnim(this, play);
+        func_8083C0E8(this, play);
         Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 76.0f)) {
         static BottleDropInfo sBottleDropInfos[] = {
@@ -14181,7 +14181,7 @@ void Player_Action_ExchangeItem(Player* this, PlayState* play) {
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av2.actionVar2 < 0) {
-            Player_SetupIdleAndPlayIdleAnim(this, play);
+            func_8083C0E8(this, play);
         } else if (this->exchangeItemId == EXCH_ITEM_NONE) {
             Actor* talkActor = this->talkActor;
 
@@ -14216,7 +14216,7 @@ void Player_Action_ExchangeItem(Player* this, PlayState* play) {
                     Player_AnimPlayOnce(play, this, &gPlayerAnim_link_bottle_read_end);
                     this->av2.actionVar2 = -1;
                 } else {
-                    Player_SetupIdleAndPlayIdleAnim(this, play);
+                    func_8083C0E8(this, play);
                 }
 
                 Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
