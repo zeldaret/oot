@@ -8,7 +8,7 @@
 #include "assets/objects/object_jj/object_jj.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum EnJjEyeState {
     /* 0 */ JABUJABU_EYE_OPEN,
@@ -68,9 +68,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 87, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 3300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 3300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1100, ICHAIN_STOP),
 };
 
 void EnJj_SetupAction(EnJj* this, EnJjActionFunc actionFunc) {

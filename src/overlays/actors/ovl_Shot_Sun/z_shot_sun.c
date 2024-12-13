@@ -68,7 +68,7 @@ void ShotSun_Init(Actor* thisx, PlayState* play) {
     params = PARAMS_GET_U(this->actor.params, 0, 8);
     if (params == 0x40 || params == 0x41) {
         this->fairySpawnerState = SPAWNER_OUT_OF_RANGE;
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actor.flags |= ACTOR_FLAG_UPDATE_DURING_OCARINA;
         this->actionFunc = ShotSun_UpdateFairySpawner;
         this->actor.flags |= ACTOR_FLAG_LOCK_ON_DISABLED;

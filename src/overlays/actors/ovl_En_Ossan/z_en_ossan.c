@@ -14,7 +14,7 @@
 #include "assets/objects/object_masterzoora/object_masterzoora.h"
 #include "assets/objects/object_masterkokirihead/object_masterkokirihead.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 #if !PLATFORM_GC
 #define CURSOR_COLOR_R 0
@@ -2120,7 +2120,7 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
     ShopItem* items;
 
     if (EnOssan_AreShopkeeperObjectsLoaded(this, play)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actor.objectSlot = this->objectSlot1;
         Actor_SetObjectDependency(play, &this->actor);
 

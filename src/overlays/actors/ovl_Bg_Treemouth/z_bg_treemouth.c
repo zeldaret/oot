@@ -9,7 +9,7 @@
 #include "assets/objects/object_spot04_objects/object_spot04_objects.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgTreemouth_Init(Actor* thisx, PlayState* play);
 void BgTreemouth_Destroy(Actor* thisx, PlayState* play);
@@ -45,9 +45,9 @@ ActorProfile Bg_Treemouth_Profile = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 8000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 8000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 300, ICHAIN_STOP),
 };
 
 // unused

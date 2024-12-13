@@ -14,7 +14,7 @@
 #include "assets/objects/object_mjin_flash/object_mjin_flash.h"
 #include "assets/objects/object_mjin_oka/object_mjin_oka.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgMjin_Init(Actor* thisx, PlayState* play);
 void BgMjin_Destroy(Actor* thisx, PlayState* play);
@@ -40,9 +40,9 @@ extern UNK_TYPE D_06000000;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 400, ICHAIN_STOP),
 };
 
 static s16 sObjectIds[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
@@ -78,7 +78,7 @@ void func_808A0850(BgMjin* this, PlayState* play) {
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         colHeader = NULL;
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->dyna.actor.objectSlot = this->requiredObjectSlot;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);

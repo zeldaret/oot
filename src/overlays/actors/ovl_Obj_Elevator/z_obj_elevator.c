@@ -32,9 +32,9 @@ ActorProfile Obj_Elevator_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 600, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_STOP),
 };
 
 static f32 sScales[] = { 0.1f, 0.05f };

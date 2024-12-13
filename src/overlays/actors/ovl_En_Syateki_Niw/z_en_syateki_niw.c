@@ -8,7 +8,7 @@
 #include "assets/objects/object_niw/object_niw.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnSyatekiNiw_Init(Actor* thisx, PlayState* play);
 void EnSyatekiNiw_Destroy(Actor* thisx, PlayState* play);

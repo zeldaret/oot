@@ -2,7 +2,9 @@
 #include "overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.h"
 #include "assets/objects/object_skj/object_skj.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_UPDATE_DURING_OCARINA)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnSkj_Init(Actor* thisx, PlayState* play2);
 void EnSkj_Destroy(Actor* thisx, PlayState* play);

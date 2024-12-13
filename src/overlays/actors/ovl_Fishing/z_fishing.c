@@ -38,7 +38,7 @@
 #pragma increment_block_number "gc-eu:177 gc-eu-mq:177 gc-jp:177 gc-jp-ce:177 gc-jp-mq:177 gc-us:177 gc-us-mq:177" \
                                "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 #define WATER_SURFACE_Y(play) play->colCtx.colHeader->waterBoxes->ySurface
 
@@ -2962,8 +2962,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     f32 temp;
     f32 rumbleStrength;
 
-    this->actor.uncullZoneForward = 700.0f;
-    this->actor.uncullZoneScale = 50.0f;
+    this->actor.cullingVolumeDistance = 700.0f;
+    this->actor.cullingVolumeScale = 50.0f;
 
     if (this->isLoach == 0) {
         playerSpeedMod = (player->actor.speed * 0.15f) + 0.25f;
@@ -3082,8 +3082,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         case 100:
             Fishing_HandleAquariumDialog(this, play);
 
-            this->actor.uncullZoneForward = 500.0f;
-            this->actor.uncullZoneScale = 300.0f;
+            this->actor.cullingVolumeDistance = 500.0f;
+            this->actor.cullingVolumeScale = 300.0f;
 
             Lights_PointNoGlowSetInfo(&this->lightInfo, (s16)this->actor.world.pos.x,
                                       (s16)this->actor.world.pos.y + 20.0f, (s16)this->actor.world.pos.z - 50.0f, 255,
@@ -3629,8 +3629,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             break;
 
         case 5:
-            this->actor.uncullZoneForward = 1200.0f;
-            this->actor.uncullZoneScale = 200.0f;
+            this->actor.cullingVolumeDistance = 1200.0f;
+            this->actor.cullingVolumeScale = 200.0f;
 
             sFishFightTime++;
             PRINTF("HIT FISH %dcm\n", (u8)this->fishLength);
@@ -5195,7 +5195,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     if ((sOwnerTheftTimer != 0) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {
         this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_5;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
     }
 
     if ((this->actor.xzDistToPlayer < 120.0f) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {
