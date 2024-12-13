@@ -6,6 +6,10 @@
         <Scene Name="jyasinzou_scene" Offset="0x0"/>
         <Scene Name="jyasinzou_scene_unused1" Offset="0x17220"/>
         <Scene Name="jyasinzou_scene_unused2" Offset="0x17710"/>
+
+        <!-- These are unused versions of `gKokiriForestKokiriEmeraldPart7Cs` -->
+        <Cutscene Name="gSpiritTempleUnused1Cs" Offset="0x16860"/>
+        <Cutscene Name="gSpiritTempleUnused2Cs" Offset="0x16D40"/>
     </File>
     <File Name="jyasinzou_room_0" Segment="3">
         <Room Name="jyasinzou_room_0" Offset="0x0"/>
