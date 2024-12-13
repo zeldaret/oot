@@ -537,7 +537,7 @@ void ObjBean_SetupWaitForBean(ObjBean* this) {
 
 void ObjBean_WaitForBean(ObjBean* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
-        if (Player_GetExchangeItemId(play) == EXCH_ITEM_MAGIC_BEAN) {
+        if (func_8002F368(play) == EXCH_ITEM_MAGIC_BEAN) {
             func_80B8FE00(this);
             Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         }

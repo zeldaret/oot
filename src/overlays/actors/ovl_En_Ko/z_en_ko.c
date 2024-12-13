@@ -991,7 +991,7 @@ void func_80A9877C(EnKo* this, PlayState* play) {
         ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_LOST_WOODS) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
-        if (Player_GetExchangeItemId(play) == EXCH_ITEM_ODD_POTION) {
+        if (func_8002F368(play) == EXCH_ITEM_ODD_POTION) {
 #if OOT_VERSION < NTSC_1_1
             this->actor.textId = GET_INFTABLE(INFTABLE_B6) ? 0x10B8 : 0x10B7;
 #else

@@ -857,7 +857,7 @@ s32 Actor_OfferTalkExchangeEquiCylinder(Actor* actor, struct PlayState* play, f3
 s32 Actor_OfferTalk(Actor* actor, struct PlayState* play, f32 radius);
 s32 Actor_OfferTalkNearColChkInfoCylinder(Actor* actor, struct PlayState* play);
 u32 Actor_TextboxIsClosing(Actor* actor, struct PlayState* play);
-s8 Player_GetExchangeItemId(struct PlayState* play);
+s8 func_8002F368(struct PlayState* play);
 void Actor_GetScreenPos(struct PlayState* play, Actor* actor, s16* x, s16* y);
 u32 Actor_HasParent(Actor* actor, struct PlayState* play);
 s32 Actor_OfferGetItem(Actor* actor, struct PlayState* play, s32 getItemId, f32 xzRange, f32 yRange);

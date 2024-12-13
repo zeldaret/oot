@@ -216,7 +216,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
     s32 playerExchangeItem;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        playerExchangeItem = Player_GetExchangeItemId(play);
+        playerExchangeItem = func_8002F368(play);
 
         if (this->actor.textId != 0x4018) {
             player->actor.textId = this->actor.textId;
