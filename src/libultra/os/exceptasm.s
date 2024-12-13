@@ -449,7 +449,7 @@ pi:
     andi    $t1, $s1, MI_INTR_PI
     beqz    $t1, dp
      nop
-#if LIBULTRA_MAJOR_VERSION < LIBULTRA_VERSION_J
+#if LIBULTRA_VERSION < LIBULTRA_VERSION_J
     // Clear interrupt and mask out pi interrupt
     li      $t1, PI_STATUS_CLR_INTR
     lui     $at, %hi(PHYS_TO_K1(PI_STATUS_REG))
@@ -856,7 +856,7 @@ LEAF(__osPopThread)
      sw     $t9, ($a0)
 END(__osPopThread)
 
-#if LIBULTRA_MAJOR_VERSION >= LIBULTRA_VERSION_K
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
 LEAF(__osNop)
     jr      $ra
      nop

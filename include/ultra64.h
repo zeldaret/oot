@@ -43,7 +43,7 @@ void osStopThread(OSThread* thread);
 void osViExtendVStart(u32 value);
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag);
 
-#if PLATFORM_N64
+#if LIBULTRA_VERSION < LIBULTRA_VERSION_K
 void osInitialize(void);
 #else
 #define osInitialize()               \

@@ -63,7 +63,7 @@
  * The hardware revision for a retail N64 is (2,0).
  * The libultra version may be a single letter, without quotes.
  */
-#define LIBULTRA_VERSION(hw_major, hw_minor, os_ver)   \
+#define OS_VERSION(hw_major, hw_minor, os_ver)         \
     .half 0;                                           \
     .byte (hw_major) * 10 + (hw_minor);                \
     _os_ver_start = .;                                 \

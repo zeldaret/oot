@@ -63,7 +63,7 @@ void __osSetTimerIntr(OSTime time) {
     OSTime newTime;
     u32 prevInt;
 
-#if LIBULTRA_MAJOR_VERSION >= LIBULTRA_VERSION_K
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     if (time < 468) {
         time = 468;
     }

@@ -2,7 +2,7 @@
 
 s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg) {
     UNUSED OSTime time;
-#if LIBULTRA_MAJOR_VERSION >= LIBULTRA_VERSION_K
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     OSTimer* next;
     u32 count;
     u32 value;
@@ -21,7 +21,7 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
     timer->mq = mq;
     timer->msg = msg;
 
-#if LIBULTRA_MAJOR_VERSION >= LIBULTRA_VERSION_K
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     prevInt = __osDisableInt();
     if (__osTimerList->next != __osTimerList) {
         if (1) {}
