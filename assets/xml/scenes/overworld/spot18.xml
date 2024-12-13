@@ -3,10 +3,7 @@
         <Cutscene Name="gGoronCityDaruniaCorrectSongCs" Offset="0x59E0"/>
         <Cutscene Name="gGoronCityDaruniaWrongSongCs" Offset="0x7DE0"/>
 
-        <!--
-            This cutscene's implementation makes this cutscene override any other cutscene if Darunia is present in the scene.
-            This was probably used as a debug tool while creating the final cutscene.
-        -->
+        <!-- This cutscene is not used in normal gameplay. -->
         <Cutscene Name="gGoronCityDaruniaDancingCs" Offset="0x6930"/>
 
         <Cutscene Name="gGoronCityIntroCs" Offset="0x8400"/>
