@@ -50,7 +50,7 @@
     LN(ntsc_1_0, ntsc_1_1, other, other, other, other, other, other, other, other, other, other, debug)
 
 // NTSC 1.0, NTSC 1.1, NTSC 1.2/PAL 1.0, Gamecube US/JP, Gamecube EU, and Gamecube CE
-#define LN6(ntsc_1_0, ntsc_1_1, n2p0, pal_1_1, gc_ntsc, gc_eu, gc_jp_ce) \
-    LN(ntsc_1_0, ntsc_1_1, n2p0, n2p0, pal_1_1, gc_ntsc, gc_ntsc, gc_ntsc, gc_ntsc, gc_eu, gc_eu, gc_jp_ce, gc_eu)
+#define LN6(ntsc_1_0, ntsc_1_1, others, pal_1_1, gc_ntsc, gc_eu, gc_jp_ce) \
+    LN(ntsc_1_0, ntsc_1_1, others, others, pal_1_1, gc_ntsc, gc_ntsc, gc_ntsc, gc_ntsc, gc_eu, gc_eu, gc_jp_ce, gc_eu)
 
 #endif
