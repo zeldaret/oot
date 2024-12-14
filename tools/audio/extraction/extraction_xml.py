@@ -67,7 +67,7 @@ class SampleBankExtractionDescription(ExtractionDescription):
                 in_version = self.in_version(version_include, version_exclude, version_name)
                 if in_version:
                     self.blob_info.append(item.attrib)
-                self.sample_info_versions.append((item.attrib, in_version))
+                self.sample_info_versions.append((item.tag, item.attrib, in_version))
             else:
                 print(xml_root.attrib)
                 assert False, item.tag

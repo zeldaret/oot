@@ -2,7 +2,7 @@
 
 s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg) {
     UNUSED OSTime time;
-#if !PLATFORM_N64
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     OSTimer* next;
     u32 count;
     u32 value;
@@ -21,12 +21,7 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
     timer->mq = mq;
     timer->msg = msg;
 
-#if PLATFORM_N64
-    time = __osInsertTimer(timer);
-    if (__osTimerList->next == timer) {
-        __osSetTimerIntr(time);
-    }
-#else
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     prevInt = __osDisableInt();
     if (__osTimerList->next != __osTimerList) {
         if (1) {}
@@ -46,6 +41,11 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
     __osSetTimerIntr(__osTimerList->next->value);
 
     __osRestoreInt(prevInt);
+#else
+    time = __osInsertTimer(timer);
+    if (__osTimerList->next == timer) {
+        __osSetTimerIntr(time);
+    }
 #endif
 
     return 0;

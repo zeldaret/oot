@@ -8,7 +8,7 @@ void guRotateF(f32 m[4][4], f32 a, f32 x, f32 y, f32 z) {
     f32 bc;
     f32 ca;
     f32 t;
-#if !PLATFORM_N64
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     f32 xs;
     f32 ys;
     f32 zs;
@@ -27,14 +27,14 @@ void guRotateF(f32 m[4][4], f32 a, f32 x, f32 y, f32 z) {
 
     guMtxIdentF(m);
 
-#if PLATFORM_N64
-#define xs (x * sine)
-#define ys (y * sine)
-#define zs (z * sine)
-#else
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     xs = x * sine;
     ys = y * sine;
     zs = z * sine;
+#else
+#define xs (x * sine)
+#define ys (y * sine)
+#define zs (z * sine)
 #endif
 
     t = x * x;
