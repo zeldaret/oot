@@ -2,7 +2,7 @@
 #include "z64cutscene_commands.h"
 
 // clang-format off
-CutsceneData D_808BB2F0[] = {
+CutsceneData gMasterSwordBecomingAdultCs[] = {
     CS_HEADER(9, 425),
     CS_PLAYER_CUE_LIST(1),
         CS_PLAYER_CUE(PLAYER_CUEID_12, 0, 256, 0x0000, 0x0000, 0x0000, 0, 54, 52, 0, 54, 52, CS_FLOAT(0x0, 0.0f), CS_FLOAT(0x0, 0.0f), CS_FLOAT(0x0, 0.0f)),
