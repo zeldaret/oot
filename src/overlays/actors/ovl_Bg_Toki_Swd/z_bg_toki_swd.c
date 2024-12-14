@@ -20,7 +20,7 @@ void func_808BB128(BgTokiSwd* this, PlayState* play);
 
 extern CutsceneData gPullMasterSwordCs[];
 extern CutsceneData gPlaceMasterSwordCs[];
-extern CutsceneData gMasterSwordRevealCs[];
+extern CutsceneData gRevealMasterSwordCs[];
 
 ActorProfile Bg_Toki_Swd_Profile = {
     /**/ ACTOR_BG_TOKI_SWD,
@@ -93,10 +93,10 @@ void BgTokiSwd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808BAF40(BgTokiSwd* this, PlayState* play) {
-    if (!GET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_REVEAL_CS) && !IS_CUTSCENE_LAYER &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_REVEAL_MASTER_SWORD_CS) && !IS_CUTSCENE_LAYER &&
         Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Play_InCsMode(play)) {
-        SET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_REVEAL_CS);
-        play->csCtx.script = gMasterSwordRevealCs;
+        SET_EVENTCHKINF(EVENTCHKINF_REVEAL_MASTER_SWORD_CS);
+        play->csCtx.script = gRevealMasterSwordCs;
         gSaveContext.cutsceneTrigger = 1;
     }
     if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_55)) {
