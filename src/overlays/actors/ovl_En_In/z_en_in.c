@@ -72,13 +72,13 @@ typedef enum EnInAnimation {
     /* 9 */ ENIN_ANIM_9
 } EnInAnimation;
 
-typedef enum EnInMode {
-    /* 0 */ ENIN_MODE_0,
-    /* 1 */ ENIN_MODE_1,
-    /* 2 */ ENIN_MODE_2,
-    /* 3 */ ENIN_MODE_3,
-    /* 4 */ ENIN_MODE_4
-} EnInMode;
+typedef enum EnInStartMode {
+    /* 0 */ ENIN_START_MODE_0,
+    /* 1 */ ENIN_START_MODE_1,
+    /* 2 */ ENIN_START_MODE_2,
+    /* 3 */ ENIN_START_MODE_3,
+    /* 4 */ ENIN_START_MODE_4
+} EnInStartMode;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
     { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -372,40 +372,40 @@ s32 func_80A7975C(EnIn* this, PlayState* play) {
     return 1;
 }
 
-s32 EnIn_GetInitMode(EnIn* this, PlayState* play) {
+s32 EnIn_GetStartMode(EnIn* this, PlayState* play) {
     if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
         !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        return ENIN_MODE_1;
+        return ENIN_START_MODE_1;
     }
     if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
         GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        return ENIN_MODE_1;
+        return ENIN_START_MODE_1;
     }
     if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_NIGHT) {
         if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-            return ENIN_MODE_1;
+            return ENIN_START_MODE_1;
         }
         if ((this->actor.shape.rot.z == 4) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-            return ENIN_MODE_1;
+            return ENIN_START_MODE_1;
         }
     }
     if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_ADULT && IS_DAY) {
         if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-            return ENIN_MODE_2;
+            return ENIN_START_MODE_2;
         }
         if ((this->actor.shape.rot.z == 7) && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-            return ENIN_MODE_4;
+            return ENIN_START_MODE_4;
         }
     }
     if (play->sceneId == SCENE_LON_LON_BUILDINGS && LINK_IS_ADULT && IS_NIGHT) {
         if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-            return ENIN_MODE_3;
+            return ENIN_START_MODE_3;
         }
         if (this->actor.shape.rot.z == 8 && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-            return ENIN_MODE_3;
+            return ENIN_START_MODE_3;
         }
     }
-    return ENIN_MODE_0;
+    return ENIN_START_MODE_0;
 }
 
 void EnIn_UpdateEyes(EnIn* this) {
@@ -534,27 +534,27 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80A7A4BC;
 
-        switch (EnIn_GetInitMode(this, play)) {
-            case ENIN_MODE_1:
+        switch (EnIn_GetStartMode(this, play)) {
+            case ENIN_START_MODE_1:
                 EnIn_ChangeAnim(this, ENIN_ANIM_9);
                 this->actionFunc = func_80A7A4BC;
                 break;
-            case ENIN_MODE_3:
+            case ENIN_START_MODE_3:
                 EnIn_ChangeAnim(this, ENIN_ANIM_7);
                 this->actionFunc = func_80A7A4BC;
                 if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                     this->actor.params = 5;
                 }
                 break;
-            case ENIN_MODE_4:
+            case ENIN_START_MODE_4:
                 EnIn_ChangeAnim(this, ENIN_ANIM_8);
                 this->eyeIndex = 3;
                 this->actionFunc = func_80A7A4BC;
                 break;
-            case ENIN_MODE_0:
+            case ENIN_START_MODE_0:
                 Actor_Kill(&this->actor);
                 break;
-            default: // ENIN_MODE_2
+            default: // ENIN_START_MODE_2
                 switch (GET_EVENTINF_INGO_RACE_STATE()) {
                     case INGO_RACE_STATE_OFFER_RENTAL:
                     case INGO_RACE_STATE_RACING:
