@@ -162,7 +162,7 @@ void Sram_InitNewSave(void) {
     gSaveContext.save.info.horseData.pos.z = 5497;
     gSaveContext.save.info.horseData.angle = -0x6AD9;
     gSaveContext.save.info.playerData.magicLevel = 0;
-    gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] = 1;
+    gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] = 1;
     gSaveContext.save.info.sceneFlags[SCENE_WATER_TEMPLE].swch = 0x40000000;
 }
 
@@ -505,8 +505,8 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
     // if zelda cutscene has been watched but lullaby was not obtained, restore cutscene and take away letter
     if (GET_EVENTCHKINF(EVENTCHKINF_40) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-        i = gSaveContext.save.info.eventChkInf[EVENTCHKINF_40_INDEX] & ~EVENTCHKINF_40_MASK;
-        gSaveContext.save.info.eventChkInf[EVENTCHKINF_40_INDEX] = i;
+        i = gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_40] & ~GET_EVENTCHKINF_MASK(EVENTCHKINF_40);
+        gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_40] = i;
 
         INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CHICKEN;
 

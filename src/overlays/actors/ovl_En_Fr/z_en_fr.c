@@ -106,11 +106,11 @@ static EnFrPointers sEnFrPointers = {
 };
 
 #define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                             \
-    (gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] & \
+    (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_SONGS_FOR_FROGS] & \
      sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex])
 
 #define FROG_SET_SONG_PLAYED(frogSongIndex)                                  \
-    gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] |= \
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_SONGS_FOR_FROGS] |= \
         sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex];
 
 static u16 sFrogSongIndexToEventChkInfSongsForFrogsMask[] = {

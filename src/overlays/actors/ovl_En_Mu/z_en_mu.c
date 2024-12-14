@@ -94,7 +94,7 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
     textFlags |= bitmask[randomIndex];
     this->defaultTextId = textIdOffset[randomIndex] | 0x7000;
     textFlags &= EVENTINF_HAGGLING_TOWNSFOLK_MASK | 0xE0;
-    gSaveContext.eventInf[EVENTINF_HAGGLING_TOWNSFOLK_INDEX] |= textFlags;
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] |= textFlags;
 }
 
 u16 EnMu_GetTextId(PlayState* play, Actor* thisx) {

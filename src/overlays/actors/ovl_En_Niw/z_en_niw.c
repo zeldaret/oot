@@ -65,7 +65,10 @@ static Vec3f sKakarikoPosList[] = {
     { -60.0f, 0.0f, -46.0f },    { -247.0f, 80.0f, 854.0f }, { 1079.0f, 80.0f, -47.0f },
 };
 
-static s16 sKakarikoFlagList[] = {
+#define KAKARIKO_CUCCO_HAS_BEEN_RETURNED(cuccoIndex) \
+    gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCO] & sKakarikoFlagMaskList[(cuccoIndex)]
+
+static s16 sKakarikoFlagMaskList[] = {
     GET_INFTABLE_MASK(INFTABLE_199), GET_INFTABLE_MASK(INFTABLE_19A), GET_INFTABLE_MASK(INFTABLE_19B),
     GET_INFTABLE_MASK(INFTABLE_19C), GET_INFTABLE_MASK(INFTABLE_19D), GET_INFTABLE_MASK(INFTABLE_19E),
     GET_INFTABLE_MASK(INFTABLE_19F),
@@ -163,7 +166,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
                 fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
                 this->unk_2AA = i;
                 PRINTF(VT_FGCOL(YELLOW) " 通常鶏index %d\n" VT_RST, this->unk_2AA);
-                if (gSaveContext.save.info.infTable[INFTABLE_KAKARIKO_CUCCO_INDEX] & sKakarikoFlagList[i]) {
+                if (KAKARIKO_CUCCO_HAS_BEEN_RETURNED(i)) {
                     this->actor.world.pos.x = 300.0f;
                     this->actor.world.pos.y = 100.0f;
                     this->actor.world.pos.z = 1530.0f;

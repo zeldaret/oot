@@ -159,9 +159,9 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
                        16);
     Animation_PlayLoop(&this->skelAnime, sAnimations[this->actor.params]);
 
-    this->eventFlag = sEventFlags[this->actor.params];
     params = &this->actor.params;
-    if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_SKULLTULA_REWARD_INDEX] & this->eventFlag) {
+    this->eventFlag = sEventFlags[*params];
+    if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_SKULLTULA_REWARD] & this->eventFlag) {
         EnSth_SetupAction(this, sRewardObtainedWaitActions[*params]);
     } else {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedWait);
@@ -261,7 +261,7 @@ void EnSth_GiveReward(EnSth* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
-        gSaveContext.save.info.eventChkInf[EVENTCHKINF_SKULLTULA_REWARD_INDEX] |= this->eventFlag;
+        gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_SKULLTULA_REWARD] |= this->eventFlag;
     } else {
         EnSth_GivePlayerItem(this, play);
     }

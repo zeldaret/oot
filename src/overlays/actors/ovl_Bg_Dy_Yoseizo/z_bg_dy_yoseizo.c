@@ -696,8 +696,12 @@ static s16 sDemoEffectLightColors[] = { DEMO_EFFECT_LIGHT_GREEN, DEMO_EFFECT_LIG
 
 static s16 sExItemTypes[] = { EXITEM_MAGIC_WIND, EXITEM_MAGIC_FIRE, EXITEM_MAGIC_DARK };
 
-static s16 sItemGetFlags[] = { GET_ITEMGETINF_MASK(ITEMGETINF_FARORES_WIND), GET_ITEMGETINF_MASK(ITEMGETINF_DINS_FIRE),
-                               GET_ITEMGETINF_MASK(ITEMGETINF_NAYRUS_LOVE) };
+#define GREAT_FAIRY_SET_MAGIC_SPELL_OBTAINED(exItemIndex) \
+    gSaveContext.save.info.itemGetInf[ITEMGETINF_INDEX_GREAT_FAIRY_ITEM] |= sItemGetFlagMasks[exItemIndex];
+
+static s16 sItemGetFlagMasks[] = { GET_ITEMGETINF_MASK(ITEMGETINF_FARORES_WIND),
+                                   GET_ITEMGETINF_MASK(ITEMGETINF_DINS_FIRE),
+                                   GET_ITEMGETINF_MASK(ITEMGETINF_NAYRUS_LOVE) };
 
 static u8 sItemIds[] = { ITEM_FARORES_WIND, ITEM_DINS_FIRE, ITEM_NAYRUS_LOVE };
 
@@ -809,7 +813,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
                 this->itemSpawned = true;
                 gSaveContext.healthAccumulator = 0x140;
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
-                gSaveContext.save.info.itemGetInf[ITEMGETINF_GREAT_FAIRY_ITEM_INDEX] |= sItemGetFlags[cueIdTemp];
+                GREAT_FAIRY_SET_MAGIC_SPELL_OBTAINED(cueIdTemp);
                 Item_Give(play, sItemIds[cueIdTemp]);
             }
         } else {

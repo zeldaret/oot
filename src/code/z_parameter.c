@@ -851,7 +851,7 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                            (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                            (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                             gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -875,7 +875,7 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                            (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                            (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                             gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -1345,7 +1345,7 @@ void func_80084BF4(PlayState* play, u16 flag) {
             }
         } else if (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE) {
             if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                 gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 Interface_LoadItemIcon1(play, 0);
             }
@@ -3544,7 +3544,7 @@ void Interface_Draw(PlayState* play) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
 #if OOT_VERSION >= NTSC_1_1
                     RESET_EVENTINF_INGORACE();
-                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_INGORACE_INDEX]);
+                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_INDEX_INGORACE]);
 #endif
                     play->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
