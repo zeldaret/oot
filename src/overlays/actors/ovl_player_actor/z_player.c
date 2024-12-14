@@ -6082,13 +6082,14 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                 }
 
                 sp2C = Player_ActionToBottle(this, this->itemAction);
-                #define ACTION_TO_BOTTLE_ACTION(action) (action - PLAYER_IA_BOTTLE)
+#define ACTION_TO_BOTTLE_ACTION(action) (action - PLAYER_IA_BOTTLE)
                 if (sp2C >= ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE)) {
                     if (sp2C == ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE_FAIRY)) {
                         Player_SetupActionPreserveItemAction(play, this, Player_Action_UseFairyFromBottle, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_bug_out);
                         func_80835EA4(play, 3);
-                    } else if ((sp2C >= ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE_FISH)) && (sp2C <= ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE_BUG))) {
+                    } else if ((sp2C >= ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE_FISH)) &&
+                               (sp2C <= ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE_BUG))) {
                         Player_SetupActionPreserveItemAction(play, this, Player_Action_DropActorFromBottle, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_fish_out);
                         func_80835EA4(play, (sp2C == 1) ? 1 : 5);
@@ -13965,12 +13966,14 @@ typedef enum DrinkingState {
 } DrinkingState;
 
 void Player_Action_DrinkFromBottle(Player* this, PlayState* play) {
-    // When an animation finishes (gPlayerAnim_link_bottle_drink_demo_start when drinkingState == DRINGING_STATE_SETUP, gPlayerAnim_link_bottle_drink_demo_end otherwise)
+    // When an animation finishes (gPlayerAnim_link_bottle_drink_demo_start when drinkingState == DRINGING_STATE_SETUP,
+    // gPlayerAnim_link_bottle_drink_demo_end otherwise)
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av2.drinkingState == DRINGING_STATE_SETUP) {
             static u8 sBottleContentDrinkFlags[] = {
                 /* PLAYER_IA_BOTTLE_POTION_RED   */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_BIG,
-                /* PLAYER_IA_BOTTLE_POTION_BLUE  */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_BIG | BOTTLE_CONTENT_DRINK_FLAG_MAGIC,
+                /* PLAYER_IA_BOTTLE_POTION_BLUE  */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_BIG |
+                    BOTTLE_CONTENT_DRINK_FLAG_MAGIC,
                 /* PLAYER_IA_BOTTLE_POTION_GREEN */ BOTTLE_CONTENT_DRINK_FLAG_MAGIC,
                 /* PLAYER_IA_BOTTLE_MILK_FULL    */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_SMALL,
                 /* PLAYER_IA_BOTTLE_MILK_HALF    */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_SMALL,
