@@ -211,7 +211,7 @@ void Horse_SetupInCutscene(PlayState* play, Player* player) {
         Actor_RequestHorseCameraSetting(play, player);
         gSaveContext.save.info.horseData.sceneId = play->sceneId;
     } else if ((play->sceneId == SCENE_LON_LON_RANCH) &&
-               (GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_TRAPPED_WIN_EPONA) &&
+               (GET_EVENTINF_INGO_RACE_STATE() == INGO_RACE_STATE_TRAPPED_WIN_EPONA) &&
                !(Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED)) {
         player->rideActor =
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 894.0f, 0.0f, -2084.0f, 0, -0x7FFF, 0, HORSE_PTYPE_5);
@@ -248,7 +248,7 @@ void Horse_SetupInCutscene(PlayState* play, Player* player) {
                     Vec3f eye;
                     s32 paramFlag = 0;
 
-                    if (GET_EVENTINF_INGORACE_HORSETYPE() != HORSE_EPONA && horseSpawns[i].type == HORSE_PTYPE_6) {
+                    if (GET_EVENTINF_INGO_RACE_HORSETYPE() != HORSE_EPONA && horseSpawns[i].type == HORSE_PTYPE_6) {
                         // HORSE_HNI
                         paramFlag = 0x8000;
                     }
@@ -308,7 +308,7 @@ void Horse_InitPlayerHorse(PlayState* play, Player* player) {
                  (gSaveContext.respawnFlag == 0)) ||
                 // trapped in Lon Lon Ranch
                 ((play->sceneId == SCENE_LON_LON_RANCH) &&
-                 (GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_TRAPPED_WIN_EPONA) &&
+                 (GET_EVENTINF_INGO_RACE_STATE() == INGO_RACE_STATE_TRAPPED_WIN_EPONA) &&
                  !(Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED))) {
                 Horse_SetupInCutscene(play, player);
             } else {

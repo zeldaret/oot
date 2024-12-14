@@ -791,7 +791,7 @@ void func_80083108(PlayState* play) {
                     gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                 }
-            } else if (GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_HORSE_RENTAL_PERIOD) {
+            } else if (GET_EVENTINF_INGO_RACE_STATE() == INGO_RACE_STATE_HORSE_RENTAL_PERIOD) {
                 if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_BOW)) {
@@ -3546,9 +3546,9 @@ void Interface_Draw(PlayState* play) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
 #if OOT_VERSION >= NTSC_1_1
                     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] &=
-                        (u16) ~(EVENTINF_INGORACE_STATE_MASK | EVENTINF_INGORACE_HORSETYPE_MASK |
-                                EVENTINF_INGORACE_LOST_ONCE_MASK | EVENTINF_INGORACE_SECOND_RACE_MASK |
-                                EVENTINF_INGORACE_0F_MASK);
+                        (u16) ~(EVENTINF_INGO_RACE_STATE_MASK | EVENTINF_INGO_RACE_HORSETYPE_MASK |
+                                EVENTINF_INGO_RACE_LOST_ONCE_MASK | EVENTINF_INGO_RACE_SECOND_RACE_MASK |
+                                EVENTINF_INGO_RACE_0F_MASK);
                     PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_HORSES_INDEX]);
 #endif
                     play->nextEntranceIndex = spoilingItemEntrances[svar1];

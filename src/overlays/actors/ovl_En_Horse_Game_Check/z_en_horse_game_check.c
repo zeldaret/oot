@@ -16,15 +16,15 @@
     (Math3D_PointInSquare2D(sRanchExit[0], sRanchExit[1], sRanchExit[2], sRanchExit[3], (actor)->world.pos.x, \
                             (actor)->world.pos.z))
 
-#define INGORACE_PLAYER_MOVE (1 << 0)
-#define INGORACE_SET_TIMER (1 << 1)
-#define INGORACE_INGO_MOVE (1 << 2)
+#define INGO_RACE_PLAYER_MOVE (1 << 0)
+#define INGO_RACE_SET_TIMER (1 << 1)
+#define INGO_RACE_INGO_MOVE (1 << 2)
 
 typedef enum HorseGameIngoRaceResult {
-    /* 0 */ INGORACE_NO_RESULT,
-    /* 1 */ INGORACE_PLAYER_WIN,
-    /* 2 */ INGORACE_INGO_WIN,
-    /* 3 */ INGORACE_TIME_UP
+    /* 0 */ INGO_RACE_NO_RESULT,
+    /* 1 */ INGO_RACE_PLAYER_WIN,
+    /* 2 */ INGO_RACE_INGO_WIN,
+    /* 3 */ INGO_RACE_TIME_UP
 } HorseGameIngoRaceResult;
 
 #define MALONRACE_PLAYER_MOVE (1 << 0)
@@ -98,7 +98,7 @@ s32 EnHorseGameCheck_InitIngoRace(EnHorseGameCheckBase* base, PlayState* play) {
     }
     this->startTimer = 0;
     this->finishTimer = 0;
-    this->result = INGORACE_NO_RESULT;
+    this->result = INGO_RACE_NO_RESULT;
     this->playerFinish = 0;
     this->ingoFinish = 0;
 
@@ -111,24 +111,24 @@ s32 EnHorseGameCheck_DestroyIngoRace(EnHorseGameCheckBase* base, PlayState* play
 
 void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, PlayState* play) {
     gSaveContext.save.cutsceneIndex = 0;
-    if (this->result == INGORACE_PLAYER_WIN) {
+    if (this->result == INGO_RACE_PLAYER_WIN) {
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_7;
-        if (GET_EVENTINF(EVENTINF_INGORACE_SECOND_RACE)) {
-            SET_EVENTINF_INGORACE_STATE(INGORACE_STATE_TRAPPED_WIN_EPONA);
-            WRITE_EVENTINF_INGORACE_0F(1);
+        if (GET_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE)) {
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_TRAPPED_WIN_EPONA);
+            WRITE_EVENTINF_INGO_RACE_0F(1);
             play->transitionType = TRANS_TYPE_FADE_WHITE;
             Environment_ForcePlaySequence(NA_BGM_INGO);
         } else {
-            SET_EVENTINF_INGORACE_STATE(INGORACE_STATE_FIRST_WIN);
-            WRITE_EVENTINF_INGORACE_0F(1);
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_FIRST_WIN);
+            WRITE_EVENTINF_INGO_RACE_0F(1);
             Environment_ForcePlaySequence(NA_BGM_INGO);
             play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         }
     } else {
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_8;
-        SET_EVENTINF_INGORACE_STATE(INGORACE_STATE_PLAYER_LOSE);
+        SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_PLAYER_LOSE);
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
-        WRITE_EVENTINF_INGORACE_0F(1);
+        WRITE_EVENTINF_INGO_RACE_0F(1);
     }
     DREG(25) = 0;
     play->transitionTrigger = TRANS_TRIGGER_START;
@@ -142,20 +142,20 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play)
     EnHorse* ingoHorse;
     Player* player2 = player;
 
-    if ((this->startTimer > 50) && !(this->startFlags & INGORACE_SET_TIMER)) {
-        this->startFlags |= INGORACE_SET_TIMER;
+    if ((this->startTimer > 50) && !(this->startFlags & INGO_RACE_SET_TIMER)) {
+        this->startFlags |= INGO_RACE_SET_TIMER;
         Interface_SetTimer(0);
-    } else if ((this->startTimer > 80) && (player->rideActor != NULL) && !(this->startFlags & INGORACE_PLAYER_MOVE)) {
+    } else if ((this->startTimer > 80) && (player->rideActor != NULL) && !(this->startFlags & INGO_RACE_PLAYER_MOVE)) {
         EnHorse* horse;
 
-        this->startFlags |= INGORACE_PLAYER_MOVE;
+        this->startFlags |= INGO_RACE_PLAYER_MOVE;
         horse = (EnHorse*)player->rideActor;
         horse->inRace = 1;
-    } else if ((this->startTimer > 81) && !(this->startFlags & INGORACE_INGO_MOVE)) {
+    } else if ((this->startTimer > 81) && !(this->startFlags & INGO_RACE_INGO_MOVE)) {
         ingoHorse = (EnHorse*)this->ingoHorse;
 
         ingoHorse->inRace = 1;
-        this->startFlags |= INGORACE_INGO_MOVE;
+        this->startFlags |= INGO_RACE_INGO_MOVE;
         Audio_PlaySfxGeneral(NA_SE_SY_START_SHOT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
@@ -180,11 +180,11 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play)
         }
     }
 
-    if (this->result == INGORACE_NO_RESULT) {
+    if (this->result == INGO_RACE_NO_RESULT) {
         if ((player2->rideActor != NULL) && (this->playerCheck[2] == 1) && AT_FINISH_LINE(player2->rideActor)) {
             this->playerFinish++;
             if (this->playerFinish > 0) {
-                this->result = INGORACE_PLAYER_WIN;
+                this->result = INGO_RACE_PLAYER_WIN;
                 this->finishTimer = 55;
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_HORSE_GOAL);
                 Audio_PlaySfxGeneral(NA_SE_SY_START_SHOT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -199,7 +199,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play)
             if (this->ingoFinish > 0) {
                 ingoHorse = (EnHorse*)this->ingoHorse;
 
-                this->result = INGORACE_INGO_WIN;
+                this->result = INGO_RACE_INGO_WIN;
                 this->finishTimer = 70;
                 ingoHorse->stateFlags |= ENHORSE_INGO_WON;
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_HORSE_GOAL);
@@ -212,12 +212,12 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, PlayState* play)
         }
         if (((player2->rideActor != NULL) && AT_RANCH_EXIT(player2->rideActor)) || AT_RANCH_EXIT(&player2->actor)) {
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_HORSE_GOAL);
-            this->result = INGORACE_INGO_WIN;
+            this->result = INGO_RACE_INGO_WIN;
             this->finishTimer = 20;
         }
         if ((gSaveContext.timerSeconds >= 180) && (this->startFlags & 2)) {
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_HORSE_GOAL);
-            this->result = INGORACE_TIME_UP;
+            this->result = INGO_RACE_TIME_UP;
             this->finishTimer = 20;
         }
     } else {
