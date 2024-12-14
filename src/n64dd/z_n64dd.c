@@ -115,7 +115,7 @@ void func_801C7018(void) {
     if (D_80121213 != 0) {
         Fault_AddHungupAndCrash("../z_n64dd.c", LN2(503, 551, 573));
     }
-    
+
     D_80121213 = 1;
 }
 

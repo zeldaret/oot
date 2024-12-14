@@ -484,14 +484,14 @@ void Graph_ThreadEntry(void* arg0) {
             Fault_AddHungupAndCrash("../graph.c", LN4(1067, 1070, 1081, 1200));
 #endif
 
-// #elif OOT_VERSION < NTSC_1_1
-//             Fault_AddHungupAndCrash("../graph.c", 1067); // n0
-// #elif OOT_VERSION < PAL_1_0
-//             Fault_AddHungupAndCrash("../graph.c", 1070); // n1
-// #elif OOT_VERSION < GC_JP
-//             Fault_AddHungupAndCrash("../graph.c", 1081); // n2 and pal
-// #else
-//             Fault_AddHungupAndCrash("../graph.c", 1200); // gc (no debug)
+            // #elif OOT_VERSION < NTSC_1_1
+            //             Fault_AddHungupAndCrash("../graph.c", 1067); // n0
+            // #elif OOT_VERSION < PAL_1_0
+            //             Fault_AddHungupAndCrash("../graph.c", 1070); // n1
+            // #elif OOT_VERSION < GC_JP
+            //             Fault_AddHungupAndCrash("../graph.c", 1081); // n2 and pal
+            // #else
+            //             Fault_AddHungupAndCrash("../graph.c", 1200); // gc (no debug)
         }
 
         GameState_Init(gameState, ovl->init, &gfxCtx);

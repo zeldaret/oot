@@ -297,22 +297,17 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
     Fault_AddHungupAndCrashImpl(buff1, buff2);
 }
 
-#define DMA_ERROR(req, filename, errorName, errorDesc, file, line) \
-    DmaMgr_Error(req, filename, errorName, errorDesc)
+#define DMA_ERROR(req, filename, errorName, errorDesc, file, line) DmaMgr_Error(req, filename, errorName, errorDesc)
 #else
 #define DMA_ERROR(req, filename, errorName, errorDesc, file, line) Fault_AddHungupAndCrash(file, line)
 #endif
 
 // #elif OOT_VERSION < NTSC_1_1
 // n0
-// #define DMA_ERROR(req, filename, errorName, errorDesc, file, line1, line2, line3) Fault_AddHungupAndCrash(file, line1)
-// #elif OOT_VERSION < GC_JP
-// n1, n2, pal
-// #define DMA_ERROR(req, filename, errorName, errorDesc, file, line1, line2, line3) Fault_AddHungupAndCrash(file, line2)
-// #else
-// gc, debug
-// #define DMA_ERROR(req, filename, errorName, errorDesc, file, line1, line2, line3) Fault_AddHungupAndCrash(file, line3)
-// #endif
+// #define DMA_ERROR(req, filename, errorName, errorDesc, file, line1, line2, line3) Fault_AddHungupAndCrash(file,
+// line1) #elif OOT_VERSION < GC_JP n1, n2, pal #define DMA_ERROR(req, filename, errorName, errorDesc, file, line1,
+// line2, line3) Fault_AddHungupAndCrash(file, line2) #else gc, debug #define DMA_ERROR(req, filename, errorName,
+// errorDesc, file, line1, line2, line3) Fault_AddHungupAndCrash(file, line3) #endif
 
 #if PLATFORM_GC
 /**
@@ -480,8 +475,8 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
             // Error, rom is compressed so DMA may only be requested within the filesystem bounds
 
             DMA_ERROR(req, NULL, "DATA DON'T EXIST",
-                      T("該当するデータが存在しません", "Corresponding data does not exist"), "../z_std_dma.c", LN3(621,
-                      624, 771));
+                      T("該当するデータが存在しません", "Corresponding data does not exist"), "../z_std_dma.c",
+                      LN3(621, 624, 771));
             return;
         } else {
             // ROM is uncompressed, allow arbitrary DMA even if the region is not marked in the filesystem

@@ -1,7 +1,7 @@
 #ifndef LINE_NUMBERS_H
 #define LINE_NUMBERS_H
 
-// The macros in this file serve to reduce clutter from version differences that are only due to line numbers being different. 
+// The macros in this file serve to reduce clutter from version differences that are only due to line numbers being different.
 
 /**
  * Macro that defines line numbers by version.
@@ -24,8 +24,8 @@
 /**
  * These wrappers exist to remove duplication of line numbers being passed to LN.
  * The wrappers have ambigous names purposefully so that they are short and don't add clutter.
- * 
- * The groupings of different line numbers are difficult to name, as the exact grouping 
+ *
+ * The groupings of different line numbers are difficult to name, as the exact grouping
  * depends on which versions happened to have changes in a given file.
  */
 

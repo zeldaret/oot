@@ -1632,7 +1632,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
               colCtx->colHeader->numPolygons * sizeof(u8) + colCtx->dyna.polyNodesMax * sizeof(SSNode) +
               colCtx->dyna.polyListMax * sizeof(CollisionPoly) + colCtx->dyna.vtxListMax * sizeof(Vec3s) +
               sizeof(CollisionContext);
-              
+
     if (customNodeListMax > 0) {
         // tblMax is set without checking if customNodeListMax will result in a memory overflow
         // this is a non-issue as long as sceneSubdivisionList.nodeListMax is -1
