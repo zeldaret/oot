@@ -921,7 +921,7 @@ void EnHorse_RotateToPlayer(EnHorse* this, PlayState* play) {
 
 void EnHorse_Freeze(EnHorse* this) {
     if (this->action != ENHORSE_ACT_CS_UPDATE && this->action != ENHORSE_ACT_HBA) {
-        if (!(sResetNoInput[this->actor.params] == HORSE_PTYPE_0 || this->actor.params == HORSE_PTYPE_4)) {
+        if (!(sResetNoInput[this->actor.params] == 0 || this->actor.params == HORSE_PTYPE_4)) {
             this->noInputTimer = 0;
             this->noInputTimerMax = 0;
         }
