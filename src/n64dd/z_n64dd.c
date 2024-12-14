@@ -113,7 +113,7 @@ void func_801C6FD8(void) {
 // Adds a HungupAndCrash
 void func_801C7018(void) {
     if (D_80121213 != 0) {
-        Fault_AddHungupAndCrash("../z_n64dd.c", LN_N0_N1(503, 551, 573));
+        Fault_AddHungupAndCrash("../z_n64dd.c", LN2(503, 551, 573));
 
 // #if OOT_VERSION < NTSC_1_1
 //         Fault_AddHungupAndCrash("../z_n64dd.c", 503); // n0

@@ -1612,7 +1612,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
                                                colCtx->subdivAmount.z,
                                            ALIGNOF_MASK(StaticLookup));
     if (colCtx->lookupTbl == NULL) {
-        LogUtils_HungupThread("../z_bgcheck.c", LN_N0(4173, 4176));
+        LogUtils_HungupThread("../z_bgcheck.c", LN1(4173, 4176));
 
 // #if OOT_VERSION < NTSC_1_1
 //         LogUtils_HungupThread("../z_bgcheck.c", 4173); // n0
@@ -1642,7 +1642,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
         tblMax = customNodeListMax;
     } else {
         if (colCtx->memSize < memSize) {
-            LogUtils_HungupThread("../z_bgcheck.c", LN_N0(4227, 4230));
+            LogUtils_HungupThread("../z_bgcheck.c", LN1(4227, 4230));
 
 // #if OOT_VERSION < NTSC_1_1
 //             LogUtils_HungupThread("../z_bgcheck.c", 4227);

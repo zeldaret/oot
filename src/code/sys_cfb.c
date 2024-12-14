@@ -34,7 +34,7 @@ void SysCfb_Init(s32 n64dd) {
         PRINTF("RAM4M mode\n");
         sSysCfbEnd = 0x80400000;
     } else {
-        LogUtils_HungupThread("../sys_cfb.c", LN_N0_N1_GC(305, 308, 322, 354));
+        LogUtils_HungupThread("../sys_cfb.c", LN4(305, 308, 322, 354));
 
 // #if OOT_VERSION < NTSC_1_1
 //         LogUtils_HungupThread("../sys_cfb.c", 305); // n0

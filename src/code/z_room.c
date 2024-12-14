@@ -458,7 +458,7 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
                                 "z_room.c: Data consistent with camera id does not exist camid=%d\n") VT_RST,
            bgCamIndex);
 
-    Fault_AddHungupAndCrash("../z_room.c", LN_N0_N1_GC(724, 727, 721, 726));
+    Fault_AddHungupAndCrash("../z_room.c", LN4(724, 727, 721, 726));
 
 // #if OOT_VERSION < NTSC_1_1
 //     Fault_AddHungupAndCrash("../z_room.c", 724); // n0
@@ -551,7 +551,7 @@ void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     } else if (roomShape->amountType == ROOM_SHAPE_IMAGE_AMOUNT_MULTI) {
         Room_DrawImageMulti(play, room, flags);
     } else {
-        Fault_AddHungupAndCrash("../z_room.c", LN_N0_N1_GC(849, 852, 836, 841));
+        Fault_AddHungupAndCrash("../z_room.c", LN4(849, 852, 836, 841));
 
 // #if OOT_VERSION < NTSC_1_1
 //         Fault_AddHungupAndCrash("../z_room.c", 849);

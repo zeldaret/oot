@@ -40,7 +40,7 @@ void Locale_Init(void) {
             PRINTF(VT_COL(RED, WHITE));
             PRINTF(T("z_locale_init: 日本用かアメリカ用か判別できません\n",
                      "z_locale_init: Can't tell if it's for Japan or America\n"));
-            LogUtils_HungupThread("../z_locale.c", LN_N0_N1_DBG(86, 92, 101, 118));
+            LogUtils_HungupThread("../z_locale.c", LN5(86, 92, 101, 118));
 
 // #if OOT_VERSION < NTSC_1_1
 //             LogUtils_HungupThread("../z_locale.c", 86); // n0
