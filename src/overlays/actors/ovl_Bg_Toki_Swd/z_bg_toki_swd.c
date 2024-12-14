@@ -18,9 +18,9 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play);
 void func_808BB0AC(BgTokiSwd* this, PlayState* play);
 void func_808BB128(BgTokiSwd* this, PlayState* play);
 
-extern CutsceneData gMasterSwordBecomingAdultCs[];
-extern CutsceneData gMasterSwordBecomingChildCs[];
-extern CutsceneData gMasterSwordShowcaseCs[];
+extern CutsceneData gPullMasterSwordCs[];
+extern CutsceneData gPlaceMasterSwordCs[];
+extern CutsceneData gMasterSwordRevealCs[];
 
 ActorProfile Bg_Toki_Swd_Profile = {
     /**/ ACTOR_BG_TOKI_SWD,
@@ -93,19 +93,19 @@ void BgTokiSwd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808BAF40(BgTokiSwd* this, PlayState* play) {
-    if (!GET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS) && !IS_CUTSCENE_LAYER &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_REVEAL_CS) && !IS_CUTSCENE_LAYER &&
         Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Play_InCsMode(play)) {
-        SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
-        play->csCtx.script = gMasterSwordShowcaseCs;
+        SET_EVENTCHKINF(EVENTCHKINF_MASTER_SWORD_REVEAL_CS);
+        play->csCtx.script = gMasterSwordRevealCs;
         gSaveContext.cutsceneTrigger = 1;
     }
     if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_55)) {
         if (Actor_HasParent(&this->actor, play)) {
             if (!LINK_IS_ADULT) {
                 Item_Give(play, ITEM_SWORD_MASTER);
-                play->csCtx.script = gMasterSwordBecomingAdultCs;
+                play->csCtx.script = gPullMasterSwordCs;
             } else {
-                play->csCtx.script = gMasterSwordBecomingChildCs;
+                play->csCtx.script = gPlaceMasterSwordCs;
             }
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_MASTER_SWORD);

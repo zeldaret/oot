@@ -2,7 +2,7 @@
 #include "z64cutscene_commands.h"
 
 // clang-format off
-CutsceneData gMasterSwordShowcaseCs[] = {
+CutsceneData gMasterSwordRevealCs[] = {
     CS_HEADER(11, 3000),
     CS_UNK_DATA_LIST(0x00000021, 1),
         CS_UNK_DATA(0x00010000, 0x0BB80000, 0x00000000, 0x00000000, 0xFFFFFFF8, 0xFFFFFFFF, 0x00000000, 0xFFFFFFF8, 0xFFFFFFFF, 0x00000000, 0x00000000, 0x00000000),
